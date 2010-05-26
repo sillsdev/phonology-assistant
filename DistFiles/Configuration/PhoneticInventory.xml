@@ -1236,9 +1236,6 @@
 			<rule>
 				<if>
 					<articulatoryFeature>Voiceless</articulatoryFeature>
-					<not>
-						<articulatoryFeature>Glottal</articulatoryFeature>
-					</not>
 				</if>
 				<then>
 					<value>-</value>
@@ -1713,7 +1710,7 @@
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 					<not>
-						<articulatoryFeature subclass="backness" position="" />
+						<articulatoryFeature subclass="height" position="" />
 					</not>
 				</for>
 				<if>
@@ -1732,7 +1729,7 @@
 			<rule>
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
-					<articulatoryFeature subclass="backness" position="" />
+					<articulatoryFeature subclass="height" position="" />
 				</for>
 				<if>
 					<anyOf>
@@ -1750,7 +1747,7 @@
 			<rule>
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
-					<articulatoryFeature subclass="backness" position="" />
+					<articulatoryFeature subclass="height" position="" />
 				</for>
 				<if>
 					<anyOf>
@@ -1794,7 +1791,7 @@
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 					<not>
-						<articulatoryFeature subclass="height" position="" />
+						<articulatoryFeature subclass="backness" position="" />
 					</not>
 				</for>
 				<if>
@@ -1814,7 +1811,7 @@
 			<rule>
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
-					<articulatoryFeature subclass="height" position="" />
+					<articulatoryFeature subclass="backness" position="" />
 				</for>
 				<if>
 					<anyOf>
@@ -1833,7 +1830,7 @@
 			<rule>
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
-					<articulatoryFeature subclass="height" position="" />
+					<articulatoryFeature subclass="backness" position="" />
 				</for>
 				<if>
 					<anyOf>

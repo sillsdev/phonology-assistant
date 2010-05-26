@@ -1,4 +1,4 @@
-﻿// phonology.js 2010-05-14
+﻿// phonology.js 2010-05-26
 // Interactive behavior for XHTML files exported from Phonology Assistant.
 // http://www.sil.org/computing/pa/index.htm
 
@@ -54,7 +54,7 @@ jQuery(function ($) {
 	}
 		
 	$('div.report').find(':first-child').filter(':header').each(function () {
-		// Although .each() iteration is unnecessary here, follow the pattern.
+		// Although .each() iteration is not (yet) necessary here, follow the pattern.
 		$(this).addClass('interactive').click(clickHeadingReport);
 	});
 
@@ -591,7 +591,7 @@ jQuery(function ($) {
 
 	// Event functions for tables ----------------------------------------------
 
-	// Move the mouse pointer into a feature table:
+	// Move the mouse pointer into a feature table.
 	function mouseoverFeaturesCV() {
 		// Related CV charts become (visually) inactive.
 		$(this).parent().find('table.CV').removeClass('interactive')
@@ -599,7 +599,7 @@ jQuery(function ($) {
 			.find('td.selected').removeClass('selected');
 	}
 
-	// Move the mouse pointer out of a feature table:
+	// Move the mouse pointer out of a feature table.
 	function mouseoutFeaturesCV() {
 		var $container = $(this).parent();
 		// If no features in any related tables are selected,
@@ -613,7 +613,17 @@ jQuery(function ($) {
 	function clickFeaturesCV(event) {
 		var $target = $(event.target);
 
-		if ($target.is('td')) {
+		if ($target.is('tr.univalent td.name div div')) {
+			// Toggle text up-pointing ? down-pointing : up-pointing.
+			$target.text($target.text() === '▴' ? '▾' : '▴')
+				// Collapse/expand redundant bivalent rows
+				// between this row and the next univalent row.
+				.closest('tr.univalent').nextUntil('tr.univalent')
+					.filter('tr.redundant').toggleClass('collapsed');
+		} else if ($target.is('tr.univalent td.name > div')) {
+			// Click an inserted div that wraps the contents of td.
+			clickFeatureCV($target.closest('td'));
+		} else if ($target.is('td')) {
 			if ($target.hasClass('plus') || $target.hasClass('minus') ||
 					($target.hasClass('name') && 
 						!($target.parent().hasClass('bivalent')))) {
@@ -698,6 +708,38 @@ jQuery(function ($) {
 		if (!($li.hasClass('selected'))) {
 			matchUnitsForSelectedEnvironmentCV($li);
 		}
+	}
+
+	// Feature charts ----------------------------------------------------------
+
+	// Move the mouse pointer into a Phonetic heading cell in a feature chart.
+	function mouseoverFeatureChartCV() {
+		var $th = $(this),
+			// Zero-based index, not including heading column at the left.
+			index = $th.parent().children('th.Phonetic').index(this);
+		
+		$th.closest('table').find('tbody tr').each(function () {
+			var $tr = $(this),
+				$tds = $tr.find('td'),
+				text;
+			
+			// If the row contains feature values.
+			// That is, not the repeated heading row in the body
+			// which separates binary from hierarchical features.
+			if ($tds.length) {
+				text = $tds.eq(index).text(); // Value of active unit.
+				// Match the units whose values are different.
+				// Must compare the entire value: +, -, +-, or -+.
+				$tds.filter(function (i) {
+					return $(this).text() !== text;
+				}).addClass('matched');
+			}
+		});
+	}
+
+	// Move the mouse pointer out of a Phonetic heading cell in a feature chart.
+	function mouseoutFeatureChartCV() {
+		$(this).closest('table').find('.matched').removeClass('matched');
 	}
 
 	// Initialization ----------------------------------------------------------
@@ -805,8 +847,25 @@ jQuery(function ($) {
 			.end().find('td.plus, td.minus, td.name').filter(':not(tr.bivalent td.name)')
 				.hover(mouseoverFeatureCV, mouseoutFeatureCV)
 				.each(initializeDataForFeatureCV);
+		
+		if ($table.hasClass('hierarchical')) {
+			$table.find('tr.univalent').each(function () {
+				var $trUnivalent = $(this);
+				if ($trUnivalent.nextUntil('tr.univalent').filter('tr.redundant').length) {
+					// Insert a div to be able to collapse/expand redundant bivalent rows
+					// between this row and the next univalent row.
+					$trUnivalent.find('td.name').append('<div>▴</div>').wrapInner('<div></div>');
+				}
+			});
+		}
 	});
 
+	// Initialize feature charts following a CV chart and its feature tables.
+	$('table.feature').each(function () {
+		// Although .each() iteration is not (yet) necessary here, follow the pattern.
+		$(this).addClass('interactive')
+			.find('th.Phonetic').hover(mouseoverFeatureChartCV, mouseoutFeatureChartCV);
+	});
 
 	// Distribution Chart view =================================================
 	//

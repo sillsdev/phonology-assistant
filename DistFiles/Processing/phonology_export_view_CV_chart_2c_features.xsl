@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_CV_chart_2c_features.xsl 2010-05-24 -->
+  <!-- phonology_export_view_CV_chart_2c_features.xsl 2010-05-25 -->
 	<!-- Remove empty tbody elements (that is, if they contains no features that distinguish units). -->
 	<!-- In hierarchical features table: Add colgroup elements and colspan attributes. -->
 
@@ -165,5 +165,94 @@ exclude-result-prefixes="xhtml"
 			</xsl:call-template>
 		</xsl:if>
 	</xsl:template>
+	
+	<!-- Indicate bivalent hierarchical features that are redundant. -->
+
+	<xsl:template match="xhtml:table[@class = 'hierarchical features']/xhtml:tbody/xhtml:tr[@class = 'bivalent']">
+		<xsl:param name="colspanTotal" select="1" />
+		<xsl:param name="colspanDelta" select="0" />
+		<xsl:variable name="plus" select="xhtml:td[@class = 'plus']/@title" />
+		<xsl:variable name="minus" select="xhtml:td[@class = 'minus']/@title" />
+		<xsl:variable name="trUnivalent" select="preceding-sibling::xhtml:tr[@class = 'univalent'][1]" />
+		<xsl:variable name="redundantWithUnivalent">
+			<xsl:if test="$trUnivalent">
+				<xsl:variable name="univalent" select="$trUnivalent/@title" />
+				<xsl:choose>
+					<xsl:when test="$plus = $univalent and $minus = $univalent">
+						<xsl:value-of select="'true'" />
+					</xsl:when>
+					<xsl:when test="$plus = $univalent and string-length($minus) = 0">
+						<xsl:value-of select="'true'" />
+					</xsl:when>
+					<xsl:when test="$minus = $univalent and string-length($plus) = 0">
+						<xsl:value-of select="'true'" />
+					</xsl:when>
+				</xsl:choose>
+			</xsl:if>
+		</xsl:variable>
+		<xsl:variable name="redundant">
+			<xsl:choose>
+				<xsl:when test="$redundantWithUnivalent = 'true'">
+					<xsl:value-of select="$redundantWithUnivalent" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:apply-templates select="preceding-sibling::xhtml:tr[1]" mode="redundant">
+						<xsl:with-param name="thatPlus" select="$plus" />
+						<xsl:with-param name="thatMinus" select="$minus" />
+					</xsl:apply-templates>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:copy>
+			<xsl:apply-templates select="@* | node()">
+				<xsl:with-param name="colspanTotal" select="$colspanTotal" />
+				<xsl:with-param name="colspanDelta" select="$colspanDelta" />
+				<xsl:with-param name="redundant" select="$redundant" />
+			</xsl:apply-templates>
+		</xsl:copy>
+	</xsl:template>
+
+	<xsl:template match="xhtml:table[@class = 'hierarchical features']/xhtml:tbody/xhtml:tr[@class = 'bivalent']/@class">
+		<xsl:param name="redundant" />
+		<xsl:choose>
+			<xsl:when test="$redundant = 'true'">
+				<xsl:attribute name="class">
+					<xsl:value-of select="." />
+					<xsl:value-of select="' redundant'" />
+				</xsl:attribute>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:copy-of select="." />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template match="xhtml:tr" mode="redundant" />
+
+	<xsl:template match="xhtml:table[@class = 'hierarchical features']/xhtml:tbody/xhtml:tr[@class = 'bivalent']" mode="redundant">
+		<xsl:param name="thatPlus" />
+		<xsl:param name="thatMinus" />
+		<xsl:variable name="thisPlus" select="xhtml:td[@class = 'plus']/@title" />
+		<xsl:variable name="thisMinus" select="xhtml:td[@class = 'minus']/@title" />
+		<xsl:choose>
+			<xsl:when test="$thisPlus = $thatPlus and $thisMinus = $thatMinus">
+				<xsl:value-of select="'true'" />
+			</xsl:when>
+			<xsl:when test="$thisPlus = $thatMinus and $thisMinus = $thatPlus">
+				<xsl:value-of select="'true'" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:apply-templates select="preceding-sibling::xhtml:tr[1]" mode="redundant">
+					<xsl:with-param name="thatPlus" select="$thatPlus" />
+					<xsl:with-param name="thatMinus" select="$thatMinus" />
+				</xsl:apply-templates>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	
+	<!--
+	-->
+	<xsl:template match="xhtml:table[@class = 'hierarchical features']/xhtml:tbody/xhtml:tr[@class = 'univalent']/@title" />
+	<xsl:template match="xhtml:table[@class = 'hierarchical features']/xhtml:tbody/xhtml:tr[@class = 'bivalent']/xhtml:td[@class = 'plus' or @class = 'minus']/@title" />
 
 </xsl:stylesheet>

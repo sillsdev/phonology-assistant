@@ -1,4 +1,4 @@
-﻿/* phonology.css 2010-05-24 */
+﻿/* phonology.css 2010-05-25 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 
 /* Reset default values of Web browsers. ------------------------------------ */
@@ -579,7 +579,8 @@ border-top-style: solid;
 
 table.features abbr,
 table.features.collapsed span,
-table.features.collapsed tbody
+table.features.collapsed tbody,
+table.hierarchical tr.collapsed
 {
 display: none;
 }
@@ -587,6 +588,26 @@ display: none;
 table.features.collapsed abbr
 {
 display: inline;
+}
+
+table.hierarchical tr.univalent td.name > div
+{
+position: relative;
+padding-right: 1em; /* Prevent child div from overlapping text of parent cell. */
+}
+
+table.hierarchical tr.univalent td.name div div
+{
+position: absolute;
+z-index: 1;
+border-left-style: solid;
+border-width: 1px;
+right: -0.5em;
+bottom: -0.1875em;
+padding-top: 0.1875em; /* Same as td. */
+padding-bottom: 0.1875em; /* Same as td. */
+padding-left: 0.1875em; /* Less than td. Less than right because of border. */
+padding-right: 0.25em; /* Less than td. */
 }
 
 /* Interactive columns in distribution charts ------------------------------- */
@@ -683,7 +704,8 @@ padding-right: 0.6667em;
 
 /* Color -------------------------------------------------------------------- */
 
-*
+body,
+table.hierarchical tr.univalent td.name div div
 {
 color: #000000; /* text normal */
 }
@@ -693,6 +715,7 @@ div.collapsed h2,
 div.collapsed h3,
 div.collapsed h4,
 table.list tbody.collapsed *,
+.redundant,
 table.feature .unmarked
 {
 color: #999999; /* text collapsed */
@@ -736,7 +759,7 @@ table.articulatory td.matched,
 table.features td.plus.matched,
 table.features td.minus.matched,
 table.features tr.univalent td.name.matched,
-table.feature td.different, /* for development only */
+table.feature .matched,
 table.CV.nonZero td.Phonetic,
 table.distribution.nonZero td,
 table.chart .zero
@@ -744,7 +767,8 @@ table.chart .zero
 background-color: #ffffb2; /* significant */
 }
 
-table.list ul.transcription strong
+table.list ul.transcription strong,
+table.feature .redundant .matched
 {
 background-color: #ffffd9; /* distinguished */
 }
@@ -789,6 +813,7 @@ table.articulatory.interactive td,
 table.features.interactive td.minus,
 table.features.interactive td.plus,
 table.features.interactive tr.univalent td.name,
+table.feature.interactive th.Phonetic,
 table.distribution.interactive th.interactive,
 table.distribution.interactive th.Phonetic
 {
@@ -804,6 +829,7 @@ background-color: #cfe6cf; /* interactive */
 }
 
 table.list.interactive th.pair,
+table.hierarchical tr.univalent td.name div div:hover,
 table.distribution.interactive tr.individual th.Phonetic
 {
 background-color: #b8d9b8; /* interactive adjacent */
@@ -832,6 +858,7 @@ table.articulatory.interactive td:hover,
 table.features.interactive td.minus:hover,
 table.features.interactive td.plus:hover,
 table.features.interactive tr.univalent td.name:hover,
+table.feature.interactive th.Phonetic:hover,
 table.distribution.interactive th.interactive:hover,
 table.distribution.interactive th.Phonetic:hover,
 table.distribution.interactive tr.individual th.Phonetic:hover
@@ -851,7 +878,8 @@ background-color: #7db27d; /* selected */
 
 table.list.interactive th.pair > ul li:hover span,
 table.list.interactive th.pair > ul li:hover ul.differences,
-table.list.interactive ul.transcription:hover
+table.list.interactive ul.transcription:hover,
+table.hierarchical tr.univalent td.name div div
 {
 background-color: #f8fff8; /* interactive contrast */
 }
@@ -923,4 +951,9 @@ table.list.interactive ul.transcription:hover,
 table.list.interactive ul.transcription li:first-child
 {
 border-color: #a3cca3; /* active */
+}
+
+table.hierarchical tr.univalent td.name div div
+{
+border-color: #f8fff8; /* interactive contrast */
 }

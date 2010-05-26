@@ -1,6 +1,6 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_inventory_2e_feature_rules.xsl 2010-05-24 -->
+  <!-- phonology_project_inventory_2e_feature_rules.xsl 2010-05-26 -->
   <!-- Convert from articulatory to binary abd hierarchical features according to rules. -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
@@ -18,8 +18,6 @@
   </xsl:template>
 
 	<xsl:template match="/inventory/binaryFeatures" />
-	<!--
-	-->
 	<xsl:template match="/inventory/hierarchicalFeatures" />
 
 	<!-- Following articulatory features, insert binary and hierarchical features. -->

@@ -3,9 +3,8 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-	<!-- phonology_export_view_CV_chart_3a_feature_chart.xsl 2010-05-24 -->
+	<!-- phonology_export_view_CV_chart_3a_feature_chart.xsl 2010-05-25 -->
   <!-- From consonant or vowel chart, make charts of binary features, or hierarchical features, or both. -->
-	<!-- For development, highlight differences between project phones and program symbols. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
@@ -63,17 +62,6 @@ exclude-result-prefixes="xhtml"
 		</xsl:if>
 	</xsl:variable>
 
-	<xsl:variable name="differences">
-		<xsl:choose>
-			<!-- IPA -->
-			<xsl:when test="$details/xhtml:li[@class = 'languageName'] = ''">
-				<xsl:value-of select="'true'" />
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="'false'" />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
 	<xsl:variable name="view" select="$details/xhtml:li[@class = 'view']" />
 	<xsl:variable name="type">
 		<xsl:choose>
@@ -87,6 +75,8 @@ exclude-result-prefixes="xhtml"
 	</xsl:variable>
 
 	<xsl:variable name="classOfTable" select="'feature chart'" />
+
+	<xsl:variable name="tableHierarchicalFeatures" select="//xhtml:table[@class = 'hierarchical features']" />
 
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
 	<xsl:template match="@* | node()">
@@ -300,6 +290,17 @@ exclude-result-prefixes="xhtml"
 		<xsl:param name="classOfSortKey" />
 		<xsl:param name="feature" />
 		<tr xmlns="http://www.w3.org/1999/xhtml">
+			<xsl:if test="$feature">
+				<xsl:variable name="class" select="$feature/@class" />
+				<xsl:variable name="name" select="$feature/name" />
+				<xsl:if test="$class = 'nonTerminal' or $class = 'terminal'">
+					<xsl:if test="not($tableHierarchicalFeatures/xhtml:tbody/xhtml:tr[xhtml:td[@class = 'name'] = $name]) or $tableHierarchicalFeatures/xhtml:tbody/xhtml:tr[xhtml:td[@class = 'name'] = $name][contains(@class, 'redundant')]">
+						<xsl:attribute name="class">
+							<xsl:value-of select="'redundant'" />
+						</xsl:attribute>
+					</xsl:if>
+				</xsl:if>
+			</xsl:if>
 			<th>
 				<xsl:if test="$feature">
 					<xsl:attribute name="scope">

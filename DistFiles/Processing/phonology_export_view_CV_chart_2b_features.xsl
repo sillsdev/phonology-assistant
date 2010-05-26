@@ -3,11 +3,32 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_CV_chart_2b_features.xsl 2010-05-24 -->
+  <!-- phonology_export_view_CV_chart_2b_features.xsl 2010-05-25 -->
 	<!-- Export to XHTML, Interactive Web page, and at least one feature table. -->
 	<!-- Keep the features that distinguish units in the CV chart. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
+
+	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
+	<xsl:variable name="settings" select="$metadata/xhtml:ul[@class = 'settings']" />
+	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
+
+	<xsl:variable name="typeOfUnits">
+		<xsl:choose>
+			<xsl:when test="string-length($details/xhtml:li[@class = 'typeOfUnits']) != 0">
+				<xsl:value-of select="$details/xhtml:li[@class = 'typeOfUnits']" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="'phonetic'" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+
+	<!-- A project phonetic inventory file contains features of phonetic or phonological units, or both. -->
+	<xsl:variable name="projectFolder" select="$settings/xhtml:li[@class = 'projectFolder']" />
+	<xsl:variable name="projectPhoneticInventoryFile" select="$settings/xhtml:li[@class = 'projectPhoneticInventoryFile']" />
+	<xsl:variable name="projectPhoneticInventoryXML" select="concat($projectFolder, $projectPhoneticInventoryFile)" />
+	<xsl:variable name="units" select="document($projectPhoneticInventoryXML)/inventory/units[@type = $typeOfUnits]" />
 
 	<xsl:variable name="countUnits" select="count(//xhtml:body/xhtml:ul[@class = 'CV chart']/xhtml:li)" />
 
@@ -97,7 +118,13 @@ exclude-result-prefixes="xhtml"
 	<xsl:template match="xhtml:table[@class = 'hierarchical features']//xhtml:tbody/xhtml:tr[@class = 'univalent']">
 		<xsl:variable name="feature" select="xhtml:td[@class = 'name']" />
 		<xsl:if test="../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'hierarchical features'][xhtml:li[. = $feature]]">
-			<xsl:copy-of select="." />
+			<xsl:copy>
+				<xsl:apply-templates select="@*" />
+				<xsl:attribute name="title">
+					<xsl:apply-templates select="../../../xhtml:table[@class = 'CV chart']//xhtml:td[@class = 'Phonetic'][xhtml:ul[@class = 'hierarchical features']/xhtml:li[. = $feature]]/xhtml:span" mode="sortKey" />
+				</xsl:attribute>
+				<xsl:apply-templates />
+			</xsl:copy>
 		</xsl:if>
 	</xsl:template>
 
@@ -123,7 +150,14 @@ exclude-result-prefixes="xhtml"
 		<xsl:choose>
 			<!-- Keep the class attribute and the text if the value distinguishes units. -->
 			<xsl:when test="$countPlus != 0">
-				<xsl:copy-of select="." />
+				<xsl:variable name="feature" select="concat('+', ../xhtml:td[@class = 'name'])" />
+				<xsl:copy>
+					<xsl:apply-templates select="@*" />
+					<xsl:attribute name="title">
+						<xsl:apply-templates select="../../../../xhtml:table[@class = 'CV chart']//xhtml:td[@class = 'Phonetic'][xhtml:ul[@class = 'hierarchical features']/xhtml:li[. = $feature]]/xhtml:span" mode="sortKey" />
+					</xsl:attribute>
+					<xsl:apply-templates />
+				</xsl:copy>
 			</xsl:when>
 			<!-- Empty cell. -->
 			<xsl:otherwise>
@@ -137,13 +171,25 @@ exclude-result-prefixes="xhtml"
 		<xsl:choose>
 			<!-- Keep the class attribute and the text if the value distinguishes units. -->
 			<xsl:when test="$countMinus != 0">
-				<xsl:copy-of select="." />
+				<xsl:variable name="feature" select="concat('-', ../xhtml:td[@class = 'name'])" />
+				<xsl:copy>
+					<xsl:apply-templates select="@*" />
+					<xsl:attribute name="title">
+						<xsl:apply-templates select="../../../../xhtml:table[@class = 'CV chart']//xhtml:td[@class = 'Phonetic'][xhtml:ul[@class = 'hierarchical features']/xhtml:li[. = $feature]]/xhtml:span" mode="sortKey" />
+					</xsl:attribute>
+					<xsl:apply-templates />
+				</xsl:copy>
 			</xsl:when>
 			<!-- Empty cell. -->
 			<xsl:otherwise>
 				<xsl:copy />
 			</xsl:otherwise>
 		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template match="xhtml:td/xhtml:span" mode="sortKey">
+		<xsl:variable name="literal" select="." />
+		<xsl:value-of select="$units/unit[@literal = $literal]/keys/sortKey[@class = 'placeOfArticulation']" />
 	</xsl:template>
 
 </xsl:stylesheet>
