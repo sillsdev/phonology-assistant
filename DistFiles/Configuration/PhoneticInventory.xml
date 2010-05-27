@@ -7100,7 +7100,7 @@
 			<subtype>Unknown</subtype>
 			<isBase>false</isBase>
 			<canPrecedeBase>false</canPrecedeBase>
-			<displayWithDottedCircle>false</displayWithDottedCircle>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
 			<ignoreType>NotApplicable</ignoreType>
 			<displayOrder>0</displayOrder>
 			<mannerOfArticulation>1260</mannerOfArticulation>
