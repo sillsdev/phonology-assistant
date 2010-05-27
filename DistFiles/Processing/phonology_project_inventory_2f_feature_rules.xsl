@@ -11,7 +11,9 @@
   </xsl:template>
 
 	<xsl:template match="root">
-		<xsl:apply-templates />
+		<xsl:copy>
+			<xsl:apply-templates select="@* | node()" />
+		</xsl:copy>
 		<hierarchicalFeatures>
 			<xsl:apply-templates mode="hierarchicalFeatures" />
 		</hierarchicalFeatures>
@@ -20,7 +22,7 @@
 	<!-- Omit repeated bivalent values from diphthongs. -->
 	<!-- For example, [-low] and [-low] from [Close] and [Close-mid] height for [ie]. -->
 	<!-- Versus only one [-low] for [iu] because sequence pattern removes duplicate [Close]. -->
-	<xsl:template match="/root//feature">
+	<xsl:template match="root//feature">
 		<xsl:variable name="feature" select="." />
 		<xsl:if test="not(preceding-sibling::feature[. = $feature])">
 			<xsl:copy-of select="." />
