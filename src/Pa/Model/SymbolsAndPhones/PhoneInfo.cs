@@ -131,6 +131,9 @@ namespace SIL.Pa.Model
 				}
 			}
 
+			if (bldr.Length == 0)
+				return;
+
 			if (bldr.Replace("c", string.Empty).Length == 0)
 			{
 				// When the sequence of base char. symbols are all consonants,
