@@ -67,7 +67,7 @@ namespace SilUtils.Controls
 				}
 
 				Control ctrl = this;
-				
+
 				do
 				{
 					ctrl = Parent.GetNextControl(ctrl, true);
