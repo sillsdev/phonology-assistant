@@ -104,6 +104,16 @@ namespace SilUtils
 					if (frm.WindowState != State)
 						frm.WindowState = State;
 				}
+
+				// This will check if the form is located on a screen that no longer exists.
+				// This covers cases when the form's settings were saved when the form was
+				// on monitor that is no longer plugged in (e.g. projector). It turns out
+				// getting the screen from the form's location will return the primary screen
+				// even though that's not the screen on which the point is located. That's
+				// why a further check is made to see if the screen's bounds contains the
+				// form's location.
+				if (!Screen.FromPoint(frm.Location).Bounds.Contains(frm.Location))
+					frm.Location = new Point(0, 0);
 			}
 			catch { }
 

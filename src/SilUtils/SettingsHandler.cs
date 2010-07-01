@@ -101,6 +101,7 @@ namespace SilUtils
 		/// Saves window properties from a form to an XmlDocument.
 		/// </summary>
 		/// <param name="frm">Form to save settings from</param>
+		/// <param name="saveEvenIfFormInvisible"></param>
 		/// <returns>True on success</returns>
 		/// ------------------------------------------------------------------------------------
 		public void SaveFormProperties(Form frm, bool saveEvenIfFormInvisible)
