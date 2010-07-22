@@ -200,6 +200,44 @@ namespace SilUtils
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public VScrollBar VScrollBar
+		{
+			get
+			{
+				foreach (var ctrl in Controls)
+				{
+					if (ctrl is VScrollBar)
+						return ctrl as VScrollBar;
+				}
+
+				return null;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public HScrollBar HScrollBar
+		{
+			get
+			{
+				foreach (var ctrl in Controls)
+				{
+					if (ctrl is HScrollBar)
+						return ctrl as HScrollBar;
+				}
+
+				return null;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Update the water mark when the grid scrolls.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
