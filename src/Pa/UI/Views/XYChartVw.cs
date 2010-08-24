@@ -1047,6 +1047,8 @@ namespace SIL.Pa.UI.Views
 			if (!m_xyGrid.IsCellValidForSearch(row, col))
 				return;
 
+			m_xyGrid.RefreshCellValue(row, col);
+
 			SearchQuery query = m_xyGrid.GetCellsFullSearchQuery(row, col);
 			if (query != null)
 				m_rsltVwMngr.PerformSearch(query, resultLocation);

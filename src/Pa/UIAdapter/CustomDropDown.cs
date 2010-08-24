@@ -13,7 +13,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 	{
 		private Timer m_tmrMouseMonitor;
 		private Timer m_tmrVisibilityTimeout;
-		private bool m_mouseOver = false;
+		private bool m_mouseOver;
 		private bool m_autoCloseWhenMouseLeaves = true;
 		private Control m_hostedControl;
 
@@ -38,7 +38,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		protected override void Dispose(bool disposing)
 		{
 			if (m_hostedControl != null)
-				m_hostedControl.Resize += new EventHandler(m_hostedControl_Resize);
+				m_hostedControl.Resize -= HandleHostedControlResize;
 
 			base.Dispose(disposing);
 		}
@@ -82,7 +82,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			host.Size = m_hostedControl.Size;
 			Items.Add(host);
 
-			m_hostedControl.Resize += new EventHandler(m_hostedControl_Resize);
+			m_hostedControl.Resize += HandleHostedControlResize;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -91,7 +91,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// is necessary in case the hosted control can be resized by the user at runtime.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void m_hostedControl_Resize(object sender, EventArgs e)
+		void HandleHostedControlResize(object sender, EventArgs e)
 		{
 			Size = m_hostedControl.Size;
 		}
@@ -141,7 +141,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		{
 			m_tmrMouseMonitor = new Timer();
 			m_tmrMouseMonitor.Interval = 1;
-			m_tmrMouseMonitor.Tick += new EventHandler(m_tmrMouseMonitor_Tick);
+			m_tmrMouseMonitor.Tick += m_tmrMouseMonitor_Tick;
 			m_tmrMouseMonitor.Start();
 		}
 
@@ -180,7 +180,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		{
 			m_tmrVisibilityTimeout = new Timer();
 			m_tmrVisibilityTimeout.Interval = 2000;
-			m_tmrVisibilityTimeout.Tick += new EventHandler(m_tmrVisibilityTimeout_Tick);
+			m_tmrVisibilityTimeout.Tick += m_tmrVisibilityTimeout_Tick;
 			m_tmrVisibilityTimeout.Start();
 		}
 

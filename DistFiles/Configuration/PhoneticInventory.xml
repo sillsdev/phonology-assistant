@@ -6943,7 +6943,7 @@
 			<description>Voiceless postalveolar affricate</description>
 			<type>Consonant</type>
 			<subtype>Pulmonic</subtype>
-			<isBase>false</isBase>
+			<isBase>true</isBase>
 			<canPrecedeBase>false</canPrecedeBase>
 			<displayWithDottedCircle>false</displayWithDottedCircle>
 			<ignoreType>NotApplicable</ignoreType>

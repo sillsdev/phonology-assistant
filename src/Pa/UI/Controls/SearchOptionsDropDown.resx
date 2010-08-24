@@ -136,7 +136,7 @@
     <value>24, 8</value>
   </data>
   <data name="chkIgnoreDiacritics.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 19</value>
+    <value>114, 19</value>
   </data>
   <data name="chkIgnoreDiacritics.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -178,10 +178,10 @@
     <value>NoControl</value>
   </data>
   <data name="chkShowAllWords.Location" type="System.Drawing.Point, System.Drawing">
-    <value>161, -176</value>
+    <value>161, -133</value>
   </data>
   <data name="chkShowAllWords.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 19</value>
+    <value>212, 19</value>
   </data>
   <data name="chkShowAllWords.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -223,7 +223,7 @@
     <value>24, 32</value>
   </data>
   <data name="chkStress.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 19</value>
+    <value>144, 19</value>
   </data>
   <data name="chkStress.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -274,7 +274,7 @@
     <value>stressPicker</value>
   </data>
   <data name="&gt;&gt;stressPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2798.22578, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.CharPicker, Pa, Version=3.1.3883.26373, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;stressPicker.Parent" xml:space="preserve">
     <value>grpStress</value>
@@ -322,7 +322,7 @@
     <value>24, 82</value>
   </data>
   <data name="chkTone.Size" type="System.Drawing.Size, System.Drawing">
-    <value>96, 19</value>
+    <value>92, 19</value>
   </data>
   <data name="chkTone.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -373,7 +373,7 @@
     <value>tonePicker</value>
   </data>
   <data name="&gt;&gt;tonePicker.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2798.22578, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.CharPicker, Pa, Version=3.1.3883.26373, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tonePicker.Parent" xml:space="preserve">
     <value>grpTone</value>
@@ -421,7 +421,7 @@
     <value>24, 141</value>
   </data>
   <data name="chkLength.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 19</value>
+    <value>102, 19</value>
   </data>
   <data name="chkLength.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -472,7 +472,7 @@
     <value>lengthPicker</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.Controls.CharPicker, PaControls, Version=1.0.2798.22578, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.CharPicker, Pa, Version=3.1.3883.26373, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Parent" xml:space="preserve">
     <value>grpLength</value>
@@ -517,16 +517,16 @@
     <value>NoControl</value>
   </data>
   <data name="lnkApplyToAll.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 331</value>
+    <value>11, 361</value>
   </data>
   <data name="lnkApplyToAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 15</value>
+    <value>115, 15</value>
   </data>
   <data name="lnkApplyToAll.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
   <data name="lnkApplyToAll.Text" xml:space="preserve">
-    <value>Apply to all environments</value>
+    <value>Apply to all columns</value>
   </data>
   <data name="&gt;&gt;lnkApplyToAll.Name" xml:space="preserve">
     <value>lnkApplyToAll</value>
@@ -553,10 +553,10 @@
     <value>NoControl</value>
   </data>
   <data name="lnkHelp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>202, 331</value>
+    <value>202, 361</value>
   </data>
   <data name="lnkHelp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>34, 15</value>
+    <value>33, 15</value>
   </data>
   <data name="lnkHelp.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -664,7 +664,7 @@
     <value>10, 0</value>
   </data>
   <data name="lblUncertainties.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 15</value>
+    <value>179, 15</value>
   </data>
   <data name="lblUncertainties.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -718,7 +718,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 344</value>
+    <value>248, 383</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SearchOptionsDropDown</value>

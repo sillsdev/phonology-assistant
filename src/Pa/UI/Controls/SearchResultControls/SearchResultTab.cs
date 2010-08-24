@@ -38,18 +38,12 @@ namespace SIL.Pa.UI.Controls
 		// The combined left and right margins of the image. 
 		private const int kleftImgMargin = 6;
 
-		private readonly XButton m_btnCIEOptions;
 		private Point m_mouseDownLocation = Point.Empty;
 		private bool m_mouseOver;
 		private bool m_selected;
-		private SearchResultTabGroup m_owningTabGroup;
 		private SearchResultView m_resultView;
-		private SearchQuery m_query;
-		private bool m_tabTextClipped;
 		private Image m_image;
 		private ToolTip m_CIEButtonToolTip;
-		private CustomDropDown m_cieOptionsDropDownContainer;
-		private CIEOptionsDropDown m_cieOptionsDropDown;
 		private Color m_activeTabInactiveGroupBack1;
 		private Color m_activeTabInactiveGroupBack2;
 		private Color m_activeTabInactiveGroupFore;
@@ -57,6 +51,20 @@ namespace SIL.Pa.UI.Controls
 		private Color m_activeTabBack;
 		private Color m_inactiveTabFore;
 		private Color m_inactiveTabBack;
+
+		public CustomDropDown CieOptionsDropDownContainer { get; set; }
+		public CIEOptionsDropDown CieOptionsDropDown { get; set; }
+		public SearchResultTabGroup OwningTabGroup { get; set; }
+		internal XButton CIEOptionsButton { get; private set; }
+		public SearchQuery SearchQuery { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not the text in a tab was clipped (i.e. was
+		/// too long so it is displayed with ellipses).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool TabTextClipped { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -69,23 +77,23 @@ namespace SIL.Pa.UI.Controls
 			base.AutoSize = false;
 			base.AllowDrop = true;
 			base.Font = FontHelper.PhoneticFont;
-			m_owningTabGroup = owningTabControl;
-			m_query = new SearchQuery();
+			OwningTabGroup = owningTabControl;
+			SearchQuery = new SearchQuery();
 			App.AddMediatorColleague(this);
 			SetContextMenus();
 
 			// Prepare the tab's minimal pair options button.
 			Image img = Properties.Resources.kimidMinimalPairsOptionsDropDown;
-			m_btnCIEOptions = new XButton();
-			m_btnCIEOptions.Image = img;
-			m_btnCIEOptions.Size = new Size(img.Width + 4, img.Height + 4);
-			m_btnCIEOptions.BackColor = Color.Transparent;
-			m_btnCIEOptions.Visible = false;
-			m_btnCIEOptions.Left = kleftImgMargin;
-			m_btnCIEOptions.Click += m_btnCIEOptions_Click;
-			m_btnCIEOptions.MouseEnter += m_btnCIEOptions_MouseEnter;
-			m_btnCIEOptions.MouseLeave += m_btnCIEOptions_MouseLeave;
-			Controls.Add(m_btnCIEOptions);
+			CIEOptionsButton = new XButton();
+			CIEOptionsButton.Image = img;
+			CIEOptionsButton.Size = new Size(img.Width + 4, img.Height + 4);
+			CIEOptionsButton.BackColor = Color.Transparent;
+			CIEOptionsButton.Visible = false;
+			CIEOptionsButton.Left = kleftImgMargin;
+			CIEOptionsButton.Click += m_btnCIEOptions_Click;
+			CIEOptionsButton.MouseEnter += m_btnCIEOptions_MouseEnter;
+			CIEOptionsButton.MouseLeave += m_btnCIEOptions_MouseLeave;
+			Controls.Add(CIEOptionsButton);
 			GetTabColors();
 
 			Text = EmptyTabText;
@@ -101,16 +109,16 @@ namespace SIL.Pa.UI.Controls
 			if (base.ContextMenuStrip != null)
 				base.ContextMenuStrip.Opening -= ContextMenuStrip_Opening;
 
-			if (m_owningTabGroup != null && m_owningTabGroup.TMAdapter != null)
+			if (OwningTabGroup != null && OwningTabGroup.TMAdapter != null)
 			{
-				m_owningTabGroup.TMAdapter.SetContextMenuForControl(this, "cmnuSearchResultTab");
+				OwningTabGroup.TMAdapter.SetContextMenuForControl(this, "cmnuSearchResultTab");
 
 				if (base.ContextMenuStrip != null)
 					base.ContextMenuStrip.Opening += ContextMenuStrip_Opening;
 
 				if (m_resultView != null && m_resultView.Grid != null)
 				{
-					m_owningTabGroup.TMAdapter.SetContextMenuForControl(
+					OwningTabGroup.TMAdapter.SetContextMenuForControl(
 						m_resultView.Grid, "cmnuSearchResultTab");
 				}
 			}
@@ -161,8 +169,8 @@ namespace SIL.Pa.UI.Controls
 
 				App.RemoveMediatorColleague(this);
 
-				if (!m_btnCIEOptions.IsDisposed)
-					m_btnCIEOptions.Dispose();
+				if (!CIEOptionsButton.IsDisposed)
+					CIEOptionsButton.Dispose();
 
 				if (m_image != null)
 				{
@@ -176,21 +184,11 @@ namespace SIL.Pa.UI.Controls
 					m_resultView = null;
 				}
 
-				if (m_query != null)
-					m_query = null;
+				if (SearchQuery != null)
+					SearchQuery = null;
 			}
 
 			base.Dispose(disposing);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal XButton CIEOptionsButton
-		{
-			get { return m_btnCIEOptions; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -205,10 +203,10 @@ namespace SIL.Pa.UI.Controls
 			if (cms == null)
 				return;
 
-			if (cms.SourceControl == this && Selected && m_owningTabGroup.IsCurrent ||
+			if (cms.SourceControl == this && Selected && OwningTabGroup.IsCurrent ||
 				cms.SourceControl == m_resultView || cms.SourceControl == Grid)
 			{
-				m_owningTabGroup.ContextMenuTab = this;
+				OwningTabGroup.ContextMenuTab = this;
 			}
 		}
 
@@ -219,9 +217,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void RefreshResultView(WordListCache resultCache)
 		{
-			Text = (resultCache == null ||
-				resultCache.SearchQuery == null ? string.Empty :
-				resultCache.SearchQuery.ToString());
+			SetText(resultCache);
 
 			if (resultCache != null)
 			{
@@ -229,18 +225,30 @@ namespace SIL.Pa.UI.Controls
 				m_resultView.Initialize(resultCache);
 				UpdateRecordView();
 				SubscribeToGridEvents();
-				m_query = resultCache.SearchQuery;
+				SearchQuery = resultCache.SearchQuery;
 			}
 
-			if (m_btnCIEOptions.Visible)
+			if (CIEOptionsButton.Visible)
 			{
 				FindInfo.CanFindAgain = false;
-				m_btnCIEOptions.Visible = (m_resultView != null &&
+				CIEOptionsButton.Visible = (m_resultView != null &&
 					m_resultView.Grid != null && m_resultView.Grid.Cache != null &&
 					m_resultView.Grid.Cache.IsCIEList);
 			}
 
 			AdjustWidth();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void SetText(WordListCache resultCache)
+		{
+			Text = (resultCache == null ||
+				resultCache.SearchQuery == null ? string.Empty :
+				resultCache.SearchQuery.ToString());
 		}
 
 		#region Properties
@@ -256,28 +264,6 @@ namespace SIL.Pa.UI.Controls
 				return LocalizationManager.LocalizeString("SearchResultTabs.EmptySearchResultTabText",
 					"(empty tab)", App.kLocalizationGroupMisc);
 			}
-		}
-	
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Get & Set the CieOptionsDropDownContainer.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public CustomDropDown CieOptionsDropDownContainer
-		{
-			get { return m_cieOptionsDropDownContainer; }
-			set { m_cieOptionsDropDownContainer = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Get & Set the CieOptionsDropDown.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public CIEOptionsDropDown CieOptionsDropDown
-		{
-			get { return m_cieOptionsDropDown; }
-			set { m_cieOptionsDropDown = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -341,7 +327,7 @@ namespace SIL.Pa.UI.Controls
 						}
 					}
 				}
-				else if (m_owningTabGroup.IsCurrent && m_resultView != null &&
+				else if (OwningTabGroup.IsCurrent && m_resultView != null &&
 					m_resultView.Grid != null && !m_resultView.Grid.Focused)
 				{
 					m_resultView.Grid.Focus();
@@ -370,7 +356,8 @@ namespace SIL.Pa.UI.Controls
 				m_resultView = value;
 				if (m_resultView != null)
 				{
-					m_query = m_resultView.SearchQuery;
+					SetText(m_resultView.Cache);
+					SearchQuery = m_resultView.SearchQuery;
 					m_resultView.Dock = DockStyle.Fill;
 					SubscribeToGridEvents();
 					UpdateRecordView();
@@ -390,38 +377,6 @@ namespace SIL.Pa.UI.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the tab's search query.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public SearchQuery SearchQuery
-		{
-			get { return m_query; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the tab's owning group.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public SearchResultTabGroup OwningTabGroup
-		{
-			get { return m_owningTabGroup; }
-			set { m_owningTabGroup = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a value indicating whether or not the text in a tab was clipped (i.e. was
-		/// too long so it is displayed with ellipses).
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool TabTextClipped
-		{
-			get { return m_tabTextClipped; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -432,7 +387,7 @@ namespace SIL.Pa.UI.Controls
 				if (!m_selected)
 					return m_inactiveTabFore;
 
-				return (m_owningTabGroup.IsCurrent ?
+				return (OwningTabGroup.IsCurrent ?
 					m_activeTabFore : m_activeTabInactiveGroupFore);
 			}
 			set { }
@@ -450,11 +405,9 @@ namespace SIL.Pa.UI.Controls
 				if (!m_selected)
 					return m_inactiveTabBack;
 
-				return (m_owningTabGroup.IsCurrent ? m_activeTabBack : SystemColors.Control);
+				return (OwningTabGroup.IsCurrent ? m_activeTabBack : SystemColors.Control);
 			}
-			set
-			{
-			}
+			set { }
 		}
 
 		#endregion
@@ -481,14 +434,14 @@ namespace SIL.Pa.UI.Controls
 			if (m_image != null)
 				width += (kleftImgMargin + m_image.Width);
 
-			if (m_btnCIEOptions.Visible)
-				width += (kleftImgMargin + m_btnCIEOptions.Width);
+			if (CIEOptionsButton.Visible)
+				width += (kleftImgMargin + CIEOptionsButton.Width);
 
 			// Don't allow the width of a tab to be any
 			// wider than 3/4 of it's owning group's width.
-			Width = Math.Min(width, (int)(m_owningTabGroup.Width * 0.75));
+			Width = Math.Min(width, (int)(OwningTabGroup.Width * 0.75));
 
-			m_tabTextClipped = (Width < width);
+			TabTextClipped = (Width < width);
 			Invalidate();
 		}
 
@@ -501,14 +454,14 @@ namespace SIL.Pa.UI.Controls
 		{
 			RemoveResultView();
 
-			if (m_owningTabGroup.RecordView != null)
-				m_owningTabGroup.RecordView.Clear();
+			if (OwningTabGroup.RecordView != null)
+				OwningTabGroup.RecordView.Clear();
 
-			m_query = new SearchQuery();
-			m_btnCIEOptions.Visible = false;
+			SearchQuery = new SearchQuery();
+			CIEOptionsButton.Visible = false;
 			Text = EmptyTabText;
 			AdjustWidth();
-			m_owningTabGroup.AdjustTabContainerWidth();
+			OwningTabGroup.AdjustTabContainerWidth();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -521,8 +474,8 @@ namespace SIL.Pa.UI.Controls
 			if (m_resultView != null)
 			{
 				UnsubscribeToGridEvents();
-				if (m_owningTabGroup != null && m_owningTabGroup.Controls.Contains(m_resultView))
-					m_owningTabGroup.Controls.Remove(m_resultView);
+				if (OwningTabGroup != null && OwningTabGroup.Controls.Contains(m_resultView))
+					OwningTabGroup.Controls.Remove(m_resultView);
 
 				m_resultView.Dispose();
 				m_resultView = null;
@@ -543,8 +496,8 @@ namespace SIL.Pa.UI.Controls
 
 				// Update the fonts in case a custom field's name
 				// has changed (since each field has it's own font).
-				if (m_owningTabGroup != null && m_owningTabGroup.RecordView != null)
-					m_owningTabGroup.RecordView.UpdateFonts();
+				if (OwningTabGroup != null && OwningTabGroup.RecordView != null)
+					OwningTabGroup.RecordView.UpdateFonts();
 
 				m_resultView.RefreshResults();
 				SubscribeToGridEvents();
@@ -564,17 +517,17 @@ namespace SIL.Pa.UI.Controls
 			if (m_resultView == null)
 				return;
 
-			if (m_owningTabGroup.TMAdapter != null)
+			if (OwningTabGroup.TMAdapter != null)
 			{
-				m_owningTabGroup.TMAdapter.SetContextMenuForControl(
+				OwningTabGroup.TMAdapter.SetContextMenuForControl(
 					m_resultView, "cmnuSearchResultTab");
 			}
 
 			if (m_resultView.Grid != null)
 			{
-				if (m_owningTabGroup.TMAdapter != null)
+				if (OwningTabGroup.TMAdapter != null)
 				{
-					m_owningTabGroup.TMAdapter.SetContextMenuForControl(
+					OwningTabGroup.TMAdapter.SetContextMenuForControl(
 						m_resultView.Grid, "cmnuSearchResultTab");
 				}
 
@@ -614,8 +567,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void HandleResultViewEnter(object sender, EventArgs e)
 		{
-			if (!m_selected || !m_owningTabGroup.IsCurrent)
-				m_owningTabGroup.SelectTab(this, true);
+			if (!m_selected || !OwningTabGroup.IsCurrent)
+				OwningTabGroup.SelectTab(this, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -657,20 +610,20 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void UpdateRecordView(int rowIndex)
 		{
-			if (!m_selected || (m_owningTabGroup != null && !m_owningTabGroup.IsCurrent))
+			if (!m_selected || (OwningTabGroup != null && !OwningTabGroup.IsCurrent))
 				return;
 
-			if (m_owningTabGroup.RecordView == null || m_resultView == null ||
-				!m_owningTabGroup.IsCurrent || m_resultView.Grid == null)
+			if (OwningTabGroup.RecordView == null || m_resultView == null ||
+				!OwningTabGroup.IsCurrent || m_resultView.Grid == null)
 			{
-				m_owningTabGroup.RecordView.UpdateRecord(null);
+				OwningTabGroup.RecordView.UpdateRecord(null);
 			}
 			else
 			{
 				RecordCacheEntry entry = (rowIndex < 0 ? m_resultView.Grid.GetRecord() :
 					m_resultView.Grid.GetRecord(rowIndex));
 
-				m_owningTabGroup.RecordView.UpdateRecord(entry);
+				OwningTabGroup.RecordView.UpdateRecord(entry);
 			}
 		}
 
@@ -691,11 +644,11 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnRecordViewOptionsChanged(object args)
 		{
-			if (m_selected && m_owningTabGroup.IsCurrent &&
-				m_owningTabGroup.RecordView != null &&
+			if (m_selected && OwningTabGroup.IsCurrent &&
+				OwningTabGroup.RecordView != null &&
 				m_resultView != null && m_resultView.Grid != null)
 			{
-				m_owningTabGroup.RecordView.UpdateRecord(
+				OwningTabGroup.RecordView.UpdateRecord(
 					m_resultView.Grid.GetRecord(), true);
 			}
 
@@ -709,7 +662,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		void HandleResultViewDragOver(object sender, DragEventArgs e)
 		{
-			m_owningTabGroup.InternalDragOver(e);
+			OwningTabGroup.InternalDragOver(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -719,7 +672,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		void HandleResultViewDragLeave(object sender, EventArgs e)
 		{
-			m_owningTabGroup.InternalDragLeave(e);
+			OwningTabGroup.InternalDragLeave(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -729,7 +682,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		void HandleResultViewDragDrop(object sender, DragEventArgs e)
 		{
-			m_owningTabGroup.InternalDragDrop(e);
+			OwningTabGroup.InternalDragDrop(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -740,7 +693,7 @@ namespace SIL.Pa.UI.Controls
 		protected override void OnDragOver(DragEventArgs e)
 		{
 			base.OnDragOver(e);
-			m_owningTabGroup.InternalDragOver(e);
+			OwningTabGroup.InternalDragOver(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -751,7 +704,7 @@ namespace SIL.Pa.UI.Controls
 		protected override void OnDragLeave(EventArgs e)
 		{
 			base.OnDragLeave(e);
-			m_owningTabGroup.InternalDragLeave(e);
+			OwningTabGroup.InternalDragLeave(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -762,7 +715,7 @@ namespace SIL.Pa.UI.Controls
 		protected override void OnDragDrop(DragEventArgs e)
 		{
 			base.OnDragDrop(e);
-			m_owningTabGroup.InternalDragDrop(e);
+			OwningTabGroup.InternalDragDrop(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -776,7 +729,7 @@ namespace SIL.Pa.UI.Controls
 				m_mouseDownLocation = e.Location;
 			else
 			{
-				Form frm = FindForm();
+				var frm = FindForm();
 				if (!App.IsFormActive(frm))
 					frm.Focus();
 			}
@@ -851,7 +804,7 @@ namespace SIL.Pa.UI.Controls
 		protected override void OnSizeChanged(EventArgs e)
 		{
 			base.OnSizeChanged(e);
-			m_btnCIEOptions.Top = (Height - m_btnCIEOptions.Height) / 2 + 1;
+			CIEOptionsButton.Top = (Height - CIEOptionsButton.Height) / 2 + 1;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -878,7 +831,7 @@ namespace SIL.Pa.UI.Controls
 			using (SolidBrush br = new SolidBrush(Color.White))
 				e.Graphics.FillPolygon(br, pts);
 
-			if (!m_selected || m_owningTabGroup.IsCurrent)
+			if (!m_selected || OwningTabGroup.IsCurrent)
 			{
 				using (SolidBrush br = new SolidBrush(BackColor))
 					e.Graphics.FillPolygon(br, pts);
@@ -906,12 +859,12 @@ namespace SIL.Pa.UI.Controls
 					0, rc.Bottom - 1, rc.Right, rc.Bottom - 1);
 			}
 
-			if (!m_btnCIEOptions.Visible)
+			if (!CIEOptionsButton.Visible)
 				DrawImage(e.Graphics, ref rc);
 			else
 			{
-				rc.X += (kleftImgMargin + m_btnCIEOptions.Width);
-				rc.Width -= (kleftImgMargin + m_btnCIEOptions.Width);
+				rc.X += (kleftImgMargin + CIEOptionsButton.Width);
+				rc.Width -= (kleftImgMargin + CIEOptionsButton.Width);
 			}
 
 			if (!m_selected)
@@ -992,8 +945,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void ShowCIEOptions()
 		{
-			if (m_btnCIEOptions.Visible)
-				m_owningTabGroup.ShowCIEOptions(m_btnCIEOptions);
+			if (CIEOptionsButton.Visible)
+				OwningTabGroup.ShowCIEOptions(CIEOptionsButton);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1003,8 +956,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		void m_btnCIEOptions_Click(object sender, EventArgs e)
 		{
-			if (!m_selected || !m_owningTabGroup.IsCurrent)
-				m_owningTabGroup.SelectTab(this, true);
+			if (!m_selected || !OwningTabGroup.IsCurrent)
+				OwningTabGroup.SelectTab(this, true);
 
 			ShowCIEOptions();
 		}
@@ -1055,9 +1008,9 @@ namespace SIL.Pa.UI.Controls
 				// Force users to restart Find when toggling the CIEView
 				FindInfo.CanFindAgain = false;
 
-				m_btnCIEOptions.Visible = m_resultView.Grid.Cache.IsCIEList;
+				CIEOptionsButton.Visible = m_resultView.Grid.Cache.IsCIEList;
 				AdjustWidth();
-				m_owningTabGroup.AdjustTabContainerWidth();
+				OwningTabGroup.AdjustTabContainerWidth();
 			}
 		}
 
@@ -1070,9 +1023,9 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (m_resultView.Grid == null || !m_resultView.Grid.CIEViewRefresh())
 			{
-				m_btnCIEOptions.Visible = false;
+				CIEOptionsButton.Visible = false;
 				AdjustWidth();
-				m_owningTabGroup.AdjustTabContainerWidth();
+				OwningTabGroup.AdjustTabContainerWidth();
 			}
 		}
 

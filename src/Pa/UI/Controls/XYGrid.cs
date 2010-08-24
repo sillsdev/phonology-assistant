@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
@@ -7,8 +6,6 @@ using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Localization;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.Processing;
-using SIL.Pa.Properties;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -22,14 +19,10 @@ namespace SIL.Pa.UI.Controls
 	{
 		private bool m_paintDropValidEffect;
 		private bool m_mouseDownOnCornerCell;
-		private bool m_loadedLayout;
 		private string m_preEditCellValue;
 		private int m_defaultRowHeight;
 		private Point m_prevCurrCellAddress = new Point(-1, -1);
 		private Label m_lblName;
-		private ITabView m_owningView;
-		private ITMAdapter m_tmAdapter;
-		private XYChartLayout m_layout;
 		private ToolTip m_tooltip;
 		private IMessageFilter m_editControlMsgFilter;
 		private SearchOptionsDropDown m_searchOptionsDropDown;
@@ -63,6 +56,7 @@ namespace SIL.Pa.UI.Controls
 			RowHeadersVisible = false;
 			base.AllowDrop = true;
 			ShowCellToolTips = false;
+			ShowWaterMarkWhenDirty = true;
 
 			Reset();
 			App.AddMediatorColleague(this);
@@ -115,36 +109,36 @@ namespace SIL.Pa.UI.Controls
 
 			Reset();
 
-			m_layout = layout.Clone();
+			ChartLayout = layout.Clone();
 
 			// Add columns for the environments.
-			if (m_layout.SearchQueries.Count > 0)
+			if (ChartLayout.SearchQueries.Count > 0)
 			{
-				foreach (SearchQuery query in m_layout.SearchQueries)
+				foreach (SearchQuery query in ChartLayout.SearchQueries)
 					AddColumn(query, false);
 			}
 
 			// Add the search items in the first column of the grid.
-			if (m_layout.SearchItems.Count > 0)
+			if (ChartLayout.SearchItems.Count > 0)
 			{
 				int i = 1;
-				Rows.Add(m_layout.SearchItems.Count);
-				foreach (string srchItem in m_layout.SearchItems)
+				Rows.Add(ChartLayout.SearchItems.Count);
+				foreach (string srchItem in ChartLayout.SearchItems)
 					this[0, i++].Value = srchItem;
 			}
 
 			// Set the column sizes.
-			if (m_layout.ColumnWidths.Count > 0 && Columns.Count >= m_layout.ColumnWidths.Count)
+			if (ChartLayout.ColumnWidths.Count > 0 && Columns.Count >= ChartLayout.ColumnWidths.Count)
 			{
-				for (int i = 0; i < m_layout.ColumnWidths.Count; i++)
-					Columns[i].Width = m_layout.ColumnWidths[i];
+				for (int i = 0; i < ChartLayout.ColumnWidths.Count; i++)
+					Columns[i].Width = ChartLayout.ColumnWidths[i];
 			}
 
 			if (m_lblName != null)
-				m_lblName.Text = m_layout.NameOrNone;
+				m_lblName.Text = ChartLayout.NameOrNone;
 
 			IsDirty = false;
-			m_loadedLayout = true;
+			LoadedLayout = true;
 
 			App.MsgMediator.SendMessage("XYChartLoadedFromLayout", this);
 
@@ -160,16 +154,16 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void UpdateLayout()
 		{
-			if (m_layout != null)
-				m_layout.UpdateFromXYGrid(this);
+			if (ChartLayout != null)
+				ChartLayout.UpdateFromXYGrid(this);
 			else
 			{
-				m_layout = XYChartLayout.NewFromXYGrid(this);
-				m_loadedLayout = false;
+				ChartLayout = XYChartLayout.NewFromXYGrid(this);
+				LoadedLayout = false;
 			}
 
 			if (m_lblName != null)
-				m_lblName.Text = m_layout.NameOrNone;
+				m_lblName.Text = ChartLayout.NameOrNone;
 			
 			IsDirty = true;
 		}
@@ -212,17 +206,36 @@ namespace SIL.Pa.UI.Controls
 			m_searchOptionsDropDown.Disposed -= m_searchOptionsDropDown_Disposed;
 			m_searchOptionsDropDown = null;
 		}
-		
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the chart's owning form.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ITabView OwningView
-		{
-			get { return m_owningView; }
-			set { m_owningView = value; }
-		}
+		public ITabView OwningView { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not the current layout was loaded using the
+		/// LoadFromLayout() method.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool LoadedLayout { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the chart's toolbar/menu adapter. This should be set by the chart's
+		/// owning form.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public ITMAdapter TMAdapter { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the chart layout that has been loaded in the grid.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public XYChartLayout ChartLayout { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -236,43 +249,9 @@ namespace SIL.Pa.UI.Controls
 			set
 			{
 				m_lblName = value;
-				if (m_lblName != null && m_layout != null)
-					m_lblName.Text = m_layout.NameOrNone;
+				if (m_lblName != null && ChartLayout != null)
+					m_lblName.Text = ChartLayout.NameOrNone;
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a value indicating whether or not the current layout was loaded using the
-		/// LoadFromLayout() method.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool LoadedLayout
-		{
-			get { return m_loadedLayout; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the chart's toolbar/menu adapter. This should be set by the chart's
-		/// owning form.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ITMAdapter TMAdapter
-		{
-			get { return m_tmAdapter; }
-			set { m_tmAdapter = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the chart layout that has been loaded in the grid.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public XYChartLayout ChartLayout
-		{
-			get { return m_layout; }
-			set { m_layout = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -282,7 +261,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public string ChartName
 		{
-			get { return m_layout == null ? null : m_layout.Name; }
+			get { return ChartLayout == null ? null : ChartLayout.Name; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -517,11 +496,11 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnColumnWidthChanged(e);
 
-			if (m_layout != null && m_layout.ColumnWidths != null &&
-				e.Column.Index < m_layout.ColumnWidths.Count)
+			if (ChartLayout != null && ChartLayout.ColumnWidths != null &&
+				e.Column.Index < ChartLayout.ColumnWidths.Count)
 			{
-				IsDirty = true;
-				m_layout.ColumnWidths[e.Column.Index] = e.Column.Width;
+				//IsDirty = true;
+				ChartLayout.ColumnWidths[e.Column.Index] = e.Column.Width;
 				Invalidate(GetCellDisplayRectangle(0, 0, true));
 			}
 		}
@@ -1222,14 +1201,14 @@ namespace SIL.Pa.UI.Controls
 
 			if (e.ColumnIndex != 0 || e.RowIndex != 0)
 				e.PaintContent(e.CellBounds);
-			else if (IsDirty)
-			{
-				// Draw the "chart is dirty" indicator in the top, left cell.
-				Rectangle rc2 = new Rectangle(new Point(0, 0), m_dirtyIndicator.Size);
-				rc2.X = e.CellBounds.Left + ((rc.Width - rc2.Width) / 2);
-				rc2.Y = e.CellBounds.Top + ((rc.Height - rc2.Height) / 2);
-				e.Graphics.DrawImageUnscaledAndClipped(m_dirtyIndicator, rc2);
-			}
+			//else if (IsDirty)
+			//{
+			//    // Draw the "chart is dirty" indicator in the top, left cell.
+			//    Rectangle rc2 = new Rectangle(new Point(0, 0), m_dirtyIndicator.Size);
+			//    rc2.X = e.CellBounds.Left + ((rc.Width - rc2.Width) / 2);
+			//    rc2.Y = e.CellBounds.Top + ((rc.Height - rc2.Height) / 2);
+			//    e.Graphics.DrawImageUnscaledAndClipped(m_dirtyIndicator, rc2);
+			//}
 
 			e.Handled = true;
 		}
@@ -1277,7 +1256,7 @@ namespace SIL.Pa.UI.Controls
 
 			Rows.Clear();
 			Columns.Clear();
-			m_layout = null;
+			ChartLayout = null;
 
 			DataGridViewColumn col = CreateTextBoxColumn("srchitem");
 			col.Frozen = true;
@@ -1290,7 +1269,7 @@ namespace SIL.Pa.UI.Controls
 			CurrentCell = this[0, 1];
 
 			IsDirty = false;
-			m_loadedLayout = false;
+			LoadedLayout = false;
 			App.MsgMediator.SendMessage("XYChartReset", this);
 		}
 
@@ -1326,12 +1305,12 @@ namespace SIL.Pa.UI.Controls
 				for (int i = 1; i < Columns.Count; i++)
 				{
 					App.IncProgressBar();
-					row.Cells[i].Value = row.Cells[i].Tag = null;
-					GetResultsForCell(row.Cells[i], row.Cells[0].Value as string,
-						Columns[i].Tag as SearchQuery);
+					GetResultsForCell(row.Cells[i],
+						row.Cells[0].Value as string, Columns[i].Tag as SearchQuery);
 				}
 			}
 
+			IsDirty = false;
 			App.UninitializeProgressBar();
 			Cursor = Cursors.Default;
 
@@ -1434,6 +1413,20 @@ namespace SIL.Pa.UI.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		public void RefreshCellValue(int row, int col)
+		{
+			if (IsDirty && row >= 0 && row < RowCount && col >= 0 && col < ColumnCount)
+			{
+				GetResultsForCell(Rows[row].Cells[col],
+					Rows[row].Cells[0].Value as string, Columns[col].Tag as SearchQuery);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private static void GetResultsForCell(DataGridViewCell cell, string srchItem,
 		    SearchQuery qryEnvironment)
 		{
@@ -1441,6 +1434,8 @@ namespace SIL.Pa.UI.Controls
 
 			try
 			{
+				cell.Value = cell.Tag = null;
+
 				// If there is an environment and a search item, then get search results.
 				if (!string.IsNullOrEmpty(qryEnvironment.Pattern) && !string.IsNullOrEmpty(srchItem))
 				{
@@ -1496,9 +1491,9 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (!IsEmpty)
 			{
-				bool wasDirty = IsDirty;
+				//bool wasDirty = IsDirty;
 				FillChart();
-				IsDirty = wasDirty;
+				//IsDirty = wasDirty;
 			}
 
 			return false;
@@ -1558,7 +1553,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnClearChart(object args)
 		{
-			if (!m_owningView.ActiveView)
+			if (!OwningView.ActiveView)
 				return false;
 
 			Reset();
@@ -1573,7 +1568,7 @@ namespace SIL.Pa.UI.Controls
 		protected bool OnUpdateClearChart(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !m_owningView.ActiveView)
+			if (itemProps == null || !OwningView.ActiveView)
 				return false;
 
 			itemProps.Visible = true;
@@ -1590,7 +1585,7 @@ namespace SIL.Pa.UI.Controls
 		protected bool OnUpdateInsertIntoChart(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !m_owningView.ActiveView)
+			if (itemProps == null || !OwningView.ActiveView)
 				return false;
 
 			return (itemProps.Name.StartsWith("cmnu") ? true : UpdateInsertItem(itemProps));
@@ -1603,7 +1598,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertConsonant(object args)
 		{
-			if (!m_owningView.ActiveView)
+			if (!OwningView.ActiveView)
 				return false;
 
 			InsertTextInCell("[C]");
@@ -1627,7 +1622,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertVowel(object args)
 		{
-			if (!m_owningView.ActiveView)
+			if (!OwningView.ActiveView)
 				return false;
 
 			InsertTextInCell("[V]");
@@ -1651,7 +1646,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertZeroOrMore(object args)
 		{
-			if (!m_owningView.ActiveView)
+			if (!OwningView.ActiveView)
 				return false;
 
 			InsertTextInCell("*");
@@ -1675,7 +1670,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertOneOrMore(object args)
 		{
-			if (!m_owningView.ActiveView)
+			if (!OwningView.ActiveView)
 				return false;
 
 			InsertTextInCell("+");
@@ -1699,7 +1694,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertWordBoundary(object args)
 		{
-			if (!m_owningView.ActiveView)
+			if (!OwningView.ActiveView)
 				return false;
 
 			InsertTextInCell("#");
@@ -1723,7 +1718,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertDiacriticPlaceholder(object args)
 		{
-			if (!m_owningView.ActiveView)
+			if (!OwningView.ActiveView)
 				return false;
 
 			InsertTextInCell(App.kDiacriticPlaceholder);
@@ -1747,7 +1742,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertSyllableBoundary(object args)
 		{
-			if (!m_owningView.ActiveView)
+			if (!OwningView.ActiveView)
 				return false;
 
 			InsertTextInCell(".");
@@ -1771,7 +1766,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertANDGroup(object args)
 		{
-			if (!m_owningView.ActiveView)
+			if (!OwningView.ActiveView)
 				return false;
 
 			InsertTextInCell("[]");
@@ -1795,7 +1790,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertORGroup(object args)
 		{
-			if (!m_owningView.ActiveView)
+			if (!OwningView.ActiveView)
 				return false;
 
 			InsertTextInCell("{}");
@@ -1819,7 +1814,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private bool UpdateInsertItem(TMItemProperties itemProps)
 		{
-			if (itemProps == null || !m_owningView.ActiveView)
+			if (itemProps == null || !OwningView.ActiveView)
 				return false;
 
 			Point pt = CurrentCellAddress;
@@ -1838,7 +1833,7 @@ namespace SIL.Pa.UI.Controls
 		protected bool OnUpdateSearchOptions(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !m_owningView.ActiveView)
+			if (itemProps == null || !OwningView.ActiveView)
 				return false;
 
 			Point pt = CurrentCellAddress;
@@ -1857,7 +1852,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			ToolBarPopupInfo itemProps = args as ToolBarPopupInfo;
 			SearchQuery query = GetColumnsSearchQuery(CurrentCellAddress.X);
-			if (query == null || itemProps == null || !m_owningView.ActiveView)
+			if (query == null || itemProps == null || !OwningView.ActiveView)
 				return false;
 
 			Point pt = CurrentCellAddress;
@@ -1877,8 +1872,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		void ApplyToAllLinkLabel_Click(object sender, EventArgs e)
 		{
-			if (m_tmAdapter != null)
-				m_tmAdapter.HideBarItemsPopup("cmnuXYChart");
+			if (TMAdapter != null)
+				TMAdapter.HideBarItemsPopup("cmnuXYChart");
 
 			for (int i = 1; i < Columns.Count - 1; i++)
 			{
@@ -1893,6 +1888,7 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			UpdateLayout();
+			m_searchOptionsDropDown.Close();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1913,7 +1909,7 @@ namespace SIL.Pa.UI.Controls
 		protected bool OnDropDownClosedSearchOptions(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || (itemProps.ParentControl != m_owningView))
+			if (itemProps == null || (itemProps.ParentControl != OwningView))
 				return false;
 
 			// First, check if any changes were made.
