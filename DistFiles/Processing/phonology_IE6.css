@@ -1,4 +1,4 @@
-﻿/* phonology_IE6.css 2010-05-14 */
+﻿/* phonology_IE6.css 2010-08-23 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 /* Here are the exceptions for Internet Explorer 6 and earlier. */
 
@@ -6,11 +6,8 @@
 
 /* Do not display elements that people cannot interact with. */
 
-div.collapsed /* For example, feature charts following CV chart. */
-{
-display: none;
-}
-
+table.features, /* Features tables at the right of CV chart. */
+div.collapsed, /* Feature charts following CV chart. */
 ul.environments /* Tabs between distribution and CV chart. */
 {
 display: none;

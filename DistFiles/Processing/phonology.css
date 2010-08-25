@@ -1,4 +1,4 @@
-﻿/* phonology.css 2010-05-25 */
+﻿/* phonology.css 2010-07-26 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 
 /* Reset default values of Web browsers. ------------------------------------ */
@@ -138,6 +138,30 @@ table.distribution td
 font-size: 75%;
 }
 
+/* Collapse/expand ---------------------------------------------------------- */
+
+table.features th span:after,
+table.distribution tbody tr.general th.interactive:after
+{
+content: "▴"; /* up-pointing */
+}
+
+table.features.collapsed th abbr:after,
+table.distribution tbody.collapsed tr.general th.interactive:after
+{
+content: "▾"; /* down-pointing */
+}
+
+table.distribution thead tr.individual th.interactive:after
+{
+content: "◂"; /* left-pointing */
+}
+
+table.distribution thead tr.individual th.interactive.collapsed:after
+{
+content: "▸"; /* right-pointing */
+}
+
 /* Layout =================================================================== */
 
 body
@@ -171,12 +195,6 @@ table.feature
 {
 margin-top: 0.5em;
 margin-left: 0;
-}
-
-table.feature th,
-table.feature td
-{
-text-align: center;
 }
 
 th, td
@@ -235,10 +253,16 @@ th
 text-align: left;
 }
 
+table.feature th.Phonetic,
+table.feature td
+{
+text-align: center;
+}
+
 table.list .count,
 table.CV thead tr:first-child th:first-child,
 table.CV tbody th,
-table.feature tbody th:first-child,
+table.feature th,
 table.distribution th,
 table.distribution td
 {
@@ -580,7 +604,7 @@ border-top-style: solid;
 table.features abbr,
 table.features.collapsed span,
 table.features.collapsed tbody,
-table.hierarchical tr.collapsed
+table.distinctive tr.collapsed
 {
 display: none;
 }
@@ -590,13 +614,13 @@ table.features.collapsed abbr
 display: inline;
 }
 
-table.hierarchical tr.univalent td.name > div
+table.distinctive tr.univalent td.name > div
 {
 position: relative;
 padding-right: 1em; /* Prevent child div from overlapping text of parent cell. */
 }
 
-table.hierarchical tr.univalent td.name div div
+table.distinctive tr.univalent td.name div div
 {
 position: absolute;
 z-index: 1;
@@ -618,7 +642,7 @@ table.distribution abbr,
 table.distribution th.reduced > span,
 table.distribution.reduced th > span,
 table.distribution tbody.collapsed tr.individual,
-table.distribution thead tr.individual th.collapsed,
+table.distribution thead tr.individual th.Phonetic.collapsed,
 table.distribution tbody tr td.collapsed,
 table.distribution.collapsed tr.individual,
 table.distribution.collapsed tr th.individual,
@@ -705,7 +729,7 @@ padding-right: 0.6667em;
 /* Color -------------------------------------------------------------------- */
 
 body,
-table.hierarchical tr.univalent td.name div div
+table.distinctive tr.univalent td.name div div
 {
 color: #000000; /* text normal */
 }
@@ -716,7 +740,7 @@ div.collapsed h3,
 div.collapsed h4,
 table.list tbody.collapsed *,
 .redundant,
-table.feature .unmarked
+.unspecified
 {
 color: #999999; /* text collapsed */
 }
@@ -743,6 +767,8 @@ color: #f8fff8; /* interactive contrast */
 
 /* Background color --------------------------------------------------------- */
 
+table.feature.interactive thead tr:first-child th:first-child,
+table.feature.interactive tr.redundant th,
 body
 {
 background-color: #fffffc; /* background, see phonology_print.css */
@@ -759,7 +785,7 @@ table.articulatory td.matched,
 table.features td.plus.matched,
 table.features td.minus.matched,
 table.features tr.univalent td.name.matched,
-table.feature .matched,
+table.feature.interactive .matched,
 table.CV.nonZero td.Phonetic,
 table.distribution.nonZero td,
 table.chart .zero
@@ -768,7 +794,8 @@ background-color: #ffffb2; /* significant */
 }
 
 table.list ul.transcription strong,
-table.feature .redundant .matched
+table.feature .redundant .matched,
+table.feature .matched.contour
 {
 background-color: #ffffd9; /* distinguished */
 }
@@ -806,6 +833,7 @@ table.list.interactive th.count,
 table.list.interactive th.sortable,
 table.list.interactive th.sortOptions ul,
 table.list.interactive th.sortOptions ul:hover li.initial,
+table.list.interactive ul.transcription,
 ul.environments.interactive li.Phonetic,
 table.CV.interactive td.Phonetic,
 table.features.interactive th,
@@ -813,23 +841,15 @@ table.articulatory.interactive td,
 table.features.interactive td.minus,
 table.features.interactive td.plus,
 table.features.interactive tr.univalent td.name,
-table.feature.interactive th.Phonetic,
+table.feature.interactive th,
 table.distribution.interactive th.interactive,
 table.distribution.interactive th.Phonetic
 {
 background-color: #cfe6cf; /* interactive */
 }
 
-/* Class selector hides the following rules, */
-/* because Internet Explorer 6 and earlier ignore :hover pseudo-class. */
-
-table[class].list.interactive ul.transcription
-{
-background-color: #cfe6cf; /* interactive */
-}
-
 table.list.interactive th.pair,
-table.hierarchical tr.univalent td.name div div:hover,
+table.distinctive tr.univalent td.name div div:hover,
 table.distribution.interactive tr.individual th.Phonetic
 {
 background-color: #b8d9b8; /* interactive adjacent */
@@ -858,7 +878,7 @@ table.articulatory.interactive td:hover,
 table.features.interactive td.minus:hover,
 table.features.interactive td.plus:hover,
 table.features.interactive tr.univalent td.name:hover,
-table.feature.interactive th.Phonetic:hover,
+table.feature.interactive th:hover,
 table.distribution.interactive th.interactive:hover,
 table.distribution.interactive th.Phonetic:hover,
 table.distribution.interactive tr.individual th.Phonetic:hover
@@ -879,7 +899,7 @@ background-color: #7db27d; /* selected */
 table.list.interactive th.pair > ul li:hover span,
 table.list.interactive th.pair > ul li:hover ul.differences,
 table.list.interactive ul.transcription:hover,
-table.hierarchical tr.univalent td.name div div
+table.distinctive tr.univalent td.name div div
 {
 background-color: #f8fff8; /* interactive contrast */
 }
@@ -953,7 +973,7 @@ table.list.interactive ul.transcription li:first-child
 border-color: #a3cca3; /* active */
 }
 
-table.hierarchical tr.univalent td.name div div
+table.distinctive tr.univalent td.name div div
 {
 border-color: #f8fff8; /* interactive contrast */
 }

@@ -1,4 +1,4 @@
-﻿// phonology.js 2010-05-26
+﻿// phonology.js 2010-07-26
 // Interactive behavior for XHTML files exported from Phonology Assistant.
 // http://www.sil.org/computing/pa/index.htm
 
@@ -15,6 +15,7 @@
 // U+002D hyphen-minus
 // U+00A0 no-break space
 // U+2013 en dash
+// U+2022 bullet
 // U+2026 horizontal ellipsis
 // U+25B2 black up-pointing triangle
 // U+25B4 black up-pointing small triangle
@@ -577,12 +578,6 @@ jQuery(function ($) {
 		}
 		else {
 			$td.removeClass('inactive'); // any features
-			// If opposite binary value is selected, clear it.
-			// Does not apply to bivalent hierarchical values.
-			if ($td.closest('table').hasClass('binary')) {
-				$td.parent().find('td.' + ($td.hasClass('minus') ? 'plus' : 'minus'))
-					.removeClass('selected');
-			}
 		}
 			
 		$td.toggleClass('selected');
@@ -710,38 +705,6 @@ jQuery(function ($) {
 		}
 	}
 
-	// Feature charts ----------------------------------------------------------
-
-	// Move the mouse pointer into a Phonetic heading cell in a feature chart.
-	function mouseoverFeatureChartCV() {
-		var $th = $(this),
-			// Zero-based index, not including heading column at the left.
-			index = $th.parent().children('th.Phonetic').index(this);
-		
-		$th.closest('table').find('tbody tr').each(function () {
-			var $tr = $(this),
-				$tds = $tr.find('td'),
-				text;
-			
-			// If the row contains feature values.
-			// That is, not the repeated heading row in the body
-			// which separates binary from hierarchical features.
-			if ($tds.length) {
-				text = $tds.eq(index).text(); // Value of active unit.
-				// Match the units whose values are different.
-				// Must compare the entire value: +, -, +-, or -+.
-				$tds.filter(function (i) {
-					return $(this).text() !== text;
-				}).addClass('matched');
-			}
-		});
-	}
-
-	// Move the mouse pointer out of a Phonetic heading cell in a feature chart.
-	function mouseoutFeatureChartCV() {
-		$(this).closest('table').find('.matched').removeClass('matched');
-	}
-
 	// Initialization ----------------------------------------------------------
 
 	// Initialize the features as data of each non-empty data cell in CV charts.
@@ -808,7 +771,7 @@ jQuery(function ($) {
 		if ($span.length) {
 			text = $span.text();
 			if (text) {
-				$th.append('<abbr title="' + text + '">' + text.charAt(0) + '▾</abbr>');
+				$th.append('<abbr title="' + text + '">' + text.charAt(0) + '</abbr>');
 			}
 		}
 	}
@@ -848,7 +811,7 @@ jQuery(function ($) {
 				.hover(mouseoverFeatureCV, mouseoutFeatureCV)
 				.each(initializeDataForFeatureCV);
 		
-		if ($table.hasClass('hierarchical')) {
+		if ($table.hasClass('distinctive')) {
 			$table.find('tr.univalent').each(function () {
 				var $trUnivalent = $(this);
 				if ($trUnivalent.nextUntil('tr.univalent').filter('tr.redundant').length) {
@@ -860,11 +823,91 @@ jQuery(function ($) {
 		}
 	});
 
-	// Initialize feature charts following a CV chart and its feature tables.
+	// Feature charts ==========================================================
+	// One or two charts can optionally follow a CV chart and feature tables.
+	// Each chart displays units in columns and distinctive features in rows.
+	// A report div element contains each feature chart.
+
+	// Move the mouse pointer into a Phonetic heading cell in a feature chart.
+	function mouseoverColumnHeadingFeatureChart() {
+		var $th = $(this),
+			// Zero-based index, not including heading column at the left.
+			index = $th.parent().children('th.Phonetic').index(this);
+		
+		$th.closest('table').find('tbody tr').each(function () {
+			var $tds = $(this).find('td'),
+				text = $tds.eq(index).text();
+
+			// Match cells which differ from the value of the active unit.
+			// Must compare the entire value: +, -, +-, or -+.
+			$tds.filter(function () {
+				return $(this).text() !== text;
+			}).addClass('matched');
+		});
+	}
+
+	// Move the mouse pointer out of a Phonetic heading cell in a feature chart.
+	function mouseoutColumnHeadingFeatureChart() {
+		$(this).closest('table').find('tbody td.matched').removeClass('matched');
+	}
+
+	// Move the mouse pointer into a feature heading cell in a feature chart.
+	function mouseoverRowHeadingFeatureChart() {
+		var $thFeature = $(this),
+			$thUnits = $thFeature.closest('table').find('thead th.Phonetic');
+		
+		$thFeature.nextAll('td').each(function (i) {
+			var $td = $(this), // data cell in the active heading row
+				text = $td.text(),
+				$thUnit = $thUnits.eq(i), // the corresponding column heading
+				$tdth = $td.add($thUnit),
+				matched;
+			
+			if (!text.length || text === '\u00A0') {
+				// Indicate unspecified feature (empty or no-break space) for the unit.
+				$thUnit.addClass('unspecified');
+			} else if (text === '•') { // bullet
+				// Match a univalent feature value if it is specified.
+				matched = true;
+			} else if (text.indexOf('+') >= 0) { // That is, + or +- or -+
+				// Match a bivalent feature value if it contains plus.
+				matched = true;
+				if (text !== '+') { // That is, +- or -+
+					$tdth.addClass('contour');
+				}
+			}
+			if (matched) {
+				$tdth.addClass('matched');
+			}
+		});
+	}
+
+	// Move the mouse pointer out of a feature heading cell in a feature chart.
+	function mouseoutRowHeadingFeatureChart() {
+		var $th = $(this);
+		// Remove classes in the active row.
+		$th.nextAll('.matched').removeClass('matched')
+			.end().nextAll('.contour').removeClass('contour');
+		// Remove classes in the heading row.
+		$th.closest('table').find('thead tr')
+			.find('.matched').removeClass('matched')
+			.end().find('.contour').removeClass('contour')
+			.end().find('.unspecified').removeClass('unspecified');
+	}
+
+	// Initialization
 	$('table.feature').each(function () {
-		// Although .each() iteration is not (yet) necessary here, follow the pattern.
 		$(this).addClass('interactive')
-			.find('th.Phonetic').hover(mouseoverFeatureChartCV, mouseoutFeatureChartCV);
+			.find('thead th.Phonetic')
+				.hover(
+					mouseoverColumnHeadingFeatureChart,
+					mouseoutColumnHeadingFeatureChart
+				)
+			.end().find('tbody tr:not(.redundant) th')
+				.hover(
+					mouseoverRowHeadingFeatureChart,
+					mouseoutRowHeadingFeatureChart
+				);
 	});
 
 	// Distribution Chart view =================================================
@@ -878,8 +921,7 @@ jQuery(function ($) {
 	// * To reduce a search element, click it. An ellipsis appears.
 	// * To restore a search element, click it. The text appears again.
 
-	// Temporarily collapse/expand all individual rows and columns in generalized charts;
-	// otherwise reduce/restore all phonetic headings.
+	// Temporarily collapse/expand all individual rows and columns in generalized charts.
 	function clickUpperLeftDistribution($thUpperLeft) {
 		var $table = $thUpperLeft.closest('table'),
 			collapsed,
@@ -888,131 +930,96 @@ jQuery(function ($) {
 			rowspan,
 			$colgroups = $table.find('colgroup');
 
-		if ($table.hasClass('generalized')) {
-			// 1. Toggle collapsed class of table.
-			$table.toggleClass('collapsed');
-			collapsed = $table.hasClass('collapsed');
+		// 1. Toggle collapsed class of table.
+		$table.toggleClass('collapsed');
+		collapsed = $table.hasClass('collapsed');
 
-			// 2a. Adjust colspan and rowspan of upper-left cell.
+		// 2a. Adjust colspan and rowspan of upper-left cell.
+		if (collapsed) {
+			colspan = 1;
+			rowspan = 1;
+		} else {
+			data = $thUpperLeft.data('phonology');
+			colspan = data.colspan;
+			rowspan = data.rowspan;
+		}
+		$thUpperLeft.attr('colspan', colspan).attr('rowspan', rowspan);
+		
+		// 2b. Adjust colspan of general column headings, if any.
+		$table.find('thead tr.general th.Phonetic').each(function () {
+			var $thPhonetic = $(this),
+				data;
+
 			if (collapsed) {
 				colspan = 1;
-				rowspan = 1;
 			} else {
-				data = $thUpperLeft.data('phonology');
-				colspan = data.colspan;
-				rowspan = data.rowspan;
-			}
-			$thUpperLeft.attr('colspan', colspan);
-			$thUpperLeft.attr('rowspan', rowspan);
-			
-			// 2b. Adjust colspan of general column headings, if any.
-			$table.find('thead tr.general th.Phonetic').each(function () {
-				var $thPhonetic = $(this),
-					data;
-
-				if (collapsed) {
+				data = $thPhonetic.data('phonology');
+				if ($colgroups.eq(data.colgroup).hasClass('collapsed')) {
 					colspan = 1;
 				} else {
-					data = $thPhonetic.data('phonology');
-					if ($colgroups.eq(data.colgroup).hasClass('collapsed')) {
-						colspan = 1;
-					} else {
-						colspan = data.colspan;
-					}
+					colspan = data.colspan;
 				}
-				$thPhonetic.attr('colspan', colspan);
-			});
-			
-			// 2c. Adjust rowspan of general row headings, if any.
-			$table.find('tbody tr.general th.Phonetic').each(function () {
-				var $thPhonetic = $(this);
+			}
+			$thPhonetic.attr('colspan', colspan);
+		});
+		
+		// 2c. Adjust rowspan of general row headings, if any.
+		$table.find('tbody tr.general th.Phonetic').each(function () {
+			var $thPhonetic = $(this);
 
-				if (collapsed) {
-					rowspan = 1;
-				} else if ($thPhonetic.closest('tbody').hasClass('collapsed')) {
-					rowspan = 1;
-				} else {
-					rowspan = $thPhonetic.data('phonology').rowspan;
-				}
-				$thPhonetic.attr('rowspan', rowspan);
-			});
-		}
-		else {
-			// Temporarily reduce all headings.
-			$table.toggleClass('reduced');
-		}
+			if (collapsed) {
+				rowspan = 1;
+			} else if ($thPhonetic.closest('tbody').hasClass('collapsed')) {
+				rowspan = 1;
+			} else {
+				rowspan = $thPhonetic.data('phonology').rowspan;
+			}
+			$thPhonetic.attr('rowspan', rowspan);
+		});
 	}
 
 	// Collapse/expand all the individual columns in a general column group.
 	function clickCollapsibleColumnHeadingDistribution($thCollapsible) {
-		var $table,
-			data,
-			colgroup,
-			$colgroup,
-			$thColgroup,
-			colspan,
-			heading,
-			start,
-			end;
+		var $table = $thCollapsible.closest('table'),
+			data = $thCollapsible.data('phonology'),
+			colgroup = data.colgroup,
+			$colgroup = $table.find('colgroup').eq(colgroup),
+			$thColgroup = $table.find('thead tr.general th').eq(colgroup),
+			start = data.start + 1, // The first column is general.,
+			end = data.end; // Up to, but not including, end.;
 
-		if ($thCollapsible.hasClass('interactive')) {
-			$table = $thCollapsible.closest('table');
-			data = $thCollapsible.data('phonology');
+		// 1. Toggle collapsed class of individual heading cell and colgroup.
+		$thCollapsible.toggleClass('collapsed');
+		$colgroup.toggleClass('collapsed');
 
-			// 1. Toggle collapsed class of colgroup.
-			colgroup = data.colgroup;
-			$colgroup = $table.find('colgroup').eq(colgroup);
-			$colgroup.toggleClass('collapsed');
+		// 2. Adjust colspan of general heading cell.
+		$thColgroup.attr('colspan', $colgroup.hasClass('collapsed') ?
+			1 :
+			$thColgroup.data('phonology').colspan
+		);
 
-			// 2. Adjust colspan and heading.
-			$thColgroup = $table.find('thead tr.general th').eq(colgroup);
-			if ($colgroup.hasClass('collapsed')) {
-				colspan = 1;
-				heading = '▸'; // right-pointing
-			} else {
-				colspan = $thColgroup.data('phonology').colspan;
-				heading = '◂'; // left-pointing
-			}
-			$thColgroup.attr('colspan', colspan);
-			$thCollapsible.text(heading);
-
-			// 3. Toggle collapsed class for cells in individual columns.
-			start = data.start + 1; // The first column is general.
-			end = data.end; // Up to, but not including, end.
-			$table.find('thead tr.individual')
-				.children('th').slice(start, end).toggleClass('collapsed');
-			$table.find('tbody tr').each(function () {
-				$(this).children('td').slice(start, end).toggleClass('collapsed');
-			});
-		}
+		// 3. Toggle collapsed class for cells in individual columns.
+		$table.find('thead tr.individual')
+			.children('th').slice(start, end).toggleClass('collapsed');
+		$table.find('tbody tr').each(function () {
+			$(this).children('td').slice(start, end).toggleClass('collapsed');
+		});
 	}
 
 	// Collapse/expand all the individual rows in a general row group.
 	function clickCollapsibleRowHeadingDistribution($thCollapsible) {
-		var $tr,
-			$tbody,
-			$thPhonetic,
-			rowspan,
-			heading;
+		var $tr = $thCollapsible.parent(),
+			$thPhonetic = $tr.find('th.Phonetic'),
+			$tbody = $tr.parent();
 	
-		if ($thCollapsible.hasClass('interactive')) {
-			$tr = $thCollapsible.parent();
+		// 1. Toggle collapsed class of tbody.
+		$tbody.toggleClass('collapsed');
 
-			// 1. Toggle collapsed class of tbody.
-			$tbody = $tr.parent().toggleClass('collapsed');
-
-			// 2. Adjust rowspan and heading.
-			$thPhonetic = $tr.find('th.Phonetic');
-			if ($tbody.hasClass('collapsed')) {
-				rowspan = 1;
-				heading = '▾'; // down-pointing
-			} else {
-				rowspan = $thPhonetic.data('phonology').rowspan;
-				heading = '▴'; // up-pointing
-			}
-			$thPhonetic.attr('rowspan', rowspan);
-			$thCollapsible.text(heading);
-		}
+		// 2. Adjust rowspan of general row.
+		$thPhonetic.attr('rowspan', $tbody.hasClass('collapsed') ?
+			1 :
+			$thPhonetic.data('phonology').rowspan
+		);
 	}
 
 	function clickChartDistribution(event) {
@@ -1030,15 +1037,16 @@ jQuery(function ($) {
 			if ($th.length) {
 				if ($th.hasClass('Phonetic')) {
 					$th.toggleClass('reduced');
-				}
-				else if ($th.parent().parent().is('tbody')) {
-					clickCollapsibleRowHeadingDistribution($th);
-				}
-				else if ($th.is('thead tr:first-child th:first-child')) {
-					clickUpperLeftDistribution($th);
-				}
-				else {
-					clickCollapsibleColumnHeadingDistribution($th);
+				} else if ($th.hasClass('interactive')) {
+					if ($th.parent().parent().is('tbody')) {
+						clickCollapsibleRowHeadingDistribution($th);
+					}
+					else if ($th.is('thead tr:first-child th:first-child')) {
+						clickUpperLeftDistribution($th);
+					}
+					else {
+						clickCollapsibleColumnHeadingDistribution($th);
+					}
 				}
 			}
 		}
@@ -1086,6 +1094,7 @@ jQuery(function ($) {
 		
 		// Add class attribute and data to upper-left cell.
 		$table.find('thead tr:first-child th:first-child')
+			.addClass('interactive') // Used by CSS, not JavaScript.			
 			.data('phonology', {
 				colspan: $table.find('tbody:first tr:first-child th').length,
 				rowspan: $table.find('thead tr').length
@@ -1105,8 +1114,7 @@ jQuery(function ($) {
 			if (colspan > 1) { // If there are any individual columns:
 				$thCols.eq(start)
 					.addClass('interactive')  // Used by CSS, not JavaScript.
-					.data('phonology', {colgroup: colgroup, start: start, end: end})
-					.text('◂'); // left-pointing
+					.data('phonology', {colgroup: colgroup, start: start, end: end});
 			}
 
 			// Add class to individual heading cells.
@@ -1136,8 +1144,7 @@ jQuery(function ($) {
 
 			$th.addClass('individual');
 			if (rowspan !== 1) {
-				$th.addClass('interactive') // Used by CSS, not JavaScript.
-					.text('▴'); // up-pointing
+				$th.addClass('interactive'); // Used by CSS, not JavaScript.
 			}
 			$tr.find('th.Phonetic').data('phonology', {rowspan: rowspan});
 		});
@@ -1147,9 +1154,6 @@ jQuery(function ($) {
 		var $table = $(this).addClass('interactive').click(clickChartDistribution),
 			$thUpperLeft = $table.find('thead tr:first-child th:first-child'),
 			browser;
-
-		// Click at the upper-left to collapse/expand, otherwise to reduce/restore.
-		$thUpperLeft.addClass('interactive'); // Used by CSS, not JavaScript.
 
 		// To reverse the background color of zero/non-zero cells,
 		// click at the lower-right of the upper-left cell.

@@ -211,9 +211,79 @@
 		</feature>
 		<feature class="row-col" subclass="rounding">
 			<name>Unrounded</name>
+			<rule>
+				<for>
+					<this class="col" />
+				</for>
+				<if>
+					<anyOf>
+						<articulatoryFeature class="colgroup">Near-back</articulatoryFeature>
+						<articulatoryFeature class="colgroup">Back</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<attribute marked="true" />
+				</then>
+				<else>
+					<attribute marked="false" />
+				</else>
+			</rule>
+			<rule>
+				<for>
+					<this class="row" />
+				</for>
+				<if>
+					<anyOf>
+						<articulatoryFeature class="row">Near-back</articulatoryFeature>
+						<articulatoryFeature class="row">Back</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<attribute marked="true" />
+				</then>
+				<else>
+					<attribute marked="false" />
+				</else>
+			</rule>
 		</feature>
 		<feature class="row-col" subclass="rounding">
 			<name>Rounded</name>
+			<rule>
+				<for>
+					<this class="col" />
+				</for>
+				<if>
+					<anyOf>
+						<articulatoryFeature class="colgroup">Front</articulatoryFeature>
+						<articulatoryFeature class="colgroup">Near-front</articulatoryFeature>
+						<articulatoryFeature class="colgroup">Central</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<attribute marked="true" />
+				</then>
+				<else>
+					<attribute marked="false" />
+				</else>
+			</rule>
+			<rule>
+				<for>
+					<this class="row" />
+				</for>
+				<if>
+					<anyOf>
+						<articulatoryFeature class="row">Front</articulatoryFeature>
+						<articulatoryFeature class="row">Near-front</articulatoryFeature>
+						<articulatoryFeature class="row">Central</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<attribute marked="true" />
+				</then>
+				<else>
+					<attribute marked="false" />
+				</else>
+			</rule>
 		</feature>
 		<feature class="row" subclass="rounding">
 			<name>More Rounded</name>
@@ -235,6 +305,9 @@
 		</feature>
 		<feature class="row" subclass="length">
 			<name>Extra-short</name>
+		</feature>
+		<feature class="row">
+			<name>Diphthong</name>
 		</feature>
 		<feature>
 			<name>Extra High Tone</name>
@@ -307,27 +380,26 @@
 		<feature class="major">
 			<name>cons</name>
 			<fullname>consonantal</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Vowel</articulatoryFeature>
 						<articulatoryFeature>Approximant</articulatoryFeature>
-						<articulatoryFeature>Lateral Approximant</articulatoryFeature>
 						<articulatoryFeature>Glottal</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
 				<else>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
-		<feature class="major">
+		<feature>
 			<name>syll</name>
 			<fullname>syllabic</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<articulatoryFeature>Consonant</articulatoryFeature>
 				</for>
@@ -335,13 +407,13 @@
 					<articulatoryFeature>Syllabic</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
-			<featureRule>
+			</rule>
+			<rule>
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 				</for>
@@ -349,18 +421,17 @@
 					<articulatoryFeature>Non-syllabic</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
 				<else>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="major">
 			<name>son</name>
 			<fullname>sonorant</fullname>
-			<!-- TO DO: What about nasal click? -->
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Nasal</articulatoryFeature>
@@ -370,23 +441,67 @@
 						<articulatoryFeature>Lateral Approximant</articulatoryFeature>
 						<articulatoryFeature>Vowel</articulatoryFeature>
 					</anyOf>
+					<!-- But not click with nasal accompaniment. -->
+					<not>
+						<articulatoryFeature>Click</articulatoryFeature>
+					</not>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
+		</feature>
+		<feature>
+			<name>approx</name>
+			<fullname>Approximant</fullname>
+			<rule>
+				<if>
+					<anyOf>
+						<articulatoryFeature>Trill</articulatoryFeature>
+						<articulatoryFeature>Tap/Flap</articulatoryFeature>
+						<articulatoryFeature>Approximant</articulatoryFeature>
+						<articulatoryFeature>Lateral Approximant</articulatoryFeature>
+						<articulatoryFeature>Vowel</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+				<else>
+					<value>-</value>
+				</else>
+			</rule>
+		</feature>
+		<feature class="laryngeal">
+			<name>voice</name>
+			<fullname>voiced</fullname>
+			<rule>
+				<if>
+					<articulatoryFeature>Voiceless</articulatoryFeature>
+				</if>
+				<then>
+					<value>-</value>
+				</then>
+			</rule>
+			<rule>
+				<if>
+					<articulatoryFeature>Voiced</articulatoryFeature>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+			</rule>
 		</feature>
 		<feature class="laryngeal">
 			<name>spread</name>
 			<fullname>spread glottis</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<allOf>
-							<articulatoryFeature>Voiceless</articulatoryFeature>
 							<articulatoryFeature>Glottal</articulatoryFeature>
 							<articulatoryFeature>Fricative</articulatoryFeature>
 						</allOf>
@@ -394,17 +509,17 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="laryngeal">
 			<name>constr</name>
-			<fullname>constricted glottis (pressure)</fullname>
-			<featureRule>
+			<fullname>constricted glottis</fullname>
+			<rule>
 				<if>
 					<anyOf>
 						<allOf>
@@ -416,38 +531,17 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
-		</feature>
-		<feature class="laryngeal">
-			<name>voice</name>
-			<fullname>voiced</fullname>
-			<featureRule>
-				<if>
-					<articulatoryFeature>Voiceless</articulatoryFeature>
-				</if>
-				<then>
-					<featureValue>-</featureValue>
-				</then>
-			</featureRule>
-			<featureRule>
-				<if>
-					<articulatoryFeature>Voiced</articulatoryFeature>
-				</if>
-				<then>
-					<featureValue>+</featureValue>
-				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="manner">
 			<name>cont</name>
-			<fullname>continuant acoustic</fullname>
-			<!-- TO DO: Is it relevant to specify cont for vowels? -->
-			<featureRule>
+			<fullname>continuant</fullname>
+			<rule>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Trill</articulatoryFeature>
@@ -460,18 +554,18 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="manner">
 			<name>delayed release</name>
 			<fullname>delayed release</fullname>
 			<!-- TO DO: Specified for Glottal? -->
-			<featureRule>
+			<rule>
 				<for>
 					<anyOf>
 						<articulatoryFeature>Plosive</articulatoryFeature>
@@ -485,23 +579,26 @@
 					<articulatoryFeature>Plosive</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
 				<else>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="manner">
 			<name>strid</name>
 			<fullname>strident</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<anyOf>
 						<articulatoryFeature>Affricate</articulatoryFeature>
-						<articulatoryFeature>Lateral Affricate</articulatoryFeature>
 						<articulatoryFeature>Fricative</articulatoryFeature>
+						<!-- TO DO: Laterals also? -->
+						<!--
 						<articulatoryFeature>Lateral Fricative</articulatoryFeature>
+						<articulatoryFeature>Lateral Affricate</articulatoryFeature>
+						-->
 					</anyOf>
 				</for>
 				<if>
@@ -518,17 +615,17 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="manner">
 			<name>nas</name>
 			<fullname>nasal</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Nasal</articulatoryFeature>
@@ -537,19 +634,19 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="manner">
 			<name>lat</name>
 			<fullname>lateral</fullname>
 			<!-- TO DO: Is lateral specified for all sounds? -->
 			<!-- TO DO: Is Lateral always a redundant feature for Lateral Fricative, Lateral Approximant, and so on? -->
-			<featureRule>
+			<rule>
 				<for>
 					<articulatoryFeature>Consonant</articulatoryFeature>
 				</for>
@@ -557,59 +654,78 @@
 					<articulatoryFeature>Lateral</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>LAB</name>
 			<fullname>labial</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Bilabial</articulatoryFeature>
 						<articulatoryFeature>Labiodental</articulatoryFeature>
 						<articulatoryFeature>Labial</articulatoryFeature>
 						<articulatoryFeature>Labialized</articulatoryFeature>
-						<articulatoryFeature>Rounded</articulatoryFeature>
+						<articulatoryFeature class="col">Rounded</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
-				<!--
-				<else>
-					<featureValue>-</featureValue>
-				</else>
-				-->
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>rnd</name>
 			<fullname>rounded</fullname>
-			<featureRule>
+			<rule>
+				<for>
+					<articulatoryFeature>Consonant</articulatoryFeature>
+				</for>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Labial</articulatoryFeature>
 						<articulatoryFeature>Labialized</articulatoryFeature>
-						<articulatoryFeature>Rounded</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+				</for>
+				<if>
+					<articulatoryFeature class="col">Rounded</articulatoryFeature>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+				</for>
+				<if>
+					<articulatoryFeature class="col">Unrounded</articulatoryFeature>
+				</if>
+				<then>
+					<value>-</value>
+				</then>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>COR</name>
 			<fullname>coronal</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<articulatoryFeature>Consonant</articulatoryFeature>
 					<not>
@@ -627,15 +743,10 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
-				<!--
-				<else>
-					<featureValue>-</featureValue>
-				</else>
-				-->
-			</featureRule>
-			<featureRule class="UA">
+			</rule>
+			<rule class="UA">
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 				</for>
@@ -651,15 +762,15 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>ant</name>
 			<fullname>anterior</fullname>
 			<!-- TO DO: For places of articulation corresponding to +COR, unspecified instead of -ant? -->
-			<featureRule>
+			<rule>
 				<for>
 					<articulatoryFeature>Consonant</articulatoryFeature>
 					<not>
@@ -680,13 +791,13 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
-			<featureRule class="UA">
+			</rule>
+			<rule class="UA">
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 				</for>
@@ -702,14 +813,14 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>distr</name>
 			<fullname>distributed</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<anyOf>
 						<articulatoryFeature>Linguolabial</articulatoryFeature>
@@ -732,13 +843,13 @@
 					</not>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
-			<featureRule class="UA">
+			</rule>
+			<rule class="UA">
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 				</for>
@@ -754,14 +865,14 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>DORS</name>
 			<fullname>dorsal</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Palatal</articulatoryFeature>
@@ -774,14 +885,14 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>high</name>
 			<fullname>high</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<not>
 						<articulatoryFeature>Glottal</articulatoryFeature>
@@ -793,22 +904,22 @@
 						<articulatoryFeature>Palatalized</articulatoryFeature>
 						<articulatoryFeature>Velar</articulatoryFeature>
 						<articulatoryFeature>Velarized</articulatoryFeature>
-						<articulatoryFeature>Close</articulatoryFeature>
-						<articulatoryFeature>Near-close</articulatoryFeature>
+						<articulatoryFeature class="rowgroup">Close</articulatoryFeature>
+						<articulatoryFeature class="rowgroup">Near-close</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>low</name>
 			<fullname>low</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<not>
 						<articulatoryFeature>Glottal</articulatoryFeature>
@@ -819,22 +930,22 @@
 						<articulatoryFeature>Pharyngeal</articulatoryFeature>
 						<articulatoryFeature>Pharyngealized</articulatoryFeature>
 						<articulatoryFeature>Epiglottal</articulatoryFeature>
-						<articulatoryFeature>Near-open</articulatoryFeature>
-						<articulatoryFeature>Open</articulatoryFeature>
+						<articulatoryFeature class="rowgroup">Near-open</articulatoryFeature>
+						<articulatoryFeature class="rowgroup">Open</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>back</name>
 			<fullname>back</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<not>
 						<articulatoryFeature>Glottal</articulatoryFeature>
@@ -848,47 +959,47 @@
 						<articulatoryFeature>Pharyngeal</articulatoryFeature>
 						<articulatoryFeature>Pharyngealized</articulatoryFeature>
 						<articulatoryFeature>Epiglottal</articulatoryFeature>
-						<articulatoryFeature>Central</articulatoryFeature>
-						<articulatoryFeature>Near-back</articulatoryFeature>
-						<articulatoryFeature>Back</articulatoryFeature>
+						<articulatoryFeature class="colgroup">Central</articulatoryFeature>
+						<articulatoryFeature class="colgroup">Near-back</articulatoryFeature>
+						<articulatoryFeature class="colgroup">Back</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>tense</name>
 			<fullname>tense</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 				</for>
 				<if>
 					<anyOf>
-						<articulatoryFeature>Close</articulatoryFeature>
+						<articulatoryFeature class="rowgroup">Close</articulatoryFeature>
 						<!-- Close-mid and Mid have the same binary features. -->
-						<articulatoryFeature>Close-mid</articulatoryFeature>
-						<articulatoryFeature>Mid</articulatoryFeature>
-						<articulatoryFeature>Near-open</articulatoryFeature>
+						<articulatoryFeature class="rowgroup">Close-mid</articulatoryFeature>
+						<articulatoryFeature class="rowgroup">Mid</articulatoryFeature>
+						<articulatoryFeature class="rowgroup">Near-open</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>ATR</name>
-			<fullname>ATR</fullname>
-			<featureRule>
+			<fullname>Advanced Tongue Root</fullname>
+			<rule>
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 				</for>
@@ -899,17 +1010,17 @@
 					<articulatoryFeature>Advanced Tongue Root</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="place">
 			<name>RTR</name>
-			<fullname>RTR</fullname>
-			<featureRule>
+			<fullname>Retracted Tongue Root</fullname>
+			<rule>
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 				</for>
@@ -920,17 +1031,33 @@
 					<articulatoryFeature>Retracted Tongue Root</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
+		</feature>
+		<feature>
+			<name>PHAR</name>
+			<fullname>Pharyngeal</fullname>
+			<rule>
+				<if>
+					<anyOf>
+						<articulatoryFeature>Pharyngeal</articulatoryFeature>
+						<!-- TO DO: Epiglottal? -->
+						<!-- TO DO: Relationship to ATR, RTR? Or even tense? -->
+					</anyOf>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+			</rule>
 		</feature>
 		<feature class="length">
 			<name>long</name>
 			<fullname>long</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<articulatoryFeature>Consonant</articulatoryFeature>
 				</for>
@@ -956,13 +1083,13 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
-			<featureRule>
+			</rule>
+			<rule>
 				<for>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 				</for>
@@ -975,68 +1102,19 @@
 					<articulatoryFeature>Long</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
-		</feature>
-		<feature>
-			<name>PHAR</name>
-			<fullname>Pharyngeal</fullname>
-		</feature>
-		<feature>
-			<name>approx</name>
-			<fullname>Approximant</fullname>
-		</feature>
-		<feature>
-			<name>Continuant articulatory</name>
-			<fullname>Continuant articulatory</fullname>
-		</feature>
-		<feature>
-			<name>Epiglottal</name>
-			<fullname>Epiglottal</fullname>
-		</feature>
-		<feature>
-			<name>Front</name>
-			<fullname>Front</fullname>
-			<featureRule>
-				<for>
-					<articulatoryFeature>Vowel</articulatoryFeature>
-				</for>
-				<if>
-					<anyOf>
-						<articulatoryFeature>Front</articulatoryFeature>
-						<articulatoryFeature>Near-front</articulatoryFeature>
-					</anyOf>
-				</if>
-				<then>
-					<featureValue>+</featureValue>
-				</then>
-				<else>
-					<featureValue>-</featureValue>
-				</else>
-			</featureRule>
-		</feature>
-		<feature>
-			<name>Hyper anterior</name>
-			<fullname>Hyper anterior</fullname>
-		</feature>
-		<feature>
-			<name>Implosive</name>
-			<fullname>Implosive</fullname>
-		</feature>
-		<feature>
-			<name>Labio-dental</name>
-			<fullname>Labio-dental</fullname>
+			</rule>
 		</feature>
 	</binaryFeatures>
 	<hierarchicalFeatures>
 		<feature class="terminal" parent="root">
 			<name>cont</name>
-			<fullname>continuant acoustic</fullname>
-			<featureRule>
+			<fullname>continuant</fullname>
+			<rule>
 				<for>
 					<not>
 						<articulatoryFeature>Glottal</articulatoryFeature>
@@ -1054,10 +1132,10 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
-			</featureRule>
-			<featureRule>
+			</rule>
+			<rule>
 				<for>
 					<not>
 						<articulatoryFeature>Glottal</articulatoryFeature>
@@ -1077,14 +1155,14 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="terminal" parent="root">
 			<name>cons</name>
 			<fullname>consonantal</fullname>
-			<featureRule>
+			<rule>
 				<for>
 					<not>
 						<articulatoryFeature>Glottal</articulatoryFeature>
@@ -1098,20 +1176,20 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
 				<else>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="nonTerminal" parent="root">
 			<name>laryngeal</name>
 		</feature>
 		<feature class="terminal" parent="laryngeal">
 			<name>constr</name>
-			<fullname>constricted glottis (pressure)</fullname>
-			<featureRule>
+			<fullname>constricted glottis</fullname>
+			<rule>
 				<if>
 					<anyOf>
 						<allOf>
@@ -1123,17 +1201,17 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="terminal" parent="laryngeal">
 			<name>spread</name>
 			<fullname>spread glottis</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<allOf>
@@ -1145,51 +1223,58 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="terminal" parent="laryngeal">
 			<name>voice</name>
 			<fullname>voiced</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<articulatoryFeature>Voiceless</articulatoryFeature>
+				</if>
+				<then>
+					<value>-</value>
+				</then>
+			</rule>
+			<rule>
+				<if>
+					<articulatoryFeature>Voiced</articulatoryFeature>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+			</rule>
+		</feature>
+		<feature class="nonTerminal" parent="root">
+			<name>supralaryngeal</name>
+			<rule>
+				<if>
 					<not>
 						<articulatoryFeature>Glottal</articulatoryFeature>
 					</not>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<class />
 				</then>
-			</featureRule>
-			<featureRule>
-				<if>
-					<articulatoryFeature>Voiced</articulatoryFeature>
-				</if>
-				<then>
-					<featureValue>+</featureValue>
-				</then>
-			</featureRule>
-		</feature>
-		<feature class="nonTerminal" parent="root">
-			<name>supralaryngeal</name>
+			</rule>
 		</feature>
 		<feature class="terminal" parent="supralaryngeal">
 			<name>lat</name>
 			<fullname>lateral</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<articulatoryFeature>Lateral</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
-			</featureRule>
-			<featureRule>
+			</rule>
+			<rule>
 				<when>
 					<articulatoryFeature>Lateral Affricate</articulatoryFeature>
 				</when>
@@ -1197,10 +1282,10 @@
 					<articulatoryFeature>Affricate</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
-			</featureRule>
-			<featureRule>
+			</rule>
+			<rule>
 				<when>
 					<articulatoryFeature>Lateral Click</articulatoryFeature>
 				</when>
@@ -1208,10 +1293,10 @@
 					<articulatoryFeature>Click</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
-			</featureRule>
-			<featureRule>
+			</rule>
+			<rule>
 				<when>
 					<articulatoryFeature>Lateral Fricative</articulatoryFeature>
 				</when>
@@ -1219,10 +1304,10 @@
 					<articulatoryFeature>Fricative</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
-			</featureRule>
-			<featureRule>
+			</rule>
+			<rule>
 				<when>
 					<articulatoryFeature>Lateral Approximant</articulatoryFeature>
 				</when>
@@ -1230,75 +1315,51 @@
 					<articulatoryFeature>Approximant</articulatoryFeature>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="nonTerminal" parent="supralaryngeal">
 			<name>soft palate</name>
-			<!-- TO DO: Does it ever exist without dominating its terminal feature? -->
-			<featureRule>
+			<rule>
 				<if>
+					<articulatoryFeature>Nasal</articulatoryFeature>
+				</if>
+				<then>
+					<class />
+				</then>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature subclass="mannerOfArticulation" />
+				</for>
+				<when>
 					<anyOf>
-						<articulatoryFeature>Nasal</articulatoryFeature>
 						<articulatoryFeature>Nasalized</articulatoryFeature>
 						<articulatoryFeature>Prenasalized</articulatoryFeature>
 					</anyOf>
-				</if>
+				</when>
 				<then>
-					<featureClass />
+					<class />
 				</then>
-			</featureRule>
-			<!--
-			<featureRule>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+				</for>
 				<when>
 					<articulatoryFeature>Nasalized</articulatoryFeature>
 					<articulatoryFeature>Vowel</articulatoryFeature>
 				</when>
-				<for>
-					<articulatoryFeature>Vowel</articulatoryFeature>
-				</for>
-				<if>
-					<not>
-						<articulatoryFeature>Nasalized</articulatoryFeature>
-					</not>
-				</if>
 				<then>
-					<featureClass />
+					<class />
 				</then>
-			</featureRule>
-			-->
-			<!-- TO DO: When any phone with the same mannerOfArticulation is ever Nasalized or Prenasalized. -->
-			<!--
-			<featureRule>
-				<when>
-					<anyOf>
-						<articulatoryFeature>Nasalized</articulatoryFeature>
-						<articulatoryFeature>Prenasalized</articulatoryFeature>
-					</anyOf>
-					<articulatoryFeature subclass="mannerOfArticulation" />
-				</when>
-				<for>
-					<articulatoryFeature subclass="mannerOfArticulation" />
-				</for>
-				<if>
-					<not>
-						<articulatoryFeature>Nasalized</articulatoryFeature>
-					</not>
-					<not>
-						<articulatoryFeature>Prenasalized</articulatoryFeature>
-					</not>
-				</if>
-				<then>
-					<featureClass />
-				</then>
-			</featureRule>
-			-->
+			</rule>
 		</feature>
 		<feature class="terminal" parent="soft palate">
 			<name>nas</name>
 			<fullname>nasal</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Nasal</articulatoryFeature>
@@ -1307,66 +1368,165 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
-			</featureRule>
-			<!-- TO DO: if not anyOf? -->
-			<featureRule>
+			</rule>
+			<rule>
 				<if>
 					<not>
-						<articulatoryFeature>Nasal</articulatoryFeature>
-					</not>
-					<not>
-						<articulatoryFeature>Nasalized</articulatoryFeature>
+						<anyOf>
+							<articulatoryFeature>Nasal</articulatoryFeature>
+							<articulatoryFeature>Nasalized</articulatoryFeature>
+						</anyOf>
 					</not>
 				</if>
 				<then>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="nonTerminal" parent="supralaryngeal">
 			<name>place</name>
 		</feature>
 		<feature class="nonTerminal" parent="place">
 			<name>labial</name>
-			<featureRule>
+			<rule>
+				<for>
+					<articulatoryFeature>Consonant</articulatoryFeature>
+				</for>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Bilabial</articulatoryFeature>
 						<articulatoryFeature>Labiodental</articulatoryFeature>
 						<articulatoryFeature>Labial</articulatoryFeature>
 						<articulatoryFeature>Labialized</articulatoryFeature>
-						<articulatoryFeature>Rounded</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureClass />
+					<class />
 				</then>
-			</featureRule>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+				</for>
+				<when>
+					<anyOf>
+						<articulatoryFeature>Rounded</articulatoryFeature>
+						<articulatoryFeature>More Rounded</articulatoryFeature>
+						<articulatoryFeature>Less Rounded</articulatoryFeature>
+					</anyOf>
+				</when>
+				<if />
+				<then>
+					<class />
+				</then>
+			</rule>
 		</feature>
 		<feature class="terminal" parent="labial">
 			<name>rnd</name>
 			<fullname>rounded</fullname>
-			<featureRule>
+			<rule>
+				<for>
+					<articulatoryFeature>Consonant</articulatoryFeature>
+				</for>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Labial</articulatoryFeature>
 						<articulatoryFeature>Labialized</articulatoryFeature>
-						<articulatoryFeature>Rounded</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<not>
+						<articulatoryFeature subclass="rounding" position="" />
+					</not>
+				</for>
+				<if>
+					<anyOf>
+						<articulatoryFeature>Rounded</articulatoryFeature>
+						<articulatoryFeature>More Rounded</articulatoryFeature>
+						<articulatoryFeature>Less Rounded</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<not>
+						<articulatoryFeature subclass="rounding" position="" />
+					</not>
+				</for>
+				<if>
+					<articulatoryFeature>Unrounded</articulatoryFeature>
+				</if>
+				<then>
+					<value>-</value>
+				</then>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<articulatoryFeature subclass="rounding" position="" />
+				</for>
+				<if>
+					<articulatoryFeature position="1">Rounded</articulatoryFeature>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<articulatoryFeature subclass="rounding" position="" />
+				</for>
+				<if>
+					<articulatoryFeature position="1">Unrounded</articulatoryFeature>
+				</if>
+				<then>
+					<value>-</value>
+				</then>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<articulatoryFeature subclass="rounding" position="" />
+				</for>
+				<if>
+					<articulatoryFeature position="2">Rounded</articulatoryFeature>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<articulatoryFeature subclass="rounding" position="" />
+				</for>
+				<if>
+					<articulatoryFeature position="2">Unrounded</articulatoryFeature>
+				</if>
+				<then>
+					<value>-</value>
+				</then>
+			</rule>
 		</feature>
 		<feature class="nonTerminal" parent="place">
 			<name>coronal</name>
-			<featureRule>
+			<rule>
 				<for>
 					<articulatoryFeature>Consonant</articulatoryFeature>
 				</for>
@@ -1381,14 +1541,14 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureClass />
+					<class />
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="terminal" parent="coronal">
 			<name>ant</name>
 			<fullname>anterior</fullname>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Linguolabial</articulatoryFeature>
@@ -1397,37 +1557,39 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="terminal" parent="coronal">
 			<name>distr</name>
 			<fullname>distributed</fullname>
-			<featureRule>
-				<anyOf>
-					<articulatoryFeature>Linguolabial</articulatoryFeature>
-					<articulatoryFeature>Dental</articulatoryFeature>
-					<articulatoryFeature>Postalveolar</articulatoryFeature>
-					<articulatoryFeature>Laminal</articulatoryFeature>
-				</anyOf>
-				<not>
-					<articulatoryFeature>Apical</articulatoryFeature>
-				</not>
+			<rule>
+				<if>
+					<anyOf>
+						<articulatoryFeature>Linguolabial</articulatoryFeature>
+						<articulatoryFeature>Dental</articulatoryFeature>
+						<articulatoryFeature>Postalveolar</articulatoryFeature>
+						<articulatoryFeature>Laminal</articulatoryFeature>
+					</anyOf>
+					<not>
+						<articulatoryFeature>Apical</articulatoryFeature>
+					</not>
+				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="nonTerminal" parent="place">
 			<name>dorsal</name>
-			<featureRule>
+			<rule>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Palatal</articulatoryFeature>
@@ -1440,57 +1602,174 @@
 					</anyOf>
 				</if>
 				<then>
-					<featureClass />
+					<class />
 				</then>
-			</featureRule>
+			</rule>
 		</feature>
 		<feature class="terminal" parent="dorsal">
 			<name>high</name>
 			<fullname>high</fullname>
-			<featureRule>
+			<rule>
+				<for>
+					<articulatoryFeature>Consonant</articulatoryFeature>
+				</for>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Palatal</articulatoryFeature>
 						<articulatoryFeature>Palatalized</articulatoryFeature>
 						<articulatoryFeature>Velar</articulatoryFeature>
 						<articulatoryFeature>Velarized</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+				<else>
+					<value>-</value>
+				</else>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<not>
+						<articulatoryFeature subclass="height" position="" />
+					</not>
+				</for>
+				<if>
+					<anyOf>
 						<articulatoryFeature>Close</articulatoryFeature>
 						<articulatoryFeature>Near-close</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<articulatoryFeature subclass="height" position="" />
+				</for>
+				<if>
+					<anyOf>
+						<articulatoryFeature position="1">Close</articulatoryFeature>
+						<articulatoryFeature position="1">Near-close</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+				<else>
+					<value>-</value>
+				</else>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<articulatoryFeature subclass="height" position="" />
+				</for>
+				<if>
+					<anyOf>
+						<articulatoryFeature position="2">Close</articulatoryFeature>
+						<articulatoryFeature position="2">Near-close</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+				<else>
+					<value>-</value>
+				</else>
+			</rule>
 		</feature>
 		<feature class="terminal" parent="dorsal">
 			<name>low</name>
 			<fullname>low</fullname>
-			<featureRule>
+			<rule>
+				<for>
+					<articulatoryFeature>Consonant</articulatoryFeature>
+				</for>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Pharyngeal</articulatoryFeature>
 						<articulatoryFeature>Pharyngealized</articulatoryFeature>
 						<articulatoryFeature>Epiglottal</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+				<else>
+					<value>-</value>
+				</else>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<not>
+						<articulatoryFeature subclass="height" position="" />
+					</not>
+				</for>
+				<if>
+					<anyOf>
 						<articulatoryFeature>Near-open</articulatoryFeature>
 						<articulatoryFeature>Open</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<articulatoryFeature subclass="height" position="" />
+				</for>
+				<if>
+					<anyOf>
+						<articulatoryFeature position="1">Near-open</articulatoryFeature>
+						<articulatoryFeature position="1">Open</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+				<else>
+					<value>-</value>
+				</else>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<articulatoryFeature subclass="height" position="" />
+				</for>
+				<if>
+					<anyOf>
+						<articulatoryFeature position="2">Near-open</articulatoryFeature>
+						<articulatoryFeature position="2">Open</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+				<else>
+					<value>-</value>
+				</else>
+			</rule>
 		</feature>
 		<feature class="terminal" parent="dorsal">
 			<name>back</name>
 			<fullname>back</fullname>
-			<featureRule>
+			<rule>
+				<for>
+					<articulatoryFeature>Consonant</articulatoryFeature>
+				</for>
 				<if>
 					<anyOf>
 						<articulatoryFeature>Velar</articulatoryFeature>
@@ -1499,18 +1778,136 @@
 						<articulatoryFeature>Pharyngeal</articulatoryFeature>
 						<articulatoryFeature>Pharyngealized</articulatoryFeature>
 						<articulatoryFeature>Epiglottal</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+				<else>
+					<value>-</value>
+				</else>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<not>
+						<articulatoryFeature subclass="backness" position="" />
+					</not>
+				</for>
+				<if>
+					<anyOf>
 						<articulatoryFeature>Central</articulatoryFeature>
 						<articulatoryFeature>Near-back</articulatoryFeature>
 						<articulatoryFeature>Back</articulatoryFeature>
 					</anyOf>
 				</if>
 				<then>
-					<featureValue>+</featureValue>
+					<value>+</value>
 				</then>
 				<else>
-					<featureValue>-</featureValue>
+					<value>-</value>
 				</else>
-			</featureRule>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<articulatoryFeature subclass="backness" position="" />
+				</for>
+				<if>
+					<anyOf>
+						<articulatoryFeature position="1">Central</articulatoryFeature>
+						<articulatoryFeature position="1">Near-back</articulatoryFeature>
+						<articulatoryFeature position="1">Back</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+				<else>
+					<value>-</value>
+				</else>
+			</rule>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+					<articulatoryFeature subclass="backness" position="" />
+				</for>
+				<if>
+					<anyOf>
+						<articulatoryFeature position="2">Central</articulatoryFeature>
+						<articulatoryFeature position="2">Near-back</articulatoryFeature>
+						<articulatoryFeature position="2">Back</articulatoryFeature>
+					</anyOf>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+				<else>
+					<value>-</value>
+				</else>
+			</rule>
+		</feature>
+		<feature class="nonTerminal" parent="supralaryngeal">
+			<name>tongue root</name>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+				</for>
+				<when>
+					<anyOf>
+						<articulatoryFeature>Advanced Tongue Root</articulatoryFeature>
+						<articulatoryFeature>Retracted Tongue Root</articulatoryFeature>
+					</anyOf>
+				</when>
+				<if>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+				</if>
+				<then>
+					<class />
+				</then>
+			</rule>
+		</feature>
+		<feature class="terminal" parent="tongue root">
+			<name>ATR</name>
+			<fullname>Advanced Tongue Root</fullname>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+				</for>
+				<when>
+					<articulatoryFeature>Advanced Tongue Root</articulatoryFeature>
+				</when>
+				<if>
+					<articulatoryFeature>Advanced Tongue Root</articulatoryFeature>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+				<else>
+					<value>-</value>
+				</else>
+			</rule>
+		</feature>
+		<feature class="terminal" parent="tongue root">
+			<name>RTR</name>
+			<fullname>Retracted Tongue Root</fullname>
+			<rule>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+				</for>
+				<when>
+					<articulatoryFeature>Retracted Tongue Root</articulatoryFeature>
+				</when>
+				<if>
+					<articulatoryFeature>Retracted Tongue Root</articulatoryFeature>
+				</if>
+				<then>
+					<value>+</value>
+				</then>
+				<else>
+					<value>-</value>
+				</else>
+			</rule>
 		</feature>
 	</hierarchicalFeatures>
 	<symbols>
@@ -1666,6 +2063,7 @@
 			<displayWithDottedCircle>false</displayWithDottedCircle>
 			<articulatoryFeatures>
 				<feature>Consonant</feature>
+				<feature>Voiceless</feature>
 				<feature>Alveolar</feature>
 				<feature>Click</feature>
 			</articulatoryFeatures>
@@ -1676,23 +2074,18 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>-voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-strid</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>-distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-PHAR</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>+long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -1836,19 +2229,14 @@
 				<feature>-back</feature>
 				<feature>+low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -1879,7 +2267,6 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
@@ -1887,9 +2274,7 @@
 				<feature>+LAB</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -1922,19 +2307,13 @@
 				<feature>-back</feature>
 				<feature>-low</feature>
 				<feature>-voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -1966,17 +2345,13 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2012,20 +2387,15 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -2056,7 +2426,6 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
@@ -2064,9 +2433,7 @@
 				<feature>+LAB</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>+Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2100,17 +2467,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2140,12 +2503,9 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>+delayed release</feature>
 				<feature>+spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2181,20 +2541,15 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -2230,19 +2585,14 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -2276,17 +2626,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>-voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2319,17 +2665,13 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 			</binaryFeatures>
@@ -2359,7 +2701,6 @@
 				<feature>-syll</feature>
 				<feature>+son</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>+nas</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
@@ -2367,9 +2708,7 @@
 				<feature>+LAB</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2401,17 +2740,13 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>+nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2445,20 +2780,15 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -2489,7 +2819,6 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>-voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
@@ -2497,9 +2826,7 @@
 				<feature>+LAB</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2532,18 +2859,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>-voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2575,18 +2897,14 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-strid</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>+long</feature>
 				<feature>+approx</feature>
 			</binaryFeatures>
@@ -2618,18 +2936,14 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+strid</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2661,18 +2975,14 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>-voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-PHAR</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2706,20 +3016,15 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -2750,7 +3055,6 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
@@ -2758,9 +3062,7 @@
 				<feature>+LAB</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>+Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2794,20 +3096,15 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -2841,17 +3138,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -2887,21 +3180,16 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -2934,18 +3222,14 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+strid</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -3042,19 +3326,14 @@
 				<feature>-back</feature>
 				<feature>+low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -3088,19 +3367,13 @@
 				<feature>-back</feature>
 				<feature>-low</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -3132,18 +3405,14 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-strid</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>+distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -3179,21 +3448,16 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -3225,18 +3489,13 @@
 				<feature>-son</feature>
 				<feature>+low</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -3269,17 +3528,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>+nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -3313,20 +3568,15 @@
 				<feature>-back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -3476,6 +3726,7 @@
 			<displayWithDottedCircle>false</displayWithDottedCircle>
 			<articulatoryFeatures>
 				<feature>Consonant</feature>
+				<feature>Voiceless</feature>
 				<feature>Dental</feature>
 				<feature>Click</feature>
 			</articulatoryFeatures>
@@ -3511,6 +3762,7 @@
 			<displayWithDottedCircle>false</displayWithDottedCircle>
 			<articulatoryFeatures>
 				<feature>Consonant</feature>
+				<feature>Voiceless</feature>
 				<feature>Alveolar</feature>
 				<feature>Click</feature>
 				<feature>Lateral</feature>
@@ -3532,6 +3784,7 @@
 			<displayWithDottedCircle>false</displayWithDottedCircle>
 			<articulatoryFeatures>
 				<feature>Consonant</feature>
+				<feature>Voiceless</feature>
 				<feature>Palatal</feature>
 				<feature>Click</feature>
 			</articulatoryFeatures>
@@ -3542,24 +3795,18 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>-voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-strid</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>-PHAR</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>+long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -3580,6 +3827,7 @@
 			<displayWithDottedCircle>false</displayWithDottedCircle>
 			<articulatoryFeatures>
 				<feature>Consonant</feature>
+				<feature>Voiceless</feature>
 				<feature>Alveolar</feature>
 				<feature>Click</feature>
 			</articulatoryFeatures>
@@ -3590,23 +3838,18 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>-voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-strid</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>-distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-PHAR</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>+long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -3729,18 +3972,13 @@
 				<feature>+back</feature>
 				<feature>+low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -3775,20 +4013,15 @@
 				<feature>+back</feature>
 				<feature>+low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -3819,7 +4052,6 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
@@ -3827,9 +4059,7 @@
 				<feature>+LAB</feature>
 				<feature>-spread</feature>
 				<feature>+constr</feature>
-				<feature>+Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -3863,20 +4093,15 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -3910,19 +4135,13 @@
 				<feature>-back</feature>
 				<feature>-low</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -3954,17 +4173,13 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -3996,17 +4211,13 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>+constr</feature>
-				<feature>+Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -4081,19 +4292,14 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -4144,19 +4350,14 @@
 				<feature>-back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -4191,19 +4392,14 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -4254,20 +4450,15 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -4301,19 +4492,13 @@
 				<feature>-back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -4346,17 +4531,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>+constr</feature>
-				<feature>+Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -4389,17 +4570,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -4432,18 +4609,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -4475,17 +4647,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -4520,19 +4688,14 @@
 				<feature>-low</feature>
 				<feature>-COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -4564,19 +4727,14 @@
 				<feature>-syll</feature>
 				<feature>+son</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -4607,12 +4765,9 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>+delayed release</feature>
 				<feature>+spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -4648,20 +4803,15 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+strid</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -4695,19 +4845,14 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -4760,20 +4905,15 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -4850,17 +4990,13 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -4893,17 +5029,13 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 			</binaryFeatures>
@@ -4936,17 +5068,13 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -4980,19 +5108,14 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -5026,17 +5149,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -5067,7 +5186,6 @@
 				<feature>-syll</feature>
 				<feature>+son</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>+nas</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
@@ -5075,9 +5193,7 @@
 				<feature>+LAB</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>+Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -5110,19 +5226,13 @@
 				<feature>-back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>+nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -5154,17 +5264,13 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>+nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -5197,18 +5303,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>+nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -5242,20 +5343,15 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -5290,20 +5386,15 @@
 				<feature>-back</feature>
 				<feature>+low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -5350,7 +5441,6 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
@@ -5358,9 +5448,7 @@
 				<feature>+LAB</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -5395,18 +5483,14 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -5440,18 +5524,14 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-strid</feature>
 				<feature>+lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 			</binaryFeatures>
@@ -5486,18 +5566,14 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -5546,17 +5622,13 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 			</binaryFeatures>
@@ -5588,17 +5660,13 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 			</binaryFeatures>
@@ -5647,18 +5715,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>+long</feature>
 				<feature>+approx</feature>
 			</binaryFeatures>
@@ -5691,19 +5754,14 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>-PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -5735,18 +5793,14 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+strid</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -5781,19 +5835,15 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+strid</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -5826,18 +5876,13 @@
 				<feature>-back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>+constr</feature>
-				<feature>+Front</feature>
-				<feature>+Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -5917,17 +5962,13 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>-voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -5961,20 +6002,15 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -6009,20 +6045,15 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -6053,17 +6084,14 @@
 				<feature>-syll</feature>
 				<feature>+son</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>+Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -6098,19 +6126,14 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -6145,20 +6168,15 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>+tense</feature>
@@ -6193,19 +6211,13 @@
 				<feature>-back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 			</binaryFeatures>
@@ -6241,21 +6253,16 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 				<feature>-tense</feature>
@@ -6288,18 +6295,14 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+strid</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -6334,21 +6337,15 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+strid</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -6436,15 +6433,12 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>-voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-delayed release</feature>
 				<feature>-spread</feature>
 				<feature>+constr</feature>
-				<feature>-Implosive</feature>
 				<feature>-PHAR</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -6474,18 +6468,13 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -6538,6 +6527,7 @@
 			<displayWithDottedCircle>false</displayWithDottedCircle>
 			<articulatoryFeatures>
 				<feature>Consonant</feature>
+				<feature>Voiceless</feature>
 				<feature>Bilabial</feature>
 				<feature>Click</feature>
 			</articulatoryFeatures>
@@ -6546,19 +6536,15 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>-voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
 				<feature>+LAB</feature>
-				<feature>-Epiglottal</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>+long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -6588,7 +6574,6 @@
 				<feature>-syll</feature>
 				<feature>+son</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
@@ -6596,10 +6581,8 @@
 				<feature>+LAB</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>+long</feature>
 				<feature>+approx</feature>
 			</binaryFeatures>
@@ -6648,18 +6631,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>+constr</feature>
-				<feature>-Front</feature>
-				<feature>+Implosive</feature>
 				<feature>-cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -6689,14 +6667,9 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>+delayed release</feature>
-				<feature>+Epiglottal</feature>
 				<feature>+spread</feature>
 				<feature>+constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -6729,18 +6702,13 @@
 				<feature>-back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>+Front</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -6774,17 +6742,13 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>+approx</feature>
 			</binaryFeatures>
@@ -6833,15 +6797,10 @@
 				<feature>+back</feature>
 				<feature>+low</feature>
 				<feature>+voice</feature>
-				<feature>-Continuant articulatory</feature>
 				<feature>-delayed release</feature>
-				<feature>+Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>+constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -6871,14 +6830,9 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>+delayed release</feature>
-				<feature>+Epiglottal</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -6930,21 +6884,17 @@
 				<feature>-ant</feature>
 				<feature>+COR</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>+strid</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>-LAB</feature>
 				<feature>+distr</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -6993,7 +6943,7 @@
 			<description>Voiceless postalveolar affricate</description>
 			<type>Consonant</type>
 			<subtype>Pulmonic</subtype>
-			<isBase>false</isBase>
+			<isBase>true</isBase>
 			<canPrecedeBase>false</canPrecedeBase>
 			<displayWithDottedCircle>false</displayWithDottedCircle>
 			<ignoreType>NotApplicable</ignoreType>
@@ -7150,7 +7100,7 @@
 			<subtype>Unknown</subtype>
 			<isBase>false</isBase>
 			<canPrecedeBase>false</canPrecedeBase>
-			<displayWithDottedCircle>false</displayWithDottedCircle>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
 			<ignoreType>NotApplicable</ignoreType>
 			<displayOrder>0</displayOrder>
 			<mannerOfArticulation>1260</mannerOfArticulation>
@@ -7805,6 +7755,14 @@
 			<canPrecedeBase>false</canPrecedeBase>
 			<displayWithDottedCircle>true</displayWithDottedCircle>
 			<articulatoryFeatureRule>
+				<change title="Specify Bilabial place of articulation for symbols in the Labiodental column (specifically, labiodental flap).">
+					<find>
+						<feature>Labiodental</feature>
+					</find>
+					<replace>
+						<feature>Bilabial</feature>
+					</replace>
+				</change>
 				<change title="Specify Dental place of articulation for symbols in the Alveolar column.">
 					<find>
 						<feature>Alveolar</feature>
@@ -8260,7 +8218,6 @@
 				<feature>-syll</feature>
 				<feature>-son</feature>
 				<feature>+voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>-rnd</feature>
@@ -8268,9 +8225,7 @@
 				<feature>+LAB</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -8302,18 +8257,14 @@
 				<feature>+ant</feature>
 				<feature>+COR</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-strid</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Hyper anterior</feature>
 				<feature>+distr</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Implosive</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -8362,19 +8313,14 @@
 				<feature>+back</feature>
 				<feature>-low</feature>
 				<feature>-voice</feature>
-				<feature>+Continuant articulatory</feature>
 				<feature>-nas</feature>
 				<feature>-lat</feature>
 				<feature>+delayed release</feature>
-				<feature>-Epiglottal</feature>
 				<feature>+DORS</feature>
 				<feature>-spread</feature>
 				<feature>-constr</feature>
-				<feature>-Front</feature>
-				<feature>-Implosive</feature>
 				<feature>-PHAR</feature>
 				<feature>+cont</feature>
-				<feature>-Labio-dental</feature>
 				<feature>-long</feature>
 				<feature>-approx</feature>
 			</binaryFeatures>
@@ -8500,6 +8446,9 @@
 			<isBase>false</isBase>
 			<canPrecedeBase>false</canPrecedeBase>
 			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<articulatoryFeatures>
+				<feature>Mid-centralized</feature>
+			</articulatoryFeatures>
 			<ignoreType>NotApplicable</ignoreType>
 			<displayOrder>0</displayOrder>
 			<mannerOfArticulation>1205</mannerOfArticulation>
@@ -9052,8 +9001,9 @@
 			<chartColumn>0</chartColumn>
 			<chartGroup>0</chartGroup>
 		</symbol>
-		<symbol decimal="8593" hexadecimal="2191" literal="↑" IPANumber="518">
+		<symbol decimal="8593" hexadecimal="2191" literal="↑">
 			<name>Up arrow</name>
+			<usage replaceWith="ꜛ">Non-IPA equivalent to 518</usage>
 			<description>Upstep</description>
 			<type>Suprasegmentals</type>
 			<subtype>ToneAndAccents</subtype>
@@ -9070,8 +9020,9 @@
 			<chartColumn>0</chartColumn>
 			<chartGroup>0</chartGroup>
 		</symbol>
-		<symbol decimal="8595" hexadecimal="2193" literal="↓" IPANumber="517">
+		<symbol decimal="8595" hexadecimal="2193" literal="↓">
 			<name>Down arrow</name>
+			<usage replaceWith="ꜜ">Non-IPA equivalent to 517</usage>
 			<description>Downstep</description>
 			<type>Suprasegmentals</type>
 			<subtype>ToneAndAccents</subtype>
@@ -9124,14 +9075,72 @@
 			<chartColumn>0</chartColumn>
 			<chartGroup>0</chartGroup>
 		</symbol>
+		<symbol decimal="11377" hexadecimal="2C71" literal="ⱱ" IPANumber="184">
+			<name>Right-hook V</name>
+			<description>Voiced labiodental flap</description>
+			<type>Consonant</type>
+			<subtype>Pulmonic</subtype>
+			<isBase>true</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>false</displayWithDottedCircle>
+			<articulatoryFeatures>
+				<feature>Consonant</feature>
+				<feature>Voiced</feature>
+				<feature>Labiodental</feature>
+				<feature>Tap/Flap</feature>
+			</articulatoryFeatures>
+			<ignoreType>NotApplicable</ignoreType>
+			<displayOrder>0</displayOrder>
+			<mannerOfArticulation>160</mannerOfArticulation>
+			<placeOfArticulation>150</placeOfArticulation>
+			<chartColumn>7</chartColumn>
+			<chartGroup>3</chartGroup>
+		</symbol>
+		<symbol decimal="42779" hexadecimal="A71B" literal="ꜛ" IPANumber="518">
+			<name>Modifier letter raised up arrow</name>
+			<description>Upstep</description>
+			<type>Suprasegmentals</type>
+			<subtype>ToneAndAccents</subtype>
+			<isBase>true</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>false</displayWithDottedCircle>
+			<articulatoryFeatures>
+				<feature>Upstep</feature>
+			</articulatoryFeatures>
+			<ignoreType>Tone</ignoreType>
+			<displayOrder>17</displayOrder>
+			<mannerOfArticulation>1160</mannerOfArticulation>
+			<placeOfArticulation>1160</placeOfArticulation>
+			<chartColumn>0</chartColumn>
+			<chartGroup>0</chartGroup>
+		</symbol>
+		<symbol decimal="42780" hexadecimal="A71C" literal="ꜜ" IPANumber="517">
+			<name>Modifier letter raised down arrow</name>
+			<description>Downstep</description>
+			<type>Suprasegmentals</type>
+			<subtype>ToneAndAccents</subtype>
+			<isBase>true</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>false</displayWithDottedCircle>
+			<articulatoryFeatures>
+				<feature>Downstep</feature>
+			</articulatoryFeatures>
+			<ignoreType>Tone</ignoreType>
+			<displayOrder>16</displayOrder>
+			<mannerOfArticulation>1155</mannerOfArticulation>
+			<placeOfArticulation>1155</placeOfArticulation>
+			<chartColumn>0</chartColumn>
+			<chartGroup>0</chartGroup>
+		</symbol>
 	</symbols>
-	<sequences>
-		<sequence title="Plosive + Plosive: Double Articulation.">
+	<sequencePatterns>
+		<pattern title="Plosive + Plosive (primary): Double Articulation.">
 			<symbol primary="false">
 				<if>
 					<feature>Plosive</feature>
 				</if>
 				<retain>
+					<feature subclass="nasalization" />
 					<feature subclass="placeOfArticulation" primary="false" />
 				</retain>
 			</symbol>
@@ -9143,8 +9152,30 @@
 					<feature>Double Articulation</feature>
 				</add>
 			</symbol>
-		</sequence>
-		<sequence title="Plosive + Fricative: Affricate.">
+		</pattern>
+		<!-- TO DO: retain any features of non-primary corresponding to diacritics? -->
+		<pattern title="Plosive (primary) + Plosive: Double Articulation.">
+			<symbol primary="true">
+				<if>
+					<feature>Plosive</feature>
+				</if>
+				<retain>
+					<feature subclass="nasalization" />
+				</retain>
+				<add>
+					<feature>Double Articulation</feature>
+				</add>
+			</symbol>
+			<symbol primary="false">
+				<if>
+					<feature>Plosive</feature>
+				</if>
+				<retain>
+					<feature subclass="placeOfArticulation" primary="false" />
+				</retain>
+			</symbol>
+		</pattern>
+		<pattern title="Plosive + Fricative: Affricate.">
 			<symbol primary="false">
 				<if>
 					<feature>Plosive</feature>
@@ -9164,9 +9195,9 @@
 					<feature>Affricate</feature>
 				</add>
 			</symbol>
-		</sequence>
+		</pattern>
 		<!-- If Lateral becomes independent (instead of redundant) the if condition changes. -->
-		<sequence title="Plosive + Lateral Fricative or Lateral Approximant: Lateral Affricate.">
+		<pattern title="Plosive + Lateral Fricative or Lateral Approximant: Lateral Affricate.">
 			<symbol primary="false">
 				<if>
 					<feature>Plosive</feature>
@@ -9186,12 +9217,33 @@
 					<feature>Lateral Affricate</feature>
 				</add>
 			</symbol>
-		</sequence>
-		<sequence title="Nasal + Plosive or Fricative: Prenasalized.">
+		</pattern>
+		<pattern title="Nasal + Nasal: Double Articulation.">
 			<symbol primary="false">
 				<if>
 					<feature>Nasal</feature>
 				</if>
+				<retain>
+					<feature subclass="placeOfArticulation" primary="false" />
+				</retain>
+			</symbol>
+			<symbol primary="true">
+				<if>
+					<feature>Nasal</feature>
+				</if>
+				<add>
+					<feature>Double Articulation</feature>
+				</add>
+			</symbol>
+		</pattern>
+		<pattern title="Nasal + Plosive or Fricative: Prenasalized.">
+			<symbol primary="false">
+				<if>
+					<feature>Nasal</feature>
+				</if>
+				<add>
+					<feature>Prenasalized</feature>
+				</add>
 			</symbol>
 			<symbol primary="true">
 				<if>
@@ -9200,18 +9252,132 @@
 						<feature>Fricative</feature>
 					</anyOf>
 				</if>
+			</symbol>
+		</pattern>
+		<pattern title="Nasal + Plosive + Plosive (primary): Prenasalized Double Articulation.">
+			<symbol primary="false">
+				<if>
+					<feature>Nasal</feature>
+				</if>
 				<add>
 					<feature>Prenasalized</feature>
 				</add>
 			</symbol>
-		</sequence>
-		<sequence title="Plosive + Click or Lateral Click.">
+			<symbol primary="false">
+				<if>
+					<feature>Plosive</feature>
+				</if>
+				<retain>
+					<feature subclass="placeOfArticulation" primary="false" />
+				</retain>
+			</symbol>
+			<symbol primary="true">
+				<if>
+					<feature>Plosive</feature>
+				</if>
+				<add>
+					<feature>Double Articulation</feature>
+				</add>
+			</symbol>
+		</pattern>
+		<!-- TO DO: retain any features of non-primary corresponding to diacritics? -->
+		<pattern title="Nasal + Plosive (primary) + Plosive: Prenasalized Double Articulation.">
+			<symbol primary="false">
+				<if>
+					<feature>Nasal</feature>
+				</if>
+				<add>
+					<feature>Prenasalized</feature>
+				</add>
+			</symbol>
+			<symbol primary="true">
+				<if>
+					<feature>Plosive</feature>
+				</if>
+				<add>
+					<feature>Double Articulation</feature>
+				</add>
+			</symbol>
+			<symbol primary="false">
+				<if>
+					<feature>Plosive</feature>
+				</if>
+				<retain>
+					<feature subclass="placeOfArticulation" primary="false" />
+				</retain>
+			</symbol>
+		</pattern>
+		<pattern title="Nasal + Nasal + Plosive + Plosive (primary): Prenasalized Double Articulation.">
+			<symbol primary="false">
+				<if>
+					<feature>Nasal</feature>
+				</if>
+				<add>
+					<feature>Prenasalized</feature>
+				</add>
+			</symbol>
+			<symbol primary="false">
+				<if>
+					<feature>Nasal</feature>
+				</if>
+			</symbol>
+			<symbol primary="false">
+				<if>
+					<feature>Plosive</feature>
+				</if>
+				<retain>
+					<feature subclass="placeOfArticulation" primary="false" />
+				</retain>
+			</symbol>
+			<symbol primary="true">
+				<if>
+					<feature>Plosive</feature>
+				</if>
+				<add>
+					<feature>Double Articulation</feature>
+				</add>
+			</symbol>
+		</pattern>
+		<!-- TO DO: retain any features of non-primary corresponding to diacritics? -->
+		<pattern title="Nasal + Nasal + Plosive (primary) + Plosive: Prenasalized Double Articulation.">
+			<symbol primary="false">
+				<if>
+					<feature>Nasal</feature>
+				</if>
+				<add>
+					<feature>Prenasalized</feature>
+				</add>
+			</symbol>
+			<symbol primary="false">
+				<if>
+					<feature>Nasal</feature>
+				</if>
+			</symbol>
+			<symbol primary="true">
+				<if>
+					<feature>Plosive</feature>
+				</if>
+				<add>
+					<feature>Double Articulation</feature>
+				</add>
+			</symbol>
+			<symbol primary="false">
+				<if>
+					<feature>Plosive</feature>
+				</if>
+				<retain>
+					<feature subclass="placeOfArticulation" primary="false" />
+				</retain>
+			</symbol>
+		</pattern>
+		<pattern title="Plosive + Click or Lateral Click.">
 			<symbol primary="false">
 				<if>
 					<feature>Plosive</feature>
 				</if>
 				<retain>
 					<feature subclass="stateOfGlottis" />
+					<feature subclass="placeOfArticulation" primary="false" />
 				</retain>
 			</symbol>
 			<symbol primary="true">
@@ -9222,15 +9388,19 @@
 						<feature>Lateral Click</feature>
 					</anyOf>
 				</if>
+				<remove>
+					<feature subclass="stateOfGlottis" />
+				</remove>
 			</symbol>
-		</sequence>
-		<sequence title="Nasal + Click or Lateral Click.">
+		</pattern>
+		<pattern title="Nasal + Click or Lateral Click.">
 			<symbol primary="false">
 				<if>
 					<feature>Nasal</feature>
 				</if>
 				<retain>
 					<feature subclass="stateOfGlottis" />
+					<feature subclass="placeOfArticulation" primary="false" />
 					<feature subclass="mannerOfArticulation" primary="false" />
 				</retain>
 			</symbol>
@@ -9242,145 +9412,200 @@
 						<feature>Lateral Click</feature>
 					</anyOf>
 				</if>
+				<remove>
+					<feature subclass="stateOfGlottis" />
+				</remove>
 			</symbol>
-		</sequence>
-	</sequences>
+		</pattern>
+		<pattern title="Vowel (primary) + Vowel: Diphthong.">
+			<symbol primary="true">
+				<if>
+					<feature>Vowel</feature>
+				</if>
+				<add>
+					<feature>Diphthong</feature>
+				</add>
+			</symbol>
+			<symbol primary="false">
+				<if>
+					<feature>Vowel</feature>
+				</if>
+				<retain>
+					<feature class="row" subclass="height" />
+					<feature class="row" subclass="backness" />
+					<feature class="row" subclass="rounding" />
+				</retain>
+			</symbol>
+		</pattern>
+		<pattern title="Vowel + Vowel (primary): Diphthong.">
+			<symbol primary="false">
+				<if>
+					<feature>Vowel</feature>
+				</if>
+				<retain>
+					<feature class="row" subclass="height" />
+					<feature class="row" subclass="backness" />
+					<feature class="row" subclass="rounding" />
+				</retain>
+			</symbol>
+			<symbol primary="true">
+				<if>
+					<feature>Vowel</feature>
+				</if>
+				<add>
+					<feature>Diphthong</feature>
+				</add>
+			</symbol>
+		</pattern>
+	</sequencePatterns>
 	<descriptions>
 		<patterns>
 			<pattern type="Consonant">
-				<feature subclass="syllabicity" />
-				<feature>Rhoticity</feature>
-				<feature subclass="secondaryArticulation" />
-				<feature subclass="stateOfGlottis" />
-				<feature subclass="release" />
-				<feature subclass="coronalArticulator" />
-				<feature subclass="positionModification" />
-				<feature subclass="placeOfArticulation" />
-				<feature subclass="length" />
-				<feature subclass="nasalization" />
-				<feature>Ejective</feature>
-				<feature>Lateral</feature>
-				<feature subclass="mannerOfArticulation" />
+				<articulatoryFeature subclass="syllabicity" />
+				<articulatoryFeature>Rhoticity</articulatoryFeature>
+				<articulatoryFeature subclass="secondaryArticulation" />
+				<articulatoryFeature subclass="stateOfGlottis" />
+				<articulatoryFeature subclass="release" />
+				<articulatoryFeature subclass="coronalArticulator" />
+				<articulatoryFeature subclass="positionModification" />
+				<articulatoryFeature subclass="placeOfArticulation" />
+				<articulatoryFeature subclass="length" />
+				<articulatoryFeature subclass="nasalization" />
+				<articulatoryFeature>Ejective</articulatoryFeature>
+				<articulatoryFeature>Lateral</articulatoryFeature>
+				<articulatoryFeature subclass="mannerOfArticulation" />
 			</pattern>
 			<pattern type="Vowel">
-				<feature subclass="syllabicity" />
-				<feature>Rhoticity</feature>
-				<feature subclass="stateOfGlottis" />
-				<feature subclass="height" />
-				<feature subclass="backness" />
-				<feature subclass="rounding" />
-				<feature subclass="positionModification" />
-				<feature subclass="length" />
-				<feature subclass="nasalization" />
-				<feature>Vowel</feature>
-				<feature subclass="tongueRoot" />
+				<articulatoryFeature subclass="syllabicity" />
+				<articulatoryFeature>Rhoticity</articulatoryFeature>
+				<articulatoryFeature subclass="stateOfGlottis" />
+				<articulatoryFeature subclass="height" />
+				<articulatoryFeature subclass="backness" />
+				<articulatoryFeature subclass="rounding" />
+				<articulatoryFeature subclass="positionModification" />
+				<articulatoryFeature subclass="length" />
+				<articulatoryFeature subclass="nasalization" />
+				<articulatoryFeature>Vowel</articulatoryFeature>
+				<articulatoryFeature subclass="tongueRoot" />
 			</pattern>
 		</patterns>
 		<changes>
 			<change title="For glottal plosive, state of glottis is redundant.">
-				<if>
-					<feature>Glottal</feature>
-					<feature>Plosive</feature>
-				</if>
+				<for>
+					<articulatoryFeature>Glottal</articulatoryFeature>
+					<articulatoryFeature>Plosive</articulatoryFeature>
+				</for>
 				<find>
-					<feature>Voiceless</feature>
+					<articulatoryFeature>Voiceless</articulatoryFeature>
 				</find>
 				<replace />
 			</change>
 			<change title="For epiglottal plosive, state of glottis is redundant. IS THIS TRUE? See LM 60.">
-				<if>
-					<feature>Epiglottal</feature>
-					<feature>Plosive</feature>
-				</if>
+				<for>
+					<articulatoryFeature>Epiglottal</articulatoryFeature>
+					<articulatoryFeature>Plosive</articulatoryFeature>
+				</for>
 				<find>
-					<feature>Voiced</feature>
+					<articulatoryFeature>Voiced</articulatoryFeature>
 				</find>
 				<replace />
 			</change>
 			<change title="For any vowel, voiced is omitted.">
-				<if>
-					<feature>Vowel</feature>
-				</if>
+				<for>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+				</for>
 				<find>
-					<feature>Voiced</feature>
+					<articulatoryFeature>Voiced</articulatoryFeature>
 				</find>
 				<replace />
 			</change>
 			<change title="For other states of glottis, voiced is redundant (or even incorrect).">
-				<if>
+				<for>
 					<anyOf>
-						<feature>Breathy Voiced</feature>
-						<feature>Creaky Voiced</feature>
+						<articulatoryFeature>Breathy Voiced</articulatoryFeature>
+						<articulatoryFeature>Creaky Voiced</articulatoryFeature>
 					</anyOf>
-				</if>
+				</for>
 				<find>
-					<feature>Voiced</feature>
+					<articulatoryFeature>Voiced</articulatoryFeature>
 				</find>
 				<replace />
 			</change>
 			<change title="For some manners of articulation, lateral is redundant.">
-				<if>
+				<for>
 					<anyOf>
-						<feature>Lateral Affricate</feature>
-						<feature>Lateral Fricative</feature>
-						<feature>Lateral Approximant</feature>
+						<articulatoryFeature>Lateral Affricate</articulatoryFeature>
+						<articulatoryFeature>Lateral Fricative</articulatoryFeature>
+						<articulatoryFeature>Lateral Approximant</articulatoryFeature>
 					</anyOf>
-				</if>
+				</for>
 				<find>
-					<feature>Lateral</feature>
+					<articulatoryFeature>Lateral</articulatoryFeature>
 				</find>
 				<replace />
 			</change>
 			<change title="If a vowel has a more specific rounding feature, rounded is redundant.">
-				<if>
+				<for>
 					<anyOf>
-						<feature>More Rounded</feature>
-						<feature>Less Rounded</feature>
+						<articulatoryFeature>More Rounded</articulatoryFeature>
+						<articulatoryFeature>Less Rounded</articulatoryFeature>
 					</anyOf>
-				</if>
+				</for>
 				<find>
-					<feature>Rounded</feature>
+					<articulatoryFeature>Rounded</articulatoryFeature>
 				</find>
 				<replace />
 			</change>
 			<change title="For two central vowels, rounded is omitted.">
-				<if>
+				<for>
 					<anyOf>
-						<feature>Mid</feature>
-						<feature>Near-open</feature>
+						<articulatoryFeature>Mid</articulatoryFeature>
+						<articulatoryFeature>Near-open</articulatoryFeature>
 					</anyOf>
-					<feature>Central</feature>
-				</if>
+					<articulatoryFeature>Central</articulatoryFeature>
+				</for>
 				<find>
-					<feature>Rounded</feature>
+					<articulatoryFeature>Rounded</articulatoryFeature>
 				</find>
 				<replace />
 			</change>
 			<change title="Replace rhoticity with r-colored.">
 				<find>
-					<feature>Rhoticity</feature>
+					<articulatoryFeature>Rhoticity</articulatoryFeature>
 				</find>
 				<replace>
 					<text>R-colored</text>
 				</replace>
 			</change>
-			<change title="In place of articulation pairs, replace bilabial with labial.">
-				<if>
-					<feature subclass="placeOfArticulation" count="2" />
-				</if>
+			<change title="In place of articulation pairs for clicks, do not replace bilabial with labial.">
+				<for>
+					<articulatoryFeature subclass="placeOfArticulation" count="2" />
+					<articulatoryFeature>Click</articulatoryFeature>
+				</for>
 				<find>
-					<feature>Bilabial</feature>
+					<articulatoryFeature>Bilabial</articulatoryFeature>
+				</find>
+				<replace>
+					<feature subclass="placeOfArticulation">Bilabial</feature>
+				</replace>
+			</change>
+			<change title="In place of articulation pairs, replace bilabial with labial.">
+				<for>
+					<articulatoryFeature subclass="placeOfArticulation" count="2" />
+				</for>
+				<find>
+					<articulatoryFeature>Bilabial</articulatoryFeature>
 				</find>
 				<replace>
 					<feature subclass="placeOfArticulation">Labial</feature>
 				</replace>
 			</change>
 			<change title="In secondary articulation pairs, replace labialized with labial.">
-				<if>
-					<feature subclass="secondaryArticulation" count="2" />
-				</if>
+				<for>
+					<articulatoryFeature subclass="secondaryArticulation" count="2" />
+				</for>
 				<find>
-					<feature>Labialized</feature>
+					<articulatoryFeature>Labialized</articulatoryFeature>
 				</find>
 				<replace>
 					<feature subclass="secondaryArticulation">Labial</feature>
@@ -9388,7 +9613,7 @@
 			</change>
 			<change title="Replace no audible release with unreleased (preceding the manner of articulation).">
 				<find>
-					<feature>No Audible Release</feature>
+					<articulatoryFeature>No Audible Release</articulatoryFeature>
 				</find>
 				<replace>
 					<text>unreleased</text>
@@ -9396,12 +9621,50 @@
 			</change>
 			<change title="Insert with preceding advanced/retracted tongue root">
 				<find>
-					<feature subclass="tongueRoot" />
+					<articulatoryFeature subclass="tongueRoot" />
 				</find>
 				<replace>
 					<text>with</text>
 					<feature />
 				</replace>
+			</change>
+			<change title="Name of click does not include dorsal place of articulation">
+				<for>
+					<articulatoryFeature>Click</articulatoryFeature>
+				</for>
+				<find>
+					<articulatoryFeature>Velar</articulatoryFeature>
+				</find>
+			</change>
+			<change title="Name of click does not include dorsal place of articulation">
+				<for>
+					<articulatoryFeature>Click</articulatoryFeature>
+				</for>
+				<find>
+					<articulatoryFeature>Uvular</articulatoryFeature>
+				</find>
+			</change>
+			<change title="Diphthong supersedes vowel">
+				<for>
+					<articulatoryFeature>Diphthong</articulatoryFeature>
+				</for>
+				<find>
+					<articulatoryFeature>Vowel</articulatoryFeature>
+				</find>
+				<replace>
+					<feature>Diphthong</feature>
+				</replace>
+			</change>
+			<change title="Diphthong omits rounding if neither value is marked">
+				<for>
+					<articulatoryFeature>Diphthong</articulatoryFeature>
+					<not>
+						<articulatoryFeature subclass="rounding" marked="true" />
+					</not>
+				</for>
+				<find>
+					<articulatoryFeature subclass="rounding" />
+				</find>
 			</change>
 		</changes>
 	</descriptions>
