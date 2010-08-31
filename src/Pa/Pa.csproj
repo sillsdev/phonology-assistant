@@ -94,6 +94,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="LocalizationManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DistFiles\LocalizationManager.dll</HintPath>
+    </Reference>
     <Reference Include="SilUtils, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -649,10 +653,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\LocalizationManager\LocalizationManager.csproj">
-      <Project>{8EE0895A-7B9D-4B49-8F73-9F1270F1E583}</Project>
-      <Name>LocalizationManager</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SpeechToolsUtils\SpeechToolsUtils.csproj">
       <Project>{45F4F307-5C89-46E1-B92B-0A2E3489FF6F}</Project>
       <Name>SpeechToolsUtils</Name>
@@ -661,16 +661,20 @@
   <ItemGroup>
     <EmbeddedResource Include="DataSourceClasses\FieldWorks\EditFwUrlDlg.resx">
       <DependentUpon>EditFwUrlDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="DataSourceClasses\MissingDataSourceMsgBox.resx">
       <DependentUpon>MissingDataSourceMsgBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="DataSourceClasses\MissingFWDatabaseMsgBox.resx">
       <DependentUpon>MissingFWDatabaseMsgBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Model\Project\PaFieldsDisplayText.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>PaFieldsDisplayText.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
@@ -679,99 +683,131 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\CharPickerRows.resx">
       <DependentUpon>CharPickerRows.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\ChartOptionsDropDown.resx">
       <DependentUpon>ChartOptionsDropDown.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\CIEOptionsDropDown.resx">
       <DependentUpon>CIEOptionsDropDown.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\GridCellInfoPopup.resx">
       <DependentUpon>GridCellInfoPopup.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\GridColumnVisibilitySetter.resx">
       <DependentUpon>GridColumnVisibilitySetter.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\Histogram.resx">
       <DependentUpon>Histogram.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\PatternBuilderComponents.resx">
       <DependentUpon>PatternBuilderComponents.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\PatternTextBox.resx">
       <DependentUpon>PatternTextBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\PhoneInfoPopupContent.resx">
       <DependentUpon>PhoneInfoPopupContent.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\PhonesInFeatureViewer.resx">
       <DependentUpon>PhonesInFeatureViewer.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\PlaybackSpeedAdjuster.resx">
       <DependentUpon>PlaybackSpeedAdjuster.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\SearchOptionsDropDown.resx">
       <DependentUpon>SearchOptionsDropDown.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\SortOptionsDropDown.resx">
       <DependentUpon>SortOptionsDropDown.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\UndockedViewWnd.resx">
       <DependentUpon>UndockedViewWnd.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\AmbiguousSequencesDlg.resx">
       <DependentUpon>AmbiguousSequencesDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\CustomFieldsDlg.resx">
       <DependentUpon>CustomFieldsDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\FindDlg.resx">
       <DependentUpon>FindDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\OKCancelDlgBase.resx">
       <DependentUpon>OKCancelDlgBase.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\ProjectSettingsDlg.resx">
       <DependentUpon>ProjectSettingsDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\RtfExportDlg.resx">
       <DependentUpon>RtfExportDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\SaveSearchQueryDlg.resx">
       <DependentUpon>SaveSearchQueryDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\SaveXYChartDlg.resx">
       <DependentUpon>SaveXYChartDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\SFDataSourcePropertiesDlg.resx">
       <DependentUpon>SFDataSourcePropertiesDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\UndefinedCharactersInClassDlg.resx">
       <DependentUpon>UndefinedCharactersInClassDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\UndefinedPhoneticCharactersDlg.resx">
       <DependentUpon>UndefinedPhoneticCharactersDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\PaMainWnd.resx">
       <DependentUpon>PaMainWnd.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Views\ChartVwBase.resx">
       <DependentUpon>ChartVwBase.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Views\ConsonantChartVw.resx">
       <DependentUpon>ConsonantChartVw.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Views\DataCorpusVw.resx">
       <DependentUpon>DataCorpusVw.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Views\SearchVw.resx">
       <DependentUpon>SearchVw.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Views\VowelChartVw.resx">
       <DependentUpon>VowelChartVw.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Views\XYChartVw.resx">
       <DependentUpon>XYChartVw.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -819,50 +855,65 @@
     <EmbeddedResource Include="ResourceStuff\ChartsTMStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ChartsTMStrings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ResourceStuff\HelpTopicPaths.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>HelpTopicPaths.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ResourceStuff\PaTMStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>PaTMStrings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ResourceStuff\ResourceHelper.resx">
       <DependentUpon>ResourceHelper.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\CVChart-Old\CharGrid.resx">
       <DependentUpon>CharGrid.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\SearchResultControls\SearchResultTabPopup.resx">
       <DependentUpon>SearchResultTabPopup.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\SearchResultControls\SearchResultView.resx">
       <DependentUpon>SearchResultView.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\XYChartCellInfoPopup.resx">
       <DependentUpon>XYChartCellInfoPopup.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\BackupRestore\BackupDlg.resx">
       <DependentUpon>BackupDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\BackupRestore\RestoreDlg.resx">
       <DependentUpon>RestoreDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\BackupRestore\RestoreProgressDlg.resx">
       <DependentUpon>RestoreProgressDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\Classes\ClassesDlg.resx">
       <DependentUpon>ClassesDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\Classes\DefineClassDlg.resx">
       <DependentUpon>DefineClassDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\FeaturesDlg.resx">
       <DependentUpon>FeaturesDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\FieldWorks\FwDataSourcePropertiesDlg.resx">
       <DependentUpon>FwDataSourcePropertiesDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\FieldWorks\FwProjectsDlg.resx">
       <DependentUpon>FwProjectsDlg.cs</DependentUpon>
@@ -874,9 +925,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\Options\OptionsDialog.resx">
       <DependentUpon>OptionsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\TranscriptionChangesDlg.resx">
       <DependentUpon>TranscriptionChangesDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Model\UpdateFileTransforms\UpdateProjectFile.xslt" />
     <EmbeddedResource Include="Model\UpdateFileTransforms\UpdateFeatureOverridesFile.xslt" />
