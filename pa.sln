@@ -4,10 +4,16 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCIEditor", "src\PCIEditor\PCIEditor.csproj", "{2DF12F00-34A3-48F1-AA94-0164368B45DA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisablePASplashScreen", "src\DisablePASplashScreen\DisablePASplashScreen.csproj", "{B101E338-1CA4-4398-96DE-55DFF283EE70}"
+	ProjectSection(ProjectDependencies) = postProject
+		{87F94FCC-BC32-4203-A919-115F4FF43FF0} = {87F94FCC-BC32-4203-A919-115F4FF43FF0}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SilUtils", "src\SilUtils\SilUtils.csproj", "{87F94FCC-BC32-4203-A919-115F4FF43FF0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pa", "src\Pa\Pa.csproj", "{C4347409-EFA4-47A0-AEF9-B6BB2378B1E5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{87F94FCC-BC32-4203-A919-115F4FF43FF0} = {87F94FCC-BC32-4203-A919-115F4FF43FF0}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SilUtilsTests", "src\SilUtils\SilUtilsTests\SilUtilsTests.csproj", "{78AB2DD4-7799-4E70-B7A8-5229982AAB43}"
 	ProjectSection(ProjectDependencies) = postProject
