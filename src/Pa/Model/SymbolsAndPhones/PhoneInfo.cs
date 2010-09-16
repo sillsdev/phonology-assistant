@@ -132,7 +132,12 @@ namespace SIL.Pa.Model
 			}
 
 			if (bldr.Length == 0)
+			{
+				if (firstChar != null && CharType == IPASymbolType.Unknown)
+					CharType = firstChar.Type;
+
 				return;
+			}
 
 			if (bldr.Replace("c", string.Empty).Length == 0)
 			{

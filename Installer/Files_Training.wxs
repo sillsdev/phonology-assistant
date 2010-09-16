@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<DirectoryRef Id="APPLICATIONFOLDER">
+			<Directory Id="Training" Name="Training">
+				<Component Id="PA_Instructor_Guide.doc" Guid="{72EFA26D-60B7-4C12-8E6C-DCE45329459C}">
+					<File Id="PA_Instructor_Guide.doc" KeyPath="yes" Source="..\output\release\Training\PA Instructor Guide.doc" />
+				</Component>
+				<Component Id="PA_Needs_Assessment.doc" Guid="{A8518A3B-0F24-4C51-AF46-0D00F6766D13}">
+					<File Id="PA_Needs_Assessment.doc" KeyPath="yes" Source="..\output\release\Training\PA Needs Assessment.doc" />
+				</Component>
+				<Component Id="PA_Student_Evaluation.doc" Guid="{3628101D-AF34-4D5B-A715-9303390EB3E6}">
+					<File Id="PA_Student_Evaluation.doc" KeyPath="yes" Source="..\output\release\Training\PA Student Evaluation.doc" />
+				</Component>
+				<Component Id="PA_Student_Manual.doc" Guid="{C6A8BE1F-CC34-4581-8A4D-AE229A2F6F90}">
+					<File Id="PA_Student_Manual.doc" KeyPath="yes" Source="..\output\release\Training\PA Student Manual.doc" />
+				</Component>
+				<Component Id="PaTrainingProjects.zip" Guid="{F1A2EF65-98BE-46e5-8A49-14BC112AE688}">
+					<File Id="PaTrainingProjects.zip" Name="PaTrainingProjects.zip" Source="..\output\release\Training\PaTrainingProjects.zip" />
+				</Component>
+			</Directory>
+		</DirectoryRef>
+	</Fragment>
+</Wix>

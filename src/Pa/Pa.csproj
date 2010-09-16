@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C4347409-EFA4-47A0-AEF9-B6BB2378B1E5}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -19,7 +19,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>SIL.Pa</RootNamespace>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
-    <StartupObject>SIL.Pa.PaStartup</StartupObject>
+    <StartupObject>SIL.Pa.Program</StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -100,6 +100,7 @@
     </Reference>
     <Reference Include="SilUtils, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SilUtils\obj\Debug\SilUtils.dll</HintPath>
     </Reference>
     <Reference Include="SpeechToolsUtils, Version=1.0.3895.4448, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -188,8 +189,8 @@
     <Compile Include="Model\WordCache\WordCacheEntry.cs" />
     <Compile Include="Model\WordCache\WordListCache.cs" />
     <Compile Include="Model\WordCache\WordListCacheEntry.cs" />
-    <Compile Include="Pa.cs" />
-    <Compile Include="PaStartup.cs" />
+    <Compile Include="App.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="PhoneticSearching\FFNormalizer.cs" />
     <Compile Include="PhoneticSearching\PatternGroup.cs" />
     <Compile Include="PhoneticSearching\PatternGroupMember.cs" />
@@ -994,7 +995,6 @@ copy "$(TargetDir)..\..\DistFiles\Configuration\*.*" "$(ProjectDir)$(OutDir)\Con
 copy "$(TargetDir)..\..\DistFiles\Processing\*.*" "$(ProjectDir)$(OutDir)\Processing"
 copy "$(TargetDir)..\..\DistFiles\ICSharpCode.SharpZipLib.dll" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\Phonology_Assistant_Help.chm" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\GoogleTranslateAPI.dll" "$(ProjectDir)$(OutDir)"
 copy "$(TargetDir)..\..\DistFiles\PA Instructor Guide.doc" "$(ProjectDir)$(OutDir)\Training"
 copy "$(TargetDir)..\..\DistFiles\PA Student Manual.doc" "$(ProjectDir)$(OutDir)\Training"
 copy "$(TargetDir)..\..\DistFiles\PA Needs Assessment.doc" "$(ProjectDir)$(OutDir)\Training"
