@@ -2,11 +2,17 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">
-			<Directory Id="CommonAppDataFolder">
+			<!--<Directory Id="CommonAppDataFolder">
 				<Directory Id="PaCommonAppData" Name="Phonology Assistant">
 					<Directory Id="SampleDataDir" Name="Samples">
 					</Directory>
 				</Directory>
+			</Directory>-->
+
+			<Directory Id="FontsFolder" SourceName="Fonts">
+				<Component Id="DoulosSILR.ttf" Guid="{24FBDE73-44B3-42e1-BE61-0F2783AB5463}" Permanent="yes">
+					<File Id="DoulosSILR.ttf" Name="DoulosSILR.ttf" Source="..\DistFiles\DoulosSILR.ttf" TrueType="yes" KeyPath="yes" DiskId="1" />
+				</Component>
 			</Directory>
 
 			<Directory Id="ProgramFilesFolder" Name="PFiles">

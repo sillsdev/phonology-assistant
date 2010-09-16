@@ -17,12 +17,12 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 	<!--<Product Id="$(var.Property_ProductCode)" Name="Phonology Assistant $(var.Property_ProductVersion)" Language="1033"
 			   Version="$(var.Property_ProductVersion)" Manufacturer="SIL"
 			   UpgradeCode="$(var.Property_UpgradeCode)">-->
-	
+
 	<Product Id="$(var.Property_ProductCode)" Name="Phonology Assistant 3.2" Language="1033"
 			   Version="$(var.Property_ProductVersion)" Manufacturer="SIL"
 			   UpgradeCode="$(var.Property_UpgradeCode)">
 
-		<Package  Compressed="yes" InstallerVersion="200" />
+		<Package Compressed="yes" InstallerVersion="200" />
 
 		<Upgrade Id ="$(var.Property_UpgradeCode)" >
 			<UpgradeVersion Minimum ="$(var.Property_ProductVersion)" OnlyDetect ="yes" Property ="NEWVERSIONDETECTED" />
@@ -30,10 +30,11 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 		</Upgrade >
 
 		<!-- 
-    "from the list: Don't use Advertise="yes" Advertised shortcuts are designed to allow
-users to install just the shortcut for your app, then demand-install the
-rest of the app the first time the icon is run.  If this is not behavior you
-are trying to support, you're better off using non-advertised shortcuts. "-->
+		"from the list: Don't use Advertise="yes" Advertised shortcuts are designed to allow
+		users to install just the shortcut for your app, then demand-install the
+		rest of the app the first time the icon is run.  If this is not behavior you
+		are trying to support, you're better off using non-advertised shortcuts. "
+		-->
 
 		<PropertyRef Id="NETFRAMEWORK35" />
 		<Condition Message="Before Phonology Assistant can install, you need to install Microsoft's free .NET Framework 3.5.  A full discussion of Phonology Assistant's requirements can be found at SayMore.org/wiki/Prerequisites.">
@@ -150,6 +151,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<ComponentRef Id="phonology_project_to_CV_chart_2.xsl" />
 			<ComponentRef Id="Processing.xml" />
 			<ComponentRef Id="similarPhonePatterns.xml" />
+			<ComponentRef Id="DoulosSILR.ttf" />
 		</Feature>
 
 		<Feature Id="TrainingFiles" Level="1" Absent="allow" AllowAdvertise="yes" Title="Training Material">
@@ -159,8 +161,8 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 			<ComponentRef Id="PA_Student_Manual.doc" />
 			<ComponentRef Id="PaTrainingProjects.zip" />
 		</Feature>
-		
-		<Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
+
+		<Media Id="1" Cabinet="pa.cab" EmbedCab="yes" CompressionLevel="high" />
 		<Icon Id="Pa.exe" SourceFile ="..\output\release\Pa.exe" />
 		<Property Id="ARPPRODUCTICON" Value="Pa.exe" />
 		<WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
@@ -169,7 +171,7 @@ are trying to support, you're better off using non-advertised shortcuts. "-->
 
 		<InstallExecuteSequence>
 			<RemoveExistingProducts After="InstallInitialize" />
-
+			<RegisterFonts />
 			<!--We need the condition here so that we only launch the executable when we make an installation but not when we remove the product-->
 		</InstallExecuteSequence>
 	</Product>
