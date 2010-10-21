@@ -76,8 +76,8 @@ namespace SIL.Pa.Model
 		[XmlElement("placeOfArticulation")]
 		public int POArticulation { get; set; }
 
-		[XmlElement("displayOrder")]
-		public int DisplayOrder { get; set; }
+		//[XmlElement("displayOrder")]
+		//public int DisplayOrder { get; set; }
 
 		[XmlElement("chartColumn")]
 		public int ChartColumn { get; set; }

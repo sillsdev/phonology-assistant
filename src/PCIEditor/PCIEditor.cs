@@ -413,7 +413,6 @@ namespace SIL.Pa
 				info.IsBase = (bool)row.Cells[kIsBase].Value;
 				info.CanPrecedeBase = (bool)row.Cells[kCanPrecedeBase].Value;
 				info.DisplayWithDottedCircle = (bool)row.Cells[kDisplayWithDottedCircle].Value;
-				info.DisplayOrder = (int)row.Cells[kDisplayOrder].Value;
 				info.MOArticulation = (int)row.Cells[kMOA].Value;
 				info.POArticulation = (int)row.Cells[kPOA].Value;
 				info.AMask = (FeatureMask)row.Cells[kAMask].Value;
@@ -904,7 +903,6 @@ namespace SIL.Pa
 			row.Cells[kIsBase].Value = charInfo.IsBase;
 			row.Cells[kCanPrecedeBase].Value = charInfo.CanPrecedeBase;
 			row.Cells[kDisplayWithDottedCircle].Value = charInfo.DisplayWithDottedCircle;
-			row.Cells[kDisplayOrder].Value = charInfo.DisplayOrder;
 
 			// Articulation
 			row.Cells[kMOA].Value = charInfo.MOArticulation;

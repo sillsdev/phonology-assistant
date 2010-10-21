@@ -293,27 +293,27 @@ namespace SIL.Pa.Model
 				charInfo : null);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a list of references to cache items, sorted by the specified sort type.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public SortedList<int, IPASymbol> GetSortedReferenceList(SortType sortType)
-		{
-			SortedList<int, IPASymbol> list = new SortedList<int, IPASymbol>();
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets a list of references to cache items, sorted by the specified sort type.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public SortedList<int, IPASymbol> GetSortedReferenceList(SortType sortType)
+		//{
+		//    SortedList<int, IPASymbol> list = new SortedList<int, IPASymbol>();
 
-			foreach (IPASymbol info in Values)
-			{
-				switch (sortType)
-				{
-					case SortType.MOArticulation: list[info.MOArticulation] = info; break;
-					case SortType.POArticulation: list[info.POArticulation] = info; break;
-					case SortType.Unicode: list[info.Decimal] = info; break;
-				}
-			}
+		//    foreach (IPASymbol info in Values)
+		//    {
+		//        switch (sortType)
+		//        {
+		//            case SortType.MOArticulation: list[info.MOArticulation] = info; break;
+		//            case SortType.POArticulation: list[info.POArticulation] = info; break;
+		//            case SortType.Unicode: list[info.Decimal] = info; break;
+		//        }
+		//    }
 
-			return list;
-		}
+		//    return list;
+		//}
 
 		#region Indexer overloads
 		/// ------------------------------------------------------------------------------------

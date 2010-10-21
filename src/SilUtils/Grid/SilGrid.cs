@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -25,11 +26,11 @@ namespace SilUtils
 
 		private const string kDropDownStyle = "DropDown";
 		
-		private bool m_isDirty;
-		private bool m_paintWaterMark;
-		private bool m_showWaterMarkWhenDirty;
-		private string m_waterMark = "!";
-		private int m_prevRowIndex = -1;
+		protected bool m_isDirty;
+		protected bool m_paintWaterMark;
+		protected bool m_showWaterMarkWhenDirty;
+		protected string m_waterMark = "!";
+		protected int m_prevRowIndex = -1;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -44,6 +45,7 @@ namespace SilUtils
 			AllowUserToAddRows = false;
 			AllowUserToDeleteRows = false;
 			AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+			FullRowFocusRectangleColor = SystemColors.ControlDark;
 			BackgroundColor = DefaultCellStyle.BackColor = SystemColors.Window;
 			base.ForeColor = DefaultCellStyle.ForeColor = SystemColors.WindowText;
 			SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -96,6 +98,27 @@ namespace SilUtils
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool PaintHeaderAcrossFullGridWidth { get; set;}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// When the selection mode is full row and the right edge of the last column doesn't
+		/// extend to the right edge of the client area, setting this flag to true will cause
+		/// the full row selection rectangle to extend all the way to the right edge of the
+		/// grid.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Browsable(true)]
+		[DefaultValue(false)]
+		public bool ExtendFullRowSelectRectangleToEdge { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		[Browsable(true)]
+		[DefaultValue(false)]
+		public bool PaintFullRowFocusRectangle { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		[Browsable(true)]
+		public Color FullRowFocusRectangleColor { get; set; }
 
 		#endregion
 
@@ -196,12 +219,31 @@ namespace SilUtils
 			m_paintWaterMark = paintWaterMark;
 			if (m_paintWaterMark)
 				Invalidate(WaterMarkRectangle);
+
+			if (!m_paintWaterMark && Focused && PaintFullRowFocusRectangle &&
+				CurrentCellAddress.Y >= 0 && CurrentCellAddress.Y < RowCount)
+			{
+				InvalidateRow(CurrentCellAddress.Y);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		protected override void OnGotFocus(EventArgs e)
+		{
+			base.OnGotFocus(e);
+
+			// For some reason, using OnEnter only redraws the current cell, not the
+			// entire row. This event works better.
+			InvalidateRowInFullRowSelectMode(CurrentCellAddress.Y);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnLeave(EventArgs e)
+		{
+			base.OnLeave(e);
+			InvalidateRowInFullRowSelectMode(CurrentCellAddress.Y);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public VScrollBar VScrollBar
 		{
@@ -217,10 +259,6 @@ namespace SilUtils
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public HScrollBar HScrollBar
 		{
@@ -257,6 +295,22 @@ namespace SilUtils
 			m_paintWaterMark = paintWaterMark;
 			if (m_paintWaterMark)
 				Invalidate(WaterMarkRectangle);
+
+			// This chunk of code takes care of two problems. The first has to do with the
+			// first row of pixels below the column headers. The focus rectangle color was
+			// getting left behind when selected rows were being scrolled upward, out of
+			// view. The second problem has to do with the selected row losing the top edge
+			// of its focus rectangle when it is scrolled downward after having been the
+			// top visible row.
+			if (PaintFullRowFocusRectangle && SelectionMode == DataGridViewSelectionMode.FullRowSelect &&
+				e.ScrollOrientation == ScrollOrientation.VerticalScroll && CurrentCellAddress.Y >= 0 &&
+				CurrentCellAddress.Y < RowCount)
+			{
+				Invalidate(new Rectangle(0, ColumnHeadersHeight - 1, ClientSize.Width, 2));
+
+				if (FirstDisplayedScrollingRowIndex == CurrentCellAddress.Y - 1)
+					InvalidateRowInFullRowSelectMode(CurrentCellAddress.Y);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -419,20 +473,12 @@ namespace SilUtils
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnRowsAdded(DataGridViewRowsAddedEventArgs e)
 		{
 			base.OnRowsAdded(e);
 			IsDirty = true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnRowsRemoved(DataGridViewRowsRemovedEventArgs e)
 		{
@@ -443,10 +489,6 @@ namespace SilUtils
 		#endregion
 
 		#region Events and methods for handling DropDown style combo box cells.
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCurrentCellDirtyStateChanged(EventArgs e)
 		{
@@ -460,7 +502,6 @@ namespace SilUtils
 		/// <summary>
 		/// Check if we need to modify the drop-down style of the grid's combo box.
 		/// </summary>
-		/// <param name="e"></param>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnEditingControlShowing(DataGridViewEditingControlShowingEventArgs e)
 		{
@@ -488,11 +529,6 @@ namespace SilUtils
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="cbo"></param>
-		/// ------------------------------------------------------------------------------------
 		private static void SortComboList(ComboBox cbo)
 		{
 			SortedList lst = new SortedList();
@@ -506,11 +542,6 @@ namespace SilUtils
 				cbo.Items.Add(de.Key);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="e"></param>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellValidating(DataGridViewCellValidatingEventArgs e)
 		{
@@ -593,22 +624,47 @@ namespace SilUtils
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnCurrentCellChanged(EventArgs e)
+		{
+			base.OnCurrentCellChanged(e);
+
+			if (m_prevRowIndex != CurrentCellAddress.Y)
+			{
+				InvalidateRowInFullRowSelectMode(m_prevRowIndex);
+				InvalidateRowInFullRowSelectMode(CurrentCellAddress.Y);
+				m_prevRowIndex = CurrentCellAddress.Y;
+				OnCurrentRowChanged(EventArgs.Empty);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
+		{
+			base.OnCellPainting(e);
+
+			if (e.RowIndex == -1 && e.ColumnIndex == 0 && PaintHeaderAcrossFullGridWidth &&
+				ClientSize.Width > Columns.GetColumnsWidth(DataGridViewElementStates.Visible))
+			{
+				DrawExtendedColumnHeaderRow(e);
+				return;
+			}
+
+			if (e.RowIndex >= 0 && !e.Handled && Focused & PaintFullRowFocusRectangle &&
+				SelectionMode == DataGridViewSelectionMode.FullRowSelect)
+			{
+				DrawFocusRectangle(e);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// This method fills in the gap between the header of the last visible column and the
 		/// right edge of the grid. That gap is filled with something that looks like one long
 		/// empty column header.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
+		protected virtual void DrawExtendedColumnHeaderRow(DataGridViewCellPaintingEventArgs e)
 		{
-			base.OnCellPainting(e);
-
-			if (e.RowIndex > -1 || e.ColumnIndex != 0 || !PaintHeaderAcrossFullGridWidth ||
-				Columns.GetColumnsWidth(DataGridViewElementStates.Visible) > ClientSize.Width)
-			{
-				return;
-			}
-
 			Rectangle rc = e.CellBounds;
 			rc.Width = ClientSize.Width;
 
@@ -617,7 +673,7 @@ namespace SilUtils
 			{
 				if (ColumnHeadersBorderStyle == DataGridViewHeaderBorderStyle.Raised)
 					rc.Height--;
-				
+
 				VisualStyleRenderer renderer = new VisualStyleRenderer(element);
 				renderer.DrawBackground(e.Graphics, rc);
 			}
@@ -629,33 +685,102 @@ namespace SilUtils
 				else if (ColumnHeadersBorderStyle == DataGridViewHeaderBorderStyle.Raised)
 				{
 					ControlPaint.DrawButton(e.Graphics, rc, ButtonState.Normal);
-					ControlPaint.DrawBorder3D(e.Graphics, rc, Border3DStyle.Flat,
-						Border3DSide.Bottom);
+					ControlPaint.DrawBorder3D(e.Graphics, rc, Border3DStyle.Flat, Border3DSide.Bottom);
 				}
 			}
-		
+
+			// Clean up the bottom edge.
 			if (ColumnHeadersBorderStyle == DataGridViewHeaderBorderStyle.Raised)
+				ControlPaint.DrawBorder3D(e.Graphics, rc, Border3DStyle.Etched, Border3DSide.Top);
+		}
+
+		/// --------------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// --------------------------------------------------------------------------------------------
+		protected virtual void DrawFocusRectangle(DataGridViewCellPaintingEventArgs e)
+		{
+			e.Handled = true;
+			var paintParts = e.PaintParts;
+			var rc = e.CellBounds;
+
+			paintParts &= ~DataGridViewPaintParts.Focus;
+			e.Paint(rc, paintParts);
+
+			if (e.RowIndex != CurrentCellAddress.Y)
+				return;
+
+			rc.Height++;
+			rc.Y--;
+
+			using (var pen = new Pen(FullRowFocusRectangleColor))
 			{
-				// Clean up the bottom edge.
-				ControlPaint.DrawBorder3D(e.Graphics, rc, Border3DStyle.Etched,
-					Border3DSide.Top);
+				e.Graphics.DrawLine(pen, rc.X, rc.Y, rc.Right - 1, rc.Y);
+				e.Graphics.DrawLine(pen, rc.X, rc.Bottom - 1, rc.Right - 1, rc.Bottom - 1);
+
+				if (e.ColumnIndex == 0)
+					e.Graphics.DrawLine(pen, rc.X, rc.Y, rc.X, rc.Bottom - 1);
+
+				if (Columns[e.ColumnIndex].DisplayIndex == ColumnCount - 1)
+					e.Graphics.DrawLine(pen, rc.Right - 1, rc.Y, rc.Right - 1, rc.Bottom - 1);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnCurrentCellChanged(EventArgs e)
+		protected override void OnRowPostPaint(DataGridViewRowPostPaintEventArgs e)
 		{
-			base.OnCurrentCellChanged(e);
+			base.OnRowPostPaint(e);
 
-			if (m_prevRowIndex != CurrentCellAddress.Y && CurrentRowChanged != null)
+			if ((e.State & DataGridViewElementStates.Selected) != DataGridViewElementStates.Selected ||
+				!ExtendFullRowSelectRectangleToEdge || e.RowIndex < 0 || e.RowIndex >= RowCount)
 			{
-				m_prevRowIndex = CurrentCellAddress.Y;
-				CurrentRowChanged(this, EventArgs.Empty);
+				return;
 			}
+
+			// Determine whether or not there is any gap between the right edge of the last
+			// displayed cell and the right edge of the client area.
+			var colWidths = Columns.GetColumnsWidth(DataGridViewElementStates.Displayed);
+			if (colWidths > ClientSize.Width)
+				return;
+
+			var rc = GetRowDisplayRectangle(e.RowIndex, false);
+			rc.Width -= (colWidths - 1);
+			rc.X += (colWidths - 1);
+
+			// Fill the gap betwee the last displayed column and the right edge of the client area.
+			using (var br = new SolidBrush(DefaultCellStyle.SelectionBackColor))
+				e.Graphics.FillRectangle(br, rc);
+
+			if (!Focused || !PaintFullRowFocusRectangle || e.RowIndex != CurrentCellAddress.Y)
+				return;
+
+			// Draw focus rectangle line across top and bottom and along the right edge.
+			using (var pen = new Pen(FullRowFocusRectangleColor))
+			{
+				e.Graphics.DrawLine(pen, rc.X, rc.Y - 1, rc.Right, rc.Y - 1);
+				e.Graphics.DrawLine(pen, rc.X, rc.Bottom - 1, rc.Right, rc.Bottom - 1);
+				e.Graphics.DrawLine(pen, rc.Right - 1, rc.Y, rc.Right - 1, rc.Bottom - 1);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void InvalidateRowInFullRowSelectMode(int row)
+		{
+			if (PaintFullRowFocusRectangle && SelectionMode == DataGridViewSelectionMode.FullRowSelect &&
+				row >= 0 && row < RowCount)
+			{
+				var rc = GetRowDisplayRectangle(row, false);
+				rc.Inflate(1, 2);
+				Invalidate(rc);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void OnCurrentRowChanged(EventArgs e)
+		{
+			if (CurrentRowChanged != null)
+				CurrentRowChanged(this, EventArgs.Empty);
 		}
 
 		#region Static methods for creating various column types
