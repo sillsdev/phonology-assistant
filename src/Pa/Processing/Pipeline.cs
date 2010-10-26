@@ -25,7 +25,8 @@ namespace SIL.Pa.Processing
 			ExportDistributionChart,
 			ExportToXHTML,
 			ExportToCss,
-			ExportToWord
+			ExportToWord,
+			ExportToXLingPaper
 		}
 
 		public delegate void StepProcessEventHandler(Pipeline pipeline, Step step);
@@ -115,6 +116,9 @@ namespace SIL.Pa.Processing
 			
 				case ProcessType.ExportToWord:
 					return "processing/process[@type='export'][@format='Word 2003 XML']";
+
+				case ProcessType.ExportToXLingPaper:
+					return "processing/process[@type='export'][@format='XLingPaper']";
 			}
 
 			return null;

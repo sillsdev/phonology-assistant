@@ -122,6 +122,7 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 			<ComponentRef Id="phonology_export_view_list_3c_minimal_pairs.xsl" />
 			<ComponentRef Id="phonology_export_view_to_CSS.xsl" />
 			<ComponentRef Id="phonology_export_view_to_Word_2003_XML.xsl" />
+			<ComponentRef Id="phonology_export_view_XLingPaper.xsl" />
 			<ComponentRef Id="phonology_export_view_to_XHTML.xsl" />
 			<ComponentRef Id="phonology_IE6.css" />
 			<ComponentRef Id="phonology_IE7.css" />

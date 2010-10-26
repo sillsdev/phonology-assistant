@@ -1645,19 +1645,11 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsHTML(object args)
 		{
 			return (m_activeView && m_rsltVwMngr.HTMLExport() != null);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsWordXml(object args)
 		{
@@ -1665,9 +1657,11 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		protected bool OnExportAsXLingPaper(object args)
+		{
+			return (m_activeView && m_rsltVwMngr.XLingPaperExport() != null);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExportAsHTML(object args)
 		{
@@ -1675,11 +1669,13 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExportAsWordXml(object args)
+		{
+			return EnableItemWhenFocusedAndHaveCurrentGrid(args as TMItemProperties);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateExportAsXLingPaper(object args)
 		{
 			return EnableItemWhenFocusedAndHaveCurrentGrid(args as TMItemProperties);
 		}

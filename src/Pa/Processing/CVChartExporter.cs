@@ -60,6 +60,19 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		public static bool ToXLingPaper(PaProject project, CVChartType chartType,
+			string outputFileName, CVChartGrid grid, bool openAfterExport)
+		{
+			return Process(project, chartType, outputFileName, OutputFormat.XHTML, grid,
+				openAfterExport, Pipeline.ProcessType.ExportToXLingPaper,
+				Settings.Default.AppThatOpensXLingPaperXML, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private static bool Process(PaProject project, CVChartType chartType,
 			string outputFileName, OutputFormat outputFormat, DataGridView grid,
 			bool openAfterExport, Pipeline.ProcessType finalPipeline, string appToOpenOutput,
@@ -72,7 +85,7 @@ namespace SIL.Pa.Processing
 				Pipeline.ProcessType.ExportCVChart, finalPipeline);
 
 			if (result && openAfterExport)
-				CallAppToOpenWordXML(appToOpenOutput, outputFileName);
+				CallAppToExportedFile(appToOpenOutput, outputFileName);
 
 			return result;
 		}

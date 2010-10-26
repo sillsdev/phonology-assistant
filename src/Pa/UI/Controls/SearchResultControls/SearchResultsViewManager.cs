@@ -1525,7 +1525,7 @@ namespace SIL.Pa.UI.Controls
 		#endregion
 
 		#region Export Methods
-		/// ------------------------------------------------------------------------------------
+				/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Attempts to export the manager's current grid contents to HTML and returns the
 		/// html file.
@@ -1533,44 +1533,11 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public string HTMLExport()
 		{
-			var grid = CurrentViewsGrid;
-
-			if (grid == null)
-				return null;
-
-			string queryName = (string.IsNullOrEmpty(grid.Cache.SearchQuery.Name) ?
-				string.Empty : grid.Cache.SearchQuery.Name);
-
-			// The query name may just be the pattern and in that case, we won't use it as
-			// part of the default output file name. But if all characters in the name
-			// are valid, then it will be used as part of the default file name.
-			foreach (char invalidChar in Path.GetInvalidFileNameChars())
-			{
-				if (queryName.Contains(invalidChar.ToString()))
-				{
-					queryName = string.Empty;
-					break;
-				}
-			}
-
 			var fmt = LocalizationManager.LocalizeString(
 				"DefaultSearchResultHtmlExportFileAffix", "{0}-{1}SearchResults.html");
 
-			var defaultHTMLFileName = string.Format(fmt, App.Project.LanguageName, queryName);
-
-			var fileTypes = App.kstidFileTypeHTML + "|" + App.kstidFileTypeAllFiles;
-
-			int filterIndex = 0;
-			var outputFileName = App.SaveFileDialog("html", fileTypes, ref filterIndex,
-				App.kstidSaveFileDialogGenericCaption, defaultHTMLFileName, App.Project.Folder);
-
-			if (string.IsNullOrEmpty(outputFileName))
-				return null;
-
-			SearchResultExporter.ToHtml(App.Project, outputFileName, grid,
-				Settings.Default.OpenHtmlSearchResultAfterExport);
-
-			return outputFileName;
+			return Export(fmt, App.kstidFileTypeHTML, "html",
+				Settings.Default.OpenHtmlSearchResultAfterExport, SearchResultExporter.ToHtml);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1581,6 +1548,33 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public string WordXmlExport()
 		{
+			var fmt = LocalizationManager.LocalizeString(
+				"DefaultSearchResultWordXmlExportFileAffix", "{0}-{1}SearchResults-(Word).xml");
+
+			return Export(fmt, App.kstidFileTypeWordXml, "xml",
+				Settings.Default.OpenWordXmlSearchResultAfterExport, SearchResultExporter.ToWordXml);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Attempts to export the manager's current grid contents to an XLingPaper XML file
+		/// and returns the path to the file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string XLingPaperExport()
+		{
+			var fmt = LocalizationManager.LocalizeString(
+				"DefaultSearchResultXLingPaperExportFileAffix", "{0}-{1}SearchResults-(XLingPaper).xml");
+
+			return Export(fmt, App.kstidFileTypeXLingPaper, "xml",
+				Settings.Default.OpenXLingPaperSearchResultAfterExport,
+				SearchResultExporter.ToXLingPaper);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private string Export(string fmtFileName, string fileTypeFilter, string defaultFileType,
+			bool openAfterExport, Func<PaProject, string, PaWordListGrid, bool, bool> exportAction)
+		{
 			var grid = CurrentViewsGrid;
 
 			if (grid == null)
@@ -1601,23 +1595,18 @@ namespace SIL.Pa.UI.Controls
 				}
 			}
 
-			var fmt = LocalizationManager.LocalizeString(
-				"DefaultSearchResultWordXmlExportFileAffix", "{0}-{1}SearchResults.xml");
+			var defaultFileName = string.Format(fmtFileName, App.Project.LanguageName, queryName);
 
-			var defaultOutputFileName = string.Format(fmt, App.Project.LanguageName, queryName);
-
-			var fileTypes = App.kstidFileTypeWordXml + "|" + App.kstidFileTypeAllFiles;
+			var fileTypes = fileTypeFilter + "|" + App.kstidFileTypeAllFiles;
 
 			int filterIndex = 0;
-			var outputFileName = App.SaveFileDialog("xml", fileTypes, ref filterIndex,
-				App.kstidSaveFileDialogGenericCaption, defaultOutputFileName, App.Project.Folder);
+			var outputFileName = App.SaveFileDialog(defaultFileType, fileTypes, ref filterIndex,
+				App.kstidSaveFileDialogGenericCaption, defaultFileName, App.Project.Folder);
 
 			if (string.IsNullOrEmpty(outputFileName))
 				return null;
 
-			SearchResultExporter.ToWordXml(App.Project, outputFileName, grid,
-				Settings.Default.OpenWordXmlSearchResultAfterExport);
-
+			exportAction(App.Project, outputFileName, grid, openAfterExport);
 			return outputFileName;
 		}
 

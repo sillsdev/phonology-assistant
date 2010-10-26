@@ -308,6 +308,20 @@ namespace SIL.Pa
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypeXLingPaper
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString(
+					"FileTypes.XLingPaperFileType", "XLingPaper Files (*.xml)|*.xml");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public static string kstidFileTypePAXML
 		{
 			get

@@ -859,10 +859,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExportAsRTF(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
@@ -876,69 +872,60 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnExportAsWordXml(object args)
-		{
-			if (!m_activeView)
-				return false;
-
-			var fmt = LocalizationManager.LocalizeString(
-				"DefaultDataCorpusWordXmlExportFileAffix", "{0}-DataCorpus.xml");
-
-			string defaultHTMLFileName = string.Format(fmt, App.Project.LanguageName);
-
-			var fileTypes = App.kstidFileTypeWordXml + "|" + App.kstidFileTypeAllFiles;
-
-			int filterIndex = 0;
-			var outputFileName = App.SaveFileDialog("xml", fileTypes, ref filterIndex,
-				App.kstidSaveFileDialogGenericCaption, defaultHTMLFileName, App.Project.Folder);
-
-			if (string.IsNullOrEmpty(outputFileName))
-				return false;
-
-			DataCorpusExporter.ToWordXml(App.Project, outputFileName, m_grid,
-				Settings.Default.OpenWordXmlDataCorpusAfterExport);
-
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsHTML(object args)
 		{
-			if (!m_activeView)
-				return false;
-
 			var fmt = LocalizationManager.LocalizeString(
 				"DefaultDataCorpusHTMLExportFileAffix", "{0}-DataCorpus.html");
 
-			string defaultHTMLFileName = string.Format(fmt, App.Project.LanguageName);
+			return Export(fmt, App.kstidFileTypeHTML, "html",
+				Settings.Default.OpenHtmlDataCorpusAfterExport,
+				DataCorpusExporter.ToHtml);
+		}
 
-			var fileTypes = App.kstidFileTypeHTML + "|" + App.kstidFileTypeAllFiles;
+		/// ------------------------------------------------------------------------------------
+		protected bool OnExportAsWordXml(object args)
+		{
+			var fmt = LocalizationManager.LocalizeString(
+				"DefaultDataCorpusWordXmlExportFileAffix", "{0}-DataCorpus-(Word).xml");
+
+			return Export(fmt, App.kstidFileTypeWordXml, "xml",
+				Settings.Default.OpenWordXmlDataCorpusAfterExport,
+				DataCorpusExporter.ToWordXml);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnExportAsXLingPaper(object args)
+		{
+			var fmt = LocalizationManager.LocalizeString(
+				"DefaultDataCorpusXLingPaperExportFileAffix", "{0}-DataCorpus-(XLingPap).xml");
+
+			return Export(fmt, App.kstidFileTypeXLingPaper, "xml",
+				Settings.Default.OpenXLingPaperDataCorpusAfterExport,
+				DataCorpusExporter.ToXLingPaper);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool Export(string fmtFileName, string fileTypeFilter, string defaultFileType,
+			bool openAfterExport, Func<PaProject, string, PaWordListGrid, bool, bool> exportAction)
+		{
+			if (!m_activeView)
+				return false;
+
+			string defaultFileName = string.Format(fmtFileName, App.Project.LanguageName);
+
+			var fileTypes = fileTypeFilter + "|" + App.kstidFileTypeAllFiles;
 
 			int filterIndex = 0;
-			var outputFileName = App.SaveFileDialog("html", fileTypes, ref filterIndex,
-				App.kstidSaveFileDialogGenericCaption, defaultHTMLFileName, App.Project.Folder);
+			var outputFileName = App.SaveFileDialog(defaultFileType, fileTypes, ref filterIndex,
+				App.kstidSaveFileDialogGenericCaption, defaultFileName, App.Project.Folder);
 
 			if (string.IsNullOrEmpty(outputFileName))
 				return false;
 
-			DataCorpusExporter.ToHtml(App.Project, outputFileName, m_grid,
-				Settings.Default.OpenHtmlDataCorpusAfterExport);
-
+			exportAction(App.Project, outputFileName, m_grid, openAfterExport);
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExportAsHTML(object args)
 		{
@@ -951,6 +938,19 @@ namespace SIL.Pa.UI.Views
 			itemProps.Update = true;
 			return true;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateExportAsWordXml(object args)
+		{
+			return OnUpdateExportAsHTML(args);
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateExportAsXLingPaper(object args)
+		{
+			return OnUpdateExportAsHTML(args);
+		}
+
 		#endregion
 
 		#region Phonetic Sort methods

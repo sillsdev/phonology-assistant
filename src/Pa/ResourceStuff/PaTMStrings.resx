@@ -938,4 +938,10 @@
   <data name="kstidExportAsWordXmlToolTip" xml:space="preserve">
     <value>To Word 2003 XML</value>
   </data>
+  <data name="kstidExportAsXLingPaperText" xml:space="preserve">
+    <value>To &amp;XLingPaper</value>
+  </data>
+  <data name="kstidExportAsXLingPaperToolTip" xml:space="preserve">
+    <value>Export to XLingPaper File</value>
+  </data>
 </root>

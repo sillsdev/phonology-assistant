@@ -47,9 +47,11 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public override CVChartType ChartType
+		{
+			get { return CVChartType.Consonant; }
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected override bool ShowHtmlChartWhenViewLoaded
 		{
@@ -67,10 +69,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override string InitializationMessage
 		{
 			get
@@ -84,19 +82,11 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override Color ChartGridColor
 		{
 			get { return Settings.Default.ConsonantChartGridColor; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override int ColumnHeaderHeight
 		{
@@ -104,29 +94,17 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override int RowHeaderWidth
 		{
 			get { return Settings.Default.ConsonantChartRowHdrWidth; }
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override string LayoutFile
 		{
 			get { return App.Project.ProjectPathFilePrefix + "ConsonantChartBeta.xml"; }
 		}
 
-		/// --------------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// --------------------------------------------------------------------------------------------
 		protected override string DefaultHTMLOutputFile
 		{
@@ -138,23 +116,25 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// --------------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// --------------------------------------------------------------------------------------------
 		protected override string DefaultWordXmlOutputFile
 		{
 			get
 			{
 				return LocalizationManager.LocalizeString(
-					"DefaultConsonantChartWordXmlExportFileAffix", "{0}-ConsonantChart.xml");
+					"DefaultConsonantChartWordXmlExportFileAffix", "{0}-ConsonantChart-(Word).xml");
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		protected override string DefaultXLingPaperOutputFile
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString(
+					"DefaultConsonantChartXLingPaperFileAffix", "{0}-ConsonantChart-(XLingPaper).xml");
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected override string CreateHtmlViewFile()
 		{

@@ -43,6 +43,18 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		public static new bool ToXLingPaper(PaProject project, string outputFileName,
+			PaWordListGrid grid, bool openAfterExport)
+		{
+			return Process(project, outputFileName, OutputFormat.XHTML, grid, openAfterExport,
+				Pipeline.ProcessType.ExportToXLingPaper, Settings.Default.AppThatOpensXLingPaperXML);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private static bool Process(PaProject project, string outputFileName,
 			OutputFormat outputFormat, DataGridView grid, bool openAfterExport,
 			Pipeline.ProcessType finalPipeline, string appToOpenOutput)
@@ -53,7 +65,7 @@ namespace SIL.Pa.Processing
 				Pipeline.ProcessType.ExportSearchResult, finalPipeline);
 
 			if (result && openAfterExport)
-				CallAppToOpenWordXML(appToOpenOutput, outputFileName);
+				CallAppToExportedFile(appToOpenOutput, outputFileName);
 
 			return result;
 		}

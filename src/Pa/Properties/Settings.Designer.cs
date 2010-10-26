@@ -401,23 +401,6 @@ namespace SIL.Pa.Properties {
             }
         }
         
-        /// <summary>
-        /// Full path is legal here. When empty, the default application is used.
-        /// </summary>
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
-        [global::System.Configuration.SettingsDescriptionAttribute("Full path is legal here. When empty, the default application is used.")]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string AppToOpenWordXml {
-            get {
-                return ((string)(this["AppToOpenWordXml"]));
-            }
-            set {
-                this["AppToOpenWordXml"] = value;
-            }
-        }
-        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -434,7 +417,8 @@ namespace SIL.Pa.Properties {
         /// <summary>
         /// Full path is valid here. When left empty, the default application is used.
         /// </summary>
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Configuration.SettingsDescriptionAttribute("Full path is valid here. When left empty, the default application is used.")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
@@ -442,18 +426,25 @@ namespace SIL.Pa.Properties {
             get {
                 return ((string)(this["AppThatOpensHtml"]));
             }
+            set {
+                this["AppThatOpensHtml"] = value;
+            }
         }
         
         /// <summary>
         /// When left empty, the default application is used.
         /// </summary>
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Configuration.SettingsDescriptionAttribute("When left empty, the default application is used.")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Winword.exe")]
         public string AppThatOpensWordXml {
             get {
                 return ((string)(this["AppThatOpensWordXml"]));
+            }
+            set {
+                this["AppThatOpensWordXml"] = value;
             }
         }
         
@@ -1345,6 +1336,71 @@ namespace SIL.Pa.Properties {
         public string SaWebsiteLink {
             get {
                 return ((string)(this["SaWebsiteLink"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool OpenXLingPaperDataCorpusAfterExport {
+            get {
+                return ((bool)(this["OpenXLingPaperDataCorpusAfterExport"]));
+            }
+            set {
+                this["OpenXLingPaperDataCorpusAfterExport"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AppThatOpensXLingPaperXML {
+            get {
+                return ((string)(this["AppThatOpensXLingPaperXML"]));
+            }
+            set {
+                this["AppThatOpensXLingPaperXML"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool OpenXLingPaperSearchResultAfterExport {
+            get {
+                return ((bool)(this["OpenXLingPaperSearchResultAfterExport"]));
+            }
+            set {
+                this["OpenXLingPaperSearchResultAfterExport"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool OpenXLingPaperCVChartAfterExport {
+            get {
+                return ((bool)(this["OpenXLingPaperCVChartAfterExport"]));
+            }
+            set {
+                this["OpenXLingPaperCVChartAfterExport"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool OpenXLingPaperDistChartAfterExport {
+            get {
+                return ((bool)(this["OpenXLingPaperDistChartAfterExport"]));
+            }
+            set {
+                this["OpenXLingPaperDistChartAfterExport"] = value;
             }
         }
     }

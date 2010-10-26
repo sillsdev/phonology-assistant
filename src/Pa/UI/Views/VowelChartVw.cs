@@ -47,9 +47,11 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public override CVChartType ChartType
+		{
+			get { return CVChartType.Vowel; }
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected override bool ShowHtmlChartWhenViewLoaded
 		{
@@ -138,23 +140,25 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// --------------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// --------------------------------------------------------------------------------------------
 		protected override string DefaultWordXmlOutputFile
 		{
 			get
 			{
 				return LocalizationManager.LocalizeString(
-					"DefaultVowelChartWordXmlExportFileAffix", "{0}-VowelChart.xml");
+					"DefaultVowelChartWordXmlExportFileAffix", "{0}-VowelChart-(Word).xml");
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		protected override string DefaultXLingPaperOutputFile
+		{
+			get
+			{
+				return LocalizationManager.LocalizeString(
+					"DefaultVowelChartXLingPaperFileAffix", "{0}-VowelChart-(XLingPaper).xml");
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected override string CreateHtmlViewFile()
 		{

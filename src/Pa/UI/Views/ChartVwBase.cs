@@ -71,19 +71,17 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected virtual string InitializationMessage
+		public virtual CVChartType ChartType
 		{
-			get { throw new NotImplementedException(); }
+			get { throw new NotImplementedException("The property must be overridden in derived class."); }
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		protected virtual string InitializationMessage
+		{
+			get { throw new NotImplementedException("The property must be overridden in derived class."); }
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected virtual Color ChartGridColor
 		{
@@ -91,49 +89,35 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual int ColumnHeaderHeight
 		{
-			get { throw new NotImplementedException(); }
+			get { throw new NotImplementedException("The property must be overridden in derived class."); }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual int RowHeaderWidth
 		{
-			get { throw new NotImplementedException(); }
-		}
-
-		/// --------------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// --------------------------------------------------------------------------------------------
-		protected virtual string DefaultHTMLOutputFile
-		{
-			get { throw new NotImplementedException(); }
-		}
-
-		/// --------------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// --------------------------------------------------------------------------------------------
-		protected virtual string DefaultWordXmlOutputFile
-		{
-			get { throw new NotImplementedException(); }
+			get { throw new NotImplementedException("The property must be overridden in derived class."); }
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		protected virtual string DefaultHTMLOutputFile
+		{
+			get { throw new NotImplementedException("The property must be overridden in derived class."); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual string DefaultWordXmlOutputFile
+		{
+			get { throw new NotImplementedException("The property must be overridden in derived class."); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual string DefaultXLingPaperOutputFile
+		{
+			get { throw new NotImplementedException("The property must be overridden in derived class."); }
+		}
+
 		/// ------------------------------------------------------------------------------------
 		private void LoadOldChart()
 		{
@@ -204,10 +188,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void LoadHtmlChart()
 		{
 			var outputFile = CreateHtmlViewFile();
@@ -238,39 +218,23 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual bool ShowHtmlChartWhenViewLoaded
 		{
-			get { throw new NotImplementedException(); }
+			get { throw new NotImplementedException("The property must be overridden in derived class."); }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual string CreateHtmlViewFile()
 		{
-			throw new NotImplementedException();
+			throw new NotImplementedException("The method must be overridden in derived class.");
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual string LayoutFile
 		{
-			get { throw new NotImplementedException(); }
+			get { throw new NotImplementedException("The property must be overridden in derived class."); }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void ShowHtmlChart(bool show)
 		{
@@ -407,7 +371,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected virtual void BuildDefaultChart()
 		{
-			throw new Exception("The method must be overridden in derived class.");
+			throw new NotImplementedException("The method must be overridden in derived class.");
 		}
 
 		#region ITabView Members
@@ -899,62 +863,61 @@ namespace SIL.Pa.UI.Views
 
 		#region Misc. Other Message handlers
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsHTML(object args)
 		{
-			if (!m_activeView)
-				return false;
-
-			string defaultOutputFileName = string.Format(DefaultHTMLOutputFile, App.Project.LanguageName);
-
-			var fileTypes = App.kstidFileTypeHTML + "|" + App.kstidFileTypeAllFiles;
-
-			int filterIndex = 0;
-			var outputFileName = App.SaveFileDialog("html", fileTypes, ref filterIndex,
-				App.kstidSaveFileDialogGenericCaption, defaultOutputFileName, App.Project.Folder);
-
+			var outputFileName = GetExportFileName(DefaultHTMLOutputFile, App.kstidFileTypeHTML, "html");
+				
 			if (string.IsNullOrEmpty(outputFileName))
 				return false;
-
-			var chrType = (CharacterType == IPASymbolType.Consonant ?
-				CVChartType.Consonant : CVChartType.Vowel);
-
-			CVChartExporter.ToHtml(App.Project, chrType, outputFileName, m_chartGrid,
+			
+			CVChartExporter.ToHtml(App.Project, ChartType, outputFileName, m_chartGrid,
 				Settings.Default.OpenHtmlCVChartAfterExport);
 
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		private string GetExportFileName(string fmtFileName, string fileTypeFilter, string defaultFileType)
+		{
+			if (!m_activeView)
+				return null;
+
+			string defaultOutputFileName = string.Format(fmtFileName, App.Project.LanguageName);
+
+			var fileTypes = fileTypeFilter + "|" + App.kstidFileTypeAllFiles;
+
+			int filterIndex = 0;
+
+			return App.SaveFileDialog(defaultFileType, fileTypes, ref filterIndex,
+				App.kstidSaveFileDialogGenericCaption, defaultOutputFileName, App.Project.Folder);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsWordXml(object args)
 		{
-			if (!m_activeView)
-				return false;
-
-			string defaultOutputFileName =
-				string.Format(DefaultWordXmlOutputFile, App.Project.LanguageName);
-
-			var fileTypes = App.kstidFileTypeWordXml + "|" + App.kstidFileTypeAllFiles;
-
-			int filterIndex = 0;
-			var outputFileName = App.SaveFileDialog("xml", fileTypes, ref filterIndex,
-				App.kstidSaveFileDialogGenericCaption, defaultOutputFileName, App.Project.Folder);
+			var outputFileName = GetExportFileName(DefaultWordXmlOutputFile,
+				App.kstidFileTypeWordXml, "xml");
 
 			if (string.IsNullOrEmpty(outputFileName))
 				return false;
 
-			var chrType = (CharacterType == IPASymbolType.Consonant ?
-				CVChartType.Consonant : CVChartType.Vowel);
-
-			CVChartExporter.ToWordXml(App.Project, chrType, outputFileName, m_chartGrid,
+			CVChartExporter.ToWordXml(App.Project, ChartType, outputFileName, m_chartGrid,
 				Settings.Default.OpenWordXmlCVChartAfterExport);
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnExportAsXLingPaper(object args)
+		{
+			var outputFileName = GetExportFileName(DefaultXLingPaperOutputFile,
+				App.kstidFileTypeXLingPaper, "xml");
+
+			if (string.IsNullOrEmpty(outputFileName))
+				return false;
+
+			CVChartExporter.ToXLingPaper(App.Project, ChartType, outputFileName, m_chartGrid,
+				Settings.Default.OpenXLingPaperCVChartAfterExport);
 
 			return true;
 		}
@@ -987,15 +950,17 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExportAsWordXml(object args)
 		{
 			return OnUpdateExportAsHTML(args);
 		}
-		
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateExportAsXLingPaper(object args)
+		{
+			return OnUpdateExportAsHTML(args);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 

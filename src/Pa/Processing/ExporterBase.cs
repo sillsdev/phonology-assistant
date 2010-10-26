@@ -1,19 +1,3 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2010, SIL International. All Rights Reserved.
-// <copyright from='2010' to='2010' company='SIL International'>
-//		Copyright (c) 2010, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
-// 
-// File: ExporterBase.cs
-// Responsibility: Olson
-// 
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -42,7 +26,7 @@ namespace SIL.Pa.Processing
 		public enum OutputFormat
 		{
 			XHTML,
-			WordXml
+			WordXml,
 		}
 
 		protected BackgroundWorker m_worker;
@@ -64,22 +48,26 @@ namespace SIL.Pa.Processing
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static bool CallAppToOpenWordXML(string application, string outputFileName)
+		public static bool CallAppToExportedFile(string application, string outputFileName)
 		{
 			if (File.Exists(outputFileName))
 			{
 				try
 				{
-					if (string.IsNullOrEmpty(application))
-						Process.Start(outputFileName);
-					else
-						Process.Start(application, string.Format("\"{0}\"", outputFileName));
-
+					Process.Start(application, string.Format("\"{0}\"", outputFileName));
 					return true;
 				}
-				catch (Exception e)
+				catch
 				{
-					Utils.MsgBox(e.Message);
+					try
+					{
+						Process.Start(outputFileName);
+						return true;
+					}
+					catch (Exception e)
+					{
+						Utils.MsgBox(e.Message);
+					}
 				}
 			}
 				

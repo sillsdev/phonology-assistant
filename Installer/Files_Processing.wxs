@@ -87,6 +87,9 @@
 				<Component Id="phonology_export_view_to_Word_2003_XML.xsl" Guid="{767CBCA6-0FBD-47D7-9913-61EDD308A1F0}">
 					<File Id="phonology_export_view_to_Word_2003_XML.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_to_Word_2003_XML.xsl" />
 				</Component>
+				<Component Id="phonology_export_view_XLingPaper.xsl" Guid="{2C6DE57A-E288-49A9-B352-E4AAAAF846D8}">
+					<File Id="phonology_export_view_XLingPaper.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_XLingPaper.xsl" />
+				</Component>
 				<Component Id="phonology_export_view_to_XHTML.xsl" Guid="{B81D5B06-34CE-44F6-B1C7-291F8AC8C6A1}">
 					<File Id="phonology_export_view_to_XHTML.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_to_XHTML.xsl" />
 				</Component>

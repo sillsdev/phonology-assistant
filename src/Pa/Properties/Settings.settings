@@ -110,17 +110,14 @@
     <Setting Name="TidyUpTempExportFilesAfterSaving" Description="When true and temporary export files are written to disk, the temporary XML is nicely indented and formatted for better human readability." Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="AppToOpenWordXml" Description="Full path is legal here. When empty, the default application is used." Provider="SilUtils.PortableSettingsProvider" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="OpenWordXmlDataCorpusAfterExport" Provider="SilUtils.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="AppThatOpensHtml" Description="Full path is valid here. When left empty, the default application is used." Type="System.String" Scope="Application">
+    <Setting Name="AppThatOpensHtml" Description="Full path is valid here. When left empty, the default application is used." Provider="SilUtils.PortableSettingsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="AppThatOpensWordXml" Description="When left empty, the default application is used." Type="System.String" Scope="Application">
-      <Value Profile="(Default)" />
+    <Setting Name="AppThatOpensWordXml" Description="When left empty, the default application is used." Provider="SilUtils.PortableSettingsProvider" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Winword.exe</Value>
     </Setting>
     <Setting Name="OpenWordXmlSearchResultAfterExport" Provider="SilUtils.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -349,6 +346,21 @@
     </Setting>
     <Setting Name="SaWebsiteLink" GenerateDefaultValueInCode="false" Type="System.String" Scope="Application">
       <Value Profile="(Default)">www.sil.org/computing/sa</Value>
+    </Setting>
+    <Setting Name="OpenXLingPaperDataCorpusAfterExport" Provider="SilUtils.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="AppThatOpensXLingPaperXML" Provider="SilUtils.PortableSettingsProvider" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="OpenXLingPaperSearchResultAfterExport" Provider="SilUtils.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="OpenXLingPaperCVChartAfterExport" Provider="SilUtils.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="OpenXLingPaperDistChartAfterExport" Provider="SilUtils.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>
