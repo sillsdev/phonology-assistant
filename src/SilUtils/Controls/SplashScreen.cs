@@ -348,6 +348,7 @@ namespace SilUtils
 				}
 			}
 		}
+
 		#endregion
 
 		#region Public properties set automatically in constructor for .Net apps
@@ -416,20 +417,28 @@ namespace SilUtils
 
 		#endregion
 
-		#region private methods
+		#region private/protected methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Starts the splash screen.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void StartSplashScreen()
+		protected virtual void StartSplashScreen()
 		{
-			m_splashScreen = new SplashScreenForm(m_showBuildNum, m_versionType);
+			m_splashScreen = GetSplashScreenForm();
 			m_splashScreen.RealShow(m_waitHandle, m_useFading);
 			if (m_useFading)
 				m_splashScreen.ShowDialog();
 		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual SplashScreenForm GetSplashScreenForm()
+		{
+			return new SplashScreenForm(m_showBuildNum, m_versionType);
+		}
+		
 		#endregion
 	}
+
 	#endregion
 }

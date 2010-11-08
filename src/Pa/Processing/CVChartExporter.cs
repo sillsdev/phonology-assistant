@@ -18,10 +18,6 @@ namespace SIL.Pa.Processing
 		private readonly CVChartType m_chartType;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static bool ToHtml(PaProject project, CVChartType chartType,
 			string outputFileName, CVChartGrid grid, bool openAfterExport)
 		{
@@ -29,71 +25,62 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static bool ToHtml(PaProject project, CVChartType chartType,
 			string outputFileName, CVChartGrid grid, bool openAfterExport,
 			bool showExportProgress)
 		{
 			return Process(project, chartType, outputFileName, OutputFormat.XHTML, grid,
-				openAfterExport, Pipeline.ProcessType.ExportToXHTML,
-				Settings.Default.AppThatOpensHtml, showExportProgress);
+				openAfterExport, Settings.Default.AppThatOpensHtml, showExportProgress, 
+				Pipeline.ProcessType.ExportToXHTML);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static bool ToWordXml(PaProject project, CVChartType chartType,
 			string outputFileName, CVChartGrid grid, bool openAfterExport)
 		{
 			return Process(project, chartType, outputFileName, OutputFormat.WordXml, grid,
-				openAfterExport, Pipeline.ProcessType.ExportToWord,
-				Settings.Default.AppThatOpensWordXml, true);
+				openAfterExport, Settings.Default.AppThatOpensWordXml, true,
+				Pipeline.ProcessType.ExportToWord);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static bool ToXLingPaper(PaProject project, CVChartType chartType,
 			string outputFileName, CVChartGrid grid, bool openAfterExport)
 		{
 			return Process(project, chartType, outputFileName, OutputFormat.XHTML, grid,
-				openAfterExport, Pipeline.ProcessType.ExportToXLingPaper,
-				Settings.Default.AppThatOpensXLingPaperXML, true);
+				openAfterExport, Settings.Default.AppThatOpensXLingPaperXML, true,
+				new[] { Pipeline.ProcessType.ExportToXLingPaper });
 		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		
 		/// ------------------------------------------------------------------------------------
 		private static bool Process(PaProject project, CVChartType chartType,
 			string outputFileName, OutputFormat outputFormat, DataGridView grid,
-			bool openAfterExport, Pipeline.ProcessType finalPipeline, string appToOpenOutput,
-			bool showExportProgress)
+			bool openAfterExport, string appToOpenOutput, bool showExportProgress,
+			Pipeline.ProcessType finalPipeline)
+			
+		{
+			return Process(project, chartType, outputFileName, outputFormat, grid,
+				openAfterExport, appToOpenOutput, showExportProgress,
+				Pipeline.ProcessType.ExportCVChart, finalPipeline);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static bool Process(PaProject project, CVChartType chartType, 
+			string outputFileName, OutputFormat outputFormat, DataGridView grid,
+			bool openAfterExport, string appToOpenOutput, bool showExportProgress,
+			params Pipeline.ProcessType[] pipeline)
 		{
 			var exporter = new CVChartExporter(project, chartType, outputFileName, outputFormat, grid);
 			exporter.m_showExportProgress = showExportProgress;
 
-			var result = exporter.InternalProcess(Settings.Default.KeepTempCVChartExportFile,
-				Pipeline.ProcessType.ExportCVChart, finalPipeline);
-
+			bool result = exporter.InternalProcess(Settings.Default.KeepTempCVChartExportFile, pipeline);
+			
 			if (result && openAfterExport)
 				CallAppToExportedFile(appToOpenOutput, outputFileName);
 
 			return result;
 		}
 	
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected CVChartExporter(PaProject project, CVChartType chartType,
 			string outputFileName, OutputFormat outputFormat, DataGridView grid)
@@ -102,10 +89,6 @@ namespace SIL.Pa.Processing
 			m_chartType = chartType;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override string Title
 		{
@@ -117,29 +100,17 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override string View
 		{
 			get { return Title; }
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override string TableClass
 		{
 			get { return "CV chart"; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override string NumberOfRecords
 		{

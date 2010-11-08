@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{87F94FCC-BC32-4203-A919-115F4FF43FF0}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -196,6 +196,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\kimidSilLogo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Splash1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -17,6 +17,7 @@
 // </remarks>
 // --------------------------------------------------------------------------------------------
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -33,7 +34,7 @@ namespace SilUtils
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	internal class SplashScreenForm : Form
+	public class SplashScreenForm : Form
 	{
 		#region Data members
 		private delegate void UpdateOpacityDelegate();
@@ -43,14 +44,15 @@ namespace SilUtils
 		// Threading.Timer uses and so we'd get a stack overflow.
 		private Timer m_timer;
 		private EventWaitHandle m_waitHandle;
-		private Panel m_panel;
-		private PictureBox pictureBox1;
-		private Label lblVersion;
-		private Label lblMessage;
-		private Label lblCopyright;
-		private Label lblProductName;
+		protected Panel m_panel;
+		protected PictureBox pictureBox1;
+		protected Label lblVersion;
+		protected Label lblMessage;
+		protected Label lblCopyright;
+		protected Label lblProductName;
 		private bool m_useFading = true;
-		private Label lblBuildNumber;
+		private bool m_showStandardSILContent = true;
+		protected Label lblBuildNumber;
 		private readonly bool m_showBuildNum;
 		private readonly VersionType m_versionType;
 		private readonly string m_versionFmt;
@@ -108,6 +110,7 @@ namespace SilUtils
 			m_waitHandle = null;
 			base.Dispose(disposing);
 		}
+
 		#endregion
 
 		#region Windows Form Designer generated code
@@ -140,7 +143,7 @@ namespace SilUtils
 			this.m_panel.Controls.Add(this.lblProductName);
 			resources.ApplyResources(this.m_panel, "m_panel");
 			this.m_panel.Name = "m_panel";
-			this.m_panel.Paint += new System.Windows.Forms.PaintEventHandler(this.m_panel_Paint);
+			this.m_panel.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleBackgroundPanelPaint);
 			// 
 			// lblBuildNumber
 			// 
@@ -192,6 +195,7 @@ namespace SilUtils
 			this.BackColor = System.Drawing.Color.White;
 			this.ControlBox = false;
 			this.Controls.Add(this.m_panel);
+			this.DoubleBuffered = true;
 			this.ForeColor = System.Drawing.Color.Black;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.MaximizeBox = false;
@@ -199,6 +203,7 @@ namespace SilUtils
 			this.Name = "SplashScreenForm";
 			this.Opacity = 0;
 			this.ShowInTaskbar = false;
+			this.TopMost = true;
 			this.m_panel.ResumeLayout(false);
 			this.m_panel.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -213,7 +218,7 @@ namespace SilUtils
 		/// Shows the splash screen
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void RealShow(EventWaitHandle waitHandle, bool useFading)
+		public virtual void RealShow(EventWaitHandle waitHandle, bool useFading)
 		{
 			m_waitHandle = waitHandle;
 			InitControlLabels();
@@ -233,7 +238,7 @@ namespace SilUtils
 		/// and the application showing it is the active application).
 		/// </summary>
 		/// ----------------------------------------------------------------------------------------
-		public void RealActivate()
+		public virtual void RealActivate()
 		{
 			BringToFront();
 			Refresh();
@@ -244,7 +249,7 @@ namespace SilUtils
 		/// Closes the splash screen
 		/// </summary>
 		/// ----------------------------------------------------------------------------------------
-		public void RealClose()
+		public virtual void RealClose()
 		{
 			if (m_timer != null)
 				m_timer.Stop();
@@ -259,7 +264,7 @@ namespace SilUtils
 		/// The message to display to indicate startup activity on the splash screen
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void SetMessage(string value)
+		public virtual void SetMessage(string value)
 		{
 			// In some rare cases, setting the text causes an exception which should just
 			// be ignored.
@@ -269,6 +274,20 @@ namespace SilUtils
 			}
 			catch { }
 		}
+
+		/// ------------------------------------------------------------------------------------
+		[DefaultValue(true)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+		public bool ShowStandardSILContent
+		{
+			get { return m_showStandardSILContent; }
+			set
+			{
+				m_showStandardSILContent = value;
+				m_panel.Visible = value;
+			}
+		}
+
 		#endregion
 
 		#region Public properties set automatically in constructor for .Net apps
@@ -281,7 +300,7 @@ namespace SilUtils
 		/// AssemblyTitle attribute in AssemblyInfo.cs of the executable.
 		/// </remarks>
 		/// ------------------------------------------------------------------------------------
-		public void SetProdName(string value)
+		public virtual void SetProdName(string value)
 		{
 			lblProductName.Text = value;
 		}
@@ -295,7 +314,7 @@ namespace SilUtils
 		/// AssemblyFileVersion attribute in AssemblyInfo.cs of the executable.
 		/// </remarks>
 		/// ------------------------------------------------------------------------------------
-		public void SetProdVersion(string value)
+		public virtual void SetProdVersion(string value)
 		{
 			string version = value;
 			if (string.IsNullOrEmpty(version))
@@ -326,7 +345,7 @@ namespace SilUtils
 		/// AssemblyCopyrightAttribute attribute in AssemblyInfo.cs of the executable.
 		/// </remarks>
 		/// ------------------------------------------------------------------------------------
-		public void SetCopyright(string value)
+		public virtual void SetCopyright(string value)
 		{
 			lblCopyright.Text = value.Replace("(C)", "©");
 		}
@@ -353,7 +372,7 @@ namespace SilUtils
 		protected override void OnVisibleChanged(EventArgs e)
 		{
 			base.OnVisibleChanged(e);
-			if (Visible && m_useFading)
+			if (Visible && m_useFading && m_waitHandle != null)
 				m_waitHandle.Set();
 		}
 
@@ -366,9 +385,12 @@ namespace SilUtils
 		{
 			base.OnHandleCreated(e);
 
+			if (DesignMode)
+				return;
+
 			// set build label visibility
 			lblBuildNumber.Visible = m_showBuildNum;
-
+		
 			// start a timer to ramp up the opacity of the window.
 			m_timer = new Timer();
 			m_timer.Interval = 50;
@@ -381,7 +403,7 @@ namespace SilUtils
 		/// Initialize text of controls prior to display
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected void InitControlLabels()
+		protected virtual void InitControlLabels()
 		{
 			try
 			{
@@ -431,7 +453,7 @@ namespace SilUtils
 				{
 					// if we can't find it in the assembly info, use generic one (which 
 					// might be out of date)
-					copyRight = "(C) 2002-2008 SIL International";
+					copyRight = "(C) 2002-2011 SIL International";
 				}
 
 				lblCopyright.Text = string.Format(lblCopyright.Text,
@@ -448,7 +470,7 @@ namespace SilUtils
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_panel_Paint(object sender, PaintEventArgs e)
+		protected virtual void HandleBackgroundPanelPaint(object sender, PaintEventArgs e)
 		{
 			Color clr1 = m_panel.BackColor;
 			Color clr2 = ColorHelper.CalculateColor(Color.White, Color.DarkGray, 150);
@@ -485,7 +507,7 @@ namespace SilUtils
 		/// the same thread in which the form was created.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void OnUpdateOpacity(object sender, EventArgs e)
+		protected virtual void OnUpdateOpacity(object sender, EventArgs e)
 		{
 			if (m_timer == null)
 				return;
@@ -522,7 +544,7 @@ namespace SilUtils
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void UpdateOpacity()
+		protected virtual void UpdateOpacity()
 		{
 			try
 			{
@@ -550,7 +572,7 @@ namespace SilUtils
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void MakeFullyOpaque()
+		public virtual void MakeFullyOpaque()
 		{
 			try
 			{
@@ -558,10 +580,9 @@ namespace SilUtils
 				Opacity = 1.0;
 				Thread.Sleep(1200);
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 	}
+
 	#endregion
 }

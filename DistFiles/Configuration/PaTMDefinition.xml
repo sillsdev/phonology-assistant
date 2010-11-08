@@ -206,7 +206,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				<item name="mnuFileExportWordXml" commandid="CmdExportAsWordXml"/>
 				<item name="mnuFileExportRTF" commandid="CmdExportAsRTF"/>
 				<item name="mnuFileExportXLingPaper" commandid="CmdExportAsXLingPaper"/>
-				<item name="mnuExportAsPAXML" commandid="CmdExportAsPAXML"/>
+				<item name="mnuExportAsPAXML" commandid="CmdExportAsPAXML" begingroup="true"/>
 			</item>
 			<item name="mnuPlayback" commandid="CmdPlayback" begingroup="true"/>
 			<item name="mnuPlaybackRepeatedly" commandid="CmdPlaybackRepeatedly"/>

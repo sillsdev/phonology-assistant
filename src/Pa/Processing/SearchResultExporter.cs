@@ -15,54 +15,48 @@ namespace SIL.Pa.Processing
 	public class SearchResultExporter : DataCorpusExporter
 	{
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static new bool ToHtml(PaProject project, string outputFileName,
 			PaWordListGrid grid, bool openAfterExport)
 		{
 			return Process(project, outputFileName, OutputFormat.XHTML, grid, openAfterExport,
-				Pipeline.ProcessType.ExportToXHTML, Settings.Default.AppThatOpensHtml);
+				Settings.Default.AppThatOpensHtml, Pipeline.ProcessType.ExportToXHTML);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static new bool ToWordXml(PaProject project, string outputFileName,
 			PaWordListGrid grid, bool openAfterExport)
 		{
 			return Process(project, outputFileName, OutputFormat.WordXml, grid, openAfterExport,
-				Pipeline.ProcessType.ExportToWord, Settings.Default.AppThatOpensWordXml);
+				Settings.Default.AppThatOpensWordXml, Pipeline.ProcessType.ExportToWord);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static new bool ToXLingPaper(PaProject project, string outputFileName,
 			PaWordListGrid grid, bool openAfterExport)
 		{
 			return Process(project, outputFileName, OutputFormat.XHTML, grid, openAfterExport,
-				Pipeline.ProcessType.ExportToXLingPaper, Settings.Default.AppThatOpensXLingPaperXML);
+				Settings.Default.AppThatOpensXLingPaperXML,
+				new[] { Pipeline.ProcessType.ExportToXLingPaper} );
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		private static bool Process(PaProject project, string outputFileName,
+			OutputFormat outputFormat, DataGridView grid, bool openAfterExport,
+			string appToOpenOutput, Pipeline.ProcessType finalPipeline)
+		{
+			return Process(project, outputFileName, outputFormat, grid, openAfterExport,
+				appToOpenOutput, Pipeline.ProcessType.ExportSearchResult, finalPipeline);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		private static bool Process(PaProject project, string outputFileName,
 			OutputFormat outputFormat, DataGridView grid, bool openAfterExport,
-			Pipeline.ProcessType finalPipeline, string appToOpenOutput)
+			string appToOpenOutput, params Pipeline.ProcessType[] pipeline)
 		{
 			var exporter = new SearchResultExporter(project, outputFileName, outputFormat, grid);
 
-			var result = exporter.InternalProcess(Settings.Default.KeepTempSearchResultExportFile,
-				Pipeline.ProcessType.ExportSearchResult, finalPipeline);
+			var result = exporter.InternalProcess(
+				Settings.Default.KeepTempSearchResultExportFile, pipeline);
 
 			if (result && openAfterExport)
 				CallAppToExportedFile(appToOpenOutput, outputFileName);

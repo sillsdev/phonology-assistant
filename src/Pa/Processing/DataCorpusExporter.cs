@@ -13,54 +13,48 @@ namespace SIL.Pa.Processing
 	public class DataCorpusExporter : ExporterBase
 	{
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static bool ToHtml(PaProject project, string outputFileName,
 			PaWordListGrid grid, bool openAfterExport)
 		{
 			return Process(project, outputFileName, OutputFormat.XHTML, grid, openAfterExport,
-				Pipeline.ProcessType.ExportToXHTML, Settings.Default.AppThatOpensHtml);
+				Settings.Default.AppThatOpensHtml, Pipeline.ProcessType.ExportToXHTML);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static bool ToWordXml(PaProject project, string outputFileName,
 			PaWordListGrid grid, bool openAfterExport)
 		{
 			return Process(project, outputFileName, OutputFormat.WordXml, grid, openAfterExport,
-				Pipeline.ProcessType.ExportToWord, Settings.Default.AppThatOpensWordXml);
+				Settings.Default.AppThatOpensWordXml, Pipeline.ProcessType.ExportToWord);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static bool ToXLingPaper(PaProject project, string outputFileName,
 			PaWordListGrid grid, bool openAfterExport)
 		{
-			return Process(project, outputFileName, OutputFormat.XHTML, grid, openAfterExport,
-				Pipeline.ProcessType.ExportToXLingPaper, Settings.Default.AppThatOpensXLingPaperXML);
+			return Process(project, outputFileName, OutputFormat.XHTML, grid,
+				openAfterExport, Settings.Default.AppThatOpensXLingPaperXML,
+				new[] { Pipeline.ProcessType.ExportToXLingPaper });
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		private static bool Process(PaProject project, string outputFileName,
+			OutputFormat outputFormat, DataGridView grid, bool openAfterExport,
+			 string appToOpenOutput, Pipeline.ProcessType finalPipeline)
+		{
+			return Process(project, outputFileName, outputFormat, grid, openAfterExport,
+				appToOpenOutput, Pipeline.ProcessType.ExportDataCorpus, finalPipeline);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		private static bool Process(PaProject project, string outputFileName,
 			OutputFormat outputFormat, DataGridView grid, bool openAfterExport,
-			Pipeline.ProcessType finalPipeline, string appToOpenOutput)
+			string appToOpenOutput, params Pipeline.ProcessType[] pipeline)
 		{
 			var exporter = new DataCorpusExporter(project, outputFileName, outputFormat, grid);
 
-			var result = exporter.InternalProcess(Settings.Default.KeepTempDataCorpusExportFile,
-				Pipeline.ProcessType.ExportDataCorpus, finalPipeline);
+			bool result =
+				exporter.InternalProcess(Settings.Default.KeepTempDataCorpusExportFile, pipeline);
 
 			if (result && openAfterExport)
 				CallAppToExportedFile(appToOpenOutput, outputFileName);
@@ -69,20 +63,12 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected DataCorpusExporter(PaProject project, string outputFileName,
 			OutputFormat outputFormat, DataGridView grid)
 			: base(project, outputFileName, outputFormat, grid)
 		{
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override string Title
 		{

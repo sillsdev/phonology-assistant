@@ -19,61 +19,57 @@ namespace SIL.Pa.Processing
 	/// ----------------------------------------------------------------------------------------
 	public class DistributionChartExporter : ExporterBase
 	{
-		private Dictionary<DataGridViewColumn, DistributionChartExceptionInfo> m_colExceptions =
+		private readonly Dictionary<DataGridViewColumn, DistributionChartExceptionInfo> m_colExceptions =
 			new Dictionary<DataGridViewColumn, DistributionChartExceptionInfo>();
 
-		private Dictionary<DataGridViewRow, DistributionChartExceptionInfo> m_rowExceptions =
+		private readonly Dictionary<DataGridViewRow, DistributionChartExceptionInfo> m_rowExceptions =
 			new Dictionary<DataGridViewRow, DistributionChartExceptionInfo>();
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static bool ToHtml(PaProject project, string outputFileName,
 			XYGrid distChartGrid, bool openAfterExport)
 		{
-			return Process(project, outputFileName, OutputFormat.XHTML, distChartGrid, openAfterExport,
-				Pipeline.ProcessType.ExportToXHTML, Settings.Default.AppThatOpensHtml);
+			return Process(project, outputFileName, OutputFormat.XHTML, distChartGrid,
+				openAfterExport, Settings.Default.AppThatOpensHtml,
+				Pipeline.ProcessType.ExportToXHTML);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static bool ToWordXml(PaProject project, string outputFileName,
 			XYGrid distChartGrid, bool openAfterExport)
 		{
-			return Process(project, outputFileName, OutputFormat.WordXml, distChartGrid, openAfterExport,
-				Pipeline.ProcessType.ExportToWord, Settings.Default.AppThatOpensWordXml);
+			return Process(project, outputFileName, OutputFormat.WordXml, distChartGrid,
+				openAfterExport, Settings.Default.AppThatOpensWordXml,
+				Pipeline.ProcessType.ExportToWord);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static bool ToXLingPaper(PaProject project, string outputFileName,
 			XYGrid distChartGrid, bool openAfterExport)
 		{
-			return Process(project, outputFileName, OutputFormat.XHTML, distChartGrid, openAfterExport,
-				Pipeline.ProcessType.ExportToXLingPaper, Settings.Default.AppThatOpensXLingPaperXML);
+			return Process(project, outputFileName, OutputFormat.XHTML, distChartGrid,
+				openAfterExport, Settings.Default.AppThatOpensXLingPaperXML,
+				new[] { Pipeline.ProcessType.ExportToXLingPaper });
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		private static bool Process(PaProject project, string outputFileName,
+			OutputFormat outputFormat, DataGridView grid, bool openAfterExport,
+			string appToOpenOutput, Pipeline.ProcessType finalPipeline)
+		{
+			return Process(project, outputFileName, outputFormat, grid, openAfterExport,
+				appToOpenOutput, Pipeline.ProcessType.ExportDistributionChart, finalPipeline);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		private static bool Process(PaProject project, string outputFileName,
 			OutputFormat outputFormat, DataGridView grid, bool openAfterExport,
-			Pipeline.ProcessType finalPipeline, string appToOpenOutput)
+			string appToOpenOutput, params Pipeline.ProcessType[] pipeline)
 		{
 			var exporter = new DistributionChartExporter(project, outputFileName, outputFormat, grid);
 
-			var result = exporter.InternalProcess(Settings.Default.KeepTempDistributionChartExportFile,
-				Pipeline.ProcessType.ExportDistributionChart, finalPipeline);
+			var result = exporter.InternalProcess(
+				Settings.Default.KeepTempDistributionChartExportFile, pipeline);
 
 			if (result && openAfterExport)
 				CallAppToExportedFile(appToOpenOutput, outputFileName);
@@ -82,10 +78,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private DistributionChartExporter(PaProject project, string outputFileName,
 			OutputFormat outputFormat, DataGridView distChartGrid)
 			: base(project, outputFileName, outputFormat, distChartGrid)
@@ -93,10 +85,6 @@ namespace SIL.Pa.Processing
 			BuildHeaderErrorLists();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override string Title
 		{
@@ -108,19 +96,11 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override string Name
 		{
 			get { return ((XYGrid)m_grid).ChartName; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override string View
 		{
@@ -128,19 +108,11 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override string TableClass
 		{
 			get { return "distribution chart"; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override string NumberOfRecords
 		{
@@ -148,19 +120,11 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<KeyValuePair<string, Font>> GetFormattingFieldInfo()
 		{
 			yield return new KeyValuePair<string, Font>("Phonetic", FontHelper.PhoneticFont);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<DataGridViewRow> GetGridRows()
 		{
@@ -213,10 +177,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private DistributionChartExceptionInfo GetException(SearchQuery query)
 		{
 			SearchQueryException e;
@@ -264,10 +224,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void WriteTableHeadingColumnGroups()
 		{
 			// Write group for far left column containing search item.
@@ -279,10 +235,6 @@ namespace SIL.Pa.Processing
 			ProcessHelper.WriteColumnGroup(m_writer, GetGridColumns().Count());
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void WriteTableHeadingContent()
 		{
@@ -314,10 +266,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void WriteTableRowContent(DataGridViewRow row)
 		{
 			DistributionChartExceptionInfo dcei;
@@ -336,10 +284,6 @@ namespace SIL.Pa.Processing
 				WriteTableRowCell(row.Cells[col.Index]);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void WriteTableRowError(DataGridViewRow row)
 		{
@@ -360,10 +304,6 @@ namespace SIL.Pa.Processing
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void WriteTableRowCell(DataGridViewCell cell)
 		{
@@ -394,10 +334,6 @@ namespace SIL.Pa.Processing
 		}
 	}
 
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class DistributionChartExceptionInfo
 	{
