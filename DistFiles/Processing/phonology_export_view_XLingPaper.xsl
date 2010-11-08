@@ -71,6 +71,7 @@ Main template
                 </xsl:for-each>
             </section1>
             <languages>
+                <language id="lerror" color="red"/>
                 <xsl:for-each select="//x:table[@class='formatting']/x:tbody/x:tr">
                     <language id="l{translate(x:td[@class='class'],' ','_')}">
                         <xsl:call-template name="DoFontAttribute">
@@ -109,16 +110,16 @@ Main template
                     <xsl:choose>
                         <xsl:when test="contains(@class,'preceding')">
                             <xsl:attribute name="align">right</xsl:attribute>
-<!--                            <xsl:attribute name="padding-right">0</xsl:attribute>-->
+                            <!--                            <xsl:attribute name="padding-right">0</xsl:attribute>-->
                         </xsl:when>
                         <xsl:when test="contains(@class,'item')">
                             <xsl:attribute name="align">center</xsl:attribute>
                             <xsl:attribute name="backgroundcolor">yellow</xsl:attribute>
-<!--                            <xsl:attribute name="padding-left">0</xsl:attribute>-->
-<!--                            <xsl:attribute name="padding-right">0</xsl:attribute>-->
+                            <!--                            <xsl:attribute name="padding-left">0</xsl:attribute>-->
+                            <!--                            <xsl:attribute name="padding-right">0</xsl:attribute>-->
                         </xsl:when>
                         <xsl:when test="contains(@class,'following')">
-<!--                            <xsl:attribute name="padding-left">0</xsl:attribute>-->
+                            <!--                            <xsl:attribute name="padding-left">0</xsl:attribute>-->
                         </xsl:when>
                     </xsl:choose>
                     <langData>
@@ -208,6 +209,9 @@ Main template
         <xsl:choose>
             <xsl:when test="string-length(.) &gt; 0">
                 <xsl:apply-templates/>
+            </xsl:when>
+            <xsl:when test="@class='error'">
+                <xsl:text>Error!</xsl:text>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:text>&#xa0;</xsl:text>
