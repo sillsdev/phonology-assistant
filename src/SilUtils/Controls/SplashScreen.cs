@@ -204,7 +204,9 @@ namespace SilUtils
 
 			m_waitHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
 
-			Thread.CurrentThread.Name = "Main";
+			if (Thread.CurrentThread.Name == null)
+				Thread.CurrentThread.Name = "Main";
+
 			Utils.s_splashScreen = this;
 
 			// For some reason we have to specify a stack size, otherwise we get a stack overflow. 
