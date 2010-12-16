@@ -84,32 +84,48 @@ namespace SilUtils
 			if (state == PaintState.Normal)
 				return;
 
-			// Determine the highlight color.
-			Color clrHot = (CanPaintVisualStyle() ?
-				VisualStyleInformation.ControlHighlightHot : SystemColors.MenuHighlight);
+			var hotDown = (state == PaintState.HotDown);
 
-			int alpha = (CanPaintVisualStyle() ? 95 : 120);
+			var clr1 = (hotDown ? ProfessionalColors.ButtonPressedGradientBegin :
+				ProfessionalColors.ButtonSelectedGradientBegin);
 
-			// Determine the angle and one of the colors for the gradient highlight. When state is
-			// hot down, the gradiant goes from bottom (lighter) to top (darker). When the state
-			// is just hot, the gradient is from top (lighter) to bottom (darker).
-			float angle = (state == PaintState.HotDown ? 270 : 90);
-			Color clr2 = ColorHelper.CalculateColor(Color.White, clrHot, alpha);
+			var clr2 = (hotDown ? ProfessionalColors.ButtonPressedGradientEnd :
+				 ProfessionalColors.ButtonSelectedGradientEnd);
 
-			// Draw the label's background.
-			if (state == PaintState.Hot)
-			{
-				using (LinearGradientBrush br = new LinearGradientBrush(rc, Color.White, clr2, angle))
+			using (var br = new LinearGradientBrush(rc, clr1, clr2, 90))
 					g.FillRectangle(br, rc);
-			}
-			else
-			{
-				using (LinearGradientBrush br = new LinearGradientBrush(rc, clr2, clrHot, angle))
-					g.FillRectangle(br, rc);
-			}
 
-			// Draw a black border around the label.
-			ControlPaint.DrawBorder(g, rc, Color.Black, ButtonBorderStyle.Solid);
+			var clrBrdr = (hotDown ? ProfessionalColors.ButtonPressedHighlightBorder :
+				ProfessionalColors.ButtonSelectedHighlightBorder);
+
+			ControlPaint.DrawBorder(g, rc, clrBrdr, ButtonBorderStyle.Solid);
+
+			//// Determine the highlight color.
+			//Color clrHot = (CanPaintVisualStyle() ?
+			//    VisualStyleInformation.ControlHighlightHot : SystemColors.MenuHighlight);
+
+			//int alpha = (CanPaintVisualStyle() ? 95 : 120);
+
+			//// Determine the angle and one of the colors for the gradient highlight. When state is
+			//// hot down, the gradiant goes from bottom (lighter) to top (darker). When the state
+			//// is just hot, the gradient is from top (lighter) to bottom (darker).
+			//float angle = (state == PaintState.HotDown ? 270 : 90);
+			//Color clr2 = ColorHelper.CalculateColor(Color.White, clrHot, alpha);
+
+			//// Draw the label's background.
+			//if (state == PaintState.Hot)
+			//{
+			//    using (LinearGradientBrush br = new LinearGradientBrush(rc, Color.White, clr2, angle))
+			//        g.FillRectangle(br, rc);
+			//}
+			//else
+			//{
+			//    using (LinearGradientBrush br = new LinearGradientBrush(rc, clr2, clrHot, angle))
+			//        g.FillRectangle(br, rc);
+			//}
+
+			//// Draw a black border around the label.
+			//ControlPaint.DrawBorder(g, rc, Color.Black, ButtonBorderStyle.Solid);
 		}
 
 		/// ------------------------------------------------------------------------------------

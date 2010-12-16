@@ -5,225 +5,6 @@ using System.Windows.Forms.VisualStyles;
 
 namespace SilUtils
 {
-	#region SilButtonColumn class
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	public class SilButtonColumn : DataGridViewColumn
-	{
-		public event DataGridViewCellMouseEventHandler ButtonClicked;
-		private bool m_showButton = true;
-		private string m_buttonToolTip;
-		private ToolTip m_toolTip;
-		private bool m_showCellToolTips = true;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public SilButtonColumn() : base(new SilButtonCell())
-		{
-			DrawDefaultComboButtonWidth = true;
-			ButtonWidth = 17;
-			base.DefaultCellStyle.Font = SystemInformation.MenuFont;
-			ButtonFont = SystemInformation.MenuFont;
-			Width = 110;
-			HeaderText = string.Empty;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public SilButtonColumn(string name) : this()
-		{
-			Name = name;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public SilButtonColumn(string name, bool showButton) : this()
-		{
-			Name = name;
-			m_showButton = showButton;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Make sure the template is always a radion button cell.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public override DataGridViewCell CellTemplate
-		{
-			get { return base.CellTemplate; }
-			set
-			{
-				if (value != null && !value.GetType().IsAssignableFrom(typeof(SilButtonCell)))
-					throw new InvalidCastException("Must be a PaButtonCell");
-
-				base.CellTemplate = value;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Need to save the value of the owning grid's ShowCellToolTips value because we may
-		/// change it once in a while.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnDataGridViewChanged()
-		{
-			base.OnDataGridViewChanged();
-			if (DataGridView != null)
-				m_showCellToolTips = DataGridView.ShowCellToolTips;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the text of the button cells in this column.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string ButtonText { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the text of the button cells in this column.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public Font ButtonFont { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the width of the button within the column's cells.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public int ButtonWidth { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets a value indicating whether or not to paint a combo box style button
-		/// in the column's owned cells. If false, a push button style is drawn.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool UseComboButtonStyle { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets a value indicating whether or not the combo button's width is
-		/// calculated automatically by the system (based on the theme). This value is only
-		/// relevant when UseComboButtonStyle is true and visual styles in the OS are
-		/// turned on. 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool DrawDefaultComboButtonWidth { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets a value indicating whether or not to show the button.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool ShowButton
-		{
-			get { return m_showButton; }
-			set
-			{
-				m_showButton = value;
-				if (DataGridView != null)
-					DataGridView.InvalidateColumn(Index);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets a value indicating whether or not text in the button cells in the
-		/// column will be drawn using ellipsis path string formatting.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool DrawTextWithEllipsisPath { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the tooltip text for the buttons in the button cells in this column.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string ButtonToolTip
-		{
-			get { return m_buttonToolTip; }
-			set
-			{
-				if (m_toolTip != null)
-				{
-					m_toolTip.Dispose();
-					m_toolTip = null;
-				}
-
-				m_buttonToolTip = value;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal void ShowToolTip()
-		{
-			if ((m_toolTip != null && m_toolTip.Active) ||
-				string.IsNullOrEmpty(m_buttonToolTip) ||
-				DataGridView == null ||	DataGridView.FindForm() == null)
-			{
-				return;
-			}
-
-			if (m_toolTip == null)
-				m_toolTip = new ToolTip();
-	
-			DataGridView.ShowCellToolTips = false;
-			Size sz = SystemInformation.CursorSize;
-			Point pt = DataGridView.FindForm().PointToClient(Control.MousePosition);
-			pt.X += (int)(sz.Width * 0.6);
-			pt.Y += sz.Height;
-			m_toolTip.Active = true;
-			m_toolTip.Show(m_buttonToolTip, DataGridView.FindForm(), pt);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal void HideToolTip()
-		{
-			DataGridView.ShowCellToolTips = m_showCellToolTips;
-
-			if (m_toolTip != null)
-			{
-				m_toolTip.Hide(DataGridView);
-				m_toolTip.Active = false;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Provides a way for an owned cell to fire the button clicked event on the column.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal void InvokeButtonClick(DataGridViewCellMouseEventArgs e)
-		{
-			if (ButtonClicked != null)
-				ButtonClicked(DataGridView, e);
-		}
-	}
-
-	#endregion
-
 	#region SilButtonCell class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -282,10 +63,11 @@ namespace SilUtils
 				bool owningColShowValue =
 					(OwningButtonColumn != null && OwningButtonColumn.ShowButton);
 				
-				DataGridViewRow row = DataGridView.CurrentRow;
+				var row = DataGridView.CurrentRow;
 
-				return (owningColShowValue && RowIndex >= 0 && row != null &&
-					row.Index == RowIndex && RowIndex != DataGridView.NewRowIndex);
+				return (owningColShowValue && RowIndex >= 0 &&
+					((row == null && DataGridView.AllowUserToAddRows) ||
+					(row != null && RowIndex == row.Index)));
 			}
 		}
 
@@ -461,39 +243,18 @@ namespace SilUtils
 			if (!ShowButton)
 				return;
 
-			bool paintComboButton = (OwningButtonColumn == null ? false :
-				OwningButtonColumn.UseComboButtonStyle);
+			var buttonStyle = OwningButtonColumn.ButtonStyle;
 
-			VisualStyleElement element = (paintComboButton ?
-				GetVisualStyleComboButton() : GetVisualStylePushButton());
-
-			if (PaintingHelper.CanPaintVisualStyle(element))
-			{
-				VisualStyleRenderer renderer = new VisualStyleRenderer(element);
-
-				if (!OwningButtonColumn.DrawDefaultComboButtonWidth)
-					renderer.DrawBackground(g, rcbtn);
-				else
-				{
-					Rectangle rc = rcbtn;
-					Size sz = renderer.GetPartSize(g, rc, ThemeSizeType.True);
-					rc.Width = sz.Width + 2;
-					rc.X = (rcbtn.Right - rc.Width);
-					renderer.DrawBackground(g, rc);
-				}
-			}
+			if (buttonStyle == SilButtonColumn.ButtonType.MinimalistCombo)
+				DrawMinimalistButton(g, rcbtn);
 			else
 			{
-				ButtonState state = (m_mouseDownOnButton && m_mouseOverButton && m_enabled ?
-					ButtonState.Pushed : ButtonState.Normal);
-
-				if (!m_enabled)
-					state |= ButtonState.Inactive;
-
-				if (paintComboButton)
-					ControlPaint.DrawComboButton(g, rcbtn, state);
-				else
-					ControlPaint.DrawButton(g, rcbtn, state);
+				if ((buttonStyle == SilButtonColumn.ButtonType.VisualStyleCombo ||
+					buttonStyle == SilButtonColumn.ButtonType.VisualStylePush) &&
+					!DrawVisualStyledButton(buttonStyle, g, rcbtn))
+				{
+					DrawPlainButton(buttonStyle, g, rcbtn);
+				}
 			}
 
 			string buttonText = (OwningButtonColumn == null ? null : OwningButtonColumn.ButtonText);
@@ -511,6 +272,80 @@ namespace SilUtils
 
 			Color clrText = (m_enabled ? SystemColors.ControlText : SystemColors.GrayText);
 			TextRenderer.DrawText(g, buttonText, buttonFont, rcbtn, clrText, flags);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DrawMinimalistButton(Graphics g, Rectangle rc)
+		{
+			var element = GetVisualStyleComboButton();
+			rc = AdjustRectToDefaultComboButtonWidth(rc);
+
+			if (element != VisualStyleElement.ComboBox.DropDownButton.Normal &&
+				element != VisualStyleElement.ComboBox.DropDownButton.Disabled &&
+				PaintingHelper.CanPaintVisualStyle(element))
+			{
+				var renderer = new VisualStyleRenderer(element);
+				renderer.DrawBackground(g, rc);
+			}
+			else
+			{
+				var pen = (element == VisualStyleElement.ComboBox.DropDownButton.Disabled ?
+					SystemPens.GrayText : SystemPens.WindowText);
+
+				var x = rc.X + (int)Math.Round((rc.Width - 7) / 2f, MidpointRounding.AwayFromZero);
+				var y = rc.Y + (int)Math.Round((rc.Height - 4) / 2f, MidpointRounding.AwayFromZero);
+				g.DrawLine(pen, x, y, x + 6, y++);
+				g.DrawLine(pen, x + 1, y, x + 5, y++);
+				g.DrawLine(pen, x + 2, y, x + 4, y);
+				g.DrawLine(pen, x + 3, y, x + 3, y + 1);
+				return;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool DrawVisualStyledButton(SilButtonColumn.ButtonType buttonStyle,
+			IDeviceContext g, Rectangle rcbtn)
+		{
+			VisualStyleElement element = (buttonStyle == SilButtonColumn.ButtonType.VisualStyleCombo ?
+				GetVisualStyleComboButton() : GetVisualStylePushButton());
+
+			if (!PaintingHelper.CanPaintVisualStyle(element))
+				return false;
+
+			VisualStyleRenderer renderer = new VisualStyleRenderer(element);
+			rcbtn = AdjustRectToDefaultComboButtonWidth(rcbtn);
+			renderer.DrawBackground(g, rcbtn);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private Rectangle AdjustRectToDefaultComboButtonWidth(Rectangle rc)
+		{
+			if (!OwningButtonColumn.DrawDefaultComboButtonWidth)
+				return rc;
+
+			var rcNew = rc;
+			rcNew.Width = SystemInformation.VerticalScrollBarWidth;
+			rcNew.X = (rc.Right - rcNew.Width);
+			return rcNew;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void DrawPlainButton(SilButtonColumn.ButtonType type, Graphics g, Rectangle rcbtn)
+		{
+			ButtonState state = (m_mouseDownOnButton && m_mouseOverButton && m_enabled ?
+				ButtonState.Pushed : ButtonState.Normal);
+
+			if (!m_enabled)
+				state |= ButtonState.Inactive;
+
+			if (type != SilButtonColumn.ButtonType.PlainCombo)
+				ControlPaint.DrawButton(g, rcbtn, state);
+			else
+			{
+				rcbtn = AdjustRectToDefaultComboButtonWidth(rcbtn);
+				ControlPaint.DrawComboButton(g, rcbtn, state);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -601,10 +436,13 @@ namespace SilUtils
 				return;
 			}
 
-			int buttonWidth = (OwningButtonColumn == null ? 22 : OwningButtonColumn.ButtonWidth);
+			int buttonWidth = (OwningButtonColumn == null ?
+				SystemInformation.VerticalScrollBarWidth : OwningButtonColumn.ButtonWidth);
+			
 			bool paintComboButton = (OwningButtonColumn == null ? false :
-				OwningButtonColumn.UseComboButtonStyle);
-
+				OwningButtonColumn.ButtonStyle != SilButtonColumn.ButtonType.PlainPush &&
+				OwningButtonColumn.ButtonStyle != SilButtonColumn.ButtonType.VisualStylePush);
+				
 			if (paintComboButton)
 				buttonWidth += 2;
 

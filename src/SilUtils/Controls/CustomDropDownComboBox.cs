@@ -12,10 +12,9 @@ namespace SilUtils.Controls
 	/// ----------------------------------------------------------------------------------------
 	public partial class CustomDropDownComboBox : UserControl
 	{
-		private bool m_alignDropToLeft = true;
-		private bool m_mouseDown;
-		private bool m_buttonHot;
-		private SilPopup m_popupCtrl;
+		private bool _mouseDown;
+		private bool _buttonHot;
+		private SilPopup _popupCtrl;
 
 		public EventHandler PopupClosed;
 
@@ -28,16 +27,18 @@ namespace SilUtils.Controls
 		{
 			InitializeComponent();
 
+			AlignDropToLeft = true;
+
 			SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.DoubleBuffer |
 				ControlStyles.UserPaint | ControlStyles.ResizeRedraw, true);
 
-			m_txtBox.BackColor = SystemColors.Window;
+			_textBox.BackColor = SystemColors.Window;
 
 			Padding = new Padding(Application.RenderWithVisualStyles ?
 				SystemInformation.BorderSize.Width : SystemInformation.Border3DSize.Width);
 
-			m_button.Width = SystemInformation.VerticalScrollBarWidth;
-			m_txtBox.Left = Padding.Left + 2;
+			_button.Width = SystemInformation.VerticalScrollBarWidth;
+			_textBox.Left = Padding.Left + 2;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -47,8 +48,8 @@ namespace SilUtils.Controls
 		/// ------------------------------------------------------------------------------------
 		public override string Text
 		{
-			get { return m_txtBox.Text; }
-			set { m_txtBox.Text = value; }
+			get { return _textBox.Text; }
+			set { _textBox.Text = value; }
 		}
 
 		///// ------------------------------------------------------------------------------------
@@ -72,19 +73,15 @@ namespace SilUtils.Controls
 			get { return base.BackColor; }
 			set
 			{
-				m_txtBox.BackColor = value;
+				_textBox.BackColor = value;
 				base.BackColor = value;
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public TextBox TextBox
 		{
-			get { return m_txtBox; }
+			get { return _textBox; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -94,11 +91,7 @@ namespace SilUtils.Controls
 		/// to true. To align the right edge of the drop-down, set this value to false.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool AlignDropToLeft
-		{
-			get { return m_alignDropToLeft; }
-			set { m_alignDropToLeft = value; }
-		}
+		public bool AlignDropToLeft { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -107,16 +100,16 @@ namespace SilUtils.Controls
 		/// ------------------------------------------------------------------------------------
 		public SilPopup PopupCtrl
 		{
-			get { return m_popupCtrl; }
+			get { return _popupCtrl; }
 			set
 			{
-				if (m_popupCtrl != null)
-					m_popupCtrl.PopupClosed -= OnPopupClosed;
+				if (_popupCtrl != null)
+					_popupCtrl.PopupClosed -= OnPopupClosed;
 
-				m_popupCtrl = value;
+				_popupCtrl = value;
 
-				if (m_popupCtrl != null)
-					m_popupCtrl.PopupClosed += OnPopupClosed;
+				if (_popupCtrl != null)
+					_popupCtrl.PopupClosed += OnPopupClosed;
 			}
 		}
 
@@ -139,19 +132,15 @@ namespace SilUtils.Controls
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);
-			int newTop = (Height - m_txtBox.Height) / 2;
-			m_txtBox.Top = (newTop < 0 ? 0 : newTop);
-			m_txtBox.Width = (ClientSize.Width - Padding.Left - Padding.Right - m_button.Width - 2);
+			int newTop = (Height - _textBox.Height) / 2;
+			_textBox.Top = (newTop < 0 ? 0 : newTop);
+			_textBox.Width = (ClientSize.Width - Padding.Left - Padding.Right - _button.Width - 2);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			base.OnPaintBackground(e);
+			base.OnPaint(e);
 
 			if (!Application.RenderWithVisualStyles)
 				ControlPaint.DrawBorder3D(e.Graphics, ClientRectangle, Border3DStyle.Sunken);
@@ -174,7 +163,7 @@ namespace SilUtils.Controls
 				rc = ClientRectangle;
 				rc.Inflate(-dx, -dy);
 
-				using (SolidBrush br = new SolidBrush(m_txtBox.BackColor))
+				using (SolidBrush br = new SolidBrush(_textBox.BackColor))
 					e.Graphics.FillRectangle(br, rc);
 			}
 		}
@@ -194,12 +183,12 @@ namespace SilUtils.Controls
 				state = ButtonState.Inactive;
 				element = VisualStyleElement.ComboBox.DropDownButton.Disabled;
 			}
-			else if (m_mouseDown)
+			else if (_mouseDown)
 			{
 				state = ButtonState.Pushed;
 				element = VisualStyleElement.ComboBox.DropDownButton.Pressed;
 			}
-			else if (m_buttonHot)
+			else if (_buttonHot)
 				element = VisualStyleElement.ComboBox.DropDownButton.Hot;
 
 			if (!Application.RenderWithVisualStyles)
@@ -207,86 +196,64 @@ namespace SilUtils.Controls
 			else
 			{
 				VisualStyleRenderer renderer = new VisualStyleRenderer(element);
-				renderer.DrawBackground(e.Graphics, m_button.ClientRectangle);
+				renderer.DrawBackground(e.Graphics, _button.ClientRectangle);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void PaintNonThemeButton(Graphics g, ButtonState state)
 		{
-			ControlPaint.DrawButton(g, m_button.ClientRectangle, state);
+			ControlPaint.DrawButton(g, _button.ClientRectangle, state);
 
 			using (Font fnt = new Font("Marlett", 10))
 			{
-				TextRenderer.DrawText(g, "6", fnt, m_button.ClientRectangle, SystemColors.ControlDarkDark,
+				TextRenderer.DrawText(g, "6", fnt, _button.ClientRectangle, SystemColors.ControlDarkDark,
 					TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void m_button_MouseEnter(object sender, EventArgs e)
+		private void HandleButtonMouseEnter(object sender, EventArgs e)
 		{
-			m_buttonHot = true;
-			m_button.Invalidate();
+			_buttonHot = true;
+			_button.Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void m_button_MouseLeave(object sender, EventArgs e)
+		private void HandleButtonMouseLeave(object sender, EventArgs e)
 		{
-			m_buttonHot = false;
-			m_button.Invalidate();
+			_buttonHot = false;
+			_button.Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void m_button_MouseUp(object sender, MouseEventArgs e)
+		private void HandleButtonMouseUp(object sender, MouseEventArgs e)
 		{
 			// Repaint the drop down button so that it displays normal instead of pressed
-			if (m_mouseDown)
+			if (_mouseDown)
 			{
-				m_mouseDown = false;
-				m_button.Invalidate();
+				_mouseDown = false;
+				_button.Invalidate();
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		/// ------------------------------------------------------------------------------------
-		protected void m_button_MouseDown(object sender, MouseEventArgs e)
+		protected void HandleButtonMouseDown(object sender, MouseEventArgs e)
 		{
 			// Repaint the drop down button so that it displays pressed
 			if (e.Button == MouseButtons.Left)
 			{
-				m_mouseDown = true;
-				m_button.Invalidate();
+				_mouseDown = true;
+				_button.Invalidate();
 			}
 
-			if (m_popupCtrl != null)
+			if (_popupCtrl != null)
 			{
 				var pt = new Point(0, Height);
 				if (!AlignDropToLeft)
-					pt.X -= (m_popupCtrl.Width - Width);
+					pt.X -= (_popupCtrl.Width - Width);
 
-				m_popupCtrl.Show(this, pt);
+				_popupCtrl.Show(this, pt);
 			}
 		}
 	}

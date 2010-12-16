@@ -28,39 +28,39 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.m_txtBox = new System.Windows.Forms.TextBox();
-			this.m_button = new System.Windows.Forms.Panel();
+			this._textBox = new System.Windows.Forms.TextBox();
+			this._button = new System.Windows.Forms.Panel();
 			this.SuspendLayout();
 			// 
-			// m_txtBox
+			// _textBox
 			// 
-			this.m_txtBox.BackColor = System.Drawing.SystemColors.MenuHighlight;
-			this.m_txtBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.m_txtBox.Location = new System.Drawing.Point(4, 3);
-			this.m_txtBox.Name = "m_txtBox";
-			this.m_txtBox.Size = new System.Drawing.Size(100, 13);
-			this.m_txtBox.TabIndex = 0;
+			this._textBox.BackColor = System.Drawing.SystemColors.MenuHighlight;
+			this._textBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this._textBox.Location = new System.Drawing.Point(4, 3);
+			this._textBox.Name = "_textBox";
+			this._textBox.Size = new System.Drawing.Size(100, 13);
+			this._textBox.TabIndex = 0;
 			// 
-			// m_button
+			// _button
 			// 
-			this.m_button.BackColor = System.Drawing.SystemColors.Desktop;
-			this.m_button.Dock = System.Windows.Forms.DockStyle.Right;
-			this.m_button.Location = new System.Drawing.Point(133, 0);
-			this.m_button.Name = "m_button";
-			this.m_button.Size = new System.Drawing.Size(47, 21);
-			this.m_button.TabIndex = 1;
-			this.m_button.MouseLeave += new System.EventHandler(this.m_button_MouseLeave);
-			this.m_button.Paint += new System.Windows.Forms.PaintEventHandler(this.m_button_Paint);
-			this.m_button.MouseDown += new System.Windows.Forms.MouseEventHandler(this.m_button_MouseDown);
-			this.m_button.MouseUp += new System.Windows.Forms.MouseEventHandler(this.m_button_MouseUp);
-			this.m_button.MouseEnter += new System.EventHandler(this.m_button_MouseEnter);
+			this._button.BackColor = System.Drawing.SystemColors.Desktop;
+			this._button.Dock = System.Windows.Forms.DockStyle.Right;
+			this._button.Location = new System.Drawing.Point(133, 0);
+			this._button.Name = "_button";
+			this._button.Size = new System.Drawing.Size(47, 21);
+			this._button.TabIndex = 1;
+			this._button.MouseLeave += new System.EventHandler(this.HandleButtonMouseLeave);
+			this._button.Paint += new System.Windows.Forms.PaintEventHandler(this.m_button_Paint);
+			this._button.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HandleButtonMouseDown);
+			this._button.MouseUp += new System.Windows.Forms.MouseEventHandler(this.HandleButtonMouseUp);
+			this._button.MouseEnter += new System.EventHandler(this.HandleButtonMouseEnter);
 			// 
 			// CustomDropDownComboBox
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.m_txtBox);
-			this.Controls.Add(this.m_button);
+			this.Controls.Add(this._textBox);
+			this.Controls.Add(this._button);
 			this.Name = "CustomDropDownComboBox";
 			this.Size = new System.Drawing.Size(180, 21);
 			this.ResumeLayout(false);
@@ -70,7 +70,7 @@
 
 		#endregion
 
-		private System.Windows.Forms.TextBox m_txtBox;
-		private System.Windows.Forms.Panel m_button;
+		private System.Windows.Forms.TextBox _textBox;
+		private System.Windows.Forms.Panel _button;
 	}
 }

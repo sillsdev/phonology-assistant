@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
@@ -26,11 +27,11 @@ namespace SilUtils
 
 		private const string kDropDownStyle = "DropDown";
 		
-		protected bool m_isDirty;
-		protected bool m_paintWaterMark;
-		protected bool m_showWaterMarkWhenDirty;
-		protected string m_waterMark = "!";
-		protected int m_prevRowIndex = -1;
+		protected bool _isDirty;
+		protected bool _paintWaterMark;
+		protected bool _showWaterMarkWhenDirty;
+		protected string _waterMark = "!";
+		protected int _prevRowIndex = -1;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -80,13 +81,13 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public bool IsDirty
 		{
-			get {return m_isDirty;}
+			get {return _isDirty;}
 			set
 			{
-				m_isDirty = value;
-				m_paintWaterMark = (value && m_showWaterMarkWhenDirty);
+				_isDirty = value;
+				_paintWaterMark = (value && _showWaterMarkWhenDirty);
 				
-				if (m_showWaterMarkWhenDirty)
+				if (_showWaterMarkWhenDirty)
 					Invalidate();
 			}
 		}
@@ -131,11 +132,11 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public bool ShowWaterMarkWhenDirty
 		{
-			get { return m_showWaterMarkWhenDirty; }
+			get { return _showWaterMarkWhenDirty; }
 			set
 			{
-				m_showWaterMarkWhenDirty = value;
-				m_paintWaterMark = (value && m_isDirty);
+				_showWaterMarkWhenDirty = value;
+				_paintWaterMark = (value && _isDirty);
 				Invalidate();
 			}
 		}
@@ -147,11 +148,11 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public string WaterMark
 		{
-			get { return m_waterMark; }
+			get { return _waterMark; }
 			set
 			{
-				m_waterMark = value;
-				if (m_paintWaterMark)
+				_waterMark = value;
+				if (_paintWaterMark)
 					Invalidate();
 			}
 		}
@@ -205,22 +206,22 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		protected override void OnSizeChanged(EventArgs e)
 		{
-			bool paintWaterMark = m_paintWaterMark;
+			bool paintWaterMark = _paintWaterMark;
 
-			if (m_paintWaterMark)
+			if (_paintWaterMark)
 			{
 				// Clear previous water mark.
-				m_paintWaterMark = false;
+				_paintWaterMark = false;
 				Invalidate();
 			}
 
 			base.OnSizeChanged(e);
 
-			m_paintWaterMark = paintWaterMark;
-			if (m_paintWaterMark)
+			_paintWaterMark = paintWaterMark;
+			if (_paintWaterMark)
 				Invalidate(WaterMarkRectangle);
 
-			if (!m_paintWaterMark && Focused && PaintFullRowFocusRectangle &&
+			if (!_paintWaterMark && Focused && PaintFullRowFocusRectangle &&
 				CurrentCellAddress.Y >= 0 && CurrentCellAddress.Y < RowCount)
 			{
 				InvalidateRow(CurrentCellAddress.Y);
@@ -281,35 +282,47 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		protected override void OnScroll(ScrollEventArgs e)
 		{
-			bool paintWaterMark = m_paintWaterMark;
+			bool paintWaterMark = _paintWaterMark;
 
-			if (m_paintWaterMark)
+			if (_paintWaterMark)
 			{
 				// Clear previous water mark.
-				m_paintWaterMark = false;
+				_paintWaterMark = false;
 				Invalidate();
 			}
 
 			base.OnScroll(e);
 
-			m_paintWaterMark = paintWaterMark;
-			if (m_paintWaterMark)
+			_paintWaterMark = paintWaterMark;
+			if (_paintWaterMark)
 				Invalidate(WaterMarkRectangle);
 
-			// This chunk of code takes care of two problems. The first has to do with the
-			// first row of pixels below the column headers. The focus rectangle color was
-			// getting left behind when selected rows were being scrolled upward, out of
-			// view. The second problem has to do with the selected row losing the top edge
-			// of its focus rectangle when it is scrolled downward after having been the
-			// top visible row.
-			if (PaintFullRowFocusRectangle && SelectionMode == DataGridViewSelectionMode.FullRowSelect &&
-				e.ScrollOrientation == ScrollOrientation.VerticalScroll && CurrentCellAddress.Y >= 0 &&
-				CurrentCellAddress.Y < RowCount)
+			// This chunk of code takes care of painting problems when scrolling and a full
+			// row focus rectangle is being drawn. The problems are:
+			// 1) When there are fixed columns and the grid scrolls horizontally so that it
+			//    exposes columns that were scrolled out of view under some fixed columns,
+			//    the top focus rect. line of the cells scrolling into view are not painted.
+			// 2) One problem has to do with the first row of pixels below the column headers.
+			//    The focus rectangle color was getting left behind when selected rows were
+			//    being scrolled upward, out of view.
+			// 3) Another problem has to do with the selected row losing the top edge of its
+			//    focus rectangle when it is scrolled downward after having been the top visible row.
+			if (PaintFullRowFocusRectangle && SelectionMode == DataGridViewSelectionMode.FullRowSelect)
 			{
-				Invalidate(new Rectangle(0, ColumnHeadersHeight - 1, ClientSize.Width, 2));
-
-				if (FirstDisplayedScrollingRowIndex == CurrentCellAddress.Y - 1)
+				if (e.ScrollOrientation == ScrollOrientation.HorizontalScroll)
+				{
 					InvalidateRowInFullRowSelectMode(CurrentCellAddress.Y);
+				}
+				else
+				{
+					if (CurrentCellAddress.Y >= 0 && CurrentCellAddress.Y < RowCount)
+					{
+						Invalidate(new Rectangle(0, ColumnHeadersHeight - 1, ClientSize.Width, 2));
+
+						if (FirstDisplayedScrollingRowIndex == CurrentCellAddress.Y - 1)
+							InvalidateRowInFullRowSelectMode(CurrentCellAddress.Y);
+					}
+				}
 			}
 		}
 
@@ -323,7 +336,7 @@ namespace SilUtils
 		{
 			base.OnPaint(e);
 
-			if (!m_paintWaterMark || string.IsNullOrEmpty(m_waterMark))
+			if (!_paintWaterMark || string.IsNullOrEmpty(_waterMark))
 				return;
 
 			Rectangle rc = WaterMarkRectangle;
@@ -336,11 +349,11 @@ namespace SilUtils
 			{
 				using (Font fnt = FontHelper.MakeFont(family.Name, size, FontStyle.Bold))
 				{
-					int height = TextRenderer.MeasureText(m_waterMark, fnt).Height;
+					int height = TextRenderer.MeasureText(_waterMark, fnt).Height;
 					if (height < rc.Height)
 					{
 						using (StringFormat sf = Utils.GetStringFormat(true))
-							path.AddString(m_waterMark, family, (int)FontStyle.Bold, size, rc, sf);
+							path.AddString(_waterMark, family, (int)FontStyle.Bold, size, rc, sf);
 
 						break;
 					}
@@ -392,7 +405,7 @@ namespace SilUtils
 		/// Processes the home and end keys.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void ProcessHomeAndEndKeys(TextBox txtBox, Keys keys)
+		private static void ProcessHomeAndEndKeys(TextBoxBase txtBox, Keys keys)
 		{
 			txtBox.SelectionStart = (keys == Keys.Home ? 0 : txtBox.Text.Length);
 			txtBox.SelectionLength = 0;
@@ -492,7 +505,7 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCurrentCellDirtyStateChanged(EventArgs e)
 		{
-			if (!m_isDirty)
+			if (!_isDirty)
 				IsDirty  = IsCurrentCellDirty;
 			
 			base.OnCurrentCellDirtyStateChanged(e);
@@ -624,15 +637,51 @@ namespace SilUtils
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Selects the first, visible column that is adjacent to the current column (i.e.
+		/// the column of the current cell). When searchLeftFirst is true, an attempt will
+		/// be made to first find a visible column to the left of the current column. If
+		/// that fails, then an attempt is made to find a visible column to the right of the
+		/// current column. Of course, if searchLeftFirst is false, then searching right is
+		/// first, then left. If a new column is successfully selected, true is returned.
+		/// Otherwise, false is returned. 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool SelectAdjacentVisibleColumn(bool searchLeftFirst)
+		{
+			// Can't select a cell in the current row if there is no current row.
+			if (CurrentCellAddress.Y < 0)
+				return false;
+
+			int inc = (searchLeftFirst ? -1 : 1);
+
+			for (int pass = 0; pass < 2; pass++)
+			{
+				for (int i = CurrentCellAddress.X + inc; i >= 0 && i < ColumnCount; i += inc)
+				{
+					if (Columns[i].Visible)
+					{
+						CurrentCell = this[i, CurrentCellAddress.Y];
+						return true;
+					}
+				}
+
+				inc *= -1;
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnCurrentCellChanged(EventArgs e)
 		{
 			base.OnCurrentCellChanged(e);
 
-			if (m_prevRowIndex != CurrentCellAddress.Y)
+			if (_prevRowIndex != CurrentCellAddress.Y)
 			{
-				InvalidateRowInFullRowSelectMode(m_prevRowIndex);
+				InvalidateRowInFullRowSelectMode(_prevRowIndex);
 				InvalidateRowInFullRowSelectMode(CurrentCellAddress.Y);
-				m_prevRowIndex = CurrentCellAddress.Y;
+				_prevRowIndex = CurrentCellAddress.Y;
 				OnCurrentRowChanged(EventArgs.Empty);
 			}
 		}
@@ -646,10 +695,9 @@ namespace SilUtils
 				ClientSize.Width > Columns.GetColumnsWidth(DataGridViewElementStates.Visible))
 			{
 				DrawExtendedColumnHeaderRow(e);
-				return;
 			}
 
-			if (e.RowIndex >= 0 && !e.Handled && Focused & PaintFullRowFocusRectangle &&
+			if (!e.Handled && Focused & PaintFullRowFocusRectangle &&
 				SelectionMode == DataGridViewSelectionMode.FullRowSelect)
 			{
 				DrawFocusRectangle(e);
@@ -708,25 +756,42 @@ namespace SilUtils
 			paintParts &= ~DataGridViewPaintParts.Focus;
 			e.Paint(rc, paintParts);
 
+			int rowAboveCurrent = (CurrentCellAddress.Y == FirstDisplayedScrollingRowIndex ?
+				-1 : CurrentCellAddress.Y - 1);
+
+			if (e.RowIndex == rowAboveCurrent && CurrentCellAddress.Y >= FirstDisplayedScrollingRowIndex)
+			{
+				// This draws the line across the top of the cell. (It's really
+				// drawing the line across the bottom of the cell above the focused row.)
+				using (var pen = new Pen(FullRowFocusRectangleColor))
+					e.Graphics.DrawLine(pen, rc.X, rc.Bottom - 1, rc.Right - 1, rc.Bottom - 1);
+			}
+			
 			if (e.RowIndex != CurrentCellAddress.Y)
 				return;
 
-			rc.Height++;
-			rc.Y--;
-
 			using (var pen = new Pen(FullRowFocusRectangleColor))
 			{
-				e.Graphics.DrawLine(pen, rc.X, rc.Y, rc.Right - 1, rc.Y);
+				// Draw a line across the bottom of the cell.
 				e.Graphics.DrawLine(pen, rc.X, rc.Bottom - 1, rc.Right - 1, rc.Bottom - 1);
 
-				if (e.ColumnIndex == 0)
+				// If the column is the furthest left, then draw a
+				// vertical line on the left edge of the cell.
+				if (Columns[e.ColumnIndex].DisplayIndex == 0)
 					e.Graphics.DrawLine(pen, rc.X, rc.Y, rc.X, rc.Bottom - 1);
 
+				// If the column is the furthest right, then draw a
+				// vertical line on the right edge of the cell.
 				if (Columns[e.ColumnIndex].DisplayIndex == ColumnCount - 1)
 					e.Graphics.DrawLine(pen, rc.Right - 1, rc.Y, rc.Right - 1, rc.Bottom - 1);
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This will only deal with painting in the area between the right edge of the
+		/// furthest right displayed cell and the right edge of the grid's client area.
+		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnRowPostPaint(DataGridViewRowPostPaintEventArgs e)
 		{
@@ -740,22 +805,24 @@ namespace SilUtils
 
 			// Determine whether or not there is any gap between the right edge of the last
 			// displayed cell and the right edge of the client area.
-			var colWidths = Columns.GetColumnsWidth(DataGridViewElementStates.Displayed);
-			if (colWidths > ClientSize.Width)
+			var sumOfColWidths = Columns.GetColumnsWidth(DataGridViewElementStates.Displayed);
+			if (sumOfColWidths > ClientSize.Width)
 				return;
 
 			var rc = GetRowDisplayRectangle(e.RowIndex, false);
-			rc.Width -= (colWidths - 1);
-			rc.X += (colWidths - 1);
+			rc.Width -= (sumOfColWidths - 1);
+			rc.X += (sumOfColWidths - 1);
 
-			// Fill the gap betwee the last displayed column and the right edge of the client area.
+			// Fill the gap between the last displayed column and the right edge of the client area
+			// with the selection color so the row's selection highlighting spans the entire grid's
+			// client width.
 			using (var br = new SolidBrush(DefaultCellStyle.SelectionBackColor))
 				e.Graphics.FillRectangle(br, rc);
 
 			if (!Focused || !PaintFullRowFocusRectangle || e.RowIndex != CurrentCellAddress.Y)
 				return;
 
-			// Draw focus rectangle line across top and bottom and along the right edge.
+			// Draw focus rectangle line across the top and bottom and along the right edge.
 			using (var pen = new Pen(FullRowFocusRectangleColor))
 			{
 				e.Graphics.DrawLine(pen, rc.X, rc.Y - 1, rc.Right, rc.Y - 1);
@@ -791,13 +858,48 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public static DataGridViewColumn CreateTextBoxColumn(string name)
 		{
-			DataGridViewColumn col = new DataGridViewColumn();
-			DataGridViewTextBoxCell templateCell = new DataGridViewTextBoxCell();
-			templateCell.Style.Font = SystemInformation.MenuFont;
-			col.HeaderCell.Style.Font = SystemInformation.MenuFont;
+			return CreateTextBoxColumn(name, name);
+		}
+	
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Creates a text box grid column.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static DataGridViewColumn CreateTextBoxColumn(string name, string headerText)
+		{
+			var col = new DataGridViewColumn();
+			var templateCell = new DataGridViewTextBoxCell();
+			templateCell.Style.Font = SystemFonts.MenuFont;
+			col.HeaderCell.Style.Font = SystemFonts.MenuFont;
 			col.CellTemplate = templateCell;
 			col.Name = name;
-			col.HeaderText = name;
+			col.HeaderText = headerText;
+
+			return col;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Creates a calendar control grid column that hosts calendar (date) cells.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static DataGridViewColumn CreateCalendarControlColumn(string name)
+		{
+			return CreateCalendarControlColumn(name, name);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Creates a calendar control grid column that hosts calendar (date) cells.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static DataGridViewColumn CreateCalendarControlColumn(string name, string headerText)
+		{
+			var col = new SilCalendarColumn();
+			col.HeaderCell.Style.Font = SystemFonts.MenuFont;
+			col.Name = name;
+			col.HeaderText = headerText;
 
 			return col;
 		}
@@ -811,11 +913,29 @@ namespace SilUtils
 		public static DataGridViewComboBoxColumn CreateDropDownListComboBoxColumn(string name,
 			List<string> items)
 		{
-			object[] objects = new object[items.Count];
-			for (int i = 0; i < items.Count; i++)
-				objects[i] = items[i];
-			
-			return CreateDropDownListComboBoxColumn(name, objects);
+			return CreateDropDownListComboBoxColumn(name, items);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Creates a combo. box grid column whose cell values must be chosen from the
+		/// drop-down list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static DataGridViewComboBoxColumn CreateDropDownListComboBoxColumn(string name, IEnumerable<string> items)
+		{
+			return CreateDropDownListComboBoxColumn(name, items.Cast<object>());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Creates a combo. box grid column whose cell values must be chosen from the
+		/// drop-down list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static DataGridViewComboBoxColumn CreateDropDownListComboBoxColumn(string name, IEnumerable<object> items)
+		{
+			return CreateDropDownListComboBoxColumn(name, items.ToArray());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -838,12 +958,12 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public static DataGridViewComboBoxColumn CreateDropDownListComboBoxColumn(string name, object[] items)
 		{
-			DataGridViewComboBoxColumn col = new DataGridViewComboBoxColumn();
-			DataGridViewComboBoxCell templateCell = new DataGridViewComboBoxCell();
+			var col = new DataGridViewComboBoxColumn();
+			var templateCell = new DataGridViewComboBoxCell();
 			templateCell.DisplayStyleForCurrentCellOnly = true;
-			templateCell.Style.Font = SystemInformation.MenuFont;
+			templateCell.Style.Font = SystemFonts.MenuFont;
 			templateCell.AutoComplete = true;
-			col.HeaderCell.Style.Font = SystemInformation.MenuFont;
+			col.HeaderCell.Style.Font = SystemFonts.MenuFont;
 			col.CellTemplate = templateCell;
 			col.FlatStyle = FlatStyle.Standard;
 			col.MaxDropDownItems = 10;
@@ -868,9 +988,34 @@ namespace SilUtils
 		/// appear in the drop-down list, that value is added to the list when the cell is
 		/// validated.
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="items"></param>
-		/// <returns></returns>
+		/// ------------------------------------------------------------------------------------
+		public static DataGridViewComboBoxColumn CreateDropDownComboBoxColumn(string name, IEnumerable<string> items)
+		{
+			return CreateDropDownComboBoxColumn(name, items.Cast<object>());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Creates a combo. box grid column whose cell values can be set by choosing a value
+		/// from the drop-down list or by typing one into the cell, even one that doesn't
+		/// appear in the drop-down list. If a value is typed into the cell that doesn't
+		/// appear in the drop-down list, that value is added to the list when the cell is
+		/// validated.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static DataGridViewComboBoxColumn CreateDropDownComboBoxColumn(string name, IEnumerable<object> items)
+		{
+			return CreateDropDownComboBoxColumn(name, items.ToArray());
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Creates a combo. box grid column whose cell values can be set by choosing a value
+		/// from the drop-down list or by typing one into the cell, even one that doesn't
+		/// appear in the drop-down list. If a value is typed into the cell that doesn't
+		/// appear in the drop-down list, that value is added to the list when the cell is
+		/// validated.
+		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static DataGridViewComboBoxColumn CreateDropDownComboBoxColumn(string name,
 			ArrayList items)
@@ -889,7 +1034,7 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public static DataGridViewComboBoxColumn CreateDropDownComboBoxColumn(string name, object[] items)
 		{
-			DataGridViewComboBoxColumn col = CreateDropDownListComboBoxColumn(name, items);
+			var col = CreateDropDownListComboBoxColumn(name, items);
 
 			// Store a flag in the default cell style's tag because that seems to be the only
 			// property for user data that is common to both the OnEditingControlShowing and
@@ -907,11 +1052,11 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public static DataGridViewCheckBoxColumn CreateCheckBoxColumn(string name)
 		{
-			DataGridViewCheckBoxColumn col = new DataGridViewCheckBoxColumn();
-			DataGridViewCheckBoxCell templateCell = new DataGridViewCheckBoxCell();
-			templateCell.Style.Font = SystemInformation.MenuFont;
+			var col = new DataGridViewCheckBoxColumn();
+			var templateCell = new DataGridViewCheckBoxCell();
+			templateCell.Style.Font = SystemFonts.MenuFont;
 			col.CellTemplate = templateCell;
-			col.HeaderCell.Style.Font = SystemInformation.MenuFont;
+			col.HeaderCell.Style.Font = SystemFonts.MenuFont;
 			col.Name = name;
 			col.HeaderText = name;
 			col.FlatStyle = FlatStyle.Standard;
@@ -923,17 +1068,15 @@ namespace SilUtils
 		/// <summary>
 		/// Creates an image grid column.
 		/// </summary>
-		/// <param name="name"></param>
-		/// <returns></returns>
 		/// ------------------------------------------------------------------------------------
 		public static DataGridViewImageColumn CreateImageColumn(string name)
 		{
-			DataGridViewImageColumn col = new DataGridViewImageColumn();
-			DataGridViewImageCell templateCell = new DataGridViewImageCell();
-			templateCell.Style.Font = SystemInformation.MenuFont;
+			var col = new DataGridViewImageColumn();
+			var templateCell = new DataGridViewImageCell();
+			templateCell.Style.Font = SystemFonts.MenuFont;
 			templateCell.ImageLayout = DataGridViewImageCellLayout.Normal;
 			col.CellTemplate = templateCell;
-			col.HeaderCell.Style.Font = SystemInformation.MenuFont;
+			col.HeaderCell.Style.Font = SystemFonts.MenuFont;
 			col.ImageLayout = DataGridViewImageCellLayout.Normal;
 			col.Name = name;
 			col.HeaderText = name;
@@ -948,12 +1091,12 @@ namespace SilUtils
 		/// ------------------------------------------------------------------------------------
 		public static SilButtonColumn CreateSilButtonColumn(string name)
 		{
-			SilButtonColumn col = new SilButtonColumn(name);
-			SilButtonCell templateCell = new SilButtonCell();
-			templateCell.Style.Font = SystemInformation.MenuFont;
+			var col = new SilButtonColumn(name);
+			var templateCell = new SilButtonCell();
+			templateCell.Style.Font = SystemFonts.MenuFont;
 			templateCell.Style.SelectionForeColor = SystemColors.HighlightText;
 			col.CellTemplate = templateCell;
-			col.HeaderCell.Style.Font = SystemInformation.MenuFont;
+			col.HeaderCell.Style.Font = SystemFonts.MenuFont;
 			col.HeaderText = name;
 
 			return col;
