@@ -36,7 +36,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlGrid = new SilUtils.Controls.SilPanel();
 			this.m_grid = new SilUtils.SilGrid();
 			this.chkShowGenerated = new System.Windows.Forms.CheckBox();
-			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.pnlGrid.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -53,7 +53,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlGrid.DoubleBuffered = false;
 			this.locExtender.SetLocalizableToolTip(this.pnlGrid, null);
 			this.locExtender.SetLocalizationComment(this.pnlGrid, null);
-			this.locExtender.SetLocalizationPriority(this.pnlGrid, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlGrid, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlGrid, "AmbiguousSequencesDlg.pnlGrid");
 			this.pnlGrid.MnemonicGeneratesClick = false;
 			this.pnlGrid.Name = "pnlGrid";
@@ -84,7 +84,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_grid.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.m_grid, null);
 			this.locExtender.SetLocalizationComment(this.m_grid, null);
-			this.locExtender.SetLocalizationPriority(this.m_grid, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.m_grid, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_grid, "AmbiguousSequencesDlg.m_grid");
 			this.m_grid.MultiSelect = false;
 			this.m_grid.Name = "m_grid";
@@ -116,6 +116,7 @@ namespace SIL.Pa.UI.Dialogs
 			// locExtender
 			// 
 			this.locExtender.LocalizationGroup = "Dialog Boxes";
+			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// AmbiguousSequencesDlg
 			// 
@@ -139,6 +140,6 @@ namespace SIL.Pa.UI.Dialogs
 		private SilPanel pnlGrid;
 		private SilUtils.SilGrid m_grid;
 		private System.Windows.Forms.CheckBox chkShowGenerated;
-		private SIL.Localization.LocalizationExtender locExtender;
+		private Localization.UI.LocalizationExtender locExtender;
 	}
 }

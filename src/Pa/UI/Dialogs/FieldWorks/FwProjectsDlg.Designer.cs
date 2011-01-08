@@ -38,7 +38,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblNetwork = new System.Windows.Forms.Label();
 			this.txtMsg = new System.Windows.Forms.TextBox();
 			this.lblProjects = new System.Windows.Forms.Label();
-			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
@@ -76,7 +76,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tvNetwork.HideSelection = false;
 			this.locExtender.SetLocalizableToolTip(this.tvNetwork, null);
 			this.locExtender.SetLocalizationComment(this.tvNetwork, null);
-			this.locExtender.SetLocalizationPriority(this.tvNetwork, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.tvNetwork, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.tvNetwork, "FwProjectsDlg.tvNetwork");
 			this.tvNetwork.Name = "tvNetwork";
 			this.tvNetwork.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvNetwork_AfterSelect);
@@ -112,7 +112,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.txtMsg.BackColor = System.Drawing.SystemColors.Window;
 			this.locExtender.SetLocalizableToolTip(this.txtMsg, null);
 			this.locExtender.SetLocalizationComment(this.txtMsg, null);
-			this.locExtender.SetLocalizationPriority(this.txtMsg, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtMsg, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtMsg, "FwProjectsDlg.txtMsg");
 			resources.ApplyResources(this.txtMsg, "txtMsg");
 			this.txtMsg.Name = "txtMsg";
@@ -130,6 +130,7 @@ namespace SIL.Pa.UI.Dialogs
 			// locExtender
 			// 
 			this.locExtender.LocalizationGroup = "Dialog Boxes";
+			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// FwProjectsDlg
 			// 
@@ -138,7 +139,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.splitContainer1);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "FwProjectsDlg.WindowTitle");
 			this.Name = "FwProjectsDlg";
 			this.Controls.SetChildIndex(this.splitContainer1, 0);
@@ -164,6 +165,6 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.Label lblNetwork;
 		private System.Windows.Forms.Label lblProjects;
 		private System.Windows.Forms.TextBox txtMsg;
-		private SIL.Localization.LocalizationExtender locExtender;
+		private Localization.UI.LocalizationExtender locExtender;
 	}
 }

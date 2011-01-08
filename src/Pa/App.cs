@@ -22,16 +22,18 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using Localization;
+using Localization.UI;
 using Microsoft.Win32;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Processing;
 using SIL.Pa.Properties;
 using SIL.Pa.ResourceStuff;
 using SilUtils;
-using SilUtils.Controls;
+using ShortcutKeysEditor=SilUtils.Controls.ShortcutKeysEditor;
+using Utils=SilUtils.Utils;
 
 namespace SIL.Pa
 {
@@ -158,9 +160,10 @@ namespace SIL.Pa
 
 			ProcessHelper.CopyFilesForPrettyHTMLExports();
 
-			LocalizationManager.Initialize(Path.Combine(DefaultProjectFolder, "Localizations"));
-			LocalizationManager.DefaultStringGroup = kLocalizationGroupMisc;
 			SetUILanguage();
+			LocalizationManager.DefaultStringGroup = kLocalizationGroupMisc;
+			L10NMngr = LocalizationManager.Create("Pa", "Phonology Assistant",
+				Path.Combine(DefaultProjectFolder, "Localizations"));
 
 			// Create the master set of PA fields. When a project is opened, any
 			// custom fields belonging to the project will be added to this list.
@@ -189,10 +192,6 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private static void SetUILanguage()
 		{
 			string langId = Settings.Default.UserInterfaceLanguage;
@@ -208,21 +207,20 @@ namespace SIL.Pa
 				}
 			}
 
-			LocalizationManager.UILangId = (string.IsNullOrEmpty(langId) ?
+			LocalizationManager.UILanguageId = (string.IsNullOrEmpty(langId) ?
 				LocalizationManager.kDefaultLang : langId);
 		}
 
-		#region Misc. localized global strings
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public static LocalizationManager L10NMngr { get; private set; }
+
+		#region Misc. localized global strings
 		/// ------------------------------------------------------------------------------------
 		public static string kOpenClassBracket
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString(
+				return L10NMngr.LocalizeString(
 					"OpenClassSymbol", "<",
 					"Character used to delineate the opening of a phonetic search class.",
 					kLocalizationGroupMisc);
@@ -238,7 +236,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString(
+				return L10NMngr.LocalizeString(
 					"CloseClassSymbol", ">",
 					"Character used to delineate the closing of a phonetic search class.",
 					kLocalizationGroupMisc);
@@ -254,7 +252,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString("FileTypes.ExecutableFileTypes",
+				return L10NMngr.LocalizeString("FileTypes.ExecutableFileTypes",
 					"All Executables (*.exe;*.com;*.pif;*.bat;*.cmd)|*.exe;*.com;*.pif;*.bat;*.cmd",
 					"File types for executable files.", kLocalizationGroupMisc);
 			}
@@ -269,7 +267,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString("FileTypes.AllFileTypes",
+				return L10NMngr.LocalizeString("FileTypes.AllFileTypes",
 					"All Files (*.*)|*.*", "Used in open/save file dialogs as the type for all files.",
 					kLocalizationGroupMisc);
 			}
@@ -284,7 +282,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString(
+				return L10NMngr.LocalizeString(
 					"FileTypes.HTMLFileType", "HTML Files (*.html)|*.html");
 			}
 		}
@@ -298,7 +296,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString(
+				return L10NMngr.LocalizeString(
 					"FileTypes.Word2003XmlFileType", "Word 2003 XML Files (*.xml)|*.xml");
 			}
 		}
@@ -312,7 +310,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString(
+				return L10NMngr.LocalizeString(
 					"FileTypes.XLingPaperFileType", "XLingPaper Files (*.xml)|*.xml");
 			}
 		}
@@ -326,7 +324,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString("FileTypes.PaXMLFileType",
+				return L10NMngr.LocalizeString("FileTypes.PaXMLFileType",
 					"{0} XML Files (*.paxml)|*.paxml", "Parameter is the application name.",
 					kLocalizationGroupMisc);
 			}
@@ -341,7 +339,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString("FileTypes.PaProjectFileType",
+				return L10NMngr.LocalizeString("FileTypes.PaProjectFileType",
 					"{0} Projects (*.pap)|*.pap",
 					"File type for Phonology Assistant projects. The parameter is the application name.",
 					kLocalizationGroupMisc);
@@ -357,7 +355,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString("FileTypes.RTFFileType",
+				return L10NMngr.LocalizeString("FileTypes.RTFFileType",
 					"Rich Text Format (*.rtf)|*.rtf", "File type for rich text format output.",
 					kLocalizationGroupMisc);
 			}
@@ -372,7 +370,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString(
+				return L10NMngr.LocalizeString(
 					"FileTypes.Mp3FileType", "Speech Analyzer MP3 Files (*.mp3)|*.mp3");
 			}
 		}
@@ -386,7 +384,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString(
+				return L10NMngr.LocalizeString(
 					"FileTypes.WaveFileType", "Speech Analyzer Wave Files (*.wav)|*.wav");
 			}
 		}
@@ -400,7 +398,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString(
+				return L10NMngr.LocalizeString(
 					"FileTypes.WindowsMediaAudioFileType", "Speech Analyzer WMA Files (*.wma)|*.wma");
 			}
 		}
@@ -414,7 +412,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString("FileTypes.ToolboxFileType",
+				return L10NMngr.LocalizeString("FileTypes.ToolboxFileType",
 					"Toolbox Files (*.db)|*.db");
 			}
 		}
@@ -428,7 +426,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString("FileTypes.ToolboxInterlinearFileType",
+				return L10NMngr.LocalizeString("FileTypes.ToolboxInterlinearFileType",
 					"Interlinear Toolbox Files (*.itx)|*.itx");
 			}
 		}
@@ -442,7 +440,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString("FileTypes.XmlFileType",
+				return L10NMngr.LocalizeString("FileTypes.XmlFileType",
 					"XML Files (*.xml)|*.xml");
 			}
 		}
@@ -456,7 +454,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString("FileTypes.XsltTFileType",
+				return L10NMngr.LocalizeString("FileTypes.XsltTFileType",
 					"XSLT Files (*.xslt)|*.xslt");
 			}
 		}
@@ -470,7 +468,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString("FileTypes.ZipFileType",
+				return L10NMngr.LocalizeString("FileTypes.ZipFileType",
 					"Zip Files (*.zip)|*.zip");
 			}
 		}
@@ -484,7 +482,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString(
+				return L10NMngr.LocalizeString(
 					"PhoneticSearchingInProgressMessage", "Searching...",
 					"Message displayed in status bar next to the progress bar when doing a query searches.",
 					kLocalizationGroupMisc);
@@ -500,7 +498,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString(
+				return L10NMngr.LocalizeString(
 					"GenericSaveChangesQuestion", "Would you like to save your changes?");
 			}
 		}
@@ -514,7 +512,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString(
+				return L10NMngr.LocalizeString(
 					"GenericSaveFileDialogCaption", "Save File");
 			}
 		}
@@ -529,7 +527,8 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		static void LocalizeItemDlg_SetDialogBounds(LocalizeItemDlg dlg)
 		{
-			SettingsHandler.LoadFormProperties(dlg);
+			if (!Settings.Default.LocalizeDlgBounds.IsEmpty)
+				dlg.Bounds = Settings.Default.LocalizeDlgBounds;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -539,7 +538,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		static void LocalizeItemDlg_SaveDialogBounds(LocalizeItemDlg dlg)
 		{
-			SettingsHandler.SaveFormProperties(dlg);
+			Settings.Default.LocalizeDlgBounds = dlg.Bounds;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -547,9 +546,10 @@ namespace SIL.Pa
 		/// Returns the saved splitter distance value for Localizing dialog box.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		static int LocalizeItemDlg_SetDialogSplitterPosition()
+		static int LocalizeItemDlg_SetDialogSplitterPosition(int currPos)
 		{
-			return SettingsHandler.GetIntSettingsValue("LocalizeDlg", "splitdistance", 0);
+			return (Settings.Default.LocalizeDlgSplitterPos > 0 ?
+				Settings.Default.LocalizeDlgSplitterPos : currPos);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -559,7 +559,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		static void LocalizeItemDlg_SaveDialogSplitterPosition(int pos)
 		{
-			SettingsHandler.SaveSettingsValue("LocalizeDlg", "splitdistance", pos);
+			Settings.Default.LocalizeDlgSplitterPos = pos;
 		}
 
 		#endregion
@@ -1422,7 +1422,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		static void HandleLocalizingTMItem(object item, string id, TMItemProperties itemProps)
 		{
-			LocalizationManager.LocalizeObject(item, id, itemProps.Text, itemProps.Tooltip,
+			L10NMngr.LocalizeObject(item, id, itemProps.Text, itemProps.Tooltip,
 				ShortcutKeysEditor.KeysToString(itemProps.ShortcutKey), "Toolbar or Menu item",
 				kLocalizationGroupTMItems, LocalizationPriority.High);
 		}

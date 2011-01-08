@@ -8,12 +8,12 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using Localization;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
 using SilUtils;
 using SIL.Pa.UI.Dialogs;
-using SIL.Localization;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -1636,7 +1636,7 @@ namespace SIL.Pa.UI.Controls
 			int widestExperimentalTrans = GetWidestExperimentalTrancription(experimentalTrans);
 
 			int hdgWidth;
-			string hdgText = LocalizationManager.LocalizeString("CellInfoExperimentalTransHdgText",
+			string hdgText = App.L10NMngr.LocalizeString("CellInfoExperimentalTransHdgText",
 				"Experimental transcription(s)\nconverted in this entry:",
 				"Heading text on experimental transcription popup in word lists.",
 				App.kLocalizationGroupUICtrls + ".Word Lists", LocalizationCategory.Other,

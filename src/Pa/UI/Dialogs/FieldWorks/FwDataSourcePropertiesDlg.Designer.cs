@@ -39,7 +39,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbLexForm = new System.Windows.Forms.RadioButton();
 			this.grpWritingSystems = new System.Windows.Forms.GroupBox();
 			this.m_grid = new SilUtils.SilGrid();
-			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.panel1.SuspendLayout();
 			this.grpPhoneticDataStoreType.SuspendLayout();
 			this.grpWritingSystems.SuspendLayout();
@@ -54,7 +54,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblProjectValue.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblProjectValue, null);
 			this.locExtender.SetLocalizationComment(this.lblProjectValue, null);
-			this.locExtender.SetLocalizationPriority(this.lblProjectValue, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lblProjectValue, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblProjectValue, "FwDataSourcePropertiesDlg.lblProjectValue");
 			this.lblProjectValue.Name = "lblProjectValue";
 			// 
@@ -142,7 +142,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_grid.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.m_grid, null);
 			this.locExtender.SetLocalizationComment(this.m_grid, null);
-			this.locExtender.SetLocalizationPriority(this.m_grid, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.m_grid, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_grid, "FwDataSourcePropertiesDlg.m_grid");
 			this.m_grid.MultiSelect = false;
 			this.m_grid.Name = "m_grid";
@@ -157,6 +157,7 @@ namespace SIL.Pa.UI.Dialogs
 			// locExtender
 			// 
 			this.locExtender.LocalizationGroup = "Dailog Boxes";
+			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// FwDataSourcePropertiesDlg
 			// 
@@ -196,6 +197,6 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.GroupBox grpPhoneticDataStoreType;
 		private System.Windows.Forms.GroupBox grpWritingSystems;
 		private SilUtils.SilGrid m_grid;
-		private SIL.Localization.LocalizationExtender locExtender;
+		private Localization.UI.LocalizationExtender locExtender;
 	}
 }

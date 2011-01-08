@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using SIL.Localization;
+using Localization;
 using SIL.Pa.DataSource;
 using SIL.Pa.Filters;
 using SIL.Pa.Model;
@@ -126,7 +126,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void MigrateToLatestVersion(string filename)
 		{
-			var errMsg = LocalizationManager.LocalizeString("ProjectFileMigrationErrMsg",
+			var errMsg = App.L10NMngr.LocalizeString("ProjectFileMigrationErrMsg",
 				"The following error occurred while attempting to update your project file:\n\n{0}",
 				"Message displayed when updating ambiguous sequences file to new version.",
 				App.kLocalizationGroupMisc, LocalizationCategory.ErrorOrWarningMessage,
@@ -259,7 +259,7 @@ namespace SIL.Pa
 
 			if (!File.Exists(prjFileName))
 			{
-				msg = LocalizationManager.LocalizeString("ProjectFileMissingMsg",
+				msg = App.L10NMngr.LocalizeString("ProjectFileMissingMsg",
 					"Project file '{0}' does not exist.", "Message displayed when an " +
 					"attempt is made to open a non existant project file. The parameter " +
 					"is the project file name.", App.kLocalizationGroupInfoMsg,

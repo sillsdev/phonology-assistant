@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using System.Text.RegularExpressions;
-using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 
@@ -18,7 +17,7 @@ namespace SIL.Pa.Filters
 	[XmlType("expression")]
 	public class FilterExpression
 	{
-		public static string OtherFilterField = LocalizationManager.LocalizeString(
+		public static string OtherFilterField = App.L10NMngr.LocalizeString(
 			"DefineFiltersDlg.FilterExpressionOperators.OtherFilter", "(OTHER FILTER)",
 			"Displayed in the filters dialog.", "Dialog Boxes");
 

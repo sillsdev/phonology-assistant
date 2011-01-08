@@ -3,7 +3,6 @@ using System.Linq;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
@@ -154,7 +153,7 @@ namespace SIL.Pa.Processing
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString("ProcessingPhoneInventoryMsg",
+				return App.L10NMngr.LocalizeString("ProcessingPhoneInventoryMsg",
 					"Building Phone Inventory...",
 					"Message displayed whenever the phone inventory is built or updated.",
 					App.kLocalizationGroupInfoMsg);

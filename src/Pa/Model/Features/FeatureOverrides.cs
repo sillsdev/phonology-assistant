@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using SIL.Localization;
+using Localization;
 using SilUtils;
 
 namespace SIL.Pa.Model
@@ -23,7 +23,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static void MigrateToLatestVersion(string filename)
 		{
-			var errMsg = LocalizationManager.LocalizeString("FeatureOverridesMigrationErrMsg",
+			var errMsg = App.L10NMngr.LocalizeString("FeatureOverridesMigrationErrMsg",
 				"The following error occurred while attempting to update your project’s feature " +
 				"overrides file:\n\n{0}\n\nIn order to continue working, your original feature " +
 				"overrides file  will be renamed to the following file: '{1}'.",

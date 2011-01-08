@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
-using SIL.Localization;
 using SilUtils;
 using SilUtils.Controls;
 using SIL.Pa.PhoneticSearching;
@@ -151,7 +150,7 @@ namespace SIL.Pa.UI.Controls
 							bldr.Append(invalidItems[i]);
 						else
 						{
-							var fmt = LocalizationManager.LocalizeString(
+							var fmt = App.L10NMngr.LocalizeString(
 								"ChartPopupUndefinedSymbolFormatMsg", "{0} (U+{1})",
 								"Views.Distribution Charts");
 

@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using SIL.Localization;
+using Localization;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
 using SilUtils;
@@ -154,26 +154,26 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (m_item.ClassType == SearchClassType.Phones)
 			{
-				return LocalizationManager.LocalizeString("ClassListPhoneMembersToolTipHdg", "Members:",
+				return App.L10NMngr.LocalizeString("ClassListPhoneMembersToolTipHdg", "Members:",
 					"Heading for the tooltip used to display the members of a class of phones in a class list view.",
 					App.kLocalizationGroupUICtrls);
 			}
 
 			if (m_tipText.IndexOf(Environment.NewLine) < 0)
 			{
-				return LocalizationManager.LocalizeString("ClassListSingleMemberToolTipHdg", "Member:",
+				return App.L10NMngr.LocalizeString("ClassListSingleMemberToolTipHdg", "Member:",
 					"Heading for the tooltip used to display the member of a class containing a single feature.",
 					App.kLocalizationGroupUICtrls);
 			}
 
 			if (m_item.ANDFeatures)
 			{
-				return LocalizationManager.LocalizeString("ClassListMembersToolTipMatchAllHdg", "Members (Match All):",
+				return App.L10NMngr.LocalizeString("ClassListMembersToolTipMatchAllHdg", "Members (Match All):",
 					"Heading for the tooltip used to display the members of a class of features in a class list view.",
 					App.kLocalizationGroupUICtrls);
 			}
 
-			return LocalizationManager.LocalizeString("ClassListMembersToolTipOrHdg", "Members (Match Any):",
+			return App.L10NMngr.LocalizeString("ClassListMembersToolTipOrHdg", "Members (Match Any):",
 				"Heading for the tooltip used to display the members of a class of features in a class list view.",
 				App.kLocalizationGroupUICtrls);
 		}
@@ -297,7 +297,7 @@ namespace SIL.Pa.UI.Controls
 			hdr.Width = 180;
 			Columns.Add(hdr);
 
-			LocalizationManager.LocalizeObject(hdr, "ClassListView.NameColumnHdg", "Name", null,
+			App.L10NMngr.LocalizeObject(hdr, "ClassListView.NameColumnHdg", "Name", null,
 				null, "Name column heading for list of classes", App.kLocalizationGroupUICtrls,
 				LocalizationPriority.High);
 			
@@ -317,7 +317,7 @@ namespace SIL.Pa.UI.Controls
 				hdr.Name = "hdr" + kMemberSubitem;
 				hdr.Width = 205;
 				Columns.Add(hdr);
-				LocalizationManager.LocalizeObject(hdr, "ClassListView.MembersColumnHdg", "Members", null,
+				App.L10NMngr.LocalizeObject(hdr, "ClassListView.MembersColumnHdg", "Members", null,
 					 null, "Members column heading for list of classes", App.kLocalizationGroupUICtrls,
 					 LocalizationPriority.High);
 				
@@ -326,7 +326,7 @@ namespace SIL.Pa.UI.Controls
 				hdr.Name = "hdr" + kBasedOnSubitem;
 				hdr.Width = 175;
 				Columns.Add(hdr);
-				LocalizationManager.LocalizeObject(hdr, "ClassListView.TypeColumnHdg", "Type", null,
+				App.L10NMngr.LocalizeObject(hdr, "ClassListView.TypeColumnHdg", "Type", null,
 					 null, "Type column heading for list of classes", App.kLocalizationGroupUICtrls,
 					 LocalizationPriority.High);
 			}
@@ -631,7 +631,7 @@ namespace SIL.Pa.UI.Controls
 				{
 					if (showMsg)
 					{
-						var msg = LocalizationManager.LocalizeString("DefineClassDupClassName",
+						var msg = App.L10NMngr.LocalizeString("DefineClassDupClassName",
 							"Class '{0}' already exists. Choose a different name.",
 							"Error msg for creating class with duplicate name.",
 							App.kLocalizationGroupUICtrls);

@@ -1,16 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
-using SIL.Localization;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilUtils;
 
 namespace SIL.Pa.UI.Dialogs
 {
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public partial class CustomFieldsDlg : OKCancelDlgBase
 	{
@@ -44,15 +41,15 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public CustomFieldsDlg(PaProject project) : this()
 		{
-			m_textFieldType = LocalizationManager.LocalizeString("CustomFieldsDlg.CustomFieldTypeText",
+			m_textFieldType = App.L10NMngr.LocalizeString("CustomFieldsDlg.CustomFieldTypeText",
 				"Text", "Field type on field type drop-down in custom fields dialog box.", "Dialog Boxes",
 				LocalizationCategory.Other, LocalizationPriority.High);
 
-			m_numbericDataType = LocalizationManager.LocalizeString("CustomFieldsDlg.CustomFieldTypeNumeric",
+			m_numbericDataType = App.L10NMngr.LocalizeString("CustomFieldsDlg.CustomFieldTypeNumeric",
 				"Numeric", "Field type on field type drop-down in custom fields dialog box.", "Dialog Boxes",
 				LocalizationCategory.Other, LocalizationPriority.High);
 
-			m_dateTimeDataType = LocalizationManager.LocalizeString("CustomFieldsDlg.CustomFieldTypeDateTime",
+			m_dateTimeDataType = App.L10NMngr.LocalizeString("CustomFieldsDlg.CustomFieldTypeDateTime",
 				"Date/Time", "Field type on field type drop-down in custom fields dialog box.", "Dialog Boxes",
 				LocalizationCategory.Other, LocalizationPriority.High);
 
@@ -110,7 +107,7 @@ namespace SIL.Pa.UI.Dialogs
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn(kNameCol);
 			col.Width = 135;
 			m_grid.Columns.Add(col);
-			LocalizationManager.LocalizeObject(m_grid.Columns[kNameCol],
+			App.L10NMngr.LocalizeObject(m_grid.Columns[kNameCol],
 				"CustomFieldsDlg.CustomFieldNameColumnHdg", "Custom Field Name", null, null,
 				"Column heading in field list in the custom fields dialog box.",
 				"Dialog Boxes", LocalizationCategory.DataGridViewColumnHeading,
@@ -118,11 +115,11 @@ namespace SIL.Pa.UI.Dialogs
 
 			// Create the data type column.
 			col = SilGrid.CreateDropDownListComboBoxColumn(kTypeCol,
-				new[] { m_textFieldType, m_numbericDataType, m_dateTimeDataType });
+				new List<string> { m_textFieldType, m_numbericDataType, m_dateTimeDataType });
 
 			col.Width = 80;
 			m_grid.Columns.Add(col);
-			LocalizationManager.LocalizeObject(m_grid.Columns[kTypeCol],
+			App.L10NMngr.LocalizeObject(m_grid.Columns[kTypeCol],
 				"CustomFieldsDlg.CustomFieldTypeColumnHdg", "Field Type", null, null,
 				"Column heading in field list in the custom fields dialog box.",
 				"Dialog Boxes", LocalizationCategory.DataGridViewColumnHeading,
@@ -132,7 +129,7 @@ namespace SIL.Pa.UI.Dialogs
 			col = SilGrid.CreateCheckBoxColumn(kRTLCol);
 			col.Width = 55;
 			m_grid.Columns.Add(col);
-			LocalizationManager.LocalizeObject(m_grid.Columns[kRTLCol],
+			App.L10NMngr.LocalizeObject(m_grid.Columns[kRTLCol],
 				"CustomFieldsDlg.CustomFieldRTLColumnHdg", "Right to Left", null, null,
 				"Column heading in field list in the custom fields dialog box.",
 				"Dialog Boxes", LocalizationCategory.DataGridViewColumnHeading,
@@ -142,7 +139,7 @@ namespace SIL.Pa.UI.Dialogs
 			col = SilGrid.CreateCheckBoxColumn(kParsedCol);
 			col.Width = 55;
 			m_grid.Columns.Add(col);
-			LocalizationManager.LocalizeObject(m_grid.Columns[kParsedCol],
+			App.L10NMngr.LocalizeObject(m_grid.Columns[kParsedCol],
 				"CustomFieldsDlg.CustomFieldParsedColumnHdg", "Is Field Parsed?", null, null,
 				"Column heading in field list in the custom fields dialog box.",
 				"Dialog Boxes", LocalizationCategory.DataGridViewColumnHeading,
@@ -152,7 +149,7 @@ namespace SIL.Pa.UI.Dialogs
 			col = SilGrid.CreateCheckBoxColumn(kILCol);
 			col.Width = 90;
 			m_grid.Columns.Add(col);
-			LocalizationManager.LocalizeObject(m_grid.Columns[kILCol],
+			App.L10NMngr.LocalizeObject(m_grid.Columns[kILCol],
 				"CustomFieldsDlg.CustomFieldInterlinearColumnHdg",
 				"Can Field be Interlinear?", null, null,
 				"Column heading in field list in the custom fields dialog box.",
@@ -358,7 +355,7 @@ namespace SIL.Pa.UI.Dialogs
 				PaFieldInfo fieldInfo = m_project.FieldInfo.GetFieldFromDisplayText(fieldName1);
 				if (fieldInfo != null && fieldInfo != origFieldInfo)
 				{
-					string msg = LocalizationManager.LocalizeString(
+					string msg = App.L10NMngr.LocalizeString(
 						"CustomFieldsDlg.CustomFieldExistsMsg",
 						"A field by the name of '{0}' already exists.",
 						"Message displayed in custom fields dialog box when trying to " +
@@ -381,7 +378,7 @@ namespace SIL.Pa.UI.Dialogs
 					string fieldName2 = row2.Cells[kNameCol].Value as string;
 					if (fieldName2.ToLower() == fieldName1.ToLower())
 					{
-						string msg = LocalizationManager.LocalizeString(
+						string msg = App.L10NMngr.LocalizeString(
 							"CustomFieldsDlg.DuplicateCustomFieldMsg",
 							"The custom field '{0}' occurs multiple times in the list.",
 							"Message displayed in custom fields dialog box when trying to " +

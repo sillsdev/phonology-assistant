@@ -63,7 +63,7 @@ namespace SIL.Pa.UI.Views
 			this.ptrnTextBox = new SIL.Pa.UI.Controls.PatternTextBox();
 			this.lblCurrPattern = new System.Windows.Forms.Label();
 			this.pnlOuter = new System.Windows.Forms.Panel();
-			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
@@ -128,7 +128,7 @@ namespace SIL.Pa.UI.Views
 			resources.ApplyResources(this.ptrnBldrComponent, "ptrnBldrComponent");
 			this.locExtender.SetLocalizableToolTip(this.ptrnBldrComponent, null);
 			this.locExtender.SetLocalizationComment(this.ptrnBldrComponent, null);
-			this.locExtender.SetLocalizationPriority(this.ptrnBldrComponent, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.ptrnBldrComponent, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.ptrnBldrComponent, "SearchVw.PatternBuilderComponents");
 			this.ptrnBldrComponent.Name = "ptrnBldrSrchVw";
 			// 
@@ -161,7 +161,7 @@ namespace SIL.Pa.UI.Views
 			this.btnDock.DrawRightArrowButton = false;
 			this.locExtender.SetLocalizableToolTip(this.btnDock, "Dock");
 			this.locExtender.SetLocalizationComment(this.btnDock, "For docking button on the side bar in search view.");
-			this.locExtender.SetLocalizationPriority(this.btnDock, SIL.Localization.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizationPriority(this.btnDock, Localization.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.btnDock, "SearchVw.btnDock");
 			this.btnDock.Name = "btnDock";
 			this.btnDock.Click += new System.EventHandler(this.btnDock_Click);
@@ -177,7 +177,7 @@ namespace SIL.Pa.UI.Views
 			this.btnAutoHide.DrawRightArrowButton = false;
 			this.locExtender.SetLocalizableToolTip(this.btnAutoHide, "Automatically Hide");
 			this.locExtender.SetLocalizationComment(this.btnAutoHide, "For docking button on the side bar in search view.");
-			this.locExtender.SetLocalizationPriority(this.btnAutoHide, SIL.Localization.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizationPriority(this.btnAutoHide, Localization.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.btnAutoHide, "SearchVw.btnAutoHide");
 			this.btnAutoHide.Name = "btnAutoHide";
 			this.btnAutoHide.Click += new System.EventHandler(this.btnAutoHide_Click);
@@ -208,7 +208,7 @@ namespace SIL.Pa.UI.Views
 			this.pnlRecentPatterns.DoubleBuffered = false;
 			this.locExtender.SetLocalizableToolTip(this.pnlRecentPatterns, null);
 			this.locExtender.SetLocalizationComment(this.pnlRecentPatterns, null);
-			this.locExtender.SetLocalizationPriority(this.pnlRecentPatterns, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlRecentPatterns, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlRecentPatterns, "SearchVw.pnlRecentPatterns");
 			this.pnlRecentPatterns.MnemonicGeneratesClick = false;
 			this.pnlRecentPatterns.Name = "pnlRecentPatterns";
@@ -253,7 +253,7 @@ namespace SIL.Pa.UI.Views
 			this.btnClearRecentList.Image = global::SIL.Pa.Properties.Resources.kimidClearList;
 			this.locExtender.SetLocalizableToolTip(this.btnClearRecentList, "Clear List");
 			this.locExtender.SetLocalizationComment(this.btnClearRecentList, null);
-			this.locExtender.SetLocalizationPriority(this.btnClearRecentList, SIL.Localization.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizationPriority(this.btnClearRecentList, Localization.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.btnClearRecentList, "SearchVw.btnClearRecentList");
 			this.btnClearRecentList.Name = "btnClearRecentList";
 			this.btnClearRecentList.Click += new System.EventHandler(this.btnClearRecentList_Click);
@@ -270,7 +270,7 @@ namespace SIL.Pa.UI.Views
 			this.btnRemoveFromRecentList.Image = global::SIL.Pa.Properties.Resources.kimidDelete;
 			this.locExtender.SetLocalizableToolTip(this.btnRemoveFromRecentList, "Remove Selected Pattern");
 			this.locExtender.SetLocalizationComment(this.btnRemoveFromRecentList, null);
-			this.locExtender.SetLocalizationPriority(this.btnRemoveFromRecentList, SIL.Localization.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizationPriority(this.btnRemoveFromRecentList, Localization.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.btnRemoveFromRecentList, "SearchVw.btnRemoveFromRecentList");
 			this.btnRemoveFromRecentList.Name = "btnRemoveFromRecentList";
 			this.btnRemoveFromRecentList.Click += new System.EventHandler(this.btnRemoveFromRecentList_Click);
@@ -287,7 +287,7 @@ namespace SIL.Pa.UI.Views
 			this.pnlSavedPatterns.DoubleBuffered = false;
 			this.locExtender.SetLocalizableToolTip(this.pnlSavedPatterns, null);
 			this.locExtender.SetLocalizationComment(this.pnlSavedPatterns, null);
-			this.locExtender.SetLocalizationPriority(this.pnlSavedPatterns, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlSavedPatterns, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlSavedPatterns, "SearchVw.pnlSavedPatterns");
 			this.pnlSavedPatterns.MnemonicGeneratesClick = false;
 			this.pnlSavedPatterns.Name = "pnlSavedPatterns";
@@ -302,7 +302,7 @@ namespace SIL.Pa.UI.Views
 			this.tvSavedPatterns.IsForToolbarPopup = false;
 			this.locExtender.SetLocalizableToolTip(this.tvSavedPatterns, null);
 			this.locExtender.SetLocalizationComment(this.tvSavedPatterns, null);
-			this.locExtender.SetLocalizationPriority(this.tvSavedPatterns, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.tvSavedPatterns, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.tvSavedPatterns, "SearchVw.tvSavedPatterns");
 			this.tvSavedPatterns.Name = "tvSavedPatterns";
 			this.tvSavedPatterns.TMAdapter = null;
@@ -338,7 +338,7 @@ namespace SIL.Pa.UI.Views
 			this.locExtender.SetLocalizableToolTip(this.btnCategoryNew, "Create New Saved Pattern Category");
 			this.locExtender.SetLocalizationComment(this.btnCategoryNew, "Button to create a new saved patterns folder. The button is in the heading above " +
 					"the saved patterns list in search view.");
-			this.locExtender.SetLocalizationPriority(this.btnCategoryNew, SIL.Localization.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizationPriority(this.btnCategoryNew, Localization.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.btnCategoryNew, "SearchVw.btnCategoryNew");
 			this.btnCategoryNew.Name = "btnCategoryNew";
 			this.btnCategoryNew.Click += new System.EventHandler(this.btnCategoryNew_Click);
@@ -356,7 +356,7 @@ namespace SIL.Pa.UI.Views
 			this.locExtender.SetLocalizableToolTip(this.btnCategoryCut, "Cut Saved Pattern");
 			this.locExtender.SetLocalizationComment(this.btnCategoryCut, "Button to cut a saved pattern to the clipboard. The button is in the heading abov" +
 					"e the saved patterns list in search view.");
-			this.locExtender.SetLocalizationPriority(this.btnCategoryCut, SIL.Localization.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizationPriority(this.btnCategoryCut, Localization.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.btnCategoryCut, "SearchVw.btnCategoryCut");
 			this.btnCategoryCut.Name = "btnCategoryCut";
 			this.btnCategoryCut.Click += new System.EventHandler(this.btnCategoryCut_Click);
@@ -374,7 +374,7 @@ namespace SIL.Pa.UI.Views
 			this.locExtender.SetLocalizableToolTip(this.btnCategoryPaste, "Paste Saved Pattern");
 			this.locExtender.SetLocalizationComment(this.btnCategoryPaste, "Button to paste a saved pattern from the clipboard. The button is in the heading " +
 					"above the saved patterns list in search view.");
-			this.locExtender.SetLocalizationPriority(this.btnCategoryPaste, SIL.Localization.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizationPriority(this.btnCategoryPaste, Localization.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.btnCategoryPaste, "SearchVw.btnCategoryPaste");
 			this.btnCategoryPaste.Name = "btnCategoryPaste";
 			this.btnCategoryPaste.Click += new System.EventHandler(this.btnCategoryPaste_Click);
@@ -392,7 +392,7 @@ namespace SIL.Pa.UI.Views
 			this.locExtender.SetLocalizableToolTip(this.btnCategoryCopy, "Copy Saved Pattern");
 			this.locExtender.SetLocalizationComment(this.btnCategoryCopy, "Button to copy a saved pattern to the clipboard. The button is in the heading abo" +
 					"ve the saved patterns list in search view.");
-			this.locExtender.SetLocalizationPriority(this.btnCategoryCopy, SIL.Localization.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizationPriority(this.btnCategoryCopy, Localization.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.btnCategoryCopy, "SearchVw.btnCategoryCopy");
 			this.btnCategoryCopy.Name = "btnCategoryCopy";
 			this.btnCategoryCopy.Click += new System.EventHandler(this.btnCategoryCopy_Click);
@@ -429,7 +429,7 @@ namespace SIL.Pa.UI.Views
 			this.pnlRecView.DoubleBuffered = false;
 			this.locExtender.SetLocalizableToolTip(this.pnlRecView, null);
 			this.locExtender.SetLocalizationComment(this.pnlRecView, null);
-			this.locExtender.SetLocalizationPriority(this.pnlRecView, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlRecView, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlRecView, "SearchVw.pnlRecView");
 			this.pnlRecView.MnemonicGeneratesClick = false;
 			this.pnlRecView.Name = "pnlRecView";
@@ -442,7 +442,7 @@ namespace SIL.Pa.UI.Views
 			resources.ApplyResources(this.rtfRecVw, "rtfRecVw");
 			this.locExtender.SetLocalizableToolTip(this.rtfRecVw, null);
 			this.locExtender.SetLocalizationComment(this.rtfRecVw, null);
-			this.locExtender.SetLocalizationPriority(this.rtfRecVw, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.rtfRecVw, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.rtfRecVw, "SearchVw.rtfRecVw");
 			this.rtfRecVw.Name = "rtfRecVw";
 			this.rtfRecVw.ReadOnly = true;
@@ -455,7 +455,7 @@ namespace SIL.Pa.UI.Views
 			this.locExtender.SetLocalizableToolTip(this.btnRefresh, "Refresh Results");
 			this.locExtender.SetLocalizationComment(this.btnRefresh, "Button to refresh search results. The button is to the right of the search patter" +
 					"n text box at the top of the search view.");
-			this.locExtender.SetLocalizationPriority(this.btnRefresh, SIL.Localization.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizationPriority(this.btnRefresh, Localization.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.btnRefresh, "SearchVw.btnRefresh");
 			this.btnRefresh.Name = "btnRefresh";
 			this.btnRefresh.UseVisualStyleBackColor = true;
@@ -483,7 +483,7 @@ namespace SIL.Pa.UI.Views
 			this.ptrnTextBox.ClassDisplayBehaviorChanged = false;
 			this.locExtender.SetLocalizableToolTip(this.ptrnTextBox, null);
 			this.locExtender.SetLocalizationComment(this.ptrnTextBox, null);
-			this.locExtender.SetLocalizationPriority(this.ptrnTextBox, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.ptrnTextBox, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.ptrnTextBox, "SearchVw.PatternTextBox");
 			this.ptrnTextBox.Name = "ptrnTextBox";
 			this.ptrnTextBox.OwningView = null;
@@ -510,6 +510,7 @@ namespace SIL.Pa.UI.Views
 			// locExtender
 			// 
 			this.locExtender.LocalizationGroup = "Views";
+			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// SearchVw
 			// 
@@ -520,7 +521,7 @@ namespace SIL.Pa.UI.Views
 			this.Controls.Add(this.pnlCurrPattern);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "SearchVw");
 			this.Name = "SearchVw";
 			this.splitOuter.Panel1.ResumeLayout(false);
@@ -580,6 +581,6 @@ namespace SIL.Pa.UI.Views
 		private PatternTextBox ptrnTextBox;
 		private System.Windows.Forms.Button btnRefresh;
 		private SilUtils.Controls.XButton btnClearRecentList;
-		private SIL.Localization.LocalizationExtender locExtender;
+		private Localization.UI.LocalizationExtender locExtender;
 	}
 }

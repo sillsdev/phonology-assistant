@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Localization;
 using SilUtils;
 using SilUtils.Controls;
 
@@ -227,10 +226,10 @@ namespace SIL.Pa.UI.Controls
 			m_btnRight.Location = new Point(22, top);
 			m_pnlScroll.Controls.Add(m_btnRight);
 
-			m_tooltip.SetToolTip(m_btnLeft, LocalizationManager.LocalizeString(
+			m_tooltip.SetToolTip(m_btnLeft, App.L10NMngr.LocalizeString(
 				"ViewTabsScrollLeftToolTipText", "Scroll Left", App.kLocalizationGroupMisc));
 
-			m_tooltip.SetToolTip(m_btnRight, LocalizationManager.LocalizeString(
+			m_tooltip.SetToolTip(m_btnRight, App.L10NMngr.LocalizeString(
 				"ViewTabsScrollRightToolTipText", "Scroll Right", App.kLocalizationGroupMisc));
 		}
 

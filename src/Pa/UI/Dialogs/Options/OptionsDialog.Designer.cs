@@ -113,7 +113,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblUILanguage = new System.Windows.Forms.Label();
 			this.picSaveInfo = new System.Windows.Forms.PictureBox();
 			this.lblSaveInfo = new System.Windows.Forms.Label();
-			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.tabOptions.SuspendLayout();
 			this.tpgWordLists.SuspendLayout();
 			this.grpColSettings.SuspendLayout();
@@ -211,7 +211,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.fldSelGridWrdList.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.fldSelGridWrdList, null);
 			this.locExtender.SetLocalizationComment(this.fldSelGridWrdList, null);
-			this.locExtender.SetLocalizationPriority(this.fldSelGridWrdList, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.fldSelGridWrdList, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.fldSelGridWrdList, "OptionsDlg.fldSelGridWrdList");
 			this.fldSelGridWrdList.MultiSelect = false;
 			this.fldSelGridWrdList.Name = "fldSelGridWrdList";
@@ -440,7 +440,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.fldSelGridRecView.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.fldSelGridRecView, null);
 			this.locExtender.SetLocalizationComment(this.fldSelGridRecView, null);
-			this.locExtender.SetLocalizationPriority(this.fldSelGridRecView, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.fldSelGridRecView, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.fldSelGridRecView, "OptionsDlg.fldSelGridRecView");
 			this.fldSelGridRecView.MultiSelect = false;
 			this.fldSelGridRecView.Name = "fldSelGridRecView";
@@ -597,7 +597,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.lblExampleCV, "lblExampleCV");
 			this.locExtender.SetLocalizableToolTip(this.lblExampleCV, null);
 			this.locExtender.SetLocalizationComment(this.lblExampleCV, null);
-			this.locExtender.SetLocalizationPriority(this.lblExampleCV, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lblExampleCV, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblExampleCV, "OptionsDlg.lblExampleCV");
 			this.lblExampleCV.Name = "lblExampleCV";
 			this.lblExampleCV.UseMnemonic = false;
@@ -607,7 +607,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.txtCustomChars, "txtCustomChars");
 			this.locExtender.SetLocalizableToolTip(this.txtCustomChars, null);
 			this.locExtender.SetLocalizationComment(this.txtCustomChars, null);
-			this.locExtender.SetLocalizationPriority(this.txtCustomChars, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtCustomChars, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtCustomChars, "OptionsDlg.txtCustomChars");
 			this.txtCustomChars.Name = "txtCustomChars";
 			this.txtCustomChars.TextChanged += new System.EventHandler(this.txtCustomChars_TextChanged);
@@ -618,7 +618,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.lblExampleCVCV, "lblExampleCVCV");
 			this.locExtender.SetLocalizableToolTip(this.lblExampleCVCV, null);
 			this.locExtender.SetLocalizationComment(this.lblExampleCVCV, null);
-			this.locExtender.SetLocalizationPriority(this.lblExampleCVCV, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lblExampleCVCV, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblExampleCVCV, "OptionsDlg.lblExampleCVCV");
 			this.lblExampleCVCV.Name = "lblExampleCVCV";
 			this.lblExampleCVCV.UseMnemonic = false;
@@ -636,7 +636,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.txtExampleInput, "txtExampleInput");
 			this.locExtender.SetLocalizableToolTip(this.txtExampleInput, null);
 			this.locExtender.SetLocalizationComment(this.txtExampleInput, null);
-			this.locExtender.SetLocalizationPriority(this.txtExampleInput, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtExampleInput, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtExampleInput, "OptionsDlg.txtExampleInput");
 			this.txtExampleInput.Name = "txtExampleInput";
 			this.txtExampleInput.ReadOnly = true;
@@ -665,7 +665,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.grpTone.Controls.Add(this.pnlTone);
 			this.locExtender.SetLocalizableToolTip(this.grpTone, null);
 			this.locExtender.SetLocalizationComment(this.grpTone, null);
-			this.locExtender.SetLocalizationPriority(this.grpTone, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.grpTone, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.grpTone, "OptionsDlg.grpTone");
 			resources.ApplyResources(this.grpTone, "grpTone");
 			this.grpTone.Name = "grpTone";
@@ -688,7 +688,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tonePicker.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
 			this.locExtender.SetLocalizableToolTip(this.tonePicker, null);
 			this.locExtender.SetLocalizationComment(this.tonePicker, null);
-			this.locExtender.SetLocalizationPriority(this.tonePicker, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.tonePicker, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.tonePicker, "OptionsDlg.tonePicker");
 			this.tonePicker.Name = "tonePicker";
 			// 
@@ -708,7 +708,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.grpLength.Controls.Add(this.pnlLength);
 			this.locExtender.SetLocalizableToolTip(this.grpLength, null);
 			this.locExtender.SetLocalizationComment(this.grpLength, null);
-			this.locExtender.SetLocalizationPriority(this.grpLength, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.grpLength, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.grpLength, "OptionsDlg.grpLength");
 			resources.ApplyResources(this.grpLength, "grpLength");
 			this.grpLength.Name = "grpLength";
@@ -731,7 +731,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lengthPicker.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
 			this.locExtender.SetLocalizableToolTip(this.lengthPicker, null);
 			this.locExtender.SetLocalizationComment(this.lengthPicker, null);
-			this.locExtender.SetLocalizationPriority(this.lengthPicker, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lengthPicker, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lengthPicker, "OptionsDlg.lengthPicker");
 			this.lengthPicker.Name = "lengthPicker";
 			// 
@@ -751,7 +751,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.grpStress.Controls.Add(this.pnlStress);
 			this.locExtender.SetLocalizableToolTip(this.grpStress, null);
 			this.locExtender.SetLocalizationComment(this.grpStress, null);
-			this.locExtender.SetLocalizationPriority(this.grpStress, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.grpStress, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.grpStress, "OptionsDlg.grpStress");
 			resources.ApplyResources(this.grpStress, "grpStress");
 			this.grpStress.Name = "grpStress";
@@ -774,7 +774,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.stressPicker.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
 			this.locExtender.SetLocalizableToolTip(this.stressPicker, null);
 			this.locExtender.SetLocalizationComment(this.stressPicker, null);
-			this.locExtender.SetLocalizationPriority(this.stressPicker, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.stressPicker, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.stressPicker, "OptionsDlg.stressPicker");
 			this.stressPicker.Name = "stressPicker";
 			// 
@@ -789,7 +789,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tpgSorting.Controls.Add(this.cboListType);
 			this.locExtender.SetLocalizableToolTip(this.tpgSorting, null);
 			this.locExtender.SetLocalizationComment(this.tpgSorting, "Text on tab in options dialog box.");
-			this.locExtender.SetLocalizationPriority(this.tpgSorting, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.tpgSorting, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.tpgSorting, "OptionsDlg.tpgSorting");
 			resources.ApplyResources(this.tpgSorting, "tpgSorting");
 			this.tpgSorting.Name = "tpgSorting";
@@ -842,7 +842,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_sortingGrid.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.m_sortingGrid, null);
 			this.locExtender.SetLocalizationComment(this.m_sortingGrid, null);
-			this.locExtender.SetLocalizationPriority(this.m_sortingGrid, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.m_sortingGrid, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_sortingGrid, "OptionsDlg.m_sortingGrid");
 			this.m_sortingGrid.MultiSelect = false;
 			this.m_sortingGrid.Name = "m_sortingGrid";
@@ -920,7 +920,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.phoneticSortOptions, "phoneticSortOptions");
 			this.locExtender.SetLocalizableToolTip(this.phoneticSortOptions, null);
 			this.locExtender.SetLocalizationComment(this.phoneticSortOptions, null);
-			this.locExtender.SetLocalizationPriority(this.phoneticSortOptions, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.phoneticSortOptions, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.phoneticSortOptions, "OptionsDlg.SortOptionsDropDown");
 			this.phoneticSortOptions.MakePhoneticPrimarySortFieldWhenOptionsChange = true;
 			this.phoneticSortOptions.Name = "phoneticSortOptions";
@@ -987,7 +987,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.cboUILanguage, "cboUILanguage");
 			this.locExtender.SetLocalizableToolTip(this.cboUILanguage, null);
 			this.locExtender.SetLocalizationComment(this.cboUILanguage, null);
-			this.locExtender.SetLocalizationPriority(this.cboUILanguage, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.cboUILanguage, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.cboUILanguage, "OptionsDlg.cboUILanguage");
 			this.cboUILanguage.Name = "cboUILanguage";
 			// 
@@ -1005,7 +1005,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.picSaveInfo.Image = global::SIL.Pa.Properties.Resources.kimidInformation;
 			this.locExtender.SetLocalizableToolTip(this.picSaveInfo, null);
 			this.locExtender.SetLocalizationComment(this.picSaveInfo, null);
-			this.locExtender.SetLocalizationPriority(this.picSaveInfo, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.picSaveInfo, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.picSaveInfo, "OptionsDlg.picSaveInfo");
 			this.picSaveInfo.Name = "picSaveInfo";
 			this.picSaveInfo.TabStop = false;
@@ -1021,6 +1021,7 @@ namespace SIL.Pa.UI.Dialogs
 			// locExtender
 			// 
 			this.locExtender.LocalizationGroup = "Dialog Boxes";
+			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// OptionsDlg
 			// 
@@ -1142,7 +1143,7 @@ namespace SIL.Pa.UI.Dialogs
 		private TabPage tpgUI;
 		private Label lblUILanguage;
 		private ComboBox cboUILanguage;
-		private SIL.Localization.LocalizationExtender locExtender;
+		private Localization.UI.LocalizationExtender locExtender;
 		private CheckBox chkStress;
 	}
 }

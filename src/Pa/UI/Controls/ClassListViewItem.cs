@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using SIL.Localization;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SilUtils;
@@ -38,8 +38,8 @@ namespace SIL.Pa.UI.Controls
 		/// Default constructor for a ClassListViewItem
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ClassListViewItem() 
-			: base(LocalizationManager.LocalizeString("DefaultNewClassName", "New Class"))
+		public ClassListViewItem()
+			: base(App.L10NMngr.LocalizeString("DefaultNewClassName", "New Class"))
 		{
 		}
 
@@ -183,19 +183,19 @@ namespace SIL.Pa.UI.Controls
 				switch (ClassType)
 				{
 					case SearchClassType.Phones:
-						return LocalizationManager.LocalizeString("PhonesClassTypeLabel",
+						return App.L10NMngr.LocalizeString("PhonesClassTypeLabel",
 							"Phones", "Label on the define classes dialog box indicating class type",
 							App.kLocalizationGroupMisc, LocalizationCategory.Label,
 							LocalizationPriority.High);
 
 					case SearchClassType.Articulatory:
-						return LocalizationManager.LocalizeString("ArticulatoryFeaturesClassTypeLabel",
+						return App.L10NMngr.LocalizeString("ArticulatoryFeaturesClassTypeLabel",
 							"Articulatory features", "Articulatory features class type label.",
 							App.kLocalizationGroupMisc, LocalizationCategory.Label,
 							LocalizationPriority.High);
 
 					case SearchClassType.Binary:
-						return LocalizationManager.LocalizeString("BinaryFeaturesClassTypeLabel",
+						return App.L10NMngr.LocalizeString("BinaryFeaturesClassTypeLabel",
 							"Binary features", "Binary features class type label.",
 							App.kLocalizationGroupMisc, LocalizationCategory.Label,
 							LocalizationPriority.High);

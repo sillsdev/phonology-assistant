@@ -117,11 +117,312 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="tblLayoutTop.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="tblLayoutTop.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="tblLayoutTop.ColumnCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="lblMembers.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="lblMembers.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblMembers.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="lblMembers.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 72</value>
+  </data>
+  <data name="lblMembers.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 12, 3, 0</value>
+  </data>
+  <data name="lblMembers.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 13</value>
+  </data>
+  <data name="lblMembers.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="lblMembers.Text" xml:space="preserve">
+    <value>&amp;Members:</value>
+  </data>
+  <data name="lblMembers.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;lblMembers.Name" xml:space="preserve">
+    <value>lblMembers</value>
+  </data>
+  <data name="&gt;&gt;lblMembers.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblMembers.Parent" xml:space="preserve">
+    <value>tblLayoutTop</value>
+  </data>
+  <data name="&gt;&gt;lblMembers.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lblClassType.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblClassType.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblClassType.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 10</value>
+  </data>
+  <data name="lblClassType.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 10, 8, 2</value>
+  </data>
+  <data name="lblClassType.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 13</value>
+  </data>
+  <data name="lblClassType.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblClassType.Text" xml:space="preserve">
+    <value>Type:</value>
+  </data>
+  <data name="&gt;&gt;lblClassType.Name" xml:space="preserve">
+    <value>lblClassType</value>
+  </data>
+  <data name="&gt;&gt;lblClassType.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblClassType.Parent" xml:space="preserve">
+    <value>tblLayoutTop</value>
+  </data>
+  <data name="&gt;&gt;lblClassType.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="rbMatchAll.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbMatchAll.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbMatchAll.Location" type="System.Drawing.Point, System.Drawing">
+    <value>237, 94</value>
+  </data>
+  <data name="rbMatchAll.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>7, 5, 3, 3</value>
+  </data>
+  <data name="rbMatchAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>158, 17</value>
+  </data>
+  <data name="rbMatchAll.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="rbMatchAll.Text" xml:space="preserve">
+    <value>Match A&amp;ll Selected Features</value>
+  </data>
+  <data name="&gt;&gt;rbMatchAll.Name" xml:space="preserve">
+    <value>rbMatchAll</value>
+  </data>
+  <data name="&gt;&gt;rbMatchAll.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbMatchAll.Parent" xml:space="preserve">
+    <value>tblLayoutTop</value>
+  </data>
+  <data name="&gt;&gt;rbMatchAll.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="rbMatchAny.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="rbMatchAny.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="rbMatchAny.Location" type="System.Drawing.Point, System.Drawing">
+    <value>62, 94</value>
+  </data>
+  <data name="rbMatchAny.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 8, 3</value>
+  </data>
+  <data name="rbMatchAny.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 17</value>
+  </data>
+  <data name="rbMatchAny.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="rbMatchAny.Text" xml:space="preserve">
+    <value>Match A&amp;ny Selected Feature</value>
+  </data>
+  <data name="&gt;&gt;rbMatchAny.Name" xml:space="preserve">
+    <value>rbMatchAny</value>
+  </data>
+  <data name="&gt;&gt;rbMatchAny.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rbMatchAny.Parent" xml:space="preserve">
+    <value>tblLayoutTop</value>
+  </data>
+  <data name="&gt;&gt;rbMatchAny.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="lblClassTypeValue.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblClassTypeValue.Location" type="System.Drawing.Point, System.Drawing">
+    <value>62, 10</value>
+  </data>
+  <data name="lblClassTypeValue.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 10, 3, 2</value>
+  </data>
+  <data name="lblClassTypeValue.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 13</value>
+  </data>
+  <data name="lblClassTypeValue.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="lblClassTypeValue.Text" xml:space="preserve">
+    <value>#</value>
+  </data>
+  <data name="&gt;&gt;lblClassTypeValue.Name" xml:space="preserve">
+    <value>lblClassTypeValue</value>
+  </data>
+  <data name="&gt;&gt;lblClassTypeValue.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblClassTypeValue.Parent" xml:space="preserve">
+    <value>tblLayoutTop</value>
+  </data>
+  <data name="&gt;&gt;lblClassTypeValue.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="lblClassName.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="lblClassName.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblClassName.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblClassName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 40</value>
+  </data>
+  <data name="lblClassName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 12, 3, 0</value>
+  </data>
+  <data name="lblClassName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 13</value>
+  </data>
+  <data name="lblClassName.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="lblClassName.Text" xml:space="preserve">
+    <value>N&amp;ame:</value>
+  </data>
+  <data name="&gt;&gt;lblClassName.Name" xml:space="preserve">
+    <value>lblClassName</value>
+  </data>
+  <data name="&gt;&gt;lblClassName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblClassName.Parent" xml:space="preserve">
+    <value>tblLayoutTop</value>
+  </data>
+  <data name="&gt;&gt;lblClassName.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="txtMembers.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="txtMembers.Location" type="System.Drawing.Point, System.Drawing">
+    <value>59, 69</value>
+  </data>
+  <data name="txtMembers.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 12, 0, 0</value>
+  </data>
+  <data name="txtMembers.Size" type="System.Drawing.Size, System.Drawing">
+    <value>391, 20</value>
+  </data>
+  <data name="txtMembers.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;txtMembers.Name" xml:space="preserve">
+    <value>txtMembers</value>
+  </data>
+  <data name="&gt;&gt;txtMembers.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtMembers.Parent" xml:space="preserve">
+    <value>tblLayoutTop</value>
+  </data>
+  <data name="&gt;&gt;txtMembers.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="txtClassName.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="txtClassName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>59, 37</value>
+  </data>
+  <data name="txtClassName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 12, 0, 0</value>
+  </data>
+  <data name="txtClassName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>391, 20</value>
+  </data>
+  <data name="txtClassName.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;txtClassName.Name" xml:space="preserve">
+    <value>txtClassName</value>
+  </data>
+  <data name="&gt;&gt;txtClassName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtClassName.Parent" xml:space="preserve">
+    <value>tblLayoutTop</value>
+  </data>
+  <data name="&gt;&gt;txtClassName.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="tblLayoutTop.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tblLayoutTop.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 0</value>
+  </data>
+  <data name="tblLayoutTop.RowCount" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="tblLayoutTop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>450, 452</value>
+  </data>
+  <data name="tblLayoutTop.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tblLayoutTop.Name" xml:space="preserve">
+    <value>tblLayoutTop</value>
+  </data>
+  <data name="&gt;&gt;tblLayoutTop.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tblLayoutTop.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tblLayoutTop.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tblLayoutTop.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="pnlMemberPickingContainer" Row="4" RowSpan="1" Column="0" ColumnSpan="3" /&gt;&lt;Control Name="lblMembers" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="lblClassType" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="rbMatchAll" Row="3" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="rbMatchAny" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="lblClassTypeValue" Row="0" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="lblClassName" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="txtMembers" Row="2" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="txtClassName" Row="1" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
   <data name="splitOuter.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 112</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="splitOuter.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
     <value>Horizontal</value>
   </data>
@@ -164,7 +465,6 @@
   <data name="splitCV.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 89</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="splitCV.SplitterDistance" type="System.Int32, mscorlib">
     <value>59</value>
   </data>
@@ -858,9 +1158,6 @@
         ZV9fAAgCAAAAAAAAAAoL
 </value>
   </data>
-  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <data name="lvClasses.Location" type="System.Drawing.Point, System.Drawing">
     <value>14, 17</value>
   </data>
@@ -877,7 +1174,7 @@
     <value>lvClasses</value>
   </data>
   <data name="&gt;&gt;lvClasses.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.ClassListView, Pa, Version=3.1.3766.1418, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.ClassListView, Pa, Version=3.2.4021.17755, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lvClasses.Parent" xml:space="preserve">
     <value>pnlMemberPickingContainer</value>
@@ -904,7 +1201,7 @@
     <value>charExplorer</value>
   </data>
   <data name="&gt;&gt;charExplorer.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.IPACharacterExplorer, Pa, Version=3.1.3766.1418, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.IPACharacterExplorer, Pa, Version=3.2.4021.17755, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;charExplorer.Parent" xml:space="preserve">
     <value>pnlMemberPickingContainer</value>
@@ -916,13 +1213,16 @@
     <value>Fill</value>
   </data>
   <data name="pnlMemberPickingContainer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 72</value>
+    <value>0, 126</value>
+  </data>
+  <data name="pnlMemberPickingContainer.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 12, 0, 0</value>
   </data>
   <data name="pnlMemberPickingContainer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>450, 346</value>
+    <value>450, 326</value>
   </data>
   <data name="pnlMemberPickingContainer.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>8</value>
   </data>
   <data name="&gt;&gt;pnlMemberPickingContainer.Name" xml:space="preserve">
     <value>pnlMemberPickingContainer</value>
@@ -931,370 +1231,10 @@
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;pnlMemberPickingContainer.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tblLayoutTop</value>
   </data>
   <data name="&gt;&gt;pnlMemberPickingContainer.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="txtClassName.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="txtClassName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>49, 37</value>
-  </data>
-  <data name="txtClassName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 12, 0, 15</value>
-  </data>
-  <data name="txtClassName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>401, 20</value>
-  </data>
-  <data name="txtClassName.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;txtClassName.Name" xml:space="preserve">
-    <value>txtClassName</value>
-  </data>
-  <data name="&gt;&gt;txtClassName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtClassName.Parent" xml:space="preserve">
-    <value>tblLayoutTop</value>
-  </data>
-  <data name="&gt;&gt;txtClassName.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="lblClassName.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblClassName.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblClassName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 41</value>
-  </data>
-  <data name="lblClassName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 16, 8, 15</value>
-  </data>
-  <data name="lblClassName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 13</value>
-  </data>
-  <data name="lblClassName.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="lblClassName.Text" xml:space="preserve">
-    <value>N&amp;ame:</value>
-  </data>
-  <data name="&gt;&gt;lblClassName.Name" xml:space="preserve">
-    <value>lblClassName</value>
-  </data>
-  <data name="&gt;&gt;lblClassName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblClassName.Parent" xml:space="preserve">
-    <value>tblLayoutTop</value>
-  </data>
-  <data name="&gt;&gt;lblClassName.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="lblClassType.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblClassType.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblClassType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 10</value>
-  </data>
-  <data name="lblClassType.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 10, 8, 2</value>
-  </data>
-  <data name="lblClassType.Size" type="System.Drawing.Size, System.Drawing">
-    <value>34, 13</value>
-  </data>
-  <data name="lblClassType.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="lblClassType.Text" xml:space="preserve">
-    <value>Type:</value>
-  </data>
-  <data name="&gt;&gt;lblClassType.Name" xml:space="preserve">
-    <value>lblClassType</value>
-  </data>
-  <data name="&gt;&gt;lblClassType.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblClassType.Parent" xml:space="preserve">
-    <value>tblLayoutTop</value>
-  </data>
-  <data name="&gt;&gt;lblClassType.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="pnlMemberOptions.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="pnlMemberOptions.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
-    <value>GrowAndShrink</value>
-  </data>
-  <data name="tblLayoutMemberOptions.ColumnCount" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="txtMembers.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="txtMembers.Location" type="System.Drawing.Point, System.Drawing">
-    <value>66, 0</value>
-  </data>
-  <data name="txtMembers.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="txtMembers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>374, 21</value>
-  </data>
-  <data name="txtMembers.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;txtMembers.Name" xml:space="preserve">
-    <value>txtMembers</value>
-  </data>
-  <data name="&gt;&gt;txtMembers.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtMembers.Parent" xml:space="preserve">
-    <value>tblLayoutMemberOptions</value>
-  </data>
-  <data name="&gt;&gt;txtMembers.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="lblMembers.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblMembers.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="lblMembers.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 4</value>
-  </data>
-  <data name="lblMembers.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 4, 3, 0</value>
-  </data>
-  <data name="lblMembers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 15</value>
-  </data>
-  <data name="lblMembers.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="lblMembers.Text" xml:space="preserve">
-    <value>&amp;Members:</value>
-  </data>
-  <data name="lblMembers.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="&gt;&gt;lblMembers.Name" xml:space="preserve">
-    <value>lblMembers</value>
-  </data>
-  <data name="&gt;&gt;lblMembers.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblMembers.Parent" xml:space="preserve">
-    <value>tblLayoutMemberOptions</value>
-  </data>
-  <data name="&gt;&gt;lblMembers.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="rbMatchAny.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="rbMatchAny.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="rbMatchAny.Location" type="System.Drawing.Point, System.Drawing">
-    <value>69, 26</value>
-  </data>
-  <data name="rbMatchAny.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 5, 4, 3</value>
-  </data>
-  <data name="rbMatchAny.Size" type="System.Drawing.Size, System.Drawing">
-    <value>177, 19</value>
-  </data>
-  <data name="rbMatchAny.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="rbMatchAny.Text" xml:space="preserve">
-    <value>Match A&amp;ny Selected Feature</value>
-  </data>
-  <data name="&gt;&gt;rbMatchAny.Name" xml:space="preserve">
-    <value>rbMatchAny</value>
-  </data>
-  <data name="&gt;&gt;rbMatchAny.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;rbMatchAny.Parent" xml:space="preserve">
-    <value>tblLayoutMemberOptions</value>
-  </data>
-  <data name="&gt;&gt;rbMatchAny.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="rbMatchAll.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="rbMatchAll.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="rbMatchAll.Location" type="System.Drawing.Point, System.Drawing">
-    <value>257, 26</value>
-  </data>
-  <data name="rbMatchAll.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>7, 5, 3, 3</value>
-  </data>
-  <data name="rbMatchAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>177, 19</value>
-  </data>
-  <data name="rbMatchAll.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="rbMatchAll.Text" xml:space="preserve">
-    <value>Match A&amp;ll Selected Features</value>
-  </data>
-  <data name="&gt;&gt;rbMatchAll.Name" xml:space="preserve">
-    <value>rbMatchAll</value>
-  </data>
-  <data name="&gt;&gt;rbMatchAll.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;rbMatchAll.Parent" xml:space="preserve">
-    <value>tblLayoutMemberOptions</value>
-  </data>
-  <data name="&gt;&gt;rbMatchAll.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="tblLayoutMemberOptions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="tblLayoutMemberOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 6</value>
-  </data>
-  <data name="tblLayoutMemberOptions.RowCount" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="tblLayoutMemberOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>438, 46</value>
-  </data>
-  <data name="tblLayoutMemberOptions.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;tblLayoutMemberOptions.Name" xml:space="preserve">
-    <value>tblLayoutMemberOptions</value>
-  </data>
-  <data name="&gt;&gt;tblLayoutMemberOptions.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tblLayoutMemberOptions.Parent" xml:space="preserve">
-    <value>pnlMemberOptions</value>
-  </data>
-  <data name="&gt;&gt;tblLayoutMemberOptions.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tblLayoutMemberOptions.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="txtMembers" Row="0" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="lblMembers" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="rbMatchAny" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="rbMatchAll" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="pnlMemberOptions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Bottom</value>
-  </data>
-  <data name="pnlMemberOptions.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 12world</value>
-  </data>
-  <data name="pnlMemberOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 418</value>
-  </data>
-  <data name="pnlMemberOptions.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 6, 6, 4</value>
-  </data>
-  <data name="pnlMemberOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>450, 58</value>
-  </data>
-  <data name="pnlMemberOptions.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;pnlMemberOptions.Name" xml:space="preserve">
-    <value>pnlMemberOptions</value>
-  </data>
-  <data name="&gt;&gt;pnlMemberOptions.Type" xml:space="preserve">
-    <value>SilUtils.Controls.SilGradientPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;pnlMemberOptions.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;pnlMemberOptions.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="lblClassTypeValue.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="lblClassTypeValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>52, 10</value>
-  </data>
-  <data name="lblClassTypeValue.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 10, 3, 2</value>
-  </data>
-  <data name="lblClassTypeValue.Size" type="System.Drawing.Size, System.Drawing">
-    <value>14, 13</value>
-  </data>
-  <data name="lblClassTypeValue.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="lblClassTypeValue.Text" xml:space="preserve">
-    <value>#</value>
-  </data>
-  <data name="&gt;&gt;lblClassTypeValue.Name" xml:space="preserve">
-    <value>lblClassTypeValue</value>
-  </data>
-  <data name="&gt;&gt;lblClassTypeValue.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lblClassTypeValue.Parent" xml:space="preserve">
-    <value>tblLayoutTop</value>
-  </data>
-  <data name="&gt;&gt;lblClassTypeValue.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tblLayoutTop.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="tblLayoutTop.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
-    <value>GrowAndShrink</value>
-  </data>
-  <data name="tblLayoutTop.ColumnCount" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="tblLayoutTop.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="tblLayoutTop.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 0</value>
-  </data>
-  <data name="tblLayoutTop.RowCount" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="tblLayoutTop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>450, 72</value>
-  </data>
-  <data name="tblLayoutTop.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;tblLayoutTop.Name" xml:space="preserve">
-    <value>tblLayoutTop</value>
-  </data>
-  <data name="&gt;&gt;tblLayoutTop.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tblLayoutTop.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;tblLayoutTop.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tblLayoutTop.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="lblClassType" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="lblClassTypeValue" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="lblClassName" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="txtClassName" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -1306,10 +1246,10 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>470, 516</value>
+    <value>470, 492</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>435, 545</value>
+    <value>435, 530</value>
   </data>
   <data name="$this.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>10, 0, 10, 0</value>
@@ -1330,6 +1270,6 @@
     <value>DefineClassDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.1.3766.1418, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.2.4021.17755, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

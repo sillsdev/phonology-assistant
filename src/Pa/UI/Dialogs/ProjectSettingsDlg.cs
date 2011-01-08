@@ -5,7 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using SIL.Localization;
+using Localization;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
@@ -161,7 +161,7 @@ namespace SIL.Pa.UI.Dialogs
 		    col.ReadOnly = true;
 		    col.Width = 250;
 			m_grid.Columns.Add(col);
-			LocalizationManager.LocalizeObject(m_grid.Columns["sourceFiles"],
+			App.L10NMngr.LocalizeObject(m_grid.Columns["sourceFiles"],
 				"ProjectSettingsDlg.DataSourceFileColumnHdg", "Source", null, null,
 				"Column heading in data source list in project settings dialog box.",
 				"Dialog Boxes", LocalizationCategory.DataGridViewColumnHeading,
@@ -171,7 +171,7 @@ namespace SIL.Pa.UI.Dialogs
 		    col.ReadOnly = true;
 		    col.Width = 75;
 		    m_grid.Columns.Add(col);
-			LocalizationManager.LocalizeObject(m_grid.Columns["type"],
+			App.L10NMngr.LocalizeObject(m_grid.Columns["type"],
 				"ProjectSettingsDlg.DataSourceFileTypeColumnHdg", "Type", null, null,
 				"Column heading in data source list in project settings dialog box.",
 				"Dialog Boxes", LocalizationCategory.DataGridViewColumnHeading,
@@ -186,7 +186,7 @@ namespace SIL.Pa.UI.Dialogs
 			((SilButtonColumn)col).ButtonToolTip = Properties.Resources.kstidXSLTColButtonToolTip;
 			((SilButtonColumn)col).ButtonClicked += HandleSpecifyXSLTClick;
 			m_grid.Columns.Add(col);
-			LocalizationManager.LocalizeObject(m_grid.Columns["xslt"],
+			App.L10NMngr.LocalizeObject(m_grid.Columns["xslt"],
 				"ProjectSettingsDlg.DataSourceFileXSLTColumnHdg", "XSLT", null, null,
 				"Column heading in data source list in project settings dialog box.",
 				"Dialog Boxes", LocalizationCategory.DataGridViewColumnHeading,
@@ -397,7 +397,7 @@ namespace SIL.Pa.UI.Dialogs
 			// Verify a project name was specified.
 			if (txtProjName.Text.Trim() == string.Empty)
 			{
-				msg = LocalizationManager.LocalizeString(
+				msg = App.L10NMngr.LocalizeString(
 					"Dialog Boxes.ProjectSettingsDlg.MissingProjectNameMsg",
 					"You must specify a project name.", null,
 					App.kLocalizationGroupDialogs, LocalizationCategory.ErrorOrWarningMessage,
@@ -407,7 +407,7 @@ namespace SIL.Pa.UI.Dialogs
 			}
 			else if (txtLanguageName.Text.Trim() == string.Empty)
 			{
-				msg = LocalizationManager.LocalizeString(
+				msg = App.L10NMngr.LocalizeString(
 					"Dialog Boxes.ProjectSettingsDlg.MissingLanguageNameMsg",
 					"You must specify a language name.", null,
 					App.kLocalizationGroupDialogs, LocalizationCategory.ErrorOrWarningMessage,
@@ -428,7 +428,7 @@ namespace SIL.Pa.UI.Dialogs
 						// No XSLT file was specified
 						offendingIndex = i;
 						
-						msg = LocalizationManager.LocalizeString("Dialog Boxes.ProjectSettingsDlg.MissingXSLTMsg",
+						msg = App.L10NMngr.LocalizeString("Dialog Boxes.ProjectSettingsDlg.MissingXSLTMsg",
 							"You must specify an XSLT file for '{0}'", null,
 							App.kLocalizationGroupDialogs, LocalizationCategory.ErrorOrWarningMessage,
 							LocalizationPriority.Medium);
@@ -443,7 +443,7 @@ namespace SIL.Pa.UI.Dialogs
 					{
 						// No mappings have been specified.
 						offendingIndex = i;
-						msg = LocalizationManager.LocalizeString("Dialog Boxes.ProjectSettingsDlg.NoMappingsMsg",
+						msg = App.L10NMngr.LocalizeString("Dialog Boxes.ProjectSettingsDlg.NoMappingsMsg",
 							"You must specify field mappings for\n\n'{0}'.\n\nSelect it in the Data Sources list and click 'Properties'.",
 							null, App.kLocalizationGroupDialogs, LocalizationCategory.ErrorOrWarningMessage,
 							LocalizationPriority.Medium);
@@ -460,7 +460,7 @@ namespace SIL.Pa.UI.Dialogs
 						// FW data source information is incomplete.
 						offendingIndex = i;
 
-						msg = LocalizationManager.LocalizeString("Dialog Boxes.ProjectSettingsDlg.MissingFwDatasourceWsMsg",
+						msg = App.L10NMngr.LocalizeString("Dialog Boxes.ProjectSettingsDlg.MissingFwDatasourceWsMsg",
 							"The writing system for the phonetic field has not been specified for the FieldWorks data source '{0}'.\n\nSelect the FieldWorks data source and click the properties button.",
 							null, App.kLocalizationGroupDialogs, LocalizationCategory.ErrorOrWarningMessage,
 							LocalizationPriority.Medium);
@@ -681,15 +681,11 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private string DupDataSourceMsg
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString(
+				return App.L10NMngr.LocalizeString(
 					"ProjectSettingsDlg.DuplicateDataSourceQuestion",
 					"The data source '{0}' is already in your list of data sources.\n\nDo you want to add another copy?",
 					"Dialog Boxes");
@@ -697,20 +693,12 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
 			Point pt = btnAdd.PointToScreen(new Point(0, btnAdd.Height));
 			cmnuAdd.Show(pt);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void btnRemove_Click(object sender, EventArgs e)
 		{

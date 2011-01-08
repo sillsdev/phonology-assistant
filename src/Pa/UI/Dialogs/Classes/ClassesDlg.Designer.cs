@@ -41,7 +41,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.cmnuAddCharClass = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmnuAddArtFeatureClass = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmnuAddBinFeatureClass = new System.Windows.Forms.ToolStripMenuItem();
-			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.cmnuAdd.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -72,7 +72,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnAdd.Image = global::SIL.Pa.Properties.Resources.kimidButtonDropDownArrow;
 			this.locExtender.SetLocalizableToolTip(this.btnAdd, null);
 			this.locExtender.SetLocalizationComment(this.btnAdd, "Text on add button drop-down on classes dialog box.");
-			this.locExtender.SetLocalizationPriority(this.btnAdd, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnAdd, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnAdd, "ClassesDlg.btnAdd");
 			this.btnAdd.MinimumSize = new System.Drawing.Size(80, 26);
 			this.btnAdd.Name = "btnAdd";
@@ -153,6 +153,7 @@ namespace SIL.Pa.UI.Dialogs
 			// locExtender
 			// 
 			this.locExtender.LocalizationGroup = "Dialog Boxes";
+			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// ClassesDlg
 			// 
@@ -191,6 +192,6 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddCharClass;
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddArtFeatureClass;
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddBinFeatureClass;
-		private SIL.Localization.LocalizationExtender locExtender;
+		private Localization.UI.LocalizationExtender locExtender;
 	}
 }

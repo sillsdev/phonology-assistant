@@ -20,7 +20,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SilUtils;
@@ -261,7 +260,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString("SearchResultTabs.EmptySearchResultTabText",
+				return App.L10NMngr.LocalizeString("SearchResultTabs.EmptySearchResultTabText",
 					"(empty tab)", App.kLocalizationGroupMisc);
 			}
 		}
@@ -985,7 +984,7 @@ namespace SIL.Pa.UI.Controls
 			Point pt = PointToClient(MousePosition);
 			pt.Y += (Cursor.Size.Height - (int)(Cursor.Size.Height * 0.3));
 
-			var text = LocalizationManager.LocalizeString("SearchResultTabs.MinimalPairsButtonToolTipText",
+			var text = App.L10NMngr.LocalizeString("SearchResultTabs.MinimalPairsButtonToolTipText",
 				"Minimal Pairs Options (Ctrl+Alt+M)", App.kLocalizationGroupMisc);
 			
 			m_CIEButtonToolTip.Show(text, this, pt);

@@ -35,7 +35,7 @@
 			this.lnkSaWebsite = new System.Windows.Forms.LinkLabel();
 			this.picIcon = new System.Windows.Forms.PictureBox();
 			this.lblMessage = new SilUtils.Controls.AutoHeightLabel();
-			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.tableLayout.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picIcon)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -122,7 +122,7 @@
 			// 
 			this.locExtender.SetLocalizableToolTip(this.picIcon, null);
 			this.locExtender.SetLocalizationComment(this.picIcon, null);
-			this.locExtender.SetLocalizationPriority(this.picIcon, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.picIcon, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.picIcon, "DownloadSaDlg.picIcon");
 			this.picIcon.Location = new System.Drawing.Point(10, 10);
 			this.picIcon.Margin = new System.Windows.Forms.Padding(10, 10, 3, 3);
@@ -142,7 +142,7 @@
 			this.lblMessage.Image = null;
 			this.locExtender.SetLocalizableToolTip(this.lblMessage, null);
 			this.locExtender.SetLocalizationComment(this.lblMessage, null);
-			this.locExtender.SetLocalizationPriority(this.lblMessage, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lblMessage, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblMessage, "DownloadSaDlg.lblMessage");
 			this.lblMessage.Location = new System.Drawing.Point(71, 15);
 			this.lblMessage.Margin = new System.Windows.Forms.Padding(10, 15, 10, 15);
@@ -154,6 +154,7 @@
 			// locExtender
 			// 
 			this.locExtender.LocalizationGroup = null;
+			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// DownloadSaDlg
 			// 
@@ -188,7 +189,7 @@
 
 		private System.Windows.Forms.TableLayoutPanel tableLayout;
 		private System.Windows.Forms.Button btnOK;
-		private SIL.Localization.LocalizationExtender locExtender;
+		private Localization.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.LinkLabel lnkSaDownload;
 		private System.Windows.Forms.LinkLabel lnkSaWebsite;
 		private System.Windows.Forms.PictureBox picIcon;

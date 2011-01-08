@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
@@ -76,17 +77,13 @@ namespace SIL.Pa.UI.Dialogs
 			m_fontGrid.Columns.Add(col);
 
 			// Get all the installed fonts and add the font name column.
-			List<string> fontList = new List<string>();
-			InstalledFontCollection installedFonts = new InstalledFontCollection();
-			foreach (FontFamily family in installedFonts.Families)
-				fontList.Add(family.Name);
-
-			col = SilGrid.CreateDropDownListComboBoxColumn("font", fontList.ToArray());
+			var fontList = (new InstalledFontCollection()).Families.Select(f => f.Name);
+			col = SilGrid.CreateDropDownListComboBoxColumn("font", fontList);
 			col.HeaderText = Properties.Resources.kstidFontGridFontName;
 			m_fontGrid.Columns.Add(col);
 
 			// Add the list of default point sizes and add the size column.
-			object[] sizeList = new object[] {8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72};
+			var sizeList = new object[] {8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72};
 			col = SilGrid.CreateDropDownListComboBoxColumn("size", sizeList);
 			col.HeaderText = Properties.Resources.kstidFontGridSize;
 			m_fontGrid.Columns.Add(col);

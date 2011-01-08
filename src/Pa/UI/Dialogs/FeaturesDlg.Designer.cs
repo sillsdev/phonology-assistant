@@ -27,7 +27,7 @@
 			this.tblLayoutAFeatures = new System.Windows.Forms.TableLayoutPanel();
 			this.lblAFeatures = new System.Windows.Forms.Label();
 			this.tpgBFeatures = new System.Windows.Forms.TabPage();
-			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.splitFeatures.Panel1.SuspendLayout();
 			this.splitFeatures.Panel2.SuspendLayout();
 			this.splitFeatures.SuspendLayout();
@@ -208,7 +208,7 @@
 			this.lblAFeatures.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this.lblAFeatures, null);
 			this.locExtender.SetLocalizationComment(this.lblAFeatures, null);
-			this.locExtender.SetLocalizationPriority(this.lblAFeatures, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lblAFeatures, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblAFeatures, "FeaturesDlg.lblAFeatures");
 			this.lblAFeatures.Location = new System.Drawing.Point(3, 3);
 			this.lblAFeatures.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
@@ -233,6 +233,7 @@
 			// locExtender
 			// 
 			this.locExtender.LocalizationGroup = "Dialog Boxes";
+			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// FeaturesDlg
 			// 
@@ -273,7 +274,7 @@
 		private System.Windows.Forms.TabPage tpgBFeatures;
 		private System.Windows.Forms.Label lblAFeatures;
 		private System.Windows.Forms.TableLayoutPanel tblLayoutAFeatures;
-		private SIL.Localization.LocalizationExtender locExtender;
+		private Localization.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.Button btnReset;
 	}
 }

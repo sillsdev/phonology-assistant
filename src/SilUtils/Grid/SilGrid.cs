@@ -910,18 +910,6 @@ namespace SilUtils
 		/// drop-down list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static DataGridViewComboBoxColumn CreateDropDownListComboBoxColumn(string name,
-			List<string> items)
-		{
-			return CreateDropDownListComboBoxColumn(name, items);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Creates a combo. box grid column whose cell values must be chosen from the
-		/// drop-down list.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static DataGridViewComboBoxColumn CreateDropDownListComboBoxColumn(string name, IEnumerable<string> items)
 		{
 			return CreateDropDownListComboBoxColumn(name, items.Cast<object>());

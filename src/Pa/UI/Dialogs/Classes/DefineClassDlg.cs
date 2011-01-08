@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
-using SIL.Localization;
+using Localization;
+using Localization.UI;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilUtils;
+using Utils=SilUtils.Utils;
 
 namespace SIL.Pa.UI.Dialogs
 {
@@ -116,26 +118,26 @@ namespace SIL.Pa.UI.Dialogs
 			switch (m_classInfo.ClassType)
 			{
 				case SearchClassType.Phones:
-					classTypeText = LocalizationManager.LocalizeString(
+					classTypeText = App.L10NMngr.LocalizeString(
 						"PhoneClassDialogCaptionPrefix", "Phones", 
 						"Part of the title for the dialog box when defining a phone class.",
 						locExtender.LocalizationGroup + "." + Name,
 						LocalizationCategory.WindowOrDialog, LocalizationPriority.High);
 
-					lblClassTypeValue.Text = LocalizationManager.LocalizeString("PhonesClassTypeLabel",
+					lblClassTypeValue.Text = App.L10NMngr.LocalizeString("PhonesClassTypeLabel",
 						"Phones", "Phone class type label.", App.kLocalizationGroupMisc,
 						LocalizationCategory.Label, LocalizationPriority.High);
 
 					break;
 
 				case SearchClassType.Articulatory:
-					classTypeText = LocalizationManager.LocalizeString(
+					classTypeText = App.L10NMngr.LocalizeString(
 						"ArticulatoryFeatureClassDialogCaptionPrefix", "Articulatory Features",
 						"Part of the title for the dialog box when defining a articulatory features class.",
 						locExtender.LocalizationGroup + "." + Name,
 						LocalizationCategory.WindowOrDialog, LocalizationPriority.High);
 
-					lblClassTypeValue.Text = LocalizationManager.LocalizeString(
+					lblClassTypeValue.Text = App.L10NMngr.LocalizeString(
 						"ArticulatoryFeaturesClassTypeLabel", "Articulatory features",
 						"Articulatory features class type label.", App.kLocalizationGroupMisc,
 						LocalizationCategory.Label, LocalizationPriority.High);
@@ -143,13 +145,13 @@ namespace SIL.Pa.UI.Dialogs
 					break;
 
 				case SearchClassType.Binary:
-					classTypeText = LocalizationManager.LocalizeString(
+					classTypeText = App.L10NMngr.LocalizeString(
 						"BinaryFeatureClassDialogCaptionPrefix", "Binary Features",
 						"Part of the title for the dialog box when defining a binary features class.",
 						locExtender.LocalizationGroup + "." + Name,
 						LocalizationCategory.WindowOrDialog, LocalizationPriority.High);
 
-					lblClassTypeValue.Text = LocalizationManager.LocalizeString("BinaryFeaturesClassTypeLabel",
+					lblClassTypeValue.Text = App.L10NMngr.LocalizeString("BinaryFeaturesClassTypeLabel",
 						"Binary features", "Binary features class type label.",
 						App.kLocalizationGroupMisc, LocalizationCategory.Label,
 						LocalizationPriority.High);
@@ -167,10 +169,6 @@ namespace SIL.Pa.UI.Dialogs
 			Text = string.Format(Text, classTypeText);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void Setup()
 		{
@@ -218,7 +216,6 @@ namespace SIL.Pa.UI.Dialogs
 			txtMembers.Font = (m_classInfo.ClassType == SearchClassType.Phones ?
 				FontHelper.MakeEticRegFontDerivative(16) : FontHelper.UIFont);
 
-			txtMembers.Top = (pnlMemberOptions.Height - txtMembers.Height) / 2 - 1;
 			txtMembers.Text = m_classInfo.FormattedMembersString;
 			txtMembers.ReadOnly = (m_classInfo.ClassType != SearchClassType.Phones);
 			txtMembers.SelectionStart = txtMembers.Text.Length + 1;

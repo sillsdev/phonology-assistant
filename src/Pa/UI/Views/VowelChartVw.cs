@@ -1,6 +1,6 @@
 using System.Drawing;
 using System.IO;
-using SIL.Localization;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Processing;
 using SIL.Pa.Properties;
@@ -77,7 +77,7 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString("InitializingVowelChartViewMsg",
+				return App.L10NMngr.LocalizeString("InitializingVowelChartViewMsg",
 					"Initializing Vowel Chart View...",
 					"Message displayed whenever the consonant chart is being initialized.",
 					App.kLocalizationGroupInfoMsg, LocalizationCategory.GeneralMessage,
@@ -134,7 +134,7 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString(
+				return App.L10NMngr.LocalizeString(
 					"DefaultVowelChartHtmlExportFileAffix", "{0}-VowelChart.html");
 			}
 		}
@@ -144,7 +144,7 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString(
+				return App.L10NMngr.LocalizeString(
 					"DefaultVowelChartWordXmlExportFileAffix", "{0}-VowelChart-(Word).xml");
 			}
 		}
@@ -154,7 +154,7 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString(
+				return App.L10NMngr.LocalizeString(
 					"DefaultVowelChartXLingPaperFileAffix", "{0}-VowelChart-(XLingPaper).xml");
 			}
 		}

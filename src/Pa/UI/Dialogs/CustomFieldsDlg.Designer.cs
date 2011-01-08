@@ -31,7 +31,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustomFieldsDlg));
 			this.lblInfo = new System.Windows.Forms.Label();
-			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.tblLayout = new System.Windows.Forms.TableLayoutPanel();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.tblLayout.SuspendLayout();
@@ -48,6 +48,7 @@ namespace SIL.Pa.UI.Dialogs
 			// locExtender
 			// 
 			this.locExtender.LocalizationGroup = "Dialog Boxes";
+			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// tblLayout
 			// 
@@ -61,7 +62,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.tblLayout);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "CustomFieldsDlg.WindowTitle");
 			this.Name = "CustomFieldsDlg";
 			this.Controls.SetChildIndex(this.tblLayout, 0);
@@ -75,7 +76,7 @@ namespace SIL.Pa.UI.Dialogs
 		#endregion
 
 		private System.Windows.Forms.Label lblInfo;
-		private SIL.Localization.LocalizationExtender locExtender;
+		private Localization.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.TableLayoutPanel tblLayout;
 	}
 }

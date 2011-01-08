@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using SIL.Localization;
+using Localization;
 using SIL.Pa.Model;
 using SilUtils;
 
@@ -228,7 +228,7 @@ namespace SIL.Pa.UI.Controls
 
 			ExplorerBarItem item = Add(m_pickerConsonant);
 
-			LocalizationManager.LocalizeObject(item.Button, 
+			App.L10NMngr.LocalizeObject(item.Button, 
 				"IPACharacterChooser.ConsonantsCharChooserHeading", "Consonants", null, null,
 				"Text on heading above list of consonants from which to choose " +
 				"in side bar of search and XY chart views.", App.kLocalizationGroupUICtrls,
@@ -253,7 +253,7 @@ namespace SIL.Pa.UI.Controls
 			
 			ExplorerBarItem item = Add(m_pickerNonPulmonics);
 
-			LocalizationManager.LocalizeObject(item.Button,
+			App.L10NMngr.LocalizeObject(item.Button,
 				"IPACharacterChooser.NonPulmonicsCharChooserHeading", "Non Pulmonics", null, null,
 				"Text on heading above list of non pulmonic consonants from which to " +
 				"choose in side bar of search and XY chart views.", App.kLocalizationGroupUICtrls, 
@@ -278,7 +278,7 @@ namespace SIL.Pa.UI.Controls
 			
 			ExplorerBarItem item = Add(m_pickerOther);
 
-			LocalizationManager.LocalizeObject(item.Button,
+			App.L10NMngr.LocalizeObject(item.Button,
 				"IPACharacterChooser.OtherSymbolsCharChooserHeading", "Other Symbols", null, null,
 				"Text on heading above list of other symbols from which to choose " +
 				"in side bar of search and XY chart views.", App.kLocalizationGroupUICtrls,
@@ -303,7 +303,7 @@ namespace SIL.Pa.UI.Controls
 
 			ExplorerBarItem item = Add(m_pickerVowel);
 
-			LocalizationManager.LocalizeObject(item.Button,
+			App.L10NMngr.LocalizeObject(item.Button,
 				"IPACharacterChooser.VowelsCharChooserHeading", "Vowels", null, null,
 				"Text on heading above list of vowels from which to choose in side bar " +
 				"of search and XY chart views.", App.kLocalizationGroupUICtrls,
@@ -329,7 +329,7 @@ namespace SIL.Pa.UI.Controls
 
 			ExplorerBarItem item = Add(m_pickerDiacritics);
 
-			LocalizationManager.LocalizeObject(item.Button,
+			App.L10NMngr.LocalizeObject(item.Button,
 				"IPACharacterChooser.DiacriticsCharChooserHeading", "Diacritics", null, null,
 				"Text on heading above list of diacritics from which to choose in side bar " +
 				"of search and XY chart views.", App.kLocalizationGroupUICtrls,
@@ -359,7 +359,7 @@ namespace SIL.Pa.UI.Controls
 	
 			ExplorerBarItem item = Add(m_pickerSSeg);
 
-			LocalizationManager.LocalizeObject(item.Button,
+			App.L10NMngr.LocalizeObject(item.Button,
 				"IPACharacterChooser.SSegsCharChooserHeading", "Stress and Length\\n(Suprasegmentals)",
 				null, null, "Text on heading above list of suprasegmentals from which to choose " +
 				"in side bar of search and XY chart views.", App.kLocalizationGroupUICtrls,
@@ -389,7 +389,7 @@ namespace SIL.Pa.UI.Controls
 			
 			ExplorerBarItem item = Add(m_pickerTone);
 
-			LocalizationManager.LocalizeObject(item.Button,
+			App.L10NMngr.LocalizeObject(item.Button,
 				"IPACharacterChooser.ToneCharChooserHeading", "Tone and Accents", null, null,
 				"Text on heading above list of tones and accents from which to choose " +
 				"in side bar of search and XY chart views.", App.kLocalizationGroupUICtrls,

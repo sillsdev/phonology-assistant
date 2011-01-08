@@ -51,7 +51,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayoutFindWhat = new System.Windows.Forms.TableLayoutPanel();
 			this.fldSelGridSrchCols = new SIL.Pa.UI.Controls.FieldSelectorGrid();
 			this.tblLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
-			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.splitColsAndOptions = new System.Windows.Forms.SplitContainer();
 			this.tblLayoutColumns = new System.Windows.Forms.TableLayoutPanel();
 			this.gbOptions.SuspendLayout();
@@ -102,7 +102,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnFind.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.locExtender.SetLocalizableToolTip(this.btnFind, null);
 			this.locExtender.SetLocalizationComment(this.btnFind, "Text on button on find dialog box.");
-			this.locExtender.SetLocalizationPriority(this.btnFind, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnFind, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnFind, "FindDlg.btnFind");
 			this.btnFind.MinimumSize = new System.Drawing.Size(80, 26);
 			this.btnFind.Name = "btnFind";
@@ -114,7 +114,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.cboFindWhat, "cboFindWhat");
 			this.locExtender.SetLocalizableToolTip(this.cboFindWhat, null);
 			this.locExtender.SetLocalizationComment(this.cboFindWhat, null);
-			this.locExtender.SetLocalizationPriority(this.cboFindWhat, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.cboFindWhat, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.cboFindWhat, "FindDlg.cboFindWhat");
 			this.cboFindWhat.Name = "cboFindWhat";
 			// 
@@ -271,6 +271,7 @@ namespace SIL.Pa.UI.Dialogs
 			// locExtender
 			// 
 			this.locExtender.LocalizationGroup = "Dialog Boxes";
+			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// splitColsAndOptions
 			// 
@@ -347,7 +348,7 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.Button btnHelp;
 		private System.Windows.Forms.TableLayoutPanel tblLayoutFindWhat;
 		private System.Windows.Forms.TableLayoutPanel tblLayoutButtons;
-		private SIL.Localization.LocalizationExtender locExtender;
+		private Localization.UI.LocalizationExtender locExtender;
 		private SplitContainer splitColsAndOptions;
 		private TableLayoutPanel tblLayoutColumns;
 	}

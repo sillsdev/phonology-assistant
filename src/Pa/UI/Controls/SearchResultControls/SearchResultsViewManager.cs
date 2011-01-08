@@ -5,7 +5,6 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Processing;
@@ -1533,7 +1532,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public string HTMLExport()
 		{
-			var fmt = LocalizationManager.LocalizeString(
+			var fmt = App.L10NMngr.LocalizeString(
 				"DefaultSearchResultHtmlExportFileAffix", "{0}-{1}SearchResults.html");
 
 			return Export(fmt, App.kstidFileTypeHTML, "html",
@@ -1548,7 +1547,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public string WordXmlExport()
 		{
-			var fmt = LocalizationManager.LocalizeString(
+			var fmt = App.L10NMngr.LocalizeString(
 				"DefaultSearchResultWordXmlExportFileAffix", "{0}-{1}SearchResults-(Word).xml");
 
 			return Export(fmt, App.kstidFileTypeWordXml, "xml",
@@ -1563,7 +1562,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public string XLingPaperExport()
 		{
-			var fmt = LocalizationManager.LocalizeString(
+			var fmt = App.L10NMngr.LocalizeString(
 				"DefaultSearchResultXLingPaperExportFileAffix", "{0}-{1}SearchResults-(XLingPaper).xml");
 
 			return Export(fmt, App.kstidFileTypeXLingPaper, "xml",

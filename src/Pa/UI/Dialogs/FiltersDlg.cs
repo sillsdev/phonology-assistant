@@ -3,7 +3,6 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using SIL.Localization;
 using SIL.Pa.Filters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
@@ -105,20 +104,20 @@ namespace SIL.Pa.UI.Dialogs
 			m_expTypeToText = new Dictionary<Filter.ExpressionType, string>();
 			m_textToExpType = new Dictionary<string, Filter.ExpressionType>();
 
-			var text = LocalizationManager.LocalizeString(
+			var text = App.L10NMngr.LocalizeString(
 				"DefineFiltersDlg.FilterExpressionTypes.Normal", "Normal", category);
 
 			m_expTypeToText[Filter.ExpressionType.Normal] = text;
 			m_textToExpType[text] = Filter.ExpressionType.Normal;
 
-			text = LocalizationManager.LocalizeString(
+			text = App.L10NMngr.LocalizeString(
 				"DefineFiltersDlg.FilterExpressionTypes.PhoneticSearchPattern",
 				"Phonetic Search Pattern", category);
 
 			m_expTypeToText[Filter.ExpressionType.PhoneticSrchPtrn] = text;
 			m_textToExpType[text] = Filter.ExpressionType.PhoneticSrchPtrn;
 
-			text = LocalizationManager.LocalizeString(
+			text = App.L10NMngr.LocalizeString(
 				"DefineFiltersDlg.FilterExpressionTypes.RegularExpression",
 				"Regular Expression", category);
 
@@ -143,105 +142,105 @@ namespace SIL.Pa.UI.Dialogs
 			m_operatorToText = new Dictionary<Filter.Operator, string>();
 			m_textToOperator = new Dictionary<string, Filter.Operator>();
 
-			var text = LocalizationManager.LocalizeString(
+			var text = App.L10NMngr.LocalizeString(
 				"DefineFiltersDlg.FilterExpressionOperators.BeginsWith",
 				"Begins with", category);
 
 			m_operatorToText[Filter.Operator.BeginsWith] = text;
 			m_textToOperator[text] = Filter.Operator.BeginsWith;
 
-			text = LocalizationManager.LocalizeString(
+			text = App.L10NMngr.LocalizeString(
 				"DefineFiltersDlg.FilterExpressionOperators.Contains",
 				"Contains", category);
 
 			m_operatorToText[Filter.Operator.Contains] = text;
 			m_textToOperator[text] = Filter.Operator.Contains;
 
-			text = LocalizationManager.LocalizeString(
+			text = App.L10NMngr.LocalizeString(
 				"DefineFiltersDlg.FilterExpressionOperators.DoesNotBeginWith",
 				"Does not begin with", category);
 
 			m_operatorToText[Filter.Operator.DoesNotBeginsWith] = text;
 			m_textToOperator[text] = Filter.Operator.DoesNotBeginsWith;
 
-			text = LocalizationManager.LocalizeString(
+			text = App.L10NMngr.LocalizeString(
 				"DefineFiltersDlg.FilterExpressionOperators.DoesNotContain",
 				"Does not contain", category);
 
 			m_operatorToText[Filter.Operator.DoesNotContain] = text;
 			m_textToOperator[text] = Filter.Operator.DoesNotContain;
 
-			text = LocalizationManager.LocalizeString(
+			text = App.L10NMngr.LocalizeString(
 				"DefineFiltersDlg.FilterExpressionOperators.DoesNotEndWith",
 				"Does not end with", category);
 
 			m_operatorToText[Filter.Operator.DoesNotEndsWith] = text;
 			m_textToOperator[text] = Filter.Operator.DoesNotEndsWith;
 
-			text = LocalizationManager.LocalizeString(
+			text = App.L10NMngr.LocalizeString(
 				"DefineFiltersDlg.FilterExpressionOperators.EndsWith",
 				"Ends with", category);
 
 			m_operatorToText[Filter.Operator.EndsWith] = text;
 			m_textToOperator[text] = Filter.Operator.EndsWith;
 
-			text = LocalizationManager.LocalizeString(
+			text = App.L10NMngr.LocalizeString(
 				"DefineFiltersDlg.FilterExpressionOperators.Equals",
 				"Equals", category);
 
 			m_operatorToText[Filter.Operator.Equals] = text;
 			m_textToOperator[text] = Filter.Operator.Equals;
 
-			text = LocalizationManager.LocalizeString(
+			text = App.L10NMngr.LocalizeString(
 				"DefineFiltersDlg.FilterExpressionOperators.GreaterThan",
 				"Greater than", category);
 
 			m_operatorToText[Filter.Operator.GreaterThan] = text;
 			m_textToOperator[text] = Filter.Operator.GreaterThan;
 
-			text = LocalizationManager.LocalizeString(
+			text = App.L10NMngr.LocalizeString(
 				"DefineFiltersDlg.FilterExpressionOperators.GreaterThanOrEqual",
 				"Greater than or equal", category);
 
 			m_operatorToText[Filter.Operator.GreaterThanOrEqual] = text;
 			m_textToOperator[text] = Filter.Operator.GreaterThanOrEqual;
 
-			text = LocalizationManager.LocalizeString(
+			text = App.L10NMngr.LocalizeString(
 				"DefineFiltersDlg.FilterExpressionOperators.LessThan",
 				"Less than", category);
 
 			m_operatorToText[Filter.Operator.LessThan] = text;
 			m_textToOperator[text] = Filter.Operator.LessThan;
 
-			text = LocalizationManager.LocalizeString(
+			text = App.L10NMngr.LocalizeString(
 				"DefineFiltersDlg.FilterExpressionOperators.LessThanOrEqual",
 				"Less than or equal", category);
 
 			m_operatorToText[Filter.Operator.LessThanOrEqual] = text;
 			m_textToOperator[text] = Filter.Operator.LessThanOrEqual;
 
-			text = LocalizationManager.LocalizeString(
+			text = App.L10NMngr.LocalizeString(
 				"DefineFiltersDlg.FilterExpressionOperators.Matches",
 				"Matches", category);
 
 			m_operatorToText[Filter.Operator.Matches] = text;
 			m_textToOperator[text] = Filter.Operator.Matches;
 
-			text = LocalizationManager.LocalizeString(
+			text = App.L10NMngr.LocalizeString(
 				"DefineFiltersDlg.FilterExpressionOperators.NoteEqualTo",
 				"Not equal to", category);
 
 			m_operatorToText[Filter.Operator.NotEquals] = text;
 			m_textToOperator[text] = Filter.Operator.NotEquals;
 
-			text = LocalizationManager.LocalizeString(
+			text = App.L10NMngr.LocalizeString(
 				"DefineFiltersDlg.FilterExpressionOperators.PathDoesNotExist",
 				"Path does not exist", category);
 
 			m_operatorToText[Filter.Operator.PathDoesNotExist] = text;
 			m_textToOperator[text] = Filter.Operator.PathDoesNotExist;
 
-			text = LocalizationManager.LocalizeString(
+			text = App.L10NMngr.LocalizeString(
 				"DefineFiltersDlg.FilterExpressionOperators.PathExists",
 				"Path exists", category);
 
@@ -364,7 +363,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.Columns.Add(col);
 
 			col = new SilButtonColumn(kValueCol);
-			((SilButtonColumn)col).UseComboButtonStyle = true;
+			((SilButtonColumn)col).ButtonStyle = SilButtonColumn.ButtonType.MinimalistCombo;
 			((SilButtonColumn)col).ButtonClicked += HandleValueColumnButtonClicked;
 			((SilButtonColumn)col).DrawDefaultComboButtonWidth = false;
 			col.HeaderText = Properties.Resources.kstidFilterValueColHdgText;

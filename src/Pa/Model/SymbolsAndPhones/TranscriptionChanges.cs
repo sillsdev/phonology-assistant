@@ -4,7 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Xml.Serialization;
-using SIL.Localization;
+using Localization;
 using SilUtils;
 
 namespace SIL.Pa.Model
@@ -27,7 +27,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static void MigrateToLatestVersion(string newFileName, string projectPathPrefix)
 		{
-			var errMsg = LocalizationManager.LocalizeString(
+			var errMsg = App.L10NMngr.LocalizeString(
 				"TranscriptionChangesMigrationErrMsg",
 				"The following error occurred while attempting to update your project’s " +
 				"transcription changes file (formerly experimental transcriptions):\n\n{0}\n\n" +

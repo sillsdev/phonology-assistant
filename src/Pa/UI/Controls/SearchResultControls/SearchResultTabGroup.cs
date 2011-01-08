@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Localization;
 using SIL.Pa.PhoneticSearching;
 using SilUtils;
 using SilUtils.Controls;
@@ -228,13 +227,13 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_tooltip = new ToolTip();
 
-			m_tooltip.SetToolTip(m_btnClose, LocalizationManager.LocalizeString(
+			m_tooltip.SetToolTip(m_btnClose, App.L10NMngr.LocalizeString(
 				"SearchResultTabs.CloseToolTipText", "Close Active Tab", App.kLocalizationGroupMisc));
-			
-			m_tooltip.SetToolTip(m_btnLeft, LocalizationManager.LocalizeString(
+
+			m_tooltip.SetToolTip(m_btnLeft, App.L10NMngr.LocalizeString(
 				"SearchResultTabs.ScrollLeftToolTipText", "Scroll Left", App.kLocalizationGroupMisc));
 
-			m_tooltip.SetToolTip(m_btnRight, LocalizationManager.LocalizeString(
+			m_tooltip.SetToolTip(m_btnRight, App.L10NMngr.LocalizeString(
 				"SearchResultTabs.ScrollRightToolTipText", "Scroll Right", App.kLocalizationGroupMisc));
 		}
 
@@ -366,7 +365,7 @@ namespace SIL.Pa.UI.Controls
 
 			using (Font fnt = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold))
 			{
-				var text = LocalizationManager.LocalizeString(
+				var text = App.L10NMngr.LocalizeString(
 					"SearchResultTabs.EmptyTabInfoText",
 					"Define a search pattern above and click Show Results.",
 					App.kLocalizationGroupMisc);

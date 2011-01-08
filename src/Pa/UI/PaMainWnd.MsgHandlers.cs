@@ -21,7 +21,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Localization;
 using SIL.Pa.Filters;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
@@ -47,7 +46,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUserInterfaceLangaugeChanged(object args)
 		{
-			LocalizationManager.ReapplyLocalizationsToAllObjects();
+			App.L10NMngr.ReapplyLocalizationsToAllObjects();
 			return false;
 		}
 
@@ -62,7 +61,7 @@ namespace SIL.Pa.UI
 
 			if (!File.Exists(filename))
 			{
-				var fmt = LocalizationManager.LocalizeString("RecentlyOpenedProjectMissingMsg",
+				var fmt = App.L10NMngr.LocalizeString("RecentlyOpenedProjectMissingMsg",
 					"The project file '{0}' is missing.", App.kLocalizationGroupInfoMsg);
 				
 				Utils.MsgBox(string.Format(fmt, filename), MessageBoxIcon.Exclamation);
@@ -164,7 +163,7 @@ namespace SIL.Pa.UI
 
 			if (!File.Exists(path))
 			{
-				var fmt = LocalizationManager.LocalizeString("TrainingFileMissingMsg",
+				var fmt = App.L10NMngr.LocalizeString("TrainingFileMissingMsg",
 					"The training file '{0}' is missing.", App.kLocalizationGroupInfoMsg);
 
 				var msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(path));
@@ -200,7 +199,7 @@ namespace SIL.Pa.UI
 
 			if (dlg.ShowDialog(this) == DialogResult.OK && dlg.Project != null)
 			{
-				var fmt = LocalizationManager.LocalizeString("LoadNewlyCreatedProjectQuestion",
+				var fmt = App.L10NMngr.LocalizeString("LoadNewlyCreatedProjectQuestion",
 					"Would you like to load the '{0}' project?", App.kLocalizationGroupInfoMsg);
 
 				var msg = string.Format(fmt, dlg.Project.Name);
@@ -227,7 +226,7 @@ namespace SIL.Pa.UI
 			string filter = string.Format(App.kstidFileTypePAProject,
 				Application.ProductName) + "|" + App.kstidFileTypeAllFiles;
 
-			var fmt = LocalizationManager.LocalizeString("ProjectOpenFileDlgCaption",
+			var fmt = App.L10NMngr.LocalizeString("ProjectOpenFileDlgCaption",
 				"Open {0} Project File", App.kLocalizationGroupDialogs);
 			
 			string initialDir =
@@ -341,7 +340,7 @@ namespace SIL.Pa.UI
 			dlg.InitialDirectory = Environment.CurrentDirectory;
 			dlg.DefaultExt = "paxml";
 
-			var fmt = LocalizationManager.LocalizeString("PaXMLExportSaveFileDlgCaption",
+			var fmt = App.L10NMngr.LocalizeString("PaXMLExportSaveFileDlgCaption",
 				"Export to {0} XML", App.kLocalizationGroupDialogs);
 
 			dlg.Title = string.Format(fmt, Application.ProductName);

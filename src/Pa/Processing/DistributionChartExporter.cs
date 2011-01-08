@@ -3,7 +3,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using SIL.Localization;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
@@ -192,7 +191,7 @@ namespace SIL.Pa.Processing
 			var invalidPhones = query.GetPhonesNotInCache() as string[];
 			if (invalidPhones != null)
 			{
-				msg = LocalizationManager.LocalizeString("ChartHtmlPopupInfoInvalidPhonesMsg",
+				msg = App.L10NMngr.LocalizeString("ChartHtmlPopupInfoInvalidPhonesMsg",
 					"This pattern contains the following phone(s) not found in the data: ",
 					"HTMLExport.Distribution Charts");
 
@@ -205,11 +204,11 @@ namespace SIL.Pa.Processing
 			var invalidSymbols = query.GetSymbolsNotInInventory() as char[];
 			if (invalidSymbols != null)
 			{
-				msg = LocalizationManager.LocalizeString("ChartHtmlPopupInfoUndefinedSymbolsMsg",
+				msg = App.L10NMngr.LocalizeString("ChartHtmlPopupInfoUndefinedSymbolsMsg",
 					"This pattern contains the following undefined phonetic symbol(s): ",
 					"HTMLExport.Distribution Charts");
 
-				var fmt = LocalizationManager.LocalizeString(
+				var fmt = App.L10NMngr.LocalizeString(
 					"ChartHtmlPopupUndefinedSymbolFormatMsg", "{0} (U+{1}), ",
 					"HTMLExport.Distribution Charts");
 

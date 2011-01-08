@@ -52,7 +52,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.chkIncludeInList = new System.Windows.Forms.CheckBox();
 			this.rbMatchAny = new System.Windows.Forms.RadioButton();
 			this.btnRemoveExp = new System.Windows.Forms.Button();
-			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.splitFilters.Panel1.SuspendLayout();
 			this.splitFilters.Panel2.SuspendLayout();
 			this.splitFilters.SuspendLayout();
@@ -321,6 +321,7 @@ namespace SIL.Pa.UI.Dialogs
 			// locExtender
 			// 
 			this.locExtender.LocalizationGroup = "Dialog Boxes";
+			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// DefineFiltersDlg
 			// 
@@ -371,7 +372,7 @@ namespace SIL.Pa.UI.Dialogs
 		private SilPanel pnlExpressions;
 		private HeaderLabel hlblExpressions;
 		private System.Windows.Forms.TableLayoutPanel tableLayout;
-		private Localization.LocalizationExtender locExtender;
+		private Localization.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.FlowLayoutPanel flwLayoutFilterButtons;
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
@@ -13,6 +14,10 @@ namespace SilUtils
 	[XmlType("gridSettings")]
 	public class GridSettings
 	{
+		[XmlElement("sortedColumn")]
+		public string SortedColumn { get; set; }
+		[XmlElement("sortDirection")]
+		public string SortDirection { get; set; }
 		[XmlElement("columnHeaderHeight")]
 		public int ColumnHeaderHeight { get; set; }
 		[XmlElement("dpi")]
@@ -37,37 +42,44 @@ namespace SilUtils
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public SortOrder SortOrder
+		{
+			get
+			{
+				if (SortDirection == SortOrder.Ascending.ToString())
+					return SortOrder.Ascending;
+
+				if (SortDirection == SortOrder.Descending.ToString())
+					return SortOrder.Descending;
+
+				return SortOrder.None;
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public static GridSettings Create(DataGridView grid)
 		{
 			var gridSettings = new GridSettings();
 
+			var sortCol = grid.Columns.Cast<DataGridViewColumn>()
+				.FirstOrDefault(c => c.HeaderCell.SortGlyphDirection != SortOrder.None);
+
+			if (sortCol != null)
+			{
+				gridSettings.SortedColumn = sortCol.Name;
+				gridSettings.SortDirection = sortCol.HeaderCell.SortGlyphDirection.ToString();
+			}
+			
 			gridSettings.ColumnHeaderHeight = grid.ColumnHeadersHeight;
 
-			var colSettings = new List<GridColumnSettings>();
+			gridSettings.Columns = (from c in grid.Columns.Cast<DataGridViewColumn>()
+									select new GridColumnSettings { Id = c.Name,
+										Width = c.Width, Visible = c.Visible,
+										DisplayIndex = c.DisplayIndex }).ToArray();
 
-			foreach (DataGridViewColumn col in grid.Columns)
-			{
-				colSettings.Add(new GridColumnSettings
-				{
-					Id = col.Name,
-					Width = col.Width,
-					Visible = col.Visible,
-					DisplayIndex = col.DisplayIndex
-				});
-			}
-
-			gridSettings.Columns = colSettings.ToArray();
 			return gridSettings;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void InitializeGrid(DataGridView grid)
 		{
@@ -99,10 +111,6 @@ namespace SilUtils
 	}
 
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class GridColumnSettings
 	{
 		[XmlAttribute("id")]
@@ -114,10 +122,6 @@ namespace SilUtils
 		[XmlAttribute("displayIndex")]
 		public int DisplayIndex { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		internal GridColumnSettings()
 		{

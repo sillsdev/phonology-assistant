@@ -4,8 +4,8 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
+using Localization;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Processing;
@@ -45,7 +45,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public XYChartVw()
 		{
-			var msg = LocalizationManager.LocalizeString("InitializingDistributionChartViewMsg",
+			var msg = App.L10NMngr.LocalizeString("InitializingDistributionChartViewMsg",
 				"Initializing Distribution Chart View...",
 				"Message displayed whenever the distribution chart view is being initialized.",
 				App.kLocalizationGroupInfoMsg, LocalizationCategory.GeneralMessage,
@@ -321,7 +321,7 @@ namespace SIL.Pa.UI.Views
 
 			m_slidingPanel = new SlidingPanel(this, splitSideBarOuter, pnlSliderPlaceholder, Name);
 
-			LocalizationManager.LocalizeObject(m_slidingPanel.Tab, "XYChartVw.UndockedSideBarTabText",
+			App.L10NMngr.LocalizeObject(m_slidingPanel.Tab, "XYChartVw.UndockedSideBarTabText",
 				"Charts & Chart Building", null, null, "Text on vertical tab when the side " +
 				"bar is undocked in the XY charts view.", "Views", LocalizationPriority.High);
 
@@ -536,7 +536,7 @@ namespace SIL.Pa.UI.Views
 					// do with tooltips. They seem to form an attachment, somehow, with the
 					// form that owns the controls the tooltip is extending. When that form
 					// gets pulled out from under the tooltips, sometimes the program will crash.
-					LocalizationManager.RefreshToolTips();
+					App.L10NMngr.RefreshToolTips();
 				}
 			}
 
@@ -551,7 +551,7 @@ namespace SIL.Pa.UI.Views
 		protected bool OnViewUndocked(object args)
 		{
 			if (args == this)
-				LocalizationManager.RefreshToolTips();
+				App.L10NMngr.RefreshToolTips();
 
 			return false;
 		}
@@ -1436,7 +1436,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsHTML(object args)
 		{
-			var fmt = LocalizationManager.LocalizeString(
+			var fmt = App.L10NMngr.LocalizeString(
 				"DefaultDistributionChartHtmlExportFileAffix", "{0}-{1}DistributionChart.html");
 
 			return Export(m_rsltVwMngr.HTMLExport, fmt, App.kstidFileTypeHTML, "html",
@@ -1480,7 +1480,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsWordXml(object args)
 		{
-			var fmt = LocalizationManager.LocalizeString(
+			var fmt = App.L10NMngr.LocalizeString(
 				"DefaultDistributionChartWordXmlExportFileAffix", "{0}-{1}DistributionChart-(Word).xml");
 
 			return Export(m_rsltVwMngr.WordXmlExport, fmt, App.kstidFileTypeWordXml, "xml",
@@ -1490,7 +1490,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsXLingPaper(object args)
 		{
-			var fmt = LocalizationManager.LocalizeString(
+			var fmt = App.L10NMngr.LocalizeString(
 				"DefaultDistributionChartXLingPaperExportFileAffix", "{0}-{1}DistributionChart-(XLingPaper).xml");
 
 			return Export(m_rsltVwMngr.XLingPaperExport, fmt, App.kstidFileTypeXLingPaper, "xml",

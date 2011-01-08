@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
-using SIL.Localization;
 using SIL.Pa.DataSource;
 using ICSharpCode.SharpZipLib.Zip;
 using SIL.Pa.Properties;
@@ -115,7 +114,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private string GetBackupZipFile()
 		{
-			var fmt = LocalizationManager.LocalizeString(Name + ".BackupFilenameFmt",
+			var fmt = App.L10NMngr.LocalizeString(Name + ".BackupFilenameFmt",
 				"{0} Backup ({1}).zip", App.kLocalizationGroupDialogs);
 
 			var fileName = string.Format(fmt, App.Project.Name, DateTime.Now.ToShortDateString());
@@ -123,7 +122,7 @@ namespace SIL.Pa.UI.Dialogs
 			// Slashes are invalid in a file name.
 			fileName = fileName.Replace("/", "-");
 
-			var caption = LocalizationManager.LocalizeString(Name + ".BackupOFDCaption",
+			var caption = App.L10NMngr.LocalizeString(Name + ".BackupOFDCaption",
 				"Backup File to Create", App.kLocalizationGroupDialogs);
 			
 			int filterIndex = 0;

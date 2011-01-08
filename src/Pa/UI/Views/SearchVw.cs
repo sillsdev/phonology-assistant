@@ -5,8 +5,8 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
+using Localization;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
@@ -52,7 +52,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public SearchVw()
 		{
-			var msg = LocalizationManager.LocalizeString("InitializingSearchViewMsg",
+			var msg = App.L10NMngr.LocalizeString("InitializingSearchViewMsg",
 				"Initializing Search View...",
 				"Message displayed whenever the search view is being initialized.",
 				App.kLocalizationGroupInfoMsg, LocalizationCategory.GeneralMessage,
@@ -268,7 +268,7 @@ namespace SIL.Pa.UI.Views
 			btnDock.Top = btnAutoHide.Top;
 
 			m_slidingPanel = new SlidingPanel(this, splitSideBarOuter, pnlSliderPlaceholder, Name);
-			LocalizationManager.LocalizeObject(m_slidingPanel.Tab, "SearchVw.UndockedSideBarTabText",
+			App.L10NMngr.LocalizeObject(m_slidingPanel.Tab, "SearchVw.UndockedSideBarTabText",
 				"Patterns & Pattern Building", null, null, "Text on vertical tab when the side " +
 				"bar is undocked in the search view.", "Views", LocalizationPriority.High);
 
@@ -498,7 +498,7 @@ namespace SIL.Pa.UI.Views
 			m_tooltip = new ToolTip(components);
 			string tip = Properties.Resources.kstidSearchPatternTooltip;
 			m_tooltip.SetToolTip(ptrnTextBox.TextBox, Utils.ConvertLiteralNewLines(tip));
-			LocalizationManager.RefreshToolTips();
+			App.L10NMngr.RefreshToolTips();
 		}
 
 		/// ------------------------------------------------------------------------------------

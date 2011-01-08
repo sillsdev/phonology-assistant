@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics;
 using System.Windows.Forms;
-using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
@@ -164,7 +163,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (!string.IsNullOrEmpty(node.MachineName))
 			{
-				txtMsg.Text = LocalizationManager.LocalizeString(
+				txtMsg.Text = App.L10NMngr.LocalizeString(
 					Name + ".SearchingForFwDatabasesMsg", "Searching...",
 					locExtender.LocalizationGroup);
 				
@@ -185,7 +184,7 @@ namespace SIL.Pa.UI.Dialogs
 				}
 				else
 				{
-					var fmt = LocalizationManager.LocalizeString(
+					var fmt = App.L10NMngr.LocalizeString(
 						Name + ".NoFwProjectsFoundMsg", "No projects found on '{0}'.",
 						locExtender.LocalizationGroup);
 		

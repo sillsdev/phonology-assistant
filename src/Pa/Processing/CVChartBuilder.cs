@@ -17,7 +17,6 @@
 using System.IO;
 using System.Linq;
 using System.Xml;
-using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
@@ -81,13 +80,13 @@ namespace SIL.Pa.Processing
 			{
 				if (m_chartType == CVChartType.Consonant)
 				{
-					return LocalizationManager.LocalizeString("ProcessingConsonantChartMsg",
+					return App.L10NMngr.LocalizeString("ProcessingConsonantChartMsg",
 						"Separating Consonants...",
 						"Status bar message displayed when building list of consonants from phone list.",
 						App.kLocalizationGroupInfoMsg);
 				}
 
-				return LocalizationManager.LocalizeString("ProcessingVowelChartMsg",
+				return App.L10NMngr.LocalizeString("ProcessingVowelChartMsg",
 					"Separating Vowel...",
 					"Status bar message displayed when building list of vowels from phone list.",
 					App.kLocalizationGroupInfoMsg);

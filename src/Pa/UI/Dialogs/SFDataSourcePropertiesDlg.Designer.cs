@@ -72,7 +72,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.scImport.Panel1.SuspendLayout();
 			this.scImport.Panel2.SuspendLayout();
 			this.scImport.SuspendLayout();
@@ -102,7 +102,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.cboToolboxSortField.FormattingEnabled = true;
 			this.locExtender.SetLocalizableToolTip(this.cboToolboxSortField, "This is used for jumping to the appropriate Toolbox record.");
 			this.locExtender.SetLocalizationComment(this.cboToolboxSortField, null);
-			this.locExtender.SetLocalizationPriority(this.cboToolboxSortField, SIL.Localization.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizationPriority(this.cboToolboxSortField, Localization.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.cboToolboxSortField, "SFDataSourcePropertiesDlg.cboToolboxSortField");
 			this.cboToolboxSortField.Name = "cboToolboxSortField";
 			this.cboToolboxSortField.Sorted = true;
@@ -146,7 +146,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlMappings.DoubleBuffered = false;
 			this.locExtender.SetLocalizableToolTip(this.pnlMappings, null);
 			this.locExtender.SetLocalizationComment(this.pnlMappings, null);
-			this.locExtender.SetLocalizationPriority(this.pnlMappings, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlMappings, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlMappings, "SFDataSourcePropertiesDlg.pnlMappings");
 			this.pnlMappings.MnemonicGeneratesClick = false;
 			this.pnlMappings.Name = "pnlMappings";
@@ -167,7 +167,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.btnBrowse, null);
 			this.locExtender.SetLocalizationComment(this.btnBrowse, "Button for browsing to an SFM editor in the standard format data source propertie" +
 					"s dialog box.");
-			this.locExtender.SetLocalizationPriority(this.btnBrowse, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.btnBrowse, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnBrowse, "Localized in base class");
 			this.btnBrowse.MinimumSize = new System.Drawing.Size(80, 26);
 			this.btnBrowse.Name = "btnBrowse";
@@ -212,7 +212,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlSrcFile.DoubleBuffered = false;
 			this.locExtender.SetLocalizableToolTip(this.pnlSrcFile, null);
 			this.locExtender.SetLocalizationComment(this.pnlSrcFile, null);
-			this.locExtender.SetLocalizationPriority(this.pnlSrcFile, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlSrcFile, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlSrcFile, "SFDataSourcePropertiesDlg.pnlSrcFile");
 			this.pnlSrcFile.MnemonicGeneratesClick = false;
 			this.pnlSrcFile.Name = "pnlSrcFile";
@@ -224,7 +224,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.txtFilePreview, "txtFilePreview");
 			this.locExtender.SetLocalizableToolTip(this.txtFilePreview, null);
 			this.locExtender.SetLocalizationComment(this.txtFilePreview, null);
-			this.locExtender.SetLocalizationPriority(this.txtFilePreview, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtFilePreview, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtFilePreview, "SFDataSourcePropertiesDlg.txtFilePreview");
 			this.txtFilePreview.Name = "txtFilePreview";
 			this.txtFilePreview.ReadOnly = true;
@@ -254,7 +254,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblFilename.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblFilename, null);
 			this.locExtender.SetLocalizationComment(this.lblFilename, global::SIL.Pa.ResourceStuff.PaTMStrings.kstidExportAsToolTip);
-			this.locExtender.SetLocalizationPriority(this.lblFilename, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lblFilename, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblFilename, "SFDataSourcePropertiesDlg.lblFilename");
 			this.lblFilename.Name = "lblFilename";
 			this.lblFilename.Paint += new System.Windows.Forms.PaintEventHandler(this.lblFilename_Paint);
@@ -267,7 +267,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.cboFirstInterlinear.FormattingEnabled = true;
 			this.locExtender.SetLocalizableToolTip(this.cboFirstInterlinear, null);
 			this.locExtender.SetLocalizationComment(this.cboFirstInterlinear, null);
-			this.locExtender.SetLocalizationPriority(this.cboFirstInterlinear, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.cboFirstInterlinear, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.cboFirstInterlinear, "SFDataSourcePropertiesDlg.cboFirstInterlinear");
 			this.cboFirstInterlinear.Name = "cboFirstInterlinear";
 			this.cboFirstInterlinear.SelectedIndexChanged += new System.EventHandler(this.cboFirstInterlinear_SelectedIndexChanged);
@@ -303,7 +303,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlParseType.DoubleBuffered = true;
 			this.locExtender.SetLocalizableToolTip(this.pnlParseType, null);
 			this.locExtender.SetLocalizationComment(this.pnlParseType, null);
-			this.locExtender.SetLocalizationPriority(this.pnlParseType, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlParseType, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlParseType, "SFDataSourcePropertiesDlg.pnlParseType");
 			this.pnlParseType.MnemonicGeneratesClick = false;
 			this.pnlParseType.Name = "pnlParseType";
@@ -394,7 +394,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlSampleInput.DoubleBuffered = false;
 			this.locExtender.SetLocalizableToolTip(this.pnlSampleInput, null);
 			this.locExtender.SetLocalizationComment(this.pnlSampleInput, null);
-			this.locExtender.SetLocalizationPriority(this.pnlSampleInput, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlSampleInput, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlSampleInput, "SFDataSourcePropertiesDlg.pnlSampleInput");
 			this.pnlSampleInput.MnemonicGeneratesClick = false;
 			this.pnlSampleInput.Name = "pnlSampleInput";
@@ -529,6 +529,7 @@ namespace SIL.Pa.UI.Dialogs
 			// locExtender
 			// 
 			this.locExtender.LocalizationGroup = "Dialog Boxes";
+			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// SFDataSourcePropertiesDlg
 			// 
@@ -591,6 +592,6 @@ namespace SIL.Pa.UI.Dialogs
 		private SilGradientPanel pnlSrcFileHdg;
 		private SilPanel pnlMappings;
 		private SilPanel pnlSrcFile;
-		private SIL.Localization.LocalizationExtender locExtender;
+		private Localization.UI.LocalizationExtender locExtender;
 	}
 }

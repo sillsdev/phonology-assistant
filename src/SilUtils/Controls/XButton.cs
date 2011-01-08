@@ -6,10 +6,6 @@ using System.Windows.Forms.VisualStyles;
 namespace SilUtils.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class XButton : Label
 	{
 		public delegate bool DrawBackgroundHandler(XButton button, PaintEventArgs e, PaintState state);
@@ -17,8 +13,6 @@ namespace SilUtils.Controls
 
 		private bool m_drawLeftArrowButton;
 		private bool m_drawRightArrowButton;
-		private bool m_drawEmpty;
-		private bool m_canBeChecked;
 		private bool m_checked;
 		private bool m_mouseDown;
 		private bool m_mouseOver;
@@ -30,16 +24,12 @@ namespace SilUtils.Controls
 			TextFormatFlags.PreserveGraphicsClipping;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public XButton()
 		{
 			base.AutoSize = false;
 			base.BackColor = SystemColors.Control;
 			base.Font = new Font("Marlett", 9, GraphicsUnit.Point);
-			Size = new Size(16, 16); 
+			Size = new Size(16, 16);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -48,11 +38,7 @@ namespace SilUtils.Controls
 		/// when clicked.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool CanBeChecked
-		{
-			get { return m_canBeChecked; }
-			set { m_canBeChecked = value; }
-		}
+		public bool CanBeChecked { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -64,7 +50,7 @@ namespace SilUtils.Controls
 			get { return m_checked; }
 			set
 			{
-				if (m_canBeChecked)
+				if (CanBeChecked)
 				{
 					m_checked = value;
 					Invalidate();
@@ -81,16 +67,8 @@ namespace SilUtils.Controls
 		/// highlighted look given when the mouse is over or down or when the button is checked.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool DrawEmpty
-		{
-			get { return m_drawEmpty; }
-			set { m_drawEmpty = value; }
-		}
-		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public bool DrawEmpty { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		public new Image Image
 		{
@@ -264,7 +242,7 @@ namespace SilUtils.Controls
 				DrawArrow(e);
 			else if (!string.IsNullOrEmpty(Text))
 				DrawText(e);
-			else if (!m_drawEmpty)
+			else if (!DrawEmpty)
 				DrawWithX(e);
 			else
 				base.OnPaint(e);

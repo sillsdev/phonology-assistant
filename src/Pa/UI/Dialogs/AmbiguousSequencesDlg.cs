@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Windows.Forms;
-using SIL.Localization;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilUtils;
@@ -66,7 +66,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void InitStrings()
 		{
-			LocalizationManager.LocalizeString("AmbiguousSequencesDlg.CantDeleteGeneratedAmbiguousSeqMsg",
+			App.L10NMngr.LocalizeString("AmbiguousSequencesDlg.CantDeleteGeneratedAmbiguousSeqMsg",
 				"This ambiguous sequence was automatically generated based\non phonetic " +
 				"transcriptions found in one or more data sources.\nAutomatically " +
 				"generated ambiguous sequences may not be\ndeleted. If you do not want " +
@@ -76,31 +76,31 @@ namespace SIL.Pa.UI.Dialogs
 				"dialog box.", "Dialog Boxes", LocalizationCategory.ErrorOrWarningMessage,
 				LocalizationPriority.Medium);
 
-			LocalizationManager.LocalizeString("AmbiguousSequencesDlg.BaseCharMissingMsg",
+			App.L10NMngr.LocalizeString("AmbiguousSequencesDlg.BaseCharMissingMsg",
 				"You must specify a base character.", "Message displayed when trying to " +
 				"save ambiguous sequences in the ambiguous sequences dialog box, when one " +
 				"or more sequence does not have a base character specified.",
 				"Dialog Boxes", LocalizationCategory.ErrorOrWarningMessage,
 				LocalizationPriority.Medium);
 
-			LocalizationManager.LocalizeString("AmbiguousSequencesDlg.BaseCharNotInSeqMsg", 
+			App.L10NMngr.LocalizeString("AmbiguousSequencesDlg.BaseCharNotInSeqMsg", 
 				"Your base character must be contained\nwithin its associated ambiguous sequence.",
 				"Message dislpayed in ambiguous sequences dialog box.",
 				"Dialog Boxes", LocalizationCategory.ErrorOrWarningMessage,
 				LocalizationPriority.Medium);
 
-			LocalizationManager.LocalizeString("AmbiguousSequencesDlg.MissingSequenceMsg",
+			App.L10NMngr.LocalizeString("AmbiguousSequencesDlg.MissingSequenceMsg",
 				"A base character may not be specified\nuntil you have specified an ambiguous sequence.",
 				"Message dislpayed in ambiguous sequences dialog box.",
 				"Dialog Boxes", LocalizationCategory.ErrorOrWarningMessage,
 				LocalizationPriority.Medium);
 
-			LocalizationManager.LocalizeString("AmbiguousSequencesDlg.DuplicateSeqMsg1",
+			App.L10NMngr.LocalizeString("AmbiguousSequencesDlg.DuplicateSeqMsg1",
 				"That sequence already exists.", "Message displayed in ambiguous sequences " +
 				"dialog box when identical sequences exist.", "Dialog Boxes",
 				LocalizationCategory.ErrorOrWarningMessage, LocalizationPriority.Medium);
 
-			LocalizationManager.LocalizeString("AmbiguousSequencesDlg.DuplicateSeqMsg2",
+			App.L10NMngr.LocalizeString("AmbiguousSequencesDlg.DuplicateSeqMsg2",
 				"That sequence already exists as a generated sequence.", "Message displayed in " +
 				"ambiguous sequences dialog box when a user-added sequence is identical to a " +
 				"generated sequences.", "Dialog Boxes", LocalizationCategory.ErrorOrWarningMessage,
@@ -139,7 +139,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			col.HeaderText = LocalizationManager.LocalizeString(Name + ".AmbiguousSeqColumnHdg",
+			col.HeaderText = App.L10NMngr.LocalizeString(Name + ".AmbiguousSeqColumnHdg",
 				"Sequence", "Column heading in ambiguous sequences dialog box.",
 				locExtender.LocalizationGroup, LocalizationCategory.Other,
 				LocalizationPriority.High);
@@ -149,7 +149,7 @@ namespace SIL.Pa.UI.Dialogs
 			col = SilGrid.CreateCheckBoxColumn("convert");
 			col.Width = 75;
 			col.CellTemplate.ValueType = typeof(bool);
-			col.HeaderText = LocalizationManager.LocalizeString(Name + ".AmbiguousConvertColumnHdg",
+			col.HeaderText = App.L10NMngr.LocalizeString(Name + ".AmbiguousConvertColumnHdg",
 				"Treat as one unit?", "Column heading in ambiguous sequences dialog box.",
 				locExtender.LocalizationGroup, LocalizationCategory.Other,
 				LocalizationPriority.High);
@@ -161,7 +161,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			col.HeaderText = LocalizationManager.LocalizeString(Name + ".AmbiguousBaseCharColumnHdg",
+			col.HeaderText = App.L10NMngr.LocalizeString(Name + ".AmbiguousBaseCharColumnHdg",
 				"Base Character", "Column heading in ambiguous sequences dialog box.",
 				locExtender.LocalizationGroup, LocalizationCategory.Other,
 				LocalizationPriority.High);
@@ -174,7 +174,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			col.HeaderText = LocalizationManager.LocalizeString(Name + ".AmbiguousCVPatternColumnHdg",
+			col.HeaderText = App.L10NMngr.LocalizeString(Name + ".AmbiguousCVPatternColumnHdg",
 				"CV Pattern", "Column heading in ambiguous sequences dialog box.",
 				locExtender.LocalizationGroup, LocalizationCategory.Other,
 				LocalizationPriority.High);
@@ -414,8 +414,8 @@ namespace SIL.Pa.UI.Dialogs
 				if (i != row && m_grid[0, i].Value as string == newSeq)
 				{
 					string msg = ((bool)m_grid["generated", row].Value ?
-						LocalizationManager.GetString(kDuplicateSeq2) :
-						LocalizationManager.GetString(kDuplicateSeq1));
+						App.L10NMngr.GetString(kDuplicateSeq2) :
+						App.L10NMngr.GetString(kDuplicateSeq1));
 
 					Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return true;
@@ -448,19 +448,19 @@ namespace SIL.Pa.UI.Dialogs
 					return false;
 
 				// At this point, we know we have a sequence but no base character
-				msg = LocalizationManager.GetString(kBaseCharMissing);
+				msg = App.L10NMngr.GetString(kBaseCharMissing);
 			}
 
 			if (msg == null)
 			{
 				// Make sure there is an ambiguous sequence before specifying a base character.
 				if (string.IsNullOrEmpty(phone))
-					msg = LocalizationManager.GetString(kSeqMissing);
+					msg = App.L10NMngr.GetString(kSeqMissing);
 			}
 
 			// Make sure the new base character is part of the ambiguous sequence.
 			if (msg == null && phone != null && !phone.Contains(newBaseChar))
-				msg = LocalizationManager.GetString(kBaseCharNotInSeq);
+				msg = App.L10NMngr.GetString(kBaseCharNotInSeq);
 
 			if (msg != null)
 			{
@@ -564,7 +564,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (e.Row.Cells["generated"].Value != null && (bool)e.Row.Cells["generated"].Value)
 			{
-				var msg = LocalizationManager.GetString(kCantDeleteGenerated);
+				var msg = App.L10NMngr.GetString(kCantDeleteGenerated);
 				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				e.Cancel = true;
 			}

@@ -5,7 +5,6 @@ using System.IO;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
-using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.UI.Dialogs;
 using SilUtils;
@@ -296,7 +295,7 @@ namespace SIL.Pa.DataSource
 			string saPath = AudioPlayer.GetSaPath();
 			if (saPath == null || !File.Exists(saPath))
 			{
-				var msg = LocalizationManager.LocalizeString("AudioEditProblemMsg",
+				var msg = App.L10NMngr.LocalizeString("AudioEditProblemMsg",
 					"Speech Analyzer 3.0.1 is required to edit audio data sources, but it " +
 					"is not installed. Please install Speech Analyzer 3.0.1 and try again.",
 					"Message displayed when SA 3.0.1 is not installed and the user is attempting to " +

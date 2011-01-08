@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
-using SIL.Localization;
 using SIL.Pa.DataSource;
 using ICSharpCode.SharpZipLib.Zip;
 using SIL.Pa.Properties;
@@ -38,7 +37,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public static void Restore()
 		{
-			var caption = LocalizationManager.LocalizeString("RestoreDlg.OFDCaption",
+			var caption = App.L10NMngr.LocalizeString("RestoreDlg.OFDCaption",
 				"File to Restore", App.kLocalizationGroupDialogs);
 
 			string zipFile = App.OpenFileDialog("zip",
@@ -122,7 +121,7 @@ namespace SIL.Pa.UI.Dialogs
 			Application.DoEvents();
 
 			m_progressDlg = new BRProgressDlg();
-			m_progressDlg.lblMsg.Text = LocalizationManager.LocalizeString(
+			m_progressDlg.lblMsg.Text = App.L10NMngr.LocalizeString(
 				Name + ".ReadingBackupFileMsg", "Reading backup file...",
 				App.kLocalizationGroupDialogs);
 			
@@ -139,7 +138,7 @@ namespace SIL.Pa.UI.Dialogs
 				m_progressDlg = null;
 				Hide();
 
-				var msg = LocalizationManager.LocalizeString(Name + ".NoPrjInZipFileMsg",
+				var msg = App.L10NMngr.LocalizeString(Name + ".NoPrjInZipFileMsg",
 					"The specified zip file does not appear to contain a Phonology Assistant project.",
 					App.kLocalizationGroupDialogs);
 
@@ -256,7 +255,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (prj == null || prj.DataSources == null || prj.DataSources.Count == 0)
 			{
-				var msg = LocalizationManager.LocalizeString(Name + ".PrjIsEmptyMsg",
+				var msg = App.L10NMngr.LocalizeString(Name + ".PrjIsEmptyMsg",
 					"There are no data sources in the project.", App.kLocalizationGroupDialogs);
 
 				Utils.MsgBox(msg);
@@ -356,7 +355,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (!CheckIfPapAlreadyExists())
 				return;
 
-			var msg = LocalizationManager.LocalizeString(Name + ".RestoringMsg",
+			var msg = App.L10NMngr.LocalizeString(Name + ".RestoringMsg",
 				"Restoring {0}...", App.kLocalizationGroupDialogs);
 
 			m_progressDlg.lblMsg.Text = string.Format(msg, m_prjName);
@@ -387,7 +386,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (!File.Exists(Path.Combine(txtPrjLocation.Text, papFile)))
 				return true;
 
-			var msg = LocalizationManager.LocalizeString(Name + ".PrjAlreadyInFolderMsg",
+			var msg = App.L10NMngr.LocalizeString(Name + ".PrjAlreadyInFolderMsg",
 				"There is already a project file by the name of '{0}' in the specified restore\nfolder. Do you want to overwrite the existing project files? If you answer 'Yes'\nthen data source files that may already exist will also be overwritten.",
 				App.kLocalizationGroupDialogs);
 
@@ -491,7 +490,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (!File.Exists(m_papPath))
 				return;
 
-			var msg = LocalizationManager.LocalizeString(Name + ".LoadPrjMsg",
+			var msg = App.L10NMngr.LocalizeString(Name + ".LoadPrjMsg",
 				"Restore is complete. Would you\nlike to open the restored project?",
 				App.kLocalizationGroupDialogs);
 
@@ -510,7 +509,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void btnChgPrjLocation_Click(object sender, EventArgs e)
 		{
-			var msg = LocalizationManager.LocalizeString(Name + ".BrowseForPrjFolderDesc",
+			var msg = App.L10NMngr.LocalizeString(Name + ".BrowseForPrjFolderDesc",
 				"Specify folder in which to restore {0} project files.", App.kLocalizationGroupDialogs);
 
 			fldrBrowser.Description = string.Format(msg, m_prjName);
@@ -527,7 +526,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void btnChgDSLocation_Click(object sender, EventArgs e)
 		{
-			var msg = LocalizationManager.LocalizeString(Name + ".BrowseForDataSourceFolderDesc",
+			var msg = App.L10NMngr.LocalizeString(Name + ".BrowseForDataSourceFolderDesc",
 				"Specify folder in which to restore {0} data source file(s).", App.kLocalizationGroupDialogs);
 
 			fldrBrowser.SelectedPath = m_lastFolderPicked;

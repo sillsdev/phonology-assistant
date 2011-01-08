@@ -1,6 +1,6 @@
 using System.Linq;
 using System.Globalization;
-using SIL.Localization;
+using Localization;
 using SIL.Pa.Properties;
 using SilUtils;
 
@@ -31,7 +31,7 @@ namespace SIL.Pa.UI.Dialogs
 			foreach (var ci in allowedUILangs)
 				cboUILanguage.Items.Add(ci);
 
-			CultureInfo currCulture = CultureInfo.GetCultureInfo(LocalizationManager.UILangId);
+			CultureInfo currCulture = CultureInfo.GetCultureInfo(LocalizationManager.UILanguageId);
 			cboUILanguage.SelectedItem = currCulture;
 		}
 
@@ -47,7 +47,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			string newLangId = ((CultureInfo)cboUILanguage.SelectedItem).Name;
 			Settings.Default.UserInterfaceLanguage = newLangId;
-			LocalizationManager.UILangId = newLangId;
+			LocalizationManager.UILanguageId = newLangId;
 			App.MsgMediator.SendMessage("UserInterfaceLangaugeChanged", null);
 		}
 
@@ -63,7 +63,7 @@ namespace SIL.Pa.UI.Dialogs
 				if (cboUILanguage.SelectedItem == null)
 					return false;
 
-				return (LocalizationManager.UILangId != ((CultureInfo)cboUILanguage.SelectedItem).Name);
+				return (LocalizationManager.UILanguageId != ((CultureInfo)cboUILanguage.SelectedItem).Name);
 			}
 		}
 	}

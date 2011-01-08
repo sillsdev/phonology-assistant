@@ -5,7 +5,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.Win32;
-using SIL.Localization;
 using SIL.Pa.UI.Dialogs;
 using SilUtils;
 using SIL.SpeechTools.Utils;
@@ -173,7 +172,7 @@ namespace SIL.Pa
 			string saLoc = GetSaPath();
 			if (saLoc == null)
 			{
-				var msg = LocalizationManager.LocalizeString("AudioPlaybackSpeedProblemMsg",
+				var msg = App.L10NMngr.LocalizeString("AudioPlaybackSpeedProblemMsg",
 					"Speech Analyzer 3.0.1 is required to playback utterances at speeds other than " +
 					"100%, but it is not installed. Please install Speech Analyzer 3.0.1 and try again.",
 					"Message displayed when SA 3.0.1 is not installed and the user is attempting to " +

@@ -1403,5 +1403,29 @@ namespace SIL.Pa.Properties {
                 this["OpenXLingPaperDistChartAfterExport"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int LocalizeDlgSplitterPos {
+            get {
+                return ((int)(this["LocalizeDlgSplitterPos"]));
+            }
+            set {
+                this["LocalizeDlgSplitterPos"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Rectangle LocalizeDlgBounds {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["LocalizeDlgBounds"]));
+            }
+            set {
+                this["LocalizeDlgBounds"] = value;
+            }
+        }
     }
 }

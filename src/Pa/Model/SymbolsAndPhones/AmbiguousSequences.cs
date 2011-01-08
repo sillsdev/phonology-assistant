@@ -2,7 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Xml.Serialization;
-using SIL.Localization;
+using Localization;
 using SilUtils;
 
 /// --------------------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static void MigrateToLatestVersion(string filename)
 		{
-			var errMsg = LocalizationManager.LocalizeString("AmbiguousSeqMigrationErrMsg",
+			var errMsg = App.L10NMngr.LocalizeString("AmbiguousSeqMigrationErrMsg",
 				"The following error occurred while attempting to update your project’s ambiguous " +
 				"sequences file:\n\n{0}\n\nIn order to continue working, your original ambiguous " +
 				"sequence file  will be renamed to the following file: '{1}'.",

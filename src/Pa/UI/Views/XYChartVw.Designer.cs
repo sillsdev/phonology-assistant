@@ -52,7 +52,7 @@ namespace SIL.Pa.UI.Views
 			this.lblChartNameValue = new System.Windows.Forms.Label();
 			this.pnlSliderPlaceholder = new System.Windows.Forms.Panel();
 			this.pnlOuter = new System.Windows.Forms.Panel();
-			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.splitResults.Panel2.SuspendLayout();
 			this.splitResults.SuspendLayout();
 			this.pnlRecView.SuspendLayout();
@@ -100,7 +100,7 @@ namespace SIL.Pa.UI.Views
 			this.pnlRecView.DoubleBuffered = false;
 			this.locExtender.SetLocalizableToolTip(this.pnlRecView, null);
 			this.locExtender.SetLocalizationComment(this.pnlRecView, null);
-			this.locExtender.SetLocalizationPriority(this.pnlRecView, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlRecView, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlRecView, "XYChartVw.pnlRecView");
 			this.pnlRecView.MnemonicGeneratesClick = false;
 			this.pnlRecView.Name = "pnlRecView";
@@ -113,7 +113,7 @@ namespace SIL.Pa.UI.Views
 			resources.ApplyResources(this.rtfRecVw, "rtfRecVw");
 			this.locExtender.SetLocalizableToolTip(this.rtfRecVw, null);
 			this.locExtender.SetLocalizationComment(this.rtfRecVw, null);
-			this.locExtender.SetLocalizationPriority(this.rtfRecVw, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.rtfRecVw, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.rtfRecVw, "XYChartVw.rtfRecVw");
 			this.rtfRecVw.Name = "rtfRecVw";
 			this.rtfRecVw.ReadOnly = true;
@@ -160,7 +160,7 @@ namespace SIL.Pa.UI.Views
 			resources.ApplyResources(this.ptrnBldrComponent, "ptrnBldrComponent");
 			this.locExtender.SetLocalizableToolTip(this.ptrnBldrComponent, null);
 			this.locExtender.SetLocalizationComment(this.ptrnBldrComponent, null);
-			this.locExtender.SetLocalizationPriority(this.ptrnBldrComponent, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.ptrnBldrComponent, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.ptrnBldrComponent, "XYChartVw.PatternBuilderComponents");
 			this.ptrnBldrComponent.Name = "ptrnBldrDistChartVw";
 			// 
@@ -193,7 +193,7 @@ namespace SIL.Pa.UI.Views
 			this.btnDock.DrawRightArrowButton = false;
 			this.locExtender.SetLocalizableToolTip(this.btnDock, "Dock");
 			this.locExtender.SetLocalizationComment(this.btnDock, null);
-			this.locExtender.SetLocalizationPriority(this.btnDock, SIL.Localization.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizationPriority(this.btnDock, Localization.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.btnDock, "XYChartVw.btnDock");
 			this.btnDock.Name = "btnDock";
 			this.btnDock.Click += new System.EventHandler(this.btnDock_Click);
@@ -209,7 +209,7 @@ namespace SIL.Pa.UI.Views
 			this.btnAutoHide.DrawRightArrowButton = false;
 			this.locExtender.SetLocalizableToolTip(this.btnAutoHide, "Automatically Hide");
 			this.locExtender.SetLocalizationComment(this.btnAutoHide, null);
-			this.locExtender.SetLocalizationPriority(this.btnAutoHide, SIL.Localization.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizationPriority(this.btnAutoHide, Localization.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.btnAutoHide, "XYChartVw.btnAutoHide");
 			this.btnAutoHide.Name = "btnAutoHide";
 			this.btnAutoHide.Click += new System.EventHandler(this.btnAutoHide_Click);
@@ -226,7 +226,7 @@ namespace SIL.Pa.UI.Views
 			this.pnlSavedCharts.DoubleBuffered = false;
 			this.locExtender.SetLocalizableToolTip(this.pnlSavedCharts, null);
 			this.locExtender.SetLocalizationComment(this.pnlSavedCharts, null);
-			this.locExtender.SetLocalizationPriority(this.pnlSavedCharts, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.pnlSavedCharts, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlSavedCharts, "XYChartVw.pnlSavedCharts");
 			this.pnlSavedCharts.MnemonicGeneratesClick = false;
 			this.pnlSavedCharts.Name = "pnlSavedCharts";
@@ -261,7 +261,7 @@ namespace SIL.Pa.UI.Views
 			// 
 			this.locExtender.SetLocalizableToolTip(this.hdrSavedCharts, null);
 			this.locExtender.SetLocalizationComment(this.hdrSavedCharts, null);
-			this.locExtender.SetLocalizationPriority(this.hdrSavedCharts, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.hdrSavedCharts, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.hdrSavedCharts, "XYChartVw.lvSavedCharts");
 			// 
 			// hlblSavedCharts
@@ -290,7 +290,7 @@ namespace SIL.Pa.UI.Views
 			this.locExtender.SetLocalizableToolTip(this.btnRemoveSavedChart, "Remove Saved Chart");
 			this.locExtender.SetLocalizationComment(this.btnRemoveSavedChart, "Button to delete saved charts on the XY charts view. The button is on the right s" +
 					"ide of the heading over the saved charts list.");
-			this.locExtender.SetLocalizationPriority(this.btnRemoveSavedChart, SIL.Localization.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizationPriority(this.btnRemoveSavedChart, Localization.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.btnRemoveSavedChart, "XYChartVw.btnRemoveSavedChart");
 			this.btnRemoveSavedChart.Name = "btnRemoveSavedChart";
 			this.btnRemoveSavedChart.Click += new System.EventHandler(this.btnRemoveSavedChart_Click);
@@ -324,7 +324,7 @@ namespace SIL.Pa.UI.Views
 			resources.ApplyResources(this.lblChartNameValue, "lblChartNameValue");
 			this.locExtender.SetLocalizableToolTip(this.lblChartNameValue, null);
 			this.locExtender.SetLocalizationComment(this.lblChartNameValue, null);
-			this.locExtender.SetLocalizationPriority(this.lblChartNameValue, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lblChartNameValue, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblChartNameValue, "XYChartVw.lblChartNameValue");
 			this.lblChartNameValue.Name = "lblChartNameValue";
 			// 
@@ -342,6 +342,7 @@ namespace SIL.Pa.UI.Views
 			// locExtender
 			// 
 			this.locExtender.LocalizationGroup = "Views";
+			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// XYChartVw
 			// 
@@ -351,7 +352,7 @@ namespace SIL.Pa.UI.Views
 			this.Controls.Add(this.pnlSliderPlaceholder);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "XYChartVw");
 			this.Name = "XYChartVw";
 			this.splitResults.Panel2.ResumeLayout(false);
@@ -399,6 +400,6 @@ namespace SIL.Pa.UI.Views
 		private SIL.Pa.UI.Controls.PatternBuilderComponents ptrnBldrComponent;
 		private System.Windows.Forms.Label lblChartName;
 		private System.Windows.Forms.Label lblChartNameValue;
-		private SIL.Localization.LocalizationExtender locExtender;
+		private Localization.UI.LocalizationExtender locExtender;
 	}
 }

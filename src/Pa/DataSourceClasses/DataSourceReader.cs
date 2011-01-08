@@ -5,7 +5,6 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
-using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.ResourceStuff;
 using SIL.Pa.UI.Dialogs;
@@ -151,7 +150,7 @@ namespace SIL.Pa.DataSource
 			dlg.Filter = App.kstidFileTypeAllFiles;
 			dlg.ShowReadOnly = false;
 			dlg.InitialDirectory = Path.GetFullPath(dataSourceFile);
-			dlg.Title = LocalizationManager.LocalizeString(
+			dlg.Title = App.L10NMngr.LocalizeString(
 				"SpecifyNewLocationForDatasourceOpenFileDlgCaption",
 				"Choose New Data Source Location", App.kLocalizationGroupDialogs);
 			
@@ -191,7 +190,7 @@ namespace SIL.Pa.DataSource
 
 				m_currDataSource = source;
 
-				var fmt = LocalizationManager.LocalizeString("ReadingDatasourceProgressBarMsg",
+				var fmt = App.L10NMngr.LocalizeString("ReadingDatasourceProgressBarMsg",
 					"Reading {0}", App.kLocalizationGroupInfoMsg);
 
 				App.UpdateProgressBarLabel(string.Format(fmt,
@@ -240,7 +239,7 @@ namespace SIL.Pa.DataSource
 						App.MsgMediator.SendMessage("AfterReadingDataSource", source);
 					else
 					{
-						fmt = LocalizationManager.LocalizeString("DatasourceFileUnsuccessfullyReadMsg",
+						fmt = App.L10NMngr.LocalizeString("DatasourceFileUnsuccessfullyReadMsg",
 							"Error processing data source file '{0}'.", App.kLocalizationGroupInfoMsg);
 
 						string msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(source.DataSourceFile));
@@ -250,7 +249,7 @@ namespace SIL.Pa.DataSource
 				}
 				catch (Exception e)
 				{
-						fmt = LocalizationManager.LocalizeString("DatasourceFileReadingErrorMsg",
+					fmt = App.L10NMngr.LocalizeString("DatasourceFileReadingErrorMsg",
 							"The following error occurred reading data source file '{0}'.{1}",
 							"First parameter is data source file name; second parameter is error message.",
 							App.kLocalizationGroupInfoMsg);
@@ -510,7 +509,7 @@ namespace SIL.Pa.DataSource
 			if (AudioPlayer.GetSaPath() != null)
 				return true;
 
-			var msg = LocalizationManager.LocalizeString("AudioConvertProblemMsg",
+			var msg = App.L10NMngr.LocalizeString("AudioConvertProblemMsg",
                 "It appears the audio file '{0}' may have been created using an old version " +
 				"of Speech Analyzer. In order for Phonology Assistant to read data associated " +
 				"with the audio file it must first be converted using some components of " +

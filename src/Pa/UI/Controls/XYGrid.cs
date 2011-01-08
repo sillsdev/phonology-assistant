@@ -4,7 +4,6 @@ using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Localization;
 using SIL.Pa.PhoneticSearching;
 using SilUtils;
 
@@ -1326,7 +1325,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString("ChartPopupInfoSyntaxErrorsMsg",
+				return App.L10NMngr.LocalizeString("ChartPopupInfoSyntaxErrorsMsg",
 					"This search pattern contains the following error(s):",
 					"Views.Distribution Charts");
 			}
@@ -1341,7 +1340,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString("ChartPopupInfoUndefinedSymbolsMsg",
+				return App.L10NMngr.LocalizeString("ChartPopupInfoUndefinedSymbolsMsg",
 					"This search pattern contains the following undefined phonetic symbol(s).",
 					"Views.Distribution Charts");
 			}
@@ -1356,7 +1355,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				return LocalizationManager.LocalizeString("ChartPopupInfoInvalidPhonesMsg",
+				return App.L10NMngr.LocalizeString("ChartPopupInfoInvalidPhonesMsg",
 					"This search pattern contains the following phone(s) not found in the data.",
 					"Views.Distribution Charts");
 			}

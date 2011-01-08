@@ -41,23 +41,19 @@ namespace SIL.Pa.UI.Dialogs
 			this.txtClassName = new System.Windows.Forms.TextBox();
 			this.lblClassName = new System.Windows.Forms.Label();
 			this.lblClassType = new System.Windows.Forms.Label();
-			this.pnlMemberOptions = new SilUtils.Controls.SilGradientPanel();
-			this.tblLayoutMemberOptions = new System.Windows.Forms.TableLayoutPanel();
 			this.txtMembers = new System.Windows.Forms.TextBox();
 			this.lblMembers = new System.Windows.Forms.Label();
 			this.rbMatchAny = new System.Windows.Forms.RadioButton();
 			this.rbMatchAll = new System.Windows.Forms.RadioButton();
 			this.lblClassTypeValue = new System.Windows.Forms.Label();
 			this.tblLayoutTop = new System.Windows.Forms.TableLayoutPanel();
-			this.locExtender = new SIL.Localization.LocalizationExtender(this.components);
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.pnlMemberPickingContainer.SuspendLayout();
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.SuspendLayout();
 			this.splitPhoneViewers.Panel1.SuspendLayout();
 			this.splitPhoneViewers.SuspendLayout();
 			this.splitCV.SuspendLayout();
-			this.pnlMemberOptions.SuspendLayout();
-			this.tblLayoutMemberOptions.SuspendLayout();
 			this.tblLayoutTop.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -65,6 +61,7 @@ namespace SIL.Pa.UI.Dialogs
 			// pnlMemberPickingContainer
 			// 
 			this.pnlMemberPickingContainer.BackColor = System.Drawing.SystemColors.Window;
+			this.tblLayoutTop.SetColumnSpan(this.pnlMemberPickingContainer, 3);
 			this.pnlMemberPickingContainer.Controls.Add(this.splitOuter);
 			this.pnlMemberPickingContainer.Controls.Add(this.lvClasses);
 			this.pnlMemberPickingContainer.Controls.Add(this.charExplorer);
@@ -179,7 +176,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lvClasses.HideSelection = false;
 			this.locExtender.SetLocalizableToolTip(this.lvClasses, null);
 			this.locExtender.SetLocalizationComment(this.lvClasses, null);
-			this.locExtender.SetLocalizationPriority(this.lvClasses, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lvClasses, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lvClasses, "DefineClassDlg.lvClasses");
 			this.lvClasses.MultiSelect = false;
 			this.lvClasses.Name = "lvClasses";
@@ -200,7 +197,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.charExplorer.DoubleBuffered = false;
 			this.locExtender.SetLocalizableToolTip(this.charExplorer, null);
 			this.locExtender.SetLocalizationComment(this.charExplorer, null);
-			this.locExtender.SetLocalizationPriority(this.charExplorer, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.charExplorer, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.charExplorer, "DefineClassDlg.charExplorer");
 			this.charExplorer.MnemonicGeneratesClick = false;
 			this.charExplorer.Name = "charExplorer";
@@ -210,9 +207,10 @@ namespace SIL.Pa.UI.Dialogs
 			// txtClassName
 			// 
 			resources.ApplyResources(this.txtClassName, "txtClassName");
+			this.tblLayoutTop.SetColumnSpan(this.txtClassName, 2);
 			this.locExtender.SetLocalizableToolTip(this.txtClassName, null);
 			this.locExtender.SetLocalizationComment(this.txtClassName, null);
-			this.locExtender.SetLocalizationPriority(this.txtClassName, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtClassName, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtClassName, "DefineClassDlg.txtClassName");
 			this.txtClassName.Name = "txtClassName";
 			this.txtClassName.TextChanged += new System.EventHandler(this.txtClassName_TextChanged);
@@ -233,41 +231,13 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizingId(this.lblClassType, "DefineClassDlg.lblClassType");
 			this.lblClassType.Name = "lblClassType";
 			// 
-			// pnlMemberOptions
-			// 
-			resources.ApplyResources(this.pnlMemberOptions, "pnlMemberOptions");
-			this.pnlMemberOptions.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
-			this.pnlMemberOptions.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pnlMemberOptions.ClipTextForChildControls = true;
-			this.pnlMemberOptions.ControlReceivingFocusOnMnemonic = null;
-			this.pnlMemberOptions.Controls.Add(this.tblLayoutMemberOptions);
-			this.pnlMemberOptions.DoubleBuffered = true;
-			this.locExtender.SetLocalizableToolTip(this.pnlMemberOptions, null);
-			this.locExtender.SetLocalizationComment(this.pnlMemberOptions, null);
-			this.locExtender.SetLocalizationPriority(this.pnlMemberOptions, SIL.Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.pnlMemberOptions, "DefineClassDlg.pnlMemberOptions");
-			this.pnlMemberOptions.MakeDark = false;
-			this.pnlMemberOptions.MnemonicGeneratesClick = false;
-			this.pnlMemberOptions.Name = "pnlMemberOptions";
-			this.pnlMemberOptions.PaintExplorerBarBackground = false;
-			// 
-			// tblLayoutMemberOptions
-			// 
-			this.tblLayoutMemberOptions.BackColor = System.Drawing.Color.Transparent;
-			resources.ApplyResources(this.tblLayoutMemberOptions, "tblLayoutMemberOptions");
-			this.tblLayoutMemberOptions.Controls.Add(this.txtMembers, 1, 0);
-			this.tblLayoutMemberOptions.Controls.Add(this.lblMembers, 0, 0);
-			this.tblLayoutMemberOptions.Controls.Add(this.rbMatchAny, 1, 1);
-			this.tblLayoutMemberOptions.Controls.Add(this.rbMatchAll, 2, 1);
-			this.tblLayoutMemberOptions.Name = "tblLayoutMemberOptions";
-			// 
 			// txtMembers
 			// 
 			resources.ApplyResources(this.txtMembers, "txtMembers");
-			this.tblLayoutMemberOptions.SetColumnSpan(this.txtMembers, 2);
+			this.tblLayoutTop.SetColumnSpan(this.txtMembers, 2);
 			this.locExtender.SetLocalizableToolTip(this.txtMembers, null);
 			this.locExtender.SetLocalizationComment(this.txtMembers, null);
-			this.locExtender.SetLocalizationPriority(this.txtMembers, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.txtMembers, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtMembers, "DefineClassDlg.txtMembers");
 			this.txtMembers.Name = "txtMembers";
 			this.txtMembers.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMembers_KeyDown);
@@ -308,9 +278,10 @@ namespace SIL.Pa.UI.Dialogs
 			// lblClassTypeValue
 			// 
 			resources.ApplyResources(this.lblClassTypeValue, "lblClassTypeValue");
+			this.tblLayoutTop.SetColumnSpan(this.lblClassTypeValue, 2);
 			this.locExtender.SetLocalizableToolTip(this.lblClassTypeValue, null);
 			this.locExtender.SetLocalizationComment(this.lblClassTypeValue, null);
-			this.locExtender.SetLocalizationPriority(this.lblClassTypeValue, SIL.Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizationPriority(this.lblClassTypeValue, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblClassTypeValue, "DefineClassDlg.lblClassTypeValue");
 			this.lblClassTypeValue.Name = "lblClassTypeValue";
 			// 
@@ -318,39 +289,38 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			resources.ApplyResources(this.tblLayoutTop, "tblLayoutTop");
 			this.tblLayoutTop.BackColor = System.Drawing.Color.Transparent;
+			this.tblLayoutTop.Controls.Add(this.pnlMemberPickingContainer, 0, 4);
+			this.tblLayoutTop.Controls.Add(this.lblMembers, 0, 2);
 			this.tblLayoutTop.Controls.Add(this.lblClassType, 0, 0);
+			this.tblLayoutTop.Controls.Add(this.rbMatchAll, 2, 3);
+			this.tblLayoutTop.Controls.Add(this.rbMatchAny, 1, 3);
 			this.tblLayoutTop.Controls.Add(this.lblClassTypeValue, 1, 0);
 			this.tblLayoutTop.Controls.Add(this.lblClassName, 0, 1);
+			this.tblLayoutTop.Controls.Add(this.txtMembers, 1, 2);
 			this.tblLayoutTop.Controls.Add(this.txtClassName, 1, 1);
 			this.tblLayoutTop.Name = "tblLayoutTop";
 			// 
 			// locExtender
 			// 
 			this.locExtender.LocalizationGroup = "Dialog Boxes";
+			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// DefineClassDlg
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.pnlMemberPickingContainer);
 			this.Controls.Add(this.tblLayoutTop);
-			this.Controls.Add(this.pnlMemberOptions);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "DefineClassDlg.WindowTitle");
 			this.Name = "DefineClassDlg";
-			this.Controls.SetChildIndex(this.pnlMemberOptions, 0);
 			this.Controls.SetChildIndex(this.tblLayoutTop, 0);
-			this.Controls.SetChildIndex(this.pnlMemberPickingContainer, 0);
 			this.pnlMemberPickingContainer.ResumeLayout(false);
 			this.splitOuter.Panel1.ResumeLayout(false);
 			this.splitOuter.ResumeLayout(false);
 			this.splitPhoneViewers.Panel1.ResumeLayout(false);
 			this.splitPhoneViewers.ResumeLayout(false);
 			this.splitCV.ResumeLayout(false);
-			this.pnlMemberOptions.ResumeLayout(false);
-			this.tblLayoutMemberOptions.ResumeLayout(false);
-			this.tblLayoutMemberOptions.PerformLayout();
 			this.tblLayoutTop.ResumeLayout(false);
 			this.tblLayoutTop.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
@@ -366,7 +336,6 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.Label lblClassName;
 		private System.Windows.Forms.Label lblClassType;
 		private SIL.Pa.UI.Controls.IPACharacterExplorer charExplorer;
-		private SilGradientPanel pnlMemberOptions;
 		private System.Windows.Forms.TextBox txtMembers;
 		private System.Windows.Forms.RadioButton rbMatchAll;
 		private System.Windows.Forms.RadioButton rbMatchAny;
@@ -376,8 +345,7 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.SplitContainer splitCV;
 		private System.Windows.Forms.SplitContainer splitPhoneViewers;
 		private System.Windows.Forms.Label lblClassTypeValue;
-		private System.Windows.Forms.TableLayoutPanel tblLayoutMemberOptions;
 		private System.Windows.Forms.TableLayoutPanel tblLayoutTop;
-		private SIL.Localization.LocalizationExtender locExtender;
+		private Localization.UI.LocalizationExtender locExtender;
 	}
 }

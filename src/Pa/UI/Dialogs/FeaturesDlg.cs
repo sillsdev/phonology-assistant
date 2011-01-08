@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using SIL.Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
@@ -127,7 +126,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			col.HeaderText = LocalizationManager.LocalizeString(
+			col.HeaderText = App.L10NMngr.LocalizeString(
 				"FeaturesDlg.PhoneListPhoneHeadingText", "Phone", App.kLocalizationGroupDialogs);
 			
 			gridPhones.Columns.Add(col);
@@ -137,7 +136,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.Width = 55;
 			col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-			col.HeaderText = LocalizationManager.LocalizeString(
+			col.HeaderText = App.L10NMngr.LocalizeString(
 				"FeaturesDlg.PhoneListCountHeadingText", "Count", App.kLocalizationGroupDialogs);
 
 			gridPhones.Columns.Add(col);
@@ -321,7 +320,7 @@ namespace SIL.Pa.UI.Dialogs
 				foreach (char c in phoneInfo.Phone)
 					bldr.AppendFormat("U+{0:X4}, ", (int)c);
 
-				var fmt = LocalizationManager.LocalizeString("FeaturesDlg.PhonesGridInfoFormat",
+				var fmt = App.L10NMngr.LocalizeString("FeaturesDlg.PhonesGridInfoFormat",
 					"Unicode Values:\n{0}", App.kLocalizationGroupDialogs);
 
 				string tip = bldr.ToString();
