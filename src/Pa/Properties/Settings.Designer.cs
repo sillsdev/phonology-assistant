@@ -1427,5 +1427,171 @@ namespace SIL.Pa.Properties {
                 this["LocalizeDlgBounds"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Color SelectedFocusedWordListRowBackColor {
+            get {
+                return ((global::System.Drawing.Color)(this["SelectedFocusedWordListRowBackColor"]));
+            }
+            set {
+                this["SelectedFocusedWordListRowBackColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("WindowText")]
+        public global::System.Drawing.Color SelectedFocusedWordListRowForeColor {
+            get {
+                return ((global::System.Drawing.Color)(this["SelectedFocusedWordListRowForeColor"]));
+            }
+            set {
+                this["SelectedFocusedWordListRowForeColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Control")]
+        public global::System.Drawing.Color SelectedUnFocusedWordListRowBackColor {
+            get {
+                return ((global::System.Drawing.Color)(this["SelectedUnFocusedWordListRowBackColor"]));
+            }
+            set {
+                this["SelectedUnFocusedWordListRowBackColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Color SelectedUnFocusedWordListRowForeColor {
+            get {
+                return ((global::System.Drawing.Color)(this["SelectedUnFocusedWordListRowForeColor"]));
+            }
+            set {
+                this["SelectedUnFocusedWordListRowForeColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Color SelectedWordListCellBackColor {
+            get {
+                return ((global::System.Drawing.Color)(this["SelectedWordListCellBackColor"]));
+            }
+            set {
+                this["SelectedWordListCellBackColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("WindowText")]
+        public global::System.Drawing.Color SelectedWordListCellForeColor {
+            get {
+                return ((global::System.Drawing.Color)(this["SelectedWordListCellForeColor"]));
+            }
+            set {
+                this["SelectedWordListCellForeColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("RoyalBlue")]
+        public global::System.Drawing.Color UncertainPhoneForeColor {
+            get {
+                return ((global::System.Drawing.Color)(this["UncertainPhoneForeColor"]));
+            }
+            set {
+                this["UncertainPhoneForeColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
+        public global::System.Drawing.Color QuerySearchItemForeColor {
+            get {
+                return ((global::System.Drawing.Color)(this["QuerySearchItemForeColor"]));
+            }
+            set {
+                this["QuerySearchItemForeColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Yellow")]
+        public global::System.Drawing.Color QuerySearchItemBackColor {
+            get {
+                return ((global::System.Drawing.Color)(this["QuerySearchItemBackColor"]));
+            }
+            set {
+                this["QuerySearchItemBackColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("PaleGoldenrod")]
+        public global::System.Drawing.Color XYChartZeroBackColor {
+            get {
+                return ((global::System.Drawing.Color)(this["XYChartZeroBackColor"]));
+            }
+            set {
+                this["XYChartZeroBackColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
+        public global::System.Drawing.Color XYChartZeroForeColor {
+            get {
+                return ((global::System.Drawing.Color)(this["XYChartZeroForeColor"]));
+            }
+            set {
+                this["XYChartZeroForeColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("LightSteelBlue")]
+        public global::System.Drawing.Color XYChartNonZeroBackColor {
+            get {
+                return ((global::System.Drawing.Color)(this["XYChartNonZeroBackColor"]));
+            }
+            set {
+                this["XYChartNonZeroBackColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
+        public global::System.Drawing.Color XYChartNonZeroForeColor {
+            get {
+                return ((global::System.Drawing.Color)(this["XYChartNonZeroForeColor"]));
+            }
+            set {
+                this["XYChartNonZeroForeColor"] = value;
+            }
+        }
     }
 }

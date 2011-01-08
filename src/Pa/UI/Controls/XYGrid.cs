@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Properties;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -928,10 +929,12 @@ namespace SIL.Pa.UI.Controls
 				if (val > -1)
 				{
 					e.CellStyle.BackColor = (val > 0 ?
-						App.XYChartNonZeroBackColor :	App.XYChartZeroBackColor);
+						Settings.Default.XYChartNonZeroBackColor :
+						Settings.Default.XYChartZeroBackColor);
 						
 					e.CellStyle.ForeColor = (val > 0 ?
-						App.XYChartNonZeroForeColor : App.XYChartZeroForeColor);
+						Settings.Default.XYChartNonZeroForeColor :
+						Settings.Default.XYChartZeroForeColor);
 				}
 			}
 

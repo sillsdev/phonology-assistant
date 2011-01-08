@@ -12,6 +12,7 @@ using Localization;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SilUtils;
 using SIL.Pa.UI.Dialogs;
 
@@ -291,19 +292,19 @@ namespace SIL.Pa.UI.Controls
 			BackgroundColor = SystemColors.Window;
 			GridColor = App.WordListGridColor;
 
-			m_uncertainPhoneForeColor = App.UncertainPhoneForeColor;
-			m_searchItemBackColor = App.QuerySearchItemBackColor;
-			m_searchItemForeColor = App.QuerySearchItemForeColor;
+			m_uncertainPhoneForeColor = Settings.Default.UncertainPhoneForeColor;
+			m_searchItemBackColor = Settings.Default.QuerySearchItemBackColor;
+			m_searchItemForeColor = Settings.Default.QuerySearchItemForeColor;
 			m_selectedCellBackColor = App.SelectedWordListCellBackColor;
-			m_selectedCellForeColor = App.SelectedWordListCellForeColor;
+			m_selectedCellForeColor = Settings.Default.SelectedWordListCellForeColor;
 			m_selectedFocusedRowBackColor = App.SelectedFocusedWordListRowBackColor;
-			m_selectedFocusedRowForeColor = App.SelectedFocusedWordListRowForeColor;
+			m_selectedFocusedRowForeColor = Settings.Default.SelectedFocusedWordListRowForeColor;
 
 			bool changeSelectionOnFocusLoss = App.SettingsHandler.GetBoolSettingsValue(
 				"wordlists", "chgselonfocusloss", true);
 
 			m_selectedUnFocusedRowBackColor = (changeSelectionOnFocusLoss ?
-				App.SelectedUnFocusedWordListRowBackColor : m_selectedFocusedRowBackColor);
+				Settings.Default.SelectedUnFocusedWordListRowBackColor : m_selectedFocusedRowBackColor);
 			
 			m_selectedUnFocusedRowForeColor = (changeSelectionOnFocusLoss ?
 				App.SelectedUnFocusedWordListRowForeColor : m_selectedFocusedRowForeColor);

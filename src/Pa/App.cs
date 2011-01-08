@@ -1056,21 +1056,17 @@ namespace SIL.Pa
 				if (grid.CurrentCellAddress.X == e.ColumnIndex)
 				{
 					e.CellStyle.SelectionBackColor = SelectedWordListCellBackColor;
-					e.CellStyle.SelectionForeColor = SelectedWordListCellForeColor;
+					e.CellStyle.SelectionForeColor = Settings.Default.SelectedWordListCellForeColor;
 				}
 				else
 				{
 					e.CellStyle.SelectionBackColor = SelectedFocusedWordListRowBackColor;
-					e.CellStyle.SelectionForeColor = SelectedFocusedWordListRowForeColor;
+					e.CellStyle.SelectionForeColor = Settings.Default.SelectedFocusedWordListRowForeColor;
 				}
 			}
 		}
 
 		#region Options Properties
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static Color WordListGridColor
 		{
@@ -1083,71 +1079,23 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static Color SelectedFocusedWordListRowBackColor
 		{
 			get
 			{
-				return SettingsHandler.GetColorSettingsValue(
-					"selectedfocusedwordlistrowcolors", "background", ColorHelper.LightHighlight);
+				var clr = Settings.Default.SelectedFocusedWordListRowBackColor;
+				return (clr == Color.Empty ? ColorHelper.LightHighlight : clr);
 			}
-			set
-			{
-				SettingsHandler.SaveSettingsValue(
-					"selectedfocusedwordlistrowcolors", "background", value);
-			}
+			set { Settings.Default.SelectedFocusedWordListRowBackColor = value; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Color SelectedFocusedWordListRowForeColor
-		{
-			get
-			{
-				return SettingsHandler.GetColorSettingsValue(
-					"selectedfocusedwordlistrowcolors", "foreground", SystemColors.WindowText);
-			}
-			set
-			{
-				SettingsHandler.SaveSettingsValue(
-					"selectedfocusedwordlistrowcolors", "foreground", value);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Color SelectedUnFocusedWordListRowBackColor
-		{
-			get
-			{
-				return SettingsHandler.GetColorSettingsValue(
-					"selectedunfocusedwordlistrowcolors", "background", SystemColors.Control);
-			}
-			set
-			{
-				SettingsHandler.SaveSettingsValue(
-					"selectedunfocusedwordlistrowcolors", "background", value);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static Color SelectedUnFocusedWordListRowForeColor
 		{
 			get
 			{
+				Color clr;
+
 				// It turns out the control color for the silver Windows XP theme is very
 				// close to the default color calculated for selected rows in PA word lists.
 				// Therefore, when a word list grid looses focus and a selected row's
@@ -1159,18 +1107,14 @@ namespace SIL.Pa
 					System.Windows.Forms.VisualStyles.VisualStyleInformation.DisplayName == "Windows XP style" &&
 					System.Windows.Forms.VisualStyles.VisualStyleInformation.ColorScheme == "Metallic")
 				{
-					return SettingsHandler.GetColorSettingsValue(
-						"selectedunfocusedwordlistrowcolors", "foreground", SystemColors.GrayText);
+					clr = Settings.Default.SelectedUnFocusedWordListRowForeColor;
+					return (clr == Color.Empty ? SystemColors.GrayText : clr);
 				}
 
-				return SettingsHandler.GetColorSettingsValue(
-					"selectedunfocusedwordlistrowcolors", "foreground", SystemColors.ControlText);
+				clr = Settings.Default.SelectedUnFocusedWordListRowForeColor;
+				return (clr == Color.Empty ? SystemColors.ControlText : clr);
 			}
-			set
-			{
-				SettingsHandler.SaveSettingsValue(
-					"selectedunfocusedwordlistrowcolors", "foreground", value);
-			}
+			set { Settings.Default.SelectedUnFocusedWordListRowForeColor = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1182,170 +1126,10 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return SettingsHandler.GetColorSettingsValue(
-					"selectedwordlistcellcolors", "background", ColorHelper.LightLightHighlight);
+				var clr = Settings.Default.SelectedWordListCellBackColor;
+				return (clr == Color.Empty ? ColorHelper.LightLightHighlight : clr);
 			}
-			set
-			{
-				SettingsHandler.SaveSettingsValue(
-					"selectedwordlistcellcolors", "background", value);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Color SelectedWordListCellForeColor
-		{
-			get
-			{
-				return SettingsHandler.GetColorSettingsValue(
-					"selectedwordlistcellcolors", "foreground", SystemColors.WindowText);
-			}
-			set
-			{
-				SettingsHandler.SaveSettingsValue(
-					"selectedwordlistcellcolors", "foreground", value);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Color UncertainPhoneForeColor
-		{
-			get
-			{
-				return SettingsHandler.GetColorSettingsValue(
-					"uncertainphonecolors", "foreground", Color.RoyalBlue);
-			}
-			set
-			{
-				SettingsHandler.SaveSettingsValue(
-					"uncertainphonecolors", "foreground", value);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Color QuerySearchItemForeColor
-		{
-			get
-			{
-				return SettingsHandler.GetColorSettingsValue(
-					"searchresultcolors", "srchitemforeground", Color.Black);
-			}
-			set
-			{
-				SettingsHandler.SaveSettingsValue(
-					"searchresultcolors", "srchitemforeground", value);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Color QuerySearchItemBackColor
-		{
-			get
-			{
-				return SettingsHandler.GetColorSettingsValue(
-					"searchresultcolors", "srchitembackground", Color.Yellow);
-			}
-			set
-			{
-				SettingsHandler.SaveSettingsValue(
-					"searchresultcolors", "srchitembackground", value);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the background color for result cells in an XY grid whose value is
-		/// zero.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Color XYChartZeroBackColor
-		{
-			get
-			{
-				return SettingsHandler.GetColorSettingsValue(
-					"xychartcolors", "zerobackground", Color.PaleGoldenrod);
-			}
-			set
-			{
-				SettingsHandler.SaveSettingsValue(
-					"xychartcolors", "zerobackground", value);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the foreground color for result cells in an XY grid whose value is
-		/// zero.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Color XYChartZeroForeColor
-		{
-			get
-			{
-				return SettingsHandler.GetColorSettingsValue(
-					"xychartcolors", "zeroforeground", Color.Black);
-			}
-			set
-			{
-				SettingsHandler.SaveSettingsValue(
-					"xychartcolors", "zeroforeground", value);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the background color for result cells in an XY grid whose value is
-		/// greater than zero.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Color XYChartNonZeroBackColor
-		{
-			get
-			{
-				return SettingsHandler.GetColorSettingsValue(
-					"xychartcolors", "nonzerobackground", Color.LightSteelBlue);
-			}
-			set
-			{
-				SettingsHandler.SaveSettingsValue(
-					"xychartcolors", "nonzerobackground", value);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the foreground color for result cells in an XY grid whose value is
-		/// greater than zero.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Color XYChartNonZeroForeColor
-		{
-			get
-			{
-				return SettingsHandler.GetColorSettingsValue(
-					"xychartcolors", "nonzeroforeground", Color.Black);
-			}
-			set
-			{
-				SettingsHandler.SaveSettingsValue(
-					"xychartcolors", "nonzeroforeground", value);
-			}
+			set { Settings.Default.SelectedWordListCellBackColor = value; }
 		}
 
 		#endregion

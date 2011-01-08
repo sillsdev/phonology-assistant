@@ -7,6 +7,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SIL.Pa.Resources;
 using SilUtils;
 
@@ -126,8 +127,8 @@ namespace SIL.Pa.UI.Controls
 			if (m_cache.IsForSearchResults)
 			{
 				Dictionary<int, int> colorReferences;
-				RtfHelper.ColorTable(App.QuerySearchItemBackColor, out colorReferences);
-				m_searchItemColorRefNumber = colorReferences[App.QuerySearchItemBackColor.ToArgb()];
+				RtfHelper.ColorTable(Settings.Default.QuerySearchItemBackColor, out colorReferences);
+				m_searchItemColorRefNumber = colorReferences[Settings.Default.QuerySearchItemBackColor.ToArgb()];
 			}
 
 			// Sort the visible columns by their display order.
@@ -389,7 +390,8 @@ namespace SIL.Pa.UI.Controls
 			if (m_cache.IsForSearchResults)
 			{
 				Dictionary<int, int> colorReferences;
-				m_rtfBldr.AppendLine(RtfHelper.ColorTable(App.QuerySearchItemBackColor, out colorReferences));
+				m_rtfBldr.AppendLine(RtfHelper.ColorTable(
+					Settings.Default.QuerySearchItemBackColor, out colorReferences));
 			}
 
 			m_rtfBldr.AppendLine(@"\pard\plain ");

@@ -368,5 +368,44 @@
     <Setting Name="LocalizeDlgBounds" Provider="SilUtils.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Drawing.Rectangle" Scope="User">
       <Value Profile="(Default)">0, 0, 0, 0</Value>
     </Setting>
+    <Setting Name="SelectedFocusedWordListRowBackColor" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SelectedFocusedWordListRowForeColor" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">WindowText</Value>
+    </Setting>
+    <Setting Name="SelectedUnFocusedWordListRowBackColor" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Control</Value>
+    </Setting>
+    <Setting Name="SelectedUnFocusedWordListRowForeColor" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SelectedWordListCellBackColor" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SelectedWordListCellForeColor" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">WindowText</Value>
+    </Setting>
+    <Setting Name="UncertainPhoneForeColor" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">RoyalBlue</Value>
+    </Setting>
+    <Setting Name="QuerySearchItemForeColor" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="QuerySearchItemBackColor" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Yellow</Value>
+    </Setting>
+    <Setting Name="XYChartZeroBackColor" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">PaleGoldenrod</Value>
+    </Setting>
+    <Setting Name="XYChartZeroForeColor" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="XYChartNonZeroBackColor" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">LightSteelBlue</Value>
+    </Setting>
+    <Setting Name="XYChartNonZeroForeColor" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
