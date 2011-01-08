@@ -1546,12 +1546,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("PaleGoldenrod")]
-        public global::System.Drawing.Color XYChartZeroBackColor {
+        public global::System.Drawing.Color DistChartZeroBackColor {
             get {
-                return ((global::System.Drawing.Color)(this["XYChartZeroBackColor"]));
+                return ((global::System.Drawing.Color)(this["DistChartZeroBackColor"]));
             }
             set {
-                this["XYChartZeroBackColor"] = value;
+                this["DistChartZeroBackColor"] = value;
             }
         }
         
@@ -1559,12 +1559,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Black")]
-        public global::System.Drawing.Color XYChartZeroForeColor {
+        public global::System.Drawing.Color DistChartZeroForeColor {
             get {
-                return ((global::System.Drawing.Color)(this["XYChartZeroForeColor"]));
+                return ((global::System.Drawing.Color)(this["DistChartZeroForeColor"]));
             }
             set {
-                this["XYChartZeroForeColor"] = value;
+                this["DistChartZeroForeColor"] = value;
             }
         }
         
@@ -1572,12 +1572,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("LightSteelBlue")]
-        public global::System.Drawing.Color XYChartNonZeroBackColor {
+        public global::System.Drawing.Color DistChartNonZeroBackColor {
             get {
-                return ((global::System.Drawing.Color)(this["XYChartNonZeroBackColor"]));
+                return ((global::System.Drawing.Color)(this["DistChartNonZeroBackColor"]));
             }
             set {
-                this["XYChartNonZeroBackColor"] = value;
+                this["DistChartNonZeroBackColor"] = value;
             }
         }
         
@@ -1585,12 +1585,298 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Black")]
-        public global::System.Drawing.Color XYChartNonZeroForeColor {
+        public global::System.Drawing.Color DistChartNonZeroForeColor {
             get {
-                return ((global::System.Drawing.Color)(this["XYChartNonZeroForeColor"]));
+                return ((global::System.Drawing.Color)(this["DistChartNonZeroForeColor"]));
             }
             set {
-                this["XYChartNonZeroForeColor"] = value;
+                this["DistChartNonZeroForeColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.25")]
+        public float DistChartVwSplitRatio1 {
+            get {
+                return ((float)(this["DistChartVwSplitRatio1"]));
+            }
+            set {
+                this["DistChartVwSplitRatio1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.8")]
+        public float DistChartVwSplitRatio2 {
+            get {
+                return ((float)(this["DistChartVwSplitRatio2"]));
+            }
+            set {
+                this["DistChartVwSplitRatio2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.5")]
+        public float DistChartVwSplitRatio3 {
+            get {
+                return ((float)(this["DistChartVwSplitRatio3"]));
+            }
+            set {
+                this["DistChartVwSplitRatio3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.4")]
+        public float DistChartVwSplitRatio4 {
+            get {
+                return ((float)(this["DistChartVwSplitRatio4"]));
+            }
+            set {
+                this["DistChartVwSplitRatio4"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DistChartVwSidePanelDocked {
+            get {
+                return ((bool)(this["DistChartVwSidePanelDocked"]));
+            }
+            set {
+                this["DistChartVwSidePanelDocked"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DistChartVwrRcordPaneVisible {
+            get {
+                return ((bool)(this["DistChartVwrRcordPaneVisible"]));
+            }
+            set {
+                this["DistChartVwrRcordPaneVisible"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.25")]
+        public float SearchVwSplitRatio1 {
+            get {
+                return ((float)(this["SearchVwSplitRatio1"]));
+            }
+            set {
+                this["SearchVwSplitRatio1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.8")]
+        public float SearchVwSplitRatio2 {
+            get {
+                return ((float)(this["SearchVwSplitRatio2"]));
+            }
+            set {
+                this["SearchVwSplitRatio2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.33")]
+        public float SearchVwSplitRatio3 {
+            get {
+                return ((float)(this["SearchVwSplitRatio3"]));
+            }
+            set {
+                this["SearchVwSplitRatio3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.5")]
+        public float SearchVwSplitRatio4 {
+            get {
+                return ((float)(this["SearchVwSplitRatio4"]));
+            }
+            set {
+                this["SearchVwSplitRatio4"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SearchVwSidePanelDocked {
+            get {
+                return ((bool)(this["SearchVwSidePanelDocked"]));
+            }
+            set {
+                this["SearchVwSidePanelDocked"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SearchVwRecordPaneVisible {
+            get {
+                return ((bool)(this["SearchVwRecordPaneVisible"]));
+            }
+            set {
+                this["SearchVwRecordPaneVisible"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int SearchVwRecentPatternsListFontSize {
+            get {
+                return ((int)(this["SearchVwRecentPatternsListFontSize"]));
+            }
+            set {
+                this["SearchVwRecentPatternsListFontSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int SearchVwSavedPatternsListFontSize {
+            get {
+                return ((int)(this["SearchVwSavedPatternsListFontSize"]));
+            }
+            set {
+                this["SearchVwSavedPatternsListFontSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int DataCorpusVwPlaybackSpeed {
+            get {
+                return ((int)(this["DataCorpusVwPlaybackSpeed"]));
+            }
+            set {
+                this["DataCorpusVwPlaybackSpeed"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DataCorpusVwRecordPaneVisible {
+            get {
+                return ((bool)(this["DataCorpusVwRecordPaneVisible"]));
+            }
+            set {
+                this["DataCorpusVwRecordPaneVisible"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.8")]
+        public float DataCorpusVwSplitRatio {
+            get {
+                return ((float)(this["DataCorpusVwSplitRatio"]));
+            }
+            set {
+                this["DataCorpusVwSplitRatio"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CollapseWordListsOnGrouping {
+            get {
+                return ((bool)(this["CollapseWordListsOnGrouping"]));
+            }
+            set {
+                this["CollapseWordListsOnGrouping"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.6")]
+        public float ConsonantChartVwSplitRatio {
+            get {
+                return ((float)(this["ConsonantChartVwSplitRatio"]));
+            }
+            set {
+                this["ConsonantChartVwSplitRatio"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ConsonantChartVwHistogramPaneVisible {
+            get {
+                return ((bool)(this["ConsonantChartVwHistogramPaneVisible"]));
+            }
+            set {
+                this["ConsonantChartVwHistogramPaneVisible"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.6")]
+        public float VowelChartVwSplitRatio {
+            get {
+                return ((float)(this["VowelChartVwSplitRatio"]));
+            }
+            set {
+                this["VowelChartVwSplitRatio"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool VowelChartVwHistogramPaneVisible {
+            get {
+                return ((bool)(this["VowelChartVwHistogramPaneVisible"]));
+            }
+            set {
+                this["VowelChartVwHistogramPaneVisible"] = value;
             }
         }
     }

@@ -929,12 +929,12 @@ namespace SIL.Pa.UI.Controls
 				if (val > -1)
 				{
 					e.CellStyle.BackColor = (val > 0 ?
-						Settings.Default.XYChartNonZeroBackColor :
-						Settings.Default.XYChartZeroBackColor);
+						Settings.Default.DistChartNonZeroBackColor :
+						Settings.Default.DistChartZeroBackColor);
 						
 					e.CellStyle.ForeColor = (val > 0 ?
-						Settings.Default.XYChartNonZeroForeColor :
-						Settings.Default.XYChartZeroForeColor);
+						Settings.Default.DistChartNonZeroForeColor :
+						Settings.Default.DistChartZeroForeColor);
 				}
 			}
 

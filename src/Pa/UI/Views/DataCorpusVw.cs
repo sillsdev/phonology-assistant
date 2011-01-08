@@ -246,16 +246,10 @@ namespace SIL.Pa.UI.Views
 		public void SaveSettings()
 		{
 			m_grid.SaveSettings();
-			
-			float splitRatio = splitOuter.SplitterDistance / (float)splitOuter.Height;
-			App.SettingsHandler.SaveSettingsValue(Name, "splitratio", splitRatio);
-			App.SettingsHandler.SaveSettingsValue(Name, "recordpanevisible", RawRecViewOn);
+			Settings.Default.DataCorpusVwSplitRatio = splitOuter.SplitterDistance / (float)splitOuter.Height;
+			Settings.Default.DataCorpusVwRecordPaneVisible = RawRecViewOn;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnBeginViewClosing(object args)
 		{
@@ -266,10 +260,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnBeginViewDocking(object args)
 		{
 			if (args == this && IsHandleCreated)
@@ -278,10 +268,6 @@ namespace SIL.Pa.UI.Views
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnViewDocked(object args)
 		{
@@ -294,8 +280,8 @@ namespace SIL.Pa.UI.Views
 					// .Net framework that I haven't been able to make sense of. Anyway, if an
 					// exception is thrown, no big deal, the splitter distances will just be set
 					// to their default values.
-					float splitRatio = App.SettingsHandler.GetFloatSettingsValue(Name, "splitratio", 0.8f);
-					splitOuter.SplitterDistance = (int)(splitOuter.Height * splitRatio);
+					splitOuter.SplitterDistance = (int)(splitOuter.Height *
+						Settings.Default.DataCorpusVwSplitRatio);
 				}
 				catch { }
 
@@ -346,37 +332,22 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownAdjustPlaybackSpeed(object args)
 		{
-			if (!m_activeView || m_grid == null ||
-				m_grid.Cache == null)
-			{
+			if (!m_activeView || m_grid == null || m_grid.Cache == null)
 				return false;
-			}
 
-			m_playbackSpeedAdjuster.PlaybackSpeed =
-				App.SettingsHandler.GetIntSettingsValue(GetType().Name, "playbackspeed", 100);
-
+			m_playbackSpeedAdjuster.PlaybackSpeed = Settings.Default.DataCorpusVwPlaybackSpeed;
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownClosedAdjustPlaybackSpeed(object args)
 		{
 			if (!m_activeView)
 				return false;
 
-			App.SettingsHandler.SaveSettingsValue(GetType().Name, "playbackspeed",
-				m_playbackSpeedAdjuster.PlaybackSpeed);
-		
+			Settings.Default.DataCorpusVwPlaybackSpeed = m_playbackSpeedAdjuster.PlaybackSpeed;
 			return true;
 		}
 
@@ -391,9 +362,7 @@ namespace SIL.Pa.UI.Views
 		{
 			base.OnHandleCreated(e);
 
-			RawRecViewOn =
-				App.SettingsHandler.GetBoolSettingsValue(Name, "recordpanevisible", true);
-
+			RawRecViewOn = Settings.Default.DataCorpusVwRecordPaneVisible;
 			OnViewDocked(this);
 			m_initialDock = true;
 			Application.DoEvents();
@@ -521,7 +490,7 @@ namespace SIL.Pa.UI.Views
 				m_grid.SortOptions.SortInformationList.Count > 0)
 			{
 				m_grid.GroupByField = m_grid.SortOptions.SortInformationList[0].FieldInfo;
-				if (App.SettingsHandler.GetBoolSettingsValue("wordlists", "collapseongrouping", false))
+				if (Settings.Default.CollapseWordListsOnGrouping)
 					m_grid.ToggleGroupExpansion(false);
 			}
 

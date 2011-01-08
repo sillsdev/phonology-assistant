@@ -16,10 +16,6 @@ namespace SIL.Pa.UI.Views
 	public partial class ConsonantChartVw : ChartVwBase
 	{
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public ConsonantChartVw()
 		{
 			try
@@ -32,10 +28,6 @@ namespace SIL.Pa.UI.Views
 			Name = "ConsonantChartVw";
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(System.EventArgs e)
 		{
@@ -79,6 +71,20 @@ namespace SIL.Pa.UI.Views
 					App.kLocalizationGroupInfoMsg, LocalizationCategory.GeneralMessage,
 					LocalizationPriority.Medium);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override float SplitterRatioSetting
+		{
+			get { return Settings.Default.ConsonantChartVwSplitRatio; }
+			set { Settings.Default.ConsonantChartVwSplitRatio = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override bool HistogramVisibleSetting
+		{
+			get { return Settings.Default.ConsonantChartVwHistogramPaneVisible; }
+			set { Settings.Default.ConsonantChartVwHistogramPaneVisible = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -404,10 +404,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public Form OwningForm
 		{
 			get { return FindForm(); }
@@ -424,23 +420,27 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		protected virtual float SplitterRatioSetting
+		{
+			get { throw new NotImplementedException("This property must be overridden"); }
+			set { throw new NotImplementedException("This property must be overridden"); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual bool HistogramVisibleSetting
+		{
+			get { throw new NotImplementedException("This property must be overridden"); }
+			set { throw new NotImplementedException("This property must be overridden"); }
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public void SaveSettings()
 		{
 			CharGridPersistence.Save(m_chrGrid, m_phoneList, m_persistedInfoFilename);
-
-			float splitRatio = splitOuter.SplitterDistance / (float)splitOuter.Height;
-			App.SettingsHandler.SaveSettingsValue(Name, "splitratio", splitRatio);
-			App.SettingsHandler.SaveSettingsValue(Name, "histpanevisible", HistogramOn);
+			SplitterRatioSetting = splitOuter.SplitterDistance / (float)splitOuter.Height;
+			HistogramVisibleSetting = HistogramOn;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnBeginViewClosing(object args)
 		{
@@ -450,10 +450,6 @@ namespace SIL.Pa.UI.Views
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnBeginViewUnDocking(object args)
 		{
@@ -500,10 +496,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnViewDocked(object args)
 		{
 			if (args == this)
@@ -515,8 +507,7 @@ namespace SIL.Pa.UI.Views
 					// .Net framework that I haven't been able to make sense of. Anyway, if an
 					// exception is thrown, no big deal, the splitter distances will just be set
 					// to their default values.
-					float splitRatio = App.SettingsHandler.GetFloatSettingsValue(Name, "splitratio", 0.6f);
-					splitOuter.SplitterDistance = (int)(splitOuter.Height * splitRatio);
+					splitOuter.SplitterDistance = (int)(splitOuter.Height * SplitterRatioSetting);
 				}
 				catch { }
 
@@ -582,7 +573,7 @@ namespace SIL.Pa.UI.Views
 			if (App.DesignMode)
 				return;
 
-			HistogramOn = App.SettingsHandler.GetBoolSettingsValue(Name, "histpanevisible", true);
+			HistogramOn = HistogramVisibleSetting;
 			m_chrGrid.Reset();
 			LoadOldChart();
 			LoadChart();

@@ -9,16 +9,8 @@ using SIL.Pa.UI.Controls;
 namespace SIL.Pa.UI.Views
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class VowelChartVw : ChartVwBase
 	{
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public VowelChartVw()
 		{
@@ -32,10 +24,6 @@ namespace SIL.Pa.UI.Views
 			Name = "VowelChartVw";
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(System.EventArgs e)
 		{
@@ -69,10 +57,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override string InitializationMessage
 		{
 			get
@@ -86,9 +70,19 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		protected override float SplitterRatioSetting
+		{
+			get { return Settings.Default.VowelChartVwSplitRatio; }
+			set { Settings.Default.VowelChartVwSplitRatio = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override bool HistogramVisibleSetting
+		{
+			get { return Settings.Default.VowelChartVwHistogramPaneVisible; }
+			set { Settings.Default.VowelChartVwHistogramPaneVisible = value; }
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected override Color ChartGridColor
 		{

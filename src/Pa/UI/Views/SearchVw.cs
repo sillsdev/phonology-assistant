@@ -368,16 +368,10 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void SaveSettings()
 		{
-			if (m_slidingPanel.SlideFromLeft)
-				App.SettingsHandler.SaveSettingsValue(Name, "sidepaneldocked", !splitOuter.Panel1Collapsed);
-			else
-				App.SettingsHandler.SaveSettingsValue(Name, "sidepaneldocked", !splitOuter.Panel2Collapsed);
+			Settings.Default.SearchVwSidePanelDocked = m_slidingPanel.SlideFromLeft ?
+				!splitOuter.Panel1Collapsed : !splitOuter.Panel2Collapsed;
 
 			tvSavedPatterns.SaveSettings();
 
@@ -394,25 +388,21 @@ namespace SIL.Pa.UI.Views
 
 			ptrnBldrComponent.SaveSettings(Name);
 
-			App.SettingsHandler.SaveSettingsValue(Name, "recordpanevisible", m_rsltVwMngr.RecordViewOn);
+			Settings.Default.SearchVwRecordPaneVisible = m_rsltVwMngr.RecordViewOn;
 
-			float splitRatio = splitOuter.SplitterDistance / (float)splitOuter.Width;
-			App.SettingsHandler.SaveSettingsValue(Name, "splitratio1", splitRatio);
+			Settings.Default.SearchVwSplitRatio1 =
+				splitOuter.SplitterDistance / (float)splitOuter.Width;
 
-			splitRatio = splitResults.SplitterDistance / (float)splitResults.Height;
-			App.SettingsHandler.SaveSettingsValue(Name, "splitratio2", splitRatio);
+			Settings.Default.SearchVwSplitRatio2 =
+				splitResults.SplitterDistance / (float)splitResults.Height;
 
-			splitRatio = splitSideBarOuter.SplitterDistance / (float)splitSideBarOuter.Height;
-			App.SettingsHandler.SaveSettingsValue(Name, "splitratio3", splitRatio);
+			Settings.Default.SearchVwSplitRatio3 =
+				splitSideBarOuter.SplitterDistance / (float)splitSideBarOuter.Height;
 
-			splitRatio = splitSideBarInner.SplitterDistance / (float)splitSideBarInner.Height;
-			App.SettingsHandler.SaveSettingsValue(Name, "splitratio4", splitRatio);
+			Settings.Default.SearchVwSplitRatio4 =
+				splitSideBarInner.SplitterDistance / (float)splitSideBarInner.Height;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnBeginViewDocking(object args)
 		{
@@ -422,10 +412,6 @@ namespace SIL.Pa.UI.Views
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnViewDocked(object args)
 		{
@@ -439,17 +425,17 @@ namespace SIL.Pa.UI.Views
 					// .Net framework that I haven't been able to make sense of. Anyway, if an
 					// exception is thrown, no big deal, the splitter distances will just be set
 					// to their default values.
-					float splitRatio = App.SettingsHandler.GetFloatSettingsValue(Name, "splitratio1", 0.25f);
-					splitOuter.SplitterDistance = (int)(splitOuter.Width * splitRatio);
+					splitOuter.SplitterDistance = (int)(splitOuter.Width *
+						Settings.Default.SearchVwSplitRatio1);
 
-					splitRatio = App.SettingsHandler.GetFloatSettingsValue(Name, "splitratio2", 0.8f);
-					splitResults.SplitterDistance = (int)(splitResults.Height * splitRatio);
+					splitResults.SplitterDistance = (int)(splitResults.Height *
+						Settings.Default.SearchVwSplitRatio2);
 
-					splitRatio = App.SettingsHandler.GetFloatSettingsValue(Name, "splitratio3", 0.33f);
-					splitSideBarOuter.SplitterDistance = (int)(splitSideBarOuter.Height * splitRatio);
+					splitSideBarOuter.SplitterDistance = (int)(splitSideBarOuter.Height *
+						Settings.Default.SearchVwSplitRatio3);
 
-					splitRatio = App.SettingsHandler.GetFloatSettingsValue(Name, "splitratio4", 0.5f);
-					splitSideBarInner.SplitterDistance = (int)(splitSideBarInner.Height * splitRatio);
+					splitSideBarInner.SplitterDistance = (int)(splitSideBarInner.Height *
+						Settings.Default.SearchVwSplitRatio4);
 				}
 				catch { }
 
@@ -476,10 +462,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnViewUndocked(object args)
 		{
 			if (args == this)
@@ -488,10 +470,6 @@ namespace SIL.Pa.UI.Views
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void SetToolTips()
 		{
@@ -523,10 +501,7 @@ namespace SIL.Pa.UI.Views
 		{
 			ptrnBldrComponent.LoadSettings(Name);
 
-			bool sidePanelDocked = App.SettingsHandler.GetBoolSettingsValue(Name,
-				"sidepaneldocked", true);
-
-			if (sidePanelDocked)
+			if (Settings.Default.SearchVwSidePanelDocked)
 				btnDock_Click(null, null);
 			else
 				btnAutoHide_Click(null, null);
@@ -534,9 +509,7 @@ namespace SIL.Pa.UI.Views
 			OnViewDocked(this);
 			m_initialDock = true;
 			m_slidingPanel.LoadSettings();
-
-			m_rsltVwMngr.RecordViewOn = App.SettingsHandler.GetBoolSettingsValue(Name,
-				"recordpanevisible", true);
+			m_rsltVwMngr.RecordViewOn = Settings.Default.SearchVwRecordPaneVisible;
 
 			try
 			{
@@ -1421,10 +1394,11 @@ namespace SIL.Pa.UI.Views
 			hlblRecentPatterns.Font = FontHelper.UIFont;
 			hlblSavedPatterns.Font = FontHelper.UIFont;
 			
-			int fontsz = App.SettingsHandler.GetIntSettingsValue(Name, "recentpatternslistfontsize", 10);
-			lstRecentPatterns.Font = new Font(FontHelper.PhoneticFont.FontFamily, fontsz);
-			fontsz = App.SettingsHandler.GetIntSettingsValue(Name, "savedpatternslistfontsize", 10);
-			tvSavedPatterns.Font = new Font(FontHelper.PhoneticFont.FontFamily, fontsz);
+			lstRecentPatterns.Font = new Font(FontHelper.PhoneticFont.FontFamily, 
+				Settings.Default.SearchVwRecentPatternsListFontSize);
+
+			tvSavedPatterns.Font = new Font(FontHelper.PhoneticFont.FontFamily,
+				Settings.Default.SearchVwSavedPatternsListFontSize);
 
 			pnlCurrPattern.Invalidate();
 			m_slidingPanel.RefreshFonts();

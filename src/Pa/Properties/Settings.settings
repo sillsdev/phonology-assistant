@@ -395,17 +395,83 @@
     <Setting Name="QuerySearchItemBackColor" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Yellow</Value>
     </Setting>
-    <Setting Name="XYChartZeroBackColor" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="DistChartZeroBackColor" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">PaleGoldenrod</Value>
     </Setting>
-    <Setting Name="XYChartZeroForeColor" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="DistChartZeroForeColor" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Black</Value>
     </Setting>
-    <Setting Name="XYChartNonZeroBackColor" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="DistChartNonZeroBackColor" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">LightSteelBlue</Value>
     </Setting>
-    <Setting Name="XYChartNonZeroForeColor" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="DistChartNonZeroForeColor" Provider="SilUtils.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="DistChartVwSplitRatio1" Provider="SilUtils.PortableSettingsProvider" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">0.25</Value>
+    </Setting>
+    <Setting Name="DistChartVwSplitRatio2" Provider="SilUtils.PortableSettingsProvider" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">0.8</Value>
+    </Setting>
+    <Setting Name="DistChartVwSplitRatio3" Provider="SilUtils.PortableSettingsProvider" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">0.5</Value>
+    </Setting>
+    <Setting Name="DistChartVwSplitRatio4" Provider="SilUtils.PortableSettingsProvider" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">0.4</Value>
+    </Setting>
+    <Setting Name="DistChartVwSidePanelDocked" Provider="SilUtils.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DistChartVwrRcordPaneVisible" Provider="SilUtils.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SearchVwSplitRatio1" Provider="SilUtils.PortableSettingsProvider" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">0.25</Value>
+    </Setting>
+    <Setting Name="SearchVwSplitRatio2" Provider="SilUtils.PortableSettingsProvider" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">0.8</Value>
+    </Setting>
+    <Setting Name="SearchVwSplitRatio3" Provider="SilUtils.PortableSettingsProvider" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">0.33</Value>
+    </Setting>
+    <Setting Name="SearchVwSplitRatio4" Provider="SilUtils.PortableSettingsProvider" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">0.5</Value>
+    </Setting>
+    <Setting Name="SearchVwSidePanelDocked" Provider="SilUtils.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SearchVwRecordPaneVisible" Provider="SilUtils.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SearchVwRecentPatternsListFontSize" Provider="SilUtils.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="SearchVwSavedPatternsListFontSize" Provider="SilUtils.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="DataCorpusVwPlaybackSpeed" Provider="SilUtils.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="DataCorpusVwRecordPaneVisible" Provider="SilUtils.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DataCorpusVwSplitRatio" Provider="SilUtils.PortableSettingsProvider" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">0.8</Value>
+    </Setting>
+    <Setting Name="CollapseWordListsOnGrouping" Provider="SilUtils.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ConsonantChartVwSplitRatio" Provider="SilUtils.PortableSettingsProvider" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">0.6</Value>
+    </Setting>
+    <Setting Name="ConsonantChartVwHistogramPaneVisible" Provider="SilUtils.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="VowelChartVwSplitRatio" Provider="SilUtils.PortableSettingsProvider" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">0.6</Value>
+    </Setting>
+    <Setting Name="VowelChartVwHistogramPaneVisible" Provider="SilUtils.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>
