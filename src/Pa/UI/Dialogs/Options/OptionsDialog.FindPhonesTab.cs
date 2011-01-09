@@ -65,7 +65,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// Saves changed find phones information if needed.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SaveFindPhonesTabSettings()
+		private void SaveFindPhonesTabChanges()
 		{
 			if (!IsFindPhoneTabDirty)
 				return;

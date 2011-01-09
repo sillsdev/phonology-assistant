@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
 using System.IO;
@@ -49,8 +48,8 @@ namespace SIL.Pa.UI.Dialogs
 			m_fontGrid.BringToFront();
 			((DataGridViewComboBoxColumn)m_fontGrid.Columns["font"]).DropDownWidth = 250;
 
-			if (Settings.Default.OptionsDialogFontGrid != null)
-				Settings.Default.OptionsDialogFontGrid.InitializeGrid(m_fontGrid);
+			if (Settings.Default.OptionsDlgFontGrid != null)
+				Settings.Default.OptionsDlgFontGrid.InitializeGrid(m_fontGrid);
 			else
 			{
 				m_fontGrid.AutoResizeColumns();
@@ -214,16 +213,20 @@ namespace SIL.Pa.UI.Dialogs
 		//}
 
 		/// ------------------------------------------------------------------------------------
+		private void SaveFontTabSettings()
+		{
+			Settings.Default.OptionsDlgFontGrid = GridSettings.Create(m_fontGrid);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Saves changed font information if needed.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SaveFontTabSettings()
+		private void SaveFontTabChanges()
 		{
 			if (!IsFontsTabDirty)
 				return;
-
-			Settings.Default.OptionsDialogFontGrid = GridSettings.Create(m_fontGrid);
 
 			if (!m_fontChanged)
 				return;

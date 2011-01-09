@@ -35,7 +35,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// Saves the values on the word list tab.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SaveRecViewTabSettings()
+		private void SaveRecViewTabChanges()
 		{
 			if (!IsRecViewTabDirty)
 				return;

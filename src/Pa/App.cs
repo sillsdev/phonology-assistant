@@ -1136,10 +1136,6 @@ namespace SIL.Pa
 
 		#region Misc. methods
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static FormSettings InitializeForm(Form frm, FormSettings settings)
 		{
 			if (settings != null)

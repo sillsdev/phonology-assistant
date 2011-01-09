@@ -106,7 +106,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// Saves the values on the sorting tab.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SaveSortingTabSettings()
+		private void SaveSortingTabChanges()
 		{
 			if (!IsSortOrderTabDirty)
 				return;

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Properties;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -36,11 +37,11 @@ namespace SIL.Pa.UI.Controls
 		{
 			InitializeComponent();
 
-			m_hashMarkGap =	App.SettingsHandler.GetIntSettingsValue("histograms", "hashmarkgap", 20);
-			m_phoneLabelWidth = App.SettingsHandler.GetIntSettingsValue("histograms", "phonelabelwidth", 40);
-			m_extraPhoneHeight = App.SettingsHandler.GetIntSettingsValue("histograms", "extraphonelabelheight", 5);
-			m_barWidth = App.SettingsHandler.GetIntSettingsValue("histograms", "barwidth", 30);
-			m_phoneFontSize = App.SettingsHandler.GetIntSettingsValue("histograms", "phonelabelfontsize", 16);
+			m_hashMarkGap =	Settings.Default.HistogramHashMarkGap;
+			m_phoneLabelWidth = Settings.Default.HistogramPhoneLabelWidth;
+			m_extraPhoneHeight = Settings.Default.HistogramExtraPhoneLabelHeight;
+			m_barWidth = Settings.Default.HistogramBarWidth;
+			m_phoneFontSize = Settings.Default.HistogramPhoneLabelFontSize;
 
 			// Uncomment if the magnified tooltip of a histogram's phone is desired.
 			//m_phoneToolTip = new ToolTip();

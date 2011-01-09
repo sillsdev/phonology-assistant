@@ -155,13 +155,8 @@ namespace SIL.Pa.UI.Controls
 			m_cellInfoPopup.CommandLink.Click += PopupsCommandLink_Click;
 
 			m_fwRootDataDir = GetFwRootDataDir();
-
-			m_drawFocusRectAroundCurrCell =
-				App.SettingsHandler.GetBoolSettingsValue("wordlists", "drawfocusrect", false);
-
-			m_widthOfWrdBoundarySrchRsltMatch =
-				App.SettingsHandler.GetIntSettingsValue("wordlists",
-				"srchresultwidthonwordboundarymatch", 2);
+			m_drawFocusRectAroundCurrCell = Settings.Default.WordListDrawFocusRectangle;
+			m_widthOfWrdBoundarySrchRsltMatch = Settings.Default.WordListSrchResultWidthOnWordBoundaryMatch;
 
 			if (App.TMAdapter != null)
 			{
@@ -300,8 +295,7 @@ namespace SIL.Pa.UI.Controls
 			m_selectedFocusedRowBackColor = App.SelectedFocusedWordListRowBackColor;
 			m_selectedFocusedRowForeColor = Settings.Default.SelectedFocusedWordListRowForeColor;
 
-			bool changeSelectionOnFocusLoss = App.SettingsHandler.GetBoolSettingsValue(
-				"wordlists", "chgselonfocusloss", true);
+			bool changeSelectionOnFocusLoss = Settings.Default.WordListChangeSelectionOnFocusLoss;
 
 			m_selectedUnFocusedRowBackColor = (changeSelectionOnFocusLoss ?
 				Settings.Default.SelectedUnFocusedWordListRowBackColor : m_selectedFocusedRowBackColor);
@@ -918,19 +912,12 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnCellMouseDoubleClick(DataGridViewCellMouseEventArgs e)
 		{
 			base.OnCellMouseDoubleClick(e);
 
-			if (e.ColumnIndex >= 0 && e.RowIndex >= 0 &&
-				App.SettingsHandler.GetBoolSettingsValue("wordlists", "editsourceondoublclick", false))
-			{
+			if (e.ColumnIndex >= 0 && e.RowIndex >= 0 && Settings.Default.WordListEditSourceOnDoublClick)
 				OnEditSourceRecord(null);
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1116,10 +1103,6 @@ namespace SIL.Pa.UI.Controls
 			base.OnRowHeightInfoPushed(e);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellValueNeeded(DataGridViewCellValueEventArgs e)
 		{
@@ -2783,8 +2766,7 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			// Add a little vertical padding.
-			m_defaultRowHeight +=
-				App.SettingsHandler.GetIntSettingsValue("wordlists", "verticalrowpadding", 5);
+			m_defaultRowHeight += Settings.Default.WordListVerticalRowPadding;
 
 			// Get rid of all custom row heights (i.e. row heights adjusted by the user).
 			m_customRowHeights = null;
@@ -3213,8 +3195,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 			}
 
-			if (e.KeyCode == Keys.Enter && App.SettingsHandler.GetBoolSettingsValue(
-				"wordlists", "editsourceonenterkey", false))
+			if (e.KeyCode == Keys.Enter && Settings.Default.WordListEditSourceOnEnterKey)
 			{
 				e.Handled = true;
 				base.OnKeyDown(e);

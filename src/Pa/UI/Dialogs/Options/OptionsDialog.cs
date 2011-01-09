@@ -53,8 +53,6 @@ namespace SIL.Pa.UI.Dialogs
 			InitializeUserInterfaceTab();
 			App.IncProgressBar();
 
-			App.SettingsHandler.LoadFormProperties(this, true);
-
 			tabOptions.Font = FontHelper.UIFont;
 			lblSaveInfo.Font = FontHelper.UIFont;
 			lblSaveInfo.Top = (tblLayoutButtons.Height - lblSaveInfo.Height) / 2;
@@ -85,17 +83,6 @@ namespace SIL.Pa.UI.Dialogs
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Save the form's state.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnFormClosing(FormClosingEventArgs e)
-		{
-			App.SettingsHandler.SaveFormProperties(this);
-			base.OnFormClosing(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -110,19 +97,26 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void SaveSettings()
+		{
+			SaveFontTabSettings();
+			base.SaveSettings();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Save any changes.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
-			SaveFontTabSettings();
+			SaveFontTabChanges();
 			//SaveFindPhonesTabSettings();
-			SaveWordListTabSettings();
-			SaveRecViewTabSettings();
-			SaveSortingTabSettings();
-			SaveCvPatternsTabSettings();
-			SaveUserInterfaceTabSettings();
+			SaveWordListTabChanges();
+			SaveRecViewTabChanges();
+			SaveSortingTabChanges();
+			SaveCvPatternsTabChanges();
+			SaveUserInterfaceTabChanges();
 
 			App.Project.Save();
 			Settings.Default.Save();

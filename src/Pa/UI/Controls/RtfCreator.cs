@@ -120,8 +120,7 @@ namespace SIL.Pa.UI.Controls
 			m_rtfBldr = new StringBuilder();
 
 			// Default value is 1/8" gap between columns.
-			m_colRightPadding =	App.SettingsHandler.GetIntSettingsValue(
-				"RTFExport", "gapbetweencolumns", 180);
+			m_colRightPadding = Settings.Default.RTFExportGapBetweenColumns;
 
 			// Add support for highlighting the search item
 			if (m_cache.IsForSearchResults)
@@ -163,14 +162,9 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void GetPaperAndMarginValues()
 		{
-			string paperSize = App.SettingsHandler.GetStringSettingsValue(
-				"RTFExport", "papersize", "letter").ToLower();
+			var paperSize = Settings.Default.RTFExportPaperSize.ToLower();
 
 			m_paperWidth = (int)(paperSize == "a4" ? kTwipsPerCm * 21 : kTwipsPerInch * 8.5);
 			m_paperHeight = (int)(paperSize == "a4" ? kTwipsPerCm * 29.7 : kTwipsPerInch * 11);
@@ -178,10 +172,17 @@ namespace SIL.Pa.UI.Controls
 			int defaultHMargin = (int)(paperSize == "a4" ? kTwipsPerCm * 1.5 : kTwipsPerInch * 0.75);
 			int defaultVMargin = (int)(paperSize == "a4" ? kTwipsPerCm * 1.5 : kTwipsPerInch);
 
-			m_leftMargin = App.SettingsHandler.GetIntSettingsValue("RTFExport", "lmargin", defaultHMargin);
-			m_rightMargin = App.SettingsHandler.GetIntSettingsValue("RTFExport", "rmargin", defaultHMargin);
-			m_topMargin = App.SettingsHandler.GetIntSettingsValue("RTFExport", "tmargin", defaultVMargin);
-			m_bottomMargin = App.SettingsHandler.GetIntSettingsValue("RTFExport", "bmargin", defaultVMargin);
+			m_leftMargin = (Settings.Default.RTFExportLeftMargin < 0 ? defaultHMargin :
+				Settings.Default.RTFExportLeftMargin);
+
+			m_rightMargin = (Settings.Default.RTFExportRightMargin < 0 ? defaultHMargin :
+				Settings.Default.RTFExportRightMargin);
+
+			m_topMargin = (Settings.Default.RTFExportTopMargin < 0 ? defaultVMargin :
+				Settings.Default.RTFExportTopMargin);
+
+			m_bottomMargin = (Settings.Default.RTFExportBottomMargin < 0 ? defaultVMargin :
+				Settings.Default.RTFExportBottomMargin);
 
 			m_pageWidth = m_paperWidth - (m_leftMargin + m_rightMargin);
 		}
@@ -477,10 +478,7 @@ namespace SIL.Pa.UI.Controls
 			preferredPageWidth += (m_colRightPadding * (m_maxFieldWidths.Count - 1));
 
 			// By default, if the data is too wide for portrait, landscape is tried.
-			bool tryLandscapeWhenDataTooWide = App.SettingsHandler.GetBoolSettingsValue(
-				"RTFExport", "trylandscape", true);
-
-			if (preferredPageWidth > m_pageWidth && tryLandscapeWhenDataTooWide)
+			if (preferredPageWidth > m_pageWidth && Settings.Default.RTFExportTryLandscapeWhenDataTooWide)
 			{
 				m_rtfBldr.AppendLine(@"\landscape");
 				int tmp = m_paperWidth;
@@ -496,10 +494,7 @@ namespace SIL.Pa.UI.Controls
 
 			// By default, the paper width will not be set to a
 			// custom width in order to accomodate all the data.
-			bool useCustomPaperWidth = App.SettingsHandler.GetBoolSettingsValue(
-				"RTFExport", "usecustompaperwidth", false);
-
-			if (preferredPageWidth > m_pageWidth && useCustomPaperWidth)
+			if (preferredPageWidth > m_pageWidth && Settings.Default.RTFExportUseCustomPaperWidth)
 			{
 				m_paperWidth = preferredPageWidth + (m_leftMargin + m_rightMargin);
 				m_pageWidth = preferredPageWidth;
@@ -509,8 +504,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 
 			// Default for minimum column width is 1/4" (only applies to non phonetic columns).
-			int minColWidthAllowed = App.SettingsHandler.GetIntSettingsValue(
-				"RTFExport", "minimumcolwidth", 360);
+			int minColWidthAllowed = Settings.Default.RTFExportMinimumColumnWidth;
 
 			List<int> colsAtMinWidth = new List<int>();
 			Dictionary<int, int> tmpWidth = new Dictionary<int, int>(m_maxFieldWidths);
@@ -797,9 +791,7 @@ namespace SIL.Pa.UI.Controls
 
 			// By default, put 12 points of space between the
 			// group heading and the row above it.
-			int spaceB4GrpHdg = App.SettingsHandler.GetIntSettingsValue(
-				"RTFExport", "spacebeforegroupheading", 240);
-
+			int spaceB4GrpHdg = Settings.Default.RTFExportSpaceBeforeGroupHeading;
 			m_rtfBldr.AppendFormat(@"\sb{0}\f{1} \fs{2}{{\b ", spaceB4GrpHdg, fontNumber, fontSize);
 			m_rtfBldr.Append(col[(int)ArrayDataType.GroupingFieldName]);
 			m_rtfBldr.Append("  ");
@@ -810,8 +802,7 @@ namespace SIL.Pa.UI.Controls
 				m_rtfBldr.Append(@"\cell\row\trowd");
 			else
 			{
-				// Underline the group heading, by default.
-				if (App.SettingsHandler.GetBoolSettingsValue("RTFExport",	"brdrundergroupheading", true))
+				if (Settings.Default.RTFExportBorderUnderGroupHeading)
 					m_rtfBldr.Append(@"\brdrb\brdrs\brdrw10\brsp20");
 
 				m_rtfBldr.Append(kparagraph);

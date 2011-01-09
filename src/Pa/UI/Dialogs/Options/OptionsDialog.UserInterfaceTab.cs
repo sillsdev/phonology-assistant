@@ -40,7 +40,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// Saves the values on the word list tab.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SaveUserInterfaceTabSettings()
+		private void SaveUserInterfaceTabChanges()
 		{
 			if (!IsUserInterfaceTabDirty)
 				return;

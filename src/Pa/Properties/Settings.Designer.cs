@@ -23,18 +23,23 @@ namespace SIL.Pa.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool KeepTempProjectInventoryFile {
             get {
                 return ((bool)(this["KeepTempProjectInventoryFile"]));
             }
+            set {
+                this["KeepTempProjectInventoryFile"] = value;
+            }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string LastProjectLoaded {
             get {
                 return ((string)(this["LastProjectLoaded"]));
@@ -47,6 +52,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string UserInterfaceLanguage {
             get {
                 return ((string)(this["UserInterfaceLanguage"]));
@@ -56,39 +62,55 @@ namespace SIL.Pa.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool ShowMsgWhenGatheringFwInfo {
             get {
                 return ((bool)(this["ShowMsgWhenGatheringFwInfo"]));
             }
+            set {
+                this["ShowMsgWhenGatheringFwInfo"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("550, 450")]
         public global::System.Drawing.Size MinimumViewWindowSize {
             get {
                 return ((global::System.Drawing.Size)(this["MinimumViewWindowSize"]));
             }
+            set {
+                this["MinimumViewWindowSize"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string UncertainGroupAbsentPhoneChars {
             get {
                 return ((string)(this["UncertainGroupAbsentPhoneChars"]));
             }
+            set {
+                this["UncertainGroupAbsentPhoneChars"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string UncertainGroupAbsentPhoneChar {
             get {
                 return ((string)(this["UncertainGroupAbsentPhoneChar"]));
+            }
+            set {
+                this["UncertainGroupAbsentPhoneChar"] = value;
             }
         }
         
@@ -105,72 +127,101 @@ namespace SIL.Pa.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("C")]
         public string ConsonantSymbol {
             get {
                 return ((string)(this["ConsonantSymbol"]));
             }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("V")]
-        public string VowelSymbol {
-            get {
-                return ((string)(this["VowelSymbol"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string WordBreakCharacters {
-            get {
-                return ((string)(this["WordBreakCharacters"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("20")]
-        public int MaximumAllowedRecentlyUsedQueries {
-            get {
-                return ((int)(this["MaximumAllowedRecentlyUsedQueries"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("DarkRed")]
-        public global::System.Drawing.Color RecordViewFieldLabelColor {
-            get {
-                return ((global::System.Drawing.Color)(this["RecordViewFieldLabelColor"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Transparent")]
-        public global::System.Drawing.Color WordListGridColor {
-            get {
-                return ((global::System.Drawing.Color)(this["WordListGridColor"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ConvertPatternsWithTranscriptionChanges {
-            get {
-                return ((bool)(this["ConvertPatternsWithTranscriptionChanges"]));
+            set {
+                this["ConsonantSymbol"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("V")]
+        public string VowelSymbol {
+            get {
+                return ((string)(this["VowelSymbol"]));
+            }
+            set {
+                this["VowelSymbol"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string WordBreakCharacters {
+            get {
+                return ((string)(this["WordBreakCharacters"]));
+            }
+            set {
+                this["WordBreakCharacters"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        public int MaximumAllowedRecentlyUsedQueries {
+            get {
+                return ((int)(this["MaximumAllowedRecentlyUsedQueries"]));
+            }
+            set {
+                this["MaximumAllowedRecentlyUsedQueries"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("DarkRed")]
+        public global::System.Drawing.Color RecordViewFieldLabelColor {
+            get {
+                return ((global::System.Drawing.Color)(this["RecordViewFieldLabelColor"]));
+            }
+            set {
+                this["RecordViewFieldLabelColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Transparent")]
+        public global::System.Drawing.Color WordListGridColor {
+            get {
+                return ((global::System.Drawing.Color)(this["WordListGridColor"]));
+            }
+            set {
+                this["WordListGridColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ConvertPatternsWithTranscriptionChanges {
+            get {
+                return ((bool)(this["ConvertPatternsWithTranscriptionChanges"]));
+            }
+            set {
+                this["ConvertPatternsWithTranscriptionChanges"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string LastViewShowing {
             get {
                 return ((string)(this["LastViewShowing"]));
@@ -180,21 +231,29 @@ namespace SIL.Pa.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool SkipAdditionalProcessingWhenPhonesAreLoaded {
             get {
                 return ((bool)(this["SkipAdditionalProcessingWhenPhonesAreLoaded"]));
             }
+            set {
+                this["SkipAdditionalProcessingWhenPhonesAreLoaded"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool KeepTempDistributionChartExportFile {
             get {
                 return ((bool)(this["KeepTempDistributionChartExportFile"]));
+            }
+            set {
+                this["KeepTempDistributionChartExportFile"] = value;
             }
         }
         
@@ -250,12 +309,16 @@ namespace SIL.Pa.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool KeepTempDataCorpusExportFile {
             get {
                 return ((bool)(this["KeepTempDataCorpusExportFile"]));
+            }
+            set {
+                this["KeepTempDataCorpusExportFile"] = value;
             }
         }
         
@@ -272,54 +335,75 @@ namespace SIL.Pa.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool KeepTempSearchResultExportFile {
             get {
                 return ((bool)(this["KeepTempSearchResultExportFile"]));
             }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool KeepTempProjectCssXhtmlFile {
-            get {
-                return ((bool)(this["KeepTempProjectCssXhtmlFile"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool KeepTempCVChartBuilderFile {
-            get {
-                return ((bool)(this["KeepTempCVChartBuilderFile"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("225, 225, 225")]
-        public global::System.Drawing.Color ConsonantChartGridColor {
-            get {
-                return ((global::System.Drawing.Color)(this["ConsonantChartGridColor"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("225, 225, 225")]
-        public global::System.Drawing.Color VowelChartGridColor {
-            get {
-                return ((global::System.Drawing.Color)(this["VowelChartGridColor"]));
+            set {
+                this["KeepTempSearchResultExportFile"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool KeepTempProjectCssXhtmlFile {
+            get {
+                return ((bool)(this["KeepTempProjectCssXhtmlFile"]));
+            }
+            set {
+                this["KeepTempProjectCssXhtmlFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool KeepTempCVChartBuilderFile {
+            get {
+                return ((bool)(this["KeepTempCVChartBuilderFile"]));
+            }
+            set {
+                this["KeepTempCVChartBuilderFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("225, 225, 225")]
+        public global::System.Drawing.Color ConsonantChartGridColor {
+            get {
+                return ((global::System.Drawing.Color)(this["ConsonantChartGridColor"]));
+            }
+            set {
+                this["ConsonantChartGridColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("225, 225, 225")]
+        public global::System.Drawing.Color VowelChartGridColor {
+            get {
+                return ((global::System.Drawing.Color)(this["VowelChartGridColor"]));
+            }
+            set {
+                this["VowelChartGridColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int ConsonantChartColHdrHeight {
             get {
                 return ((int)(this["ConsonantChartColHdrHeight"]));
@@ -332,6 +416,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int ConsonantChartRowHdrWidth {
             get {
                 return ((int)(this["ConsonantChartRowHdrWidth"]));
@@ -344,6 +429,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int VowelChartColHdrHeight {
             get {
                 return ((int)(this["VowelChartColHdrHeight"]));
@@ -356,6 +442,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int VowelChartRowHdrWidth {
             get {
                 return ((int)(this["VowelChartRowHdrWidth"]));
@@ -365,12 +452,16 @@ namespace SIL.Pa.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool KeepTempCVChartExportFile {
             get {
                 return ((bool)(this["KeepTempCVChartExportFile"]));
+            }
+            set {
+                this["KeepTempCVChartExportFile"] = value;
             }
         }
         
@@ -390,7 +481,8 @@ namespace SIL.Pa.Properties {
         /// <summary>
         /// When true and temporary export files are written to disk, the temporary XML is nicely indented and formatted for better human readability.
         /// </summary>
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Configuration.SettingsDescriptionAttribute("When true and temporary export files are written to disk, the temporary XML is ni" +
             "cely indented and formatted for better human readability.")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -398,6 +490,9 @@ namespace SIL.Pa.Properties {
         public bool TidyUpTempExportFilesAfterSaving {
             get {
                 return ((bool)(this["TidyUpTempExportFilesAfterSaving"]));
+            }
+            set {
+                this["TidyUpTempExportFilesAfterSaving"] = value;
             }
         }
         
@@ -487,37 +582,50 @@ namespace SIL.Pa.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("http://www.ethnologue.com/language_index.asp")]
         public string EthnologueIndexPage {
             get {
                 return ((string)(this["EthnologueIndexPage"]));
             }
+            set {
+                this["EthnologueIndexPage"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("http://www.ethnologue.com/language_index.asp?letter={0}")]
         public string EthnologueFirstLetterOfNameSearch {
             get {
                 return ((string)(this["EthnologueFirstLetterOfNameSearch"]));
             }
+            set {
+                this["EthnologueFirstLetterOfNameSearch"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("http://www.ethnologue.com/show_language.asp?code={0}")]
         public string EthnologueCodeSearch {
             get {
                 return ((string)(this["EthnologueCodeSearch"]));
             }
+            set {
+                this["EthnologueCodeSearch"] = value;
+            }
         }
         
         /// <summary>
         /// This is a subfolder of the project&apos;s folder where temp. files are created during exports and while data sources are read. This value only matters when those temp. files are saved. There are other settings that can prevent the temp. files from being saved. If this value is left blank, temp. files are saved in the project folder.
         /// </summary>
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Configuration.SettingsDescriptionAttribute(@"This is a subfolder of the project's folder where temp. files are created during exports and while data sources are read. This value only matters when those temp. files are saved. There are other settings that can prevent the temp. files from being saved. If this value is left blank, temp. files are saved in the project folder.")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("TemporaryProcessingFiles")]
@@ -525,11 +633,15 @@ namespace SIL.Pa.Properties {
             get {
                 return ((string)(this["TempProcessingFilesFolder"]));
             }
+            set {
+                this["TempProcessingFilesFolder"] = value;
+            }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool HtmlVowelChartVisible {
             get {
                 return ((bool)(this["HtmlVowelChartVisible"]));
@@ -542,6 +654,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool HtmlConsonantChartVisible {
             get {
                 return ((bool)(this["HtmlConsonantChartVisible"]));
@@ -578,6 +691,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int DefineClassDlgSplit1Loc {
             get {
                 return ((int)(this["DefineClassDlgSplit1Loc"]));
@@ -590,6 +704,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int DefineClassDlgSplit2Loc {
             get {
                 return ((int)(this["DefineClassDlgSplit2Loc"]));
@@ -602,6 +717,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int DefineClassDlgSplit3Loc {
             get {
                 return ((int)(this["DefineClassDlgSplit3Loc"]));
@@ -849,12 +965,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilUtils.FormSettings OptionsDialog {
+        public global::SilUtils.FormSettings OptionsDlg {
             get {
-                return ((global::SilUtils.FormSettings)(this["OptionsDialog"]));
+                return ((global::SilUtils.FormSettings)(this["OptionsDlg"]));
             }
             set {
-                this["OptionsDialog"] = value;
+                this["OptionsDlg"] = value;
             }
         }
         
@@ -885,6 +1001,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int FeaturesDlgSplitLoc {
             get {
                 return ((int)(this["FeaturesDlgSplitLoc"]));
@@ -894,30 +1011,42 @@ namespace SIL.Pa.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("3")]
         public int FeaturesDlgGridExtraRowHeight {
             get {
                 return ((int)(this["FeaturesDlgGridExtraRowHeight"]));
             }
+            set {
+                this["FeaturesDlgGridExtraRowHeight"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("3")]
         public int AmbiguousSequencesDlgGridExtraRowHeight {
             get {
                 return ((int)(this["AmbiguousSequencesDlgGridExtraRowHeight"]));
             }
+            set {
+                this["AmbiguousSequencesDlgGridExtraRowHeight"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("3")]
         public int TranscriptionChangesDlgGridExtraRowHeight {
             get {
                 return ((int)(this["TranscriptionChangesDlgGridExtraRowHeight"]));
+            }
+            set {
+                this["TranscriptionChangesDlgGridExtraRowHeight"] = value;
             }
         }
         
@@ -936,6 +1065,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int FwProjectsDlgSplitLoc {
             get {
                 return ((int)(this["FwProjectsDlgSplitLoc"]));
@@ -948,6 +1078,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string FindDlgFindWhat {
             get {
                 return ((string)(this["FindDlgFindWhat"]));
@@ -960,6 +1091,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool FindDlgMatchCase {
             get {
                 return ((bool)(this["FindDlgMatchCase"]));
@@ -972,6 +1104,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool FindDlgMatchEntireWord {
             get {
                 return ((bool)(this["FindDlgMatchEntireWord"]));
@@ -984,6 +1117,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool FindDlgStartsWith {
             get {
                 return ((bool)(this["FindDlgStartsWith"]));
@@ -996,6 +1130,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool FindDlgRegEx {
             get {
                 return ((bool)(this["FindDlgRegEx"]));
@@ -1008,6 +1143,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool FindDlgReverse {
             get {
                 return ((bool)(this["FindDlgReverse"]));
@@ -1033,6 +1169,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string LastFolderForOpenProjectDlg {
             get {
                 return ((string)(this["LastFolderForOpenProjectDlg"]));
@@ -1081,6 +1218,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int FiltersDlgSplitLoc {
             get {
                 return ((int)(this["FiltersDlgSplitLoc"]));
@@ -1189,6 +1327,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int UndefinedPhoneticCharactersDlgSplitLoc {
             get {
                 return ((int)(this["UndefinedPhoneticCharactersDlgSplitLoc"]));
@@ -1201,12 +1340,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilUtils.GridSettings OptionsDialogFontGrid {
+        public global::SilUtils.GridSettings OptionsDlgFontGrid {
             get {
-                return ((global::SilUtils.GridSettings)(this["OptionsDialogFontGrid"]));
+                return ((global::SilUtils.GridSettings)(this["OptionsDlgFontGrid"]));
             }
             set {
-                this["OptionsDialogFontGrid"] = value;
+                this["OptionsDlgFontGrid"] = value;
             }
         }
         
@@ -1225,6 +1364,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int SFDataSourcePropertiesDlgSplitLoc {
             get {
                 return ((int)(this["SFDataSourcePropertiesDlgSplitLoc"]));
@@ -1234,11 +1374,15 @@ namespace SIL.Pa.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::System.Drawing.Font UIFont {
             get {
                 return ((global::System.Drawing.Font)(this["UIFont"]));
+            }
+            set {
+                this["UIFont"] = value;
             }
         }
         
@@ -1314,28 +1458,43 @@ namespace SIL.Pa.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool ReloadProjectsOnActivate {
             get {
                 return ((bool)(this["ReloadProjectsOnActivate"]));
             }
+            set {
+                this["ReloadProjectsOnActivate"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://downloads.sil.org/Speech%20Analyzer/Corporate%20Release/3.0.1/Speech%20Ana" +
+            "lyzer%203.0.1%20only.exe")]
         public string SaDownloadLink {
             get {
                 return ((string)(this["SaDownloadLink"]));
             }
+            set {
+                this["SaDownloadLink"] = value;
+            }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("www.sil.org/computing/sa")]
         public string SaWebsiteLink {
             get {
                 return ((string)(this["SaWebsiteLink"]));
+            }
+            set {
+                this["SaWebsiteLink"] = value;
             }
         }
         
@@ -1407,6 +1566,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int LocalizeDlgSplitterPos {
             get {
                 return ((int)(this["LocalizeDlgSplitterPos"]));
@@ -1419,6 +1579,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
         public global::System.Drawing.Rectangle LocalizeDlgBounds {
             get {
                 return ((global::System.Drawing.Rectangle)(this["LocalizeDlgBounds"]));
@@ -1877,6 +2038,434 @@ namespace SIL.Pa.Properties {
             }
             set {
                 this["VowelChartVwHistogramPaneVisible"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        public int HistogramHashMarkGap {
+            get {
+                return ((int)(this["HistogramHashMarkGap"]));
+            }
+            set {
+                this["HistogramHashMarkGap"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("40")]
+        public int HistogramPhoneLabelWidth {
+            get {
+                return ((int)(this["HistogramPhoneLabelWidth"]));
+            }
+            set {
+                this["HistogramPhoneLabelWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int HistogramExtraPhoneLabelHeight {
+            get {
+                return ((int)(this["HistogramExtraPhoneLabelHeight"]));
+            }
+            set {
+                this["HistogramExtraPhoneLabelHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public int HistogramBarWidth {
+            get {
+                return ((int)(this["HistogramBarWidth"]));
+            }
+            set {
+                this["HistogramBarWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("16")]
+        public int HistogramPhoneLabelFontSize {
+            get {
+                return ((int)(this["HistogramPhoneLabelFontSize"]));
+            }
+            set {
+                this["HistogramPhoneLabelFontSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool WordListDrawFocusRectangle {
+            get {
+                return ((bool)(this["WordListDrawFocusRectangle"]));
+            }
+            set {
+                this["WordListDrawFocusRectangle"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int WordListSrchResultWidthOnWordBoundaryMatch {
+            get {
+                return ((int)(this["WordListSrchResultWidthOnWordBoundaryMatch"]));
+            }
+            set {
+                this["WordListSrchResultWidthOnWordBoundaryMatch"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool WordListChangeSelectionOnFocusLoss {
+            get {
+                return ((bool)(this["WordListChangeSelectionOnFocusLoss"]));
+            }
+            set {
+                this["WordListChangeSelectionOnFocusLoss"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool WordListEditSourceOnDoublClick {
+            get {
+                return ((bool)(this["WordListEditSourceOnDoublClick"]));
+            }
+            set {
+                this["WordListEditSourceOnDoublClick"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int WordListVerticalRowPadding {
+            get {
+                return ((int)(this["WordListVerticalRowPadding"]));
+            }
+            set {
+                this["WordListVerticalRowPadding"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool WordListEditSourceOnEnterKey {
+            get {
+                return ((bool)(this["WordListEditSourceOnEnterKey"]));
+            }
+            set {
+                this["WordListEditSourceOnEnterKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public int RTFExportLeftMargin {
+            get {
+                return ((int)(this["RTFExportLeftMargin"]));
+            }
+            set {
+                this["RTFExportLeftMargin"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public int RTFExportTopMargin {
+            get {
+                return ((int)(this["RTFExportTopMargin"]));
+            }
+            set {
+                this["RTFExportTopMargin"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public int RTFExportRightMargin {
+            get {
+                return ((int)(this["RTFExportRightMargin"]));
+            }
+            set {
+                this["RTFExportRightMargin"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public int RTFExportBottomMargin {
+            get {
+                return ((int)(this["RTFExportBottomMargin"]));
+            }
+            set {
+                this["RTFExportBottomMargin"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("letter")]
+        public string RTFExportPaperSize {
+            get {
+                return ((string)(this["RTFExportPaperSize"]));
+            }
+            set {
+                this["RTFExportPaperSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("180")]
+        public int RTFExportGapBetweenColumns {
+            get {
+                return ((int)(this["RTFExportGapBetweenColumns"]));
+            }
+            set {
+                this["RTFExportGapBetweenColumns"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RTFExportTryLandscapeWhenDataTooWide {
+            get {
+                return ((bool)(this["RTFExportTryLandscapeWhenDataTooWide"]));
+            }
+            set {
+                this["RTFExportTryLandscapeWhenDataTooWide"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RTFExportUseCustomPaperWidth {
+            get {
+                return ((bool)(this["RTFExportUseCustomPaperWidth"]));
+            }
+            set {
+                this["RTFExportUseCustomPaperWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("360")]
+        public int RTFExportMinimumColumnWidth {
+            get {
+                return ((int)(this["RTFExportMinimumColumnWidth"]));
+            }
+            set {
+                this["RTFExportMinimumColumnWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("240")]
+        public int RTFExportSpaceBeforeGroupHeading {
+            get {
+                return ((int)(this["RTFExportSpaceBeforeGroupHeading"]));
+            }
+            set {
+                this["RTFExportSpaceBeforeGroupHeading"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RTFExportBorderUnderGroupHeading {
+            get {
+                return ((bool)(this["RTFExportBorderUnderGroupHeading"]));
+            }
+            set {
+                this["RTFExportBorderUnderGroupHeading"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RTFExportOptionToFile {
+            get {
+                return ((bool)(this["RTFExportOptionToFile"]));
+            }
+            set {
+                this["RTFExportOptionToFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RTFExportOptionToFileAndOpen {
+            get {
+                return ((bool)(this["RTFExportOptionToFileAndOpen"]));
+            }
+            set {
+                this["RTFExportOptionToFileAndOpen"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RTFExportOptionRTFEditor {
+            get {
+                return ((string)(this["RTFExportOptionRTFEditor"]));
+            }
+            set {
+                this["RTFExportOptionRTFEditor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RTFExportOptionToClipboard {
+            get {
+                return ((bool)(this["RTFExportOptionToClipboard"]));
+            }
+            set {
+                this["RTFExportOptionToClipboard"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RTFExportOptionToTable {
+            get {
+                return ((bool)(this["RTFExportOptionToTable"]));
+            }
+            set {
+                this["RTFExportOptionToTable"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RTFExportOptionTabDelimited {
+            get {
+                return ((bool)(this["RTFExportOptionTabDelimited"]));
+            }
+            set {
+                this["RTFExportOptionTabDelimited"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilUtils.FormSettings RTFExportDlg {
+            get {
+                return ((global::SilUtils.FormSettings)(this["RTFExportDlg"]));
+            }
+            set {
+                this["RTFExportDlg"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int WordListGroupingPhonesToMatchBefore {
+            get {
+                return ((int)(this["WordListGroupingPhonesToMatchBefore"]));
+            }
+            set {
+                this["WordListGroupingPhonesToMatchBefore"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int WordListGroupingPhonesToMatchAfter {
+            get {
+                return ((int)(this["WordListGroupingPhonesToMatchAfter"]));
+            }
+            set {
+                this["WordListGroupingPhonesToMatchAfter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int WordListGroupingPhonesToMatchForCIEBefore {
+            get {
+                return ((int)(this["WordListGroupingPhonesToMatchForCIEBefore"]));
+            }
+            set {
+                this["WordListGroupingPhonesToMatchForCIEBefore"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilUtils.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int WordListGroupingPhonesToMatchForCIEAfter {
+            get {
+                return ((int)(this["WordListGroupingPhonesToMatchForCIEAfter"]));
+            }
+            set {
+                this["WordListGroupingPhonesToMatchForCIEAfter"] = value;
             }
         }
     }

@@ -163,7 +163,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// Save the selected and custom characters.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void SaveCvPatternsTabSettings()
+		private void SaveCvPatternsTabChanges()
 		{
 			txtCustomChars.TextChanged -= txtCustomChars_TextChanged;
 

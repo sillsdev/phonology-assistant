@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SilUtils;
 
 namespace SIL.Pa.UI.Controls
@@ -12,11 +13,6 @@ namespace SIL.Pa.UI.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class WordListGroupingBuilder
 	{
-		private static int s_numberOfBeforePhonesToMatch = -1;
-		private static int s_numberOfAfterPhonesToMatch = -1;
-		private static int s_numberOfBeforePhonesToMatchCIE = -1;
-		private static int s_numberOfAfterPhonesToMatchCIE = -1;
-
 		private Font m_headingFont;
 		private readonly PaWordListGrid m_grid;
 		private readonly WordListCache m_cache;
@@ -32,109 +28,6 @@ namespace SIL.Pa.UI.Controls
 			if (grid != null)
 				m_cache = grid.Cache;
 		}
-
-		#region static properties
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Number of phones in the environment before to match when grouping on the phonetic
-		/// column in search result word lists.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static int NumberOfBeforePhonesToMatch
-		{
-			get
-			{
-				if (s_numberOfBeforePhonesToMatch < 0)
-				{
-					s_numberOfBeforePhonesToMatch = App.SettingsHandler.GetIntSettingsValue(
-						"phonestomatchforgrouping", "before", 1); 
-				}
-				
-				return s_numberOfBeforePhonesToMatch;
-			}
-			set
-			{
-				s_numberOfBeforePhonesToMatch = value;
-				App.SettingsHandler.SaveSettingsValue("phonestomatchforgrouping", "before", value);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Number of phones in the environment after to match when grouping on the phonetic
-		/// column in search result word lists.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static int NumberOfAfterPhonesToMatch
-		{
-			get
-			{
-				if (s_numberOfAfterPhonesToMatch < 0)
-				{
-					s_numberOfAfterPhonesToMatch = App.SettingsHandler.GetIntSettingsValue(
-						"phonestomatchforgrouping", "after", 1); 
-				}
-				
-				return s_numberOfAfterPhonesToMatch;
-			}
-			set
-			{
-				s_numberOfAfterPhonesToMatch = value;
-				App.SettingsHandler.SaveSettingsValue("phonestomatchforgrouping", "after", value);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Number of phones in the environment before to match when creating minimal pair
-		/// groups.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static int NumberOfBeforePhonesToMatchForCIE
-		{
-			get
-			{
-				if (s_numberOfBeforePhonesToMatchCIE < 0)
-				{
-					s_numberOfBeforePhonesToMatch = App.SettingsHandler.GetIntSettingsValue(
-						"phonestomatchforgrouping", "beforecie", 0);
-				}
-
-				return s_numberOfBeforePhonesToMatchCIE;
-			}
-			set
-			{
-				s_numberOfBeforePhonesToMatchCIE = value;
-				App.SettingsHandler.SaveSettingsValue("phonestomatchforgrouping", "beforecie", value);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Number of phones in the environment after to match when creating minimal pair
-		/// groups.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static int NumberOfAfterPhonesToMatchForCIE
-		{
-			get
-			{
-				if (s_numberOfAfterPhonesToMatchCIE < 0)
-				{
-					s_numberOfAfterPhonesToMatchCIE = App.SettingsHandler.GetIntSettingsValue(
-						"phonestomatchforgrouping", "aftercie", 0);
-				}
-
-				return s_numberOfAfterPhonesToMatchCIE;
-			}
-			set
-			{
-				s_numberOfAfterPhonesToMatchCIE = value;
-				App.SettingsHandler.SaveSettingsValue("phonestomatchforgrouping", "aftercie", value);
-			}
-		}
-
-		#endregion 
 
 		#region static methods
 		/// ------------------------------------------------------------------------------------
@@ -249,7 +142,8 @@ namespace SIL.Pa.UI.Controls
 						bool matchBefore = (m_grid.SortOptions.AdvSortOrder[0] == 0);
 
 						int numberPhonesToMatch = (matchBefore ?
-							NumberOfBeforePhonesToMatch : NumberOfAfterPhonesToMatch);
+							Settings.Default.WordListGroupingPhonesToMatchBefore :
+							Settings.Default.WordListGroupingPhonesToMatchAfter);
 
 						if (numberPhonesToMatch == 0)
 						{

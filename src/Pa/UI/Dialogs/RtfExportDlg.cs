@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
+using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilUtils;
 
@@ -31,7 +32,7 @@ namespace SIL.Pa.UI.Dialogs
 		private Button btnHelp;
 		private Panel panel1;
 		private Localization.UI.LocalizationExtender locExtender;
-		private IContainer components = null;
+		private IContainer components;
 
 		#region Constructor & Closing
 		/// ------------------------------------------------------------------------------------
@@ -53,14 +54,14 @@ namespace SIL.Pa.UI.Dialogs
 			rbFmtTabDelim.Tag = RtfCreator.ExportFormat.TabDelimited;
 
 			// Load saved window settings
-			m_rtfEditor = App.SettingsHandler.GetStringSettingsValue(Name, "editor", null);
-			rbToFile.Checked = App.SettingsHandler.GetBoolSettingsValue(Name, "file", true);
-			rbToFileOpen.Checked = App.SettingsHandler.GetBoolSettingsValue(Name, "fileopen", false);
-			rbToClipboard.Checked = App.SettingsHandler.GetBoolSettingsValue(Name, "clipboard", false);
-			rbFmtTable.Checked = App.SettingsHandler.GetBoolSettingsValue(Name, "table", true);
-			rbFmtTabDelim.Checked = App.SettingsHandler.GetBoolSettingsValue(Name, "tabdelim", false);
+			m_rtfEditor = Settings.Default.RTFExportOptionRTFEditor;
+			rbToFile.Checked = Settings.Default.RTFExportOptionToFile;
+			rbToFileOpen.Checked = Settings.Default.RTFExportOptionToFileAndOpen;
+			rbToClipboard.Checked = Settings.Default.RTFExportOptionToClipboard;
+			rbFmtTable.Checked = Settings.Default.RTFExportOptionToTable;
+			rbFmtTabDelim.Checked = Settings.Default.RTFExportOptionTabDelimited;
 
-			App.SettingsHandler.LoadFormProperties(this, true);
+			App.InitializeForm(this, Settings.Default.RTFExportDlg);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -104,14 +105,13 @@ namespace SIL.Pa.UI.Dialogs
 				((Form)Parent).RemoveOwnedForm(this);
 			
 			// Save settings
-			App.SettingsHandler.SaveSettingsValue(Name, "editor", m_rtfEditor);
-			App.SettingsHandler.SaveSettingsValue(Name, "file", rbToFile.Checked);
-			App.SettingsHandler.SaveSettingsValue(Name, "fileopen", rbToFileOpen.Checked);
-			App.SettingsHandler.SaveSettingsValue(Name, "clipboard", rbToClipboard.Checked);
-			App.SettingsHandler.SaveSettingsValue(Name, "table", rbFmtTable.Checked);
-			App.SettingsHandler.SaveSettingsValue(Name, "tabdelim", rbFmtTabDelim.Checked);
-			App.SettingsHandler.SaveFormProperties(this);
-			
+			Settings.Default.RTFExportOptionRTFEditor = m_rtfEditor;
+			Settings.Default.RTFExportOptionToFile = rbToFile.Checked;
+			Settings.Default.RTFExportOptionToFileAndOpen = rbToFileOpen.Checked;
+			Settings.Default.RTFExportOptionToClipboard = rbToClipboard.Checked;
+			Settings.Default.RTFExportOptionToTable = rbFmtTable.Checked;
+			Settings.Default.RTFExportOptionTabDelimited = rbFmtTabDelim.Checked;
+
 			base.OnClosing(e);
 		}
 
