@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using SIL.FdoToPaInterfaces;
 using SIL.ObjectBrowser;
@@ -9,51 +12,39 @@ namespace SIL.Pa
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// This program allows the user to browse the data pulled from a FW database for use in
+	/// This program allows the user to browse the data pulled from an FW database for use in
 	/// Phonology Assistant.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class FDOToPaBrowser : ObjectBrowser.ObjectBrowser
+	public partial class FdoToPaBrowser : ObjectBrowser.ObjectBrowser
 	{
+		private PaFieldWorksHelper _paFwHelper;
+
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes a new instance of the <see cref="FDOToPaBrowser"/> class.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public FDOToPaBrowser()
+		public FdoToPaBrowser()
 		{
 			InitializeComponent();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the title for the open file dialog box.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override string OpenFileDlgTitle
+		protected override void HandleFileOpenClick(object sender, EventArgs e)
 		{
-			get { return "Open Fieldworks Language Project"; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the file filter for the open file dialog box.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override string OpenFileDlgFilter
-		{
-			get { return "XML Project Files|*.xml|DB4o Project Files|*.db4o|Berkeley DB Project Files|*.bdb|Firebird Project Files|*.fdb"; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Opens the specified file.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OpenFile(string fileName)
-		{
-			if (fileName == null || !File.Exists(fileName) || m_currOpenedProject == fileName)
+			string name;
+			string server;
+			Rectangle rcDlgBounds = Rectangle.Empty;
+			int dlgSplitterPos = -1;
+			var tmpHelper = new PaFieldWorksHelper();
+			if (!tmpHelper.ShowFwOpenProject(this, ref rcDlgBounds,
+				ref dlgSplitterPos, out name, out server))
+			{
+				tmpHelper.Dispose();
 				return;
+			}
+
+			if (_paFwHelper != null)
+				_paFwHelper.Dispose();
+
+			_paFwHelper = tmpHelper;
 
 			Cursor = Cursors.WaitCursor;
 			try
@@ -65,23 +56,27 @@ namespace SIL.Pa
 						((InspectorWnd)dc).Close();
 				}
 
-				IPaLexicalInfo lexEntryServer = FieldWorksHelper.LexEntryServer;
-				if (lexEntryServer == null)
+				if (!_paFwHelper.Initialize(name, server, 2000, 20000))
 				{
-					MessageBox.Show(fileName + " cannot be found or is not a valid FieldWorks project.");
+					MessageBox.Show("There was a problem getting data from FieldWorks.");
 					return;
 				}
 
-				lexEntryServer.Initialize(fileName);
-				var fifp = new FDOInfoForPa();
-				fifp.WritingSystems = new List<IPaWritingSystem>(lexEntryServer.WritingSystems);
-				fifp.LexEntries = new List<IPaLexEntry>(lexEntryServer.LexEntries);
+				var fifp = new FdoInfoForPa
+				{
+					LexEntries = _paFwHelper.LexEntries.ToList(),
+					WritingSystems = _paFwHelper.WritingSystems.ToList()
+				};
 
-				string caption = Path.GetFileName(fileName);
+				var caption = Path.GetFileName(name);
 				MakeAppCaption(caption);
 				ShowNewInspectorWindow(fifp);
-				base.OpenFile(fileName);
-				m_currOpenedProject = fileName;
+				base.OpenFile(name);
+				m_currOpenedProject = name;
+
+
+				//var list = new[] { "david", "pam", "meagan", "rachel", "eli" };
+				//ShowNewInspectorWindow(list, "TESTTESETTEST", "TEST");
 			}
 			finally
 			{
@@ -91,13 +86,9 @@ namespace SIL.Pa
 	}
 
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	public class FDOInfoForPa
+	public class FdoInfoForPa
 	{
-		public List<IPaWritingSystem> WritingSystems { get; set; }
 		public List<IPaLexEntry> LexEntries { get; set; }
+		public List<IPaWritingSystem> WritingSystems { get; set; }
 	}
 }

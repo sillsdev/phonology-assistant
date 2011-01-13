@@ -1,6 +1,6 @@
 ﻿namespace SIL.Pa
 {
-	partial class FDOToPaBrowser
+	partial class FdoToPaBrowser
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -30,13 +30,13 @@
 		{
 			this.SuspendLayout();
 			// 
-			// FDOToPaBrowser
+			// FdoToPaBrowser
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(872, 567);
 			this.Location = new System.Drawing.Point(0, 0);
-			this.Name = "FDOToPaBrowser";
+			this.Name = "FdoToPaBrowser";
 			this.Text = "FDO to PA Browser";
 			this.Controls.SetChildIndex(this.m_dockPanel, 0);
 			this.ResumeLayout(false);

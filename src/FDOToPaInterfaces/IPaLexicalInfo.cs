@@ -1,20 +1,7 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2009, SIL International. All Rights Reserved.
-// <copyright from='2009' to='2009' company='SIL International'>
-//		Copyright (c) 2009, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
-// 
-// File: IPaLexicalInfo.cs
-// Responsibility: D. Olson
-// 
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
+
 
 namespace SIL.FdoToPaInterfaces
 {
@@ -26,7 +13,8 @@ namespace SIL.FdoToPaInterfaces
 	/// ----------------------------------------------------------------------------------------
 	public interface IPaLexicalInfo
 	{
-		void Initialize(string filename);
+		bool ShowOpenProject(Form owner, ref Rectangle dialogBounds, ref int dialogSplitterPos, out string name, out string server);
+		bool Initialize(string name, string server, int timeToWaitForProcessStart, int timeToWaitForLoadingData);
 		IEnumerable<IPaWritingSystem> WritingSystems { get; }
 		IEnumerable<IPaLexEntry> LexEntries { get; }
 	}

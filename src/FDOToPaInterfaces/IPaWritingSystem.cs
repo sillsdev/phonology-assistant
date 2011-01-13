@@ -32,22 +32,36 @@ namespace SIL.FdoToPaInterfaces
 		/// Gets the two-letter ICU locale of the writing system.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		string ICULocale { get; }
+		string IcuLocale { get; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the ISO-blah, blah code.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		string Id { get; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the name of the writing system in the user default writing system.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		string Name { get; }
+		string DisplayName { get; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the guid of the writing system.
+		/// Gets the writing system language name.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		Guid Guid { get; }
+		string LanguageName { get; }
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the writing system abbreviation.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		string Abbreviation { get; }
+			
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the hvo of the writing system.
@@ -84,28 +98,7 @@ namespace SIL.FdoToPaInterfaces
 		/// Gets the name of the default body text font.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		string DefaultBodyFont { get; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the name of the default serif font.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		string DefaultSerifFont { get; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the name of the default sans serif font.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		string DefaultSansSerifFont { get; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the name of the default mono space font.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		string DefaultMonoSpaceFont { get; }
+		string DefaultFontName { get; }
 	}
 	
 	#endregion
