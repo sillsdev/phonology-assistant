@@ -96,7 +96,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tpgSorting = new System.Windows.Forms.TabPage();
 			this.lblSaveManual = new System.Windows.Forms.Label();
 			this.grpColSortOptions = new System.Windows.Forms.GroupBox();
-			this.m_sortingGrid = new SilUtils.SilGrid();
+			this.m_sortingGrid = new SilTools.SilGrid();
 			this.btnMoveSortFieldUp = new System.Windows.Forms.Button();
 			this.lblSortFldsHdr = new System.Windows.Forms.Label();
 			this.btnMoveSortFieldDown = new System.Windows.Forms.Button();
@@ -1124,7 +1124,7 @@ namespace SIL.Pa.UI.Dialogs
 		private Button btnMoveSortFieldDown;
 		private Button btnMoveSortFieldUp;
 		private Label lblSortInfo;
-		private SilUtils.SilGrid m_sortingGrid;
+		private SilTools.SilGrid m_sortingGrid;
 		private CheckBox chkSaveManual;
 		private SIL.Pa.UI.Controls.FieldSelectorGrid fldSelGridRecView;
 		private SIL.Pa.UI.Controls.SortOptionsDropDown phoneticSortOptions;

@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Xml;
 using System.Reflection;
 
-namespace SilUtils
+namespace SilTools
 {
 	public static class XmlSerializationHelper
 	{

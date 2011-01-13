@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Localization;
 using SIL.Pa.Model;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.UI.Controls
 {

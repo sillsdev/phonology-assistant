@@ -31,9 +31,9 @@ using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Processing;
 using SIL.Pa.Properties;
 using SIL.Pa.ResourceStuff;
-using SilUtils;
-using ShortcutKeysEditor=SilUtils.Controls.ShortcutKeysEditor;
-using Utils=SilUtils.Utils;
+using SilTools;
+using ShortcutKeysEditor=SilTools.Controls.ShortcutKeysEditor;
+using Utils=SilTools.Utils;
 
 namespace SIL.Pa
 {
@@ -156,6 +156,7 @@ namespace SIL.Pa
 			MsgMediator = new Mediator();
 
 			PortableSettingsProvider.SettingsFileFolder = DefaultProjectFolder;
+			PortableSettingsProvider.SettingsFileName = "Pa.settings";
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList);
 
 			ProcessHelper.CopyFilesForPrettyHTMLExports();
@@ -565,13 +566,20 @@ namespace SIL.Pa
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public static bool ShouldShowSplashScreen
+		{
+			get { return Settings.Default.ShowSplashScreen; }
+			set
+			{
+				Settings.Default.ShowSplashScreen = value;
+				Settings.Default.Save();
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public static void ShowSplashScreen()
 		{
-			if (Settings.Default.ShowSplashScreen)
+			if (ShouldShowSplashScreen)
 			{
 				SplashScreen = new SplashScreen(true, VersionType.Alpha);
 				SplashScreen.Show();

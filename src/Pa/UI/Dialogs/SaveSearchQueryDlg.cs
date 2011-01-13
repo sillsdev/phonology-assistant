@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.UI.Controls;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
 {

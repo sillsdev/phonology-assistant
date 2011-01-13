@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using SIL.Pa.Properties;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
 {

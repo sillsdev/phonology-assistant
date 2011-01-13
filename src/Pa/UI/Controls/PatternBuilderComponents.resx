@@ -145,7 +145,7 @@
     <value>pnlConsonants</value>
   </data>
   <data name="&gt;&gt;pnlConsonants.Type" xml:space="preserve">
-    <value>SilUtils.Controls.SilPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlConsonants.Parent" xml:space="preserve">
     <value>tpgCons</value>
@@ -205,7 +205,7 @@
     <value>pnlVowels</value>
   </data>
   <data name="&gt;&gt;pnlVowels.Type" xml:space="preserve">
-    <value>SilUtils.Controls.SilPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlVowels.Parent" xml:space="preserve">
     <value>tpgVows</value>

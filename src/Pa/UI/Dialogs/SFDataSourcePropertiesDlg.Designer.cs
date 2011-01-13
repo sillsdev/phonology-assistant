@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.IO;
 using System.Xml;
-using SilUtils.Controls;
+using SilTools.Controls;
 
 namespace SIL.Pa.UI.Dialogs
 {
@@ -42,24 +42,24 @@ namespace SIL.Pa.UI.Dialogs
 			this.cboToolboxSortField = new System.Windows.Forms.ComboBox();
 			this.txtEditor = new System.Windows.Forms.TextBox();
 			this.scImport = new System.Windows.Forms.SplitContainer();
-			this.pnlMappings = new SilUtils.Controls.SilPanel();
+			this.pnlMappings = new SilTools.Controls.SilPanel();
 			this.lblEditor = new System.Windows.Forms.Label();
 			this.btnBrowse = new System.Windows.Forms.Button();
 			this.lblToolboxSortField = new System.Windows.Forms.Label();
-			this.pnlMappingsHdg = new SilUtils.Controls.SilGradientPanel();
-			this.pnlSrcFile = new SilUtils.Controls.SilPanel();
+			this.pnlMappingsHdg = new SilTools.Controls.SilGradientPanel();
+			this.pnlSrcFile = new SilTools.Controls.SilPanel();
 			this.txtFilePreview = new System.Windows.Forms.TextBox();
-			this.pnlSrcFileHdg = new SilUtils.Controls.SilGradientPanel();
+			this.pnlSrcFileHdg = new SilTools.Controls.SilGradientPanel();
 			this.lblFilename = new System.Windows.Forms.Label();
 			this.cboFirstInterlinear = new System.Windows.Forms.ComboBox();
 			this.lblFirstInterlinear = new System.Windows.Forms.Label();
-			this.pnlParseType = new SilUtils.Controls.SilPanel();
+			this.pnlParseType = new SilTools.Controls.SilPanel();
 			this.gridSampleOutput = new System.Windows.Forms.DataGridView();
 			this.Phonetic = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Gloss = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.POS = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.pnlParseHdg = new SilUtils.Controls.SilGradientPanel();
-			this.pnlSampleInput = new SilUtils.Controls.SilPanel();
+			this.pnlParseHdg = new SilTools.Controls.SilGradientPanel();
+			this.pnlSampleInput = new SilTools.Controls.SilPanel();
 			this.rtfSampleInput = new System.Windows.Forms.RichTextBox();
 			this.rbParseOneToOne = new System.Windows.Forms.RadioButton();
 			this.rbNoParse = new System.Windows.Forms.RadioButton();

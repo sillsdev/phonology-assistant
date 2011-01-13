@@ -17,7 +17,7 @@
 using System;
 using System.Text;
 using SIL.Pa.Properties;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.PhoneticSearching
 {

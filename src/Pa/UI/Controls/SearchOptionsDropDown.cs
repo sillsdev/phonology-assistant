@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.UI.Controls
 {

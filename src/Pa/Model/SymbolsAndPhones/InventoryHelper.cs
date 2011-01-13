@@ -19,7 +19,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.Model
 {

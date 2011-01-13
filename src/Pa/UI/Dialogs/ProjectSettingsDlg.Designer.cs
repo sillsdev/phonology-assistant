@@ -1,4 +1,4 @@
-using SilUtils.Controls;
+using SilTools.Controls;
 
 namespace SIL.Pa.UI.Dialogs
 {
@@ -50,9 +50,9 @@ namespace SIL.Pa.UI.Dialogs
 			this.cmnuAdd = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.cmnuAddOtherDataSource = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmnuAddFwDataSource = new System.Windows.Forms.ToolStripMenuItem();
-			this.pnlGrid = new SilUtils.Controls.SilPanel();
-			this.m_grid = new SilUtils.SilGrid();
-			this.pnlGridHdg = new SilUtils.Controls.SilGradientPanel();
+			this.pnlGrid = new SilTools.Controls.SilPanel();
+			this.m_grid = new SilTools.SilGrid();
+			this.pnlGridHdg = new SilTools.Controls.SilGradientPanel();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.lblLanguageCode = new System.Windows.Forms.Label();
 			this.txtLanguageCode = new System.Windows.Forms.TextBox();
@@ -462,7 +462,7 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddFwDataSource;
 		private SilPanel pnlGrid;
 		private SilGradientPanel pnlGridHdg;
-		private SilUtils.SilGrid m_grid;
+		private SilTools.SilGrid m_grid;
 		private System.Windows.Forms.Button btnProperties;
 		private Localization.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.TableLayoutPanel tblLayout;

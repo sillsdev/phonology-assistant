@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using Localization;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.UI.Controls
 {

@@ -1,4 +1,4 @@
-﻿using SilUtils.Controls;
+﻿using SilTools.Controls;
 
 namespace SIL.Pa.UI.Dialogs
 {
@@ -36,16 +36,16 @@ namespace SIL.Pa.UI.Dialogs
 			this.lvFilters = new System.Windows.Forms.ListView();
 			this.hdrFilter = new System.Windows.Forms.ColumnHeader();
 			this.splitFilters = new System.Windows.Forms.SplitContainer();
-			this.pnlFilters = new SilUtils.Controls.SilPanel();
+			this.pnlFilters = new SilTools.Controls.SilPanel();
 			this.btnApplyNow = new System.Windows.Forms.Button();
-			this.hlblFilters = new SilUtils.Controls.HeaderLabel();
+			this.hlblFilters = new SilTools.Controls.HeaderLabel();
 			this.flwLayoutFilterButtons = new System.Windows.Forms.FlowLayoutPanel();
 			this.btnAdd = new System.Windows.Forms.Button();
 			this.btnCopy = new System.Windows.Forms.Button();
 			this.btnDeleteFilter = new System.Windows.Forms.Button();
-			this.pnlExpressions = new SilUtils.Controls.SilPanel();
-			this.m_grid = new SilUtils.SilGrid();
-			this.hlblExpressions = new SilUtils.Controls.HeaderLabel();
+			this.pnlExpressions = new SilTools.Controls.SilPanel();
+			this.m_grid = new SilTools.SilGrid();
+			this.hlblExpressions = new SilTools.Controls.HeaderLabel();
 			this.pnlFilterOptions = new System.Windows.Forms.Panel();
 			this.tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this.rbMatchAll = new System.Windows.Forms.RadioButton();
@@ -360,7 +360,7 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.Button btnDeleteFilter;
 		private System.Windows.Forms.Button btnAdd;
 		private System.Windows.Forms.ColumnHeader hdrFilter;
-		private SilUtils.SilGrid m_grid;
+		private SilTools.SilGrid m_grid;
 		private SilPanel pnlFilters;
 		private HeaderLabel hlblFilters;
 		private System.Windows.Forms.Panel pnlFilterOptions;

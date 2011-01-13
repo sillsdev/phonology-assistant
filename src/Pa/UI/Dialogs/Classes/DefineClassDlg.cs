@@ -8,8 +8,8 @@ using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
-using SilUtils;
-using Utils=SilUtils.Utils;
+using SilTools;
+using Utils=SilTools.Utils;
 
 namespace SIL.Pa.UI.Dialogs
 {

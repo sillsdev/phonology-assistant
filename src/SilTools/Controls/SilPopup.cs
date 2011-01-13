@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
-namespace SilUtils.Controls
+namespace SilTools.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

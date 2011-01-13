@@ -18,11 +18,10 @@
 using System;
 using System.ComponentModel;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.IO;
 
-namespace SilUtils
+namespace SilTools
 {
 	#region IAboutDlg interface
 	/// ----------------------------------------------------------------------------------------
@@ -270,7 +269,7 @@ namespace SilUtils
 			// fieldWorksIcon
 			// 
 			fieldWorksIcon.ErrorImage = null;
-			fieldWorksIcon.Image = global::SilUtils.Properties.Resources.kimidSilLogo;
+			fieldWorksIcon.Image = global::SilTools.Properties.Resources.kimidSilLogo;
 			resources.ApplyResources(fieldWorksIcon, "fieldWorksIcon");
 			fieldWorksIcon.InitialImage = null;
 			fieldWorksIcon.Name = "fieldWorksIcon";

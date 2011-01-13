@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace SilUtils.Controls
+namespace SilTools.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

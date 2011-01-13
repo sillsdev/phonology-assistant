@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Xml.Serialization;
 using Localization;
-using SilUtils;
+using SilTools;
 
 /// --------------------------------------------------------------------------------------------
 /// Contains classes for handling ambiguous sequences. These classes replace what's in the file

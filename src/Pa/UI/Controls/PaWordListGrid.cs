@@ -13,7 +13,7 @@ using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
-using SilUtils;
+using SilTools;
 using SIL.Pa.UI.Dialogs;
 
 namespace SIL.Pa.UI.Controls

@@ -2,7 +2,7 @@ using System.Linq;
 using System.Globalization;
 using Localization;
 using SIL.Pa.Properties;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
 {

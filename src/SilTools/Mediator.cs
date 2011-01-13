@@ -26,7 +26,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace SilUtils
+namespace SilTools
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

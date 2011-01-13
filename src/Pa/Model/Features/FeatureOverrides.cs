@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Localization;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.Model
 {

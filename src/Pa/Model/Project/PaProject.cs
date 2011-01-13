@@ -10,7 +10,7 @@ using SIL.Pa.Filters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.SpeechTools.Utils;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa
 {

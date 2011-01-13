@@ -322,7 +322,7 @@
     <value>m_grid</value>
   </data>
   <data name="&gt;&gt;m_grid.Type" xml:space="preserve">
-    <value>SilUtils.SilGrid, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.SilGrid, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_grid.Parent" xml:space="preserve">
     <value>grpWritingSystems</value>

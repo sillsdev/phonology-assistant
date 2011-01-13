@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.UI.Controls
 {

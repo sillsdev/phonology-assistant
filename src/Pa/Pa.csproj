@@ -98,10 +98,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\LocalizationManager.dll</HintPath>
     </Reference>
-    <Reference Include="SilUtils, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SilUtils\obj\Debug\SilUtils.dll</HintPath>
-    </Reference>
     <Reference Include="SpeechToolsUtils, Version=1.0.3895.4448, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\SpeechToolsUtils.dll</HintPath>
@@ -412,7 +408,6 @@
       <DependentUpon>SearchResultView.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Controls\SearchResultControls\TabDropIndicator.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Controls\SimpleExplorerBar.cs">
       <SubType>Component</SubType>
@@ -994,6 +989,12 @@
     <None Include="Resources\ButtonDropDownArrow.png" />
     <None Include="Resources\Show_Vertical_and_Horizontal_Grid_Lines.png" />
     <None Include="Resources\Automatically_hide.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SilTools\SilTools.csproj">
+      <Project>{87F94FCC-BC32-4203-A919-115F4FF43FF0}</Project>
+      <Name>SilTools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -2,7 +2,7 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace SilUtils
+namespace SilTools
 {
 	public partial class SmallFadingWnd : Form
 	{

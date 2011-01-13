@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Specialized;
 using System.IO;
 
-namespace SilUtils
+namespace SilTools
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

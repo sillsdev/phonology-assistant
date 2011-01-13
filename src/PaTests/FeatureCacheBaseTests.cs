@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using SIL.Pa.Model;
 using SIL.Pa.TestUtils;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.Tests
 {

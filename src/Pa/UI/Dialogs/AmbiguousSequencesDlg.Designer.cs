@@ -1,4 +1,4 @@
-using SilUtils.Controls;
+using SilTools.Controls;
 
 namespace SIL.Pa.UI.Dialogs
 {
@@ -33,8 +33,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AmbiguousSequencesDlg));
-			this.pnlGrid = new SilUtils.Controls.SilPanel();
-			this.m_grid = new SilUtils.SilGrid();
+			this.pnlGrid = new SilTools.Controls.SilPanel();
+			this.m_grid = new SilTools.SilGrid();
 			this.chkShowGenerated = new System.Windows.Forms.CheckBox();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.pnlGrid.SuspendLayout();
@@ -138,7 +138,7 @@ namespace SIL.Pa.UI.Dialogs
 		#endregion
 
 		private SilPanel pnlGrid;
-		private SilUtils.SilGrid m_grid;
+		private SilTools.SilGrid m_grid;
 		private System.Windows.Forms.CheckBox chkShowGenerated;
 		private Localization.UI.LocalizationExtender locExtender;
 	}

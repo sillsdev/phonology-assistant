@@ -1,4 +1,4 @@
-using SilUtils.Controls;
+using SilTools.Controls;
 
 namespace SIL.Pa.UI.Dialogs
 {
@@ -43,12 +43,12 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnOK = new System.Windows.Forms.Button();
 			this.lblInfo = new System.Windows.Forms.Label();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.pnlSummary = new SilUtils.Controls.SilPanel();
-			this.m_gridChars = new SilUtils.SilGrid();
-			this.pgpChars = new SilUtils.Controls.SilGradientPanel();
-			this.pnlDetails = new SilUtils.Controls.SilPanel();
-			this.m_gridWhere = new SilUtils.SilGrid();
-			this.pgpWhere = new SilUtils.Controls.SilGradientPanel();
+			this.pnlSummary = new SilTools.Controls.SilPanel();
+			this.m_gridChars = new SilTools.SilGrid();
+			this.pgpChars = new SilTools.Controls.SilGradientPanel();
+			this.pnlDetails = new SilTools.Controls.SilPanel();
+			this.m_gridWhere = new SilTools.SilGrid();
+			this.pgpWhere = new SilTools.Controls.SilGradientPanel();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.pnlButtons.SuspendLayout();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -341,13 +341,13 @@ namespace SIL.Pa.UI.Dialogs
 
 		protected System.Windows.Forms.Panel pnlButtons;
 		protected System.Windows.Forms.Button btnOK;
-		private SilUtils.SilGrid m_gridChars;
+		private SilTools.SilGrid m_gridChars;
 		private System.Windows.Forms.Label lblInfo;
 		protected System.Windows.Forms.Button btnHelp;
 		private System.Windows.Forms.CheckBox chkShowUndefinedCharDlg;
 		private System.Windows.Forms.CheckBox chkIgnoreInSearches;
 		private System.Windows.Forms.SplitContainer splitContainer1;
-		private SilUtils.SilGrid m_gridWhere;
+		private SilTools.SilGrid m_gridWhere;
 		private SilPanel pnlSummary;
 		private SilGradientPanel pgpChars;
 		private SilPanel pnlDetails;

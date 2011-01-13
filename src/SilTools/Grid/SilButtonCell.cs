@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
-namespace SilUtils
+namespace SilTools
 {
 	#region SilButtonCell class
 	/// ----------------------------------------------------------------------------------------

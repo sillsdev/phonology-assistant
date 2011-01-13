@@ -1,4 +1,4 @@
-﻿namespace SilUtils.Controls
+﻿namespace SilTools.Controls
 {
 	partial class ShortcutKeysEditor
 	{
@@ -37,8 +37,8 @@
 			this.chkShift = new System.Windows.Forms.CheckBox();
 			this.lblKey = new System.Windows.Forms.Label();
 			this.cboKeys = new System.Windows.Forms.ComboBox();
-			this.btnOK = new SilUtils.Controls.XButton();
-			this.btnReset = new SilUtils.Controls.XButton();
+			this.btnOK = new SilTools.Controls.XButton();
+			this.btnReset = new SilTools.Controls.XButton();
 			this.contextMenuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -137,7 +137,7 @@
 			this.btnOK.Size = new System.Drawing.Size(42, 18);
 			this.btnOK.TabIndex = 8;
 			this.btnOK.Text = "OK";
-			this.btnOK.DrawBackground += new SilUtils.Controls.XButton.DrawBackgroundHandler(this.HandleButtonDrawBackground);
+			this.btnOK.DrawBackground += new SilTools.Controls.XButton.DrawBackgroundHandler(this.HandleButtonDrawBackground);
 			this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
 			// 
 			// btnReset
@@ -156,7 +156,7 @@
 			this.btnReset.Size = new System.Drawing.Size(42, 18);
 			this.btnReset.TabIndex = 9;
 			this.btnReset.Text = "Reset";
-			this.btnReset.DrawBackground += new SilUtils.Controls.XButton.DrawBackgroundHandler(this.HandleButtonDrawBackground);
+			this.btnReset.DrawBackground += new SilTools.Controls.XButton.DrawBackgroundHandler(this.HandleButtonDrawBackground);
 			this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
 			// 
 			// ShortcutKeysEditor

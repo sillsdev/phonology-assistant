@@ -307,7 +307,7 @@
     <value>pnlMappingsHdg</value>
   </data>
   <data name="&gt;&gt;pnlMappingsHdg.Type" xml:space="preserve">
-    <value>SilUtils.Controls.SilGradientPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlMappingsHdg.Parent" xml:space="preserve">
     <value>pnlMappings</value>
@@ -334,7 +334,7 @@
     <value>pnlMappings</value>
   </data>
   <data name="&gt;&gt;pnlMappings.Type" xml:space="preserve">
-    <value>SilUtils.Controls.SilPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlMappings.Parent" xml:space="preserve">
     <value>scImport.Panel1</value>
@@ -445,7 +445,7 @@
     <value>pnlSrcFileHdg</value>
   </data>
   <data name="&gt;&gt;pnlSrcFileHdg.Type" xml:space="preserve">
-    <value>SilUtils.Controls.SilGradientPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSrcFileHdg.Parent" xml:space="preserve">
     <value>pnlSrcFile</value>
@@ -472,7 +472,7 @@
     <value>pnlSrcFile</value>
   </data>
   <data name="&gt;&gt;pnlSrcFile.Type" xml:space="preserve">
-    <value>SilUtils.Controls.SilPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSrcFile.Parent" xml:space="preserve">
     <value>scImport.Panel2</value>
@@ -652,7 +652,7 @@
     <value>pnlParseHdg</value>
   </data>
   <data name="&gt;&gt;pnlParseHdg.Type" xml:space="preserve">
-    <value>SilUtils.Controls.SilGradientPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlParseHdg.Parent" xml:space="preserve">
     <value>pnlParseType</value>
@@ -706,7 +706,7 @@
     <value>pnlSampleInput</value>
   </data>
   <data name="&gt;&gt;pnlSampleInput.Type" xml:space="preserve">
-    <value>SilUtils.Controls.SilPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSampleInput.Parent" xml:space="preserve">
     <value>pnlParseType</value>
@@ -979,7 +979,7 @@
     <value>pnlParseType</value>
   </data>
   <data name="&gt;&gt;pnlParseType.Type" xml:space="preserve">
-    <value>SilUtils.Controls.SilPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlParseType.Parent" xml:space="preserve">
     <value>splitOuter.Panel1</value>

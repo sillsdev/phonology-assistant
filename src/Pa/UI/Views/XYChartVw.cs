@@ -12,7 +12,7 @@ using SIL.Pa.Processing;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SIL.Pa.UI.Dialogs;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.UI.Views
 {

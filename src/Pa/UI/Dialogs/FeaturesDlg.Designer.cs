@@ -18,9 +18,9 @@
 			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.splitFeatures = new System.Windows.Forms.SplitContainer();
-			this.pnlPhones = new SilUtils.Controls.SilPanel();
-			this.gridPhones = new SilUtils.SilGrid();
-			this.pgpPhoneList = new SilUtils.Controls.SilGradientPanel();
+			this.pnlPhones = new SilTools.Controls.SilPanel();
+			this.gridPhones = new SilTools.SilGrid();
+			this.pgpPhoneList = new SilTools.Controls.SilGradientPanel();
 			this.tabFeatures = new System.Windows.Forms.TabControl();
 			this.tpgAFeatures = new System.Windows.Forms.TabPage();
 			this.btnReset = new System.Windows.Forms.Button();
@@ -266,9 +266,9 @@
 		#endregion
 
 		private System.Windows.Forms.SplitContainer splitFeatures;
-		private SilUtils.Controls.SilPanel pnlPhones;
-		private SilUtils.SilGrid gridPhones;
-		private SilUtils.Controls.SilGradientPanel pgpPhoneList;
+		private SilTools.Controls.SilPanel pnlPhones;
+		private SilTools.SilGrid gridPhones;
+		private SilTools.Controls.SilGradientPanel pgpPhoneList;
 		private System.Windows.Forms.TabControl tabFeatures;
 		private System.Windows.Forms.TabPage tpgAFeatures;
 		private System.Windows.Forms.TabPage tpgBFeatures;

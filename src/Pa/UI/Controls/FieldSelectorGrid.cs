@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using SIL.Pa.Model;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.UI.Controls
 {

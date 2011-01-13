@@ -4,7 +4,7 @@ using System.Drawing.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
-namespace SilUtils
+namespace SilTools
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

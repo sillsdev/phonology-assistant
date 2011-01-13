@@ -9,8 +9,8 @@ using System.Resources;
 using System.Windows.Forms;
 using System.Xml;
 using Microsoft.Win32;
-using SilUtils;
-using SilUtils.Controls;
+using SilTools;
+using SilTools.Controls;
 
 namespace SIL.FieldWorks.Common.UIAdapters
 {

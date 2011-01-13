@@ -217,7 +217,7 @@
     <value>hlblFilters</value>
   </data>
   <data name="&gt;&gt;hlblFilters.Type" xml:space="preserve">
-    <value>SilUtils.Controls.HeaderLabel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.HeaderLabel, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hlblFilters.Parent" xml:space="preserve">
     <value>pnlFilters</value>
@@ -244,7 +244,7 @@
     <value>pnlFilters</value>
   </data>
   <data name="&gt;&gt;pnlFilters.Type" xml:space="preserve">
-    <value>SilUtils.Controls.SilPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlFilters.Parent" xml:space="preserve">
     <value>splitFilters.Panel1</value>
@@ -424,7 +424,7 @@
     <value>m_grid</value>
   </data>
   <data name="&gt;&gt;m_grid.Type" xml:space="preserve">
-    <value>SilUtils.SilGrid, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.SilGrid, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_grid.Parent" xml:space="preserve">
     <value>pnlExpressions</value>
@@ -454,7 +454,7 @@
     <value>hlblExpressions</value>
   </data>
   <data name="&gt;&gt;hlblExpressions.Type" xml:space="preserve">
-    <value>SilUtils.Controls.HeaderLabel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.HeaderLabel, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hlblExpressions.Parent" xml:space="preserve">
     <value>pnlExpressions</value>
@@ -481,7 +481,7 @@
     <value>pnlExpressions</value>
   </data>
   <data name="&gt;&gt;pnlExpressions.Type" xml:space="preserve">
-    <value>SilUtils.Controls.SilPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlExpressions.Parent" xml:space="preserve">
     <value>splitFilters.Panel2</value>

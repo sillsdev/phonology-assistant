@@ -9,7 +9,7 @@ using SIL.Pa.Model;
 using SIL.Pa.Processing;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
-using SilUtils;
+using SilTools;
 using SIL.Pa.UI.Dialogs;
 
 namespace SIL.Pa.UI.Views

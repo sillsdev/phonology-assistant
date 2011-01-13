@@ -2,7 +2,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Xsl;
 
-namespace SilUtils
+namespace SilTools
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

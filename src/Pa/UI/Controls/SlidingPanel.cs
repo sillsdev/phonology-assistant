@@ -4,8 +4,8 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Threading;
 using System.Windows.Forms;
-using SilUtils.Controls;
-using SilUtils;
+using SilTools.Controls;
+using SilTools;
 
 namespace SIL.Pa.UI.Controls
 {

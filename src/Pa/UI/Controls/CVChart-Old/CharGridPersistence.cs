@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.Pa.Model;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.UI.Controls
 {

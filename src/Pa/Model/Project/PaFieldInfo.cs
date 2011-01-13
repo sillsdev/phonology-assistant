@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 using SIL.Pa.Model.Project;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.Model
 {

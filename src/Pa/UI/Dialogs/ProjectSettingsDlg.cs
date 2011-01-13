@@ -9,7 +9,7 @@ using Localization;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
 {

@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using SIL.Pa.DataSource;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa
 {

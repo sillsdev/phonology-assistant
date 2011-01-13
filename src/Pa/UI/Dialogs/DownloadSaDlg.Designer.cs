@@ -34,7 +34,7 @@
 			this.btnOK = new System.Windows.Forms.Button();
 			this.lnkSaWebsite = new System.Windows.Forms.LinkLabel();
 			this.picIcon = new System.Windows.Forms.PictureBox();
-			this.lblMessage = new SilUtils.Controls.AutoHeightLabel();
+			this.lblMessage = new SilTools.Controls.AutoHeightLabel();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.tableLayout.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picIcon)).BeginInit();
@@ -193,6 +193,6 @@
 		private System.Windows.Forms.LinkLabel lnkSaDownload;
 		private System.Windows.Forms.LinkLabel lnkSaWebsite;
 		private System.Windows.Forms.PictureBox picIcon;
-		private SilUtils.Controls.AutoHeightLabel lblMessage;
+		private SilTools.Controls.AutoHeightLabel lblMessage;
 	}
 }

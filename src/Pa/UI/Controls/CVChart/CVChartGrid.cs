@@ -21,7 +21,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.UI.Controls
 {

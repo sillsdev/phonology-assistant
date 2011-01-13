@@ -3,8 +3,8 @@ using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 using SIL.Pa.Model;
-using SilUtils;
-using SilUtils.Controls;
+using SilTools;
+using SilTools.Controls;
 
 namespace SIL.Pa.UI.Controls
 {

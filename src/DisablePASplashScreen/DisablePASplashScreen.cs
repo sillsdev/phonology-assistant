@@ -1,11 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using SilUtils;
 
 namespace SIL.Pa
 {
@@ -19,10 +13,7 @@ namespace SIL.Pa
 		public DisablePASplashScreen()
 		{
 			InitializeComponent();
-
-			rbEnable.Checked =
-				App.SettingsHandler.GetBoolSettingsValue("SplashScreen", "show", true);
-
+			rbEnable.Checked = App.ShouldShowSplashScreen;
 			rbDisable.Checked = !rbEnable.Checked;
 		}
 
@@ -34,7 +25,7 @@ namespace SIL.Pa
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			base.OnFormClosing(e);
-			App.SettingsHandler.SaveSettingsValue("SplashScreen", "show", rbEnable.Checked);
+			App.ShouldShowSplashScreen = rbEnable.Checked;
 		}
 
 		/// ------------------------------------------------------------------------------------

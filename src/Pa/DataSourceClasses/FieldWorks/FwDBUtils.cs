@@ -6,7 +6,7 @@ using System.IO;
 using System.ServiceProcess;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.Model
 {

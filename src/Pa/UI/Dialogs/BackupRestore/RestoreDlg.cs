@@ -7,7 +7,7 @@ using System.IO;
 using SIL.Pa.DataSource;
 using ICSharpCode.SharpZipLib.Zip;
 using SIL.Pa.Properties;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
 {

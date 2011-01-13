@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Model;
-using SilUtils;
-using SilUtils.Controls;
+using SilTools;
+using SilTools.Controls;
 
 namespace SIL.Pa.UI.Controls
 {

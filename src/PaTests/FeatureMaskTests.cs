@@ -17,7 +17,7 @@
 using System;
 using NUnit.Framework;
 using SIL.Pa.Model;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.Tests
 {

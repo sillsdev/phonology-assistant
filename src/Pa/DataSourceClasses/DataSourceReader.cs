@@ -9,7 +9,7 @@ using SIL.Pa.Model;
 using SIL.Pa.ResourceStuff;
 using SIL.Pa.UI.Dialogs;
 using SIL.SpeechTools.Utils;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.DataSource
 {

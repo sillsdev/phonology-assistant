@@ -87,9 +87,9 @@
       <Name>Pa</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\SilUtils\SilUtils.csproj">
+    <ProjectReference Include="..\SilTools\SilTools.csproj">
       <Project>{87F94FCC-BC32-4203-A919-115F4FF43FF0}</Project>
-      <Name>SilUtils</Name>
+      <Name>SilTools</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

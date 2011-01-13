@@ -1,4 +1,4 @@
-namespace SilUtils.Controls
+namespace SilTools.Controls
 {
 	partial class SilPopup
 	{

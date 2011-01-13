@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
-namespace SilUtils.Controls
+namespace SilTools.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	public class XButton : Label

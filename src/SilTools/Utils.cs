@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using Microsoft.Win32;
 
-namespace SilUtils
+namespace SilTools
 {
 	public static class Utils
 	{

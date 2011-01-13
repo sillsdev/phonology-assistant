@@ -20,7 +20,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace SilUtils
+namespace SilTools
 {
 	public enum VersionType
 	{

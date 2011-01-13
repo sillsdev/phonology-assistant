@@ -1,4 +1,4 @@
-using SilUtils.Controls;
+using SilTools.Controls;
 
 namespace SIL.Pa.UI.Views
 {
@@ -33,16 +33,16 @@ namespace SIL.Pa.UI.Views
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(XYChartVw));
 			this.splitResults = new System.Windows.Forms.SplitContainer();
-			this.pnlRecView = new SilUtils.Controls.SilPanel();
+			this.pnlRecView = new SilTools.Controls.SilPanel();
 			this.rtfRecVw = new SIL.Pa.UI.Controls.RtfRecordView();
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
 			this.splitSideBarOuter = new System.Windows.Forms.SplitContainer();
 			this.pnlTabClassDef = new System.Windows.Forms.Panel();
 			this.ptrnBldrComponent = new SIL.Pa.UI.Controls.PatternBuilderComponents();
-			this.pnlSideBarCaption = new SilUtils.Controls.SilGradientPanel();
+			this.pnlSideBarCaption = new SilTools.Controls.SilGradientPanel();
 			this.btnDock = new SIL.Pa.UI.Controls.AutoHideDockButton();
 			this.btnAutoHide = new SIL.Pa.UI.Controls.AutoHideDockButton();
-			this.pnlSavedCharts = new SilUtils.Controls.SilPanel();
+			this.pnlSavedCharts = new SilTools.Controls.SilPanel();
 			this.lvSavedCharts = new System.Windows.Forms.ListView();
 			this.hdrSavedCharts = new System.Windows.Forms.ColumnHeader();
 			this.hlblSavedCharts = new HeaderLabel();

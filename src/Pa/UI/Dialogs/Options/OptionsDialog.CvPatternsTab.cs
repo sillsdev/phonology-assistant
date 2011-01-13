@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Model;
-using SilUtils;
+using SilTools;
 using SIL.Pa.UI.Controls;
 
 namespace SIL.Pa.UI.Dialogs

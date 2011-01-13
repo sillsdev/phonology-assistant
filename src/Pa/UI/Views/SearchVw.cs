@@ -10,7 +10,7 @@ using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
-using SilUtils;
+using SilTools;
 using SIL.Pa.UI.Controls;
 using SIL.Pa.UI.Dialogs;
 

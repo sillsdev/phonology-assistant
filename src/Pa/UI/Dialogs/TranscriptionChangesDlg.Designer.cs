@@ -1,4 +1,4 @@
-using SilUtils.Controls;
+using SilTools.Controls;
 
 namespace SIL.Pa.UI.Dialogs
 {
@@ -32,7 +32,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TranscriptionChangesDlg));
-			this.pnlGrid = new SilUtils.Controls.SilPanel();
+			this.pnlGrid = new SilTools.Controls.SilPanel();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();

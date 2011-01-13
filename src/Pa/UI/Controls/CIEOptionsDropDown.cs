@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using System.Windows.Forms;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.UI.Controls
 {

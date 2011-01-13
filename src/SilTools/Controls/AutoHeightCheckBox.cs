@@ -1,7 +1,7 @@
 // ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2010, SIL International. All Rights Reserved.
-// <copyright from='2010' to='2010' company='SIL International'>
-//		Copyright (c) 2010, SIL International. All Rights Reserved.   
+#region // Copyright (c) 2011, SIL International. All Rights Reserved.
+// <copyright from='2010' to='2011' company='SIL International'>
+//		Copyright (c) 2011, SIL International. All Rights Reserved.   
 //    
 //		Distributable under the terms of either the Common Public License or the
 //		GNU Lesser General Public License, as specified in the LICENSING.txt file.
@@ -15,12 +15,10 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
-namespace SilUtils.Controls
+namespace SilTools.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

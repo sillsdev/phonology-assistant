@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Xml.Serialization;
 using Localization;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.Model
 {

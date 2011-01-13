@@ -29,7 +29,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 
-namespace SilUtils
+namespace SilTools
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -43,18 +43,31 @@ namespace SilUtils
 		private const string Root = "Settings";
 
 		protected XmlDocument m_settingsXml;
-
-		// This allows tests to specify a temp. location which can be deleted on test cleanup.
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Path to the settings file folder (does not include file name.) This can be
+		/// specified when the default is not desired. It also allows tests to specify a
+		/// temp. location which can be deleted on test cleanup.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public static string SettingsFileFolder { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Settings file name (not including path). This can be specified when the default is
+		/// not desired (which is the application's name). It also allows tests to specify a
+		/// temp. location which can be deleted on test cleanup.
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string SettingsFileName { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		public PortableSettingsProvider()
 		{
-			if (SettingsFileFolder == null)
+			var tmpFolder = (SettingsFileFolder ?? string.Empty);
+
+			if (tmpFolder.Trim() == string.Empty)
 			{
 				var appFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 				appFolder = Path.Combine(appFolder, ApplicationName);
@@ -66,10 +79,6 @@ namespace SilUtils
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes the specified name.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public override void Initialize(string name, NameValueCollection nvc)
 		{
 			base.Initialize(ApplicationName, nvc);
@@ -78,7 +87,7 @@ namespace SilUtils
 
 			try
 			{
-				m_settingsXml.Load(Path.Combine(SettingsFilePath, SettingsFilename));
+				m_settingsXml.Load(GetFullSettingsFilePath());
 			}
 			catch
 			{
@@ -107,23 +116,36 @@ namespace SilUtils
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the path to the application's settings file. This path does not include the
-		/// file name.
+		/// Gets the full path to the application's settings file (includes the path and file
+		/// name).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public virtual string SettingsFilePath
+		public string GetFullSettingsFilePath()
 		{
-			get { return SettingsFileFolder; }
+			return Path.Combine(GetSettingsFileFolder(), GetSettingsFileName());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets only the name of the application settings file.
+		/// Gets the path to the application settings file, not including the file name.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public virtual string SettingsFilename
+		public virtual string GetSettingsFileFolder()
 		{
-			get { return ApplicationName + ".settings"; }
+			return SettingsFileFolder;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the name of the application settings file, not including the path.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public virtual string GetSettingsFileName()
+		{
+			var tmpFileName = (SettingsFileName ?? string.Empty);
+
+			return (tmpFileName.Trim() == string.Empty ?
+				ApplicationName + ".settings" : SettingsFileName);
 		}
 
 		#endregion
@@ -277,7 +299,7 @@ namespace SilUtils
 				// Loading the XML into a new document will make all the indentation correct.
 				var tmpXmlDoc = new XmlDocument();
 				tmpXmlDoc.LoadXml(m_settingsXml.OuterXml);
-				tmpXmlDoc.Save(Path.Combine(SettingsFilePath, SettingsFilename));
+				tmpXmlDoc.Save(GetFullSettingsFilePath());
 			}
 			catch { }
 		}
@@ -301,10 +323,6 @@ namespace SilUtils
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void SetStringCollection(SettingsPropertyValue propVal, XmlNode propNode)
 		{
 			if (propVal.PropertyValue == null)
@@ -324,10 +342,6 @@ namespace SilUtils
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void SetFormSettings(SettingsPropertyValue propVal, XmlNode propNode)
 		{
 			var formSettings = propVal.PropertyValue as FormSettings;
@@ -343,10 +357,6 @@ namespace SilUtils
 				(XmlSerializationHelper.SerializeToString(formSettings, true) ?? string.Empty);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void SetGridSettings(SettingsPropertyValue propVal, XmlNode propNode)
 		{

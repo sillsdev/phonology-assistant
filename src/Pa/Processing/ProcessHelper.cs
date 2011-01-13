@@ -22,7 +22,7 @@ using System.Windows.Forms;
 using System.Xml;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.Processing
 {

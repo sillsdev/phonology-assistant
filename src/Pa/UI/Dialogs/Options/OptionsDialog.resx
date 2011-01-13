@@ -1732,7 +1732,7 @@
     <value>m_sortingGrid</value>
   </data>
   <data name="&gt;&gt;m_sortingGrid.Type" xml:space="preserve">
-    <value>SilUtils.SilGrid, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.SilGrid, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_sortingGrid.Parent" xml:space="preserve">
     <value>grpColSortOptions</value>

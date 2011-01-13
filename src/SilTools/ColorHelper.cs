@@ -1,6 +1,6 @@
 using System.Drawing;
 
-namespace SilUtils
+namespace SilTools
 {
 	public static class ColorHelper
 	{

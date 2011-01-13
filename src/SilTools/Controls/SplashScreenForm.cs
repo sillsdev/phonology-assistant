@@ -26,7 +26,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Timer=System.Windows.Forms.Timer;
 
-namespace SilUtils
+namespace SilTools
 {
 	#region SplashScreenForm class
 	/// ----------------------------------------------------------------------------------------
@@ -154,7 +154,7 @@ namespace SilUtils
 			// pictureBox1
 			// 
 			this.pictureBox1.ErrorImage = null;
-			this.pictureBox1.Image = global::SilUtils.Properties.Resources.kimidSilLogo;
+			this.pictureBox1.Image = global::SilTools.Properties.Resources.kimidSilLogo;
 			resources.ApplyResources(this.pictureBox1, "pictureBox1");
 			this.pictureBox1.InitialImage = null;
 			this.pictureBox1.Name = "pictureBox1";

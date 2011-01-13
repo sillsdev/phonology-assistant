@@ -22,8 +22,8 @@ using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
-using SilUtils;
-using SilUtils.Controls;
+using SilTools;
+using SilTools.Controls;
 
 namespace SIL.Pa.UI.Controls
 {

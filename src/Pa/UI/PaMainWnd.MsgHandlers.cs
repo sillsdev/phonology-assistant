@@ -28,7 +28,7 @@ using SIL.Pa.Resources;
 using SIL.Pa.UI.Controls;
 using SIL.Pa.UI.Dialogs;
 using SIL.Pa.UI.Views;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.UI
 {

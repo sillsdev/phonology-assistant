@@ -2,7 +2,7 @@ using System;
 using System.Drawing;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.UI.Controls
 {

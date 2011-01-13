@@ -1,4 +1,4 @@
-namespace SilUtils
+namespace SilTools
 {
 	partial class SmallFadingWnd
 	{

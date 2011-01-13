@@ -134,10 +134,6 @@
       <Project>{C4347409-EFA4-47A0-AEF9-B6BB2378B1E5}</Project>
       <Name>Pa</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SilUtils\SilUtils.csproj">
-      <Project>{87F94FCC-BC32-4203-A919-115F4FF43FF0}</Project>
-      <Name>SilUtils</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

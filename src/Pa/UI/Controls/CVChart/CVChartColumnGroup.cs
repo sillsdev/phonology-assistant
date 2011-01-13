@@ -17,7 +17,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.UI.Controls
 {

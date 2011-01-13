@@ -27,8 +27,8 @@ using SIL.Pa.Model;
 using SIL.Pa.Filters;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Views;
-using SilUtils;
-using Utils=SilUtils.Utils;
+using SilTools;
+using Utils=SilTools.Utils;
 
 namespace SIL.Pa.UI
 {

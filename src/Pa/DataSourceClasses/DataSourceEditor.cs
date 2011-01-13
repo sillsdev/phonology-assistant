@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Win32;
 using SIL.Pa.Model;
 using SIL.Pa.UI.Dialogs;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.DataSource
 {

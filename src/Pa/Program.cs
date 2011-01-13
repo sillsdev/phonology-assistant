@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 using SIL.Pa.UI;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa
 {

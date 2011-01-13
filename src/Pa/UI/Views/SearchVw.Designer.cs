@@ -1,5 +1,5 @@
 using SIL.Pa.UI.Controls;
-using SilUtils.Controls;
+using SilTools.Controls;
 
 namespace SIL.Pa.UI.Views
 {
@@ -37,24 +37,24 @@ namespace SIL.Pa.UI.Views
 			this.splitSideBarOuter = new System.Windows.Forms.SplitContainer();
 			this.pnlTabClassDef = new System.Windows.Forms.Panel();
 			this.ptrnBldrComponent = new SIL.Pa.UI.Controls.PatternBuilderComponents();
-			this.pnlSideBarCaption = new SilUtils.Controls.SilGradientPanel();
+			this.pnlSideBarCaption = new SilTools.Controls.SilGradientPanel();
 			this.btnDock = new SIL.Pa.UI.Controls.AutoHideDockButton();
 			this.btnAutoHide = new SIL.Pa.UI.Controls.AutoHideDockButton();
 			this.splitSideBarInner = new System.Windows.Forms.SplitContainer();
-			this.pnlRecentPatterns = new SilUtils.Controls.SilPanel();
+			this.pnlRecentPatterns = new SilTools.Controls.SilPanel();
 			this.lstRecentPatterns = new System.Windows.Forms.ListBox();
 			this.hlblRecentPatterns = new HeaderLabel();
-			this.btnClearRecentList = new SilUtils.Controls.XButton();
-			this.btnRemoveFromRecentList = new SilUtils.Controls.XButton();
-			this.pnlSavedPatterns = new SilUtils.Controls.SilPanel();
+			this.btnClearRecentList = new SilTools.Controls.XButton();
+			this.btnRemoveFromRecentList = new SilTools.Controls.XButton();
+			this.pnlSavedPatterns = new SilTools.Controls.SilPanel();
 			this.tvSavedPatterns = new SIL.Pa.UI.Controls.SearchPatternTreeView();
 			this.hlblSavedPatterns = new HeaderLabel();
-			this.btnCategoryNew = new SilUtils.Controls.XButton();
-			this.btnCategoryCut = new SilUtils.Controls.XButton();
-			this.btnCategoryPaste = new SilUtils.Controls.XButton();
-			this.btnCategoryCopy = new SilUtils.Controls.XButton();
+			this.btnCategoryNew = new SilTools.Controls.XButton();
+			this.btnCategoryCut = new SilTools.Controls.XButton();
+			this.btnCategoryPaste = new SilTools.Controls.XButton();
+			this.btnCategoryCopy = new SilTools.Controls.XButton();
 			this.splitResults = new System.Windows.Forms.SplitContainer();
-			this.pnlRecView = new SilUtils.Controls.SilPanel();
+			this.pnlRecView = new SilTools.Controls.SilPanel();
 			this.rtfRecVw = new SIL.Pa.UI.Controls.RtfRecordView();
 			this.m_tooltip = new System.Windows.Forms.ToolTip(this.components);
 			this.btnRefresh = new System.Windows.Forms.Button();
@@ -576,11 +576,11 @@ namespace SIL.Pa.UI.Views
 		private AutoHideDockButton btnDock;
 		private AutoHideDockButton btnAutoHide;
 		private HeaderLabel hlblSavedPatterns;
-		private SilUtils.Controls.XButton btnRemoveFromRecentList;
+		private SilTools.Controls.XButton btnRemoveFromRecentList;
 		private PatternBuilderComponents ptrnBldrComponent;
 		private PatternTextBox ptrnTextBox;
 		private System.Windows.Forms.Button btnRefresh;
-		private SilUtils.Controls.XButton btnClearRecentList;
+		private SilTools.Controls.XButton btnClearRecentList;
 		private Localization.UI.LocalizationExtender locExtender;
 	}
 }

@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
 
-namespace SilUtils
+namespace SilTools
 {
 	public static class ReflectionHelper
 	{

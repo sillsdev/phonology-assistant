@@ -8,8 +8,8 @@
     <ProjectGuid>{87F94FCC-BC32-4203-A919-115F4FF43FF0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SilUtils</RootNamespace>
-    <AssemblyName>SilUtils</AssemblyName>
+    <RootNamespace>SilTools</RootNamespace>
+    <AssemblyName>SilTools</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -22,7 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>1591, 1573</NoWarn>
-    <DocumentationFile>..\..\Output\Debug\SilUtils.XML</DocumentationFile>
+    <DocumentationFile>..\..\Output\Debug\SilTools.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,7 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>1591</NoWarn>
-    <DocumentationFile>..\..\Output\Release\SilUtils.XML</DocumentationFile>
+    <DocumentationFile>..\..\Output\Release\SilTools.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

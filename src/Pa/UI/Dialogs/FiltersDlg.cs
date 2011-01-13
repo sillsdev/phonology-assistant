@@ -8,7 +8,7 @@ using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
-using SilUtils;
+using SilTools;
 using SIL.FieldWorks.Common.UIAdapters;
 using System.Windows.Forms.VisualStyles;
 using System.Drawing.Drawing2D;

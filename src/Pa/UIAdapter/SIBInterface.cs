@@ -1,6 +1,6 @@
 using System.Windows.Forms;
 using Microsoft.Win32;
-using SilUtils;
+using SilTools;
 
 namespace SIL.FieldWorks.Common.UIAdapters
 {

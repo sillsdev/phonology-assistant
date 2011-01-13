@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.Model
 {

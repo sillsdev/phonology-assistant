@@ -1,4 +1,4 @@
-using SilUtils.Controls;
+using SilTools.Controls;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -21,9 +21,9 @@ namespace SIL.Pa.UI.Controls
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PatternBuilderComponents));
 			this.tabPatternBlding = new System.Windows.Forms.TabControl();
 			this.tpgCons = new System.Windows.Forms.TabPage();
-			this.pnlConsonants = new SilUtils.Controls.SilPanel();
+			this.pnlConsonants = new SilTools.Controls.SilPanel();
 			this.tpgVows = new System.Windows.Forms.TabPage();
-			this.pnlVowels = new SilUtils.Controls.SilPanel();
+			this.pnlVowels = new SilTools.Controls.SilPanel();
 			this.tpgOther = new System.Windows.Forms.TabPage();
 			this.charExplorer = new SIL.Pa.UI.Controls.IPACharacterExplorer();
 			this.tpgClasses = new System.Windows.Forms.TabPage();

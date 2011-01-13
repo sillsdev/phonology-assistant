@@ -10,8 +10,8 @@ using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Processing;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
-using SilUtils;
-using SilUtils.Controls;
+using SilTools;
+using SilTools.Controls;
 
 namespace SIL.Pa.UI.Views
 {

@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SIL.Pa.Model;
 using SIL.FieldWorks.Common.UIAdapters;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa.UI.Controls
 {
