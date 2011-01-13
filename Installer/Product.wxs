@@ -69,8 +69,8 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 			<ComponentRef Id="DisablePASplashScreen.pdb" />
 			<ComponentRef Id="ICSharpCode.SharpZipLib.dll" />
 			<ComponentRef Id="LocalizationManager.dll" />
-			<ComponentRef Id="SilUtils.dll" />
-			<ComponentRef Id="SilUtils.pdb" />
+			<ComponentRef Id="SilTools.dll" />
+			<ComponentRef Id="SilTools.pdb" />
 			<ComponentRef Id="SpeechToolsUtils.dll" />
 			<ComponentRef Id="Phonology_Assistant_Help.chm" />
 			<ComponentRef Id="PaTMDefinition.xml" />

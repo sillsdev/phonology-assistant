@@ -53,8 +53,8 @@
 					<Component Id="SilUtils.dll" Guid="{3AFDAECE-34C9-4633-9257-0DBB459C9ED7}">
 						<File Id="SilUtils.dll" KeyPath="yes" Source="..\output\release\SilUtils.dll" />
 					</Component>
-					<Component Id="SilUtils.pdb" Guid="{955FC01F-82F7-4B2C-878D-73A4272D415A}">
-						<File Id="SilUtils.pdb" KeyPath="yes" Source="..\output\release\SilUtils.pdb" />
+					<Component Id="SilTools.pdb" Guid="{BE7CF0A5-7BBA-4499-A107-B249DCB79FB7}">
+						<File Id="SilTools.pdb" KeyPath="yes" Source="..\output\release\SilTools.pdb" />
 					</Component>
 					<Component Id="SpeechToolsUtils.dll" Guid="{4B412B97-3D03-4E4A-839B-E27E4B4FCF92}">
 						<Class Id="{5A202747-6161-4C0C-B35E-EAB8E5562C5A}" Context="InprocServer32" Description="SIL.SpeechTools.Utils.SaAudioDocumentReader" ThreadingModel="both" ForeignServer="mscoree.dll">
