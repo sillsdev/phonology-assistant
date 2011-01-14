@@ -14,10 +14,6 @@ using SilTools;
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public enum SearchResultLocation
 	{
 		/// <summary>Adds tab results to the current tab, even if the tab already contains results.</summary>
@@ -72,6 +68,8 @@ namespace SIL.Pa.UI.Controls
 		private readonly ISearchResultsViewHost m_srchRsltVwHost;
 		private readonly IRecordView m_recView;
 		private readonly List<SearchResultView> m_searchResultViews = new List<SearchResultView>();
+		private readonly Action<int> m_savePlaybackSpeedAction;
+		private int m_playbackSpeed;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -79,7 +77,8 @@ namespace SIL.Pa.UI.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SearchResultsViewManager(ITabView view, ITMAdapter tmAdapter,
-			SplitContainer splitResults, IRecordView recView)
+			SplitContainer splitResults, IRecordView recView, int playbackSpeed,
+			Action<int> savePlaybackSpeed)
 		{
 			m_view = view;
 			m_srchRsltVwHost = view as ISearchResultsViewHost;
@@ -88,6 +87,8 @@ namespace SIL.Pa.UI.Controls
 			m_splitResults = splitResults;
 			m_resultsPanel = splitResults.Panel1;
 			m_recView = recView;
+			m_playbackSpeed = playbackSpeed;
+			m_savePlaybackSpeedAction = savePlaybackSpeed;
 			App.AddMediatorColleague(this);
 			m_resultsPanel.ControlRemoved += HandleTabGroupRemoved;
 			Application.AddMessageFilter(this);
@@ -322,7 +323,7 @@ namespace SIL.Pa.UI.Controls
 				{
 					grid.GroupByField = grid.SortOptions.SortInformationList[0].FieldInfo;
 
-					if (App.SettingsHandler.GetBoolSettingsValue("wordlists", "collapseongrouping", false))
+					if (Settings.Default.WordListCollapseOnGrouping)
 						grid.ToggleGroupExpansion(false);
 				}
 
@@ -1444,25 +1445,18 @@ namespace SIL.Pa.UI.Controls
 				return false;
 			}
 
-			m_playbackSpeedAdjuster.PlaybackSpeed =
-				App.SettingsHandler.GetIntSettingsValue(m_view.GetType().Name, "playbackspeed", 100);
-
+			m_playbackSpeedAdjuster.PlaybackSpeed = m_playbackSpeed;
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownClosedAdjustPlaybackSpeed(object args)
 		{
 			if (!m_view.ActiveView)
 				return false;
 
-			App.SettingsHandler.SaveSettingsValue(m_view.GetType().Name,
-				"playbackspeed", m_playbackSpeedAdjuster.PlaybackSpeed);
-			
+			m_playbackSpeed = m_playbackSpeedAdjuster.PlaybackSpeed;
+			m_savePlaybackSpeedAction(m_playbackSpeed);
 			return true;
 		}
 
@@ -1484,7 +1478,7 @@ namespace SIL.Pa.UI.Controls
 			FindInfo.CanFindAgain = true;
 
 			if (CurrentViewsGrid.Cache.IsCIEList && !CurrentViewsGrid.Cache.IsEmpty &&
-				App.SettingsHandler.GetBoolSettingsValue("wordlists", "collapseonminpairs", false))
+				Settings.Default.WordListCollapseOnMinimalPairs)
 			{
 				CurrentViewsGrid.ToggleGroupExpansion(false);
 			}

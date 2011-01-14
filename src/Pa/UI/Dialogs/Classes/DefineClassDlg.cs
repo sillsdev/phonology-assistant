@@ -274,19 +274,34 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void SetupPhoneViewers()
 		{
-			m_conViewer = new PhonesInFeatureViewer(IPASymbolType.Consonant, Name, "ConVwr");
+			m_conViewer = new PhonesInFeatureViewer(IPASymbolType.Consonant,
+				Settings.Default.DefineClassDlgShowAllConsonantsInViewer,
+				Settings.Default.DefineClassDlgUseCompactConsonantView,
+				showAll => Settings.Default.DefineClassDlgShowAllConsonantsInViewer = showAll,
+				compactVw => Settings.Default.DefineClassDlgUseCompactConsonantView = compactVw);
+			
 			m_conViewer.HeaderText = Properties.Resources.kstidDefClassPhoneHdrCon;
 			m_conViewer.Dock = DockStyle.Fill;
 			splitCV.Panel1.Controls.Add(m_conViewer);
 			m_conViewer.BringToFront();
 
-			m_vowViewer = new PhonesInFeatureViewer(IPASymbolType.Vowel, Name, "VowVwr");
+			m_vowViewer = new PhonesInFeatureViewer(IPASymbolType.Vowel,
+				Settings.Default.DefineClassDlgShowAllVowelsInViewer,
+				Settings.Default.DefineClassDlgUseCompactVowelView,
+				showAll => Settings.Default.DefineClassDlgShowAllVowelsInViewer = showAll,
+				compactVw => Settings.Default.DefineClassDlgUseCompactVowelView = compactVw);
+
 			m_vowViewer.HeaderText = Properties.Resources.kstidDefClassPhoneHdrVow;
 			m_vowViewer.Dock = DockStyle.Fill;
 			splitCV.Panel2.Controls.Add(m_vowViewer);
 			m_vowViewer.BringToFront();
 
-			m_otherPhonesViewer = new PhonesInFeatureViewer(IPASymbolType.Unknown, Name, "OtherVwr");
+			m_otherPhonesViewer = new PhonesInFeatureViewer(IPASymbolType.Unknown,
+				Settings.Default.DefineClassDlgShowAllOthersInViewer,
+				Settings.Default.DefineClassDlgUseCompactOtherView,
+				showAll => Settings.Default.DefineClassDlgShowAllOthersInViewer = showAll,
+				compactVw => Settings.Default.DefineClassDlgUseCompactOtherView = compactVw);
+
 			m_otherPhonesViewer.HeaderText = Properties.Resources.kstidDefClassPhoneHdrOther;
 			m_otherPhonesViewer.CanViewExpandAndCompact = false;
 			m_otherPhonesViewer.Dock = DockStyle.Fill;

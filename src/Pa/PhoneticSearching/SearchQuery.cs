@@ -522,9 +522,6 @@ namespace SIL.Pa.PhoneticSearching
 				return null;
 			}
 
-			SearchEngine.ConvertPatternWithTranscriptionChanges =
-				Settings.Default.ConvertPatternsWithTranscriptionChanges;
-
 			return new SearchEngine(modifiedQuery, App.PhoneCache);
 		}
 

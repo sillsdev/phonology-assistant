@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SilTools;
 using SilTools.Controls;
 
@@ -42,14 +43,11 @@ namespace SIL.Pa.UI.Controls
 			//m_origWidth2 = pnlMonogram.Width;
 			//m_origWidth3 = lblCountHeading.Width;
 			//m_origLeft = lblCountHeading.Left;
+		
 			m_origUncertaintyHeadingHeight = lblUncertaintyHeading.Height;
 			m_countPanelOrigHeight = pnlCounts.Height;
-
-			m_extraMonogramHeight = App.SettingsHandler.GetIntSettingsValue(
-				"cvcharts", "extrapopupmonogramheight", 7);
-
-			m_extraUncertainListHeight = App.SettingsHandler.GetIntSettingsValue(
-				"cvcharts", "extrapopupuncertainlistheight", 5);
+			m_extraMonogramHeight = Settings.Default.CVChartExtraPopupMonogramHeight;
+			m_extraUncertainListHeight = Settings.Default.CVChartExtraPopupUncertainListHeight;
 		}
 
 		/// ------------------------------------------------------------------------------------

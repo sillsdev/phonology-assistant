@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -22,8 +23,8 @@ namespace SIL.Pa.UI.Controls
 
 		//private bool m_allowFullSearchPattern = false;
 		//private bool m_ignoreTextChange = false;
-		private bool m_classDisplayBehaviorChanged = false;
-		private bool m_ignoreResize = false;
+		private bool m_classDisplayBehaviorChanged;
+		private bool m_ignoreResize;
 		private bool m_showArrows = true;
 		private string m_srchQryCategory;
 		private SearchQuery m_searchQuery;
@@ -31,7 +32,7 @@ namespace SIL.Pa.UI.Controls
 		private SearchOptionsDropDown m_searchOptionsDropDown;
 		private readonly Image m_downArrow;
 		private readonly Image m_upArrow;
-		private static readonly char kEmptyPatternChar = '\u25CA';
+		private const char kEmptyPatternChar = '\u25CA';
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -1164,7 +1165,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private static bool SurroundCVInBrackets(TextBox txt)
 		{
-			if (!App.SettingsHandler.GetBoolSettingsValue("typing", "assumecvisphoneclass", true))
+			if (!Settings.Default.AssumeCVKeysArePhoneClassWhileTyping)
 				return false;
 
 			return (!InsideBraketedGroup(txt, '[', ']') && !InsideBraketedGroup(txt, '<', '>'));
@@ -1176,7 +1177,7 @@ namespace SIL.Pa.UI.Controls
 		/// the set of specified brackets.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static bool InsideBraketedGroup(TextBox txt, char openBracket, char closeBracket)
+		private static bool InsideBraketedGroup(TextBoxBase txt, char openBracket, char closeBracket)
 		{
 			for (int i = txt.SelectionStart - 1; i >= 0 && i < txt.Text.Length; i--)
 			{
@@ -1242,10 +1243,10 @@ namespace SIL.Pa.UI.Controls
 			// Handle some special cases when the Ctrl key is down. Except for Ctrl0, the
 			// reason we handle {}{} and - (the dash is treated as an underscore) specially
 			// is because the KeyMan IPA keyboard intercepts them for its purposes.
-			if ((Control.ModifierKeys & Keys.Control) != Keys.Control)
+			if ((ModifierKeys & Keys.Control) != Keys.Control)
 				return base.PreProcessMessage(ref m);
 
-			bool shiftDown = ((Control.ModifierKeys & Keys.Shift) == Keys.Shift);
+			bool shiftDown = ((ModifierKeys & Keys.Shift) == Keys.Shift);
 			string toInsert = null;
 			int keyCode = m.WParam.ToInt32();
 

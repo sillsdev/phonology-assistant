@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Properties;
 using SilTools;
 using SilTools.Controls;
 
@@ -169,16 +170,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void AdjustPanelHeights()
 		{
 			using (Graphics g = CreateGraphics())
 			{
-				int extraTabHeight = App.SettingsHandler.GetIntSettingsValue(
-					"SearchVw", "extrasearchtabheight", 12);
+				int extraTabHeight = Settings.Default.SearchVwExtraSearchTabHeight;
 
 				const TextFormatFlags kFlags = TextFormatFlags.VerticalCenter |
 					TextFormatFlags.SingleLine | TextFormatFlags.LeftAndRightPadding;

@@ -16,14 +16,9 @@ namespace SIL.Pa.UI.Dialogs
 		private readonly TranscriptionChangesControl m_transChangeCtrl;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public TranscriptionChangesDlg()
 		{
 			InitializeComponent();
-			App.SettingsHandler.LoadFormProperties(this);
 
 			if (!PaintingHelper.CanPaintVisualStyle())
 				pnlGrid.BorderStyle = BorderStyle.Fixed3D;

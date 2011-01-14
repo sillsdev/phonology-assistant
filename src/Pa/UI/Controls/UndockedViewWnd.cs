@@ -131,7 +131,7 @@ namespace SIL.Pa.UI.Controls
 			Invalidate();  // Used to be: Utils.UpdateWindow(Handle); but I'm not sure why. I suspect there was a good reason though.
 
 			if (App.Project != null && m_checkForModifiedDataSources &&
-				Settings.Default.ReloadProjectsOnActivate)
+				Settings.Default.ReloadProjectsWhenAppBecomesActivate)
 			{
 				App.Project.CheckForModifiedDataSources();
 			}

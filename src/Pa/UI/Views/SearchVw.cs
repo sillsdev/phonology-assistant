@@ -194,7 +194,11 @@ namespace SIL.Pa.UI.Views
 			if (m_rsltVwMngr != null)
 				m_rsltVwMngr.TMAdapter = m_tmAdapter;
 			else
-				m_rsltVwMngr = new SearchResultsViewManager(this, m_tmAdapter, splitResults, rtfRecVw);
+			{
+				m_rsltVwMngr = new SearchResultsViewManager(this, m_tmAdapter,
+					splitResults, rtfRecVw, Settings.Default.SearchVwPlaybackSpeed,
+					newSpeed => Settings.Default.SearchVwPlaybackSpeed = newSpeed);
+			}
 
 			if (m_tmAdapter != null)
 			{
@@ -255,10 +259,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void SetupSlidingPanel()
 		{
 			pnlSideBarCaption.Height = FontHelper.UIFont.Height + 7;
@@ -267,7 +267,10 @@ namespace SIL.Pa.UI.Views
 			btnAutoHide.Top = ((pnlSideBarCaption.Height - btnAutoHide.Height) / 2) - 1;
 			btnDock.Top = btnAutoHide.Top;
 
-			m_slidingPanel = new SlidingPanel(this, splitSideBarOuter, pnlSliderPlaceholder, Name);
+			m_slidingPanel = new SlidingPanel(this, splitSideBarOuter, pnlSliderPlaceholder,
+				Settings.Default.SearchVwSidePanelWidth,
+				newWidth => Settings.Default.SearchVwSidePanelWidth = newWidth);
+			
 			App.L10NMngr.LocalizeObject(m_slidingPanel.Tab, "SearchVw.UndockedSideBarTabText",
 				"Patterns & Pattern Building", null, null, "Text on vertical tab when the side " +
 				"bar is undocked in the search view.", "Views", LocalizationPriority.High);

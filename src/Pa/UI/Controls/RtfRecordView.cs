@@ -347,14 +347,13 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void GetLargestFontInfo()
 		{
-			m_useExactLineSpacing = App.SettingsHandler.GetBoolSettingsValue(
-				"rtfrecview", "useexactlinespacing", false);
+			m_useExactLineSpacing = Settings.Default.RTFRecordViewUseExactLineSpacing;
 			
 			if (!m_useExactLineSpacing)
 				return;
 
-			float exactLineHeightMultiplier = App.SettingsHandler.GetIntSettingsValue(
-				"rtfrecview", "percentageofexactlineheighttouse", 1) / 100f;
+			float exactLineHeightMultiplier =
+				Settings.Default.RTFRecordViewPercentageOfExactLineHeightToUse / 100f;
 						
 			float dpiY;
 			using (Graphics g = CreateGraphics())

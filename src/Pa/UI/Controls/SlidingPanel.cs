@@ -32,7 +32,8 @@ namespace SIL.Pa.UI.Controls
 		private readonly Control m_owningContainer;
 		//private readonly string m_tabText;
 		//private readonly bool m_opening;
-		private readonly string m_settingName;
+		private readonly int m_initialPanelWidth;
+		private readonly Action<int> m_saveWidthAction;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -40,7 +41,7 @@ namespace SIL.Pa.UI.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SlidingPanel(Control owningContainer, Control control, Panel pnlPlaceHolder,
-			string settingName)
+			int initialPanelWidth, Action<int> saveWidthAction)
 		{
 			SuspendLayout();
 			base.DoubleBuffered = true;
@@ -54,7 +55,8 @@ namespace SIL.Pa.UI.Controls
 			m_hostedControl.SuspendLayout();
 			m_hostedControl.Dock = DockStyle.Fill;
 			m_pnlPlaceholder = pnlPlaceHolder;
-			m_settingName = settingName;
+			m_initialPanelWidth = initialPanelWidth;
+			m_saveWidthAction = saveWidthAction;
 
 			SetupPanels();
 			SetupTimers();
@@ -142,22 +144,14 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void LoadSettings()
 		{
-			m_pnlContainer.Width = App.SettingsHandler.GetIntSettingsValue(m_settingName,
-				"sidepanelwidth", m_pnlContainer.Width);
-
+			if (m_initialPanelWidth > 0)
+				m_pnlContainer.Width = m_initialPanelWidth;
+	
 			ProcessUndockedContainerSizeChanged();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void m_pnlPlaceholder_SizeChanged(object sender, EventArgs e)
 		{
@@ -461,8 +455,7 @@ namespace SIL.Pa.UI.Controls
 				m_sizingLine.Dispose();
 
 				// Save the new size in the settings file.
-				App.SettingsHandler.SaveSettingsValue(m_settingName, "sidepanelwidth",
-					m_pnlContainer.Width);
+				m_saveWidthAction(m_pnlContainer.Width);
 			}
 		}
 

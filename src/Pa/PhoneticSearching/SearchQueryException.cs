@@ -16,7 +16,6 @@
 // ---------------------------------------------------------------------------------------------
 using System;
 using System.Text;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.PhoneticSearching
@@ -57,9 +56,6 @@ namespace SIL.Pa.PhoneticSearching
 				SearchQuery modifiedQuery;
 				if (!App.ConvertClassesToPatterns(query, out modifiedQuery, false, out m_queryErrorMsg))
 					return;
-
-				SearchEngine.ConvertPatternWithTranscriptionChanges =
-					Settings.Default.ConvertPatternsWithTranscriptionChanges;
 
 				SearchEngine engine = new SearchEngine(modifiedQuery.Pattern);
 

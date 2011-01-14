@@ -50,10 +50,10 @@
 					<Component Id="Phonology_Assistant_Help.chm" Guid="{06DFF774-C027-4CB5-8821-0B5F2C6FD88B}">
 						<File Id="Phonology_Assistant_Help.chm" KeyPath="yes" Source="..\output\release\Phonology_Assistant_Help.chm" />
 					</Component>
-					<Component Id="SilUtils.dll" Guid="{3AFDAECE-34C9-4633-9257-0DBB459C9ED7}">
-						<File Id="SilUtils.dll" KeyPath="yes" Source="..\output\release\SilUtils.dll" />
+					<Component Id="SilTools.dll" Guid="{A130DD5C-A787-4085-B2B3-5C84E67A20B1}">
+						<File Id="SilTools.dll" KeyPath="yes" Source="..\output\release\SilUtils.dll" />
 					</Component>
-					<Component Id="SilTools.pdb" Guid="{BE7CF0A5-7BBA-4499-A107-B249DCB79FB7}">
+					<Component Id="SilTools.pdb" Guid="{C85FA3F0-F525-4151-9D1A-396410501084}">
 						<File Id="SilTools.pdb" KeyPath="yes" Source="..\output\release\SilTools.pdb" />
 					</Component>
 					<Component Id="SpeechToolsUtils.dll" Guid="{4B412B97-3D03-4E4A-839B-E27E4B4FCF92}">

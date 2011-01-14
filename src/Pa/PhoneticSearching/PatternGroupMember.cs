@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 
 namespace SIL.Pa.PhoneticSearching
 {
@@ -223,7 +224,7 @@ namespace SIL.Pa.PhoneticSearching
 			List<PatternGroupMember> memberPhones = new List<PatternGroupMember>();
 
 			string[] phones = App.IPASymbolCache.PhoneticParser(m_member, true,
-				SearchEngine.ConvertPatternWithTranscriptionChanges);
+				Settings.Default.ConvertPatternsWithTranscriptionChanges);
 
 			if (phones == null || phones.Length == 0)
 				return null;

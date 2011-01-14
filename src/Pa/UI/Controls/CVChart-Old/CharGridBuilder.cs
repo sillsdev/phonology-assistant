@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -331,10 +332,7 @@ namespace SIL.Pa.UI.Controls
 			// Set the grid's cell width to the widest phone, adding
 			// some padding because the grid renders with padding.
 			if (m_chrGrid != null)
-			{
-				m_chrGrid.CellWidth = maxPhoneWidth +
-					App.SettingsHandler.GetIntSettingsValue("cvcharts", "extracellwidth", 8);
-			}
+				m_chrGrid.CellWidth = maxPhoneWidth + Settings.Default.CVChartsExtraCellWidth;
 		}
 
 		/// ------------------------------------------------------------------------------------

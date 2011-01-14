@@ -140,7 +140,11 @@ namespace SIL.Pa.UI.Views
 			if (m_rsltVwMngr != null)
 				m_rsltVwMngr.TMAdapter = m_tmAdapter;
 			else
-				m_rsltVwMngr = new SearchResultsViewManager(this, m_tmAdapter, splitResults, rtfRecVw);
+			{
+				m_rsltVwMngr = new SearchResultsViewManager(this, m_tmAdapter,
+					splitResults, rtfRecVw, Settings.Default.DistChartVwPlaybackSpeed,
+					newSpeed => Settings.Default.DistChartVwPlaybackSpeed = newSpeed);
+			}
 
 			if (m_tmAdapter == null)
 				return;
@@ -319,7 +323,9 @@ namespace SIL.Pa.UI.Views
 			btnAutoHide.Top = ((pnlSideBarCaption.Height - btnAutoHide.Height) / 2) - 1;
 			btnDock.Top = btnAutoHide.Top;
 
-			m_slidingPanel = new SlidingPanel(this, splitSideBarOuter, pnlSliderPlaceholder, Name);
+			m_slidingPanel = new SlidingPanel(this, splitSideBarOuter, pnlSliderPlaceholder,
+				Settings.Default.DistChartVwSidePanelWidth,
+				newWidth => Settings.Default.DistChartVwSidePanelWidth = newWidth);
 
 			App.L10NMngr.LocalizeObject(m_slidingPanel.Tab, "XYChartVw.UndockedSideBarTabText",
 				"Charts & Chart Building", null, null, "Text on vertical tab when the side " +

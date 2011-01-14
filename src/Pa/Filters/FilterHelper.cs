@@ -216,12 +216,7 @@ namespace SIL.Pa.Filters
 			if (App.Project != null)
 				SearchEngine.IgnoreUndefinedCharacters = App.Project.IgnoreUndefinedCharsInSearches;
 
-			SearchEngine.ConvertPatternWithTranscriptionChanges =
-				App.SettingsHandler.GetBoolSettingsValue("searchengine",
-				"convertpatternswithexperimentaltrans", false);
-
-			SearchEngine engine = new SearchEngine(modifiedQuery,
-				App.PhoneCache ?? SearchEngine.PhoneCache);
+			var engine = new SearchEngine(modifiedQuery, App.PhoneCache ?? SearchEngine.PhoneCache);
 
 			string[] errors = modifiedQuery.ErrorMessages.ToArray();
 			string msg = ReflectionHelper.GetStrResult(typeof(App),

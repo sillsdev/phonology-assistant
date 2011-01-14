@@ -1462,12 +1462,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool ReloadProjectsOnActivate {
+        public bool ReloadProjectsWhenAppBecomesActivate {
             get {
-                return ((bool)(this["ReloadProjectsOnActivate"]));
+                return ((bool)(this["ReloadProjectsWhenAppBecomesActivate"]));
             }
             set {
-                this["ReloadProjectsOnActivate"] = value;
+                this["ReloadProjectsWhenAppBecomesActivate"] = value;
             }
         }
         
@@ -2466,6 +2466,380 @@ namespace SIL.Pa.Properties {
             }
             set {
                 this["WordListGroupingPhonesToMatchForCIEAfter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("7")]
+        public int CVChartExtraPopupMonogramHeight {
+            get {
+                return ((int)(this["CVChartExtraPopupMonogramHeight"]));
+            }
+            set {
+                this["CVChartExtraPopupMonogramHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int CVChartExtraPopupUncertainListHeight {
+            get {
+                return ((int)(this["CVChartExtraPopupUncertainListHeight"]));
+            }
+            set {
+                this["CVChartExtraPopupUncertainListHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("36")]
+        public int CVChartsCellHeight {
+            get {
+                return ((int)(this["CVChartsCellHeight"]));
+            }
+            set {
+                this["CVChartsCellHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("8")]
+        public int CVChartsExtraCellWidth {
+            get {
+                return ((int)(this["CVChartsExtraCellWidth"]));
+            }
+            set {
+                this["CVChartsExtraCellWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AssumeCVKeysArePhoneClassWhileTyping {
+            get {
+                return ((bool)(this["AssumeCVKeysArePhoneClassWhileTyping"]));
+            }
+            set {
+                this["AssumeCVKeysArePhoneClassWhileTyping"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public int PhonesInFeaturesListExtraPhoneHeight {
+            get {
+                return ((int)(this["PhonesInFeaturesListExtraPhoneHeight"]));
+            }
+            set {
+                this["PhonesInFeaturesListExtraPhoneHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RTFRecordViewUseExactLineSpacing {
+            get {
+                return ((bool)(this["RTFRecordViewUseExactLineSpacing"]));
+            }
+            set {
+                this["RTFRecordViewUseExactLineSpacing"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int RTFRecordViewPercentageOfExactLineHeightToUse {
+            get {
+                return ((int)(this["RTFRecordViewPercentageOfExactLineHeightToUse"]));
+            }
+            set {
+                this["RTFRecordViewPercentageOfExactLineHeightToUse"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SearchOptionsDropDownPickerLabelFontSize {
+            get {
+                return ((int)(this["SearchOptionsDropDownPickerLabelFontSize"]));
+            }
+            set {
+                this["SearchOptionsDropDownPickerLabelFontSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SearchOptionsDropDownExtraPickerLabelWidth {
+            get {
+                return ((int)(this["SearchOptionsDropDownExtraPickerLabelWidth"]));
+            }
+            set {
+                this["SearchOptionsDropDownExtraPickerLabelWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public int SearchOptionsDropDownExtraPickerLabelHeight {
+            get {
+                return ((int)(this["SearchOptionsDropDownExtraPickerLabelHeight"]));
+            }
+            set {
+                this["SearchOptionsDropDownExtraPickerLabelHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool WordListCollapseOnGrouping {
+            get {
+                return ((bool)(this["WordListCollapseOnGrouping"]));
+            }
+            set {
+                this["WordListCollapseOnGrouping"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool WordListCollapseOnMinimalPairs {
+            get {
+                return ((bool)(this["WordListCollapseOnMinimalPairs"]));
+            }
+            set {
+                this["WordListCollapseOnMinimalPairs"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        public global::System.Drawing.Color SearchResultTabActiveIninactiveGroup1 {
+            get {
+                return ((global::System.Drawing.Color)(this["SearchResultTabActiveIninactiveGroup1"]));
+            }
+            set {
+                this["SearchResultTabActiveIninactiveGroup1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("215, 209, 196")]
+        public global::System.Drawing.Color SearchResultTabActiveIninactiveGroup2 {
+            get {
+                return ((global::System.Drawing.Color)(this["SearchResultTabActiveIninactiveGroup2"]));
+            }
+            set {
+                this["SearchResultTabActiveIninactiveGroup2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
+        public global::System.Drawing.Color SearchResultTabActiveIninactiveGroupForeColor {
+            get {
+                return ((global::System.Drawing.Color)(this["SearchResultTabActiveIninactiveGroupForeColor"]));
+            }
+            set {
+                this["SearchResultTabActiveIninactiveGroupForeColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        public global::System.Drawing.Color SearchResultTabActiveBackColor {
+            get {
+                return ((global::System.Drawing.Color)(this["SearchResultTabActiveBackColor"]));
+            }
+            set {
+                this["SearchResultTabActiveBackColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
+        public global::System.Drawing.Color SearchResultTabActiveForeColor {
+            get {
+                return ((global::System.Drawing.Color)(this["SearchResultTabActiveForeColor"]));
+            }
+            set {
+                this["SearchResultTabActiveForeColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Control")]
+        public global::System.Drawing.Color SearchResultTabInactiveBackColor {
+            get {
+                return ((global::System.Drawing.Color)(this["SearchResultTabInactiveBackColor"]));
+            }
+            set {
+                this["SearchResultTabInactiveBackColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ControlText")]
+        public global::System.Drawing.Color SearchResultTabInactiveForeColor {
+            get {
+                return ((global::System.Drawing.Color)(this["SearchResultTabInactiveForeColor"]));
+            }
+            set {
+                this["SearchResultTabInactiveForeColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("12")]
+        public int SearchVwExtraSearchTabHeight {
+            get {
+                return ((int)(this["SearchVwExtraSearchTabHeight"]));
+            }
+            set {
+                this["SearchVwExtraSearchTabHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DistChartVwSidePanelWidth {
+            get {
+                return ((int)(this["DistChartVwSidePanelWidth"]));
+            }
+            set {
+                this["DistChartVwSidePanelWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SearchVwSidePanelWidth {
+            get {
+                return ((int)(this["SearchVwSidePanelWidth"]));
+            }
+            set {
+                this["SearchVwSidePanelWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int SearchVwPlaybackSpeed {
+            get {
+                return ((int)(this["SearchVwPlaybackSpeed"]));
+            }
+            set {
+                this["SearchVwPlaybackSpeed"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int DistChartVwPlaybackSpeed {
+            get {
+                return ((int)(this["DistChartVwPlaybackSpeed"]));
+            }
+            set {
+                this["DistChartVwPlaybackSpeed"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DefineClassDlgShowAllConsonantsInViewer {
+            get {
+                return ((bool)(this["DefineClassDlgShowAllConsonantsInViewer"]));
+            }
+            set {
+                this["DefineClassDlgShowAllConsonantsInViewer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefineClassDlgUseCompactConsonantView {
+            get {
+                return ((bool)(this["DefineClassDlgUseCompactConsonantView"]));
+            }
+            set {
+                this["DefineClassDlgUseCompactConsonantView"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DefineClassDlgShowAllVowelsInViewer {
+            get {
+                return ((bool)(this["DefineClassDlgShowAllVowelsInViewer"]));
+            }
+            set {
+                this["DefineClassDlgShowAllVowelsInViewer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefineClassDlgUseCompactVowelView {
+            get {
+                return ((bool)(this["DefineClassDlgUseCompactVowelView"]));
+            }
+            set {
+                this["DefineClassDlgUseCompactVowelView"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DefineClassDlgShowAllOthersInViewer {
+            get {
+                return ((bool)(this["DefineClassDlgShowAllOthersInViewer"]));
+            }
+            set {
+                this["DefineClassDlgShowAllOthersInViewer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefineClassDlgUseCompactOtherView {
+            get {
+                return ((bool)(this["DefineClassDlgUseCompactOtherView"]));
+            }
+            set {
+                this["DefineClassDlgUseCompactOtherView"] = value;
             }
         }
     }

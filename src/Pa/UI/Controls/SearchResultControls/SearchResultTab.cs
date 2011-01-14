@@ -22,6 +22,7 @@ using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Properties;
 using SilTools;
 using SilTools.Controls;
 
@@ -130,26 +131,13 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void GetTabColors()
 		{
-			m_activeTabInactiveGroupBack1 = App.SettingsHandler.GetColorSettingsValue(
-				"srchresulttabs", "activeininactivegroup1", Color.White);
-
-			m_activeTabInactiveGroupBack2 = App.SettingsHandler.GetColorSettingsValue(
-				"srchresulttabs", "activeininactivegroup1", 0xFFD7D1C4);
-
-			m_activeTabInactiveGroupFore = App.SettingsHandler.GetColorSettingsValue(
-				"srchresulttabs", "activeininactivegroupfore", Color.Black);
-
-			m_activeTabBack = App.SettingsHandler.GetColorSettingsValue(
-				"srchresulttabs", "activetabback", Color.White);
-
-			m_activeTabFore = App.SettingsHandler.GetColorSettingsValue(
-				"srchresulttabs", "activetabfore", Color.Black);
-
-			m_inactiveTabBack = App.SettingsHandler.GetColorSettingsValue(
-				"srchresulttabs", "inactivetabback", SystemColors.Control);
-
-			m_inactiveTabFore = App.SettingsHandler.GetColorSettingsValue(
-				"srchresulttabs", "inactivetabfore", SystemColors.ControlText);
+			m_activeTabInactiveGroupBack1 = Settings.Default.SearchResultTabActiveIninactiveGroup1;
+			m_activeTabInactiveGroupBack2 = Settings.Default.SearchResultTabActiveIninactiveGroup1;
+			m_activeTabInactiveGroupFore = Settings.Default.SearchResultTabActiveIninactiveGroupForeColor;
+			m_activeTabBack = Settings.Default.SearchResultTabActiveBackColor;
+			m_activeTabFore = Settings.Default.SearchResultTabActiveForeColor;
+			m_inactiveTabBack = Settings.Default.SearchResultTabInactiveBackColor;
+			m_inactiveTabFore = Settings.Default.SearchResultTabInactiveForeColor;
 		}
 
 		/// ------------------------------------------------------------------------------------

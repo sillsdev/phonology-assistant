@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -20,12 +21,13 @@ namespace SIL.Pa.UI.Controls
 		private SearchClassType m_srchClassType;
 		private int m_lblHeight;
 		private readonly int m_extraPhoneHeight;
-		private readonly string m_settingValPrefix;
-		private readonly string m_frmName;
 		private readonly IPASymbolType m_charType;
 		private readonly SortedList<int, List<Label>> m_lableRows;
 		private readonly CompactViewerPanel pnlCompactView;
 
+		private readonly Action<bool> m_saveShowAllAction;
+		private readonly Action<bool> m_saveCompactViewAction;
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// 
@@ -47,26 +49,18 @@ namespace SIL.Pa.UI.Controls
 			if (!App.DesignMode)
 				base.Font = FontHelper.MakeEticRegFontDerivative(14);
 
-			m_extraPhoneHeight += App.SettingsHandler.GetIntSettingsValue(
-				"phonesinfeatureslists", "extraphoneheight", 3);
+			m_extraPhoneHeight += Settings.Default.PhonesInFeaturesListExtraPhoneHeight;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public PhonesInFeatureViewer(IPASymbolType charType, string frmName,
-			string settingValPrefix) : this()
+		public PhonesInFeatureViewer(IPASymbolType charType, bool initiallyShowAll,
+			bool initiallyShowCompactView, Action<bool> saveShowAllAction,
+			Action<bool> saveCompactViewAction) : this()
 		{
-			m_settingValPrefix = settingValPrefix;
-			m_frmName = frmName;
-			
-			m_showAll = App.SettingsHandler.GetBoolSettingsValue(frmName,
-				m_settingValPrefix + "ShowAll", true);
-			
-			m_compactView = App.SettingsHandler.GetBoolSettingsValue(frmName,
-				m_settingValPrefix + "CompactView", false);
+			m_showAll = initiallyShowAll;
+			m_compactView = initiallyShowCompactView;
+			m_saveShowAllAction = saveShowAllAction;
+			m_saveCompactViewAction = saveCompactViewAction;
 
 			pnlCompactView.Dock = DockStyle.Fill;
 			pnlExpandedView.Dock = DockStyle.Fill;
@@ -85,17 +79,13 @@ namespace SIL.Pa.UI.Controls
 		{
 			Disposed -= PhonesInFeatureViewer_Disposed;
 
-			App.SettingsHandler.SaveSettingsValue(m_frmName,
-				m_settingValPrefix + "ShowAll", m_showAll);
+			if (m_saveShowAllAction != null)
+				m_saveShowAllAction(m_showAll);
 
-			App.SettingsHandler.SaveSettingsValue(m_frmName,
-				m_settingValPrefix + "CompactView", m_compactView);
+			if (m_saveCompactViewAction != null)
+				m_saveCompactViewAction(m_compactView);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void Reset()
 		{

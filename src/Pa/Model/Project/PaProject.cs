@@ -9,6 +9,7 @@ using SIL.Pa.DataSource;
 using SIL.Pa.Filters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Properties;
 using SIL.SpeechTools.Utils;
 using SilTools;
 
@@ -482,11 +483,8 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void appWindow_Activated(object sender, EventArgs e)
 		{
-			if (App.SettingsHandler.GetBoolSettingsValue(App.kAppSettingsName,
-				"reloadprojectsonactivate", true))
-			{
+			if (Settings.Default.ReloadProjectsWhenAppBecomesActivate)
 				CheckForModifiedDataSources();
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------

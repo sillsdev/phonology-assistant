@@ -12,28 +12,20 @@ namespace SIL.Pa.UI.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class SizableDropDownPanel : UserControl
 	{
-		private bool m_leftMouseDown = false;
+		private bool m_leftMouseDown;
 		private Point m_anchor;
 		private string m_savedSettingsName;
 		private Rectangle m_hotArea;
 		private const int kHotDimension = 13;
-		private bool m_resizeDoEvents = false;
-		private readonly SettingsHandler m_settingsHndlr = null;
+		private bool m_resizeDoEvents;
+		private readonly SettingsHandler m_settingsHndlr;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SizableDropDownPanel(string savedSettingName, Size defaultSize) :
 			this(null, savedSettingName, defaultSize)
 		{
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SizableDropDownPanel(SettingsHandler settingsHndlr, string savedSettingName,
 			Size defaultSize)

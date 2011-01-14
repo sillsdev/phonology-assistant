@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -57,9 +58,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public CharGrid()
 		{
-			m_cellHeight =
-				App.SettingsHandler.GetIntSettingsValue("cvcharts", "cellheight", 36);
-
+			m_cellHeight = Settings.Default.CVChartsCellHeight;
 			m_rowHdrs = new List<CharGridHeader>();
 			m_colHdrs = new List<CharGridHeader>();
 			m_chartFont = FontHelper.MakeEticRegFontDerivative(14);

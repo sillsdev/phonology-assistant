@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -44,9 +45,7 @@ namespace SIL.Pa.UI.Controls
 			rbPrimaryOnly.Font = FontHelper.UIFont;
 			rbAllUncertainties.Font = FontHelper.UIFont;
 
-			int fontsize = App.SettingsHandler.GetIntSettingsValue(
-				"searchoptionsdropdown", "pickerlabelfontsize", 0);
-
+			int fontsize = Settings.Default.SearchOptionsDropDownPickerLabelFontSize;
 			if (fontsize > 0)
 			{
 				stressPicker.Font = FontHelper.MakeEticRegFontDerivative(fontsize);
@@ -106,11 +105,8 @@ namespace SIL.Pa.UI.Controls
 			// and the group in which they are contained.
 			int dxGrpPickerDiff = grpPadding.Left + grpPadding.Right;
 
-			int extraWidth = App.SettingsHandler.GetIntSettingsValue(
-				"searchoptionsdropdown", "extrapickerlabelwidth", 0);
-
-			int extraHeight = App.SettingsHandler.GetIntSettingsValue(
-				"searchoptionsdropdown", "extrapickerlabelheight", 3);
+			int extraWidth = Settings.Default.SearchOptionsDropDownExtraPickerLabelWidth;
+			int extraHeight = Settings.Default.SearchOptionsDropDownExtraPickerLabelHeight;
 
 			// Get the difference between a group's left edge and the
 			// left edge of the check box associated with that group.
