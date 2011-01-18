@@ -11,20 +11,12 @@ using SilTools;
 namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class OptionsDlg
 	{
 		private SilGrid m_fontGrid;
 		private const string kSampleText = "Abc123";
 		private bool m_fontChanged;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void InitializeFontTab()
 		{
@@ -59,7 +51,8 @@ namespace SIL.Pa.UI.Dialogs
 				m_fontGrid.Columns["field"].Width = 110;
 			}
 
-			m_fontGrid.CurrentCellDirtyStateChanged += m_fontGrid_CurrentCellDirtyStateChanged;
+			m_fontGrid.CurrentCellDirtyStateChanged += HandleFontsGridCurrentCellDirtyStateChanged;
+			m_fontGrid.CellFormatting += App.HandleFormattingSelectedGridCell;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -131,7 +124,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// dialog closes.
 		/// </summary>
 		/// --------------------------------------------------------------------------------------------
-		void m_fontGrid_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+		void HandleFontsGridCurrentCellDirtyStateChanged(object sender, EventArgs e)
 		{
 			DataGridViewRow row = m_fontGrid.CurrentRow;
 			Font prevFont = row.Tag as Font;

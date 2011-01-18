@@ -82,10 +82,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void SetupFeatureLists()
 		{
 			m_lvAFeatures = new FeatureListView(App.FeatureType.Articulatory);
@@ -106,10 +102,6 @@ namespace SIL.Pa.UI.Dialogs
 			m_lvBFeatures.BorderStyle = BorderStyle.None;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void BuildPhoneGrid()
 		{

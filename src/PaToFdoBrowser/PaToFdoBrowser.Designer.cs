@@ -1,6 +1,6 @@
 ﻿namespace SIL.Pa
 {
-	partial class FdoToPaBrowser
+	partial class PaToFdoBrowser
 	{
 		/// <summary>
 		/// Required designer variable.

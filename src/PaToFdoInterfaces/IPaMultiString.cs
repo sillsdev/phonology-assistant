@@ -1,4 +1,4 @@
-namespace SIL.FdoToPaInterfaces
+namespace SIL.PaToFdoInterfaces
 {
 	#region IPaMultiString interface
 	/// ----------------------------------------------------------------------------------------

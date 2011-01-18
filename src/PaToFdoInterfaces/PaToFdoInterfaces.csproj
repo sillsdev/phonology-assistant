@@ -8,8 +8,8 @@
     <ProjectGuid>{5540C524-713E-4842-BD59-35D5EA6A60C6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SIL.FdoToPaInterfaces</RootNamespace>
-    <AssemblyName>FDOToPaInterfaces</AssemblyName>
+    <RootNamespace>SIL.PaToFdoInterfaces</RootNamespace>
+    <AssemblyName>PaToFdoInterfaces</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>

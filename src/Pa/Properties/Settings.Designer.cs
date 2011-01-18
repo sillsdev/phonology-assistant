@@ -1206,12 +1206,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.GridSettings FiltersDlgGrid {
+        public global::SilTools.GridSettings FiltersDlgExpressionsGrid {
             get {
-                return ((global::SilTools.GridSettings)(this["FiltersDlgGrid"]));
+                return ((global::SilTools.GridSettings)(this["FiltersDlgExpressionsGrid"]));
             }
             set {
-                this["FiltersDlgGrid"] = value;
+                this["FiltersDlgExpressionsGrid"] = value;
             }
         }
         
@@ -1592,25 +1592,26 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Drawing.Color SelectedFocusedWordListRowBackColor {
+        [global::System.Configuration.DefaultSettingValueAttribute("153, 187, 210")]
+        public global::System.Drawing.Color WordListSelectedFocusedRowBackColor {
             get {
-                return ((global::System.Drawing.Color)(this["SelectedFocusedWordListRowBackColor"]));
+                return ((global::System.Drawing.Color)(this["WordListSelectedFocusedRowBackColor"]));
             }
             set {
-                this["SelectedFocusedWordListRowBackColor"] = value;
+                this["WordListSelectedFocusedRowBackColor"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("WindowText")]
-        public global::System.Drawing.Color SelectedFocusedWordListRowForeColor {
+        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
+        public global::System.Drawing.Color WordListSelectedFocusedRowForeColor {
             get {
-                return ((global::System.Drawing.Color)(this["SelectedFocusedWordListRowForeColor"]));
+                return ((global::System.Drawing.Color)(this["WordListSelectedFocusedRowForeColor"]));
             }
             set {
-                this["SelectedFocusedWordListRowForeColor"] = value;
+                this["WordListSelectedFocusedRowForeColor"] = value;
             }
         }
         
@@ -1618,49 +1619,51 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Control")]
-        public global::System.Drawing.Color SelectedUnFocusedWordListRowBackColor {
+        public global::System.Drawing.Color WordListSelectedUnFocusedRowBackColor {
             get {
-                return ((global::System.Drawing.Color)(this["SelectedUnFocusedWordListRowBackColor"]));
+                return ((global::System.Drawing.Color)(this["WordListSelectedUnFocusedRowBackColor"]));
             }
             set {
-                this["SelectedUnFocusedWordListRowBackColor"] = value;
+                this["WordListSelectedUnFocusedRowBackColor"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Drawing.Color SelectedUnFocusedWordListRowForeColor {
+        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
+        public global::System.Drawing.Color WordListSelectedUnFocusedRowForeColor {
             get {
-                return ((global::System.Drawing.Color)(this["SelectedUnFocusedWordListRowForeColor"]));
+                return ((global::System.Drawing.Color)(this["WordListSelectedUnFocusedRowForeColor"]));
             }
             set {
-                this["SelectedUnFocusedWordListRowForeColor"] = value;
+                this["WordListSelectedUnFocusedRowForeColor"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Drawing.Color SelectedWordListCellBackColor {
+        [global::System.Configuration.DefaultSettingValueAttribute("153, 187, 210")]
+        public global::System.Drawing.Color WordListSelectedCellBackColor {
             get {
-                return ((global::System.Drawing.Color)(this["SelectedWordListCellBackColor"]));
+                return ((global::System.Drawing.Color)(this["WordListSelectedCellBackColor"]));
             }
             set {
-                this["SelectedWordListCellBackColor"] = value;
+                this["WordListSelectedCellBackColor"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("WindowText")]
-        public global::System.Drawing.Color SelectedWordListCellForeColor {
+        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
+        public global::System.Drawing.Color WordListSelectedCellForeColor {
             get {
-                return ((global::System.Drawing.Color)(this["SelectedWordListCellForeColor"]));
+                return ((global::System.Drawing.Color)(this["WordListSelectedCellForeColor"]));
             }
             set {
-                this["SelectedWordListCellForeColor"] = value;
+                this["WordListSelectedCellForeColor"] = value;
             }
         }
         
@@ -2496,6 +2499,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("36")]
         public int CVChartsCellHeight {
@@ -2508,6 +2512,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("8")]
         public int CVChartsExtraCellWidth {
@@ -2520,6 +2525,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool AssumeCVKeysArePhoneClassWhileTyping {
@@ -2532,6 +2538,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("3")]
         public int PhonesInFeaturesListExtraPhoneHeight {
@@ -2544,6 +2551,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool RTFRecordViewUseExactLineSpacing {
@@ -2556,6 +2564,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public int RTFRecordViewPercentageOfExactLineHeightToUse {
@@ -2568,6 +2577,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int SearchOptionsDropDownPickerLabelFontSize {
@@ -2580,6 +2590,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int SearchOptionsDropDownExtraPickerLabelWidth {
@@ -2592,6 +2603,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("3")]
         public int SearchOptionsDropDownExtraPickerLabelHeight {
@@ -2604,6 +2616,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool WordListCollapseOnGrouping {
@@ -2616,6 +2629,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool WordListCollapseOnMinimalPairs {
@@ -2628,6 +2642,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("White")]
         public global::System.Drawing.Color SearchResultTabActiveIninactiveGroup1 {
@@ -2640,6 +2655,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("215, 209, 196")]
         public global::System.Drawing.Color SearchResultTabActiveIninactiveGroup2 {
@@ -2652,6 +2668,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Black")]
         public global::System.Drawing.Color SearchResultTabActiveIninactiveGroupForeColor {
@@ -2664,6 +2681,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("White")]
         public global::System.Drawing.Color SearchResultTabActiveBackColor {
@@ -2676,6 +2694,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Black")]
         public global::System.Drawing.Color SearchResultTabActiveForeColor {
@@ -2688,6 +2707,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Control")]
         public global::System.Drawing.Color SearchResultTabInactiveBackColor {
@@ -2700,6 +2720,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("ControlText")]
         public global::System.Drawing.Color SearchResultTabInactiveForeColor {
@@ -2712,6 +2733,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("12")]
         public int SearchVwExtraSearchTabHeight {
@@ -2724,6 +2746,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int DistChartVwSidePanelWidth {
@@ -2736,6 +2759,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int SearchVwSidePanelWidth {
@@ -2748,6 +2772,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public int SearchVwPlaybackSpeed {
@@ -2760,6 +2785,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public int DistChartVwPlaybackSpeed {
@@ -2772,6 +2798,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool DefineClassDlgShowAllConsonantsInViewer {
@@ -2784,6 +2811,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool DefineClassDlgUseCompactConsonantView {
@@ -2796,6 +2824,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool DefineClassDlgShowAllVowelsInViewer {
@@ -2808,6 +2837,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool DefineClassDlgUseCompactVowelView {
@@ -2820,6 +2850,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool DefineClassDlgShowAllOthersInViewer {
@@ -2832,6 +2863,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool DefineClassDlgUseCompactOtherView {
@@ -2840,6 +2872,169 @@ namespace SIL.Pa.Properties {
             }
             set {
                 this["DefineClassDlgUseCompactOtherView"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 51, 102")]
+        public global::System.Drawing.Color ClrSchemeDarkBlue {
+            get {
+                return ((global::System.Drawing.Color)(this["ClrSchemeDarkBlue"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 51, 153")]
+        public global::System.Drawing.Color ClrSchemeMedBlue {
+            get {
+                return ((global::System.Drawing.Color)(this["ClrSchemeMedBlue"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("102, 153, 204")]
+        public global::System.Drawing.Color ClrSchemeLightBlue {
+            get {
+                return ((global::System.Drawing.Color)(this["ClrSchemeLightBlue"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("204, 153, 51")]
+        public global::System.Drawing.Color ClrSchemeDarkGold {
+            get {
+                return ((global::System.Drawing.Color)(this["ClrSchemeDarkGold"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("255, 204, 102")]
+        public global::System.Drawing.Color ClrSchemeLightGold {
+            get {
+                return ((global::System.Drawing.Color)(this["ClrSchemeLightGold"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("204, 102, 51")]
+        public global::System.Drawing.Color ClrSchemeBrick {
+            get {
+                return ((global::System.Drawing.Color)(this["ClrSchemeBrick"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("255, 204, 153")]
+        public global::System.Drawing.Color ClrSchemeFlesh {
+            get {
+                return ((global::System.Drawing.Color)(this["ClrSchemeFlesh"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("51, 0, 0")]
+        public global::System.Drawing.Color ClrSchemeDarkBrown {
+            get {
+                return ((global::System.Drawing.Color)(this["ClrSchemeDarkBrown"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("102, 51, 0")]
+        public global::System.Drawing.Color ClrSchemeMedBrown {
+            get {
+                return ((global::System.Drawing.Color)(this["ClrSchemeMedBrown"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("204, 153, 102")]
+        public global::System.Drawing.Color ClrSchemeLightBrown {
+            get {
+                return ((global::System.Drawing.Color)(this["ClrSchemeLightBrown"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("255, 255, 204")]
+        public global::System.Drawing.Color ClrSchemeCream {
+            get {
+                return ((global::System.Drawing.Color)(this["ClrSchemeCream"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("101, 130, 152")]
+        public global::System.Drawing.Color GridSelectedRowFocusedRectColor {
+            get {
+                return ((global::System.Drawing.Color)(this["GridSelectedRowFocusedRectColor"]));
+            }
+            set {
+                this["GridSelectedRowFocusedRectColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("101, 130, 152")]
+        public global::System.Drawing.Color GradientPanelTopColor {
+            get {
+                return ((global::System.Drawing.Color)(this["GradientPanelTopColor"]));
+            }
+            set {
+                this["GradientPanelTopColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("56, 56, 84")]
+        public global::System.Drawing.Color GradientPanelBottomColor {
+            get {
+                return ((global::System.Drawing.Color)(this["GradientPanelBottomColor"]));
+            }
+            set {
+                this["GradientPanelBottomColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        public global::System.Drawing.Color GradientPanelTextColor {
+            get {
+                return ((global::System.Drawing.Color)(this["GradientPanelTextColor"]));
+            }
+            set {
+                this["GradientPanelTextColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilTools.GridSettings FiltersDlgFiltersGrid {
+            get {
+                return ((global::SilTools.GridSettings)(this["FiltersDlgFiltersGrid"]));
+            }
+            set {
+                this["FiltersDlgFiltersGrid"] = value;
             }
         }
     }

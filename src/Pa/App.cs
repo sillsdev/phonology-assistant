@@ -31,6 +31,7 @@ using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Processing;
 using SIL.Pa.Properties;
 using SIL.Pa.ResourceStuff;
+using SIL.Pa.UI.Views;
 using SilTools;
 using ShortcutKeysEditor=SilTools.Controls.ShortcutKeysEditor;
 using Utils=SilTools.Utils;
@@ -183,13 +184,23 @@ namespace SIL.Pa
 
 			ReadAddOns();
 
-			LocalizeItemDlg.SetDialogSplitterPosition += LocalizeItemDlg_SetDialogSplitterPosition;
-			LocalizeItemDlg.SaveDialogSplitterPosition += LocalizeItemDlg_SaveDialogSplitterPosition;
-			LocalizeItemDlg.SetDialogBounds += LocalizeItemDlg_SetDialogBounds;
-			LocalizeItemDlg.SaveDialogBounds += LocalizeItemDlg_SaveDialogBounds;
-
 			// Load the cache of IPA symbols, articulatory and binary features.
 			InventoryHelper.Load();
+
+			LocalizeItemDlg.SaveDialogSplitterPosition += (pos => Settings.Default.LocalizeDlgSplitterPos = pos);
+			LocalizeItemDlg.SetDialogSplitterPosition += (currPos =>
+			{
+
+				return (Settings.Default.LocalizeDlgSplitterPos > 0 ?
+					Settings.Default.LocalizeDlgSplitterPos : currPos);
+			});
+
+			LocalizeItemDlg.SaveDialogBounds += (dlg => Settings.Default.LocalizeDlgBounds = dlg.Bounds);
+			LocalizeItemDlg.SetDialogBounds += (dlg =>
+			{
+				if (!Settings.Default.LocalizeDlgBounds.IsEmpty)
+					dlg.Bounds = Settings.Default.LocalizeDlgBounds;
+			});
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -229,10 +240,6 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static string kCloseClassBracket
 		{
 			get
@@ -245,10 +252,6 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static string kstidFileTypeAllExe
 		{
 			get
@@ -259,10 +262,6 @@ namespace SIL.Pa
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static string kstidFileTypeAllFiles
 		{
@@ -275,10 +274,6 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static string kstidFileTypeHTML
 		{
 			get
@@ -288,10 +283,6 @@ namespace SIL.Pa
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static string kstidFileTypeWordXml
 		{
@@ -303,10 +294,6 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static string kstidFileTypeXLingPaper
 		{
 			get
@@ -316,10 +303,6 @@ namespace SIL.Pa
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static string kstidFileTypePAXML
 		{
@@ -331,10 +314,6 @@ namespace SIL.Pa
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static string kstidFileTypePAProject
 		{
@@ -348,10 +327,6 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static string kstidFiletypeRTF
 		{
 			get
@@ -363,10 +338,6 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static string kstidFiletypeSASoundMP3
 		{
 			get
@@ -376,10 +347,6 @@ namespace SIL.Pa
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static string kstidFiletypeSASoundWave
 		{
@@ -391,10 +358,6 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static string kstidFiletypeSASoundWMA
 		{
 			get
@@ -404,10 +367,6 @@ namespace SIL.Pa
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static string kstidFileTypeToolboxDB
 		{
@@ -419,10 +378,6 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static string kstidFileTypeToolboxITX
 		{
 			get
@@ -432,10 +387,6 @@ namespace SIL.Pa
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static string kstidFileTypeXML
 		{
@@ -447,10 +398,6 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static string kstidFileTypeXSLT
 		{
 			get
@@ -461,10 +408,6 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static string kstidFileTypeZip
 		{
 			get
@@ -474,10 +417,6 @@ namespace SIL.Pa
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static string kstidQuerySearchingMsg
 		{
@@ -491,10 +430,6 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static string kstidSaveChangesMsg
 		{
 			get
@@ -504,10 +439,6 @@ namespace SIL.Pa
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static string kstidSaveFileDialogGenericCaption
 		{
@@ -520,51 +451,7 @@ namespace SIL.Pa
 
 		#endregion
 
-		#region event handlers for saving and restoring localization dialog settings
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Set the localization dialog's size and location.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		static void LocalizeItemDlg_SetDialogBounds(LocalizeItemDlg dlg)
-		{
-			if (!Settings.Default.LocalizeDlgBounds.IsEmpty)
-				dlg.Bounds = Settings.Default.LocalizeDlgBounds;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Saves localization dialog size and location.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		static void LocalizeItemDlg_SaveDialogBounds(LocalizeItemDlg dlg)
-		{
-			Settings.Default.LocalizeDlgBounds = dlg.Bounds;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Returns the saved splitter distance value for Localizing dialog box.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		static int LocalizeItemDlg_SetDialogSplitterPosition(int currPos)
-		{
-			return (Settings.Default.LocalizeDlgSplitterPos > 0 ?
-				Settings.Default.LocalizeDlgSplitterPos : currPos);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Saves the splitter distance value for Localizing dialog box.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		static void LocalizeItemDlg_SaveDialogSplitterPosition(int pos)
-		{
-			Settings.Default.LocalizeDlgSplitterPos = pos;
-		}
-
-		#endregion
-
+		#region SplashScreen stuff
 		/// ------------------------------------------------------------------------------------
 		public static bool ShouldShowSplashScreen
 		{
@@ -586,6 +473,8 @@ namespace SIL.Pa
 				SplashScreen.Message = Properties.Resources.kstidSplashScreenLoadingMsg;
 			}
 		}
+
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -646,10 +535,6 @@ namespace SIL.Pa
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static void InitializePaRegKey()
 		{
@@ -781,10 +666,7 @@ namespace SIL.Pa
 		
 		#endregion
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		#region Message mediator adding/removing
 		/// ------------------------------------------------------------------------------------
 		public static void AddMediatorColleague(IxCoreColleague colleague)
 		{
@@ -816,6 +698,8 @@ namespace SIL.Pa
 					s_colleagueList.Remove(colleague);
 			}
 		}
+
+		#endregion
 
 		#region Misc. Properties
 		/// ------------------------------------------------------------------------------------
@@ -1051,10 +935,6 @@ namespace SIL.Pa
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static void HandleFormattingSelectedGridCell(object sender, DataGridViewCellFormattingEventArgs e)
 		{
 			var grid = sender as DataGridView;
@@ -1063,13 +943,13 @@ namespace SIL.Pa
 			{
 				if (grid.CurrentCellAddress.X == e.ColumnIndex)
 				{
-					e.CellStyle.SelectionBackColor = SelectedWordListCellBackColor;
-					e.CellStyle.SelectionForeColor = Settings.Default.SelectedWordListCellForeColor;
+					e.CellStyle.SelectionBackColor = Settings.Default.WordListSelectedCellBackColor;
+					e.CellStyle.SelectionForeColor = Settings.Default.WordListSelectedCellForeColor;
 				}
 				else
 				{
-					e.CellStyle.SelectionBackColor = SelectedFocusedWordListRowBackColor;
-					e.CellStyle.SelectionForeColor = Settings.Default.SelectedFocusedWordListRowForeColor;
+					e.CellStyle.SelectionBackColor = Settings.Default.WordListSelectedFocusedRowBackColor;
+					e.CellStyle.SelectionForeColor = Settings.Default.WordListSelectedFocusedRowForeColor;
 				}
 			}
 		}
@@ -1091,10 +971,10 @@ namespace SIL.Pa
 		{
 			get
 			{
-				var clr = Settings.Default.SelectedFocusedWordListRowBackColor;
+				var clr = Settings.Default.WordListSelectedFocusedRowBackColor;
 				return (clr == Color.Empty ? ColorHelper.LightHighlight : clr);
 			}
-			set { Settings.Default.SelectedFocusedWordListRowBackColor = value; }
+			set { Settings.Default.WordListSelectedFocusedRowBackColor = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1115,34 +995,49 @@ namespace SIL.Pa
 					System.Windows.Forms.VisualStyles.VisualStyleInformation.DisplayName == "Windows XP style" &&
 					System.Windows.Forms.VisualStyles.VisualStyleInformation.ColorScheme == "Metallic")
 				{
-					clr = Settings.Default.SelectedUnFocusedWordListRowForeColor;
+					clr = Settings.Default.WordListSelectedUnFocusedRowForeColor;
 					return (clr == Color.Empty ? SystemColors.GrayText : clr);
 				}
 
-				clr = Settings.Default.SelectedUnFocusedWordListRowForeColor;
+				clr = Settings.Default.WordListSelectedUnFocusedRowForeColor;
 				return (clr == Color.Empty ? SystemColors.ControlText : clr);
 			}
-			set { Settings.Default.SelectedUnFocusedWordListRowForeColor = value; }
+			set { Settings.Default.WordListSelectedUnFocusedRowForeColor = value; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Color SelectedWordListCellBackColor
-		{
-			get
-			{
-				var clr = Settings.Default.SelectedWordListCellBackColor;
-				return (clr == Color.Empty ? ColorHelper.LightLightHighlight : clr);
-			}
-			set { Settings.Default.SelectedWordListCellBackColor = value; }
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public static Color SelectedWordListCellBackColor
+		//{
+		//    get
+		//    {
+		//        var clr = Settings.Default.WordListSelectedCellBackColor;
+		//        return (clr == Color.Empty ? ColorHelper.LightLightHighlight : clr);
+		//    }
+		//    set { Settings.Default.WordListSelectedCellBackColor = value; }
+		//}
 
 		#endregion
 
 		#region Misc. methods
+		/// ------------------------------------------------------------------------------------
+		public static int GetPlaybackSpeedForVwType(Type vwType)
+		{
+			if (vwType == typeof(DataCorpusVw))
+				return Settings.Default.DataCorpusVwPlaybackSpeed;
+
+			if (vwType == typeof(SearchVw))
+				return Settings.Default.SearchVwPlaybackSpeed;
+
+			if (vwType == typeof(XYChartVw))
+				return Settings.Default.DistChartVwPlaybackSpeed;
+
+			return 100;
+		}
+		
 		/// ------------------------------------------------------------------------------------
 		public static FormSettings InitializeForm(Form frm, FormSettings settings)
 		{

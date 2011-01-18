@@ -275,7 +275,7 @@
     <Setting Name="MRUList" Provider="SilTools.PortableSettingsProvider" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="FiltersDlgGrid" Provider="SilTools.PortableSettingsProvider" Type="SilTools.GridSettings" Scope="User">
+    <Setting Name="FiltersDlgExpressionsGrid" Provider="SilTools.PortableSettingsProvider" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="FiltersDlgSplitLoc" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
@@ -368,23 +368,23 @@
     <Setting Name="LocalizeDlgBounds" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
       <Value Profile="(Default)">0, 0, 0, 0</Value>
     </Setting>
-    <Setting Name="SelectedFocusedWordListRowBackColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="WordListSelectedFocusedRowBackColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">153, 187, 210</Value>
     </Setting>
-    <Setting Name="SelectedFocusedWordListRowForeColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">WindowText</Value>
+    <Setting Name="WordListSelectedFocusedRowForeColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
     </Setting>
-    <Setting Name="SelectedUnFocusedWordListRowBackColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="WordListSelectedUnFocusedRowBackColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Control</Value>
     </Setting>
-    <Setting Name="SelectedUnFocusedWordListRowForeColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="WordListSelectedUnFocusedRowForeColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
     </Setting>
-    <Setting Name="SelectedWordListCellBackColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="WordListSelectedCellBackColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">153, 187, 210</Value>
     </Setting>
-    <Setting Name="SelectedWordListCellForeColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">WindowText</Value>
+    <Setting Name="WordListSelectedCellForeColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
     </Setting>
     <Setting Name="UncertainPhoneForeColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">RoyalBlue</Value>
@@ -578,92 +578,140 @@
     <Setting Name="CVChartExtraPopupUncertainListHeight" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">5</Value>
     </Setting>
-    <Setting Name="CVChartsCellHeight" Type="System.Int32" Scope="User">
+    <Setting Name="CVChartsCellHeight" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">36</Value>
     </Setting>
-    <Setting Name="CVChartsExtraCellWidth" Type="System.Int32" Scope="User">
+    <Setting Name="CVChartsExtraCellWidth" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">8</Value>
     </Setting>
-    <Setting Name="AssumeCVKeysArePhoneClassWhileTyping" Type="System.Boolean" Scope="User">
+    <Setting Name="AssumeCVKeysArePhoneClassWhileTyping" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="PhonesInFeaturesListExtraPhoneHeight" Type="System.Int32" Scope="User">
+    <Setting Name="PhonesInFeaturesListExtraPhoneHeight" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">3</Value>
     </Setting>
-    <Setting Name="RTFRecordViewUseExactLineSpacing" Type="System.Boolean" Scope="User">
+    <Setting Name="RTFRecordViewUseExactLineSpacing" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="RTFRecordViewPercentageOfExactLineHeightToUse" Type="System.Int32" Scope="User">
+    <Setting Name="RTFRecordViewPercentageOfExactLineHeightToUse" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="SearchOptionsDropDownPickerLabelFontSize" Type="System.Int32" Scope="User">
+    <Setting Name="SearchOptionsDropDownPickerLabelFontSize" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="SearchOptionsDropDownExtraPickerLabelWidth" Type="System.Int32" Scope="User">
+    <Setting Name="SearchOptionsDropDownExtraPickerLabelWidth" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="SearchOptionsDropDownExtraPickerLabelHeight" Type="System.Int32" Scope="User">
+    <Setting Name="SearchOptionsDropDownExtraPickerLabelHeight" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">3</Value>
     </Setting>
-    <Setting Name="WordListCollapseOnGrouping" Type="System.Boolean" Scope="User">
+    <Setting Name="WordListCollapseOnGrouping" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="WordListCollapseOnMinimalPairs" Type="System.Boolean" Scope="User">
+    <Setting Name="WordListCollapseOnMinimalPairs" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="SearchResultTabActiveIninactiveGroup1" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="SearchResultTabActiveIninactiveGroup1" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">White</Value>
     </Setting>
-    <Setting Name="SearchResultTabActiveIninactiveGroup2" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="SearchResultTabActiveIninactiveGroup2" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">215, 209, 196</Value>
     </Setting>
-    <Setting Name="SearchResultTabActiveIninactiveGroupForeColor" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="SearchResultTabActiveIninactiveGroupForeColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Black</Value>
     </Setting>
-    <Setting Name="SearchResultTabActiveBackColor" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="SearchResultTabActiveBackColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">White</Value>
     </Setting>
-    <Setting Name="SearchResultTabActiveForeColor" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="SearchResultTabActiveForeColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Black</Value>
     </Setting>
-    <Setting Name="SearchResultTabInactiveBackColor" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="SearchResultTabInactiveBackColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Control</Value>
     </Setting>
-    <Setting Name="SearchResultTabInactiveForeColor" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="SearchResultTabInactiveForeColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">ControlText</Value>
     </Setting>
-    <Setting Name="SearchVwExtraSearchTabHeight" Type="System.Int32" Scope="User">
+    <Setting Name="SearchVwExtraSearchTabHeight" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">12</Value>
     </Setting>
-    <Setting Name="DistChartVwSidePanelWidth" Type="System.Int32" Scope="User">
+    <Setting Name="DistChartVwSidePanelWidth" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="SearchVwSidePanelWidth" Type="System.Int32" Scope="User">
+    <Setting Name="SearchVwSidePanelWidth" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="SearchVwPlaybackSpeed" Type="System.Int32" Scope="User">
+    <Setting Name="SearchVwPlaybackSpeed" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
-    <Setting Name="DistChartVwPlaybackSpeed" Type="System.Int32" Scope="User">
+    <Setting Name="DistChartVwPlaybackSpeed" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
-    <Setting Name="DefineClassDlgShowAllConsonantsInViewer" Type="System.Boolean" Scope="User">
+    <Setting Name="DefineClassDlgShowAllConsonantsInViewer" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="DefineClassDlgUseCompactConsonantView" Type="System.Boolean" Scope="User">
+    <Setting Name="DefineClassDlgUseCompactConsonantView" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="DefineClassDlgShowAllVowelsInViewer" Type="System.Boolean" Scope="User">
+    <Setting Name="DefineClassDlgShowAllVowelsInViewer" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="DefineClassDlgUseCompactVowelView" Type="System.Boolean" Scope="User">
+    <Setting Name="DefineClassDlgUseCompactVowelView" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="DefineClassDlgShowAllOthersInViewer" Type="System.Boolean" Scope="User">
+    <Setting Name="DefineClassDlgShowAllOthersInViewer" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="DefineClassDlgUseCompactOtherView" Type="System.Boolean" Scope="User">
+    <Setting Name="DefineClassDlgUseCompactOtherView" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ClrSchemeDarkBlue" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">0, 51, 102</Value>
+    </Setting>
+    <Setting Name="ClrSchemeMedBlue" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">0, 51, 153</Value>
+    </Setting>
+    <Setting Name="ClrSchemeLightBlue" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">102, 153, 204</Value>
+    </Setting>
+    <Setting Name="ClrSchemeDarkGold" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">204, 153, 51</Value>
+    </Setting>
+    <Setting Name="ClrSchemeLightGold" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">255, 204, 102</Value>
+    </Setting>
+    <Setting Name="ClrSchemeBrick" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">204, 102, 51</Value>
+    </Setting>
+    <Setting Name="ClrSchemeFlesh" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">255, 204, 153</Value>
+    </Setting>
+    <Setting Name="ClrSchemeDarkBrown" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">51, 0, 0</Value>
+    </Setting>
+    <Setting Name="ClrSchemeMedBrown" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">102, 51, 0</Value>
+    </Setting>
+    <Setting Name="ClrSchemeLightBrown" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">204, 153, 102</Value>
+    </Setting>
+    <Setting Name="ClrSchemeCream" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">255, 255, 204</Value>
+    </Setting>
+    <Setting Name="GridSelectedRowFocusedRectColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">101, 130, 152</Value>
+    </Setting>
+    <Setting Name="GradientPanelTopColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">101, 130, 152</Value>
+    </Setting>
+    <Setting Name="GradientPanelBottomColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">56, 56, 84</Value>
+    </Setting>
+    <Setting Name="GradientPanelTextColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">White</Value>
+    </Setting>
+    <Setting Name="FiltersDlgFiltersGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

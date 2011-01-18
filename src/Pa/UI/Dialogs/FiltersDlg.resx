@@ -117,113 +117,47 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <data name="hdrFilter.Text" xml:space="preserve">
-    <value>Available Filters</value>
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="lvFilters.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="lvFilters.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9pt</value>
-  </data>
-  <data name="lvFilters.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 28</value>
-  </data>
-  <data name="lvFilters.Size" type="System.Drawing.Size, System.Drawing">
-    <value>219, 252</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="lvFilters.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;lvFilters.Name" xml:space="preserve">
-    <value>lvFilters</value>
-  </data>
-  <data name="&gt;&gt;lvFilters.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lvFilters.Parent" xml:space="preserve">
-    <value>pnlFilters</value>
-  </data>
-  <data name="&gt;&gt;lvFilters.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="splitFilters.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="splitFilters.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 10</value>
   </data>
-  <data name="btnApplyNow.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+  <data name="m_gridFilters.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
-  <data name="btnApplyNow.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="m_gridFilters.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
   </data>
-  <data name="btnApplyNow.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
-    <value>GrowAndShrink</value>
-  </data>
-  <data name="btnApplyNow.Location" type="System.Drawing.Point, System.Drawing">
-    <value>49, 173</value>
-  </data>
-  <data name="btnApplyNow.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 5, 5, 5</value>
-  </data>
-  <data name="btnApplyNow.Size" type="System.Drawing.Size, System.Drawing">
-    <value>95, 26</value>
-  </data>
-  <data name="btnApplyNow.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="btnApplyNow.Text" xml:space="preserve">
-    <value>Apply No&amp;w</value>
-  </data>
-  <data name="&gt;&gt;btnApplyNow.Name" xml:space="preserve">
-    <value>btnApplyNow</value>
-  </data>
-  <data name="&gt;&gt;btnApplyNow.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnApplyNow.Parent" xml:space="preserve">
-    <value>pnlFilters</value>
-  </data>
-  <data name="&gt;&gt;btnApplyNow.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="hlblFilters.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="hlblFilters.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9pt</value>
-  </data>
-  <data name="hlblFilters.Location" type="System.Drawing.Point, System.Drawing">
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="m_gridFilters.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="hlblFilters.Size" type="System.Drawing.Size, System.Drawing">
-    <value>219, 28</value>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="m_gridFilters.RowHeadersWidth" type="System.Int32, mscorlib">
+    <value>22</value>
   </data>
-  <data name="hlblFilters.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="m_gridFilters.Size" type="System.Drawing.Size, System.Drawing">
+    <value>219, 280</value>
   </data>
-  <data name="hlblFilters.Text" xml:space="preserve">
-    <value>Available &amp;Filters</value>
+  <data name="m_gridFilters.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
   </data>
-  <data name="&gt;&gt;hlblFilters.Name" xml:space="preserve">
-    <value>hlblFilters</value>
+  <data name="&gt;&gt;m_gridFilters.Name" xml:space="preserve">
+    <value>m_gridFilters</value>
   </data>
-  <data name="&gt;&gt;hlblFilters.Type" xml:space="preserve">
-    <value>SilTools.Controls.HeaderLabel, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;m_gridFilters.Type" xml:space="preserve">
+    <value>SilTools.SilGrid, SilTools, Version=1.5.4033.40444, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;hlblFilters.Parent" xml:space="preserve">
+  <data name="&gt;&gt;m_gridFilters.Parent" xml:space="preserve">
     <value>pnlFilters</value>
   </data>
-  <data name="&gt;&gt;hlblFilters.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;m_gridFilters.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="pnlFilters.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -244,7 +178,7 @@
     <value>pnlFilters</value>
   </data>
   <data name="&gt;&gt;pnlFilters.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilPanel, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4033.40444, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlFilters.Parent" xml:space="preserve">
     <value>splitFilters.Panel1</value>
@@ -402,35 +336,248 @@
   <data name="splitFilters.Panel1MinSize" type="System.Int32, mscorlib">
     <value>150</value>
   </data>
-  <data name="m_grid.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="tableLayout.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="m_grid.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt</value>
+  <data name="tableLayout.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
   </data>
-  <data name="m_grid.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 28</value>
-  </data>
-  <data name="m_grid.RowHeadersWidth" type="System.Int32, mscorlib">
-    <value>22</value>
-  </data>
-  <data name="m_grid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>458, 221</value>
-  </data>
-  <data name="m_grid.TabIndex" type="System.Int32, mscorlib">
+  <data name="tableLayout.ColumnCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;m_grid.Name" xml:space="preserve">
-    <value>m_grid</value>
+  <data name="pnlExpressionMatch.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="&gt;&gt;m_grid.Type" xml:space="preserve">
-    <value>SilTools.SilGrid, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="flowLayoutPanel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
   </data>
-  <data name="&gt;&gt;m_grid.Parent" xml:space="preserve">
+  <data name="flowLayoutPanel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblExpressionMatchMsgPart1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="lblExpressionMatchMsgPart1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblExpressionMatchMsgPart1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 8.25pt</value>
+  </data>
+  <data name="lblExpressionMatchMsgPart1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 4</value>
+  </data>
+  <data name="lblExpressionMatchMsgPart1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="lblExpressionMatchMsgPart1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>191, 13</value>
+  </data>
+  <data name="lblExpressionMatchMsgPart1.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="lblExpressionMatchMsgPart1.Text" xml:space="preserve">
+    <value>For the '{0}' filter, display records where</value>
+  </data>
+  <data name="&gt;&gt;lblExpressionMatchMsgPart1.Name" xml:space="preserve">
+    <value>lblExpressionMatchMsgPart1</value>
+  </data>
+  <data name="&gt;&gt;lblExpressionMatchMsgPart1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblExpressionMatchMsgPart1.Parent" xml:space="preserve">
+    <value>flowLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;lblExpressionMatchMsgPart1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="cboExpressionMatch.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="cboExpressionMatch.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 8.25pt</value>
+  </data>
+  <data name="cboExpressionMatch.Location" type="System.Drawing.Point, System.Drawing">
+    <value>193, 0</value>
+  </data>
+  <data name="cboExpressionMatch.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="cboExpressionMatch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 21</value>
+  </data>
+  <data name="cboExpressionMatch.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;cboExpressionMatch.Name" xml:space="preserve">
+    <value>cboExpressionMatch</value>
+  </data>
+  <data name="&gt;&gt;cboExpressionMatch.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cboExpressionMatch.Parent" xml:space="preserve">
+    <value>flowLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;cboExpressionMatch.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lblExpressionMatchMsgPart2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="lblExpressionMatchMsgPart2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblExpressionMatchMsgPart2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 8.25pt</value>
+  </data>
+  <data name="lblExpressionMatchMsgPart2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>258, 4</value>
+  </data>
+  <data name="lblExpressionMatchMsgPart2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="lblExpressionMatchMsgPart2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>178, 13</value>
+  </data>
+  <data name="lblExpressionMatchMsgPart2.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="lblExpressionMatchMsgPart2.Text" xml:space="preserve">
+    <value>of the following expressions are true.</value>
+  </data>
+  <data name="&gt;&gt;lblExpressionMatchMsgPart2.Name" xml:space="preserve">
+    <value>lblExpressionMatchMsgPart2</value>
+  </data>
+  <data name="&gt;&gt;lblExpressionMatchMsgPart2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblExpressionMatchMsgPart2.Parent" xml:space="preserve">
+    <value>flowLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;lblExpressionMatchMsgPart2.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="flowLayoutPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 5</value>
+  </data>
+  <data name="flowLayoutPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="flowLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>453, 23</value>
+  </data>
+  <data name="flowLayoutPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel.Name" xml:space="preserve">
+    <value>flowLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel.Parent" xml:space="preserve">
+    <value>pnlExpressionMatch</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutPanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="pnlExpressionMatch.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="pnlExpressionMatch.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12world</value>
+  </data>
+  <data name="pnlExpressionMatch.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="pnlExpressionMatch.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="pnlExpressionMatch.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 0, 5</value>
+  </data>
+  <data name="pnlExpressionMatch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>458, 35</value>
+  </data>
+  <data name="pnlExpressionMatch.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;pnlExpressionMatch.Name" xml:space="preserve">
+    <value>pnlExpressionMatch</value>
+  </data>
+  <data name="&gt;&gt;pnlExpressionMatch.Type" xml:space="preserve">
+    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.5.4033.40444, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;pnlExpressionMatch.Parent" xml:space="preserve">
+    <value>tableLayout</value>
+  </data>
+  <data name="&gt;&gt;pnlExpressionMatch.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="btnApplyNow.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="btnApplyNow.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="btnApplyNow.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="btnApplyNow.Location" type="System.Drawing.Point, System.Drawing">
+    <value>106, 234</value>
+  </data>
+  <data name="btnApplyNow.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 5, 5</value>
+  </data>
+  <data name="btnApplyNow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 26</value>
+  </data>
+  <data name="btnApplyNow.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="btnApplyNow.Text" xml:space="preserve">
+    <value>Apply No&amp;w</value>
+  </data>
+  <data name="&gt;&gt;btnApplyNow.Name" xml:space="preserve">
+    <value>btnApplyNow</value>
+  </data>
+  <data name="&gt;&gt;btnApplyNow.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnApplyNow.Parent" xml:space="preserve">
     <value>pnlExpressions</value>
   </data>
-  <data name="&gt;&gt;m_grid.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;btnApplyNow.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="m_gridExpressions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="m_gridExpressions.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
+  <data name="m_gridExpressions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 28</value>
+  </data>
+  <data name="m_gridExpressions.RowHeadersWidth" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="m_gridExpressions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>456, 251</value>
+  </data>
+  <data name="m_gridExpressions.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;m_gridExpressions.Name" xml:space="preserve">
+    <value>m_gridExpressions</value>
+  </data>
+  <data name="&gt;&gt;m_gridExpressions.Type" xml:space="preserve">
+    <value>SilTools.SilGrid, SilTools, Version=1.5.4033.40444, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;m_gridExpressions.Parent" xml:space="preserve">
+    <value>pnlExpressions</value>
+  </data>
+  <data name="&gt;&gt;m_gridExpressions.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="hlblExpressions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
@@ -442,7 +589,7 @@
     <value>0, 0</value>
   </data>
   <data name="hlblExpressions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>458, 28</value>
+    <value>456, 28</value>
   </data>
   <data name="hlblExpressions.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -454,13 +601,13 @@
     <value>hlblExpressions</value>
   </data>
   <data name="&gt;&gt;hlblExpressions.Type" xml:space="preserve">
-    <value>SilTools.Controls.HeaderLabel, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.HeaderLabel, SilTools, Version=1.5.4033.40444, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hlblExpressions.Parent" xml:space="preserve">
     <value>pnlExpressions</value>
   </data>
   <data name="&gt;&gt;hlblExpressions.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="pnlExpressions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -469,10 +616,13 @@
     <value>Segoe UI, 12world</value>
   </data>
   <data name="pnlExpressions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>0, 35</value>
+  </data>
+  <data name="pnlExpressions.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
   </data>
   <data name="pnlExpressions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>460, 251</value>
+    <value>458, 281</value>
   </data>
   <data name="pnlExpressions.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -481,166 +631,13 @@
     <value>pnlExpressions</value>
   </data>
   <data name="&gt;&gt;pnlExpressions.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilPanel, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4033.40444, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlExpressions.Parent" xml:space="preserve">
-    <value>splitFilters.Panel2</value>
+    <value>tableLayout</value>
   </data>
   <data name="&gt;&gt;pnlExpressions.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tableLayout.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="tableLayout.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
-    <value>GrowAndShrink</value>
-  </data>
-  <data name="tableLayout.ColumnCount" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="rbMatchAll.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="rbMatchAll.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 8.25pt</value>
-  </data>
-  <data name="rbMatchAll.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 29</value>
-  </data>
-  <data name="rbMatchAll.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>8, 3, 3, 3</value>
-  </data>
-  <data name="rbMatchAll.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 17</value>
-  </data>
-  <data name="rbMatchAll.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
-  </data>
-  <data name="rbMatchAll.Text" xml:space="preserve">
-    <value>Match A&amp;ll Expressions</value>
-  </data>
-  <data name="&gt;&gt;rbMatchAll.Name" xml:space="preserve">
-    <value>rbMatchAll</value>
-  </data>
-  <data name="&gt;&gt;rbMatchAll.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;rbMatchAll.Parent" xml:space="preserve">
-    <value>tableLayout</value>
-  </data>
-  <data name="&gt;&gt;rbMatchAll.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="chkIncludeInList.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="chkIncludeInList.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="chkIncludeInList.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 8.25pt</value>
-  </data>
-  <data name="chkIncludeInList.Location" type="System.Drawing.Point, System.Drawing">
-    <value>284, 6</value>
-  </data>
-  <data name="chkIncludeInList.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 6, 8, 3</value>
-  </data>
-  <data name="chkIncludeInList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 17</value>
-  </data>
-  <data name="chkIncludeInList.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="chkIncludeInList.Text" xml:space="preserve">
-    <value>&amp;Include in filter drop-down list</value>
-  </data>
-  <data name="chkIncludeInList.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
-  </data>
-  <data name="&gt;&gt;chkIncludeInList.Name" xml:space="preserve">
-    <value>chkIncludeInList</value>
-  </data>
-  <data name="&gt;&gt;chkIncludeInList.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;chkIncludeInList.Parent" xml:space="preserve">
-    <value>tableLayout</value>
-  </data>
-  <data name="&gt;&gt;chkIncludeInList.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="rbMatchAny.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="rbMatchAny.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 8.25pt</value>
-  </data>
-  <data name="rbMatchAny.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="rbMatchAny.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 6</value>
-  </data>
-  <data name="rbMatchAny.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>8, 6, 3, 3</value>
-  </data>
-  <data name="rbMatchAny.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 17</value>
-  </data>
-  <data name="rbMatchAny.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="rbMatchAny.Text" xml:space="preserve">
-    <value>Match A&amp;ny Expression</value>
-  </data>
-  <data name="&gt;&gt;rbMatchAny.Name" xml:space="preserve">
-    <value>rbMatchAny</value>
-  </data>
-  <data name="&gt;&gt;rbMatchAny.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;rbMatchAny.Parent" xml:space="preserve">
-    <value>tableLayout</value>
-  </data>
-  <data name="&gt;&gt;rbMatchAny.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="btnRemoveExp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="btnRemoveExp.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="btnRemoveExp.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
-    <value>GrowAndShrink</value>
-  </data>
-  <data name="btnRemoveExp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>277, 29</value>
-  </data>
-  <data name="btnRemoveExp.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 8, 3</value>
-  </data>
-  <data name="btnRemoveExp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>175, 26</value>
-  </data>
-  <data name="btnRemoveExp.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="btnRemoveExp.Text" xml:space="preserve">
-    <value>&amp;Remove Selected Expression(s)</value>
-  </data>
-  <data name="&gt;&gt;btnRemoveExp.Name" xml:space="preserve">
-    <value>btnRemoveExp</value>
-  </data>
-  <data name="&gt;&gt;btnRemoveExp.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnRemoveExp.Parent" xml:space="preserve">
-    <value>tableLayout</value>
-  </data>
-  <data name="&gt;&gt;btnRemoveExp.ZOrder" xml:space="preserve">
-    <value>3</value>
   </data>
   <data name="tableLayout.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -652,7 +649,7 @@
     <value>2</value>
   </data>
   <data name="tableLayout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>460, 65</value>
+    <value>458, 316</value>
   </data>
   <data name="tableLayout.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -664,37 +661,13 @@
     <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;tableLayout.Parent" xml:space="preserve">
-    <value>pnlFilterOptions</value>
+    <value>splitFilters.Panel2</value>
   </data>
   <data name="&gt;&gt;tableLayout.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="tableLayout.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="rbMatchAll" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="chkIncludeInList" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="rbMatchAny" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="btnRemoveExp" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="pnlFilterOptions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Bottom</value>
-  </data>
-  <data name="pnlFilterOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 251</value>
-  </data>
-  <data name="pnlFilterOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>460, 65</value>
-  </data>
-  <data name="pnlFilterOptions.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;pnlFilterOptions.Name" xml:space="preserve">
-    <value>pnlFilterOptions</value>
-  </data>
-  <data name="&gt;&gt;pnlFilterOptions.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pnlFilterOptions.Parent" xml:space="preserve">
-    <value>splitFilters.Panel2</value>
-  </data>
-  <data name="&gt;&gt;pnlFilterOptions.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="pnlExpressionMatch" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="pnlExpressions" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="&gt;&gt;splitFilters.Panel2.Name" xml:space="preserve">
     <value>splitFilters.Panel2</value>
@@ -709,7 +682,7 @@
     <value>1</value>
   </data>
   <data name="splitFilters.Size" type="System.Drawing.Size, System.Drawing">
-    <value>687, 316</value>
+    <value>685, 316</value>
   </data>
   <data name="splitFilters.SplitterDistance" type="System.Int32, mscorlib">
     <value>221</value>
@@ -732,6 +705,9 @@
   <data name="&gt;&gt;splitFilters.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="m_tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>132, 17</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -739,7 +715,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>707, 366</value>
+    <value>705, 366</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>715, 230</value>
@@ -750,22 +726,22 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Filters</value>
   </data>
-  <data name="&gt;&gt;hdrFilter.Name" xml:space="preserve">
-    <value>hdrFilter</value>
-  </data>
-  <data name="&gt;&gt;hdrFilter.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
     <value>locExtender</value>
   </data>
   <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
-    <value>SIL.Localization.LocalizationExtender, LocalizationManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Localization.UI.LocalizationExtender, LocalizationManager, Version=1.0.4024.41930, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;m_tooltip.Name" xml:space="preserve">
+    <value>m_tooltip</value>
+  </data>
+  <data name="&gt;&gt;m_tooltip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>FiltersDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.1.3779.19212, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.2.4034.43066, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

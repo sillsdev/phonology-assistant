@@ -8,37 +8,58 @@
 // </copyright> 
 #endregion
 // 
-// File: IPaCmPossibility.cs
+// File: IPaLexPronunciation.cs
 // Responsibility: D. Olson
 // 
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
+using System.Collections.Generic;
 
-namespace SIL.FdoToPaInterfaces
+namespace SIL.PaToFdoInterfaces
 {
-	#region IPaCmPossibility interface
+	#region IPaLexPronunciation interface
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// Provides an interface to deliver a information about a CmPossibility from a FieldWorks
-	/// project to Phonology Assistant.
+	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public interface IPaCmPossibility
+	public interface IPaLexPronunciation
 	{
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets a collection of abbreviations keyed on writing system hvo.
+		/// Gets the form.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		IPaMultiString Abbreviation { get; }
+		IPaMultiString Form { get; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets a collection of names keyed on writing system hvo.
+		/// Gets the media files.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		IPaMultiString Name { get; }
+		IEnumerable<IPaMediaFile> MediaFiles { get; }
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the CV pattern.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		string CVPattern { get; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the tone.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		string Tone { get; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the location.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		IPaCmPossibility Location { get; }
 	}
 
 	#endregion

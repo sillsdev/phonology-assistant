@@ -20,6 +20,8 @@ namespace SilTools
 		/// <summary>Occurs when a row is entered and after the current row's index changes.</summary>
 		public event EventHandler CurrentRowChanged;
 
+		public event DataGridViewCellPaintingEventHandler DrawFocusRectangle;
+
 		public delegate void GetWaterMarkRectHandler(object sender,
 			Rectangle adjustedClientRect, ref Rectangle rcProposed);
 		
@@ -379,22 +381,32 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
-			if (IsCurrentCellInEditMode && EditingControl is TextBox)
+			if (IsCurrentCellInEditMode)
 			{
-				var txtBox = ((TextBox)EditingControl);
-
-				// Only override the default behavior when all the text in the edit control is selected.
-				if (keyData == Keys.Home || keyData == Keys.End && txtBox.SelectedText == txtBox.Text)
+				if (keyData == Keys.Escape)
 				{
-					ProcessHomeAndEndKeys(txtBox, keyData);
+					CancelEdit();
+					EndEdit();
 					return true;
 				}
 
-				if (keyData == Keys.Up && ProcessUpKey(txtBox))
-					return true;
+				if (EditingControl is TextBox)
+				{
+					var txtBox = ((TextBox)EditingControl);
 
-				if (keyData == Keys.Down && ProcessDownKey(txtBox))
-					return true;
+					// Only override the default behavior when all the text in the edit control is selected.
+					if (keyData == Keys.Home || keyData == Keys.End && txtBox.SelectedText == txtBox.Text)
+					{
+						ProcessHomeAndEndKeys(txtBox, keyData);
+						return true;
+					}
+
+					if (keyData == Keys.Up && ProcessUpKey(txtBox))
+						return true;
+
+					if (keyData == Keys.Down && ProcessDownKey(txtBox))
+						return true;
+				}
 			}
 
 			return base.ProcessCmdKey(ref msg, keyData);
@@ -483,6 +495,27 @@ namespace SilTools
 				DoubleBuffered = true;
 
 			base.OnCellMouseUp(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// For checkbox columns, force the click on the checkbox to get committed right
+		/// away. I can't think of when that wouldn't be expected.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellContentClick(DataGridViewCellEventArgs e)
+		{
+			base.OnCellContentClick(e);
+
+			if (e.ColumnIndex < 0 || e.RowIndex < 0)
+				return;
+
+			if (Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn)
+			{
+				// Force commital of the click's change.
+				CommitEdit(DataGridViewDataErrorContexts.Commit);
+				EndEdit();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -694,13 +727,13 @@ namespace SilTools
 			if (e.RowIndex == -1 && e.ColumnIndex == 0 && PaintHeaderAcrossFullGridWidth &&
 				ClientSize.Width > Columns.GetColumnsWidth(DataGridViewElementStates.Visible))
 			{
-				DrawExtendedColumnHeaderRow(e);
+				OnDrawExtendedColumnHeaderRow(e);
 			}
 
 			if (!e.Handled && Focused & PaintFullRowFocusRectangle &&
 				SelectionMode == DataGridViewSelectionMode.FullRowSelect)
 			{
-				DrawFocusRectangle(e);
+				OnDrawFocusRectangle(e);
 			}
 		}
 
@@ -711,7 +744,7 @@ namespace SilTools
 		/// empty column header.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected virtual void DrawExtendedColumnHeaderRow(DataGridViewCellPaintingEventArgs e)
+		protected virtual void OnDrawExtendedColumnHeaderRow(DataGridViewCellPaintingEventArgs e)
 		{
 			Rectangle rc = e.CellBounds;
 			rc.Width = ClientSize.Width;
@@ -743,11 +776,7 @@ namespace SilTools
 		}
 
 		/// --------------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// --------------------------------------------------------------------------------------------
-		protected virtual void DrawFocusRectangle(DataGridViewCellPaintingEventArgs e)
+		protected virtual void OnDrawFocusRectangle(DataGridViewCellPaintingEventArgs e)
 		{
 			e.Handled = true;
 			var paintParts = e.PaintParts;
@@ -777,14 +806,17 @@ namespace SilTools
 
 				// If the column is the furthest left, then draw a
 				// vertical line on the left edge of the cell.
-				if (Columns[e.ColumnIndex].DisplayIndex == 0)
+				if (e.ColumnIndex >= 0 && Columns[e.ColumnIndex].DisplayIndex == 0 && !RowHeadersVisible)
 					e.Graphics.DrawLine(pen, rc.X, rc.Y, rc.X, rc.Bottom - 1);
 
 				// If the column is the furthest right, then draw a
 				// vertical line on the right edge of the cell.
-				if (Columns[e.ColumnIndex].DisplayIndex == ColumnCount - 1)
+				if (e.ColumnIndex >= 0 && Columns[e.ColumnIndex].DisplayIndex == ColumnCount - 1)
 					e.Graphics.DrawLine(pen, rc.Right - 1, rc.Y, rc.Right - 1, rc.Bottom - 1);
 			}
+
+			if (DrawFocusRectangle != null)
+				DrawFocusRectangle(this, e);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -207,6 +207,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.fldSelGridWrdList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.fldSelGridWrdList.ColumnHeadersVisible = false;
 			resources.ApplyResources(this.fldSelGridWrdList, "fldSelGridWrdList");
+			this.fldSelGridWrdList.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
 			this.fldSelGridWrdList.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.fldSelGridWrdList.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.fldSelGridWrdList, null);
@@ -436,6 +437,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.fldSelGridRecView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.fldSelGridRecView.ColumnHeadersVisible = false;
 			resources.ApplyResources(this.fldSelGridRecView, "fldSelGridRecView");
+			this.fldSelGridRecView.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
 			this.fldSelGridRecView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.fldSelGridRecView.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.fldSelGridRecView, null);
@@ -838,6 +840,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_sortingGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
 			this.m_sortingGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			resources.ApplyResources(this.m_sortingGrid, "m_sortingGrid");
+			this.m_sortingGrid.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
 			this.m_sortingGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.m_sortingGrid.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.m_sortingGrid, null);
@@ -852,8 +855,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_sortingGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.m_sortingGrid.ShowWaterMarkWhenDirty = false;
 			this.m_sortingGrid.WaterMark = "!";
-			this.m_sortingGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_grid_RowEnter);
-			this.m_sortingGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_sortingGrid_CellContentClick);
+			this.m_sortingGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleSortingGridRowEnter);
+			this.m_sortingGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleSortingGridCellContentClick);
 			// 
 			// btnMoveSortFieldUp
 			// 
@@ -864,7 +867,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizingId(this.btnMoveSortFieldUp, "OptionsDlg.SortingTab.btnMoveSortFieldUp");
 			this.btnMoveSortFieldUp.Name = "btnMoveSortFieldUp";
 			this.btnMoveSortFieldUp.UseVisualStyleBackColor = true;
-			this.btnMoveSortFieldUp.Click += new System.EventHandler(this.btnMoveSortFieldUp_Click);
+			this.btnMoveSortFieldUp.Click += new System.EventHandler(this.HandleButtonMoveSortFieldUpClick);
 			// 
 			// lblSortFldsHdr
 			// 
@@ -883,7 +886,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizingId(this.btnMoveSortFieldDown, "OptionsDlg.SortingTab.btnMoveSortFieldDown");
 			this.btnMoveSortFieldDown.Name = "btnMoveSortFieldDown";
 			this.btnMoveSortFieldDown.UseVisualStyleBackColor = true;
-			this.btnMoveSortFieldDown.Click += new System.EventHandler(this.btnMoveSortFieldDown_Click);
+			this.btnMoveSortFieldDown.Click += new System.EventHandler(this.HandleButtonMoveSortFieldDownClick);
 			// 
 			// chkSaveManual
 			// 
@@ -893,7 +896,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizingId(this.chkSaveManual, "OptionsDlg.SortingTab.chkSaveManual");
 			this.chkSaveManual.Name = "chkSaveManual";
 			this.chkSaveManual.UseVisualStyleBackColor = true;
-			this.chkSaveManual.Click += new System.EventHandler(this.chkSaveManual_Click);
+			this.chkSaveManual.Click += new System.EventHandler(this.HandleCheckSaveManualClick);
 			// 
 			// lblSortInfo
 			// 
@@ -926,7 +929,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.phoneticSortOptions.Name = "phoneticSortOptions";
 			this.phoneticSortOptions.ShowAdvancedOptions = true;
 			this.phoneticSortOptions.ShowHelpLink = false;
-			this.phoneticSortOptions.SortOptionsChanged += new SIL.Pa.UI.Controls.SortOptionsDropDown.SortOptionsChangedHandler(this.phoneticSortOptions_SortOptionsChanged);
+			this.phoneticSortOptions.SortOptionsChanged += new SIL.Pa.UI.Controls.SortOptionsDropDown.SortOptionsChangedHandler(this.HandlePhoneticSortOptionsChanged);
 			// 
 			// lblListType
 			// 
@@ -949,7 +952,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizationComment(this.cboListType, null);
 			this.locExtender.SetLocalizingId(this.cboListType, "OptionsDlg.SortingTab.cboListType");
 			this.cboListType.Name = "cboListType";
-			this.cboListType.SelectedIndexChanged += new System.EventHandler(this.cboListType_SelectedIndexChanged);
+			this.cboListType.SelectedIndexChanged += new System.EventHandler(this.HandleListTypeComboSelectedIndexChanged);
 			// 
 			// tpgFonts
 			// 
@@ -1067,7 +1070,6 @@ namespace SIL.Pa.UI.Dialogs
 			((System.ComponentModel.ISupportInitialize)(this.picSaveInfo)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 		#endregion

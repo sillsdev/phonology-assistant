@@ -15,7 +15,7 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 
-namespace SIL.FdoToPaInterfaces
+namespace SIL.PaToFdoInterfaces
 {
 	#region IPaMediaFile interface
 	/// ----------------------------------------------------------------------------------------

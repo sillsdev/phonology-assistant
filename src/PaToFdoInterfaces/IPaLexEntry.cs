@@ -17,7 +17,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SIL.FdoToPaInterfaces
+namespace SIL.PaToFdoInterfaces
 {
 	#region IPaLexEntry interface
 	/// ----------------------------------------------------------------------------------------

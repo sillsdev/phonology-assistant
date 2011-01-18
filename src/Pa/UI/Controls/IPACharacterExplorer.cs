@@ -69,10 +69,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)
@@ -457,8 +453,9 @@ namespace SIL.Pa.UI.Controls
 		{
 			for (int i = 0; i < Items.Length; i++)
 			{
-				Items[i].IsExpanded =
-					App.SettingsHandler.GetBoolSettingsValue(parentFormName, "chooser" + i, true);
+				// TODO: Fix for new settings.
+				Items[i].IsExpanded = true;
+//					App.SettingsHandler.GetBoolSettingsValue(parentFormName, "chooser" + i, true);
 			}
 
 			AutoScrollPosition = new Point(0, 0);
@@ -471,8 +468,9 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void SaveSettings(string parentFormName)
 		{
-			for (int i = 0; i < Items.Length; i++)
-				App.SettingsHandler.SaveSettingsValue(parentFormName, "chooser" + i, Items[i].IsExpanded);
+			// TODO: Fix for new settings.
+			//for (int i = 0; i < Items.Length; i++)
+			//    App.SettingsHandler.SaveSettingsValue(parentFormName, "chooser" + i, Items[i].IsExpanded);
 		}
 
 		#endregion

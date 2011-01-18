@@ -16,7 +16,7 @@
 // ---------------------------------------------------------------------------------------------
 using System;
 
-namespace SIL.FdoToPaInterfaces
+namespace SIL.PaToFdoInterfaces
 {
 	#region IPaWritingSystem interface
 	/// ----------------------------------------------------------------------------------------

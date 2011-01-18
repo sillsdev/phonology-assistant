@@ -4,7 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using SIL.FdoToPaInterfaces;
+using SIL.PaToFdoInterfaces;
 using SIL.ObjectBrowser;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -16,14 +16,20 @@ namespace SIL.Pa
 	/// Phonology Assistant.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class FdoToPaBrowser : ObjectBrowser.ObjectBrowser
+	public partial class PaToFdoBrowser : ObjectBrowser.ObjectBrowser
 	{
 		private PaFieldWorksHelper _paFwHelper;
 
 		/// ------------------------------------------------------------------------------------
-		public FdoToPaBrowser()
+		public PaToFdoBrowser()
 		{
 			InitializeComponent();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override IInspectorList GetNewInspectorList()
+		{
+			return new PaToFdoInspectorList();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -73,10 +79,6 @@ namespace SIL.Pa
 				ShowNewInspectorWindow(fifp);
 				base.OpenFile(name);
 				m_currOpenedProject = name;
-
-
-				//var list = new[] { "david", "pam", "meagan", "rachel", "eli" };
-				//ShowNewInspectorWindow(list, "TESTTESETTEST", "TEST");
 			}
 			finally
 			{

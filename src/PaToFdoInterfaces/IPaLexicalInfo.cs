@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 
-namespace SIL.FdoToPaInterfaces
+namespace SIL.PaToFdoInterfaces
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

@@ -27,7 +27,7 @@ namespace SIL.Pa.UI.Controls
 
 		private DataGridViewRow m_phoneticRow;
 		private int m_currRowIndex = -1;
-		private bool m_ignoreRowEnter = false;
+		private bool m_ignoreRowEnter;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -198,6 +198,13 @@ namespace SIL.Pa.UI.Controls
 					}
 				}
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
+		{
+			base.OnCellFormatting(e);
+			App.HandleFormattingSelectedGridCell(this, e);
 		}
 
 		/// ------------------------------------------------------------------------------------

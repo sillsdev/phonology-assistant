@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("IFwToPa")]
+[assembly: AssemblyTitle("PaToFdoInterfaces")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Jaars, Inc.")]
-[assembly: AssemblyProduct("IFwToPa")]
-[assembly: AssemblyCopyright("Copyright © Jaars, Inc. 2009")]
+[assembly: AssemblyCompany("SIL")]
+[assembly: AssemblyProduct("Phonology Assistant/FieldWorks")]
+[assembly: AssemblyCopyright("Copyright © SIL International, Inc. 2009-2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("9e335415-3de1-4653-b4bb-bf28a7c9316a")]
+[assembly: Guid("E59F4685-CD0E-422b-AC23-70D3E0654590")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyFileVersion("1.0.*")]

@@ -351,9 +351,6 @@
   <data name="kimidCut" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Cut.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kimidDefineFilters" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\FilterDlg.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="kimidDelete" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Delete.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -606,26 +603,6 @@
   <data name="kstidFileMissingMsg" xml:space="preserve">
     <value>'{0}' is missing.</value>
     <comment>The label text for "???" in RtfExportDlg</comment>
-  </data>
-  <data name="kstidFilterFieldColHdgText" xml:space="preserve">
-    <value>Field</value>
-    <comment>Column heading for the define dialog's grid</comment>
-  </data>
-  <data name="kstidFilterNameExistsMsg" xml:space="preserve">
-    <value>The filter '{0}' already exists.</value>
-    <comment>Message displayed when adding a filter in the define filters dialog if the filter name already exists.</comment>
-  </data>
-  <data name="kstidFilterOperatorColHdgText" xml:space="preserve">
-    <value>Operator</value>
-    <comment>Column heading for the define dialog's grid</comment>
-  </data>
-  <data name="kstidFilterTypeColHdgText" xml:space="preserve">
-    <value>Type</value>
-    <comment>Column heading for the define dialog's grid</comment>
-  </data>
-  <data name="kstidFilterValueColHdgText" xml:space="preserve">
-    <value>Value</value>
-    <comment>Column heading for the define dialog's grid</comment>
   </data>
   <data name="kstidFindDataNotFound" xml:space="preserve">
     <value>The following specified text was not found: </value>
@@ -1041,5 +1018,11 @@
   </data>
   <data name="kstidXYChartLayoutEmptyName" xml:space="preserve">
     <value>(none)</value>
+  </data>
+  <data name="DeleteHot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Delete_Hot.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DeleteNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Delete_Normal.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

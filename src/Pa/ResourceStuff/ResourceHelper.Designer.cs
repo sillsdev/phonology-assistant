@@ -112,6 +112,7 @@ namespace SIL.Pa.Resources
 			this.TMImages.Images.SetKeyName(66, "");
 			this.TMImages.Images.SetKeyName(67, "");
 			this.TMImages.Images.SetKeyName(68, "");
+			this.TMImages.Images.SetKeyName(69, "Vowel_chart.png");
 			// 
 			// ResourceHelper
 			// 

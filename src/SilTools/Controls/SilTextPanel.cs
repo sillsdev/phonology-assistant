@@ -36,6 +36,7 @@ namespace SilTools.Controls
 			SetStyle(ControlStyles.UseTextForAccessibility, true);
 			base.Font = FontHelper.UIFont;
 			m_rcText = ClientRectangle;
+			ForeColor = SystemColors.ControlText;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -100,6 +101,17 @@ namespace SilTools.Controls
 			}
 		}
 
+		public override Color ForeColor
+		{
+			get
+			{
+				return base.ForeColor;
+			}
+			set
+			{
+				base.ForeColor = value;
+			}
+		}
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets a value indicating whether or not the control process the keyboard
@@ -257,10 +269,7 @@ namespace SilTools.Controls
 			base.OnPaint(e);
 
 			if (!string.IsNullOrEmpty(Text))
-			{
-				TextRenderer.DrawText(e.Graphics, Text, Font, m_rcText,
-					SystemColors.ControlText, m_txtFmtFlags);
-			}
+				TextRenderer.DrawText(e.Graphics, Text, Font, m_rcText, ForeColor, m_txtFmtFlags);
 		}
 	}
 }

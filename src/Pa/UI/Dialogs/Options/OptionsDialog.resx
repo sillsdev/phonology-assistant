@@ -117,18 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;pnlButtons.Name" xml:space="preserve">
-    <value>pnlButtons</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="tabOptions.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -157,7 +145,7 @@
     <value>fldSelGridWrdList</value>
   </data>
   <data name="&gt;&gt;fldSelGridWrdList.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, Pa, Version=3.1.3765.39370, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, Pa, Version=3.2.4033.40684, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fldSelGridWrdList.Parent" xml:space="preserve">
     <value>grpColSettings</value>
@@ -709,7 +697,7 @@
     <value>fldSelGridRecView</value>
   </data>
   <data name="&gt;&gt;fldSelGridRecView.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, Pa, Version=3.1.3765.39370, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, Pa, Version=3.2.4033.40684, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fldSelGridRecView.Parent" xml:space="preserve">
     <value>grpFieldSettings</value>
@@ -1357,7 +1345,7 @@
     <value>tonePicker</value>
   </data>
   <data name="&gt;&gt;tonePicker.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.CharPicker, Pa, Version=3.1.3765.39370, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.CharPicker, Pa, Version=3.2.4033.40684, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tonePicker.Parent" xml:space="preserve">
     <value>pnlTone</value>
@@ -1480,7 +1468,7 @@
     <value>lengthPicker</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.CharPicker, Pa, Version=3.1.3765.39370, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.CharPicker, Pa, Version=3.2.4033.40684, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Parent" xml:space="preserve">
     <value>pnlLength</value>
@@ -1600,7 +1588,7 @@
     <value>stressPicker</value>
   </data>
   <data name="&gt;&gt;stressPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.CharPicker, Pa, Version=3.1.3765.39370, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.CharPicker, Pa, Version=3.2.4033.40684, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;stressPicker.Parent" xml:space="preserve">
     <value>pnlStress</value>
@@ -1732,7 +1720,7 @@
     <value>m_sortingGrid</value>
   </data>
   <data name="&gt;&gt;m_sortingGrid.Type" xml:space="preserve">
-    <value>SilTools.SilGrid, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.SilGrid, SilTools, Version=1.5.4030.28305, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_sortingGrid.Parent" xml:space="preserve">
     <value>grpColSortOptions</value>
@@ -1936,7 +1924,7 @@
     <value>phoneticSortOptions</value>
   </data>
   <data name="&gt;&gt;phoneticSortOptions.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.SortOptionsDropDown, Pa, Version=3.1.3765.39370, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.SortOptionsDropDown, Pa, Version=3.2.4033.40684, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;phoneticSortOptions.Parent" xml:space="preserve">
     <value>grpPhoneticSortOptions</value>
@@ -2286,9 +2274,6 @@
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>563, 463</value>
   </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
   </data>
@@ -2299,12 +2284,12 @@
     <value>locExtender</value>
   </data>
   <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
-    <value>SIL.Localization.LocalizationExtender, LocalizationManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Localization.UI.LocalizationExtender, LocalizationManager, Version=1.0.4024.41930, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>OptionsDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.1.3765.39370, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.2.4033.40684, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

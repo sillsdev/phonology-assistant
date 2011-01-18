@@ -49,12 +49,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FDOToPaInterfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
     <Reference Include="ObjectBrowser, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\ObjectBrowser.dll</HintPath>
+      <HintPath>..\..\DistFiles\ObjectBrowser.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -73,20 +70,21 @@
     <Reference Include="System.Xml" />
     <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.3.1.15724, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+      <HintPath>..\..\DistFiles\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FDOToPaBrowser.cs">
+    <Compile Include="PaToFdoBrowser.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FDOToPaBrowser.Designer.cs">
-      <DependentUpon>FDOToPaBrowser.cs</DependentUpon>
+    <Compile Include="PaToFdoBrowser.Designer.cs">
+      <DependentUpon>PaToFdoBrowser.cs</DependentUpon>
     </Compile>
+    <Compile Include="PaToFdoInspectorList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FDOToPaBrowser.resx">
-      <DependentUpon>FDOToPaBrowser.cs</DependentUpon>
+    <EmbeddedResource Include="PaToFdoBrowser.resx">
+      <DependentUpon>PaToFdoBrowser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

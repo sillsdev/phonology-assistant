@@ -43,20 +43,12 @@ namespace SIL.Pa.UI
 
 		#region Construction and Setup
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public PaMainWnd()
 		{
 			InitializeComponent();
 			Settings.Default.MainWindow = App.InitializeForm(this, Settings.Default.MainWindow);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public PaMainWnd(bool showSplashScreen) : this()
 		{
@@ -74,6 +66,10 @@ namespace SIL.Pa.UI
 			sblblFilter.Text = string.Empty;
 			sblblFilter.Visible = false;
 			sblblFilter.Paint += FilterHelper.HandleFilterStatusStripLabelPaint;
+
+			vwTabGroup.CaptionPanel.ColorTop = Settings.Default.GradientPanelTopColor;
+			vwTabGroup.CaptionPanel.ColorBottom = Settings.Default.GradientPanelBottomColor;
+			vwTabGroup.CaptionPanel.ForeColor = Settings.Default.GradientPanelTextColor;
 
 			base.MinimumSize = App.MinimumViewWindowSize;
 			LoadToolbarsAndMenus();
@@ -94,18 +90,8 @@ namespace SIL.Pa.UI
 			var tph = new TrainingProjectsHelper();
 			tph.Setup();
 
-			LocalizeItemDlg.StringsLocalized += SetWindowText;
-			SetWindowText();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void SetWindowText()
-		{
-			SetWindowText(App.Project);			
+			LocalizeItemDlg.StringsLocalized += (() => SetWindowText(App.Project));
+			SetWindowText(App.Project);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -126,10 +112,6 @@ namespace SIL.Pa.UI
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
@@ -224,7 +206,7 @@ namespace SIL.Pa.UI
 				App.Project = project;
 				Settings.Default.LastProjectLoaded = projectFileName;
 
-				SetWindowText();
+				SetWindowText(project);
 	
 				// When there are already tabs it means there was a project loaded before
 				// the one just loaded. Therefore, save the current view so it may be

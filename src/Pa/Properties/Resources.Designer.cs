@@ -60,6 +60,20 @@ namespace SIL.Pa.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap DeleteHot {
+            get {
+                object obj = ResourceManager.GetObject("DeleteHot", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap DeleteNormal {
+            get {
+                object obj = ResourceManager.GetObject("DeleteNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidAutomaticallyHide {
             get {
                 object obj = ResourceManager.GetObject("kimidAutomaticallyHide", resourceCulture);
@@ -105,13 +119,6 @@ namespace SIL.Pa.Properties {
         internal static System.Drawing.Bitmap kimidCut {
             get {
                 object obj = ResourceManager.GetObject("kimidCut", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap kimidDefineFilters {
-            get {
-                object obj = ResourceManager.GetObject("kimidDefineFilters", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -947,51 +954,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidFileMissingMsg {
             get {
                 return ResourceManager.GetString("kstidFileMissingMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Field.
-        /// </summary>
-        internal static string kstidFilterFieldColHdgText {
-            get {
-                return ResourceManager.GetString("kstidFilterFieldColHdgText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The filter &apos;{0}&apos; already exists..
-        /// </summary>
-        internal static string kstidFilterNameExistsMsg {
-            get {
-                return ResourceManager.GetString("kstidFilterNameExistsMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Operator.
-        /// </summary>
-        internal static string kstidFilterOperatorColHdgText {
-            get {
-                return ResourceManager.GetString("kstidFilterOperatorColHdgText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Type.
-        /// </summary>
-        internal static string kstidFilterTypeColHdgText {
-            get {
-                return ResourceManager.GetString("kstidFilterTypeColHdgText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Value.
-        /// </summary>
-        internal static string kstidFilterValueColHdgText {
-            get {
-                return ResourceManager.GetString("kstidFilterValueColHdgText", resourceCulture);
             }
         }
         

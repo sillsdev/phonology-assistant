@@ -187,7 +187,7 @@ namespace SilTools
 		{
 			DrawGradientBackground(g, rc, false);
 		}
-		
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Fills the specified rectangle with a gradient background consistent with the
@@ -195,7 +195,7 @@ namespace SilTools
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static void DrawGradientBackground(Graphics g, Rectangle rc, bool makeDark)
- 		{
+		{
 			Color clrTop;
 			Color clrBottom;
 
@@ -216,6 +216,18 @@ namespace SilTools
 					SystemColors.GradientActiveCaption, 50);
 			}
 
+			DrawGradientBackground(g, rc, clrTop, clrBottom, makeDark);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Fills the specified rectangle with a gradient background using the specified
+		/// colors.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void DrawGradientBackground(Graphics g, Rectangle rc,
+			Color clrTop, Color clrBottom, bool makeDark)
+ 		{
 			try
 			{
 				if (rc.Width > 0 && rc.Height > 0)

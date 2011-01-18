@@ -13,7 +13,7 @@ namespace SIL.Pa
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new FdoToPaBrowser());
+			Application.Run(new PaToFdoBrowser());
 		}
 	}
 }

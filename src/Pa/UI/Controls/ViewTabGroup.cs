@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.Design;
 using System.Drawing;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
@@ -9,10 +10,6 @@ using SilTools.Controls;
 
 namespace SIL.Pa.UI.Controls
 {
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class ViewTabGroup : Panel, IxCoreColleague
 	{
@@ -32,8 +29,6 @@ namespace SIL.Pa.UI.Controls
 		private readonly ToolTip m_tooltip;
 		private XButton m_btnHelp;
 		private string m_captionText;
-
-
 
 		internal static Font s_tabFont;
 
@@ -68,10 +63,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)
@@ -99,6 +90,23 @@ namespace SIL.Pa.UI.Controls
 			}
 			
 			base.Dispose(disposing);
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not the control is currently in design mode.
+		/// I have had some problems with the base class' DesignMode property being true
+		/// when in design mode. I'm not sure why, but adding a couple more checks fixes the
+		/// problem.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected new bool DesignMode
+		{
+			get
+			{
+				return (base.DesignMode || GetService(typeof(IDesignerHost)) != null) ||
+					(LicenseManager.UsageMode == LicenseUsageMode.Designtime);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -190,10 +198,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void SetupScrollPanel()
 		{
 			// Create the panel that will hold the close button
@@ -226,11 +230,14 @@ namespace SIL.Pa.UI.Controls
 			m_btnRight.Location = new Point(22, top);
 			m_pnlScroll.Controls.Add(m_btnRight);
 
-			m_tooltip.SetToolTip(m_btnLeft, App.L10NMngr.LocalizeString(
-				"ViewTabsScrollLeftToolTipText", "Scroll Left", App.kLocalizationGroupMisc));
+			if (!DesignMode)
+			{
+				m_tooltip.SetToolTip(m_btnLeft, App.L10NMngr.LocalizeString(
+					"ViewTabsScrollLeftToolTipText", "Scroll Left", App.kLocalizationGroupMisc));
 
-			m_tooltip.SetToolTip(m_btnRight, App.L10NMngr.LocalizeString(
-				"ViewTabsScrollRightToolTipText", "Scroll Right", App.kLocalizationGroupMisc));
+				m_tooltip.SetToolTip(m_btnRight, App.L10NMngr.LocalizeString(
+					"ViewTabsScrollRightToolTipText", "Scroll Right", App.kLocalizationGroupMisc));
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -763,7 +770,7 @@ namespace SIL.Pa.UI.Controls
 				TextFormatFlags.PreserveGraphicsClipping;
 
 			TextRenderer.DrawText(e.Graphics, m_captionText, m_pnlCaption.Font,
-				rc, SystemColors.ActiveCaptionText, kFlags);
+				rc, m_pnlCaption.ForeColor, kFlags);
 		}
 
 		/// ------------------------------------------------------------------------------------

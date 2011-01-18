@@ -16,10 +16,6 @@ namespace SIL.Pa.UI.Dialogs
 		SortOptionsTypeComboItem m_prevListType;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void InitializeSortingTab()
 		{
 			// This tab isn't valid if there is no project loaded.
@@ -59,6 +55,7 @@ namespace SIL.Pa.UI.Dialogs
 			cboListType.Left = lblListType.Right + 10;
 			cboListType.SelectedIndex = 0;
 			m_sortingGrid.IsDirty = false;
+			m_sortingGrid.CellFormatting += App.HandleFormattingSelectedGridCell;
 
 			Shown += OptionsDlg_Shown;
 		}
@@ -130,10 +127,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private bool IsSortOrderTabDirty
 		{
 			get
@@ -154,7 +147,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// Show the sort options for the selected word list type.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void cboListType_SelectedIndexChanged(object sender, EventArgs e)
+		private void HandleListTypeComboSelectedIndexChanged(object sender, EventArgs e)
 		{
 			phoneticSortOptions.AdvancedOptionsEnabled = (cboListType.SelectedIndex > 0);
 			SortOptionsTypeComboItem item = cboListType.SelectedItem as SortOptionsTypeComboItem;
@@ -191,7 +184,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (m_sortingGrid.Rows.Count > 0)
 			{
 				m_sortingGrid.CurrentCell = m_sortingGrid[0, 0];
-				m_grid_RowEnter(null, new DataGridViewCellEventArgs(0, 0));
+				HandleSortingGridRowEnter(null, new DataGridViewCellEventArgs(0, 0));
 			}
 		}
 
@@ -220,10 +213,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private SortOptions GetSortOptionsFromTab()
 		{
 			SortOptions sortOptions = phoneticSortOptions.SortOptions;
@@ -244,11 +233,7 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void phoneticSortOptions_SortOptionsChanged(SortOptions sortOptions)
+		private void HandlePhoneticSortOptionsChanged(SortOptions sortOptions)
 		{
 			m_dirty = true;
 
@@ -259,11 +244,7 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void chkSaveManual_Click(object sender, EventArgs e)
+		private void HandleCheckSaveManualClick(object sender, EventArgs e)
 		{
 			m_dirty = true;
 
@@ -278,7 +259,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// Move a column (i.e. field) up in the list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void btnMoveSortFieldUp_Click(object sender, EventArgs e)
+		private void HandleButtonMoveSortFieldUpClick(object sender, EventArgs e)
 		{
 			DataGridViewRow currRow = m_sortingGrid.CurrentRow;
 			if (currRow != null)
@@ -295,7 +276,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// Move a column (i.e. field) down in the list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void btnMoveSortFieldDown_Click(object sender, EventArgs e)
+		private void HandleButtonMoveSortFieldDownClick(object sender, EventArgs e)
 		{
 			DataGridViewRow currRow = m_sortingGrid.CurrentRow;
 			if (currRow != null)
@@ -312,7 +293,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// Update the enabled state of the up and down buttons.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_grid_RowEnter(object sender, DataGridViewCellEventArgs e)
+		private void HandleSortingGridRowEnter(object sender, DataGridViewCellEventArgs e)
 		{
 			btnMoveSortFieldUp.Enabled = (e.RowIndex > 0);
 			btnMoveSortFieldDown.Enabled = (e.RowIndex > -1 && e.RowIndex < m_sortingGrid.Rows.Count - 1);
@@ -323,7 +304,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// Only enable the phonetic sort options when the phonetic column is checked.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_sortingGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+		private void HandleSortingGridCellContentClick(object sender, DataGridViewCellEventArgs e)
 		{
 			PaFieldInfo fieldInfo = m_sortingGrid[1, e.RowIndex].Value as PaFieldInfo;
 

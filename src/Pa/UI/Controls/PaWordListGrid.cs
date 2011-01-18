@@ -19,10 +19,6 @@ using SIL.Pa.UI.Dialogs;
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class PaWordListGrid : DataGridView, IxCoreColleague
 	{
 		private const int kPopupSidePadding = 30;
@@ -185,10 +181,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private PaFieldInfoList FieldInfoList
 		{
 			get
@@ -271,10 +263,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnSystemColorsChanged(EventArgs e)
 		{
 			ForeColor = SystemColors.WindowText;
@@ -284,15 +272,15 @@ namespace SIL.Pa.UI.Controls
 			m_uncertainPhoneForeColor = Settings.Default.UncertainPhoneForeColor;
 			m_searchItemBackColor = Settings.Default.QuerySearchItemBackColor;
 			m_searchItemForeColor = Settings.Default.QuerySearchItemForeColor;
-			m_selectedCellBackColor = App.SelectedWordListCellBackColor;
-			m_selectedCellForeColor = Settings.Default.SelectedWordListCellForeColor;
+			m_selectedCellBackColor = Settings.Default.WordListSelectedCellBackColor;
+			m_selectedCellForeColor = Settings.Default.WordListSelectedCellForeColor;
 			m_selectedFocusedRowBackColor = App.SelectedFocusedWordListRowBackColor;
-			m_selectedFocusedRowForeColor = Settings.Default.SelectedFocusedWordListRowForeColor;
-
+			m_selectedFocusedRowForeColor = Settings.Default.WordListSelectedFocusedRowForeColor;
+			
 			bool changeSelectionOnFocusLoss = Settings.Default.WordListChangeSelectionOnFocusLoss;
 
 			m_selectedUnFocusedRowBackColor = (changeSelectionOnFocusLoss ?
-				Settings.Default.SelectedUnFocusedWordListRowBackColor : m_selectedFocusedRowBackColor);
+				Settings.Default.WordListSelectedUnFocusedRowBackColor : m_selectedFocusedRowBackColor);
 			
 			m_selectedUnFocusedRowForeColor = (changeSelectionOnFocusLoss ?
 				App.SelectedUnFocusedWordListRowForeColor : m_selectedFocusedRowForeColor);
@@ -3329,10 +3317,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public bool OnPlayback(object args)
 		{
 			if ((!Focused && !IsCurrentPlaybackGrid) ||
@@ -3346,10 +3330,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnPlaybackRepeatedly(object args)
 		{
 			if ((!Focused && !IsCurrentPlaybackGrid) ||
@@ -3362,10 +3342,6 @@ namespace SIL.Pa.UI.Controls
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdatePlayback(object args)
 		{
@@ -3592,10 +3568,6 @@ namespace SIL.Pa.UI.Controls
 
 		#region Playback methods
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void PlaybackAllSelectedRows(bool repeatedly)
 		{
 			if (m_playbackInProgress)
@@ -3702,8 +3674,7 @@ namespace SIL.Pa.UI.Controls
 				entry[m_audioFileFieldName] : entry.AbsoluteAudioFilePath);
 
 			// Get the playback speed for the Control grid
-			m_playbackSpeed =
-				App.SettingsHandler.GetIntSettingsValue(OwningViewType.Name, "playbackspeed", 100);
+			m_playbackSpeed = App.GetPlaybackSpeedForVwType(OwningViewType);
 			
 			// If the speed is not 100% then use Speech Analyzer to playback the utterance.
 			if (m_playbackSpeed != 100f)
