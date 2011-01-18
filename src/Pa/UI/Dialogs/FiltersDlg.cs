@@ -566,12 +566,14 @@ namespace SIL.Pa.UI.Dialogs
 			// Draw appropriate filter image.
 			var img = (m_filterList[e.RowIndex].ShowInToolbarList ?
 				Properties.Resources.kimidFilter : Properties.Resources.kimidGrayFilter);
-			
+
+			rc.X += 2;
+			rc.Width -= 2;
 			int dy = (rc.Height - img.Height) / 2;
 			e.Graphics.DrawImage(img, rc.X, rc.Y + dy, img.Width, img.Height);
 
 			// Draw filter name text.
-			rc.Width -= (img.Width + 2);
+			rc.Width -= (img.Width + 4);
 			rc.X += (img.Width + 2);
 			bool selected = (e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected;
 			var clrText = (selected ? e.CellStyle.SelectionForeColor : e.CellStyle.ForeColor);
