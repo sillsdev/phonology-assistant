@@ -52,7 +52,7 @@ namespace SIL.Pa.UI.Dialogs
 			}
 
 			m_fontGrid.CurrentCellDirtyStateChanged += HandleFontsGridCurrentCellDirtyStateChanged;
-			m_fontGrid.CellFormatting += App.HandleFormattingSelectedGridCell;
+			App.InitializeGridSelectionColors(m_fontGrid, true);
 		}
 
 		/// ------------------------------------------------------------------------------------

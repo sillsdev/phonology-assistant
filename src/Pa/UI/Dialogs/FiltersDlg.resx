@@ -151,7 +151,7 @@
     <value>m_gridFilters</value>
   </data>
   <data name="&gt;&gt;m_gridFilters.Type" xml:space="preserve">
-    <value>SilTools.SilGrid, SilTools, Version=1.5.4033.40444, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.SilGrid, SilTools, Version=1.5.4035.29851, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_gridFilters.Parent" xml:space="preserve">
     <value>pnlFilters</value>
@@ -178,7 +178,7 @@
     <value>pnlFilters</value>
   </data>
   <data name="&gt;&gt;pnlFilters.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4033.40444, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4035.29851, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlFilters.Parent" xml:space="preserve">
     <value>splitFilters.Panel1</value>
@@ -200,6 +200,9 @@
   </data>
   <data name="btnAdd.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
     <value>GrowAndShrink</value>
+  </data>
+  <data name="btnAdd.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="btnAdd.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 4</value>
@@ -234,6 +237,9 @@
   <data name="btnCopy.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
     <value>GrowAndShrink</value>
   </data>
+  <data name="btnCopy.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="btnCopy.Location" type="System.Drawing.Point, System.Drawing">
     <value>75, 4</value>
   </data>
@@ -266,6 +272,9 @@
   </data>
   <data name="btnDeleteFilter.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
     <value>GrowAndShrink</value>
+  </data>
+  <data name="btnDeleteFilter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="btnDeleteFilter.Location" type="System.Drawing.Point, System.Drawing">
     <value>150, 4</value>
@@ -363,6 +372,9 @@
   <data name="lblExpressionMatchMsgPart1.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 8.25pt</value>
   </data>
+  <data name="lblExpressionMatchMsgPart1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="lblExpressionMatchMsgPart1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 4</value>
   </data>
@@ -428,6 +440,9 @@
   </data>
   <data name="lblExpressionMatchMsgPart2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 8.25pt</value>
+  </data>
+  <data name="lblExpressionMatchMsgPart2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="lblExpressionMatchMsgPart2.Location" type="System.Drawing.Point, System.Drawing">
     <value>258, 4</value>
@@ -505,7 +520,7 @@
     <value>pnlExpressionMatch</value>
   </data>
   <data name="&gt;&gt;pnlExpressionMatch.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.5.4033.40444, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.5.4035.29851, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlExpressionMatch.Parent" xml:space="preserve">
     <value>tableLayout</value>
@@ -521,6 +536,9 @@
   </data>
   <data name="btnApplyNow.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
     <value>GrowAndShrink</value>
+  </data>
+  <data name="btnApplyNow.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="btnApplyNow.Location" type="System.Drawing.Point, System.Drawing">
     <value>106, 234</value>
@@ -571,7 +589,7 @@
     <value>m_gridExpressions</value>
   </data>
   <data name="&gt;&gt;m_gridExpressions.Type" xml:space="preserve">
-    <value>SilTools.SilGrid, SilTools, Version=1.5.4033.40444, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.SilGrid, SilTools, Version=1.5.4035.29851, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_gridExpressions.Parent" xml:space="preserve">
     <value>pnlExpressions</value>
@@ -601,7 +619,7 @@
     <value>hlblExpressions</value>
   </data>
   <data name="&gt;&gt;hlblExpressions.Type" xml:space="preserve">
-    <value>SilTools.Controls.HeaderLabel, SilTools, Version=1.5.4033.40444, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.HeaderLabel, SilTools, Version=1.5.4035.29851, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hlblExpressions.Parent" xml:space="preserve">
     <value>pnlExpressions</value>
@@ -631,7 +649,7 @@
     <value>pnlExpressions</value>
   </data>
   <data name="&gt;&gt;pnlExpressions.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4033.40444, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4035.29851, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlExpressions.Parent" xml:space="preserve">
     <value>tableLayout</value>
@@ -742,6 +760,6 @@
     <value>FiltersDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.2.4034.43066, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.2.4035.29896, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

@@ -272,10 +272,10 @@ namespace SIL.Pa.UI.Controls
 			m_uncertainPhoneForeColor = Settings.Default.UncertainPhoneForeColor;
 			m_searchItemBackColor = Settings.Default.QuerySearchItemBackColor;
 			m_searchItemForeColor = Settings.Default.QuerySearchItemForeColor;
-			m_selectedCellBackColor = Settings.Default.WordListSelectedCellBackColor;
-			m_selectedCellForeColor = Settings.Default.WordListSelectedCellForeColor;
+			m_selectedCellBackColor = Settings.Default.GridCellSelectionBackColor;
+			m_selectedCellForeColor = Settings.Default.GridCellSelectionForeColor;
 			m_selectedFocusedRowBackColor = App.SelectedFocusedWordListRowBackColor;
-			m_selectedFocusedRowForeColor = Settings.Default.WordListSelectedFocusedRowForeColor;
+			m_selectedFocusedRowForeColor = Settings.Default.GridRowSelectionForeColor;
 			
 			bool changeSelectionOnFocusLoss = Settings.Default.WordListChangeSelectionOnFocusLoss;
 

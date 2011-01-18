@@ -131,7 +131,7 @@ namespace SIL.Pa.UI.Controls
 			m_grid.CurrentCellDirtyStateChanged += m_grid_CurrentCellDirtyStateChanged;
 			m_grid.CellPainting += m_grid_CellPainting;
 			m_grid.ColumnWidthChanged += m_grid_ColumnWidthChanged;
-			m_grid.CellFormatting += App.HandleFormattingSelectedGridCell;
+			App.InitializeGridSelectionColors(m_grid, true);
 
 			// The sequence-to-convert column.
 			DataGridViewColumn col = new RadioButtonColumn("col0", false, true);

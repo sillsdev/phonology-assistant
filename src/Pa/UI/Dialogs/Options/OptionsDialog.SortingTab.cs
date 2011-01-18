@@ -55,7 +55,7 @@ namespace SIL.Pa.UI.Dialogs
 			cboListType.Left = lblListType.Right + 10;
 			cboListType.SelectedIndex = 0;
 			m_sortingGrid.IsDirty = false;
-			m_sortingGrid.CellFormatting += App.HandleFormattingSelectedGridCell;
+			App.InitializeGridSelectionColors(m_sortingGrid, false);
 
 			Shown += OptionsDlg_Shown;
 		}

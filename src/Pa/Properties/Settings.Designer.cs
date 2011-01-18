@@ -1593,12 +1593,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("153, 187, 210")]
-        public global::System.Drawing.Color WordListSelectedFocusedRowBackColor {
+        public global::System.Drawing.Color GridRowSelectionBackColor {
             get {
-                return ((global::System.Drawing.Color)(this["WordListSelectedFocusedRowBackColor"]));
+                return ((global::System.Drawing.Color)(this["GridRowSelectionBackColor"]));
             }
             set {
-                this["WordListSelectedFocusedRowBackColor"] = value;
+                this["GridRowSelectionBackColor"] = value;
             }
         }
         
@@ -1606,12 +1606,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Black")]
-        public global::System.Drawing.Color WordListSelectedFocusedRowForeColor {
+        public global::System.Drawing.Color GridRowSelectionForeColor {
             get {
-                return ((global::System.Drawing.Color)(this["WordListSelectedFocusedRowForeColor"]));
+                return ((global::System.Drawing.Color)(this["GridRowSelectionForeColor"]));
             }
             set {
-                this["WordListSelectedFocusedRowForeColor"] = value;
+                this["GridRowSelectionForeColor"] = value;
             }
         }
         
@@ -1644,13 +1644,13 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("153, 187, 210")]
-        public global::System.Drawing.Color WordListSelectedCellBackColor {
+        [global::System.Configuration.DefaultSettingValueAttribute("173, 211, 237")]
+        public global::System.Drawing.Color GridCellSelectionBackColor {
             get {
-                return ((global::System.Drawing.Color)(this["WordListSelectedCellBackColor"]));
+                return ((global::System.Drawing.Color)(this["GridCellSelectionBackColor"]));
             }
             set {
-                this["WordListSelectedCellBackColor"] = value;
+                this["GridCellSelectionBackColor"] = value;
             }
         }
         
@@ -1658,12 +1658,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Black")]
-        public global::System.Drawing.Color WordListSelectedCellForeColor {
+        public global::System.Drawing.Color GridCellSelectionForeColor {
             get {
-                return ((global::System.Drawing.Color)(this["WordListSelectedCellForeColor"]));
+                return ((global::System.Drawing.Color)(this["GridCellSelectionForeColor"]));
             }
             set {
-                this["WordListSelectedCellForeColor"] = value;
+                this["GridCellSelectionForeColor"] = value;
             }
         }
         

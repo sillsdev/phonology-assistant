@@ -30,10 +30,6 @@ namespace SIL.Pa.UI.Controls
 		private bool m_ignoreRowEnter;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public FieldSelectorGrid()
 		{
 			RowHeadersVisible = false;
@@ -41,6 +37,7 @@ namespace SIL.Pa.UI.Controls
 			AllowUserToOrderColumns = false;
 			AllowUserToResizeColumns = false;
 			CellBorderStyle = DataGridViewCellBorderStyle.None;
+			App.InitializeGridSelectionColors(this, false);
 
 			if (App.DesignMode)
 				return;
@@ -65,19 +62,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void Load(bool includeHiddenFields, bool forGrid)
 		{
 			Load(includeHiddenFields, forGrid, null);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void Load(bool includeHiddenFields, bool forGrid, List<string> initialCheckedList)
 		{
@@ -150,10 +139,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void SetSelectAllItemsValue()
 		{
 			if (AreAllItemsChecked)
@@ -198,13 +183,6 @@ namespace SIL.Pa.UI.Controls
 					}
 				}
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
-		{
-			base.OnCellFormatting(e);
-			App.HandleFormattingSelectedGridCell(this, e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -266,25 +244,6 @@ namespace SIL.Pa.UI.Controls
 				AfterUserChangedValue(App.Project.FieldInfo[fieldName],
 					e.RowIndex == 0, (bool)Rows[e.RowIndex].Cells[0].Value);
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Paint the check box cell manually to get rid of the focus rectangle around it.
-		/// This will also not paint the selection color around the check box which is the
-		/// way the checked list box works.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
-		{
-			if (e.ColumnIndex == 0)
-			{
-				e.PaintBackground(e.CellBounds, false);
-				e.PaintContent(e.CellBounds);
-				e.Handled = true;
-			}
-
-			base.OnCellPainting(e);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -18,29 +18,41 @@ namespace SIL.Pa.UI.Dialogs
 		private bool m_changesWereMade;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public OKCancelDlgBase()
 		{
 			InitializeComponent();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets a value indicating whether or not the control is currently in design mode.
+		///// I have had some problems with the base class' DesignMode property being true
+		///// when in design mode. I'm not sure why, but adding a couple more checks fixes the
+		///// problem.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//protected new bool DesignMode
+		//{
+		//    get
+		//    {
+		//        return (base.DesignMode || GetService(typeof(IDesignerHost)) != null) ||
+		//            (LicenseManager.UsageMode == LicenseUsageMode.Designtime);
+		//    }
+		//}
+
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
-			try
+			if (!DesignMode)
 			{
-				Settings.Default[Name] = App.InitializeForm(this, Settings.Default[Name] as FormSettings);
-			}
-			catch
-			{
-				StartPosition = FormStartPosition.CenterScreen;
+				try
+				{
+					Settings.Default[Name] = App.InitializeForm(this, Settings.Default[Name] as FormSettings);
+				}
+				catch
+				{
+					StartPosition = FormStartPosition.CenterScreen;
+				}
 			}
 
 			base.OnLoad(e);
@@ -80,10 +92,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
 			base.OnShown(e);
@@ -100,10 +108,6 @@ namespace SIL.Pa.UI.Dialogs
 			Utils.UpdateWindow(Handle);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{

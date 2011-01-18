@@ -36,10 +36,6 @@ namespace SilTools
 		protected int _prevRowIndex = -1;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public SilGrid()
 		{
 			DoubleBuffered = true;
@@ -62,6 +58,7 @@ namespace SilTools
 			GridColor = Color.FromArgb(clr.R - 30, clr.G - 30, clr.B - 30);
 			MultiSelect = false;
 			PaintHeaderAcrossFullGridWidth = true;
+			TextBoxEditControlBorderColor = Color.Silver;
 		}
 
 		#region Properties
@@ -100,7 +97,9 @@ namespace SilTools
 		/// the right edge of the grid control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool PaintHeaderAcrossFullGridWidth { get; set;}
+		[Browsable(true)]
+		[DefaultValue(false)]
+		public bool PaintHeaderAcrossFullGridWidth { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -120,8 +119,62 @@ namespace SilTools
 		public bool PaintFullRowFocusRectangle { get; set; }
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets a value determining whether or not to draw a border around a text
+		/// box cell's edit control when the cell is in the edit mode.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Browsable(true)]
+		[DefaultValue(true)]
+		public bool DrawTextBoxEditControlBorder { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		[Browsable(true)]
+		public Color TextBoxEditControlBorderColor { get; set; }
+
+		/// ------------------------------------------------------------------------------------
 		[Browsable(true)]
 		public Color FullRowFocusRectangleColor { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the foreground color of the current cell in the current row
+		/// (i.e. when full row select is true). When this value is Color.Empty
+		/// (i.e. default), then the default selection color is used.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Browsable(true)]
+		public Color SelectedCellForeColor { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the foreground color of cells that are not current but are in the
+		/// current row (i.e. when full row select is true). When this value is Color.Empty
+		/// (i.e. default), then the default selection color is used.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Browsable(true)]
+		public Color SelectedRowForeColor { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the background color of the current cell in the current row
+		/// (i.e. when full row select is true). When this value is Color.Empty
+		/// (i.e. default), then the default selection color is used.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Browsable(true)]
+		public Color SelectedCellBackColor { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the background color of cells that are not current but are in the
+		/// current row (i.e. when full row select is true). When this value is Color.Empty
+		/// (i.e. default), then the default selection color is used.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[Browsable(true)]
+		public Color SelectedRowBackColor { get; set; }
 
 		#endregion
 
@@ -553,6 +606,13 @@ namespace SilTools
 		{
 			base.OnEditingControlShowing(e);
 
+			if (DrawTextBoxEditControlBorder && e.Control is TextBox && e.Control.Parent is Panel)
+			{
+				e.Control.Parent.Tag = null;
+				e.Control.Parent.Paint -= HandleEditControlTextBoxPanelPaint;
+				e.Control.Parent.Paint += HandleEditControlTextBoxPanelPaint;
+			}
+
 			// When the cell style's tag is storing a ComboBoxStyle value, we know that value is
 			// ComboBoxStyle.DropDown. Therefore, modify the control's DropDownStyle property.
 			ComboBox cbo = e.Control as ComboBox;
@@ -572,6 +632,28 @@ namespace SilTools
 				// list. I don't yet understand why this is necessary, but it works.
 				NotifyCurrentCellDirty(true);
 			};
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleEditControlTextBoxPanelPaint(object sender, PaintEventArgs e)
+		{
+			var pnl = sender as Panel;
+			var txt = pnl.Controls[0];
+
+			if (pnl.Tag == null)
+			{
+				txt.Width = pnl.Width - 6;
+				txt.Left = 3;
+				pnl.Tag = true;
+			}
+
+			var rc = pnl.ClientRectangle;
+			rc.X++;
+			rc.Width -= 3;
+			rc.Height--;
+
+			using (Pen pen = new Pen(TextBoxEditControlBorderColor))
+				e.Graphics.DrawRectangle(pen, rc);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -720,8 +802,44 @@ namespace SilTools
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
+		{
+			if (CurrentCellAddress.Y == e.RowIndex)
+			{
+				if (CurrentCellAddress.X == e.ColumnIndex)
+				{
+					if (SelectedCellBackColor != Color.Empty)
+						e.CellStyle.SelectionBackColor = SelectedCellBackColor;
+
+					if (SelectedCellForeColor != Color.Empty)
+						e.CellStyle.SelectionForeColor = SelectedCellForeColor;
+				}
+				else
+				{
+					if (SelectedRowBackColor != Color.Empty)
+						e.CellStyle.SelectionBackColor = SelectedRowBackColor;
+
+					if (SelectedRowForeColor != Color.Empty)
+						e.CellStyle.SelectionForeColor = SelectedRowForeColor;
+				}
+			}
+			
+			base.OnCellFormatting(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
 		{
+			if (e.ColumnIndex >= 0 && Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn &&
+				(e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected &&
+				SelectedCellBackColor != Color.Empty)
+			{
+				// If we don't intervene, selected checkbox cells
+				// will get the default selection color.
+				e.CellStyle.SelectionBackColor = SelectedCellBackColor;
+				e.Paint(e.CellBounds, e.PaintParts);
+			}
+
 			base.OnCellPainting(e);
 
 			if (e.RowIndex == -1 && e.ColumnIndex == 0 && PaintHeaderAcrossFullGridWidth &&
@@ -848,7 +966,10 @@ namespace SilTools
 			// Fill the gap between the last displayed column and the right edge of the client area
 			// with the selection color so the row's selection highlighting spans the entire grid's
 			// client width.
-			using (var br = new SolidBrush(DefaultCellStyle.SelectionBackColor))
+			var clr = (SelectedRowBackColor != Color.Empty ?
+				SelectedRowBackColor : DefaultCellStyle.SelectionBackColor);
+			
+			using (var br = new SolidBrush(clr))
 				e.Graphics.FillRectangle(br, rc);
 
 			if (!Focused || !PaintFullRowFocusRectangle || e.RowIndex != CurrentCellAddress.Y)

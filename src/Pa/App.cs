@@ -597,7 +597,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// The normal DesignMode property doesn't work when derived classes are loaded in
-		/// designer.
+		/// designer. (This is a kludge, I know.)
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static bool DesignMode
@@ -935,23 +935,18 @@ namespace SIL.Pa
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		public static void HandleFormattingSelectedGridCell(object sender, DataGridViewCellFormattingEventArgs e)
+		public static void InitializeGridSelectionColors(SilGrid grid, bool makeSelectedCellsDifferent)
 		{
-			var grid = sender as DataGridView;
+			grid.SelectedRowBackColor = Settings.Default.GridRowSelectionBackColor;
+			grid.SelectedRowForeColor = Settings.Default.GridRowSelectionForeColor;
+			
+			grid.SelectedCellBackColor = (makeSelectedCellsDifferent ?
+				Settings.Default.GridCellSelectionBackColor :
+				Settings.Default.GridRowSelectionBackColor);
 
-			if (grid.CurrentCellAddress.Y == e.RowIndex)
-			{
-				if (grid.CurrentCellAddress.X == e.ColumnIndex)
-				{
-					e.CellStyle.SelectionBackColor = Settings.Default.WordListSelectedCellBackColor;
-					e.CellStyle.SelectionForeColor = Settings.Default.WordListSelectedCellForeColor;
-				}
-				else
-				{
-					e.CellStyle.SelectionBackColor = Settings.Default.WordListSelectedFocusedRowBackColor;
-					e.CellStyle.SelectionForeColor = Settings.Default.WordListSelectedFocusedRowForeColor;
-				}
-			}
+			grid.SelectedCellForeColor = (makeSelectedCellsDifferent ?
+				Settings.Default.GridCellSelectionForeColor :
+				Settings.Default.GridRowSelectionForeColor);
 		}
 
 		#region Options Properties
@@ -971,10 +966,10 @@ namespace SIL.Pa
 		{
 			get
 			{
-				var clr = Settings.Default.WordListSelectedFocusedRowBackColor;
+				var clr = Settings.Default.GridRowSelectionBackColor;
 				return (clr == Color.Empty ? ColorHelper.LightHighlight : clr);
 			}
-			set { Settings.Default.WordListSelectedFocusedRowBackColor = value; }
+			set { Settings.Default.GridRowSelectionBackColor = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

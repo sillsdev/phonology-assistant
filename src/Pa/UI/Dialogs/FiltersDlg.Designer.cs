@@ -119,6 +119,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_gridFilters.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.m_gridFilters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			resources.ApplyResources(this.m_gridFilters, "m_gridFilters");
+			this.m_gridFilters.DrawTextBoxEditControlBorder = false;
+			this.m_gridFilters.ExtendFullRowSelectRectangleToEdge = true;
 			this.m_gridFilters.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
 			this.m_gridFilters.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
 			this.m_gridFilters.IsDirty = true;
@@ -129,13 +131,22 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_gridFilters.Name = "m_gridFilters";
 			this.m_gridFilters.PaintHeaderAcrossFullGridWidth = true;
 			this.m_gridFilters.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+			this.m_gridFilters.SelectedCellBackColor = System.Drawing.Color.Empty;
+			this.m_gridFilters.SelectedCellForeColor = System.Drawing.Color.Empty;
+			this.m_gridFilters.SelectedRowBackColor = System.Drawing.Color.Empty;
+			this.m_gridFilters.SelectedRowForeColor = System.Drawing.Color.Empty;
 			this.m_gridFilters.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.m_gridFilters.ShowWaterMarkWhenDirty = false;
+			this.m_gridFilters.StandardTab = true;
+			this.m_gridFilters.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
 			this.m_gridFilters.WaterMark = "!";
 			this.m_gridFilters.CurrentRowChanged += new System.EventHandler(this.HandleFilterGridCurrentRowChanged);
+			this.m_gridFilters.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.HandleFilterGridCellValueNeeded);
 			this.m_gridFilters.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.HandleFilterGridCellValidating);
 			this.m_gridFilters.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleFilterGridCellEndEdit);
 			this.m_gridFilters.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.HandleFilterGridCellPainting);
+			this.m_gridFilters.CellValuePushed += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.HandleFilterGridCellValuePushed);
+			this.m_gridFilters.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleFilterGridKeyDown);
 			this.m_gridFilters.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleFilterGridCellContentClick);
 			// 
 			// flwLayoutFilterButtons
@@ -295,6 +306,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_gridExpressions.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			this.m_gridExpressions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			resources.ApplyResources(this.m_gridExpressions, "m_gridExpressions");
+			this.m_gridExpressions.DrawTextBoxEditControlBorder = false;
 			this.m_gridExpressions.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
 			this.m_gridExpressions.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.m_gridExpressions.IsDirty = false;
@@ -305,13 +317,18 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_gridExpressions.Name = "m_gridExpressions";
 			this.m_gridExpressions.PaintHeaderAcrossFullGridWidth = true;
 			this.m_gridExpressions.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+			this.m_gridExpressions.SelectedCellBackColor = System.Drawing.Color.Empty;
+			this.m_gridExpressions.SelectedCellForeColor = System.Drawing.Color.Empty;
+			this.m_gridExpressions.SelectedRowBackColor = System.Drawing.Color.Empty;
+			this.m_gridExpressions.SelectedRowForeColor = System.Drawing.Color.Empty;
 			this.m_gridExpressions.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.m_gridExpressions.ShowWaterMarkWhenDirty = false;
+			this.m_gridExpressions.TextBoxEditControlBorderColor = System.Drawing.Color.DimGray;
 			this.m_gridExpressions.WaterMark = "!";
-			this.m_gridExpressions.CurrentRowChanged += new System.EventHandler(this.HandleGridCurrentRowChanged);
+			this.m_gridExpressions.CurrentRowChanged += new System.EventHandler(this.HandleExpressionsGridCurrentRowChanged);
 			this.m_gridExpressions.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleExpressionsGridCellMouseLeave);
-			this.m_gridExpressions.Enter += new System.EventHandler(this.HandleGridEnter);
-			this.m_gridExpressions.Leave += new System.EventHandler(this.HandleGridLeave);
+			this.m_gridExpressions.Enter += new System.EventHandler(this.HandleExpressionsGridEnterAndLeave);
+			this.m_gridExpressions.Leave += new System.EventHandler(this.HandleExpressionsGridEnterAndLeave);
 			this.m_gridExpressions.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.HandleExpressionsGridCellFormatting);
 			this.m_gridExpressions.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleExpressionsGridCellMouseEnter);
 			this.m_gridExpressions.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.HandleExpressionsGridCellPainting);

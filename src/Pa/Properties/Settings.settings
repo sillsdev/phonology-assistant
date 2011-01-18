@@ -368,10 +368,10 @@
     <Setting Name="LocalizeDlgBounds" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Rectangle" Scope="User">
       <Value Profile="(Default)">0, 0, 0, 0</Value>
     </Setting>
-    <Setting Name="WordListSelectedFocusedRowBackColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="GridRowSelectionBackColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">153, 187, 210</Value>
     </Setting>
-    <Setting Name="WordListSelectedFocusedRowForeColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="GridRowSelectionForeColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Black</Value>
     </Setting>
     <Setting Name="WordListSelectedUnFocusedRowBackColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
@@ -380,10 +380,10 @@
     <Setting Name="WordListSelectedUnFocusedRowForeColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Black</Value>
     </Setting>
-    <Setting Name="WordListSelectedCellBackColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">153, 187, 210</Value>
+    <Setting Name="GridCellSelectionBackColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">173, 211, 237</Value>
     </Setting>
-    <Setting Name="WordListSelectedCellForeColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="GridCellSelectionForeColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Black</Value>
     </Setting>
     <Setting Name="UncertainPhoneForeColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
