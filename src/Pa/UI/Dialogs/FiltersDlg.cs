@@ -31,7 +31,7 @@ namespace SIL.Pa.UI.Dialogs
 		private const int kDeleteCol = 4;
 
 		private List<Filter> m_filterList;
-		private readonly DropDownFiltersListBox m_filterDropDown;
+		private readonly ExpressionValueDropDownListBox m_filterDropDown;
 		private readonly SearchOptionsDropDown m_queryOptionsDropDown;
 		private CustomDropDown m_queryOptionsDropDownHost;
 		private Dictionary<Filter.Operator, string> m_operatorToText;
@@ -88,7 +88,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			lblExpressionMatchMsgPart1.Tag = lblExpressionMatchMsgPart1.Text;
 
-			m_filterDropDown = new DropDownFiltersListBox();
+			m_filterDropDown = new ExpressionValueDropDownListBox();
 			BuildFiltersGrid();
 			BuildExpressionsGrid();
 			LoadFilters(FilterHelper.CurrentFilter);
@@ -584,20 +584,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleFilterGridCellContentClick(object sender, DataGridViewCellEventArgs e)
-		{
-			//if (e.ColumnIndex < 0 || e.RowIndex < 0)
-			//    return;
-
-			//if (e.ColumnIndex == kShowInListCol)
-			//{
-			//    m_gridFilters.InvalidateRow(e.RowIndex);
-			//    var filter = m_gridFilters.Rows[e.RowIndex].Tag as Filter;
-			//    filter.ShowInToolbarList = (bool)m_gridFilters[kShowInListCol, e.RowIndex].Value;
-			//}
-		}
-
-		/// ------------------------------------------------------------------------------------
 		private void HandleFilterGridCurrentRowChanged(object sender, EventArgs e)
 		{
 			LoadExpressions(CurrentFilter);
@@ -613,25 +599,6 @@ namespace SIL.Pa.UI.Dialogs
 				m_filterList.Sort((x, y) => x.Name.CompareTo(y.Name));
 				LoadFilters(currFilter);
 			}
-
-			//var filter = m_gridFilters.Rows[e.RowIndex].Tag as Filter;
-
-			//if (e.ColumnIndex == kShowInListCol)
-			//{
-			//    bool showInList = (bool)m_gridFilters[kShowInListCol, e.RowIndex].Value;
-			//    if (showInList != filter.ShowInToolbarList)
-			//        m_dirty = true;
-			//    filter.ShowInToolbarList = showInList;
-			//    return;
-			//}
-
-			//string newName = m_gridFilters[kFilterNameCol, e.RowIndex].Value as string;
-			//if (filter.Name != newName)
-			//{
-			//    m_dirty = true;
-			//    filter.Name = newName;
-			//    UpdateView();
-			//}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -808,8 +775,11 @@ namespace SIL.Pa.UI.Dialogs
 
 			if ((m_gridExpressions[kFieldCol, e.RowIndex].Value as string) == FilterExpression.OtherFilterField)
 			{
-				if (FilterHelper.Filters.Count != 0)
-					m_filterDropDown.Show(m_gridExpressions[kValueCol, e.RowIndex]);
+				if (m_filterList.Count != 0)
+				{
+					m_filterDropDown.ShowFilters(m_gridExpressions[kValueCol, e.RowIndex],
+						m_filterList.Where(f => f != CurrentFilter));
+				}
 			}
 			else if (expType == m_expTypeToText[Filter.ExpressionType.PhoneticSrchPtrn])
 			{
@@ -824,7 +794,7 @@ namespace SIL.Pa.UI.Dialogs
 			}
 			else
 			{
-				m_filterDropDown.Show(m_gridExpressions[kValueCol, e.RowIndex],
+				m_filterDropDown.ShowFieldValues(m_gridExpressions[kValueCol, e.RowIndex],
 					m_gridExpressions[kFieldCol, e.RowIndex].Value as string);
 			}
 		}
@@ -1034,9 +1004,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private FilterExpression GetExpressionFromRow(DataGridViewRow row)
 		{
-			FilterExpression expression = new FilterExpression();
-
-			string fieldName = row.Cells[kFieldCol].Value as string;
+			var expression = new FilterExpression();
+			var fieldName = row.Cells[kFieldCol].Value as string;
 
 			if (fieldName != FilterExpression.OtherFilterField)
 			{
@@ -1131,20 +1100,17 @@ namespace SIL.Pa.UI.Dialogs
 
 	#endregion
 
-	#region DropDownFiltersListBox class
+	#region ExpressionValueDropDownListBox class
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	internal class DropDownFiltersListBox : ListBox
+	internal class ExpressionValueDropDownListBox : ListBox
 	{
 		private DataGridViewCell m_cell;
 		private readonly CustomDropDown m_dropDown;
 
 		/// ------------------------------------------------------------------------------------
-		internal DropDownFiltersListBox()
+		internal ExpressionValueDropDownListBox()
 		{
+			DoubleBuffered = true;
 			m_dropDown = new CustomDropDown();
 			m_dropDown.AutoCloseWhenMouseLeaves = false;
 			m_dropDown.Closed += ((sender, e) => m_cell = null);
@@ -1164,26 +1130,18 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal void Show(DataGridViewCell cell)
+		internal void ShowFilters(DataGridViewCell cell, IEnumerable<Filter> filters)
 		{
-			Items.Clear();
 			Font = FontHelper.UIFont;
 
-			string cellValue = cell.Value as string;
-			foreach (Filter filter in FilterHelper.Filters)
-			{
-				Items.Add(filter.Name);
-				if (cellValue == filter.Name)
-					SelectedIndex = Items.Count - 1;
-			}
-
-			if (SelectedIndex < 0)
-				SelectedIndex = 0;
+			Items.Clear();
+			Items.AddRange(filters.Select(f => f.Name).ToArray());
+			SelectedItem = cell.Value as string;
 
 			m_cell = cell;
 			int col = cell.ColumnIndex;
 			int row = cell.RowIndex;
-			Width = cell.DataGridView.Columns[col].Width;
+			Width = Math.Max(cell.DataGridView.Columns[col].Width, PreferredSize.Width);
 			Height = (Math.Min(Items.Count, 15) * Font.Height) + 4;
 			var rc = cell.DataGridView.GetCellDisplayRectangle(col, row, false);
 			rc.Y += rc.Height;
@@ -1192,19 +1150,28 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal void Show(DataGridViewCell cell, string field)
+		internal void ShowFieldValues(DataGridViewCell cell, string field)
 		{
-			PaFieldInfo fieldInfo = App.FieldInfo[field];
-			if (fieldInfo == null)
-				fieldInfo = App.FieldInfo.GetFieldFromDisplayText(field);
-			
+			PaFieldInfo fieldInfo = (App.FieldInfo[field] ??
+				App.FieldInfo.GetFieldFromDisplayText(field));
+
 			if (fieldInfo == null)
 				return;
 
 			Items.Clear();
-			Font = fieldInfo.Font;
 
-			var list = new List<string>();
+			// This is sort of a kludge, but right before the first time the list is
+			// displayed, it's handle hasn't been created therefore the preferred
+			// size cannot be accurately determined and the preferred width is needed
+			// below. So to ensure the handle gets created, show then hide the drop-down.
+			if (!IsHandleCreated)
+			{
+				Size = new Size(0, 0);
+				m_dropDown.Show(0, 0);
+				m_dropDown.Close();
+			}
+	
+			Font = fieldInfo.Font;
 
 			var list1 = from entry in App.WordCache
 						where !string.IsNullOrEmpty(entry[fieldInfo.FieldName])
@@ -1217,46 +1184,24 @@ namespace SIL.Pa.UI.Dialogs
 
 			Items.AddRange(list1.Concat(list2).Distinct().OrderBy(val => val).ToArray());
 	
-			////SortedDictionary<string, bool> list = new SortedDictionary<string, bool>();
-			//foreach (WordCacheEntry entry in App.WordCache)
-			//{
-			//    string val = entry[fieldInfo.FieldName];
-			//    if (!string.IsNullOrEmpty(val))
-			//        list.Add(val);
-			//}
-
-			//// Make sure to include values that are filtered out.
-			//foreach (var entry in App.RecordCache.WordsNotInCurrentFilter)
-			//{
-			//    string val = entry[fieldInfo.FieldName];
-			//    if (!string.IsNullOrEmpty(val))
-			//        list.Add(val);
-			//}
-
-			//list = list.Distinct().ToList();
-			//list.Sort();
-			//Items.AddRange(list.ToArray());
 			SelectedItem = cell.Value as string;
 
-			if (SelectedIndex < 0 && list.Count > 0)
+			if (SelectedIndex < 0 && Items.Count > 0)
 				SelectedIndex = 0;
 
 			m_cell = cell;
 			int col = cell.ColumnIndex;
 			int row = cell.RowIndex;
-			IntegralHeight = (list.Count > 0);
-			Width = Math.Max(150, cell.DataGridView.Columns[col].Width);
-			Height = (list.Count == 0 ? 18 : (Math.Min(Items.Count, 15) * Font.Height) + 4);
 			Rectangle rc = cell.DataGridView.GetCellDisplayRectangle(col, row, false);
 			rc.Y += rc.Height;
+
+			IntegralHeight = (Items.Count > 0);
+			Width = Math.Max(PreferredSize.Width, cell.DataGridView.Columns[col].Width);
+			Height = (Items.Count == 0 ? 18 : (Math.Min(Items.Count, 15) * Font.Height) + 4);
 			m_dropDown.Show(cell.DataGridView.PointToScreen(rc.Location));
 			Focus();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
@@ -1267,10 +1212,6 @@ namespace SIL.Pa.UI.Dialogs
 				SelectedIndex = i;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseClick(MouseEventArgs e)
 		{
@@ -1283,10 +1224,6 @@ namespace SIL.Pa.UI.Dialogs
 			m_dropDown.Close();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnKeyDown(KeyEventArgs e)
 		{

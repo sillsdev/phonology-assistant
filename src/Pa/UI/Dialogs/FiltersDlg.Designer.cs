@@ -147,7 +147,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_gridFilters.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.HandleFilterGridCellPainting);
 			this.m_gridFilters.CellValuePushed += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.HandleFilterGridCellValuePushed);
 			this.m_gridFilters.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleFilterGridKeyDown);
-			this.m_gridFilters.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleFilterGridCellContentClick);
 			// 
 			// flwLayoutFilterButtons
 			// 

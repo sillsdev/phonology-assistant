@@ -418,15 +418,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Before saving a search pattern, you must first add a category to the saved pattern list..
-        /// </summary>
-        internal static string kstidAddSearchCategoryBeforeSave {
-            get {
-                return ResourceManager.GetString("kstidAddSearchCategoryBeforeSave", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The audio file &apos;{0}&apos; is cannot be found..
         /// </summary>
         internal static string kstidAudioFileMissingMsg {
@@ -697,24 +688,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to remove the search category &apos;{0}&apos;?.
-        /// </summary>
-        internal static string kstidDeleteFFCategoryConfirmationMsg {
-            get {
-                return ResourceManager.GetString("kstidDeleteFFCategoryConfirmationMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to remove the search pattern &apos;{0}&apos;?.
-        /// </summary>
-        internal static string kstidDeleteFFPatternConfirmationMsg {
-            get {
-                return ResourceManager.GetString("kstidDeleteFFPatternConfirmationMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Dock.
         /// </summary>
         internal static string kstidDockToolTip {
@@ -729,33 +702,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidDropDownNoneEntry {
             get {
                 return ResourceManager.GetString("kstidDropDownNoneEntry", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There is already a category named &apos;{0}&apos;..
-        /// </summary>
-        internal static string kstidDuplicateSearchCategoryMsg {
-            get {
-                return ResourceManager.GetString("kstidDuplicateSearchCategoryMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There is already a saved search pattern named &apos;{0}&apos; in the same category..
-        /// </summary>
-        internal static string kstidDuplicateSearchQueryMsg {
-            get {
-                return ResourceManager.GetString("kstidDuplicateSearchQueryMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There is already a saved search pattern named &apos;{0}&apos; in the same category. Would you like it overwritten?.
-        /// </summary>
-        internal static string kstidDuplicateSearchQueryQuestion {
-            get {
-                return ResourceManager.GetString("kstidDuplicateSearchQueryQuestion", resourceCulture);
             }
         }
         
@@ -981,60 +927,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidFindSelectAll {
             get {
                 return ResourceManager.GetString("kstidFindSelectAll", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Bold.
-        /// </summary>
-        internal static string kstidFontGridBold {
-            get {
-                return ResourceManager.GetString("kstidFontGridBold", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Field.
-        /// </summary>
-        internal static string kstidFontGridDBField {
-            get {
-                return ResourceManager.GetString("kstidFontGridDBField", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Font Name.
-        /// </summary>
-        internal static string kstidFontGridFontName {
-            get {
-                return ResourceManager.GetString("kstidFontGridFontName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Italic.
-        /// </summary>
-        internal static string kstidFontGridItalic {
-            get {
-                return ResourceManager.GetString("kstidFontGridItalic", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sample.
-        /// </summary>
-        internal static string kstidFontGridSample {
-            get {
-                return ResourceManager.GetString("kstidFontGridSample", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Size.
-        /// </summary>
-        internal static string kstidFontGridSize {
-            get {
-                return ResourceManager.GetString("kstidFontGridSize", resourceCulture);
             }
         }
         
@@ -1366,15 +1258,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New Category.
-        /// </summary>
-        internal static string kstidNewSavedPatternCategoryName {
-            get {
-                return ResourceManager.GetString("kstidNewSavedPatternCategoryName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to This project doesn&apos;t contain a field definition for audio files..
         /// </summary>
         internal static string kstidNoAudioField {
@@ -1443,15 +1326,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidNoSavedPatternNameMsg {
             get {
                 return ResourceManager.GetString("kstidNoSavedPatternNameMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No Saved Search Patterns.
-        /// </summary>
-        internal static string kstidNoSavedSearchPatternsMsg {
-            get {
-                return ResourceManager.GetString("kstidNoSavedSearchPatternsMsg", resourceCulture);
             }
         }
         

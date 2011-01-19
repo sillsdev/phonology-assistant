@@ -465,9 +465,6 @@
   <data name="kimidXYChartDirtyIndicator" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\XYChartDirty.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kstidAddSearchCategoryBeforeSave" xml:space="preserve">
-    <value>Before saving a search pattern, you must first add a category to the saved pattern list.</value>
-  </data>
   <data name="kstidAutoHideToolTip" xml:space="preserve">
     <value>Automatically Hide</value>
     <comment>Tooltip for the sliding panel auto. hide button</comment>
@@ -561,26 +558,9 @@
   <data name="kstidDefineSortOrderColumnCol" xml:space="preserve">
     <value>Column</value>
   </data>
-  <data name="kstidDeleteFFCategoryConfirmationMsg" xml:space="preserve">
-    <value>Are you sure you want to remove the search category '{0}'?</value>
-    <comment>Question asked when user wants to delete a find phone category in the find phone window.</comment>
-  </data>
-  <data name="kstidDeleteFFPatternConfirmationMsg" xml:space="preserve">
-    <value>Are you sure you want to remove the search pattern '{0}'?</value>
-    <comment>Question asked when the user wants to delete a find phone search pattern.</comment>
-  </data>
   <data name="kstidDockToolTip" xml:space="preserve">
     <value>Dock</value>
     <comment>Tooktip for the sliding panel dock button</comment>
-  </data>
-  <data name="kstidDuplicateSearchCategoryMsg" xml:space="preserve">
-    <value>There is already a category named '{0}'.</value>
-  </data>
-  <data name="kstidDuplicateSearchQueryMsg" xml:space="preserve">
-    <value>There is already a saved search pattern named '{0}' in the same category.</value>
-  </data>
-  <data name="kstidDuplicateSearchQueryQuestion" xml:space="preserve">
-    <value>There is already a saved search pattern named '{0}' in the same category. Would you like it overwritten?</value>
   </data>
   <data name="kstidEmptySearchPatternText" xml:space="preserve">
     <value>Empty</value>
@@ -615,30 +595,6 @@
   <data name="kstidFindSelectAll" xml:space="preserve">
     <value>Select All</value>
     <comment>"Select All" caption in the CheckedListBox</comment>
-  </data>
-  <data name="kstidFontGridBold" xml:space="preserve">
-    <value>Bold</value>
-    <comment>Column heading for fonts grid under Tools/Options</comment>
-  </data>
-  <data name="kstidFontGridDBField" xml:space="preserve">
-    <value>Field</value>
-    <comment>Column heading for fonts grid under Tools/Options</comment>
-  </data>
-  <data name="kstidFontGridFontName" xml:space="preserve">
-    <value>Font Name</value>
-    <comment>Column heading for fonts grid under Tools/Options</comment>
-  </data>
-  <data name="kstidFontGridItalic" xml:space="preserve">
-    <value>Italic</value>
-    <comment>Column heading for fonts grid under Tools/Options</comment>
-  </data>
-  <data name="kstidFontGridSample" xml:space="preserve">
-    <value>Sample</value>
-    <comment>Column heading for fonts grid under Tools/Options</comment>
-  </data>
-  <data name="kstidFontGridSize" xml:space="preserve">
-    <value>Size</value>
-    <comment>Column heading for fonts grid under Tools/Options</comment>
   </data>
   <data name="kstidFwMissingWsMsg" xml:space="preserve">
     <value>You must specify a writing system for at least one field.</value>
@@ -725,10 +681,6 @@
     <value>New Project Settings</value>
     <comment>Caption for project settings dialog when project is new.</comment>
   </data>
-  <data name="kstidNewSavedPatternCategoryName" xml:space="preserve">
-    <value>New Category</value>
-    <comment>This is the default name given to new categories in the saved search pattern tree in the find phone window</comment>
-  </data>
   <data name="kstidNoMinimalPairsMsg" xml:space="preserve">
     <value>No minimal pairs to display.\nChange the minimal pairs options and try again.</value>
     <comment>Shows in place of a word list grid when the user has turned on minimal pairs and there aren't any to show.</comment>
@@ -749,10 +701,6 @@
   </data>
   <data name="kstidNoSavedPatternNameMsg" xml:space="preserve">
     <value>You must specify a name for your saved pattern.</value>
-  </data>
-  <data name="kstidNoSavedSearchPatternsMsg" xml:space="preserve">
-    <value>No Saved Search Patterns</value>
-    <comment>Message shown in the saved search pattern list when there are on saved patterns.</comment>
   </data>
   <data name="kstidNoSearchResultsFoundMsg" xml:space="preserve">
     <value>No Results Found.</value>

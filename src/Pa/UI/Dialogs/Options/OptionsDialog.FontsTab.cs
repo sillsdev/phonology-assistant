@@ -62,39 +62,51 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void AddColumns()
 		{
-			// Add the database field column.
+			// Add the field column.
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("field");
 			col.ReadOnly = true;
-			col.HeaderText = Properties.Resources.kstidFontGridDBField;
 			m_fontGrid.Columns.Add(col);
+			App.L10NMngr.LocalizeObject(m_fontGrid.Columns["field"],
+				"OptionsDlg.FontsGridFieldColumnHeadingText", "Field",
+				App.kLocalizationGroupDialogs);
 
 			// Get all the installed fonts and add the font name column.
 			var fontList = (new InstalledFontCollection()).Families.Select(f => f.Name);
 			col = SilGrid.CreateDropDownListComboBoxColumn("font", fontList);
-			col.HeaderText = Properties.Resources.kstidFontGridFontName;
 			m_fontGrid.Columns.Add(col);
+			App.L10NMngr.LocalizeObject(m_fontGrid.Columns["font"],
+				"OptionsDlg.FontsGridFontNameColumnHeadingText", "Font Name",
+				App.kLocalizationGroupDialogs);
 
 			// Add the list of default point sizes and add the size column.
-			var sizeList = new object[] {8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72};
+			var sizeList = new object[] {8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 26, 28, 30, 36, 48, 72};
 			col = SilGrid.CreateDropDownListComboBoxColumn("size", sizeList);
-			col.HeaderText = Properties.Resources.kstidFontGridSize;
 			m_fontGrid.Columns.Add(col);
+			App.L10NMngr.LocalizeObject(m_fontGrid.Columns["size"],
+				"OptionsDlg.FontsGridFontSizeColumnHeadingText", "Size",
+				App.kLocalizationGroupDialogs);
 
 			// Add the bold check box column.
 			col = SilGrid.CreateCheckBoxColumn("bold");
-			col.HeaderText = Properties.Resources.kstidFontGridBold;
 			m_fontGrid.Columns.Add(col);
+			App.L10NMngr.LocalizeObject(m_fontGrid.Columns["bold"],
+				"OptionsDlg.FontsGridFontBoldColumnHeadingText", "Bold",
+				App.kLocalizationGroupDialogs);
 
 			// Add the italic check box column.
 			col = SilGrid.CreateCheckBoxColumn("italic");
-			col.HeaderText = Properties.Resources.kstidFontGridItalic;
 			m_fontGrid.Columns.Add(col);
+			App.L10NMngr.LocalizeObject(m_fontGrid.Columns["italic"],
+				"OptionsDlg.FontsGridFontItalicColumnHeadingText", "Italic",
+				App.kLocalizationGroupDialogs);
 
 			// Add the sample column.
 			col = SilGrid.CreateTextBoxColumn("sample");
 			col.ReadOnly = true;
-			col.HeaderText = Properties.Resources.kstidFontGridSample;
 			m_fontGrid.Columns.Add(col);
+			App.L10NMngr.LocalizeObject(m_fontGrid.Columns["sample"],
+				"OptionsDlg.FontsGridFontSampleColumnHeadingText", "Sample",
+				App.kLocalizationGroupDialogs);
 		}
 
 		/// ------------------------------------------------------------------------------------

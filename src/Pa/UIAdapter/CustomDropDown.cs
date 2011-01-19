@@ -5,10 +5,6 @@ using System.Windows.Forms;
 namespace SIL.FieldWorks.Common.UIAdapters
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class CustomDropDown : ToolStripDropDown
 	{
 		private Timer m_tmrMouseMonitor;
@@ -18,16 +14,13 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		private Control m_hostedControl;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public CustomDropDown()
 		{
 			Padding = Padding.Empty;
 			AutoSize = false;
 			LayoutStyle = ToolStripLayoutStyle.Table;
 			DoubleBuffered = true;
+			UseRollEffectWhenShown = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -97,10 +90,6 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void AddControl(Control ctrl)
 		{
 			if (ctrl != null)
@@ -133,10 +122,6 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void InitializeMouseMonitorTimer()
 		{
 			m_tmrMouseMonitor = new Timer();
@@ -145,10 +130,6 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			m_tmrMouseMonitor.Start();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void m_tmrMouseMonitor_Tick(object sender, EventArgs e)
 		{
@@ -172,10 +153,6 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void InitializeVisibilityTimeoutTimer()
 		{
 			m_tmrVisibilityTimeout = new Timer();
@@ -185,14 +162,58 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		void m_tmrVisibilityTimeout_Tick(object sender, EventArgs e)
 		{
 			m_tmrVisibilityTimeout.Stop();
 			Hide();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool UseFadingEffectWhenShown { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public bool UseRollEffectWhenShown { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public new void Show(Point screenLocation)
+		{
+			Timer timer = null;
+
+			if (UseRollEffectWhenShown)
+			{
+				int maxHeight = Height;
+				Height = 0;
+
+				timer = new Timer();
+				timer.Interval = 1;
+				timer.Tick += delegate
+				{
+					if (Height + 35 < maxHeight)
+						Height += 35;
+					else
+					{
+						Height = maxHeight;
+						timer.Stop();
+					}
+				};
+			}
+			else if (UseFadingEffectWhenShown)
+			{
+				Opacity = 0;
+				timer = new Timer();
+				timer.Interval = 10;
+				timer.Tick += delegate
+				{
+					Opacity += 0.1;
+					if (Opacity == 1f)
+						timer.Stop();
+				};
+			}
+
+			base.Show(screenLocation);
+
+			if (timer != null)
+				timer.Start();
 		}
 	}
 }
