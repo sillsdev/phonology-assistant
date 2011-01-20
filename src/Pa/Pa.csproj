@@ -294,6 +294,16 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\CVChart\CVChartRowGroup.cs" />
+    <Compile Include="UI\Controls\DistributionChartCellInfoPopup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\DistributionChartCellInfoPopup.designer.cs">
+      <DependentUpon>DistributionChartCellInfoPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\DistributionChartLayout.cs" />
+    <Compile Include="UI\Controls\DistributionGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\Controls\DockAndAutoHideButtons.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -450,16 +460,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\WordListGroupingBuilder.cs" />
-    <Compile Include="UI\Controls\XYChartCellInfoPopup.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Controls\XYChartCellInfoPopup.Designer.cs">
-      <DependentUpon>XYChartCellInfoPopup.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Controls\XYChartLayout.cs" />
-    <Compile Include="UI\Controls\XYGrid.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="UI\Dialogs\AmbiguousSequencesDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -643,6 +643,12 @@
     <Compile Include="UI\Views\DataCorpusVw.Designer.cs">
       <DependentUpon>DataCorpusVw.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Views\DistributionChartVw.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Views\DistributionChartVw.designer.cs">
+      <DependentUpon>DistributionChartVw.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Views\SearchVw.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -654,12 +660,6 @@
     </Compile>
     <Compile Include="UI\Views\VowelChartVw.Designer.cs">
       <DependentUpon>VowelChartVw.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Views\XYChartVw.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Views\XYChartVw.Designer.cs">
-      <DependentUpon>XYChartVw.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -805,10 +805,6 @@
       <DependentUpon>VowelChartVw.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Views\XYChartVw.resx">
-      <DependentUpon>XYChartVw.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Search Watermark.png" />
@@ -875,6 +871,9 @@
       <DependentUpon>CharGrid.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\DistributionChartCellInfoPopup.resx">
+      <DependentUpon>DistributionChartCellInfoPopup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\PatternBuilderBar.resx">
       <DependentUpon>PatternBuilderBar.cs</DependentUpon>
     </EmbeddedResource>
@@ -884,10 +883,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\SearchResultControls\SearchResultView.resx">
       <DependentUpon>SearchResultView.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Controls\XYChartCellInfoPopup.resx">
-      <DependentUpon>XYChartCellInfoPopup.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\BackupRestore\BackupDlg.resx">
@@ -939,6 +934,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Model\UpdateFileTransforms\UpdateProjectFile.xslt" />
     <EmbeddedResource Include="Model\UpdateFileTransforms\UpdateFeatureOverridesFile.xslt" />
+    <EmbeddedResource Include="UI\Views\DistributionChartVw.resx">
+      <DependentUpon>DistributionChartVw.cs</DependentUpon>
+    </EmbeddedResource>
     <Content Include="pa.ico" />
     <None Include="Resources\Delete_Hot.png" />
     <None Include="Resources\Delete_Normal.png" />

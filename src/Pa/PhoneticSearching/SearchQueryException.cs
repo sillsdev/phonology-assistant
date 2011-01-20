@@ -1,19 +1,3 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2010, SIL International. All Rights Reserved.
-// <copyright from='2010' to='2010' company='SIL International'>
-//		Copyright (c) 2010, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
-// 
-// File: SearchQueryException.cs
-// Responsibility: D. Olson
-// 
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System;
 using System.Text;
 using SilTools;
@@ -31,10 +15,6 @@ namespace SIL.Pa.PhoneticSearching
 		private readonly Exception m_thrownException;
 		private readonly string m_queryErrorMsg;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SearchQueryException(SearchQuery query)
 		{
@@ -75,20 +55,12 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Constructs an XYChartException object.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public SearchQueryException(Exception thrownException, SearchQuery query)
 			: this(query)
 		{
 			m_thrownException = thrownException;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static string WordBoundaryError
 		{
@@ -101,10 +73,6 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static string ZeroOrMoreError
 		{
 			get
@@ -115,10 +83,6 @@ namespace SIL.Pa.PhoneticSearching
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static string OneOrMoreError
 		{

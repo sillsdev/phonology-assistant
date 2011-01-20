@@ -289,10 +289,10 @@ namespace SIL.Pa.UI
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
 			tooltip = App.LocalizeString("DistributionChartViewTabToolTip",
-				"XY Charts View (Ctrl+Alt+X)", locExtender.LocalizationGroup);
+				"Distribution Charts View (Ctrl+Alt+D)", locExtender.LocalizationGroup);
 			helptooltip = App.LocalizeString("DistributionChartViewHelpButtonToolTip",
-				"XY Charts View Help", "Main Window");
-			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidXYChartsView", img, typeof(DistChartVw));
+				"Distribution Charts View Help", "Main Window");
+			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidXYChartsView", img, typeof(DistributionChartVw));
 			
 			vwTabGroup.Visible = true;
 		}

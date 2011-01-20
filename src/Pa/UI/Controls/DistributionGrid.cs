@@ -11,7 +11,7 @@ using SilTools;
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	public class XYGrid : SilGrid, IxCoreColleague
+	public class DistributionGrid : SilGrid, IxCoreColleague
 	{
 		private bool m_paintDropValidEffect;
 		private bool m_mouseDownOnCornerCell;
@@ -24,14 +24,10 @@ namespace SIL.Pa.UI.Controls
 		private SearchOptionsDropDown m_searchOptionsDropDown;
 		//private readonly Image m_dirtyIndicator;
 		private readonly Bitmap m_errorInCell;
-		private readonly XYChartCellInfoPopup m_cellInfoPopup;
+		private readonly DistributionChartCellInfoPopup m_cellInfoPopup;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public XYGrid()
+		public DistributionGrid()
 		{
 			OnPaFontsChanged(null);
 
@@ -56,15 +52,11 @@ namespace SIL.Pa.UI.Controls
 
 			Reset();
 			App.AddMediatorColleague(this);
-			m_cellInfoPopup = new XYChartCellInfoPopup(this);
+			m_cellInfoPopup = new DistributionChartCellInfoPopup(this);
 
 			SetToolTips();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
@@ -94,11 +86,7 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void LoadFromLayout(XYChartLayout layout)
+		public void LoadFromLayout(DistributionChartLayout layout)
 		{
 			if (layout == null)
 				return;
@@ -136,7 +124,7 @@ namespace SIL.Pa.UI.Controls
 			IsDirty = false;
 			LoadedLayout = true;
 
-			App.MsgMediator.SendMessage("XYChartLoadedFromLayout", this);
+			App.MsgMediator.SendMessage("DistributionChartLoadedFromLayout", this);
 
 			// Go ahead and fill the chart after loading it.
 			if (!IsEmpty)
@@ -144,17 +132,13 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void UpdateLayout()
 		{
 			if (ChartLayout != null)
-				ChartLayout.UpdateFromXYGrid(this);
+				ChartLayout.UpdateFromDistributionGrid(this);
 			else
 			{
-				ChartLayout = XYChartLayout.NewFromXYGrid(this);
+				ChartLayout = DistributionChartLayout.NewFromDistributionGrid(this);
 				LoadedLayout = false;
 			}
 
@@ -231,7 +215,7 @@ namespace SIL.Pa.UI.Controls
 		/// Gets the chart layout that has been loaded in the grid.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public XYChartLayout ChartLayout { get; set; }
+		public DistributionChartLayout ChartLayout { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -357,10 +341,6 @@ namespace SIL.Pa.UI.Controls
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void SetToolTips()
 		{
 			m_tooltip = new ToolTip();
@@ -369,20 +349,12 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnViewDocked(object args)
 		{
 			SetToolTips();
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnViewUndocked(object args)
 		{
@@ -484,10 +456,6 @@ namespace SIL.Pa.UI.Controls
 
 		#region Overridden methods
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnColumnWidthChanged(DataGridViewColumnEventArgs e)
 		{
 			base.OnColumnWidthChanged(e);
@@ -501,10 +469,6 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellBeginEdit(DataGridViewCellCancelEventArgs e)
 		{
@@ -525,10 +489,6 @@ namespace SIL.Pa.UI.Controls
 			readonly TextBox m_txtBox;
 			readonly DataGridView m_grid;
 
-			/// --------------------------------------------------------------------------------
-			/// <summary>
-			/// 
-			/// </summary>
 			/// --------------------------------------------------------------------------------
 			internal EditControlKeyPressHook(TextBox txtBox, DataGridView grid)
 			{
@@ -568,10 +528,6 @@ namespace SIL.Pa.UI.Controls
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnEditingControlShowing(DataGridViewEditingControlShowingEventArgs e)
 		{
 			base.OnEditingControlShowing(e);
@@ -593,10 +549,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		void CellTextBoxVisibleChanged(object sender, EventArgs e)
 		{
 			TextBox txt = sender as TextBox;
@@ -615,10 +567,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		static void CellTextBoxTextChanged(object sender, EventArgs e)
 		{
 			// For some reason, it didn't work to directly assign the static delegate
@@ -627,10 +575,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		static void CellTextBoxKeyPress(object sender, KeyPressEventArgs e)
 		{
 			// For some reason, it didn't work to directly assign the static delegate
@@ -638,10 +582,6 @@ namespace SIL.Pa.UI.Controls
 			PatternTextBox.HandlePatternTextBoxKeyPress(sender, e);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellEndEdit(DataGridViewCellEventArgs e)
 		{
@@ -720,10 +660,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void WndProc(ref Message m)
 		{
 			// Monitor a mouse down and eat any that are on the top, left cell.
@@ -752,20 +688,12 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnCellMouseLeave(DataGridViewCellEventArgs e)
 		{
 			m_tooltip.Hide(this);
 			base.OnCellMouseLeave(e);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellMouseEnter(DataGridViewCellEventArgs e)
 		{
@@ -786,13 +714,28 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (this[col, row].Value == null)
 				{
-					m_tooltip.ToolTipTitle = (col == 0 ?
-						Properties.Resources.kstidXYChartAddSrchItemCellToolTipTitle :
-						Properties.Resources.kstidXYChartAddEnvCellToolTipTitle);
+					string text;
 
-					string text = (col == 0 ?
-						Properties.Resources.kstidXYChartAddSrchItemCellToolTip :
-						Properties.Resources.kstidXYChartAddEnvCellToolTip);
+					if (col == 0)
+					{
+						m_tooltip.ToolTipTitle = App.LocalizeString(
+							"DistributionChartVw.AddSearchItemCellToolTipTitle",
+							"Search Item Column:", "Views");
+						
+						text = App.LocalizeString(
+							"DistributionChartVw.AddSearchItemCellToolTip",
+							"Add a search item in this cell", "Views");
+					}
+					else
+					{
+						m_tooltip.ToolTipTitle = App.LocalizeString(
+							"DistributionChartVw.AddEnvironmentCellToolTipTitle",
+							"Environment Row:", "Views");
+
+						text = App.LocalizeString(
+							"DistributionChartVw.AddEnvironmentCellToolTip",
+							"Add a search environment\nin this cell", "Views");
+					}
 
 					Rectangle rc = GetCellDisplayRectangle(col, row, false);
 					rc.X = rc.Right - 7;
@@ -944,15 +887,11 @@ namespace SIL.Pa.UI.Controls
 
 		#region Methods related to dragging and dropping
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnDragOver(DragEventArgs e)
 		{
 			e.Effect = DragDropEffects.None;
 
-			XYChartLayout data = e.Data.GetData(typeof(XYChartLayout)) as XYChartLayout;
+			DistributionChartLayout data = e.Data.GetData(typeof(DistributionChartLayout)) as DistributionChartLayout;
 			if (data != null)
 				e.Effect = e.AllowedEffect;
 			else
@@ -977,15 +916,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnDragEnter(DragEventArgs e)
 		{
 			base.OnDragEnter(e);
 
-			XYChartLayout data = e.Data.GetData(typeof(XYChartLayout)) as XYChartLayout;
+			DistributionChartLayout data = e.Data.GetData(typeof(DistributionChartLayout)) as DistributionChartLayout;
 			if (data == null)
 				return;
 
@@ -1032,7 +967,7 @@ namespace SIL.Pa.UI.Controls
 			m_paintDropValidEffect = false;
 			Invalidate();
 
-			XYChartLayout data = e.Data.GetData(typeof(XYChartLayout)) as XYChartLayout;
+			DistributionChartLayout data = e.Data.GetData(typeof(DistributionChartLayout)) as DistributionChartLayout;
 			if (data != null)
 				LoadFromLayout(data);
 			else
@@ -1100,10 +1035,6 @@ namespace SIL.Pa.UI.Controls
 
 		#region Cell painting methods
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
 		{
 			bool selected = ((e.State & DataGridViewElementStates.Selected) > 0);
@@ -1157,10 +1088,6 @@ namespace SIL.Pa.UI.Controls
 			e.Handled = true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static void DrawInfoCornerGlyph(Graphics g, Rectangle rc)
 		{
@@ -1250,7 +1177,7 @@ namespace SIL.Pa.UI.Controls
 		public void Reset()
 		{
 			if (m_lblName != null)
-				m_lblName.Text = Properties.Resources.kstidXYChartLayoutEmptyName;
+				m_lblName.Text = App.LocalizeString("DistributionChartVw.EmptyName", "(none)", "Views");
 
 			Rows.Clear();
 			Columns.Clear();
@@ -1268,16 +1195,12 @@ namespace SIL.Pa.UI.Controls
 
 			IsDirty = false;
 			LoadedLayout = false;
-			App.MsgMediator.SendMessage("XYChartReset", this);
+			App.MsgMediator.SendMessage("DistributionChartReset", this);
 		}
 
 		#endregion
 
 		#region Method for filling the grid with results from searching
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void FillChart()
 		{
@@ -1288,7 +1211,7 @@ namespace SIL.Pa.UI.Controls
 			if (RowCount <= 1 || ColumnCount <= 1)
 				return;
 
-			if (App.MsgMediator.SendMessage("BeforeXYChartFilled", this))
+			if (App.MsgMediator.SendMessage("BeforeDistributionChartFilled", this))
 				return;
 
 			int progBarMax = (RowCount - 2) * (ColumnCount - 2);
@@ -1312,13 +1235,9 @@ namespace SIL.Pa.UI.Controls
 			App.UninitializeProgressBar();
 			Cursor = Cursors.Default;
 
-			App.MsgMediator.SendMessage("XYChartFilled", this);
+			App.MsgMediator.SendMessage("DistributionChartFilled", this);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static string PopupSyntaxErrorsMsg
 		{
@@ -1331,10 +1250,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static string PopupUndefinedSymbolsMsg
 		{
 			get
@@ -1345,10 +1260,6 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static string PopupInvalidPhonesMsg
 		{
@@ -1368,7 +1279,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void FixEnvironments()
 		{
-			if (App.MsgMediator.SendMessage("XYChartBeginEnvironmentFixes", this))
+			if (App.MsgMediator.SendMessage("DistributionChartBeginEnvironmentFixes", this))
 				return;
 
 			if (RowCount > 0 && NewRowIndex > 0)
@@ -1403,13 +1314,9 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			UpdateLayout();
-			App.MsgMediator.SendMessage("XYChartAfterEnvironmentFixes", this);
+			App.MsgMediator.SendMessage("DistributionChartAfterEnvironmentFixes", this);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void RefreshCellValue(int row, int col)
 		{
@@ -1420,10 +1327,6 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static void GetResultsForCell(DataGridViewCell cell, string srchItem,
 		    SearchQuery qryEnvironment)
@@ -1576,10 +1479,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateInsertIntoChart(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
@@ -1589,10 +1488,6 @@ namespace SIL.Pa.UI.Controls
 			return (itemProps.Name.StartsWith("cmnu") ? true : UpdateInsertItem(itemProps));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertConsonant(object args)
 		{
@@ -1604,19 +1499,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateInsertConsonant(object args)
 		{
 			return UpdateInsertItem(args as TMItemProperties);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertVowel(object args)
 		{
@@ -1628,19 +1515,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateInsertVowel(object args)
 		{
 			return UpdateInsertItem(args as TMItemProperties);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertZeroOrMore(object args)
 		{
@@ -1652,19 +1531,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateInsertZeroOrMore(object args)
 		{
 			return UpdateInsertItem(args as TMItemProperties);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertOneOrMore(object args)
 		{
@@ -1676,19 +1547,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateInsertOneOrMore(object args)
 		{
 			return UpdateInsertItem(args as TMItemProperties);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertWordBoundary(object args)
 		{
@@ -1700,19 +1563,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateInsertWordBoundary(object args)
 		{
 			return UpdateInsertItem(args as TMItemProperties);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertDiacriticPlaceholder(object args)
 		{
@@ -1724,19 +1579,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateInsertDiacriticPlaceholder(object args)
 		{
 			return UpdateInsertItem(args as TMItemProperties);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertSyllableBoundary(object args)
 		{
@@ -1748,19 +1595,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateInsertSyllableBoundary(object args)
 		{
 			return UpdateInsertItem(args as TMItemProperties);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertANDGroup(object args)
 		{
@@ -1772,19 +1611,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateInsertANDGroup(object args)
 		{
 			return UpdateInsertItem(args as TMItemProperties);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertORGroup(object args)
 		{
@@ -1796,19 +1627,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateInsertORGroup(object args)
 		{
 			return UpdateInsertItem(args as TMItemProperties);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private bool UpdateInsertItem(TMItemProperties itemProps)
 		{
@@ -1824,10 +1647,6 @@ namespace SIL.Pa.UI.Controls
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateSearchOptions(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
@@ -1841,10 +1660,6 @@ namespace SIL.Pa.UI.Controls
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownSearchOptions(object args)
 		{
@@ -1890,19 +1705,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		static void SearchDropDownHelpLink_Click(object sender, EventArgs e)
 		{
 			App.ShowHelpTopic("hidSearchOptionsXYChartsView");
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownClosedSearchOptions(object args)
 		{

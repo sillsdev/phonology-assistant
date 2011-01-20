@@ -5,40 +5,40 @@ using SIL.Pa.PhoneticSearching;
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	[XmlType("XYChart")]
-	public class XYChartLayout
+	public class DistributionChartLayout
 	{
 		private string m_name;
-		private List<string> m_srchItems = new List<string>();
-		private List<SearchQuery> m_queries = new List<SearchQuery>();
-		private List<int> m_colWidths = new List<int>();
+
+		public DistributionChartLayout()
+		{
+			ColumnWidths = new List<int>();
+			SearchQueries = new List<SearchQuery>();
+			SearchItems = new List<string>();
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Creates a new XYChartLayout object from the specified XYGrid. If the grid is null
-		/// or empty, then null is returned.
+		/// Creates a new DistributionChartLayout object from the specified DistributionGrid.
+		/// If the grid is null or empty, then null is returned.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static XYChartLayout NewFromXYGrid(XYGrid grid)
+		public static DistributionChartLayout NewFromDistributionGrid(DistributionGrid grid)
 		{
 			if (grid == null || (grid.Rows.Count <= 1 && grid.Columns.Count <= 1))
 				return null;
 
-			XYChartLayout layout = new XYChartLayout();
-			layout.UpdateFromXYGrid(grid);
+			DistributionChartLayout layout = new DistributionChartLayout();
+			layout.UpdateFromDistributionGrid(grid);
 			return layout;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Updates the XYChartLayout with the information from the specified grid.
+		/// Updates the DistributionChartLayout with the information from the specified grid.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void UpdateFromXYGrid(XYGrid grid)
+		public void UpdateFromDistributionGrid(DistributionGrid grid)
 		{
 			if (grid == null)
 				return;
@@ -49,23 +49,23 @@ namespace SIL.Pa.UI.Controls
 			for (int i = 1; i < grid.Rows.Count; i++)
 			{
 				if (i != grid.NewRowIndex)
-					m_srchItems.Add(grid[0, i].Value as string);
+					SearchItems.Add(grid[0, i].Value as string);
 			}
 
 			// Add the search item column.
-			m_colWidths.Add(grid.Columns[0].Width);
+			ColumnWidths.Add(grid.Columns[0].Width);
 
 			// Save the environments and column widths.
 			for (int i = 1; i < grid.Columns.Count - 1; i++)
 			{
-				m_colWidths.Add(grid.Columns[i].Width);
+				ColumnWidths.Add(grid.Columns[i].Width);
 				SearchQuery query = grid.Columns[i].Tag as SearchQuery;
 				if (query != null)
-					m_queries.Add(query);
+					SearchQueries.Add(query);
 			}
 
 			// Add the new environment column (this is like the column equivalent of the new row).
-			m_colWidths.Add(grid.Columns[grid.Columns.Count - 1].Width);
+			ColumnWidths.Add(grid.Columns[grid.Columns.Count - 1].Width);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -73,20 +73,20 @@ namespace SIL.Pa.UI.Controls
 		/// Returns an exact copy of the layout.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public XYChartLayout Clone()
+		public DistributionChartLayout Clone()
 		{
-			XYChartLayout clone = new XYChartLayout();
+			DistributionChartLayout clone = new DistributionChartLayout();
 
 			clone.m_name = m_name;
 			
-			foreach (string srchItem in m_srchItems)
-				clone.m_srchItems.Add(srchItem);
+			foreach (string srchItem in SearchItems)
+				clone.SearchItems.Add(srchItem);
 
-			foreach (SearchQuery query in m_queries)
-				clone.m_queries.Add(query.Clone());
+			foreach (SearchQuery query in SearchQueries)
+				clone.SearchQueries.Add(query.Clone());
 
-			foreach (int width in m_colWidths)
-				clone.m_colWidths.Add(width);
+			foreach (int width in ColumnWidths)
+				clone.ColumnWidths.Add(width);
 
 			return clone;
 		}
@@ -102,7 +102,7 @@ namespace SIL.Pa.UI.Controls
 			get
 			{
 				return (string.IsNullOrEmpty(Name) ?
-					Properties.Resources.kstidXYChartLayoutEmptyName : Name);
+					App.LocalizeString("DistributionChartVw.EmptyName", "(none)", "Views") : Name);
 			}
 		}
 
@@ -119,31 +119,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public List<string> SearchItems
-		{
-			get { return m_srchItems; }
-			set { m_srchItems = value; }
-		}
+		public List<string> SearchItems { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public List<SearchQuery> SearchQueries
-		{
-			get { return m_queries; }
-			set { m_queries = value; }
-		}
+		public List<SearchQuery> SearchQueries { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public List<string> Environments
@@ -151,7 +131,7 @@ namespace SIL.Pa.UI.Controls
 			get
 			{
 				List<string> environments = new List<string>();
-				foreach (SearchQuery query in m_queries)
+				foreach (SearchQuery query in SearchQueries)
 					environments.Add(query.Pattern);
 
 				return environments;
@@ -159,15 +139,7 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public List<int> ColumnWidths
-		{
-			get { return m_colWidths; }
-			set { m_colWidths = value; }
-		}
+		public List<int> ColumnWidths { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -177,15 +149,11 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void Reset()
 		{
-			m_srchItems.Clear();
-			m_queries.Clear();
-			m_colWidths.Clear();
+			SearchItems.Clear();
+			SearchQueries.Clear();
+			ColumnWidths.Clear();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{

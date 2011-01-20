@@ -2437,7 +2437,7 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;XY Charts.
+        ///   Looks up a localized string similar to &amp;Distribution Charts.
         /// </summary>
         public static string kstidXYChartText {
             get {
@@ -2446,7 +2446,7 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to XY Charts.
+        ///   Looks up a localized string similar to Distribution Charts.
         /// </summary>
         public static string kstidXYChartToolTip {
             get {

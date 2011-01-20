@@ -671,11 +671,11 @@
     <value>Edit source record</value>
   </data>
   <data name="kstidXYChartText" xml:space="preserve">
-    <value>&amp;XY Charts</value>
+    <value>&amp;Distribution Charts</value>
     <comment>Menu item text</comment>
   </data>
   <data name="kstidXYChartToolTip" xml:space="preserve">
-    <value>XY Charts</value>
+    <value>Distribution Charts</value>
     <comment>Menu item text</comment>
   </data>
   <data name="kstidAmbiguousItemsText" xml:space="preserve">

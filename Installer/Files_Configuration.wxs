@@ -33,8 +33,8 @@
 				<Component Id="DefaultVowelChartHeadings.xml" Guid="{8A44154A-735F-4381-A68D-ABC2DB6B1B62}">
 					<File Id="DefaultVowelChartHeadings.xml" KeyPath="yes" Source="..\output\release\Configuration\DefaultVowelChartHeadings.xml" />
 				</Component>
-				<Component Id="DefaultXYCharts.xml" Guid="{6095B8D4-969B-44F0-B481-E016BE059027}">
-					<File Id="DefaultXYCharts.xml" KeyPath="yes" Source="..\output\release\Configuration\DefaultXYCharts.xml" />
+				<Component Id="DefaultDistributionCharts.xml" Guid="{D254B5D2-303D-4ad3-A61A-B69E59FDDE0E}">
+					<File Id="DefaultDistributionCharts.xml" KeyPath="yes" Source="..\output\release\Configuration\DefaultDistributionCharts.xml" />
 				</Component>
 				<Component Id="FwDBAccessInfo.xml" Guid="{C27E5E22-7B61-4CFD-AA0E-942DFFCE4419}">
 					<File Id="FwDBAccessInfo.xml" KeyPath="yes" Source="..\output\release\Configuration\FwDBAccessInfo.xml" />

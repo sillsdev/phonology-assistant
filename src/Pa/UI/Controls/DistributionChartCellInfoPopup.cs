@@ -12,7 +12,7 @@ using SIL.Pa.PhoneticSearching;
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class XYChartCellInfoPopup : SilPopup
+	public partial class DistributionChartCellInfoPopup : SilPopup
 	{
 		private enum MsgType
 		{
@@ -31,7 +31,7 @@ namespace SIL.Pa.UI.Controls
 		private readonly Font m_eticBold;
 		
 		/// ------------------------------------------------------------------------------------
-		public XYChartCellInfoPopup(DataGridView associatedGrid)
+		public DistributionChartCellInfoPopup(DataGridView associatedGrid)
 		{
 			InitializeComponent();
 			m_associatedGrid = associatedGrid;
@@ -171,27 +171,23 @@ namespace SIL.Pa.UI.Controls
 
 			if (msgType == MsgType.Other || msgType == MsgType.Exception)
 			{
-				msg = XYGrid.PopupSyntaxErrorsMsg;
+				msg = DistributionGrid.PopupSyntaxErrorsMsg;
 				m_lblInfo.Font = FontHelper.UIFont;
 			}
 			else if (msgType == MsgType.InvalidCharacters)
 			{
-				msg = XYGrid.PopupUndefinedSymbolsMsg;
+				msg = DistributionGrid.PopupUndefinedSymbolsMsg;
 				m_lblInfo.Font = FontHelper.PhoneticFont;
 			}
 			else
 			{
-				msg = XYGrid.PopupInvalidPhonesMsg;
+				msg = DistributionGrid.PopupInvalidPhonesMsg;
 				m_lblInfo.Font = FontHelper.PhoneticFont;
 			}
 
 			m_lblMsg.Text = Utils.ConvertLiteralNewLines(msg);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
@@ -218,10 +214,6 @@ namespace SIL.Pa.UI.Controls
 			DrawSeparatorLine(e.Graphics);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void DrawSeparatorLine(Graphics g)
 		{
@@ -327,20 +319,12 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public override void Hide()
 		{
 			base.Hide();
 			m_popupTimer.Stop();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		void m_popupTimer_Tick(object sender, EventArgs e)
 		{

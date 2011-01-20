@@ -942,31 +942,6 @@
     <value>Specify XSLT</value>
     <comment>Tooltip for the button in the XSLTe column in the project settings dialog</comment>
   </data>
-  <data name="kstidXYChartAddEnvCellToolTip" xml:space="preserve">
-    <value>Add a search environment\nin this cell</value>
-  </data>
-  <data name="kstidXYChartAddEnvCellToolTipTitle" xml:space="preserve">
-    <value>Environment Row:</value>
-  </data>
-  <data name="kstidXYChartAddSrchItemCellToolTip" xml:space="preserve">
-    <value>Add a search item in this cell</value>
-  </data>
-  <data name="kstidXYChartAddSrchItemCellToolTipTitle" xml:space="preserve">
-    <value>Search Item Column:</value>
-  </data>
-  <data name="kstidXYChartFillChartMsg" xml:space="preserve">
-    <value>You must first choose "Fill Chart" before seeing search results.</value>
-  </data>
-  <data name="kstidXYChartGeneralQuerySyntaxErrorMsg" xml:space="preserve">
-    <value>Syntax error.</value>
-  </data>
-  <data name="kstidXYChartHTMLChartType" xml:space="preserve">
-    <value>XY Chart</value>
-    <comment>Written to the charttype attribute in HTML exported output</comment>
-  </data>
-  <data name="kstidXYChartLayoutEmptyName" xml:space="preserve">
-    <value>(none)</value>
-  </data>
   <data name="DeleteHot" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Delete_Hot.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

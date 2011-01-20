@@ -2851,7 +2851,7 @@ namespace SIL.Pa.UI.Controls
 			else if (OwningViewType.Name == "SearchVw")
 				sortOptions = App.Project.SearchVwSortOptions.Clone();
 			else if (OwningViewType.Name == "XYChartVw")
-				sortOptions = App.Project.XYChartVwSortOptions.Clone();
+				sortOptions = App.Project.DistributionChartVwSortOptions.Clone();
 
 			if (sortOptions == null)
 				sortOptions = new SortOptions(true);

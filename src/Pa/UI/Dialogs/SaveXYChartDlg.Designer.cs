@@ -68,7 +68,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.txtName, null);
 			this.locExtender.SetLocalizationComment(this.txtName, null);
 			this.locExtender.SetLocalizationPriority(this.txtName, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.txtName, "SaveXYChartDlg.txtName");
+			this.locExtender.SetLocalizingId(this.txtName, "SaveDistributionChartDlg.txtName");
 			this.txtName.Name = "txtName";
 			this.txtName.TextChanged += new System.EventHandler(this.HandleTextChanged);
 			// 
@@ -77,8 +77,8 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.lblName, "lblName");
 			this.lblName.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblName, null);
-			this.locExtender.SetLocalizationComment(this.lblName, "Label on dialog box for saving XY charts in XY chart view.");
-			this.locExtender.SetLocalizingId(this.lblName, "SaveXYChartDlg.lblName");
+			this.locExtender.SetLocalizationComment(this.lblName, "Label on dialog box for saving distribution charts in distribution chart view.");
+			this.locExtender.SetLocalizingId(this.lblName, "SaveDistributionChartDlg.lblName");
 			this.lblName.Name = "lblName";
 			// 
 			// tlpName
@@ -88,7 +88,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tlpName.Controls.Add(this.txtName, 1, 0);
 			this.locExtender.SetLocalizableToolTip(this.tlpName, null);
 			this.locExtender.SetLocalizationComment(this.tlpName, null);
-			this.locExtender.SetLocalizingId(this.tlpName, "SaveXYChartDlg.tlpName");
+			this.locExtender.SetLocalizingId(this.tlpName, "SaveDistributionChartDlg.tlpName");
 			this.tlpName.Name = "tlpName";
 			// 
 			// locExtender
@@ -105,7 +105,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "SaveXYChartDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "SaveDistributionChartDlg.WindowTitle");
 			this.Name = "SaveXYChartDlg";
 			this.Controls.SetChildIndex(this.tlpName, 0);
 			this.tlpName.ResumeLayout(false);

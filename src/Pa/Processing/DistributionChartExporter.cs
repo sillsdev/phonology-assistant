@@ -26,7 +26,7 @@ namespace SIL.Pa.Processing
 
 		/// ------------------------------------------------------------------------------------
 		public static bool ToHtml(PaProject project, string outputFileName,
-			XYGrid distChartGrid, bool openAfterExport)
+			DistributionGrid distChartGrid, bool openAfterExport)
 		{
 			return Process(project, outputFileName, OutputFormat.XHTML, distChartGrid,
 				openAfterExport, Settings.Default.AppThatOpensHtml,
@@ -35,7 +35,7 @@ namespace SIL.Pa.Processing
 
 		/// ------------------------------------------------------------------------------------
 		public static bool ToWordXml(PaProject project, string outputFileName,
-			XYGrid distChartGrid, bool openAfterExport)
+			DistributionGrid distChartGrid, bool openAfterExport)
 		{
 			return Process(project, outputFileName, OutputFormat.WordXml, distChartGrid,
 				openAfterExport, Settings.Default.AppThatOpensWordXml,
@@ -44,7 +44,7 @@ namespace SIL.Pa.Processing
 
 		/// ------------------------------------------------------------------------------------
 		public static bool ToXLingPaper(PaProject project, string outputFileName,
-			XYGrid distChartGrid, bool openAfterExport)
+			DistributionGrid distChartGrid, bool openAfterExport)
 		{
 			return Process(project, outputFileName, OutputFormat.XHTML, distChartGrid,
 				openAfterExport, Settings.Default.AppThatOpensXLingPaperXML,
@@ -89,15 +89,15 @@ namespace SIL.Pa.Processing
 		{
 			get
 			{
-				return (string.IsNullOrEmpty(((XYGrid)m_grid).ChartName) ?
-					"Distribution Chart" : ((XYGrid)m_grid).ChartName);
+				return (string.IsNullOrEmpty(((DistributionGrid)m_grid).ChartName) ?
+					"Distribution Chart" : ((DistributionGrid)m_grid).ChartName);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string Name
 		{
-			get { return ((XYGrid)m_grid).ChartName; }
+			get { return ((DistributionGrid)m_grid).ChartName; }
 		}
 
 		/// ------------------------------------------------------------------------------------

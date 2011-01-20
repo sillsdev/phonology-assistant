@@ -9,15 +9,12 @@ using SIL.Pa.Filters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
+using SIL.Pa.UI.Views;
 using SIL.SpeechTools.Utils;
 using SilTools;
 
 namespace SIL.Pa
 {
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class PaProject : IDisposable
 	{
@@ -32,7 +29,7 @@ namespace SIL.Pa
 		private SearchClassList m_classes;
 		private SortOptions m_dataCorpusVwSortOptions;
 		private SortOptions m_searchVwSortOptions;
-		private SortOptions m_xyChartVwSortOptions;
+		private SortOptions m_distChartVwSortOptions;
 		private CIEOptions m_cieOptions;
 		private Filter m_loadedFilter;
 		private bool m_showClassNamesInSearchPatterns = true;
@@ -177,7 +174,7 @@ namespace SIL.Pa
 
 			ProcessRenamedFieldInSortInfo(origName, newName, m_dataCorpusVwSortOptions);
 			ProcessRenamedFieldInSortInfo(origName, newName, m_searchVwSortOptions);
-			ProcessRenamedFieldInSortInfo(origName, newName, m_xyChartVwSortOptions);
+			ProcessRenamedFieldInSortInfo(origName, newName, m_distChartVwSortOptions);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -431,7 +428,7 @@ namespace SIL.Pa
 				InitializeFontHelperFonts();
 				DataCorpusVwSortOptions.SyncFieldInfo(m_fieldInfoList);
 				SearchVwSortOptions.SyncFieldInfo(m_fieldInfoList);
-				XYChartVwSortOptions.SyncFieldInfo(m_fieldInfoList);
+				DistributionChartVwSortOptions.SyncFieldInfo(m_fieldInfoList);
 			}
 			catch (Exception e)
 			{
@@ -603,11 +600,11 @@ namespace SIL.Pa
 
 			if (m_newProject)
 			{
-				// Copy the default XY Chart definitions to the project's XY Chart def. file.
+				// Copy the default dist. Chart definitions to the project's dist. Chart def. file.
 				try
 				{
-					string srcPath = Path.Combine(App.ConfigFolder, "DefaultXYCharts.xml");
-					string destPath = ProjectPathFilePrefix + "XYCharts.xml";
+					string srcPath = Path.Combine(App.ConfigFolder, "DefaultDistributionCharts.xml");
+					string destPath = ProjectPathFilePrefix + DistributionChartVw.kSavedChartsFile;
 					File.Copy(srcPath, destPath);
 				}
 				catch { }
@@ -626,7 +623,7 @@ namespace SIL.Pa
 		{
 			if ((m_dataCorpusVwSortOptions != null && m_dataCorpusVwSortOptions.SaveManuallySetSortOptions) ||
 				(m_searchVwSortOptions != null && m_searchVwSortOptions.SaveManuallySetSortOptions) ||
-				(m_xyChartVwSortOptions != null && m_xyChartVwSortOptions.SaveManuallySetSortOptions))
+				(m_distChartVwSortOptions != null && m_distChartVwSortOptions.SaveManuallySetSortOptions))
 			{
 				Save();
 			}
@@ -642,7 +639,7 @@ namespace SIL.Pa
 		{
 			EnsureSingleSortOptionValid(m_dataCorpusVwSortOptions);
 			EnsureSingleSortOptionValid(m_searchVwSortOptions);
-			EnsureSingleSortOptionValid(m_xyChartVwSortOptions);
+			EnsureSingleSortOptionValid(m_distChartVwSortOptions);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -854,7 +851,7 @@ namespace SIL.Pa
 		public bool ShowClassNamesInSearchPatterns
 		{
 			get { return m_showClassNamesInSearchPatterns; }
-			set {/*m_showClassNamesInSearchPatterns = value;*/}
+			//set {/*m_showClassNamesInSearchPatterns = value;*/}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -867,14 +864,14 @@ namespace SIL.Pa
 		public bool ShowDiamondsInEmptySearchPattern
 		{
 			get	{ return m_showDiamondsInEmptySearchPattern;}
-			set { /*m_showDiamondsInEmptySearchPattern = value;*/ }
+			//set { /*m_showDiamondsInEmptySearchPattern = value;*/ }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to ignore in phonetic searches
-		/// (i.e. on the Search view and XY Charts views) undefined phonetic characters found
-		/// in data sources.
+		/// (i.e. on the Search view and Distribution Charts views) undefined phonetic
+		/// characters found in data sources.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool IgnoreUndefinedCharsInSearches { get; set; }
@@ -1021,21 +1018,22 @@ namespace SIL.Pa
 		/// Gets or sets the default sort options applied to word lists in XY Chart view.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SortOptions XYChartVwSortOptions
+		[XmlElement("XYChartVwSortOptions")]
+		public SortOptions DistributionChartVwSortOptions
 		{
 			get
 			{
-				if (m_xyChartVwSortOptions == null)
+				if (m_distChartVwSortOptions == null)
 				{
-					m_xyChartVwSortOptions = new SortOptions(true);
-					m_xyChartVwSortOptions.AdvancedEnabled = true;
+					m_distChartVwSortOptions = new SortOptions(true);
+					m_distChartVwSortOptions.AdvancedEnabled = true;
 				}
 				
-				return m_xyChartVwSortOptions;
+				return m_distChartVwSortOptions;
 			}
 			set
 			{
-				m_xyChartVwSortOptions = value;
+				m_distChartVwSortOptions = value;
 				if (value != null)
 					value.AdvancedEnabled = true;
 			}
@@ -1059,10 +1057,6 @@ namespace SIL.Pa
 			set	{m_cieOptions = (value ?? new CIEOptions());}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlElement("currentFilter")]
 		public Filter CurrentFilter
@@ -1094,10 +1088,6 @@ namespace SIL.Pa
 
 	#region GridLayoutInfo Class
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class GridLayoutInfo
 	{
 		public DataGridViewCellBorderStyle GridLines = DataGridViewCellBorderStyle.Single;
@@ -1110,18 +1100,10 @@ namespace SIL.Pa
 		internal PaProject m_owningProject;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public GridLayoutInfo()
 		{
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public GridLayoutInfo(PaProject owningProj)
 		{

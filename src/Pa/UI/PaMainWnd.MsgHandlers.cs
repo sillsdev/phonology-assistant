@@ -410,9 +410,9 @@ namespace SIL.Pa.UI
 					SearchVw view = vwTabGroup.CurrentTab.View as SearchVw;
 					grid = view.ResultViewManger.CurrentViewsGrid;
 				}
-				else if (vwTabGroup.CurrentTab.View is DistChartVw)
+				else if (vwTabGroup.CurrentTab.View is DistributionChartVw)
 				{
-					DistChartVw view = vwTabGroup.CurrentTab.View as DistChartVw;
+					DistributionChartVw view = vwTabGroup.CurrentTab.View as DistributionChartVw;
 					grid = view.ResultViewManger.CurrentViewsGrid;
 				}
 				else
@@ -751,7 +751,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnViewXYChart(object args)
 		{
-			vwTabGroup.ActivateView(typeof(DistChartVw));
+			vwTabGroup.ActivateView(typeof(DistributionChartVw));
 			return true;
 		}
 
@@ -764,7 +764,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateViewXYChart(object args)
 		{
-			App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(DistChartVw));
+			App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(DistributionChartVw));
 			return true;
 		}
 

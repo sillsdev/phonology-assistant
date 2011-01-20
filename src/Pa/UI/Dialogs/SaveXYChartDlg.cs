@@ -14,9 +14,9 @@ namespace SIL.Pa.UI.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class SaveXYChartDlg : OKCancelDlgBase
 	{
-		private readonly XYGrid m_xyGrid;
-		private readonly List<XYChartLayout> m_savedCharts;
-		private XYChartLayout m_layoutToOverwrite;
+		private readonly DistributionGrid m_xyGrid;
+		private readonly List<DistributionChartLayout> m_savedCharts;
+		private DistributionChartLayout m_layoutToOverwrite;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -39,7 +39,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SaveXYChartDlg(XYGrid xyGrid, List<XYChartLayout>savedCharts) : this()
+		public SaveXYChartDlg(DistributionGrid xyGrid, List<DistributionChartLayout>savedCharts) : this()
 		{
 			m_xyGrid = xyGrid;
 			m_savedCharts = savedCharts;
@@ -82,7 +82,7 @@ namespace SIL.Pa.UI.Dialogs
 				return false;
 			}
 
-			XYChartLayout existingLayout = GetExistingLayoutByName(m_xyGrid.ChartLayout, text);
+			DistributionChartLayout existingLayout = GetExistingLayoutByName(m_xyGrid.ChartLayout, text);
 			if (existingLayout != null)
 			{
 				string msg = Properties.Resources.kstidSavedChartNameAlreadyExistsOverwriteMsg;
@@ -110,13 +110,13 @@ namespace SIL.Pa.UI.Dialogs
 		/// layouts is searched for the one having the specified name.</param>
 		/// <param name="nameToCheck">The name of the saved layout to search for.</param>
 		/// ------------------------------------------------------------------------------------
-		private XYChartLayout GetExistingLayoutByName(XYChartLayout chartToSkip, string nameToCheck)
+		private DistributionChartLayout GetExistingLayoutByName(DistributionChartLayout chartToSkip, string nameToCheck)
 		{
 			if (m_savedCharts != null)
 			{
 				// Check if chart name already exists. If it does,
 				// tell the user and don't cancel the current edit.
-				foreach (XYChartLayout savedChart in m_savedCharts)
+				foreach (DistributionChartLayout savedChart in m_savedCharts)
 				{
 					if (savedChart != chartToSkip && savedChart.Name == nameToCheck)
 						return savedChart;
@@ -132,7 +132,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// overwrite.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public XYChartLayout LayoutToOverwrite
+		public DistributionChartLayout LayoutToOverwrite
 		{
 			get { return m_layoutToOverwrite; }
 		}

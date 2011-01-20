@@ -2,7 +2,7 @@ using SilTools.Controls;
 
 namespace SIL.Pa.UI.Views
 {
-	partial class DistChartVw
+	partial class DistributionChartVw
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -31,7 +31,7 @@ namespace SIL.Pa.UI.Views
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DistChartVw));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DistributionChartVw));
 			this.splitResults = new System.Windows.Forms.SplitContainer();
 			this.pnlRecView = new SilTools.Controls.SilPanel();
 			this.rtfRecVw = new SIL.Pa.UI.Controls.RtfRecordView();
@@ -288,10 +288,10 @@ namespace SIL.Pa.UI.Views
 			this.btnRemoveSavedChart.DrawRightArrowButton = false;
 			this.btnRemoveSavedChart.Image = global::SIL.Pa.Properties.Resources.kimidDelete;
 			this.locExtender.SetLocalizableToolTip(this.btnRemoveSavedChart, "Remove Saved Chart");
-			this.locExtender.SetLocalizationComment(this.btnRemoveSavedChart, "Button to delete saved charts on the XY charts view. The button is on the right s" +
+			this.locExtender.SetLocalizationComment(this.btnRemoveSavedChart, "Button to delete saved charts on the distribution charts view. The button is on the right s" +
 					"ide of the heading over the saved charts list.");
 			this.locExtender.SetLocalizationPriority(this.btnRemoveSavedChart, Localization.LocalizationPriority.MediumHigh);
-			this.locExtender.SetLocalizingId(this.btnRemoveSavedChart, "XYChartVw.btnRemoveSavedChart");
+			this.locExtender.SetLocalizingId(this.btnRemoveSavedChart, "DistributionChartVw.btnRemoveSavedChart");
 			this.btnRemoveSavedChart.Name = "btnRemoveSavedChart";
 			this.btnRemoveSavedChart.Click += new System.EventHandler(this.btnRemoveSavedChart_Click);
 			// 

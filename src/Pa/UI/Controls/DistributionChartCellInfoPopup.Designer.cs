@@ -7,7 +7,7 @@ namespace SIL.Pa.UI.Controls
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class XYChartCellInfoPopup
+	public partial class DistributionChartCellInfoPopup
 	{
 		private TableLayoutPanel m_tblLayout;
 		private Label m_lblPattern;

@@ -46,7 +46,7 @@ namespace SIL.Pa.UI.Dialogs
 			cboListType.Items.Insert(1, item);
 
 			item = new SortOptionsTypeComboItem(cboListType.Items[2].ToString(),
-				App.Project.XYChartVwSortOptions.Clone());
+				App.Project.DistributionChartVwSortOptions.Clone());
 			cboListType.Items.RemoveAt(2);
 			cboListType.Items.Add(item);
 
@@ -121,7 +121,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			item = cboListType.Items[2] as SortOptionsTypeComboItem;
 			if (item != null)
-				App.Project.XYChartVwSortOptions = item.SortOptions;
+				App.Project.DistributionChartVwSortOptions = item.SortOptions;
 
 			App.MsgMediator.SendMessage("SortingOptionsChanged", null);
 		}

@@ -1098,7 +1098,7 @@ namespace SIL.Pa
 			if (vwType == typeof(SearchVw))
 				return Settings.Default.SearchVwPlaybackSpeed;
 
-			if (vwType == typeof(DistChartVw))
+			if (vwType == typeof(DistributionChartVw))
 				return Settings.Default.DistChartVwPlaybackSpeed;
 
 			return 100;
