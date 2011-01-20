@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using Localization;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -229,11 +228,10 @@ namespace SIL.Pa.UI.Controls
 				childNode.NodeType = NetResTreeNodeType.Group;
 				childNode.ImageIndex = childNode.SelectedImageIndex = 0;
 				childNode.Nodes.Add(NewDummyNode);
-				childNode.Text = App.L10NMngr.LocalizeString(
+				childNode.Text = App.LocalizeString(
 					"EntireNetworkNode", "Entire network", "Text in the network tree used " +
 					"when trying to locate a FieldWorks project older than version 7.0.",
-					"Dialog Boxes.FieldWorks Project", LocalizationCategory.Other,
-					LocalizationPriority.Medium);
+					"Dialog Boxes.FieldWorks Project");
 
 				Nodes.Add(childNode);
 

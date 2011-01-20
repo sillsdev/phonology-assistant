@@ -232,10 +232,10 @@ namespace SIL.Pa.UI.Controls
 
 			if (!DesignMode)
 			{
-				m_tooltip.SetToolTip(m_btnLeft, App.L10NMngr.LocalizeString(
+				m_tooltip.SetToolTip(m_btnLeft, App.LocalizeString(
 					"ViewTabsScrollLeftToolTipText", "Scroll Left", App.kLocalizationGroupMisc));
 
-				m_tooltip.SetToolTip(m_btnRight, App.L10NMngr.LocalizeString(
+				m_tooltip.SetToolTip(m_btnRight, App.LocalizeString(
 					"ViewTabsScrollRightToolTipText", "Scroll Right", App.kLocalizationGroupMisc));
 			}
 		}

@@ -2,7 +2,7 @@ using SilTools.Controls;
 
 namespace SIL.Pa.UI.Views
 {
-	partial class XYChartVw
+	partial class DistChartVw
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -31,7 +31,7 @@ namespace SIL.Pa.UI.Views
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(XYChartVw));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DistChartVw));
 			this.splitResults = new System.Windows.Forms.SplitContainer();
 			this.pnlRecView = new SilTools.Controls.SilPanel();
 			this.rtfRecVw = new SIL.Pa.UI.Controls.RtfRecordView();

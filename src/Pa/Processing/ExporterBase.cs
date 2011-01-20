@@ -147,8 +147,8 @@ namespace SIL.Pa.Processing
 			// Create a stream of xml data containing the phones in the project.
 			var inputStream = CreateInputFileToTransformPipeline(keepIntermediateFile);
 
-			var msg = App.L10NMngr.LocalizeString("ExportProgressMsg", "Exporting (Step {0})...",
-				"Message displayed when exporting lists and charts.", App.kLocalizationGroupInfoMsg);
+			var msg = App.LocalizeString("ProgressMsg", "Exporting (Step {0})...",
+				"Message displayed when exporting lists and charts.", "Export");
 
 			MemoryStream outputStream = null;
 			int processingStep = 0;

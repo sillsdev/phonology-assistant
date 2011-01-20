@@ -66,7 +66,7 @@ namespace SIL.Pa.UI.Dialogs
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("field");
 			col.ReadOnly = true;
 			m_fontGrid.Columns.Add(col);
-			App.L10NMngr.LocalizeObject(m_fontGrid.Columns["field"],
+			App.LocalizeObject(m_fontGrid.Columns["field"],
 				"OptionsDlg.FontsGridFieldColumnHeadingText", "Field",
 				App.kLocalizationGroupDialogs);
 
@@ -74,7 +74,7 @@ namespace SIL.Pa.UI.Dialogs
 			var fontList = (new InstalledFontCollection()).Families.Select(f => f.Name);
 			col = SilGrid.CreateDropDownListComboBoxColumn("font", fontList);
 			m_fontGrid.Columns.Add(col);
-			App.L10NMngr.LocalizeObject(m_fontGrid.Columns["font"],
+			App.LocalizeObject(m_fontGrid.Columns["font"],
 				"OptionsDlg.FontsGridFontNameColumnHeadingText", "Font Name",
 				App.kLocalizationGroupDialogs);
 
@@ -82,21 +82,21 @@ namespace SIL.Pa.UI.Dialogs
 			var sizeList = new object[] {8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 26, 28, 30, 36, 48, 72};
 			col = SilGrid.CreateDropDownListComboBoxColumn("size", sizeList);
 			m_fontGrid.Columns.Add(col);
-			App.L10NMngr.LocalizeObject(m_fontGrid.Columns["size"],
+			App.LocalizeObject(m_fontGrid.Columns["size"],
 				"OptionsDlg.FontsGridFontSizeColumnHeadingText", "Size",
 				App.kLocalizationGroupDialogs);
 
 			// Add the bold check box column.
 			col = SilGrid.CreateCheckBoxColumn("bold");
 			m_fontGrid.Columns.Add(col);
-			App.L10NMngr.LocalizeObject(m_fontGrid.Columns["bold"],
+			App.LocalizeObject(m_fontGrid.Columns["bold"],
 				"OptionsDlg.FontsGridFontBoldColumnHeadingText", "Bold",
 				App.kLocalizationGroupDialogs);
 
 			// Add the italic check box column.
 			col = SilGrid.CreateCheckBoxColumn("italic");
 			m_fontGrid.Columns.Add(col);
-			App.L10NMngr.LocalizeObject(m_fontGrid.Columns["italic"],
+			App.LocalizeObject(m_fontGrid.Columns["italic"],
 				"OptionsDlg.FontsGridFontItalicColumnHeadingText", "Italic",
 				App.kLocalizationGroupDialogs);
 
@@ -104,7 +104,7 @@ namespace SIL.Pa.UI.Dialogs
 			col = SilGrid.CreateTextBoxColumn("sample");
 			col.ReadOnly = true;
 			m_fontGrid.Columns.Add(col);
-			App.L10NMngr.LocalizeObject(m_fontGrid.Columns["sample"],
+			App.LocalizeObject(m_fontGrid.Columns["sample"],
 				"OptionsDlg.FontsGridFontSampleColumnHeadingText", "Sample",
 				App.kLocalizationGroupDialogs);
 		}

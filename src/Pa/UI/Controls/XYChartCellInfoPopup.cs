@@ -12,10 +12,6 @@ using SIL.Pa.PhoneticSearching;
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class XYChartCellInfoPopup : SilPopup
 	{
 		private enum MsgType
@@ -35,10 +31,6 @@ namespace SIL.Pa.UI.Controls
 		private readonly Font m_eticBold;
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public XYChartCellInfoPopup(DataGridView associatedGrid)
 		{
 			InitializeComponent();
@@ -53,10 +45,6 @@ namespace SIL.Pa.UI.Controls
 			m_lblMsg.Font = FontHelper.UIFont;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
@@ -150,9 +138,8 @@ namespace SIL.Pa.UI.Controls
 							bldr.Append(invalidItems[i]);
 						else
 						{
-							var fmt = App.L10NMngr.LocalizeString(
-								"ChartPopupUndefinedSymbolFormatMsg", "{0} (U+{1})",
-								"Views.Distribution Charts");
+							var fmt = App.LocalizeString("ChartPopupUndefinedSymbolFormatMsg",
+								"{0} (U+{1})", "Views.Distribution Charts");
 
 							bldr.AppendFormat(fmt, invalidItems[i],
 								((int)invalidItems[i][0]).ToString("X4"));

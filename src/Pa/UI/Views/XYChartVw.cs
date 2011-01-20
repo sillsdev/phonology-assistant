@@ -4,7 +4,6 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
-using Localization;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
@@ -21,15 +20,13 @@ namespace SIL.Pa.UI.Views
 	/// Form in which search patterns are defined and used for searching.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class XYChartVw : UserControl, IxCoreColleague, ITabView, ISearchResultsViewHost
+	public partial class DistChartVw : UserControl, IxCoreColleague, ITabView, ISearchResultsViewHost
 	{
 		private const string kSavedChartsFile = "XYCharts.xml";
 
-		private bool m_activeView;
 		private bool m_initialDock = true;
 		private bool m_editingSavedChartName;
 		private SlidingPanel m_slidingPanel;
-		private SearchResultsViewManager m_rsltVwMngr;
 		private List<XYChartLayout> m_savedCharts;
 		private ITMAdapter m_tmAdapter;
 		private readonly string m_openClass = App.kOpenClassBracket;
@@ -39,17 +36,12 @@ namespace SIL.Pa.UI.Views
 		private readonly Keys m_saveChartHotKey = Keys.None;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public XYChartVw()
+		public DistChartVw()
 		{
-			var msg = App.L10NMngr.LocalizeString("InitializingDistributionChartViewMsg",
+			var msg = App.LocalizeString("InitializingDistributionChartViewMsg",
 				"Initializing Distribution Chart View...",
 				"Message displayed whenever the distribution chart view is being initialized.",
-				App.kLocalizationGroupInfoMsg, LocalizationCategory.GeneralMessage,
-				LocalizationPriority.Medium);
+				App.kLocalizationGroupInfoMsg);
 
 			App.InitializeProgressBarForLoadingView(msg, 6);
 			InitializeComponent();
@@ -101,10 +93,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		void ViewDisposed(object sender, EventArgs e)
 		{
 			Disposed -= ViewDisposed;
@@ -115,17 +103,13 @@ namespace SIL.Pa.UI.Views
 			if (ptrnBldrComponent != null && !ptrnBldrComponent.IsDisposed)
 				ptrnBldrComponent.Dispose();
 
-			if (m_rsltVwMngr != null)
-				m_rsltVwMngr.Dispose();
+			if (ResultViewManger != null)
+				ResultViewManger.Dispose();
 
 			if (splitOuter != null && !splitOuter.IsDisposed)
 				splitOuter.Dispose();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void LoadToolbarAndContextMenus()
 		{
@@ -137,11 +121,11 @@ namespace SIL.Pa.UI.Views
 
 			m_tmAdapter = AdapterHelper.CreateTMAdapter();
 
-			if (m_rsltVwMngr != null)
-				m_rsltVwMngr.TMAdapter = m_tmAdapter;
+			if (ResultViewManger != null)
+				ResultViewManger.TMAdapter = m_tmAdapter;
 			else
 			{
-				m_rsltVwMngr = new SearchResultsViewManager(this, m_tmAdapter,
+				ResultViewManger = new SearchResultsViewManager(this, m_tmAdapter,
 					splitResults, rtfRecVw, Settings.Default.DistChartVwPlaybackSpeed,
 					newSpeed => Settings.Default.DistChartVwPlaybackSpeed = newSpeed);
 			}
@@ -170,7 +154,7 @@ namespace SIL.Pa.UI.Views
 				return m_xyGrid.SearchOptionsDropDown;
 
 			if (name == "tbbAdjustPlaybackSpeed")
-				return m_rsltVwMngr.PlaybackSpeedAdjuster;
+				return ResultViewManger.PlaybackSpeedAdjuster;
 
 			return null;
 		}
@@ -204,10 +188,7 @@ namespace SIL.Pa.UI.Views
 		/// Gets the view's result view manager.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SearchResultsViewManager ResultViewManger
-		{
-			get { return m_rsltVwMngr; }
-		}
+		public SearchResultsViewManager ResultViewManger { get; private set; }
 
 		#region Loading and saving charts
 		/// ------------------------------------------------------------------------------------
@@ -283,10 +264,6 @@ namespace SIL.Pa.UI.Views
 
 		#region Methods for setting up side panel
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void SetupSidePanelContents()
 		{
 			ptrnBldrComponent.ConPickerClickedHandler = HandleVowConClicked;
@@ -311,10 +288,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void SetupSlidingPanel()
 		{
 			pnlSideBarCaption.Height = FontHelper.UIFont.Height + 7;
@@ -327,9 +300,9 @@ namespace SIL.Pa.UI.Views
 				Settings.Default.DistChartVwSidePanelWidth,
 				newWidth => Settings.Default.DistChartVwSidePanelWidth = newWidth);
 
-			App.L10NMngr.LocalizeObject(m_slidingPanel.Tab, "XYChartVw.UndockedSideBarTabText",
-				"Charts & Chart Building", null, null, "Text on vertical tab when the side " +
-				"bar is undocked in the XY charts view.", "Views", LocalizationPriority.High);
+			App.LocalizeObject(m_slidingPanel.Tab,
+				"XYChartVw.UndockedSideBarTabText", "Charts & Chart Building",
+				"Text on vertical tab when the side bar is undocked in the XY charts view.", "Views");
 
 			Controls.Add(m_slidingPanel);
 			splitOuter.BringToFront();
@@ -354,7 +327,7 @@ namespace SIL.Pa.UI.Views
 
 			OnViewDocked(this);
 			m_initialDock = true;
-			m_rsltVwMngr.RecordViewOn = Settings.Default.DistChartVwrRcordPaneVisible;
+			ResultViewManger.RecordViewOn = Settings.Default.DistChartVwrRcordPaneVisible;
 
 			// Hide the record view pane until the first search, at which time the value of
 			// m_histogramOn will determine whether or not to show the record view pane.
@@ -364,36 +337,22 @@ namespace SIL.Pa.UI.Views
 		#endregion
 
 		#region ITabView Members
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool ActiveView
-		{
-			get { return m_activeView; }
-		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public bool ActiveView { get; private set; }
+
 		/// ------------------------------------------------------------------------------------
 		public void SetViewActive(bool makeActive, bool isDocked)
 		{
-			m_activeView = makeActive;
+			ActiveView = makeActive;
 
-			if (m_activeView && isDocked && m_rsltVwMngr.CurrentViewsGrid != null &&
-				m_rsltVwMngr.CurrentViewsGrid.Focused)
+			if (ActiveView && isDocked && ResultViewManger.CurrentViewsGrid != null &&
+				ResultViewManger.CurrentViewsGrid.Focused)
 			{
-				m_rsltVwMngr.CurrentViewsGrid.SetStatusBarText();
+				ResultViewManger.CurrentViewsGrid.SetStatusBarText();
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public Form OwningForm
 		{
@@ -411,10 +370,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnBeginViewUnDocking(object args)
 		{
 			if (args == this)
@@ -424,17 +379,13 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void SaveSettings()
 		{
 			Settings.Default.DistChartVwSidePanelDocked = m_slidingPanel.SlideFromLeft ?
 				!splitOuter.Panel1Collapsed : !splitOuter.Panel2Collapsed;
 
 			ptrnBldrComponent.SaveSettings(Name);
-			Settings.Default.DistChartVwrRcordPaneVisible = m_rsltVwMngr.RecordViewOn;
+			Settings.Default.DistChartVwrRcordPaneVisible = ResultViewManger.RecordViewOn;
 
 			try
 			{
@@ -459,10 +410,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnBeginViewClosing(object args)
 		{
 			if (args == this)
@@ -472,10 +419,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnBeginViewDocking(object args)
 		{
 			if (args == this && IsHandleCreated)
@@ -484,10 +427,6 @@ namespace SIL.Pa.UI.Views
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnViewDocked(object args)
 		{
@@ -525,7 +464,7 @@ namespace SIL.Pa.UI.Views
 					// do with tooltips. They seem to form an attachment, somehow, with the
 					// form that owns the controls the tooltip is extending. When that form
 					// gets pulled out from under the tooltips, sometimes the program will crash.
-					App.L10NMngr.RefreshToolTips();
+					App.RefreshToolTipsOnLocalizationManager();
 				}
 			}
 
@@ -533,14 +472,10 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnViewUndocked(object args)
 		{
 			if (args == this)
-				App.L10NMngr.RefreshToolTips();
+				App.RefreshToolTipsOnLocalizationManager();
 
 			return false;
 		}
@@ -1040,7 +975,7 @@ namespace SIL.Pa.UI.Views
 
 			SearchQuery query = m_xyGrid.GetCellsFullSearchQuery(row, col);
 			if (query != null)
-				m_rsltVwMngr.PerformSearch(query, resultLocation);
+				ResultViewManger.PerformSearch(query, resultLocation);
 		}
 
 		#endregion
@@ -1136,7 +1071,7 @@ namespace SIL.Pa.UI.Views
 		protected bool OnCompareGrid(object args)
 		{
 			PaWordListGrid grid = args as PaWordListGrid;
-			return (grid != null && m_rsltVwMngr.CurrentViewsGrid == grid);
+			return (grid != null && ResultViewManger.CurrentViewsGrid == grid);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1190,7 +1125,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnFillInChart(object args)
 		{
-			if (!m_activeView)
+			if (!ActiveView)
 				return false;
 
 			m_xyGrid.FillChart();
@@ -1205,7 +1140,7 @@ namespace SIL.Pa.UI.Views
 		protected bool OnUpdateFillInChart(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !m_activeView)
+			if (itemProps == null || !ActiveView)
 				return false;
 
 			if (itemProps.Enabled == m_xyGrid.IsEmpty)
@@ -1225,7 +1160,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnSaveChart(object args)
 		{
-			if (!m_activeView)
+			if (!ActiveView)
 				return false;
 
 			// Commit changes and end the edit mode if necessary. Fixes PA-714
@@ -1250,7 +1185,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnSaveChartAs(object args)
 		{
-			if (!m_activeView)
+			if (!ActiveView)
 				return false;
 
 			// Commit changes and end the edit mode if necessary. Fixes PA-714
@@ -1326,7 +1261,7 @@ namespace SIL.Pa.UI.Views
 		protected bool OnUpdateSaveChart(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !m_activeView)
+			if (itemProps == null || !ActiveView)
 				return false;
 
 			if (itemProps.Enabled != (m_xyGrid.ChartLayout != null))
@@ -1346,7 +1281,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnBeginSearch(object args)
 		{
-			if (!m_activeView)
+			if (!ActiveView)
 				return false;
 
 			TMItemProperties itemProps = args as TMItemProperties;
@@ -1364,7 +1299,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateBeginSearch(object args)
 		{
-			if (!m_activeView)
+			if (!ActiveView)
 				return false;
 
 			TMItemProperties itemProps = args as TMItemProperties;
@@ -1390,10 +1325,10 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsRTF(object args)
 		{
-			if (!m_activeView)
+			if (!ActiveView)
 				return false;
 
-			RtfExportDlg rtfExp = new RtfExportDlg(m_rsltVwMngr.CurrentViewsGrid);
+			RtfExportDlg rtfExp = new RtfExportDlg(ResultViewManger.CurrentViewsGrid);
 			rtfExp.ShowDialog(this);
 			return true;
 		}
@@ -1406,11 +1341,11 @@ namespace SIL.Pa.UI.Views
 		protected bool OnUpdateExportAsRTF(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !m_activeView)
+			if (itemProps == null || !ActiveView)
 				return false;
 
-			bool enable = (m_rsltVwMngr.CurrentViewsGrid != null &&
-				m_rsltVwMngr.CurrentViewsGrid.Focused);
+			bool enable = (ResultViewManger.CurrentViewsGrid != null &&
+				ResultViewManger.CurrentViewsGrid.Focused);
 
 			if (itemProps.Enabled != enable)
 			{
@@ -1425,10 +1360,10 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsHTML(object args)
 		{
-			var fmt = App.L10NMngr.LocalizeString(
-				"DefaultDistributionChartHtmlExportFileAffix", "{0}-{1}DistributionChart.html");
+			var fmt = App.LocalizeString("DefaultDistributionChartHtmlExportFileAffix",
+				"{0}-{1}DistributionChart.html", "Export");
 
-			return Export(m_rsltVwMngr.HTMLExport, fmt, App.kstidFileTypeHTML, "html",
+			return Export(ResultViewManger.HTMLExport, fmt, App.kstidFileTypeHTML, "html",
 				Settings.Default.OpenHtmlDistChartAfterExport, DistributionChartExporter.ToHtml);
 		}
 
@@ -1441,7 +1376,7 @@ namespace SIL.Pa.UI.Views
 			string fileTypeFilter, string defaultFileType, bool openAfterExport,
 			Func<PaProject, string, XYGrid, bool, bool> exportAction)
 		{
-			if (!m_activeView)
+			if (!ActiveView)
 				return false;
 
 			object objForExport = ObjectForExport;
@@ -1469,20 +1404,20 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsWordXml(object args)
 		{
-			var fmt = App.L10NMngr.LocalizeString(
-				"DefaultDistributionChartWordXmlExportFileAffix", "{0}-{1}DistributionChart-(Word).xml");
+			var fmt = App.LocalizeString("DefaultDistributionChartWordXmlExportFileAffix",
+				"{0}-{1}DistributionChart-(Word).xml", "Export");
 
-			return Export(m_rsltVwMngr.WordXmlExport, fmt, App.kstidFileTypeWordXml, "xml",
+			return Export(ResultViewManger.WordXmlExport, fmt, App.kstidFileTypeWordXml, "xml",
 				Settings.Default.OpenWordXmlDistChartAfterExport, DistributionChartExporter.ToWordXml);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsXLingPaper(object args)
 		{
-			var fmt = App.L10NMngr.LocalizeString(
-				"DefaultDistributionChartXLingPaperExportFileAffix", "{0}-{1}DistributionChart-(XLingPaper).xml");
+			var fmt = App.LocalizeString("DefaultDistributionChartXLingPaperExportFileAffix",
+				"{0}-{1}DistributionChart-(XLingPaper).xml", "Export");
 
-			return Export(m_rsltVwMngr.XLingPaperExport, fmt, App.kstidFileTypeXLingPaper, "xml",
+			return Export(ResultViewManger.XLingPaperExport, fmt, App.kstidFileTypeXLingPaper, "xml",
 				Settings.Default.OpenXLingPaperDistChartAfterExport, DistributionChartExporter.ToXLingPaper);
 		}
 
@@ -1490,7 +1425,7 @@ namespace SIL.Pa.UI.Views
 		protected bool OnUpdateExportAsHTML(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !m_activeView)
+			if (itemProps == null || !ActiveView)
 				return false;
 
 			bool enable = (ObjectForExport != null);
@@ -1527,8 +1462,8 @@ namespace SIL.Pa.UI.Views
 			get
 			{
 				// If a search result grid has focus, it wins the contest.
-				if (m_rsltVwMngr.CurrentViewsGrid != null && m_rsltVwMngr.CurrentViewsGrid.Focused)
-					return m_rsltVwMngr.CurrentViewsGrid;
+				if (ResultViewManger.CurrentViewsGrid != null && ResultViewManger.CurrentViewsGrid.Focused)
+					return ResultViewManger.CurrentViewsGrid;
 
 				// Otherwise the grid does if it's not empty.
 				return (!m_xyGrid.IsEmpty ? m_xyGrid : null);

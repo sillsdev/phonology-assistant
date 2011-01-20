@@ -78,11 +78,11 @@ namespace SIL.Pa.UI.Dialogs
 			lblExpressionMatchMsgPart1.ForeColor = Settings.Default.GradientPanelTextColor;
 			lblExpressionMatchMsgPart2.ForeColor = Settings.Default.GradientPanelTextColor;
 
-			cboExpressionMatch.Items.Add(App.L10NMngr.LocalizeString(
+			cboExpressionMatch.Items.Add(App.LocalizeString(
 				"FiltersDlg.FilterExpressionMatchTypes.Any", "any",
 				App.kLocalizationGroupDialogs));
 
-			cboExpressionMatch.Items.Add(App.L10NMngr.LocalizeString(
+			cboExpressionMatch.Items.Add(App.LocalizeString(
 				"FiltersDlg.FilterExpressionMatchTypes.All", "all",
 				App.kLocalizationGroupDialogs));
 
@@ -107,20 +107,20 @@ namespace SIL.Pa.UI.Dialogs
 			m_expTypeToText = new Dictionary<Filter.ExpressionType, string>();
 			m_textToExpType = new Dictionary<string, Filter.ExpressionType>();
 
-			var text = App.L10NMngr.LocalizeString(
+			var text = App.LocalizeString(
 				"FiltersDlg.FilterExpressionTypes.Normal", "Normal", App.kLocalizationGroupDialogs);
 
 			m_expTypeToText[Filter.ExpressionType.Normal] = text;
 			m_textToExpType[text] = Filter.ExpressionType.Normal;
 
-			text = App.L10NMngr.LocalizeString(
+			text = App.LocalizeString(
 				"FiltersDlg.FilterExpressionTypes.PhoneticSearchPattern",
 				"Phonetic Search Pattern", App.kLocalizationGroupDialogs);
 
 			m_expTypeToText[Filter.ExpressionType.PhoneticSrchPtrn] = text;
 			m_textToExpType[text] = Filter.ExpressionType.PhoneticSrchPtrn;
 
-			text = App.L10NMngr.LocalizeString(
+			text = App.LocalizeString(
 				"FiltersDlg.FilterExpressionTypes.RegularExpression",
 				"Regular Expression", App.kLocalizationGroupDialogs);
 
@@ -143,105 +143,105 @@ namespace SIL.Pa.UI.Dialogs
 			m_operatorToText = new Dictionary<Filter.Operator, string>();
 			m_textToOperator = new Dictionary<string, Filter.Operator>();
 
-			var text = App.L10NMngr.LocalizeString(
+			var text = App.LocalizeString(
 				"FiltersDlg.FilterExpressionOperators.BeginsWith",
 				"Begins with", App.kLocalizationGroupDialogs);
 
 			m_operatorToText[Filter.Operator.BeginsWith] = text;
 			m_textToOperator[text] = Filter.Operator.BeginsWith;
 
-			text = App.L10NMngr.LocalizeString(
+			text = App.LocalizeString(
 				"FiltersDlg.FilterExpressionOperators.Contains",
 				"Contains", App.kLocalizationGroupDialogs);
 
 			m_operatorToText[Filter.Operator.Contains] = text;
 			m_textToOperator[text] = Filter.Operator.Contains;
 
-			text = App.L10NMngr.LocalizeString(
+			text = App.LocalizeString(
 				"FiltersDlg.FilterExpressionOperators.DoesNotBeginWith",
 				"Does not begin with", App.kLocalizationGroupDialogs);
 
 			m_operatorToText[Filter.Operator.DoesNotBeginsWith] = text;
 			m_textToOperator[text] = Filter.Operator.DoesNotBeginsWith;
 
-			text = App.L10NMngr.LocalizeString(
+			text = App.LocalizeString(
 				"FiltersDlg.FilterExpressionOperators.DoesNotContain",
 				"Does not contain", App.kLocalizationGroupDialogs);
 
 			m_operatorToText[Filter.Operator.DoesNotContain] = text;
 			m_textToOperator[text] = Filter.Operator.DoesNotContain;
 
-			text = App.L10NMngr.LocalizeString(
+			text = App.LocalizeString(
 				"FiltersDlg.FilterExpressionOperators.DoesNotEndWith",
 				"Does not end with", App.kLocalizationGroupDialogs);
 
 			m_operatorToText[Filter.Operator.DoesNotEndsWith] = text;
 			m_textToOperator[text] = Filter.Operator.DoesNotEndsWith;
 
-			text = App.L10NMngr.LocalizeString(
+			text = App.LocalizeString(
 				"FiltersDlg.FilterExpressionOperators.EndsWith",
 				"Ends with", App.kLocalizationGroupDialogs);
 
 			m_operatorToText[Filter.Operator.EndsWith] = text;
 			m_textToOperator[text] = Filter.Operator.EndsWith;
 
-			text = App.L10NMngr.LocalizeString(
+			text = App.LocalizeString(
 				"FiltersDlg.FilterExpressionOperators.Equals",
 				"Equals", App.kLocalizationGroupDialogs);
 
 			m_operatorToText[Filter.Operator.Equals] = text;
 			m_textToOperator[text] = Filter.Operator.Equals;
 
-			text = App.L10NMngr.LocalizeString(
+			text = App.LocalizeString(
 				"FiltersDlg.FilterExpressionOperators.GreaterThan",
 				"Greater than", App.kLocalizationGroupDialogs);
 
 			m_operatorToText[Filter.Operator.GreaterThan] = text;
 			m_textToOperator[text] = Filter.Operator.GreaterThan;
 
-			text = App.L10NMngr.LocalizeString(
+			text = App.LocalizeString(
 				"FiltersDlg.FilterExpressionOperators.GreaterThanOrEqual",
 				"Greater than or equal", App.kLocalizationGroupDialogs);
 
 			m_operatorToText[Filter.Operator.GreaterThanOrEqual] = text;
 			m_textToOperator[text] = Filter.Operator.GreaterThanOrEqual;
 
-			text = App.L10NMngr.LocalizeString(
+			text = App.LocalizeString(
 				"FiltersDlg.FilterExpressionOperators.LessThan",
 				"Less than", App.kLocalizationGroupDialogs);
 
 			m_operatorToText[Filter.Operator.LessThan] = text;
 			m_textToOperator[text] = Filter.Operator.LessThan;
 
-			text = App.L10NMngr.LocalizeString(
+			text = App.LocalizeString(
 				"FiltersDlg.FilterExpressionOperators.LessThanOrEqual",
 				"Less than or equal", App.kLocalizationGroupDialogs);
 
 			m_operatorToText[Filter.Operator.LessThanOrEqual] = text;
 			m_textToOperator[text] = Filter.Operator.LessThanOrEqual;
 
-			text = App.L10NMngr.LocalizeString(
+			text = App.LocalizeString(
 				"FiltersDlg.FilterExpressionOperators.Matches",
 				"Matches", App.kLocalizationGroupDialogs);
 
 			m_operatorToText[Filter.Operator.Matches] = text;
 			m_textToOperator[text] = Filter.Operator.Matches;
 
-			text = App.L10NMngr.LocalizeString(
+			text = App.LocalizeString(
 				"FiltersDlg.FilterExpressionOperators.NoteEqualTo",
 				"Not equal to", App.kLocalizationGroupDialogs);
 
 			m_operatorToText[Filter.Operator.NotEquals] = text;
 			m_textToOperator[text] = Filter.Operator.NotEquals;
 
-			text = App.L10NMngr.LocalizeString(
+			text = App.LocalizeString(
 				"FiltersDlg.FilterExpressionOperators.PathDoesNotExist",
 				"Path does not exist", App.kLocalizationGroupDialogs);
 
 			m_operatorToText[Filter.Operator.PathDoesNotExist] = text;
 			m_textToOperator[text] = Filter.Operator.PathDoesNotExist;
 
-			text = App.L10NMngr.LocalizeString(
+			text = App.LocalizeString(
 				"FiltersDlg.FilterExpressionOperators.PathExists",
 				"Path exists", App.kLocalizationGroupDialogs);
 
@@ -388,7 +388,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.ReadOnly = false;
 			col.Width = 200;
 			m_gridFilters.Columns.Add(col);
-			App.L10NMngr.LocalizeObject(m_gridFilters.Columns["filterName"],
+			App.LocalizeObject(m_gridFilters.Columns["filterName"],
 				"FiltersDlg.FiltersListFilterNameColumnHeadingText", "Available Filters",
 				App.kLocalizationGroupDialogs);
 
@@ -396,7 +396,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			col.Resizable = DataGridViewTriState.False;
 			m_gridFilters.Columns.Add(col);
-			App.L10NMngr.LocalizeObject(m_gridFilters.Columns["showInList"],
+			App.LocalizeObject(m_gridFilters.Columns["showInList"],
 				"FiltersDlg.FiltersListVisibleInFilterMenuNameColumnHeadingText",
 				"Visible", App.kLocalizationGroupDialogs);
 
@@ -455,7 +455,7 @@ namespace SIL.Pa.UI.Dialogs
 			((DataGridViewComboBoxColumn)col).DropDownWidth = 135;
 			((DataGridViewComboBoxColumn)col).MaxDropDownItems = 15;
 			m_gridExpressions.Columns.Add(col);
-			App.L10NMngr.LocalizeObject(m_gridExpressions.Columns["expField"],
+			App.LocalizeObject(m_gridExpressions.Columns["expField"],
 				"FiltersDlg.ExpressionsGridFieldColumnHeadingText",
 				"Field", App.kLocalizationGroupDialogs);
 
@@ -464,7 +464,7 @@ namespace SIL.Pa.UI.Dialogs
 			((DataGridViewComboBoxColumn)col).DropDownWidth = 150;
 			((DataGridViewComboBoxColumn)col).MaxDropDownItems = 15;
 			m_gridExpressions.Columns.Add(col);
-			App.L10NMngr.LocalizeObject(m_gridExpressions.Columns["expOperator"],
+			App.LocalizeObject(m_gridExpressions.Columns["expOperator"],
 				"FiltersDlg.ExpressionsGridOperatorColumnHeadingText",
 				"Operator", App.kLocalizationGroupDialogs);
 
@@ -475,7 +475,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			m_gridExpressions.Columns.Add(col);
-			App.L10NMngr.LocalizeObject(m_gridExpressions.Columns["expValue"],
+			App.LocalizeObject(m_gridExpressions.Columns["expValue"],
 				"FiltersDlg.ExpressionsGridValueColumnHeadingText",
 				"Value", App.kLocalizationGroupDialogs);
 
@@ -484,7 +484,7 @@ namespace SIL.Pa.UI.Dialogs
 			((DataGridViewComboBoxColumn)col).DropDownWidth = 150;
 			((DataGridViewComboBoxColumn)col).MaxDropDownItems = 15;
 			m_gridExpressions.Columns.Add(col);
-			App.L10NMngr.LocalizeObject(m_gridExpressions.Columns["expType"],
+			App.LocalizeObject(m_gridExpressions.Columns["expType"],
 				"FiltersDlg.ExpressionsGridTypeColumnHeadingText",
 				"Type", App.kLocalizationGroupDialogs);
 
@@ -613,7 +613,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (FilterNameExists(newName))
 			{
-				var msg = App.L10NMngr.LocalizeString("FiltersDlg.FilterNameExistsMsg",
+				var msg = App.LocalizeString("FiltersDlg.FilterNameExistsMsg",
 					"The filter '{0}' already exists.",
 					"Message displayed when adding a filter in the define filters dialog if the filter name already exists.",
 					App.kLocalizationGroupDialogs);
@@ -712,7 +712,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			m_gridExpressions[e.ColumnIndex, e.RowIndex].Value = Properties.Resources.DeleteHot;
 
-			var toolTip = App.L10NMngr.LocalizeString(
+			var toolTip = App.LocalizeString(
 				"FiltersDlg.DeleteFilterExpressionToolTip",
 				"Delete Expression", App.kLocalizationGroupDialogs);
 
@@ -1102,7 +1102,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			if (e.RowIndex >= 0 && e.ColumnIndex == kShowInListCol)
 			{
-				var tooltip = App.L10NMngr.LocalizeString(
+				var tooltip = App.LocalizeString(
 					"FiltersDlg.FiltersListVisibleInFilterMenuColumnToolTip",
 					"Select to make '{0}' visible\nin the main window's drop-down filter list.",
 					App.kLocalizationGroupDialogs);

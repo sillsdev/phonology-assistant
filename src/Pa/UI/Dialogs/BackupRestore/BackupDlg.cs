@@ -23,10 +23,6 @@ namespace SIL.Pa.UI.Dialogs
 		private BRProgressDlg m_progressDlg;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static void Backup()
 		{
 			using (BackupDlg dlg = new BackupDlg())
@@ -40,10 +36,6 @@ namespace SIL.Pa.UI.Dialogs
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public BackupDlg()
 		{
@@ -73,20 +65,12 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
 			Settings.Default.BackupDlg = App.InitializeForm(this, Settings.Default.BackupDlg);
 			base.OnLoad(e);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void GetDataSourceFiles()
 		{
@@ -108,13 +92,9 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private string GetBackupZipFile()
 		{
-			var fmt = App.L10NMngr.LocalizeString(Name + ".BackupFilenameFmt",
+			var fmt = App.LocalizeString("BackupDlg.BackupFilenameFmt",
 				"{0} Backup ({1}).zip", App.kLocalizationGroupDialogs);
 
 			var fileName = string.Format(fmt, App.Project.Name, DateTime.Now.ToShortDateString());
@@ -122,7 +102,7 @@ namespace SIL.Pa.UI.Dialogs
 			// Slashes are invalid in a file name.
 			fileName = fileName.Replace("/", "-");
 
-			var caption = App.L10NMngr.LocalizeString(Name + ".BackupOFDCaption",
+			var caption = App.LocalizeString("BackupDlg.BackupOFDCaption",
 				"Backup File to Create", App.kLocalizationGroupDialogs);
 			
 			int filterIndex = 0;
@@ -131,10 +111,6 @@ namespace SIL.Pa.UI.Dialogs
 				ref filterIndex, caption, fileName, App.Project.Folder);
 		}	
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void btnBkup_Click(object sender, EventArgs e)
 		{

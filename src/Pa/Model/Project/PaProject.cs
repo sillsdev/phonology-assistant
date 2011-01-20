@@ -4,7 +4,6 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using Localization;
 using SIL.Pa.DataSource;
 using SIL.Pa.Filters;
 using SIL.Pa.Model;
@@ -127,11 +126,10 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void MigrateToLatestVersion(string filename)
 		{
-			var errMsg = App.L10NMngr.LocalizeString("ProjectFileMigrationErrMsg",
+			var errMsg = App.LocalizeString("ProjectFileMigrationErrMsg",
 				"The following error occurred while attempting to update your project file:\n\n{0}",
 				"Message displayed when updating ambiguous sequences file to new version.",
-				App.kLocalizationGroupMisc, LocalizationCategory.ErrorOrWarningMessage,
-				LocalizationPriority.MediumHigh);
+				App.kLocalizationGroupMisc);
 
 			App.MigrateToLatestVersion(filename, Assembly.GetExecutingAssembly(),
 				"SIL.Pa.Model.UpdateFileTransforms.UpdateProjectFile.xslt", errMsg);
@@ -260,11 +258,9 @@ namespace SIL.Pa
 
 			if (!File.Exists(prjFileName))
 			{
-				msg = App.L10NMngr.LocalizeString("ProjectFileMissingMsg",
-					"Project file '{0}' does not exist.", "Message displayed when an " +
-					"attempt is made to open a non existant project file. The parameter " +
-					"is the project file name.", App.kLocalizationGroupInfoMsg,
-					LocalizationCategory.ErrorOrWarningMessage, LocalizationPriority.Medium);
+				msg = App.LocalizeString("ProjectFileMissingMsg", "Project file '{0}' does not exist.",
+					"Message displayed when an attempt is made to open a non existant project file. The parameter is the project file name.",
+					App.kLocalizationGroupInfoMsg);
 
 				msg = string.Format(msg, Utils.PrepFilePathForMsgBox(prjFileName));
 			}

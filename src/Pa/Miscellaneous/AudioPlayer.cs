@@ -172,11 +172,11 @@ namespace SIL.Pa
 			string saLoc = GetSaPath();
 			if (saLoc == null)
 			{
-				var msg = App.L10NMngr.LocalizeString("AudioPlaybackSpeedProblemMsg",
+				var msg = App.LocalizeString("AudioPlaybackSpeedProblemMsg",
 					"Speech Analyzer 3.0.1 is required to playback utterances at speeds other than " +
 					"100%, but it is not installed. Please install Speech Analyzer 3.0.1 and try again.",
-					"Message displayed when SA 3.0.1 is not installed and the user is attempting to " +
-					"playback audio at a speed other than 100 percent.", App.kLocalizationGroupInfoMsg);
+					"Message displayed when SA 3.0.1 is not installed and the user is attempting to playback audio at a speed other than 100 percent.",
+					App.kLocalizationGroupInfoMsg);
 
 				using (var dlg = new DownloadSaDlg(msg))
 					dlg.ShowDialog();

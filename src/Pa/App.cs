@@ -189,12 +189,7 @@ namespace SIL.Pa
 
 			LocalizeItemDlg.SaveDialogSplitterPosition += (pos => Settings.Default.LocalizeDlgSplitterPos = pos);
 			LocalizeItemDlg.SetDialogSplitterPosition += (currPos =>
-			{
-
-				return (Settings.Default.LocalizeDlgSplitterPos > 0 ?
-					Settings.Default.LocalizeDlgSplitterPos : currPos);
-			});
-
+				(Settings.Default.LocalizeDlgSplitterPos > 0 ? Settings.Default.LocalizeDlgSplitterPos : currPos));
 			LocalizeItemDlg.SaveDialogBounds += (dlg => Settings.Default.LocalizeDlgBounds = dlg.Bounds);
 			LocalizeItemDlg.SetDialogBounds += (dlg =>
 			{
@@ -223,17 +218,13 @@ namespace SIL.Pa
 				LocalizationManager.kDefaultLang : langId);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public static LocalizationManager L10NMngr { get; private set; }
-
 		#region Misc. localized global strings
 		/// ------------------------------------------------------------------------------------
 		public static string kOpenClassBracket
 		{
 			get
 			{
-				return L10NMngr.LocalizeString(
-					"OpenClassSymbol", "<",
+				return LocalizeString("OpenClassSymbol", "<",
 					"Character used to delineate the opening of a phonetic search class.",
 					kLocalizationGroupMisc);
 			}
@@ -244,8 +235,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return L10NMngr.LocalizeString(
-					"CloseClassSymbol", ">",
+				return LocalizeString("CloseClassSymbol", ">",
 					"Character used to delineate the closing of a phonetic search class.",
 					kLocalizationGroupMisc);
 			}
@@ -256,7 +246,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return L10NMngr.LocalizeString("FileTypes.ExecutableFileTypes",
+				return LocalizeString("FileTypes.ExecutableFileTypes",
 					"All Executables (*.exe;*.com;*.pif;*.bat;*.cmd)|*.exe;*.com;*.pif;*.bat;*.cmd",
 					"File types for executable files.", kLocalizationGroupMisc);
 			}
@@ -267,7 +257,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return L10NMngr.LocalizeString("FileTypes.AllFileTypes",
+				return LocalizeString("FileTypes.AllFileTypes",
 					"All Files (*.*)|*.*", "Used in open/save file dialogs as the type for all files.",
 					kLocalizationGroupMisc);
 			}
@@ -278,8 +268,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return L10NMngr.LocalizeString(
-					"FileTypes.HTMLFileType", "HTML Files (*.html)|*.html");
+				return LocalizeString("FileTypes.HTMLFileType",
+					"HTML Files (*.html)|*.html", kLocalizationGroupMisc);
 			}
 		}
 
@@ -288,8 +278,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return L10NMngr.LocalizeString(
-					"FileTypes.Word2003XmlFileType", "Word 2003 XML Files (*.xml)|*.xml");
+				return LocalizeString("FileTypes.Word2003XmlFileType",
+					"Word 2003 XML Files (*.xml)|*.xml", kLocalizationGroupMisc);
 			}
 		}
 
@@ -298,8 +288,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return L10NMngr.LocalizeString(
-					"FileTypes.XLingPaperFileType", "XLingPaper Files (*.xml)|*.xml");
+				return LocalizeString("FileTypes.XLingPaperFileType",
+					"XLingPaper Files (*.xml)|*.xml", kLocalizationGroupMisc);
 			}
 		}
 
@@ -308,7 +298,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return L10NMngr.LocalizeString("FileTypes.PaXMLFileType",
+				return LocalizeString("FileTypes.PaXMLFileType",
 					"{0} XML Files (*.paxml)|*.paxml", "Parameter is the application name.",
 					kLocalizationGroupMisc);
 			}
@@ -319,7 +309,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return L10NMngr.LocalizeString("FileTypes.PaProjectFileType",
+				return LocalizeString("FileTypes.PaProjectFileType",
 					"{0} Projects (*.pap)|*.pap",
 					"File type for Phonology Assistant projects. The parameter is the application name.",
 					kLocalizationGroupMisc);
@@ -331,7 +321,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return L10NMngr.LocalizeString("FileTypes.RTFFileType",
+				return LocalizeString("FileTypes.RTFFileType",
 					"Rich Text Format (*.rtf)|*.rtf", "File type for rich text format output.",
 					kLocalizationGroupMisc);
 			}
@@ -342,8 +332,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return L10NMngr.LocalizeString(
-					"FileTypes.Mp3FileType", "Speech Analyzer MP3 Files (*.mp3)|*.mp3");
+				return LocalizeString("FileTypes.Mp3FileType",
+					"Speech Analyzer MP3 Files (*.mp3)|*.mp3", kLocalizationGroupMisc);
 			}
 		}
 
@@ -352,8 +342,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return L10NMngr.LocalizeString(
-					"FileTypes.WaveFileType", "Speech Analyzer Wave Files (*.wav)|*.wav");
+				return LocalizeString("FileTypes.WaveFileType",
+					"Speech Analyzer Wave Files (*.wav)|*.wav", kLocalizationGroupMisc);
 			}
 		}
 
@@ -362,8 +352,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return L10NMngr.LocalizeString(
-					"FileTypes.WindowsMediaAudioFileType", "Speech Analyzer WMA Files (*.wma)|*.wma");
+				return LocalizeString("FileTypes.WindowsMediaAudioFileType",
+					"Speech Analyzer WMA Files (*.wma)|*.wma", kLocalizationGroupMisc);
 			}
 		}
 
@@ -372,8 +362,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return L10NMngr.LocalizeString("FileTypes.ToolboxFileType",
-					"Toolbox Files (*.db)|*.db");
+				return LocalizeString("FileTypes.ToolboxFileType",
+					"Toolbox Files (*.db)|*.db", kLocalizationGroupMisc);
 			}
 		}
 
@@ -382,8 +372,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return L10NMngr.LocalizeString("FileTypes.ToolboxInterlinearFileType",
-					"Interlinear Toolbox Files (*.itx)|*.itx");
+				return LocalizeString("FileTypes.ToolboxInterlinearFileType",
+					"Interlinear Toolbox Files (*.itx)|*.itx", kLocalizationGroupMisc);
 			}
 		}
 
@@ -392,8 +382,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return L10NMngr.LocalizeString("FileTypes.XmlFileType",
-					"XML Files (*.xml)|*.xml");
+				return LocalizeString("FileTypes.XmlFileType",
+					"XML Files (*.xml)|*.xml", kLocalizationGroupMisc);
 			}
 		}
 
@@ -402,8 +392,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return L10NMngr.LocalizeString("FileTypes.XsltTFileType",
-					"XSLT Files (*.xslt)|*.xslt");
+				return LocalizeString("FileTypes.XsltTFileType",
+					"XSLT Files (*.xslt)|*.xslt", kLocalizationGroupMisc);
 			}
 		}
 
@@ -412,8 +402,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return L10NMngr.LocalizeString("FileTypes.ZipFileType",
-					"Zip Files (*.zip)|*.zip");
+				return LocalizeString("FileTypes.ZipFileType",
+					"Zip Files (*.zip)|*.zip", kLocalizationGroupMisc);
 			}
 		}
 
@@ -422,7 +412,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return L10NMngr.LocalizeString(
+				return LocalizeString(
 					"PhoneticSearchingInProgressMessage", "Searching...",
 					"Message displayed in status bar next to the progress bar when doing a query searches.",
 					kLocalizationGroupMisc);
@@ -434,8 +424,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return L10NMngr.LocalizeString(
-					"GenericSaveChangesQuestion", "Would you like to save your changes?");
+				return LocalizeString("GenericSaveChangesQuestion",
+					"Would you like to save your changes?", kLocalizationGroupMisc);
 			}
 		}
 
@@ -444,8 +434,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return L10NMngr.LocalizeString(
-					"GenericSaveFileDialogCaption", "Save File");
+				return LocalizeString("GenericSaveFileDialogCaption",
+					"Save File", kLocalizationGroupMisc);
 			}
 		}
 
@@ -1017,6 +1007,87 @@ namespace SIL.Pa
 
 		#endregion
 
+		/// ------------------------------------------------------------------------------------
+		private static LocalizationManager L10NMngr { get; set; }
+
+		#region Localization Manager Access methods
+		/// ------------------------------------------------------------------------------------
+		internal static void ReapplyLocalizationsToAllObjects()
+		{
+			if (L10NMngr != null)
+				L10NMngr.ReapplyLocalizationsToAllObjects();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static string GetString(object obj)
+		{
+			return (L10NMngr == null ? "?????" : L10NMngr.GetString(obj));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static void RefreshToolTipsOnLocalizationManager()
+		{
+			if (L10NMngr != null)
+				L10NMngr.RefreshToolTips();
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		internal static string LocalizeString(string id, string defaultText)
+		{
+			return LocalizeString(id, defaultText, null, null,
+				LocalizationCategory.Unspecified, LocalizationPriority.High);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static string LocalizeString(string id, string defaultText,
+			string localizationGroup)
+		{
+			return LocalizeString(id, defaultText, null, localizationGroup,
+				LocalizationCategory.Unspecified, LocalizationPriority.High);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static string LocalizeString(string id, string defaultText, string comment,
+			string localizationGroup)
+		{
+			return LocalizeString(id, defaultText, comment, localizationGroup,
+				LocalizationCategory.Unspecified, LocalizationPriority.High);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static string LocalizeString(string id, string defaultText,
+			string comment, string localizationGroup, LocalizationCategory category,
+			LocalizationPriority priority)
+		{
+			return (L10NMngr == null ? defaultText :
+				L10NMngr.LocalizeString(id, defaultText, comment, localizationGroup, category, priority));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static void LocalizeObject(object obj, string id, string defaultText)
+		{
+			LocalizeObject(obj, id, defaultText, null, kLocalizationGroupMisc);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static void LocalizeObject(object obj, string id, string defaultText, string group)
+		{
+			LocalizeObject(obj, id, defaultText, null, group);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static void LocalizeObject(object obj, string id, string defaultText,
+			string comment, string group)
+		{
+			if (L10NMngr != null)
+			{
+				L10NMngr.LocalizeObject(obj, id, defaultText, comment, group,
+					LocalizationCategory.Unspecified, LocalizationPriority.High);
+			}
+		}
+
+		#endregion
+
 		#region Misc. methods
 		/// ------------------------------------------------------------------------------------
 		public static int GetPlaybackSpeedForVwType(Type vwType)
@@ -1027,7 +1098,7 @@ namespace SIL.Pa
 			if (vwType == typeof(SearchVw))
 				return Settings.Default.SearchVwPlaybackSpeed;
 
-			if (vwType == typeof(XYChartVw))
+			if (vwType == typeof(DistChartVw))
 				return Settings.Default.DistChartVwPlaybackSpeed;
 
 			return 100;
@@ -1100,9 +1171,12 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		static void HandleLocalizingTMItem(object item, string id, TMItemProperties itemProps)
 		{
-			L10NMngr.LocalizeObject(item, id, itemProps.Text, itemProps.Tooltip,
-				ShortcutKeysEditor.KeysToString(itemProps.ShortcutKey), "Toolbar or Menu item",
-				kLocalizationGroupTMItems, LocalizationPriority.High);
+			if (L10NMngr != null)
+			{
+				L10NMngr.LocalizeObject(item, id, itemProps.Text, itemProps.Tooltip,
+					ShortcutKeysEditor.KeysToString(itemProps.ShortcutKey), "Toolbar or Menu item",
+					kLocalizationGroupTMItems, LocalizationPriority.High);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

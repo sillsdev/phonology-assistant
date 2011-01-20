@@ -1,6 +1,5 @@
 using System.Drawing;
 using System.IO;
-using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Processing;
 using SIL.Pa.Properties;
@@ -65,11 +64,10 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return App.L10NMngr.LocalizeString("InitializingConsonantChartViewMsg",
+				return App.LocalizeString("InitializingConsonantChartViewMsg",
 					"Initializing Consonant Chart View...",
 					"Message displayed whenever the consonant chart is being initialized.",
-					App.kLocalizationGroupInfoMsg, LocalizationCategory.GeneralMessage,
-					LocalizationPriority.Medium);
+					App.kLocalizationGroupInfoMsg);
 			}
 		}
 
@@ -116,8 +114,8 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return App.L10NMngr.LocalizeString(
-					"DefaultConsonantChartHtmlExportFileAffix", "{0}-ConsonantChart.html");
+				return App.LocalizeString("DefaultConsonantChartHtmlExportFileAffix",
+					"{0}-ConsonantChart.html", "Export");
 			}
 		}
 
@@ -126,8 +124,8 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return App.L10NMngr.LocalizeString(
-					"DefaultConsonantChartWordXmlExportFileAffix", "{0}-ConsonantChart-(Word).xml");
+				return App.LocalizeString("DefaultConsonantChartWordXmlExportFileAffix",
+					"{0}-ConsonantChart-(Word).xml", "Export");
 			}
 		}
 
@@ -136,8 +134,8 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return App.L10NMngr.LocalizeString(
-					"DefaultConsonantChartXLingPaperFileAffix", "{0}-ConsonantChart-(XLingPaper).xml");
+				return App.LocalizeString("DefaultConsonantChartXLingPaperFileAffix",
+					"{0}-ConsonantChart-(XLingPaper).xml", "Export");
 			}
 		}
 

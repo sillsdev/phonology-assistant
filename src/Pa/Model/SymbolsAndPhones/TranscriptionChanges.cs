@@ -4,7 +4,6 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Xml.Serialization;
-using Localization;
 using SilTools;
 
 namespace SIL.Pa.Model
@@ -21,21 +20,16 @@ namespace SIL.Pa.Model
 
 		#region Method to migrate previous versions of transcription changes file to current.
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static void MigrateToLatestVersion(string newFileName, string projectPathPrefix)
 		{
-			var errMsg = App.L10NMngr.LocalizeString(
+			var errMsg = App.LocalizeString(
 				"TranscriptionChangesMigrationErrMsg",
 				"The following error occurred while attempting to update your project’s " +
 				"transcription changes file (formerly experimental transcriptions):\n\n{0}\n\n" +
 				"In order to continue working, your original file containing transcriptions " +
 				"will be renamed to the following file: '{1}'.",
 				"Message displayed when updating transcription changes (formerly experimental transcriptions) file to new version.",
-				App.kLocalizationGroupMisc, LocalizationCategory.ErrorOrWarningMessage,
-				LocalizationPriority.MediumHigh);
+				App.kLocalizationGroupMisc);
 
 			var oldFileName = projectPathPrefix + "ExperimentalTranscriptions.xml";
 

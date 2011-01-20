@@ -11,10 +11,6 @@ using SilTools;
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class XYGrid : SilGrid, IxCoreColleague
 	{
 		private bool m_paintDropValidEffect;
@@ -26,7 +22,7 @@ namespace SIL.Pa.UI.Controls
 		private ToolTip m_tooltip;
 		private IMessageFilter m_editControlMsgFilter;
 		private SearchOptionsDropDown m_searchOptionsDropDown;
-		private readonly Image m_dirtyIndicator;
+		//private readonly Image m_dirtyIndicator;
 		private readonly Bitmap m_errorInCell;
 		private readonly XYChartCellInfoPopup m_cellInfoPopup;
 
@@ -39,7 +35,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			OnPaFontsChanged(null);
 
-			m_dirtyIndicator = Properties.Resources.kimidXYChartDirtyIndicator;
+			//m_dirtyIndicator = Properties.Resources.kimidXYChartDirtyIndicator;
 			m_errorInCell = Properties.Resources.kimidXYChartCellError;
 			m_errorInCell.MakeTransparent(m_errorInCell.GetPixel(0, 0));
 
@@ -1328,7 +1324,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				return App.L10NMngr.LocalizeString("ChartPopupInfoSyntaxErrorsMsg",
+				return App.LocalizeString("ChartPopupInfoSyntaxErrorsMsg",
 					"This search pattern contains the following error(s):",
 					"Views.Distribution Charts");
 			}
@@ -1343,7 +1339,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				return App.L10NMngr.LocalizeString("ChartPopupInfoUndefinedSymbolsMsg",
+				return App.LocalizeString("ChartPopupInfoUndefinedSymbolsMsg",
 					"This search pattern contains the following undefined phonetic symbol(s).",
 					"Views.Distribution Charts");
 			}
@@ -1358,7 +1354,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				return App.L10NMngr.LocalizeString("ChartPopupInfoInvalidPhonesMsg",
+				return App.LocalizeString("ChartPopupInfoInvalidPhonesMsg",
 					"This search pattern contains the following phone(s) not found in the data.",
 					"Views.Distribution Charts");
 			}

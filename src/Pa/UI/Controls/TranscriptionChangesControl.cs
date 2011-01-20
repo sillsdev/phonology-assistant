@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
@@ -71,14 +70,13 @@ namespace SIL.Pa.UI.Controls
 			lblSourceHdg.Top = lblTargetHdg.Top = (m_header.Height - lblSourceHdg.Height) / 2;
 
 			// Set the heading text.
-			App.L10NMngr.LocalizeObject(lblSourceHdg, "TranscriptionChangesDlg.Heading1",
-				"Transcribed in source as:", null, null, "Heading in transcription changes control.",
-				"Dialog Boxes", LocalizationPriority.High);
+			App.LocalizeObject(lblSourceHdg, "TranscriptionChangesDlg.Heading1",
+				"Transcribed in source as:", "Heading in transcription changes control.",
+				App.kLocalizationGroupDialogs);
 
-			App.L10NMngr.LocalizeObject(lblTargetHdg, "TranscriptionChangesDlg.Heading2",
-				"Replace with one of these options:", null, null,
-				"Heading in transcription changes control.", "Dialog Boxes",
-				LocalizationPriority.High);
+			App.LocalizeObject(lblTargetHdg, "TranscriptionChangesDlg.Heading2",
+				"Replace with one of these options:", 
+				"Heading in transcription changes control.", App.kLocalizationGroupDialogs);
 
 			BuildGrid();
 			LoadGrid();
@@ -86,10 +84,6 @@ namespace SIL.Pa.UI.Controls
 			App.MsgMediator.AddColleague(this);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
@@ -795,10 +789,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public RadioButtonColumn(string name, bool showRadioButton, bool includeCVPattern)
 			: this()
 		{
@@ -807,10 +797,6 @@ namespace SIL.Pa.UI.Controls
 			m_showRadioButton = showRadioButton;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public RadioButtonColumn(bool forNoConvertColumn) : this()
 		{
@@ -897,19 +883,15 @@ namespace SIL.Pa.UI.Controls
 			TextFormatFlags.SingleLine | TextFormatFlags.NoPrefix;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public RadioButtonCell()
 		{
 			if (App.Project.FieldInfo.CVPatternField != null)
 				m_fntCV = App.Project.FieldInfo.CVPatternField.Font;
 
-			m_noneText = App.L10NMngr.LocalizeString(
+			m_noneText = App.LocalizeString(
 				"ExperimentalTranscriptionsDlg.DontConvertText", "None",
 				"Text in the experimental " + "transcription list of experimental transcription dialog box.",
-				"Dialog Boxes", LocalizationCategory.Other, LocalizationPriority.High);
+				App.kLocalizationGroupDialogs);
 		}
 
 		/// ------------------------------------------------------------------------------------

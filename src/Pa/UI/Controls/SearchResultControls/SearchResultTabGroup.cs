@@ -215,22 +215,21 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void SetToolTips()
 		{
 			m_tooltip = new ToolTip();
 
-			m_tooltip.SetToolTip(m_btnClose, App.L10NMngr.LocalizeString(
-				"SearchResultTabs.CloseToolTipText", "Close Active Tab", App.kLocalizationGroupMisc));
+			m_tooltip.SetToolTip(m_btnClose,
+				App.LocalizeString("SearchResultTabs.CloseToolTipText", "Close Active Tab",
+				App.kLocalizationGroupMisc));
 
-			m_tooltip.SetToolTip(m_btnLeft, App.L10NMngr.LocalizeString(
-				"SearchResultTabs.ScrollLeftToolTipText", "Scroll Left", App.kLocalizationGroupMisc));
+			m_tooltip.SetToolTip(m_btnLeft,
+				App.LocalizeString("SearchResultTabs.ScrollLeftToolTipText", "Scroll Left",
+				App.kLocalizationGroupMisc));
 
-			m_tooltip.SetToolTip(m_btnRight, App.L10NMngr.LocalizeString(
-				"SearchResultTabs.ScrollRightToolTipText", "Scroll Right", App.kLocalizationGroupMisc));
+			m_tooltip.SetToolTip(m_btnRight,
+				App.LocalizeString("SearchResultTabs.ScrollRightToolTipText", "Scroll Right",
+				App.kLocalizationGroupMisc));
 		}
 
 		#region Message mediator message handler and update handler methods
@@ -361,8 +360,7 @@ namespace SIL.Pa.UI.Controls
 
 			using (Font fnt = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold))
 			{
-				var text = App.L10NMngr.LocalizeString(
-					"SearchResultTabs.EmptyTabInfoText",
+				var text = App.LocalizeString("SearchResultTabs.EmptyTabInfoText",
 					"Define a search pattern above and click Show Results.",
 					App.kLocalizationGroupMisc);
 				

@@ -1,6 +1,5 @@
 using System.Drawing;
 using System.IO;
-using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Processing;
 using SIL.Pa.Properties;
@@ -61,11 +60,10 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return App.L10NMngr.LocalizeString("InitializingVowelChartViewMsg",
+				return App.LocalizeString("InitializingVowelChartViewMsg",
 					"Initializing Vowel Chart View...",
 					"Message displayed whenever the consonant chart is being initialized.",
-					App.kLocalizationGroupInfoMsg, LocalizationCategory.GeneralMessage,
-					LocalizationPriority.Medium);
+					App.kLocalizationGroupInfoMsg);
 			}
 		}
 
@@ -128,8 +126,8 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return App.L10NMngr.LocalizeString(
-					"DefaultVowelChartHtmlExportFileAffix", "{0}-VowelChart.html");
+				return App.LocalizeString("DefaultVowelChartHtmlExportFileAffix",
+					"{0}-VowelChart.html", "Export");
 			}
 		}
 
@@ -138,8 +136,8 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return App.L10NMngr.LocalizeString(
-					"DefaultVowelChartWordXmlExportFileAffix", "{0}-VowelChart-(Word).xml");
+				return App.LocalizeString("DefaultVowelChartWordXmlExportFileAffix",
+					"{0}-VowelChart-(Word).xml", "Export");
 			}
 		}
 
@@ -148,8 +146,8 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return App.L10NMngr.LocalizeString(
-					"DefaultVowelChartXLingPaperFileAffix", "{0}-VowelChart-(XLingPaper).xml");
+				return App.LocalizeString("DefaultVowelChartXLingPaperFileAffix",
+					"{0}-VowelChart-(XLingPaper).xml", "Export");
 			}
 		}
 

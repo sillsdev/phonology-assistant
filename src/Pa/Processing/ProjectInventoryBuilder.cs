@@ -145,25 +145,17 @@ namespace SIL.Pa.Processing
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual string ProgressMessage
 		{
 			get
 			{
-				return App.L10NMngr.LocalizeString("ProcessingPhoneInventoryMsg",
+				return App.LocalizeString("ProcessingPhoneInventoryMsg",
 					"Building Phone Inventory...",
 					"Message displayed whenever the phone inventory is built or updated.",
 					App.kLocalizationGroupInfoMsg);
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual string TempFileName
 		{
@@ -175,19 +167,11 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual bool KeepTempFile
 		{
 			get { return Settings.Default.KeepTempProjectInventoryFile; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual Pipeline.ProcessType ProcessType
 		{

@@ -40,20 +40,12 @@ namespace SIL.Pa.UI
 	public partial class PaMainWnd
 	{
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUserInterfaceLangaugeChanged(object args)
 		{
-			App.L10NMngr.ReapplyLocalizationsToAllObjects();
+			App.ReapplyLocalizationsToAllObjects();
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnRecentlyUsedProjectChosen(object args)
 		{
@@ -61,7 +53,7 @@ namespace SIL.Pa.UI
 
 			if (!File.Exists(filename))
 			{
-				var fmt = App.L10NMngr.LocalizeString("RecentlyOpenedProjectMissingMsg",
+				var fmt = App.LocalizeString("RecentlyOpenedProjectMissingMsg",
 					"The project file '{0}' is missing.", App.kLocalizationGroupInfoMsg);
 				
 				Utils.MsgBox(string.Format(fmt, filename), MessageBoxIcon.Exclamation);
@@ -77,10 +69,6 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnDataSourcesModified(object args)
 		{
 			PaProject project = args as PaProject;
@@ -95,20 +83,12 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnHelpPA(object args)
 		{
 			App.ShowHelpTopic("hidGettingStarted");
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnHelpAbout(object args)
 		{
@@ -119,20 +99,12 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnStudentManual(object args)
 		{
 			OpenTrainingDocument(ResourceHelper.GetHelpString("hidHelpTrainingStudentManualDoc"));
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExercises(object args)
 		{
@@ -141,20 +113,12 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnInstructorGuide(object args)
 		{
 			OpenTrainingDocument(ResourceHelper.GetHelpString("hidHelpTrainingInstructorGuideDoc"));
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static void OpenTrainingDocument(string docName)
 		{
@@ -163,7 +127,7 @@ namespace SIL.Pa.UI
 
 			if (!File.Exists(path))
 			{
-				var fmt = App.L10NMngr.LocalizeString("TrainingFileMissingMsg",
+				var fmt = App.LocalizeString("TrainingFileMissingMsg",
 					"The training file '{0}' is missing.", App.kLocalizationGroupInfoMsg);
 
 				var msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(path));
@@ -178,10 +142,6 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnFileExit(object args)
 		{
 			Close();
@@ -189,17 +149,13 @@ namespace SIL.Pa.UI
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnNewProject(object args)
 		{
 			ProjectSettingsDlg dlg = new ProjectSettingsDlg();
 
 			if (dlg.ShowDialog(this) == DialogResult.OK && dlg.Project != null)
 			{
-				var fmt = App.L10NMngr.LocalizeString("LoadNewlyCreatedProjectQuestion",
+				var fmt = App.LocalizeString("LoadNewlyCreatedProjectQuestion",
 					"Would you like to load the '{0}' project?", App.kLocalizationGroupInfoMsg);
 
 				var msg = string.Format(fmt, dlg.Project.Name);
@@ -215,10 +171,6 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnOpenProject(object args)
 		{
 			int filterindex = 0;
@@ -226,7 +178,7 @@ namespace SIL.Pa.UI
 			string filter = string.Format(App.kstidFileTypePAProject,
 				Application.ProductName) + "|" + App.kstidFileTypeAllFiles;
 
-			var fmt = App.L10NMngr.LocalizeString("ProjectOpenFileDlgCaption",
+			var fmt = App.LocalizeString("ProjectOpenFileDlg.WindowText",
 				"Open {0} Project File", App.kLocalizationGroupDialogs);
 			
 			string initialDir =
@@ -244,12 +196,6 @@ namespace SIL.Pa.UI
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="args"></param>
-		/// <returns>true if the message was handled</returns>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnProjectSettings(object args)
 		{
@@ -292,12 +238,6 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="args"></param>
-		/// <returns>true if the message was handled</returns>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateProjectSettings(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
@@ -322,12 +262,6 @@ namespace SIL.Pa.UI
 		//}
 
 		///----------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="args"></param>
-		/// <returns>true if message was handled</returns>
-		///----------------------------------------------------------------------------------
 		protected bool OnExportAsPAXML(object args)
 		{
 			SaveFileDialog dlg = new SaveFileDialog();
@@ -340,7 +274,7 @@ namespace SIL.Pa.UI
 			dlg.InitialDirectory = Environment.CurrentDirectory;
 			dlg.DefaultExt = "paxml";
 
-			var fmt = App.L10NMngr.LocalizeString("PaXMLExportSaveFileDlgCaption",
+			var fmt = App.LocalizeString("PaXmlExportSaveFileDlg.WindowText",
 				"Export to {0} XML", App.kLocalizationGroupDialogs);
 
 			dlg.Title = string.Format(fmt, Application.ProductName);
@@ -356,12 +290,6 @@ namespace SIL.Pa.UI
 		}
 
 		///----------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="args"></param>
-		/// <returns>true if message was handled</returns>
-		///----------------------------------------------------------------------------------
 		protected bool OnUpdateExportAsPAXML(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
@@ -375,12 +303,6 @@ namespace SIL.Pa.UI
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="args"></param>
-		/// <returns>true if the message was handled</returns>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnToolsOptions(object args)
 		{
@@ -396,10 +318,6 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateToolsOptions(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
@@ -413,20 +331,12 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUndefinedCharacters(object args)
 		{
 			UndefinedPhoneticCharactersDlg.Show(App.Project.Name, true);
 			return true;
 		}
 		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateUndefinedCharacters(object args)
 		{
@@ -444,20 +354,12 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnReloadProject(object args)
 		{
 			App.Project.ReloadDataSources();
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateReloadProject(object args)
 		{
@@ -484,42 +386,6 @@ namespace SIL.Pa.UI
 			return false;
 		}
 
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// The drop-down portion of the button was clicked so show the list of saved patterns
-		///// in a popup.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public bool OnDropDownViewFindPhones(object args)
-		//{
-		//    // TODO: What should be done if there are no saved patterns to show?
-
-		//    ToolBarPopupInfo itemProps = args as ToolBarPopupInfo;
-		//    if (itemProps == null)
-		//        return false;
-
-		//    SearchPatternTreeView sptv = new SearchPatternTreeView();
-		//    sptv.IsForToolbarPopup = true;
-		//    sptv.AllowDataModifications = false;
-		//    sptv.BackColor = SystemColors.Menu;
-		//    sptv.Dock = DockStyle.Fill;
-		//    sptv.Load();
-
-		//    SizableDropDownPanel sptvHost =
-		//        new SizableDropDownPanel("savedpatterndropdownsize", new Size(300, 350));
-
-		//    // When there are not patterns or categories in the list, then eliminate
-		//    // all but the bottom padding in the host so the "No saved search patterns"
-		//    // message is centered.
-		//    if (sptv.Nodes.Count == 0)
-		//        sptvHost.Padding = new Padding(0, 0, 0, sptvHost.Padding.Bottom);
-			
-		//    sptvHost.BackColor = SystemColors.Menu;
-		//    sptvHost.Controls.Add(sptv);
-		//    itemProps.Control = sptvHost;
-		//    return true;
-		//}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Enable / disable the Edit Source Record menu selection and toolbar button.
@@ -544,9 +410,9 @@ namespace SIL.Pa.UI
 					SearchVw view = vwTabGroup.CurrentTab.View as SearchVw;
 					grid = view.ResultViewManger.CurrentViewsGrid;
 				}
-				else if (vwTabGroup.CurrentTab.View is XYChartVw)
+				else if (vwTabGroup.CurrentTab.View is DistChartVw)
 				{
-					XYChartVw view = vwTabGroup.CurrentTab.View as XYChartVw;
+					DistChartVw view = vwTabGroup.CurrentTab.View as DistChartVw;
 					grid = view.ResultViewManger.CurrentViewsGrid;
 				}
 				else
@@ -564,54 +430,6 @@ namespace SIL.Pa.UI
 		}
 
 		#region Define Features and Classes Message Handlers
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// 
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//protected bool OnDefineArticulatoryFeatures(object args)
-		//{
-		//    using (ArticulatoryFeaturesDlg dlg = new ArticulatoryFeaturesDlg())
-		//        dlg.ShowDialog(this);
-
-		//    return true;
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// 
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//protected bool OnUpdateDefineArticulatoryFeatures(object args)
-		//{
-		//    PaApp.EnableWhenProjectOpen(args as TMItemProperties);
-		//    return true;
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// 
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//protected bool OnDefineBinaryFeatures(object args)
-		//{
-		//    using (BinaryFeaturesDlg dlg = new BinaryFeaturesDlg())
-		//        dlg.ShowDialog(this);
-
-		//    return true;
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// 
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//protected bool OnUpdateDefineBinaryFeatures(object args)
-		//{
-		//    PaApp.EnableWhenProjectOpen(args as TMItemProperties);
-		//    return true;
-		//}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Hides the menu item that's a place holder for adding the menu items for each
@@ -688,10 +506,6 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnEnableFilter(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
@@ -703,10 +517,6 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnFilters(object args)
 		{
 			using (var dlg = new FiltersDlg())
@@ -716,10 +526,6 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateFilters(object args)
 		{
 			App.EnableWhenProjectOpen(args as TMItemProperties);
@@ -727,20 +533,12 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnNoFilter(object args)
 		{
 			FilterHelper.TurnOffCurrentFilter();
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateNoFilter(object args)
 		{
@@ -755,10 +553,6 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnFilterChanged(object args)
 		{
 			var filter = args as Filter;
@@ -770,10 +564,6 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnFilterTurnedOff(object args)
 		{
 			sblblFilter.Visible = false;
@@ -781,10 +571,6 @@ namespace SIL.Pa.UI
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnFeatures(object args)
 		{
@@ -795,20 +581,12 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateFeatures(object args)
 		{
 			App.EnableWhenProjectOpen(args as TMItemProperties);
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnAmbiguousSequences(object args)
 		{
@@ -819,20 +597,12 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateAmbiguousSequences(object args)
 		{
 			App.EnableWhenProjectOpen(args as TMItemProperties);
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExperimentalTranscriptions(object args)
 		{
@@ -843,20 +613,12 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExperimentalTranscriptions(object args)
 		{
 			App.EnableWhenProjectOpen(args as TMItemProperties);
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnClasses(object args)
 		{
@@ -866,10 +628,6 @@ namespace SIL.Pa.UI
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateClasses(object args)
 		{
@@ -907,10 +665,6 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnViewSearch(object args)
 		{
 			SearchVw vw = vwTabGroup.ActivateView(typeof(SearchVw)) as SearchVw;
@@ -929,10 +683,6 @@ namespace SIL.Pa.UI
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateViewFindPhones(object args)
 		{
@@ -1001,7 +751,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnViewXYChart(object args)
 		{
-			vwTabGroup.ActivateView(typeof(XYChartVw));
+			vwTabGroup.ActivateView(typeof(DistChartVw));
 			return true;
 		}
 
@@ -1014,39 +764,9 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateViewXYChart(object args)
 		{
-			App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(XYChartVw));
+			App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(DistChartVw));
 			return true;
 		}
-
-		#endregion
-
-		#region CurrentViewsGrid stuff
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// 
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//protected bool OnUpdateShowGridLines(object args)
-		//{
-		//    return false;
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// 
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//protected bool OnUpdateChartPhoneSearch(object args)
-		//{
-		//    TMItemProperties itemProps = args as TMItemProperties;
-		//    if (itemProps == null)
-		//        return false;
-
-		//    itemProps.VisibleInGrid = true;
-		//    itemProps.Enabled = false;
-		//    itemProps.Update = true;
-		//    return true;
-		//}
 
 		#endregion
 

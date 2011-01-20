@@ -257,7 +257,7 @@ namespace SIL.Pa.PhoneticSearching
 				errors.Append(separateErrorsWithLineBreaks ? Environment.NewLine : " ");
 			}
 
-			var fmt = App.L10NMngr.LocalizeString("PatternParsingErrorMsg",
+			var fmt = App.LocalizeString("PatternParsingErrorMsg",
 				"The following error(s) occurred when parsing the search pattern:\n\n{0}",
 				"Search Query Messages");
 
@@ -285,7 +285,7 @@ namespace SIL.Pa.PhoneticSearching
 
 			if (ptrnGrp.Members == null || ptrnGrp.Members.Count == 0)
 			{
-				var fmt = App.L10NMngr.LocalizeString("ParsedToNothingErrorMsg",
+				var fmt = App.LocalizeString("ParsedToNothingErrorMsg",
 					"Error parsing the {0}.", "Search Query Messages");
 
 				m_errors.Add(string.Format(fmt, envType));

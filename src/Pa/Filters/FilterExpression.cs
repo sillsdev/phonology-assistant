@@ -17,9 +17,9 @@ namespace SIL.Pa.Filters
 	[XmlType("expression")]
 	public class FilterExpression
 	{
-		public static string OtherFilterField = App.L10NMngr.LocalizeString(
+		public static string OtherFilterField = App.LocalizeString(
 			"FiltersDlg.FilterExpressionOperators.OtherFilter", "(OTHER FILTER)",
-			"Displayed in the filters dialog.", "Dialog Boxes");
+			"Displayed in the filters dialog.", App.kLocalizationGroupDialogs);
 
 		private Filter.ExpressionType m_expTypep = Filter.ExpressionType.Normal;
 		private string m_pattern;

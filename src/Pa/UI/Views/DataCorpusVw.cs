@@ -3,7 +3,6 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
-using Localization;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.Processing;
@@ -33,16 +32,12 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public DataCorpusVw()
 		{
-			if (!App.DesignMode)
-			{
-				var msg = App.L10NMngr.LocalizeString("InitializingDataCorpusViewMsg",
-					"Initializing Data Corpus View...",
-					"Message displayed whenever the data corpus view is being initialized.",
-					App.kLocalizationGroupInfoMsg, LocalizationCategory.GeneralMessage,
-					LocalizationPriority.Medium);
+			var msg = App.LocalizeString("InitializingDataCorpusViewMsg",
+				"Initializing Data Corpus View...",
+				"Message displayed whenever the data corpus view is being initialized.",
+				App.kLocalizationGroupInfoMsg);
 
-				App.InitializeProgressBarForLoadingView(msg, 2);
-			}
+			App.InitializeProgressBarForLoadingView(msg, 2);
 
 			InitializeComponent();
 			Name = "DataCorpusVw";
@@ -835,8 +830,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsHTML(object args)
 		{
-			var fmt = App.L10NMngr.LocalizeString(
-				"DefaultDataCorpusHTMLExportFileAffix", "{0}-DataCorpus.html");
+			var fmt = App.LocalizeString("DefaultDataCorpusHTMLExportFileAffix",
+				"{0}-DataCorpus.html", "Export");
 
 			return Export(fmt, App.kstidFileTypeHTML, "html",
 				Settings.Default.OpenHtmlDataCorpusAfterExport,
@@ -846,8 +841,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsWordXml(object args)
 		{
-			var fmt = App.L10NMngr.LocalizeString(
-				"DefaultDataCorpusWordXmlExportFileAffix", "{0}-DataCorpus-(Word).xml");
+			var fmt = App.LocalizeString("DefaultDataCorpusWordXmlExportFileAffix",
+				"{0}-DataCorpus-(Word).xml", "Export");
 
 			return Export(fmt, App.kstidFileTypeWordXml, "xml",
 				Settings.Default.OpenWordXmlDataCorpusAfterExport,
@@ -857,8 +852,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsXLingPaper(object args)
 		{
-			var fmt = App.L10NMngr.LocalizeString(
-				"DefaultDataCorpusXLingPaperExportFileAffix", "{0}-DataCorpus-(XLingPap).xml");
+			var fmt = App.LocalizeString("DefaultDataCorpusXLingPaperExportFileAffix",
+				"{0}-DataCorpus-(XLingPap).xml", "Export");
 
 			return Export(fmt, App.kstidFileTypeXLingPaper, "xml",
 				Settings.Default.OpenXLingPaperDataCorpusAfterExport,

@@ -98,7 +98,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\LocalizationManager.dll</HintPath>
     </Reference>
-    <Reference Include="SpeechToolsUtils, Version=1.0.3895.4448, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SpeechToolsUtils, Version=1.0.3911.28181, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\SpeechToolsUtils.dll</HintPath>
     </Reference>

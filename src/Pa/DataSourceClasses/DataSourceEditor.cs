@@ -295,11 +295,11 @@ namespace SIL.Pa.DataSource
 			string saPath = AudioPlayer.GetSaPath();
 			if (saPath == null || !File.Exists(saPath))
 			{
-				var msg = App.L10NMngr.LocalizeString("AudioEditProblemMsg",
+				var msg = App.LocalizeString("AudioEditProblemMsg",
 					"Speech Analyzer 3.0.1 is required to edit audio data sources, but it " +
 					"is not installed. Please install Speech Analyzer 3.0.1 and try again.",
-					"Message displayed when SA 3.0.1 is not installed and the user is attempting to " +
-					"edit an audio file.", App.kLocalizationGroupInfoMsg);
+					"Message displayed when SA 3.0.1 is not installed and the user is attempting to edit an audio file.",
+					App.kLocalizationGroupInfoMsg);
 
 				using (var dlg = new DownloadSaDlg(msg))
 					dlg.ShowDialog();

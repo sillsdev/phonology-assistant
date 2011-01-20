@@ -40,7 +40,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			if (query.ErrorMessages.Count > 0)
 			{
-				var fmt = App.L10NMngr.LocalizeString(
+				var fmt = App.LocalizeString(
 					"SearchQuery.ErrListMsg", "{0}) {1}\n\n",
 					"This is a format string for a number list of error messages for a search query.",
 					App.kLocalizationGroupInfoMsg);
@@ -94,7 +94,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			get
 			{
-				return App.L10NMngr.LocalizeString("SearchQuery.WordBoundaryError",
+				return App.LocalizeString("SearchQuery.WordBoundaryError",
 						"The space/word boundary symbol (#) may not be the first or last item in the search item portion (what precedes the slash) of the search pattern. Please correct this and try your search again.",
 						App.kLocalizationGroupInfoMsg);
 			}
@@ -109,7 +109,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			get
 			{
-				return App.L10NMngr.LocalizeString("SearchQuery.ZeroOrMoreError",
+				return App.LocalizeString("SearchQuery.ZeroOrMoreError",
 					"The zero-or-more symbol (*) was found in an invalid location within the search pattern. The zero-or-more symbol may only be the first item in the preceding environment and/or the last item in the environment after. Please correct this and try your search again.",
 					App.kLocalizationGroupInfoMsg);
 			}
@@ -124,7 +124,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			get
 			{
-				return App.L10NMngr.LocalizeString("SearchQuery.OneOrMoreError",
+				return App.LocalizeString("SearchQuery.OneOrMoreError",
 					"The one-or-more symbol (+) was found in an invalid location within the search pattern. The one-or-more symbol may only be the first item in the preceding environment and/or the last item in the environment after. Please correct this and try your search again.",
 					App.kLocalizationGroupInfoMsg);
 			}

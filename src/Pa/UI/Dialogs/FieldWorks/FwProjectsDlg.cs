@@ -163,9 +163,9 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (!string.IsNullOrEmpty(node.MachineName))
 			{
-				txtMsg.Text = App.L10NMngr.LocalizeString(
-					Name + ".SearchingForFwDatabasesMsg", "Searching...",
-					locExtender.LocalizationGroup);
+				txtMsg.Text = App.LocalizeString(
+					"FwProjectsDlg..SearchingForFwDatabasesMsg", "Searching...",
+					App.kLocalizationGroupDialogs);
 				
 				txtMsg.Visible = true;
 				Application.DoEvents();
@@ -184,9 +184,9 @@ namespace SIL.Pa.UI.Dialogs
 				}
 				else
 				{
-					var fmt = App.L10NMngr.LocalizeString(
-						Name + ".NoFwProjectsFoundMsg", "No projects found on '{0}'.",
-						locExtender.LocalizationGroup);
+					var fmt = App.LocalizeString(
+						"FwProjectsDlg.NoFwProjectsFoundMsg", "No projects found on '{0}'.",
+						App.kLocalizationGroupDialogs);
 		
 					txtMsg.Text = string.Format(fmt, node.MachineName);
 				}
