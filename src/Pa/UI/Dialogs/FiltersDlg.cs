@@ -389,7 +389,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.Width = 200;
 			m_gridFilters.Columns.Add(col);
 			App.L10NMngr.LocalizeObject(m_gridFilters.Columns["filterName"],
-				"FiltersDlg.FiltersGridFilterNameColumnHeadingText", "Available Filters",
+				"FiltersDlg.FiltersListFilterNameColumnHeadingText", "Available Filters",
 				App.kLocalizationGroupDialogs);
 
 			col = SilGrid.CreateCheckBoxColumn("showInList");
@@ -397,7 +397,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.Resizable = DataGridViewTriState.False;
 			m_gridFilters.Columns.Add(col);
 			App.L10NMngr.LocalizeObject(m_gridFilters.Columns["showInList"],
-				"FiltersDlg.FiltersGridVisibleInFilterMenuNameColumnHeadingText",
+				"FiltersDlg.FiltersListVisibleInFilterMenuNameColumnHeadingText",
 				"Visible", App.kLocalizationGroupDialogs);
 
 			m_gridFilters.AutoResizeColumn(1, DataGridViewAutoSizeColumnMode.ColumnHeader);
@@ -1096,6 +1096,20 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleFilterGridCellToolTipTextNeeded(object sender, DataGridViewCellToolTipTextNeededEventArgs e)
+		{
+			if (e.RowIndex >= 0 && e.ColumnIndex == kShowInListCol)
+			{
+				var tooltip = App.L10NMngr.LocalizeString(
+					"FiltersDlg.FiltersListVisibleInFilterMenuColumnToolTip",
+					"Select to make '{0}' visible\nin the main window's drop-down filter list.",
+					App.kLocalizationGroupDialogs);
+
+				e.ToolTipText = string.Format(tooltip, m_filterList[e.RowIndex].Name);
+			}
+		}
 	}
 
 	#endregion

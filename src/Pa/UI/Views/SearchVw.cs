@@ -46,10 +46,6 @@ namespace SIL.Pa.UI.Views
 
 		#region Form construction
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public SearchVw()
 		{
 			var msg = App.L10NMngr.LocalizeString("InitializingSearchViewMsg",
@@ -92,19 +88,26 @@ namespace SIL.Pa.UI.Views
 			ReflectionHelper.SetProperty(splitSideBarInner, "DoubleBuffered", true);
 			ReflectionHelper.SetProperty(splitSideBarOuter, "DoubleBuffered", true);
 			ReflectionHelper.SetProperty(splitResults, "DoubleBuffered", true);
-			
-			ptrnTextBox.SearchOptionsDropDown.lnkHelp.Click += SearchDropDownHelpLink_Click;
+
+			ptrnTextBox.SearchOptionsDropDown.lnkHelp.Click += HandleSearchDropDownHelpLinkClick;
 			Disposed += ViewDisposed;
 
 			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("tbbSavePatternOnMenu");
 			if (itemProps != null)
 				m_savePatternHotKey = itemProps.ShortcutKey;
+
+			// Remove these lines when the pattern building bar is working.
+			{
+				m_patternBuilderBar.Visible = false;
+				ptrnTextBox.Margin = new Padding(ptrnTextBox.Margin.Left, ptrnTextBox.Margin.Top,
+					ptrnTextBox.Margin.Right, ptrnTextBox.Margin.Top);
+				btnRefresh.Margin = new Padding(btnRefresh.Margin.Left, btnRefresh.Margin.Top,
+					btnRefresh.Margin.Right, btnRefresh.Margin.Top);
+				lblCurrPattern.Margin = new Padding(lblCurrPattern.Margin.Left, lblCurrPattern.Margin.Top,
+					lblCurrPattern.Margin.Right, lblCurrPattern.Margin.Top);
+			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		void ViewDisposed(object sender, EventArgs e)
 		{
@@ -112,10 +115,13 @@ namespace SIL.Pa.UI.Views
 
 			if (ptrnBldrComponent != null && !ptrnBldrComponent.IsDisposed)
 				ptrnBldrComponent.Dispose();
-			
+
 			if (ptrnTextBox != null && !ptrnTextBox.IsDisposed)
+			{
+				ptrnTextBox.SearchOptionsDropDown.lnkHelp.Click -= HandleSearchDropDownHelpLinkClick; 
 				ptrnTextBox.Dispose();
-	
+			}
+
 			if (tvSavedPatterns != null && !tvSavedPatterns.IsDisposed)
 				tvSavedPatterns.Dispose();
 			
@@ -169,17 +175,13 @@ namespace SIL.Pa.UI.Views
 				OnUpdateRemovePattern(null);
 				OnUpdateClearRecentPatternList(null);
 				tvSavedPatterns.UpdateButtons();
-				ptrnTextBox.TextBox.Focus();
-				ptrnTextBox.TextBox.SelectAll();
+				ptrnTextBox.Focus();
+				ptrnTextBox.SelectAll();
 			}
 
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void LoadToolbarAndContextMenus()
 		{
@@ -216,10 +218,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private Control m_tmAdapter_LoadControlContainerItem(string name)
 		{
 			if (name == "tbbSearchOptionsDropDown")
@@ -231,10 +229,6 @@ namespace SIL.Pa.UI.Views
 			return null;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void SetupSidePanelContents()
 		{
@@ -272,8 +266,7 @@ namespace SIL.Pa.UI.Views
 				newWidth => Settings.Default.SearchVwSidePanelWidth = newWidth);
 			
 			App.L10NMngr.LocalizeObject(m_slidingPanel.Tab, "SearchVw.UndockedSideBarTabText",
-				"Patterns & Pattern Building", null, null, "Text on vertical tab when the side " +
-				"bar is undocked in the search view.", "Views", LocalizationPriority.High);
+				"Patterns & Pattern Building", "Views");
 
 			SuspendLayout();
 			Controls.Add(m_slidingPanel);
@@ -478,7 +471,7 @@ namespace SIL.Pa.UI.Views
 		{
 			m_tooltip = new ToolTip(components);
 			string tip = Properties.Resources.kstidSearchPatternTooltip;
-			m_tooltip.SetToolTip(ptrnTextBox.TextBox, Utils.ConvertLiteralNewLines(tip));
+			m_tooltip.SetToolTip(ptrnTextBox, Utils.ConvertLiteralNewLines(tip));
 			App.L10NMngr.RefreshToolTips();
 		}
 
@@ -505,9 +498,9 @@ namespace SIL.Pa.UI.Views
 			ptrnBldrComponent.LoadSettings(Name);
 
 			if (Settings.Default.SearchVwSidePanelDocked)
-				btnDock_Click(null, null);
+				HandleDockButtonClick(null, null);
 			else
-				btnAutoHide_Click(null, null);
+				HandleAutoHideButtonClick(null, null);
 
 			OnViewDocked(this);
 			m_initialDock = true;
@@ -535,7 +528,7 @@ namespace SIL.Pa.UI.Views
 		/// Remove all items from the recently used queries list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void btnClearRecentList_Click(object sender, EventArgs e)
+		private void HandleClearRecentListButtonClick(object sender, EventArgs e)
 		{
 			lstRecentPatterns.Items.Clear();
 			OnUpdateRemovePattern(null);
@@ -543,11 +536,7 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void btnRemoveFromRecentList_Click(object sender, EventArgs e)
+		private void HandleRemoveFromRecentListButtonClick(object sender, EventArgs e)
 		{
 			TMItemProperties itemProps = m_tmAdapter.GetItemProperties(
 				"cmnuRemovePattern-FromRecentList");
@@ -556,41 +545,25 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void btnCategoryCut_Click(object sender, EventArgs e)
+		private void HandleCategoryCutButtonClick(object sender, EventArgs e)
 		{
 			App.MsgMediator.SendMessage("CutSavedPattern", btnCategoryCut);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void btnCategoryCopy_Click(object sender, EventArgs e)
+		private void HandleCategoryCopyButtonClick(object sender, EventArgs e)
 		{
 			App.MsgMediator.SendMessage("CopySavedPattern", btnCategoryCopy);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void btnCategoryPaste_Click(object sender, EventArgs e)
+		private void HandleCategoryPasteButtonClick(object sender, EventArgs e)
 		{
 			App.MsgMediator.SendMessage("PasteSavedPattern", btnCategoryPaste);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void btnCategoryNew_Click(object sender, EventArgs e)
+		private void HandleCategoryNewButtonClick(object sender, EventArgs e)
 		{
 			tvSavedPatterns.AddCategory(!m_sidePanelDocked ? m_slidingPanel : null, true);
 		}
@@ -600,7 +573,7 @@ namespace SIL.Pa.UI.Views
 		/// Dock the side panel.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void btnDock_Click(object sender, EventArgs e)
+		private void HandleDockButtonClick(object sender, EventArgs e)
 		{
 			// Swap which buttons are visible in the side panel's caption area.
 			btnAutoHide.Visible = true;
@@ -622,7 +595,7 @@ namespace SIL.Pa.UI.Views
 		/// Undock the side panel.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void btnAutoHide_Click(object sender, EventArgs e)
+		private void HandleAutoHideButtonClick(object sender, EventArgs e)
 		{
 			// Swap which buttons are visible in the side panel's caption area.
 			btnAutoHide.Visible = false;
@@ -788,58 +761,9 @@ namespace SIL.Pa.UI.Views
 
 		#region Misc. methods
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		static void SearchDropDownHelpLink_Click(object sender, EventArgs e)
+		private void HandlePatternTableLayoutPanelPaint(object sender, PaintEventArgs e)
 		{
-			App.ShowHelpTopic("hidSearchOptionsSearchView");
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Updates the current search result view to indicate it needs to be refreshed.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void ptrnTextBox_SearchOptionsChanged(object sender, EventArgs e)
-		{
-			ptrnTextBox_PatternTextChanged(null, null);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Updates the current search result view to indicate it needs to be refreshed.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void ptrnTextBox_PatternTextChanged(object sender, EventArgs e)
-		{
-			if (m_rsltVwMngr.CurrentViewsGrid != null && !ptrnTextBox.ClassDisplayBehaviorChanged)
-				m_rsltVwMngr.CurrentViewsGrid.AreResultsStale = true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void ptrnTextBox_SizeChanged(object sender, EventArgs e)
-		{
-			if (pnlCurrPattern.Height != ptrnTextBox.Height + 11)
-				pnlCurrPattern.Height = ptrnTextBox.Height + 11;
-
-			if (ptrnTextBox.Top != 5)
-				ptrnTextBox.Top = 5;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Paints a nice gradient background behind the current search pattern text box.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void pnlCurrPattern_Paint(object sender, PaintEventArgs e)
-		{
-			Rectangle rc = pnlCurrPattern.ClientRectangle;
+			Rectangle rc = m_patternTableLayoutPanel.ClientRectangle;
 
 			Color clrTop =
 				ColorHelper.CalculateColor(SystemColors.Control, Color.White, 100);
@@ -850,25 +774,51 @@ namespace SIL.Pa.UI.Views
 			using (LinearGradientBrush br = new LinearGradientBrush(rc, clrTop, clrBottom, 90))
 			{
 				e.Graphics.FillRectangle(br, rc);
-				e.Graphics.DrawLine(SystemPens.ControlDark, rc.X, rc.Bottom - 1,
-					rc.Right - 1, rc.Bottom - 1);
+				e.Graphics.DrawLine(SystemPens.ControlDark, rc.X, rc.Bottom - 1, rc.Right - 1, rc.Bottom - 1);
 			}
+
+			//Rectangle rc = tableLayoutPanel1.ClientRectangle;
+
+			////Color clrTop = Color.FromArgb(0xB5, 0xA8, 0x81);
+			////Color clrBottom = Color.FromArgb(0xA4, 0x7D, 0x49);
+			//Color clrTop = Color.White;
+			////Color clrBottom = Color.FromArgb(0xdf, 0xcf, 0x9f);
+			//Color clrBottom = Settings.Default.GridCellSelectionBackColor;
+
+			//using (LinearGradientBrush br = new LinearGradientBrush(rc, clrTop, clrBottom, 90))
+			//{
+			//    e.Graphics.FillRectangle(br, rc);
+			//    e.Graphics.DrawLine(SystemPens.ControlDark, rc.X, rc.Bottom - 1,
+			//        rc.Right - 1, rc.Bottom - 1);
+			//}
+
+		}
+
+		/// ------------------------------------------------------------------------------------
+		static void HandleSearchDropDownHelpLinkClick(object sender, EventArgs e)
+		{
+			App.ShowHelpTopic("hidSearchOptionsSearchView");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Make sure to center the refresh button vertically in it's owning panel.
+		/// Updates the current search result view to indicate it needs to be refreshed.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void pnlCurrPattern_Resize(object sender, EventArgs e)
+		private void HandlePatternTextBoxSearchOptionsChanged(object sender, EventArgs e)
 		{
-			int top = (pnlCurrPattern.Height - btnRefresh.Height) / 2;
-			if (top != btnRefresh.Top)
-				btnRefresh.Top = top;
+			HandlePatternTextBoxPatternTextChanged(null, null);
+		}
 
-			top = (pnlCurrPattern.Height - ptrnTextBox.Height) / 2;
-			if (top != ptrnTextBox.Top)
-				ptrnTextBox.Top = top;
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Updates the current search result view to indicate it needs to be refreshed.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandlePatternTextBoxPatternTextChanged(object sender, EventArgs e)
+		{
+			if (m_rsltVwMngr.CurrentViewsGrid != null && !ptrnTextBox.ClassDisplayBehaviorChanged)
+				m_rsltVwMngr.CurrentViewsGrid.AreResultsStale = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -876,7 +826,7 @@ namespace SIL.Pa.UI.Views
 		/// Updates the results in the current tab in the current tab group.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void btnRefresh_Click(object sender, EventArgs e)
+		private void HandleRefreshButtonClick(object sender, EventArgs e)
 		{
 			// This is just like clicking the "Show Results" button.
 			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("tbbShowResults");
@@ -898,7 +848,7 @@ namespace SIL.Pa.UI.Views
 		/// Draw the search image watermark when the result pane changes sizes.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void splitResults_Panel1_SizeChanged(object sender, EventArgs e)
+		private void HandleSplitResultsPanel1SizeChanged(object sender, EventArgs e)
 		{
 			if (splitResults.Panel1.Controls.Count == 0)
 				splitResults.Panel1.Invalidate();
@@ -909,7 +859,7 @@ namespace SIL.Pa.UI.Views
 		/// Draw the search image watermark.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void splitResults_Panel1_Paint(object sender, PaintEventArgs e)
+		private void HandleSplitResultsPanel1Paint(object sender, PaintEventArgs e)
 		{
 			if (splitResults.Panel1.Controls.Count == 0)
 			{
@@ -1248,7 +1198,7 @@ namespace SIL.Pa.UI.Views
 		/// Handle a pattern being dragged over an empty results area.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void splitResults_Panel1_DragOver(object sender, DragEventArgs e)
+		private void HandleSplitResultsPanel1DragOver(object sender, DragEventArgs e)
 		{
 			SearchQuery query = e.Data.GetData(typeof(SearchQuery)) as SearchQuery;
 			e.Effect = (query == null ?	DragDropEffects.None : DragDropEffects.Move); 
@@ -1259,7 +1209,7 @@ namespace SIL.Pa.UI.Views
 		/// Handle dropping a pattern on a results area.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void splitResults_Panel1_DragDrop(object sender, DragEventArgs e)
+		private void HandleSplitResultsPanel1DragDrop(object sender, DragEventArgs e)
 		{
 			SearchQuery query = e.Data.GetData(typeof(SearchQuery)) as SearchQuery;
 			if (query != null)
@@ -1270,10 +1220,6 @@ namespace SIL.Pa.UI.Views
 	
 		#region ISearchResultsViewHost Members
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void BeforeSearchPerformed(SearchQuery query, WordListCache resultCache)
 		{
 			if (ptrnTextBox.SearchQuery != query)
@@ -1281,19 +1227,11 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void AfterSearchPerformed(SearchQuery query, WordListCache resultCache)
 		{
 			AddQueryToRecentlyUsedList(query);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool ShouldMenuBeEnabled(string menuName)
 		{
@@ -1312,10 +1250,6 @@ namespace SIL.Pa.UI.Views
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SearchQuery GetQueryForMenu(string menuName)
 		{
@@ -1339,7 +1273,7 @@ namespace SIL.Pa.UI.Views
 		public void NotifyAllTabsClosed()
 		{
 			ptrnTextBox.Clear();
-			ptrnTextBox.TextBox.Focus();
+			ptrnTextBox.Focus();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1393,7 +1327,7 @@ namespace SIL.Pa.UI.Views
 			rtfRecVw.UpdateFonts();
 			ptrnBldrComponent.RefreshFonts();
 			lblCurrPattern.Font = FontHelper.UIFont;
-			ptrnTextBox.TextBox.Font = FontHelper.PhoneticFont;
+			ptrnTextBox.Font = FontHelper.PhoneticFont;
 			hlblRecentPatterns.Font = FontHelper.UIFont;
 			hlblSavedPatterns.Font = FontHelper.UIFont;
 			
@@ -1403,7 +1337,7 @@ namespace SIL.Pa.UI.Views
 			tvSavedPatterns.Font = new Font(FontHelper.PhoneticFont.FontFamily,
 				Settings.Default.SearchVwSavedPatternsListFontSize);
 
-			pnlCurrPattern.Invalidate();
+			//pnlCurrPattern.Invalidate();
 			m_slidingPanel.RefreshFonts();
 
 			// Return false to allow other windows to update their fonts.
@@ -1411,20 +1345,12 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnDataSourcesModified(object args)
 		{
 			ptrnBldrComponent.RefreshComponents();
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnCloseAllTabGroups(object args)
 		{
@@ -1496,10 +1422,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnRemovePattern(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
@@ -1511,24 +1433,16 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnClearRecentPatternList(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
 			if (itemProps == null || !m_activeView || !itemProps.Name.EndsWith("-FromRecentList"))
 				return false;
 
-			btnClearRecentList_Click(null, null);
+			HandleClearRecentListButtonClick(null, null);
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateRemovePattern(object args)
 		{
@@ -1567,10 +1481,6 @@ namespace SIL.Pa.UI.Views
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateClearRecentPatternList(object args)
 		{
@@ -1611,10 +1521,6 @@ namespace SIL.Pa.UI.Views
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExportAsRTF(object args)
 		{

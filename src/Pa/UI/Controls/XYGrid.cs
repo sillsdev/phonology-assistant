@@ -627,7 +627,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			// For some reason, it didn't work to directly assign the static delegate
 			// from PatternTextBox to the text box event. So I call it this way.
-			PatternTextBox.txtPatternTextChanged(sender, e);
+			PatternTextBox.HandlePatternTextBoxTextChanged(sender, e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -639,7 +639,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			// For some reason, it didn't work to directly assign the static delegate
 			// from PatternTextBox to the text box event. So I call it this way.
-			PatternTextBox.txtPatternKeyPress(sender, e);
+			PatternTextBox.HandlePatternTextBoxKeyPress(sender, e);
 		}
 
 		/// ------------------------------------------------------------------------------------

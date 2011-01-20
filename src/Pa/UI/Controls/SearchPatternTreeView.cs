@@ -61,11 +61,15 @@ namespace SIL.Pa.UI.Controls
 			m_lblNoPatternsMsg.Dock = DockStyle.Fill;
 			m_lblNoPatternsMsg.TextAlign = ContentAlignment.MiddleCenter;
 			m_lblNoPatternsMsg.Visible = false;
-			m_lblNoPatternsMsg.Text = App.L10NMngr.LocalizeString(
-				"SearchVw.SavedSearchPatternsList.NoSavedSearchPatternsMsg",
-				"No Saved Search Patterns",
-				"Message shown in the saved search pattern list when there are on saved patterns.",
-				App.kLocalizationGroupInfoMsg);
+
+			if (App.L10NMngr != null)
+			{
+				m_lblNoPatternsMsg.Text = App.L10NMngr.LocalizeString(
+					"SearchVw.SavedSearchPatternsList.NoSavedSearchPatternsMsg",
+					"No Saved Search Patterns",
+					"Message shown in the saved search pattern list when there are on saved patterns.",
+					App.kLocalizationGroupInfoMsg);
+			}
 
 			Controls.Add(m_lblNoPatternsMsg);
 

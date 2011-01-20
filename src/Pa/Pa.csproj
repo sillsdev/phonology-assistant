@@ -338,6 +338,12 @@
     <Compile Include="UI\Controls\PaTextPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\Controls\PatternBuilderBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\PatternBuilderBar.Designer.cs">
+      <DependentUpon>PatternBuilderBar.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Controls\PatternBuilderComponents.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -345,10 +351,7 @@
       <DependentUpon>PatternBuilderComponents.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Controls\PatternTextBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Controls\PatternTextBox.Designer.cs">
-      <DependentUpon>PatternTextBox.cs</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\PaWordListGrid.cs">
       <SubType>Component</SubType>
@@ -710,10 +713,6 @@
       <DependentUpon>PatternBuilderComponents.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Controls\PatternTextBox.resx">
-      <DependentUpon>PatternTextBox.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\PhoneInfoPopupContent.resx">
       <DependentUpon>PhoneInfoPopupContent.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -875,6 +874,9 @@
     <EmbeddedResource Include="UI\Controls\CVChart-Old\CharGrid.resx">
       <DependentUpon>CharGrid.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\PatternBuilderBar.resx">
+      <DependentUpon>PatternBuilderBar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\SearchResultControls\SearchResultTabPopup.resx">
       <DependentUpon>SearchResultTabPopup.cs</DependentUpon>

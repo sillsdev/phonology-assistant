@@ -15,95 +15,42 @@ namespace SIL.Pa.UI.Controls
 	/// Defines a text box control for entering find phone search patterns.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class PatternTextBox : UserControl, IxCoreColleague
+	public class PatternTextBox : TextBox, IxCoreColleague
 	{
 		public event EventHandler SearchQueryChanged;
 		public event EventHandler PatternTextChanged;
 		public event EventHandler SearchOptionsChanged;
 
-		//private bool m_allowFullSearchPattern = false;
-		//private bool m_ignoreTextChange = false;
-		private bool m_classDisplayBehaviorChanged;
-		private bool m_ignoreResize;
-		private bool m_showArrows = true;
-		private string m_srchQryCategory;
+		private readonly Label m_insertionLine;
 		private SearchQuery m_searchQuery;
-		private ITabView m_owningView;
 		private SearchOptionsDropDown m_searchOptionsDropDown;
-		private readonly Image m_downArrow;
-		private readonly Image m_upArrow;
 		private const char kEmptyPatternChar = '\u25CA';
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public PatternTextBox()
 		{
-			m_downArrow = Properties.Resources.kimidPatternTextBoxDownArrow;
-			m_upArrow = Properties.Resources.kimidPatternTextBoxUpArrow;
-
+			HideSelection = false;
+			AllowDrop = true;
+			AcceptsReturn = true;
 			DoubleBuffered = true;
-			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-			InitializeComponent();
-
+			
 			if (App.DesignMode)
 				return;
 
-			txtPattern.OwningPatternTextBoxControl = this;
-			txtPattern.TextChanged += txtPatternTextChanged;
-			txtPattern.KeyPress += txtPatternKeyPress;
-			txtPattern.Font = FontHelper.PhoneticFont;
-			txtPattern.Tag = this;
-		
-			base.BackColor = Color.Transparent;
+			Font = FontHelper.PhoneticFont;
+			TextChanged += HandlePatternTextBoxTextChanged;
+			KeyPress += HandlePatternTextBoxKeyPress;
+			
+			// Use a thin label as the insertion point when the text box does not have focus.
+			m_insertionLine = new Label();
+			m_insertionLine.AutoSize = false;
+			m_insertionLine.BackColor = SystemColors.GrayText;
+			m_insertionLine.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom);
+			m_insertionLine.Bounds = new Rectangle(0, 1, 1, ClientSize.Height - 4);
+			Controls.Add(m_insertionLine);
+
 			m_searchQuery = new SearchQuery();
 			App.AddMediatorColleague(this);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Set's the pattern text box's search query, cloning it if specified by the
-		/// cloneQuery flag.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void SetSearchQuery(SearchQuery query)
-		{
-			SetSearchQuery(query, false);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Set's the pattern text box's search query, cloning it if specified by the
-		/// cloneQuery flag.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void SetSearchQuery(SearchQuery query, bool allowTextChangedEvent)
-		{
-			if (query == m_searchQuery || (query != null && query.IsPatternRegExpression))
-				return;
-
-			if (!allowTextChangedEvent)
-				txtPattern.TextChanged -= txtPatternTextChanged;
-	
-			if (query == null)
-				Clear();
-			else
-			{
-				txtPattern.Text = (string.IsNullOrEmpty(query.Pattern) ?
-					EmptyPattern : query.Pattern);
-				
-				m_searchQuery = query.Clone();
-			}
-
-			if (!allowTextChangedEvent)
-				txtPattern.TextChanged += txtPatternTextChanged;
-
-			if (SearchQueryChanged != null)
-				SearchQueryChanged(this, EventArgs.Empty);
-
-			Invalidate();
 		}
 
 		#region Properties
@@ -121,7 +68,7 @@ namespace SIL.Pa.UI.Controls
 				if (m_searchOptionsDropDown == null)
 				{
 					m_searchOptionsDropDown = new SearchOptionsDropDown();
-					m_searchOptionsDropDown.Disposed += m_searchOptionsDropDown_Disposed;
+					m_searchOptionsDropDown.Disposed += HandleSearchOptionsDropDownDisposed;
 				}
 				
 				return m_searchOptionsDropDown;
@@ -136,9 +83,9 @@ namespace SIL.Pa.UI.Controls
 		/// is disposed, so are the custom controls it hosts in drop-downs.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_searchOptionsDropDown_Disposed(object sender, EventArgs e)
+		private void HandleSearchOptionsDropDownDisposed(object sender, EventArgs e)
 		{
-			m_searchOptionsDropDown.Disposed -= m_searchOptionsDropDown_Disposed;
+			m_searchOptionsDropDown.Disposed -= HandleSearchOptionsDropDownDisposed;
 			m_searchOptionsDropDown = null;
 		}
 	
@@ -159,33 +106,13 @@ namespace SIL.Pa.UI.Controls
 		/// Gets or sets the pattern text box's owning form.
 		/// </summary>s
 		/// ------------------------------------------------------------------------------------
-		public ITabView OwningView
-		{
-			get { return m_owningView; }
-			set { m_owningView = value; }
-		}
+		public ITabView OwningView { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string SearchQueryCategory
-		{
-			get { return m_srchQryCategory; }
-			set { m_srchQryCategory = value; }
-		}
+		public string SearchQueryCategory { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool ClassDisplayBehaviorChanged
-		{
-			get { return m_classDisplayBehaviorChanged; }
-			set { m_classDisplayBehaviorChanged = value; }
-		}
+		public bool ClassDisplayBehaviorChanged { get; set; }
 
 		///// ------------------------------------------------------------------------------------
 		///// <summary>
@@ -226,41 +153,6 @@ namespace SIL.Pa.UI.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		[Browsable(false)]
-		public TextBox TextBox
-		{
-			get { return txtPattern; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the location of where the insertion point should be in the text box. The
-		/// point returned is relative to the text box.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		[Browsable(false)]
-		public Point InsertionPointLocation
-		{
-			get
-			{
-				int selStart = txtPattern.SelectionStart;
-
-				if (txtPattern.Text == string.Empty || txtPattern.SelectionLength > 0)
-					return new Point(1, 0);
-
-				return (selStart < txtPattern.Text.Length ?
-					txtPattern.GetPositionFromCharIndex(selStart) :
-					EndOfTextLocation);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Gets the point where the IP would be if it were right after the end of the text.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -270,21 +162,21 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				int textLen = txtPattern.Text.Length;
+				int textLen = Text.Length;
 
 				if (textLen == 0)
 					return new Point(0, 0);
 
 				// Get the location of the last character.
-				Point ptLastChar = txtPattern.GetPositionFromCharIndex(textLen - 1);
+				Point ptLastChar = GetPositionFromCharIndex(textLen - 1);
 
-				using (Graphics g = txtPattern.CreateGraphics())
+				using (Graphics g = CreateGraphics())
 				{
-					string lastChar = txtPattern.Text.Substring(textLen - 1);
+					string lastChar = Text.Substring(textLen - 1);
 
 					// Measure the width of the last character;
 					int lastCharWidth = TextRenderer.MeasureText(g, lastChar,
-						txtPattern.Font, Size.Empty, TextFormatFlags.NoPadding |
+						Font, Size.Empty, TextFormatFlags.NoPadding |
 						TextFormatFlags.NoPrefix | TextFormatFlags.SingleLine).Width;
 
 					return new Point(ptLastChar.X + lastCharWidth, 0);
@@ -301,7 +193,7 @@ namespace SIL.Pa.UI.Controls
 		[Browsable(false)]
 		public bool IsPatternEmpty
 		{
-			get { return (txtPattern.Text == EmptyPattern); }
+			get { return (Text == EmptyPattern); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -315,7 +207,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				string text = txtPattern.Text.Trim();
+				string text = Text.Trim();
 
 				// TODO: should I care if the / and _ have stuff around them?
 				return (text.IndexOf(kEmptyPatternChar) < 0 &&
@@ -325,7 +217,7 @@ namespace SIL.Pa.UI.Controls
 
 		#endregion
 
-		#region Overridden methods
+		#region Misc. methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Remove ourselves from the colleague list.
@@ -338,76 +230,83 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Make sure this control's height is just enough larger than the text box's height
-		/// to accomodate the arrow above and below the text box.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnHandleCreated(EventArgs e)
+		private void LocateInsertionLine()
 		{
-			base.OnHandleCreated(e);
-			txtPattern_SizeChanged(null, null);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Paint the arrows.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnPaint(PaintEventArgs e)
-		{
-			base.OnPaint(e);
-
-			if (!m_showArrows)
+			if (m_insertionLine == null)
 				return;
 
-			Point pt = InsertionPointLocation;
-			pt = txtPattern.PointToScreen(pt);
-			pt = PointToClient(pt);
+			int selStart = SelectionStart;
 
-			// Calculate where the arrow labels should be
-			// so they're centered over and under the IP.
-			pt.X -= (m_downArrow.Width / 2);
-			pt.Y = 0;
-
-			Rectangle rc = new Rectangle(pt, new Size(m_upArrow.Width, m_upArrow.Height));
-			e.Graphics.DrawImageUnscaledAndClipped(m_downArrow, rc);
-
-			rc.Y = txtPattern.Bottom;
-			e.Graphics.DrawImageUnscaledAndClipped(m_upArrow, rc);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// The width of the text box should be a little less than the control's width.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnResize(EventArgs e)
-		{
-			base.OnResize(e);
-			txtPattern.Top = (Height - txtPattern.Height) / 2;
-
-			if (!m_ignoreResize)
-				txtPattern.Width = Width - (Padding.Left * 2);
+			if (Text == string.Empty || SelectionLength > 0)
+			{
+				m_insertionLine.Left = 1;
+			}
+			else
+			{
+				m_insertionLine.Left = ((selStart < Text.Length ?
+					GetPositionFromCharIndex(selStart) : EndOfTextLocation).X);
+			}
 		}
 
 		#endregion
+
+		#region Public methods (some are static and used by multiple views)
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Set's the pattern text box's search query, cloning it if specified by the
+		/// cloneQuery flag.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void SetSearchQuery(SearchQuery query)
+		{
+			SetSearchQuery(query, false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Set's the pattern text box's search query, cloning it if specified by the
+		/// cloneQuery flag.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void SetSearchQuery(SearchQuery query, bool allowTextChangedEvent)
+		{
+			if (query == m_searchQuery || (query != null && query.IsPatternRegExpression))
+				return;
+
+			if (!allowTextChangedEvent)
+				TextChanged -= HandlePatternTextBoxTextChanged;
+
+			if (query == null)
+				Clear();
+			else
+			{
+				Text = (string.IsNullOrEmpty(query.Pattern) ? EmptyPattern : query.Pattern);
+				m_searchQuery = query.Clone();
+			}
+
+			if (!allowTextChangedEvent)
+				TextChanged += HandlePatternTextBoxTextChanged;
+
+			if (SearchQueryChanged != null)
+				SearchQueryChanged(this, EventArgs.Empty);
+
+			LocateInsertionLine();
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Clear the pattern
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void Clear()
+		public new void Clear()
 		{
-			//m_ignoreTextChange = true;
-			txtPattern.TextChanged -= txtPatternTextChanged;
-			txtPattern.Text = EmptyPattern;
+			TextChanged -= HandlePatternTextBoxTextChanged;
+			Text = EmptyPattern;
 			m_searchQuery = new SearchQuery();
-			m_srchQryCategory = null;
-			txtPattern.TextChanged += txtPatternTextChanged;
-			//m_ignoreTextChange = false;
+			SearchQueryCategory = null;
+			TextChanged += HandlePatternTextBoxTextChanged;
 		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Inserts the specified text in the current insertion point in the search pattern.
@@ -415,7 +314,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void Insert(string text)
 		{
-			Insert(txtPattern, text);
+			Insert(this, text);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -479,6 +378,7 @@ namespace SIL.Pa.UI.Controls
 			txt.SelectionStart = selstart + (text == "{}" || text == "[]"
 				|| text == App.kDiacriticPlaceholder ? text.Length - 1 : text.Length);
 
+			// Argh, I know.
 			Application.DoEvents();
 		}
 
@@ -536,15 +436,13 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 
+		#endregion
+
 		#region Message handlers for Inserting
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertConsonant(object args)
 		{
-			if (!m_owningView.ActiveView)
+			if (!OwningView.ActiveView)
 				return false;
 
 			Insert("[C]");
@@ -552,13 +450,9 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertVowel(object args)
 		{
-			if (!m_owningView.ActiveView)
+			if (!OwningView.ActiveView)
 				return false;
 
 			Insert("[V]");
@@ -566,13 +460,9 @@ namespace SIL.Pa.UI.Controls
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertZeroOrMore(object args)
 		{
-			if (!m_owningView.ActiveView)
+			if (!OwningView.ActiveView)
 				return false;
 
 			Insert("*");
@@ -580,13 +470,9 @@ namespace SIL.Pa.UI.Controls
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertOneOrMore(object args)
 		{
-			if (!m_owningView.ActiveView)
+			if (!OwningView.ActiveView)
 				return false;
 
 			Insert("+");
@@ -594,13 +480,9 @@ namespace SIL.Pa.UI.Controls
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertWordBoundary(object args)
 		{
-			if (!m_owningView.ActiveView)
+			if (!OwningView.ActiveView)
 				return false;
 
 			Insert("#");
@@ -608,13 +490,9 @@ namespace SIL.Pa.UI.Controls
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertDiacriticPlaceholder(object args)
 		{
-			if (!m_owningView.ActiveView)
+			if (!OwningView.ActiveView)
 				return false;
 
 			Insert(App.kDiacriticPlaceholder);
@@ -622,13 +500,9 @@ namespace SIL.Pa.UI.Controls
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertSyllableBoundary(object args)
 		{
-			if (!m_owningView.ActiveView)
+			if (!OwningView.ActiveView)
 				return false;
 
 			Insert(".");
@@ -636,13 +510,9 @@ namespace SIL.Pa.UI.Controls
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertANDGroup(object args)
 		{
-			if (!m_owningView.ActiveView)
+			if (!OwningView.ActiveView)
 				return false;
 
 			Insert("[]");
@@ -650,13 +520,9 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnInsertORGroup(object args)
 		{
-			if (!m_owningView.ActiveView)
+			if (!OwningView.ActiveView)
 				return false;
 
 			Insert("{}");
@@ -667,13 +533,9 @@ namespace SIL.Pa.UI.Controls
 
 		#region Message handlers for non inserting actions
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownSearchOptions(object args)
 		{
-			if (!m_owningView.ActiveView)
+			if (!OwningView.ActiveView)
 				return false;
 
 			m_searchOptionsDropDown.SearchQuery = m_searchQuery;
@@ -681,14 +543,10 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownClosedSearchOptions(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || (itemProps.ParentControl != m_owningView))
+			if (itemProps == null || (itemProps.ParentControl != OwningView))
 				return false;
 
 			if (m_searchOptionsDropDown.OptionsChanged)
@@ -712,7 +570,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnVerifyPattern(object args)
 		{
-			if (!m_owningView.ActiveView)
+			if (!OwningView.ActiveView)
 				return false;
 
 			return true;
@@ -725,8 +583,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnPaFontsChanged(object args)
 		{
-			txtPattern.Font = FontHelper.PhoneticFont;
-			Invalidate();
+			Font = FontHelper.PhoneticFont;
+			LocateInsertionLine();
 
 			// Return false to allow other windows to update their fonts.
 			return false;
@@ -739,13 +597,14 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnFindPhonesSettingsChanged(object args)
 		{
-			if (txtPattern.Text == App.kEmptyDiamondPattern ||
-				txtPattern.Text == string.Empty)
-				txtPattern.Text = EmptyPattern;
-			txtPattern.SelectionStart = 0;
-			txtPattern.SelectionLength = 0;
+			if (Text == App.kEmptyDiamondPattern || Text == string.Empty)
+				Text = EmptyPattern;
+			
+			SelectionStart = 0;
+			SelectionLength = 0;
 			return true;
 		}
+
 		#endregion
 
 		#region Update handlers
@@ -756,26 +615,23 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnClassDisplayBehaviorChanged(object args)
 		{
-			string replacedText = App.Project.SearchClasses.ModifyPatternText(TextBox.Text);
+			string replacedText = App.Project.SearchClasses.ModifyPatternText(Text);
+			
 			if (replacedText != string.Empty)
-			{
-				
-				m_classDisplayBehaviorChanged = true;
-				TextBox.Text = replacedText;
-				m_classDisplayBehaviorChanged = false;
+			{				
+				ClassDisplayBehaviorChanged = true;
+				Text = replacedText;
+				ClassDisplayBehaviorChanged = false;
 			}
+
 			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateBeginSearch(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (!m_owningView.ActiveView || itemProps == null ||
+			if (!OwningView.ActiveView || itemProps == null ||
 				itemProps.Name.StartsWith("cmnu"))
 			{
 				return false;
@@ -792,14 +648,10 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateSavePattern(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (!m_owningView.ActiveView || itemProps == null)
+			if (!OwningView.ActiveView || itemProps == null)
 				return false;
 
 			if (itemProps.Enabled != IsPatternFull)
@@ -813,14 +665,10 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateVerifyPattern(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !m_owningView.ActiveView)
+			if (itemProps == null || !OwningView.ActiveView)
 				return false;
 
 			itemProps.Visible = true;
@@ -831,48 +679,24 @@ namespace SIL.Pa.UI.Controls
 
 		#endregion
 
-		#region Text Box events
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This control should size itself to be a little larger than the text box.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void txtPattern_SizeChanged(object sender, EventArgs e)
-		{
-			m_ignoreResize = true;
-			Height = txtPattern.Height + m_upArrow.Height + m_downArrow.Height;
-			m_ignoreResize = false;
-			Invalidate();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void txtPattern_LocationChanged(object sender, EventArgs e)
-		{
-			Invalidate();
-		}
-
+		#region Overridden event handlers
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Do this on the up stroke since the insertion point will have been moved by that
 		/// time, thus causing the arrows to be placed in the correct location.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void txtPattern_KeyUp(object sender, KeyEventArgs e)
+		protected override void OnKeyUp(KeyEventArgs e)
 		{
-			Invalidate();
+			base.OnKeyUp(e);
+			LocateInsertionLine();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void txtPattern_DragOver(object sender, DragEventArgs e)
+		protected override void OnDragOver(DragEventArgs e)
 		{
+			base.OnDragOver(e);
+
 			SearchQuery data =
 				e.Data.GetData(typeof(SearchQuery)) as SearchQuery;
 
@@ -889,32 +713,27 @@ namespace SIL.Pa.UI.Controls
 				}
 			}
 
-			if (!txtPattern.Focused)
-				txtPattern.Focus();
+			if (!Focused)
+				Focus();
 
-			Point pt = txtPattern.PointToClient(new Point(e.X, e.Y));
+			Point pt = PointToClient(new Point(e.X, e.Y));
 			if (pt.X >= 0)
 			{
-				txtPattern.SelectionStart = (pt.X >= EndOfTextLocation.X ?
-					txtPattern.Text.Length : txtPattern.GetCharIndexFromPosition(pt));
+				SelectionStart = (pt.X >= EndOfTextLocation.X ?
+					Text.Length : GetCharIndexFromPosition(pt));
 			}
 
-			// Make these visible during dragging.
-			m_showArrows = true;
-			Invalidate();
+			LocateInsertionLine();
 
 			e.Effect = DragDropEffects.Copy;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void txtPattern_DragDrop(object sender, DragEventArgs e)
+		protected override void OnDragDrop(DragEventArgs e)
 		{
-			SearchQuery query =
-				e.Data.GetData(typeof(SearchQuery)) as SearchQuery;
+			base.OnDragDrop(e);
+
+			SearchQuery query = e.Data.GetData(typeof(SearchQuery)) as SearchQuery;
 
 			// Is what was dropped appropriate to be dropped in a search pattern?
 			if (query == null)
@@ -936,50 +755,71 @@ namespace SIL.Pa.UI.Controls
 				}
 			}
 
-			// After dropping, we know we have focus so make sure the arrows
-			// aren't visible now that dropping is done.
-			m_showArrows = false;
-			Invalidate();
+			LocateInsertionLine();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void txtPattern_Click(object sender, EventArgs e)
+		protected override void OnClick(EventArgs e)
 		{
-			Invalidate();
+			base.OnClick(e);
+			LocateInsertionLine();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void txtPattern_Enter(object sender, EventArgs e)
+		protected override void OnEnter(EventArgs e)
 		{
-			m_showArrows = false;
-			Invalidate();
+			base.OnEnter(e);
+			m_insertionLine.Visible = false;
+			LocateInsertionLine();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void txtPattern_Leave(object sender, EventArgs e)
+		protected override void OnLeave(EventArgs e)
 		{
-			m_showArrows = true;
-			Invalidate();
+			base.OnLeave(e);
+			m_insertionLine.Visible = true;
+			LocateInsertionLine();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public override bool PreProcessMessage(ref Message m)
+		{
+			if (m.Msg != 0x0100)
+				return base.PreProcessMessage(ref m);
+
+			// Handle some special cases when the Ctrl key is down. Except for Ctrl0, the
+			// reason we handle {}{} and - (the dash is treated as an underscore) specially
+			// is because the KeyMan IPA keyboard intercepts them for its purposes.
+			if ((ModifierKeys & Keys.Control) != Keys.Control)
+				return base.PreProcessMessage(ref m);
+
+			bool shiftDown = ((ModifierKeys & Keys.Shift) == Keys.Shift);
+			string toInsert = null;
+			int keyCode = m.WParam.ToInt32();
+
+			if (keyCode == (int)Keys.OemCloseBrackets)
+				toInsert = (shiftDown ? "}" : "]");
+			else if (keyCode == (int)Keys.OemOpenBrackets)
+				toInsert = (shiftDown ? "{" : "[");
+			else if (keyCode == (int)Keys.OemMinus)
+				toInsert = "_";
+			else if (keyCode == (int)Keys.D0)
+				toInsert = App.kDiacriticPlaceholder;
+
+			if (toInsert != null)
+			{
+				Insert(toInsert);
+				return true;
+			}
+
+			return base.PreProcessMessage(ref m);
+		}
+
+		#endregion
+
+		#region Static methods used by multiple views
 		/// ------------------------------------------------------------------------------------
-		public static void txtPatternTextChanged(object sender, EventArgs e)
+		public static void HandlePatternTextBoxTextChanged(object sender, EventArgs e)
 		{
 			TextBox txt = sender as TextBox;
 			PatternTextBox ptrTextBox = (txt != null ? txt.Tag as PatternTextBox : null);
@@ -1032,13 +872,11 @@ namespace SIL.Pa.UI.Controls
 				}
 
 				ptrTextBox.Invalidate();
+
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// <remarks>
 		/// Ctrl-A: KeyChar = 1
 		/// Ctrl-C: KeyChar = 3
@@ -1048,7 +886,7 @@ namespace SIL.Pa.UI.Controls
 		/// Ctrl-Z: KeyChar = 26
 		/// </remarks>
 		/// ------------------------------------------------------------------------------------
-		public static void txtPatternKeyPress(object sender, KeyPressEventArgs e)
+		public static void HandlePatternTextBoxKeyPress(object sender, KeyPressEventArgs e)
 		{
 			TextBox txt = sender as TextBox;
 			PatternTextBox ptrTextBox = (txt != null ? txt.Tag as PatternTextBox : null);
@@ -1163,7 +1001,7 @@ namespace SIL.Pa.UI.Controls
 		/// Checks if the C or V the user just typed should be surrounded by square brackets.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static bool SurroundCVInBrackets(TextBox txt)
+		private static bool SurroundCVInBrackets(TextBoxBase txt)
 		{
 			if (!Settings.Default.AssumeCVKeysArePhoneClassWhileTyping)
 				return false;
@@ -1206,68 +1044,4 @@ namespace SIL.Pa.UI.Controls
 
 		#endregion
 	}
-
-	#region InternalPatternTextBox class
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// Subclassed for reasons stated below.
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	public class InternalPatternTextBox : TextBox
-	{
-		private PatternTextBox m_ptrnTxtBox;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public PatternTextBox OwningPatternTextBoxControl
-		{
-			get { return m_ptrnTxtBox; }
-			set { m_ptrnTxtBox = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This method is the only reason we need to subclass the text box. This cannot be
-		/// handled in the text box's KeyDown event because Ctrl+[ and Ctrl+] cause an
-		/// incessant beep. Argh!
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public override bool PreProcessMessage(ref Message m)
-		{
-			if (m.Msg != 0x0100)
-				return base.PreProcessMessage(ref m);
-
-			// Handle some special cases when the Ctrl key is down. Except for Ctrl0, the
-			// reason we handle {}{} and - (the dash is treated as an underscore) specially
-			// is because the KeyMan IPA keyboard intercepts them for its purposes.
-			if ((ModifierKeys & Keys.Control) != Keys.Control)
-				return base.PreProcessMessage(ref m);
-
-			bool shiftDown = ((ModifierKeys & Keys.Shift) == Keys.Shift);
-			string toInsert = null;
-			int keyCode = m.WParam.ToInt32();
-
-			if (keyCode == (int)Keys.OemCloseBrackets)
-				toInsert = (shiftDown ? "}" : "]");
-			else if (keyCode == (int)Keys.OemOpenBrackets)
-				toInsert = (shiftDown ? "{" : "[");
-			else if (keyCode == (int)Keys.OemMinus)
-				toInsert = "_";
-			else if (keyCode == (int)Keys.D0)
-				toInsert = App.kDiacriticPlaceholder;
-
-			if (toInsert != null)
-			{
-				m_ptrnTxtBox.Insert(toInsert);
-				return true;
-			}
-		
-			return base.PreProcessMessage(ref m);
-		}
-	}
-
-	#endregion
 }

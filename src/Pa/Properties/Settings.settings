@@ -665,39 +665,6 @@
     <Setting Name="DefineClassDlgUseCompactOtherView" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="ClrSchemeDarkBlue" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">0, 51, 102</Value>
-    </Setting>
-    <Setting Name="ClrSchemeMedBlue" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">0, 51, 153</Value>
-    </Setting>
-    <Setting Name="ClrSchemeLightBlue" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">102, 153, 204</Value>
-    </Setting>
-    <Setting Name="ClrSchemeDarkGold" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">204, 153, 51</Value>
-    </Setting>
-    <Setting Name="ClrSchemeLightGold" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">255, 204, 102</Value>
-    </Setting>
-    <Setting Name="ClrSchemeBrick" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">204, 102, 51</Value>
-    </Setting>
-    <Setting Name="ClrSchemeFlesh" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">255, 204, 153</Value>
-    </Setting>
-    <Setting Name="ClrSchemeDarkBrown" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">51, 0, 0</Value>
-    </Setting>
-    <Setting Name="ClrSchemeMedBrown" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">102, 51, 0</Value>
-    </Setting>
-    <Setting Name="ClrSchemeLightBrown" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">204, 153, 102</Value>
-    </Setting>
-    <Setting Name="ClrSchemeCream" Type="System.Drawing.Color" Scope="Application">
-      <Value Profile="(Default)">255, 255, 204</Value>
-    </Setting>
     <Setting Name="GridSelectedRowFocusedRectColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">101, 130, 152</Value>
     </Setting>
