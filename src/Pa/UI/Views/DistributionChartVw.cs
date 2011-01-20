@@ -1206,7 +1206,7 @@ namespace SIL.Pa.UI.Views
 			if (m_grid.IsCurrentCellInEditMode)
 				m_grid.EndEdit();
 
-			using (SaveXYChartDlg dlg = new SaveXYChartDlg(m_grid, m_savedCharts))
+			using (SaveDistributionChartDlg dlg = new SaveDistributionChartDlg(m_grid, m_savedCharts))
 			{
 				if (dlg.ShowDialog() == DialogResult.OK)
 					SaveCurrentChart(dlg.LayoutToOverwrite);

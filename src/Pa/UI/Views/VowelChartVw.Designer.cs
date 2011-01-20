@@ -28,18 +28,22 @@ namespace SIL.Pa.UI.Views
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VowelChartVw));
 			this.SuspendLayout();
 			// 
 			// m_chrGrid
 			// 
 			this.m_chrGrid.HeadersVisible = true;
-			resources.ApplyResources(this.m_chrGrid, "m_chrGrid");
+			this.m_chrGrid.Size = new System.Drawing.Size(543, 290);
+			// 
+			// m_pnlGrid
+			// 
+			this.m_pnlGrid.Size = new System.Drawing.Size(543, 290);
 			// 
 			// VowelChartVw
 			// 
-			resources.ApplyResources(this, "$this");
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.Name = "VowelChartVw";
+			this.Size = new System.Drawing.Size(563, 519);
 			this.ResumeLayout(false);
 
 		}

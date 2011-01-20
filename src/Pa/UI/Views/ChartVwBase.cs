@@ -37,13 +37,10 @@ namespace SIL.Pa.UI.Views
 		private bool m_activeView;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public ChartVwBase()
 		{
-			App.InitializeProgressBarForLoadingView(InitializationMessage, 5);
+			if (!App.DesignMode)
+				App.InitializeProgressBarForLoadingView(InitializationMessage, 5);
 			
 			InitializeComponent();
 			base.DoubleBuffered = true;

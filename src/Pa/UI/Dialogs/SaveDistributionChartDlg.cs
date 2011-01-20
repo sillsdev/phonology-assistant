@@ -12,7 +12,7 @@ namespace SIL.Pa.UI.Dialogs
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class SaveXYChartDlg : OKCancelDlgBase
+	public partial class SaveDistributionChartDlg : OKCancelDlgBase
 	{
 		private readonly DistributionGrid m_xyGrid;
 		private readonly List<DistributionChartLayout> m_savedCharts;
@@ -23,7 +23,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SaveXYChartDlg()
+		public SaveDistributionChartDlg()
 		{
 			InitializeComponent();
 			lblName.Font = FontHelper.UIFont;
@@ -39,7 +39,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SaveXYChartDlg(DistributionGrid xyGrid, List<DistributionChartLayout>savedCharts) : this()
+		public SaveDistributionChartDlg(DistributionGrid xyGrid, List<DistributionChartLayout>savedCharts) : this()
 		{
 			m_xyGrid = xyGrid;
 			m_savedCharts = savedCharts;

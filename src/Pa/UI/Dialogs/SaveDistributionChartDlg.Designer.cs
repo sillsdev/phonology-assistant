@@ -1,6 +1,6 @@
 namespace SIL.Pa.UI.Dialogs
 {
-	partial class SaveXYChartDlg
+	partial class SaveDistributionChartDlg
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -29,7 +29,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SaveXYChartDlg));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SaveDistributionChartDlg));
 			this.txtName = new System.Windows.Forms.TextBox();
 			this.lblName = new System.Windows.Forms.Label();
 			this.tlpName = new System.Windows.Forms.TableLayoutPanel();

@@ -586,11 +586,11 @@
     <Compile Include="UI\Dialogs\SaveSearchQueryDlg.Designer.cs">
       <DependentUpon>SaveSearchQueryDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialogs\SaveXYChartDlg.cs">
+    <Compile Include="UI\Dialogs\SaveDistributionChartDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\SaveXYChartDlg.Designer.cs">
-      <DependentUpon>SaveXYChartDlg.cs</DependentUpon>
+    <Compile Include="UI\Dialogs\SaveDistributionChartDlg.Designer.cs">
+      <DependentUpon>SaveDistributionChartDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\SFDataSourcePropertiesDlg.cs">
       <SubType>Form</SubType>
@@ -765,8 +765,8 @@
       <DependentUpon>SaveSearchQueryDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Dialogs\SaveXYChartDlg.resx">
-      <DependentUpon>SaveXYChartDlg.cs</DependentUpon>
+    <EmbeddedResource Include="UI\Dialogs\SaveDistributionChartDlg.resx">
+      <DependentUpon>SaveDistributionChartDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\SFDataSourcePropertiesDlg.resx">

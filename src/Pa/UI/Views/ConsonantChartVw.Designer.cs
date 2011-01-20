@@ -28,19 +28,23 @@ namespace SIL.Pa.UI.Views
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConsonantChartVw));
 			this.SuspendLayout();
 			// 
 			// m_chrGrid
 			// 
 			this.m_chrGrid.HeadersVisible = true;
-			resources.ApplyResources(this.m_chrGrid, "m_chrGrid");
+			this.m_chrGrid.Size = new System.Drawing.Size(478, 266);
+			// 
+			// m_pnlGrid
+			// 
+			this.m_pnlGrid.Size = new System.Drawing.Size(478, 266);
 			// 
 			// ConsonantChartVw
 			// 
-			resources.ApplyResources(this, "$this");
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Name = "ConsonantChartVw";
+			this.Size = new System.Drawing.Size(498, 477);
 			this.ResumeLayout(false);
 
 		}

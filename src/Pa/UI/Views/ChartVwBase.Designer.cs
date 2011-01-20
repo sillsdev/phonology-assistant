@@ -29,7 +29,6 @@ namespace SIL.Pa.UI.Views
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChartVwBase));
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
 			this.m_chrGrid = new SIL.Pa.UI.Controls.CharGrid();
 			this.m_histogram = new SIL.Pa.UI.Controls.Histogram();
@@ -41,39 +40,55 @@ namespace SIL.Pa.UI.Views
 			// 
 			// splitOuter
 			// 
-			resources.ApplyResources(this.splitOuter, "splitOuter");
+			this.splitOuter.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitOuter.Location = new System.Drawing.Point(0, 0);
 			this.splitOuter.Name = "splitOuter";
+			this.splitOuter.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			// 
 			// splitOuter.Panel1
 			// 
 			this.splitOuter.Panel1.Controls.Add(this.m_chrGrid);
-			resources.ApplyResources(this.splitOuter.Panel1, "splitOuter.Panel1");
+			this.splitOuter.Panel1.Padding = new System.Windows.Forms.Padding(10, 10, 10, 0);
+			this.splitOuter.Panel1.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			// 
 			// splitOuter.Panel2
 			// 
 			this.splitOuter.Panel2.Controls.Add(this.m_histogram);
-			resources.ApplyResources(this.splitOuter.Panel2, "splitOuter.Panel2");
+			this.splitOuter.Panel2.Padding = new System.Windows.Forms.Padding(10, 1, 10, 10);
+			this.splitOuter.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.splitOuter.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel2_Paint);
+			this.splitOuter.Size = new System.Drawing.Size(630, 606);
+			this.splitOuter.SplitterDistance = 351;
+			this.splitOuter.SplitterWidth = 8;
+			this.splitOuter.TabIndex = 4;
 			// 
 			// m_chrGrid
 			// 
 			this.m_chrGrid.CellWidth = 38;
-			resources.ApplyResources(this.m_chrGrid, "m_chrGrid");
+			this.m_chrGrid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.m_chrGrid.HeadersVisible = true;
+			this.m_chrGrid.Location = new System.Drawing.Point(10, 10);
 			this.m_chrGrid.Name = "m_chrGrid";
 			this.m_chrGrid.SearchWhenPhoneDoubleClicked = true;
+			this.m_chrGrid.Size = new System.Drawing.Size(610, 341);
+			this.m_chrGrid.TabIndex = 2;
 			// 
 			// m_histogram
 			// 
-			resources.ApplyResources(this.m_histogram, "m_histogram");
+			this.m_histogram.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.m_histogram.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this.m_histogram.Location = new System.Drawing.Point(10, 1);
 			this.m_histogram.Name = "m_histogram";
+			this.m_histogram.Size = new System.Drawing.Size(610, 236);
+			this.m_histogram.TabIndex = 0;
 			// 
 			// ChartVwBase
 			// 
-			resources.ApplyResources(this, "$this");
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.splitOuter);
 			this.Name = "ChartVwBase";
+			this.Size = new System.Drawing.Size(630, 606);
 			this.splitOuter.Panel1.ResumeLayout(false);
 			this.splitOuter.Panel2.ResumeLayout(false);
 			this.splitOuter.ResumeLayout(false);
