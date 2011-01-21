@@ -1,4 +1,5 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.30729</ProductVersion>
@@ -10,8 +11,6 @@
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
     <AssemblyName>Pa</AssemblyName>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
     <DefaultClientScript>JScript</DefaultClientScript>
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
@@ -44,9 +43,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>..\..\Output\Debug\</OutputPath>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
-    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -54,13 +51,9 @@
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
-    <NoStdLib>false</NoStdLib>
-    <NoWarn>
-    </NoWarn>
     <Optimize>false</Optimize>
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningLevel>4</WarningLevel>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
@@ -68,9 +61,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>..\..\Output\Release\</OutputPath>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
-    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
     <DefineConstants>TRACE</DefineConstants>
@@ -78,34 +69,17 @@
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
-    <NoStdLib>false</NoStdLib>
-    <NoWarn>
-    </NoWarn>
     <Optimize>true</Optimize>
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningLevel>4</WarningLevel>
     <DebugType>pdbonly</DebugType>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.1.271, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DistFiles\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="LocalizationManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DistFiles\LocalizationManager.dll</HintPath>
-    </Reference>
-    <Reference Include="SpeechToolsUtils, Version=1.0.3911.28181, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DistFiles\SpeechToolsUtils.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -122,6 +96,19 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.5.452, Culture=neutral, PublicKeyToken=1b03e6acf1164f73">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DistFiles\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="LocalizationManager, Version=1.0.4024.41930, Culture=neutral, PublicKeyToken=null">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DistFiles\LocalizationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="SpeechToolsUtils, Version=1.0.3911.28181, Culture=neutral, PublicKeyToken=null">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DistFiles\SpeechToolsUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataSourceClasses\DataSourceEditor.cs" />
@@ -129,15 +116,9 @@
     <Compile Include="DataSourceClasses\FieldWorks\EditFwUrlDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DataSourceClasses\FieldWorks\EditFwUrlDlg.designer.cs">
-      <DependentUpon>EditFwUrlDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="DataSourceClasses\FieldWorks\FwDBUtils.cs" />
     <Compile Include="DataSourceClasses\MissingDataSourceMsgBox.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DataSourceClasses\MissingDataSourceMsgBox.designer.cs">
-      <DependentUpon>MissingDataSourceMsgBox.cs</DependentUpon>
     </Compile>
     <Compile Include="DataSourceClasses\MissingFWDatabaseMsgBox.cs">
       <SubType>Form</SubType>
@@ -275,9 +256,6 @@
     <Compile Include="UI\Controls\CVChart-Old\CharGrid.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Controls\CVChart-Old\CharGrid.designer.cs">
-      <DependentUpon>CharGrid.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Controls\CVChart-Old\CharGrid.MsgHandlers.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -296,9 +274,6 @@
     <Compile Include="UI\Controls\CVChart\CVChartRowGroup.cs" />
     <Compile Include="UI\Controls\DistributionChartCellInfoPopup.cs">
       <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Controls\DistributionChartCellInfoPopup.designer.cs">
-      <DependentUpon>DistributionChartCellInfoPopup.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Controls\DistributionChartLayout.cs" />
     <Compile Include="UI\Controls\DistributionGrid.cs">
@@ -411,14 +386,8 @@
     <Compile Include="UI\Controls\SearchResultControls\SearchResultTabPopup.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Controls\SearchResultControls\SearchResultTabPopup.designer.cs">
-      <DependentUpon>SearchResultTabPopup.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Controls\SearchResultControls\SearchResultView.cs">
       <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Controls\SearchResultControls\SearchResultView.designer.cs">
-      <DependentUpon>SearchResultView.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Controls\SearchResultControls\TabDropIndicator.cs">
       <SubType>Form</SubType>
@@ -469,32 +438,17 @@
     <Compile Include="UI\Dialogs\BackupRestore\BackupDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\BackupRestore\BackupDlg.designer.cs">
-      <DependentUpon>BackupDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Dialogs\BackupRestore\RestoreDlg.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Dialogs\BackupRestore\RestoreDlg.designer.cs">
-      <DependentUpon>RestoreDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\BackupRestore\RestoreProgressDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\BackupRestore\RestoreProgressDlg.designer.cs">
-      <DependentUpon>RestoreProgressDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Dialogs\Classes\ClassesDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\Classes\ClassesDlg.designer.cs">
-      <DependentUpon>ClassesDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Dialogs\Classes\DefineClassDlg.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Dialogs\Classes\DefineClassDlg.designer.cs">
-      <DependentUpon>DefineClassDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\CustomFieldsDlg.cs">
       <SubType>Form</SubType>
@@ -517,20 +471,11 @@
     <Compile Include="UI\Dialogs\FieldWorks\FwDataSourcePropertiesDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\FieldWorks\FwDataSourcePropertiesDlg.designer.cs">
-      <DependentUpon>FwDataSourcePropertiesDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Dialogs\FieldWorks\FwProjectsDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\FieldWorks\FwProjectsDlg.designer.cs">
-      <DependentUpon>FwProjectsDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Dialogs\FiltersDlg.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Dialogs\FiltersDlg.designer.cs">
-      <DependentUpon>FiltersDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\FindDlg.cs">
       <SubType>Form</SubType>
@@ -549,9 +494,6 @@
     </Compile>
     <Compile Include="UI\Dialogs\Options\OptionsDialog.CvPatternsTab.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Dialogs\Options\OptionsDialog.designer.cs">
-      <DependentUpon>OptionsDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\Options\OptionsDialog.FindPhonesTab.cs">
       <SubType>Form</SubType>
@@ -601,9 +543,6 @@
     <Compile Include="UI\Dialogs\TranscriptionChangesDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\TranscriptionChangesDlg.designer.cs">
-      <DependentUpon>TranscriptionChangesDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Dialogs\UndefinedCharactersInClassDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -646,9 +585,6 @@
     <Compile Include="UI\Views\DistributionChartVw.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Views\DistributionChartVw.designer.cs">
-      <DependentUpon>DistributionChartVw.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Views\SearchVw.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -660,6 +596,57 @@
     </Compile>
     <Compile Include="UI\Views\VowelChartVw.Designer.cs">
       <DependentUpon>VowelChartVw.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataSourceClasses\FieldWorks\EditFwUrlDlg.Designer.cs">
+      <DependentUpon>EditFwUrlDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataSourceClasses\MissingDataSourceMsgBox.Designer.cs">
+      <DependentUpon>MissingDataSourceMsgBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\CVChart-Old\CharGrid.Designer.cs">
+      <DependentUpon>CharGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\DistributionChartCellInfoPopup.Designer.cs">
+      <DependentUpon>DistributionChartCellInfoPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\SearchResultControls\SearchResultTabPopup.Designer.cs">
+      <DependentUpon>SearchResultTabPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\SearchResultControls\SearchResultView.Designer.cs">
+      <DependentUpon>SearchResultView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\BackupRestore\BackupDlg.Designer.cs">
+      <DependentUpon>BackupDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\BackupRestore\RestoreDlg.Designer.cs">
+      <DependentUpon>RestoreDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\BackupRestore\RestoreProgressDlg.Designer.cs">
+      <DependentUpon>RestoreProgressDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\Classes\ClassesDlg.Designer.cs">
+      <DependentUpon>ClassesDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\Classes\DefineClassDlg.Designer.cs">
+      <DependentUpon>DefineClassDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\FieldWorks\FwDataSourcePropertiesDlg.Designer.cs">
+      <DependentUpon>FwDataSourcePropertiesDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\FieldWorks\FwProjectsDlg.Designer.cs">
+      <DependentUpon>FwProjectsDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\FiltersDlg.Designer.cs">
+      <DependentUpon>FiltersDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\Options\OptionsDialog.Designer.cs">
+      <DependentUpon>OptionsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\TranscriptionChangesDlg.Designer.cs">
+      <DependentUpon>TranscriptionChangesDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Views\DistributionChartVw.Designer.cs">
+      <DependentUpon>DistributionChartVw.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

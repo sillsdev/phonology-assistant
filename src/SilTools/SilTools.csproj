@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -36,7 +36,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -45,6 +44,7 @@
     <Reference Include="System.Management" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorHelper.cs" />
@@ -60,14 +60,8 @@
     <Compile Include="Controls\CustomDropDownComboBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\CustomDropDownComboBox.designer.cs">
-      <DependentUpon>CustomDropDownComboBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\ExceptionViewer.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\ExceptionViewer.designer.cs">
-      <DependentUpon>ExceptionViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\HeaderLabel.cs">
       <SubType>Component</SubType>
@@ -78,17 +72,11 @@
     <Compile Include="Controls\OutlookBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\OutlookBar.designer.cs">
-      <DependentUpon>OutlookBar.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\ShortcutKeysDropDown.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\ShortcutKeysEditor.cs">
       <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ShortcutKeysEditor.designer.cs">
-      <DependentUpon>ShortcutKeysEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SilGradientPanel.cs">
       <SubType>Component</SubType>
@@ -107,9 +95,6 @@
     </Compile>
     <Compile Include="Controls\SmallFadingWnd.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\SmallFadingWnd.designer.cs">
-      <DependentUpon>SmallFadingWnd.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SplashScreen.cs" />
     <Compile Include="Controls\SplashScreenForm.cs">
@@ -151,6 +136,21 @@
     <Compile Include="Utils.cs" />
     <Compile Include="XmlHelper.cs" />
     <Compile Include="XmlSerializationHelper.cs" />
+    <Compile Include="Controls\CustomDropDownComboBox.Designer.cs">
+      <DependentUpon>CustomDropDownComboBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ExceptionViewer.Designer.cs">
+      <DependentUpon>ExceptionViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OutlookBar.Designer.cs">
+      <DependentUpon>OutlookBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ShortcutKeysEditor.Designer.cs">
+      <DependentUpon>ShortcutKeysEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SmallFadingWnd.Designer.cs">
+      <DependentUpon>SmallFadingWnd.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\AboutDlg.resx">
@@ -208,6 +208,7 @@
     <None Include="Resources\Splash1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -7,7 +7,9 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 using SIL.Pa.UI.Dialogs;
 using SilTools;
+#if WIN32
 using SIL.SpeechTools.Utils;
+#endif
 
 namespace SIL.Pa
 {
@@ -16,6 +18,7 @@ namespace SIL.Pa
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
+#if WIN32
 	public class AudioPlayer
 	{
 		[DllImport("winmm.dll")]
@@ -315,4 +318,27 @@ namespace SIL.Pa
 		//#define MCIERR_NO_IDENTITY              (MCIERR_BASE + 94)
 		#endregion
 	}
+#else
+	public class AudioPlayer
+	{
+		private static int mciSendString (string command, IntPtr responseBuffer,
+			int responseBufferLength, IntPtr hwndCallback) { return 0; }
+		private static int mciSendString (string command, StringBuilder responseBuffer,
+			int responseBufferLength, IntPtr hwndCallback) { return 0; }
+		private const string kDeviceName = "SILAudio";
+		private const string kSaListFileContentFmt = "";
+		public static bool IsPlaybackInProgress {
+			get { return false; }
+		}
+		public void Play(string soundFile, long from, long to) {}
+		public void Stop() {}
+		public static long ByteValueToMilliseconds (long byteVal, int channels,
+			long samplesPerSec, int bitsPerSample) { return 0; }
+		public static long MillisecondValueToBytes(long millisecondVal, string filename) { return 0; }
+		public Process AlteredSpeedPlayback(string callingApp, string soundFile, long from,
+			long to, int speed) { return null; }
+		void SA_Exited (object sender, EventArgs e) {}
+		public static string GetSaPath() { return ""; }
+	}
+#endif
 }
