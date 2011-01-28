@@ -3,39 +3,29 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.DataSource;
+using SIL.Pa.DataSourceClasses.FieldWorks;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
+using SIL.PaToFdoInterfaces;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class ProjectSettingsDlg : OKCancelDlgBase
 	{
-		private PaProject m_project;
 		private readonly bool m_newProject;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public ProjectSettingsDlg() : this(null)
 		{
 			base.Text = Properties.Resources.kstidNewProjectSettingsDlgCaption;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public ProjectSettingsDlg(PaProject project)
 		{
@@ -69,14 +59,14 @@ namespace SIL.Pa.UI.Dialogs
 			txtComments.Font = FontHelper.UIFont;
 
 			BuildGrid();
-			pnlGridHdg.BorderStyle = BorderStyle.None;
 			pnlGridHdg.ControlReceivingFocusOnMnemonic = m_grid;
+			pnlGridHdg.BorderStyle = BorderStyle.None;
 
 			if (project == null)
-				m_project = new PaProject(true);
+				Project = new PaProject(true);
 			else
 			{
-				m_project = project;
+				Project = project;
 				txtProjName.Text = project.Name;
 				txtLanguageName.Text = project.LanguageName;
 				txtLanguageCode.Text = project.LanguageCode;
@@ -97,55 +87,38 @@ namespace SIL.Pa.UI.Dialogs
 			Utils.WaitCursors(false);
 
 			UpdateButtonStates();
-			Disposed += ProjectSettingsDlg_Disposed;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void ProjectSettingsDlg_Disposed(object sender, EventArgs e)
+		protected override void Dispose(bool disposing)
 		{
-			Disposed -= ProjectSettingsDlg_Disposed;
-
-			if (m_grid != null && !m_grid.IsDisposed)
+			if (disposing && (components != null))
 			{
-				m_grid.CurrentCellChanged -= m_grid_CurrentCellChanged;
-				m_grid.CellClick -= m_grid_CellClick;
-				m_grid.RowsAdded -= m_grid_RowsAdded;
-				m_grid.RowsRemoved -= m_grid_RowsRemoved;
+				components.Dispose();
 			}
+
+			base.Dispose(disposing);
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public PaProject Project { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Check for any FW data sources in the project. If any are found, attempt to start 
-		/// SQL server if it isn't already. Also backup the writing system information in case
-		/// the user goes to the FW data source properties dialog to make changes to the
-		/// writing system information.
+		/// SQL server if it isn't already
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void FwDataSourcePrep()
 		{
-			if (m_project.DataSources == null)
+			if (Project.DataSources == null)
 				return;
 
-			foreach (PaDataSource ds in m_project.DataSources)
-			{
-				if (ds.DataSourceType == DataSourceType.FW)
-				{
-					FwDBUtils.StartSQLServer(true);
-					break;
-				}
-			}
+			if (Project.DataSources.Any(ds => ds.DataSourceType == DataSourceType.FW))
+				FwDBUtils.StartSQLServer(true);
 		}
 
 		#region Grid setup
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void BuildGrid()
 		{
@@ -154,7 +127,8 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.MultiSelect = true;
 		    m_grid.Font = FontHelper.UIFont;
 			m_grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
-			m_grid.RowEnter += m_grid_RowEnter;
+			m_grid.CurrentRowChanged += HandleCurrentRowChanged;
+			App.SetGridSelectionColors(m_grid, false);
 
 		    DataGridViewColumn col = SilGrid.CreateTextBoxColumn("sourcefiles");
 		    col.ReadOnly = true;
@@ -167,7 +141,7 @@ namespace SIL.Pa.UI.Dialogs
 
 		    col = SilGrid.CreateTextBoxColumn("type");
 		    col.ReadOnly = true;
-		    col.Width = 75;
+			col.Width = 75;
 		    m_grid.Columns.Add(col);
 			App.LocalizeObject(m_grid.Columns["type"],
 				"ProjectSettingsDlg.DataSourceFileTypeColumnHdg", "Type",
@@ -194,10 +168,10 @@ namespace SIL.Pa.UI.Dialogs
 			// When xslt transforms are supported when reading data, then this should become visible.
 			m_grid.Columns["xslt"].Visible = false;
 
-			m_grid.CurrentCellChanged += m_grid_CurrentCellChanged;
-			m_grid.CellClick += m_grid_CellClick;
-			m_grid.RowsAdded += m_grid_RowsAdded;
-			m_grid.RowsRemoved += m_grid_RowsRemoved;
+			m_grid.CurrentCellChanged += delegate { UpdateButtonStates(); };
+			m_grid.CellClick += delegate { UpdateButtonStates(); };
+			m_grid.RowsAdded += delegate { UpdateButtonStates(); };
+			m_grid.RowsRemoved += delegate { UpdateButtonStates(); };
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -214,16 +188,16 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.Rows.Clear();
 
 			// Check if there are any data sources specified for this project.
-			if (m_project.DataSources == null || m_project.DataSources.Count == 0)
+			if (Project.DataSources == null || Project.DataSources.Count == 0)
 				return;
 
-			m_grid.Rows.Add(m_project.DataSources.Count);
+			m_grid.Rows.Add(Project.DataSources.Count);
 
-			for (int i = 0; i < m_project.DataSources.Count; i++)
+			for (int i = 0; i < Project.DataSources.Count; i++)
 			{
-				m_grid.Rows[i].Cells["sourcefiles"].Value = m_project.DataSources[i].ToString(true);
-				m_grid.Rows[i].Cells["type"].Value = m_project.DataSources[i].DataSourceTypeString;
-				m_grid.Rows[i].Cells["xslt"].Value = m_project.DataSources[i].XSLTFile;
+				m_grid.Rows[i].Cells["sourcefiles"].Value = Project.DataSources[i].ToString(true);
+				m_grid.Rows[i].Cells["type"].Value = Project.DataSources[i].DataSourceTypeString;
+				m_grid.Rows[i].Cells["xslt"].Value = Project.DataSources[i].XSLTFile;
 			}
 
 			// If the current row used to be the last row and that last row no
@@ -238,47 +212,6 @@ namespace SIL.Pa.UI.Dialogs
 
 		#endregion
 
-		#region Methods for enabling and disabling buttons
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void m_grid_CellClick(object sender, DataGridViewCellEventArgs e)
-		{
-			UpdateButtonStates();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void m_grid_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
-		{
-			UpdateButtonStates();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void m_grid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-		{
-			UpdateButtonStates();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void m_grid_CurrentCellChanged(object sender, EventArgs e)
-		{
-			UpdateButtonStates();
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Update button enabled states.
@@ -287,7 +220,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void UpdateButtonStates()
 		{
 			bool enableRemoveButton = ((m_grid.CurrentRow != null &&
-				m_grid.CurrentRow.Index < m_project.DataSources.Count) ||
+				m_grid.CurrentRow.Index < Project.DataSources.Count) ||
 				(m_grid.SelectedRows.Count > 0));
 			
 			if (enableRemoveButton != btnRemove.Enabled)
@@ -295,11 +228,11 @@ namespace SIL.Pa.UI.Dialogs
 
 			bool enablePropertiesButton = false;
 
-			if (m_grid.CurrentRow != null && m_grid.CurrentRow.Index < m_project.DataSources.Count)
+			if (m_grid.CurrentRow != null && m_grid.CurrentRow.Index < Project.DataSources.Count)
 			{
 				if (m_grid.SelectedRows.Count <= 1)
 				{
-					PaDataSource dataSource = m_project.DataSources[m_grid.CurrentRow.Index];
+					PaDataSource dataSource = Project.DataSources[m_grid.CurrentRow.Index];
 
 					enablePropertiesButton =
 						(dataSource.DataSourceType == DataSourceType.SFM ||
@@ -311,19 +244,6 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (btnProperties.Enabled != enablePropertiesButton)
 				btnProperties.Enabled = enablePropertiesButton;
-		}
-
-		#endregion
-		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public PaProject Project
-		{
-		    get { return m_project; }
-		    set { m_project = value; }
 		}
 
 		#region Saving Settings and Verifying/Saving changes
@@ -343,7 +263,7 @@ namespace SIL.Pa.UI.Dialogs
 				// settings then reload the original field info. for the project.
 				if (!m_newProject)
 				{
-					PaProject project = m_project.ReLoadProjectFileOnly(true);
+					PaProject project = Project.ReLoadProjectFileOnly(true);
 					if (project != null)
 					{
 						if (App.Project != null)
@@ -353,8 +273,8 @@ namespace SIL.Pa.UI.Dialogs
 					}
 				}
 
-				m_project.Dispose();
-				m_project = null;
+				Project.Dispose();
+				Project = null;
 			}
 		}
 
@@ -407,13 +327,13 @@ namespace SIL.Pa.UI.Dialogs
 			}
 			else
 			{
-				for (int i = 0; i < m_project.DataSources.Count; i++)
+				for (int i = 0; i < Project.DataSources.Count; i++)
 				{
-					if (m_project.DataSources[i].DataSourceType == DataSourceType.PAXML)
+					if (Project.DataSources[i].DataSourceType == DataSourceType.PAXML)
 						continue;
 
-					if (m_project.DataSources[i].DataSourceType == DataSourceType.XML &&
-						string.IsNullOrEmpty(m_project.DataSources[i].XSLTFile))
+					if (Project.DataSources[i].DataSourceType == DataSourceType.XML &&
+						string.IsNullOrEmpty(Project.DataSources[i].XSLTFile))
 					{
 						// No XSLT file was specified
 						offendingIndex = i;
@@ -421,13 +341,13 @@ namespace SIL.Pa.UI.Dialogs
 						msg = App.LocalizeString("ProjectSettingsDlg.MissingXSLTMsg",
 							"You must specify an XSLT file for '{0}'", App.kLocalizationGroupDialogs);
 
-						msg = string.Format(msg, Utils.PrepFilePathForMsgBox(m_project.DataSources[i].DataSourceFile));
+						msg = string.Format(msg, Utils.PrepFilePathForMsgBox(Project.DataSources[i].DataSourceFile));
 						break;
 					}
 					
-					if (!m_project.DataSources[i].MappingsExist &&
-						(m_project.DataSources[i].DataSourceType == DataSourceType.SFM ||
-						m_project.DataSources[i].DataSourceType == DataSourceType.Toolbox))
+					if (!Project.DataSources[i].MappingsExist &&
+						(Project.DataSources[i].DataSourceType == DataSourceType.SFM ||
+						Project.DataSources[i].DataSourceType == DataSourceType.Toolbox))
 					{
 						// No mappings have been specified.
 						offendingIndex = i;
@@ -435,14 +355,14 @@ namespace SIL.Pa.UI.Dialogs
 							"You must specify field mappings for\n\n'{0}'.\n\nSelect it in the Data Sources list and click 'Properties'.",
 							App.kLocalizationGroupDialogs);
 						
-						msg = string.Format(msg, m_project.DataSources[i].DataSourceFile);
+						msg = string.Format(msg, Project.DataSources[i].DataSourceFile);
 						break;
 					}
 					
-					if (m_project.DataSources[i].DataSourceType == DataSourceType.FW &&
-						m_project.DataSources[i].FwSourceDirectFromDB &&
-						!m_project.DataSources[i].FwDataSourceInfo.HasWritingSystemInfo(
-							m_project.FieldInfo.PhoneticField.FwQueryFieldName))
+					if (Project.DataSources[i].DataSourceType == DataSourceType.FW &&
+						Project.DataSources[i].FwSourceDirectFromDB &&
+						!Project.DataSources[i].Fw6DataSourceInfo.HasWritingSystemInfo(
+							Project.FieldInfo.PhoneticField.FwQueryFieldName))
 					{
 						// FW data source information is incomplete.
 						offendingIndex = i;
@@ -451,7 +371,7 @@ namespace SIL.Pa.UI.Dialogs
 							"The writing system for the phonetic field has not been specified for the FieldWorks data source '{0}'.\n\nSelect the FieldWorks data source and click the properties button.",
 							App.kLocalizationGroupDialogs);
 
-						msg = string.Format(msg, m_project.DataSources[i].FwDataSourceInfo);
+						msg = string.Format(msg, Project.DataSources[i].Fw6DataSourceInfo);
 						break;
 					}
 				}
@@ -490,21 +410,21 @@ namespace SIL.Pa.UI.Dialogs
 		protected override bool SaveChanges()
 		{
 			// Get a project file name if the project is new.
-			if (m_project.FileName == null)
+			if (Project.FileName == null)
 			{
-				m_project.FileName = GetProjectFileName();
-				if (m_project.FileName == null)
+				Project.FileName = GetProjectFileName();
+				if (Project.FileName == null)
 					return false;
 			}
 
-			m_project.Name = txtProjName.Text.Trim();
-			m_project.LanguageName = txtLanguageName.Text.Trim();
-			m_project.LanguageCode = txtLanguageCode.Text.Trim();
-			m_project.Researcher = txtResearcher.Text.Trim();
-			m_project.Transcriber = txtTranscriber.Text.Trim();
-			m_project.SpeakerName = txtSpeaker.Text.Trim();
-			m_project.Comments = txtComments.Text.Trim();
-			m_project.Save();
+			Project.Name = txtProjName.Text.Trim();
+			Project.LanguageName = txtLanguageName.Text.Trim();
+			Project.LanguageCode = txtLanguageCode.Text.Trim();
+			Project.Researcher = txtResearcher.Text.Trim();
+			Project.Transcriber = txtTranscriber.Text.Trim();
+			Project.SpeakerName = txtSpeaker.Text.Trim();
+			Project.Comments = txtComments.Text.Trim();
+			Project.Save();
 
 			return true;
 		}
@@ -532,7 +452,7 @@ namespace SIL.Pa.UI.Dialogs
 		    dlg.InitialDirectory = Environment.CurrentDirectory;
 		    dlg.FilterIndex = 0;
 			dlg.FileName = (txtProjName.Text.Trim() == string.Empty ?
-				m_project.Name : txtProjName.Text.Trim()) + ".pap";
+				Project.Name : txtProjName.Text.Trim()) + ".pap";
 
 		    DialogResult result = dlg.ShowDialog(this);
 
@@ -542,10 +462,6 @@ namespace SIL.Pa.UI.Dialogs
 
 		#endregion
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandleTextChanged(object sender, EventArgs e)
 		{
@@ -557,13 +473,13 @@ namespace SIL.Pa.UI.Dialogs
 		/// Only show the buttons in the current row under certain circumstances.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void m_grid_RowEnter(object sender, DataGridViewCellEventArgs e)
+		void HandleCurrentRowChanged(object sender, EventArgs e)
 		{
-			int row = e.RowIndex;
+			int rowIndex = m_grid.CurrentCellAddress.Y;
 
-			if (e.RowIndex >= 0 && row < m_project.DataSources.Count)
+			if (rowIndex >= 0 && rowIndex < Project.DataSources.Count)
 			{
-				DataSourceType type = m_project.DataSources[row].DataSourceType;
+				var type = Project.DataSources[rowIndex].DataSourceType;
 				((SilButtonColumn)m_grid.Columns["xslt"]).ShowButton = (type == DataSourceType.XML);
 			}
 		}
@@ -574,7 +490,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// Show the open file dialog so the user may specify a non FieldWorks data source.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void cmnuAddOtherDataSource_Click(object sender, EventArgs e)
+		private void HandleAddOtherDataSourceClick(object sender, EventArgs e)
 		{
 			int filterIndex = Settings.Default.OFD_LastFileTypeChosen_DataSource;
 
@@ -595,7 +511,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			string[] filenames = App.OpenFileDialog("db", fileTypes.ToString(),
 				ref filterIndex, Properties.Resources.kstidDataSourceOpenFileCaption,
-				true, m_project.Folder ?? App.DefaultProjectFolder);
+				true, Project.Folder ?? App.DefaultProjectFolder);
 
 			if (filenames.Length == 0)
 				return;
@@ -612,7 +528,7 @@ namespace SIL.Pa.UI.Dialogs
 					continue;
 				}
 
-				m_project.DataSources.Add(new PaDataSource(file));
+				Project.DataSources.Add(new PaDataSource(file));
 			}
 
 			LoadGrid(m_grid.Rows.Count);
@@ -625,7 +541,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// Show the dialog to allow the user to specify a FieldWorks database as a data source.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void cmnuAddFwDataSource_Click(object sender, EventArgs e)
+		private void HandleAddFw6DataSourceClick(object sender, EventArgs e)
 		{
 			// Make sure SQL Server is started.
 			if (!FwDBUtils.IsSQLServerStarted)
@@ -635,20 +551,7 @@ namespace SIL.Pa.UI.Dialogs
 					return;
 			}
 
-			// This commented out code was used when the program could only look
-			// on the current machine for FieldWorks databases. Now it can look
-			// for remote databases on other computers on a network.
-			//// See if there are any FW databases on this computer.
-			//FwDataSourceInfo[] fwDataSourceInfo = FwDBUtils.FwDataSourceInfoList;
-			//if (fwDataSourceInfo == null)
-			//{
-			//    Utils.MsgBox(Properties.Resources.kstidNoFwProjectsFoundMsg,
-			//        MessageBoxButtons.OK);
-
-			//    return;
-			//}
-
-			using (FwProjectsDlg dlg = new FwProjectsDlg(m_project))
+			using (FwProjectsDlg dlg = new FwProjectsDlg(Project))
 			{
 				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChosenDatabase != null)
 				{
@@ -659,11 +562,37 @@ namespace SIL.Pa.UI.Dialogs
 						return;
 					}
 
-					m_project.DataSources.Add(new PaDataSource(dlg.ChosenDatabase));
+					Project.DataSources.Add(new PaDataSource(dlg.ChosenDatabase));
 					LoadGrid(m_grid.Rows.Count);
 					m_dirty = true;
 				}
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Show the dialog to allow the user to specify a FieldWorks database as a data source.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleAddFw7DataSourceClick(object sender, EventArgs e)
+		{
+			string name;
+			string server;
+			if (!FwDBUtils.GetFw7Project(this, out name, out server))
+				return;
+
+			var info = new Fw7DataSourceInfo(name, server);
+
+			if (ProjectContainsFwDataSource(info) &&
+				Utils.MsgBox(string.Format(DupDataSourceMsg, info.ProjectName),
+					MessageBoxButtons.YesNo) == DialogResult.No)
+			{
+				return;
+			}
+
+			Project.DataSources.Add(new PaDataSource(info));
+			LoadGrid(m_grid.Rows.Count);
+			m_dirty = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -700,7 +629,7 @@ namespace SIL.Pa.UI.Dialogs
 				}
 
 				foreach (int i in indexesToDelete)
-					m_project.DataSources.RemoveAt(i);
+					Project.DataSources.RemoveAt(i);
 
 				LoadGrid(-1);
 				m_grid.Focus();
@@ -736,10 +665,10 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void btnProperties_Click(object sender, EventArgs e)
 		{
-			if (m_grid.CurrentRow == null || m_grid.CurrentRow.Index >= m_project.DataSources.Count)
+			if (m_grid.CurrentRow == null || m_grid.CurrentRow.Index >= Project.DataSources.Count)
 				return;
 
-			PaDataSource dataSource = m_project.DataSources[m_grid.CurrentRow.Index];
+			PaDataSource dataSource = Project.DataSources[m_grid.CurrentRow.Index];
 
 			if (dataSource.DataSourceType == DataSourceType.SFM ||
 				dataSource.DataSourceType == DataSourceType.Toolbox)
@@ -775,7 +704,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			// Open the mappings dialog.
 			using (SFDataSourcePropertiesDlg dlg =
-				new SFDataSourcePropertiesDlg(m_project.FieldInfo, dataSource))
+				new SFDataSourcePropertiesDlg(Project.FieldInfo, dataSource))
 			{
 				if (dlg.ShowDialog(this) == DialogResult.OK)
 				{
@@ -794,14 +723,14 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void ShowFwDataSourcePropertiesDialog(PaDataSource dataSource)
 		{
-			if (dataSource.FwDataSourceInfo.IsMissing)
+			if (dataSource.Fw6DataSourceInfo.IsMissing)
 			{
-				dataSource.FwDataSourceInfo.ShowMissingMessage();
+				dataSource.Fw6DataSourceInfo.ShowMissingMessage();
 				return;
 			}
 
 			using (FwDataSourcePropertiesDlg dlg =
-				new FwDataSourcePropertiesDlg(m_project, dataSource.FwDataSourceInfo))
+				new FwDataSourcePropertiesDlg(Project, dataSource.Fw6DataSourceInfo))
 			{
 				if (dlg.ShowDialog(this) == DialogResult.OK)
 				{
@@ -826,7 +755,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (filename != null)
 			{
-				m_project.DataSources[e.RowIndex].XSLTFile = filename;
+				Project.DataSources[e.RowIndex].XSLTFile = filename;
 				m_grid.Refresh();
 				Settings.Default.OFD_LastFileTypeChosen_DataSourceXslt = filterIndex;
 			}
@@ -839,12 +768,12 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void btnCustomFields_Click(object sender, EventArgs e)
 		{
-			using (CustomFieldsDlg dlg = new CustomFieldsDlg(m_project))
+			using (CustomFieldsDlg dlg = new CustomFieldsDlg(Project))
 			{
 				dlg.ShowDialog(this);
 				if (dlg.ChangesWereMade)
 				{
-					m_project.CleanUpMappings();
+					Project.CleanUpMappings();
 					m_dirty = true;
 				}
 			}
@@ -857,13 +786,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private bool ProjectContainsDataSource(string filename)
 		{
-			foreach (PaDataSource datasource in m_project.DataSources)
-			{
-				if (datasource.ToString().ToLower() == filename.ToLower())
-					return true;
-			}
-
-			return false;
+			return Project.DataSources.Any(ds => ds.ToString().ToLower() == filename.ToLower());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -872,24 +795,36 @@ namespace SIL.Pa.UI.Dialogs
 		/// and machine name.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool ProjectContainsFwDataSource(FwDataSourceInfo fwDataSourceInfo)
+		private bool ProjectContainsFwDataSource(Fw6DataSourceInfo fwDataSourceInfo)
 		{
-			string machineName = fwDataSourceInfo.MachineName.ToLower();
-			string projectName = fwDataSourceInfo.ProjectName.ToLower();
+			var machineName = fwDataSourceInfo.MachineName.ToLower();
+			var projectName = fwDataSourceInfo.ProjectName.ToLower();
 
-			foreach (PaDataSource datasource in m_project.DataSources)
-			{
-				if (datasource.FwDataSourceInfo != null &&
-					datasource.FwDataSourceInfo.MachineName != null &&
-					datasource.FwDataSourceInfo.MachineName.ToLower() == machineName &&
-					datasource.FwDataSourceInfo.ProjectName != null &&
-					datasource.FwDataSourceInfo.ProjectName.ToLower() == projectName)
-				{
-					return true;
-				}
-			}
+			return Project.DataSources.Any(ds =>
+				ds.Fw6DataSourceInfo != null &&
+				ds.Fw6DataSourceInfo.MachineName != null &&
+				ds.Fw6DataSourceInfo.MachineName.ToLower() == machineName &&
+				ds.Fw6DataSourceInfo.ProjectName != null &&
+				ds.Fw6DataSourceInfo.ProjectName.ToLower() == projectName);
+		}
 
-			return false;
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns true if the project contains a FW data source with the specified project
+		/// and machine name.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool ProjectContainsFwDataSource(Fw7DataSourceInfo info)
+		{
+			var name = info.Name.ToLower();
+			var server = (info.Server == null ? null : info.Server.ToLower());
+
+			return Project.DataSources.Any(ds =>
+				ds.Fw7DataSourceInfo != null &&
+				ds.Fw7DataSourceInfo.Name != null &&
+				ds.Fw7DataSourceInfo.Name.ToLower() == name &&
+				ds.Fw7DataSourceInfo.Server != null &&
+				ds.Fw7DataSourceInfo.Server.ToLower() == server);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -965,7 +900,7 @@ namespace SIL.Pa.UI.Dialogs
 			e.Paint(e.ClipBounds, paintParts);
 
 			Color clr = (m_grid.Rows[e.RowIndex].Selected ?
-				m_grid.DefaultCellStyle.SelectionForeColor : m_grid.DefaultCellStyle.ForeColor);
+				e.CellStyle.SelectionForeColor : e.CellStyle.ForeColor);
 
 			TextFormatFlags flags = TextFormatFlags.VerticalCenter |
 				TextFormatFlags.SingleLine | TextFormatFlags.PathEllipsis |
@@ -1007,10 +942,6 @@ namespace SIL.Pa.UI.Dialogs
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void lnkEthnologue_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{

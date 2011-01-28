@@ -239,8 +239,8 @@ namespace SIL.Pa.DataSource
 			if (fieldInfo != null && !string.IsNullOrEmpty(url))
 			{
 				url = string.Format(url, recEntry[fieldInfo.FieldName],
-					recEntry.DataSource.FwDataSourceInfo.MachineName,
-					recEntry.DataSource.FwDataSourceInfo.DBName);
+					recEntry.DataSource.Fw6DataSourceInfo.MachineName,
+					recEntry.DataSource.Fw6DataSourceInfo.DBName);
 
 				// Spaces aren't allowed in the URL. They should be converted to '+'.
 				url = url.Trim().Replace(' ', '+');

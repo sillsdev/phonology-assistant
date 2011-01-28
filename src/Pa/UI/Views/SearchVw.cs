@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using SIL.FieldWorks.Common.UIAdapters;
@@ -43,7 +43,7 @@ namespace SIL.Pa.UI.Views
 		private readonly SplitterPanel m_dockedSidePanel;
 		private readonly Keys m_savePatternHotKey = Keys.None;
 
-		#region Form construction
+		#region construction
 		/// ------------------------------------------------------------------------------------
 		public SearchVw()
 		{
@@ -96,14 +96,20 @@ namespace SIL.Pa.UI.Views
 
 			// Remove these lines when the pattern building bar is working.
 			{
-				m_patternBuilderBar.Visible = false;
-				ptrnTextBox.Margin = new Padding(ptrnTextBox.Margin.Left, ptrnTextBox.Margin.Top,
-					ptrnTextBox.Margin.Right, ptrnTextBox.Margin.Top);
-				btnRefresh.Margin = new Padding(btnRefresh.Margin.Left, btnRefresh.Margin.Top,
-					btnRefresh.Margin.Right, btnRefresh.Margin.Top);
-				lblCurrPattern.Margin = new Padding(lblCurrPattern.Margin.Left, lblCurrPattern.Margin.Top,
-					lblCurrPattern.Margin.Right, lblCurrPattern.Margin.Top);
+				//m_patternBuilderBar.Visible = false;
+				//ptrnTextBox.Margin = new Padding(ptrnTextBox.Margin.Left, ptrnTextBox.Margin.Top,
+				//    ptrnTextBox.Margin.Right, ptrnTextBox.Margin.Top);
+				//btnRefresh.Margin = new Padding(btnRefresh.Margin.Left, btnRefresh.Margin.Top,
+				//    btnRefresh.Margin.Right, btnRefresh.Margin.Top);
+				//lblCurrPattern.Margin = new Padding(lblCurrPattern.Margin.Left, lblCurrPattern.Margin.Top,
+				//    lblCurrPattern.Margin.Right, lblCurrPattern.Margin.Top);
 			}
+
+			m_patternBuilderBar.ItemSelectedHandler = (text =>
+			{
+				if (!string.IsNullOrEmpty(text))
+					ptrnTextBox.Insert(text);
+			});
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -370,10 +376,9 @@ namespace SIL.Pa.UI.Views
 			tvSavedPatterns.SaveSettings();
 
 			// Save the list of recently used queries.
-			List<SearchQuery> recentList = new List<SearchQuery>();
-			for (int i = 0; i < lstRecentPatterns.Items.Count; i++)
-				recentList.Add(lstRecentPatterns.Items[i] as SearchQuery);
-
+			var recentList = 
+				(from object rp in lstRecentPatterns.Items select rp as SearchQuery).ToList();
+			
 			string path = Path.Combine(App.DefaultProjectFolder, kRecentlyUsedPatternFile);
 			if (recentList.Count > 0)
 				XmlSerializationHelper.SerializeToFile(path, recentList);
@@ -763,33 +768,28 @@ namespace SIL.Pa.UI.Views
 		{
 			Rectangle rc = m_patternTableLayoutPanel.ClientRectangle;
 
-			Color clrTop =
-				ColorHelper.CalculateColor(SystemColors.Control, Color.White, 100);
+			// I found that this actually happened when the program was
+			// being restored after being minimized.
+			if (rc.Width == 0 || rc.Height == 0)
+				return;
 
-			Color clrBottom =
-				ColorHelper.CalculateColor(SystemColors.ControlDark, Color.White, 75);
+			Color clrTop;
+			Color clrBottom;
 
-			using (LinearGradientBrush br = new LinearGradientBrush(rc, clrTop, clrBottom, 90))
+			if (Settings.Default.UseSystemColors)
 			{
-				e.Graphics.FillRectangle(br, rc);
-				e.Graphics.DrawLine(SystemPens.ControlDark, rc.X, rc.Bottom - 1, rc.Right - 1, rc.Bottom - 1);
+				clrTop = ColorHelper.CalculateColor(SystemColors.Control, Color.White, 100);
+				clrBottom = ColorHelper.CalculateColor(SystemColors.ControlDark, Color.White, 75);
+			}
+			else
+			{
+				clrTop = Settings.Default.TextPanelGradientTopColor;
+				clrBottom = Settings.Default.TextPanelGradientBottomColor;
 			}
 
-			//Rectangle rc = tableLayoutPanel1.ClientRectangle;
-
-			////Color clrTop = Color.FromArgb(0xB5, 0xA8, 0x81);
-			////Color clrBottom = Color.FromArgb(0xA4, 0x7D, 0x49);
-			//Color clrTop = Color.White;
-			////Color clrBottom = Color.FromArgb(0xdf, 0xcf, 0x9f);
-			//Color clrBottom = Settings.Default.GridCellSelectionBackColor;
-
-			//using (LinearGradientBrush br = new LinearGradientBrush(rc, clrTop, clrBottom, 90))
-			//{
-			//    e.Graphics.FillRectangle(br, rc);
-			//    e.Graphics.DrawLine(SystemPens.ControlDark, rc.X, rc.Bottom - 1,
-			//        rc.Right - 1, rc.Bottom - 1);
-			//}
-
+			PaintingHelper.DrawGradientBackground(e.Graphics, rc, clrTop, clrBottom, false);
+			e.Graphics.DrawLine(SystemPens.ControlDark, rc.X, rc.Bottom - 1,
+				rc.Right - 1, rc.Bottom - 1);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -977,11 +977,9 @@ namespace SIL.Pa.UI.Views
 			else if (e.Item is ClassListViewItem)
 			{
 				ClassListViewItem item = e.Item as ClassListViewItem;
-				if (item != null)
 				{
 					dragText = (item.Pattern == null || ShowClassNames ?
-						App.kOpenClassBracket + item.Text + App.kCloseClassBracket :
-						item.Pattern);
+						App.kOpenClassBracket + item.Text + App.kCloseClassBracket : item.Pattern);
 				}
 			}
 

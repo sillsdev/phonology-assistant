@@ -374,12 +374,6 @@
     <Setting Name="GridRowSelectionForeColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Black</Value>
     </Setting>
-    <Setting Name="WordListSelectedUnFocusedRowBackColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">Control</Value>
-    </Setting>
-    <Setting Name="WordListSelectedUnFocusedRowForeColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">Black</Value>
-    </Setting>
     <Setting Name="GridCellSelectionBackColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">173, 211, 237</Value>
     </Setting>
@@ -493,9 +487,6 @@
     </Setting>
     <Setting Name="WordListSrchResultWidthOnWordBoundaryMatch" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">2</Value>
-    </Setting>
-    <Setting Name="WordListChangeSelectionOnFocusLoss" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="WordListEditSourceOnDoublClick" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -679,6 +670,42 @@
     </Setting>
     <Setting Name="FiltersDlgFiltersGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ShowSingleCloseButtonForSearchResultTabs" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ShowCloseButtonOnEachSearchResultTab" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="UseSystemColors" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="TextPanelGradientTopColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">242, 236, 217</Value>
+    </Setting>
+    <Setting Name="TextPanelGradientBottomColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">223, 207, 159</Value>
+    </Setting>
+    <Setting Name="TextPanelBorderColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">120, 108, 72</Value>
+    </Setting>
+    <Setting Name="GridRowUnfocusedSelectionBackColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Gainsboro</Value>
+    </Setting>
+    <Setting Name="GridRowUnfocusedSelectionForeColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="Fw7OpenDialogBounds" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Drawing.Rectangle" Scope="User">
+      <Value Profile="(Default)">0, 0, 0, 0</Value>
+    </Setting>
+    <Setting Name="Fw7OpenDialogSplitterPos" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">-1</Value>
+    </Setting>
+    <Setting Name="Fw7TimeToWaitForProcessStart" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2000</Value>
+    </Setting>
+    <Setting Name="Fw7TimeToWaitForDataLoad" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">20000</Value>
     </Setting>
   </Settings>
 </SettingsFile>

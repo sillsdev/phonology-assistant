@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Windows.Forms;
+using SIL.Pa.DataSourceClasses.FieldWorks;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
@@ -18,10 +19,6 @@ namespace SIL.Pa.UI.Dialogs
 		private readonly PaProject m_project;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public FwProjectsDlg()
 		{
 			InitializeComponent();
@@ -33,10 +30,6 @@ namespace SIL.Pa.UI.Dialogs
 			tblLayoutButtons.Controls.Add(btnProperties, 0, 0);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public FwProjectsDlg(PaProject project) : this()
 		{
@@ -71,10 +64,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
 			base.OnShown(e);
@@ -85,10 +74,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
@@ -96,20 +81,12 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
 			Settings.Default.FwProjectsDlgSplitLoc = splitContainer1.SplitterDistance;
 			base.SaveSettings();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnClosed(EventArgs e)
 		{
@@ -122,15 +99,11 @@ namespace SIL.Pa.UI.Dialogs
 		/// Gets the chosen database.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FwDataSourceInfo ChosenDatabase
+		public Fw6DataSourceInfo ChosenDatabase
 		{
-			get { return lstFwProjects.SelectedItem as FwDataSourceInfo; }
+			get { return lstFwProjects.SelectedItem as Fw6DataSourceInfo; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void btnProperties_Click(object sender, EventArgs e)
 		{
@@ -141,10 +114,6 @@ namespace SIL.Pa.UI.Dialogs
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void tvNetwork_AfterSelect(object sender, TreeViewEventArgs e)
 		{
@@ -164,13 +133,13 @@ namespace SIL.Pa.UI.Dialogs
 			if (!string.IsNullOrEmpty(node.MachineName))
 			{
 				txtMsg.Text = App.LocalizeString(
-					"FwProjectsDlg..SearchingForFwDatabasesMsg", "Searching...",
+					"FwProjectsDlg.SearchingForFwDatabasesMsg", "Searching...",
 					App.kLocalizationGroupDialogs);
 				
 				txtMsg.Visible = true;
 				Application.DoEvents();
 
-				FwDataSourceInfo[] fwDataSourceInfo =
+				Fw6DataSourceInfo[] fwDataSourceInfo =
 					FwDBUtils.GetFwDataSourceInfoList(node.MachineName, false);
 
 				lstFwProjects.Items.Clear();

@@ -131,9 +131,6 @@
   <data name="m_gridFilters.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
   </data>
-  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <data name="m_gridFilters.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -151,7 +148,7 @@
     <value>m_gridFilters</value>
   </data>
   <data name="&gt;&gt;m_gridFilters.Type" xml:space="preserve">
-    <value>SilTools.SilGrid, SilTools, Version=1.5.4035.29851, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.SilGrid, SilTools, Version=1.5.4043.19848, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_gridFilters.Parent" xml:space="preserve">
     <value>pnlFilters</value>
@@ -178,7 +175,7 @@
     <value>pnlFilters</value>
   </data>
   <data name="&gt;&gt;pnlFilters.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4035.29851, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4043.19848, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlFilters.Parent" xml:space="preserve">
     <value>splitFilters.Panel1</value>
@@ -354,6 +351,105 @@
   <data name="tableLayout.ColumnCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
+  <data name="btnApplyNow.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="btnApplyNow.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="btnApplyNow.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
+    <value>GrowAndShrink</value>
+  </data>
+  <data name="btnApplyNow.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnApplyNow.Location" type="System.Drawing.Point, System.Drawing">
+    <value>42, 194</value>
+  </data>
+  <data name="btnApplyNow.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 5, 5</value>
+  </data>
+  <data name="btnApplyNow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 26</value>
+  </data>
+  <data name="btnApplyNow.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="btnApplyNow.Text" xml:space="preserve">
+    <value>Apply No&amp;w</value>
+  </data>
+  <data name="&gt;&gt;btnApplyNow.Name" xml:space="preserve">
+    <value>btnApplyNow</value>
+  </data>
+  <data name="&gt;&gt;btnApplyNow.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnApplyNow.Parent" xml:space="preserve">
+    <value>pnlExpressions</value>
+  </data>
+  <data name="&gt;&gt;btnApplyNow.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="m_gridExpressions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="m_gridExpressions.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
+  <data name="m_gridExpressions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 60</value>
+  </data>
+  <data name="m_gridExpressions.RowHeadersWidth" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="m_gridExpressions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>456, 254</value>
+  </data>
+  <data name="m_gridExpressions.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;m_gridExpressions.Name" xml:space="preserve">
+    <value>m_gridExpressions</value>
+  </data>
+  <data name="&gt;&gt;m_gridExpressions.Type" xml:space="preserve">
+    <value>SilTools.SilGrid, SilTools, Version=1.5.4043.19848, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;m_gridExpressions.Parent" xml:space="preserve">
+    <value>pnlExpressions</value>
+  </data>
+  <data name="&gt;&gt;m_gridExpressions.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="hlblExpressions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="hlblExpressions.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 9pt</value>
+  </data>
+  <data name="hlblExpressions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 33</value>
+  </data>
+  <data name="hlblExpressions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>456, 27</value>
+  </data>
+  <data name="hlblExpressions.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="hlblExpressions.Text" xml:space="preserve">
+    <value>&amp;Expressions</value>
+  </data>
+  <data name="&gt;&gt;hlblExpressions.Name" xml:space="preserve">
+    <value>hlblExpressions</value>
+  </data>
+  <data name="&gt;&gt;hlblExpressions.Type" xml:space="preserve">
+    <value>SilTools.Controls.HeaderLabel, SilTools, Version=1.5.4043.19848, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;hlblExpressions.Parent" xml:space="preserve">
+    <value>pnlExpressions</value>
+  </data>
+  <data name="&gt;&gt;hlblExpressions.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
   <data name="pnlExpressionMatch.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -511,7 +607,7 @@
     <value>3, 5, 0, 5</value>
   </data>
   <data name="pnlExpressionMatch.Size" type="System.Drawing.Size, System.Drawing">
-    <value>458, 35</value>
+    <value>456, 33</value>
   </data>
   <data name="pnlExpressionMatch.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -520,112 +616,13 @@
     <value>pnlExpressionMatch</value>
   </data>
   <data name="&gt;&gt;pnlExpressionMatch.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.5.4035.29851, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.5.4043.19848, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlExpressionMatch.Parent" xml:space="preserve">
-    <value>tableLayout</value>
+    <value>pnlExpressions</value>
   </data>
   <data name="&gt;&gt;pnlExpressionMatch.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="btnApplyNow.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="btnApplyNow.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="btnApplyNow.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
-    <value>GrowAndShrink</value>
-  </data>
-  <data name="btnApplyNow.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnApplyNow.Location" type="System.Drawing.Point, System.Drawing">
-    <value>106, 234</value>
-  </data>
-  <data name="btnApplyNow.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 5, 5, 5</value>
-  </data>
-  <data name="btnApplyNow.Size" type="System.Drawing.Size, System.Drawing">
-    <value>95, 26</value>
-  </data>
-  <data name="btnApplyNow.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="btnApplyNow.Text" xml:space="preserve">
-    <value>Apply No&amp;w</value>
-  </data>
-  <data name="&gt;&gt;btnApplyNow.Name" xml:space="preserve">
-    <value>btnApplyNow</value>
-  </data>
-  <data name="&gt;&gt;btnApplyNow.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnApplyNow.Parent" xml:space="preserve">
-    <value>pnlExpressions</value>
-  </data>
-  <data name="&gt;&gt;btnApplyNow.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="m_gridExpressions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="m_gridExpressions.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt</value>
-  </data>
-  <data name="m_gridExpressions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 28</value>
-  </data>
-  <data name="m_gridExpressions.RowHeadersWidth" type="System.Int32, mscorlib">
-    <value>22</value>
-  </data>
-  <data name="m_gridExpressions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>456, 251</value>
-  </data>
-  <data name="m_gridExpressions.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;m_gridExpressions.Name" xml:space="preserve">
-    <value>m_gridExpressions</value>
-  </data>
-  <data name="&gt;&gt;m_gridExpressions.Type" xml:space="preserve">
-    <value>SilTools.SilGrid, SilTools, Version=1.5.4035.29851, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;m_gridExpressions.Parent" xml:space="preserve">
-    <value>pnlExpressions</value>
-  </data>
-  <data name="&gt;&gt;m_gridExpressions.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="hlblExpressions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="hlblExpressions.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 9pt</value>
-  </data>
-  <data name="hlblExpressions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="hlblExpressions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>456, 28</value>
-  </data>
-  <data name="hlblExpressions.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="hlblExpressions.Text" xml:space="preserve">
-    <value>&amp;Expressions</value>
-  </data>
-  <data name="&gt;&gt;hlblExpressions.Name" xml:space="preserve">
-    <value>hlblExpressions</value>
-  </data>
-  <data name="&gt;&gt;hlblExpressions.Type" xml:space="preserve">
-    <value>SilTools.Controls.HeaderLabel, SilTools, Version=1.5.4035.29851, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;hlblExpressions.Parent" xml:space="preserve">
-    <value>pnlExpressions</value>
-  </data>
-  <data name="&gt;&gt;hlblExpressions.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="pnlExpressions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -634,13 +631,13 @@
     <value>Segoe UI, 12world</value>
   </data>
   <data name="pnlExpressions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 35</value>
+    <value>0, 0</value>
   </data>
   <data name="pnlExpressions.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="pnlExpressions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>458, 281</value>
+    <value>458, 316</value>
   </data>
   <data name="pnlExpressions.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -649,13 +646,13 @@
     <value>pnlExpressions</value>
   </data>
   <data name="&gt;&gt;pnlExpressions.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4035.29851, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4043.19848, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlExpressions.Parent" xml:space="preserve">
     <value>tableLayout</value>
   </data>
   <data name="&gt;&gt;pnlExpressions.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="tableLayout.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -685,7 +682,7 @@
     <value>0</value>
   </data>
   <data name="tableLayout.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="pnlExpressionMatch" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="pnlExpressions" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="pnlExpressions" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="&gt;&gt;splitFilters.Panel2.Name" xml:space="preserve">
     <value>splitFilters.Panel2</value>
@@ -723,6 +720,9 @@
   <data name="&gt;&gt;splitFilters.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <metadata name="m_tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>132, 17</value>
   </metadata>
@@ -760,6 +760,6 @@
     <value>FiltersDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.2.4035.43048, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.2.4043.19884, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

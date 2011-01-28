@@ -1,55 +1,75 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using SIL.Pa.Properties;
 
 namespace SIL.Pa.UI.Controls
 {
+	/// ----------------------------------------------------------------------------------------
 	public partial class PatternBuilderBar : UserControl
 	{
+		public Action<string> ItemSelectedHandler;
+
+		/// ------------------------------------------------------------------------------------
 		public PatternBuilderBar()
 		{
 			InitializeComponent();
 
-			m_toolstrip.Renderer.RenderToolStripBorder += ((sender, e) =>
-			{
-				using (var br = new SolidBrush(e.ToolStrip.BackColor))
-				{
-					// Paint over bottom edge to get rid of border.
-					var rc = e.ToolStrip.ClientRectangle;
-					rc.Y = rc.Bottom - 2;
-					rc.Height = 2;
-					e.Graphics.FillRectangle(br, rc);
+			BackColor = Settings.Default.GradientPanelTopColor;
 
-					// Paint over right edge to get rid of border.
-					rc = e.ToolStrip.ClientRectangle;
-					rc.X = rc.Right - 2;
-					rc.Width = 2;
-					e.Graphics.FillRectangle(br, rc);
+			m_menuStrip.BackColor = Settings.Default.GradientPanelTopColor;
+			m_menuStrip.ForeColor = Settings.Default.GradientPanelTextColor;
+			m_menuStrip.Renderer.RenderItemText += ((s, e) =>
+			{
+				if (e.Item.OwnerItem == null && e.Item is ToolStripMenuItem &&
+					(e.Item.Selected || ((ToolStripMenuItem)e.Item).DropDown.Visible))
+				{
+					TextRenderer.DrawText(e.Graphics, e.Text, e.TextFont,
+						e.TextRectangle, Color.Black, e.TextFormat);
 				}
+			});
+				
+			((ToolStripDropDownMenu)m_mnuSpecial.DropDown).ShowImageMargin = false;
+			((ToolStripDropDownMenu)m_mnuSpecial.DropDown).ShowCheckMargin = false;
+
+			foreach (ToolStripItem mnu in m_mnuSpecial.DropDownItems)
+				mnu.Font = SystemFonts.MenuFont;
+
+			m_mnuPhones.DropDown = PatternBuilderPhoneDropDown.Create(() => Width, text =>
+			{
+				m_mnuPhones.DropDown.Close();
+				ItemSelectedHandler(text);
 			});
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnHandleCreated(EventArgs e)
+		static void HandleRenderMenuItemText(object sender, ToolStripItemTextRenderEventArgs e)
 		{
-			base.OnHandleCreated(e);
-			m_toolstrip.Height = m_toolstrip.PreferredSize.Height;
+			if (e.Item.OwnerItem == null && e.Item is ToolStripMenuItem &&
+				(e.Item.Selected || ((ToolStripMenuItem)e.Item).DropDown.Visible))
+			{
+				TextRenderer.DrawText(e.Graphics, e.Text, e.TextFont,
+					e.TextRectangle, Color.Black, e.TextFormat);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Force the height of the control to be one pixel larger than the tool strip.
+		/// Force the height of the control to be a bit larger than the tool strip.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
 		{
-			height = m_toolstrip.PreferredSize.Height + 2;
+			height = m_menuStrip.Height + 2;
+//			height = m_toolstrip.PreferredSize.Height + 2;
 			base.SetBoundsCore(x, y, width, height, specified);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnSizeChanged(EventArgs e)
+		{
+			base.OnSizeChanged(e);
+			Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -60,7 +80,10 @@ namespace SIL.Pa.UI.Controls
 			var rc = ClientRectangle;
 			rc.Width--;
 			rc.Height--;
-			e.Graphics.DrawRectangle(Pens.WhiteSmoke, rc);
+
+			// Paint border around the bar.
+			using (var pen = new Pen(Settings.Default.GradientPanelTextColor))
+				e.Graphics.DrawRectangle(pen, rc);
 		}
 	}
 }

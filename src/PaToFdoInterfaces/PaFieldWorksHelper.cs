@@ -136,6 +136,14 @@ namespace SIL.PaToFdoInterfaces
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public bool LoadOnlyWritingSystems(string name, string server, int timeToWaitForProcessStart,
+			int timeToWaitForLoadingData)
+		{
+			return _lexEntryServer.LoadOnlyWritingSystems(name, server, timeToWaitForProcessStart,
+				timeToWaitForLoadingData);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public IEnumerable<IPaLexEntry> LexEntries
 		{
 			get { return _lexEntryServer.LexEntries; }

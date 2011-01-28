@@ -101,7 +101,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.CellEndEdit += m_grid_CellEndEdit;
 			m_grid.RowsRemoved += m_grid_RowsRemoved;
 			m_grid.DefaultValuesNeeded += m_grid_DefaultValuesNeeded;
-			App.InitializeGridSelectionColors(m_grid, true);
+			App.SetGridSelectionColors(m_grid, true);
 
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn(kNameCol);
 			col.Width = 135;

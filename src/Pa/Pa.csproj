@@ -1,4 +1,5 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.30729</ProductVersion>
@@ -24,8 +25,9 @@
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <OldToolsVersion>2.0</OldToolsVersion>
+    <OldToolsVersion>3.5</OldToolsVersion>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -38,7 +40,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -65,6 +66,7 @@
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
     <UseVSHostingProcess>true</UseVSHostingProcess>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>..\..\Output\Release\</OutputPath>
@@ -88,6 +90,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>pdbonly</DebugType>
     <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.1.271, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
@@ -97,6 +100,10 @@
     <Reference Include="LocalizationManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\LocalizationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="PaToFdoInterfaces, Version=1.0.4031.28207, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DistFiles\PaToFdoInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="SpeechToolsUtils, Version=1.0.3911.28181, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -115,6 +122,7 @@
     <Reference Include="System.Drawing">
       <Name>System.Drawing</Name>
     </Reference>
+    <Reference Include="System.Management" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms">
       <Name>System.Windows.Forms</Name>
@@ -132,6 +140,10 @@
     <Compile Include="DataSourceClasses\FieldWorks\EditFwUrlDlg.designer.cs">
       <DependentUpon>EditFwUrlDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataSourceClasses\FieldWorks\Fw6DataReader.cs" />
+    <Compile Include="DataSourceClasses\FieldWorks\Fw6DataSourceInfo.cs" />
+    <Compile Include="DataSourceClasses\FieldWorks\Fw7DataSourceInfo.cs" />
+    <Compile Include="DataSourceClasses\FieldWorks\FwDataSourceWsInfo.cs" />
     <Compile Include="DataSourceClasses\FieldWorks\FwDBUtils.cs" />
     <Compile Include="DataSourceClasses\MissingDataSourceMsgBox.cs">
       <SubType>Form</SubType>
@@ -342,12 +354,6 @@
     <Compile Include="UI\Controls\NetworkTreeView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\PaGradientPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UI\Controls\PaTextPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="UI\Controls\PatternBuilderBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -359,6 +365,12 @@
     </Compile>
     <Compile Include="UI\Controls\PatternBuilderComponents.Designer.cs">
       <DependentUpon>PatternBuilderComponents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\PatternBuilderPhoneDropDown.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\PatternBuilderPhoneDropDown.Designer.cs">
+      <DependentUpon>PatternBuilderPhoneDropDown.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Controls\PatternTextBox.cs">
       <SubType>Component</SubType>
@@ -407,6 +419,12 @@
     </Compile>
     <Compile Include="UI\Controls\SearchResultControls\SearchResultTabGroup.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\SearchResultControls\SearchResultTabGroupButtonPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\SearchResultControls\SearchResultTabGroupButtonPanel.Designer.cs">
+      <DependentUpon>SearchResultTabGroupButtonPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Controls\SearchResultControls\SearchResultTabPopup.cs">
       <SubType>UserControl</SubType>
@@ -729,6 +747,9 @@
       <DependentUpon>SearchOptionsDropDown.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\SearchResultControls\SearchResultTabGroupButtonPanel.resx">
+      <DependentUpon>SearchResultTabGroupButtonPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\SortOptionsDropDown.resx">
       <DependentUpon>SortOptionsDropDown.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -818,7 +839,7 @@
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
-      <ProductName>.NET Framework Client Profile</ProductName>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
@@ -846,6 +867,12 @@
     <None Include="Resources\Filter-Small.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\NewTabNormal.png" />
+    <None Include="Resources\NewTabHot.png" />
+    <None Include="Resources\NewTabDropDownArrowNormal.png" />
+    <None Include="Resources\NewTabDropDownArrowHot.png" />
+    <None Include="Resources\CloseTabNormal.png" />
+    <None Include="Resources\CloseTabHot.png" />
     <EmbeddedResource Include="Model\UpdateFileTransforms\UpdateAmbiguousSequenceFile.xslt" />
     <EmbeddedResource Include="Model\UpdateFileTransforms\UpdateExperimentalTranscriptionFile.xslt" />
     <EmbeddedResource Include="ResourceStuff\ChartsTMStrings.resx">
@@ -876,6 +903,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\PatternBuilderBar.resx">
       <DependentUpon>PatternBuilderBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\PatternBuilderPhoneDropDown.resx">
+      <DependentUpon>PatternBuilderPhoneDropDown.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\SearchResultControls\SearchResultTabPopup.resx">
       <DependentUpon>SearchResultTabPopup.cs</DependentUpon>
@@ -938,6 +968,8 @@
       <DependentUpon>DistributionChartVw.cs</DependentUpon>
     </EmbeddedResource>
     <Content Include="pa.ico" />
+    <None Include="Resources\CloseTab.png" />
+    <None Include="Resources\DropDownArrowWithPadding.png" />
     <None Include="Resources\Delete_Hot.png" />
     <None Include="Resources\Delete_Normal.png" />
     <None Include="app.config" />

@@ -14,10 +14,6 @@ using SIL.Pa.UI.Dialogs;
 namespace SIL.Pa.UI.Views
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class DataCorpusVw : UserControl, IxCoreColleague, ITabView
 	{
 		private PaWordListGrid m_grid;
@@ -102,10 +98,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void m_playbackSpeedAdjuster_Disposed(object sender, EventArgs e)
 		{
 			m_playbackSpeedAdjuster.lnkPlay.Click -= HandlePlaybackSpeedAdjusterPlayClick;
@@ -127,6 +119,9 @@ namespace SIL.Pa.UI.Views
 			else
 			{
 				m_grid = new PaWordListGrid(cache, GetType(), false);
+				m_grid.BorderStyle = BorderStyle.None;
+				m_grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+				m_grid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
 				m_grid.TMAdapter = m_tmAdapter;
 
 				// Even thought the grid is docked, setting it's size here prevents the user
@@ -138,7 +133,7 @@ namespace SIL.Pa.UI.Views
 				m_grid.LoadSettings();
 				m_grid.RowEnter += m_grid_RowEnter;
 				m_grid.Visible = false;
-				splitOuter.Panel1.Controls.Add(m_grid);
+				pnlGrid.Controls.Add(m_grid);
 				m_grid.Visible = true;
 				m_grid.TabIndex = 0;
 				m_grid.Focus();
@@ -340,10 +335,6 @@ namespace SIL.Pa.UI.Views
 
 		#endregion
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleCreated(EventArgs e)
 		{

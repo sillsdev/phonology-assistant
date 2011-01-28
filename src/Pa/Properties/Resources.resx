@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="kimidFilterSmall" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Filter-Small.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -166,14 +166,8 @@
   <data name="kstidErrorProjectInvalidFormat" xml:space="preserve">
     <value>Project File '{0}' has an Invalid Format</value>
   </data>
-  <data name="kstidErrorRetrievingAnalWsMsg" xml:space="preserve">
-    <value>There was an error retrieving vernacular writing systems from the {0}\ndatabase. It's possible the file {1} is either missing or corrupt.\n\n{2}</value>
-  </data>
   <data name="kstidErrorRetrievingFwDataMsg" xml:space="preserve">
     <value>There was an error retrieving the data from the {0} database.\nIt's possible the file {1} is either missing or\ncorrupt. Reading this data will be skipped.\n\n{2}</value>
-  </data>
-  <data name="kstidErrorRetrievingVernWsMsg" xml:space="preserve">
-    <value>There was an error retrieving vernacular writing systems from the {0}\ndatabase. It's possible the file {1} is either missing or corrupt.\n\n{2}</value>
   </data>
   <data name="kstidErrorStartingSQLServer1" xml:space="preserve">
     <value>SQL Server cannot be started. It may not be installed.\nThe following error was reported:\n\n{0}\n\nMake sure FieldWorks Language Explorer has been installed.\nOr, restart Phonology Assistant to try again.</value>
@@ -191,15 +185,6 @@
   <data name="kstidFeatureExistsMsg" xml:space="preserve">
     <value>Feature '{0}' already exists.</value>
     <comment>Message displayed when user is trying to add a new feature that already exists.</comment>
-  </data>
-  <data name="kstidFwDataSourceInfo" xml:space="preserve">
-    <value>{0} - ({1})</value>
-  </data>
-  <data name="kstidFwDataSourceInfoWithMachineName" xml:space="preserve">
-    <value>{0} on '{1}'</value>
-  </data>
-  <data name="kstidFwDBMissing" xml:space="preserve">
-    <value>FieldWorks database '{0}' is missing.</value>
   </data>
   <data name="kstidGettingFwProjInfoMsg" xml:space="preserve">
     <value>Gathering FieldWorks Project Information...</value>
@@ -251,15 +236,6 @@
   </data>
   <data name="kstidSplashScreenLoadingMsg" xml:space="preserve">
     <value>Loading...</value>
-  </data>
-  <data name="kstidSQLConnectionErrMsg" xml:space="preserve">
-    <value>The following error occurred when trying to establish\na connection to the {0} database on the machine '{1}'.\n\n{2}</value>
-  </data>
-  <data name="kstidSQLServerNotInstalledMsg" xml:space="preserve">
-    <value>Access to FieldWorks projects requires SQL Server but it is not installed on this computer.</value>
-  </data>
-  <data name="kstidStartingSQLServerMsg" xml:space="preserve">
-    <value>Starting SQL Server...</value>
   </data>
   <data name="kstidToolboxNotRunningMsg" xml:space="preserve">
     <value>For this feature to work, you must have Toolbox running with the following database opened:\n\n {0}\n\nSee the help file for more information.</value>
@@ -486,14 +462,6 @@
   <data name="kstidCharHdg" xml:space="preserve">
     <value>Character</value>
     <comment>Heading for column in undefined phonetic chars. dialog</comment>
-  </data>
-  <data name="kstidCharPickerTooltipLong" xml:space="preserve">
-    <value>{0},\n{1}</value>
-    <comment>Used to format the tooltip string for items in an IPA character picker control (1st argument is the character name, and the 2rd argument is for the description)</comment>
-  </data>
-  <data name="kstidCharPickerTooltipShort" xml:space="preserve">
-    <value>{0}</value>
-    <comment>Used to format the tooltip string for items in an IPA character picker control when the character has no description (argument is the character name).</comment>
   </data>
   <data name="kstidClassCopyNameFormat" xml:space="preserve">
     <value>{0} ({1:D2})</value>
@@ -947,5 +915,26 @@
   </data>
   <data name="DeleteNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Delete_Normal.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DropDownArrowWithPadding" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DropDownArrowWithPadding.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CloseTabHot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CloseTabHot.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CloseTabNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CloseTabNormal.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NewTabDropDownArrowHot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewTabDropDownArrowHot.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NewTabDropDownArrowNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewTabDropDownArrowNormal.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NewTabHot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewTabHot.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NewTabNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewTabNormal.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

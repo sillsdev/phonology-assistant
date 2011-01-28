@@ -62,12 +62,16 @@ namespace SIL.Pa.UI.Controls
 		private Color m_uncertainPhoneForeColor;
 		private Color m_searchItemBackColor;
 		private Color m_searchItemForeColor;
-		private Color m_selectedFocusedRowBackColor;
-		private Color m_selectedFocusedRowForeColor;
-		private Color m_selectedUnFocusedRowBackColor;
-		private Color m_selectedUnFocusedRowForeColor;
-		private Color m_selectedCellBackColor;
-		private Color m_selectedCellForeColor;
+		
+		
+		//private Color m_selectedFocusedRowBackColor;
+		//private Color m_selectedFocusedRowForeColor;
+		
+		//private Color m_selectedCellBackColor;
+		//private Color m_selectedCellForeColor;
+		
+		//private Color m_selectedUnFocusedRowBackColor;
+		//private Color m_selectedUnFocusedRowForeColor;
 
 		#region Constructors
 		/// ------------------------------------------------------------------------------------
@@ -187,10 +191,7 @@ namespace SIL.Pa.UI.Controls
 				if (m_fieldInfoList == null || m_fieldInfoList.Count == 0)
 					m_fieldInfoList = App.Project.FieldInfo;
 
-				if (m_fieldInfoList == null)
-					m_fieldInfoList = new PaFieldInfoList();
-
-				return m_fieldInfoList;
+				return m_fieldInfoList ?? (m_fieldInfoList = new PaFieldInfoList());
 			}
 		}
 
@@ -266,35 +267,13 @@ namespace SIL.Pa.UI.Controls
 		{
 			ForeColor = SystemColors.WindowText;
 			BackgroundColor = SystemColors.Window;
-			GridColor = App.WordListGridColor;
+			GridColor = App.GridColor;
 
 			m_uncertainPhoneForeColor = Settings.Default.UncertainPhoneForeColor;
 			m_searchItemBackColor = Settings.Default.QuerySearchItemBackColor;
 			m_searchItemForeColor = Settings.Default.QuerySearchItemForeColor;
-			m_selectedCellBackColor = Settings.Default.GridCellSelectionBackColor;
-			m_selectedCellForeColor = Settings.Default.GridCellSelectionForeColor;
-			m_selectedFocusedRowBackColor = App.SelectedFocusedWordListRowBackColor;
-			m_selectedFocusedRowForeColor = Settings.Default.GridRowSelectionForeColor;
-			
-			bool changeSelectionOnFocusLoss = Settings.Default.WordListChangeSelectionOnFocusLoss;
-
-			m_selectedUnFocusedRowBackColor = (changeSelectionOnFocusLoss ?
-				Settings.Default.WordListSelectedUnFocusedRowBackColor : m_selectedFocusedRowBackColor);
-			
-			m_selectedUnFocusedRowForeColor = (changeSelectionOnFocusLoss ?
-				App.SelectedUnFocusedWordListRowForeColor : m_selectedFocusedRowForeColor);
-
-			RowsDefaultCellStyle.SelectionForeColor = (Focused ?
-				m_selectedFocusedRowForeColor : m_selectedUnFocusedRowForeColor);
-
-			RowsDefaultCellStyle.SelectionBackColor = (Focused ?
-				m_selectedFocusedRowBackColor : m_selectedUnFocusedRowBackColor);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
@@ -906,68 +885,42 @@ namespace SIL.Pa.UI.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Set the status bar accordingly.
+		/// Set the status bar accordingly. I use this override instead of OnLeave because
+		/// when using OnLeave, I found some edge cases when the current row wasn't getting
+		/// invalidated properly. Overriding this event fixed it.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void OnLeave(EventArgs e)
+		protected override void OnLostFocus(EventArgs e)
 		{
 			App.StatusBarLabel.Text = string.Empty;
-			base.OnLeave(e);
-
+			base.OnLostFocus(e);
 			if (m_audioFilePathToolTip != null)
 			{
 				m_audioFilePathToolTip.Dispose();
 				m_audioFilePathToolTip = null;
 			}
+
+			if (CurrentRow != null)
+				InvalidateRow(CurrentRow.Index);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Set the status bar accordingly.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnEnter(EventArgs e)
-		{
-			SetStatusBarText();
-			base.OnEnter(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Set the background color of the selected row accordingly.
+		/// Set the status bar accordingly. I use this override instead of OnEnter because
+		/// when using OnEnter, I found some edge cases when the current row wasn't getting
+		/// invalidated properly. Overriding this event fixed it.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnGotFocus(EventArgs e)
 		{
+			SetStatusBarText();
+
+			if (CurrentRow != null)
+				InvalidateRow(CurrentRow.Index);
+
 			base.OnGotFocus(e);
-
-			RowsDefaultCellStyle.SelectionForeColor = m_selectedFocusedRowForeColor;
-			RowsDefaultCellStyle.SelectionBackColor = m_selectedFocusedRowBackColor;
-
-			if (CurrentRow != null)
-				InvalidateRow(CurrentRow.Index);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Set the background color of the selected row accordingly.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnLostFocus(EventArgs e)
-		{
-			base.OnLostFocus(e);
-
-			RowsDefaultCellStyle.SelectionForeColor = m_selectedUnFocusedRowForeColor;
-			RowsDefaultCellStyle.SelectionBackColor = m_selectedUnFocusedRowBackColor;
-
-			if (CurrentRow != null)
-				InvalidateRow(CurrentRow.Index);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnRowEnter(DataGridViewCellEventArgs e)
 		{
@@ -1117,23 +1070,7 @@ namespace SIL.Pa.UI.Controls
 			if (e.CellStyle.Font != Columns[e.ColumnIndex].DefaultCellStyle.Font)
 				e.CellStyle.Font = Columns[e.ColumnIndex].DefaultCellStyle.Font;
 
-			if (CurrentRow != null && CurrentRow.Index == e.RowIndex)
-			{
-				if (CurrentCell != null && CurrentCell.ColumnIndex == e.ColumnIndex)
-				{
-					// Set the selected cell's background color to be
-					// distinct from the rest of the current row.
-					e.CellStyle.SelectionBackColor = (Focused ?
-						m_selectedCellBackColor : m_selectedUnFocusedRowBackColor);
-				}
-				else
-				{
-					// Set the selected row's background color.
-					e.CellStyle.SelectionBackColor = (Focused ?
-						m_selectedFocusedRowBackColor : m_selectedUnFocusedRowBackColor);
-				}
-			}
-
+			App.SetCellColors(this, e);
 			base.OnCellFormatting(e);
 		}
 
@@ -1978,17 +1915,9 @@ namespace SIL.Pa.UI.Controls
 		/// Gets the foreground color for the current cell being painted.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private Color GetCurrentCellDrawForeColor(int colindex)
+		private Color GetCurrentCellDrawForeColor(DataGridViewCellPaintingEventArgs e)
 		{
-			Color clr = RowsDefaultCellStyle.ForeColor;
-
-			if (m_currPaintingCellSelected)
-			{
-				clr = (Focused && CurrentCellAddress.X == colindex ?
-					m_selectedCellForeColor : RowsDefaultCellStyle.SelectionForeColor);
-			}
-
-			return clr;
+			return (m_currPaintingCellSelected ? e.CellStyle.SelectionForeColor : e.CellStyle.ForeColor);
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -2001,7 +1930,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			Rectangle rc = e.CellBounds;
 
-			DataGridViewPaintParts parts = DataGridViewPaintParts.All;
+			var parts = DataGridViewPaintParts.All;
 			parts &= ~DataGridViewPaintParts.Focus;
 
 			// Draw default everything but text if paintContent is false.
@@ -2017,7 +1946,7 @@ namespace SIL.Pa.UI.Controls
 			else
 			{
 				Color clr = e.CellStyle.SelectionForeColor;
-				e.CellStyle.SelectionForeColor = GetCurrentCellDrawForeColor(e.ColumnIndex);
+				e.CellStyle.SelectionForeColor = GetCurrentCellDrawForeColor(e);
 				e.Paint(rc, parts);
 				e.CellStyle.SelectionForeColor = clr;
 
@@ -2106,7 +2035,7 @@ namespace SIL.Pa.UI.Controls
 				TextFormatFlags.PreserveGraphicsClipping;
 
 			TextRenderer.DrawText(e.Graphics, soundFilePath, e.CellStyle.Font, e.CellBounds,
-				GetCurrentCellDrawForeColor(e.ColumnIndex), kFlags);
+				GetCurrentCellDrawForeColor(e), kFlags);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -2165,7 +2094,7 @@ namespace SIL.Pa.UI.Controls
 			DrawSearchItemPhones(e.Graphics, wlentry.Phones, rc, srchItemOffset,
 				envAfterOffset, kFlags, itemLeft);
 
-			Color clrText = GetCurrentCellDrawForeColor(e.ColumnIndex);
+			Color clrText = GetCurrentCellDrawForeColor(e);
 
 			// Draw the phones in the environment after.
 			rc.X = itemLeft + itemWidth;
@@ -2212,15 +2141,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void DrawSearchItemPhones(IDeviceContext g, string[] phones, Rectangle cellBounds,
 			int begin, int end, TextFormatFlags flags, int left)
 		{
 			Color clrText = (m_currPaintingCellSelected && !Focused ?
-				m_selectedUnFocusedRowForeColor : m_searchItemForeColor);
+				 Settings.Default.GridRowUnfocusedSelectionForeColor : m_searchItemForeColor);
 			
 			Rectangle rc = new Rectangle(left, cellBounds.Y,
 				cellBounds.Right - left, cellBounds.Height);
@@ -2259,7 +2184,7 @@ namespace SIL.Pa.UI.Controls
 				TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine |
 				TextFormatFlags.Left | TextFormatFlags.PreserveGraphicsClipping;
 
-			Color clrText = GetCurrentCellDrawForeColor(e.ColumnIndex);
+			Color clrText = GetCurrentCellDrawForeColor(e);
 
 			rc.X += 4;
 			rc.Width -= 4;
@@ -2995,14 +2920,10 @@ namespace SIL.Pa.UI.Controls
 					// Check if the CV pattern is one of the fields on which the list
 					// is sorted. If it is, then resort the word list. This will also
 					// regroup the list if it's grouped.
-					foreach (SortInformation si in m_sortOptions.SortInformationList)
+					if (m_sortOptions.SortInformationList.Any(si => si.FieldInfo == fieldInfo))
 					{
-						if (si.FieldInfo == fieldInfo)
-						{
-							Sort(m_sortOptions.SortInformationList[0].FieldInfo.FieldName, false);
-							resorted = true;
-							break;
-						}
+						Sort(m_sortOptions.SortInformationList[0].FieldInfo.FieldName, false);
+						resorted = true;
 					}
 				}
 

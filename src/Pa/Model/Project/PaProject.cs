@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.Pa.DataSource;
+using SIL.Pa.DataSourceClasses.FieldWorks;
 using SIL.Pa.Filters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
@@ -132,8 +133,6 @@ namespace SIL.Pa
 				"SIL.Pa.Model.UpdateFileTransforms.UpdateProjectFile.xslt", errMsg);
 		}
 
-		#endregion
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Makes sure that FW, SFM and Toolbox data sources are informed that a field has
@@ -149,10 +148,10 @@ namespace SIL.Pa
 			foreach (PaDataSource source in DataSources)
 			{
 				if (source.DataSourceType == DataSourceType.FW &&
-					source.FwDataSourceInfo != null &&
-					source.FwDataSourceInfo.WritingSystemInfo != null)
+					source.Fw6DataSourceInfo != null &&
+					source.Fw6DataSourceInfo.WritingSystemInfo != null)
 				{
-					foreach (FwDataSourceWsInfo wsi in source.FwDataSourceInfo.WritingSystemInfo)
+					foreach (FwDataSourceWsInfo wsi in source.Fw6DataSourceInfo.WritingSystemInfo)
 					{
 						int i = oldNames.IndexOf(wsi.FieldName);
 						wsi.FieldName = (i < 0 ? wsi.FieldName.ToLower() : newNames[i]);
@@ -160,6 +159,8 @@ namespace SIL.Pa
 				}
 			}
 		}
+
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -514,7 +515,7 @@ namespace SIL.Pa
 				// For all other data sources, get the date and time stamp on the data
 				// source file.
 				if (source.DataSourceType == DataSourceType.FW && source.FwSourceDirectFromDB)
-					reloadFWdb = source.FwDataSourceInfo.UpdateLastModifiedStamp();
+					reloadFWdb = source.Fw6DataSourceInfo.UpdateLastModifiedStamp();
 				else if (source.DataSourceType == DataSourceType.SA)
 				{
 					latestModification =

@@ -158,7 +158,7 @@ namespace SIL.Pa.Model
 			if (field == s_dataSourcePathFieldName)
 			{
 				return (m_dataSource.DataSourceType == DataSourceType.FW &&
-					m_dataSource.FwSourceDirectFromDB ?	m_dataSource.FwDataSourceInfo.MachineName :
+					m_dataSource.FwSourceDirectFromDB ?	m_dataSource.Fw6DataSourceInfo.MachineName :
 					Path.GetDirectoryName(m_dataSource.DataSourceFile)); 
 			}
 
@@ -167,7 +167,7 @@ namespace SIL.Pa.Model
 			if (field == s_dataSourceFieldName)
 			{
 				return (m_dataSource.DataSourceType == DataSourceType.FW &&
-					m_dataSource.FwSourceDirectFromDB ?	m_dataSource.FwDataSourceInfo.ToString() :
+					m_dataSource.FwSourceDirectFromDB ?	m_dataSource.Fw6DataSourceInfo.ToString() :
 					Path.GetFileName(m_dataSource.DataSourceFile));
 			}
 

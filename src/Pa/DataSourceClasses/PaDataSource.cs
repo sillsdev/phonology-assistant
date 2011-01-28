@@ -1,33 +1,29 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
+using SIL.Pa.DataSourceClasses.FieldWorks;
 using SIL.Pa.Model;
 using SilTools;
 
 namespace SIL.Pa.DataSource
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public enum DataSourceType
 	{
 		PAXML,
-		FW,
+		FW,				// This is for FW6 or older data sources.
+		FW7,			// This is for FW7 and newer data sources.
 		SA,
 		SFM,
 		Toolbox,
 		XML,
+		LIFT,
 		Unknown
 	}
 
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public enum DataSourceParseType
 	{
@@ -38,75 +34,66 @@ namespace SIL.Pa.DataSource
 	}
 
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	[XmlType("DataSource")]
 	public class PaDataSource
 	{
 		public const string kRecordMarker = "RecMrkr";
 		public const string kShoeboxMarker = "\\_sh ";
-		private string m_file;
-		private string m_xsltFile;
-		private string m_firstInterlinearField = null;
-		private DateTime m_lastModification = DateTime.MinValue;
-		private int m_linesInFile = 1;
-		private DataSourceType m_sourceType = DataSourceType.Unknown;
-		private List<SFMarkerMapping> m_mappings;
-		private bool m_skipLoading = false;
-		private DataSourceParseType m_parseType = DataSourceParseType.PhoneticOnly;
-		//private string m_fwServer;
-		private string m_fwDBName;
-		private FwDataSourceInfo m_fwSourceInfo = null;
-		private string m_toolboxSortField;
-		private string m_editor = null;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public PaDataSource()
 		{
+			DataSourceType = DataSourceType.Unknown;
+			ParseType = DataSourceParseType.PhoneticOnly;
+			LastModification = DateTime.MinValue;
+			TotalLinesInFile = 1;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Creates a FieldWorks data source.
+		/// Creates a FieldWorks (6.0 or earlier) data source.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaDataSource(FwDataSourceInfo fwDbItem)
+		public PaDataSource(Fw6DataSourceInfo fwDbItem) : this()
 		{
-			m_fwSourceInfo = fwDbItem;
-			m_sourceType = DataSourceType.FW;
-		}
+			DataSourceType = DataSourceType.FW;
+			Fw6DataSourceInfo = fwDbItem;
+			FwDBName = Fw6DataSourceInfo.DBName;
+	}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Creates a FieldWorks (7.0 or later) data source.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaDataSource(string filename)
+		public PaDataSource(Fw7DataSourceInfo fwDbItem) : this()
 		{
-			m_file = filename.Trim();
+			DataSourceType = DataSourceType.FW7;
+			Fw7DataSourceInfo = fwDbItem;
+			FwDBName = Fw7DataSourceInfo.Name;
+		}
 
-			if (m_file.ToLower().EndsWith(".wav") /* || m_file.ToLower().EndsWith(".mp3") ||
+		/// ------------------------------------------------------------------------------------
+		public PaDataSource(string filename) : this()
+		{
+			DataSourceFile = filename.Trim();
+
+			if (DataSourceFile.ToLower().EndsWith(".wav") /* || m_file.ToLower().EndsWith(".mp3") ||
 				m_file.ToLower().EndsWith(".wma") */)
 			{
-				m_sourceType = DataSourceType.SA;
+				DataSourceType = DataSourceType.SA;
 			}
-			else if (!IsXMLFile(m_file))
+			else if (!IsXMLFile(DataSourceFile))
 			{
 				bool isShoeboxFile;
-				if (IsSFMFile(m_file, out isShoeboxFile))
-					m_sourceType = (isShoeboxFile ? DataSourceType.Toolbox : DataSourceType.SFM);
+				if (IsSFMFile(DataSourceFile, out isShoeboxFile))
+					DataSourceType = (isShoeboxFile ? DataSourceType.Toolbox : DataSourceType.SFM);
 			}
 
-			if (m_sourceType != DataSourceType.Unknown)
-				m_lastModification = File.GetLastWriteTimeUtc(filename);
+			if (DataSourceType != DataSourceType.Unknown)
+				LastModification = File.GetLastWriteTimeUtc(filename);
 			
-			if (m_sourceType == DataSourceType.SFM || m_sourceType == DataSourceType.Toolbox)
+			if (DataSourceType == DataSourceType.SFM || DataSourceType == DataSourceType.Toolbox)
 				MakeNewMappingsList();
 		}
 
@@ -119,13 +106,13 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		public bool Matches(PaDataSource ds, bool treatToolboxAsSFM)
 		{
-			bool typesMatch = (m_sourceType == ds.DataSourceType);
+			bool typesMatch = (DataSourceType == ds.DataSourceType);
 
 			if (!typesMatch && treatToolboxAsSFM)
 			{
 				// Determine if the TOOLBOX/SFM types match.
-				typesMatch = ((m_sourceType == DataSourceType.Toolbox ||
-					m_sourceType == DataSourceType.SFM) &&
+				typesMatch = ((DataSourceType == DataSourceType.Toolbox ||
+					DataSourceType == DataSourceType.SFM) &&
 					(ds.DataSourceType == DataSourceType.Toolbox ||
 					ds.DataSourceType == DataSourceType.SFM));
 			}
@@ -133,13 +120,19 @@ namespace SIL.Pa.DataSource
 			if (!typesMatch)
 				return false;
 
-			if (m_sourceType == DataSourceType.FW)
+			if (DataSourceType == DataSourceType.FW)
 			{
-				return (m_fwSourceInfo != null && ds.FwDataSourceInfo != null &&
-					m_fwSourceInfo.ProjectName == ds.FwDataSourceInfo.ProjectName);
+				return (Fw6DataSourceInfo != null && ds.Fw6DataSourceInfo != null &&
+					Fw6DataSourceInfo.ProjectName == ds.Fw6DataSourceInfo.ProjectName);
+			}
+			
+			if (DataSourceType == DataSourceType.FW7)
+			{
+				return (Fw7DataSourceInfo != null && ds.Fw7DataSourceInfo != null &&
+				Fw7DataSourceInfo.ProjectName == ds.Fw7DataSourceInfo.ProjectName);
 			}
 
-			return (m_file.ToLower() == ds.DataSourceFile.ToLower());
+			return (DataSourceFile.ToLower() == ds.DataSourceFile.ToLower());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -149,18 +142,12 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private void MakeNewMappingsList()
 		{
-			m_mappings = new List<SFMarkerMapping>();
-			m_mappings.Add(new SFMarkerMapping(kRecordMarker));
-
 			// Add a mapping for each PA field in the specified PaFieldInfoList. For each new
 			// mapping, check if there is a mapping for the same field in the specified
 			// default mappings list. If there is, then assign the new mapping's marker and
 			// interlinear flag to that of the one found in the default mapping list.
-			foreach (PaFieldInfo fieldInfo in PaFieldInfoList.DefaultFieldInfoList)
-			{
-				SFMarkerMapping newMapping = new SFMarkerMapping(fieldInfo);
-				m_mappings.Add(newMapping);
-			}
+			SFMappings = PaFieldInfoList.DefaultFieldInfoList.Select(fi => new SFMarkerMapping(fi)).ToList();
+			SFMappings.Insert(0, new SFMarkerMapping(kRecordMarker));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -171,17 +158,17 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		public void VerifyMappings(PaProject project)
 		{
-			if (m_sourceType != DataSourceType.Toolbox && m_sourceType != DataSourceType.SFM &&
-				m_mappings != null)
+			if (DataSourceType != DataSourceType.Toolbox && DataSourceType != DataSourceType.SFM &&
+				SFMappings != null)
 			{
-				m_mappings.Clear();
+				SFMappings.Clear();
 				return;
 			}
 
 			if (project == null)
 				return;
 
-			if (m_mappings == null || m_mappings.Count == 0)
+			if (SFMappings == null || SFMappings.Count == 0)
 			{
 				MakeNewMappingsList();
 				return;
@@ -189,17 +176,11 @@ namespace SIL.Pa.DataSource
 
 			// Verify that each field in the project has an item in the mappings collection.
 			foreach (PaFieldInfo fieldinfo in project.FieldInfo)
-				SFMarkerMapping.VerifyMappingForField(m_mappings, fieldinfo);
+				SFMarkerMapping.VerifyMappingForField(SFMappings, fieldinfo);
 
 			// Now make sure a mapping exists for the record marker.
-			foreach (SFMarkerMapping mapping in m_mappings)
-			{
-				if (mapping.FieldName == kRecordMarker)
-					return;
-			}
-
-			// At this point, we know a mapping was not found for the record marker. So add one.
-			m_mappings.Add(new SFMarkerMapping(kRecordMarker));
+			if (!SFMappings.Any(m => m.FieldName == kRecordMarker))
+				SFMappings.Add(new SFMarkerMapping(kRecordMarker));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -212,11 +193,10 @@ namespace SIL.Pa.DataSource
 			using (StreamReader reader = new StreamReader(filename))
 			{
 				isShoeboxFile = false;
-				string line;
 				int linesBeginningWithBackslash = 0;
 
 				// Check if the file is a shoebox file.
-				line = reader.ReadLine();
+				var line = reader.ReadLine();
 				if (line != null && line.StartsWith(kShoeboxMarker))
 				{
 					isShoeboxFile = true;
@@ -227,7 +207,7 @@ namespace SIL.Pa.DataSource
 				{
 					if (line != null && line.Trim() != string.Empty)
 					{
-						m_linesInFile++;
+						TotalLinesInFile++;
 						if (line.StartsWith("\\"))
 							linesBeginningWithBackslash++;
 					}
@@ -236,7 +216,7 @@ namespace SIL.Pa.DataSource
 				reader.Close();
 
 				// Assume that it's an SFM file if at least 60% of the lines begin with a backslash
-				return (((float)linesBeginningWithBackslash / m_linesInFile) >= 0.60);
+				return (((float)linesBeginningWithBackslash / TotalLinesInFile) >= 0.60);
 			}
 		}
 
@@ -261,14 +241,14 @@ namespace SIL.Pa.DataSource
 			var paxmlContent = XmlSerializationHelper.DeserializeFromFile<PaXMLContent>(filename);
 
 			if (paxmlContent == null)
-				m_sourceType = DataSourceType.XML;
+				DataSourceType = DataSourceType.XML;
 			else
 			{
 				// We know we have a PAXML file. Now check if it was written by FieldWorks.
 				string fwServer;
 				string fwDBName;
-				m_sourceType = GetPaXMLType(filename, out fwServer, out fwDBName);
-				m_linesInFile = paxmlContent.Cache.Count;
+				DataSourceType = GetPaXMLType(filename, out fwServer, out fwDBName);
+				TotalLinesInFile = paxmlContent.Cache.Count;
 				paxmlContent.Cache.Clear();
 			}
 
@@ -321,39 +301,11 @@ namespace SIL.Pa.DataSource
 		{
 			// If the data source is an SFM or Toolbox data source then rename the fields
 			// in the mappings collection.
-			if (m_mappings != null)
+			if (SFMappings != null)
 			{
-				foreach (SFMarkerMapping mapping in m_mappings)
-				{
-					if (mapping.FieldName == origName)
-						mapping.FieldName = newName;
-				}
+				foreach (var mapping in SFMappings.Where(m => m.FieldName == origName))
+					mapping.FieldName = newName;
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Get's the data source's file name or database name when the data source is 
-		/// FieldWorks data direct from a FW database.
-		/// </summary>
-		/// <returns></returns>
-		/// ------------------------------------------------------------------------------------
-		public override string ToString()
-		{
-			return ToString(false);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Get's the data source's file name or database name when the data source is 
-		/// FieldWorks data direct from a FW database.
-		/// </summary>
-		/// <returns></returns>
-		/// ------------------------------------------------------------------------------------
-		public string ToString(bool showMachineNameForFwDataSources)
-		{
-			return (m_sourceType == DataSourceType.FW && m_fwSourceInfo != null ?
-				  m_fwSourceInfo.ToString(showMachineNameForFwDataSources) : DataSourceFile);
 		}
 
 		#region Properties
@@ -362,22 +314,14 @@ namespace SIL.Pa.DataSource
 		/// Gets the data source file. (The setter is only for XML deserialization.)
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string DataSourceFile
-		{
-			get { return m_file; }
-			set	{ m_file = value; }
-		}
+		public string DataSourceFile { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the type of the data source. (The setter is only for XML deserialization.)
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public DataSourceType DataSourceType
-		{
-			get { return m_sourceType; }
-			set { m_sourceType = value; }
-		}
+		public DataSourceType DataSourceType { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -385,23 +329,23 @@ namespace SIL.Pa.DataSource
 		/// This value is only relevant for data sources whose type is SFM or Toolbox.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public DataSourceParseType ParseType
-		{
-			get { return m_parseType; }
-			set { m_parseType = value; }
-		}
+		public DataSourceParseType ParseType { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the FW data source info. object. The setter for this is only for
+		/// Gets the FW6 (or older) data source info. object. The setter for this is only for
 		/// deserialization.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FwDataSourceInfo FwDataSourceInfo
-		{
-			get { return m_fwSourceInfo; }
-			set { m_fwSourceInfo = value; }
-		}
+		public Fw6DataSourceInfo Fw6DataSourceInfo { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the FW7 (or newer) data source info. object. The setter for this is only for
+		/// deserialization.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public Fw7DataSourceInfo Fw7DataSourceInfo { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -412,34 +356,16 @@ namespace SIL.Pa.DataSource
 		[XmlIgnore]
 		public bool FwSourceDirectFromDB
 		{
-			get { return m_fwSourceInfo != null; }
+			get { return Fw6DataSourceInfo != null; }
 		}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Gets or sets the SIL FieldWorks server name. This is set only when an FW data
-		///// source is read in DataSourceReader.cs.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//[XmlIgnore]
-		//public string FwServer
-		//{
-		//    get { return m_fwSourceInfo != null ? m_fwSourceInfo.Server : m_fwServer; }
-		//    set { m_fwServer = value; }
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets the SIL FieldWorks database name. This is set only when an FW data
-		/// source is read in DataSourceReader.cs.
+		/// Gets or sets the SIL FieldWorks database name.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string FwDBName
-		{
-			get { return (m_fwSourceInfo == null ? m_fwDBName : m_fwSourceInfo.DBName); }
-			set { m_fwDBName = value; }
-		}
+		public string FwDBName { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -450,55 +376,23 @@ namespace SIL.Pa.DataSource
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public bool SkipLoading
-		{
-			get { return m_skipLoading; }
-			set { m_skipLoading = value; }
-		}
+		public bool SkipLoading { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public string DataSourceTypeString
 		{
-			get { return m_sourceType.ToString(); }
+			get { return DataSourceType.ToString(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string XSLTFile
-		{
-			get { return m_xsltFile; }
-			set { m_xsltFile = value; }
-		}
+		public string XSLTFile { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string FirstInterlinearField
-		{
-			get { return m_firstInterlinearField; }
-			set { m_firstInterlinearField = value; }
-		}
+		public string FirstInterlinearField { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public int TotalLinesInFile
-		{
-			get { return m_linesInFile; }
-			set { m_linesInFile = value; }
-		}
+		public int TotalLinesInFile { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -506,11 +400,7 @@ namespace SIL.Pa.DataSource
 		/// tells Toolbox to jump to a record containing the field's value.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string ToolboxSortField
-		{
-			get { return m_toolboxSortField; }
-			set { m_toolboxSortField = value; }
-		}
+		public string ToolboxSortField { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -519,22 +409,10 @@ namespace SIL.Pa.DataSource
 		/// SFM data sources.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string Editor
-		{
-			get { return m_editor; }
-			set { m_editor = value; }
-		}
+		public string Editor { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public List<SFMarkerMapping> SFMappings
-		{
-			get { return m_mappings; }
-			set { m_mappings = value; }
-		}
+		public List<SFMarkerMapping> SFMappings { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -546,34 +424,22 @@ namespace SIL.Pa.DataSource
 		{
 			get
 			{
-				if (string.IsNullOrEmpty(m_firstInterlinearField) ||
-					(m_sourceType != DataSourceType.SFM && m_sourceType != DataSourceType.Toolbox))
+				if (string.IsNullOrEmpty(FirstInterlinearField) ||
+					(DataSourceType != DataSourceType.SFM && DataSourceType != DataSourceType.Toolbox))
 				{
 					return null;
 				}
 
-				List<string> interlinearFields = new List<string>();
-				foreach (SFMarkerMapping mapping in m_mappings)
-				{
-					if (mapping.IsInterlinear)
-						interlinearFields.Add(mapping.FieldName);
-				}
+				var interlinearFields =
+					(from mapping in SFMappings where mapping.IsInterlinear select mapping.FieldName).ToArray();
 
-				return (interlinearFields.Count == 0 ? null : interlinearFields.ToArray());
+				return (interlinearFields.Length == 0 ? null : interlinearFields);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public DateTime LastModification
-		{
-			get { return m_lastModification; }
-			set { m_lastModification = value; }
-		}
+		public DateTime LastModification { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -586,12 +452,12 @@ namespace SIL.Pa.DataSource
 		{
 			get
 			{
-				if (m_mappings == null)
+				if (SFMappings == null)
 					return false;
 
 				// Go through the mappings to determine how to set the MappingsExist flag.
 				int count = 0;
-				foreach (SFMarkerMapping mapping in m_mappings)
+				foreach (SFMarkerMapping mapping in SFMappings)
 				{
 					if (mapping.FieldName == kRecordMarker && string.IsNullOrEmpty(mapping.Marker))
 						count = -999;
@@ -606,5 +472,32 @@ namespace SIL.Pa.DataSource
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Get's the data source's file name or database name when the data source is 
+		/// FieldWorks data direct from a FW database.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return ToString(false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Get's the data source's file name or database name when the data source is 
+		/// FieldWorks data direct from a FW database.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string ToString(bool showServerForFwDataSource)
+		{
+			switch (DataSourceType)
+			{
+				case DataSourceType.FW: return Fw6DataSourceInfo.ToString(showServerForFwDataSource);
+				case DataSourceType.FW7: return Fw7DataSourceInfo.ToString(showServerForFwDataSource);
+				default: return DataSourceFile;
+			}
+		}
 	}
 }

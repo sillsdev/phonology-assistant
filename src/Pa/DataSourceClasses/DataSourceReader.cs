@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using SIL.Pa.DataSourceClasses.FieldWorks;
 using SIL.Pa.Model;
 using SIL.Pa.ResourceStuff;
 using SIL.Pa.UI.Dialogs;
@@ -111,21 +113,18 @@ namespace SIL.Pa.DataSource
 					return;
 			}
 
-			if (datasource.FwDataSourceInfo != null)
+			if (datasource.Fw6DataSourceInfo != null)
 			{
-				FwDataSourceInfo[] fwDBInfoList =
-					FwDBUtils.GetFwDataSourceInfoList(datasource.FwDataSourceInfo.MachineName, false);
+				var fwDBInfoList =
+					FwDBUtils.GetFwDataSourceInfoList(datasource.Fw6DataSourceInfo.MachineName, false);
 
-				if (fwDBInfoList != null)
+				if (fwDBInfoList != null &&
+					fwDBInfoList.Any(fwinfo => datasource.FwDBName == fwinfo.DBName))
 				{
-					foreach (FwDataSourceInfo fwDBInfo in fwDBInfoList)
-					{
-						if (datasource.FwDBName == fwDBInfo.DBName)
-							return;
-					}
+					return;
 				}
 
-				datasource.FwDataSourceInfo.IsMissing = true;
+				datasource.Fw6DataSourceInfo.IsMissing = true;
 			}
 
 			MissingFWDatabaseMsgBox.ShowDialog(datasource.ToString(true));
@@ -183,8 +182,8 @@ namespace SIL.Pa.DataSource
 			foreach (PaDataSource source in m_dataSources)
 			{
 				App.IPASymbolCache.UndefinedCharacters.CurrentDataSourceName =
-					(source.DataSourceType == DataSourceType.FW && source.FwDataSourceInfo != null ?
-					source.FwDataSourceInfo.ToString() : Path.GetFileName(source.DataSourceFile));
+					(source.DataSourceType == DataSourceType.FW && source.Fw6DataSourceInfo != null ?
+					source.Fw6DataSourceInfo.ToString() : Path.GetFileName(source.DataSourceFile));
 
 				App.IPASymbolCache.LogUndefinedCharactersWhenParsing = true;
 
@@ -194,8 +193,8 @@ namespace SIL.Pa.DataSource
 					"Reading {0}", App.kLocalizationGroupInfoMsg);
 
 				App.UpdateProgressBarLabel(string.Format(fmt,
-					(source.FwSourceDirectFromDB && source.FwDataSourceInfo != null ?
-					source.FwDataSourceInfo.DBName : Path.GetFileName(source.DataSourceFile))));
+					(source.FwSourceDirectFromDB && source.Fw6DataSourceInfo != null ?
+					source.Fw6DataSourceInfo.DBName : Path.GetFileName(source.DataSourceFile))));
 
 				StreamReader reader = null;
 
@@ -269,30 +268,22 @@ namespace SIL.Pa.DataSource
 
 		#region PaXML/FW data source reading
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void ReadFwDataSource()
 		{
 			App.IncProgressBar();
 
-			if (m_currDataSource.FwDataSourceInfo != null)
+			if (m_currDataSource.Fw6DataSourceInfo != null)
 			{
 				// Get the lexical data from the FW database.
-				FwDataReader fwReader = new FwDataReader(m_currDataSource.FwDataSourceInfo);
+				var fwReader = new Fw6DataReader(m_currDataSource.Fw6DataSourceInfo);
 				m_currDataSource.SkipLoading = !fwReader.GetData(HandleReadingFwData);
-				m_currDataSource.FwDataSourceInfo.IsMissing = m_currDataSource.SkipLoading;
+				m_currDataSource.Fw6DataSourceInfo.IsMissing = m_currDataSource.SkipLoading;
 			
-				if (!m_currDataSource.SkipLoading && !m_currDataSource.FwDataSourceInfo.IsMissing)
-					m_currDataSource.FwDataSourceInfo.UpdateLastModifiedStamp();
+				if (!m_currDataSource.SkipLoading && !m_currDataSource.Fw6DataSourceInfo.IsMissing)
+					m_currDataSource.Fw6DataSourceInfo.UpdateLastModifiedStamp();
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandleReadingFwData(SqlDataReader reader)
 		{
@@ -352,7 +343,7 @@ namespace SIL.Pa.DataSource
 			}
 
 			m_currDataSource.LastModification = DateTime.Now;
-			m_currDataSource.FwDataSourceInfo.UpdateLastModifiedStamp();
+			m_currDataSource.Fw6DataSourceInfo.UpdateLastModifiedStamp();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -504,7 +495,7 @@ namespace SIL.Pa.DataSource
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool HandleWaveFileNeedsConverting(string filename)
+		private static bool HandleWaveFileNeedsConverting(string filename)
 		{
 			if (AudioPlayer.GetSaPath() != null)
 				return true;
@@ -681,13 +672,9 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private static string GetRecordMarkerSFM(PaDataSource source)
 		{
-			foreach (SFMarkerMapping mapping in source.SFMappings)
-			{
-				if (mapping.FieldName == PaDataSource.kRecordMarker)
-					return mapping.Marker;
-			}
-
-			return null;
+			return (from mapping in source.SFMappings
+					where mapping.FieldName == PaDataSource.kRecordMarker
+					select mapping.Marker).FirstOrDefault();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -782,10 +769,9 @@ namespace SIL.Pa.DataSource
 			// Check if the end of the file name string is one of the common audio file types.
 			// If so, there's no sense in checking for start and end points since the entire
 			// string ends with a file extension.
-			foreach (string ext in new[] {".wav", ".mp3", ".wma", ".ogg", ".ram", ".aif", ".au", ".voc"})
+			if (new[] { ".wav", ".mp3", ".wma", ".ogg", ".ram", ".aif", ".au", ".voc" }.Any(ext => fileName.ToLower().EndsWith(ext)))
 			{
-				if (fileName.ToLower().EndsWith(ext))
-					return fileName;
+				return fileName;
 			}
 
 			// Find the last space in the file name string. If one cannot be

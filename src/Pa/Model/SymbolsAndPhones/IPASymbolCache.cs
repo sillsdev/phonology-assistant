@@ -54,14 +54,15 @@ namespace SIL.Pa.Model
 	/// IPA symbol types.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
+	[Flags]
 	public enum IPASymbolType
 	{
 		Unknown = 0,
 		Consonant = 1,
 		Vowel = 2,
-		Suprasegmentals = 3,
-		Diacritics = 4,
-		Breaking
+		Suprasegmentals = 4,
+		Diacritics = 8,
+		Breaking = 16,
 	}
 
 	/// ----------------------------------------------------------------------------------------
@@ -69,14 +70,15 @@ namespace SIL.Pa.Model
 	/// IPA symbol Subtypes.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
+	[Flags]
 	public enum IPASymbolSubType
 	{
 		Unknown = 0,
-		Pulmonic = 1,
-		NonPulmonic = 2,
-		OtherSymbols = 3,
-		StressAndLength = 4,
-		ToneAndAccents = 5
+		Pulmonic = 32,
+		NonPulmonic = 64,
+		OtherSymbols = 128,
+		StressAndLength = 256,
+		ToneAndAccents = 512,
 	}
 
 	/// ----------------------------------------------------------------------------------------

@@ -70,10 +70,6 @@ namespace SIL.Pa
 
 	#endregion
 
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ------------------------------------------------------------------------------------
 	public static class App
 	{
@@ -108,26 +104,6 @@ namespace SIL.Pa
 		public const string kLocalizationGroupInfoMsg = "Information Messages";
 		public const string kLocalizationGroupMisc = "Miscellaneous Strings";
 
-		//public static string kOpenClassBracket;
-		//public static string kCloseClassBracket;
-		//public static string kstidFileTypeAllExe;
-		//public static string kstidFileTypeAllFiles;
-		//public static string kstidFileTypeHTML;
-		//public static string kstidFileTypeWordXml;
-		//public static string kstidFileTypePAXML;
-		//public static string kstidFileTypePAProject;
-		//public static string kstidFiletypeRTF;
-		//public static string kstidFiletypeSASoundMP3;
-		//public static string kstidFiletypeSASoundWave;
-		//public static string kstidFiletypeSASoundWMA;
-		//public static string kstidFileTypeToolboxDB;
-		//public static string kstidFileTypeToolboxITX;
-		//public static string kstidFileTypeXML;
-		//public static string kstidFileTypeXSLT;
-		//public static string kstidQuerySearchingMsg;
-		//public static string kstidSaveChangesMsg;
-		//public static string kstidSaveFileDialogGenericCaption;
-
 		#endregion
 
 		private static string s_helpFilePath;
@@ -142,18 +118,12 @@ namespace SIL.Pa
 		private static readonly List<IxCoreColleague> s_colleagueList = new List<IxCoreColleague>();
 
 		/// --------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// --------------------------------------------------------------------------------
 		static App()
 		{
 			if (DesignMode)
 				return;
 
 			InitializePaRegKey();
-			SettingsFile = Path.Combine(DefaultProjectFolder, "pa.xml");
-			SettingsHandler = new PaSettingsHandler(SettingsFile);
 			MsgMediator = new Mediator();
 
 			PortableSettingsProvider.SettingsFileFolder = DefaultProjectFolder;
@@ -187,10 +157,15 @@ namespace SIL.Pa
 			// Load the cache of IPA symbols, articulatory and binary features.
 			InventoryHelper.Load();
 
-			LocalizeItemDlg.SaveDialogSplitterPosition += (pos => Settings.Default.LocalizeDlgSplitterPos = pos);
+			LocalizeItemDlg.SaveDialogSplitterPosition += (pos =>
+				Settings.Default.LocalizeDlgSplitterPos = pos);
+			
 			LocalizeItemDlg.SetDialogSplitterPosition += (currPos =>
 				(Settings.Default.LocalizeDlgSplitterPos > 0 ? Settings.Default.LocalizeDlgSplitterPos : currPos));
-			LocalizeItemDlg.SaveDialogBounds += (dlg => Settings.Default.LocalizeDlgBounds = dlg.Bounds);
+			
+			LocalizeItemDlg.SaveDialogBounds += (dlg =>
+				Settings.Default.LocalizeDlgBounds = dlg.Bounds);
+			
 			LocalizeItemDlg.SetDialogBounds += (dlg =>
 			{
 				if (!Settings.Default.LocalizeDlgBounds.IsEmpty)
@@ -464,6 +439,25 @@ namespace SIL.Pa
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Closes the splash screen if it's showing.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void CloseSplashScreen()
+		{
+			if (SplashScreen != null && SplashScreen.StillAlive)
+			{
+				Application.DoEvents();
+				if (MainForm != null)
+					MainForm.Activate();
+
+				SplashScreen.Close();
+			}
+
+			SplashScreen = null;
+		}
+		
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -495,7 +489,7 @@ namespace SIL.Pa
 				return;
 			}
 
-			if (addOnAssemblyFiles == null || addOnAssemblyFiles.Length == 0)
+			if (addOnAssemblyFiles.Length == 0)
 				return;
 
 			foreach (string filename in addOnAssemblyFiles)
@@ -786,19 +780,9 @@ namespace SIL.Pa
 		public static bool ProjectLoadInProcess { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static PaFieldInfoList FieldInfo
 		{
-			get
-			{
-				if (s_fieldInfo == null)
-					s_fieldInfo = PaFieldInfoList.DefaultFieldInfoList;
-
-				return s_fieldInfo;
-			}
+			get { return s_fieldInfo ?? (s_fieldInfo = PaFieldInfoList.DefaultFieldInfoList); }
 			set { s_fieldInfo = value; }
 		}
 
@@ -809,21 +793,6 @@ namespace SIL.Pa
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static ITMAdapter TMAdapter { get; set; }
-
-		/// --------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the full path and filename of the XML file that stores the application's
-		/// settings.
-		/// </summary>
-		/// --------------------------------------------------------------------------------
-		public static string SettingsFile { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static PaSettingsHandler SettingsHandler { get; private set; }
 
 		/// --------------------------------------------------------------------------------
 		/// <summary>
@@ -924,24 +893,50 @@ namespace SIL.Pa
 
 		#endregion
 
+		#region Grid color methods and properties
 		/// ------------------------------------------------------------------------------------
-		public static void InitializeGridSelectionColors(SilGrid grid, bool makeSelectedCellsDifferent)
+		public static void SetCellColors(DataGridView grid, DataGridViewCellFormattingEventArgs e)
 		{
-			grid.SelectedRowBackColor = Settings.Default.GridRowSelectionBackColor;
-			grid.SelectedRowForeColor = Settings.Default.GridRowSelectionForeColor;
-			
-			grid.SelectedCellBackColor = (makeSelectedCellsDifferent ?
-				Settings.Default.GridCellSelectionBackColor :
-				Settings.Default.GridRowSelectionBackColor);
+			if (grid.CurrentRow == null || grid.CurrentRow.Index != e.RowIndex)
+				return;
 
-			grid.SelectedCellForeColor = (makeSelectedCellsDifferent ?
-				Settings.Default.GridCellSelectionForeColor :
-				Settings.Default.GridRowSelectionForeColor);
+			if (!grid.Focused)
+			{
+				e.CellStyle.SelectionBackColor = GridRowUnfocusedSelectionBackColor;
+				e.CellStyle.SelectionForeColor = GridRowUnfocusedSelectionForeColor;
+				return;
+			}
+
+			if (grid.CurrentCell != null && grid.CurrentCell.ColumnIndex == e.ColumnIndex)
+			{
+				// Set the selected cell's background color to be
+				// distinct from the rest of the current row.
+				e.CellStyle.SelectionBackColor = GridCellFocusedBackColor;
+				e.CellStyle.SelectionForeColor = GridCellFocusedForeColor;
+			}
+			else
+			{
+				// Set the selected row's background color.
+				e.CellStyle.SelectionBackColor = GridRowFocusedBackColor;
+				e.CellStyle.SelectionForeColor = GridRowFocusedForeColor;
+			}
 		}
 
-		#region Options Properties
 		/// ------------------------------------------------------------------------------------
-		public static Color WordListGridColor
+		public static void SetGridSelectionColors(SilGrid grid, bool makeSelectedCellsDifferent)
+		{
+			grid.SelectedRowBackColor = GridRowFocusedBackColor;
+			grid.SelectedRowForeColor = GridRowFocusedForeColor;
+
+			grid.SelectedCellBackColor = (makeSelectedCellsDifferent ?
+				GridCellFocusedBackColor : GridRowFocusedBackColor);
+
+			grid.SelectedCellForeColor = (makeSelectedCellsDifferent ?
+				GridCellFocusedForeColor : GridRowFocusedForeColor);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Color GridColor
 		{
 			get
 			{
@@ -952,65 +947,87 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static Color SelectedFocusedWordListRowBackColor
+		public static Color GridRowFocusedForeColor
 		{
 			get
 			{
-				var clr = Settings.Default.GridRowSelectionBackColor;
-				return (clr == Color.Empty ? ColorHelper.LightHighlight : clr);
+				return (Settings.Default.UseSystemColors ? SystemColors.WindowText :
+					Settings.Default.GridRowSelectionForeColor);
 			}
-			set { Settings.Default.GridRowSelectionBackColor = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static Color SelectedUnFocusedWordListRowForeColor
+		public static Color GridRowFocusedBackColor
 		{
 			get
 			{
-				Color clr;
+				return (Settings.Default.UseSystemColors ? ColorHelper.LightHighlight :
+					Settings.Default.GridRowSelectionBackColor);
+			}
+		}
 
-				// It turns out the control color for the silver Windows XP theme is very
-				// close to the default color calculated for selected rows in PA word lists.
-				// Therefore, when a word list grid looses focus and a selected row's
-				// background color gets changed to the control color, it's very hard to
-				// tell the difference between a selected row in a focused grid from that
-				// of a non focused grid. So, when the theme is the silver (i.e. Metallic)
-				// then also make the text gray for selected rows in non focused grid's.
+		/// ------------------------------------------------------------------------------------
+		public static Color GridCellFocusedForeColor
+		{
+			get
+			{
+				return (Settings.Default.UseSystemColors ? SystemColors.WindowText :
+					Settings.Default.GridCellSelectionForeColor);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Color GridCellFocusedBackColor
+		{
+			get
+			{
+				return (Settings.Default.UseSystemColors ? ColorHelper.LightLightHighlight :
+					Settings.Default.GridCellSelectionBackColor);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Color GridRowUnfocusedSelectionBackColor
+		{
+			get
+			{
+				return (Settings.Default.UseSystemColors ? SystemColors.Control :
+					Settings.Default.GridRowUnfocusedSelectionBackColor);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Color GridRowUnfocusedSelectionForeColor
+		{
+			get
+			{
+				if (!Settings.Default.UseSystemColors)
+					return Settings.Default.GridRowUnfocusedSelectionForeColor;
+
+				// It turns out the control color for the silver Windows XP theme is very close
+				// to the default color calculated for selected rows in PA word lists. Therefore,
+				// when a word list grid looses focus and a selected row's background color gets
+				// changed to the control color, it's very hard to tell the difference between a
+				// selected row in a focused grid from that of a non focused grid. So, when the
+				// theme is the silver (i.e. Metallic) then also make the text gray for selected
+				// rows in non focused grid's.
 				if (PaintingHelper.CanPaintVisualStyle() &&
 					System.Windows.Forms.VisualStyles.VisualStyleInformation.DisplayName == "Windows XP style" &&
 					System.Windows.Forms.VisualStyles.VisualStyleInformation.ColorScheme == "Metallic")
 				{
-					clr = Settings.Default.WordListSelectedUnFocusedRowForeColor;
-					return (clr == Color.Empty ? SystemColors.GrayText : clr);
+					return SystemColors.GrayText;
 				}
-
-				clr = Settings.Default.WordListSelectedUnFocusedRowForeColor;
-				return (clr == Color.Empty ? SystemColors.ControlText : clr);
+					
+				return SystemColors.ControlText;
 			}
-			set { Settings.Default.WordListSelectedUnFocusedRowForeColor = value; }
 		}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// 
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public static Color SelectedWordListCellBackColor
-		//{
-		//    get
-		//    {
-		//        var clr = Settings.Default.WordListSelectedCellBackColor;
-		//        return (clr == Color.Empty ? ColorHelper.LightLightHighlight : clr);
-		//    }
-		//    set { Settings.Default.WordListSelectedCellBackColor = value; }
-		//}
 
 		#endregion
 
+		#region Localization Manager Access methods
 		/// ------------------------------------------------------------------------------------
 		private static LocalizationManager L10NMngr { get; set; }
 
-		#region Localization Manager Access methods
 		/// ------------------------------------------------------------------------------------
 		internal static void ReapplyLocalizationsToAllObjects()
 		{
@@ -1081,7 +1098,7 @@ namespace SIL.Pa
 		{
 			if (L10NMngr != null)
 			{
-				L10NMngr.LocalizeObject(obj, id, defaultText, comment, group,
+				L10NMngr.LocalizeObject(obj, id, defaultText, null, null, comment, group,
 					LocalizationCategory.Unspecified, LocalizationPriority.High);
 			}
 		}
@@ -1089,6 +1106,42 @@ namespace SIL.Pa
 		#endregion
 
 		#region Misc. methods
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Prepares the adapter for localization support.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void PrepareAdapterForLocalizationSupport(ITMAdapter adapter)
+		{
+			adapter.LocalizeItem += HandleLocalizingTMItem;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Reverses what the method PrepareAdapterForLocalizationSupport does to prepare
+		/// the specified adapter for localization.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void UnPrepareAdapterForLocalizationSupport(ITMAdapter adapter)
+		{
+			adapter.LocalizeItem -= HandleLocalizingTMItem;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handles localizing a toolbar/menu item.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		static void HandleLocalizingTMItem(object item, string id, TMItemProperties itemProps)
+		{
+			if (L10NMngr != null)
+			{
+				L10NMngr.LocalizeObject(item, id, itemProps.Text, itemProps.Tooltip,
+					ShortcutKeysEditor.KeysToString(itemProps.ShortcutKey), "Toolbar or Menu item",
+					kLocalizationGroupTMItems, LocalizationPriority.High);
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public static int GetPlaybackSpeedForVwType(Type vwType)
 		{
@@ -1143,46 +1196,6 @@ namespace SIL.Pa
 			return adapter;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Prepares the adapter for localization support.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void PrepareAdapterForLocalizationSupport(ITMAdapter adapter)
-		{
-			adapter.LocalizeItem += HandleLocalizingTMItem;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Reverses what the method PrepareAdapterForLocalizationSupport does to prepare
-		/// the specified adapter for localization.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void UnPrepareAdapterForLocalizationSupport(ITMAdapter adapter)
-		{
-			adapter.LocalizeItem -= HandleLocalizingTMItem;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Handles localizing a toolbar/menu item.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		static void HandleLocalizingTMItem(object item, string id, TMItemProperties itemProps)
-		{
-			if (L10NMngr != null)
-			{
-				L10NMngr.LocalizeObject(item, id, itemProps.Text, itemProps.Tooltip,
-					ShortcutKeysEditor.KeysToString(itemProps.ShortcutKey), "Toolbar or Menu item",
-					kLocalizationGroupTMItems, LocalizationPriority.High);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static void UnloadDefaultMenu(ITMAdapter adapter)
 		{
@@ -1271,6 +1284,67 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Determines whether or not the specified view type or form is the active.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool IsViewOrFormActive(Type viewType, Form frm)
+		{
+			return (viewType == CurrentViewType && frm != null && frm.ContainsFocus);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Determines whether or not the specified form is the active form.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool IsFormActive(Form frm)
+		{
+			if (frm == null)
+				return false;
+
+			if (frm.ContainsFocus || frm.GetType() == CurrentViewType)
+				return true;
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Closes all MDI child forms.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void CloseAllForms()
+		{
+			s_openForms.Clear();
+
+			if (MainForm == null)
+				return;
+
+			// There may be some child forms not in the s_openForms collection. If that's
+			// the case, then close them this way.
+			for (int i = MainForm.MdiChildren.Length - 1; i >= 0; i--)
+				MainForm.MdiChildren[i].Close();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void DrawWatermarkImage(string imageId, Graphics g, Rectangle clientRectangle)
+		{
+			Image watermark = Properties.Resources.ResourceManager.GetObject(imageId) as Image;
+			if (watermark == null)
+				return;
+
+			Rectangle rc = new Rectangle();
+			rc.Size = watermark.Size;
+			rc.X = clientRectangle.Right - rc.Width - 10;
+			rc.Y = clientRectangle.Bottom - rc.Height - 10;
+			g.DrawImage(watermark, rc);
+		}
+
+		#endregion
+
+		#region Progress bar methods
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Initializes the progress bar, assuming the max. value will be the count of items
 		/// in the current project's word cache.
 		/// </summary>
@@ -1280,10 +1354,6 @@ namespace SIL.Pa
 			return InitializeProgressBar(text, WordCache.Count);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static ToolStripProgressBar InitializeProgressBar(string text, int maxValue)
 		{
@@ -1392,29 +1462,9 @@ namespace SIL.Pa
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Closes the splash screen if it's showing.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void CloseSplashScreen()
-		{
-			if (SplashScreen != null && SplashScreen.StillAlive)
-			{
-				Application.DoEvents();
-				if (MainForm != null)
-					MainForm.Activate();
+		#endregion
 
-				SplashScreen.Close();
-			}
-
-			SplashScreen = null;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		#region Open/Save file dialog methods
 		/// ------------------------------------------------------------------------------------
 		public static string OpenFileDialog(string defaultFileType, string filter, string dlgTitle)
 		{
@@ -1422,10 +1472,6 @@ namespace SIL.Pa
 			return OpenFileDialog(defaultFileType, filter, ref filterIndex, dlgTitle);
 		}
 
-		/// --------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// --------------------------------------------------------------------------------
 		public static string OpenFileDialog(string defaultFileType, string filter,
 			ref int filterIndex, string dlgTitle)
@@ -1437,10 +1483,6 @@ namespace SIL.Pa
 		}
 
 		/// --------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// --------------------------------------------------------------------------------
 		public static string[] OpenFileDialog(string defaultFileType, string filter,
 			ref int filterIndex, string dlgTitle, bool multiSelect)
 		{
@@ -1448,10 +1490,6 @@ namespace SIL.Pa
 				dlgTitle, multiSelect, null);
 		}
 
-		/// --------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// --------------------------------------------------------------------------------
 		public static string[] OpenFileDialog(string defaultFileType, string filter,
 			ref int filterIndex, string dlgTitle, bool multiSelect, string initialDirectory)
@@ -1534,52 +1572,9 @@ namespace SIL.Pa
 			return string.Empty;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Determines whether or not the specified view type or form is the active.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static bool IsViewOrFormActive(Type viewType, Form frm)
-		{
-			return (viewType == CurrentViewType && frm != null && frm.ContainsFocus);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Determines whether or not the specified form is the active form.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static bool IsFormActive(Form frm)
-		{
-			if (frm == null)
-				return false;
-
-			if (frm.ContainsFocus || frm.GetType() == CurrentViewType)
-				return true;
-
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Closes all MDI child forms.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void CloseAllForms()
-		{
-			s_openForms.Clear();
-
-			if (MainForm == null)
-				return;
-
-			// There may be some child forms not in the s_openForms collection. If that's
-			// the case, then close them this way.
-			for (int i = MainForm.MdiChildren.Length - 1; i >= 0; i--)
-				MainForm.MdiChildren[i].Close();
-		}
-
 		#endregion
 
+		#region Search query methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Creates and loads a result cache for the specified search query.
@@ -1805,10 +1800,6 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private static bool VerifyMiscPatternConditions(SearchEngine engine, bool showErrMsg)
 		{
 			if (engine == null)
@@ -1832,28 +1823,9 @@ namespace SIL.Pa
 			return (msg == null);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void DrawWatermarkImage(string imageId, Graphics g, Rectangle clientRectangle)
-		{
-			Image watermark = Properties.Resources.ResourceManager.GetObject(imageId) as Image;
-			if (watermark == null)
-				return;
+		#endregion
 
-			Rectangle rc = new Rectangle();
-			rc.Size = watermark.Size;
-			rc.X = clientRectangle.Right - rc.Width - 10;
-			rc.Y = clientRectangle.Bottom - rc.Height - 10;
-			g.DrawImage(watermark, rc);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		#region Help related properties and methods
 		/// ------------------------------------------------------------------------------------
 		public static string HelpFilePath
 		{
@@ -1871,19 +1843,11 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static void ShowHelpTopic(Control ctrl)
 		{
 			ShowHelpTopic("hid" + ctrl.Name);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static void ShowHelpTopic(string hid)
 		{
@@ -1898,6 +1862,9 @@ namespace SIL.Pa
 			}
 		}
 
+		#endregion
+
+		#region MOA and POA key generating methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Builds a manner of articulation sort key for the specified phone.
@@ -1910,7 +1877,7 @@ namespace SIL.Pa
 			if (string.IsNullOrEmpty(phone))
 				return null;
 
-			StringBuilder keybldr = new StringBuilder(6);
+			var keybldr = new StringBuilder(6);
 			foreach (char c in phone)
 			{
 				IPASymbol info = IPASymbolCache[c];
@@ -1933,7 +1900,7 @@ namespace SIL.Pa
 			if (string.IsNullOrEmpty(phone))
 				return null;
 
-			StringBuilder keybldr = new StringBuilder(6);
+			var keybldr = new StringBuilder(6);
 			foreach (char c in phone)
 			{
 				IPASymbol info = IPASymbolCache[c];
@@ -1943,6 +1910,8 @@ namespace SIL.Pa
 
 			return keybldr.ToString();
 		}
+
+		#endregion
 
 		#region Method to migrate previous versions of a file to current.
 		/// ------------------------------------------------------------------------------------

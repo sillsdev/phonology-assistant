@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Linq;
 using System.ServiceProcess;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using SIL.Pa.DataSourceClasses.FieldWorks;
+using SIL.Pa.Properties;
+using SIL.PaToFdoInterfaces;
 using SilTools;
 
 namespace SIL.Pa.Model
@@ -20,6 +24,7 @@ namespace SIL.Pa.Model
 	{
 		private static bool s_showErrorOnConnectionFailure = true;
 
+		/// ------------------------------------------------------------------------------------
 		public enum FwWritingSystemType
 		{
 			None,
@@ -29,7 +34,7 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Methods of storing phonetic data in FieldWorks Language Explorer.
+		/// Methods of storing phonetic data in FLEx.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public enum PhoneticStorageMethod
@@ -38,14 +43,24 @@ namespace SIL.Pa.Model
 			PronunciationField
 		}
 
-		public static bool ShowMsgWhenGatheringFWInfo;
+		public static bool ShowMsgWhenGatheringFWInfo { get; set; }
 
+		/// ------------------------------------------------------------------------------------
+		internal static string CleanString(string str)
+		{
+			str = str.Replace('\n', ' ');
+			str = str.Replace('\n', ' ');
+			str = str.Replace('\t', ' ');
+			return str.Trim();
+		}
+
+		#region Methods for FW6 and older database formats.
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the list of FW databases on the specified machine.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static FwDataSourceInfo[] GetFwDataSourceInfoList(string machineName)
+		public static Fw6DataSourceInfo[] GetFwDataSourceInfoList(string machineName)
 		{
 			return GetFwDataSourceInfoList(machineName, true);
 		}
@@ -55,7 +70,7 @@ namespace SIL.Pa.Model
 		/// Gets the list of FW databases on the specified machine.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static FwDataSourceInfo[] GetFwDataSourceInfoList(string machineName,
+		public static Fw6DataSourceInfo[] GetFwDataSourceInfoList(string machineName,
 			bool showErrorOnFailure)
 		{
 			// Make sure SQL server is running.
@@ -63,7 +78,7 @@ namespace SIL.Pa.Model
 				return null;
 
 			s_showErrorOnConnectionFailure = showErrorOnFailure;
-			List<FwDataSourceInfo> fwDBInfoList = new List<FwDataSourceInfo>();
+			var fwDBInfoList = new List<Fw6DataSourceInfo>();
 
 			SmallFadingWnd msgWnd = null;
 			if (ShowMsgWhenGatheringFWInfo)
@@ -79,13 +94,10 @@ namespace SIL.Pa.Model
 					// Get all the database names.
 					using (SqlDataReader reader = command.ExecuteReader(CommandBehavior.SingleResult))
 					{
-						if (reader != null)
-						{
-							while (reader.Read() && !string.IsNullOrEmpty(reader[0] as string))
-								fwDBInfoList.Add(new FwDataSourceInfo(reader[0] as string, machineName));
+						while (reader.Read() && !string.IsNullOrEmpty(reader[0] as string))
+							fwDBInfoList.Add(new Fw6DataSourceInfo(reader[0] as string, machineName));
 
-							reader.Close();
-						}
+						reader.Close();
 					}
 
 					connection.Close();
@@ -126,10 +138,11 @@ namespace SIL.Pa.Model
 			{
 				if (s_showErrorOnConnectionFailure)
 				{
-					string msg = string.Format(Properties.Resources.kstidSQLConnectionErrMsg,
-						dbName, machineName, e.Message);
-
-
+					var msg = App.LocalizeString("SQLServerNotInstalledMsg",
+						"The following error occurred when trying to establish\na connection to the {0} database on the machine '{1}'.\n\n{2}",
+						App.kLocalizationGroupMisc);
+					
+					msg = string.Format(msg, dbName, machineName, e.Message);
 					Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				}
 			}
@@ -138,22 +151,18 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static bool IsSQLServerInstalled(bool showMsg)
 		{
-			foreach (ServiceController service in ServiceController.GetServices())
-			{
-				if (service.ServiceName.ToLower() == FwDBAccessInfo.Service.ToLower())
-					return true;
-			}
+			if (ServiceController.GetServices().Any(svc => svc.ServiceName.ToLower() == FwDBAccessInfo.Service.ToLower()))
+				return true;
 
 			if (showMsg)
 			{
-				Utils.MsgBox(Properties.Resources.kstidSQLServerNotInstalledMsg,
-					MessageBoxButtons.OK);
+				var msg = App.LocalizeString("SQLServerNotInstalledMsg",
+					"Access to FieldWorks projects requires SQL Server but it is not installed on this computer.",
+					App.kLocalizationGroupMisc);
+
+				Utils.MsgBox(msg);
 			}
 
 			return false;
@@ -204,14 +213,15 @@ namespace SIL.Pa.Model
 						if (svcController.Status == ServiceControllerStatus.Running)
 							return true;
 
-						using (SmallFadingWnd msgWnd =
-							new SmallFadingWnd(Properties.Resources.kstidStartingSQLServerMsg))
+						var startingSQLMsg = App.LocalizeString("StartingSQLServerMsg",
+							"Starting SQL Server...", App.kLocalizationGroupMisc);
+
+						using (var msgWnd = new SmallFadingWnd(startingSQLMsg))
 						{
 							msgWnd.Show();
 							Application.DoEvents();
 
-							// Start the server instance and wait 15
-							// seconds for it to finish starting.
+							// Start the server instance and wait 15 seconds for it to finish starting.
 							if (svcController.Status == ServiceControllerStatus.Paused)
 								svcController.Continue();
 							else
@@ -252,529 +262,39 @@ namespace SIL.Pa.Model
 				}
 			}
 		}
-	
+
+		#endregion
+
+		#region Methods for FW7 and newer database formats.
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal static string CleanString(string str)
+		public static bool IsFw7Installed
 		{
-			str = str.Replace('\n', ' ');
-			str = str.Replace('\n', ' ');
-			str = str.Replace('\t', ' ');
-			return str.Trim();
-		}
-	}
-
-	#endregion
-
-	#region FwDataSourceInfo class
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	public class FwDataSourceInfo
-	{
-		public FwDBUtils.PhoneticStorageMethod PhoneticStorageMethod =
-			FwDBUtils.PhoneticStorageMethod.LexemeForm;
-
-		private string m_machineName;
-		private string m_dbName;
-		private string m_projName;
-		public bool IsMissing;
-		private byte[] m_dateLastModified;
-		private FwQueries m_queries;
-
-		public List<FwDataSourceWsInfo> WritingSystemInfo;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This is needed for deserialization.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public FwDataSourceInfo()
-		{
-			m_machineName = Environment.MachineName;
+			get { return PaFieldWorksHelper.IsFwLoaded; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Displays a dialog box from which a user may choose an FW7 (or later) project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FwDataSourceInfo(string dbName, string machineName)
+		public static bool GetFw7Project(Form frm, out string name, out string server)
 		{
-			m_dbName = dbName;
-			m_machineName = machineName;
-
-			// As of the Summer 2007 release of FW, projects names are now just the DB name.
-			m_projName = dbName;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public override string ToString()
-		{
-			return ToString(false);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string ToString(bool includeMachineName)
-		{
-			string text = ProjectName;
-
-			// When the project name is the same as the DB name,
-			// then just return the project name.
-			if (ProjectName.ToLower() != m_dbName.ToLower())
+			var rc = Settings.Default.Fw7OpenDialogBounds;
+			int splitPos = Settings.Default.Fw7OpenDialogSplitterPos;
+			using (var helper = new PaFieldWorksHelper())
 			{
-				// When they're different, return the project name,
-				// followed by the DB name in parentheses.
-				text = string.Format(Properties.Resources.kstidFwDataSourceInfo, ProjectName, m_dbName);
-			}
-
-			return (!includeMachineName ||
-				MachineName.ToLower() == Environment.MachineName.ToLower() ? text :
-				string.Format(Properties.Resources.kstidFwDataSourceInfoWithMachineName, text, MachineName));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public FwQueries Queries
-		{
-			get
-			{
-				if (m_queries == null)
-					GetQueries();
-
-				return m_queries;
-			}
-		}
-	
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlAttribute]
-		public string MachineName
-		{
-			get { return m_machineName; }
-			set
-			{
-				m_machineName = value;
-				GetQueries();
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the FW database name.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlAttribute]
-		public string DBName
-		{
-			get { return m_dbName; }
-			set
-			{
-				if (m_dbName != value)
-				{
-					m_dbName = value;
-					GetQueries();
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void GetQueries()
-		{
-			if (m_queries == null && m_dbName != null && m_machineName != null)
-			{
-				m_queries = FwQueries.GetQueriesForDB(m_dbName, m_machineName);
-				m_dateLastModified = DateLastModified;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the langauge project name for the database.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public string ProjectName
-		{
-			get
-			{
-				if (m_projName == null)
-					m_projName = DBName;
-
-				return m_projName;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Looks into the database to determine when the last lexical entry was modified.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private byte[] DateLastModified
-		{
-			get
-			{
-				if (m_queries == null || m_queries.Error)
-					return null;
-
-				byte[] retVal = null;
-
-				using (SqlConnection connection = FwDBUtils.FwConnection(DBName, MachineName))
-				{
-					if (connection == null)
-						return null;
-
-					SqlCommand command = new SqlCommand(Queries.LastModifiedStampSQL, connection);
-					using (SqlDataReader reader = command.ExecuteReader())
-					{
-						if (reader.HasRows)
-						{
-							reader.Read();
-							retVal = reader[0] as byte[];
-						}
-
-						reader.Close();
-					}
-
-					connection.Close();
-				}
-
+				var retVal = helper.ShowFwOpenProject(frm, ref rc, ref splitPos, out name, out server);
+				Settings.Default.Fw7OpenDialogBounds = rc;
+				Settings.Default.Fw7OpenDialogSplitterPos = splitPos;
 				return retVal;
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Updates the FwDataSourcInfo's last modified stamp to reflect what's current in the
-		/// database for lexical entries. The return value is a flag indicating whether or not
-		/// the new value is different from the previous.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool UpdateLastModifiedStamp()
-		{
-			byte[] newDateLastModified = DateLastModified;
-			bool changed = false;
-
-			if (m_dateLastModified == null || newDateLastModified == null)
-				changed = true;
-			else
-			{
-				// Loop throught the two byte arrays, comparing each byte.
-				for (int i = 0; i < newDateLastModified.Length; i++)
-				{
-					if (newDateLastModified[i] != m_dateLastModified[i])
-					{
-						changed = true;
-						break;
-					}
-				}
-			}
-
-			m_dateLastModified = newDateLastModified;
-			return changed;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a value indicating whether or not, at least, the phonetic writing system
-		/// was specified.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool HasWritingSystemInfo(string phoneticFieldName)
-		{
-			if (WritingSystemInfo != null)
-			{
-				foreach (FwDataSourceWsInfo wsInfo in WritingSystemInfo)
-				{
-					if (wsInfo.FieldName == phoneticFieldName)
-						return true;
-				}
-			}
-
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Shows a message indicating the database is missing.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void ShowMissingMessage()
-		{
-			if (IsMissing)
-			{
-				string msg = string.Format(Properties.Resources.kstidFwDBMissing, DBName);
-				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-			}
-		}
+		#endregion
 	}
 
 	#endregion
 
-	#region FwDataSourceWsInfo
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// Serialized with an FwDataSourceInfo class.
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	[XmlType("FieldWsInfo")]
-	public class FwDataSourceWsInfo
-	{
-		[XmlAttribute]
-		public string FieldName;
-		[XmlAttribute]
-		public int Ws;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public FwDataSourceWsInfo()
-		{
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public FwDataSourceWsInfo(string fieldname, int ws)
-		{
-			FieldName = fieldname;
-			Ws = ws;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Makes a deep copy of the FwDataSourceWsInfo object and returns it.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public FwDataSourceWsInfo Clone()
-		{
-			FwDataSourceWsInfo clone = new FwDataSourceWsInfo();
-			clone.FieldName = FieldName;
-			clone.Ws = Ws;
-			return clone;
-		}
-	}
-
-	#endregion
-
-	#region FwDataReader class
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	public class FwDataReader
-	{
-		public delegate void DataRetrievedHandler(SqlDataReader reader);
-
-		private readonly FwDataSourceInfo m_sourceInfo;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public FwDataReader(FwDataSourceInfo sourceInfo)
-		{
-			m_sourceInfo = sourceInfo;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a list of the vernacular writing systems in the database.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public Dictionary<int, string> VernacularWritingSystems
-		{
-			get
-			{
-				return GetWritingSystems(m_sourceInfo.Queries.VernacularWsSQL,
-					Properties.Resources.kstidErrorRetrievingVernWsMsg);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a list of the vernacular writing systems in the database.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public Dictionary<int, string> AnalysisWritingSystems
-		{
-			get
-			{
-				return GetWritingSystems(m_sourceInfo.Queries.AnalysisWs,
-					Properties.Resources.kstidErrorRetrievingAnalWsMsg);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a list of all analysis and vernacular writing systems in the database.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public List<FwWritingSysInfo> AllWritingSystems
-		{
-			get
-			{
-				List<FwWritingSysInfo> wsInfoList = new List<FwWritingSysInfo>();
-			
-				// Add the analysis writing systems.
-				foreach (KeyValuePair<int, string> ws in AnalysisWritingSystems)
-				{
-					wsInfoList.Add(new FwWritingSysInfo(FwDBUtils.FwWritingSystemType.Analysis,
-						ws.Key, ws.Value));
-				}
-
-				// Build a list of the analysis writing systems.
-				foreach (KeyValuePair<int, string> ws in VernacularWritingSystems)
-				{
-					wsInfoList.Add(new FwWritingSysInfo(FwDBUtils.FwWritingSystemType.Vernacular,
-						ws.Key, ws.Value));
-				}
-				
-				return wsInfoList;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the writing systems returned by the SQL statement found in the specified file.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private Dictionary<int, string> GetWritingSystems(string sql, string errMsg)
-		{
-			Dictionary<int, string> wsCollection = new Dictionary<int, string>();
-
-			try
-			{
-				using (SqlConnection connection =
-					FwDBUtils.FwConnection(m_sourceInfo.DBName, m_sourceInfo.MachineName))
-				{
-					if (connection != null && !string.IsNullOrEmpty(sql))
-					{
-						SqlCommand command = new SqlCommand(sql, connection);
-						using (SqlDataReader reader = command.ExecuteReader())
-						{
-							if (reader != null)
-							{
-								while (reader.Read())
-									wsCollection[(int) reader["Obj"]] = reader["Txt"] as string;
-
-								reader.Close();
-							}
-						}
-
-						connection.Close();
-					}
-				}
-
-				// There should be at least one writing system defined.
-				if (wsCollection.Count == 0)
-				{
-					Utils.MsgBox(string.Format(errMsg, m_sourceInfo.DBName,
-						Path.GetFileName(m_sourceInfo.Queries.QueryFile), string.Empty),
-						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-				}
-			}
-			catch (Exception e)
-			{
-				Utils.MsgBox(string.Format(errMsg, m_sourceInfo.DBName,
-					Path.GetFileName(m_sourceInfo.Queries.QueryFile), e.Message),
-					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-			}
-
-			return wsCollection;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the data from the MSDE database. Returns false if reading failed.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool GetData(DataRetrievedHandler dataRetrievedHdlr)
-		{
-			if (m_sourceInfo.Queries == null || m_sourceInfo.Queries.Error)
-				return false;
-
-			string errMsg = Properties.Resources.kstidErrorRetrievingFwDataMsg;
-			string sql =
-				(m_sourceInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.LexemeForm ?
-				m_sourceInfo.Queries.LexemeFormSQL : m_sourceInfo.Queries.PronunciationFieldSQL);
-
-			if (m_sourceInfo.WritingSystemInfo == null || m_sourceInfo.WritingSystemInfo.Count == 0)
-			{
-				errMsg = string.Format(Properties.Resources.kstidMissingWsMsg,
-					m_sourceInfo.ProjectName);
-
-				Utils.MsgBox(errMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-				return true;
-			}
-
-			foreach (FwDataSourceWsInfo dswsi in m_sourceInfo.WritingSystemInfo)
-			{
-				string replace = string.Format("${0}Ws$", dswsi.FieldName);
-				sql = sql.Replace(replace, dswsi.Ws.ToString());
-			}
-			
-			try
-			{
-				using (SqlConnection connection =
-					FwDBUtils.FwConnection(m_sourceInfo.DBName, m_sourceInfo.MachineName))
-				{
-					SqlCommand command = new SqlCommand(sql, connection);
-					using (SqlDataReader reader = command.ExecuteReader())
-					{
-						if (reader.HasRows && dataRetrievedHdlr != null)
-							dataRetrievedHdlr(reader);
-
-						reader.Close();
-					}
-
-					connection.Close();
-				}
-			}
-			catch (Exception e)
-			{
-				Utils.MsgBox(string.Format(errMsg, m_sourceInfo.DBName,
-					Path.GetFileName(m_sourceInfo.Queries.QueryFile), e.Message),
-					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
-				return false;
-			}
-
-			return true;
-		}
-	}
-
-	#endregion
 
 	#region FwDBAccessInfo class
 	/// ----------------------------------------------------------------------------------------

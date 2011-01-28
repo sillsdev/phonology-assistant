@@ -67,9 +67,12 @@ namespace SIL.Pa.UI
 			sblblFilter.Visible = false;
 			sblblFilter.Paint += FilterHelper.HandleFilterStatusStripLabelPaint;
 
-			vwTabGroup.CaptionPanel.ColorTop = Settings.Default.GradientPanelTopColor;
-			vwTabGroup.CaptionPanel.ColorBottom = Settings.Default.GradientPanelBottomColor;
-			vwTabGroup.CaptionPanel.ForeColor = Settings.Default.GradientPanelTextColor;
+			if (!Settings.Default.UseSystemColors)
+			{
+				vwTabGroup.CaptionPanel.ColorTop = Settings.Default.GradientPanelTopColor;
+				vwTabGroup.CaptionPanel.ColorBottom = Settings.Default.GradientPanelBottomColor;
+				vwTabGroup.CaptionPanel.ForeColor = Settings.Default.GradientPanelTextColor;
+			}
 
 			base.MinimumSize = App.MinimumViewWindowSize;
 			LoadToolbarsAndMenus();

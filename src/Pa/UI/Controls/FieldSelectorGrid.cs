@@ -37,7 +37,7 @@ namespace SIL.Pa.UI.Controls
 			AllowUserToOrderColumns = false;
 			AllowUserToResizeColumns = false;
 			CellBorderStyle = DataGridViewCellBorderStyle.None;
-			App.InitializeGridSelectionColors(this, false);
+			App.SetGridSelectionColors(this, false);
 
 			if (App.DesignMode)
 				return;

@@ -175,8 +175,10 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		public bool UseRollEffectWhenShown { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public new void Show(Point screenLocation)
+		protected override void OnOpening(System.ComponentModel.CancelEventArgs e)
 		{
+			base.OnOpening(e);
+
 			Timer timer = null;
 
 			if (UseRollEffectWhenShown)
@@ -209,8 +211,6 @@ namespace SIL.FieldWorks.Common.UIAdapters
 						timer.Stop();
 				};
 			}
-
-			base.Show(screenLocation);
 
 			if (timer != null)
 				timer.Start();

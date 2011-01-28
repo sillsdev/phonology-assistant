@@ -88,20 +88,6 @@ namespace SilTools
 	/// ----------------------------------------------------------------------------------------
 	public static class FontHelper
 	{
-		private static Font s_fntDefaultEtic;
-		private static Font s_fntEtic;
-		private static Font s_fntTone;
-		private static Font s_fntEmic;
-		private static Font s_fntOrtho;
-		private static Font s_fntGloss;
-		private static Font s_fntPOS;
-		private static Font s_fntRef;
-		private static Font s_fntUI;
-		
-		/// --------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// --------------------------------------------------------------------------------
 		static FontHelper()
 		{
@@ -109,31 +95,27 @@ namespace SilTools
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static void ResetFonts()
 		{
 			// These should get intialized via the settings file, but in case there is no
 			// settings file, this will ensure at least something.
 			if (FontInstalled("Doulos SIL"))
-				s_fntEtic = MakeFont("Doulos SIL", 13, FontStyle.Regular);
+				PhoneticFont = MakeFont("Doulos SIL", 13, FontStyle.Regular);
 			else if (FontInstalled("Arial Unicode"))
-				s_fntEtic = MakeFont("Arial Unicode", 11, FontStyle.Regular);
+				PhoneticFont = MakeFont("Arial Unicode", 11, FontStyle.Regular);
 			else if (FontInstalled("Lucida Sans Unicode"))
-				s_fntEtic = MakeFont("Lucida Sans Unicode", 11, FontStyle.Regular);
+				PhoneticFont = MakeFont("Lucida Sans Unicode", 11, FontStyle.Regular);
 			else
-				s_fntEtic = (Font)SystemInformation.MenuFont.Clone();
+				PhoneticFont = (Font)SystemInformation.MenuFont.Clone();
 
-			s_fntDefaultEtic = (Font)s_fntEtic.Clone();
-			s_fntEmic = (Font)s_fntEtic.Clone();
-			s_fntTone = (Font)SystemInformation.MenuFont.Clone();
-			s_fntOrtho = (Font)SystemInformation.MenuFont.Clone();
-			s_fntGloss = (Font)SystemInformation.MenuFont.Clone();
-			s_fntPOS = (Font)SystemInformation.MenuFont.Clone();
-			s_fntRef = (Font)SystemInformation.MenuFont.Clone();
-			s_fntUI = (Font)SystemInformation.MenuFont.Clone();
+			DefaultPhoneticFont = (Font)PhoneticFont.Clone();
+			PhonemicFont = (Font)PhoneticFont.Clone();
+			ToneFont = (Font)SystemInformation.MenuFont.Clone();
+			OrthograpicFont = (Font)SystemInformation.MenuFont.Clone();
+			GlossFont = (Font)SystemInformation.MenuFont.Clone();
+			POSFont = (Font)SystemInformation.MenuFont.Clone();
+			ReferenceFont = (Font)SystemInformation.MenuFont.Clone();
+			UIFont = (Font)SystemInformation.MenuFont.Clone();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -167,7 +149,7 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		public static Font MakeEticRegFontDerivative(float size)
 		{
-			return MakeFont(s_fntEtic.FontFamily.Name, size, FontStyle.Regular);
+			return MakeFont(PhoneticFont.FontFamily.Name, size, FontStyle.Regular);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -293,100 +275,78 @@ namespace SilTools
 
 		/// --------------------------------------------------------------------------------
 		/// <summary>
+		/// Compares the font face name, size and style of two fonts.
+		/// </summary>
+		/// --------------------------------------------------------------------------------
+		public static bool AreFontsSame(Font x, Font y)
+		{
+			if (x == null || y == null)
+				return false;
+
+			return (x.Name == y.Name && x.Size == y.Size && x.Style == y.Style);
+		}
+
+		/// --------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the default font for displaying phonetic data.
 		/// </summary>
 		/// --------------------------------------------------------------------------------
-		public static Font DefaultPhoneticFont
-		{
-			get { return s_fntDefaultEtic; }
-		}
+		public static Font DefaultPhoneticFont { get; private set; }
 
 		/// --------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the font specified for displaying phonetic data.
 		/// </summary>
 		/// --------------------------------------------------------------------------------
-		public static Font PhoneticFont
-		{
-			get { return s_fntEtic; }
-			set { s_fntEtic = value; }
-		}
+		public static Font PhoneticFont { get; set; }
 
 		/// --------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the font specified for displaying tone data.
 		/// </summary>
 		/// --------------------------------------------------------------------------------
-		public static Font ToneFont
-		{
-			get { return s_fntTone; }
-			set { s_fntTone = value; }
-		}
+		public static Font ToneFont { get; set; }
 
 		/// --------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the font specified for displaying phonemic data.
 		/// </summary>
 		/// --------------------------------------------------------------------------------
-		public static Font PhonemicFont
-		{
-			get { return s_fntEmic; }
-			set { s_fntEmic = value; }
-		}
+		public static Font PhonemicFont { get; set; }
 
 		/// --------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the font specified for displaying orthographic data.
 		/// </summary>
 		/// --------------------------------------------------------------------------------
-		public static Font OrthograpicFont
-		{
-			get { return s_fntOrtho; }
-			set { s_fntOrtho = value; }
-		}
+		public static Font OrthograpicFont { get; set; }
 
 		/// --------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the font specified for displaying gloss data.
 		/// </summary>
 		/// --------------------------------------------------------------------------------
-		public static Font GlossFont
-		{
-			get { return s_fntGloss; }
-			set { s_fntGloss = value; }
-		}
+		public static Font GlossFont { get; set; }
 
 		/// --------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the font specified for displaying part of speech data.
 		/// </summary>
 		/// --------------------------------------------------------------------------------
-		public static Font POSFont
-		{
-			get { return s_fntPOS; }
-			set { s_fntPOS = value; }
-		}
+		public static Font POSFont { get; set; }
 
 		/// --------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the font specified for displaying reference data fields.
 		/// </summary>
 		/// --------------------------------------------------------------------------------
-		public static Font ReferenceFont
-		{
-			get { return s_fntRef; }
-			set { s_fntRef = value; }
-		}
+		public static Font ReferenceFont { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the desired font for most UI elements.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static Font UIFont
-		{
-			get { return s_fntUI; }
-			set { s_fntUI = value; }
-		}
+		public static Font UIFont { get; set; }
 	}
 }

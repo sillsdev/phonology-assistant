@@ -14,6 +14,7 @@ namespace SIL.PaToFdoInterfaces
 	public interface IPaLexicalInfo
 	{
 		bool ShowOpenProject(Form owner, ref Rectangle dialogBounds, ref int dialogSplitterPos, out string name, out string server);
+		bool LoadOnlyWritingSystems(string name, string server, int timeToWaitForProcessStart, int timeToWaitForLoadingData);
 		bool Initialize(string name, string server, int timeToWaitForProcessStart, int timeToWaitForLoadingData);
 		IEnumerable<IPaWritingSystem> WritingSystems { get; }
 		IEnumerable<IPaLexEntry> LexEntries { get; }

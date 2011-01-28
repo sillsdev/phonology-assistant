@@ -114,10 +114,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void BuildCharPickerRows()
 		{
 			if (!CharGridPersistence.Load(this, m_persistedInfoFilename))
@@ -126,7 +122,7 @@ namespace SIL.Pa.UI.Controls
 				// specified phone type. For building a picker we need to have first built and
 				// persisted the contents of a CharGrid for the same phone type. Therefore,
 				// force building a default CharGrid and persist its layout.
-				CharGridBuilder bldr = new CharGridBuilder(new CharGrid(), m_chrType);
+				var bldr = new CharGridBuilder(new CharGrid(), m_chrType);
 				bldr.Build();
 
 				// Try again.

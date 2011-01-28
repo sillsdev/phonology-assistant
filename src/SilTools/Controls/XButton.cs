@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
@@ -18,11 +19,6 @@ namespace SilTools.Controls
 		private bool m_mouseOver;
 		private PaintState m_state = PaintState.Normal;
 		
-		private const TextFormatFlags fTxtFmtflags = TextFormatFlags.NoPadding |
-			TextFormatFlags.HorizontalCenter | TextFormatFlags.NoPrefix |
-			TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine |
-			TextFormatFlags.PreserveGraphicsClipping;
-
 		/// ------------------------------------------------------------------------------------
 		public XButton()
 		{
@@ -30,6 +26,14 @@ namespace SilTools.Controls
 			base.BackColor = SystemColors.Control;
 			base.Font = new Font("Marlett", 9, GraphicsUnit.Point);
 			Size = new Size(16, 16);
+
+			SetStyle(ControlStyles.UserPaint |
+				ControlStyles.AllPaintingInWmPaint | ControlStyles.DoubleBuffer, true);
+
+			FormatFlags = TextFormatFlags.NoPadding |
+			   TextFormatFlags.HorizontalCenter | TextFormatFlags.NoPrefix |
+			   TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine |
+			   TextFormatFlags.PreserveGraphicsClipping;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -39,6 +43,11 @@ namespace SilTools.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool CanBeChecked { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public TextFormatFlags FormatFlags { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -128,9 +137,11 @@ namespace SilTools.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public void PerformClick()
+		{
+			InvokeOnClick(this, EventArgs.Empty);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected override void OnSystemColorsChanged(EventArgs e)
 		{
@@ -255,13 +266,8 @@ namespace SilTools.Controls
 		/// ------------------------------------------------------------------------------------
 		public void DrawText(PaintEventArgs e)
 		{
-			const TextFormatFlags kFlags = TextFormatFlags.NoPrefix |
-				TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter |
-				TextFormatFlags.SingleLine | TextFormatFlags.NoPadding |
-				TextFormatFlags.PreserveGraphicsClipping;
-
 			Color clr = (Enabled ? ForeColor : SystemColors.GrayText);
-			TextRenderer.DrawText(e.Graphics, Text, Font, ClientRectangle, clr, kFlags);
+			TextRenderer.DrawText(e.Graphics, Text, Font, ClientRectangle, clr, FormatFlags);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -277,7 +283,7 @@ namespace SilTools.Controls
 				SystemColors.ControlText);
 
 			// The 'r' in the Marlette font is the close button symbol 'X'
-			TextRenderer.DrawText(e.Graphics, "r", Font, rc, clr, fTxtFmtflags);
+			TextRenderer.DrawText(e.Graphics, "r", Font, rc, clr, FormatFlags);
 
 			// Draw the border around the button.
 			rc.Width--;
@@ -317,7 +323,7 @@ namespace SilTools.Controls
 
 			// If possible, render the button with visual styles. Otherwise,
 			// paint the plain Windows 2000 push button.
-			VisualStyleElement element = GetCorrectVisualStyleArrowElement();
+			var element = GetCorrectVisualStyleArrowElement();
 			if (PaintingHelper.CanPaintVisualStyle(element))
 			{
 				VisualStyleRenderer renderer = new VisualStyleRenderer(element);
@@ -338,7 +344,7 @@ namespace SilTools.Controls
 			Color clr = (Enabled ? SystemColors.ControlText : SystemColors.GrayText);
 
 			// The 'r' in the Marlette font is the close button symbol 'X'
-			TextRenderer.DrawText(e.Graphics, arrowGlyph, Font, rc,	clr, fTxtFmtflags);
+			TextRenderer.DrawText(e.Graphics, arrowGlyph, Font, rc, clr, FormatFlags);
 		}
 
 		/// ------------------------------------------------------------------------------------

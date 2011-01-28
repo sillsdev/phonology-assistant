@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCIEditor", "src\PCIEditor\PCIEditor.csproj", "{2DF12F00-34A3-48F1-AA94-0164368B45DA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisablePASplashScreen", "src\DisablePASplashScreen\DisablePASplashScreen.csproj", "{B101E338-1CA4-4398-96DE-55DFF283EE70}"
@@ -24,6 +24,8 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Installer", "Installer\Inst
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SilTools", "src\SilTools\SilTools.csproj", "{87F94FCC-BC32-4203-A919-115F4FF43FF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaToFdoInterfaces", "src\PaToFdoInterfaces\PaToFdoInterfaces.csproj", "{5540C524-713E-4842-BD59-35D5EA6A60C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +95,16 @@ Global
 		{87F94FCC-BC32-4203-A919-115F4FF43FF0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{87F94FCC-BC32-4203-A919-115F4FF43FF0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{87F94FCC-BC32-4203-A919-115F4FF43FF0}.Release|x86.ActiveCfg = Release|Any CPU
+		{5540C524-713E-4842-BD59-35D5EA6A60C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5540C524-713E-4842-BD59-35D5EA6A60C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5540C524-713E-4842-BD59-35D5EA6A60C6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5540C524-713E-4842-BD59-35D5EA6A60C6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5540C524-713E-4842-BD59-35D5EA6A60C6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5540C524-713E-4842-BD59-35D5EA6A60C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5540C524-713E-4842-BD59-35D5EA6A60C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5540C524-713E-4842-BD59-35D5EA6A60C6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5540C524-713E-4842-BD59-35D5EA6A60C6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5540C524-713E-4842-BD59-35D5EA6A60C6}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

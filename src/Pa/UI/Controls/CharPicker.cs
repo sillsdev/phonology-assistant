@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SIL.Pa.Model;
@@ -10,46 +11,24 @@ using SilTools;
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class CharPicker : ToolStrip
 	{
-		private struct PickerItemInfo
-		{
-			internal readonly string tooltip;
-			internal readonly string character;
-
-			internal PickerItemInfo(string chr, string tip)
-			{
-				character = chr;
-				tooltip = tip;
-			}
-		}
-
 		private const int kDefaultItemMargin = 1;
 
 		public delegate bool ShouldLoadCharHandler(CharPicker picker, IPASymbol charInfo);
 		public delegate void CharPickedHandler(CharPicker picker, ToolStripButton item);
 
 		public event CharPickedHandler CharPicked;
-		public event ShouldLoadCharHandler ShouldLoadChar;
 		public event ItemDragEventHandler ItemDrag;
 		private Size m_itemSize = new Size(30, 32);
-		private bool m_checkItemsOnClick = true;
 		private bool m_autoSizeItems;
-		private SortedDictionary<int, PickerItemInfo> m_charsToLoad;
 		private Point m_itemMouseDownPoint;
 		private float m_fontSize = 14;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public CharPicker()
 		{
+			CheckItemsOnClick = true;
 			Padding = new Padding(0);
 			BackColor = Color.Transparent;
 			base.AutoSize = false;
@@ -70,7 +49,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public CharPicker(IPASymbolTypeInfo typeInfo) : this()
 		{
-			LoadCharacterType(typeInfo);
+			LoadCharacterType(typeInfo, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -81,7 +60,7 @@ namespace SIL.Pa.UI.Controls
 		public void RefreshFont()
 		{
 			if (!App.DesignMode)
-				Font = FontHelper.MakeEticRegFontDerivative(m_fontSize);
+				Font = FontHelper.MakeEticRegFontDerivative(FontSize);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -98,14 +77,32 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public int GetPreferredWidth(int numberOfColumns)
 		{
 			// Add two for the borders.
 			return (m_itemSize.Width + (kDefaultItemMargin * 2)) * numberOfColumns + 2;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public int GetMaxNumberOfColumnsToFitWidth(int width)
+		{
+			// Whack off margins and borders.
+			width -= ((kDefaultItemMargin * 2) + 2);
+			return width / m_itemSize.Width;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public float FontSize
+		{
+			get { return m_fontSize; }
+			set
+			{
+				if (m_fontSize != value)
+				{
+					m_fontSize = value;
+					RefreshFont();
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -120,10 +117,19 @@ namespace SIL.Pa.UI.Controls
 			get { return base.Font; }
 			set
 			{
-				m_fontSize = value.SizeInPoints;
+				if (FontHelper.AreFontsSame(base.Font, value))
+					return;
+
 				base.Font = value;
+				m_fontSize = value.SizeInPoints;
+				m_itemSize = new Size(base.Font.Height, base.Font.Height + 2);
+				
 				foreach (ToolStripItem item in Items)
+				{
 					item.Font = value;
+					if (!item.AutoSize)
+						item.Size = m_itemSize;
+				}
 			}
 		}
 
@@ -133,11 +139,7 @@ namespace SIL.Pa.UI.Controls
 		/// when clicked.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool CheckItemsOnClick
-		{
-			get { return m_checkItemsOnClick; }
-			set { m_checkItemsOnClick = value; }
-		}
+		public bool CheckItemsOnClick { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -295,6 +297,12 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void Clear()
+		{
+			Items.Clear();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the back color of the first parent in the parent chain that doesn't have
 		/// a background color of transparent.
@@ -346,6 +354,7 @@ namespace SIL.Pa.UI.Controls
 
 			e.Item.AutoSize = m_autoSizeItems;
 			e.Item.Size = m_itemSize;
+			e.Item.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			e.Item.DisplayStyle = ToolStripItemDisplayStyle.Text;
 			e.Item.Margin = new Padding(kDefaultItemMargin);
 			e.Item.MouseMove += Item_MouseMove;
@@ -394,7 +403,7 @@ namespace SIL.Pa.UI.Controls
 			if (item == null)
 				return;
 
-			if (m_checkItemsOnClick)
+			if (CheckItemsOnClick)
 				item.Checked = !item.Checked;
 			
 			base.OnItemClicked(e);
@@ -409,28 +418,12 @@ namespace SIL.Pa.UI.Controls
 		/// Load the chooser with the specified character type.
 		/// </summary>
 		/// --------------------------------------------------------------------------------------------
-		public void LoadCharacterType(IPASymbolTypeInfo typeInfo)
+		public void LoadCharacterType(IPASymbolTypeInfo typeInfo, Func<IPASymbol, bool> getShouldLoad)
 		{
-			m_charsToLoad = new SortedDictionary<int, PickerItemInfo>();
-
-			foreach (IPASymbol charInfo in App.IPASymbolCache.Values)
-			{
-				if (charInfo.Type == typeInfo.Type && (charInfo.SubType == typeInfo.SubType ||
-					typeInfo.SubType == IPASymbolSubType.Unknown))
-				{
-					if (ShouldLoadChar != null && !ShouldLoadChar(this, charInfo))
-						continue;
-
-					string chr = (charInfo.DisplayWithDottedCircle ?
-						App.kDottedCircle : string.Empty) + charInfo.Literal;
-
-					// Characters will be sorted by place of articulation.
-					m_charsToLoad[charInfo.POArticulation] = 
-						new PickerItemInfo(chr, GetCharsToolTipText(charInfo));
-				}
-			}
-
-			InternalLoad();
+			var list = App.IPASymbolCache.Values.Where(ci =>
+				ci.Type == typeInfo.Type && (ci.SubType == typeInfo.SubType || ci.SubType == IPASymbolSubType.Unknown));
+			
+			LoadCharacters(list, getShouldLoad);
 		}
 
 		/// --------------------------------------------------------------------------------------------
@@ -440,25 +433,7 @@ namespace SIL.Pa.UI.Controls
 		/// --------------------------------------------------------------------------------------------
 		public void LoadCharacterType(IPASymbolIgnoreType type)
 		{
-			m_charsToLoad = new SortedDictionary<int, PickerItemInfo>();
-
-			foreach (IPASymbol charInfo in App.IPASymbolCache.Values)
-			{
-				if (charInfo.IgnoreType != type)
-					continue;
-
-				if (ShouldLoadChar != null && !ShouldLoadChar(this, charInfo))
-					continue;
-
-				string chr = (charInfo.DisplayWithDottedCircle ?
-					App.kDottedCircle : string.Empty) + charInfo.Literal;
-
-				// Characters will be sorted by place of articulation.
-				m_charsToLoad[charInfo.POArticulation] =
-					new PickerItemInfo(chr, GetCharsToolTipText(charInfo));
-			}
-
-			InternalLoad();
+			LoadCharacters(App.IPASymbolCache.Values.Where(ci => ci.IgnoreType == type));
 		}
 
 		/// --------------------------------------------------------------------------------------------
@@ -466,27 +441,58 @@ namespace SIL.Pa.UI.Controls
 		/// Load the chooser with characters checked by a loading delegate.
 		/// </summary>
 		/// --------------------------------------------------------------------------------------------
-		public void LoadCharacters()
+		public void LoadCharacters(Func<IPASymbol, bool> getShouldLoad)
 		{
-			if (ShouldLoadChar == null)
-				return;
+			LoadCharacters(App.IPASymbolCache.Values, getShouldLoad);
+		}
 
-			m_charsToLoad = new SortedDictionary<int, PickerItemInfo>();
+		/// --------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Load the chooser with characters checked by a loading delegate.
+		/// </summary>
+		/// --------------------------------------------------------------------------------------------
+		public void LoadCharacters(IEnumerable<IPASymbol> symbols)
+		{
+			LoadCharacters(symbols, null);
+		}
 
-			foreach (IPASymbol charInfo in App.IPASymbolCache.Values)
-			{
-				if (ShouldLoadChar(this, charInfo))
-				{
-					string chr = (charInfo.DisplayWithDottedCircle ?
-						App.kDottedCircle : string.Empty) + charInfo.Literal;
+		/// --------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Load the chooser with characters checked by a loading delegate.
+		/// </summary>
+		/// --------------------------------------------------------------------------------------------
+		public void LoadCharacters(IEnumerable<IPhoneInfo> phones)
+		{
+			Items.AddRange(phones.Select(p => new ToolStripButton(p.Phone)).ToArray());
+		}
 
-					// Characters will be sorted by place of articulation.
-					m_charsToLoad[charInfo.POArticulation] =
-						new PickerItemInfo(chr, GetCharsToolTipText(charInfo));
-				}
-			}
+		/// --------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Load the chooser with characters checked by a loading delegate.
+		/// </summary>
+		/// --------------------------------------------------------------------------------------------
+		public void LoadCharacters(IEnumerable<IPASymbol> symbols, Func<IPASymbol, bool> getShouldLoad)
+		{
+			InternalLoad(symbols.OrderBy(ci => ci.POArticulation)
+				.Where(ci => (getShouldLoad == null ? true : getShouldLoad(ci))));
+		}
 
-			InternalLoad();
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Loads the picker with information from a collection of PickerItemInfo objects
+		/// created from one of the public loading methods.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void InternalLoad(IEnumerable<IPASymbol> symbols)
+		{
+			Items.AddRange(symbols.Select(ci =>
+				new ToolStripButton(GetDisplayableChar(ci)) { ToolTipText = GetCharsToolTipText(ci) }).ToArray());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static string GetDisplayableChar(IPASymbol ci)
+		{
+			return (ci.DisplayWithDottedCircle ? App.kDottedCircle : string.Empty) + ci.Literal;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -496,31 +502,23 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private static string GetCharsToolTipText(IPASymbol charInfo)
 		{
-			string tooltip = string.Format(string.IsNullOrEmpty(charInfo.Description) ?
-				Properties.Resources.kstidCharPickerTooltipShort :
-				Properties.Resources.kstidCharPickerTooltipLong,
-				charInfo.Name, charInfo.Description);
+			string fmt;
 
-			return Utils.ConvertLiteralNewLines(tooltip);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Loads the picker with information from a collection of PickerItemInfo objects
-		/// created from one of the public loading methods.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void InternalLoad()
-		{
-			if (m_charsToLoad != null && m_charsToLoad.Count > 0)
+			if (string.IsNullOrEmpty(charInfo.Description))
 			{
-				foreach (PickerItemInfo pickerInfo in m_charsToLoad.Values)
-				{
-					ToolStripButton item = new ToolStripButton(pickerInfo.character);
-					item.ToolTipText = pickerInfo.tooltip;
-					Items.Add(item);
-				}
+				fmt = App.LocalizeString("CharacterPickerShortToolTip", "{0}",
+					"Used to format the tooltip string for items in an IPA character picker control when the character has no description (argument is the character name).",
+					App.kLocalizationGroupMisc);
 			}
+			else
+			{
+				fmt = App.LocalizeString("CharacterPickerLongToolTip", "{0},\n{1}",
+					"Used to format the tooltip string for items in an IPA character picker control (1st argument is the character name, and the 2rd argument is for the description)",
+					App.kLocalizationGroupMisc);
+			}
+			
+			string tooltip = string.Format(fmt, charInfo.Name, charInfo.Description);
+			return Utils.ConvertLiteralNewLines(tooltip);
 		}
 
 		#endregion

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
+using SIL.Pa.DataSourceClasses.FieldWorks;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
@@ -21,7 +22,7 @@ namespace SIL.Pa.UI.Dialogs
 		private const string kWsTypeCol = "wstype";
 
 		private readonly PaProject m_project;
-		private readonly FwDataSourceInfo m_fwSourceInfo;
+		private readonly Fw6DataSourceInfo m_fwSourceInfo;
 		private List<FwWritingSysInfo> m_wsInfo;
 		private List<string> m_allWsNames;
 
@@ -37,11 +38,7 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public FwDataSourcePropertiesDlg(PaProject project, FwDataSourceInfo fwSourceInfo) : this()
+		public FwDataSourcePropertiesDlg(PaProject project, Fw6DataSourceInfo fwSourceInfo) : this()
 		{
 			Debug.Assert(project != null);
 			Debug.Assert(project.FieldInfo != null);
@@ -274,7 +271,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			// Keep a list of all the writing system names, whether vernacular or analysis.
 			m_allWsNames = new List<string>();
-			FwDataReader reader = new FwDataReader(m_fwSourceInfo);
+			var reader = new Fw6DataReader(m_fwSourceInfo);
 
 			m_wsInfo = reader.AllWritingSystems;
 

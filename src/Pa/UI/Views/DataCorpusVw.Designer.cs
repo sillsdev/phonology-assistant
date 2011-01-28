@@ -33,6 +33,8 @@ namespace SIL.Pa.UI.Views
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
 			this.paPanel1 = new SilTools.Controls.SilPanel();
 			this.rtfRecVw = new SIL.Pa.UI.Controls.RtfRecordView();
+			this.pnlGrid = new SilTools.Controls.SilPanel();
+			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
 			this.paPanel1.SuspendLayout();
@@ -48,6 +50,7 @@ namespace SIL.Pa.UI.Views
 			// splitOuter.Panel1
 			// 
 			this.splitOuter.Panel1.BackColor = System.Drawing.SystemColors.Control;
+			this.splitOuter.Panel1.Controls.Add(this.pnlGrid);
 			this.splitOuter.Panel1.Padding = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			// 
 			// splitOuter.Panel2
@@ -71,6 +74,7 @@ namespace SIL.Pa.UI.Views
 			this.paPanel1.Controls.Add(this.rtfRecVw);
 			this.paPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.paPanel1.DoubleBuffered = false;
+			this.paPanel1.DrawOnlyBottomBorder = false;
 			this.paPanel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.paPanel1.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.paPanel1.Location = new System.Drawing.Point(10, 0);
@@ -95,6 +99,24 @@ namespace SIL.Pa.UI.Views
 			this.rtfRecVw.Text = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidExportAsToolTip;
 			this.rtfRecVw.WordWrap = false;
 			// 
+			// pnlGrid
+			// 
+			this.pnlGrid.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+			this.pnlGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlGrid.ClipTextForChildControls = true;
+			this.pnlGrid.ControlReceivingFocusOnMnemonic = null;
+			this.pnlGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pnlGrid.DoubleBuffered = true;
+			this.pnlGrid.DrawOnlyBottomBorder = false;
+			this.pnlGrid.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this.pnlGrid.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.pnlGrid.Location = new System.Drawing.Point(10, 10);
+			this.pnlGrid.MnemonicGeneratesClick = false;
+			this.pnlGrid.Name = "pnlGrid";
+			this.pnlGrid.PaintExplorerBarBackground = false;
+			this.pnlGrid.Size = new System.Drawing.Size(656, 361);
+			this.pnlGrid.TabIndex = 0;
+			// 
 			// DataCorpusVw
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -102,6 +124,7 @@ namespace SIL.Pa.UI.Views
 			this.Controls.Add(this.splitOuter);
 			this.Name = "DataCorpusVw";
 			this.Size = new System.Drawing.Size(676, 468);
+			this.splitOuter.Panel1.ResumeLayout(false);
 			this.splitOuter.Panel2.ResumeLayout(false);
 			this.splitOuter.ResumeLayout(false);
 			this.paPanel1.ResumeLayout(false);
@@ -114,5 +137,6 @@ namespace SIL.Pa.UI.Views
 		private System.Windows.Forms.SplitContainer splitOuter;
 		private SilPanel paPanel1;
 		private SIL.Pa.UI.Controls.RtfRecordView rtfRecVw;
+		private SilPanel pnlGrid;
 	}
 }

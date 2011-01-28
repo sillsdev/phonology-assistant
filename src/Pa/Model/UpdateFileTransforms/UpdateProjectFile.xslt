@@ -19,4 +19,14 @@
 			<xsl:apply-templates/>
 		</languageName>
 	</xsl:template>
+
+	<xsl:template match="FwDataSourceInfo">
+		<Fw6DataSourceInfo>
+			<xsl:apply-templates/>
+		</Fw6DataSourceInfo>
+</xsl:template>
+
+	
+
+
 </xsl:stylesheet>

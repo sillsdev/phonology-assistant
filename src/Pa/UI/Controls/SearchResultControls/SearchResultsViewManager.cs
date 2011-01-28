@@ -1104,7 +1104,7 @@ namespace SIL.Pa.UI.Controls
 		/// Once the tab is created, it's selected.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void CreateTab(SearchResultLocation resultLocation)
+		public void CreateTab(SearchResultLocation resultLocation)
 		{
 			CreateTab(resultLocation, null);
 		}

@@ -15,6 +15,7 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -53,7 +54,8 @@ namespace SIL.Pa.Model
 		/// Constructs a new phone information object for the specified phone.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PhoneInfo(string phone) : this(phone, false)
+		public PhoneInfo(string phone)
+			: this(phone, false)
 		{
 		}
 
@@ -77,10 +79,6 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void InitializeFeatureMasks(IEnumerable<char> phone)
 		{
 			m_aMask = DefaultAMask = App.AFeatureCache.GetEmptyMask();
@@ -100,10 +98,6 @@ namespace SIL.Pa.Model
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void InitializeBaseChar(string phone)
 		{
@@ -304,17 +298,9 @@ namespace SIL.Pa.Model
 		public int CountAsPrimaryUncertainty { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public IPASymbolType CharType { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void SetAFeatures(List<string> list)
 		{
@@ -323,20 +309,12 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void SetBFeatures(List<string> list)
 		{
 			m_bMask = null;
 			BFeatures = list;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void OverrideAFeature(FeatureMask mask)
 		{
@@ -348,10 +326,6 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void OverrideBFeature(FeatureMask mask)
 		{
 			if (BMask != mask && !mask.IsEmpty && mask.IsAnyBitSet)
@@ -362,20 +336,12 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void ResetAFeatures()
 		{
 			AMask = DefaultAMask;
 			AFeaturesAreOverridden = false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void ResetBFeatures()
 		{
@@ -529,6 +495,16 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public bool IsUndefined { get; internal set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a collection of the symbols (or codepoints) of which the phone consists.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<IPASymbol> GetSymbols()
+		{
+			return Phone.Select(c => App.IPASymbolCache[c]);
+		}
 	}
 
 	#endregion

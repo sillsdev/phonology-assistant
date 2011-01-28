@@ -73,10 +73,10 @@ namespace SIL.Pa.UI.Dialogs
 			int buttonGap = btnCancel.Left - btnOK.Right;
 			btnApplyNow.Left = btnOK.Left - btnApplyNow.Width - (buttonGap * 3);
 
-			pnlExpressionMatch.ColorTop = Settings.Default.GradientPanelTopColor;
-			pnlExpressionMatch.ColorBottom = Settings.Default.GradientPanelBottomColor;
-			lblExpressionMatchMsgPart1.ForeColor = Settings.Default.GradientPanelTextColor;
-			lblExpressionMatchMsgPart2.ForeColor = Settings.Default.GradientPanelTextColor;
+			//pnlExpressionMatch.ColorTop = Settings.Default.GradientPanelTopColor;
+			//pnlExpressionMatch.ColorBottom = Settings.Default.GradientPanelBottomColor;
+			//lblExpressionMatchMsgPart1.ForeColor = Settings.Default.GradientPanelTextColor;
+			//lblExpressionMatchMsgPart2.ForeColor = Settings.Default.GradientPanelTextColor;
 
 			cboExpressionMatch.Items.Add(App.LocalizeString(
 				"FiltersDlg.FilterExpressionMatchTypes.Any", "any",
@@ -380,7 +380,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_gridFilters.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 			m_gridFilters.CellBorderStyle = DataGridViewCellBorderStyle.None;
 			m_gridFilters.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-			App.InitializeGridSelectionColors(m_gridFilters, false);
+			App.SetGridSelectionColors(m_gridFilters, false);
 
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("filterName");
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -441,7 +441,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_gridExpressions.AllowUserToOrderColumns = false;
 			m_gridExpressions.AllowUserToResizeColumns = true;
 			m_gridExpressions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-			App.InitializeGridSelectionColors(m_gridExpressions, true);
+			App.SetGridSelectionColors(m_gridExpressions, true);
 
 			var fieldNames = (from x in App.FieldInfo
 							  orderby x.DisplayText

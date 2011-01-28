@@ -91,10 +91,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlFilters.Controls.Add(this.m_gridFilters);
 			resources.ApplyResources(this.pnlFilters, "pnlFilters");
 			this.pnlFilters.DoubleBuffered = true;
+			this.pnlFilters.DrawOnlyBottomBorder = false;
 			this.pnlFilters.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.locExtender.SetLocalizableToolTip(this.pnlFilters, null);
-			this.locExtender.SetLocalizationComment(this.pnlFilters, null);
-			this.locExtender.SetLocalizingId(this.pnlFilters, "FiltersDlg.pnlFilters");
 			this.pnlFilters.MnemonicGeneratesClick = false;
 			this.pnlFilters.Name = "pnlFilters";
 			this.pnlFilters.PaintExplorerBarBackground = false;
@@ -124,9 +122,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_gridFilters.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
 			this.m_gridFilters.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
 			this.m_gridFilters.IsDirty = true;
-			this.locExtender.SetLocalizableToolTip(this.m_gridFilters, null);
-			this.locExtender.SetLocalizationComment(this.m_gridFilters, null);
-			this.locExtender.SetLocalizingId(this.m_gridFilters, "FiltersDlg.m_gridFilters");
 			this.m_gridFilters.MultiSelect = false;
 			this.m_gridFilters.Name = "m_gridFilters";
 			this.m_gridFilters.PaintHeaderAcrossFullGridWidth = true;
@@ -141,12 +136,12 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_gridFilters.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
 			this.m_gridFilters.WaterMark = "!";
 			this.m_gridFilters.CurrentRowChanged += new System.EventHandler(this.HandleFilterGridCurrentRowChanged);
-			this.m_gridFilters.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.HandleFilterGridCellValueNeeded);
-			this.m_gridFilters.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.HandleFilterGridCellValidating);
 			this.m_gridFilters.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleFilterGridCellEndEdit);
 			this.m_gridFilters.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.HandleFilterGridCellPainting);
-			this.m_gridFilters.CellValuePushed += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.HandleFilterGridCellValuePushed);
 			this.m_gridFilters.CellToolTipTextNeeded += new System.Windows.Forms.DataGridViewCellToolTipTextNeededEventHandler(this.HandleFilterGridCellToolTipTextNeeded);
+			this.m_gridFilters.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.HandleFilterGridCellValidating);
+			this.m_gridFilters.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.HandleFilterGridCellValueNeeded);
+			this.m_gridFilters.CellValuePushed += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.HandleFilterGridCellValuePushed);
 			this.m_gridFilters.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleFilterGridKeyDown);
 			// 
 			// flwLayoutFilterButtons
@@ -160,9 +155,6 @@ namespace SIL.Pa.UI.Dialogs
 			// btnAdd
 			// 
 			resources.ApplyResources(this.btnAdd, "btnAdd");
-			this.locExtender.SetLocalizableToolTip(this.btnAdd, null);
-			this.locExtender.SetLocalizationComment(this.btnAdd, null);
-			this.locExtender.SetLocalizingId(this.btnAdd, "FiltersDlg.btnAdd");
 			this.btnAdd.MinimumSize = new System.Drawing.Size(70, 26);
 			this.btnAdd.Name = "btnAdd";
 			this.btnAdd.UseVisualStyleBackColor = true;
@@ -171,9 +163,6 @@ namespace SIL.Pa.UI.Dialogs
 			// btnCopy
 			// 
 			resources.ApplyResources(this.btnCopy, "btnCopy");
-			this.locExtender.SetLocalizableToolTip(this.btnCopy, null);
-			this.locExtender.SetLocalizationComment(this.btnCopy, null);
-			this.locExtender.SetLocalizingId(this.btnCopy, "FiltersDlg.btnCopy");
 			this.btnCopy.MinimumSize = new System.Drawing.Size(70, 26);
 			this.btnCopy.Name = "btnCopy";
 			this.btnCopy.UseVisualStyleBackColor = true;
@@ -182,9 +171,6 @@ namespace SIL.Pa.UI.Dialogs
 			// btnDeleteFilter
 			// 
 			resources.ApplyResources(this.btnDeleteFilter, "btnDeleteFilter");
-			this.locExtender.SetLocalizableToolTip(this.btnDeleteFilter, null);
-			this.locExtender.SetLocalizationComment(this.btnDeleteFilter, null);
-			this.locExtender.SetLocalizingId(this.btnDeleteFilter, "FiltersDlg.btnDeleteFilter");
 			this.btnDeleteFilter.MinimumSize = new System.Drawing.Size(70, 26);
 			this.btnDeleteFilter.Name = "btnDeleteFilter";
 			this.btnDeleteFilter.UseVisualStyleBackColor = true;
@@ -194,7 +180,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			resources.ApplyResources(this.tableLayout, "tableLayout");
 			this.tableLayout.BackColor = System.Drawing.Color.Transparent;
-			this.tableLayout.Controls.Add(this.pnlExpressionMatch, 0, 0);
 			this.tableLayout.Controls.Add(this.pnlExpressions, 0, 1);
 			this.tableLayout.Name = "tableLayout";
 			// 
@@ -202,18 +187,14 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			resources.ApplyResources(this.pnlExpressionMatch, "pnlExpressionMatch");
 			this.pnlExpressionMatch.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
-			this.pnlExpressionMatch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlExpressionMatch.ClipTextForChildControls = true;
 			this.pnlExpressionMatch.ColorBottom = System.Drawing.Color.Empty;
 			this.pnlExpressionMatch.ColorTop = System.Drawing.Color.Empty;
 			this.pnlExpressionMatch.ControlReceivingFocusOnMnemonic = null;
 			this.pnlExpressionMatch.Controls.Add(this.flowLayoutPanel);
 			this.pnlExpressionMatch.DoubleBuffered = true;
+			this.pnlExpressionMatch.DrawOnlyBottomBorder = true;
 			this.pnlExpressionMatch.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.locExtender.SetLocalizableToolTip(this.pnlExpressionMatch, null);
-			this.locExtender.SetLocalizationComment(this.pnlExpressionMatch, null);
-			this.locExtender.SetLocalizationPriority(this.pnlExpressionMatch, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.pnlExpressionMatch, "silGradientPanel1.silGradientPanel1");
 			this.pnlExpressionMatch.MakeDark = false;
 			this.pnlExpressionMatch.MnemonicGeneratesClick = false;
 			this.pnlExpressionMatch.Name = "pnlExpressionMatch";
@@ -231,9 +212,6 @@ namespace SIL.Pa.UI.Dialogs
 			// lblExpressionMatchMsgPart1
 			// 
 			resources.ApplyResources(this.lblExpressionMatchMsgPart1, "lblExpressionMatchMsgPart1");
-			this.locExtender.SetLocalizableToolTip(this.lblExpressionMatchMsgPart1, null);
-			this.locExtender.SetLocalizationComment(this.lblExpressionMatchMsgPart1, null);
-			this.locExtender.SetLocalizingId(this.lblExpressionMatchMsgPart1, "FiltersDlg.lblExpressionMatchMsgPart1");
 			this.lblExpressionMatchMsgPart1.Name = "lblExpressionMatchMsgPart1";
 			// 
 			// cboExpressionMatch
@@ -241,18 +219,12 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.cboExpressionMatch, "cboExpressionMatch");
 			this.cboExpressionMatch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboExpressionMatch.FormattingEnabled = true;
-			this.locExtender.SetLocalizableToolTip(this.cboExpressionMatch, null);
-			this.locExtender.SetLocalizationComment(this.cboExpressionMatch, null);
-			this.locExtender.SetLocalizingId(this.cboExpressionMatch, "FiltersDlg.cboExpressionMatch");
 			this.cboExpressionMatch.Name = "cboExpressionMatch";
 			this.cboExpressionMatch.SelectedIndexChanged += new System.EventHandler(this.HandleExpressionMatchComboIndexChanged);
 			// 
 			// lblExpressionMatchMsgPart2
 			// 
 			resources.ApplyResources(this.lblExpressionMatchMsgPart2, "lblExpressionMatchMsgPart2");
-			this.locExtender.SetLocalizableToolTip(this.lblExpressionMatchMsgPart2, null);
-			this.locExtender.SetLocalizationComment(this.lblExpressionMatchMsgPart2, null);
-			this.locExtender.SetLocalizingId(this.lblExpressionMatchMsgPart2, "FiltersDlg.lblExpressionMatchMsgPart2");
 			this.lblExpressionMatchMsgPart2.Name = "lblExpressionMatchMsgPart2";
 			// 
 			// pnlExpressions
@@ -264,12 +236,11 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlExpressions.Controls.Add(this.btnApplyNow);
 			this.pnlExpressions.Controls.Add(this.m_gridExpressions);
 			this.pnlExpressions.Controls.Add(this.hlblExpressions);
+			this.pnlExpressions.Controls.Add(this.pnlExpressionMatch);
 			resources.ApplyResources(this.pnlExpressions, "pnlExpressions");
 			this.pnlExpressions.DoubleBuffered = true;
+			this.pnlExpressions.DrawOnlyBottomBorder = false;
 			this.pnlExpressions.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.locExtender.SetLocalizableToolTip(this.pnlExpressions, null);
-			this.locExtender.SetLocalizationComment(this.pnlExpressions, null);
-			this.locExtender.SetLocalizingId(this.pnlExpressions, "FiltersDlg.pnlExpressions");
 			this.pnlExpressions.MnemonicGeneratesClick = false;
 			this.pnlExpressions.Name = "pnlExpressions";
 			this.pnlExpressions.PaintExplorerBarBackground = false;
@@ -277,9 +248,6 @@ namespace SIL.Pa.UI.Dialogs
 			// btnApplyNow
 			// 
 			resources.ApplyResources(this.btnApplyNow, "btnApplyNow");
-			this.locExtender.SetLocalizableToolTip(this.btnApplyNow, null);
-			this.locExtender.SetLocalizationComment(this.btnApplyNow, null);
-			this.locExtender.SetLocalizingId(this.btnApplyNow, "FiltersDlg.btnApplyNow");
 			this.btnApplyNow.MinimumSize = new System.Drawing.Size(95, 26);
 			this.btnApplyNow.Name = "btnApplyNow";
 			this.btnApplyNow.UseVisualStyleBackColor = true;
@@ -310,9 +278,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_gridExpressions.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
 			this.m_gridExpressions.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.m_gridExpressions.IsDirty = false;
-			this.locExtender.SetLocalizableToolTip(this.m_gridExpressions, null);
-			this.locExtender.SetLocalizationComment(this.m_gridExpressions, null);
-			this.locExtender.SetLocalizingId(this.m_gridExpressions, "FiltersDlg.m_grid");
 			this.m_gridExpressions.MultiSelect = false;
 			this.m_gridExpressions.Name = "m_gridExpressions";
 			this.m_gridExpressions.PaintHeaderAcrossFullGridWidth = true;
@@ -326,27 +291,28 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_gridExpressions.TextBoxEditControlBorderColor = System.Drawing.Color.DimGray;
 			this.m_gridExpressions.WaterMark = "!";
 			this.m_gridExpressions.CurrentRowChanged += new System.EventHandler(this.HandleExpressionsGridCurrentRowChanged);
-			this.m_gridExpressions.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleExpressionsGridCellMouseLeave);
-			this.m_gridExpressions.Enter += new System.EventHandler(this.HandleExpressionsGridEnterAndLeave);
-			this.m_gridExpressions.Leave += new System.EventHandler(this.HandleExpressionsGridEnterAndLeave);
+			this.m_gridExpressions.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleExpressionsGridCellContentClicked);
 			this.m_gridExpressions.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.HandleExpressionsGridCellFormatting);
 			this.m_gridExpressions.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleExpressionsGridCellMouseEnter);
+			this.m_gridExpressions.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleExpressionsGridCellMouseLeave);
 			this.m_gridExpressions.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.HandleExpressionsGridCellPainting);
 			this.m_gridExpressions.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.HandleExpressionsGridDefaultValuesNeeded);
+			this.m_gridExpressions.Enter += new System.EventHandler(this.HandleExpressionsGridEnterAndLeave);
 			this.m_gridExpressions.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleExpressionsGridKeyDown);
-			this.m_gridExpressions.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleExpressionsGridCellContentClicked);
+			this.m_gridExpressions.Leave += new System.EventHandler(this.HandleExpressionsGridEnterAndLeave);
 			// 
 			// hlblExpressions
 			// 
+			this.hlblExpressions.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this.hlblExpressions.ClipTextForChildControls = false;
 			this.hlblExpressions.ControlReceivingFocusOnMnemonic = null;
 			resources.ApplyResources(this.hlblExpressions, "hlblExpressions");
+			this.hlblExpressions.DoubleBuffered = true;
+			this.hlblExpressions.DrawOnlyBottomBorder = false;
 			this.hlblExpressions.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.locExtender.SetLocalizableToolTip(this.hlblExpressions, null);
-			this.locExtender.SetLocalizationComment(this.hlblExpressions, null);
-			this.locExtender.SetLocalizingId(this.hlblExpressions, "FiltersDlg.hlblExpressions");
 			this.hlblExpressions.MnemonicGeneratesClick = true;
 			this.hlblExpressions.Name = "hlblExpressions";
+			this.hlblExpressions.PaintExplorerBarBackground = false;
 			this.hlblExpressions.ShowWindowBackgroudOnTopAndRightEdge = false;
 			// 
 			// locExtender
@@ -359,9 +325,6 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.splitFilters);
-			this.locExtender.SetLocalizableToolTip(this, null);
-			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "FiltersDlg.WindowTitle");
 			this.Name = "FiltersDlg";
 			this.Controls.SetChildIndex(this.splitFilters, 0);
 			this.splitFilters.Panel1.ResumeLayout(false);
@@ -374,7 +337,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.flwLayoutFilterButtons.ResumeLayout(false);
 			this.flwLayoutFilterButtons.PerformLayout();
 			this.tableLayout.ResumeLayout(false);
-			this.tableLayout.PerformLayout();
 			this.pnlExpressionMatch.ResumeLayout(false);
 			this.pnlExpressionMatch.PerformLayout();
 			this.flowLayoutPanel.ResumeLayout(false);

@@ -29,18 +29,14 @@ using SilTools.Controls;
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class SearchResultTab : Panel, IxCoreColleague
 	{
 		// The combined left and right margins of the image. 
 		private const int kleftImgMargin = 6;
 
 		private Point m_mouseDownLocation = Point.Empty;
-		private bool m_mouseOver;
 		private bool m_selected;
+		private bool m_mouseOverTab;
 		private SearchResultView m_resultView;
 		private Image m_image;
 		private ToolTip m_CIEButtonToolTip;
@@ -51,6 +47,7 @@ namespace SIL.Pa.UI.Controls
 		private Color m_activeTabBack;
 		private Color m_inactiveTabFore;
 		private Color m_inactiveTabBack;
+		private XButton m_btnClose;
 
 		public CustomDropDown CieOptionsDropDownContainer { get; set; }
 		public CIEOptionsDropDown CieOptionsDropDown { get; set; }
@@ -67,10 +64,6 @@ namespace SIL.Pa.UI.Controls
 		public bool TabTextClipped { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public SearchResultTab(SearchResultTabGroup owningTabControl)
 		{
 			base.DoubleBuffered = true;
@@ -81,6 +74,7 @@ namespace SIL.Pa.UI.Controls
 			SearchQuery = new SearchQuery();
 			App.AddMediatorColleague(this);
 			SetContextMenus();
+			SetupCloseButton();
 
 			// Prepare the tab's minimal pair options button.
 			Image img = Properties.Resources.kimidMinimalPairsOptionsDropDown;
@@ -97,47 +91,6 @@ namespace SIL.Pa.UI.Controls
 			GetTabColors();
 
 			Text = EmptyTabText;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal void SetContextMenus()
-		{
-			if (base.ContextMenuStrip != null)
-				base.ContextMenuStrip.Opening -= ContextMenuStrip_Opening;
-
-			if (OwningTabGroup != null && OwningTabGroup.TMAdapter != null)
-			{
-				OwningTabGroup.TMAdapter.SetContextMenuForControl(this, "cmnuSearchResultTab");
-
-				if (base.ContextMenuStrip != null)
-					base.ContextMenuStrip.Opening += ContextMenuStrip_Opening;
-
-				if (m_resultView != null && m_resultView.Grid != null)
-				{
-					OwningTabGroup.TMAdapter.SetContextMenuForControl(
-						m_resultView.Grid, "cmnuSearchResultTab");
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void GetTabColors()
-		{
-			m_activeTabInactiveGroupBack1 = Settings.Default.SearchResultTabActiveIninactiveGroup1;
-			m_activeTabInactiveGroupBack2 = Settings.Default.SearchResultTabActiveIninactiveGroup1;
-			m_activeTabInactiveGroupFore = Settings.Default.SearchResultTabActiveIninactiveGroupForeColor;
-			m_activeTabBack = Settings.Default.SearchResultTabActiveBackColor;
-			m_activeTabFore = Settings.Default.SearchResultTabActiveForeColor;
-			m_inactiveTabBack = Settings.Default.SearchResultTabInactiveBackColor;
-			m_inactiveTabFore = Settings.Default.SearchResultTabInactiveForeColor;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -171,6 +124,16 @@ namespace SIL.Pa.UI.Controls
 					m_resultView = null;
 				}
 
+				if (m_btnClose != null)
+				{
+					var frm = FindForm();
+					if (frm != null)
+						frm.Controls.Remove(m_btnClose);
+
+					m_btnClose.Dispose();
+					m_btnClose = null;
+				}
+
 				if (SearchQuery != null)
 					SearchQuery = null;
 			}
@@ -179,9 +142,63 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		internal void SetContextMenus()
+		{
+			if (base.ContextMenuStrip != null)
+				base.ContextMenuStrip.Opening -= ContextMenuStrip_Opening;
+
+			if (OwningTabGroup != null && OwningTabGroup.TMAdapter != null)
+			{
+				OwningTabGroup.TMAdapter.SetContextMenuForControl(this, "cmnuSearchResultTab");
+
+				if (base.ContextMenuStrip != null)
+					base.ContextMenuStrip.Opening += ContextMenuStrip_Opening;
+
+				if (m_resultView != null && m_resultView.Grid != null)
+				{
+					OwningTabGroup.TMAdapter.SetContextMenuForControl(
+						m_resultView.Grid, "cmnuSearchResultTab");
+				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void SetupCloseButton()
+		{
+			m_btnClose = new XButton();
+			m_btnClose.Visible = false;
+			m_btnClose.BackColor = Color.Transparent;
+			m_btnClose.Image = Properties.Resources.CloseTabNormal;
+			m_btnClose.Size = m_btnClose.Image.Size;
+			m_btnClose.DrawBackground += delegate { return true; };
+			m_btnClose.Click += delegate { OwningTabGroup.RemoveTab(this, true); };
+
+			m_btnClose.MouseEnter += delegate
+			{
+				m_btnClose.Image = Properties.Resources.CloseTabHot;
+				m_btnClose.Visible = true;
+			};
+
+			m_btnClose.MouseLeave += delegate
+			{
+				m_btnClose.Visible = false;
+				m_btnClose.Image = Properties.Resources.CloseTabNormal;
+				Invalidate();
+			};
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void GetTabColors()
+		{
+			m_activeTabInactiveGroupBack1 = Settings.Default.SearchResultTabActiveIninactiveGroup1;
+			m_activeTabInactiveGroupBack2 = Settings.Default.SearchResultTabActiveIninactiveGroup1;
+			m_activeTabInactiveGroupFore = Settings.Default.SearchResultTabActiveIninactiveGroupForeColor;
+			m_activeTabBack = Settings.Default.SearchResultTabActiveBackColor;
+			m_activeTabFore = Settings.Default.SearchResultTabActiveForeColor;
+			m_inactiveTabBack = Settings.Default.SearchResultTabInactiveBackColor;
+			m_inactiveTabFore = Settings.Default.SearchResultTabInactiveForeColor;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		void ContextMenuStrip_Opening(object sender, CancelEventArgs e)
 		{
@@ -227,10 +244,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void SetText(WordListCache resultCache)
 		{
 			Text = (resultCache == null ||
@@ -239,10 +252,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		#region Properties
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static string EmptyTabText
 		{
@@ -253,10 +262,6 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public Image Image
 		{
@@ -281,10 +286,6 @@ namespace SIL.Pa.UI.Controls
 			get { return m_resultView == null; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool Selected
 		{
@@ -363,10 +364,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public override Color ForeColor
 		{
 			get
@@ -380,10 +377,6 @@ namespace SIL.Pa.UI.Controls
 			set { }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public override Color BackColor
 		{
@@ -495,10 +488,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void SubscribeToGridEvents()
 		{
 			if (m_resultView == null)
@@ -528,10 +517,6 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void UnsubscribeToGridEvents()
 		{
@@ -581,19 +566,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void UpdateRecordView()
 		{
 			UpdateRecordView(-1);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void UpdateRecordView(int rowIndex)
 		{
@@ -706,10 +683,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Left)
@@ -725,20 +698,12 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
 			m_mouseDownLocation = Point.Empty;
 			base.OnMouseUp(e);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
@@ -760,33 +725,54 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseEnter(EventArgs e)
 		{
-			m_mouseOver = true;
+			m_mouseOverTab = true;
 			Invalidate();
 			base.OnMouseEnter(e);
+
+			if (m_btnClose.Parent == null)
+			{
+				// Add the button to the owning form because we want the bounds
+				// of the button to extend beyond the bounds of this tab.
+				FindForm().Controls.Add(m_btnClose);
+				m_btnClose.BringToFront();
+			}
+
+			// If, at the point where the bottom, left of the close button would be
+			// displayed is not visible (i.e. scrolled out of view), don't show it.
+			if (OwningTabGroup.GetIsTabsRightEdgeVisible(this))
+			{
+				var pt = PointToScreen(new Point(Width - (m_btnClose.Width - 2), -2));
+				m_btnClose.Location = FindForm().PointToClient(pt);
+				m_btnClose.Visible = true;
+			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseLeave(EventArgs e)
 		{
-			m_mouseOver = false;
+			m_mouseOverTab = false;
 			Invalidate();
 			base.OnMouseLeave(e);
+
+			if (!GetIsMouseOverCloseButton())
+				m_btnClose.Visible = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		private bool GetIsMouseOverCloseButton()
+		{
+			var pt = m_btnClose.PointToClient(MousePosition);
+			return m_btnClose.ClientRectangle.Contains(pt);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool GetIsMouseOverTab()
+		{
+			return (m_mouseOverTab || GetIsMouseOverCloseButton());
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected override void OnSizeChanged(EventArgs e)
 		{
@@ -795,10 +781,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			Rectangle rc = ClientRectangle;
@@ -806,8 +788,8 @@ namespace SIL.Pa.UI.Controls
 
 			int topMargin = (m_selected ? 0 : 2);
 
-			// Establish the points that outline the region for the tab outline (which
-			// also marks off it's interior).
+			// Establish the points that outline the region for the tab
+			// outline (which also marks off it's interior).
 			Point[] pts = new[] {
 				new Point(0, rc.Bottom), new Point(0, rc.Top + topMargin + 3),
 				new Point(3, topMargin), new Point(rc.Right - 4, topMargin),
@@ -861,6 +843,17 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			DrawText(e.Graphics, ref rc);
+
+			if (GetIsMouseOverTab())
+			{
+				// Draw the lines that only show when the mouse is over the tab.
+				using (Pen pen = new Pen(Color.FromArgb(0x66, 0x33, 0x00)))
+				{
+					int topLine = (m_selected ? 1 : 3);
+					e.Graphics.DrawLine(pen, 3, topLine, rc.Right - 4, topLine);
+					e.Graphics.DrawLine(pen, 2, topLine + 1, rc.Right - 3, topLine + 1);
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -887,7 +880,7 @@ namespace SIL.Pa.UI.Controls
 		/// Draws the tab's text
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void DrawText(Graphics g, ref Rectangle rc)
+		private void DrawText(IDeviceContext g, ref Rectangle rc)
 		{
 			TextFormatFlags flags = TextFormatFlags.VerticalCenter |
 				TextFormatFlags.WordEllipsis | TextFormatFlags.SingleLine |
@@ -899,23 +892,8 @@ namespace SIL.Pa.UI.Controls
 
 			rc.Height -= 3;
 			TextRenderer.DrawText(g, Text, Font, rc, ForeColor, flags);
-
-			if (m_mouseOver)
-			{
-				// Draw the lines that only show when the mouse is over the tab.
-				using (Pen pen = new Pen(Color.DarkOrange))
-				{
-					int topLine = (m_selected ? 1 : 3);
-					g.DrawLine(pen, 3, topLine, rc.Right - 4, topLine);
-					g.DrawLine(pen, 2, topLine + 1, rc.Right - 3, topLine + 1);
-				}
-			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
@@ -926,20 +904,12 @@ namespace SIL.Pa.UI.Controls
 
 		#region Minimal pair (i.e. CIE) options drop-down related methods
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void ShowCIEOptions()
 		{
 			if (CIEOptionsButton.Visible)
 				OwningTabGroup.ShowCIEOptions(CIEOptionsButton);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		void m_btnCIEOptions_Click(object sender, EventArgs e)
 		{
@@ -950,10 +920,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		void m_btnCIEOptions_MouseLeave(object sender, EventArgs e)
 		{
 			m_CIEButtonToolTip.Hide(this);
@@ -961,10 +927,6 @@ namespace SIL.Pa.UI.Controls
 			m_CIEButtonToolTip = null;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		void m_btnCIEOptions_MouseEnter(object sender, EventArgs e)
 		{
@@ -978,10 +940,6 @@ namespace SIL.Pa.UI.Controls
 			m_CIEButtonToolTip.Show(text, this, pt);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void ToggleCIEView()
 		{
@@ -1001,10 +959,6 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		internal void CIEViewRefresh()
 		{

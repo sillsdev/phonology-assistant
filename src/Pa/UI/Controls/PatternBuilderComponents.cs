@@ -259,10 +259,22 @@ namespace SIL.Pa.UI.Controls
 				IPASymbolSubType.OtherSymbols));
 
 			charExplorer.TypesToShow = typesToShow;
-			charExplorer.ShouldLoadChar += OtherCharShouldLoadChar;
 			charExplorer.ItemDrag += OtherCharDragHandler;
 			charExplorer.CharPicked += OtherCharPickedHandler;
-			charExplorer.Load();
+			charExplorer.Load(ci =>
+			{
+				// TODO: Fix this when chao characters are supported.
+
+				// Always allow non consonants.
+				if (ci.Type != IPASymbolType.Consonant)
+					return true;
+
+				char chr = ci.Literal[0];
+
+				// The only consonants to allow are the tie bars.
+				return (m_diacriticsInCache.Contains(chr) ||
+					chr == App.kTopTieBarC || chr == App.kBottomTieBarC);
+			});
 
 			m_diacriticsInCache = null;
 		}
@@ -286,27 +298,6 @@ namespace SIL.Pa.UI.Controls
 			flv.CustomDoubleClick += FeatureListDoubleClickHandler;
 
 			return flv;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Determines whether or not the specified modifying characters should be loaded into
-		/// the character explorer on the "Other" tab.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		bool OtherCharShouldLoadChar(CharPicker picker, IPASymbol charInfo)
-		{
-			// TODO: Fix this when chao characters are supported.
-
-			// Always allow non consonants.
-			if (charInfo.Type != IPASymbolType.Consonant)
-				return true;
-
-			char chr = charInfo.Literal[0];
-
-			// The only consonants to allow are the tie bars.
-			return (m_diacriticsInCache.Contains(chr) ||
-				chr == App.kTopTieBarC || chr == App.kBottomTieBarC);
 		}
 
 		/// ------------------------------------------------------------------------------------
