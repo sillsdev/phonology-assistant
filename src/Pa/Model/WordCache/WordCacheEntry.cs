@@ -479,8 +479,8 @@ namespace SIL.Pa.Model
 
 				App.IPASymbolCache.UndefinedCharacters.CurrentDataSourceName =
 					(RecordEntry.DataSource.DataSourceType == DataSourceType.FW &&
-					RecordEntry.DataSource.Fw6DataSourceInfo != null ?
-					RecordEntry.DataSource.Fw6DataSourceInfo.ToString() :
+					RecordEntry.DataSource.FwDataSourceInfo != null ?
+					RecordEntry.DataSource.FwDataSourceInfo.ToString() :
 					Path.GetFileName(RecordEntry.DataSource.DataSourceFile));
 			}
 

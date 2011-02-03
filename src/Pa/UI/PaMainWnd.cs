@@ -176,10 +176,6 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void LoadProject(string projectFileName)
 		{
 			if (string.IsNullOrEmpty(projectFileName))

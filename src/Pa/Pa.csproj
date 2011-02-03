@@ -97,11 +97,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="LocalizationManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="LocalizationManager, Version=1.0.4048.29084, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\LocalizationManager.dll</HintPath>
     </Reference>
-    <Reference Include="PaToFdoInterfaces, Version=1.0.4031.28207, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="PaToFdoInterfaces, Version=1.0.4049.26971, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\PaToFdoInterfaces.dll</HintPath>
     </Reference>
@@ -140,11 +140,13 @@
     <Compile Include="DataSourceClasses\FieldWorks\EditFwUrlDlg.designer.cs">
       <DependentUpon>EditFwUrlDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="DataSourceClasses\FieldWorks\Fw6DataReader.cs" />
-    <Compile Include="DataSourceClasses\FieldWorks\Fw6DataSourceInfo.cs" />
-    <Compile Include="DataSourceClasses\FieldWorks\Fw7DataSourceInfo.cs" />
-    <Compile Include="DataSourceClasses\FieldWorks\FwDataSourceWsInfo.cs" />
+    <Compile Include="DataSourceClasses\FieldWorks\FwDataReader.cs" />
+    <Compile Include="DataSourceClasses\FieldWorks\FwDataSourceInfo.cs" />
+    <Compile Include="DataSourceClasses\FieldWorks\FwFieldWsMapping.cs" />
+    <Compile Include="DataSourceClasses\FieldWorks\FwDBAccessInfo.cs" />
     <Compile Include="DataSourceClasses\FieldWorks\FwDBUtils.cs" />
+    <Compile Include="DataSourceClasses\FieldWorks\FwQueries.cs" />
+    <Compile Include="DataSourceClasses\FieldWorks\FwWritingSysInfo.cs" />
     <Compile Include="DataSourceClasses\MissingDataSourceMsgBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -766,6 +768,9 @@
       <DependentUpon>CustomFieldsDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\FieldWorks\FwDataSourcePropertiesDlg.resx">
+      <DependentUpon>FwDataSourcePropertiesDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\FindDlg.resx">
       <DependentUpon>FindDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -940,10 +945,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\FeaturesDlg.resx">
       <DependentUpon>FeaturesDlg.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Dialogs\FieldWorks\FwDataSourcePropertiesDlg.resx">
-      <DependentUpon>FwDataSourcePropertiesDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\FieldWorks\FwProjectsDlg.resx">

@@ -457,8 +457,10 @@ namespace SIL.Pa.UI.Dialogs
 			// Ensure the new class doesn't have an empty class name
 			if (txtClassName.Text == string.Empty)
 			{
-				Utils.MsgBox(Properties.Resources.kstidDefineClassEmptyClassName,
-					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				var msg = App.LocalizeString("EmptyClassNameMsg",
+					"Class name must not be empty.", App.kLocalizationGroupMisc);
+
+				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return false;
 			}
 
@@ -591,7 +593,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void lvClasses_DoubleClick(object sender, EventArgs e)
 		{
-			if (lvClasses.SelectedItems == null || lvClasses.SelectedItems.Count == 0)
+			if (lvClasses.SelectedItems.Count == 0)
 				return;
 
 			//ClassListViewItem item = lvClasses.SelectedItems[0] as ClassListViewItem;

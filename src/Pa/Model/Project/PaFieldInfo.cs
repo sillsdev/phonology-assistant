@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
+using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model.Project;
 using SilTools;
 
@@ -84,16 +86,8 @@ namespace SIL.Pa.Model
 		{
 			get
 			{
-				if (field != null)
-				{
-					foreach (PaFieldInfo fieldInfo in this)
-					{
-						if (fieldInfo.FieldName.ToLower() == field.ToLower())
-							return fieldInfo;
-					}
-				}
-
-				return null;
+				return (field == null ? null :
+					this.FirstOrDefault(fieldInfo => fieldInfo.FieldName.ToLower() == field.ToLower()));
 			}
 		}
 
@@ -104,21 +98,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public List<PaFieldInfo> SortedList
 		{
-			get
-			{
-				SortedList<int, PaFieldInfo> sortedList = new SortedList<int, PaFieldInfo>();
-				foreach (PaFieldInfo fieldInfo in this)
-				{
-					if (fieldInfo.DisplayIndexInGrid >= 0)
-						sortedList[fieldInfo.DisplayIndexInGrid] = fieldInfo;
-				}
-
-				List<PaFieldInfo> returnList = new List<PaFieldInfo>();
-				foreach (PaFieldInfo fieldInfo in sortedList.Values)
-					returnList.Add(fieldInfo);
-
-				return returnList;
-			}
+			get { return this.OrderBy(fi => fi.DisplayIndexInGrid).ToList(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -128,21 +108,10 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public PaFieldInfo PhoneticField
 		{
-			get
+			get 
 			{
-				if (m_phoneticField == null)
-				{
-					foreach (PaFieldInfo fieldInfo in this)
-					{
-						if (fieldInfo.IsPhonetic)
-						{
-							m_phoneticField = fieldInfo;
-							break;
-						}
-					}
-				}
-
-				return m_phoneticField;
+				return m_phoneticField ??
+					(m_phoneticField = this.SingleOrDefault(fi => fi.IsPhonetic));
 			}
 		}
 
@@ -153,16 +122,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public PaFieldInfo PhonemicField
 		{
-			get
-			{
-				foreach (PaFieldInfo fieldInfo in this)
-				{
-					if (fieldInfo.IsPhonemic)
-						return fieldInfo;
-				}
-
-				return null;
-			}
+			get { return this.SingleOrDefault(fi => fi.IsPhonemic); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -172,16 +132,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public PaFieldInfo ToneField
 		{
-			get
-			{
-				foreach (PaFieldInfo fieldInfo in this)
-				{
-					if (fieldInfo.IsTone)
-						return fieldInfo;
-				}
-
-				return null;
-			}
+			get { return this.SingleOrDefault(fi => fi.IsTone); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -191,16 +142,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public PaFieldInfo OrthoField
 		{
-			get
-			{
-				foreach (PaFieldInfo fieldInfo in this)
-				{
-					if (fieldInfo.IsOrtho)
-						return fieldInfo;
-				}
-
-				return null;
-			}
+			get { return this.SingleOrDefault(fi => fi.IsOrtho); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -210,16 +152,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public PaFieldInfo GlossField
 		{
-			get
-			{
-				foreach (PaFieldInfo fieldInfo in this)
-				{
-					if (fieldInfo.IsGloss)
-						return fieldInfo;
-				}
-
-				return null;
-			}
+			get { return this.SingleOrDefault(fi => fi.IsGloss); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -229,16 +162,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public PaFieldInfo ReferenceField
 		{
-			get
-			{
-				foreach (PaFieldInfo fieldInfo in this)
-				{
-					if (fieldInfo.IsReference)
-						return fieldInfo;
-				}
-
-				return null;
-			}
+			get { return this.SingleOrDefault(fi => fi.IsReference); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -248,16 +172,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public PaFieldInfo GuidField
 		{
-			get
-			{
-				foreach (PaFieldInfo fieldInfo in this)
-				{
-					if (fieldInfo.IsGuid)
-						return fieldInfo;
-				}
-
-				return null;
-			}
+			get { return this.SingleOrDefault(fi => fi.IsGuid); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -267,16 +182,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public PaFieldInfo CVPatternField
 		{
-			get
-			{
-				foreach (PaFieldInfo fieldInfo in this)
-				{
-					if (fieldInfo.IsCVPattern)
-						return fieldInfo;
-				}
-
-				return null;
-			}
+			get { return this.SingleOrDefault(fi => fi.IsCVPattern); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -289,19 +195,8 @@ namespace SIL.Pa.Model
 		{
 			get
 			{
-				if (m_dataSourceField == null)
-				{
-					foreach (PaFieldInfo fieldInfo in this)
-					{
-						if (fieldInfo.IsDataSource)
-						{
-							m_dataSourceField = fieldInfo;
-							break;
-						}
-					}
-				}
-
-				return m_dataSourceField;
+				return (m_dataSourceField ??
+					(m_dataSourceField = this.SingleOrDefault(fi => fi.IsDataSource)));
 			}
 		}
 
@@ -315,19 +210,8 @@ namespace SIL.Pa.Model
 		{
 			get
 			{
-				if (m_dataSourcePathField == null)
-				{
-					foreach (PaFieldInfo fieldInfo in this)
-					{
-						if (fieldInfo.IsDataSourcePath)
-						{
-							m_dataSourcePathField = fieldInfo;
-							break;
-						}
-					}
-				}
-
-				return m_dataSourcePathField;
+				return (m_dataSourcePathField ??
+					(m_dataSourcePathField = this.SingleOrDefault(fi => fi.IsDataSourcePath)));
 			}
 		}
 
@@ -340,19 +224,8 @@ namespace SIL.Pa.Model
 		{
 			get
 			{
-				if (m_audioFileField == null)
-				{
-					foreach (PaFieldInfo fieldInfo in this)
-					{
-						if (fieldInfo.IsAudioFile)
-						{
-							m_audioFileField = fieldInfo;
-							break;
-						}
-					}
-				}
-
-				return m_audioFileField;
+				return (m_audioFileField ??
+					(m_audioFileField = this.SingleOrDefault(fi => fi.IsAudioFile)));
 			}
 		}
 
@@ -363,16 +236,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public PaFieldInfo AudioFileOffsetField
 		{
-			get
-			{
-				foreach (PaFieldInfo fieldInfo in this)
-				{
-					if (fieldInfo.IsAudioOffset)
-						return fieldInfo;
-				}
-
-				return null;
-			}
+			get { return this.SingleOrDefault(fi => fi.IsAudioOffset); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -382,16 +246,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public PaFieldInfo AudioFileLengthField
 		{
-			get
-			{
-				foreach (PaFieldInfo fieldInfo in this)
-				{
-					if (fieldInfo.IsAudioLength)
-						return fieldInfo;
-				}
-
-				return null;
-			}
+			get { return this.SingleOrDefault(fi => fi.IsAudioLength); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -572,7 +427,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		private static void AddFwQueryFieldNames(PaFieldInfoList fieldInfoList)
 		{
-			foreach (PaFieldInfo fieldInfo in DefaultFieldInfoList)
+			foreach (var fieldInfo in DefaultFieldInfoList)
 			{
 				PaFieldInfo pfi = fieldInfoList[fieldInfo.FieldName];
 				if (pfi != null)
@@ -589,15 +444,15 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		private static void MigrateFieldNames(IEnumerable<PaFieldInfo> fieldInfoList, PaProject project)
 		{
-			if (project != null)
-			{
-				project.MigrateFwDatasourceFieldNames();
+			if (project == null)
+				return;
+			
+			project.MigrateFwDatasourceFieldNames();
 
-				foreach (PaFieldInfo fieldInfo in fieldInfoList)
-				{
-					project.ProcessRenamedField(fieldInfo.FieldName, fieldInfo.DisplayText);
-					fieldInfo.FieldName = fieldInfo.DisplayText;
-				}
+			foreach (var fieldInfo in fieldInfoList)
+			{
+				project.ProcessRenamedField(fieldInfo.FieldName, fieldInfo.DisplayText);
+				fieldInfo.FieldName = fieldInfo.DisplayText;
 			}
 		}
 
@@ -634,7 +489,7 @@ namespace SIL.Pa.Model
 		/// version could just be a public variable that was serialized and deserialized with
 		/// this class object, but for some reason, (I think it's because this class is
 		/// derived from a generic list) serializing this list doesn't serialize public
-		/// variables and properties in classes derived from List<>, which this class is.
+		/// variables and properties in classes derived from List, which this class is.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static float ManageVersion(string filename, bool getVer)
@@ -670,7 +525,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public string GetFieldNameFromDisplayText(string displayText)
 		{
-			PaFieldInfo fieldInfo = GetFieldFromDisplayText(displayText);
+			var fieldInfo = GetFieldFromDisplayText(displayText);
 			return (fieldInfo == null ? null : fieldInfo.FieldName);
 		}
 
@@ -681,20 +536,16 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public PaFieldInfo GetFieldFromDisplayText(string displayText)
 		{
+			PaFieldInfo retVal = null;
+
 			if (displayText != null)
 			{
 				displayText = displayText.ToLower();
-				foreach (PaFieldInfo fieldInfo in this)
-				{
-					if (fieldInfo.DisplayText != null &&
-						displayText == fieldInfo.DisplayText.ToLower())
-					{
-						return fieldInfo;
-					}
-				}
+				retVal = this.SingleOrDefault(fi =>
+					fi.DisplayText != null && fi.DisplayText.ToLower() == displayText);
 			}
 
-			return null;
+			return retVal;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -704,20 +555,16 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public PaFieldInfo GetFieldFromFwQueryFieldName(string fwQueryFieldNam)
 		{
+			PaFieldInfo retVal = null;
+
 			if (fwQueryFieldNam != null)
 			{
 				fwQueryFieldNam = fwQueryFieldNam.ToLower();
-				foreach (PaFieldInfo fieldInfo in this)
-				{
-					if (fieldInfo.FwQueryFieldName != null &&
-						fwQueryFieldNam == fieldInfo.FwQueryFieldName.ToLower())
-					{
-						return fieldInfo;
-					}
-				}
+				retVal = this.SingleOrDefault(fi =>
+					fi.FwQueryFieldName != null && fi.FwQueryFieldName.ToLower() == fwQueryFieldNam);
 			}
 
-			return null;
+			return retVal;
 		}
 	}
 
@@ -725,46 +572,24 @@ namespace SIL.Pa.Model
 
 	#region PaFieldInfo
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	[XmlType("Field")]
 	public class PaFieldInfo
 	{
 		public const string kCustomFieldPrefix = "CustomField";
 
-		private string m_fieldName;
 		private string m_displayText;
-		private bool m_isRightToLeft;
-		private bool m_canBeInterlinear;
-		private bool m_isPhonetic;
-		private bool m_isPhonemic;
-		private bool m_isTone;
-		private bool m_isOrtho;
-		private bool m_isGloss;
-		private bool m_isReference;
-		private bool m_isCVPattern;
-		private bool m_isDate;
-		private string m_fwQueryFieldName;
 		private bool m_isFwField;
-		private bool m_isDataSource;
-		private bool m_isDataSourcePath;
-		private bool m_isAudioFile;
-		private bool m_isAudioOffset;
-		private bool m_isAudioLength;
-		private bool m_isCustom;
-		private bool m_isParsed;
-		private bool m_isNumeric;
-		private bool m_isGuid;
-		private FwDBUtils.FwWritingSystemType m_fwWs = FwDBUtils.FwWritingSystemType.None;
 		private Font m_font = FontHelper.UIFont;
-		private string m_saField;
-		private bool m_visibleInGrid = true;
-		private bool m_visibleInRecVw = true;
-		private int m_displayIndexInGrid = -1;
-		private int m_displayIndexInRecVw = -1;
-		private int m_widthInGrid = -1;
+
+		public PaFieldInfo()
+		{
+			WidthInGrid = -1;
+			DisplayIndexInRecView = -1;
+			DisplayIndexInGrid = -1;
+			VisibleInRecView = true;
+			VisibleInGrid = true;
+			FwWritingSystemType = FwDBUtils.FwWritingSystemType.None;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -777,35 +602,35 @@ namespace SIL.Pa.Model
 				return null;
 
 			PaFieldInfo clone = new PaFieldInfo();
-			clone.m_fieldName = source.m_fieldName;
+			clone.FieldName = source.FieldName;
 			clone.m_displayText = source.m_displayText;
-			clone.m_isRightToLeft = source.m_isRightToLeft;
-			clone.m_canBeInterlinear = source.m_canBeInterlinear;
-			clone.m_isPhonetic = source.m_isPhonetic;
-			clone.m_isPhonemic = source.m_isPhonemic;
-			clone.m_isOrtho = source.m_isOrtho;
-			clone.m_isTone = source.m_isTone;
-			clone.m_isGloss = source.m_isGloss;
-			clone.m_isReference = source.m_isReference;
-			clone.m_isDate = source.m_isDate;
+			clone.RightToLeft = source.RightToLeft;
+			clone.CanBeInterlinear = source.CanBeInterlinear;
+			clone.IsPhonetic = source.IsPhonetic;
+			clone.IsPhonemic = source.IsPhonemic;
+			clone.IsOrtho = source.IsOrtho;
+			clone.IsTone = source.IsTone;
+			clone.IsGloss = source.IsGloss;
+			clone.IsReference = source.IsReference;
+			clone.IsDate = source.IsDate;
 			clone.m_isFwField = source.m_isFwField;
-			clone.m_fwQueryFieldName = source.m_fwQueryFieldName;
-			clone.m_isDataSource = source.m_isDataSource;
-			clone.m_isDataSourcePath = source.m_isDataSourcePath;
-			clone.m_isAudioFile = source.m_isAudioFile;
-			clone.m_isAudioOffset = source.m_isAudioOffset;
-			clone.m_isAudioLength = source.m_isAudioLength;
-			clone.m_isCustom = source.m_isCustom;
-			clone.m_isParsed = source.m_isParsed;
-			clone.m_isNumeric = source.m_isNumeric;
-			clone.m_isGuid = source.m_isGuid;
-			clone.m_saField = source.m_saField;
-			clone.m_visibleInGrid = source.m_visibleInGrid;
-			clone.m_visibleInRecVw = source.m_visibleInRecVw;
-			clone.m_displayIndexInGrid = source.m_displayIndexInGrid;
-			clone.m_displayIndexInRecVw = source.m_displayIndexInRecVw;
-			clone.m_widthInGrid = source.m_widthInGrid;
-			clone.m_fwWs = source.m_fwWs;
+			clone.FwQueryFieldName = source.FwQueryFieldName;
+			clone.IsDataSource = source.IsDataSource;
+			clone.IsDataSourcePath = source.IsDataSourcePath;
+			clone.IsAudioFile = source.IsAudioFile;
+			clone.IsAudioOffset = source.IsAudioOffset;
+			clone.IsAudioLength = source.IsAudioLength;
+			clone.IsCustom = source.IsCustom;
+			clone.IsParsed = source.IsParsed;
+			clone.IsNumeric = source.IsNumeric;
+			clone.IsGuid = source.IsGuid;
+			clone.SaFieldName = source.SaFieldName;
+			clone.VisibleInGrid = source.VisibleInGrid;
+			clone.VisibleInRecView = source.VisibleInRecView;
+			clone.DisplayIndexInGrid = source.DisplayIndexInGrid;
+			clone.DisplayIndexInRecView = source.DisplayIndexInRecView;
+			clone.WidthInGrid = source.WidthInGrid;
+			clone.FwWritingSystemType = source.FwWritingSystemType;
 			clone.Font = null;
 
 			if (source.m_font != null)
@@ -844,21 +669,9 @@ namespace SIL.Pa.Model
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("Name")]
-		public string FieldName
-		{
-			get { return m_fieldName; }
-			set { m_fieldName = value; }
-		}
+		public string FieldName { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string DisplayText
 		{
@@ -867,16 +680,12 @@ namespace SIL.Pa.Model
 				if (!string.IsNullOrEmpty(m_displayText))
 					return m_displayText;
 
-				string text = PaFieldsDisplayText.ResourceManager.GetString("kstid" + m_fieldName);
-				return (string.IsNullOrEmpty(text) ? m_fieldName : text);
+				string text = PaFieldsDisplayText.ResourceManager.GetString("kstid" + FieldName);
+				return (string.IsNullOrEmpty(text) ? FieldName : text);
 			}
 			set { m_displayText = value; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public Font Font
@@ -886,20 +695,8 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public FwDBUtils.FwWritingSystemType FwWritingSystemType
-		{
-			get { return m_fwWs; }
-			set { m_fwWs = value; }
-		}
+		public FwDBUtils.FwWritingSystemType FwWritingSystemType { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlElement("Font")]
 		public SerializableFont SFont
@@ -909,235 +706,67 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool RightToLeft
-		{
-			get { return m_isRightToLeft; }
-			set { m_isRightToLeft = value; }
-		}
+		public bool RightToLeft { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool CanBeInterlinear
-		{
-			get { return m_canBeInterlinear; }
-			set { m_canBeInterlinear = value; }
-		}
+		public bool CanBeInterlinear { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool IsParsed
-		{
-			get { return m_isParsed; }
-			set { m_isParsed = value; }
-		}
+		public bool IsParsed { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool IsPhonetic
-		{
-			get { return m_isPhonetic; }
-			set { m_isPhonetic = value; }
-		}
+		public bool IsPhonetic { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool IsPhonemic
-		{
-			get { return m_isPhonemic; }
-			set { m_isPhonemic = value; }
-		}
+		public bool IsPhonemic { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool IsTone
-		{
-			get { return m_isTone; }
-			set { m_isTone = value; }
-		}
+		public bool IsTone { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool IsOrtho
-		{
-			get { return m_isOrtho; }
-			set { m_isOrtho = value; }
-		}
+		public bool IsOrtho { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool IsGloss
-		{
-			get { return m_isGloss; }
-			set { m_isGloss = value; }
-		}
+		public bool IsGloss { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool IsReference
-		{
-			get { return m_isReference; }
-			set { m_isReference = value; }
-		}
+		public bool IsReference { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool IsCVPattern
-		{
-			get { return m_isCVPattern; }
-			set { m_isCVPattern = value; }
-		}
+		public bool IsCVPattern { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool IsDate
-		{
-			get { return m_isDate; }
-			set { m_isDate = value; }
-		}
+		public bool IsDate { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string FwQueryFieldName
-		{
-			get { return m_fwQueryFieldName; }
-			set { m_fwQueryFieldName = value; }
-		}
+		public string FwQueryFieldName { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool IsDataSource
-		{
-			get { return m_isDataSource; }
-			set { m_isDataSource = value; }
-		}
+		public bool IsDataSource { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool IsDataSourcePath
-		{
-			get { return m_isDataSourcePath; }
-			set { m_isDataSourcePath = value; }
-		}
+		public bool IsDataSourcePath { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool IsAudioFile
-		{
-			get { return m_isAudioFile; }
-			set { m_isAudioFile = value; }
-		}
+		public bool IsAudioFile { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool IsAudioOffset
-		{
-			get { return m_isAudioOffset; }
-			set { m_isAudioOffset = value; }
-		}
+		public bool IsAudioOffset { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool IsAudioLength
-		{
-			get { return m_isAudioLength; }
-			set { m_isAudioLength = value; }
-		}
-			
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool IsCustom
-		{
-			get { return m_isCustom; }
-			set { m_isCustom = value; }
-		}
+		public bool IsAudioLength { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool IsNumeric
-		{
-			get { return m_isNumeric; }
-			set { m_isNumeric = value; }
-		}
+		public bool IsCustom { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool IsGuid
-		{
-			get { return m_isGuid; }
-			set { m_isGuid = value; }
-		}
+		public bool IsNumeric { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///  
-		/// </summary>
+		public bool IsGuid { get; set; }
+
 		/// ------------------------------------------------------------------------------------
-		public string SaFieldName
-		{
-			get { return m_saField; }
-			set { m_saField = value; }
-		}
+		public string SaFieldName { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -1145,11 +774,7 @@ namespace SIL.Pa.Model
 		/// it has been loaded. The user sets this value via the default grid setup dialog.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool VisibleInGrid
-		{
-			get { return m_visibleInGrid; }
-			set { m_visibleInGrid = value; }
-		}
+		public bool VisibleInGrid { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -1158,11 +783,7 @@ namespace SIL.Pa.Model
 		/// dialog.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool VisibleInRecView
-		{
-			get { return m_visibleInRecVw; }
-			set { m_visibleInRecVw = value; }
-		}
+		public bool VisibleInRecView { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -1171,11 +792,7 @@ namespace SIL.Pa.Model
 		/// tools/options dialog.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public int DisplayIndexInGrid
-		{
-			get { return m_displayIndexInGrid; }
-			set { m_displayIndexInGrid = value; }
-		}
+		public int DisplayIndexInGrid { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -1184,11 +801,7 @@ namespace SIL.Pa.Model
 		/// tools/options dialog.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public int DisplayIndexInRecView
-		{
-			get { return m_displayIndexInRecVw; }
-			set { m_displayIndexInRecVw = value; }
-		}
+		public int DisplayIndexInRecView { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -1196,11 +809,7 @@ namespace SIL.Pa.Model
 		/// it has been loaded. The user sets this value via the default grid setup dialog.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public int WidthInGrid
-		{
-			get { return m_widthInGrid; }
-			set { m_widthInGrid = value; }
-		}
+		public int WidthInGrid { get; set; }
 
 		#endregion
 	}
@@ -1208,10 +817,6 @@ namespace SIL.Pa.Model
 	#endregion
 
 	#region FieldLayoutInfo Class
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class FieldLayoutInfo
 	{
@@ -1224,25 +829,25 @@ namespace SIL.Pa.Model
 		[XmlAttribute]
 		public int DisplayIndex;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Returns a sorted (on DisplayIndex) version of the specified FieldLayoutInfo
-		/// collection.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static List<FieldLayoutInfo> GetSortedList(List<FieldLayoutInfo> layoutInfo)
-		{
-			SortedList<int, FieldLayoutInfo> sortedLayoutInfo = new SortedList<int, FieldLayoutInfo>();
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Returns a sorted (on DisplayIndex) version of the specified FieldLayoutInfo
+		///// collection.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public static List<FieldLayoutInfo> GetSortedList(List<FieldLayoutInfo> layoutInfo)
+		//{
+		//    SortedList<int, FieldLayoutInfo> sortedLayoutInfo = new SortedList<int, FieldLayoutInfo>();
 
-			foreach (FieldLayoutInfo fli in layoutInfo)
-				sortedLayoutInfo[fli.DisplayIndex] = fli;
+		//    foreach (FieldLayoutInfo fli in layoutInfo)
+		//        sortedLayoutInfo[fli.DisplayIndex] = fli;
 
-			List<FieldLayoutInfo> newLayoutInfo = new List<FieldLayoutInfo>();
-			foreach (FieldLayoutInfo fli in sortedLayoutInfo.Values)
-				newLayoutInfo.Add(fli);
+		//    List<FieldLayoutInfo> newLayoutInfo = new List<FieldLayoutInfo>();
+		//    foreach (FieldLayoutInfo fli in sortedLayoutInfo.Values)
+		//        newLayoutInfo.Add(fli);
 
-			return newLayoutInfo;
-		}
+		//    return newLayoutInfo;
+		//}
 	}
 
 	#endregion

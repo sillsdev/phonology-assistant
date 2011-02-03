@@ -68,7 +68,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnProperties.MinimumSize = new System.Drawing.Size(86, 26);
 			this.btnProperties.Name = "btnProperties";
 			this.btnProperties.UseVisualStyleBackColor = true;
-			this.btnProperties.Click += new System.EventHandler(this.btnProperties_Click);
+			this.btnProperties.Click += new System.EventHandler(this.HandlePropertiesButtonClick);
 			// 
 			// tvNetwork
 			// 
@@ -79,7 +79,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizationPriority(this.tvNetwork, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.tvNetwork, "FwProjectsDlg.tvNetwork");
 			this.tvNetwork.Name = "tvNetwork";
-			this.tvNetwork.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvNetwork_AfterSelect);
+			this.tvNetwork.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.HandleNetworkTreeViewAfterSelect);
 			// 
 			// splitContainer1
 			// 

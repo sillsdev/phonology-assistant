@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -632,25 +633,17 @@ namespace SilTools
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static void WaitCursors(bool turnOn)
 		{
 			Application.UseWaitCursor = turnOn;
-			if (Application.OpenForms != null && Application.OpenForms.Count > 0)
-			{
-				foreach (Form frm in Application.OpenForms)
-				{
-					// Check if the form was created in the current thread.
-					if (!frm.InvokeRequired)
-						frm.Cursor = (turnOn ? Cursors.WaitCursor : Cursors.Default);
-				}
-			}
+
+			foreach (var frm in Application.OpenForms.Cast<Form>().Where(frm => !frm.InvokeRequired))
+				frm.Cursor = (turnOn ? Cursors.WaitCursor : Cursors.Default);
 
 			try
 			{
+				// I hate doing this, but setting the cursor property in .Net
+				// often doesn't otherwise take effect until it's too late.
 				Application.DoEvents();
 			}
 			catch { }

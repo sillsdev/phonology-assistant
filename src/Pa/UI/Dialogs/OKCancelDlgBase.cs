@@ -7,10 +7,6 @@ using SilTools;
 namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class OKCancelDlgBase : Form
 	{
 		protected bool m_cancelButtonPressed;
@@ -21,6 +17,22 @@ namespace SIL.Pa.UI.Dialogs
 		public OKCancelDlgBase()
 		{
 			InitializeComponent();
+
+			if (ForceButtonsToEndOfTabOrder)
+			{
+				tblLayoutButtons.TabIndex = 1000;
+				btnOK.TabIndex = 1001;
+				btnCancel.TabIndex = 1002;
+				btnHelp.TabIndex = 1003;
+			}
+
+			Localization.UI.LocalizeItemDlg.StringsLocalized += SetWindowText;
+		}
+
+		///// ------------------------------------------------------------------------------------
+		public virtual bool ForceButtonsToEndOfTabOrder
+		{
+			get { return true; }
 		}
 
 		///// ------------------------------------------------------------------------------------
@@ -95,6 +107,7 @@ namespace SIL.Pa.UI.Dialogs
 		protected override void OnShown(EventArgs e)
 		{
 			base.OnShown(e);
+			SetWindowText();
 			Utils.UpdateWindow(Handle);
 
 			// At this point, the opacity should be zero. Now that we're shown and the handles
@@ -102,10 +115,16 @@ namespace SIL.Pa.UI.Dialogs
 			// ugliness that happens on dialogs with lots of panels and splitters, etc.
 			Opacity = 1;
 
-			// This is needed because some dialogs have PaPanels whose border
-			// doesn't get fully painted properly when the opacity goes to full.
+			// This is needed because some dialogs have PaPanels whose borders
+			// don't get fully painted properly when the opacity goes to full.
 			Invalidate(true);
 			Utils.UpdateWindow(Handle);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void SetWindowText()
+		{
+			Text = App.LocalizeString(Name + ".WindowTitle", Text, App.kLocalizationGroupDialogs);
 		}
 
 		/// ------------------------------------------------------------------------------------

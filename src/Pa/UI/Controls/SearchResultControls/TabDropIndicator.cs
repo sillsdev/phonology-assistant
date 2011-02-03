@@ -98,7 +98,7 @@ namespace SIL.Pa.UI.Controls
 			Point pt;
 
 			if (m_tabGroup.Tabs == null || m_tabGroup.Tabs.Count == 0)
-				pt = m_tabGroup.m_pnlHdrBand.PointToScreen(m_tabGroup.m_pnlHdrBand.Location);
+				pt = m_tabGroup.TabsContainer.PointToScreen(m_tabGroup.TabsContainer.Location);
 			else
 			{
 				SearchResultTab tab = (!draggingTab && m_tabGroup.CurrentTab.IsEmpty ?

@@ -100,7 +100,7 @@ namespace SIL.Pa.Model
 					string fwServer;
 					string fwDBName;
 					PaDataSource.GetPaXMLType(filename, out fwServer, out fwDBName);
-					dataSource.FwDBName = fwDBName;
+					dataSource.FwPrjName = fwDBName;
 
 					foreach (RecordCacheEntry entry in cache)
 					{

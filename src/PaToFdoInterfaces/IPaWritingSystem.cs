@@ -71,6 +71,22 @@ namespace SIL.PaToFdoInterfaces
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets a value indicating whether or not the writing system is a vernacular writing
+		/// system.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		bool IsVernacular { get; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not the writing system is a analysis writing
+		/// system.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		bool IsAnalysis { get; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets a value indicating whether or not the writing system is the default
 		/// vernacular writing system.
 		/// </summary>

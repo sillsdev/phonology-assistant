@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
+using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
 using SIL.Pa.UI.Dialogs;
 using SilTools;
@@ -234,13 +235,13 @@ namespace SIL.Pa.DataSource
 		private void EditRecordInFieldWorks(RecordCacheEntry recEntry)
 		{
 			PaFieldInfo fieldInfo = App.Project.FieldInfo.GuidField;
-			string url = Model.FwDBAccessInfo.JumpUrl;
+			string url = FwDBAccessInfo.JumpUrl;
 
 			if (fieldInfo != null && !string.IsNullOrEmpty(url))
 			{
 				url = string.Format(url, recEntry[fieldInfo.FieldName],
-					recEntry.DataSource.Fw6DataSourceInfo.MachineName,
-					recEntry.DataSource.Fw6DataSourceInfo.DBName);
+					recEntry.DataSource.FwDataSourceInfo.Server,
+					recEntry.DataSource.FwDataSourceInfo.Name);
 
 				// Spaces aren't allowed in the URL. They should be converted to '+'.
 				url = url.Trim().Replace(' ', '+');

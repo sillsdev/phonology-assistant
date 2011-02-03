@@ -13,36 +13,20 @@ namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// 
+	/// Control that contains a row of tabs and its associated add new tab, scroll right and
+	/// scroll left buttons. It also contains a single search result word list below the
+	/// row of tabs.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class SearchResultTabGroup : Panel, IxCoreColleague
 	{
-		internal Panel m_pnlHdrBand;
-		//private Panel m_pnlScroll;
-		//private XButton m_btnAddTab;
-		//private XButton m_btnLeft;
-		//private XButton m_btnRight;
-		//private int m_minScrollPanelWidth;
-
+		internal Panel TabsContainer { get; private set; }
 		private SearchResultTabGroupButtonPanel m_buttonPanel;
-		
-		internal ToolTip m_tooltip;
 		private SearchResultTabGroup m_contextMenuTabGroup;
-		//private Panel m_pnlClose;
-		//private XButton m_btnClose;
-		private readonly Panel m_pnlTabs;
+		private readonly Panel m_tabsPanel;
 		private readonly SearchResultsViewManager m_rsltVwMngr;
 		private readonly TabDropIndicator m_dropIndicator;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// The panel m_pnlHdrBand owns both the m_pnlTabs and the m_pnlUndock panels.
-		/// m_pnlUndock contains the close buttons and the arrow buttons that allow the user
-		/// to scroll all the tabs left and right. m_pnlTabs contains all the tabs and is the
-		/// panel that moves left and right (i.e. scrolls) when the number of tabs in the
-		/// group exceeds the available space in which to display them all.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SearchResultTabGroup(SearchResultsViewManager rsltVwMngr)
 		{
@@ -52,79 +36,46 @@ namespace SIL.Pa.UI.Controls
 
 			// Create the panel that holds everything that will be displayed
 			// above a result view (i.e. tabs, close button and scroll buttons).
-			m_pnlHdrBand = new Panel();
-			m_pnlHdrBand.Dock = DockStyle.Top;
-			m_pnlHdrBand.Padding = new Padding(0, 0, 0, 5);
-			m_pnlHdrBand.Paint += HandlePanelPaint;
-			m_pnlHdrBand.Resize += m_pnlHdrBand_Resize;
-			m_pnlHdrBand.Click += HandleClick;
-			m_pnlHdrBand.MouseDown += delegate { HandleClick(null, null); };
-			Controls.Add(m_pnlHdrBand);
+			TabsContainer = new Panel();
+			TabsContainer.Dock = DockStyle.Top;
+			TabsContainer.Padding = new Padding(0, 0, 0, 5);
+			TabsContainer.Paint += HandlePanelPaint;
+			TabsContainer.Resize += HandleHeaderBandPanelResize;
+			TabsContainer.Click += HandleClick;
+			TabsContainer.MouseDown += delegate { HandleClick(null, null); };
+			Controls.Add(TabsContainer);
 
 			// Create the panel that holds all the tabs. 
-			m_pnlTabs = new Panel();
-			m_pnlTabs.Visible = true;
-			m_pnlTabs.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-			m_pnlTabs.Location = new Point(0, 0);
-			m_pnlTabs.Click += HandleClick;
-			m_pnlHdrBand.Controls.Add(m_pnlTabs);
+			m_tabsPanel = new Panel();
+			m_tabsPanel.Visible = true;
+			m_tabsPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+			m_tabsPanel.Location = new Point(0, 0);
+			m_tabsPanel.Click += HandleClick;
+			TabsContainer.Controls.Add(m_tabsPanel);
 
 			AdjustPanelHeights();
-
-			SetupCloseTabsButton();
-			// Create the panel that will hold the close button
-			
 			SetupButtonPanel();
 
-			m_dropIndicator = new TabDropIndicator(this, m_pnlTabs.Height);
+			m_dropIndicator = new TabDropIndicator(this, m_tabsPanel.Height);
 
 			Tabs = new List<SearchResultTab>();
 			m_rsltVwMngr = rsltVwMngr;
 			App.AddMediatorColleague(this);
 
 			SetContextMenus();
-			SetToolTips();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
-			if (m_pnlHdrBand.ContextMenuStrip != null)
-				m_pnlHdrBand.ContextMenuStrip.Opening -= ContextMenuStrip_Opening;
+			if (TabsContainer.ContextMenuStrip != null)
+				TabsContainer.ContextMenuStrip.Opening -= ContextMenuStrip_Opening;
 			
-			m_pnlHdrBand.Dispose();
-			m_pnlTabs.Dispose();
-
-			if (m_tooltip != null)
-				m_tooltip.Dispose();
+			TabsContainer.Dispose();
+			m_buttonPanel.Dispose();
+			m_tabsPanel.Dispose();
 
 			base.Dispose(disposing);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void SetupCloseTabsButton()
-		{
-			//m_pnlClose = new Panel();
-			//m_pnlClose.Width = (Settings.Default.ShowSingleCloseButtonForSearchResultTabs ? 22 : 0);
-			//m_pnlClose.Visible = (m_pnlClose.Width > 0);
-			//m_pnlClose.Dock = DockStyle.Right;
-			//m_pnlClose.Paint += HandleCloseScrollPanelPaint;
-			//m_pnlHdrBand.Controls.Add(m_pnlClose);
-
-			//// Create a button that will close a tab.
-			//m_btnClose = new XButton();
-			//m_btnClose.Anchor = AnchorStyles.Right | AnchorStyles.Top;
-			//m_btnClose.Click += delegate
-			//{
-			//    if (CurrentTab != null)
-			//        RemoveTab(CurrentTab, true);
-			//};
-				
-			//m_btnClose.Location = new Point(m_pnlClose.Width - m_btnClose.Width,
-			//    (m_pnlHdrBand.Height - m_btnClose.Height) / 2 - 3);
-
-			//m_pnlClose.Controls.Add(m_btnClose);
-			//m_pnlClose.BringToFront();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -132,7 +83,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_buttonPanel = new SearchResultTabGroupButtonPanel();
 			m_buttonPanel.Dock = DockStyle.Right;
-			m_pnlHdrBand.Controls.Add(m_buttonPanel);
+			TabsContainer.Controls.Add(m_buttonPanel);
 			m_buttonPanel.BringToFront();
 
 			m_buttonPanel.AddClickAction = (() => SelectTab(AddTab(), true));
@@ -145,14 +96,14 @@ namespace SIL.Pa.UI.Controls
 
 			m_buttonPanel.ScrollLeftClickAction = (() =>
 			{
-				int left = m_pnlTabs.Left;
+				int left = m_tabsPanel.Left;
 
 				// Find furthest right tab that's partially obscurred and needs to be scrolled into view.
 				foreach (SearchResultTab tab in Tabs)
 				{
 					if (left < 0 && left + tab.Width >= 0)
 					{
-						SlideTabs(m_pnlTabs.Left + Math.Abs(left));
+						SlideTabs(m_tabsPanel.Left + Math.Abs(left));
 						break;
 					}
 
@@ -162,70 +113,21 @@ namespace SIL.Pa.UI.Controls
 
 			m_buttonPanel.ScrollRightClickAction = (() =>
 			{
-				//int left = m_pnlTabs.Left;
+				int left = m_tabsPanel.Left;
 
-				//// Find furthest left tab that's partially obscurred and needs to be scrolled into view.
-				//foreach (SearchResultTab tab in Tabs)
-				//{
-				//    if (left <= m_pnlScroll.Left && left + tab.Width > m_pnlScroll.Left)
-				//    {
-				//        int dx = (left + tab.Width) - m_pnlScroll.Left;
-				//        SlideTabs(m_pnlTabs.Left - dx);
-				//        break;
-				//    }
+				// Find furthest left tab that's partially obscurred and needs to be scrolled into view.
+				foreach (SearchResultTab tab in Tabs)
+				{
+					if (left <= m_buttonPanel.Left && left + tab.Width > m_buttonPanel.Left)
+					{
+						int dx = (left + tab.Width) - m_buttonPanel.Left;
+						SlideTabs(m_tabsPanel.Left - dx);
+						break;
+					}
 
-				//    left += tab.Width;
-				//}
+					left += tab.Width;
+				}
 			});
-
-
-
-
-
-//            // Create the panel that will hold the close button
-//            m_pnlScroll = new Panel();
-//            //m_pnlScroll.Width = 40;
-//            m_pnlScroll.Visible = true;
-//            m_pnlScroll.Dock = DockStyle.Right;
-//            m_pnlScroll.Paint += HandleCloseScrollPanelPaint;
-////			m_pnlHdrBand.Controls.Add(m_pnlScroll);
-//            m_pnlScroll.Visible = false;
-//            m_pnlScroll.BringToFront();
-
-//            // Create a left scrolling button.
-//            m_btnLeft = new XButton();
-//            m_btnLeft.DrawLeftArrowButton = true;
-//            m_btnLeft.Size = new Size(18, 18);
-//            m_btnLeft.Anchor = AnchorStyles.Right | AnchorStyles.Top;
-//            m_btnLeft.Click += m_btnLeft_Click;
-//            m_btnLeft.Location = new Point(4, (m_pnlHdrBand.Height - m_btnLeft.Height) / 2 - 3);
-//            //m_pnlScroll.Controls.Add(m_btnLeft);
-
-//            // Create a right scrolling button.
-//            m_btnRight = new XButton();
-//            m_btnRight.DrawRightArrowButton = true;
-//            m_btnRight.Size = new Size(18, 18);
-//            m_btnRight.Anchor = AnchorStyles.Right | AnchorStyles.Top;
-//            m_btnRight.Click += m_btnRight_Click;
-//            m_btnRight.Location = new Point(22, (m_pnlHdrBand.Height - m_btnRight.Height) / 2 - 3);
-//            //m_pnlScroll.Controls.Add(m_btnRight);
-
-		//    // Create a button for adding a single tab.
-		//    m_btnAddTab = new XButton();
-		//    m_btnAddTab.BackColor = Color.Transparent;
-		//    m_btnAddTab.Image = Properties.Resources.NewTabNormal;
-		//    m_btnAddTab.Size = m_btnAddTab.Image.Size;
-		//    m_btnAddTab.Anchor = AnchorStyles.Left;
-		//    m_btnAddTab.Top = (m_pnlScroll.Height - m_btnAddTab.Height) / 2;
-		//    m_btnAddTab.Left = 3;
-		//    m_btnAddTab.DrawBackground += delegate { return true; };
-		//    m_btnAddTab.MouseEnter += delegate { m_btnAddTab.Image = Properties.Resources.NewTabHot; };
-		//    m_btnAddTab.MouseLeave += delegate { m_btnAddTab.Image = Properties.Resources.NewTabNormal; };
-		//    m_btnAddTab.Click += delegate { AddTab(); };
-		////	m_pnlScroll.Controls.Add(m_btnAddTab);
-
-		//    // TODO: Factor in close button width.
-		//    //m_minScrollPanelWidth = m_btnAddTab.Width + m_btnLeft.Width + m_btnRight.Width + 7;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -246,50 +148,28 @@ namespace SIL.Pa.UI.Controls
 				const TextFormatFlags kFlags = TextFormatFlags.VerticalCenter |
 					TextFormatFlags.SingleLine | TextFormatFlags.LeftAndRightPadding;
 
-				m_pnlHdrBand.Height = TextRenderer.MeasureText(g, "X", FontHelper.PhoneticFont,
+				TabsContainer.Height = TextRenderer.MeasureText(g, "X", FontHelper.PhoneticFont,
 					new Size(int.MaxValue, int.MaxValue), kFlags).Height + extraTabHeight;
 			}
 
-			m_pnlTabs.Height = m_pnlHdrBand.Height - 5;
-			m_pnlHdrBand.Invalidate(true);
+			m_tabsPanel.Height = TabsContainer.Height - 5;
+			TabsContainer.Invalidate(true);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void SetContextMenus()
 		{
-			if (m_pnlHdrBand.ContextMenuStrip != null)
-				m_pnlHdrBand.ContextMenuStrip.Opening -= ContextMenuStrip_Opening;
+			if (TabsContainer.ContextMenuStrip != null)
+				TabsContainer.ContextMenuStrip.Opening -= ContextMenuStrip_Opening;
 
 			if (TMAdapter != null)
-				TMAdapter.SetContextMenuForControl(m_pnlHdrBand, "cmnuSearchResultTabGroup");
+				TMAdapter.SetContextMenuForControl(TabsContainer, "cmnuSearchResultTabGroup");
 
-			if (m_pnlHdrBand.ContextMenuStrip != null)
-				m_pnlHdrBand.ContextMenuStrip.Opening += ContextMenuStrip_Opening;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void SetToolTips()
-		{
-			//m_tooltip = new ToolTip();
-
-			//m_tooltip.SetToolTip(m_btnClose,
-			//    App.LocalizeString("SearchResultTabs.CloseToolTipText", "Close Active Tab",
-			//    App.kLocalizationGroupMisc));
-
-			//m_tooltip.SetToolTip(m_btnLeft,
-			//    App.LocalizeString("SearchResultTabs.ScrollLeftToolTipText", "Scroll Left",
-			//    App.kLocalizationGroupMisc));
-
-			//m_tooltip.SetToolTip(m_btnRight,
-			//    App.LocalizeString("SearchResultTabs.ScrollRightToolTipText", "Scroll Right",
-			//    App.kLocalizationGroupMisc));
+			if (TabsContainer.ContextMenuStrip != null)
+				TabsContainer.ContextMenuStrip.Opening += ContextMenuStrip_Opening;
 		}
 
 		#region Message mediator message handler and update handler methods
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnViewDocked(object args)
 		{
@@ -303,18 +183,6 @@ namespace SIL.Pa.UI.Controls
 					tab.SetContextMenus();
 			}
 
-			SetToolTips();
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnViewUndocked(object args)
-		{
-			SetToolTips();
 			return false;
 		}
 		
@@ -370,20 +238,12 @@ namespace SIL.Pa.UI.Controls
 
 		#region Overridden methods
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
 			base.OnHandleDestroyed(e);
 			App.RemoveMediatorColleague(this);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnSizeChanged(EventArgs e)
 		{
@@ -407,8 +267,8 @@ namespace SIL.Pa.UI.Controls
 				TextFormatFlags.VerticalCenter | TextFormatFlags.PreserveGraphicsClipping;
 
 			Rectangle rc = ClientRectangle;
-			rc.Y = m_pnlHdrBand.Bottom;
-			rc.Height -= m_pnlHdrBand.Height;
+			rc.Y = TabsContainer.Bottom;
+			rc.Height -= TabsContainer.Height;
 			Color clr = (IsCurrent ? SystemColors.ControlText : SystemColors.GrayText);
 
 			using (Font fnt = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold))
@@ -423,10 +283,6 @@ namespace SIL.Pa.UI.Controls
 			App.DrawWatermarkImage("kimidSearchWatermark", e.Graphics, ClientRectangle);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnClick(EventArgs e)
 		{
@@ -459,8 +315,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public SearchResultTab AddTab(SearchResultView resultView)
 		{
-			if (m_pnlTabs.Left > 0)
-				m_pnlTabs.Left = 0;
+			if (m_tabsPanel.Left > 0)
+				m_tabsPanel.Left = 0;
 
 			SearchResultTab tab = new SearchResultTab(this);
 			tab.ResultView = resultView;
@@ -479,7 +335,7 @@ namespace SIL.Pa.UI.Controls
 			tab.Click += HandleTabClick;
 			tab.MouseDown += HandleMouseDown;
 			InitializeTab(tab, tab.ResultView, false);
-			m_pnlTabs.Controls.Add(tab);
+			m_tabsPanel.Controls.Add(tab);
 			tab.BringToFront();
 			Tabs.Add(tab);
 			AdjustTabContainerWidth();
@@ -514,7 +370,7 @@ namespace SIL.Pa.UI.Controls
 			if (resultView != null)
 			{
 				tab.ResultView = resultView;
-				tab.ResultView.Size = new Size(Width, Height - m_pnlHdrBand.Height);
+				tab.ResultView.Size = new Size(Width, Height - TabsContainer.Height);
 				tab.ResultView.Click += HandleClick;
 				tab.ResultView.MouseDown += HandleMouseDown;
 				Controls.Add(resultView);
@@ -529,10 +385,10 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		internal void AdjustTabContainerWidth()
 		{
-			m_pnlTabs.SuspendLayout();
-			m_pnlTabs.Width = Tabs.Sum(tab => tab.Width);
+			m_tabsPanel.SuspendLayout();
+			m_tabsPanel.Width = Tabs.Sum(tab => tab.Width);
 			RefreshScrollButtonPanel();
-			m_pnlTabs.ResumeLayout(true);
+			m_tabsPanel.ResumeLayout(true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -579,18 +435,18 @@ namespace SIL.Pa.UI.Controls
 			{
 				SearchResultTabGroup tabGroup = tab.OwningTabGroup;
 				SearchResultTab newTabInSendingGroup = null;
-				int i = tabGroup.m_pnlTabs.Controls.IndexOf(tab);
+				int i = tabGroup.m_tabsPanel.Controls.IndexOf(tab);
 
 				if (i - 1 >= 0)
-					newTabInSendingGroup = tabGroup.m_pnlTabs.Controls[i - 1] as SearchResultTab;
-				else if (i + 1 < tabGroup.m_pnlTabs.Controls.Count)
-					newTabInSendingGroup = tabGroup.m_pnlTabs.Controls[i + 1] as SearchResultTab;
+					newTabInSendingGroup = tabGroup.m_tabsPanel.Controls[i - 1] as SearchResultTab;
+				else if (i + 1 < tabGroup.m_tabsPanel.Controls.Count)
+					newTabInSendingGroup = tabGroup.m_tabsPanel.Controls[i + 1] as SearchResultTab;
 
 				if (newTabInSendingGroup != null)
 					tabGroup.SelectTab(newTabInSendingGroup, true);
 			}
 
-			if (m_pnlTabs.Controls.Contains(tab))
+			if (m_tabsPanel.Controls.Contains(tab))
 			{
 				tab.Click -= HandleTabClick;
 				tab.MouseDown -= HandleMouseDown;
@@ -604,23 +460,22 @@ namespace SIL.Pa.UI.Controls
 				if (Controls.Contains(tab.ResultView))
 					Controls.Remove(tab.ResultView);
 
-				m_pnlTabs.Controls.Remove(tab);
+				m_tabsPanel.Controls.Remove(tab);
 				Tabs.Remove(tab);
 
 				if (disposeOfTab)
 					tab.Dispose();
 
 				AdjustTabContainerWidth();
-				m_btnLeft_Click(null, null);
 				RefreshScrollButtonPanel();
 
 				// If removing the tab left a gap between the furthest right tab and the
 				// button panel... and all or a portion of the furthest left tab are
 				// scrolled out of view, then scroll right to close that gap.
-				if (m_pnlTabs.Left < 0 && m_pnlTabs.Right < m_buttonPanel.Left)
+				if (m_tabsPanel.Left < 0 && m_tabsPanel.Right < m_buttonPanel.Left)
 				{
-					int dx = (m_buttonPanel.Left - m_pnlTabs.Right);
-					SlideTabs(m_pnlTabs.Left + dx);
+					int dx = (m_buttonPanel.Left - m_tabsPanel.Right);
+					SlideTabs(m_tabsPanel.Left + dx);
 				}
 			}
 
@@ -691,7 +546,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			RefreshScrollButtonPanel();
 			
-			int availableWidth = m_pnlHdrBand.Width - m_buttonPanel.GetMinWidth();
+			int availableWidth = TabsContainer.Width - m_buttonPanel.GetMinWidth();
 
 			if (tab.Width > availableWidth)
 				return;
@@ -699,7 +554,7 @@ namespace SIL.Pa.UI.Controls
 			int maxRight = m_buttonPanel.Left;
 			
 			// Get the tab's left and right edge relative to the header panel.	
-			int left = tab.Left + m_pnlTabs.Left;
+			int left = tab.Left + m_tabsPanel.Left;
 			int right = left + tab.Width;
 
 			// Check if it's already fully visible.
@@ -708,14 +563,14 @@ namespace SIL.Pa.UI.Controls
 
 			// Slide the panel in the proper direction to make it visible.
 			int dx = (left < 0 ? left : right - maxRight);
-			SlideTabs(m_pnlTabs.Left - dx);
+			SlideTabs(m_tabsPanel.Left - dx);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public bool GetIsTabsRightEdgeVisible(SearchResultTab tab)
 		{
 			var pt = tab.PointToScreen(new Point(tab.Width, 0));
-			pt = m_pnlHdrBand.PointToClient(pt);
+			pt = TabsContainer.PointToClient(pt);
 			return (pt.X <= m_buttonPanel.Left);
 		}
 
@@ -908,7 +763,7 @@ namespace SIL.Pa.UI.Controls
 
 		#region Methods for managing scrolling of the tabs
 		/// ------------------------------------------------------------------------------------
-		void m_pnlHdrBand_Resize(object sender, EventArgs e)
+		void HandleHeaderBandPanelResize(object sender, EventArgs e)
 		{
 			RefreshScrollButtonPanel();
 		}
@@ -916,63 +771,14 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void RefreshScrollButtonPanel()
 		{
-			if (m_pnlTabs == null || m_pnlHdrBand == null || m_buttonPanel == null)
+			if (m_tabsPanel == null || TabsContainer == null || m_buttonPanel == null)
 				return;
 
 			m_buttonPanel.ScrollButtonsVisible =
-				(m_pnlTabs.Width > (m_pnlHdrBand.Width - m_buttonPanel.GetMinWidth(false)));
+				(m_tabsPanel.Width > (TabsContainer.Width - m_buttonPanel.GetMinWidth(false)));
 
-			int maxButtonPanelWidth = m_pnlHdrBand.Width - m_pnlTabs.Width;
+			int maxButtonPanelWidth = TabsContainer.Width - m_tabsPanel.Width;
 			m_buttonPanel.Width = Math.Max(maxButtonPanelWidth, m_buttonPanel.GetMinWidth());
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Scroll the tabs to the right (i.e. move the tab's panel to the right) so user is
-		/// able to see tabs obscured on the left side.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void m_btnLeft_Click(object sender, EventArgs e)
-		{
-			//int left = m_pnlTabs.Left;
-
-			//// Find the furthest right tab that is partially
-			//// obscurred and needs to be scrolled into view.
-			//foreach (SearchResultTab tab in Tabs)
-			//{
-			//    if (left < 0 && left + tab.Width >= 0)
-			//    {
-			//        SlideTabs(m_pnlTabs.Left + Math.Abs(left));
-			//        break;
-			//    }
-
-			//    left += tab.Width;
-			//}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Scroll the tabs to the left (i.e. move the tab's panel to the left) so user is
-		/// able to see tabs obscured on the right side.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void m_btnRight_Click(object sender, EventArgs e)
-		{
-			//int left = m_pnlTabs.Left;
-
-			//// Find the furthest left tab that is partially
-			//// obscurred and needs to be scrolled into view.
-			//foreach (SearchResultTab tab in Tabs)
-			//{
-			//    if (left <= m_pnlScroll.Left && left + tab.Width > m_pnlScroll.Left)
-			//    {
-			//        int dx = (left + tab.Width) - m_pnlScroll.Left;
-			//        SlideTabs(m_pnlTabs.Left - dx);
-			//        break;
-			//    }
-
-			//    left += tab.Width;
-			//}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -982,28 +788,28 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void SlideTabs(int newLeft)
 		{
-			float dx = Math.Abs(m_pnlTabs.Left - newLeft);
-			int pixelsPerIncrement = (int)Math.Ceiling(dx / 75f);
-			bool slidingLeft = (newLeft < m_pnlTabs.Left);
-
-			while (m_pnlTabs.Left != newLeft)
+			//float dx = Math.Abs(m_pnlTabs.Left - newLeft);
+			//int pixelsPerIncrement = (int)Math.Ceiling(dx / 75f);
+			int pixelsPerIncrement = 1;
+			bool slidingLeft = (newLeft < m_tabsPanel.Left);
+			while (m_tabsPanel.Left != newLeft)
 			{
 				if (slidingLeft)
 				{
-					if (m_pnlTabs.Left - pixelsPerIncrement < newLeft)
-						m_pnlTabs.Left = newLeft;
+					if (m_tabsPanel.Left - pixelsPerIncrement < newLeft)
+						m_tabsPanel.Left = newLeft;
 					else
-						m_pnlTabs.Left -= pixelsPerIncrement;
+						m_tabsPanel.Left -= pixelsPerIncrement;
 				}
 				else
 				{
-					if (m_pnlTabs.Left + pixelsPerIncrement > newLeft)
-						m_pnlTabs.Left = newLeft;
+					if (m_tabsPanel.Left + pixelsPerIncrement > newLeft)
+						m_tabsPanel.Left = newLeft;
 					else
-						m_pnlTabs.Left += pixelsPerIncrement;
+						m_tabsPanel.Left += pixelsPerIncrement;
 				}
 
-				Utils.UpdateWindow(m_pnlTabs.Handle);
+				Utils.UpdateWindow(m_tabsPanel.Handle);
 			}
 
 			RefreshScrollButtonPanel();
@@ -1012,10 +818,6 @@ namespace SIL.Pa.UI.Controls
 		#endregion
 
 		#region Painting methods
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static void HandlePanelPaint(object sender, PaintEventArgs e)
 		{
@@ -1065,20 +867,12 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnDragLeave(EventArgs e)
 		{
 			base.OnDragLeave(e);
 			m_dropIndicator.Visible = false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnDragOver(DragEventArgs e)
 		{
@@ -1108,10 +902,6 @@ namespace SIL.Pa.UI.Controls
 			m_dropIndicator.Visible = false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnDragDrop(DragEventArgs e)
 		{

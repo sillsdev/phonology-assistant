@@ -3053,5 +3053,18 @@ namespace SIL.Pa.Properties {
                 this["Fw7TimeToWaitForDataLoad"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowLoadColumnInProjectSettingsDlg {
+            get {
+                return ((bool)(this["ShowLoadColumnInProjectSettingsDlg"]));
+            }
+            set {
+                this["ShowLoadColumnInProjectSettingsDlg"] = value;
+            }
+        }
     }
 }

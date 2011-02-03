@@ -134,8 +134,7 @@ namespace SIL.Pa.UI.Controls
 					m_btnClose = null;
 				}
 
-				if (SearchQuery != null)
-					SearchQuery = null;
+				SearchQuery = null;
 			}
 
 			base.Dispose(disposing);

@@ -1,34 +1,43 @@
 ﻿using System.Xml.Serialization;
 
-namespace SIL.Pa.DataSourceClasses.FieldWorks
+namespace SIL.Pa.DataSource.FieldWorks
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// Serialized with an FwDataSourceInfo class.
+	/// Serialized with an FwDataSourceInfo class. This class maps a writing system to a
+	/// FieldWorks field.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	[XmlType("FieldWsInfo")]
-	public class FwDataSourceWsInfo
+	public class FwFieldWsMapping
 	{
 		[XmlAttribute]
 		public string FieldName { get; set; }
 	
-		[XmlAttribute]
-		public int Ws { get; set; }
+		[XmlAttribute("Ws")]
+		public int WsHvo { get; set; }
 
-		[XmlAttribute]
+		[XmlAttribute("WsName")]
 		public string WsName { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public FwDataSourceWsInfo()
+		public FwFieldWsMapping()
 		{
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public FwDataSourceWsInfo(string fieldname, int ws)
+		public FwFieldWsMapping(string fieldname, int hvo)
 		{
 			FieldName = fieldname;
-			Ws = ws;
+			WsHvo = hvo;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public FwFieldWsMapping(string fieldname, FwWritingSysInfo fwWsInfo)
+			: this(fieldname, (fwWsInfo != null ? fwWsInfo.WsHvo : 0))
+		{
+			if (fwWsInfo != null)
+				WsName = fwWsInfo.WsName;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -36,13 +45,9 @@ namespace SIL.Pa.DataSourceClasses.FieldWorks
 		/// Makes a deep copy of the FwDataSourceWsInfo object and returns it.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FwDataSourceWsInfo Clone()
+		public FwFieldWsMapping Clone()
 		{
-			FwDataSourceWsInfo clone = new FwDataSourceWsInfo();
-			clone.FieldName = FieldName;
-			clone.Ws = Ws;
-			clone.WsName = WsName;
-			return clone;
+			return new FwFieldWsMapping(FieldName, WsHvo) { WsName = this.WsName };
 		}
 	}
 }

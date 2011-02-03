@@ -26,6 +26,7 @@ using Localization;
 using Localization.UI;
 using Microsoft.Win32;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Processing;

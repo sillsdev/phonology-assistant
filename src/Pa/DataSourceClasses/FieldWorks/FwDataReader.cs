@@ -4,56 +4,21 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using SIL.Pa.Model;
 using SilTools;
 
-namespace SIL.Pa.DataSourceClasses.FieldWorks
+namespace SIL.Pa.DataSource.FieldWorks
 {
 	/// ----------------------------------------------------------------------------------------
-	public class Fw6DataReader
+	public class FwDataReader
 	{
 		public delegate void DataRetrievedHandler(SqlDataReader reader);
 
-		private readonly Fw6DataSourceInfo m_sourceInfo;
+		private readonly FwDataSourceInfo m_sourceInfo;
 
 		/// ------------------------------------------------------------------------------------
-		public Fw6DataReader(Fw6DataSourceInfo sourceInfo)
+		public FwDataReader(FwDataSourceInfo sourceInfo)
 		{
 			m_sourceInfo = sourceInfo;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a list of the vernacular writing systems in the database.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public Dictionary<int, string> VernacularWritingSystems
-		{
-			get
-			{
-				var msg = App.LocalizeString("ErrorRetrievingFwVernacularWritingSystemsMsg",
-					"There was an error retrieving vernacular writing systems from the {0}\ndatabase. It's possible the file {1} is either missing or corrupt.\n\n{2}",
-					App.kLocalizationGroupMisc);
-
-				return GetWritingSystems(m_sourceInfo.Queries.VernacularWsSQL, msg);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a list of the vernacular writing systems in the database.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public Dictionary<int, string> AnalysisWritingSystems
-		{
-			get
-			{
-				var msg = App.LocalizeString("ErrorRetrievingFwAnalysisWritingSystemsMsg",
-					"There was an error retrieving vernacular writing systems from the {0}\ndatabase. It's possible the file {1} is either missing or corrupt.\n\n{2}",
-					App.kLocalizationGroupMisc);
-
-				return GetWritingSystems(m_sourceInfo.Queries.AnalysisWs, msg);
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -61,18 +26,42 @@ namespace SIL.Pa.DataSourceClasses.FieldWorks
 		/// Gets a list of all analysis and vernacular writing systems in the database.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public List<FwWritingSysInfo> AllWritingSystems
+		public IEnumerable<FwWritingSysInfo> WritingSystems
 		{
 			get
 			{
-				var wsInfoList = AnalysisWritingSystems
-					.Select(ws => new FwWritingSysInfo(FwDBUtils.FwWritingSystemType.Analysis, ws.Key, ws.Value)).ToList();
+				if (m_sourceInfo.DataSourceType == DataSourceType.FW)
+				{
+					var msg = App.LocalizeString("ErrorRetrievingFwWritingSystemsMsg",
+						"There was an error retrieving writing systems from the {0}\nproject. It's possible the file {1} is either missing or corrupt.",
+						App.kLocalizationGroupMisc);
 
-				// Build a list of the analysis writing systems.
-				wsInfoList.AddRange(VernacularWritingSystems
-					.Select(ws => new FwWritingSysInfo(FwDBUtils.FwWritingSystemType.Vernacular, ws.Key, ws.Value)));
+					msg = string.Format(msg, m_sourceInfo.Name, Path.GetFileName(m_sourceInfo.Queries.QueryFile));
+					var wsInfoList = GetWritingSystems(m_sourceInfo.Queries.AnalysisWs, msg)
+						.Select(ws => new FwWritingSysInfo(FwDBUtils.FwWritingSystemType.Analysis, ws.Key, ws.Value)).ToList();
 
-				return wsInfoList;
+					// Build a list of the analysis writing systems.
+					wsInfoList.AddRange(GetWritingSystems(m_sourceInfo.Queries.VernacularWsSQL, msg)
+						.Select(ws => new FwWritingSysInfo(FwDBUtils.FwWritingSystemType.Vernacular, ws.Key, ws.Value)));
+
+					return wsInfoList;
+				}
+		
+				// Return writing systems from a 7.0 (or later) project).
+				try
+				{
+					return FwDBUtils.GetWritingSystemsForFw7Project(m_sourceInfo.Name, m_sourceInfo.Server);
+				}
+				catch (Exception e)
+				{
+					var msg = App.LocalizeString("ErrorRetrievingFwWritingSystemsMsg",
+						"There was an error retrieving writing systems from\nthe {0} project.\n\n{1}",
+						App.kLocalizationGroupMisc);
+
+					msg = string.Format(msg, m_sourceInfo.ProjectName, e.Message);
+					Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					return null;
+				}
 			}
 		}
 
@@ -83,17 +72,16 @@ namespace SIL.Pa.DataSourceClasses.FieldWorks
 		/// ------------------------------------------------------------------------------------
 		private Dictionary<int, string> GetWritingSystems(string sql, string errMsg)
 		{
-			Dictionary<int, string> wsCollection = new Dictionary<int, string>();
+			var wsCollection = new Dictionary<int, string>();
 
 			try
 			{
-				using (SqlConnection connection =
-					FwDBUtils.FwConnection(m_sourceInfo.DBName, m_sourceInfo.MachineName))
+				using (var connection = FwDBUtils.FwConnection(m_sourceInfo.Name, m_sourceInfo.Server))
 				{
 					if (connection != null && !string.IsNullOrEmpty(sql))
 					{
-						SqlCommand command = new SqlCommand(sql, connection);
-						using (SqlDataReader reader = command.ExecuteReader())
+						var command = new SqlCommand(sql, connection);
+						using (var reader = command.ExecuteReader())
 						{
 							while (reader.Read())
 								wsCollection[(int)reader["Obj"]] = reader["Txt"] as string;
@@ -108,14 +96,14 @@ namespace SIL.Pa.DataSourceClasses.FieldWorks
 				// There should be at least one writing system defined.
 				if (wsCollection.Count == 0)
 				{
-					Utils.MsgBox(string.Format(errMsg, m_sourceInfo.DBName,
+					Utils.MsgBox(string.Format(errMsg, m_sourceInfo.Name,
 						Path.GetFileName(m_sourceInfo.Queries.QueryFile), string.Empty),
 						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				}
 			}
 			catch (Exception e)
 			{
-				Utils.MsgBox(string.Format(errMsg, m_sourceInfo.DBName,
+				Utils.MsgBox(string.Format(errMsg, m_sourceInfo.Name,
 					Path.GetFileName(m_sourceInfo.Queries.QueryFile), e.Message),
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
@@ -138,7 +126,7 @@ namespace SIL.Pa.DataSourceClasses.FieldWorks
 				(m_sourceInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.LexemeForm ?
 				m_sourceInfo.Queries.LexemeFormSQL : m_sourceInfo.Queries.PronunciationFieldSQL);
 
-			if (m_sourceInfo.WritingSystemInfo == null || m_sourceInfo.WritingSystemInfo.Count == 0)
+			if (m_sourceInfo.WsMappings == null || m_sourceInfo.WsMappings.Count == 0)
 			{
 				errMsg = string.Format(Properties.Resources.kstidMissingWsMsg,
 					m_sourceInfo.ProjectName);
@@ -147,19 +135,18 @@ namespace SIL.Pa.DataSourceClasses.FieldWorks
 				return true;
 			}
 
-			foreach (FwDataSourceWsInfo dswsi in m_sourceInfo.WritingSystemInfo)
+			foreach (var dswsi in m_sourceInfo.WsMappings)
 			{
-				string replace = string.Format("${0}Ws$", dswsi.FieldName);
-				sql = sql.Replace(replace, dswsi.Ws.ToString());
+				var replace = string.Format("${0}Ws$", dswsi.FieldName);
+				sql = sql.Replace(replace, dswsi.WsHvo.ToString());
 			}
 
 			try
 			{
-				using (SqlConnection connection =
-					FwDBUtils.FwConnection(m_sourceInfo.DBName, m_sourceInfo.MachineName))
+				using (var connection = FwDBUtils.FwConnection(m_sourceInfo.Name, m_sourceInfo.Server))
 				{
-					SqlCommand command = new SqlCommand(sql, connection);
-					using (SqlDataReader reader = command.ExecuteReader())
+					var command = new SqlCommand(sql, connection);
+					using (var reader = command.ExecuteReader())
 					{
 						if (reader.HasRows && dataRetrievedHdlr != null)
 							dataRetrievedHdlr(reader);
@@ -172,7 +159,7 @@ namespace SIL.Pa.DataSourceClasses.FieldWorks
 			}
 			catch (Exception e)
 			{
-				Utils.MsgBox(string.Format(errMsg, m_sourceInfo.DBName,
+				Utils.MsgBox(string.Format(errMsg, m_sourceInfo.Name,
 					Path.GetFileName(m_sourceInfo.Queries.QueryFile), e.Message),
 					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 

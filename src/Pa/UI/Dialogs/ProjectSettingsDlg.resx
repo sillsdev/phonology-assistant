@@ -121,6 +121,9 @@
   <data name="lblProjName.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>121, 17</value>
+  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="lblProjName.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 3</value>
@@ -166,7 +169,7 @@
     <value>63, 13</value>
   </data>
   <data name="lblTranscriber.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+    <value>9</value>
   </data>
   <data name="lblTranscriber.Text" xml:space="preserve">
     <value>&amp;Transcriber:</value>
@@ -199,7 +202,7 @@
     <value>50, 13</value>
   </data>
   <data name="lblSpeaker.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
+    <value>11</value>
   </data>
   <data name="lblSpeaker.Text" xml:space="preserve">
     <value>&amp;Speaker:</value>
@@ -232,7 +235,7 @@
     <value>59, 13</value>
   </data>
   <data name="lblComments.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
+    <value>13</value>
   </data>
   <data name="lblComments.Text" xml:space="preserve">
     <value>&amp;Comments:</value>
@@ -274,7 +277,7 @@
     <value>141, 20</value>
   </data>
   <data name="txtLanguageCode.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>5</value>
   </data>
   <data name="&gt;&gt;txtLanguageCode.Name" xml:space="preserve">
     <value>txtLanguageCode</value>
@@ -304,7 +307,7 @@
     <value>65, 13</value>
   </data>
   <data name="lblResearcher.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="lblResearcher.Text" xml:space="preserve">
     <value>R&amp;esearcher:</value>
@@ -334,7 +337,7 @@
     <value>208, 20</value>
   </data>
   <data name="txtResearcher.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="&gt;&gt;txtResearcher.Name" xml:space="preserve">
     <value>txtResearcher</value>
@@ -490,7 +493,7 @@
     <value>239, 20</value>
   </data>
   <data name="txtSpeaker.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
+    <value>12</value>
   </data>
   <data name="&gt;&gt;txtSpeaker.Name" xml:space="preserve">
     <value>txtSpeaker</value>
@@ -517,7 +520,7 @@
     <value>239, 20</value>
   </data>
   <data name="txtTranscriber.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+    <value>10</value>
   </data>
   <data name="&gt;&gt;txtTranscriber.Name" xml:space="preserve">
     <value>txtTranscriber</value>
@@ -544,7 +547,7 @@
     <value>61, 13</value>
   </data>
   <data name="lnkEthnologue.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>6</value>
   </data>
   <data name="lnkEthnologue.Text" xml:space="preserve">
     <value>Ethnologue</value>
@@ -586,7 +589,7 @@
     <value>95, 26</value>
   </data>
   <data name="btnAdd.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>16</value>
   </data>
   <data name="btnAdd.Text" xml:space="preserve">
     <value>&amp;Add</value>
@@ -622,7 +625,7 @@
     <value>95, 26</value>
   </data>
   <data name="btnRemove.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>17</value>
   </data>
   <data name="btnRemove.Text" xml:space="preserve">
     <value>&amp;Remove</value>
@@ -661,7 +664,7 @@
     <value>m_grid</value>
   </data>
   <data name="&gt;&gt;m_grid.Type" xml:space="preserve">
-    <value>SilTools.SilGrid, SilTools, Version=1.5.4043.20372, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.SilGrid, SilTools, Version=1.5.4051.18916, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_grid.Parent" xml:space="preserve">
     <value>pnlGrid</value>
@@ -682,7 +685,7 @@
     <value>523, 25</value>
   </data>
   <data name="pnlGridHdg.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>0</value>
   </data>
   <data name="pnlGridHdg.Text" xml:space="preserve">
     <value>&amp;Data Sources</value>
@@ -691,7 +694,7 @@
     <value>pnlGridHdg</value>
   </data>
   <data name="&gt;&gt;pnlGridHdg.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.5.4043.20372, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.5.4051.18916, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlGridHdg.Parent" xml:space="preserve">
     <value>pnlGrid</value>
@@ -715,13 +718,13 @@
     <value>525, 173</value>
   </data>
   <data name="pnlGrid.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>15</value>
   </data>
   <data name="&gt;&gt;pnlGrid.Name" xml:space="preserve">
     <value>pnlGrid</value>
   </data>
   <data name="&gt;&gt;pnlGrid.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4043.20372, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4051.18916, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlGrid.Parent" xml:space="preserve">
     <value>tblLayout</value>
@@ -748,7 +751,7 @@
     <value>95, 26</value>
   </data>
   <data name="btnProperties.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>18</value>
   </data>
   <data name="btnProperties.Text" xml:space="preserve">
     <value>&amp;Properties...</value>
@@ -784,7 +787,7 @@
     <value>95, 26</value>
   </data>
   <data name="btnCustomFields.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>19</value>
   </data>
   <data name="btnCustomFields.Text" xml:space="preserve">
     <value>Custom &amp;Fields...</value>
@@ -888,9 +891,6 @@
   <data name="&gt;&gt;cmnuAdd.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>121, 17</value>
-  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -940,12 +940,12 @@
     <value>locExtender</value>
   </data>
   <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
-    <value>Localization.UI.LocalizationExtender, LocalizationManager, Version=1.0.4024.41930, Culture=neutral, PublicKeyToken=null</value>
+    <value>Localization.UI.LocalizationExtender, LocalizationManager, Version=1.0.4048.30862, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ProjectSettingsDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.2.4043.22167, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.2.4051.27607, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

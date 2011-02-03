@@ -2,19 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using System.Linq;
 using System.ServiceProcess;
 using System.Windows.Forms;
-using System.Xml.Serialization;
-using SIL.Pa.DataSourceClasses.FieldWorks;
 using SIL.Pa.Properties;
 using SIL.PaToFdoInterfaces;
 using SilTools;
 
-namespace SIL.Pa.Model
+namespace SIL.Pa.DataSource.FieldWorks
 {
-	#region FwDBUtils class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Misc. static methods for accessing SQL server and getting Fieldworks information.
@@ -22,8 +18,7 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class FwDBUtils
 	{
-		private static bool s_showErrorOnConnectionFailure = true;
-
+		#region enumerations
 		/// ------------------------------------------------------------------------------------
 		public enum FwWritingSystemType
 		{
@@ -43,6 +38,9 @@ namespace SIL.Pa.Model
 			PronunciationField
 		}
 
+		#endregion
+
+		private static bool s_showErrorOnConnectionFailure = true;
 		public static bool ShowMsgWhenGatheringFWInfo { get; set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -60,7 +58,7 @@ namespace SIL.Pa.Model
 		/// Gets the list of FW databases on the specified machine.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static Fw6DataSourceInfo[] GetFwDataSourceInfoList(string machineName)
+		public static IEnumerable<FwDataSourceInfo> GetFwDataSourceInfoList(string machineName)
 		{
 			return GetFwDataSourceInfoList(machineName, true);
 		}
@@ -70,7 +68,7 @@ namespace SIL.Pa.Model
 		/// Gets the list of FW databases on the specified machine.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static Fw6DataSourceInfo[] GetFwDataSourceInfoList(string machineName,
+		public static IEnumerable<FwDataSourceInfo> GetFwDataSourceInfoList(string server,
 			bool showErrorOnFailure)
 		{
 			// Make sure SQL server is running.
@@ -78,14 +76,14 @@ namespace SIL.Pa.Model
 				return null;
 
 			s_showErrorOnConnectionFailure = showErrorOnFailure;
-			var fwDBInfoList = new List<Fw6DataSourceInfo>();
+			var fwDBInfoList = new List<FwDataSourceInfo>();
 
 			SmallFadingWnd msgWnd = null;
 			if (ShowMsgWhenGatheringFWInfo)
 				msgWnd = new SmallFadingWnd(Properties.Resources.kstidGettingFwProjInfoMsg);
 
 			// Read all the SQL databases from the server's master table.
-			using (SqlConnection connection = FwConnection(FwDBAccessInfo.MasterDB, machineName))
+			using (SqlConnection connection = FwConnection(FwDBAccessInfo.MasterDB, server))
 			{
 				if (connection != null && FwDBAccessInfo.FwDatabasesSQL != null)
 				{
@@ -95,7 +93,7 @@ namespace SIL.Pa.Model
 					using (SqlDataReader reader = command.ExecuteReader(CommandBehavior.SingleResult))
 					{
 						while (reader.Read() && !string.IsNullOrEmpty(reader[0] as string))
-							fwDBInfoList.Add(new Fw6DataSourceInfo(reader[0] as string, machineName));
+							fwDBInfoList.Add(new FwDataSourceInfo(reader[0] as string, server, DataSourceType.FW));
 
 						reader.Close();
 					}
@@ -111,7 +109,7 @@ namespace SIL.Pa.Model
 			}
 
 			s_showErrorOnConnectionFailure = true;
-			return (fwDBInfoList.Count == 0 ? null : fwDBInfoList.ToArray());
+			return fwDBInfoList;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -290,544 +288,33 @@ namespace SIL.Pa.Model
 			}
 		}
 
-		#endregion
-	}
-
-	#endregion
-
-
-	#region FwDBAccessInfo class
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	public class FwDBAccessInfo
-	{
-		internal static FwDBAccessInfo s_dbAccessInfo;
-		private static string s_accessInfoFile;
-		private static bool s_showMsgOnFileLoadFailure = true;
-
-		[XmlElement("longnamecheck")]
-		public string m_longNameCheckSQL;
-
-		[XmlElement("fwregkey")]
-		public string m_fwRegKey;
-
-		[XmlElement("rootdatadirvalue")]
-		public string m_rootDataDirValue;
-
-		[XmlElement("jumpurl")]
-		public string m_jumpUrl;
-
-		[XmlElement("service")]
-		public string m_service;
-
-		[XmlElement("secondstowaitfordbenginestartup")]
-		public int m_secsToWaitForDBEngineStartup = 25;
-
-		[XmlElement("connectionstring")]
-		public string m_connectionString;
-
-		[XmlElement("server")]
-		public string m_server;
-
-		[XmlElement("masterdatabase")]
-		public string m_masterdb;
-
-		[XmlElement("databases")]
-		public string m_fwDatabasesSQL;
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Displays a dialog box from which a user may choose an FW7 (or later) project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		internal static void Load()
+		public static IEnumerable<FwWritingSysInfo> GetWritingSystemsForFw7Project(string name, string server)
 		{
-			if (s_dbAccessInfo == null)
+			using (var helper = new PaFieldWorksHelper())
 			{
-				// Find the file that contains information about connecting to an FW database.
-				s_accessInfoFile = Path.Combine(App.ConfigFolder, "FwDBAccessInfo.xml");
-				s_dbAccessInfo = XmlSerializationHelper.DeserializeFromFile<FwDBAccessInfo>(s_accessInfoFile);
-			}
-
-			if (s_dbAccessInfo == null && s_showMsgOnFileLoadFailure)
-			{
-				string filePath = Utils.PrepFilePathForMsgBox(s_accessInfoFile);
-				Utils.MsgBox(string.Format(Properties.Resources.kstidErrorLoadingDBAccessInfoMsg, filePath));
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public static bool ShowMsgOnFileLoadFailure
-		{
-			get { return s_showMsgOnFileLoadFailure; }
-			set { s_showMsgOnFileLoadFailure = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string ServerFormatString
-		{
-			get
-			{
-				Load();
-				return (s_dbAccessInfo == null || string.IsNullOrEmpty(s_dbAccessInfo.m_server) ?
-					@"{0}\SILFW" : s_dbAccessInfo.m_server);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string LongNameCheckSQL
-		{
-			get
-			{
-				Load();
-				return (s_dbAccessInfo == null ?
-					null : FwDBUtils.CleanString(s_dbAccessInfo.m_longNameCheckSQL));
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string DBAccessInfoFile
-		{
-			get
-			{
-				Load();
-				return s_accessInfoFile;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string FwRegKey
-		{
-			get
-			{
-				Load();
-				return (s_dbAccessInfo != null ? s_dbAccessInfo.m_fwRegKey : null);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string RootDataDirValue
-		{
-			get
-			{
-				Load();
-				return (s_dbAccessInfo != null ? s_dbAccessInfo.m_rootDataDirValue : null);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string JumpUrl
-		{
-			get
-			{
-				Load();
-				return (s_dbAccessInfo != null ? s_dbAccessInfo.m_jumpUrl : null);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string Service
-		{
-			get
-			{
-				Load();
-				return (s_dbAccessInfo != null ? s_dbAccessInfo.m_service : "MSSQL$SILFW");
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string ConnectionString
-		{
-			get
-			{
-				Load();
-				return (s_dbAccessInfo != null ?
-					FwDBUtils.CleanString(s_dbAccessInfo.m_connectionString) : null);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Get's the FW server for the specified machine.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string GetServer(string machineName)
-		{
-			Load();
-			return string.Format(ServerFormatString, machineName);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static int SecsToWaitForDBEngineStartup
-		{
-			get
-			{
-				Load();
-				return (s_dbAccessInfo != null ? s_dbAccessInfo.m_secsToWaitForDBEngineStartup : 25);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string MasterDB
-		{
-			get
-			{
-				Load();
-				return (s_dbAccessInfo != null ? s_dbAccessInfo.m_masterdb : null);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string FwDatabasesSQL
-		{
-			get
-			{
-				Load();
-				return (s_dbAccessInfo != null ?
-					FwDBUtils.CleanString(s_dbAccessInfo.m_fwDatabasesSQL) : null);
-			}
-		}
-	}
-	
-	#endregion
-
-	#region FwQueries class
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	public class FwQueries
-	{
-		internal static FwQueries s_fwLongNameQueries;
-		internal static FwQueries s_fwShortNameQueries;
-		private static bool s_showMsgOnFileLoadFailure = true;
-
-		private readonly bool m_error;
-		private string m_queryFile;
-
-		[XmlElement("projectname")]
-		public string m_projectNameSQL;
-
-		[XmlElement("lastmodifiedstamp")]
-		public string m_lastModifiedStampSQL;
-
-		[XmlElement("analysiswritingsystems")]
-		public string m_analysisWs;
-
-		[XmlElement("veracularwritingsystems")]
-		public string m_vernacularWsSQL;
-
-		[XmlElement("datafromlexemeform")]
-		public string m_lexemeFormSQL;
-
-		[XmlElement("datafrompronunciationfield")]
-		public string m_pronunciationFieldSQL;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal FwQueries()
-		{
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal FwQueries(bool error)
-		{
-			m_error = error;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal static FwQueries GetQueriesForDB(string dbName, string machineName)
-		{
-			string longNameCheckSQL = FwDBAccessInfo.LongNameCheckSQL;
-
-			if (string.IsNullOrEmpty(dbName) || string.IsNullOrEmpty(longNameCheckSQL))
-				return null;
-
-			FwQueries fwqueries = null;
-
-			using (SqlConnection connection = FwDBUtils.FwConnection(dbName, machineName))
-			{
-				if (connection != null)
+				if (helper.LoadOnlyWritingSystems(name, server,
+					Settings.Default.Fw7TimeToWaitForProcessStart,
+					Settings.Default.Fw7TimeToWaitForDataLoad))
 				{
-					try
-					{
-						SqlCommand command = new SqlCommand(longNameCheckSQL, connection);
-						using (SqlDataReader reader = command.ExecuteReader())
+					return helper.WritingSystems.Select(ws => new FwWritingSysInfo(ws.IsVernacular ?
+						FwWritingSystemType.Vernacular : FwWritingSystemType.Analysis,
+						ws.Hvo, ws.DisplayName)
 						{
-							reader.Close();
-
-							if (s_fwLongNameQueries == null)
-								s_fwLongNameQueries = Load("FwSQLQueries.xml");
-
-							fwqueries = s_fwLongNameQueries;
-						}
-					}
-					catch
-					{
-						if (s_fwShortNameQueries == null)
-						{
-							s_fwShortNameQueries =
-								CheckForShortNameFile(dbName, machineName, "FwSQLQueriesShortNames.xml") ?
-								Load("FwSQLQueriesShortNames.xml") : new FwQueries(true);
-						}
-
-						fwqueries = s_fwShortNameQueries;
-					}
-
-					connection.Close();
+							DefaultFontName = ws.DefaultFontName,
+							IsDefaultAnalysis = ws.IsDefaultAnalysis,
+							IsDefaultVernacular = ws.IsDefaultVernacular
+						}).ToList();
 				}
 			}
 
-			return fwqueries;
+			return null;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static bool CheckForShortNameFile(string dbName, string machineName, string filename)
-		{
-			// Find the file that contains the queries.
-			string queryFile = Path.Combine(App.ConfigFolder, filename);
-
-			if (!File.Exists(queryFile))
-			{
-				string path = Utils.PrepFilePathForMsgBox(App.ConfigFolder);
-				string[] args = new[] {dbName, machineName, filename, path, filename};
-				string msg = string.Format(Properties.Resources.kstidShortNameFileMissingMsg, args);
-				Utils.MsgBox(msg, MessageBoxButtons.OK);
-				return false;
-			}
-
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static FwQueries Load(string filename)
-		{
-			// Find the file that contains the queries.
-			var queryFile = Path.Combine(App.ConfigFolder, filename);
-			var fwqueries = XmlSerializationHelper.DeserializeFromFile<FwQueries>(queryFile);
-
-			if (fwqueries != null)
-				fwqueries.m_queryFile = queryFile;
-			else if (s_showMsgOnFileLoadFailure)
-			{
-				string filePath = Utils.PrepFilePathForMsgBox(queryFile);
-				Utils.MsgBox(string.Format(Properties.Resources.kstidErrorLoadingQueriesMsg, filePath));
-				fwqueries = new FwQueries(true);
-			}
-
-			return fwqueries;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public bool Error
-		{
-			get { return m_error; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public static bool ShowMsgOnFileLoadFailure
-		{
-			get { return s_showMsgOnFileLoadFailure; }
-			set { s_showMsgOnFileLoadFailure = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public string QueryFile
-		{
-			get	{return m_queryFile;}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public string ProjectNameSQL
-		{
-			get	{return FwDBUtils.CleanString(m_projectNameSQL);}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public string LastModifiedStampSQL
-		{
-			get {return FwDBUtils.CleanString(m_lastModifiedStampSQL);}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public string AnalysisWs
-		{
-			get {return FwDBUtils.CleanString(m_analysisWs);}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public string VernacularWsSQL
-		{
-			get	{return FwDBUtils.CleanString(m_vernacularWsSQL);}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public string LexemeFormSQL
-		{
-			get	{return FwDBUtils.CleanString(m_lexemeFormSQL);}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public string PronunciationFieldSQL
-		{
-			get	{return FwDBUtils.CleanString(m_pronunciationFieldSQL);}
-		}
+		#endregion
 	}
-
-	#endregion
-
-	#region FwWritingSysInfo class
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// Encapsulates a single item in the writing system drop-downs in the grid.
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	public class FwWritingSysInfo
-	{
-		public string WsName;
-		public int WsNumber;
-		public FwDBUtils.FwWritingSystemType WsType;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public FwWritingSysInfo(FwDBUtils.FwWritingSystemType wsType, int wsNumber,
-			string wsName)
-		{
-			WsType = wsType;
-			WsNumber = wsNumber;
-			WsName = wsName;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public override string ToString()
-		{
-			return WsName;
-		}
-	}
-
-	#endregion
 }

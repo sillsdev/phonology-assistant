@@ -463,14 +463,6 @@
     <value>Character</value>
     <comment>Heading for column in undefined phonetic chars. dialog</comment>
   </data>
-  <data name="kstidClassCopyNameFormat" xml:space="preserve">
-    <value>{0} ({1:D2})</value>
-    <comment>Format for name of copied class. First parameter is the copied class name and second is a two digit number to make the name unique.</comment>
-  </data>
-  <data name="kstidClassCopyOfPrefix" xml:space="preserve">
-    <value>Copy of {0}</value>
-    <comment>Prefix for names of copied items</comment>
-  </data>
   <data name="kstidCollapsingGroups" xml:space="preserve">
     <value>Collapsing groups...</value>
   </data>
@@ -484,9 +476,6 @@
   <data name="kstidCountHdg" xml:space="preserve">
     <value>Count</value>
     <comment>Heading for column in undefined phonetic chars. dialog</comment>
-  </data>
-  <data name="kstidDataSourceDeleteConfirmation" xml:space="preserve">
-    <value>Are you sure you want to delete the selected data source(s)?</value>
   </data>
   <data name="kstidDataSourceHdg" xml:space="preserve">
     <value>Data Source</value>
@@ -516,9 +505,6 @@
   </data>
   <data name="kstidDefClassPhoneHdrVow" xml:space="preserve">
     <value>&amp;Vowels</value>
-  </data>
-  <data name="kstidDefineClassEmptyClassName" xml:space="preserve">
-    <value>You cannot have an empty Class Name</value>
   </data>
   <data name="kstidDefineSortOrderAscendingCol" xml:space="preserve">
     <value>Ascending?</value>
@@ -564,25 +550,9 @@
     <value>Select All</value>
     <comment>"Select All" caption in the CheckedListBox</comment>
   </data>
-  <data name="kstidFwMissingWsMsg" xml:space="preserve">
-    <value>You must specify a writing system for at least one field.</value>
-    <comment>Message displayed in the FieldWorks data source dialog when the user clicks OK when no field has been assigned a writing system.</comment>
-  </data>
   <data name="kstidFwPropsButtonToolTip" xml:space="preserve">
     <value>Specify Properties</value>
     <comment>Tooltip for the button in the data source column in the project settings dialog</comment>
-  </data>
-  <data name="kstidFwWsFieldHdg" xml:space="preserve">
-    <value>Field</value>
-    <comment>Heading for the field column of the writing system grid on FieldWorks data source properties dialog</comment>
-  </data>
-  <data name="kstidFwWsNoneSpecified" xml:space="preserve">
-    <value>(none)</value>
-    <comment>Item for no writing system specified for a field in the FW data source properties dialog.</comment>
-  </data>
-  <data name="kstidFwWsWsHdg" xml:space="preserve">
-    <value>Writing System</value>
-    <comment>Heading for the writing system column of the writing system grid on the FieldWorks data source properties dialog</comment>
   </data>
   <data name="kstidGridColumnSelectorAllItem" xml:space="preserve">
     <value>Select All</value>
@@ -644,10 +614,6 @@
   <data name="kstidNewFilterName" xml:space="preserve">
     <value>New Filter {0}</value>
     <comment>The parameter is a number. Used as default filter name when adding filters in the define filters dialog.</comment>
-  </data>
-  <data name="kstidNewProjectSettingsDlgCaption" xml:space="preserve">
-    <value>New Project Settings</value>
-    <comment>Caption for project settings dialog when project is new.</comment>
   </data>
   <data name="kstidNoMinimalPairsMsg" xml:space="preserve">
     <value>No minimal pairs to display.\nChange the minimal pairs options and try again.</value>

@@ -11,10 +11,6 @@ using System.Windows.Forms.VisualStyles;
 namespace SilTools
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class SilGrid : DataGridView
 	{
 		/// <summary>Occurs when a row is entered and after the current row's index changes.</summary>
@@ -701,6 +697,19 @@ namespace SilTools
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		public void MakeFirstVisibleCellCurrentInRow(int rowIndex)
+		{
+			if (rowIndex < 0 || rowIndex >= RowCount)
+				return;
+
+			var visibleCols = Columns.Cast<DataGridViewColumn>()
+				.Where(col => col.Visible).OrderBy(col => col.DisplayIndex).ToArray();
+
+			if (visibleCols.Length > 0)
+				CurrentCell = this[visibleCols[0].Index, rowIndex];
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

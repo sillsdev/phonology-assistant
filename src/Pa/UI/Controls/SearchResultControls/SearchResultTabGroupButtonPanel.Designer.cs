@@ -28,32 +28,39 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+			this.components = new System.ComponentModel.Container();
+			this.m_toolstrip = new System.Windows.Forms.ToolStrip();
 			this.m_btnAddTab = new System.Windows.Forms.ToolStripSplitButton();
 			this.m_mnuAddInSideBySideGroup = new System.Windows.Forms.ToolStripMenuItem();
 			this.m_mnuAddInStackedGroup = new System.Windows.Forms.ToolStripMenuItem();
-			this.m_btnRight = new System.Windows.Forms.ToolStripButton();
-			this.m_btnLeft = new System.Windows.Forms.ToolStripButton();
-			this.toolStrip1.SuspendLayout();
+			this.m_btnScrollRight = new System.Windows.Forms.ToolStripButton();
+			this.m_btnScrollLeft = new System.Windows.Forms.ToolStripButton();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.m_toolstrip.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// toolStrip1
+			// m_toolstrip
 			// 
-			this.toolStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+			this.m_toolstrip.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.toolStrip1.AutoSize = false;
-			this.toolStrip1.BackColor = System.Drawing.Color.Transparent;
-			this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-			this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.m_toolstrip.AutoSize = false;
+			this.m_toolstrip.BackColor = System.Drawing.Color.Transparent;
+			this.m_toolstrip.Dock = System.Windows.Forms.DockStyle.None;
+			this.m_toolstrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this.m_toolstrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.m_btnAddTab,
-            this.m_btnRight,
-            this.m_btnLeft});
-			this.toolStrip1.Location = new System.Drawing.Point(0, 10);
-			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(194, 25);
-			this.toolStrip1.TabIndex = 1;
-			this.toolStrip1.Text = "toolStrip1";
+            this.m_btnScrollRight,
+            this.m_btnScrollLeft});
+			this.locExtender.SetLocalizableToolTip(this.m_toolstrip, null);
+			this.locExtender.SetLocalizationComment(this.m_toolstrip, null);
+			this.locExtender.SetLocalizationPriority(this.m_toolstrip, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_toolstrip, "SearchResultTabGroupButtonPanel.m_toolstrip");
+			this.m_toolstrip.Location = new System.Drawing.Point(0, 10);
+			this.m_toolstrip.Name = "m_toolstrip";
+			this.m_toolstrip.Size = new System.Drawing.Size(194, 25);
+			this.m_toolstrip.TabIndex = 1;
+			this.m_toolstrip.Text = "toolStrip1";
 			// 
 			// m_btnAddTab
 			// 
@@ -63,67 +70,90 @@
             this.m_mnuAddInStackedGroup});
 			this.m_btnAddTab.Image = global::SIL.Pa.Properties.Resources.NewTabNormal;
 			this.m_btnAddTab.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-			this.m_btnAddTab.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.locExtender.SetLocalizableToolTip(this.m_btnAddTab, "Add Tab");
+			this.locExtender.SetLocalizationComment(this.m_btnAddTab, null);
+			this.locExtender.SetLocalizingId(this.m_btnAddTab, "SearchResultTabGroupButtonPanel.btnAddTab");
 			this.m_btnAddTab.Margin = new System.Windows.Forms.Padding(3, 0, 0, 1);
 			this.m_btnAddTab.Name = "m_btnAddTab";
 			this.m_btnAddTab.Size = new System.Drawing.Size(32, 24);
 			// 
 			// m_mnuAddInSideBySideGroup
 			// 
+			this.locExtender.SetLocalizableToolTip(this.m_mnuAddInSideBySideGroup, null);
+			this.locExtender.SetLocalizationComment(this.m_mnuAddInSideBySideGroup, null);
+			this.locExtender.SetLocalizingId(this.m_mnuAddInSideBySideGroup, "SearchResultTabGroupButtonPanel.mnuAddInSideBySideGroup");
 			this.m_mnuAddInSideBySideGroup.Name = "m_mnuAddInSideBySideGroup";
 			this.m_mnuAddInSideBySideGroup.Size = new System.Drawing.Size(288, 22);
 			this.m_mnuAddInSideBySideGroup.Text = "Add Tab in New Si&de-by-Side Tab Group";
 			// 
 			// m_mnuAddInStackedGroup
 			// 
+			this.locExtender.SetLocalizableToolTip(this.m_mnuAddInStackedGroup, null);
+			this.locExtender.SetLocalizationComment(this.m_mnuAddInStackedGroup, null);
+			this.locExtender.SetLocalizingId(this.m_mnuAddInStackedGroup, "SearchResultTabGroupButtonPanel.mnuAddInStackedGroup");
 			this.m_mnuAddInStackedGroup.Name = "m_mnuAddInStackedGroup";
 			this.m_mnuAddInStackedGroup.Size = new System.Drawing.Size(288, 22);
 			this.m_mnuAddInStackedGroup.Text = "Add Tab in New St&acked Tab Group";
 			// 
-			// m_btnRight
+			// m_btnScrollRight
 			// 
-			this.m_btnRight.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this.m_btnRight.AutoSize = false;
-			this.m_btnRight.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.m_btnRight.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.m_btnRight.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
-			this.m_btnRight.Name = "m_btnRight";
-			this.m_btnRight.Size = new System.Drawing.Size(13, 23);
-			this.m_btnRight.Text = "4";
+			this.m_btnScrollRight.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.m_btnScrollRight.AutoSize = false;
+			this.m_btnScrollRight.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.locExtender.SetLocalizableToolTip(this.m_btnScrollRight, "Scroll Right");
+			this.locExtender.SetLocalizationComment(this.m_btnScrollRight, null);
+			this.locExtender.SetLocalizingId(this.m_btnScrollRight, "SearchResultTabGroupButtonPanel.btnRight");
+			this.m_btnScrollRight.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
+			this.m_btnScrollRight.Name = "m_btnScrollRight";
+			this.m_btnScrollRight.Size = new System.Drawing.Size(13, 23);
+			this.m_btnScrollRight.Text = "4";
 			// 
-			// m_btnLeft
+			// m_btnScrollLeft
 			// 
-			this.m_btnLeft.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this.m_btnLeft.AutoSize = false;
-			this.m_btnLeft.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.m_btnLeft.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.m_btnLeft.Margin = new System.Windows.Forms.Padding(5, 0, 0, 1);
-			this.m_btnLeft.Name = "m_btnLeft";
-			this.m_btnLeft.Size = new System.Drawing.Size(13, 23);
-			this.m_btnLeft.Text = "3";
+			this.m_btnScrollLeft.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.m_btnScrollLeft.AutoSize = false;
+			this.m_btnScrollLeft.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.locExtender.SetLocalizableToolTip(this.m_btnScrollLeft, "Scroll Left");
+			this.locExtender.SetLocalizationComment(this.m_btnScrollLeft, null);
+			this.locExtender.SetLocalizingId(this.m_btnScrollLeft, "SearchResultTabGroupButtonPanel.btnLeft");
+			this.m_btnScrollLeft.Margin = new System.Windows.Forms.Padding(5, 0, 0, 1);
+			this.m_btnScrollLeft.Name = "m_btnScrollLeft";
+			this.m_btnScrollLeft.Size = new System.Drawing.Size(13, 23);
+			this.m_btnScrollLeft.Text = "3";
+			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = "User Interface Controls";
+			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// SearchResultTabGroupButtonPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Transparent;
-			this.Controls.Add(this.toolStrip1);
+			this.Controls.Add(this.m_toolstrip);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this, "SearchResultTabGroupButtonPanel.SearchResultTabGroupButtonPanel");
 			this.Name = "SearchResultTabGroupButtonPanel";
 			this.Padding = new System.Windows.Forms.Padding(0, 0, 0, 1);
 			this.Size = new System.Drawing.Size(194, 36);
-			this.toolStrip1.ResumeLayout(false);
-			this.toolStrip1.PerformLayout();
+			this.m_toolstrip.ResumeLayout(false);
+			this.m_toolstrip.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.ToolStrip toolStrip1;
-		private System.Windows.Forms.ToolStripButton m_btnRight;
-		private System.Windows.Forms.ToolStripButton m_btnLeft;
+		private System.Windows.Forms.ToolStrip m_toolstrip;
+		private System.Windows.Forms.ToolStripButton m_btnScrollRight;
+		private System.Windows.Forms.ToolStripButton m_btnScrollLeft;
 		private System.Windows.Forms.ToolStripSplitButton m_btnAddTab;
 		private System.Windows.Forms.ToolStripMenuItem m_mnuAddInSideBySideGroup;
 		private System.Windows.Forms.ToolStripMenuItem m_mnuAddInStackedGroup;
+		private Localization.UI.LocalizationExtender locExtender;
 	}
 }

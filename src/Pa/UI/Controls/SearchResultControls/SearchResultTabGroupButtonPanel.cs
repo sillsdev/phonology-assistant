@@ -20,7 +20,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			InitializeComponent();
 
-			m_btnLeft.Font = m_btnRight.Font = new Font("Marlett", 9, GraphicsUnit.Point);
+			m_btnScrollLeft.Font = m_btnScrollRight.Font = new Font("Marlett", 9, GraphicsUnit.Point);
 
 			m_btnAddTab.MouseEnter += delegate { m_btnAddTab.Image = Properties.Resources.NewTabHot; };
 			m_btnAddTab.MouseLeave += delegate { m_btnAddTab.Image = Properties.Resources.NewTabNormal; };
@@ -28,8 +28,8 @@ namespace SIL.Pa.UI.Controls
 			m_btnAddTab.ButtonClick += delegate { AddClickAction(); };
 			m_mnuAddInSideBySideGroup.Click += delegate { AddInSideBySideGroupClickAction(); };
 			m_mnuAddInStackedGroup.Click += delegate { AddInStackedGroupClickAction(); };
-			m_btnLeft.Click += delegate { ScrollLeftClickAction(); };
-			m_btnRight.Click += delegate { ScrollRightClickAction(); };
+			m_btnScrollLeft.Click += delegate { ScrollLeftClickAction(); };
+			m_btnScrollRight.Click += delegate { ScrollRightClickAction(); };
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -40,8 +40,8 @@ namespace SIL.Pa.UI.Controls
 			set 
 			{
 				m_scrollButtonsVisible = value;
-				m_btnLeft.Visible = value;
-				m_btnRight.Visible = value;
+				m_btnScrollLeft.Visible = value;
+				m_btnScrollRight.Visible = value;
 			}
 		}
 
@@ -62,7 +62,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public int GetMinWidth(bool includeScrollBars)
 		{
-			return includeScrollBars ? toolStrip1.PreferredSize.Width :
+			return includeScrollBars ? m_toolstrip.PreferredSize.Width :
 				GetMinWidthWithoutScrollButtons();
 		}
 

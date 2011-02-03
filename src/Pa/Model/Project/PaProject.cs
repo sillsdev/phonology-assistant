@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.Pa.DataSource;
-using SIL.Pa.DataSourceClasses.FieldWorks;
+using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Filters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
@@ -148,10 +149,10 @@ namespace SIL.Pa
 			foreach (PaDataSource source in DataSources)
 			{
 				if (source.DataSourceType == DataSourceType.FW &&
-					source.Fw6DataSourceInfo != null &&
-					source.Fw6DataSourceInfo.WritingSystemInfo != null)
+					source.FwDataSourceInfo != null &&
+					source.FwDataSourceInfo.WsMappings != null)
 				{
-					foreach (FwDataSourceWsInfo wsi in source.Fw6DataSourceInfo.WritingSystemInfo)
+					foreach (FwFieldWsMapping wsi in source.FwDataSourceInfo.WsMappings)
 					{
 						int i = oldNames.IndexOf(wsi.FieldName);
 						wsi.FieldName = (i < 0 ? wsi.FieldName.ToLower() : newNames[i]);
@@ -208,7 +209,7 @@ namespace SIL.Pa
 		{
 			if (m_appWindow != null)
 			{
-				m_appWindow.Activated -= appWindow_Activated;
+				m_appWindow.Activated -= HandleApplicationWindowActivated;
 				m_appWindow = null;
 			}
 
@@ -281,8 +282,8 @@ namespace SIL.Pa
 				project.LoadDataSources();
 				if (appWindow != null)
 				{
-					appWindow.Activated -= project.appWindow_Activated;
-					appWindow.Activated += project.appWindow_Activated;
+					appWindow.Activated -= project.HandleApplicationWindowActivated;
+					appWindow.Activated += project.HandleApplicationWindowActivated;
 					project.m_appWindow = appWindow;
 				}
 			}
@@ -351,8 +352,8 @@ namespace SIL.Pa
 			{
 				if (m_appWindow != null)
 				{
-					m_appWindow.Activated -= appWindow_Activated;
-					m_appWindow.Activated += project.appWindow_Activated;
+					m_appWindow.Activated -= HandleApplicationWindowActivated;
+					m_appWindow.Activated += project.HandleApplicationWindowActivated;
 					project.m_appWindow = m_appWindow;
 				}
 
@@ -397,17 +398,14 @@ namespace SIL.Pa
 		private void CopyLastModifiedTimes(PaProject targetProj)
 		{
 			// Go through each data source in this project.
-			foreach (PaDataSource ds in DataSources)
+			foreach (var ds in DataSources)
 			{
 				// Then go through the data sources in the target project.
 				// When a data source in the target project matches one in this
 				// project, then update the target's last modified time with the
 				// one found in this project's data source.
-				foreach (PaDataSource tgtDs in targetProj.DataSources)
-				{
-					if (ds.Matches(tgtDs, true))
-						tgtDs.LastModification = ds.LastModification;
-				}
+				foreach (var tgtDs in targetProj.DataSources.Where(tgtDs => ds.Matches(tgtDs, true)))
+					tgtDs.LastModification = ds.LastModification;
 			}
 		}
 
@@ -459,8 +457,8 @@ namespace SIL.Pa
 					const BindingFlags kFlags = BindingFlags.SetProperty |
 						BindingFlags.Static | BindingFlags.Public;
 
-					MemberInfo[] mi = typeof(FontHelper).GetMember(fieldInfo.FieldName + "Font");
-					if (mi != null && mi.Length > 0)
+					var mi = typeof(FontHelper).GetMember(fieldInfo.FieldName + "Font");
+					if (mi.Length > 0)
 					{
 						typeof(FontHelper).InvokeMember(fieldInfo.FieldName + "Font",
 								kFlags, null, typeof(FontHelper), new object[] { fieldInfo.Font });
@@ -471,11 +469,7 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void appWindow_Activated(object sender, EventArgs e)
+		private void HandleApplicationWindowActivated(object sender, EventArgs e)
 		{
 			if (Settings.Default.ReloadProjectsWhenAppBecomesActivate)
 				CheckForModifiedDataSources();
@@ -492,7 +486,7 @@ namespace SIL.Pa
 			if (m_reloadingProjectInProcess)
 				return;
 
-			// We don't want to bother with updating just after a message box has been shown.
+			// We don't want to bother updating just after a message box has been shown.
 			// Especially if the chain of events that triggered displaying the message box was
 			// started in this method. In that case, we'd get into an infinite loop of
 			// displaying the message box.
@@ -502,41 +496,8 @@ namespace SIL.Pa
 				return;
 			}
 
-			foreach (PaDataSource source in DataSources)
-			{
-				if (source.SkipLoading)
-					continue;
-
-				DateTime latestModification = DateTime.MinValue;
-				bool reloadFWdb = false;
-
-				// For FW data sources, get the last modified time from the FW database.
-				// For SA data sources, get the last modified time from the SA database.
-				// For all other data sources, get the date and time stamp on the data
-				// source file.
-				if (source.DataSourceType == DataSourceType.FW && source.FwSourceDirectFromDB)
-					reloadFWdb = source.Fw6DataSourceInfo.UpdateLastModifiedStamp();
-				else if (source.DataSourceType == DataSourceType.SA)
-				{
-					latestModification =
-						SaAudioDocument.GetTranscriptionFileModifiedTime(source.DataSourceFile);
-				}
-				else
-				{
-					if (File.Exists(source.DataSourceFile))
-						latestModification = File.GetLastWriteTimeUtc(source.DataSourceFile);
-				}
-
-				if (source.LastModification < latestModification || reloadFWdb)
-				{
-					// Post a message to force the project to be reloaded. Don't reload
-					// it directly because there is an issue when project's are reloaded
-					// (which causes a DoEvents to get called along the way) while still
-					// in window activate events. See PA-440.
-					App.MsgMediator.PostMessage("ReloadProject", null);
-					break;
-				}
-			}
+			if (DataSources.Any(ds => !ds.SkipLoadingBecauseOfProblem && ds.UpdateLastModifiedTime()))
+				App.MsgMediator.PostMessage("ReloadProject", null);
 		}
 
 		/// ------------------------------------------------------------------------------------

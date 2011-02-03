@@ -1,4 +1,4 @@
-namespace SIL.Pa
+namespace SIL.Pa.DataSource.FieldWorks
 {
 	partial class EditFwUrlDlg
 	{

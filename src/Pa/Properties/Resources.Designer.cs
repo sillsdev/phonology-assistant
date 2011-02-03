@@ -502,24 +502,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} ({1:D2}).
-        /// </summary>
-        internal static string kstidClassCopyNameFormat {
-            get {
-                return ResourceManager.GetString("kstidClassCopyNameFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Copy of {0}.
-        /// </summary>
-        internal static string kstidClassCopyOfPrefix {
-            get {
-                return ResourceManager.GetString("kstidClassCopyOfPrefix", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Collapsing groups....
         /// </summary>
         internal static string kstidCollapsingGroups {
@@ -552,15 +534,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidCountHdg {
             get {
                 return ResourceManager.GetString("kstidCountHdg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to delete the selected data source(s)?.
-        /// </summary>
-        internal static string kstidDataSourceDeleteConfirmation {
-            get {
-                return ResourceManager.GetString("kstidDataSourceDeleteConfirmation", resourceCulture);
             }
         }
         
@@ -660,15 +633,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidDefClassPhoneHdrVow {
             get {
                 return ResourceManager.GetString("kstidDefClassPhoneHdrVow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You cannot have an empty Class Name.
-        /// </summary>
-        internal static string kstidDefineClassEmptyClassName {
-            get {
-                return ResourceManager.GetString("kstidDefineClassEmptyClassName", resourceCulture);
             }
         }
         
@@ -916,47 +880,11 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must specify a writing system for at least one field..
-        /// </summary>
-        internal static string kstidFwMissingWsMsg {
-            get {
-                return ResourceManager.GetString("kstidFwMissingWsMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Specify Properties.
         /// </summary>
         internal static string kstidFwPropsButtonToolTip {
             get {
                 return ResourceManager.GetString("kstidFwPropsButtonToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Field.
-        /// </summary>
-        internal static string kstidFwWsFieldHdg {
-            get {
-                return ResourceManager.GetString("kstidFwWsFieldHdg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to (none).
-        /// </summary>
-        internal static string kstidFwWsNoneSpecified {
-            get {
-                return ResourceManager.GetString("kstidFwWsNoneSpecified", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Writing System.
-        /// </summary>
-        internal static string kstidFwWsWsHdg {
-            get {
-                return ResourceManager.GetString("kstidFwWsWsHdg", resourceCulture);
             }
         }
         
@@ -1203,15 +1131,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidNewFilterName {
             get {
                 return ResourceManager.GetString("kstidNewFilterName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to New Project Settings.
-        /// </summary>
-        internal static string kstidNewProjectSettingsDlgCaption {
-            get {
-                return ResourceManager.GetString("kstidNewProjectSettingsDlgCaption", resourceCulture);
             }
         }
         

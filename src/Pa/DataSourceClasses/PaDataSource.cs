@@ -4,8 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
-using SIL.Pa.DataSourceClasses.FieldWorks;
+using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
+using SIL.SpeechTools.Utils;
 using SilTools;
 
 namespace SIL.Pa.DataSource
@@ -40,37 +41,29 @@ namespace SIL.Pa.DataSource
 		public const string kRecordMarker = "RecMrkr";
 		public const string kShoeboxMarker = "\\_sh ";
 
+		private DataSourceType m_dataSourceType;
+		private FwDataSourceInfo m_fwDataSourceInfo;
+		private string m_dataSourceFile;
+
 		/// ------------------------------------------------------------------------------------
 		public PaDataSource()
 		{
 			DataSourceType = DataSourceType.Unknown;
 			ParseType = DataSourceParseType.PhoneticOnly;
-			LastModification = DateTime.MinValue;
 			TotalLinesInFile = 1;
+			SkipLoading = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Creates a FieldWorks (6.0 or earlier) data source.
+		/// Creates a FieldWorks data source.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaDataSource(Fw6DataSourceInfo fwDbItem) : this()
+		public PaDataSource(FwDataSourceInfo fwDbItem) : this()
 		{
-			DataSourceType = DataSourceType.FW;
-			Fw6DataSourceInfo = fwDbItem;
-			FwDBName = Fw6DataSourceInfo.DBName;
-	}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Creates a FieldWorks (7.0 or later) data source.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public PaDataSource(Fw7DataSourceInfo fwDbItem) : this()
-		{
-			DataSourceType = DataSourceType.FW7;
-			Fw7DataSourceInfo = fwDbItem;
-			FwDBName = Fw7DataSourceInfo.Name;
+			FwDataSourceInfo = fwDbItem;
+			DataSourceType = fwDbItem.DataSourceType;
+			FwPrjName = FwDataSourceInfo.Name;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -89,9 +82,6 @@ namespace SIL.Pa.DataSource
 				if (IsSFMFile(DataSourceFile, out isShoeboxFile))
 					DataSourceType = (isShoeboxFile ? DataSourceType.Toolbox : DataSourceType.SFM);
 			}
-
-			if (DataSourceType != DataSourceType.Unknown)
-				LastModification = File.GetLastWriteTimeUtc(filename);
 			
 			if (DataSourceType == DataSourceType.SFM || DataSourceType == DataSourceType.Toolbox)
 				MakeNewMappingsList();
@@ -120,18 +110,13 @@ namespace SIL.Pa.DataSource
 			if (!typesMatch)
 				return false;
 
-			if (DataSourceType == DataSourceType.FW)
+			if (DataSourceType == DataSourceType.FW || DataSourceType == DataSourceType.FW7)
 			{
-				return (Fw6DataSourceInfo != null && ds.Fw6DataSourceInfo != null &&
-					Fw6DataSourceInfo.ProjectName == ds.Fw6DataSourceInfo.ProjectName);
+				return (FwDataSourceInfo != null && ds.FwDataSourceInfo != null &&
+					FwDataSourceInfo.Name == ds.FwDataSourceInfo.Name &&
+					FwDataSourceInfo.Server == ds.FwDataSourceInfo.Server);
 			}
 			
-			if (DataSourceType == DataSourceType.FW7)
-			{
-				return (Fw7DataSourceInfo != null && ds.Fw7DataSourceInfo != null &&
-				Fw7DataSourceInfo.ProjectName == ds.Fw7DataSourceInfo.ProjectName);
-			}
-
 			return (DataSourceFile.ToLower() == ds.DataSourceFile.ToLower());
 		}
 
@@ -314,14 +299,22 @@ namespace SIL.Pa.DataSource
 		/// Gets the data source file. (The setter is only for XML deserialization.)
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string DataSourceFile { get; set; }
+		public string DataSourceFile
+		{
+			get
+			{
+				return (m_fwDataSourceInfo != null && m_dataSourceType == DataSourceType.FW7 ?
+					m_fwDataSourceInfo.Name : m_dataSourceFile);
+			}
+			set
+			{
+				if (m_fwDataSourceInfo == null || m_dataSourceType != DataSourceType.FW7)
+					m_dataSourceFile = value;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the type of the data source. (The setter is only for XML deserialization.)
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public DataSourceType DataSourceType { get; set; }
+				if (LastModification == default(DateTime) && File.Exists(m_dataSourceFile))
+					LastModification = File.GetLastWriteTimeUtc(m_dataSourceFile);
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -333,19 +326,44 @@ namespace SIL.Pa.DataSource
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the FW6 (or older) data source info. object. The setter for this is only for
-		/// deserialization.
+		/// Gets the type of the data source. (The setter is only for XML deserialization.)
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Fw6DataSourceInfo Fw6DataSourceInfo { get; set; }
+		public DataSourceType DataSourceType
+		{
+			get { return m_dataSourceType; }
+			set
+			{
+				m_dataSourceType = value;
+				SetFwDataSourceInfoType();
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the FW7 (or newer) data source info. object. The setter for this is only for
+		/// Gets the FieldWorks data source info. object. The setter for this is only for
 		/// deserialization.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Fw7DataSourceInfo Fw7DataSourceInfo { get; set; }
+		public FwDataSourceInfo FwDataSourceInfo
+		{
+			get { return m_fwDataSourceInfo; }
+			set
+			{
+				m_fwDataSourceInfo = value;
+				SetFwDataSourceInfoType();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void SetFwDataSourceInfoType()
+		{
+			if (m_fwDataSourceInfo != null &&
+				(m_dataSourceType == DataSourceType.FW || m_dataSourceType == DataSourceType.FW7))
+			{
+ 				m_fwDataSourceInfo.DataSourceType = m_dataSourceType;
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -356,7 +374,7 @@ namespace SIL.Pa.DataSource
 		[XmlIgnore]
 		public bool FwSourceDirectFromDB
 		{
-			get { return Fw6DataSourceInfo != null; }
+			get { return FwDataSourceInfo != null; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -365,17 +383,27 @@ namespace SIL.Pa.DataSource
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string FwDBName { get; set; }
+		public string FwPrjName { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets a value indicating whether or not a data source file should be
 		/// loaded. This only gets set to true when the user first opens a project with one or
 		/// more data source files that cannot be found and the user chooses to skip loading
-		/// those for the current instance of PA. This value is not persisted.
+		/// those for the current instance of PA.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
+		public bool SkipLoadingBecauseOfProblem { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets a value indicating whether or not a data source file should be
+		/// loaded. This is a persisted value the user can control on the project settings
+		/// dialog box. It allows the user to keep a data source in the project, but
+		/// temporarily prevent it from being loaded.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public bool SkipLoading { get; set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -475,6 +503,33 @@ namespace SIL.Pa.DataSource
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Updates the date/time the data source was last modified. The return value is a
+		/// flag indicating whether or not the new value is different from the previous.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool UpdateLastModifiedTime()
+		{
+			if (DataSourceType == DataSourceType.FW && FwSourceDirectFromDB)
+				return m_fwDataSourceInfo.UpdateLastModifiedTime();
+
+			// We don't have a way to get the last modified time for server-based projects.
+			// TODO: Figure out how to deal with getting modifed time for server-based projects.
+			if (DataSourceType == DataSourceType.FW7 && m_fwDataSourceInfo.IsMultiAccessProject)
+				return false;
+
+			var latestModification = (DataSourceType == DataSourceType.SA ?
+				SaAudioDocument.GetTranscriptionFileModifiedTime(DataSourceFile) :
+				File.GetLastWriteTimeUtc(DataSourceFile));
+
+			if (latestModification <= LastModification)
+				return false;
+
+			LastModification = latestModification;
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Get's the data source's file name or database name when the data source is 
 		/// FieldWorks data direct from a FW database.
 		/// </summary>
@@ -492,11 +547,23 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		public string ToString(bool showServerForFwDataSource)
 		{
-			switch (DataSourceType)
+			if (DataSourceType == DataSourceType.FW || DataSourceType == DataSourceType.FW7)
+				return FwDataSourceInfo.ToString(showServerForFwDataSource);
+		
+			return DataSourceFile;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Used to display the data source when progress is displayed while reading.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string DisplayTextWhenReading
+		{
+			get
 			{
-				case DataSourceType.FW: return Fw6DataSourceInfo.ToString(showServerForFwDataSource);
-				case DataSourceType.FW7: return Fw7DataSourceInfo.ToString(showServerForFwDataSource);
-				default: return DataSourceFile;
+				return (FwSourceDirectFromDB && FwDataSourceInfo != null ?
+					FwDataSourceInfo.ProjectName : Path.GetFileName(DataSourceFile));
 			}
 		}
 	}

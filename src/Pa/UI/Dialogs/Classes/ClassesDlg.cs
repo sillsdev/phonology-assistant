@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.UI.Controls;
@@ -8,16 +9,8 @@ using SilTools;
 namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class ClassesDlg : OKCancelDlgBase
 	{
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public ClassesDlg()
 		{
@@ -49,10 +42,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
@@ -77,15 +66,13 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
-			foreach (ListViewItem item in lvClasses.Items)
+			if (lvClasses.Items.Cast<ListViewItem>().Any(item => item.Text == string.Empty))
 			{
-				// Ensure any renamed classes don't have empty class names
-				if (item.Text == string.Empty)
-				{
-					Utils.MsgBox(Properties.Resources.kstidDefineClassEmptyClassName,
-						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-					return false;
-				}
+				var msg = App.LocalizeString("EmptyClassNameMsg",
+					"Class name must not be empty.", App.kLocalizationGroupMisc);
+				
+				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				return false;
 			}
 
 			lvClasses.SaveChanges();
@@ -94,19 +81,11 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override bool IsDirty
 		{
 			get	{return (lvClasses.IsDirty || base.IsDirty);}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public ClassListView ClassListView
 		{
@@ -120,7 +99,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void lvClasses_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			ClassListViewItem item = (lvClasses.SelectedItems.Count > 0 ?
+			var item = (lvClasses.SelectedItems.Count > 0 ?
 				lvClasses.SelectedItems[0] as ClassListViewItem : null);
 
 			lvClasses.LabelEdit = (item != null && item.AllowEdit);
@@ -136,7 +115,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void lvClasses_DoubleClick(object sender, EventArgs e)
 		{
-			ClassListViewItem item = (lvClasses.SelectedItems.Count > 0 ?
+			var item = (lvClasses.SelectedItems.Count > 0 ?
 				lvClasses.SelectedItems[0] as ClassListViewItem : null);
 
 			if (item != null && item.AllowEdit)
@@ -169,15 +148,15 @@ namespace SIL.Pa.UI.Dialogs
 			if (lvClasses.SelectedItems.Count == 0)
 				return;
 
-			ClassListViewItem item = lvClasses.SelectedItems[0] as ClassListViewItem;
+			var item = lvClasses.SelectedItems[0] as ClassListViewItem;
 
 			if (item == null)
 				return;
 
-			using (DefineClassDlg dlg = new DefineClassDlg(item, this))
+			using (var dlg = new DefineClassDlg(item, this))
 			{
 				//dlg.TxtClassName.Enabled = false;
-				DialogResult result = dlg.ShowDialog(this);
+				var result = dlg.ShowDialog(this);
 				if (result == DialogResult.Yes || result == DialogResult.OK)
 				{
 					item.Copy(dlg.ClassInfo);
@@ -199,19 +178,11 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void cmnuAddCharClass_Click(object sender, EventArgs e)
 		{
 			AddClass(SearchClassType.Phones);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void cmnuAddArtFeatureClass_Click(object sender, EventArgs e)
 		{
@@ -219,28 +190,20 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void cmnuAddBinFeatureClass_Click(object sender, EventArgs e)
 		{
 			AddClass(SearchClassType.Binary);
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void AddClass(SearchClassType type)
 		{
-			using (DefineClassDlg dlg = new DefineClassDlg(type, this))
+			using (var dlg = new DefineClassDlg(type, this))
 			{
-				DialogResult result = dlg.ShowDialog(this);
+				var result = dlg.ShowDialog(this);
 				if (result == DialogResult.Yes || result == DialogResult.OK)
 				{
-					ClassListViewItem item = dlg.ClassInfo;
+					var item = dlg.ClassInfo;
 					item.SubItems.Add(new ListViewItem.ListViewSubItem());
 					item.SubItems.Add(new ListViewItem.ListViewSubItem());
 					CopyAndInsertItem(item, null);
@@ -256,28 +219,30 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void btnCopy_Click(object sender, EventArgs e)
 		{
-			if (lvClasses.SelectedItems.Count > 0)
-			{
-				ClassListViewItem item = lvClasses.SelectedItems[0] as ClassListViewItem;
-				if (item != null)
-				{
-					string baseName =
-						string.Format(Properties.Resources.kstidClassCopyOfPrefix, item.Text);
+			if (lvClasses.SelectedItems.Count <= 0)
+				return;
 
-					string newName = baseName;
+			var item = lvClasses.SelectedItems[0] as ClassListViewItem;
+			if (item == null)
+				return;
 
-					int i = 1;
-					while (lvClasses.DoesClassNameExist(newName, null, false))
-					{
-						newName = string.Format(Properties.Resources.kstidClassCopyNameFormat,
-							baseName, i++);
-					}
+			var fmt = App.LocalizeString("ClassesDlg.CopyClassPrefix", "Copy of {0}",
+				"Prefix for names of copied items", App.kLocalizationGroupDialogs);
 
-					item = CopyAndInsertItem(item, newName);
-					lvClasses.LabelEdit = true;
-					item.BeginEdit();
-				}
-			}
+			string baseName = string.Format(fmt, item.Text);
+			string newName = baseName;
+
+			fmt = App.LocalizeString("ClassesDlg.CopyClassNameFormat", "{0} ({1:D2})",
+				"Format for name of copied class. First parameter is the copied class name and second is a two digit number to make the name unique.",
+				App.kLocalizationGroupDialogs);
+
+			int i = 1;
+			while (lvClasses.DoesClassNameExist(newName, null, false))
+				newName = string.Format(fmt, baseName, i++);
+
+			item = CopyAndInsertItem(item, newName);
+			lvClasses.LabelEdit = true;
+			item.BeginEdit();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -303,7 +268,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (item == null)
 				return null;
 
-			ClassListViewItem newItem = new ClassListViewItem(item);
+			var newItem = new ClassListViewItem(item);
 			//newItem.Id = 0;
 			
 			if (className != null)
