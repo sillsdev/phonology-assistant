@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Serialization;
 using SIL.Pa.PhoneticSearching;
 
@@ -392,14 +393,9 @@ namespace SIL.Pa.Model
 		/// Returns true if the SortInformationList contains the specified field.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool Contains(string sortField)
+		public bool Contains(string sortFieldName)
 		{
-			foreach (SortInformation info in this)
-			{
-				if (info.FieldInfo.FieldName == sortField)
-					return true;
-			}
-			return false;
+			return this.Any(info => info.Field.Name == sortFieldName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -407,11 +403,11 @@ namespace SIL.Pa.Model
 		/// Returns the index of the SortInformation object for the specified field.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public int IndexOf(string sortField)
+		public int IndexOf(string sortFieldName)
 		{
 			for (int i = 0; i < Count; i++)
 			{
-				if (this[i].FieldInfo.FieldName == sortField)
+				if (this[i].Field.Name == sortFieldName)
 					return i;
 			}
 
@@ -429,37 +425,25 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class SortInformation
 	{
-		public PaFieldInfo FieldInfo;
+		public PaField Field;
 		public bool ascending;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SortInformation()
 		{
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public SortInformation(PaFieldInfo fieldInfo, bool sortDirection)
+		public SortInformation(PaField field, bool sortDirection)
 		{
-			FieldInfo = fieldInfo;
+			Field = field;
 			ascending = sortDirection;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			return FieldInfo.FieldName + ": " + (ascending ? "Ascending" : "Descending");
+			return Field.Name + ": " + (ascending ? "Ascending" : "Descending");
 		}
 	}
 
@@ -510,11 +494,9 @@ namespace SIL.Pa.Model
 			// Default sort is by point of articulation and phonetic field.
 			SortType = PhoneticSortType.POA;
 
-			if (initializeWithPhonetic && App.FieldInfo != null &&
-				App.FieldInfo.PhoneticField != null)
-			{
-				SetPrimarySortField(App.FieldInfo.PhoneticField, false, true);
-			}
+			var field = App.Fields.SingleOrDefault(f => f.Type == FieldType.Phonetic);
+			if (initializeWithPhonetic && field != null)
+				SetPrimarySortField(field, false, true);
 		}
 
 		#endregion
@@ -540,10 +522,8 @@ namespace SIL.Pa.Model
 			if (m_sortInfoList != null)
 			{
 				// This should copy each element since each element is a struct, not a ref. type.
-				SortInformationList siList = new SortInformationList();
-				foreach (SortInformation info in m_sortInfoList)
-					siList.Add(info);
-
+				var siList = new SortInformationList();
+				siList.AddRange(m_sortInfoList);
 				clone.m_sortInfoList = siList;
 			}
 
@@ -610,19 +590,16 @@ namespace SIL.Pa.Model
 		/// info. list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void SyncFieldInfo(PaFieldInfoList fieldInfoList)
+		public void SyncFieldInfo(IEnumerable<PaField> fields)
 		{
-			if (fieldInfoList == null)
+			if (fields == null)
 				return;
 
-			for (int i = 0; i < m_sortInfoList.Count; i++)
+			foreach (var sortInfo in m_sortInfoList.Where(si => si != null))
 			{
-				if (m_sortInfoList[i].FieldInfo != null)
-				{
-					PaFieldInfo fieldInfo = fieldInfoList[m_sortInfoList[i].FieldInfo.FieldName];
-					if (fieldInfo != null && fieldInfo != m_sortInfoList[i].FieldInfo)
-						m_sortInfoList[i].FieldInfo = fieldInfo;
-				}
+				var field = fields.SingleOrDefault(f => f.Name == sortInfo.Field.Name);
+				if (field != null && field != sortInfo.Field)
+					sortInfo.Field = field;
 			}
 		}
 
@@ -633,8 +610,8 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public bool SetPrimarySortField(string newPrimarySortField, bool changeDirection)
 		{
-			return SetPrimarySortField(App.Project.FieldInfo[newPrimarySortField],
-				changeDirection);
+			var field = App.Project.Fields.Single(f => f.Name == newPrimarySortField);
+			return SetPrimarySortField(field, changeDirection);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -642,9 +619,9 @@ namespace SIL.Pa.Model
 		/// Makes the specified field the first, or primary, field on which to sort.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool SetPrimarySortField(PaFieldInfo fieldInfo, bool changeDirection)
+		public bool SetPrimarySortField(PaField field, bool changeDirection)
 		{
-			return SetPrimarySortField(fieldInfo, changeDirection, false);
+			return SetPrimarySortField(field, changeDirection, false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -652,12 +629,12 @@ namespace SIL.Pa.Model
 		/// Makes the specified field the first, or primary, field on which to sort.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool SetPrimarySortField(PaFieldInfo fieldInfo, bool changeDirection, bool ascending)
+		public bool SetPrimarySortField(PaField field, bool changeDirection, bool ascending)
 		{
-			if (fieldInfo == null)
+			if (field == null)
 				return ascending;
 
-			int index = m_sortInfoList.IndexOf(fieldInfo.FieldName);
+			int index = m_sortInfoList.IndexOf(field.Name);
 
 			// If the sort information list already contains an item for the specified field,
 			// we need to remove it before reinserting it at the beginning of the list.
@@ -672,7 +649,7 @@ namespace SIL.Pa.Model
 
 			// Now insert an item at the beginning of the list since the specified field
 			// has now become the first (i.e. primary) field on which to sort.
-			m_sortInfoList.Insert(0, new SortInformation(fieldInfo, ascending));
+			m_sortInfoList.Insert(0, new SortInformation(field, ascending));
 
 			return ascending;
 		}
@@ -726,13 +703,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public SortInformationList SortInformationList
 		{
-			get 
-			{
-				if (m_sortInfoList == null)
-					m_sortInfoList = new SortInformationList();
-				
-				return m_sortInfoList; 
-			}
+			get { return m_sortInfoList ?? (m_sortInfoList = new SortInformationList()); }
 			set { m_sortInfoList = value; }
 		}
 

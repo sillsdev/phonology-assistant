@@ -38,7 +38,7 @@ namespace SIL.Pa.Processing
 		protected OutputFormat m_outputFormat;
 		protected readonly string m_groupedFieldName;
 		protected readonly DataGridViewColumn m_groupByColumn;
-		protected readonly PaFieldInfo m_groupByField;
+		protected readonly PaField m_groupByField;
 		protected readonly bool m_isGridGrouped;
 		protected readonly PaProject m_project;
 
@@ -124,10 +124,11 @@ namespace SIL.Pa.Processing
 						where x.Visible && x.DisplayIndex > groupByColIndex
 						select x).Count();
 
-				m_groupByField = (grid.Cache.IsCIEList ? App.FieldInfo.PhoneticField :
+				var field = App.Fields.Single(f => f.Type == FieldType.Phonetic);
+				m_groupByField = (grid.Cache.IsCIEList ? field :
 					((PaWordListGrid)m_grid).GroupByField);
 
-				m_groupedFieldName = ProcessHelper.MakeAlphaNumeric(m_groupByField.DisplayText);
+				m_groupedFieldName = ProcessHelper.MakeAlphaNumeric(m_groupByField.DisplayName);
 			}
 		}
 
@@ -185,10 +186,6 @@ namespace SIL.Pa.Processing
 			return result;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		void BeforePipelineStepProcessed(Pipeline pipeline, Step step)
 		{
@@ -306,10 +303,6 @@ namespace SIL.Pa.Processing
 
 		#region Methods for getting the rows, columns and field info. for the grid
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual IEnumerable<DataGridViewColumn> GetGridColumns()
 		{
 			return from x in m_grid.Columns.Cast<DataGridViewColumn>()
@@ -329,22 +322,14 @@ namespace SIL.Pa.Processing
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual IEnumerable<KeyValuePair<string, Font>> GetFormattingFieldInfo()
 		{
-			foreach (DataGridViewColumn col in GetGridColumns())
-				yield return new KeyValuePair<string, Font>(col.HeaderText, col.DefaultCellStyle.Font);
+			return GetGridColumns().Select(col =>
+				new KeyValuePair<string, Font>(col.HeaderText, col.DefaultCellStyle.Font));
 		}
 
 		#endregion
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual MemoryStream CreateInputFileToTransformPipeline(bool writeStreamToDisk)
 		{

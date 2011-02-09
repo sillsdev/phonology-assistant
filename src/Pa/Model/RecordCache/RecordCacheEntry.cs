@@ -53,9 +53,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public RecordCacheEntry(bool newFromParsingSFMFile) : this()
 		{
-			m_fieldValues = App.FieldInfo.ToDictionary(fi => fi.FieldName,
-				fi => new PaFieldValue(fi.FieldName));
-
+			m_fieldValues = App.Fields.ToDictionary(f => f.Name, f => new PaFieldValue(f.Name));
 			CanBeEditedInToolbox = newFromParsingSFMFile;
 		}
 
@@ -65,16 +63,16 @@ namespace SIL.Pa.Model
 		/// the name of the data source path field.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void InitializeDataSourceFields(PaFieldInfoList fieldInfoList)
+		public static void InitializeDataSourceFields(IEnumerable<PaField> fields)
 		{
-			if (fieldInfoList == null)
+			if (fields == null)
 				return;
 
-			var fieldInfo = fieldInfoList.DataSourceField;
+			var fieldInfo = fields.DataSourceField;
 			if (fieldInfo != null)
 				s_dataSourceFieldName = fieldInfo.FieldName;
 
-			fieldInfo = fieldInfoList.DataSourcePathField;
+			fieldInfo = fields.DataSourcePathField;
 			if (fieldInfo != null)
 				s_dataSourcePathFieldName = fieldInfo.FieldName;
 		}
@@ -127,11 +125,11 @@ namespace SIL.Pa.Model
 		/// fields or deferring to the record's word entries if necessary.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string GetValue(string field)
+		public string GetValue(string fieldName)
 		{
 			// If the data source file path is being requested then defer
 			// to the record's data source object to get that information.
-			if (field == s_dataSourcePathFieldName)
+			if (fieldName == s_dataSourcePathFieldName)
 			{
 				return (DataSource.DataSourceType == DataSourceType.FW &&
 					DataSource.FwSourceDirectFromDB ? DataSource.FwDataSourceInfo.Server :
@@ -140,7 +138,7 @@ namespace SIL.Pa.Model
 
 			// If the data source name is being requested then defer to
 			// the record's data source object to get that information.
-			if (field == s_dataSourceFieldName)
+			if (fieldName == s_dataSourceFieldName)
 			{
 				return (DataSource.DataSourceType == DataSourceType.FW &&
 					DataSource.FwSourceDirectFromDB ? DataSource.FwDataSourceInfo.ToString() :
@@ -148,12 +146,12 @@ namespace SIL.Pa.Model
 			}
 
 			PaFieldValue fieldValue;
-			if (m_fieldValues.TryGetValue(field, out fieldValue) && fieldValue.Value != null)
+			if (m_fieldValues.TryGetValue(fieldName, out fieldValue) && fieldValue.Value != null)
 				return fieldValue.Value;
 
 			// If the field isn't in the word cache entry's values, check if it's a parsed field.
-			var fieldInfo = App.FieldInfo[field];
-			if (fieldInfo == null || !fieldInfo.IsParsed)
+			var field = App.Fields.SingleOrDefault(f => f.Name == fieldName);
+			if (field == null || !field.IsParsed)
 				return null;
 
 			// At this point, we know 2 things: 1) either this record cache entry doesn't
@@ -172,7 +170,7 @@ namespace SIL.Pa.Model
 			{
 				foreach (var wentry in WordEntries)
 				{
-					words.Append(wentry.GetField(field, false));
+					words.Append(wentry.GetField(fieldName, false));
 					words.Append(' ');
 				}
 			}

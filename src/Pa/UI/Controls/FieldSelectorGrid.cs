@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -76,33 +77,30 @@ namespace SIL.Pa.UI.Controls
 			Rows.Clear();
 
 			// Build a sorted list based on display index.
-			foreach (PaFieldInfo fieldInfo in App.FieldInfo)
+			foreach (var field in App.Fields.Where(f =>
+				(!forGrid && f.DisplayIndexInRecView >= 0) || (forGrid && f.DisplayIndexInGrid >= 0)))
 			{
-				if ((!forGrid && fieldInfo.DisplayIndexInRecView >= 0) ||
-					(forGrid && fieldInfo.DisplayIndexInGrid >= 0))
+				int order = -1;
+				bool check = false;
+
+				if (!forGrid)
 				{
-					int order = -1;
-					bool check = false;
+					order = field.DisplayIndexInRecView;
+					check = field.VisibleInRecView;
+				}
+				else if (includeHiddenFields || field.VisibleInGrid)
+				{
+					order = field.DisplayIndexInGrid;
+					check = field.VisibleInGrid;
+				}
 
-					if (!forGrid)
-					{
-						order = fieldInfo.DisplayIndexInRecView;
-						check = fieldInfo.VisibleInRecView;
-					}
-					else if (includeHiddenFields || fieldInfo.VisibleInGrid)
-					{
-						order = fieldInfo.DisplayIndexInGrid;
-						check = fieldInfo.VisibleInGrid;
-					}
+				if (order != -1)
+				{
+					Rows.Add(new object[] { check, field.ToString(), order });
+					Rows[Rows.Count - 1].Tag = field.Name;
 
-					if (order != -1)
-					{
-						Rows.Add(new object[] { check, fieldInfo.ToString(), order });
-						Rows[Rows.Count - 1].Tag = fieldInfo.FieldName;
-
-						if (fieldInfo.IsPhonetic)
-							m_phoneticRow = Rows[Rows.Count - 1];
-					}
+					if (field.Type == FieldType.Phonetic)
+						m_phoneticRow = Rows[Rows.Count - 1];
 				}
 			}
 
@@ -271,16 +269,16 @@ namespace SIL.Pa.UI.Controls
 		/// Gets a collection of the checked fields.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaFieldInfoList CheckedFields
+		public IEnumerable<PaField> CheckedFields
 		{
 			get
 			{
-				PaFieldInfoList checkedList = new PaFieldInfoList();
+				var checkedList = new List<PaField>();
 				foreach (DataGridViewRow row in Rows)
 				{
 					string fieldName = row.Tag as string;
 					if (fieldName != null && (bool)row.Cells[kCheckCol].Value)
-						checkedList.Add(App.Project.FieldInfo[fieldName]);
+						checkedList.Add(App.Project.Fields.Single(f => f.Name == fieldName));
 				}
 
 				return checkedList;
@@ -339,13 +337,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				foreach (DataGridViewRow row in Rows)
-				{
-					if (row.Index > 0 && (bool)row.Cells[kCheckCol].Value)
-						return true;
-				}
-
-				return false;
+				return Rows.Cast<DataGridViewRow>().Any(row => row.Index > 0 && (bool)row.Cells[kCheckCol].Value);
 			}
 		}
 
@@ -359,16 +351,7 @@ namespace SIL.Pa.UI.Controls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool AreAllItemsChecked
 		{
-			get
-			{
-				foreach (DataGridViewRow row in Rows)
-				{
-					if (row.Index > 0 && !((bool)row.Cells[kCheckCol].Value))
-						return false;
-				}
-
-				return true;
-			}
+			get { return Rows.Cast<DataGridViewRow>().All(row => row.Index <= 0 || ((bool)row.Cells[kCheckCol].Value)); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -381,17 +364,7 @@ namespace SIL.Pa.UI.Controls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public int CheckedItemCount
 		{
-			get
-			{
-				int count = 0;
-				foreach (DataGridViewRow row in Rows)
-				{
-					if (row.Index > 0 && (bool)row.Cells[kCheckCol].Value)
-						count++;
-				}
-
-				return count;
-			}
+			get { return Rows.Cast<DataGridViewRow>().Count(row => row.Index > 0 && (bool)row.Cells[kCheckCol].Value); }
 		}
 
 		/// ------------------------------------------------------------------------------------

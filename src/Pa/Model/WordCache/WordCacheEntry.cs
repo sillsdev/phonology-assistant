@@ -61,19 +61,11 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public WordCacheEntry(RecordCacheEntry recEntry, bool allocateSpaceForFieldValues) :
 			this(recEntry, 0, allocateSpaceForFieldValues)
 		{
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public WordCacheEntry(RecordCacheEntry recEntry, int wordIndex,
 			bool allocateSpaceForFieldValues)
@@ -86,14 +78,11 @@ namespace SIL.Pa.Model
 
 			m_fieldValues = new Dictionary<string, PaFieldValue>();
 
-			foreach (PaFieldInfo fieldInfo in App.FieldInfo)
+			foreach (var field in App.Fields.Where(f => f.IsParsed))
 			{
-				if (fieldInfo.IsParsed)
-				{
-					m_fieldValues[fieldInfo.FieldName] = new PaFieldValue(fieldInfo.FieldName);
-					if (fieldInfo.IsPhonetic)
-						m_phoneticValue = m_fieldValues[fieldInfo.FieldName];
-				}
+				m_fieldValues[field.Name] = new PaFieldValue(field.Name);
+				if (field.Type == FieldType.Phonetic)
+					m_phoneticValue = m_fieldValues[field.Name];
 			}
 		}
 
@@ -364,14 +353,15 @@ namespace SIL.Pa.Model
 				return;
 
 			m_fieldValues = new Dictionary<string, PaFieldValue>();
-			foreach (PaFieldValue fieldValue in m_fieldValuesList)
+			
+			foreach (var fieldValue in m_fieldValuesList)
 			{
 				m_fieldValues[fieldValue.Name] = fieldValue;
 
 				if (m_phoneticValue == null)
 				{
-					PaFieldInfo fieldInfo = App.FieldInfo[fieldValue.Name];
-					if (fieldInfo.IsPhonetic)
+					var field = App.Fields.Single(f => f.Name == fieldValue.Name);
+					if (field.Type == FieldType.Phonetic)
 					{
 						m_phoneticValue = fieldValue;
 						SetPhoneticValue(fieldValue.Value);
@@ -421,12 +411,9 @@ namespace SIL.Pa.Model
 
 			if (App.IPASymbolCache.UndefinedCharacters != null)
 			{
-				var fieldInfo = App.FieldInfo.ReferenceField;
-				if (fieldInfo != null)
-				{
-					App.IPASymbolCache.UndefinedCharacters.CurrentReference =
-						GetField(fieldInfo.FieldName, true);
-				}
+				var field = App.Fields.SingleOrDefault(f => f.Type == FieldType.Reference);
+				if (field != null)
+					App.IPASymbolCache.UndefinedCharacters.CurrentReference = GetField(field.Name, true);
 
 				App.IPASymbolCache.UndefinedCharacters.CurrentDataSourceName =
 					(RecordEntry.DataSource.DataSourceType == DataSourceType.FW &&

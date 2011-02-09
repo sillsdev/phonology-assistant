@@ -61,13 +61,14 @@ namespace SIL.Pa
 			ShowUndefinedCharsDlg = true;
 			IgnoreUndefinedCharsInSearches = true;
 			DataSources = new List<PaDataSource>();
-			if (newProject)
-			{
-				m_fieldInfoList = PaFieldInfoList.DefaultFieldInfoList;
-				m_classes = SearchClassList.LoadDefaults();
-				m_queryGroups = SearchQueryGroupList.LoadDefaults();
-				m_newProject = true;
-			}
+			
+			if (!newProject)
+				return;
+
+			m_fieldInfoList = PaFieldInfoList.DefaultFieldInfoList;
+			m_classes = SearchClassList.LoadDefaults();
+			m_queryGroups = SearchQueryGroupList.LoadDefaults();
+			m_newProject = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -310,7 +311,7 @@ namespace SIL.Pa
 				project = XmlSerializationHelper.DeserializeFromFile<PaProject>(projFileName);
 				PhoneCache.CVPatternInfoList = project.m_CVPatternInfoList;
 				project.m_fileName = projFileName;
-				project.LoadFieldInfo();
+				project.LoadFields();
 				project.VerifyDataSourceMappings();
 				RecordCacheEntry.InitializeDataSourceFields(project.FieldInfo);
 			}
@@ -415,6 +416,8 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void LoadFieldInfo()
 		{
+			// TODO: Update to new system.
+
 			try
 			{
 				bool saveAfterLoadingFields;
@@ -527,7 +530,7 @@ namespace SIL.Pa
 			
 			PhoneCache.FeatureOverrides = FeatureOverrides.Load(ProjectPathFilePrefix);
 			App.MsgMediator.SendMessage("BeforeLoadingDataSources", this);
-			DataSourceReader reader = new DataSourceReader(this);
+			var reader = new DataSourceReader(this);
 			var recCache = reader.Read();
 
 			App.InitializeProgressBar(Properties.Resources.kstidParsingDataMsg, recCache.Count);
@@ -875,6 +878,9 @@ namespace SIL.Pa
 				PhoneCache.CVPatternInfoList = value;
 			}
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<PaField> Fields { get; protected set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

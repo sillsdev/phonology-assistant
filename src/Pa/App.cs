@@ -787,6 +787,8 @@ namespace SIL.Pa
 			set { s_fieldInfo = value; }
 		}
 
+		public static IEnumerable<PaField> Fields { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the toolbar menu adapter PaMainWnd. This value should only be set

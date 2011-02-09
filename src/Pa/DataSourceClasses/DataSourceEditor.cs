@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
@@ -59,7 +60,7 @@ namespace SIL.Pa.DataSource
 		private static List<Process> s_saProcesses;
 		
 		private readonly bool m_showFwJumpUrlDlg;
-		private readonly string m_saListFileContentFmt = "[Settings]\nCallingApp={0}\n" +
+		private const string kSaListFileContentFmt = "[Settings]\nCallingApp={0}\n" +
 			"[AudioFiles]\nFile0={1}\n[BeginningWAVOffsets]\nOffset0={2}\n" +
 			"[EndingWAVOffsets]\nOffset0={3}\n[Commands]\nCommand0=SelectFile(0)";
 
@@ -373,18 +374,18 @@ namespace SIL.Pa.DataSource
 		{
 			// Get the utterance's offset.
 			ulong offset;
-			PaFieldInfo fieldInfo = App.FieldInfo.AudioFileOffsetField;
-			if (fieldInfo == null || !ulong.TryParse(wcentry[fieldInfo.FieldName], out offset))
+			var field = App.Fields.SingleOrDefault(f => f.Type == FieldType.AudioOffset);
+			if (field == null || !ulong.TryParse(wcentry[field.Name], out offset))
 				offset = 0;
 
 			// Get the utterance's length.
 			ulong length;
-			fieldInfo = App.FieldInfo.AudioFileLengthField;
-			if (fieldInfo == null || !ulong.TryParse(wcentry[fieldInfo.FieldName], out length))
+			field = App.Fields.SingleOrDefault(f => f.Type == FieldType.AudioLength);
+			if (field == null || !ulong.TryParse(wcentry[field.Name], out length))
 				length = 0;
 
 			// Create the contents for the SA list file.
-			string saListFileContent = string.Format(m_saListFileContentFmt,
+			string saListFileContent = string.Format(kSaListFileContentFmt,
 				new object[] { callingApp, audioFile, offset, offset + length });
 			saListFileContent = Utils.ConvertLiteralNewLines(saListFileContent);
 

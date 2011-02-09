@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 using System.Text.RegularExpressions;
 using SIL.Pa.Model;
@@ -144,12 +145,12 @@ namespace SIL.Pa.Filters
 
 			if (!m_fieldTypeDetermined)
 			{
-				PaFieldInfo fieldInfo = App.FieldInfo[FieldName];
-				if (fieldInfo != null)
+				var field = App.Fields.SingleOrDefault(f => f.Name == FieldName);
+				if (field != null)
 				{
-					m_fieldIsDate = fieldInfo.IsDate;
-					m_fieldIsNumeric = fieldInfo.IsNumeric ||
-						fieldInfo.IsAudioLength || fieldInfo.IsAudioOffset;
+					m_fieldIsDate = (field.Type == FieldType.Date);
+					m_fieldIsNumeric = (field.Type == FieldType.GeneralNumeric ||
+						field.Type == FieldType.AudioLength || field.Type == FieldType.AudioOffset);
 					m_fieldTypeDetermined = true;
 				}
 			}

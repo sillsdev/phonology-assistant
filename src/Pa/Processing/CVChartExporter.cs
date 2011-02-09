@@ -136,14 +136,10 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<KeyValuePair<string, Font>> GetFormattingFieldInfo()
 		{
-			yield return new KeyValuePair<string, Font>("Phonetic",
-				App.FieldInfo.PhoneticField.Font);
+			var fnt = App.Fields.Single(f => f.Type == Model.FieldType.Phonetic).Font;
+			yield return new KeyValuePair<string, Font>("Phonetic", fnt);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -155,7 +151,7 @@ namespace SIL.Pa.Processing
 		{
 			ProcessHelper.WriteColumnGroup(m_writer, 1);
 
-			for (int i = 0; i < ((CVChartGrid)m_grid).ColumnGroups.Count; i++)
+			foreach (var grp in ((CVChartGrid) m_grid).ColumnGroups)
 				ProcessHelper.WriteColumnGroup(m_writer, 2);
 		}
 

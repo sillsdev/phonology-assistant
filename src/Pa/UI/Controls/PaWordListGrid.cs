@@ -42,7 +42,7 @@ namespace SIL.Pa.UI.Controls
 		private AudioPlayer m_audioPlayer;
 		private int m_playbackSpeed;
 		private string m_dataSourcePathFieldName;
-		private PaFieldInfo m_groupByField;
+		private PaField m_groupByField;
 		private Label m_noCIEResultsMsg;
 		private ToolTip m_audioFilePathToolTip;
 
@@ -581,7 +581,7 @@ namespace SIL.Pa.UI.Controls
 				itemProps.CommandId = "CmdGroupByField";
 				itemProps.Text = col.HeaderText;
 				itemProps.Name = col.Name;
-				itemProps.Checked = (GroupByField != null && GroupByField.FieldName == col.Name);
+				itemProps.Checked = (GroupByField != null && GroupByField.Name == col.Name);
 				tmAdapter.AddMenuItem(itemProps, parentItem, null);
 			}
 		}
@@ -600,7 +600,7 @@ namespace SIL.Pa.UI.Controls
 				return false;
 			}
 
-			GroupByField = App.FieldInfo[itemProps.Name];
+			GroupByField = App.Fields.SingleOrDefault(f => f.Name == itemProps.Name);
 			return true;
 		}
 
@@ -742,14 +742,14 @@ namespace SIL.Pa.UI.Controls
 				// Add the sortGlyph direction
 				if (m_sortOptions.SortInformationList.Count > 0)
 				{
-					string colName = m_sortOptions.SortInformationList[0].FieldInfo.FieldName;
+					string colName = m_sortOptions.SortInformationList[0].Field.Name;
 
 					Columns[colName].HeaderCell.SortGlyphDirection =
 						(m_sortOptions.SortInformationList[0].ascending ?
 						SortOrder.Ascending : SortOrder.Descending);
 
 					if (m_groupByField != null)
-						m_groupByField = m_sortOptions.SortInformationList[0].FieldInfo;
+						m_groupByField = m_sortOptions.SortInformationList[0].Field;
 				}
 
 				m_cache.Sort(m_sortOptions);
@@ -762,21 +762,13 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public DataGridViewColumn GroupByColumn
 		{
-			get { return (m_groupByField == null ? null : Columns[m_groupByField.FieldName]); }
+			get { return (m_groupByField == null ? null : Columns[m_groupByField.Name]); }
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public virtual PaFieldInfo GroupByField
+		public virtual PaField GroupByField
 		{
 			get	{return m_groupByField;}
 			set
@@ -1068,9 +1060,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
 		{
-			if (e.CellStyle.Font != Columns[e.ColumnIndex].DefaultCellStyle.Font)
-				e.CellStyle.Font = Columns[e.ColumnIndex].DefaultCellStyle.Font;
-
+			e.CellStyle.Font = Columns[e.ColumnIndex].DefaultCellStyle.Font;
 			App.SetCellColors(this, e);
 			base.OnCellFormatting(e);
 		}
@@ -2540,7 +2530,7 @@ namespace SIL.Pa.UI.Controls
 			if (IsGroupedByField && !Cache.IsCIEList)
 			{
 				allGroupCollapsed = AllGroupsCollapsed;
-				PaFieldInfo groupByField = m_groupByField;
+				var groupByField = m_groupByField;
 				//ToggleGroupExpansion(true);
 				m_groupByField = null;
 				WordListGroupingBuilder.UnGroup(this);
@@ -2550,7 +2540,7 @@ namespace SIL.Pa.UI.Controls
 				if (SortOptions.SortInformationList != null &&
 					SortOptions.SortInformationList.Count > 0)
 				{
-					m_groupByField = SortOptions.SortInformationList[0].FieldInfo;
+					m_groupByField = SortOptions.SortInformationList[0].Field;
 				}
 			}
 
@@ -2916,9 +2906,9 @@ namespace SIL.Pa.UI.Controls
 					// Check if the CV pattern is one of the fields on which the list
 					// is sorted. If it is, then resort the word list. This will also
 					// regroup the list if it's grouped.
-					if (m_sortOptions.SortInformationList.Any(si => si.FieldInfo == fieldInfo))
+					if (m_sortOptions.SortInformationList.Any(si => si.Field == fieldInfo))
 					{
-						Sort(m_sortOptions.SortInformationList[0].FieldInfo.FieldName, false);
+						Sort(m_sortOptions.SortInformationList[0].Field.Name, false);
 						resorted = true;
 					}
 				}
@@ -2978,8 +2968,8 @@ namespace SIL.Pa.UI.Controls
 			// If the column that was grouped on is no longer visible, then ungroup.
 			if (m_groupByField != null)
 			{
-				if (!Columns.Contains(m_groupByField.FieldName) ||
-					!Columns[m_groupByField.FieldName].Visible)
+				if (!Columns.Contains(m_groupByField.Name) ||
+					!Columns[m_groupByField.Name].Visible)
 				{
 					GroupByField = null;
 				}
@@ -2993,7 +2983,7 @@ namespace SIL.Pa.UI.Controls
 			bool reSort = false;
 			for (int i = SortOptions.SortInformationList.Count - 1; i >= 0; i--)
 			{
-				string fldName = SortOptions.SortInformationList[i].FieldInfo.FieldName;
+				string fldName = SortOptions.SortInformationList[i].Field.Name;
 
 				if (!Columns.Contains(fldName) || !Columns[fldName].Visible)
 				{
@@ -3008,7 +2998,7 @@ namespace SIL.Pa.UI.Controls
 			if (SortOptions.SortInformationList.Count > 0)
 			{
 				// Sort on the first column in the sort option's field list.
-				Sort(SortOptions.SortInformationList[0].FieldInfo.FieldName, false);
+				Sort(SortOptions.SortInformationList[0].Field.Name, false);
 				return;
 			}
 
