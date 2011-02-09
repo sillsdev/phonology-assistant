@@ -98,7 +98,7 @@ namespace SilTools
 				{
 					if (m_fKeepWhitespaceInElements && 
 						(base.NodeType == XmlNodeType.Whitespace || base.NodeType == XmlNodeType.SignificantWhitespace) && 
-						Value != null && Value.IndexOf('\n') < 0 && Value.Trim().Length == 0)
+						Value.IndexOf('\n') < 0 && Value.Trim().Length == 0)
 					{
 						// We found some whitespace that was most
 						// likely whitespace we want to keep.
@@ -186,19 +186,11 @@ namespace SilTools
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static bool SerializeToFile<T>(string filename, T data)
 		{
 			return SerializeToFile(filename, data, null);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static bool SerializeToFile<T>(string filename, T data, out Exception e)
 		{

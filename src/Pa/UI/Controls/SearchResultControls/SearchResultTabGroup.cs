@@ -8,6 +8,7 @@ using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
 using SilTools;
+using SilTools.Controls;
 
 namespace SIL.Pa.UI.Controls
 {

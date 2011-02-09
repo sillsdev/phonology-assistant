@@ -5,9 +5,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using SIL.Pa.DataSource.Sa;
 using SIL.Pa.UI.Dialogs;
 using SilTools;
-using SIL.SpeechTools.Utils;
 
 namespace SIL.Pa
 {
@@ -139,7 +139,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static long MillisecondValueToBytes(long millisecondVal, string filename)
 		{
-			using (AudioReader reader = new AudioReader())
+			using (var reader = new AudioReader())
 			{
 				if (reader.Initialize(filename) == AudioReader.InitResult.FileNotFound)
 					return 0;

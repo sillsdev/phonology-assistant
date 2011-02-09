@@ -3066,5 +3066,63 @@ namespace SIL.Pa.Properties {
                 this["ShowLoadColumnInProjectSettingsDlg"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("hi ni nini/this what")]
+        public string SFMNoParseOptionSampleOutput {
+            get {
+                return ((string)(this["SFMNoParseOptionSampleOutput"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("hi/this#ni/what#nini/")]
+        public string SFMOneToOneParseOptionSampleOutput {
+            get {
+                return ((string)(this["SFMOneToOneParseOptionSampleOutput"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("hi/this what#ni/this what#nini/this what")]
+        public string SFMPhoneticParseOptionSampleOutput {
+            get {
+                return ((string)(this["SFMPhoneticParseOptionSampleOutput"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("mimi/1S/pro#napenda/PRES- like/TEMP- v#watoto./P HUM-  child/prf-   n")]
+        public string SFMInterlinearParseOptionSampleOutput {
+            get {
+                return ((string)(this["SFMInterlinearParseOptionSampleOutput"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"{\rtf1\ansi{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+\uc1\pard\tx360\tx900\tx1260\tx1440\tx1800\f0\fs16\\ph\tab mimi\tab napenda\tab watoto.\par
+\pard\tx360\tx900\tx1440\tx1800\tx2520\\gl\tab 1S\tab PRES-\tab like\tab P HUM-\tab child\par
+\\ps\tab pro\tab TEMP-\tab v\tab prf-\tab n\par}")]
+        public string SFMInterlinearParseOptionSampleInput {
+            get {
+                return ((string)(this["SFMInterlinearParseOptionSampleInput"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("{\\rtf1\\ansi{\\fonttbl{\\f0\\fswiss\\fprq2\\fcharset0 Arial;}}\\uc1\\pard\\tx360\\tx1625\\tx" +
+            "3145\\tx4920\\f0\\fs16\\\\ph\\tab hi ni nini\\par\\\\gl\\tab this what\\par}")]
+        public string SFMBasicParseOptionSampleInput {
+            get {
+                return ((string)(this["SFMBasicParseOptionSampleInput"]));
+            }
+        }
     }
 }

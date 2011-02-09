@@ -7,10 +7,8 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.DataSource.FieldWorks;
+using SIL.Pa.DataSource.Sa;
 using SIL.Pa.Model;
-using SIL.Pa.ResourceStuff;
-using SIL.Pa.UI.Dialogs;
-using SIL.SpeechTools.Utils;
 using SilTools;
 
 namespace SIL.Pa.DataSource
@@ -25,7 +23,6 @@ namespace SIL.Pa.DataSource
 		protected RecordCache m_recCache;
 		protected RecordCacheEntry m_recCacheEntry;
 		protected PaProject m_project;
-		protected PaDataSource m_currDataSource;
 		protected List<PaDataSource> m_dataSources;
 		protected List<SFMarkerMapping> m_mappings;
 		protected Dictionary<string, List<string>> m_fieldsForMarkers;
@@ -200,15 +197,16 @@ namespace SIL.Pa.DataSource
 					switch (ds.DataSourceType)
 					{
 						case DataSourceType.Toolbox:
-						case DataSourceType.SFM: readSuccess = ReadSFMFile(); break;
-						case DataSourceType.SA: ReadSaSource(ds.DataSourceFile); break;
+						case DataSourceType.SFM: readSuccess = ReadSFMFile(ds); break;
+						case DataSourceType.SA: ReadSaSource(ds); break;
+						case DataSourceType.FW7: ReadFw7DataSource(ds); break;
 						case DataSourceType.XML: break;
 						case DataSourceType.FW:
 						case DataSourceType.PAXML:
 							if (ds.FwSourceDirectFromDB)
-								ReadFwDataSource();
+								ReadFwDataSource(ds);
 							else
-								ReadPaXmlFile();
+								ReadPaXmlFile(ds);
 							break;
 					}
 
@@ -251,7 +249,6 @@ namespace SIL.Pa.DataSource
 
 			App.IPASymbolCache.LogUndefinedCharactersWhenParsing = true;
 
-			m_currDataSource = ds;
 			var msg = App.LocalizeString("ReadingDataSourceProgressMsg", "Reading {0}", App.kLocalizationGroupInfoMsg);
 			msg = string.Format(msg, ds.DisplayTextWhenReading);
 			App.UpdateProgressBarLabel(msg);
@@ -259,24 +256,24 @@ namespace SIL.Pa.DataSource
 
 		#region PaXML/FW data source reading
 		/// ------------------------------------------------------------------------------------
-		private void ReadFwDataSource()
+		private void ReadFwDataSource(PaDataSource ds)
 		{
 			App.IncProgressBar();
 
-			if (m_currDataSource.FwDataSourceInfo != null)
-			{
-				// Get the lexical data from the FW database.
-				var fwReader = new FwDataReader(m_currDataSource.FwDataSourceInfo);
-				m_currDataSource.SkipLoadingBecauseOfProblem = !fwReader.GetData(HandleReadingFwData);
-				m_currDataSource.FwDataSourceInfo.IsMissing = m_currDataSource.SkipLoadingBecauseOfProblem;
-			
-				if (!m_currDataSource.SkipLoadingBecauseOfProblem && !m_currDataSource.FwDataSourceInfo.IsMissing)
-					m_currDataSource.UpdateLastModifiedTime();
-			}
+			if (ds.FwDataSourceInfo == null)
+				return;
+
+			// Get the lexical data from the FW database.
+			var fwReader = new FwDataReader(ds);
+			ds.SkipLoadingBecauseOfProblem = !fwReader.GetData(HandleReadingFwData);
+			ds.FwDataSourceInfo.IsMissing = ds.SkipLoadingBecauseOfProblem;
+
+			if (!ds.SkipLoadingBecauseOfProblem && !ds.FwDataSourceInfo.IsMissing)
+				ds.UpdateLastModifiedTime();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleReadingFwData(SqlDataReader reader)
+		private void HandleReadingFwData(PaDataSource ds, SqlDataReader reader)
 		{
 			if (reader == null || reader.IsClosed)
 				return;
@@ -294,7 +291,7 @@ namespace SIL.Pa.DataSource
 			{
 				// Make a new record entry.
 				m_recCacheEntry = new RecordCacheEntry(false);
-				m_recCacheEntry.DataSource = m_currDataSource;
+				m_recCacheEntry.DataSource = ds;
 				m_recCacheEntry.NeedsParsing = false;
 				m_recCacheEntry.WordEntries = new List<WordCacheEntry>();
 
@@ -307,31 +304,58 @@ namespace SIL.Pa.DataSource
 				// or word entries don't recognize, they'll just be ignored.
 				for (int i = 0; i < fieldNames.Count; i++)
 				{
-					if (!(reader[i] is DBNull) && fieldNames[i] != null)
-					{
-						m_recCacheEntry.SetValue(fieldNames[i], reader[i].ToString());
-						wentry.SetValue(fieldNames[i], reader[i].ToString());
+					if ((reader[i] is DBNull) || fieldNames[i] == null)
+						continue;
+					
+					m_recCacheEntry.SetValue(fieldNames[i], reader[i].ToString());
+					wentry.SetValue(fieldNames[i], reader[i].ToString());
 
-						if (fieldNames[i] == m_project.FieldInfo.AudioFileField.FieldName)
-						{
-							string lengthField = m_project.FieldInfo.AudioFileLengthField.FieldName;
-							string offsetField = m_project.FieldInfo.AudioFileOffsetField.FieldName;
+					if (fieldNames[i] != m_project.FieldInfo.AudioFileField.FieldName)
+						continue;
+					
+					var lengthField = m_project.FieldInfo.AudioFileLengthField.FieldName;
+					var offsetField = m_project.FieldInfo.AudioFileOffsetField.FieldName;
 
-							if (wentry[lengthField] == null)
-								wentry.SetValue(lengthField, "0");
+					if (wentry[lengthField] == null)
+						wentry.SetValue(lengthField, "0");
 	
-							if (wentry[offsetField] == null)
-								wentry.SetValue(offsetField, "0");
-						}
-					}
+					if (wentry[offsetField] == null)
+						wentry.SetValue(offsetField, "0");
 				}
 
 				// Add the entries to the caches.
 				m_recCacheEntry.WordEntries.Add(wentry);
 				m_recCache.Add(m_recCacheEntry);
 			}
+		}
 
-			m_currDataSource.UpdateLastModifiedTime();
+		/// ------------------------------------------------------------------------------------
+		private void ReadFw7DataSource(PaDataSource ds)
+		{
+			var lexEntries = FwDBUtils.GetLexEntriesFromFw7Project(ds.FwDataSourceInfo);
+
+			int eticWsHvo = ds.FwDataSourceInfo.WsMappings.Single(ws => ws.FieldName == "phonetic").WsHvo;
+
+			foreach (var entry in lexEntries.Select(lx => lx.LexemeForm.GetString(eticWsHvo)))
+			{
+				// Make a new record entry.
+				m_recCacheEntry = new RecordCacheEntry(false);
+				m_recCacheEntry.DataSource = ds;
+				m_recCacheEntry.NeedsParsing = false;
+				m_recCacheEntry.WordEntries = new List<WordCacheEntry>();
+
+				// Make a new word entry because for FW data sources read directly from the
+				// database, there will be a one-to-one correspondence between record cache
+				// entries and word cache entries.
+				var wentry = new WordCacheEntry(m_recCacheEntry, true);
+				wentry.SetValue("Phonetic", entry);
+
+				// Add the entries to the caches.
+				m_recCacheEntry.WordEntries.Add(wentry);
+				m_recCache.Add(m_recCacheEntry);
+			}
+
+			ds.UpdateLastModifiedTime();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -339,9 +363,9 @@ namespace SIL.Pa.DataSource
 		/// Reads a PA XML file into the record cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ReadPaXmlFile()
+		private void ReadPaXmlFile(PaDataSource ds)
 		{
-			var cache = RecordCache.Load(m_currDataSource);
+			var cache = RecordCache.Load(ds);
 			if (cache == null)
 				return;
 
@@ -397,80 +421,53 @@ namespace SIL.Pa.DataSource
 		/// Reads an SA sound file data source.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ReadSaSource(string audioFile)
+		private void ReadSaSource(PaDataSource ds)
 		{
-			// At this point, we know we have an SA data source to read so set the help
-			// file and help topic for the encoding conversion dialog's help button.
-			// That dialog is common to PA and SA, so take special treatment (i.e. not
-			// the way all the other PA dialog's help buttons are handled). Set the
-			// encoding conversion dialog's static variables so the proper help file and
-			// topic are jumped to if the user is presented with that dialog and chooses
-			// to click its help button.
-			TransConvertersDlg.HelpFilePath = App.HelpFilePath;
-			TransConvertersDlg.HelpTopic = HelpTopicPaths.hidTransConvertersDlg;
-
 			var reader = new SaAudioDocumentReader();
-			reader.ContinueConvertingWaveWithEmbeddedData = HandleWaveFileNeedsConverting;
-			if (!reader.Initialize(audioFile))
+			if (!reader.Initialize(ds.DataSourceFile))
 				return;
 
-			var adWords = reader.Words;
-			if (adWords == null)
+			if (reader.Words == null)
 				return;
 			
 			// Make only a single record entry for the entire wave file.
 			m_recCacheEntry = new RecordCacheEntry(false);
-			m_recCacheEntry.DataSource = m_currDataSource;
+			m_recCacheEntry.DataSource = ds;
 			m_recCacheEntry.NeedsParsing = false;
 			m_recCacheEntry.Channels = reader.Channels;
 			m_recCacheEntry.BitsPerSample = reader.BitsPerSample;
 			m_recCacheEntry.SamplesPerSecond = reader.SamplesPerSecond;
 			ReadRecLevelSaFields(reader);
 
-			var fieldInfo = App.FieldInfo.AudioFileField;
-			if (fieldInfo != null)
-				m_recCacheEntry.SetValue(fieldInfo.FieldName, audioFile);
+			var saFields = PaField.GetSaFields();
+
+			var audioField = saFields.SingleOrDefault(f => f.Type == FieldType.AudioFilePath);
+			if (audioField != null)
+				m_recCacheEntry.SetValue(audioField.Name, ds.DataSourceFile);
 
 			App.IncProgressBar();
 			int wordIndex = 0;
 			var wordEntries = new List<WordCacheEntry>();
 
-			// Go through each word, adding a word cache entry for each.
-			foreach (var adw in adWords)
+			// Get all the unparsed fields.
+			foreach (var fname in saFields.Where(f => !f.IsParsed).Select(f => f.Name))
+			{
+				var value = GetPropertyValueFromObject(typeof(SaAudioDocumentReader), fname, reader);
+				if (value != null)
+					m_recCacheEntry.SetValue(fname, value.ToString());
+			}
+
+			// Get all the parsed fields.
+			foreach (var adw in reader.Words.Values)
 			{
 				var wentry = new WordCacheEntry(m_recCacheEntry, wordIndex++, true);
-				
-				fieldInfo = App.FieldInfo.PhoneticField;
-				if (fieldInfo != null)
-					wentry[fieldInfo.FieldName] = adw.Value.Phonetic;
 
-				fieldInfo = App.FieldInfo.PhonemicField;
-				if (fieldInfo != null)
-					wentry[fieldInfo.FieldName] = adw.Value.Phonemic;
-
-				fieldInfo = App.FieldInfo.ToneField;
-				if (fieldInfo != null)
-					wentry[fieldInfo.FieldName] = adw.Value.Tone;
-
-				fieldInfo = App.FieldInfo.OrthoField;
-				if (fieldInfo != null)
-					wentry[fieldInfo.FieldName] = adw.Value.Orthographic;
-
-				fieldInfo = App.FieldInfo.GlossField;
-				if (fieldInfo != null)
-					wentry[fieldInfo.FieldName] = adw.Value.Gloss;
-
-				fieldInfo = App.FieldInfo.ReferenceField;
-				if (fieldInfo != null)
-					wentry[fieldInfo.FieldName] = adw.Value.Reference;
-
-				fieldInfo = App.FieldInfo.AudioFileLengthField;
-				if (fieldInfo != null)
-					wentry[fieldInfo.FieldName] = adw.Value.AudioLength.ToString();
-
-				fieldInfo = App.FieldInfo.AudioFileOffsetField;
-				if (fieldInfo != null)
-					wentry[fieldInfo.FieldName] = adw.Key.ToString();
+				foreach (var fname in saFields.Where(f => f.IsParsed).Select(f => f.Name))
+				{
+					var value = GetPropertyValueFromObject(typeof(AudioDocWords), fname, adw);
+					if (value != null)
+						wentry.SetValue(fname, value.ToString());
+				}
 
 				wordEntries.Add(wentry);
 			}
@@ -480,27 +477,43 @@ namespace SIL.Pa.DataSource
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static bool HandleWaveFileNeedsConverting(string filename)
+		private object GetPropertyValueFromObject(Type type, string propName, object srcObject)
 		{
-			if (AudioPlayer.GetSaPath() != null)
-				return true;
+			const BindingFlags kFlags = BindingFlags.GetProperty |
+				BindingFlags.Instance | BindingFlags.Public;
 
-			var msg = App.LocalizeString("AudioConvertProblemMsg",
-                "It appears the audio file '{0}' may have been created using an old version " +
-				"of Speech Analyzer. In order for Phonology Assistant to read data associated " +
-				"with the audio file it must first be converted using some components of " +
-				"Speech Analyzer 3.0.1, but it is not installed. Please install Speech Analyzer " +
-				"3.0.1 and try again.", "Message displayed when SA 3.0.1 is not installed and " +
-				"PA is trying to read an audio file created using a version SA older than 3.0.1.",
-				App.kLocalizationGroupInfoMsg);
-
-			msg = string.Format(msg, filename);
-
-			using (var dlg = new DownloadSaDlg(msg))
-				dlg.ShowDialog();
-
-			return false;
+			try
+			{
+				return type.InvokeMember(propName, kFlags, null, srcObject, null);
+			}
+			catch
+			{
+				return null;
+			}
 		}
+
+		///// ------------------------------------------------------------------------------------
+		//private static bool HandleWaveFileNeedsConverting(string filename)
+		//{
+		//    if (AudioPlayer.GetSaPath() != null)
+		//        return true;
+
+		//    var msg = App.LocalizeString("AudioConvertProblemMsg",
+		//        "It appears the audio file '{0}' may have been created using an old version " +
+		//        "of Speech Analyzer. In order for Phonology Assistant to read data associated " +
+		//        "with the audio file it must first be converted using some components of " +
+		//        "Speech Analyzer 3.0.1, but it is not installed. Please install Speech Analyzer " +
+		//        "3.0.1 and try again.", "Message displayed when SA 3.0.1 is not installed and " +
+		//        "PA is trying to read an audio file created using a version SA older than 3.0.1.",
+		//        App.kLocalizationGroupInfoMsg);
+
+		//    msg = string.Format(msg, filename);
+
+		//    using (var dlg = new DownloadSaDlg(msg))
+		//        dlg.ShowDialog();
+
+		//    return false;
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -509,24 +522,16 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private void ReadRecLevelSaFields(SaAudioDocumentReader reader)
 		{
-			if (m_project.FieldInfo == null)
-				return;
-
 			const BindingFlags kFlags = BindingFlags.GetProperty |
 				BindingFlags.Instance | BindingFlags.Public;
 			
-			foreach (PaFieldInfo fieldInfo in m_project.FieldInfo)
+			foreach (var fname in PaField.GetSaFields().Where(f => !f.IsParsed).Select(f => f.Name))
 			{
-				if (string.IsNullOrEmpty(fieldInfo.SaFieldName))
-					continue;
-
 				try
 				{
-					object value = typeof(SaAudioDocumentReader).InvokeMember(
-						fieldInfo.SaFieldName, kFlags, null, reader, null);
-
+					var value = typeof(SaAudioDocumentReader).InvokeMember(fname, kFlags, null, reader, null);
 					if (value != null)
-						m_recCacheEntry.SetValue(fieldInfo.FieldName, value.ToString());
+						m_recCacheEntry.SetValue(fname, value.ToString());
 				}
 				catch { }
 			}
@@ -567,15 +572,15 @@ namespace SIL.Pa.DataSource
 		/// </summary>
 		/// <returns>True indicates success</returns>
 		/// ------------------------------------------------------------------------------------
-		protected bool ReadSFMFile()
+		protected bool ReadSFMFile(PaDataSource ds)
 		{
-			var reader = new StreamReader(m_currDataSource.DataSourceFile);
+			var reader = new StreamReader(ds.DataSourceFile);
 
 			try
 			{
-				m_mappings = m_currDataSource.SFMappings;
+				m_mappings = ds.SFMappings;
 				BuildListOfFieldsForMarkers();
-				var recMarker = GetRecordMarkerSFM(m_currDataSource);
+				var recMarker = GetRecordMarkerSFM(ds);
 				if (string.IsNullOrEmpty(recMarker))
 					return false;
 
@@ -620,7 +625,7 @@ namespace SIL.Pa.DataSource
 					// finished reading the data for a single field. Therefore, save the field's
 					// data.
 					if (field.Length > 0)
-						ParseAndStoreSFMField(field.ToString());
+						ParseAndStoreSFMField(ds, field.ToString());
 
 					// Check if we've come to the beginning of a record. If so, then make sure
 					// to save the contents of the previous record and begin a new one.
@@ -643,7 +648,7 @@ namespace SIL.Pa.DataSource
 
 				// Process the final field in the file
 				if (field.Length > 0)
-					ParseAndStoreSFMField(field.ToString());
+					ParseAndStoreSFMField(ds, field.ToString());
 
 				// Save the final record in the file
 				if (m_recCacheEntry != null)
@@ -679,7 +684,7 @@ namespace SIL.Pa.DataSource
 		/// record.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ParseAndStoreSFMField(string field)
+		private void ParseAndStoreSFMField(PaDataSource ds, string field)
 		{
 			if (field == null)
 				return;
@@ -705,14 +710,14 @@ namespace SIL.Pa.DataSource
 			{
 				m_recCacheEntry = new RecordCacheEntry(true);
 				m_recCacheEntry.NeedsParsing = true;
-				m_recCacheEntry.DataSource = m_currDataSource;
-				m_recCacheEntry.FirstInterlinearField = m_currDataSource.FirstInterlinearField;
+				m_recCacheEntry.DataSource = ds;
+				m_recCacheEntry.FirstInterlinearField = ds.FirstInterlinearField;
 				m_recCacheEntry.InterlinearFields = m_interlinearFields;
 			}
 
-			PaFieldInfo audioFilefieldInfo = m_project.FieldInfo.AudioFileField;
-			PaFieldInfo offsetFieldInfo = m_project.FieldInfo.AudioFileOffsetField;
-			PaFieldInfo lengthFieldInfo = m_project.FieldInfo.AudioFileLengthField;
+			var audioFilefieldInfo = m_project.FieldInfo.AudioFileField;
+			var offsetFieldInfo = m_project.FieldInfo.AudioFileOffsetField;
+			var lengthFieldInfo = m_project.FieldInfo.AudioFileLengthField;
 
 			foreach (string fld in m_fieldsForMarkers[split[0]])
 			{

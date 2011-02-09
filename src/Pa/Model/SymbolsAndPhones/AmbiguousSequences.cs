@@ -4,16 +4,12 @@ using System.Reflection;
 using System.Xml.Serialization;
 using SilTools;
 
-/// --------------------------------------------------------------------------------------------
-/// Contains classes for handling ambiguous sequences. These classes replace what's in the file
-/// AmbiguousItemInfo.cs.
-/// --------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------
+// Contains classes for handling ambiguous sequences. These classes replace what's in the file
+// AmbiguousItemInfo.cs.
+// --------------------------------------------------------------------------------------------
 namespace SIL.Pa.Model
 {
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	[XmlType("ambiguousSequences")]
 	public class AmbiguousSequences : List<AmbiguousSeq>
@@ -205,13 +201,9 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public AmbiguousSeq GetAmbiguousSeq(string phone, bool convert)
 		{
-			foreach (AmbiguousSeq ambigSeq in this)
-			{
-				if (ambigSeq.Literal == phone)
-					return (ambigSeq.Convert || !convert ? ambigSeq : null);
-			}
-
-			return null;
+			return (from ambigSeq in this
+					where ambigSeq.Literal == phone
+					select (ambigSeq.Convert || !convert ? ambigSeq : null)).FirstOrDefault();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -241,20 +233,12 @@ namespace SIL.Pa.Model
 
 			// Create the token list if it hasn't already been built.
 			if (m_parseTokens == null)
-			{
-				m_parseTokens = new Dictionary<char, string>();
-				foreach (AmbiguousSeq seq in this)
-					m_parseTokens[seq.ParseToken] = seq.Literal;
-			}
+				m_parseTokens = this.ToDictionary(s => s.ParseToken, s => s.Literal);
 
 			m_parseTokens.TryGetValue(token, out ambigSeq);
 			return ambigSeq;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void SortByUnitLength()
 		{
@@ -318,18 +302,10 @@ namespace SIL.Pa.Model
 		internal char ParseToken;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public AmbiguousSeq()
 		{
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public AmbiguousSeq(string unit)
 		{
@@ -364,9 +340,12 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// <returns></returns>
+		public AmbiguousSeq(string unit, bool convert, bool isGenerated) : this(unit)
+		{
+			Convert = convert;
+			IsGenerated = isGenerated;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{

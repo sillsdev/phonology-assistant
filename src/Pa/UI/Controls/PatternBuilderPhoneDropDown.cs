@@ -4,10 +4,10 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
+using SilTools.Controls;
 
 namespace SIL.Pa.UI.Controls
 {

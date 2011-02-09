@@ -290,16 +290,16 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Displays a dialog box from which a user may choose an FW7 (or later) project.
+		/// Gets the writing systems from the specified FW7 project on the specified server.
+		/// When the project is not a db40 project, then server is null.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static IEnumerable<FwWritingSysInfo> GetWritingSystemsForFw7Project(string name, string server)
+		public static IEnumerable<FwWritingSysInfo> GetWritingSystemsForFw7Project(FwDataSourceInfo dsInfo)
 		{
 			using (var helper = new PaFieldWorksHelper())
 			{
-				if (helper.LoadOnlyWritingSystems(name, server,
-					Settings.Default.Fw7TimeToWaitForProcessStart,
-					Settings.Default.Fw7TimeToWaitForDataLoad))
+				if (helper.LoadOnlyWritingSystems(dsInfo.Name, dsInfo.Server,
+					Settings.Default.Fw7TimeToWaitForProcessStart, Settings.Default.Fw7TimeToWaitForDataLoad))
 				{
 					return helper.WritingSystems.Select(ws => new FwWritingSysInfo(ws.IsVernacular ?
 						FwWritingSystemType.Vernacular : FwWritingSystemType.Analysis,
@@ -309,6 +309,26 @@ namespace SIL.Pa.DataSource.FieldWorks
 							IsDefaultAnalysis = ws.IsDefaultAnalysis,
 							IsDefaultVernacular = ws.IsDefaultVernacular
 						}).ToList();
+				}
+			}
+
+			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the lexical entries from the project and server specified in the data source
+		/// information.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static IEnumerable<IPaLexEntry> GetLexEntriesFromFw7Project(FwDataSourceInfo dsInfo)
+		{
+			using (var helper = new PaFieldWorksHelper())
+			{
+				if (helper.Initialize(dsInfo.Name, dsInfo.Server,
+					Settings.Default.Fw7TimeToWaitForProcessStart, Settings.Default.Fw7TimeToWaitForDataLoad))
+				{
+					return helper.LexEntries.ToList();
 				}
 			}
 

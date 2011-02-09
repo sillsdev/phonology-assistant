@@ -16,6 +16,22 @@ namespace SilTools.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class SilPanel : Panel
 	{
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Allows the subscribers to return text to be drawn in the panel. The panel's Text
+		/// property is unaffected by the return value from this delegate.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public delegate string BeforeDrawTextHandler(object sender);
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Allows the subscribers to return text to be drawn in the panel. The panel's Text
+		/// property is unaffected by the return value from this delegate.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public event BeforeDrawTextHandler BeforeDrawText;
+
 		public event EventHandler MnemonicInvoked;
 
 		protected TextFormatFlags m_txtFmtFlags = TextFormatFlags.VerticalCenter |
@@ -43,7 +59,7 @@ namespace SilTools.Controls
 				BorderStyle.Fixed3D : BorderStyle.FixedSingle);
 
 			m_borderColor = (PaintingHelper.CanPaintVisualStyle() ?
-				VisualStyleInformation.TextControlBorder : Color.Black);
+				VisualStyleInformation.TextControlBorder : SystemColors.ControlDark);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -193,6 +209,7 @@ namespace SilTools.Controls
 		/// overridden).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[DefaultValue(typeof(Color), "ControlDark")]
 		public Color BorderColor
 		{
 			get { return m_borderColor; }
@@ -345,8 +362,10 @@ namespace SilTools.Controls
 		{
 			base.OnPaint(e);
 
-			if (!string.IsNullOrEmpty(Text))
-				TextRenderer.DrawText(e.Graphics, Text, Font, m_rcText, ForeColor, m_txtFmtFlags);
+			var text = (BeforeDrawText != null ? BeforeDrawText(this) : Text);
+			
+			if (!string.IsNullOrEmpty(text))
+				TextRenderer.DrawText(e.Graphics, text, Font, m_rcText, ForeColor, m_txtFmtFlags);
 		}
 
 		/// ------------------------------------------------------------------------------------

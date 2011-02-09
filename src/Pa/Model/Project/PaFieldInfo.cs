@@ -117,46 +117,6 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the list's phonemic field information object.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public PaFieldInfo PhonemicField
-		{
-			get { return this.SingleOrDefault(fi => fi.IsPhonemic); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the list's Tone field information object.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public PaFieldInfo ToneField
-		{
-			get { return this.SingleOrDefault(fi => fi.IsTone); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the list's Orthographic field information object.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public PaFieldInfo OrthoField
-		{
-			get { return this.SingleOrDefault(fi => fi.IsOrtho); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the list's Gloss field information object.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public PaFieldInfo GlossField
-		{
-			get { return this.SingleOrDefault(fi => fi.IsGloss); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Gets the list's reference field information object.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -581,6 +541,7 @@ namespace SIL.Pa.Model
 		private bool m_isFwField;
 		private Font m_font = FontHelper.UIFont;
 
+		/// ------------------------------------------------------------------------------------
 		public PaFieldInfo()
 		{
 			WidthInGrid = -1;
@@ -607,10 +568,6 @@ namespace SIL.Pa.Model
 			clone.RightToLeft = source.RightToLeft;
 			clone.CanBeInterlinear = source.CanBeInterlinear;
 			clone.IsPhonetic = source.IsPhonetic;
-			clone.IsPhonemic = source.IsPhonemic;
-			clone.IsOrtho = source.IsOrtho;
-			clone.IsTone = source.IsTone;
-			clone.IsGloss = source.IsGloss;
 			clone.IsReference = source.IsReference;
 			clone.IsDate = source.IsDate;
 			clone.m_isFwField = source.m_isFwField;
@@ -624,7 +581,6 @@ namespace SIL.Pa.Model
 			clone.IsParsed = source.IsParsed;
 			clone.IsNumeric = source.IsNumeric;
 			clone.IsGuid = source.IsGuid;
-			clone.SaFieldName = source.SaFieldName;
 			clone.VisibleInGrid = source.VisibleInGrid;
 			clone.VisibleInRecView = source.VisibleInRecView;
 			clone.DisplayIndexInGrid = source.DisplayIndexInGrid;
@@ -718,18 +674,6 @@ namespace SIL.Pa.Model
 		public bool IsPhonetic { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public bool IsPhonemic { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		public bool IsTone { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		public bool IsOrtho { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		public bool IsGloss { get; set; }
-
-		/// ------------------------------------------------------------------------------------
 		public bool IsReference { get; set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -764,9 +708,6 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		public bool IsGuid { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		public string SaFieldName { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -812,42 +753,6 @@ namespace SIL.Pa.Model
 		public int WidthInGrid { get; set; }
 
 		#endregion
-	}
-
-	#endregion
-
-	#region FieldLayoutInfo Class
-	/// ----------------------------------------------------------------------------------------
-	public class FieldLayoutInfo
-	{
-		[XmlAttribute]
-		public string Name;
-		[XmlAttribute]
-		public bool Visible;
-		[XmlAttribute]
-		public int Width;
-		[XmlAttribute]
-		public int DisplayIndex;
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Returns a sorted (on DisplayIndex) version of the specified FieldLayoutInfo
-		///// collection.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public static List<FieldLayoutInfo> GetSortedList(List<FieldLayoutInfo> layoutInfo)
-		//{
-		//    SortedList<int, FieldLayoutInfo> sortedLayoutInfo = new SortedList<int, FieldLayoutInfo>();
-
-		//    foreach (FieldLayoutInfo fli in layoutInfo)
-		//        sortedLayoutInfo[fli.DisplayIndex] = fli;
-
-		//    List<FieldLayoutInfo> newLayoutInfo = new List<FieldLayoutInfo>();
-		//    foreach (FieldLayoutInfo fli in sortedLayoutInfo.Values)
-		//        newLayoutInfo.Add(fli);
-
-		//    return newLayoutInfo;
-		//}
 	}
 
 	#endregion

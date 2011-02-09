@@ -12,7 +12,6 @@ using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Views;
-using SIL.SpeechTools.Utils;
 using SilTools;
 
 namespace SIL.Pa
@@ -65,8 +64,8 @@ namespace SIL.Pa
 			if (newProject)
 			{
 				m_fieldInfoList = PaFieldInfoList.DefaultFieldInfoList;
-				m_classes = SearchClassList.Load();
-				m_queryGroups = SearchQueryGroupList.Load();
+				m_classes = SearchClassList.LoadDefaults();
+				m_queryGroups = SearchQueryGroupList.LoadDefaults();
 				m_newProject = true;
 			}
 		}

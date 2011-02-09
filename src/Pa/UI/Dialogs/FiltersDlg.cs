@@ -9,15 +9,11 @@ using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
-using SIL.FieldWorks.Common.UIAdapters;
+using SilTools.Controls;
 
 namespace SIL.Pa.UI.Dialogs
 {
 	#region FiltersDlg class
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public partial class FiltersDlg : OKCancelDlgBase
 	{
@@ -743,7 +739,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleExpressionsGridKeyDown(object sender, KeyEventArgs e)
 		{
-			DataGridViewCell cell = m_gridExpressions.CurrentCell;
+			var cell = m_gridExpressions.CurrentCell;
 
 			if (cell != null && cell.ColumnIndex == 2 && e.Alt && e.KeyCode == Keys.Down)
 			{
@@ -810,16 +806,16 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleExpressionsGridRowValidated(object sender, DataGridViewCellEventArgs e)
 		{
-			Filter filter = CurrentFilter;
+			var filter = CurrentFilter;
 
 			if (filter != null)
 			{
 				// Save all the expressions for the current filter.
 				filter.Expressions.Clear();
-				foreach (DataGridViewRow row in m_gridExpressions.Rows)
+				foreach (DataGridViewRow row in m_gridExpressions.Rows.Cast<DataGridViewRow>()
+					.Where(row => row.Index != m_gridExpressions.NewRowIndex))
 				{
-					if (row.Index != m_gridExpressions.NewRowIndex)
-						filter.Expressions.Add(GetExpressionFromRow(row));
+					filter.Expressions.Add(GetExpressionFromRow(row));
 				}
 			}
 
@@ -1061,13 +1057,7 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void UpdateView()
-		{
-			UpdateView(true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void UpdateView(bool updateExpressionMatchCombo)
+		private void UpdateView(bool updateExpressionMatchCombo = true)
 		{
 			Utils.SetWindowRedraw(this, false);
 
@@ -1116,75 +1106,23 @@ namespace SIL.Pa.UI.Dialogs
 
 	#region ExpressionValueDropDownListBox class
 	/// ----------------------------------------------------------------------------------------
-	internal class ExpressionValueDropDownListBox : ListBox
+	internal class ExpressionValueDropDownListBox : CellCustomDropDownList
 	{
-		private DataGridViewCell m_cell;
-		private readonly CustomDropDown m_dropDown;
-
-		/// ------------------------------------------------------------------------------------
-		internal ExpressionValueDropDownListBox()
-		{
-			DoubleBuffered = true;
-			m_dropDown = new CustomDropDown();
-			m_dropDown.AutoCloseWhenMouseLeaves = false;
-			m_dropDown.Closed += ((sender, e) => m_cell = null);
-			m_dropDown.AddControl(this);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal bool IsDroppedDown
-		{
-			get { return m_cell != null; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal void Close()
-		{
-			m_dropDown.Close();
-		}
-
 		/// ------------------------------------------------------------------------------------
 		internal void ShowFilters(DataGridViewCell cell, IEnumerable<Filter> filters)
 		{
 			Font = FontHelper.UIFont;
-
-			Items.Clear();
-			Items.AddRange(filters.Select(f => f.Name).ToArray());
-			SelectedItem = cell.Value as string;
-
-			m_cell = cell;
-			int col = cell.ColumnIndex;
-			int row = cell.RowIndex;
-			Width = Math.Max(cell.DataGridView.Columns[col].Width, PreferredSize.Width);
-			Height = (Math.Min(Items.Count, 15) * Font.Height) + 4;
-			var rc = cell.DataGridView.GetCellDisplayRectangle(col, row, false);
-			rc.Y += rc.Height;
-			m_dropDown.Show(cell.DataGridView.PointToScreen(rc.Location));
-			Focus();
+			Show(cell, filters.Select(f => f.Name).ToArray());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		internal void ShowFieldValues(DataGridViewCell cell, string field)
 		{
-			PaFieldInfo fieldInfo = (App.FieldInfo[field] ??
-				App.FieldInfo.GetFieldFromDisplayText(field));
+			var fieldInfo = (App.FieldInfo[field] ?? App.FieldInfo.GetFieldFromDisplayText(field));
 
 			if (fieldInfo == null)
 				return;
 
-			Items.Clear();
-
-			// This is sort of a kludge, but right before the first time the list is
-			// displayed, it's handle hasn't been created therefore the preferred
-			// size cannot be accurately determined and the preferred width is needed
-			// below. So to ensure the handle gets created, show then hide the drop-down.
-			if (!IsHandleCreated)
-			{
-				Size = new Size(0, 0);
-				m_dropDown.Show(0, 0);
-				m_dropDown.Close();
-			}
-	
 			Font = fieldInfo.Font;
 
 			var list1 = from entry in App.WordCache
@@ -1196,60 +1134,7 @@ namespace SIL.Pa.UI.Dialogs
 						where !string.IsNullOrEmpty(entry[fieldInfo.FieldName])
 						select entry[fieldInfo.FieldName];
 
-			Items.AddRange(list1.Concat(list2).Distinct().OrderBy(val => val).ToArray());
-	
-			SelectedItem = cell.Value as string;
-
-			if (SelectedIndex < 0 && Items.Count > 0)
-				SelectedIndex = 0;
-
-			m_cell = cell;
-			int col = cell.ColumnIndex;
-			int row = cell.RowIndex;
-			Rectangle rc = cell.DataGridView.GetCellDisplayRectangle(col, row, false);
-			rc.Y += rc.Height;
-
-			IntegralHeight = (Items.Count > 0);
-			Width = Math.Max(PreferredSize.Width, cell.DataGridView.Columns[col].Width);
-			Height = (Items.Count == 0 ? 18 : (Math.Min(Items.Count, 15) * Font.Height) + 4);
-			m_dropDown.Show(cell.DataGridView.PointToScreen(rc.Location));
-			Focus();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnMouseMove(MouseEventArgs e)
-		{
-			base.OnMouseMove(e);
-
-			int i = IndexFromPoint(e.Location);
-			if (i >= 0 && i != SelectedIndex)
-				SelectedIndex = i;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnMouseClick(MouseEventArgs e)
-		{
-			base.OnMouseClick(e);
-
-			int i = IndexFromPoint(e.Location);
-			if (i >= 0)
-				m_cell.Value = Items[i] as string;
-
-			m_dropDown.Close();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnKeyDown(KeyEventArgs e)
-		{
-			base.OnKeyDown(e);
-
-			if (e.KeyCode == Keys.Escape)
-				m_dropDown.Close();
-			else if (e.KeyCode == Keys.Return && SelectedItem != null)
-			{
-				m_cell.Value = SelectedItem as string;
-				m_dropDown.Close();
-			}
+			Show(cell, list1.Concat(list2).Distinct().OrderBy(val => val).ToArray());
 		}
 	}
 

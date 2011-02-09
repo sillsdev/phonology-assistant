@@ -574,23 +574,9 @@
     <value>Ignoring tie-bars is somewhat different from ignoring other\nsymbols since tie-bars are not phone modifiers. Normally\nthe searching process considers a tie-bar and whatever it\njoins to be a single phone. However, when ignoring tie-bars,\nthe single phone created by the tie-bar will be recognized\nas two, unique phones.</value>
     <comment>Tooltip used displayed when hovering over the ignore tie bars check box on the search view's options drop-down list.</comment>
   </data>
-  <data name="kstidInterlinearSampleInput" xml:space="preserve">
-    <value>{\rtf1\ansi{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
-\uc1\pard\tx360\tx900\tx1260\tx1440\tx1800\f0\fs16\\ph\tab mimi\tab napenda\tab watoto.\par
-\pard\tx360\tx900\tx1440\tx1800\tx2520\\gl\tab 1S\tab PRES-\tab like\tab P HUM-\tab child\par
-\\ps\tab pro\tab TEMP-\tab v\tab prf-\tab n\par}</value>
-    <comment>Used in the mappings dialog</comment>
-  </data>
-  <data name="kstidInterlinearSampleOutput" xml:space="preserve">
-    <value>mimi/1S/pro#napenda/PRES- like/TEMP- v#watoto./P HUM-  child/prf-   n</value>
-    <comment>Slashes denote field boundaries; # denotes PA record boundaries</comment>
-  </data>
   <data name="kstidInvalidPhoneticCharMsg" xml:space="preserve">
     <value>Invalid phonetic character.</value>
     <comment>Message displayed when defining a phonetic characters class and the user types, from the keyboard, a character not found in the phonetic character inventory.</comment>
-  </data>
-  <data name="kstidInvalidToolboxSortFieldSpecified" xml:space="preserve">
-    <value>The first Toolbox sort field specified was\nnot mapped. It must have a mapping.</value>
   </data>
   <data name="kstidLoadingOptionsProgressBarText" xml:space="preserve">
     <value>Loading Options...</value>
@@ -623,10 +609,6 @@
     <value>No minimal pairs to display.</value>
     <comment>The user should never really see this message. :o)</comment>
   </data>
-  <data name="kstidNoParseSampleOutput" xml:space="preserve">
-    <value>hi ni nini/this what</value>
-    <comment>Slashes denote field boundaries; # denotes PA record boundaries</comment>
-  </data>
   <data name="kstidNoSavedChartNameMsg" xml:space="preserve">
     <value>You must specify a name for your XY chart.</value>
   </data>
@@ -640,24 +622,9 @@
     <value>No Results Found.</value>
     <comment>Displayed in the search results area when no matches were found.</comment>
   </data>
-  <data name="kstidNoToolboxSortField" xml:space="preserve">
-    <value>(none)</value>
-    <comment>First item in the "First Toolbox Sort Field" drop-down list.</comment>
-  </data>
-  <data name="kstidOneToOneParsingToolTip" xml:space="preserve">
-    <value>This option causes parsing of phonetic,\nphonemic, tone, orthographic, part of speech\nand custom fields specified as being parsed.</value>
-  </data>
-  <data name="kstidOneToOneSampleOutput" xml:space="preserve">
-    <value>hi/this#ni/what#nini/</value>
-    <comment>Slashes denote field boundaries; # denotes PA record boundaries</comment>
-  </data>
   <data name="kstidPAFilesCaptionSFD" xml:space="preserve">
     <value>Save {0} Project File</value>
     <comment>Caption for the save PA project dialog. The parameter is for the application name.</comment>
-  </data>
-  <data name="kstidParsePhoneticSampleOutput" xml:space="preserve">
-    <value>hi/this what#ni/this what#nini/this what</value>
-    <comment>Slashes denote field boundaries; # denotes PA record boundaries</comment>
   </data>
   <data name="kstidPhoneInventoryViewHelpToolTip" xml:space="preserve">
     <value>Phone Inventory View Help</value>
@@ -736,10 +703,6 @@
     <value>An error occurred trying to open the RTF file.\n\nFile: {0}\nEditor: {1}\n\n{2}</value>
     <comment>First argument is rtf file; second argument is the editor; third argument is error message.</comment>
   </data>
-  <data name="kstidSampleInput" xml:space="preserve">
-    <value>{\rtf1\ansi{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}\uc1\pard\tx360\tx1625\tx3145\tx4920\f0\fs16\\ph\tab hi ni nini\par\\gl\tab this what\par}</value>
-    <comment>Used in the mappings dialog</comment>
-  </data>
   <data name="kstidSavedChartNameAlreadyExistsMsg" xml:space="preserve">
     <value>There is already a saved chart with the name "{0}".</value>
   </data>
@@ -768,48 +731,9 @@
     <value>Set RTF Editor...</value>
     <comment>Caption on the open file dialog used to let the user browse the file system for the RTF editor they want PA to use when opening RTF files.</comment>
   </data>
-  <data name="kstidSFMEditorCaptionOFD" xml:space="preserve">
-    <value>Standard Format Data Source Editor</value>
-    <comment>Caption for common dialog used to specify the SFM data source editor.</comment>
-  </data>
-  <data name="kstidSFMMappingGridInterlinear" xml:space="preserve">
-    <value>Interlinear Field?</value>
-    <comment>Column heading for interlinear column</comment>
-  </data>
-  <data name="kstidSFMMappingGridPaField" xml:space="preserve">
-    <value>To this Field</value>
-    <comment>Column heading for DB field column in the import mappings grid</comment>
-  </data>
   <data name="kstidSFMMappingMissingError" xml:space="preserve">
     <value>You must specify a marker for the field '{0}'. </value>
     <comment>This message is used when verifying SFM import mappings</comment>
-  </data>
-  <data name="kstidSFMMappingsGridMarker" xml:space="preserve">
-    <value>Map this marker...</value>
-    <comment>Column heading for marker column in the import mappings grid</comment>
-  </data>
-  <data name="kstidSFMMissingRecMarkerMapping" xml:space="preserve">
-    <value>You must specify a marker for the 'Record Marker' in order for {0} to identify the beginning of each record.</value>
-    <comment>Message displayed when the record marker hasn't been mapped to  an SF marker.</comment>
-  </data>
-  <data name="kstidSFMNoFirstInterlinearField" xml:space="preserve">
-    <value>You must specify what is each record's first interlinear field.</value>
-    <comment>Message displayed when some interlinear fields have been specified but not the first interlinear field.</comment>
-  </data>
-  <data name="kstidSFMNoFirstInterlinearFieldItem" xml:space="preserve">
-    <value>(none)</value>
-    <comment>First item in the list of potential first interlinear fields on the mappings dialog</comment>
-  </data>
-  <data name="kstidSFMNomappingForInterlinearField" xml:space="preserve">
-    <value>The following field(s) have been specified as interlinear fields but need to be mapped to markers. {0}{1}</value>
-    <comment>The parameters are where line breaks are inserted.</comment>
-  </data>
-  <data name="kstidSFMNoMappingsSpecified" xml:space="preserve">
-    <value>You must specify at least one field mapping other than one for the 'Record Marker'.</value>
-    <comment>Message displayed when the user hasn't specified any SFM mappings</comment>
-  </data>
-  <data name="kstidSFMUnecessaryFirstInterlinearField" xml:space="preserve">
-    <value>Because you have specified the first interlinear field, you must also specify at least one other interlinear field from those that are mapped.</value>
   </data>
   <data name="kstidShowFilterToolTipText" xml:space="preserve">
     <value>Check to display this filter in the\nfilter toolbar button’s drop-down list.</value>
@@ -891,16 +815,14 @@
   <data name="CloseTabNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CloseTabNormal.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="NewTabDropDownArrowHot" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\NewTabDropDownArrowHot.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="NewTabDropDownArrowNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\NewTabDropDownArrowNormal.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="NewTabHot" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NewTabHot.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="NewTabNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NewTabNormal.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="FieldMappingArrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FieldMappingArrow.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

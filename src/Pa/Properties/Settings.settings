@@ -710,5 +710,26 @@
     <Setting Name="ShowLoadColumnInProjectSettingsDlg" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="SFMNoParseOptionSampleOutput" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">hi ni nini/this what</Value>
+    </Setting>
+    <Setting Name="SFMOneToOneParseOptionSampleOutput" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">hi/this#ni/what#nini/</Value>
+    </Setting>
+    <Setting Name="SFMPhoneticParseOptionSampleOutput" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">hi/this what#ni/this what#nini/this what</Value>
+    </Setting>
+    <Setting Name="SFMInterlinearParseOptionSampleOutput" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">mimi/1S/pro#napenda/PRES- like/TEMP- v#watoto./P HUM-  child/prf-   n</Value>
+    </Setting>
+    <Setting Name="SFMInterlinearParseOptionSampleInput" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">{\rtf1\ansi{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+\uc1\pard\tx360\tx900\tx1260\tx1440\tx1800\f0\fs16\\ph\tab mimi\tab napenda\tab watoto.\par
+\pard\tx360\tx900\tx1440\tx1800\tx2520\\gl\tab 1S\tab PRES-\tab like\tab P HUM-\tab child\par
+\\ps\tab pro\tab TEMP-\tab v\tab prf-\tab n\par}</Value>
+    </Setting>
+    <Setting Name="SFMBasicParseOptionSampleInput" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">{\rtf1\ansi{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}\uc1\pard\tx360\tx1625\tx3145\tx4920\f0\fs16\\ph\tab hi ni nini\par\\gl\tab this what\par}</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

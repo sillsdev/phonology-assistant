@@ -176,7 +176,6 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// </summary>
 		/// <param name="parentControl"></param>
 		/// <param name="msgMediator"></param>
-		/// <param name="definitions"></param>
 		/// <param name="appsRegKeyPath">Registry key path (under HKCU) where application's
 		/// settings are stored (default is "Software\SIL\FieldWorks").</param>
 		/// <param name="definitions"></param>
@@ -216,9 +215,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			if (m_toolbarListItem != null && m_toolbarListItem.OwnerItem != null &&
 				m_toolbarListItem.OwnerItem is ToolStripMenuItem)
 			{
-				ToolStripMenuItem item = m_toolbarListItem.OwnerItem as ToolStripMenuItem;
-				if (item != null)
-					item.DropDownClosed += HandleToolBarListMenuClosing;
+				var item = m_toolbarListItem.OwnerItem as ToolStripMenuItem;
+				item.DropDownClosed += HandleToolBarListMenuClosing;
 			}
 
 			GetSettingFilesPrefix(definitions);
@@ -247,19 +245,12 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			if (InitializeComboItem == null || m_bars == null)
 				return;
 
-			foreach (ToolStrip bar in m_bars.Values)
+			foreach (var bar in m_bars.Values.Where(b => b.Items != null))
 			{
-				if (bar.Items == null)
-					continue;
-
-				foreach (ToolStripItem item in bar.Items)
+				foreach (var cboItem in bar.Items.OfType<ToolStripComboBox>())
 				{
-					ToolStripComboBox cboItem = item as ToolStripComboBox;
-					if (cboItem != null)
-					{
-						cboItem.ComboBox.Items.Clear();
-						InitializeComboItem(cboItem.Name, cboItem.ComboBox);
-					}
+					cboItem.ComboBox.Items.Clear();
+					InitializeComboItem(cboItem.Name, cboItem.ComboBox);
 				}
 			}
 		}
@@ -690,10 +681,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				return null;
 			}
 
-			ToolStripMenuItem parentItem = m_rufMarkerItem.OwnerItem as ToolStripMenuItem;
-			if (parentItem != null)
-				rufIndex = parentItem.DropDownItems.IndexOf(m_rufMarkerItem);
-			
+			var parentItem = m_rufMarkerItem.OwnerItem as ToolStripMenuItem;
+			rufIndex = parentItem.DropDownItems.IndexOf(m_rufMarkerItem);
 			return parentItem;
 		}
 
@@ -1955,18 +1944,15 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			m_itemUpdateTime = DateTime.Now;
 
 			// Loop through all the toolbars and items on toolbars.
-			foreach (ToolStrip bar in m_bars.Values)
+			foreach (var bar in m_bars.Values.Where(b => b.Visible))
 			{
-				if (bar.Items != null && bar.Visible)
-				{
-					foreach (ToolStripItem item in bar.Items)
-						CallItemUpdateHandler(item);
-				}
+				foreach (var item in bar.Items.OfType<ToolStripItem>())
+					CallItemUpdateHandler(item);
 			}
 
 			// Update menus with shortcut keys.
-			for (int i = 0; i < m_menusWithShortcuts.Count; i++)
-				CallItemUpdateHandler(m_menusWithShortcuts[i] as ToolStripMenuItem);
+			foreach (var item in m_menusWithShortcuts)
+				CallItemUpdateHandler(item as ToolStripMenuItem);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -2086,9 +2072,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				//if (dropDown.OwnerItem.Owner != null)
 				//    dropDown.OwnerItem.Owner.Hide();
 				
-				TMItemProperties itemProps = dropDown.Tag as TMItemProperties;
-				if (itemProps != null)
-					m_msgMediator.SendMessage("DropDownClosed" +  itemProps.Message, itemProps);
+				var itemProps = dropDown.Tag as TMItemProperties;
+				m_msgMediator.SendMessage("DropDownClosed" +  itemProps.Message, itemProps);
 			}
 
 			dropDown.VisibleChanged -= ControlHostOwnerVisibleChanged;
@@ -2327,14 +2312,13 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			}
 			else if (item is ToolStripComboBox)
 			{
-				ToolStripComboBox cboItem = item as ToolStripComboBox;
+				var cboItem = item as ToolStripComboBox;
 				itemProps.Control = cboItem.ComboBox;
 				if (cboItem.Items.Count > 0)
 				{
 					// Get all the combo items and save in the List property.
 					itemProps.List = new ArrayList();
-					for (int i = 0; i < cboItem.Items.Count; i++)
-						itemProps.List.Add(cboItem.Items[i]);
+					itemProps.List.AddRange(cboItem.Items);
 				}
 			}
 			else if (item is ToolStripControlHost)

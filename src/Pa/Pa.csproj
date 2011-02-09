@@ -101,13 +101,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\LocalizationManager.dll</HintPath>
     </Reference>
+    <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DistFiles\Palaso.dll</HintPath>
+    </Reference>
     <Reference Include="PaToFdoInterfaces, Version=1.0.4049.26971, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\PaToFdoInterfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="SpeechToolsUtils, Version=1.0.3911.28181, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DistFiles\SpeechToolsUtils.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -161,6 +161,9 @@
     </Compile>
     <Compile Include="DataSourceClasses\PaDataSource.cs" />
     <Compile Include="DataSourceClasses\SFMarkerMapping.cs" />
+    <Compile Include="DataSourceClasses\SpeechAnalyzer\AudioReader.cs" />
+    <Compile Include="DataSourceClasses\SpeechAnalyzer\SaAudioDocument.cs" />
+    <Compile Include="DataSourceClasses\SpeechAnalyzer\SaAudioDocumentReader.cs" />
     <Compile Include="Filters\FilterExpression.cs" />
     <Compile Include="Filters\FilterHelper.cs" />
     <Compile Include="Filters\Filters.cs" />
@@ -175,6 +178,7 @@
     <Compile Include="Model\Features\FeatureCacheBase.cs" />
     <Compile Include="Model\Features\FeatureMask.cs" />
     <Compile Include="Model\Features\FeatureOverrides.cs" />
+    <Compile Include="Model\Project\PaField.cs" />
     <Compile Include="Model\Project\PaFieldInfo.cs" />
     <Compile Include="Model\Project\PaFieldsDisplayText.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -254,9 +258,6 @@
     <Compile Include="ResourceStuff\ResourceHelper.Designer.cs">
       <DependentUpon>ResourceHelper.cs</DependentUpon>
     </Compile>
-    <Compile Include="UIAdapter\CustomDropDown.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="UIAdapter\HelperClasses.cs" />
     <Compile Include="UIAdapter\SIBInterface.cs" />
     <Compile Include="UIAdapter\TMAdapter.cs" />
@@ -325,6 +326,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\FeatureListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\FieldMapperGrid.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\FieldSelectorGrid.cs">
@@ -872,10 +876,9 @@
     <None Include="Resources\Filter-Small.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\FieldMappingArrow.png" />
     <None Include="Resources\NewTabNormal.png" />
     <None Include="Resources\NewTabHot.png" />
-    <None Include="Resources\NewTabDropDownArrowNormal.png" />
-    <None Include="Resources\NewTabDropDownArrowHot.png" />
     <None Include="Resources\CloseTabNormal.png" />
     <None Include="Resources\CloseTabHot.png" />
     <EmbeddedResource Include="Model\UpdateFileTransforms\UpdateAmbiguousSequenceFile.xslt" />

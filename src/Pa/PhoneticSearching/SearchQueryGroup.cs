@@ -24,7 +24,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// Loads the list of default search queries.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static SearchQueryGroupList Load()
+		public static SearchQueryGroupList LoadDefaults()
 		{
 			return Load(null);
 		}

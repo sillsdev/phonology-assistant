@@ -12,10 +12,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 	/// ----------------------------------------------------------------------------------------
 	public class FwDataSourceInfo
 	{
-		private byte[] m_lastModified6;
-		private DateTime m_lastModified7;
+		private byte[] m_lastModified;
 		private FwQueries m_queries;
-		private string m_name;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -61,16 +59,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("DBName")]
-		public string Name
-		{
-			get { return m_name; }
-			set
-			{
-				m_name = value;
-				if (File.Exists(m_name))
-					m_lastModified7 = File.GetLastWriteTimeUtc(m_name);
-			}
-		}
+		public string Name { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
@@ -95,7 +84,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 				Name != null && Server != null)
 			{
 				m_queries = FwQueries.GetQueriesForDB(Name, Server);
-				m_lastModified6 = DateLastModified;
+				m_lastModified = DateLastModified;
 			}
 		}
 
@@ -175,12 +164,12 @@ namespace SIL.Pa.DataSource.FieldWorks
 				byte[] newDateLastModified = DateLastModified;
 				bool changed = false;
 
-				if (m_lastModified6 == null || newDateLastModified == null)
+				if (m_lastModified == null || newDateLastModified == null)
 					changed = true;
-				else if (newDateLastModified.Where((t, i) => t != m_lastModified6[i]).Any())
+				else if (newDateLastModified.Where((t, i) => t != m_lastModified[i]).Any())
 					changed = true;
 
-				m_lastModified6 = newDateLastModified;
+				m_lastModified = newDateLastModified;
 				return changed;
 			}
 

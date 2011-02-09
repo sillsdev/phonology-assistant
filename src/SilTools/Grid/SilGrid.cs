@@ -840,13 +840,22 @@ namespace SilTools
 		protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
 		{
 			if (e.ColumnIndex >= 0 && Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn &&
-				(e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected &&
-				SelectedCellBackColor != Color.Empty)
+				e.RowIndex == CurrentCellAddress.Y)
 			{
-				// If we don't intervene, selected checkbox cells
-				// will get the default selection color.
-				e.CellStyle.SelectionBackColor = SelectedCellBackColor;
-				e.Paint(e.CellBounds, e.PaintParts);
+				if (SelectionMode == DataGridViewSelectionMode.FullRowSelect ||
+					e.ColumnIndex == CurrentCellAddress.X)
+				{
+					// If we don't intervene, selected checkbox cells
+					// will get the default selection color.
+					var backColor = (e.ColumnIndex == CurrentCellAddress.X ?
+						SelectedCellBackColor : SelectedRowBackColor);
+
+					if (backColor != Color.Empty)
+					{
+						e.CellStyle.SelectionBackColor = backColor;
+						e.Paint(e.CellBounds, e.PaintParts);
+					}
+				}
 			}
 
 			base.OnCellPainting(e);

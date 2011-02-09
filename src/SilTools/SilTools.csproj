@@ -79,6 +79,12 @@
     <Compile Include="Controls\AutoHeightLabel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\AutoHeightRadioButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\CustomDropDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\CustomDropDownComboBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -139,6 +145,9 @@
     </Compile>
     <Compile Include="FontHelper.cs" />
     <Compile Include="Grid\CheckBoxColumnHeaderHandler.cs" />
+    <Compile Include="Grid\CellCustomDropDownList.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Grid\GridCellPiecePainter.cs" />
     <Compile Include="Grid\SilButtonCell.cs" />
     <Compile Include="Grid\SilButtonColumn.cs" />

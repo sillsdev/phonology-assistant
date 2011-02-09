@@ -35,8 +35,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_fwDsInfo = fwSourceInfo;
 
 			m_noWritingSystemOption = new FwWritingSysInfo(FwDBUtils.FwWritingSystemType.None, 0, NoWritingSystemText);
-			var reader = new FwDataReader(fwSourceInfo);
-			var list = reader.WritingSystems.ToList();
+			var list = FwDataReader.GetWritingSystems(fwSourceInfo).ToList();
 			list.Insert(0, m_noWritingSystemOption);
 			m_writingSystems = list;
 

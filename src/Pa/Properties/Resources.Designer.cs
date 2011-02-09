@@ -95,6 +95,13 @@ namespace SIL.Pa.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap FieldMappingArrow {
+            get {
+                object obj = ResourceManager.GetObject("FieldMappingArrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidAutomaticallyHide {
             get {
                 object obj = ResourceManager.GetObject("kimidAutomaticallyHide", resourceCulture);
@@ -961,27 +968,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {\rtf1\ansi{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
-        ///\uc1\pard\tx360\tx900\tx1260\tx1440\tx1800\f0\fs16\\ph\tab mimi\tab napenda\tab watoto.\par
-        ///\pard\tx360\tx900\tx1440\tx1800\tx2520\\gl\tab 1S\tab PRES-\tab like\tab P HUM-\tab child\par
-        ///\\ps\tab pro\tab TEMP-\tab v\tab prf-\tab n\par}.
-        /// </summary>
-        internal static string kstidInterlinearSampleInput {
-            get {
-                return ResourceManager.GetString("kstidInterlinearSampleInput", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to mimi/1S/pro#napenda/PRES- like/TEMP- v#watoto./P HUM-  child/prf-   n.
-        /// </summary>
-        internal static string kstidInterlinearSampleOutput {
-            get {
-                return ResourceManager.GetString("kstidInterlinearSampleOutput", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Invalid phonetic character..
         /// </summary>
         internal static string kstidInvalidPhoneticCharMsg {
@@ -996,15 +982,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidInvalidToolboxSortField {
             get {
                 return ResourceManager.GetString("kstidInvalidToolboxSortField", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The first Toolbox sort field specified was\nnot mapped. It must have a mapping..
-        /// </summary>
-        internal static string kstidInvalidToolboxSortFieldSpecified {
-            get {
-                return ResourceManager.GetString("kstidInvalidToolboxSortFieldSpecified", resourceCulture);
             }
         }
         
@@ -1171,15 +1148,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to hi ni nini/this what.
-        /// </summary>
-        internal static string kstidNoParseSampleOutput {
-            get {
-                return ResourceManager.GetString("kstidNoParseSampleOutput", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to You must specify a name for your XY chart..
         /// </summary>
         internal static string kstidNoSavedChartNameMsg {
@@ -1216,15 +1184,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (none).
-        /// </summary>
-        internal static string kstidNoToolboxSortField {
-            get {
-                return ResourceManager.GetString("kstidNoToolboxSortField", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The first Toolbox sort field for this record&apos;s data source has not\nbeen specified. To specify the first Toolbox sort field, go to the\ndata source&apos;s properties from the project properties dialog..
         /// </summary>
         internal static string kstidNoToolboxSortFieldSpecified {
@@ -1252,38 +1211,11 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This option causes parsing of phonetic,\nphonemic, tone, orthographic, part of speech\nand custom fields specified as being parsed..
-        /// </summary>
-        internal static string kstidOneToOneParsingToolTip {
-            get {
-                return ResourceManager.GetString("kstidOneToOneParsingToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to hi/this#ni/what#nini/.
-        /// </summary>
-        internal static string kstidOneToOneSampleOutput {
-            get {
-                return ResourceManager.GetString("kstidOneToOneSampleOutput", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Save {0} Project File.
         /// </summary>
         internal static string kstidPAFilesCaptionSFD {
             get {
                 return ResourceManager.GetString("kstidPAFilesCaptionSFD", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to hi/this what#ni/this what#nini/this what.
-        /// </summary>
-        internal static string kstidParsePhoneticSampleOutput {
-            get {
-                return ResourceManager.GetString("kstidParsePhoneticSampleOutput", resourceCulture);
             }
         }
         
@@ -1522,15 +1454,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {\rtf1\ansi{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}\uc1\pard\tx360\tx1625\tx3145\tx4920\f0\fs16\\ph\tab hi ni nini\par\\gl\tab this what\par}.
-        /// </summary>
-        internal static string kstidSampleInput {
-            get {
-                return ResourceManager.GetString("kstidSampleInput", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to There is already a saved chart with the name &quot;{0}&quot;..
         /// </summary>
         internal static string kstidSavedChartNameAlreadyExistsMsg {
@@ -1621,101 +1544,11 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Standard Format Data Source Editor.
-        /// </summary>
-        internal static string kstidSFMEditorCaptionOFD {
-            get {
-                return ResourceManager.GetString("kstidSFMEditorCaptionOFD", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Interlinear Field?.
-        /// </summary>
-        internal static string kstidSFMMappingGridInterlinear {
-            get {
-                return ResourceManager.GetString("kstidSFMMappingGridInterlinear", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to To this Field.
-        /// </summary>
-        internal static string kstidSFMMappingGridPaField {
-            get {
-                return ResourceManager.GetString("kstidSFMMappingGridPaField", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to You must specify a marker for the field &apos;{0}&apos;. .
         /// </summary>
         internal static string kstidSFMMappingMissingError {
             get {
                 return ResourceManager.GetString("kstidSFMMappingMissingError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Map this marker....
-        /// </summary>
-        internal static string kstidSFMMappingsGridMarker {
-            get {
-                return ResourceManager.GetString("kstidSFMMappingsGridMarker", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You must specify a marker for the &apos;Record Marker&apos; in order for {0} to identify the beginning of each record..
-        /// </summary>
-        internal static string kstidSFMMissingRecMarkerMapping {
-            get {
-                return ResourceManager.GetString("kstidSFMMissingRecMarkerMapping", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You must specify what is each record&apos;s first interlinear field..
-        /// </summary>
-        internal static string kstidSFMNoFirstInterlinearField {
-            get {
-                return ResourceManager.GetString("kstidSFMNoFirstInterlinearField", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to (none).
-        /// </summary>
-        internal static string kstidSFMNoFirstInterlinearFieldItem {
-            get {
-                return ResourceManager.GetString("kstidSFMNoFirstInterlinearFieldItem", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The following field(s) have been specified as interlinear fields but need to be mapped to markers. {0}{1}.
-        /// </summary>
-        internal static string kstidSFMNomappingForInterlinearField {
-            get {
-                return ResourceManager.GetString("kstidSFMNomappingForInterlinearField", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You must specify at least one field mapping other than one for the &apos;Record Marker&apos;..
-        /// </summary>
-        internal static string kstidSFMNoMappingsSpecified {
-            get {
-                return ResourceManager.GetString("kstidSFMNoMappingsSpecified", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Because you have specified the first interlinear field, you must also specify at least one other interlinear field from those that are mapped..
-        /// </summary>
-        internal static string kstidSFMUnecessaryFirstInterlinearField {
-            get {
-                return ResourceManager.GetString("kstidSFMUnecessaryFirstInterlinearField", resourceCulture);
             }
         }
         
@@ -1977,20 +1810,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidZeroOrMoreEndingErr {
             get {
                 return ResourceManager.GetString("kstidZeroOrMoreEndingErr", resourceCulture);
-            }
-        }
-        
-        internal static System.Drawing.Bitmap NewTabDropDownArrowHot {
-            get {
-                object obj = ResourceManager.GetObject("NewTabDropDownArrowHot", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap NewTabDropDownArrowNormal {
-            get {
-                object obj = ResourceManager.GetObject("NewTabDropDownArrowNormal", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

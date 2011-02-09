@@ -11,14 +11,24 @@ namespace SIL.Pa.DataSource.FieldWorks
 	/// ----------------------------------------------------------------------------------------
 	public class FwDataReader
 	{
-		public delegate void DataRetrievedHandler(SqlDataReader reader);
-
-		private readonly FwDataSourceInfo m_sourceInfo;
+		private FwDataSourceInfo m_sourceInfo;
+		private readonly PaDataSource m_dataSource;
 
 		/// ------------------------------------------------------------------------------------
-		public FwDataReader(FwDataSourceInfo sourceInfo)
+		public FwDataReader(PaDataSource ds)
 		{
-			m_sourceInfo = sourceInfo;
+			m_dataSource = ds; 
+			
+			if (ds != null)
+				m_sourceInfo = ds.FwDataSourceInfo;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static IEnumerable<FwWritingSysInfo> GetWritingSystems(FwDataSourceInfo fwDsInfo)
+		{
+			var reader = new FwDataReader(null);
+			reader.m_sourceInfo = fwDsInfo;
+			return reader.WritingSystems;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -32,8 +42,9 @@ namespace SIL.Pa.DataSource.FieldWorks
 			{
 				if (m_sourceInfo.DataSourceType == DataSourceType.FW)
 				{
-					var msg = App.LocalizeString("ErrorRetrievingFwWritingSystemsMsg",
+					var msg = App.LocalizeString("ErrorRetrievingFw6WritingSystemsMsg",
 						"There was an error retrieving writing systems from the {0}\nproject. It's possible the file {1} is either missing or corrupt.",
+						"Displayed when there is and error retrieving writing systems from a FieldWorks database, version 6.0 or earlier.",
 						App.kLocalizationGroupMisc);
 
 					msg = string.Format(msg, m_sourceInfo.Name, Path.GetFileName(m_sourceInfo.Queries.QueryFile));
@@ -50,12 +61,13 @@ namespace SIL.Pa.DataSource.FieldWorks
 				// Return writing systems from a 7.0 (or later) project).
 				try
 				{
-					return FwDBUtils.GetWritingSystemsForFw7Project(m_sourceInfo.Name, m_sourceInfo.Server);
+					return FwDBUtils.GetWritingSystemsForFw7Project(m_sourceInfo);
 				}
 				catch (Exception e)
 				{
-					var msg = App.LocalizeString("ErrorRetrievingFwWritingSystemsMsg",
+					var msg = App.LocalizeString("ErrorRetrievingFw7WritingSystemsMsg",
 						"There was an error retrieving writing systems from\nthe {0} project.\n\n{1}",
+						"Displayed when there is and error retrieving writing systems from a FieldWorks project, version 7.0 or earlier.",
 						App.kLocalizationGroupMisc);
 
 					msg = string.Format(msg, m_sourceInfo.ProjectName, e.Message);
@@ -113,10 +125,10 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the data from the MSDE database. Returns false if reading failed.
+		/// Gets the data from the SQL database. Returns false if reading failed.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool GetData(DataRetrievedHandler dataRetrievedHdlr)
+		public bool GetData(Action<PaDataSource, SqlDataReader> dataRetrievedHdlr)
 		{
 			if (m_sourceInfo.Queries == null || m_sourceInfo.Queries.Error)
 				return false;
@@ -149,7 +161,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 					using (var reader = command.ExecuteReader())
 					{
 						if (reader.HasRows && dataRetrievedHdlr != null)
-							dataRetrievedHdlr(reader);
+							dataRetrievedHdlr(m_dataSource, reader);
 
 						reader.Close();
 					}

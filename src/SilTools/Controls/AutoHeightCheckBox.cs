@@ -34,20 +34,12 @@ namespace SilTools.Controls
 		private bool m_autoSizingInProgress;
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public AutoHeightCheckBox()
 		{
 			AutoSize = false;
 			AutoEllipsis = true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public override string Text
 		{
@@ -61,10 +53,6 @@ namespace SilTools.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public override Font Font
 		{
 			get { return base.Font; }
@@ -77,10 +65,6 @@ namespace SilTools.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnSizeChanged(EventArgs e)
 		{
 			base.OnSizeChanged(e);
@@ -89,10 +73,6 @@ namespace SilTools.Controls
 				AdjustHeight();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void AdjustHeight()
 		{
@@ -104,7 +84,7 @@ namespace SilTools.Controls
 			var constraints = new Size(prefSize.Width - checkBoxAndPaddingWidth, 0);
 			using (var g = CreateGraphics())
 			{
-				var sz = TextRenderer.MeasureText(Text, Font, constraints,
+				var sz = TextRenderer.MeasureText(g, Text, Font, constraints,
 					TextFormatFlags.WordBreak | TextFormatFlags.VerticalCenter);
 
 				var newHeight = sz.Height;

@@ -229,8 +229,8 @@ namespace SIL.Pa.UI.Controls
 			col.DataPropertyName = fieldInfo.FieldName;
 			col.DefaultCellStyle.Font = fieldInfo.Font;
 
-			// Allow left to right display for any field but phonetic and phonemic.
-			if (fieldInfo.RightToLeft && !fieldInfo.IsPhonetic && !fieldInfo.IsPhonemic)
+			// Allow right to left display for any field but phonetic.
+			if (fieldInfo.RightToLeft && !fieldInfo.IsPhonetic)
 			{
 				col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 				col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
@@ -2838,7 +2838,7 @@ namespace SIL.Pa.UI.Controls
 			// that may have been added to the project.
 			foreach (PaFieldInfo fieldInfo in FieldInfoList)
 			{
-				DataGridViewColumn col = Columns[fieldInfo.FieldName];
+				var col = Columns[fieldInfo.FieldName];
 				if (col == null)
 				{
 					if (fieldInfo.DisplayIndexInGrid < 0)
@@ -2847,18 +2847,13 @@ namespace SIL.Pa.UI.Controls
 					col = AddNewColumn(fieldInfo);
 				}
 
-				if (col.HeaderText != fieldInfo.DisplayText)
-					col.HeaderText = fieldInfo.DisplayText;
+				col.HeaderText = fieldInfo.DisplayText;
 
-				col.DefaultCellStyle.Alignment = (fieldInfo.RightToLeft &&
-					!fieldInfo.IsPhonetic && !fieldInfo.IsPhonemic ?
-					DataGridViewContentAlignment.MiddleRight :
-					DataGridViewContentAlignment.MiddleLeft);
+				col.DefaultCellStyle.Alignment = (fieldInfo.RightToLeft && !fieldInfo.IsPhonetic ?
+					DataGridViewContentAlignment.MiddleRight : DataGridViewContentAlignment.MiddleLeft);
 
-				col.HeaderCell.Style.Alignment = (fieldInfo.RightToLeft &&
-					!fieldInfo.IsPhonetic && !fieldInfo.IsPhonemic ?
-					DataGridViewContentAlignment.MiddleRight :
-					DataGridViewContentAlignment.MiddleLeft);
+				col.HeaderCell.Style.Alignment = (fieldInfo.RightToLeft && !fieldInfo.IsPhonetic ?
+					DataGridViewContentAlignment.MiddleRight : DataGridViewContentAlignment.MiddleLeft);
 				
 				if (fieldInfo.DisplayIndexInGrid < 0)
 					col.Visible = false;

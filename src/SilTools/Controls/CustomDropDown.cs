@@ -2,7 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SIL.FieldWorks.Common.UIAdapters
+namespace SilTools.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	public class CustomDropDown : ToolStripDropDown

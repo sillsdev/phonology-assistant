@@ -80,7 +80,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// Loads the list of default search classes.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static SearchClassList Load()
+		public static SearchClassList LoadDefaults()
 		{
 			return Load(null);
 		}

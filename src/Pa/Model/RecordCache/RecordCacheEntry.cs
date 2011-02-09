@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
@@ -18,20 +19,7 @@ namespace SIL.Pa.Model
 	[XmlType("Record")]
 	public class RecordCacheEntry
 	{
-		private readonly int m_id;
-		private readonly bool m_canBeEditedInToolbox;
-		private PaDataSource m_dataSource;
-		private bool m_needsParsing;
-		private string m_firstInterlinearField;
-		private List<string> m_interlinearFields;
-		private List<WordCacheEntry> m_wordEntries;
-		private Dictionary<string, PaFieldValue> m_fieldValues;
-		private object m_tag;
-		
-		// These three variables are for records associated with SA audio files.
-		private int m_channels;
-		private long m_samplesPerSec;
-		private int m_bitsPerSample;
+		private IDictionary<string, PaFieldValue> m_fieldValues;
 
 		// This is only used for deserialization
 		private List<PaFieldValue> m_fieldValuesList;
@@ -52,28 +40,23 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public RecordCacheEntry()
 		{
-			m_id = s_counter++;
+			Id = s_counter++;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Only use the constructor when the data source is an SFM file or SA sound file.
+		/// Only use the constructor when the data source is not PAXML or FW6 (or older)
+		/// data source.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public RecordCacheEntry(bool newFromParsingSFMFile) : this()
 		{
-			m_fieldValues = new Dictionary<string, PaFieldValue>();
+			m_fieldValues = App.FieldInfo.ToDictionary(fi => fi.FieldName,
+				fi => new PaFieldValue(fi.FieldName));
 
-			foreach (PaFieldInfo fieldInfo in App.FieldInfo)
-				m_fieldValues[fieldInfo.FieldName] = new PaFieldValue(fieldInfo.FieldName);
-
-			m_canBeEditedInToolbox = newFromParsingSFMFile;
+			CanBeEditedInToolbox = newFromParsingSFMFile;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -84,16 +67,16 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static void InitializeDataSourceFields(PaFieldInfoList fieldInfoList)
 		{
-			if (fieldInfoList != null)
-			{
-				PaFieldInfo fieldInfo = fieldInfoList.DataSourceField;
-				if (fieldInfo != null)
-					s_dataSourceFieldName = fieldInfo.FieldName;
+			if (fieldInfoList == null)
+				return;
 
-				fieldInfo = fieldInfoList.DataSourcePathField;
-				if (fieldInfo != null)
-					s_dataSourcePathFieldName = fieldInfo.FieldName;
-			}
+			var fieldInfo = fieldInfoList.DataSourceField;
+			if (fieldInfo != null)
+				s_dataSourceFieldName = fieldInfo.FieldName;
+
+			fieldInfo = fieldInfoList.DataSourcePathField;
+			if (fieldInfo != null)
+				s_dataSourcePathFieldName = fieldInfo.FieldName;
 		}
 
 		#region Methods and Indexers for getting and setting field values
@@ -104,22 +87,18 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void SetValue(string field, string value)
 		{
-			if (!string.IsNullOrEmpty(value))
-			{
-				PaFieldValue fieldValue;
+			if (string.IsNullOrEmpty(value))
+				return;
+			
+			PaFieldValue fieldValue;
 
-				if (field != s_dataSourcePathFieldName && field != s_dataSourceFieldName &&
-					m_fieldValues.TryGetValue(field, out fieldValue))
-				{
-					fieldValue.Value = value;
-				}
+			if (field != s_dataSourcePathFieldName && field != s_dataSourceFieldName &&
+				m_fieldValues.TryGetValue(field, out fieldValue))
+			{
+				fieldValue.Value = value;
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string this[string field]
 		{
@@ -136,11 +115,8 @@ namespace SIL.Pa.Model
 		public string GetValueBasic(string field)
 		{
 			PaFieldValue fieldValue;
-			if (m_fieldValues.TryGetValue(field, out fieldValue))
-			{
-				if (fieldValue.Value != null)
-					return fieldValue.Value;
-			}
+			if (m_fieldValues.TryGetValue(field, out fieldValue) && fieldValue.Value != null) 
+				return fieldValue.Value;
 
 			return null;
 		}
@@ -157,29 +133,26 @@ namespace SIL.Pa.Model
 			// to the record's data source object to get that information.
 			if (field == s_dataSourcePathFieldName)
 			{
-				return (m_dataSource.DataSourceType == DataSourceType.FW &&
-					m_dataSource.FwSourceDirectFromDB ?	m_dataSource.FwDataSourceInfo.Server :
-					Path.GetDirectoryName(m_dataSource.DataSourceFile)); 
+				return (DataSource.DataSourceType == DataSourceType.FW &&
+					DataSource.FwSourceDirectFromDB ? DataSource.FwDataSourceInfo.Server :
+					Path.GetDirectoryName(DataSource.DataSourceFile)); 
 			}
 
 			// If the data source name is being requested then defer to
 			// the record's data source object to get that information.
 			if (field == s_dataSourceFieldName)
 			{
-				return (m_dataSource.DataSourceType == DataSourceType.FW &&
-					m_dataSource.FwSourceDirectFromDB ?	m_dataSource.FwDataSourceInfo.ToString() :
-					Path.GetFileName(m_dataSource.DataSourceFile));
+				return (DataSource.DataSourceType == DataSourceType.FW &&
+					DataSource.FwSourceDirectFromDB ? DataSource.FwDataSourceInfo.ToString() :
+					Path.GetFileName(DataSource.DataSourceFile));
 			}
 
 			PaFieldValue fieldValue;
-			if (m_fieldValues.TryGetValue(field, out fieldValue))
-			{
-				if (fieldValue.Value != null)
-					return fieldValue.Value;
-			}
+			if (m_fieldValues.TryGetValue(field, out fieldValue) && fieldValue.Value != null)
+				return fieldValue.Value;
 
 			// If the field isn't in the word cache entry's values, check if it's a parsed field.
-			PaFieldInfo fieldInfo = App.FieldInfo[field];
+			var fieldInfo = App.FieldInfo[field];
 			if (fieldInfo == null || !fieldInfo.IsParsed)
 				return null;
 
@@ -193,18 +166,18 @@ namespace SIL.Pa.Model
 			// the value from their owning record cache entry. But that will put us right back
 			// here, thus causing a circular problem ending in a stack overflow. Hence the
 			// call to GetField() passing false in the second argument.
-			StringBuilder words = new StringBuilder();
+			var words = new StringBuilder();
 
-			if (m_wordEntries != null)
+			if (WordEntries != null)
 			{
-				foreach (WordCacheEntry wentry in m_wordEntries)
+				foreach (var wentry in WordEntries)
 				{
 					words.Append(wentry.GetField(field, false));
 					words.Append(' ');
 				}
 			}
 
-			string trimmedWords = words.ToString().Trim();
+			var trimmedWords = words.ToString().Trim();
 			return (trimmedWords == string.Empty ? null : trimmedWords);
 		}
 
@@ -221,36 +194,25 @@ namespace SIL.Pa.Model
 			if (fieldInfo == null)
 				return null;
 
-			List<string> values = new List<string>();
 			bool getOrigPhonetic = (useOriginalPhonetic && fieldInfo.IsPhonetic);
 			string fldName = fieldInfo.FieldName;
 
 			// Go through the parsed word entries and get the values for the specified field.
-			foreach (WordCacheEntry wentry in m_wordEntries)
+			var values = WordEntries.Select(we =>
 			{
-				string fieldValue = (getOrigPhonetic ?
-					wentry.OriginalPhoneticValue : wentry.GetField(fldName, false));
-				
-				values.Add(fieldValue != null ? fieldValue.Trim() : string.Empty);
-			}
+				var val = (getOrigPhonetic ? we.OriginalPhoneticValue : we.GetField(fldName, false));
+				return (val != null ? val.Trim() : string.Empty);
+			}).ToArray();
 
-			return (values.Count == 0 ? null : values.ToArray());
+			return (values.Length == 0 ? null : values.ToArray());
 		}
 
 		#endregion
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public object Tag
-		{
-			get { return m_tag; }
-			set { m_tag = value; }
-		}
+		public object Tag { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -259,10 +221,7 @@ namespace SIL.Pa.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public int Id
-		{
-			get { return m_id; }
-		}
+		public int Id { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -271,24 +230,17 @@ namespace SIL.Pa.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public bool CanBeEditedInToolbox
-		{
-			get { return m_canBeEditedInToolbox; }
-		}
+		public bool CanBeEditedInToolbox { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Indicates whether or not the record entry needs to be parsed. (Entries created
-		/// from an XML file or from a FW database should not need parsing, while those
-		/// created from SFM records should.)
+		/// from an XML file or from a FW6 (or earlier) project should not need parsing,
+		/// while those created from all other data sources, should.)
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public bool NeedsParsing
-		{
-			get { return m_needsParsing; }
-			set { m_needsParsing = value; }
-		}
+		public bool NeedsParsing { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -296,33 +248,13 @@ namespace SIL.Pa.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public PaDataSource DataSource
-		{
-			get { return m_dataSource; }
-			set { m_dataSource = value; }
-		}
+		public PaDataSource DataSource { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string FirstInterlinearField
-		{
-			get { return m_firstInterlinearField; }
-			set { m_firstInterlinearField = value; }
-		}
+		public string FirstInterlinearField { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public List<string> InterlinearFields
-		{
-			get { return m_interlinearFields; }
-			set { m_interlinearFields = value; }
-		}
+		public List<string> InterlinearFields { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -338,12 +270,12 @@ namespace SIL.Pa.Model
 				// values of m_interlinearFields and m_firstInterlinearField determine
 				// what's returned. Otherwise, this data source's parse type must be
 				// interlinear.
-				bool projParseTypeOK = (m_dataSource.DataSourceType != DataSourceType.SFM &&
-					m_dataSource.DataSourceType != DataSourceType.Toolbox ? true :
-					m_dataSource.ParseType == DataSourceParseType.Interlinear);
+				bool projParseTypeOK = (DataSource.DataSourceType != DataSourceType.SFM &&
+					DataSource.DataSourceType != DataSourceType.Toolbox ? true :
+					DataSource.ParseType == DataSourceParseType.Interlinear);
 
-				return (projParseTypeOK && m_interlinearFields != null &&
-					m_firstInterlinearField != null);
+				return (projParseTypeOK && InterlinearFields != null &&
+					FirstInterlinearField != null);
 			}
 		}
 
@@ -358,11 +290,7 @@ namespace SIL.Pa.Model
 			get
 			{
 				if (m_fieldValues != null)
-				{
-					m_fieldValuesList = new List<PaFieldValue>();
-					foreach (KeyValuePair<string, PaFieldValue> fieldValue in m_fieldValues)
-						m_fieldValuesList.Add(fieldValue.Value);
-				}
+					m_fieldValuesList = m_fieldValues.Values.ToList();
 
 				return m_fieldValuesList;
 			}
@@ -370,16 +298,8 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlArray("ParsedFields")]
-		public List<WordCacheEntry> WordEntries
-		{
-			get { return m_wordEntries; }
-			set { m_wordEntries = value; }
-		}
+		public List<WordCacheEntry> WordEntries { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -387,11 +307,7 @@ namespace SIL.Pa.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public int Channels
-		{
-			get { return m_channels; }
-			set { m_channels = value; }
-		}
+		public int Channels { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -399,11 +315,7 @@ namespace SIL.Pa.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public long SamplesPerSecond
-		{
-			get { return m_samplesPerSec; }
-			set { m_samplesPerSec = value; }
-		}
+		public long SamplesPerSecond { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -411,11 +323,7 @@ namespace SIL.Pa.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public int BitsPerSample
-		{
-			get { return m_bitsPerSample; }
-			set { m_bitsPerSample = value; }
-		}
+		public int BitsPerSample { get; set; }
 
 		#endregion
 
@@ -427,7 +335,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public bool IsInterlinearField(string field)
 		{
-			return (HasInterlinearData && m_interlinearFields.Contains(field));
+			return (HasInterlinearData && InterlinearFields.Contains(field));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -438,30 +346,25 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void PostDeserializeProcess(PaDataSource dataSource)
 		{
-			m_dataSource = dataSource;
+			DataSource = dataSource;
 
-			if (m_fieldValuesList != null && m_fieldValuesList.Count > 0)
+			if (m_fieldValuesList != null && m_fieldValuesList.Count() > 0)
 			{
-				m_fieldValues = new Dictionary<string, PaFieldValue>();
-				foreach (PaFieldValue fieldValue in m_fieldValuesList)
-					m_fieldValues[fieldValue.Name] = fieldValue;
-
+				m_fieldValues = m_fieldValuesList.ToDictionary(fv => fv.Name, fv => fv);
 				m_fieldValuesList = null;
 			}
 
+			if (WordEntries == null)
+				return;
+			
 			int i = 0;
-			if (m_wordEntries != null)
+			foreach (var entry in WordEntries)
 			{
-				foreach (WordCacheEntry entry in m_wordEntries)
-				{
-					// This should never happen, but I did see it happen
-					// for some unexplainable reason.
-					if (entry.RecordEntry == null)
-						entry.RecordEntry = this;
+				if (entry.RecordEntry == null)
+					entry.RecordEntry = this;
 
-					entry.PostDeserializeProcess();
-					entry.WordIndex = i++;
-				}
+				entry.PostDeserializeProcess();
+				entry.WordIndex = i++;
 			}
 		}
 	}
