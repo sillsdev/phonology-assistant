@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SaFields version="3.0">
+	<field name="Phonetic" type="Phonetic">
+		<isParsed>true</isParsed>
+	</field>
+	<field name="Phonemic" type="GeneralText">
+		<isParsed>true</isParsed>
+	</field>
+	<field name="Tone" type="GeneralText">
+		<isParsed>true</isParsed>
+	</field>
+	<field name="Gloss" type="GeneralText">
+		<isParsed>true</isParsed>
+	</field>
+	<field name="Orthographic" type="GeneralText">
+		<isParsed>true</isParsed>
+	</field>
+	<field name="Reference" type="Reference">
+		<isParsed>true</isParsed>
+	</field>
+	<field name="AudioFile" type="AudioFilePath">
+		<isParsed>true</isParsed>
+	</field>
+	<field name="AudioLength" type="AudioLength">
+		<isParsed>true</isParsed>
+	</field>
+	<field name="AudioOffset" type="AudioOffset">
+		<isParsed>true</isParsed>
+	</field>
+	<field name="FreeFormTranslation" type="GeneralText"/>
+	<field name="NoteBookReference" type="GeneralText"/>
+	<field name="Dialect" type="GeneralText"/>
+	<field name="EthnologueId" type="GeneralText"/>
+	<field name="LanguageName" type="GeneralText"/>
+	<field name="Region" type="GeneralText"/>
+	<field name="Country" type="GeneralText"/>
+	<field name="Family" type="GeneralText"/>
+	<field name="Transcriber" type="GeneralText"/>
+	<field name="SpeakerName" type="GeneralText"/>
+	<field name="SpeakerGender" type="GeneralText"/>
+	<field name="SADescription" type="GeneralText"/>
+</SaFields>

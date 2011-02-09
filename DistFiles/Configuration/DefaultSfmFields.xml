@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SfmFields version="3.0">
+	<field name="Reference" type="Reference">
+		<possibleDataSourceFieldNames>\ref</possibleDataSourceFieldNames>
+	</field>
+	<field name="Phonetic" type="Phonetic">
+		<isParsed>true</isParsed>
+		<possibleDataSourceFieldNames>\ph;\tx</possibleDataSourceFieldNames>
+	</field>
+	<field name="Gloss" type="GeneralText">
+		<isParsed>true</isParsed>
+		<possibleDataSourceFieldNames>\gl;\ge</possibleDataSourceFieldNames>
+	</field>
+	<field name="NatGloss" type="GeneralText">
+		<isParsed>true</isParsed>
+		<possibleDataSourceFieldNames>\gn</possibleDataSourceFieldNames>
+	</field>
+	<field name="PartOfSpeech" type="GeneralText">
+		<isParsed>true</isParsed>
+		<possibleDataSourceFieldNames>\ps</possibleDataSourceFieldNames>
+	</field>
+	<field name="Tone" type="GeneralText">
+		<isParsed>true</isParsed>
+		<possibleDataSourceFieldNames>\tn;\pi</possibleDataSourceFieldNames>
+	</field>
+	<field name="Orthographic" type="GeneralText">
+		<isParsed>true</isParsed>
+	</field>
+	<field name="Phonemic" type="GeneralText">
+		<isParsed>true</isParsed>
+		<canBeInterlinear>true</canBeInterlinear>
+	</field>
+	<field name="AudioFile" type="AudioFilePath">
+		<possibleDataSourceFieldNames>\sf;\snd</possibleDataSourceFieldNames>
+	</field>
+</SfmFields>
