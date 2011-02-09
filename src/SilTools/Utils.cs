@@ -329,6 +329,7 @@ namespace SilTools
 		{
 			get
 			{
+				// TODO Linux - fix MyDocuments here similar to way we did it in GetDefaultProjectFolder ()
 				string silSwPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 				silSwPath = Path.Combine(silSwPath, @"SIL Software");
 
@@ -422,8 +423,9 @@ namespace SilTools
 			// look in the path where the specified assembly is located.
 			if (!File.Exists(path) && mustExist)
 			{
-				// CodeBase prepends "file:/", which must be removed.
-				string dir = Path.GetDirectoryName(assembly.CodeBase).Substring(6);
+				// CodeBase prepends "file:/" (Win) or "file:" (Linux), which must be removed.
+				int prefixLen = (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX) ? 5 : 6;
+				string dir = Path.GetDirectoryName(assembly.CodeBase).Substring(prefixLen);
 				path = Path.Combine(dir, filename);
 			}
 
@@ -440,9 +442,9 @@ namespace SilTools
 		{
 			string asmPath = Assembly.GetCallingAssembly().CodeBase;
 
-			// Strip off "file:" and all the slashes that follow.
-			asmPath = asmPath.Substring(5);
-			asmPath = asmPath.TrimStart('/');
+			// CodeBase prepends "file:/" (Win) or "file:" (Linux), which must be removed.
+			int prefixLen = (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX) ? 5 : 6;
+			asmPath = asmPath.Substring(prefixLen);
 
 			return Path.GetDirectoryName(asmPath);
 		}

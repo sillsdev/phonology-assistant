@@ -528,6 +528,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private static void InitializePaRegKey()
 		{
+			// TODO Linux - make a resonable default location here
 			string projPath = GetDefaultProjectFolder();
 
 			// Check if an entry in the registry specifies the default project path.
@@ -562,23 +563,38 @@ namespace SIL.Pa
 		public static string GetDefaultProjectFolder()
 		{
 			// Construct the default project path.
-			string projPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
-			// I found that in limited user mode on Vista, Environment.SpecialFolder.MyDocuments
-			// returns an empty string. Argh!!! Therefore, I have to make sure there is
-			// a valid and full path. Do that by getting the user's desktop folder and
-			// chopping off everything that follows the last backslash. If getting the user's
-			// desktop folder fails, then fall back to the program's folder, which is
-			// probably not right, but we'll have to assume it will never happen. :o)
-			if (string.IsNullOrEmpty(projPath))
+			string projPath;
+			if (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX) // Linux
 			{
-				projPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-				if (string.IsNullOrEmpty(projPath) || !Directory.Exists(projPath))
-					return AssemblyPath;
-
-				projPath = projPath.TrimEnd('\\');
-				int i = projPath.LastIndexOf('\\');
-				projPath = projPath.Substring(0, i);
+				// TODO Linux - make this locale-neutral via `/usr/bin/xdg-user-dir DOCUMENTS` _OR_ GLib g_get_user_special_dir() (see http://tinyurl.com/48haea9)
+				// TODO Linux - decide if we want ~/Documents/Phonology\ Assistant  or  ~/.phonology-assistant or something else
+				
+				// Work around Mono bug https://bugzilla.novell.com/show_bug.cgi?id=597907
+				// in Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments):
+				projPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Documents");
+			}
+			else // Windows
+			{
+				projPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+	
+				// I found that in limited user mode on Vista, Environment.SpecialFolder.MyDocuments
+				// returns an empty string. Argh!!! Therefore, I have to make sure there is
+				// a valid and full path. Do that by getting the user's desktop folder and
+				// chopping off everything that follows the last backslash. If getting the user's
+				// desktop folder fails, then fall back to the program's folder, which is
+				// probably not right, but we'll have to assume it will never happen. :o)
+				if (string.IsNullOrEmpty (projPath))
+				{
+					projPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+					if (string.IsNullOrEmpty (projPath) || !Directory.Exists (projPath))
+						return AssemblyPath;
+	
+					projPath = projPath.TrimEnd(Path.DirectorySeparatorChar);
+					int i = projPath.LastIndexOf(Path.DirectorySeparatorChar);
+					if (i < 2)
+						return AssemblyPath;
+					projPath = projPath.Substring(0, i);
+				}
 			}
 
 			return Path.Combine(projPath, Properties.Resources.kstidDefaultProjFileFolderName);
@@ -746,8 +762,9 @@ namespace SIL.Pa
 		{
 			get
 			{
-				// CodeBase prepends "file:/", which must be removed.
-				return Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase).Substring(6);
+				// CodeBase prepends "file:/" (Win) or "file:" (Linux), which must be removed.
+				int prefixLen = (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX) ? 5 : 6;
+				return Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase).Substring(prefixLen);
 			}
 		}
 

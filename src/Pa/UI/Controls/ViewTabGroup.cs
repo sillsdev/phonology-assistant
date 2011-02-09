@@ -58,7 +58,10 @@ namespace SIL.Pa.UI.Controls
 
 			m_tabs = new List<ViewTab>();
 
+// TODO Linux - make this work in Linux too
+//#if !__MonoCS__
 			if (!App.DesignMode)
+//#endif
 				App.AddMediatorColleague(this);
 		}
 
@@ -232,11 +235,14 @@ namespace SIL.Pa.UI.Controls
 
 			if (!DesignMode)
 			{
+// TODO Linux - make this work in Linux too
+#if !__MonoCS__
 				m_tooltip.SetToolTip(m_btnLeft, App.LocalizeString(
 					"ViewTabsScrollLeftToolTipText", "Scroll Left", App.kLocalizationGroupMisc));
 
 				m_tooltip.SetToolTip(m_btnRight, App.LocalizeString(
 					"ViewTabsScrollRightToolTipText", "Scroll Right", App.kLocalizationGroupMisc));
+#endif
 			}
 		}
 

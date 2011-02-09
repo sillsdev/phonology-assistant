@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 using SIL.Pa.UI.Dialogs;
 using SilTools;
-#if WIN32
+#if !__MonoCS__
 using SIL.SpeechTools.Utils;
 #endif
 
@@ -18,7 +18,8 @@ namespace SIL.Pa
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-#if WIN32
+// TODO Linux - make this work in Linux (really only useful once Speech Analyzer is ported)
+#if !__MonoCS__
 	public class AudioPlayer
 	{
 		[DllImport("winmm.dll")]
