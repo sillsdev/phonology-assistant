@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
@@ -788,6 +789,18 @@ namespace SIL.Pa
 		}
 
 		public static IEnumerable<PaField> Fields { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public static PaField GetPhoneticField()
+		{
+			return Fields.SingleOrDefault(f => f.Type == FieldType.Phonetic);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static PaField GetFieldForName(string fieldName)
+		{
+			return Fields.SingleOrDefault(f => f.Name == fieldName);
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

@@ -191,19 +191,12 @@ namespace SIL.Pa
 			if (!string.IsNullOrEmpty(newName) && sortOptions != null &&
 				sortOptions.SortInformationList != null)
 			{
-				foreach (SortInformation si in sortOptions.SortInformationList)
-				{
-					if (si.FieldInfo.FieldName == origName)
-						si.FieldInfo.FieldName = newName;
-				}
+				foreach (var si in sortOptions.SortInformationList.Where(si => si.Field.Name == origName))
+					si.Field.Name = newName;
 			}
 		}
 
 		#region IDisposable Members
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
@@ -311,9 +304,9 @@ namespace SIL.Pa
 				project = XmlSerializationHelper.DeserializeFromFile<PaProject>(projFileName);
 				PhoneCache.CVPatternInfoList = project.m_CVPatternInfoList;
 				project.m_fileName = projFileName;
-				project.LoadFields();
+				project.Fields = PaField.GetProjectFields(project);
 				project.VerifyDataSourceMappings();
-				RecordCacheEntry.InitializeDataSourceFields(project.FieldInfo);
+				//RecordCacheEntry.InitializeDataSourceFields(project.FieldInfo);
 			}
 			catch (Exception e)
 			{
@@ -413,31 +406,31 @@ namespace SIL.Pa
 		/// <summary>
 		/// Loads the projects field information from its XML file.
 		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void LoadFieldInfo()
-		{
-			// TODO: Update to new system.
+		///// ------------------------------------------------------------------------------------
+		//public void LoadFieldInfo()
+		//{
+		//    // TODO: Update to new system.
 
-			try
-			{
-				bool saveAfterLoadingFields;
-				m_fieldInfoList = PaFieldInfoList.Load(this, out saveAfterLoadingFields);
-				if (saveAfterLoadingFields)
-					Save();
+		//    try
+		//    {
+		//        bool saveAfterLoadingFields;
+		//        m_fieldInfoList = PaFieldInfoList.Load(this, out saveAfterLoadingFields);
+		//        if (saveAfterLoadingFields)
+		//            Save();
 
-				App.FieldInfo = m_fieldInfoList;
-				InitializeFontHelperFonts();
-				DataCorpusVwSortOptions.SyncFieldInfo(m_fieldInfoList);
-				SearchVwSortOptions.SyncFieldInfo(m_fieldInfoList);
-				DistributionChartVwSortOptions.SyncFieldInfo(m_fieldInfoList);
-			}
-			catch (Exception e)
-			{
-				Utils.MsgBox(
-					string.Format(Properties.Resources.kstidErrorLoadingProjectFieldInfo,
-					Name, e.Message));
-			}
-		}
+		//        App.FieldInfo = m_fieldInfoList;
+		//        InitializeFontHelperFonts();
+		//        DataCorpusVwSortOptions.SyncFieldInfo(m_fieldInfoList);
+		//        SearchVwSortOptions.SyncFieldInfo(m_fieldInfoList);
+		//        DistributionChartVwSortOptions.SyncFieldInfo(m_fieldInfoList);
+		//    }
+		//    catch (Exception e)
+		//    {
+		//        Utils.MsgBox(
+		//            string.Format(Properties.Resources.kstidErrorLoadingProjectFieldInfo,
+		//            Name, e.Message));
+		//    }
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -614,16 +607,14 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void EnsureSingleSortOptionValid(SortOptions sortOptions)
 		{
-			if (sortOptions != null && sortOptions.SortInformationList != null)
+			if (sortOptions == null || sortOptions.SortInformationList == null)
+				return;
+			
+			var list = sortOptions.SortInformationList;
+			for (int i = list.Count - 1; i >= 0; i--)
 			{
-				SortInformationList list = sortOptions.SortInformationList;
-
-				for (int i = list.Count - 1; i >= 0; i--)
-				{
-					PaFieldInfo fieldInfo = m_fieldInfoList[list[i].FieldInfo.FieldName];
-					if (fieldInfo == null)
-						list.RemoveAt(i);
-				}
+				if (!Fields.Any(f => f.Name == list[i].Field.Name))
+					list.RemoveAt(i);
 			}
 		}
 
@@ -865,13 +856,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public List<CVPatternInfo> CVPatternInfoList
 		{
-			get
-			{
-				if (m_CVPatternInfoList == null)
-					m_CVPatternInfoList = new List<CVPatternInfo>();
-				
-				return m_CVPatternInfoList;
-			}
+			get { return m_CVPatternInfoList ?? (m_CVPatternInfoList = new List<CVPatternInfo>()); }
 			set
 			{
 				m_CVPatternInfoList = value;
@@ -880,7 +865,8 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<PaField> Fields { get; protected set; }
+		[XmlIgnore]
+		public IEnumerable<PaField> Fields { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -901,13 +887,7 @@ namespace SIL.Pa
 		[XmlIgnore]
 		public SearchQueryGroupList SearchQueryGroups
 		{
-			get
-			{
-				if (m_queryGroups == null)
-					m_queryGroups = SearchQueryGroupList.Load(this);
-
-				return m_queryGroups;
-			}
+			get { return m_queryGroups ?? (m_queryGroups = SearchQueryGroupList.Load(this)); }
 			set { m_queryGroups = value; }
 		}
 
@@ -919,13 +899,7 @@ namespace SIL.Pa
 		[XmlIgnore]
 		public SearchClassList SearchClasses
 		{
-			get
-			{
-				if (m_classes == null)
-					m_classes = SearchClassList.Load(this);
-
-				return m_classes;
-			}
+			get { return m_classes ?? (m_classes = SearchClassList.Load(this)); }
 			set { m_classes = value; }
 		}
 
@@ -1014,14 +988,8 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public CIEOptions CIEOptions
 		{
-			get
-			{
-				if (m_cieOptions == null)
-					m_cieOptions = new CIEOptions();
-
-				return m_cieOptions;
-			}
-			set	{m_cieOptions = (value ?? new CIEOptions());}
+			get { return m_cieOptions ?? (m_cieOptions = new CIEOptions()); }
+			set	{ m_cieOptions = (value ?? new CIEOptions()); }
 		}
 
 		/// ------------------------------------------------------------------------------------

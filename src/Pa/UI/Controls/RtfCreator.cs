@@ -1,14 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
-using SIL.Pa.Resources;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -52,9 +51,9 @@ namespace SIL.Pa.UI.Controls
 		private const int kExtraTwipsForPhoneticSrchRsltCol = 20;
 
 		// Member Variables
-		private int m_numberOfRecords = 0;
+		private int m_numberOfRecords;
 		private int m_uiFontNumber;
-		private float m_pixelsPerInch;
+		private readonly float m_pixelsPerInch;
 		private readonly SortedList<int, DataGridViewColumn> m_sortedColumns;
 		private Dictionary<string, int> m_fontSizes = new Dictionary<string, int>();
 		private readonly Dictionary<string, int> m_fontNumbers = new Dictionary<string, int>();
@@ -75,20 +74,20 @@ namespace SIL.Pa.UI.Controls
 		private int m_topMargin;
 		private int m_bottomMargin;
 		
-		private float m_columnStartPoint = 0;
+		private float m_columnStartPoint;
 		private enum ArrayDataType { GroupingFieldName, RecordIndex, SilHierarchicalGridRow };
 		private Dictionary<int, object[]> m_rowValues;
 		private Font m_phoneticColFont;
 		private int m_phoneticColIndex;
 		private int m_beforeEnvTwipWidth = 1;
-		private int m_maxSrchItemAftEnvTwipsWidth = 0;
+		private int m_maxSrchItemAftEnvTwipsWidth;
 		private StringBuilder m_tabFormatBldr = new StringBuilder();
 		private readonly string m_rtfEditor = string.Empty;
 		private readonly StringBuilder m_rtfBldr;
 		private readonly WordListCache m_cache;
 		private readonly DataGridView m_grid;
 		private readonly Graphics m_graphics;
-		private readonly int m_searchItemColorRefNumber = 0;
+		private readonly int m_searchItemColorRefNumber;
 		private readonly StringBuilder m_cellFormatBldr = new StringBuilder();
 		private readonly StringBuilder m_cellLineFormatBldr = new StringBuilder();
 		private readonly int m_colRightPadding;
@@ -188,19 +187,15 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private int TextWidthInTwips(string text, Font fnt)
 		{
-			TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix;
+			var flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix;
 
 			if (m_exportFormat == ExportFormat.TabDelimited)
 				flags |= TextFormatFlags.SingleLine;
 
 			int textWidth = TextRenderer.MeasureText(m_graphics, text, fnt, Size.Empty, flags).Width;
-			return (int)((textWidth / m_pixelsPerInch) * (float)kTwipsPerInch);
+			return (int)((textWidth / m_pixelsPerInch) * kTwipsPerInch);
 		}
 
 		#endregion
@@ -249,7 +244,7 @@ namespace SIL.Pa.UI.Controls
 					foreach (DataGridViewColumn col in m_sortedColumns.Values)
 					{
 						if (row.Cells[col.Index].Value == null)
-							m_rowValues.Add(col.Index, new object[3] { string.Empty, row.Index, null });
+							m_rowValues.Add(col.Index, new object[] { string.Empty, row.Index, null });
 						else
 							CheckWidthOfCellValue(row.Cells[col.Index]);
 					}
@@ -371,7 +366,7 @@ namespace SIL.Pa.UI.Controls
 
 			// Update the max column length if the cell text width is greater
 			m_maxFieldWidths[colIndex] = Math.Max(textWidth, m_maxFieldWidths[colIndex]);
-			m_rowValues[colIndex] = new object[3] { cellValue, cell.RowIndex, null };
+			m_rowValues[colIndex] = new object[] { cellValue, cell.RowIndex, null };
 		}
 
 		#endregion
@@ -437,7 +432,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				m_rtfBldr.AppendLine(kline);
 				m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrGroupField,
-					ktab, ((PaWordListGrid)m_grid).GroupByField.DisplayText);
+					ktab, ((PaWordListGrid)m_grid).GroupByField.DisplayName);
 			}
 			
 			m_rtfBldr.AppendLine(kline);
@@ -469,9 +464,7 @@ namespace SIL.Pa.UI.Controls
 		private void MakeFinalWidthAdjustments()
 		{
 			// Calculate sum total of all the field widths to see if they all fit in the page width.
-			int preferredPageWidth = 0;
-			foreach (int fldWidth in m_maxFieldWidths.Values)
-				preferredPageWidth += fldWidth;
+			int preferredPageWidth = m_maxFieldWidths.Values.Sum();
 
 			// Add in the padding for each cell.
 			//if (m_exportFormat == ExportFormat.Table)
@@ -755,12 +748,12 @@ namespace SIL.Pa.UI.Controls
 
 			// Get the font number and size for the group heading text.
 			string groupFieldName = null;
-			PaWordListGrid grid = m_grid as PaWordListGrid;
+			var grid = m_grid as PaWordListGrid;
 
 			if (grid != null && grid.GroupByField != null)
-				groupFieldName = grid.GroupByField.FieldName;
+				groupFieldName = grid.GroupByField.Name;
 			else if (m_cache.IsCIEList)
-				groupFieldName = App.FieldInfo.PhoneticField.FieldName;
+				groupFieldName = App.GetPhoneticField().Name;
 			
 			int fontNumber = (string.IsNullOrEmpty(groupFieldName) ? 0 : m_fontNumbers[groupFieldName]);
 			int fontSize = (string.IsNullOrEmpty(groupFieldName) ? 20 : m_fontSizes[groupFieldName]);
@@ -776,7 +769,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				// Make sure a group header starts a new paragraph.
 				int len = 0;
-				string rtf = m_rtfBldr.ToString();
+				var rtf = m_rtfBldr.ToString();
 				if (rtf.EndsWith(kline))
 					len = kline.Length;
 				else if (rtf.EndsWith(kline + Environment.NewLine))
@@ -825,7 +818,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void WriteToFileOrClipboard()
 		{
-			string rtf = RtfHelper.TranslateUnicodeChars(m_rtfBldr.ToString());
+			var rtf = RtfHelper.TranslateUnicodeChars(m_rtfBldr.ToString());
 
 			if (m_exportTarget == ExportTarget.Clipboard)
 			{
@@ -836,14 +829,14 @@ namespace SIL.Pa.UI.Controls
 			string filter = App.kstidFiletypeRTF + "|" + App.kstidFileTypeAllFiles;
 
 			int filterIndex = 0;
-			string filename = App.SaveFileDialog("rtf", filter, ref filterIndex,
+			var filename = App.SaveFileDialog("rtf", filter, ref filterIndex,
 				Properties.Resources.kstidRTFExportCaptionSFD, string.Empty);
 
 			if (filename != string.Empty)
 			{
 				try
 				{
-					using (StreamWriter sw = new StreamWriter(filename))
+					using (var sw = new StreamWriter(filename))
 						sw.Write(rtf);
 				}
 				catch (Exception ex)

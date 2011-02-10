@@ -107,7 +107,7 @@ namespace SIL.Pa.Processing
 		protected virtual bool RunPipeline(object input)
 		{
 			// Create a processing pipeline for a series of xslt transforms to be applied to the stream.
-			var pipeline = ProcessHelper.CreatePipline(ProcessType);
+			var pipeline = ProcessHelper.CreatePipeline(ProcessType);
 
 			// REVIEW: Should we warn the user that this failed?
 			if (pipeline == null)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
@@ -321,7 +322,7 @@ namespace SIL.Pa.UI.Controls
 				else if (grid.SortOptions.SortInformationList != null &&
 					grid.SortOptions.SortInformationList.Count > 0)
 				{
-					grid.GroupByField = grid.SortOptions.SortInformationList[0].FieldInfo;
+					grid.GroupByField = grid.SortOptions.SortInformationList[0].Field;
 
 					if (Settings.Default.WordListCollapseOnGrouping)
 						grid.ToggleGroupExpansion(false);
@@ -1126,13 +1127,14 @@ namespace SIL.Pa.UI.Controls
 				resultLocation == SearchResultLocation.CurrentTab)
 			{
 				tab = m_currTabGroup.CurrentTab;
-				if (tab != null && resultView != null)
+				if (resultView != null)
 				{
 					tab.Text = null;
 					m_currTabGroup.InitializeTab(tab, resultView, true);
 				}
 
 				m_resultsPanel.ResumeLayout(true);
+
 				// Must Select the Tab, so the Current Playback Grid for the tab is set to true.
 				// This will ensure the sound file Playback will always work.
 				m_currTabGroup.SelectTab(tab, true);
@@ -1579,14 +1581,8 @@ namespace SIL.Pa.UI.Controls
 			// The query name may just be the pattern and in that case, we won't use it as
 			// part of the default output file name. But if all characters in the name
 			// are valid, then it will be used as part of the default file name.
-			foreach (char invalidChar in Path.GetInvalidFileNameChars())
-			{
-				if (queryName.Contains(invalidChar.ToString()))
-				{
-					queryName = string.Empty;
-					break;
-				}
-			}
+			if (Path.GetInvalidFileNameChars().Any(invalidChar => queryName.Contains(invalidChar.ToString())))
+				queryName = string.Empty;
 
 			var defaultFileName = string.Format(fmtFileName, App.Project.LanguageName, queryName);
 

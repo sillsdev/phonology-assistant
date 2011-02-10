@@ -68,11 +68,7 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Pipeline CreatePipline(Pipeline.ProcessType prsType)
+		public static Pipeline CreatePipeline(Pipeline.ProcessType prsType)
 		{
 			return Pipeline.Create(prsType, ProcessFile, App.ProcessingFolder);
 		}

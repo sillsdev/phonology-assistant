@@ -65,16 +65,16 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static void InitializeDataSourceFields(IEnumerable<PaField> fields)
 		{
-			if (fields == null)
-				return;
+			//if (fields == null)
+			//    return;
 
-			var fieldInfo = fields.DataSourceField;
-			if (fieldInfo != null)
-				s_dataSourceFieldName = fieldInfo.FieldName;
+			//var fieldInfo = fields.DataSourceField;
+			//if (fieldInfo != null)
+			//    s_dataSourceFieldName = fieldInfo.FieldName;
 
-			fieldInfo = fields.DataSourcePathField;
-			if (fieldInfo != null)
-				s_dataSourcePathFieldName = fieldInfo.FieldName;
+			//fieldInfo = fields.DataSourcePathField;
+			//if (fieldInfo != null)
+			//    s_dataSourcePathFieldName = fieldInfo.FieldName;
 		}
 
 		#region Methods and Indexers for getting and setting field values
@@ -150,15 +150,15 @@ namespace SIL.Pa.Model
 				return fieldValue.Value;
 
 			// If the field isn't in the word cache entry's values, check if it's a parsed field.
-			var field = App.Fields.SingleOrDefault(f => f.Name == fieldName);
-			if (field == null || !field.IsParsed)
+			//var field = App.GetFieldForName(fieldName);
+			//if (field == null || !field.IsParsed)
 				return null;
 
 			// At this point, we know 2 things: 1) either this record cache entry doesn't
 			// contain a value for the specified field or it does and the value is null, or
 			// 2) the specified field is a parsed field. Therefore, gather together all the
-			// words (from this record cache entry's owned word cache entries) for the field.
-			// When gathering the word cache entry's, use the GetField method instead of
+			// words (from this record cache entry's owned word cache) for the field.
+			// When gathering the word cache entries, use the GetField method instead of
 			// wentry[field] because when using wentry[field] to get word cache entry values
 			// and any of the word cache entry values are null, word cache entries defer to
 			// the value from their owning record cache entry. But that will put us right back

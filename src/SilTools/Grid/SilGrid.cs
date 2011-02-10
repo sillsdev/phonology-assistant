@@ -699,6 +699,12 @@ namespace SilTools
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
+		public IEnumerable<DataGridViewRow> GetRows()
+		{
+			return Rows.Cast<DataGridViewRow>();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void MakeFirstVisibleCellCurrentInRow(int rowIndex)
 		{
 			if (rowIndex < 0 || rowIndex >= RowCount)

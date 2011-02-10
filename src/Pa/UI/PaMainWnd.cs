@@ -40,11 +40,13 @@ namespace SIL.Pa.UI
 	public partial class PaMainWnd : Form, IxCoreColleague
 	{
 		private ITMAdapter m_tmAdapter;
+		private readonly bool m_doNotLoadLastProject;
 
 		#region Construction and Setup
 		/// ------------------------------------------------------------------------------------
 		public PaMainWnd()
 		{
+			m_doNotLoadLastProject = ((ModifierKeys & Keys.Shift) == Keys.Shift);
 			InitializeComponent();
 			Settings.Default.MainWindow = App.InitializeForm(this, Settings.Default.MainWindow);
 		}
@@ -127,7 +129,7 @@ namespace SIL.Pa.UI
 
 			if (projArg != null)
 				LoadProject(projArg.Substring(3));
-			else
+			else if (!m_doNotLoadLastProject)
 				LoadProject(Settings.Default.LastProjectLoaded);
 
 			App.CloseSplashScreen();

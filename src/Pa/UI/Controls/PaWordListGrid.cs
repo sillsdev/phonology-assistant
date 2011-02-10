@@ -600,7 +600,7 @@ namespace SIL.Pa.UI.Controls
 				return false;
 			}
 
-			GroupByField = App.Fields.SingleOrDefault(f => f.Name == itemProps.Name);
+			GroupByField = App.GetFieldForName(itemProps.Name);
 			return true;
 		}
 
@@ -2896,30 +2896,30 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool OnCVPatternsChanged(object args)
 		{
-			PaFieldInfo fieldInfo = FieldInfoList.CVPatternField;
-			if (fieldInfo != null)
-			{
-				bool resorted = false;
+			//PaFieldInfo fieldInfo = FieldInfoList.CVPatternField;
+			//if (fieldInfo != null)
+			//{
+			//    bool resorted = false;
 
-				if (m_sortOptions != null && m_sortOptions.SortInformationList != null)
-				{
-					// Check if the CV pattern is one of the fields on which the list
-					// is sorted. If it is, then resort the word list. This will also
-					// regroup the list if it's grouped.
-					if (m_sortOptions.SortInformationList.Any(si => si.Field == fieldInfo))
-					{
-						Sort(m_sortOptions.SortInformationList[0].Field.Name, false);
-						resorted = true;
-					}
-				}
+			//    if (m_sortOptions != null && m_sortOptions.SortInformationList != null)
+			//    {
+			//        // Check if the CV pattern is one of the fields on which the list
+			//        // is sorted. If it is, then resort the word list. This will also
+			//        // regroup the list if it's grouped.
+			//        if (m_sortOptions.SortInformationList.Any(si => si.Field == fieldInfo))
+			//        {
+			//            Sort(m_sortOptions.SortInformationList[0].Field.Name, false);
+			//            resorted = true;
+			//        }
+			//    }
 
-				if (!resorted)
-				{
-					DataGridViewColumn col = Columns[fieldInfo.FieldName];
-					if (col != null)
-						InvalidateColumn(col.Index);
-				}
-			}
+			//    if (!resorted)
+			//    {
+			//        DataGridViewColumn col = Columns[fieldInfo.FieldName];
+			//        if (col != null)
+			//            InvalidateColumn(col.Index);
+			//    }
+			//}
 
 			return false;
 		}

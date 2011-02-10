@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
+using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
 
@@ -649,10 +650,14 @@ namespace SIL.Pa.UI.Dialogs
 			}
 
 			// Open the mappings dialog.
-			using (var dlg = new SFDataSourcePropertiesDlg(Project.FieldInfo, dataSource))
+			using (var dlg = new SFDataSourcePropertiesDlg(Project.Fields, dataSource))
 			{
 				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChangesWereMade)
+				{
 					m_dirty = true;
+					Project.Fields = PaField.Merge(Project.Fields,
+						dataSource.FieldMappings.Select(m => m.Field).ToList());
+				}
 			}
 		}
 

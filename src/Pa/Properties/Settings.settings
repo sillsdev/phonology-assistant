@@ -731,5 +731,11 @@
     <Setting Name="SFMBasicParseOptionSampleInput" Type="System.String" Scope="Application">
       <Value Profile="(Default)">{\rtf1\ansi{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}\uc1\pard\tx360\tx1625\tx3145\tx4920\f0\fs16\\ph\tab hi ni nini\par\\gl\tab this what\par}</Value>
     </Setting>
+    <Setting Name="DefaultParsedSaFields" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Phonetic;Phonemic;Tone;Gloss;Orthographic;Reference;AudioFile;AudioLength;AudioOffset</Value>
+    </Setting>
+    <Setting Name="DefaultParsedSfmFields" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Phonetic;Phonemic;Gloss;NatGloss;PartOfSpeech;Tone;Orthographic</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

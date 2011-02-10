@@ -278,7 +278,7 @@ namespace SIL.Pa.UI.Controls
 				{
 					string fieldName = row.Tag as string;
 					if (fieldName != null && (bool)row.Cells[kCheckCol].Value)
-						checkedList.Add(App.Project.Fields.Single(f => f.Name == fieldName));
+						checkedList.Add(App.GetFieldForName(fieldName));
 				}
 
 				return checkedList;

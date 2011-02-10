@@ -14,7 +14,6 @@ namespace SIL.Pa.UI.Dialogs
 	public partial class OptionsDlg
 	{
 		private SilGrid m_fontGrid;
-		private const string kSampleText = "Abc123";
 		private bool m_fontChanged;
 
 		/// ------------------------------------------------------------------------------------
@@ -63,7 +62,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void AddColumns()
 		{
 			// Add the field column.
-			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("field");
+			var col = SilGrid.CreateTextBoxColumn("field");
 			col.ReadOnly = true;
 			m_fontGrid.Columns.Add(col);
 			App.LocalizeObject(m_fontGrid.Columns["field"],
@@ -116,17 +115,20 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void LoadFonts()
 		{
-			foreach (PaFieldInfo fieldInfo in App.Project.FieldInfo.SortedList)
+			foreach (var field in App.Fields.Where(f => f.Font != null).OrderBy(f => f.DisplayIndexInGrid))
 			{
-				if (fieldInfo.Font == null)
-					continue;
+				m_fontGrid.AddRow(new object[]
+				{
+					field,
+					field.Font.Name,
+					(int)field.Font.SizeInPoints,
+					field.Font.Bold,
+					field.Font.Italic,
+					App.LocalizeString("OptionsDlg.FontsSampleText", "Abc123", App.kLocalizationGroupDialogs)
+				});
 
-				m_fontGrid.AddRow(new object[] {fieldInfo, fieldInfo.Font.Name,
-					(int)fieldInfo.Font.SizeInPoints, fieldInfo.Font.Bold,
-					fieldInfo.Font.Italic, kSampleText});
-
-				m_fontGrid.Rows[m_fontGrid.RowCount - 1].Tag = fieldInfo.Font;
-				m_fontGrid.Rows[m_fontGrid.RowCount - 1].Cells["sample"].Style.Font = fieldInfo.Font;
+				m_fontGrid.Rows[m_fontGrid.RowCount - 1].Tag = field.Font;
+				m_fontGrid.Rows[m_fontGrid.RowCount - 1].Cells["sample"].Style.Font = field.Font;
 			}
 		}
 
@@ -138,8 +140,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// --------------------------------------------------------------------------------------------
 		void HandleFontsGridCurrentCellDirtyStateChanged(object sender, EventArgs e)
 		{
-			DataGridViewRow row = m_fontGrid.CurrentRow;
-			Font prevFont = row.Tag as Font;
+			var row = m_fontGrid.CurrentRow;
+			var prevFont = row.Tag as Font;
 
 			try
 			{
@@ -147,14 +149,13 @@ namespace SIL.Pa.UI.Dialogs
 				m_fontGrid.CommitEdit(DataGridViewDataErrorContexts.Commit);
 
 				// Determine what the new font's style should be.
-				FontStyle style = ((bool)row.Cells["bold"].Value ?
-					FontStyle.Bold : FontStyle.Regular);
+				var style = ((bool)row.Cells["bold"].Value ? FontStyle.Bold : FontStyle.Regular);
 
 				if ((bool)row.Cells["italic"].Value)
 					style |= FontStyle.Italic;
 
 				// Create a new font with the specified characteristics.
-				Font font = new Font((string)row.Cells["font"].Value,
+				var font = new Font((string)row.Cells["font"].Value,
 					(int)row.Cells["size"].Value, style, GraphicsUnit.Point);
 
 				// Update the sample cell to use the new font and save the new font.
@@ -186,10 +187,6 @@ namespace SIL.Pa.UI.Dialogs
 			m_fontGrid.AutoResizeColumn(m_fontGrid.ColumnCount - 1);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private bool IsFontsTabDirty
 		{
@@ -238,12 +235,8 @@ namespace SIL.Pa.UI.Dialogs
 
 			try
 			{
-				foreach (DataGridViewRow row in m_fontGrid.Rows)
-				{
-					PaFieldInfo fieldInfo = row.Cells[0].Value as PaFieldInfo;
-					if (fieldInfo != null)
-						fieldInfo.Font = (Font)row.Tag;
-				}
+				foreach (var row in m_fontGrid.GetRows().Where(r => r.Cells[0].Value is PaField))
+					(row.Cells[0].Value as PaField).Font = (Font)row.Tag;
 
 				App.Project.InitializeFontHelperFonts();
 

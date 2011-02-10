@@ -26,7 +26,7 @@ namespace SIL.Pa.DataSource
 		protected List<PaDataSource> m_dataSources;
 		protected List<SFMarkerMapping> m_mappings;
 		protected Dictionary<string, List<string>> m_fieldsForMarkers;
-		protected List<string> m_interlinearFields;
+		protected IEnumerable<string> m_interlinearFields;
 		protected int m_totalLinesToRead;
 		protected ToolStripProgressBar m_progressBar;
 
@@ -241,7 +241,7 @@ namespace SIL.Pa.DataSource
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void SetupToReadDataSource(PaDataSource ds)
+		private static void SetupToReadDataSource(PaDataSource ds)
 		{
 			App.IPASymbolCache.UndefinedCharacters.CurrentDataSourceName =
 				((ds.DataSourceType == DataSourceType.FW || ds.DataSourceType == DataSourceType.FW7) &&
@@ -437,7 +437,6 @@ namespace SIL.Pa.DataSource
 			m_recCacheEntry.Channels = reader.Channels;
 			m_recCacheEntry.BitsPerSample = reader.BitsPerSample;
 			m_recCacheEntry.SamplesPerSecond = reader.SamplesPerSecond;
-			ReadRecLevelSaFields(reader);
 
 			var saFields = PaField.GetSaFields();
 
@@ -450,7 +449,7 @@ namespace SIL.Pa.DataSource
 			var wordEntries = new List<WordCacheEntry>();
 
 			// Get all the unparsed fields.
-			foreach (var fname in saFields.Where(f => !f.IsParsed).Select(f => f.Name))
+			foreach (var fname in ds.FieldMappings.Where(m => !m.IsParsed).Select(m => m.Field.Name))
 			{
 				var value = GetPropertyValueFromObject(typeof(SaAudioDocumentReader), fname, reader);
 				if (value != null)
@@ -462,7 +461,7 @@ namespace SIL.Pa.DataSource
 			{
 				var wentry = new WordCacheEntry(m_recCacheEntry, wordIndex++, true);
 
-				foreach (var fname in saFields.Where(f => f.IsParsed).Select(f => f.Name))
+				foreach (var fname in saFields.Where(f => f.GetIsParsed(ds)).Select(f => f.Name))
 				{
 					var value = GetPropertyValueFromObject(typeof(AudioDocWords), fname, adw);
 					if (value != null)
@@ -477,7 +476,7 @@ namespace SIL.Pa.DataSource
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private object GetPropertyValueFromObject(Type type, string propName, object srcObject)
+		private static object GetPropertyValueFromObject(Type type, string propName, object srcObject)
 		{
 			const BindingFlags kFlags = BindingFlags.GetProperty |
 				BindingFlags.Instance | BindingFlags.Public;
@@ -515,57 +514,9 @@ namespace SIL.Pa.DataSource
 		//    return false;
 		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Reads misc. fields from the SA data source that are stored in a record cache entry.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void ReadRecLevelSaFields(SaAudioDocumentReader reader)
-		{
-			const BindingFlags kFlags = BindingFlags.GetProperty |
-				BindingFlags.Instance | BindingFlags.Public;
-			
-			foreach (var fname in PaField.GetSaFields().Where(f => !f.IsParsed).Select(f => f.Name))
-			{
-				try
-				{
-					var value = typeof(SaAudioDocumentReader).InvokeMember(fname, kFlags, null, reader, null);
-					if (value != null)
-						m_recCacheEntry.SetValue(fname, value.ToString());
-				}
-				catch { }
-			}
-		}
-
 		#endregion
 
 		#region SFM file reading methods
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Builds a list of mappings and all the fields that are mapped to those markers.
-		/// Also, a list of all the fields marked as interlinear are saved.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void BuildListOfFieldsForMarkers()
-		{
-			m_fieldsForMarkers = new Dictionary<string, List<string>>();
-			m_interlinearFields = new List<string>();
-
-			foreach (SFMarkerMapping mapping in m_mappings)
-			{
-				if (mapping.FieldName != PaDataSource.kRecordMarker && !string.IsNullOrEmpty(mapping.Marker))
-				{
-					if (!m_fieldsForMarkers.ContainsKey(mapping.Marker))
-						m_fieldsForMarkers[mapping.Marker] = new List<string>();
-
-					m_fieldsForMarkers[mapping.Marker].Add(mapping.FieldName);
-
-					if (mapping.IsInterlinear)
-						m_interlinearFields.Add(mapping.FieldName);
-				}
-			}
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Reads a single SFM file
@@ -579,7 +530,7 @@ namespace SIL.Pa.DataSource
 			try
 			{
 				m_mappings = ds.SFMappings;
-				BuildListOfFieldsForMarkers();
+				BuildListOfFieldsForMarkers(ds);
 				var recMarker = GetRecordMarkerSFM(ds);
 				if (string.IsNullOrEmpty(recMarker))
 					return false;
@@ -667,6 +618,40 @@ namespace SIL.Pa.DataSource
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Builds a list of mappings and all the fields that are mapped to those markers.
+		/// Also, a list of all the fields marked as interlinear are saved.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void BuildListOfFieldsForMarkers(PaDataSource ds)
+		{
+			m_interlinearFields = ds.FieldMappings.Where(m => m.IsInterlinear).Select(m => m.Field.Name).ToList();
+
+			m_fieldsForMarkers = new Dictionary<string, List<string>>();
+			foreach (var mapping in ds.FieldMappings)
+			{
+				if (!m_fieldsForMarkers.ContainsKey(mapping.NameInDataSource))
+					m_fieldsForMarkers[mapping.NameInDataSource] = new List<string>();
+
+				m_fieldsForMarkers[mapping.NameInDataSource].Add(mapping.Field.Name);
+			}
+
+			//foreach (SFMarkerMapping mapping in m_mappings)
+			//{
+			//    if (mapping.FieldName != PaDataSource.kRecordMarker && !string.IsNullOrEmpty(mapping.Marker))
+			//    {
+			//        if (!m_fieldsForMarkers.ContainsKey(mapping.Marker))
+			//            m_fieldsForMarkers[mapping.Marker] = new List<string>();
+
+			//        m_fieldsForMarkers[mapping.Marker].Add(mapping.FieldName);
+
+			//        if (mapping.IsInterlinear)
+			//            m_interlinearFields.Add(mapping.FieldName);
+			//    }
+			//}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the marker that was mapped as the record marker. This is used to determine
 		/// where record breaks are.
 		/// </summary>
@@ -712,7 +697,7 @@ namespace SIL.Pa.DataSource
 				m_recCacheEntry.NeedsParsing = true;
 				m_recCacheEntry.DataSource = ds;
 				m_recCacheEntry.FirstInterlinearField = ds.FirstInterlinearField;
-				m_recCacheEntry.InterlinearFields = m_interlinearFields;
+				m_recCacheEntry.InterlinearFields = m_interlinearFields.ToList();
 			}
 
 			var audioFilefieldInfo = m_project.FieldInfo.AudioFileField;

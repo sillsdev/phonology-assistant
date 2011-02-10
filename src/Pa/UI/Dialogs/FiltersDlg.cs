@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using SIL.Pa.Filters;
-using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
@@ -268,14 +267,10 @@ namespace SIL.Pa.UI.Dialogs
 			// Size the expression match combo. to the width of its longest item.
 			using (var g = CreateGraphics())
 			{
-				int width = 0;
 				var font = cboExpressionMatch.Font;
 
-				foreach (var item in cboExpressionMatch.Items)
-				{
-					var text = item as string;
-					width = Math.Max(width, TextRenderer.MeasureText(g, text, font).Width);
-				}
+				int width = cboExpressionMatch.Items.OfType<string>()
+					.Aggregate(0, (sum, text) => Math.Max(sum, TextRenderer.MeasureText(g, text, font).Width));
 
 				cboExpressionMatch.Width = width + SystemInformation.VerticalScrollBarWidth;
 			}
@@ -439,9 +434,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_gridExpressions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
 			App.SetGridSelectionColors(m_gridExpressions, true);
 
-			var fieldNames = (from x in App.FieldInfo
-							  orderby x.DisplayText
-							  select x.DisplayText).ToList();
+			var fieldNames = App.Fields.Select(f => f.DisplayName).OrderBy(n => n).ToList();
 		
 			// Add the "field" that represents another filter, rather than a field in the data.
 			fieldNames.Add(FilterExpression.OtherFilterField);
@@ -519,7 +512,7 @@ namespace SIL.Pa.UI.Dialogs
 				{
 					string fieldName = expression.FieldName;
 					if (fieldName != FilterExpression.OtherFilterField)
-						fieldName = App.FieldInfo[fieldName].DisplayText;
+						fieldName = App.GetFieldForName(fieldName).DisplayName;
 
 					int i = m_gridExpressions.Rows.Add(fieldName, m_operatorToText[expression.Operator],
 						expression.Pattern, m_expTypeToText[expression.ExpressionType],
@@ -679,16 +672,16 @@ namespace SIL.Pa.UI.Dialogs
 			}
 			else if (e.ColumnIndex == kValueCol)
 			{
-				string fieldName = m_gridExpressions[kFieldCol, e.RowIndex].Value as string;
-				PaFieldInfo fieldInfo = App.FieldInfo[fieldName];
-				e.CellStyle.Font = (fieldInfo != null ? fieldInfo.Font : FontHelper.UIFont);
+				var fieldName = m_gridExpressions[kFieldCol, e.RowIndex].Value as string;
+				var field = App.GetFieldForName(fieldName);
+				e.CellStyle.Font = (field != null ? field.Font : FontHelper.UIFont);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleExpressionsGridDefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
 		{
-			DataGridViewComboBoxColumn col = m_gridExpressions.Columns[kFieldCol] as DataGridViewComboBoxColumn;
+			var col = m_gridExpressions.Columns[kFieldCol] as DataGridViewComboBoxColumn;
 			e.Row.Cells[kFieldCol].Value = col.Items[0];
 			col = m_gridExpressions.Columns[kOpCol] as DataGridViewComboBoxColumn;
 			e.Row.Cells[kOpCol].Value = col.Items[0];
@@ -708,8 +701,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			m_gridExpressions[e.ColumnIndex, e.RowIndex].Value = Properties.Resources.DeleteHot;
 
-			var toolTip = App.LocalizeString(
-				"FiltersDlg.DeleteFilterExpressionToolTip",
+			var toolTip = App.LocalizeString("FiltersDlg.DeleteFilterExpressionToolTip",
 				"Delete Expression", App.kLocalizationGroupDialogs);
 
 			var pt = PointToClient(MousePosition);
@@ -869,7 +861,7 @@ namespace SIL.Pa.UI.Dialogs
 				// Force the field to be phonetic and the operation to be a match, then
 				// set those cells to readonly because those values are the only valid
 				// ones for the phonetic search pattern expression type.
-				m_gridExpressions[kFieldCol, row].Value = App.FieldInfo.PhoneticField.DisplayText;
+				m_gridExpressions[kFieldCol, row].Value = App.GetPhoneticField().DisplayName;
 				m_gridExpressions[kOpCol, row].Value = m_operatorToText[Filter.Operator.Matches];
 				m_gridExpressions[kFieldCol, row].ReadOnly = true;
 				m_gridExpressions[kOpCol, row].ReadOnly = true;
@@ -1005,11 +997,9 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (fieldName != FilterExpression.OtherFilterField)
 			{
-				PaFieldInfo fieldInfo =
-					App.FieldInfo.GetFieldFromDisplayText(fieldName);
-
-				if (fieldInfo != null)
-					fieldName = fieldInfo.FieldName;
+				var field = App.Fields.SingleOrDefault(f => f.DisplayName == fieldName);
+				if (field != null)
+					fieldName = field.Name;
 			}
 
 			expression.FieldName = fieldName;
@@ -1019,7 +1009,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (expression.ExpressionType == Filter.ExpressionType.PhoneticSrchPtrn)
 			{
-				SearchQuery query = row.Cells[kTypeCol].Tag as SearchQuery;
+				var query = row.Cells[kTypeCol].Tag as SearchQuery;
 				expression.SearchQuery = (query ?? new SearchQuery());
 				expression.SearchQuery.Pattern = expression.Pattern;
 			}
@@ -1090,15 +1080,15 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleFilterGridCellToolTipTextNeeded(object sender, DataGridViewCellToolTipTextNeededEventArgs e)
 		{
-			if (e.RowIndex >= 0 && e.ColumnIndex == kShowInListCol)
-			{
-				var tooltip = App.LocalizeString(
-					"FiltersDlg.FiltersListVisibleInFilterMenuColumnToolTip",
-					"Select to make '{0}' visible\nin the main window's drop-down filter list.",
-					App.kLocalizationGroupDialogs);
+			if (e.RowIndex < 0 || e.ColumnIndex != kShowInListCol)
+				return;
+			
+			var tooltip = App.LocalizeString(
+			"FiltersDlg.FiltersListVisibleInFilterMenuColumnToolTip",
+			"Select to make '{0}' visible\nin the main window's drop-down filter list.",
+			App.kLocalizationGroupDialogs);
 
-				e.ToolTipText = string.Format(tooltip, m_filterList[e.RowIndex].Name);
-			}
+			e.ToolTipText = string.Format(tooltip, m_filterList[e.RowIndex].Name);
 		}
 	}
 
@@ -1116,23 +1106,24 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal void ShowFieldValues(DataGridViewCell cell, string field)
+		internal void ShowFieldValues(DataGridViewCell cell, string fieldName)
 		{
-			var fieldInfo = (App.FieldInfo[field] ?? App.FieldInfo.GetFieldFromDisplayText(field));
+			var field = (App.GetFieldForName(fieldName) ??
+				App.Fields.SingleOrDefault(f => f.DisplayName == fieldName));
 
-			if (fieldInfo == null)
+			if (field == null)
 				return;
 
-			Font = fieldInfo.Font;
+			Font = field.Font;
 
 			var list1 = from entry in App.WordCache
-						where !string.IsNullOrEmpty(entry[fieldInfo.FieldName])
-						select entry[fieldInfo.FieldName];
+						where !string.IsNullOrEmpty(entry[field.Name])
+						select entry[field.Name];
 
 			// Make sure to include values that are filtered out.
 			var list2 = from entry in App.RecordCache.WordsNotInCurrentFilter
-						where !string.IsNullOrEmpty(entry[fieldInfo.FieldName])
-						select entry[fieldInfo.FieldName];
+						where !string.IsNullOrEmpty(entry[field.Name])
+						select entry[field.Name];
 
 			Show(cell, list1.Concat(list2).Distinct().OrderBy(val => val).ToArray());
 		}

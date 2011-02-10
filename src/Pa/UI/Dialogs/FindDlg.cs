@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Model;
@@ -53,7 +54,7 @@ namespace SIL.Pa.UI.Dialogs
 				cboFindWhat.Items.Add(searchPattern);
 
 			LoadSettings();
-			btnFind.Enabled = (fldSelGridSrchCols.CheckedFields.Count > 0);
+			btnFind.Enabled = (fldSelGridSrchCols.CheckedFields.Count() > 0);
 			chkSrchCollapsedGrps.Enabled = (grid.IsGroupedByField || grid.Cache.IsCIEList);
 
 			// Will prevent opening more than one FindDlg instance.
@@ -105,8 +106,8 @@ namespace SIL.Pa.UI.Dialogs
 			// the FindDlg is reopened
 			s_colsToFindIn.Clear();
 			
-			foreach (PaFieldInfo fieldInfo in fldSelGridSrchCols.CheckedFields)
-				s_colsToFindIn.Add(fieldInfo.FieldName);
+			foreach (var field in fldSelGridSrchCols.CheckedFields)
+				s_colsToFindIn.Add(field.Name);
 			
 			// Save window settings if not canceled
 			if (!m_cancel)
@@ -203,17 +204,12 @@ namespace SIL.Pa.UI.Dialogs
 			FindInfo.FindText = cboFindWhat.Text;
 			FindInfo.SearchCollapsedGroups = chkSrchCollapsedGrps.Checked;
 
-			List<FindDlgColItem> columnsToSearch = new List<FindDlgColItem>();
-
-			foreach (PaFieldInfo fieldInfo in fldSelGridSrchCols.CheckedFields)
+			FindInfo.ColumnsToSearch = fldSelGridSrchCols.CheckedFields.Select(field =>
 			{
-				columnsToSearch.Add(new FindDlgColItem(
-					m_grid.Columns[fieldInfo.FieldName].Index,
-					fieldInfo.DisplayIndexInGrid,
-					fieldInfo.DisplayText, fieldInfo.FieldName));
-			}
-
-			FindInfo.ColumnsToSearch = columnsToSearch.ToArray();
+				return new FindDlgColItem(m_grid.Columns[field.Name].Index,
+					field.DisplayIndexInGrid, field.DisplayName, field.Name);
+			}).ToArray();
+			
 			FindInfo.FindFirst(chkReverseSearch.Checked);
 			Close();
 		}
@@ -255,7 +251,7 @@ namespace SIL.Pa.UI.Dialogs
 			}
 
 			// Enable the Find button if any columns are checked
-			btnFind.Enabled = (fldSelGridSrchCols.CheckedFields.Count > 0); 
+			btnFind.Enabled = (fldSelGridSrchCols.CheckedFields.Count() > 0); 
 		}
 		
 		/// ----------------------------------------------------------------------------------------

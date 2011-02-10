@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Xml.Serialization;
 using System.Linq;
 using Palaso.IO;
-using SIL.Pa.DataSource.FieldWorks;
+using SIL.Pa.DataSource;
 using SilTools;
 
 namespace SIL.Pa.Model
@@ -27,9 +28,21 @@ namespace SIL.Pa.Model
 	[XmlType("field")]
 	public class PaField
 	{
-		private bool m_isParsed;
-		private bool m_isInterlinear;
+		//private bool m_isParsed;
+		//private bool m_isInterlinear;
 		private Font m_font;
+
+		/// ------------------------------------------------------------------------------------
+		public PaField()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public PaField(string name, FieldType type)
+		{
+			Name = name;
+			Type = type;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("name")]
@@ -67,25 +80,21 @@ namespace SIL.Pa.Model
 		[XmlElement("rightToLeft")]
 		public bool RightToLeft { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		[XmlElement("isParsed")]
-		public bool IsParsed
-		{
-			get { return m_isParsed; }
-			set { m_isParsed = (value && GetTypeAllowsFieldToBeParsed()); }
-		}
+		///// ------------------------------------------------------------------------------------
+		//[XmlElement("isParsed")]
+		//public bool IsParsed
+		//{
+		//    get { return m_isParsed; }
+		//    set { m_isParsed = (value && GetTypeAllowsFieldToBeParsed()); }
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		[XmlElement("isInterlinear")]
-		public bool IsInterlinear
-		{
-			get { return m_isInterlinear; }
-			set { m_isInterlinear = (value && GetTypeAllowsFieldToBeInterlinear()); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[XmlElement("fwWritingSystemType")]
-		public FwDBUtils.FwWritingSystemType FwWritingSystemType { get; set; }
+		///// ------------------------------------------------------------------------------------
+		//[XmlElement("isInterlinear")]
+		//public bool IsInterlinear
+		//{
+		//    get { return m_isInterlinear; }
+		//    set { m_isInterlinear = (value && GetTypeAllowsFieldToBeInterlinear()); }
+		//}
 
 		#region Properties for field's visibility in grids and rec. views
 		/// ------------------------------------------------------------------------------------
@@ -139,6 +148,10 @@ namespace SIL.Pa.Model
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
+		[XmlArray("dataSourceMappings"), XmlArrayItem("mapping")]
+		public List<FieldMapping> Mappings { get; set; }
+
+		/// ------------------------------------------------------------------------------------
 		public string DisplayName
 		{
 			get { return GetDisplayName(Name); }
@@ -184,6 +197,14 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public bool GetIsParsed(PaDataSource ds)
+		{
+			return true;
+			//var mapping = Mappings.SingleOrDefault(m => m.DataSourceName == ds.ToString(true));
+			//return (mapping != null && mapping.IsParsed);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
 			return (Name ?? base.ToString());
@@ -197,20 +218,34 @@ namespace SIL.Pa.Model
 			copy.Type = Type;
 			copy.SerializablePossibleDataSourceFieldNames = SerializablePossibleDataSourceFieldNames;
 			copy.NameInSource = NameInSource;
-			copy.IsParsed = IsParsed;
-			copy.IsInterlinear = IsInterlinear;
-			copy.FwWritingSystemType = FwWritingSystemType;
+			//copy.IsParsed = IsParsed;
+			//copy.IsInterlinear = IsInterlinear;
+			//copy.FwWritingSystemType = FwWritingSystemType;
 			copy.VisibleInGrid = VisibleInGrid;
 			copy.VisibleInRecView = VisibleInRecView;
 			copy.DisplayIndexInGrid = DisplayIndexInGrid;
 			copy.DisplayIndexInRecView = DisplayIndexInRecView;
 			copy.WidthInGrid = WidthInGrid;
+			copy.Mappings = Mappings.Select(m => m.Copy()).ToList();
 			copy.Font = (m_font != null ? m_font.Clone() as Font : null);
 			
 			return copy;
 		}
 
 		#region Static methods
+		/// ------------------------------------------------------------------------------------
+		public static bool GetIsTypeParsable(FieldType type)
+		{
+			return (type == FieldType.Phonetic || type == FieldType.GeneralText ||
+				type == FieldType.GeneralNumeric || type == FieldType.Reference);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static bool GetIsTypeInterlinearizable(FieldType type)
+		{
+			return (type == FieldType.Phonetic || type == FieldType.GeneralText);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Determines whether or not the specified field should have a font saved with it.
@@ -222,6 +257,25 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Merges two lists of fields, returning a list of distinct fields by name. A null
+		/// list will be treated as an empty list, so null will never be returned, but an
+		/// empty list may.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static IEnumerable<PaField> Merge(IEnumerable<PaField> list1, IEnumerable<PaField> list2)
+		{
+			// I think there's a slicker linq way to do this, but I couldn't figure it out and
+			// as I tried, it looked like it may end up looking more complicated to read.
+
+			var newList = (list1 == null ? new List<PaField>() : list1.ToList());
+			if (list2 != null)
+				newList.AddRange(list2.Where(field => !newList.Any(f => f.Name == field.Name)));
+	
+			return newList;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public static List<PaField> GetSaFields()
 		{
 			var path = FileLocator.GetFileDistributedWithApplication("Configuration", "DefaultSaFields.xml");
@@ -229,10 +283,26 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static List<PaField> GetSfmFields()
+		public static List<PaField> GetDefaultSfmFields()
 		{
 			var path = FileLocator.GetFileDistributedWithApplication("Configuration", "DefaultSfmFields.xml");
 			return LoadFields(path, "SfmFields");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static List<PaField> GetProjectFields(PaProject project)
+		{
+			var path = project.ProjectPathFilePrefix + "Fields.xml";
+			return (File.Exists(path) ? LoadFields(path, "Fields") : new List<PaField>());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Exception SaveProjectFields(PaProject project)
+		{
+			var path = project.ProjectPathFilePrefix + "Fields.xml";
+			Exception e = null;
+			XmlSerializationHelper.SerializeToFile(path, project.Fields, "Fields", out e);
+			return e;
 		}
 
 		/// ------------------------------------------------------------------------------------

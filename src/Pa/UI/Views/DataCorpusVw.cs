@@ -467,7 +467,7 @@ namespace SIL.Pa.UI.Views
 			else if (m_grid.SortOptions.SortInformationList != null &&
 				m_grid.SortOptions.SortInformationList.Count > 0)
 			{
-				m_grid.GroupByField = m_grid.SortOptions.SortInformationList[0].FieldInfo;
+				m_grid.GroupByField = m_grid.SortOptions.SortInformationList[0].Field;
 				if (Settings.Default.CollapseWordListsOnGrouping)
 					m_grid.ToggleGroupExpansion(false);
 			}

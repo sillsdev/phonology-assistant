@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Xml.Serialization;
 using System.Text.RegularExpressions;
 using SIL.Pa.Model;
@@ -145,7 +144,7 @@ namespace SIL.Pa.Filters
 
 			if (!m_fieldTypeDetermined)
 			{
-				var field = App.Fields.SingleOrDefault(f => f.Name == FieldName);
+				var field = App.GetFieldForName(FieldName);
 				if (field != null)
 				{
 					m_fieldIsDate = (field.Type == FieldType.Date);

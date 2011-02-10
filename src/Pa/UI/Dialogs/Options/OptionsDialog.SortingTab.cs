@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SilTools;
@@ -133,7 +134,7 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				foreach (object item in cboListType.Items)
 				{
-					SortOptionsTypeComboItem sotcbi = item as SortOptionsTypeComboItem;
+					var sotcbi = item as SortOptionsTypeComboItem;
 					if (sotcbi != null && sotcbi.IsDirty)
 						return true;
 				}
@@ -169,14 +170,14 @@ namespace SIL.Pa.UI.Dialogs
 
 			// Now look through the list of checked items in the list on the Word List
 			// tab to make sure we include those items in our list of potential sort fields.
-			foreach (PaFieldInfo fieldInfo in fldSelGridWrdList.CheckedFields)
+			foreach (var field in fldSelGridWrdList.CheckedFields)
 			{
-				if (!sortFieldNames.Contains(fieldInfo.FieldName))
+				if (!sortFieldNames.Contains(field.Name))
 				{
-					m_sortingGrid.Rows.Add(new object[] { false, fieldInfo, true });
+					m_sortingGrid.Rows.Add(new object[] { false, field, true });
 
 					// If the field is the phonetic field then disable the phonetic sort options.
-					if (fieldInfo.IsPhonetic)
+					if (field.Type == FieldType.Phonetic)
 						grpPhoneticSortOptions.Enabled = false;
 				}
 			}
@@ -197,16 +198,13 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private List<string> LoadListFromSortOptions(SortOptions sortOptions)
 		{
-			List<string> sortFieldNames = new List<string>();
+			var sortFieldNames = new List<string>();
 			m_sortingGrid.Rows.Clear();
 
-			foreach (SortInformation sinfo in sortOptions.SortInformationList)
+			foreach (var sinfo in sortOptions.SortInformationList.Where(sinfo => sinfo.Field != null))
 			{
-				if (sinfo.FieldInfo != null)
-				{
-					m_sortingGrid.Rows.Add(new object[] {true, sinfo.FieldInfo, sinfo.ascending });
-					sortFieldNames.Add(sinfo.FieldInfo.FieldName);
-				}
+				m_sortingGrid.Rows.Add(new object[] {true, sinfo.Field, sinfo.ascending });
+				sortFieldNames.Add(sinfo.Field.Name);
 			}
 
 			return sortFieldNames;
@@ -215,16 +213,16 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private SortOptions GetSortOptionsFromTab()
 		{
-			SortOptions sortOptions = phoneticSortOptions.SortOptions;
+			var sortOptions = phoneticSortOptions.SortOptions;
 			sortOptions.SaveManuallySetSortOptions = chkSaveManual.Checked;
 			sortOptions.SortInformationList.Clear();
 
 			for (int i = m_sortingGrid.Rows.Count - 1; i >= 0; i--)
 			{
-				DataGridViewRow row = m_sortingGrid.Rows[i];
+				var row = m_sortingGrid.Rows[i];
 				if ((bool)row.Cells[0].Value)
 				{
-					sortOptions.SetPrimarySortField(row.Cells[1].Value as PaFieldInfo,
+					sortOptions.SetPrimarySortField(row.Cells[1].Value as PaField,
 						false, (bool)row.Cells[2].Value);
 				}
 			}

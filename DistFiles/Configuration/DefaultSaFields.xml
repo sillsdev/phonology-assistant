@@ -1,32 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SaFields version="3.0">
-	<field name="Phonetic" type="Phonetic">
-		<isParsed>true</isParsed>
-	</field>
-	<field name="Phonemic" type="GeneralText">
-		<isParsed>true</isParsed>
-	</field>
-	<field name="Tone" type="GeneralText">
-		<isParsed>true</isParsed>
-	</field>
-	<field name="Gloss" type="GeneralText">
-		<isParsed>true</isParsed>
-	</field>
-	<field name="Orthographic" type="GeneralText">
-		<isParsed>true</isParsed>
-	</field>
-	<field name="Reference" type="Reference">
-		<isParsed>true</isParsed>
-	</field>
-	<field name="AudioFile" type="AudioFilePath">
-		<isParsed>true</isParsed>
-	</field>
-	<field name="AudioLength" type="AudioLength">
-		<isParsed>true</isParsed>
-	</field>
-	<field name="AudioOffset" type="AudioOffset">
-		<isParsed>true</isParsed>
-	</field>
+	<field name="Phonetic" type="Phonetic" />
+	<field name="Phonemic" type="GeneralText" />
+	<field name="Tone" type="GeneralText" />
+	<field name="Gloss" type="GeneralText" />
+	<field name="Orthographic" type="GeneralText" />
+	<field name="Reference" type="Reference" />
+	<field name="AudioFile" type="AudioFilePath" />
+	<field name="AudioLength" type="AudioLength" />
+	<field name="AudioOffset" type="AudioOffset" />
 	<field name="FreeFormTranslation" type="GeneralText"/>
 	<field name="NoteBookReference" type="GeneralText"/>
 	<field name="Dialect" type="GeneralText"/>

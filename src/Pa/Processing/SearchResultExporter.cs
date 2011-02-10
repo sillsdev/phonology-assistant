@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
+using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
@@ -204,15 +205,11 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void WriteTableGroupHeadingGroupField(SilHierarchicalGridRow row)
 		{
 			var grid = m_grid as PaWordListGrid;
 
-			if (grid == null || !m_isGridGrouped || !m_groupByField.IsPhonetic || row.Text == null)
+			if (grid == null || !m_isGridGrouped || m_groupByField.Type != FieldType.Phonetic || row.Text == null)
 			{
 				base.WriteTableGroupHeadingGroupField(row);
 				return;

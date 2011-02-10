@@ -428,7 +428,7 @@ namespace SIL.Pa.Model
 				int compareResult;
 
 				// Use a special comparison for phonetic fields.
-				if (m_sortInfoList[i].FieldInfo.IsPhonetic)
+				if (m_sortInfoList[i].Field.Type == FieldType.Phonetic)
 				{
 					compareResult = ComparePhonetic(x, y);
 					if (compareResult == 0)
@@ -437,13 +437,13 @@ namespace SIL.Pa.Model
 					return (ascending ? compareResult : -compareResult);
 				}
 
-				string fieldValue1 = x[m_sortInfoList[i].FieldInfo.FieldName];
-				string fieldValue2 = y[m_sortInfoList[i].FieldInfo.FieldName];
+				var fieldValue1 = x[m_sortInfoList[i].Field.Name];
+				var fieldValue2 = y[m_sortInfoList[i].Field.Name];
 
 				if (fieldValue1 == fieldValue2)
 				{
 					// Use a special comparison for references.
-					if (m_sortInfoList[i].FieldInfo.IsReference)
+					if (m_sortInfoList[i].Field.Type == FieldType.Reference)
 					{
 						compareResult = CompareReferences(x, y);
 						if (compareResult == 0)
@@ -455,7 +455,7 @@ namespace SIL.Pa.Model
 					// If we're sorting by the entry's audio file and the audio file for each
 					// entry is the same, then compare the order in which the words occur within
 					// the sound file transcription.
-					if (m_sortInfoList[i].FieldInfo.IsAudioFile &&
+					if (m_sortInfoList[i].Field.Type == FieldType.AudioFilePath &&
 						x.WordCacheEntry.WordIndex != y.WordCacheEntry.WordIndex)
 					{
 						compareResult = x.WordCacheEntry.WordIndex - y.WordCacheEntry.WordIndex;
@@ -467,9 +467,9 @@ namespace SIL.Pa.Model
 				}
 
 				// Check for date or numeric fields and compare appropriately.
-				if (m_sortInfoList[i].FieldInfo.IsDate)
+				if (m_sortInfoList[i].Field.Type == FieldType.Date)
 					compareResult = CompareDates(fieldValue1, fieldValue2);
-				else if (m_sortInfoList[i].FieldInfo.IsNumeric)
+				else if (m_sortInfoList[i].Field.Type == FieldType.GeneralNumeric)
 					compareResult = CompareNumerics(fieldValue1, fieldValue2);
 				else
 					compareResult = CompareStrings(fieldValue1, fieldValue2);

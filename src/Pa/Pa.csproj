@@ -178,7 +178,8 @@
     <Compile Include="Model\Features\FeatureCacheBase.cs" />
     <Compile Include="Model\Features\FeatureMask.cs" />
     <Compile Include="Model\Features\FeatureOverrides.cs" />
-    <Compile Include="Model\Project\PaField.cs" />
+    <Compile Include="Model\Fields\FieldMapping.cs" />
+    <Compile Include="Model\Fields\PaField.cs" />
     <Compile Include="Model\Project\PaFieldInfo.cs" />
     <Compile Include="Model\Project\PaFieldsDisplayText.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -167,7 +167,7 @@ namespace SIL.Pa.Processing
 
 			foreach (var sortInfo in grid.SortOptions.SortInformationList)
 			{
-				var field = sortInfo.FieldInfo.DisplayText;
+				var field = sortInfo.Field.DisplayName;
 				
 				ProcessHelper.WriteStartElementWithAttrib(m_writer, "li", "class",
 					ProcessHelper.MakeAlphaNumeric(field));

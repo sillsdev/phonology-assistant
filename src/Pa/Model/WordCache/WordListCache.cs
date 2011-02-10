@@ -494,7 +494,7 @@ namespace SIL.Pa.Model
 			// Default sort is by point of articulation and phonetic field.
 			SortType = PhoneticSortType.POA;
 
-			var field = App.Fields.SingleOrDefault(f => f.Type == FieldType.Phonetic);
+			var field = App.GetPhoneticField();
 			if (initializeWithPhonetic && field != null)
 				SetPrimarySortField(field, false, true);
 		}
@@ -610,8 +610,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public bool SetPrimarySortField(string newPrimarySortField, bool changeDirection)
 		{
-			var field = App.Project.Fields.Single(f => f.Name == newPrimarySortField);
-			return SetPrimarySortField(field, changeDirection);
+			return SetPrimarySortField(App.GetFieldForName(newPrimarySortField), changeDirection);
 		}
 
 		/// ------------------------------------------------------------------------------------

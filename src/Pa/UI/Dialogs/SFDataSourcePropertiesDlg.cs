@@ -24,19 +24,19 @@ namespace SIL.Pa.UI.Dialogs
 		private FieldMapperGrid m_fieldsGrid;
 		private SilGrid m_grid;
 		private string m_filename;
-		private List<SFMarkerMapping> m_mappings;
+		private List<SFMarkerMapping> m_mappings = new List<SFMarkerMapping>();
 		private readonly List<string> m_markersInFile = new List<string>();
+		private readonly IEnumerable<PaField> m_potentialFields;
 		private readonly PaDataSource m_datasource;
-		private readonly PaFieldInfoList m_fieldInfo;
 
 		#endregion
 
 		#region Construction/Setup
 		/// ------------------------------------------------------------------------------------
-		public SFDataSourcePropertiesDlg(PaFieldInfoList fieldInfo, PaDataSource ds)
+		public SFDataSourcePropertiesDlg(IEnumerable<PaField> projectFields, PaDataSource ds)
 		{
+			m_potentialFields = PaField.Merge(projectFields, PaField.GetDefaultSfmFields());
 			m_datasource = ds;
-			m_fieldInfo = fieldInfo;
 			InitializeComponent();
 			Initialize();
 			m_grid.CellEnter += HandleGridCellEnter;
@@ -95,6 +95,7 @@ namespace SIL.Pa.UI.Dialogs
 			
 			LoadMappings();
 			PrepareMarkerList();
+			InitializeFieldMappingsGrid();
 			BuildMappingGrid();
 			pnlMappingsHdg.ControlReceivingFocusOnMnemonic = m_grid;
 
@@ -110,6 +111,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (m_datasource != null && m_datasource.DataSourceType == DataSourceType.Toolbox)
 			{
 				// Things line up better if I first set the height to 0.
+				tblLayoutToolBoxSortField.Visible = true;
 				tblLayoutToolBoxSortField.Height = 0;
 				tblLayoutButtons.Controls.Add(tblLayoutToolBoxSortField, 0, 0);
 				tblLayoutToolBoxSortField.Dock = DockStyle.Fill;
@@ -117,6 +119,7 @@ namespace SIL.Pa.UI.Dialogs
 			else
 			{
 				// Things line up better if I first set the height to 0.
+				tblLayoutEditor.Visible = true;
 				tblLayoutEditor.Height = 0;
 				tblLayoutButtons.Controls.Add(tblLayoutEditor, 0, 0);
 				tblLayoutEditor.Dock = DockStyle.Fill;
@@ -130,26 +133,9 @@ namespace SIL.Pa.UI.Dialogs
 				"SFDataSourcePropertiesDlg.UnspecifiedToolboxSortField", "(none)",
 				App.kLocalizationGroupDialogs));
 
-			cboToolboxSortField.Items.AddRange(m_fieldInfo.ToArray());
-
-			string sortField = m_datasource.ToolboxSortField;
-
-			if (string.IsNullOrEmpty(sortField))
-				cboToolboxSortField.SelectedIndex = 0;
-			else
-			{
-				// Go through the fields in the combo. and find the one that matches the
-				// toolbox sort field specified in the project.
-				for (int i = 1; i < cboToolboxSortField.Items.Count; i++)
-				{
-					PaFieldInfo fieldInfo = cboToolboxSortField.Items[i] as PaFieldInfo;
-					if (fieldInfo != null && fieldInfo.FieldName == sortField)
-					{
-						cboToolboxSortField.SelectedIndex = i;
-						break;
-					}
-				}
-			}
+			cboToolboxSortField.Items.AddRange(m_potentialFields.Select(f => f.DisplayName).ToArray());
+			int i = cboToolboxSortField.Items.IndexOf(m_datasource.ToolboxSortField ?? string.Empty);
+			cboToolboxSortField.SelectedIndex = (i < 0 ? 0 : i);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -161,64 +147,64 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void LoadMappings()
 		{
-			m_mappings = new List<SFMarkerMapping>();
+			//m_mappings = new List<SFMarkerMapping>();
 
-			// Clone mappings and, along the way, create the
-			// list of possible first interlinear fields.
-			foreach (var mapping in m_datasource.SFMappings)
-			{
-				PaFieldInfo fieldInfo = m_fieldInfo[mapping.FieldName];
+			//// Clone mappings and, along the way, create the
+			//// list of possible first interlinear fields.
+			//foreach (var mapping in m_datasource.SFMappings)
+			//{
+			//    PaFieldInfo fieldInfo = m_fieldInfo[mapping.FieldName];
 
-				// Data source and data source path cannot be mapped to.
-				if (fieldInfo != null && (fieldInfo.IsDataSource || fieldInfo.IsDataSourcePath))
-					continue;
+			//    // Data source and data source path cannot be mapped to.
+			//    if (fieldInfo != null && (fieldInfo.IsDataSource || fieldInfo.IsDataSourcePath))
+			//        continue;
 
-				if (fieldInfo != null || mapping.FieldName == PaDataSource.kRecordMarker)
-				{
-					var clone = mapping.Clone();
-					m_mappings.Add(clone);
+			//    if (fieldInfo != null || mapping.FieldName == PaDataSource.kRecordMarker)
+			//    {
+			//        var clone = mapping.Clone();
+			//        m_mappings.Add(clone);
 
-					// Don't put the record marker field in the list of
-					// possible first interlinear fields.
-					if (clone.FieldName != PaDataSource.kRecordMarker && fieldInfo != null &&
-						fieldInfo.CanBeInterlinear)
-					{
-						cboFirstInterlinear.Items.Add(clone);
-						if (m_datasource.FirstInterlinearField == clone.FieldName)
-							cboFirstInterlinear.SelectedItem = clone;
-					}
-				}
-			}
+			//        // Don't put the record marker field in the list of
+			//        // possible first interlinear fields.
+			//        if (clone.FieldName != PaDataSource.kRecordMarker && fieldInfo != null &&
+			//            fieldInfo.CanBeInterlinear)
+			//        {
+			//            cboFirstInterlinear.Items.Add(clone);
+			//            if (m_datasource.FirstInterlinearField == clone.FieldName)
+			//                cboFirstInterlinear.SelectedItem = clone;
+			//        }
+			//    }
+			//}
 
-			// Now make sure the mappings contain all the fields in the project. It may be that the
-			// mappings list doesn't for two reasons. 1) The user has added some custom fields
-			// since coming here to modify mappings or 2) A new release of PA introduced some new
-			// intrinsic PA fields.
-			foreach (var field in m_fieldInfo)
-			{
-				// Data source and data source path cannot be mapped to.
-				if (!field.IsDataSource && !field.IsDataSourcePath)
-				{
-					var newMapping = SFMarkerMapping.VerifyMappingForField(m_mappings, field);
-					if (newMapping != null && field.CanBeInterlinear)
-						cboFirstInterlinear.Items.Add(newMapping);
-				}
-			}
+			//// Now make sure the mappings contain all the fields in the project. It may be that the
+			//// mappings list doesn't for two reasons. 1) The user has added some custom fields
+			//// since coming here to modify mappings or 2) A new release of PA introduced some new
+			//// intrinsic PA fields.
+			//foreach (var field in m_fieldInfo)
+			//{
+			//    // Data source and data source path cannot be mapped to.
+			//    if (!field.IsDataSource && !field.IsDataSourcePath)
+			//    {
+			//        var newMapping = SFMarkerMapping.VerifyMappingForField(m_mappings, field);
+			//        if (newMapping != null && field.CanBeInterlinear)
+			//            cboFirstInterlinear.Items.Add(newMapping);
+			//    }
+			//}
 
-			// Finally, sort the fields alphabetically
-			var sortedMappings = new SortedList<string, SFMarkerMapping>();
+			//// Finally, sort the fields alphabetically
+			//var sortedMappings = new SortedList<string, SFMarkerMapping>();
 
-			foreach (var mapping in m_mappings)
-				sortedMappings[mapping.DisplayText] = mapping;
+			//foreach (var mapping in m_mappings)
+			//    sortedMappings[mapping.DisplayText] = mapping;
 
-			m_mappings.Clear();
-			foreach (var mapping in sortedMappings.Values)
-			{
-				if (mapping.FieldName == PaDataSource.kRecordMarker)
-					m_mappings.Insert(0, mapping);
-				else
-					m_mappings.Add(mapping);
-			}
+			//m_mappings.Clear();
+			//foreach (var mapping in sortedMappings.Values)
+			//{
+			//    if (mapping.FieldName == PaDataSource.kRecordMarker)
+			//        m_mappings.Insert(0, mapping);
+			//    else
+			//        m_mappings.Add(mapping);
+			//}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -229,19 +215,19 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void PrepareMarkerList()
 		{
-			if (m_filename == null)
-				return;
+			//if (m_filename == null)
+			//    return;
 
 			// Scan the files to find all the markers contained therein.
 			m_datasource.TotalLinesInFile = GetMarkersFromFile(m_filename, m_markersInFile);
 
-			// Add the "<none>" item for the combo drop-down.
-			m_markersInFile.Insert(0, SFMarkerMapping.NoneText);
+			//// Add the "<none>" item for the combo drop-down.
+			//m_markersInFile.Insert(0, SFMarkerMapping.NoneText);
 
 			// Go through the list of mappings found in the file and toss
-			// out those that couldn't found in the scanned files to import.
-			foreach (var mapping in m_mappings.Where(m => !m_markersInFile.Contains(m.Marker)))
-				mapping.Marker = null;
+			// out those that couldn't be found in the scanned files to import.
+			//foreach (var mapping in m_mappings.Where(m => !m_markersInFile.Contains(m.Marker)))
+			//    mapping.Marker = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -314,6 +300,42 @@ namespace SIL.Pa.UI.Dialogs
 		#endregion
 		
 		#region Mapping Grid Setup
+		/// ------------------------------------------------------------------------------------
+		private void InitializeFieldMappingsGrid()
+		{
+			if (m_datasource.FieldMappings == null || m_datasource.FieldMappings.Count == 0)
+			{
+				// Create a new list of mappings, making sure to initialize each one's
+				// Field property, if possible, based on the existing project's fields
+				// and the default SFM fields.
+				m_datasource.FieldMappings = m_markersInFile.Select(mkr =>
+				{
+					var field = m_potentialFields.SingleOrDefault(f => f.GetPossibleDataSourceFieldNames().Contains(mkr));
+					var isParsed = (field != null && Settings.Default.DefaultParsedSfmFields.Contains(field.Name));
+					return new FieldMapping(mkr, field, isParsed);
+				}).ToList();
+			}
+
+			m_fieldsGrid = new FieldMapperGrid(m_potentialFields, m_datasource.FieldMappings);
+			m_fieldsGrid.Dock = DockStyle.Fill;
+			pnlMappings.Controls.Add(m_fieldsGrid);
+			m_fieldsGrid.BringToFront();
+
+			m_fieldsGrid.SourceFieldColumnHeadingTextHandler = delegate
+			{
+				return App.LocalizeString(
+					"SFDataSourcePropertiesDlg.SourceFieldColumnHeadingText",
+					"Map this Marker...", App.kLocalizationGroupDialogs);
+			};
+
+			m_fieldsGrid.TargetFieldColumnHeadingTextHandler = delegate
+			{
+				return App.LocalizeString(
+					"SFDataSourcePropertiesDlg.TargetFieldColumnHeadingText",
+					"To this Field", App.kLocalizationGroupDialogs);
+			};
+		}
+
 		/// --------------------------------------------------------------------------------
 		/// <summary>
 		/// Sets up the query grid display.
@@ -322,6 +344,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void BuildMappingGrid()
 		{
 			m_grid = new SilGrid();
+			return;
 			m_grid.Name = Name + "Grid";
 			m_grid.BorderStyle = BorderStyle.None;
 			m_grid.Dock = DockStyle.Fill;
@@ -391,43 +414,6 @@ namespace SIL.Pa.UI.Dialogs
 				m_grid.AutoResizeColumns();
 				m_grid.AutoResizeRows();
 			}
-
-
-
-
-
-
-			var defaultSfmFields = PaField.GetSfmFields();
-
-			var mappings = m_markersInFile.Select(mkr =>
-			{
-				var field = defaultSfmFields.SingleOrDefault(f => f.GetPossibleDataSourceFieldNames().Contains(mkr));
-				if (field != null)
-					field.NameInSource = mkr;
-				else
-					field = new PaField { NameInSource = mkr };
-	
-				return field;
-			});
-
-			m_fieldsGrid = new FieldMapperGrid(mappings, defaultSfmFields);
-			m_fieldsGrid.Dock = DockStyle.Bottom;
-			pnlMappings.Controls.Add(m_fieldsGrid);
-			m_grid.BringToFront();
-
-			m_fieldsGrid.SourceFieldColumnHeadingTextHandler = delegate
-			{
-				return App.LocalizeString(
-					"SFDataSourcePropertiesDlg.SourceFieldColumnHeadingText",
-					"Map this Marker...", App.kLocalizationGroupDialogs);
-			};
-
-			m_fieldsGrid.TargetFieldColumnHeadingTextHandler = delegate
-			{
-				return App.LocalizeString(
-					"SFDataSourcePropertiesDlg.TargetFieldColumnHeadingText",
-					"To this Field", App.kLocalizationGroupDialogs);
-			};
 		}
 
 		#endregion
@@ -607,12 +593,15 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
-			m_datasource.SFMappings = m_mappings;
-			var mapping = cboFirstInterlinear.SelectedItem as SFMarkerMapping;
-			m_datasource.FirstInterlinearField = (mapping == null ? null : mapping.FieldName);
 			m_datasource.ParseType = CurrentParseType;
 			m_datasource.ToolboxSortField = ToolBoxSortField;
 			m_datasource.Editor = txtEditor.Text.Trim();
+			m_datasource.FieldMappings = m_fieldsGrid.Mappings.ToList();
+				
+			var firstILFieldName = cboFirstInterlinear.SelectedItem as string;
+			var field = m_potentialFields.SingleOrDefault(f => f.DisplayName == firstILFieldName);
+			m_datasource.FirstInterlinearField = (field == null ? null : field.Name);
+			
 			return true;
 		}
 
@@ -651,18 +640,18 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		void HandleGridCellPainting(object sender, DataGridViewCellPaintingEventArgs e)
 		{
-			if (e.ColumnIndex == 3 && e.RowIndex >= 0)
-			{
-				var mapping = m_mappings[e.RowIndex];
-				var fieldInfo = m_fieldInfo[mapping.FieldName];
+			//if (e.ColumnIndex == 3 && e.RowIndex >= 0)
+			//{
+			//    var mapping = m_mappings[e.RowIndex];
+			//    var fieldInfo = m_fieldInfo[mapping.FieldName];
 
-				if (fieldInfo == null || !fieldInfo.CanBeInterlinear)
-				{
-					bool selected = (e.State & DataGridViewElementStates.Selected) > 0;
-					e.PaintBackground(e.ClipBounds, selected);
-					e.Handled = true;
-				}
-			}
+			//    if (fieldInfo == null || !fieldInfo.CanBeInterlinear)
+			//    {
+			//        bool selected = (e.State & DataGridViewElementStates.Selected) > 0;
+			//        e.PaintBackground(e.ClipBounds, selected);
+			//        e.Handled = true;
+			//    }
+			//}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -781,12 +770,6 @@ namespace SIL.Pa.UI.Dialogs
 				// Make all fields NOT interlinear
 				foreach (var mapping in m_mappings.Where(m => m.IsInterlinear))
 					mapping.IsInterlinear = false;
-			}
-
-			if (m_grid != null)
-			{
-				m_grid.Columns[3].ReadOnly = !rbInterlinearize.Checked;
-				m_grid.Refresh();
 			}
 
 			m_fieldsGrid.ShowIsInterlinearColumn(rbInterlinearize.Checked);

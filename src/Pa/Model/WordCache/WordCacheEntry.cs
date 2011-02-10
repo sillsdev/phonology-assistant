@@ -78,12 +78,12 @@ namespace SIL.Pa.Model
 
 			m_fieldValues = new Dictionary<string, PaFieldValue>();
 
-			foreach (var field in App.Fields.Where(f => f.IsParsed))
-			{
-				m_fieldValues[field.Name] = new PaFieldValue(field.Name);
-				if (field.Type == FieldType.Phonetic)
-					m_phoneticValue = m_fieldValues[field.Name];
-			}
+			//foreach (var field in App.Fields.Where(f => f.IsParsed))
+			//{
+			//    m_fieldValues[field.Name] = new PaFieldValue(field.Name);
+			//    if (field.Type == FieldType.Phonetic)
+			//        m_phoneticValue = m_fieldValues[field.Name];
+			//}
 		}
 
 		#endregion
@@ -360,7 +360,7 @@ namespace SIL.Pa.Model
 
 				if (m_phoneticValue == null)
 				{
-					var field = App.Fields.Single(f => f.Name == fieldValue.Name);
+					var field = App.GetFieldForName(fieldValue.Name);
 					if (field.Type == FieldType.Phonetic)
 					{
 						m_phoneticValue = fieldValue;

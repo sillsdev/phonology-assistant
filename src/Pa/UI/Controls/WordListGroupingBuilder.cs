@@ -130,13 +130,13 @@ namespace SIL.Pa.UI.Controls
 			{
 				m_headingFont = FontHelper.MakeFont(m_grid.GroupByField.Font, FontStyle.Bold);
 
-				if (!m_grid.GroupByField.IsPhonetic || !m_cache.IsForSearchResults)
-					GroupOnField(m_grid.GroupByField.FieldName);
+				if (m_grid.GroupByField.Type != FieldType.Phonetic || !m_cache.IsForSearchResults)
+					GroupOnField(m_grid.GroupByField.Name);
 				else
 				{
 					// Should we group by the phonetic column's search item?
 					if (m_grid.SortOptions.AdvSortOrder[1] == 0)
-						GroupOnPhoneticSearchItemPartExactly(m_grid.GroupByField.FieldName, 1);
+						GroupOnPhoneticSearchItemPartExactly(m_grid.GroupByField.Name, 1);
 					else
 					{
 						bool matchBefore = (m_grid.SortOptions.AdvSortOrder[0] == 0);
@@ -148,14 +148,14 @@ namespace SIL.Pa.UI.Controls
 						if (numberPhonesToMatch == 0)
 						{
 							// Match exactly on the environment before or after.
-							GroupOnPhoneticSearchItemPartExactly(m_grid.GroupByField.FieldName,
+							GroupOnPhoneticSearchItemPartExactly(m_grid.GroupByField.Name,
 								(matchBefore ? 0 : 2));
 						}
 						else
 						{
 							// Match on the environment before or after
 							// up to the specified number of phones.
-							GroupOnPhoneticEnvironment(m_grid.GroupByField.FieldName,
+							GroupOnPhoneticEnvironment(m_grid.GroupByField.Name,
 								matchBefore, numberPhonesToMatch);
 						}
 					}

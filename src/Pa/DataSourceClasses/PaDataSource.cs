@@ -76,10 +76,10 @@ namespace SIL.Pa.DataSource
 			{
 				DataSourceType = DataSourceType.SA;
 			}
-			else if (!IsXMLFile(DataSourceFile))
+			else if (!GetIsXmlFile(DataSourceFile))
 			{
 				bool isShoeboxFile;
-				if (IsSFMFile(DataSourceFile, out isShoeboxFile))
+				if (IsSfmFile(DataSourceFile, out isShoeboxFile))
 					DataSourceType = (isShoeboxFile ? DataSourceType.Toolbox : DataSourceType.SFM);
 			}
 			
@@ -173,7 +173,7 @@ namespace SIL.Pa.DataSource
 		/// Determines whether or not a file is an SFM file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool IsSFMFile(string filename, out bool isShoeboxFile)
+		private bool IsSfmFile(string filename, out bool isShoeboxFile)
 		{
 			using (StreamReader reader = new StreamReader(filename))
 			{
@@ -210,7 +210,7 @@ namespace SIL.Pa.DataSource
 		/// Determines whether or not the specified data source file is an xml file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool IsXMLFile(string filename)
+		private bool GetIsXmlFile(string filename)
 		{
 			XmlDocument xmldoc = new XmlDocument();
 			try
@@ -232,7 +232,7 @@ namespace SIL.Pa.DataSource
 				// We know we have a PAXML file. Now check if it was written by FieldWorks.
 				string fwServer;
 				string fwDBName;
-				DataSourceType = GetPaXMLType(filename, out fwServer, out fwDBName);
+				DataSourceType = GetPaXmlType(filename, out fwServer, out fwDBName);
 				TotalLinesInFile = paxmlContent.Cache.Count;
 				paxmlContent.Cache.Clear();
 			}
@@ -246,7 +246,7 @@ namespace SIL.Pa.DataSource
 		/// This method will determine whether or not the PAXML format is from FieldWorks.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static DataSourceType GetPaXMLType(string filename, out string fwServer,
+		public static DataSourceType GetPaXmlType(string filename, out string fwServer,
 			out string fwDBname)
 		{
 			fwServer = null;
@@ -440,7 +440,11 @@ namespace SIL.Pa.DataSource
 		public string Editor { get; set; }
 
 		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
 		public List<SFMarkerMapping> SFMappings { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public List<FieldMapping> FieldMappings { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

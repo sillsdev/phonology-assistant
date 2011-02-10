@@ -38,6 +38,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SFDataSourcePropertiesDlg));
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.m_tooltip = new System.Windows.Forms.ToolTip(this.components);
 			this.scImport = new System.Windows.Forms.SplitContainer();
 			this.pnlMappings = new SilTools.Controls.SilPanel();
@@ -68,11 +69,11 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblFirstInterlinear = new System.Windows.Forms.Label();
 			this.pnlSampeOutput = new SilTools.Controls.SilPanel();
 			this.gridSampleOutput = new SilTools.SilGrid();
-			this.pnlParseHdg = new SilTools.Controls.SilGradientPanel();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.SampleOutputPhoneticColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.SampleOutputGlossColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.SampleOutputPartOfSpeechColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.pnlParseHdg = new SilTools.Controls.SilGradientPanel();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.scImport.Panel1.SuspendLayout();
 			this.scImport.Panel2.SuspendLayout();
 			this.scImport.SuspendLayout();
@@ -422,7 +423,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.rtfSampleInput, "rtfSampleInput");
 			this.rtfSampleInput.Name = "rtfSampleInput";
 			this.rtfSampleInput.TabStop = false;
-			this.rtfSampleInput.Text = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidExportAsToolTip;
+			this.rtfSampleInput.Text = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidDoNothingToolTip;
 			// 
 			// cboFirstInterlinear
 			// 
@@ -476,6 +477,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.gridSampleOutput.AllowUserToAddRows = false;
 			this.gridSampleOutput.AllowUserToDeleteRows = false;
+			this.gridSampleOutput.AllowUserToOrderColumns = true;
 			this.gridSampleOutput.AllowUserToResizeColumns = false;
 			this.gridSampleOutput.AllowUserToResizeRows = false;
 			this.gridSampleOutput.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
@@ -483,29 +485,72 @@ namespace SIL.Pa.UI.Dialogs
 			this.gridSampleOutput.BackgroundColor = System.Drawing.SystemColors.Window;
 			this.gridSampleOutput.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.gridSampleOutput.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F);
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.gridSampleOutput.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.gridSampleOutput.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.gridSampleOutput.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.SampleOutputPhoneticColumn,
             this.SampleOutputGlossColumn,
             this.SampleOutputPartOfSpeechColumn});
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.gridSampleOutput.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.gridSampleOutput.DefaultCellStyle = dataGridViewCellStyle2;
 			resources.ApplyResources(this.gridSampleOutput, "gridSampleOutput");
+			this.gridSampleOutput.DrawTextBoxEditControlBorder = false;
+			this.gridSampleOutput.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
+			this.gridSampleOutput.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+			this.gridSampleOutput.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.gridSampleOutput, null);
 			this.locExtender.SetLocalizationComment(this.gridSampleOutput, "Grid showing sample output in the standard format data source properties dialog b" +
 					"ox.");
 			this.locExtender.SetLocalizingId(this.gridSampleOutput, "SFDataSourcePropertiesDlg.gridSampleOutput");
 			this.gridSampleOutput.MultiSelect = false;
 			this.gridSampleOutput.Name = "gridSampleOutput";
+			this.gridSampleOutput.PaintHeaderAcrossFullGridWidth = true;
+			this.gridSampleOutput.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			this.gridSampleOutput.RowHeadersVisible = false;
+			this.gridSampleOutput.SelectedCellBackColor = System.Drawing.Color.Empty;
+			this.gridSampleOutput.SelectedCellForeColor = System.Drawing.Color.Empty;
+			this.gridSampleOutput.SelectedRowBackColor = System.Drawing.Color.Empty;
+			this.gridSampleOutput.SelectedRowForeColor = System.Drawing.Color.Empty;
 			this.gridSampleOutput.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+			this.gridSampleOutput.ShowWaterMarkWhenDirty = false;
 			this.gridSampleOutput.TabStop = false;
+			this.gridSampleOutput.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
+			this.gridSampleOutput.WaterMark = "!";
+			// 
+			// SampleOutputPhoneticColumn
+			// 
+			resources.ApplyResources(this.SampleOutputPhoneticColumn, "SampleOutputPhoneticColumn");
+			this.SampleOutputPhoneticColumn.Name = "SampleOutputPhoneticColumn";
+			this.SampleOutputPhoneticColumn.ReadOnly = true;
+			this.SampleOutputPhoneticColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
+			// SampleOutputGlossColumn
+			// 
+			resources.ApplyResources(this.SampleOutputGlossColumn, "SampleOutputGlossColumn");
+			this.SampleOutputGlossColumn.Name = "SampleOutputGlossColumn";
+			this.SampleOutputGlossColumn.ReadOnly = true;
+			this.SampleOutputGlossColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
+			// SampleOutputPartOfSpeechColumn
+			// 
+			this.SampleOutputPartOfSpeechColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			resources.ApplyResources(this.SampleOutputPartOfSpeechColumn, "SampleOutputPartOfSpeechColumn");
+			this.SampleOutputPartOfSpeechColumn.Name = "SampleOutputPartOfSpeechColumn";
+			this.SampleOutputPartOfSpeechColumn.ReadOnly = true;
+			this.SampleOutputPartOfSpeechColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
 			// pnlParseHdg
 			// 
@@ -532,28 +577,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			this.locExtender.LocalizationManagerId = "Pa";
-			// 
-			// SampleOutputPhoneticColumn
-			// 
-			resources.ApplyResources(this.SampleOutputPhoneticColumn, "SampleOutputPhoneticColumn");
-			this.SampleOutputPhoneticColumn.Name = "SampleOutputPhoneticColumn";
-			this.SampleOutputPhoneticColumn.ReadOnly = true;
-			this.SampleOutputPhoneticColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			// 
-			// SampleOutputGlossColumn
-			// 
-			resources.ApplyResources(this.SampleOutputGlossColumn, "SampleOutputGlossColumn");
-			this.SampleOutputGlossColumn.Name = "SampleOutputGlossColumn";
-			this.SampleOutputGlossColumn.ReadOnly = true;
-			this.SampleOutputGlossColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			// 
-			// SampleOutputPartOfSpeechColumn
-			// 
-			this.SampleOutputPartOfSpeechColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			resources.ApplyResources(this.SampleOutputPartOfSpeechColumn, "SampleOutputPartOfSpeechColumn");
-			this.SampleOutputPartOfSpeechColumn.Name = "SampleOutputPartOfSpeechColumn";
-			this.SampleOutputPartOfSpeechColumn.ReadOnly = true;
-			this.SampleOutputPartOfSpeechColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
 			// SFDataSourcePropertiesDlg
 			// 

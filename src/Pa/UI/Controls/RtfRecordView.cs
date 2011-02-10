@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Model;
@@ -199,7 +200,7 @@ namespace SIL.Pa.UI.Controls
 			if (entry == m_recEntry && !forceUpdate)
 				return;
 
-			if (m_fontSizes.Count != App.FieldInfo.Count)
+			if (m_fontSizes.Count != App.Fields.Count())
 				UpdateFonts(false);
 
 			m_recEntry = entry;
@@ -733,10 +734,10 @@ namespace SIL.Pa.UI.Controls
 			RTFFieldInfo secondField;
 			GetFirstAndSecondInterlinearFields(out firstField, out secondField);
 
-			Font firstLineFont = App.FieldInfo[firstField.field].Font;
+			var firstLineFont = App.GetFieldForName(firstField.field).Font;
 			int numInterlinearColumns = firstField.columnValues.Length;
 
-			using (Graphics g = CreateGraphics())
+			using (var g = CreateGraphics())
 			{
 				// Iterate through the interlinear columns.
 				for (int col = 0; col < numInterlinearColumns; col++)
@@ -829,10 +830,9 @@ namespace SIL.Pa.UI.Controls
 					continue;
 				}
 
-				PaFieldInfo fieldInfo = App.FieldInfo[m_rtfFields[row].field];
-				int width = TextRenderer.MeasureText(g,
-					m_rtfFields[row].parsedColValues[col][subcol],
-					fieldInfo.Font, Size.Empty, m_txtFmtFlags).Width;
+				var field = App.GetFieldForName(m_rtfFields[row].field);
+				int width = TextRenderer.MeasureText(g, m_rtfFields[row].parsedColValues[col][subcol],
+					field.Font, Size.Empty, m_txtFmtFlags).Width;
 
 				maxSubColWidth = Math.Max(width, maxSubColWidth);
 				accumulatedWidth += width;

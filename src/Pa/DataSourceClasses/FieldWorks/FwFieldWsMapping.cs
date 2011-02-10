@@ -47,7 +47,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 		/// ------------------------------------------------------------------------------------
 		public FwFieldWsMapping Clone()
 		{
-			return new FwFieldWsMapping(FieldName, WsHvo) { WsName = this.WsName };
+			return new FwFieldWsMapping(FieldName, WsHvo) { WsName = WsName };
 		}
 	}
 }

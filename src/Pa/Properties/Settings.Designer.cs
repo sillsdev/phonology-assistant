@@ -3124,5 +3124,24 @@ namespace SIL.Pa.Properties {
                 return ((string)(this["SFMBasicParseOptionSampleInput"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Phonetic;Phonemic;Tone;Gloss;Orthographic;Reference;AudioFile;AudioLength;AudioOf" +
+            "fset")]
+        public string DefaultParsedSaFields {
+            get {
+                return ((string)(this["DefaultParsedSaFields"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Phonetic;Phonemic;Gloss;NatGloss;PartOfSpeech;Tone;Orthographic")]
+        public string DefaultParsedSfmFields {
+            get {
+                return ((string)(this["DefaultParsedSfmFields"]));
+            }
+        }
     }
 }

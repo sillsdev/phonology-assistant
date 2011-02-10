@@ -12,32 +12,46 @@ namespace SIL.Pa.UI.Controls
 		public Func<string> SourceFieldColumnHeadingTextHandler;
 		public Func<string> TargetFieldColumnHeadingTextHandler;
 
-		private readonly List<PaField> m_mappedFields;
+		private readonly List<FieldMapping> m_mappings;
+		//private readonly List<PaField> m_fields;
 		private readonly IDictionary<FieldType, string> m_displayableFieldTypes;
 		private readonly IEnumerable<PaField> m_potentialFields;
 		private readonly CellCustomDropDownList m_potentialFieldsDropDown;
 
 		/// ------------------------------------------------------------------------------------
-		public FieldMapperGrid(IEnumerable<PaField> mappedFields, IEnumerable<PaField> potentialFields)
+		public FieldMapperGrid()
 		{
 			VirtualMode = true;
 			Font = FontHelper.UIFont;
 			RowHeadersVisible = false;
 			BorderStyle = BorderStyle.None;
 
-			m_mappedFields = mappedFields.Select(m => m.Copy()).ToList();
-			m_potentialFields = potentialFields;
 			m_displayableFieldTypes =
 				PaField.GetDisplayableFieldTypes().ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
 			m_potentialFieldsDropDown = new CellCustomDropDownList();
+			App.SetGridSelectionColors(this, true);
 
 			AddColumns();
-
-			RowCount = m_mappedFields.Count;
-
-			App.SetGridSelectionColors(this, true);
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public FieldMapperGrid(IEnumerable<PaField> potentialFields, IEnumerable<FieldMapping> mappings)
+			: this()
+		{
+			m_potentialFields = potentialFields;
+			m_mappings = mappings.Select(m => m.Copy()).ToList();
+			RowCount = m_mappings.Count;
+		}
+
+		///// ------------------------------------------------------------------------------------
+		//public FieldMapperGrid(IEnumerable<PaField> fields, IEnumerable<PaField> potentialFields) : this()
+		//{
+
+		//    m_fields = fields.Select(m => m.Copy()).ToList();
+		//    m_potentialFields = potentialFields;
+		//    RowCount = m_fields.Count;
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		private void AddColumns()
@@ -68,7 +82,7 @@ namespace SIL.Pa.UI.Controls
 			Columns.Add(col);
 
 			// Create target field column.
-			col = new SilButtonColumn("field");
+			col = new SilButtonColumn("tgtfield");
 			((SilButtonColumn)col).ButtonStyle = SilButtonColumn.ButtonType.MinimalistCombo;
 			((SilButtonColumn)col).ButtonClicked += OnFieldColumnButtonClicked;
 			((SilButtonColumn)col).DrawDefaultComboButtonWidth = false;
@@ -109,34 +123,9 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual string GetColumnHeadingText(string colName)
+		public IEnumerable<FieldMapping> Mappings
 		{
-
-
-			switch (colName)
-			{
-				case "srcfield": return App.LocalizeString(
-					"FieldMappingGrid.SourceFieldColumnHeadingText", "Field in Source Data",
-					App.kLocalizationGroupUICtrls);
-
-				case "field": return App.LocalizeString(
-					"FieldMappingGrid.TargetFieldColumnHeadingText", "Field in PA",
-					App.kLocalizationGroupUICtrls);
-				
-				case "fieldtype": return App.LocalizeString(
-					"FieldMappingGrid.FieldTypeColumnHeadingText", "Type",
-					App.kLocalizationGroupUICtrls);
-				
-				case "parsed": return App.LocalizeString(
-					"FieldMappingGrid.FieldIsParsedColumnHeadingText", "Is Parsed?",
-					App.kLocalizationGroupUICtrls);
-
-				case "interlinear": return App.LocalizeString(
-					"FieldMappingGrid.FieldCanBeInterlinearColumnHeadingText", "Is Interlinear?",
-					App.kLocalizationGroupUICtrls);
-			}
-
-			return string.Empty;
+			get { return m_mappings; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -160,7 +149,7 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private string GetNoMappingText()
+		private static string GetNoMappingText()
 		{
 			return App.LocalizeString("FieldMapperGrid.NoMappingText",
 				"(no mapping)", App.kLocalizationGroupUICtrls);
@@ -171,13 +160,15 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
 			{
+				var mapping = m_mappings[e.RowIndex];
+
 				switch (Columns[e.ColumnIndex].Name)
 				{
-					case "srcfield": e.Value = m_mappedFields[e.RowIndex].NameInSource; break;
-					case "field": e.Value = m_mappedFields[e.RowIndex].DisplayName; break;
-					case "fieldtype": e.Value = m_mappedFields[e.RowIndex].GetTypeDisplayName(); break;
-					case "parsed": e.Value = m_mappedFields[e.RowIndex].IsParsed; break;
-					case "interlinear": e.Value = m_mappedFields[e.RowIndex].IsInterlinear; break;
+					case "srcfield": e.Value = mapping.NameInDataSource; break;
+					case "tgtfield": e.Value = (mapping.Field == null ? null : mapping.Field.DisplayName); break;
+					case "fieldtype": e.Value = m_displayableFieldTypes[GetTypeAtOrDefault(e.RowIndex)]; break;
+					case "parsed": e.Value = mapping.IsParsed; break;
+					case "interlinear": e.Value = mapping.IsInterlinear; break;
 					case "arrow": e.Value = Properties.Resources.FieldMappingArrow; break;
 				}
 			}
@@ -194,42 +185,61 @@ namespace SIL.Pa.UI.Controls
 				return;
 
 			var valAsString = e.Value as string;
+			var mapping = m_mappings[e.RowIndex];
 
 			switch (Columns[e.ColumnIndex].Name)
 			{
-				case "field":
+				case "tgtfield":
 					if (valAsString == GetNoMappingText())
-						m_mappedFields[e.RowIndex].Name = null;
+						mapping.Field = null;
 					else
 					{
-						var field = m_potentialFields.SingleOrDefault(f => f.DisplayName == valAsString);
-						m_mappedFields[e.RowIndex].Name = (field != null ? field.Name : valAsString);
+						mapping.Field =
+							m_potentialFields.SingleOrDefault(f => f.DisplayName == valAsString) ??
+							new PaField(valAsString, GetTypeAtOrDefault(e.RowIndex));
 					}
+
 					break;
 
 				case "fieldtype":
-					m_mappedFields[e.RowIndex].Type =
-						m_displayableFieldTypes.Single(kvp => kvp.Value == valAsString).Key;
+					var newType = m_displayableFieldTypes.Single(kvp => kvp.Value == valAsString).Key;
+					if (mapping.Field != null)
+						mapping.Field.Type = newType;
+					else
+						mapping.Field = new PaField(null, newType);
+
 					break;
 				
 				case "parsed":
-					m_mappedFields[e.RowIndex].IsParsed = (bool)e.Value;
+					mapping.IsParsed = (bool)e.Value;
 
 					// Unparsed fields cannot also be interlinear fields.
 					// So make sure that property is turned off.
-					if (!m_mappedFields[e.RowIndex].IsParsed)
-					{
-						m_mappedFields[e.RowIndex].IsInterlinear = false;
-						InvalidateCell(Columns["interlinear"].Index, e.RowIndex);
-					}
+					if (!mapping.IsParsed)
+						mapping.IsInterlinear = false;
+					
 					break;
 
 				case "interlinear":
-					m_mappedFields[e.RowIndex].IsInterlinear = (bool)e.Value;
+					mapping.IsInterlinear = (bool)e.Value;
 					break;
 			}
+
+			InvalidateRow(e.RowIndex);
 		}
 
+		/// ------------------------------------------------------------------------------------
+		private FieldType GetTypeAtOrDefault(int index)
+		{
+			return (index >= 0 && m_mappings[index].Field != null ?
+				m_mappings[index].Field.Type : default(FieldType));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Make sure the cells for fields that can't be parsed or interlinear are set to
+		/// readonly.
+		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
 		{
@@ -237,14 +247,15 @@ namespace SIL.Pa.UI.Controls
 			{
 				this[e.ColumnIndex, e.RowIndex].ReadOnly = false;
 				var colName = Columns[e.ColumnIndex].Name;
-				var field = m_mappedFields[e.RowIndex];
+				var mapping = m_mappings[e.RowIndex];
+				var type = GetTypeAtOrDefault(e.RowIndex);
 
-				if (colName == "interlinear" &&
-					(!field.GetTypeAllowsFieldToBeInterlinear() || !field.IsParsed))
+				if (colName == "parsed" && !PaField.GetIsTypeParsable(type))
 				{
 					this[e.ColumnIndex, e.RowIndex].ReadOnly = true;
 				}
-				else if (colName == "parsed" && !field.GetTypeAllowsFieldToBeParsed())
+				else if (colName == "interlinear" &&
+					(!PaField.GetIsTypeInterlinearizable(type) || !mapping.IsParsed))
 				{
 					this[e.ColumnIndex, e.RowIndex].ReadOnly = true;
 				}
@@ -254,28 +265,10 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnCellValidating(DataGridViewCellValidatingEventArgs e)
-		{
-			//if (e.RowIndex >= 0 && e.ColumnIndex >= 0 &&
-			//    Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn && (bool)e.FormattedValue)
-			//{
-			//    var colName = Columns[e.ColumnIndex].Name;
-			//    var field = m_mappedFields[e.RowIndex];
-
-			//    if (colName == "interlinear" &&
-			//        (!field.GetDoesTypeAllowToBeInterlinear() || !field.IsParsed))
-			//    {
-			//        e.Cancel = true;
-			//    }
-			//    else if (colName == "parsed" && !field.GetDoesTypeAllowToBeParsed())
-			//    {
-			//        e.Cancel = true;
-			//    }
-			//}
-			
-			base.OnCellValidating(e);
-		}
-
+		/// <summary>
+		/// Make sure any field that can't be marked as parsed or interlinear has it's check
+		/// box painted over so the check box cannot be seen.
+		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
 		{
@@ -285,11 +278,11 @@ namespace SIL.Pa.UI.Controls
 				return;
 
 			var colName = Columns[e.ColumnIndex].Name;
-			var field = m_mappedFields[e.RowIndex];
+			var type = GetTypeAtOrDefault(e.RowIndex);
 
 			if (!("parsed interlinear").Contains(colName) ||
-				(colName == "parsed" && field.GetTypeAllowsFieldToBeParsed()) ||
-				(colName == "interlinear" && field.GetTypeAllowsFieldToBeInterlinear()))
+				(colName == "parsed" && PaField.GetIsTypeParsable(type)) ||
+				(colName == "interlinear" && PaField.GetIsTypeInterlinearizable(type)))
 			{
 				return;
 			}

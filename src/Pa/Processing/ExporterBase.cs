@@ -117,26 +117,20 @@ namespace SIL.Pa.Processing
 				// Subtract on at the end to account for the column containing the
 				// expand/collapse glyph. That doesn't count in the col. span.
 				m_leftColSpanForGroupedList = (from x in m_grid.Columns.Cast<DataGridViewColumn>()
-						where x.Visible && x.DisplayIndex < groupByColIndex
-						select x).Count() - 1;
+											   where x.Visible && x.DisplayIndex < groupByColIndex
+											   select x).Count() - 1;
 
 				m_rightColSpanForGroupedList = (from x in m_grid.Columns.Cast<DataGridViewColumn>()
-						where x.Visible && x.DisplayIndex > groupByColIndex
-						select x).Count();
+												where x.Visible && x.DisplayIndex > groupByColIndex
+												select x).Count();
 
-				var field = App.Fields.Single(f => f.Type == FieldType.Phonetic);
-				m_groupByField = (grid.Cache.IsCIEList ? field :
-					((PaWordListGrid)m_grid).GroupByField);
-
+				var field = App.GetPhoneticField();
+				m_groupByField = (grid.Cache.IsCIEList ? field : ((PaWordListGrid)m_grid).GroupByField);
 				m_groupedFieldName = ProcessHelper.MakeAlphaNumeric(m_groupByField.DisplayName);
 			}
 		}
 
 		#region Processing methods
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool InternalProcess(bool keepIntermediateFile,
 			params Pipeline.ProcessType[] processTypes)
@@ -154,19 +148,11 @@ namespace SIL.Pa.Processing
 			MemoryStream outputStream = null;
 			int processingStep = 0;
 
-			foreach (var prsType in processTypes)
+			foreach (var pipeline in processTypes.Select(ProcessHelper.CreatePipeline).Where(pl => pl != null))
 			{
-				var pipeline = ProcessHelper.CreatePipline(prsType);
-
-				// REVIEW: Should we warn the user that this failed?
-				if (pipeline == null)
-					continue;
-
 				if (m_showExportProgress)
 				{
-					App.InitializeProgressBar(string.Format(msg, ++processingStep),
-						pipeline.ProcessingSteps.Count);
-				
+					App.InitializeProgressBar(string.Format(msg, ++processingStep), pipeline.ProcessingSteps.Count);
 					pipeline.BeforeStepProcessed += BeforePipelineStepProcessed;
 				}
 

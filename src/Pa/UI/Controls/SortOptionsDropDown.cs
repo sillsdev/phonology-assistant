@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.ComponentModel;
 using System.Drawing;
 using System.Reflection;
@@ -325,13 +326,16 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void SendChangedEvent()
 		{
-			if (SortOptionsChanged != null)
+			if (SortOptionsChanged == null)
+				return;
+			
+			if (m_makePhoneticPrimarySortFieldOnChange)
 			{
-				if (m_makePhoneticPrimarySortFieldOnChange)
-					m_sortOptions.SetPrimarySortField(App.Project.FieldInfo.PhoneticField, false);
-	
-				SortOptionsChanged(m_sortOptions);
+				m_sortOptions.SetPrimarySortField(
+				App.Fields.Single(f => f.Type == FieldType.Phonetic), false);
 			}
+
+			SortOptionsChanged(m_sortOptions);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -558,7 +562,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void HandleAdvancedOptionItemPaint(object sender, PaintEventArgs e)
 		{
-			Control ctrl = sender as Control;
+			var ctrl = sender as Control;
 
 			if (ctrl != null && (!ctrl.Focused || ctrl.Tag != null))
 			{
@@ -567,7 +571,7 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			Rectangle rc;
-			Graphics g = e.Graphics;
+			var g = e.Graphics;
 
 			if (ctrl is RadioButton)
 			{

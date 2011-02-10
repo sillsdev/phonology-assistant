@@ -106,17 +106,7 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		public static bool IsToolboxRunning
 		{
-			get
-			{
-				Process[] processes = Process.GetProcesses();
-				foreach (Process prs in processes)
-				{
-					if (prs.ProcessName.ToLower().StartsWith("toolbox"))
-						return true;
-				}
-
-				return false;
-			}
+			get { return Process.GetProcesses().Any(prs => prs.ProcessName.ToLower().StartsWith("toolbox")); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -175,27 +165,27 @@ namespace SIL.Pa.DataSource
 			    return;
 			}
 
-			string sortField = recEntry.DataSource.ToolboxSortField;
+			string sortFieldName = recEntry.DataSource.ToolboxSortField;
 
 			// Get the record field whose value will tell us what record to jump to.
-			if (string.IsNullOrEmpty(sortField))
+			if (string.IsNullOrEmpty(sortFieldName))
 			{
 				Utils.MsgBox(Properties.Resources.kstidNoToolboxSortFieldSpecified);
 				return;
 			}
 
 			// Find the field information for the specified sort field.
-			PaFieldInfo fieldInfo = App.Project.FieldInfo[sortField];
-			if (fieldInfo == null)
+			var field = App.GetFieldForName(sortFieldName);
+			if (field == null)
 			{
-				string msg = Properties.Resources.kstidInvalidToolboxSortField;
-				Utils.MsgBox(string.Format(msg, sortField));
+				var msg = Properties.Resources.kstidInvalidToolboxSortField;
+				Utils.MsgBox(string.Format(msg, sortFieldName));
 				return;
 			}
 
 			// Get the value indicating what record to jump to.
-			string jumpValue = (fieldInfo.IsPhonetic ?
-				GetPhoneticJumpWord(recEntry) : recEntry[sortField]);
+			var jumpValue = (field.Type == FieldType.Phonetic ?
+				GetPhoneticJumpWord(recEntry) : recEntry[sortFieldName]);
 
 			if (string.IsNullOrEmpty(jumpValue))
 				return;
@@ -251,7 +241,7 @@ namespace SIL.Pa.DataSource
 				{
 					if (m_showFwJumpUrlDlg)
 					{
-						using (EditFwUrlDlg dlg = new EditFwUrlDlg(url))
+						using (var dlg = new EditFwUrlDlg(url))
 						{
 							if (dlg.ShowDialog() == DialogResult.Cancel)
 								return;
@@ -278,15 +268,15 @@ namespace SIL.Pa.DataSource
 		private void EditRecordInSA(WordCacheEntry wcentry, string callingApp)
 		{
 			// Get the audio file field.
-			PaFieldInfo fieldInfo = App.Project.FieldInfo.AudioFileField;
-			if (fieldInfo == null)
+			var field = App.Fields.SingleOrDefault(f => f.Type == FieldType.AudioFilePath);
+			if (field == null)
 			{
 				Utils.MsgBox(Properties.Resources.kstidNoAudioField);
 				return;
 			}
 
 			// Get the audio file and make sure it exists.
-			string audioFile = wcentry[fieldInfo.FieldName];
+			var audioFile = wcentry[field.Name];
 			if (string.IsNullOrEmpty(audioFile) || !File.Exists(audioFile))
 			{
 				Utils.MsgBox(Properties.Resources.kstidAudioFileMissingMsg);
@@ -294,7 +284,7 @@ namespace SIL.Pa.DataSource
 			}
 
 			// Make sure SA exists.
-			string saPath = AudioPlayer.GetSaPath();
+			var saPath = AudioPlayer.GetSaPath();
 			if (saPath == null || !File.Exists(saPath))
 			{
 				var msg = App.LocalizeString("AudioEditProblemMsg",
@@ -309,10 +299,10 @@ namespace SIL.Pa.DataSource
 				return;
 			}
 
-			string lstFile = GetSaListFile(wcentry, audioFile, callingApp);
+			var lstFile = GetSaListFile(wcentry, audioFile, callingApp);
 
 			// Start SA.
-			Process prs = new Process();
+			var prs = new Process();
 			prs.StartInfo.UseShellExecute = true;
 			prs.StartInfo.FileName = "\"" + saPath + "\"";
 			prs.StartInfo.Arguments = "-l " + lstFile;
@@ -336,7 +326,7 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private static void SA_Exited(object sender, EventArgs e)
 		{
-			Process prs = sender as Process;
+			var prs = sender as Process;
 			if (prs != null)
 			{
 				prs.Exited -= SA_Exited;
@@ -397,17 +387,13 @@ namespace SIL.Pa.DataSource
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void RestoreAppIfRunning(string processName)
 		{
-			Process[] prs = Process.GetProcessesByName(processName);
+			var prs = Process.GetProcessesByName(processName);
 
-			if (prs != null && prs.Length > 0)
+			if (prs.Length > 0)
 			{
-				WINDOWPLACEMENT placement = new WINDOWPLACEMENT();
+				var placement = new WINDOWPLACEMENT();
 				placement.length = Marshal.SizeOf(placement);
 				GetWindowPlacement(prs[0].MainWindowHandle, ref placement);
 

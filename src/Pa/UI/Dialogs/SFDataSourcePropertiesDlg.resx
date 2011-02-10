@@ -246,6 +246,9 @@
   <data name="tblLayoutEditor.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
+  <data name="tblLayoutEditor.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="&gt;&gt;tblLayoutEditor.Name" xml:space="preserve">
     <value>tblLayoutEditor</value>
   </data>
@@ -304,7 +307,7 @@
     <value>Left</value>
   </data>
   <data name="cboToolboxSortField.Location" type="System.Drawing.Point, System.Drawing">
-    <value>144, 8</value>
+    <value>144, 7</value>
   </data>
   <data name="cboToolboxSortField.Size" type="System.Drawing.Size, System.Drawing">
     <value>138, 23</value>
@@ -335,6 +338,9 @@
   </data>
   <data name="tblLayoutToolBoxSortField.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
+  </data>
+  <data name="tblLayoutToolBoxSortField.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;tblLayoutToolBoxSortField.Name" xml:space="preserve">
     <value>tblLayoutToolBoxSortField</value>
@@ -373,7 +379,7 @@
     <value>pnlMappingsHdg</value>
   </data>
   <data name="&gt;&gt;pnlMappingsHdg.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.5.4056.24284, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.5.4057.38783, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlMappingsHdg.Parent" xml:space="preserve">
     <value>pnlMappings</value>
@@ -400,7 +406,7 @@
     <value>pnlMappings</value>
   </data>
   <data name="&gt;&gt;pnlMappings.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4056.24284, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4057.38783, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlMappings.Parent" xml:space="preserve">
     <value>scImport.Panel1</value>
@@ -478,7 +484,7 @@
     <value>pnlSrcFileHdg</value>
   </data>
   <data name="&gt;&gt;pnlSrcFileHdg.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.5.4056.24284, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.5.4057.38783, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSrcFileHdg.Parent" xml:space="preserve">
     <value>pnlSrcFile</value>
@@ -505,7 +511,7 @@
     <value>pnlSrcFile</value>
   </data>
   <data name="&gt;&gt;pnlSrcFile.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4056.24284, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4057.38783, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSrcFile.Parent" xml:space="preserve">
     <value>scImport.Panel2</value>
@@ -595,7 +601,7 @@
     <value>lblParseType</value>
   </data>
   <data name="&gt;&gt;lblParseType.Type" xml:space="preserve">
-    <value>SilTools.Controls.AutoHeightLabel, SilTools, Version=1.5.4056.24284, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.AutoHeightLabel, SilTools, Version=1.5.4057.38783, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lblParseType.Parent" xml:space="preserve">
     <value>tblLayoutParseOptions</value>
@@ -634,7 +640,7 @@
     <value>rbInterlinearize</value>
   </data>
   <data name="&gt;&gt;rbInterlinearize.Type" xml:space="preserve">
-    <value>SilTools.Controls.AutoHeighRadioButton, SilTools, Version=1.5.4056.24284, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.AutoHeighRadioButton, SilTools, Version=1.5.4057.38783, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;rbInterlinearize.Parent" xml:space="preserve">
     <value>tblLayoutParseOptions</value>
@@ -673,7 +679,7 @@
     <value>rbParseOneToOne</value>
   </data>
   <data name="&gt;&gt;rbParseOneToOne.Type" xml:space="preserve">
-    <value>SilTools.Controls.AutoHeighRadioButton, SilTools, Version=1.5.4056.24284, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.AutoHeighRadioButton, SilTools, Version=1.5.4057.38783, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;rbParseOneToOne.Parent" xml:space="preserve">
     <value>tblLayoutParseOptions</value>
@@ -748,7 +754,7 @@
     <value>rbParseOnlyPhonetic</value>
   </data>
   <data name="&gt;&gt;rbParseOnlyPhonetic.Type" xml:space="preserve">
-    <value>SilTools.Controls.AutoHeighRadioButton, SilTools, Version=1.5.4056.24284, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.AutoHeighRadioButton, SilTools, Version=1.5.4057.38783, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;rbParseOnlyPhonetic.Parent" xml:space="preserve">
     <value>tblLayoutParseOptions</value>
@@ -784,7 +790,7 @@
     <value>rbNoParse</value>
   </data>
   <data name="&gt;&gt;rbNoParse.Type" xml:space="preserve">
-    <value>SilTools.Controls.AutoHeighRadioButton, SilTools, Version=1.5.4056.24284, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.AutoHeighRadioButton, SilTools, Version=1.5.4057.38783, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;rbNoParse.Parent" xml:space="preserve">
     <value>tblLayoutParseOptions</value>
@@ -841,7 +847,7 @@
     <value>pnlSampleInput</value>
   </data>
   <data name="&gt;&gt;pnlSampleInput.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4056.24284, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4057.38783, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSampleInput.Parent" xml:space="preserve">
     <value>tblLayoutParseOptions</value>
@@ -990,8 +996,14 @@
   <data name="gridSampleOutput.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
+  <data name="gridSampleOutput.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
   <data name="gridSampleOutput.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
+  </data>
+  <data name="gridSampleOutput.RowHeadersWidth" type="System.Int32, mscorlib">
+    <value>22</value>
   </data>
   <data name="gridSampleOutput.Size" type="System.Drawing.Size, System.Drawing">
     <value>212, 99</value>
@@ -1003,7 +1015,7 @@
     <value>gridSampleOutput</value>
   </data>
   <data name="&gt;&gt;gridSampleOutput.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>SilTools.SilGrid, SilTools, Version=1.5.4057.38783, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;gridSampleOutput.Parent" xml:space="preserve">
     <value>pnlSampeOutput</value>
@@ -1033,7 +1045,7 @@
     <value>pnlSampeOutput</value>
   </data>
   <data name="&gt;&gt;pnlSampeOutput.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4056.24284, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4057.38783, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSampeOutput.Parent" xml:space="preserve">
     <value>tblLayoutParseOptions</value>
@@ -1093,7 +1105,7 @@
     <value>pnlParseHdg</value>
   </data>
   <data name="&gt;&gt;pnlParseHdg.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.5.4056.24284, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.5.4057.38783, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlParseHdg.Parent" xml:space="preserve">
     <value>pnlParseType</value>
@@ -1120,7 +1132,7 @@
     <value>pnlParseType</value>
   </data>
   <data name="&gt;&gt;pnlParseType.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4056.24284, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4057.38783, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlParseType.Parent" xml:space="preserve">
     <value>splitOuter.Panel1</value>
@@ -1176,15 +1188,6 @@
   <data name="&gt;&gt;splitOuter.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
-    <value>Phonetic</value>
-  </data>
-  <data name="dataGridViewTextBoxColumn2.HeaderText" xml:space="preserve">
-    <value>Gloss</value>
-  </data>
-  <data name="dataGridViewTextBoxColumn3.HeaderText" xml:space="preserve">
-    <value>Part of Speech</value>
-  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -1212,30 +1215,6 @@
   <data name="&gt;&gt;m_tooltip.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
-    <value>locExtender</value>
-  </data>
-  <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
-    <value>Localization.UI.LocalizationExtender, LocalizationManager, Version=1.0.4048.30862, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;dataGridViewTextBoxColumn1.Name" xml:space="preserve">
-    <value>dataGridViewTextBoxColumn1</value>
-  </data>
-  <data name="&gt;&gt;dataGridViewTextBoxColumn1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;dataGridViewTextBoxColumn2.Name" xml:space="preserve">
-    <value>dataGridViewTextBoxColumn2</value>
-  </data>
-  <data name="&gt;&gt;dataGridViewTextBoxColumn2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;dataGridViewTextBoxColumn3.Name" xml:space="preserve">
-    <value>dataGridViewTextBoxColumn3</value>
-  </data>
-  <data name="&gt;&gt;dataGridViewTextBoxColumn3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;SampleOutputPhoneticColumn.Name" xml:space="preserve">
     <value>SampleOutputPhoneticColumn</value>
   </data>
@@ -1254,10 +1233,16 @@
   <data name="&gt;&gt;SampleOutputPartOfSpeechColumn.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
+    <value>locExtender</value>
+  </data>
+  <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
+    <value>Localization.UI.LocalizationExtender, LocalizationManager, Version=1.0.4048.30862, Culture=neutral, PublicKeyToken=null</value>
+  </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SFDataSourcePropertiesDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.2.4056.30862, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.2.4058.31067, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>
