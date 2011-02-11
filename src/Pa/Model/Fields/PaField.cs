@@ -5,7 +5,6 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Linq;
 using Palaso.IO;
-using SIL.Pa.DataSource;
 using SilTools;
 
 namespace SIL.Pa.Model
@@ -28,17 +27,16 @@ namespace SIL.Pa.Model
 	[XmlType("field")]
 	public class PaField
 	{
-		//private bool m_isParsed;
-		//private bool m_isInterlinear;
 		private Font m_font;
 
 		/// ------------------------------------------------------------------------------------
 		public PaField()
 		{
+			AllowUserToMap = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public PaField(string name, FieldType type)
+		public PaField(string name, FieldType type) : this()
 		{
 			Name = name;
 			Type = type;
@@ -51,10 +49,6 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("type")]
 		public FieldType Type { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		[XmlElement("nameInSource")]
-		public string NameInSource { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		[XmlElement("possibleDataSourceFieldNames")]
@@ -79,22 +73,6 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		[XmlElement("rightToLeft")]
 		public bool RightToLeft { get; set; }
-
-		///// ------------------------------------------------------------------------------------
-		//[XmlElement("isParsed")]
-		//public bool IsParsed
-		//{
-		//    get { return m_isParsed; }
-		//    set { m_isParsed = (value && GetTypeAllowsFieldToBeParsed()); }
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//[XmlElement("isInterlinear")]
-		//public bool IsInterlinear
-		//{
-		//    get { return m_isInterlinear; }
-		//    set { m_isInterlinear = (value && GetTypeAllowsFieldToBeInterlinear()); }
-		//}
 
 		#region Properties for field's visibility in grids and rec. views
 		/// ------------------------------------------------------------------------------------
@@ -148,10 +126,11 @@ namespace SIL.Pa.Model
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		[XmlArray("dataSourceMappings"), XmlArrayItem("mapping")]
-		public List<FieldMapping> Mappings { get; set; }
+		[XmlIgnore]
+		public bool AllowUserToMap { get; set; }
 
 		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
 		public string DisplayName
 		{
 			get { return GetDisplayName(Name); }
@@ -197,14 +176,6 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool GetIsParsed(PaDataSource ds)
-		{
-			return true;
-			//var mapping = Mappings.SingleOrDefault(m => m.DataSourceName == ds.ToString(true));
-			//return (mapping != null && mapping.IsParsed);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
 			return (Name ?? base.ToString());
@@ -213,23 +184,18 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public PaField Copy()
 		{
-			var copy = new PaField();
-			copy.Name = Name;
-			copy.Type = Type;
-			copy.SerializablePossibleDataSourceFieldNames = SerializablePossibleDataSourceFieldNames;
-			copy.NameInSource = NameInSource;
-			//copy.IsParsed = IsParsed;
-			//copy.IsInterlinear = IsInterlinear;
-			//copy.FwWritingSystemType = FwWritingSystemType;
-			copy.VisibleInGrid = VisibleInGrid;
-			copy.VisibleInRecView = VisibleInRecView;
-			copy.DisplayIndexInGrid = DisplayIndexInGrid;
-			copy.DisplayIndexInRecView = DisplayIndexInRecView;
-			copy.WidthInGrid = WidthInGrid;
-			copy.Mappings = Mappings.Select(m => m.Copy()).ToList();
-			copy.Font = (m_font != null ? m_font.Clone() as Font : null);
-			
-			return copy;
+			return new PaField
+			{
+				Name = Name,
+				Type = Type,
+				SerializablePossibleDataSourceFieldNames = SerializablePossibleDataSourceFieldNames,
+				VisibleInGrid = VisibleInGrid,
+				VisibleInRecView = VisibleInRecView,
+				DisplayIndexInGrid = DisplayIndexInGrid,
+				DisplayIndexInRecView = DisplayIndexInRecView,
+				WidthInGrid = WidthInGrid,
+				Font = (m_font != null ? m_font.Clone() as Font : null),
+			};
 		}
 
 		#region Static methods
@@ -299,9 +265,12 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static Exception SaveProjectFields(PaProject project)
 		{
+			var fields = project.Fields
+				.Where(f => !("CVPattern/DataSource/DataSourcePath").Contains(f.Name)).ToList();
+			
 			var path = project.ProjectPathFilePrefix + "Fields.xml";
 			Exception e = null;
-			XmlSerializationHelper.SerializeToFile(path, project.Fields, "Fields", out e);
+			XmlSerializationHelper.SerializeToFile(path, fields, "Fields", out e);
 			return e;
 		}
 
@@ -312,7 +281,12 @@ namespace SIL.Pa.Model
 			var list = XmlSerializationHelper.DeserializeFromFile<List<PaField>>(path, rootElementName, out e);
 
 			if (e == null)
+			{
+				list.Add(new PaField { Name = "CVPattern", AllowUserToMap = false });
+				list.Add(new PaField { Name = "DataSource", AllowUserToMap = false });
+				list.Add(new PaField { Name = "DataSourcePath", AllowUserToMap = false });
 				return list;
+			}
 
 			var msg = App.LocalizeString("ReadingFieldsFileErrorMsg",
 				"The following error occurred when reading the file\n\n'{0}'\n\n{1}",
@@ -439,6 +413,15 @@ namespace SIL.Pa.Model
 
 				case "SADescription": return App.LocalizeString("DisplayableFieldNames.SADescription",
 										"Description", App.kLocalizationGroupMisc);
+
+				case "CVPattern": return App.LocalizeString("DisplayableFieldNames.CVPattern",
+										"CV Pattern", App.kLocalizationGroupMisc);
+				
+				case "DataSource": return App.LocalizeString("DisplayableFieldNames.DataSource",
+										"Data Source", App.kLocalizationGroupMisc);
+
+				case "DataSourcePath": return App.LocalizeString("DisplayableFieldNames.DataSourcePath",
+										"Data Source Path", App.kLocalizationGroupMisc);
 			}
 
 			return name;

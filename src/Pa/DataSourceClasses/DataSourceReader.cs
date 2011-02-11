@@ -461,7 +461,7 @@ namespace SIL.Pa.DataSource
 			{
 				var wentry = new WordCacheEntry(m_recCacheEntry, wordIndex++, true);
 
-				foreach (var fname in saFields.Where(f => f.GetIsParsed(ds)).Select(f => f.Name))
+				foreach (var fname in ds.FieldMappings.Where(m => !m.IsParsed).Select(m => m.Field.Name))
 				{
 					var value = GetPropertyValueFromObject(typeof(AudioDocWords), fname, adw);
 					if (value != null)

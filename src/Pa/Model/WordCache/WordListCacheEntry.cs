@@ -10,7 +10,7 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class WordListCacheEntry
 	{
-		private string[] m_phones = null;
+		private string[] m_phones;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

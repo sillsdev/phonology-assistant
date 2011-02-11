@@ -306,7 +306,6 @@ namespace SIL.Pa
 				project.m_fileName = projFileName;
 				project.Fields = PaField.GetProjectFields(project);
 				project.VerifyDataSourceMappings();
-				//RecordCacheEntry.InitializeDataSourceFields(project.FieldInfo);
 			}
 			catch (Exception e)
 			{

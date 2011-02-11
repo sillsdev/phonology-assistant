@@ -42,18 +42,10 @@ namespace SIL.Pa.Model
 
 		#region Constructors
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public WordCacheEntry()
 		{
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public WordCacheEntry(bool allocateSpaceForFieldValues) :
 			this(null, allocateSpaceForFieldValues)
@@ -76,14 +68,15 @@ namespace SIL.Pa.Model
 			if (!allocateSpaceForFieldValues)
 				return;
 
-			m_fieldValues = new Dictionary<string, PaFieldValue>();
+			m_fieldValues = (from m in recEntry.DataSource.FieldMappings
+							 where m.IsParsed && m.Field != null
+							 select m.Field).ToDictionary(f => f.Name, f => new PaFieldValue(f.Name));
 
-			//foreach (var field in App.Fields.Where(f => f.IsParsed))
-			//{
-			//    m_fieldValues[field.Name] = new PaFieldValue(field.Name);
-			//    if (field.Type == FieldType.Phonetic)
-			//        m_phoneticValue = m_fieldValues[field.Name];
-			//}
+			var mapping = recEntry.DataSource.FieldMappings
+				.SingleOrDefault(m => m.Field != null && m.Field.Type == FieldType.Phonetic);
+
+			if (mapping != null)
+				m_phoneticValue = m_fieldValues[mapping.Field.Name];
 		}
 
 		#endregion
@@ -139,22 +132,16 @@ namespace SIL.Pa.Model
 			// At this point, we know we don't have a value for the specified field or we
 			// do and the value is null.
  
-			if (App.Project != null)
+			if (field == "CVPattern")
 			{
-				var fieldInfo = App.Project.FieldInfo[field];
-				
-				// Are we after the CV pattern?
-				if (fieldInfo != null && fieldInfo.IsCVPattern)
-				{
-					// Check if the CV value is in the record cache. If so, return it.
-					string recEntryVal = RecordEntry.GetValueBasic(field);
-					if (deferToParentRecEntryWhenMissingValue && recEntryVal != null)
-						return recEntryVal;
+				// Check if the CV value is in the record cache. If so, return it.
+				var recEntryVal = RecordEntry.GetValueBasic(field);
+				if (deferToParentRecEntryWhenMissingValue && recEntryVal != null)
+					return recEntryVal;
 
-					// Build the CV pattern since it didn't come from the data source.
-					return (m_phones == null || App.PhoneCache == null ?
-						null : App.PhoneCache.GetCVPattern(m_phones));
-				}
+				// Build the CV pattern since it didn't come from the data source.
+				return (m_phones == null || App.PhoneCache == null ?
+					null : App.PhoneCache.GetCVPattern(m_phones));
 			}
 			
 			// If deferToParentRecEntryWhenMissingValue is true then the value returned

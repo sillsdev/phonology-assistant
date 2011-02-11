@@ -13,7 +13,6 @@ namespace SIL.Pa.UI.Controls
 		public Func<string> TargetFieldColumnHeadingTextHandler;
 
 		private readonly List<FieldMapping> m_mappings;
-		//private readonly List<PaField> m_fields;
 		private readonly IDictionary<FieldType, string> m_displayableFieldTypes;
 		private readonly IEnumerable<PaField> m_potentialFields;
 		private readonly CellCustomDropDownList m_potentialFieldsDropDown;
@@ -39,19 +38,10 @@ namespace SIL.Pa.UI.Controls
 		public FieldMapperGrid(IEnumerable<PaField> potentialFields, IEnumerable<FieldMapping> mappings)
 			: this()
 		{
-			m_potentialFields = potentialFields;
+			m_potentialFields = potentialFields.Where(f => f.AllowUserToMap);
 			m_mappings = mappings.Select(m => m.Copy()).ToList();
 			RowCount = m_mappings.Count;
 		}
-
-		///// ------------------------------------------------------------------------------------
-		//public FieldMapperGrid(IEnumerable<PaField> fields, IEnumerable<PaField> potentialFields) : this()
-		//{
-
-		//    m_fields = fields.Select(m => m.Copy()).ToList();
-		//    m_potentialFields = potentialFields;
-		//    RowCount = m_fields.Count;
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		private void AddColumns()

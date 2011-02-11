@@ -19,13 +19,13 @@ namespace SIL.Pa.Model
 	[XmlType("Record")]
 	public class RecordCacheEntry
 	{
-		private IDictionary<string, PaFieldValue> m_fieldValues;
-
 		// This is only used for deserialization
 		private List<PaFieldValue> m_fieldValuesList;
+		private IDictionary<string, PaFieldValue> m_fieldValues;
 
-		private static string s_dataSourceFieldName;
-		private static string s_dataSourcePathFieldName;
+		private const string kDataSourceFieldName = "DataSource";
+		private const string kDataSourcePathFieldName = "DataSourcePath";
+
 		private static int s_counter;
 
 		/// ------------------------------------------------------------------------------------
@@ -57,26 +57,6 @@ namespace SIL.Pa.Model
 			CanBeEditedInToolbox = newFromParsingSFMFile;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes the static variables that hold the name of the data source field and
-		/// the name of the data source path field.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void InitializeDataSourceFields(IEnumerable<PaField> fields)
-		{
-			//if (fields == null)
-			//    return;
-
-			//var fieldInfo = fields.DataSourceField;
-			//if (fieldInfo != null)
-			//    s_dataSourceFieldName = fieldInfo.FieldName;
-
-			//fieldInfo = fields.DataSourcePathField;
-			//if (fieldInfo != null)
-			//    s_dataSourcePathFieldName = fieldInfo.FieldName;
-		}
-
 		#region Methods and Indexers for getting and setting field values
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -90,7 +70,7 @@ namespace SIL.Pa.Model
 			
 			PaFieldValue fieldValue;
 
-			if (field != s_dataSourcePathFieldName && field != s_dataSourceFieldName &&
+			if (field != kDataSourcePathFieldName && field != kDataSourceFieldName &&
 				m_fieldValues.TryGetValue(field, out fieldValue))
 			{
 				fieldValue.Value = value;
@@ -129,7 +109,7 @@ namespace SIL.Pa.Model
 		{
 			// If the data source file path is being requested then defer
 			// to the record's data source object to get that information.
-			if (fieldName == s_dataSourcePathFieldName)
+			if (fieldName == kDataSourcePathFieldName)
 			{
 				return (DataSource.DataSourceType == DataSourceType.FW &&
 					DataSource.FwSourceDirectFromDB ? DataSource.FwDataSourceInfo.Server :
@@ -138,7 +118,7 @@ namespace SIL.Pa.Model
 
 			// If the data source name is being requested then defer to
 			// the record's data source object to get that information.
-			if (fieldName == s_dataSourceFieldName)
+			if (fieldName == kDataSourceFieldName)
 			{
 				return (DataSource.DataSourceType == DataSourceType.FW &&
 					DataSource.FwSourceDirectFromDB ? DataSource.FwDataSourceInfo.ToString() :
@@ -150,8 +130,8 @@ namespace SIL.Pa.Model
 				return fieldValue.Value;
 
 			// If the field isn't in the word cache entry's values, check if it's a parsed field.
-			//var field = App.GetFieldForName(fieldName);
-			//if (field == null || !field.IsParsed)
+			var mapping = DataSource.FieldMappings.SingleOrDefault(m => m.Field.Name == fieldName);
+			if (mapping == null || !mapping.IsParsed)
 				return null;
 
 			// At this point, we know 2 things: 1) either this record cache entry doesn't
