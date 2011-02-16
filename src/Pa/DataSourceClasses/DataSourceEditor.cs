@@ -85,7 +85,7 @@ namespace SIL.Pa.DataSource
 		{
 			m_showFwJumpUrlDlg = showFwUrlDialog;
 		
-			DataSourceType sourceType = wcentry.RecordEntry.DataSource.DataSourceType;
+			var sourceType = wcentry.RecordEntry.DataSource.Type;
 
 			if (sourceType == DataSourceType.SFM)
 				EditRecordInSFMEditor(wcentry.RecordEntry);
@@ -175,7 +175,7 @@ namespace SIL.Pa.DataSource
 			}
 
 			// Find the field information for the specified sort field.
-			var field = App.GetFieldForName(sortFieldName);
+			var field = recEntry.Project.GetFieldForName(sortFieldName);
 			if (field == null)
 			{
 				var msg = Properties.Resources.kstidInvalidToolboxSortField;
@@ -212,8 +212,8 @@ namespace SIL.Pa.DataSource
 			// sure the original phonetic data is used for the jump value. Therefore, we'll
 			// pull the original phonetic data from a temporary file containing all the
 			// original phonetic data for each data source record.
-			Dictionary<int, string> tempCache = TempRecordCache.Load();
-			string jumpValue = tempCache[recEntry.Id];
+			var tempCache = TempRecordCache.Load();
+			var jumpValue = tempCache[recEntry.Id];
 			tempCache.Clear();
 			return jumpValue;
 		}
@@ -225,12 +225,12 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private void EditRecordInFieldWorks(RecordCacheEntry recEntry)
 		{
-			PaFieldInfo fieldInfo = App.Project.FieldInfo.GuidField;
+			var field = recEntry.Project.GetFieldForName("GUID");
 			string url = FwDBAccessInfo.JumpUrl;
 
-			if (fieldInfo != null && !string.IsNullOrEmpty(url))
+			if (field != null && !string.IsNullOrEmpty(url))
 			{
-				url = string.Format(url, recEntry[fieldInfo.FieldName],
+				url = string.Format(url, recEntry[field.Name],
 					recEntry.DataSource.FwDataSourceInfo.Server,
 					recEntry.DataSource.FwDataSourceInfo.Name);
 
@@ -268,10 +268,13 @@ namespace SIL.Pa.DataSource
 		private void EditRecordInSA(WordCacheEntry wcentry, string callingApp)
 		{
 			// Get the audio file field.
-			var field = App.Fields.SingleOrDefault(f => f.Type == FieldType.AudioFilePath);
+			var field = wcentry.Project.GetAudioFileField();
 			if (field == null)
 			{
-				Utils.MsgBox(Properties.Resources.kstidNoAudioField);
+				Utils.MsgBox(App.LocalizeString("NoAudioFileFieldMissingMsg",
+					"This project doesn't contain a field definition for an audio file path.",
+					App.kLocalizationGroupInfoMsg));
+				
 				return;
 			}
 
@@ -279,7 +282,10 @@ namespace SIL.Pa.DataSource
 			var audioFile = wcentry[field.Name];
 			if (string.IsNullOrEmpty(audioFile) || !File.Exists(audioFile))
 			{
-				Utils.MsgBox(Properties.Resources.kstidAudioFileMissingMsg);
+				var msg = App.LocalizeString("AudioFileMissingMsg",
+					"The audio file '{0}' is cannot be found.", App.kLocalizationGroupInfoMsg);
+	
+				Utils.MsgBox(string.Format(msg, audioFile));
 				return;
 			}
 
@@ -346,7 +352,7 @@ namespace SIL.Pa.DataSource
 		{
 			if (s_saProcesses != null)
 			{
-				foreach (Process prs in s_saProcesses)
+				foreach (var prs in s_saProcesses)
 				{
 					prs.Exited -= SA_Exited;
 					prs.CloseMainWindow();
@@ -364,13 +370,13 @@ namespace SIL.Pa.DataSource
 		{
 			// Get the utterance's offset.
 			ulong offset;
-			var field = App.Fields.SingleOrDefault(f => f.Type == FieldType.AudioOffset);
+			var field = wcentry.Project.GetAudioOffsetField();
 			if (field == null || !ulong.TryParse(wcentry[field.Name], out offset))
 				offset = 0;
 
 			// Get the utterance's length.
 			ulong length;
-			field = App.Fields.SingleOrDefault(f => f.Type == FieldType.AudioLength);
+			field = wcentry.Project.GetAudioLengthField();
 			if (field == null || !ulong.TryParse(wcentry[field.Name], out length))
 				length = 0;
 

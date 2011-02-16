@@ -19,13 +19,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using Localization;
 using Localization.UI;
 using Microsoft.Win32;
+using Palaso.IO;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
@@ -125,6 +125,7 @@ namespace SIL.Pa
 			if (DesignMode)
 				return;
 
+			InventoryHelper.Load();
 			InitializePaRegKey();
 			MsgMediator = new Mediator();
 
@@ -156,9 +157,6 @@ namespace SIL.Pa
 
 			ReadAddOns();
 
-			// Load the cache of IPA symbols, articulatory and binary features.
-			InventoryHelper.Load();
-
 			LocalizeItemDlg.SaveDialogSplitterPosition += (pos =>
 				Settings.Default.LocalizeDlgSplitterPos = pos);
 			
@@ -173,6 +171,8 @@ namespace SIL.Pa
 				if (!Settings.Default.LocalizeDlgBounds.IsEmpty)
 					dlg.Bounds = Settings.Default.LocalizeDlgBounds;
 			});
+
+			LocalizeItemDlg.StringsLocalized += (() => MsgMediator.SendMessage("StringLocalized", L10NMngr));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -422,7 +422,11 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static bool ShouldShowSplashScreen
 		{
-			get { return Settings.Default.ShowSplashScreen; }
+			get
+			{
+				return (Settings.Default.ShowSplashScreen &&
+					(Control.ModifierKeys & Keys.Control) != Keys.Control);
+			}
 			set
 			{
 				Settings.Default.ShowSplashScreen = value;
@@ -592,63 +596,55 @@ namespace SIL.Pa
 		}
 
 		#region Cache related properties and methods
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the IPA symbols cache.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static IPASymbolCache IPASymbolCache
-		{
-			get { return InventoryHelper.IPASymbolCache; }
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets the IPA symbols cache.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public static IPASymbolCache IPASymbolCache
+		//{
+		//    get { return InventoryHelper.IPASymbolCache; }
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the cache of articulatory features.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static AFeatureCache AFeatureCache
-		{
-			get { return InventoryHelper.AFeatureCache; }
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets the cache of articulatory features.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public static AFeatureCache AFeatureCache
+		//{
+		//    get { return InventoryHelper.AFeatureCache; }
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the cache of binary features.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static BFeatureCache BFeatureCache
-		{
-			get { return InventoryHelper.BFeatureCache; }
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets the cache of binary features.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public static BFeatureCache BFeatureCache
+		//{
+		//    get { return InventoryHelper.BFeatureCache; }
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static RecordCache RecordCache { get; set; }
+		///// ------------------------------------------------------------------------------------
+		//public static RecordCache RecordCache { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static WordCache WordCache { get; set; }
+		///// ------------------------------------------------------------------------------------
+		//public static WordCache WordCache { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the cache of phones in the current project, without respect to current filter.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static PhoneCache UnfilteredPhoneCache { get; set; }
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets the cache of phones in the current project, without respect to current filter.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public static PhoneCache UnfilteredPhoneCache { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the cache of phones in the current project, with respect to current filter.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static PhoneCache PhoneCache { get; set; }
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets the cache of phones in the current project, with respect to current filter.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public static PhoneCache PhoneCache { get; set; }
 		
 		#endregion
 
@@ -749,22 +745,50 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the path where the application's factory configuration files are stored.
+		/// Gets just the folder name (no leading path) where the application's factory
+		/// configuration files are stored.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string ConfigFolder
+		public static string ConfigFolderName
 		{
-			get { return Path.Combine(AssemblyPath, "Configuration"); }
+			get { return "Configuration"; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the path where the application's processing files (i.e. xslt) are stored.
+		/// Gets the just the name of the folder (no leading path) where the application's
+		/// processing files (i.e. xslt) are stored.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string ProcessingFolder
+		public static string ProcessingFolderName
 		{
-			get { return Path.Combine(AssemblyPath, "Processing"); }
+			get { return "Processing"; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static IPASymbolCache IPASymbolCache
+		{
+			get { return InventoryHelper.IPASymbolCache; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the cache of articulatory features.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static AFeatureCache AFeatureCache
+		{
+			get { return InventoryHelper.AFeatureCache; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the cache of binary features.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static BFeatureCache BFeatureCache
+		{
+			get { return InventoryHelper.BFeatureCache; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -786,20 +810,6 @@ namespace SIL.Pa
 		{
 			get { return s_fieldInfo ?? (s_fieldInfo = PaFieldInfoList.DefaultFieldInfoList); }
 			set { s_fieldInfo = value; }
-		}
-
-		public static IEnumerable<PaField> Fields { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		public static PaField GetPhoneticField()
-		{
-			return Fields.SingleOrDefault(f => f.Type == FieldType.Phonetic);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static PaField GetFieldForName(string fieldName)
-		{
-			return Fields.SingleOrDefault(f => f.Name == fieldName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1097,6 +1107,12 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
+		internal static string GetLocalizedString(object obj)
+		{
+			return (L10NMngr == null ? "Error Getting Localized String!" : L10NMngr.GetString(obj));
+		}
+
+		/// ------------------------------------------------------------------------------------
 		internal static void LocalizeObject(object obj, string id, string defaultText)
 		{
 			LocalizeObject(obj, id, defaultText, null, kLocalizationGroupMisc);
@@ -1197,8 +1213,9 @@ namespace SIL.Pa
 			{
 				PrepareAdapterForLocalizationSupport(adapter);
 
-				string[] defs = new string[1];
-				defs[0] = Path.Combine(ConfigFolder, "PaTMDefinition.xml");
+				var defs = new[] { FileLocator.GetFileDistributedWithApplication(ConfigFolderName,
+					"PaTMDefinition.xml") };
+				
 				adapter.Initialize(menuContainer, MsgMediator, ApplicationRegKeyPath, defs);
 				adapter.AllowUpdates = true;
 				adapter.RecentFilesList = (MruFiles.Paths ?? new string[] { });
@@ -1367,7 +1384,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static ToolStripProgressBar InitializeProgressBar(string text)
 		{
-			return InitializeProgressBar(text, WordCache.Count);
+			return InitializeProgressBar(text, Project.WordCache.Count);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1642,10 +1659,8 @@ namespace SIL.Pa
 			if (!ConvertClassesToPatterns(query, out modifiedQuery, showErrMsg))
 				return null;
 
-			if (Project != null)
-				SearchEngine.IgnoreUndefinedCharacters = Project.IgnoreUndefinedCharsInSearches;
-
-			SearchEngine engine = new SearchEngine(modifiedQuery, PhoneCache);
+			SearchEngine.IgnoreUndefinedCharacters = Project.IgnoreUndefinedCharsInSearches;
+			var engine = new SearchEngine(modifiedQuery, Project.PhoneCache);
 
 			string msg = engine.GetCombinedErrorMessages();
 			if (!string.IsNullOrEmpty(msg))
@@ -1665,9 +1680,9 @@ namespace SIL.Pa
 				return null;
 			}
 
-			WordListCache resultCache = (returnCountOnly ? null : new WordListCache());
+			var resultCache = (returnCountOnly ? null : new WordListCache());
 
-			foreach (WordCacheEntry wordEntry in WordCache)
+			foreach (var wordEntry in Project.WordCache)
 			{
 				if (incProgressBar && (incCounter++) == incAmount)
 				{
@@ -1709,7 +1724,7 @@ namespace SIL.Pa
 					// match at the extremes of the phonetic values.
 					if (patternContainsWordBoundaries)
 					{
-						List<string> tmpChars = new List<string>(eticWords[i]);
+						var tmpChars = new List<string>(eticWords[i]);
 						tmpChars.Insert(0, " ");
 						tmpChars.Add(" ");
 						eticWords[i] = tmpChars.ToArray();

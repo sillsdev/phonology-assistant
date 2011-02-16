@@ -40,39 +40,39 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public CustomFieldsDlg(PaProject project) : this()
 		{
-			m_textFieldType = App.LocalizeString("CustomFieldsDlg.CustomFieldTypeText",
-				"Text", "Field type on field type drop-down in custom fields dialog box.",
-				App.kLocalizationGroupDialogs);
+			//m_textFieldType = App.LocalizeString("CustomFieldsDlg.CustomFieldTypeText",
+			//    "Text", "Field type on field type drop-down in custom fields dialog box.",
+			//    App.kLocalizationGroupDialogs);
 
-			m_numbericDataType = App.LocalizeString("CustomFieldsDlg.CustomFieldTypeNumeric",
-				"Numeric", "Field type on field type drop-down in custom fields dialog box.",
-				App.kLocalizationGroupDialogs);
+			//m_numbericDataType = App.LocalizeString("CustomFieldsDlg.CustomFieldTypeNumeric",
+			//    "Numeric", "Field type on field type drop-down in custom fields dialog box.",
+			//    App.kLocalizationGroupDialogs);
 
-			m_dateTimeDataType = App.LocalizeString("CustomFieldsDlg.CustomFieldTypeDateTime",
-				"Date/Time", "Field type on field type drop-down in custom fields dialog box.",
-				App.kLocalizationGroupDialogs);
+			//m_dateTimeDataType = App.LocalizeString("CustomFieldsDlg.CustomFieldTypeDateTime",
+			//    "Date/Time", "Field type on field type drop-down in custom fields dialog box.",
+			//    App.kLocalizationGroupDialogs);
 
-			lblInfo.Font = FontHelper.UIFont;
-			BuildGrid();
+			//lblInfo.Font = FontHelper.UIFont;
+			//BuildGrid();
 
-			// Load grid
-			foreach (PaFieldInfo fieldInfo in project.FieldInfo)
-			{
-				if (fieldInfo.IsCustom)
-				{
-					string dataType = m_textFieldType;
-					if (fieldInfo.IsNumeric)
-						dataType = m_numbericDataType;
-					else if (fieldInfo.IsDate)
-						dataType = m_dateTimeDataType;
+			//// Load grid
+			//foreach (PaFieldInfo fieldInfo in project.FieldInfo)
+			//{
+			//    if (fieldInfo.IsCustom)
+			//    {
+			//        string dataType = m_textFieldType;
+			//        if (fieldInfo.IsNumeric)
+			//            dataType = m_numbericDataType;
+			//        else if (fieldInfo.IsDate)
+			//            dataType = m_dateTimeDataType;
 
-					object[] row = new object[] { fieldInfo.DisplayText,
-						dataType, fieldInfo.RightToLeft, fieldInfo.IsParsed,
-						fieldInfo.CanBeInterlinear, fieldInfo };
+			//        object[] row = new object[] { fieldInfo.DisplayText,
+			//            dataType, fieldInfo.RightToLeft, fieldInfo.IsParsed,
+			//            fieldInfo.CanBeInterlinear, fieldInfo };
 
-					m_grid.Rows.Add(row);
-				}
-			}
+			//        m_grid.Rows.Add(row);
+			//    }
+			//}
 
 			m_project = project;
 		}
@@ -318,70 +318,70 @@ namespace SIL.Pa.UI.Dialogs
 		protected override bool Verify()
 		{
 			// Commit pending changes in the grid.
-			m_grid.CommitEdit(DataGridViewDataErrorContexts.Commit);
+			//m_grid.CommitEdit(DataGridViewDataErrorContexts.Commit);
 
-			// Remove rows with no text in the field name.
-			int i = 0;
-			while (i < m_grid.NewRowIndex)
-			{
-				string fieldName = m_grid[kNameCol, i].Value as string;
+			//// Remove rows with no text in the field name.
+			//int i = 0;
+			//while (i < m_grid.NewRowIndex)
+			//{
+			//    string fieldName = m_grid[kNameCol, i].Value as string;
 				
-				if (fieldName != null)
-					fieldName = fieldName.Trim();
+			//    if (fieldName != null)
+			//        fieldName = fieldName.Trim();
 
-				if (string.IsNullOrEmpty(fieldName))
-					m_grid.Rows.RemoveAt(i);
-				else
-					i++;
-			}
+			//    if (string.IsNullOrEmpty(fieldName))
+			//        m_grid.Rows.RemoveAt(i);
+			//    else
+			//        i++;
+			//}
 
-			// Check for duplicate fields.
-			foreach (DataGridViewRow row1 in m_grid.Rows)
-			{
-				if (row1.Index == m_grid.NewRowIndex)
-					continue;
+			//// Check for duplicate fields.
+			//foreach (DataGridViewRow row1 in m_grid.Rows)
+			//{
+			//    if (row1.Index == m_grid.NewRowIndex)
+			//        continue;
 
-				PaFieldInfo origFieldInfo = row1.Cells[kOrigCol].Value as PaFieldInfo;
-				string fieldName1 = row1.Cells[kNameCol].Value as string;
+			//    PaFieldInfo origFieldInfo = row1.Cells[kOrigCol].Value as PaFieldInfo;
+			//    string fieldName1 = row1.Cells[kNameCol].Value as string;
 
-				// Check if the field already exists in the project's fields collection.
-				// Make sure we don't test the field against itself.
-				PaFieldInfo fieldInfo = m_project.FieldInfo.GetFieldFromDisplayText(fieldName1);
-				if (fieldInfo != null && fieldInfo != origFieldInfo)
-				{
-					string msg = App.LocalizeString("CustomFieldsDlg.CustomFieldExistsMsg",
-						"A field by the name of '{0}' already exists.",
-						"Message displayed in custom fields dialog box when trying to add a custom field that already exists.",
-						App.kLocalizationGroupDialogs);
+			//    // Check if the field already exists in the project's fields collection.
+			//    // Make sure we don't test the field against itself.
+			//    PaFieldInfo fieldInfo = m_project.FieldInfo.GetFieldFromDisplayText(fieldName1);
+			//    if (fieldInfo != null && fieldInfo != origFieldInfo)
+			//    {
+			//        string msg = App.LocalizeString("CustomFieldsDlg.CustomFieldExistsMsg",
+			//            "A field by the name of '{0}' already exists.",
+			//            "Message displayed in custom fields dialog box when trying to add a custom field that already exists.",
+			//            App.kLocalizationGroupDialogs);
 					
-					Utils.MsgBox(string.Format(msg, fieldName1),
-						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			//        Utils.MsgBox(string.Format(msg, fieldName1),
+			//            MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
-					return false;
-				}
+			//        return false;
+			//    }
 
-				// Check if there are any other rows in the grid with the same field name.
-				foreach (DataGridViewRow row2 in m_grid.Rows)
-				{
-					// Make sure we don't test the row against itself.
-					if (row2 == row1 || row2.Index == m_grid.NewRowIndex)
-						continue;
+			//    // Check if there are any other rows in the grid with the same field name.
+			//    foreach (DataGridViewRow row2 in m_grid.Rows)
+			//    {
+			//        // Make sure we don't test the row against itself.
+			//        if (row2 == row1 || row2.Index == m_grid.NewRowIndex)
+			//            continue;
 
-					string fieldName2 = row2.Cells[kNameCol].Value as string;
-					if (fieldName2.ToLower() == fieldName1.ToLower())
-					{
-						string msg = App.LocalizeString("CustomFieldsDlg.DuplicateCustomFieldMsg",
-							"The custom field '{0}' occurs multiple times in the list.",
-							"Message displayed in custom fields dialog box when trying to add a custom field that already exists.",
-							App.kLocalizationGroupDialogs);
+			//        string fieldName2 = row2.Cells[kNameCol].Value as string;
+			//        if (fieldName2.ToLower() == fieldName1.ToLower())
+			//        {
+			//            string msg = App.LocalizeString("CustomFieldsDlg.DuplicateCustomFieldMsg",
+			//                "The custom field '{0}' occurs multiple times in the list.",
+			//                "Message displayed in custom fields dialog box when trying to add a custom field that already exists.",
+			//                App.kLocalizationGroupDialogs);
 
-						Utils.MsgBox(string.Format(msg, fieldName2), MessageBoxButtons.OK,
-							MessageBoxIcon.Exclamation);
+			//            Utils.MsgBox(string.Format(msg, fieldName2), MessageBoxButtons.OK,
+			//                MessageBoxIcon.Exclamation);
 
-						return false;
-					}
-				}
-			}
+			//            return false;
+			//        }
+			//    }
+			//}
 
 			return true;
 		}
@@ -396,44 +396,44 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
-			m_project.FieldInfo.RemoveCustomFields();
+			//m_project.FieldInfo.RemoveCustomFields();
 
-			if (m_grid.Rows.Count == 0)
-				return true;
+			//if (m_grid.Rows.Count == 0)
+			//    return true;
 
-			for (int i = 0; i < m_grid.Rows.Count; i++)
-			{
-				if (i == m_grid.NewRowIndex)
-					continue;
+			//for (int i = 0; i < m_grid.Rows.Count; i++)
+			//{
+			//    if (i == m_grid.NewRowIndex)
+			//        continue;
 
-				PaFieldInfo fieldInfo =
-					(m_grid[kOrigCol, i].Value as PaFieldInfo ?? new PaFieldInfo());
+			//    PaFieldInfo fieldInfo =
+			//        (m_grid[kOrigCol, i].Value as PaFieldInfo ?? new PaFieldInfo());
 
-				string origFieldName = fieldInfo.FieldName;
+			//    string origFieldName = fieldInfo.FieldName;
 
-				fieldInfo.IsNumeric = ((m_grid[kTypeCol, i].Value as string) == m_numbericDataType);
-				fieldInfo.IsDate = ((m_grid[kTypeCol, i].Value as string) == m_dateTimeDataType);
+			//    fieldInfo.IsNumeric = ((m_grid[kTypeCol, i].Value as string) == m_numbericDataType);
+			//    fieldInfo.IsDate = ((m_grid[kTypeCol, i].Value as string) == m_dateTimeDataType);
 
-				fieldInfo.RightToLeft =
-					(m_grid[kRTLCol, i].Value != null && (bool)m_grid[kRTLCol, i].Value);
+			//    fieldInfo.RightToLeft =
+			//        (m_grid[kRTLCol, i].Value != null && (bool)m_grid[kRTLCol, i].Value);
 
-				fieldInfo.IsParsed =
-					(m_grid[kParsedCol, i].Value != null && (bool)m_grid[kParsedCol, i].Value);
+			//    fieldInfo.IsParsed =
+			//        (m_grid[kParsedCol, i].Value != null && (bool)m_grid[kParsedCol, i].Value);
 
-				fieldInfo.CanBeInterlinear =
-					(m_grid[kILCol, i].Value != null && (bool)m_grid[kILCol, i].Value);
+			//    fieldInfo.CanBeInterlinear =
+			//        (m_grid[kILCol, i].Value != null && (bool)m_grid[kILCol, i].Value);
 
-				fieldInfo.DisplayText = m_grid[kNameCol, i].Value as string;
-				fieldInfo.DisplayIndexInGrid = m_project.FieldInfo.Count - 1;
-				fieldInfo.DisplayIndexInRecView = m_project.FieldInfo.Count - 1;
-				fieldInfo.FieldName = fieldInfo.DisplayText;
-				fieldInfo.IsCustom = true;
-				m_project.FieldInfo.Add(fieldInfo);
+			//    fieldInfo.DisplayText = m_grid[kNameCol, i].Value as string;
+			//    fieldInfo.DisplayIndexInGrid = m_project.FieldInfo.Count - 1;
+			//    fieldInfo.DisplayIndexInRecView = m_project.FieldInfo.Count - 1;
+			//    fieldInfo.FieldName = fieldInfo.DisplayText;
+			//    fieldInfo.IsCustom = true;
+			//    m_project.FieldInfo.Add(fieldInfo);
 
-				// Inform the project that a custom field has changed.
-				if (origFieldName != null && origFieldName != fieldInfo.FieldName)
-					m_project.ProcessRenamedField(origFieldName, fieldInfo.FieldName);
-			}
+			//    // Inform the project that a custom field has changed.
+			//    if (origFieldName != null && origFieldName != fieldInfo.FieldName)
+			//        m_project.ProcessRenamedField(origFieldName, fieldInfo.FieldName);
+			//}
 
 			return true;
 		}

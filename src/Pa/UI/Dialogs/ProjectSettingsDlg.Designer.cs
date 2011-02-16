@@ -34,11 +34,11 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnProperties = new System.Windows.Forms.Button();
 			this.txtLanguageName = new System.Windows.Forms.TextBox();
 			this.lblLanguageName = new System.Windows.Forms.Label();
-			this.cmnuAdd = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.cmnuAddOtherDataSource = new System.Windows.Forms.ToolStripMenuItem();
-			this.cmnuAddFwDataSource = new System.Windows.Forms.ToolStripMenuItem();
-			this.cmnuAddFw7DataSource = new System.Windows.Forms.ToolStripMenuItem();
-			this.cmnuAddFw6DataSource = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuAdd = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.mnuAddOtherDataSource = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuAddFwDataSource = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuAddFw7DataSource = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuAddFw6DataSource = new System.Windows.Forms.ToolStripMenuItem();
 			this.m_grid = new SilTools.SilGrid();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.lblLanguageCode = new System.Windows.Forms.Label();
@@ -49,7 +49,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlGrid = new SilTools.Controls.SilPanel();
 			this.pnlGridHdg = new SilTools.Controls.SilGradientPanel();
 			this.tblLayout = new System.Windows.Forms.TableLayoutPanel();
-			this.cmnuAdd.SuspendLayout();
+			this.mnuAdd.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.pnlGrid.SuspendLayout();
@@ -191,55 +191,56 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizingId(this.lblLanguageName, "ProjectSettingsDlg.lblLanguageName");
 			this.lblLanguageName.Name = "lblLanguageName";
 			// 
-			// cmnuAdd
+			// mnuAdd
 			// 
-			this.cmnuAdd.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cmnuAddOtherDataSource,
-            this.cmnuAddFwDataSource});
-			this.locExtender.SetLocalizableToolTip(this.cmnuAdd, null);
-			this.locExtender.SetLocalizationComment(this.cmnuAdd, null);
-			this.locExtender.SetLocalizingId(this.cmnuAdd, "cmnuAdd.cmnuAdd");
-			this.cmnuAdd.Name = "cmnuAdd";
-			this.cmnuAdd.ShowImageMargin = false;
-			resources.ApplyResources(this.cmnuAdd, "cmnuAdd");
+			this.mnuAdd.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuAddOtherDataSource,
+            this.mnuAddFwDataSource});
+			this.locExtender.SetLocalizableToolTip(this.mnuAdd, null);
+			this.locExtender.SetLocalizationComment(this.mnuAdd, null);
+			this.locExtender.SetLocalizationPriority(this.mnuAdd, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.mnuAdd, "ProjectSettingsDlg.mnuAdd");
+			this.mnuAdd.Name = "cmnuAdd";
+			this.mnuAdd.ShowImageMargin = false;
+			resources.ApplyResources(this.mnuAdd, "mnuAdd");
 			// 
-			// cmnuAddOtherDataSource
+			// mnuAddOtherDataSource
 			// 
-			this.locExtender.SetLocalizableToolTip(this.cmnuAddOtherDataSource, null);
-			this.locExtender.SetLocalizationComment(this.cmnuAddOtherDataSource, null);
-			this.locExtender.SetLocalizingId(this.cmnuAddOtherDataSource, ".cmnuAddOtherDataSource");
-			this.cmnuAddOtherDataSource.Name = "cmnuAddOtherDataSource";
-			resources.ApplyResources(this.cmnuAddOtherDataSource, "cmnuAddOtherDataSource");
-			this.cmnuAddOtherDataSource.Click += new System.EventHandler(this.HandleAddOtherDataSourceClick);
+			this.locExtender.SetLocalizableToolTip(this.mnuAddOtherDataSource, null);
+			this.locExtender.SetLocalizationComment(this.mnuAddOtherDataSource, null);
+			this.locExtender.SetLocalizingId(this.mnuAddOtherDataSource, "ProjectSettingsDlg.mnuAddOtherDataSource");
+			this.mnuAddOtherDataSource.Name = "mnuAddOtherDataSource";
+			resources.ApplyResources(this.mnuAddOtherDataSource, "mnuAddOtherDataSource");
+			this.mnuAddOtherDataSource.Click += new System.EventHandler(this.HandleAddOtherDataSourceClick);
 			// 
-			// cmnuAddFwDataSource
+			// mnuAddFwDataSource
 			// 
-			this.cmnuAddFwDataSource.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cmnuAddFw7DataSource,
-            this.cmnuAddFw6DataSource});
-			this.locExtender.SetLocalizableToolTip(this.cmnuAddFwDataSource, null);
-			this.locExtender.SetLocalizationComment(this.cmnuAddFwDataSource, null);
-			this.locExtender.SetLocalizingId(this.cmnuAddFwDataSource, ".cmnuAddFwDataSource");
-			this.cmnuAddFwDataSource.Name = "cmnuAddFwDataSource";
-			resources.ApplyResources(this.cmnuAddFwDataSource, "cmnuAddFwDataSource");
+			this.mnuAddFwDataSource.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuAddFw7DataSource,
+            this.mnuAddFw6DataSource});
+			this.locExtender.SetLocalizableToolTip(this.mnuAddFwDataSource, null);
+			this.locExtender.SetLocalizationComment(this.mnuAddFwDataSource, null);
+			this.locExtender.SetLocalizingId(this.mnuAddFwDataSource, "ProjectSettingsDlg.mnuAddFwDataSource");
+			this.mnuAddFwDataSource.Name = "mnuAddFwDataSource";
+			resources.ApplyResources(this.mnuAddFwDataSource, "mnuAddFwDataSource");
 			// 
-			// cmnuAddFw7DataSource
+			// mnuAddFw7DataSource
 			// 
-			this.locExtender.SetLocalizableToolTip(this.cmnuAddFw7DataSource, null);
-			this.locExtender.SetLocalizationComment(this.cmnuAddFw7DataSource, null);
-			this.locExtender.SetLocalizingId(this.cmnuAddFw7DataSource, ".cmnuAddFw7DataSource");
-			this.cmnuAddFw7DataSource.Name = "cmnuAddFw7DataSource";
-			resources.ApplyResources(this.cmnuAddFw7DataSource, "cmnuAddFw7DataSource");
-			this.cmnuAddFw7DataSource.Click += new System.EventHandler(this.HandleAddFw7DataSourceClick);
+			this.locExtender.SetLocalizableToolTip(this.mnuAddFw7DataSource, null);
+			this.locExtender.SetLocalizationComment(this.mnuAddFw7DataSource, null);
+			this.locExtender.SetLocalizingId(this.mnuAddFw7DataSource, "ProjectSettingsDlg.mnuAddFw7DataSource");
+			this.mnuAddFw7DataSource.Name = "mnuAddFw7DataSource";
+			resources.ApplyResources(this.mnuAddFw7DataSource, "mnuAddFw7DataSource");
+			this.mnuAddFw7DataSource.Click += new System.EventHandler(this.HandleAddFw7DataSourceClick);
 			// 
-			// cmnuAddFw6DataSource
+			// mnuAddFw6DataSource
 			// 
-			this.locExtender.SetLocalizableToolTip(this.cmnuAddFw6DataSource, null);
-			this.locExtender.SetLocalizationComment(this.cmnuAddFw6DataSource, null);
-			this.locExtender.SetLocalizingId(this.cmnuAddFw6DataSource, ".cmnuAddFw6DataSource");
-			this.cmnuAddFw6DataSource.Name = "cmnuAddFw6DataSource";
-			resources.ApplyResources(this.cmnuAddFw6DataSource, "cmnuAddFw6DataSource");
-			this.cmnuAddFw6DataSource.Click += new System.EventHandler(this.HandleAddFw6DataSourceClick);
+			this.locExtender.SetLocalizableToolTip(this.mnuAddFw6DataSource, null);
+			this.locExtender.SetLocalizationComment(this.mnuAddFw6DataSource, null);
+			this.locExtender.SetLocalizingId(this.mnuAddFw6DataSource, "ProjectSettingsDlg.mnuAddFw6DataSource");
+			this.mnuAddFw6DataSource.Name = "mnuAddFw6DataSource";
+			resources.ApplyResources(this.mnuAddFw6DataSource, "mnuAddFw6DataSource");
+			this.mnuAddFw6DataSource.Click += new System.EventHandler(this.HandleAddFw6DataSourceClick);
 			// 
 			// m_grid
 			// 
@@ -416,7 +417,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizingId(this, "ProjectSettingsDlg.WindowTitle");
 			this.Name = "ProjectSettingsDlg";
 			this.Controls.SetChildIndex(this.tblLayout, 0);
-			this.cmnuAdd.ResumeLayout(false);
+			this.mnuAdd.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.pnlGrid.ResumeLayout(false);
@@ -442,9 +443,9 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.Button btnRemove;
 		private System.Windows.Forms.TextBox txtLanguageName;
 		private System.Windows.Forms.Label lblLanguageName;
-		private System.Windows.Forms.ContextMenuStrip cmnuAdd;
-		private System.Windows.Forms.ToolStripMenuItem cmnuAddOtherDataSource;
-		private System.Windows.Forms.ToolStripMenuItem cmnuAddFwDataSource;
+		private System.Windows.Forms.ContextMenuStrip mnuAdd;
+		private System.Windows.Forms.ToolStripMenuItem mnuAddOtherDataSource;
+		private System.Windows.Forms.ToolStripMenuItem mnuAddFwDataSource;
 		private SilTools.SilGrid m_grid;
 		private System.Windows.Forms.Button btnProperties;
 		private Localization.UI.LocalizationExtender locExtender;
@@ -454,8 +455,8 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.LinkLabel lnkEthnologue;
 		private System.Windows.Forms.Label lblResearcher;
 		private System.Windows.Forms.TextBox txtResearcher;
-		private System.Windows.Forms.ToolStripMenuItem cmnuAddFw7DataSource;
-		private System.Windows.Forms.ToolStripMenuItem cmnuAddFw6DataSource;
+		private System.Windows.Forms.ToolStripMenuItem mnuAddFw7DataSource;
+		private System.Windows.Forms.ToolStripMenuItem mnuAddFw6DataSource;
 		private SilPanel pnlGrid;
 		private SilGradientPanel pnlGridHdg;
 	}

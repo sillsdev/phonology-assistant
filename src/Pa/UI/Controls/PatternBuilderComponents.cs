@@ -235,17 +235,17 @@ namespace SIL.Pa.UI.Controls
 
 			// Go through all the phones in the cache and strip off their diacritics,
 			// add the diacritics to a collection of diacritics.
-			foreach (KeyValuePair<string, IPhoneInfo> phoneInfo in App.PhoneCache)
+			foreach (var phoneInfo in App.Project.PhoneCache)
 			{
 				foreach (char c in phoneInfo.Key)
 				{
-					IPASymbol charInfo = App.IPASymbolCache[c];
+					var charInfo = App.IPASymbolCache[c];
 					if (charInfo != null && !charInfo.IsBase)
 						m_diacriticsInCache.Add(c);
 				}
 			}
 
-			List<IPASymbolTypeInfo> typesToShow = new List<IPASymbolTypeInfo>();
+			var typesToShow = new List<IPASymbolTypeInfo>();
 
 			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Diacritics));
 

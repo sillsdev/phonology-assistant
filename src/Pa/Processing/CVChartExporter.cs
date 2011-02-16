@@ -114,13 +114,9 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		protected override string NumberOfRecords
 		{
-			get { return App.WordCache.Count.ToString(); }
+			get { return m_project.WordCache.Count.ToString(); }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override string NumberOfPhones
 		{
@@ -138,27 +134,19 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<KeyValuePair<string, Font>> GetFormattingFieldInfo()
 		{
-			var fnt = App.Fields.Single(f => f.Type == Model.FieldType.Phonetic).Font;
-			yield return new KeyValuePair<string, Font>("Phonetic", fnt);
+			yield return new KeyValuePair<string, Font>("Phonetic",
+				m_project.GetPhoneticField().Font);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void WriteTableHeadingColumnGroups()
 		{
 			ProcessHelper.WriteColumnGroup(m_writer, 1);
 
-			foreach (var grp in ((CVChartGrid) m_grid).ColumnGroups)
+			foreach (var grp in ((CVChartGrid)m_grid).ColumnGroups)
 				ProcessHelper.WriteColumnGroup(m_writer, 2);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void WriteTableHeadingContent()
 		{
@@ -176,20 +164,12 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void WriteTableBody()
 		{
 			foreach (var rwgrp in ((CVChartGrid)m_grid).RowGroups)
 				WriteChartRowGroup(rwgrp);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void WriteChartRowGroup(CVChartRowGroup rwgrp)
 		{
@@ -214,10 +194,6 @@ namespace SIL.Pa.Processing
 			m_writer.WriteEndElement();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void WriteChartRowGroupRow(DataGridViewRow row)
 		{

@@ -14,11 +14,21 @@ namespace SIL.Pa.Model
 	{
 		public const string kFileName = "FeatureOverrides.xml";
 
-		#region Method to migrate previous versions of ambiguous sequences file to current.
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// This is necessary for serialization/deserialization.
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public FeatureOverrides() : base(null)
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public FeatureOverrides(PaProject project) : base(project)
+		{
+		}
+
+		#region Method to migrate previous versions of feature override files to current.
 		/// ------------------------------------------------------------------------------------
 		public static void MigrateToLatestVersion(string filename)
 		{
@@ -40,17 +50,17 @@ namespace SIL.Pa.Model
 		/// Loads the default and project-specific list of overriding phone features.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static FeatureOverrides Load(string projectPathPrefix)
+		public static FeatureOverrides Load(PaProject project)
 		{
-			string filename = projectPathPrefix + kFileName;
+			string filename = project.ProjectPathFilePrefix + kFileName;
 			MigrateToLatestVersion(filename);
 			var list = XmlSerializationHelper.DeserializeFromFile<List<PhoneInfo>>(filename, "phones");
 
 			if (list == null || list.Count == 0)
 				return null;
 
-			var overrides = new FeatureOverrides();
-			foreach (PhoneInfo phoneInfo in list)
+			var overrides = new FeatureOverrides(project);
+			foreach (var phoneInfo in list)
 				overrides[phoneInfo.Phone] = phoneInfo;
 
 			return overrides;
@@ -88,7 +98,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void MergeWithPhoneCache(PhoneCache phoneCache)
 		{
-			foreach (KeyValuePair<string, IPhoneInfo> kvp in this)
+			foreach (var kvp in this)
 			{
 				var phoneOverride = kvp.Value as PhoneInfo;
 				var phoneCacheEntry = phoneCache[kvp.Key] as PhoneInfo;

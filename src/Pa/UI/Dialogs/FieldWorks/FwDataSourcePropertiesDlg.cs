@@ -78,11 +78,11 @@ namespace SIL.Pa.UI.Dialogs
 			var defaultVernWs = m_writingSystems.SingleOrDefault(ws => ws.IsDefaultVernacular);
 			var defaultAnalWs = m_writingSystems.SingleOrDefault(ws => ws.IsDefaultAnalysis);
 
-			m_fwDsInfo.WsMappings = (m_project.FieldInfo
-				.Where(fi => fi.FwWritingSystemType != FwDBUtils.FwWritingSystemType.None)
-				.Select(fi => new FwFieldWsMapping(fi.FwQueryFieldName,
-					fi.FwWritingSystemType == FwDBUtils.FwWritingSystemType.Vernacular ?
-						defaultVernWs : defaultAnalWs))).ToList();
+			//m_fwDsInfo.WsMappings = (m_project.FieldInfo
+			//    .Where(fi => fi.FwWritingSystemType != FwDBUtils.FwWritingSystemType.None)
+			//    .Select(fi => new FwFieldWsMapping(fi.FwQueryFieldName,
+			//        fi.FwWritingSystemType == FwDBUtils.FwWritingSystemType.Vernacular ?
+			//            defaultVernWs : defaultAnalWs))).ToList();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -135,46 +135,46 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			m_grid.Rows.Clear();
 
-			// Go through the PA fields that have FW writing system types (i.e. vern. or analysis).
-			foreach (var fieldInfo in m_project.FieldInfo.SortedList
-				.Where(fi => fi.FwWritingSystemType != FwDBUtils.FwWritingSystemType.None))
-			{
-				var fieldName = fieldInfo.FwQueryFieldName;
+			//// Go through the PA fields that have FW writing system types (i.e. vern. or analysis).
+			//foreach (var fieldInfo in m_project.FieldInfo.SortedList
+			//    .Where(fi => fi.FwWritingSystemType != FwDBUtils.FwWritingSystemType.None))
+			//{
+			//    var fieldName = fieldInfo.FwQueryFieldName;
 
-				// Add the field to the list and, for now, assume
-				// it has no writing system assigned.
-				int index = m_grid.Rows.Add(new object[] { fieldInfo.DisplayText,
-					NoWritingSystemText, fieldInfo.FwWritingSystemType });
+			//    // Add the field to the list and, for now, assume
+			//    // it has no writing system assigned.
+			//    int index = m_grid.Rows.Add(new object[] { fieldInfo.DisplayText,
+			//        NoWritingSystemText, fieldInfo.FwWritingSystemType });
 
-				// Each row's tag property references an object indicating
-				// what writing system is currently assigned to the row.
-				if (m_fwDsInfo.WsMappings == null || m_fwDsInfo.WsMappings.Count == 0)
-				{
-					m_grid.Rows[index].Tag = new FwFieldWsMapping(fieldName, 0);
-					continue;
-				}
+			//    // Each row's tag property references an object indicating
+			//    // what writing system is currently assigned to the row.
+			//    if (m_fwDsInfo.WsMappings == null || m_fwDsInfo.WsMappings.Count == 0)
+			//    {
+			//        m_grid.Rows[index].Tag = new FwFieldWsMapping(fieldName, 0);
+			//        continue;
+			//    }
 
-				// Find the mapping for the field just added to the grid and save a clone of
-				// it in the row's tag.
-				var wsMapping = m_fwDsInfo.WsMappings.SingleOrDefault(wsm => wsm.FieldName == fieldName);
-				if (wsMapping != null)
-				{
-					m_grid.Rows[index].Tag = wsMapping.Clone();
+			//    // Find the mapping for the field just added to the grid and save a clone of
+			//    // it in the row's tag.
+			//    var wsMapping = m_fwDsInfo.WsMappings.SingleOrDefault(wsm => wsm.FieldName == fieldName);
+			//    if (wsMapping != null)
+			//    {
+			//        m_grid.Rows[index].Tag = wsMapping.Clone();
 
-					// Finally, put the writing system name in the proper row cell.
-					if (IsWsNameSpecified(wsMapping.WsName))
-						m_grid.Rows[index].Cells[kWsNameCol].Value = wsMapping.WsName;
-					else
-					{
-						// The name wasn't found in the mapping so use the hvo from the mapping
-						// to get the name of the writing system from the list of all the writing
-						// systems found in the project.
-						var ws = m_writingSystems.SingleOrDefault(w => w.WsHvo == wsMapping.WsHvo);
-						m_grid.Rows[index].Cells[kWsNameCol].Value = ws != null ?
-							ws.WsName : NoWritingSystemText;
-					}
-				}
-			}
+			//        // Finally, put the writing system name in the proper row cell.
+			//        if (IsWsNameSpecified(wsMapping.WsName))
+			//            m_grid.Rows[index].Cells[kWsNameCol].Value = wsMapping.WsName;
+			//        else
+			//        {
+			//            // The name wasn't found in the mapping so use the hvo from the mapping
+			//            // to get the name of the writing system from the list of all the writing
+			//            // systems found in the project.
+			//            var ws = m_writingSystems.SingleOrDefault(w => w.WsHvo == wsMapping.WsHvo);
+			//            m_grid.Rows[index].Cells[kWsNameCol].Value = ws != null ?
+			//                ws.WsName : NoWritingSystemText;
+			//        }
+			//    }
+			//}
 		}
 
 		/// ------------------------------------------------------------------------------------

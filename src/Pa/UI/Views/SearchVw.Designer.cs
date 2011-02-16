@@ -469,7 +469,7 @@ namespace SIL.Pa.UI.Views
 			this.splitResults.Panel1.Tag = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidExportAsToolTip;
 			this.splitResults.Panel1.SizeChanged += new System.EventHandler(this.HandleSplitResultsPanel1SizeChanged);
 			this.splitResults.Panel1.DragDrop += new System.Windows.Forms.DragEventHandler(this.HandleSplitResultsPanel1DragDrop);
-			this.splitResults.Panel1.DragOver += new System.Windows.Forms.DragEventHandler(this.HandleSplitResultsPanel1DragOver);
+			this.splitResults.Panel1.DragOver += new System.Windows.Forms.DragEventHandler(HandleSplitResultsPanel1DragOver);
 			this.splitResults.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleSplitResultsPanel1Paint);
 			// 
 			// splitResults.Panel2

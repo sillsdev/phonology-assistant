@@ -31,16 +31,12 @@ namespace SIL.Pa.Model
 
 		#region Methods for parsing phonetic for advanced phonetic sorting
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void ParsePhoneticForUnicodeCompare(WordListCacheEntry cacheEntry,
 			out string before, out string item, out string after)
 		{
-			StringBuilder bldrBefore = new StringBuilder();
-			StringBuilder bldrItem = new StringBuilder();
-			StringBuilder bldrAfter = new StringBuilder();
+			var bldrBefore = new StringBuilder();
+			var bldrItem = new StringBuilder();
+			var bldrAfter = new StringBuilder();
 
 			if (cacheEntry.Phones != null)
 			{
@@ -95,8 +91,8 @@ namespace SIL.Pa.Model
 			if (y == null)
 				return 1;
 			
-			StringBuilder bldrXKey = new StringBuilder();
-			StringBuilder bldrYKey = new StringBuilder();
+			var bldrXKey = new StringBuilder();
+			var bldrYKey = new StringBuilder();
 				
 			IPhoneInfo phoneInfo;
 			string xkey;
@@ -114,7 +110,7 @@ namespace SIL.Pa.Model
 				// Build the key for the current phone in the 'x' entry.
 				if (i < xPhoneCount)
 				{
-					phoneInfo = App.PhoneCache[x.Phones[i]];
+					phoneInfo = x.WordCacheEntry.Project.PhoneCache[x.Phones[i]];
 					if (phoneInfo != null)
 					{
 						xkey = (m_sortOptions.SortType == PhoneticSortType.MOA ?
@@ -125,7 +121,7 @@ namespace SIL.Pa.Model
 				// Build the key for the current phone in the 'y' entry.
 				if (i < yPhoneCount)
 				{
-					phoneInfo = App.PhoneCache[y.Phones[i]];
+					phoneInfo = x.WordCacheEntry.Project.PhoneCache[y.Phones[i]];
 					if (phoneInfo != null)
 					{
 						ykey = (m_sortOptions.SortType == PhoneticSortType.MOA ?
@@ -159,11 +155,11 @@ namespace SIL.Pa.Model
 		/// phonetic sorting on MOA or POA.)
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ModifyAndCombineKeys(IList<string> xKeys, IList<string> yKeys,
+		private static void ModifyAndCombineKeys(IList<string> xKeys, IList<string> yKeys,
 			out string xKey, out string yKey)
 		{
-			StringBuilder bldrXKey = new StringBuilder();
-			StringBuilder bldrYKey = new StringBuilder();
+			var bldrXKey = new StringBuilder();
+			var bldrYKey = new StringBuilder();
 
 			// Loop through the phones in each entry and assemble a hex key for them.
 			for (int i = 0; i < xKeys.Count || i < yKeys.Count; i++)
@@ -209,7 +205,7 @@ namespace SIL.Pa.Model
 			// according to the current sort options (i.e. MOA or POA, R/L or L/R).
 			for (int i = 0; i < cacheEntry.Phones.Length; i++)
 			{
-				phoneInfo = App.PhoneCache[cacheEntry.Phones[i]];
+				phoneInfo = cacheEntry.WordCacheEntry.Project.PhoneCache[cacheEntry.Phones[i]];
 				if (phoneInfo == null)
 					continue;
 
@@ -393,9 +389,7 @@ namespace SIL.Pa.Model
 			if (fieldValue2 == null)
 				return 1;
 
-			int compareResult;
-			compareResult = string.Compare(fieldValue1, fieldValue2, true, CultureInfo.CurrentCulture);
-			return compareResult;
+			return string.Compare(fieldValue1, fieldValue2, true, CultureInfo.CurrentCulture);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -422,13 +416,13 @@ namespace SIL.Pa.Model
 				return (x.CIEGroupId - y.CIEGroupId);
 
 			// Continue with the next iteration if the fieldValues are EQUAL
-			for (int i = 0; i < m_sortInfoList.Count; i++)
+			foreach (var si in m_sortInfoList)
 			{
-				ascending = m_sortInfoList[i].ascending;
+				ascending = si.ascending;
 				int compareResult;
 
 				// Use a special comparison for phonetic fields.
-				if (m_sortInfoList[i].Field.Type == FieldType.Phonetic)
+				if (si.Field.Type == FieldType.Phonetic)
 				{
 					compareResult = ComparePhonetic(x, y);
 					if (compareResult == 0)
@@ -437,13 +431,13 @@ namespace SIL.Pa.Model
 					return (ascending ? compareResult : -compareResult);
 				}
 
-				var fieldValue1 = x[m_sortInfoList[i].Field.Name];
-				var fieldValue2 = y[m_sortInfoList[i].Field.Name];
+				var fieldValue1 = x[si.Field.Name];
+				var fieldValue2 = y[si.Field.Name];
 
 				if (fieldValue1 == fieldValue2)
 				{
 					// Use a special comparison for references.
-					if (m_sortInfoList[i].Field.Type == FieldType.Reference)
+					if (si.Field.Type == FieldType.Reference)
 					{
 						compareResult = CompareReferences(x, y);
 						if (compareResult == 0)
@@ -455,7 +449,7 @@ namespace SIL.Pa.Model
 					// If we're sorting by the entry's audio file and the audio file for each
 					// entry is the same, then compare the order in which the words occur within
 					// the sound file transcription.
-					if (m_sortInfoList[i].Field.Type == FieldType.AudioFilePath &&
+					if (si.Field.Type == FieldType.AudioFilePath &&
 						x.WordCacheEntry.WordIndex != y.WordCacheEntry.WordIndex)
 					{
 						compareResult = x.WordCacheEntry.WordIndex - y.WordCacheEntry.WordIndex;
@@ -467,9 +461,9 @@ namespace SIL.Pa.Model
 				}
 
 				// Check for date or numeric fields and compare appropriately.
-				if (m_sortInfoList[i].Field.Type == FieldType.Date)
+				if (si.Field.Type == FieldType.Date)
 					compareResult = CompareDates(fieldValue1, fieldValue2);
-				else if (m_sortInfoList[i].Field.Type == FieldType.GeneralNumeric)
+				else if (si.Field.Type == FieldType.GeneralNumeric)
 					compareResult = CompareNumerics(fieldValue1, fieldValue2);
 				else
 					compareResult = CompareStrings(fieldValue1, fieldValue2);

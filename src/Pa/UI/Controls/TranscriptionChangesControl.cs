@@ -152,7 +152,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void LoadGrid()
 		{
-			TranscriptionChanges expList = App.IPASymbolCache.TranscriptionChanges;
+			TranscriptionChanges expList = App.Project.TranscriptionChanges;
 
 			if (expList == null || expList.Count == 0)
 			{
@@ -657,23 +657,17 @@ namespace SIL.Pa.UI.Controls
 				if (col < 0)
 					return false;
 
-				foreach (DataGridViewRow row in m_grid.Rows)
+				foreach (var row in m_grid.GetRows().Where(r => r.Index >= 0 && r.Index != m_grid.NewRowIndex))
 				{
-					if (row.Index >= 0 && row.Index != m_grid.NewRowIndex)
-					{
-						if (!string.IsNullOrEmpty(row.Cells[col].Value as string))
-							return false;
-					}
+					if (!string.IsNullOrEmpty(row.Cells[col].Value as string))
+						return false;
 				}
 
 				col = m_grid.Columns.Count - 1;
-				foreach (DataGridViewRow row in m_grid.Rows)
+				foreach (var row in m_grid.GetRows().Where(r => r.Index >= 0 && r.Index != m_grid.NewRowIndex))
 				{
-					if (row.Index >= 0 && row.Index != m_grid.NewRowIndex)
-					{
-						if (!string.IsNullOrEmpty(row.Cells[col].Value as string))
-							return false;
-					}
+					if (!string.IsNullOrEmpty(row.Cells[col].Value as string))
+						return false;
 				}
 
 				return true;
@@ -721,8 +715,7 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			App.MsgMediator.SendMessage("BeforeTranscriptionChangesSaved", transChanges);
-			transChanges.Save(App.Project.ProjectPathFilePrefix);
-			App.IPASymbolCache.TranscriptionChanges = transChanges;
+			App.Project.SaveAndLoadTranscriptionChanges(transChanges);
 			m_grid.IsDirty = false;
 			App.MsgMediator.SendMessage("AfterTranscriptionChangesSaved", transChanges);
 		}
@@ -885,8 +878,10 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public RadioButtonCell()
 		{
-			if (App.Project.FieldInfo.CVPatternField != null)
-				m_fntCV = App.Project.FieldInfo.CVPatternField.Font;
+			var cvField = App.Project.GetFieldForName(PaField.kCVPatternFieldName);
+
+			if (cvField != null)
+				m_fntCV = cvField.Font;
 
 			m_noneText = App.LocalizeString(
 				"ExperimentalTranscriptionsDlg.DontConvertText", "None",
@@ -1255,7 +1250,7 @@ namespace SIL.Pa.UI.Controls
 
 			foreach (DataGridViewRow row in DataGridView.Rows)
 			{
-				RadioButtonCell cell = row.Cells[ColumnIndex] as RadioButtonCell;
+				var cell = row.Cells[ColumnIndex] as RadioButtonCell;
 				if (cell != null)
 				{
 					Size sz = TextRenderer.MeasureText(g, cell.CVPattern,
@@ -1318,7 +1313,7 @@ namespace SIL.Pa.UI.Controls
 				//bool isCellForItemToConvert = (owningCol != null && !owningCol.ShowRadioButton);
 				
 				return (!ShowCVPattern || string.IsNullOrEmpty(Value as string) ? string.Empty :
-					App.PhoneCache.GetCVPattern(Value as string, false));
+					App.Project.PhoneCache.GetCVPattern(Value as string, false));
 			}
 		}
 	}

@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.ComponentModel;
 using System.Drawing;
 using System.Reflection;
@@ -29,10 +28,6 @@ namespace SIL.Pa.UI.Controls
 
 		#region Constructor and Loading
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public SortOptionsDropDown()
 		{
 			InitializeComponent();
@@ -50,7 +45,7 @@ namespace SIL.Pa.UI.Controls
 
 			SetUiFonts();
 
-			m_sortOptions = new SortOptions(true);
+			m_sortOptions = new SortOptions(true, App.Project);
 
 			m_rbSort = new[] { rbPlaceArticulation, rbMannerArticulation, rbUnicodeOrder };
 			m_rbAdvSort0 = new[] { rbBefore1st, rbItem1st, rbAfter1st };
@@ -168,7 +163,7 @@ namespace SIL.Pa.UI.Controls
 			get { return m_sortOptions; }
 			set 
 			{
-				m_sortOptions = (value ?? new SortOptions(true));
+				m_sortOptions = (value ?? new SortOptions(true, App.Project));
 
 				m_rbSort[(int)PhoneticSortType.Unicode].Checked =
 					(m_sortOptions.SortType == PhoneticSortType.Unicode);
@@ -330,10 +325,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 			
 			if (m_makePhoneticPrimarySortFieldOnChange)
-			{
-				m_sortOptions.SetPrimarySortField(
-				App.Fields.Single(f => f.Type == FieldType.Phonetic), false);
-			}
+				m_sortOptions.SetPrimarySortField(App.Project.GetPhoneticField(), false);
 
 			SortOptionsChanged(m_sortOptions);
 		}
@@ -528,9 +520,9 @@ namespace SIL.Pa.UI.Controls
 		/// rectangle drawn around them..
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleAdvancedOptionItemLeave(object sender, EventArgs e)
+		private static void HandleAdvancedOptionItemLeave(object sender, EventArgs e)
 		{
-			Control ctrl = sender as Control;
+			var ctrl = sender as Control;
 
 			if (ctrl != null)
 			{
@@ -550,7 +542,7 @@ namespace SIL.Pa.UI.Controls
 		/// rectangle drawn around them or they have it erased.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleAdvancedOptionItemEnter(object sender, EventArgs e)
+		private static void HandleAdvancedOptionItemEnter(object sender, EventArgs e)
 		{
 			(sender as Control).Invalidate();
 		}
@@ -560,7 +552,7 @@ namespace SIL.Pa.UI.Controls
 		/// Handle the 'paint' event for the Right/Left checkboxes.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleAdvancedOptionItemPaint(object sender, PaintEventArgs e)
+		private static void HandleAdvancedOptionItemPaint(object sender, PaintEventArgs e)
 		{
 			var ctrl = sender as Control;
 

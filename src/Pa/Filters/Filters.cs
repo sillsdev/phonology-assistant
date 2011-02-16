@@ -56,10 +56,6 @@ namespace SIL.Pa.Filters
 		//public Dictionary<FilterOperator, string> FilterUIOperatorStrings;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public Filter()
 		{
 			ShowInToolbarList = true;
@@ -67,10 +63,6 @@ namespace SIL.Pa.Filters
 			MatchAny = true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public Filter Clone()
 		{
@@ -82,52 +74,32 @@ namespace SIL.Pa.Filters
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("name")]
 		public string Name { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("showInToolbarList")]
 		public bool ShowInToolbarList { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("matchAny")]
 		public bool MatchAny { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlElement("expression")]
 		public List<FilterExpression> Expressions { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public bool Matches(WordCacheEntry entry)
 		{
 			bool match = false;
 
-			foreach (FilterExpression expression in Expressions)
+			foreach (var expression in Expressions)
 			{
 				if (expression.ExpressionType == ExpressionType.PhoneticSrchPtrn &&
 					expression.SearchEngine == null)
 				{
-					expression.SearchEngine = FilterHelper.CheckSearchQuery(expression.SearchQuery, false);
+					expression.SearchEngine = entry.Project.FilterHelper.CheckSearchQuery(expression.SearchQuery, false);
 					if (expression.SearchEngine == null)
 						return false;
 				}
@@ -148,10 +120,6 @@ namespace SIL.Pa.Filters
 			return match;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{

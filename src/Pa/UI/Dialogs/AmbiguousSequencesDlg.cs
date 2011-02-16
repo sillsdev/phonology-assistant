@@ -15,6 +15,8 @@ namespace SIL.Pa.UI.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class AmbiguousSequencesDlg : OKCancelDlgBase, IxCoreColleague
 	{
+		private readonly PaProject m_project;
+
 		/// ------------------------------------------------------------------------------------
 		public AmbiguousSequencesDlg()
 		{
@@ -24,7 +26,6 @@ namespace SIL.Pa.UI.Dialogs
 				pnlGrid.BorderStyle = BorderStyle.Fixed3D;
 
 			BuildGrid();
-			LoadGrid();
 			
 			m_grid.Columns["seq"].DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			m_grid.Columns["seq"].CellTemplate.Style.Font = FontHelper.PhoneticFont;
@@ -32,8 +33,16 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.Columns["base"].CellTemplate.Style.Font = FontHelper.PhoneticFont;
 			m_grid.Columns["cvpattern"].DefaultCellStyle.Font = FontHelper.PhoneticFont;
 			m_grid.Columns["cvpattern"].CellTemplate.Style.Font = FontHelper.PhoneticFont;
+		}
 
-			foreach (DataGridViewRow row in m_grid.Rows)
+		/// ------------------------------------------------------------------------------------
+		public AmbiguousSequencesDlg(PaProject project)
+			: this()
+		{
+			m_project = project;
+			LoadGrid();
+
+			foreach (var row in m_grid.GetRows())
 			{
 				row.Cells["seq"].Style.Font = FontHelper.PhoneticFont;
 				row.Cells["base"].Style.Font = FontHelper.PhoneticFont;
@@ -55,10 +64,6 @@ namespace SIL.Pa.UI.Dialogs
 			base.OnFormClosed(e);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void BuildGrid()
 		{
@@ -133,7 +138,7 @@ namespace SIL.Pa.UI.Dialogs
 			int prevRow = m_grid.CurrentCellAddress.Y;
 
 			m_grid.Rows.Clear();
-			var ambigSeqList = App.IPASymbolCache.AmbiguousSequences;
+			var ambigSeqList = m_project.AmbiguousSequences;
 
 			if (ambigSeqList == null || ambigSeqList.Count == 0)
 			{
@@ -153,7 +158,7 @@ namespace SIL.Pa.UI.Dialogs
 				if (!string.IsNullOrEmpty(ambigSeqList[i].BaseChar))
 				{
 					m_grid["cvpattern", i].Value =
-						App.PhoneCache.GetCVPattern(ambigSeqList[i].BaseChar);
+						m_project.PhoneCache.GetCVPattern(ambigSeqList[i].BaseChar);
 				}
 
 				if (ambigSeqList[i].IsGenerated)
@@ -247,10 +252,9 @@ namespace SIL.Pa.UI.Dialogs
 			}
 
 			App.MsgMediator.SendMessage("BeforeAmbiguousSequencesSaved", ambigSeqList);
-			ambigSeqList.Save(App.Project.ProjectPathFilePrefix);
-			App.IPASymbolCache.AmbiguousSequences = AmbiguousSequences.Load(App.Project.ProjectPathFilePrefix);
+			m_project.SaveAndLoadAmbiguousSequences(ambigSeqList);
 			App.MsgMediator.SendMessage("AfterAmbiguousSequencesSaved", ambigSeqList);
-			App.Project.ReloadDataSources();
+			m_project.ReloadDataSources();
 			return true;
 		}
 
@@ -266,31 +270,25 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			get
 			{
-				if (App.IPASymbolCache.AmbiguousSequences == null)
+				if (m_project.AmbiguousSequences == null)
 				{
 					if (m_grid.RowCountLessNewRow > 0)
 						return true;
 				}
-				else if (App.IPASymbolCache.AmbiguousSequences.Count !=
-					m_grid.RowCountLessNewRow)
+				else if (m_project.AmbiguousSequences.Count != m_grid.RowCountLessNewRow)
 				{
 					return true;
 				}
 
 				// Go through the ambiguous sequences in the grid and check them against
 				// those found in the project's list of ambiguous sequences.
-				foreach (DataGridViewRow row in m_grid.Rows)
+				foreach (var row in m_grid.GetRows().Where(r => r.Index != m_grid.NewRowIndex))
 				{
-					if (row.Index == m_grid.NewRowIndex)
-						continue;
-
 					string seq = row.Cells["seq"].Value as string;
 					string baseChar = row.Cells["base"].Value as string;
 					bool convert = (bool)row.Cells["convert"].Value;
 
-					AmbiguousSeq ambigSeq =
-						App.IPASymbolCache.AmbiguousSequences.GetAmbiguousSeq(seq, false);
-
+					var ambigSeq = m_project.AmbiguousSequences.GetAmbiguousSeq(seq, false);
 					if (ambigSeq == null || ambigSeq.Convert != convert || ambigSeq.BaseChar != baseChar)
 						return true;
 				}
@@ -468,19 +466,18 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				string newBaseChar = m_grid["base", e.RowIndex].Value as string;
 				m_grid["cvpattern", e.RowIndex].Value =
-					App.PhoneCache.GetCVPattern(newBaseChar);
+					m_project.PhoneCache.GetCVPattern(newBaseChar);
 			}
 			else if (e.ColumnIndex == 0)
 			{
-				PhoneInfo phoneInfo = new PhoneInfo(phone);
-
-				string prevBaseChar = m_grid["base", e.RowIndex].Value as string;
+				var phoneInfo = new PhoneInfo(m_project, phone);
+				var prevBaseChar = m_grid["base", e.RowIndex].Value as string;
 				if (prevBaseChar == null || !phone.Contains(prevBaseChar))
 				{
 					string newBaseChar = phoneInfo.BaseCharacter.ToString();
 					m_grid["base", e.RowIndex].Value = newBaseChar;
 					m_grid["cvpattern", e.RowIndex].Value =
-						App.PhoneCache.GetCVPattern(newBaseChar);
+						m_project.PhoneCache.GetCVPattern(newBaseChar);
 				}
 			}
 

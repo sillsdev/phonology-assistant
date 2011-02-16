@@ -15,7 +15,6 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System.Text;
-using System.Linq;
 using System.Xml.Serialization;
 using SIL.Pa.PhoneticSearching;
 
@@ -23,18 +22,10 @@ namespace SIL.Pa.Model
 {
 	#region CVPatternInfo class
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class CVPatternInfo
 	{
 		private string m_phone;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public CVPatternInfo()
 		{
@@ -43,92 +34,14 @@ namespace SIL.Pa.Model
 
 		#region static methods
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static CVPatternInfo Create(string phone, IPASymbolIgnoreType patternType)
 		{
-			if (string.IsNullOrEmpty(phone))
-				return null;
-
-			CVPatternInfo cv = new CVPatternInfo();
-			cv.Phone = phone;
-			cv.PatternType = patternType;
-			return cv;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Checks if PhoneCache.CVPatternInfoList contains a CVPatternInfo object whose
-		/// phone is the same as that specified.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static bool Contains(string phone)
-		{
-			return (PhoneCache.CVPatternInfoList == null ? false :
-				PhoneCache.CVPatternInfoList.Any(x => x.Phone == phone));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Checks the specified phone for any modifying diacritics found in any of the items
-		/// in PhoneCache.CVPatternInfoList.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string GetMatchingModifiers(string phone, StringBuilder bldr)
-		{
-			if (PhoneCache.CVPatternInfoList == null)
-				return null;
-
-			// Find out which codepoint in the phone represents the base character. For
-			// tie-barred phones, just use the first of the two base characters.
-			int baseIndex = -1;
-			for (int i = 0; i < phone.Length; i++)
-			{
-				IPASymbol charInfo = App.IPASymbolCache[phone[i]];
-				if (charInfo != null && charInfo.IsBase)
-				{
-					baseIndex = i;
-					break;
-				}
-			}
-
-			// This should never happen, but if the phone has no base character,
-			// what more can we do. 
-			if (baseIndex < 0)
-				return null;
-
-			// Get the pieces of the phone that are before and after the base character.
-			string preBase = (baseIndex == 0 ? string.Empty : phone.Substring(0, baseIndex));
-			string postBase = (baseIndex == phone.Length - 1 ? string.Empty :
-				phone.Substring(baseIndex + 1));
-
-			StringBuilder diacriticsAfterBase = new StringBuilder();
-			foreach (CVPatternInfo cvpi in PhoneCache.CVPatternInfoList)
-			{
-				if (cvpi.HasLeftSideDiacritics && cvpi.LeftSideDiacritics == preBase)
-					bldr.Append(cvpi.LeftSideDiacritics);
-
-				if (!cvpi.HasRightSideDiacritics)
-					continue;
-				
-				foreach (char c in cvpi.RightSideDiacritics)
-				{
-					if (postBase.IndexOf(c) >= 0)
-						diacriticsAfterBase.Append(c);
-				}
-			}
-
-			return (diacriticsAfterBase.Length == 0 ? null : diacriticsAfterBase.ToString());
+			return (string.IsNullOrEmpty(phone) ? null :
+				new CVPatternInfo { Phone = phone, PatternType = patternType });
 		}
 
 		#endregion
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
 		public string Phone
@@ -139,11 +52,11 @@ namespace SIL.Pa.Model
 				m_phone = FFNormalizer.Normalize(value);
 
 				// If the phone is also a base phonetic character, we're done now.
-				IPASymbol charInfo = App.IPASymbolCache[m_phone];
+				var charInfo = App.IPASymbolCache[m_phone];
 				if (charInfo != null && charInfo.IsBase)
 					return;
 
-				StringBuilder bldrDiacritics = new StringBuilder();
+				var bldrDiacritics = new StringBuilder();
 				bool foundDiacriticPlaceholder = false;
 
 				// Check if the "phone" contains a base character. If so, then the assumption
@@ -184,25 +97,13 @@ namespace SIL.Pa.Model
 		public IPASymbolIgnoreType PatternType { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public string LeftSideDiacritics { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public string RightSideDiacritics { get; private set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public bool HasLeftSideDiacritics
@@ -211,20 +112,12 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public bool HasRightSideDiacritics
 		{
 			get { return !string.IsNullOrEmpty(RightSideDiacritics); }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{

@@ -11,10 +11,6 @@ using SilTools;
 namespace SIL.Pa.Processing
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	[XmlType("inventory")]
 	public class ProjectInventoryBuilder
 	{
@@ -33,11 +29,7 @@ namespace SIL.Pa.Processing
 		public static bool SkipProcessingForTests;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static bool Process(PaProject project, PhoneCache phoneCache)
+		public static bool Process(PaProject project)
 		{
 			if (project == null || SkipProcessingForTests ||
 				Settings.Default.SkipAdditionalProcessingWhenPhonesAreLoaded)
@@ -45,17 +37,16 @@ namespace SIL.Pa.Processing
 				return false;
 			}
 
-			App.MsgMediator.SendMessage("BeforeBuildProjectInventory",
-				new object[] { project, phoneCache });
+			App.MsgMediator.SendMessage("BeforeBuildProjectInventory", project);
 			
-			var bldr = new ProjectInventoryBuilder(project, phoneCache);
+			var bldr = new ProjectInventoryBuilder(project);
 			var buildResult = bldr.InternalProcess();
 			
 			App.MsgMediator.SendMessage("AfterBuildProjectInventory",
-				new object[] { project, phoneCache, buildResult });
+				new object[] { project, buildResult });
 
-			CVChartBuilder.Process(project, phoneCache, CVChartType.Consonant);
-			CVChartBuilder.Process(project, phoneCache, CVChartType.Vowel);
+			CVChartBuilder.Process(project, CVChartType.Consonant);
+			CVChartBuilder.Process(project, CVChartType.Vowel);
 
 			return buildResult;
 		}
@@ -74,17 +65,13 @@ namespace SIL.Pa.Processing
 		/// Avoid external construction.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected ProjectInventoryBuilder(PaProject project, PhoneCache phoneCache)
+		protected ProjectInventoryBuilder(PaProject project)
 		{
 			m_project = project;
-			m_phoneCache = phoneCache;
+			m_phoneCache = project.PhoneCache;
 			m_outputFileName = m_project.ProjectInventoryFileName;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool InternalProcess()
 		{
@@ -99,10 +86,6 @@ namespace SIL.Pa.Processing
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool RunPipeline(object input)
 		{
@@ -133,10 +116,6 @@ namespace SIL.Pa.Processing
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected void BeforePipelineStepProcessed(Pipeline pipeline, Step step)
 		{
@@ -182,10 +161,6 @@ namespace SIL.Pa.Processing
 
 		#region Methods for writing inventory file to send through the xslt processing
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual object CreateInputToTransformPipeline()
 		{
 			var memStream = new MemoryStream();
@@ -205,10 +180,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void WriteRoot()
 		{
 			ProcessHelper.WriteStartElementWithAttrib(m_writer, "inventory", "version", kVersion);
@@ -216,8 +187,8 @@ namespace SIL.Pa.Processing
 
 			ProcessHelper.WriteMetadata(m_writer, m_project, true);
 			
-			XmlSerializationHelper.SerializeDataAndWriteAsNode(m_writer, App.IPASymbolCache.TranscriptionChanges);
-			XmlSerializationHelper.SerializeDataAndWriteAsNode(m_writer, App.IPASymbolCache.AmbiguousSequences);
+			XmlSerializationHelper.SerializeDataAndWriteAsNode(m_writer, m_project.TranscriptionChanges);
+			XmlSerializationHelper.SerializeDataAndWriteAsNode(m_writer, m_project.AmbiguousSequences);
 
 			ProcessHelper.WriteStartElementWithAttrib(m_writer, "units", "type", "phonetic");
 			WritePhones();

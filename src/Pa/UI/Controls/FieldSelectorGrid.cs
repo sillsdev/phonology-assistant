@@ -12,7 +12,7 @@ namespace SIL.Pa.UI.Controls
 	public class FieldSelectorGrid : SilGrid
 	{
 		/// <summary>Handler for the AfterUserChangedValue event</summary>
-		public delegate void AfterUserChangedValueHandler(PaFieldInfo fieldInfo,
+		public delegate void AfterUserChangedValueHandler(PaField field,
 			bool selectAllValueChanged, bool newValue);
 
 		/// <summary>
@@ -77,7 +77,7 @@ namespace SIL.Pa.UI.Controls
 			Rows.Clear();
 
 			// Build a sorted list based on display index.
-			foreach (var field in App.Fields.Where(f =>
+			foreach (var field in App.Project.Fields.Where(f =>
 				(!forGrid && f.DisplayIndexInRecView >= 0) || (forGrid && f.DisplayIndexInGrid >= 0)))
 			{
 				int order = -1;
@@ -160,24 +160,20 @@ namespace SIL.Pa.UI.Controls
 		{
 			int displayIndex = 0;
 
-			foreach (DataGridViewRow row in Rows)
+			foreach (var row in GetRows().Where(r => r.Tag is string))
 			{
-				string fieldName = row.Tag as string;
-				if (fieldName == null)
-					continue;
-
-				PaFieldInfo fieldInfo = App.Project.FieldInfo[fieldName];
-				if (fieldInfo != null)
+				var field = App.Project.GetFieldForName((string)row.Tag);
+				if (field != null)
 				{
 					if (forGrid)
 					{
-						fieldInfo.VisibleInGrid = (bool)row.Cells[kCheckCol].Value;
-						fieldInfo.DisplayIndexInGrid = displayIndex++;
+						field.VisibleInGrid = (bool)row.Cells[kCheckCol].Value;
+						field.DisplayIndexInGrid = displayIndex++;
 					}
 					else
 					{
-						fieldInfo.VisibleInRecView = (bool)row.Cells[kCheckCol].Value;
-						fieldInfo.DisplayIndexInRecView = displayIndex++;
+						field.VisibleInRecView = (bool)row.Cells[kCheckCol].Value;
+						field.DisplayIndexInRecView = displayIndex++;
 					}
 				}
 			}
@@ -239,15 +235,11 @@ namespace SIL.Pa.UI.Controls
 			if (AfterUserChangedValue != null)
 			{
 				string fieldName = Rows[e.RowIndex].Tag as string;
-				AfterUserChangedValue(App.Project.FieldInfo[fieldName],
+				AfterUserChangedValue(App.Project.GetFieldForName(fieldName),
 					e.RowIndex == 0, (bool)Rows[e.RowIndex].Cells[0].Value);
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnResize(EventArgs e)
 		{
@@ -273,15 +265,10 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				var checkedList = new List<PaField>();
-				foreach (DataGridViewRow row in Rows)
-				{
-					string fieldName = row.Tag as string;
-					if (fieldName != null && (bool)row.Cells[kCheckCol].Value)
-						checkedList.Add(App.GetFieldForName(fieldName));
-				}
-
-				return checkedList;
+				return (from row in GetRows().Where(r => r.Tag is string)
+						let fieldName = (string)row.Tag
+						where (bool)row.Cells[kCheckCol].Value
+						select App.Project.GetFieldForName(fieldName)).ToList();
 			}
 		}
 
@@ -299,14 +286,14 @@ namespace SIL.Pa.UI.Controls
 				if (m_phoneticRow != null)
 					return (bool)m_phoneticRow.Cells[kCheckCol].Value;
 
-				foreach (DataGridViewRow row in Rows)
+				var field = App.Project.GetPhoneticField();
+				if (field == null)
+					return false;
+
+				foreach (var row in GetRows().Where(r => (r.Tag as string) == field.Name))
 				{
-					string fieldName = row.Tag as string;
-					if (fieldName != null && App.Project.FieldInfo[fieldName].IsPhonetic)
-					{
-						m_phoneticRow = row;
-						return (bool)row.Cells[kCheckCol].Value;
-					}
+					m_phoneticRow = row;
+					return (bool)row.Cells[kCheckCol].Value;
 				}
 
 				return false;

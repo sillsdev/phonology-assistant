@@ -233,7 +233,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				SearchClass srchClass = new SearchClass();
 				srchClass.Name = (Text == null ? string.Empty : Text.Trim());
-				srchClass.SearchClassType = ClassType;
+				srchClass.Type = ClassType;
 				srchClass.Pattern = Pattern;
 				return srchClass;
 			}
@@ -457,7 +457,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			ClassListViewItem item = new ClassListViewItem(srchClass.Name);
 			item.Name = kClassNameSubitem;
-			item.ClassType = srchClass.SearchClassType;
+			item.ClassType = srchClass.Type;
 
 			if (addMembersAndClassTypeColumns)
 			{
@@ -468,12 +468,12 @@ namespace SIL.Pa.UI.Controls
 			item.ANDFeatures = (string.IsNullOrEmpty(srchClass.Pattern) ||
 				srchClass.Pattern[0] == '[');
 
-			if (srchClass.SearchClassType == SearchClassType.Articulatory)
+			if (srchClass.Type == SearchClassType.Articulatory)
 			{
 				item.Mask = App.AFeatureCache.GetEmptyMask();
 				GetMasksFromPattern(item, srchClass.Pattern);
 			}
-			else if (srchClass.SearchClassType == SearchClassType.Binary)
+			else if (srchClass.Type == SearchClassType.Binary)
 			{
 				item.Mask = App.BFeatureCache.GetEmptyMask();
 				GetMasksFromPattern(item, srchClass.Pattern);

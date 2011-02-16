@@ -5,21 +5,13 @@ using SilTools;
 namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class OptionsDlg
 	{
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void InitializeRecViewTab()
 		{
 			// This tab isn't valid if there is no project loaded.
-			if (App.Project == null)
+			if (m_project == null)
 			{
 				tabOptions.TabPages.Remove(tpgRecView);
 				return;

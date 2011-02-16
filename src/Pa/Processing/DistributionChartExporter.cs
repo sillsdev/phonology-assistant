@@ -115,13 +115,13 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		protected override string NumberOfRecords
 		{
-			get { return App.WordCache.Count.ToString(); }
+			get { return m_project.WordCache.Count.ToString(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<KeyValuePair<string, Font>> GetFormattingFieldInfo()
 		{
-			yield return new KeyValuePair<string, Font>("Phonetic", FontHelper.PhoneticFont);
+			yield return new KeyValuePair<string, Font>("Phonetic", m_project.GetPhoneticField().Font);
 		}
 
 		/// ------------------------------------------------------------------------------------

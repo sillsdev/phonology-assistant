@@ -17,6 +17,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using SIL.Pa.Properties;
 
 namespace SIL.Pa.Processing
@@ -76,20 +77,12 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<KeyValuePair<string, Font>> GetFormattingFieldInfo()
 		{
-			foreach (var fieldInfo in m_project.FieldInfo)
-				yield return new KeyValuePair<string, Font>(fieldInfo.DisplayText, fieldInfo.Font);
+			return m_project.Fields.Select(field =>
+				new KeyValuePair<string, Font>(field.DisplayName, field.Font));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void WriteTable()
 		{

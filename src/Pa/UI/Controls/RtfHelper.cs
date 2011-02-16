@@ -23,15 +23,13 @@ namespace SIL.Pa.UI.Controls
 			else
 				fontNumbers.Clear();
 
-			var fields = App.Fields;
-
 			const string fontFmt = "{{\\f{0}\\fnil {1};}}";
 
 			// Save the font information that will be written to the RTF.
 			var bldr = new StringBuilder();
 			int i = 0;
 			bldr.AppendLine("{\\fonttbl");
-			foreach (var field in fields.Where(f => f.Font != null))
+			foreach (var field in App.Project.Fields.Where(f => f.Font != null))
 			{
 				bldr.AppendLine(string.Format(fontFmt, i, field.Font.Name));
 				fontNumbers[field.Name] = i++;

@@ -19,6 +19,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
+using Palaso.IO;
 using SilTools;
 
 namespace SIL.Pa.Model
@@ -33,52 +34,43 @@ namespace SIL.Pa.Model
 	public class InventoryHelper
 	{
 		public const string kDefaultInventoryFileName = "PhoneticInventory.xml";
-		private static string s_filePath;
 
-		internal static AFeatureCache AFeatureCache { get; set; }
-		internal static BFeatureCache BFeatureCache { get; set; }
-		internal static IPASymbolCache IPASymbolCache { get; set; }
-
-		[XmlArray("articulatoryFeatures"), XmlArrayItem("feature")]
-		public List<Feature> AFeatures { get; set; }
-
-		[XmlArray("binaryFeatures"), XmlArrayItem("feature")]
-		public List<Feature> BFeatures { get; set; }
-
-		[XmlArray("symbols"), XmlArrayItem("symbol")]
-		public List<IPASymbol> IPASymbols { get; set; }
+		public static AFeatureCache AFeatureCache { get; set; }
+		public static BFeatureCache BFeatureCache { get; set; }
+		public static IPASymbolCache IPASymbolCache { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Loads the IPA symbol and features inventory assuming its location is in the
-		/// same folder as the running application.
+		/// Use only for serialization/deserialization
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void Load()
-		{
-			var path = Path.Combine(App.ConfigFolder, kDefaultInventoryFileName);
-			Load(path);
-		}
+		[XmlArray("articulatoryFeatures"), XmlArrayItem("feature")]
+		public List<Feature> AFeatures { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Use only for serialization/deserialization
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlArray("binaryFeatures"), XmlArrayItem("feature")]
+		public List<Feature> BFeatures { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Use only for serialization/deserialization
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlArray("symbols"), XmlArrayItem("symbol")]
+		public List<IPASymbol> IPASymbols { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads the specified phonetic inventory file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void Load(string filePath)
+		public static InventoryHelper Load()
 		{
-			s_filePath = filePath;
-			ReLoad();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Reloads the phonetic inventory file.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void ReLoad()
-		{
-			InventoryHelper ih = DeserializeInventory();
+			var ih = DeserializeInventory();
 
 			IPASymbolCache = new IPASymbolCache();
 			IPASymbolCache.LoadFromList(ih.IPASymbols);
@@ -92,6 +84,8 @@ namespace SIL.Pa.Model
 			ih.IPASymbols = null;
 			ih.AFeatures = null;
 			ih.BFeatures = null;
+
+			return ih;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -101,27 +95,20 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		private static InventoryHelper DeserializeInventory()
 		{
-			if (!File.Exists(s_filePath))
+			var filePath = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
+				kDefaultInventoryFileName);
+
+			if (!File.Exists(filePath))
 			{
 				throw new FileNotFoundException("Phonetic inventory file '" +
-					s_filePath + "' not found.");
+					filePath + "' not found.");
 			}
 
-			var ih = XmlSerializationHelper.DeserializeFromFile<InventoryHelper>(s_filePath);
+			var ih = XmlSerializationHelper.DeserializeFromFile<InventoryHelper>(filePath);
 			if (ih == null)
-				throw new Exception(string.Format("Error reading phonetic inventory file '{0}'", s_filePath));
+				throw new Exception(string.Format("Error reading phonetic inventory file '{0}'", filePath));
 
 			return ih;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Saves the IPA symbol and feature inventory to the file that was previously.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static bool Save()
-		{
-			return Save(s_filePath);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -129,8 +116,11 @@ namespace SIL.Pa.Model
 		/// Saves the IPA symbol and feature inventory to the specified file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static bool Save(string filePath)
+		public bool Save()
 		{
+			var filePath = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
+				kDefaultInventoryFileName);
+
 			if (string.IsNullOrEmpty(filePath))
 				return false;
 
@@ -139,7 +129,7 @@ namespace SIL.Pa.Model
 			ih.AFeatures = AFeatureCache.Values.ToList();
 			ih.BFeatures = BFeatureCache.Values.ToList();
 
-			XmlSerializationHelper.SerializeToFile(s_filePath, ih);
+			XmlSerializationHelper.SerializeToFile(filePath, this);
 
 			ih.IPASymbols = null;
 			ih.AFeatures = null;

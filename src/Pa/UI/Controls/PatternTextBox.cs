@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
 using SilTools;
@@ -395,7 +394,7 @@ namespace SIL.Pa.UI.Controls
 			string nonDottedCirclePart = text.Replace(App.kDottedCircle, string.Empty);
 			if (nonDottedCirclePart.Length == 1)
 			{
-				IPASymbol charInfo = App.IPASymbolCache[nonDottedCirclePart];
+				var charInfo = App.IPASymbolCache[nonDottedCirclePart];
 				if (charInfo != null && charInfo.CanPrecedeBase)
 				{
 					text = nonDottedCirclePart;

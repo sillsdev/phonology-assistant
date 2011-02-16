@@ -58,11 +58,11 @@ namespace SIL.Pa.UI
 				
 				Utils.MsgBox(string.Format(fmt, filename), MessageBoxIcon.Exclamation);
 			}
-			else if (App.Project == null || App.Project.FileName != filename)
+			else if (m_project == null || m_project.FileName != filename)
 			{
 				LoadProject(filename);
-				UndefinedPhoneticCharactersDlg.Show(App.Project == null ?
-					string.Empty : App.Project.Name);
+				UndefinedPhoneticCharactersDlg.Show(m_project == null ?
+					string.Empty : m_project.Name);
 			}
 
 			return true;
@@ -199,7 +199,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnProjectSettings(object args)
 		{
-			using (ProjectSettingsDlg dlg = new ProjectSettingsDlg(App.Project))
+			using (ProjectSettingsDlg dlg = new ProjectSettingsDlg(m_project))
 			{
 				dlg.ShowDialog(this);
 				if (dlg.ChangesWereMade)
@@ -219,18 +219,18 @@ namespace SIL.Pa.UI
 		{
 			Utils.WaitCursors(false);
 
-			PaProject project = PaProject.Load(App.Project.FileName, this);
+			var project = PaProject.Load(m_project.FileName, this);
 			if (project != null)
 			{
 				// If there was a project loaded before this,
 				// then get rid of it to make way for the new one.
-				if (App.Project != null)
+				if (m_project != null)
 				{
-					App.Project.Dispose();
-					App.Project = null;
+					m_project.Dispose();
+					m_project = null;
 				}
 
-				App.Project = project;
+				App.Project = m_project = project;
 				App.MsgMediator.SendMessage("DataSourcesModified", project);
 			}
 
@@ -245,7 +245,7 @@ namespace SIL.Pa.UI
 				return false;
 
 			itemProps.Visible = true;
-			itemProps.Enabled = (App.Project != null);
+			itemProps.Enabled = (m_project != null);
 			itemProps.Update = true;
 			return true;
 		}
@@ -278,13 +278,13 @@ namespace SIL.Pa.UI
 				"Export to {0} XML", App.kLocalizationGroupDialogs);
 
 			dlg.Title = string.Format(fmt, Application.ProductName);
-			dlg.FileName = App.Project.Name + ".paxml";
+			dlg.FileName = m_project.Name + ".paxml";
 			dlg.FilterIndex = 0;
 			dlg.Filter = string.Format(App.kstidFileTypePAXML, Application.ProductName) +
 				"|" + App.kstidFileTypeAllFiles;
 
 			if (dlg.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(dlg.FileName))
-				App.RecordCache.Save(dlg.FileName);
+				m_project.RecordCache.Save(dlg.FileName);
 			
 			return true;
 		}
@@ -299,14 +299,14 @@ namespace SIL.Pa.UI
 			itemProps.Update = true;
 			itemProps.Visible = true;
 			itemProps.Text = string.Format(itemProps.OriginalText, Application.ProductName);
-			itemProps.Enabled = (App.Project != null && App.RecordCache != null);
+			itemProps.Enabled = (m_project != null && m_project.RecordCache != null);
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected bool OnToolsOptions(object args)
 		{
-			using (OptionsDlg optionsDlg = new OptionsDlg())
+			using (OptionsDlg optionsDlg = new OptionsDlg(m_project))
 			{
 				// TODO: Send a message indicating the options were changed.
 				if (optionsDlg.ShowDialog(this) == DialogResult.OK)
@@ -326,14 +326,14 @@ namespace SIL.Pa.UI
 
 			itemProps.Update = true;
 			itemProps.Visible = true;
-			itemProps.Enabled = (App.Project != null);
+			itemProps.Enabled = (m_project != null);
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUndefinedCharacters(object args)
 		{
-			UndefinedPhoneticCharactersDlg.Show(App.Project.Name, true);
+			UndefinedPhoneticCharactersDlg.Show(m_project.Name, true);
 			return true;
 		}
 		
@@ -346,7 +346,7 @@ namespace SIL.Pa.UI
 
 			itemProps.Visible = true;
 			itemProps.Update = true;
-			itemProps.Enabled = (App.Project != null &&
+			itemProps.Enabled = (m_project != null &&
 				App.IPASymbolCache.UndefinedCharacters != null &&
 				App.IPASymbolCache.UndefinedCharacters.Count > 0);
 
@@ -356,7 +356,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnReloadProject(object args)
 		{
-			App.Project.ReloadDataSources();
+			m_project.ReloadDataSources();
 			return true;
 		}
 
@@ -369,7 +369,7 @@ namespace SIL.Pa.UI
 
 			itemProps.Visible = true;
 			itemProps.Enabled =
-				(App.Project != null && App.Project.DataSources != null && App.Project.DataSources.Count > 0);
+				(m_project != null && m_project.DataSources != null && m_project.DataSources.Count > 0);
 			itemProps.Update = true;
 			return true;
 		}
@@ -393,7 +393,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateEditSourceRecord(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			bool enabled = true;
 
 			if (itemProps == null)
@@ -425,7 +425,7 @@ namespace SIL.Pa.UI
 
 			itemProps.Visible = true;
 			itemProps.Update = true;
-			itemProps.Enabled = (App.Project != null && grid != null && enabled && App.WordCache.Count != 0);
+			itemProps.Enabled = (m_project != null && grid != null && enabled && m_project.WordCache.Count != 0);
 			return true;
 		}
 
@@ -464,7 +464,7 @@ namespace SIL.Pa.UI
 			tbpi.Adapter.AddCommandItem(cmdId, "EnableFilter");
 
 			bool firstItem = true;
-			foreach (var filter in FilterHelper.Filters.OrderBy(x => x.Name))
+			foreach (var filter in m_project.FilterHelper.Filters.OrderBy(x => x.Name))
 			{
 				if (filter.ShowInToolbarList)
 				{
@@ -474,7 +474,7 @@ namespace SIL.Pa.UI
 					props.CommandId = cmdId;
 					props.Name = "FILTER:" + filter.Name;
 					props.Tag = filter;
-					props.Checked = (FilterHelper.CurrentFilter == filter);
+					props.Checked = (m_project.FilterHelper.CurrentFilter == filter);
 					props.Visible = true;
 					props.Update = true;
 					tbpi.Adapter.AddMenuItem(props, "mnuFiltersMain", "mnuFilterPlaceholder");
@@ -496,7 +496,7 @@ namespace SIL.Pa.UI
 			if (itemProps == null)
 				return false;
 
-			foreach (var filter in FilterHelper.Filters)
+			foreach (var filter in m_project.FilterHelper.Filters)
 			{
 				if (filter.ShowInToolbarList)
 					itemProps.Adapter.RemoveItem("FILTER:" + filter.Name);
@@ -512,14 +512,14 @@ namespace SIL.Pa.UI
 			if (itemProps == null)
 				return false;
 
-			FilterHelper.ApplyFilter(itemProps.Tag as Filter);
+			m_project.FilterHelper.ApplyFilter(itemProps.Tag as Filter);
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected bool OnFilters(object args)
 		{
-			using (var dlg = new FiltersDlg())
+			using (var dlg = new FiltersDlg(m_project))
 				dlg.ShowDialog(this);
 			
 			return true;
@@ -535,7 +535,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnNoFilter(object args)
 		{
-			FilterHelper.TurnOffCurrentFilter();
+			m_project.FilterHelper.TurnOffCurrentFilter();
 			return true;
 		}
 
@@ -546,7 +546,7 @@ namespace SIL.Pa.UI
 			if (itemProps == null)
 				return false;
 
-			itemProps.Enabled = (FilterHelper.CurrentFilter != null);
+			itemProps.Enabled = (m_project.FilterHelper.CurrentFilter != null);
 			itemProps.Visible = true;
 			itemProps.Update = true;
 			return true;
@@ -574,7 +574,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnFeatures(object args)
 		{
-			using (var dlg = new FeaturesDlg())
+			using (var dlg = new FeaturesDlg(m_project))
 				dlg.ShowDialog(this);
 
 			return true;
@@ -590,7 +590,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnAmbiguousSequences(object args)
 		{
-			using (var dlg = new AmbiguousSequencesDlg())
+			using (var dlg = new AmbiguousSequencesDlg(m_project))
 				dlg.ShowDialog(this);
 
 			return true;
@@ -622,7 +622,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnClasses(object args)
 		{
-			using (ClassesDlg dlg = new ClassesDlg())
+			using (ClassesDlg dlg = new ClassesDlg(m_project))
 				dlg.ShowDialog(this);
 
 			return true;

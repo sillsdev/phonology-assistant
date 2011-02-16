@@ -97,7 +97,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="LocalizationManager, Version=1.0.4048.29084, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="LocalizationManager, Version=1.0.4059.31395, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\LocalizationManager.dll</HintPath>
     </Reference>
@@ -197,6 +197,7 @@
     <Compile Include="Model\SymbolsAndPhones\IPhoneInfo.cs" />
     <Compile Include="Model\SymbolsAndPhones\PhoneCache.cs" />
     <Compile Include="Model\SymbolsAndPhones\PhoneInfo.cs" />
+    <Compile Include="Model\SymbolsAndPhones\PhoneticParser.cs" />
     <Compile Include="Model\SymbolsAndPhones\TranscriptionChanges.cs" />
     <Compile Include="Model\SymbolsAndPhones\UndefinedCharClasses.cs" />
     <Compile Include="Model\WordCache\CacheSortComparer.cs" />
@@ -329,7 +330,7 @@
     <Compile Include="UI\Controls\FeatureListView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\FieldMapperGrid.cs">
+    <Compile Include="UI\Controls\FieldMappingGrid.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\FieldSelectorGrid.cs">
@@ -877,6 +878,8 @@
     <None Include="Resources\Filter-Small.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Information_Show.png" />
+    <None Include="Resources\Information_Hide.png" />
     <None Include="Resources\FieldMappingArrow.png" />
     <None Include="Resources\NewTabNormal.png" />
     <None Include="Resources\NewTabHot.png" />
@@ -1038,17 +1041,17 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>md "$(ProjectDir)$(OutDir)\Configuration"
-md "$(ProjectDir)$(OutDir)\Processing"
-md "$(ProjectDir)$(OutDir)\Training"
-copy "$(TargetDir)..\..\DistFiles\Configuration\*.*" "$(ProjectDir)$(OutDir)\Configuration"
-copy "$(TargetDir)..\..\DistFiles\Processing\*.*" "$(ProjectDir)$(OutDir)\Processing"
-copy "$(TargetDir)..\..\DistFiles\ICSharpCode.SharpZipLib.dll" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\Phonology_Assistant_Help.chm" "$(ProjectDir)$(OutDir)"
-copy "$(TargetDir)..\..\DistFiles\PA Instructor Guide.doc" "$(ProjectDir)$(OutDir)\Training"
-copy "$(TargetDir)..\..\DistFiles\PA Student Manual.doc" "$(ProjectDir)$(OutDir)\Training"
-copy "$(TargetDir)..\..\DistFiles\PA Needs Assessment.doc" "$(ProjectDir)$(OutDir)\Training"
-copy "$(TargetDir)..\..\DistFiles\PA Student Evaluation.doc" "$(ProjectDir)$(OutDir)\Training"
+    <PreBuildEvent>rem md "$(ProjectDir)$(OutDir)\Configuration"
+rem md "$(ProjectDir)$(OutDir)\Processing"
+rem md "$(ProjectDir)$(OutDir)\Training"
+rem copy "$(TargetDir)..\..\DistFiles\Configuration\*.*" "$(ProjectDir)$(OutDir)\Configuration"
+rem copy "$(TargetDir)..\..\DistFiles\Processing\*.*" "$(ProjectDir)$(OutDir)\Processing"
+rem copy "$(TargetDir)..\..\DistFiles\ICSharpCode.SharpZipLib.dll" "$(ProjectDir)$(OutDir)"
+rem copy "$(TargetDir)..\..\DistFiles\Phonology_Assistant_Help.chm" "$(ProjectDir)$(OutDir)"
+rem copy "$(TargetDir)..\..\DistFiles\PA Instructor Guide.doc" "$(ProjectDir)$(OutDir)\Training"
+rem copy "$(TargetDir)..\..\DistFiles\PA Student Manual.doc" "$(ProjectDir)$(OutDir)\Training"
+rem copy "$(TargetDir)..\..\DistFiles\PA Needs Assessment.doc" "$(ProjectDir)$(OutDir)\Training"
+rem copy "$(TargetDir)..\..\DistFiles\PA Student Evaluation.doc" "$(ProjectDir)$(OutDir)\Training"
 
 rem copy "$(TargetDir)..\..\DistFiles\PaTrainingProjects.zip" "$(ProjectDir)$(OutDir)\Training"
 rem copy "$(TargetDir)..\..\DistFiles\TrainingProjectsSetup.xml" "$(ProjectDir)$(OutDir)\Training"

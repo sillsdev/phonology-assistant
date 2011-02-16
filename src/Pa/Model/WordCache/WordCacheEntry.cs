@@ -132,7 +132,7 @@ namespace SIL.Pa.Model
 			// At this point, we know we don't have a value for the specified field or we
 			// do and the value is null.
  
-			if (field == "CVPattern")
+			if (field == PaField.kCVPatternFieldName)
 			{
 				// Check if the CV value is in the record cache. If so, return it.
 				var recEntryVal = RecordEntry.GetValueBasic(field);
@@ -140,8 +140,8 @@ namespace SIL.Pa.Model
 					return recEntryVal;
 
 				// Build the CV pattern since it didn't come from the data source.
-				return (m_phones == null || App.PhoneCache == null ?
-					null : App.PhoneCache.GetCVPattern(m_phones));
+				return (m_phones == null || Project.PhoneCache == null ?
+					null : Project.PhoneCache.GetCVPattern(m_phones));
 			}
 			
 			// If deferToParentRecEntryWhenMissingValue is true then the value returned
@@ -285,6 +285,12 @@ namespace SIL.Pa.Model
 		public RecordCacheEntry RecordEntry { get; internal set; }
 
 		/// ------------------------------------------------------------------------------------
+		public PaProject Project
+		{
+			get { return Project; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the array of phones that make up the phonetic word.
 		/// </summary>
@@ -347,7 +353,7 @@ namespace SIL.Pa.Model
 
 				if (m_phoneticValue == null)
 				{
-					var field = App.GetFieldForName(fieldValue.Name);
+					var field = Project.GetFieldForName(fieldValue.Name);
 					if (field.Type == FieldType.Phonetic)
 					{
 						m_phoneticValue = fieldValue;
@@ -370,10 +376,10 @@ namespace SIL.Pa.Model
 				// Normalize the phonetic string.
 				phonetic = FFNormalizer.Normalize(phonetic);
 
-				if (App.IPASymbolCache.TranscriptionChanges != null)
+				if (Project.TranscriptionChanges != null)
 				{
 					// Convert experimental transcriptions within the phonetic string.
-					phonetic = App.IPASymbolCache.TranscriptionChanges.Convert(
+					phonetic = Project.TranscriptionChanges.Convert(
 						phonetic, out m_experimentalTranscriptionList);
 
 					// Save this for displaying in the record view.
@@ -398,20 +404,20 @@ namespace SIL.Pa.Model
 
 			if (App.IPASymbolCache.UndefinedCharacters != null)
 			{
-				var field = App.Fields.SingleOrDefault(f => f.Type == FieldType.Reference);
+				var field = Project.Fields.SingleOrDefault(f => f.Type == FieldType.Reference);
 				if (field != null)
 					App.IPASymbolCache.UndefinedCharacters.CurrentReference = GetField(field.Name, true);
 
 				App.IPASymbolCache.UndefinedCharacters.CurrentDataSourceName =
-					(RecordEntry.DataSource.DataSourceType == DataSourceType.FW &&
+					(RecordEntry.DataSource.Type == DataSourceType.FW &&
 					RecordEntry.DataSource.FwDataSourceInfo != null ?
 					RecordEntry.DataSource.FwDataSourceInfo.ToString() :
 					Path.GetFileName(RecordEntry.DataSource.DataSourceFile));
 			}
 
-			m_phones = App.IPASymbolCache.PhoneticParser(
-				m_phoneticValue.Value, false, false, out m_uncertainPhones);
-
+			m_phones = Project.PhoneticParser.Parse(m_phoneticValue.Value,
+				false, false, out m_uncertainPhones);
+			
 			if (m_phones != null && m_phones.Length == 0)
 			{
 				m_phones = null;

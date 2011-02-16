@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using Palaso.IO;
 using SilTools;
 
 namespace SIL.Pa.DataSource.FieldWorks
@@ -96,13 +97,13 @@ namespace SIL.Pa.DataSource.FieldWorks
 		private static bool CheckForShortNameFile(string dbName, string machineName, string filename)
 		{
 			// Find the file that contains the queries.
-			string queryFile = Path.Combine(App.ConfigFolder, filename);
-
+			var queryFile = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, filename);
+			
 			if (!File.Exists(queryFile))
 			{
-				string path = Utils.PrepFilePathForMsgBox(App.ConfigFolder);
-				string[] args = new[] { dbName, machineName, filename, path, filename };
-				string msg = string.Format(Properties.Resources.kstidShortNameFileMissingMsg, args);
+				var path = Utils.PrepFilePathForMsgBox(Path.GetDirectoryName(queryFile));
+				var args = new[] { dbName, machineName, filename, path, filename };
+				var msg = string.Format(Properties.Resources.kstidShortNameFileMissingMsg, args);
 				Utils.MsgBox(msg, MessageBoxButtons.OK);
 				return false;
 			}
@@ -114,7 +115,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 		private static FwQueries Load(string filename)
 		{
 			// Find the file that contains the queries.
-			var queryFile = Path.Combine(App.ConfigFolder, filename);
+			var queryFile = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, filename);
 			var fwqueries = XmlSerializationHelper.DeserializeFromFile<FwQueries>(queryFile);
 
 			if (fwqueries != null)

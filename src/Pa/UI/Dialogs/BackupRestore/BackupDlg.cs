@@ -85,7 +85,7 @@ namespace SIL.Pa.UI.Dialogs
 
 					// If the data source is an SA data source, then make sure the file
 					// containing the transcriptions is also included in the back up.
-					if (dataSource.DataSourceType == DataSourceType.SA)
+					if (dataSource.Type == DataSourceType.SA)
 						m_dsFiles.Add(Path.ChangeExtension(dataSource.DataSourceFile, "saxml"));
 				}
 			}

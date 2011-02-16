@@ -27,6 +27,10 @@ namespace SIL.Pa.Model
 	[XmlType("field")]
 	public class PaField
 	{
+		public const string kCVPatternFieldName = "CVPattern";
+		public const string kDataSourceFieldName = "DataSource";
+		public const string kDataSourcePathFieldName = "DataSourcePath";
+
 		private Font m_font;
 
 		/// ------------------------------------------------------------------------------------
@@ -244,14 +248,14 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static List<PaField> GetSaFields()
 		{
-			var path = FileLocator.GetFileDistributedWithApplication("Configuration", "DefaultSaFields.xml");
+			var path = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultSaFields.xml");
 			return LoadFields(path, "SaFields");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public static List<PaField> GetDefaultSfmFields()
 		{
-			var path = FileLocator.GetFileDistributedWithApplication("Configuration", "DefaultSfmFields.xml");
+			var path = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultSfmFields.xml");
 			return LoadFields(path, "SfmFields");
 		}
 
@@ -265,12 +269,9 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static Exception SaveProjectFields(PaProject project)
 		{
-			var fields = project.Fields
-				.Where(f => !("CVPattern/DataSource/DataSourcePath").Contains(f.Name)).ToList();
-			
 			var path = project.ProjectPathFilePrefix + "Fields.xml";
 			Exception e = null;
-			XmlSerializationHelper.SerializeToFile(path, fields, "Fields", out e);
+			XmlSerializationHelper.SerializeToFile(path, project.Fields.ToList(), "Fields", out e);
 			return e;
 		}
 
@@ -282,9 +283,15 @@ namespace SIL.Pa.Model
 
 			if (e == null)
 			{
-				list.Add(new PaField { Name = "CVPattern", AllowUserToMap = false });
-				list.Add(new PaField { Name = "DataSource", AllowUserToMap = false });
-				list.Add(new PaField { Name = "DataSourcePath", AllowUserToMap = false });
+				if (!list.Any(f => f.Name == kCVPatternFieldName))
+					list.Add(new PaField { Name = kCVPatternFieldName, AllowUserToMap = false });
+
+				if (!list.Any(f => f.Name == kDataSourceFieldName))
+					list.Add(new PaField { Name = kDataSourceFieldName, AllowUserToMap = false });
+
+				if (!list.Any(f => f.Name == kDataSourcePathFieldName))
+					list.Add(new PaField { Name = kDataSourcePathFieldName, AllowUserToMap = false, Type = FieldType.GeneralFilePath });
+				
 				return list;
 			}
 
@@ -414,13 +421,13 @@ namespace SIL.Pa.Model
 				case "SADescription": return App.LocalizeString("DisplayableFieldNames.SADescription",
 										"Description", App.kLocalizationGroupMisc);
 
-				case "CVPattern": return App.LocalizeString("DisplayableFieldNames.CVPattern",
+				case kCVPatternFieldName: return App.LocalizeString("DisplayableFieldNames.CVPattern",
 										"CV Pattern", App.kLocalizationGroupMisc);
 				
-				case "DataSource": return App.LocalizeString("DisplayableFieldNames.DataSource",
+				case kDataSourceFieldName: return App.LocalizeString("DisplayableFieldNames.DataSource",
 										"Data Source", App.kLocalizationGroupMisc);
 
-				case "DataSourcePath": return App.LocalizeString("DisplayableFieldNames.DataSourcePath",
+				case kDataSourcePathFieldName: return App.LocalizeString("DisplayableFieldNames.DataSourcePath",
 										"Data Source Path", App.kLocalizationGroupMisc);
 			}
 

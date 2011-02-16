@@ -20,7 +20,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeFontTab()
 		{
 			// This tab isn't valid if there is no project loaded.
-			if (App.Project == null)
+			if (m_project == null)
 			{
 				tabOptions.TabPages.Remove(tpgFonts);
 				return;
@@ -115,7 +115,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void LoadFonts()
 		{
-			foreach (var field in App.Fields.Where(f => f.Font != null).OrderBy(f => f.DisplayIndexInGrid))
+			foreach (var field in m_project.Fields.Where(f => f.Font != null).OrderBy(f => f.DisplayIndexInGrid))
 			{
 				m_fontGrid.AddRow(new object[]
 				{
@@ -238,12 +238,12 @@ namespace SIL.Pa.UI.Dialogs
 				foreach (var row in m_fontGrid.GetRows().Where(r => r.Cells[0].Value is PaField))
 					(row.Cells[0].Value as PaField).Font = (Font)row.Tag;
 
-				App.Project.InitializeFontHelperFonts();
+				m_project.InitializeFontHelperFonts();
 
 				// Since the fonts changed, delete the project's style sheet file. This will
 				// force it to be recreated the next time something is exported that needs it.
-				if (File.Exists(App.Project.CssFileName))
-					File.Delete(App.Project.CssFileName);
+				if (File.Exists(m_project.CssFileName))
+					File.Delete(m_project.CssFileName);
 
 				App.MsgMediator.SendMessage("PaFontsChanged", null);
 			}

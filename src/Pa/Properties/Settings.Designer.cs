@@ -3143,5 +3143,30 @@ namespace SIL.Pa.Properties {
                 return ((string)(this["DefaultParsedSfmFields"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowSFMappingsInformation {
+            get {
+                return ((bool)(this["ShowSFMappingsInformation"]));
+            }
+            set {
+                this["ShowSFMappingsInformation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilTools.GridSettings SFDataSourcePropertiesDlgMappingGrid {
+            get {
+                return ((global::SilTools.GridSettings)(this["SFDataSourcePropertiesDlgMappingGrid"]));
+            }
+            set {
+                this["SFDataSourcePropertiesDlgMappingGrid"] = value;
+            }
+        }
     }
 }

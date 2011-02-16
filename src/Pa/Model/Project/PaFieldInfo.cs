@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
+using Palaso.IO;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model.Project;
 using SilTools;
@@ -219,7 +220,7 @@ namespace SIL.Pa.Model
 		{
 			get
 			{
-				var filename = Path.Combine(App.ConfigFolder, "DefaultFieldInfo.xml");
+				var filename = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultFieldInfo.xml");
 				var fieldInfoList = XmlSerializationHelper.DeserializeFromFile<PaFieldInfoList>(filename);
 
 				if (fieldInfoList != null)
@@ -423,7 +424,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			var filename = Path.Combine(App.ConfigFolder, "DefaultFieldInfo.xml");
+			var filename = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultFieldInfo.xml");
 			XmlSerializationHelper.SerializeToFile(filename, this);
 		}
 

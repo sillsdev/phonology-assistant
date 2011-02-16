@@ -737,5 +737,11 @@
     <Setting Name="DefaultParsedSfmFields" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Phonetic;Phonemic;Gloss;NatGloss;PartOfSpeech;Tone;Orthographic</Value>
     </Setting>
+    <Setting Name="ShowSFMappingsInformation" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SFDataSourcePropertiesDlgMappingGrid" Provider="SilTools.PortableSettingsProvider" Type="SilTools.GridSettings" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

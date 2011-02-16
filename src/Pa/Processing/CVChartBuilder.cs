@@ -17,7 +17,6 @@
 using System.IO;
 using System.Linq;
 using System.Xml;
-using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
@@ -35,34 +34,21 @@ namespace SIL.Pa.Processing
 		protected CVChartType m_chartType;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static bool Process(PaProject project, PhoneCache phoneCache, CVChartType chartType)
+		public static bool Process(PaProject project, CVChartType chartType)
 		{
 			if (project == null)
 				return false;
 
-			App.MsgMediator.SendMessage("BeforeBuildCVChart",
-				new object[] { project, phoneCache, chartType });
-
-			var bldr = new CVChartBuilder(project, phoneCache, chartType);
+			App.MsgMediator.SendMessage("BeforeBuildCVChart", new object[] { project, chartType });
+			var bldr = new CVChartBuilder(project, chartType);
 			var buildResult = bldr.InternalProcess();
-
-			App.MsgMediator.SendMessage("AfterBuildCVChart", 
-				new object[] { project, phoneCache, chartType, buildResult });
+			App.MsgMediator.SendMessage("AfterBuildCVChart", new object[] { project, chartType, buildResult });
 
 			return buildResult;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected CVChartBuilder(PaProject project, PhoneCache phoneCache, CVChartType chartType)
-			: base(project, phoneCache)
+		protected CVChartBuilder(PaProject project, CVChartType chartType) : base(project)
 		{
 			m_chartType = chartType;
 			m_outputFileName = m_project.ProjectPathFilePrefix + chartType + "ChartBeta.xml";
@@ -150,7 +136,7 @@ namespace SIL.Pa.Processing
 			// Load the list of articulatory features into an XML document.
 			var doc2 = new XmlDocument();
 			doc2.LoadXml(XmlSerializationHelper.SerializeToString(
-				InventoryHelper.AFeatureCache.Values.ToList()));
+				App.AFeatureCache.Values.ToList()));
 
 			// Create a new node containing all the articulatory features and append that node
 			// to the project inventory.

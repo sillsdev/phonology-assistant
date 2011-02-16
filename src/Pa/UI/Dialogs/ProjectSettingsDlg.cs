@@ -29,10 +29,10 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			Application.DoEvents();
 
-			// Make sure to save the project's field info. list because we may change it while working in
-			// this dialog or it's child dialogs (more specifically the custom fields dialog).
-			if (project != null)
-				project.FieldInfo.Save(project);
+			//// Make sure to save the project's field info. list because we may change it while working in
+			//// this dialog or it's child dialogs (more specifically the custom fields dialog).
+			//if (project != null)
+			//    project.FieldInfo.Save(project);
 
 			InitializeComponent();
 
@@ -77,8 +77,8 @@ namespace SIL.Pa.UI.Dialogs
 
 			Utils.WaitCursors(true);
 			FwDataSourcePrep();
-			cmnuAddFw6DataSource.Enabled = FwDBUtils.IsSQLServerInstalled(false);
-			cmnuAddFw7DataSource.Enabled = FwDBUtils.IsFw7Installed;
+			mnuAddFw6DataSource.Enabled = FwDBUtils.IsSQLServerInstalled(false);
+			mnuAddFw7DataSource.Enabled = FwDBUtils.IsFw7Installed;
 
 			DialogResult = DialogResult.Cancel;
 			m_dirty = IsProjectNew;
@@ -123,7 +123,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (Project.DataSources == null)
 				return;
 
-			if (Project.DataSources.Any(ds => ds.DataSourceType == DataSourceType.FW))
+			if (Project.DataSources.Any(ds => ds.Type == DataSourceType.FW))
 				FwDBUtils.StartSQLServer(true);
 		}
 
@@ -243,10 +243,10 @@ namespace SIL.Pa.UI.Dialogs
 					var dataSource = Project.DataSources[m_grid.CurrentRow.Index];
 
 					enablePropertiesButton =
-						(dataSource.DataSourceType == DataSourceType.SFM ||
-						dataSource.DataSourceType == DataSourceType.Toolbox ||
-						dataSource.DataSourceType == DataSourceType.FW7 ||
-						(dataSource.DataSourceType == DataSourceType.FW &&
+						(dataSource.Type == DataSourceType.SFM ||
+						dataSource.Type == DataSourceType.Toolbox ||
+						dataSource.Type == DataSourceType.FW7 ||
+						(dataSource.Type == DataSourceType.FW &&
 						dataSource.FwSourceDirectFromDB));
 				}
 			}
@@ -326,10 +326,10 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				for (int i = 0; i < Project.DataSources.Count; i++)
 				{
-					if (Project.DataSources[i].DataSourceType == DataSourceType.PAXML)
+					if (Project.DataSources[i].Type == DataSourceType.PAXML)
 						continue;
 
-					if (Project.DataSources[i].DataSourceType == DataSourceType.XML &&
+					if (Project.DataSources[i].Type == DataSourceType.XML &&
 						string.IsNullOrEmpty(Project.DataSources[i].XSLTFile))
 					{
 						// No XSLT file was specified
@@ -342,24 +342,24 @@ namespace SIL.Pa.UI.Dialogs
 						break;
 					}
 					
-					if (!Project.DataSources[i].MappingsExist &&
-						(Project.DataSources[i].DataSourceType == DataSourceType.SFM ||
-						Project.DataSources[i].DataSourceType == DataSourceType.Toolbox))
-					{
-						// No mappings have been specified.
-						offendingIndex = i;
-						msg = App.LocalizeString("ProjectSettingsDlg.NoMappingsMsg",
-							"You must specify field mappings for\n\n'{0}'.\n\nSelect it in the Data Sources list and click 'Properties'.",
-							App.kLocalizationGroupDialogs);
+					//if (!Project.DataSources[i].MappingsExist &&
+					//    (Project.DataSources[i].Type == DataSourceType.SFM ||
+					//    Project.DataSources[i].Type == DataSourceType.Toolbox))
+					//{
+					//    // No mappings have been specified.
+					//    offendingIndex = i;
+					//    msg = App.LocalizeString("ProjectSettingsDlg.NoMappingsMsg",
+					//        "You must specify field mappings for\n\n'{0}'.\n\nSelect it in the Data Sources list and click 'Properties'.",
+					//        App.kLocalizationGroupDialogs);
 						
-						msg = string.Format(msg, Project.DataSources[i].DataSourceFile);
-						break;
-					}
+					//    msg = string.Format(msg, Project.DataSources[i].DataSourceFile);
+					//    break;
+					//}
 					
-					if (Project.DataSources[i].DataSourceType == DataSourceType.FW &&
+					// TODO: Fix so "phonetic" is not hardcoded.
+					if (Project.DataSources[i].Type == DataSourceType.FW &&
 						Project.DataSources[i].FwSourceDirectFromDB &&
-						!Project.DataSources[i].FwDataSourceInfo.HasWritingSystemInfo(
-							Project.FieldInfo.PhoneticField.FwQueryFieldName))
+						!Project.DataSources[i].FwDataSourceInfo.HasWritingSystemInfo("phonetic"))
 					{
 						// FW data source information is incomplete.
 						offendingIndex = i;
@@ -581,7 +581,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void HandleAddButtonClick(object sender, EventArgs e)
 		{
 			Point pt = btnAdd.PointToScreen(new Point(0, btnAdd.Height));
-			cmnuAdd.Show(pt);
+			mnuAdd.Show(pt);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -617,13 +617,13 @@ namespace SIL.Pa.UI.Dialogs
 
 			var dataSource = Project.DataSources[m_grid.CurrentRow.Index];
 
-			if (dataSource.DataSourceType == DataSourceType.SFM ||
-				dataSource.DataSourceType == DataSourceType.Toolbox)
+			if (dataSource.Type == DataSourceType.SFM ||
+				dataSource.Type == DataSourceType.Toolbox)
 			{
 				ShowMappingsDialog(dataSource);
 			}
-			else if ((dataSource.DataSourceType == DataSourceType.FW &&
-				dataSource.FwSourceDirectFromDB) || dataSource.DataSourceType == DataSourceType.FW7)
+			else if ((dataSource.Type == DataSourceType.FW &&
+				dataSource.FwSourceDirectFromDB) || dataSource.Type == DataSourceType.FW7)
 			{
 				ShowFwDataSourcePropertiesDialog(dataSource);
 			}
@@ -649,14 +649,19 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 			}
 
-			// Open the mappings dialog.
-			using (var dlg = new SFDataSourcePropertiesDlg(Project.Fields, dataSource))
+			// Get only those fields found in SFM/Toolbox data sources.
+			var mappedSfmFields = (Project.Fields == null ? null :
+				Project.DataSources.Where(ds => ds.FieldMappings != null &&
+					(ds.Type == DataSourceType.SFM || ds.Type == DataSourceType.Toolbox))
+					.SelectMany(ds => ds.FieldMappings).Select(m => m.Field)
+					.Where(f => f != null && f.AllowUserToMap));
+
+			using (var dlg = new SFDataSourcePropertiesDlg(mappedSfmFields, dataSource))
 			{
 				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChangesWereMade)
 				{
 					m_dirty = true;
-					Project.Fields = PaField.Merge(Project.Fields,
-						dataSource.FieldMappings.Select(m => m.Field).ToList());
+					Project.MergeIntoFields(dataSource.FieldMappings.Select(m => m.Field));
 				}
 			}
 		}
@@ -836,7 +841,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (rowIndex >= 0 && rowIndex < Project.DataSources.Count)
 			{
-				var type = Project.DataSources[rowIndex].DataSourceType;
+				var type = Project.DataSources[rowIndex].Type;
 				((SilButtonColumn)m_grid.Columns["xslt"]).ShowButton = (type == DataSourceType.XML);
 			}
 		}

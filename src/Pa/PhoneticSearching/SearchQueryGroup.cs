@@ -1,34 +1,48 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Windows.Forms;
+using System.Linq;
 using System.Xml.Serialization;
+using Palaso.IO;
 using SilTools;
 
 namespace SIL.Pa.PhoneticSearching
 {
 	#region SearchQueryGroupList class
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	[XmlType("SearchQueries")]
 	public class SearchQueryGroupList : List<SearchQueryGroup>
 	{
 		public const string kSearchQueriesFilePrefix = "SearchQueries.xml";
-		public const string kDefaultSearchQueriesFile = "DefaultSearchQueries.xml";
+
+		private PaProject m_project;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This is for serialization/deserialization.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public SearchQueryGroupList()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public SearchQueryGroupList(PaProject project)
+		{
+			m_project = project;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads the list of default search queries.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static SearchQueryGroupList LoadDefaults()
+		public static SearchQueryGroupList LoadDefaults(PaProject project)
 		{
-			return Load(null);
+			return InternalLoad(project,
+				FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultSearchQueries.xml"));
 		}
-
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads the list of search queries for the specified project. If project is null
@@ -37,68 +51,42 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public static SearchQueryGroupList Load(PaProject project)
 		{
-			string filename = (project != null ?
-				project.ProjectPathFilePrefix + kSearchQueriesFilePrefix :
-				Path.Combine(App.ConfigFolder, kDefaultSearchQueriesFile));
+			return InternalLoad(project, project.ProjectPathFilePrefix + kSearchQueriesFilePrefix);
+		}
 
-			SearchQueryGroupList srchQueries = null;
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Loads the list of search queries for the specified project. If project is null
+		/// then the default list is loaded.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static SearchQueryGroupList InternalLoad(PaProject project, string filename)
+		{
+			var srchQueries = (File.Exists(filename) ?
+				XmlSerializationHelper.DeserializeFromFile<SearchQueryGroupList>(filename) :
+				new SearchQueryGroupList(project));
 
-			if (File.Exists(filename))
-				srchQueries = XmlSerializationHelper.DeserializeFromFile<SearchQueryGroupList>(filename);
-
-			if (srchQueries == null)
-				return new SearchQueryGroupList();
+			srchQueries.m_project = project;
 
 			// Sort the items by group name.
-			SortedList<string, SearchQueryGroup> sortedGroups =
-				new SortedList<string, SearchQueryGroup>();
-
-			foreach (SearchQueryGroup grp in srchQueries)
-				sortedGroups[grp.Name] = grp;
-
-			srchQueries = new SearchQueryGroupList();
-			foreach (SearchQueryGroup grp in sortedGroups.Values)
-				srchQueries.Add(grp);
+			srchQueries.Sort((x, y) => x.Name.CompareTo(y.Name));
 
 			// Assign a unique id to each query. One of the purposes for the id is to
 			// mark each of these queries as one that was saved in persisted storage.
 			// Also make sure the ignore lists in the queries are modified to include
 			// comma delineation.
 			int id = 1;
-			foreach (SearchQueryGroup grp in srchQueries)
-			{
-				if (grp.Queries != null)
-				{
-					foreach (SearchQuery query in grp.Queries)
-						query.Id = id++;
-				}
-			}
+			foreach (var q in srchQueries.Where(grp => grp.Queries != null).SelectMany(grp => grp.Queries))
+				q.Id = id++;
 
 			return srchQueries;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			Save(App.Project);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Save(PaProject project)
-		{
-			if (project != null)
-			{
-				var filename = project.ProjectPathFilePrefix + kSearchQueriesFilePrefix;
-				XmlSerializationHelper.SerializeToFile(filename, this);
-			}
+			var filename = m_project.ProjectPathFilePrefix + kSearchQueriesFilePrefix;
+			XmlSerializationHelper.SerializeToFile(filename, this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -112,19 +100,8 @@ namespace SIL.Pa.PhoneticSearching
 			if (id == 0)
 				return null;
 
-			foreach (SearchQueryGroup grp in this)
-			{
-				if (grp.Queries == null)
-					continue;
-
-				foreach (SearchQuery query in grp.Queries)
-				{
-					if (query.Id == id)
-						return query;
-				}
-			}
-
-			return null;
+			return this.Where(grp => grp.Queries != null)
+				.SelectMany(grp => grp.Queries).FirstOrDefault(query => query.Id == id);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -134,19 +111,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public SearchQueryGroup GetGroupFromQueryId(int id)
 		{
-			foreach (SearchQueryGroup grp in this)
-			{
-				if (grp.Queries == null)
-					continue;
-
-				foreach (SearchQuery query in grp.Queries)
-				{
-					if (query.Id == id)
-						return grp;
-				}
-			}
-
-			return null;
+			return this.Where(g => g.Queries != null).FirstOrDefault(grp => grp.Queries.Where(q => q.Id == id).Any());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -160,11 +125,8 @@ namespace SIL.Pa.PhoneticSearching
 			Debug.Assert(query != null);
 			Debug.Assert(query.Id > 0);
 
-			foreach (SearchQueryGroup grp in this)
+			foreach (var grp in this.Where(grp => grp.Queries != null))
 			{
-				if (grp.Queries == null)
-					continue;
-
 				for (int i = 0; i < grp.Queries.Count; i++)
 				{
 					if (grp.Queries[i].Id == query.Id)
@@ -187,18 +149,12 @@ namespace SIL.Pa.PhoneticSearching
 			get
 			{
 				int id = 1;
-				foreach (SearchQueryGroup grp in this)
+				foreach (var grp in this.Where(g => g.Queries != null))
 				{
-					if (grp.Queries == null)
-						continue;
-
-					foreach (SearchQuery query in grp.Queries)
+					foreach (var query in grp.Queries.Where(q => q.Id == id))
 					{
-						if (query.Id == id)
-						{
-							id++;
-							continue;
-						}
+						id++;
+						continue;
 					}
 				}
 
@@ -211,71 +167,31 @@ namespace SIL.Pa.PhoneticSearching
 
 	#region SearchQueryGroup class
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	[XmlType("QueryGroup")]
 	public class SearchQueryGroup
 	{
-		private string m_name;
-		private List<SearchQuery> m_queries;
-		private bool m_expanded;
-		private bool m_expandedInPopup;
-
+		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			return m_name;
+			return Name;
 		}
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public string Name
-		{
-			get { return m_name; }
-			set { m_name = value; }
-		}
+		public string Name { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public bool Expanded
-		{
-			get { return m_expanded; }
-			set { m_expanded = value; }
-		}
+		public bool Expanded { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public bool ExpandedInPopup
-		{
-			get { return m_expandedInPopup; }
-			set { m_expandedInPopup = value; }
-		}
+		public bool ExpandedInPopup { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlArray]
-		public List<SearchQuery> Queries
-		{
-			get { return m_queries; }
-			set { m_queries = value; }
-		}
+		public List<SearchQuery> Queries { get; set; }
 
 		#endregion
 	}

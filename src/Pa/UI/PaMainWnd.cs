@@ -24,7 +24,6 @@ using Localization.UI;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
-using SIL.Pa.Filters;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Views;
 using SilTools;
@@ -41,6 +40,8 @@ namespace SIL.Pa.UI
 	{
 		private ITMAdapter m_tmAdapter;
 		private readonly bool m_doNotLoadLastProject;
+
+		private PaProject m_project;
 
 		#region Construction and Setup
 		/// ------------------------------------------------------------------------------------
@@ -67,7 +68,7 @@ namespace SIL.Pa.UI
 			sblblProgress.Visible = false;
 			sblblFilter.Text = string.Empty;
 			sblblFilter.Visible = false;
-			sblblFilter.Paint += FilterHelper.HandleFilterStatusStripLabelPaint;
+			sblblFilter.Paint += HandleFilterStatusStripLabelPaint;
 
 			if (!Settings.Default.UseSystemColors)
 			{
@@ -95,8 +96,8 @@ namespace SIL.Pa.UI
 			var tph = new TrainingProjectsHelper();
 			tph.Setup();
 
-			LocalizeItemDlg.StringsLocalized += (() => SetWindowText(App.Project));
-			SetWindowText(App.Project);
+			LocalizeItemDlg.StringsLocalized += delegate { SetWindowText(m_project); };
+			SetWindowText(m_project);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -134,10 +135,10 @@ namespace SIL.Pa.UI
 
 			App.CloseSplashScreen();
 
-			if (App.Project != null)
+			if (m_project != null)
 			{
-				OnDataSourcesModified(App.Project.Name);
-				OnFilterChanged(FilterHelper.CurrentFilter);
+				OnDataSourcesModified(m_project.Name);
+				OnFilterChanged(m_project.CurrentFilter);
 			}
 
 			App.MsgMediator.SendMessage("MainViewOpened", this);
@@ -183,10 +184,10 @@ namespace SIL.Pa.UI
 			if (string.IsNullOrEmpty(projectFileName))
 				return;
 
-			if (App.Project != null)
+			if (m_project != null)
 			{
-				App.Project.EnsureSortOptionsSaved();
-				App.Project.Save();
+				m_project.EnsureSortOptionsSaved();
+				m_project.Save();
 			}
 
 			App.ProjectLoadInProcess = true;
@@ -197,10 +198,10 @@ namespace SIL.Pa.UI
 			{
 				vwTabGroup.CloseAllViews();
 
-				if (App.Project != null)
-					App.Project.Dispose();
+				if (m_project != null)
+					m_project.Dispose();
 
-				App.Project = project;
+				App.Project = m_project = project;
 				Settings.Default.LastProjectLoaded = projectFileName;
 
 				SetWindowText(project);
@@ -225,7 +226,7 @@ namespace SIL.Pa.UI
 
 				App.AddProjectToRecentlyUsedProjectsList(projectFileName);
 
-				OnFilterChanged(FilterHelper.CurrentFilter);
+				OnFilterChanged(m_project.CurrentFilter);
 				EnableOptionsMenus(true);
 				EnableUndockMenu(true);
 			}
@@ -299,10 +300,6 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void LoadToolbarsAndMenus()
 		{
 			m_tmAdapter = App.LoadDefaultMenu(this);
@@ -342,10 +339,6 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnClosed(EventArgs e)
 		{
 			Settings.Default.Save();
@@ -353,13 +346,8 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnClosing(CancelEventArgs e)
 		{
-
 			// Closing isn't allowed in the middle of loading a project.
 			if (App.ProjectLoadInProcess)
 			{
@@ -373,8 +361,8 @@ namespace SIL.Pa.UI
 				return;
 			}
 
-			if (App.Project != null)
-				App.Project.EnsureSortOptionsSaved();
+			if (m_project != null)
+				m_project.EnsureSortOptionsSaved();
 
 			if (vwTabGroup.CurrentTab != null)
 				Settings.Default.LastViewShowing = vwTabGroup.CurrentTab.ViewType.ToString();
@@ -401,7 +389,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
-			if (App.Project != null)
+			if (m_project != null)
 			{
 				base.OnPaintBackground(e);
 				return;
@@ -434,7 +422,7 @@ namespace SIL.Pa.UI
 		{
 			base.OnResize(e);
 
-			if (App.Project == null)
+			if (m_project == null)
 				Invalidate();
 
 			sblblFilter.Width = Math.Max(175, statusStrip.Width / 3);
@@ -499,5 +487,55 @@ namespace SIL.Pa.UI
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleFilterStatusStripLabelPaint(object sender, PaintEventArgs e)
+		{
+			if (m_project != null && m_project.CurrentFilter != null)
+			{
+				PaintFilterStatusStripLabel(sender as ToolStripStatusLabel,
+					m_project.CurrentFilter.Name, e);
+			}
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		public static void PaintFilterStatusStripLabel(ToolStripStatusLabel lbl, string filterName,
+			PaintEventArgs e)
+		{
+			if (lbl == null || !lbl.Visible || filterName == null)
+				return;
+
+			var rc = lbl.ContentRectangle;
+
+			// Fill in shaded background
+			using (var br = new LinearGradientBrush(rc,
+				Color.Gold, Color.Khaki, LinearGradientMode.Horizontal))
+			{
+				e.Graphics.FillRectangle(br, rc);
+			}
+
+			// Draw side borders
+			using (Pen pen = new Pen(Color.Goldenrod))
+			{
+				e.Graphics.DrawLine(pen, 0, 0, 0, rc.Height);
+				e.Graphics.DrawLine(pen, rc.Width - 1, 0, rc.Width - 1, rc.Height);
+			}
+
+			// Draw little filter image
+			Image img = Properties.Resources.kimidFilterSmall;
+			rc = lbl.ContentRectangle;
+			Rectangle rcImage = new Rectangle(0, 0, img.Width, img.Height);
+			rcImage.X = 3;
+			rcImage.Y = (int)(Math.Ceiling(((decimal)rc.Height - rcImage.Height) / 2));
+			e.Graphics.DrawImageUnscaledAndClipped(img, rcImage);
+
+			// Draw text
+			rc.X = rcImage.Width + 4;
+			rc.Width -= rc.X;
+			const TextFormatFlags flags = TextFormatFlags.EndEllipsis |
+				TextFormatFlags.SingleLine | TextFormatFlags.VerticalCenter;
+
+			TextRenderer.DrawText(e.Graphics, filterName, lbl.Font, rc, Color.Black, flags);
+		}
 	}
 }

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
+using Palaso.IO;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
@@ -272,7 +273,7 @@ namespace SIL.Pa.UI.Views
 		{
 			try
 			{
-				object[] argArray = args as object[];
+				var argArray = args as object[];
 				if (argArray[0] == m_chrGrid)
 				{
 					CharGridPersistence.Save(m_chrGrid, m_phoneList, m_persistedInfoFilename);
@@ -329,8 +330,9 @@ namespace SIL.Pa.UI.Views
 			{
 				App.PrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
-				string[] defs = new string[1];
-				defs[0] = Path.Combine(App.ConfigFolder, "CVChartsTMDefinition.xml");
+				var defs = new[] { FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
+					"CVChartsTMDefinition.xml") };
+
 				m_tmAdapter.Initialize(this, App.MsgMediator, App.ApplicationRegKeyPath, defs);
 				m_tmAdapter.AllowUpdates = true;
 			}
@@ -694,17 +696,17 @@ namespace SIL.Pa.UI.Views
 			if (srchPhones == null)
 				return;
 
-			List<SearchQuery> queries = new List<SearchQuery>();
+			var queries = new List<SearchQuery>();
 			foreach (string phone in srchPhones)
 			{
-				SearchQuery query = new SearchQuery();
+				var query = new SearchQuery();
 				query.Pattern = phone + "/" + environment;
 				query.IgnoreDiacritics = false;
 
 				// Check if the phone only exists as an uncertain phone. If so,
 				// then set the flag in the query to include searching words
 				// made using all uncertain uncertain derivations.
-				IPhoneInfo phoneInfo = App.PhoneCache[phone];
+				var phoneInfo = App.Project.PhoneCache[phone];
 				if (phoneInfo != null && phoneInfo.TotalCount == 0)
 					query.IncludeAllUncertainPossibilities = true;
 				

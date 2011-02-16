@@ -128,10 +128,6 @@ namespace SIL.Pa.Filters
 		public SearchEngine SearchEngine { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public bool Matches(WordCacheEntry entry)
 		{
 			// If this expression is to match the entry against a filter, then find
@@ -144,7 +140,7 @@ namespace SIL.Pa.Filters
 
 			if (!m_fieldTypeDetermined)
 			{
-				var field = App.GetFieldForName(FieldName);
+				var field = entry.Project.GetFieldForName(FieldName);
 				if (field != null)
 				{
 					m_fieldIsDate = (field.Type == FieldType.Date);
@@ -193,15 +189,11 @@ namespace SIL.Pa.Filters
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private bool MatchesFilter(WordCacheEntry entry)
 		{
-			if (FilterHelper.Filters != null)
+			if (entry.Project.FilterHelper.Filters != null)
 			{
-				var filter = FilterHelper.GetFilter(m_pattern);
+				var filter = entry.Project.FilterHelper.GetFilter(m_pattern);
 				if (filter != null)
 					return filter.Matches(entry);
 			}
@@ -209,10 +201,6 @@ namespace SIL.Pa.Filters
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private bool MatchesNumeric(string entryValue)
 		{
@@ -245,10 +233,6 @@ namespace SIL.Pa.Filters
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private bool MatchesDate(string entryValue)
 		{
 			DateTime date1, date2;
@@ -279,10 +263,6 @@ namespace SIL.Pa.Filters
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool MatchesSearchPattern(WordCacheEntry entry)
 		{
@@ -335,10 +315,6 @@ namespace SIL.Pa.Filters
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{

@@ -223,7 +223,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "Dailog Boxes";
+			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// m_tableLayout

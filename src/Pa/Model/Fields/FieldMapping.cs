@@ -25,11 +25,11 @@ namespace SIL.Pa.Model
 		public string NameInDataSource { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		[XmlAttribute("isParsed")]
+		[XmlElement("isParsed")]
 		public bool IsParsed { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		[XmlAttribute("isInterlinear")]
+		[XmlElement("isInterlinear")]
 		public bool IsInterlinear { get; set; }
 
 		/// ------------------------------------------------------------------------------------

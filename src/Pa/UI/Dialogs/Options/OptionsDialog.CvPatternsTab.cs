@@ -75,10 +75,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void AdjustPickerSizes()
 		{
 			stressPicker.Location = lengthPicker.Location = tonePicker.Location = new Point(0, 0);
@@ -200,9 +196,9 @@ namespace SIL.Pa.UI.Dialogs
 
 				if (item.Checked)
 				{
-					CVPatternInfo cvpi = CVPatternInfo.Create(phone, cvPatternType);
+					var cvpi = CVPatternInfo.Create(phone, cvPatternType);
 					if (cvpi != null)
-						App.Project.CVPatternInfoList.Add(cvpi);
+						m_project.CVPatternInfoList.Add(cvpi);
 				}
 			}
 		}
@@ -215,13 +211,13 @@ namespace SIL.Pa.UI.Dialogs
 		private void SaveCustomList()
 		{
 			string[] split = txtCustomChars.Text.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-			ArrayList customList = new ArrayList();
+			var customList = new ArrayList();
 
-			for (int i = 0; i < split.Length; i++)
+			foreach (string piece in split)
 			{
 				// Remove duplicates
-				if (!customList.Contains(split[i]))
-					customList.Add(split[i]);
+				if (!customList.Contains(piece))
+					customList.Add(piece);
 			}
 
 			foreach (string cvString in customList)
@@ -233,7 +229,7 @@ namespace SIL.Pa.UI.Dialogs
 				// If the custom phone already exists in pickers, then save the phone with
 				// the correct IPACharIgnoreTypes. Otherwise, save the phone with the N/A
 				// type which we're using here for custom characters.
-				CVPatternInfo cvpi = CVPatternInfo.Create(cvString,
+				var cvpi = CVPatternInfo.Create(cvString,
 					(m_allPickerPhones.ContainsKey(chr) ? m_allPickerPhones[chr] :
 					IPASymbolIgnoreType.NotApplicable));
 
@@ -254,7 +250,7 @@ namespace SIL.Pa.UI.Dialogs
 				// Remove the dotted circle (if there is one) from the button's text, then
 				// check the button if its text is found in the display list.
 				string chr = item.Text.Replace(App.kDottedCircle, string.Empty);
-				foreach (CVPatternInfo info in App.Project.CVPatternInfoList)
+				foreach (var info in App.Project.CVPatternInfoList)
 				{
 					// Don't check item's that are already custom types
 					if (chr == info.Phone && info.PatternType != IPASymbolIgnoreType.NotApplicable)
@@ -263,6 +259,7 @@ namespace SIL.Pa.UI.Dialogs
 						break;
 					}
 				}
+
 				item.Tag = item.Checked;
 			}
 

@@ -67,10 +67,10 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void LoadPhonePickers()
 		{
-			m_conPicker.LoadCharacters(App.PhoneCache.Values
+			m_conPicker.LoadCharacters(App.Project.PhoneCache.Values
 				.Where(p => p.CharType == IPASymbolType.Consonant).OrderBy(p => p.POAKey));
 
-			m_vowPicker.LoadCharacters(App.PhoneCache.Values
+			m_vowPicker.LoadCharacters(App.Project.PhoneCache.Values
 				.Where(p => p.CharType == IPASymbolType.Vowel).OrderBy(p => p.POAKey));
 		}
 
@@ -80,7 +80,7 @@ namespace SIL.Pa.UI.Controls
 			// Go through all the phones in the cache and strip off their diacritics. These
 			// will be used when determining which ones to display in the other picker.
 			var symbols = new List<IPASymbol>();
-			foreach (var pi in App.PhoneCache.Values)
+			foreach (var pi in App.Project.PhoneCache.Values)
 				symbols.AddRange(pi.GetSymbols().Where(ci => ci != null && !ci.IsBase));
 
 			m_otherPicker.LoadCharacters(ci =>

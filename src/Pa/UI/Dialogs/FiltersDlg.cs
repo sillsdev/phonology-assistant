@@ -26,6 +26,7 @@ namespace SIL.Pa.UI.Dialogs
 		private const int kDeleteCol = 4;
 
 		private List<Filter> m_filterList;
+		private readonly PaProject m_project;
 		private readonly ExpressionValueDropDownListBox m_filterDropDown;
 		private readonly SearchOptionsDropDown m_queryOptionsDropDown;
 		private CustomDropDown m_queryOptionsDropDownHost;
@@ -50,7 +51,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_queryOptionsDropDown = new SearchOptionsDropDown();
 			splitFilters.Panel2MinSize = splitFilters.Panel2.Bounds.Width;
 
-			InitializeExpressionTypetrings();
+			InitializeExpressionTypeStrings();
 			InitializeOperatorStrings();
 
 			m_gridExpressions.Font = FontHelper.UIFont;
@@ -67,6 +68,12 @@ namespace SIL.Pa.UI.Dialogs
 
 			int buttonGap = btnCancel.Left - btnOK.Right;
 			btnApplyNow.Left = btnOK.Left - btnApplyNow.Width - (buttonGap * 3);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public FiltersDlg(PaProject project) : this()
+		{
+			m_project = project;
 
 			//pnlExpressionMatch.ColorTop = Settings.Default.GradientPanelTopColor;
 			//pnlExpressionMatch.ColorBottom = Settings.Default.GradientPanelBottomColor;
@@ -83,10 +90,10 @@ namespace SIL.Pa.UI.Dialogs
 
 			lblExpressionMatchMsgPart1.Tag = lblExpressionMatchMsgPart1.Text;
 
-			m_filterDropDown = new ExpressionValueDropDownListBox();
+			m_filterDropDown = new ExpressionValueDropDownListBox(m_project);
 			BuildFiltersGrid();
 			BuildExpressionsGrid();
-			LoadFilters(FilterHelper.CurrentFilter);
+			LoadFilters(m_project.CurrentFilter);
 			m_gridFilters.IsDirty = false;
 		}
 
@@ -97,13 +104,14 @@ namespace SIL.Pa.UI.Dialogs
 		/// and back.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void InitializeExpressionTypetrings()
+		private void InitializeExpressionTypeStrings()
 		{
 			m_expTypeToText = new Dictionary<Filter.ExpressionType, string>();
 			m_textToExpType = new Dictionary<string, Filter.ExpressionType>();
 
 			var text = App.LocalizeString(
-				"FiltersDlg.FilterExpressionTypes.Normal", "Normal", App.kLocalizationGroupDialogs);
+				"FiltersDlg.FilterExpressionTypes.Normal", "Normal",
+				App.kLocalizationGroupDialogs);
 
 			m_expTypeToText[Filter.ExpressionType.Normal] = text;
 			m_textToExpType[text] = Filter.ExpressionType.Normal;
@@ -121,7 +129,6 @@ namespace SIL.Pa.UI.Dialogs
 
 			m_expTypeToText[Filter.ExpressionType.RegExp] = text;
 			m_textToExpType[text] = Filter.ExpressionType.RegExp;
-
 
 			//kstidOtherFilterFieldName	(OTHER FILTER)	
 		}
@@ -281,14 +288,14 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosed(FormClosedEventArgs e)
 		{
-			if (FilterHelper.CurrentFilter != null && m_applyFilterOnClose)
+			if (m_project.CurrentFilter != null && m_applyFilterOnClose)
 			{
 				Hide();
 
-				if (FilterHelper.Filters.Contains(FilterHelper.CurrentFilter))
-					FilterHelper.ApplyFilter(FilterHelper.CurrentFilter, true);
+				if (m_project.FilterHelper.Filters.Contains(m_project.CurrentFilter))
+					m_project.FilterHelper.ApplyFilter(m_project.CurrentFilter, true);
 				else
-					FilterHelper.TurnOffCurrentFilter();
+					m_project.FilterHelper.TurnOffCurrentFilter();
 			}
 
 			base.OnFormClosed(e);
@@ -299,7 +306,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			// Reload the filters from the disk file since the list has been changed from
 			// the user mucking around in this dialog before the clicked cancel.
-			FilterHelper.LoadFilters();
+			m_project.FilterHelper.Load();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -330,7 +337,7 @@ namespace SIL.Pa.UI.Dialogs
 				{
 					// Make sure expressions based on phonetic search patterns are valid.
 					if (expression.ExpressionType == Filter.ExpressionType.PhoneticSrchPtrn &&
-						FilterHelper.CheckSearchQuery(expression.SearchQuery, true) == null)
+						m_project.FilterHelper.CheckSearchQuery(expression.SearchQuery, true) == null)
 					{
 						m_gridFilters.CurrentCell = m_gridFilters[kFilterNameCol, i];
 						m_gridExpressions.Focus();
@@ -345,9 +352,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
-			FilterHelper.Filters.Clear();
-			FilterHelper.Filters.AddRange(m_filterList);
-			FilterHelper.SaveFilters();
+			m_project.FilterHelper.Filters.Clear();
+			m_project.FilterHelper.Filters.AddRange(m_filterList);
+			m_project.FilterHelper.Save();
 			m_dirty = false;
 			m_gridFilters.IsDirty = false;
 			m_gridExpressions.IsDirty = false;
@@ -407,7 +414,7 @@ namespace SIL.Pa.UI.Dialogs
 			int index = 0;
 
 			if (m_filterList == null)
-				m_filterList = FilterHelper.Filters.ToList();
+				m_filterList = m_project.FilterHelper.Filters.ToList();
 
 			m_gridFilters.RowCount = m_filterList.Count;
 
@@ -434,7 +441,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_gridExpressions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
 			App.SetGridSelectionColors(m_gridExpressions, true);
 
-			var fieldNames = App.Fields.Select(f => f.DisplayName).OrderBy(n => n).ToList();
+			var fieldNames = m_project.Fields.Select(f => f.DisplayName).OrderBy(n => n).ToList();
 		
 			// Add the "field" that represents another filter, rather than a field in the data.
 			fieldNames.Add(FilterExpression.OtherFilterField);
@@ -512,7 +519,7 @@ namespace SIL.Pa.UI.Dialogs
 				{
 					string fieldName = expression.FieldName;
 					if (fieldName != FilterExpression.OtherFilterField)
-						fieldName = App.GetFieldForName(fieldName).DisplayName;
+						fieldName = m_project.GetFieldForName(fieldName).DisplayName;
 
 					int i = m_gridExpressions.Rows.Add(fieldName, m_operatorToText[expression.Operator],
 						expression.Pattern, m_expTypeToText[expression.ExpressionType],
@@ -673,7 +680,7 @@ namespace SIL.Pa.UI.Dialogs
 			else if (e.ColumnIndex == kValueCol)
 			{
 				var fieldName = m_gridExpressions[kFieldCol, e.RowIndex].Value as string;
-				var field = App.GetFieldForName(fieldName);
+				var field = m_project.GetFieldForName(fieldName);
 				e.CellStyle.Font = (field != null ? field.Font : FontHelper.UIFont);
 			}
 		}
@@ -861,7 +868,7 @@ namespace SIL.Pa.UI.Dialogs
 				// Force the field to be phonetic and the operation to be a match, then
 				// set those cells to readonly because those values are the only valid
 				// ones for the phonetic search pattern expression type.
-				m_gridExpressions[kFieldCol, row].Value = App.GetPhoneticField().DisplayName;
+				m_gridExpressions[kFieldCol, row].Value = m_project.GetPhoneticField().DisplayName;
 				m_gridExpressions[kOpCol, row].Value = m_operatorToText[Filter.Operator.Matches];
 				m_gridExpressions[kFieldCol, row].ReadOnly = true;
 				m_gridExpressions[kOpCol, row].ReadOnly = true;
@@ -955,7 +962,7 @@ namespace SIL.Pa.UI.Dialogs
 						return;
 				}
 
-				FilterHelper.ApplyFilter(CurrentFilter, true);
+				m_project.FilterHelper.ApplyFilter(CurrentFilter, true);
 				m_applyFilterOnClose = false;
 			}
 		}
@@ -997,7 +1004,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (fieldName != FilterExpression.OtherFilterField)
 			{
-				var field = App.Fields.SingleOrDefault(f => f.DisplayName == fieldName);
+				var field = m_project.Fields.SingleOrDefault(f => f.DisplayName == fieldName);
 				if (field != null)
 					fieldName = field.Name;
 			}
@@ -1098,6 +1105,14 @@ namespace SIL.Pa.UI.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	internal class ExpressionValueDropDownListBox : CellCustomDropDownList
 	{
+		private readonly PaProject m_project;
+
+		/// ------------------------------------------------------------------------------------
+		internal ExpressionValueDropDownListBox(PaProject project)
+		{
+			m_project = project;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		internal void ShowFilters(DataGridViewCell cell, IEnumerable<Filter> filters)
 		{
@@ -1108,20 +1123,20 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		internal void ShowFieldValues(DataGridViewCell cell, string fieldName)
 		{
-			var field = (App.GetFieldForName(fieldName) ??
-				App.Fields.SingleOrDefault(f => f.DisplayName == fieldName));
+			var field = (m_project.GetFieldForName(fieldName) ??
+				m_project.Fields.SingleOrDefault(f => f.DisplayName == fieldName));
 
 			if (field == null)
 				return;
 
 			Font = field.Font;
 
-			var list1 = from entry in App.WordCache
+			var list1 = from entry in m_project.WordCache
 						where !string.IsNullOrEmpty(entry[field.Name])
 						select entry[field.Name];
 
 			// Make sure to include values that are filtered out.
-			var list2 = from entry in App.RecordCache.WordsNotInCurrentFilter
+			var list2 = from entry in m_project.RecordCache.WordsNotInCurrentFilter
 						where !string.IsNullOrEmpty(entry[field.Name])
 						select entry[field.Name];
 

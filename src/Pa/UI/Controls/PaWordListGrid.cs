@@ -8,6 +8,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using Microsoft.Win32;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
@@ -41,7 +42,6 @@ namespace SIL.Pa.UI.Controls
 		private int m_currPlaybackRow = -2;
 		private AudioPlayer m_audioPlayer;
 		private int m_playbackSpeed;
-		private string m_dataSourcePathFieldName;
 		private PaField m_groupByField;
 		private Label m_noCIEResultsMsg;
 		private ToolTip m_audioFilePathToolTip;
@@ -49,7 +49,6 @@ namespace SIL.Pa.UI.Controls
 		private bool m_ToggleGroupExpansion;
 
 		private LocalWindowsHook m_kbHook;
-		private PaFieldInfoList m_fieldInfoList;
 		private readonly string m_fwRootDataDir;
 		private readonly bool m_drawFocusRectAroundCurrCell;
 		private readonly Keys m_stopPlaybackKey = Keys.None;
@@ -104,11 +103,18 @@ namespace SIL.Pa.UI.Controls
 			: this()
 		{
 			Cache = cache;
+
 			OwningViewType = owningViewType;
 
-			m_audioFileFieldName = FieldInfoList.AudioFileField.FieldName;
-			m_audioFileOffsetFieldName = FieldInfoList.AudioFileOffsetField.FieldName;
-			m_audioFileLengthFieldName = FieldInfoList.AudioFileLengthField.FieldName;
+			var field = App.Project.GetAudioFileField();
+			m_audioFileFieldName = (field != null ? field.Name : null);
+
+			field = App.Project.GetAudioOffsetField();
+			m_audioFileOffsetFieldName = (field != null ? field.Name : null);
+
+			field = App.Project.GetAudioLengthField();
+			m_audioFileLengthFieldName = (field != null ? field.Name : null);
+			
 			m_spkrImage = Properties.Resources.kimidSpeaker;
 			OnSortingOptionsChanged(performInitialSort);
 		}
@@ -171,29 +177,13 @@ namespace SIL.Pa.UI.Controls
 			if (string.IsNullOrEmpty(key))
 				return null;
 
-			using (Microsoft.Win32.RegistryKey regKey =
-				Microsoft.Win32.Registry.LocalMachine.OpenSubKey(key))
+			using (RegistryKey regKey = Registry.LocalMachine.OpenSubKey(key))
 			{
 				if (regKey != null)
-				{
-					return regKey.GetValue(FwDBAccessInfo.RootDataDirValue, null)
-						as string;
-				}
+					return regKey.GetValue(FwDBAccessInfo.RootDataDirValue, null) as string;
 			}
 
 			return null;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private PaFieldInfoList FieldInfoList
-		{
-			get
-			{
-				if (m_fieldInfoList == null || m_fieldInfoList.Count == 0)
-					m_fieldInfoList = App.Project.FieldInfo;
-
-				return m_fieldInfoList ?? (m_fieldInfoList = new PaFieldInfoList());
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -206,11 +196,8 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_suspendSavingColumnChanges = true;
 
-			foreach (PaFieldInfo fieldInfo in FieldInfoList)
-			{
-				if (fieldInfo.DisplayIndexInGrid >= 0)
-					AddNewColumn(fieldInfo);
-			}
+			foreach (var field in App.Project.Fields.Where(f => f.DisplayIndexInGrid >= 0))
+				AddNewColumn(field);
 
 			RefreshColumnFonts(false);
 			m_suspendSavingColumnChanges = false;
@@ -222,25 +209,25 @@ namespace SIL.Pa.UI.Controls
 		/// object.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected virtual DataGridViewColumn AddNewColumn(PaFieldInfo fieldInfo)
+		protected virtual DataGridViewColumn AddNewColumn(PaField field)
 		{
-			DataGridViewColumn col = SilGrid.CreateTextBoxColumn(fieldInfo.FieldName);
-			col.HeaderText = fieldInfo.DisplayText;
-			col.DataPropertyName = fieldInfo.FieldName;
-			col.DefaultCellStyle.Font = fieldInfo.Font;
+			DataGridViewColumn col = SilGrid.CreateTextBoxColumn(field.Name);
+			col.HeaderText = field.DisplayName;
+			col.DataPropertyName = field.Name;
+			col.DefaultCellStyle.Font = field.Font;
 
 			// Allow right to left display for any field but phonetic.
-			if (fieldInfo.RightToLeft && !fieldInfo.IsPhonetic)
+			if (field.RightToLeft && field.Type != FieldType.Phonetic)
 			{
 				col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 				col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
 			}
 
-			col.SortMode = (fieldInfo.IsPhonetic ?
+			col.SortMode = (field.Type == FieldType.Phonetic ?
 				DataGridViewColumnSortMode.Programmatic :
 				DataGridViewColumnSortMode.Automatic);
 
-			int i = fieldInfo.DisplayIndexInGrid;
+			int i = field.DisplayIndexInGrid;
 			if (i < ColumnCount)
 			{
 				while (i < ColumnCount && Columns[i].Frozen)
@@ -248,17 +235,17 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			col.DisplayIndex = i;
-			col.Visible = fieldInfo.VisibleInGrid;
-			if (fieldInfo.WidthInGrid > -1)
-				col.Width = fieldInfo.WidthInGrid;
+			col.Visible = field.VisibleInGrid;
+			if (field.WidthInGrid > -1)
+				col.Width = field.WidthInGrid;
 
 			Columns.Add(col);
 
 			// Save this because we'll need it later.
-			if (fieldInfo.IsPhonetic)
-				m_phoneticColName = fieldInfo.FieldName;
-			else if (fieldInfo.IsAudioFile)
-				m_audioFileColName = fieldInfo.FieldName;
+			if (field.Type == FieldType.Phonetic)
+				m_phoneticColName = field.Name;
+			else if (field.Type == FieldType.AudioFilePath)
+				m_audioFileColName = field.Name;
 
 			return col;
 		}
@@ -438,19 +425,26 @@ namespace SIL.Pa.UI.Controls
 			offset = -1;
 			length = -1;
 
-			WordListCacheEntry wlentry = GetWordEntry(rowIndex);
+			if (string.IsNullOrEmpty(m_audioFileFieldName))
+				return false;
+
+			var wlentry = GetWordEntry(rowIndex);
 			if (wlentry == null)
 				return false;
 
-			string strVal = wlentry[m_audioFileOffsetFieldName];
+			var strVal = (m_audioFileOffsetFieldName == null ?
+				"0" : wlentry[m_audioFileOffsetFieldName]);
+			
 			if (!long.TryParse(strVal, out offset))
 				return false;
 
-			strVal = wlentry[m_audioFileLengthFieldName];
+			strVal = (m_audioFileLengthFieldName == null ?
+				"0" : wlentry[m_audioFileLengthFieldName]);
+
 			if (!long.TryParse(strVal, out length))
 				return false;
 
-			string audioFilePath = wlentry[m_audioFileFieldName];
+			var audioFilePath = wlentry[m_audioFileFieldName];
 			if (audioFilePath == null)
 				return false;
 
@@ -489,16 +483,9 @@ namespace SIL.Pa.UI.Controls
 				if (TryToFindAudioFile(entry, audioFilePath, m_fwRootDataDir))
 					return true;
 			}
-			else if (m_dataSourcePathFieldName == null)
-			{
-				// Get the name of the data source path field name, if it hasn't already been done.
-				// The data source path is only relevant for non FW data sources.
-				if (FieldInfoList.DataSourcePathField != null)
-					m_dataSourcePathFieldName = FieldInfoList.DataSourcePathField.FieldName;
-			}
 
 			// Check a path relative to the data source file's path.
-			if (TryToFindAudioFile(entry, audioFilePath, entry[m_dataSourcePathFieldName]))
+			if (TryToFindAudioFile(entry, audioFilePath, entry[PaField.kDataSourcePathFieldName]))
 				return true;
 
 			// Check a path relative to the project file's path
@@ -600,7 +587,7 @@ namespace SIL.Pa.UI.Controls
 				return false;
 			}
 
-			GroupByField = App.GetFieldForName(itemProps.Name);
+			GroupByField = App.Project.GetFieldForName(itemProps.Name);
 			return true;
 		}
 
@@ -1019,15 +1006,17 @@ namespace SIL.Pa.UI.Controls
 				
 				string fieldName = Columns[e.ColumnIndex].DataPropertyName;
 
-				// When the entry is from a data source that was parsed used the one-to-one
+				// When the entry is from a data source that was parsed using the one-to-one
 				// option and the field is a parsed field, then handle that case specially.
 				// In that case, we don't want to display the record entry's value when the
 				// word cache entry's value is null. We just want to display nothing. PA-709
 				if (entry.WordCacheEntry.RecordEntry.DataSource.ParseType ==
 					DataSourceParseType.OneToOne)
 				{
-					PaFieldInfo fieldInfo = FieldInfoList[fieldName];
-					if (fieldInfo != null && fieldInfo.IsParsed)
+					var field = entry.WordCacheEntry.RecordEntry.DataSource.FieldMappings
+						.SingleOrDefault(m => m.Field.Name == fieldName);
+
+					if (field.IsParsed)
 					{
 						e.Value = entry.WordCacheEntry.GetField(fieldName, false);
 						return;
@@ -1847,7 +1836,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 			}
 
-			WordListCacheEntry wlentry = GetWordEntry(e.RowIndex);
+			var wlentry = GetWordEntry(e.RowIndex);
 			if (wlentry == null)
 			{
 				base.OnCellPainting(e);
@@ -1858,8 +1847,9 @@ namespace SIL.Pa.UI.Controls
 			m_currPaintingCellSelected =
 				((e.State & DataGridViewElementStates.Selected) > 0);
 
-			if (Columns[e.ColumnIndex].Name == FieldInfoList.AudioFileField.FieldName ||
-				Columns[e.ColumnIndex].Name == FieldInfoList.DataSourcePathField.FieldName)
+			var field = App.Project.GetFieldForName(Columns[e.ColumnIndex].Name);
+
+			if (field.Type == FieldType.AudioFilePath || field.Type == FieldType.GeneralFilePath)
 			{
 				DrawFilePath(e);
 				e.Handled = true;
@@ -2624,9 +2614,9 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (updateColumnFonts)
 				{
-					PaFieldInfo fieldInfo = FieldInfoList[col.Name];
-					if (fieldInfo != null)
-						col.DefaultCellStyle.Font = fieldInfo.Font;
+					var field = App.Project.GetFieldForName(col.Name);
+					if (field != null)
+						col.DefaultCellStyle.Font = field.Font;
 				}
 
 				if (col.Visible && col.DefaultCellStyle.Font != null)
@@ -2770,7 +2760,7 @@ namespace SIL.Pa.UI.Controls
 				sortOptions = App.Project.DistributionChartVwSortOptions.Clone();
 
 			if (sortOptions == null)
-				sortOptions = new SortOptions(true);
+				sortOptions = new SortOptions(true, App.Project);
 
 			// If the default sort options should not change as the user clicks headings or
 			// changes phonetic sort options from the phonetic sort option drop-down, then
@@ -2790,17 +2780,8 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual bool OnDataSourcesModified(object args)
 		{
-			m_fieldInfoList = null;
-
-			if (App.Project == null || FieldInfoList.Count == 0)
-				return false;
-			
 			m_suspendSavingColumnChanges = true;
 
 			// Hide the first column (collapse/expand group) so it won't mess up
@@ -2818,34 +2799,34 @@ namespace SIL.Pa.UI.Controls
 				else
 				{
 					// If there's no longer a field for the column, then remove it.
-					PaFieldInfo fieldInfo = FieldInfoList[Columns[i].Name];
-					if (fieldInfo == null)
+					var field = App.Project.GetFieldForName(Columns[i].Name);
+					if (field == null)
 						Columns.RemoveAt(i);
 				}
 			}
 
 			// Make sure there are columns for new fields
 			// that may have been added to the project.
-			foreach (PaFieldInfo fieldInfo in FieldInfoList)
+			foreach (var field in App.Project.Fields)
 			{
-				var col = Columns[fieldInfo.FieldName];
+				var col = Columns[field.Name];
 				if (col == null)
 				{
-					if (fieldInfo.DisplayIndexInGrid < 0)
+					if (field.DisplayIndexInGrid < 0)
 						continue;
 
-					col = AddNewColumn(fieldInfo);
+					col = AddNewColumn(field);
 				}
 
-				col.HeaderText = fieldInfo.DisplayText;
+				col.HeaderText = field.DisplayName;
 
-				col.DefaultCellStyle.Alignment = (fieldInfo.RightToLeft && !fieldInfo.IsPhonetic ?
+				col.DefaultCellStyle.Alignment = (field.RightToLeft && field.Type != FieldType.Phonetic ?
 					DataGridViewContentAlignment.MiddleRight : DataGridViewContentAlignment.MiddleLeft);
 
-				col.HeaderCell.Style.Alignment = (fieldInfo.RightToLeft && !fieldInfo.IsPhonetic ?
+				col.HeaderCell.Style.Alignment = (field.RightToLeft && field.Type != FieldType.Phonetic ?
 					DataGridViewContentAlignment.MiddleRight : DataGridViewContentAlignment.MiddleLeft);
 				
-				if (fieldInfo.DisplayIndexInGrid < 0)
+				if (field.DisplayIndexInGrid < 0)
 					col.Visible = false;
 				else
 				{
@@ -2859,14 +2840,14 @@ namespace SIL.Pa.UI.Controls
 						// make sure the hierarchical grid columns stay at the beginning of
 						// the displayed columns.
 						col.DisplayIndex =
-							fieldInfo.DisplayIndexInGrid + hierarchicalGridColumnCount;
+							field.DisplayIndexInGrid + hierarchicalGridColumnCount;
 					}
 					catch
 					{
 						col.DisplayIndex = Columns.Count - 1;
 					}
 
-					col.Visible = fieldInfo.VisibleInGrid;
+					col.Visible = field.VisibleInGrid;
 				}
 			}
 
@@ -3569,7 +3550,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void PlaybackSingleEntry(WordCacheEntry entry)
 		{
-			RecordCacheEntry recEntry = entry.RecordEntry;
+			var recEntry = entry.RecordEntry;
 			if (recEntry == null || m_audioPlayer == null)
 				return;
 
@@ -3584,13 +3565,13 @@ namespace SIL.Pa.UI.Controls
 			// If the speed is not 100% then use Speech Analyzer to playback the utterance.
 			if (m_playbackSpeed != 100f)
 			{
-				PlaybackEntryUsingSA(recEntry.DataSource.DataSourceType, audioFile, offset, length);
+				PlaybackEntryUsingSA(recEntry.DataSource.Type, audioFile, offset, length);
 				return;
 			}
 
 			// For SA wave files, the offset and length are in bytes, not milliseconds.
 			// Therefore, we need to calculate what those values are in milliseconds.
-			if (recEntry.DataSource.DataSourceType == DataSourceType.SA)
+			if (recEntry.DataSource.Type == DataSourceType.SA)
 			{
 				offset = AudioPlayer.ByteValueToMilliseconds(offset, recEntry.Channels,
 					recEntry.SamplesPerSecond, recEntry.BitsPerSample);
@@ -3623,7 +3604,7 @@ namespace SIL.Pa.UI.Controls
 
 			// If AlteredSpeedPlayback returns null it means SA couldn't be found.
 			// Therefore, abort trying to playback anymore utterances.
-			Process saPrs = m_audioPlayer.AlteredSpeedPlayback(FindForm().Text,
+			var saPrs = m_audioPlayer.AlteredSpeedPlayback(FindForm().Text,
 				audioFile, offset, offset + length, m_playbackSpeed);
 
 			if (saPrs == null)

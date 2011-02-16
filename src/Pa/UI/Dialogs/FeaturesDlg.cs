@@ -18,15 +18,12 @@ namespace SIL.Pa.UI.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class FeaturesDlg : OKCancelDlgBase
 	{
+		private readonly PaProject m_project;
 		private FeatureListView m_lvAFeatures;
 		private FeatureListView m_lvBFeatures;
 		private ToolTip m_phoneToolTip;
 		private List<IPhoneInfo> m_phones;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public FeaturesDlg()
 		{
@@ -39,6 +36,12 @@ namespace SIL.Pa.UI.Dialogs
 			tabFeatures.Font = FontHelper.UIFont;
 			lblAFeatures.Font = new Font(FontHelper.UIFont, FontStyle.Bold);
 			m_phoneToolTip = new ToolTip();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public FeaturesDlg(PaProject project) : this()
+		{
+			m_project = project;
 
 			SetupFeatureLists();
 			BuildPhoneGrid();
@@ -48,10 +51,6 @@ namespace SIL.Pa.UI.Dialogs
 			tblLayoutButtons.Controls.Add(btnReset, 0, 0);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
@@ -138,15 +137,11 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void LoadPhoneGrid()
 		{
 			gridPhones.Rows.Clear();
 
-			m_phones = (from x in App.PhoneCache.Values
+			m_phones = (from x in m_project.PhoneCache.Values
 						orderby x.POAKey
 						select x.Clone()).ToList();
 
@@ -184,10 +179,6 @@ namespace SIL.Pa.UI.Dialogs
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
@@ -365,10 +356,6 @@ namespace SIL.Pa.UI.Dialogs
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void btnReset_Click(object sender, EventArgs e)
 		{
 			int i = gridPhones.CurrentCellAddress.Y;
@@ -389,19 +376,11 @@ namespace SIL.Pa.UI.Dialogs
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void HandleArticulatoryFeatureCheckChanged(object sender, FeatureMask newMask)
 		{
 			lblAFeatures.Text = m_lvAFeatures.FormattedFeaturesString;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandleTableLayoutPaint(object sender, PaintEventArgs e)
 		{
@@ -410,10 +389,6 @@ namespace SIL.Pa.UI.Dialogs
 				rc.Right - 1, rc.Bottom - 6);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void tabFeatures_SizeChanged(object sender, EventArgs e)
 		{

@@ -131,10 +131,10 @@ namespace SIL.Pa.UI.Controls
 			this.rbItem3rd.BackColor = System.Drawing.Color.Transparent;
 			this.rbItem3rd.Name = "rbItem3rd";
 			this.rbItem3rd.UseVisualStyleBackColor = false;
-			this.rbItem3rd.Enter += new System.EventHandler(this.HandleAdvancedOptionItemEnter);
+			this.rbItem3rd.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.rbItem3rd.Click += new System.EventHandler(this.HandleCheckedColumn2);
-			this.rbItem3rd.Leave += new System.EventHandler(this.HandleAdvancedOptionItemLeave);
-			this.rbItem3rd.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleAdvancedOptionItemPaint);
+			this.rbItem3rd.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
+			this.rbItem3rd.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// rbBefore3rd
 			// 
@@ -142,10 +142,10 @@ namespace SIL.Pa.UI.Controls
 			this.rbBefore3rd.BackColor = System.Drawing.Color.Transparent;
 			this.rbBefore3rd.Name = "rbBefore3rd";
 			this.rbBefore3rd.UseVisualStyleBackColor = false;
-			this.rbBefore3rd.Enter += new System.EventHandler(this.HandleAdvancedOptionItemEnter);
+			this.rbBefore3rd.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.rbBefore3rd.Click += new System.EventHandler(this.HandleCheckedColumn2);
-			this.rbBefore3rd.Leave += new System.EventHandler(this.HandleAdvancedOptionItemLeave);
-			this.rbBefore3rd.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleAdvancedOptionItemPaint);
+			this.rbBefore3rd.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
+			this.rbBefore3rd.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// rbAfter3rd
 			// 
@@ -153,10 +153,10 @@ namespace SIL.Pa.UI.Controls
 			this.rbAfter3rd.BackColor = System.Drawing.Color.Transparent;
 			this.rbAfter3rd.Name = "rbAfter3rd";
 			this.rbAfter3rd.UseVisualStyleBackColor = false;
-			this.rbAfter3rd.Enter += new System.EventHandler(this.HandleAdvancedOptionItemEnter);
+			this.rbAfter3rd.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.rbAfter3rd.Click += new System.EventHandler(this.HandleCheckedColumn2);
-			this.rbAfter3rd.Leave += new System.EventHandler(this.HandleAdvancedOptionItemLeave);
-			this.rbAfter3rd.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleAdvancedOptionItemPaint);
+			this.rbAfter3rd.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
+			this.rbAfter3rd.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// pnlAdvSort0
 			// 
@@ -173,10 +173,10 @@ namespace SIL.Pa.UI.Controls
 			this.rbItem1st.BackColor = System.Drawing.Color.Transparent;
 			this.rbItem1st.Name = "rbItem1st";
 			this.rbItem1st.UseVisualStyleBackColor = false;
-			this.rbItem1st.Enter += new System.EventHandler(this.HandleAdvancedOptionItemEnter);
+			this.rbItem1st.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.rbItem1st.Click += new System.EventHandler(this.HandleCheckedColumn0);
-			this.rbItem1st.Leave += new System.EventHandler(this.HandleAdvancedOptionItemLeave);
-			this.rbItem1st.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleAdvancedOptionItemPaint);
+			this.rbItem1st.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
+			this.rbItem1st.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// rbBefore1st
 			// 
@@ -185,10 +185,10 @@ namespace SIL.Pa.UI.Controls
 			this.rbBefore1st.Name = "rbBefore1st";
 			this.rbBefore1st.Tag = "";
 			this.rbBefore1st.UseVisualStyleBackColor = false;
-			this.rbBefore1st.Enter += new System.EventHandler(this.HandleAdvancedOptionItemEnter);
+			this.rbBefore1st.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.rbBefore1st.Click += new System.EventHandler(this.HandleCheckedColumn0);
-			this.rbBefore1st.Leave += new System.EventHandler(this.HandleAdvancedOptionItemLeave);
-			this.rbBefore1st.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleAdvancedOptionItemPaint);
+			this.rbBefore1st.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
+			this.rbBefore1st.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// rbAfter1st
 			// 
@@ -196,10 +196,10 @@ namespace SIL.Pa.UI.Controls
 			this.rbAfter1st.BackColor = System.Drawing.Color.Transparent;
 			this.rbAfter1st.Name = "rbAfter1st";
 			this.rbAfter1st.UseVisualStyleBackColor = false;
-			this.rbAfter1st.Enter += new System.EventHandler(this.HandleAdvancedOptionItemEnter);
+			this.rbAfter1st.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.rbAfter1st.Click += new System.EventHandler(this.HandleCheckedColumn0);
-			this.rbAfter1st.Leave += new System.EventHandler(this.HandleAdvancedOptionItemLeave);
-			this.rbAfter1st.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleAdvancedOptionItemPaint);
+			this.rbAfter1st.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
+			this.rbAfter1st.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// pnlAdvSort1
 			// 
@@ -216,10 +216,10 @@ namespace SIL.Pa.UI.Controls
 			this.rbAfter2nd.BackColor = System.Drawing.Color.Transparent;
 			this.rbAfter2nd.Name = "rbAfter2nd";
 			this.rbAfter2nd.UseVisualStyleBackColor = false;
-			this.rbAfter2nd.Enter += new System.EventHandler(this.HandleAdvancedOptionItemEnter);
+			this.rbAfter2nd.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.rbAfter2nd.Click += new System.EventHandler(this.HandleCheckedColumn1);
-			this.rbAfter2nd.Leave += new System.EventHandler(this.HandleAdvancedOptionItemLeave);
-			this.rbAfter2nd.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleAdvancedOptionItemPaint);
+			this.rbAfter2nd.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
+			this.rbAfter2nd.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// rbBefore2nd
 			// 
@@ -227,10 +227,10 @@ namespace SIL.Pa.UI.Controls
 			this.rbBefore2nd.BackColor = System.Drawing.Color.Transparent;
 			this.rbBefore2nd.Name = "rbBefore2nd";
 			this.rbBefore2nd.UseVisualStyleBackColor = false;
-			this.rbBefore2nd.Enter += new System.EventHandler(this.HandleAdvancedOptionItemEnter);
+			this.rbBefore2nd.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.rbBefore2nd.Click += new System.EventHandler(this.HandleCheckedColumn1);
-			this.rbBefore2nd.Leave += new System.EventHandler(this.HandleAdvancedOptionItemLeave);
-			this.rbBefore2nd.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleAdvancedOptionItemPaint);
+			this.rbBefore2nd.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
+			this.rbBefore2nd.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// rbItem2nd
 			// 
@@ -238,10 +238,10 @@ namespace SIL.Pa.UI.Controls
 			this.rbItem2nd.BackColor = System.Drawing.Color.Transparent;
 			this.rbItem2nd.Name = "rbItem2nd";
 			this.rbItem2nd.UseVisualStyleBackColor = false;
-			this.rbItem2nd.Enter += new System.EventHandler(this.HandleAdvancedOptionItemEnter);
+			this.rbItem2nd.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.rbItem2nd.Click += new System.EventHandler(this.HandleCheckedColumn1);
-			this.rbItem2nd.Leave += new System.EventHandler(this.HandleAdvancedOptionItemLeave);
-			this.rbItem2nd.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleAdvancedOptionItemPaint);
+			this.rbItem2nd.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
+			this.rbItem2nd.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// chkAfterRL
 			// 
@@ -249,10 +249,10 @@ namespace SIL.Pa.UI.Controls
 			this.chkAfterRL.BackColor = System.Drawing.Color.Transparent;
 			this.chkAfterRL.Name = "chkAfterRL";
 			this.chkAfterRL.UseVisualStyleBackColor = false;
-			this.chkAfterRL.Enter += new System.EventHandler(this.HandleAdvancedOptionItemEnter);
+			this.chkAfterRL.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.chkAfterRL.Click += new System.EventHandler(this.HandleRightToLeftCheckBoxChecked);
-			this.chkAfterRL.Leave += new System.EventHandler(this.HandleAdvancedOptionItemLeave);
-			this.chkAfterRL.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleAdvancedOptionItemPaint);
+			this.chkAfterRL.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
+			this.chkAfterRL.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// chkItemRL
 			// 
@@ -260,10 +260,10 @@ namespace SIL.Pa.UI.Controls
 			this.chkItemRL.BackColor = System.Drawing.Color.Transparent;
 			this.chkItemRL.Name = "chkItemRL";
 			this.chkItemRL.UseVisualStyleBackColor = false;
-			this.chkItemRL.Enter += new System.EventHandler(this.HandleAdvancedOptionItemEnter);
+			this.chkItemRL.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.chkItemRL.Click += new System.EventHandler(this.HandleRightToLeftCheckBoxChecked);
-			this.chkItemRL.Leave += new System.EventHandler(this.HandleAdvancedOptionItemLeave);
-			this.chkItemRL.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleAdvancedOptionItemPaint);
+			this.chkItemRL.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
+			this.chkItemRL.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// chkBeforeRL
 			// 
@@ -271,10 +271,10 @@ namespace SIL.Pa.UI.Controls
 			this.chkBeforeRL.BackColor = System.Drawing.Color.Transparent;
 			this.chkBeforeRL.Name = "chkBeforeRL";
 			this.chkBeforeRL.UseVisualStyleBackColor = false;
-			this.chkBeforeRL.Enter += new System.EventHandler(this.HandleAdvancedOptionItemEnter);
+			this.chkBeforeRL.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.chkBeforeRL.Click += new System.EventHandler(this.HandleRightToLeftCheckBoxChecked);
-			this.chkBeforeRL.Leave += new System.EventHandler(this.HandleAdvancedOptionItemLeave);
-			this.chkBeforeRL.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleAdvancedOptionItemPaint);
+			this.chkBeforeRL.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
+			this.chkBeforeRL.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// lblBefore
 			// 

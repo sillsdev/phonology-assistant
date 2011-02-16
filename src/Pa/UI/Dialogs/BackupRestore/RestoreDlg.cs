@@ -266,7 +266,7 @@ namespace SIL.Pa.UI.Dialogs
 				m_progressDlg.prgressBar.Value++;
 
 				// Skip FieldWorks data source since we don't backup those.
-				if (dataSource.DataSourceType != DataSourceType.FW)
+				if (dataSource.Type != DataSourceType.FW)
 				{
 					int i = ProcessDataSourceFromPap(dataSource);
 					dataSource.DataSourceFile = (i < 0 ? "X" : i.ToString());
@@ -328,7 +328,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			// If the data source is an SA audio file, then make sure to include
 			// the audio file's companion transcriptions file.
-			if (dataSource.DataSourceType == DataSourceType.SA)
+			if (dataSource.Type == DataSourceType.SA)
 			{
 				string saxmlFile = Path.ChangeExtension(fileOnly, "saxml");
 				if (File.Exists(Path.Combine(m_tmpFolder, saxmlFile)))

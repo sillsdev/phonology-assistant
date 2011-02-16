@@ -49,7 +49,7 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private void Initialize(PaDataSource ds)
 		{
-			if (ds.DataSourceType == DataSourceType.FW && ds.FwSourceDirectFromDB)
+			if (ds.Type == DataSourceType.FW && ds.FwSourceDirectFromDB)
 			{
 				CheckExistenceOfFwDatabase(ds);
 			}
@@ -69,7 +69,7 @@ namespace SIL.Pa.DataSource
 			if (ds.SkipLoadingBecauseOfProblem)
 				return;
 
-			if (ds.DataSourceType == DataSourceType.FW7 && !FwDBUtils.IsFw7Installed)
+			if (ds.Type == DataSourceType.FW7 && !FwDBUtils.IsFw7Installed)
 			{
 				var msg = App.LocalizeString("FieldWorks7NotInstalledMsg",
 				    "FieldWorks 7.0 (or later) is not installed. It must be installed\nin order for {0} to read the data source\n\n'{1}'.\n\nThis data source will be skipped.",
@@ -80,7 +80,7 @@ namespace SIL.Pa.DataSource
 				return;
 			}
 
-			if (ds.DataSourceType != DataSourceType.XML && ds.DataSourceType != DataSourceType.Unknown)
+			if (ds.Type != DataSourceType.XML && ds.Type != DataSourceType.Unknown)
 			{
 				m_dataSources.Add(ds);
 				m_totalLinesToRead += ds.TotalLinesInFile;
@@ -98,7 +98,7 @@ namespace SIL.Pa.DataSource
 		{
 			bool alreadyTriedToStartSQLServer = false;
 
-			foreach (var ds in dataSourcesToLoad.Where(ds => ds.DataSourceType == DataSourceType.FW && ds.FwSourceDirectFromDB))
+			foreach (var ds in dataSourcesToLoad.Where(ds => ds.Type == DataSourceType.FW && ds.FwSourceDirectFromDB))
 			{
 				if (!alreadyTriedToStartSQLServer && FwDBUtils.StartSQLServer(true))
 					return;
@@ -174,15 +174,11 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		public RecordCache Read()
 		{
-			if (App.RecordCache != null)
-				App.RecordCache.Dispose();
-
 			Application.DoEvents();
 			TempRecordCache.Dispose();
-			m_recCache = new RecordCache();
-			App.RecordCache = m_recCache;
+			m_recCache = new RecordCache(m_project);
 			App.InitializeProgressBar(string.Empty, m_totalLinesToRead);
-			App.IPASymbolCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
+			App.IPASymbolCache.ClearUndefinedCharacterCollection();
 
 			foreach (var ds in m_dataSources)
 			{
@@ -194,7 +190,7 @@ namespace SIL.Pa.DataSource
 					App.MsgMediator.SendMessage("BeforeReadingDataSource", ds);
 					bool readSuccess = true;
 
-					switch (ds.DataSourceType)
+					switch (ds.Type)
 					{
 						case DataSourceType.Toolbox:
 						case DataSourceType.SFM: readSuccess = ReadSFMFile(ds); break;
@@ -241,13 +237,13 @@ namespace SIL.Pa.DataSource
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static void SetupToReadDataSource(PaDataSource ds)
+		private void SetupToReadDataSource(PaDataSource ds)
 		{
 			App.IPASymbolCache.UndefinedCharacters.CurrentDataSourceName =
-				((ds.DataSourceType == DataSourceType.FW || ds.DataSourceType == DataSourceType.FW7) &&
+				((ds.Type == DataSourceType.FW || ds.Type == DataSourceType.FW7) &&
 				ds.FwDataSourceInfo != null ? ds.FwDataSourceInfo.ToString() : Path.GetFileName(ds.DataSourceFile));
 
-			App.IPASymbolCache.LogUndefinedCharactersWhenParsing = true;
+			m_project.PhoneticParser.LogUndefinedCharactersWhenParsing = true;
 
 			var msg = App.LocalizeString("ReadingDataSourceProgressMsg", "Reading {0}", App.kLocalizationGroupInfoMsg);
 			msg = string.Format(msg, ds.DisplayTextWhenReading);
@@ -283,14 +279,16 @@ namespace SIL.Pa.DataSource
 			var fieldNames = new List<string>();
 			for (int i = 0; i < reader.FieldCount; i++)
 			{
-				var fieldInfo = m_project.FieldInfo.GetFieldFromFwQueryFieldName(reader.GetName(i));
-				fieldNames.Add(fieldInfo != null ? fieldInfo.FieldName : null);
+				// TODO: Fix for new system
+				
+				//				var field = m_project.FieldInfo.GetFieldFromFwQueryFieldName(reader.GetName(i));
+	//			fieldNames.Add(field != null ? fieldInfo.FieldName : null);
 			}
 
 			while (reader.Read())
 			{
 				// Make a new record entry.
-				m_recCacheEntry = new RecordCacheEntry(false);
+				m_recCacheEntry = new RecordCacheEntry(false, m_project);
 				m_recCacheEntry.DataSource = ds;
 				m_recCacheEntry.NeedsParsing = false;
 				m_recCacheEntry.WordEntries = new List<WordCacheEntry>();
@@ -310,11 +308,11 @@ namespace SIL.Pa.DataSource
 					m_recCacheEntry.SetValue(fieldNames[i], reader[i].ToString());
 					wentry.SetValue(fieldNames[i], reader[i].ToString());
 
-					if (fieldNames[i] != m_project.FieldInfo.AudioFileField.FieldName)
+					if (fieldNames[i] != m_project.GetAudioFileField().Name)
 						continue;
-					
-					var lengthField = m_project.FieldInfo.AudioFileLengthField.FieldName;
-					var offsetField = m_project.FieldInfo.AudioFileOffsetField.FieldName;
+
+					var lengthField = m_project.GetAudioLengthField().Name;
+					var offsetField = m_project.GetAudioOffsetField().Name;
 
 					if (wentry[lengthField] == null)
 						wentry.SetValue(lengthField, "0");
@@ -339,7 +337,7 @@ namespace SIL.Pa.DataSource
 			foreach (var entry in lexEntries.Select(lx => lx.LexemeForm.GetString(eticWsHvo)))
 			{
 				// Make a new record entry.
-				m_recCacheEntry = new RecordCacheEntry(false);
+				m_recCacheEntry = new RecordCacheEntry(false, m_project);
 				m_recCacheEntry.DataSource = ds;
 				m_recCacheEntry.NeedsParsing = false;
 				m_recCacheEntry.WordEntries = new List<WordCacheEntry>();
@@ -365,7 +363,7 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private void ReadPaXmlFile(PaDataSource ds)
 		{
-			var cache = RecordCache.Load(ds);
+			var cache = RecordCache.Load(ds, m_project);
 			if (cache == null)
 				return;
 
@@ -399,18 +397,19 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private void AddCustomFieldsFromPaXML(RecordCache cache)
 		{
-			if (cache.DeserializedCustomFields != null &&
-				cache.DeserializedCustomFields.Count > 0)
-			{
-				foreach (PaFieldInfo customField in cache.DeserializedCustomFields)
-				{
-					PaFieldInfo fieldInfo = m_project.FieldInfo[customField.FieldName];
-					if (fieldInfo == null)
-						m_project.FieldInfo.Add(customField);
-				}
+			// TODO: Fix
+			//if (cache.DeserializedCustomFields != null &&
+			//    cache.DeserializedCustomFields.Count > 0)
+			//{
+			//    foreach (PaFieldInfo customField in cache.DeserializedCustomFields)
+			//    {
+			//        PaFieldInfo fieldInfo = m_project.FieldInfo[customField.FieldName];
+			//        if (fieldInfo == null)
+			//            m_project.FieldInfo.Add(customField);
+			//    }
 
-				cache.DeserializedCustomFields = null;
-			}
+			//    cache.DeserializedCustomFields = null;
+			//}
 		}
 
 		#endregion
@@ -431,7 +430,7 @@ namespace SIL.Pa.DataSource
 				return;
 			
 			// Make only a single record entry for the entire wave file.
-			m_recCacheEntry = new RecordCacheEntry(false);
+			m_recCacheEntry = new RecordCacheEntry(false, m_project);
 			m_recCacheEntry.DataSource = ds;
 			m_recCacheEntry.NeedsParsing = false;
 			m_recCacheEntry.Channels = reader.Channels;
@@ -492,6 +491,7 @@ namespace SIL.Pa.DataSource
 		}
 
 		///// ------------------------------------------------------------------------------------
+		// TODO: Figure out if needed.
 		//private static bool HandleWaveFileNeedsConverting(string filename)
 		//{
 		//    if (AudioPlayer.GetSaPath() != null)
@@ -531,7 +531,7 @@ namespace SIL.Pa.DataSource
 			{
 				m_mappings = ds.SFMappings;
 				BuildListOfFieldsForMarkers(ds);
-				var recMarker = GetRecordMarkerSFM(ds);
+				var recMarker = ds.SfmRecordMarker;
 				if (string.IsNullOrEmpty(recMarker))
 					return false;
 
@@ -652,19 +652,6 @@ namespace SIL.Pa.DataSource
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the marker that was mapped as the record marker. This is used to determine
-		/// where record breaks are.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static string GetRecordMarkerSFM(PaDataSource source)
-		{
-			return (from mapping in source.SFMappings
-					where mapping.FieldName == PaDataSource.kRecordMarker
-					select mapping.Marker).FirstOrDefault();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Adds to the record cache the data for a single field read from an SFM data source
 		/// record.
 		/// </summary>
@@ -693,20 +680,20 @@ namespace SIL.Pa.DataSource
 
 			if (m_recCacheEntry == null)
 			{
-				m_recCacheEntry = new RecordCacheEntry(true);
+				m_recCacheEntry = new RecordCacheEntry(true, m_project);
 				m_recCacheEntry.NeedsParsing = true;
 				m_recCacheEntry.DataSource = ds;
 				m_recCacheEntry.FirstInterlinearField = ds.FirstInterlinearField;
 				m_recCacheEntry.InterlinearFields = m_interlinearFields.ToList();
 			}
 
-			var audioFilefieldInfo = m_project.FieldInfo.AudioFileField;
-			var offsetFieldInfo = m_project.FieldInfo.AudioFileOffsetField;
-			var lengthFieldInfo = m_project.FieldInfo.AudioFileLengthField;
+			var audioFilefieldInfo = m_project.GetAudioFileField();
+			var offsetFieldInfo = m_project.GetAudioOffsetField();
+			var lengthFieldInfo = m_project.GetAudioLengthField();
 
 			foreach (string fld in m_fieldsForMarkers[split[0]])
 			{
-				if (audioFilefieldInfo == null || audioFilefieldInfo.FieldName != fld)
+				if (audioFilefieldInfo == null || audioFilefieldInfo.Name != fld)
 				{
 					m_recCacheEntry.SetValue(fld, split[1]);
 					continue;
@@ -718,13 +705,13 @@ namespace SIL.Pa.DataSource
 
 				if (!string.IsNullOrEmpty(audioFileName))
 				{
-					m_recCacheEntry.SetValue(audioFilefieldInfo.FieldName, audioFileName);
+					m_recCacheEntry.SetValue(audioFilefieldInfo.Name, audioFileName);
 
 					if (offsetFieldInfo != null && lengthFieldInfo != null)
 					{
 						long length = endPoint - startPoint;
-						m_recCacheEntry.SetValue(offsetFieldInfo.FieldName, startPoint.ToString());
-						m_recCacheEntry.SetValue(lengthFieldInfo.FieldName, length.ToString());
+						m_recCacheEntry.SetValue(offsetFieldInfo.Name, startPoint.ToString());
+						m_recCacheEntry.SetValue(lengthFieldInfo.Name, length.ToString());
 					}
 				}
 			}

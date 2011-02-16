@@ -11,6 +11,8 @@ namespace SIL.Pa.UI.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class ClassesDlg : OKCancelDlgBase
 	{
+		public PaProject Project { get; private set; }
+
 		/// ------------------------------------------------------------------------------------
 		public ClassesDlg()
 		{
@@ -35,6 +37,12 @@ namespace SIL.Pa.UI.Dialogs
 			tblLayoutButtons.Controls.Add(btnCopy, 2, 0);
 			tblLayoutButtons.Controls.Add(btnDelete, 3, 0);
 			ReAddButtons(5);
+		}
+	
+		/// ------------------------------------------------------------------------------------
+		public ClassesDlg(PaProject project) : this()
+		{
+			Project = project;
 
 			lvClasses.Load();
 			lvClasses_SelectedIndexChanged(null, null);

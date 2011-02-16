@@ -1,8 +1,8 @@
 using System;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 using System.Xml;
+using Palaso.IO;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.Processing;
@@ -68,8 +68,9 @@ namespace SIL.Pa.UI.Views
 			{
 				App.PrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
-				string[] defs = new string[1];
-				defs[0] = Path.Combine(App.ConfigFolder, "DataCorpusTMDefinition.xml");
+				var defs = new[] { FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
+					"DataCorpusTMDefinition.xml") };
+				
 				m_tmAdapter.Initialize(this, App.MsgMediator, App.ApplicationRegKeyPath, defs);
 				m_tmAdapter.AllowUpdates = true;
 			}
@@ -156,8 +157,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void LoadWindow()
 		{
-			WordListCache cache = new WordListCache();
-			foreach (WordCacheEntry entry in App.WordCache)
+			var cache = new WordListCache();
+			foreach (var entry in App.Project.WordCache)
 				cache.Add(entry);
 
 			Initialize(cache);

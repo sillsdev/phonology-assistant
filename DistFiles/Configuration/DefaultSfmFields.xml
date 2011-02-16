@@ -1,27 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SfmFields version="3.0">
 	<field name="Reference" type="Reference">
+		<visibleInGrid>true</visibleInGrid>
+		<visibleInRecView>true</visibleInRecView>
+		<displayIndexInGrid>3</displayIndexInGrid>
+		<displayIndexInRecView>3</displayIndexInRecView>
 		<possibleDataSourceFieldNames>\ref</possibleDataSourceFieldNames>
 	</field>
 	<field name="Phonetic" type="Phonetic">
+		<visibleInGrid>true</visibleInGrid>
+		<visibleInRecView>true</visibleInRecView>
+		<displayIndexInGrid>0</displayIndexInGrid>
+		<displayIndexInRecView>0</displayIndexInRecView>
 		<possibleDataSourceFieldNames>\ph;\tx</possibleDataSourceFieldNames>
 	</field>
 	<field name="Gloss" type="GeneralText">
+		<visibleInGrid>true</visibleInGrid>
+		<visibleInRecView>true</visibleInRecView>
+		<displayIndexInGrid>1</displayIndexInGrid>
+		<displayIndexInRecView>1</displayIndexInRecView>
 		<possibleDataSourceFieldNames>\gl;\ge</possibleDataSourceFieldNames>
 	</field>
 	<field name="NatGloss" type="GeneralText">
 		<possibleDataSourceFieldNames>\gn</possibleDataSourceFieldNames>
 	</field>
 	<field name="PartOfSpeech" type="GeneralText">
+		<visibleInGrid>true</visibleInGrid>
+		<visibleInRecView>true</visibleInRecView>
+		<displayIndexInGrid>2</displayIndexInGrid>
+		<displayIndexInRecView>2</displayIndexInRecView>
 		<possibleDataSourceFieldNames>\ps</possibleDataSourceFieldNames>
 	</field>
 	<field name="Tone" type="GeneralText">
 		<possibleDataSourceFieldNames>\tn;\pi</possibleDataSourceFieldNames>
 	</field>
 	<field name="Orthographic" type="GeneralText" />
-	<field name="Phonemic" type="GeneralText">
-		<canBeInterlinear>true</canBeInterlinear>
-	</field>
+	<field name="Phonemic" type="GeneralText" />
 	<field name="AudioFile" type="AudioFilePath">
 		<possibleDataSourceFieldNames>\sf;\snd</possibleDataSourceFieldNames>
 	</field>

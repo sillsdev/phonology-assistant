@@ -12,8 +12,6 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class WordListCache : List<WordListCacheEntry>
 	{
-		private bool m_isForSearchResults;
-		private bool m_isForRegExpSearchResults;
 		private bool m_isCIEList;
 		private SortedList<int, string> m_cieGroupTexts;
 		private SearchQuery m_searchQuery;
@@ -74,7 +72,7 @@ namespace SIL.Pa.Model
 			// First, send a message that the cache needs to be sorted. If true
 			// is returned then something handled the sort (e.g. an add-on).
 			// Otherwise use the default sorting routine.
-			object[] sortInfo = new object[] { this, sortOptions };
+			var sortInfo = new object[] { this, sortOptions };
 			if (!App.MsgMediator.SendMessage("SortCache", sortInfo))
 				Sort(new CacheSortComparer(sortOptions));
 			
@@ -86,11 +84,7 @@ namespace SIL.Pa.Model
 		/// Gets or sets a value indicating whether or not the cache is for a search results.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool IsForSearchResults
-		{
-			get { return m_isForSearchResults; }
-			set { m_isForSearchResults = value; }
-		}
+		public bool IsForSearchResults { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -98,11 +92,7 @@ namespace SIL.Pa.Model
 		/// from a regular expression search.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool IsForRegExpSearchResults
-		{
-			get { return m_isForRegExpSearchResults; }
-			set { m_isForRegExpSearchResults = value; }
-		}
+		public bool IsForRegExpSearchResults { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -123,10 +113,6 @@ namespace SIL.Pa.Model
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool IsEmpty
 		{
@@ -186,10 +172,6 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void Add(WordCacheEntry entry)
 		{
 			Add(entry, null, 0, 0, false);
@@ -229,7 +211,7 @@ namespace SIL.Pa.Model
 			// Do some preprocessing for spaces before and after.
 			ProcessSpaces(ref phones, ref offset, ref length);
 			
-			m_isForSearchResults = true;
+			IsForSearchResults = true;
 			newEntry.SearchItemOffset = offset;
 			newEntry.SearchItemLength = length;
 
@@ -316,7 +298,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void ExtendRegExpMatchesToPhoneBoundaries()
 		{
-			foreach (WordListCacheEntry entry in this)
+			foreach (var entry in this)
 			{
 				int startOffset = entry.SearchItemOffset;
 				int endOffset = entry.SearchItemOffset + entry.SearchItemLength - 1;
@@ -461,6 +443,7 @@ namespace SIL.Pa.Model
 	public class SortOptions
 	{
 		private SortInformationList m_sortInfoList;
+		private readonly PaProject m_project;
 
 		#region Constructor and Loading
 		/// ------------------------------------------------------------------------------------
@@ -468,7 +451,7 @@ namespace SIL.Pa.Model
 		/// SortOptions constructor.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SortOptions() : this(false)
+		public SortOptions() : this(false, null)
 		{
 		}
 
@@ -479,8 +462,9 @@ namespace SIL.Pa.Model
 		/// <param name="initializeWithPhonetic">Indicates whether or not the new SortOptions
 		/// object's SortInformationList should contain phonetic as the default field
 		/// on which to sort.</param>
+		/// <param name="project"></param>
 		/// ------------------------------------------------------------------------------------
-		public SortOptions(bool initializeWithPhonetic)
+		public SortOptions(bool initializeWithPhonetic, PaProject project)
 		{
 			// Keeps track of the Before, Item, & After sorting order. Set the default
 			// as follows.
@@ -493,10 +477,15 @@ namespace SIL.Pa.Model
 
 			// Default sort is by point of articulation and phonetic field.
 			SortType = PhoneticSortType.POA;
+		
+			m_project = project;
 
-			var field = App.GetPhoneticField();
-			if (initializeWithPhonetic && field != null)
-				SetPrimarySortField(field, false, true);
+			if (project != null)
+			{
+				var phoneticField = project.GetPhoneticField();
+				if (phoneticField != null && initializeWithPhonetic)
+					SetPrimarySortField(phoneticField, false, true);
+			}
 		}
 
 		#endregion
@@ -508,7 +497,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public SortOptions Clone()
 		{
-			SortOptions clone = new SortOptions(false);
+			var clone = new SortOptions(false, m_project);
 			clone.SortType = SortType;
 			clone.SaveManuallySetSortOptions = SaveManuallySetSortOptions;
 			clone.AdvancedEnabled = AdvancedEnabled;
@@ -610,7 +599,8 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public bool SetPrimarySortField(string newPrimarySortField, bool changeDirection)
 		{
-			return SetPrimarySortField(App.GetFieldForName(newPrimarySortField), changeDirection);
+			return (m_project == null ? false :
+				SetPrimarySortField(m_project.GetFieldForName(newPrimarySortField), changeDirection));
 		}
 
 		/// ------------------------------------------------------------------------------------

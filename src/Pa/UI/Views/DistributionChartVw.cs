@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
+using Palaso.IO;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
@@ -136,8 +137,9 @@ namespace SIL.Pa.UI.Views
 			App.PrepareAdapterForLocalizationSupport(m_tmAdapter);
 			m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 
-			string[] defs = new string[1];
-			defs[0] = Path.Combine(App.ConfigFolder, "XYChartsTMDefinition.xml");
+			var defs = new[] { FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
+				"XYChartsTMDefinition.xml") };
+
 			m_tmAdapter.Initialize(this, App.MsgMediator, App.ApplicationRegKeyPath, defs);
 			m_tmAdapter.AllowUpdates = true;
 			m_tmAdapter.SetContextMenuForControl(m_grid, "cmnuXYChart");
@@ -191,7 +193,7 @@ namespace SIL.Pa.UI.Views
 		public SearchResultsViewManager ResultViewManger { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		private string FillChartMessage
+		private static string FillChartMessage
 		{
 			get
 			{
@@ -691,12 +693,9 @@ namespace SIL.Pa.UI.Views
 				dragText = ((FeatureListView)sender).CurrentFormattedFeature;
 			else if (e.Item is ClassListViewItem)
 			{
-				ClassListViewItem item = e.Item as ClassListViewItem;
-				if (item != null)
-				{
-					dragText = (item.Pattern == null || App.Project.ShowClassNamesInSearchPatterns ?
-						m_openClass + item.Text + m_closeClass : item.Pattern);
-				}
+				var item = e.Item as ClassListViewItem;
+				dragText = (item.Pattern == null || App.Project.ShowClassNamesInSearchPatterns ?
+					m_openClass + item.Text + m_closeClass : item.Pattern);
 			}
 
 			// Any text we begin dragging.
@@ -705,8 +704,7 @@ namespace SIL.Pa.UI.Views
 				if (m_slidingPanel.Visible)
 					m_slidingPanel.Close(true);
 	
-				DoDragDrop(dragText.Replace(App.kDottedCircle, string.Empty),
-					DragDropEffects.Copy);
+				DoDragDrop(dragText.Replace(App.kDottedCircle, string.Empty), DragDropEffects.Copy);
 			}
 		}
 
@@ -720,14 +718,14 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void btnRemoveSavedChart_Click(object sender, EventArgs e)
 		{
-			if (lvSavedCharts.SelectedItems == null || lvSavedCharts.SelectedItems.Count == 0)
+			if (lvSavedCharts.SelectedItems.Count == 0)
 				return;
 
-			string msg = Properties.Resources.kstidConfirmSavedChartRemoval;
+			var msg = Properties.Resources.kstidConfirmSavedChartRemoval;
 			if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
 				return;
 
-			DistributionChartLayout layout = lvSavedCharts.SelectedItems[0].Tag as DistributionChartLayout;
+			var layout = lvSavedCharts.SelectedItems[0].Tag as DistributionChartLayout;
 
 			if (layout != null)
 			{
@@ -764,26 +762,23 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void lvSavedCharts_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.Modifiers != Keys.None)
+			if (e.Modifiers != Keys.None || lvSavedCharts.SelectedItems.Count == 0)
 				return;
-
-			if (lvSavedCharts.SelectedItems != null && lvSavedCharts.SelectedItems.Count > 0)
+			
+			switch (e.KeyCode)
 			{
-				if (e.KeyCode == Keys.Delete)
-				{
+				case Keys.Delete:
 					btnRemoveSavedChart_Click(null, null);
 					e.Handled = true;
-				}
-				else if (e.KeyCode == Keys.F2)
-				{
+					break;
+				case Keys.F2:
 					lvSavedCharts.SelectedItems[0].BeginEdit();
 					e.Handled = true;
-				}
-				else if (e.KeyCode == Keys.Enter)
-				{
+					break;
+				case Keys.Enter:
 					LoadSavedLayout(lvSavedCharts.SelectedItems[0]);
 					e.Handled = true;
-				}
+					break;
 			}
 		}
 
@@ -795,8 +790,7 @@ namespace SIL.Pa.UI.Views
 		private void lvSavedCharts_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
 			// When a saved chart is double-clicked on, load it into the grid.
-			ListViewHitTestInfo hinfo = lvSavedCharts.HitTest(e.Location);
-			LoadSavedLayout(hinfo.Item);
+			LoadSavedLayout(lvSavedCharts.HitTest(e.Location).Item);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -912,8 +906,7 @@ namespace SIL.Pa.UI.Views
 		private void pnlSavedCharts_Resize(object sender, EventArgs e)
 		{
 			// Save the index of the selected item.
-			int i = (lvSavedCharts.SelectedIndices != null &&
-				lvSavedCharts.SelectedIndices.Count > 0 ? lvSavedCharts.SelectedIndices[0] : 0);
+			int i = (lvSavedCharts.SelectedIndices.Count > 0 ? lvSavedCharts.SelectedIndices[0] : 0);
 
 			// This is sort of a kludge, but it's necessary due to the possiblity that
 			// the list view's column header will change size. It turns out that if there
@@ -932,8 +925,7 @@ namespace SIL.Pa.UI.Views
 
 			// Resize the list view's colum header so it fits just
 			// inside the list view's client area.
-			if (hdrSavedCharts.Width != lvSavedCharts.ClientSize.Width - 3)
-				hdrSavedCharts.Width = lvSavedCharts.ClientSize.Width - 3;
+			hdrSavedCharts.Width = lvSavedCharts.ClientSize.Width - 3;
 
 			// Make sure the previously selected item is visible.
 			if (i >= 0 && lvSavedCharts.Items.Count > 0)
@@ -941,24 +933,15 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void lvSavedCharts_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
 		{
 			UpdateButtons();
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void UpdateButtons()
 		{
-			btnRemoveSavedChart.Enabled = (lvSavedCharts.SelectedItems != null &&
-				lvSavedCharts.SelectedItems.Count > 0);
+			btnRemoveSavedChart.Enabled = (lvSavedCharts.SelectedItems.Count > 0);
 		}
 		
 		#endregion

@@ -349,7 +349,6 @@ namespace SilTools.Controls
 				}
 			}
 
-			DrawBottomBorder(e);
 			base.OnPaintBackground(e);
 		}
 
@@ -360,12 +359,14 @@ namespace SilTools.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			base.OnPaint(e);
+			DrawBottomBorder(e);
 
 			var text = (BeforeDrawText != null ? BeforeDrawText(this) : Text);
 			
 			if (!string.IsNullOrEmpty(text))
 				TextRenderer.DrawText(e.Graphics, text, Font, m_rcText, ForeColor, m_txtFmtFlags);
+
+			base.OnPaint(e);
 		}
 
 		/// ------------------------------------------------------------------------------------

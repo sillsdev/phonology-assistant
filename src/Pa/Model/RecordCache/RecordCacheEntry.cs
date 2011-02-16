@@ -23,8 +23,6 @@ namespace SIL.Pa.Model
 		private List<PaFieldValue> m_fieldValuesList;
 		private IDictionary<string, PaFieldValue> m_fieldValues;
 
-		private const string kDataSourceFieldName = "DataSource";
-		private const string kDataSourcePathFieldName = "DataSourcePath";
 
 		private static int s_counter;
 
@@ -40,20 +38,21 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public RecordCacheEntry()
+		public RecordCacheEntry(PaProject project)
 		{
+			Project = project;
 			Id = s_counter++;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Only use the constructor when the data source is not PAXML or FW6 (or older)
+		/// Only use this constructor when the data source is not PAXML or FW6 (or older)
 		/// data source.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public RecordCacheEntry(bool newFromParsingSFMFile) : this()
+		public RecordCacheEntry(bool newFromParsingSFMFile, PaProject project) : this(project)
 		{
-			m_fieldValues = App.Fields.ToDictionary(f => f.Name, f => new PaFieldValue(f.Name));
+			m_fieldValues = project.Fields.ToDictionary(f => f.Name, f => new PaFieldValue(f.Name));
 			CanBeEditedInToolbox = newFromParsingSFMFile;
 		}
 
@@ -70,7 +69,7 @@ namespace SIL.Pa.Model
 			
 			PaFieldValue fieldValue;
 
-			if (field != kDataSourcePathFieldName && field != kDataSourceFieldName &&
+			if (field != PaField.kDataSourcePathFieldName && field != PaField.kDataSourceFieldName &&
 				m_fieldValues.TryGetValue(field, out fieldValue))
 			{
 				fieldValue.Value = value;
@@ -109,18 +108,18 @@ namespace SIL.Pa.Model
 		{
 			// If the data source file path is being requested then defer
 			// to the record's data source object to get that information.
-			if (fieldName == kDataSourcePathFieldName)
+			if (fieldName == PaField.kDataSourcePathFieldName)
 			{
-				return (DataSource.DataSourceType == DataSourceType.FW &&
+				return (DataSource.Type == DataSourceType.FW &&
 					DataSource.FwSourceDirectFromDB ? DataSource.FwDataSourceInfo.Server :
 					Path.GetDirectoryName(DataSource.DataSourceFile)); 
 			}
 
 			// If the data source name is being requested then defer to
 			// the record's data source object to get that information.
-			if (fieldName == kDataSourceFieldName)
+			if (fieldName == PaField.kDataSourceFieldName)
 			{
-				return (DataSource.DataSourceType == DataSourceType.FW &&
+				return (DataSource.Type == DataSourceType.FW &&
 					DataSource.FwSourceDirectFromDB ? DataSource.FwDataSourceInfo.ToString() :
 					Path.GetFileName(DataSource.DataSourceFile));
 			}
@@ -167,18 +166,17 @@ namespace SIL.Pa.Model
 		/// of the phonetic as it was before applying any experimental transcriptions.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string[] GetParsedFieldValues(PaFieldInfo fieldInfo, bool useOriginalPhonetic)
+		public string[] GetParsedFieldValues(PaField field, bool useOriginalPhonetic)
 		{
-			if (fieldInfo == null)
+			if (field == null)
 				return null;
 
-			bool getOrigPhonetic = (useOriginalPhonetic && fieldInfo.IsPhonetic);
-			string fldName = fieldInfo.FieldName;
+			bool getOrigPhonetic = (useOriginalPhonetic && field.Type == FieldType.Phonetic);
 
 			// Go through the parsed word entries and get the values for the specified field.
 			var values = WordEntries.Select(we =>
 			{
-				var val = (getOrigPhonetic ? we.OriginalPhoneticValue : we.GetField(fldName, false));
+				var val = (getOrigPhonetic ? we.OriginalPhoneticValue : we.GetField(field.Name, false));
 				return (val != null ? val.Trim() : string.Empty);
 			}).ToArray();
 
@@ -188,6 +186,10 @@ namespace SIL.Pa.Model
 		#endregion
 
 		#region Properties
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public PaProject Project { get; private set; }
+
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public object Tag { get; set; }
@@ -248,8 +250,8 @@ namespace SIL.Pa.Model
 				// values of m_interlinearFields and m_firstInterlinearField determine
 				// what's returned. Otherwise, this data source's parse type must be
 				// interlinear.
-				bool projParseTypeOK = (DataSource.DataSourceType != DataSourceType.SFM &&
-					DataSource.DataSourceType != DataSourceType.Toolbox ? true :
+				bool projParseTypeOK = (DataSource.Type != DataSourceType.SFM &&
+					DataSource.Type != DataSourceType.Toolbox ? true :
 					DataSource.ParseType == DataSourceParseType.Interlinear);
 
 				return (projParseTypeOK && InterlinearFields != null &&
@@ -322,9 +324,10 @@ namespace SIL.Pa.Model
 		/// the deserialized values list to a dictionary has to be done in a separate process.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void PostDeserializeProcess(PaDataSource dataSource)
+		public void PostDeserializeProcess(PaDataSource dataSource, PaProject project)
 		{
 			DataSource = dataSource;
+			Project = project;
 
 			if (m_fieldValuesList != null && m_fieldValuesList.Count() > 0)
 			{

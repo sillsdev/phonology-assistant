@@ -24,6 +24,7 @@ namespace SIL.Pa.UI.Controls
 		private readonly IPASymbolType m_charType;
 		private readonly SortedList<int, List<Label>> m_lableRows;
 		private readonly CompactViewerPanel pnlCompactView;
+		private readonly PaProject m_project;
 
 		private readonly Action<bool> m_saveShowAllAction;
 		private readonly Action<bool> m_saveCompactViewAction;
@@ -53,10 +54,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public PhonesInFeatureViewer(IPASymbolType charType, bool initiallyShowAll,
-			bool initiallyShowCompactView, Action<bool> saveShowAllAction,
-			Action<bool> saveCompactViewAction) : this()
+		public PhonesInFeatureViewer(PaProject project, IPASymbolType charType,
+			bool initiallyShowAll, bool initiallyShowCompactView,
+			Action<bool> saveShowAllAction, Action<bool> saveCompactViewAction) : this()
 		{
+			m_project = project;
 			m_showAll = initiallyShowAll;
 			m_compactView = initiallyShowCompactView;
 			m_saveShowAllAction = saveShowAllAction;
@@ -107,10 +109,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void RefreshLayout()
 		{
 			Reset();
@@ -134,14 +132,14 @@ namespace SIL.Pa.UI.Controls
 				// to store the phone in the sorted list of labels.
 				int key = 1000;
 
-				SortedList<string, Label> labels = new SortedList<string, Label>();
+				var labels = new SortedList<string, Label>();
 
 				// Load all non consonant/vowel phones by first adding them to a list
 				// in POA order.
-				foreach (KeyValuePair<string, IPhoneInfo> kvpPhoneInfo in App.PhoneCache)
+				foreach (var kvpPhoneInfo in m_project.PhoneCache)
 				{
-					IPhoneInfo iPhoneInfo = kvpPhoneInfo.Value;
-					PhoneInfo phoneInfo = iPhoneInfo as PhoneInfo;
+					var iPhoneInfo = kvpPhoneInfo.Value;
+					var phoneInfo = iPhoneInfo as PhoneInfo;
 
 					if (iPhoneInfo.CharType != IPASymbolType.Consonant &&
 						iPhoneInfo.CharType != IPASymbolType.Vowel &&
@@ -185,7 +183,7 @@ namespace SIL.Pa.UI.Controls
 
 			// Create a collection of rows of phones. Each row is
 			// a collection of those labels that go on that row.
-			foreach (CharGridCell cgc in phoneList)
+			foreach (var cgc in phoneList)
 			{
 				Label lblPhone = CreateLabel(cgc.Phone);
 
@@ -205,20 +203,12 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private Label CreateLabel(string phone)
 		{
-			IPhoneInfo phoneInfo = App.PhoneCache[phone];
+			IPhoneInfo phoneInfo = m_project.PhoneCache[phone];
 			return CreateLabel(phone, phoneInfo);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private Label CreateLabel(string phone, IPhoneInfo phoneInfo)
 		{

@@ -7,10 +7,10 @@ using SilTools;
 
 namespace SIL.Pa.UI.Controls
 {
-	public class FieldMapperGrid : SilGrid
+	public class FieldMappingGrid : SilGrid
 	{
-		public Func<string> SourceFieldColumnHeadingTextHandler;
-		public Func<string> TargetFieldColumnHeadingTextHandler;
+		private readonly Func<string> m_sourceFieldColumnHeadingTextHandler;
+		private readonly Func<string> m_targetFieldColumnHeadingTextHandler;
 
 		private readonly List<FieldMapping> m_mappings;
 		private readonly IDictionary<FieldType, string> m_displayableFieldTypes;
@@ -18,29 +18,38 @@ namespace SIL.Pa.UI.Controls
 		private readonly CellCustomDropDownList m_potentialFieldsDropDown;
 
 		/// ------------------------------------------------------------------------------------
-		public FieldMapperGrid()
+		public FieldMappingGrid()
 		{
 			VirtualMode = true;
 			Font = FontHelper.UIFont;
 			RowHeadersVisible = false;
 			BorderStyle = BorderStyle.None;
-
+			App.SetGridSelectionColors(this, true);
+			
+			m_potentialFieldsDropDown = new CellCustomDropDownList();
+			
 			m_displayableFieldTypes =
 				PaField.GetDisplayableFieldTypes().ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-
-			m_potentialFieldsDropDown = new CellCustomDropDownList();
-			App.SetGridSelectionColors(this, true);
-
-			AddColumns();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public FieldMapperGrid(IEnumerable<PaField> potentialFields, IEnumerable<FieldMapping> mappings)
+		public FieldMappingGrid(IEnumerable<PaField> potentialFields, IEnumerable<FieldMapping> mappings,
+			Func<string> srcFldColHdgTextHandler, Func<string> tgtFldColHdgTextHandler)
 			: this()
 		{
 			m_potentialFields = potentialFields.Where(f => f.AllowUserToMap);
 			m_mappings = mappings.Select(m => m.Copy()).ToList();
+			m_sourceFieldColumnHeadingTextHandler = srcFldColHdgTextHandler;
+			m_targetFieldColumnHeadingTextHandler = tgtFldColHdgTextHandler;
+			
+			AddColumns();
 			RowCount = m_mappings.Count;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public FieldMappingGrid(IEnumerable<PaField> potentialFields, IEnumerable<FieldMapping> mappings)
+			: this(potentialFields, mappings, null, null)
+		{
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -49,8 +58,8 @@ namespace SIL.Pa.UI.Controls
 			// Create source field column.
 			DataGridViewColumn col = CreateTextBoxColumn("srcfield");
 			col.ReadOnly = true;
-			var text = (SourceFieldColumnHeadingTextHandler != null ?
-				SourceFieldColumnHeadingTextHandler() : null);
+			var text = (m_sourceFieldColumnHeadingTextHandler != null ?
+				m_sourceFieldColumnHeadingTextHandler() : null);
 
 			if (string.IsNullOrEmpty(text))
 			{
@@ -78,13 +87,13 @@ namespace SIL.Pa.UI.Controls
 			((SilButtonColumn)col).DrawDefaultComboButtonWidth = false;
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 
-			text = (TargetFieldColumnHeadingTextHandler != null ?
-				TargetFieldColumnHeadingTextHandler() : null);
+			text = (m_targetFieldColumnHeadingTextHandler != null ?
+				m_targetFieldColumnHeadingTextHandler() : null);
 
 			if (string.IsNullOrEmpty(text))
 			{
 				text = App.LocalizeString(
-					"FieldMappingGrid.TargetFieldColumnHeadingText", "Field in PA",
+					"FieldMappingGrid.TargetFieldColumnHeadingText", "PA Field",
 					App.kLocalizationGroupUICtrls);
 			}
 
@@ -115,7 +124,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<FieldMapping> Mappings
 		{
-			get { return m_mappings; }
+			get { return m_mappings.Where(m => m.Field != null); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -141,7 +150,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private static string GetNoMappingText()
 		{
-			return App.LocalizeString("FieldMapperGrid.NoMappingText",
+			return App.LocalizeString("FieldMappingGrid.NoMappingText",
 				"(no mapping)", App.kLocalizationGroupUICtrls);
 		}
 
@@ -174,14 +183,19 @@ namespace SIL.Pa.UI.Controls
 			if (e.ColumnIndex < 0 || e.RowIndex < 0)
 				return;
 
-			var valAsString = e.Value as string;
+			var valAsString = (e.Value as string ?? string.Empty);
+			valAsString = valAsString.Trim();
 			var mapping = m_mappings[e.RowIndex];
 
 			switch (Columns[e.ColumnIndex].Name)
 			{
 				case "tgtfield":
-					if (valAsString == GetNoMappingText())
+					if (valAsString == GetNoMappingText() || valAsString == string.Empty)
+					{
 						mapping.Field = null;
+						mapping.IsParsed = false;
+						mapping.IsInterlinear = false;
+					}
 					else
 					{
 						mapping.Field =
@@ -280,6 +294,31 @@ namespace SIL.Pa.UI.Controls
 			var parts = e.PaintParts & ~DataGridViewPaintParts.ContentForeground;
 			e.Paint(e.ClipBounds, parts);
 			e.Handled = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetAreAnyFieldsMappedMultipleTimes()
+		{
+			return Mappings.Select(m => m.Field.Name)
+				.Any(fname => Mappings.Count(m => m.Field.Name == fname) > 1);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsTargetFieldMapped(string fieldName)
+		{
+			return Mappings.Any(m => m.Field.Name == fieldName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsSourceFieldMapped(string fieldName)
+		{
+			return Mappings.Any(m => m.NameInDataSource == fieldName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public PaField GetMappedFieldForSourceField(string fieldName)
+		{
+			return (from m in Mappings where m.Field.Name == fieldName select m.Field).FirstOrDefault();
 		}
 	}
 }

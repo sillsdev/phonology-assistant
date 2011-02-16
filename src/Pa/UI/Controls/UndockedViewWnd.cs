@@ -8,10 +8,6 @@ using SilTools;
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class UndockedViewWnd : Form, IUndockedViewWnd, IxCoreColleague
 	{
 		private readonly Control m_view;
@@ -19,19 +15,11 @@ namespace SIL.Pa.UI.Controls
 		private bool m_checkForModifiedDataSources = true;
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public UndockedViewWnd()
 		{
 			InitializeComponent();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public UndockedViewWnd(Control view) : this()
 		{
@@ -58,8 +46,10 @@ namespace SIL.Pa.UI.Controls
 			sblblMain.Text = sblblProgress.Text = string.Empty;
 			MinimumSize = App.MinimumViewWindowSize;
 
-			sblblFilter.Paint += FilterHelper.HandleFilterStatusStripLabelPaint;
-			OnFilterChanged(FilterHelper.CurrentFilter);
+			sblblFilter.Paint += HandleFilterStatusStripLabelPaint;
+			
+			if (App.Project != null)
+				OnFilterChanged(App.Project.CurrentFilter);
 
 			App.MsgMediator.AddColleague(this);
 		}
@@ -80,10 +70,6 @@ namespace SIL.Pa.UI.Controls
 			base.Dispose(disposing);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
@@ -117,10 +103,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnActivated(EventArgs e)
 		{
 			base.OnActivated(e);
@@ -138,10 +120,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnDeactivate(EventArgs e)
 		{
 			base.OnDeactivate(e);
@@ -150,10 +128,6 @@ namespace SIL.Pa.UI.Controls
 				m_mainMenuAdapter.AllowUpdates = false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
@@ -180,6 +154,16 @@ namespace SIL.Pa.UI.Controls
 				Invalidate();
 
 			sblblFilter.Width = Math.Max(175, statusStrip.Width / 3);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleFilterStatusStripLabelPaint(object sender, PaintEventArgs e)
+		{
+			if (App.Project != null && App.Project.CurrentFilter != null)
+			{
+				PaMainWnd.PaintFilterStatusStripLabel(sender as ToolStripStatusLabel,
+					App.Project.CurrentFilter.Name, e);
+			}
 		}
 	
 		/// ------------------------------------------------------------------------------------
@@ -223,10 +207,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnFilterChanged(object args)
 		{
 			var filter = args as Filter;
@@ -237,10 +217,6 @@ namespace SIL.Pa.UI.Controls
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnFilterTurnedOff(object args)
 		{

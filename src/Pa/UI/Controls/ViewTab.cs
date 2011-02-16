@@ -56,10 +56,6 @@ namespace SIL.Pa.UI.Controls
 		private static bool s_undockingInProgress;
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public ViewTab(ViewTabGroup owningTabControl, Image img, Type viewType)
 		{
 			base.DoubleBuffered = true;
@@ -74,10 +70,6 @@ namespace SIL.Pa.UI.Controls
 				App.MainForm.Activated += MainForm_Activated;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
@@ -98,10 +90,6 @@ namespace SIL.Pa.UI.Controls
 			base.Dispose(disposing);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public Control OpenView()
 		{

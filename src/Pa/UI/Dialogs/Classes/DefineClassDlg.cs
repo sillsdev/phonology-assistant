@@ -33,10 +33,6 @@ namespace SIL.Pa.UI.Dialogs
 
 		#region Construction and setup
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private DefineClassDlg()
 		{
 			Utils.WaitCursors(true);
@@ -71,19 +67,11 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private DefineClassDlg(ClassesDlg classDlg) : this()
 		{
 			m_classesDlg = classDlg;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public DefineClassDlg(SearchClassType type, ClassesDlg classDlg) : this(classDlg)
 		{
@@ -267,7 +255,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void SetupPhoneViewers()
 		{
-			m_conViewer = new PhonesInFeatureViewer(IPASymbolType.Consonant,
+			m_conViewer = new PhonesInFeatureViewer(m_classesDlg.Project, IPASymbolType.Consonant,
 				Settings.Default.DefineClassDlgShowAllConsonantsInViewer,
 				Settings.Default.DefineClassDlgUseCompactConsonantView,
 				showAll => Settings.Default.DefineClassDlgShowAllConsonantsInViewer = showAll,
@@ -278,7 +266,7 @@ namespace SIL.Pa.UI.Dialogs
 			splitCV.Panel1.Controls.Add(m_conViewer);
 			m_conViewer.BringToFront();
 
-			m_vowViewer = new PhonesInFeatureViewer(IPASymbolType.Vowel,
+			m_vowViewer = new PhonesInFeatureViewer(m_classesDlg.Project, IPASymbolType.Vowel,
 				Settings.Default.DefineClassDlgShowAllVowelsInViewer,
 				Settings.Default.DefineClassDlgUseCompactVowelView,
 				showAll => Settings.Default.DefineClassDlgShowAllVowelsInViewer = showAll,
@@ -289,7 +277,7 @@ namespace SIL.Pa.UI.Dialogs
 			splitCV.Panel2.Controls.Add(m_vowViewer);
 			m_vowViewer.BringToFront();
 
-			m_otherPhonesViewer = new PhonesInFeatureViewer(IPASymbolType.Unknown,
+			m_otherPhonesViewer = new PhonesInFeatureViewer(m_classesDlg.Project, IPASymbolType.Unknown,
 				Settings.Default.DefineClassDlgShowAllOthersInViewer,
 				Settings.Default.DefineClassDlgUseCompactOtherView,
 				showAll => Settings.Default.DefineClassDlgShowAllOthersInViewer = showAll,
@@ -357,10 +345,6 @@ namespace SIL.Pa.UI.Dialogs
 
 		#region Overridden methods
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
 			Debug.Assert(m_classesDlg != null);
@@ -424,7 +408,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (m_classInfo.ClassType == SearchClassType.Phones)
 			{
 				// Check if any of the characters entered are invalid.
-				List<char> undefinedChars = new List<char>();
+				var undefinedChars = new List<char>();
 				foreach (char c in txtMembers.Text.Trim().Replace(",", string.Empty))
 				{
 					if (App.IPASymbolCache[c] == null || App.IPASymbolCache[c].IsUndefined)
@@ -492,7 +476,7 @@ namespace SIL.Pa.UI.Dialogs
 					return txtMembers.Text.Trim();
 
 				string phones = txtMembers.Text.Trim().Replace(",", string.Empty);
-				phones = App.IPASymbolCache.PhoneticParser_CommaDelimited(phones, true, true);
+				phones = m_classesDlg.Project.PhoneticParser.PhoneticParser_CommaDelimited(phones, true, true);
 				return "{" + (phones ?? string.Empty) + "}";
 			}
 		}

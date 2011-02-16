@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
+using Palaso.IO;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
@@ -211,8 +212,9 @@ namespace SIL.Pa.UI.Views
 				App.PrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 
-				string[] defs = new string[1];
-				defs[0] = Path.Combine(App.ConfigFolder, "SearchTMDefinition.xml");
+				var defs = new[] { FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
+					"SearchTMDefinition.xml") };
+				
 				m_tmAdapter.Initialize(this, App.MsgMediator, App.ApplicationRegKeyPath, defs);
 				m_tmAdapter.AllowUpdates = true;
 			}
@@ -1194,9 +1196,9 @@ namespace SIL.Pa.UI.Views
 		/// Handle a pattern being dragged over an empty results area.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleSplitResultsPanel1DragOver(object sender, DragEventArgs e)
+		private static void HandleSplitResultsPanel1DragOver(object sender, DragEventArgs e)
 		{
-			SearchQuery query = e.Data.GetData(typeof(SearchQuery)) as SearchQuery;
+			var query = e.Data.GetData(typeof(SearchQuery)) as SearchQuery;
 			e.Effect = (query == null ?	DragDropEffects.None : DragDropEffects.Move); 
 		}
 		
@@ -1461,8 +1463,7 @@ namespace SIL.Pa.UI.Views
 				}
 				catch { }
 			
-				if (btnRemoveFromRecentList.Enabled != enable)
-					btnRemoveFromRecentList.Enabled = enable;
+				btnRemoveFromRecentList.Enabled = enable;
 			}
 			else
 				return false;
@@ -1484,11 +1485,9 @@ namespace SIL.Pa.UI.Views
 				return false;
 
 			bool enable = (lstRecentPatterns.Items.Count > 0);
-
-			if (btnClearRecentList.Enabled != enable)
-				btnClearRecentList.Enabled = enable;
+			btnClearRecentList.Enabled = enable;
 			
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null)
 				return false;
 

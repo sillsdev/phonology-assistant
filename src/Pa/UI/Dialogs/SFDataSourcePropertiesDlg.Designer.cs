@@ -46,10 +46,15 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblEditor = new System.Windows.Forms.Label();
 			this.txtEditor = new System.Windows.Forms.TextBox();
 			this.btnBrowse = new System.Windows.Forms.Button();
+			this.pnlMappingsInner = new SilTools.Controls.SilPanel();
 			this.tblLayoutToolBoxSortField = new System.Windows.Forms.TableLayoutPanel();
-			this.lblToolboxSortField = new System.Windows.Forms.Label();
+			this.lblInformation = new SilTools.Controls.AutoHeightLabel();
 			this.cboToolboxSortField = new System.Windows.Forms.ComboBox();
+			this.cboRecordMarkers = new System.Windows.Forms.ComboBox();
+			this.lblToolboxSortField = new System.Windows.Forms.Label();
+			this.lblRecordMarker = new System.Windows.Forms.Label();
 			this.pnlMappingsHdg = new SilTools.Controls.SilGradientPanel();
+			this.btnInformation = new SilTools.Controls.XButton();
 			this.pnlSrcFile = new SilTools.Controls.SilPanel();
 			this.txtFilePreview = new System.Windows.Forms.TextBox();
 			this.pnlSrcFileHdg = new SilTools.Controls.SilGradientPanel();
@@ -79,7 +84,9 @@ namespace SIL.Pa.UI.Dialogs
 			this.scImport.SuspendLayout();
 			this.pnlMappings.SuspendLayout();
 			this.tblLayoutEditor.SuspendLayout();
+			this.pnlMappingsInner.SuspendLayout();
 			this.tblLayoutToolBoxSortField.SuspendLayout();
+			this.pnlMappingsHdg.SuspendLayout();
 			this.pnlSrcFile.SuspendLayout();
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
@@ -112,6 +119,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.scImport.Panel2.Controls.Add(this.pnlSrcFile);
 			this.scImport.TabStop = false;
+			this.scImport.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.HandleRightSplitterMoved);
 			// 
 			// pnlMappings
 			// 
@@ -120,7 +128,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlMappings.ClipTextForChildControls = true;
 			this.pnlMappings.ControlReceivingFocusOnMnemonic = null;
 			this.pnlMappings.Controls.Add(this.tblLayoutEditor);
-			this.pnlMappings.Controls.Add(this.tblLayoutToolBoxSortField);
+			this.pnlMappings.Controls.Add(this.pnlMappingsInner);
 			this.pnlMappings.Controls.Add(this.pnlMappingsHdg);
 			resources.ApplyResources(this.pnlMappings, "pnlMappings");
 			this.pnlMappings.DoubleBuffered = false;
@@ -173,12 +181,68 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnBrowse.UseVisualStyleBackColor = true;
 			this.btnBrowse.Click += new System.EventHandler(this.HandleBrowseClick);
 			// 
+			// pnlMappingsInner
+			// 
+			resources.ApplyResources(this.pnlMappingsInner, "pnlMappingsInner");
+			this.pnlMappingsInner.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+			this.pnlMappingsInner.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlMappingsInner.ClipTextForChildControls = true;
+			this.pnlMappingsInner.ControlReceivingFocusOnMnemonic = null;
+			this.pnlMappingsInner.Controls.Add(this.tblLayoutToolBoxSortField);
+			this.pnlMappingsInner.DoubleBuffered = true;
+			this.pnlMappingsInner.DrawOnlyBottomBorder = true;
+			this.pnlMappingsInner.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.locExtender.SetLocalizableToolTip(this.pnlMappingsInner, null);
+			this.locExtender.SetLocalizationComment(this.pnlMappingsInner, null);
+			this.locExtender.SetLocalizationPriority(this.pnlMappingsInner, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.pnlMappingsInner, "SFDataSourcePropertiesDlg.pnlMappingsGrid");
+			this.pnlMappingsInner.MnemonicGeneratesClick = false;
+			this.pnlMappingsInner.Name = "pnlMappingsInner";
+			this.pnlMappingsInner.PaintExplorerBarBackground = false;
+			// 
 			// tblLayoutToolBoxSortField
 			// 
 			resources.ApplyResources(this.tblLayoutToolBoxSortField, "tblLayoutToolBoxSortField");
-			this.tblLayoutToolBoxSortField.Controls.Add(this.lblToolboxSortField, 0, 0);
-			this.tblLayoutToolBoxSortField.Controls.Add(this.cboToolboxSortField, 1, 0);
+			this.tblLayoutToolBoxSortField.BackColor = System.Drawing.Color.Transparent;
+			this.tblLayoutToolBoxSortField.Controls.Add(this.lblInformation, 0, 0);
+			this.tblLayoutToolBoxSortField.Controls.Add(this.cboToolboxSortField, 1, 2);
+			this.tblLayoutToolBoxSortField.Controls.Add(this.cboRecordMarkers, 1, 1);
+			this.tblLayoutToolBoxSortField.Controls.Add(this.lblToolboxSortField, 0, 2);
+			this.tblLayoutToolBoxSortField.Controls.Add(this.lblRecordMarker, 0, 1);
 			this.tblLayoutToolBoxSortField.Name = "tblLayoutToolBoxSortField";
+			// 
+			// lblInformation
+			// 
+			resources.ApplyResources(this.lblInformation, "lblInformation");
+			this.lblInformation.AutoEllipsis = true;
+			this.lblInformation.BackColor = System.Drawing.Color.Transparent;
+			this.tblLayoutToolBoxSortField.SetColumnSpan(this.lblInformation, 2);
+			this.locExtender.SetLocalizableToolTip(this.lblInformation, null);
+			this.locExtender.SetLocalizationComment(this.lblInformation, null);
+			this.locExtender.SetLocalizingId(this.lblInformation, "SFDataSourcePropertiesDlg.lblInformation");
+			this.lblInformation.Name = "lblInformation";
+			// 
+			// cboToolboxSortField
+			// 
+			resources.ApplyResources(this.cboToolboxSortField, "cboToolboxSortField");
+			this.cboToolboxSortField.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboToolboxSortField.FormattingEnabled = true;
+			this.locExtender.SetLocalizableToolTip(this.cboToolboxSortField, "Used for jumping to the appropriate Toolbox record.");
+			this.locExtender.SetLocalizationComment(this.cboToolboxSortField, null);
+			this.locExtender.SetLocalizationPriority(this.cboToolboxSortField, Localization.LocalizationPriority.MediumHigh);
+			this.locExtender.SetLocalizingId(this.cboToolboxSortField, "SFDataSourcePropertiesDlg.cboToolboxSortField");
+			this.cboToolboxSortField.Name = "cboToolboxSortField";
+			this.cboToolboxSortField.Sorted = true;
+			// 
+			// cboRecordMarkers
+			// 
+			resources.ApplyResources(this.cboRecordMarkers, "cboRecordMarkers");
+			this.cboRecordMarkers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboRecordMarkers.FormattingEnabled = true;
+			this.locExtender.SetLocalizableToolTip(this.cboRecordMarkers, "Select the marker that marks\\nthe beginning of each record.");
+			this.locExtender.SetLocalizationComment(this.cboRecordMarkers, null);
+			this.locExtender.SetLocalizingId(this.cboRecordMarkers, "SFDataSourcePropertiesDlg.cboRecordMarkers");
+			this.cboRecordMarkers.Name = "cboRecordMarkers";
 			// 
 			// lblToolboxSortField
 			// 
@@ -189,17 +253,14 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizingId(this.lblToolboxSortField, "SFDataSourcePropertiesDlg.lblToolboxSortField");
 			this.lblToolboxSortField.Name = "lblToolboxSortField";
 			// 
-			// cboToolboxSortField
+			// lblRecordMarker
 			// 
-			resources.ApplyResources(this.cboToolboxSortField, "cboToolboxSortField");
-			this.cboToolboxSortField.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboToolboxSortField.FormattingEnabled = true;
-			this.locExtender.SetLocalizableToolTip(this.cboToolboxSortField, "This is used for jumping to the appropriate Toolbox record.");
-			this.locExtender.SetLocalizationComment(this.cboToolboxSortField, null);
-			this.locExtender.SetLocalizationPriority(this.cboToolboxSortField, Localization.LocalizationPriority.MediumHigh);
-			this.locExtender.SetLocalizingId(this.cboToolboxSortField, "SFDataSourcePropertiesDlg.cboToolboxSortField");
-			this.cboToolboxSortField.Name = "cboToolboxSortField";
-			this.cboToolboxSortField.Sorted = true;
+			resources.ApplyResources(this.lblRecordMarker, "lblRecordMarker");
+			this.lblRecordMarker.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblRecordMarker, null);
+			this.locExtender.SetLocalizationComment(this.lblRecordMarker, null);
+			this.locExtender.SetLocalizingId(this.lblRecordMarker, "SFDataSourcePropertiesDlg.lblRecordMarker");
+			this.lblRecordMarker.Name = "lblRecordMarker";
 			// 
 			// pnlMappingsHdg
 			// 
@@ -209,6 +270,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlMappingsHdg.ColorBottom = System.Drawing.Color.Empty;
 			this.pnlMappingsHdg.ColorTop = System.Drawing.Color.Empty;
 			this.pnlMappingsHdg.ControlReceivingFocusOnMnemonic = null;
+			this.pnlMappingsHdg.Controls.Add(this.btnInformation);
 			resources.ApplyResources(this.pnlMappingsHdg, "pnlMappingsHdg");
 			this.pnlMappingsHdg.DoubleBuffered = true;
 			this.pnlMappingsHdg.DrawOnlyBottomBorder = true;
@@ -221,6 +283,21 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlMappingsHdg.MnemonicGeneratesClick = false;
 			this.pnlMappingsHdg.Name = "pnlMappingsHdg";
 			this.pnlMappingsHdg.PaintExplorerBarBackground = false;
+			// 
+			// btnInformation
+			// 
+			resources.ApplyResources(this.btnInformation, "btnInformation");
+			this.btnInformation.BackColor = System.Drawing.Color.Transparent;
+			this.btnInformation.CanBeChecked = false;
+			this.btnInformation.Checked = false;
+			this.btnInformation.DrawEmpty = false;
+			this.btnInformation.DrawLeftArrowButton = false;
+			this.btnInformation.DrawRightArrowButton = false;
+			this.locExtender.SetLocalizableToolTip(this.btnInformation, "Display field mapping information.");
+			this.locExtender.SetLocalizationComment(this.btnInformation, null);
+			this.locExtender.SetLocalizingId(this.btnInformation, "SFDataSourcePropertiesDlg.btnInformation");
+			this.btnInformation.Name = "btnInformation";
+			this.btnInformation.Click += new System.EventHandler(this.HandleInformationButtonClick);
 			// 
 			// pnlSrcFile
 			// 
@@ -430,9 +507,8 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.cboFirstInterlinear, "cboFirstInterlinear");
 			this.cboFirstInterlinear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboFirstInterlinear.FormattingEnabled = true;
-			this.locExtender.SetLocalizableToolTip(this.cboFirstInterlinear, null);
+			this.locExtender.SetLocalizableToolTip(this.cboFirstInterlinear, "Select the marker of the first\\ninterlinear field in each record.");
 			this.locExtender.SetLocalizationComment(this.cboFirstInterlinear, null);
-			this.locExtender.SetLocalizationPriority(this.cboFirstInterlinear, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.cboFirstInterlinear, "SFDataSourcePropertiesDlg.cboFirstInterlinear");
 			this.cboFirstInterlinear.Name = "cboFirstInterlinear";
 			this.cboFirstInterlinear.SelectedIndexChanged += new System.EventHandler(this.HandleFirstInterlinearComboSelectedIndexChanged);
@@ -468,7 +544,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlSampeOutput.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlSampeOutput, null);
 			this.locExtender.SetLocalizationComment(this.pnlSampeOutput, null);
-			this.locExtender.SetLocalizingId(this.pnlSampeOutput, "silPanel1.silPanel1");
+			this.locExtender.SetLocalizationPriority(this.pnlSampeOutput, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.pnlSampeOutput, "SFDataSourcePropertiesDlg.pnlSampeOutput");
 			this.pnlSampeOutput.MnemonicGeneratesClick = false;
 			this.pnlSampeOutput.Name = "pnlSampeOutput";
 			this.pnlSampeOutput.PaintExplorerBarBackground = false;
@@ -591,10 +668,14 @@ namespace SIL.Pa.UI.Dialogs
 			this.scImport.Panel2.ResumeLayout(false);
 			this.scImport.ResumeLayout(false);
 			this.pnlMappings.ResumeLayout(false);
+			this.pnlMappings.PerformLayout();
 			this.tblLayoutEditor.ResumeLayout(false);
 			this.tblLayoutEditor.PerformLayout();
+			this.pnlMappingsInner.ResumeLayout(false);
+			this.pnlMappingsInner.PerformLayout();
 			this.tblLayoutToolBoxSortField.ResumeLayout(false);
 			this.tblLayoutToolBoxSortField.PerformLayout();
+			this.pnlMappingsHdg.ResumeLayout(false);
 			this.pnlSrcFile.ResumeLayout(false);
 			this.pnlSrcFile.PerformLayout();
 			this.splitOuter.Panel1.ResumeLayout(false);
@@ -645,5 +726,10 @@ namespace SIL.Pa.UI.Dialogs
 		private DataGridViewTextBoxColumn SampleOutputPhoneticColumn;
 		private DataGridViewTextBoxColumn SampleOutputGlossColumn;
 		private DataGridViewTextBoxColumn SampleOutputPartOfSpeechColumn;
+		private Label lblRecordMarker;
+		private ComboBox cboRecordMarkers;
+		private AutoHeightLabel lblInformation;
+		private XButton btnInformation;
+		private SilPanel pnlMappingsInner;
 	}
 }

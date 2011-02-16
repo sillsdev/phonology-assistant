@@ -664,7 +664,7 @@
     <value>m_grid</value>
   </data>
   <data name="&gt;&gt;m_grid.Type" xml:space="preserve">
-    <value>SilTools.SilGrid, SilTools, Version=1.5.4051.18916, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.SilGrid, SilTools, Version=1.5.4059.25989, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_grid.Parent" xml:space="preserve">
     <value>pnlGrid</value>
@@ -694,7 +694,7 @@
     <value>pnlGridHdg</value>
   </data>
   <data name="&gt;&gt;pnlGridHdg.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.5.4051.18916, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.5.4059.25989, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlGridHdg.Parent" xml:space="preserve">
     <value>pnlGrid</value>
@@ -724,7 +724,7 @@
     <value>pnlGrid</value>
   </data>
   <data name="&gt;&gt;pnlGrid.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4051.18916, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4059.25989, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlGrid.Parent" xml:space="preserve">
     <value>tblLayout</value>
@@ -826,7 +826,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;tblLayout.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="tblLayout.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="txtLanguageCode" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="lblResearcher" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="txtResearcher" Row="3" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="lblProjName" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="lblLanguageName" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="lblLanguageCode" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="txtProjName" Row="0" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="txtLanguageName" Row="1" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="txtComments" Row="2" RowSpan="2" Column="4" ColumnSpan="2" /&gt;&lt;Control Name="txtSpeaker" Row="1" RowSpan="1" Column="4" ColumnSpan="2" /&gt;&lt;Control Name="txtTranscriber" Row="0" RowSpan="1" Column="4" ColumnSpan="2" /&gt;&lt;Control Name="lblTranscriber" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="lblSpeaker" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="lblComments" Row="2" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="lnkEthnologue" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="btnAdd" Row="4" RowSpan="1" Column="5" ColumnSpan="1" /&gt;&lt;Control Name="btnRemove" Row="5" RowSpan="1" Column="5" ColumnSpan="1" /&gt;&lt;Control Name="pnlGrid" Row="4" RowSpan="4" Column="0" ColumnSpan="5" /&gt;&lt;Control Name="btnProperties" Row="6" RowSpan="1" Column="5" ColumnSpan="1" /&gt;&lt;Control Name="btnCustomFields" Row="7" RowSpan="1" Column="5" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,50,AutoSize,0,AutoSize,0,Percent,50,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
@@ -855,40 +855,40 @@
   <data name="&gt;&gt;txtProjName.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <metadata name="cmnuAdd.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="mnuAdd.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="cmnuAddOtherDataSource.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="mnuAddOtherDataSource.Size" type="System.Drawing.Size, System.Drawing">
     <value>208, 22</value>
   </data>
-  <data name="cmnuAddOtherDataSource.Text" xml:space="preserve">
+  <data name="mnuAddOtherDataSource.Text" xml:space="preserve">
     <value>&amp;Non FieldWorks Data Source...</value>
   </data>
-  <data name="cmnuAddFw7DataSource.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="mnuAddFw7DataSource.Size" type="System.Drawing.Size, System.Drawing">
     <value>153, 22</value>
   </data>
-  <data name="cmnuAddFw7DataSource.Text" xml:space="preserve">
+  <data name="mnuAddFw7DataSource.Text" xml:space="preserve">
     <value>&amp;7.0 or Later...</value>
   </data>
-  <data name="cmnuAddFw6DataSource.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="mnuAddFw6DataSource.Size" type="System.Drawing.Size, System.Drawing">
     <value>153, 22</value>
   </data>
-  <data name="cmnuAddFw6DataSource.Text" xml:space="preserve">
+  <data name="mnuAddFw6DataSource.Text" xml:space="preserve">
     <value>&amp;6.0.6 or Older...</value>
   </data>
-  <data name="cmnuAddFwDataSource.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="mnuAddFwDataSource.Size" type="System.Drawing.Size, System.Drawing">
     <value>208, 22</value>
   </data>
-  <data name="cmnuAddFwDataSource.Text" xml:space="preserve">
+  <data name="mnuAddFwDataSource.Text" xml:space="preserve">
     <value>&amp;FieldWorks Data Source</value>
   </data>
-  <data name="cmnuAdd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>209, 48</value>
+  <data name="mnuAdd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>209, 70</value>
   </data>
-  <data name="&gt;&gt;cmnuAdd.Name" xml:space="preserve">
-    <value>cmnuAdd</value>
+  <data name="&gt;&gt;mnuAdd.Name" xml:space="preserve">
+    <value>mnuAdd</value>
   </data>
-  <data name="&gt;&gt;cmnuAdd.Type" xml:space="preserve">
+  <data name="&gt;&gt;mnuAdd.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -912,28 +912,28 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Project Settings</value>
   </data>
-  <data name="&gt;&gt;cmnuAddOtherDataSource.Name" xml:space="preserve">
-    <value>cmnuAddOtherDataSource</value>
+  <data name="&gt;&gt;mnuAddOtherDataSource.Name" xml:space="preserve">
+    <value>mnuAddOtherDataSource</value>
   </data>
-  <data name="&gt;&gt;cmnuAddOtherDataSource.Type" xml:space="preserve">
+  <data name="&gt;&gt;mnuAddOtherDataSource.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;cmnuAddFwDataSource.Name" xml:space="preserve">
-    <value>cmnuAddFwDataSource</value>
+  <data name="&gt;&gt;mnuAddFwDataSource.Name" xml:space="preserve">
+    <value>mnuAddFwDataSource</value>
   </data>
-  <data name="&gt;&gt;cmnuAddFwDataSource.Type" xml:space="preserve">
+  <data name="&gt;&gt;mnuAddFwDataSource.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;cmnuAddFw7DataSource.Name" xml:space="preserve">
-    <value>cmnuAddFw7DataSource</value>
+  <data name="&gt;&gt;mnuAddFw7DataSource.Name" xml:space="preserve">
+    <value>mnuAddFw7DataSource</value>
   </data>
-  <data name="&gt;&gt;cmnuAddFw7DataSource.Type" xml:space="preserve">
+  <data name="&gt;&gt;mnuAddFw7DataSource.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;cmnuAddFw6DataSource.Name" xml:space="preserve">
-    <value>cmnuAddFw6DataSource</value>
+  <data name="&gt;&gt;mnuAddFw6DataSource.Name" xml:space="preserve">
+    <value>mnuAddFw6DataSource</value>
   </data>
-  <data name="&gt;&gt;cmnuAddFw6DataSource.Type" xml:space="preserve">
+  <data name="&gt;&gt;mnuAddFw6DataSource.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
@@ -946,6 +946,6 @@
     <value>ProjectSettingsDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.2.4051.27607, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.2.9.9, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

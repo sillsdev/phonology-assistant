@@ -38,6 +38,8 @@ namespace SIL.Pa.Model
 		private FeatureMask m_aMask;
 		private FeatureMask m_bMask;
 
+		private PaProject m_project;
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Constructs a new phone information object for the specified phone.
@@ -54,8 +56,7 @@ namespace SIL.Pa.Model
 		/// Constructs a new phone information object for the specified phone.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PhoneInfo(string phone)
-			: this(phone, false)
+		public PhoneInfo(PaProject project, string phone) : this(project, phone, false)
 		{
 		}
 
@@ -64,8 +65,9 @@ namespace SIL.Pa.Model
 		/// Constructs a new phone information object for the specified phone.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		internal PhoneInfo(string phone, bool isUndefined)
+		public PhoneInfo(PaProject project, string phone, bool isUndefined)
 		{
+			m_project = project;
 			SiblingUncertainties = new List<string>();
 			CharType = IPASymbolType.Unknown;
 			Phone = phone;
@@ -85,16 +87,12 @@ namespace SIL.Pa.Model
 			m_bMask = DefaultBMask = App.BFeatureCache.GetEmptyMask();
 
 			// Go through each codepoint of the phone, building the feature masks along the way.
-			foreach (char c in phone)
+			foreach (var ci in phone.Select(ci => App.IPASymbolCache[ci]).Where(ci => ci != null))
 			{
-				IPASymbol charInfo = App.IPASymbolCache[c];
-				if (charInfo != null)
-				{
-					m_aMask |= charInfo.AMask;
-					m_bMask |= charInfo.BMask;
-					DefaultAMask |= charInfo.AMask;
-					DefaultBMask |= charInfo.BMask;
-				}
+				m_aMask |= ci.AMask;
+				m_bMask |= ci.BMask;
+				DefaultAMask |= ci.AMask;
+				DefaultBMask |= ci.BMask;
 			}
 		}
 
@@ -156,15 +154,14 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		private bool CheckIfAmbiguous(string phone)
 		{
-			if (App.IPASymbolCache.AmbiguousSequences == null)
+			if (m_project.AmbiguousSequences == null)
 				return false;
 
-			AmbiguousSeq ambigSeq =
-				App.IPASymbolCache.AmbiguousSequences.GetAmbiguousSeq(phone, true);
+			var ambigSeq = m_project.AmbiguousSequences.GetAmbiguousSeq(phone, true);
 
 			if (ambigSeq != null)
 			{
-				IPASymbol charInfo = App.IPASymbolCache[ambigSeq.BaseChar];
+				var charInfo = App.IPASymbolCache[ambigSeq.BaseChar];
 				if (charInfo != null)
 				{
 					m_baseChar = ambigSeq.BaseChar[0];
@@ -183,7 +180,8 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public IPhoneInfo Clone()
 		{
-			PhoneInfo clone = new PhoneInfo(Phone);
+			var clone = new PhoneInfo(m_project, Phone);
+			clone.m_project = m_project;
 			clone.Description = Description;
 			clone.TotalCount = TotalCount;
 			clone.CountAsNonPrimaryUncertainty = CountAsNonPrimaryUncertainty;
@@ -226,25 +224,13 @@ namespace SIL.Pa.Model
 		public string Phone { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("articulatoryFeaturesChanged")]
 		public bool AFeaturesAreOverridden { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("binaryFeaturesChanged")]
 		public bool BFeaturesAreOverridden { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public string Description { get; set; }

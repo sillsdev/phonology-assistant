@@ -228,10 +228,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnAfterLabelEdit(LabelEditEventArgs e)
 		{
 			string newName = (e.Label == null ? null : e.Label.Trim());

@@ -41,14 +41,14 @@ namespace SIL.Pa.DataSource
 		public const string kRecordMarker = "RecMrkr";
 		public const string kShoeboxMarker = "\\_sh ";
 
-		private DataSourceType m_dataSourceType;
+		private DataSourceType m_type;
 		private FwDataSourceInfo m_fwDataSourceInfo;
 		private string m_dataSourceFile;
 
 		/// ------------------------------------------------------------------------------------
 		public PaDataSource()
 		{
-			DataSourceType = DataSourceType.Unknown;
+			Type = DataSourceType.Unknown;
 			ParseType = DataSourceParseType.PhoneticOnly;
 			TotalLinesInFile = 1;
 			SkipLoading = false;
@@ -62,7 +62,7 @@ namespace SIL.Pa.DataSource
 		public PaDataSource(FwDataSourceInfo fwDbItem) : this()
 		{
 			FwDataSourceInfo = fwDbItem;
-			DataSourceType = fwDbItem.DataSourceType;
+			Type = fwDbItem.DataSourceType;
 			FwPrjName = FwDataSourceInfo.Name;
 		}
 
@@ -74,16 +74,16 @@ namespace SIL.Pa.DataSource
 			if (DataSourceFile.ToLower().EndsWith(".wav") /* || m_file.ToLower().EndsWith(".mp3") ||
 				m_file.ToLower().EndsWith(".wma") */)
 			{
-				DataSourceType = DataSourceType.SA;
+				Type = DataSourceType.SA;
 			}
 			else if (!GetIsXmlFile(DataSourceFile))
 			{
 				bool isShoeboxFile;
 				if (IsSfmFile(DataSourceFile, out isShoeboxFile))
-					DataSourceType = (isShoeboxFile ? DataSourceType.Toolbox : DataSourceType.SFM);
+					Type = (isShoeboxFile ? DataSourceType.Toolbox : DataSourceType.SFM);
 			}
 			
-			if (DataSourceType == DataSourceType.SFM || DataSourceType == DataSourceType.Toolbox)
+			if (Type == DataSourceType.SFM || Type == DataSourceType.Toolbox)
 				MakeNewMappingsList();
 		}
 
@@ -96,21 +96,21 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		public bool Matches(PaDataSource ds, bool treatToolboxAsSFM)
 		{
-			bool typesMatch = (DataSourceType == ds.DataSourceType);
+			bool typesMatch = (Type == ds.Type);
 
 			if (!typesMatch && treatToolboxAsSFM)
 			{
 				// Determine if the TOOLBOX/SFM types match.
-				typesMatch = ((DataSourceType == DataSourceType.Toolbox ||
-					DataSourceType == DataSourceType.SFM) &&
-					(ds.DataSourceType == DataSourceType.Toolbox ||
-					ds.DataSourceType == DataSourceType.SFM));
+				typesMatch = ((Type == DataSourceType.Toolbox ||
+					Type == DataSourceType.SFM) &&
+					(ds.Type == DataSourceType.Toolbox ||
+					ds.Type == DataSourceType.SFM));
 			}
 
 			if (!typesMatch)
 				return false;
 
-			if (DataSourceType == DataSourceType.FW || DataSourceType == DataSourceType.FW7)
+			if (Type == DataSourceType.FW || Type == DataSourceType.FW7)
 			{
 				return (FwDataSourceInfo != null && ds.FwDataSourceInfo != null &&
 					FwDataSourceInfo.Name == ds.FwDataSourceInfo.Name &&
@@ -143,29 +143,30 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		public void VerifyMappings(PaProject project)
 		{
-			if (DataSourceType != DataSourceType.Toolbox && DataSourceType != DataSourceType.SFM &&
-				SFMappings != null)
-			{
-				SFMappings.Clear();
-				return;
-			}
+			// TODO: Fix for new system.
+			//if (Type != DataSourceType.Toolbox && Type != DataSourceType.SFM &&
+			//    SFMappings != null)
+			//{
+			//    SFMappings.Clear();
+			//    return;
+			//}
 
-			if (project == null)
-				return;
+			//if (project == null)
+			//    return;
 
-			if (SFMappings == null || SFMappings.Count == 0)
-			{
-				MakeNewMappingsList();
-				return;
-			}
+			//if (SFMappings == null || SFMappings.Count == 0)
+			//{
+			//    MakeNewMappingsList();
+			//    return;
+			//}
 
-			// Verify that each field in the project has an item in the mappings collection.
-			foreach (PaFieldInfo fieldinfo in project.FieldInfo)
-				SFMarkerMapping.VerifyMappingForField(SFMappings, fieldinfo);
+			//// Verify that each field in the project has an item in the mappings collection.
+			//foreach (PaFieldInfo fieldinfo in project.FieldInfo)
+			//    SFMarkerMapping.VerifyMappingForField(SFMappings, fieldinfo);
 
-			// Now make sure a mapping exists for the record marker.
-			if (!SFMappings.Any(m => m.FieldName == kRecordMarker))
-				SFMappings.Add(new SFMarkerMapping(kRecordMarker));
+			//// Now make sure a mapping exists for the record marker.
+			//if (!SFMappings.Any(m => m.FieldName == kRecordMarker))
+			//    SFMappings.Add(new SFMarkerMapping(kRecordMarker));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -226,13 +227,13 @@ namespace SIL.Pa.DataSource
 			var paxmlContent = XmlSerializationHelper.DeserializeFromFile<PaXMLContent>(filename);
 
 			if (paxmlContent == null)
-				DataSourceType = DataSourceType.XML;
+				Type = DataSourceType.XML;
 			else
 			{
 				// We know we have a PAXML file. Now check if it was written by FieldWorks.
 				string fwServer;
 				string fwDBName;
-				DataSourceType = GetPaXmlType(filename, out fwServer, out fwDBName);
+				Type = GetPaXmlType(filename, out fwServer, out fwDBName);
 				TotalLinesInFile = paxmlContent.Cache.Count;
 				paxmlContent.Cache.Clear();
 			}
@@ -303,12 +304,12 @@ namespace SIL.Pa.DataSource
 		{
 			get
 			{
-				return (m_fwDataSourceInfo != null && m_dataSourceType == DataSourceType.FW7 ?
+				return (m_fwDataSourceInfo != null && m_type == DataSourceType.FW7 ?
 					m_fwDataSourceInfo.Name : m_dataSourceFile);
 			}
 			set
 			{
-				if (m_fwDataSourceInfo == null || m_dataSourceType != DataSourceType.FW7)
+				if (m_fwDataSourceInfo == null || m_type != DataSourceType.FW7)
 					m_dataSourceFile = value;
 
 				if (LastModification == default(DateTime) && File.Exists(m_dataSourceFile))
@@ -329,15 +330,18 @@ namespace SIL.Pa.DataSource
 		/// Gets the type of the data source. (The setter is only for XML deserialization.)
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public DataSourceType DataSourceType
+		public DataSourceType Type
 		{
-			get { return m_dataSourceType; }
+			get { return m_type; }
 			set
 			{
-				m_dataSourceType = value;
+				m_type = value;
 				SetFwDataSourceInfoType();
 			}
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public string SfmRecordMarker { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -359,9 +363,9 @@ namespace SIL.Pa.DataSource
 		private void SetFwDataSourceInfoType()
 		{
 			if (m_fwDataSourceInfo != null &&
-				(m_dataSourceType == DataSourceType.FW || m_dataSourceType == DataSourceType.FW7))
+				(m_type == DataSourceType.FW || m_type == DataSourceType.FW7))
 			{
- 				m_fwDataSourceInfo.DataSourceType = m_dataSourceType;
+ 				m_fwDataSourceInfo.DataSourceType = m_type;
 			}
 		}
 
@@ -410,7 +414,7 @@ namespace SIL.Pa.DataSource
 		[XmlIgnore]
 		public string DataSourceTypeString
 		{
-			get { return DataSourceType.ToString(); }
+			get { return Type.ToString(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -457,7 +461,7 @@ namespace SIL.Pa.DataSource
 			get
 			{
 				if (string.IsNullOrEmpty(FirstInterlinearField) ||
-					(DataSourceType != DataSourceType.SFM && DataSourceType != DataSourceType.Toolbox))
+					(Type != DataSourceType.SFM && Type != DataSourceType.Toolbox))
 				{
 					return null;
 				}
@@ -513,15 +517,15 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		public bool UpdateLastModifiedTime()
 		{
-			if (DataSourceType == DataSourceType.FW && FwSourceDirectFromDB)
+			if (Type == DataSourceType.FW && FwSourceDirectFromDB)
 				return m_fwDataSourceInfo.UpdateLastModifiedTime();
 
 			// We don't have a way to get the last modified time for server-based projects.
 			// TODO: Figure out how to deal with getting modifed time for server-based projects.
-			if (DataSourceType == DataSourceType.FW7 && m_fwDataSourceInfo.IsMultiAccessProject)
+			if (Type == DataSourceType.FW7 && m_fwDataSourceInfo.IsMultiAccessProject)
 				return false;
 
-			var latestModification = (DataSourceType == DataSourceType.SA ?
+			var latestModification = (Type == DataSourceType.SA ?
 				SaAudioDocument.GetTranscriptionFileModifiedTime(DataSourceFile) :
 				File.GetLastWriteTimeUtc(DataSourceFile));
 
@@ -551,7 +555,7 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		public string ToString(bool showServerForFwDataSource)
 		{
-			if (DataSourceType == DataSourceType.FW || DataSourceType == DataSourceType.FW7)
+			if (Type == DataSourceType.FW || Type == DataSourceType.FW7)
 				return FwDataSourceInfo.ToString(showServerForFwDataSource);
 		
 			return DataSourceFile;

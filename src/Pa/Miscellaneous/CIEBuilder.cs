@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using SIL.Pa.Model;
@@ -16,7 +17,6 @@ namespace SIL.Pa
 	{
 		private readonly SortOptions m_sortOptions;
 		private CIEOptions m_cieOptions;
-		private WordListCache m_cache;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -48,8 +48,8 @@ namespace SIL.Pa
 			if (cache == null || cache.Count <= 2)
 				return;
 
-			m_cache = cache;
-			m_sortOptions = (sortOptions ?? new SortOptions(true));
+			Cache = cache;
+			m_sortOptions = (sortOptions ?? new SortOptions(true, App.Project));
 			CIEOptions = cieOptions;
 		}
 
@@ -58,11 +58,7 @@ namespace SIL.Pa
 		/// Gets or sets the cache that is searched for minimal pairs.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public WordListCache Cache
-		{
-			get { return m_cache; }
-			set { m_cache = value; }
-		}
+		public WordListCache Cache { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -76,16 +72,12 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public WordListCache FindMinimalPairs()
 		{
-			if (m_cache == null || !m_cache.IsForSearchResults)
+			if (Cache == null || !Cache.IsForSearchResults)
 				return null;
 
-			foreach (WordListCacheEntry entry in m_cache)
+			foreach (WordListCacheEntry entry in Cache)
 			    entry.CIEGroupId = -1;
 
 			// First, send a message to see if there is an AddOn to find minimal pairs. If so,
@@ -97,10 +89,9 @@ namespace SIL.Pa
 					return (args as WordListCache);
 			}
 
-			Dictionary<string, List<WordListCacheEntry>> cieGroups =
-				new Dictionary<string, List<WordListCacheEntry>>();
+			var cieGroups = new Dictionary<string, List<WordListCacheEntry>>();
 
-			foreach (WordListCacheEntry entry in m_cache)
+			foreach (var entry in Cache)
 			{
 				string pattern = GetCIEPattern(entry, m_cieOptions);
 
@@ -116,8 +107,8 @@ namespace SIL.Pa
 
 			// Create a new cache which is the subset containing minimal pair entries.
 			int cieGroupId = 0;
-			SortedList<int, string> cieGroupTexts = new SortedList<int, string>();
-			WordListCache cieCache = new WordListCache();
+			var cieGroupTexts = new SortedList<int, string>();
+			var cieCache = new WordListCache();
 			foreach (KeyValuePair<string, List<WordListCacheEntry>> grp in cieGroups)
 			{
 				if (grp.Value.Count < 2)
@@ -136,7 +127,7 @@ namespace SIL.Pa
 			cieCache.CIEGroupTexts = cieGroupTexts;
 			cieCache.IsForSearchResults = true;
 			cieCache.Sort(m_sortOptions);
-			cieCache.SearchQuery = m_cache.SearchQuery.Clone();
+			cieCache.SearchQuery = Cache.SearchQuery.Clone();
 			return cieCache;
 		}
 
@@ -177,13 +168,13 @@ namespace SIL.Pa
 			if (string.IsNullOrEmpty(environment))
 				return null;
 
-			List<string> ignoredList = cieOptions.SearchQuery.CompleteIgnoredList; 
-			StringBuilder bldrEnv = new StringBuilder(environment);
+			var ignoredList = cieOptions.SearchQuery.CompleteIgnoredList; 
+			var bldrEnv = new StringBuilder(environment);
 
 			// Get rid of all explicitly ignored characters (as opposed to
 			// getting rid of all characters that are considered diacritics).
-			foreach (string ignoredChar in ignoredList)
-				bldrEnv = bldrEnv.Replace(ignoredChar, string.Empty);
+			bldrEnv = ignoredList.Aggregate(bldrEnv, (curr, ignoredChar) =>
+				curr.Replace(ignoredChar, string.Empty));
 
 			if (cieOptions.SearchQuery.IgnoreDiacritics)
 			{
@@ -194,7 +185,7 @@ namespace SIL.Pa
 					char chr = bldrEnv[i];
 					if (chr != App.kBottomTieBarC && chr != App.kTopTieBarC)
 					{
-						IPASymbol info = App.IPASymbolCache[chr];
+						var info = App.IPASymbolCache[chr];
 						if (info != null && !info.IsBase)
 							bldrEnv.Remove(i, 1);
 					}

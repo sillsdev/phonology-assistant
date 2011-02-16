@@ -21,7 +21,7 @@ namespace SIL.Pa.UI.Dialogs
 	{
 		#region member variables
 
-		private FieldMapperGrid m_fieldsGrid;
+		private FieldMappingGrid m_fieldsGrid;
 		private SilGrid m_grid;
 		private string m_filename;
 		private List<SFMarkerMapping> m_mappings = new List<SFMarkerMapping>();
@@ -33,9 +33,11 @@ namespace SIL.Pa.UI.Dialogs
 
 		#region Construction/Setup
 		/// ------------------------------------------------------------------------------------
-		public SFDataSourcePropertiesDlg(IEnumerable<PaField> projectFields, PaDataSource ds)
+		public SFDataSourcePropertiesDlg(IEnumerable<PaField> mappedSfmFields, PaDataSource ds)
 		{
-			m_potentialFields = PaField.Merge(projectFields, PaField.GetDefaultSfmFields());
+			// Merge the project's mapped sfm fields with the default set.
+			m_potentialFields = PaField.Merge(mappedSfmFields, PaField.GetDefaultSfmFields());
+
 			m_datasource = ds;
 			InitializeComponent();
 			Initialize();
@@ -71,53 +73,54 @@ namespace SIL.Pa.UI.Dialogs
 			txtEditor.Font = FontHelper.UIFont;
 			cboToolboxSortField.Font = FontHelper.UIFont;
 			lblToolboxSortField.Font = FontHelper.UIFont;
+			lblRecordMarker.Font = FontHelper.UIFont;
+			cboRecordMarkers.Font = FontHelper.UIFont;
+			lblInformation.Font = FontHelper.UIFont;
 			gridSampleOutput.Font = new Font(FontHelper.UIFont.FontFamily, 8f);
 			gridSampleOutput.BorderStyle = BorderStyle.None;
-
+			pnlMappingsInner.BorderStyle = BorderStyle.None;
 			pnlParseHdg.BorderStyle = BorderStyle.None;
 			pnlMappingsHdg.BorderStyle = BorderStyle.None;
 			pnlSrcFileHdg.BorderStyle = BorderStyle.None;
 			pnlSrcFileHdg.TextFormatFlags |= TextFormatFlags.PathEllipsis;
+			pnlMappingsInner.DrawOnlyBottomBorder = true;
+
+			if (!Settings.Default.ShowSFMappingsInformation)
+			{
+				lblInformation.Visible = false;
+				btnInformation.Image = Properties.Resources.InformationShow;
+			}
 
 			m_filename = m_datasource.DataSourceFile;
 			m_tooltip.SetToolTip(pnlSrcFileHdg, m_filename);
 			txtFilePreview.Text = File.ReadAllText(m_filename);
 
-			cboFirstInterlinear.Items.Add(App.LocalizeString(
-				"SFDataSourcePropertiesDlg.UnspecifiedFirstInterlinearFieldItem", "(none)",
-				"First item in the list of potential first interlinear fields.",
-				App.kLocalizationGroupDialogs));
-
-			cboFirstInterlinear.SelectedIndex = 0;
-
 			InitializeToolboxSortFieldControls();
 			InitializeBottomPanel();
-			
+			m_datasource.TotalLinesInFile = GetMarkersFromFile(m_filename, m_markersInFile);
 			LoadMappings();
-			PrepareMarkerList();
 			InitializeFieldMappingsGrid();
 			BuildMappingGrid();
-			pnlMappingsHdg.ControlReceivingFocusOnMnemonic = m_grid;
+			InitializeFirstInterlinearCombo();
 
 			rbNoParse.Tag = Settings.Default.SFMNoParseOptionSampleOutput;
 			rbParseOneToOne.Tag = Settings.Default.SFMOneToOneParseOptionSampleOutput;
 			rbParseOnlyPhonetic.Tag = Settings.Default.SFMPhoneticParseOptionSampleOutput;
 			rbInterlinearize.Tag = Settings.Default.SFMInterlinearParseOptionSampleOutput;
+
+			cboRecordMarkers.Items.AddRange(m_markersInFile.ToArray());
+			var marker = m_markersInFile.SingleOrDefault(m => m == m_datasource.SfmRecordMarker);
+			cboRecordMarkers.SelectedItem = (marker ?? m_markersInFile[0]);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void InitializeBottomPanel()
 		{
-			if (m_datasource != null && m_datasource.DataSourceType == DataSourceType.Toolbox)
+			if (m_datasource != null && m_datasource.Type != DataSourceType.Toolbox)
 			{
-				// Things line up better if I first set the height to 0.
-				tblLayoutToolBoxSortField.Visible = true;
-				tblLayoutToolBoxSortField.Height = 0;
-				tblLayoutButtons.Controls.Add(tblLayoutToolBoxSortField, 0, 0);
-				tblLayoutToolBoxSortField.Dock = DockStyle.Fill;
-			}
-			else
-			{
+				lblToolboxSortField.Visible = false;
+				cboToolboxSortField.Visible = false;
+
 				// Things line up better if I first set the height to 0.
 				tblLayoutEditor.Visible = true;
 				tblLayoutEditor.Height = 0;
@@ -136,6 +139,25 @@ namespace SIL.Pa.UI.Dialogs
 			cboToolboxSortField.Items.AddRange(m_potentialFields.Select(f => f.DisplayName).ToArray());
 			int i = cboToolboxSortField.Items.IndexOf(m_datasource.ToolboxSortField ?? string.Empty);
 			cboToolboxSortField.SelectedIndex = (i < 0 ? 0 : i);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void InitializeFirstInterlinearCombo()
+		{
+			cboFirstInterlinear.Items.Add(App.LocalizeString(
+				"SFDataSourcePropertiesDlg.UnspecifiedFirstInterlinearFieldItem", "(none)",
+				"First item in the list of potential first interlinear fields.",
+				App.kLocalizationGroupDialogs));
+
+			cboFirstInterlinear.Items.AddRange(m_markersInFile.ToArray());
+
+			var marker = m_datasource.FieldMappings.SingleOrDefault(m =>
+				m.Field != null && m.Field.Name == m_datasource.FirstInterlinearField);
+
+			if (marker == null)
+				cboFirstInterlinear.SelectedIndex = 0;
+			else
+				cboFirstInterlinear.SelectedItem = marker;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -316,24 +338,25 @@ namespace SIL.Pa.UI.Dialogs
 				}).ToList();
 			}
 
-			m_fieldsGrid = new FieldMapperGrid(m_potentialFields, m_datasource.FieldMappings);
+			m_fieldsGrid = new FieldMappingGrid(m_potentialFields, m_datasource.FieldMappings,
+				() => App.LocalizeString("SFDataSourcePropertiesDlg.SourceFieldColumnHeadingText", "Map this Marker...", App.kLocalizationGroupDialogs),
+				() => App.LocalizeString("SFDataSourcePropertiesDlg.TargetFieldColumnHeadingText", "To this Field", App.kLocalizationGroupDialogs));
+			
 			m_fieldsGrid.Dock = DockStyle.Fill;
 			pnlMappings.Controls.Add(m_fieldsGrid);
 			m_fieldsGrid.BringToFront();
+			pnlMappingsHdg.ControlReceivingFocusOnMnemonic = m_fieldsGrid;
+			OnStringLocalized(null);
 
-			m_fieldsGrid.SourceFieldColumnHeadingTextHandler = delegate
+			if (Settings.Default.SFDataSourcePropertiesDlgMappingGrid != null)
+				Settings.Default.SFDataSourcePropertiesDlgMappingGrid.InitializeGrid(m_fieldsGrid);
+			else
 			{
-				return App.LocalizeString(
-					"SFDataSourcePropertiesDlg.SourceFieldColumnHeadingText",
-					"Map this Marker...", App.kLocalizationGroupDialogs);
-			};
-
-			m_fieldsGrid.TargetFieldColumnHeadingTextHandler = delegate
-			{
-				return App.LocalizeString(
-					"SFDataSourcePropertiesDlg.TargetFieldColumnHeadingText",
-					"To this Field", App.kLocalizationGroupDialogs);
-			};
+				m_fieldsGrid.AutoResizeColumnHeadersHeight();
+				m_fieldsGrid.AutoResizeColumns();
+				m_fieldsGrid.AutoResizeRows();
+				m_fieldsGrid.Columns["tgtfield"].Width += 20;
+			}
 		}
 
 		/// --------------------------------------------------------------------------------
@@ -422,78 +445,70 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			Settings.Default.SFDataSourcePropertiesDlgGrid = GridSettings.Create(m_grid);
+			Settings.Default.SFDataSourcePropertiesDlgMappingGrid = GridSettings.Create(m_fieldsGrid);
 			Settings.Default.SFDataSourcePropertiesDlgSplitLoc = scImport.SplitterDistance;
+			Settings.Default.ShowSFMappingsInformation = lblInformation.Visible;
 			base.SaveSettings();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Verify the mappings.
+		/// Verify everything.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override bool Verify()
 		{
 			// Commit pending changes in the grid.
-			m_grid.CommitEdit(DataGridViewDataErrorContexts.Commit);
+			m_fieldsGrid.CommitEdit(DataGridViewDataErrorContexts.Commit);
 
-			string msg = null;
-			int count = 0;
-			bool toolboxSortFieldFound = (ToolBoxSortField == null);
-
-			foreach (SFMarkerMapping mapping in m_mappings)
+			// Make sure the record marker was specified.
+			if (cboRecordMarkers.SelectedItem == null)
 			{
-				// Check if this field's mapping is also the field
-				// specified for the ToolBox sort field.
-				if (!toolboxSortFieldFound && mapping.FieldName == ToolBoxSortField &&
-					!string.IsNullOrEmpty(mapping.Marker))
-				{
-					toolboxSortFieldFound = true;
-				}
-
-				// The record marker must be mapped.
-				if (mapping.FieldName == PaDataSource.kRecordMarker &&
-					string.IsNullOrEmpty(mapping.Marker))
-				{
-					count = 1;
-
-					msg = App.LocalizeString("SFDataSourcePropertiesDlg.MissingRecordMarkerMappingMsg",
-						"You must specify a marker for the 'Record Marker' in order for {0} to identify the beginning of each record.",
-						App.kLocalizationGroupDialogs);
-
-					msg = string.Format(msg, Application.ProductName);
-					break;
-				}
-				
-				if (!string.IsNullOrEmpty(mapping.Marker))
-					count++;
+				return ShowError(cboRecordMarkers, App.LocalizeString(
+					"SFDataSourcePropertiesDlg.MissingRecordMarkerSpecificationMsg",
+					"You must specify a record marker to identify the beginning of each record.",
+					App.kLocalizationGroupDialogs));
 			}
 
-			// There must be at least one mapping specified other than the record marker.
-			if (count == 0)
+			// Make sure there's at least one mapping specified.
+			if (m_fieldsGrid.Mappings.Count(m => m.Field != null) == 0)
 			{
-				msg = App.LocalizeString("SFDataSourcePropertiesDlg.NoMappingsSpecifiedMsg",
-					"You must specify at least one field mapping other than one for the 'Record Marker'.",
-					App.kLocalizationGroupDialogs);
+			    return ShowError(m_fieldsGrid, App.LocalizeString(
+					"SFDataSourcePropertiesDlg.NoMappingsSpecifiedMsg",
+			        "You must specify at least one field mapping.",
+					App.kLocalizationGroupDialogs));
 			}
 
-			if (msg == null)
-				msg = VerifyInterlinearInfo();
-
-			if (msg == null && !toolboxSortFieldFound)
+			// Make sure no field is mapped more than once.
+			if (m_fieldsGrid.GetAreAnyFieldsMappedMultipleTimes())
 			{
-				msg = App.LocalizeString("SFDataSourcePropertiesDlg.InvalidToolboxSortFieldSpecifiedMsg",
+				return ShowError(m_fieldsGrid, App.LocalizeString(
+					"SFDataSourcePropertiesDlg.MultipleMappingsForSingleFieldMsg",
+					"Each field may only be mapped once.", App.kLocalizationGroupDialogs));
+			}
+
+			// Make sure the field specified as the toolbox sort field is mapped to a marker.
+			if (ToolBoxSortField != null && !m_fieldsGrid.GetIsTargetFieldMapped(ToolBoxSortField))
+			{
+				return ShowError(cboToolboxSortField, App.LocalizeString(
+					"SFDataSourcePropertiesDlg.InvalidToolboxSortFieldSpecifiedMsg",
 					"The first Toolbox sort field specified was\nnot mapped. It must have a mapping.",
-					App.kLocalizationGroupDialogs);
+					App.kLocalizationGroupDialogs));
 			}
+				
+			// TODO: Verify is parsed and isinterlinear
 
-			if (msg != null)
-			{
-				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-				return false;
-			}
+			//msg = VerifyInterlinearInfo();
 
 			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool ShowError(Control ctrlToGiveFocus, string msg)
+		{
+			Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			ctrlToGiveFocus.Focus();
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -566,10 +581,15 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			get
 			{
+				// TODO: Fix this
+
+	
+				
+				
 				var mapping = cboFirstInterlinear.SelectedItem as SFMarkerMapping;
 				string firstInterlinField = (mapping == null ? null : mapping.FieldName);
 
-				return (m_grid.IsDirty || CurrentParseType != m_datasource.ParseType ||
+				return (m_fieldsGrid.IsDirty || CurrentParseType != m_datasource.ParseType ||
 					firstInterlinField != m_datasource.FirstInterlinearField ||
 					ToolBoxSortField != m_datasource.ToolboxSortField ||
 					txtEditor.Text != m_datasource.Editor);
@@ -586,7 +606,7 @@ namespace SIL.Pa.UI.Dialogs
 			get
 			{
 				return (cboToolboxSortField.SelectedIndex <= 0 ? null :
-					((PaFieldInfo)cboToolboxSortField.SelectedItem).FieldName);
+					cboToolboxSortField.SelectedItem as string);
 			}
 		}
 
@@ -595,11 +615,13 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			m_datasource.ParseType = CurrentParseType;
 			m_datasource.ToolboxSortField = ToolBoxSortField;
+			m_datasource.SfmRecordMarker = cboRecordMarkers.SelectedItem as string;
 			m_datasource.Editor = txtEditor.Text.Trim();
 			m_datasource.FieldMappings = m_fieldsGrid.Mappings.ToList();
-				
-			var firstILFieldName = cboFirstInterlinear.SelectedItem as string;
-			var field = m_potentialFields.SingleOrDefault(f => f.DisplayName == firstILFieldName);
+	
+			var field = m_fieldsGrid.GetMappedFieldForSourceField(
+				cboFirstInterlinear.SelectedItem as string);
+			
 			m_datasource.FirstInterlinearField = (field == null ? null : field.Name);
 			
 			return true;
@@ -772,8 +794,8 @@ namespace SIL.Pa.UI.Dialogs
 					mapping.IsInterlinear = false;
 			}
 
-			m_fieldsGrid.ShowIsInterlinearColumn(rbInterlinearize.Checked);
 			m_fieldsGrid.ShowIsParsedColumn(rbParseOneToOne.Checked || rbInterlinearize.Checked);
+			m_fieldsGrid.ShowIsInterlinearColumn(rbInterlinearize.Checked);
 
 			// The rest of the code in this method deals with building
 			// the appropriate sample portion of the panel.
@@ -810,5 +832,41 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleInformationButtonClick(object sender, EventArgs e)
+		{
+			lblInformation.Visible = !lblInformation.Visible;
+			
+			btnInformation.Image = (lblInformation.Visible ?
+				Properties.Resources.InformationHide : Properties.Resources.InformationShow);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleRightSplitterMoved(object sender, SplitterEventArgs e)
+		{
+			if (lblInformation.Visible)
+			{
+				// This seems to be necessary or sometimes the panel's owned table layout
+				// panel doesn't adjust its height to accommodate the info. label.
+				pnlMappingsInner.LayoutEngine.Layout(pnlMappings,
+					new LayoutEventArgs(pnlMappingsInner, "Width"));
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnStringLocalized(object args)
+		{
+			try
+			{
+				var colHdrText = m_fieldsGrid.Columns["tgtfield"].HeaderText;
+				var text = App.GetLocalizedString(lblInformation);
+				lblInformation.Text = string.Format(text, colHdrText, colHdrText);
+			}
+	
+			catch { }
+			
+			return false;
+		}
 	}
 }

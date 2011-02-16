@@ -205,10 +205,8 @@ namespace SIL.Pa.UI.Dialogs
 			FindInfo.SearchCollapsedGroups = chkSrchCollapsedGrps.Checked;
 
 			FindInfo.ColumnsToSearch = fldSelGridSrchCols.CheckedFields.Select(field =>
-			{
-				return new FindDlgColItem(m_grid.Columns[field.Name].Index,
-					field.DisplayIndexInGrid, field.DisplayName, field.Name);
-			}).ToArray();
+				new FindDlgColItem(m_grid.Columns[field.Name].Index,
+					field.DisplayIndexInGrid, field.DisplayName, field.Name)).ToArray();
 			
 			FindInfo.FindFirst(chkReverseSearch.Checked);
 			Close();
@@ -229,14 +227,10 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void fldSelGridSrchCols_AfterUserChangedValue(PaFieldInfo fieldInfo,
+		private void fldSelGridSrchCols_AfterUserChangedValue(PaField field,
 			bool selectAllValueChanged, bool newValue)
 		{
-			if (selectAllValueChanged || fieldInfo.IsPhonetic)
+			if (selectAllValueChanged || field.Type == FieldType.Phonetic)
 			{
 				// Disable chkMatchCase if the "Select All" or phonetic field is checked.
 				chkMatchCase.Enabled = !newValue;

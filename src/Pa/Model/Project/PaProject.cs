@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using Palaso.IO;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Filters;
@@ -23,11 +24,7 @@ namespace SIL.Pa
 		private bool m_newProject;
 		private bool m_reloadingProjectInProcess;
 		private string m_fileName;
-		private SearchQueryGroupList m_queryGroups;
 		private GridLayoutInfo m_gridLayoutInfo;
-		private PaFieldInfoList m_fieldInfoList;
-		private List<CVPatternInfo> m_CVPatternInfoList;
-		private SearchClassList m_classes;
 		private SortOptions m_dataCorpusVwSortOptions;
 		private SortOptions m_searchVwSortOptions;
 		private SortOptions m_distChartVwSortOptions;
@@ -43,10 +40,15 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public PaProject()
 		{
-			Name = Properties.Resources.kstidDefaultNewProjectName;
+			Name = App.LocalizeString("DefaultNewProjectName", "New Project", App.kLocalizationGroupMisc);
 			ShowUndefinedCharsDlg = true;
 			IgnoreUndefinedCharsInSearches = true;
 			DataSources = new List<PaDataSource>();
+			CVPatternInfoList = new List<CVPatternInfo>();
+			Fields = PaField.GetProjectFields(this);
+			FilterHelper = new FilterHelper(this);
+			SearchClasses = SearchClassList.Load(this);
+			SearchQueryGroups = SearchQueryGroupList.Load(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -55,19 +57,14 @@ namespace SIL.Pa
 		/// newProject argument should always be true.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaProject(bool newProject)
+		public PaProject(bool newProject) : this()
 		{
-			Name = Properties.Resources.kstidDefaultNewProjectName;
-			ShowUndefinedCharsDlg = true;
-			IgnoreUndefinedCharsInSearches = true;
-			DataSources = new List<PaDataSource>();
-			
 			if (!newProject)
 				return;
 
-			m_fieldInfoList = PaFieldInfoList.DefaultFieldInfoList;
-			m_classes = SearchClassList.LoadDefaults();
-			m_queryGroups = SearchQueryGroupList.LoadDefaults();
+			Fields = PaField.GetDefaultSfmFields();
+			SearchClasses = SearchClassList.LoadDefaults(this);
+			SearchQueryGroups = SearchQueryGroupList.LoadDefaults(this);
 			m_newProject = true;
 		}
 
@@ -81,40 +78,40 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void CleanUpMappings()
 		{
-			if (DataSources == null)
-				return;
+			//if (DataSources == null)
+			//    return;
 
-			// Go through the list of data sources in the project and clean up the
-			// mappings for projects of type SFM and Toolbox.
-			foreach (PaDataSource source in DataSources)
-			{
-				if (source.DataSourceType != DataSourceType.SFM &&
-					source.DataSourceType != DataSourceType.Toolbox)
-				{
-					continue;
-				}
+			//// Go through the list of data sources in the project and clean up the
+			//// mappings for projects of type SFM and Toolbox.
+			//foreach (PaDataSource source in DataSources)
+			//{
+			//    if (source.Type != DataSourceType.SFM &&
+			//        source.Type != DataSourceType.Toolbox)
+			//    {
+			//        continue;
+			//    }
 
-				// Go through the mappings in the data source and make sure the field
-				// for each mapping is still in the list of fields in the project.
-				for (int i = source.SFMappings.Count - 1; i >= 0; i--)
-				{
-					SFMarkerMapping mapping = source.SFMappings[i];
+			//    // Go through the mappings in the data source and make sure the field
+			//    // for each mapping is still in the list of fields in the project.
+			//    for (int i = source.SFMappings.Count - 1; i >= 0; i--)
+			//    {
+			//        SFMarkerMapping mapping = source.SFMappings[i];
 
-					if (mapping.FieldName != PaDataSource.kRecordMarker)
-					{
-						PaFieldInfo fieldInfo = m_fieldInfoList[mapping.FieldName];
+			//        if (mapping.FieldName != PaDataSource.kRecordMarker)
+			//        {
+			//            PaFieldInfo fieldInfo = m_fieldInfoList[mapping.FieldName];
 
-						// If the mapped field no longer exists, then remove it from the data
-						// source's list of mappings. Otherwise, make sure that the mapping
-						// for the field doesn't think it is an interlinear field if it no
-						// longer is.
-						if (fieldInfo == null)
-							source.SFMappings.RemoveAt(i);
-						else if (!fieldInfo.CanBeInterlinear)
-							mapping.IsInterlinear = false;
-					}
-				}
-			}
+			//            // If the mapped field no longer exists, then remove it from the data
+			//            // source's list of mappings. Otherwise, make sure that the mapping
+			//            // for the field doesn't think it is an interlinear field if it no
+			//            // longer is.
+			//            if (fieldInfo == null)
+			//                source.SFMappings.RemoveAt(i);
+			//            else if (!fieldInfo.CanBeInterlinear)
+			//                mapping.IsInterlinear = false;
+			//        }
+			//    }
+			//}
 		}
 
 		#region Method to migrate previous versions of .pap files to current.
@@ -148,7 +145,7 @@ namespace SIL.Pa
 
 			foreach (PaDataSource source in DataSources)
 			{
-				if (source.DataSourceType == DataSourceType.FW &&
+				if (source.Type == DataSourceType.FW &&
 					source.FwDataSourceInfo != null &&
 					source.FwDataSourceInfo.WsMappings != null)
 				{
@@ -171,7 +168,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void ProcessRenamedField(string origName, string newName)
 		{
-			foreach (PaDataSource source in DataSources)
+			foreach (var source in DataSources)
 				source.RenameField(origName, newName);
 
 			ProcessRenamedFieldInSortInfo(origName, newName, m_dataCorpusVwSortOptions);
@@ -209,19 +206,7 @@ namespace SIL.Pa
 			if (DataSources != null)
 				DataSources.Clear();
 
-			if (m_classes != null)
-			    m_classes.Clear();
-
-			if (m_queryGroups != null)
-				m_queryGroups.Clear();
-
-			if (m_fieldInfoList != null)
-				m_fieldInfoList.Clear();
-
 			DataSources = null;
-			m_classes = null;
-			m_queryGroups = null;
-			m_fieldInfoList = null;
 		}
 
 		#endregion
@@ -238,10 +223,6 @@ namespace SIL.Pa
 			return Load(projFileName, null);
 		}
 		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static PaProject Load(string prjFileName, Form appWindow)
 		{
@@ -265,14 +246,13 @@ namespace SIL.Pa
 
 			if (msg == null)
 			{
-				FilterHelper.LoadFilters(project);
-
 				if (project.m_loadedFilter != null)
-					FilterHelper.SetCurrentFilter(project.m_loadedFilter.Name, false);
+					project.FilterHelper.SetCurrentFilter(project.m_loadedFilter.Name, false);
 				else
-					FilterHelper.TurnOffCurrentFilter(false);
+					project.FilterHelper.TurnOffCurrentFilter(false);
 
 				project.LoadDataSources();
+				
 				if (appWindow != null)
 				{
 					appWindow.Activated -= project.HandleApplicationWindowActivated;
@@ -301,11 +281,12 @@ namespace SIL.Pa
 
 			try
 			{
+				// Load the cache of IPA symbols, articulatory and binary features.
 				project = XmlSerializationHelper.DeserializeFromFile<PaProject>(projFileName);
-				PhoneCache.CVPatternInfoList = project.m_CVPatternInfoList;
 				project.m_fileName = projFileName;
 				project.Fields = PaField.GetProjectFields(project);
-				project.VerifyDataSourceMappings();
+				//project.VerifyDataSourceMappings();
+				project.FilterHelper = new FilterHelper(project);
 			}
 			catch (Exception e)
 			{
@@ -338,7 +319,7 @@ namespace SIL.Pa
 		public PaProject ReLoadProjectFileOnly(bool updateModfiedTimesInReloadedProject)
 		{
 			string errorMsg = null;
-			PaProject project = LoadProjectFileOnly(m_fileName, true, ref errorMsg);
+			var project = LoadProjectFileOnly(m_fileName, true, ref errorMsg);
 
 			if (project != null)
 			{
@@ -357,27 +338,21 @@ namespace SIL.Pa
 					CopyLastModifiedTimes(project);
 				}
 
-				App.IPASymbolCache.TranscriptionChanges =
-					TranscriptionChanges.Load(ProjectPathFilePrefix);
-
-				App.IPASymbolCache.AmbiguousSequences = 
-					AmbiguousSequences.Load(ProjectPathFilePrefix);
+				LoadTranscriptionChanges();
+				LoadAmbiguousSequences();
+				PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
 			}
 
 			return project;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void VerifyDataSourceMappings()
 		{
 			if (DataSources == null)
 				return;
 
-			foreach (PaDataSource ds in DataSources)
+			foreach (var ds in DataSources)
 				ds.VerifyMappings(this);
 		}
 
@@ -438,28 +413,29 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void InitializeFontHelperFonts()
 		{
-			if (m_fieldInfoList == null)
-				return;
+			// TODO: Fix for new system
+			//if (m_fieldInfoList == null)
+			//    return;
 			
-			foreach (PaFieldInfo fieldInfo in m_fieldInfoList)
-			{
-				if (fieldInfo.Font == null)
-					continue;
+			//foreach (PaFieldInfo fieldInfo in m_fieldInfoList)
+			//{
+			//    if (fieldInfo.Font == null)
+			//        continue;
 
-				try
-				{
-					const BindingFlags kFlags = BindingFlags.SetProperty |
-						BindingFlags.Static | BindingFlags.Public;
+			//    try
+			//    {
+			//        const BindingFlags kFlags = BindingFlags.SetProperty |
+			//            BindingFlags.Static | BindingFlags.Public;
 
-					var mi = typeof(FontHelper).GetMember(fieldInfo.FieldName + "Font");
-					if (mi.Length > 0)
-					{
-						typeof(FontHelper).InvokeMember(fieldInfo.FieldName + "Font",
-								kFlags, null, typeof(FontHelper), new object[] { fieldInfo.Font });
-					}
-				}
-				catch { }
-			}
+			//        var mi = typeof(FontHelper).GetMember(fieldInfo.FieldName + "Font");
+			//        if (mi.Length > 0)
+			//        {
+			//            typeof(FontHelper).InvokeMember(fieldInfo.FieldName + "Font",
+			//                    kFlags, null, typeof(FontHelper), new object[] { fieldInfo.Font });
+			//        }
+			//    }
+			//    catch { }
+			//}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -508,26 +484,20 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void LoadDataSources()
 		{
-			App.IPASymbolCache.TranscriptionChanges =
-				TranscriptionChanges.Load(ProjectPathFilePrefix);
-			
-			App.IPASymbolCache.AmbiguousSequences =
-				AmbiguousSequences.Load(ProjectPathFilePrefix);
-			
-			PhoneCache.FeatureOverrides = FeatureOverrides.Load(ProjectPathFilePrefix);
+			LoadAmbiguousSequences();
+			LoadTranscriptionChanges();
+			FeatureOverrides = FeatureOverrides.Load(this);
+			PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
+
 			App.MsgMediator.SendMessage("BeforeLoadingDataSources", this);
 			var reader = new DataSourceReader(this);
-			var recCache = reader.Read();
+			RecordCache = reader.Read();
 
-			App.InitializeProgressBar(Properties.Resources.kstidParsingDataMsg, recCache.Count);
-			recCache.BuildWordCache(this, App.ProgressBar);
-			App.IPASymbolCache.LogUndefinedCharactersWhenParsing = false;
+			App.InitializeProgressBar(Properties.Resources.kstidParsingDataMsg, RecordCache.Count);
+			RecordCache.BuildWordCache(App.ProgressBar);
+			PhoneticParser.LogUndefinedCharactersWhenParsing = false;
 			App.IncProgressBar();
 			TempRecordCache.Save();
 			App.UninitializeProgressBar();
@@ -537,36 +507,61 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void LoadTranscriptionChanges()
+		{
+			TranscriptionChanges = TranscriptionChanges.Load(ProjectPathFilePrefix);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SaveAndLoadTranscriptionChanges(TranscriptionChanges transChanges)
+		{
+			transChanges.Save(ProjectPathFilePrefix);
+			LoadTranscriptionChanges();
+			PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void LoadAmbiguousSequences()
+		{
+			AmbiguousSequences = AmbiguousSequences.Load(ProjectPathFilePrefix);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SaveAndLoadAmbiguousSequences(AmbiguousSequences ambigSeqList)
+		{
+			ambigSeqList.Save(ProjectPathFilePrefix);
+			LoadAmbiguousSequences();
+			PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Save the project to it's specified project file name.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			m_fieldInfoList.Save(this);
-
-			if (m_classes != null && m_classes.Count > 0)
-				m_classes.Save(this);
-
-			if (m_queryGroups != null && m_queryGroups.Count > 0)
-				m_queryGroups.Save(this);
+			PaField.SaveProjectFields(this);
+			SearchClasses.Save();
+			SearchQueryGroups.Save();
+			FilterHelper.Save();
 
 			if (m_fileName != null)
 				XmlSerializationHelper.SerializeToFile(m_fileName, this);
 
-			if (m_newProject)
+			if (!m_newProject)
+				return;
+			
+			// Copy the default dist. Chart definitions to the project's dist. Chart def. file.
+			try
 			{
-				// Copy the default dist. Chart definitions to the project's dist. Chart def. file.
-				try
-				{
-					string srcPath = Path.Combine(App.ConfigFolder, "DefaultDistributionCharts.xml");
-					string destPath = ProjectPathFilePrefix + DistributionChartVw.kSavedChartsFile;
-					File.Copy(srcPath, destPath);
-				}
-				catch { }
-
-				m_newProject = false;
+				var srcPath = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultDistributionCharts.xml");
+				var destPath = ProjectPathFilePrefix + DistributionChartVw.kSavedChartsFile;
+				File.Copy(srcPath, destPath);
 			}
+			catch { }
+
+			m_newProject = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -618,6 +613,58 @@ namespace SIL.Pa
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		public PaField GetPhoneticField()
+		{
+			return (Fields == null ? null : Fields.SingleOrDefault(f => f.Type == FieldType.Phonetic));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public PaField GetAudioFileField()
+		{
+			return (Fields == null ? null : Fields.SingleOrDefault(f => f.Type == FieldType.AudioFilePath));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public PaField GetAudioOffsetField()
+		{
+			return (Fields == null ? null : Fields.SingleOrDefault(f => f.Type == FieldType.AudioOffset));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public PaField GetAudioLengthField()
+		{
+			return (Fields == null ? null : Fields.SingleOrDefault(f => f.Type == FieldType.AudioLength));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public PaField GetDataSourceField()
+		{
+			return GetFieldForName(PaField.kDataSourceFieldName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public PaField GetDataSourcePathField()
+		{
+			return GetFieldForName(PaField.kDataSourcePathFieldName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public PaField GetFieldForName(string fieldName)
+		{
+			return Fields.SingleOrDefault(f => f.Name == fieldName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Merges the specified list of fields into the project's fields.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void MergeIntoFields(IEnumerable<PaField> fieldsToMerge)
+		{
+			Fields = PaField.Merge(Fields, fieldsToMerge).ToList();
+		}
 
 		#region Loading/Saving Caches
 		///// ------------------------------------------------------------------------------------
@@ -736,61 +783,29 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlElement("name")]
 		public string Name { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlElement("languageName")]
 		public string LanguageName { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlElement("languageCode")]
 		public string LanguageCode { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public string Researcher { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string Transcriber { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public string SpeakerName { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public string Comments { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string AlternateAudioFileFolder { get; set; }
 
@@ -831,10 +846,6 @@ namespace SIL.Pa
 		public bool IgnoreUndefinedCharsInSearches { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public List<PaDataSource> DataSources { get; set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -849,58 +860,16 @@ namespace SIL.Pa
 		public bool ShowUndefinedCharsDlg { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets and sets the CVPatternInfoList.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public List<CVPatternInfo> CVPatternInfoList
-		{
-			get { return m_CVPatternInfoList ?? (m_CVPatternInfoList = new List<CVPatternInfo>()); }
-			set
-			{
-				m_CVPatternInfoList = value;
-				PhoneCache.CVPatternInfoList = value;
-			}
-		}
+		[XmlIgnore]
+		public IEnumerable<PaField> Fields { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public IEnumerable<PaField> Fields { get; set; }
+		public SearchQueryGroupList SearchQueryGroups { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the field information for the project.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public PaFieldInfoList FieldInfo
-		{
-			get { return m_fieldInfoList; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public SearchQueryGroupList SearchQueryGroups
-		{
-			get { return m_queryGroups ?? (m_queryGroups = SearchQueryGroupList.Load(this)); }
-			set { m_queryGroups = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public SearchClassList SearchClasses
-		{
-			get { return m_classes ?? (m_classes = SearchClassList.Load(this)); }
-			set { m_classes = value; }
-		}
+		public SearchClassList SearchClasses { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -913,7 +882,7 @@ namespace SIL.Pa
 			{
 				if (m_dataCorpusVwSortOptions == null)
 				{
-					m_dataCorpusVwSortOptions = new SortOptions(true);
+					m_dataCorpusVwSortOptions = new SortOptions(true, this);
 					m_dataCorpusVwSortOptions.AdvancedEnabled = false;
 				}
 
@@ -938,7 +907,7 @@ namespace SIL.Pa
 			{
 				if (m_searchVwSortOptions == null)
 				{
-					m_searchVwSortOptions = new SortOptions(true);
+					m_searchVwSortOptions = new SortOptions(true, this);
 					m_searchVwSortOptions.AdvancedEnabled = true;
 				}
 
@@ -965,7 +934,7 @@ namespace SIL.Pa
 			{
 				if (m_distChartVwSortOptions == null)
 				{
-					m_distChartVwSortOptions = new SortOptions(true);
+					m_distChartVwSortOptions = new SortOptions(true, this);
 					m_distChartVwSortOptions.AdvancedEnabled = true;
 				}
 				
@@ -990,6 +959,76 @@ namespace SIL.Pa
 			get { return m_cieOptions ?? (m_cieOptions = new CIEOptions()); }
 			set	{ m_cieOptions = (value ?? new CIEOptions()); }
 		}
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public RecordCache RecordCache { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public WordCache WordCache
+		{
+			get { return RecordCache.WordCache; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public PhoneticParser PhoneticParser { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the cache of phones in the current project, without respect to current filter.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public PhoneCache UnfilteredPhoneCache
+		{
+			get { return RecordCache.UnfilteredPhoneCache; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the cache of phones in the current project, with respect to current filter.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public PhoneCache PhoneCache
+		{
+			get { return RecordCache.PhoneCache; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public TranscriptionChanges TranscriptionChanges { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the list of ambiguous sequences used while adding phones to the cache.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public AmbiguousSequences AmbiguousSequences { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Sets the CVPatternInfoList for the phone cache. This list should be set to the
+		/// list owned by a PA project when the project is opened.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public List<CVPatternInfo> CVPatternInfoList { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the list of phones whose features should be overridden.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public FeatureOverrides FeatureOverrides { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public FilterHelper FilterHelper { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		[XmlElement("currentFilter")]
@@ -1058,20 +1097,20 @@ namespace SIL.Pa
 			grid.CellBorderStyle = GridLines;
 			
 			// Set the column properties to the saved values.
-			for (int i = 0; i < grid.Columns.Count; i++)
+			foreach (var col in grid.Columns.Cast<DataGridViewColumn>())
 			{
-				PaFieldInfo fieldInfo = m_owningProject.FieldInfo[grid.Columns[i].Name];
-				if (fieldInfo == null)
+				var field = m_owningProject.GetFieldForName(col.Name);
+				if (field == null)
 					continue;
 
-				if (fieldInfo.DisplayIndexInGrid < 0)
-					grid.Columns[i].Visible = false;
+				if (field.DisplayIndexInGrid < 0)
+					col.Visible = false;
 				else
 				{
-					grid.Columns[i].Visible = fieldInfo.VisibleInGrid;
-					grid.Columns[i].DisplayIndex =
-						(fieldInfo.DisplayIndexInGrid < grid.Columns.Count ?
-						fieldInfo.DisplayIndexInGrid : grid.Columns.Count - 1);
+					col.Visible = field.VisibleInGrid;
+					col.DisplayIndex =
+						(field.DisplayIndexInGrid < grid.Columns.Count ?
+						field.DisplayIndexInGrid : grid.Columns.Count - 1);
 				}
 			}
 
@@ -1094,19 +1133,19 @@ namespace SIL.Pa
 				ColHeaderHeight = grid.ColumnHeadersHeight;
 
 			// Save the list of columns sorted by display index.
-			SortedList<int, PaFieldInfo> displayIndexes = new SortedList<int, PaFieldInfo>();
+			var displayIndexes = new SortedList<int, PaField>();
 
 			// Save the specified grid's column properties.
-			foreach (DataGridViewColumn col in grid.Columns)
+			foreach (var col in grid.Columns.Cast<DataGridViewColumn>())
 			{
-				PaFieldInfo fieldInfo = m_owningProject.FieldInfo[col.Name];
-				if (fieldInfo != null)
+				var field = m_owningProject.GetFieldForName(col.Name);
+				if (field != null)
 				{
 					if (SaveAdjustedColWidths)
-						fieldInfo.WidthInGrid = col.Width;
+						field.WidthInGrid = col.Width;
 
 					if (SaveReorderedCols)
-						displayIndexes[col.DisplayIndex] = fieldInfo;
+						displayIndexes[col.DisplayIndex] = field;
 				}
 			}
 
@@ -1118,8 +1157,8 @@ namespace SIL.Pa
 			// display index may be greater than 1. Therefore, we adjust for that by setting
 			// the display indexes in sequence beginning from zero.
 			int i = 0;
-			foreach (PaFieldInfo fieldInfo in displayIndexes.Values)
-				fieldInfo.DisplayIndexInGrid = i++;
+			foreach (var field in displayIndexes.Values)
+				field.DisplayIndexInGrid = i++;
 		}
 	}
 

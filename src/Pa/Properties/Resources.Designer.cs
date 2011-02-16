@@ -102,6 +102,20 @@ namespace SIL.Pa.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap InformationHide {
+            get {
+                object obj = ResourceManager.GetObject("InformationHide", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap InformationShow {
+            get {
+                object obj = ResourceManager.GetObject("InformationShow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap kimidAutomaticallyHide {
             get {
                 object obj = ResourceManager.GetObject("kimidAutomaticallyHide", resourceCulture);
@@ -446,15 +460,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The audio file &apos;{0}&apos; is cannot be found..
-        /// </summary>
-        internal static string kstidAudioFileMissingMsg {
-            get {
-                return ResourceManager.GetString("kstidAudioFileMissingMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Automatically Hide.
         /// </summary>
         internal static string kstidAutoHideToolTip {
@@ -595,15 +600,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidDefaultNewCustomFeatureName {
             get {
                 return ResourceManager.GetString("kstidDefaultNewCustomFeatureName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to New Project.
-        /// </summary>
-        internal static string kstidDefaultNewProjectName {
-            get {
-                return ResourceManager.GetString("kstidDefaultNewProjectName", resourceCulture);
             }
         }
         
@@ -1004,15 +1000,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The following error occurred while loading &apos;{0}&apos;:\n{1}.
-        /// </summary>
-        internal static string kstidLoadingRecordCacheError {
-            get {
-                return ResourceManager.GetString("kstidLoadingRecordCacheError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} has no projects..
         /// </summary>
         internal static string kstidMachineHasNoProjectsMsg {
@@ -1108,15 +1095,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidNewFilterName {
             get {
                 return ResourceManager.GetString("kstidNewFilterName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This project doesn&apos;t contain a field definition for audio files..
-        /// </summary>
-        internal static string kstidNoAudioField {
-            get {
-                return ResourceManager.GetString("kstidNoAudioField", resourceCulture);
             }
         }
         

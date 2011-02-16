@@ -72,7 +72,7 @@ namespace SIL.Pa.UI.Controls
 					return true;
 				}
 
-				var phoneInfo = App.PhoneCache[associatedCell.Value as string];
+				var phoneInfo = App.Project.PhoneCache[associatedCell.Value as string];
 				if (phoneInfo != null)
 				{
 					m_content.Initialize(phoneInfo);

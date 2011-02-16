@@ -7,18 +7,11 @@ using SilTools;
 namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class OptionsDlg : OKCancelDlgBase
 	{
 		private readonly Dictionary<TabPage, string> m_tabPageHelpTopicIds;
+		private readonly PaProject m_project;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public OptionsDlg()
 		{
@@ -28,7 +21,10 @@ namespace SIL.Pa.UI.Dialogs
 			InitializeComponent();
 
 			if (DesignMode)
+			{
+				Utils.WaitCursors(false);
 				return;
+			}
 
 			// Remove this until we implement it.
 			tabOptions.TabPages.Remove(tpgColors);
@@ -36,6 +32,12 @@ namespace SIL.Pa.UI.Dialogs
 			// Remove this for now. We may never use it, but
 			// I'm hesitant to yank all the code just yet.
 			tabOptions.TabPages.Remove(tpgFindPhones);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public OptionsDlg(PaProject project) : this()
+		{
+			m_project = project;
 
 			App.IncProgressBar();
 			InitializeFontTab();
@@ -70,10 +72,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
 			Utils.WaitCursors(false);
@@ -81,10 +79,6 @@ namespace SIL.Pa.UI.Dialogs
 			App.UninitializeProgressBar();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override bool IsDirty
 		{
@@ -118,7 +112,7 @@ namespace SIL.Pa.UI.Dialogs
 			SaveCvPatternsTabChanges();
 			SaveUserInterfaceTabChanges();
 
-			App.Project.Save();
+			m_project.Save();
 			Settings.Default.Save();
 			return true;
 		}

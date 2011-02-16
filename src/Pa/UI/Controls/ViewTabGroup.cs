@@ -293,19 +293,11 @@ namespace SIL.Pa.UI.Controls
 
 		#region Tab managment methods
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public ViewTab AddTab(string text, Type viewType)
 		{
 			return AddTab(text, null, null, null, null, viewType);
 		}
 		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public ViewTab AddTab(string text, string tooltip, string helptootip,
 			string helptopicid, Image img, Type viewType)

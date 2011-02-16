@@ -57,16 +57,10 @@ namespace SIL.Pa.Model
 		{
 			string filename = projectPathPrefix + kFileName;
 			MigrateToLatestVersion(filename);
-
 			var list = XmlSerializationHelper.DeserializeFromFile<AmbiguousSequences>(filename);
-
 			return (list ?? new AmbiguousSequences());
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public AmbiguousSequences()
 		{
@@ -74,20 +68,12 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public AmbiguousSequences(IEnumerable<AmbiguousSeq> list) : base(list)
 		{
 			m_parseTokens = null;
 			s_unusedToken = '\uFFFF';
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public new void Clear()
 		{
@@ -273,10 +259,6 @@ namespace SIL.Pa.Model
 		}
 	}
 
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	[XmlType("sequence")]
 	public class AmbiguousSeq
