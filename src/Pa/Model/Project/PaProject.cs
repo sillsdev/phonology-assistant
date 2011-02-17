@@ -58,6 +58,8 @@ namespace SIL.Pa
 				SearchQueryGroups = SearchQueryGroupList.LoadDefaults(this);
 				FilterHelper = new FilterHelper(this);
 				CIEOptions = new CIEOptions();
+				LoadAmbiguousSequences();
+				LoadTranscriptionChanges();
 				m_newProject = true;
 			}
 		}
@@ -309,8 +311,9 @@ namespace SIL.Pa
 			FilterHelper = new FilterHelper(this);
 			SearchClasses = SearchClassList.Load(this);
 			SearchQueryGroups = SearchQueryGroupList.Load(this);
-			LoadTranscriptionChanges();
+			CVPatternInfoList = (CVPatternInfoList ?? new List<CVPatternInfo>());
 			LoadAmbiguousSequences();
+			LoadTranscriptionChanges();
 			PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
 
 			foreach (var ds in DataSources)
@@ -657,9 +660,24 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public PaField GetFieldForName(string fieldName)
+		/// <summary>
+		/// Gets the field corresponding to the specified name. name is not the
+		/// DisplayName.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public PaField GetFieldForName(string name)
 		{
-			return Fields.SingleOrDefault(f => f.Name == fieldName);
+			return Fields.SingleOrDefault(f => f.Name == name);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the field corresponding to the specified display name.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public PaField GetFieldForDisplayName(string displayName)
+		{
+			return Fields.SingleOrDefault(f => f.DisplayName == displayName);
 		}
 
 		#region Loading/Saving Caches

@@ -139,10 +139,13 @@ namespace SIL.Pa.UI.Dialogs
 			cboToolboxSortField.Items.AddRange(m_markersInFile.ToArray());
 
 			int i = 0;
-			var tbsf = m_datasource.FieldMappings.SingleOrDefault(m => m.Field.Name == m_datasource.ToolboxSortField);
-			if (tbsf != null)
-				i = cboToolboxSortField.Items.IndexOf(tbsf.NameInDataSource);
-			
+			if (m_datasource.ToolboxSortField != null)
+			{
+				var tbsf = m_datasource.FieldMappings.SingleOrDefault(m => m.Field.Name == m_datasource.ToolboxSortField);
+				if (tbsf != null)
+					i = cboToolboxSortField.Items.IndexOf(tbsf.NameInDataSource);
+			}
+
 			cboToolboxSortField.SelectedIndex = (i < 0 ? 0 : i);
 		}
 
@@ -156,8 +159,9 @@ namespace SIL.Pa.UI.Dialogs
 
 			cboFirstInterlinear.Items.AddRange(m_markersInFile.ToArray());
 
-			var marker = m_datasource.FieldMappings.SingleOrDefault(m =>
-				m.Field != null && m.Field.Name == m_datasource.FirstInterlinearField);
+			var marker = (m_datasource.FirstInterlinearField == null ? null :
+				m_datasource.FieldMappings.SingleOrDefault(m => 
+					m.Field != null && m.Field.Name == m_datasource.FirstInterlinearField));
 
 			if (marker == null)
 				cboFirstInterlinear.SelectedIndex = 0;

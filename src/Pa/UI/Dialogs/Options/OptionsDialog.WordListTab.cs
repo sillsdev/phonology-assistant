@@ -1,5 +1,8 @@
 using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.Windows.Forms;
+using SIL.Pa.Model;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
@@ -42,7 +45,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void InitializeWordListValues()
 		{
-			fldSelGridWrdList.Load(true, true);
+			fldSelGridWrdList.Load(m_project.Fields
+				.OrderBy(f => f.DisplayIndexInGrid)
+				.Select(f => new KeyValuePair<PaField, bool>(f, f.VisibleInGrid)));
 
 			chkSaveReorderedColumns.Checked = m_project.GridLayoutInfo.SaveReorderedCols;
 			chkSaveColHdrHeight.Checked = m_project.GridLayoutInfo.SaveAdjustedColHeaderHeight;
@@ -95,7 +100,14 @@ namespace SIL.Pa.UI.Dialogs
 			else if (rbGridLinesNone.Checked)
 				m_project.GridLayoutInfo.GridLines = DataGridViewCellBorderStyle.None;
 
-			fldSelGridWrdList.Save(true);
+			int i = 0;
+			foreach (var kvp in fldSelGridWrdList.GetSelections())
+			{
+				var field = m_project.GetFieldForDisplayName(kvp.Key);
+				field.VisibleInGrid = kvp.Value;
+				field.DisplayIndexInGrid = i++;
+			}
+
 			App.MsgMediator.SendMessage("WordListOptionsChanged", null);
 		}
 

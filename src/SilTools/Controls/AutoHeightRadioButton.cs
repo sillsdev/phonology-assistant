@@ -40,14 +40,17 @@ namespace SilTools.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
 		{
-			if (!AutoSize && !string.IsNullOrEmpty(Text))
+			bool isHeightSpecified = (int)((BoundsSpecified.All | BoundsSpecified.Height | BoundsSpecified.Size) &
+				specified) > 0;
+
+			if (!AutoSize && !string.IsNullOrEmpty(Text) && isHeightSpecified)
 			{
 				var constraints = new Size(width, 0);
 
 				using (var g = CreateGraphics())
 				{
 					height = Math.Max(TextRenderer.MeasureText(g, Text, Font, constraints,
-						TextFormatFlags.WordBreak | TextFormatFlags.VerticalCenter).Height, height);
+						TextFormatFlags.WordBreak | TextFormatFlags.VerticalCenter).Height + 4, height);
 				}
 			}
 

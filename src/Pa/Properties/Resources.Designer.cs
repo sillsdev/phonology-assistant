@@ -874,15 +874,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select All.
-        /// </summary>
-        internal static string kstidGridColumnSelectorAllItem {
-            get {
-                return ResourceManager.GetString("kstidGridColumnSelectorAllItem", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to None.
         /// </summary>
         internal static string kstidGroupByNoneFieldName {

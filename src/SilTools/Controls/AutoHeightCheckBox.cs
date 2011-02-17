@@ -15,6 +15,7 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -30,9 +31,6 @@ namespace SilTools.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class AutoHeightCheckBox : CheckBox
 	{
-		private int m_cachedWidthOfTextOnSingleLine;
-		private bool m_autoSizingInProgress;
-		
 		/// ------------------------------------------------------------------------------------
 		public AutoHeightCheckBox()
 		{
@@ -41,61 +39,26 @@ namespace SilTools.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override string Text
+		protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
 		{
-			get { return base.Text; }
-			set
-			{
-				m_cachedWidthOfTextOnSingleLine = TextRenderer.MeasureText(value, Font).Width;
-				base.Text = value;
-				AdjustHeight();
-			}
+			base.SetBoundsCore(x, y, width, PreferredSize.Height, specified);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public override Font Font
+		public override Size GetPreferredSize(Size proposedSize)
 		{
-			get { return base.Font; }
-			set
+			if (!string.IsNullOrEmpty(Text))
 			{
-				m_cachedWidthOfTextOnSingleLine = TextRenderer.MeasureText(Text, value).Width;
-				base.Font = value;
-				AdjustHeight();
-			}
-		}
+				var constraints = new Size(Width, 0);
 
-		/// ------------------------------------------------------------------------------------
-		protected override void OnSizeChanged(EventArgs e)
-		{
-			base.OnSizeChanged(e);
-
-			if (!m_autoSizingInProgress)
-				AdjustHeight();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void AdjustHeight()
-		{
-			if (AutoSize || string.IsNullOrEmpty(Text))
-				return;
-
-			var prefSize = GetPreferredSize(Size.Empty);
-			var checkBoxAndPaddingWidth = prefSize.Width - m_cachedWidthOfTextOnSingleLine;
-			var constraints = new Size(prefSize.Width - checkBoxAndPaddingWidth, 0);
-			using (var g = CreateGraphics())
-			{
-				var sz = TextRenderer.MeasureText(g, Text, Font, constraints,
-					TextFormatFlags.WordBreak | TextFormatFlags.VerticalCenter);
-
-				var newHeight = sz.Height;
-
-				if (newHeight > prefSize.Height)
+				using (var g = CreateGraphics())
 				{
-					m_autoSizingInProgress = true;
-					Height = newHeight;
-					m_autoSizingInProgress = false;
+					proposedSize.Height = TextRenderer.MeasureText(g, Text, Font, constraints,
+						TextFormatFlags.WordBreak | TextFormatFlags.VerticalCenter).Height + 4;
 				}
 			}
+
+			return proposedSize;
 		}
 	}
 }

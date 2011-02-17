@@ -29,6 +29,7 @@ namespace SIL.Pa.UI.Controls
 		private DataGridViewRow m_phoneticRow;
 		private int m_currRowIndex = -1;
 		private bool m_ignoreRowEnter;
+		private IEnumerable<PaField> m_fieldList;
 
 		/// ------------------------------------------------------------------------------------
 		public FieldSelectorGrid()
@@ -60,68 +61,31 @@ namespace SIL.Pa.UI.Controls
 			col.ValueType = typeof(int);
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			Columns.Add(col);
+
+			App.SetGridSelectionColors(this, false);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Load(bool includeHiddenFields, bool forGrid)
+		public void Load(IEnumerable<KeyValuePair<PaField, bool>> fieldsInList)
 		{
-			Load(includeHiddenFields, forGrid, null);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void Load(bool includeHiddenFields, bool forGrid, List<string> initialCheckedList)
-		{
-			if (initialCheckedList != null && initialCheckedList.Count == 0)
-				initialCheckedList = null;
-
 			Rows.Clear();
 
-			// Build a sorted list based on display index.
-			foreach (var field in App.Project.Fields.Where(f =>
-				(!forGrid && f.DisplayIndexInRecView >= 0) || (forGrid && f.DisplayIndexInGrid >= 0)))
+			var order = 0;
+
+			foreach (var rowData in fieldsInList)
 			{
-				int order = -1;
-				bool check = false;
-
-				if (!forGrid)
-				{
-					order = field.DisplayIndexInRecView;
-					check = field.VisibleInRecView;
-				}
-				else if (includeHiddenFields || field.VisibleInGrid)
-				{
-					order = field.DisplayIndexInGrid;
-					check = field.VisibleInGrid;
-				}
-
-				if (order != -1)
-				{
-					Rows.Add(new object[] { check, field.ToString(), order });
-					Rows[Rows.Count - 1].Tag = field.Name;
-
-					if (field.Type == FieldType.Phonetic)
-						m_phoneticRow = Rows[Rows.Count - 1];
-				}
+				int i = Rows.Add(new object[] { rowData.Value, rowData.Key.DisplayName, order++ } );
+				if (rowData.Key.Type == FieldType.Phonetic)
+					m_phoneticRow = Rows[i];
 			}
 
-			Sort(Columns[kOrderCol], ListSortDirection.Ascending);
-
-			// If a list was supplied that contains field name's whose initial value should be
-			// checked, then go through the grid rows and check items's whose name is in that list.
-			if (initialCheckedList != null)
-			{
-				foreach (DataGridViewRow row in Rows)
-				{
-					string fieldName = row.Tag as string;
-					if (fieldName != null)
-						row.Cells[kCheckCol].Value = initialCheckedList.Contains(fieldName);
-				}
-			}
+			m_fieldList = fieldsInList.Select(kvp => kvp.Key);
 
 			// Add the select all item, make it a tri-state cell and
 			// set its order so it always sorts to the top of the list.
 			Rows.Insert(0, new object[] { false,
-				Properties.Resources.kstidGridColumnSelectorAllItem, -100});
+				App.LocalizeString("FieldChooserGridSelectAllText", "Select All",
+				App.kLocalizationGroupUICtrls), -100 });
 
 			((DataGridViewCheckBoxCell)Rows[0].Cells[kCheckCol]).ThreeState = true;
 			((DataGridViewCheckBoxCell)Rows[0].Cells[kCheckCol]).IndeterminateValue = kIndeterminate;
@@ -147,36 +111,6 @@ namespace SIL.Pa.UI.Controls
 				Rows[0].Cells[kCheckCol].Value = false;
 
 			InvalidateCell(0, 0);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Saves the checked values and order in the PA field objects. This should not be
-		/// called when the FieldSelector is being used for things like choosing columns in
-		/// which to find a query.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Save(bool forGrid)
-		{
-			int displayIndex = 0;
-
-			foreach (var row in GetRows().Where(r => r.Tag is string))
-			{
-				var field = App.Project.GetFieldForName((string)row.Tag);
-				if (field != null)
-				{
-					if (forGrid)
-					{
-						field.VisibleInGrid = (bool)row.Cells[kCheckCol].Value;
-						field.DisplayIndexInGrid = displayIndex++;
-					}
-					else
-					{
-						field.VisibleInRecView = (bool)row.Cells[kCheckCol].Value;
-						field.DisplayIndexInRecView = displayIndex++;
-					}
-				}
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -234,8 +168,8 @@ namespace SIL.Pa.UI.Controls
 
 			if (AfterUserChangedValue != null)
 			{
-				string fieldName = Rows[e.RowIndex].Tag as string;
-				AfterUserChangedValue(App.Project.GetFieldForName(fieldName),
+				var fieldDisplayName = this[kFieldCol, e.RowIndex].Value as string;
+				AfterUserChangedValue(m_fieldList.Single(f => f.DisplayName == fieldDisplayName),
 					e.RowIndex == 0, (bool)Rows[e.RowIndex].Cells[0].Value);
 			}
 		}
@@ -261,15 +195,24 @@ namespace SIL.Pa.UI.Controls
 		/// Gets a collection of the checked fields.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<PaField> CheckedFields
+		public IEnumerable<PaField> GetCheckedFields()
 		{
-			get
-			{
-				return (from row in GetRows().Where(r => r.Tag is string)
-						let fieldName = (string)row.Tag
-						where (bool)row.Cells[kCheckCol].Value
-						select App.Project.GetFieldForName(fieldName)).ToList();
-			}
+			return from row in GetRows()
+				   where row.Index > 0 && (bool)row.Cells[kCheckCol].Value
+				   select m_fieldList.Single(f => f.DisplayName == row.Cells[kFieldCol].Value as string);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns a collection of field names with their corresponding check value.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<KeyValuePair<string, bool>> GetSelections()
+		{
+			return from row in GetRows()
+				   where row.Index > 0
+				   select new KeyValuePair<string, bool>(row.Cells[kFieldCol].Value as string,
+						(bool)row.Cells[kCheckCol].Value);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -286,11 +229,11 @@ namespace SIL.Pa.UI.Controls
 				if (m_phoneticRow != null)
 					return (bool)m_phoneticRow.Cells[kCheckCol].Value;
 
-				var field = App.Project.GetPhoneticField();
+				var field = m_fieldList.SingleOrDefault(f => f.Type == FieldType.Phonetic);
 				if (field == null)
 					return false;
 
-				foreach (var row in GetRows().Where(r => (r.Tag as string) == field.Name))
+				foreach (var row in GetRows().Where(r => r.Cells[kFieldCol].Value as string == field.DisplayName))
 				{
 					m_phoneticRow = row;
 					return (bool)row.Cells[kCheckCol].Value;
@@ -322,10 +265,7 @@ namespace SIL.Pa.UI.Controls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool AnyItemsChecked
 		{
-			get
-			{
-				return Rows.Cast<DataGridViewRow>().Any(row => row.Index > 0 && (bool)row.Cells[kCheckCol].Value);
-			}
+			get { return (CheckedItemCount > 0); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -338,7 +278,7 @@ namespace SIL.Pa.UI.Controls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool AreAllItemsChecked
 		{
-			get { return Rows.Cast<DataGridViewRow>().All(row => row.Index <= 0 || ((bool)row.Cells[kCheckCol].Value)); }
+			get { return (CheckedItemCount == RowCount - 1); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -351,7 +291,7 @@ namespace SIL.Pa.UI.Controls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public int CheckedItemCount
 		{
-			get { return Rows.Cast<DataGridViewRow>().Count(row => row.Index > 0 && (bool)row.Cells[kCheckCol].Value); }
+			get { return GetCheckedFields().Count(); }
 		}
 
 		/// ------------------------------------------------------------------------------------

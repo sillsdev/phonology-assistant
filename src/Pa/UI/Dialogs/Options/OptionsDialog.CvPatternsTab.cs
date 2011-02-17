@@ -141,7 +141,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			txtCustomChars.TextChanged += txtCustomChars_TextChanged;
 			
-			foreach (CVPatternInfo info in App.Project.CVPatternInfoList)
+			foreach (var info in App.Project.CVPatternInfoList)
 			{
 				// Using 'NotApplicable' for custom type
 				if (info.PatternType == IPASymbolIgnoreType.NotApplicable)

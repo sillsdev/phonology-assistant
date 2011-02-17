@@ -31,8 +31,8 @@ namespace SIL.Pa.UI.Dialogs
 			chkSaveManual.Font = FontHelper.UIFont;
 			lblSaveManual.Font = FontHelper.UIFont;
 
-			SortOptionsTypeComboItem item = new SortOptionsTypeComboItem(
-				cboListType.Items[0].ToString(), m_project.DataCorpusVwSortOptions.Clone());
+			var item = new SortOptionsTypeComboItem(cboListType.Items[0].ToString(),
+				m_project.DataCorpusVwSortOptions.Clone());
 
 			cboListType.Items.RemoveAt(0);
 			cboListType.Items.Insert(0, item);
@@ -58,10 +58,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		void OptionsDlg_Shown(object sender, EventArgs e)
 		{
 			phoneticSortOptions.LayoutControls();
@@ -69,14 +65,8 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void BuildGrid()
 		{
-			m_sortingGrid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
-
 			// Create the column for the ascending check box.
 			DataGridViewColumn col = SilGrid.CreateCheckBoxColumn("include");
 			col.HeaderText = string.Empty;
@@ -108,7 +98,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (m_prevListType != null)
 				m_prevListType.SortOptions = GetSortOptionsFromTab();
 
-			SortOptionsTypeComboItem item = cboListType.Items[0] as SortOptionsTypeComboItem;
+			var item = cboListType.Items[0] as SortOptionsTypeComboItem;
 			if (item != null)
 				m_project.DataCorpusVwSortOptions = item.SortOptions;
 
@@ -120,7 +110,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (item != null)
 				m_project.DistributionChartVwSortOptions = item.SortOptions;
 
-			App.MsgMediator.SendMessage("SortingOptionsChanged", null);
+			App.MsgMediator.SendMessage("SortingOptionsChanged", m_project);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -147,7 +137,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void HandleListTypeComboSelectedIndexChanged(object sender, EventArgs e)
 		{
 			phoneticSortOptions.AdvancedOptionsEnabled = (cboListType.SelectedIndex > 0);
-			SortOptionsTypeComboItem item = cboListType.SelectedItem as SortOptionsTypeComboItem;
+			var item = cboListType.SelectedItem as SortOptionsTypeComboItem;
 
 			if (item == null)
 				return;
@@ -157,16 +147,16 @@ namespace SIL.Pa.UI.Dialogs
 				m_prevListType.SortOptions = GetSortOptionsFromTab();
 
 			m_prevListType = item;
-			SortOptions sortOptions = item.SortOptions;
+			var sortOptions = item.SortOptions;
 			phoneticSortOptions.SortOptions = sortOptions;
 			chkSaveManual.Checked = sortOptions.SaveManuallySetSortOptions;
-			List<string> sortFieldNames = LoadListFromSortOptions(sortOptions);
+			var sortFieldNames = LoadListFromSortOptions(sortOptions);
 
 			grpPhoneticSortOptions.Enabled = true;
 
 			// Now look through the list of checked items in the list on the Word List
 			// tab to make sure we include those items in our list of potential sort fields.
-			foreach (var field in fldSelGridWrdList.CheckedFields)
+			foreach (var field in fldSelGridWrdList.GetCheckedFields())
 			{
 				if (!sortFieldNames.Contains(field.Name))
 				{
@@ -178,7 +168,7 @@ namespace SIL.Pa.UI.Dialogs
 				}
 			}
 
-			if (m_sortingGrid.Rows.Count > 0)
+			if (m_sortingGrid.RowCount > 0)
 			{
 				m_sortingGrid.CurrentCell = m_sortingGrid[0, 0];
 				HandleSortingGridRowEnter(null, new DataGridViewCellEventArgs(0, 0));
@@ -231,7 +221,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			m_dirty = true;
 
-			SortOptionsTypeComboItem item = cboListType.SelectedItem as SortOptionsTypeComboItem;
+			var item = cboListType.SelectedItem as SortOptionsTypeComboItem;
 
 			if (item != null)
 				item.IsDirty = true;
@@ -242,7 +232,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			m_dirty = true;
 
-			SortOptionsTypeComboItem item = cboListType.SelectedItem as SortOptionsTypeComboItem;
+			var item = cboListType.SelectedItem as SortOptionsTypeComboItem;
 
 			if (item != null)
 				item.IsDirty = true;
@@ -255,7 +245,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleButtonMoveSortFieldUpClick(object sender, EventArgs e)
 		{
-			DataGridViewRow currRow = m_sortingGrid.CurrentRow;
+			var currRow = m_sortingGrid.CurrentRow;
 			if (currRow != null)
 			{
 				int i = currRow.Index;
@@ -272,7 +262,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleButtonMoveSortFieldDownClick(object sender, EventArgs e)
 		{
-			DataGridViewRow currRow = m_sortingGrid.CurrentRow;
+			var currRow = m_sortingGrid.CurrentRow;
 			if (currRow != null)
 			{
 				int i = currRow.Index;
@@ -300,9 +290,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleSortingGridCellContentClick(object sender, DataGridViewCellEventArgs e)
 		{
-			PaFieldInfo fieldInfo = m_sortingGrid[1, e.RowIndex].Value as PaFieldInfo;
+			var field = m_sortingGrid[1, e.RowIndex].Value as PaField;
 
-			if (fieldInfo != null && fieldInfo.IsPhonetic)
+			if (field.Type == FieldType.Phonetic)
 			{
 				m_sortingGrid.CommitEdit(DataGridViewDataErrorContexts.Commit);
 				grpPhoneticSortOptions.Enabled = (bool)m_sortingGrid[0, e.RowIndex].Value;
@@ -318,41 +308,19 @@ namespace SIL.Pa.UI.Dialogs
 		private class SortOptionsTypeComboItem
 		{
 			private readonly string m_text;
-			private SortOptions m_sortOptions;
-			private bool m_isDirty;
 
-			/// ------------------------------------------------------------------------------------
-			/// <summary>
-			/// 
-			/// </summary>
 			/// ------------------------------------------------------------------------------------
 			internal SortOptionsTypeComboItem(string text, SortOptions sortOptions)
 			{
 				m_text = text;
-				m_sortOptions = sortOptions;
+				SortOptions = sortOptions;
 			}
 
 			/// ------------------------------------------------------------------------------------
-			/// <summary>
-			/// 
-			/// </summary>
-			/// ------------------------------------------------------------------------------------
-			internal SortOptions SortOptions
-			{
-				get { return m_sortOptions; }
-				set { m_sortOptions = value; }
-			}
+			internal SortOptions SortOptions { get; set; }
 
 			/// --------------------------------------------------------------------------------
-			/// <summary>
-			/// 
-			/// </summary>
-			/// --------------------------------------------------------------------------------
-			public bool IsDirty
-			{
-				get { return m_isDirty; }
-				set { m_isDirty = value; }
-			}
+			public bool IsDirty { get; set; }
 
 			/// ------------------------------------------------------------------------------------
 			/// <summary>

@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
+using SIL.Pa.Model;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
@@ -19,7 +22,8 @@ namespace SIL.Pa.UI.Dialogs
 
 			lblShowFields.Font = FontHelper.UIFont;
 			grpFieldSettings.Font = FontHelper.UIFont;
-			fldSelGridRecView.Load(true, false);
+			fldSelGridRecView.Load(m_project.Fields.OrderBy(f => f.DisplayIndexInRecView)
+				.Select(f => new KeyValuePair<PaField, bool>(f, f.VisibleInRecView)));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -32,14 +36,17 @@ namespace SIL.Pa.UI.Dialogs
 			if (!IsRecViewTabDirty)
 				return;
 
-			fldSelGridRecView.Save(false);
+			int i = 0;
+			foreach (var kvp in fldSelGridRecView.GetSelections())
+			{
+				var field = m_project.GetFieldForDisplayName(kvp.Key);
+				field.VisibleInRecView = kvp.Value;
+				field.DisplayIndexInRecView = i++;
+			}
+
 			App.MsgMediator.SendMessage("RecordViewOptionsChanged", null);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private bool IsRecViewTabDirty
 		{
