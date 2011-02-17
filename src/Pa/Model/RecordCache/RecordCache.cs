@@ -94,7 +94,7 @@ namespace SIL.Pa.Model
 			if (dataSource == null)
 				return null;
 
-			string filename = dataSource.DataSourceFile;
+			string filename = dataSource.SourceFile;
 
 			try
 			{
@@ -412,66 +412,64 @@ namespace SIL.Pa.Model
 			if (entry.HasInterlinearData)
 				ParseEntryAsInterlinear(entry);
 			
-			// TODO: Uncomment and fix.
-
-			//// If we didn't parse any interlinear fields or the phonetic wasn't among
-			//// them, make sure it gets parsed before any other non interlinear fields.
-			//if (phoneticField.IsParsed && (entry.InterlinearFields == null ||
-			//    !entry.InterlinearFields.Contains(phoneticField.Name)))
-			//{
-			//    ParseSingleFieldInEntry(entry, phoneticField);
-			//}
+			var eticField = entry.Project.GetPhoneticField();
+			var eticMapping = entry.DataSource.FieldMappings.Single(m => m.Field.Name == eticField.Name);
 			
-			//// Parse all the non phonetic, non interlinear fields.
-			//foreach (var field in App.Fields.Where(f => f.IsParsed && f.Type != FieldType.Phonetic &&
-			//    (entry.InterlinearFields == null || !entry.InterlinearFields.Contains(f.Name))))
-			//{
-			//    ParseSingleFieldInEntry(entry, field);
-			//}
+			// If we didn't parse any interlinear fields or the phonetic wasn't among
+			// them, make sure it gets parsed before any other non interlinear fields.
+			if (eticMapping.IsParsed && !entry.GetIsInterlinearField(eticField.Name))
+				ParseSingleFieldInEntry(entry, eticField);
+
+			// Parse all the non phonetic, non interlinear fields.
+			foreach (var mapping in entry.DataSource.FieldMappings.Where(m => m.IsParsed &&
+				m.Field.Type != FieldType.Phonetic && !entry.GetIsInterlinearField(m.Field.Name)))
+			{
+				ParseSingleFieldInEntry(entry, mapping.Field);
+			}
 		}
 
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Parses a non interlinear field (if necessary) and saves the field contents in one
-		///// or more word cache entries. Parsing will depend on the data source's parse type
-		///// and the field being parsed.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//private static void ParseSingleFieldInEntry(RecordCacheEntry entry, PaField field)
-		//{
-		//    entry.NeedsParsing = false;
-		//    string unparsedData = entry[field.Name];
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Parses a non interlinear field (if necessary) and saves the field contents in one
+		/// or more word cache entries. Parsing will depend on the data source's parse type
+		/// and the field being parsed.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void ParseSingleFieldInEntry(RecordCacheEntry entry, PaField field)
+		{
+			entry.NeedsParsing = false;
+			string unparsedData = entry[field.Name];
 
-		//    if (string.IsNullOrEmpty(unparsedData))
-		//        return;
+			if (string.IsNullOrEmpty(unparsedData))
+				return;
 
-		//    // If we're not dealing with the phonetic field then check if our parsing type is
-		//    // only phonetic or none at all. If either casecase then do nothing which will cause
-		//    // any reference to the word cache entry's value for the field to defer to the
-		//    // value that's stored in the word cache entry's owning record entry.
-		//    if (field.Type != FieldType.Phonetic &&
-		//        (entry.DataSource.ParseType == DataSourceParseType.PhoneticOnly ||
-		//        entry.DataSource.ParseType == DataSourceParseType.None))
-		//    {
-		//        return;
-		//    }
+			// If we're not dealing with the phonetic field then check if our parsing type is
+			// only phonetic or none at all. If either casecase then do nothing which will cause
+			// any reference to the word cache entry's value for the field to defer to the
+			// value that's stored in the word cache entry's owning record entry.
+			if (field.Type != FieldType.Phonetic &&
+				(entry.DataSource.ParseType == DataSourceParseType.PhoneticOnly ||
+				entry.DataSource.ParseType == DataSourceParseType.None))
+			{
+				return;
+			}
 
-		//    // By this time we know we're dealing with one of three conditions: 1) the
-		//    // field is phonetic or 2) the field should be parsed or 3) both 1 and
-		//    // 2. When the field should be parsed then split it into individual words.
-		//    string[] split = (entry.DataSource.ParseType == DataSourceParseType.None ?
-		//        new[] {unparsedData} : unparsedData.Split(App.BreakChars.ToCharArray(),
-		//            StringSplitOptions.RemoveEmptyEntries));
+			// By this time we know we're dealing with one of three conditions: 1) the
+			// field is phonetic or 2) the field should be parsed or 3) both 1 and
+			// 2. When the field should be parsed then split it into individual words.
+			string[] split = (entry.DataSource.ParseType == DataSourceParseType.None ?
+				new[] { unparsedData } : unparsedData.Split(App.BreakChars.ToCharArray(),
+					StringSplitOptions.RemoveEmptyEntries));
 
-		//    for (int i = 0; i < split.Length; i++)
-		//    {
-		//        // Expand the capacity for more word entries if necessary.
-		//        if (i == entry.WordEntries.Count)
-		//            entry.WordEntries.Add(new WordCacheEntry(entry, i, true));
+			for (int i = 0; i < split.Length; i++)
+			{
+				// Expand the capacity for more word entries if necessary.
+				if (i == entry.WordEntries.Count)
+					entry.WordEntries.Add(new WordCacheEntry(entry, i, true));
 
-		//        entry.WordEntries[i][field.Name] = split[i];
-		//    }
-		//}
+				entry.WordEntries[i][field.Name] = split[i];
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

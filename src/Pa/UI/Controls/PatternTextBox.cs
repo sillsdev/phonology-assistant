@@ -145,7 +145,7 @@ namespace SIL.Pa.UI.Controls
 			get
 			{
 				return (/* m_allowFullSearchPattern && */ !App.DesignMode &&
-					(App.Project == null || App.Project.ShowClassNamesInSearchPatterns) ?
+					Settings.Default.ShowClassNamesInSearchPatterns ?
 					App.kEmptyDiamondPattern : string.Empty);
 			}
 		}

@@ -45,7 +45,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 		/// Makes a deep copy of the FwDataSourceWsInfo object and returns it.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FwFieldWsMapping Clone()
+		public FwFieldWsMapping Copy()
 		{
 			return new FwFieldWsMapping(FieldName, WsHvo) { WsName = WsName };
 		}

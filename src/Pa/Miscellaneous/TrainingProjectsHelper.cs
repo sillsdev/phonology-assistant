@@ -148,11 +148,11 @@ namespace SIL.Pa
 
 			foreach (PaDataSource dataSource in prj.DataSources)
 			{
-				if (dataSource.DataSourceFile != null)
+				if (dataSource.SourceFile != null)
 				{
 					string newPath = Path.Combine(path, DataSourcePath);
-					string filename = Path.GetFileName(dataSource.DataSourceFile);
-					dataSource.DataSourceFile = Path.Combine(newPath, filename);
+					string filename = Path.GetFileName(dataSource.SourceFile);
+					dataSource.SourceFile = Path.Combine(newPath, filename);
 				}
 			}
 

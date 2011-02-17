@@ -37,6 +37,25 @@ namespace SIL.Pa.DataSource.FieldWorks
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Makes a deep copy of the FW data source information.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public FwDataSourceInfo Copy()
+		{
+			return new FwDataSourceInfo
+			{
+				Name = Name,
+				Server = Server,
+				DataSourceType = DataSourceType,
+				m_lastModified = m_lastModified,
+				IsMissing = IsMissing,
+				PhoneticStorageMethod = PhoneticStorageMethod,
+				WsMappings = (WsMappings == null ? null : WsMappings.Select(ws => ws.Copy()).ToList()),
+			};
+		}
+
+		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public FwQueries Queries
 		{

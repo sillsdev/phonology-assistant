@@ -644,15 +644,15 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void HandleClassListDoubleClick(object sender, MouseEventArgs e)
 		{
-			ClassListView lv = ptrnBldrComponent.ClassListView;
+			var lv = ptrnBldrComponent.ClassListView;
 
 			if (lv.SelectedItems.Count > 0)
 			{
-				ClassListViewItem item = lv.SelectedItems[0] as ClassListViewItem;
+				var item = lv.SelectedItems[0] as ClassListViewItem;
 				if (item != null)
 				{
 					m_grid.InsertTextInCell((
-						item.Pattern == null || App.Project.ShowClassNamesInSearchPatterns ?
+						item.Pattern == null || Settings.Default.ShowClassNamesInSearchPatterns ?
 						m_openClass + item.Text + m_closeClass : item.Pattern));
 				}
 			}
@@ -694,7 +694,7 @@ namespace SIL.Pa.UI.Views
 			else if (e.Item is ClassListViewItem)
 			{
 				var item = e.Item as ClassListViewItem;
-				dragText = (item.Pattern == null || App.Project.ShowClassNamesInSearchPatterns ?
+				dragText = (item.Pattern == null || Settings.Default.ShowClassNamesInSearchPatterns ?
 					m_openClass + item.Text + m_closeClass : item.Pattern);
 			}
 

@@ -7,6 +7,8 @@ namespace SIL.Pa.Model
 	[XmlType("mapping")]
 	public class FieldMapping
 	{
+		private string m_paFieldName;
+
 		/// ------------------------------------------------------------------------------------
 		public FieldMapping()
 		{
@@ -37,7 +39,19 @@ namespace SIL.Pa.Model
 		public FwDBUtils.FwWritingSystemType FwWritingSystemType { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		[XmlElement("field")]
+		/// <summary>
+		/// This is used for serialization and deserialization.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlElement("paFieldName")]
+		public string PaFieldName
+		{
+			get { return (Field != null ? Field.Name : m_paFieldName); }
+			set { m_paFieldName = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
 		public PaField Field { get; set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -49,6 +63,7 @@ namespace SIL.Pa.Model
 				IsParsed = IsParsed,
 				IsInterlinear = IsInterlinear,
 				FwWritingSystemType = FwWritingSystemType,
+				PaFieldName = PaFieldName,
 				Field = (Field == null ? Field : Field.Copy()),
 			};
 		}

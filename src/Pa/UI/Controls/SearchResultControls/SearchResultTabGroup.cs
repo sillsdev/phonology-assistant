@@ -1036,10 +1036,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		void m_cieOptionsDropDownContainer_Closed(object sender, ToolStripDropDownClosedEventArgs e)
 		{
 			// Make sure the drop-down completely goes away before proceeding.
@@ -1048,8 +1044,7 @@ namespace SIL.Pa.UI.Controls
 			if (CurrentTab.CieOptionsDropDown.OptionsChanged)
 			{
 				// Save the options as the new defaults for the project.
-				App.Project.CIEOptions = CurrentTab.CieOptionsDropDown.CIEOptions;
-				App.Project.Save();
+				App.Project.SaveCIEOptions(CurrentTab.CieOptionsDropDown.CIEOptions);
 				CurrentTab.ResultView.Grid.CIEOptions = CurrentTab.CieOptionsDropDown.CIEOptions;
 				CurrentTab.CIEViewRefresh();
 			}

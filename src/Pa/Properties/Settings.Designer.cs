@@ -3168,5 +3168,31 @@ namespace SIL.Pa.Properties {
                 this["SFDataSourcePropertiesDlgMappingGrid"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowClassNamesInSearchPatterns {
+            get {
+                return ((bool)(this["ShowClassNamesInSearchPatterns"]));
+            }
+            set {
+                this["ShowClassNamesInSearchPatterns"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowDiamondsInEmptySearchPattern {
+            get {
+                return ((bool)(this["ShowDiamondsInEmptySearchPattern"]));
+            }
+            set {
+                this["ShowDiamondsInEmptySearchPattern"] = value;
+            }
+        }
     }
 }

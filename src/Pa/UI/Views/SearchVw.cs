@@ -292,17 +292,6 @@ namespace SIL.Pa.UI.Views
 		{
 			get { return m_rsltVwMngr; }
 		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a value indicating whether or not class names should be shown in search
-		/// patterns. If false, then the class' members are shown.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static bool ShowClassNames
-		{
-			get { return (App.Project == null || App.Project.ShowClassNamesInSearchPatterns); }
-		}
 		
 		#endregion
 
@@ -929,14 +918,14 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void HandleClassListDoubleClick(object sender, MouseEventArgs e)
 		{
-			ClassListView lv = ptrnBldrComponent.ClassListView;
+			var lv = ptrnBldrComponent.ClassListView;
 
 			if (lv.SelectedItems.Count > 0)
 			{
-				ClassListViewItem item = lv.SelectedItems[0] as ClassListViewItem;
+				var item = lv.SelectedItems[0] as ClassListViewItem;
 				if (item != null)
 				{
-					ptrnTextBox.Insert((item.Pattern == null || ShowClassNames ?
+					ptrnTextBox.Insert((item.Pattern == null || Settings.Default.ShowClassNamesInSearchPatterns ?
 						App.kOpenClassBracket + item.Text + App.kCloseClassBracket : item.Pattern));
 				}
 			}
@@ -978,11 +967,9 @@ namespace SIL.Pa.UI.Views
 				dragText = ((FeatureListView)sender).CurrentFormattedFeature;
 			else if (e.Item is ClassListViewItem)
 			{
-				ClassListViewItem item = e.Item as ClassListViewItem;
-				{
-					dragText = (item.Pattern == null || ShowClassNames ?
-						App.kOpenClassBracket + item.Text + App.kCloseClassBracket : item.Pattern);
-				}
+				var item = e.Item as ClassListViewItem;
+				dragText = (item.Pattern == null || Settings.Default.ShowClassNamesInSearchPatterns ?
+					App.kOpenClassBracket + item.Text + App.kCloseClassBracket : item.Pattern);
 			}
 
 			// At this point, any text we've got we use to construct a query since
@@ -990,7 +977,7 @@ namespace SIL.Pa.UI.Views
 			// Then begin dragging.
 			if (dragText != null)
 			{
-				SearchQuery query = new SearchQuery();
+				var query = new SearchQuery();
 				query.Pattern = dragText.Replace(App.kDottedCircle, string.Empty);
 				query.PatternOnly = true;
 				DoDragDrop(query, DragDropEffects.Copy);

@@ -125,7 +125,7 @@ namespace SIL.Pa.DataSource
 			if (string.IsNullOrEmpty(recEntry.DataSource.Editor))
 			{
 				msg = string.Format(Properties.Resources.kstidNoDataSourceEditorSpecifiedMsg,
-					Utils.PrepFilePathForMsgBox(recEntry.DataSource.DataSourceFile));
+					Utils.PrepFilePathForMsgBox(recEntry.DataSource.SourceFile));
 			}
 
 			// Make sure editor exists.
@@ -145,7 +145,7 @@ namespace SIL.Pa.DataSource
 			Process prs = new Process();
 			prs.StartInfo.UseShellExecute = true;
 			prs.StartInfo.FileName = "\"" + recEntry.DataSource.Editor + "\"";
-			prs.StartInfo.Arguments = " \"" + recEntry.DataSource.DataSourceFile + "\"";
+			prs.StartInfo.Arguments = " \"" + recEntry.DataSource.SourceFile + "\"";
 			prs.Start();
 		}
 
@@ -159,7 +159,7 @@ namespace SIL.Pa.DataSource
 			if (!IsToolboxRunning)
 			{
 				string msg = string.Format(Properties.Resources.kstidToolboxNotRunningMsg,
-					Utils.PrepFilePathForMsgBox(recEntry.DataSource.DataSourceFile));
+					Utils.PrepFilePathForMsgBox(recEntry.DataSource.SourceFile));
 				
 				Utils.MsgBox(msg);
 			    return;

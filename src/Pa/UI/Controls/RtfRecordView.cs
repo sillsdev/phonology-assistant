@@ -453,7 +453,7 @@ namespace SIL.Pa.UI.Controls
 				{
 					string fieldValue = m_recEntry[field.Name];
 					if (!field.VisibleInRecView || field.DisplayIndexInRecView < 0 ||
-						fieldValue == null || m_recEntry.IsInterlinearField(field.Name))
+						fieldValue == null || m_recEntry.GetIsInterlinearField(field.Name))
 					{
 						continue;
 					}

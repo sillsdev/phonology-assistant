@@ -47,13 +47,13 @@ namespace SIL.Pa.Filters
 		#region Loading and saving filters
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Loads the list of filters for the specified project. If the project is
-		/// null, then an empty list is returned.
+		/// Loads the list of filters for the specified project. If the file containing a
+		/// project's filters does not exist, then an empty list is returned.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void Load()
 		{
-			string filename = m_project.ProjectPathFilePrefix + kFiltersFilePrefix;
+			var filename = m_project.ProjectPathFilePrefix + kFiltersFilePrefix;
 
 			if (filename != null && File.Exists(filename))
 				Filters = XmlSerializationHelper.DeserializeFromFile<List<Filter>>(filename, "filters");
@@ -67,7 +67,7 @@ namespace SIL.Pa.Filters
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			string filename = m_project.ProjectPathFilePrefix + kFiltersFilePrefix;
+			var filename = m_project.ProjectPathFilePrefix + kFiltersFilePrefix;
 			XmlSerializationHelper.SerializeToFile(filename, Filters, "filters");
 		}
 

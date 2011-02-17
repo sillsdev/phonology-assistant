@@ -23,7 +23,6 @@ namespace SIL.Pa.Model
 		private List<PaFieldValue> m_fieldValuesList;
 		private IDictionary<string, PaFieldValue> m_fieldValues;
 
-
 		private static int s_counter;
 
 		/// ------------------------------------------------------------------------------------
@@ -112,7 +111,7 @@ namespace SIL.Pa.Model
 			{
 				return (DataSource.Type == DataSourceType.FW &&
 					DataSource.FwSourceDirectFromDB ? DataSource.FwDataSourceInfo.Server :
-					Path.GetDirectoryName(DataSource.DataSourceFile)); 
+					Path.GetDirectoryName(DataSource.SourceFile)); 
 			}
 
 			// If the data source name is being requested then defer to
@@ -121,7 +120,7 @@ namespace SIL.Pa.Model
 			{
 				return (DataSource.Type == DataSourceType.FW &&
 					DataSource.FwSourceDirectFromDB ? DataSource.FwDataSourceInfo.ToString() :
-					Path.GetFileName(DataSource.DataSourceFile));
+					Path.GetFileName(DataSource.SourceFile));
 			}
 
 			PaFieldValue fieldValue;
@@ -313,7 +312,7 @@ namespace SIL.Pa.Model
 		/// interlinear fields.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool IsInterlinearField(string field)
+		public bool GetIsInterlinearField(string field)
 		{
 			return (HasInterlinearData && InterlinearFields.Contains(field));
 		}

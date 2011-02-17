@@ -178,7 +178,6 @@ namespace SIL.Pa.Model
 		#endregion
 
 		#region Properties
-
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public object Tag { get; set; }
@@ -285,9 +284,10 @@ namespace SIL.Pa.Model
 		public RecordCacheEntry RecordEntry { get; internal set; }
 
 		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
 		public PaProject Project
 		{
-			get { return Project; }
+			get { return RecordEntry.Project; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -412,7 +412,7 @@ namespace SIL.Pa.Model
 					(RecordEntry.DataSource.Type == DataSourceType.FW &&
 					RecordEntry.DataSource.FwDataSourceInfo != null ?
 					RecordEntry.DataSource.FwDataSourceInfo.ToString() :
-					Path.GetFileName(RecordEntry.DataSource.DataSourceFile));
+					Path.GetFileName(RecordEntry.DataSource.SourceFile));
 			}
 
 			m_phones = Project.PhoneticParser.Parse(m_phoneticValue.Value,

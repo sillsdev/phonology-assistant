@@ -79,14 +79,14 @@ namespace SIL.Pa.UI.Dialogs
 
 			foreach (PaDataSource dataSource in App.Project.DataSources)
 			{
-				if (dataSource.DataSourceFile != null)
+				if (dataSource.SourceFile != null)
 				{
-					m_dsFiles.Add(dataSource.DataSourceFile);
+					m_dsFiles.Add(dataSource.SourceFile);
 
 					// If the data source is an SA data source, then make sure the file
 					// containing the transcriptions is also included in the back up.
 					if (dataSource.Type == DataSourceType.SA)
-						m_dsFiles.Add(Path.ChangeExtension(dataSource.DataSourceFile, "saxml"));
+						m_dsFiles.Add(Path.ChangeExtension(dataSource.SourceFile, "saxml"));
 				}
 			}
 		}

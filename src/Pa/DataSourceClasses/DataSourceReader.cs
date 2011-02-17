@@ -24,7 +24,6 @@ namespace SIL.Pa.DataSource
 		protected RecordCacheEntry m_recCacheEntry;
 		protected PaProject m_project;
 		protected List<PaDataSource> m_dataSources;
-		protected List<SFMarkerMapping> m_mappings;
 		protected Dictionary<string, List<string>> m_fieldsForMarkers;
 		protected IEnumerable<string> m_interlinearFields;
 		protected int m_totalLinesToRead;
@@ -53,16 +52,16 @@ namespace SIL.Pa.DataSource
 			{
 				CheckExistenceOfFwDatabase(ds);
 			}
-			else if (!File.Exists(ds.DataSourceFile))
+			else if (!File.Exists(ds.SourceFile))
 			{
-				string newPath = GetMissingDataSourceAction(ds.DataSourceFile);
+				string newPath = GetMissingDataSourceAction(ds.SourceFile);
 				if (newPath == null)
 				{
 					ds.SkipLoadingBecauseOfProblem = true;
 					return;
 				}
 
-				ds.DataSourceFile = newPath;
+				ds.SourceFile = newPath;
 				m_project.Save();
 			}
 
@@ -75,7 +74,7 @@ namespace SIL.Pa.DataSource
 				    "FieldWorks 7.0 (or later) is not installed. It must be installed\nin order for {0} to read the data source\n\n'{1}'.\n\nThis data source will be skipped.",
 				    App.kLocalizationGroupMisc);
 
-				Utils.MsgBox(string.Format(msg, Application.ProductName, ds.DataSourceFile));
+				Utils.MsgBox(string.Format(msg, Application.ProductName, ds.SourceFile));
 				ds.SkipLoadingBecauseOfProblem = true;
 				return;
 			}
@@ -216,7 +215,7 @@ namespace SIL.Pa.DataSource
 						fmt = App.LocalizeString("DatasourceFileUnsuccessfullyReadMsg",
 							"Error processing data source file '{0}'.", App.kLocalizationGroupInfoMsg);
 
-						string msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(ds.DataSourceFile));
+						string msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(ds.SourceFile));
 						Utils.MsgBox(msg, MessageBoxIcon.Exclamation);
 						App.MsgMediator.SendMessage("AfterReadingDataSourceFailure", ds);
 					}
@@ -228,7 +227,7 @@ namespace SIL.Pa.DataSource
 							"First parameter is data source file name; second parameter is error message.",
 							App.kLocalizationGroupInfoMsg);
 		
-					string msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(ds.DataSourceFile), e.Message);
+					string msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(ds.SourceFile), e.Message);
 					Utils.MsgBox(msg, MessageBoxIcon.Exclamation);
 				}
 			}
@@ -241,7 +240,7 @@ namespace SIL.Pa.DataSource
 		{
 			App.IPASymbolCache.UndefinedCharacters.CurrentDataSourceName =
 				((ds.Type == DataSourceType.FW || ds.Type == DataSourceType.FW7) &&
-				ds.FwDataSourceInfo != null ? ds.FwDataSourceInfo.ToString() : Path.GetFileName(ds.DataSourceFile));
+				ds.FwDataSourceInfo != null ? ds.FwDataSourceInfo.ToString() : Path.GetFileName(ds.SourceFile));
 
 			m_project.PhoneticParser.LogUndefinedCharactersWhenParsing = true;
 
@@ -423,7 +422,7 @@ namespace SIL.Pa.DataSource
 		private void ReadSaSource(PaDataSource ds)
 		{
 			var reader = new SaAudioDocumentReader();
-			if (!reader.Initialize(ds.DataSourceFile))
+			if (!reader.Initialize(ds.SourceFile))
 				return;
 
 			if (reader.Words == null)
@@ -441,7 +440,7 @@ namespace SIL.Pa.DataSource
 
 			var audioField = saFields.SingleOrDefault(f => f.Type == FieldType.AudioFilePath);
 			if (audioField != null)
-				m_recCacheEntry.SetValue(audioField.Name, ds.DataSourceFile);
+				m_recCacheEntry.SetValue(audioField.Name, ds.SourceFile);
 
 			App.IncProgressBar();
 			int wordIndex = 0;
@@ -525,11 +524,10 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		protected bool ReadSFMFile(PaDataSource ds)
 		{
-			var reader = new StreamReader(ds.DataSourceFile);
+			var reader = new StreamReader(ds.SourceFile);
 
 			try
 			{
-				m_mappings = ds.SFMappings;
 				BuildListOfFieldsForMarkers(ds);
 				var recMarker = ds.SfmRecordMarker;
 				if (string.IsNullOrEmpty(recMarker))

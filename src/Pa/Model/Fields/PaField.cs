@@ -25,7 +25,7 @@ namespace SIL.Pa.Model
 
 	/// ----------------------------------------------------------------------------------------
 	[XmlType("field")]
-	public class PaField
+	public class PaField : IDisposable
 	{
 		public const string kCVPatternFieldName = "CVPattern";
 		public const string kDataSourceFieldName = "DataSource";
@@ -37,6 +37,14 @@ namespace SIL.Pa.Model
 		public PaField()
 		{
 			AllowUserToMap = true;
+			VisibleInGrid = true;
+			VisibleInRecView = true;
+			WidthInGrid = 100;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public PaField(string name) : this(name, default(FieldType))
+		{
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -44,6 +52,12 @@ namespace SIL.Pa.Model
 		{
 			Name = name;
 			Type = type;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Dispose()
+		{
+			Font = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -63,7 +77,13 @@ namespace SIL.Pa.Model
 		public Font Font
 		{
 			get { return (m_font ?? FontHelper.UIFont); }
-			set { m_font = value; }
+			set
+			{
+				if (m_font != null)
+					m_font.Dispose();
+
+				m_font = (value == null ? null : (Font)value.Clone());
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -71,7 +91,7 @@ namespace SIL.Pa.Model
 		public SerializableFont SFont
 		{
 			get { return (m_font == null ? null : new SerializableFont(m_font)); }
-			set { if (value != null) m_font = value.Font; }
+			set { if (value != null) m_font = (Font)value.Font.Clone(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -198,7 +218,9 @@ namespace SIL.Pa.Model
 				DisplayIndexInGrid = DisplayIndexInGrid,
 				DisplayIndexInRecView = DisplayIndexInRecView,
 				WidthInGrid = WidthInGrid,
-				Font = (m_font != null ? m_font.Clone() as Font : null),
+				AllowUserToMap = AllowUserToMap,
+				RightToLeft = RightToLeft,
+				Font = m_font,
 			};
 		}
 
@@ -230,7 +252,8 @@ namespace SIL.Pa.Model
 		/// <summary>
 		/// Merges two lists of fields, returning a list of distinct fields by name. A null
 		/// list will be treated as an empty list, so null will never be returned, but an
-		/// empty list may.
+		/// empty list may. The returned, merged list, contains deep copies of those fields
+		/// found in the two lists.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static IEnumerable<PaField> Merge(IEnumerable<PaField> list1, IEnumerable<PaField> list2)
@@ -242,7 +265,7 @@ namespace SIL.Pa.Model
 			if (list2 != null)
 				newList.AddRange(list2.Where(field => !newList.Any(f => f.Name == field.Name)));
 	
-			return newList;
+			return newList.Select(f => f.Copy());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -284,15 +307,15 @@ namespace SIL.Pa.Model
 			if (e == null)
 			{
 				if (!list.Any(f => f.Name == kCVPatternFieldName))
-					list.Add(new PaField { Name = kCVPatternFieldName, AllowUserToMap = false });
+					list.Add(GetUnmappableField(kCVPatternFieldName, default(FieldType)));
 
 				if (!list.Any(f => f.Name == kDataSourceFieldName))
-					list.Add(new PaField { Name = kDataSourceFieldName, AllowUserToMap = false });
+					list.Add(GetUnmappableField(kDataSourceFieldName, default(FieldType)));
 
 				if (!list.Any(f => f.Name == kDataSourcePathFieldName))
-					list.Add(new PaField { Name = kDataSourcePathFieldName, AllowUserToMap = false, Type = FieldType.GeneralFilePath });
-				
-				return list;
+					list.Add(GetUnmappableField(kDataSourcePathFieldName, FieldType.GeneralFilePath)); 
+
+				return list.OrderBy(f => f.DisplayName).ToList();
 			}
 
 			var msg = App.LocalizeString("ReadingFieldsFileErrorMsg",
@@ -305,6 +328,17 @@ namespace SIL.Pa.Model
 			Utils.MsgBox(string.Format(msg, path, e.Message));
 
 			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static PaField GetUnmappableField(string name, FieldType type)
+		{
+			return new PaField(name, type)
+			{
+				AllowUserToMap = false,
+				VisibleInGrid = false,
+				VisibleInRecView = false,
+			};
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -353,7 +387,7 @@ namespace SIL.Pa.Model
 			switch (name)
 			{
 				case "Reference": return App.LocalizeString("DisplayableFieldNames.Reference",
-									   "Reference", App.kLocalizationGroupMisc);
+										"Reference", App.kLocalizationGroupMisc);
 
 				case "Phonetic": return App.LocalizeString("DisplayableFieldNames.Phonetic",
 										"Phonetic", App.kLocalizationGroupMisc);
@@ -364,8 +398,8 @@ namespace SIL.Pa.Model
 				case "NatGloss": return App.LocalizeString("DisplayableFieldNames.NatGloss",
 										"Gloss (Nat.)", App.kLocalizationGroupMisc);
 
-				case "PartOfSpeech": return App.LocalizeString("DisplayableFieldNames.Reference",
-									   "Reference", App.kLocalizationGroupMisc);
+				case "PartOfSpeech": return App.LocalizeString("DisplayableFieldNames.PartOfSpeech",
+										"Part of Speech", App.kLocalizationGroupMisc);
 
 				case "Tone": return App.LocalizeString("DisplayableFieldNames.Tone",
 										"Tone", App.kLocalizationGroupMisc);
@@ -432,6 +466,32 @@ namespace SIL.Pa.Model
 			}
 
 			return name;
+		}
+
+		#endregion
+	}
+
+	/// ----------------------------------------------------------------------------------------
+	public class FieldNameComparer : IEqualityComparer<PaField>
+	{
+		#region IEqualityComparer<PaField> Members
+
+		/// ------------------------------------------------------------------------------------
+		public bool Equals(PaField x, PaField y)
+		{
+			if (x == null && y == null)
+				return true;
+
+			if (x == null || y == null)
+				return false;
+
+			return (x.Name == y.Name);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public int GetHashCode(PaField obj)
+		{
+			return obj.Name.GetHashCode();
 		}
 
 		#endregion

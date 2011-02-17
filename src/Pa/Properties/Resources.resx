@@ -148,17 +148,11 @@
   <data name="kstidErrorLoadingDBAccessInfoMsg" xml:space="preserve">
     <value>The file that contains information to access FieldWork databases ({0}) is either missing or corrupt. Until this problem is corrected, FieldWorks data sources cannot be accessed or added as data sources.</value>
   </data>
-  <data name="kstidErrorLoadingProject" xml:space="preserve">
-    <value>The followng error occurred loading project '{0}'.\n\n{1}</value>
-  </data>
   <data name="kstidErrorLoadingProjectFieldInfo" xml:space="preserve">
     <value>The following error occurred reading project {0}'s field information:\n\n{1}\n\nA default set will be used.</value>
   </data>
   <data name="kstidErrorLoadingQueriesMsg" xml:space="preserve">
     <value>The file that contains FieldWorks queries ({0}) is either missing or corrupt. Until this problem is corrected, FieldWorks data sources cannot be accessed or added as data sources.</value>
-  </data>
-  <data name="kstidErrorProjectInvalidFormat" xml:space="preserve">
-    <value>Project File '{0}' has an Invalid Format</value>
   </data>
   <data name="kstidErrorRetrievingFwDataMsg" xml:space="preserve">
     <value>There was an error retrieving the data from the {0} database.\nIt's possible the file {1} is either missing or\ncorrupt. Reading this data will be skipped.\n\n{2}</value>
@@ -521,10 +515,6 @@
   <data name="kstidExpandingGroups" xml:space="preserve">
     <value>Expanding groups...</value>
   </data>
-  <data name="kstidFileMissingMsg" xml:space="preserve">
-    <value>'{0}' is missing.</value>
-    <comment>The label text for "???" in RtfExportDlg</comment>
-  </data>
   <data name="kstidFindDataNotFound" xml:space="preserve">
     <value>The following specified text was not found: </value>
     <comment>Message shown when all data has been searched without one match.</comment>
@@ -625,10 +615,6 @@
   </data>
   <data name="kstidPhonesInFeatureViewerText" xml:space="preserve">
     <value>Phones in data matching...</value>
-  </data>
-  <data name="kstidProjectSettingsDlgCaption" xml:space="preserve">
-    <value>Project Settings</value>
-    <comment>Caption for project settings dialog when project is not new.</comment>
   </data>
   <data name="kstidReferenceHdg" xml:space="preserve">
     <value>Reference</value>

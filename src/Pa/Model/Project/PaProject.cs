@@ -28,10 +28,7 @@ namespace SIL.Pa
 		private SortOptions m_dataCorpusVwSortOptions;
 		private SortOptions m_searchVwSortOptions;
 		private SortOptions m_distChartVwSortOptions;
-		private CIEOptions m_cieOptions;
 		private Filter m_loadedFilter;
-		private bool m_showClassNamesInSearchPatterns = true;
-		private bool m_showDiamondsInEmptySearchPattern = true;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -43,12 +40,6 @@ namespace SIL.Pa
 			Name = App.LocalizeString("DefaultNewProjectName", "New Project", App.kLocalizationGroupMisc);
 			ShowUndefinedCharsDlg = true;
 			IgnoreUndefinedCharsInSearches = true;
-			DataSources = new List<PaDataSource>();
-			CVPatternInfoList = new List<CVPatternInfo>();
-			Fields = PaField.GetProjectFields(this);
-			FilterHelper = new FilterHelper(this);
-			SearchClasses = SearchClassList.Load(this);
-			SearchQueryGroups = SearchQueryGroupList.Load(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -59,13 +50,16 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public PaProject(bool newProject) : this()
 		{
-			if (!newProject)
-				return;
-
-			Fields = PaField.GetDefaultSfmFields();
-			SearchClasses = SearchClassList.LoadDefaults(this);
-			SearchQueryGroups = SearchQueryGroupList.LoadDefaults(this);
-			m_newProject = true;
+			if (newProject)
+			{
+				DataSources = new List<PaDataSource>();
+				CVPatternInfoList = new List<CVPatternInfo>();
+				SearchClasses = SearchClassList.LoadDefaults(this);
+				SearchQueryGroups = SearchQueryGroupList.LoadDefaults(this);
+				FilterHelper = new FilterHelper(this);
+				CIEOptions = new CIEOptions();
+				m_newProject = true;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -236,34 +230,31 @@ namespace SIL.Pa
 					App.kLocalizationGroupInfoMsg);
 
 				msg = string.Format(msg, Utils.PrepFilePathForMsgBox(prjFileName));
+				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				return null;
 			}
 
-			if (msg == null)
-			{
-				MigrateToLatestVersion(prjFileName);
-				project = LoadProjectFileOnly(prjFileName, false, ref msg);
-			}
+			MigrateToLatestVersion(prjFileName);
+			project = LoadProjectFileOnly(prjFileName, false, ref msg);
 
-			if (msg == null)
-			{
-				if (project.m_loadedFilter != null)
-					project.FilterHelper.SetCurrentFilter(project.m_loadedFilter.Name, false);
-				else
-					project.FilterHelper.TurnOffCurrentFilter(false);
-
-				project.LoadDataSources();
-				
-				if (appWindow != null)
-				{
-					appWindow.Activated -= project.HandleApplicationWindowActivated;
-					appWindow.Activated += project.HandleApplicationWindowActivated;
-					project.m_appWindow = appWindow;
-				}
-			}
-			else
+			if (msg != null)
 			{
 				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-				project = null;
+				return null;
+			}
+
+			if (project.m_loadedFilter != null)
+				project.FilterHelper.SetCurrentFilter(project.m_loadedFilter.Name, false);
+			else
+				project.FilterHelper.TurnOffCurrentFilter(false);
+
+			project.LoadDataSources();
+
+			if (appWindow != null)
+			{
+				appWindow.Activated -= project.HandleApplicationWindowActivated;
+				appWindow.Activated += project.HandleApplicationWindowActivated;
+				project.m_appWindow = appWindow;
 			}
 
 			return project;
@@ -275,7 +266,7 @@ namespace SIL.Pa
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static PaProject LoadProjectFileOnly(string projFileName, bool showErrors,
-			ref string errorMsg)
+			ref string msg)
 		{
 			PaProject project = null;
 
@@ -283,26 +274,26 @@ namespace SIL.Pa
 			{
 				// Load the cache of IPA symbols, articulatory and binary features.
 				project = XmlSerializationHelper.DeserializeFromFile<PaProject>(projFileName);
-				project.m_fileName = projFileName;
-				project.Fields = PaField.GetProjectFields(project);
-				//project.VerifyDataSourceMappings();
-				project.FilterHelper = new FilterHelper(project);
+				project.PostDeserializeInitialization(projFileName);
 			}
 			catch (Exception e)
 			{
 				if (project == null)
 				{
-					errorMsg = string.Format(Properties.Resources.kstidErrorProjectInvalidFormat,
-						Utils.PrepFilePathForMsgBox(projFileName));
+					msg = string.Format(App.LocalizeString("InvalidProjectFileFormatMsg",
+						"Project File '{0}' has an Invalid Format.", App.kLocalizationGroupInfoMsg),
+						Utils.PrepFilePathForMsgBox(projFileName));	
 				}
 				else
 				{
-					errorMsg = string.Format(Properties.Resources.kstidErrorLoadingProject,
-						Utils.PrepFilePathForMsgBox(projFileName), e.Message);
+					msg = string.Format(App.LocalizeString("ErrorLoadingProjectMsg",
+						"The followng error occurred loading project '{0}'.\n\n{1}",
+						App.kLocalizationGroupInfoMsg),
+						Utils.PrepFilePathForMsgBox(projFileName), e.Message);	
 				}
 
 				if (showErrors)
-					Utils.MsgBox(errorMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 				project = null;
 			}
@@ -311,36 +302,56 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void PostDeserializeInitialization(string projFileName)
+		{
+			m_fileName = projFileName;
+			Fields = PaField.GetProjectFields(this);
+			FilterHelper = new FilterHelper(this);
+			SearchClasses = SearchClassList.Load(this);
+			SearchQueryGroups = SearchQueryGroupList.Load(this);
+			LoadTranscriptionChanges();
+			LoadAmbiguousSequences();
+			PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
+
+			foreach (var ds in DataSources)
+			{
+				var recoveredFields = ds.FluffUpAndCheckFieldMappings(Fields);
+				if (recoveredFields != null)
+					Fields = PaField.Merge(Fields, recoveredFields);
+			}
+			
+			//project.VerifyDataSourceMappings();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Reloads the project without reloading the data sources and returns a
 		/// project object that represents the reloaded project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaProject ReLoadProjectFileOnly(bool updateModfiedTimesInReloadedProject)
+		public PaProject ReLoadProjectFileOnly()
 		{
 			string errorMsg = null;
 			var project = LoadProjectFileOnly(m_fileName, true, ref errorMsg);
 
-			if (project != null)
+			if (project == null)
+				return null;
+
+			if (m_appWindow != null)
 			{
-				if (m_appWindow != null)
-				{
-					m_appWindow.Activated -= HandleApplicationWindowActivated;
-					m_appWindow.Activated += project.HandleApplicationWindowActivated;
-					project.m_appWindow = m_appWindow;
-				}
+				m_appWindow.Activated -= HandleApplicationWindowActivated;
+				m_appWindow.Activated += project.HandleApplicationWindowActivated;
+				project.m_appWindow = m_appWindow;
+			}
 
-				if (updateModfiedTimesInReloadedProject)
-				{
-					// Reloading a project resets all the data source's last modified
-					// times to a default date a long, long time ago. Therefore, copy
-					// the last modified times from this project's data sources.
-					CopyLastModifiedTimes(project);
-				}
-
-				LoadTranscriptionChanges();
-				LoadAmbiguousSequences();
-				PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
+			// Reloading a project resets all the data source's last modified
+			// times to a default date a long, long time ago. Therefore, copy
+			// the last modified times from this project's data sources.
+			// Go through each data source in this project.
+			foreach (var srcDs in DataSources)
+			{
+				foreach (var tgtDs in project.DataSources.Where(ds => srcDs.Matches(ds, true)))
+					tgtDs.LastModification = srcDs.LastModification;
 			}
 
 			return project;
@@ -354,26 +365,6 @@ namespace SIL.Pa
 
 			foreach (var ds in DataSources)
 				ds.VerifyMappings(this);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Copies the last modified times of the data sources in the project to the data
-		/// sources in the specified target project. The data source names must match.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void CopyLastModifiedTimes(PaProject targetProj)
-		{
-			// Go through each data source in this project.
-			foreach (var ds in DataSources)
-			{
-				// Then go through the data sources in the target project.
-				// When a data source in the target project matches one in this
-				// project, then update the target's last modified time with the
-				// one found in this project's data source.
-				foreach (var tgtDs in targetProj.DataSources.Where(tgtDs => ds.Matches(tgtDs, true)))
-					tgtDs.LastModification = ds.LastModification;
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -507,6 +498,12 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void SetFields(IEnumerable<PaField> fields)
+		{
+			Fields = fields.ToList();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void LoadTranscriptionChanges()
 		{
 			TranscriptionChanges = TranscriptionChanges.Load(ProjectPathFilePrefix);
@@ -535,6 +532,13 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void SaveCIEOptions(CIEOptions newOptions)
+		{
+			CIEOptions = newOptions;
+			Save();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Save the project to it's specified project file name.
 		/// </summary>
@@ -545,6 +549,8 @@ namespace SIL.Pa
 			SearchClasses.Save();
 			SearchQueryGroups.Save();
 			FilterHelper.Save();
+			AmbiguousSequences.Save(ProjectPathFilePrefix);
+			TranscriptionChanges.Save(ProjectPathFilePrefix);
 
 			if (m_fileName != null)
 				XmlSerializationHelper.SerializeToFile(m_fileName, this);
@@ -654,16 +660,6 @@ namespace SIL.Pa
 		public PaField GetFieldForName(string fieldName)
 		{
 			return Fields.SingleOrDefault(f => f.Name == fieldName);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Merges the specified list of fields into the project's fields.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void MergeIntoFields(IEnumerable<PaField> fieldsToMerge)
-		{
-			Fields = PaField.Merge(Fields, fieldsToMerge).ToList();
 		}
 
 		#region Loading/Saving Caches
@@ -811,33 +807,6 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets an Options value indicating whether or not class names are shown in
-		/// search patterns and nested class definitions. If this value is false, then class
-		/// members are shown instead.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]	// Ignore for now. May never use this. But we'll see.
-		public bool ShowClassNamesInSearchPatterns
-		{
-			get { return m_showClassNamesInSearchPatterns; }
-			//set {/*m_showClassNamesInSearchPatterns = value;*/}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets a value indicating whether or not to display the diamond
-		/// pattern when the find phones search pattern text box is empty.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]	// Ignore for now. May never use this. But we'll see.
-		public bool ShowDiamondsInEmptySearchPattern
-		{
-			get	{ return m_showDiamondsInEmptySearchPattern;}
-			//set { /*m_showDiamondsInEmptySearchPattern = value;*/ }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Gets or sets a value indicating whether or not to ignore in phonetic searches
 		/// (i.e. on the Search view and Distribution Charts views) undefined phonetic
 		/// characters found in data sources.
@@ -954,11 +923,7 @@ namespace SIL.Pa
 		/// minimal pairs feature.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public CIEOptions CIEOptions
-		{
-			get { return m_cieOptions ?? (m_cieOptions = new CIEOptions()); }
-			set	{ m_cieOptions = (value ?? new CIEOptions()); }
-		}
+		public CIEOptions CIEOptions { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]

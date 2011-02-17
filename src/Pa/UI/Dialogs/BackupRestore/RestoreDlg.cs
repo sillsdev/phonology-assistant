@@ -269,7 +269,7 @@ namespace SIL.Pa.UI.Dialogs
 				if (dataSource.Type != DataSourceType.FW)
 				{
 					int i = ProcessDataSourceFromPap(dataSource);
-					dataSource.DataSourceFile = (i < 0 ? "X" : i.ToString());
+					dataSource.SourceFile = (i < 0 ? "X" : i.ToString());
 				}
 			}
 
@@ -277,7 +277,7 @@ namespace SIL.Pa.UI.Dialogs
 			// sources whose file couldn't be found for some reason.
 			for (int i = prj.DataSources.Count - 1; i >= 0; i--)
 			{
-				if (prj.DataSources[i].DataSourceFile == "X")
+				if (prj.DataSources[i].SourceFile == "X")
 					prj.DataSources.RemoveAt(i);
 			}
 
@@ -294,8 +294,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private int ProcessDataSourceFromPap(PaDataSource dataSource)
 		{
-			string fileOnly = Path.GetFileName(dataSource.DataSourceFile);
-			string pathInPap = Path.GetDirectoryName(dataSource.DataSourceFile);
+			string fileOnly = Path.GetFileName(dataSource.SourceFile);
+			string pathInPap = Path.GetDirectoryName(dataSource.SourceFile);
 			string pathInZip = pathInPap;
 
 			// Strip off the root portion of the path (e.g. c:\)
@@ -463,11 +463,11 @@ namespace SIL.Pa.UI.Dialogs
 			foreach (PaDataSource dataSource in prj.DataSources)
 			{
 				int i;
-				if (int.TryParse(dataSource.DataSourceFile, out i))
+				if (int.TryParse(dataSource.SourceFile, out i))
 				{
 					string path = grid[1, i].Value as string;
 					string file = grid[0, i].Value as string;
-					dataSource.DataSourceFile = Path.Combine(path, file);
+					dataSource.SourceFile = Path.Combine(path, file);
 				}
 			}
 

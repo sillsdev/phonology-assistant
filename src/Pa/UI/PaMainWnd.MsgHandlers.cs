@@ -151,7 +151,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnNewProject(object args)
 		{
-			ProjectSettingsDlg dlg = new ProjectSettingsDlg();
+			var dlg = new ProjectSettingsDlg(null);
 
 			if (dlg.ShowDialog(this) == DialogResult.OK && dlg.Project != null)
 			{

@@ -69,22 +69,81 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		public PaDataSource(string filename) : this()
 		{
-			DataSourceFile = filename.Trim();
+			SourceFile = filename.Trim();
 
-			if (DataSourceFile.ToLower().EndsWith(".wav") /* || m_file.ToLower().EndsWith(".mp3") ||
+			if (SourceFile.ToLower().EndsWith(".wav") /* || m_file.ToLower().EndsWith(".mp3") ||
 				m_file.ToLower().EndsWith(".wma") */)
 			{
 				Type = DataSourceType.SA;
 			}
-			else if (!GetIsXmlFile(DataSourceFile))
+			else if (!GetIsXmlFile(SourceFile))
 			{
 				bool isShoeboxFile;
-				if (IsSfmFile(DataSourceFile, out isShoeboxFile))
+				if (IsSfmFile(SourceFile, out isShoeboxFile))
 					Type = (isShoeboxFile ? DataSourceType.Toolbox : DataSourceType.SFM);
 			}
 			
 			if (Type == DataSourceType.SFM || Type == DataSourceType.Toolbox)
 				MakeNewMappingsList();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Makes a deep copy of the data source.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public PaDataSource Copy()
+		{
+			return new PaDataSource()
+			{
+				SourceFile = SourceFile,
+				Type = Type,
+				ParseType = ParseType,
+				FirstInterlinearField = FirstInterlinearField,
+				Editor = Editor,
+				FwPrjName = FwPrjName,
+				LastModification = LastModification,
+				SfmRecordMarker = SfmRecordMarker,
+				SkipLoadingBecauseOfProblem = SkipLoadingBecauseOfProblem,
+				SkipLoading = SkipLoading,
+				ToolboxSortField = ToolboxSortField,
+				TotalLinesInFile = TotalLinesInFile,
+				XSLTFile = XSLTFile,
+				FwDataSourceInfo = (FwDataSourceInfo == null ? null : FwDataSourceInfo.Copy()),
+				FieldMappings = (FieldMappings == null ? null : FieldMappings.Select(m => m.Copy()).ToList()),
+			};
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This will go through the data source's field mappings and point each one to the
+		/// PaField to which it's mapped. It will also verify that each mapping really has
+		/// a PaField in the specified collection. Whenever a mapping is found that doesn't
+		/// have a corresponding PaField to which it's mapped, a new PaField is created and
+		/// added to a collection of fields returned.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<PaField> FluffUpAndCheckFieldMappings(IEnumerable<PaField> fields)
+		{
+			var recoveredFields = new List<PaField>();
+
+			if (FieldMappings == null)
+				return null;
+
+			foreach (var mapping in FieldMappings.Where(m => m.PaFieldName != null))
+			{
+				var field = fields.SingleOrDefault(f => f.Name == mapping.PaFieldName);
+				if (field == null)
+				{
+					field = new PaField(mapping.PaFieldName);
+					recoveredFields.Add(field);
+				}
+
+				mapping.Field = field;
+				mapping.PaFieldName = null;
+			}
+
+			return (recoveredFields.Count == 0 ? null : recoveredFields);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -117,7 +176,7 @@ namespace SIL.Pa.DataSource
 					FwDataSourceInfo.Server == ds.FwDataSourceInfo.Server);
 			}
 			
-			return (DataSourceFile.ToLower() == ds.DataSourceFile.ToLower());
+			return (SourceFile.ToLower() == ds.SourceFile.ToLower());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -127,12 +186,12 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private void MakeNewMappingsList()
 		{
-			// Add a mapping for each PA field in the specified PaFieldInfoList. For each new
-			// mapping, check if there is a mapping for the same field in the specified
-			// default mappings list. If there is, then assign the new mapping's marker and
-			// interlinear flag to that of the one found in the default mapping list.
-			SFMappings = PaFieldInfoList.DefaultFieldInfoList.Select(fi => new SFMarkerMapping(fi)).ToList();
-			SFMappings.Insert(0, new SFMarkerMapping(kRecordMarker));
+			//// Add a mapping for each PA field in the specified PaFieldInfoList. For each new
+			//// mapping, check if there is a mapping for the same field in the specified
+			//// default mappings list. If there is, then assign the new mapping's marker and
+			//// interlinear flag to that of the one found in the default mapping list.
+			//SFMappings = PaFieldInfoList.DefaultFieldInfoList.Select(fi => new SFMarkerMapping(fi)).ToList();
+			//SFMappings.Insert(0, new SFMarkerMapping(kRecordMarker));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -285,13 +344,13 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		public void RenameField(string origName, string newName)
 		{
-			// If the data source is an SFM or Toolbox data source then rename the fields
-			// in the mappings collection.
-			if (SFMappings != null)
-			{
-				foreach (var mapping in SFMappings.Where(m => m.FieldName == origName))
-					mapping.FieldName = newName;
-			}
+			//// If the data source is an SFM or Toolbox data source then rename the fields
+			//// in the mappings collection.
+			//if (SFMappings != null)
+			//{
+			//    foreach (var mapping in SFMappings.Where(m => m.FieldName == origName))
+			//        mapping.FieldName = newName;
+			//}
 		}
 
 		#region Properties
@@ -300,7 +359,8 @@ namespace SIL.Pa.DataSource
 		/// Gets the data source file. (The setter is only for XML deserialization.)
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string DataSourceFile
+		[XmlElement("DataSourceFile")]
+		public string SourceFile
 		{
 			get
 			{
@@ -412,7 +472,7 @@ namespace SIL.Pa.DataSource
 
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string DataSourceTypeString
+		public string TypeAsString
 		{
 			get { return Type.ToString(); }
 		}
@@ -444,38 +504,41 @@ namespace SIL.Pa.DataSource
 		public string Editor { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public List<SFMarkerMapping> SFMappings { get; set; }
-
-		/// ------------------------------------------------------------------------------------
 		public List<FieldMapping> FieldMappings { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the interlinear fields for the SFM/Toolbox data source.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public string[] InterlinearFields
-		{
-			get
-			{
-				if (string.IsNullOrEmpty(FirstInterlinearField) ||
-					(Type != DataSourceType.SFM && Type != DataSourceType.Toolbox))
-				{
-					return null;
-				}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets the interlinear fields for the SFM/Toolbox data source.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//[XmlIgnore]
+		//public string[] InterlinearFields
+		//{
+		//    get
+		//    {
+		//        if (string.IsNullOrEmpty(FirstInterlinearField) ||
+		//            (Type != DataSourceType.SFM && Type != DataSourceType.Toolbox))
+		//        {
+		//            return null;
+		//        }
 
-				var interlinearFields =
-					(from mapping in SFMappings where mapping.IsInterlinear select mapping.FieldName).ToArray();
+		//        var interlinearFields = 
+		//            (from mapping in SFMappings where mapping.IsInterlinear select mapping.FieldName).ToArray();
 
-				return (interlinearFields.Length == 0 ? null : interlinearFields);
-			}
-		}
+		//        return (interlinearFields.Length == 0 ? null : interlinearFields);
+		//    }
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public DateTime LastModification { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public bool IsSfmType
+		{
+			get { return Type == DataSourceType.SFM || Type == DataSourceType.Toolbox; }
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -488,22 +551,23 @@ namespace SIL.Pa.DataSource
 		{
 			get
 			{
-				if (SFMappings == null)
-					return false;
+				return true;
+				//if (SFMappings == null)
+				//    return false;
 
-				// Go through the mappings to determine how to set the MappingsExist flag.
-				int count = 0;
-				foreach (SFMarkerMapping mapping in SFMappings)
-				{
-					if (mapping.FieldName == kRecordMarker && string.IsNullOrEmpty(mapping.Marker))
-						count = -999;
-					else
-						count += (string.IsNullOrEmpty(mapping.Marker) ? 0 : 1);
-				}
+				//// Go through the mappings to determine how to set the MappingsExist flag.
+				//int count = 0;
+				//foreach (SFMarkerMapping mapping in SFMappings)
+				//{
+				//    if (mapping.FieldName == kRecordMarker && string.IsNullOrEmpty(mapping.Marker))
+				//        count = -999;
+				//    else
+				//        count += (string.IsNullOrEmpty(mapping.Marker) ? 0 : 1);
+				//}
 
-				// At least two mappings should include one
-				// for the record marker and any other one.
-				return (count >= 2);
+				//// At least two mappings should include one
+				//// for the record marker and any other one.
+				//return (count >= 2);
 			}
 		}
 
@@ -526,8 +590,8 @@ namespace SIL.Pa.DataSource
 				return false;
 
 			var latestModification = (Type == DataSourceType.SA ?
-				SaAudioDocument.GetTranscriptionFileModifiedTime(DataSourceFile) :
-				File.GetLastWriteTimeUtc(DataSourceFile));
+				SaAudioDocument.GetTranscriptionFileModifiedTime(SourceFile) :
+				File.GetLastWriteTimeUtc(SourceFile));
 
 			if (latestModification <= LastModification)
 				return false;
@@ -558,7 +622,7 @@ namespace SIL.Pa.DataSource
 			if (Type == DataSourceType.FW || Type == DataSourceType.FW7)
 				return FwDataSourceInfo.ToString(showServerForFwDataSource);
 		
-			return DataSourceFile;
+			return SourceFile;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -571,7 +635,7 @@ namespace SIL.Pa.DataSource
 			get
 			{
 				return (FwSourceDirectFromDB && FwDataSourceInfo != null ?
-					FwDataSourceInfo.ProjectName : Path.GetFileName(DataSourceFile));
+					FwDataSourceInfo.ProjectName : Path.GetFileName(SourceFile));
 			}
 		}
 	}

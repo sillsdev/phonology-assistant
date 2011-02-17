@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using Palaso.IO;
+using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.PhoneticSearching
@@ -155,15 +156,16 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			foreach (var srchClass in this)
 			{
-				string className = App.kOpenClassBracket + srchClass.Name + App.kCloseClassBracket;
-				string oldText = (App.Project.ShowClassNamesInSearchPatterns ? srchClass.Pattern : className);
+				var className = App.kOpenClassBracket + srchClass.Name + App.kCloseClassBracket;
+				var oldText = (Settings.Default.ShowClassNamesInSearchPatterns ? srchClass.Pattern : className);
 
 				if (tabText.Contains(oldText))
 				{
-					string newText = (App.Project.ShowClassNamesInSearchPatterns ? className : srchClass.Pattern);
+					var newText = (Settings.Default.ShowClassNamesInSearchPatterns ? className : srchClass.Pattern);
 					return tabText.Replace(oldText, newText);
 				}
 			}
+
 			return string.Empty;
 		}
 	}

@@ -748,15 +748,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The followng error occurred loading project &apos;{0}&apos;.\n\n{1}.
-        /// </summary>
-        internal static string kstidErrorLoadingProject {
-            get {
-                return ResourceManager.GetString("kstidErrorLoadingProject", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The following error occurred reading project {0}&apos;s field information:\n\n{1}\n\nA default set will be used..
         /// </summary>
         internal static string kstidErrorLoadingProjectFieldInfo {
@@ -771,15 +762,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidErrorLoadingQueriesMsg {
             get {
                 return ResourceManager.GetString("kstidErrorLoadingQueriesMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Project File &apos;{0}&apos; has an Invalid Format.
-        /// </summary>
-        internal static string kstidErrorProjectInvalidFormat {
-            get {
-                return ResourceManager.GetString("kstidErrorProjectInvalidFormat", resourceCulture);
             }
         }
         
@@ -843,15 +825,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidFeatureExistsMsg {
             get {
                 return ResourceManager.GetString("kstidFeatureExistsMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; is missing..
-        /// </summary>
-        internal static string kstidFileMissingMsg {
-            get {
-                return ResourceManager.GetString("kstidFileMissingMsg", resourceCulture);
             }
         }
         
@@ -1266,15 +1239,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidPhonesInFeatureViewerText {
             get {
                 return ResourceManager.GetString("kstidPhonesInFeatureViewerText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Project Settings.
-        /// </summary>
-        internal static string kstidProjectSettingsDlgCaption {
-            get {
-                return ResourceManager.GetString("kstidProjectSettingsDlgCaption", resourceCulture);
             }
         }
         
