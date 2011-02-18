@@ -3194,5 +3194,17 @@ namespace SIL.Pa.Properties {
                 this["ShowDiamondsInEmptySearchPattern"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Font PhoneticFont {
+            get {
+                return ((global::System.Drawing.Font)(this["PhoneticFont"]));
+            }
+            set {
+                this["PhoneticFont"] = value;
+            }
+        }
     }
 }

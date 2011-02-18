@@ -319,10 +319,10 @@ namespace SIL.Pa.UI.Controls
 
 				if (grid.IsGroupedByField)
 					grid.GroupByField = null;
-				else if (grid.SortOptions.SortInformationList != null &&
-					grid.SortOptions.SortInformationList.Count > 0)
+				else if (grid.SortOptions.SortFields != null &&
+					grid.SortOptions.SortFields.Count > 0)
 				{
-					grid.GroupByField = grid.SortOptions.SortInformationList[0].Field;
+					grid.GroupByField = grid.SortOptions.SortFields[0].Field;
 
 					if (Settings.Default.WordListCollapseOnGrouping)
 						grid.ToggleGroupExpansion(false);

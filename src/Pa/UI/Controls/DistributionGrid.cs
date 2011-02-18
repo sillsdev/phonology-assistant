@@ -858,7 +858,7 @@ namespace SIL.Pa.UI.Controls
 
 			// Items in the first row and column use the phonetic font.
 			if ((row == 0 && col > 0) || (col == 0 && row > 0))
-				e.CellStyle.Font = FontHelper.PhoneticFont;
+				e.CellStyle.Font = App.PhoneticFont;
 
 			// Make cells with zero in them a different color from those
 			if (col > 0 && row > 0 && col < ColumnCount && row < RowCount &&
@@ -1367,7 +1367,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnPaFontsChanged(object args)
 		{
-			m_defaultRowHeight = FontHelper.PhoneticFont.Height + 10;
+			m_defaultRowHeight = App.PhoneticFont.Height + 10;
 			RowTemplate.MinimumHeight = m_defaultRowHeight;
 			RowTemplate.Height = m_defaultRowHeight;
 

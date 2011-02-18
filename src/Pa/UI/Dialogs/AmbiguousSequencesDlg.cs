@@ -27,12 +27,12 @@ namespace SIL.Pa.UI.Dialogs
 
 			BuildGrid();
 			
-			m_grid.Columns["seq"].DefaultCellStyle.Font = FontHelper.PhoneticFont;
-			m_grid.Columns["seq"].CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			m_grid.Columns["base"].DefaultCellStyle.Font = FontHelper.PhoneticFont;
-			m_grid.Columns["base"].CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			m_grid.Columns["cvpattern"].DefaultCellStyle.Font = FontHelper.PhoneticFont;
-			m_grid.Columns["cvpattern"].CellTemplate.Style.Font = FontHelper.PhoneticFont;
+			m_grid.Columns["seq"].DefaultCellStyle.Font = App.PhoneticFont;
+			m_grid.Columns["seq"].CellTemplate.Style.Font = App.PhoneticFont;
+			m_grid.Columns["base"].DefaultCellStyle.Font = App.PhoneticFont;
+			m_grid.Columns["base"].CellTemplate.Style.Font = App.PhoneticFont;
+			m_grid.Columns["cvpattern"].DefaultCellStyle.Font = App.PhoneticFont;
+			m_grid.Columns["cvpattern"].CellTemplate.Style.Font = App.PhoneticFont;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -44,9 +44,9 @@ namespace SIL.Pa.UI.Dialogs
 
 			foreach (var row in m_grid.GetRows())
 			{
-				row.Cells["seq"].Style.Font = FontHelper.PhoneticFont;
-				row.Cells["base"].Style.Font = FontHelper.PhoneticFont;
-				row.Cells["cvpattern"].Style.Font = FontHelper.PhoneticFont;
+				row.Cells["seq"].Style.Font = App.PhoneticFont;
+				row.Cells["base"].Style.Font = App.PhoneticFont;
+				row.Cells["cvpattern"].Style.Font = App.PhoneticFont;
 			}
 
 			FeaturesDlg.AdjustGridRows(m_grid, Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
@@ -79,8 +79,8 @@ namespace SIL.Pa.UI.Dialogs
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("seq");
 			col.Width = 90;
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
-			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
+			col.DefaultCellStyle.Font = App.PhoneticFont;
+			col.CellTemplate.Style.Font = App.PhoneticFont;
 			col.HeaderText = App.LocalizeString(Name + ".AmbiguousSeqColumnHdg",
 				"Sequence", "Column heading in ambiguous sequences dialog box.",
 				locExtender.LocalizationGroup, LocalizationCategory.Other,
@@ -101,8 +101,8 @@ namespace SIL.Pa.UI.Dialogs
 			col = SilGrid.CreateTextBoxColumn("base");
 			col.Width = 75;
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
-			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
+			col.DefaultCellStyle.Font = App.PhoneticFont;
+			col.CellTemplate.Style.Font = App.PhoneticFont;
 			col.HeaderText = App.LocalizeString(Name + ".AmbiguousBaseCharColumnHdg",
 				"Base Character", "Column heading in ambiguous sequences dialog box.",
 				locExtender.LocalizationGroup, LocalizationCategory.Other,
@@ -114,8 +114,8 @@ namespace SIL.Pa.UI.Dialogs
 			col.ReadOnly = true;
 			col.Width = 70;
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
-			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
+			col.DefaultCellStyle.Font = App.PhoneticFont;
+			col.CellTemplate.Style.Font = App.PhoneticFont;
 			col.HeaderText = App.LocalizeString(Name + ".AmbiguousCVPatternColumnHdg",
 				"CV Pattern", "Column heading in ambiguous sequences dialog box.",
 				locExtender.LocalizationGroup, LocalizationCategory.Other,

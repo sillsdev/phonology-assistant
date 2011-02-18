@@ -52,7 +52,7 @@ namespace SIL.Pa.UI.Controls
 			m_vowPicker.Clear();
 			m_otherPicker.Clear();
 
-			if (m_conPicker.Font.Name != FontHelper.PhoneticFont.Name)
+			if (m_conPicker.Font.Name != App.PhoneticFont.Name)
 			{
 				m_conPicker.RefreshFont();
 				m_vowPicker.RefreshFont();

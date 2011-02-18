@@ -127,10 +127,13 @@ namespace SIL.Pa.Model
 			if (m_fieldValues.TryGetValue(fieldName, out fieldValue) && fieldValue.Value != null)
 				return fieldValue.Value;
 
-			// If the field isn't in the word cache entry's values, check if it's a parsed field.
-			var mapping = DataSource.FieldMappings.SingleOrDefault(m => m.Field.Name == fieldName);
-			if (mapping == null || !mapping.IsParsed)
-				return null;
+			if (fieldName != PaField.kCVPatternFieldName)
+			{
+				// If the field isn't in the word cache entry's values, check if it's a parsed field.
+				var mapping = DataSource.FieldMappings.SingleOrDefault(m => m.Field.Name == fieldName);
+				if (mapping == null || !mapping.IsParsed)
+					return null;
+			}
 
 			// At this point, we know 2 things: 1) either this record cache entry doesn't
 			// contain a value for the specified field or it does and the value is null, or

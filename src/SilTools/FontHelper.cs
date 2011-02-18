@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Text;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
@@ -97,24 +98,6 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		public static void ResetFonts()
 		{
-			// These should get intialized via the settings file, but in case there is no
-			// settings file, this will ensure at least something.
-			if (FontInstalled("Doulos SIL"))
-				PhoneticFont = MakeFont("Doulos SIL", 13, FontStyle.Regular);
-			else if (FontInstalled("Arial Unicode"))
-				PhoneticFont = MakeFont("Arial Unicode", 11, FontStyle.Regular);
-			else if (FontInstalled("Lucida Sans Unicode"))
-				PhoneticFont = MakeFont("Lucida Sans Unicode", 11, FontStyle.Regular);
-			else
-				PhoneticFont = (Font)SystemInformation.MenuFont.Clone();
-
-			DefaultPhoneticFont = (Font)PhoneticFont.Clone();
-			PhonemicFont = (Font)PhoneticFont.Clone();
-			ToneFont = (Font)SystemInformation.MenuFont.Clone();
-			OrthograpicFont = (Font)SystemInformation.MenuFont.Clone();
-			GlossFont = (Font)SystemInformation.MenuFont.Clone();
-			POSFont = (Font)SystemInformation.MenuFont.Clone();
-			ReferenceFont = (Font)SystemInformation.MenuFont.Clone();
 			UIFont = (Font)SystemInformation.MenuFont.Clone();
 		}
 
@@ -122,20 +105,15 @@ namespace SilTools
 		/// <summary>
 		/// Determines if the specified font is installed on the computer.
 		/// </summary>
-		/// <param name="fontName"></param>
-		/// <returns></returns>
 		/// ------------------------------------------------------------------------------------
 		public static bool FontInstalled(string fontName)
 		{
 			fontName = fontName.ToLower();
 
-			using (InstalledFontCollection installedFonts = new InstalledFontCollection())
+			using (var installedFonts = new InstalledFontCollection())
 			{
-				foreach (FontFamily family in installedFonts.Families)
-				{
-					if (family.Name.ToLower() == fontName)
-						return true;
-				}
+				if (installedFonts.Families.Any(f => f.Name.ToLower() == fontName))
+					return true;
 			}
 
 			return false;
@@ -143,13 +121,13 @@ namespace SilTools
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Creates a font object that is a phonetic font derivative with the specified size
-		/// and a regular style.
+		/// Creates a new font object that is a regualar style derivative of the specified
+		/// font, having the specified size.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static Font MakeEticRegFontDerivative(float size)
+		public static Font MakeRegularFontDerivative(Font fnt, float size)
 		{
-			return MakeFont(PhoneticFont.FontFamily.Name, size, FontStyle.Regular);
+			return MakeFont(fnt.FontFamily.Name, size, FontStyle.Regular);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -285,62 +263,6 @@ namespace SilTools
 
 			return (x.Name == y.Name && x.Size == y.Size && x.Style == y.Style);
 		}
-
-		/// --------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the default font for displaying phonetic data.
-		/// </summary>
-		/// --------------------------------------------------------------------------------
-		public static Font DefaultPhoneticFont { get; private set; }
-
-		/// --------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the font specified for displaying phonetic data.
-		/// </summary>
-		/// --------------------------------------------------------------------------------
-		public static Font PhoneticFont { get; set; }
-
-		/// --------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the font specified for displaying tone data.
-		/// </summary>
-		/// --------------------------------------------------------------------------------
-		public static Font ToneFont { get; set; }
-
-		/// --------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the font specified for displaying phonemic data.
-		/// </summary>
-		/// --------------------------------------------------------------------------------
-		public static Font PhonemicFont { get; set; }
-
-		/// --------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the font specified for displaying orthographic data.
-		/// </summary>
-		/// --------------------------------------------------------------------------------
-		public static Font OrthograpicFont { get; set; }
-
-		/// --------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the font specified for displaying gloss data.
-		/// </summary>
-		/// --------------------------------------------------------------------------------
-		public static Font GlossFont { get; set; }
-
-		/// --------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the font specified for displaying part of speech data.
-		/// </summary>
-		/// --------------------------------------------------------------------------------
-		public static Font POSFont { get; set; }
-
-		/// --------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the font specified for displaying reference data fields.
-		/// </summary>
-		/// --------------------------------------------------------------------------------
-		public static Font ReferenceFont { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

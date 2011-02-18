@@ -72,7 +72,7 @@ namespace SIL.Pa.UI.Dialogs
 			scImport.Panel1MinSize = 125;
 			scImport.Panel2MinSize = 125;
 
-			txtFilePreview.Font = FontHelper.DefaultPhoneticFont;
+			txtFilePreview.Font = App.PhoneticFont;
 			pnlSrcFileHdg.Font = FontHelper.UIFont;
 			pnlParseHdg.Font = FontHelper.UIFont;
 			pnlMappingsHdg.Font = FontHelper.UIFont;
@@ -426,16 +426,8 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			get
 			{
-				// TODO: Fix this
-
-	
-				
-				
-				var mapping = cboFirstInterlinear.SelectedItem as SFMarkerMapping;
-				string firstInterlinField = (mapping == null ? null : mapping.FieldName);
-
 				return (m_fieldsGrid.IsDirty || CurrentParseType != m_datasource.ParseType ||
-					firstInterlinField != m_datasource.FirstInterlinearField ||
+					cboFirstInterlinear.SelectedItem as string != m_datasource.FirstInterlinearField ||
 					ToolBoxSortField != m_datasource.ToolboxSortField ||
 					txtEditor.Text != m_datasource.Editor);
 			}

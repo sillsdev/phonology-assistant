@@ -156,8 +156,8 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		private void WriteFieldSortOrder(PaWordListGrid grid)
 		{
-			if (grid.SortOptions.SortInformationList == null ||
-				grid.SortOptions.SortInformationList.Count == 0)
+			if (grid.SortOptions.SortFields == null ||
+				grid.SortOptions.SortFields.Count == 0)
 			{
 				return;
 			}
@@ -165,7 +165,7 @@ namespace SIL.Pa.Processing
 			ProcessHelper.WriteStartElementWithAttrib(m_writer, "li", "class", "fieldOrder");
 			m_writer.WriteStartElement("ol");
 
-			foreach (var sortInfo in grid.SortOptions.SortInformationList)
+			foreach (var sortInfo in grid.SortOptions.SortFields)
 			{
 				var field = sortInfo.Field.DisplayName;
 				
@@ -173,7 +173,7 @@ namespace SIL.Pa.Processing
 					ProcessHelper.MakeAlphaNumeric(field));
 				
 				m_writer.WriteAttributeString("title", field);
-				m_writer.WriteString(sortInfo.ascending ? "ascending" : "descending");
+				m_writer.WriteString(sortInfo.Ascending ? "ascending" : "descending");
 				m_writer.WriteEndElement();
 			}
 

@@ -270,7 +270,7 @@ namespace SIL.Pa.UI.Controls
 				if (m_tooltip != null)
 					m_tooltip.Dispose();
 
-				if (PhoneticFont != null && PhoneticFont != FontHelper.PhoneticFont)
+				if (PhoneticFont != null && PhoneticFont != App.PhoneticFont)
 				{
 					PhoneticFont.Dispose();
 					PhoneticFont = null;
@@ -301,8 +301,8 @@ namespace SIL.Pa.UI.Controls
 			
 			if (m_showMembersAndClassTypeColumns)
 			{
-				PhoneticFont = (FontHelper.PhoneticFont.SizeInPoints <= 10 ?
-					FontHelper.PhoneticFont : FontHelper.MakeFont(FontHelper.PhoneticFont, 10));
+				PhoneticFont = (App.PhoneticFont.SizeInPoints <= 10 ?
+					App.PhoneticFont : FontHelper.MakeFont(App.PhoneticFont, 10));
 
 				// This will force the height of items to fit the larger of the ponetic or
 				// UI fonts. I realize this is sort of a kludge, but it's a workable one.
@@ -541,7 +541,7 @@ namespace SIL.Pa.UI.Controls
 			get { return m_showMembersAndClassTypeColumns; }
 			set
 			{
-				if (PhoneticFont != null && PhoneticFont != FontHelper.PhoneticFont)
+				if (PhoneticFont != null && PhoneticFont != App.PhoneticFont)
 				{
 					PhoneticFont.Dispose();
 					PhoneticFont = null;

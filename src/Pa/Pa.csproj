@@ -160,7 +160,6 @@
       <DependentUpon>MissingFWDatabaseMsgBox.cs</DependentUpon>
     </Compile>
     <Compile Include="DataSourceClasses\PaDataSource.cs" />
-    <Compile Include="DataSourceClasses\SFMarkerMapping.cs" />
     <Compile Include="DataSourceClasses\SpeechAnalyzer\AudioReader.cs" />
     <Compile Include="DataSourceClasses\SpeechAnalyzer\SaAudioDocument.cs" />
     <Compile Include="DataSourceClasses\SpeechAnalyzer\SaAudioDocumentReader.cs" />
@@ -180,6 +179,7 @@
     <Compile Include="Model\Features\FeatureOverrides.cs" />
     <Compile Include="Model\Fields\FieldMapping.cs" />
     <Compile Include="Model\Fields\PaField.cs" />
+    <Compile Include="Model\Fields\SortField.cs" />
     <Compile Include="Model\Project\PaFieldInfo.cs" />
     <Compile Include="Model\Project\PaFieldsDisplayText.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -201,6 +201,7 @@
     <Compile Include="Model\SymbolsAndPhones\TranscriptionChanges.cs" />
     <Compile Include="Model\SymbolsAndPhones\UndefinedCharClasses.cs" />
     <Compile Include="Model\WordCache\CacheSortComparer.cs" />
+    <Compile Include="Model\WordCache\SortOptions.cs" />
     <Compile Include="Model\WordCache\WordCache.cs" />
     <Compile Include="Model\WordCache\WordCacheEntry.cs" />
     <Compile Include="Model\WordCache\WordListCache.cs" />

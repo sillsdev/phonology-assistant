@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.IO;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using System.Diagnostics;
 using System.Xml;
@@ -238,13 +239,17 @@ namespace SilTools
 
 					serializer.Serialize(writer, data, nameSpace);
 					writer.Close();
-					return true;
 				}
+
+				//var xe = XElement.Load(filename);
+				//xe.SetAttributeValue("version", "2.0");
+				//xe.Save(filename);
+				return true;
 			}
 			catch (Exception ex)
 			{
-				Debug.Fail(e.Message);
 				e = ex;
+				Debug.Fail(ex.Message);
 			}
 
 			return false;

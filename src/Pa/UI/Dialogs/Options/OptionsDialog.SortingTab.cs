@@ -32,18 +32,18 @@ namespace SIL.Pa.UI.Dialogs
 			lblSaveManual.Font = FontHelper.UIFont;
 
 			var item = new SortOptionsTypeComboItem(cboListType.Items[0].ToString(),
-				m_project.DataCorpusVwSortOptions.Clone());
+				m_project.DataCorpusVwSortOptions.Copy());
 
 			cboListType.Items.RemoveAt(0);
 			cboListType.Items.Insert(0, item);
 
 			item = new SortOptionsTypeComboItem(cboListType.Items[1].ToString(),
-				m_project.SearchVwSortOptions.Clone());
+				m_project.SearchVwSortOptions.Copy());
 			cboListType.Items.RemoveAt(1);
 			cboListType.Items.Insert(1, item);
 
 			item = new SortOptionsTypeComboItem(cboListType.Items[2].ToString(),
-				m_project.DistributionChartVwSortOptions.Clone());
+				m_project.DistributionChartVwSortOptions.Copy());
 			cboListType.Items.RemoveAt(2);
 			cboListType.Items.Add(item);
 
@@ -75,14 +75,18 @@ namespace SIL.Pa.UI.Dialogs
 
 			// Create the column for the column name.
 			col = SilGrid.CreateTextBoxColumn("column");
-			col.HeaderText = Properties.Resources.kstidDefineSortOrderColumnCol;
 			col.ReadOnly = true;
 			m_sortingGrid.Columns.Add(col);
+			App.LocalizeObject(m_sortingGrid.Columns["column"],
+				"OptionsDlg.SortingTab.SortOrderColumnColumnHeadingText", "Column",
+				App.kLocalizationGroupDialogs);
 
 			// Create the column for the ascending check box.
 			col = SilGrid.CreateCheckBoxColumn("direction");
-			col.HeaderText = Properties.Resources.kstidDefineSortOrderAscendingCol;
 			m_sortingGrid.Columns.Add(col);
+			App.LocalizeObject(m_sortingGrid.Columns["direction"],
+				"OptionsDlg.SortingTab.SortOrderDirectionColumnHeadingText", "Ascending?",
+				App.kLocalizationGroupDialogs);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -187,10 +191,10 @@ namespace SIL.Pa.UI.Dialogs
 			var sortFieldNames = new List<string>();
 			m_sortingGrid.Rows.Clear();
 
-			foreach (var sinfo in sortOptions.SortInformationList.Where(sinfo => sinfo.Field != null))
+			foreach (var sf in sortOptions.SortFields.Where(sf => sf.Field != null))
 			{
-				m_sortingGrid.Rows.Add(new object[] {true, sinfo.Field, sinfo.ascending });
-				sortFieldNames.Add(sinfo.Field.Name);
+				m_sortingGrid.Rows.Add(new object[] {true, sf.Field, sf.Ascending });
+				sortFieldNames.Add(sf.Field.Name);
 			}
 
 			return sortFieldNames;
@@ -201,7 +205,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			var sortOptions = phoneticSortOptions.SortOptions;
 			sortOptions.SaveManuallySetSortOptions = chkSaveManual.Checked;
-			sortOptions.SortInformationList.Clear();
+			sortOptions.SortFields.Clear();
 
 			for (int i = m_sortingGrid.Rows.Count - 1; i >= 0; i--)
 			{

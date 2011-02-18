@@ -366,7 +366,7 @@ namespace SIL.Pa.UI.Controls
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
-			Font = FontHelper.PhoneticFont;
+			Font = App.PhoneticFont;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -639,7 +639,7 @@ namespace SIL.Pa.UI.Controls
 		//    }
 
 		//    e.ToolTipSize =	TextRenderer.MeasureText(
-		//        (node.Tag as SearchQuery).Pattern,	FontHelper.PhoneticFont);
+		//        (node.Tag as SearchQuery).Pattern,	App.PhoneticFont);
 		//}
 
 		///// ------------------------------------------------------------------------------------
@@ -652,7 +652,7 @@ namespace SIL.Pa.UI.Controls
 		//    e.DrawBackground();
 		//    e.DrawBorder();
 
-		//    TextRenderer.DrawText(e.Graphics, e.ToolTipText, FontHelper.PhoneticFont,
+		//    TextRenderer.DrawText(e.Graphics, e.ToolTipText, App.PhoneticFont,
 		//        e.Bounds, SystemColors.InfoText);
 		//}
 
@@ -1054,7 +1054,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnPaFontsChanged(object args)
 		{
-			Font = FontHelper.PhoneticFont;
+			Font = App.PhoneticFont;
 
 			// Return false to allow other windows to update their fonts.
 			return false;

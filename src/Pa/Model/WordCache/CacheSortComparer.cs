@@ -14,7 +14,7 @@ namespace SIL.Pa.Model
 	public class CacheSortComparer : IComparer<WordListCacheEntry>
 	{
 		private const char kMOAPOAPadChar = '0';
-		private readonly SortInformationList m_sortInfoList;
+		private readonly List<SortField> m_sortInfoList;
 		private readonly SortOptions m_sortOptions;
 
 		/// ------------------------------------------------------------------------------------
@@ -25,7 +25,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public CacheSortComparer(SortOptions sortOptions)
 		{
-			m_sortInfoList = sortOptions.SortInformationList;
+			m_sortInfoList = sortOptions.SortFields;
 			m_sortOptions = sortOptions;
 		}
 
@@ -403,7 +403,7 @@ namespace SIL.Pa.Model
 			if (x == null && y == null)
 				return 0;
 
-			bool ascending = (m_sortInfoList.Count > 0 ? m_sortInfoList[0].ascending : true);
+			bool ascending = (m_sortInfoList.Count > 0 ? m_sortInfoList[0].Ascending : true);
 
 			if (x == null)
 				return (ascending ? -1 : 1);
@@ -418,7 +418,7 @@ namespace SIL.Pa.Model
 			// Continue with the next iteration if the fieldValues are EQUAL
 			foreach (var si in m_sortInfoList)
 			{
-				ascending = si.ascending;
+				ascending = si.Ascending;
 				int compareResult;
 
 				// Use a special comparison for phonetic fields.

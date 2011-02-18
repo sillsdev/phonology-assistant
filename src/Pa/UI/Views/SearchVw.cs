@@ -1312,14 +1312,14 @@ namespace SIL.Pa.UI.Views
 			rtfRecVw.UpdateFonts();
 			ptrnBldrComponent.RefreshFonts();
 			lblCurrPattern.Font = FontHelper.UIFont;
-			ptrnTextBox.Font = FontHelper.PhoneticFont;
+			ptrnTextBox.Font = App.PhoneticFont;
 			hlblRecentPatterns.Font = FontHelper.UIFont;
 			hlblSavedPatterns.Font = FontHelper.UIFont;
 			
-			lstRecentPatterns.Font = new Font(FontHelper.PhoneticFont.FontFamily, 
+			lstRecentPatterns.Font = new Font(App.PhoneticFont.FontFamily, 
 				Settings.Default.SearchVwRecentPatternsListFontSize);
 
-			tvSavedPatterns.Font = new Font(FontHelper.PhoneticFont.FontFamily,
+			tvSavedPatterns.Font = new Font(App.PhoneticFont.FontFamily,
 				Settings.Default.SearchVwSavedPatternsListFontSize);
 
 			//pnlCurrPattern.Invalidate();

@@ -15,7 +15,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			InitializeComponent();
 			lblInfo.Font = FontHelper.UIFont;
-			txtChars.Font = FontHelper.PhoneticFont;
+			txtChars.Font = App.PhoneticFont;
 
 			while (true)
 			{

@@ -487,12 +487,6 @@
   <data name="kstidDefClassPhoneHdrVow" xml:space="preserve">
     <value>&amp;Vowels</value>
   </data>
-  <data name="kstidDefineSortOrderAscendingCol" xml:space="preserve">
-    <value>Ascending?</value>
-  </data>
-  <data name="kstidDefineSortOrderColumnCol" xml:space="preserve">
-    <value>Column</value>
-  </data>
   <data name="kstidDockToolTip" xml:space="preserve">
     <value>Dock</value>
     <comment>Tooktip for the sliding panel dock button</comment>

@@ -61,7 +61,7 @@ namespace SIL.Pa.UI.Controls
 			m_cellHeight = Settings.Default.CVChartsCellHeight;
 			m_rowHdrs = new List<CharGridHeader>();
 			m_colHdrs = new List<CharGridHeader>();
-			m_chartFont = FontHelper.MakeEticRegFontDerivative(14);
+			m_chartFont = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, 14);
 			m_pnlColHeaders = new CharGridHeaderCollectionPanel(true);
 			m_pnlRowHeaders = new CharGridHeaderCollectionPanel(false);
 

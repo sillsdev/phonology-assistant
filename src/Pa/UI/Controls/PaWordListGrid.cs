@@ -150,7 +150,7 @@ namespace SIL.Pa.UI.Controls
 			// list and the experimental transcriptions list.
 			m_cellInfoPopup = new GridCellInfoPopup();
 			m_cellInfoPopup.AssociatedGrid = this;
-			m_cellInfoPopup.HeadingPanel.Font = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
+			m_cellInfoPopup.HeadingPanel.Font = FontHelper.MakeFont(App.PhoneticFont, FontStyle.Bold);
 			m_cellInfoPopup.Paint += m_cellInfoPopup_Paint;
 			m_cellInfoPopup.CommandLink.Click += PopupsCommandLink_Click;
 
@@ -727,16 +727,16 @@ namespace SIL.Pa.UI.Controls
 					col.HeaderCell.SortGlyphDirection = SortOrder.None;
 				
 				// Add the sortGlyph direction
-				if (m_sortOptions.SortInformationList.Count > 0)
+				if (m_sortOptions.SortFields.Count > 0)
 				{
-					string colName = m_sortOptions.SortInformationList[0].Field.Name;
+					string colName = m_sortOptions.SortFields[0].Field.Name;
 
 					Columns[colName].HeaderCell.SortGlyphDirection =
-						(m_sortOptions.SortInformationList[0].ascending ?
+						(m_sortOptions.SortFields[0].Ascending ?
 						SortOrder.Ascending : SortOrder.Descending);
 
 					if (m_groupByField != null)
-						m_groupByField = m_sortOptions.SortInformationList[0].Field;
+						m_groupByField = m_sortOptions.SortFields[0].Field;
 				}
 
 				m_cache.Sort(m_sortOptions);
@@ -1447,12 +1447,12 @@ namespace SIL.Pa.UI.Controls
 				return;
 			
 			int hdgWidth;
-			using (Font fnt = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold))
+			using (Font fnt = FontHelper.MakeFont(App.PhoneticFont, FontStyle.Bold))
 				hdgWidth = m_cellInfoPopup.SetHeadingText(entry.PhoneticValue, fnt);
 
 			m_cellInfoPopup.PurposeIndicator = GridCellInfoPopup.Purpose.UncertainPossibilities;
 			m_cellInfoPopup.CacheEntry = entry;
-			m_cellInfoPopup.MeasureBodyHeight(FontHelper.PhoneticFont, possibleWords.Length);
+			m_cellInfoPopup.MeasureBodyHeight(App.PhoneticFont, possibleWords.Length);
 			m_cellInfoPopup.Width = hdgWidth + kPopupSidePadding;
 			m_cellInfoPopup.AssociatedCell = this[col, row];
 
@@ -1500,7 +1500,7 @@ namespace SIL.Pa.UI.Controls
 
 			m_cellInfoPopup.CacheEntry = entry;
 			m_cellInfoPopup.PurposeIndicator = GridCellInfoPopup.Purpose.ExperimentalTranscription;
-			m_cellInfoPopup.MeasureBodyHeight(FontHelper.PhoneticFont, experimentalTrans.Count);
+			m_cellInfoPopup.MeasureBodyHeight(App.PhoneticFont, experimentalTrans.Count);
 			m_cellInfoPopup.Width = Math.Max(hdgWidth, widestExperimentalTrans) + kPopupSidePadding;
 			m_cellInfoPopup.AssociatedCell = this[col, row];
 			m_cellInfoPopup.HeadingTextSidePadding = (kPopupSidePadding / 2 - 3);
@@ -1533,10 +1533,10 @@ namespace SIL.Pa.UI.Controls
 			foreach (KeyValuePair<string, string> item in experimentalTrans)
 			{
 				int itemWidth = TextRenderer.MeasureText(item.Key,
-					FontHelper.PhoneticFont, Size.Empty, kFlags).Width;
+					App.PhoneticFont, Size.Empty, kFlags).Width;
 
 				itemWidth += TextRenderer.MeasureText(item.Value,
-					FontHelper.PhoneticFont, Size.Empty, kFlags).Width;
+					App.PhoneticFont, Size.Empty, kFlags).Width;
 
 				maxWidth = Math.Max(itemWidth, maxWidth);
 			}
@@ -1594,11 +1594,11 @@ namespace SIL.Pa.UI.Controls
 						ph = ph.Substring(1);
 					}
 
-					TextRenderer.DrawText(g, ph, FontHelper.PhoneticFont, rc, clrText, kFlags);
+					TextRenderer.DrawText(g, ph, App.PhoneticFont, rc, clrText, kFlags);
 
 					// Figure out where the next phone should be drawn.
 					int phoneWidth = TextRenderer.MeasureText(g, ph,
-						FontHelper.PhoneticFont, Size.Empty, kFlags).Width;
+						App.PhoneticFont, Size.Empty, kFlags).Width;
 
 					rc.X += phoneWidth;
 				}
@@ -1630,10 +1630,10 @@ namespace SIL.Pa.UI.Controls
 
 			foreach (KeyValuePair<string, string> item in experimentalTrans)
 			{
-				TextRenderer.DrawText(g, item.Key, FontHelper.PhoneticFont, rc,
+				TextRenderer.DrawText(g, item.Key, App.PhoneticFont, rc,
 					Color.Black, kFlags);
 
-				Size sz = TextRenderer.MeasureText(g, item.Key, FontHelper.PhoneticFont);
+				Size sz = TextRenderer.MeasureText(g, item.Key, App.PhoneticFont);
 
 				// Draw an arrow that points to what experimental transcription the
 				// phone was converted to.
@@ -1647,7 +1647,7 @@ namespace SIL.Pa.UI.Controls
 
 				Rectangle rcTmp = rc;
 				rcTmp.X += sz.Width + 15;
-				TextRenderer.DrawText(g, item.Value, FontHelper.PhoneticFont, rcTmp,
+				TextRenderer.DrawText(g, item.Value, App.PhoneticFont, rcTmp,
 					Color.Black, kFlags);
 
 				rc.Y += rc.Height;
@@ -2062,7 +2062,7 @@ namespace SIL.Pa.UI.Controls
 
 			// Calculate the width of the search item.
 			int itemWidth = TextRenderer.MeasureText(e.Graphics, srchItem,
-				FontHelper.PhoneticFont, Size.Empty, kFlags).Width;
+				App.PhoneticFont, Size.Empty, kFlags).Width;
 
 			if (itemWidth == 0)
 				itemWidth = m_widthOfWrdBoundarySrchRsltMatch;
@@ -2197,10 +2197,10 @@ namespace SIL.Pa.UI.Controls
 					m_currPaintingCellEntry.UncertainPhones.ContainsKey(i) ?
 					m_uncertainPhoneForeColor : clrText);
 
-				TextRenderer.DrawText(g, phones[i], FontHelper.PhoneticFont, rc, clr, flags);
+				TextRenderer.DrawText(g, phones[i], App.PhoneticFont, rc, clr, flags);
 
 				int phoneWidth = TextRenderer.MeasureText(g, phones[i],
-					FontHelper.PhoneticFont, Size.Empty, flags).Width;
+					App.PhoneticFont, Size.Empty, flags).Width;
 
 				// If the phones are being drawn from L to R (which should always be true unless
 				// we're drawing the environment before in a find phone search result grid) then
@@ -2497,7 +2497,7 @@ namespace SIL.Pa.UI.Controls
 			if (Cache == null || Cache.IsEmpty)
 				return;
 
-			object[] args = new object[] {colName, changeSortDirection};
+			var args = new object[] {colName, changeSortDirection};
 			if (App.MsgMediator.SendMessage("BeforeWordListSorted", args))
 				return;
 			
@@ -2527,10 +2527,10 @@ namespace SIL.Pa.UI.Controls
 				m_groupByField = groupByField;
 
 				// This code is necessary for correctly changing the Group Headings
-				if (SortOptions.SortInformationList != null &&
-					SortOptions.SortInformationList.Count > 0)
+				if (SortOptions.SortFields != null &&
+					SortOptions.SortFields.Count > 0)
 				{
-					m_groupByField = SortOptions.SortInformationList[0].Field;
+					m_groupByField = SortOptions.SortFields[0].Field;
 				}
 			}
 
@@ -2755,9 +2755,9 @@ namespace SIL.Pa.UI.Controls
 			if (OwningViewType.Name == "DataCorpusVw")
 				sortOptions = App.Project.DataCorpusVwSortOptions;
 			else if (OwningViewType.Name == "SearchVw")
-				sortOptions = App.Project.SearchVwSortOptions.Clone();
+				sortOptions = App.Project.SearchVwSortOptions.Copy();
 			else if (OwningViewType.Name == "XYChartVw")
-				sortOptions = App.Project.DistributionChartVwSortOptions.Clone();
+				sortOptions = App.Project.DistributionChartVwSortOptions.Copy();
 
 			if (sortOptions == null)
 				sortOptions = new SortOptions(true, App.Project);
@@ -2768,7 +2768,7 @@ namespace SIL.Pa.UI.Controls
 			// headings and change phonetic sort options, the changes won't get saved to
 			// the sort options object in the project.
 			if (!sortOptions.SaveManuallySetSortOptions)
-				sortOptions = sortOptions.Clone();
+				sortOptions = sortOptions.Copy();
 
 			if (performSort)
 				SortOptions = sortOptions;
@@ -2962,13 +2962,13 @@ namespace SIL.Pa.UI.Controls
 			// If the sort options contain any fields whose column was removed, then
 			// remove the field from the sort options and resort the list.
 			bool reSort = false;
-			for (int i = SortOptions.SortInformationList.Count - 1; i >= 0; i--)
+			for (int i = SortOptions.SortFields.Count - 1; i >= 0; i--)
 			{
-				string fldName = SortOptions.SortInformationList[i].Field.Name;
+				string fldName = SortOptions.SortFields[i].Field.Name;
 
 				if (!Columns.Contains(fldName) || !Columns[fldName].Visible)
 				{
-					SortOptions.SortInformationList.RemoveAt(i);
+					SortOptions.SortFields.RemoveAt(i);
 					reSort = true;
 				}
 			}
@@ -2976,10 +2976,10 @@ namespace SIL.Pa.UI.Controls
 			if (!reSort)
 				return;
 
-			if (SortOptions.SortInformationList.Count > 0)
+			if (SortOptions.SortFields.Count > 0)
 			{
 				// Sort on the first column in the sort option's field list.
-				Sort(SortOptions.SortInformationList[0].Field.Name, false);
+				Sort(SortOptions.SortFields[0].Field.Name, false);
 				return;
 			}
 

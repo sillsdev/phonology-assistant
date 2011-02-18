@@ -1078,10 +1078,10 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnPaFontsChanged(object args)
 		{
-			lvSavedCharts.Font = FontHelper.PhoneticFont;
+			lvSavedCharts.Font = App.PhoneticFont;
 			hlblSavedCharts.Font = FontHelper.UIFont;
 			lblChartName.Font = FontHelper.UIFont;
-			lblChartNameValue.Font = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
+			lblChartNameValue.Font = FontHelper.MakeFont(App.PhoneticFont, FontStyle.Bold);
 
 			int lblHeight = Math.Max(lblChartName.Height, lblChartNameValue.Height);
 			int padding = lblHeight + 14;

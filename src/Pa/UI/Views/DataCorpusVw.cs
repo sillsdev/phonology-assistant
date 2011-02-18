@@ -465,10 +465,10 @@ namespace SIL.Pa.UI.Views
 
 			if (m_grid.IsGroupedByField)
 				m_grid.GroupByField = null;
-			else if (m_grid.SortOptions.SortInformationList != null &&
-				m_grid.SortOptions.SortInformationList.Count > 0)
+			else if (m_grid.SortOptions.SortFields != null &&
+				m_grid.SortOptions.SortFields.Count > 0)
 			{
-				m_grid.GroupByField = m_grid.SortOptions.SortInformationList[0].Field;
+				m_grid.GroupByField = m_grid.SortOptions.SortFields[0].Field;
 				if (Settings.Default.CollapseWordListsOnGrouping)
 					m_grid.ToggleGroupExpansion(false);
 			}

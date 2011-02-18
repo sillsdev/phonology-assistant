@@ -60,7 +60,7 @@ namespace SIL.Pa.UI.Controls
 		public void RefreshFont()
 		{
 			if (!App.DesignMode)
-				Font = FontHelper.MakeEticRegFontDerivative(FontSize);
+				Font = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, FontSize);
 		}
 
 		/// ------------------------------------------------------------------------------------

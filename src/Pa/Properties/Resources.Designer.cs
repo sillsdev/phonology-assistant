@@ -640,24 +640,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ascending?.
-        /// </summary>
-        internal static string kstidDefineSortOrderAscendingCol {
-            get {
-                return ResourceManager.GetString("kstidDefineSortOrderAscendingCol", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Column.
-        /// </summary>
-        internal static string kstidDefineSortOrderColumnCol {
-            get {
-                return ResourceManager.GetString("kstidDefineSortOrderColumnCol", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Dock.
         /// </summary>
         internal static string kstidDockToolTip {

@@ -52,6 +52,9 @@ namespace SIL.Pa.Model
 		{
 			Name = name;
 			Type = type;
+
+			if (type == FieldType.Phonetic)
+				Font = App.PhoneticFont;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -202,7 +205,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			return (Name ?? base.ToString());
+			return (DisplayName ?? base.ToString());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -286,7 +289,19 @@ namespace SIL.Pa.Model
 		public static List<PaField> GetProjectFields(PaProject project)
 		{
 			var path = project.ProjectPathFilePrefix + "Fields.xml";
-			return (File.Exists(path) ? LoadFields(path, "Fields") : new List<PaField>());
+			var fields = (File.Exists(path) ? LoadFields(path, "Fields") : new List<PaField>());
+
+			// Initialize the phonetic font if it hasn't been specified.
+			var field = fields.SingleOrDefault(f => f.Type == FieldType.Phonetic);
+			if (field != null && field.m_font == null)
+				field.Font = App.PhoneticFont;
+
+			// Initialize the CV pattern font if it hasn't been specified.
+			field = fields.SingleOrDefault(f => f.Name == kCVPatternFieldName);
+			if (field != null && field.m_font == null)
+				field.Font = App.PhoneticFont;
+
+			return fields;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -306,14 +321,18 @@ namespace SIL.Pa.Model
 
 			if (e == null)
 			{
-				if (!list.Any(f => f.Name == kCVPatternFieldName))
-					list.Add(GetUnmappableField(kCVPatternFieldName, default(FieldType)));
-
 				if (!list.Any(f => f.Name == kDataSourceFieldName))
 					list.Add(GetUnmappableField(kDataSourceFieldName, default(FieldType)));
 
 				if (!list.Any(f => f.Name == kDataSourcePathFieldName))
-					list.Add(GetUnmappableField(kDataSourcePathFieldName, FieldType.GeneralFilePath)); 
+					list.Add(GetUnmappableField(kDataSourcePathFieldName, FieldType.GeneralFilePath));
+
+				if (!list.Any(f => f.Name == kCVPatternFieldName))
+				{
+					var cvField = GetUnmappableField(kCVPatternFieldName, default(FieldType));
+					cvField.Font = App.PhoneticFont;
+					list.Add(cvField);
+				}
 
 				return list.OrderBy(f => f.DisplayName).ToList();
 			}

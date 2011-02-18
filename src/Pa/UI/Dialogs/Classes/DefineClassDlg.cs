@@ -195,7 +195,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			// Adjust properties of the members text box accordingly.
 			txtMembers.Font = (m_classInfo.ClassType == SearchClassType.Phones ?
-				FontHelper.MakeEticRegFontDerivative(16) : FontHelper.UIFont);
+				FontHelper.MakeRegularFontDerivative(App.PhoneticFont, 16) : FontHelper.UIFont);
 
 			txtMembers.Text = m_classInfo.FormattedMembersString;
 			txtMembers.ReadOnly = (m_classInfo.ClassType != SearchClassType.Phones);

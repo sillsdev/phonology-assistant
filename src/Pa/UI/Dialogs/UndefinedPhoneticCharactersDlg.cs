@@ -157,8 +157,8 @@ namespace SIL.Pa.UI.Dialogs
 			col = SilGrid.CreateTextBoxColumn("char");
 			col.HeaderText = Utils.ConvertLiteralNewLines(Properties.Resources.kstidCharHdg);
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
-			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
+			col.DefaultCellStyle.Font = App.PhoneticFont;
+			col.CellTemplate.Style.Font = App.PhoneticFont;
 			m_gridChars.Columns.Add(col);
 
 			// Add the count number column.
@@ -185,8 +185,8 @@ namespace SIL.Pa.UI.Dialogs
 
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("word");
 			col.HeaderText = Utils.ConvertLiteralNewLines(Properties.Resources.kstidWordHdg);
-			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
-			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
+			col.DefaultCellStyle.Font = App.PhoneticFont;
+			col.CellTemplate.Style.Font = App.PhoneticFont;
 			m_gridWhere.Columns.Add(col);
 
 			// Add the reference column.

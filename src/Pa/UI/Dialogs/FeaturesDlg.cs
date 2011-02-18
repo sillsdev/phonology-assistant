@@ -115,8 +115,8 @@ namespace SIL.Pa.UI.Dialogs
 			col.ReadOnly = true;
 			col.Width = 55;
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
-			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
+			col.DefaultCellStyle.Font = App.PhoneticFont;
+			col.CellTemplate.Style.Font = App.PhoneticFont;
 			col.HeaderText = App.LocalizeString(
 				"FeaturesDlg.PhoneListPhoneHeadingText", "Phone", App.kLocalizationGroupDialogs);
 			

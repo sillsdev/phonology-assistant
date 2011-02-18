@@ -149,7 +149,7 @@ namespace SIL.Pa.UI.Controls
 				const TextFormatFlags kFlags = TextFormatFlags.VerticalCenter |
 					TextFormatFlags.SingleLine | TextFormatFlags.LeftAndRightPadding;
 
-				TabsContainer.Height = TextRenderer.MeasureText(g, "X", FontHelper.PhoneticFont,
+				TabsContainer.Height = TextRenderer.MeasureText(g, "X", App.PhoneticFont,
 					new Size(int.MaxValue, int.MaxValue), kFlags).Height + extraTabHeight;
 			}
 
@@ -223,7 +223,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				foreach (SearchResultTab tab in Tabs)
 				{
-					tab.Font = FontHelper.PhoneticFont;
+					tab.Font = App.PhoneticFont;
 					tab.AdjustWidth();
 				}
 

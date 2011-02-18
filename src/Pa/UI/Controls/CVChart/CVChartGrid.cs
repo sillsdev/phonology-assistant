@@ -56,7 +56,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public CVChartGrid()
 		{
-			Font = FontHelper.MakeEticRegFontDerivative(14);
+			Font = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, 14);
 			BorderStyle = BorderStyle.None;
 			AllowUserToOrderColumns = false;
 			AllowUserToResizeColumns = false;

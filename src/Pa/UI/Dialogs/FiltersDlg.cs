@@ -333,7 +333,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			for (int i = 0; i < m_filterList.Count; i++)
 			{
-				foreach (FilterExpression expression in m_filterList[i].Expressions)
+				foreach (var expression in m_filterList[i].Expressions)
 				{
 					// Make sure expressions based on phonetic search patterns are valid.
 					if (expression.ExpressionType == Filter.ExpressionType.PhoneticSrchPtrn &&
@@ -469,7 +469,7 @@ namespace SIL.Pa.UI.Dialogs
 			((SilButtonColumn)col).ButtonClicked += HandleExpressionsGridValueColumnButtonClicked;
 			((SilButtonColumn)col).DrawDefaultComboButtonWidth = false;
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
-			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
+			col.DefaultCellStyle.Font = App.PhoneticFont;
 			m_gridExpressions.Columns.Add(col);
 			App.LocalizeObject(m_gridExpressions.Columns["expValue"],
 				"FiltersDlg.ExpressionsGridValueColumnHeadingText",

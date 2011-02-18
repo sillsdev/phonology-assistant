@@ -74,7 +74,7 @@ namespace SIL.Pa.UI.Dialogs
 		public void SetUiFonts()
 		{
 			chkRegEx.Font = FontHelper.UIFont;
-			cboFindWhat.Font = FontHelper.PhoneticFont;
+			cboFindWhat.Font = App.PhoneticFont;
 			chkMatchCase.Font = FontHelper.UIFont;
 			chkMatchEntireWord.Font = FontHelper.UIFont;
 			chkStartsWith.Font = FontHelper.UIFont;

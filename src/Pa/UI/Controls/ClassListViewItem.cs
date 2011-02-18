@@ -140,7 +140,7 @@ namespace SIL.Pa.UI.Controls
 			get
 			{
 				return (ClassType == SearchClassType.Phones ?
-					FontHelper.PhoneticFont : FontHelper.UIFont);
+					App.PhoneticFont : FontHelper.UIFont);
 			}
 		}
 
@@ -432,7 +432,7 @@ namespace SIL.Pa.UI.Controls
 				if (i == 1 && ClassType == SearchClassType.Phones)
 				{
 					fnt = (ListView is ClassListView ?
-						((ClassListView)ListView).PhoneticFont : FontHelper.PhoneticFont);
+						((ClassListView)ListView).PhoneticFont : App.PhoneticFont);
 				}
 
 				TextRenderer.DrawText(e.Graphics, SubItems[i].Text, fnt, rc, clrFore, flags);

@@ -48,7 +48,7 @@ namespace SIL.Pa.UI.Controls
 			header.Font = FontHelper.UIFont;
 
 			if (!App.DesignMode)
-				base.Font = FontHelper.MakeEticRegFontDerivative(14);
+				base.Font = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, 14);
 
 			m_extraPhoneHeight += Settings.Default.PhonesInFeaturesListExtraPhoneHeight;
 		}

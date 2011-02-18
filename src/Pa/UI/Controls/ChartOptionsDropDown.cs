@@ -23,7 +23,7 @@ namespace SIL.Pa.UI.Controls
 
 			float fontSize = Math.Min(17, SystemInformation.MenuFont.SizeInPoints * 2);
 
-			pickerIgnore.Font =	FontHelper.MakeEticRegFontDerivative(fontSize);
+			pickerIgnore.Font =	FontHelper.MakeRegularFontDerivative(App.PhoneticFont, fontSize);
 			
 			pickerIgnore.ItemSize = new Size(pickerIgnore.PreferredItemHeight,
 				pickerIgnore.PreferredItemHeight);

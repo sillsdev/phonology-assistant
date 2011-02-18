@@ -48,9 +48,9 @@ namespace SIL.Pa.UI.Controls
 			int fontsize = Settings.Default.SearchOptionsDropDownPickerLabelFontSize;
 			if (fontsize > 0)
 			{
-				stressPicker.Font = FontHelper.MakeEticRegFontDerivative(fontsize);
-				tonePicker.Font = FontHelper.MakeEticRegFontDerivative(fontsize);
-				lengthPicker.Font = FontHelper.MakeEticRegFontDerivative(fontsize);
+				stressPicker.Font = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, fontsize);
+				tonePicker.Font = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, fontsize);
+				lengthPicker.Font = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, fontsize);
 			}
 
 			chkStress.Tag = stressPicker;

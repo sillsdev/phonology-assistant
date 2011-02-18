@@ -749,5 +749,8 @@
     <Setting Name="ShowDiamondsInEmptySearchPattern" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="PhoneticFont" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Font" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

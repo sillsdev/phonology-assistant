@@ -27,7 +27,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			InitializeComponent();
 			lblName.Font = FontHelper.UIFont;
-			txtName.Font = FontHelper.PhoneticFont;
+			txtName.Font = App.PhoneticFont;
 
 			// Set the height of the dialog box.
 			int dy = Height - ClientSize.Height;

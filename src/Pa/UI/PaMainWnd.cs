@@ -80,11 +80,6 @@ namespace SIL.Pa.UI
 			base.MinimumSize = App.MinimumViewWindowSize;
 			LoadToolbarsAndMenus();
 
-			// If the user knows enough to add an entry to the settings file to
-			// override the default UI font, then read it and use it.
-			if (Settings.Default.UIFont != null)
-				FontHelper.UIFont = Settings.Default.UIFont;
-
 			Show();
 
 			if (App.SplashScreen != null && App.SplashScreen.StillAlive)

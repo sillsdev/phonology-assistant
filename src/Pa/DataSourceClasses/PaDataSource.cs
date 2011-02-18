@@ -123,7 +123,7 @@ namespace SIL.Pa.DataSource
 		/// added to a collection of fields returned.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<PaField> FluffUpAndCheckFieldMappings(IEnumerable<PaField> fields)
+		public IEnumerable<PaField> PostDeserializeInitialization(IEnumerable<PaField> fields)
 		{
 			var recoveredFields = new List<PaField>();
 

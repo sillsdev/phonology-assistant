@@ -123,7 +123,7 @@ namespace SIL.Pa.UI.Controls
 
 			if (m_cache.IsCIEList)
 			{
-				m_headingFont = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
+				m_headingFont = FontHelper.MakeFont(App.PhoneticFont, FontStyle.Bold);
 				GroupMinimalPairs();
 			}
 			else if (m_grid.GroupByField != null)

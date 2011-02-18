@@ -36,7 +36,7 @@ namespace SIL.Pa.UI.Controls
 			if (App.DesignMode)
 				return;
 
-			Font = FontHelper.PhoneticFont;
+			Font = App.PhoneticFont;
 			TextChanged += HandlePatternTextBoxTextChanged;
 			KeyPress += HandlePatternTextBoxKeyPress;
 			
@@ -582,7 +582,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnPaFontsChanged(object args)
 		{
-			Font = FontHelper.PhoneticFont;
+			Font = App.PhoneticFont;
 			LocateInsertionLine();
 
 			// Return false to allow other windows to update their fonts.

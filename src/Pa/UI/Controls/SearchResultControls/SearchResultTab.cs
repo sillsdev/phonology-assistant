@@ -69,7 +69,7 @@ namespace SIL.Pa.UI.Controls
 			base.DoubleBuffered = true;
 			base.AutoSize = false;
 			base.AllowDrop = true;
-			base.Font = FontHelper.PhoneticFont;
+			base.Font = App.PhoneticFont;
 			OwningTabGroup = owningTabControl;
 			SearchQuery = new SearchQuery();
 			App.AddMediatorColleague(this);

@@ -227,19 +227,19 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnPaFontsChanged(object args)
 		{
-			m_grid.Columns["col0"].CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			m_grid.Columns["col0"].DefaultCellStyle.Font = FontHelper.PhoneticFont;
+			m_grid.Columns["col0"].CellTemplate.Style.Font = App.PhoneticFont;
+			m_grid.Columns["col0"].DefaultCellStyle.Font = App.PhoneticFont;
 
 			foreach (DataGridViewRow row in m_grid.Rows)
-				row.Cells["col0"].Style.Font = FontHelper.PhoneticFont;
+				row.Cells["col0"].Style.Font = App.PhoneticFont;
 
 			for (int i = kFirstCnvrtToCol; i < m_grid.ColumnCount; i++)
 			{
-				m_grid.Columns[i].CellTemplate.Style.Font = FontHelper.PhoneticFont;
-				m_grid.Columns[i].DefaultCellStyle.Font = FontHelper.PhoneticFont;
+				m_grid.Columns[i].CellTemplate.Style.Font = App.PhoneticFont;
+				m_grid.Columns[i].DefaultCellStyle.Font = App.PhoneticFont;
 
 				foreach (DataGridViewRow row in m_grid.Rows)
-					row.Cells[i].Style.Font = FontHelper.PhoneticFont;
+					row.Cells[i].Style.Font = App.PhoneticFont;
 			}
 
 			return false;
@@ -765,7 +765,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public RadioButtonColumn() : base(new RadioButtonCell())
 		{
-			base.DefaultCellStyle.Font = FontHelper.PhoneticFont;
+			base.DefaultCellStyle.Font = App.PhoneticFont;
 			Width = 110;
 			HeaderText = string.Empty;
 			base.Resizable = DataGridViewTriState.True;

@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
@@ -114,11 +115,11 @@ namespace SIL.Pa
 		private static ToolStripStatusLabel s_progressBarLabel;
 		private static ToolStripProgressBar s_activeProgressBar;
 		private static ToolStripStatusLabel s_activeProgBarLabel;
-		private static PaFieldInfoList s_fieldInfo;
 		private static List<ITMAdapter> s_defaultMenuAdapters;
 		private static readonly Dictionary<Type, Form> s_openForms = new Dictionary<Type, Form>();
 		private static readonly List<IxCoreColleague> s_colleagueList = new List<IxCoreColleague>();
 
+		#region Construction and startup methods
 		/// --------------------------------------------------------------------------------
 		static App()
 		{
@@ -128,21 +129,15 @@ namespace SIL.Pa
 			InventoryHelper.Load();
 			InitializePaRegKey();
 			MsgMediator = new Mediator();
-
-			PortableSettingsProvider.SettingsFileFolder = DefaultProjectFolder;
-			PortableSettingsProvider.SettingsFileName = "Pa.settings";
+			InitializeSettingsFileLocation();
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList);
-
 			ProcessHelper.CopyFilesForPrettyHTMLExports();
-
+			InitializeFonts();
 			SetUILanguage();
+
 			LocalizationManager.DefaultStringGroup = kLocalizationGroupMisc;
 			L10NMngr = LocalizationManager.Create("Pa", "Phonology Assistant",
 				Path.Combine(DefaultProjectFolder, "Localizations"));
-
-			// Create the master set of PA fields. When a project is opened, any
-			// custom fields belonging to the project will be added to this list.
-			s_fieldInfo = PaFieldInfoList.DefaultFieldInfoList;
 
 			MinimumViewWindowSize = Settings.Default.MinimumViewWindowSize;
 			FwDBUtils.ShowMsgWhenGatheringFWInfo = Settings.Default.ShowMsgWhenGatheringFwInfo;
@@ -176,24 +171,174 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private static void InitializeSettingsFileLocation()
+		{
+			string path = null;
+
+			try
+			{
+				// Specifying the UI language on the command-line trumps the one in
+				// the settings file (i.e. the one set in the options dialog box).
+				foreach (var arg in Environment.GetCommandLineArgs()
+					.Where(arg => arg.ToLower().StartsWith("/sf:") || arg.ToLower().StartsWith("-sf:")))
+				{
+					path = arg.Substring(4);
+					PortableSettingsProvider.SettingsFileFolder = Path.GetDirectoryName(path);
+					PortableSettingsProvider.SettingsFileName = Path.GetFileName(path);
+					return;
+				}
+			}
+			catch
+			{
+				var msg = string.Format("There was an error retrieving the settings file\n\n" +
+					"'{0}'\n\nThe default settings file will be used instead.", path);
+
+				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			}
+
+			PortableSettingsProvider.SettingsFileFolder = DefaultProjectFolder;
+			PortableSettingsProvider.SettingsFileName = "Pa.settings";
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void InitializeFonts()
+		{
+			// If the user knows enough to add an entry to the settings file to
+			// override the default UI font, then read it and use it.
+			if (Settings.Default.UIFont != null)
+				FontHelper.UIFont = Settings.Default.UIFont;
+
+			if (Settings.Default.PhoneticFont != null)
+			{
+				PhoneticFont = Settings.Default.PhoneticFont;
+				return;
+			}
+			
+			// These should get intialized via the settings file, but in case there is no
+			// settings file, this will ensure at least something.
+			if (FontHelper.FontInstalled("Doulos SIL"))
+				PhoneticFont = FontHelper.MakeFont("Doulos SIL", 13, FontStyle.Regular);
+			else if (FontHelper.FontInstalled("Charis SIL"))
+				PhoneticFont = FontHelper.MakeFont("Charis SIL", 13, FontStyle.Regular);
+			else if (FontHelper.FontInstalled("Galatia SIL"))
+				PhoneticFont = FontHelper.MakeFont("Galatia SIL", 13, FontStyle.Regular);
+			else if (FontHelper.FontInstalled("Gentium Plus"))
+				PhoneticFont = FontHelper.MakeFont("Gentium Plus", 13, FontStyle.Regular);
+			else if (FontHelper.FontInstalled("Arial Unicode"))
+				PhoneticFont = FontHelper.MakeFont("Arial Unicode", 11, FontStyle.Regular);
+			else if (FontHelper.FontInstalled("Lucida Sans Unicode"))
+				PhoneticFont = FontHelper.MakeFont("Lucida Sans Unicode", 11, FontStyle.Regular);
+			else
+				PhoneticFont = FontHelper.UIFont;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private static void SetUILanguage()
 		{
 			string langId = Settings.Default.UserInterfaceLanguage;
 
 			// Specifying the UI language on the command-line trumps the one in
 			// the settings file (i.e. the one set in the options dialog box).
-			foreach (var arg in Environment.GetCommandLineArgs())
+			foreach (var arg in Environment.GetCommandLineArgs()
+				.Where(arg => arg.ToLower().StartsWith("/uilang:") || arg.ToLower().StartsWith("-uilang:")))
 			{
-				if (arg.ToLower().StartsWith("/uilang:") || arg.ToLower().StartsWith("-uilang:"))
-				{
-					langId = arg.Substring(8);
-					break;
-				}
+				langId = arg.Substring(8);
+				break;
 			}
 
 			LocalizationManager.UILanguageId = (string.IsNullOrEmpty(langId) ?
 				LocalizationManager.kDefaultLang : langId);
 		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add Ons are undocumented and it's assumed that each add-on assembly contains at
+		/// least a class called "PaAddOnManager". If a class by that name is not found in
+		/// an assembly in the AddOns folder, then it's not considered to be an AddOn
+		/// assembly for PA. It's up to the PaAddOnManager class in each add-on to do all
+		/// the proper initialization it needs. There's nothing in the PA code that recognizes
+		/// AddOns. It's all up to the Add On to reference the PA code, not the other way
+		/// around. So, if an Add On needs to add a menu to the main menu, it's up to the
+		/// add on to do it.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void ReadAddOns()
+		{
+			if (DesignMode)
+				return;
+
+			string[] addOnAssemblyFiles;
+
+			try
+			{
+				var addOnPath = Path.Combine(AssemblyPath, "AddOns");
+				addOnAssemblyFiles = Directory.GetFiles(addOnPath, "*.dll");
+			}
+			catch
+			{
+				return;
+			}
+
+			if (addOnAssemblyFiles.Length == 0)
+				return;
+
+			foreach (string filename in addOnAssemblyFiles)
+			{
+				try
+				{
+					Assembly assembly = ReflectionHelper.LoadAssembly(filename);
+					if (assembly != null)
+					{
+						object instance =
+							ReflectionHelper.CreateClassInstance(assembly, "PaAddOnManager");
+
+						if (instance != null)
+						{
+							if (AddOnAssemblys == null)
+								AddOnAssemblys = new List<Assembly>();
+
+							if (AddOnManagers == null)
+								AddOnManagers = new List<object>();
+
+							AddOnAssemblys.Add(assembly);
+							AddOnManagers.Add(instance);
+						}
+					}
+				}
+				catch { }
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void InitializePaRegKey()
+		{
+			string projPath = GetDefaultProjectFolder();
+
+			// Check if an entry in the registry specifies the default project path.
+			RegistryKey key = Registry.CurrentUser.CreateSubKey(kPaRegKeyName);
+
+			if (key != null)
+			{
+				string tmpProjPath = key.GetValue("DefaultProjectsLocation") as string;
+
+				// If the registry value was not found, then create it. Otherwise, use
+				// the path found in the registry and not the one constructed above.
+				if (string.IsNullOrEmpty(tmpProjPath))
+					key.SetValue("DefaultProjectsLocation", projPath);
+				else
+					projPath = tmpProjPath;
+
+				key.Close();
+			}
+
+			DefaultProjectFolder = projPath;
+
+			// Create the folder if it doesn't exist.
+			if (!Directory.Exists(projPath))
+				Directory.CreateDirectory(projPath);
+		}
+
+		#endregion
 
 		#region Misc. localized global strings
 		/// ------------------------------------------------------------------------------------
@@ -466,188 +611,6 @@ namespace SIL.Pa
 		
 		#endregion
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Add Ons are undocumented and it's assumed that each add-on assembly contains at
-		/// least a class called "PaAddOnManager". If a class by that name is not found in
-		/// an assembly in the AddOns folder, then it's not considered to be an AddOn
-		/// assembly for PA. It's up to the PaAddOnManager class in each add-on to do all
-		/// the proper initialization it needs. There's nothing in the PA code that recognizes
-		/// AddOns. It's all up to the Add On to reference the PA code, not the other way
-		/// around. So, if an Add On needs to add a menu to the main menu, it's up to the
-		/// add on to do it.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static void ReadAddOns()
-		{
-			if (DesignMode)
-				return;
-
-			string[] addOnAssemblyFiles;
-
-			try
-			{
-				var addOnPath = Path.Combine(AssemblyPath, "AddOns");
-				addOnAssemblyFiles = Directory.GetFiles(addOnPath, "*.dll");
-			}
-			catch
-			{
-				return;
-			}
-
-			if (addOnAssemblyFiles.Length == 0)
-				return;
-
-			foreach (string filename in addOnAssemblyFiles)
-			{
-				try
-				{
-					Assembly assembly = ReflectionHelper.LoadAssembly(filename);
-					if (assembly != null)
-					{
-						object instance =
-							ReflectionHelper.CreateClassInstance(assembly, "PaAddOnManager");
-
-						if (instance != null)
-						{
-							if (AddOnAssemblys == null)
-								AddOnAssemblys = new List<Assembly>();
-
-							if (AddOnManagers == null)
-								AddOnManagers = new List<object>();
-
-							AddOnAssemblys.Add(assembly);
-							AddOnManagers.Add(instance);
-						}
-					}
-				}
-				catch { }
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private static void InitializePaRegKey()
-		{
-			string projPath = GetDefaultProjectFolder();
-
-			// Check if an entry in the registry specifies the default project path.
-			RegistryKey key = Registry.CurrentUser.CreateSubKey(kPaRegKeyName);
-
-			if (key != null)
-			{
-				string tmpProjPath = key.GetValue("DefaultProjectsLocation") as string;
-
-				// If the registry value was not found, then create it. Otherwise, use
-				// the path found in the registry and not the one constructed above.
-				if (string.IsNullOrEmpty(tmpProjPath))
-					key.SetValue("DefaultProjectsLocation", projPath);
-				else
-					projPath = tmpProjPath;
-
-				key.Close();
-			}
-
-			DefaultProjectFolder = projPath;
-
-			// Create the folder if it doesn't exist.
-			if (!Directory.Exists(projPath))
-				Directory.CreateDirectory(projPath);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Construct the default project path.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string GetDefaultProjectFolder()
-		{
-			// Construct the default project path.
-			string projPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
-			// I found that in limited user mode on Vista, Environment.SpecialFolder.MyDocuments
-			// returns an empty string. Argh!!! Therefore, I have to make sure there is
-			// a valid and full path. Do that by getting the user's desktop folder and
-			// chopping off everything that follows the last backslash. If getting the user's
-			// desktop folder fails, then fall back to the program's folder, which is
-			// probably not right, but we'll have to assume it will never happen. :o)
-			if (string.IsNullOrEmpty(projPath))
-			{
-				projPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-				if (string.IsNullOrEmpty(projPath) || !Directory.Exists(projPath))
-					return AssemblyPath;
-
-				projPath = projPath.TrimEnd('\\');
-				int i = projPath.LastIndexOf('\\');
-				projPath = projPath.Substring(0, i);
-			}
-
-			return Path.Combine(projPath, Properties.Resources.kstidDefaultProjFileFolderName);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// The normal DesignMode property doesn't work when derived classes are loaded in
-		/// designer. (This is a kludge, I know.)
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static bool DesignMode
-		{
-			get { return Process.GetCurrentProcess().ProcessName == "devenv"; }
-		}
-
-		#region Cache related properties and methods
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Gets the IPA symbols cache.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public static IPASymbolCache IPASymbolCache
-		//{
-		//    get { return InventoryHelper.IPASymbolCache; }
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Gets the cache of articulatory features.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public static AFeatureCache AFeatureCache
-		//{
-		//    get { return InventoryHelper.AFeatureCache; }
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Gets the cache of binary features.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public static BFeatureCache BFeatureCache
-		//{
-		//    get { return InventoryHelper.BFeatureCache; }
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//public static RecordCache RecordCache { get; set; }
-
-		///// ------------------------------------------------------------------------------------
-		//public static WordCache WordCache { get; set; }
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Gets the cache of phones in the current project, without respect to current filter.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public static PhoneCache UnfilteredPhoneCache { get; set; }
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Gets the cache of phones in the current project, with respect to current filter.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public static PhoneCache PhoneCache { get; set; }
-		
-		#endregion
-
 		#region Message mediator adding/removing
 		/// ------------------------------------------------------------------------------------
 		public static void AddMediatorColleague(IxCoreColleague colleague)
@@ -686,8 +649,18 @@ namespace SIL.Pa
 		#region Misc. Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// The normal DesignMode property doesn't work when derived classes are loaded in
+		/// designer. (This is a kludge, I know.)
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool DesignMode
+		{
+			get { return Process.GetCurrentProcess().ProcessName == "devenv"; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Font PhoneticFont { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		public static string BreakChars
 		{
@@ -741,6 +714,16 @@ namespace SIL.Pa
 				// CodeBase prepends "file:/", which must be removed.
 				return Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase).Substring(6);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the top-level registry key path to the application's registry entry.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string ApplicationRegKeyPath
+		{
+			get { return @"Software\SIL\Phonology Assistant"; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -806,13 +789,6 @@ namespace SIL.Pa
 		public static bool ProjectLoadInProcess { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public static PaFieldInfoList FieldInfo
-		{
-			get { return s_fieldInfo ?? (s_fieldInfo = PaFieldInfoList.DefaultFieldInfoList); }
-			set { s_fieldInfo = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the toolbar menu adapter PaMainWnd. This value should only be set
 		/// by the PaMainWnd class.
@@ -851,57 +827,6 @@ namespace SIL.Pa
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static Type CurrentViewType { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the main status bar label on PaMainWnd.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static ToolStripStatusLabel StatusBarLabel
-		{
-			get
-			{
-				IUndockedViewWnd udvwnd = (CurrentView != null && CurrentView.ActiveView ?
-					CurrentView.OwningForm : MainForm) as IUndockedViewWnd;
-
-				return (udvwnd != null ? udvwnd.StatusBarLabel : s_statusBarLabel);
-			}
-			set { s_statusBarLabel = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the progress bar on the PaMainWnd.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static ToolStripProgressBar ProgressBar
-		{
-			get
-			{
-				IUndockedViewWnd udvwnd = (CurrentView != null && CurrentView.ActiveView ?
-					CurrentView.OwningForm : MainForm) as IUndockedViewWnd;
-
-				return (udvwnd != null ? udvwnd.ProgressBar : s_progressBar);
-			}
-			set { s_progressBar = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the progress bar's label on the PaMainWnd.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static ToolStripStatusLabel ProgressBarLabel
-		{
-			get
-			{
-				IUndockedViewWnd udvwnd = (CurrentView != null && CurrentView.ActiveView ?
-					CurrentView.OwningForm : MainForm) as IUndockedViewWnd;
-
-				return (udvwnd != null ? udvwnd.ProgressBarLabel : s_progressBarLabel);
-			}
-			set { s_progressBarLabel = value; }
-		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -1140,6 +1065,36 @@ namespace SIL.Pa
 		#region Misc. methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Construct the default project path.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string GetDefaultProjectFolder()
+		{
+			// Construct the default project path.
+			string projPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+			// I found that in limited user mode on Vista, Environment.SpecialFolder.MyDocuments
+			// returns an empty string. Argh!!! Therefore, I have to make sure there is
+			// a valid and full path. Do that by getting the user's desktop folder and
+			// chopping off everything that follows the last backslash. If getting the user's
+			// desktop folder fails, then fall back to the program's folder, which is
+			// probably not right, but we'll have to assume it will never happen. :o)
+			if (string.IsNullOrEmpty(projPath))
+			{
+				projPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+				if (string.IsNullOrEmpty(projPath) || !Directory.Exists(projPath))
+					return AssemblyPath;
+
+				projPath = projPath.TrimEnd('\\');
+				int i = projPath.LastIndexOf('\\');
+				projPath = projPath.Substring(0, i);
+			}
+
+			return Path.Combine(projPath, Properties.Resources.kstidDefaultProjFileFolderName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Prepares the adapter for localization support.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -1207,7 +1162,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static ITMAdapter LoadDefaultMenu(Control menuContainer)
 		{
-			ITMAdapter adapter = AdapterHelper.CreateTMAdapter();
+			var adapter = AdapterHelper.CreateTMAdapter();
 
 			if (adapter != null)
 			{
@@ -1266,16 +1221,6 @@ namespace SIL.Pa
 				foreach (ITMAdapter adapter in s_defaultMenuAdapters)
 					adapter.RecentFilesList = (MruFiles.Paths ?? new string[] { });
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the top-level registry key path to the application's registry entry.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string ApplicationRegKeyPath
-		{
-			get { return @"Software\SIL\Phonology Assistant"; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1375,7 +1320,58 @@ namespace SIL.Pa
 
 		#endregion
 
-		#region Progress bar methods
+		#region Progress/Status bar properties and methods
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the main status bar label on PaMainWnd.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static ToolStripStatusLabel StatusBarLabel
+		{
+			get
+			{
+				IUndockedViewWnd udvwnd = (CurrentView != null && CurrentView.ActiveView ?
+					CurrentView.OwningForm : MainForm) as IUndockedViewWnd;
+
+				return (udvwnd != null ? udvwnd.StatusBarLabel : s_statusBarLabel);
+			}
+			set { s_statusBarLabel = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the progress bar on the PaMainWnd.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static ToolStripProgressBar ProgressBar
+		{
+			get
+			{
+				IUndockedViewWnd udvwnd = (CurrentView != null && CurrentView.ActiveView ?
+					CurrentView.OwningForm : MainForm) as IUndockedViewWnd;
+
+				return (udvwnd != null ? udvwnd.ProgressBar : s_progressBar);
+			}
+			set { s_progressBar = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the progress bar's label on the PaMainWnd.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static ToolStripStatusLabel ProgressBarLabel
+		{
+			get
+			{
+				IUndockedViewWnd udvwnd = (CurrentView != null && CurrentView.ActiveView ?
+					CurrentView.OwningForm : MainForm) as IUndockedViewWnd;
+
+				return (udvwnd != null ? udvwnd.ProgressBarLabel : s_progressBarLabel);
+			}
+			set { s_progressBarLabel = value; }
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Initializes the progress bar, assuming the max. value will be the count of items
@@ -1426,10 +1422,6 @@ namespace SIL.Pa
 				SplashScreen.Message = msg;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static void UninitializeProgressBar()
 		{
@@ -1911,7 +1903,7 @@ namespace SIL.Pa
 			var keybldr = new StringBuilder(6);
 			foreach (char c in phone)
 			{
-				IPASymbol info = IPASymbolCache[c];
+				var info = IPASymbolCache[c];
 				keybldr.Append(info == null ? "000" :
 					string.Format("{0:X3}", info.MOArticulation));
 			}
@@ -1934,7 +1926,7 @@ namespace SIL.Pa
 			var keybldr = new StringBuilder(6);
 			foreach (char c in phone)
 			{
-				IPASymbol info = IPASymbolCache[c];
+				var info = IPASymbolCache[c];
 				keybldr.Append(info == null ? "000" :
 					string.Format("{0:X3}", info.POArticulation));
 			}

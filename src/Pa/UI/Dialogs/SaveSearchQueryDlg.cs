@@ -32,9 +32,9 @@ namespace SIL.Pa.UI.Dialogs
 			lblName.Font = FontHelper.UIFont;
 			lblCategories.Font = FontHelper.UIFont;
 
-			lblPattern.Font = FontHelper.PhoneticFont;
-			txtName.Font = FontHelper.PhoneticFont;
-			cboCategories.Font = FontHelper.PhoneticFont;
+			lblPattern.Font = App.PhoneticFont;
+			txtName.Font = App.PhoneticFont;
+			cboCategories.Font = App.PhoneticFont;
 
 			AdjustLabelLocations();
 

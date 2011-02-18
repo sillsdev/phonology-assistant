@@ -285,7 +285,7 @@ namespace SIL.Pa.UI.Controls
 			const TextFormatFlags flags = TextFormatFlags.SingleLine | TextFormatFlags.NoPrefix |
 				TextFormatFlags.LeftAndRightPadding;
 
-			Font fnt = (m_chrGrid != null ? m_chrGrid.ChartFont : FontHelper.PhoneticFont);
+			Font fnt = (m_chrGrid != null ? m_chrGrid.ChartFont : App.PhoneticFont);
 
 			// Get phones from the Phone cache.
 			foreach (KeyValuePair<string, IPhoneInfo> phoneInfo in App.Project.PhoneCache)

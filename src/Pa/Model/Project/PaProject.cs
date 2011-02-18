@@ -182,9 +182,9 @@ namespace SIL.Pa
 			SortOptions sortOptions)
 		{
 			if (!string.IsNullOrEmpty(newName) && sortOptions != null &&
-				sortOptions.SortInformationList != null)
+				sortOptions.SortFields != null)
 			{
-				foreach (var si in sortOptions.SortInformationList.Where(si => si.Field.Name == origName))
+				foreach (var si in sortOptions.SortFields.Where(si => si.Field.Name == origName))
 					si.Field.Name = newName;
 			}
 		}
@@ -315,14 +315,18 @@ namespace SIL.Pa
 			LoadAmbiguousSequences();
 			LoadTranscriptionChanges();
 			PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
+			DataCorpusVwSortOptions.PostDeserializeInitialization(this);
+			SearchVwSortOptions.PostDeserializeInitialization(this);
+			DistributionChartVwSortOptions.PostDeserializeInitialization(this);
 
 			foreach (var ds in DataSources)
 			{
-				var recoveredFields = ds.FluffUpAndCheckFieldMappings(Fields);
+				var recoveredFields = ds.PostDeserializeInitialization(Fields);
 				if (recoveredFields != null)
 					Fields = PaField.Merge(Fields, recoveredFields);
 			}
 			
+			//        InitializeFontHelperFonts();
 			//project.VerifyDataSourceMappings();
 		}
 
@@ -369,36 +373,6 @@ namespace SIL.Pa
 			foreach (var ds in DataSources)
 				ds.VerifyMappings(this);
 		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Loads the projects field information from its XML file.
-		/// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public void LoadFieldInfo()
-		//{
-		//    // TODO: Update to new system.
-
-		//    try
-		//    {
-		//        bool saveAfterLoadingFields;
-		//        m_fieldInfoList = PaFieldInfoList.Load(this, out saveAfterLoadingFields);
-		//        if (saveAfterLoadingFields)
-		//            Save();
-
-		//        App.FieldInfo = m_fieldInfoList;
-		//        InitializeFontHelperFonts();
-		//        DataCorpusVwSortOptions.SyncFieldInfo(m_fieldInfoList);
-		//        SearchVwSortOptions.SyncFieldInfo(m_fieldInfoList);
-		//        DistributionChartVwSortOptions.SyncFieldInfo(m_fieldInfoList);
-		//    }
-		//    catch (Exception e)
-		//    {
-		//        Utils.MsgBox(
-		//            string.Format(Properties.Resources.kstidErrorLoadingProjectFieldInfo,
-		//            Name, e.Message));
-		//    }
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -610,10 +584,10 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public void EnsureSingleSortOptionValid(SortOptions sortOptions)
 		{
-			if (sortOptions == null || sortOptions.SortInformationList == null)
+			if (sortOptions == null || sortOptions.SortFields == null)
 				return;
 			
-			var list = sortOptions.SortInformationList;
+			var list = sortOptions.SortFields;
 			for (int i = list.Count - 1; i >= 0; i--)
 			{
 				if (!Fields.Any(f => f.Name == list[i].Field.Name))
@@ -914,7 +888,6 @@ namespace SIL.Pa
 		/// Gets or sets the default sort options applied to word lists in XY Chart view.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlElement("XYChartVwSortOptions")]
 		public SortOptions DistributionChartVwSortOptions
 		{
 			get
