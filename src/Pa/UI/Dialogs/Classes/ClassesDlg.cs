@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.UI.Controls;
 using SilTools;

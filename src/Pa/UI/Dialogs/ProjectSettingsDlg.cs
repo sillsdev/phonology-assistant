@@ -691,20 +691,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleCustomFieldsButtonClick(object sender, EventArgs e)
-		{
-			//using (var dlg = new CustomFieldsDlg(m_project))
-			//{
-			//    dlg.ShowDialog(this);
-			//    if (dlg.ChangesWereMade)
-			//    {
-			//        m_project.CleanUpMappings();
-			//        m_dirty = true;
-			//    }
-			//}
-		}
-
-		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Returns true if the project contains a data source file with the specified name.
 		/// </summary>

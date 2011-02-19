@@ -23,14 +23,14 @@ namespace SIL.Pa.Model
 	[XmlType("ParsedFieldGroup")]
 	public class WordCacheEntry
 	{
-		private Dictionary<string, PaFieldValue> m_fieldValues;
-		private PaFieldValue m_phoneticValue;
+		private Dictionary<string, FieldValue> m_fieldValues;
+		private FieldValue m_phoneticValue;
 		private string m_origPhoneticValue;
 		private Dictionary<int, string[]> m_uncertainPhones;
 		private string[] m_phones;
 
 		// This is only used for deserialization
-		private List<PaFieldValue> m_fieldValuesList;
+		private List<FieldValue> m_fieldValuesList;
 
 		// This conversion list is specific to each WordCacheEntry list and contains only
 		// those conversions that were applied to the phonetic word. Conversions contained
@@ -70,7 +70,7 @@ namespace SIL.Pa.Model
 
 			m_fieldValues = (from m in recEntry.DataSource.FieldMappings
 							 where m.IsParsed && m.Field != null
-							 select m.Field).ToDictionary(f => f.Name, f => new PaFieldValue(f.Name));
+							 select m.Field).ToDictionary(f => f.Name, f => new FieldValue(f.Name));
 
 			var mapping = recEntry.DataSource.FieldMappings
 				.SingleOrDefault(m => m.Field != null && m.Field.Type == FieldType.Phonetic);
@@ -99,7 +99,7 @@ namespace SIL.Pa.Model
 			if (string.IsNullOrEmpty(value))
 				return;
 
-			PaFieldValue fieldValue;
+			FieldValue fieldValue;
 			if (!m_fieldValues.TryGetValue(field, out fieldValue))
 				return;
 
@@ -125,7 +125,7 @@ namespace SIL.Pa.Model
 			if (field == null)
 				return null;
 
-			PaFieldValue fieldValue;
+			FieldValue fieldValue;
 			if (m_fieldValues.TryGetValue(field, out fieldValue) && fieldValue.Value != null)
 				return fieldValue.Value;
 
@@ -158,7 +158,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void SetFieldAsFirstLineInterlinear(string field)
 		{
-			PaFieldValue fieldValue;
+			FieldValue fieldValue;
 			if (m_fieldValues.TryGetValue(field, out fieldValue))
 				fieldValue.IsFirstLineInterlinearField = true;
 		}
@@ -170,7 +170,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void SetFieldAsSubordinateInterlinear(string field)
 		{
-			PaFieldValue fieldValue;
+			FieldValue fieldValue;
 			if (m_fieldValues.TryGetValue(field, out fieldValue))
 				fieldValue.IsSubordinateInterlinearField = true;
 		}
@@ -184,7 +184,7 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		[XmlArray("Fields")]
-		public List<PaFieldValue> FieldValues
+		public List<FieldValue> FieldValues
 		{
 			get
 			{
@@ -345,7 +345,7 @@ namespace SIL.Pa.Model
 			if (m_fieldValuesList == null || m_fieldValuesList.Count == 0)
 				return;
 
-			m_fieldValues = new Dictionary<string, PaFieldValue>();
+			m_fieldValues = new Dictionary<string, FieldValue>();
 			
 			foreach (var fieldValue in m_fieldValuesList)
 			{

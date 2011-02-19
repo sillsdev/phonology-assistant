@@ -222,33 +222,51 @@ namespace SilTools
 		/// fallback scheme is used.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static Font MakeFont(string family, float size, FontStyle style)
+		public static Font MakeFont(string fontName, float size, FontStyle style)
 		{
-		    Font fnt;
-
-			while (true)
+			try
 			{
-				try
+				var family = FontFamily.Families.SingleOrDefault(f => f.Name == fontName);
+				if (family != null)
 				{
-					fnt = new Font(family, size, style, GraphicsUnit.Point);
-					break;
-				}
-				catch (Exception e)
-				{
-					string msg = e.Message.ToLower();
-					if (!msg.Contains("does not support style"))
-						return (Font)SystemFonts.IconTitleFont.Clone();
-					
-					if (msg.Contains("bold"))
-						style &= ~FontStyle.Bold;
-					else if (msg.Contains("italic"))
-						style &= ~FontStyle.Italic;
-					else if (msg.Contains("regular"))
-						style = FontStyle.Bold;
+					if (family.IsStyleAvailable(style))
+						return new Font(family, size, style, GraphicsUnit.Point);
+
+					for (style = (FontStyle)0; (int)style <= 3; style = (FontStyle)(int)style + 1)
+					{
+						if (family.IsStyleAvailable(style))
+							return new Font(family, size, style, GraphicsUnit.Point);
+					}
 				}
 			}
+			catch { }
+		
+			return (Font)SystemFonts.IconTitleFont.Clone();
+		}
 
-			return fnt;
+		/// --------------------------------------------------------------------------------
+		public static bool GetSupportsRegular(string fontName)
+		{
+			return GetSupportsStyle(fontName, FontStyle.Regular);
+		}
+
+		/// --------------------------------------------------------------------------------
+		public static bool GetSupportsBold(string fontName)
+		{
+			return GetSupportsStyle(fontName, FontStyle.Bold);
+		}
+
+		/// --------------------------------------------------------------------------------
+		public static bool GetSupportsItalic(string fontName)
+		{
+			return GetSupportsStyle(fontName, FontStyle.Italic);
+		}
+
+		/// --------------------------------------------------------------------------------
+		public static bool GetSupportsStyle(string fontName, FontStyle style)
+		{
+			var family = FontFamily.Families.SingleOrDefault(f => f.Name == fontName);
+			return (family == null ? false : family.IsStyleAvailable(style));
 		}
 
 		/// --------------------------------------------------------------------------------

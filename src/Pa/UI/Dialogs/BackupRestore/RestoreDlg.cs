@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.IO;
 using SIL.Pa.DataSource;
 using ICSharpCode.SharpZipLib.Zip;
+using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
 
@@ -247,7 +248,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void GetDataSourcePathsFromPap()
 		{
 			string dummy = string.Empty;
-			PaProject prj = PaProject.LoadProjectFileOnly(m_papPath, true, ref dummy); 
+			var prj = PaProject.LoadProjectFileOnly(m_papPath, true, ref dummy); 
 
 			if (prj == null || prj.DataSources == null || prj.DataSources.Count == 0)
 			{

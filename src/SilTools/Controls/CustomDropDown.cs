@@ -21,7 +21,6 @@ namespace SilTools.Controls
 			LayoutStyle = ToolStripLayoutStyle.Table;
 			DropShadowEnabled = true;
 			DoubleBuffered = true;
-			UseRollEffectWhenShown = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -170,51 +169,25 @@ namespace SilTools.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool UseFadingEffectWhenShown { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		public bool UseRollEffectWhenShown { get; set; }
-
-		/// ------------------------------------------------------------------------------------
 		protected override void OnOpening(System.ComponentModel.CancelEventArgs e)
 		{
+			Opacity = 0;
+			
 			base.OnOpening(e);
 
-			Timer timer = null;
+			if (e.Cancel)
+				return;
 
-			if (UseRollEffectWhenShown)
+			var timer = new Timer();
+			timer.Interval = 1;
+			timer.Tick += delegate
 			{
-				int maxHeight = Height;
-				Height = 0;
+				Opacity += 0.1;
+				if (Opacity == 1f)
+					timer.Stop();
+			};
 
-				timer = new Timer();
-				timer.Interval = 1;
-				timer.Tick += delegate
-				{
-					if (Height + 35 < maxHeight)
-						Height += 35;
-					else
-					{
-						Height = maxHeight;
-						timer.Stop();
-					}
-				};
-			}
-			else if (UseFadingEffectWhenShown)
-			{
-				Opacity = 0;
-				timer = new Timer();
-				timer.Interval = 10;
-				timer.Tick += delegate
-				{
-					Opacity += 0.1;
-					if (Opacity == 1f)
-						timer.Stop();
-				};
-			}
-
-			if (timer != null)
-				timer.Start();
+			timer.Start();
 		}
 	}
 }

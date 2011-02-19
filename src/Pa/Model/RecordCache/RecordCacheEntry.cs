@@ -20,8 +20,8 @@ namespace SIL.Pa.Model
 	public class RecordCacheEntry
 	{
 		// This is only used for deserialization
-		private List<PaFieldValue> m_fieldValuesList;
-		private IDictionary<string, PaFieldValue> m_fieldValues;
+		private List<FieldValue> m_fieldValuesList;
+		private IDictionary<string, FieldValue> m_fieldValues;
 
 		private static int s_counter;
 
@@ -51,7 +51,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public RecordCacheEntry(bool newFromParsingSFMFile, PaProject project) : this(project)
 		{
-			m_fieldValues = project.Fields.ToDictionary(f => f.Name, f => new PaFieldValue(f.Name));
+			m_fieldValues = project.Fields.ToDictionary(f => f.Name, f => new FieldValue(f.Name));
 			CanBeEditedInToolbox = newFromParsingSFMFile;
 		}
 
@@ -66,7 +66,7 @@ namespace SIL.Pa.Model
 			if (string.IsNullOrEmpty(value))
 				return;
 			
-			PaFieldValue fieldValue;
+			FieldValue fieldValue;
 
 			if (field != PaField.kDataSourcePathFieldName && field != PaField.kDataSourceFieldName &&
 				m_fieldValues.TryGetValue(field, out fieldValue))
@@ -90,7 +90,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public string GetValueBasic(string field)
 		{
-			PaFieldValue fieldValue;
+			FieldValue fieldValue;
 			if (m_fieldValues.TryGetValue(field, out fieldValue) && fieldValue.Value != null) 
 				return fieldValue.Value;
 
@@ -123,7 +123,7 @@ namespace SIL.Pa.Model
 					Path.GetFileName(DataSource.SourceFile));
 			}
 
-			PaFieldValue fieldValue;
+			FieldValue fieldValue;
 			if (m_fieldValues.TryGetValue(fieldName, out fieldValue) && fieldValue.Value != null)
 				return fieldValue.Value;
 
@@ -267,7 +267,7 @@ namespace SIL.Pa.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlArray("Fields")]
-		public List<PaFieldValue> FieldValues
+		public List<FieldValue> FieldValues
 		{
 			get
 			{

@@ -22,6 +22,7 @@ using System.Linq;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Filters;
+using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
 using SIL.Pa.Resources;
@@ -71,7 +72,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDataSourcesModified(object args)
 		{
-			PaProject project = args as PaProject;
+			var project = args as PaProject;
 			if (project != null)
 			{
 				SetWindowText(project);
@@ -92,7 +93,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnHelpAbout(object args)
 		{
-			using (AboutDlg dlg = new AboutDlg(true, false))
+			using (var dlg = new AboutDlg(true, false))
 				dlg.ShowDialog(this);
 
 			return true;

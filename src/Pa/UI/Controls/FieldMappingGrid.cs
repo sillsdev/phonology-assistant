@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SilTools;
+using SilTools.Controls;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -16,6 +18,7 @@ namespace SIL.Pa.UI.Controls
 		private readonly IDictionary<FieldType, string> m_displayableFieldTypes;
 		private readonly IEnumerable<PaField> m_potentialFields;
 		private readonly CellCustomDropDownList m_potentialFieldsDropDown;
+		private readonly FontPicker m_fontPicker;
 
 		/// ------------------------------------------------------------------------------------
 		public FieldMappingGrid()
@@ -27,7 +30,9 @@ namespace SIL.Pa.UI.Controls
 			App.SetGridSelectionColors(this, true);
 			
 			m_potentialFieldsDropDown = new CellCustomDropDownList();
-			
+			m_fontPicker = new FontPicker();
+			m_fontPicker.Closed += HandleFontPickerClosed;
+
 			m_displayableFieldTypes =
 				PaField.GetDisplayableFieldTypes().ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 		}
@@ -118,7 +123,15 @@ namespace SIL.Pa.UI.Controls
 			App.LocalizeObject(Columns[i], "FieldMappingGrid.FieldCanBeInterlinearColumnHeadingText",
 				"Is Interlinear?", App.kLocalizationGroupUICtrls);
 
-			// TODO: Add font columns.
+			// Create target field column.
+			col = new SilButtonColumn("font");
+			((SilButtonColumn)col).ButtonStyle = SilButtonColumn.ButtonType.MinimalistCombo;
+			((SilButtonColumn)col).ButtonClicked += OnFontColumnButtonClicked;
+			((SilButtonColumn)col).DrawDefaultComboButtonWidth = false;
+			col.SortMode = DataGridViewColumnSortMode.NotSortable;
+			i = Columns.Add(col);
+			App.LocalizeObject(Columns[i], "FieldMappingGrid.FontColumnHeadingText",
+				"Font", App.kLocalizationGroupUICtrls);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -148,6 +161,26 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected virtual void OnFontColumnButtonClicked(object sender, DataGridViewCellMouseEventArgs e)
+		{
+			var mapping = GetFieldAt(e.RowIndex);
+
+			m_fontPicker.ShowAsDropDownForGridCell
+				(mapping.Font, this[e.ColumnIndex, e.RowIndex]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleFontPickerClosed(FontPicker sender, DialogResult result)
+		{
+			if (result == DialogResult.OK)
+			{
+				var mapping = GetFieldAt(CurrentCellAddress.Y);
+				mapping.Font = (Font)m_fontPicker.Font.Clone();
+				InvalidateRow(CurrentCellAddress.Y);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private static string GetNoMappingText()
 		{
 			return App.LocalizeString("FieldMappingGrid.NoMappingText",
@@ -169,10 +202,40 @@ namespace SIL.Pa.UI.Controls
 					case "parsed": e.Value = mapping.IsParsed; break;
 					case "interlinear": e.Value = mapping.IsInterlinear; break;
 					case "arrow": e.Value = Properties.Resources.FieldMappingArrow; break;
+					case "font": e.Value = GetFontDisplayString(mapping.Field.Font); break;
 				}
 			}
 
 			base.OnCellValueNeeded(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private string GetFontDisplayString(Font fnt)
+		{
+			string fmt;
+
+			if (fnt.Bold && fnt.Italic)
+			{
+				fmt = App.LocalizeString("FieldMappingGrid.FontDisplayFormatAll",
+						"{0}, {1}pt, Bold, Italic", App.kLocalizationGroupUICtrls);
+			}
+			else if (fnt.Bold)
+			{
+				fmt = App.LocalizeString("FieldMappingGrid.FontDisplayFormatBold",
+						"{0}, {1}pt, Bold", App.kLocalizationGroupUICtrls);
+			}
+			else if (fnt.Italic)
+			{
+				fmt = App.LocalizeString("FieldMappingGrid.FontDisplayFormatItalic",
+						"{0}, {1}pt, Italic", App.kLocalizationGroupUICtrls);
+			}
+			else
+			{
+				fmt = App.LocalizeString("FieldMappingGrid.FontDisplayFormat",
+						"{0}, {1}pt", App.kLocalizationGroupUICtrls);
+			}
+
+			return string.Format(fmt, fnt.FontFamily.Name, (int)fnt.SizeInPoints);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -235,8 +298,14 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private FieldType GetTypeAtOrDefault(int index)
 		{
-			return (index >= 0 && m_mappings[index].Field != null ?
-				m_mappings[index].Field.Type : default(FieldType));
+			var field = GetFieldAt(index);
+			return (field != null ? field.Type : default(FieldType));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private PaField GetFieldAt(int index)
+		{
+			return (index >= 0 && index < m_mappings.Count ?  m_mappings[index].Field : null);
 		}
 
 		/// ------------------------------------------------------------------------------------

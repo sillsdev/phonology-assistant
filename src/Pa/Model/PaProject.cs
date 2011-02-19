@@ -9,13 +9,12 @@ using Palaso.IO;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Filters;
-using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Views;
 using SilTools;
 
-namespace SIL.Pa
+namespace SIL.Pa.Model
 {
 	/// ----------------------------------------------------------------------------------------
 	public class PaProject : IDisposable

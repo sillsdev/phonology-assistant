@@ -18,8 +18,6 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class PaXMLContent
 	{
-		public PaFieldInfoList CustomFields;
-		
 		[XmlElement("PaRecords")]
 		public RecordCache Cache;
 	}
@@ -106,7 +104,6 @@ namespace SIL.Pa.Model
 
 				cache.m_project = project;
 				cache.m_phoneticFieldName = project.GetPhoneticField().Name;
-				cache.DeserializedCustomFields = paxmlcontent.CustomFields;
 				string fwServer;
 				string fwDBName;
 				PaDataSource.GetPaXmlType(filename, out fwServer, out fwDBName);
@@ -168,10 +165,6 @@ namespace SIL.Pa.Model
 					e.Message), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 		}
-
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public PaFieldInfoList DeserializedCustomFields { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public void BuildWordCache(ToolStripProgressBar progBar)

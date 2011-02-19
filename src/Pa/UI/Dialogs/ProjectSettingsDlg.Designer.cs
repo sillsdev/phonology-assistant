@@ -30,7 +30,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.txtComments = new System.Windows.Forms.TextBox();
 			this.btnAdd = new System.Windows.Forms.Button();
 			this.btnRemove = new System.Windows.Forms.Button();
-			this.btnCustomFields = new System.Windows.Forms.Button();
 			this.btnProperties = new System.Windows.Forms.Button();
 			this.txtLanguageName = new System.Windows.Forms.TextBox();
 			this.lblLanguageName = new System.Windows.Forms.Label();
@@ -150,17 +149,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnRemove.Name = "btnRemove";
 			this.btnRemove.UseVisualStyleBackColor = true;
 			this.btnRemove.Click += new System.EventHandler(this.HandleRemoveButtonClick);
-			// 
-			// btnCustomFields
-			// 
-			resources.ApplyResources(this.btnCustomFields, "btnCustomFields");
-			this.locExtender.SetLocalizableToolTip(this.btnCustomFields, null);
-			this.locExtender.SetLocalizationComment(this.btnCustomFields, null);
-			this.locExtender.SetLocalizingId(this.btnCustomFields, "ProjectSettingsDlg.btnCustomFields");
-			this.btnCustomFields.MinimumSize = new System.Drawing.Size(95, 26);
-			this.btnCustomFields.Name = "btnCustomFields";
-			this.btnCustomFields.UseVisualStyleBackColor = true;
-			this.btnCustomFields.Click += new System.EventHandler(this.HandleCustomFieldsButtonClick);
 			// 
 			// btnProperties
 			// 
@@ -404,7 +392,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayout.Controls.Add(this.btnRemove, 5, 5);
 			this.tblLayout.Controls.Add(this.pnlGrid, 0, 4);
 			this.tblLayout.Controls.Add(this.btnProperties, 5, 6);
-			this.tblLayout.Controls.Add(this.btnCustomFields, 5, 7);
 			this.tblLayout.Name = "tblLayout";
 			// 
 			// ProjectSettingsDlg
@@ -439,7 +426,6 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.TextBox txtSpeaker;
 		private System.Windows.Forms.TextBox txtComments;
 		private System.Windows.Forms.Button btnAdd;
-		private System.Windows.Forms.Button btnCustomFields;
 		private System.Windows.Forms.Button btnRemove;
 		private System.Windows.Forms.TextBox txtLanguageName;
 		private System.Windows.Forms.Label lblLanguageName;

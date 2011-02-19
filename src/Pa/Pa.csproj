@@ -178,15 +178,10 @@
     <Compile Include="Model\Features\FeatureMask.cs" />
     <Compile Include="Model\Features\FeatureOverrides.cs" />
     <Compile Include="Model\Fields\FieldMapping.cs" />
+    <Compile Include="Model\Fields\FieldValue.cs" />
     <Compile Include="Model\Fields\PaField.cs" />
     <Compile Include="Model\Fields\SortField.cs" />
-    <Compile Include="Model\Project\PaFieldInfo.cs" />
-    <Compile Include="Model\Project\PaFieldsDisplayText.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PaFieldsDisplayText.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Project\PaProject.cs" />
+    <Compile Include="Model\PaProject.cs" />
     <Compile Include="Model\RecordCache\RecordCache.cs" />
     <Compile Include="Model\RecordCache\RecordCacheEntry.cs" />
     <Compile Include="Model\SymbolsAndPhones\AmbiguousSequences.cs" />
@@ -523,12 +518,6 @@
     <Compile Include="UI\Dialogs\Classes\DefineClassDlg.designer.cs">
       <DependentUpon>DefineClassDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialogs\CustomFieldsDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Dialogs\CustomFieldsDlg.Designer.cs">
-      <DependentUpon>CustomFieldsDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Dialogs\DownloadSaDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -702,11 +691,6 @@
       <DependentUpon>MissingFWDatabaseMsgBox.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Model\Project\PaFieldsDisplayText.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>PaFieldsDisplayText.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
@@ -769,10 +753,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\AmbiguousSequencesDlg.resx">
       <DependentUpon>AmbiguousSequencesDlg.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Dialogs\CustomFieldsDlg.resx">
-      <DependentUpon>CustomFieldsDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\FieldWorks\FwDataSourcePropertiesDlg.resx">

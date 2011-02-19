@@ -97,10 +97,6 @@ namespace SIL.Pa.UI.Controls
 
 		#region IDisposable Members
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
 			Application.RemoveMessageFilter(this);

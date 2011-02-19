@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using Palaso.IO;
+using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
 

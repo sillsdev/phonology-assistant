@@ -26,8 +26,6 @@ namespace SIL.Pa.UI.Controls
 
 			var hostingDropDown = new CustomDropDown();
 			hostingDropDown.AddControl(phoneDropDown);
-			hostingDropDown.UseFadingEffectWhenShown = true;
-			hostingDropDown.UseRollEffectWhenShown = false;
 			hostingDropDown.Opening += phoneDropDown.LoadControls;
 			hostingDropDown.Opened += delegate { phoneDropDown.Focus(); };
 	

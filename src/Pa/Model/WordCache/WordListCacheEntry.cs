@@ -39,9 +39,9 @@ namespace SIL.Pa.Model
 		/// Gets the value for the field specified by fieldInfo
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string this[PaFieldInfo fieldInfo]
+		public string this[PaField field]
 		{
-			get { return (fieldInfo == null ? null : this[fieldInfo.FieldName]); }
+			get { return (field == null ? null : this[field.Name]); }
 		}
 
 		#endregion
