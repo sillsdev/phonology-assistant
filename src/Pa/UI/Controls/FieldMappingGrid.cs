@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SilTools;
-using SilTools.Controls;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -163,10 +162,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected virtual void OnFontColumnButtonClicked(object sender, DataGridViewCellMouseEventArgs e)
 		{
-			var mapping = GetFieldAt(e.RowIndex);
+			var field = GetFieldAt(e.RowIndex);
 
-			m_fontPicker.ShowAsDropDownForGridCell
-				(mapping.Font, this[e.ColumnIndex, e.RowIndex]);
+			if (field != null)
+				m_fontPicker.ShowForGridCell(field.Font, this[e.ColumnIndex, e.RowIndex], true);
+	
+			// In the else case, display the fading message window.
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -202,7 +203,8 @@ namespace SIL.Pa.UI.Controls
 					case "parsed": e.Value = mapping.IsParsed; break;
 					case "interlinear": e.Value = mapping.IsInterlinear; break;
 					case "arrow": e.Value = Properties.Resources.FieldMappingArrow; break;
-					case "font": e.Value = GetFontDisplayString(mapping.Field.Font); break;
+					case "font": e.Value = (mapping.Field == null ? null :
+						GetFontDisplayString(mapping.Field.Font)); break;
 				}
 			}
 
@@ -210,7 +212,7 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private string GetFontDisplayString(Font fnt)
+		private static string GetFontDisplayString(Font fnt)
 		{
 			string fmt;
 
@@ -316,21 +318,29 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
 		{
-			if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn)
+			if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
 			{
-				this[e.ColumnIndex, e.RowIndex].ReadOnly = false;
 				var colName = Columns[e.ColumnIndex].Name;
 				var mapping = m_mappings[e.RowIndex];
-				var type = GetTypeAtOrDefault(e.RowIndex);
 
-				if (colName == "parsed" && !PaField.GetIsTypeParsable(type))
+				if (colName == "font" && mapping.Field != null)
 				{
-					this[e.ColumnIndex, e.RowIndex].ReadOnly = true;
+					e.CellStyle.Font = mapping.Field.Font;
 				}
-				else if (colName == "interlinear" &&
-					(!PaField.GetIsTypeInterlinearizable(type) || !mapping.IsParsed))
+				else if (Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn)
 				{
-					this[e.ColumnIndex, e.RowIndex].ReadOnly = true;
+					this[e.ColumnIndex, e.RowIndex].ReadOnly = false;
+					var type = GetTypeAtOrDefault(e.RowIndex);
+					
+					if (colName == "parsed" && !PaField.GetIsTypeParsable(type))
+					{
+						this[e.ColumnIndex, e.RowIndex].ReadOnly = true;
+					}
+					else if (colName == "interlinear" &&
+						(!PaField.GetIsTypeInterlinearizable(type) || !mapping.IsParsed))
+					{
+						this[e.ColumnIndex, e.RowIndex].ReadOnly = true;
+					}
 				}
 			}
 	

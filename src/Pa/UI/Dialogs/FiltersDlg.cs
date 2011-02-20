@@ -1055,7 +1055,13 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void UpdateView(bool updateExpressionMatchCombo = true)
+		private void UpdateView()
+		{
+			UpdateView(true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void UpdateView(bool updateExpressionMatchCombo)
 		{
 			Utils.SetWindowRedraw(this, false);
 

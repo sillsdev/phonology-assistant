@@ -2866,6 +2866,7 @@ namespace SIL.Pa.UI.Controls
 			if (CurrentRow != null)
 				InvalidateRow(CurrentRow.Index);
 
+			RefreshColumnFonts(true);
 			Cursor = Cursors.Default;
 			return false;
 		}

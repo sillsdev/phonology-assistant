@@ -320,22 +320,7 @@ namespace SIL.Pa.Model
 			var list = XmlSerializationHelper.DeserializeFromFile<List<PaField>>(path, rootElementName, out e);
 
 			if (e == null)
-			{
-				if (!list.Any(f => f.Name == kDataSourceFieldName))
-					list.Add(GetUnmappableField(kDataSourceFieldName, default(FieldType)));
-
-				if (!list.Any(f => f.Name == kDataSourcePathFieldName))
-					list.Add(GetUnmappableField(kDataSourcePathFieldName, FieldType.GeneralFilePath));
-
-				if (!list.Any(f => f.Name == kCVPatternFieldName))
-				{
-					var cvField = GetUnmappableField(kCVPatternFieldName, default(FieldType));
-					cvField.Font = App.PhoneticFont;
-					list.Add(cvField);
-				}
-
-				return list.OrderBy(f => f.DisplayName).ToList();
-			}
+				return EnsureListContainsCalculatedFields(list).ToList();
 
 			var msg = App.LocalizeString("ReadingFieldsFileErrorMsg",
 				"The following error occurred when reading the file\n\n'{0}'\n\n{1}",
@@ -347,6 +332,33 @@ namespace SIL.Pa.Model
 			Utils.MsgBox(string.Format(msg, path, e.Message));
 
 			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static IEnumerable<PaField> EnsureListContainsCalculatedFields(List<PaField> fields)
+		{
+			if (!fields.Any(f => f.Name == kDataSourceFieldName))
+				fields.Add(GetUnmappableField(kDataSourceFieldName, default(FieldType)));
+
+			if (!fields.Any(f => f.Name == kDataSourcePathFieldName))
+				fields.Add(GetUnmappableField(kDataSourcePathFieldName, FieldType.GeneralFilePath));
+
+			if (!fields.Any(f => f.Name == kCVPatternFieldName))
+			{
+				var phoneticField = fields.SingleOrDefault(f => f.Type == FieldType.Phonetic);
+				var cvField = GetUnmappableField(kCVPatternFieldName, default(FieldType));
+				cvField.Font = (phoneticField != null ? phoneticField.Font : App.PhoneticFont);
+				fields.Add(cvField);
+			}
+
+			return fields.OrderBy(f => f.DisplayName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static IEnumerable<PaField> GetCalculatedFieldsFromList(IEnumerable<PaField> fields)
+		{
+			return fields.Where(f => f.Name == kCVPatternFieldName ||
+				f.Name == kDataSourceFieldName || f.Name == kDataSourcePathFieldName);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -5,8 +5,10 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Linq;
 using System.Windows.Forms;
+using SilTools;
+using SilTools.Controls;
 
-namespace SilTools.Controls
+namespace SIL.Pa.UI.Controls
 {
 	public partial class FontPicker : UserControl
 	{
@@ -21,6 +23,15 @@ namespace SilTools.Controls
 		/// ------------------------------------------------------------------------------------
 		public FontPicker()
 		{
+			if (m_dropDown == null)
+			{
+				m_dropDown = new CustomDropDown();
+				m_dropDown.AutoCloseWhenMouseLeaves = false;
+				m_dropDown.AddControl(this);
+				m_dropDown.Closing += HandleDropDownClosing;
+				m_dropDown.Closed += delegate { OnClose(DialogResult); };
+			}
+
 			InitializeComponent();
 
 			cboFontFamily.Font = FontHelper.UIFont;
@@ -74,27 +85,32 @@ namespace SilTools.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void ShowAsDropDownForGridCell(Font fnt, DataGridViewCell cell)
+		public void ShowForGridCell(Font fnt, DataGridViewCell cell)
+		{
+			ShowForGridCell(fnt, cell, false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void ShowForGridCell(Font fnt, DataGridViewCell cell, bool rightAlign)
 		{
 			int col = cell.ColumnIndex;
 			int row = cell.RowIndex;
 			var rc = cell.DataGridView.GetCellDisplayRectangle(col, row, false);
 			rc.Y += rc.Height;
-			ShowAsDropDown(fnt, cell.DataGridView.PointToScreen(rc.Location));
+
+			if (rightAlign)
+				rc.X = rc.Right - pnlOuter.Width;
+
+			Show(fnt, cell.DataGridView.PointToScreen(rc.Location));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void ShowAsDropDown(Font fnt, Point location)
+		public void Show(Font fnt, Point location)
 		{
-			if (m_dropDown == null)
-			{
-				m_dropDown = new CustomDropDown();
-				m_dropDown.AutoCloseWhenMouseLeaves = false;
-				m_dropDown.AddControl(this);
-				m_dropDown.Closing += HandleDropDownClosing;
-				m_dropDown.Closed += delegate { OnClose(DialogResult); };
-			}
-
+			// When the font for the buttons that's specified in the designer is different
+			// from the system font for buttons, for some reason, somewhere along the lines,
+			// the buttons font gets set to the system font for buttons. Check here and
+			// put it back to the 8pt. specified in the designer.
 			if (btnOK.Font.SizeInPoints >= 9f)
 			{
 				btnOK.Font = new Font(btnOK.Font.FontFamily, 8f, GraphicsUnit.Point);

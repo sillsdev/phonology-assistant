@@ -199,7 +199,7 @@
     <value>vwTabGroup</value>
   </data>
   <data name="&gt;&gt;vwTabGroup.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.ViewTabGroup, Pa, Version=3.1.3786.19575, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.ViewTabGroup, Pa, Version=3.2.9.9, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;vwTabGroup.Parent" xml:space="preserve">
     <value>$this</value>
@@ -832,7 +832,7 @@
     <value>locExtender</value>
   </data>
   <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
-    <value>SIL.Localization.LocalizationExtender, LocalizationManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Localization.UI.LocalizationExtender, LocalizationManager, Version=1.0.4059.31465, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>PaMainWnd</value>

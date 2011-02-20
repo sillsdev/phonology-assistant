@@ -476,7 +476,28 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void SetFields(IEnumerable<PaField> fields)
 		{
-			Fields = fields.ToList();
+			// Before setting the fields list, pull out the calculated fields in order to
+			// preserve their property settings. These will be added back into the list
+			// once it's been set to the new list.
+			var calculatedFields = (Fields == null ? null : PaField.GetCalculatedFieldsFromList(Fields));
+
+			// Set the new fields list, making sure that it contains, at least, the
+			// calculated fields with default properties.
+			var newFields = fields.ToList();
+
+			if (calculatedFields == null)
+			{
+				Fields = PaField.EnsureListContainsCalculatedFields(newFields).ToList();
+				return;
+			}
+
+			// At this point, we know there used to be calculated fields in the list so we
+			// need to toss out any that might have come in the new list and restore the
+			// old ones.
+			foreach (var field in PaField.GetCalculatedFieldsFromList(newFields).ToList())
+				newFields.Remove(field);
+
+			Fields = newFields.Concat(calculatedFields).OrderBy(f => f.DisplayName).ToList();
 		}
 
 		/// ------------------------------------------------------------------------------------
