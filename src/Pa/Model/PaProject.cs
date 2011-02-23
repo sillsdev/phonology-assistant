@@ -325,7 +325,6 @@ namespace SIL.Pa.Model
 					Fields = PaField.Merge(Fields, recoveredFields);
 			}
 			
-			//        InitializeFontHelperFonts();
 			//project.VerifyDataSourceMappings();
 		}
 
@@ -371,38 +370,6 @@ namespace SIL.Pa.Model
 
 			foreach (var ds in DataSources)
 				ds.VerifyMappings(this);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Sets all the font helper fonts to those specified in the project.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void InitializeFontHelperFonts()
-		{
-			// TODO: Fix for new system
-			//if (m_fieldInfoList == null)
-			//    return;
-			
-			//foreach (PaFieldInfo fieldInfo in m_fieldInfoList)
-			//{
-			//    if (fieldInfo.Font == null)
-			//        continue;
-
-			//    try
-			//    {
-			//        const BindingFlags kFlags = BindingFlags.SetProperty |
-			//            BindingFlags.Static | BindingFlags.Public;
-
-			//        var mi = typeof(FontHelper).GetMember(fieldInfo.FieldName + "Font");
-			//        if (mi.Length > 0)
-			//        {
-			//            typeof(FontHelper).InvokeMember(fieldInfo.FieldName + "Font",
-			//                    kFlags, null, typeof(FontHelper), new object[] { fieldInfo.Font });
-			//        }
-			//    }
-			//    catch { }
-			//}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -474,7 +441,7 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetFields(IEnumerable<PaField> fields)
+		public void SetFields(IEnumerable<PaField> fields, bool keepPreviousCalculatedFields)
 		{
 			// Before setting the fields list, pull out the calculated fields in order to
 			// preserve their property settings. These will be added back into the list
@@ -485,7 +452,7 @@ namespace SIL.Pa.Model
 			// calculated fields with default properties.
 			var newFields = fields.ToList();
 
-			if (calculatedFields == null)
+			if (calculatedFields == null || !keepPreviousCalculatedFields)
 			{
 				Fields = PaField.EnsureListContainsCalculatedFields(newFields).ToList();
 				return;
@@ -991,7 +958,7 @@ namespace SIL.Pa.Model
 		/// list owned by a PA project when the project is opened.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
+		[XmlArray("CVPatternInfoList"), XmlArrayItem("CVPatternInfo")]
 		public List<CVPatternInfo> CVPatternInfoList { get; set; }
 
 		/// ------------------------------------------------------------------------------------

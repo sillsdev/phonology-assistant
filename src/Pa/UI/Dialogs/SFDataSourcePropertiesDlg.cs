@@ -241,12 +241,13 @@ namespace SIL.Pa.UI.Dialogs
 			m_fieldsGrid = new FieldMappingGrid(m_potentialFields, GetMappingsForGrid(),
 				() => App.LocalizeString("SFDataSourcePropertiesDlg.SourceFieldColumnHeadingText", "Map this Marker...", App.kLocalizationGroupDialogs),
 				() => App.LocalizeString("SFDataSourcePropertiesDlg.TargetFieldColumnHeadingText", "To this Field", App.kLocalizationGroupDialogs));
-			
+
 			m_fieldsGrid.Dock = DockStyle.Fill;
 			pnlMappings.Controls.Add(m_fieldsGrid);
 			m_fieldsGrid.BringToFront();
 			pnlMappingsHdg.ControlReceivingFocusOnMnemonic = m_fieldsGrid;
 			OnStringLocalized(null);
+			m_fieldsGrid.ShowFontColumn(false);
 
 			if (Settings.Default.SFDataSourcePropertiesDlgMappingGrid != null)
 				Settings.Default.SFDataSourcePropertiesDlgMappingGrid.InitializeGrid(m_fieldsGrid);

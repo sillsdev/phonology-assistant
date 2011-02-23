@@ -1299,13 +1299,9 @@ namespace SIL.Pa.UI.Controls
 
 		#region Phonetic Sort methods
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownSearchResultPhoneticSort(object args)
 		{
-			ToolBarPopupInfo itemProps = args as ToolBarPopupInfo;
+			var itemProps = args as ToolBarPopupInfo;
 			if (!m_view.ActiveView || CurrentViewsGrid == null || itemProps == null)
 				return false;
 
@@ -1317,10 +1313,6 @@ namespace SIL.Pa.UI.Controls
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownClosedSearchResultPhoneticSort(object args)
 		{

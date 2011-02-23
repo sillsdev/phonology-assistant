@@ -28,11 +28,11 @@ namespace SIL.Pa.UI.Controls
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SortOptionsDropDown));
 			this.rbUnicodeOrder = new System.Windows.Forms.RadioButton();
 			this.rbPlaceArticulation = new System.Windows.Forms.RadioButton();
 			this.rbMannerArticulation = new System.Windows.Forms.RadioButton();
-			this.grpAdvSortOptions = new System.Windows.Forms.GroupBox();
 			this.tblAdvSorting = new System.Windows.Forms.TableLayoutPanel();
 			this.pnlAdvSort2 = new System.Windows.Forms.Panel();
 			this.rbItem3rd = new System.Windows.Forms.RadioButton();
@@ -56,18 +56,29 @@ namespace SIL.Pa.UI.Controls
 			this.lblFirst = new System.Windows.Forms.Label();
 			this.lblRL = new System.Windows.Forms.Label();
 			this.lblSecond = new System.Windows.Forms.Label();
-			this.lnkHelp = new System.Windows.Forms.LinkLabel();
-			this.grpAdvSortOptions.SuspendLayout();
+			this.tblLayoutOuter = new System.Windows.Forms.TableLayoutPanel();
+			this.flowPanelButtons = new System.Windows.Forms.FlowLayoutPanel();
+			this.btnHelp = new SIL.Pa.UI.Controls.PopupDialogHelpButton();
+			this.btnClose = new SIL.Pa.UI.Controls.PopupDialogCloseButton();
+			this.pnlAdvOptions = new SilTools.Controls.SilPanel();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.tblAdvSorting.SuspendLayout();
 			this.pnlAdvSort2.SuspendLayout();
 			this.pnlAdvSort0.SuspendLayout();
 			this.pnlAdvSort1.SuspendLayout();
+			this.tblLayoutOuter.SuspendLayout();
+			this.flowPanelButtons.SuspendLayout();
+			this.pnlAdvOptions.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// rbUnicodeOrder
 			// 
 			resources.ApplyResources(this.rbUnicodeOrder, "rbUnicodeOrder");
 			this.rbUnicodeOrder.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.rbUnicodeOrder, null);
+			this.locExtender.SetLocalizationComment(this.rbUnicodeOrder, null);
+			this.locExtender.SetLocalizingId(this.rbUnicodeOrder, "SortOptionsDropDown.rbUnicodeOrder");
 			this.rbUnicodeOrder.Name = "rbUnicodeOrder";
 			this.rbUnicodeOrder.TabStop = true;
 			this.rbUnicodeOrder.UseVisualStyleBackColor = false;
@@ -77,6 +88,9 @@ namespace SIL.Pa.UI.Controls
 			// 
 			resources.ApplyResources(this.rbPlaceArticulation, "rbPlaceArticulation");
 			this.rbPlaceArticulation.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.rbPlaceArticulation, null);
+			this.locExtender.SetLocalizationComment(this.rbPlaceArticulation, null);
+			this.locExtender.SetLocalizingId(this.rbPlaceArticulation, "SortOptionsDropDown.rbPlaceArticulation");
 			this.rbPlaceArticulation.Name = "rbPlaceArticulation";
 			this.rbPlaceArticulation.TabStop = true;
 			this.rbPlaceArticulation.UseVisualStyleBackColor = false;
@@ -86,17 +100,13 @@ namespace SIL.Pa.UI.Controls
 			// 
 			resources.ApplyResources(this.rbMannerArticulation, "rbMannerArticulation");
 			this.rbMannerArticulation.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.rbMannerArticulation, null);
+			this.locExtender.SetLocalizationComment(this.rbMannerArticulation, null);
+			this.locExtender.SetLocalizingId(this.rbMannerArticulation, "SortOptionsDropDown.rbMannerArticulation");
 			this.rbMannerArticulation.Name = "rbMannerArticulation";
 			this.rbMannerArticulation.TabStop = true;
 			this.rbMannerArticulation.UseVisualStyleBackColor = false;
 			this.rbMannerArticulation.Click += new System.EventHandler(this.HandleSortTypeChecked);
-			// 
-			// grpAdvSortOptions
-			// 
-			resources.ApplyResources(this.grpAdvSortOptions, "grpAdvSortOptions");
-			this.grpAdvSortOptions.Controls.Add(this.tblAdvSorting);
-			this.grpAdvSortOptions.Name = "grpAdvSortOptions";
-			this.grpAdvSortOptions.TabStop = false;
 			// 
 			// tblAdvSorting
 			// 
@@ -122,6 +132,7 @@ namespace SIL.Pa.UI.Controls
 			this.pnlAdvSort2.Controls.Add(this.rbItem3rd);
 			this.pnlAdvSort2.Controls.Add(this.rbBefore3rd);
 			this.pnlAdvSort2.Controls.Add(this.rbAfter3rd);
+			this.pnlAdvSort2.MinimumSize = new System.Drawing.Size(27, 0);
 			this.pnlAdvSort2.Name = "pnlAdvSort2";
 			this.tblAdvSorting.SetRowSpan(this.pnlAdvSort2, 3);
 			// 
@@ -129,34 +140,37 @@ namespace SIL.Pa.UI.Controls
 			// 
 			resources.ApplyResources(this.rbItem3rd, "rbItem3rd");
 			this.rbItem3rd.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.rbItem3rd, null);
+			this.locExtender.SetLocalizationComment(this.rbItem3rd, null);
+			this.locExtender.SetLocalizationPriority(this.rbItem3rd, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.rbItem3rd, "SortOptionsDropDown.rbItem3rd");
 			this.rbItem3rd.Name = "rbItem3rd";
 			this.rbItem3rd.UseVisualStyleBackColor = false;
-			this.rbItem3rd.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.rbItem3rd.Click += new System.EventHandler(this.HandleCheckedColumn2);
-			this.rbItem3rd.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
-			this.rbItem3rd.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// rbBefore3rd
 			// 
 			resources.ApplyResources(this.rbBefore3rd, "rbBefore3rd");
 			this.rbBefore3rd.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.rbBefore3rd, null);
+			this.locExtender.SetLocalizationComment(this.rbBefore3rd, null);
+			this.locExtender.SetLocalizationPriority(this.rbBefore3rd, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.rbBefore3rd, "SortOptionsDropDown.rbBefore3rd");
 			this.rbBefore3rd.Name = "rbBefore3rd";
 			this.rbBefore3rd.UseVisualStyleBackColor = false;
-			this.rbBefore3rd.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.rbBefore3rd.Click += new System.EventHandler(this.HandleCheckedColumn2);
-			this.rbBefore3rd.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
-			this.rbBefore3rd.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// rbAfter3rd
 			// 
 			resources.ApplyResources(this.rbAfter3rd, "rbAfter3rd");
 			this.rbAfter3rd.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.rbAfter3rd, null);
+			this.locExtender.SetLocalizationComment(this.rbAfter3rd, null);
+			this.locExtender.SetLocalizationPriority(this.rbAfter3rd, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.rbAfter3rd, "SortOptionsDropDown.rbAfter3rd");
 			this.rbAfter3rd.Name = "rbAfter3rd";
 			this.rbAfter3rd.UseVisualStyleBackColor = false;
-			this.rbAfter3rd.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.rbAfter3rd.Click += new System.EventHandler(this.HandleCheckedColumn2);
-			this.rbAfter3rd.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
-			this.rbAfter3rd.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// pnlAdvSort0
 			// 
@@ -164,6 +178,7 @@ namespace SIL.Pa.UI.Controls
 			this.pnlAdvSort0.Controls.Add(this.rbItem1st);
 			this.pnlAdvSort0.Controls.Add(this.rbBefore1st);
 			this.pnlAdvSort0.Controls.Add(this.rbAfter1st);
+			this.pnlAdvSort0.MinimumSize = new System.Drawing.Size(27, 0);
 			this.pnlAdvSort0.Name = "pnlAdvSort0";
 			this.tblAdvSorting.SetRowSpan(this.pnlAdvSort0, 3);
 			// 
@@ -171,35 +186,38 @@ namespace SIL.Pa.UI.Controls
 			// 
 			resources.ApplyResources(this.rbItem1st, "rbItem1st");
 			this.rbItem1st.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.rbItem1st, null);
+			this.locExtender.SetLocalizationComment(this.rbItem1st, null);
+			this.locExtender.SetLocalizationPriority(this.rbItem1st, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.rbItem1st, "SortOptionsDropDown.rbItem1st");
 			this.rbItem1st.Name = "rbItem1st";
 			this.rbItem1st.UseVisualStyleBackColor = false;
-			this.rbItem1st.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.rbItem1st.Click += new System.EventHandler(this.HandleCheckedColumn0);
-			this.rbItem1st.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
-			this.rbItem1st.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// rbBefore1st
 			// 
 			resources.ApplyResources(this.rbBefore1st, "rbBefore1st");
 			this.rbBefore1st.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.rbBefore1st, null);
+			this.locExtender.SetLocalizationComment(this.rbBefore1st, null);
+			this.locExtender.SetLocalizationPriority(this.rbBefore1st, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.rbBefore1st, "SortOptionsDropDown.rbBefore1st");
 			this.rbBefore1st.Name = "rbBefore1st";
-			this.rbBefore1st.Tag = "";
+			this.rbBefore1st.Tag = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidDoNothingToolTip;
 			this.rbBefore1st.UseVisualStyleBackColor = false;
-			this.rbBefore1st.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.rbBefore1st.Click += new System.EventHandler(this.HandleCheckedColumn0);
-			this.rbBefore1st.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
-			this.rbBefore1st.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// rbAfter1st
 			// 
 			resources.ApplyResources(this.rbAfter1st, "rbAfter1st");
 			this.rbAfter1st.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.rbAfter1st, null);
+			this.locExtender.SetLocalizationComment(this.rbAfter1st, null);
+			this.locExtender.SetLocalizationPriority(this.rbAfter1st, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.rbAfter1st, "SortOptionsDropDown.rbAfter1st");
 			this.rbAfter1st.Name = "rbAfter1st";
 			this.rbAfter1st.UseVisualStyleBackColor = false;
-			this.rbAfter1st.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.rbAfter1st.Click += new System.EventHandler(this.HandleCheckedColumn0);
-			this.rbAfter1st.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
-			this.rbAfter1st.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// pnlAdvSort1
 			// 
@@ -207,6 +225,7 @@ namespace SIL.Pa.UI.Controls
 			this.pnlAdvSort1.Controls.Add(this.rbAfter2nd);
 			this.pnlAdvSort1.Controls.Add(this.rbBefore2nd);
 			this.pnlAdvSort1.Controls.Add(this.rbItem2nd);
+			this.pnlAdvSort1.MinimumSize = new System.Drawing.Size(27, 0);
 			this.pnlAdvSort1.Name = "pnlAdvSort1";
 			this.tblAdvSorting.SetRowSpan(this.pnlAdvSort1, 3);
 			// 
@@ -214,73 +233,82 @@ namespace SIL.Pa.UI.Controls
 			// 
 			resources.ApplyResources(this.rbAfter2nd, "rbAfter2nd");
 			this.rbAfter2nd.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.rbAfter2nd, null);
+			this.locExtender.SetLocalizationComment(this.rbAfter2nd, null);
+			this.locExtender.SetLocalizationPriority(this.rbAfter2nd, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.rbAfter2nd, "SortOptionsDropDown.rbAfter2nd");
 			this.rbAfter2nd.Name = "rbAfter2nd";
 			this.rbAfter2nd.UseVisualStyleBackColor = false;
-			this.rbAfter2nd.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.rbAfter2nd.Click += new System.EventHandler(this.HandleCheckedColumn1);
-			this.rbAfter2nd.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
-			this.rbAfter2nd.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// rbBefore2nd
 			// 
 			resources.ApplyResources(this.rbBefore2nd, "rbBefore2nd");
 			this.rbBefore2nd.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.rbBefore2nd, null);
+			this.locExtender.SetLocalizationComment(this.rbBefore2nd, null);
+			this.locExtender.SetLocalizationPriority(this.rbBefore2nd, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.rbBefore2nd, "SortOptionsDropDown.rbBefore2nd");
 			this.rbBefore2nd.Name = "rbBefore2nd";
 			this.rbBefore2nd.UseVisualStyleBackColor = false;
-			this.rbBefore2nd.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.rbBefore2nd.Click += new System.EventHandler(this.HandleCheckedColumn1);
-			this.rbBefore2nd.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
-			this.rbBefore2nd.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// rbItem2nd
 			// 
 			resources.ApplyResources(this.rbItem2nd, "rbItem2nd");
 			this.rbItem2nd.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.rbItem2nd, null);
+			this.locExtender.SetLocalizationComment(this.rbItem2nd, null);
+			this.locExtender.SetLocalizationPriority(this.rbItem2nd, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.rbItem2nd, "SortOptionsDropDown.rbItem2nd");
 			this.rbItem2nd.Name = "rbItem2nd";
 			this.rbItem2nd.UseVisualStyleBackColor = false;
-			this.rbItem2nd.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.rbItem2nd.Click += new System.EventHandler(this.HandleCheckedColumn1);
-			this.rbItem2nd.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
-			this.rbItem2nd.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// chkAfterRL
 			// 
 			resources.ApplyResources(this.chkAfterRL, "chkAfterRL");
 			this.chkAfterRL.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.chkAfterRL, null);
+			this.locExtender.SetLocalizationComment(this.chkAfterRL, null);
+			this.locExtender.SetLocalizationPriority(this.chkAfterRL, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.chkAfterRL, "SortOptionsDropDown.chkAfterRL");
 			this.chkAfterRL.Name = "chkAfterRL";
 			this.chkAfterRL.UseVisualStyleBackColor = false;
-			this.chkAfterRL.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.chkAfterRL.Click += new System.EventHandler(this.HandleRightToLeftCheckBoxChecked);
-			this.chkAfterRL.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
-			this.chkAfterRL.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// chkItemRL
 			// 
 			resources.ApplyResources(this.chkItemRL, "chkItemRL");
 			this.chkItemRL.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.chkItemRL, null);
+			this.locExtender.SetLocalizationComment(this.chkItemRL, null);
+			this.locExtender.SetLocalizationPriority(this.chkItemRL, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.chkItemRL, "SortOptionsDropDown.chkItemRL");
 			this.chkItemRL.Name = "chkItemRL";
 			this.chkItemRL.UseVisualStyleBackColor = false;
-			this.chkItemRL.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.chkItemRL.Click += new System.EventHandler(this.HandleRightToLeftCheckBoxChecked);
-			this.chkItemRL.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
-			this.chkItemRL.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// chkBeforeRL
 			// 
 			resources.ApplyResources(this.chkBeforeRL, "chkBeforeRL");
 			this.chkBeforeRL.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.chkBeforeRL, null);
+			this.locExtender.SetLocalizationComment(this.chkBeforeRL, null);
+			this.locExtender.SetLocalizationPriority(this.chkBeforeRL, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.chkBeforeRL, "SortOptionsDropDown.chkBeforeRL");
 			this.chkBeforeRL.Name = "chkBeforeRL";
 			this.chkBeforeRL.UseVisualStyleBackColor = false;
-			this.chkBeforeRL.Enter += new System.EventHandler(HandleAdvancedOptionItemEnter);
 			this.chkBeforeRL.Click += new System.EventHandler(this.HandleRightToLeftCheckBoxChecked);
-			this.chkBeforeRL.Leave += new System.EventHandler(HandleAdvancedOptionItemLeave);
-			this.chkBeforeRL.Paint += new System.Windows.Forms.PaintEventHandler(HandleAdvancedOptionItemPaint);
 			// 
 			// lblBefore
 			// 
 			resources.ApplyResources(this.lblBefore, "lblBefore");
 			this.lblBefore.AutoEllipsis = true;
 			this.lblBefore.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblBefore, null);
+			this.locExtender.SetLocalizationComment(this.lblBefore, null);
+			this.locExtender.SetLocalizingId(this.lblBefore, "SortOptionsDropDown.lblBefore");
 			this.lblBefore.Name = "lblBefore";
 			// 
 			// lblThird
@@ -288,6 +316,10 @@ namespace SIL.Pa.UI.Controls
 			resources.ApplyResources(this.lblThird, "lblThird");
 			this.lblThird.AutoEllipsis = true;
 			this.lblThird.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblThird, null);
+			this.locExtender.SetLocalizationComment(this.lblThird, null);
+			this.locExtender.SetLocalizingId(this.lblThird, "SortOptionsDropDown.lblThird");
+			this.lblThird.MinimumSize = new System.Drawing.Size(27, 0);
 			this.lblThird.Name = "lblThird";
 			// 
 			// lblAfter
@@ -295,13 +327,18 @@ namespace SIL.Pa.UI.Controls
 			resources.ApplyResources(this.lblAfter, "lblAfter");
 			this.lblAfter.AutoEllipsis = true;
 			this.lblAfter.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblAfter, null);
+			this.locExtender.SetLocalizationComment(this.lblAfter, null);
+			this.locExtender.SetLocalizingId(this.lblAfter, "SortOptionsDropDown.lblAfter");
 			this.lblAfter.Name = "lblAfter";
 			// 
 			// lblItem
 			// 
 			resources.ApplyResources(this.lblItem, "lblItem");
-			this.lblItem.AutoEllipsis = true;
 			this.lblItem.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblItem, null);
+			this.locExtender.SetLocalizationComment(this.lblItem, null);
+			this.locExtender.SetLocalizingId(this.lblItem, "SortOptionsDropDown.lblItem");
 			this.lblItem.Name = "lblItem";
 			// 
 			// lblFirst
@@ -309,6 +346,10 @@ namespace SIL.Pa.UI.Controls
 			resources.ApplyResources(this.lblFirst, "lblFirst");
 			this.lblFirst.AutoEllipsis = true;
 			this.lblFirst.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblFirst, null);
+			this.locExtender.SetLocalizationComment(this.lblFirst, null);
+			this.locExtender.SetLocalizingId(this.lblFirst, "SortOptionsDropDown.lblFirst");
+			this.lblFirst.MinimumSize = new System.Drawing.Size(27, 0);
 			this.lblFirst.Name = "lblFirst";
 			// 
 			// lblRL
@@ -316,6 +357,10 @@ namespace SIL.Pa.UI.Controls
 			resources.ApplyResources(this.lblRL, "lblRL");
 			this.lblRL.AutoEllipsis = true;
 			this.lblRL.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblRL, "Right-to-Left");
+			this.locExtender.SetLocalizationComment(this.lblRL, null);
+			this.locExtender.SetLocalizingId(this.lblRL, "SortOptionsDropDown.lblRL");
+			this.lblRL.MinimumSize = new System.Drawing.Size(27, 0);
 			this.lblRL.Name = "lblRL";
 			// 
 			// lblSecond
@@ -323,31 +368,103 @@ namespace SIL.Pa.UI.Controls
 			resources.ApplyResources(this.lblSecond, "lblSecond");
 			this.lblSecond.AutoEllipsis = true;
 			this.lblSecond.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblSecond, null);
+			this.locExtender.SetLocalizationComment(this.lblSecond, null);
+			this.locExtender.SetLocalizingId(this.lblSecond, "SortOptionsDropDown.lblSecond");
+			this.lblSecond.MinimumSize = new System.Drawing.Size(27, 0);
 			this.lblSecond.Name = "lblSecond";
 			// 
-			// lnkHelp
+			// tblLayoutOuter
 			// 
-			resources.ApplyResources(this.lnkHelp, "lnkHelp");
-			this.lnkHelp.Name = "lnkHelp";
-			this.lnkHelp.TabStop = true;
-			this.lnkHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleHelpClicked);
+			resources.ApplyResources(this.tblLayoutOuter, "tblLayoutOuter");
+			this.tblLayoutOuter.Controls.Add(this.flowPanelButtons, 0, 4);
+			this.tblLayoutOuter.Controls.Add(this.pnlAdvOptions, 0, 3);
+			this.tblLayoutOuter.Controls.Add(this.rbPlaceArticulation, 0, 0);
+			this.tblLayoutOuter.Controls.Add(this.rbMannerArticulation, 0, 1);
+			this.tblLayoutOuter.Controls.Add(this.rbUnicodeOrder, 0, 2);
+			this.tblLayoutOuter.Name = "tblLayoutOuter";
+			this.tblLayoutOuter.SizeChanged += new System.EventHandler(this.HandleOuterTableLayoutSizeChanged);
+			// 
+			// flowPanelButtons
+			// 
+			resources.ApplyResources(this.flowPanelButtons, "flowPanelButtons");
+			this.flowPanelButtons.Controls.Add(this.btnHelp);
+			this.flowPanelButtons.Controls.Add(this.btnClose);
+			this.flowPanelButtons.Name = "flowPanelButtons";
+			// 
+			// btnHelp
+			// 
+			resources.ApplyResources(this.btnHelp, "btnHelp");
+			this.btnHelp.FlatAppearance.BorderSize = 0;
+			this.btnHelp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+			this.btnHelp.ImageHot = ((System.Drawing.Image)(resources.GetObject("btnHelp.ImageHot")));
+			this.btnHelp.ImageNormal = ((System.Drawing.Image)(resources.GetObject("btnHelp.ImageNormal")));
+			this.locExtender.SetLocalizableToolTip(this.btnHelp, "Help");
+			this.locExtender.SetLocalizationComment(this.btnHelp, null);
+			this.locExtender.SetLocalizingId(this.btnHelp, "SortOptionsDropDown.btnHelp");
+			this.btnHelp.Name = "btnHelp";
+			this.btnHelp.UseVisualStyleBackColor = true;
+			this.btnHelp.Click += new System.EventHandler(this.HandleHelpButtonClick);
+			// 
+			// btnClose
+			// 
+			resources.ApplyResources(this.btnClose, "btnClose");
+			this.btnClose.BackgroundImage = global::SIL.Pa.Properties.Resources.PopupDialogButtonClose;
+			this.btnClose.FlatAppearance.BorderSize = 0;
+			this.btnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+			this.btnClose.ImageHot = ((System.Drawing.Image)(resources.GetObject("btnClose.ImageHot")));
+			this.btnClose.ImageNormal = ((System.Drawing.Image)(resources.GetObject("btnClose.ImageNormal")));
+			this.locExtender.SetLocalizableToolTip(this.btnClose, "Close");
+			this.locExtender.SetLocalizationComment(this.btnClose, null);
+			this.locExtender.SetLocalizingId(this.btnClose, "SortOptionsDropDown.btnClose");
+			this.btnClose.Name = "btnClose";
+			this.btnClose.UseVisualStyleBackColor = true;
+			this.btnClose.Click += new System.EventHandler(this.HandleCloseButtonClick);
+			// 
+			// pnlAdvOptions
+			// 
+			resources.ApplyResources(this.pnlAdvOptions, "pnlAdvOptions");
+			this.pnlAdvOptions.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+			this.pnlAdvOptions.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlAdvOptions.ClipTextForChildControls = true;
+			this.pnlAdvOptions.ControlReceivingFocusOnMnemonic = null;
+			this.pnlAdvOptions.Controls.Add(this.tblAdvSorting);
+			this.pnlAdvOptions.DoubleBuffered = true;
+			this.pnlAdvOptions.DrawOnlyBottomBorder = false;
+			this.pnlAdvOptions.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.locExtender.SetLocalizableToolTip(this.pnlAdvOptions, null);
+			this.locExtender.SetLocalizationComment(this.pnlAdvOptions, null);
+			this.locExtender.SetLocalizingId(this.pnlAdvOptions, "SortOptionsDropDown.pnlAdvOptions");
+			this.pnlAdvOptions.MnemonicGeneratesClick = false;
+			this.pnlAdvOptions.Name = "pnlAdvOptions";
+			this.pnlAdvOptions.PaintExplorerBarBackground = false;
+			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = "User Interface Controls";
+			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// SortOptionsDropDown
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.BackColor = System.Drawing.Color.Transparent;
-			this.Controls.Add(this.lnkHelp);
-			this.Controls.Add(this.grpAdvSortOptions);
-			this.Controls.Add(this.rbMannerArticulation);
-			this.Controls.Add(this.rbPlaceArticulation);
-			this.Controls.Add(this.rbUnicodeOrder);
+			this.Controls.Add(this.tblLayoutOuter);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizingId(this, "SortOptionsDropDown.SortOptionsDropDown");
 			this.Name = "SortOptionsDropDown";
-			this.grpAdvSortOptions.ResumeLayout(false);
 			this.tblAdvSorting.ResumeLayout(false);
+			this.tblAdvSorting.PerformLayout();
 			this.pnlAdvSort2.ResumeLayout(false);
 			this.pnlAdvSort0.ResumeLayout(false);
 			this.pnlAdvSort1.ResumeLayout(false);
+			this.tblLayoutOuter.ResumeLayout(false);
+			this.tblLayoutOuter.PerformLayout();
+			this.flowPanelButtons.ResumeLayout(false);
+			this.pnlAdvOptions.ResumeLayout(false);
+			this.pnlAdvOptions.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -374,14 +491,18 @@ namespace SIL.Pa.UI.Controls
 		private System.Windows.Forms.Label lblAfter;
 		private System.Windows.Forms.Label lblItem;
 		private System.Windows.Forms.Label lblBefore;
-		private System.Windows.Forms.GroupBox grpAdvSortOptions;
 		private System.Windows.Forms.RadioButton rbBefore3rd;
 		private System.Windows.Forms.RadioButton rbBefore2nd;
 		private System.Windows.Forms.RadioButton rbBefore1st;
-		private System.Windows.Forms.LinkLabel lnkHelp;
 		private System.Windows.Forms.TableLayoutPanel tblAdvSorting;
 		private System.Windows.Forms.Panel pnlAdvSort0;
 		private System.Windows.Forms.Panel pnlAdvSort2;
 		private System.Windows.Forms.Panel pnlAdvSort1;
+		private System.Windows.Forms.TableLayoutPanel tblLayoutOuter;
+		private PopupDialogHelpButton btnHelp;
+		private PopupDialogCloseButton btnClose;
+		private SilTools.Controls.SilPanel pnlAdvOptions;
+		private System.Windows.Forms.FlowLayoutPanel flowPanelButtons;
+		private Localization.UI.LocalizationExtender locExtender;
 	}
 }

@@ -38,8 +38,6 @@ namespace SIL.Pa.UI.Controls
 			cboSize.Font = FontHelper.UIFont;
 			chkBold.Font = FontHelper.UIFont;
 			chkItalic.Font = FontHelper.UIFont;
-			btnOK.Font = FontHelper.UIFont;
-			btnCancel.Font = FontHelper.UIFont;
 
 			DoubleBuffered = true;
 
@@ -107,17 +105,6 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void Show(Font fnt, Point location)
 		{
-			// When the font for the buttons that's specified in the designer is different
-			// from the system font for buttons, for some reason, somewhere along the lines,
-			// the buttons font gets set to the system font for buttons. Check here and
-			// put it back to the 8pt. specified in the designer.
-			if (btnOK.Font.SizeInPoints >= 9f)
-			{
-				btnOK.Font = new Font(btnOK.Font.FontFamily, 8f, GraphicsUnit.Point);
-				btnCancel.Font = btnOK.Font;
-				btnOK.Size = btnCancel.Size = btnOK.MinimumSize;
-			}
-
 			Size = pnlOuter.Size;
 			DialogResult = DialogResult.Cancel;
 			SetFont(fnt, true);

@@ -1720,7 +1720,7 @@
     <value>m_sortingGrid</value>
   </data>
   <data name="&gt;&gt;m_sortingGrid.Type" xml:space="preserve">
-    <value>SilTools.SilGrid, SilTools, Version=1.5.4065.30570, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.SilGrid, SilTools, Version=1.5.4070.20539, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_sortingGrid.Parent" xml:space="preserve">
     <value>grpColSortOptions</value>
@@ -1905,17 +1905,20 @@
   <data name="&gt;&gt;lblSortInfo.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="phoneticSortOptions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="phoneticSortOptions.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="phoneticSortOptions.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="phoneticSortOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 13</value>
+    <value>9, 17</value>
   </data>
   <data name="phoneticSortOptions.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
   <data name="phoneticSortOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 197</value>
+    <value>205, 189</value>
   </data>
   <data name="phoneticSortOptions.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -2055,11 +2058,38 @@
   <data name="&gt;&gt;tpgSorting.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="pnlFonts.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="pnlFonts.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12world</value>
+  </data>
+  <data name="pnlFonts.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 10</value>
+  </data>
+  <data name="pnlFonts.Size" type="System.Drawing.Size, System.Drawing">
+    <value>512, 362</value>
+  </data>
+  <data name="pnlFonts.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;pnlFonts.Name" xml:space="preserve">
+    <value>pnlFonts</value>
+  </data>
+  <data name="&gt;&gt;pnlFonts.Type" xml:space="preserve">
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4070.20539, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;pnlFonts.Parent" xml:space="preserve">
+    <value>tpgFonts</value>
+  </data>
+  <data name="&gt;&gt;pnlFonts.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="tpgFonts.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
   </data>
   <data name="tpgFonts.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>6, 6, 6, 6</value>
+    <value>10, 10, 10, 10</value>
   </data>
   <data name="tpgFonts.Size" type="System.Drawing.Size, System.Drawing">
     <value>532, 382</value>

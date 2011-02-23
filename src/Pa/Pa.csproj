@@ -409,6 +409,9 @@
     <Compile Include="UI\Controls\PlaybackSpeedAdjuster.Designer.cs">
       <DependentUpon>PlaybackSpeedAdjuster.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Controls\PopupDialogButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\Controls\RtfCreator.cs" />
     <Compile Include="UI\Controls\RtfHelper.cs" />
     <Compile Include="UI\Controls\RtfRecordView.cs">
@@ -868,6 +871,14 @@
     <None Include="Resources\Filter-Small.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\PopupDialogButtonClose_Hot.png" />
+    <None Include="Resources\PopupDialogButtonClose.png" />
+    <None Include="Resources\PopupDialogButtonOK_Hot.png" />
+    <None Include="Resources\PopupDialogButtonHelp_Hot.png" />
+    <None Include="Resources\PopupDialogButtonCancel_Hot.png" />
+    <None Include="Resources\PopupDialogButtonOK.png" />
+    <None Include="Resources\PopupDialogButtonHelp.png" />
+    <None Include="Resources\PopupDialogButtonCancel.png" />
     <None Include="Resources\Information_Show.png" />
     <None Include="Resources\Information_Hide.png" />
     <None Include="Resources\FieldMappingArrow.png" />

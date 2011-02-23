@@ -13,9 +13,9 @@ namespace SIL.Pa.UI.Controls
 		private readonly Func<string> m_sourceFieldColumnHeadingTextHandler;
 		private readonly Func<string> m_targetFieldColumnHeadingTextHandler;
 
-		private readonly List<FieldMapping> m_mappings;
+		private List<FieldMapping> m_mappings;
+		private IEnumerable<PaField> m_potentialFields;
 		private readonly IDictionary<FieldType, string> m_displayableFieldTypes;
-		private readonly IEnumerable<PaField> m_potentialFields;
 		private readonly CellCustomDropDownList m_potentialFieldsDropDown;
 		private readonly FontPicker m_fontPicker;
 
@@ -41,21 +41,43 @@ namespace SIL.Pa.UI.Controls
 			Func<string> srcFldColHdgTextHandler, Func<string> tgtFldColHdgTextHandler)
 			: this()
 		{
-			m_potentialFields = potentialFields.Where(f => f.AllowUserToMap);
-			m_mappings = mappings.Select(m => m.Copy()).ToList();
 			m_sourceFieldColumnHeadingTextHandler = srcFldColHdgTextHandler;
 			m_targetFieldColumnHeadingTextHandler = tgtFldColHdgTextHandler;
-			
-			AddColumns();
-			RowCount = m_mappings.Count;
+			Intialize(potentialFields, mappings, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public FieldMappingGrid(IEnumerable<PaField> potentialFields, IEnumerable<FieldMapping> mappings)
-			: this(potentialFields, mappings, null, null)
+		public FieldMappingGrid(IEnumerable<PaField> potentialFields) : this()
 		{
+			Intialize(potentialFields,
+				potentialFields.Select(f => new FieldMapping { Field = f }), false);
+
+			ShowIsParsedColumn(false);
+			ShowIsInterlinearColumn(false);
+			ShowTypeColumn(false);
+			ShowFontColumn(true);
+
+			Columns["srcfield"].Visible = false;
+			Columns["arrow"].Visible = false;
+			var col = Columns["tgtfield"] as SilButtonColumn;
+			col.ShowButton = false;
+			col.ReadOnly = true;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		private void Intialize(IEnumerable<PaField> potentialFields,
+			IEnumerable<FieldMapping> mappings, bool showOnlyMappableFiels)
+		{
+			m_potentialFields = (showOnlyMappableFiels ?
+				potentialFields.Where(f => f.AllowUserToMap) : potentialFields);
+
+			m_mappings = mappings.Select(m => m.Copy()).ToList();
+
+			AddColumns();
+			ShowFontColumn(false);
+			RowCount = m_mappings.Count;
+		}
+		
 		/// ------------------------------------------------------------------------------------
 		private void AddColumns()
 		{
@@ -97,7 +119,7 @@ namespace SIL.Pa.UI.Controls
 			if (string.IsNullOrEmpty(text))
 			{
 				text = App.LocalizeString(
-					"FieldMappingGrid.TargetFieldColumnHeadingText", "PA Field",
+					"FieldMappingGrid.TargetFieldColumnHeadingText", "Field",
 					App.kLocalizationGroupUICtrls);
 			}
 
@@ -152,6 +174,19 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void ShowFontColumn(bool show)
+		{
+			Columns["font"].Visible = show;
+		}
+
+
+		/// ------------------------------------------------------------------------------------
+		public void ShowTypeColumn(bool show)
+		{
+			Columns["fieldtype"].Visible = show;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected virtual void OnFieldColumnButtonClicked(object sender, DataGridViewCellMouseEventArgs e)
 		{
 			var potentialFieldNames = m_potentialFields.Select(f => f.DisplayName).ToList();
@@ -177,7 +212,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				var mapping = GetFieldAt(CurrentCellAddress.Y);
 				mapping.Font = (Font)m_fontPicker.Font.Clone();
-				InvalidateRow(CurrentCellAddress.Y);
+				AutoResizeRows(DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders);
 			}
 		}
 

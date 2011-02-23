@@ -40,21 +40,44 @@ namespace SilTools.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
 		{
-			bool isHeightSpecified = (int)((BoundsSpecified.All | BoundsSpecified.Height | BoundsSpecified.Size) &
-				specified) > 0;
+			base.SetBoundsCore(x, y, width, PreferredSize.Height, specified);
+		}
 
-			if (!AutoSize && !string.IsNullOrEmpty(Text) && isHeightSpecified)
+		/// ------------------------------------------------------------------------------------
+		public override Size GetPreferredSize(Size proposedSize)
+		{
+			if (!string.IsNullOrEmpty(Text))
 			{
-				var constraints = new Size(width, 0);
+				var constraints = new Size(Width, 0);
 
 				using (var g = CreateGraphics())
 				{
-					height = Math.Max(TextRenderer.MeasureText(g, Text, Font, constraints,
-						TextFormatFlags.WordBreak | TextFormatFlags.VerticalCenter).Height + 4, height);
+					proposedSize.Height = TextRenderer.MeasureText(g, Text, Font, constraints,
+						TextFormatFlags.WordBreak | TextFormatFlags.VerticalCenter).Height + 4;
 				}
 			}
 
-			base.SetBoundsCore(x, y, width, height, specified);
+			return proposedSize;
 		}
+
+		///// ------------------------------------------------------------------------------------
+		//protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
+		//{
+		//    bool isHeightSpecified = (int)((BoundsSpecified.All | BoundsSpecified.Height | BoundsSpecified.Size) &
+		//        specified) > 0;
+
+		//    if (!AutoSize && !string.IsNullOrEmpty(Text) && isHeightSpecified)
+		//    {
+		//        var constraints = new Size(width, 0);
+
+		//        using (var g = CreateGraphics())
+		//        {
+		//            height = Math.Max(TextRenderer.MeasureText(g, Text, Font, constraints,
+		//                TextFormatFlags.WordBreak | TextFormatFlags.VerticalCenter).Height + 4, height);
+		//        }
+		//    }
+
+		//    base.SetBoundsCore(x, y, width, height, specified);
+		//}
 	}
 }

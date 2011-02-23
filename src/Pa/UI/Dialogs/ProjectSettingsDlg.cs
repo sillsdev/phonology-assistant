@@ -403,7 +403,7 @@ namespace SIL.Pa.UI.Dialogs
 			Project.Comments = txtComments.Text.Trim();
 			Project.DataSources = m_dataSources;
 			Project.SetFields(m_dataSources.SelectMany(ds => ds.FieldMappings)
-				.Select(m => m.Field).Distinct(new FieldNameComparer()));
+				.Select(m => m.Field).Distinct(new FieldNameComparer()), true);
 			
 			Project.Save();
 

@@ -1391,7 +1391,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					else
 					{
 						// When we're a control host then put ourselves inside a CustomDropDown.
-						CustomDropDown dropDown = new CustomDropDown();
+						var dropDown = new CustomDropDown();
 						dropDown.AddHost(item as ToolStripControlHost);
 						dropDown.AutoCloseWhenMouseLeaves =
 							GetBoolFromAttribute(node, "autoclose", true);
@@ -2003,7 +2003,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 			if (!string.IsNullOrEmpty(message))
 			{
-				ToolBarPopupInfo popupInfo = new ToolBarPopupInfo(item.Name);
+				var popupInfo = new ToolBarPopupInfo(item.Name);
 				popupInfo.Adapter = this;
 				if (m_msgMediator.SendMessage("DropDown" + message, popupInfo))
 				{
@@ -2044,7 +2044,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 			if (!string.IsNullOrEmpty(message))
 			{
-				TMItemProperties itemProps = GetItemProps(host);
+				var itemProps = GetItemProps(host);
 				if (m_msgMediator.SendMessage("DropDown" + message, itemProps))
 				{
 					// Save the item properties for reference in the VisibleChange event.
@@ -2208,7 +2208,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			if (message == string.Empty || m_msgMediator == null)
 				return;
 			
-			TMItemProperties itemProps = GetItemProps(item);
+			var itemProps = GetItemProps(item);
 
 			// If the item being updated is one of the toolbar items in the toolbar menu
 			// list then save the toolbar's name in the tag property.
@@ -2222,7 +2222,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				SetItemProps(item, itemProps);
 			else
 			{
-				ToolStripMenuItem menuItem = item as ToolStripMenuItem;
+				var menuItem = item as ToolStripMenuItem;
 
 				// If the item is a menu item on the main menu or has sub items, then don't disable
 				// it. Menu items with sub items often don't have receivers so we shouldn't
@@ -2753,7 +2753,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			{
 				// It's not a context menu so check if we can
 				// drop down another item with the same name.
-				ToolStripDropDownItem item = m_items[name] as ToolStripDropDownItem;
+				var item = m_items[name] as ToolStripDropDownItem;
 				if (item != null)
 				{
 					HandleItemsPopup(item, EventArgs.Empty);

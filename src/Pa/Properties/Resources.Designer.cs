@@ -1741,5 +1741,61 @@ namespace SIL.Pa.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        internal static System.Drawing.Bitmap PopupDialogButtonCancel {
+            get {
+                object obj = ResourceManager.GetObject("PopupDialogButtonCancel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap PopupDialogButtonCancel_Hot {
+            get {
+                object obj = ResourceManager.GetObject("PopupDialogButtonCancel_Hot", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap PopupDialogButtonClose {
+            get {
+                object obj = ResourceManager.GetObject("PopupDialogButtonClose", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap PopupDialogButtonClose_Hot {
+            get {
+                object obj = ResourceManager.GetObject("PopupDialogButtonClose_Hot", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap PopupDialogButtonHelp {
+            get {
+                object obj = ResourceManager.GetObject("PopupDialogButtonHelp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap PopupDialogButtonHelp_Hot {
+            get {
+                object obj = ResourceManager.GetObject("PopupDialogButtonHelp_Hot", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap PopupDialogButtonOK {
+            get {
+                object obj = ResourceManager.GetObject("PopupDialogButtonOK", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap PopupDialogButtonOK_Hot {
+            get {
+                object obj = ResourceManager.GetObject("PopupDialogButtonOK_Hot", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

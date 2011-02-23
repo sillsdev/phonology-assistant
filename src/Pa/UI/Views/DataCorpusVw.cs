@@ -121,7 +121,6 @@ namespace SIL.Pa.UI.Views
 			{
 				m_grid = new PaWordListGrid(cache, GetType(), false);
 				m_grid.BorderStyle = BorderStyle.None;
-				m_grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
 				m_grid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
 				m_grid.TMAdapter = m_tmAdapter;
 

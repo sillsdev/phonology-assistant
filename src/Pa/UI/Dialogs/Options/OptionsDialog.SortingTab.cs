@@ -53,15 +53,6 @@ namespace SIL.Pa.UI.Dialogs
 			cboListType.SelectedIndex = 0;
 			m_sortingGrid.IsDirty = false;
 			App.SetGridSelectionColors(m_sortingGrid, false);
-
-			Shown += OptionsDlg_Shown;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		void OptionsDlg_Shown(object sender, EventArgs e)
-		{
-			phoneticSortOptions.LayoutControls();
-			Shown -= OptionsDlg_Shown;
 		}
 
 		/// ------------------------------------------------------------------------------------

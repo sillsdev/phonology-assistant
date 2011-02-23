@@ -18,11 +18,12 @@ namespace SIL.Pa.UI.Controls
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FontPicker));
 			this.pnlOuter = new SilTools.Controls.SilPanel();
 			this.tblLayout = new System.Windows.Forms.TableLayoutPanel();
 			this.flowPanelButtons = new System.Windows.Forms.FlowLayoutPanel();
-			this.btnCancel = new System.Windows.Forms.Button();
-			this.btnOK = new System.Windows.Forms.Button();
+			this.btnCancel = new SIL.Pa.UI.Controls.PopupDialogCancelButton();
+			this.btnOK = new SIL.Pa.UI.Controls.PopupDialogOKButton();
 			this.pnlSample = new SilTools.Controls.SilPanel();
 			this.chkBold = new System.Windows.Forms.CheckBox();
 			this.chkItalic = new System.Windows.Forms.CheckBox();
@@ -56,9 +57,9 @@ namespace SIL.Pa.UI.Controls
 			this.pnlOuter.Location = new System.Drawing.Point(0, 0);
 			this.pnlOuter.MnemonicGeneratesClick = false;
 			this.pnlOuter.Name = "pnlOuter";
-			this.pnlOuter.Padding = new System.Windows.Forms.Padding(10, 10, 10, 7);
+			this.pnlOuter.Padding = new System.Windows.Forms.Padding(10, 10, 10, 3);
 			this.pnlOuter.PaintExplorerBarBackground = false;
-			this.pnlOuter.Size = new System.Drawing.Size(223, 149);
+			this.pnlOuter.Size = new System.Drawing.Size(223, 136);
 			this.pnlOuter.TabIndex = 0;
 			// 
 			// tblLayout
@@ -84,7 +85,7 @@ namespace SIL.Pa.UI.Controls
 			this.tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tblLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tblLayout.Size = new System.Drawing.Size(198, 127);
+			this.tblLayout.Size = new System.Drawing.Size(198, 118);
 			this.tblLayout.TabIndex = 0;
 			// 
 			// flowPanelButtons
@@ -97,48 +98,56 @@ namespace SIL.Pa.UI.Controls
 			this.flowPanelButtons.Controls.Add(this.btnCancel);
 			this.flowPanelButtons.Controls.Add(this.btnOK);
 			this.flowPanelButtons.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-			this.flowPanelButtons.Location = new System.Drawing.Point(0, 104);
-			this.flowPanelButtons.Margin = new System.Windows.Forms.Padding(0, 7, 0, 0);
+			this.flowPanelButtons.Location = new System.Drawing.Point(0, 102);
+			this.flowPanelButtons.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
 			this.flowPanelButtons.Name = "flowPanelButtons";
-			this.flowPanelButtons.Size = new System.Drawing.Size(198, 23);
+			this.flowPanelButtons.Size = new System.Drawing.Size(198, 16);
 			this.flowPanelButtons.TabIndex = 6;
 			// 
 			// btnCancel
 			// 
 			this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.btnCancel.AutoSize = true;
+			this.btnCancel.BackgroundImage = global::SIL.Pa.Properties.Resources.PopupDialogButtonCancel;
+			this.btnCancel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.btnCancel.FlatAppearance.BorderSize = 0;
+			this.btnCancel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+			this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
+			this.btnCancel.ImageHot = ((System.Drawing.Image)(resources.GetObject("btnCancel.ImageHot")));
+			this.btnCancel.ImageNormal = ((System.Drawing.Image)(resources.GetObject("btnCancel.ImageNormal")));
+			this.locExtender.SetLocalizableToolTip(this.btnCancel, "Cancel");
 			this.locExtender.SetLocalizationComment(this.btnCancel, null);
 			this.locExtender.SetLocalizingId(this.btnCancel, "FontPicker.btnCancel");
-			this.btnCancel.Location = new System.Drawing.Point(141, 0);
+			this.btnCancel.Location = new System.Drawing.Point(182, 0);
 			this.btnCancel.Margin = new System.Windows.Forms.Padding(7, 0, 0, 0);
-			this.btnCancel.MinimumSize = new System.Drawing.Size(57, 23);
 			this.btnCancel.Name = "btnCancel";
-			this.btnCancel.Size = new System.Drawing.Size(57, 23);
+			this.btnCancel.Size = new System.Drawing.Size(16, 16);
 			this.btnCancel.TabIndex = 1;
-			this.btnCancel.Text = "Cancel";
-			this.btnCancel.UseVisualStyleBackColor = true;
+			this.btnCancel.UseVisualStyleBackColor = false;
 			this.btnCancel.Click += new System.EventHandler(this.HandleCancelButtonClick);
 			// 
 			// btnOK
 			// 
-			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnOK.AutoSize = true;
+			this.btnOK.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.btnOK.BackgroundImage = global::SIL.Pa.Properties.Resources.PopupDialogButtonOK;
+			this.btnOK.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
 			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this.btnOK.FlatAppearance.BorderSize = 0;
+			this.btnOK.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+			this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnOK.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
+			this.btnOK.ImageHot = ((System.Drawing.Image)(resources.GetObject("btnOK.ImageHot")));
+			this.btnOK.ImageNormal = ((System.Drawing.Image)(resources.GetObject("btnOK.ImageNormal")));
+			this.locExtender.SetLocalizableToolTip(this.btnOK, "OK");
 			this.locExtender.SetLocalizationComment(this.btnOK, null);
 			this.locExtender.SetLocalizingId(this.btnOK, "FontPicker.btnOK");
-			this.btnOK.Location = new System.Drawing.Point(77, 0);
+			this.btnOK.Location = new System.Drawing.Point(159, 0);
 			this.btnOK.Margin = new System.Windows.Forms.Padding(7, 0, 0, 0);
-			this.btnOK.MinimumSize = new System.Drawing.Size(57, 23);
 			this.btnOK.Name = "btnOK";
-			this.btnOK.Size = new System.Drawing.Size(57, 23);
+			this.btnOK.Size = new System.Drawing.Size(16, 16);
 			this.btnOK.TabIndex = 0;
-			this.btnOK.Text = "OK";
-			this.btnOK.UseVisualStyleBackColor = true;
+			this.btnOK.UseVisualStyleBackColor = false;
 			this.btnOK.Click += new System.EventHandler(this.HandleOKButtonClick);
 			// 
 			// pnlSample
@@ -267,7 +276,6 @@ namespace SIL.Pa.UI.Controls
 			this.tblLayout.ResumeLayout(false);
 			this.tblLayout.PerformLayout();
 			this.flowPanelButtons.ResumeLayout(false);
-			this.flowPanelButtons.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -284,8 +292,8 @@ namespace SIL.Pa.UI.Controls
 		private SilPanel pnlOuter;
 		private System.Windows.Forms.ComboBox cboSize;
 		private System.Windows.Forms.Label lblSize;
-		private System.Windows.Forms.Button btnOK;
-		private System.Windows.Forms.Button btnCancel;
+		private PopupDialogOKButton btnOK;
+		private PopupDialogCancelButton btnCancel;
 		private System.Windows.Forms.FlowLayoutPanel flowPanelButtons;
 		private Localization.UI.LocalizationExtender locExtender;
 	}

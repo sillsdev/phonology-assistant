@@ -141,6 +141,8 @@ namespace SIL.Pa.UI.Controls
 			VirtualMode = true;
 			RowHeadersWidth = 25;
 			RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+			ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+			RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
 			OnSystemColorsChanged(null);
 			BuildColumns();
 			OnWordListOptionsChanged(null);

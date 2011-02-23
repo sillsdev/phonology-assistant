@@ -114,6 +114,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.picSaveInfo = new System.Windows.Forms.PictureBox();
 			this.lblSaveInfo = new System.Windows.Forms.Label();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.pnlFonts = new SilTools.Controls.SilPanel();
 			this.tabOptions.SuspendLayout();
 			this.tpgWordLists.SuspendLayout();
 			this.grpColSettings.SuspendLayout();
@@ -138,6 +139,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.grpColSortOptions.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_sortingGrid)).BeginInit();
 			this.grpPhoneticSortOptions.SuspendLayout();
+			this.tpgFonts.SuspendLayout();
 			this.tpgUI.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picSaveInfo)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -940,8 +942,9 @@ namespace SIL.Pa.UI.Dialogs
 			// phoneticSortOptions
 			// 
 			this.phoneticSortOptions.AdvancedOptionsEnabled = true;
-			this.phoneticSortOptions.BackColor = System.Drawing.Color.Transparent;
 			resources.ApplyResources(this.phoneticSortOptions, "phoneticSortOptions");
+			this.phoneticSortOptions.BackColor = System.Drawing.Color.Transparent;
+			this.phoneticSortOptions.DrawWithGradientBackground = false;
 			this.locExtender.SetLocalizableToolTip(this.phoneticSortOptions, null);
 			this.locExtender.SetLocalizationComment(this.phoneticSortOptions, null);
 			this.locExtender.SetLocalizationPriority(this.phoneticSortOptions, Localization.LocalizationPriority.NotLocalizable);
@@ -949,7 +952,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.phoneticSortOptions.MakePhoneticPrimarySortFieldWhenOptionsChange = true;
 			this.phoneticSortOptions.Name = "phoneticSortOptions";
 			this.phoneticSortOptions.ShowAdvancedOptions = true;
-			this.phoneticSortOptions.ShowHelpLink = false;
+			this.phoneticSortOptions.ShowButtons = false;
 			this.phoneticSortOptions.SortOptionsChanged += new SIL.Pa.UI.Controls.SortOptionsDropDown.SortOptionsChangedHandler(this.HandlePhoneticSortOptionsChanged);
 			// 
 			// lblListType
@@ -977,6 +980,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// tpgFonts
 			// 
+			this.tpgFonts.Controls.Add(this.pnlFonts);
 			this.locExtender.SetLocalizableToolTip(this.tpgFonts, null);
 			this.locExtender.SetLocalizationComment(this.tpgFonts, "Text on tab in options dialog box.");
 			this.locExtender.SetLocalizingId(this.tpgFonts, "OptionsDlg.tpgFonts");
@@ -1047,6 +1051,24 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
+			// pnlFonts
+			// 
+			this.pnlFonts.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+			this.pnlFonts.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlFonts.ClipTextForChildControls = true;
+			this.pnlFonts.ControlReceivingFocusOnMnemonic = null;
+			resources.ApplyResources(this.pnlFonts, "pnlFonts");
+			this.pnlFonts.DoubleBuffered = true;
+			this.pnlFonts.DrawOnlyBottomBorder = false;
+			this.pnlFonts.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.locExtender.SetLocalizableToolTip(this.pnlFonts, null);
+			this.locExtender.SetLocalizationComment(this.pnlFonts, null);
+			this.locExtender.SetLocalizationPriority(this.pnlFonts, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.pnlFonts, "OptionsDlg.pnlFonts");
+			this.pnlFonts.MnemonicGeneratesClick = false;
+			this.pnlFonts.Name = "pnlFonts";
+			this.pnlFonts.PaintExplorerBarBackground = false;
+			// 
 			// OptionsDlg
 			// 
 			resources.ApplyResources(this, "$this");
@@ -1086,6 +1108,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.grpColSortOptions.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.m_sortingGrid)).EndInit();
 			this.grpPhoneticSortOptions.ResumeLayout(false);
+			this.tpgFonts.ResumeLayout(false);
 			this.tpgUI.ResumeLayout(false);
 			this.tpgUI.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picSaveInfo)).EndInit();
@@ -1168,5 +1191,6 @@ namespace SIL.Pa.UI.Dialogs
 		private ComboBox cboUILanguage;
 		private Localization.UI.LocalizationExtender locExtender;
 		private CheckBox chkStress;
+		private SilTools.Controls.SilPanel pnlFonts;
 	}
 }

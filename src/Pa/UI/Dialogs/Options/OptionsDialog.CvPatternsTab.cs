@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -24,11 +25,14 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeCVPatternsTab()
 		{
 			// This tab isn't valid if there is no project loaded.
-			if (App.Project == null)
+			if (m_project == null)
 			{
 				tabOptions.TabPages.Remove(tpgCVPatterns);
 				return;
 			}
+
+			var field = m_project.Fields.SingleOrDefault(f => f.Name == PaField.kCVPatternFieldName);
+			var cvFont = (field == null ? App.PhoneticFont : field.Font);
 
 			// Assign the fonts
 			chkLength.Font = FontHelper.UIFont;
@@ -38,10 +42,10 @@ namespace SIL.Pa.UI.Dialogs
 			lblInstruction.Font = FontHelper.UIFont;
 			lblExampleDesc1.Font = FontHelper.UIFont;
 			lblExampleDesc2.Font = FontHelper.UIFont;
-			txtCustomChars.Font = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, txtCustomChars.Font.Size);
-			txtExampleInput.Font = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, txtExampleInput.Font.Size);
-			lblExampleCV.Font = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, lblExampleCV.Font.Size);
-			lblExampleCVCV.Font = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, lblExampleCVCV.Font.Size);
+			txtCustomChars.Font = FontHelper.MakeRegularFontDerivative(cvFont, txtCustomChars.Font.Size);
+			txtExampleInput.Font = FontHelper.MakeRegularFontDerivative(cvFont, txtExampleInput.Font.Size);
+			lblExampleCV.Font = FontHelper.MakeRegularFontDerivative(cvFont, lblExampleCV.Font.Size);
+			lblExampleCVCV.Font = FontHelper.MakeRegularFontDerivative(cvFont, lblExampleCVCV.Font.Size);
 
 			AdjustExampleControls();
 
