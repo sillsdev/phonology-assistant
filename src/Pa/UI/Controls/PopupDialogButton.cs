@@ -18,28 +18,27 @@ namespace SIL.Pa.UI.Controls
 			FlatAppearance.BorderSize = 0;
 			FlatStyle = FlatStyle.Flat;
 			Size = new Size(22, 22);
-			UseVisualStyleBackColor = true;
+			UseVisualStyleBackColor = false;
+			FlatAppearance.MouseOverBackColor = Color.Transparent;
 			BackgroundImageLayout = ImageLayout.Center;
 
 			// Use the background image instead of the Image property because when
 			// using the Image property there is a lot of painting flicker as the
 			// Image changes from the mouse moving over the button.
 			BackgroundImage = ImageNormal;
-
-			FlatAppearance.MouseOverBackColor = Color.Transparent;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual Image ImageHot
 		{
-			get { return (m_imgHot ?? Image); }
+			get { return (m_imgHot ?? BackgroundImage); }
 			set { m_imgHot = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual Image ImageNormal
 		{
-			get { return (m_imageNormal ?? Image); }
+			get { return (m_imageNormal ?? BackgroundImage); }
 			set { m_imageNormal = value; }
 		}
 

@@ -131,7 +131,7 @@ namespace SIL.Pa.Processing
 			MemoryStream outputStream = null;
 			int processingStep = 0;
 
-			foreach (var pipeline in processTypes.Select(ProcessHelper.CreatePipeline).Where(pl => pl != null))
+			foreach (var pipeline in processTypes.Select(pt => ProcessHelper.CreatePipeline(pt)).Where(pl => pl != null))
 			{
 				if (m_showExportProgress)
 				{

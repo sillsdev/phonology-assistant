@@ -10,7 +10,7 @@ namespace SIL.Pa.UI.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class OptionsDlg
 	{
-		private FieldMappingGrid m_fntGrid;
+		private FieldFontsGrid m_fntGrid;
 
 		/// ------------------------------------------------------------------------------------
 		private void InitializeFontTab()
@@ -22,7 +22,7 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 			}
 
-			m_fntGrid = new FieldMappingGrid(m_project.Fields);
+			m_fntGrid = new FieldFontsGrid(m_project.Fields);
 			m_fntGrid.Dock = DockStyle.Fill;
 			pnlFonts.Controls.Add(m_fntGrid);
 

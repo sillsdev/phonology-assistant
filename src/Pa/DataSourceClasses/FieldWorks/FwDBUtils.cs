@@ -24,7 +24,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 		{
 			None,
 			Analysis,
-			Vernacular
+			Vernacular,
+			Mixed
 		}
 
 		/// ------------------------------------------------------------------------------------

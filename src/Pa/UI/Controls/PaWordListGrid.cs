@@ -2880,38 +2880,24 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool OnCVPatternsChanged(object args)
 		{
-			//PaFieldInfo fieldInfo = FieldInfoList.CVPatternField;
-			//if (fieldInfo != null)
-			//{
-			//    bool resorted = false;
-
-			//    if (m_sortOptions != null && m_sortOptions.SortInformationList != null)
-			//    {
-			//        // Check if the CV pattern is one of the fields on which the list
-			//        // is sorted. If it is, then resort the word list. This will also
-			//        // regroup the list if it's grouped.
-			//        if (m_sortOptions.SortInformationList.Any(si => si.Field == fieldInfo))
-			//        {
-			//            Sort(m_sortOptions.SortInformationList[0].Field.Name, false);
-			//            resorted = true;
-			//        }
-			//    }
-
-			//    if (!resorted)
-			//    {
-			//        DataGridViewColumn col = Columns[fieldInfo.FieldName];
-			//        if (col != null)
-			//            InvalidateColumn(col.Index);
-			//    }
-			//}
+			// Check if the CV pattern is one of the fields on which the list
+			// is sorted. If it is, then resort the word list. This will also
+			// regroup the list if it's grouped.
+			if (m_sortOptions != null && m_sortOptions.SortFields != null &&
+				m_sortOptions.SortFields.Any(si => si.Field.Name == PaField.kCVPatternFieldName))
+			{
+				Sort(m_sortOptions.SortFields[0].Field.Name, false);
+			}
+			else
+			{
+				DataGridViewColumn col = Columns[PaField.kCVPatternFieldName];
+				if (col != null)
+					InvalidateColumn(col.Index);
+			}
 
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool OnWordListOptionsChanged(object args)
 		{

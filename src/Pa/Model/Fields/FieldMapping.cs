@@ -25,19 +25,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("nameInSource")]
 		public string NameInDataSource { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		[XmlElement("isParsed")]
-		public bool IsParsed { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		[XmlElement("isInterlinear")]
-		public bool IsInterlinear { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		[XmlElement("fwWritingSystemType")]
-		public FwDBUtils.FwWritingSystemType FwWritingSystemType { get; set; }
-
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// This is used for serialization and deserialization.
@@ -51,6 +39,18 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		[XmlElement("isParsed")]
+		public bool IsParsed { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		[XmlElement("isInterlinear")]
+		public bool IsInterlinear { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		[XmlElement("fwWritingSystem")]
+		public string FwWritingSystem { get; set; }
+
+		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public PaField Field { get; set; }
 
@@ -62,9 +62,9 @@ namespace SIL.Pa.Model
 				NameInDataSource = NameInDataSource,
 				IsParsed = IsParsed,
 				IsInterlinear = IsInterlinear,
-				FwWritingSystemType = FwWritingSystemType,
+				FwWritingSystem = FwWritingSystem,
 				PaFieldName = PaFieldName,
-				Field = (Field == null ? Field : Field.Copy()),
+				Field = (Field == null ? null : Field.Copy()),
 			};
 		}
 

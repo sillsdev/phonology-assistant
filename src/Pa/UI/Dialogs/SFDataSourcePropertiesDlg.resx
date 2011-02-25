@@ -304,7 +304,7 @@
     <value>lblInformation</value>
   </data>
   <data name="&gt;&gt;lblInformation.Type" xml:space="preserve">
-    <value>SilTools.Controls.AutoHeightLabel, SilTools, Version=1.5.4059.25989, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.AutoHeightLabel, SilTools, Version=1.5.4070.41962, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lblInformation.Parent" xml:space="preserve">
     <value>tblLayoutToolBoxSortField</value>
@@ -490,7 +490,7 @@
     <value>pnlMappingsInner</value>
   </data>
   <data name="&gt;&gt;pnlMappingsInner.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4059.25989, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4070.41962, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlMappingsInner.Parent" xml:space="preserve">
     <value>pnlMappings</value>
@@ -543,7 +543,7 @@
     <value>btnInformation</value>
   </data>
   <data name="&gt;&gt;btnInformation.Type" xml:space="preserve">
-    <value>SilTools.Controls.XButton, SilTools, Version=1.5.4059.25989, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.XButton, SilTools, Version=1.5.4070.41962, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnInformation.Parent" xml:space="preserve">
     <value>pnlMappingsHdg</value>
@@ -573,7 +573,7 @@
     <value>pnlMappingsHdg</value>
   </data>
   <data name="&gt;&gt;pnlMappingsHdg.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.5.4059.25989, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.5.4070.41962, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlMappingsHdg.Parent" xml:space="preserve">
     <value>pnlMappings</value>
@@ -600,7 +600,7 @@
     <value>pnlMappings</value>
   </data>
   <data name="&gt;&gt;pnlMappings.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4059.25989, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4070.41962, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlMappings.Parent" xml:space="preserve">
     <value>scImport.Panel1</value>
@@ -678,7 +678,7 @@
     <value>pnlSrcFileHdg</value>
   </data>
   <data name="&gt;&gt;pnlSrcFileHdg.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.5.4059.25989, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.5.4070.41962, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSrcFileHdg.Parent" xml:space="preserve">
     <value>pnlSrcFile</value>
@@ -705,7 +705,7 @@
     <value>pnlSrcFile</value>
   </data>
   <data name="&gt;&gt;pnlSrcFile.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4059.25989, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4070.41962, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSrcFile.Parent" xml:space="preserve">
     <value>scImport.Panel2</value>
@@ -795,7 +795,7 @@
     <value>lblParseType</value>
   </data>
   <data name="&gt;&gt;lblParseType.Type" xml:space="preserve">
-    <value>SilTools.Controls.AutoHeightLabel, SilTools, Version=1.5.4059.25989, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.AutoHeightLabel, SilTools, Version=1.5.4070.41962, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lblParseType.Parent" xml:space="preserve">
     <value>tblLayoutParseOptions</value>
@@ -813,13 +813,13 @@
     <value>NoControl</value>
   </data>
   <data name="rbInterlinearize.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 149</value>
+    <value>10, 65</value>
   </data>
   <data name="rbInterlinearize.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>10, 0, 5, 0</value>
   </data>
   <data name="rbInterlinearize.Size" type="System.Drawing.Size, System.Drawing">
-    <value>209, 23</value>
+    <value>209, 19</value>
   </data>
   <data name="rbInterlinearize.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -834,7 +834,7 @@
     <value>rbInterlinearize</value>
   </data>
   <data name="&gt;&gt;rbInterlinearize.Type" xml:space="preserve">
-    <value>SilTools.Controls.AutoHeighRadioButton, SilTools, Version=1.5.4059.25989, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.AutoHeighRadioButton, SilTools, Version=1.5.4070.41962, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;rbInterlinearize.Parent" xml:space="preserve">
     <value>tblLayoutParseOptions</value>
@@ -852,13 +852,13 @@
     <value>NoControl</value>
   </data>
   <data name="rbParseOneToOne.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 106</value>
+    <value>10, 60</value>
   </data>
   <data name="rbParseOneToOne.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>10, 0, 5, 5</value>
   </data>
   <data name="rbParseOneToOne.Size" type="System.Drawing.Size, System.Drawing">
-    <value>209, 38</value>
+    <value>209, 34</value>
   </data>
   <data name="rbParseOneToOne.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -873,7 +873,7 @@
     <value>rbParseOneToOne</value>
   </data>
   <data name="&gt;&gt;rbParseOneToOne.Type" xml:space="preserve">
-    <value>SilTools.Controls.AutoHeighRadioButton, SilTools, Version=1.5.4059.25989, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.AutoHeighRadioButton, SilTools, Version=1.5.4070.41962, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;rbParseOneToOne.Parent" xml:space="preserve">
     <value>tblLayoutParseOptions</value>
@@ -891,7 +891,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblSampleOutput.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 299</value>
+    <value>8, 192</value>
   </data>
   <data name="lblSampleOutput.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>8, 5, 3, 0</value>
@@ -927,13 +927,13 @@
     <value>NoControl</value>
   </data>
   <data name="rbParseOnlyPhonetic.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 78</value>
+    <value>10, 55</value>
   </data>
   <data name="rbParseOnlyPhonetic.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>10, 0, 5, 5</value>
   </data>
   <data name="rbParseOnlyPhonetic.Size" type="System.Drawing.Size, System.Drawing">
-    <value>209, 23</value>
+    <value>209, 19</value>
   </data>
   <data name="rbParseOnlyPhonetic.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -948,7 +948,7 @@
     <value>rbParseOnlyPhonetic</value>
   </data>
   <data name="&gt;&gt;rbParseOnlyPhonetic.Type" xml:space="preserve">
-    <value>SilTools.Controls.AutoHeighRadioButton, SilTools, Version=1.5.4059.25989, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.AutoHeighRadioButton, SilTools, Version=1.5.4070.41962, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;rbParseOnlyPhonetic.Parent" xml:space="preserve">
     <value>tblLayoutParseOptions</value>
@@ -969,7 +969,7 @@
     <value>10, 0, 5, 5</value>
   </data>
   <data name="rbNoParse.Size" type="System.Drawing.Size, System.Drawing">
-    <value>209, 23</value>
+    <value>209, 19</value>
   </data>
   <data name="rbNoParse.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -984,7 +984,7 @@
     <value>rbNoParse</value>
   </data>
   <data name="&gt;&gt;rbNoParse.Type" xml:space="preserve">
-    <value>SilTools.Controls.AutoHeighRadioButton, SilTools, Version=1.5.4059.25989, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.AutoHeighRadioButton, SilTools, Version=1.5.4070.41962, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;rbNoParse.Parent" xml:space="preserve">
     <value>tblLayoutParseOptions</value>
@@ -1023,7 +1023,7 @@
     <value>Microsoft Sans Serif, 12world</value>
   </data>
   <data name="pnlSampleInput.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 241</value>
+    <value>5, 134</value>
   </data>
   <data name="pnlSampleInput.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 3, 5, 3</value>
@@ -1041,7 +1041,7 @@
     <value>pnlSampleInput</value>
   </data>
   <data name="&gt;&gt;pnlSampleInput.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4059.25989, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4070.41962, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSampleInput.Parent" xml:space="preserve">
     <value>tblLayoutParseOptions</value>
@@ -1056,7 +1056,7 @@
     <value>False</value>
   </data>
   <data name="cboFirstInterlinear.Location" type="System.Drawing.Point, System.Drawing">
-    <value>26, 192</value>
+    <value>26, 85</value>
   </data>
   <data name="cboFirstInterlinear.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>26, 3, 5, 3</value>
@@ -1092,7 +1092,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblSampleInput.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 223</value>
+    <value>8, 116</value>
   </data>
   <data name="lblSampleInput.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>8, 5, 3, 0</value>
@@ -1131,7 +1131,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblFirstInterlinear.Location" type="System.Drawing.Point, System.Drawing">
-    <value>26, 172</value>
+    <value>26, 65</value>
   </data>
   <data name="lblFirstInterlinear.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>26, 0, 5, 2</value>
@@ -1209,7 +1209,7 @@
     <value>gridSampleOutput</value>
   </data>
   <data name="&gt;&gt;gridSampleOutput.Type" xml:space="preserve">
-    <value>SilTools.SilGrid, SilTools, Version=1.5.4059.25989, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.SilGrid, SilTools, Version=1.5.4070.41962, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;gridSampleOutput.Parent" xml:space="preserve">
     <value>pnlSampeOutput</value>
@@ -1221,7 +1221,7 @@
     <value>Segoe UI, 12world</value>
   </data>
   <data name="pnlSampeOutput.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 317</value>
+    <value>5, 210</value>
   </data>
   <data name="pnlSampeOutput.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 3, 5, 0</value>
@@ -1239,7 +1239,7 @@
     <value>pnlSampeOutput</value>
   </data>
   <data name="&gt;&gt;pnlSampeOutput.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4059.25989, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4070.41962, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlSampeOutput.Parent" xml:space="preserve">
     <value>tblLayoutParseOptions</value>
@@ -1257,7 +1257,7 @@
     <value>11</value>
   </data>
   <data name="tblLayoutParseOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 418</value>
+    <value>224, 311</value>
   </data>
   <data name="tblLayoutParseOptions.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1299,7 +1299,7 @@
     <value>pnlParseHdg</value>
   </data>
   <data name="&gt;&gt;pnlParseHdg.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.5.4059.25989, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.5.4070.41962, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlParseHdg.Parent" xml:space="preserve">
     <value>pnlParseType</value>
@@ -1326,7 +1326,7 @@
     <value>pnlParseType</value>
   </data>
   <data name="&gt;&gt;pnlParseType.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4059.25989, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4070.41962, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pnlParseType.Parent" xml:space="preserve">
     <value>splitOuter.Panel1</value>

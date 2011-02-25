@@ -658,18 +658,29 @@ namespace SIL.Pa.UI.Dialogs
 		/// information in it.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ShowFwDataSourcePropertiesDialog(PaDataSource dataSource)
+		private void ShowFwDataSourcePropertiesDialog(PaDataSource ds)
 		{
-			if (dataSource.FwDataSourceInfo.IsMissing)
+			if (ds.FwDataSourceInfo.IsMissing)
 			{
-				dataSource.FwDataSourceInfo.ShowMissingMessage();
+				ds.FwDataSourceInfo.ShowMissingMessage();
 				return;
 			}
 
-			using (var dlg = new FwDataSourcePropertiesDlg(Project, dataSource.FwDataSourceInfo))
+			if (ds.Type == DataSourceType.FW7)
 			{
-				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChangesWereMade)
-					m_dirty = true;
+				using (var dlg = new Fw7DataSourcePropertiesDlg(ds))
+				{
+					if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChangesWereMade)
+						m_dirty = true;
+				}
+			}
+			else
+			{
+				using (var dlg = new FwDataSourcePropertiesDlg(Project, ds.FwDataSourceInfo))
+				{
+					if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChangesWereMade)
+						m_dirty = true;
+				}
 			}
 		}
 

@@ -13,6 +13,14 @@ namespace SilTools
 	/// ----------------------------------------------------------------------------------------
 	public class SilGrid : DataGridView
 	{
+		public delegate KeyValuePair<object, IEnumerable<object>> GetComboCellListHandler(object sender,
+			DataGridViewCell cell, DataGridViewEditingControlShowingEventArgs args);
+		
+		public event GetComboCellListHandler GetComboCellList;
+
+		public delegate void ComboCellListValueSelectedHandler(object sender, object selectedValue);
+		public event ComboCellListValueSelectedHandler ComboCellListValueSelected;
+	
 		/// <summary>Occurs when a row is entered and after the current row's index changes.</summary>
 		public event EventHandler CurrentRowChanged;
 
@@ -299,31 +307,13 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		public VScrollBar VScrollBar
 		{
-			get
-			{
-				foreach (var ctrl in Controls)
-				{
-					if (ctrl is VScrollBar)
-						return ctrl as VScrollBar;
-				}
-
-				return null;
-			}
+			get { return Controls.OfType<VScrollBar>().Select(ctrl => ctrl).FirstOrDefault(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public HScrollBar HScrollBar
 		{
-			get
-			{
-				foreach (var ctrl in Controls)
-				{
-					if (ctrl is HScrollBar)
-						return ctrl as HScrollBar;
-				}
-
-				return null;
-			}
+			get { return Controls.OfType<HScrollBar>().Select(ctrl => ctrl).FirstOrDefault(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -609,17 +599,23 @@ namespace SilTools
 				e.Control.Parent.Paint += HandleEditControlTextBoxPanelPaint;
 			}
 
+			var cbo = e.Control as ComboBox;
+			if (cbo == null)
+				return;
+
+			InitializeComboCellList(cbo, OnGetComboCellList(CurrentCell, e));
+
 			// When the cell style's tag is storing a ComboBoxStyle value, we know that value is
 			// ComboBoxStyle.DropDown. Therefore, modify the control's DropDownStyle property.
-			ComboBox cbo = e.Control as ComboBox;
-			if (cbo == null || (e.CellStyle.Tag as string) != kDropDownStyle)
+			if ((e.CellStyle.Tag as string) != kDropDownStyle)
 				return;
 
 			cbo.DropDownStyle = ComboBoxStyle.DropDown;
 			
 			// ENHANCE: Should an event delegate be provided? One to allow
 			// subscribers to have a chance to use a custom sort.
-			SortComboList(cbo);
+			if (GetComboCellList == null)
+				SortComboList(cbo);
 
 			cbo.TextChanged += delegate
 			{
@@ -628,6 +624,75 @@ namespace SilTools
 				// list. I don't yet understand why this is necessary, but it works.
 				NotifyCurrentCellDirty(true);
 			};
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual KeyValuePair<object, IEnumerable<object>> OnGetComboCellList(DataGridViewCell cell,
+			DataGridViewEditingControlShowingEventArgs e)
+		{
+			// Allow delegates to provide combobox cell lists on the fly.
+			return (GetComboCellList == null ?
+				new KeyValuePair<object, IEnumerable<object>>(null, null) :
+				GetComboCellList(this, cell, e));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void InitializeComboCellList(ComboBox cbo, KeyValuePair<object, IEnumerable<object>> listInfo)
+		{
+			if (listInfo.Value == null)
+				return;
+
+			cbo.SelectionChangeCommitted -= HandleComboCellSelectionChangeCommitted;
+			cbo.SelectionChangeCommitted += HandleComboCellSelectionChangeCommitted;
+			cbo.HandleDestroyed -= HandleComboCellControlHandleDestroyed;
+			cbo.HandleDestroyed += HandleComboCellControlHandleDestroyed;
+
+			// Make sure the column's items collection contains the items delivered to us in the list.
+			var col = Columns[CurrentCellAddress.X] as DataGridViewComboBoxColumn;
+			foreach (var obj in listInfo.Value.Where(obj => col.Items.Cast<object>().SingleOrDefault(o => o == obj) == null))
+				col.Items.Add(obj);
+
+			cbo.Items.Clear();
+			cbo.Items.AddRange(listInfo.Value.ToArray());
+
+			if (listInfo.Key.GetType() != typeof(int))
+				cbo.SelectedItem = listInfo.Key;
+			else
+			{
+				int index = (int)listInfo.Key;
+				if (index >= 0 && index < cbo.Items.Count)
+					cbo.SelectedIndex = index;
+			}
+
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// After the user has selected an item from a combo box cell list, inform any
+		/// delegates who would like to know.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void HandleComboCellSelectionChangeCommitted(object sender, EventArgs e)
+		{
+			var cbo = sender as ComboBox;
+			if (cbo == null)
+				return;
+
+			if (ComboCellListValueSelected == null)
+				CurrentCell.Value = cbo.SelectedItem;
+			else
+				ComboCellListValueSelected(this, cbo.SelectedItem);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleComboCellControlHandleDestroyed(object sender, EventArgs e)
+		{
+			var cbo = sender as ComboBox;
+			if (cbo == null)
+				return;
+
+			cbo.SelectionChangeCommitted -= HandleComboCellSelectionChangeCommitted;
+			cbo.HandleDestroyed += HandleComboCellControlHandleDestroyed;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -655,15 +720,9 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		private static void SortComboList(ComboBox cbo)
 		{
-			SortedList lst = new SortedList();
-
-			foreach (object obj in cbo.Items)
-				lst[obj] = null;
-
+			var items = cbo.Items.Cast<object>().OrderBy(o => o).ToArray();
 			cbo.Items.Clear();
-
-			foreach (DictionaryEntry de in lst)
-				cbo.Items.Add(de.Key);
+			cbo.Items.AddRange(items);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -678,18 +737,18 @@ namespace SilTools
 
 			try
 			{
-				DataGridViewComboBoxColumn col = Columns[e.ColumnIndex] as DataGridViewComboBoxColumn;
+				var col = Columns[e.ColumnIndex] as DataGridViewComboBoxColumn;
 				if (col == null || (col.DefaultCellStyle.Tag as string) != kDropDownStyle)
 					return;
 
 				// If the entered value is empty, then don't add it to the list.
-				string value = e.FormattedValue as string;
+				var value = e.FormattedValue as string;
 				if (value != null && value.Trim() == string.Empty)
 					return;
 
 				// Convert the formatted value to the type the column is expecting. Then add it
 				// to the combo list if it isn't already in there.
-				object obj = Convert.ChangeType(e.FormattedValue, col.ValueType);
+				var obj = Convert.ChangeType(e.FormattedValue, col.ValueType);
 				if (obj != null && !(col.Items.Contains(obj)))
 					col.Items.Add(obj);
 			}
@@ -1123,6 +1182,26 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		public static DataGridViewComboBoxColumn CreateDropDownListComboBoxColumn(string name, object[] items)
 		{
+			var col = CreateDropDownListComboBoxColumn(name);
+
+			// Set the data type expected for data in this column.
+			if (items.Length > 0)
+				col.ValueType = items[0].GetType();
+
+			//gridCol.DataSource = items;
+			col.Items.AddRange(items);
+
+			return col;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Creates a combo. box grid column whose cell values must be chosen from the
+		/// drop-down list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static DataGridViewComboBoxColumn CreateDropDownListComboBoxColumn(string name)
+		{
 			var col = new DataGridViewComboBoxColumn();
 			var templateCell = new DataGridViewComboBoxCell();
 			templateCell.DisplayStyleForCurrentCellOnly = true;
@@ -1134,13 +1213,6 @@ namespace SilTools
 			col.MaxDropDownItems = 10;
 			col.Name = name;
 			col.HeaderText = name;
-
-			// Set the data type expected for data in this column.
-			if (items.Length > 0)
-				col.ValueType = items[0].GetType();
-
-			//gridCol.DataSource = items;
-			col.Items.AddRange(items);
 
 			return col;
 		}

@@ -5,6 +5,7 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Linq;
 using Palaso.IO;
+using SIL.Pa.DataSource.FieldWorks;
 using SilTools;
 
 namespace SIL.Pa.Model
@@ -150,6 +151,10 @@ namespace SIL.Pa.Model
 		[XmlElement("widthInGrid")]
 		public int WidthInGrid { get; set; }
 
+		/// ------------------------------------------------------------------------------------
+		[XmlElement("fwWritingSystemType")]
+		public FwDBUtils.FwWritingSystemType FwWsType { get; set; }
+
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -223,6 +228,7 @@ namespace SIL.Pa.Model
 				WidthInGrid = WidthInGrid,
 				AllowUserToMap = AllowUserToMap,
 				RightToLeft = RightToLeft,
+				FwWsType = FwWsType,
 				Font = m_font,
 			};
 		}
@@ -283,6 +289,13 @@ namespace SIL.Pa.Model
 		{
 			var path = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultSfmFields.xml");
 			return LoadFields(path, "SfmFields");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static List<PaField> GetDefaultFw7Fields()
+		{
+			var path = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultFw7Fields.xml");
+			return LoadFields(path, "Fw7Fields");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -494,6 +507,39 @@ namespace SIL.Pa.Model
 
 				case kDataSourcePathFieldName: return App.LocalizeString("DisplayableFieldNames.DataSourcePath",
 										"Data Source Path", App.kLocalizationGroupMisc);
+			
+				case "CitationForm": return App.LocalizeString("DisplayableFieldNames.CitationForm",
+										"Citation Form", App.kLocalizationGroupMisc);
+
+				case "MorphType": return App.LocalizeString("DisplayableFieldNames.MorphType",
+										"Morpheme Type", App.kLocalizationGroupMisc);
+
+				case "Etymology": return App.LocalizeString("DisplayableFieldNames.Etymology",
+										"Etymology", App.kLocalizationGroupMisc);
+
+				case "LiteralMeaning": return App.LocalizeString("DisplayableFieldNames.LiteralMeaning",
+										"Literal Meaning", App.kLocalizationGroupMisc);
+
+				case "Bibliography": return App.LocalizeString("DisplayableFieldNames.Bibliography",
+										"Bibliography", App.kLocalizationGroupMisc);
+
+				case "Restrictions": return App.LocalizeString("DisplayableFieldNames.Restrictions",
+										"Restrictions", App.kLocalizationGroupMisc);
+				
+				case "SummaryDefinition": return App.LocalizeString("DisplayableFieldNames.SummaryDefinition",
+										"Summary Definition", App.kLocalizationGroupMisc);
+				
+				case "ExcludeAsHeadword": return App.LocalizeString("DisplayableFieldNames.ExcludeAsHeadword",
+										"Exclude As Headword", App.kLocalizationGroupMisc);
+				
+				case "ImportResidue": return App.LocalizeString("DisplayableFieldNames.ImportResidue",
+										"Import Residue", App.kLocalizationGroupMisc);
+				
+				case "DateCreated": return App.LocalizeString("DisplayableFieldNames.DateCreated",
+										"Created", App.kLocalizationGroupMisc);
+				
+				case "DateModified": return App.LocalizeString("DisplayableFieldNames.DateModified",
+										"Modified", App.kLocalizationGroupMisc);
 			}
 
 			return name;

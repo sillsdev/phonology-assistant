@@ -329,6 +329,12 @@
     <Compile Include="UI\Controls\FieldMappingGrid.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\Controls\FieldMappingGridBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\FieldRelatedControls\FieldFontsGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\Controls\FieldSelectorGrid.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -338,6 +344,9 @@
     </Compile>
     <Compile Include="UI\Controls\FontPicker.Designer.cs">
       <DependentUpon>FontPicker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\Fw7FieldMappingGrid.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\GridCellInfoPopup.cs">
       <SubType>UserControl</SubType>
@@ -538,6 +547,12 @@
     </Compile>
     <Compile Include="UI\Dialogs\FeaturesDlg.Designer.cs">
       <DependentUpon>FeaturesDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\FieldWorks\Fw7DataSourcePropertiesDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\FieldWorks\Fw7DataSourcePropertiesDlg.Designer.cs">
+      <DependentUpon>Fw7DataSourcePropertiesDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\FieldWorks\FwDataSourcePropertiesDlg.cs">
       <SubType>Form</SubType>
@@ -767,6 +782,9 @@
       <DependentUpon>AmbiguousSequencesDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\FieldWorks\Fw7DataSourcePropertiesDlg.resx">
+      <DependentUpon>Fw7DataSourcePropertiesDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\FieldWorks\FwDataSourcePropertiesDlg.resx">
       <DependentUpon>FwDataSourcePropertiesDlg.cs</DependentUpon>
     </EmbeddedResource>
@@ -871,6 +889,7 @@
     <None Include="Resources\Filter-Small.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\ShowFontColumn.png" />
     <None Include="Resources\PopupDialogButtonClose_Hot.png" />
     <None Include="Resources\PopupDialogButtonClose.png" />
     <None Include="Resources\PopupDialogButtonOK_Hot.png" />

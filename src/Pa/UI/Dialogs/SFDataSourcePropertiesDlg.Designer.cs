@@ -500,7 +500,7 @@ namespace SIL.Pa.UI.Dialogs
 			resources.ApplyResources(this.rtfSampleInput, "rtfSampleInput");
 			this.rtfSampleInput.Name = "rtfSampleInput";
 			this.rtfSampleInput.TabStop = false;
-			this.rtfSampleInput.Text = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidDoNothingToolTip;
+			this.rtfSampleInput.Text = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidExportAsToolTip;
 			// 
 			// cboFirstInterlinear
 			// 

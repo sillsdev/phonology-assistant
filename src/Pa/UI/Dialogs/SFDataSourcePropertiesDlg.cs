@@ -483,34 +483,13 @@ namespace SIL.Pa.UI.Dialogs
 		#region Misc. Methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Drop-down the SFM column's combo box when the SFM column cell's become current.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static void HandleGridCellEnter(object sender, DataGridViewCellEventArgs e)
-		{
-			if (e.RowIndex >= 0 && e.ColumnIndex == 0)
-				SendKeys.Send("%{DOWN}");
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Make sure that the field chosen as the first interlinear field is also marked
 		/// as an interlinear field.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandleFirstInterlinearComboSelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (cboFirstInterlinear.SelectedIndex <= 0)
-				return;
-			
-			// TODO: Fix this
-			//var mapping = cboFirstInterlinear.SelectedItem as SFMarkerMapping;
-			//if (mapping != null && !mapping.IsInterlinear)
-			//{
-			//    mapping.IsInterlinear = true;
-			//    if (m_grid != null)
-			//        m_grid.Refresh();
-			//}
+			m_fieldsGrid.MarkSourceFieldAsInterlinear(cboFirstInterlinear.SelectedItem as string);
 		}
 
 		/// ------------------------------------------------------------------------------------

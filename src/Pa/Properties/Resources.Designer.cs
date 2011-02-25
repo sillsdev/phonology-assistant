@@ -1797,5 +1797,12 @@ namespace SIL.Pa.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        internal static System.Drawing.Bitmap ShowFontColumn {
+            get {
+                object obj = ResourceManager.GetObject("ShowFontColumn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

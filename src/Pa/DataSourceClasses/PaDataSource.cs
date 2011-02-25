@@ -79,12 +79,9 @@ namespace SIL.Pa.DataSource
 			else if (!GetIsXmlFile(SourceFile))
 			{
 				bool isShoeboxFile;
-				if (IsSfmFile(SourceFile, out isShoeboxFile))
+				if (GetIsSfmFile(SourceFile, out isShoeboxFile))
 					Type = (isShoeboxFile ? DataSourceType.Toolbox : DataSourceType.SFM);
 			}
-			
-			if (Type == DataSourceType.SFM || Type == DataSourceType.Toolbox)
-				MakeNewMappingsList();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -94,7 +91,7 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		public PaDataSource Copy()
 		{
-			return new PaDataSource()
+			return new PaDataSource
 			{
 				SourceFile = SourceFile,
 				Type = Type,
@@ -181,21 +178,6 @@ namespace SIL.Pa.DataSource
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Builds a list of mappings for an SFM or Toolbox data source.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void MakeNewMappingsList()
-		{
-			//// Add a mapping for each PA field in the specified PaFieldInfoList. For each new
-			//// mapping, check if there is a mapping for the same field in the specified
-			//// default mappings list. If there is, then assign the new mapping's marker and
-			//// interlinear flag to that of the one found in the default mapping list.
-			//SFMappings = PaFieldInfoList.DefaultFieldInfoList.Select(fi => new SFMarkerMapping(fi)).ToList();
-			//SFMappings.Insert(0, new SFMarkerMapping(kRecordMarker));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Checks to see if the data source should have mappings (i.e. for SFM and Toolbox
 		/// data source types). If so, then makes sure the collection of mappings is complete.
 		/// </summary>
@@ -230,39 +212,25 @@ namespace SIL.Pa.DataSource
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Determines whether or not a file is an SFM file.
+		/// Determines whether or not the specified file is an SFM file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool IsSfmFile(string filename, out bool isShoeboxFile)
+		private bool GetIsSfmFile(string filename, out bool isShoeboxFile)
 		{
-			using (StreamReader reader = new StreamReader(filename))
+			var allLines = File.ReadAllLines(filename);
+			TotalLinesInFile = allLines.Length;
+
+			if (TotalLinesInFile > 0 && allLines[0].StartsWith(kShoeboxMarker))
 			{
-				isShoeboxFile = false;
-				int linesBeginningWithBackslash = 0;
-
-				// Check if the file is a shoebox file.
-				var line = reader.ReadLine();
-				if (line != null && line.StartsWith(kShoeboxMarker))
-				{
-					isShoeboxFile = true;
-					return true;
-				}
-
-				do
-				{
-					if (line != null && line.Trim() != string.Empty)
-					{
-						TotalLinesInFile++;
-						if (line.StartsWith("\\"))
-							linesBeginningWithBackslash++;
-					}
-				} while ((line = reader.ReadLine()) != null);
-
-				reader.Close();
-
-				// Assume that it's an SFM file if at least 60% of the lines begin with a backslash
-				return (((float)linesBeginningWithBackslash / TotalLinesInFile) >= 0.60);
+				isShoeboxFile = true;
+				return true;
 			}
+
+			isShoeboxFile = false;
+			int linesBeginningWithBackslash = allLines.Count(l => l != null && l.TrimStart().StartsWith("\\"));
+
+			// Assume that it's an SFM file if at least 60% of the lines begin with a backslash
+			return (((float)linesBeginningWithBackslash / TotalLinesInFile) >= 0.60);
 		}
 
 		/// ------------------------------------------------------------------------------------

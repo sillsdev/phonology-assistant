@@ -23,10 +23,11 @@ namespace SIL.Pa.DataSource.FieldWorks
 		public FwDataSourceInfo()
 		{
 			PhoneticStorageMethod = FwDBUtils.PhoneticStorageMethod.LexemeForm;
+			WsMappings = new List<FwFieldWsMapping>();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public FwDataSourceInfo(string name, string server, DataSourceType dsType)
+		public FwDataSourceInfo(string name, string server, DataSourceType dsType) : this()
 		{
 			Name = name;
 			Server = server;
