@@ -6,12 +6,12 @@ using SIL.Pa.Model;
 
 namespace SIL.Pa.UI.Controls
 {
-	public class FieldMappingGrid : FieldMappingGridBase
+	public class SfmFieldMappingGrid : FieldMappingGridBase
 	{
 		private IDictionary<FieldType, string> m_displayableFieldTypes;
 
 		/// ------------------------------------------------------------------------------------
-		public FieldMappingGrid(IEnumerable<PaField> potentialFields, IEnumerable<FieldMapping> mappings,
+		public SfmFieldMappingGrid(IEnumerable<PaField> potentialFields, IEnumerable<FieldMapping> mappings,
 			Func<string> srcFldColHdgTextHandler, Func<string> tgtFldColHdgTextHandler)
 		{
 			m_sourceFieldColumnHeadingTextHandler = srcFldColHdgTextHandler;

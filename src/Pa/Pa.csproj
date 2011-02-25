@@ -326,16 +326,16 @@
     <Compile Include="UI\Controls\FeatureListView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\FieldMappingGrid.cs">
+    <Compile Include="UI\Controls\FieldRelatedControls\SfmFieldMappingGrid.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\FieldMappingGridBase.cs">
+    <Compile Include="UI\Controls\FieldRelatedControls\FieldMappingGridBase.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\FieldRelatedControls\FieldFontsGrid.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\FieldSelectorGrid.cs">
+    <Compile Include="UI\Controls\FieldRelatedControls\FieldSelectorGrid.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\FindInfo.cs" />
@@ -345,7 +345,7 @@
     <Compile Include="UI\Controls\FontPicker.Designer.cs">
       <DependentUpon>FontPicker.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controls\Fw7FieldMappingGrid.cs">
+    <Compile Include="UI\Controls\FieldRelatedControls\Fw7FieldMappingGrid.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\GridCellInfoPopup.cs">

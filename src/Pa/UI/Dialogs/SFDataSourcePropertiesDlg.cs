@@ -23,7 +23,7 @@ namespace SIL.Pa.UI.Dialogs
 
 		private string m_filename;
 		private List<string> m_markersInFile;
-		private FieldMappingGrid m_fieldsGrid;
+		private SfmFieldMappingGrid m_fieldsGrid;
 		private IEnumerable<PaField> m_potentialFields;
 		private readonly PaDataSource m_datasource;
 
@@ -238,7 +238,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void InitializeFieldMappingsGrid()
 		{
-			m_fieldsGrid = new FieldMappingGrid(m_potentialFields, GetMappingsForGrid(),
+			m_fieldsGrid = new SfmFieldMappingGrid(m_potentialFields, GetMappingsForGrid(),
 				() => App.LocalizeString("SFDataSourcePropertiesDlg.SourceFieldColumnHeadingText", "Map this Marker...", App.kLocalizationGroupDialogs),
 				() => App.LocalizeString("SFDataSourcePropertiesDlg.TargetFieldColumnHeadingText", "To this Field", App.kLocalizationGroupDialogs));
 
