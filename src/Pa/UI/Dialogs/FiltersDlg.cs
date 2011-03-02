@@ -489,10 +489,10 @@ namespace SIL.Pa.UI.Dialogs
 			col.HeaderText = string.Empty;
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			col.Resizable = DataGridViewTriState.False;
-			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-			col.Width = Properties.Resources.DeleteNormal.Width + 2;
-			((DataGridViewImageColumn)col).Image = new Bitmap(Properties.Resources.DeleteNormal.Width,
-				Properties.Resources.DeleteNormal.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+			col.Width = Properties.Resources.RemoveGridRowNormal.Width + 4;
+			((DataGridViewImageColumn)col).Image = new Bitmap(Properties.Resources.RemoveGridRowNormal.Width,
+				Properties.Resources.RemoveGridRowNormal.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 			m_gridExpressions.Columns.Add(col);
 			
 			m_gridExpressions.AutoResizeColumn(2, DataGridViewAutoSizeColumnMode.ColumnHeader);
@@ -524,7 +524,7 @@ namespace SIL.Pa.UI.Dialogs
 
 					int i = m_gridExpressions.Rows.Add(fieldName, m_operatorToText[expression.Operator],
 						expression.Pattern, m_expTypeToText[expression.ExpressionType],
-						Properties.Resources.DeleteNormal);
+						Properties.Resources.RemoveGridRowNormal);
 
 					m_gridExpressions[kTypeCol, i].Tag = expression.SearchQuery;
 					m_gridExpressions.Rows[i].Tag = expression;
@@ -695,7 +695,7 @@ namespace SIL.Pa.UI.Dialogs
 			e.Row.Cells[kOpCol].Value = col.Items[0];
 			col = m_gridExpressions.Columns[kTypeCol] as DataGridViewComboBoxColumn;
 			e.Row.Cells[kTypeCol].Value = col.Items[0];
-			e.Row.Cells[kDeleteCol].Value = Properties.Resources.DeleteNormal;
+			e.Row.Cells[kDeleteCol].Value = Properties.Resources.RemoveGridRowNormal;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -707,7 +707,7 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 			}
 
-			m_gridExpressions[e.ColumnIndex, e.RowIndex].Value = Properties.Resources.DeleteHot;
+			m_gridExpressions[e.ColumnIndex, e.RowIndex].Value = Properties.Resources.RemoveGridRowHot;
 
 			var toolTip = App.LocalizeString("FiltersDlg.DeleteFilterExpressionToolTip",
 				"Delete Expression", App.kLocalizationGroupDialogs);
@@ -725,7 +725,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (e.RowIndex != m_gridExpressions.NewRowIndex && e.RowIndex >= 0 &&
 				e.ColumnIndex >= 0 && e.ColumnIndex == kDeleteCol)
 			{
-				m_gridExpressions[e.ColumnIndex, e.RowIndex].Value = Properties.Resources.DeleteNormal;
+				m_gridExpressions[e.ColumnIndex, e.RowIndex].Value = Properties.Resources.RemoveGridRowNormal;
 			}
 		}
 

@@ -146,10 +146,10 @@
     <Setting Name="HtmlConsonantChartVisible" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="DefineClassDlg" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="DefineClassDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="ClassesDlg" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="ClassesDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="DefineClassDlgSplit1Loc" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
@@ -176,10 +176,10 @@
     <Setting Name="ClassesDlgClassListViewColWidth2" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">-1</Value>
     </Setting>
-    <Setting Name="BackupDlg" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="BackupDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="RestoreDlg" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="RestoreDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="XYChartVwClassListViewColWidth0" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
@@ -188,43 +188,43 @@
     <Setting Name="SearchVwClassListViewColWidth0" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="AmbiguousSequencesDlg" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="AmbiguousSequencesDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="CustomFieldsDlg" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="CustomFieldsDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="FeaturesDlg" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="FeaturesDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="TranscriptionChangesDlg" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="TranscriptionChangesDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="ProjectSettingsDlg" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="ProjectSettingsDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="SaveSearchQuerDlg" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="SaveSearchQuerDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="SaveDistChartDlg" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="SaveDistChartDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="SFDataSourcePropertiesDlg" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="SFDataSourcePropertiesDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="FindDlg" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="FindDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="UndefinedPhoneticCharactersDlg" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="UndefinedPhoneticCharactersDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="OptionsDlg" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="OptionsDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="FwDataSourcePropertiesDlg" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="FwDataSourcePropertiesDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="FwProjectsDlg" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="FwProjectsDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="FeaturesDlgSplitLoc" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
@@ -239,7 +239,7 @@
     <Setting Name="TranscriptionChangesDlgGridExtraRowHeight" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">3</Value>
     </Setting>
-    <Setting Name="FiltersDlg" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="FiltersDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="FwProjectsDlgSplitLoc" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
@@ -266,52 +266,52 @@
     <Setting Name="FindDlgSearchCollapsedGroups" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="LastFolderForOpenProjectDlg" Provider="SilTools.PortableSettingsProvider" Type="System.String" Scope="User">
+    <Setting Name="LastFolderForOpenProjectDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="FeaturesDlgPhoneGrid" Provider="SilTools.PortableSettingsProvider" Type="SilTools.GridSettings" Scope="User">
+    <Setting Name="FeaturesDlgPhoneGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="MRUList" Provider="SilTools.PortableSettingsProvider" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="FiltersDlgExpressionsGrid" Provider="SilTools.PortableSettingsProvider" Type="SilTools.GridSettings" Scope="User">
+    <Setting Name="FiltersDlgExpressionsGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="FiltersDlgSplitLoc" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="AmbiguousSequencesDlgGrid" Provider="SilTools.PortableSettingsProvider" Type="SilTools.GridSettings" Scope="User">
+    <Setting Name="AmbiguousSequencesDlgGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="RestoreDlgGrid" Provider="SilTools.PortableSettingsProvider" Type="SilTools.GridSettings" Scope="User">
+    <Setting Name="RestoreDlgGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="CustomFieldsDlgGrid" Provider="SilTools.PortableSettingsProvider" Type="SilTools.GridSettings" Scope="User">
+    <Setting Name="CustomFieldsDlgGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="FwDataSourcePropertiesDlgGrid" Provider="SilTools.PortableSettingsProvider" Type="SilTools.GridSettings" Scope="User">
+    <Setting Name="FwDataSourcePropertiesDlgGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="ProjectSettingsDlgGrid" Provider="SilTools.PortableSettingsProvider" Type="SilTools.GridSettings" Scope="User">
+    <Setting Name="ProjectSettingsDlgGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="UndefinedPhoneticCharactersDlgCharsGrid" Provider="SilTools.PortableSettingsProvider" Type="SilTools.GridSettings" Scope="User">
+    <Setting Name="UndefinedPhoneticCharactersDlgCharsGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="UndefinedPhoneticCharactersDlgWhereGrid" Provider="SilTools.PortableSettingsProvider" Type="SilTools.GridSettings" Scope="User">
+    <Setting Name="UndefinedPhoneticCharactersDlgWhereGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="TranscriptionChangesGrid" Provider="SilTools.PortableSettingsProvider" Type="SilTools.GridSettings" Scope="User">
+    <Setting Name="TranscriptionChangesGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="UndefinedPhoneticCharactersDlgSplitLoc" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="OptionsDlgFontGrid" Provider="SilTools.PortableSettingsProvider" Type="SilTools.GridSettings" Scope="User">
+    <Setting Name="OptionsDlgFontGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="SFDataSourcePropertiesDlgGrid" Provider="SilTools.PortableSettingsProvider" Type="SilTools.GridSettings" Scope="User">
+    <Setting Name="SFDataSourcePropertiesDlgGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="SFDataSourcePropertiesDlgSplitLoc" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
@@ -320,22 +320,22 @@
     <Setting Name="UIFont" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Font" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="MainWindow" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="MainWindow" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="DataCorpusVw" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="DataCorpusVw" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="SearchVw" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="SearchVw" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="VowelChartVw" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="VowelChartVw" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="ConsonantChartVw" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="ConsonantChartVw" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="XYChartVw" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="XYChartVw" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ReloadProjectsWhenAppBecomesActivate" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
@@ -548,7 +548,7 @@
     <Setting Name="RTFExportOptionTabDelimited" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="RTFExportDlg" Provider="SilTools.PortableSettingsProvider" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="RTFExportDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="WordListGroupingPhonesToMatchBefore" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
@@ -707,7 +707,7 @@
     <Setting Name="Fw7TimeToWaitForDataLoad" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">20000</Value>
     </Setting>
-    <Setting Name="ShowLoadColumnInProjectSettingsDlg" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+    <Setting Name="ShowLoadColumnInProjectSettingsDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="SFMNoParseOptionSampleOutput" Type="System.String" Scope="Application">
@@ -740,7 +740,7 @@
     <Setting Name="ShowSFMappingsInformation" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="SFDataSourcePropertiesDlgMappingGrid" Provider="SilTools.PortableSettingsProvider" Type="SilTools.GridSettings" Scope="User">
+    <Setting Name="SFDataSourcePropertiesDlgMappingGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ShowClassNamesInSearchPatterns" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
@@ -750,6 +750,15 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="PhoneticFont" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Font" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DefaultMappedFw7Fields" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">CitationForm;MorphType;Etymology;LiteralMeaning;Restrictions;SummaryDefinition;ImportResidue;DateCreated;DateModified</Value>
+    </Setting>
+    <Setting Name="Fw7DataSourcePropertiesDlgFieldsGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Fw7DataSourcePropertiesDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

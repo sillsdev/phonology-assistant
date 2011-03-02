@@ -107,5 +107,19 @@ namespace SilTools.Properties {
                 return ResourceManager.GetString("kstidHierarchicalRowChildCountShortFmt", resourceCulture);
             }
         }
+        
+        internal static System.Drawing.Bitmap RemoveGridRowHot {
+            get {
+                object obj = ResourceManager.GetObject("RemoveGridRowHot", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RemoveGridRowNormal {
+            get {
+                object obj = ResourceManager.GetObject("RemoveGridRowNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

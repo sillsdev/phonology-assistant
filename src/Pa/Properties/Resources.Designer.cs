@@ -74,20 +74,6 @@ namespace SIL.Pa.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap DeleteHot {
-            get {
-                object obj = ResourceManager.GetObject("DeleteHot", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap DeleteNormal {
-            get {
-                object obj = ResourceManager.GetObject("DeleteNormal", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap DropDownArrowWithPadding {
             get {
                 object obj = ResourceManager.GetObject("DropDownArrowWithPadding", resourceCulture);
@@ -1794,6 +1780,20 @@ namespace SIL.Pa.Properties {
         internal static System.Drawing.Bitmap PopupDialogButtonOK_Hot {
             get {
                 object obj = ResourceManager.GetObject("PopupDialogButtonOK_Hot", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RemoveGridRowHot {
+            get {
+                object obj = ResourceManager.GetObject("RemoveGridRowHot", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RemoveGridRowNormal {
+            get {
+                object obj = ResourceManager.GetObject("RemoveGridRowNormal", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

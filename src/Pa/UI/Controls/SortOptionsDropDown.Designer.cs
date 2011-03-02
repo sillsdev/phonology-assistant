@@ -57,18 +57,18 @@ namespace SIL.Pa.UI.Controls
 			this.lblRL = new System.Windows.Forms.Label();
 			this.lblSecond = new System.Windows.Forms.Label();
 			this.tblLayoutOuter = new System.Windows.Forms.TableLayoutPanel();
-			this.flowPanelButtons = new System.Windows.Forms.FlowLayoutPanel();
-			this.btnHelp = new SIL.Pa.UI.Controls.PopupDialogHelpButton();
-			this.btnClose = new SIL.Pa.UI.Controls.PopupDialogCloseButton();
 			this.pnlAdvOptions = new SilTools.Controls.SilPanel();
+			this.flowPanelButtons = new System.Windows.Forms.FlowLayoutPanel();
+			this.btnClose = new SIL.Pa.UI.Controls.PopupDialogCloseButton();
+			this.btnHelp = new SIL.Pa.UI.Controls.PopupDialogHelpButton();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.tblAdvSorting.SuspendLayout();
 			this.pnlAdvSort2.SuspendLayout();
 			this.pnlAdvSort0.SuspendLayout();
 			this.pnlAdvSort1.SuspendLayout();
 			this.tblLayoutOuter.SuspendLayout();
-			this.flowPanelButtons.SuspendLayout();
 			this.pnlAdvOptions.SuspendLayout();
+			this.flowPanelButtons.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -79,8 +79,8 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this.rbUnicodeOrder, null);
 			this.locExtender.SetLocalizationComment(this.rbUnicodeOrder, null);
 			this.locExtender.SetLocalizingId(this.rbUnicodeOrder, "SortOptionsDropDown.rbUnicodeOrder");
-			this.rbUnicodeOrder.Location = new System.Drawing.Point(10, 49);
-			this.rbUnicodeOrder.Margin = new System.Windows.Forms.Padding(10, 0, 2, 0);
+			this.rbUnicodeOrder.Location = new System.Drawing.Point(10, 72);
+			this.rbUnicodeOrder.Margin = new System.Windows.Forms.Padding(10, 0, 2, 7);
 			this.rbUnicodeOrder.Name = "rbUnicodeOrder";
 			this.rbUnicodeOrder.Size = new System.Drawing.Size(94, 17);
 			this.rbUnicodeOrder.TabIndex = 2;
@@ -96,8 +96,8 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this.rbPlaceArticulation, null);
 			this.locExtender.SetLocalizationComment(this.rbPlaceArticulation, null);
 			this.locExtender.SetLocalizingId(this.rbPlaceArticulation, "SortOptionsDropDown.rbPlaceArticulation");
-			this.rbPlaceArticulation.Location = new System.Drawing.Point(10, 5);
-			this.rbPlaceArticulation.Margin = new System.Windows.Forms.Padding(10, 5, 2, 5);
+			this.rbPlaceArticulation.Location = new System.Drawing.Point(10, 28);
+			this.rbPlaceArticulation.Margin = new System.Windows.Forms.Padding(10, 0, 2, 5);
 			this.rbPlaceArticulation.Name = "rbPlaceArticulation";
 			this.rbPlaceArticulation.Size = new System.Drawing.Size(119, 17);
 			this.rbPlaceArticulation.TabIndex = 0;
@@ -113,7 +113,7 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this.rbMannerArticulation, null);
 			this.locExtender.SetLocalizationComment(this.rbMannerArticulation, null);
 			this.locExtender.SetLocalizingId(this.rbMannerArticulation, "SortOptionsDropDown.rbMannerArticulation");
-			this.rbMannerArticulation.Location = new System.Drawing.Point(10, 27);
+			this.rbMannerArticulation.Location = new System.Drawing.Point(10, 50);
 			this.rbMannerArticulation.Margin = new System.Windows.Forms.Padding(10, 0, 2, 5);
 			this.rbMannerArticulation.Name = "rbMannerArticulation";
 			this.rbMannerArticulation.Size = new System.Drawing.Size(128, 17);
@@ -271,7 +271,7 @@ namespace SIL.Pa.UI.Controls
 			this.rbBefore1st.Name = "rbBefore1st";
 			this.rbBefore1st.Size = new System.Drawing.Size(29, 16);
 			this.rbBefore1st.TabIndex = 0;
-			this.rbBefore1st.Tag = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidExportAsToolTip;
+			this.rbBefore1st.Tag = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidDoNothingToolTip;
 			this.rbBefore1st.UseVisualStyleBackColor = false;
 			this.rbBefore1st.Click += new System.EventHandler(this.HandleCheckedColumn0);
 			// 
@@ -538,11 +538,11 @@ namespace SIL.Pa.UI.Controls
 			this.tblLayoutOuter.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.tblLayoutOuter.ColumnCount = 1;
 			this.tblLayoutOuter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tblLayoutOuter.Controls.Add(this.flowPanelButtons, 0, 4);
 			this.tblLayoutOuter.Controls.Add(this.pnlAdvOptions, 0, 3);
-			this.tblLayoutOuter.Controls.Add(this.rbPlaceArticulation, 0, 0);
 			this.tblLayoutOuter.Controls.Add(this.rbMannerArticulation, 0, 1);
 			this.tblLayoutOuter.Controls.Add(this.rbUnicodeOrder, 0, 2);
+			this.tblLayoutOuter.Controls.Add(this.rbPlaceArticulation, 0, 1);
+			this.tblLayoutOuter.Controls.Add(this.flowPanelButtons, 0, 0);
 			this.tblLayoutOuter.Location = new System.Drawing.Point(0, 0);
 			this.tblLayoutOuter.Name = "tblLayoutOuter";
 			this.tblLayoutOuter.RowCount = 5;
@@ -551,67 +551,9 @@ namespace SIL.Pa.UI.Controls
 			this.tblLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tblLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tblLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tblLayoutOuter.Size = new System.Drawing.Size(205, 199);
+			this.tblLayoutOuter.Size = new System.Drawing.Size(205, 201);
 			this.tblLayoutOuter.TabIndex = 0;
 			this.tblLayoutOuter.SizeChanged += new System.EventHandler(this.HandleOuterTableLayoutSizeChanged);
-			// 
-			// flowPanelButtons
-			// 
-			this.flowPanelButtons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.flowPanelButtons.AutoSize = true;
-			this.flowPanelButtons.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.flowPanelButtons.Controls.Add(this.btnHelp);
-			this.flowPanelButtons.Controls.Add(this.btnClose);
-			this.flowPanelButtons.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-			this.flowPanelButtons.Location = new System.Drawing.Point(0, 178);
-			this.flowPanelButtons.Margin = new System.Windows.Forms.Padding(0, 5, 5, 5);
-			this.flowPanelButtons.Name = "flowPanelButtons";
-			this.flowPanelButtons.Size = new System.Drawing.Size(200, 16);
-			this.flowPanelButtons.TabIndex = 1;
-			// 
-			// btnHelp
-			// 
-			this.btnHelp.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.btnHelp.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnHelp.BackgroundImage")));
-			this.btnHelp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-			this.btnHelp.FlatAppearance.BorderSize = 0;
-			this.btnHelp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-			this.btnHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnHelp.ImageHot = ((System.Drawing.Image)(resources.GetObject("btnHelp.ImageHot")));
-			this.btnHelp.ImageNormal = ((System.Drawing.Image)(resources.GetObject("btnHelp.ImageNormal")));
-			this.btnHelp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.locExtender.SetLocalizableToolTip(this.btnHelp, "Help");
-			this.locExtender.SetLocalizationComment(this.btnHelp, null);
-			this.locExtender.SetLocalizingId(this.btnHelp, "SortOptionsDropDown.btnHelp");
-			this.btnHelp.Location = new System.Drawing.Point(184, 0);
-			this.btnHelp.Margin = new System.Windows.Forms.Padding(7, 0, 0, 0);
-			this.btnHelp.Name = "btnHelp";
-			this.btnHelp.Size = new System.Drawing.Size(16, 16);
-			this.btnHelp.TabIndex = 5;
-			this.btnHelp.UseVisualStyleBackColor = true;
-			this.btnHelp.Click += new System.EventHandler(this.HandleHelpButtonClick);
-			// 
-			// btnClose
-			// 
-			this.btnClose.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.btnClose.BackgroundImage = global::SIL.Pa.Properties.Resources.PopupDialogButtonClose;
-			this.btnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-			this.btnClose.FlatAppearance.BorderSize = 0;
-			this.btnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-			this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnClose.ImageHot = ((System.Drawing.Image)(resources.GetObject("btnClose.ImageHot")));
-			this.btnClose.ImageNormal = ((System.Drawing.Image)(resources.GetObject("btnClose.ImageNormal")));
-			this.locExtender.SetLocalizableToolTip(this.btnClose, "Close");
-			this.locExtender.SetLocalizationComment(this.btnClose, null);
-			this.locExtender.SetLocalizingId(this.btnClose, "SortOptionsDropDown.btnClose");
-			this.btnClose.Location = new System.Drawing.Point(161, 0);
-			this.btnClose.Margin = new System.Windows.Forms.Padding(7, 0, 0, 0);
-			this.btnClose.Name = "btnClose";
-			this.btnClose.Size = new System.Drawing.Size(16, 16);
-			this.btnClose.TabIndex = 4;
-			this.btnClose.UseVisualStyleBackColor = true;
-			this.btnClose.Click += new System.EventHandler(this.HandleCloseButtonClick);
 			// 
 			// pnlAdvOptions
 			// 
@@ -629,13 +571,71 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this.pnlAdvOptions, null);
 			this.locExtender.SetLocalizationComment(this.pnlAdvOptions, null);
 			this.locExtender.SetLocalizingId(this.pnlAdvOptions, "SortOptionsDropDown.pnlAdvOptions");
-			this.pnlAdvOptions.Location = new System.Drawing.Point(5, 73);
-			this.pnlAdvOptions.Margin = new System.Windows.Forms.Padding(5, 7, 5, 0);
+			this.pnlAdvOptions.Location = new System.Drawing.Point(5, 96);
+			this.pnlAdvOptions.Margin = new System.Windows.Forms.Padding(5, 0, 5, 5);
 			this.pnlAdvOptions.MnemonicGeneratesClick = false;
 			this.pnlAdvOptions.Name = "pnlAdvOptions";
 			this.pnlAdvOptions.PaintExplorerBarBackground = false;
 			this.pnlAdvOptions.Size = new System.Drawing.Size(195, 100);
 			this.pnlAdvOptions.TabIndex = 1;
+			// 
+			// flowPanelButtons
+			// 
+			this.flowPanelButtons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.flowPanelButtons.AutoSize = true;
+			this.flowPanelButtons.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.flowPanelButtons.Controls.Add(this.btnClose);
+			this.flowPanelButtons.Controls.Add(this.btnHelp);
+			this.flowPanelButtons.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+			this.flowPanelButtons.Location = new System.Drawing.Point(0, 7);
+			this.flowPanelButtons.Margin = new System.Windows.Forms.Padding(0, 7, 9, 5);
+			this.flowPanelButtons.Name = "flowPanelButtons";
+			this.flowPanelButtons.Size = new System.Drawing.Size(196, 16);
+			this.flowPanelButtons.TabIndex = 1;
+			// 
+			// btnClose
+			// 
+			this.btnClose.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.btnClose.BackgroundImage = global::SIL.Pa.Properties.Resources.PopupDialogButtonClose;
+			this.btnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+			this.btnClose.FlatAppearance.BorderSize = 0;
+			this.btnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+			this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnClose.ImageHot = ((System.Drawing.Image)(resources.GetObject("btnClose.ImageHot")));
+			this.btnClose.ImageNormal = ((System.Drawing.Image)(resources.GetObject("btnClose.ImageNormal")));
+			this.locExtender.SetLocalizableToolTip(this.btnClose, "Close");
+			this.locExtender.SetLocalizationComment(this.btnClose, null);
+			this.locExtender.SetLocalizingId(this.btnClose, "SortOptionsDropDown.btnClose");
+			this.btnClose.Location = new System.Drawing.Point(180, 0);
+			this.btnClose.Margin = new System.Windows.Forms.Padding(10, 0, 0, 0);
+			this.btnClose.Name = "btnClose";
+			this.btnClose.Size = new System.Drawing.Size(16, 16);
+			this.btnClose.TabIndex = 4;
+			this.btnClose.UseVisualStyleBackColor = true;
+			this.btnClose.Click += new System.EventHandler(this.HandleCloseButtonClick);
+			// 
+			// btnHelp
+			// 
+			this.btnHelp.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.btnHelp.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnHelp.BackgroundImage")));
+			this.btnHelp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+			this.btnHelp.FlatAppearance.BorderSize = 0;
+			this.btnHelp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+			this.btnHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnHelp.ImageHot = ((System.Drawing.Image)(resources.GetObject("btnHelp.ImageHot")));
+			this.btnHelp.ImageNormal = ((System.Drawing.Image)(resources.GetObject("btnHelp.ImageNormal")));
+			this.btnHelp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.btnHelp, "Help");
+			this.locExtender.SetLocalizationComment(this.btnHelp, null);
+			this.locExtender.SetLocalizingId(this.btnHelp, "SortOptionsDropDown.btnHelp");
+			this.btnHelp.Location = new System.Drawing.Point(154, 0);
+			this.btnHelp.Margin = new System.Windows.Forms.Padding(7, 0, 0, 0);
+			this.btnHelp.Name = "btnHelp";
+			this.btnHelp.Size = new System.Drawing.Size(16, 16);
+			this.btnHelp.TabIndex = 5;
+			this.btnHelp.UseVisualStyleBackColor = true;
+			this.btnHelp.Click += new System.EventHandler(this.HandleHelpButtonClick);
 			// 
 			// locExtender
 			// 
@@ -661,9 +661,9 @@ namespace SIL.Pa.UI.Controls
 			this.pnlAdvSort1.ResumeLayout(false);
 			this.tblLayoutOuter.ResumeLayout(false);
 			this.tblLayoutOuter.PerformLayout();
-			this.flowPanelButtons.ResumeLayout(false);
 			this.pnlAdvOptions.ResumeLayout(false);
 			this.pnlAdvOptions.PerformLayout();
+			this.flowPanelButtons.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();

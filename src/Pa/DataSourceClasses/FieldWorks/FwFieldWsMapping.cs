@@ -14,11 +14,14 @@ namespace SIL.Pa.DataSource.FieldWorks
 		[XmlAttribute]
 		public string FieldName { get; set; }
 	
-		[XmlAttribute("Ws")]
-		public int WsHvo { get; set; }
+		[XmlAttribute("WsId")]
+		public string WsId { get; set; }
 
 		[XmlAttribute("WsName")]
 		public string WsName { get; set; }
+
+		[XmlAttribute("Ws")]
+		public int WsHvo { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		public FwFieldWsMapping()
@@ -33,11 +36,21 @@ namespace SIL.Pa.DataSource.FieldWorks
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public FwFieldWsMapping(string fieldname, string id)
+		{
+			FieldName = fieldname;
+			WsId = id;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public FwFieldWsMapping(string fieldname, FwWritingSysInfo fwWsInfo)
-			: this(fieldname, (fwWsInfo != null ? fwWsInfo.WsHvo : 0))
+			: this(fieldname, (fwWsInfo != null ? fwWsInfo.Hvo : 0))
 		{
 			if (fwWsInfo != null)
-				WsName = fwWsInfo.WsName;
+			{
+				WsId = fwWsInfo.Id;
+				WsName = fwWsInfo.Name;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -47,7 +60,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 		/// ------------------------------------------------------------------------------------
 		public FwFieldWsMapping Copy()
 		{
-			return new FwFieldWsMapping(FieldName, WsHvo) { WsName = WsName };
+			return new FwFieldWsMapping(FieldName, WsHvo) { WsId = WsId, WsName = WsName };
 		}
 	}
 }

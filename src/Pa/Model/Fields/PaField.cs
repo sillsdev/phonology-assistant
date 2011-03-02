@@ -262,7 +262,8 @@ namespace SIL.Pa.Model
 		/// Merges two lists of fields, returning a list of distinct fields by name. A null
 		/// list will be treated as an empty list, so null will never be returned, but an
 		/// empty list may. The returned, merged list, contains deep copies of those fields
-		/// found in the two lists.
+		/// found in the two lists. If a field is found in both lists, a copy of the one 
+		/// from list1 will be returned in the merged list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static IEnumerable<PaField> Merge(IEnumerable<PaField> list1, IEnumerable<PaField> list2)
@@ -375,6 +376,13 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public static bool GetIsCalculatedField(PaField field)
+		{
+			return (field.Name == kCVPatternFieldName ||
+				field.Name == kDataSourceFieldName || field.Name == kDataSourcePathFieldName);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private static PaField GetUnmappableField(string name, FieldType type)
 		{
 			return new PaField(name, type)
@@ -401,7 +409,7 @@ namespace SIL.Pa.Model
 				App.kLocalizationGroupMisc));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.Date,
-				App.LocalizeString("DisplayableFieldTypeNames.Date", "Date",
+				App.LocalizeString("DisplayableFieldTypeNames.Date", "Date/Time",
 				App.kLocalizationGroupMisc));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.Reference,

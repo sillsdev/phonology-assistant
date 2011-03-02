@@ -1169,7 +1169,6 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string LastFolderForOpenProjectDlg {
             get {
                 return ((string)(this["LastFolderForOpenProjectDlg"]));
@@ -3057,7 +3056,6 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool ShowLoadColumnInProjectSettingsDlg {
             get {
                 return ((bool)(this["ShowLoadColumnInProjectSettingsDlg"]));
@@ -3204,6 +3202,40 @@ namespace SIL.Pa.Properties {
             }
             set {
                 this["PhoneticFont"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("CitationForm;MorphType;Etymology;LiteralMeaning;Restrictions;SummaryDefinition;Im" +
+            "portResidue;DateCreated;DateModified")]
+        public string DefaultMappedFw7Fields {
+            get {
+                return ((string)(this["DefaultMappedFw7Fields"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilTools.GridSettings Fw7DataSourcePropertiesDlgFieldsGrid {
+            get {
+                return ((global::SilTools.GridSettings)(this["Fw7DataSourcePropertiesDlgFieldsGrid"]));
+            }
+            set {
+                this["Fw7DataSourcePropertiesDlgFieldsGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilTools.FormSettings Fw7DataSourcePropertiesDlg {
+            get {
+                return ((global::SilTools.FormSettings)(this["Fw7DataSourcePropertiesDlg"]));
+            }
+            set {
+                this["Fw7DataSourcePropertiesDlg"] = value;
             }
         }
     }

@@ -1839,7 +1839,9 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			var wlentry = GetWordEntry(e.RowIndex);
-			if (wlentry == null)
+			var field = App.Project.GetFieldForName(Columns[e.ColumnIndex].Name);
+
+			if (wlentry == null || field == null)
 			{
 				base.OnCellPainting(e);
 				return;
@@ -1848,8 +1850,6 @@ namespace SIL.Pa.UI.Controls
 			m_currPaintingCellEntry = wlentry.WordCacheEntry;
 			m_currPaintingCellSelected =
 				((e.State & DataGridViewElementStates.Selected) > 0);
-
-			var field = App.Project.GetFieldForName(Columns[e.ColumnIndex].Name);
 
 			if (field.Type == FieldType.AudioFilePath || field.Type == FieldType.GeneralFilePath)
 			{

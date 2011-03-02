@@ -889,6 +889,8 @@
     <None Include="Resources\Filter-Small.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\RemoveGridRowNormal.png" />
+    <None Include="Resources\RemoveGridRowHot.png" />
     <None Include="Resources\ShowFontColumn.png" />
     <None Include="Resources\PopupDialogButtonClose_Hot.png" />
     <None Include="Resources\PopupDialogButtonClose.png" />
@@ -998,8 +1000,6 @@
     <Content Include="pa.ico" />
     <None Include="Resources\CloseTab.png" />
     <None Include="Resources\DropDownArrowWithPadding.png" />
-    <None Include="Resources\Delete_Hot.png" />
-    <None Include="Resources\Delete_Normal.png" />
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

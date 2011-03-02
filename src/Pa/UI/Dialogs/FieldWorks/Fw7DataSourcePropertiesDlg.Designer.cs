@@ -7,19 +7,6 @@ namespace SIL.Pa.UI.Dialogs
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && (components != null))
-			{
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
-
 		#region Windows Form Designer generated code
 
 		/// <summary>
@@ -31,19 +18,23 @@ namespace SIL.Pa.UI.Dialogs
 			this.components = new System.ComponentModel.Container();
 			this.lblProjectValue = new System.Windows.Forms.Label();
 			this.lblProject = new System.Windows.Forms.Label();
-			this.grpPhoneticDataStoreType = new System.Windows.Forms.GroupBox();
-			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+			this.grpPhoneticField = new System.Windows.Forms.GroupBox();
+			this.tblLayoutPhoneticData = new System.Windows.Forms.TableLayoutPanel();
+			this.lblPronunciationOptions = new System.Windows.Forms.Label();
+			this.lblPhoneticWritingSystem = new System.Windows.Forms.Label();
+			this.cboPhoneticWritingSystem = new System.Windows.Forms.ComboBox();
 			this.rbPronunField = new System.Windows.Forms.RadioButton();
 			this.rbLexForm = new System.Windows.Forms.RadioButton();
-			this.grpWritingSystems = new System.Windows.Forms.GroupBox();
-			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
-			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.cboPronunciationOptions = new System.Windows.Forms.ComboBox();
+			this.grpFields = new System.Windows.Forms.GroupBox();
 			this.pnlGrid = new SilTools.Controls.SilPanel();
-			this.grpPhoneticDataStoreType.SuspendLayout();
-			this.tableLayoutPanel2.SuspendLayout();
-			this.grpWritingSystems.SuspendLayout();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.tblLayoutOuter = new System.Windows.Forms.TableLayoutPanel();
+			this.grpPhoneticField.SuspendLayout();
+			this.tblLayoutPhoneticData.SuspendLayout();
+			this.grpFields.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
-			this.tableLayoutPanel1.SuspendLayout();
+			this.tblLayoutOuter.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// lblProjectValue
@@ -51,7 +42,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblProjectValue.AutoEllipsis = true;
 			this.lblProjectValue.AutoSize = true;
 			this.lblProjectValue.BackColor = System.Drawing.Color.Transparent;
-			this.lblProjectValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.lblProjectValue, null);
 			this.locExtender.SetLocalizationComment(this.lblProjectValue, null);
 			this.locExtender.SetLocalizationPriority(this.lblProjectValue, Localization.LocalizationPriority.NotLocalizable);
@@ -59,7 +49,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblProjectValue.Location = new System.Drawing.Point(60, 3);
 			this.lblProjectValue.Margin = new System.Windows.Forms.Padding(0, 3, 0, 0);
 			this.lblProjectValue.Name = "lblProjectValue";
-			this.lblProjectValue.Size = new System.Drawing.Size(14, 15);
+			this.lblProjectValue.Size = new System.Drawing.Size(14, 13);
 			this.lblProjectValue.TabIndex = 1;
 			this.lblProjectValue.Text = "#";
 			// 
@@ -78,122 +68,169 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblProject.TabIndex = 0;
 			this.lblProject.Text = "Project:";
 			// 
-			// grpPhoneticDataStoreType
+			// grpPhoneticField
 			// 
-			this.grpPhoneticDataStoreType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			this.grpPhoneticField.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.grpPhoneticDataStoreType.AutoSize = true;
-			this.tableLayoutPanel1.SetColumnSpan(this.grpPhoneticDataStoreType, 2);
-			this.grpPhoneticDataStoreType.Controls.Add(this.tableLayoutPanel2);
-			this.grpPhoneticDataStoreType.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-			this.locExtender.SetLocalizableToolTip(this.grpPhoneticDataStoreType, null);
-			this.locExtender.SetLocalizationComment(this.grpPhoneticDataStoreType, "Text of frame around radio buttons on FieldWorks data source properties dialog bo" +
-					"x.");
-			this.locExtender.SetLocalizingId(this.grpPhoneticDataStoreType, "Fw7DataSourcePropertiesDlg.grpPhoneticDataStoreType");
-			this.grpPhoneticDataStoreType.Location = new System.Drawing.Point(0, 280);
-			this.grpPhoneticDataStoreType.Margin = new System.Windows.Forms.Padding(0, 3, 0, 5);
-			this.grpPhoneticDataStoreType.Name = "grpPhoneticDataStoreType";
-			this.grpPhoneticDataStoreType.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-			this.grpPhoneticDataStoreType.Size = new System.Drawing.Size(327, 80);
-			this.grpPhoneticDataStoreType.TabIndex = 3;
-			this.grpPhoneticDataStoreType.TabStop = false;
-			this.grpPhoneticDataStoreType.Text = "Where is Phonetic Data Stored?";
+			this.grpPhoneticField.AutoSize = true;
+			this.grpPhoneticField.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.tblLayoutOuter.SetColumnSpan(this.grpPhoneticField, 2);
+			this.grpPhoneticField.Controls.Add(this.tblLayoutPhoneticData);
+			this.grpPhoneticField.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+			this.locExtender.SetLocalizableToolTip(this.grpPhoneticField, null);
+			this.locExtender.SetLocalizationComment(this.grpPhoneticField, "");
+			this.locExtender.SetLocalizingId(this.grpPhoneticField, "Fw7DataSourcePropertiesDlg.grpPhoneticField");
+			this.grpPhoneticField.Location = new System.Drawing.Point(0, 30);
+			this.grpPhoneticField.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
+			this.grpPhoneticField.Name = "grpPhoneticField";
+			this.grpPhoneticField.Padding = new System.Windows.Forms.Padding(3, 3, 3, 9);
+			this.grpPhoneticField.Size = new System.Drawing.Size(391, 148);
+			this.grpPhoneticField.TabIndex = 2;
+			this.grpPhoneticField.TabStop = false;
+			this.grpPhoneticField.Text = "Phonetic Data";
 			// 
-			// tableLayoutPanel2
+			// tblLayoutPhoneticData
 			// 
-			this.tableLayoutPanel2.AutoSize = true;
-			this.tableLayoutPanel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.tableLayoutPanel2.ColumnCount = 1;
-			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel2.Controls.Add(this.rbPronunField, 0, 1);
-			this.tableLayoutPanel2.Controls.Add(this.rbLexForm, 0, 0);
-			this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
-			this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 17);
-			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-			this.tableLayoutPanel2.RowCount = 2;
-			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel2.Size = new System.Drawing.Size(321, 63);
-			this.tableLayoutPanel2.TabIndex = 0;
+			this.tblLayoutPhoneticData.AutoSize = true;
+			this.tblLayoutPhoneticData.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.tblLayoutPhoneticData.BackColor = System.Drawing.Color.Transparent;
+			this.tblLayoutPhoneticData.ColumnCount = 2;
+			this.tblLayoutPhoneticData.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tblLayoutPhoneticData.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tblLayoutPhoneticData.Controls.Add(this.lblPronunciationOptions, 0, 2);
+			this.tblLayoutPhoneticData.Controls.Add(this.lblPhoneticWritingSystem, 0, 3);
+			this.tblLayoutPhoneticData.Controls.Add(this.cboPhoneticWritingSystem, 1, 3);
+			this.tblLayoutPhoneticData.Controls.Add(this.rbPronunField, 0, 1);
+			this.tblLayoutPhoneticData.Controls.Add(this.rbLexForm, 0, 0);
+			this.tblLayoutPhoneticData.Controls.Add(this.cboPronunciationOptions, 1, 2);
+			this.tblLayoutPhoneticData.Dock = System.Windows.Forms.DockStyle.Top;
+			this.tblLayoutPhoneticData.Location = new System.Drawing.Point(3, 17);
+			this.tblLayoutPhoneticData.Name = "tblLayoutPhoneticData";
+			this.tblLayoutPhoneticData.RowCount = 4;
+			this.tblLayoutPhoneticData.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tblLayoutPhoneticData.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tblLayoutPhoneticData.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tblLayoutPhoneticData.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tblLayoutPhoneticData.Size = new System.Drawing.Size(385, 122);
+			this.tblLayoutPhoneticData.TabIndex = 0;
+			this.tblLayoutPhoneticData.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleTableLayoutPhoneticDataPaint);
+			// 
+			// lblPronunciationOptions
+			// 
+			this.lblPronunciationOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.lblPronunciationOptions.AutoSize = true;
+			this.lblPronunciationOptions.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblPronunciationOptions, null);
+			this.locExtender.SetLocalizationComment(this.lblPronunciationOptions, null);
+			this.locExtender.SetLocalizingId(this.lblPronunciationOptions, "Fw7DataSourcePropertiesDlg.lblPronunciationOptions");
+			this.lblPronunciationOptions.Location = new System.Drawing.Point(65, 61);
+			this.lblPronunciationOptions.Margin = new System.Windows.Forms.Padding(28, 5, 0, 0);
+			this.lblPronunciationOptions.Name = "lblPronunciationOptions";
+			this.lblPronunciationOptions.Size = new System.Drawing.Size(155, 15);
+			this.lblPronunciationOptions.TabIndex = 0;
+			this.lblPronunciationOptions.Text = "Records will be created for ";
+			// 
+			// lblPhoneticWritingSystem
+			// 
+			this.lblPhoneticWritingSystem.AutoSize = true;
+			this.lblPhoneticWritingSystem.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this.lblPhoneticWritingSystem, null);
+			this.locExtender.SetLocalizationComment(this.lblPhoneticWritingSystem, null);
+			this.locExtender.SetLocalizingId(this.lblPhoneticWritingSystem, "Fw7DataSourcePropertiesDlg.lblPhoneticWritingSystem");
+			this.lblPhoneticWritingSystem.Location = new System.Drawing.Point(12, 101);
+			this.lblPhoneticWritingSystem.Margin = new System.Windows.Forms.Padding(12, 5, 5, 0);
+			this.lblPhoneticWritingSystem.Name = "lblPhoneticWritingSystem";
+			this.lblPhoneticWritingSystem.Size = new System.Drawing.Size(91, 15);
+			this.lblPhoneticWritingSystem.TabIndex = 3;
+			this.lblPhoneticWritingSystem.Text = "&Writing System:";
+			// 
+			// cboPhoneticWritingSystem
+			// 
+			this.cboPhoneticWritingSystem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.cboPhoneticWritingSystem.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboPhoneticWritingSystem.FormattingEnabled = true;
+			this.locExtender.SetLocalizableToolTip(this.cboPhoneticWritingSystem, null);
+			this.locExtender.SetLocalizationComment(this.cboPhoneticWritingSystem, null);
+			this.locExtender.SetLocalizationPriority(this.cboPhoneticWritingSystem, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.cboPhoneticWritingSystem, "Fw7DataSourcePropertiesDlg.cboPhoneticWritingSystem");
+			this.cboPhoneticWritingSystem.Location = new System.Drawing.Point(220, 99);
+			this.cboPhoneticWritingSystem.Margin = new System.Windows.Forms.Padding(0, 3, 5, 0);
+			this.cboPhoneticWritingSystem.Name = "cboPhoneticWritingSystem";
+			this.cboPhoneticWritingSystem.Size = new System.Drawing.Size(160, 23);
+			this.cboPhoneticWritingSystem.TabIndex = 4;
 			// 
 			// rbPronunField
 			// 
 			this.rbPronunField.AutoSize = true;
+			this.rbPronunField.BackColor = System.Drawing.Color.Transparent;
 			this.rbPronunField.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.rbPronunField, null);
-			this.locExtender.SetLocalizationComment(this.rbPronunField, "Radio button text on FieldWorks data source properties dialog box.");
+			this.locExtender.SetLocalizationComment(this.rbPronunField, "");
 			this.locExtender.SetLocalizingId(this.rbPronunField, "Fw7DataSourcePropertiesDlg.rbPronunField");
 			this.rbPronunField.Location = new System.Drawing.Point(12, 34);
-			this.rbPronunField.Margin = new System.Windows.Forms.Padding(12, 5, 5, 10);
+			this.rbPronunField.Margin = new System.Windows.Forms.Padding(12, 5, 0, 3);
 			this.rbPronunField.Name = "rbPronunField";
-			this.rbPronunField.Size = new System.Drawing.Size(159, 19);
+			this.rbPronunField.Size = new System.Drawing.Size(208, 19);
 			this.rbPronunField.TabIndex = 1;
 			this.rbPronunField.TabStop = true;
-			this.rbPronunField.Text = "In the p&ronunciation field";
-			this.rbPronunField.UseVisualStyleBackColor = true;
+			this.rbPronunField.Text = "Is stored in the p&ronunciation field";
+			this.rbPronunField.UseVisualStyleBackColor = false;
 			this.rbPronunField.CheckedChanged += new System.EventHandler(this.HandlePhoneticStorageTypeCheckedChanged);
 			// 
 			// rbLexForm
 			// 
 			this.rbLexForm.AutoSize = true;
+			this.rbLexForm.BackColor = System.Drawing.Color.Transparent;
 			this.rbLexForm.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.rbLexForm, null);
-			this.locExtender.SetLocalizationComment(this.rbLexForm, "Radiobutton text on FieldWorks data source properties dialog box.");
+			this.locExtender.SetLocalizationComment(this.rbLexForm, "");
 			this.locExtender.SetLocalizingId(this.rbLexForm, "Fw7DataSourcePropertiesDlg.rbLexForm");
 			this.rbLexForm.Location = new System.Drawing.Point(12, 5);
 			this.rbLexForm.Margin = new System.Windows.Forms.Padding(12, 5, 5, 5);
 			this.rbLexForm.Name = "rbLexForm";
-			this.rbLexForm.Size = new System.Drawing.Size(127, 19);
+			this.rbLexForm.Size = new System.Drawing.Size(176, 19);
 			this.rbLexForm.TabIndex = 0;
 			this.rbLexForm.TabStop = true;
-			this.rbLexForm.Text = "In the le&xeme form";
-			this.rbLexForm.UseVisualStyleBackColor = true;
+			this.rbLexForm.Text = "Is stored in the le&xeme form";
+			this.rbLexForm.UseVisualStyleBackColor = false;
 			this.rbLexForm.CheckedChanged += new System.EventHandler(this.HandlePhoneticStorageTypeCheckedChanged);
 			// 
-			// grpWritingSystems
+			// cboPronunciationOptions
 			// 
-			this.grpWritingSystems.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			this.cboPronunciationOptions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.cboPronunciationOptions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cboPronunciationOptions.FormattingEnabled = true;
+			this.locExtender.SetLocalizableToolTip(this.cboPronunciationOptions, null);
+			this.locExtender.SetLocalizationComment(this.cboPronunciationOptions, null);
+			this.locExtender.SetLocalizationPriority(this.cboPronunciationOptions, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.cboPronunciationOptions, "Fw7DataSourcePropertiesDlg.cboPronunciationOptions");
+			this.cboPronunciationOptions.Location = new System.Drawing.Point(220, 56);
+			this.cboPronunciationOptions.Margin = new System.Windows.Forms.Padding(0, 0, 5, 17);
+			this.cboPronunciationOptions.Name = "cboPronunciationOptions";
+			this.cboPronunciationOptions.Size = new System.Drawing.Size(160, 23);
+			this.cboPronunciationOptions.TabIndex = 2;
+			// 
+			// grpFields
+			// 
+			this.grpFields.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.tableLayoutPanel1.SetColumnSpan(this.grpWritingSystems, 2);
-			this.grpWritingSystems.Controls.Add(this.pnlGrid);
-			this.grpWritingSystems.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-			this.locExtender.SetLocalizableToolTip(this.grpWritingSystems, null);
-			this.locExtender.SetLocalizationComment(this.grpWritingSystems, "Text of frame around the list of writing systems on FieldWorks data source proper" +
-					"ties dialog box.");
-			this.locExtender.SetLocalizingId(this.grpWritingSystems, "Fw7DataSourcePropertiesDlg.grpWritingSystems");
-			this.grpWritingSystems.Location = new System.Drawing.Point(0, 30);
-			this.grpWritingSystems.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
-			this.grpWritingSystems.Name = "grpWritingSystems";
-			this.grpWritingSystems.Padding = new System.Windows.Forms.Padding(10, 7, 10, 10);
-			this.grpWritingSystems.Size = new System.Drawing.Size(327, 247);
-			this.grpWritingSystems.TabIndex = 2;
-			this.grpWritingSystems.TabStop = false;
-			this.grpWritingSystems.Text = "&Writing Systems";
-			// 
-			// locExtender
-			// 
-			this.locExtender.LocalizationGroup = "Dailog Boxes";
-			this.locExtender.LocalizationManagerId = "Pa";
-			// 
-			// tableLayoutPanel1
-			// 
-			this.tableLayoutPanel1.ColumnCount = 2;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Controls.Add(this.grpPhoneticDataStoreType, 0, 2);
-			this.tableLayoutPanel1.Controls.Add(this.lblProject, 0, 0);
-			this.tableLayoutPanel1.Controls.Add(this.grpWritingSystems, 0, 1);
-			this.tableLayoutPanel1.Controls.Add(this.lblProjectValue, 1, 0);
-			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(10, 10);
-			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.RowCount = 3;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(327, 365);
-			this.tableLayoutPanel1.TabIndex = 0;
+			this.tblLayoutOuter.SetColumnSpan(this.grpFields, 2);
+			this.grpFields.Controls.Add(this.pnlGrid);
+			this.grpFields.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+			this.locExtender.SetLocalizableToolTip(this.grpFields, null);
+			this.locExtender.SetLocalizationComment(this.grpFields, global::SIL.Pa.ResourceStuff.PaTMStrings.kstidDoNothingToolTip);
+			this.locExtender.SetLocalizingId(this.grpFields, "Fw7DataSourcePropertiesDlg.grpFields");
+			this.grpFields.Location = new System.Drawing.Point(0, 188);
+			this.grpFields.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
+			this.grpFields.Name = "grpFields";
+			this.grpFields.Padding = new System.Windows.Forms.Padding(10, 7, 10, 10);
+			this.grpFields.Size = new System.Drawing.Size(391, 174);
+			this.grpFields.TabIndex = 3;
+			this.grpFields.TabStop = false;
+			this.grpFields.Text = "&Fields";
 			// 
 			// pnlGrid
 			// 
@@ -214,32 +251,54 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlGrid.MnemonicGeneratesClick = false;
 			this.pnlGrid.Name = "pnlGrid";
 			this.pnlGrid.PaintExplorerBarBackground = false;
-			this.pnlGrid.Size = new System.Drawing.Size(307, 216);
+			this.pnlGrid.Size = new System.Drawing.Size(371, 143);
 			this.pnlGrid.TabIndex = 0;
+			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = "Dailog Boxes";
+			this.locExtender.LocalizationManagerId = "Pa";
+			// 
+			// tblLayoutOuter
+			// 
+			this.tblLayoutOuter.ColumnCount = 2;
+			this.tblLayoutOuter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.tblLayoutOuter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tblLayoutOuter.Controls.Add(this.lblProject, 0, 0);
+			this.tblLayoutOuter.Controls.Add(this.lblProjectValue, 1, 0);
+			this.tblLayoutOuter.Controls.Add(this.grpPhoneticField, 0, 1);
+			this.tblLayoutOuter.Controls.Add(this.grpFields, 0, 2);
+			this.tblLayoutOuter.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tblLayoutOuter.Location = new System.Drawing.Point(10, 10);
+			this.tblLayoutOuter.Name = "tblLayoutOuter";
+			this.tblLayoutOuter.RowCount = 3;
+			this.tblLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tblLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tblLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tblLayoutOuter.Size = new System.Drawing.Size(391, 362);
+			this.tblLayoutOuter.TabIndex = 0;
 			// 
 			// Fw7DataSourcePropertiesDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(347, 415);
-			this.Controls.Add(this.tableLayoutPanel1);
+			this.ClientSize = new System.Drawing.Size(411, 412);
+			this.Controls.Add(this.tblLayoutOuter);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "FwDataSourcePropertiesDlg.WindowTitle");
 			this.MinimumSize = new System.Drawing.Size(300, 375);
 			this.Name = "Fw7DataSourcePropertiesDlg";
-			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Auto;
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "FieldWorks Data Source Properties";
-			this.Controls.SetChildIndex(this.tableLayoutPanel1, 0);
-			this.grpPhoneticDataStoreType.ResumeLayout(false);
-			this.grpPhoneticDataStoreType.PerformLayout();
-			this.tableLayoutPanel2.ResumeLayout(false);
-			this.tableLayoutPanel2.PerformLayout();
-			this.grpWritingSystems.ResumeLayout(false);
+			this.Controls.SetChildIndex(this.tblLayoutOuter, 0);
+			this.grpPhoneticField.ResumeLayout(false);
+			this.grpPhoneticField.PerformLayout();
+			this.tblLayoutPhoneticData.ResumeLayout(false);
+			this.tblLayoutPhoneticData.PerformLayout();
+			this.grpFields.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
-			this.tableLayoutPanel1.ResumeLayout(false);
-			this.tableLayoutPanel1.PerformLayout();
+			this.tblLayoutOuter.ResumeLayout(false);
+			this.tblLayoutOuter.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -250,11 +309,15 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.Label lblProject;
 		private System.Windows.Forms.RadioButton rbPronunField;
 		private System.Windows.Forms.RadioButton rbLexForm;
-		private System.Windows.Forms.GroupBox grpPhoneticDataStoreType;
-		private System.Windows.Forms.GroupBox grpWritingSystems;
+		private System.Windows.Forms.GroupBox grpPhoneticField;
+		private System.Windows.Forms.GroupBox grpFields;
 		private Localization.UI.LocalizationExtender locExtender;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+		private System.Windows.Forms.TableLayoutPanel tblLayoutOuter;
+		private System.Windows.Forms.TableLayoutPanel tblLayoutPhoneticData;
 		private SilTools.Controls.SilPanel pnlGrid;
+		private System.Windows.Forms.ComboBox cboPronunciationOptions;
+		private System.Windows.Forms.Label lblPhoneticWritingSystem;
+		private System.Windows.Forms.ComboBox cboPhoneticWritingSystem;
+		private System.Windows.Forms.Label lblPronunciationOptions;
 	}
 }

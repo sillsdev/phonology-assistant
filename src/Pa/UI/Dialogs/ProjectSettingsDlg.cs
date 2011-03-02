@@ -394,6 +394,13 @@ namespace SIL.Pa.UI.Dialogs
 					return false;
 			}
 
+			// Make sure all the FW7 data sources have at least default mappings.
+			foreach (var ds in m_dataSources
+				.Where(d => d.Type == DataSourceType.FW7 && d.FieldMappings == null))
+			{
+				ds.FieldMappings = FieldMapping.GetDefaultFw7Mappings(ds).ToList();
+			}
+
 			Project.Name = txtProjName.Text.Trim();
 			Project.LanguageName = txtLanguageName.Text.Trim();
 			Project.LanguageCode = txtLanguageCode.Text.Trim();
@@ -564,7 +571,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleAddButtonClick(object sender, EventArgs e)
 		{
-			Point pt = btnAdd.PointToScreen(new Point(0, btnAdd.Height));
+			var pt = btnAdd.PointToScreen(new Point(0, btnAdd.Height));
 			mnuAdd.Show(pt);
 		}
 
@@ -601,16 +608,12 @@ namespace SIL.Pa.UI.Dialogs
 
 			var dataSource = m_dataSources[m_grid.CurrentRow.Index];
 
-			if (dataSource.Type == DataSourceType.SFM ||
-				dataSource.Type == DataSourceType.Toolbox)
-			{
-				ShowMappingsDialog(dataSource);
-			}
-			else if ((dataSource.Type == DataSourceType.FW &&
-				dataSource.FwSourceDirectFromDB) || dataSource.Type == DataSourceType.FW7)
-			{
+			if (dataSource.Type == DataSourceType.SFM || dataSource.Type == DataSourceType.Toolbox)
+				ShowSfmMappingsDialog(dataSource);
+			else if (dataSource.Type == DataSourceType.FW && dataSource.FwSourceDirectFromDB)
 				ShowFwDataSourcePropertiesDialog(dataSource);
-			}
+			else if (dataSource.Type == DataSourceType.FW7)
+				ShowFw7DataSourcePropertiesDialog(dataSource);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -618,7 +621,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// Shows the mappings dialog for SFM and Toolbox data source types.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ShowMappingsDialog(PaDataSource ds)
+		private void ShowSfmMappingsDialog(PaDataSource ds)
 		{
 			// Make sure the file exists before going to the mappings dialog.
 			if (!File.Exists(ds.SourceFile))
@@ -666,21 +669,40 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 			}
 
-			if (ds.Type == DataSourceType.FW7)
+			using (var dlg = new FwDataSourcePropertiesDlg(Project, ds.FwDataSourceInfo))
 			{
-				using (var dlg = new Fw7DataSourcePropertiesDlg(ds))
+				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChangesWereMade)
+					m_dirty = true;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ShowFw7DataSourcePropertiesDialog(PaDataSource ds)
+		{
+			if (ds.FwDataSourceInfo.IsMissing)
+			{
+				ds.FwDataSourceInfo.ShowMissingMessage();
+				return;
+			}
+
+			// Get only fields valid for an FW7 data source. Then where any of those
+			// fields are found in the project's list, take the project's version
+			// since it may have some customized settings (e.g. column index in grids).
+			var potentialFields = PaField.GetDefaultFw7Fields();
+			foreach (var field in Project.Fields)
+			{
+				var pf = potentialFields.SingleOrDefault(f => f.Name == field.Name);
+				if (pf != null)
 				{
-					if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChangesWereMade)
-						m_dirty = true;
+					potentialFields.Remove(pf);
+					potentialFields.Add(field);
 				}
 			}
-			else
+
+			using (var dlg = new Fw7DataSourcePropertiesDlg(ds, potentialFields))
 			{
-				using (var dlg = new FwDataSourcePropertiesDlg(Project, ds.FwDataSourceInfo))
-				{
-					if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChangesWereMade)
-						m_dirty = true;
-				}
+				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChangesWereMade)
+					m_dirty = true;
 			}
 		}
 

@@ -764,12 +764,6 @@
     <value>Specify XSLT</value>
     <comment>Tooltip for the button in the XSLTe column in the project settings dialog</comment>
   </data>
-  <data name="DeleteHot" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Delete_Hot.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="DeleteNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Delete_Normal.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="DropDownArrowWithPadding" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DropDownArrowWithPadding.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -818,8 +812,14 @@
   <data name="PopupDialogButtonClose_Hot" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PopupDialogButtonClose_Hot.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ShowFontColumn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ShowFontColumn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="RemoveGridRowHot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RemoveGridRowHot.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RemoveGridRowNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RemoveGridRowNormal.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -14,6 +14,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 	{
 		private byte[] m_lastModified;
 		private FwQueries m_queries;
+		private List<FwWritingSysInfo> m_writingSystems;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -50,10 +51,18 @@ namespace SIL.Pa.DataSource.FieldWorks
 				Server = Server,
 				DataSourceType = DataSourceType,
 				m_lastModified = m_lastModified,
+				m_writingSystems = m_writingSystems,
 				IsMissing = IsMissing,
 				PhoneticStorageMethod = PhoneticStorageMethod,
 				WsMappings = (WsMappings == null ? null : WsMappings.Select(ws => ws.Copy()).ToList()),
 			};
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<FwWritingSysInfo> GetWritingSystems()
+		{
+			return m_writingSystems ??
+				(m_writingSystems = FwDBUtils.GetWritingSystemsForFw7Project(Name, Server).ToList());
 		}
 
 		/// ------------------------------------------------------------------------------------

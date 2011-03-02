@@ -34,66 +34,37 @@ namespace SIL.Pa.UI.Controls
 			AddColumns();
 		}
 
-		///// ------------------------------------------------------------------------------------
-		//public FieldMappingGridBase(IEnumerable<PaField> potentialFields, IEnumerable<FieldMapping> mappings,
-		//    Func<string> srcFldColHdgTextHandler, Func<string> tgtFldColHdgTextHandler)
-		//    : this()
-		//{
-		//    m_sourceFieldColumnHeadingTextHandler = srcFldColHdgTextHandler;
-		//    m_targetFieldColumnHeadingTextHandler = tgtFldColHdgTextHandler;
-		//    Intialize(potentialFields, mappings, true);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//public FieldMappingGridBase(IEnumerable<PaField> potentialFields) : this()
-		//{
-		//    Intialize(potentialFields,
-		//        potentialFields.Select(f => new FieldMapping { Field = f }), false);
-
-		//    var col = Columns["tgtfield"] as SilButtonColumn;
-		//    col.ShowButton = false;
-		//    col.ReadOnly = true;
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		//protected virtual void Intialize(IEnumerable<PaField> potentialFields,
-		//    IEnumerable<FieldMapping> mappings, bool showOnlyMappableFiels)
-		//{
-		//    m_potentialFields = (showOnlyMappableFiels ?
-		//        potentialFields.Where(f => f.AllowUserToMap) : potentialFields);
-
-		//    m_mappings = mappings.Select(m => m.Copy()).ToList();
-
-		//    AddColumns();
-		//    ShowFontColumn(false);
-		//    RowCount = m_mappings.Count;
-		//}
-		
 		/// ------------------------------------------------------------------------------------
 		protected virtual void AddColumns()
 		{
-			// Create target field column.
-			DataGridViewColumn col = new SilButtonColumn("tgtfield");
+			AddFieldColumn("tgtfield");
+			AddFontColumn("font");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Create and add the target field column.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual void AddFieldColumn(string colName)
+		{
+			DataGridViewColumn col = new SilButtonColumn(colName);
 			((SilButtonColumn)col).ButtonStyle = SilButtonColumn.ButtonType.MinimalistCombo;
 			((SilButtonColumn)col).ButtonClicked += OnFieldColumnButtonClicked;
 			((SilButtonColumn)col).DrawDefaultComboButtonWidth = false;
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
-
-			var text = (m_targetFieldColumnHeadingTextHandler != null ?
-				m_targetFieldColumnHeadingTextHandler() : null);
-
-			if (string.IsNullOrEmpty(text))
-			{
-				text = App.LocalizeString(
-					"FieldMappingGrid.TargetFieldColumnHeadingText", "Field",
-					App.kLocalizationGroupUICtrls);
-			}
-
-			col.HeaderText = text;
+			col.HeaderText = GetFieldColumnHeadingText();
 			Columns.Add(col);
+		}
 
-			// Create font column.
-			col = new SilButtonColumn("font");
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Create and add the font column.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected virtual void AddFontColumn(string colName)
+		{
+			DataGridViewColumn col = new SilButtonColumn(colName);
 			((SilButtonColumn)col).ButtonStyle = SilButtonColumn.ButtonType.MinimalistCombo;
 			((SilButtonColumn)col).ButtonClicked += OnFontColumnButtonClicked;
 			((SilButtonColumn)col).DrawDefaultComboButtonWidth = false;
@@ -101,7 +72,23 @@ namespace SIL.Pa.UI.Controls
 			col.Visible = false;
 			int i = Columns.Add(col);
 			App.LocalizeObject(Columns[i], "FieldMappingGrid.FontColumnHeadingText",
-				"Font", App.kLocalizationGroupUICtrls);
+			                   "Font", App.kLocalizationGroupUICtrls);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual string GetFieldColumnHeadingText()
+		{
+			var text = (m_targetFieldColumnHeadingTextHandler != null ?
+				m_targetFieldColumnHeadingTextHandler() : null);
+
+			if (string.IsNullOrEmpty(text))
+			{
+				text = App.LocalizeString(
+				"FieldMappingGrid.TargetFieldColumnHeadingText", "Field",
+				App.kLocalizationGroupUICtrls);
+			}
+
+			return text;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -161,7 +148,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				var mapping = GetFieldAt(CurrentCellAddress.Y);
 				mapping.Font = (Font)m_fontPicker.Font.Clone();
-				AutoResizeRows(DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders);
+				UpdateCellValue(CurrentCellAddress.X, CurrentCellAddress.Y);
 			}
 		}
 
@@ -175,11 +162,11 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellValueNeeded(DataGridViewCellValueEventArgs e)
 		{
-			if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
+			if (e.RowIndex >= 0 && e.RowIndex < m_mappings.Count)
 			{
 				var mapping = m_mappings[e.RowIndex];
 
-				switch (Columns[e.ColumnIndex].Name)
+				switch (GetColumnName(e.ColumnIndex))
 				{
 					case "tgtfield": e.Value = (mapping.Field == null ? null : mapping.Field.DisplayName); break;
 					case "font": e.Value = (mapping.Field == null ? null :
@@ -188,6 +175,38 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			base.OnCellValueNeeded(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellValuePushed(DataGridViewCellValueEventArgs e)
+		{
+			base.OnCellValuePushed(e);
+
+			if (e.ColumnIndex < 0 || e.RowIndex == m_mappings.Count)
+				return;
+
+			if (GetColumnName(e.ColumnIndex) == "tgtfield")
+			{
+				var valAsString = (e.Value as string ?? string.Empty);
+				valAsString = valAsString.Trim();
+
+				var mapping = m_mappings[e.RowIndex];
+
+				if (valAsString == GetNoMappingText() || valAsString == string.Empty)
+				{
+					mapping.Field = null;
+					mapping.IsParsed = false;
+					mapping.IsInterlinear = false;
+				}
+				else
+				{
+					mapping.Field =
+						m_potentialFields.SingleOrDefault(f => f.DisplayName == valAsString) ??
+						new PaField(valAsString, GetTypeAtOrDefault(e.RowIndex));
+				}
+			}
+
+			InvalidateRow(e.RowIndex);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -220,37 +239,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnCellValuePushed(DataGridViewCellValueEventArgs e)
-		{
-			base.OnCellValuePushed(e);
-
-			if (e.ColumnIndex < 0 || e.RowIndex < 0)
-				return;
-
-			if (Columns[e.ColumnIndex].Name == "tgtfield")
-			{
-				var valAsString = (e.Value as string ?? string.Empty);
-				valAsString = valAsString.Trim();
-				var mapping = m_mappings[e.RowIndex];
-				
-				if (valAsString == GetNoMappingText() || valAsString == string.Empty)
-				{
-					mapping.Field = null;
-					mapping.IsParsed = false;
-					mapping.IsInterlinear = false;
-				}
-				else
-				{
-					mapping.Field =
-						m_potentialFields.SingleOrDefault(f => f.DisplayName == valAsString) ??
-						new PaField(valAsString, GetTypeAtOrDefault(e.RowIndex));
-				}
-			}
-
-			InvalidateRow(e.RowIndex);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		protected virtual FieldType GetTypeAtOrDefault(int index)
 		{
 			var field = GetFieldAt(index);
@@ -271,10 +259,10 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
 		{
-			if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+			if (e.RowIndex >= 0 && e.RowIndex < m_mappings.Count)
 			{
 				var mapping = m_mappings[e.RowIndex];
-				if (Columns[e.ColumnIndex].Name == "font" && mapping.Field != null)
+				if (GetColumnName(e.ColumnIndex) == "font" && mapping.Field != null)
 					e.CellStyle.Font = mapping.Field.Font;
 			}
 	

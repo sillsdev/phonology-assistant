@@ -998,7 +998,13 @@ namespace SIL.Pa
 			if (L10NMngr != null)
 				L10NMngr.RefreshToolTips();
 		}
-		
+
+		/// ------------------------------------------------------------------------------------
+		internal static string GetUILanguageId()
+		{
+			return LocalizationManager.UILanguageId;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		internal static string LocalizeString(string id, string defaultText)
 		{

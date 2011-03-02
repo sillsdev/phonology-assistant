@@ -106,7 +106,7 @@ namespace SIL.Pa.UI.Dialogs
 				App.kLocalizationGroupDialogs);
 
 			// Add a column for the writing system name (or 'none').
-			col = SilGrid.CreateDropDownListComboBoxColumn(kWsNameCol, m_writingSystems.Select(ws => ws.WsName));
+			col = SilGrid.CreateDropDownListComboBoxColumn(kWsNameCol, m_writingSystems.Select(ws => ws.Name));
 			col.Width = 110;
 			m_grid.Columns.Add(col);
 			App.LocalizeObject(m_grid.Columns[kWsNameCol],
@@ -218,10 +218,10 @@ namespace SIL.Pa.UI.Dialogs
 			cbo.Items.Add(m_noWritingSystemOption);
 
 			// Add only the writing systems of the proper type (vern. or analysis).
-			cbo.Items.AddRange(m_writingSystems.Where(ws => ws.WsType == currWsType).ToArray());
+			cbo.Items.AddRange(m_writingSystems.Where(ws => ws.Type == currWsType).ToArray());
 
 			// Select the proper writing system.
-			var itemToSelect = m_writingSystems.SingleOrDefault(ws => ws.WsName == currWsMapping.WsName);
+			var itemToSelect = m_writingSystems.SingleOrDefault(ws => ws.Name == currWsMapping.WsName);
 			if (itemToSelect == null)
 				cbo.SelectedIndex = 0;
 			else
@@ -259,8 +259,8 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (currWsInfo != null && pickedWs != null)
 			{
-				currWsInfo.WsName = pickedWs.WsName;
-				currWsInfo.WsHvo = pickedWs.WsHvo;
+				currWsInfo.WsName = pickedWs.Name;
+				currWsInfo.WsHvo = pickedWs.Hvo;
 			}
 		}
 

@@ -36,7 +36,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 		public enum PhoneticStorageMethod
 		{
 			LexemeForm,
-			PronunciationField
+			PronunciationField,
+			AllPronunciationFields
 		}
 
 		#endregion
@@ -297,14 +298,24 @@ namespace SIL.Pa.DataSource.FieldWorks
 		/// ------------------------------------------------------------------------------------
 		public static IEnumerable<FwWritingSysInfo> GetWritingSystemsForFw7Project(FwDataSourceInfo dsInfo)
 		{
+			return GetWritingSystemsForFw7Project(dsInfo.Name, dsInfo.Server);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the writing systems from the specified FW7 project on the specified server.
+		/// When the project is not a db40 project, then server is null.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static IEnumerable<FwWritingSysInfo> GetWritingSystemsForFw7Project(string name, string server)
+		{
 			using (var helper = new PaFieldWorksHelper())
 			{
-				if (helper.LoadOnlyWritingSystems(dsInfo.Name, dsInfo.Server,
+				if (helper.LoadOnlyWritingSystems(name, server,
 					Settings.Default.Fw7TimeToWaitForProcessStart, Settings.Default.Fw7TimeToWaitForDataLoad))
 				{
 					return helper.WritingSystems.Select(ws => new FwWritingSysInfo(ws.IsVernacular ?
-						FwWritingSystemType.Vernacular : FwWritingSystemType.Analysis,
-						ws.Hvo, ws.DisplayName)
+						FwWritingSystemType.Vernacular : FwWritingSystemType.Analysis, ws.Id, ws.DisplayName)
 						{
 							DefaultFontName = ws.DefaultFontName,
 							IsDefaultAnalysis = ws.IsDefaultAnalysis,

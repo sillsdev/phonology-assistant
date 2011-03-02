@@ -8,26 +8,45 @@ namespace SIL.Pa.DataSource.FieldWorks
 	/// ----------------------------------------------------------------------------------------
 	public class FwWritingSysInfo
 	{
-		public string WsName { get; set; }
-		public int WsHvo { get; set; }
-		public FwDBUtils.FwWritingSystemType WsType { get; set; }
+		public string Name { get; set; }
+		public int Hvo { get; set; }
+		public string Id { get; set; }
+		public FwDBUtils.FwWritingSystemType Type { get; set; }
 		public string DefaultFontName { get; set; }
 		public bool IsDefaultVernacular { get; set; }
 		public bool IsDefaultAnalysis { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public FwWritingSysInfo(FwDBUtils.FwWritingSystemType wsType, int wsHvo,
-			string wsName)
+		public FwWritingSysInfo(FwDBUtils.FwWritingSystemType type, int hvo, string name)
 		{
-			WsType = wsType;
-			WsHvo = wsHvo;
-			WsName = wsName;
+			Type = type;
+			Hvo = hvo;
+			Name = name;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public FwWritingSysInfo(FwDBUtils.FwWritingSystemType type, string id, string name)
+		{
+			Type = type;
+			Id = id;
+			Name = name;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public FwWritingSysInfo Copy()
+		{
+			return new FwWritingSysInfo(Type, Id, Name)
+			{
+				DefaultFontName = DefaultFontName,
+				IsDefaultAnalysis = IsDefaultAnalysis,
+				IsDefaultVernacular = IsDefaultVernacular,
+			};
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			return WsName;
+			return Name;
 		}
 	}
 }
