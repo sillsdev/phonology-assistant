@@ -687,13 +687,15 @@ namespace SIL.Pa.UI.Dialogs
 
 			// Get only fields valid for an FW7 data source. Then where any of those
 			// fields are found in the project's list, take the project's version
-			// since it may have some customized settings (e.g. column index in grids).
+			// since it may have some customized settings (e.g. column index in grids)
+			// but update the writing system type in project's version.
 			var potentialFields = PaField.GetDefaultFw7Fields();
 			foreach (var field in Project.Fields)
 			{
 				var pf = potentialFields.SingleOrDefault(f => f.Name == field.Name);
 				if (pf != null)
 				{
+					field.FwWsType = pf.FwWsType;
 					potentialFields.Remove(pf);
 					potentialFields.Add(field);
 				}

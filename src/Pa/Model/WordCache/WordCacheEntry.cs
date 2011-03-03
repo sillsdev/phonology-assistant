@@ -79,6 +79,15 @@ namespace SIL.Pa.Model
 				m_phoneticValue = m_fieldValues[mapping.Field.Name];
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public WordCacheEntry(RecordCacheEntry recEntry, IEnumerable<string> fields, string phoneticFieldName)
+		{
+			RecordEntry = recEntry;
+			WordIndex = 0;
+			m_fieldValues = fields.ToDictionary(f => f, f => new FieldValue(f));
+			m_fieldValues[phoneticFieldName] = m_phoneticValue = new FieldValue(phoneticFieldName);
+		}
+
 		#endregion
 
 		#region Methods and Indexers for getting and setting field values

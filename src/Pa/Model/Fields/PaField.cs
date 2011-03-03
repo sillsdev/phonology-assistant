@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using System.Linq;
 using Palaso.IO;
 using SIL.Pa.DataSource.FieldWorks;
+using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.Model
@@ -438,6 +439,15 @@ namespace SIL.Pa.Model
 		{
 			switch (name)
 			{
+				case kCVPatternFieldName: return App.LocalizeString("DisplayableFieldNames.CVPattern",
+										"CV Pattern", App.kLocalizationGroupMisc);
+
+				case kDataSourceFieldName: return App.LocalizeString("DisplayableFieldNames.DataSource",
+										"Data Source", App.kLocalizationGroupMisc);
+
+				case kDataSourcePathFieldName: return App.LocalizeString("DisplayableFieldNames.DataSourcePath",
+										"Data Source Path", App.kLocalizationGroupMisc);
+
 				case "Reference": return App.LocalizeString("DisplayableFieldNames.Reference",
 										"Reference", App.kLocalizationGroupMisc);
 
@@ -464,6 +474,9 @@ namespace SIL.Pa.Model
 
 				case "AudioFile": return App.LocalizeString("DisplayableFieldNames.AudioFile",
 										"Audio File", App.kLocalizationGroupMisc);
+
+				case "AudioFileLabel": return App.LocalizeString("DisplayableFieldNames.AudioFileLabel",
+										"Audio File Label", App.kLocalizationGroupMisc);
 
 				case "AudioLength": return App.LocalizeString("DisplayableFieldNames.AudioLength",
 										"Audio Length", App.kLocalizationGroupMisc);
@@ -506,15 +519,6 @@ namespace SIL.Pa.Model
 
 				case "SADescription": return App.LocalizeString("DisplayableFieldNames.SADescription",
 										"Description", App.kLocalizationGroupMisc);
-
-				case kCVPatternFieldName: return App.LocalizeString("DisplayableFieldNames.CVPattern",
-										"CV Pattern", App.kLocalizationGroupMisc);
-				
-				case kDataSourceFieldName: return App.LocalizeString("DisplayableFieldNames.DataSource",
-										"Data Source", App.kLocalizationGroupMisc);
-
-				case kDataSourcePathFieldName: return App.LocalizeString("DisplayableFieldNames.DataSourcePath",
-										"Data Source Path", App.kLocalizationGroupMisc);
 			
 				case "CitationForm": return App.LocalizeString("DisplayableFieldNames.CitationForm",
 										"Citation Form", App.kLocalizationGroupMisc);
@@ -536,7 +540,16 @@ namespace SIL.Pa.Model
 				
 				case "SummaryDefinition": return App.LocalizeString("DisplayableFieldNames.SummaryDefinition",
 										"Summary Definition", App.kLocalizationGroupMisc);
-				
+
+				case "Note": return App.LocalizeString("DisplayableFieldNames.Note",
+										"Note", App.kLocalizationGroupMisc);
+
+				case "CVPattern-Flex": return App.LocalizeString("DisplayableFieldNames.FlexCVPattern",
+										"CV Pattern (FLEx)", App.kLocalizationGroupMisc);
+	
+				case "Location": return App.LocalizeString("DisplayableFieldNames.Location",
+										"Location", App.kLocalizationGroupMisc);
+	
 				case "ExcludeAsHeadword": return App.LocalizeString("DisplayableFieldNames.ExcludeAsHeadword",
 										"Exclude As Headword", App.kLocalizationGroupMisc);
 				
@@ -548,6 +561,66 @@ namespace SIL.Pa.Model
 				
 				case "DateModified": return App.LocalizeString("DisplayableFieldNames.DateModified",
 										"Modified", App.kLocalizationGroupMisc);
+
+				case "Definition": return App.LocalizeString("DisplayableFieldNames.Definition",
+										"Definition", App.kLocalizationGroupMisc);
+				
+				case "ScientificName": return App.LocalizeString("DisplayableFieldNames.ScientificName",
+										"Scientific Name", App.kLocalizationGroupMisc);
+				
+				case "AnthropologyNote": return App.LocalizeString("DisplayableFieldNames.AnthropologyNote",
+										"Anthropology Note", App.kLocalizationGroupMisc);
+				
+				case "Bibliography-Sense": return App.LocalizeString("DisplayableFieldNames.Bibliography-Sense",
+										"Bibliography (Sense)", App.kLocalizationGroupMisc);
+				
+				case "DiscourseNote": return App.LocalizeString("DisplayableFieldNames.DiscourseNote",
+										"Discourse Note", App.kLocalizationGroupMisc);
+				
+				case "EncyclopedicInfo": return App.LocalizeString("DisplayableFieldNames.EncyclopedicInfo",
+										"Encyclopedic Info.", App.kLocalizationGroupMisc);
+				
+				case "GeneralNote": return App.LocalizeString("DisplayableFieldNames.GeneralNote",
+										"General Note", App.kLocalizationGroupMisc);
+				
+				case "GrammarNote": return App.LocalizeString("DisplayableFieldNames.Grammar Note",
+										"GrammarNote", App.kLocalizationGroupMisc);
+				
+				case "PhonologyNote": return App.LocalizeString("DisplayableFieldNames.PhonologyNote",
+										"Phonology Note", App.kLocalizationGroupMisc);
+				
+				case "Restrictions-Sense": return App.LocalizeString("DisplayableFieldNames.Restrictions-Sense",
+										"Restrictions (Sense)", App.kLocalizationGroupMisc);
+				
+				case "SemanticsNote": return App.LocalizeString("DisplayableFieldNames.SemanticsNote",
+										"Semantics Note", App.kLocalizationGroupMisc);
+				
+				case "SociolinguisticsNote": return App.LocalizeString("DisplayableFieldNames.SociolinguisticsNote",
+										"Sociolinguistics Note", App.kLocalizationGroupMisc);
+				
+				case "Source": return App.LocalizeString("DisplayableFieldNames.Source",
+										"Source", App.kLocalizationGroupMisc);
+				
+				case "SenseType": return App.LocalizeString("DisplayableFieldNames.SenseType",
+										"Sense Type", App.kLocalizationGroupMisc);
+				
+				case "Status": return App.LocalizeString("DisplayableFieldNames.Status",
+										"Status", App.kLocalizationGroupMisc);
+				
+				case "ImportResidue-Sense": return App.LocalizeString("DisplayableFieldNames.ImportResidue-Sense",
+										"ImportResidue (Sense)", App.kLocalizationGroupMisc);
+				
+				case "AnthroCodes": return App.LocalizeString("DisplayableFieldNames.AnthroCodes",
+										"Anthropology Codes", App.kLocalizationGroupMisc);
+				
+				case "DomainTypes": return App.LocalizeString("DisplayableFieldNames.DomainTypes",
+										"Domain Types", App.kLocalizationGroupMisc);
+				
+				case "SemanticDomains": return App.LocalizeString("DisplayableFieldNames.SemanticDomains",
+										"Semantic Domains", App.kLocalizationGroupMisc);
+				
+				case "Usages": return App.LocalizeString("DisplayableFieldNames.Usages",
+										"Usages", App.kLocalizationGroupMisc);
 			}
 
 			return name;

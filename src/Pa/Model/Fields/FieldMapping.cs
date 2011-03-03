@@ -118,7 +118,7 @@ namespace SIL.Pa.Model
 					mapping.FwWsId = null;
 					break;
 
-				case FwDBUtils.FwWritingSystemType.Mixed:
+				case FwDBUtils.FwWritingSystemType.CmPossibility:
 				case FwDBUtils.FwWritingSystemType.Analysis:
 					ws = writingSystems.SingleOrDefault(w => w.IsDefaultAnalysis);
 					mapping.FwWsId = (ws != null ? ws.Id : null);

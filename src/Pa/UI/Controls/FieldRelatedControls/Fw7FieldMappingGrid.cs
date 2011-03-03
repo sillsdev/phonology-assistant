@@ -126,7 +126,7 @@ namespace SIL.Pa.UI.Controls
 					wslist.Insert(0, GetNoWritingSystemText());
 				else
 				{
-					wslist.AddRange((field.FwWsType == FwDBUtils.FwWritingSystemType.Mixed ?
+					wslist.AddRange((field.FwWsType == FwDBUtils.FwWritingSystemType.CmPossibility ?
 						m_writingSystems :
 						m_writingSystems.Where(ws => ws.Type == field.FwWsType)).Select(ws => ws.Name));
 				}

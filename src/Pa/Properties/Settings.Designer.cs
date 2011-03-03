@@ -3208,7 +3208,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("CitationForm;MorphType;Etymology;LiteralMeaning;Restrictions;SummaryDefinition;Im" +
-            "portResidue;DateCreated;DateModified")]
+            "portResidue;DateCreated;DateModified;Location;AudioFileLabel;Note;Tone")]
         public string DefaultMappedFw7Fields {
             get {
                 return ((string)(this["DefaultMappedFw7Fields"]));
@@ -3236,6 +3236,22 @@ namespace SIL.Pa.Properties {
             }
             set {
                 this["Fw7DataSourcePropertiesDlg"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>CVPattern-Flex</string>
+  <string>Tone</string>
+  <string>Location</string>
+  <string>AudioFile</string>
+  <string>AudioFileLabel</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection ParsedFw7Fields {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["ParsedFw7Fields"]));
             }
         }
     }

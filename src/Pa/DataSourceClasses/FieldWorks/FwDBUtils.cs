@@ -25,7 +25,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 			None,
 			Analysis,
 			Vernacular,
-			Mixed
+			CmPossibility
 		}
 
 		/// ------------------------------------------------------------------------------------

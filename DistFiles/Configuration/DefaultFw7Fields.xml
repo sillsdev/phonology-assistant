@@ -35,7 +35,6 @@ LexEntry[n].Pronunciation[n].Location	Analysis
 		<visibleInRecView>true</visibleInRecView>
 		<displayIndexInGrid>0</displayIndexInGrid>
 		<displayIndexInRecView>0</displayIndexInRecView>
-		<possibleDataSourceFieldNames>LexemeForm</possibleDataSourceFieldNames>
 	</field>
 	<field name="CitationForm" type="GeneralText">
 		<fwWritingSystemType>Vernacular</fwWritingSystemType>
@@ -43,46 +42,106 @@ LexEntry[n].Pronunciation[n].Location	Analysis
 		<visibleInRecView>true</visibleInRecView>
 		<displayIndexInGrid>1</displayIndexInGrid>
 		<displayIndexInRecView>1</displayIndexInRecView>
-		<possibleDataSourceFieldNames>CitationForm</possibleDataSourceFieldNames>
 	</field>
 	<field name="MorphType" type="GeneralText">
-		<fwWritingSystemType>Analysis</fwWritingSystemType>
+		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
 		<visibleInGrid>true</visibleInGrid>
 		<visibleInRecView>true</visibleInRecView>
 		<displayIndexInGrid>2</displayIndexInGrid>
 		<displayIndexInRecView>2</displayIndexInRecView>
-		<possibleDataSourceFieldNames>MorphType</possibleDataSourceFieldNames>
 	</field>
 	<field name="Etymology" type="GeneralText">
-		<fwWritingSystemType>Mixed</fwWritingSystemType>
-		<possibleDataSourceFieldNames>Etymology</possibleDataSourceFieldNames>
+		<fwWritingSystemType>Vernacular</fwWritingSystemType>
 	</field>
 	<field name="LiteralMeaning" type="GeneralText">
 		<fwWritingSystemType>Analysis</fwWritingSystemType>
-		<possibleDataSourceFieldNames>LiteralMeaning</possibleDataSourceFieldNames>
 	</field>
 	<field name="Bibliography" type="GeneralText">
 		<fwWritingSystemType>Analysis</fwWritingSystemType>
-		<possibleDataSourceFieldNames>Bibliography</possibleDataSourceFieldNames>
 	</field>
 	<field name="Restrictions" type="GeneralText">
 		<fwWritingSystemType>Analysis</fwWritingSystemType>
-		<possibleDataSourceFieldNames>Restrictions</possibleDataSourceFieldNames>
 	</field>
 	<field name="SummaryDefinition" type="GeneralText">
 		<fwWritingSystemType>Analysis</fwWritingSystemType>
-		<possibleDataSourceFieldNames>SummaryDefinition</possibleDataSourceFieldNames>
 	</field>
-	<field name="ExcludeAsHeadword" type="GeneralText">
-		<possibleDataSourceFieldNames>ExcludeAsHeadword</possibleDataSourceFieldNames>
+	<field name="Note" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
 	</field>
-	<field name="ImportResidue" type="GeneralText">
-		<possibleDataSourceFieldNames>ImportResidue</possibleDataSourceFieldNames>
+	<field name="ExcludeAsHeadword" type="GeneralText" />
+	<field name="ImportResidue" type="GeneralText" />
+	<field name="DateCreated" type="Date" />
+	<field name="DateModified" type="Date" />
+
+	<!-- Pronunciation Fields -->
+	<field name="Tone" type="GeneralText" />
+	<field name="CVPattern-Flex" type="GeneralText" />
+	<field name="Location" type="GeneralText">
+		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
 	</field>
-	<field name="DateCreated" type="Date">
-		<possibleDataSourceFieldNames>DateCreated</possibleDataSourceFieldNames>
+	<field name="AudioFileLabel" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
 	</field>
-	<field name="DateModified" type="Date">
-		<possibleDataSourceFieldNames>DateModified</possibleDataSourceFieldNames>
+	
+	<!-- Sense Fields -->
+	<field name="Gloss" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
 	</field>
+	<field name="Definition" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="PartOfSpeech" type="GeneralText">
+		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
+	</field>
+	<field name="AnthropologyNote" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="Bibliography-Sense" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="DiscourseNote" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="EncyclopedicInfo" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="GeneralNote" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="GrammarNote" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="PhonologyNote" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="Restrictions-Sense" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="SemanticsNote" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="SociolinguisticsNote" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="SenseType" type="GeneralText">
+		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
+	</field>
+	<field name="Status" type="GeneralText">
+		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
+	</field>
+	<field name="AnthroCodes" type="GeneralText">
+		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
+	</field>
+	<field name="DomainTypes" type="GeneralText">
+		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
+	</field>
+	<field name="SemanticDomains" type="GeneralText">
+		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
+	</field>
+	<field name="Usages" type="GeneralText">
+		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
+	</field>
+	<field name="ScientificName" type="GeneralText" />
+	<field name="Source" type="GeneralText" />
+	<field name="ImportResidue-Sense" type="GeneralText" />
 </Fw7Fields>

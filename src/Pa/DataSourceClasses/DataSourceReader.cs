@@ -9,7 +9,6 @@ using System.Windows.Forms;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.DataSource.Sa;
 using SIL.Pa.Model;
-using SIL.PaToFdoInterfaces;
 using SilTools;
 
 namespace SIL.Pa.DataSource
@@ -330,91 +329,8 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private void ReadFw7DataSource(PaDataSource ds)
 		{
-			var lexEntries = FwDBUtils.GetLexEntriesFromFw7Project(ds.FwDataSourceInfo);
-
-			var eticWsId = ds.FieldMappings.Single(m => m.Field.Type == FieldType.Phonetic).FwWsId;
-
-			foreach (var entry in lexEntries.Where(lx => lx.LexemeForm.GetString(eticWsId) != null))
-				ReadSingleLexEntry(ds, entry);
-
-			ds.UpdateLastModifiedTime();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void ReadSingleLexEntry(PaDataSource ds, IPaLexEntry lxEntry)
-		{
-			// Make a new record entry.
-			m_recCacheEntry = new RecordCacheEntry(false, m_project);
-			m_recCacheEntry.DataSource = ds;
-			m_recCacheEntry.NeedsParsing = false;
-			m_recCacheEntry.WordEntries = new List<WordCacheEntry>();
-
-			var wentry = new WordCacheEntry(m_recCacheEntry, true);
-
-			foreach (var mapping in ds.FieldMappings)
-			{
-				var wsId = mapping.FwWsId;
-				string value = null;
-
-				switch (mapping.NameInDataSource)
-				{
-					case "Phonetic": value = lxEntry.LexemeForm.GetString(wsId); break;
-					case "CitationForm": value = GetMultiStringValue(lxEntry.CitationForm, wsId); break;
-					case "MorphType": value = GetPossibilityValue(ds.FwDataSourceInfo, lxEntry.MorphType, false); break;
-					case "Etymology": value = GetMultiStringValue(lxEntry.Etymology, wsId); break;
-					case "LiteralMeaning": value = GetMultiStringValue(lxEntry.LiteralMeaning, wsId); break;
-					case "Bibliography": value = GetMultiStringValue(lxEntry.Bibliography, wsId); break;
-					case "Restrictions": value = GetMultiStringValue(lxEntry.Restrictions, wsId); break;
-					case "SummaryDefinition": value = GetMultiStringValue(lxEntry.SummaryDefinition, wsId); break;
-					case "ExcludeAsHeadword": value = lxEntry.ExcludeAsHeadword.ToString(); break;
-					case "ImportResidue": value = lxEntry.ExcludeAsHeadword.ToString(); break;
-					case "DateCreated": value = lxEntry.DateCreated.ToString(); break;
-					case "DateModified": value = lxEntry.DateModified.ToString(); break;
-				}
-
-				if (mapping.IsParsed)
-					wentry.SetValue(mapping.PaFieldName, value);
-				else
-					m_recCacheEntry.SetValue(mapping.PaFieldName, value);
-			}
-
-			// Add the entries to the caches.
-			m_recCacheEntry.WordEntries.Add(wentry);
-			m_recCache.Add(m_recCacheEntry);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private string GetMultiStringValue(IPaMultiString multiStr, string wsId)
-		{
-			return (multiStr == null ? null : multiStr.GetString(wsId));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private string GetPossibilityValue(FwDataSourceInfo dsInfo, IPaCmPossibility poss,
-			bool returnAbbreviation)
-		{
-			if (poss == null)
-				return null;
-
-			var value = (returnAbbreviation ?
-				poss.Abbreviation.GetString(App.GetUILanguageId()) :
-				poss.Name.GetString(App.GetUILanguageId()));
-			
-			if (value == null)
-			{
-				foreach (var wsId in dsInfo.GetWritingSystems()
-					.Where(ws => ws.Type == FwDBUtils.FwWritingSystemType.Analysis)
-					.Select(ws => ws.Id))
-				{
-					value = (returnAbbreviation ?
-						poss.Abbreviation.GetString(wsId) : poss.Name.GetString(wsId));
-
-					if (value != null)
-						return value;
-				}
-			}
-
-			return value;
+			var reader = new Fw7DataSourceReader();
+			reader.Read(m_project, m_recCache, ds);
 		}
 
 		/// ------------------------------------------------------------------------------------
