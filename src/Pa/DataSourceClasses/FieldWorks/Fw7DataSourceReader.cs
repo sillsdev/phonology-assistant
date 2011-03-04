@@ -123,6 +123,18 @@ namespace SIL.Pa.DataSource.FieldWorks
 							.Select(s => GetPossibilityValue(s.SenseType, ds.FwDataSourceInfo, false));
 						break;
 
+					case "ScientificName":
+						value = lxEntry.Senses.Where(s => s.ScientificName != null).Select(s => s.ScientificName);
+						break;
+
+					case "Source":
+						value = lxEntry.Senses.Where(s => s.Source != null).Select(s => s.Source);
+						break;
+
+					case "ImportResidue-Sense":
+						value = lxEntry.Senses.Where(s => s.ImportResidue != null).Select(s => s.ImportResidue);
+						break;
+
 					//case "AnthroCodes":
 					//    value = lxEntry.Senses.Where(s => s.AnthroCodes != null).SelectMany(s => s.AnthroCodes), ds.FwDataSourceInfo);
 					//    break;
@@ -141,18 +153,6 @@ namespace SIL.Pa.DataSource.FieldWorks
 					//    value = GetPossibilityValuesFromCollection(lxEntry.Senses
 					//        .Where(s => s.Usages != null).SelectMany(s => s.Usages), ds.FwDataSourceInfo);
 					//    break;
-
-					case "ScientificName":
-						value = lxEntry.Senses.Where(s => s.ScientificName != null).Select(s => s.ScientificName);
-						break;
-
-					case "Source":
-						value = lxEntry.Senses.Where(s => s.Source != null).Select(s => s.Source);
-						break;
-
-					case "ImportResidue-Sense":
-						value = lxEntry.Senses.Where(s => s.ImportResidue != null).Select(s => s.ImportResidue);
-						break;
 				}
 
 				if (value is string)

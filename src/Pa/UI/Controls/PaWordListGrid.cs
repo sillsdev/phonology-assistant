@@ -3543,8 +3543,8 @@ namespace SIL.Pa.UI.Controls
 			if (recEntry == null || m_audioPlayer == null)
 				return;
 
-			long offset = long.Parse(entry[m_audioFileOffsetFieldName]);
-			long length = long.Parse(entry[m_audioFileLengthFieldName]);
+			long offset = (entry[m_audioFileOffsetFieldName] == null ? -1 : long.Parse(entry[m_audioFileOffsetFieldName]));
+			long length = (entry[m_audioFileLengthFieldName] == null ? -1 : long.Parse(entry[m_audioFileLengthFieldName]));
 			string audioFile = (string.IsNullOrEmpty(entry.AbsoluteAudioFilePath) ?
 				entry[m_audioFileFieldName] : entry.AbsoluteAudioFilePath);
 

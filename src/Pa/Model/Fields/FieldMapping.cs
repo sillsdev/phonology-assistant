@@ -92,7 +92,8 @@ namespace SIL.Pa.Model
 				.Where(f => Settings.Default.DefaultMappedFw7Fields.Contains(f.Name))
 				.Select(f =>
 				{
-					var mapping = new FieldMapping(f.Name, f, f.Type == FieldType.Phonetic);
+					var isParsed = Settings.Default.ParsedFw7Fields.Contains(f.Name);
+					var mapping = new FieldMapping(f.Name, f, isParsed);
 					CheckMappingsFw7WritingSystem(mapping, writingSystems);
 					return mapping;
 				});

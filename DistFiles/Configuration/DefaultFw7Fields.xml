@@ -74,6 +74,7 @@ LexEntry[n].Pronunciation[n].Location	Analysis
 	<field name="DateModified" type="Date" />
 
 	<!-- Pronunciation Fields -->
+	<field name="AudioFile" type="AudioFilePath" />
 	<field name="Tone" type="GeneralText" />
 	<field name="CVPattern-Flex" type="GeneralText" />
 	<field name="Location" type="GeneralText">

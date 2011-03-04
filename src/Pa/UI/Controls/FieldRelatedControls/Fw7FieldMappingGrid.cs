@@ -17,19 +17,22 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_writingSystems = ds.FwDataSourceInfo.GetWritingSystems();
 			m_potentialFields = from field in potentialFields
-								where field.AllowUserToMap && field.Type != FieldType.Phonetic &&
+								where field.AllowUserToMap &&
+									field.Type != FieldType.Phonetic &&
+									field.Type != FieldType.AudioFilePath &&
 									!PaField.GetIsCalculatedField(field)
 								orderby field.Name
 								select field;
-				
-			if (ds.FieldMappings == null)
-				m_mappings = FieldMapping.GetDefaultFw7Mappings(m_writingSystems).ToList();
-			else
-			{
-				// Don't want to show the phonetic mapping in this grid.
-				m_mappings = ds.FieldMappings
-					.Where(m => m.Field.Type != FieldType.Phonetic).Select(m => m.Copy()).ToList();
-			}
+
+			// Either get the default mappings or the ones previously saved in the data source properties.
+			var mappings = (ds.FieldMappings == null ?
+				FieldMapping.GetDefaultFw7Mappings(m_writingSystems).ToList() :
+				ds.FieldMappings.Select(m => m.Copy()));
+
+			// We don't want to show the phonetic and audio file mappings in this grid.
+			m_mappings = (from m in mappings
+						  where m.Field.Type != FieldType.Phonetic && m.Field.Type != FieldType.AudioFilePath
+						  select m).ToList();
 
 			AddOurColumns();
 			ShowFontColumn(false);
@@ -73,6 +76,21 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_tgtFieldColName = colName;
 		}
+
+		///// ------------------------------------------------------------------------------------
+		//public override IEnumerable<FieldMapping> Mappings
+		//{
+		//    get
+		//    {
+		//        var baseList = base.Mappings.ToList();
+		//        baseList.Add(m_phoneticMapping);
+				
+		//        if (m_audioFileMapping != null)
+		//            baseList.Add(m_audioFileMapping);
+
+		//        return baseList;
+		//    }
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

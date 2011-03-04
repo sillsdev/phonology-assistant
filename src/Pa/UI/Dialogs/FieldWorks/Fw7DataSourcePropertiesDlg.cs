@@ -230,9 +230,21 @@ namespace SIL.Pa.UI.Dialogs
 			var ws = m_datasource.FwDataSourceInfo.GetWritingSystems()
 				.Single(w => w.Name == cboPhoneticWritingSystem.SelectedItem as string);
 
-			// Add a phonetic field mapping to the mappings returned from the grid, making sure
-			// to give the writing system specified by the user.
+			// Add the phonetic mapping back in since the grid thew it out on account
+			// of it coming for free without the user being allowed to map it.
 			m_datasource.FieldMappings.Add(new FieldMapping(field.Name, field, false) { FwWsId = ws.Id });
+
+			// Add the audio file mapping back in since the grid thew it out account
+			// of it coming for free without the user being allowed to map it.
+			field = m_potentialFields.Single(f => f.Type == FieldType.AudioFilePath);
+			m_datasource.FieldMappings.Add(new FieldMapping(field.Name, field, false));
+
+			// Go through the mappings and mark those that should be parsed.
+			foreach (var mapping in m_datasource.FieldMappings
+				.Where(m => Settings.Default.ParsedFw7Fields.Contains(m.NameInDataSource)))
+			{
+				mapping.IsParsed = true;
+			}
 
 			return true;
 		}

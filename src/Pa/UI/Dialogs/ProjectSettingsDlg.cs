@@ -685,11 +685,25 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 			}
 
-			// Get only fields valid for an FW7 data source. Then where any of those
-			// fields are found in the project's list, take the project's version
-			// since it may have some customized settings (e.g. column index in grids)
-			// but update the writing system type in project's version.
+			using (var dlg = new Fw7DataSourcePropertiesDlg(ds, GetPotentialFw7Fields()))
+			{
+				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChangesWereMade)
+					m_dirty = true;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Get only fields valid for an FW7 data source. Then where any of those
+		/// fields are already found in the project's list, take the project's version
+		/// since it may have some customized settings (e.g. column index in grids)
+		/// but update the writing system type in project's version.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private IEnumerable<PaField> GetPotentialFw7Fields()
+		{
 			var potentialFields = PaField.GetDefaultFw7Fields();
+			
 			foreach (var field in Project.Fields)
 			{
 				var pf = potentialFields.SingleOrDefault(f => f.Name == field.Name);
@@ -701,11 +715,7 @@ namespace SIL.Pa.UI.Dialogs
 				}
 			}
 
-			using (var dlg = new Fw7DataSourcePropertiesDlg(ds, potentialFields))
-			{
-				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChangesWereMade)
-					m_dirty = true;
-			}
+			return potentialFields;
 		}
 
 		/// ------------------------------------------------------------------------------------

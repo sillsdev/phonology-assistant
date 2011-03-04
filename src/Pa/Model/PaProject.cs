@@ -465,6 +465,14 @@ namespace SIL.Pa.Model
 				newFields.Remove(field);
 
 			Fields = newFields.Concat(calculatedFields).OrderBy(f => f.DisplayName).ToList();
+		
+			// Now go through our data source mappings and make sure all the fields in the
+			// mappings reference those in our new project's field list.
+			foreach (var mapping in DataSources.SelectMany(ds => ds.FieldMappings))
+			{
+				var field = Fields.Single(f => f.Name == mapping.PaFieldName);
+				mapping.Field = field;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
