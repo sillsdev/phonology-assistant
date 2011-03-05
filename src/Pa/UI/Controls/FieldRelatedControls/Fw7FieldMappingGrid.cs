@@ -140,14 +140,13 @@ namespace SIL.Pa.UI.Controls
 
 			if (field != null)
 			{
-				if (field.FwWsType == FwDBUtils.FwWritingSystemType.None)
-					wslist.Insert(0, GetNoWritingSystemText());
-				else
+				if (field.FwWsType == FwDBUtils.FwWritingSystemType.None ||
+					field.FwWsType == FwDBUtils.FwWritingSystemType.CmPossibility)
 				{
-					wslist.AddRange((field.FwWsType == FwDBUtils.FwWritingSystemType.CmPossibility ?
-						m_writingSystems :
-						m_writingSystems.Where(ws => ws.Type == field.FwWsType)).Select(ws => ws.Name));
+					wslist.Insert(0, GetNoWritingSystemText());
 				}
+				else
+					wslist.AddRange(m_writingSystems.Where(ws => ws.Type == field.FwWsType).Select(ws => ws.Name));
 			}
 
 			return new KeyValuePair<object, IEnumerable<object>>(

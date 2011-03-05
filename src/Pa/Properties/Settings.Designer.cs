@@ -3207,9 +3207,8 @@ namespace SIL.Pa.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Phonetic;AudioFile;Gloss;PartOfSpeech;CitationForm;MorphType;Etymology;LiteralMea" +
-            "ning;Restrictions;SummaryDefinition;ImportResidue;DateCreated;DateModified;Locat" +
-            "ion;AudioFileLabel;Note;Tone")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Phonetic;AudioFile;Gloss;CitationForm;PartOfSpeech;MorphType;CV-Pattern-Flex;Tone" +
+            "")]
         public string DefaultMappedFw7Fields {
             get {
                 return ((string)(this["DefaultMappedFw7Fields"]));

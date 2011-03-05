@@ -6,7 +6,6 @@ using System.Xml.Serialization;
 using System.Linq;
 using Palaso.IO;
 using SIL.Pa.DataSource.FieldWorks;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.Model
@@ -33,6 +32,7 @@ namespace SIL.Pa.Model
 		public const string kDataSourceFieldName = "DataSource";
 		public const string kDataSourcePathFieldName = "DataSourcePath";
 
+		private string m_isCollection;
 		private Font m_font;
 
 		/// ------------------------------------------------------------------------------------
@@ -72,6 +72,26 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("type")]
 		public FieldType Type { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Used only for deserialization. It always returns null. Use the IsCollection
+		/// property to get a boolean value.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlAttribute("collection")]
+		public string collection
+		{
+			get { return null; }
+			set { m_isCollection = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public bool IsCollection
+		{
+			get { return (m_isCollection != null && m_isCollection.ToLower().Trim() == "true"); }
+		}
 
 		/// ------------------------------------------------------------------------------------
 		[XmlElement("possibleDataSourceFieldNames")]
@@ -544,7 +564,7 @@ namespace SIL.Pa.Model
 				case "Note": return App.LocalizeString("DisplayableFieldNames.Note",
 										"Note", App.kLocalizationGroupMisc);
 
-				case "CVPattern-Flex": return App.LocalizeString("DisplayableFieldNames.FlexCVPattern",
+				case "CV-Pattern-Flex": return App.LocalizeString("DisplayableFieldNames.FlexCVPattern",
 										"CV Pattern (FLEx)", App.kLocalizationGroupMisc);
 	
 				case "Location": return App.LocalizeString("DisplayableFieldNames.Location",
@@ -584,7 +604,7 @@ namespace SIL.Pa.Model
 										"General Note", App.kLocalizationGroupMisc);
 				
 				case "GrammarNote": return App.LocalizeString("DisplayableFieldNames.Grammar Note",
-										"GrammarNote", App.kLocalizationGroupMisc);
+										"Grammar Note", App.kLocalizationGroupMisc);
 				
 				case "PhonologyNote": return App.LocalizeString("DisplayableFieldNames.PhonologyNote",
 										"Phonology Note", App.kLocalizationGroupMisc);
@@ -608,10 +628,10 @@ namespace SIL.Pa.Model
 										"Status", App.kLocalizationGroupMisc);
 				
 				case "ImportResidue-Sense": return App.LocalizeString("DisplayableFieldNames.ImportResidue-Sense",
-										"ImportResidue (Sense)", App.kLocalizationGroupMisc);
-				
-				case "AnthroCodes": return App.LocalizeString("DisplayableFieldNames.AnthroCodes",
-										"Anthropology Codes", App.kLocalizationGroupMisc);
+										"Import Residue (Sense)", App.kLocalizationGroupMisc);
+
+				case "AnthroCodes": return App.LocalizeString("DisplayableFieldNames.AnthroCategories",
+										"Anthropology Categories", App.kLocalizationGroupMisc);
 				
 				case "DomainTypes": return App.LocalizeString("DisplayableFieldNames.DomainTypes",
 										"Domain Types", App.kLocalizationGroupMisc);
@@ -621,6 +641,30 @@ namespace SIL.Pa.Model
 				
 				case "Usages": return App.LocalizeString("DisplayableFieldNames.Usages",
 										"Usages", App.kLocalizationGroupMisc);
+
+				case "Variants": return App.LocalizeString("DisplayableFieldNames.Variants",
+										"Variants", App.kLocalizationGroupMisc);
+
+				case "VariantTypes": return App.LocalizeString("DisplayableFieldNames.VariantTypes",
+										"Variant Types", App.kLocalizationGroupMisc);
+
+				case "VariantComments": return App.LocalizeString("DisplayableFieldNames.VariantComments",
+										"Variant Comments", App.kLocalizationGroupMisc);
+
+				case "ComplexForms": return App.LocalizeString("DisplayableFieldNames.ComplexForms",
+										"Complex Forms", App.kLocalizationGroupMisc);
+
+				case "Components": return App.LocalizeString("DisplayableFieldNames.Components",
+										"Components", App.kLocalizationGroupMisc);
+
+				case "ComplexTypes": return App.LocalizeString("DisplayableFieldNames.ComplexTypes",
+										"Complex Types", App.kLocalizationGroupMisc);
+
+				case "ComplexFormComments": return App.LocalizeString("DisplayableFieldNames.ComplexFormComments",
+										"Complex Form Comments", App.kLocalizationGroupMisc);
+
+				case "Allomorphs": return App.LocalizeString("DisplayableFieldNames.Allomorphs",
+										"Allomorphs", App.kLocalizationGroupMisc);
 			}
 
 			return name;

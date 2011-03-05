@@ -753,7 +753,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="DefaultMappedFw7Fields" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Phonetic;AudioFile;Gloss;PartOfSpeech;CitationForm;MorphType;Etymology;LiteralMeaning;Restrictions;SummaryDefinition;ImportResidue;DateCreated;DateModified;Location;AudioFileLabel;Note;Tone</Value>
+      <Value Profile="(Default)">Phonetic;AudioFile;Gloss;CitationForm;PartOfSpeech;MorphType;CV-Pattern-Flex;Tone</Value>
     </Setting>
     <Setting Name="Fw7DataSourcePropertiesDlgFieldsGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />

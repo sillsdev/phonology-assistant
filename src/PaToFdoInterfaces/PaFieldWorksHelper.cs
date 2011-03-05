@@ -92,7 +92,7 @@ namespace SIL.PaToFdoInterfaces
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static Assembly FdoToPaAsm
+		private static Assembly FieldWorksAssembly
 		{
 			get
 			{
@@ -165,8 +165,8 @@ namespace SIL.PaToFdoInterfaces
 			if (!IsFwLoaded)
 				throw new Exception("FieldWorks is not installed.");
 
-			if (FdoToPaAsm == null)
-				throw new Exception("Error loading FDOToPa.dll");
+			if (FieldWorksAssembly == null)
+				throw new Exception("Error loading FieldWorks.exe");
 
 			// Find a class type in the assembly that implements our desired interface.
 			var type = s_assembly.GetTypes().SingleOrDefault(x => x.GetInterface("IPaLexicalInfo") != null);

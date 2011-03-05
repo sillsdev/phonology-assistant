@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SIL.PaToFdoInterfaces;
@@ -153,6 +154,40 @@ namespace SIL.Pa.DataSource.FieldWorks
 					//    value = GetPossibilityValuesFromCollection(lxEntry.Senses
 					//        .Where(s => s.Usages != null).SelectMany(s => s.Usages), ds.FwDataSourceInfo);
 					//    break;
+					
+					case "Variants":
+						value = lxEntry.Variants.Select(v => v.VariantForm.GetString(wsId));
+						break;
+
+					case "VariantTypes":
+						value = lxEntry.VariantOfInfo.Select(vi =>
+							GetCommaDelimitedPossibilityList(vi.VariantType, ds.FwDataSourceInfo, false)); 
+						break;
+		
+					case "VariantComments":
+						value = lxEntry.VariantOfInfo.Select(vi => vi.VariantComment.GetString(wsId));
+						break;
+					
+					case "ComplexForms":
+						value = GetCommaDelimitedList(lxEntry.ComplexForms.Select(c => c.GetString(wsId)));
+						break;
+					
+					case "Components":
+						value = lxEntry.ComplexFormInfo.Select(ci => GetCommaDelimitedList(ci.Components));
+						break;
+					
+					case "ComplexTypes":
+						value = lxEntry.ComplexFormInfo.Select(ci =>
+							GetCommaDelimitedPossibilityList(ci.ComplexFormType, ds.FwDataSourceInfo, false)); 
+						break;
+					
+					case "ComplexFormComments":
+						value = lxEntry.ComplexFormInfo.Select(c => c.ComplexFormComment.GetString(wsId));
+						break;
+					
+					case "Allomorphs":
+						value = lxEntry.Allomorphs.Select(a => a.GetString(wsId));
+						break;
 				}
 
 				if (value is string)
@@ -220,7 +255,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 			if (phoneticMapping != null)
 				wentry.SetValue(phoneticMapping.NameInDataSource, pro.Form.GetString(phoneticMapping.FwWsId));
 
-			var mapping = ds.FieldMappings.SingleOrDefault(m => m.NameInDataSource == "CVPattern-Flex");
+			var mapping = ds.FieldMappings.SingleOrDefault(m => m.NameInDataSource == "CV-Pattern-Flex");
 			if (mapping != null)
 				wentry.SetValue(mapping.NameInDataSource, pro.CVPattern);
 
@@ -247,6 +282,24 @@ namespace SIL.Pa.DataSource.FieldWorks
 			mapping = ds.FieldMappings.SingleOrDefault(m => m.NameInDataSource == "AudioFileLabel");
 			if (mapping != null)
 				wentry.SetValue("AudioFileLabel", GetMultiStringValue(mediaFile.Label, mapping.FwWsId));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private string GetCommaDelimitedPossibilityList(IEnumerable<IPaCmPossibility> list,
+			FwDataSourceInfo dsInfo, bool returnAbbreviation)
+		{
+			return (list.Count() == 0 ? null : GetCommaDelimitedList(list.Select(p =>
+				GetPossibilityValue(p, dsInfo, returnAbbreviation))));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private string GetCommaDelimitedList(IEnumerable<string> list)
+		{
+			var bldr = new StringBuilder();
+			foreach (var text in list)
+				bldr.AppendFormat("{0}, ", text);
+
+			return (bldr.Length == 0 ? null : bldr.ToString().TrimEnd(',', ' '));
 		}
 
 		/// ------------------------------------------------------------------------------------

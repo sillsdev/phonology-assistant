@@ -1,33 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 
-
-(KEY) LexEntry[n].LexemeForm.Form	Vernacular
-LexEntry[n].PrimaryMorphType	Analysis
-LexEntry[n].Citation Form	Vernacular
-LexEntry[n].Etymology.Form	Mixed
-LexEntry[n].Comment	Analysis
-LexEntry[n].Literal Meaning	Analysis
-LexEntry[n].Bibliography	Analysis
-LexEntry[n].Restrictions	Analysis
-LexEntry[n].Summary Definition	Analysis
-LexEntry[n].Exclude As Headword
-LexEntry[n].Import Residue	Mixed
-LexEntry[n].Date Created	System
-LexEntry[n].Date Modified	System
-
--->
-<!-- 
-
-(KEY) LexEntry[n].Pronunciation[n].Form	Vernacular	May be > 1 and also > 1 Writing System
-LexEntry[n].Pronunciation[n].Media File[n]	System	There may be > 1
-LexEntry[n].Pronunciation[n].Media File[n].Label	Analysis
-LexEntry[n].Pronunciation[n].CV Pattern	Analysis
-LexEntry[n].Pronunciation[n].Tone	Vernacular?	Unsure of WritSys
-LexEntry[n].Pronunciation[n].Location	Analysis
-
--->
-
-
 <Fw7Fields version="3.0">
 	<field name="Phonetic" type="Phonetic">
 		<fwWritingSystemType>Vernacular</fwWritingSystemType>
@@ -40,15 +11,15 @@ LexEntry[n].Pronunciation[n].Location	Analysis
 		<fwWritingSystemType>Vernacular</fwWritingSystemType>
 		<visibleInGrid>true</visibleInGrid>
 		<visibleInRecView>true</visibleInRecView>
-		<displayIndexInGrid>1</displayIndexInGrid>
-		<displayIndexInRecView>1</displayIndexInRecView>
+		<displayIndexInGrid>100</displayIndexInGrid>
+		<displayIndexInRecView>100</displayIndexInRecView>
 	</field>
 	<field name="MorphType" type="GeneralText">
 		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
 		<visibleInGrid>true</visibleInGrid>
 		<visibleInRecView>true</visibleInRecView>
-		<displayIndexInGrid>2</displayIndexInGrid>
-		<displayIndexInRecView>2</displayIndexInRecView>
+		<displayIndexInGrid>101</displayIndexInGrid>
+		<displayIndexInRecView>101</displayIndexInRecView>
 	</field>
 	<field name="Etymology" type="GeneralText">
 		<fwWritingSystemType>Vernacular</fwWritingSystemType>
@@ -73,26 +44,73 @@ LexEntry[n].Pronunciation[n].Location	Analysis
 	<field name="DateCreated" type="Date" />
 	<field name="DateModified" type="Date" />
 
+	<!-- This is the collection of variants the entry references -->
+	<field name="Variants" type="GeneralText" collection="true">
+		<fwWritingSystemType>Vernacular</fwWritingSystemType>
+	</field>
+
+	<!-- This is a collection of the types of variant the entry is, not the type of the variants the entry references. -->
+	<field name="VariantTypes" type="GeneralText" collection="true">
+		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
+	</field>
+
+	<!-- This is a collection of the variant comments of the entry is, not the comments of the variants the entry references. -->
+	<field name="VariantComments" type="GeneralText" collection="true">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+
+	<field name="ComplexForms" type="GeneralText" collection="true">
+		<fwWritingSystemType>Vernacular</fwWritingSystemType>
+	</field>
+	<field name="Components" type="GeneralText" collection="true" />
+	<field name="ComplexTypes" type="GeneralText" collection="true">
+		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
+	</field>
+	<field name="ComplexFormComments" type="GeneralText" collection="true">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="Allomorphs" type="GeneralText" collection="true">
+		<fwWritingSystemType>Vernacular</fwWritingSystemType>
+	</field>
+
 	<!-- Pronunciation Fields -->
-	<field name="AudioFile" type="AudioFilePath" />
-	<field name="Tone" type="GeneralText" />
-	<field name="CVPattern-Flex" type="GeneralText" />
+	<field name="AudioFile" type="AudioFilePath" collection="true"/>
+	<field name="Tone" type="GeneralText">
+		<visibleInGrid>true</visibleInGrid>
+		<visibleInRecView>true</visibleInRecView>
+		<displayIndexInGrid>103</displayIndexInGrid>
+		<displayIndexInRecView>103</displayIndexInRecView>
+	</field>
+	<field name="CV-Pattern-Flex" type="GeneralText">
+		<visibleInGrid>true</visibleInGrid>
+		<visibleInRecView>true</visibleInRecView>
+		<displayIndexInGrid>105</displayIndexInGrid>
+		<displayIndexInRecView>105</displayIndexInRecView>
+	</field>
 	<field name="Location" type="GeneralText">
 		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
 	</field>
-	<field name="AudioFileLabel" type="GeneralText">
+	<field name="AudioFileLabel" type="GeneralText" collection="true">
 		<fwWritingSystemType>Analysis</fwWritingSystemType>
 	</field>
 	
 	<!-- Sense Fields -->
 	<field name="Gloss" type="GeneralText">
 		<fwWritingSystemType>Analysis</fwWritingSystemType>
+		<visibleInGrid>true</visibleInGrid>
+		<visibleInRecView>true</visibleInRecView>
+		<displayIndexInGrid>99</displayIndexInGrid>
+		<displayIndexInRecView>99</displayIndexInRecView>
 	</field>
 	<field name="Definition" type="GeneralText">
 		<fwWritingSystemType>Analysis</fwWritingSystemType>
 	</field>
 	<field name="PartOfSpeech" type="GeneralText">
 		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
+		<visibleInGrid>true</visibleInGrid>
+		<visibleInRecView>true</visibleInRecView>
+		<displayIndexInGrid>98</displayIndexInGrid>
+		<displayIndexInRecView>98</displayIndexInRecView>
 	</field>
 	<field name="AnthropologyNote" type="GeneralText">
 		<fwWritingSystemType>Analysis</fwWritingSystemType>
