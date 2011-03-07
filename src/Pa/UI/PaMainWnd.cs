@@ -356,6 +356,8 @@ namespace SIL.Pa.UI
 				return;
 			}
 
+			App.MsgMediator.SendMessage("StopAllPlayback", null);
+
 			if (m_project != null)
 				m_project.EnsureSortOptionsSaved();
 

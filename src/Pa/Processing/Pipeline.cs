@@ -239,10 +239,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		void worker_DoWork(object sender, DoWorkEventArgs e)
 		{
 			var worker = sender as BackgroundWorker;
@@ -262,10 +258,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
 			if (e.ProgressPercentage == 0)
@@ -277,10 +269,6 @@ namespace SIL.Pa.Processing
 				AfterStepProcessed(this, e.UserState as Step);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{

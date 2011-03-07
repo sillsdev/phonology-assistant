@@ -772,5 +772,8 @@
   &lt;string&gt;AudioFileLabel&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
+    <Setting Name="DefaultSfmRecordMarker" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">\ref</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

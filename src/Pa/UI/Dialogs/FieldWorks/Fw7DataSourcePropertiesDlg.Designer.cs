@@ -78,7 +78,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.grpPhoneticField.Controls.Add(this.tblLayoutPhoneticData);
 			this.grpPhoneticField.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.grpPhoneticField, null);
-			this.locExtender.SetLocalizationComment(this.grpPhoneticField, "");
+			this.locExtender.SetLocalizationComment(this.grpPhoneticField, global::SIL.Pa.ResourceStuff.PaTMStrings.kstidDoNothingToolTip);
 			this.locExtender.SetLocalizingId(this.grpPhoneticField, "Fw7DataSourcePropertiesDlg.grpPhoneticField");
 			this.grpPhoneticField.Location = new System.Drawing.Point(0, 30);
 			this.grpPhoneticField.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
@@ -166,7 +166,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbPronunField.BackColor = System.Drawing.Color.Transparent;
 			this.rbPronunField.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.rbPronunField, null);
-			this.locExtender.SetLocalizationComment(this.rbPronunField, "");
+			this.locExtender.SetLocalizationComment(this.rbPronunField, global::SIL.Pa.ResourceStuff.PaTMStrings.kstidDoNothingToolTip);
 			this.locExtender.SetLocalizingId(this.rbPronunField, "Fw7DataSourcePropertiesDlg.rbPronunField");
 			this.rbPronunField.Location = new System.Drawing.Point(12, 34);
 			this.rbPronunField.Margin = new System.Windows.Forms.Padding(12, 5, 0, 3);
@@ -184,7 +184,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbLexForm.BackColor = System.Drawing.Color.Transparent;
 			this.rbLexForm.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.rbLexForm, null);
-			this.locExtender.SetLocalizationComment(this.rbLexForm, "");
+			this.locExtender.SetLocalizationComment(this.rbLexForm, global::SIL.Pa.ResourceStuff.PaTMStrings.kstidDoNothingToolTip);
 			this.locExtender.SetLocalizingId(this.rbLexForm, "Fw7DataSourcePropertiesDlg.rbLexForm");
 			this.rbLexForm.Location = new System.Drawing.Point(12, 5);
 			this.rbLexForm.Margin = new System.Windows.Forms.Padding(12, 5, 5, 5);
@@ -256,7 +256,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "Dailog Boxes";
+			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// tblLayoutOuter

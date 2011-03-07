@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using SIL.Pa.Model;
@@ -7,29 +9,72 @@ using SIL.PaToFdoInterfaces;
 
 namespace SIL.Pa.DataSource.FieldWorks
 {
-	public class Fw7DataSourceReader
+	public class Fw7DataSourceReader : IDisposable
 	{
-		/// ------------------------------------------------------------------------------------
-		public void Read(PaProject project, RecordCache recCache, PaDataSource ds)
-		{
-			recCache.AddRange(FwDBUtils.GetLexEntriesFromFw7Project(ds.FwDataSourceInfo)
-				.Select(entry => ReadSingleLexEntry(project, ds, entry)));
+		private string m_phoneticFieldName;
+		private string m_phoneticWsId;
+		private PaProject m_project;
+		private PaDataSource m_dataSource;
+		private FwDataSourceInfo m_fwDsInfo;
+		private BackgroundWorker m_worker;
 
-			ds.UpdateLastModifiedTime();
+		/// ------------------------------------------------------------------------------------
+		public static Fw7DataSourceReader Create(BackgroundWorker worker, PaProject project, PaDataSource ds)
+		{
+			var eticMapping = ds.FieldMappings.Single(m => m.Field.Type == FieldType.Phonetic);
+			if (eticMapping == null)
+				return null;
+
+			var reader = new Fw7DataSourceReader();
+			reader.m_worker = worker;
+			reader.m_project = project;
+			reader.m_dataSource = ds;
+			reader.m_fwDsInfo = ds.FwDataSourceInfo;
+			reader.m_phoneticFieldName = eticMapping.NameInDataSource;
+			reader.m_phoneticWsId = eticMapping.FwWsId;
+
+			return reader;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private RecordCacheEntry ReadSingleLexEntry(PaProject project, PaDataSource ds, IPaLexEntry lxEntry)
+		public void Dispose()
+		{
+			m_worker = null;
+			m_project = null;
+			m_dataSource = null;
+			m_fwDsInfo = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Read(RecordCache recCache)
+		{
+			var allLexEntries = FwDBUtils.GetLexEntriesFromFw7Project(m_fwDsInfo).ToArray();
+			m_worker.ReportProgress(allLexEntries.Length, m_dataSource.DisplayTextWhenReading);
+
+			foreach (var lxEntry in allLexEntries)
+			{
+				m_worker.ReportProgress(0);
+				var entry = ReadSingleLexEntry(lxEntry);
+				if (entry != null)
+					recCache.Add(entry);
+			}
+
+			m_dataSource.UpdateLastModifiedTime();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private RecordCacheEntry ReadSingleLexEntry(IPaLexEntry lxEntry)
 		{
 			// Make a new record entry.
-			var recCacheEntry = new RecordCacheEntry(false, project);
-			recCacheEntry.DataSource = ds;
+			var recCacheEntry = new RecordCacheEntry(false, m_project);
+			recCacheEntry.DataSource = m_dataSource;
 			recCacheEntry.NeedsParsing = false;
 			recCacheEntry.WordEntries = new List<WordCacheEntry>();
 
-			ReadWordEntryFieldsFromLexEntry(ds, lxEntry, recCacheEntry);
+			if (!ReadWordEntryFieldsFromLexEntry(lxEntry, recCacheEntry))
+				return null;
 
-			foreach (var mapping in ds.FieldMappings)
+			foreach (var mapping in m_dataSource.FieldMappings)
 			{
 				var wsId = mapping.FwWsId;
 				object value = null;
@@ -37,7 +82,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 				switch (mapping.NameInDataSource)
 				{
 					case "CitationForm": value = GetMultiStringValue(lxEntry.CitationForm, wsId); break;
-					case "MorphType": value = GetPossibilityValue(lxEntry.MorphType, ds.FwDataSourceInfo, false); break;
+					case "MorphType": value = GetPossibilityValue(lxEntry.MorphType, false); break;
 					case "Etymology": value = GetMultiStringValue(lxEntry.Etymology, wsId); break;
 					case "LiteralMeaning": value = GetMultiStringValue(lxEntry.LiteralMeaning, wsId); break;
 					case "Bibliography": value = GetMultiStringValue(lxEntry.Bibliography, wsId); break;
@@ -109,19 +154,24 @@ namespace SIL.Pa.DataSource.FieldWorks
 							.Select(s => GetMultiStringValue(s.SociolinguisticsNote, wsId));
 						break;
 
+					case "ReversalEntries":
+						value = lxEntry.Senses.Where(s => s.ReversalEntries.Count() > 0)
+							.Select(s => GetCommaDelimitedList(s.ReversalEntries.Select(r => r.GetString(wsId))));
+						break;
+
 					case "PartOfSpeech":
 						value = lxEntry.Senses.Where(s => s.PartOfSpeech != null)
-							.Select(s => GetPossibilityValue(s.PartOfSpeech, ds.FwDataSourceInfo, false));
+							.Select(s => GetPossibilityValue(s.PartOfSpeech, false));
 						break;
 
 					case "SenseType":
 						value = lxEntry.Senses.Where(s => s.SenseType != null)
-							.Select(s => GetPossibilityValue(s.SenseType, ds.FwDataSourceInfo, false));
+							.Select(s => GetPossibilityValue(s.SenseType, false));
 						break;
 
 					case "Status":
 						value = lxEntry.Senses.Where(s => s.SenseType != null)
-							.Select(s => GetPossibilityValue(s.SenseType, ds.FwDataSourceInfo, false));
+							.Select(s => GetPossibilityValue(s.SenseType, false));
 						break;
 
 					case "ScientificName":
@@ -136,24 +186,25 @@ namespace SIL.Pa.DataSource.FieldWorks
 						value = lxEntry.Senses.Where(s => s.ImportResidue != null).Select(s => s.ImportResidue);
 						break;
 
-					//case "AnthroCodes":
-					//    value = lxEntry.Senses.Where(s => s.AnthroCodes != null).SelectMany(s => s.AnthroCodes), ds.FwDataSourceInfo);
-					//    break;
+					case "AnthroCodes":
+					    value = lxEntry.Senses.Where(s => s.AnthroCodes != null && s.AnthroCodes.Count() > 0)
+							.Select(s => GetCommaDelimitedPossibilityList(s.AnthroCodes, false));
+					    break;
 
-					//case "DomainTypes":
-					//    value = GetPossibilityValuesFromCollection(lxEntry.Senses
-					//        .Where(s => s.DomainTypes != null).SelectMany(s => s.DomainTypes), ds.FwDataSourceInfo);
-					//    break;
+					case "DomainTypes":
+						value = lxEntry.Senses.Where(s => s.DomainTypes != null && s.DomainTypes.Count() > 0)
+							.Select(s => GetCommaDelimitedPossibilityList(s.DomainTypes, false));
+						break;
 
-					//case "SemanticDomains":
-					//    value = GetPossibilityValuesFromCollection(lxEntry.Senses
-					//        .Where(s => s.SemanticDomains != null).SelectMany(s => s.SemanticDomains), ds.FwDataSourceInfo);
-					//    break;
+					case "SemanticDomains":
+						value = lxEntry.Senses.Where(s => s.SemanticDomains != null && s.SemanticDomains.Count() > 0)
+							.Select(s => GetCommaDelimitedPossibilityList(s.SemanticDomains, false));
+						break;
 
-					//case "Usages":
-					//    value = GetPossibilityValuesFromCollection(lxEntry.Senses
-					//        .Where(s => s.Usages != null).SelectMany(s => s.Usages), ds.FwDataSourceInfo);
-					//    break;
+					case "Usages":
+						value = lxEntry.Senses.Where(s => s.Usages != null && s.Usages.Count() > 0)
+							.Select(s => GetCommaDelimitedPossibilityList(s.Usages, false));
+						break;
 					
 					case "Variants":
 						value = lxEntry.Variants.Select(v => v.VariantForm.GetString(wsId));
@@ -161,7 +212,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 					case "VariantTypes":
 						value = lxEntry.VariantOfInfo.Select(vi =>
-							GetCommaDelimitedPossibilityList(vi.VariantType, ds.FwDataSourceInfo, false)); 
+							GetCommaDelimitedPossibilityList(vi.VariantType, false)); 
 						break;
 		
 					case "VariantComments":
@@ -178,7 +229,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 					
 					case "ComplexTypes":
 						value = lxEntry.ComplexFormInfo.Select(ci =>
-							GetCommaDelimitedPossibilityList(ci.ComplexFormType, ds.FwDataSourceInfo, false)); 
+							GetCommaDelimitedPossibilityList(ci.ComplexFormType, false)); 
 						break;
 					
 					case "ComplexFormComments":
@@ -194,11 +245,14 @@ namespace SIL.Pa.DataSource.FieldWorks
 					recCacheEntry.SetValue(mapping.PaFieldName, (string)value);
 				else if (value != null)
 				{
-					// TODO: Handle all values after the first.
-
 					var valueList = (IEnumerable<string>)value;
-					if (valueList.Count() > 0)
+					int count = valueList.Count();
+
+					if (count > 0)
 						recCacheEntry.SetValue(mapping.PaFieldName, valueList.ElementAt(0));
+
+					if (count > 1)
+						recCacheEntry.SetCollection(mapping.PaFieldName, valueList.Skip(1));
 				}
 			}
 
@@ -211,63 +265,74 @@ namespace SIL.Pa.DataSource.FieldWorks
 		/// phonetic, audio file info., etc.)
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ReadWordEntryFieldsFromLexEntry(PaDataSource ds, IPaLexEntry lxEntry, RecordCacheEntry recCacheEntry)
+		private bool ReadWordEntryFieldsFromLexEntry(IPaLexEntry lxEntry, RecordCacheEntry recCacheEntry)
 		{
-			WordCacheEntry wentry;
+			if (m_fwDsInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.AllPronunciationFields)
+				return CreateWordEntriesFromPronunciations(lxEntry, recCacheEntry);
+
+			var pro = (lxEntry.Pronunciations.Count() == 0 ? null : lxEntry.Pronunciations.ElementAt(0));
+
+			if (m_fwDsInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.PronunciationField &&
+				pro == null)
+			{
+				return false;
+			}
+
 			var parsedFields = Settings.Default.ParsedFw7Fields.Cast<string>();
-			var phoneticMapping = ds.FieldMappings.Single(m => m.Field.Type == FieldType.Phonetic);
+			string eticValue = null;
 
-			if (ds.FwDataSourceInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.AllPronunciationFields)
-			{
-				foreach (var pro in lxEntry.Pronunciations)
-				{
-					wentry = new WordCacheEntry(recCacheEntry, parsedFields, "Phonetic");
-					ReadSinglePronunciation(ds, phoneticMapping, pro, wentry);
-					recCacheEntry.WordEntries.Add(wentry);
-				}
-			}
-			else
-			{
-				wentry = new WordCacheEntry(recCacheEntry, parsedFields, "Phonetic");
+			eticValue = m_fwDsInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.LexemeForm ?
+				lxEntry.LexemeForm.GetString(m_phoneticWsId) : pro.Form.GetString(m_phoneticWsId);
 
-				if (ds.FwDataSourceInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.LexemeForm)
-				{
-					wentry.SetValue(phoneticMapping.NameInDataSource,
-						lxEntry.LexemeForm.GetString(phoneticMapping.FwWsId));
+			if (eticValue == null)
+				return false;
 
-					phoneticMapping = null;
-				}
+			var wentry = new WordCacheEntry(recCacheEntry, parsedFields, "Phonetic");
+			wentry.SetValue(m_phoneticFieldName, eticValue);
 
-				if (lxEntry.Pronunciations.Count() > 0)
-				{
-					ReadSinglePronunciation(ds, phoneticMapping,
-						lxEntry.Pronunciations.ElementAt(0), wentry);
-				}
+			if (pro != null)
+				ReadSinglePronunciation(pro, wentry);
 
-				recCacheEntry.WordEntries.Add(wentry);
-			}
+			recCacheEntry.WordEntries.Add(wentry);
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void ReadSinglePronunciation(PaDataSource ds, FieldMapping phoneticMapping,
-			IPaLexPronunciation pro, WordCacheEntry wentry)
+		private bool CreateWordEntriesFromPronunciations(IPaLexEntry lxEntry, RecordCacheEntry recCacheEntry)
 		{
-			if (phoneticMapping != null)
-				wentry.SetValue(phoneticMapping.NameInDataSource, pro.Form.GetString(phoneticMapping.FwWsId));
+			var parsedFields = Settings.Default.ParsedFw7Fields.Cast<string>();
 
-			var mapping = ds.FieldMappings.SingleOrDefault(m => m.NameInDataSource == "CV-Pattern-Flex");
+			foreach (var pro in lxEntry.Pronunciations)
+			{
+				var eticValue = pro.Form.GetString(m_phoneticWsId);
+				if (eticValue != null)
+				{
+					var wentry = new WordCacheEntry(recCacheEntry, parsedFields, "Phonetic");
+					wentry.SetValue(m_phoneticFieldName, eticValue);
+					ReadSinglePronunciation(pro, wentry);
+					recCacheEntry.WordEntries.Add(wentry);
+				}
+			}
+
+			return (recCacheEntry.WordEntries.Count > 0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ReadSinglePronunciation(IPaLexPronunciation pro, WordCacheEntry wentry)
+		{
+			var mapping = m_dataSource.FieldMappings.SingleOrDefault(m => m.NameInDataSource == "CV-Pattern-Flex");
 			if (mapping != null)
 				wentry.SetValue(mapping.NameInDataSource, pro.CVPattern);
 
-			mapping = ds.FieldMappings.SingleOrDefault(m => m.NameInDataSource == "Tone");
+			mapping = m_dataSource.FieldMappings.SingleOrDefault(m => m.NameInDataSource == "Tone");
 			if (mapping != null)
 				wentry.SetValue(mapping.NameInDataSource, pro.Tone);
 
-			mapping = ds.FieldMappings.SingleOrDefault(m => m.NameInDataSource == "Location");
+			mapping = m_dataSource.FieldMappings.SingleOrDefault(m => m.NameInDataSource == "Location");
 			if (mapping != null)
 			{
 				wentry.SetValue(mapping.NameInDataSource,
-					GetPossibilityValue(pro.Location, ds.FwDataSourceInfo, false));
+					GetPossibilityValue(pro.Location, false));
 			}
 
 			if (pro.MediaFiles.Count() == 0)
@@ -279,17 +344,17 @@ namespace SIL.Pa.DataSource.FieldWorks
 			// TODO: Figure out a way to deal with more than one media file and label.
 			wentry.SetValue("AudioFile", mediaFile.AbsoluteInternalPath);
 
-			mapping = ds.FieldMappings.SingleOrDefault(m => m.NameInDataSource == "AudioFileLabel");
+			mapping = m_dataSource.FieldMappings.SingleOrDefault(m => m.NameInDataSource == "AudioFileLabel");
 			if (mapping != null)
 				wentry.SetValue("AudioFileLabel", GetMultiStringValue(mediaFile.Label, mapping.FwWsId));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private string GetCommaDelimitedPossibilityList(IEnumerable<IPaCmPossibility> list,
-			FwDataSourceInfo dsInfo, bool returnAbbreviation)
+			bool returnAbbreviation)
 		{
 			return (list.Count() == 0 ? null : GetCommaDelimitedList(list.Select(p =>
-				GetPossibilityValue(p, dsInfo, returnAbbreviation))));
+				GetPossibilityValue(p, returnAbbreviation))));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -299,7 +364,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 			foreach (var text in list)
 				bldr.AppendFormat("{0}, ", text);
 
-			return (bldr.Length == 0 ? null : bldr.ToString().TrimEnd(',', ' '));
+			return (bldr.Length == 0 ? null : bldr.ToString().Trim(',', ' '));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -309,8 +374,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private string GetPossibilityValue(IPaCmPossibility poss, FwDataSourceInfo dsInfo,
-			bool returnAbbreviation)
+		private string GetPossibilityValue(IPaCmPossibility poss, bool returnAbbreviation)
 		{
 			if (poss == null)
 				return null;
@@ -321,7 +385,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 			if (value == null)
 			{
-				foreach (var wsId in dsInfo.GetWritingSystems()
+				foreach (var wsId in m_fwDsInfo.GetWritingSystems()
 					.Where(ws => ws.Type == FwDBUtils.FwWritingSystemType.Analysis)
 					.Select(ws => ws.Id))
 				{

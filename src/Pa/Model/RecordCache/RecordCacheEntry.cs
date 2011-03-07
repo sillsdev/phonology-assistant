@@ -22,6 +22,7 @@ namespace SIL.Pa.Model
 		// This is only used for deserialization
 		private List<FieldValue> m_fieldValuesList;
 		private IDictionary<string, FieldValue> m_fieldValues;
+		private Dictionary<string, IEnumerable<string>> m_collectionValues;
 
 		private static int s_counter;
 
@@ -79,6 +80,28 @@ namespace SIL.Pa.Model
 		public string this[string field]
 		{
 			get { return GetValue(field); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetCollection(string field, IEnumerable<string> collection)
+		{
+			if (string.IsNullOrEmpty(field) || collection == null || collection.Count() == 0)
+				return;
+
+			if (m_collectionValues == null)
+				m_collectionValues = new Dictionary<string, IEnumerable<string>>();
+
+			m_collectionValues[field] = collection;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<string> GetCollection(string field)
+		{
+			if (string.IsNullOrEmpty(field) || m_collectionValues == null || m_collectionValues.Count() == 0)
+				return null;
+
+			IEnumerable<string> collection;
+			return (m_collectionValues.TryGetValue(field, out collection) ? collection : null);
 		}
 
 		/// ------------------------------------------------------------------------------------

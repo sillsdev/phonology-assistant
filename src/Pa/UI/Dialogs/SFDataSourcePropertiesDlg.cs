@@ -45,13 +45,13 @@ namespace SIL.Pa.UI.Dialogs
 			if (App.DesignMode)
 				return;
 
-			InitializeSomeUIStuff();
-
 			// Merge the project's mapped sfm fields with the default set.
 			m_potentialFields = PaField.Merge(mappedSfmFields, PaField.GetDefaultSfmFields());
 
 			m_filename = m_datasource.SourceFile;
 			m_tooltip.SetToolTip(pnlSrcFileHdg, m_filename);
+			InitializeSomeUIStuff();
+			
 			ReadSfmFile();
 
 			InitializeBottomPanel();
@@ -100,6 +100,7 @@ namespace SIL.Pa.UI.Dialogs
 			pnlSrcFileHdg.BorderStyle = BorderStyle.None;
 			pnlSrcFileHdg.TextFormatFlags |= TextFormatFlags.PathEllipsis;
 			pnlMappingsInner.DrawOnlyBottomBorder = true;
+			txtFilePreview.Text = File.ReadAllText(m_filename);
 
 			rbNoParse.Tag = Settings.Default.SFMNoParseOptionSampleOutput;
 			rbParseOneToOne.Tag = Settings.Default.SFMOneToOneParseOptionSampleOutput;
@@ -238,7 +239,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void InitializeFieldMappingsGrid()
 		{
-			m_fieldsGrid = new SfmFieldMappingGrid(m_potentialFields, GetMappingsForGrid(),
+			m_fieldsGrid = new SfmFieldMappingGrid(m_potentialFields, m_datasource.FieldMappings,
 				() => App.LocalizeString("SFDataSourcePropertiesDlg.SourceFieldColumnHeadingText", "Map this Marker...", App.kLocalizationGroupDialogs),
 				() => App.LocalizeString("SFDataSourcePropertiesDlg.TargetFieldColumnHeadingText", "To this Field", App.kLocalizationGroupDialogs));
 
@@ -258,29 +259,6 @@ namespace SIL.Pa.UI.Dialogs
 				m_fieldsGrid.AutoResizeRows();
 				m_fieldsGrid.Columns["tgtfield"].Width += 20;
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private IEnumerable<FieldMapping> GetMappingsForGrid()
-		{
-			bool createOriginalMappings =
-				(m_datasource.FieldMappings == null || m_datasource.FieldMappings.Count == 0);
-
-			var defaultParsedFlds = Settings.Default.DefaultParsedSfmFields;
-
-			// Create a list of mappings. If creating a new one, make sure to initialize each one's Field
-			// property, if possible, based on the existing project's fields and the default SFM fields.
-			return m_markersInFile.Select(mkr =>
-			{
-				var field = m_potentialFields.SingleOrDefault(f => f.GetPossibleDataSourceFieldNames().Contains(mkr));
-				var isParsed = (field != null && defaultParsedFlds.Contains(field.Name));
-
-				if (createOriginalMappings)
-					return new FieldMapping(mkr, field, isParsed);
-
-				var mapping = m_datasource.FieldMappings.SingleOrDefault(m => m.NameInDataSource == mkr);
-				return mapping ?? new FieldMapping(mkr, null, isParsed);
-			}).ToList();
 		}
 
 		#endregion
@@ -315,12 +293,10 @@ namespace SIL.Pa.UI.Dialogs
 			}
 
 			// Make sure a phonetic mapping specified
-			if (!m_fieldsGrid.Mappings.Any(m => m.Field != null && m.Field.Type == FieldType.Phonetic))
+			if (!FieldMapping.IsPhoneticMapped(m_fieldsGrid.Mappings, true))
 			{
-			    return ShowError(m_fieldsGrid, App.LocalizeString(
-					"SFDataSourcePropertiesDlg.NoMappingsSpecifiedMsg",
-			        "You must specify a mapping for the phonetic field.",
-					App.kLocalizationGroupDialogs));
+				m_fieldsGrid.Focus();
+				return false;
 			}
 
 			// Make sure no field is mapped more than once.
@@ -412,14 +388,6 @@ namespace SIL.Pa.UI.Dialogs
 			//    msg = GetNoFirstInterlinearFieldMsg();
 
 			return msg;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private string GetNoFirstInterlinearFieldMsg()
-		{
-			return App.LocalizeString("SFDataSourcePropertiesDlg.NoFirstInterlinearFieldMsg",
-						"You must specify what is each record's first interlinear field.",
-						App.kLocalizationGroupDialogs);
 		}
 
 		/// ------------------------------------------------------------------------------------

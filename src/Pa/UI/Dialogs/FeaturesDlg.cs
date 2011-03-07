@@ -34,8 +34,11 @@ namespace SIL.Pa.UI.Dialogs
 
 			DoubleBuffered = true;
 			tabFeatures.Font = FontHelper.UIFont;
+			pgpPhoneList.Font = FontHelper.UIFont;
 			lblAFeatures.Font = new Font(FontHelper.UIFont, FontStyle.Bold);
 			m_phoneToolTip = new ToolTip();
+			pgpPhoneList.BorderStyle = BorderStyle.None;
+			pgpPhoneList.DrawOnlyBottomBorder = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -106,7 +109,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			gridPhones.Name = Name + "PhoneGrid";
 			gridPhones.AutoGenerateColumns = false;
-			gridPhones.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+			//gridPhones.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
 			gridPhones.Font = FontHelper.UIFont;
 			gridPhones.VirtualMode = true;
 			gridPhones.CellValueNeeded += HandlePhoneGridCellValueNeeded;

@@ -242,32 +242,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		#region Saving Settings and Verifying/Saving changes
-		///// ------------------------------------------------------------------------------------
-		//protected override void OnFormClosing(FormClosingEventArgs e)
-		//{
-		//    base.OnFormClosing(e);
-
-		//    if (e.Cancel || DialogResult == DialogResult.OK)
-		//        return;
-
-		//    // If the project isn't new and the user is NOT saving the project
-		//    // settings then reload the original project.
-		//    if (!m_isProjectNew)
-		//    {
-		//        var project = m_project.ReLoadProjectFileOnly();
-		//        if (project != null)
-		//        {
-		//            if (App.Project != null)
-		//                App.Project.Dispose();
-
-		//            App.Project = project;
-		//        }
-		//    }
-
-		//    m_project.Dispose();
-		//    m_project = null;
-		//}
-
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
@@ -394,11 +368,28 @@ namespace SIL.Pa.UI.Dialogs
 					return false;
 			}
 
-			// Make sure all the FW7 data sources have at least default mappings.
-			foreach (var ds in m_dataSources
-				.Where(d => d.Type == DataSourceType.FW7 && d.FieldMappings == null))
+			// Make sure there's a phonetic mapping for each data source.
+			for (int i = 0; i < m_dataSources.Count; i++)
 			{
-				ds.FieldMappings = FieldMapping.GetDefaultFw7Mappings(ds).ToList();
+				if (!FieldMapping.IsPhoneticMapped(m_dataSources[i].FieldMappings, true))
+				{
+					m_grid.CurrentCell = m_grid[1, i];
+					m_grid.Focus();
+					return false;
+				}
+
+				if ((m_dataSources[i].Type == DataSourceType.SFM || m_dataSources[i].Type == DataSourceType.Toolbox) &&
+					string.IsNullOrEmpty(m_dataSources[i].SfmRecordMarker))
+				{
+					var msg = App.LocalizeString("ProjectSettingsDlg.NoSfmRecordMarkerSpecifiedErrorMsg",
+						"A record marker must be specified for '{0}'.", App.kLocalizationGroupDialogs);
+						
+					msg = string.Format(msg, Path.GetFileName(m_dataSources[i].SourceFile));
+					Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					m_grid.CurrentCell = m_grid[1, i];
+					m_grid.Focus();
+					return false;
+				}
 			}
 
 			Project.Name = txtProjName.Text.Trim();

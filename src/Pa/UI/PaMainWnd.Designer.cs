@@ -106,14 +106,14 @@ namespace SIL.Pa.UI
 			this.sblblProgress.BackColor = System.Drawing.SystemColors.Control;
 			this.sblblProgress.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
 			this.sblblProgress.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
-			this.sblblProgress.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.sblblProgress.Image = global::SIL.Pa.Properties.Resources.LoadingWheel;
+			resources.ApplyResources(this.sblblProgress, "sblblProgress");
 			this.locExtender.SetLocalizableToolTip(this.sblblProgress, null);
 			this.locExtender.SetLocalizationComment(this.sblblProgress, null);
 			this.locExtender.SetLocalizationPriority(this.sblblProgress, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.sblblProgress, "PaMainWnd.sblblProgress");
 			this.sblblProgress.Margin = new System.Windows.Forms.Padding(5, 3, 5, 2);
 			this.sblblProgress.Name = "sblblProgress";
-			resources.ApplyResources(this.sblblProgress, "sblblProgress");
 			// 
 			// sbProgress
 			// 

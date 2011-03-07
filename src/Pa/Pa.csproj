@@ -890,6 +890,7 @@
     <None Include="Resources\Filter-Small.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\LoadingWheel.gif" />
     <None Include="Resources\RemoveGridRowNormal.png" />
     <None Include="Resources\RemoveGridRowHot.png" />
     <None Include="Resources\ShowFontColumn.png" />

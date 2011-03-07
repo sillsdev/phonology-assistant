@@ -3255,5 +3255,14 @@ namespace SIL.Pa.Properties {
                 return ((global::System.Collections.Specialized.StringCollection)(this["ParsedFw7Fields"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\ref")]
+        public string DefaultSfmRecordMarker {
+            get {
+                return ((string)(this["DefaultSfmRecordMarker"]));
+            }
+        }
     }
 }

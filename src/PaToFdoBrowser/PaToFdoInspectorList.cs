@@ -20,7 +20,7 @@ namespace SIL.Pa
 			"xSenseType", "xPartOfSpeech", "xLabel", "xComplexForms", "xSummary", "xOwningEntry",
 			"xReferenceTypes", "xVariantType", "xVariantComment", "xVariantForm", "xComponents",
 			"xComplexFormType", "xComplexForms", "xVariantOfInfo", "xVariants", "xVariantInfo",
-			"xComplexFormInfo", "xComplexFormComment", 
+			"xComplexFormInfo", "xComplexFormComment", "xReversalEntries",
 		});
 
 		/// ------------------------------------------------------------------------------------

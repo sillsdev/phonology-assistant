@@ -1714,6 +1714,13 @@ namespace SIL.Pa.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap LoadingWheel {
+            get {
+                object obj = ResourceManager.GetObject("LoadingWheel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap NewTabHot {
             get {
                 object obj = ResourceManager.GetObject("NewTabHot", resourceCulture);

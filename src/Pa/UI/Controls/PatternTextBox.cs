@@ -820,8 +820,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public static void HandlePatternTextBoxTextChanged(object sender, EventArgs e)
 		{
-			TextBox txt = sender as TextBox;
-			PatternTextBox ptrTextBox = (txt != null ? txt.Tag as PatternTextBox : null);
+			var txt = sender as PatternTextBox;
 
 			if (txt == null /* || m_ignoreTextChange */)
 				return;
@@ -861,18 +860,14 @@ namespace SIL.Pa.UI.Controls
 			//        txtPattern.SelectionStart = selstart;
 			//}
 
-			if (ptrTextBox != null)
+			if (txt.m_searchQuery.Pattern != txt.Text)
 			{
-				if (ptrTextBox.m_searchQuery.Pattern != txt.Text)
-				{
-					ptrTextBox.m_searchQuery.Pattern = txt.Text;
-					if (ptrTextBox.PatternTextChanged != null)
-						ptrTextBox.PatternTextChanged(ptrTextBox, EventArgs.Empty);
-				}
-
-				ptrTextBox.Invalidate();
-
+				txt.m_searchQuery.Pattern = txt.Text;
+				if (txt.PatternTextChanged != null)
+					txt.PatternTextChanged(txt, EventArgs.Empty);
 			}
+
+			txt.Invalidate();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -887,8 +882,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public static void HandlePatternTextBoxKeyPress(object sender, KeyPressEventArgs e)
 		{
-			TextBox txt = sender as TextBox;
-			PatternTextBox ptrTextBox = (txt != null ? txt.Tag as PatternTextBox : null);
+			var txt = sender as PatternTextBox;
 
 			// Let ctrl sequences take their normal course.
 			if (txt == null)
@@ -919,9 +913,9 @@ namespace SIL.Pa.UI.Controls
 			//}
 
 			// Process enter as though the user wants to begin a search.
-			if (e.KeyChar == (char)Keys.Enter && ptrTextBox != null && ptrTextBox.IsPatternFull)
+			if (e.KeyChar == (char)Keys.Enter && txt.IsPatternFull)
 			{
-				App.MsgMediator.SendMessage("EnterPressedInSearchPatternTextBox", ptrTextBox.SearchQuery);
+				App.MsgMediator.SendMessage("EnterPressedInSearchPatternTextBox", txt.SearchQuery);
 				e.Handled = true;
 				return;
 			}

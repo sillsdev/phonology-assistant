@@ -577,10 +577,10 @@ namespace SIL.Pa.Model
 										"Import Residue", App.kLocalizationGroupMisc);
 				
 				case "DateCreated": return App.LocalizeString("DisplayableFieldNames.DateCreated",
-										"Created", App.kLocalizationGroupMisc);
+										"Date Created", App.kLocalizationGroupMisc);
 				
 				case "DateModified": return App.LocalizeString("DisplayableFieldNames.DateModified",
-										"Modified", App.kLocalizationGroupMisc);
+										"Date Modified", App.kLocalizationGroupMisc);
 
 				case "Definition": return App.LocalizeString("DisplayableFieldNames.Definition",
 										"Definition", App.kLocalizationGroupMisc);
@@ -617,7 +617,10 @@ namespace SIL.Pa.Model
 				
 				case "SociolinguisticsNote": return App.LocalizeString("DisplayableFieldNames.SociolinguisticsNote",
 										"Sociolinguistics Note", App.kLocalizationGroupMisc);
-				
+
+				case "ReversalEntries": return App.LocalizeString("DisplayableFieldNames.ReversalEntries",
+									   "Reversal Entries", App.kLocalizationGroupMisc);
+
 				case "Source": return App.LocalizeString("DisplayableFieldNames.Source",
 										"Source", App.kLocalizationGroupMisc);
 				

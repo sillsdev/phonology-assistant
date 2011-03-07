@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.DataSource.Sa;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.DataSource
@@ -44,6 +45,7 @@ namespace SIL.Pa.DataSource
 		private DataSourceType m_type;
 		private FwDataSourceInfo m_fwDataSourceInfo;
 		private string m_dataSourceFile;
+		private IEnumerable<string> m_markersInFile;
 
 		/// ------------------------------------------------------------------------------------
 		public PaDataSource()
@@ -64,6 +66,7 @@ namespace SIL.Pa.DataSource
 			FwDataSourceInfo = fwDbItem;
 			Type = fwDbItem.DataSourceType;
 			FwPrjName = FwDataSourceInfo.Name;
+			FieldMappings = FieldMapping.GetDefaultFw7Mappings(this).ToList();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -80,7 +83,12 @@ namespace SIL.Pa.DataSource
 			{
 				bool isShoeboxFile;
 				if (GetIsSfmFile(SourceFile, out isShoeboxFile))
+				{
 					Type = (isShoeboxFile ? DataSourceType.Toolbox : DataSourceType.SFM);
+					FieldMappings = GetDefaultSfmMappings().ToList();
+					SfmRecordMarker = Settings.Default.DefaultSfmRecordMarker.Split(';')
+						.SingleOrDefault(mkr => GetSfMarkers(false).Contains(mkr));
+				}
 			}
 		}
 
@@ -174,6 +182,55 @@ namespace SIL.Pa.DataSource
 			}
 			
 			return (SourceFile.ToLower() == ds.SourceFile.ToLower());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<FieldMapping> GetDefaultSfmMappings()
+		{
+			var defaultParsedFlds = Settings.Default.DefaultParsedSfmFields;
+			var defaultSfmFlds = PaField.GetDefaultSfmFields();
+
+			return (from mkr in GetSfMarkers(true)
+					let field = defaultSfmFlds.SingleOrDefault(f => f.GetPossibleDataSourceFieldNames().Contains(mkr))
+					where field != null
+					select new FieldMapping(mkr, field, defaultParsedFlds.Contains(field.Name)));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// When the datasource is an SFM file, this will return a list of all unique
+		/// markers (e.g., "\name") in a file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<string> GetSfMarkers(bool showMsgOnError)
+		{
+			if (m_markersInFile != null && m_markersInFile.Count() > 0)
+				return m_markersInFile;
+
+			try
+			{
+				var allLines = File.ReadAllLines(SourceFile);
+				TotalLinesInFile = allLines.Length;
+
+				// Go through all lines that start with backslashes, excluding
+				// the ones used to identify a Shoebox/Toolbox file.
+				m_markersInFile = (from line in allLines
+								   where line.StartsWith("\\") && !line.StartsWith("\\_Date") && !line.StartsWith(kShoeboxMarker)
+								   select line.Split(' ')[0]).Distinct().ToList();
+			}
+			catch (Exception e)
+			{
+				if (showMsgOnError)
+				{
+					var msg = App.LocalizeString("ErrorReadingMarkersFromStandardFormatFileMsg",
+						"The following error occurred trying to read the source file '{0}'.\n\n{1}",
+						App.kLocalizationGroupDialogs);
+
+					Utils.MsgBox(string.Format(msg, e.Message));
+				}
+			}
+
+			return m_markersInFile;
 		}
 
 		/// ------------------------------------------------------------------------------------

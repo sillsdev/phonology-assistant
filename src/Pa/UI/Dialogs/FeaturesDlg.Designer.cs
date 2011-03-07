@@ -68,7 +68,9 @@
 			this.pnlPhones.Controls.Add(this.pgpPhoneList);
 			this.pnlPhones.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlPhones.DoubleBuffered = true;
+			this.pnlPhones.DrawOnlyBottomBorder = false;
 			this.pnlPhones.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this.pnlPhones.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlPhones, null);
 			this.locExtender.SetLocalizationComment(this.pnlPhones, null);
 			this.locExtender.SetLocalizingId(this.pnlPhones, "FeaturesDlg.pnlPhones");
@@ -100,7 +102,9 @@
 			this.gridPhones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.gridPhones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.gridPhones.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gridPhones.DrawTextBoxEditControlBorder = false;
 			this.gridPhones.Font = new System.Drawing.Font("Segoe UI", 9F);
+			this.gridPhones.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
 			this.gridPhones.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.gridPhones.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.gridPhones, null);
@@ -113,25 +117,33 @@
 			this.gridPhones.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			this.gridPhones.RowHeadersVisible = false;
 			this.gridPhones.RowHeadersWidth = 22;
+			this.gridPhones.SelectedCellBackColor = System.Drawing.Color.Empty;
+			this.gridPhones.SelectedCellForeColor = System.Drawing.Color.Empty;
+			this.gridPhones.SelectedRowBackColor = System.Drawing.Color.Empty;
+			this.gridPhones.SelectedRowForeColor = System.Drawing.Color.Empty;
 			this.gridPhones.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.gridPhones.ShowWaterMarkWhenDirty = true;
 			this.gridPhones.Size = new System.Drawing.Size(143, 382);
 			this.gridPhones.StandardTab = true;
 			this.gridPhones.TabIndex = 1;
+			this.gridPhones.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
 			this.gridPhones.WaterMark = "!";
+			this.gridPhones.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandlePhoneGridCellMouseEnter);
 			this.gridPhones.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandlePhoneGridCellMouseLeave);
 			this.gridPhones.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandlePhoneGridRowEnter);
-			this.gridPhones.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandlePhoneGridCellMouseEnter);
 			// 
 			// pgpPhoneList
 			// 
 			this.pgpPhoneList.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
-			this.pgpPhoneList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pgpPhoneList.ClipTextForChildControls = true;
+			this.pgpPhoneList.ColorBottom = System.Drawing.Color.Empty;
+			this.pgpPhoneList.ColorTop = System.Drawing.Color.Empty;
 			this.pgpPhoneList.ControlReceivingFocusOnMnemonic = this.gridPhones;
 			this.pgpPhoneList.Dock = System.Windows.Forms.DockStyle.Top;
 			this.pgpPhoneList.DoubleBuffered = false;
+			this.pgpPhoneList.DrawOnlyBottomBorder = true;
 			this.pgpPhoneList.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this.pgpPhoneList.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pgpPhoneList, null);
 			this.locExtender.SetLocalizationComment(this.pgpPhoneList, null);
 			this.locExtender.SetLocalizingId(this.pgpPhoneList, "FeaturesDlg.pgpPhoneList");

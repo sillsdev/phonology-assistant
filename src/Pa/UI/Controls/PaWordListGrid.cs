@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
@@ -3239,19 +3238,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdatePlaybackRepeatedly(object args)
 		{
 			return OnUpdatePlayback(args);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateAdjustPlaybackSpeed(object args)
 		{
@@ -3259,19 +3250,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateAdjustPlaybackSpeedParent(object args)
 		{
 			return OnUpdatePlayback(args);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnStopPlayback(object args)
 		{
@@ -3291,9 +3274,20 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		protected bool OnStopAllPlayback(object args)
+		{
+			if (m_playbackInProgress)
+			{
+				m_playbackInProgress = false;
+				m_playbackAborted = true;
+				
+				if (m_audioPlayer != null)
+					m_audioPlayer.Stop();
+			}
+
+			return true;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateStopPlayback(object args)
 		{

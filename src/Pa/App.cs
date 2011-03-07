@@ -1392,21 +1392,19 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static ToolStripProgressBar InitializeProgressBar(string text, int maxValue)
 		{
-			IUndockedViewWnd udvwnd = (CurrentView != null && CurrentView.ActiveView ?
+			var udvwnd = (CurrentView != null && CurrentView.ActiveView ?
 				CurrentView.OwningForm : MainForm) as IUndockedViewWnd;
 
-			ToolStripProgressBar bar =
-				(udvwnd != null ? udvwnd.ProgressBar : s_progressBar);
-
-			ToolStripStatusLabel lbl =
-				(udvwnd != null ? udvwnd.ProgressBarLabel : s_progressBarLabel);
+			var bar = (udvwnd != null ? udvwnd.ProgressBar : s_progressBar);
+			var lbl = (udvwnd != null ? udvwnd.ProgressBarLabel : s_progressBarLabel);
 
 			if (bar != null)
 			{
 				bar.Maximum = maxValue;
 				bar.Value = 0;
 				lbl.Text = text;
-				lbl.Visible = bar.Visible = true;
+				//bar.Visible = true;
+				lbl.Visible = true;
 				s_activeProgBarLabel = lbl;
 				s_activeProgressBar = bar;
 				Utils.WaitCursors(true);
@@ -1431,8 +1429,8 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void UninitializeProgressBar()
 		{
-			ToolStripProgressBar bar = (s_activeProgressBar ?? s_progressBar);
-			ToolStripStatusLabel lbl = (s_activeProgBarLabel ?? s_progressBarLabel);
+			var bar = (s_activeProgressBar ?? s_progressBar);
+			var lbl = (s_activeProgBarLabel ?? s_progressBarLabel);
 
 			if (bar != null)
 				bar.Visible = false;
@@ -1463,7 +1461,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void IncProgressBar(int amount)
 		{
-			ToolStripProgressBar bar = (s_activeProgressBar ?? s_progressBar);
+			var bar = (s_activeProgressBar ?? s_progressBar);
 
 			if (bar != null)
 			{
@@ -1481,7 +1479,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void UpdateProgressBarLabel(string label)
 		{
-			ToolStripStatusLabel lbl = (s_activeProgBarLabel ?? s_progressBarLabel);
+			var lbl = (s_activeProgBarLabel ?? s_progressBarLabel);
 
 			if (lbl != null)
 			{

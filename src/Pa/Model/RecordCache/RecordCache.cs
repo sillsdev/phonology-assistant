@@ -184,7 +184,7 @@ namespace SIL.Pa.Model
 				if (entry.NeedsParsing)
 					ParseEntry(entry);
 
-				foreach (WordCacheEntry wentry in entry.WordEntries)
+				foreach (var wentry in entry.WordEntries)
 				{
 					wentry.RecordEntry = entry;
 					tmpWordCache.Add(wentry);

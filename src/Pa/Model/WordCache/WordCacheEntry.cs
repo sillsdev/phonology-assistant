@@ -24,6 +24,7 @@ namespace SIL.Pa.Model
 	public class WordCacheEntry
 	{
 		private Dictionary<string, FieldValue> m_fieldValues;
+		private Dictionary<string, IEnumerable<string>> m_collectionValues;
 		private FieldValue m_phoneticValue;
 		private string m_origPhoneticValue;
 		private Dictionary<int, string[]> m_uncertainPhones;
@@ -120,6 +121,29 @@ namespace SIL.Pa.Model
 				SetPhoneticValue(value);
 				ParsePhoneticValue();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetCollection(string field, IEnumerable<string> collection)
+		{
+			if (string.IsNullOrEmpty(field) || collection == null || collection.Count() == 0)
+				return;
+
+			if (m_collectionValues == null)
+				m_collectionValues = new Dictionary<string, IEnumerable<string>>();
+
+			m_collectionValues[field] = collection;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<string> GetCollection(string field)
+		{
+			if (string.IsNullOrEmpty(field) || m_collectionValues == null || m_collectionValues.Count() == 0)
+				return null;
+
+			IEnumerable<string> collection;
+			return (m_collectionValues.TryGetValue(field, out collection) ?
+				collection : RecordEntry.GetCollection(field));
 		}
 
 		/// ------------------------------------------------------------------------------------

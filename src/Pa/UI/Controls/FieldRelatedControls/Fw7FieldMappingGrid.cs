@@ -24,15 +24,10 @@ namespace SIL.Pa.UI.Controls
 								orderby field.Name
 								select field;
 
-			// Either get the default mappings or the ones previously saved in the data source properties.
-			var mappings = (ds.FieldMappings == null ?
-				FieldMapping.GetDefaultFw7Mappings(m_writingSystems).ToList() :
-				ds.FieldMappings.Select(m => m.Copy()));
-
 			// We don't want to show the phonetic and audio file mappings in this grid.
-			m_mappings = (from m in mappings
+			m_mappings = (from m in ds.FieldMappings
 						  where m.Field.Type != FieldType.Phonetic && m.Field.Type != FieldType.AudioFilePath
-						  select m).ToList();
+						  select m.Copy()).ToList();
 
 			AddOurColumns();
 			ShowFontColumn(false);
@@ -76,21 +71,6 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_tgtFieldColName = colName;
 		}
-
-		///// ------------------------------------------------------------------------------------
-		//public override IEnumerable<FieldMapping> Mappings
-		//{
-		//    get
-		//    {
-		//        var baseList = base.Mappings.ToList();
-		//        baseList.Add(m_phoneticMapping);
-				
-		//        if (m_audioFileMapping != null)
-		//            baseList.Add(m_audioFileMapping);
-
-		//        return baseList;
-		//    }
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -149,8 +129,14 @@ namespace SIL.Pa.UI.Controls
 					wslist.AddRange(m_writingSystems.Where(ws => ws.Type == field.FwWsType).Select(ws => ws.Name));
 			}
 
-			return new KeyValuePair<object, IEnumerable<object>>(
-				field == null ? -1 : 0, wslist.Cast<object>());
+			var currWs = m_writingSystems.SingleOrDefault(ws =>
+				ws.Id == m_mappings[CurrentCellAddress.Y].FwWsId);
+
+			object currValue = 0;
+			if (currWs != null)
+				currValue = currWs.Name;
+
+			return new KeyValuePair<object, IEnumerable<object>>(currValue, wslist.Cast<object>());
 		}
 
 		/// ------------------------------------------------------------------------------------

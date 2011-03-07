@@ -4,6 +4,7 @@ using System.Xml.Serialization;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Properties;
+using SilTools;
 
 namespace SIL.Pa.Model
 {
@@ -113,23 +114,28 @@ namespace SIL.Pa.Model
 			if (ws != null && mapping.Field.FwWsType == ws.Type)
 				return;
 
-			switch (mapping.Field.FwWsType)
+			ws = null;
+
+			if (mapping.Field.FwWsType == FwDBUtils.FwWritingSystemType.Analysis)
+				ws = writingSystems.SingleOrDefault(w => w.IsDefaultAnalysis);
+			else if (mapping.Field.FwWsType == FwDBUtils.FwWritingSystemType.Vernacular)
+				ws = writingSystems.SingleOrDefault(w => w.IsDefaultVernacular);
+
+			mapping.FwWsId = (ws != null ? ws.Id : null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static bool IsPhoneticMapped(IEnumerable<FieldMapping> mappings, bool showIfNotMapped)
+		{
+			var mapped = mappings.Any(m => m.Field != null && m.Field.Type == FieldType.Phonetic);
+
+			if (!mapped && showIfNotMapped)
 			{
-				case FwDBUtils.FwWritingSystemType.None:
-					mapping.FwWsId = null;
-					break;
-
-				case FwDBUtils.FwWritingSystemType.CmPossibility:
-				case FwDBUtils.FwWritingSystemType.Analysis:
-					ws = writingSystems.SingleOrDefault(w => w.IsDefaultAnalysis);
-					mapping.FwWsId = (ws != null ? ws.Id : null);
-					break;
-
-				case FwDBUtils.FwWritingSystemType.Vernacular:
-					ws = writingSystems.SingleOrDefault(w => w.IsDefaultVernacular);
-					mapping.FwWsId = (ws != null ? ws.Id : null);
-					break;
+				Utils.MsgBox(App.LocalizeString("NoPhoneticMappingsMsg",
+					"You must specify a mapping for the phonetic field.", App.kLocalizationGroupDialogs));
 			}
+
+			return mapped;
 		}
 	}
 }

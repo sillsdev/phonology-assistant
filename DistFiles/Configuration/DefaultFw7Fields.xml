@@ -160,6 +160,9 @@
 	<field name="Usages" type="GeneralText">
 		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
 	</field>
+	<field name="ReversalEntries" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
 	<field name="ScientificName" type="GeneralText" />
 	<field name="Source" type="GeneralText" />
 	<field name="ImportResidue-Sense" type="GeneralText" />
