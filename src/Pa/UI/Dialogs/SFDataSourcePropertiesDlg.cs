@@ -528,18 +528,25 @@ namespace SIL.Pa.UI.Dialogs
 			if (rb == null)
 				return;
 
-			if (rbNoParse.Checked || rbParseOnlyPhonetic.Checked || rbParseOneToOne.Checked)
+			if (rbNoParse.Checked)
 			{
-				// Set the First Interlinear field to NONE
+				m_fieldsGrid.SetPhoneticAsOnlyParsedField();
 				cboFirstInterlinear.SelectedIndex = 0;
-
-				// TODO: Fix this
-				// Make all fields NOT interlinear
-				//foreach (var mapping in m_mappings.Where(m => m.IsInterlinear))
-				//    mapping.IsInterlinear = false;
 			}
+			else if (rbParseOnlyPhonetic.Checked)
+			{
+				m_fieldsGrid.SetPhoneticAsOnlyParsedField();
+				cboFirstInterlinear.SelectedIndex = 0;
+			}
+			else if (rbParseOneToOne.Checked)
+			{
+				m_fieldsGrid.SetDefaultParsedFlags();
+				cboFirstInterlinear.SelectedIndex = 0;
+			}
+			else
+				m_fieldsGrid.SetPhoneticAsOnlyParsedField();
 
-			m_fieldsGrid.ShowIsParsedColumn(rbParseOneToOne.Checked || rbInterlinearize.Checked);
+			m_fieldsGrid.ShowIsParsedColumn(rbParseOneToOne.Checked);
 			m_fieldsGrid.ShowIsInterlinearColumn(rbInterlinearize.Checked);
 
 			// The rest of the code in this method deals with building

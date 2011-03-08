@@ -1017,7 +1017,7 @@ namespace SIL.Pa.UI.Controls
 					var field = entry.WordCacheEntry.RecordEntry.DataSource.FieldMappings
 						.SingleOrDefault(m => m.Field.Name == fieldName);
 
-					if (field.IsParsed)
+					if (field != null && field.IsParsed)
 					{
 						e.Value = entry.WordCacheEntry.GetField(fieldName, false);
 						return;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -172,7 +173,8 @@ namespace SIL.Pa.UI.Controls
 				this[e.ColumnIndex, e.RowIndex].ReadOnly = false;
 				var type = GetTypeAtOrDefault(e.RowIndex);
 					
-				if (colName == "parsed" && !PaField.GetIsTypeParsable(type))
+				if (colName == "parsed" && !PaField.GetIsTypeParsable(type) ||
+					(mapping.Field != null && mapping.Field.Type == FieldType.Phonetic))
 				{
 					this[e.ColumnIndex, e.RowIndex].ReadOnly = true;
 				}
@@ -223,6 +225,42 @@ namespace SIL.Pa.UI.Controls
 				mapping.IsInterlinear = true;
 				InvalidateColumn(Columns["interlinear"].Index);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void ClearAllFieldsInterlinearFlag()
+		{
+			foreach (var mapping in m_mappings)
+				mapping.IsInterlinear = false;
+
+			Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void ClearAllFieldsParsedFlag()
+		{
+			foreach (var mapping in m_mappings)
+				mapping.IsParsed = false;
+
+			Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetDefaultParsedFlags()
+		{
+			foreach (var mapping in m_mappings.Where(m => m.Field != null))
+				mapping.IsParsed = Settings.Default.DefaultParsedSfmFields.Contains(mapping.Field.Name);
+
+			Invalidate();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetPhoneticAsOnlyParsedField()
+		{
+			foreach (var mapping in m_mappings.Where(m => m.Field != null))
+				mapping.IsParsed = (mapping.Field.Type == FieldType.Phonetic);
+
+			Invalidate();
 		}
 	}
 }
