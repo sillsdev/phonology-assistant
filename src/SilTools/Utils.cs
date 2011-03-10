@@ -41,6 +41,7 @@ namespace SilTools
 			public int bottom;
 		}
 
+		// FIXME Linux - Windows libraries not available
 		[DllImport("user32")]
 		public static extern int UpdateWindow(IntPtr hwnd);
 
@@ -329,7 +330,7 @@ namespace SilTools
 		{
 			get
 			{
-				// TODO Linux - fix MyDocuments here similar to way we did it in GetDefaultProjectFolder ()
+				// FIXME Linux - fix MyDocuments here similar to way we did it in GetDefaultProjectFolder ()
 				string silSwPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 				silSwPath = Path.Combine(silSwPath, @"SIL Software");
 

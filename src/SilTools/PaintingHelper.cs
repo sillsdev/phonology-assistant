@@ -59,7 +59,7 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		public static void DrawCustomBorder(Control ctrl, Color clrBorder)
 		{
-// TODO Linux - make this work in Linux too
+// FIXME Linux - make this work in Linux too
 #if !__MonoCS__
 			IntPtr hdc = GetWindowDC(ctrl.Handle);
 

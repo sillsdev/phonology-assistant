@@ -144,6 +144,8 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static bool IsSQLServerInstalled(bool showMsg)
 		{
+			if (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX)
+				return false; // no SQL Server or FW6 on Linux
 			foreach (ServiceController service in ServiceController.GetServices())
 			{
 				if (service.ServiceName.ToLower() == FwDBAccessInfo.Service.ToLower())

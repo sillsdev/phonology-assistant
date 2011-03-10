@@ -445,7 +445,13 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static bool ShouldShowSplashScreen
 		{
-			get { return Settings.Default.ShowSplashScreen; }
+			get {
+				// FIXME Linux - closing splash screen makes PA freeze; disable for now
+				if (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX)
+					return false;
+				else
+					return Settings.Default.ShowSplashScreen;
+			}
 			set
 			{
 				Settings.Default.ShowSplashScreen = value;
@@ -528,7 +534,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private static void InitializePaRegKey()
 		{
-			// TODO Linux - make a resonable default location here
+			// FIXME Linux - make a resonable default location here
 			string projPath = GetDefaultProjectFolder();
 
 			// Check if an entry in the registry specifies the default project path.
@@ -566,8 +572,8 @@ namespace SIL.Pa
 			string projPath;
 			if (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX) // Linux
 			{
-				// TODO Linux - make this locale-neutral via `/usr/bin/xdg-user-dir DOCUMENTS` _OR_ GLib g_get_user_special_dir() (see http://tinyurl.com/48haea9)
-				// TODO Linux - decide if we want ~/Documents/Phonology\ Assistant  or  ~/.phonology-assistant or something else
+				// FIXME Linux - make this locale-neutral via `/usr/bin/xdg-user-dir DOCUMENTS` _OR_ GLib g_get_user_special_dir() (see http://tinyurl.com/48haea9)
+				// FIXME Linux - decide if we want ~/Documents/Phonology\ Assistant  or  ~/.phonology-assistant or something else
 				
 				// Work around Mono bug https://bugzilla.novell.com/show_bug.cgi?id=597907
 				// in Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments):

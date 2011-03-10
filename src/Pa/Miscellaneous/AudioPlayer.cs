@@ -18,7 +18,7 @@ namespace SIL.Pa
 	/// 
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-// TODO Linux - make this work in Linux (really only useful once Speech Analyzer is ported)
+// FIXME Linux - make this work in Linux (really only useful once Speech Analyzer is ported)
 #if !__MonoCS__
 	public class AudioPlayer
 	{

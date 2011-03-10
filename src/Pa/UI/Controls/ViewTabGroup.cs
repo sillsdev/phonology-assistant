@@ -58,7 +58,7 @@ namespace SIL.Pa.UI.Controls
 
 			m_tabs = new List<ViewTab>();
 
-// TODO Linux - make this work in Linux too
+// FIXME Linux - make this work in Linux too
 //#if !__MonoCS__
 			if (!App.DesignMode)
 //#endif
@@ -235,7 +235,7 @@ namespace SIL.Pa.UI.Controls
 
 			if (!DesignMode)
 			{
-// TODO Linux - make this work in Linux too
+// FIXME Linux - make this work in Linux too
 #if !__MonoCS__
 				m_tooltip.SetToolTip(m_btnLeft, App.LocalizeString(
 					"ViewTabsScrollLeftToolTipText", "Scroll Left", App.kLocalizationGroupMisc));
