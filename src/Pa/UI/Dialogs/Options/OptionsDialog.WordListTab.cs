@@ -45,9 +45,10 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void InitializeWordListValues()
 		{
-			fldSelGridWrdList.Load(m_project.Fields
-				.OrderBy(f => f.DisplayIndexInGrid)
-				.Select(f => new KeyValuePair<PaField, bool>(f, f.VisibleInGrid)));
+			fldSelGridWrdList.Load(from field in m_project.Fields
+								   where !field.IsHidden
+								   orderby field.DisplayIndexInGrid
+								   select new KeyValuePair<PaField, bool>(field, field.VisibleInGrid));
 
 			chkSaveReorderedColumns.Checked = m_project.GridLayoutInfo.SaveReorderedCols;
 			chkSaveColHdrHeight.Checked = m_project.GridLayoutInfo.SaveAdjustedColHeaderHeight;

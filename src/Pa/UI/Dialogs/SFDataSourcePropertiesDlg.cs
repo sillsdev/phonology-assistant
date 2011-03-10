@@ -160,14 +160,14 @@ namespace SIL.Pa.UI.Dialogs
 
 			cboFirstInterlinear.Items.AddRange(m_markersInFile.ToArray());
 
-			var marker = (m_datasource.FirstInterlinearField == null ? null :
+			var mapping = (m_datasource.FirstInterlinearField == null ? null :
 				m_datasource.FieldMappings.SingleOrDefault(m => 
 					m.Field != null && m.Field.Name == m_datasource.FirstInterlinearField));
 
-			if (marker == null)
+			if (mapping == null)
 				cboFirstInterlinear.SelectedIndex = 0;
 			else
-				cboFirstInterlinear.SelectedItem = marker;
+				cboFirstInterlinear.SelectedItem = mapping.NameInDataSource;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -239,7 +239,11 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void InitializeFieldMappingsGrid()
 		{
-			m_fieldsGrid = new SfmFieldMappingGrid(m_potentialFields, m_datasource.FieldMappings,
+			var mappings = m_datasource.FieldMappings.ToList();
+			foreach (var marker in m_markersInFile.Where(mkr => !mappings.Any(m => m.NameInDataSource == mkr)))
+				mappings.Add(new FieldMapping(marker, null, false));
+
+			m_fieldsGrid = new SfmFieldMappingGrid(m_potentialFields, mappings.OrderBy(m => m.NameInDataSource),
 				() => App.LocalizeString("SFDataSourcePropertiesDlg.SourceFieldColumnHeadingText", "Map this Marker...", App.kLocalizationGroupDialogs),
 				() => App.LocalizeString("SFDataSourcePropertiesDlg.TargetFieldColumnHeadingText", "To this Field", App.kLocalizationGroupDialogs));
 
@@ -292,7 +296,7 @@ namespace SIL.Pa.UI.Dialogs
 					App.kLocalizationGroupDialogs));
 			}
 
-			// Make sure a phonetic mapping specified
+			// Make sure a phonetic mapping is specified.
 			if (!FieldMapping.IsPhoneticMapped(m_fieldsGrid.Mappings, true))
 			{
 				m_fieldsGrid.Focus();
@@ -307,30 +311,25 @@ namespace SIL.Pa.UI.Dialogs
 					"Each field may only be mapped once.", App.kLocalizationGroupDialogs));
 			}
 
+			// Make sure no field is mapped more than once.
+			if (m_fieldsGrid.GetIsPhoneticMappedMultipleTimes())
+			{
+				return ShowError(m_fieldsGrid, App.LocalizeString(
+					"SFDataSourcePropertiesDlg.MultiplePhoneticMappingsMsg",
+					"You may only map the phonetic field once. A phonetic mapping is specified using the field type.",
+					App.kLocalizationGroupDialogs));
+			}
+
 			// Make sure the field specified as the toolbox sort field is mapped to a marker.
 			if (ToolBoxSortField != null && !m_fieldsGrid.GetIsSourceFieldMapped(ToolBoxSortField))
 			{
 				return ShowError(cboToolboxSortField, App.LocalizeString(
 					"SFDataSourcePropertiesDlg.InvalidToolboxSortFieldSpecifiedMsg",
-					"The first Toolbox sort field specified was\nnot mapped. It must have a mapping.",
+					"The first Toolbox sort field marker specified was\nnot mapped. It must have a mapping.",
 					App.kLocalizationGroupDialogs));
 			}
 				
-
-
-			// TODO: Verify is parsed and isinterlinear
-
-			//msg = VerifyInterlinearInfo();
-
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private bool ShowError(Control ctrlToGiveFocus, string msg)
-		{
-			Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-			ctrlToGiveFocus.Focus();
-			return false;
+			return VerifyInterlinearInfo();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -338,56 +337,55 @@ namespace SIL.Pa.UI.Dialogs
 		/// Make sure all the settings for interlinear fields are consistent.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string VerifyInterlinearInfo()
+		private bool VerifyInterlinearInfo()
 		{
-			//HandleFirstInterlinearComboSelectedIndexChanged(null, null);
+			if (!rbInterlinearize.Checked)
+				return true;
 			
-			//var fim = cboFirstInterlinear.SelectedItem as SFMarkerMapping;
-			//string firstInterlinField = (fim == null ? null : fim.FieldName);
-			string msg = null;
-			//int interlinearFieldCount = 0;
+			// Check that the first interlinear field is specified.
+			if (FirstInterlinearField == null)
+			{
+				return ShowError(cboFirstInterlinear,
+					App.LocalizeString("SFDataSourcePropertiesDlg.NoFirstInterlinearFieldMsg",
+					"You must specify the first interlinear field marker.", App.kLocalizationGroupDialogs));
+			}
 
-			//// Check for unmapped fields that are specified as interlinear fields.
-			//foreach (SFMarkerMapping mapping in m_mappings)
-			//{
-			//    if (mapping.IsInterlinear)
-			//    {
-			//        interlinearFieldCount++;
-			//        if (string.IsNullOrEmpty(mapping.Marker))
-			//            msg += mapping.DisplayText + "\n";
-			//    }
-			//}
+			var interlinearFieldCount = m_fieldsGrid.Mappings.Count(m => m.IsInterlinear);
 
-			//if (msg != null)
-			//{
-			//    msg = App.LocalizeString("SFDataSourcePropertiesDlg.NoMappingForInterlinearFieldMsg",
-			//        "The following field(s) have been specified as interlinear fields but need to be mapped to markers.\n\n",
-			//        App.kLocalizationGroupDialogs);
-			//}
-			//else if (firstInterlinField == null)
-			//{
-			//    // Check any fields marked as interlinear but without
-			//    // a first interlinear field having been specified too.
-			//    if (m_mappings.Any(m => m.IsInterlinear))
-			//    {
-			//        msg = GetNoFirstInterlinearFieldMsg();
-			//        cboFirstInterlinear.Focus();
-			//    }
-			//}
+			if (interlinearFieldCount < 2)
+			{
+				return ShowError(m_fieldsGrid,
+					App.LocalizeString("SFDataSourcePropertiesDlg.NoInterlinearFieldsMsg",
+					"You must specify at least two interlinear fields.", App.kLocalizationGroupDialogs));
+			}
 
-			//// Check if the first interlinear field was specified unecessarily.
-			//if (msg == null && interlinearFieldCount < 2 && firstInterlinField != null)
-			//{
-			//    msg = App.LocalizeString("SFDataSourcePropertiesDlg.UnecessaryFirstInterlinearFieldMsg",
-			//        "Because you have specified the first interlinear field, you must also specify at least one other interlinear field from those that are mapped.",
-			//        App.kLocalizationGroupDialogs);
-			//}
+			var mapping = m_fieldsGrid.Mappings.SingleOrDefault(m => m.Field.Name == FirstInterlinearField);
 
-			//// Check if a first field was selected for the Interlinearize option
-			//if (msg == null && rbInterlinearize.Checked && firstInterlinField == null)
-			//    msg = GetNoFirstInterlinearFieldMsg();
+			if (mapping == null)
+			{
+				return ShowError(m_fieldsGrid,
+					string.Format(App.LocalizeString("SFDataSourcePropertiesDlg.NoFirstInterlinearFieldNotMappedMsg",
+						"You must specify a mapping for '{0}' because you have specified it as the first interlinear field marker.",
+						App.kLocalizationGroupDialogs), cboFirstInterlinear.SelectedItem));
+			}
 
-			return msg;
+			if (!mapping.IsInterlinear)
+			{
+				return ShowError(m_fieldsGrid,
+					App.LocalizeString("SFDataSourcePropertiesDlg.FirstInterlinearFieldNotMarkedAsInterlinearMsg",
+						"The mapping for your first interlinear field marker must be set to interlinear.",
+						App.kLocalizationGroupDialogs));
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool ShowError(Control ctrlToGiveFocus, string msg)
+		{
+			Utils.MsgBox(msg);
+			ctrlToGiveFocus.Focus();
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -396,7 +394,7 @@ namespace SIL.Pa.UI.Dialogs
 			get
 			{
 				return (m_fieldsGrid.IsDirty || CurrentParseType != m_datasource.ParseType ||
-					cboFirstInterlinear.SelectedItem as string != m_datasource.FirstInterlinearField ||
+					FirstInterlinearField != m_datasource.FirstInterlinearField ||
 					ToolBoxSortField != m_datasource.ToolboxSortField ||
 					txtEditor.Text != m_datasource.Editor);
 			}
@@ -417,6 +415,18 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private string FirstInterlinearField
+		{
+			get
+			{
+				var field = m_fieldsGrid.GetMappedFieldForSourceField(
+					cboFirstInterlinear.SelectedItem as string);
+
+				return (field == null ? null : field.Name);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private string GetPaFieldToolBoxSortFieldIsMappedTo()
 		{
 			var mapping = m_datasource.FieldMappings.SingleOrDefault(m => m.NameInDataSource == ToolBoxSortField);
@@ -431,6 +441,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			m_datasource.ParseType = CurrentParseType;
 			m_datasource.SfmRecordMarker = cboRecordMarkers.SelectedItem as string;
+			m_datasource.FirstInterlinearField = FirstInterlinearField;
 			m_datasource.Editor = txtEditor.Text.Trim();
 			m_datasource.FieldMappings = m_fieldsGrid.Mappings.Where(m => m.Field != null).ToList();
 
@@ -438,11 +449,14 @@ namespace SIL.Pa.UI.Dialogs
 			m_datasource.ToolboxSortField = (m_datasource.Type != DataSourceType.Toolbox ||
 				ToolBoxSortField == null ? null : GetPaFieldToolBoxSortFieldIsMappedTo());
 
-			var field = m_fieldsGrid.GetMappedFieldForSourceField(
-				cboFirstInterlinear.SelectedItem as string);
-			
-			m_datasource.FirstInterlinearField = (field == null ? null : field.Name);
-			
+			//// Add the audio offset and length field mappings back in since the grid thew
+			//// them out since they cannot be mapped directly.
+			//var field = m_potentialFields.Single(f => f.Type == FieldType.AudioOffset);
+			//m_datasource.FieldMappings.Add(new FieldMapping(field.Name, field, false));
+
+			//field = m_potentialFields.Single(f => f.Type == FieldType.AudioLength);
+			//m_datasource.FieldMappings.Add(new FieldMapping(field.Name, field, false));
+
 			return true;
 		}
 

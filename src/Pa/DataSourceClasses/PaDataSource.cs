@@ -193,6 +193,7 @@ namespace SIL.Pa.DataSource
 			return (from mkr in GetSfMarkers(true)
 					let field = defaultSfmFlds.SingleOrDefault(f => f.GetPossibleDataSourceFieldNames().Contains(mkr))
 					where field != null
+					orderby mkr
 					select new FieldMapping(mkr, field, defaultParsedFlds.Contains(field.Name)));
 		}
 

@@ -952,7 +952,9 @@ namespace SIL.Pa.UI.Controls
 
 			// When indexes are not all the same then find the index
 			// with the smallest value and set all of them to that value.
-			int minIndex = indexes.Aggregate(int.MaxValue, (current, t) => Math.Min((sbyte) current, (sbyte) t));
+			int minIndex = int.MaxValue;
+			for (int i = 0; i < indexes.Length; i++)
+				minIndex = Math.Min(minIndex, indexes[i]);
 
 			for (int i = 0; i < indexes.Length; i++)
 				indexes[i] = minIndex;

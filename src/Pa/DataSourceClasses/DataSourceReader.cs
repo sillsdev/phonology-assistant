@@ -5,7 +5,6 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.DataSource.Sa;
@@ -22,11 +21,8 @@ namespace SIL.Pa.DataSource
 	public class DataSourceReader
 	{
 		protected RecordCache m_recCache;
-		protected RecordCacheEntry m_recCacheEntry;
 		protected PaProject m_project;
 		protected List<PaDataSource> m_dataSources;
-		protected Dictionary<string, List<string>> m_fieldsForMarkers;
-		protected IEnumerable<string> m_interlinearFields;
 		protected ToolStripProgressBar m_progressBar;
 
 		/// ------------------------------------------------------------------------------------
@@ -170,8 +166,7 @@ namespace SIL.Pa.DataSource
 			m_recCache = new RecordCache(m_project);
 			App.IPASymbolCache.ClearUndefinedCharacterCollection();
 
-			var worker = new BackgroundWorker();
-			worker.WorkerReportsProgress = true;
+			var worker = new BackgroundWorker { WorkerReportsProgress = true };
 			worker.DoWork += HandleBackgroundProcessStart;
 			worker.ProgressChanged += HandleBackgroundProcessProgressChanged;
 			worker.RunWorkerAsync();
@@ -276,6 +271,15 @@ namespace SIL.Pa.DataSource
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		private string GetPhoneticMappingErrorMsg()
+		{
+			return App.LocalizeString("DatasourcePhoneticMappingErrorMsg",
+				"A field mapping to the phonetic field could not be found for the data source '{0}'",
+				"First parameter is data source name.",
+				App.kLocalizationGroupInfoMsg);
+		}
+
 		#region FieldWorks 6 (and older) data source reading
 		/// ------------------------------------------------------------------------------------
 		private void ReadFwDataSource(BackgroundWorker worker, PaDataSource ds)
@@ -314,15 +318,17 @@ namespace SIL.Pa.DataSource
 			while (reader.Read())
 			{
 				// Make a new record entry.
-				m_recCacheEntry = new RecordCacheEntry(false, m_project);
-				m_recCacheEntry.DataSource = ds;
-				m_recCacheEntry.NeedsParsing = false;
-				m_recCacheEntry.WordEntries = new List<WordCacheEntry>();
+				var recCacheEntry = new RecordCacheEntry(false, m_project)
+				{
+					DataSource = ds,
+					NeedsParsing = false,
+					WordEntries = new List<WordCacheEntry>(),
+				};
 
 				// Make a new word entry because for FW data sources read directly from the
 				// database, there will be a one-to-one correspondence between record cache
 				// entries and word cache entries.
-				var wentry = new WordCacheEntry(m_recCacheEntry, true);
+				var wentry = new WordCacheEntry(recCacheEntry, true);
 
 				// Read the data for all columns. If there are columns the record
 				// or word entries don't recognize, they'll just be ignored.
@@ -331,13 +337,13 @@ namespace SIL.Pa.DataSource
 					if ((reader[i] is DBNull) || fieldNames[i] == null)
 						continue;
 					
-					m_recCacheEntry.SetValue(fieldNames[i], reader[i].ToString());
+					recCacheEntry.SetValue(fieldNames[i], reader[i].ToString());
 					wentry.SetValue(fieldNames[i], reader[i].ToString());
 				}
 
 				// Add the entries to the caches.
-				m_recCacheEntry.WordEntries.Add(wentry);
-				m_recCache.Add(m_recCacheEntry);
+				recCacheEntry.WordEntries.Add(wentry);
+				m_recCache.Add(recCacheEntry);
 			}
 		}
 
@@ -349,19 +355,12 @@ namespace SIL.Pa.DataSource
 		{
 			var reader = Fw7DataSourceReader.Create(worker, m_project, ds);
 
-			if (reader != null)
+			if (reader == null)
+				Utils.MsgBox(string.Format(GetPhoneticMappingErrorMsg(), ds.FwPrjName));
+			else
 			{
 				reader.Read(m_recCache);
 				reader.Dispose();
-			}
-			else
-			{
-				var msg = App.LocalizeString("DatasourcePhoneticMappingErrorMsg",
-							"A field mapping to the phonetic field could not be found for the data source '{0}'",
-							"First parameter is data source name.",
-							App.kLocalizationGroupInfoMsg);
-
-				Utils.MsgBox(string.Format(msg, ds.FwPrjName));
 			}
 		}
 
@@ -442,35 +441,37 @@ namespace SIL.Pa.DataSource
 				return;
 			
 			// Make only a single record entry for the entire wave file.
-			m_recCacheEntry = new RecordCacheEntry(false, m_project);
-			m_recCacheEntry.DataSource = ds;
-			m_recCacheEntry.NeedsParsing = false;
-			m_recCacheEntry.Channels = reader.Channels;
-			m_recCacheEntry.BitsPerSample = reader.BitsPerSample;
-			m_recCacheEntry.SamplesPerSecond = reader.SamplesPerSecond;
-
+			var recCacheEntry = new RecordCacheEntry(false, m_project)
+			{
+				DataSource = ds,
+				NeedsParsing = false,
+				Channels = reader.Channels,
+				BitsPerSample = reader.BitsPerSample,
+				SamplesPerSecond = reader.SamplesPerSecond,
+			};
+			
 			var saFields = PaField.GetSaFields();
 
 			var audioField = saFields.SingleOrDefault(f => f.Type == FieldType.AudioFilePath);
 			if (audioField != null)
-				m_recCacheEntry.SetValue(audioField.Name, ds.SourceFile);
+				recCacheEntry.SetValue(audioField.Name, ds.SourceFile);
 
 			worker.ReportProgress(0);
 			int wordIndex = 0;
 			var wordEntries = new List<WordCacheEntry>();
 
-			// Get all the unparsed fields.
+			// Get all the record level fields.
 			foreach (var fname in ds.FieldMappings.Where(m => !m.IsParsed).Select(m => m.Field.Name))
 			{
 				var value = GetPropertyValueFromObject(typeof(SaAudioDocumentReader), fname, reader);
 				if (value != null)
-					m_recCacheEntry.SetValue(fname, value.ToString());
+					recCacheEntry.SetValue(fname, value.ToString());
 			}
 
-			// Get all the parsed fields.
+			// Get all the word level fields.
 			foreach (var adw in reader.Words.Values)
 			{
-				var wentry = new WordCacheEntry(m_recCacheEntry, wordIndex++, true);
+				var wentry = new WordCacheEntry(recCacheEntry, wordIndex++, true);
 
 				foreach (var fname in ds.FieldMappings.Where(m => !m.IsParsed).Select(m => m.Field.Name))
 				{
@@ -482,8 +483,8 @@ namespace SIL.Pa.DataSource
 				wordEntries.Add(wentry);
 			}
 
-			m_recCacheEntry.WordEntries = wordEntries;
-			m_recCache.Add(m_recCacheEntry);
+			recCacheEntry.WordEntries = wordEntries;
+			m_recCache.Add(recCacheEntry);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -537,265 +538,19 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		protected bool ReadSFMFile(BackgroundWorker worker, PaDataSource ds)
 		{
-			BuildListOfFieldsForMarkers(ds);
-			var recMarker = ds.SfmRecordMarker;
-			if (string.IsNullOrEmpty(recMarker))
+			var reader = SfmDataSourceReader.Create(worker, m_project, ds);
+
+			if (reader == null)
+			{
+				Utils.MsgBox(string.Format(GetPhoneticMappingErrorMsg(), ds.FwPrjName));
 				return false;
-
-			var field = new StringBuilder();
-			bool onFirstRecordMarker = false;
-			bool foundFirstRecord = false;
-			m_recCacheEntry = null;
-
-			foreach (var line in File.ReadAllLines(ds.SourceFile))
-			{
-				worker.ReportProgress(0);
-				var currLine = line.Trim();
-				string currMarker = null;
-
-				if (currLine.StartsWith("\\"))
-				{
-					string[] split = currLine.Split(" ".ToCharArray(), 2);
-					if (split.Length >= 1)
-						currMarker = split[0];
-				}
-
-				// Ignore all data up to the first record.
-				if (!foundFirstRecord)
-				{
-					if (currMarker != recMarker)
-						continue;
-
-					foundFirstRecord = true;
-					onFirstRecordMarker = true;
-				}
-
-				// If the current line doesn't start a new field, then add it to the
-				// previous line's data.
-				if (!currLine.StartsWith("\\"))
-				{
-					field.Append(" " + currLine);
-					continue;
-				}
-
-				// At this point, if the string builder contains any data, we know we've
-				// finished reading the data for a single field. Therefore, save the field's
-				// data.
-				if (field.Length > 0)
-					ParseAndStoreSFMField(ds, field.ToString());
-
-				// Check if we've come to the beginning of a record. If so, then make sure
-				// to save the contents of the previous record and begin a new one.
-				if (currMarker == recMarker)
-				{
-					if (onFirstRecordMarker)
-						onFirstRecordMarker = false;
-					else if (m_recCacheEntry != null)
-					{
-						m_recCache.Add(m_recCacheEntry);
-						m_recCacheEntry = null;
-					}
-				}
-
-				// Prepare to start a new field's data accumulation and add the line
-				// just read from the file.
-				field.Length = 0;
-				field.Append(currLine);
 			}
 
-			// Process the final field in the file
-			if (field.Length > 0)
-				ParseAndStoreSFMField(ds, field.ToString());
-
-			// Save the final record in the file
-			if (m_recCacheEntry != null)
-			{
-				m_recCache.Add(m_recCacheEntry);
-				m_recCacheEntry = null;
-			}
-
+			reader.Read(m_recCache);
+			reader.Dispose();
 			return true;
 		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Builds a list of mappings and all the fields that are mapped to those markers.
-		/// Also, a list of all the fields marked as interlinear are saved.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void BuildListOfFieldsForMarkers(PaDataSource ds)
-		{
-			m_interlinearFields = ds.FieldMappings.Where(m => m.IsInterlinear).Select(m => m.Field.Name).ToList();
-
-			m_fieldsForMarkers = new Dictionary<string, List<string>>();
-			foreach (var mapping in ds.FieldMappings)
-			{
-				if (!m_fieldsForMarkers.ContainsKey(mapping.NameInDataSource))
-					m_fieldsForMarkers[mapping.NameInDataSource] = new List<string>();
-
-				m_fieldsForMarkers[mapping.NameInDataSource].Add(mapping.Field.Name);
-			}
-
-			//foreach (SFMarkerMapping mapping in m_mappings)
-			//{
-			//    if (mapping.FieldName != PaDataSource.kRecordMarker && !string.IsNullOrEmpty(mapping.Marker))
-			//    {
-			//        if (!m_fieldsForMarkers.ContainsKey(mapping.Marker))
-			//            m_fieldsForMarkers[mapping.Marker] = new List<string>();
-
-			//        m_fieldsForMarkers[mapping.Marker].Add(mapping.FieldName);
-
-			//        if (mapping.IsInterlinear)
-			//            m_interlinearFields.Add(mapping.FieldName);
-			//    }
-			//}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Adds to the record cache the data for a single field read from an SFM data source
-		/// record.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void ParseAndStoreSFMField(PaDataSource ds, string field)
-		{
-			if (field == null)
-				return;
-
-			field = field.Trim();
-
-			if (!field.StartsWith("\\"))
-				return;
-
-			// Get two strings, the first containing the backslash marker
-			// and the other contianing the data following the marker.
-			string[] split = field.Split(" ".ToCharArray(), 2);
-
-			// If we didn't get two strings back then ignore this field.
-			if (split.Length != 2)
-				return;
-
-			// If there's no mapping for the marker, ignore this field.
-			if (!m_fieldsForMarkers.ContainsKey(split[0]))
-				return;
-
-			if (m_recCacheEntry == null)
-			{
-				m_recCacheEntry = new RecordCacheEntry(true, m_project);
-				m_recCacheEntry.NeedsParsing = true;
-				m_recCacheEntry.DataSource = ds;
-				m_recCacheEntry.FirstInterlinearField = ds.FirstInterlinearField;
-				m_recCacheEntry.InterlinearFields = m_interlinearFields.ToList();
-			}
-
-			var audioFilefieldInfo = m_project.GetAudioFileField();
-			var offsetFieldInfo = m_project.GetAudioOffsetField();
-			var lengthFieldInfo = m_project.GetAudioLengthField();
-
-			foreach (string fld in m_fieldsForMarkers[split[0]])
-			{
-				if (audioFilefieldInfo == null || audioFilefieldInfo.Name != fld)
-				{
-					m_recCacheEntry.SetValue(fld, split[1]);
-					continue;
-				}
-
-				long startPoint;
-				long endPoint;
-				string audioFileName = ParseSoundFileName(split[1], out startPoint, out endPoint);
-
-				if (!string.IsNullOrEmpty(audioFileName))
-				{
-					m_recCacheEntry.SetValue(audioFilefieldInfo.Name, audioFileName);
-
-					if (offsetFieldInfo != null && lengthFieldInfo != null)
-					{
-						long length = endPoint - startPoint;
-						m_recCacheEntry.SetValue(offsetFieldInfo.Name, startPoint.ToString());
-						m_recCacheEntry.SetValue(lengthFieldInfo.Name, length.ToString());
-					}
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Parse the sound file name returning the file name and beginning / ending points
-		/// for playing, if any.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static string ParseSoundFileName(string fileName, out long startPoint, out long endPoint)
-		{
-			startPoint = 0L;
-			endPoint = 0L;
-
-			// Handle null
-			if (fileName == null)
-				return string.Empty;
-
-			// Handle empty string
-			fileName = fileName.Trim();
-			if (fileName == string.Empty)
-				return string.Empty;
-
-			// Check if the end of the file name string is one of the common audio file types.
-			// If so, there's no sense in checking for start and end points since the entire
-			// string ends with a file extension.
-			if (new[] { ".wav", ".mp3", ".wma", ".ogg", ".ram", ".aif", ".au", ".voc" }.Any(ext => fileName.ToLower().EndsWith(ext)))
-			{
-				return fileName;
-			}
-
-			// Find the last space in the file name string. If one cannot be
-			// found then we know there is no start and stop point.
-			int iSpace = fileName.LastIndexOf(' ');
-			if (iSpace < 0)
-				return fileName;
-
-			// Remove everything following the last space and assume it's a numeric value
-			// indicating a start or stop point (in seconds) in the audio file.
-			string sTime2 = fileName.Substring(iSpace);
-			
-			// Try to convert the value to a numeric.
-			float fTime2;
-			if (!Utils.TryFloatParse(sTime2, out fTime2))
-				return fileName;
-
-			// Remove from the file name string the text removed that represents a numeric value.
-			fileName = fileName.Substring(0, iSpace);
-
-			// Find the last space in the file name string. If one cannot be
-			// found then we know there is only a start point and stop point.
-			iSpace = fileName.LastIndexOf(' ');
-			if (iSpace < 0)
-			{
-				// Assume the time was specified in seconds. We want it in milliseconds.
-				startPoint = (long)(Math.Ceiling(fTime2 * 1000f));
-				return fileName;
-			}
-
-			// Remove everything following the last space and assume it's a numeric value
-			// indicating a start point (in seconds) in the audio file.
-			string sTime1 = fileName.Substring(iSpace);
-
-			// Try to convert the value to a numeric.
-			float fTime1;
-			if (!Utils.TryFloatParse(sTime1, out fTime1))
-			{
-				// Assume the time was specified in seconds. We want it in milliseconds.
-				// The parse attempt failed so just make the start and end times the same.
-				startPoint = (long)(Math.Ceiling(fTime2 * 1000f));
-				return fileName;
-			}
-
-			// Assume the times are specified in seconds. We want it in milliseconds.
-			startPoint = (long)(Math.Ceiling(fTime1 * 1000f));
-			endPoint = (long)(Math.Ceiling(fTime2 * 1000f));
-
-			// Remove from the file name string the text removed that represents the start point.
-			return fileName.Substring(0, iSpace);
-		}
-
+		
 		#endregion
 	}  
 }

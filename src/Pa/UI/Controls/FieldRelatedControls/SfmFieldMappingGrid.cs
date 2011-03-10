@@ -19,7 +19,10 @@ namespace SIL.Pa.UI.Controls
 			m_targetFieldColumnHeadingTextHandler = tgtFldColHdgTextHandler;
 			
 			m_potentialFields = potentialFields.Where(f => f.AllowUserToMap);
-			m_mappings = mappings.Select(m => m.Copy()).ToList();
+
+			m_mappings = (from m in mappings
+						  where m.Field == null || m.Field.AllowUserToMap
+						  select m.Copy()).ToList();
 
 			ShowFontColumn(false);
 			RowCount = m_mappings.Count;
@@ -167,21 +170,20 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn)
 			{
-				var colName = Columns[e.ColumnIndex].Name;
 				var mapping = m_mappings[e.RowIndex];
-					
-				this[e.ColumnIndex, e.RowIndex].ReadOnly = false;
 				var type = GetTypeAtOrDefault(e.RowIndex);
+				this[e.ColumnIndex, e.RowIndex].ReadOnly = false;
+
+				switch (Columns[e.ColumnIndex].Name)
+				{
+					case "parsed":
+						this[e.ColumnIndex, e.RowIndex].ReadOnly = (!PaField.GetIsTypeParsable(type) ||
+							(mapping.Field != null && mapping.Field.Type == FieldType.Phonetic));
+						break;
 					
-				if (colName == "parsed" && !PaField.GetIsTypeParsable(type) ||
-					(mapping.Field != null && mapping.Field.Type == FieldType.Phonetic))
-				{
-					this[e.ColumnIndex, e.RowIndex].ReadOnly = true;
-				}
-				else if (colName == "interlinear" &&
-					(!PaField.GetIsTypeInterlinearizable(type) || !mapping.IsParsed))
-				{
-					this[e.ColumnIndex, e.RowIndex].ReadOnly = true;
+					case "interlinear":
+						this[e.ColumnIndex, e.RowIndex].ReadOnly = !PaField.GetIsTypeInterlinearizable(type);
+						break;
 				}
 			}
 	

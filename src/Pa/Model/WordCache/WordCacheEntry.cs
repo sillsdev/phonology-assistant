@@ -70,7 +70,7 @@ namespace SIL.Pa.Model
 				return;
 
 			m_fieldValues = (from m in recEntry.DataSource.FieldMappings
-							 where m.IsParsed && m.Field != null
+							 where (m.IsParsed || m.IsInterlinear) && m.Field != null
 							 select m.Field).ToDictionary(f => f.Name, f => new FieldValue(f.Name));
 
 			var mapping = recEntry.DataSource.FieldMappings

@@ -161,6 +161,7 @@
       <DependentUpon>MissingFWDatabaseMsgBox.cs</DependentUpon>
     </Compile>
     <Compile Include="DataSourceClasses\PaDataSource.cs" />
+    <Compile Include="DataSourceClasses\SfmDataSourceReader.cs" />
     <Compile Include="DataSourceClasses\SpeechAnalyzer\AudioReader.cs" />
     <Compile Include="DataSourceClasses\SpeechAnalyzer\SaAudioDocument.cs" />
     <Compile Include="DataSourceClasses\SpeechAnalyzer\SaAudioDocumentReader.cs" />
@@ -185,6 +186,7 @@
     <Compile Include="Model\PaProject.cs" />
     <Compile Include="Model\RecordCache\RecordCache.cs" />
     <Compile Include="Model\RecordCache\RecordCacheEntry.cs" />
+    <Compile Include="Model\RecordCache\RecordEntryParser.cs" />
     <Compile Include="Model\SymbolsAndPhones\AmbiguousSequences.cs" />
     <Compile Include="Model\SymbolsAndPhones\CVPatternInfo.cs" />
     <Compile Include="Model\SymbolsAndPhones\InventoryHelper.cs" />

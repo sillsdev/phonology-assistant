@@ -36,6 +36,7 @@
 	</field>
 	<field name="Orthographic" type="GeneralText" />
 	<field name="Phonemic" type="GeneralText" />
+	<field name="Phonemic" type="GeneralText" />
 	<field name="AudioFile" type="AudioFilePath">
 		<possibleDataSourceFieldNames>\sf;\snd</possibleDataSourceFieldNames>
 	</field>

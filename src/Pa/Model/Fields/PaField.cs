@@ -31,7 +31,10 @@ namespace SIL.Pa.Model
 		public const string kCVPatternFieldName = "CVPattern";
 		public const string kDataSourceFieldName = "DataSource";
 		public const string kDataSourcePathFieldName = "DataSourcePath";
+		public const string kAudioOffsetFieldName = "AudioOffset";
+		public const string kAudioLengthFieldName = "AudioLength";
 
+		private bool m_allowUserToMap;
 		private string m_isCollection;
 		private Font m_font;
 
@@ -180,7 +183,15 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public bool AllowUserToMap { get; set; }
+		public bool AllowUserToMap
+		{
+			get { return m_allowUserToMap && !IsHidden; }
+			set { m_allowUserToMap = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public bool IsHidden { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
@@ -248,6 +259,7 @@ namespace SIL.Pa.Model
 				DisplayIndexInRecView = DisplayIndexInRecView,
 				WidthInGrid = WidthInGrid,
 				AllowUserToMap = AllowUserToMap,
+				IsHidden = IsHidden,
 				RightToLeft = RightToLeft,
 				FwWsType = FwWsType,
 				Font = m_font,
@@ -355,7 +367,17 @@ namespace SIL.Pa.Model
 			var list = XmlSerializationHelper.DeserializeFromFile<List<PaField>>(path, rootElementName, out e);
 
 			if (e == null)
+			{
+				int index = 0;
+				foreach (var field in list.OrderBy(f => f.DisplayIndexInGrid))
+					field.DisplayIndexInGrid = index++;
+
+				index = 0;
+				foreach (var field in list.OrderBy(f => f.DisplayIndexInRecView))
+					field.DisplayIndexInRecView = index++;
+
 				return EnsureListContainsCalculatedFields(list).ToList();
+			}
 
 			var msg = App.LocalizeString("ReadingFieldsFileErrorMsg",
 				"The following error occurred when reading the file\n\n'{0}'\n\n{1}",
@@ -372,8 +394,28 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static IEnumerable<PaField> EnsureListContainsCalculatedFields(List<PaField> fields)
 		{
-			if (!fields.Any(f => f.Name == kDataSourceFieldName))
-				fields.Add(GetUnmappableField(kDataSourceFieldName, default(FieldType)));
+			var field = fields.SingleOrDefault(f => f.Name == kAudioOffsetFieldName);
+			if (field != null)
+				field.IsHidden = true;
+			else
+			{
+				field = GetUnmappableField(kAudioOffsetFieldName, FieldType.AudioOffset);
+				field.IsHidden = true;
+				fields.Add(field);
+			}
+
+			field = fields.SingleOrDefault(f => f.Name == kAudioLengthFieldName);
+			if (field != null)
+				field.IsHidden = true;
+			else
+			{
+				field = GetUnmappableField(kAudioLengthFieldName, FieldType.AudioLength);
+				field.IsHidden = true;
+				fields.Add(field);
+			}
+
+			if (!fields.Any(f => f.Name == kDataSourcePathFieldName))
+				fields.Add(GetUnmappableField(kDataSourcePathFieldName, FieldType.GeneralFilePath));
 
 			if (!fields.Any(f => f.Name == kDataSourcePathFieldName))
 				fields.Add(GetUnmappableField(kDataSourcePathFieldName, FieldType.GeneralFilePath));
@@ -444,14 +486,6 @@ namespace SIL.Pa.Model
 			yield return new KeyValuePair<FieldType, string>(FieldType.AudioFilePath,
 				App.LocalizeString("DisplayableFieldTypeNames.AudioFilePath", "Audio File Path",
 				App.kLocalizationGroupMisc));
-
-			yield return new KeyValuePair<FieldType, string>(FieldType.AudioOffset,
-				App.LocalizeString("DisplayableFieldTypeNames.AudioFileOffset", "Aduio Offset",
-				App.kLocalizationGroupMisc));
-
-			yield return new KeyValuePair<FieldType, string>(FieldType.AudioLength,
-				App.LocalizeString("DisplayableFieldTypeNames.AudioFileLength", "Aduio Length",
-				App.kLocalizationGroupMisc));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -497,12 +531,6 @@ namespace SIL.Pa.Model
 
 				case "AudioFileLabel": return App.LocalizeString("DisplayableFieldNames.AudioFileLabel",
 										"Audio File Label", App.kLocalizationGroupMisc);
-
-				case "AudioLength": return App.LocalizeString("DisplayableFieldNames.AudioLength",
-										"Audio Length", App.kLocalizationGroupMisc);
-
-				case "AudioOffset": return App.LocalizeString("DisplayableFieldNames.AudioOffset",
-										"Audio Offset", App.kLocalizationGroupMisc);
 
 				case "FreeFormTranslation": return App.LocalizeString("DisplayableFieldNames.FreeFormTranslation",
 										"Free Translation", App.kLocalizationGroupMisc);

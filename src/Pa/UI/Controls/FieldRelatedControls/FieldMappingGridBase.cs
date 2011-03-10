@@ -277,6 +277,12 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public virtual bool GetIsPhoneticMappedMultipleTimes()
+		{
+			return (Mappings.Count(m => m.Field.Type == FieldType.Phonetic) > 1);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public virtual bool GetIsTargetFieldMapped(string fieldName)
 		{
 			return Mappings.Any(m => m.Field.Name == fieldName);
@@ -291,7 +297,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public virtual PaField GetMappedFieldForSourceField(string fieldName)
 		{
-			return (from m in Mappings where m.Field.Name == fieldName select m.Field).FirstOrDefault();
+			return (from m in Mappings where m.NameInDataSource == fieldName select m.Field).FirstOrDefault();
 		}
 	}
 }

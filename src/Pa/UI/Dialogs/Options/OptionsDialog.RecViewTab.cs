@@ -22,8 +22,10 @@ namespace SIL.Pa.UI.Dialogs
 
 			lblShowFields.Font = FontHelper.UIFont;
 			grpFieldSettings.Font = FontHelper.UIFont;
-			fldSelGridRecView.Load(m_project.Fields.OrderBy(f => f.DisplayIndexInRecView)
-				.Select(f => new KeyValuePair<PaField, bool>(f, f.VisibleInRecView)));
+			fldSelGridRecView.Load(from field in m_project.Fields
+								   where !field.IsHidden
+								   orderby field.DisplayIndexInRecView
+								   select new KeyValuePair<PaField, bool>(field, field.VisibleInRecView));
 		}
 
 		/// ------------------------------------------------------------------------------------
