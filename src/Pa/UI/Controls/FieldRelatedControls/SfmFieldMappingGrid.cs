@@ -109,7 +109,7 @@ namespace SIL.Pa.UI.Controls
 			DataGridViewCell cell, DataGridViewEditingControlShowingEventArgs e)
 		{
 			var invalidTypes = new[] { FieldType.AudioFilePath, FieldType.AudioLength,
-				FieldType.AudioOffset, FieldType.Phonetic, FieldType.Reference };
+				FieldType.AudioOffset, FieldType.Phonetic, FieldType.Reference, FieldType.Guid };
 
 			// Build a list of field types the user may choose.
 			var validTypeNames = m_displayableFieldTypes.Where(kvp =>

@@ -134,7 +134,22 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<FieldMapping> CreateDefaultFwMappings(IEnumerable<PaField> projectFields)
 		{
-			return null;
+			var writingSystems = FwDataSourceInfo.GetWritingSystems();
+
+			var defaultFieldNames = Settings.Default.DefaultFw6Fields.Cast<string>()
+				.Where(n => n != PaField.kAudioFileFieldName && n != PaField.kPhoneticFieldName).ToList();
+
+			// Add a mapping for the phonetic field.
+			var wsDefaultPhonetic = FwDBUtils.GetDefaultPhoneticWritingSystem(writingSystems);
+			yield return new FieldMapping(projectFields.Single(f =>
+				f.Type == FieldType.Phonetic), true) { FwWsId = wsDefaultPhonetic.Hvo.ToString() };
+
+			// Add a mapping for the audio file field.
+			yield return new FieldMapping(projectFields.Single(f => f.Type == FieldType.AudioFilePath), false);
+
+			// Add mappings for all the other fields.
+			foreach (var field in projectFields.Where(f => defaultFieldNames.Contains(f.Name)))
+				yield return new FieldMapping(field, Settings.Default.ParsedFw6Fields.Cast<string>());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -144,25 +159,20 @@ namespace SIL.Pa.DataSource
 			var defaultFieldNames = Settings.Default.DefaultMappedFw7Fields.Cast<string>()
 				.Where(n => n != PaField.kAudioFileFieldName && n != PaField.kPhoneticFieldName).ToList();
 
-			var mappings = new List<FieldMapping>();
-
 			// Add a mapping for the phonetic field.
-			var field = projectFields.Single(f => f.Type == FieldType.Phonetic);
-			mappings.Add(new FieldMapping(field, true)
-				{ FwWsId = FwDBUtils.GetDefaultPhoneticWritingSystem(writingSystems).Id });
+			yield return new FieldMapping(projectFields.Single(f => f.Type == FieldType.Phonetic), true)
+				{ FwWsId = FwDBUtils.GetDefaultPhoneticWritingSystem(writingSystems).Id };
 
 			// Add a mapping for the audio file field.
-			field = projectFields.Single(f => f.Type == FieldType.AudioFilePath);
-			mappings.Add(new FieldMapping(field, false));
+			yield return new FieldMapping(projectFields.Single(f => f.Type == FieldType.AudioFilePath), false);
 
-			mappings.AddRange(projectFields.Where(f => defaultFieldNames.Contains(f.Name)).Select(f =>
+			// Add mappings for all the other fields.
+			foreach (var mapping in projectFields.Where(f => defaultFieldNames.Contains(f.Name))
+				.Select(field => new FieldMapping(field, Settings.Default.ParsedFw7Fields.Cast<string>())))
 			{
-				var mapping = new FieldMapping(f, Settings.Default.ParsedFw7Fields.Cast<string>());
 				FieldMapping.CheckMappingsFw7WritingSystem(mapping, writingSystems);
-				return mapping;
-			}));
-
-			return mappings;
+				yield return mapping;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

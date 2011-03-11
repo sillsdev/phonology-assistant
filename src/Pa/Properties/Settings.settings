@@ -735,7 +735,7 @@
       <Value Profile="(Default)">Phonetic;Phonemic;Tone;Gloss;Orthographic;Reference</Value>
     </Setting>
     <Setting Name="DefaultParsedSfmFields" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Phonetic;Phonemic;Gloss;NatGloss;PartOfSpeech;Tone;Orthographic</Value>
+      <Value Profile="(Default)">Phonetic;Phonemic;Gloss;Gloss-Secondary;Gloss-Other;PartOfSpeech;Tone;Orthographic</Value>
     </Setting>
     <Setting Name="ShowSFMappingsInformation" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -823,7 +823,7 @@
   &lt;string&gt;Reference&lt;/string&gt;
   &lt;string&gt;Phonetic&lt;/string&gt;
   &lt;string&gt;Gloss&lt;/string&gt;
-  &lt;string&gt;NatGloss&lt;/string&gt;
+  &lt;string&gt;Gloss-Secondary&lt;/string&gt;
   &lt;string&gt;PartOfSpeech&lt;/string&gt;
   &lt;string&gt;Tone&lt;/string&gt;
   &lt;string&gt;Orthographic&lt;/string&gt;
@@ -885,6 +885,38 @@
     </Setting>
     <Setting Name="DefaultFw7InferredFontSizeAndStyle" Type="System.String" Scope="Application">
       <Value Profile="(Default)">{0}, 11, Regular</Value>
+    </Setting>
+    <Setting Name="DefaultFw6Fields" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;DateCreated&lt;/string&gt;
+  &lt;string&gt;DateModified&lt;/string&gt;
+  &lt;string&gt;Phonetic&lt;/string&gt;
+  &lt;string&gt;Phonemic&lt;/string&gt;
+  &lt;string&gt;Orthographic&lt;/string&gt;
+  &lt;string&gt;Gloss&lt;/string&gt;
+  &lt;string&gt;Gloss-Secondary&lt;/string&gt;
+  &lt;string&gt;Gloss-Other&lt;/string&gt;
+  &lt;string&gt;Tone&lt;/string&gt;
+  &lt;string&gt;Reference&lt;/string&gt;
+  &lt;string&gt;AudioFile&lt;/string&gt;
+  &lt;string&gt;PartOfSpeech&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="ParsedFw6Fields" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;Phonetic&lt;/string&gt;
+  &lt;string&gt;Phonemic&lt;/string&gt;
+  &lt;string&gt;Orthographic&lt;/string&gt;
+  &lt;string&gt;Gloss&lt;/string&gt;
+  &lt;string&gt;Gloss-Secondary&lt;/string&gt;
+  &lt;string&gt;Gloss-Other&lt;/string&gt;
+  &lt;string&gt;Tone&lt;/string&gt;
+  &lt;string&gt;Reference&lt;/string&gt;
+  &lt;string&gt;AudioFile&lt;/string&gt;
+  &lt;string&gt;PartOfSpeech&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -11,8 +11,13 @@
 		<possibleDataSourceFieldNames>\gl;\ge</possibleDataSourceFieldNames>
 		<fwWritingSystemType>Analysis</fwWritingSystemType>
 	</field>
-	<field name="NatGloss" type="GeneralText">
+	<field name="Gloss-Secondary" type="GeneralText">
 		<possibleDataSourceFieldNames>\gn</possibleDataSourceFieldNames>
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="Gloss-Other" type="GeneralText">
+		<possibleDataSourceFieldNames>\gn</possibleDataSourceFieldNames>
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
 	</field>
 	<field name="PartOfSpeech" type="GeneralText">
 		<possibleDataSourceFieldNames>\ps</possibleDataSourceFieldNames>

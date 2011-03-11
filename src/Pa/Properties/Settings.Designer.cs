@@ -3134,7 +3134,8 @@ namespace SIL.Pa.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Phonetic;Phonemic;Gloss;NatGloss;PartOfSpeech;Tone;Orthographic")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Phonetic;Phonemic;Gloss;Gloss-Secondary;Gloss-Other;PartOfSpeech;Tone;Orthographi" +
+            "c")]
         public string DefaultParsedSfmFields {
             get {
                 return ((string)(this["DefaultParsedSfmFields"]));
@@ -3324,7 +3325,7 @@ namespace SIL.Pa.Properties {
   <string>Reference</string>
   <string>Phonetic</string>
   <string>Gloss</string>
-  <string>NatGloss</string>
+  <string>Gloss-Secondary</string>
   <string>PartOfSpeech</string>
   <string>Tone</string>
   <string>Orthographic</string>
@@ -3373,6 +3374,50 @@ namespace SIL.Pa.Properties {
         public string DefaultFw7InferredFontSizeAndStyle {
             get {
                 return ((string)(this["DefaultFw7InferredFontSizeAndStyle"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>DateCreated</string>
+  <string>DateModified</string>
+  <string>Phonetic</string>
+  <string>Phonemic</string>
+  <string>Orthographic</string>
+  <string>Gloss</string>
+  <string>Gloss-Secondary</string>
+  <string>Gloss-Other</string>
+  <string>Tone</string>
+  <string>Reference</string>
+  <string>AudioFile</string>
+  <string>PartOfSpeech</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection DefaultFw6Fields {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["DefaultFw6Fields"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>Phonetic</string>
+  <string>Phonemic</string>
+  <string>Orthographic</string>
+  <string>Gloss</string>
+  <string>Gloss-Secondary</string>
+  <string>Gloss-Other</string>
+  <string>Tone</string>
+  <string>Reference</string>
+  <string>AudioFile</string>
+  <string>PartOfSpeech</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection ParsedFw6Fields {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["ParsedFw6Fields"]));
             }
         }
     }

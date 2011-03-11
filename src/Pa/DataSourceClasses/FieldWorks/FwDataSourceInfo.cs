@@ -61,8 +61,9 @@ namespace SIL.Pa.DataSource.FieldWorks
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<FwWritingSysInfo> GetWritingSystems()
 		{
-			return m_writingSystems ??
-				(m_writingSystems = FwDBUtils.GetWritingSystemsForFw7Project(Name, Server).ToList());
+			return m_writingSystems ?? (m_writingSystems = (DataSourceType == DataSourceType.FW ?
+				FwDataReader.GetWritingSystems(this) :
+				FwDBUtils.GetWritingSystemsForFw7Project(Name, Server)).ToList());
 		}
 
 		/// ------------------------------------------------------------------------------------

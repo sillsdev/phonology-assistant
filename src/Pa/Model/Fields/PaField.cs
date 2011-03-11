@@ -22,6 +22,7 @@ namespace SIL.Pa.Model
 		AudioFilePath,
 		AudioOffset,
 		AudioLength,
+		Guid,
 	}
 
 	/// ----------------------------------------------------------------------------------------
@@ -37,6 +38,7 @@ namespace SIL.Pa.Model
 		public const string kAudioFileFieldName = "AudioFile";
 		public const string kAudioOffsetFieldName = "AudioOffset";
 		public const string kAudioLengthFieldName = "AudioLength";
+		public const string kGuidFieldName = "GUID";
 
 		private string m_isCollection;
 
@@ -227,7 +229,7 @@ namespace SIL.Pa.Model
 		{
 			return ((kCVPatternFieldName + ";" + kDataSourceFieldName + ";" +
 				kDataSourcePathFieldName + ";" + kAudioOffsetFieldName + ";" +
-				kAudioLengthFieldName).Contains(name));
+				kAudioLengthFieldName + ";" + kGuidFieldName).Contains(name));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -295,25 +297,9 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static IEnumerable<PaField> EnsureListContainsCalculatedFields(List<PaField> fields)
 		{
-			var field = fields.SingleOrDefault(f => f.Name == kAudioOffsetFieldName);
-			if (field != null)
-				field.IsHidden = true;
-			else
-			{
-				field = new PaField(kAudioOffsetFieldName, FieldType.AudioOffset);
-				field.IsHidden = true;
-				fields.Add(field);
-			}
-
-			field = fields.SingleOrDefault(f => f.Name == kAudioLengthFieldName);
-			if (field != null)
-				field.IsHidden = true;
-			else
-			{
-				field = new PaField(kAudioLengthFieldName, FieldType.AudioLength);
-				field.IsHidden = true;
-				fields.Add(field);
-			}
+			CreateHiddenFieldIfNotExist(fields, kAudioOffsetFieldName, FieldType.AudioOffset);
+			CreateHiddenFieldIfNotExist(fields, kAudioLengthFieldName, FieldType.AudioLength);
+			CreateHiddenFieldIfNotExist(fields, kGuidFieldName, FieldType.Guid);
 
 			if (!fields.Any(f => f.Name == kDataSourcePathFieldName))
 				fields.Add(new PaField(kDataSourcePathFieldName, FieldType.GeneralFilePath));
@@ -325,6 +311,19 @@ namespace SIL.Pa.Model
 				fields.Add(new PaField(kCVPatternFieldName, default(FieldType)));
 
 			return fields.OrderBy(f => f.DisplayName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void CreateHiddenFieldIfNotExist(List<PaField> existingFields, string name, FieldType type)
+		{
+			var field = existingFields.SingleOrDefault(f => f.Name == name);
+			if (field == null)
+			{
+				field = new PaField(name, type);
+				existingFields.Add(field);
+			}
+
+			field.IsHidden = true;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -40,40 +40,20 @@ namespace SIL.Pa.DataSource.FieldWorks
 		{
 			get
 			{
-				if (m_sourceInfo.DataSourceType == DataSourceType.FW)
-				{
-					var msg = App.LocalizeString("ErrorRetrievingFw6WritingSystemsMsg",
-						"There was an error retrieving writing systems from the {0}\nproject. It's possible the file {1} is either missing or corrupt.",
-						"Displayed when there is and error retrieving writing systems from a FieldWorks database, version 6.0 or earlier.",
-						App.kLocalizationGroupMisc);
+				var msg = App.LocalizeString("ErrorRetrievingFw6WritingSystemsMsg",
+					"There was an error retrieving writing systems from the {0}\nproject. It's possible the file {1} is either missing or corrupt.",
+					"Displayed when there is and error retrieving writing systems from a FieldWorks database, version 6.0 or earlier.",
+					App.kLocalizationGroupMisc);
 
-					msg = string.Format(msg, m_sourceInfo.Name, Path.GetFileName(m_sourceInfo.Queries.QueryFile));
-					var wsInfoList = GetWritingSystems(m_sourceInfo.Queries.AnalysisWs, msg)
-						.Select(ws => new FwWritingSysInfo(FwDBUtils.FwWritingSystemType.Analysis, ws.Key, ws.Value)).ToList();
+				msg = string.Format(msg, m_sourceInfo.Name, Path.GetFileName(m_sourceInfo.Queries.QueryFile));
+				var wsInfoList = GetWritingSystems(m_sourceInfo.Queries.AnalysisWs, msg)
+					.Select(ws => new FwWritingSysInfo(FwDBUtils.FwWritingSystemType.Analysis, ws.Key, ws.Value)).ToList();
 
-					// Build a list of the analysis writing systems.
-					wsInfoList.AddRange(GetWritingSystems(m_sourceInfo.Queries.VernacularWsSQL, msg)
-						.Select(ws => new FwWritingSysInfo(FwDBUtils.FwWritingSystemType.Vernacular, ws.Key, ws.Value)));
+				// Build a list of the analysis writing systems.
+				wsInfoList.AddRange(GetWritingSystems(m_sourceInfo.Queries.VernacularWsSQL, msg)
+					.Select(ws => new FwWritingSysInfo(FwDBUtils.FwWritingSystemType.Vernacular, ws.Key, ws.Value)));
 
-					return wsInfoList;
-				}
-		
-				// Return writing systems from a 7.0 (or later) project).
-				try
-				{
-					return FwDBUtils.GetWritingSystemsForFw7Project(m_sourceInfo);
-				}
-				catch (Exception e)
-				{
-					var msg = App.LocalizeString("ErrorRetrievingFw7WritingSystemsMsg",
-						"There was an error retrieving writing systems from\nthe {0} project.\n\n{1}",
-						"Displayed when there is and error retrieving writing systems from a FieldWorks project, version 7.0 or earlier.",
-						App.kLocalizationGroupMisc);
-
-					msg = string.Format(msg, m_sourceInfo.ProjectName, e.Message);
-					Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-					return null;
-				}
+				return wsInfoList;
 			}
 		}
 

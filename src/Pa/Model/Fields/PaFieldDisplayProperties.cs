@@ -132,8 +132,11 @@ namespace SIL.Pa.Model
 				case "Gloss": return App.LocalizeString("DisplayableFieldNames.Gloss",
 										"Gloss", App.kLocalizationGroupMisc);
 
-				case "NatGloss": return App.LocalizeString("DisplayableFieldNames.NatGloss",
-										"Gloss (Nat.)", App.kLocalizationGroupMisc);
+				case "Gloss-Secondary": return App.LocalizeString("DisplayableFieldNames.GlossSecondary",
+										"Gloss (Secondary)", App.kLocalizationGroupMisc);
+
+				case "Gloss-Other": return App.LocalizeString("DisplayableFieldNames.GlossOther",
+										"Gloss (Other)", App.kLocalizationGroupMisc);
 
 				case "PartOfSpeech": return App.LocalizeString("DisplayableFieldNames.PartOfSpeech",
 										"Part of Speech", App.kLocalizationGroupMisc);
