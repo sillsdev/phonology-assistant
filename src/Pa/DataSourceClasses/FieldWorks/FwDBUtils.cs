@@ -329,6 +329,31 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets the assumed writing system for phonetic fields in an FW7 project. An attempt
+		/// is first made to find a vernacular writing system that contains "ipa". If that
+		/// fails, then another attempt is made to find one containing "phonetic". If that
+		/// fails, then the default vernacular writing system is returned.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static FwWritingSysInfo GetDefaultPhoneticWritingSystem(IEnumerable<FwWritingSysInfo> writingSystems)
+		{
+			var ws = writingSystems.Where(w => w.Type == FwWritingSystemType.Vernacular)
+				.SingleOrDefault(w => w.Name.ToLower().Contains("ipa"));
+
+			if (ws != null)
+				return ws;
+
+			ws = writingSystems.Where(w => w.Type == FwWritingSystemType.Vernacular)
+				.SingleOrDefault(w => w.Name.ToLower().Contains("phonetic"));
+
+			if (ws != null)
+				return ws;
+
+			return writingSystems.Single(w => w.IsDefaultVernacular);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Gets the lexical entries from the project and server specified in the data source
 		/// information.
 		/// </summary>

@@ -19,7 +19,7 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		public static SfmDataSourceReader Create(BackgroundWorker worker, PaProject project, PaDataSource ds)
 		{
-			if (ds.FieldMappings.Any(m => m.Field.Type == FieldType.Phonetic))
+			if (!ds.FieldMappings.Any(m => m.Field.Type == FieldType.Phonetic))
 				return null;
 
 			var reader = new SfmDataSourceReader();

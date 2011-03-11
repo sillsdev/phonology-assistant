@@ -62,7 +62,12 @@ namespace SIL.Pa.UI.Dialogs
 
 			try
 			{
-				m_project.SetFields(m_fntGrid.Mappings.Select(m => m.Field), false);
+				foreach (var kvp in m_fntGrid.Fonts)
+				{
+					var field = m_project.Fields.SingleOrDefault(f => f.Name == kvp.Key);
+					if (field != null)
+						field.Font = kvp.Value;
+				}
 
 				// Since the fonts changed, delete the project's style sheet file. This will
 				// force it to be recreated the next time something is exported that needs it.

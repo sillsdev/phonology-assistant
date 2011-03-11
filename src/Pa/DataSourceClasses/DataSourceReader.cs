@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.DataSource.Sa;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.DataSource
@@ -449,8 +450,9 @@ namespace SIL.Pa.DataSource
 				BitsPerSample = reader.BitsPerSample,
 				SamplesPerSecond = reader.SamplesPerSecond,
 			};
-			
-			var saFields = PaField.GetSaFields();
+
+			var validSaFields = Settings.Default.DefaultSaFields.Cast<string>();
+			var saFields = m_project.Fields.Where(f => validSaFields.Contains(f.Name));
 
 			var audioField = saFields.SingleOrDefault(f => f.Type == FieldType.AudioFilePath);
 			if (audioField != null)

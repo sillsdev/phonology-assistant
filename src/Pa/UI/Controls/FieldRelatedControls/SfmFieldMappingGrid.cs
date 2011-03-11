@@ -10,6 +10,7 @@ namespace SIL.Pa.UI.Controls
 	public class SfmFieldMappingGrid : FieldMappingGridBase
 	{
 		private IDictionary<FieldType, string> m_displayableFieldTypes;
+		private readonly IEnumerable<PaField> m_defaultFields;
 
 		/// ------------------------------------------------------------------------------------
 		public SfmFieldMappingGrid(IEnumerable<PaField> potentialFields, IEnumerable<FieldMapping> mappings,
@@ -18,11 +19,10 @@ namespace SIL.Pa.UI.Controls
 			m_sourceFieldColumnHeadingTextHandler = srcFldColHdgTextHandler;
 			m_targetFieldColumnHeadingTextHandler = tgtFldColHdgTextHandler;
 			
-			m_potentialFields = potentialFields.Where(f => f.AllowUserToMap);
+			m_potentialFields = potentialFields;
+			m_mappings = mappings.ToList();
 
-			m_mappings = (from m in mappings
-						  where m.Field == null || m.Field.AllowUserToMap
-						  select m.Copy()).ToList();
+			m_defaultFields = PaField.GetDefaultFields();
 
 			ShowFontColumn(false);
 			RowCount = m_mappings.Count;
@@ -100,6 +100,27 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Modify the writing system combo list on the fly, only adding to the list those
+		/// writing systems appropriate for the field in the current row.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override KeyValuePair<object, IEnumerable<object>> OnGetComboCellList(
+			DataGridViewCell cell, DataGridViewEditingControlShowingEventArgs e)
+		{
+			var invalidTypes = new[] { FieldType.AudioFilePath, FieldType.AudioLength,
+				FieldType.AudioOffset, FieldType.Phonetic, FieldType.Reference };
+
+			// Build a list of field types the user may choose.
+			var validTypeNames = m_displayableFieldTypes.Where(kvp =>
+				!invalidTypes.Contains(kvp.Key)).Select(kvp => kvp.Value);
+
+			return new KeyValuePair<object, IEnumerable<object>>(
+				m_displayableFieldTypes[GetTypeAtOrDefault(cell.RowIndex)],
+				validTypeNames.Cast<object>());
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnCellValueNeeded(DataGridViewCellValueEventArgs e)
 		{
 			if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
@@ -168,23 +189,29 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
 		{
-			if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn)
+			if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
 			{
 				var mapping = m_mappings[e.RowIndex];
 				var type = GetTypeAtOrDefault(e.RowIndex);
-				this[e.ColumnIndex, e.RowIndex].ReadOnly = false;
+				var readOnly = false;
 
 				switch (Columns[e.ColumnIndex].Name)
 				{
+					case "fieldtype":
+						readOnly = mapping.Field != null && m_defaultFields.Any(f => f.Name == mapping.Field.Name);
+						break;
+
 					case "parsed":
-						this[e.ColumnIndex, e.RowIndex].ReadOnly = (!PaField.GetIsTypeParsable(type) ||
+						readOnly = (!PaField.GetIsTypeParsable(type) ||
 							(mapping.Field != null && mapping.Field.Type == FieldType.Phonetic));
 						break;
 					
 					case "interlinear":
-						this[e.ColumnIndex, e.RowIndex].ReadOnly = !PaField.GetIsTypeInterlinearizable(type);
+						readOnly = !PaField.GetIsTypeInterlinearizable(type);
 						break;
 				}
+
+				this[e.ColumnIndex, e.RowIndex].ReadOnly = readOnly;
 			}
 	
 			base.OnCellFormatting(e);

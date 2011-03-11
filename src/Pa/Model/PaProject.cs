@@ -28,6 +28,7 @@ namespace SIL.Pa.Model
 		private SortOptions m_searchVwSortOptions;
 		private SortOptions m_distChartVwSortOptions;
 		private Filter m_loadedFilter;
+		private List<PaField> m_lastNewlyAddedFields;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -39,6 +40,7 @@ namespace SIL.Pa.Model
 			Name = App.LocalizeString("DefaultNewProjectName", "New Project", App.kLocalizationGroupMisc);
 			ShowUndefinedCharsDlg = true;
 			IgnoreUndefinedCharsInSearches = true;
+			m_lastNewlyAddedFields = new List<PaField>(0);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -51,6 +53,7 @@ namespace SIL.Pa.Model
 		{
 			if (newProject)
 			{
+				Fields = PaField.GetDefaultFields();
 				DataSources = new List<PaDataSource>();
 				CVPatternInfoList = new List<CVPatternInfo>();
 				SearchClasses = SearchClassList.LoadDefaults(this);
@@ -317,15 +320,41 @@ namespace SIL.Pa.Model
 			DataCorpusVwSortOptions.PostDeserializeInitialization(this);
 			SearchVwSortOptions.PostDeserializeInitialization(this);
 			DistributionChartVwSortOptions.PostDeserializeInitialization(this);
-
-			foreach (var ds in DataSources)
-			{
-				var recoveredFields = ds.PostDeserializeInitialization(Fields);
-				if (recoveredFields != null)
-					Fields = PaField.Merge(Fields, recoveredFields);
-			}
+			FixupFieldsAndMappings();
 			
 			//project.VerifyDataSourceMappings();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This will go through the all the field mappings of all the data source's, making
+		/// sure each field mapping points to one of the fields in the project. If, along the
+		/// way, a mapping is found with a field that isn't found in the project's fields, then
+		/// a field is added for it. It is assumed that fields added in this way are ones
+		/// manually added in the SFM/Toolbox data source mappings dialog.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void FixupFieldsAndMappings()
+		{
+			var fields = Fields.ToList();
+
+			foreach (var ds in DataSources.Where(d => d.FieldMappings != null))
+			{
+				foreach (var mapping in ds.FieldMappings)
+				{
+					var field = Fields.SingleOrDefault(f => f.Name == mapping.PaFieldName);
+
+					// If field is null, it means the user has entered their own
+					// field name in one of the SFM/Toolbox data source mappings.
+					if (field == null)
+						fields.Add(new PaField(mapping.PaFieldName));
+
+					mapping.Field = field;
+					mapping.PaFieldName = null;
+				}
+			}
+
+			Fields = fields;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -362,15 +391,15 @@ namespace SIL.Pa.Model
 			return project;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		private void VerifyDataSourceMappings()
-		{
-			if (DataSources == null)
-				return;
+		///// ------------------------------------------------------------------------------------
+		//private void VerifyDataSourceMappings()
+		//{
+		//    if (DataSources == null)
+		//        return;
 
-			foreach (var ds in DataSources)
-				ds.VerifyMappings(this);
-		}
+		//    foreach (var ds in DataSources)
+		//        ds.VerifyMappings(this);
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleApplicationWindowActivated(object sender, EventArgs e)
@@ -438,41 +467,6 @@ namespace SIL.Pa.Model
 
 			EnsureSortOptionsValid();
 			App.MsgMediator.SendMessage("AfterLoadingDataSources", this);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void SetFields(IEnumerable<PaField> fields, bool keepPreviousCalculatedFields)
-		{
-			// Before setting the fields list, pull out the calculated fields in order to
-			// preserve their property settings. These will be added back into the list
-			// once it's been set to the new list.
-			var calculatedFields = (Fields == null ? null : PaField.GetCalculatedFieldsFromList(Fields));
-
-			// Set the new fields list, making sure that it contains, at least, the
-			// calculated fields with default properties.
-			var newFields = fields.ToList();
-
-			if (calculatedFields == null || !keepPreviousCalculatedFields)
-			{
-				Fields = PaField.EnsureListContainsCalculatedFields(newFields).ToList();
-				return;
-			}
-
-			// At this point, we know there used to be calculated fields in the list so we
-			// need to toss out any that might have come in the new list and restore the
-			// old ones.
-			foreach (var field in PaField.GetCalculatedFieldsFromList(newFields).ToList())
-				newFields.Remove(field);
-
-			Fields = newFields.Concat(calculatedFields).OrderBy(f => f.DisplayName).ToList();
-		
-			// Now go through our data source mappings and make sure all the fields in the
-			// mappings reference those in our new project's field list.
-			foreach (var mapping in DataSources.SelectMany(ds => ds.FieldMappings))
-			{
-				var field = Fields.Single(f => f.Name == mapping.PaFieldName);
-				mapping.Field = field;
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -647,6 +641,27 @@ namespace SIL.Pa.Model
 		public PaField GetFieldForDisplayName(string displayName)
 		{
 			return Fields.SingleOrDefault(f => f.DisplayName == displayName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not the specified field was added the last
+		/// time the project settings were changed.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsNewlyAddedField(PaField field)
+		{
+			return (m_lastNewlyAddedFields.Any(f => f.Name == field.Name));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a subset of the project's fields based on whether or not a field is mapped.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<PaField> GetMappedFields()
+		{
+			return DataSources.SelectMany(ds => ds.FieldMappings).Select(m => m.Field);
 		}
 
 		#region Loading/Saving Caches

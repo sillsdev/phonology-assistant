@@ -26,25 +26,23 @@ namespace SIL.Pa.Model
 
 	/// ----------------------------------------------------------------------------------------
 	[XmlType("field")]
-	public class PaField : IDisposable
+	public class PaField
 	{
+		private static FieldDisplayPropsCache s_displayPropsCache;
+
+		public const string kPhoneticFieldName = "Phonetic";
 		public const string kCVPatternFieldName = "CVPattern";
 		public const string kDataSourceFieldName = "DataSource";
 		public const string kDataSourcePathFieldName = "DataSourcePath";
+		public const string kAudioFileFieldName = "AudioFile";
 		public const string kAudioOffsetFieldName = "AudioOffset";
 		public const string kAudioLengthFieldName = "AudioLength";
 
-		private bool m_allowUserToMap;
 		private string m_isCollection;
-		private Font m_font;
 
 		/// ------------------------------------------------------------------------------------
 		public PaField()
 		{
-			AllowUserToMap = true;
-			VisibleInGrid = true;
-			VisibleInRecView = true;
-			WidthInGrid = 100;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -57,15 +55,19 @@ namespace SIL.Pa.Model
 		{
 			Name = name;
 			Type = type;
-
-			if (type == FieldType.Phonetic)
-				Font = App.PhoneticFont;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Dispose()
+		public PaField Copy()
 		{
-			Font = null;
+			return new PaField
+			{
+				Name = Name,
+				Type = Type,
+				SerializablePossibleDataSourceFieldNames = SerializablePossibleDataSourceFieldNames,
+				IsHidden = IsHidden,
+				FwWsType = FwWsType,
+			};
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -101,104 +103,78 @@ namespace SIL.Pa.Model
 		public string SerializablePossibleDataSourceFieldNames { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public Font Font
-		{
-			get { return (m_font ?? FontHelper.UIFont); }
-			set
-			{
-				if (m_font != null)
-					m_font.Dispose();
-
-				m_font = (value == null ? null : (Font)value.Clone());
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[XmlElement("font")]
-		public SerializableFont SFont
-		{
-			get { return (m_font == null ? null : new SerializableFont(m_font)); }
-			set { if (value != null) m_font = (Font)value.Font.Clone(); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[XmlElement("rightToLeft")]
-		public bool RightToLeft { get; set; }
-
-		#region Properties for field's visibility in grids and rec. views
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This is not serialized but is set from information read from a project file after
-		/// it has been loaded. The user sets this value via the default grid setup dialog.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlElement("visibleInGrid")]
-		public bool VisibleInGrid { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This is not serialized but is set from information read from a project file after
-		/// it has been loaded. The user sets this value via the word list tab in the options
-		/// dialog.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlElement("visibleInRecView")]
-		public bool VisibleInRecView { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This is not serialized but is set from information read from a project file after
-		/// it has been loaded. The user sets this value via the word list tab on the
-		/// tools/options dialog.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlElement("displayIndexInGrid")]
-		public int DisplayIndexInGrid { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This is not serialized but is set from information read from a project file after
-		/// it has been loaded. The user sets this value via the record view tab on the
-		/// tools/options dialog.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlElement("displayIndexInRecView")]
-		public int DisplayIndexInRecView { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This is not serialized but is set from information read from a project file after
-		/// it has been loaded. The user sets this value via the default grid setup dialog.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlElement("widthInGrid")]
-		public int WidthInGrid { get; set; }
-
-		/// ------------------------------------------------------------------------------------
 		[XmlElement("fwWritingSystemType")]
 		public FwDBUtils.FwWritingSystemType FwWsType { get; set; }
-
-		#endregion
-
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public bool AllowUserToMap
-		{
-			get { return m_allowUserToMap && !IsHidden; }
-			set { m_allowUserToMap = value; }
-		}
 
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public bool IsHidden { get; set; }
 
+		#region Display properties
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public Font Font
+		{
+			get { return s_displayPropsCache.GetFont(Name); }
+			set { s_displayPropsCache.SetFont(Name, value); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public bool RightToLeft
+		{
+			get { return s_displayPropsCache.GetIsRightToLeft(Name); }
+			set { s_displayPropsCache.SetIsRightToLeft(Name, value); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public bool VisibleInGrid
+		{
+			get { return !IsHidden && s_displayPropsCache.GetIsVisibleInGrid(Name); }
+			set { s_displayPropsCache.SetIsVisibleInGrid(Name, value); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public bool VisibleInRecView
+		{
+			get { return !IsHidden && s_displayPropsCache.GetIsVisibleInRecView(Name); }
+			set { s_displayPropsCache.SetIsVisibleInRecView(Name, value); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public int DisplayIndexInGrid
+		{
+			get { return (IsHidden ? -1 :s_displayPropsCache.GetIndexInGrid(Name)); }
+			set { s_displayPropsCache.SetIndexInGrid(Name, value); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public int DisplayIndexInRecView
+		{
+			get { return (IsHidden ? -1 : s_displayPropsCache.GetIndexInRecView(Name)); }
+			set { s_displayPropsCache.SetIndexInRecView(Name, value); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public int WidthInGrid
+		{
+			get { return s_displayPropsCache.GetWidthInGrid(Name); }
+			set { s_displayPropsCache.SetWidthInGrid(Name, value); }
+		}
+
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public string DisplayName
 		{
-			get { return GetDisplayName(Name); }
+			get { return PaFieldDisplayProperties.GetDisplayName(Name); }
 		}
+
+		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		public string GetTypeDisplayName()
@@ -245,28 +221,15 @@ namespace SIL.Pa.Model
 			return (DisplayName ?? base.ToString());
 		}
 
+		#region Static methods
 		/// ------------------------------------------------------------------------------------
-		public PaField Copy()
+		public static bool GetIsReservedFieldName(string name)
 		{
-			return new PaField
-			{
-				Name = Name,
-				Type = Type,
-				SerializablePossibleDataSourceFieldNames = SerializablePossibleDataSourceFieldNames,
-				VisibleInGrid = VisibleInGrid,
-				VisibleInRecView = VisibleInRecView,
-				DisplayIndexInGrid = DisplayIndexInGrid,
-				DisplayIndexInRecView = DisplayIndexInRecView,
-				WidthInGrid = WidthInGrid,
-				AllowUserToMap = AllowUserToMap,
-				IsHidden = IsHidden,
-				RightToLeft = RightToLeft,
-				FwWsType = FwWsType,
-				Font = m_font,
-			};
+			return ((kCVPatternFieldName + ";" + kDataSourceFieldName + ";" +
+				kDataSourcePathFieldName + ";" + kAudioOffsetFieldName + ";" +
+				kAudioLengthFieldName).Contains(name));
 		}
 
-		#region Static methods
 		/// ------------------------------------------------------------------------------------
 		public static bool GetIsTypeParsable(FieldType type)
 		{
@@ -281,81 +244,29 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Determines whether or not the specified field should have a font saved with it.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static bool GetShouldFieldHaveFont(PaField field)
-		{
-			return (field.Type != FieldType.AudioLength && field.Type != FieldType.AudioOffset);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Merges two lists of fields, returning a list of distinct fields by name. A null
-		/// list will be treated as an empty list, so null will never be returned, but an
-		/// empty list may. The returned, merged list, contains deep copies of those fields
-		/// found in the two lists. If a field is found in both lists, a copy of the one 
-		/// from list1 will be returned in the merged list.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static IEnumerable<PaField> Merge(IEnumerable<PaField> list1, IEnumerable<PaField> list2)
-		{
-			// I think there's a slicker linq way to do this, but I couldn't figure it out and
-			// as I tried, it looked like it may end up looking more complicated to read.
-
-			var newList = (list1 == null ? new List<PaField>() : list1.ToList());
-			if (list2 != null)
-				newList.AddRange(list2.Where(field => !newList.Any(f => f.Name == field.Name)));
-	
-			return newList.Select(f => f.Copy());
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static List<PaField> GetSaFields()
-		{
-			var path = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultSaFields.xml");
-			return LoadFields(path, "SaFields");
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static List<PaField> GetDefaultSfmFields()
-		{
-			var path = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultSfmFields.xml");
-			return LoadFields(path, "SfmFields");
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static List<PaField> GetDefaultFw7Fields()
-		{
-			var path = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultFw7Fields.xml");
-			return LoadFields(path, "Fw7Fields");
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public static List<PaField> GetProjectFields(PaProject project)
 		{
 			var path = project.ProjectPathFilePrefix + "Fields.xml";
-			var fields = (File.Exists(path) ? LoadFields(path, "Fields") : new List<PaField>());
-
-			// Initialize the phonetic font if it hasn't been specified.
-			var field = fields.SingleOrDefault(f => f.Type == FieldType.Phonetic);
-			if (field != null && field.m_font == null)
-				field.Font = App.PhoneticFont;
-
-			// Initialize the CV pattern font if it hasn't been specified.
-			field = fields.SingleOrDefault(f => f.Name == kCVPatternFieldName);
-			if (field != null && field.m_font == null)
-				field.Font = App.PhoneticFont;
-
+			var fields = (File.Exists(path) ? LoadFields(path, "Fields") : GetDefaultFields());
+			s_displayPropsCache = FieldDisplayPropsCache.LoadProjectFieldDisplayProps(project);
 			return fields;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static List<PaField> GetDefaultFields()
+		{
+			var path = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultFields.xml");
+			return EnsureListContainsCalculatedFields(LoadFields(path, "DefaultPaFields")).ToList();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public static Exception SaveProjectFields(PaProject project)
 		{
+			if (s_displayPropsCache == null)
+				s_displayPropsCache = FieldDisplayPropsCache.LoadProjectFieldDisplayProps(project);
+
+			Exception e = s_displayPropsCache.SaveProjectFieldDisplayProps(project);
 			var path = project.ProjectPathFilePrefix + "Fields.xml";
-			Exception e = null;
 			XmlSerializationHelper.SerializeToFile(path, project.Fields.ToList(), "Fields", out e);
 			return e;
 		}
@@ -367,17 +278,7 @@ namespace SIL.Pa.Model
 			var list = XmlSerializationHelper.DeserializeFromFile<List<PaField>>(path, rootElementName, out e);
 
 			if (e == null)
-			{
-				int index = 0;
-				foreach (var field in list.OrderBy(f => f.DisplayIndexInGrid))
-					field.DisplayIndexInGrid = index++;
-
-				index = 0;
-				foreach (var field in list.OrderBy(f => f.DisplayIndexInRecView))
-					field.DisplayIndexInRecView = index++;
-
 				return EnsureListContainsCalculatedFields(list).ToList();
-			}
 
 			var msg = App.LocalizeString("ReadingFieldsFileErrorMsg",
 				"The following error occurred when reading the file\n\n'{0}'\n\n{1}",
@@ -399,7 +300,7 @@ namespace SIL.Pa.Model
 				field.IsHidden = true;
 			else
 			{
-				field = GetUnmappableField(kAudioOffsetFieldName, FieldType.AudioOffset);
+				field = new PaField(kAudioOffsetFieldName, FieldType.AudioOffset);
 				field.IsHidden = true;
 				fields.Add(field);
 			}
@@ -409,24 +310,19 @@ namespace SIL.Pa.Model
 				field.IsHidden = true;
 			else
 			{
-				field = GetUnmappableField(kAudioLengthFieldName, FieldType.AudioLength);
+				field = new PaField(kAudioLengthFieldName, FieldType.AudioLength);
 				field.IsHidden = true;
 				fields.Add(field);
 			}
 
 			if (!fields.Any(f => f.Name == kDataSourcePathFieldName))
-				fields.Add(GetUnmappableField(kDataSourcePathFieldName, FieldType.GeneralFilePath));
+				fields.Add(new PaField(kDataSourcePathFieldName, FieldType.GeneralFilePath));
 
-			if (!fields.Any(f => f.Name == kDataSourcePathFieldName))
-				fields.Add(GetUnmappableField(kDataSourcePathFieldName, FieldType.GeneralFilePath));
+			if (!fields.Any(f => f.Name == kDataSourceFieldName))
+				fields.Add(new PaField(kDataSourceFieldName, FieldType.GeneralFilePath));
 
 			if (!fields.Any(f => f.Name == kCVPatternFieldName))
-			{
-				var phoneticField = fields.SingleOrDefault(f => f.Type == FieldType.Phonetic);
-				var cvField = GetUnmappableField(kCVPatternFieldName, default(FieldType));
-				cvField.Font = (phoneticField != null ? phoneticField.Font : App.PhoneticFont);
-				fields.Add(cvField);
-			}
+				fields.Add(new PaField(kCVPatternFieldName, default(FieldType)));
 
 			return fields.OrderBy(f => f.DisplayName);
 		}
@@ -443,17 +339,6 @@ namespace SIL.Pa.Model
 		{
 			return (field.Name == kCVPatternFieldName ||
 				field.Name == kDataSourceFieldName || field.Name == kDataSourcePathFieldName);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private static PaField GetUnmappableField(string name, FieldType type)
-		{
-			return new PaField(name, type)
-			{
-				AllowUserToMap = false,
-				VisibleInGrid = false,
-				VisibleInRecView = false,
-			};
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -486,219 +371,6 @@ namespace SIL.Pa.Model
 			yield return new KeyValuePair<FieldType, string>(FieldType.AudioFilePath,
 				App.LocalizeString("DisplayableFieldTypeNames.AudioFilePath", "Audio File Path",
 				App.kLocalizationGroupMisc));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string GetDisplayName(string name)
-		{
-			switch (name)
-			{
-				case kCVPatternFieldName: return App.LocalizeString("DisplayableFieldNames.CVPattern",
-										"CV Pattern", App.kLocalizationGroupMisc);
-
-				case kDataSourceFieldName: return App.LocalizeString("DisplayableFieldNames.DataSource",
-										"Data Source", App.kLocalizationGroupMisc);
-
-				case kDataSourcePathFieldName: return App.LocalizeString("DisplayableFieldNames.DataSourcePath",
-										"Data Source Path", App.kLocalizationGroupMisc);
-
-				case "Reference": return App.LocalizeString("DisplayableFieldNames.Reference",
-										"Reference", App.kLocalizationGroupMisc);
-
-				case "Phonetic": return App.LocalizeString("DisplayableFieldNames.Phonetic",
-										"Phonetic", App.kLocalizationGroupMisc);
-
-				case "Gloss": return App.LocalizeString("DisplayableFieldNames.Gloss",
-										"Gloss", App.kLocalizationGroupMisc);
-
-				case "NatGloss": return App.LocalizeString("DisplayableFieldNames.NatGloss",
-										"Gloss (Nat.)", App.kLocalizationGroupMisc);
-
-				case "PartOfSpeech": return App.LocalizeString("DisplayableFieldNames.PartOfSpeech",
-										"Part of Speech", App.kLocalizationGroupMisc);
-
-				case "Tone": return App.LocalizeString("DisplayableFieldNames.Tone",
-										"Tone", App.kLocalizationGroupMisc);
-
-				case "Orthographic": return App.LocalizeString("DisplayableFieldNames.Orthographic",
-										"Orthographic", App.kLocalizationGroupMisc);
-
-				case "Phonemic": return App.LocalizeString("DisplayableFieldNames.Phonemic",
-										"Phonemic", App.kLocalizationGroupMisc);
-
-				case "AudioFile": return App.LocalizeString("DisplayableFieldNames.AudioFile",
-										"Audio File", App.kLocalizationGroupMisc);
-
-				case "AudioFileLabel": return App.LocalizeString("DisplayableFieldNames.AudioFileLabel",
-										"Audio File Label", App.kLocalizationGroupMisc);
-
-				case "FreeFormTranslation": return App.LocalizeString("DisplayableFieldNames.FreeFormTranslation",
-										"Free Translation", App.kLocalizationGroupMisc);
-
-				case "NoteBookReference": return App.LocalizeString("DisplayableFieldNames.NoteBookReference",
-										"Note Book Ref.", App.kLocalizationGroupMisc);
-
-				case "Dialect": return App.LocalizeString("DisplayableFieldNames.Dialect",
-										"Dialect", App.kLocalizationGroupMisc);
-
-				case "EthnologueId": return App.LocalizeString("DisplayableFieldNames.EthnologueId",
-										"Ethnologue Id", App.kLocalizationGroupMisc);
-
-				case "LanguageName": return App.LocalizeString("DisplayableFieldNames.LanguageName",
-										"Language Name", App.kLocalizationGroupMisc);
-
-				case "Region": return App.LocalizeString("DisplayableFieldNames.Region",
-										"Region", App.kLocalizationGroupMisc);
-
-				case "Country": return App.LocalizeString("DisplayableFieldNames.Country",
-										"Country", App.kLocalizationGroupMisc);
-
-				case "Family": return App.LocalizeString("DisplayableFieldNames.Family",
-										"Family", App.kLocalizationGroupMisc);
-
-				case "Transcriber": return App.LocalizeString("DisplayableFieldNames.Transcriber",
-										"Transcriber", App.kLocalizationGroupMisc);
-
-				case "SpeakerName": return App.LocalizeString("DisplayableFieldNames.SpeakerName",
-										"Speaker Name", App.kLocalizationGroupMisc);
-
-				case "SpeakerGender": return App.LocalizeString("DisplayableFieldNames.SpeakerGender",
-										"Speaker Gender", App.kLocalizationGroupMisc);
-
-				case "SADescription": return App.LocalizeString("DisplayableFieldNames.SADescription",
-										"Description", App.kLocalizationGroupMisc);
-			
-				case "CitationForm": return App.LocalizeString("DisplayableFieldNames.CitationForm",
-										"Citation Form", App.kLocalizationGroupMisc);
-
-				case "MorphType": return App.LocalizeString("DisplayableFieldNames.MorphType",
-										"Morpheme Type", App.kLocalizationGroupMisc);
-
-				case "Etymology": return App.LocalizeString("DisplayableFieldNames.Etymology",
-										"Etymology", App.kLocalizationGroupMisc);
-
-				case "LiteralMeaning": return App.LocalizeString("DisplayableFieldNames.LiteralMeaning",
-										"Literal Meaning", App.kLocalizationGroupMisc);
-
-				case "Bibliography": return App.LocalizeString("DisplayableFieldNames.Bibliography",
-										"Bibliography", App.kLocalizationGroupMisc);
-
-				case "Restrictions": return App.LocalizeString("DisplayableFieldNames.Restrictions",
-										"Restrictions", App.kLocalizationGroupMisc);
-				
-				case "SummaryDefinition": return App.LocalizeString("DisplayableFieldNames.SummaryDefinition",
-										"Summary Definition", App.kLocalizationGroupMisc);
-
-				case "Note": return App.LocalizeString("DisplayableFieldNames.Note",
-										"Note", App.kLocalizationGroupMisc);
-
-				case "CV-Pattern-Flex": return App.LocalizeString("DisplayableFieldNames.FlexCVPattern",
-										"CV Pattern (FLEx)", App.kLocalizationGroupMisc);
-	
-				case "Location": return App.LocalizeString("DisplayableFieldNames.Location",
-										"Location", App.kLocalizationGroupMisc);
-	
-				case "ExcludeAsHeadword": return App.LocalizeString("DisplayableFieldNames.ExcludeAsHeadword",
-										"Exclude As Headword", App.kLocalizationGroupMisc);
-				
-				case "ImportResidue": return App.LocalizeString("DisplayableFieldNames.ImportResidue",
-										"Import Residue", App.kLocalizationGroupMisc);
-				
-				case "DateCreated": return App.LocalizeString("DisplayableFieldNames.DateCreated",
-										"Date Created", App.kLocalizationGroupMisc);
-				
-				case "DateModified": return App.LocalizeString("DisplayableFieldNames.DateModified",
-										"Date Modified", App.kLocalizationGroupMisc);
-
-				case "Definition": return App.LocalizeString("DisplayableFieldNames.Definition",
-										"Definition", App.kLocalizationGroupMisc);
-				
-				case "ScientificName": return App.LocalizeString("DisplayableFieldNames.ScientificName",
-										"Scientific Name", App.kLocalizationGroupMisc);
-				
-				case "AnthropologyNote": return App.LocalizeString("DisplayableFieldNames.AnthropologyNote",
-										"Anthropology Note", App.kLocalizationGroupMisc);
-				
-				case "Bibliography-Sense": return App.LocalizeString("DisplayableFieldNames.Bibliography-Sense",
-										"Bibliography (Sense)", App.kLocalizationGroupMisc);
-				
-				case "DiscourseNote": return App.LocalizeString("DisplayableFieldNames.DiscourseNote",
-										"Discourse Note", App.kLocalizationGroupMisc);
-				
-				case "EncyclopedicInfo": return App.LocalizeString("DisplayableFieldNames.EncyclopedicInfo",
-										"Encyclopedic Info.", App.kLocalizationGroupMisc);
-				
-				case "GeneralNote": return App.LocalizeString("DisplayableFieldNames.GeneralNote",
-										"General Note", App.kLocalizationGroupMisc);
-				
-				case "GrammarNote": return App.LocalizeString("DisplayableFieldNames.Grammar Note",
-										"Grammar Note", App.kLocalizationGroupMisc);
-				
-				case "PhonologyNote": return App.LocalizeString("DisplayableFieldNames.PhonologyNote",
-										"Phonology Note", App.kLocalizationGroupMisc);
-				
-				case "Restrictions-Sense": return App.LocalizeString("DisplayableFieldNames.Restrictions-Sense",
-										"Restrictions (Sense)", App.kLocalizationGroupMisc);
-				
-				case "SemanticsNote": return App.LocalizeString("DisplayableFieldNames.SemanticsNote",
-										"Semantics Note", App.kLocalizationGroupMisc);
-				
-				case "SociolinguisticsNote": return App.LocalizeString("DisplayableFieldNames.SociolinguisticsNote",
-										"Sociolinguistics Note", App.kLocalizationGroupMisc);
-
-				case "ReversalEntries": return App.LocalizeString("DisplayableFieldNames.ReversalEntries",
-									   "Reversal Entries", App.kLocalizationGroupMisc);
-
-				case "Source": return App.LocalizeString("DisplayableFieldNames.Source",
-										"Source", App.kLocalizationGroupMisc);
-				
-				case "SenseType": return App.LocalizeString("DisplayableFieldNames.SenseType",
-										"Sense Type", App.kLocalizationGroupMisc);
-				
-				case "Status": return App.LocalizeString("DisplayableFieldNames.Status",
-										"Status", App.kLocalizationGroupMisc);
-				
-				case "ImportResidue-Sense": return App.LocalizeString("DisplayableFieldNames.ImportResidue-Sense",
-										"Import Residue (Sense)", App.kLocalizationGroupMisc);
-
-				case "AnthroCodes": return App.LocalizeString("DisplayableFieldNames.AnthroCategories",
-										"Anthropology Categories", App.kLocalizationGroupMisc);
-				
-				case "DomainTypes": return App.LocalizeString("DisplayableFieldNames.DomainTypes",
-										"Domain Types", App.kLocalizationGroupMisc);
-				
-				case "SemanticDomains": return App.LocalizeString("DisplayableFieldNames.SemanticDomains",
-										"Semantic Domains", App.kLocalizationGroupMisc);
-				
-				case "Usages": return App.LocalizeString("DisplayableFieldNames.Usages",
-										"Usages", App.kLocalizationGroupMisc);
-
-				case "Variants": return App.LocalizeString("DisplayableFieldNames.Variants",
-										"Variants", App.kLocalizationGroupMisc);
-
-				case "VariantTypes": return App.LocalizeString("DisplayableFieldNames.VariantTypes",
-										"Variant Types", App.kLocalizationGroupMisc);
-
-				case "VariantComments": return App.LocalizeString("DisplayableFieldNames.VariantComments",
-										"Variant Comments", App.kLocalizationGroupMisc);
-
-				case "ComplexForms": return App.LocalizeString("DisplayableFieldNames.ComplexForms",
-										"Complex Forms", App.kLocalizationGroupMisc);
-
-				case "Components": return App.LocalizeString("DisplayableFieldNames.Components",
-										"Components", App.kLocalizationGroupMisc);
-
-				case "ComplexTypes": return App.LocalizeString("DisplayableFieldNames.ComplexTypes",
-										"Complex Types", App.kLocalizationGroupMisc);
-
-				case "ComplexFormComments": return App.LocalizeString("DisplayableFieldNames.ComplexFormComments",
-										"Complex Form Comments", App.kLocalizationGroupMisc);
-
-				case "Allomorphs": return App.LocalizeString("DisplayableFieldNames.Allomorphs",
-										"Allomorphs", App.kLocalizationGroupMisc);
-			}
-
-			return name;
 		}
 
 		#endregion

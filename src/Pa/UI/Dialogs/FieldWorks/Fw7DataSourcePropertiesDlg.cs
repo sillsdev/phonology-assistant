@@ -21,6 +21,8 @@ namespace SIL.Pa.UI.Dialogs
 		private readonly PaDataSource m_datasource;
 		private readonly IEnumerable<PaField> m_potentialFields;
 		private Fw7FieldMappingGrid m_grid;
+		private FieldMapping m_phoneticMapping;
+		private FieldMapping m_audioFileMapping;
 
 		#region Construction and initialization
 		/// ------------------------------------------------------------------------------------
@@ -30,13 +32,20 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public Fw7DataSourcePropertiesDlg(PaDataSource ds, IEnumerable<PaField> potentialFields) : this()
+		public Fw7DataSourcePropertiesDlg(PaDataSource ds, IEnumerable<PaField> projectFields) : this()
 		{
 			if (App.DesignMode)
 				return;
 
 			m_datasource = ds;
-			m_potentialFields = potentialFields.Select(f => f.Copy());
+
+			m_phoneticMapping = ds.FieldMappings.Single(m => m.Field.Type == FieldType.Phonetic);
+			m_audioFileMapping = ds.FieldMappings.Single(m => m.Field.Type == FieldType.AudioFilePath);
+			ds.FieldMappings.Remove(m_phoneticMapping);
+			ds.FieldMappings.Remove(m_audioFileMapping);
+
+			var potentialFieldNames = Settings.Default.DefaultFw7Fields.Cast<string>();
+			m_potentialFields = projectFields.Where(f => potentialFieldNames.Contains(f.Name));
 
 			lblProjectValue.Text = ds.FwDataSourceInfo.ToString();
 			lblProject.Font = FontHelper.UIFont;
@@ -49,8 +58,8 @@ namespace SIL.Pa.UI.Dialogs
 			lblPronunciationOptions.Font = FontHelper.UIFont;
 			cboPronunciationOptions.Font = FontHelper.UIFont;
 
-			InitializeGrid(ds, m_potentialFields);
-			InitializePhoneticFieldInfo(ds);
+			InitializeGrid();
+			InitializePhoneticFieldInfo();
 
 			m_dirty = false;
 			LocalizeItemDlg.StringsLocalized += InitializePronunciationCombo;
@@ -74,9 +83,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// if any.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void InitializeGrid(PaDataSource ds, IEnumerable<PaField> potentialFields)
+		private void InitializeGrid()
 		{
-			m_grid = new Fw7FieldMappingGrid(ds, potentialFields);
+			m_grid = new Fw7FieldMappingGrid(m_datasource, m_potentialFields);
 			m_grid.Dock = DockStyle.Fill;
 			pnlGrid.Controls.Add(m_grid);
 
@@ -87,39 +96,28 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void InitializePhoneticFieldInfo(PaDataSource ds)
+		private void InitializePhoneticFieldInfo()
 		{
-			cboPhoneticWritingSystem.Items.AddRange(ds.FwDataSourceInfo.GetWritingSystems()
+			cboPhoneticWritingSystem.Items.AddRange(m_datasource.FwDataSourceInfo.GetWritingSystems()
 				.Where(ws => ws.Type == FwDBUtils.FwWritingSystemType.Vernacular)
 				.Select(ws => ws.Name).ToArray());
 
-			cboPhoneticWritingSystem.SelectedIndex = 0;
-
-			if (ds.FieldMappings != null)
-			{
-				var mapping = ds.FieldMappings.SingleOrDefault(m =>
-					m.Field != null && m.Field.Type == FieldType.Phonetic);
-
-				if (mapping != null)
-				{
-					var fwws = ds.FwDataSourceInfo.GetWritingSystems().SingleOrDefault(ws => ws.Id == mapping.FwWsId);
-					cboPhoneticWritingSystem.SelectedItem = (fwws != null ?
-						fwws.Name : cboPhoneticWritingSystem.Items[0]);
-				}
-			}
+			// Set the phonetic writing system combo's initial value.
+			var fwws = m_datasource.FwDataSourceInfo.GetWritingSystems().SingleOrDefault(ws => ws.Id == m_phoneticMapping.FwWsId);
+			cboPhoneticWritingSystem.SelectedItem = (fwws != null ? fwws.Name : cboPhoneticWritingSystem.Items[0]);
 
 			InitializePronunciationCombo();
 
-			if (ds.FwDataSourceInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.PronunciationField)
+			if (m_datasource.FwDataSourceInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.PronunciationField)
 				cboPronunciationOptions.SelectedIndex = 0;
-			else if (ds.FwDataSourceInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.AllPronunciationFields)
+			else if (m_datasource.FwDataSourceInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.AllPronunciationFields)
 				cboPronunciationOptions.SelectedIndex = 1;
 
-			rbLexForm.Checked = 
-				(ds.FwDataSourceInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.LexemeForm);
+			rbLexForm.Checked =
+				(m_datasource.FwDataSourceInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.LexemeForm);
 
 			rbPronunField.Checked =
-				(ds.FwDataSourceInfo.PhoneticStorageMethod != FwDBUtils.PhoneticStorageMethod.LexemeForm);
+				(m_datasource.FwDataSourceInfo.PhoneticStorageMethod != FwDBUtils.PhoneticStorageMethod.LexemeForm);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -208,6 +206,16 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnFormClosed(FormClosedEventArgs e)
+		{
+			// Restore the phonetic and audio file mappings to the field mappings collection.
+			m_datasource.FieldMappings.Add(m_phoneticMapping);
+			m_datasource.FieldMappings.Add(m_audioFileMapping);
+
+			base.OnFormClosed(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Saves the changes.
 		/// </summary>
@@ -223,28 +231,11 @@ namespace SIL.Pa.UI.Dialogs
 
 			m_datasource.FieldMappings = m_grid.Mappings.ToList();
 
-			// Find the phonetic field in the list of potential fields.
-			var field = m_potentialFields.Single(f => f.Type == FieldType.Phonetic);
-
 			// Find the phonetic writing system for the one selected by the user.
 			var ws = m_datasource.FwDataSourceInfo.GetWritingSystems()
 				.Single(w => w.Name == cboPhoneticWritingSystem.SelectedItem as string);
 
-			// Add the phonetic mapping back in since the grid thew it out on account
-			// of it coming for free without the user being allowed to map it.
-			m_datasource.FieldMappings.Add(new FieldMapping(field.Name, field, false) { FwWsId = ws.Id });
-
-			// Add the audio file mapping back in since the grid thew it out account
-			// of it coming for free without the user being allowed to map it.
-			field = m_potentialFields.Single(f => f.Type == FieldType.AudioFilePath);
-			m_datasource.FieldMappings.Add(new FieldMapping(field.Name, field, false));
-
-			// Go through the mappings and mark those that should be parsed.
-			foreach (var mapping in m_datasource.FieldMappings
-				.Where(m => Settings.Default.ParsedFw7Fields.Contains(m.NameInDataSource)))
-			{
-				mapping.IsParsed = true;
-			}
+			m_phoneticMapping.FwWsId = ws.Id;
 
 			return true;
 		}

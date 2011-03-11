@@ -400,8 +400,7 @@ namespace SIL.Pa.UI.Dialogs
 			Project.SpeakerName = txtSpeaker.Text.Trim();
 			Project.Comments = txtComments.Text.Trim();
 			Project.DataSources = m_dataSources;
-			Project.SetFields(m_dataSources.SelectMany(ds => ds.FieldMappings)
-				.Select(m => m.Field).Distinct(new FieldNameComparer()), true);
+			Project.FixupFieldsAndMappings();
 			
 			Project.Save();
 
@@ -485,7 +484,7 @@ namespace SIL.Pa.UI.Dialogs
 					continue;
 				}
 
-				m_dataSources.Add(new PaDataSource(file));
+				m_dataSources.Add(new PaDataSource(Project.Fields, file));
 			}
 
 			LoadGrid(m_grid.Rows.Count);
@@ -515,7 +514,7 @@ namespace SIL.Pa.UI.Dialogs
 						return;
 					}
 
-					m_dataSources.Add(new PaDataSource(dlg.ChosenDatabase));
+					m_dataSources.Add(new PaDataSource(Project.Fields, dlg.ChosenDatabase));
 					LoadGrid(m_grid.Rows.Count);
 					m_dirty = true;
 				}
@@ -543,7 +542,7 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 			}
 
-			m_dataSources.Add(new PaDataSource(info));
+			m_dataSources.Add(new PaDataSource(Project.Fields, info));
 			LoadGrid(m_grid.Rows.Count);
 			m_dirty = true;
 		}
@@ -625,24 +624,14 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 			}
 
-			using (var dlg = new SFDataSourcePropertiesDlg(ds, GetFieldsMappedToSfm()))
+			using (var dlg = new SFDataSourcePropertiesDlg(ds, Project.Fields))
 			{
 				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChangesWereMade)
+				{
 					m_dirty = true;
+					Project.FixupFieldsAndMappings();
+				}
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets all fields, from all the SFM data sources, that have been mapped to markers.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private IEnumerable<PaField> GetFieldsMappedToSfm()
-		{
-			// Get only those fields found in SFM/Toolbox data sources.
-			return m_dataSources.Where(ds => ds.FieldMappings != null && ds.IsSfmType)
-				.SelectMany(ds => ds.FieldMappings)
-				.Select(m => m.Field).Distinct(new FieldNameComparer());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -663,7 +652,10 @@ namespace SIL.Pa.UI.Dialogs
 			using (var dlg = new FwDataSourcePropertiesDlg(Project, ds.FwDataSourceInfo))
 			{
 				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChangesWereMade)
+				{
 					m_dirty = true;
+					Project.FixupFieldsAndMappings();
+				}
 			}
 		}
 
@@ -676,37 +668,21 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 			}
 
-			using (var dlg = new Fw7DataSourcePropertiesDlg(ds, GetPotentialFw7Fields()))
+			using (var dlg = new Fw7DataSourcePropertiesDlg(ds, Project.Fields))
 			{
-				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChangesWereMade)
-					m_dirty = true;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Get only fields valid for an FW7 data source. Then where any of those
-		/// fields are already found in the project's list, take the project's version
-		/// since it may have some customized settings (e.g. column index in grids)
-		/// but update the writing system type in project's version.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private IEnumerable<PaField> GetPotentialFw7Fields()
-		{
-			var potentialFields = PaField.GetDefaultFw7Fields();
-			
-			foreach (var field in Project.Fields)
-			{
-				var pf = potentialFields.SingleOrDefault(f => f.Name == field.Name);
-				if (pf != null)
-				{
-					field.FwWsType = pf.FwWsType;
-					potentialFields.Remove(pf);
-					potentialFields.Add(field);
-				}
+				if (dlg.ShowDialog(this) != DialogResult.OK || !dlg.ChangesWereMade)
+					return;
 			}
 
-			return potentialFields;
+			// Go through the new mappings and mark those that should be parsed.
+			foreach (var mapping in ds.FieldMappings
+				.Where(m => Settings.Default.ParsedFw7Fields.Contains(m.NameInDataSource)))
+			{
+				mapping.IsParsed = true;
+			}
+
+			Project.FixupFieldsAndMappings();
+			m_dirty = true;
 		}
 
 		/// ------------------------------------------------------------------------------------

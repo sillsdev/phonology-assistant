@@ -45,7 +45,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void InitializeWordListValues()
 		{
-			fldSelGridWrdList.Load(from field in m_project.Fields
+			fldSelGridWrdList.Load(from field in m_project.GetMappedFields()
 								   where !field.IsHidden
 								   orderby field.DisplayIndexInGrid
 								   select new KeyValuePair<PaField, bool>(field, field.VisibleInGrid));

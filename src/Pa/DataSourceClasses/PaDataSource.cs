@@ -61,16 +61,17 @@ namespace SIL.Pa.DataSource
 		/// Creates a FieldWorks data source.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaDataSource(FwDataSourceInfo fwDbItem) : this()
+		public PaDataSource(IEnumerable<PaField> projectFields, FwDataSourceInfo fwDbItem) : this()
 		{
 			FwDataSourceInfo = fwDbItem;
 			Type = fwDbItem.DataSourceType;
 			FwPrjName = FwDataSourceInfo.Name;
-			FieldMappings = FieldMapping.GetDefaultFw7Mappings(this).ToList();
+			FieldMappings = (Type == DataSourceType.FW7 ?
+				CreateDefaultFw7Mappings(projectFields) : CreateDefaultFwMappings(projectFields)).ToList();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public PaDataSource(string filename) : this()
+		public PaDataSource(IEnumerable<PaField> fields, string filename) : this()
 		{
 			SourceFile = filename.Trim();
 
@@ -85,7 +86,7 @@ namespace SIL.Pa.DataSource
 				if (GetIsSfmFile(SourceFile, out isShoeboxFile))
 				{
 					Type = (isShoeboxFile ? DataSourceType.Toolbox : DataSourceType.SFM);
-					FieldMappings = GetDefaultSfmMappings().ToList();
+					FieldMappings = CreateDefaultSfmMappings(fields).ToList();
 					SfmRecordMarker = Settings.Default.DefaultSfmRecordMarker.Split(';')
 						.SingleOrDefault(mkr => GetSfMarkers(false).Contains(mkr));
 				}
@@ -120,78 +121,46 @@ namespace SIL.Pa.DataSource
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This will go through the data source's field mappings and point each one to the
-		/// PaField to which it's mapped. It will also verify that each mapping really has
-		/// a PaField in the specified collection. Whenever a mapping is found that doesn't
-		/// have a corresponding PaField to which it's mapped, a new PaField is created and
-		/// added to a collection of fields returned.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public IEnumerable<PaField> PostDeserializeInitialization(IEnumerable<PaField> fields)
+		private IEnumerable<FieldMapping> CreateDefaultFwMappings(IEnumerable<PaField> projectFields)
 		{
-			var recoveredFields = new List<PaField>();
-
-			if (FieldMappings == null)
-				return null;
-
-			foreach (var mapping in FieldMappings.Where(m => m.PaFieldName != null))
-			{
-				var field = fields.SingleOrDefault(f => f.Name == mapping.PaFieldName);
-				if (field == null)
-				{
-					field = new PaField(mapping.PaFieldName);
-					recoveredFields.Add(field);
-				}
-
-				mapping.Field = field;
-				mapping.PaFieldName = null;
-			}
-
-			return (recoveredFields.Count == 0 ? null : recoveredFields);
+			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Determines whether or not the specified data source matches this data source. A
-		/// match is determined by the data source types and their file names (or project
-		/// name in the case of FW data sources).
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool Matches(PaDataSource ds, bool treatToolboxAsSFM)
+		private IEnumerable<FieldMapping> CreateDefaultFw7Mappings(IEnumerable<PaField> projectFields)
 		{
-			bool typesMatch = (Type == ds.Type);
+			var writingSystems = FwDataSourceInfo.GetWritingSystems();
+			var defaultFieldNames = Settings.Default.DefaultMappedFw7Fields.Cast<string>()
+				.Where(n => n != PaField.kAudioFileFieldName && n != PaField.kPhoneticFieldName).ToList();
 
-			if (!typesMatch && treatToolboxAsSFM)
+			var mappings = new List<FieldMapping>();
+
+			// Add a mapping for the phonetic field.
+			var field = projectFields.Single(f => f.Type == FieldType.Phonetic);
+			mappings.Add(new FieldMapping(field.Name, field, true)
+				{ FwWsId = FwDBUtils.GetDefaultPhoneticWritingSystem(writingSystems).Id });
+
+			// Add a mapping for the audio file field.
+			field = projectFields.Single(f => f.Type == FieldType.AudioFilePath);
+			mappings.Add(new FieldMapping(field.Name, field, false));
+
+			mappings.AddRange(projectFields.Where(f => defaultFieldNames.Contains(f.Name)).Select(f =>
 			{
-				// Determine if the TOOLBOX/SFM types match.
-				typesMatch = ((Type == DataSourceType.Toolbox ||
-					Type == DataSourceType.SFM) &&
-					(ds.Type == DataSourceType.Toolbox ||
-					ds.Type == DataSourceType.SFM));
-			}
+				var mapping = new FieldMapping(f.Name, f, Settings.Default.ParsedFw7Fields.Contains(f.Name));
+				FieldMapping.CheckMappingsFw7WritingSystem(mapping, writingSystems);
+				return mapping;
+			}));
 
-			if (!typesMatch)
-				return false;
-
-			if (Type == DataSourceType.FW || Type == DataSourceType.FW7)
-			{
-				return (FwDataSourceInfo != null && ds.FwDataSourceInfo != null &&
-					FwDataSourceInfo.Name == ds.FwDataSourceInfo.Name &&
-					FwDataSourceInfo.Server == ds.FwDataSourceInfo.Server);
-			}
-			
-			return (SourceFile.ToLower() == ds.SourceFile.ToLower());
+			return mappings;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<FieldMapping> GetDefaultSfmMappings()
+		public IEnumerable<FieldMapping> CreateDefaultSfmMappings(IEnumerable<PaField> fields)
 		{
 			var defaultParsedFlds = Settings.Default.DefaultParsedSfmFields;
-			var defaultSfmFlds = PaField.GetDefaultSfmFields();
 
 			return (from mkr in GetSfMarkers(true)
-					let field = defaultSfmFlds.SingleOrDefault(f => f.GetPossibleDataSourceFieldNames().Contains(mkr))
+					let field = fields.SingleOrDefault(f => f.GetPossibleDataSourceFieldNames().Contains(mkr))
 					where field != null
 					orderby mkr
 					select new FieldMapping(mkr, field, defaultParsedFlds.Contains(field.Name)));
@@ -232,6 +201,39 @@ namespace SIL.Pa.DataSource
 			}
 
 			return m_markersInFile;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This will go through the data source's field mappings and point each one to the
+		/// PaField to which it's mapped. It will also verify that each mapping really has
+		/// a PaField in the specified collection. Whenever a mapping is found that doesn't
+		/// have a corresponding PaField to which it's mapped, it's assumed it's a custom
+		/// field and therefore a new PaField is created and added to a collection of fields
+		/// returned.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<PaField> PostDeserializeInitialization(IEnumerable<PaField> fields)
+		{
+			var customFields = new List<PaField>();
+
+			if (FieldMappings == null)
+				return customFields;
+
+			foreach (var mapping in FieldMappings.Where(m => m.PaFieldName != null))
+			{
+				var field = fields.SingleOrDefault(f => f.Name == mapping.PaFieldName);
+				if (field == null)
+				{
+					field = new PaField(mapping.PaFieldName);
+					customFields.Add(field);
+				}
+
+				mapping.Field = field;
+				mapping.PaFieldName = null;
+			}
+
+			return customFields;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -289,6 +291,39 @@ namespace SIL.Pa.DataSource
 
 			// Assume that it's an SFM file if at least 60% of the lines begin with a backslash
 			return (((float)linesBeginningWithBackslash / TotalLinesInFile) >= 0.60);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Determines whether or not the specified data source matches this data source. A
+		/// match is determined by the data source types and their file names (or project
+		/// name in the case of FW data sources).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool Matches(PaDataSource ds, bool treatToolboxAsSFM)
+		{
+			bool typesMatch = (Type == ds.Type);
+
+			if (!typesMatch && treatToolboxAsSFM)
+			{
+				// Determine if the TOOLBOX/SFM types match.
+				typesMatch = ((Type == DataSourceType.Toolbox ||
+					Type == DataSourceType.SFM) &&
+					(ds.Type == DataSourceType.Toolbox ||
+					ds.Type == DataSourceType.SFM));
+			}
+
+			if (!typesMatch)
+				return false;
+
+			if (Type == DataSourceType.FW || Type == DataSourceType.FW7)
+			{
+				return (FwDataSourceInfo != null && ds.FwDataSourceInfo != null &&
+					FwDataSourceInfo.Name == ds.FwDataSourceInfo.Name &&
+					FwDataSourceInfo.Server == ds.FwDataSourceInfo.Server);
+			}
+
+			return (SourceFile.ToLower() == ds.SourceFile.ToLower());
 		}
 
 		/// ------------------------------------------------------------------------------------

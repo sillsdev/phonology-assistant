@@ -2808,12 +2808,12 @@ namespace SIL.Pa.UI.Controls
 
 			// Make sure there are columns for new fields
 			// that may have been added to the project.
-			foreach (var field in App.Project.Fields)
+			foreach (var field in App.Project.Fields.Where(f => !f.IsHidden))
 			{
 				var col = Columns[field.Name];
 				if (col == null)
 				{
-					if (field.DisplayIndexInGrid < 0)
+					if (field.DisplayIndexInGrid < 0 || !App.Project.GetIsNewlyAddedField(field))
 						continue;
 
 					col = AddNewColumn(field);

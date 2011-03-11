@@ -16,13 +16,7 @@ namespace SIL.Pa.UI.Controls
 		public Fw7FieldMappingGrid(PaDataSource ds, IEnumerable<PaField> potentialFields)
 		{
 			m_writingSystems = ds.FwDataSourceInfo.GetWritingSystems();
-			m_potentialFields = from field in potentialFields
-								where field.AllowUserToMap &&
-									field.Type != FieldType.Phonetic &&
-									field.Type != FieldType.AudioFilePath &&
-									!PaField.GetIsCalculatedField(field)
-								orderby field.Name
-								select field;
+			m_potentialFields = potentialFields.OrderBy(f => f.Name);
 
 			// We don't want to show the phonetic and audio file mappings in this grid.
 			m_mappings = (from m in ds.FieldMappings

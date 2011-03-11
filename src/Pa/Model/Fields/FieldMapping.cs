@@ -80,27 +80,6 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static IEnumerable<FieldMapping> GetDefaultFw7Mappings(PaDataSource ds)
-		{
-			return GetDefaultFw7Mappings(ds.FwDataSourceInfo.GetWritingSystems());
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static IEnumerable<FieldMapping> GetDefaultFw7Mappings(
-			IEnumerable<FwWritingSysInfo> writingSystems)
-		{
-			return PaField.GetDefaultFw7Fields()
-				.Where(f => Settings.Default.DefaultMappedFw7Fields.Contains(f.Name))
-				.Select(f =>
-				{
-					var isParsed = Settings.Default.ParsedFw7Fields.Contains(f.Name);
-					var mapping = new FieldMapping(f.Name, f, isParsed);
-					CheckMappingsFw7WritingSystem(mapping, writingSystems);
-					return mapping;
-				});
-		}
-
-		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// This method verifies that the writing system in the specified mapping is valid
 		/// for the mapping's field. If not, then the mapping's writing system is set to the

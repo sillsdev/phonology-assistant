@@ -31,22 +31,21 @@ namespace SIL.Pa.UI.Dialogs
 
 		#region Construction/Setup
 		/// ------------------------------------------------------------------------------------
-		public SFDataSourcePropertiesDlg(PaDataSource ds, IEnumerable<PaField> mappedSfmFields)
+		public SFDataSourcePropertiesDlg(PaDataSource ds, IEnumerable<PaField> projectFields)
 		{
 			InitializeComponent();
-			m_datasource = ds;
-			Initialize(mappedSfmFields);
-		}
 
-		/// ------------------------------------------------------------------------------------
-		private void Initialize(IEnumerable<PaField> mappedSfmFields)
-		{
 			// If the grid is not null, we've already been here.
 			if (App.DesignMode)
 				return;
 
+			m_datasource = ds;
+			var possibleSfmFieldNames = Settings.Default.DefaultSfmFields.Cast<string>();
+			
 			// Merge the project's mapped sfm fields with the default set.
-			m_potentialFields = PaField.Merge(mappedSfmFields, PaField.GetDefaultSfmFields());
+			var mappedSfmFields = m_datasource.FieldMappings.Select(m => m.Field).ToList();
+			mappedSfmFields.AddRange(projectFields.Where(f => possibleSfmFieldNames.Contains(f.Name)));
+			m_potentialFields = mappedSfmFields.Distinct(new FieldNameComparer());
 
 			m_filename = m_datasource.SourceFile;
 			m_tooltip.SetToolTip(pnlSrcFileHdg, m_filename);
@@ -240,6 +239,8 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeFieldMappingsGrid()
 		{
 			var mappings = m_datasource.FieldMappings.ToList();
+
+			// Add "empty" mappings for all the markers that haven't been mapped to a field.
 			foreach (var marker in m_markersInFile.Where(mkr => !mappings.Any(m => m.NameInDataSource == mkr)))
 				mappings.Add(new FieldMapping(marker, null, false));
 
@@ -316,7 +317,7 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				return ShowError(m_fieldsGrid, App.LocalizeString(
 					"SFDataSourcePropertiesDlg.MultiplePhoneticMappingsMsg",
-					"You may only map the phonetic field once. A phonetic mapping is specified using the field type.",
+					"You may only map the phonetic field once.\nA phonetic mapping is specified using the field type.",
 					App.kLocalizationGroupDialogs));
 			}
 
@@ -327,6 +328,14 @@ namespace SIL.Pa.UI.Dialogs
 					"SFDataSourcePropertiesDlg.InvalidToolboxSortFieldSpecifiedMsg",
 					"The first Toolbox sort field marker specified was\nnot mapped. It must have a mapping.",
 					App.kLocalizationGroupDialogs));
+			}
+
+			foreach (var mapping in m_fieldsGrid.Mappings.Where(m => PaField.GetIsReservedFieldName(m.Field.Name)))
+			{
+				return ShowError(m_fieldsGrid, string.Format(App.LocalizeString(
+					"SFDataSourcePropertiesDlg.InvalidFieldNameSpecifiedMsg",
+					"The field name '{0}' is reserved and cannot be used.\nEnter a different name.",
+					App.kLocalizationGroupDialogs), mapping.Field.DisplayName));
 			}
 				
 			return VerifyInterlinearInfo();
@@ -448,14 +457,6 @@ namespace SIL.Pa.UI.Dialogs
 			// Save the field name associated with the SFM assigned as the Toolbox sort field.
 			m_datasource.ToolboxSortField = (m_datasource.Type != DataSourceType.Toolbox ||
 				ToolBoxSortField == null ? null : GetPaFieldToolBoxSortFieldIsMappedTo());
-
-			//// Add the audio offset and length field mappings back in since the grid thew
-			//// them out since they cannot be mapped directly.
-			//var field = m_potentialFields.Single(f => f.Type == FieldType.AudioOffset);
-			//m_datasource.FieldMappings.Add(new FieldMapping(field.Name, field, false));
-
-			//field = m_potentialFields.Single(f => f.Type == FieldType.AudioLength);
-			//m_datasource.FieldMappings.Add(new FieldMapping(field.Name, field, false));
 
 			return true;
 		}

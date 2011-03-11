@@ -179,9 +179,11 @@
     <Compile Include="Model\Features\FeatureCacheBase.cs" />
     <Compile Include="Model\Features\FeatureMask.cs" />
     <Compile Include="Model\Features\FeatureOverrides.cs" />
+    <Compile Include="Model\Fields\FieldDisplayPropsCache.cs" />
     <Compile Include="Model\Fields\FieldMapping.cs" />
     <Compile Include="Model\Fields\FieldValue.cs" />
     <Compile Include="Model\Fields\PaField.cs" />
+    <Compile Include="Model\Fields\PaFieldDisplayProperties.cs" />
     <Compile Include="Model\Fields\SortField.cs" />
     <Compile Include="Model\PaProject.cs" />
     <Compile Include="Model\RecordCache\RecordCache.cs" />

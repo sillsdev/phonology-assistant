@@ -27,6 +27,7 @@ namespace SIL.Pa.UI.Controls
 			BorderStyle = BorderStyle.None;
 			App.SetGridSelectionColors(this, true);
 			
+			Fonts = new Dictionary<string, Font>();
 			m_cellDropDown = new CellCustomDropDownList();
 			m_fontPicker = new FontPicker();
 			m_fontPicker.Closed += HandleFontPickerClosed;
@@ -98,6 +99,9 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public virtual Dictionary<string, Font> Fonts { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
 		public virtual void ShowFontColumn(bool show)
 		{
 			Columns["font"].Visible = show;
@@ -134,9 +138,10 @@ namespace SIL.Pa.UI.Controls
 		protected virtual void OnFontColumnButtonClicked(object sender, DataGridViewCellMouseEventArgs e)
 		{
 			var field = GetFieldAt(e.RowIndex);
-
-			if (field != null)
-				m_fontPicker.ShowForGridCell(field.Font, this[e.ColumnIndex, e.RowIndex], true);
+			Font fnt;
+			
+			if (field != null && Fonts.TryGetValue(field.Name, out fnt))
+				m_fontPicker.ShowForGridCell(fnt, this[e.ColumnIndex, e.RowIndex], true);
 	
 			// In the else case, display the fading message window.
 		}
@@ -146,8 +151,8 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (result == DialogResult.OK)
 			{
-				var mapping = GetFieldAt(CurrentCellAddress.Y);
-				mapping.Font = (Font)m_fontPicker.Font.Clone();
+				var field = GetFieldAt(CurrentCellAddress.Y);
+				Fonts[field.Name] = (Font)m_fontPicker.Font.Clone();
 				UpdateCellValue(CurrentCellAddress.X, CurrentCellAddress.Y);
 			}
 		}
@@ -169,8 +174,16 @@ namespace SIL.Pa.UI.Controls
 				switch (GetColumnName(e.ColumnIndex))
 				{
 					case "tgtfield": e.Value = (mapping.Field == null ? null : mapping.Field.DisplayName); break;
-					case "font": e.Value = (mapping.Field == null ? null :
-						GetFontDisplayString(mapping.Field.Font)); break;
+					case "font":
+						Font fnt = null;
+						if (mapping.Field != null && !Fonts.TryGetValue(mapping.Field.Name, out fnt))
+						{
+							fnt = (Font)mapping.Field.Font.Clone();
+							Fonts[mapping.Field.Name] = fnt;
+						}
+
+						e.Value = GetFontDisplayString(fnt);
+						break;
 				}
 			}
 
@@ -188,30 +201,35 @@ namespace SIL.Pa.UI.Controls
 			if (GetColumnName(e.ColumnIndex) == "tgtfield")
 			{
 				var valAsString = (e.Value as string ?? string.Empty);
-				valAsString = valAsString.Trim();
-
-				var mapping = m_mappings[e.RowIndex];
-
-				if (valAsString == GetNoMappingText() || valAsString == string.Empty)
-				{
-					mapping.Field = null;
-					mapping.IsParsed = false;
-					mapping.IsInterlinear = false;
-				}
-				else
-				{
-					mapping.Field =
-						m_potentialFields.SingleOrDefault(f => f.DisplayName == valAsString) ??
-						new PaField(valAsString, GetTypeAtOrDefault(e.RowIndex));
-				}
+				PushFieldName(m_mappings[e.RowIndex], valAsString.Trim(), e.RowIndex);
 			}
 
 			InvalidateRow(e.RowIndex);
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected virtual void PushFieldName(FieldMapping mapping, string fieldName, int rowIndex)
+		{
+			if (fieldName == GetNoMappingText() || fieldName == string.Empty)
+			{
+				mapping.Field = null;
+				mapping.IsParsed = false;
+				mapping.IsInterlinear = false;
+			}
+			else
+			{
+				mapping.Field =
+					m_potentialFields.SingleOrDefault(f => f.DisplayName == fieldName) ??
+					new PaField(fieldName, GetTypeAtOrDefault(rowIndex));
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private static string GetFontDisplayString(Font fnt)
 		{
+			if (fnt == null)
+				return null;
+
 			string fmt;
 
 			if (fnt.Bold && fnt.Italic)

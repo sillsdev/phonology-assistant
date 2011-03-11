@@ -3207,11 +3207,18 @@ namespace SIL.Pa.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Phonetic;AudioFile;Gloss;CitationForm;PartOfSpeech;MorphType;CV-Pattern-Flex;Tone" +
-            "")]
-        public string DefaultMappedFw7Fields {
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>Gloss</string>
+  <string>CitationForm</string>
+  <string>PartOfSpeech</string>
+  <string>MorphType</string>
+  <string>CV-Pattern-Flex</string>
+  <string>Tone</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection DefaultMappedFw7Fields {
             get {
-                return ((string)(this["DefaultMappedFw7Fields"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["DefaultMappedFw7Fields"]));
             }
         }
         
@@ -3262,6 +3269,102 @@ namespace SIL.Pa.Properties {
         public string DefaultSfmRecordMarker {
             get {
                 return ((string)(this["DefaultSfmRecordMarker"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>Phonetic</string>
+  <string>Gloss</string>
+  <string>PartOfSpeech</string>
+  <string>CVPattern</string>
+  <string>Reference</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection DefaultVisibleFields {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["DefaultVisibleFields"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>Phonetic</string>
+  <string>Phonemic</string>
+  <string>Tone</string>
+  <string>Gloss</string>
+  <string>Orthographic</string>
+  <string>Reference</string>
+  <string>AudioFile</string>
+  <string>FreeFormTranslation</string>
+  <string>NoteBookReference</string>
+  <string>Dialect</string>
+  <string>EthnologueId</string>
+  <string>LanguageName</string>
+  <string>Region</string>
+  <string>Country</string>
+  <string>Family</string>
+  <string>Transcriber</string>
+  <string>SpeakerName</string>
+  <string>SpeakerGender</string>
+  <string>SADescription</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection DefaultSaFields {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["DefaultSaFields"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>Reference</string>
+  <string>Phonetic</string>
+  <string>Gloss</string>
+  <string>NatGloss</string>
+  <string>PartOfSpeech</string>
+  <string>Tone</string>
+  <string>Orthographic</string>
+  <string>Phonemic</string>
+  <string>AudioFile</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection DefaultSfmFields {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["DefaultSfmFields"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>CitationForm</string>\r\n  <string>MorphType</string>\r\n  <string>Etymology</" +
+            "string>\r\n  <string>LiteralMeaning</string>\r\n  <string>Bibliography</string>\r\n  <" +
+            "string>Restrictions</string>\r\n  <string>SummaryDefinition</string>\r\n  <string>No" +
+            "te</string>\r\n  <string>ExcludeAsHeadword</string>\r\n  <string>ImportResidue</stri" +
+            "ng>\r\n  <string>DateCreated</string>\r\n  <string>DateModified</string>\r\n  <string>" +
+            "Variants</string>\r\n  <string>VariantTypes</string>\r\n  <string>VariantComments</s" +
+            "tring>\r\n  <string>ComplexForms</string>\r\n  <string>Components</string>\r\n  <strin" +
+            "g>ComplexTypes</string>\r\n  <string>ComplexFormComments</string>\r\n  <string>Allom" +
+            "orphs</string>\r\n  <string>Tone</string>\r\n  <string>CV-Pattern-Flex</string>\r\n  <" +
+            "string>Location</string>\r\n  <string>AudioFileLabel</string>\r\n  <string>Gloss</st" +
+            "ring>\r\n  <string>Definition</string>\r\n  <string>PartOfSpeech</string>\r\n  <string" +
+            ">AnthropologyNote</string>\r\n  <string>Bibliography-Sense</string>\r\n  <string>Dis" +
+            "courseNote</string>\r\n  <string>EncyclopedicInfo</string>\r\n  <string>GeneralNote<" +
+            "/string>\r\n  <string>GrammarNote</string>\r\n  <string>PhonologyNote</string>\r\n  <s" +
+            "tring>Restrictions-Sense</string>\r\n  <string>SemanticsNote</string>\r\n  <string>S" +
+            "ociolinguisticsNote</string>\r\n  <string>SenseType</string>\r\n  <string>Status</st" +
+            "ring>\r\n  <string>AnthroCodes</string>\r\n  <string>DomainTypes</string>\r\n  <string" +
+            ">SemanticDomains</string>\r\n  <string>Usages</string>\r\n  <string>ReversalEntries<" +
+            "/string>\r\n  <string>ScientificName</string>\r\n  <string>Source</string>\r\n  <strin" +
+            "g>ImportResidue-Sense</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection DefaultFw7Fields {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["DefaultFw7Fields"]));
             }
         }
     }

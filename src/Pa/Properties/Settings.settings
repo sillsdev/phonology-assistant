@@ -752,8 +752,16 @@
     <Setting Name="PhoneticFont" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Font" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="DefaultMappedFw7Fields" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Phonetic;AudioFile;Gloss;CitationForm;PartOfSpeech;MorphType;CV-Pattern-Flex;Tone</Value>
+    <Setting Name="DefaultMappedFw7Fields" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;Gloss&lt;/string&gt;
+  &lt;string&gt;CitationForm&lt;/string&gt;
+  &lt;string&gt;PartOfSpeech&lt;/string&gt;
+  &lt;string&gt;MorphType&lt;/string&gt;
+  &lt;string&gt;CV-Pattern-Flex&lt;/string&gt;
+  &lt;string&gt;Tone&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="Fw7DataSourcePropertiesDlgFieldsGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
@@ -774,6 +782,106 @@
     </Setting>
     <Setting Name="DefaultSfmRecordMarker" Type="System.String" Scope="Application">
       <Value Profile="(Default)">\ref</Value>
+    </Setting>
+    <Setting Name="DefaultVisibleFields" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;Phonetic&lt;/string&gt;
+  &lt;string&gt;Gloss&lt;/string&gt;
+  &lt;string&gt;PartOfSpeech&lt;/string&gt;
+  &lt;string&gt;CVPattern&lt;/string&gt;
+  &lt;string&gt;Reference&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="DefaultSaFields" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;Phonetic&lt;/string&gt;
+  &lt;string&gt;Phonemic&lt;/string&gt;
+  &lt;string&gt;Tone&lt;/string&gt;
+  &lt;string&gt;Gloss&lt;/string&gt;
+  &lt;string&gt;Orthographic&lt;/string&gt;
+  &lt;string&gt;Reference&lt;/string&gt;
+  &lt;string&gt;AudioFile&lt;/string&gt;
+  &lt;string&gt;FreeFormTranslation&lt;/string&gt;
+  &lt;string&gt;NoteBookReference&lt;/string&gt;
+  &lt;string&gt;Dialect&lt;/string&gt;
+  &lt;string&gt;EthnologueId&lt;/string&gt;
+  &lt;string&gt;LanguageName&lt;/string&gt;
+  &lt;string&gt;Region&lt;/string&gt;
+  &lt;string&gt;Country&lt;/string&gt;
+  &lt;string&gt;Family&lt;/string&gt;
+  &lt;string&gt;Transcriber&lt;/string&gt;
+  &lt;string&gt;SpeakerName&lt;/string&gt;
+  &lt;string&gt;SpeakerGender&lt;/string&gt;
+  &lt;string&gt;SADescription&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="DefaultSfmFields" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;Reference&lt;/string&gt;
+  &lt;string&gt;Phonetic&lt;/string&gt;
+  &lt;string&gt;Gloss&lt;/string&gt;
+  &lt;string&gt;NatGloss&lt;/string&gt;
+  &lt;string&gt;PartOfSpeech&lt;/string&gt;
+  &lt;string&gt;Tone&lt;/string&gt;
+  &lt;string&gt;Orthographic&lt;/string&gt;
+  &lt;string&gt;Phonemic&lt;/string&gt;
+  &lt;string&gt;AudioFile&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="DefaultFw7Fields" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;CitationForm&lt;/string&gt;
+  &lt;string&gt;MorphType&lt;/string&gt;
+  &lt;string&gt;Etymology&lt;/string&gt;
+  &lt;string&gt;LiteralMeaning&lt;/string&gt;
+  &lt;string&gt;Bibliography&lt;/string&gt;
+  &lt;string&gt;Restrictions&lt;/string&gt;
+  &lt;string&gt;SummaryDefinition&lt;/string&gt;
+  &lt;string&gt;Note&lt;/string&gt;
+  &lt;string&gt;ExcludeAsHeadword&lt;/string&gt;
+  &lt;string&gt;ImportResidue&lt;/string&gt;
+  &lt;string&gt;DateCreated&lt;/string&gt;
+  &lt;string&gt;DateModified&lt;/string&gt;
+  &lt;string&gt;Variants&lt;/string&gt;
+  &lt;string&gt;VariantTypes&lt;/string&gt;
+  &lt;string&gt;VariantComments&lt;/string&gt;
+  &lt;string&gt;ComplexForms&lt;/string&gt;
+  &lt;string&gt;Components&lt;/string&gt;
+  &lt;string&gt;ComplexTypes&lt;/string&gt;
+  &lt;string&gt;ComplexFormComments&lt;/string&gt;
+  &lt;string&gt;Allomorphs&lt;/string&gt;
+  &lt;string&gt;Tone&lt;/string&gt;
+  &lt;string&gt;CV-Pattern-Flex&lt;/string&gt;
+  &lt;string&gt;Location&lt;/string&gt;
+  &lt;string&gt;AudioFileLabel&lt;/string&gt;
+  &lt;string&gt;Gloss&lt;/string&gt;
+  &lt;string&gt;Definition&lt;/string&gt;
+  &lt;string&gt;PartOfSpeech&lt;/string&gt;
+  &lt;string&gt;AnthropologyNote&lt;/string&gt;
+  &lt;string&gt;Bibliography-Sense&lt;/string&gt;
+  &lt;string&gt;DiscourseNote&lt;/string&gt;
+  &lt;string&gt;EncyclopedicInfo&lt;/string&gt;
+  &lt;string&gt;GeneralNote&lt;/string&gt;
+  &lt;string&gt;GrammarNote&lt;/string&gt;
+  &lt;string&gt;PhonologyNote&lt;/string&gt;
+  &lt;string&gt;Restrictions-Sense&lt;/string&gt;
+  &lt;string&gt;SemanticsNote&lt;/string&gt;
+  &lt;string&gt;SociolinguisticsNote&lt;/string&gt;
+  &lt;string&gt;SenseType&lt;/string&gt;
+  &lt;string&gt;Status&lt;/string&gt;
+  &lt;string&gt;AnthroCodes&lt;/string&gt;
+  &lt;string&gt;DomainTypes&lt;/string&gt;
+  &lt;string&gt;SemanticDomains&lt;/string&gt;
+  &lt;string&gt;Usages&lt;/string&gt;
+  &lt;string&gt;ReversalEntries&lt;/string&gt;
+  &lt;string&gt;ScientificName&lt;/string&gt;
+  &lt;string&gt;Source&lt;/string&gt;
+  &lt;string&gt;ImportResidue-Sense&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
     </Setting>
   </Settings>
 </SettingsFile>

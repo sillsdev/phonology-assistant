@@ -2,24 +2,12 @@
 <Fw7Fields version="3.0">
 	<field name="Phonetic" type="Phonetic">
 		<fwWritingSystemType>Vernacular</fwWritingSystemType>
-		<visibleInGrid>true</visibleInGrid>
-		<visibleInRecView>true</visibleInRecView>
-		<displayIndexInGrid>0</displayIndexInGrid>
-		<displayIndexInRecView>0</displayIndexInRecView>
 	</field>
 	<field name="CitationForm" type="GeneralText">
 		<fwWritingSystemType>Vernacular</fwWritingSystemType>
-		<visibleInGrid>true</visibleInGrid>
-		<visibleInRecView>true</visibleInRecView>
-		<displayIndexInGrid>100</displayIndexInGrid>
-		<displayIndexInRecView>100</displayIndexInRecView>
 	</field>
 	<field name="MorphType" type="GeneralText">
 		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
-		<visibleInGrid>true</visibleInGrid>
-		<visibleInRecView>true</visibleInRecView>
-		<displayIndexInGrid>101</displayIndexInGrid>
-		<displayIndexInRecView>101</displayIndexInRecView>
 	</field>
 	<field name="Etymology" type="GeneralText">
 		<fwWritingSystemType>Vernacular</fwWritingSystemType>
@@ -76,16 +64,8 @@
 	<!-- Pronunciation Fields -->
 	<field name="AudioFile" type="AudioFilePath" collection="true"/>
 	<field name="Tone" type="GeneralText">
-		<visibleInGrid>true</visibleInGrid>
-		<visibleInRecView>true</visibleInRecView>
-		<displayIndexInGrid>103</displayIndexInGrid>
-		<displayIndexInRecView>103</displayIndexInRecView>
 	</field>
 	<field name="CV-Pattern-Flex" type="GeneralText">
-		<visibleInGrid>true</visibleInGrid>
-		<visibleInRecView>true</visibleInRecView>
-		<displayIndexInGrid>105</displayIndexInGrid>
-		<displayIndexInRecView>105</displayIndexInRecView>
 	</field>
 	<field name="Location" type="GeneralText">
 		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
@@ -97,20 +77,12 @@
 	<!-- Sense Fields -->
 	<field name="Gloss" type="GeneralText">
 		<fwWritingSystemType>Analysis</fwWritingSystemType>
-		<visibleInGrid>true</visibleInGrid>
-		<visibleInRecView>true</visibleInRecView>
-		<displayIndexInGrid>99</displayIndexInGrid>
-		<displayIndexInRecView>99</displayIndexInRecView>
 	</field>
 	<field name="Definition" type="GeneralText">
 		<fwWritingSystemType>Analysis</fwWritingSystemType>
 	</field>
 	<field name="PartOfSpeech" type="GeneralText">
 		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
-		<visibleInGrid>true</visibleInGrid>
-		<visibleInRecView>true</visibleInRecView>
-		<displayIndexInGrid>98</displayIndexInGrid>
-		<displayIndexInRecView>98</displayIndexInRecView>
 	</field>
 	<field name="AnthropologyNote" type="GeneralText">
 		<fwWritingSystemType>Analysis</fwWritingSystemType>
