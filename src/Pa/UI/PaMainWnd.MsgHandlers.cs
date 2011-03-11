@@ -62,8 +62,7 @@ namespace SIL.Pa.UI
 			else if (m_project == null || m_project.FileName != filename)
 			{
 				LoadProject(filename);
-				UndefinedPhoneticCharactersDlg.Show(m_project == null ?
-					string.Empty : m_project.Name);
+				UndefinedPhoneticCharactersDlg.Show(m_project);
 			}
 
 			return true;
@@ -79,7 +78,7 @@ namespace SIL.Pa.UI
 				Invalidate();
 			}
 
-			UndefinedPhoneticCharactersDlg.Show(args as string);
+			UndefinedPhoneticCharactersDlg.Show(project);
 			return false;
 		}
 
@@ -164,7 +163,7 @@ namespace SIL.Pa.UI
 				if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
 				{
 					LoadProject(dlg.Project.FileName);
-					UndefinedPhoneticCharactersDlg.Show(dlg.Project.Name, true);
+					UndefinedPhoneticCharactersDlg.Show(dlg.Project, true);
 				}
 			}
 
@@ -200,42 +199,34 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnProjectSettings(object args)
 		{
-			using (ProjectSettingsDlg dlg = new ProjectSettingsDlg(m_project))
+			using (var dlg = new ProjectSettingsDlg(m_project))
 			{
-				dlg.ShowDialog(this);
-				if (dlg.ChangesWereMade)
-					FullProjectReload();
+				if (dlg.ShowDialog(this) != DialogResult.OK || !dlg.ChangesWereMade)
+					return true;
+
+				Utils.WaitCursors(false);
+
+				// Fully reload the project and blow away the previous project instance.
+				var project = PaProject.Load(m_project.FileName, this);
+				if (project != null)
+				{
+					// If there was a project loaded before this,
+					// then get rid of it to make way for the new one.
+					if (m_project != null)
+					{
+						m_project.Dispose();
+						m_project = null;
+					}
+
+					project.LastNewlyMappedFields = dlg.NewlyMappedFields;
+					App.Project = m_project = project;
+					App.MsgMediator.SendMessage("DataSourcesModified", project);
+				}
+
+				Utils.WaitCursors(false);
 			}
 
 			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Reloads the project fully. I.e. blows away the previous project and starts reload
-		/// from scratch.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void FullProjectReload()
-		{
-			Utils.WaitCursors(false);
-
-			var project = PaProject.Load(m_project.FileName, this);
-			if (project != null)
-			{
-				// If there was a project loaded before this,
-				// then get rid of it to make way for the new one.
-				if (m_project != null)
-				{
-					m_project.Dispose();
-					m_project = null;
-				}
-
-				App.Project = m_project = project;
-				App.MsgMediator.SendMessage("DataSourcesModified", project);
-			}
-
-			Utils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -334,7 +325,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUndefinedCharacters(object args)
 		{
-			UndefinedPhoneticCharactersDlg.Show(m_project.Name, true);
+			UndefinedPhoneticCharactersDlg.Show(m_project, true);
 			return true;
 		}
 		

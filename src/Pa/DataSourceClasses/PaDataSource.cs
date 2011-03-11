@@ -79,6 +79,7 @@ namespace SIL.Pa.DataSource
 				m_file.ToLower().EndsWith(".wma") */)
 			{
 				Type = DataSourceType.SA;
+				FieldMappings = CreateDefaultSaMappings(fields).ToList();
 			}
 			else if (!GetIsXmlFile(SourceFile))
 			{
@@ -121,6 +122,16 @@ namespace SIL.Pa.DataSource
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private IEnumerable<FieldMapping> CreateDefaultSaMappings(IEnumerable<PaField> projectFields)
+		{
+			var defaultSaFields = Settings.Default.DefaultSaFields.Cast<string>().ToList();
+
+			return from field in projectFields
+				   where defaultSaFields.Contains(field.Name)
+				   select new FieldMapping(field, Settings.Default.DefaultParsedSfmFields);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private IEnumerable<FieldMapping> CreateDefaultFwMappings(IEnumerable<PaField> projectFields)
 		{
 			return null;
@@ -137,16 +148,16 @@ namespace SIL.Pa.DataSource
 
 			// Add a mapping for the phonetic field.
 			var field = projectFields.Single(f => f.Type == FieldType.Phonetic);
-			mappings.Add(new FieldMapping(field.Name, field, true)
+			mappings.Add(new FieldMapping(field, true)
 				{ FwWsId = FwDBUtils.GetDefaultPhoneticWritingSystem(writingSystems).Id });
 
 			// Add a mapping for the audio file field.
 			field = projectFields.Single(f => f.Type == FieldType.AudioFilePath);
-			mappings.Add(new FieldMapping(field.Name, field, false));
+			mappings.Add(new FieldMapping(field, false));
 
 			mappings.AddRange(projectFields.Where(f => defaultFieldNames.Contains(f.Name)).Select(f =>
 			{
-				var mapping = new FieldMapping(f.Name, f, Settings.Default.ParsedFw7Fields.Contains(f.Name));
+				var mapping = new FieldMapping(f, Settings.Default.ParsedFw7Fields.Cast<string>());
 				FieldMapping.CheckMappingsFw7WritingSystem(mapping, writingSystems);
 				return mapping;
 			}));
@@ -159,11 +170,11 @@ namespace SIL.Pa.DataSource
 		{
 			var defaultParsedFlds = Settings.Default.DefaultParsedSfmFields;
 
-			return (from mkr in GetSfMarkers(true)
-					let field = fields.SingleOrDefault(f => f.GetPossibleDataSourceFieldNames().Contains(mkr))
-					where field != null
-					orderby mkr
-					select new FieldMapping(mkr, field, defaultParsedFlds.Contains(field.Name)));
+			return from mkr in GetSfMarkers(true)
+				   let field = fields.SingleOrDefault(f => f.GetPossibleDataSourceFieldNames().Contains(mkr))
+				   where field != null
+				   orderby mkr
+				   select new FieldMapping(mkr, field, defaultParsedFlds.Contains(field.Name));
 		}
 
 		/// ------------------------------------------------------------------------------------

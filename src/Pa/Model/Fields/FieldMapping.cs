@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.Model
@@ -14,8 +12,30 @@ namespace SIL.Pa.Model
 	{
 		private string m_paFieldName;
 
+		#region Constructors
 		/// ------------------------------------------------------------------------------------
 		public FieldMapping()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public FieldMapping(PaField field, IEnumerable<string> parsedFields)
+			: this(field, parsedFields.Contains(field.Name))
+		{
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// parsedFields is a delimited (e.g. comma or semi-colon) string of the parsed fields.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public FieldMapping(PaField field, string parsedFields)
+			: this(field.Name, field, parsedFields.Contains(field.Name))
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public FieldMapping(PaField field, bool isParsed) : this(field.Name, field, isParsed)
 		{
 		}
 
@@ -27,6 +47,8 @@ namespace SIL.Pa.Model
 			IsParsed = isParsed;
 		}
 	
+		#endregion
+
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("nameInSource")]
 		public string NameInDataSource { get; set; }

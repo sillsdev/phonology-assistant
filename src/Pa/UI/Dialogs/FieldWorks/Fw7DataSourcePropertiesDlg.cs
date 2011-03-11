@@ -39,6 +39,9 @@ namespace SIL.Pa.UI.Dialogs
 
 			m_datasource = ds;
 
+			// Save the phonetic and audio file mappings because we need to remove them from the
+			// mappings list so the user won't see them. They're mapped for free and the user
+			// can't control that. These will get added back in when the dialog is closed.
 			m_phoneticMapping = ds.FieldMappings.Single(m => m.Field.Type == FieldType.Phonetic);
 			m_audioFileMapping = ds.FieldMappings.Single(m => m.Field.Type == FieldType.AudioFilePath);
 			ds.FieldMappings.Remove(m_phoneticMapping);

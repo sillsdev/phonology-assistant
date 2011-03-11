@@ -152,11 +152,11 @@ namespace SilTools
 			if (fontString == null)
 				return SystemFonts.DefaultFont;
 
-			string name = SystemFonts.DefaultFont.FontFamily.Name;
-			float size = SystemFonts.DefaultFont.SizeInPoints;
-			FontStyle style = FontStyle.Regular;
+			var name = SystemFonts.DefaultFont.FontFamily.Name;
+			var size = SystemFonts.DefaultFont.SizeInPoints;
+			var style = FontStyle.Regular;
 
-			string[] parts = fontString.Split(',');
+			var parts = fontString.Split(',');
 			if (parts.Length > 0)
 				name = parts[0];
 

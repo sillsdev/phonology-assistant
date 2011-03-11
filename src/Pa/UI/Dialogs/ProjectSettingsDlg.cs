@@ -21,12 +21,16 @@ namespace SIL.Pa.UI.Dialogs
 		private readonly List<PaDataSource> m_dataSources = new List<PaDataSource>();
 
 		public PaProject Project { get; private set; }
+		public IEnumerable<string> NewlyMappedFields { get; private set; }
+		private readonly IEnumerable<string> m_originallyMappedFields = new List<string>(0);
 
 		/// ------------------------------------------------------------------------------------
 		public ProjectSettingsDlg()
 		{
 			InitializeComponent();
-			
+
+			NewlyMappedFields = new List<string>(0);
+
 			pnlGridHdg.Font = FontHelper.UIFont;
 			lblLanguageName.Font = FontHelper.UIFont;
 			lblLanguageCode.Font = FontHelper.UIFont;
@@ -61,6 +65,7 @@ namespace SIL.Pa.UI.Dialogs
 			else
 			{
 				Project = project;
+				m_originallyMappedFields = project.GetMappedFields().Select(f => f.Name).ToList();
 				m_dataSources = project.DataSources.Select(ds => ds.Copy()).ToList();
 				txtProjName.Text = project.Name;
 				txtLanguageName.Text = project.LanguageName;
@@ -385,7 +390,7 @@ namespace SIL.Pa.UI.Dialogs
 						"A record marker must be specified for '{0}'.", App.kLocalizationGroupDialogs);
 						
 					msg = string.Format(msg, Path.GetFileName(m_dataSources[i].SourceFile));
-					Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					Utils.MsgBox(msg);
 					m_grid.CurrentCell = m_grid[1, i];
 					m_grid.Focus();
 					return false;
@@ -401,10 +406,29 @@ namespace SIL.Pa.UI.Dialogs
 			Project.Comments = txtComments.Text.Trim();
 			Project.DataSources = m_dataSources;
 			Project.FixupFieldsAndMappings();
-			
+
+			if (m_isProjectNew && Project.DataSources.Any(ds => ds.Type == DataSourceType.FW7))
+				InitializeFontsToFw7Values();
+
 			Project.Save();
 
+			NewlyMappedFields = (from mapping in Project.DataSources.SelectMany(ds => ds.FieldMappings)
+								 where !m_originallyMappedFields.Contains(mapping.Field.Name)
+								 select mapping.Field.Name).ToList();
+
 			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void InitializeFontsToFw7Values()
+		{
+			var ds = Project.DataSources.First(d => d.Type == DataSourceType.FW7);
+			foreach (var mapping in ds.FieldMappings.Where(m => m.FwWsId != null))
+			{
+				var ws = ds.FwDataSourceInfo.GetWritingSystems().First(w => w.Id == mapping.FwWsId);
+				var fontString = string.Format(Settings.Default.DefaultFw7InferredFontSizeAndStyle, ws.DefaultFontName);
+				mapping.Field.Font = FontHelper.MakeFont(fontString); 
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

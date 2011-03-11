@@ -25,69 +25,35 @@ namespace SIL.Pa.UI.Dialogs
 		private readonly string m_codepointHdgFmt;
 		private readonly Color m_defaultSelectedRowForeColor;
 		private readonly Color m_defaultSelectedRowBackColor;
+		private readonly PaProject m_project;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void Show(string projectName)
+		public static void Show(PaProject project)
 		{
-			Show(projectName, false);
+			Show(project, false);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void Show(string projectName, bool forceShow)
+		public static void Show(PaProject project, bool forceShow)
 		{
-			if (!forceShow && (App.Project != null && !App.Project.ShowUndefinedCharsDlg))
+			if (!forceShow && (project != null && !project.ShowUndefinedCharsDlg))
 				return;
 
-			if (App.IPASymbolCache.UndefinedCharacters != null &&
-				App.IPASymbolCache.UndefinedCharacters.Count > 0)
+			if (App.IPASymbolCache.UndefinedCharacters == null || App.IPASymbolCache.UndefinedCharacters.Count <= 0)
+				return;
+			
+			using (var dlg = new UndefinedPhoneticCharactersDlg(project, App.IPASymbolCache.UndefinedCharacters))
 			{
-				using (var dlg = new UndefinedPhoneticCharactersDlg(projectName, App.IPASymbolCache.UndefinedCharacters))
-				{
-					if (App.MainForm != null)
-						App.MainForm.AddOwnedForm(dlg);
+				if (App.MainForm != null)
+					App.MainForm.AddOwnedForm(dlg);
 
-					dlg.ShowDialog();
+				dlg.ShowDialog();
 
-					if (App.MainForm != null)
-						App.MainForm.RemoveOwnedForm(dlg);
-				}
+				if (App.MainForm != null)
+					App.MainForm.RemoveOwnedForm(dlg);
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void Show(string projectName, UndefinedPhoneticCharactersInfoList list)
-		{
-			if (list != null && list.Count > 0)
-			{
-				using (var dlg = new UndefinedPhoneticCharactersDlg(projectName, list))
-				{
-					if (App.MainForm != null)
-						App.MainForm.AddOwnedForm(dlg);
-
-					dlg.ShowDialog();
-
-					if (App.MainForm != null)
-						App.MainForm.RemoveOwnedForm(dlg);
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public UndefinedPhoneticCharactersDlg()
 		{
@@ -117,23 +83,22 @@ namespace SIL.Pa.UI.Dialogs
 
 			HandleGridEnter(m_gridChars, null);
 			HandleGridLeave(m_gridWhere, null);
-
-			if (App.Project != null)
-			{
-				chkShowUndefinedCharDlg.Checked = App.Project.ShowUndefinedCharsDlg;
-				chkIgnoreInSearches.Checked = App.Project.IgnoreUndefinedCharsInSearches;
-			}
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public UndefinedPhoneticCharactersDlg(string projectName,
+		public UndefinedPhoneticCharactersDlg(PaProject project,
 			UndefinedPhoneticCharactersInfoList list) : this()
 		{
+			m_project = project;
+
+			if (project != null)
+			{
+				chkShowUndefinedCharDlg.Checked = m_project.ShowUndefinedCharsDlg;
+				chkIgnoreInSearches.Checked = m_project.IgnoreUndefinedCharsInSearches;
+			}
+			
 			list.Sort(CompareUndefinedCharValues);
+			var projectName = (project == null ? string.Empty : project.Name);
 			lblInfo.Text = string.Format(m_infoFmt, projectName, Application.ProductName);
 			LoadCharGrid(list);
 		}
@@ -206,10 +171,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void CalcWhereGridRowHeight()
 		{
 			m_defaultRowHeight = 0;
@@ -224,10 +185,6 @@ namespace SIL.Pa.UI.Dialogs
 			m_defaultRowHeight += 4;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void LoadCharGrid(UndefinedPhoneticCharactersInfoList list)
 		{
@@ -267,10 +224,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private static int CompareUndefinedCharValues(UndefinedPhoneticCharactersInfo x,
 			UndefinedPhoneticCharactersInfo y)
 		{
@@ -288,10 +241,6 @@ namespace SIL.Pa.UI.Dialogs
 
 		#region Event handlers and overrides
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
 			Settings.Default.UndefinedPhoneticCharactersDlg =
@@ -300,10 +249,6 @@ namespace SIL.Pa.UI.Dialogs
 			base.OnLoad(e);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
@@ -320,10 +265,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
@@ -331,24 +272,20 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			Settings.Default.UndefinedPhoneticCharactersDlgCharsGrid = GridSettings.Create(m_gridChars);
 			Settings.Default.UndefinedPhoneticCharactersDlgWhereGrid = GridSettings.Create(m_gridWhere);
 			Settings.Default.UndefinedPhoneticCharactersDlgSplitLoc = splitContainer1.SplitterDistance;	
 
-			if (App.Project != null)
+			if (m_project != null)
 			{
-				if (App.Project.ShowUndefinedCharsDlg != chkShowUndefinedCharDlg.Checked ||
-					App.Project.IgnoreUndefinedCharsInSearches != chkIgnoreInSearches.Checked)
+				if (m_project.ShowUndefinedCharsDlg != chkShowUndefinedCharDlg.Checked ||
+					m_project.IgnoreUndefinedCharsInSearches != chkIgnoreInSearches.Checked)
 				{
-					App.Project.ShowUndefinedCharsDlg = chkShowUndefinedCharDlg.Checked;
-					App.Project.IgnoreUndefinedCharsInSearches = chkIgnoreInSearches.Checked;
-					App.Project.Save();
+					m_project.ShowUndefinedCharsDlg = chkShowUndefinedCharDlg.Checked;
+					m_project.IgnoreUndefinedCharsInSearches = chkIgnoreInSearches.Checked;
+					m_project.Save();
 				}
 			}
 
@@ -356,20 +293,12 @@ namespace SIL.Pa.UI.Dialogs
 		}
 	
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void m_grid_RowHeightInfoNeeded(object sender, DataGridViewRowHeightInfoNeededEventArgs e)
 		{
 			e.Height = m_defaultRowHeight;
 			e.MinimumHeight = 10;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void m_gridChars_RowEnter(object sender, DataGridViewCellEventArgs e)
 		{
@@ -403,10 +332,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void m_gridWhere_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
 			e.Value = null;
@@ -432,11 +357,11 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			base.OnResize(e);
 
-			using (Graphics g = lblInfo.CreateGraphics())
+			using (var g = lblInfo.CreateGraphics())
 			{
 				const TextFormatFlags kFlags = TextFormatFlags.NoClipping | TextFormatFlags.WordBreak;
-				Size propSz = new Size(lblInfo.Width, int.MaxValue);
-				Size sz = TextRenderer.MeasureText(g, lblInfo.Text, lblInfo.Font, propSz, kFlags);
+				var propSz = new Size(lblInfo.Width, int.MaxValue);
+				var sz = TextRenderer.MeasureText(g, lblInfo.Text, lblInfo.Font, propSz, kFlags);
 				lblInfo.Height = sz.Height + 15;
 			}
 		}
@@ -448,7 +373,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleGridLeave(object sender, EventArgs e)
 		{
-			DataGridView grid = sender as DataGridView;
+			var grid = sender as DataGridView;
 			if (grid != null)
 			{
 				grid.RowsDefaultCellStyle.SelectionForeColor = SystemColors.ControlText;
@@ -477,10 +402,6 @@ namespace SIL.Pa.UI.Dialogs
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void btnOK_Click(object sender, EventArgs e)
 		{

@@ -15,14 +15,16 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void InitializeFontTab()
 		{
+			var mappedFields = (m_project == null ? null : m_project.GetMappedFields());
+
 			// This tab isn't valid if there is no project loaded.
-			if (m_project == null || m_project.Fields == null || m_project.Fields.Count() == 0)
+			if (mappedFields == null || mappedFields.Count() == 0)
 			{
 				tabOptions.TabPages.Remove(tpgFonts);
 				return;
 			}
 
-			m_fntGrid = new FieldFontsGrid(m_project.Fields);
+			m_fntGrid = new FieldFontsGrid(mappedFields);
 			m_fntGrid.Dock = DockStyle.Fill;
 			pnlFonts.Controls.Add(m_fntGrid);
 

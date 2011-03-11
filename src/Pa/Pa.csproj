@@ -165,6 +165,7 @@
     <Compile Include="DataSourceClasses\SpeechAnalyzer\AudioReader.cs" />
     <Compile Include="DataSourceClasses\SpeechAnalyzer\SaAudioDocument.cs" />
     <Compile Include="DataSourceClasses\SpeechAnalyzer\SaAudioDocumentReader.cs" />
+    <Compile Include="DataSourceClasses\SpeechAnalyzer\SaDataSourceReader.cs" />
     <Compile Include="Filters\FilterExpression.cs" />
     <Compile Include="Filters\FilterHelper.cs" />
     <Compile Include="Filters\Filters.cs" />

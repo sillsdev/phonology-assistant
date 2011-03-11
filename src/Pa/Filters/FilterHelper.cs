@@ -136,7 +136,7 @@ namespace SIL.Pa.Filters
 
 			CurrentFilter = filter;
 			m_project.RecordCache.BuildFilteredWordCache();
-			App.MsgMediator.SendMessage("DataSourcesModified", m_project.FileName);
+			App.MsgMediator.SendMessage("DataSourcesModified", m_project);
 			App.MsgMediator.SendMessage("FilterChanged", filter);
 		}
 

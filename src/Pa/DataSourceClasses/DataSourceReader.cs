@@ -229,8 +229,8 @@ namespace SIL.Pa.DataSource
 					switch (ds.Type)
 					{
 						case DataSourceType.Toolbox:
-						case DataSourceType.SFM: readSuccess = ReadSFMFile(worker, ds); break;
-						case DataSourceType.SA: ReadSaSource(worker, ds); break;
+						case DataSourceType.SFM: readSuccess = ReadSfmDataSource(worker, ds); break;
+						case DataSourceType.SA: ReadSaDataSource(worker, ds); break;
 						case DataSourceType.FW7: ReadFw7DataSource(worker, ds); break;
 						case DataSourceType.XML: break;
 						case DataSourceType.FW:
@@ -432,102 +432,20 @@ namespace SIL.Pa.DataSource
 		/// Reads an SA sound file data source.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ReadSaSource(BackgroundWorker worker, PaDataSource ds)
+		protected bool ReadSaDataSource(BackgroundWorker worker, PaDataSource ds)
 		{
-			var reader = new SaAudioDocumentReader();
-			if (!reader.Initialize(ds.SourceFile))
-				return;
+			var reader = SaDataSourceReader.Create(worker, m_project, ds);
 
-			if (reader.Words == null)
-				return;
-			
-			// Make only a single record entry for the entire wave file.
-			var recCacheEntry = new RecordCacheEntry(false, m_project)
+			if (reader == null)
 			{
-				DataSource = ds,
-				NeedsParsing = false,
-				Channels = reader.Channels,
-				BitsPerSample = reader.BitsPerSample,
-				SamplesPerSecond = reader.SamplesPerSecond,
-			};
-
-			var validSaFields = Settings.Default.DefaultSaFields.Cast<string>();
-			var saFields = m_project.Fields.Where(f => validSaFields.Contains(f.Name));
-
-			var audioField = saFields.SingleOrDefault(f => f.Type == FieldType.AudioFilePath);
-			if (audioField != null)
-				recCacheEntry.SetValue(audioField.Name, ds.SourceFile);
-
-			worker.ReportProgress(0);
-			int wordIndex = 0;
-			var wordEntries = new List<WordCacheEntry>();
-
-			// Get all the record level fields.
-			foreach (var fname in ds.FieldMappings.Where(m => !m.IsParsed).Select(m => m.Field.Name))
-			{
-				var value = GetPropertyValueFromObject(typeof(SaAudioDocumentReader), fname, reader);
-				if (value != null)
-					recCacheEntry.SetValue(fname, value.ToString());
+				Utils.MsgBox(string.Format(GetPhoneticMappingErrorMsg(), ds.SourceFile));
+				return false;
 			}
 
-			// Get all the word level fields.
-			foreach (var adw in reader.Words.Values)
-			{
-				var wentry = new WordCacheEntry(recCacheEntry, wordIndex++, true);
-
-				foreach (var fname in ds.FieldMappings.Where(m => !m.IsParsed).Select(m => m.Field.Name))
-				{
-					var value = GetPropertyValueFromObject(typeof(AudioDocWords), fname, adw);
-					if (value != null)
-						wentry.SetValue(fname, value.ToString());
-				}
-
-				wordEntries.Add(wentry);
-			}
-
-			recCacheEntry.WordEntries = wordEntries;
-			m_recCache.Add(recCacheEntry);
+			reader.Read(m_recCache);
+			reader.Dispose();
+			return true;
 		}
-
-		/// ------------------------------------------------------------------------------------
-		private static object GetPropertyValueFromObject(Type type, string propName, object srcObject)
-		{
-			const BindingFlags kFlags = BindingFlags.GetProperty |
-				BindingFlags.Instance | BindingFlags.Public;
-
-			try
-			{
-				return type.InvokeMember(propName, kFlags, null, srcObject, null);
-			}
-			catch
-			{
-				return null;
-			}
-		}
-
-		///// ------------------------------------------------------------------------------------
-		// TODO: Figure out if needed.
-		//private static bool HandleWaveFileNeedsConverting(string filename)
-		//{
-		//    if (AudioPlayer.GetSaPath() != null)
-		//        return true;
-
-		//    var msg = App.LocalizeString("AudioConvertProblemMsg",
-		//        "It appears the audio file '{0}' may have been created using an old version " +
-		//        "of Speech Analyzer. In order for Phonology Assistant to read data associated " +
-		//        "with the audio file it must first be converted using some components of " +
-		//        "Speech Analyzer 3.0.1, but it is not installed. Please install Speech Analyzer " +
-		//        "3.0.1 and try again.", "Message displayed when SA 3.0.1 is not installed and " +
-		//        "PA is trying to read an audio file created using a version SA older than 3.0.1.",
-		//        App.kLocalizationGroupInfoMsg);
-
-		//    msg = string.Format(msg, filename);
-
-		//    using (var dlg = new DownloadSaDlg(msg))
-		//        dlg.ShowDialog();
-
-		//    return false;
-		//}
 
 		#endregion
 
@@ -538,7 +456,7 @@ namespace SIL.Pa.DataSource
 		/// </summary>
 		/// <returns>True indicates success</returns>
 		/// ------------------------------------------------------------------------------------
-		protected bool ReadSFMFile(BackgroundWorker worker, PaDataSource ds)
+		protected bool ReadSfmDataSource(BackgroundWorker worker, PaDataSource ds)
 		{
 			var reader = SfmDataSourceReader.Create(worker, m_project, ds);
 

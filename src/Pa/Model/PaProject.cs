@@ -28,7 +28,6 @@ namespace SIL.Pa.Model
 		private SortOptions m_searchVwSortOptions;
 		private SortOptions m_distChartVwSortOptions;
 		private Filter m_loadedFilter;
-		private List<PaField> m_lastNewlyAddedFields;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -40,7 +39,7 @@ namespace SIL.Pa.Model
 			Name = App.LocalizeString("DefaultNewProjectName", "New Project", App.kLocalizationGroupMisc);
 			ShowUndefinedCharsDlg = true;
 			IgnoreUndefinedCharsInSearches = true;
-			m_lastNewlyAddedFields = new List<PaField>(0);
+			LastNewlyMappedFields = new List<string>(0);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -327,11 +326,12 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// This will go through the all the field mappings of all the data source's, making
-		/// sure each field mapping points to one of the fields in the project. If, along the
-		/// way, a mapping is found with a field that isn't found in the project's fields, then
-		/// a field is added for it. It is assumed that fields added in this way are ones
-		/// manually added in the SFM/Toolbox data source mappings dialog.
+		/// This will go through all the field mappings of all the data source's, making sure
+		/// each field mapping points to one of the fields in the project. If, along the way,
+		/// a mapping is found with a field name that doesn't belong to one found in the
+		/// project's fields, then an associated field is added to the project. It is assumed
+		/// that fields added in this way are ones manually added in the SFM/Toolbox data
+		/// source mappings dialog, since there's no where else to do so.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void FixupFieldsAndMappings()
@@ -347,14 +347,15 @@ namespace SIL.Pa.Model
 					// If field is null, it means the user has entered their own
 					// field name in one of the SFM/Toolbox data source mappings.
 					if (field == null)
-						fields.Add(new PaField(mapping.PaFieldName));
-
-					mapping.Field = field;
+						fields.Add(mapping.Field);
+					else
+						mapping.Field = field;
+					
 					mapping.PaFieldName = null;
 				}
 			}
 
-			Fields = fields;
+			Fields = fields.OrderBy(f => f.Name);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -442,7 +443,7 @@ namespace SIL.Pa.Model
 		{
 			m_reloadingProjectInProcess = true;
 			LoadDataSources();
-			App.MsgMediator.SendMessage("DataSourcesModified", FileName);
+			App.MsgMediator.SendMessage("DataSourcesModified", this);
 			m_reloadingProjectInProcess = false;
 		}
 
@@ -645,23 +646,14 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets a value indicating whether or not the specified field was added the last
-		/// time the project settings were changed.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool GetIsNewlyAddedField(PaField field)
-		{
-			return (m_lastNewlyAddedFields.Any(f => f.Name == field.Name));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Gets a subset of the project's fields based on whether or not a field is mapped.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<PaField> GetMappedFields()
 		{
-			return DataSources.SelectMany(ds => ds.FieldMappings).Select(m => m.Field);
+			var list = DataSources.SelectMany(ds => ds.FieldMappings).Select(m => m.Field).ToList();
+			list.AddRange(PaField.GetCalculatedFieldsFromList(Fields));
+			return list.Distinct(new FieldNameComparer());
 		}
 
 		#region Loading/Saving Caches
@@ -1003,6 +995,10 @@ namespace SIL.Pa.Model
 			get { return FilterHelper.CurrentFilter; }
 			set { m_loadedFilter = value; }
 		}
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public IEnumerable<string> LastNewlyMappedFields { get; set; }
 
 		#endregion
 

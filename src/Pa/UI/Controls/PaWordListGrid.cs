@@ -197,7 +197,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_suspendSavingColumnChanges = true;
 
-			foreach (var field in App.Project.Fields.Where(f => f.DisplayIndexInGrid >= 0))
+			foreach (var field in App.Project.GetMappedFields().Where(f => f.DisplayIndexInGrid >= 0))
 				AddNewColumn(field);
 
 			RefreshColumnFonts(false);
@@ -314,10 +314,6 @@ namespace SIL.Pa.UI.Controls
 		{
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void SaveGridChange()
 		{
@@ -2783,6 +2779,9 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool OnDataSourcesModified(object args)
 		{
+			var project = args as PaProject;
+			var mappedFields = project.GetMappedFields().Where(f => !f.IsHidden).ToList();
+
 			m_suspendSavingColumnChanges = true;
 
 			// Hide the first column (collapse/expand group) so it won't mess up
@@ -2800,22 +2799,22 @@ namespace SIL.Pa.UI.Controls
 				else
 				{
 					// If there's no longer a field for the column, then remove it.
-					var field = App.Project.GetFieldForName(Columns[i].Name);
-					if (field == null)
+					if (!mappedFields.Any(f => f.Name == Columns[i].Name))
 						Columns.RemoveAt(i);
 				}
 			}
 
 			// Make sure there are columns for new fields
 			// that may have been added to the project.
-			foreach (var field in App.Project.Fields.Where(f => !f.IsHidden))
+			foreach (var field in mappedFields)
 			{
 				var col = Columns[field.Name];
 				if (col == null)
 				{
-					if (field.DisplayIndexInGrid < 0 || !App.Project.GetIsNewlyAddedField(field))
+					if (field.DisplayIndexInGrid < 0 || !project.LastNewlyMappedFields.Contains(field.Name))
 						continue;
 
+					field.VisibleInGrid = true;
 					col = AddNewColumn(field);
 				}
 
@@ -2840,8 +2839,7 @@ namespace SIL.Pa.UI.Controls
 						// adding hierarchicalGridColumnCount to DisplayIndexInGrid will
 						// make sure the hierarchical grid columns stay at the beginning of
 						// the displayed columns.
-						col.DisplayIndex =
-							field.DisplayIndexInGrid + hierarchicalGridColumnCount;
+						col.DisplayIndex = field.DisplayIndexInGrid + hierarchicalGridColumnCount;
 					}
 					catch
 					{

@@ -281,7 +281,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				var mapping = m_mappings[e.RowIndex];
 				if (GetColumnName(e.ColumnIndex) == "font" && mapping.Field != null)
-					e.CellStyle.Font = mapping.Field.Font;
+					e.CellStyle.Font = Fonts[mapping.Field.Name];
 			}
 	
 			base.OnCellFormatting(e);

@@ -3125,8 +3125,7 @@ namespace SIL.Pa.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Phonetic;Phonemic;Tone;Gloss;Orthographic;Reference;AudioFile;AudioLength;AudioOf" +
-            "fset")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Phonetic;Phonemic;Tone;Gloss;Orthographic;Reference")]
         public string DefaultParsedSaFields {
             get {
                 return ((string)(this["DefaultParsedSaFields"]));
@@ -3365,6 +3364,15 @@ namespace SIL.Pa.Properties {
         public global::System.Collections.Specialized.StringCollection DefaultFw7Fields {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["DefaultFw7Fields"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("{0}, 11, Regular")]
+        public string DefaultFw7InferredFontSizeAndStyle {
+            get {
+                return ((string)(this["DefaultFw7InferredFontSizeAndStyle"]));
             }
         }
     }

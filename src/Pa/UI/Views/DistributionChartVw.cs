@@ -1105,10 +1105,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnDataSourcesModified(object args)
 		{
 			ptrnBldrComponent.RefreshComponents();

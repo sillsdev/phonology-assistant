@@ -132,7 +132,7 @@ namespace SIL.Pa.UI
 
 			if (m_project != null)
 			{
-				OnDataSourcesModified(m_project.Name);
+				OnDataSourcesModified(m_project);
 				OnFilterChanged(m_project.CurrentFilter);
 			}
 

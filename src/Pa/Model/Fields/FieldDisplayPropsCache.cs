@@ -10,15 +10,20 @@ namespace SIL.Pa.Model
 {
 	#region FieldDisplayPropsCache class
 	/// ----------------------------------------------------------------------------------------
+	/// <summary>
+	/// This class extends a generic list of PaFieldDisplayProperties instances by providing
+	/// methods for saving, loading and getting/setting various display properties for
+	/// specified fields.
+	/// </summary>
+	/// ----------------------------------------------------------------------------------------
 	public class FieldDisplayPropsCache : List<PaFieldDisplayProperties>
 	{
-		private PaProject m_project;
+		private static List<Font> s_fontCache = new List<Font>();
 
 		#region static methods
 		/// ------------------------------------------------------------------------------------
 		public Exception SaveProjectFieldDisplayProps(PaProject project)
 		{
-			m_project = project;
 			var path = project.ProjectPathFilePrefix + "FieldDisplayProperties.xml";
 			Exception e = null;
 			XmlSerializationHelper.SerializeToFile(path, this, "FieldDisplayProps", out e);
@@ -30,16 +35,13 @@ namespace SIL.Pa.Model
 		{
 			var path = project.ProjectPathFilePrefix + "FieldDisplayProperties.xml";
 			if (!File.Exists(path))
-				return GetDefaultCache(project);
+				return GetDefaultCache();
 
 			Exception e;
 			var cache = XmlSerializationHelper.DeserializeFromFile<FieldDisplayPropsCache>(path, "FieldDisplayProps", out e);
 
 			if (e == null)
-			{
-				cache.m_project = project;
 				return cache;
-			}
 
 			var msg = App.LocalizeString("ReadingFieldsFileErrorMsg",
 				"The following error occurred when reading the file\n\n'{0}'\n\n{1}",
@@ -54,7 +56,7 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static FieldDisplayPropsCache GetDefaultCache(PaProject project)
+		private static FieldDisplayPropsCache GetDefaultCache()
 		{
 			int displayIndex = 0;
 			var list = from string name in Settings.Default.DefaultVisibleFields
@@ -63,7 +65,6 @@ namespace SIL.Pa.Model
 			
 			var cache = new FieldDisplayPropsCache();
 			cache.AddRange(list);
-			cache.m_project = project;
 			return cache;
 		}
 
@@ -73,12 +74,6 @@ namespace SIL.Pa.Model
 		public PaFieldDisplayProperties GetDisplayProps(string name)
 		{
 			return this.SingleOrDefault(dp => dp.Name == name);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void Save()
-		{
-			SaveProjectFieldDisplayProps(m_project);
 		}
 
 		#region getter methods
@@ -135,15 +130,20 @@ namespace SIL.Pa.Model
 
 		#region setter methods
 		/// ------------------------------------------------------------------------------------
-		public void SetFont(string name, Font fnt)
+		public void SetFont(string name, Font fntNew)
 		{
+			var fnt = s_fontCache.SingleOrDefault(f => FontHelper.AreFontsSame(f, fntNew));
+			if (fnt == null)
+			{
+				fnt = fntNew;
+				s_fontCache.Add(fnt);
+			}
+
 			var props = GetDisplayProps(name);
 			if (props == null)
 				Add(new PaFieldDisplayProperties(name, false, false) { Font = fnt });
 			else
 				props.Font = fnt;
-
-			Save();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -154,8 +154,6 @@ namespace SIL.Pa.Model
 				Add(new PaFieldDisplayProperties(name, false, false) { RightToLeft = isRightToLeft });
 			else
 				props.RightToLeft = isRightToLeft;
-
-			Save();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -166,8 +164,6 @@ namespace SIL.Pa.Model
 				Add(new PaFieldDisplayProperties(name, false, false) { WidthInGrid = width });
 			else
 				props.WidthInGrid = width;
-
-			Save();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -178,8 +174,6 @@ namespace SIL.Pa.Model
 				Add(new PaFieldDisplayProperties(name, false, false) { DisplayIndexInGrid = index });
 			else
 				props.DisplayIndexInGrid = index;
-
-			Save();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -190,8 +184,6 @@ namespace SIL.Pa.Model
 				Add(new PaFieldDisplayProperties(name, false, false) { DisplayIndexInRecView = index });
 			else
 				props.DisplayIndexInRecView = index;
-
-			Save();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -202,8 +194,6 @@ namespace SIL.Pa.Model
 				Add(new PaFieldDisplayProperties(name, false, false) { VisibleInGrid = visible });
 			else
 				props.VisibleInGrid = visible;
-
-			Save();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -214,8 +204,6 @@ namespace SIL.Pa.Model
 				Add(new PaFieldDisplayProperties(name, false, false) { VisibleInRecView = visible });
 			else
 				props.VisibleInRecView = visible;
-
-			Save();
 		}
 
 		#endregion

@@ -16,7 +16,7 @@ namespace SIL.Pa.UI.Controls
 		public Fw7FieldMappingGrid(PaDataSource ds, IEnumerable<PaField> potentialFields)
 		{
 			m_writingSystems = ds.FwDataSourceInfo.GetWritingSystems();
-			m_potentialFields = potentialFields.OrderBy(f => f.Name);
+			m_potentialFields = potentialFields.OrderBy(f => f.DisplayName);
 
 			// We don't want to show the phonetic and audio file mappings in this grid.
 			m_mappings = (from m in ds.FieldMappings
@@ -171,7 +171,7 @@ namespace SIL.Pa.UI.Controls
 
 					if (e.RowIndex == m_mappings.Count)
 					{
-						mapping = new FieldMapping(field.Name, field, false);
+						mapping = new FieldMapping(field, false);
 						m_mappings.Add(mapping);
 					}
 					else

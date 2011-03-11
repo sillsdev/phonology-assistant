@@ -9,8 +9,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public FieldFontsGrid(IEnumerable<PaField> potentialFields)
 		{
-			m_potentialFields = potentialFields;
-			m_mappings = potentialFields.Select(f => new FieldMapping { Field = f.Copy() }).ToList();
+			m_potentialFields = potentialFields.OrderBy(f => f.DisplayName);
+			m_mappings = m_potentialFields.Select(f => new FieldMapping { Field = f }).ToList();
 			
 			LockTargetFieldColumn();
 			ShowFontColumn(false);

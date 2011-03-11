@@ -111,7 +111,10 @@ namespace SIL.Pa.Model
 
 			FieldValue fieldValue;
 			if (!m_fieldValues.TryGetValue(field, out fieldValue))
-				return;
+			{
+				fieldValue = new FieldValue(field);
+				m_fieldValues[field] = fieldValue;
+			}
 
 			// Are we setting the phonetic value?
 			if (fieldValue != m_phoneticValue)
