@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultPaFields version="3.0">
+	<field name="Reference" type="Reference">
+		<possibleDataSourceFieldNames>\ref</possibleDataSourceFieldNames>
+	</field>
+	<field name="Phonetic" type="Phonetic">
+		<possibleDataSourceFieldNames>\ph;\tx</possibleDataSourceFieldNames>
+		<fwWritingSystemType>Vernacular</fwWritingSystemType>
+	</field>
+	<field name="Gloss" type="GeneralText">
+		<possibleDataSourceFieldNames>\gl;\ge</possibleDataSourceFieldNames>
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="NatGloss" type="GeneralText">
+		<possibleDataSourceFieldNames>\gn</possibleDataSourceFieldNames>
+	</field>
+	<field name="PartOfSpeech" type="GeneralText">
+		<possibleDataSourceFieldNames>\ps</possibleDataSourceFieldNames>
+		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
+	</field>
+	<field name="Tone" type="GeneralText">
+		<possibleDataSourceFieldNames>\tn;\pi</possibleDataSourceFieldNames>
+	</field>
+	<field name="Orthographic" type="GeneralText" />
+	<field name="Phonemic" type="GeneralText" />
+	<field name="AudioFile" type="AudioFilePath" collection="true">
+		<possibleDataSourceFieldNames>\sf;\snd</possibleDataSourceFieldNames>
+	</field>
+
+	<!-- SA Specific -->
+	<field name="FreeFormTranslation" type="GeneralText"/>
+	<field name="NoteBookReference" type="GeneralText"/>
+	<field name="Dialect" type="GeneralText"/>
+	<field name="EthnologueId" type="GeneralText"/>
+	<field name="LanguageName" type="GeneralText"/>
+	<field name="Region" type="GeneralText"/>
+	<field name="Country" type="GeneralText"/>
+	<field name="Family" type="GeneralText"/>
+	<field name="Transcriber" type="GeneralText"/>
+	<field name="SpeakerName" type="GeneralText"/>
+	<field name="SpeakerGender" type="GeneralText"/>
+	<field name="SADescription" type="GeneralText"/>
+
+	<!-- FW7 Specific -->
+	<field name="CitationForm" type="GeneralText">
+		<fwWritingSystemType>Vernacular</fwWritingSystemType>
+	</field>
+	<field name="MorphType" type="GeneralText">
+		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
+	</field>
+	<field name="Etymology" type="GeneralText">
+		<fwWritingSystemType>Vernacular</fwWritingSystemType>
+	</field>
+	<field name="LiteralMeaning" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="Bibliography" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="Restrictions" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="SummaryDefinition" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="Note" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="ExcludeAsHeadword" type="GeneralText" />
+	<field name="ImportResidue" type="GeneralText" />
+	<field name="DateCreated" type="Date" />
+	<field name="DateModified" type="Date" />
+
+	<!-- This is the collection of variants the entry references -->
+	<field name="Variants" type="GeneralText" collection="true">
+		<fwWritingSystemType>Vernacular</fwWritingSystemType>
+	</field>
+
+	<!-- This is a collection of the types of variant the entry is, not the type of the variants the entry references. -->
+	<field name="VariantTypes" type="GeneralText" collection="true">
+		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
+	</field>
+
+	<!-- This is a collection of the variant comments of the entry is, not the comments of the variants the entry references. -->
+	<field name="VariantComments" type="GeneralText" collection="true">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+
+	<field name="ComplexForms" type="GeneralText" collection="true">
+		<fwWritingSystemType>Vernacular</fwWritingSystemType>
+	</field>
+	<field name="Components" type="GeneralText" collection="true" />
+	<field name="ComplexTypes" type="GeneralText" collection="true">
+		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
+	</field>
+	<field name="ComplexFormComments" type="GeneralText" collection="true">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="Allomorphs" type="GeneralText" collection="true">
+		<fwWritingSystemType>Vernacular</fwWritingSystemType>
+	</field>
+
+	<!-- Pronunciation Fields -->
+	<field name="CV-Pattern-Flex" type="GeneralText">
+	</field>
+	<field name="Location" type="GeneralText">
+		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
+	</field>
+	<field name="AudioFileLabel" type="GeneralText" collection="true">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+
+	<!-- Sense Fields -->
+	<field name="Definition" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="AnthropologyNote" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="Bibliography-Sense" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="DiscourseNote" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="EncyclopedicInfo" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="GeneralNote" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="GrammarNote" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="PhonologyNote" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="Restrictions-Sense" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="SemanticsNote" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="SociolinguisticsNote" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="SenseType" type="GeneralText">
+		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
+	</field>
+	<field name="Status" type="GeneralText">
+		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
+	</field>
+	<field name="AnthroCodes" type="GeneralText">
+		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
+	</field>
+	<field name="DomainTypes" type="GeneralText">
+		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
+	</field>
+	<field name="SemanticDomains" type="GeneralText">
+		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
+	</field>
+	<field name="Usages" type="GeneralText">
+		<fwWritingSystemType>CmPossibility</fwWritingSystemType>
+	</field>
+	<field name="ReversalEntries" type="GeneralText">
+		<fwWritingSystemType>Analysis</fwWritingSystemType>
+	</field>
+	<field name="ScientificName" type="GeneralText" />
+	<field name="Source" type="GeneralText" />
+	<field name="ImportResidue-Sense" type="GeneralText" />
+</DefaultPaFields>
