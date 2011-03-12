@@ -332,6 +332,9 @@
     <Compile Include="UI\Controls\FeatureListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\Controls\FieldRelatedControls\Fw6FieldMappingGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\Controls\FieldRelatedControls\SfmFieldMappingGrid.cs">
       <SubType>Component</SubType>
     </Compile>

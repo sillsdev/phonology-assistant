@@ -46,14 +46,19 @@ namespace SIL.Pa.DataSource.FieldWorks
 					App.kLocalizationGroupMisc);
 
 				msg = string.Format(msg, m_sourceInfo.Name, Path.GetFileName(m_sourceInfo.Queries.QueryFile));
-				var wsInfoList = GetWritingSystems(m_sourceInfo.Queries.AnalysisWs, msg)
-					.Select(ws => new FwWritingSysInfo(FwDBUtils.FwWritingSystemType.Analysis, ws.Key, ws.Value)).ToList();
+
+				foreach (var ws in GetWritingSystems(m_sourceInfo.Queries.AnalysisWs, msg))
+				{
+					yield return new FwWritingSysInfo(FwDBUtils.FwWritingSystemType.Analysis,
+						ws.Key, ws.Value) { Id = ws.Key.ToString() };
+				}
 
 				// Build a list of the analysis writing systems.
-				wsInfoList.AddRange(GetWritingSystems(m_sourceInfo.Queries.VernacularWsSQL, msg)
-					.Select(ws => new FwWritingSysInfo(FwDBUtils.FwWritingSystemType.Vernacular, ws.Key, ws.Value)));
-
-				return wsInfoList;
+				foreach (var ws in GetWritingSystems(m_sourceInfo.Queries.VernacularWsSQL, msg))
+				{
+					yield return new FwWritingSysInfo(FwDBUtils.FwWritingSystemType.Vernacular,
+						ws.Key, ws.Value) { Id = ws.Key.ToString() };
+				}
 			}
 		}
 

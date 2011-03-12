@@ -26,8 +26,12 @@
 	<field name="Tone" type="GeneralText">
 		<possibleDataSourceFieldNames>\tn;\pi</possibleDataSourceFieldNames>
 	</field>
-	<field name="Orthographic" type="GeneralText" />
-	<field name="Phonemic" type="GeneralText" />
+	<field name="Orthographic" type="GeneralText">
+		<fwWritingSystemType>Vernacular</fwWritingSystemType>
+	</field>
+	<field name="Phonemic" type="GeneralText">
+		<fwWritingSystemType>Vernacular</fwWritingSystemType>
+	</field>
 	<field name="AudioFile" type="AudioFilePath" collection="true">
 		<possibleDataSourceFieldNames>\sf;\snd</possibleDataSourceFieldNames>
 	</field>

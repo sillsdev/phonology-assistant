@@ -136,7 +136,7 @@ namespace SIL.Pa.DataSource
 		{
 			var writingSystems = FwDataSourceInfo.GetWritingSystems();
 
-			var defaultFieldNames = Settings.Default.DefaultFw6Fields.Cast<string>()
+			var defaultFieldNames = Settings.Default.DefaultMappedFw6Fields.Cast<string>()
 				.Where(n => n != PaField.kAudioFileFieldName && n != PaField.kPhoneticFieldName).ToList();
 
 			// Add a mapping for the phonetic field.

@@ -7,15 +7,13 @@ using SIL.Pa.Model;
 
 namespace SIL.Pa.UI.Controls
 {
-	public class Fw7FieldMappingGrid : FieldMappingGridBase
+	public class Fw7FieldMappingGrid : Fw6FieldMappingGrid
 	{
-		private readonly IEnumerable<FwWritingSysInfo> m_writingSystems;
 		private string m_tgtFieldColName;
 
 		/// ------------------------------------------------------------------------------------
-		public Fw7FieldMappingGrid(PaDataSource ds, IEnumerable<PaField> potentialFields)
+		public Fw7FieldMappingGrid(PaDataSource ds, IEnumerable<PaField> potentialFields) : base(ds)
 		{
-			m_writingSystems = ds.FwDataSourceInfo.GetWritingSystems();
 			m_potentialFields = potentialFields.OrderBy(f => f.DisplayName);
 
 			// We don't want to show the phonetic and audio file mappings in this grid.
@@ -23,37 +21,9 @@ namespace SIL.Pa.UI.Controls
 						  where m.Field.Type != FieldType.Phonetic && m.Field.Type != FieldType.AudioFilePath
 						  select m.Copy()).ToList();
 
-			AddOurColumns();
-			ShowFontColumn(false);
+			CustomizeGrid();
 			AllowUserToAddRows = true;
 			RowCount = m_mappings.Count + 1;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void AddOurColumns()
-		{
-			// Create the target field combo box column.
-			DataGridViewColumn col = CreateDropDownListComboBoxColumn(m_tgtFieldColName,
-				m_potentialFields.Select(f => f.DisplayName));
-			
-			col.SortMode = DataGridViewColumnSortMode.NotSortable;
-			col.HeaderText = GetFieldColumnHeadingText();
-			Columns.Insert(0, col);
-
-			var wslist = m_writingSystems.Select(ws => ws.Name).ToList();
-			wslist.Insert(0, GetNoWritingSystemText());
-
-			// Create FW writing system column.
-			col = CreateDropDownListComboBoxColumn("fwws", wslist);
-			col.SortMode = DataGridViewColumnSortMode.NotSortable;
-			int i = FontColumnIndex;
-			Columns.Insert(i, col);
-			App.LocalizeObject(Columns[i], "FieldMappingGrid.FwWritingSystemColumnHeadingText",
-			                   "Writing System", App.kLocalizationGroupUICtrls);
-
-			AddRemoveRowColumn(Properties.Resources.RemoveGridRowNormal, Properties.Resources.RemoveGridRowHot,
-			    () => App.LocalizeString("Fw7DataSourcePropertiesDlg.RemoveFieldToolTip", "Remove Field", App.kLocalizationGroupDialogs),
-			    rowIndex => m_mappings.RemoveAt(rowIndex));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -67,17 +37,40 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void CustomizeGrid()
+		{
+			// Create the target field combo box column.
+			DataGridViewColumn col = CreateDropDownListComboBoxColumn(m_tgtFieldColName,
+				m_potentialFields.Select(f => f.DisplayName));
+
+			col.SortMode = DataGridViewColumnSortMode.NotSortable;
+			col.HeaderText = GetFieldColumnHeadingText();
+			Columns.Insert(0, col);
+
+			AddRemoveRowColumn(Properties.Resources.RemoveGridRowNormal, Properties.Resources.RemoveGridRowHot,
+				() => App.LocalizeString("Fw7DataSourcePropertiesDlg.RemoveFieldToolTip", "Remove Field", App.kLocalizationGroupDialogs),
+				rowIndex => m_mappings.RemoveAt(rowIndex));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override string GetNoWritingSystemText()
+		{
+			return App.LocalizeString("FieldMappingGrid.WritingSystemNotApplicableText",
+				"(n/a)", App.kLocalizationGroupUICtrls);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Modify the writing system combo list on the fly, only adding to the list those
-		/// writing systems appropriate for the field in the current row.
+		/// Modify the field combo list on the fly, only adding to the list those fields that
+		/// haven't been mapped.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override KeyValuePair<object, IEnumerable<object>> OnGetComboCellList(
 			DataGridViewCell cell, DataGridViewEditingControlShowingEventArgs e)
 		{
-			var field = GetFieldAt(cell.RowIndex);
-			return (GetCurrentColumnName() == "fwws" ?
-				GetWritingSystemDropDownItems(field) : GetFieldsDropDownItems(field));
+			return (GetCurrentColumnName() == "tgtfield" ?
+				GetFieldsDropDownItems(GetFieldAt(cell.RowIndex)) :
+				base.OnGetComboCellList(cell, e));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -104,97 +97,46 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the writing systems appropriate for the specified field.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private KeyValuePair<object, IEnumerable<object>> GetWritingSystemDropDownItems(PaField field)
+		protected override IEnumerable<string> GetWritingSystemsForField(PaField field)
 		{
-			var wslist = new List<string>();
-
-			if (field != null)
+			if (field.FwWsType == FwDBUtils.FwWritingSystemType.None ||
+				field.FwWsType == FwDBUtils.FwWritingSystemType.CmPossibility)
 			{
-				if (field.FwWsType == FwDBUtils.FwWritingSystemType.None ||
-					field.FwWsType == FwDBUtils.FwWritingSystemType.CmPossibility)
-				{
-					wslist.Insert(0, GetNoWritingSystemText());
-				}
-				else
-					wslist.AddRange(m_writingSystems.Where(ws => ws.Type == field.FwWsType).Select(ws => ws.Name));
+				yield return GetNoWritingSystemText();
 			}
-
-			var currWs = m_writingSystems.SingleOrDefault(ws =>
-				ws.Id == m_mappings[CurrentCellAddress.Y].FwWsId);
-
-			object currValue = 0;
-			if (currWs != null)
-				currValue = currWs.Name;
-
-			return new KeyValuePair<object, IEnumerable<object>>(currValue, wslist.Cast<object>());
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private static string GetNoWritingSystemText()
-		{
-			return App.LocalizeString("FieldMappingGrid.NoWritingSystemText",
-				"(n/a)", App.kLocalizationGroupUICtrls);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnCellValueNeeded(DataGridViewCellValueEventArgs e)
-		{
-			if (e.RowIndex != NewRowIndex && (GetColumnName(e.ColumnIndex) == "fwws" && e.RowIndex < m_mappings.Count))
+			else
 			{
-				var fwws = m_writingSystems.SingleOrDefault(ws => ws.Id == m_mappings[e.RowIndex].FwWsId);
-				e.Value = (fwws != null ? fwws.Name : GetNoWritingSystemText());
+				foreach (var wsName in m_writingSystems.Where(ws => ws.Type == field.FwWsType).Select(ws => ws.Name))
+					yield return wsName;
 			}
-
-			base.OnCellValueNeeded(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellValuePushed(DataGridViewCellValueEventArgs e)
 		{
-			if (e.RowIndex < 0)
-			{
-				base.OnCellValuePushed(e);
-				return;
-			}
-
-			FieldMapping mapping;
-
 			// Check if we need to add a new field to the end of the list.
-			switch (GetColumnName(e.ColumnIndex))
+			if (e.RowIndex >= 0 && GetColumnName(e.ColumnIndex) == "tgtfield")
 			{
-				case "tgtfield":
-					var field = m_potentialFields.Single(f => f.DisplayName == e.Value as string);
+				FieldMapping mapping;
+				var field = m_potentialFields.Single(f => f.DisplayName == e.Value as string);
 
-					if (e.RowIndex == m_mappings.Count)
-					{
-						mapping = new FieldMapping(field, false);
-						m_mappings.Add(mapping);
-					}
-					else
-					{
-						mapping = m_mappings[e.RowIndex];
-						mapping.NameInDataSource = field.Name;
-						mapping.Field = field;
-					}
-
-					FieldMapping.CheckMappingsFw7WritingSystem(mapping, m_writingSystems);
-					UpdateCellValue(Columns["fwws"].Index, e.RowIndex);
-					break;
-
-				case "fwws":
-					var valAsString = (e.Value as string ?? string.Empty);
-					valAsString = valAsString.Trim();
+				if (e.RowIndex == m_mappings.Count)
+				{
+					mapping = new FieldMapping(field, false);
+					m_mappings.Add(mapping);
+				}
+				else
+				{
 					mapping = m_mappings[e.RowIndex];
-					var fwws = m_writingSystems.SingleOrDefault(ws => ws.Name == valAsString);
-					mapping.FwWsId = (fwws != null ? fwws.Id : null);
-					break;
+					mapping.NameInDataSource = field.Name;
+					mapping.Field = field;
+				}
+
+				FieldMapping.CheckMappingsFw7WritingSystem(mapping, m_writingSystems);
+				UpdateCellValue(Columns["fwws"].Index, e.RowIndex);
 			}
 
-			InvalidateRow(e.RowIndex);
+			base.OnCellValueNeeded(e);
 		}
 	}
 }

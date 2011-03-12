@@ -101,8 +101,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandlePropertiesButtonClick(object sender, EventArgs e)
 		{
-			using (var dlg = new FwDataSourcePropertiesDlg(m_project, ChosenDatabase))
-				dlg.ShowDialog(this);
+			//using (var dlg = new FwDataSourcePropertiesDlg(m_project, ChosenDatabase))
+			//    dlg.ShowDialog(this);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -52,7 +52,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			lblProjectValue.Text = ds.FwDataSourceInfo.ToString();
 			lblProject.Font = FontHelper.UIFont;
-			lblProjectValue.Font = new Font(FontHelper.UIFont, FontStyle.Bold);
+			lblProjectValue.Font = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
 			grpFields.Font = FontHelper.UIFont;
 			grpPhoneticField.Font = FontHelper.UIFont;
 			rbLexForm.Font = FontHelper.UIFont;

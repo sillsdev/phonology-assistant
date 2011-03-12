@@ -29,7 +29,6 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.lblProjectValue = new System.Windows.Forms.Label();
 			this.lblProject = new System.Windows.Forms.Label();
 			this.grpPhoneticDataStoreType = new System.Windows.Forms.GroupBox();
@@ -37,13 +36,12 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbPronunField = new System.Windows.Forms.RadioButton();
 			this.rbLexForm = new System.Windows.Forms.RadioButton();
 			this.grpWritingSystems = new System.Windows.Forms.GroupBox();
-			this.m_grid = new SilTools.SilGrid();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.m_tableLayout = new System.Windows.Forms.TableLayoutPanel();
+			this.pnlGrid = new SilTools.Controls.SilPanel();
 			this.grpPhoneticDataStoreType.SuspendLayout();
 			this.tableLayoutPanel2.SuspendLayout();
 			this.grpWritingSystems.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.m_tableLayout.SuspendLayout();
 			this.SuspendLayout();
@@ -92,12 +90,12 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizationComment(this.grpPhoneticDataStoreType, "Text of frame around radio buttons on FieldWorks data source properties dialog bo" +
 					"x.");
 			this.locExtender.SetLocalizingId(this.grpPhoneticDataStoreType, "FwDataSourcePropertiesDlg.grpPhoneticDataStoreType");
-			this.grpPhoneticDataStoreType.Location = new System.Drawing.Point(0, 278);
-			this.grpPhoneticDataStoreType.Margin = new System.Windows.Forms.Padding(0, 3, 0, 5);
+			this.grpPhoneticDataStoreType.Location = new System.Drawing.Point(0, 30);
+			this.grpPhoneticDataStoreType.Margin = new System.Windows.Forms.Padding(0, 12, 0, 5);
 			this.grpPhoneticDataStoreType.Name = "grpPhoneticDataStoreType";
-			this.grpPhoneticDataStoreType.Padding = new System.Windows.Forms.Padding(3, 3, 3, 2);
-			this.grpPhoneticDataStoreType.Size = new System.Drawing.Size(327, 82);
-			this.grpPhoneticDataStoreType.TabIndex = 3;
+			this.grpPhoneticDataStoreType.Padding = new System.Windows.Forms.Padding(3, 3, 3, 4);
+			this.grpPhoneticDataStoreType.Size = new System.Drawing.Size(367, 84);
+			this.grpPhoneticDataStoreType.TabIndex = 2;
 			this.grpPhoneticDataStoreType.TabStop = false;
 			this.grpPhoneticDataStoreType.Text = "Where is Phonetic Data Stored?";
 			// 
@@ -115,7 +113,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tableLayoutPanel2.RowCount = 2;
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel2.Size = new System.Drawing.Size(321, 63);
+			this.tableLayoutPanel2.Size = new System.Drawing.Size(361, 63);
 			this.tableLayoutPanel2.TabIndex = 0;
 			// 
 			// rbPronunField
@@ -158,68 +156,20 @@ namespace SIL.Pa.UI.Dialogs
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.m_tableLayout.SetColumnSpan(this.grpWritingSystems, 2);
-			this.grpWritingSystems.Controls.Add(this.m_grid);
+			this.grpWritingSystems.Controls.Add(this.pnlGrid);
 			this.grpWritingSystems.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.grpWritingSystems, null);
 			this.locExtender.SetLocalizationComment(this.grpWritingSystems, "Text of frame around the list of writing systems on FieldWorks data source proper" +
 					"ties dialog box.");
 			this.locExtender.SetLocalizingId(this.grpWritingSystems, "FwDataSourcePropertiesDlg.grpWritingSystems");
-			this.grpWritingSystems.Location = new System.Drawing.Point(0, 30);
-			this.grpWritingSystems.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
+			this.grpWritingSystems.Location = new System.Drawing.Point(0, 122);
+			this.grpWritingSystems.Margin = new System.Windows.Forms.Padding(0, 3, 0, 0);
 			this.grpWritingSystems.Name = "grpWritingSystems";
 			this.grpWritingSystems.Padding = new System.Windows.Forms.Padding(10, 7, 10, 10);
-			this.grpWritingSystems.Size = new System.Drawing.Size(327, 245);
-			this.grpWritingSystems.TabIndex = 2;
+			this.grpWritingSystems.Size = new System.Drawing.Size(367, 263);
+			this.grpWritingSystems.TabIndex = 3;
 			this.grpWritingSystems.TabStop = false;
 			this.grpWritingSystems.Text = "&Writing Systems";
-			// 
-			// m_grid
-			// 
-			this.m_grid.AllowUserToAddRows = false;
-			this.m_grid.AllowUserToDeleteRows = false;
-			this.m_grid.AllowUserToOrderColumns = true;
-			this.m_grid.AllowUserToResizeRows = false;
-			this.m_grid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
-			this.m_grid.BackgroundColor = System.Drawing.SystemColors.Window;
-			this.m_grid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.m_grid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.m_grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-			this.m_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.m_grid.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.m_grid.DrawTextBoxEditControlBorder = false;
-			this.m_grid.Font = new System.Drawing.Font("Segoe UI", 9F);
-			this.m_grid.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
-			this.m_grid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
-			this.m_grid.IsDirty = false;
-			this.locExtender.SetLocalizableToolTip(this.m_grid, null);
-			this.locExtender.SetLocalizationComment(this.m_grid, null);
-			this.locExtender.SetLocalizationPriority(this.m_grid, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.m_grid, "FwDataSourcePropertiesDlg.m_grid");
-			this.m_grid.Location = new System.Drawing.Point(10, 21);
-			this.m_grid.MultiSelect = false;
-			this.m_grid.Name = "m_grid";
-			this.m_grid.PaintHeaderAcrossFullGridWidth = true;
-			this.m_grid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			this.m_grid.RowHeadersVisible = false;
-			this.m_grid.RowHeadersWidth = 22;
-			this.m_grid.SelectedCellBackColor = System.Drawing.Color.Empty;
-			this.m_grid.SelectedCellForeColor = System.Drawing.Color.Empty;
-			this.m_grid.SelectedRowBackColor = System.Drawing.Color.Empty;
-			this.m_grid.SelectedRowForeColor = System.Drawing.Color.Empty;
-			this.m_grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.m_grid.ShowWaterMarkWhenDirty = false;
-			this.m_grid.Size = new System.Drawing.Size(307, 214);
-			this.m_grid.TabIndex = 0;
-			this.m_grid.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
-			this.m_grid.WaterMark = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidExportAsToolTip;
-			this.m_grid.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleGridCellEnter);
 			// 
 			// locExtender
 			// 
@@ -231,7 +181,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_tableLayout.ColumnCount = 2;
 			this.m_tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.m_tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.m_tableLayout.Controls.Add(this.grpPhoneticDataStoreType, 0, 2);
+			this.m_tableLayout.Controls.Add(this.grpPhoneticDataStoreType, 0, 1);
 			this.m_tableLayout.Controls.Add(this.lblProject, 0, 0);
 			this.m_tableLayout.Controls.Add(this.grpWritingSystems, 0, 1);
 			this.m_tableLayout.Controls.Add(this.lblProjectValue, 1, 0);
@@ -240,16 +190,38 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_tableLayout.Name = "m_tableLayout";
 			this.m_tableLayout.RowCount = 3;
 			this.m_tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.m_tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.m_tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.m_tableLayout.Size = new System.Drawing.Size(327, 365);
+			this.m_tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.m_tableLayout.Size = new System.Drawing.Size(367, 385);
 			this.m_tableLayout.TabIndex = 0;
+			// 
+			// pnlGrid
+			// 
+			this.pnlGrid.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+			this.pnlGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlGrid.ClipTextForChildControls = true;
+			this.pnlGrid.ControlReceivingFocusOnMnemonic = null;
+			this.pnlGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pnlGrid.DoubleBuffered = true;
+			this.pnlGrid.DrawOnlyBottomBorder = false;
+			this.pnlGrid.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this.pnlGrid.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.locExtender.SetLocalizableToolTip(this.pnlGrid, null);
+			this.locExtender.SetLocalizationComment(this.pnlGrid, null);
+			this.locExtender.SetLocalizationPriority(this.pnlGrid, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.pnlGrid, "FwDataSourcePropertiesDlg.pnlGrid");
+			this.pnlGrid.Location = new System.Drawing.Point(10, 21);
+			this.pnlGrid.MnemonicGeneratesClick = false;
+			this.pnlGrid.Name = "pnlGrid";
+			this.pnlGrid.PaintExplorerBarBackground = false;
+			this.pnlGrid.Size = new System.Drawing.Size(347, 232);
+			this.pnlGrid.TabIndex = 0;
 			// 
 			// FwDataSourcePropertiesDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(347, 415);
+			this.ClientSize = new System.Drawing.Size(387, 435);
 			this.Controls.Add(this.m_tableLayout);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
@@ -265,7 +237,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.tableLayoutPanel2.ResumeLayout(false);
 			this.tableLayoutPanel2.PerformLayout();
 			this.grpWritingSystems.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.m_grid)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.m_tableLayout.ResumeLayout(false);
 			this.m_tableLayout.PerformLayout();
@@ -281,9 +252,9 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.RadioButton rbLexForm;
 		private System.Windows.Forms.GroupBox grpPhoneticDataStoreType;
 		private System.Windows.Forms.GroupBox grpWritingSystems;
-		private SilTools.SilGrid m_grid;
 		private Localization.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.TableLayoutPanel m_tableLayout;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+		private SilTools.Controls.SilPanel pnlGrid;
 	}
 }

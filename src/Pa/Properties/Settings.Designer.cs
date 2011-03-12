@@ -3381,18 +3381,18 @@ namespace SIL.Pa.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>DateCreated</string>
-  <string>DateModified</string>
   <string>Phonetic</string>
   <string>Phonemic</string>
   <string>Orthographic</string>
   <string>Gloss</string>
   <string>Gloss-Secondary</string>
   <string>Gloss-Other</string>
+  <string>PartOfSpeech</string>
   <string>Tone</string>
   <string>Reference</string>
   <string>AudioFile</string>
-  <string>PartOfSpeech</string>
+  <string>DateCreated</string>
+  <string>DateModified</string>
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection DefaultFw6Fields {
             get {
@@ -3418,6 +3418,42 @@ namespace SIL.Pa.Properties {
         public global::System.Collections.Specialized.StringCollection ParsedFw6Fields {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["ParsedFw6Fields"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>Phonetic</string>
+  <string>Gloss</string>
+  <string>PartOfSpeech</string>
+  <string>Tone</string>
+  <string>AudioFile</string>
+  <string>DateCreated</string>
+  <string>DateModified</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection DefaultMappedFw6Fields {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["DefaultMappedFw6Fields"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>Phonetic</string>
+  <string>Phonemic</string>
+  <string>Orthographic</string>
+  <string>Gloss</string>
+  <string>Gloss-Secondary</string>
+  <string>Gloss-Other</string>
+  <string>PartOfSpeech</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection MappableFw6Fields {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["MappableFw6Fields"]));
             }
         }
     }

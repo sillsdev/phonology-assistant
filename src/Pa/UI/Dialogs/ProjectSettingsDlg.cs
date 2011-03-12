@@ -673,7 +673,7 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 			}
 
-			using (var dlg = new FwDataSourcePropertiesDlg(Project, ds.FwDataSourceInfo))
+			using (var dlg = new FwDataSourcePropertiesDlg(Project, ds))
 			{
 				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChangesWereMade)
 				{
