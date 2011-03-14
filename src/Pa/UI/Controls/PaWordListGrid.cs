@@ -391,15 +391,15 @@ namespace SIL.Pa.UI.Controls
 		{
 			long offset;
 			long length;
-			SortedList<int, WordCacheEntry> entries = new SortedList<int, WordCacheEntry>();
+			var entries = new SortedList<int, WordCacheEntry>();
 
 			// Go through the selected rows collection.
 			if (SelectedRows.Count > 0)
 			{
-				foreach (DataGridViewRow row in SelectedRows)
+				foreach (var row in SelectedRows.Cast<DataGridViewRow>()
+					.Where(row => CanRowPlayAudio(row.Index, out offset, out length)))
 				{
-					if (CanRowPlayAudio(row.Index, out offset, out length))
-						entries[row.Index] = GetWordEntry(row.Index).WordCacheEntry;
+					entries[row.Index] = GetWordEntry(row.Index).WordCacheEntry;
 				}
 			}
 
@@ -429,15 +429,11 @@ namespace SIL.Pa.UI.Controls
 			if (wlentry == null)
 				return false;
 
-			var strVal = (m_audioFileOffsetFieldName == null ?
-				"0" : wlentry[m_audioFileOffsetFieldName]);
-			
+			var strVal = (wlentry[m_audioFileOffsetFieldName] ?? "0");
 			if (!long.TryParse(strVal, out offset))
 				return false;
 
-			strVal = (m_audioFileLengthFieldName == null ?
-				"0" : wlentry[m_audioFileLengthFieldName]);
-
+			strVal = (wlentry[m_audioFileLengthFieldName] ?? "0");
 			if (!long.TryParse(strVal, out length))
 				return false;
 

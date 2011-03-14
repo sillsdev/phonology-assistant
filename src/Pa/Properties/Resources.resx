@@ -154,9 +154,6 @@
   <data name="kstidErrorLoadingQueriesMsg" xml:space="preserve">
     <value>The file that contains FieldWorks queries ({0}) is either missing or corrupt. Until this problem is corrected, FieldWorks data sources cannot be accessed or added as data sources.</value>
   </data>
-  <data name="kstidErrorRetrievingFwDataMsg" xml:space="preserve">
-    <value>There was an error retrieving the data from the {0} database.\nIt's possible the file {1} is either missing or\ncorrupt. Reading this data will be skipped.\n\n{2}</value>
-  </data>
   <data name="kstidErrorStartingSQLServer1" xml:space="preserve">
     <value>SQL Server cannot be started. It may not be installed.\nThe following error was reported:\n\n{0}\n\nMake sure FieldWorks Language Explorer has been installed.\nOr, restart Phonology Assistant to try again.</value>
   </data>
@@ -186,9 +183,6 @@
   <data name="kstidMissingClassMsg" xml:space="preserve">
     <value>The class '{0}' is not in this project. It may have been deleted.</value>
     <comment>Message displayed when a search pattern contains a class that doesn't exist in the project.</comment>
-  </data>
-  <data name="kstidMissingWsMsg" xml:space="preserve">
-    <value>There are no writing system properties specified for the '{0}'\nFieldWorks project. Therefore, no data from it can be displayed.\n\nTo fix this problem, modify the FieldWorks data source\nproperties for this project by selecting 'Project Settings'\nfrom the File menu. Then select the project in the data\nsources list and click the 'Properties' button.</value>
   </data>
   <data name="kstidNoDataSourceEditorSpecifiedMsg" xml:space="preserve">
     <value>No editor has been specified in the project settings for the following data source:\n\n{0}\n\nSee the help file for more information.</value>
@@ -821,7 +815,6 @@
   <data name="RemoveGridRowNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RemoveGridRowNormal.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="LoadingWheel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LoadingWheel.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

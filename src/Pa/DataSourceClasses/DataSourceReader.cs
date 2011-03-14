@@ -1,15 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.DataSource.Sa;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.DataSource
@@ -236,7 +233,7 @@ namespace SIL.Pa.DataSource
 						case DataSourceType.FW:
 						case DataSourceType.PAXML:
 							if (ds.FwSourceDirectFromDB)
-								ReadFwDataSource(worker, ds);
+								ReadFw6DataSource(worker, ds);
 							else
 								ReadPaXmlFile(worker, ds);
 							break;
@@ -283,68 +280,16 @@ namespace SIL.Pa.DataSource
 
 		#region FieldWorks 6 (and older) data source reading
 		/// ------------------------------------------------------------------------------------
-		private void ReadFwDataSource(BackgroundWorker worker, PaDataSource ds)
+		private void ReadFw6DataSource(BackgroundWorker worker, PaDataSource ds)
 		{
-			worker.ReportProgress(0);
+			var reader = Fw6DataSourceReader.Create(worker, m_project, ds);
 
-			if (ds.FwDataSourceInfo == null)
-				return;
-
-			// Get the lexical data from the FW database.
-			var fwReader = new FwDataReader(ds);
-			ds.SkipLoadingBecauseOfProblem = !fwReader.GetData(HandleReadingFwData);
-			ds.FwDataSourceInfo.IsMissing = ds.SkipLoadingBecauseOfProblem;
-
-			if (!ds.SkipLoadingBecauseOfProblem && !ds.FwDataSourceInfo.IsMissing)
-				ds.UpdateLastModifiedTime();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleReadingFwData(PaDataSource ds, SqlDataReader reader)
-		{
-			if (reader == null || reader.IsClosed)
-				return;
-
-			// First, get a list of the fields returned from the query
-			// and translate those to their corresponding PA fields.
-			var fieldNames = new List<string>();
-			for (int i = 0; i < reader.FieldCount; i++)
+			if (reader == null)
+				Utils.MsgBox(string.Format(GetPhoneticMappingErrorMsg(), ds.FwPrjName));
+			else
 			{
-				// TODO: Fix for new system
-				
-				//				var field = m_project.FieldInfo.GetFieldFromFwQueryFieldName(reader.GetName(i));
-	//			fieldNames.Add(field != null ? fieldInfo.FieldName : null);
-			}
-
-			while (reader.Read())
-			{
-				// Make a new record entry.
-				var recCacheEntry = new RecordCacheEntry(false, m_project)
-				{
-					DataSource = ds,
-					NeedsParsing = false,
-					WordEntries = new List<WordCacheEntry>(),
-				};
-
-				// Make a new word entry because for FW data sources read directly from the
-				// database, there will be a one-to-one correspondence between record cache
-				// entries and word cache entries.
-				var wentry = new WordCacheEntry(recCacheEntry, true);
-
-				// Read the data for all columns. If there are columns the record
-				// or word entries don't recognize, they'll just be ignored.
-				for (int i = 0; i < fieldNames.Count; i++)
-				{
-					if ((reader[i] is DBNull) || fieldNames[i] == null)
-						continue;
-					
-					recCacheEntry.SetValue(fieldNames[i], reader[i].ToString());
-					wentry.SetValue(fieldNames[i], reader[i].ToString());
-				}
-
-				// Add the entries to the caches.
-				recCacheEntry.WordEntries.Add(wentry);
-				m_recCache.Add(recCacheEntry);
+				reader.Read(m_recCache);
+				reader.Dispose();
 			}
 		}
 

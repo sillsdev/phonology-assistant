@@ -65,9 +65,8 @@ namespace SIL.Pa.DataSource
 		{
 			FwDataSourceInfo = fwDbItem;
 			Type = fwDbItem.DataSourceType;
-			FwPrjName = FwDataSourceInfo.Name;
 			FieldMappings = (Type == DataSourceType.FW7 ?
-				CreateDefaultFw7Mappings(projectFields) : CreateDefaultFwMappings(projectFields)).ToList();
+				CreateDefaultFw7Mappings(projectFields) : CreateDefaultFw6Mappings(projectFields)).ToList();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -108,7 +107,6 @@ namespace SIL.Pa.DataSource
 				ParseType = ParseType,
 				FirstInterlinearField = FirstInterlinearField,
 				Editor = Editor,
-				FwPrjName = FwPrjName,
 				LastModification = LastModification,
 				SfmRecordMarker = SfmRecordMarker,
 				SkipLoadingBecauseOfProblem = SkipLoadingBecauseOfProblem,
@@ -132,7 +130,7 @@ namespace SIL.Pa.DataSource
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private IEnumerable<FieldMapping> CreateDefaultFwMappings(IEnumerable<PaField> projectFields)
+		private IEnumerable<FieldMapping> CreateDefaultFw6Mappings(IEnumerable<PaField> projectFields)
 		{
 			var writingSystems = FwDataSourceInfo.GetWritingSystems();
 
@@ -149,7 +147,8 @@ namespace SIL.Pa.DataSource
 
 			// Add mappings for all the other fields.
 			foreach (var field in projectFields.Where(f => defaultFieldNames.Contains(f.Name)))
-				yield return new FieldMapping(field, Settings.Default.ParsedFw6Fields.Cast<string>());
+				yield return new FieldMapping(field, false)
+					{ FwWsId = FieldMapping.GetDefaultFw6WsIdForField(field, writingSystems) };
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -529,7 +528,14 @@ namespace SIL.Pa.DataSource
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string FwPrjName { get; set; }
+		public string FwPrjName
+		{
+			get
+			{
+				return (Type == DataSourceType.FW || Type == DataSourceType.FW7 ?
+					FwDataSourceInfo.Name : null);
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

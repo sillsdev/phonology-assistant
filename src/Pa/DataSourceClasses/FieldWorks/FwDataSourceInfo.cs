@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using System.Xml.Serialization;
 using SilTools;
 
@@ -24,7 +23,6 @@ namespace SIL.Pa.DataSource.FieldWorks
 		public FwDataSourceInfo()
 		{
 			PhoneticStorageMethod = FwDBUtils.PhoneticStorageMethod.LexemeForm;
-			WsMappings = new List<FwFieldWsMapping>();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -54,7 +52,6 @@ namespace SIL.Pa.DataSource.FieldWorks
 				m_writingSystems = m_writingSystems,
 				IsMissing = IsMissing,
 				PhoneticStorageMethod = PhoneticStorageMethod,
-				WsMappings = (WsMappings == null ? null : WsMappings.Select(ws => ws.Copy()).ToList()),
 			};
 		}
 
@@ -62,7 +59,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 		public IEnumerable<FwWritingSysInfo> GetWritingSystems()
 		{
 			return m_writingSystems ?? (m_writingSystems = (DataSourceType == DataSourceType.FW ?
-				FwDataReader.GetWritingSystems(this) :
+				Fw6WritingSystemReader.GetWritingSystems(this) :
 				FwDBUtils.GetWritingSystemsForFw7Project(Name, Server)).ToList());
 		}
 
@@ -102,10 +99,6 @@ namespace SIL.Pa.DataSource.FieldWorks
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
 		public bool IsMissing { get; set; }
-	
-		/// ------------------------------------------------------------------------------------
-		[XmlElement("WritingSystemInfo")]
-		public List<FwFieldWsMapping> WsMappings { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		private void GetQueries()
@@ -156,13 +149,13 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 				byte[] retVal = null;
 
-				using (SqlConnection connection = FwDBUtils.FwConnection(Name, Server))
+				using (var connection = FwDBUtils.FwConnection(Name, Server))
 				{
 					if (connection == null)
 						return null;
 
 					var command = new SqlCommand(Queries.LastModifiedStampSQL, connection);
-					using (SqlDataReader reader = command.ExecuteReader())
+					using (var reader = command.ExecuteReader())
 					{
 						if (reader.HasRows)
 						{
@@ -220,18 +213,6 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets a value indicating whether or not, at least, the phonetic writing system
-		/// was specified.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool HasWritingSystemInfo(string phoneticFieldName)
-		{
-			return (WsMappings == null ? false:
-				WsMappings.Any(ws => ws.FieldName == phoneticFieldName));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Shows a message indicating the database is missing.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -242,8 +223,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 				var fmt = App.LocalizeString("FieldWorksProjectMissingMsg",
 					"FieldWorks project '{0}' is missing.", App.kLocalizationGroupMisc);
 
-				string msg = string.Format(fmt, Name);
-				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(string.Format(fmt, Name));
 			}
 		}
 

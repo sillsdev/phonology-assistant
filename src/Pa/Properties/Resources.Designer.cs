@@ -734,15 +734,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There was an error retrieving the data from the {0} database.\nIt&apos;s possible the file {1} is either missing or\ncorrupt. Reading this data will be skipped.\n\n{2}.
-        /// </summary>
-        internal static string kstidErrorRetrievingFwDataMsg {
-            get {
-                return ResourceManager.GetString("kstidErrorRetrievingFwDataMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to SQL Server cannot be started. It may not be installed.\nThe following error was reported:\n\n{0}\n\nMake sure FieldWorks Language Explorer has been installed.\nOr, restart Phonology Assistant to try again..
         /// </summary>
         internal static string kstidErrorStartingSQLServer1 {
@@ -1000,15 +991,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidMissingRTFEditorMsg {
             get {
                 return ResourceManager.GetString("kstidMissingRTFEditorMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There are no writing system properties specified for the &apos;{0}&apos;\nFieldWorks project. Therefore, no data from it can be displayed.\n\nTo fix this problem, modify the FieldWorks data source\nproperties for this project by selecting &apos;Project Settings&apos;\nfrom the File menu. Then select the project in the data\nsources list and click the &apos;Properties&apos; button..
-        /// </summary>
-        internal static string kstidMissingWsMsg {
-            get {
-                return ResourceManager.GetString("kstidMissingWsMsg", resourceCulture);
             }
         }
         

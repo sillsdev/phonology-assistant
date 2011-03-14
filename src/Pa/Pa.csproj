@@ -140,10 +140,10 @@
     <Compile Include="DataSourceClasses\FieldWorks\EditFwUrlDlg.designer.cs">
       <DependentUpon>EditFwUrlDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataSourceClasses\FieldWorks\Fw6DataSourceReader.cs" />
+    <Compile Include="DataSourceClasses\FieldWorks\Fw6WritingSystemReader.cs" />
     <Compile Include="DataSourceClasses\FieldWorks\Fw7DataSourceReader.cs" />
-    <Compile Include="DataSourceClasses\FieldWorks\FwDataReader.cs" />
     <Compile Include="DataSourceClasses\FieldWorks\FwDataSourceInfo.cs" />
-    <Compile Include="DataSourceClasses\FieldWorks\FwFieldWsMapping.cs" />
     <Compile Include="DataSourceClasses\FieldWorks\FwDBAccessInfo.cs" />
     <Compile Include="DataSourceClasses\FieldWorks\FwDBUtils.cs" />
     <Compile Include="DataSourceClasses\FieldWorks\FwQueries.cs" />

@@ -103,6 +103,28 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// This method returns the default FW6 writing system for the specified field.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string GetDefaultFw6WsIdForField(PaField field,
+			IEnumerable<FwWritingSysInfo> writingSystems)
+		{
+			FwWritingSysInfo ws;
+
+			if (field.FwWsType == FwDBUtils.FwWritingSystemType.Vernacular)
+			{
+				ws = writingSystems.SingleOrDefault(w => w.IsDefaultVernacular);
+				return (ws != null ? ws.Id :
+					writingSystems.First(w => w.Type == FwDBUtils.FwWritingSystemType.Vernacular).Id);
+			}
+
+			ws = writingSystems.SingleOrDefault(w => w.IsDefaultAnalysis);
+			return (ws != null ? ws.Id :
+				writingSystems.First(w => w.Type == FwDBUtils.FwWritingSystemType.Analysis).Id);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// This method verifies that the writing system in the specified mapping is valid
 		/// for the mapping's field. If not, then the mapping's writing system is set to the
 		/// default writing system of the appropriate type.

@@ -267,9 +267,9 @@ namespace SIL.Pa.UI.Dialogs
 			int offendingIndex = -1;
 			Control offendingCtrl = null;
 
-			// Verify a project name was specified.
 			if (txtProjName.Text.Trim() == string.Empty)
 			{
+				// A project name was not specified.
 				msg = App.LocalizeString("ProjectSettingsDlg.MissingProjectNameMsg",
 					"You must specify a project name.", App.kLocalizationGroupDialogs);
 
@@ -277,6 +277,7 @@ namespace SIL.Pa.UI.Dialogs
 			}
 			else if (txtLanguageName.Text.Trim() == string.Empty)
 			{
+				// A language name was not specified.
 				msg = App.LocalizeString("ProjectSettingsDlg.MissingLanguageNameMsg",
 					"You must specify a language name.", App.kLocalizationGroupDialogs);
 	
@@ -317,19 +318,19 @@ namespace SIL.Pa.UI.Dialogs
 					//}
 					
 					// TODO: Fix so "phonetic" is not hardcoded.
-					if (m_dataSources[i].Type == DataSourceType.FW && m_dataSources[i].FwSourceDirectFromDB &&
-						!m_dataSources[i].FwDataSourceInfo.HasWritingSystemInfo("phonetic"))
-					{
-						// FW data source information is incomplete.
-						offendingIndex = i;
+					//if (m_dataSources[i].Type == DataSourceType.FW && m_dataSources[i].FwSourceDirectFromDB &&
+					//    !m_dataSources[i].FwDataSourceInfo.HasWritingSystemInfo("phonetic"))
+					//{
+					//    // FW data source information is incomplete.
+					//    offendingIndex = i;
 
-						msg = App.LocalizeString("ProjectSettingsDlg.MissingFwDatasourceWsMsg",
-							"The writing system for the phonetic field has not been specified for the FieldWorks data source '{0}'.\n\nSelect the FieldWorks data source and click the properties button.",
-							App.kLocalizationGroupDialogs);
+					//    msg = App.LocalizeString("ProjectSettingsDlg.MissingFwDatasourceWsMsg",
+					//        "The writing system for the phonetic field has not been specified for the FieldWorks data source '{0}'.\n\nSelect the FieldWorks data source and click the properties button.",
+					//        App.kLocalizationGroupDialogs);
 
-						msg = string.Format(msg, m_dataSources[i].FwDataSourceInfo);
-						break;
-					}
+					//    msg = string.Format(msg, m_dataSources[i].FwDataSourceInfo);
+					//    break;
+					//}
 				}
 			}
 

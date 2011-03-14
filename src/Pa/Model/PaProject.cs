@@ -136,23 +136,25 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void MigrateFwDatasourceFieldNames()
 		{
-			// Only change these names. The others are just converted to lowercase.
-			var oldNames = new List<string>(new[] {"Gloss", "GlossOther1", "GlossOther2"});
-			var newNames = new List<string>(new[] {"gloss1", "gloss2", "gloss3"});
+			// TODO: Migrate to Latest.
 
-			foreach (PaDataSource source in DataSources)
-			{
-				if (source.Type == DataSourceType.FW &&
-					source.FwDataSourceInfo != null &&
-					source.FwDataSourceInfo.WsMappings != null)
-				{
-					foreach (FwFieldWsMapping wsi in source.FwDataSourceInfo.WsMappings)
-					{
-						int i = oldNames.IndexOf(wsi.FieldName);
-						wsi.FieldName = (i < 0 ? wsi.FieldName.ToLower() : newNames[i]);
-					}
-				}
-			}
+			//// Only change these names. The others are just converted to lowercase.
+			//var oldNames = new List<string>(new[] {"Gloss", "GlossOther1", "GlossOther2"});
+			//var newNames = new List<string>(new[] {"gloss1", "gloss2", "gloss3"});
+
+			//foreach (PaDataSource source in DataSources)
+			//{
+			//    if (source.Type == DataSourceType.FW &&
+			//        source.FwDataSourceInfo != null &&
+			//        source.FwDataSourceInfo.WsMappings != null)
+			//    {
+			//        foreach (FwFieldWsMapping wsi in source.FwDataSourceInfo.WsMappings)
+			//        {
+			//            int i = oldNames.IndexOf(wsi.FieldName);
+			//            wsi.FieldName = (i < 0 ? wsi.FieldName.ToLower() : newNames[i]);
+			//        }
+			//    }
+			//}
 		}
 
 		#endregion

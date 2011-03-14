@@ -107,7 +107,6 @@ namespace SIL.Pa.Model
 				string fwServer;
 				string fwDBName;
 				PaDataSource.GetPaXmlType(filename, out fwServer, out fwDBName);
-				dataSource.FwPrjName = fwDBName;
 
 				foreach (var entry in cache)
 				{

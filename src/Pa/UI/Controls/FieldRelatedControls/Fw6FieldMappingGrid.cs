@@ -145,7 +145,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<FieldMapping> Mappings
 		{
-			get { return base.Mappings.Where(m => m.FwWsId != "0"); }
+			get { return base.Mappings.Where(m => m.FwWsId != "0" && m.FwWsId != null); }
 		}
 	}
 }

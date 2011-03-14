@@ -8,10 +8,6 @@ namespace SIL.Pa.DataSource
 	public partial class MissingFWDatabaseMsgBox : Form
 	{
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public MissingFWDatabaseMsgBox()
 		{
 			InitializeComponent();
@@ -23,13 +19,9 @@ namespace SIL.Pa.DataSource
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static DialogResult ShowDialog(string dbName)
 		{
-			using (MissingFWDatabaseMsgBox msgBox = new MissingFWDatabaseMsgBox())
+			using (var msgBox = new MissingFWDatabaseMsgBox())
 			{
 				msgBox.lblDBName.Text = dbName;
 				App.CloseSplashScreen();
@@ -37,10 +29,6 @@ namespace SIL.Pa.DataSource
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void btnHelp_Click(object sender, EventArgs e)
 		{

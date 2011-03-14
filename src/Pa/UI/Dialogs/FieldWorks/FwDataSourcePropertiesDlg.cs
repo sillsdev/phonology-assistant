@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -113,16 +112,16 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
-			foreach (var newMapping in m_grid.Mappings)
+			// Remove all the old mappings associated with mappable fields in order to make
+			// room for the new mappings.
+			foreach (var oldMapping in Settings.Default.MappableFw6Fields.Cast<string>()
+				.Select(fname => m_dataSource.FieldMappings.SingleOrDefault(m => m.PaFieldName == fname))
+				.Where(oldMapping => oldMapping != null))
 			{
-				var oldMapping = m_dataSource.FieldMappings
-					.SingleOrDefault(m => m.PaFieldName == newMapping.PaFieldName);
-
-				if (oldMapping != null)
-					oldMapping.FwWsId = newMapping.FwWsId;
-				else
-					m_dataSource.FieldMappings.Add(newMapping);
+				m_dataSource.FieldMappings.Remove(oldMapping);
 			}
+
+			m_dataSource.FieldMappings.AddRange(m_grid.Mappings);
 
 			m_dataSource.FwDataSourceInfo.PhoneticStorageMethod = (rbLexForm.Checked ?
 				FwDBUtils.PhoneticStorageMethod.LexemeForm :

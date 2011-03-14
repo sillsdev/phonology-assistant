@@ -85,14 +85,14 @@ namespace SIL.Pa.DataSource.FieldWorks
 				msgWnd = new SmallFadingWnd(Properties.Resources.kstidGettingFwProjInfoMsg);
 
 			// Read all the SQL databases from the server's master table.
-			using (SqlConnection connection = FwConnection(FwDBAccessInfo.MasterDB, server))
+			using (var connection = FwConnection(FwDBAccessInfo.MasterDB, server))
 			{
 				if (connection != null && FwDBAccessInfo.FwDatabasesSQL != null)
 				{
-					SqlCommand command = new SqlCommand(FwDBAccessInfo.FwDatabasesSQL, connection);
+					var command = new SqlCommand(FwDBAccessInfo.FwDatabasesSQL, connection);
 
 					// Get all the database names.
-					using (SqlDataReader reader = command.ExecuteReader(CommandBehavior.SingleResult))
+					using (var reader = command.ExecuteReader(CommandBehavior.SingleResult))
 					{
 						while (reader.Read() && !string.IsNullOrEmpty(reader[0] as string))
 							fwDBInfoList.Add(new FwDataSourceInfo(reader[0] as string, server, DataSourceType.FW));
