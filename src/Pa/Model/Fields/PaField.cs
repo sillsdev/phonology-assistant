@@ -248,10 +248,20 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static List<PaField> GetProjectFields(PaProject project)
 		{
-			var path = project.ProjectPathFilePrefix + "Fields.xml";
+			var path = GetFileForProject(project.ProjectPathFilePrefix);
 			var fields = (File.Exists(path) ? LoadFields(path, "Fields") : GetDefaultFields());
 			s_displayPropsCache = FieldDisplayPropsCache.LoadProjectFieldDisplayProps(project);
 			return fields;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the project's fields file path.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string GetFileForProject(string projectPathPrefix)
+		{
+			return projectPathPrefix + "Fields.xml";
 		}
 
 		/// ------------------------------------------------------------------------------------

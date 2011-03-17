@@ -28,23 +28,6 @@ namespace SIL.Pa.Model
 		{
 		}
 
-		#region Method to migrate previous versions of feature override files to current.
-		/// ------------------------------------------------------------------------------------
-		public static void MigrateToLatestVersion(string filename)
-		{
-			var errMsg = App.LocalizeString("FeatureOverridesMigrationErrMsg",
-				"The following error occurred while attempting to update your project’s feature " +
-				"overrides file:\n\n{0}\n\nIn order to continue working, your original feature " +
-				"overrides file  will be renamed to the following file: '{1}'.",
-				"Message displayed when updating ambiguous sequences file to new version.",
-				App.kLocalizationGroupMisc);
-
-			App.MigrateToLatestVersion(filename, Assembly.GetExecutingAssembly(),
-				"SIL.Pa.Model.UpdateFileTransforms.UpdateFeatureOverridesFile.xslt", errMsg);
-		}
-
-		#endregion
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads the default and project-specific list of overriding phone features.
@@ -52,8 +35,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static FeatureOverrides Load(PaProject project)
 		{
-			string filename = project.ProjectPathFilePrefix + kFileName;
-			MigrateToLatestVersion(filename);
+			string filename = GetFileForProject(project.ProjectPathFilePrefix);
 			var list = XmlSerializationHelper.DeserializeFromFile<List<PhoneInfo>>(filename, "phones");
 
 			if (list == null || list.Count == 0)
@@ -64,6 +46,12 @@ namespace SIL.Pa.Model
 				overrides[phoneInfo.Phone] = phoneInfo;
 
 			return overrides;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string GetFileForProject(string projectPathPrefix)
+		{
+			return projectPathPrefix + kFileName;
 		}
 
 		/// ------------------------------------------------------------------------------------

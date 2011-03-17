@@ -26,19 +26,10 @@ namespace SIL.Pa.UI.Controls
 			var mappableFields = Settings.Default.MappableFw6Fields.Cast<string>();
 			m_potentialFields = projectFields.Where(f => mappableFields.Contains(f.Name));
 
-			m_mappings = new List<FieldMapping>();
-
-			foreach (var fname in mappableFields)
-			{
-				var mapping = ds.FieldMappings.SingleOrDefault(m => m.Field.Name == fname);
-				if (mapping != null)
-					m_mappings.Add(mapping.Copy());
-				else
-				{
-					m_mappings.Add(new FieldMapping(m_potentialFields.Single(f => f.Name == fname),
-						Settings.Default.ParsedFw6Fields.Cast<string>().Contains(fname)));
-				}
-			}
+			m_mappings = (from fname in mappableFields
+						  let mapping = ds.FieldMappings.SingleOrDefault(m => m.Field.Name == fname)
+						  select (mapping != null ? mapping.Copy() :
+								new FieldMapping(m_potentialFields.Single(f => f.Name == fname), false))).ToList();
 			
 			LockTargetFieldColumn();
 			RowCount = m_mappings.Count;

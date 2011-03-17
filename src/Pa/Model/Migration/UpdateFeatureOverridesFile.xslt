@@ -8,16 +8,10 @@
         </xsl:copy>
     </xsl:template>
 	
-	<xsl:template match="ProjectName">
-		<name>
+	<xsl:template match="ArrayOfPhoneInfo">
+		<phones>
 			<xsl:apply-templates/>
-		</name>
+		</phones>
 	</xsl:template>
 	
-	<xsl:template match="Language">
-		<languageName>
-			<xsl:apply-templates/>
-		</languageName>
-	</xsl:template>
-
 </xsl:stylesheet>

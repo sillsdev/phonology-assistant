@@ -133,22 +133,14 @@ namespace SIL.Pa.DataSource
 		private IEnumerable<FieldMapping> CreateDefaultFw6Mappings(IEnumerable<PaField> projectFields)
 		{
 			var writingSystems = FwDataSourceInfo.GetWritingSystems();
-
-			var defaultFieldNames = Settings.Default.DefaultMappedFw6Fields.Cast<string>()
-				.Where(n => n != PaField.kAudioFileFieldName && n != PaField.kPhoneticFieldName).ToList();
-
-			// Add a mapping for the phonetic field.
-			var wsDefaultPhonetic = FwDBUtils.GetDefaultPhoneticWritingSystem(writingSystems);
-			yield return new FieldMapping(projectFields.Single(f =>
-				f.Type == FieldType.Phonetic), true) { FwWsId = wsDefaultPhonetic.Hvo.ToString() };
-
-			// Add a mapping for the audio file field.
-			yield return new FieldMapping(projectFields.Single(f => f.Type == FieldType.AudioFilePath), false);
+			var defaultFieldNames = Settings.Default.DefaultMappedFw6Fields.Cast<string>();
 
 			// Add mappings for all the other fields.
-			foreach (var field in projectFields.Where(f => defaultFieldNames.Contains(f.Name)))
-				yield return new FieldMapping(field, false)
-					{ FwWsId = FieldMapping.GetDefaultFw6WsIdForField(field, writingSystems) };
+			return from field in projectFields.Where(f => defaultFieldNames.Contains(f.Name))
+				   let wsId = (field.Type == FieldType.Phonetic ?
+						FwDBUtils.GetDefaultPhoneticWritingSystem(writingSystems).Hvo.ToString() :
+			            FieldMapping.GetDefaultFw6WsIdForField(field, writingSystems))
+				   select new FieldMapping(field, field.Type == FieldType.Phonetic) { FwWsId = wsId };
 		}
 
 		/// ------------------------------------------------------------------------------------

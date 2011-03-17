@@ -1939,58 +1939,5 @@ namespace SIL.Pa
 		}
 
 		#endregion
-
-		#region Method to migrate previous versions of a file to current.
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static bool MigrateToLatestVersion(string filename, Assembly assembly,
-			string transformNamespace, string errMsg)
-		{
-			var oldFile = Path.ChangeExtension(filename, "old");
-
-			using (var stream = assembly.GetManifestResourceStream(transformNamespace))
-			{
-				var updatedFile = XmlHelper.TransformFile(filename, stream);
-				if (updatedFile == null)
-					return false;
-
-				try
-				{
-					if (File.Exists(oldFile))
-						File.Delete(oldFile);
-
-					File.Move(filename, oldFile);
-					File.Move(updatedFile, filename);
-					return true;
-				}
-				catch (Exception e1)
-				{
-					try
-					{
-						errMsg = string.Format(errMsg, e1.Message, oldFile);
-					}
-					catch { }
-
-					Utils.MsgBox(errMsg);
-
-					try
-					{
-						if (!File.Exists(oldFile))
-							File.Move(filename, oldFile);
-					}
-					catch (Exception e2)
-					{
-						Utils.MsgBox(e2.Message);
-					}
-				}
-			}
-
-			return false;
-		}
-
-		#endregion
 	}
 }

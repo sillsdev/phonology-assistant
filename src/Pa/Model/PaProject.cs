@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using System.Xml.Linq;
 using Palaso.IO;
 using SIL.Pa.DataSource;
-using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Filters;
+using SIL.Pa.Model.Migration;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Views;
@@ -19,6 +19,8 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class PaProject : IDisposable
 	{
+		private const string kCurrVersion = "3.3";
+
 		private Form m_appWindow;
 		private bool m_newProject;
 		private bool m_reloadingProjectInProcess;
@@ -40,6 +42,7 @@ namespace SIL.Pa.Model
 			ShowUndefinedCharsDlg = true;
 			IgnoreUndefinedCharsInSearches = true;
 			LastNewlyMappedFields = new List<string>(0);
+			Version = kCurrVersion;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -113,48 +116,14 @@ namespace SIL.Pa.Model
 
 		#region Method to migrate previous versions of .pap files to current.
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void MigrateToLatestVersion(string filename)
+		public static bool MigrateToLatestVersion(string filename)
 		{
-			var errMsg = App.LocalizeString("ProjectFileMigrationErrMsg",
-				"The following error occurred while attempting to update your project file:\n\n{0}",
-				"Message displayed when updating ambiguous sequences file to new version.",
-				App.kLocalizationGroupMisc);
+			var xml = XElement.Load(filename);
+			var ver = xml.Attribute("version");
+			if (ver != null && ver.Value == kCurrVersion)
+				return true;
 
-			App.MigrateToLatestVersion(filename, Assembly.GetExecutingAssembly(),
-				"SIL.Pa.Model.UpdateFileTransforms.UpdateProjectFile.xslt", errMsg);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Makes sure that FW, SFM and Toolbox data sources are informed that a field has
-		/// changed names.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void MigrateFwDatasourceFieldNames()
-		{
-			// TODO: Migrate to Latest.
-
-			//// Only change these names. The others are just converted to lowercase.
-			//var oldNames = new List<string>(new[] {"Gloss", "GlossOther1", "GlossOther2"});
-			//var newNames = new List<string>(new[] {"gloss1", "gloss2", "gloss3"});
-
-			//foreach (PaDataSource source in DataSources)
-			//{
-			//    if (source.Type == DataSourceType.FW &&
-			//        source.FwDataSourceInfo != null &&
-			//        source.FwDataSourceInfo.WsMappings != null)
-			//    {
-			//        foreach (FwFieldWsMapping wsi in source.FwDataSourceInfo.WsMappings)
-			//        {
-			//            int i = oldNames.IndexOf(wsi.FieldName);
-			//            wsi.FieldName = (i < 0 ? wsi.FieldName.ToLower() : newNames[i]);
-			//        }
-			//    }
-			//}
+			return Migration0330.Migrate(filename, GetProjectPathFilePrefix);
 		}
 
 		#endregion
@@ -223,28 +192,29 @@ namespace SIL.Pa.Model
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		public static PaProject Load(string prjFileName, Form appWindow)
+		public static PaProject Load(string prjFilePath, Form appWindow)
 		{
 			string msg = null;
 			PaProject project = null;
 
-			if (!File.Exists(prjFileName))
+			if (!File.Exists(prjFilePath))
 			{
 				msg = App.LocalizeString("ProjectFileMissingMsg", "Project file '{0}' does not exist.",
 					"Message displayed when an attempt is made to open a non existant project file. The parameter is the project file name.",
 					App.kLocalizationGroupInfoMsg);
 
-				msg = string.Format(msg, Utils.PrepFilePathForMsgBox(prjFileName));
-				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(string.Format(msg, Utils.PrepFilePathForMsgBox(prjFilePath)));
 				return null;
 			}
 
-			MigrateToLatestVersion(prjFileName);
-			project = LoadProjectFileOnly(prjFileName, false, ref msg);
+			if (!MigrateToLatestVersion(prjFilePath))
+				return null;
+
+			project = LoadProjectFileOnly(prjFilePath, false, ref msg);
 
 			if (msg != null)
 			{
-				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(msg);
 				return null;
 			}
 
@@ -309,6 +279,9 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		private void PostDeserializeInitialization(string projFileName)
 		{
+			if (string.IsNullOrEmpty(Version))
+				Version = kCurrVersion;
+
 			m_fileName = projFileName;
 			Fields = PaField.GetProjectFields(this);
 			FilterHelper = new FilterHelper(this);
@@ -713,11 +686,14 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public string ProjectPathFilePrefix
 		{
-			get
-			{
-				return Path.Combine(string.IsNullOrEmpty(m_fileName) ? string.Empty :
-					Path.GetDirectoryName(m_fileName), Name) + ".";
-			}
+			get { return GetProjectPathFilePrefix(m_fileName, Name); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static string GetProjectPathFilePrefix(string fileName, string prjName)
+		{
+			return Path.Combine(string.IsNullOrEmpty(fileName) ? string.Empty :
+				Path.GetDirectoryName(fileName), prjName) + ".";
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -775,6 +751,10 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		[XmlElement("version")]
+		public string Version { get; set; }
+
+		/// ------------------------------------------------------------------------------------
 		[XmlElement("name")]
 		public string Name { get; set; }
 
@@ -821,7 +801,6 @@ namespace SIL.Pa.Model
 		/// of course, the dialog won't be displayed regardless of the value of this property.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlAttribute]
 		public bool ShowUndefinedCharsDlg { get; set; }
 
 		/// ------------------------------------------------------------------------------------

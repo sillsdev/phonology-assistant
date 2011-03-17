@@ -1,6 +1,5 @@
 using System.Linq;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Xml.Serialization;
 using SilTools;
 
@@ -27,27 +26,6 @@ namespace SIL.Pa.Model
 		// sequences they represent.
 		private Dictionary<char, string> m_parseTokens;
 
-		#region Method to migrate previous versions of ambiguous sequences file to current.
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void MigrateToLatestVersion(string filename)
-		{
-			var errMsg = App.LocalizeString("AmbiguousSeqMigrationErrMsg",
-				"The following error occurred while attempting to update your project’s ambiguous " +
-				"sequences file:\n\n{0}\n\nIn order to continue working, your original ambiguous " +
-				"sequence file  will be renamed to the following file: '{1}'.",
-				"Message displayed when updating ambiguous sequences file to new version.",
-				App.kLocalizationGroupMisc);
-
-			App.MigrateToLatestVersion(filename, Assembly.GetExecutingAssembly(),
-				"SIL.Pa.Model.UpdateFileTransforms.UpdateAmbiguousSequenceFile.xslt", errMsg);
-		}
-
-		#endregion
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads the default and project-specific ambiguous sequences.
@@ -55,10 +33,19 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static AmbiguousSequences Load(string projectPathPrefix)
 		{
-			string filename = projectPathPrefix + kFileName;
-			MigrateToLatestVersion(filename);
+			string filename = GetFileForProject(projectPathPrefix);
 			var list = XmlSerializationHelper.DeserializeFromFile<AmbiguousSequences>(filename);
 			return (list ?? new AmbiguousSequences());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the project's ambiguous sequences file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string GetFileForProject(string projectPathPrefix)
+		{
+			return projectPathPrefix + kFileName;
 		}
 
 		/// ------------------------------------------------------------------------------------

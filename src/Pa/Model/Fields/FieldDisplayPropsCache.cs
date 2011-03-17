@@ -18,13 +18,13 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class FieldDisplayPropsCache : List<PaFieldDisplayProperties>
 	{
-		private static List<Font> s_fontCache = new List<Font>();
+		private static readonly List<Font> s_fontCache = new List<Font>();
 
 		#region static methods
 		/// ------------------------------------------------------------------------------------
 		public Exception SaveProjectFieldDisplayProps(PaProject project)
 		{
-			var path = project.ProjectPathFilePrefix + "FieldDisplayProperties.xml";
+			var path = PaFieldDisplayProperties.GetFileForProject(project.ProjectPathFilePrefix);
 			Exception e = null;
 			XmlSerializationHelper.SerializeToFile(path, this, "FieldDisplayProps", out e);
 			return e;
@@ -33,7 +33,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static FieldDisplayPropsCache LoadProjectFieldDisplayProps(PaProject project)
 		{
-			var path = project.ProjectPathFilePrefix + "FieldDisplayProperties.xml";
+			var path = PaFieldDisplayProperties.GetFileForProject(project.ProjectPathFilePrefix);
 			if (!File.Exists(path))
 				return GetDefaultCache();
 

@@ -23,6 +23,16 @@ namespace SIL.Pa.Model
 		private Font m_font;
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the project's fields file path.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string GetFileForProject(string projectPathPrefix)
+		{
+			return projectPathPrefix + "FieldDisplayProperties.xml";
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public PaFieldDisplayProperties()
 		{
 			VisibleInGrid = false;
@@ -216,8 +226,8 @@ namespace SIL.Pa.Model
 				case "Note": return App.LocalizeString("DisplayableFieldNames.Note",
 										"Note", App.kLocalizationGroupMisc);
 
-				case "CV-Pattern-Flex": return App.LocalizeString("DisplayableFieldNames.FlexCVPattern",
-										"CV Pattern (FLEx)", App.kLocalizationGroupMisc);
+				case "CV-Pattern-Source": return App.LocalizeString("DisplayableFieldNames.DataSourceCVPattern",
+										"CV Pattern (from source)", App.kLocalizationGroupMisc);
 
 				case "Location": return App.LocalizeString("DisplayableFieldNames.Location",
 										"Location", App.kLocalizationGroupMisc);
