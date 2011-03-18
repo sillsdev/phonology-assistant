@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using SIL.Pa.DataSource;
-using SIL.Pa.DataSource.FieldWorks;
 using SilTools;
 
 namespace SIL.Pa.Model.Migration
@@ -48,9 +43,11 @@ namespace SIL.Pa.Model.Migration
 			if (!MigrateProjectFile())
 			{
 				// TODO: Revert backed-up project.
+				return false;
 			}
 
-			return false;
+			ShowSuccessMsg();
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -123,7 +120,7 @@ namespace SIL.Pa.Model.Migration
 			
 			var msg = App.LocalizeString("FeatureOverridesMigrationErrMsg",
 				"The following error occurred while attempting to update your project’s " +
-				"feature overrides file:\n\n{0}\n\n In order to continue working and because " +
+				"feature overrides file:\n\n{0}\n\nIn order to continue working and because " +
 				"your project files have been backed up, the program will continue without " +
 				"overriding any features for this project.", App.kLocalizationGroupMisc);
 
@@ -137,23 +134,21 @@ namespace SIL.Pa.Model.Migration
 
 			if (TransformFile(m_projectFilePath, "SIL.Pa.Model.Migration.UpdateProjectFile.xslt", out errMsg))
 			{
-				UpdateOldFields();
+				UpdateFields();
 				return true;
 			}
 
-			//var msg = App.LocalizeString("ProjectFileMigrationErrMsg",
-			//    "The following error occurred while attempting to update your project’s " +
-			//    "transcription changes file (formerly experimental transcriptions):\n\n{0}\n\n" +
-			//    "In order to continue working and because your project files have been backed up, " +
-			//    "the program will continue without transcription changes for this project.",
-			//    App.kLocalizationGroupMisc);
+			var msg = App.LocalizeString("ProjectFileMigrationErrMsg",
+				"The following error occurred while attempting to update your project " +
+				"file: {0}\n\n{1}\n\n{2} will be unable to open this project unless this " +
+				"problem can be corrected.", App.kLocalizationGroupMisc);
 
-
+			Utils.MsgBox(string.Format(msg, Path.GetFileName(m_projectFilePath), errMsg, Application.ProductName));
 			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void UpdateOldFields()
+		private void UpdateFields()
 		{
 			var fldInfoFilePath = m_projectPathPrefix + "FieldInfo.xml";
 			if (!File.Exists(fldInfoFilePath))

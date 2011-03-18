@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Windows.Forms;
 using System.Xml.Linq;
 using SilTools;
 
@@ -10,6 +11,9 @@ namespace SIL.Pa.Model.Migration
 	{
 		/// ------------------------------------------------------------------------------------
 		public string ProjectName { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		public string BackupFolder { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		protected void CalculateProjectName(string prjfilename)
@@ -26,33 +30,32 @@ namespace SIL.Pa.Model.Migration
 				CalculateProjectName(prjfilepath);
 
 				var path = Path.GetDirectoryName(prjfilepath);
-				string backupFolder;
 				string ver = oldversion;
 				char letter = 'a';
 
 				// Find an unused backup folder name.
 				do
 				{
-					backupFolder = Path.Combine(path, string.Format("Backup{0}", ver));
+					BackupFolder = Path.Combine(path, string.Format("Backup{0}", ver));
 					ver = oldversion + letter;
 					letter += (char)1;
 				}
-				while (Directory.Exists(backupFolder));
+				while (Directory.Exists(BackupFolder));
 
-				Directory.CreateDirectory(backupFolder);
+				Directory.CreateDirectory(BackupFolder);
 
 				// Copy the project files to the backup folder.
 				foreach (var filepath in Directory.GetFiles(path, ProjectName + ".*"))
 				{
 					var filename = Path.GetFileName(filepath);
-					File.Copy(filepath, Path.Combine(backupFolder, filename));
+					File.Copy(filepath, Path.Combine(BackupFolder, filename));
 				}
 
 				// This will make sure the project file (i.e. .pap) gets backed-up
 				// in case its file name is not the same as the project name.
 				var prjfilename = Path.GetFileName(prjfilepath);
-				if (!File.Exists(Path.Combine(backupFolder, prjfilename)))
-					File.Copy(prjfilepath, Path.Combine(backupFolder, prjfilename));
+				if (!File.Exists(Path.Combine(BackupFolder, prjfilename)))
+					File.Copy(prjfilepath, Path.Combine(BackupFolder, prjfilename));
 
 				return null;
 			}
@@ -94,19 +97,13 @@ namespace SIL.Pa.Model.Migration
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected string GetValueFromElement(XElement element)
+		protected void ShowSuccessMsg()
 		{
-			return (element == null ? null : element.Value);
-		}
+			var msg = App.LocalizeString("ProjectMigrationSuccessfulMsg",
+				"The '{0}' project has succssfully been upgraded to work with this version of {1}. A backup of your old project has been made in:\n\n{2}",
+				App.kLocalizationGroupInfoMsg);
 
-		/// ------------------------------------------------------------------------------------
-		protected bool GetBoolValue(string strValue, bool defaultValue)
-		{
-			if (strValue == null)
-				return defaultValue;
-
-			bool value;
-			return (bool.TryParse(strValue, out value) ? value : defaultValue);
+			Utils.MsgBox(string.Format(msg, ProjectName, Application.ProductName, BackupFolder));
 		}
 	}
 }

@@ -21,6 +21,9 @@
 	
 	<xsl:template match="//PaFields/Field">
 		<PaFieldDisplayProperties>
+			<xsl:attribute name="name">
+				<xsl:value-of select="@Name"/>
+			</xsl:attribute>
 			<xsl:apply-templates />
 		</PaFieldDisplayProperties>
 	</xsl:template>

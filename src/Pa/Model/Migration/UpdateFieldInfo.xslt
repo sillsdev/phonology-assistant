@@ -155,7 +155,7 @@
 
 	<xsl:template match="/PaFields/Field[@Name='CVPattern']" />
 	<xsl:template match="/PaFields/Field[@Name='Audio File Offset']" />
-	<xsl:template match="/PaFields/Field[@Name='Audio File Offset']" />
+	<xsl:template match="/PaFields/Field[@Name='Audio File Length']" />
 	<xsl:template match="/PaFields/Field[@Name='GUID']" />
 	<xsl:template match="/PaFields/Field[@Name='DataSource']" />
 	<xsl:template match="/PaFields/Field[@Name='DataSourcePath']" />
