@@ -111,6 +111,13 @@ namespace SIL.Pa.UI.Views
 				if (!string.IsNullOrEmpty(text))
 					ptrnTextBox.Insert(text);
 			});
+
+			// TODO: Enable this in a later version.
+			m_patternBuilderBar.Visible = false;
+
+			// Subscribe to these here because I found that sometimes the designer chokes on these.
+			splitResults.Panel1.DragDrop += HandleSplitResultsPanel1DragDrop;
+			splitResults.Panel1.DragOver += HandleSplitResultsPanel1DragOver;
 		}
 
 		/// ------------------------------------------------------------------------------------

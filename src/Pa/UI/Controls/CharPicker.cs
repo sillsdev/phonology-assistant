@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using SIL.Pa.Model;
 using SilTools;
 
@@ -35,6 +34,7 @@ namespace SIL.Pa.UI.Controls
 			LayoutStyle = ToolStripLayoutStyle.Flow;
 			base.Dock = DockStyle.None;
 			RenderMode = ToolStripRenderMode.ManagerRenderMode;
+			Renderer = new NoToolStripBorderRenderer();
 			GripStyle = ToolStripGripStyle.Hidden;
 			base.DoubleBuffered = true;
 			SetStyle(ControlStyles.Selectable, true);
@@ -198,12 +198,7 @@ namespace SIL.Pa.UI.Controls
 				if (Items.Count > 0)
 				{
 					int left = Items[0].Bounds.Left;
-
-					foreach (ToolStripButton item in Items)
-					{
-						if (item.Bounds.Left == left)
-							count++;
-					}
+					count = Items.Cast<ToolStripButton>().Count(item => item.Bounds.Left == left);
 				}
 
 				return count;
@@ -221,13 +216,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				List<ToolStripButton> checkedItems = new List<ToolStripButton>();
-				foreach (ToolStripButton item in Items)
-				{
-					if (item.Checked)
-						checkedItems.Add(item);
-				}
-
+				var checkedItems = Items.Cast<ToolStripButton>().Where(item => item.Checked).ToList();
 				return (checkedItems.Count == 0 ? null : checkedItems.ToArray());
 			}
 		}
@@ -250,11 +239,8 @@ namespace SIL.Pa.UI.Controls
 				{
 					int left = Items[0].Bounds.Left;
 
-					foreach (ToolStripButton item in Items)
-					{
-						if (item.Bounds.Left == left)
-							height = item.Bounds.Bottom + 3 + item.Margin.Bottom;
-					}
+					foreach (var item in Items.Cast<ToolStripButton>().Where(item => item.Bounds.Left == left))
+						height = item.Bounds.Bottom + 3 + item.Margin.Bottom;
 				}
 
 				return height;
@@ -262,85 +248,9 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Paint over (i.e. hide) a border with a rounded corner on the right and bottom
-		/// of the toolstrip.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnPaint(PaintEventArgs e)
-		{
-			base.OnPaint(e);
-
-			Color bkColor = SystemColors.Window;
-			bool isOnTab = false;
-
-			if (Parent != null)
-				bkColor = GetParentBackColor(out isOnTab);
-
-			if (isOnTab)
-			{
-				VisualStyleElement element = VisualStyleElement.Tab.Body.Normal;
-				if (PaintingHelper.CanPaintVisualStyle(element))
-				{
-					PaintWithTabPageBackground(e.Graphics, element);
-					return;
-				}
-			}
-
-			using (Pen pen = new Pen(bkColor))
-			{
-				Rectangle rc = ClientRectangle;
-				e.Graphics.DrawLine(pen, 0, rc.Height - 1, rc.Right - 1, rc.Bottom - 1);
-				e.Graphics.DrawLine(pen, rc.Right - 1, 0, rc.Right - 1, rc.Bottom - 1);
-				e.Graphics.DrawLine(pen, rc.Right - 2, rc.Bottom - 2, rc.Right - 1, rc.Bottom - 1);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public void Clear()
 		{
 			Items.Clear();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the back color of the first parent in the parent chain that doesn't have
-		/// a background color of transparent.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private Color GetParentBackColor(out bool isOnTab)
-		{
-			Control ctrlParent = Parent;
-
-			while (ctrlParent.Parent != null && ctrlParent.BackColor == Color.Transparent)
-				ctrlParent = ctrlParent.Parent;
-
-			isOnTab = ctrlParent is TabPage || ctrlParent is TabControl;
-			return ctrlParent.BackColor;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Paint over (i.e. hide) a border with a rounded corner on the right and bottom
-		/// of the toolstrip when the tool strip is on a tab page or tab control.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void PaintWithTabPageBackground(IDeviceContext g, VisualStyleElement element)
-		{
-			VisualStyleRenderer renderer = new VisualStyleRenderer(element);
-			Rectangle crc = ClientRectangle;
-			
-			// Paint over the bottom border.
-			Rectangle rc = new Rectangle(0, crc.Height - 1, crc.Width, 2);
-			renderer.DrawBackground(g, rc);
-
-			// Paint over the right border.
-			rc = new Rectangle(crc.Width - 1, 0, 2, crc.Height);
-			renderer.DrawBackground(g, rc);
-
-			// Paint over the little rounded corner border in the bottom, right.
-			rc = new Rectangle(crc.Width - 2, crc.Height - 2, 2, 2);
-			renderer.DrawBackground(g, rc);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -377,7 +287,7 @@ namespace SIL.Pa.UI.Controls
 			if (e.Button == MouseButtons.Left && m_itemMouseDownPoint != Point.Empty &&
 				ItemDrag != null)
 			{
-				ToolStripButton item = sender as ToolStripButton;
+				var item = sender as ToolStripButton;
 
 				// Only fire the ItemDrag event when the mouse cursor has moved 4 or more
 				// pixels from where the mouse button went down.
@@ -386,20 +296,16 @@ namespace SIL.Pa.UI.Controls
 				
 				if (item != null && (dx >= 4 || dy >= 4))
 				{
-					ItemDragEventArgs args = new ItemDragEventArgs(e.Button, item.Text);
+					var args = new ItemDragEventArgs(e.Button, item.Text);
 					ItemDrag(item, args);
 				}
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnItemClicked(ToolStripItemClickedEventArgs e)
 		{
-			ToolStripButton item = e.ClickedItem as ToolStripButton;
+			var item = e.ClickedItem as ToolStripButton;
 			if (item == null)
 				return;
 

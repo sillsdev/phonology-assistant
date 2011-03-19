@@ -239,4 +239,13 @@ namespace SilTools
 			catch { }
 		}
 	}
+
+	/// ----------------------------------------------------------------------------------------
+	public class NoToolStripBorderRenderer : ToolStripProfessionalRenderer
+	{
+		protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
+		{
+			// Eat this event.
+		}
+	}
 }

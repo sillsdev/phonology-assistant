@@ -901,6 +901,8 @@
     <None Include="Resources\Filter-Small.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\AddStackedTabGroup.png" />
+    <None Include="Resources\AddSideBySideTabGroup.png" />
     <None Include="Resources\LoadingWheel.gif" />
     <None Include="Resources\RemoveGridRowNormal.png" />
     <None Include="Resources\RemoveGridRowHot.png" />

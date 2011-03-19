@@ -134,8 +134,8 @@ namespace SIL.Pa.Model
 
 			foreach (var sf in SortFields)
 			{
-				sf.Field = project.Fields.SingleOrDefault(f => f.Name == sf.FieldName);
-				sf.FieldName = null;
+				sf.Field = project.Fields.SingleOrDefault(f => f.Name == sf.PaFieldName);
+				sf.PaFieldName = null;
 			}
 
 			// Toss out any fields that couldn't be mapped, although that should probably never happen.

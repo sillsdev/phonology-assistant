@@ -17,7 +17,7 @@ namespace SIL.Pa.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("name")]
-		public string FieldName
+		public string PaFieldName
 		{
 			get { return (Field != null ? Field.Name : m_paFieldName); }
 			set { m_paFieldName = value; }
@@ -55,7 +55,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			return FieldName + ": " + (Ascending ? "Ascending" : "Descending");
+			return PaFieldName + ": " + (Ascending ? "Ascending" : "Descending");
 		}
 	}
 }

@@ -217,69 +217,29 @@ namespace SIL.Pa.DataSource
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// This will go through the data source's field mappings and point each one to the
-		/// PaField to which it's mapped. It will also verify that each mapping really has
-		/// a PaField in the specified collection. Whenever a mapping is found that doesn't
-		/// have a corresponding PaField to which it's mapped, it's assumed it's a custom
-		/// field and therefore a new PaField is created and added to a collection of fields
-		/// returned.
+		/// Checks to see that SFM/Toolbox data source files actually contain the markers
+		/// that have been mapped to PA fields.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<PaField> PostDeserializeInitialization(IEnumerable<PaField> fields)
+		public bool VerifyMappings()
 		{
-			var customFields = new List<PaField>();
+			if (Type != DataSourceType.Toolbox && Type != DataSourceType.SFM)
+				return true;
 
-			if (FieldMappings == null)
-				return customFields;
+			m_markersInFile = null;
+			var badMappingFound = false;
+			var markers = GetSfMarkers(false);
 
-			foreach (var mapping in FieldMappings.Where(m => m.PaFieldName != null))
+			for (int i = FieldMappings.Count - 1; i >= 0; i--)
 			{
-				var field = fields.SingleOrDefault(f => f.Name == mapping.PaFieldName);
-				if (field == null)
+				if (!markers.Contains(FieldMappings[i].NameInDataSource))
 				{
-					field = new PaField(mapping.PaFieldName);
-					customFields.Add(field);
+					FieldMappings.RemoveAt(i);
+					badMappingFound = true;
 				}
-
-				mapping.Field = field;
-				mapping.PaFieldName = null;
 			}
 
-			return customFields;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Checks to see if the data source should have mappings (i.e. for SFM and Toolbox
-		/// data source types). If so, then makes sure the collection of mappings is complete.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void VerifyMappings(PaProject project)
-		{
-			// TODO: Fix for new system.
-			//if (Type != DataSourceType.Toolbox && Type != DataSourceType.SFM &&
-			//    SFMappings != null)
-			//{
-			//    SFMappings.Clear();
-			//    return;
-			//}
-
-			//if (project == null)
-			//    return;
-
-			//if (SFMappings == null || SFMappings.Count == 0)
-			//{
-			//    MakeNewMappingsList();
-			//    return;
-			//}
-
-			//// Verify that each field in the project has an item in the mappings collection.
-			//foreach (PaFieldInfo fieldinfo in project.FieldInfo)
-			//    SFMarkerMapping.VerifyMappingForField(SFMappings, fieldinfo);
-
-			//// Now make sure a mapping exists for the record marker.
-			//if (!SFMappings.Any(m => m.FieldName == kRecordMarker))
-			//    SFMappings.Add(new SFMarkerMapping(kRecordMarker));
+			return !badMappingFound;
 		}
 
 		/// ------------------------------------------------------------------------------------

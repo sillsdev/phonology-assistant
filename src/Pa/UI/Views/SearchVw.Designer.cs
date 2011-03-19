@@ -102,7 +102,7 @@ namespace SIL.Pa.UI.Views
 			// splitOuter.Panel2
 			// 
 			this.splitOuter.Panel2.Controls.Add(this.splitResults);
-			this.splitOuter.Size = new System.Drawing.Size(541, 460);
+			this.splitOuter.Size = new System.Drawing.Size(541, 454);
 			this.splitOuter.SplitterDistance = 230;
 			this.splitOuter.SplitterWidth = 8;
 			this.splitOuter.TabIndex = 0;
@@ -123,8 +123,8 @@ namespace SIL.Pa.UI.Views
 			// splitSideBarOuter.Panel2
 			// 
 			this.splitSideBarOuter.Panel2.Controls.Add(this.splitSideBarInner);
-			this.splitSideBarOuter.Size = new System.Drawing.Size(222, 457);
-			this.splitSideBarOuter.SplitterDistance = 194;
+			this.splitSideBarOuter.Size = new System.Drawing.Size(222, 451);
+			this.splitSideBarOuter.SplitterDistance = 191;
 			this.splitSideBarOuter.SplitterWidth = 8;
 			this.splitSideBarOuter.TabIndex = 0;
 			this.splitSideBarOuter.TabStop = false;
@@ -136,19 +136,23 @@ namespace SIL.Pa.UI.Views
 			this.pnlTabClassDef.Location = new System.Drawing.Point(0, 22);
 			this.pnlTabClassDef.Name = "pnlTabClassDef";
 			this.pnlTabClassDef.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
-			this.pnlTabClassDef.Size = new System.Drawing.Size(222, 172);
+			this.pnlTabClassDef.Size = new System.Drawing.Size(222, 169);
 			this.pnlTabClassDef.TabIndex = 1;
 			// 
 			// ptrnBldrComponent
 			// 
 			this.ptrnBldrComponent.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.locExtender.SetLocalizableToolTip(this.ptrnBldrComponent, null);
+			this.locExtender.SetLocalizationComment(this.ptrnBldrComponent, null);
+			this.locExtender.SetLocalizingId(this.ptrnBldrComponent, "SearchVw.PatternBuilderComponents");
 			this.ptrnBldrComponent.Location = new System.Drawing.Point(0, 4);
 			this.ptrnBldrComponent.Name = "ptrnBldrComponent";
-			this.ptrnBldrComponent.Size = new System.Drawing.Size(222, 168);
+			this.ptrnBldrComponent.Size = new System.Drawing.Size(222, 165);
 			this.ptrnBldrComponent.TabIndex = 0;
 			// 
 			// pnlSideBarCaption
 			// 
+			this.pnlSideBarCaption.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this.pnlSideBarCaption.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlSideBarCaption.ClipTextForChildControls = true;
 			this.pnlSideBarCaption.ColorBottom = System.Drawing.Color.Empty;
@@ -161,6 +165,9 @@ namespace SIL.Pa.UI.Views
 			this.pnlSideBarCaption.DrawOnlyBottomBorder = false;
 			this.pnlSideBarCaption.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlSideBarCaption.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.locExtender.SetLocalizableToolTip(this.pnlSideBarCaption, null);
+			this.locExtender.SetLocalizationComment(this.pnlSideBarCaption, null);
+			this.locExtender.SetLocalizingId(this.pnlSideBarCaption, "SearchVw.pnlSideBarCaption");
 			this.pnlSideBarCaption.Location = new System.Drawing.Point(0, 0);
 			this.pnlSideBarCaption.MakeDark = false;
 			this.pnlSideBarCaption.MnemonicGeneratesClick = false;
@@ -182,6 +189,9 @@ namespace SIL.Pa.UI.Views
 			this.btnDock.Font = new System.Drawing.Font("Marlett", 9F);
 			this.btnDock.Image = ((System.Drawing.Image)(resources.GetObject("btnDock.Image")));
 			this.btnDock.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.btnDock, null);
+			this.locExtender.SetLocalizationComment(this.btnDock, null);
+			this.locExtender.SetLocalizingId(this.btnDock, "SearchVw.btnDock");
 			this.btnDock.Location = new System.Drawing.Point(198, 2);
 			this.btnDock.Name = "btnDock";
 			this.btnDock.Size = new System.Drawing.Size(16, 16);
@@ -200,6 +210,9 @@ namespace SIL.Pa.UI.Views
 			this.btnAutoHide.Font = new System.Drawing.Font("Marlett", 9F);
 			this.btnAutoHide.Image = ((System.Drawing.Image)(resources.GetObject("btnAutoHide.Image")));
 			this.btnAutoHide.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.btnAutoHide, null);
+			this.locExtender.SetLocalizationComment(this.btnAutoHide, null);
+			this.locExtender.SetLocalizingId(this.btnAutoHide, "SearchVw.btnAutoHide");
 			this.btnAutoHide.Location = new System.Drawing.Point(154, 2);
 			this.btnAutoHide.Name = "btnAutoHide";
 			this.btnAutoHide.Size = new System.Drawing.Size(16, 16);
@@ -220,8 +233,8 @@ namespace SIL.Pa.UI.Views
 			// splitSideBarInner.Panel2
 			// 
 			this.splitSideBarInner.Panel2.Controls.Add(this.pnlSavedPatterns);
-			this.splitSideBarInner.Size = new System.Drawing.Size(222, 255);
-			this.splitSideBarInner.SplitterDistance = 97;
+			this.splitSideBarInner.Size = new System.Drawing.Size(222, 252);
+			this.splitSideBarInner.SplitterDistance = 95;
 			this.splitSideBarInner.SplitterWidth = 8;
 			this.splitSideBarInner.TabIndex = 0;
 			this.splitSideBarInner.TabStop = false;
@@ -239,11 +252,14 @@ namespace SIL.Pa.UI.Views
 			this.pnlRecentPatterns.DrawOnlyBottomBorder = false;
 			this.pnlRecentPatterns.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlRecentPatterns.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.locExtender.SetLocalizableToolTip(this.pnlRecentPatterns, null);
+			this.locExtender.SetLocalizationComment(this.pnlRecentPatterns, null);
+			this.locExtender.SetLocalizingId(this.pnlRecentPatterns, "SearchVw.pnlRecentPatterns");
 			this.pnlRecentPatterns.Location = new System.Drawing.Point(0, 0);
 			this.pnlRecentPatterns.MnemonicGeneratesClick = false;
 			this.pnlRecentPatterns.Name = "pnlRecentPatterns";
 			this.pnlRecentPatterns.PaintExplorerBarBackground = false;
-			this.pnlRecentPatterns.Size = new System.Drawing.Size(222, 97);
+			this.pnlRecentPatterns.Size = new System.Drawing.Size(222, 95);
 			this.pnlRecentPatterns.TabIndex = 0;
 			// 
 			// lstRecentPatterns
@@ -255,7 +271,7 @@ namespace SIL.Pa.UI.Views
 			this.lstRecentPatterns.ItemHeight = 15;
 			this.lstRecentPatterns.Location = new System.Drawing.Point(0, 24);
 			this.lstRecentPatterns.Name = "lstRecentPatterns";
-			this.lstRecentPatterns.Size = new System.Drawing.Size(220, 71);
+			this.lstRecentPatterns.Size = new System.Drawing.Size(220, 69);
 			this.lstRecentPatterns.TabIndex = 1;
 			this.lstRecentPatterns.DoubleClick += new System.EventHandler(this.lstRecentPatterns_DoubleClick);
 			this.lstRecentPatterns.Enter += new System.EventHandler(this.lstRecentPatterns_Enter);
@@ -276,6 +292,9 @@ namespace SIL.Pa.UI.Views
 			this.hlblRecentPatterns.DrawOnlyBottomBorder = false;
 			this.hlblRecentPatterns.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
 			this.hlblRecentPatterns.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.locExtender.SetLocalizableToolTip(this.hlblRecentPatterns, null);
+			this.locExtender.SetLocalizationComment(this.hlblRecentPatterns, null);
+			this.locExtender.SetLocalizingId(this.hlblRecentPatterns, "SearchVw.hlblRecentPatterns");
 			this.hlblRecentPatterns.Location = new System.Drawing.Point(0, 0);
 			this.hlblRecentPatterns.MnemonicGeneratesClick = false;
 			this.hlblRecentPatterns.Name = "hlblRecentPatterns";
@@ -297,7 +316,10 @@ namespace SIL.Pa.UI.Views
 			this.btnClearRecentList.Font = new System.Drawing.Font("Marlett", 9F);
 			this.btnClearRecentList.Image = global::SIL.Pa.Properties.Resources.kimidClearList;
 			this.btnClearRecentList.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.btnClearRecentList.Location = new System.Drawing.Point(197, 4);
+			this.locExtender.SetLocalizableToolTip(this.btnClearRecentList, null);
+			this.locExtender.SetLocalizationComment(this.btnClearRecentList, null);
+			this.locExtender.SetLocalizingId(this.btnClearRecentList, "SearchVw.btnClearRecentList");
+			this.btnClearRecentList.Location = new System.Drawing.Point(197, 2);
 			this.btnClearRecentList.Name = "btnClearRecentList";
 			this.btnClearRecentList.Size = new System.Drawing.Size(20, 20);
 			this.btnClearRecentList.TabIndex = 1;
@@ -315,7 +337,10 @@ namespace SIL.Pa.UI.Views
 			this.btnRemoveFromRecentList.Font = new System.Drawing.Font("Marlett", 9F);
 			this.btnRemoveFromRecentList.Image = global::SIL.Pa.Properties.Resources.kimidDelete;
 			this.btnRemoveFromRecentList.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.btnRemoveFromRecentList.Location = new System.Drawing.Point(173, 4);
+			this.locExtender.SetLocalizableToolTip(this.btnRemoveFromRecentList, null);
+			this.locExtender.SetLocalizationComment(this.btnRemoveFromRecentList, null);
+			this.locExtender.SetLocalizingId(this.btnRemoveFromRecentList, "SearchVw.btnRemoveFromRecentList");
+			this.btnRemoveFromRecentList.Location = new System.Drawing.Point(173, 2);
 			this.btnRemoveFromRecentList.Name = "btnRemoveFromRecentList";
 			this.btnRemoveFromRecentList.Size = new System.Drawing.Size(20, 20);
 			this.btnRemoveFromRecentList.TabIndex = 0;
@@ -334,11 +359,14 @@ namespace SIL.Pa.UI.Views
 			this.pnlSavedPatterns.DrawOnlyBottomBorder = false;
 			this.pnlSavedPatterns.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlSavedPatterns.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.locExtender.SetLocalizableToolTip(this.pnlSavedPatterns, null);
+			this.locExtender.SetLocalizationComment(this.pnlSavedPatterns, null);
+			this.locExtender.SetLocalizingId(this.pnlSavedPatterns, "SearchVw.pnlSavedPatterns");
 			this.pnlSavedPatterns.Location = new System.Drawing.Point(0, 0);
 			this.pnlSavedPatterns.MnemonicGeneratesClick = false;
 			this.pnlSavedPatterns.Name = "pnlSavedPatterns";
 			this.pnlSavedPatterns.PaintExplorerBarBackground = false;
-			this.pnlSavedPatterns.Size = new System.Drawing.Size(222, 150);
+			this.pnlSavedPatterns.Size = new System.Drawing.Size(222, 149);
 			this.pnlSavedPatterns.TabIndex = 0;
 			// 
 			// tvSavedPatterns
@@ -346,14 +374,16 @@ namespace SIL.Pa.UI.Views
 			this.tvSavedPatterns.AllowDataModifications = true;
 			this.tvSavedPatterns.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.tvSavedPatterns.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tvSavedPatterns.Font = new System.Drawing.Font("Doulos SIL", 13F);
 			this.tvSavedPatterns.HideSelection = false;
 			this.tvSavedPatterns.ImageIndex = 0;
 			this.tvSavedPatterns.IsForToolbarPopup = false;
+			this.locExtender.SetLocalizableToolTip(this.tvSavedPatterns, null);
+			this.locExtender.SetLocalizationComment(this.tvSavedPatterns, null);
+			this.locExtender.SetLocalizingId(this.tvSavedPatterns, "SearchVw.tvSavedPatterns");
 			this.tvSavedPatterns.Location = new System.Drawing.Point(0, 24);
 			this.tvSavedPatterns.Name = "tvSavedPatterns";
 			this.tvSavedPatterns.SelectedImageIndex = 0;
-			this.tvSavedPatterns.Size = new System.Drawing.Size(220, 124);
+			this.tvSavedPatterns.Size = new System.Drawing.Size(220, 123);
 			this.tvSavedPatterns.TabIndex = 1;
 			this.tvSavedPatterns.TMAdapter = null;
 			this.tvSavedPatterns.DoubleClick += new System.EventHandler(this.tvSavedPatterns_DoubleClick);
@@ -373,6 +403,9 @@ namespace SIL.Pa.UI.Views
 			this.hlblSavedPatterns.DrawOnlyBottomBorder = false;
 			this.hlblSavedPatterns.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.hlblSavedPatterns.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.locExtender.SetLocalizableToolTip(this.hlblSavedPatterns, null);
+			this.locExtender.SetLocalizationComment(this.hlblSavedPatterns, null);
+			this.locExtender.SetLocalizingId(this.hlblSavedPatterns, "SearchVw.hlblSavedPatterns");
 			this.hlblSavedPatterns.Location = new System.Drawing.Point(0, 0);
 			this.hlblSavedPatterns.MnemonicGeneratesClick = false;
 			this.hlblSavedPatterns.Name = "hlblSavedPatterns";
@@ -394,7 +427,10 @@ namespace SIL.Pa.UI.Views
 			this.btnCategoryNew.Font = new System.Drawing.Font("Marlett", 9F);
 			this.btnCategoryNew.Image = global::SIL.Pa.Properties.Resources.kimidNewPatternCategory;
 			this.btnCategoryNew.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.btnCategoryNew.Location = new System.Drawing.Point(197, 4);
+			this.locExtender.SetLocalizableToolTip(this.btnCategoryNew, null);
+			this.locExtender.SetLocalizationComment(this.btnCategoryNew, null);
+			this.locExtender.SetLocalizingId(this.btnCategoryNew, "SearchVw.btnCategoryNew");
+			this.btnCategoryNew.Location = new System.Drawing.Point(197, 2);
 			this.btnCategoryNew.Name = "btnCategoryNew";
 			this.btnCategoryNew.Size = new System.Drawing.Size(20, 20);
 			this.btnCategoryNew.TabIndex = 1;
@@ -412,7 +448,10 @@ namespace SIL.Pa.UI.Views
 			this.btnCategoryCut.Font = new System.Drawing.Font("Marlett", 9F);
 			this.btnCategoryCut.Image = global::SIL.Pa.Properties.Resources.kimidCut;
 			this.btnCategoryCut.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.btnCategoryCut.Location = new System.Drawing.Point(125, 4);
+			this.locExtender.SetLocalizableToolTip(this.btnCategoryCut, null);
+			this.locExtender.SetLocalizationComment(this.btnCategoryCut, null);
+			this.locExtender.SetLocalizingId(this.btnCategoryCut, "SearchVw.btnCategoryCut");
+			this.btnCategoryCut.Location = new System.Drawing.Point(125, 2);
 			this.btnCategoryCut.Name = "btnCategoryCut";
 			this.btnCategoryCut.Size = new System.Drawing.Size(20, 20);
 			this.btnCategoryCut.TabIndex = 0;
@@ -430,7 +469,10 @@ namespace SIL.Pa.UI.Views
 			this.btnCategoryPaste.Font = new System.Drawing.Font("Marlett", 9F);
 			this.btnCategoryPaste.Image = global::SIL.Pa.Properties.Resources.kimidPaste;
 			this.btnCategoryPaste.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.btnCategoryPaste.Location = new System.Drawing.Point(173, 4);
+			this.locExtender.SetLocalizableToolTip(this.btnCategoryPaste, null);
+			this.locExtender.SetLocalizationComment(this.btnCategoryPaste, null);
+			this.locExtender.SetLocalizingId(this.btnCategoryPaste, "SearchVw.btnCategoryPaste");
+			this.btnCategoryPaste.Location = new System.Drawing.Point(173, 2);
 			this.btnCategoryPaste.Name = "btnCategoryPaste";
 			this.btnCategoryPaste.Size = new System.Drawing.Size(20, 20);
 			this.btnCategoryPaste.TabIndex = 3;
@@ -448,7 +490,10 @@ namespace SIL.Pa.UI.Views
 			this.btnCategoryCopy.Font = new System.Drawing.Font("Marlett", 9F);
 			this.btnCategoryCopy.Image = global::SIL.Pa.Properties.Resources.kimidCopy;
 			this.btnCategoryCopy.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.btnCategoryCopy.Location = new System.Drawing.Point(149, 4);
+			this.locExtender.SetLocalizableToolTip(this.btnCategoryCopy, null);
+			this.locExtender.SetLocalizationComment(this.btnCategoryCopy, null);
+			this.locExtender.SetLocalizingId(this.btnCategoryCopy, "SearchVw.btnCategoryCopy");
+			this.btnCategoryCopy.Location = new System.Drawing.Point(149, 2);
 			this.btnCategoryCopy.Name = "btnCategoryCopy";
 			this.btnCategoryCopy.Size = new System.Drawing.Size(20, 20);
 			this.btnCategoryCopy.TabIndex = 2;
@@ -466,17 +511,15 @@ namespace SIL.Pa.UI.Views
 			this.splitResults.Panel1.AllowDrop = true;
 			this.splitResults.Panel1.BackColor = System.Drawing.SystemColors.Control;
 			this.splitResults.Panel1.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-			this.splitResults.Panel1.Tag = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidExportAsToolTip;
+			this.splitResults.Panel1.Tag = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidDoNothingToolTip;
 			this.splitResults.Panel1.SizeChanged += new System.EventHandler(this.HandleSplitResultsPanel1SizeChanged);
-			this.splitResults.Panel1.DragDrop += new System.Windows.Forms.DragEventHandler(this.HandleSplitResultsPanel1DragDrop);
-			this.splitResults.Panel1.DragOver += new System.Windows.Forms.DragEventHandler(HandleSplitResultsPanel1DragOver);
 			this.splitResults.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleSplitResultsPanel1Paint);
 			// 
 			// splitResults.Panel2
 			// 
 			this.splitResults.Panel2.Controls.Add(this.pnlRecView);
-			this.splitResults.Size = new System.Drawing.Size(303, 460);
-			this.splitResults.SplitterDistance = 330;
+			this.splitResults.Size = new System.Drawing.Size(303, 454);
+			this.splitResults.SplitterDistance = 325;
 			this.splitResults.SplitterWidth = 8;
 			this.splitResults.TabIndex = 0;
 			// 
@@ -493,12 +536,15 @@ namespace SIL.Pa.UI.Views
 			this.pnlRecView.DrawOnlyBottomBorder = false;
 			this.pnlRecView.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlRecView.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.locExtender.SetLocalizableToolTip(this.pnlRecView, null);
+			this.locExtender.SetLocalizationComment(this.pnlRecView, null);
+			this.locExtender.SetLocalizingId(this.pnlRecView, "SearchVw.pnlRecView");
 			this.pnlRecView.Location = new System.Drawing.Point(0, 0);
 			this.pnlRecView.MnemonicGeneratesClick = false;
 			this.pnlRecView.Name = "pnlRecView";
 			this.pnlRecView.Padding = new System.Windows.Forms.Padding(4, 4, 0, 0);
 			this.pnlRecView.PaintExplorerBarBackground = false;
-			this.pnlRecView.Size = new System.Drawing.Size(303, 122);
+			this.pnlRecView.Size = new System.Drawing.Size(303, 121);
 			this.pnlRecView.TabIndex = 0;
 			// 
 			// rtfRecVw
@@ -506,10 +552,13 @@ namespace SIL.Pa.UI.Views
 			this.rtfRecVw.BackColor = System.Drawing.SystemColors.Window;
 			this.rtfRecVw.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.rtfRecVw.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.locExtender.SetLocalizableToolTip(this.rtfRecVw, null);
+			this.locExtender.SetLocalizationComment(this.rtfRecVw, null);
+			this.locExtender.SetLocalizingId(this.rtfRecVw, "SearchVw.rtfRecVw");
 			this.rtfRecVw.Location = new System.Drawing.Point(4, 4);
 			this.rtfRecVw.Name = "rtfRecVw";
 			this.rtfRecVw.ReadOnly = true;
-			this.rtfRecVw.Size = new System.Drawing.Size(297, 116);
+			this.rtfRecVw.Size = new System.Drawing.Size(297, 115);
 			this.rtfRecVw.TabIndex = 0;
 			this.rtfRecVw.TabStop = false;
 			this.rtfRecVw.Text = " ";
@@ -520,8 +569,11 @@ namespace SIL.Pa.UI.Views
 			this.btnRefresh.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.btnRefresh.Image = global::SIL.Pa.Properties.Resources.kimidRefresh;
 			this.btnRefresh.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.btnRefresh, null);
+			this.locExtender.SetLocalizationComment(this.btnRefresh, null);
+			this.locExtender.SetLocalizingId(this.btnRefresh, "SearchVw.btnRefresh");
 			this.btnRefresh.Location = new System.Drawing.Point(547, 6);
-			this.btnRefresh.Margin = new System.Windows.Forms.Padding(4, 6, 8, 0);
+			this.btnRefresh.Margin = new System.Windows.Forms.Padding(4, 6, 8, 6);
 			this.btnRefresh.Name = "btnRefresh";
 			this.btnRefresh.Size = new System.Drawing.Size(26, 26);
 			this.btnRefresh.TabIndex = 2;
@@ -531,9 +583,9 @@ namespace SIL.Pa.UI.Views
 			// pnlSliderPlaceholder
 			// 
 			this.pnlSliderPlaceholder.Dock = System.Windows.Forms.DockStyle.Left;
-			this.pnlSliderPlaceholder.Location = new System.Drawing.Point(0, 63);
+			this.pnlSliderPlaceholder.Location = new System.Drawing.Point(0, 69);
 			this.pnlSliderPlaceholder.Name = "pnlSliderPlaceholder";
-			this.pnlSliderPlaceholder.Size = new System.Drawing.Size(32, 468);
+			this.pnlSliderPlaceholder.Size = new System.Drawing.Size(32, 462);
 			this.pnlSliderPlaceholder.TabIndex = 1;
 			// 
 			// lblCurrPattern
@@ -543,8 +595,11 @@ namespace SIL.Pa.UI.Views
 			this.lblCurrPattern.BackColor = System.Drawing.Color.Transparent;
 			this.lblCurrPattern.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.lblCurrPattern.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.lblCurrPattern, null);
+			this.locExtender.SetLocalizationComment(this.lblCurrPattern, null);
+			this.locExtender.SetLocalizingId(this.lblCurrPattern, "SearchVw.lblCurrPattern");
 			this.lblCurrPattern.Location = new System.Drawing.Point(8, 11);
-			this.lblCurrPattern.Margin = new System.Windows.Forms.Padding(8, 6, 3, 0);
+			this.lblCurrPattern.Margin = new System.Windows.Forms.Padding(8, 6, 3, 6);
 			this.lblCurrPattern.Name = "lblCurrPattern";
 			this.lblCurrPattern.Size = new System.Drawing.Size(141, 15);
 			this.lblCurrPattern.TabIndex = 0;
@@ -555,10 +610,10 @@ namespace SIL.Pa.UI.Views
 			// 
 			this.pnlOuter.Controls.Add(this.splitOuter);
 			this.pnlOuter.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pnlOuter.Location = new System.Drawing.Point(32, 63);
+			this.pnlOuter.Location = new System.Drawing.Point(32, 69);
 			this.pnlOuter.Name = "pnlOuter";
 			this.pnlOuter.Padding = new System.Windows.Forms.Padding(0, 0, 8, 8);
-			this.pnlOuter.Size = new System.Drawing.Size(549, 468);
+			this.pnlOuter.Size = new System.Drawing.Size(549, 462);
 			this.pnlOuter.TabIndex = 3;
 			// 
 			// m_patternTableLayoutPanel
@@ -578,7 +633,7 @@ namespace SIL.Pa.UI.Views
 			this.m_patternTableLayoutPanel.RowCount = 2;
 			this.m_patternTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.m_patternTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.m_patternTableLayoutPanel.Size = new System.Drawing.Size(581, 63);
+			this.m_patternTableLayoutPanel.Size = new System.Drawing.Size(581, 69);
 			this.m_patternTableLayoutPanel.TabIndex = 4;
 			this.m_patternTableLayoutPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.HandlePatternTableLayoutPanelPaint);
 			// 
@@ -589,8 +644,11 @@ namespace SIL.Pa.UI.Views
 			this.ptrnTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.ptrnTextBox.ClassDisplayBehaviorChanged = false;
 			this.ptrnTextBox.HideSelection = false;
+			this.locExtender.SetLocalizableToolTip(this.ptrnTextBox, null);
+			this.locExtender.SetLocalizationComment(this.ptrnTextBox, null);
+			this.locExtender.SetLocalizingId(this.ptrnTextBox, "SearchVw.ptrnTextBox");
 			this.ptrnTextBox.Location = new System.Drawing.Point(152, 9);
-			this.ptrnTextBox.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
+			this.ptrnTextBox.Margin = new System.Windows.Forms.Padding(0, 6, 0, 6);
 			this.ptrnTextBox.Name = "ptrnTextBox";
 			this.ptrnTextBox.OwningView = null;
 			this.ptrnTextBox.SearchQueryCategory = null;
@@ -603,7 +661,10 @@ namespace SIL.Pa.UI.Views
 			// 
 			this.m_patternBuilderBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(130)))), ((int)(((byte)(152)))));
 			this.m_patternBuilderBar.Dock = System.Windows.Forms.DockStyle.Top;
-			this.m_patternBuilderBar.Location = new System.Drawing.Point(152, 33);
+			this.locExtender.SetLocalizableToolTip(this.m_patternBuilderBar, null);
+			this.locExtender.SetLocalizationComment(this.m_patternBuilderBar, null);
+			this.locExtender.SetLocalizingId(this.m_patternBuilderBar, "SearchVw.PatternBuilderBar");
+			this.m_patternBuilderBar.Location = new System.Drawing.Point(152, 39);
 			this.m_patternBuilderBar.Margin = new System.Windows.Forms.Padding(0, 1, 0, 6);
 			this.m_patternBuilderBar.Name = "m_patternBuilderBar";
 			this.m_patternBuilderBar.Padding = new System.Windows.Forms.Padding(1, 1, 1, 4);
@@ -622,6 +683,9 @@ namespace SIL.Pa.UI.Views
 			this.Controls.Add(this.pnlOuter);
 			this.Controls.Add(this.pnlSliderPlaceholder);
 			this.Controls.Add(this.m_patternTableLayoutPanel);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizingId(this, "SearchVw.SearchVw");
 			this.Name = "SearchVw";
 			this.Size = new System.Drawing.Size(581, 531);
 			this.splitOuter.Panel1.ResumeLayout(false);

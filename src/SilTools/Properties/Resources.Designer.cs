@@ -108,6 +108,13 @@ namespace SilTools.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap ProgressWheel {
+            get {
+                object obj = ResourceManager.GetObject("ProgressWheel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap RemoveGridRowHot {
             get {
                 object obj = ResourceManager.GetObject("RemoveGridRowHot", resourceCulture);

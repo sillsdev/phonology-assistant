@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
+using SilTools;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -21,15 +23,12 @@ namespace SIL.Pa.UI.Controls
 			InitializeComponent();
 
 			m_btnScrollLeft.Font = m_btnScrollRight.Font = new Font("Marlett", 9, GraphicsUnit.Point);
-
-			m_btnAddTab.MouseEnter += delegate { m_btnAddTab.Image = Properties.Resources.NewTabHot; };
-			m_btnAddTab.MouseLeave += delegate { m_btnAddTab.Image = Properties.Resources.NewTabNormal; };
-
 			m_btnAddTab.ButtonClick += delegate { AddClickAction(); };
 			m_mnuAddInSideBySideGroup.Click += delegate { AddInSideBySideGroupClickAction(); };
 			m_mnuAddInStackedGroup.Click += delegate { AddInStackedGroupClickAction(); };
 			m_btnScrollLeft.Click += delegate { ScrollLeftClickAction(); };
 			m_btnScrollRight.Click += delegate { ScrollRightClickAction(); };
+			m_toolstrip.Renderer = new NoToolStripBorderRenderer();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -73,25 +72,6 @@ namespace SIL.Pa.UI.Controls
 
 			int y = ClientRectangle.Bottom - 1;
 			e.Graphics.DrawLine(SystemPens.ControlDark, 0, y, Right, y);
-		}
-		
-		/// ------------------------------------------------------------------------------------
-		private void HandleAddTabDropDownClick(object sender, EventArgs e)
-		{
-			//var pt = new Point(m_btnAddTabDropDown.Width, m_btnAddTabDropDown.Height);
-			//pt.X -= m_cmnuAddTab.Width;
-			//pt = m_btnAddTabDropDown.PointToScreen(pt);
-			//m_cmnuAddTab.Show(pt);
-		}
-
-		private void HandleAddTabInHorizTabGroupClick(object sender, EventArgs e)
-		{
-
-		}
-
-		private void HandleAddTabInVertTabGroupClick(object sender, EventArgs e)
-		{
-
 		}
 	}
 }

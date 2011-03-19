@@ -135,7 +135,7 @@ namespace SIL.Pa.UI
 				return;
 			}
 
-			Process prs = new Process();
+			var prs = new Process();
 			prs.StartInfo.UseShellExecute = true;
 			prs.StartInfo.FileName = "\"" + path + "\"";
 			prs.Start();
@@ -232,7 +232,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateProjectSettings(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null)
 				return false;
 
@@ -256,7 +256,7 @@ namespace SIL.Pa.UI
 		///----------------------------------------------------------------------------------
 		protected bool OnExportAsPAXML(object args)
 		{
-			SaveFileDialog dlg = new SaveFileDialog();
+			var dlg = new SaveFileDialog();
 			dlg.OverwritePrompt = true;
 			dlg.CheckFileExists = false;
 			dlg.CheckPathExists = true;
@@ -284,7 +284,7 @@ namespace SIL.Pa.UI
 		///----------------------------------------------------------------------------------
 		protected bool OnUpdateExportAsPAXML(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null)
 				return false;
 			
@@ -298,7 +298,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnToolsOptions(object args)
 		{
-			using (OptionsDlg optionsDlg = new OptionsDlg(m_project))
+			using (var optionsDlg = new OptionsDlg(m_project))
 			{
 				// TODO: Send a message indicating the options were changed.
 				if (optionsDlg.ShowDialog(this) == DialogResult.OK)
@@ -312,7 +312,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateToolsOptions(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null)
 				return false;
 
@@ -332,7 +332,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateUndefinedCharacters(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null)
 				return false;
 
@@ -355,7 +355,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateReloadProject(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null)
 				return false;
 

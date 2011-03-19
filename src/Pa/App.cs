@@ -36,6 +36,7 @@ using SIL.Pa.Properties;
 using SIL.Pa.ResourceStuff;
 using SIL.Pa.UI.Views;
 using SilTools;
+using SilTools.Controls;
 using ShortcutKeysEditor=SilTools.Controls.ShortcutKeysEditor;
 using Utils=SilTools.Utils;
 
@@ -113,6 +114,7 @@ namespace SIL.Pa
 		private static ToolStripStatusLabel s_statusBarLabel;
 		private static ToolStripProgressBar s_progressBar;
 		private static ToolStripStatusLabel s_progressBarLabel;
+		private static ToolStripStatusLabel s_percentLabel;
 		private static ToolStripProgressBar s_activeProgressBar;
 		private static ToolStripStatusLabel s_activeProgBarLabel;
 		private static List<ITMAdapter> s_defaultMenuAdapters;
@@ -1380,6 +1382,24 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets or sets the progress bar's label on the PaMainWnd.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static ToolStripStatusLabel PercentLabel
+		{
+			get
+			{
+				return s_percentLabel;
+				//IUndockedViewWnd udvwnd = (CurrentView != null && CurrentView.ActiveView ?
+				//    CurrentView.OwningForm : MainForm) as IUndockedViewWnd;
+
+				//return (udvwnd != null ? udvwnd.ProgressBarLabel : s_progressBarLabel);
+			}
+			set { s_percentLabel = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Initializes the progress bar, assuming the max. value will be the count of items
 		/// in the current project's word cache.
 		/// </summary>
@@ -1397,12 +1417,17 @@ namespace SIL.Pa
 
 			var bar = (udvwnd != null ? udvwnd.ProgressBar : s_progressBar);
 			var lbl = (udvwnd != null ? udvwnd.ProgressBarLabel : s_progressBarLabel);
+			var lblPct = s_percentLabel;
+			lblPct.Tag = maxValue;
 
 			if (bar != null)
 			{
 				bar.Maximum = maxValue;
 				bar.Value = 0;
 				lbl.Text = text;
+				lblPct.Text = "0%";
+				lblPct.Visible = true;
+	
 				//bar.Visible = true;
 				lbl.Visible = true;
 				s_activeProgBarLabel = lbl;
@@ -1431,12 +1456,16 @@ namespace SIL.Pa
 		{
 			var bar = (s_activeProgressBar ?? s_progressBar);
 			var lbl = (s_activeProgBarLabel ?? s_progressBarLabel);
+			var lblPct = s_percentLabel;
 
 			if (bar != null)
 				bar.Visible = false;
 
 			if (lbl != null)
 				lbl.Visible = false;
+
+			if (lblPct != null)
+				lblPct.Visible = false;
 
 			s_activeProgBarLabel = null;
 			s_activeProgressBar = null;
@@ -1469,6 +1498,12 @@ namespace SIL.Pa
 					bar.Value += amount;
 				else
 					bar.Value = bar.Maximum;
+			
+				if (s_percentLabel != null)
+				{
+					int pct = (int)((bar.Value / (float)bar.Maximum) * 100);
+					s_percentLabel.Text = string.Format("{0}%", pct);
+				}
 			}
 		}
 

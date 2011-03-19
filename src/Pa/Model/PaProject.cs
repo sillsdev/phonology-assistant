@@ -71,9 +71,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// This method will make sure the list of mappings in all SFM and Toolbox data
-		/// sources doesn't contain a mapping for a field that was removed. Also, if the
-		/// Interlinear status of a custom field changed, this method will make sure the
-		/// mappings don't have contradictory values for the interlinear status of a field.
+		/// sources doesn't contain a mapping for a field that was removed.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void CleanUpMappings()
@@ -113,20 +111,6 @@ namespace SIL.Pa.Model
 			//    }
 			//}
 		}
-
-		#region Method to migrate previous versions of .pap files to current.
-		/// ------------------------------------------------------------------------------------
-		public static bool MigrateToLatestVersion(string filename)
-		{
-			var xml = XElement.Load(filename);
-			var ver = xml.Attribute("version");
-			if (ver != null && ver.Value == kCurrVersion)
-				return true;
-
-			return Migration0330.Migrate(filename, GetProjectPathFilePrefix);
-		}
-
-		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -175,6 +159,20 @@ namespace SIL.Pa.Model
 				DataSources.Clear();
 
 			DataSources = null;
+		}
+
+		#endregion
+
+		#region Method to migrate previous versions of .pap files to current.
+		/// ------------------------------------------------------------------------------------
+		public static bool MigrateToLatestVersion(string filename)
+		{
+			var xml = XElement.Load(filename);
+			var ver = xml.Attribute("version");
+			if (ver != null && ver.Value == kCurrVersion)
+				return true;
+
+			return Migration0330.Migrate(filename, GetProjectPathFilePrefix);
 		}
 
 		#endregion
@@ -295,8 +293,6 @@ namespace SIL.Pa.Model
 			SearchVwSortOptions.PostDeserializeInitialization(this);
 			DistributionChartVwSortOptions.PostDeserializeInitialization(this);
 			FixupFieldsAndMappings();
-			
-			//project.VerifyDataSourceMappings();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -307,6 +303,9 @@ namespace SIL.Pa.Model
 		/// project's fields, then an associated field is added to the project. It is assumed
 		/// that fields added in this way are ones manually added in the SFM/Toolbox data
 		/// source mappings dialog, since there's no where else to do so.
+		/// 
+		/// The final process is go through the sort options and make sure each field found
+		/// therein still exists in the project's field collection.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void FixupFieldsAndMappings()
@@ -317,7 +316,7 @@ namespace SIL.Pa.Model
 			{
 				foreach (var mapping in ds.FieldMappings)
 				{
-					var field = Fields.SingleOrDefault(f => f.Name == mapping.PaFieldName);
+					var field = fields.SingleOrDefault(f => f.Name == mapping.PaFieldName);
 
 					// If field is null, it means the user has entered their own
 					// field name in one of the SFM/Toolbox data source mappings.
@@ -330,7 +329,18 @@ namespace SIL.Pa.Model
 				}
 			}
 
+			// Now remove any fields that no longer have a mapping and are not in the default set (i.e. custom).
+			var mappedFieldNames = DataSources.SelectMany(d => d.FieldMappings).Select(m => m.PaFieldName);
+			var defaultFieldNames = PaField.GetDefaultFields().Select(f => f.Name);
+
+			for (int i = fields.Count - 1; i >= 0; i--)
+			{
+				if (!mappedFieldNames.Contains(fields[i].Name) && !defaultFieldNames.Contains(fields[i].Name))
+					fields.RemoveAt(i);
+			}
+
 			Fields = fields.OrderBy(f => f.Name);
+			EnsureSortOptionsValid();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -366,16 +376,6 @@ namespace SIL.Pa.Model
 
 			return project;
 		}
-
-		///// ------------------------------------------------------------------------------------
-		//private void VerifyDataSourceMappings()
-		//{
-		//    if (DataSources == null)
-		//        return;
-
-		//    foreach (var ds in DataSources)
-		//        ds.VerifyMappings(this);
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleApplicationWindowActivated(object sender, EventArgs e)
@@ -555,7 +555,7 @@ namespace SIL.Pa.Model
 			var list = sortOptions.SortFields;
 			for (int i = list.Count - 1; i >= 0; i--)
 			{
-				if (!Fields.Any(f => f.Name == list[i].Field.Name))
+				if (!Fields.Any(f => f.Name == list[i].PaFieldName))
 					list.RemoveAt(i);
 			}
 		}
@@ -751,7 +751,7 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		[XmlElement("version")]
+		[XmlAttribute("version")]
 		public string Version { get; set; }
 
 		/// ------------------------------------------------------------------------------------

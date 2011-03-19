@@ -36,7 +36,7 @@ namespace SIL.Pa.Model.Migration
 				// Find an unused backup folder name.
 				do
 				{
-					BackupFolder = Path.Combine(path, string.Format("Backup{0}", ver));
+					BackupFolder = Path.Combine(path, string.Format("Backup-{0}-{1}", ProjectName, ver));
 					ver = oldversion + letter;
 					letter += (char)1;
 				}

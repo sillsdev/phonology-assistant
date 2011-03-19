@@ -75,6 +75,17 @@ namespace SIL.Pa.DataSource
 
 			if (ds.Type != DataSourceType.XML && ds.Type != DataSourceType.Unknown)
 				m_dataSources.Add(ds);
+
+			if (!ds.VerifyMappings())
+			{
+				var msg = App.LocalizeString("MarkersMissingFromDataSourceMsg",
+					"The data source file '{0}' is missing some standard format markers that were " +
+					"assigned to {1} fields. Those assignments have been removed. To verify the " +
+					"assignment of markers to fields, go to the project settings dialog box, select " +
+					"the data source and click 'Properties'.", App.kLocalizationGroupInfoMsg);
+
+				Utils.MsgBox(string.Format(msg, ds.SourceFile, Application.ProductName));
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

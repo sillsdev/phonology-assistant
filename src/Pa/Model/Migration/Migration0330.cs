@@ -205,9 +205,8 @@ namespace SIL.Pa.Model.Migration
 		{
 			var xmlProject = XElement.Load(m_projectFilePath);
 
-			// Get all mapping nodes for SFM/Toolbox type data sources.
-			var sfmElements = xmlProject.Element("DataSources").Elements()
-				.Where(e =>"SFM;Toolbox".Contains((string)e.Element("Type")))
+			// Get all mapping nodes.
+			var mappings = xmlProject.Element("DataSources").Elements()
 				.Select(e => e.Element("FieldMappings"))
 				.SelectMany(e => e.Elements("mapping"));
 
@@ -218,7 +217,7 @@ namespace SIL.Pa.Model.Migration
 
 			// Update the mappings to make sure those fields that were marked as parsed in
 			// the old field info. have their isParsed property set in the new mappings.
-			foreach (var element in sfmElements.Where(e => parsedFields.Contains((string)e.Element("paFieldName"))))
+			foreach (var element in mappings.Where(e => parsedFields.Contains((string)e.Element("paFieldName"))))
 				element.Add(new XElement("isParsed", "true"));
 		
 			xmlProject.Save(m_projectFilePath);

@@ -116,7 +116,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 				Utils.MsgBox(string.Format(msg, m_fwDsInfo.Name,
 					Path.GetFileName(m_fwDsInfo.Queries.QueryFile), e.Message));
 
-				return false;
+			    return false;
 			}
 
 			return true;

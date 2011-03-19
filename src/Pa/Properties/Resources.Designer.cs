@@ -60,6 +60,20 @@ namespace SIL.Pa.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap AddSideBySideTabGroup {
+            get {
+                object obj = ResourceManager.GetObject("AddSideBySideTabGroup", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap AddStackedTabGroup {
+            get {
+                object obj = ResourceManager.GetObject("AddStackedTabGroup", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap CloseTabHot {
             get {
                 object obj = ResourceManager.GetObject("CloseTabHot", resourceCulture);

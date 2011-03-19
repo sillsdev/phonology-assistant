@@ -79,6 +79,7 @@
 			// 
 			// m_mnuAddInSideBySideGroup
 			// 
+			this.m_mnuAddInSideBySideGroup.Image = global::SIL.Pa.Properties.Resources.AddSideBySideTabGroup;
 			this.locExtender.SetLocalizableToolTip(this.m_mnuAddInSideBySideGroup, null);
 			this.locExtender.SetLocalizationComment(this.m_mnuAddInSideBySideGroup, null);
 			this.locExtender.SetLocalizingId(this.m_mnuAddInSideBySideGroup, "SearchResultTabGroupButtonPanel.mnuAddInSideBySideGroup");
@@ -88,6 +89,7 @@
 			// 
 			// m_mnuAddInStackedGroup
 			// 
+			this.m_mnuAddInStackedGroup.Image = global::SIL.Pa.Properties.Resources.AddStackedTabGroup;
 			this.locExtender.SetLocalizableToolTip(this.m_mnuAddInStackedGroup, null);
 			this.locExtender.SetLocalizationComment(this.m_mnuAddInStackedGroup, null);
 			this.locExtender.SetLocalizingId(this.m_mnuAddInStackedGroup, "SearchResultTabGroupButtonPanel.mnuAddInStackedGroup");

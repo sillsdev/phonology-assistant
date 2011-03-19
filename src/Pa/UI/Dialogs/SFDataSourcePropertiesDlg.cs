@@ -590,21 +590,11 @@ namespace SIL.Pa.UI.Dialogs
 			}
 		}
 
-		#endregion
-
-		#region IxCoreColleague Members
-		public IxCoreColleague[] GetMessageTargets()
-		{
-			return (new IxCoreColleague[] {this});
-		}
-
-		#endregion
-
 		/// ------------------------------------------------------------------------------------
 		private void HandleInformationButtonClick(object sender, EventArgs e)
 		{
 			lblInformation.Visible = !lblInformation.Visible;
-			
+
 			btnInformation.Image = (lblInformation.Visible ?
 				Properties.Resources.InformationHide : Properties.Resources.InformationShow);
 		}
@@ -630,10 +620,20 @@ namespace SIL.Pa.UI.Dialogs
 				var text = App.GetLocalizedString(lblInformation);
 				lblInformation.Text = string.Format(text, colHdrText, colHdrText);
 			}
-	
+
 			catch { }
-			
+
 			return false;
 		}
+
+		#endregion
+
+		#region IxCoreColleague Members
+		public IxCoreColleague[] GetMessageTargets()
+		{
+			return (new IxCoreColleague[] {this});
+		}
+
+		#endregion
 	}
 }

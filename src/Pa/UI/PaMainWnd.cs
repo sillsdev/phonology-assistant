@@ -59,13 +59,18 @@ namespace SIL.Pa.UI
 				App.ShowSplashScreen();
 
 			sblblMain.Text = string.Empty;
+
+			sblblProgress.Font = FontHelper.MakeFont(FontHelper.UIFont, 9, FontStyle.Bold);
+			sblblPercent.Font = sblblProgress.Font;
 			App.MainForm = this;
 			App.StatusBarLabel = sblblMain;
 			App.ProgressBar = sbProgress;
 			App.ProgressBarLabel = sblblProgress;
+			App.PercentLabel = sblblPercent;
 			App.AddMediatorColleague(this);
 			sbProgress.Visible = false;
 			sblblProgress.Visible = false;
+			sblblPercent.Visible = false;
 			sblblFilter.Text = string.Empty;
 			sblblFilter.Visible = false;
 			sblblFilter.Paint += HandleFilterStatusStripLabelPaint;
