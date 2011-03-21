@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Win32;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SIL.Pa.UI.Dialogs;
 using SilTools;
 
@@ -87,16 +88,21 @@ namespace SIL.Pa.DataSource
 		
 			var sourceType = wcentry.RecordEntry.DataSource.Type;
 
-			if (sourceType == DataSourceType.SFM)
-				EditRecordInSFMEditor(wcentry.RecordEntry);
-			else if (sourceType == DataSourceType.Toolbox)
-				EditRecordInToolbox(wcentry.RecordEntry);
-			else if (sourceType == DataSourceType.FW)
-				EditRecordInFieldWorks(wcentry.RecordEntry);
-			else if (sourceType == DataSourceType.SA)
-				EditRecordInSA(wcentry, callingApp);
-			else
-				Utils.MsgBox(Properties.Resources.kstidUnableToEditSourceRecordMsg);
+			switch (sourceType)
+			{
+				case DataSourceType.SFM: EditRecordInSFMEditor(wcentry.RecordEntry); break;
+				case DataSourceType.Toolbox: EditRecordInToolbox(wcentry.RecordEntry); break;
+				case DataSourceType.FW:
+				case DataSourceType.FW7: EditRecordInFieldWorks(wcentry.RecordEntry); break;
+				case DataSourceType.SA: EditRecordInSA(wcentry, callingApp); break;
+				default:
+					var msg = App.LocalizeString("UnableToEditSourceRecordMsg",
+						"There is no source record editor associated with this record.",
+						App.kLocalizationGroupInfoMsg);
+
+					Utils.MsgBox(msg);
+					break;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -124,25 +130,33 @@ namespace SIL.Pa.DataSource
 			// Make sure an editor has been specified.
 			if (string.IsNullOrEmpty(recEntry.DataSource.Editor))
 			{
-				msg = string.Format(Properties.Resources.kstidNoDataSourceEditorSpecifiedMsg,
-					Utils.PrepFilePathForMsgBox(recEntry.DataSource.SourceFile));
+				msg = App.LocalizeString("NoDataSourceEditorSpecifiedMsg",
+					"No editor has been specified in the project settings for the following data source:\n\n{0}\n\nSee the help file for more information.",
+					"Displayed when no editor has been specified and the user chooses 'Edit Source Record' from the edit menu.",
+					App.kLocalizationGroupInfoMsg);
+
+				msg = string.Format(msg, Utils.PrepFilePathForMsgBox(recEntry.DataSource.SourceFile));
 			}
 
 			// Make sure editor exists.
 			if (msg == null && !File.Exists(recEntry.DataSource.Editor))
 			{
-				msg = string.Format(Properties.Resources.kstidDataSourceEditorMissingMsg,
-					Utils.PrepFilePathForMsgBox(recEntry.DataSource.Editor));
+				msg = App.LocalizeString("DataSourceEditorMissingMsg",
+					"The editor '{0}' cannot be found.",
+					"Displayed when specified editor cannot be found when the user chooses 'Edit Source Record' from the edit menu.",
+					App.kLocalizationGroupInfoMsg);
+
+				msg = string.Format(msg, Utils.PrepFilePathForMsgBox(recEntry.DataSource.Editor));
 			}
 
 			if (msg != null)
 			{
-				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(msg);
 				return;
 			}
 
-			// Start SA.
-			Process prs = new Process();
+			// Start editor.
+			var prs = new Process();
 			prs.StartInfo.UseShellExecute = true;
 			prs.StartInfo.FileName = "\"" + recEntry.DataSource.Editor + "\"";
 			prs.StartInfo.Arguments = " \"" + recEntry.DataSource.SourceFile + "\"";
@@ -226,37 +240,47 @@ namespace SIL.Pa.DataSource
 		private void EditRecordInFieldWorks(RecordCacheEntry recEntry)
 		{
 			var field = recEntry.Project.GetFieldForName("GUID");
-			string url = FwDBAccessInfo.JumpUrl;
+			var url = (recEntry.DataSource.Type == DataSourceType.FW ?
+				FwDBAccessInfo.JumpUrl : Settings.Default.Fw7JumpUrlFormat);
 
-			if (field != null && !string.IsNullOrEmpty(url))
+			if (field == null || string.IsNullOrEmpty(url))
+				return;
+
+			if (recEntry.DataSource.Type == DataSourceType.FW)
 			{
 				url = string.Format(url, recEntry[field.Name],
 					recEntry.DataSource.FwDataSourceInfo.Server,
 					recEntry.DataSource.FwDataSourceInfo.Name);
+			}
+			else
+			{
+				url = string.Format(url, recEntry.DataSource.FwDataSourceInfo.Name,
+					recEntry.DataSource.FwDataSourceInfo.Server, recEntry[field.Name]);
+			}
 
-				// Spaces aren't allowed in the URL. They should be converted to '+'.
-				url = url.Trim().Replace(' ', '+');
+			// Spaces aren't allowed in the URL. They should be converted to '+'.
+			url = url.Trim().Replace(' ', '+');
 
-				try
+			try
+			{
+				if (m_showFwJumpUrlDlg)
 				{
-					if (m_showFwJumpUrlDlg)
+					using (var dlg = new EditFwUrlDlg(url))
 					{
-						using (var dlg = new EditFwUrlDlg(url))
-						{
-							if (dlg.ShowDialog() == DialogResult.Cancel)
-								return;
-							url = dlg.Url;
-						}
-					}
+						if (dlg.ShowDialog() == DialogResult.Cancel)
+							return;
 
-					RestoreAppIfRunning("Flex");
-					Process.Start(url);
+						url = dlg.Url;
+					}
 				}
-				catch
-				{
-					// TODO: Should this be a message box?
-					Clipboard.SetText(url);
-				}
+
+				RestoreAppIfRunning("Flex");
+				Process.Start(url);
+			}
+			catch
+			{
+				// TODO: Should this be a message box?
+				Clipboard.SetText(url);
 			}
 		}
 

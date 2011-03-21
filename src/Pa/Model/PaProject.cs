@@ -434,7 +434,11 @@ namespace SIL.Pa.Model
 			var reader = new DataSourceReader(this);
 			RecordCache = reader.Read();
 
-			App.InitializeProgressBar(Properties.Resources.kstidParsingDataMsg, RecordCache.Count);
+			var msg = App.LocalizeString("ParsingDataMsg",
+				"Parsing Data...", "Progress message after data source is read and the data is being parsed.",
+				App.kLocalizationGroupInfoMsg);
+
+			App.InitializeProgressBar(msg, RecordCache.Count);
 			RecordCache.BuildWordCache(App.ProgressBar);
 			PhoneticParser.LogUndefinedCharactersWhenParsing = false;
 			App.IncProgressBar();

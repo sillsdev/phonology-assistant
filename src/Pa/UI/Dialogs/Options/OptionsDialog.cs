@@ -16,8 +16,6 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public OptionsDlg()
 		{
-			App.InitializeProgressBar(Properties.Resources.kstidLoadingOptionsProgressBarText, 9);
-
 			Utils.WaitCursors(true);
 			InitializeComponent();
 
@@ -40,28 +38,19 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			m_project = project;
 
-			App.IncProgressBar();
 			InitializeFontTab();
-			App.IncProgressBar();
 			//InitializeFindPhonesTab();
-			App.IncProgressBar();
 			InitializeWordListTab();
-			App.IncProgressBar();
 			InitializeRecViewTab();
-			App.IncProgressBar();
 			InitializeCVPatternsTab();
-			App.IncProgressBar();
 			InitializeSortingTab();
-			App.IncProgressBar();
 			InitializeUserInterfaceTab();
-			App.IncProgressBar();
 
 			tabOptions.Font = FontHelper.UIFont;
 			lblSaveInfo.Font = FontHelper.UIFont;
 			lblSaveInfo.Top = (tblLayoutButtons.Height - lblSaveInfo.Height) / 2;
 			picSaveInfo.Top = lblSaveInfo.Top;
 
-			App.IncProgressBar();
 			m_tabPageHelpTopicIds = new Dictionary<TabPage, string>();
 			m_tabPageHelpTopicIds[tpgWordLists] = "hidWordListOptions";
 			m_tabPageHelpTopicIds[tpgRecView] = "hidRecordViewOptions";
@@ -77,7 +66,6 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			Utils.WaitCursors(false);
 			base.OnShown(e);
-			App.UninitializeProgressBar();
 		}
 
 		/// ------------------------------------------------------------------------------------

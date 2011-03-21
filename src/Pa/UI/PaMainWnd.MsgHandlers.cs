@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -527,6 +528,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnNoFilter(object args)
 		{
+			OnFilterTurnedOff(null);
 			m_project.FilterHelper.TurnOffCurrentFilter();
 			return true;
 		}
@@ -550,7 +552,11 @@ namespace SIL.Pa.UI
 			var filter = args as Filter;
 			sblblFilter.Visible = (filter != null);
 			if (filter != null)
+			{
 				sblblFilter.Text = filter.Name;
+				var constraint = new Size(statusStrip.Width / 3, 0);
+				sblblFilter.Width = sblblFilter.GetPreferredSize(constraint).Width + 20;
+			}
 
 			return false;
 		}

@@ -14,6 +14,7 @@
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 
 namespace SIL.PaToFdoInterfaces
@@ -90,6 +91,9 @@ namespace SIL.PaToFdoInterfaces
 
 		/// ------------------------------------------------------------------------------------
 		string ImportResidue { get; }
+
+		/// ------------------------------------------------------------------------------------
+		Guid Guid { get; }
 	}
 
 	#endregion

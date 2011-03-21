@@ -138,5 +138,11 @@ namespace SIL.Pa.UI.Controls
 
 			base.OnCellValueNeeded(e);
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public override IEnumerable<FieldMapping> Mappings
+		{
+			get { return m_mappings.Where(m => m.Field != null); }
+		}
 	}
 }

@@ -270,6 +270,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 			if (m_fwDsInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.AllPronunciationFields)
 				return CreateWordEntriesFromPronunciations(lxEntry, recCacheEntry);
 
+			recCacheEntry.SetValue("GUID", lxEntry.Guid.ToString());
+
 			var pro = (lxEntry.Pronunciations.Count() == 0 ? null : lxEntry.Pronunciations.ElementAt(0));
 
 			if (m_fwDsInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.PronunciationField &&
@@ -309,6 +311,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 				{
 					var wentry = new WordCacheEntry(recCacheEntry, parsedFields, "Phonetic");
 					wentry.SetValue(m_phoneticFieldName, eticValue);
+					wentry.SetValue("GUID", lxEntry.Guid.ToString());
+
 					ReadSinglePronunciation(pro, wentry);
 					recCacheEntry.WordEntries.Add(wentry);
 				}

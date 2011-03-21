@@ -18,7 +18,6 @@ namespace SilTools.Controls
 	public partial class ProgressWheel : UserControl, IProgressControl
 	{
 		private int m_value;
-		private bool m_showPercent;
 
 		/// ------------------------------------------------------------------------------------
 		public ProgressWheel()

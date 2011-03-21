@@ -759,7 +759,7 @@
   &lt;string&gt;CitationForm&lt;/string&gt;
   &lt;string&gt;PartOfSpeech&lt;/string&gt;
   &lt;string&gt;MorphType&lt;/string&gt;
-  &lt;string&gt;CV-Pattern-Flex&lt;/string&gt;
+  &lt;string&gt;CV-Pattern-Source&lt;/string&gt;
   &lt;string&gt;Tone&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
@@ -773,7 +773,7 @@
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
   &lt;string&gt;Phonetic&lt;/string&gt;
-  &lt;string&gt;CVPattern-Flex&lt;/string&gt;
+  &lt;string&gt;CV-Pattern-Source&lt;/string&gt;
   &lt;string&gt;Tone&lt;/string&gt;
   &lt;string&gt;Location&lt;/string&gt;
   &lt;string&gt;AudioFile&lt;/string&gt;
@@ -855,7 +855,7 @@
   &lt;string&gt;ComplexFormComments&lt;/string&gt;
   &lt;string&gt;Allomorphs&lt;/string&gt;
   &lt;string&gt;Tone&lt;/string&gt;
-  &lt;string&gt;CV-Pattern-Flex&lt;/string&gt;
+  &lt;string&gt;CV-Pattern-Source&lt;/string&gt;
   &lt;string&gt;Location&lt;/string&gt;
   &lt;string&gt;AudioFileLabel&lt;/string&gt;
   &lt;string&gt;Gloss&lt;/string&gt;
@@ -929,6 +929,18 @@
   &lt;string&gt;Gloss-Other&lt;/string&gt;
   &lt;string&gt;PartOfSpeech&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="Fw7JumpUrlFormat" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">silfw://localhost/link?app%3dflex%26database%3d{0}%26server%3d{1}%26tool%3dlexiconEdit%26guid%3d{2}%26tag%3d</Value>
+    </Setting>
+    <Setting Name="UseProgressBarInMainWindow" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DefaultProjectFolderName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Phonology Assistant</Value>
+    </Setting>
+    <Setting Name="UsersProjectFolderName" Provider="SilTools.PortableSettingsProvider" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

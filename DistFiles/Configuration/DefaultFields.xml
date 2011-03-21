@@ -110,7 +110,7 @@
 	</field>
 
 	<!-- Pronunciation Fields -->
-	<field name="CV-Pattern-Flex" type="GeneralText">
+	<field name="CV-Pattern-Source" type="GeneralText">
 	</field>
 	<field name="Location" type="GeneralText">
 		<fwWritingSystemType>CmPossibility</fwWritingSystemType>

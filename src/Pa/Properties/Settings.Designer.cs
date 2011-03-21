@@ -3213,7 +3213,7 @@ namespace SIL.Pa.Properties {
   <string>CitationForm</string>
   <string>PartOfSpeech</string>
   <string>MorphType</string>
-  <string>CV-Pattern-Flex</string>
+  <string>CV-Pattern-Source</string>
   <string>Tone</string>
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection DefaultMappedFw7Fields {
@@ -3251,7 +3251,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
   <string>Phonetic</string>
-  <string>CVPattern-Flex</string>
+  <string>CV-Pattern-Source</string>
   <string>Tone</string>
   <string>Location</string>
   <string>AudioFile</string>
@@ -3350,18 +3350,18 @@ namespace SIL.Pa.Properties {
             "Variants</string>\r\n  <string>VariantTypes</string>\r\n  <string>VariantComments</s" +
             "tring>\r\n  <string>ComplexForms</string>\r\n  <string>Components</string>\r\n  <strin" +
             "g>ComplexTypes</string>\r\n  <string>ComplexFormComments</string>\r\n  <string>Allom" +
-            "orphs</string>\r\n  <string>Tone</string>\r\n  <string>CV-Pattern-Flex</string>\r\n  <" +
-            "string>Location</string>\r\n  <string>AudioFileLabel</string>\r\n  <string>Gloss</st" +
-            "ring>\r\n  <string>Definition</string>\r\n  <string>PartOfSpeech</string>\r\n  <string" +
-            ">AnthropologyNote</string>\r\n  <string>Bibliography-Sense</string>\r\n  <string>Dis" +
-            "courseNote</string>\r\n  <string>EncyclopedicInfo</string>\r\n  <string>GeneralNote<" +
-            "/string>\r\n  <string>GrammarNote</string>\r\n  <string>PhonologyNote</string>\r\n  <s" +
-            "tring>Restrictions-Sense</string>\r\n  <string>SemanticsNote</string>\r\n  <string>S" +
-            "ociolinguisticsNote</string>\r\n  <string>SenseType</string>\r\n  <string>Status</st" +
-            "ring>\r\n  <string>AnthroCodes</string>\r\n  <string>DomainTypes</string>\r\n  <string" +
-            ">SemanticDomains</string>\r\n  <string>Usages</string>\r\n  <string>ReversalEntries<" +
-            "/string>\r\n  <string>ScientificName</string>\r\n  <string>Source</string>\r\n  <strin" +
-            "g>ImportResidue-Sense</string>\r\n</ArrayOfString>")]
+            "orphs</string>\r\n  <string>Tone</string>\r\n  <string>CV-Pattern-Source</string>\r\n " +
+            " <string>Location</string>\r\n  <string>AudioFileLabel</string>\r\n  <string>Gloss</" +
+            "string>\r\n  <string>Definition</string>\r\n  <string>PartOfSpeech</string>\r\n  <stri" +
+            "ng>AnthropologyNote</string>\r\n  <string>Bibliography-Sense</string>\r\n  <string>D" +
+            "iscourseNote</string>\r\n  <string>EncyclopedicInfo</string>\r\n  <string>GeneralNot" +
+            "e</string>\r\n  <string>GrammarNote</string>\r\n  <string>PhonologyNote</string>\r\n  " +
+            "<string>Restrictions-Sense</string>\r\n  <string>SemanticsNote</string>\r\n  <string" +
+            ">SociolinguisticsNote</string>\r\n  <string>SenseType</string>\r\n  <string>Status</" +
+            "string>\r\n  <string>AnthroCodes</string>\r\n  <string>DomainTypes</string>\r\n  <stri" +
+            "ng>SemanticDomains</string>\r\n  <string>Usages</string>\r\n  <string>ReversalEntrie" +
+            "s</string>\r\n  <string>ScientificName</string>\r\n  <string>Source</string>\r\n  <str" +
+            "ing>ImportResidue-Sense</string>\r\n</ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection DefaultFw7Fields {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["DefaultFw7Fields"]));
@@ -3436,6 +3436,51 @@ namespace SIL.Pa.Properties {
         public global::System.Collections.Specialized.StringCollection MappableFw6Fields {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["MappableFw6Fields"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("silfw://localhost/link?app%3dflex%26database%3d{0}%26server%3d{1}%26tool%3dlexico" +
+            "nEdit%26guid%3d{2}%26tag%3d")]
+        public string Fw7JumpUrlFormat {
+            get {
+                return ((string)(this["Fw7JumpUrlFormat"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseProgressBarInMainWindow {
+            get {
+                return ((bool)(this["UseProgressBarInMainWindow"]));
+            }
+            set {
+                this["UseProgressBarInMainWindow"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Phonology Assistant")]
+        public string DefaultProjectFolderName {
+            get {
+                return ((string)(this["DefaultProjectFolderName"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string UsersProjectFolderName {
+            get {
+                return ((string)(this["UsersProjectFolderName"]));
+            }
+            set {
+                this["UsersProjectFolderName"] = value;
             }
         }
     }

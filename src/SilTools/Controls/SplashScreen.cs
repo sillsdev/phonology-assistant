@@ -38,23 +38,11 @@ namespace SilTools
 	public interface ISplashScreen
 	{
 		/// ----------------------------------------------------------------------------------------
-		/// <summary>
-		/// Shows the splash screen
-		/// </summary>
-		/// ----------------------------------------------------------------------------------------
 		void Show();
 
 		/// ----------------------------------------------------------------------------------------
-		/// <summary>
-		/// Shows the splash screen
-		/// </summary>
-		/// ----------------------------------------------------------------------------------------
 		void Show(bool showBuildDate, bool isBetaVersion);
 
-		/// ----------------------------------------------------------------------------------------
-		/// <summary>
-		/// Shows the splash screen without the fading feature.
-		/// </summary>
 		/// ----------------------------------------------------------------------------------------
 		void ShowWithoutFade();
 
@@ -67,28 +55,10 @@ namespace SilTools
 		void Activate();
 
 		/// ----------------------------------------------------------------------------------------
-		/// <summary>
-		/// Closes the splash screen
-		/// </summary>
-		/// ----------------------------------------------------------------------------------------
 		void Close();
 
 		/// ----------------------------------------------------------------------------------------
-		/// <summary>
-		/// Refreshes the display of the splash screen
-		/// </summary>
-		/// ----------------------------------------------------------------------------------------
 		void Refresh();
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// The product name which appears in the Name label on the splash screen
-		/// </summary>
-		/// <remarks>
-		/// .Net clients should not set this. It will be ignored.
-		/// </remarks>
-		/// ------------------------------------------------------------------------------------
-		string ProdName {set;}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -125,13 +95,10 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		bool StillAlive { get;}
 	}
+
 	#endregion
 
 	#region SplashScreen implementation
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// FW Splash Screen
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class SplashScreen : ISplashScreen
 	{
@@ -170,10 +137,6 @@ namespace SilTools
 		#endregion
 
 		#region Public Methods
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		void ISplashScreen.Show(bool showBuildDate, bool isBetaVersion)
 		{
@@ -354,27 +317,6 @@ namespace SilTools
 		#endregion
 
 		#region Public properties set automatically in constructor for .Net apps
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// The product name which appears in the Name label on the splash screen
-		/// </summary>
-		/// <remarks>
-		/// .Net clients should not set this. It will be ignored. They should set the
-		/// AssemblyTitle attribute in AssemblyInfo.cs of the executable.
-		/// </remarks>
-		/// ------------------------------------------------------------------------------------
-		string ISplashScreen.ProdName
-		{
-			set
-			{
-				Debug.Assert(m_splashScreen != null);
-				lock (m_splashScreen)
-				{
-					m_splashScreen.Invoke(new MethodWithStringDelegate(m_splashScreen.SetProdName), value);
-				}
-			}
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// The product version which appears in the App Version label on the splash screen

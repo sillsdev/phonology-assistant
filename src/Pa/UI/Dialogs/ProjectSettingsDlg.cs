@@ -558,6 +558,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (!FwDBUtils.GetFw7Project(this, out name, out server))
 				return;
 
+			Utils.WaitCursors(true);
 			var info = new FwDataSourceInfo(name, server, DataSourceType.FW7);
 
 			if (ProjectContainsFwDataSource(info) &&
@@ -570,6 +571,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_dataSources.Add(new PaDataSource(Project.Fields, info));
 			LoadGrid(m_grid.Rows.Count);
 			m_dirty = true;
+			Utils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -693,8 +695,10 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 			}
 
+			Utils.WaitCursors(true);
 			using (var dlg = new Fw7DataSourcePropertiesDlg(ds, Project.Fields))
 			{
+				Utils.WaitCursors(false);
 				if (dlg.ShowDialog(this) != DialogResult.OK || !dlg.ChangesWereMade)
 					return;
 			}

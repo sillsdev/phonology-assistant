@@ -25,7 +25,6 @@ using System.Text;
 using System.Windows.Forms;
 using Localization;
 using Localization.UI;
-using Microsoft.Win32;
 using Palaso.IO;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.DataSource.FieldWorks;
@@ -36,7 +35,6 @@ using SIL.Pa.Properties;
 using SIL.Pa.ResourceStuff;
 using SIL.Pa.UI.Views;
 using SilTools;
-using SilTools.Controls;
 using ShortcutKeysEditor=SilTools.Controls.ShortcutKeysEditor;
 using Utils=SilTools.Utils;
 
@@ -60,14 +58,11 @@ namespace SIL.Pa
 
 	#region IUndockedViewWnd interface
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public interface IUndockedViewWnd
 	{
 		ToolStripProgressBar ProgressBar { get;}
 		ToolStripStatusLabel ProgressBarLabel { get;}
+		ToolStripStatusLabel ProgressPercentLabel { get; }
 		ToolStripStatusLabel StatusBarLabel { get;}
 		StatusStrip StatusBar { get; }
 	}
@@ -117,6 +112,9 @@ namespace SIL.Pa
 		private static ToolStripStatusLabel s_percentLabel;
 		private static ToolStripProgressBar s_activeProgressBar;
 		private static ToolStripStatusLabel s_activeProgBarLabel;
+		private static ToolStripStatusLabel s_activePercentLabel;
+		private static string s_progressPercentFormat;
+		private static string s_splashScreenLoadingMessageFormat;
 		private static List<ITMAdapter> s_defaultMenuAdapters;
 		private static readonly Dictionary<Type, Form> s_openForms = new Dictionary<Type, Form>();
 		private static readonly List<IxCoreColleague> s_colleagueList = new List<IxCoreColleague>();
@@ -129,9 +127,9 @@ namespace SIL.Pa
 				return;
 
 			InventoryHelper.Load();
-			InitializePaRegKey();
-			MsgMediator = new Mediator();
 			InitializeSettingsFileLocation();
+			InitializeProjectFolder();
+			MsgMediator = new Mediator();
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList);
 			ProcessHelper.CopyFilesForPrettyHTMLExports();
 			InitializeFonts();
@@ -198,7 +196,7 @@ namespace SIL.Pa
 				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 
-			PortableSettingsProvider.SettingsFileFolder = DefaultProjectFolder;
+			PortableSettingsProvider.SettingsFileFolder = GetDefaultProjectFolder();
 			PortableSettingsProvider.SettingsFileName = "Pa.settings";
 		}
 
@@ -312,32 +310,22 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static void InitializePaRegKey()
+		private static void InitializeProjectFolder()
 		{
-			string projPath = GetDefaultProjectFolder();
+			DefaultProjectFolder = Settings.Default.UsersProjectFolderName;
 
-			// Check if an entry in the registry specifies the default project path.
-			RegistryKey key = Registry.CurrentUser.CreateSubKey(kPaRegKeyName);
-
-			if (key != null)
+			if (string.IsNullOrEmpty(DefaultProjectFolder) || !Directory.Exists(DefaultProjectFolder))
 			{
-				string tmpProjPath = key.GetValue("DefaultProjectsLocation") as string;
-
-				// If the registry value was not found, then create it. Otherwise, use
-				// the path found in the registry and not the one constructed above.
-				if (string.IsNullOrEmpty(tmpProjPath))
-					key.SetValue("DefaultProjectsLocation", projPath);
-				else
-					projPath = tmpProjPath;
-
-				key.Close();
+				DefaultProjectFolder = GetDefaultProjectFolder();
+				Settings.Default.UsersProjectFolderName = DefaultProjectFolder;
+				Settings.Default.Save();
 			}
 
-			DefaultProjectFolder = projPath;
+			PortableSettingsProvider.SettingsFileFolder = DefaultProjectFolder;
 
 			// Create the folder if it doesn't exist.
-			if (!Directory.Exists(projPath))
-				Directory.CreateDirectory(projPath);
+			if (!Directory.Exists(DefaultProjectFolder))
+				Directory.CreateDirectory(DefaultProjectFolder);
 		}
 
 		#endregion
@@ -588,7 +576,8 @@ namespace SIL.Pa
 			{
 				SplashScreen = new SplashScreen(true, VersionType.Alpha);
 				SplashScreen.Show();
-				SplashScreen.Message = Properties.Resources.kstidSplashScreenLoadingMsg;
+				SplashScreen.Message = LocalizeString("SplashScreenLoadingMsg",
+					"Loading...", kLocalizationGroupInfoMsg);
 			}
 		}
 
@@ -1098,7 +1087,7 @@ namespace SIL.Pa
 				projPath = projPath.Substring(0, i);
 			}
 
-			return Path.Combine(projPath, Properties.Resources.kstidDefaultProjFileFolderName);
+			return Path.Combine(projPath, Application.ProductName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1382,18 +1371,17 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets or sets the progress bar's label on the PaMainWnd.
+		/// Gets or sets the progress percentage label on the PaMainWnd.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static ToolStripStatusLabel PercentLabel
 		{
 			get
 			{
-				return s_percentLabel;
-				//IUndockedViewWnd udvwnd = (CurrentView != null && CurrentView.ActiveView ?
-				//    CurrentView.OwningForm : MainForm) as IUndockedViewWnd;
+				IUndockedViewWnd udvwnd = (CurrentView != null && CurrentView.ActiveView ?
+				    CurrentView.OwningForm : MainForm) as IUndockedViewWnd;
 
-				//return (udvwnd != null ? udvwnd.ProgressBarLabel : s_progressBarLabel);
+				return (udvwnd != null ? udvwnd.ProgressPercentLabel : s_percentLabel);
 			}
 			set { s_percentLabel = value; }
 		}
@@ -1412,26 +1400,34 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static ToolStripProgressBar InitializeProgressBar(string text, int maxValue)
 		{
+			s_splashScreenLoadingMessageFormat =
+				LocalizeString("SplashScreenProgressMessageFormat", "{0}  {1}",
+				"Format for message displayed in the splash screen when loading a project. First parameter is the message; second is the percentage value.",
+				kLocalizationGroupInfoMsg);
+
 			var udvwnd = (CurrentView != null && CurrentView.ActiveView ?
 				CurrentView.OwningForm : MainForm) as IUndockedViewWnd;
 
 			var bar = (udvwnd != null ? udvwnd.ProgressBar : s_progressBar);
 			var lbl = (udvwnd != null ? udvwnd.ProgressBarLabel : s_progressBarLabel);
-			var lblPct = s_percentLabel;
+			var lblPct = (udvwnd != null ? udvwnd.ProgressPercentLabel : s_percentLabel);
 			lblPct.Tag = maxValue;
 
 			if (bar != null)
 			{
+				s_progressPercentFormat = LocalizeString("ProgressPercentageFormat", "{0}%", kLocalizationGroupInfoMsg);
 				bar.Maximum = maxValue;
 				bar.Value = 0;
+				bar.Visible = Settings.Default.UseProgressBarInMainWindow;
+				lblPct.Text = string.Format(s_progressPercentFormat, 0);
+				lblPct.Visible = (SplashScreen == null && !bar.Visible);
+				lblPct.Tag = 0;
 				lbl.Text = text;
-				lblPct.Text = "0%";
-				lblPct.Visible = true;
-	
-				//bar.Visible = true;
-				lbl.Visible = true;
+				lbl.Visible = (SplashScreen == null);
 				s_activeProgBarLabel = lbl;
+				s_activePercentLabel = lblPct;
 				s_activeProgressBar = bar;
+				UpdateSplashScreenMessage(lbl, lblPct.Text);
 				Utils.WaitCursors(true);
 			}
 
@@ -1456,7 +1452,7 @@ namespace SIL.Pa
 		{
 			var bar = (s_activeProgressBar ?? s_progressBar);
 			var lbl = (s_activeProgBarLabel ?? s_progressBarLabel);
-			var lblPct = s_percentLabel;
+			var lblPct = (s_activePercentLabel ?? s_percentLabel);
 
 			if (bar != null)
 				bar.Visible = false;
@@ -1468,6 +1464,7 @@ namespace SIL.Pa
 				lblPct.Visible = false;
 
 			s_activeProgBarLabel = null;
+			s_activePercentLabel = null;
 			s_activeProgressBar = null;
 			Utils.WaitCursors(false);
 		}
@@ -1498,11 +1495,17 @@ namespace SIL.Pa
 					bar.Value += amount;
 				else
 					bar.Value = bar.Maximum;
-			
-				if (s_percentLabel != null)
+
+				var lblPct = (s_activePercentLabel ?? s_percentLabel);
+				if (lblPct == null)
+					return;
+
+				int pct = (int)((bar.Value / (float)bar.Maximum) * 100);
+				if (pct >= (int)s_percentLabel.Tag + 5 || pct == 100)
 				{
-					int pct = (int)((bar.Value / (float)bar.Maximum) * 100);
-					s_percentLabel.Text = string.Format("{0}%", pct);
+					lblPct.Text = string.Format(s_progressPercentFormat, pct);
+					lblPct.Tag = pct;
+					UpdateSplashScreenMessage(s_activeProgBarLabel ?? s_progressBarLabel, lblPct.Text);
 				}
 			}
 		}
@@ -1518,12 +1521,20 @@ namespace SIL.Pa
 
 			if (lbl != null)
 			{
-				if (SplashScreen != null && SplashScreen.StillAlive)
-					SplashScreen.Message = label;
-
 				lbl.Text = label;
+				UpdateSplashScreenMessage(lbl, null);
 				Application.DoEvents();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void UpdateSplashScreenMessage(ToolStripStatusLabel lblMsg, string pct)
+		{
+			if (SplashScreen == null || !SplashScreen.StillAlive || lblMsg == null)
+				return;
+
+			SplashScreen.Message = (string.IsNullOrEmpty(pct) ? lblMsg.Text :
+				string.Format(s_splashScreenLoadingMessageFormat, lblMsg.Text, pct));
 		}
 
 		#endregion

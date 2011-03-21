@@ -376,15 +376,11 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		private void SetVersionInformation()
 		{
-			Assembly assembly = (Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly());
-			if (assembly == null)
-				return;
-
-			object[] attributes = assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+			var assembly = (Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly());
+			var attributes = assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+			var productName = Application.ProductName;
 			
-			string productName = Application.ProductName;
-			
-			if (string.IsNullOrEmpty(productName) && attributes != null && attributes.Length > 0)
+			if (string.IsNullOrEmpty(productName) && attributes.Length > 0)
 				productName = ((AssemblyTitleAttribute)attributes[0]).Title;
 
 			lblName.Text = productName;
@@ -401,8 +397,8 @@ namespace SilTools
 		{
 			if (string.IsNullOrEmpty(version))
 			{
-				Version ver = new Version(Application.ProductVersion);
-				version = ver.ToString(2);
+				var ver = new Version(Application.ProductVersion);
+				version = ver.ToString(3);
 			}
 #if DEBUG
 			lblAppVersion.Text = string.Format(m_sAppVersionFmt, version,
@@ -427,9 +423,9 @@ namespace SilTools
 			else
 			{
 				// The build number is just the number of days since 01/01/2000
-				Version ver = new Version(Application.ProductVersion);
+				var ver = new Version(Application.ProductVersion);
 				int bldNum = ver.Build;
-				DateTime bldDate = new DateTime(2000, 1, 1).Add(new TimeSpan(bldNum, 0, 0, 0));
+				var bldDate = new DateTime(2000, 1, 1).Add(new TimeSpan(bldNum, 0, 0, 0));
 				lblBuild.Text = string.Format(m_buildFmt, bldDate.ToString("dd-MMM-yyyy"));
 			}
 		}
@@ -443,23 +439,14 @@ namespace SilTools
 		{
 			// Get copyright information from assembly info. By doing this we don't have
 			// to update the about dialog each year.
-			string copyright;
-
-			Assembly assembly = Assembly.GetEntryAssembly();
-			if (assembly == null)
-				assembly = Assembly.GetExecutingAssembly();
-
-			if (assembly == null)
-				return;
-
-			object[] attributes = assembly.GetCustomAttributes(
-				typeof(AssemblyCopyrightAttribute), false);
+			var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
+			var attributes = assembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
 
 			// Try to get the copyright from the executing assembly.
 			// If that fails, use a generic one.
-			copyright = (attributes != null && attributes.Length > 0 ?
+			var copyright = (attributes.Length > 0 ?
 				((AssemblyCopyrightAttribute)attributes[0]).Copyright :
-				"(C) 2002-" + DateTime.Now.Year.ToString() + " SIL International");
+				"(C) 2002-" + DateTime.Now.Year + " SIL International");
 
 			lblCopyright.Text = string.Format(lblCopyright.Text, copyright.Replace("(C)", "©"));
 		}
@@ -471,7 +458,7 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		private void SetMemoryAndDiskInformation()
 		{
-			string strRoot = Application.ExecutablePath.Substring(0, 2);
+			var strRoot = Application.ExecutablePath.Substring(0, 2);
 
 			// Must be called from COM client
 			if (!string.IsNullOrEmpty(m_sDriveLetter))

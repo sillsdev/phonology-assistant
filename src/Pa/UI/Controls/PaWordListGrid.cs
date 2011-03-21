@@ -367,7 +367,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (m_cache != null && rowIndex >= 0 && rowIndex < RowCount)
 			{
-				PaCacheGridRow row = Rows[rowIndex] as PaCacheGridRow;
+				var row = Rows[rowIndex] as PaCacheGridRow;
 				if (row != null)
 				{
 					int i = (row.ParentRow == null ? row.CacheEntryIndex :
@@ -2992,8 +2992,9 @@ namespace SIL.Pa.UI.Controls
 			else if (CurrentRow != null)
 				row = CurrentRow.Index;
 
-			if (GetWordEntry(row) != null)
-				new DataSourceEditor(GetWordEntry(row).WordCacheEntry, FindForm().Text);
+			var wentry = GetWordEntry(row);
+			if (wentry != null)
+				new DataSourceEditor(wentry.WordCacheEntry, FindForm().Text);
 
 			return true;
 		}

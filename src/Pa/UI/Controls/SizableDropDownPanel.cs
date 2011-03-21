@@ -1,7 +1,6 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using SilTools;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -18,7 +17,6 @@ namespace SIL.Pa.UI.Controls
 		private Rectangle m_hotArea;
 		private const int kHotDimension = 13;
 		private bool m_resizeDoEvents;
-		private readonly SettingsHandler m_settingsHndlr;
 
 		///// ------------------------------------------------------------------------------------
 		//public SizableDropDownPanel(string savedSettingName, Size defaultSize) :

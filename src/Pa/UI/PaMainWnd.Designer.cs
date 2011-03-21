@@ -96,7 +96,6 @@ namespace SIL.Pa.UI
 			// 
 			resources.ApplyResources(this.sblblMain, "sblblMain");
 			this.sblblMain.BackColor = System.Drawing.SystemColors.Control;
-			this.sblblMain.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
 			this.locExtender.SetLocalizableToolTip(this.sblblMain, null);
 			this.locExtender.SetLocalizationComment(this.sblblMain, null);
 			this.locExtender.SetLocalizationPriority(this.sblblMain, Localization.LocalizationPriority.NotLocalizable);
@@ -116,6 +115,7 @@ namespace SIL.Pa.UI
 			this.locExtender.SetLocalizingId(this.sblblProgress, "PaMainWnd.sblblProgress");
 			this.sblblProgress.Margin = new System.Windows.Forms.Padding(5, 3, 5, 2);
 			this.sblblProgress.Name = "sblblProgress";
+			this.sblblProgress.VisibleChanged += new System.EventHandler(this.HandleProgressLabelVisibleChanged);
 			// 
 			// sblblPercent
 			// 
@@ -137,6 +137,7 @@ namespace SIL.Pa.UI
 			// sblblFilter
 			// 
 			resources.ApplyResources(this.sblblFilter, "sblblFilter");
+			this.sblblFilter.Image = global::SIL.Pa.Properties.Resources.kimidFilter;
 			this.locExtender.SetLocalizableToolTip(this.sblblFilter, null);
 			this.locExtender.SetLocalizationComment(this.sblblFilter, null);
 			this.locExtender.SetLocalizationPriority(this.sblblFilter, Localization.LocalizationPriority.NotLocalizable);

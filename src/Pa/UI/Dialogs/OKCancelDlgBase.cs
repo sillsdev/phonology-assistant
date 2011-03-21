@@ -156,8 +156,7 @@ namespace SIL.Pa.UI.Dialogs
 		    // are changes to the data, ask if he wants the changes saved.
 			if (DialogResult != DialogResult.OK)
 			{
-				DialogResult result = Utils.MsgBox(App.kstidSaveChangesMsg,
-					MessageBoxButtons.YesNoCancel);
+				var result = Utils.MsgBox(App.kstidSaveChangesMsg, MessageBoxButtons.YesNoCancel);
 				
 				if (result == DialogResult.Cancel)
 				{
@@ -224,7 +223,7 @@ namespace SIL.Pa.UI.Dialogs
 		    get
 			{
 				// Broadcast a message to anyone who cares (e.g. an AddOn).
-				DlgSendMessageInfo dsmi = new DlgSendMessageInfo(this);
+				var dsmi = new DlgSendMessageInfo(this);
 				App.MsgMediator.SendMessage("DialogSaveSettings", dsmi);
 				return (m_dirty || dsmi.IsDirty);
 			}
@@ -238,7 +237,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void InternalThrowAwayChanges()
 		{
 			// Broadcast a message to anyone who cares (e.g. an AddOn).
-			DlgSendMessageInfo dsmi = new DlgSendMessageInfo(this, IsDirty);
+			var dsmi = new DlgSendMessageInfo(this, IsDirty);
 			App.MsgMediator.SendMessage("DialogSaveSettings", dsmi);
 
 			if (dsmi.Continue)
@@ -262,7 +261,7 @@ namespace SIL.Pa.UI.Dialogs
 		private bool InternalVerify()
 		{
 			// Broadcast a message to anyone who cares (e.g. an AddOn).
-			DlgSendMessageInfo dsmi = new DlgSendMessageInfo(this, IsDirty);
+			var dsmi = new DlgSendMessageInfo(this, IsDirty);
 			if (App.MsgMediator.SendMessage("DialogSaveChanges", dsmi))
 			{
 				if (!dsmi.Continue)
@@ -291,7 +290,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void InternalSaveSettings()
 		{
 			// Broadcast a message to anyone who cares (e.g. an AddOn).
-			DlgSendMessageInfo dsmi = new DlgSendMessageInfo(this, IsDirty);
+			var dsmi = new DlgSendMessageInfo(this, IsDirty);
 			App.MsgMediator.SendMessage("DialogSaveSettings", dsmi);
 
 			if (dsmi.Continue)
@@ -306,12 +305,6 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected virtual void SaveSettings()
 		{
-			//try
-			//{
-			//    Settings.Default[Name + "Bounds"] = Bounds;
-			//}
-			//catch { }
-
 			Settings.Default.Save();
 		}
 
@@ -325,12 +318,9 @@ namespace SIL.Pa.UI.Dialogs
 		private bool InternalSaveChanges()
 		{
 			// Broadcast a message to anyone who cares (e.g. an AddOn).
-			DlgSendMessageInfo dsmi = new DlgSendMessageInfo(this, IsDirty);
-			if (App.MsgMediator.SendMessage("DialogSaveChanges", dsmi))
-			{
-				if (!dsmi.Continue)
-					return dsmi.BoolToReturn;
-			}
+			var dsmi = new DlgSendMessageInfo(this, IsDirty);
+			if (App.MsgMediator.SendMessage("DialogSaveChanges", dsmi) && !dsmi.Continue)
+				return dsmi.BoolToReturn;
 
 			return SaveChanges();
 		}
@@ -355,7 +345,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void InternalHandleHelpClick(object sender, EventArgs e)
 		{
 			// Broadcast a message to anyone who cares (e.g. an AddOn).
-			DlgSendMessageInfo dsmi = new DlgSendMessageInfo(this, IsDirty);
+			var dsmi = new DlgSendMessageInfo(this, IsDirty);
 			App.MsgMediator.SendMessage("DialogSaveSettings", dsmi);
 
 			if (dsmi.Continue)

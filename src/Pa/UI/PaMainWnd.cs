@@ -426,8 +426,6 @@ namespace SIL.Pa.UI
 
 			if (m_project == null)
 				Invalidate();
-
-			sblblFilter.Width = Math.Max(175, statusStrip.Width / 3);
 		}
 
 		#endregion
@@ -491,6 +489,13 @@ namespace SIL.Pa.UI
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
+		private void HandleProgressLabelVisibleChanged(object sender, EventArgs e)
+		{
+			sblblMain.BorderSides = (sblblProgress.Visible ?
+				ToolStripStatusLabelBorderSides.Right : ToolStripStatusLabelBorderSides.None);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleFilterStatusStripLabelPaint(object sender, PaintEventArgs e)
 		{
 			if (m_project != null && m_project.CurrentFilter != null)
@@ -527,12 +532,12 @@ namespace SIL.Pa.UI
 			Image img = Properties.Resources.kimidFilterSmall;
 			rc = lbl.ContentRectangle;
 			Rectangle rcImage = new Rectangle(0, 0, img.Width, img.Height);
-			rcImage.X = 3;
-			rcImage.Y = (int)(Math.Ceiling(((decimal)rc.Height - rcImage.Height) / 2));
+			rcImage.X = rc.X + 10;
+			rcImage.Y = rc.Y + (int)(Math.Ceiling(((decimal)rc.Height - rcImage.Height) / 2));
 			e.Graphics.DrawImageUnscaledAndClipped(img, rcImage);
 
 			// Draw text
-			rc.X = rcImage.Width + 4;
+			rc.X = rcImage.Right + 3;
 			rc.Width -= rc.X;
 			const TextFormatFlags flags = TextFormatFlags.EndEllipsis |
 				TextFormatFlags.SingleLine | TextFormatFlags.VerticalCenter;

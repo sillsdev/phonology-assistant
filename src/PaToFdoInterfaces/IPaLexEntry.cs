@@ -66,6 +66,9 @@ namespace SIL.PaToFdoInterfaces
 	
 		/// ------------------------------------------------------------------------------------
 		IEnumerable<IPaVariantOfInfo> VariantOfInfo { get; }
+
+		/// ------------------------------------------------------------------------------------
+		Guid Guid { get; }
 	}
 
 	#endregion

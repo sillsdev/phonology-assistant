@@ -460,15 +460,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Automatically Hide.
-        /// </summary>
-        internal static string kstidAutoHideToolTip {
-            get {
-                return ResourceManager.GetString("kstidAutoHideToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         internal static string kstidCellInfoLnkCmdExperimentalTransText {
@@ -550,15 +541,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The editor &apos;{0}&apos; cannot be found..
-        /// </summary>
-        internal static string kstidDataSourceEditorMissingMsg {
-            get {
-                return ResourceManager.GetString("kstidDataSourceEditorMissingMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Data Source.
         /// </summary>
         internal static string kstidDataSourceHdg {
@@ -600,15 +582,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidDefaultNewCustomFeatureName {
             get {
                 return ResourceManager.GetString("kstidDefaultNewCustomFeatureName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Phonology Assistant.
-        /// </summary>
-        internal static string kstidDefaultProjFileFolderName {
-            get {
-                return ResourceManager.GetString("kstidDefaultProjFileFolderName", resourceCulture);
             }
         }
         
@@ -1027,15 +1000,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No editor has been specified in the project settings for the following data source:\n\n{0}\n\nSee the help file for more information..
-        /// </summary>
-        internal static string kstidNoDataSourceEditorSpecifiedMsg {
-            get {
-                return ResourceManager.GetString("kstidNoDataSourceEditorSpecifiedMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to No minimal pairs to display.\nChange the minimal pairs options and try again..
         /// </summary>
         internal static string kstidNoMinimalPairsMsg {
@@ -1126,15 +1090,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Parsing Data....
-        /// </summary>
-        internal static string kstidParsingDataMsg {
-            get {
-                return ResourceManager.GetString("kstidParsingDataMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to There were spaces found in the {0}. Use &apos;#&apos; instead..
         /// </summary>
         internal static string kstidPatternContainsSpacesErr {
@@ -1158,60 +1113,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidPatternSyntaxError {
             get {
                 return ResourceManager.GetString("kstidPatternSyntaxError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Phone Inventory View Help.
-        /// </summary>
-        internal static string kstidPhoneInventoryViewHelpToolTip {
-            get {
-                return ResourceManager.GetString("kstidPhoneInventoryViewHelpToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Phone Inventory.
-        /// </summary>
-        internal static string kstidPhoneInventoryViewText {
-            get {
-                return ResourceManager.GetString("kstidPhoneInventoryViewText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Phone Inventory View (Ctrl+Alt+P).
-        /// </summary>
-        internal static string kstidPhoneInventoryViewToolTip {
-            get {
-                return ResourceManager.GetString("kstidPhoneInventoryViewToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Phones in data matching....
-        /// </summary>
-        internal static string kstidPhonesInFeatureViewerText {
-            get {
-                return ResourceManager.GetString("kstidPhonesInFeatureViewerText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Reading Cache Files.
-        /// </summary>
-        internal static string kstidReadingCacheFiles {
-            get {
-                return ResourceManager.GetString("kstidReadingCacheFiles", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Record Marker.
-        /// </summary>
-        internal static string kstidRecordMarkerFieldDisplayText {
-            get {
-                return ResourceManager.GetString("kstidRecordMarkerFieldDisplayText", resourceCulture);
             }
         }
         
@@ -1405,15 +1306,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} Records.
-        /// </summary>
-        internal static string kstidSearchResultTabToolTip {
-            get {
-                return ResourceManager.GetString("kstidSearchResultTabToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Search Results ({0} Records).
         /// </summary>
         internal static string kstidSearchResultWordListWindowCaption {
@@ -1459,33 +1351,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check to display this filter in the\nfilter toolbar button’s drop-down list..
-        /// </summary>
-        internal static string kstidShowFilterToolTipText {
-            get {
-                return ResourceManager.GetString("kstidShowFilterToolTipText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Show record pane.
-        /// </summary>
-        internal static string kstidShowRecPaneToolTip {
-            get {
-                return ResourceManager.GetString("kstidShowRecPaneToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Loading....
-        /// </summary>
-        internal static string kstidSplashScreenLoadingMsg {
-            get {
-                return ResourceManager.GetString("kstidSplashScreenLoadingMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Syntax error in {0}..
         /// </summary>
         internal static string kstidSyntaxErr {
@@ -1527,15 +1392,6 @@ namespace SIL.Pa.Properties {
         internal static string kstidTooManyZeroOrMoreErr {
             get {
                 return ResourceManager.GetString("kstidTooManyZeroOrMoreErr", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There is no source record editor associated with this record..
-        /// </summary>
-        internal static string kstidUnableToEditSourceRecordMsg {
-            get {
-                return ResourceManager.GetString("kstidUnableToEditSourceRecordMsg", resourceCulture);
             }
         }
         

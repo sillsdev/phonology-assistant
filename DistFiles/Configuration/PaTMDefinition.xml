@@ -108,7 +108,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				CmdCharChartMoveColLeft, CmdCharChartMoveColRight, CmdFindPrevious, 49, 50,
 				CmdDataCorpus, CmdXYChart, 53, 54, 55, 56, CmdShowCIEResults,
 				CmdGroupByFieldParent, CmdExpandAllGroups, CmdCollapseAllGroups, 61, 62,
-				63, CmdHelpPA, CmdHelpTraining, CmdHelpAbout, CmdFilters">
+				63, CmdHelpPA, CmdHelpTraining, 66, CmdFilters">
 		</imageList>
 	</resources>
 

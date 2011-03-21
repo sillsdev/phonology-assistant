@@ -191,7 +191,7 @@ namespace SIL.Pa.DataSource
 		{
 			if (e.UserState is string)
 			{
-				var msg = App.LocalizeString("ReadingDataSourceProgressMsg", "Reading {0}",
+				var msg = App.LocalizeString("ReadingDataSourceProgressMsg", "Reading {0}...",
 					App.kLocalizationGroupInfoMsg);
 
 				msg = string.Format(msg, e.UserState);
