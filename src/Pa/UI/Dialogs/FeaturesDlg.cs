@@ -82,7 +82,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SetWindowText()
 		{
-			Text = App.LocalizeString("FeaturesDlg.WindowTitle", Text);
+			Text = App.GetString("FeaturesDlg.WindowTitle", Text);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -121,7 +121,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = App.PhoneticFont;
 			col.CellTemplate.Style.Font = App.PhoneticFont;
-			col.HeaderText = App.LocalizeString("FeaturesDlg.PhoneListPhoneHeadingText", "Phone");
+			col.HeaderText = App.GetString("FeaturesDlg.PhoneListPhoneHeadingText", "Phone");
 			
 			gridPhones.Columns.Add(col);
 
@@ -130,7 +130,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.Width = 55;
 			col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-			col.HeaderText = App.LocalizeString("FeaturesDlg.PhoneListCountHeadingText", "Count");
+			col.HeaderText = App.GetString("FeaturesDlg.PhoneListCountHeadingText", "Count");
 
 			gridPhones.Columns.Add(col);
 
@@ -301,7 +301,7 @@ namespace SIL.Pa.UI.Dialogs
 				foreach (char c in phoneInfo.Phone)
 					bldr.AppendFormat("U+{0:X4}, ", (int)c);
 
-				var fmt = App.LocalizeString("FeaturesDlg.PhonesGridInfoFormat", "Unicode Values:\n{0}");
+				var fmt = App.GetString("FeaturesDlg.PhonesGridInfoFormat", "Unicode Values:\n{0}");
 				var tip = bldr.ToString();
 				tip = string.Format(fmt, tip.Substring(0, tip.Length - 2));
 				tip = Utils.ConvertLiteralNewLines(tip);

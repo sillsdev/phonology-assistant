@@ -43,7 +43,7 @@ namespace SIL.Pa.Model
 			if (e == null)
 				return cache;
 
-			var msg = App.LocalizeString("ReadingFieldDisplayPropertiesFileErrorMsg",
+			var msg = App.GetString("ReadingFieldDisplayPropertiesFileErrorMsg",
 				"The following error occurred when reading the file\n\n'{0}'\n\n{1}");
 
 			while (e.InnerException != null)

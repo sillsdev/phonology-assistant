@@ -64,7 +64,7 @@ namespace SIL.Pa.DataSource
 
 			if (ds.Type == DataSourceType.FW7 && !FwDBUtils.IsFw7Installed)
 			{
-				var msg = App.LocalizeString("FieldWorks7NotInstalledMsg",
+				var msg = App.GetString("FieldWorks7NotInstalledMsg",
 				    "FieldWorks 7.0 (or later) is not installed. It must be installed\nin order for {0} to read the data source\n\n'{1}'.\n\nThis data source will be skipped.");
 
 				Utils.MsgBox(string.Format(msg, Application.ProductName, ds.SourceFile));
@@ -77,7 +77,7 @@ namespace SIL.Pa.DataSource
 
 			if (!ds.VerifyMappings())
 			{
-				var msg = App.LocalizeString("MarkersMissingFromDataSourceMsg",
+				var msg = App.GetString("MarkersMissingFromDataSourceMsg",
 					"The data source file '{0}' is missing some standard format markers that were " +
 					"assigned to {1} fields. Those assignments have been removed. To verify the " +
 					"assignment of markers to fields, go to the project settings dialog box, select " +
@@ -154,7 +154,7 @@ namespace SIL.Pa.DataSource
 			dlg.Filter = App.kstidFileTypeAllFiles;
 			dlg.ShowReadOnly = false;
 			dlg.InitialDirectory = Path.GetFullPath(dataSourceFile);
-			dlg.Title = App.LocalizeString("SpecifyNewLocationForDatasourceOpenFileDlgCaption",
+			dlg.Title = App.GetString("SpecifyNewLocationForDatasourceOpenFileDlgCaption",
 				"Choose New Data Source Location");
 			
 			while (dlg.ShowDialog() == DialogResult.Cancel)
@@ -189,7 +189,7 @@ namespace SIL.Pa.DataSource
 		{
 			if (e.UserState is string)
 			{
-				var msg = App.LocalizeString("ReadingDataSourceProgressMsg", "Reading {0}...");
+				var msg = App.GetString("ReadingDataSourceProgressMsg", "Reading {0}...");
 				msg = string.Format(msg, e.UserState);
 				App.InitializeProgressBar(msg, e.ProgressPercentage);
 			}
@@ -255,7 +255,7 @@ namespace SIL.Pa.DataSource
 					}
 					else
 					{
-						fmt = App.LocalizeString("DatasourceFileUnsuccessfullyReadMsg",
+						fmt = App.GetString("DatasourceFileUnsuccessfullyReadMsg",
 							"Error processing data source file '{0}'.");
 
 						string msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(ds.SourceFile));
@@ -265,7 +265,7 @@ namespace SIL.Pa.DataSource
 				}
 				catch (Exception ex)
 				{
-					fmt = App.LocalizeString("DatasourceFileReadingErrorMsg",
+					fmt = App.GetString("DatasourceFileReadingErrorMsg",
 							"The following error occurred while reading data source file '{0}'.{1}",
 							"First parameter is data source file name; second parameter is error message.");
 		
@@ -278,7 +278,7 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private string GetPhoneticMappingErrorMsg()
 		{
-			return App.LocalizeString("DatasourcePhoneticMappingErrorMsg",
+			return App.GetString("DatasourcePhoneticMappingErrorMsg",
 				"A field mapping to the phonetic field could not be found for the data source '{0}'",
 				"First parameter is data source name.");
 		}

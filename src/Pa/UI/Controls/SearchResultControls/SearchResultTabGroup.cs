@@ -274,7 +274,7 @@ namespace SIL.Pa.UI.Controls
 
 			using (var fnt = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold))
 			{
-				var text = App.LocalizeString("SearchResultTabs.EmptyTabInfoText",
+				var text = App.GetString("SearchResultTabs.EmptyTabInfoText",
 					"Define a search pattern above and click Show Results.");
 				
 				TextRenderer.DrawText(e.Graphics, text, fnt, rc, clr, kFlags);

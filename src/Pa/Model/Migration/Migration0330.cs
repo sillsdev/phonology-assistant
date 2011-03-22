@@ -25,7 +25,7 @@ namespace SIL.Pa.Model.Migration
 			var e = BackupProject(prjfilepath, "0301");
 			if (e != null)
 			{
-				var msg = App.LocalizeString("ProjectMigrationBackupErrorMsg",
+				var msg = App.GetString("ProjectMigrationBackupErrorMsg",
 					"The following error occurred while attempting to backup your project before updating it for the latest version of {0}:\n\n{1}");
 
 				Utils.MsgBox(string.Format(msg, Application.ProductName, e.Message));
@@ -60,7 +60,7 @@ namespace SIL.Pa.Model.Migration
 			if (TransformFile(filepath, "SIL.Pa.Model.Migration.UpdateAmbiguousSequenceFile.xslt", out errMsg))
 				return;
 
-			var msg = App.LocalizeString("AmbiguousSeqMigrationErrorMsg",
+			var msg = App.GetString("AmbiguousSeqMigrationErrorMsg",
 				"The following error occurred while attempting to update your project’s ambiguous " +
 				"sequences file:\n\n{0}\n\nIn order to continue working and because your project files " +
 				"have been backed up, the program will continue without ambiguous sequences for this project.");
@@ -89,7 +89,7 @@ namespace SIL.Pa.Model.Migration
 				return;
 			}
 
-			var msg = App.LocalizeString("TranscriptionChangesMigrationErrorMsg",
+			var msg = App.GetString("TranscriptionChangesMigrationErrorMsg",
 				"The following error occurred while attempting to update your project’s " +
 				"transcription changes file (formerly experimental transcriptions):\n\n{0}\n\n" +
 				"In order to continue working and because your project files have been backed up, " +
@@ -115,7 +115,7 @@ namespace SIL.Pa.Model.Migration
 			if (TransformFile(filepath, "SIL.Pa.Model.Migration.UpdateFeatureOverridesFile.xslt", out errMsg))
 				return;
 			
-			var msg = App.LocalizeString("FeatureOverridesMigrationErrorMsg",
+			var msg = App.GetString("FeatureOverridesMigrationErrorMsg",
 				"The following error occurred while attempting to update your project’s " +
 				"feature overrides file:\n\n{0}\n\nIn order to continue working and because " +
 				"your project files have been backed up, the program will continue without " +
@@ -135,7 +135,7 @@ namespace SIL.Pa.Model.Migration
 				return true;
 			}
 
-			var msg = App.LocalizeString("ProjectFileMigrationErrorMsg",
+			var msg = App.GetString("ProjectFileMigrationErrorMsg",
 				"The following error occurred while attempting to update your project " +
 				"file: {0}\n\n{1}\n\n{2} will be unable to open this project unless this " +
 				"problem can be corrected.");

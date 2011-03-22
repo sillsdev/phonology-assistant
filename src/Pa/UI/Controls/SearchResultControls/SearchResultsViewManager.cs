@@ -1516,7 +1516,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public string HTMLExport()
 		{
-			var fmt = App.LocalizeString("DefaultSearchResultHtmlExportFileAffix",
+			var fmt = App.GetString("DefaultSearchResultHtmlExportFileAffix",
 				"{0}-{1}SearchResults.html", "Export");
 
 			return Export(fmt, App.kstidFileTypeHTML, "html",
@@ -1531,7 +1531,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public string WordXmlExport()
 		{
-			var fmt = App.LocalizeString("DefaultSearchResultWordXmlExportFileAffix",
+			var fmt = App.GetString("DefaultSearchResultWordXmlExportFileAffix",
 				"{0}-{1}SearchResults-(Word).xml", "Export");
 
 			return Export(fmt, App.kstidFileTypeWordXml, "xml",
@@ -1546,7 +1546,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public string XLingPaperExport()
 		{
-			var fmt = App.LocalizeString("DefaultSearchResultXLingPaperExportFileAffix",
+			var fmt = App.GetString("DefaultSearchResultXLingPaperExportFileAffix",
 				"{0}-{1}SearchResults-(XLingPaper).xml", "Export");
 
 			return Export(fmt, App.kstidFileTypeXLingPaper, "xml",

@@ -39,7 +39,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public DistributionChartVw()
 		{
-			var msg = App.LocalizeString("DistributionChartVw.InitializingViewMsg",
+			var msg = App.GetString("DistributionChartVw.InitializingViewMsg",
 				"Initializing Distribution Chart View...",
 				"Message displayed whenever the distribution chart view is being initialized.");
 
@@ -196,7 +196,7 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return App.LocalizeString("DistributionChartVw.FillChartMsg",
+				return App.GetString("DistributionChartVw.FillChartMsg",
 					"You must first choose 'Fill Chart' before seeing search results.",
 					"Views");
 			}
@@ -319,10 +319,9 @@ namespace SIL.Pa.UI.Views
 				Settings.Default.DistChartVwSidePanelWidth,
 				newWidth => Settings.Default.DistChartVwSidePanelWidth = newWidth);
 
-			App.LocalizeObject(m_slidingPanel.Tab,
+			App.GetStringForObject(m_slidingPanel.Tab,
 				"DistributionChartVw.UndockedSideBarTabText", "Charts & Chart Building",
-				"Text on vertical tab when the side bar is undocked in the distribution charts view.",
-				"Views");
+				"Text on vertical tab when the side bar is undocked in the distribution charts view.");
 
 			Controls.Add(m_slidingPanel);
 			splitOuter.BringToFront();
@@ -1352,7 +1351,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsHTML(object args)
 		{
-			var fmt = App.LocalizeString("DefaultDistributionChartHtmlExportFileAffix",
+			var fmt = App.GetString("DefaultDistributionChartHtmlExportFileAffix",
 				"{0}-{1}DistributionChart.html", "Export");
 
 			return Export(ResultViewManger.HTMLExport, fmt, App.kstidFileTypeHTML, "html",
@@ -1396,7 +1395,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsWordXml(object args)
 		{
-			var fmt = App.LocalizeString("DefaultDistributionChartWordXmlExportFileAffix",
+			var fmt = App.GetString("DefaultDistributionChartWordXmlExportFileAffix",
 				"{0}-{1}DistributionChart-(Word).xml", "Export");
 
 			return Export(ResultViewManger.WordXmlExport, fmt, App.kstidFileTypeWordXml, "xml",
@@ -1406,7 +1405,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsXLingPaper(object args)
 		{
-			var fmt = App.LocalizeString("DefaultDistributionChartXLingPaperExportFileAffix",
+			var fmt = App.GetString("DefaultDistributionChartXLingPaperExportFileAffix",
 				"{0}-{1}DistributionChart-(XLingPaper).xml", "Export");
 
 			return Export(ResultViewManger.XLingPaperExport, fmt, App.kstidFileTypeXLingPaper, "xml",

@@ -123,7 +123,7 @@ namespace SIL.Pa.Model
 			}
 			catch (Exception e)
 			{
-				var msg = App.LocalizeString("LoadingRecordCacheErrorMsg",
+				var msg = App.GetString("LoadingRecordCacheErrorMsg",
 					"The following error occurred while loading '{0}':\n{1}",
 					"Message displayed when failing to load a PaXml file. Parameter 0 is filename, and parameter 1 is the error message.");
 

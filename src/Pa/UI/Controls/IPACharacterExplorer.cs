@@ -228,7 +228,7 @@ namespace SIL.Pa.UI.Controls
 
 			var item = Add(m_pickerConsonant);
 
-			App.LocalizeObject(item.Button, 
+			App.GetStringForObject(item.Button, 
 				"IPACharacterChooser.ConsonantsCharChooserHeading", "Consonants", 
 				"Text on heading above list of consonants from which to choose in side bar of search and XY chart views.");
 		}
@@ -250,7 +250,7 @@ namespace SIL.Pa.UI.Controls
 			
 			var item = Add(m_pickerNonPulmonics);
 
-			App.LocalizeObject(item.Button,
+			App.GetStringForObject(item.Button,
 				"IPACharacterChooser.NonPulmonicsCharChooserHeading", "Non Pulmonics", 
 				"Text on heading above list of non pulmonic consonants from which to choose in side bar of search and XY chart views.");
 		}
@@ -272,7 +272,7 @@ namespace SIL.Pa.UI.Controls
 			
 			var item = Add(m_pickerOther);
 
-			App.LocalizeObject(item.Button,
+			App.GetStringForObject(item.Button,
 				"IPACharacterChooser.OtherSymbolsCharChooserHeading", "Other Symbols",
 				"Text on heading above list of other symbols from which to choose in side bar of search and XY chart views.");
 		}
@@ -294,7 +294,7 @@ namespace SIL.Pa.UI.Controls
 
 			var item = Add(m_pickerVowel);
 
-			App.LocalizeObject(item.Button,
+			App.GetStringForObject(item.Button,
 				"IPACharacterChooser.VowelsCharChooserHeading", "Vowels",
 				"Text on heading above list of vowels from which to choose in side bar of search and XY chart views.");
 		}
@@ -317,7 +317,7 @@ namespace SIL.Pa.UI.Controls
 
 			var item = Add(m_pickerDiacritics);
 
-			App.LocalizeObject(item.Button,
+			App.GetStringForObject(item.Button,
 				"IPACharacterChooser.DiacriticsCharChooserHeading", "Diacritics",
 				"Text on heading above list of diacritics from which to choose in side bar of search and XY chart views.");
 
@@ -344,7 +344,7 @@ namespace SIL.Pa.UI.Controls
 	
 			var item = Add(m_pickerSSeg);
 
-			App.LocalizeObject(item.Button,
+			App.GetStringForObject(item.Button,
 				"IPACharacterChooser.SSegsCharChooserHeading", "Stress and Length\\n(Suprasegmentals)",
 				"Text on heading above list of suprasegmentals from which to choose in side bar of search and XY chart views.");
 
@@ -371,7 +371,7 @@ namespace SIL.Pa.UI.Controls
 			
 			var item = Add(m_pickerTone);
 
-			App.LocalizeObject(item.Button,
+			App.GetStringForObject(item.Button,
 				"IPACharacterChooser.ToneCharChooserHeading", "Tone and Accents",
 				"Text on heading above list of tones and accents from which to choose in side bar of search and XY chart views.");
 

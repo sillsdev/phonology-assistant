@@ -34,7 +34,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public static void Restore()
 		{
-			var caption = App.LocalizeString("RestoreDlg.OFDCaption", "File to Restore");
+			var caption = App.GetString("RestoreDlg.OFDCaption", "File to Restore");
 
 			string zipFile = App.OpenFileDialog("zip",
 				App.kstidFileTypeZip + "|" + App.kstidFileTypeAllFiles, caption);
@@ -113,7 +113,7 @@ namespace SIL.Pa.UI.Dialogs
 			Application.DoEvents();
 
 			m_progressDlg = new BRProgressDlg();
-			m_progressDlg.lblMsg.Text = App.LocalizeString("RestoreDlg.ReadingBackupFileMsg", "Reading backup file...");
+			m_progressDlg.lblMsg.Text = App.GetString("RestoreDlg.ReadingBackupFileMsg", "Reading backup file...");
 			m_progressDlg.CenterInParent(this);
 			m_progressDlg.Show();
 			Application.DoEvents();
@@ -127,7 +127,7 @@ namespace SIL.Pa.UI.Dialogs
 				m_progressDlg = null;
 				Hide();
 
-				Utils.MsgBox(App.LocalizeString("RestoreDlg.NoPrjInZipFileMsg",
+				Utils.MsgBox(App.GetString("RestoreDlg.NoPrjInZipFileMsg",
 					"The specified zip file does not appear to contain a Phonology Assistant project."));
 
 				Close();
@@ -242,7 +242,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (prj == null || prj.DataSources == null || prj.DataSources.Count == 0)
 			{
-				Utils.MsgBox(App.LocalizeString("RestoreDlg.PrjIsEmptyMsg", "There are no data sources in the project."));
+				Utils.MsgBox(App.GetString("RestoreDlg.PrjIsEmptyMsg", "There are no data sources in the project."));
 				return;
 			}
 
@@ -335,7 +335,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (!CheckIfPapAlreadyExists())
 				return;
 
-			var msg = App.LocalizeString("RestoreDlg.RestoringMsg", "Restoring {0}...");
+			var msg = App.GetString("RestoreDlg.RestoringMsg", "Restoring {0}...");
 
 			m_progressDlg.lblMsg.Text = string.Format(msg, m_prjName);
 			m_progressDlg.prgressBar.Maximum = m_origPaths.Count + grid.RowCount;
@@ -365,7 +365,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (!File.Exists(Path.Combine(txtPrjLocation.Text, papFile)))
 				return true;
 
-			var msg = App.LocalizeString("RestoreDlg.ProjectAlreadyInFolderMsg",
+			var msg = App.GetString("RestoreDlg.ProjectAlreadyInFolderMsg",
 				"There is already a project file by the name of '{0}' in the specified restore\nfolder. Do you want to overwrite the existing project files? If you answer 'Yes'\nthen data source files that may already exist will also be overwritten.");
 
 			msg = string.Format(msg, papFile);
@@ -468,7 +468,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (!File.Exists(m_papPath))
 				return;
 
-			var msg = App.LocalizeString("RestoreDlg.LoadPrjMsg",
+			var msg = App.GetString("RestoreDlg.LoadPrjMsg",
 				"Restore is complete. Would you\nlike to open the restored project?");
 
 			if (Utils.MsgBox(msg, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -482,7 +482,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void btnChgPrjLocation_Click(object sender, EventArgs e)
 		{
-			var msg = App.LocalizeString("RestoreDlg.BrowseForPrjFolderDesc",
+			var msg = App.GetString("RestoreDlg.BrowseForPrjFolderDesc",
 				"Specify folder in which to restore {0} project files.");
 
 			fldrBrowser.Description = string.Format(msg, m_prjName);
@@ -495,7 +495,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void btnChgDSLocation_Click(object sender, EventArgs e)
 		{
-			var msg = App.LocalizeString("RestoreDlg.BrowseForDataSourceFolderDesc",
+			var msg = App.GetString("RestoreDlg.BrowseForDataSourceFolderDesc",
 				"Specify folder in which to restore {0} data source file(s).");
 
 			fldrBrowser.SelectedPath = m_lastFolderPicked;

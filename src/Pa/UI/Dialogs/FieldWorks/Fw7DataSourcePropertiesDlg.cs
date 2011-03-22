@@ -83,7 +83,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SetWindowText()
 		{
-			Text = App.LocalizeString("Fw7DataSourcePropertiesDlg.WindowTitle", Text);
+			Text = App.GetString("Fw7DataSourcePropertiesDlg.WindowTitle", Text);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -132,10 +132,10 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<string> GetPronunciationFieldOptions()
 		{
-			yield return App.LocalizeString("Fw7DataSourcePropertiesDlg.PronunciationOptionFirst",
+			yield return App.GetString("Fw7DataSourcePropertiesDlg.PronunciationOptionFirst",
 				"first pronunciation only");
 
-			yield return App.LocalizeString("Fw7DataSourcePropertiesDlg.PronunciationOptionEach",
+			yield return App.GetString("Fw7DataSourcePropertiesDlg.PronunciationOptionEach",
 				"each pronunciation");
 		}
 

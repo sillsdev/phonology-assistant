@@ -132,7 +132,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void InitializeToolboxSortFieldControls()
 		{
-			cboToolboxSortField.Items.Add(App.LocalizeString(
+			cboToolboxSortField.Items.Add(App.GetString(
 				"SFDataSourcePropertiesDlg.UnspecifiedToolboxSortField", "(none)"));
 
 			cboToolboxSortField.Items.AddRange(m_markersInFile.ToArray());
@@ -151,7 +151,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void InitializeFirstInterlinearCombo()
 		{
-			cboFirstInterlinear.Items.Add(App.LocalizeString(
+			cboFirstInterlinear.Items.Add(App.GetString(
 				"SFDataSourcePropertiesDlg.UnspecifiedFirstInterlinearFieldItem", "(none)",
 				"First item in the list of potential first interlinear fields."));
 
@@ -170,7 +170,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SetWindowText()
 		{
-			Text = App.LocalizeString("SFDataSourcePropertiesDlg.WindowTitle", Text);
+			Text = App.GetString("SFDataSourcePropertiesDlg.WindowTitle", Text);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -249,8 +249,8 @@ namespace SIL.Pa.UI.Dialogs
 				mappings.Add(new FieldMapping(marker, null, false));
 
 			m_fieldsGrid = new SfmFieldMappingGrid(m_potentialFields, mappings.OrderBy(m => m.NameInDataSource),
-				() => App.LocalizeString("SFDataSourcePropertiesDlg.SourceFieldColumnHeadingText", "Map this Marker..."),
-				() => App.LocalizeString("SFDataSourcePropertiesDlg.TargetFieldColumnHeadingText", "To this Field"));
+				() => App.GetString("SFDataSourcePropertiesDlg.SourceFieldColumnHeadingText", "Map this Marker..."),
+				() => App.GetString("SFDataSourcePropertiesDlg.TargetFieldColumnHeadingText", "To this Field"));
 
 			m_fieldsGrid.Dock = DockStyle.Fill;
 			pnlMappings.Controls.Add(m_fieldsGrid);
@@ -295,7 +295,7 @@ namespace SIL.Pa.UI.Dialogs
 			// Make sure the record marker was specified.
 			if (cboRecordMarkers.SelectedItem == null)
 			{
-				return ShowError(cboRecordMarkers, App.LocalizeString(
+				return ShowError(cboRecordMarkers, App.GetString(
 					"SFDataSourcePropertiesDlg.MissingRecordMarkerSpecificationMsg",
 					"You must specify a record marker to identify the beginning of each record."));
 			}
@@ -310,7 +310,7 @@ namespace SIL.Pa.UI.Dialogs
 			// Make sure no field is mapped more than once.
 			if (m_fieldsGrid.GetAreAnyFieldsMappedMultipleTimes())
 			{
-				return ShowError(m_fieldsGrid, App.LocalizeString(
+				return ShowError(m_fieldsGrid, App.GetString(
 					"SFDataSourcePropertiesDlg.MultipleMappingsForSingleFieldMsg",
 					"Each field may only be mapped once."));
 			}
@@ -318,7 +318,7 @@ namespace SIL.Pa.UI.Dialogs
 			// Make sure no field is mapped more than once.
 			if (m_fieldsGrid.GetIsPhoneticMappedMultipleTimes())
 			{
-				return ShowError(m_fieldsGrid, App.LocalizeString(
+				return ShowError(m_fieldsGrid, App.GetString(
 					"SFDataSourcePropertiesDlg.MultiplePhoneticMappingsMsg",
 					"You may only map the phonetic field once.\nA phonetic mapping is specified using the field type."));
 			}
@@ -326,14 +326,14 @@ namespace SIL.Pa.UI.Dialogs
 			// Make sure the field specified as the toolbox sort field is mapped to a marker.
 			if (ToolBoxSortField != null && !m_fieldsGrid.GetIsSourceFieldMapped(ToolBoxSortField))
 			{
-				return ShowError(cboToolboxSortField, App.LocalizeString(
+				return ShowError(cboToolboxSortField, App.GetString(
 					"SFDataSourcePropertiesDlg.InvalidToolboxSortFieldSpecifiedMsg",
 					"The first Toolbox sort field marker specified was\nnot mapped. It must have a mapping."));
 			}
 
 			foreach (var mapping in m_fieldsGrid.Mappings.Where(m => PaField.GetIsReservedFieldName(m.Field.Name)))
 			{
-				return ShowError(m_fieldsGrid, string.Format(App.LocalizeString(
+				return ShowError(m_fieldsGrid, string.Format(App.GetString(
 					"SFDataSourcePropertiesDlg.InvalidFieldNameSpecifiedMsg",
 					"The field name '{0}' is reserved and cannot be used.\nEnter a different name."),
 					mapping.Field.DisplayName));
@@ -356,7 +356,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (FirstInterlinearField == null)
 			{
 				return ShowError(cboFirstInterlinear,
-					App.LocalizeString("SFDataSourcePropertiesDlg.NoFirstInterlinearFieldMsg",
+					App.GetString("SFDataSourcePropertiesDlg.NoFirstInterlinearFieldMsg",
 					"You must specify the first interlinear field marker."));
 			}
 
@@ -365,7 +365,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (interlinearFieldCount < 2)
 			{
 				return ShowError(m_fieldsGrid,
-					App.LocalizeString("SFDataSourcePropertiesDlg.NoInterlinearFieldsMsg",
+					App.GetString("SFDataSourcePropertiesDlg.NoInterlinearFieldsMsg",
 					"You must specify at least two interlinear fields."));
 			}
 
@@ -374,7 +374,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (mapping == null)
 			{
 				return ShowError(m_fieldsGrid,
-					string.Format(App.LocalizeString("SFDataSourcePropertiesDlg.NoFirstInterlinearFieldNotMappedMsg",
+					string.Format(App.GetString("SFDataSourcePropertiesDlg.NoFirstInterlinearFieldNotMappedMsg",
 						"You must specify a mapping for '{0}' because you have specified it as the first interlinear field marker."),
 						cboFirstInterlinear.SelectedItem));
 			}
@@ -382,7 +382,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (!mapping.IsInterlinear)
 			{
 				return ShowError(m_fieldsGrid,
-					App.LocalizeString("SFDataSourcePropertiesDlg.FirstInterlinearFieldNotMarkedAsInterlinearMsg",
+					App.GetString("SFDataSourcePropertiesDlg.FirstInterlinearFieldNotMarkedAsInterlinearMsg",
 						"The mapping for your first interlinear field marker must be set to interlinear."));
 			}
 
@@ -482,7 +482,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleBrowseClick(object sender, EventArgs e)
 		{
-			var caption = App.LocalizeString("SFDataSourcePropertiesDlg.BrowseForSFMEditorDialogCaption",
+			var caption = App.GetString("SFDataSourcePropertiesDlg.BrowseForSFMEditorDialogCaption",
 						"Standard Format Data Source Editor");
 
 			string filter = App.kstidFileTypeAllExe + "|" + App.kstidFileTypeAllFiles;
@@ -519,7 +519,7 @@ namespace SIL.Pa.UI.Dialogs
 			}
 			catch (Exception e)
 			{
-				var msg = App.LocalizeString("SFDataSourcePropertiesDlg.ErrorReadingSourceFileMsg",
+				var msg = App.GetString("SFDataSourcePropertiesDlg.ErrorReadingSourceFileMsg",
 					"The following error occurred trying to read the source file '{0}'.\n\n{1}");
 
 				MessageBox.Show(string.Format(msg, e.Message));
@@ -616,7 +616,7 @@ namespace SIL.Pa.UI.Dialogs
 			try
 			{
 				var colHdrText = m_fieldsGrid.Columns["tgtfield"].HeaderText;
-				var text = App.GetLocalizedString(lblInformation);
+				var text = App.GetStringForObject(lblInformation);
 				lblInformation.Text = string.Format(text, colHdrText, colHdrText);
 			}
 

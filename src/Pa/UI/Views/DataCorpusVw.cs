@@ -28,7 +28,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public DataCorpusVw()
 		{
-			var msg = App.LocalizeString("InitializingDataCorpusViewMsg",
+			var msg = App.GetString("InitializingDataCorpusViewMsg",
 				"Initializing Data Corpus View...", "Message displayed whenever the data corpus view is being initialized.");
 
 			App.InitializeProgressBarForLoadingView(msg, 2);
@@ -815,7 +815,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsHTML(object args)
 		{
-			var fmt = App.LocalizeString("DefaultDataCorpusHTMLExportFileAffix",
+			var fmt = App.GetString("DefaultDataCorpusHTMLExportFileAffix",
 				"{0}-DataCorpus.html", "Export");
 
 			return Export(fmt, App.kstidFileTypeHTML, "html",
@@ -826,7 +826,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsWordXml(object args)
 		{
-			var fmt = App.LocalizeString("DefaultDataCorpusWordXmlExportFileAffix",
+			var fmt = App.GetString("DefaultDataCorpusWordXmlExportFileAffix",
 				"{0}-DataCorpus-(Word).xml", "Export");
 
 			return Export(fmt, App.kstidFileTypeWordXml, "xml",
@@ -837,7 +837,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsXLingPaper(object args)
 		{
-			var fmt = App.LocalizeString("DefaultDataCorpusXLingPaperExportFileAffix",
+			var fmt = App.GetString("DefaultDataCorpusXLingPaperExportFileAffix",
 				"{0}-DataCorpus-(XLingPap).xml", "Export");
 
 			return Export(fmt, App.kstidFileTypeXLingPaper, "xml",

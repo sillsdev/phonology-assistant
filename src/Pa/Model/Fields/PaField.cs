@@ -292,7 +292,7 @@ namespace SIL.Pa.Model
 			if (e == null)
 				return EnsureListContainsCalculatedFields(list).ToList();
 
-			var msg = App.LocalizeString("ReadingFieldsFileErrorMsg",
+			var msg = App.GetString("ReadingFieldsFileErrorMsg",
 				"The following error occurred when reading the file\n\n'{0}'\n\n{1}");
 
 			while (e.InnerException != null)
@@ -353,25 +353,25 @@ namespace SIL.Pa.Model
 		public static IEnumerable<KeyValuePair<FieldType, string>> GetDisplayableFieldTypes()
 		{
 			yield return new KeyValuePair<FieldType, string>(FieldType.GeneralText,
-				App.LocalizeString("DisplayableFieldTypeNames.GeneralText", "General Text"));
+				App.GetString("DisplayableFieldTypeNames.GeneralText", "General Text"));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.GeneralNumeric,
-				App.LocalizeString("DisplayableFieldTypeNames.GeneralNumeric", "General Numeric"));
+				App.GetString("DisplayableFieldTypeNames.GeneralNumeric", "General Numeric"));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.GeneralFilePath,
-				App.LocalizeString("DisplayableFieldTypeNames.GeneralFilePath", "General File Path"));
+				App.GetString("DisplayableFieldTypeNames.GeneralFilePath", "General File Path"));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.Date,
-				App.LocalizeString("DisplayableFieldTypeNames.Date", "Date/Time"));
+				App.GetString("DisplayableFieldTypeNames.Date", "Date/Time"));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.Reference,
-				App.LocalizeString("DisplayableFieldTypeNames.Reference", "Reference"));
+				App.GetString("DisplayableFieldTypeNames.Reference", "Reference"));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.Phonetic,
-				App.LocalizeString("DisplayableFieldTypeNames.Phonetic", "Phonetic"));
+				App.GetString("DisplayableFieldTypeNames.Phonetic", "Phonetic"));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.AudioFilePath,
-				App.LocalizeString("DisplayableFieldTypeNames.AudioFilePath", "Audio File Path"));
+				App.GetString("DisplayableFieldTypeNames.AudioFilePath", "Audio File Path"));
 		}
 
 		#endregion

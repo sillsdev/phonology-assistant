@@ -111,7 +111,7 @@ namespace SIL.Pa.UI.Dialogs
 				base.SetWindowText();
 			else
 			{
-				Text = App.LocalizeString("ProjectSettingsDlg.WindowTitleWhenProjectIsNew",
+				Text = App.GetString("ProjectSettingsDlg.WindowTitleWhenProjectIsNew",
 					"New Project Settings", "Caption for project settings dialog when project is new.");
 			}
 		}
@@ -128,7 +128,7 @@ namespace SIL.Pa.UI.Dialogs
 			App.SetGridSelectionColors(m_grid, false);
 
 			m_grid.Columns.Add(SilGrid.CreateCheckBoxColumn("skip"));
-			App.LocalizeObject(m_grid.Columns["skip"],
+			App.GetStringForObject(m_grid.Columns["skip"],
 				"ProjectSettingsDlg.LoadDataSourceColumnHdg", "Load",
 				"Column heading in data source list in project settings dialog box.");
 
@@ -136,7 +136,7 @@ namespace SIL.Pa.UI.Dialogs
 		    col.ReadOnly = true;
 		    col.Width = 250;
 			m_grid.Columns.Add(col);
-			App.LocalizeObject(m_grid.Columns["sourceFiles"],
+			App.GetStringForObject(m_grid.Columns["sourceFiles"],
 				"ProjectSettingsDlg.DataSourceNameColumnHdg", "Source",
 				"Column heading in data source list in project settings dialog box.");
 
@@ -144,7 +144,7 @@ namespace SIL.Pa.UI.Dialogs
 		    col.ReadOnly = true;
 			col.Width = 75;
 		    m_grid.Columns.Add(col);
-			App.LocalizeObject(m_grid.Columns["type"],
+			App.GetStringForObject(m_grid.Columns["type"],
 				"ProjectSettingsDlg.DataSourceTypeColumnHdg", "Type",
 				"Column heading in data source list in project settings dialog box.");
 
@@ -157,7 +157,7 @@ namespace SIL.Pa.UI.Dialogs
 			((SilButtonColumn)col).ButtonToolTip = Properties.Resources.kstidXSLTColButtonToolTip;
 			((SilButtonColumn)col).ButtonClicked += HandleSpecifyXSLTClick;
 			m_grid.Columns.Add(col);
-			App.LocalizeObject(m_grid.Columns["xslt"],
+			App.GetStringForObject(m_grid.Columns["xslt"],
 				"ProjectSettingsDlg.DataSourceFileXSLTColumnHdg", "XSLT",
 				"Column heading in data source list in project settings dialog box.");
 
@@ -265,7 +265,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (txtProjName.Text.Trim() == string.Empty)
 			{
 				// A project name was not specified.
-				msg = App.LocalizeString("ProjectSettingsDlg.MissingProjectNameMsg",
+				msg = App.GetString("ProjectSettingsDlg.MissingProjectNameMsg",
 					"You must specify a project name.");
 
 				offendingCtrl = txtProjName;
@@ -273,7 +273,7 @@ namespace SIL.Pa.UI.Dialogs
 			else if (txtLanguageName.Text.Trim() == string.Empty)
 			{
 				// A language name was not specified.
-				msg = App.LocalizeString("ProjectSettingsDlg.MissingLanguageNameMsg",
+				msg = App.GetString("ProjectSettingsDlg.MissingLanguageNameMsg",
 					"You must specify a language name.");
 	
 				offendingCtrl = txtLanguageName;
@@ -291,7 +291,7 @@ namespace SIL.Pa.UI.Dialogs
 						// No XSLT file was specified
 						offendingIndex = i;
 						
-						msg = App.LocalizeString("ProjectSettingsDlg.MissingXSLTMsg",
+						msg = App.GetString("ProjectSettingsDlg.MissingXSLTMsg",
 							"You must specify an XSLT file for '{0}'");
 
 						msg = string.Format(msg, Utils.PrepFilePathForMsgBox(m_dataSources[i].SourceFile));
@@ -382,7 +382,7 @@ namespace SIL.Pa.UI.Dialogs
 				if ((m_dataSources[i].Type == DataSourceType.SFM || m_dataSources[i].Type == DataSourceType.Toolbox) &&
 					string.IsNullOrEmpty(m_dataSources[i].SfmRecordMarker))
 				{
-					var msg = App.LocalizeString("ProjectSettingsDlg.NoSfmRecordMarkerSpecifiedErrorMsg",
+					var msg = App.GetString("ProjectSettingsDlg.NoSfmRecordMarkerSpecifiedErrorMsg",
 						"A record marker must be specified for '{0}'.");
 						
 					msg = string.Format(msg, Path.GetFileName(m_dataSources[i].SourceFile));
@@ -574,7 +574,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			get
 			{
-				return App.LocalizeString("ProjectSettingsDlg.DuplicateDataSourceQuestion",
+				return App.GetString("ProjectSettingsDlg.DuplicateDataSourceQuestion",
 					"The data source '{0}' is already in your list of data sources.\n\nDo you want to add another copy?");
 			}
 		}
@@ -589,7 +589,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleRemoveButtonClick(object sender, EventArgs e)
 		{
-			var msg = App.LocalizeString("ProjectSettingsDlg.DeleteDataSourceConfirmationMsg",
+			var msg = App.GetString("ProjectSettingsDlg.DeleteDataSourceConfirmationMsg",
 				"Are you sure you want to delete the selected data source(s)?");
 
 			if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) != DialogResult.Yes)
@@ -636,7 +636,7 @@ namespace SIL.Pa.UI.Dialogs
 			// Make sure the file exists before going to the mappings dialog.
 			if (!File.Exists(ds.SourceFile))
 			{
-				var msg = App.LocalizeString("ProjectSettingsDlg.DataSourceFileMissingMsg",
+				var msg = App.GetString("ProjectSettingsDlg.DataSourceFileMissingMsg",
 					"The data source file '{0}' is missing.");
 
 				msg = string.Format(msg, Utils.PrepFilePathForMsgBox(ds.SourceFile));

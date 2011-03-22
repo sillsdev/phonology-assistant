@@ -72,7 +72,7 @@ namespace SIL.Pa.UI.Controls
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			col.Visible = false;
 			int i = Columns.Add(col);
-			App.LocalizeObject(Columns[i], "FieldMappingGrid.FontColumnHeadingText", "Font");
+			App.GetStringForObject(Columns[i], "FieldMappingGrid.FontColumnHeadingText", "Font");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -83,7 +83,7 @@ namespace SIL.Pa.UI.Controls
 
 			if (string.IsNullOrEmpty(text))
 			{
-				text = App.LocalizeString(
+				text = App.GetString(
 				"FieldMappingGrid.TargetFieldColumnHeadingText", "Field");
 			}
 
@@ -158,7 +158,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected virtual string GetNoMappingText()
 		{
-			return App.LocalizeString("FieldMappingGrid.NoMappingText", "(no mapping)");
+			return App.GetString("FieldMappingGrid.NoMappingText", "(no mapping)");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -230,13 +230,13 @@ namespace SIL.Pa.UI.Controls
 			string fmt;
 
 			if (fnt.Bold && fnt.Italic)
-				fmt = App.LocalizeString("FieldMappingGrid.FontDisplayFormatAll", "{0}, {1}pt, Bold, Italic");
+				fmt = App.GetString("FieldMappingGrid.FontDisplayFormatAll", "{0}, {1}pt, Bold, Italic");
 			else if (fnt.Bold)
-				fmt = App.LocalizeString("FieldMappingGrid.FontDisplayFormatBold", "{0}, {1}pt, Bold");
+				fmt = App.GetString("FieldMappingGrid.FontDisplayFormatBold", "{0}, {1}pt, Bold");
 			else if (fnt.Italic)
-				fmt = App.LocalizeString("FieldMappingGrid.FontDisplayFormatItalic", "{0}, {1}pt, Italic");
+				fmt = App.GetString("FieldMappingGrid.FontDisplayFormatItalic", "{0}, {1}pt, Italic");
 			else
-				fmt = App.LocalizeString("FieldMappingGrid.FontDisplayFormat", "{0}, {1}pt");
+				fmt = App.GetString("FieldMappingGrid.FontDisplayFormat", "{0}, {1}pt");
 
 			return string.Format(fmt, fnt.FontFamily.Name, (int)fnt.SizeInPoints);
 		}

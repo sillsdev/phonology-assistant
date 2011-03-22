@@ -718,21 +718,21 @@ namespace SIL.Pa.UI.Controls
 
 					if (col == 0)
 					{
-						m_tooltip.ToolTipTitle = App.LocalizeString(
+						m_tooltip.ToolTipTitle = App.GetString(
 							"DistributionChartVw.AddSearchItemCellToolTipTitle",
 							"Search Item Column:", "Views");
 						
-						text = App.LocalizeString(
+						text = App.GetString(
 							"DistributionChartVw.AddSearchItemCellToolTip",
 							"Add a search item in this cell", "Views");
 					}
 					else
 					{
-						m_tooltip.ToolTipTitle = App.LocalizeString(
+						m_tooltip.ToolTipTitle = App.GetString(
 							"DistributionChartVw.AddEnvironmentCellToolTipTitle",
 							"Environment Row:", "Views");
 
-						text = App.LocalizeString(
+						text = App.GetString(
 							"DistributionChartVw.AddEnvironmentCellToolTip",
 							"Add a search environment\nin this cell", "Views");
 					}
@@ -1177,7 +1177,7 @@ namespace SIL.Pa.UI.Controls
 		public void Reset()
 		{
 			if (m_lblName != null)
-				m_lblName.Text = App.LocalizeString("DistributionChartVw.EmptyName", "(none)", "Views");
+				m_lblName.Text = App.GetString("DistributionChartVw.EmptyName", "(none)", "Views");
 
 			Rows.Clear();
 			Columns.Clear();
@@ -1243,7 +1243,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				return App.LocalizeString("ChartPopupInfoSyntaxErrorsMsg",
+				return App.GetString("ChartPopupInfoSyntaxErrorsMsg",
 					"This search pattern contains the following error(s):",
 					"Views.Distribution Charts");
 			}
@@ -1254,7 +1254,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				return App.LocalizeString("ChartPopupInfoUndefinedSymbolsMsg",
+				return App.GetString("ChartPopupInfoUndefinedSymbolsMsg",
 					"This search pattern contains the following undefined phonetic symbol(s).",
 					"Views.Distribution Charts");
 			}
@@ -1265,7 +1265,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				return App.LocalizeString("ChartPopupInfoInvalidPhonesMsg",
+				return App.GetString("ChartPopupInfoInvalidPhonesMsg",
 					"This search pattern contains the following phone(s) not found in the data.",
 					"Views.Distribution Charts");
 			}

@@ -67,12 +67,12 @@ namespace SIL.Pa.Processing
 			{
 				if (m_chartType == CVChartType.Consonant)
 				{
-					return App.LocalizeString("ProcessingConsonantChartMsg",
+					return App.GetString("ProcessingConsonantChartMsg",
 						"Separating Consonants...",
 						"Status bar message displayed when building list of consonants from phone list.");
 				}
 
-				return App.LocalizeString("ProcessingVowelChartMsg", "Separating Vowel...",
+				return App.GetString("ProcessingVowelChartMsg", "Separating Vowel...",
 					"Status bar message displayed when building list of vowels from phone list.");
 			}
 		}

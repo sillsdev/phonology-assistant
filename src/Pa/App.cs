@@ -97,12 +97,6 @@ namespace SIL.Pa
 		public const string kPaRegKeyName = @"Software\SIL\Phonology Assistant";
 		public const string kAppSettingsName = "application";
 
-		//public const string kLocalizationGroupTMItems = "Toolbar and Menu Items";
-		//public const string kLocalizationGroupUICtrls = "User Interface Controls";
-		//public const string kLocalizationGroupDialogs = "Dialog Boxes";
-		//public const string kLocalizationGroupInfoMsg = "Information Messages";
-		//public const string kLocalizationGroupMisc = "Miscellaneous Strings";
-
 		#endregion
 
 		private static string s_helpFilePath;
@@ -334,7 +328,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("OpenClassSymbol", "<",
+				return GetString("OpenClassSymbol", "<",
 					"Character used to delineate the opening of a phonetic search class.");
 			}
 		}
@@ -344,7 +338,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("CloseClassSymbol", ">",
+				return GetString("CloseClassSymbol", ">",
 					"Character used to delineate the closing of a phonetic search class.");
 			}
 		}
@@ -354,7 +348,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.ExecutableFileTypes",
+				return GetString("FileTypes.ExecutableFileTypes",
 					"All Executables (*.exe;*.com;*.pif;*.bat;*.cmd)|*.exe;*.com;*.pif;*.bat;*.cmd",
 					"File types for executable files.");
 			}
@@ -365,7 +359,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.AllFileTypes",
+				return GetString("FileTypes.AllFileTypes",
 					"All Files (*.*)|*.*", "Used in open/save file dialogs as the type for all files.");
 			}
 		}
@@ -375,7 +369,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.HTMLFileType", "HTML Files (*.html)|*.html");
+				return GetString("FileTypes.HTMLFileType", "HTML Files (*.html)|*.html");
 			}
 		}
 
@@ -384,7 +378,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.Word2003XmlFileType", "Word 2003 XML Files (*.xml)|*.xml");
+				return GetString("FileTypes.Word2003XmlFileType", "Word 2003 XML Files (*.xml)|*.xml");
 			}
 		}
 
@@ -393,7 +387,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.XLingPaperFileType", "XLingPaper Files (*.xml)|*.xml");
+				return GetString("FileTypes.XLingPaperFileType", "XLingPaper Files (*.xml)|*.xml");
 			}
 		}
 
@@ -402,7 +396,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.PaXMLFileType",
+				return GetString("FileTypes.PaXMLFileType",
 					"{0} XML Files (*.paxml)|*.paxml", "Parameter is the application name.");
 			}
 		}
@@ -412,7 +406,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.PaProjectFileType", "{0} Projects (*.pap)|*.pap",
+				return GetString("FileTypes.PaProjectFileType", "{0} Projects (*.pap)|*.pap",
 					"File type for Phonology Assistant projects. The parameter is the application name.");
 			}
 		}
@@ -422,7 +416,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.RTFFileType", "Rich Text Format (*.rtf)|*.rtf",
+				return GetString("FileTypes.RTFFileType", "Rich Text Format (*.rtf)|*.rtf",
 					"File type for rich text format output.");
 			}
 		}
@@ -432,7 +426,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.Mp3FileType", "Speech Analyzer MP3 Files (*.mp3)|*.mp3");
+				return GetString("FileTypes.Mp3FileType", "Speech Analyzer MP3 Files (*.mp3)|*.mp3");
 			}
 		}
 
@@ -441,7 +435,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.WaveFileType", "Speech Analyzer Wave Files (*.wav)|*.wav");
+				return GetString("FileTypes.WaveFileType", "Speech Analyzer Wave Files (*.wav)|*.wav");
 			}
 		}
 
@@ -450,7 +444,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.WindowsMediaAudioFileType", "Speech Analyzer WMA Files (*.wma)|*.wma");
+				return GetString("FileTypes.WindowsMediaAudioFileType", "Speech Analyzer WMA Files (*.wma)|*.wma");
 			}
 		}
 
@@ -459,7 +453,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.ToolboxFileType", "Toolbox Files (*.db)|*.db");
+				return GetString("FileTypes.ToolboxFileType", "Toolbox Files (*.db)|*.db");
 			}
 		}
 
@@ -468,7 +462,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.ToolboxInterlinearFileType", "Interlinear Toolbox Files (*.itx)|*.itx");
+				return GetString("FileTypes.ToolboxInterlinearFileType", "Interlinear Toolbox Files (*.itx)|*.itx");
 			}
 		}
 
@@ -477,7 +471,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.XmlFileType", "XML Files (*.xml)|*.xml");
+				return GetString("FileTypes.XmlFileType", "XML Files (*.xml)|*.xml");
 			}
 		}
 
@@ -486,7 +480,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.XsltTFileType", "XSLT Files (*.xslt)|*.xslt");
+				return GetString("FileTypes.XsltTFileType", "XSLT Files (*.xslt)|*.xslt");
 			}
 		}
 
@@ -495,7 +489,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.ZipFileType", "Zip Files (*.zip)|*.zip");
+				return GetString("FileTypes.ZipFileType", "Zip Files (*.zip)|*.zip");
 			}
 		}
 
@@ -504,7 +498,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("PhoneticSearchingInProgressMessage", "Searching...",
+				return GetString("PhoneticSearchingInProgressMessage", "Searching...",
 					"Message displayed in status bar next to the progress bar when doing a query searches.");
 			}
 		}
@@ -514,7 +508,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("GenericSaveChangesQuestion", "Would you like to save your changes?");
+				return GetString("GenericSaveChangesQuestion", "Would you like to save your changes?");
 			}
 		}
 
@@ -523,7 +517,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("GenericSaveFileDialogCaption", "Save File");
+				return GetString("GenericSaveFileDialogCaption", "Save File");
 			}
 		}
 
@@ -552,7 +546,7 @@ namespace SIL.Pa
 			{
 				SplashScreen = new SplashScreen(true, VersionType.Alpha);
 				SplashScreen.Show();
-				SplashScreen.Message = LocalizeString("SplashScreenLoadingMsg", "Loading...");
+				SplashScreen.Message = GetString("SplashScreenLoadingMsg", "Loading...");
 			}
 		}
 
@@ -953,12 +947,6 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal static string GetString(object obj)
-		{
-			return (L10NMngr == null ? "?????" : L10NMngr.GetString(obj));
-		}
-
-		/// ------------------------------------------------------------------------------------
 		internal static void RefreshToolTipsOnLocalizationManager()
 		{
 			if (L10NMngr != null)
@@ -972,54 +960,43 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal static string LocalizeString(string id, string defaultText)
-		{
-			return LocalizeString(id, defaultText, null, null,
-				LocalizationCategory.Unspecified, LocalizationPriority.High);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static string LocalizeString(string id, string defaultText,
-			string comment)
-		{
-			return LocalizeString(id, defaultText, comment, null,
-				LocalizationCategory.Unspecified, LocalizationPriority.High);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static string LocalizeString(string id, string defaultText,
-			string comment, string localizationGroup, LocalizationCategory category,
-			LocalizationPriority priority)
+		internal static string GetString(string id, string defaultText)
 		{
 			return (L10NMngr == null ? defaultText :
-				L10NMngr.LocalizeString(id, defaultText, comment, localizationGroup, category, priority));
+				L10NMngr.LocalizeString(id, defaultText, null, null,
+					LocalizationCategory.Unspecified, LocalizationPriority.High));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal static string GetLocalizedString(object obj)
+		internal static string GetString(string id, string defaultText, string comment)
 		{
-			return (L10NMngr == null ? "Error Getting Localized String!" : L10NMngr.GetString(obj));
+			return (L10NMngr == null ? defaultText :
+				L10NMngr.LocalizeString(id, defaultText, comment, null,
+					LocalizationCategory.Unspecified, LocalizationPriority.High));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal static void LocalizeObject(object obj, string id, string defaultText)
+		internal static string GetStringForObject(object obj)
 		{
-			LocalizeObject(obj, id, defaultText, null, null);
+			return (L10NMngr == null ? "??????" : L10NMngr.GetString(obj));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal static void LocalizeObject(object obj, string id, string defaultText, string comment)
-		{
-			LocalizeObject(obj, id, defaultText, comment, null);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static void LocalizeObject(object obj, string id, string defaultText,
-			string comment, string group)
+		internal static void GetStringForObject(object obj, string id, string defaultText)
 		{
 			if (L10NMngr != null)
 			{
-				L10NMngr.LocalizeObject(obj, id, defaultText, null, null, comment, group,
+				L10NMngr.LocalizeObject(obj, id, defaultText, null, null, null, null,
+					LocalizationCategory.Unspecified, LocalizationPriority.High);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static void GetStringForObject(object obj, string id, string defaultText, string comment)
+		{
+			if (L10NMngr != null)
+			{
+				L10NMngr.LocalizeObject(obj, id, defaultText, null, null, comment, null,
 					LocalizationCategory.Unspecified, LocalizationPriority.High);
 			}
 		}
@@ -1368,7 +1345,7 @@ namespace SIL.Pa
 		public static ToolStripProgressBar InitializeProgressBar(string text, int maxValue)
 		{
 			s_splashScreenLoadingMessageFormat =
-				LocalizeString("SplashScreenProgressMessageFormat", "{0}  {1}",
+				GetString("SplashScreenProgressMessageFormat", "{0}  {1}",
 				"Format for message displayed in the splash screen when loading a project. First parameter is the message; second is the percentage value.");
 
 			var udvwnd = (CurrentView != null && CurrentView.ActiveView ?
@@ -1381,7 +1358,7 @@ namespace SIL.Pa
 
 			if (bar != null)
 			{
-				s_progressPercentFormat = LocalizeString("ProgressPercentageFormat", "{0}%");
+				s_progressPercentFormat = GetString("ProgressPercentageFormat", "{0}%");
 				bar.Maximum = maxValue;
 				bar.Value = 0;
 				bar.Visible = Settings.Default.UseProgressBarInMainWindow;

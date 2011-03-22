@@ -48,7 +48,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public SearchVw()
 		{
-			var msg = App.LocalizeString("InitializingSearchViewMsg", "Initializing Search View...",
+			var msg = App.GetString("InitializingSearchViewMsg", "Initializing Search View...",
 				"Message displayed whenever the search view is being initialized.");
 
 			App.InitializeProgressBarForLoadingView(msg, 6);
@@ -276,7 +276,7 @@ namespace SIL.Pa.UI.Views
 				Settings.Default.SearchVwSidePanelWidth,
 				newWidth => Settings.Default.SearchVwSidePanelWidth = newWidth);
 			
-			App.LocalizeObject(m_slidingPanel.Tab, "SearchVw.UndockedSideBarTabText",
+			App.GetStringForObject(m_slidingPanel.Tab, "SearchVw.UndockedSideBarTabText",
 				"Patterns & Pattern Building", "Views");
 
 			SuspendLayout();

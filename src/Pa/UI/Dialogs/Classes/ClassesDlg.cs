@@ -53,7 +53,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SetWindowText()
 		{
-			Text = App.LocalizeString("ClassesDlg.WindowTitle", Text);
+			Text = App.GetString("ClassesDlg.WindowTitle", Text);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -83,7 +83,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			if (lvClasses.Items.Cast<ListViewItem>().Any(item => item.Text == string.Empty))
 			{
-				var msg = App.LocalizeString("ClassesDlg.EmptyClassNameMsg",
+				var msg = App.GetString("ClassesDlg.EmptyClassNameMsg",
 					"Class name must not be empty.");
 				
 				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -241,13 +241,13 @@ namespace SIL.Pa.UI.Dialogs
 			if (item == null)
 				return;
 
-			var fmt = App.LocalizeString("ClassesDlg.CopyClassPrefix", "Copy of {0}",
+			var fmt = App.GetString("ClassesDlg.CopyClassPrefix", "Copy of {0}",
 				"Prefix for names of copied items");
 
 			string baseName = string.Format(fmt, item.Text);
 			string newName = baseName;
 
-			fmt = App.LocalizeString("ClassesDlg.CopyClassNameFormat", "{0} ({1:D2})",
+			fmt = App.GetString("ClassesDlg.CopyClassNameFormat", "{0} ({1:D2})",
 				"Format for name of copied class. First parameter is the copied class name and second is a two digit number to make the name unique.");
 
 			int i = 1;

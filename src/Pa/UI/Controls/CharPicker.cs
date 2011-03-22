@@ -412,12 +412,12 @@ namespace SIL.Pa.UI.Controls
 
 			if (string.IsNullOrEmpty(charInfo.Description))
 			{
-				fmt = App.LocalizeString("CharacterPickerShortToolTip", "{0}",
+				fmt = App.GetString("CharacterPickerShortToolTip", "{0}",
 					"Used to format the tooltip string for items in an IPA character picker control when the character has no description (argument is the character name).");
 			}
 			else
 			{
-				fmt = App.LocalizeString("CharacterPickerLongToolTip", "{0},\n{1}",
+				fmt = App.GetString("CharacterPickerLongToolTip", "{0},\n{1}",
 					"Used to format the tooltip string for items in an IPA character picker control (1st argument is the character name, and the 2rd argument is for the description)");
 			}
 			

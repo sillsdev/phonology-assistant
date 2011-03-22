@@ -64,7 +64,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SetWindowText()
 		{
-			Text = App.LocalizeString("OptionsDlg.WindowTitle", Text);
+			Text = App.GetString("OptionsDlg.WindowTitle", Text);
 		}
 
 		/// ------------------------------------------------------------------------------------

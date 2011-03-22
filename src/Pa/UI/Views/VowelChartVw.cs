@@ -60,7 +60,7 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return App.LocalizeString("InitializingVowelChartViewMsg",
+				return App.GetString("InitializingVowelChartViewMsg",
 					"Initializing Vowel Chart View...",
 					"Message displayed whenever the consonant chart is being initialized.");
 			}
@@ -125,7 +125,7 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return App.LocalizeString("DefaultVowelChartHtmlExportFileAffix",
+				return App.GetString("DefaultVowelChartHtmlExportFileAffix",
 					"{0}-VowelChart.html", "Export");
 			}
 		}
@@ -135,7 +135,7 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return App.LocalizeString("DefaultVowelChartWordXmlExportFileAffix",
+				return App.GetString("DefaultVowelChartWordXmlExportFileAffix",
 					"{0}-VowelChart-(Word).xml", "Export");
 			}
 		}
@@ -145,7 +145,7 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return App.LocalizeString("DefaultVowelChartXLingPaperFileAffix",
+				return App.GetString("DefaultVowelChartXLingPaperFileAffix",
 					"{0}-VowelChart-(XLingPaper).xml", "Export");
 			}
 		}

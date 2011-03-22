@@ -76,7 +76,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 			if (m_dataSource.FieldMappings == null || m_dataSource.FieldMappings.Count == 0)
 			{
-				var noWsMsg = App.LocalizeString("MissingFieldWorks6WritingSystemsMsg",
+				var noWsMsg = App.GetString("MissingFieldWorks6WritingSystemsMsg",
 					"There are no writing systems for the '{0}'\n project. Therefore, no data from it can be displayed.\n\nTo fix this problem, modify the FieldWorks data source\nproperties for this project by selecting 'Project Settings'\nfrom the File menu. Then select the project in the data\nsources list and click the 'Properties' button.");
 
 				Utils.MsgBox(string.Format(noWsMsg, m_fwDsInfo.ProjectName));
@@ -108,7 +108,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 			}
 			catch (Exception e)
 			{
-				var msg = App.LocalizeString("ErrorRetrievingFieldWorks6DataMsg",
+				var msg = App.GetString("ErrorRetrievingFieldWorks6DataMsg",
 					"There was an error retrieving the data from the {0} database.\nIt's possible the file {1} is either missing or\ncorrupt. Reading this data will be skipped.\n\n{2}");
 
 				Utils.MsgBox(string.Format(msg, m_fwDsInfo.Name,

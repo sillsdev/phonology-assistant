@@ -1483,7 +1483,7 @@ namespace SIL.Pa.UI.Controls
 			int widestExperimentalTrans = GetWidestExperimentalTrancription(experimentalTrans);
 
 			int hdgWidth;
-			string hdgText = App.LocalizeString("CellInfoExperimentalTransHdgText",
+			string hdgText = App.GetString("CellInfoExperimentalTransHdgText",
 				"Transcription changes\nmade in this entry:",
 				"Heading text on transcription changes popup in word lists.");
 			

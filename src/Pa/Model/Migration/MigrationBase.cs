@@ -76,7 +76,7 @@ namespace SIL.Pa.Model.Migration
 				var updatedFile = XmlHelper.TransformFile(filename, stream);
 				if (updatedFile == null)
 				{
-					errMsg = App.LocalizeString("ProjectMigrationTransformationFailureMsg",
+					errMsg = App.GetString("ProjectMigrationTransformationFailureMsg",
 						"Migration transformation failed.");
 					return false;
 				}
@@ -99,7 +99,7 @@ namespace SIL.Pa.Model.Migration
 		/// ------------------------------------------------------------------------------------
 		protected void ShowSuccessMsg()
 		{
-			var msg = App.LocalizeString("ProjectMigrationSuccessfulMsg",
+			var msg = App.GetString("ProjectMigrationSuccessfulMsg",
 				"The '{0}' project has succssfully been upgraded to work with this version of {1}. A backup of your old project has been made in:\n\n{2}");
 
 			Utils.MsgBox(string.Format(msg, ProjectName, Application.ProductName, BackupFolder));

@@ -55,7 +55,7 @@ namespace SIL.Pa.UI
 
 			if (!File.Exists(filename))
 			{
-				var fmt = App.LocalizeString("RecentlyOpenedProjectMissingMsg",
+				var fmt = App.GetString("RecentlyOpenedProjectMissingMsg",
 					"The project file '{0}' is missing.");
 				
 				Utils.MsgBox(string.Format(fmt, filename), MessageBoxIcon.Exclamation);
@@ -128,7 +128,7 @@ namespace SIL.Pa.UI
 
 			if (!File.Exists(path))
 			{
-				var fmt = App.LocalizeString("TrainingFileMissingMsg",
+				var fmt = App.GetString("TrainingFileMissingMsg",
 					"The training file '{0}' is missing.");
 
 				var msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(path));
@@ -156,7 +156,7 @@ namespace SIL.Pa.UI
 
 			if (dlg.ShowDialog(this) == DialogResult.OK && dlg.Project != null)
 			{
-				var fmt = App.LocalizeString("LoadNewlyCreatedProjectQuestion",
+				var fmt = App.GetString("LoadNewlyCreatedProjectQuestion",
 					"Would you like to load the '{0}' project?");
 
 				var msg = string.Format(fmt, dlg.Project.Name);
@@ -179,7 +179,7 @@ namespace SIL.Pa.UI
 			string filter = string.Format(App.kstidFileTypePAProject,
 				Application.ProductName) + "|" + App.kstidFileTypeAllFiles;
 
-			var fmt = App.LocalizeString("ProjectOpenFileDlg.WindowText", "Open {0} Project File");
+			var fmt = App.GetString("ProjectOpenFileDlg.WindowText", "Open {0} Project File");
 			string initialDir = (Settings.Default.LastFolderForOpenProjectDlg ?? App.DefaultProjectFolder);
 
 			string[] filenames = App.OpenFileDialog("pap", filter, ref filterindex,
@@ -264,7 +264,7 @@ namespace SIL.Pa.UI
 			dlg.InitialDirectory = Environment.CurrentDirectory;
 			dlg.DefaultExt = "paxml";
 
-			var fmt = App.LocalizeString("PaXmlExportSaveFileDlg.WindowText", "Export to {0} XML");
+			var fmt = App.GetString("PaXmlExportSaveFileDlg.WindowText", "Export to {0} XML");
 			dlg.Title = string.Format(fmt, Application.ProductName);
 			dlg.FileName = m_project.Name + ".paxml";
 			dlg.FilterIndex = 0;

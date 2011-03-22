@@ -138,7 +138,7 @@ namespace SIL.Pa.UI.Controls
 							bldr.Append(invalidItems[i]);
 						else
 						{
-							var fmt = App.LocalizeString("ChartPopupUndefinedSymbolFormatMsg",
+							var fmt = App.GetString("ChartPopupUndefinedSymbolFormatMsg",
 								"{0} (U+{1})", "Views.Distribution Charts");
 
 							bldr.AppendFormat(fmt, invalidItems[i],

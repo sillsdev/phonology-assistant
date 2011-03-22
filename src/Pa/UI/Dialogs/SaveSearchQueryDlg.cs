@@ -72,7 +72,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SetWindowText()
 		{
-			Text = App.LocalizeString("SaveSearchQueryDlg.WindowTitle", Text);
+			Text = App.GetString("SaveSearchQueryDlg.WindowTitle", Text);
 		}
 
 		/// ------------------------------------------------------------------------------------

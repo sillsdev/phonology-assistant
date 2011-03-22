@@ -92,7 +92,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SetWindowText()
 		{
-			Text = App.LocalizeString("DefineClassDlg.WindowTitle", Text);
+			Text = App.GetString("DefineClassDlg.WindowTitle", Text);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -103,32 +103,32 @@ namespace SIL.Pa.UI.Dialogs
 			switch (m_classInfo.ClassType)
 			{
 				case SearchClassType.Phones:
-					classTypeText = App.LocalizeString(
+					classTypeText = App.GetString(
 						"DefineClassDlg.PhoneClassDialogCaptionPrefix", "Phones", 
 						"Part of the title for the dialog box when defining a phone class.");
 
-					lblClassTypeValue.Text = App.LocalizeString("DefineClassDlg.PhonesClassTypeLabel",
+					lblClassTypeValue.Text = App.GetString("DefineClassDlg.PhonesClassTypeLabel",
 						"Phones", "Phone class type label.");
 
 					break;
 
 				case SearchClassType.Articulatory:
-					classTypeText = App.LocalizeString(
+					classTypeText = App.GetString(
 						"DefineClassDlg.ArticulatoryFeatureClassDialogCaptionPrefix", "Articulatory Features",
 						"Part of the title for the dialog box when defining a articulatory features class.");
 
-					lblClassTypeValue.Text = App.LocalizeString(
+					lblClassTypeValue.Text = App.GetString(
 						"DefineClassDlg.ArticulatoryFeaturesClassTypeLabel", "Articulatory features",
 						"Articulatory features class type label.");
 
 					break;
 
 				case SearchClassType.Binary:
-					classTypeText = App.LocalizeString(
+					classTypeText = App.GetString(
 						"DefineClassDlg.BinaryFeatureClassDialogCaptionPrefix", "Binary Features",
 						"Part of the title for the dialog box when defining a binary features class.");
 
-					lblClassTypeValue.Text = App.LocalizeString("DefineClassDlg.BinaryFeaturesClassTypeLabel",
+					lblClassTypeValue.Text = App.GetString("DefineClassDlg.BinaryFeaturesClassTypeLabel",
 						"Binary features", "Binary features class type label.");
 
 					break;
@@ -435,7 +435,7 @@ namespace SIL.Pa.UI.Dialogs
 			// Ensure the new class doesn't have an empty class name
 			if (txtClassName.Text == string.Empty)
 			{
-				Utils.MsgBox(App.LocalizeString("DefineClassDlg.EmptyClassNameMsg", "Class name must not be empty."));
+				Utils.MsgBox(App.GetString("DefineClassDlg.EmptyClassNameMsg", "Class name must not be empty."));
 				return false;
 			}
 

@@ -84,7 +84,7 @@ namespace SIL.Pa.UI.Controls
 			// Add the select all item, make it a tri-state cell and
 			// set its order so it always sorts to the top of the list.
 			Rows.Insert(0, new object[] { false,
-				App.LocalizeString("FieldChooserGridSelectAllText", "Select All"), -100 });
+				App.GetString("FieldChooserGridSelectAllText", "Select All"), -100 });
 
 			((DataGridViewCheckBoxCell)Rows[0].Cells[kCheckCol]).ThreeState = true;
 			((DataGridViewCheckBoxCell)Rows[0].Cells[kCheckCol]).IndeterminateValue = kIndeterminate;

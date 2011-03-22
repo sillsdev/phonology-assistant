@@ -237,7 +237,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public static string EmptyTabText
 		{
-			get { return App.LocalizeString("SearchResultTabs.EmptySearchResultTabText", "(empty tab)"); }
+			get { return App.GetString("SearchResultTabs.EmptySearchResultTabText", "(empty tab)"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -912,7 +912,7 @@ namespace SIL.Pa.UI.Controls
 			Point pt = PointToClient(MousePosition);
 			pt.Y += (Cursor.Size.Height - (int)(Cursor.Size.Height * 0.3));
 
-			var text = App.LocalizeString("SearchResultTabs.MinimalPairsButtonToolTipText",
+			var text = App.GetString("SearchResultTabs.MinimalPairsButtonToolTipText",
 				"Minimal Pairs Options (Ctrl+Alt+M)");
 			
 			m_CIEButtonToolTip.Show(text, this, pt);

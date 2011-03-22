@@ -39,7 +39,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SetWindowText()
 		{
-			Text = App.LocalizeString("TranscriptionChangesDlg.WindowTitle", Text);
+			Text = App.GetString("TranscriptionChangesDlg.WindowTitle", Text);
 		}
 
 		/// ------------------------------------------------------------------------------------

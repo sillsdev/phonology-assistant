@@ -232,8 +232,8 @@ namespace SIL.Pa.UI.Controls
 
 			if (!DesignMode)
 			{
-				m_tooltip.SetToolTip(m_btnLeft, App.LocalizeString("ViewTabsScrollLeftToolTipText", "Scroll Left"));
-				m_tooltip.SetToolTip(m_btnRight, App.LocalizeString("ViewTabsScrollRightToolTipText", "Scroll Right"));
+				m_tooltip.SetToolTip(m_btnLeft, App.GetString("ViewTabsScrollLeftToolTipText", "Scroll Left"));
+				m_tooltip.SetToolTip(m_btnRight, App.GetString("ViewTabsScrollRightToolTipText", "Scroll Right"));
 			}
 		}
 

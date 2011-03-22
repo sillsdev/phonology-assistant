@@ -44,7 +44,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SetWindowText()
 		{
-			Text = App.LocalizeString("SaveDistributionChartDlg.WindowTitle", Text);
+			Text = App.GetString("SaveDistributionChartDlg.WindowTitle", Text);
 		}
 
 		/// ------------------------------------------------------------------------------------

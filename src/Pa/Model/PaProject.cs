@@ -38,7 +38,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public PaProject()
 		{
-			Name = App.LocalizeString("DefaultNewProjectName", "New Project");
+			Name = App.GetString("DefaultNewProjectName", "New Project");
 			ShowUndefinedCharsDlg = true;
 			IgnoreUndefinedCharsInSearches = true;
 			LastNewlyMappedFields = new List<string>(0);
@@ -197,7 +197,7 @@ namespace SIL.Pa.Model
 
 			if (!File.Exists(prjFilePath))
 			{
-				msg = App.LocalizeString("ProjectFileMissingMsg", "Project file '{0}' does not exist.",
+				msg = App.GetString("ProjectFileMissingMsg", "Project file '{0}' does not exist.",
 					"Message displayed when an attempt is made to open a non existant project file. The parameter is the project file name.");
 
 				Utils.MsgBox(string.Format(msg, Utils.PrepFilePathForMsgBox(prjFilePath)));
@@ -252,14 +252,14 @@ namespace SIL.Pa.Model
 			{
 				if (project == null)
 				{
-					msg = string.Format(App.LocalizeString("InvalidProjectFileFormatMsg",
+					msg = string.Format(App.GetString("InvalidProjectFileFormatMsg",
 						"Project File '{0}' has an Invalid Format."),
 		
 						Utils.PrepFilePathForMsgBox(projFileName));	
 				}
 				else
 				{
-					msg = string.Format(App.LocalizeString("ErrorLoadingProjectMsg",
+					msg = string.Format(App.GetString("ErrorLoadingProjectMsg",
 						"The followng error occurred loading project '{0}'.\n\n{1}"),
 
 					Utils.PrepFilePathForMsgBox(projFileName), e.Message);	
@@ -434,7 +434,7 @@ namespace SIL.Pa.Model
 			var reader = new DataSourceReader(this);
 			RecordCache = reader.Read();
 
-			var msg = App.LocalizeString("ParsingDataMsg", "Parsing Data...",
+			var msg = App.GetString("ParsingDataMsg", "Parsing Data...",
 				"Progress message after data source is read and the data is being parsed.");
 
 			App.InitializeProgressBar(msg, RecordCache.Count);

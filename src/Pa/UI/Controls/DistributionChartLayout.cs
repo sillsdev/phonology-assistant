@@ -102,7 +102,7 @@ namespace SIL.Pa.UI.Controls
 			get
 			{
 				return (string.IsNullOrEmpty(Name) ?
-					App.LocalizeString("DistributionChartVw.EmptyName", "(none)", "Views") : Name);
+					App.GetString("DistributionChartVw.EmptyName", "(none)", "Views") : Name);
 			}
 		}
 

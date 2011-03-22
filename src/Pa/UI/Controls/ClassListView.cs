@@ -149,23 +149,23 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (m_item.ClassType == SearchClassType.Phones)
 			{
-				return App.LocalizeString("ClassListPhoneMembersToolTipHdg", "Members:",
+				return App.GetString("ClassListPhoneMembersToolTipHdg", "Members:",
 					"Heading for the tooltip used to display the members of a class of phones in a class list view.");
 			}
 
 			if (m_tipText.IndexOf(Environment.NewLine) < 0)
 			{
-				return App.LocalizeString("ClassListSingleMemberToolTipHdg", "Member:",
+				return App.GetString("ClassListSingleMemberToolTipHdg", "Member:",
 					"Heading for the tooltip used to display the member of a class containing a single feature.");
 			}
 
 			if (m_item.ANDFeatures)
 			{
-				return App.LocalizeString("ClassListMembersToolTipMatchAllHdg", "Members (Match All):",
+				return App.GetString("ClassListMembersToolTipMatchAllHdg", "Members (Match All):",
 					"Heading for the tooltip used to display the members of a class of features in a class list view.");
 			}
 
-			return App.LocalizeString("ClassListMembersToolTipOrHdg", "Members (Match Any):",
+			return App.GetString("ClassListMembersToolTipOrHdg", "Members (Match Any):",
 				"Heading for the tooltip used to display the members of a class of features in a class list view.");
 		}
 
@@ -282,7 +282,7 @@ namespace SIL.Pa.UI.Controls
 			hdr.Width = 180;
 			Columns.Add(hdr);
 
-			App.LocalizeObject(hdr, "ClassListView.NameColumnHdg", "Name", "Name column heading for list of classes");
+			App.GetStringForObject(hdr, "ClassListView.NameColumnHdg", "Name", "Name column heading for list of classes");
 
 			if (!m_showMembersAndClassTypeColumns)
 				return;
@@ -301,14 +301,14 @@ namespace SIL.Pa.UI.Controls
 			hdr.Name = "hdr" + kMemberSubitem;
 			hdr.Width = 205;
 			Columns.Add(hdr);
-			App.LocalizeObject(hdr, "ClassListView.MembersColumnHdg", "Members", "Members column heading for list of classes");
+			App.GetStringForObject(hdr, "ClassListView.MembersColumnHdg", "Members", "Members column heading for list of classes");
 
 			// Add a column for the text showing what the class is based on.
 			hdr = new ColumnHeader();
 			hdr.Name = "hdr" + kBasedOnSubitem;
 			hdr.Width = 175;
 			Columns.Add(hdr);
-			App.LocalizeObject(hdr, "ClassListView.TypeColumnHdg", "Type", "Type column heading for list of classes");
+			App.GetStringForObject(hdr, "ClassListView.TypeColumnHdg", "Type", "Type column heading for list of classes");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -610,7 +610,7 @@ namespace SIL.Pa.UI.Controls
 				{
 					if (showMsg)
 					{
-						var msg = App.LocalizeString("DefineClassDupClassName",
+						var msg = App.GetString("DefineClassDupClassName",
 							"Class '{0}' already exists. Choose a different name.",
 							"Error message when attempting to create class with duplicate name.");
 

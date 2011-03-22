@@ -62,7 +62,7 @@ namespace SIL.Pa.UI.Controls
 			m_lblNoPatternsMsg.TextAlign = ContentAlignment.MiddleCenter;
 			m_lblNoPatternsMsg.Visible = false;
 
-			m_lblNoPatternsMsg.Text = App.LocalizeString(
+			m_lblNoPatternsMsg.Text = App.GetString(
 				"SearchVw.SavedSearchPatternsList.NoSavedSearchPatternsMsg",
 				"No Saved Search Patterns",
 				"Message shown in the saved search pattern list when there are on saved patterns.");
@@ -461,7 +461,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (node.Tag is SearchQueryGroup && node != renamedNode && node.Text == newName)
 				{
-					var msg = App.LocalizeString(
+					var msg = App.GetString(
 						"SearchVw.SavedSearchPatternsList.DuplicateSearchCategoryMsg",
 						"There is already a category named '{0}'.");
 
@@ -496,7 +496,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (node.Tag is SearchQuery && node != renamedNode && node.Text == newName)
 				{
-					var msg = App.LocalizeString(
+					var msg = App.GetString(
 						"SearchVw.SavedSearchPatternsList.DuplicateSearchQueryMsg",
 						"There is already a saved search pattern named '{0}' in the same category.");
 
@@ -809,7 +809,7 @@ namespace SIL.Pa.UI.Controls
 			if (group == null)
 				return;
 
-			var msg = App.LocalizeString(
+			var msg = App.GetString(
 				"SearchVw.SavedSearchPatternsList.DeleteSearchPatternCategoryConfirmationMsg",
 				"Are you sure you want to remove the search category '{0}'?");
 
@@ -843,7 +843,7 @@ namespace SIL.Pa.UI.Controls
 
 			if (showQuestion)
 			{
-				var msg = App.LocalizeString(
+				var msg = App.GetString(
 					"SearchVw.SavedSearchPatternsList.DeleteSearchPatternConfirmationMsg",
 					"Are you sure you want to remove the search pattern '{0}'?");
 
@@ -888,7 +888,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void AddCategory(SlidingPanel slidingPanel, bool beginEditAfterAdding)
 		{
-			var msg = App.LocalizeString(
+			var msg = App.GetString(
 				"SearchVw.SavedSearchPatternsList.NewSavedPatternCategoryName",
 				"New Category",
 				"This is the default name given to new categories in the saved search pattern tree in search view.");
@@ -962,7 +962,7 @@ namespace SIL.Pa.UI.Controls
 			else if (PatternExists(category, query.ToString()))
 			{
 				// Pattern exisits so ask user if he wants to overwrite.
-				var msg = App.LocalizeString("SearchVw.SavedSearchPatternsList.DuplicateSearchQueryQuestion",
+				var msg = App.GetString("SearchVw.SavedSearchPatternsList.DuplicateSearchQueryQuestion",
 					"There is already a saved search pattern named '{0}' in the same category. Would you like it overwritten?");
 
 				if (Utils.MsgBox(string.Format(msg, query), MessageBoxButtons.YesNo) == DialogResult.No)
@@ -984,7 +984,7 @@ namespace SIL.Pa.UI.Controls
 
 			if (Nodes.Count == 0)
 			{
-				var msg = App.LocalizeString("SearchVw.SavedSearchPatternsList.AddSearchCategoryBeforeSaveMsg",
+				var msg = App.GetString("SearchVw.SavedSearchPatternsList.AddSearchCategoryBeforeSaveMsg",
 					"Before saving a search pattern, you must first add a category to the saved pattern list.");
 				
 				Utils.MsgBox(msg);

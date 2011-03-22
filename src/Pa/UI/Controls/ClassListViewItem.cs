@@ -37,7 +37,7 @@ namespace SIL.Pa.UI.Controls
 		/// Default constructor for a ClassListViewItem
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ClassListViewItem() : base(App.LocalizeString("DefaultNewClassName", "New Class"))
+		public ClassListViewItem() : base(App.GetString("DefaultNewClassName", "New Class"))
 		{
 		}
 
@@ -181,15 +181,15 @@ namespace SIL.Pa.UI.Controls
 				switch (ClassType)
 				{
 					case SearchClassType.Phones:
-						return App.LocalizeString("PhonesClassTypeLabel",
+						return App.GetString("PhonesClassTypeLabel",
 							"Phones", "Label on the define classes dialog box indicating class type");
 
 					case SearchClassType.Articulatory:
-						return App.LocalizeString("ArticulatoryFeaturesClassTypeLabel",
+						return App.GetString("ArticulatoryFeaturesClassTypeLabel",
 							"Articulatory features", "Articulatory features class type label.");
 
 					case SearchClassType.Binary:
-						return App.LocalizeString("BinaryFeaturesClassTypeLabel",
+						return App.GetString("BinaryFeaturesClassTypeLabel",
 							"Binary features", "Binary features class type label.");
 				
 					default:

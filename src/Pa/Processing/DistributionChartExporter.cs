@@ -192,7 +192,7 @@ namespace SIL.Pa.Processing
 			var invalidPhones = query.GetPhonesNotInCache() as string[];
 			if (invalidPhones != null)
 			{
-				msg = App.LocalizeString(
+				msg = App.GetString(
 					"HTMLExport.DistributionCharts.ChartHtmlPopupInfoInvalidPhonesMsg",
 					"This pattern contains the following phone(s) not found in the data: ",
 					"Export");
@@ -206,12 +206,12 @@ namespace SIL.Pa.Processing
 			var invalidSymbols = query.GetSymbolsNotInInventory() as char[];
 			if (invalidSymbols != null)
 			{
-				msg = App.LocalizeString(
+				msg = App.GetString(
 					"HTMLExport.DistributionCharts.Export.ChartHtmlPopupInfoUndefinedSymbolsMsg",
 					"This pattern contains the following undefined phonetic symbol(s): ",
 					"Export");
 
-				var fmt = App.LocalizeString(
+				var fmt = App.GetString(
 					"HTMLExport.DistributionCharts.ChartHtmlPopupUndefinedSymbolFormatMsg", "{0} (U+{1}), ",
 					"Export");
 

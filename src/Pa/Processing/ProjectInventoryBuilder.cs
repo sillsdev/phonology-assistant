@@ -128,7 +128,7 @@ namespace SIL.Pa.Processing
 		{
 			get
 			{
-				return App.LocalizeString("ProcessingPhoneInventoryMsg",
+				return App.GetString("ProcessingPhoneInventoryMsg",
 					"Building Phone Inventory...",
 					"Message displayed whenever the phone inventory is built or updated.");
 			}

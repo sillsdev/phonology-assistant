@@ -64,7 +64,7 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return App.LocalizeString("InitializingConsonantChartViewMsg",
+				return App.GetString("InitializingConsonantChartViewMsg",
 					"Initializing Consonant Chart View...",
 					"Message displayed whenever the consonant chart is being initialized.");
 			}
@@ -113,7 +113,7 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return App.LocalizeString("DefaultConsonantChartHtmlExportFileAffix",
+				return App.GetString("DefaultConsonantChartHtmlExportFileAffix",
 					"{0}-ConsonantChart.html", "Export");
 			}
 		}
@@ -123,7 +123,7 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return App.LocalizeString("DefaultConsonantChartWordXmlExportFileAffix",
+				return App.GetString("DefaultConsonantChartWordXmlExportFileAffix",
 					"{0}-ConsonantChart-(Word).xml", "Export");
 			}
 		}
@@ -133,7 +133,7 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return App.LocalizeString("DefaultConsonantChartXLingPaperFileAffix",
+				return App.GetString("DefaultConsonantChartXLingPaperFileAffix",
 					"{0}-ConsonantChart-(XLingPaper).xml", "Export");
 			}
 		}

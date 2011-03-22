@@ -13,7 +13,7 @@ namespace SIL.Pa.Filters
 	[XmlType("expression")]
 	public class FilterExpression
 	{
-		public static string OtherFilterField = App.LocalizeString(
+		public static string OtherFilterField = App.GetString(
 			"FiltersDlg.FilterExpressionOperators.OtherFilter", "(OTHER FILTER)",
 			"Displayed in the filters dialog.");
 

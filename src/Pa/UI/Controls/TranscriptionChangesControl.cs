@@ -70,10 +70,10 @@ namespace SIL.Pa.UI.Controls
 			lblSourceHdg.Top = lblTargetHdg.Top = (m_header.Height - lblSourceHdg.Height) / 2;
 
 			// Set the heading text.
-			App.LocalizeObject(lblSourceHdg, "TranscriptionsChangesControl.Heading1",
+			App.GetStringForObject(lblSourceHdg, "TranscriptionsChangesControl.Heading1",
 				"Transcribed in source as:", "Heading in transcription changes control.");
 
-			App.LocalizeObject(lblTargetHdg, "TranscriptionsChangesControl.Heading2",
+			App.GetStringForObject(lblTargetHdg, "TranscriptionsChangesControl.Heading2",
 				"Replace with one of these options:", "Heading in transcription changes control.");
 
 			BuildGrid();
@@ -838,7 +838,7 @@ namespace SIL.Pa.UI.Controls
 			if (cvField != null)
 				m_fntCV = cvField.Font;
 
-			m_noneText = App.LocalizeString("TranscriptionsChangesControl.DontConvertText", "None",
+			m_noneText = App.GetString("TranscriptionsChangesControl.DontConvertText", "None",
 				"Text in the experimental transcription list of experimental transcription dialog box.");
 		}
 
