@@ -112,8 +112,7 @@ namespace SIL.Pa.UI.Dialogs
 			else
 			{
 				Text = App.LocalizeString("ProjectSettingsDlg.WindowTitleWhenProjectIsNew",
-					"New Project Settings", "Caption for project settings dialog when project is new.",
-					App.kLocalizationGroupDialogs);
+					"New Project Settings", "Caption for project settings dialog when project is new.");
 			}
 		}
 
@@ -131,8 +130,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.Columns.Add(SilGrid.CreateCheckBoxColumn("skip"));
 			App.LocalizeObject(m_grid.Columns["skip"],
 				"ProjectSettingsDlg.LoadDataSourceColumnHdg", "Load",
-				"Column heading in data source list in project settings dialog box.",
-				App.kLocalizationGroupDialogs);
+				"Column heading in data source list in project settings dialog box.");
 
 		    DataGridViewColumn col = SilGrid.CreateTextBoxColumn("sourcefiles");
 		    col.ReadOnly = true;
@@ -140,8 +138,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.Columns.Add(col);
 			App.LocalizeObject(m_grid.Columns["sourceFiles"],
 				"ProjectSettingsDlg.DataSourceNameColumnHdg", "Source",
-				"Column heading in data source list in project settings dialog box.",
-				App.kLocalizationGroupDialogs);
+				"Column heading in data source list in project settings dialog box.");
 
 			col = SilGrid.CreateTextBoxColumn("type");
 		    col.ReadOnly = true;
@@ -149,8 +146,7 @@ namespace SIL.Pa.UI.Dialogs
 		    m_grid.Columns.Add(col);
 			App.LocalizeObject(m_grid.Columns["type"],
 				"ProjectSettingsDlg.DataSourceTypeColumnHdg", "Type",
-				"Column heading in data source list in project settings dialog box.",
-				App.kLocalizationGroupDialogs);
+				"Column heading in data source list in project settings dialog box.");
 
 		    col = SilGrid.CreateSilButtonColumn("xslt");
 		    col.ReadOnly = true;
@@ -163,8 +159,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.Columns.Add(col);
 			App.LocalizeObject(m_grid.Columns["xslt"],
 				"ProjectSettingsDlg.DataSourceFileXSLTColumnHdg", "XSLT",
-				"Column heading in data source list in project settings dialog box.",
-				App.kLocalizationGroupDialogs);
+				"Column heading in data source list in project settings dialog box.");
 
 			m_grid.AutoResizeColumn(0, DataGridViewAutoSizeColumnMode.ColumnHeader);
 
@@ -271,7 +266,7 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				// A project name was not specified.
 				msg = App.LocalizeString("ProjectSettingsDlg.MissingProjectNameMsg",
-					"You must specify a project name.", App.kLocalizationGroupDialogs);
+					"You must specify a project name.");
 
 				offendingCtrl = txtProjName;
 			}
@@ -279,7 +274,7 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				// A language name was not specified.
 				msg = App.LocalizeString("ProjectSettingsDlg.MissingLanguageNameMsg",
-					"You must specify a language name.", App.kLocalizationGroupDialogs);
+					"You must specify a language name.");
 	
 				offendingCtrl = txtLanguageName;
 			}
@@ -297,7 +292,7 @@ namespace SIL.Pa.UI.Dialogs
 						offendingIndex = i;
 						
 						msg = App.LocalizeString("ProjectSettingsDlg.MissingXSLTMsg",
-							"You must specify an XSLT file for '{0}'", App.kLocalizationGroupDialogs);
+							"You must specify an XSLT file for '{0}'");
 
 						msg = string.Format(msg, Utils.PrepFilePathForMsgBox(m_dataSources[i].SourceFile));
 						break;
@@ -388,7 +383,7 @@ namespace SIL.Pa.UI.Dialogs
 					string.IsNullOrEmpty(m_dataSources[i].SfmRecordMarker))
 				{
 					var msg = App.LocalizeString("ProjectSettingsDlg.NoSfmRecordMarkerSpecifiedErrorMsg",
-						"A record marker must be specified for '{0}'.", App.kLocalizationGroupDialogs);
+						"A record marker must be specified for '{0}'.");
 						
 					msg = string.Format(msg, Path.GetFileName(m_dataSources[i].SourceFile));
 					Utils.MsgBox(msg);
@@ -580,8 +575,7 @@ namespace SIL.Pa.UI.Dialogs
 			get
 			{
 				return App.LocalizeString("ProjectSettingsDlg.DuplicateDataSourceQuestion",
-					"The data source '{0}' is already in your list of data sources.\n\nDo you want to add another copy?",
-					App.kLocalizationGroupDialogs);
+					"The data source '{0}' is already in your list of data sources.\n\nDo you want to add another copy?");
 			}
 		}
 
@@ -596,8 +590,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void HandleRemoveButtonClick(object sender, EventArgs e)
 		{
 			var msg = App.LocalizeString("ProjectSettingsDlg.DeleteDataSourceConfirmationMsg",
-				"Are you sure you want to delete the selected data source(s)?",
-				App.kLocalizationGroupDialogs);
+				"Are you sure you want to delete the selected data source(s)?");
 
 			if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) != DialogResult.Yes)
 				return;
@@ -644,7 +637,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (!File.Exists(ds.SourceFile))
 			{
 				var msg = App.LocalizeString("ProjectSettingsDlg.DataSourceFileMissingMsg",
-					"The data source file '{0}' is missing.", App.kLocalizationGroupDialogs);
+					"The data source file '{0}' is missing.");
 
 				msg = string.Format(msg, Utils.PrepFilePathForMsgBox(ds.SourceFile));
 				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);

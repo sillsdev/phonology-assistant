@@ -51,6 +51,12 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void SetWindowText()
+		{
+			Text = App.LocalizeString("ClassesDlg.WindowTitle", Text);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
@@ -77,8 +83,8 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			if (lvClasses.Items.Cast<ListViewItem>().Any(item => item.Text == string.Empty))
 			{
-				var msg = App.LocalizeString("EmptyClassNameMsg",
-					"Class name must not be empty.", App.kLocalizationGroupMisc);
+				var msg = App.LocalizeString("ClassesDlg.EmptyClassNameMsg",
+					"Class name must not be empty.");
 				
 				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return false;
@@ -236,14 +242,13 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 
 			var fmt = App.LocalizeString("ClassesDlg.CopyClassPrefix", "Copy of {0}",
-				"Prefix for names of copied items", App.kLocalizationGroupDialogs);
+				"Prefix for names of copied items");
 
 			string baseName = string.Format(fmt, item.Text);
 			string newName = baseName;
 
 			fmt = App.LocalizeString("ClassesDlg.CopyClassNameFormat", "{0} ({1:D2})",
-				"Format for name of copied class. First parameter is the copied class name and second is a two digit number to make the name unique.",
-				App.kLocalizationGroupDialogs);
+				"Format for name of copied class. First parameter is the copied class name and second is a two digit number to make the name unique.");
 
 			int i = 1;
 			while (lvClasses.DoesClassNameExist(newName, null, false))

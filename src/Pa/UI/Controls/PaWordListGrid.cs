@@ -1468,15 +1468,15 @@ namespace SIL.Pa.UI.Controls
 			s_showBottomRightHotState = true;
 			InvalidateCell(col, row);
 
-			WordListCacheEntry wlentry = GetWordEntry(row);
+			var wlentry = GetWordEntry(row);
 			if (wlentry == null)
 				return;
 
-			WordCacheEntry entry = wlentry.WordCacheEntry;
+			var entry = wlentry.WordCacheEntry;
 			if (entry == null)
 				return;
 
-			Dictionary<string, string> experimentalTrans = entry.AppliedExperimentalTranscriptions;
+			var experimentalTrans = entry.AppliedExperimentalTranscriptions;
 			if (experimentalTrans == null)
 				return;
 
@@ -1484,11 +1484,10 @@ namespace SIL.Pa.UI.Controls
 
 			int hdgWidth;
 			string hdgText = App.LocalizeString("CellInfoExperimentalTransHdgText",
-				"Experimental transcription(s)\nconverted in this entry:",
-				"Heading text on experimental transcription popup in word lists.",
-				App.kLocalizationGroupUICtrls + ".Word Lists");
+				"Transcription changes\nmade in this entry:",
+				"Heading text on transcription changes popup in word lists.");
 			
-			using (Font fnt = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold))
+			using (var fnt = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold))
 				hdgWidth = m_cellInfoPopup.SetHeadingText(hdgText, fnt);
 
 			m_cellInfoPopup.CacheEntry = entry;
@@ -1504,8 +1503,8 @@ namespace SIL.Pa.UI.Controls
 
 			// Calculate a point just to the right and even with the top of
 			// the cell to which the popup belongs. Then show the popup there.
-			Rectangle rc = GetCellDisplayRectangle(col, row, false);
-			Point pt = new Point(rc.Right - 1, rc.Y);
+			var rc = GetCellDisplayRectangle(col, row, false);
+			var pt = new Point(rc.Right - 1, rc.Y);
 			m_cellInfoPopup.Show(this, pt);
 		}
 

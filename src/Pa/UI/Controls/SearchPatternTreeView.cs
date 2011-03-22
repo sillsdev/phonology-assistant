@@ -65,8 +65,7 @@ namespace SIL.Pa.UI.Controls
 			m_lblNoPatternsMsg.Text = App.LocalizeString(
 				"SearchVw.SavedSearchPatternsList.NoSavedSearchPatternsMsg",
 				"No Saved Search Patterns",
-				"Message shown in the saved search pattern list when there are on saved patterns.",
-				App.kLocalizationGroupInfoMsg);
+				"Message shown in the saved search pattern list when there are on saved patterns.");
 
 			Controls.Add(m_lblNoPatternsMsg);
 
@@ -184,7 +183,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void UpdateEachPatternsCategory()
 		{
-			if (Nodes == null || Nodes.Count == 0)
+			if (Nodes.Count == 0)
 				return;
 
 			// Go through the category nodes.
@@ -195,7 +194,7 @@ namespace SIL.Pa.UI.Controls
 					// Go through the category's child nodes (i.e. pattern nodes).
 					foreach (TreeNode patternNode in categoryNode.Nodes)
 					{
-						SearchQuery query = patternNode.Tag as SearchQuery;
+						var query = patternNode.Tag as SearchQuery;
 						if (query != null)
 							query.Category = categoryNode.Text;
 					}
@@ -464,7 +463,7 @@ namespace SIL.Pa.UI.Controls
 				{
 					var msg = App.LocalizeString(
 						"SearchVw.SavedSearchPatternsList.DuplicateSearchCategoryMsg",
-						"There is already a category named '{0}'.", App.kLocalizationGroupInfoMsg);
+						"There is already a category named '{0}'.");
 
 					Utils.MsgBox(string.Format(msg, newName), MessageBoxButtons.OK,
 						MessageBoxIcon.Exclamation);
@@ -499,8 +498,7 @@ namespace SIL.Pa.UI.Controls
 				{
 					var msg = App.LocalizeString(
 						"SearchVw.SavedSearchPatternsList.DuplicateSearchQueryMsg",
-						"There is already a saved search pattern named '{0}' in the same category.",
-						App.kLocalizationGroupInfoMsg);
+						"There is already a saved search pattern named '{0}' in the same category.");
 
 					Utils.MsgBox(string.Format(msg, newName), MessageBoxButtons.OK,
 						MessageBoxIcon.Exclamation);
@@ -807,14 +805,13 @@ namespace SIL.Pa.UI.Controls
 			if (node == null || node.Level > 0 || !m_allowModifications)
 				return;
 
-			SearchQueryGroup group = node.Tag as SearchQueryGroup;
+			var group = node.Tag as SearchQueryGroup;
 			if (group == null)
 				return;
 
 			var msg = App.LocalizeString(
 				"SearchVw.SavedSearchPatternsList.DeleteSearchPatternCategoryConfirmationMsg",
-				"Are you sure you want to remove the search category '{0}'?",
-				App.kLocalizationGroupInfoMsg);
+				"Are you sure you want to remove the search category '{0}'?");
 
 			if (Utils.MsgBox(string.Format(msg, node.Text), MessageBoxButtons.YesNo) == DialogResult.No)
 				return;
@@ -848,8 +845,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				var msg = App.LocalizeString(
 					"SearchVw.SavedSearchPatternsList.DeleteSearchPatternConfirmationMsg",
-					"Are you sure you want to remove the search pattern '{0}'?",
-					App.kLocalizationGroupInfoMsg);
+					"Are you sure you want to remove the search pattern '{0}'?");
 
 				if (Utils.MsgBox(string.Format(msg, node.Text), MessageBoxButtons.YesNo) == DialogResult.No)
 					return;
@@ -895,8 +891,7 @@ namespace SIL.Pa.UI.Controls
 			var msg = App.LocalizeString(
 				"SearchVw.SavedSearchPatternsList.NewSavedPatternCategoryName",
 				"New Category",
-				"This is the default name given to new categories in the saved search pattern tree in search view.",
-				App.kLocalizationGroupInfoMsg);
+				"This is the default name given to new categories in the saved search pattern tree in search view.");
 
 			AddCategory(msg, slidingPanel, beginEditAfterAdding);
 		}
@@ -968,8 +963,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				// Pattern exisits so ask user if he wants to overwrite.
 				var msg = App.LocalizeString("SearchVw.SavedSearchPatternsList.DuplicateSearchQueryQuestion",
-					"There is already a saved search pattern named '{0}' in the same category. Would you like it overwritten?",
-					App.kLocalizationGroupInfoMsg);
+					"There is already a saved search pattern named '{0}' in the same category. Would you like it overwritten?");
 
 				if (Utils.MsgBox(string.Format(msg, query), MessageBoxButtons.YesNo) == DialogResult.No)
 					return false;
@@ -988,13 +982,12 @@ namespace SIL.Pa.UI.Controls
 			if (query == null)
 				return;
 
-			if (Nodes == null || Nodes.Count == 0)
+			if (Nodes.Count == 0)
 			{
 				var msg = App.LocalizeString("SearchVw.SavedSearchPatternsList.AddSearchCategoryBeforeSaveMsg",
-					"Before saving a search pattern, you must first add a category to the saved pattern list.",
-					App.kLocalizationGroupInfoMsg);
+					"Before saving a search pattern, you must first add a category to the saved pattern list.");
 				
-				Utils.MsgBox(msg, MessageBoxButtons.OK);
+				Utils.MsgBox(msg);
 				return;
 			}
 

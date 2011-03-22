@@ -62,6 +62,12 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void SetWindowText()
+		{
+			Text = App.LocalizeString("OptionsDlg.WindowTitle", Text);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
 			Utils.WaitCursors(false);

@@ -12,10 +12,6 @@ using SilTools;
 namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class FeaturesDlg : OKCancelDlgBase
 	{
 		private readonly PaProject m_project;
@@ -84,6 +80,12 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void SetWindowText()
+		{
+			Text = App.LocalizeString("FeaturesDlg.WindowTitle", Text);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void SetupFeatureLists()
 		{
 			m_lvAFeatures = new FeatureListView(App.FeatureType.Articulatory);
@@ -109,7 +111,6 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			gridPhones.Name = Name + "PhoneGrid";
 			gridPhones.AutoGenerateColumns = false;
-			//gridPhones.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
 			gridPhones.Font = FontHelper.UIFont;
 			gridPhones.VirtualMode = true;
 			gridPhones.CellValueNeeded += HandlePhoneGridCellValueNeeded;
@@ -120,8 +121,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = App.PhoneticFont;
 			col.CellTemplate.Style.Font = App.PhoneticFont;
-			col.HeaderText = App.LocalizeString(
-				"FeaturesDlg.PhoneListPhoneHeadingText", "Phone", App.kLocalizationGroupDialogs);
+			col.HeaderText = App.LocalizeString("FeaturesDlg.PhoneListPhoneHeadingText", "Phone");
 			
 			gridPhones.Columns.Add(col);
 
@@ -130,8 +130,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.Width = 55;
 			col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-			col.HeaderText = App.LocalizeString(
-				"FeaturesDlg.PhoneListCountHeadingText", "Count", App.kLocalizationGroupDialogs);
+			col.HeaderText = App.LocalizeString("FeaturesDlg.PhoneListCountHeadingText", "Count");
 
 			gridPhones.Columns.Add(col);
 
@@ -287,10 +286,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void HandlePhoneGridCellMouseEnter(object sender, DataGridViewCellEventArgs e)
 		{
 			try
@@ -298,7 +293,7 @@ namespace SIL.Pa.UI.Dialogs
 				if (e.ColumnIndex != 0)
 					return;
 
-				PhoneInfo phoneInfo = m_phones[e.RowIndex] as PhoneInfo;
+				var phoneInfo = m_phones[e.RowIndex] as PhoneInfo;
 				if (phoneInfo == null || phoneInfo.Phone.Trim().Length == 0)
 					return;
 
@@ -306,12 +301,9 @@ namespace SIL.Pa.UI.Dialogs
 				foreach (char c in phoneInfo.Phone)
 					bldr.AppendFormat("U+{0:X4}, ", (int)c);
 
-				var fmt = App.LocalizeString("FeaturesDlg.PhonesGridInfoFormat",
-					"Unicode Values:\n{0}", App.kLocalizationGroupDialogs);
-
-				string tip = bldr.ToString();
+				var fmt = App.LocalizeString("FeaturesDlg.PhonesGridInfoFormat", "Unicode Values:\n{0}");
+				var tip = bldr.ToString();
 				tip = string.Format(fmt, tip.Substring(0, tip.Length - 2));
-
 				tip = Utils.ConvertLiteralNewLines(tip);
 
 				var rc = gridPhones.GetCellDisplayRectangle(0, e.RowIndex, true);
@@ -324,10 +316,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void HandlePhoneGridCellMouseLeave(object sender, DataGridViewCellEventArgs e)
 		{
 			try
@@ -335,18 +323,14 @@ namespace SIL.Pa.UI.Dialogs
 				// Sometimes this event is fired because the mouse is over the tooltip, even
 				// though it's tip's point is still within the bounds of the cell. It is only
 				// when the mouse location leaves the cell do we want to hide the tooltip.
-				Rectangle rc = gridPhones.GetCellDisplayRectangle(0, e.RowIndex, true);
-				Point pt = gridPhones.PointToClient(MousePosition);
+				var rc = gridPhones.GetCellDisplayRectangle(0, e.RowIndex, true);
+				var pt = gridPhones.PointToClient(MousePosition);
 				if (!rc.Contains(pt))
 					m_phoneToolTip.Hide(this);
 			}
 			catch { }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandlePhoneGridRowEnter(object sender, DataGridViewCellEventArgs e)
 		{

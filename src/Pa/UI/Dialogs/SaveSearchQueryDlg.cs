@@ -8,19 +8,11 @@ using SilTools;
 namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class SaveSearchQueryDlg : OKCancelDlgBase
 	{
 		private readonly SearchQuery m_query;
 		private readonly SearchPatternTreeView m_tvSrchPatterns;
 		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SaveSearchQueryDlg()
 		{
@@ -42,10 +34,6 @@ namespace SIL.Pa.UI.Dialogs
 				cboCategories.Items.Add(group.Name);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SaveSearchQueryDlg(SearchQuery query, SearchPatternTreeView tvSrchPatterns,
 			bool canChangeQuerysCategory) : this()
@@ -79,6 +67,12 @@ namespace SIL.Pa.UI.Dialogs
 						m_tvSrchPatterns.SelectedNode.Parent.Text);
 				}
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void SetWindowText()
+		{
+			Text = App.LocalizeString("SaveSearchQueryDlg.WindowTitle", Text);
 		}
 
 		/// ------------------------------------------------------------------------------------

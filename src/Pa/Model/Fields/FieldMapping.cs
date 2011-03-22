@@ -153,10 +153,7 @@ namespace SIL.Pa.Model
 			var mapped = mappings.Any(m => m.Field != null && m.Field.Type == FieldType.Phonetic);
 
 			if (!mapped && showIfNotMapped)
-			{
-				Utils.MsgBox(App.LocalizeString("NoPhoneticMappingsMsg",
-					"You must specify a mapping for the phonetic field.", App.kLocalizationGroupDialogs));
-			}
+				Utils.MsgBox(App.LocalizeString("NoPhoneticMappingsMsg", "You must specify a mapping for the phonetic field."));
 
 			return mapped;
 		}

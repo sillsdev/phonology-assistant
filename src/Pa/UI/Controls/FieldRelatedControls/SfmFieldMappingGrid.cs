@@ -41,11 +41,7 @@ namespace SIL.Pa.UI.Controls
 				m_sourceFieldColumnHeadingTextHandler() : null);
 
 			if (string.IsNullOrEmpty(text))
-			{
-				text = App.LocalizeString(
-					"FieldMappingGrid.DefaultSourceFieldColumnHeadingText",
-					"Field in Source Data", App.kLocalizationGroupUICtrls);
-			}
+				text = App.LocalizeString("SfmFieldMappingGrid.DefaultSourceFieldColumnHeadingText", "Field in Source Data");
 	
 			col.HeaderText = text;
 			Columns.Add(col);
@@ -65,20 +61,17 @@ namespace SIL.Pa.UI.Controls
 			col = CreateDropDownListComboBoxColumn("fieldtype", m_displayableFieldTypes.Values);
 			int i = FontColumnIndex;
 			Columns.Insert(i, col);
-			App.LocalizeObject(Columns[i], "FieldMappingGrid.FieldTypeColumnHeadingText",
-				"Type", App.kLocalizationGroupUICtrls);
+			App.LocalizeObject(Columns[i], "SfmFieldMappingGrid.FieldTypeColumnHeadingText", "Type");
 
 			// Create the parsed column.
 			col = CreateCheckBoxColumn("parsed");
 			Columns.Insert(i, col);
-			App.LocalizeObject(Columns[i], "FieldMappingGrid.FieldIsParsedColumnHeadingText",
-				"Is Parsed?", App.kLocalizationGroupUICtrls);
+			App.LocalizeObject(Columns[i], "SfmFieldMappingGrid.FieldIsParsedColumnHeadingText", "Is Parsed?");
 
 			// Create the interlinear column.
 			col = CreateCheckBoxColumn("interlinear");
 			Columns.Insert(i, col);
-			App.LocalizeObject(Columns[i], "FieldMappingGrid.FieldCanBeInterlinearColumnHeadingText",
-				"Is Interlinear?", App.kLocalizationGroupUICtrls);
+			App.LocalizeObject(Columns[i], "SfmFieldMappingGrid.FieldCanBeInterlinearColumnHeadingText", "Is Interlinear?");
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -46,15 +46,13 @@ namespace SIL.Pa.UI.Controls
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			int i = FontColumnIndex;
 			Columns.Insert(i, col);
-			App.LocalizeObject(Columns[i], "FieldMappingGrid.FwWritingSystemColumnHeadingText",
-				"Writing System", App.kLocalizationGroupUICtrls);
+			App.LocalizeObject(Columns[i], "FieldMappingGrid.FwWritingSystemColumnHeadingText", "Writing System");
 		}
 		
 		/// ------------------------------------------------------------------------------------
 		protected virtual string GetNoWritingSystemText()
 		{
-			return App.LocalizeString("FieldMappingGrid.NoWritingSystemText",
-				"(none)", App.kLocalizationGroupUICtrls);
+			return App.LocalizeString("FieldMappingGrid.NoWritingSystemText", "(none)");
 		}
 
 		/// ------------------------------------------------------------------------------------

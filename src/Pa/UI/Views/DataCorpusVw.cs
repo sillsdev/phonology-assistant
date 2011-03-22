@@ -29,9 +29,7 @@ namespace SIL.Pa.UI.Views
 		public DataCorpusVw()
 		{
 			var msg = App.LocalizeString("InitializingDataCorpusViewMsg",
-				"Initializing Data Corpus View...",
-				"Message displayed whenever the data corpus view is being initialized.",
-				App.kLocalizationGroupInfoMsg);
+				"Initializing Data Corpus View...", "Message displayed whenever the data corpus view is being initialized.");
 
 			App.InitializeProgressBarForLoadingView(msg, 2);
 

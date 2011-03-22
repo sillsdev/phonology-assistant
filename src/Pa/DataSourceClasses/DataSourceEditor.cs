@@ -97,8 +97,7 @@ namespace SIL.Pa.DataSource
 				case DataSourceType.SA: EditRecordInSA(wcentry, callingApp); break;
 				default:
 					var msg = App.LocalizeString("UnableToEditSourceRecordMsg",
-						"There is no source record editor associated with this record.",
-						App.kLocalizationGroupInfoMsg);
+						"There is no source record editor associated with this record.");
 
 					Utils.MsgBox(msg);
 					break;
@@ -132,8 +131,7 @@ namespace SIL.Pa.DataSource
 			{
 				msg = App.LocalizeString("NoDataSourceEditorSpecifiedMsg",
 					"No editor has been specified in the project settings for the following data source:\n\n{0}\n\nSee the help file for more information.",
-					"Displayed when no editor has been specified and the user chooses 'Edit Source Record' from the edit menu.",
-					App.kLocalizationGroupInfoMsg);
+					"Displayed when no editor has been specified and the user chooses 'Edit Source Record' from the edit menu.");
 
 				msg = string.Format(msg, Utils.PrepFilePathForMsgBox(recEntry.DataSource.SourceFile));
 			}
@@ -141,10 +139,8 @@ namespace SIL.Pa.DataSource
 			// Make sure editor exists.
 			if (msg == null && !File.Exists(recEntry.DataSource.Editor))
 			{
-				msg = App.LocalizeString("DataSourceEditorMissingMsg",
-					"The editor '{0}' cannot be found.",
-					"Displayed when specified editor cannot be found when the user chooses 'Edit Source Record' from the edit menu.",
-					App.kLocalizationGroupInfoMsg);
+				msg = App.LocalizeString("DataSourceEditorMissingMsg", "The editor '{0}' cannot be found.",
+					"Displayed when specified editor cannot be found when the user chooses 'Edit Source Record' from the edit menu.");
 
 				msg = string.Format(msg, Utils.PrepFilePathForMsgBox(recEntry.DataSource.Editor));
 			}
@@ -296,8 +292,7 @@ namespace SIL.Pa.DataSource
 			if (field == null)
 			{
 				Utils.MsgBox(App.LocalizeString("NoAudioFileFieldMissingMsg",
-					"This project doesn't contain a field definition for an audio file path.",
-					App.kLocalizationGroupInfoMsg));
+					"This project doesn't contain a field definition for an audio file path."));
 				
 				return;
 			}
@@ -306,9 +301,7 @@ namespace SIL.Pa.DataSource
 			var audioFile = wcentry[field.Name];
 			if (string.IsNullOrEmpty(audioFile) || !File.Exists(audioFile))
 			{
-				var msg = App.LocalizeString("AudioFileMissingMsg",
-					"The audio file '{0}' is cannot be found.", App.kLocalizationGroupInfoMsg);
-	
+				var msg = App.LocalizeString("AudioFileMissingMsg", "The audio file '{0}' is cannot be found.");
 				Utils.MsgBox(string.Format(msg, audioFile));
 				return;
 			}
@@ -320,8 +313,7 @@ namespace SIL.Pa.DataSource
 				var msg = App.LocalizeString("AudioEditProblemMsg",
 					"Speech Analyzer 3.0.1 is required to edit audio data sources, but it " +
 					"is not installed. Please install Speech Analyzer 3.0.1 and try again.",
-					"Message displayed when SA 3.0.1 is not installed and the user is attempting to edit an audio file.",
-					App.kLocalizationGroupInfoMsg);
+					"Message displayed when SA 3.0.1 is not installed and the user is attempting to edit an audio file.");
 
 				using (var dlg = new DownloadSaDlg(msg))
 					dlg.ShowDialog();

@@ -16,10 +16,9 @@ namespace SIL.Pa.DataSource.FieldWorks
 		/// ------------------------------------------------------------------------------------
 		public static IEnumerable<FwWritingSysInfo> GetWritingSystems(FwDataSourceInfo fwDsInfo)
 		{
-			var msg = App.LocalizeString("ErrorRetrievingFw6WritingSystemsMsg",
+			var msg = App.LocalizeString("RetrievingFieldWorks6WritingSystemsErrorMsg",
 				"There was an error retrieving writing systems from the {0}\nproject. It's possible the file {1} is either missing or corrupt.",
-				"Displayed when there is and error retrieving writing systems from a FieldWorks database, version 6.0 or earlier.",
-				App.kLocalizationGroupMisc);
+				"Displayed when there is and error retrieving writing systems from a FieldWorks database, version 6.0 or earlier.");
 
 			msg = string.Format(msg, fwDsInfo.Name, Path.GetFileName(fwDsInfo.Queries.QueryFile));
 

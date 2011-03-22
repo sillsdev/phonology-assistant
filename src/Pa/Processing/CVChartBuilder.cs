@@ -69,13 +69,11 @@ namespace SIL.Pa.Processing
 				{
 					return App.LocalizeString("ProcessingConsonantChartMsg",
 						"Separating Consonants...",
-						"Status bar message displayed when building list of consonants from phone list.",
-						App.kLocalizationGroupInfoMsg);
+						"Status bar message displayed when building list of consonants from phone list.");
 				}
 
 				return App.LocalizeString("ProcessingVowelChartMsg", "Separating Vowel...",
-					"Status bar message displayed when building list of vowels from phone list.",
-					App.kLocalizationGroupInfoMsg);
+					"Status bar message displayed when building list of vowels from phone list.");
 			}
 		}
 

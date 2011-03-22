@@ -205,8 +205,7 @@ namespace SIL.Pa.DataSource
 				if (showMsgOnError)
 				{
 					var msg = App.LocalizeString("ErrorReadingMarkersFromStandardFormatFileMsg",
-						"The following error occurred trying to read the source file '{0}'.\n\n{1}",
-						App.kLocalizationGroupDialogs);
+						"The following error occurred trying to read the source file '{0}'.\n\n{1}");
 
 					Utils.MsgBox(string.Format(msg, e.Message));
 				}

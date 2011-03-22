@@ -145,42 +145,30 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private string GetToolTipTitle()
 		{
 			if (m_item.ClassType == SearchClassType.Phones)
 			{
 				return App.LocalizeString("ClassListPhoneMembersToolTipHdg", "Members:",
-					"Heading for the tooltip used to display the members of a class of phones in a class list view.",
-					App.kLocalizationGroupUICtrls);
+					"Heading for the tooltip used to display the members of a class of phones in a class list view.");
 			}
 
 			if (m_tipText.IndexOf(Environment.NewLine) < 0)
 			{
 				return App.LocalizeString("ClassListSingleMemberToolTipHdg", "Member:",
-					"Heading for the tooltip used to display the member of a class containing a single feature.",
-					App.kLocalizationGroupUICtrls);
+					"Heading for the tooltip used to display the member of a class containing a single feature.");
 			}
 
 			if (m_item.ANDFeatures)
 			{
 				return App.LocalizeString("ClassListMembersToolTipMatchAllHdg", "Members (Match All):",
-					"Heading for the tooltip used to display the members of a class of features in a class list view.",
-					App.kLocalizationGroupUICtrls);
+					"Heading for the tooltip used to display the members of a class of features in a class list view.");
 			}
 
 			return App.LocalizeString("ClassListMembersToolTipOrHdg", "Members (Match Any):",
-				"Heading for the tooltip used to display the members of a class of features in a class list view.",
-				App.kLocalizationGroupUICtrls);
+				"Heading for the tooltip used to display the members of a class of features in a class list view.");
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandleDraw(object sender, DrawToolTipEventArgs e)
 		{
@@ -190,9 +178,7 @@ namespace SIL.Pa.UI.Controls
 			TextRenderer.DrawText(e.Graphics, ToolTipTitle, m_titleFont,
 				new Point(4, 4), SystemColors.InfoText);
 
-			const TextFormatFlags kFlags = TextFormatFlags.LeftAndRightPadding |
-				TextFormatFlags.WordBreak;
-
+			const TextFormatFlags kFlags = TextFormatFlags.LeftAndRightPadding | TextFormatFlags.WordBreak;
 			TextRenderer.DrawText(e.Graphics, m_tipText, m_item.ClassMembersFont,
 				m_contentLocation, SystemColors.InfoText, kFlags);
 		}
@@ -296,37 +282,33 @@ namespace SIL.Pa.UI.Controls
 			hdr.Width = 180;
 			Columns.Add(hdr);
 
-			App.LocalizeObject(hdr, "ClassListView.NameColumnHdg", "Name",
-				"Name column heading for list of classes", App.kLocalizationGroupUICtrls);
-			
-			if (m_showMembersAndClassTypeColumns)
-			{
-				PhoneticFont = (App.PhoneticFont.SizeInPoints <= 10 ?
-					App.PhoneticFont : FontHelper.MakeFont(App.PhoneticFont, 10));
+			App.LocalizeObject(hdr, "ClassListView.NameColumnHdg", "Name", "Name column heading for list of classes");
 
-				// This will force the height of items to fit the larger of the ponetic or
-				// UI fonts. I realize this is sort of a kludge, but it's a workable one.
-				int itemHeight = Math.Max(PhoneticFont.Height, FontHelper.UIFont.Height);
-				SmallImageList = new ImageList();
-				SmallImageList.ImageSize = new Size(1, itemHeight);
+			if (!m_showMembersAndClassTypeColumns)
+				return;
 
-				// Add a column for the pattern of the class.
-				hdr = new ColumnHeader();
-				hdr.Name = "hdr" + kMemberSubitem;
-				hdr.Width = 205;
-				Columns.Add(hdr);
-				App.LocalizeObject(hdr, "ClassListView.MembersColumnHdg", "Members",
-					"Members column heading for list of classes", App.kLocalizationGroupDialogs);
+			PhoneticFont = (App.PhoneticFont.SizeInPoints <= 10 ?
+				App.PhoneticFont : FontHelper.MakeFont(App.PhoneticFont, 10));
 
-				
-				// Add a column for the text showing what the class is based on.
-				hdr = new ColumnHeader();
-				hdr.Name = "hdr" + kBasedOnSubitem;
-				hdr.Width = 175;
-				Columns.Add(hdr);
-				App.LocalizeObject(hdr, "ClassListView.TypeColumnHdg", "Type",
-					"Type column heading for list of classes", App.kLocalizationGroupDialogs);
-			}
+			// This will force the height of items to fit the larger of the ponetic or
+			// UI fonts. I realize this is sort of a kludge, but it's a workable one.
+			int itemHeight = Math.Max(PhoneticFont.Height, FontHelper.UIFont.Height);
+			SmallImageList = new ImageList();
+			SmallImageList.ImageSize = new Size(1, itemHeight);
+
+			// Add a column for the pattern of the class.
+			hdr = new ColumnHeader();
+			hdr.Name = "hdr" + kMemberSubitem;
+			hdr.Width = 205;
+			Columns.Add(hdr);
+			App.LocalizeObject(hdr, "ClassListView.MembersColumnHdg", "Members", "Members column heading for list of classes");
+
+			// Add a column for the text showing what the class is based on.
+			hdr = new ColumnHeader();
+			hdr.Name = "hdr" + kBasedOnSubitem;
+			hdr.Width = 175;
+			Columns.Add(hdr);
+			App.LocalizeObject(hdr, "ClassListView.TypeColumnHdg", "Type", "Type column heading for list of classes");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -630,8 +612,7 @@ namespace SIL.Pa.UI.Controls
 					{
 						var msg = App.LocalizeString("DefineClassDupClassName",
 							"Class '{0}' already exists. Choose a different name.",
-							"Error msg for creating class with duplicate name.",
-							App.kLocalizationGroupUICtrls);
+							"Error message when attempting to create class with duplicate name.");
 
 						Utils.MsgBox(string.Format(msg, className), MessageBoxButtons.OK,
 							MessageBoxIcon.Exclamation);

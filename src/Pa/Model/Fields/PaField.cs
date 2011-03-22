@@ -293,8 +293,7 @@ namespace SIL.Pa.Model
 				return EnsureListContainsCalculatedFields(list).ToList();
 
 			var msg = App.LocalizeString("ReadingFieldsFileErrorMsg",
-				"The following error occurred when reading the file\n\n'{0}'\n\n{1}",
-				App.kLocalizationGroupInfoMsg);
+				"The following error occurred when reading the file\n\n'{0}'\n\n{1}");
 
 			while (e.InnerException != null)
 				e = e.InnerException;
@@ -354,32 +353,25 @@ namespace SIL.Pa.Model
 		public static IEnumerable<KeyValuePair<FieldType, string>> GetDisplayableFieldTypes()
 		{
 			yield return new KeyValuePair<FieldType, string>(FieldType.GeneralText,
-				App.LocalizeString("DisplayableFieldTypeNames.GeneralText", "General Text",
-				App.kLocalizationGroupMisc));
+				App.LocalizeString("DisplayableFieldTypeNames.GeneralText", "General Text"));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.GeneralNumeric,
-				App.LocalizeString("DisplayableFieldTypeNames.GeneralNumeric", "General Numeric",
-				App.kLocalizationGroupMisc));
+				App.LocalizeString("DisplayableFieldTypeNames.GeneralNumeric", "General Numeric"));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.GeneralFilePath,
-				App.LocalizeString("DisplayableFieldTypeNames.GeneralFilePath", "General File Path",
-				App.kLocalizationGroupMisc));
+				App.LocalizeString("DisplayableFieldTypeNames.GeneralFilePath", "General File Path"));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.Date,
-				App.LocalizeString("DisplayableFieldTypeNames.Date", "Date/Time",
-				App.kLocalizationGroupMisc));
+				App.LocalizeString("DisplayableFieldTypeNames.Date", "Date/Time"));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.Reference,
-				App.LocalizeString("DisplayableFieldTypeNames.Reference", "Reference",
-				App.kLocalizationGroupMisc));
+				App.LocalizeString("DisplayableFieldTypeNames.Reference", "Reference"));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.Phonetic,
-				App.LocalizeString("DisplayableFieldTypeNames.Phonetic", "Phonetic",
-				App.kLocalizationGroupMisc));
+				App.LocalizeString("DisplayableFieldTypeNames.Phonetic", "Phonetic"));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.AudioFilePath,
-				App.LocalizeString("DisplayableFieldTypeNames.AudioFilePath", "Audio File Path",
-				App.kLocalizationGroupMisc));
+				App.LocalizeString("DisplayableFieldTypeNames.AudioFilePath", "Audio File Path"));
 		}
 
 		#endregion

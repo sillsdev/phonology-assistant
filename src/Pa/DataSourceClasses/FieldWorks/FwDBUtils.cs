@@ -129,7 +129,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 					string connectionStr = string.Format(FwDBAccessInfo.ConnectionString,
 						new[] { server, dbName, "FWDeveloper", "careful" });
 
-					SqlConnection connection = new SqlConnection(connectionStr);
+					var connection = new SqlConnection(connectionStr);
 					connection.Open();
 					return connection;
 				}
@@ -139,11 +139,10 @@ namespace SIL.Pa.DataSource.FieldWorks
 				if (s_showErrorOnConnectionFailure)
 				{
 					var msg = App.LocalizeString("SQLServerNotInstalledMsg",
-						"The following error occurred when trying to establish\na connection to the {0} database on the machine '{1}'.\n\n{2}",
-						App.kLocalizationGroupMisc);
+						"The following error occurred when trying to establish\na connection to the {0} database on the machine '{1}'.\n\n{2}");
 					
 					msg = string.Format(msg, dbName, machineName, e.Message);
-					Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					Utils.MsgBox(msg);
 				}
 			}
 
@@ -159,8 +158,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 			if (showMsg)
 			{
 				var msg = App.LocalizeString("SQLServerNotInstalledMsg",
-					"Access to FieldWorks projects requires SQL Server but it is not installed on this computer.",
-					App.kLocalizationGroupMisc);
+					"Access to FieldWorks projects requires SQL Server but it is not installed on this computer.");
 
 				Utils.MsgBox(msg);
 			}
@@ -207,14 +205,13 @@ namespace SIL.Pa.DataSource.FieldWorks
 			{
 				try
 				{
-					using (ServiceController svcController = new ServiceController(FwDBAccessInfo.Service))
+					using (var svcController = new ServiceController(FwDBAccessInfo.Service))
 					{
 						// If the server instance is already running, we're good.
 						if (svcController.Status == ServiceControllerStatus.Running)
 							return true;
 
-						var startingSQLMsg = App.LocalizeString("StartingSQLServerMsg",
-							"Starting SQL Server...", App.kLocalizationGroupMisc);
+						var startingSQLMsg = App.LocalizeString("StartingSQLServerMsg", "Starting SQL Server...");
 
 						using (var msgWnd = new SmallFadingWnd(startingSQLMsg))
 						{

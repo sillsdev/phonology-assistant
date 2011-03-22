@@ -124,7 +124,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected virtual void SetWindowText()
 		{
-			Text = App.LocalizeString(Name + ".WindowTitle", Text, App.kLocalizationGroupDialogs);
+			throw new NotImplementedException();
 		}
 
 		/// ------------------------------------------------------------------------------------

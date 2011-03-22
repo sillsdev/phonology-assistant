@@ -10,16 +10,12 @@ namespace SIL.Pa.Filters
 {
 	#region FilterExpression class
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	[XmlType("expression")]
 	public class FilterExpression
 	{
 		public static string OtherFilterField = App.LocalizeString(
 			"FiltersDlg.FilterExpressionOperators.OtherFilter", "(OTHER FILTER)",
-			"Displayed in the filters dialog.", App.kLocalizationGroupDialogs);
+			"Displayed in the filters dialog.");
 
 		private Filter.ExpressionType m_expTypep = Filter.ExpressionType.Normal;
 		private string m_pattern;
@@ -31,19 +27,11 @@ namespace SIL.Pa.Filters
 		private SearchQuery m_searchQuery;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public FilterExpression()
 		{
 			Operator = Filter.Operator.Equals;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public FilterExpression Clone()
 		{
@@ -61,17 +49,9 @@ namespace SIL.Pa.Filters
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlElement("fieldName")]
 		public string FieldName { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlElement("operator")]
 		public Filter.Operator Operator { get; set; }
@@ -95,10 +75,6 @@ namespace SIL.Pa.Filters
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlElement("expressionType")]
 		public Filter.ExpressionType ExpressionType
 		{
@@ -112,17 +88,9 @@ namespace SIL.Pa.Filters
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlElement("searchQuery")]
 		public SearchQuery SearchQuery { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public SearchEngine SearchEngine { get; set; }

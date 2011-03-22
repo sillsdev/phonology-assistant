@@ -228,10 +228,8 @@ namespace SIL.Pa.UI.Controls
 				childNode.NodeType = NetResTreeNodeType.Group;
 				childNode.ImageIndex = childNode.SelectedImageIndex = 0;
 				childNode.Nodes.Add(NewDummyNode);
-				childNode.Text = App.LocalizeString(
-					"EntireNetworkNode", "Entire network", "Text in the network tree used " +
-					"when trying to locate a FieldWorks project older than version 7.0.",
-					"Dialog Boxes.FieldWorks Project");
+				childNode.Text = App.LocalizeString("EntireNetworkNode", "Entire network",
+					"Text in the network tree used when trying to locate a FieldWorks project older than version 7.0.");
 
 				Nodes.Add(childNode);
 

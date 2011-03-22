@@ -220,9 +220,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 		{
 			if (IsMissing)
 			{
-				var fmt = App.LocalizeString("FieldWorksProjectMissingMsg",
-					"FieldWorks project '{0}' is missing.", App.kLocalizationGroupMisc);
-
+				var fmt = App.LocalizeString("FieldWorksProjectMissingMsg", "FieldWorks project '{0}' is missing.");
 				Utils.MsgBox(string.Format(fmt, Name));
 			}
 		}
@@ -243,8 +241,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 				return ProjectName;
 
 			var fmt = App.LocalizeString("FieldWorksProjectAndServerDisplayFormat", "{0} on '{1}'",
-				"This is used to display the project name and server for an FW data source. The project name is the first parameter.",
-				App.kLocalizationGroupMisc);
+				"This is used to display the project name and server for an FW data source. The project name is the first parameter.");
 
 			return string.Format(fmt, ProjectName, Server);
 		}

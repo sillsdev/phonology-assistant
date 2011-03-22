@@ -8,20 +8,12 @@ using SilTools;
 namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class SaveDistributionChartDlg : OKCancelDlgBase
 	{
 		private readonly DistributionGrid m_xyGrid;
 		private readonly List<DistributionChartLayout> m_savedCharts;
 		private DistributionChartLayout m_layoutToOverwrite;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SaveDistributionChartDlg()
 		{
@@ -35,10 +27,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public SaveDistributionChartDlg(DistributionGrid xyGrid, List<DistributionChartLayout>savedCharts) : this()
 		{
 			m_xyGrid = xyGrid;
@@ -51,6 +39,12 @@ namespace SIL.Pa.UI.Dialogs
 			// default name empty or all spaces. See PA-556.
 			if (txtName.Text.Trim() == string.Empty)
 				m_dirty = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void SetWindowText()
+		{
+			Text = App.LocalizeString("SaveDistributionChartDlg.WindowTitle", Text);
 		}
 
 		/// ------------------------------------------------------------------------------------

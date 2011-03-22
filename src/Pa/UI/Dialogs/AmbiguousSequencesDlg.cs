@@ -54,6 +54,12 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void SetWindowText()
+		{
+			Text = App.LocalizeString("AmbiguousSequencesDlg.WindowTitle", Text);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Clean up.
 		/// </summary>
@@ -353,14 +359,14 @@ namespace SIL.Pa.UI.Dialogs
 					{
 						msg = App.LocalizeString("AmbiguousSequencesDlg.DuplicateSeqMsg1",
 							"That sequence already exists.", "Message displayed in ambiguous sequences " +
-							"dialog box when identical sequences exist.", App.kLocalizationGroupDialogs);
+							"dialog box when identical sequences exist.");
 					}
 					else
 					{
 						msg = App.LocalizeString("AmbiguousSequencesDlg.DuplicateSeqMsg2",
 							"That sequence already exists as a generated sequence.", "Message displayed in " +
 							"ambiguous sequences dialog box when a user-added sequence is identical to a " +
-							"generated sequences.",	App.kLocalizationGroupDialogs);
+							"generated sequences.");
 					}
 
 					Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -397,8 +403,7 @@ namespace SIL.Pa.UI.Dialogs
 				msg = App.LocalizeString("AmbiguousSequencesDlg.BaseCharMissingMsg",
 					"You must specify a base character.", "Message displayed when trying to " +
 					"save ambiguous sequences in the ambiguous sequences dialog box, when one " +
-					"or more sequence does not have a base character specified.",
-					App.kLocalizationGroupDialogs);
+					"or more sequence does not have a base character specified.");
 			}
 
 			if (msg == null)
@@ -408,8 +413,7 @@ namespace SIL.Pa.UI.Dialogs
 				{
 					msg = App.LocalizeString("AmbiguousSequencesDlg.MissingSequenceMsg",
 						"A base character may not be specified\nuntil you have specified an ambiguous sequence.",
-						"Message dislpayed in ambiguous sequences dialog box.",
-						App.kLocalizationGroupDialogs);
+						"Message dislpayed in ambiguous sequences dialog box.");
 				}
 			}
 
@@ -418,8 +422,7 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				msg = App.LocalizeString("AmbiguousSequencesDlg.BaseCharNotInSeqMsg",
 					"Your base character must be contained\nwithin its associated ambiguous sequence.",
-					"Message dislpayed in ambiguous sequences dialog box.",
-					App.kLocalizationGroupDialogs);
+					"Message dislpayed in ambiguous sequences dialog box.");
 			}
 
 			if (msg != null)
@@ -529,10 +532,9 @@ namespace SIL.Pa.UI.Dialogs
 					"generated ambiguous sequences may not be\ndeleted. If you do not want " +
 					"Phonology Assistant to treat this\nsequence as a unit, clear the 'Treat " +
 					"as one Unit?’check box.", "Message displayed when trying to delete an " +
-					"automatically generated ambiguous sequence in the ambiguous sequence " +
-					App.kLocalizationGroupDialogs);
+					"automatically generated ambiguous sequence in the ambiguous sequence dialog box.");
 				
-				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(msg);
 				e.Cancel = true;
 			}
 		}

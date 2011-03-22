@@ -124,212 +124,75 @@ namespace SIL.Pa.Model
 		{
 			switch (name)
 			{
-				case PaField.kCVPatternFieldName: return App.LocalizeString("DisplayableFieldNames.CVPattern",
-										"CV Pattern", App.kLocalizationGroupMisc);
-
-				case PaField.kDataSourceFieldName: return App.LocalizeString("DisplayableFieldNames.DataSource",
-										"Data Source", App.kLocalizationGroupMisc);
-
-				case PaField.kDataSourcePathFieldName: return App.LocalizeString("DisplayableFieldNames.DataSourcePath",
-										"Data Source Path", App.kLocalizationGroupMisc);
-
-				case "Reference": return App.LocalizeString("DisplayableFieldNames.Reference",
-										"Reference", App.kLocalizationGroupMisc);
-
-				case "Phonetic": return App.LocalizeString("DisplayableFieldNames.Phonetic",
-										"Phonetic", App.kLocalizationGroupMisc);
-
-				case "Gloss": return App.LocalizeString("DisplayableFieldNames.Gloss",
-										"Gloss", App.kLocalizationGroupMisc);
-
-				case "Gloss-Secondary": return App.LocalizeString("DisplayableFieldNames.GlossSecondary",
-										"Gloss (Secondary)", App.kLocalizationGroupMisc);
-
-				case "Gloss-Other": return App.LocalizeString("DisplayableFieldNames.GlossOther",
-										"Gloss (Other)", App.kLocalizationGroupMisc);
-
-				case "PartOfSpeech": return App.LocalizeString("DisplayableFieldNames.PartOfSpeech",
-										"Part of Speech", App.kLocalizationGroupMisc);
-
-				case "Tone": return App.LocalizeString("DisplayableFieldNames.Tone",
-										"Tone", App.kLocalizationGroupMisc);
-
-				case "Orthographic": return App.LocalizeString("DisplayableFieldNames.Orthographic",
-										"Orthographic", App.kLocalizationGroupMisc);
-
-				case "Phonemic": return App.LocalizeString("DisplayableFieldNames.Phonemic",
-										"Phonemic", App.kLocalizationGroupMisc);
-
-				case "AudioFile": return App.LocalizeString("DisplayableFieldNames.AudioFile",
-										"Audio File", App.kLocalizationGroupMisc);
-
-				case "AudioFileLabel": return App.LocalizeString("DisplayableFieldNames.AudioFileLabel",
-										"Audio File Label", App.kLocalizationGroupMisc);
-
-				case "FreeFormTranslation": return App.LocalizeString("DisplayableFieldNames.FreeFormTranslation",
-										"Free Translation", App.kLocalizationGroupMisc);
-
-				case "NoteBookReference": return App.LocalizeString("DisplayableFieldNames.NoteBookReference",
-										"Note Book Ref.", App.kLocalizationGroupMisc);
-
-				case "Dialect": return App.LocalizeString("DisplayableFieldNames.Dialect",
-										"Dialect", App.kLocalizationGroupMisc);
-
-				case "EthnologueId": return App.LocalizeString("DisplayableFieldNames.EthnologueId",
-										"Ethnologue Id", App.kLocalizationGroupMisc);
-
-				case "LanguageName": return App.LocalizeString("DisplayableFieldNames.LanguageName",
-										"Language Name", App.kLocalizationGroupMisc);
-
-				case "Region": return App.LocalizeString("DisplayableFieldNames.Region",
-										"Region", App.kLocalizationGroupMisc);
-
-				case "Country": return App.LocalizeString("DisplayableFieldNames.Country",
-										"Country", App.kLocalizationGroupMisc);
-
-				case "Family": return App.LocalizeString("DisplayableFieldNames.Family",
-										"Family", App.kLocalizationGroupMisc);
-
-				case "Transcriber": return App.LocalizeString("DisplayableFieldNames.Transcriber",
-										"Transcriber", App.kLocalizationGroupMisc);
-
-				case "SpeakerName": return App.LocalizeString("DisplayableFieldNames.SpeakerName",
-										"Speaker Name", App.kLocalizationGroupMisc);
-
-				case "SpeakerGender": return App.LocalizeString("DisplayableFieldNames.SpeakerGender",
-										"Speaker Gender", App.kLocalizationGroupMisc);
-
-				case "SADescription": return App.LocalizeString("DisplayableFieldNames.SADescription",
-										"Description", App.kLocalizationGroupMisc);
-
-				case "CitationForm": return App.LocalizeString("DisplayableFieldNames.CitationForm",
-										"Citation Form", App.kLocalizationGroupMisc);
-
-				case "MorphType": return App.LocalizeString("DisplayableFieldNames.MorphType",
-										"Morpheme Type", App.kLocalizationGroupMisc);
-
-				case "Etymology": return App.LocalizeString("DisplayableFieldNames.Etymology",
-										"Etymology", App.kLocalizationGroupMisc);
-
-				case "LiteralMeaning": return App.LocalizeString("DisplayableFieldNames.LiteralMeaning",
-										"Literal Meaning", App.kLocalizationGroupMisc);
-
-				case "Bibliography": return App.LocalizeString("DisplayableFieldNames.Bibliography",
-										"Bibliography", App.kLocalizationGroupMisc);
-
-				case "Restrictions": return App.LocalizeString("DisplayableFieldNames.Restrictions",
-										"Restrictions", App.kLocalizationGroupMisc);
-
-				case "SummaryDefinition": return App.LocalizeString("DisplayableFieldNames.SummaryDefinition",
-										"Summary Definition", App.kLocalizationGroupMisc);
-
-				case "Note": return App.LocalizeString("DisplayableFieldNames.Note",
-										"Note", App.kLocalizationGroupMisc);
-
-				case "CV-Pattern-Source": return App.LocalizeString("DisplayableFieldNames.DataSourceCVPattern",
-										"CV Pattern (from source)", App.kLocalizationGroupMisc);
-
-				case "Location": return App.LocalizeString("DisplayableFieldNames.Location",
-										"Location", App.kLocalizationGroupMisc);
-
-				case "ExcludeAsHeadword": return App.LocalizeString("DisplayableFieldNames.ExcludeAsHeadword",
-										"Exclude As Headword", App.kLocalizationGroupMisc);
-
-				case "ImportResidue": return App.LocalizeString("DisplayableFieldNames.ImportResidue",
-										"Import Residue", App.kLocalizationGroupMisc);
-
-				case "DateCreated": return App.LocalizeString("DisplayableFieldNames.DateCreated",
-										"Date Created", App.kLocalizationGroupMisc);
-
-				case "DateModified": return App.LocalizeString("DisplayableFieldNames.DateModified",
-										"Date Modified", App.kLocalizationGroupMisc);
-
-				case "Definition": return App.LocalizeString("DisplayableFieldNames.Definition",
-										"Definition", App.kLocalizationGroupMisc);
-
-				case "ScientificName": return App.LocalizeString("DisplayableFieldNames.ScientificName",
-										"Scientific Name", App.kLocalizationGroupMisc);
-
-				case "AnthropologyNote": return App.LocalizeString("DisplayableFieldNames.AnthropologyNote",
-										"Anthropology Note", App.kLocalizationGroupMisc);
-
-				case "Bibliography-Sense": return App.LocalizeString("DisplayableFieldNames.Bibliography-Sense",
-										"Bibliography (Sense)", App.kLocalizationGroupMisc);
-
-				case "DiscourseNote": return App.LocalizeString("DisplayableFieldNames.DiscourseNote",
-										"Discourse Note", App.kLocalizationGroupMisc);
-
-				case "EncyclopedicInfo": return App.LocalizeString("DisplayableFieldNames.EncyclopedicInfo",
-										"Encyclopedic Info.", App.kLocalizationGroupMisc);
-
-				case "GeneralNote": return App.LocalizeString("DisplayableFieldNames.GeneralNote",
-										"General Note", App.kLocalizationGroupMisc);
-
-				case "GrammarNote": return App.LocalizeString("DisplayableFieldNames.Grammar Note",
-										"Grammar Note", App.kLocalizationGroupMisc);
-
-				case "PhonologyNote": return App.LocalizeString("DisplayableFieldNames.PhonologyNote",
-										"Phonology Note", App.kLocalizationGroupMisc);
-
-				case "Restrictions-Sense": return App.LocalizeString("DisplayableFieldNames.Restrictions-Sense",
-										"Restrictions (Sense)", App.kLocalizationGroupMisc);
-
-				case "SemanticsNote": return App.LocalizeString("DisplayableFieldNames.SemanticsNote",
-										"Semantics Note", App.kLocalizationGroupMisc);
-
-				case "SociolinguisticsNote": return App.LocalizeString("DisplayableFieldNames.SociolinguisticsNote",
-										"Sociolinguistics Note", App.kLocalizationGroupMisc);
-
-				case "ReversalEntries": return App.LocalizeString("DisplayableFieldNames.ReversalEntries",
-									   "Reversal Entries", App.kLocalizationGroupMisc);
-
-				case "Source": return App.LocalizeString("DisplayableFieldNames.Source",
-										"Source", App.kLocalizationGroupMisc);
-
-				case "SenseType": return App.LocalizeString("DisplayableFieldNames.SenseType",
-										"Sense Type", App.kLocalizationGroupMisc);
-
-				case "Status": return App.LocalizeString("DisplayableFieldNames.Status",
-										"Status", App.kLocalizationGroupMisc);
-
-				case "ImportResidue-Sense": return App.LocalizeString("DisplayableFieldNames.ImportResidue-Sense",
-										"Import Residue (Sense)", App.kLocalizationGroupMisc);
-
-				case "AnthroCodes": return App.LocalizeString("DisplayableFieldNames.AnthroCategories",
-										"Anthropology Categories", App.kLocalizationGroupMisc);
-
-				case "DomainTypes": return App.LocalizeString("DisplayableFieldNames.DomainTypes",
-										"Domain Types", App.kLocalizationGroupMisc);
-
-				case "SemanticDomains": return App.LocalizeString("DisplayableFieldNames.SemanticDomains",
-										"Semantic Domains", App.kLocalizationGroupMisc);
-
-				case "Usages": return App.LocalizeString("DisplayableFieldNames.Usages",
-										"Usages", App.kLocalizationGroupMisc);
-
-				case "Variants": return App.LocalizeString("DisplayableFieldNames.Variants",
-										"Variants", App.kLocalizationGroupMisc);
-
-				case "VariantTypes": return App.LocalizeString("DisplayableFieldNames.VariantTypes",
-										"Variant Types", App.kLocalizationGroupMisc);
-
-				case "VariantComments": return App.LocalizeString("DisplayableFieldNames.VariantComments",
-										"Variant Comments", App.kLocalizationGroupMisc);
-
-				case "ComplexForms": return App.LocalizeString("DisplayableFieldNames.ComplexForms",
-										"Complex Forms", App.kLocalizationGroupMisc);
-
-				case "Components": return App.LocalizeString("DisplayableFieldNames.Components",
-										"Components", App.kLocalizationGroupMisc);
-
-				case "ComplexTypes": return App.LocalizeString("DisplayableFieldNames.ComplexTypes",
-										"Complex Types", App.kLocalizationGroupMisc);
-
-				case "ComplexFormComments": return App.LocalizeString("DisplayableFieldNames.ComplexFormComments",
-										"Complex Form Comments", App.kLocalizationGroupMisc);
-
-				case "Allomorphs": return App.LocalizeString("DisplayableFieldNames.Allomorphs",
-										"Allomorphs", App.kLocalizationGroupMisc);
+				case PaField.kCVPatternFieldName: return App.LocalizeString("DisplayableFieldNames.CVPattern", "CV Pattern");
+				case PaField.kDataSourceFieldName: return App.LocalizeString("DisplayableFieldNames.DataSource", "Data Source");
+				case PaField.kDataSourcePathFieldName: return App.LocalizeString("DisplayableFieldNames.DataSourcePath", "Data Source Path");
+				case "Reference": return App.LocalizeString("DisplayableFieldNames.Reference", "Reference");
+				case "Phonetic": return App.LocalizeString("DisplayableFieldNames.Phonetic", "Phonetic");
+				case "Gloss": return App.LocalizeString("DisplayableFieldNames.Gloss", "Gloss");
+				case "Gloss-Secondary": return App.LocalizeString("DisplayableFieldNames.GlossSecondary", "Gloss (Secondary)");
+				case "Gloss-Other": return App.LocalizeString("DisplayableFieldNames.GlossOther", "Gloss (Other)");
+				case "PartOfSpeech": return App.LocalizeString("DisplayableFieldNames.PartOfSpeech", "Part of Speech");
+				case "Tone": return App.LocalizeString("DisplayableFieldNames.Tone", "Tone");
+				case "Orthographic": return App.LocalizeString("DisplayableFieldNames.Orthographic", "Orthographic");
+				case "Phonemic": return App.LocalizeString("DisplayableFieldNames.Phonemic", "Phonemic");
+				case "AudioFile": return App.LocalizeString("DisplayableFieldNames.AudioFile", "Audio File");
+				case "AudioFileLabel": return App.LocalizeString("DisplayableFieldNames.AudioFileLabel", "Audio File Label");
+				case "FreeFormTranslation": return App.LocalizeString("DisplayableFieldNames.FreeFormTranslation", "Free Translation");
+				case "NoteBookReference": return App.LocalizeString("DisplayableFieldNames.NoteBookReference", "Note Book Ref.");
+				case "Dialect": return App.LocalizeString("DisplayableFieldNames.Dialect", "Dialect");
+				case "EthnologueId": return App.LocalizeString("DisplayableFieldNames.EthnologueId", "Ethnologue Id");
+				case "LanguageName": return App.LocalizeString("DisplayableFieldNames.LanguageName", "Language Name");
+				case "Region": return App.LocalizeString("DisplayableFieldNames.Region", "Region");
+				case "Country": return App.LocalizeString("DisplayableFieldNames.Country", "Country");
+				case "Family": return App.LocalizeString("DisplayableFieldNames.Family", "Family");
+				case "Transcriber": return App.LocalizeString("DisplayableFieldNames.Transcriber", "Transcriber");
+				case "SpeakerName": return App.LocalizeString("DisplayableFieldNames.SpeakerName", "Speaker Name");
+				case "SpeakerGender": return App.LocalizeString("DisplayableFieldNames.SpeakerGender", "Speaker Gender");
+				case "SADescription": return App.LocalizeString("DisplayableFieldNames.SADescription", "Description");
+				case "CitationForm": return App.LocalizeString("DisplayableFieldNames.CitationForm", "Citation Form");
+				case "MorphType": return App.LocalizeString("DisplayableFieldNames.MorphType", "Morpheme Type");
+				case "Etymology": return App.LocalizeString("DisplayableFieldNames.Etymology", "Etymology");
+				case "LiteralMeaning": return App.LocalizeString("DisplayableFieldNames.LiteralMeaning", "Literal Meaning");
+				case "Bibliography": return App.LocalizeString("DisplayableFieldNames.Bibliography", "Bibliography");
+				case "Restrictions": return App.LocalizeString("DisplayableFieldNames.Restrictions", "Restrictions");
+				case "SummaryDefinition": return App.LocalizeString("DisplayableFieldNames.SummaryDefinition", "Summary Definition");
+				case "Note": return App.LocalizeString("DisplayableFieldNames.Note", "Note");
+				case "CV-Pattern-Source": return App.LocalizeString("DisplayableFieldNames.DataSourceCVPattern", "CV Pattern (from source)");
+				case "Location": return App.LocalizeString("DisplayableFieldNames.Location", "Location");
+				case "ExcludeAsHeadword": return App.LocalizeString("DisplayableFieldNames.ExcludeAsHeadword", "Exclude As Headword");
+				case "ImportResidue": return App.LocalizeString("DisplayableFieldNames.ImportResidue", "Import Residue");
+				case "DateCreated": return App.LocalizeString("DisplayableFieldNames.DateCreated", "Date Created");
+				case "DateModified": return App.LocalizeString("DisplayableFieldNames.DateModified", "Date Modified");
+				case "Definition": return App.LocalizeString("DisplayableFieldNames.Definition", "Definition");
+				case "ScientificName": return App.LocalizeString("DisplayableFieldNames.ScientificName", "Scientific Name");
+				case "AnthropologyNote": return App.LocalizeString("DisplayableFieldNames.AnthropologyNote", "Anthropology Note");
+				case "Bibliography-Sense": return App.LocalizeString("DisplayableFieldNames.Bibliography-Sense", "Bibliography (Sense)");
+				case "DiscourseNote": return App.LocalizeString("DisplayableFieldNames.DiscourseNote", "Discourse Note");
+				case "EncyclopedicInfo": return App.LocalizeString("DisplayableFieldNames.EncyclopedicInfo", "Encyclopedic Info.");
+				case "GeneralNote": return App.LocalizeString("DisplayableFieldNames.GeneralNote", "General Note");
+				case "GrammarNote": return App.LocalizeString("DisplayableFieldNames.Grammar Note", "Grammar Note");
+				case "PhonologyNote": return App.LocalizeString("DisplayableFieldNames.PhonologyNote", "Phonology Note");
+				case "Restrictions-Sense": return App.LocalizeString("DisplayableFieldNames.Restrictions-Sense", "Restrictions (Sense)");
+				case "SemanticsNote": return App.LocalizeString("DisplayableFieldNames.SemanticsNote", "Semantics Note");
+				case "SociolinguisticsNote": return App.LocalizeString("DisplayableFieldNames.SociolinguisticsNote", "Sociolinguistics Note");
+				case "ReversalEntries": return App.LocalizeString("DisplayableFieldNames.ReversalEntries", "Reversal Entries");
+				case "Source": return App.LocalizeString("DisplayableFieldNames.Source", "Source");
+				case "SenseType": return App.LocalizeString("DisplayableFieldNames.SenseType", "Sense Type");
+				case "Status": return App.LocalizeString("DisplayableFieldNames.Status", "Status");
+				case "ImportResidue-Sense": return App.LocalizeString("DisplayableFieldNames.ImportResidue-Sense", "Import Residue (Sense)");
+				case "AnthroCodes": return App.LocalizeString("DisplayableFieldNames.AnthroCategories", "Anthropology Categories");
+				case "DomainTypes": return App.LocalizeString("DisplayableFieldNames.DomainTypes", "Domain Types");
+				case "SemanticDomains": return App.LocalizeString("DisplayableFieldNames.SemanticDomains", "Semantic Domains");
+				case "Usages": return App.LocalizeString("DisplayableFieldNames.Usages", "Usages");
+				case "Variants": return App.LocalizeString("DisplayableFieldNames.Variants", "Variants");
+				case "VariantTypes": return App.LocalizeString("DisplayableFieldNames.VariantTypes", "Variant Types");
+				case "VariantComments": return App.LocalizeString("DisplayableFieldNames.VariantComments", "Variant Comments");
+				case "ComplexForms": return App.LocalizeString("DisplayableFieldNames.ComplexForms", "Complex Forms");
+				case "Components": return App.LocalizeString("DisplayableFieldNames.Components", "Components");
+				case "ComplexTypes": return App.LocalizeString("DisplayableFieldNames.ComplexTypes", "Complex Types");
+				case "ComplexFormComments": return App.LocalizeString("DisplayableFieldNames.ComplexFormComments", "Complex Form Comments");
+				case "Allomorphs": return App.LocalizeString("DisplayableFieldNames.Allomorphs", "Allomorphs");
 			}
 
 			return name;

@@ -81,6 +81,12 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void SetWindowText()
+		{
+			Text = App.LocalizeString("Fw7DataSourcePropertiesDlg.WindowTitle", Text);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Load up the grid with PA field names and the FW writing systems assigned to them,
 		/// if any.
@@ -127,10 +133,10 @@ namespace SIL.Pa.UI.Dialogs
 		private IEnumerable<string> GetPronunciationFieldOptions()
 		{
 			yield return App.LocalizeString("Fw7DataSourcePropertiesDlg.PronunciationOptionFirst",
-				"first pronunciation only", App.kLocalizationGroupDialogs);
+				"first pronunciation only");
 
 			yield return App.LocalizeString("Fw7DataSourcePropertiesDlg.PronunciationOptionEach",
-				"each pronunciation", App.kLocalizationGroupDialogs);
+				"each pronunciation");
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -81,10 +81,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public DefineClassDlg(ClassListViewItem classInfo, ClassesDlg classDlg) : this(classDlg)
 		{
 			Debug.Assert(classInfo != null);
@@ -94,9 +90,11 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		protected override void SetWindowText()
+		{
+			Text = App.LocalizeString("DefineClassDlg.WindowTitle", Text);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		private void SetClassTypeTexts()
 		{
@@ -107,35 +105,31 @@ namespace SIL.Pa.UI.Dialogs
 				case SearchClassType.Phones:
 					classTypeText = App.LocalizeString(
 						"DefineClassDlg.PhoneClassDialogCaptionPrefix", "Phones", 
-						"Part of the title for the dialog box when defining a phone class.",
-						App.kLocalizationGroupDialogs);
+						"Part of the title for the dialog box when defining a phone class.");
 
 					lblClassTypeValue.Text = App.LocalizeString("DefineClassDlg.PhonesClassTypeLabel",
-						"Phones", "Phone class type label.", App.kLocalizationGroupDialogs);
+						"Phones", "Phone class type label.");
 
 					break;
 
 				case SearchClassType.Articulatory:
 					classTypeText = App.LocalizeString(
 						"DefineClassDlg.ArticulatoryFeatureClassDialogCaptionPrefix", "Articulatory Features",
-						"Part of the title for the dialog box when defining a articulatory features class.",
-						App.kLocalizationGroupDialogs);
+						"Part of the title for the dialog box when defining a articulatory features class.");
 
 					lblClassTypeValue.Text = App.LocalizeString(
 						"DefineClassDlg.ArticulatoryFeaturesClassTypeLabel", "Articulatory features",
-						"Articulatory features class type label.", App.kLocalizationGroupDialogs);
+						"Articulatory features class type label.");
 
 					break;
 
 				case SearchClassType.Binary:
 					classTypeText = App.LocalizeString(
 						"DefineClassDlg.BinaryFeatureClassDialogCaptionPrefix", "Binary Features",
-						"Part of the title for the dialog box when defining a binary features class.",
-						App.kLocalizationGroupDialogs);
+						"Part of the title for the dialog box when defining a binary features class.");
 
 					lblClassTypeValue.Text = App.LocalizeString("DefineClassDlg.BinaryFeaturesClassTypeLabel",
-						"Binary features", "Binary features class type label.",
-						App.kLocalizationGroupDialogs);
+						"Binary features", "Binary features class type label.");
 
 					break;
 
@@ -441,10 +435,7 @@ namespace SIL.Pa.UI.Dialogs
 			// Ensure the new class doesn't have an empty class name
 			if (txtClassName.Text == string.Empty)
 			{
-				var msg = App.LocalizeString("EmptyClassNameMsg",
-					"Class name must not be empty.", App.kLocalizationGroupMisc);
-
-				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(App.LocalizeString("DefineClassDlg.EmptyClassNameMsg", "Class name must not be empty."));
 				return false;
 			}
 

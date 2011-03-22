@@ -193,8 +193,7 @@ namespace SIL.Pa.DataSource.Sa
 				string transFileNameOnly = Path.ChangeExtension(audioFileNameOnly, ".saxml");
 
 				var msg = App.LocalizeString("ReadOnlyFolderMsg",
-					"You are attempting to save the transcriptions for {0} in a location for which you do not have write access. Please specify another location in which to make a copy of {1} along with its transcription file ({2}).",
-					App.kLocalizationGroupInfoMsg);
+					"You are attempting to save the transcriptions for {0} in a location for which you do not have write access. Please specify another location in which to make a copy of {1} along with its transcription file ({2}).");
 				
 				msg = string.Format(msg, audioFileNameOnly, audioFileNameOnly, transFileNameOnly);
 				Utils.MsgBox(Utils.ConvertLiteralNewLines(msg));

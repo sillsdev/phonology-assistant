@@ -38,7 +38,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public PaProject()
 		{
-			Name = App.LocalizeString("DefaultNewProjectName", "New Project", App.kLocalizationGroupMisc);
+			Name = App.LocalizeString("DefaultNewProjectName", "New Project");
 			ShowUndefinedCharsDlg = true;
 			IgnoreUndefinedCharsInSearches = true;
 			LastNewlyMappedFields = new List<string>(0);
@@ -198,8 +198,7 @@ namespace SIL.Pa.Model
 			if (!File.Exists(prjFilePath))
 			{
 				msg = App.LocalizeString("ProjectFileMissingMsg", "Project file '{0}' does not exist.",
-					"Message displayed when an attempt is made to open a non existant project file. The parameter is the project file name.",
-					App.kLocalizationGroupInfoMsg);
+					"Message displayed when an attempt is made to open a non existant project file. The parameter is the project file name.");
 
 				Utils.MsgBox(string.Format(msg, Utils.PrepFilePathForMsgBox(prjFilePath)));
 				return null;
@@ -254,15 +253,16 @@ namespace SIL.Pa.Model
 				if (project == null)
 				{
 					msg = string.Format(App.LocalizeString("InvalidProjectFileFormatMsg",
-						"Project File '{0}' has an Invalid Format.", App.kLocalizationGroupInfoMsg),
+						"Project File '{0}' has an Invalid Format."),
+		
 						Utils.PrepFilePathForMsgBox(projFileName));	
 				}
 				else
 				{
 					msg = string.Format(App.LocalizeString("ErrorLoadingProjectMsg",
-						"The followng error occurred loading project '{0}'.\n\n{1}",
-						App.kLocalizationGroupInfoMsg),
-						Utils.PrepFilePathForMsgBox(projFileName), e.Message);	
+						"The followng error occurred loading project '{0}'.\n\n{1}"),
+
+					Utils.PrepFilePathForMsgBox(projFileName), e.Message);	
 				}
 
 				if (showErrors)
@@ -434,9 +434,8 @@ namespace SIL.Pa.Model
 			var reader = new DataSourceReader(this);
 			RecordCache = reader.Read();
 
-			var msg = App.LocalizeString("ParsingDataMsg",
-				"Parsing Data...", "Progress message after data source is read and the data is being parsed.",
-				App.kLocalizationGroupInfoMsg);
+			var msg = App.LocalizeString("ParsingDataMsg", "Parsing Data...",
+				"Progress message after data source is read and the data is being parsed.");
 
 			App.InitializeProgressBar(msg, RecordCache.Count);
 			RecordCache.BuildWordCache(App.ProgressBar);

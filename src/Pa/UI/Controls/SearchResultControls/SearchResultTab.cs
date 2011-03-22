@@ -1,25 +1,8 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2010, SIL International. All Rights Reserved.
-// <copyright from='2010' to='2010' company='SIL International'>
-//		Copyright (c) 2010, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
-// 
-// File: SearchResultTab.cs
-// Responsibility: Olson
-// 
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
@@ -254,11 +237,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public static string EmptyTabText
 		{
-			get
-			{
-				return App.LocalizeString("SearchResultTabs.EmptySearchResultTabText",
-					"(empty tab)", App.kLocalizationGroupMisc);
-			}
+			get { return App.LocalizeString("SearchResultTabs.EmptySearchResultTabText", "(empty tab)"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -934,7 +913,7 @@ namespace SIL.Pa.UI.Controls
 			pt.Y += (Cursor.Size.Height - (int)(Cursor.Size.Height * 0.3));
 
 			var text = App.LocalizeString("SearchResultTabs.MinimalPairsButtonToolTipText",
-				"Minimal Pairs Options (Ctrl+Alt+M)", App.kLocalizationGroupMisc);
+				"Minimal Pairs Options (Ctrl+Alt+M)");
 			
 			m_CIEButtonToolTip.Show(text, this, pt);
 		}

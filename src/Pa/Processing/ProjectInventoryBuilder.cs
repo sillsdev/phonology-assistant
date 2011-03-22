@@ -130,8 +130,7 @@ namespace SIL.Pa.Processing
 			{
 				return App.LocalizeString("ProcessingPhoneInventoryMsg",
 					"Building Phone Inventory...",
-					"Message displayed whenever the phone inventory is built or updated.",
-					App.kLocalizationGroupInfoMsg);
+					"Message displayed whenever the phone inventory is built or updated.");
 			}
 		}
 

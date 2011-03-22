@@ -56,6 +56,12 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void SetWindowText()
+		{
+			Text = App.LocalizeString("FwProjectsDlg.WindowTitle", Text);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
 			base.OnShown(e);
@@ -106,10 +112,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (!string.IsNullOrEmpty(node.MachineName))
 			{
-				txtMsg.Text = App.LocalizeString(
-					"FwProjectsDlg.SearchingForFwDatabasesMsg", "Searching...",
-					App.kLocalizationGroupDialogs);
-				
+				txtMsg.Text = App.LocalizeString("FwProjectsDlg.SearchingForFwDatabasesMsg", "Searching...");
 				txtMsg.Visible = true;
 				Application.DoEvents();
 
@@ -125,10 +128,7 @@ namespace SIL.Pa.UI.Dialogs
 				}
 				else
 				{
-					var fmt = App.LocalizeString(
-						"FwProjectsDlg.NoFwProjectsFoundMsg", "No projects found on '{0}'.",
-						App.kLocalizationGroupDialogs);
-		
+					var fmt = App.LocalizeString("FwProjectsDlg.NoFwProjectsFoundMsg", "No projects found on '{0}'.");
 					txtMsg.Text = string.Format(fmt, node.MachineName);
 				}
 			}

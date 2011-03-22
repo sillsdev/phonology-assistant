@@ -62,8 +62,7 @@ namespace SIL.Pa.UI.Views
 			{
 				return App.LocalizeString("InitializingVowelChartViewMsg",
 					"Initializing Vowel Chart View...",
-					"Message displayed whenever the consonant chart is being initialized.",
-					App.kLocalizationGroupInfoMsg);
+					"Message displayed whenever the consonant chart is being initialized.");
 			}
 		}
 

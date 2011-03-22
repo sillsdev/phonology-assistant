@@ -97,11 +97,11 @@ namespace SIL.Pa
 		public const string kPaRegKeyName = @"Software\SIL\Phonology Assistant";
 		public const string kAppSettingsName = "application";
 
-		public const string kLocalizationGroupTMItems = "Toolbar and Menu Items";
-		public const string kLocalizationGroupUICtrls = "User Interface Controls";
-		public const string kLocalizationGroupDialogs = "Dialog Boxes";
-		public const string kLocalizationGroupInfoMsg = "Information Messages";
-		public const string kLocalizationGroupMisc = "Miscellaneous Strings";
+		//public const string kLocalizationGroupTMItems = "Toolbar and Menu Items";
+		//public const string kLocalizationGroupUICtrls = "User Interface Controls";
+		//public const string kLocalizationGroupDialogs = "Dialog Boxes";
+		//public const string kLocalizationGroupInfoMsg = "Information Messages";
+		//public const string kLocalizationGroupMisc = "Miscellaneous Strings";
 
 		#endregion
 
@@ -135,9 +135,7 @@ namespace SIL.Pa
 			InitializeFonts();
 			SetUILanguage();
 
-			LocalizationManager.DefaultStringGroup = kLocalizationGroupMisc;
-			L10NMngr = LocalizationManager.Create("Pa", "Phonology Assistant",
-				Path.Combine(DefaultProjectFolder, "Localizations"));
+			L10NMngr = LocalizationManager.Create("Pa", "Phonology Assistant", DefaultProjectFolder);
 
 			MinimumViewWindowSize = Settings.Default.MinimumViewWindowSize;
 			FwDBUtils.ShowMsgWhenGatheringFWInfo = Settings.Default.ShowMsgWhenGatheringFwInfo;
@@ -337,8 +335,7 @@ namespace SIL.Pa
 			get
 			{
 				return LocalizeString("OpenClassSymbol", "<",
-					"Character used to delineate the opening of a phonetic search class.",
-					kLocalizationGroupMisc);
+					"Character used to delineate the opening of a phonetic search class.");
 			}
 		}
 
@@ -348,8 +345,7 @@ namespace SIL.Pa
 			get
 			{
 				return LocalizeString("CloseClassSymbol", ">",
-					"Character used to delineate the closing of a phonetic search class.",
-					kLocalizationGroupMisc);
+					"Character used to delineate the closing of a phonetic search class.");
 			}
 		}
 
@@ -360,7 +356,7 @@ namespace SIL.Pa
 			{
 				return LocalizeString("FileTypes.ExecutableFileTypes",
 					"All Executables (*.exe;*.com;*.pif;*.bat;*.cmd)|*.exe;*.com;*.pif;*.bat;*.cmd",
-					"File types for executable files.", kLocalizationGroupMisc);
+					"File types for executable files.");
 			}
 		}
 
@@ -370,8 +366,7 @@ namespace SIL.Pa
 			get
 			{
 				return LocalizeString("FileTypes.AllFileTypes",
-					"All Files (*.*)|*.*", "Used in open/save file dialogs as the type for all files.",
-					kLocalizationGroupMisc);
+					"All Files (*.*)|*.*", "Used in open/save file dialogs as the type for all files.");
 			}
 		}
 
@@ -380,8 +375,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.HTMLFileType",
-					"HTML Files (*.html)|*.html", kLocalizationGroupMisc);
+				return LocalizeString("FileTypes.HTMLFileType", "HTML Files (*.html)|*.html");
 			}
 		}
 
@@ -390,8 +384,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.Word2003XmlFileType",
-					"Word 2003 XML Files (*.xml)|*.xml", kLocalizationGroupMisc);
+				return LocalizeString("FileTypes.Word2003XmlFileType", "Word 2003 XML Files (*.xml)|*.xml");
 			}
 		}
 
@@ -400,8 +393,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.XLingPaperFileType",
-					"XLingPaper Files (*.xml)|*.xml", kLocalizationGroupMisc);
+				return LocalizeString("FileTypes.XLingPaperFileType", "XLingPaper Files (*.xml)|*.xml");
 			}
 		}
 
@@ -411,8 +403,7 @@ namespace SIL.Pa
 			get
 			{
 				return LocalizeString("FileTypes.PaXMLFileType",
-					"{0} XML Files (*.paxml)|*.paxml", "Parameter is the application name.",
-					kLocalizationGroupMisc);
+					"{0} XML Files (*.paxml)|*.paxml", "Parameter is the application name.");
 			}
 		}
 
@@ -421,10 +412,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.PaProjectFileType",
-					"{0} Projects (*.pap)|*.pap",
-					"File type for Phonology Assistant projects. The parameter is the application name.",
-					kLocalizationGroupMisc);
+				return LocalizeString("FileTypes.PaProjectFileType", "{0} Projects (*.pap)|*.pap",
+					"File type for Phonology Assistant projects. The parameter is the application name.");
 			}
 		}
 
@@ -433,9 +422,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.RTFFileType",
-					"Rich Text Format (*.rtf)|*.rtf", "File type for rich text format output.",
-					kLocalizationGroupMisc);
+				return LocalizeString("FileTypes.RTFFileType", "Rich Text Format (*.rtf)|*.rtf",
+					"File type for rich text format output.");
 			}
 		}
 
@@ -444,8 +432,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.Mp3FileType",
-					"Speech Analyzer MP3 Files (*.mp3)|*.mp3", kLocalizationGroupMisc);
+				return LocalizeString("FileTypes.Mp3FileType", "Speech Analyzer MP3 Files (*.mp3)|*.mp3");
 			}
 		}
 
@@ -454,8 +441,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.WaveFileType",
-					"Speech Analyzer Wave Files (*.wav)|*.wav", kLocalizationGroupMisc);
+				return LocalizeString("FileTypes.WaveFileType", "Speech Analyzer Wave Files (*.wav)|*.wav");
 			}
 		}
 
@@ -464,8 +450,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.WindowsMediaAudioFileType",
-					"Speech Analyzer WMA Files (*.wma)|*.wma", kLocalizationGroupMisc);
+				return LocalizeString("FileTypes.WindowsMediaAudioFileType", "Speech Analyzer WMA Files (*.wma)|*.wma");
 			}
 		}
 
@@ -474,8 +459,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.ToolboxFileType",
-					"Toolbox Files (*.db)|*.db", kLocalizationGroupMisc);
+				return LocalizeString("FileTypes.ToolboxFileType", "Toolbox Files (*.db)|*.db");
 			}
 		}
 
@@ -484,8 +468,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.ToolboxInterlinearFileType",
-					"Interlinear Toolbox Files (*.itx)|*.itx", kLocalizationGroupMisc);
+				return LocalizeString("FileTypes.ToolboxInterlinearFileType", "Interlinear Toolbox Files (*.itx)|*.itx");
 			}
 		}
 
@@ -494,8 +477,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.XmlFileType",
-					"XML Files (*.xml)|*.xml", kLocalizationGroupMisc);
+				return LocalizeString("FileTypes.XmlFileType", "XML Files (*.xml)|*.xml");
 			}
 		}
 
@@ -504,8 +486,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.XsltTFileType",
-					"XSLT Files (*.xslt)|*.xslt", kLocalizationGroupMisc);
+				return LocalizeString("FileTypes.XsltTFileType", "XSLT Files (*.xslt)|*.xslt");
 			}
 		}
 
@@ -514,8 +495,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("FileTypes.ZipFileType",
-					"Zip Files (*.zip)|*.zip", kLocalizationGroupMisc);
+				return LocalizeString("FileTypes.ZipFileType", "Zip Files (*.zip)|*.zip");
 			}
 		}
 
@@ -524,10 +504,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString(
-					"PhoneticSearchingInProgressMessage", "Searching...",
-					"Message displayed in status bar next to the progress bar when doing a query searches.",
-					kLocalizationGroupMisc);
+				return LocalizeString("PhoneticSearchingInProgressMessage", "Searching...",
+					"Message displayed in status bar next to the progress bar when doing a query searches.");
 			}
 		}
 
@@ -536,8 +514,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("GenericSaveChangesQuestion",
-					"Would you like to save your changes?", kLocalizationGroupMisc);
+				return LocalizeString("GenericSaveChangesQuestion", "Would you like to save your changes?");
 			}
 		}
 
@@ -546,8 +523,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return LocalizeString("GenericSaveFileDialogCaption",
-					"Save File", kLocalizationGroupMisc);
+				return LocalizeString("GenericSaveFileDialogCaption", "Save File");
 			}
 		}
 
@@ -576,8 +552,7 @@ namespace SIL.Pa
 			{
 				SplashScreen = new SplashScreen(true, VersionType.Alpha);
 				SplashScreen.Show();
-				SplashScreen.Message = LocalizeString("SplashScreenLoadingMsg",
-					"Loading...", kLocalizationGroupInfoMsg);
+				SplashScreen.Message = LocalizeString("SplashScreenLoadingMsg", "Loading...");
 			}
 		}
 
@@ -1005,17 +980,9 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		internal static string LocalizeString(string id, string defaultText,
-			string localizationGroup)
+			string comment)
 		{
-			return LocalizeString(id, defaultText, null, localizationGroup,
-				LocalizationCategory.Unspecified, LocalizationPriority.High);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static string LocalizeString(string id, string defaultText, string comment,
-			string localizationGroup)
-		{
-			return LocalizeString(id, defaultText, comment, localizationGroup,
+			return LocalizeString(id, defaultText, comment, null,
 				LocalizationCategory.Unspecified, LocalizationPriority.High);
 		}
 
@@ -1037,13 +1004,13 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		internal static void LocalizeObject(object obj, string id, string defaultText)
 		{
-			LocalizeObject(obj, id, defaultText, null, kLocalizationGroupMisc);
+			LocalizeObject(obj, id, defaultText, null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal static void LocalizeObject(object obj, string id, string defaultText, string group)
+		internal static void LocalizeObject(object obj, string id, string defaultText, string comment)
 		{
-			LocalizeObject(obj, id, defaultText, null, group);
+			LocalizeObject(obj, id, defaultText, comment, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1122,7 +1089,7 @@ namespace SIL.Pa
 			{
 				L10NMngr.LocalizeObject(item, id, itemProps.Text, itemProps.Tooltip,
 					ShortcutKeysEditor.KeysToString(itemProps.ShortcutKey), "Toolbar or Menu item",
-					kLocalizationGroupTMItems, LocalizationPriority.High);
+					null, LocalizationPriority.High);
 			}
 		}
 
@@ -1402,8 +1369,7 @@ namespace SIL.Pa
 		{
 			s_splashScreenLoadingMessageFormat =
 				LocalizeString("SplashScreenProgressMessageFormat", "{0}  {1}",
-				"Format for message displayed in the splash screen when loading a project. First parameter is the message; second is the percentage value.",
-				kLocalizationGroupInfoMsg);
+				"Format for message displayed in the splash screen when loading a project. First parameter is the message; second is the percentage value.");
 
 			var udvwnd = (CurrentView != null && CurrentView.ActiveView ?
 				CurrentView.OwningForm : MainForm) as IUndockedViewWnd;
@@ -1415,7 +1381,7 @@ namespace SIL.Pa
 
 			if (bar != null)
 			{
-				s_progressPercentFormat = LocalizeString("ProgressPercentageFormat", "{0}%", kLocalizationGroupInfoMsg);
+				s_progressPercentFormat = LocalizeString("ProgressPercentageFormat", "{0}%");
 				bar.Maximum = maxValue;
 				bar.Value = 0;
 				bar.Visible = Settings.Default.UseProgressBarInMainWindow;

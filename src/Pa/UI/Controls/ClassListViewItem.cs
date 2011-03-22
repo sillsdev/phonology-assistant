@@ -182,18 +182,15 @@ namespace SIL.Pa.UI.Controls
 				{
 					case SearchClassType.Phones:
 						return App.LocalizeString("PhonesClassTypeLabel",
-							"Phones", "Label on the define classes dialog box indicating class type",
-							App.kLocalizationGroupMisc);
+							"Phones", "Label on the define classes dialog box indicating class type");
 
 					case SearchClassType.Articulatory:
 						return App.LocalizeString("ArticulatoryFeaturesClassTypeLabel",
-							"Articulatory features", "Articulatory features class type label.",
-							App.kLocalizationGroupMisc);
+							"Articulatory features", "Articulatory features class type label.");
 
 					case SearchClassType.Binary:
 						return App.LocalizeString("BinaryFeaturesClassTypeLabel",
-							"Binary features", "Binary features class type label.",
-							App.kLocalizationGroupMisc);
+							"Binary features", "Binary features class type label.");
 				
 					default:
 						return null;

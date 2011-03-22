@@ -48,15 +48,14 @@ namespace SIL.Pa.UI.Controls
 			Columns.Insert(0, col);
 
 			AddRemoveRowColumn(Properties.Resources.RemoveGridRowNormal, Properties.Resources.RemoveGridRowHot,
-				() => App.LocalizeString("Fw7DataSourcePropertiesDlg.RemoveFieldToolTip", "Remove Field", App.kLocalizationGroupDialogs),
+				() => App.LocalizeString("Fw7DataSourcePropertiesDlg.RemoveFieldToolTip", "Remove Field"),
 				rowIndex => m_mappings.RemoveAt(rowIndex));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string GetNoWritingSystemText()
 		{
-			return App.LocalizeString("FieldMappingGrid.WritingSystemNotApplicableText",
-				"(n/a)", App.kLocalizationGroupUICtrls);
+			return App.LocalizeString("FieldMappingGrid.WritingSystemNotApplicableText", "(n/a)");
 		}
 
 		/// ------------------------------------------------------------------------------------

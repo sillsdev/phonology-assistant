@@ -77,7 +77,7 @@ namespace SIL.Pa.Model.Migration
 				if (updatedFile == null)
 				{
 					errMsg = App.LocalizeString("ProjectMigrationTransformationFailureMsg",
-						"Migration transformation failed.", App.kLocalizationGroupInfoMsg);
+						"Migration transformation failed.");
 					return false;
 				}
 
@@ -100,8 +100,7 @@ namespace SIL.Pa.Model.Migration
 		protected void ShowSuccessMsg()
 		{
 			var msg = App.LocalizeString("ProjectMigrationSuccessfulMsg",
-				"The '{0}' project has succssfully been upgraded to work with this version of {1}. A backup of your old project has been made in:\n\n{2}",
-				App.kLocalizationGroupInfoMsg);
+				"The '{0}' project has succssfully been upgraded to work with this version of {1}. A backup of your old project has been made in:\n\n{2}");
 
 			Utils.MsgBox(string.Format(msg, ProjectName, Application.ProductName, BackupFolder));
 		}

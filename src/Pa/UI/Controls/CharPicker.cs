@@ -264,7 +264,7 @@ namespace SIL.Pa.UI.Controls
 
 			e.Item.AutoSize = m_autoSizeItems;
 			e.Item.Size = m_itemSize;
-			e.Item.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			e.Item.TextAlign = ContentAlignment.MiddleCenter;
 			e.Item.DisplayStyle = ToolStripItemDisplayStyle.Text;
 			e.Item.Margin = new Padding(kDefaultItemMargin);
 			e.Item.MouseMove += Item_MouseMove;
@@ -413,14 +413,12 @@ namespace SIL.Pa.UI.Controls
 			if (string.IsNullOrEmpty(charInfo.Description))
 			{
 				fmt = App.LocalizeString("CharacterPickerShortToolTip", "{0}",
-					"Used to format the tooltip string for items in an IPA character picker control when the character has no description (argument is the character name).",
-					App.kLocalizationGroupMisc);
+					"Used to format the tooltip string for items in an IPA character picker control when the character has no description (argument is the character name).");
 			}
 			else
 			{
 				fmt = App.LocalizeString("CharacterPickerLongToolTip", "{0},\n{1}",
-					"Used to format the tooltip string for items in an IPA character picker control (1st argument is the character name, and the 2rd argument is for the description)",
-					App.kLocalizationGroupMisc);
+					"Used to format the tooltip string for items in an IPA character picker control (1st argument is the character name, and the 2rd argument is for the description)");
 			}
 			
 			string tooltip = string.Format(fmt, charInfo.Name, charInfo.Description);

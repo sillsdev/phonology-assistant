@@ -41,8 +41,7 @@ namespace SIL.Pa.UI.Views
 		{
 			var msg = App.LocalizeString("DistributionChartVw.InitializingViewMsg",
 				"Initializing Distribution Chart View...",
-				"Message displayed whenever the distribution chart view is being initialized.",
-				"Views");
+				"Message displayed whenever the distribution chart view is being initialized.");
 
 			App.InitializeProgressBarForLoadingView(msg, 6);
 			InitializeComponent();

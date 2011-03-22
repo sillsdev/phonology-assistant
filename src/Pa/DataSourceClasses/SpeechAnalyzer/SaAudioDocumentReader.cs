@@ -62,11 +62,8 @@ namespace SIL.Pa.DataSource.Sa
 		/// ------------------------------------------------------------------------------------
 		public static void ShowWaveFileNotFoundMsg(string path)
 		{
-			var msg = App.LocalizeString("WaveFileNotFoundMsg", "{0} cannot be found.",
-				App.kLocalizationGroupInfoMsg);
-			
+			var msg = App.LocalizeString("WaveFileNotFoundMsg", "{0} cannot be found.");
 			Utils.MsgBox(string.Format(msg, Utils.PrepFilePathForMsgBox(path)));
-	
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -97,9 +94,7 @@ namespace SIL.Pa.DataSource.Sa
 
 					if ((result == AudioReader.InitResult.InvalidFormat))
 					{
-						var msg = App.LocalizeString("InvalidWaveFileMsg",
-							"{1} is not a valid wave file.", App.kLocalizationGroupInfoMsg);
-						
+						var msg = App.LocalizeString("InvalidWaveFileMsg", "{1} is not a valid wave file.");
 						Utils.MsgBox(string.Format(msg, Utils.PrepFilePathForMsgBox(audioFilePath)));
 						return false;
 					}
@@ -118,9 +113,7 @@ namespace SIL.Pa.DataSource.Sa
 			}
 			catch (Exception e)
 			{
-				var msg = App.LocalizeString("ErrorInitializingDocReaderMsg",
-					"Error initializing SA Document reader.\n\n{0}", App.kLocalizationGroupInfoMsg);
-				
+				var msg = App.LocalizeString("ErrorInitializingDocReaderMsg", "Error initializing SA Document reader.\n\n{0}");
 				Utils.MsgBox(string.Format(msg, e.Message));
 				return false;
 			}

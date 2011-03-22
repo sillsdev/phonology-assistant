@@ -55,6 +55,12 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void SetWindowText()
+		{
+			Text = App.LocalizeString("FwDataSourcePropertiesDlg.WindowTitle", Text);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandlePhoneticStorageTypeCheckedChanged(object sender, EventArgs e)
 		{
 			m_dirty = true;

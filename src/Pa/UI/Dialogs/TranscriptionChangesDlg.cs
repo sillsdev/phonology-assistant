@@ -37,9 +37,11 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		protected override void SetWindowText()
+		{
+			Text = App.LocalizeString("TranscriptionChangesDlg.WindowTitle", Text);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
@@ -47,10 +49,6 @@ namespace SIL.Pa.UI.Dialogs
 			m_transChangeCtrl.RefreshHeader();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Clean up.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosed(FormClosedEventArgs e)
 		{

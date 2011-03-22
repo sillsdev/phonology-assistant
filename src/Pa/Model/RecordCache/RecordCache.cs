@@ -125,8 +125,7 @@ namespace SIL.Pa.Model
 			{
 				var msg = App.LocalizeString("LoadingRecordCacheErrorMsg",
 					"The following error occurred while loading '{0}':\n{1}",
-					"Message displayed when failing to load a PAXML file. Parameter 0 is filename, and parameter 1 is the error message.",
-					App.kLocalizationGroupInfoMsg);
+					"Message displayed when failing to load a PaXml file. Parameter 0 is filename, and parameter 1 is the error message.");
 
 				filename = Utils.PrepFilePathForMsgBox(filename);
 				Utils.MsgBox(string.Format(msg, filename, e.Message), MessageBoxButtons.OK,
