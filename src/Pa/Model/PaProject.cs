@@ -29,7 +29,7 @@ namespace SIL.Pa.Model
 		private SortOptions m_dataCorpusVwSortOptions;
 		private SortOptions m_searchVwSortOptions;
 		private SortOptions m_distChartVwSortOptions;
-		private Filter m_loadedFilter;
+		private string m_currentFilterName;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -216,8 +216,8 @@ namespace SIL.Pa.Model
 				return null;
 			}
 
-			if (project.m_loadedFilter != null)
-				project.FilterHelper.SetCurrentFilter(project.m_loadedFilter.Name, false);
+			if (project.m_currentFilterName != null)
+				project.FilterHelper.SetCurrentFilter(project.m_currentFilterName, false);
 			else
 				project.FilterHelper.TurnOffCurrentFilter(false);
 
@@ -783,6 +783,21 @@ namespace SIL.Pa.Model
 		public string Comments { get; set; }
 
 		/// ------------------------------------------------------------------------------------
+		[XmlElement("currentFilter")]
+		public string CurrentFilterName
+		{
+			get { return (CurrentFilter != null ? CurrentFilter.Name : null); }
+			set { m_currentFilterName = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public Filter CurrentFilter
+		{
+			get { return FilterHelper.CurrentFilter; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public string AlternateAudioFileFolder { get; set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -972,14 +987,6 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public FilterHelper FilterHelper { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		[XmlElement("currentFilter")]
-		public Filter CurrentFilter
-		{
-			get { return FilterHelper.CurrentFilter; }
-			set { m_loadedFilter = value; }
-		}
 
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]

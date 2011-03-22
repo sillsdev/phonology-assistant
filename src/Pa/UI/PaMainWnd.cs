@@ -1,19 +1,3 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2005, SIL International. All Rights Reserved.   
-// <copyright from='2005' to='2005' company='SIL International'>
-//		Copyright (c) 2005, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
-// 
-// File: PaMainWnd.cs
-// Responsibility: DavidO
-// 
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -151,7 +135,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		private void EnableOptionsMenus(bool enable)
 		{
-			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("mnuOptionsMain");
+			var itemProps = m_tmAdapter.GetItemProperties("mnuOptionsMain");
 			if (itemProps != null)
 			{
 				itemProps.Visible = true;
@@ -168,7 +152,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		public void EnableUndockMenu(bool enable)
 		{
-			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("mnuUnDockView");
+			var itemProps = m_tmAdapter.GetItemProperties("mnuUnDockView");
 			if (itemProps != null)
 			{
 				itemProps.Visible = true;
@@ -306,7 +290,7 @@ namespace SIL.Pa.UI
 			App.TMAdapter = m_tmAdapter;
 
 			// This item is only visible for the main PA window (i.e. this one).
-			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("mnuUnDockView");
+			var itemProps = m_tmAdapter.GetItemProperties("mnuUnDockView");
 			if (itemProps != null)
 			{
 				itemProps.Visible = true;
@@ -397,18 +381,18 @@ namespace SIL.Pa.UI
 				return;
 			}
 
-			Color clr1 = ColorHelper.CalculateColor(Color.White,
+			var clr1 = ColorHelper.CalculateColor(Color.White,
 				SystemColors.AppWorkspace, 200);
 
-			using (LinearGradientBrush br = new LinearGradientBrush(ClientRectangle,
+			using (var br = new LinearGradientBrush(ClientRectangle,
 				clr1, SystemColors.AppWorkspace, 45))
 			{
 				e.Graphics.FillRectangle(br, ClientRectangle);
 			}
 
 			// Draw the PA logo at the bottom right corner of the application workspace.
-			Image img = Properties.Resources.kimidPaLogo;
-			Rectangle rc = new Rectangle(0, 0, img.Width, img.Height);
+			var img = Properties.Resources.kimidPaLogo;
+			var rc = new Rectangle(0, 0, img.Width, img.Height);
 			rc.X = ClientRectangle.Right - img.Width - 20;
 			rc.Y = ClientRectangle.Bottom - img.Height - 20 - statusStrip.Height;
 			e.Graphics.DrawImageUnscaledAndClipped(img, rc);
@@ -452,7 +436,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnPlaybackBeginning(object args)
 		{
-			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("mnuStopPlayback");
+			var itemProps = m_tmAdapter.GetItemProperties("mnuStopPlayback");
 			if (itemProps != null)
 			{
 				itemProps.Visible = true;
@@ -474,7 +458,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnPlaybackEnded(object args)
 		{
-			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("mnuStopPlayback");
+			var itemProps = m_tmAdapter.GetItemProperties("mnuStopPlayback");
 			if (itemProps != null)
 			{
 				itemProps.Visible = true;
@@ -529,9 +513,9 @@ namespace SIL.Pa.UI
 			}
 
 			// Draw little filter image
-			Image img = Properties.Resources.kimidFilterSmall;
+			var img = Properties.Resources.kimidFilterSmall;
 			rc = lbl.ContentRectangle;
-			Rectangle rcImage = new Rectangle(0, 0, img.Width, img.Height);
+			var rcImage = new Rectangle(0, 0, img.Width, img.Height);
 			rcImage.X = rc.X + 10;
 			rcImage.Y = rc.Y + (int)(Math.Ceiling(((decimal)rc.Height - rcImage.Height) / 2));
 			e.Graphics.DrawImageUnscaledAndClipped(img, rcImage);
