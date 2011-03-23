@@ -92,12 +92,6 @@ namespace SIL.Pa.UI.Dialogs
 			m_gridFilters.IsDirty = false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		protected override void SetWindowText()
-		{
-			Text = App.GetString("FiltersDlg.WindowTitle", Text);
-		}
-
 		#region methods for setting up localized strings
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

@@ -5,19 +5,11 @@ using System.Windows.Forms;
 namespace SIL.Pa.Resources
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class ResourceHelper : Form
 	{
 		private static ResourceManager s_stringResources;
 		private static ResourceManager s_helpResources;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public ResourceHelper()
 		{
@@ -44,7 +36,7 @@ namespace SIL.Pa.Resources
 		/// <param name="resMngr">Resource manager from which to get string specified by
 		/// stid</param>
 		/// -----------------------------------------------------------------------------------
-		private static string GetString(string stid, ResourceManager resMngr)
+		private static string GetResourceString(string stid, ResourceManager resMngr)
 		{
 			string str = (stid == null || resMngr == null ? null : resMngr.GetString(stid));
 			return (string.IsNullOrEmpty(str) ? stid : str);
@@ -57,7 +49,7 @@ namespace SIL.Pa.Resources
 		/// <param name="stid">String resource id</param>
 		/// <returns>String</returns>
 		/// -----------------------------------------------------------------------------------
-		public static string GetString(string stid)
+		public static string GetResourceString(string stid)
 		{
 			if (s_stringResources == null)
 			{
@@ -65,7 +57,7 @@ namespace SIL.Pa.Resources
 					"SIL.Pa.Resources.PaStrings", Assembly.GetExecutingAssembly());
 			}
 
-			return GetString(stid, s_stringResources);
+			return GetResourceString(stid, s_stringResources);
 		}
 
 		/// -----------------------------------------------------------------------------------

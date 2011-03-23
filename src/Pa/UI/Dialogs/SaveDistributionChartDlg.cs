@@ -42,12 +42,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void SetWindowText()
-		{
-			Text = App.GetString("SaveDistributionChartDlg.WindowTitle", Text);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Make sure the text box has focus when the dialog is first shown.
 		/// </summary>

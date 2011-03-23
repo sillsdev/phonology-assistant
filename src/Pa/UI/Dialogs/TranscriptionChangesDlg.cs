@@ -37,12 +37,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void SetWindowText()
-		{
-			Text = App.GetString("TranscriptionChangesDlg.WindowTitle", Text);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
 			base.OnShown(e);

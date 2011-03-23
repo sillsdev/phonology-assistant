@@ -719,21 +719,21 @@ namespace SIL.Pa.UI.Controls
 					if (col == 0)
 					{
 						m_tooltip.ToolTipTitle = App.GetString(
-							"DistributionChartVw.AddSearchItemCellToolTipTitle",
+							"DistributionGrid.AddSearchItemCellToolTipTitle",
 							"Search Item Column:", "Views");
 						
 						text = App.GetString(
-							"DistributionChartVw.AddSearchItemCellToolTip",
+							"DistributionGrid.AddSearchItemCellToolTip",
 							"Add a search item in this cell", "Views");
 					}
 					else
 					{
 						m_tooltip.ToolTipTitle = App.GetString(
-							"DistributionChartVw.AddEnvironmentCellToolTipTitle",
+							"DistributionGrid.AddEnvironmentCellToolTipTitle",
 							"Environment Row:", "Views");
 
 						text = App.GetString(
-							"DistributionChartVw.AddEnvironmentCellToolTip",
+							"DistributionGrid.AddEnvironmentCellToolTip",
 							"Add a search environment\nin this cell", "Views");
 					}
 
@@ -1177,7 +1177,7 @@ namespace SIL.Pa.UI.Controls
 		public void Reset()
 		{
 			if (m_lblName != null)
-				m_lblName.Text = App.GetString("DistributionChartVw.EmptyName", "(none)", "Views");
+				m_lblName.Text = App.GetString("DistributionGrid.EmptyName", "(none)", "Views");
 
 			Rows.Clear();
 			Columns.Clear();

@@ -70,12 +70,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void SetWindowText()
-		{
-			Text = App.GetString("SaveSearchQueryDlg.WindowTitle", Text);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Adjust the Y location for each label or control being labeled, depending upon
 		/// what elements on the dialog are taller.

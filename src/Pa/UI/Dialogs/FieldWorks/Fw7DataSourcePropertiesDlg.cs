@@ -81,12 +81,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void SetWindowText()
-		{
-			Text = App.GetString("Fw7DataSourcePropertiesDlg.WindowTitle", Text);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Load up the grid with PA field names and the FW writing systems assigned to them,
 		/// if any.

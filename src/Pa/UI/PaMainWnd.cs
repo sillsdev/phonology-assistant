@@ -91,7 +91,7 @@ namespace SIL.Pa.UI
 				Text = App.GetStringForObject(this);
 			else
 			{
-				var fmt = App.GetString("WindowTitleWithProject","{0} - Phonology Assistant", "Main Window");
+				var fmt = App.GetString("PaMainWnd.WindowTitleWithProject","{0} - Phonology Assistant");
 				Text = string.Format(fmt, project.Name);
 			}
 		}
@@ -236,46 +236,36 @@ namespace SIL.Pa.UI
 			var itemProps = m_tmAdapter.GetItemProperties("mnuDataCorpus");
 			var img = (itemProps == null ? null : itemProps.Image);
 			var text = (itemProps == null ? "Error!" : itemProps.Text);
-			var tooltip = App.GetString("DataCorpusViewTabToolTip",
-				"Data Corpus View (Ctrl+Alt+D)", "Main Window");
-			var helptooltip = App.GetString("DataCorpusViewHelpButtonToolTip",
-				"Data Corpus View Help", "Main Window");
+			var tooltip = App.GetString("PaMainWnd.DataCorpusViewTabToolTip", "Data Corpus View (Ctrl+Alt+D)");
+			var helptooltip = App.GetString("PaMainWnd.DataCorpusViewHelpButtonToolTip", "Data Corpus View Help");
 			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidDataCorpusView", img, typeof(DataCorpusVw));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuFindPhones");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tooltip = App.GetString("SearchViewTabToolTip",
-				"Search View (Ctrl+Alt+S)", "Main Window");
-			helptooltip = App.GetString("SearchViewHelpButtonToolTip",
-				"Search View Help", "Main Window");
+			tooltip = App.GetString("PaMainWnd.SearchViewTabToolTip", "Search View (Ctrl+Alt+S)");
+			helptooltip = App.GetString("PaMainWnd.SearchViewHelpButtonToolTip", "Search View Help");
 			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidSearchView", img, typeof(SearchVw));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuConsonantChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tooltip = App.GetString("ConsonantChartViewTabToolTip",
-				"Consonant Chart View (Ctrl+Alt+C)", "Main Window");
-			helptooltip = App.GetString("ConsonantChartViewHelpButtonToolTip",
-				"Consonant Chart View Help", "Main Window");
+			tooltip = App.GetString("PaMainWnd.ConsonantChartViewTabToolTip", "Consonant Chart View (Ctrl+Alt+C)");
+			helptooltip = App.GetString("PaMainWnd.ConsonantChartViewHelpButtonToolTip", "Consonant Chart View Help");
 			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidConsonantChartView", img, typeof(ConsonantChartVw));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuVowelChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tooltip = App.GetString("VowelChartViewTabToolTip",
-				"Vowel Chart View (Ctrl+Alt+V)", "Main Window");
-			helptooltip = App.GetString("VowelChartViewHelpButtonToolTip",
-				"Vowel Chart View Help", "Main Window");
+			tooltip = App.GetString("PaMainWnd.VowelChartViewTabToolTip", "Vowel Chart View (Ctrl+Alt+V)");
+			helptooltip = App.GetString("PaMainWnd.VowelChartViewHelpButtonToolTip", "Vowel Chart View Help");
 			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidVowelChartView", img, typeof(VowelChartVw));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuXYChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tooltip = App.GetString("DistributionChartViewTabToolTip",
-				"Distribution Charts View (Ctrl+Alt+X)", locExtender.LocalizationGroup);
-			helptooltip = App.GetString("DistributionChartViewHelpButtonToolTip",
-				"Distribution Charts View Help", "Main Window");
+			tooltip = App.GetString("PaMainWnd.DistributionChartViewTabToolTip", "Distribution Charts View (Ctrl+Alt+X)");
+			helptooltip = App.GetString("PaMainWnd.DistributionChartViewHelpButtonToolTip", "Distribution Charts View Help");
 			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidXYChartsView", img, typeof(DistributionChartVw));
 			
 			vwTabGroup.Visible = true;

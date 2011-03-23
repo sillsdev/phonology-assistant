@@ -962,17 +962,13 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		internal static string GetString(string id, string defaultText)
 		{
-			return (L10NMngr == null ? defaultText :
-				L10NMngr.LocalizeString(id, defaultText, null, null,
-					LocalizationCategory.Unspecified, LocalizationPriority.High));
+			return (L10NMngr == null ? defaultText : L10NMngr.LocalizeString(id, defaultText));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		internal static string GetString(string id, string defaultText, string comment)
 		{
-			return (L10NMngr == null ? defaultText :
-				L10NMngr.LocalizeString(id, defaultText, comment, null,
-					LocalizationCategory.Unspecified, LocalizationPriority.High));
+			return (L10NMngr == null ? defaultText : L10NMngr.LocalizeString(id, defaultText, comment));
 		}
 
 		/// ------------------------------------------------------------------------------------

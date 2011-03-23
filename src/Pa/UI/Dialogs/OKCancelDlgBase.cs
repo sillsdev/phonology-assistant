@@ -124,7 +124,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected virtual void SetWindowText()
 		{
-			throw new NotImplementedException();
+			Text = App.GetStringForObject(this);
 		}
 
 		/// ------------------------------------------------------------------------------------

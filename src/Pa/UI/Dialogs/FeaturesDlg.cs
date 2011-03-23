@@ -80,12 +80,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void SetWindowText()
-		{
-			Text = App.GetString("FeaturesDlg.WindowTitle", Text);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		private void SetupFeatureLists()
 		{
 			m_lvAFeatures = new FeatureListView(App.FeatureType.Articulatory);

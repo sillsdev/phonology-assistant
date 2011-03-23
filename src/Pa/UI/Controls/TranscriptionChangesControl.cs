@@ -30,10 +30,6 @@ namespace SIL.Pa.UI.Controls
 
 		#region Constructing the control, grid and loading the grid
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public TranscriptionChangesControl()
 		{
 			// Create the label over the column containing transcriptions to convert.
@@ -70,10 +66,10 @@ namespace SIL.Pa.UI.Controls
 			lblSourceHdg.Top = lblTargetHdg.Top = (m_header.Height - lblSourceHdg.Height) / 2;
 
 			// Set the heading text.
-			App.GetStringForObject(lblSourceHdg, "TranscriptionsChangesControl.Heading1",
+			App.GetStringForObject(lblSourceHdg, "TranscriptionChangesControl.Heading1",
 				"Transcribed in source as:", "Heading in transcription changes control.");
 
-			App.GetStringForObject(lblTargetHdg, "TranscriptionsChangesControl.Heading2",
+			App.GetStringForObject(lblTargetHdg, "TranscriptionChangesControl.Heading2",
 				"Replace with one of these options:", "Heading in transcription changes control.");
 
 			BuildGrid();
@@ -150,7 +146,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void LoadGrid()
 		{
-			TranscriptionChanges expList = App.Project.TranscriptionChanges;
+			var expList = App.Project.TranscriptionChanges;
 
 			if (expList == null || expList.Count == 0)
 			{
@@ -162,14 +158,14 @@ namespace SIL.Pa.UI.Controls
 			m_grid.Rows.Add(expList.Count);
 
 			int i = 0;
-			foreach (TranscriptionChange info in expList)
+			foreach (var info in expList)
 			{
 				m_grid[0, i].Value = info.WhatToReplace;
 				bool noneChecked = false;
 
 				// Load the cell indicating whether or not a
 				// replacement will take place for this item.
-				RadioButtonCell cell = m_grid[kCnvrtCol, i] as RadioButtonCell;
+				var cell = m_grid[kCnvrtCol, i] as RadioButtonCell;
 				if (cell != null)
 				{
 					cell.Checked = (info.ReplaceWith == null);
@@ -244,10 +240,6 @@ namespace SIL.Pa.UI.Controls
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnSizeChanged(EventArgs e)
 		{
 			base.OnSizeChanged(e);
@@ -309,10 +301,6 @@ namespace SIL.Pa.UI.Controls
 
 		#region Grid event methods
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		static void m_grid_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
 		{
 			// When the steps performed in "RowWasRemoved" were done in this method, there
@@ -359,10 +347,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		void m_grid_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
 		{
 			if (e.RowIndex == m_grid.NewRowIndex)
@@ -372,7 +356,7 @@ namespace SIL.Pa.UI.Controls
 
 				// When a new row is beginning to be edited, then check the
 				// "None" column. But don't consider it dirty yet.
-				RadioButtonCell cell = m_grid[kCnvrtCol, e.RowIndex] as RadioButtonCell;
+				var cell = m_grid[kCnvrtCol, e.RowIndex] as RadioButtonCell;
 				if (cell != null)
 				{
 					bool wasDirty = m_grid.IsDirty;
@@ -384,10 +368,6 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void m_grid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
 		{
@@ -418,7 +398,7 @@ namespace SIL.Pa.UI.Controls
 				// If the cell just edited is one of the convert to experimentaTransList
 				// then check it, on the assumption the user wants the latest of their
 				// added/edited experimentaTransList.
-				RadioButtonCell cell = m_grid[e.ColumnIndex, e.RowIndex] as RadioButtonCell;
+				var cell = m_grid[e.ColumnIndex, e.RowIndex] as RadioButtonCell;
 				if (cell != null && !string.IsNullOrEmpty(cell.Value as string))
 					cell.Checked = true;
 
@@ -452,10 +432,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnRemoveRow(object args)
 		{
 			if (args.GetType() == typeof(int))
@@ -471,10 +447,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnRemoveLastColumn(object args)
 		{
 			m_grid.Columns.RemoveAt(m_grid.Columns.Count - 1);
@@ -487,7 +459,7 @@ namespace SIL.Pa.UI.Controls
 			if (row >= 0 && row < m_grid.NewRowIndex)
 			{
 				// Now make sure at least one convert to item is checked
-				RadioButtonCell cell = m_grid[kFirstCnvrtToCol, row] as RadioButtonCell;
+				var cell = m_grid[kFirstCnvrtToCol, row] as RadioButtonCell;
 				if (GetRowsConvertToValue(row) == null && cell != null &&
 					!string.IsNullOrEmpty(cell.Value as string))
 				{
@@ -524,7 +496,7 @@ namespace SIL.Pa.UI.Controls
 			if (e.RowIndex >= 0)
 				return;
 
-			Rectangle rc = e.CellBounds;
+			var rc = e.CellBounds;
 
 			// This is somewhat kludgy. I encountered a problem drawing a line across the
 			// bottom of each column heading cell. In most cells it worked, but the line would
@@ -533,7 +505,7 @@ namespace SIL.Pa.UI.Controls
 			// painting. Since there isn't a problem with rectangle filling, I first fill the
 			// full cell with the line color, then decrease the height of the rectangle by
 			// one pixel and fill with the cell's desired background color. Argh!
-			using (SolidBrush br = new SolidBrush(SystemColors.ControlDark))
+			using (var br = new SolidBrush(SystemColors.ControlDark))
 			{
 				e.Graphics.FillRectangle(br, rc);
 				rc.Height--;
@@ -562,8 +534,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void m_header_Paint(object sender, PaintEventArgs e)
 		{
-			Rectangle rc = m_grid.GetColumnDisplayRectangle(kCnvrtCol, true);
-			Point pt = m_grid.PointToScreen(rc.Location);
+			var rc = m_grid.GetColumnDisplayRectangle(kCnvrtCol, true);
+			var pt = m_grid.PointToScreen(rc.Location);
 			pt = m_header.PointToClient(pt);
 			e.Graphics.DrawLine(SystemPens.ControlText,
 				pt.X - 1, 0, pt.X - 1, m_grid.Top - 1);
@@ -679,10 +651,10 @@ namespace SIL.Pa.UI.Controls
 				var change = new TranscriptionChange();
 				change.WhatToReplace = (row.Cells[0].Value as string);
 
-				List<string> replacementOptions = new List<string>();
+				var replacementOptions = new List<string>();
 				for (int i = kFirstCnvrtToCol; i < m_grid.Columns.Count; i++)
 				{
-					RadioButtonCell cell = row.Cells[i] as RadioButtonCell;
+					var cell = row.Cells[i] as RadioButtonCell;
 					if (cell != null && !string.IsNullOrEmpty(cell.Value as string))
 					{
 						replacementOptions.Add(cell.Value as string);
@@ -838,7 +810,7 @@ namespace SIL.Pa.UI.Controls
 			if (cvField != null)
 				m_fntCV = cvField.Font;
 
-			m_noneText = App.GetString("TranscriptionsChangesControl.DontConvertText", "None",
+			m_noneText = App.GetString("TranscriptionChangesControl.DontConvertText", "None",
 				"Text in the experimental transcription list of experimental transcription dialog box.");
 		}
 
@@ -864,7 +836,7 @@ namespace SIL.Pa.UI.Controls
 				{
 					foreach (DataGridViewCell cell in DataGridView.Rows[RowIndex].Cells)
 					{
-						RadioButtonCell rbCell = cell as RadioButtonCell;
+						var rbCell = cell as RadioButtonCell;
 						if (rbCell != null && rbCell != this)
 							rbCell.m_checked = false;
 					}
@@ -1011,7 +983,7 @@ namespace SIL.Pa.UI.Controls
 			DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts parts)
 		{
 			// Determine whether or not this cell belongs to the "None" column.
-			RadioButtonColumn owningCol = OwningColumn as RadioButtonColumn;
+			var owningCol = OwningColumn as RadioButtonColumn;
 			bool forNoConvertCol = (owningCol != null && owningCol.ForNoConvertColumn);
 			if (forNoConvertCol)
 			{

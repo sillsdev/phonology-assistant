@@ -90,12 +90,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void SetWindowText()
-		{
-			Text = App.GetString("DefineClassDlg.WindowTitle", Text);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		private void SetClassTypeTexts()
 		{
 			string classTypeText = string.Empty;

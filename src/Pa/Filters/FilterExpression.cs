@@ -14,7 +14,7 @@ namespace SIL.Pa.Filters
 	public class FilterExpression
 	{
 		public static string OtherFilterField = App.GetString(
-			"FiltersDlg.FilterExpressionOperators.OtherFilter", "(OTHER FILTER)",
+			"FilterExpressionOperators.OtherFilter", "(OTHER FILTER)",
 			"Displayed in the filters dialog.");
 
 		private Filter.ExpressionType m_expTypep = Filter.ExpressionType.Normal;
@@ -35,7 +35,7 @@ namespace SIL.Pa.Filters
 		/// ------------------------------------------------------------------------------------
 		public FilterExpression Clone()
 		{
-			FilterExpression clone = new FilterExpression();
+			var clone = new FilterExpression();
 			clone.FieldName = FieldName;
 			clone.Pattern = Pattern;
 			clone.Operator = Operator;

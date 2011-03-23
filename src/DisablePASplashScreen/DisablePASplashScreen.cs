@@ -6,10 +6,6 @@ namespace SIL.Pa
 	public partial class DisablePASplashScreen : Form
 	{
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public DisablePASplashScreen()
 		{
 			InitializeComponent();
@@ -18,20 +14,12 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
 			base.OnFormClosing(e);
 			App.ShouldShowSplashScreen = rbEnable.Checked;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void btnClose_Click(object sender, EventArgs e)
 		{

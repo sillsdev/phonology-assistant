@@ -168,12 +168,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void SetWindowText()
-		{
-			Text = App.GetString("SFDataSourcePropertiesDlg.WindowTitle", Text);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the parse type for the currently checked parse type radio button.
 		/// </summary>

@@ -53,12 +53,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void SetWindowText()
-		{
-			Text = App.GetString("AmbiguousSequencesDlg.WindowTitle", Text);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Clean up.
 		/// </summary>
@@ -86,7 +80,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = App.PhoneticFont;
 			col.CellTemplate.Style.Font = App.PhoneticFont;
-			col.HeaderText = App.GetString(Name + "AmbiguousSequencesDlg.SeqColumnHdg",
+			col.HeaderText = App.GetString("AmbiguousSequencesDlg.SeqColumnHdg",
 				"Sequence", "Column heading in ambiguous sequences dialog box.");
 			
 			m_grid.Columns.Add(col);
@@ -94,7 +88,7 @@ namespace SIL.Pa.UI.Dialogs
 			col = SilGrid.CreateCheckBoxColumn("convert");
 			col.Width = 75;
 			col.CellTemplate.ValueType = typeof(bool);
-			col.HeaderText = App.GetString(Name + "AmbiguousSequencesDlg.ConvertColumnHdg",
+			col.HeaderText = App.GetString("AmbiguousSequencesDlg.ConvertColumnHdg",
 				"Treat as one unit?", "Column heading in ambiguous sequences dialog box.");
 
 			m_grid.Columns.Add(col);
@@ -190,19 +184,11 @@ namespace SIL.Pa.UI.Dialogs
 
 		#region Overridden methods of base class
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override bool IsDirty
 		{
 			get { return m_grid.IsDirty; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
@@ -210,10 +196,6 @@ namespace SIL.Pa.UI.Dialogs
 			base.SaveSettings();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
@@ -223,28 +205,25 @@ namespace SIL.Pa.UI.Dialogs
 				return false;
 			}
 
-			AmbiguousSequences ambigSeqList = new AmbiguousSequences();
+			var ambigSeqList = new AmbiguousSequences();
 
-			foreach (DataGridViewRow row in m_grid.Rows)
+			foreach (var row in m_grid.GetRows().Where(r => r.Index != m_grid.NewRowIndex))
 			{
-				if (row.Index != m_grid.NewRowIndex)
+				var phone = row.Cells["seq"].Value as string;
+				var basechar = row.Cells["base"].Value as string;
+
+				// Don't bother saving anything if there isn't
+				// a phone (sequence) or base character.
+				if (phone != null && phone.Trim().Length > 0 &&
+					basechar != null && basechar.Trim().Length > 0)
 				{
-					string phone = row.Cells["seq"].Value as string;
-					string basechar = row.Cells["base"].Value as string;
+					var seq = new AmbiguousSeq(phone.Trim());
+					seq.BaseChar = basechar.Trim();
+					seq.Convert = (row.Cells["convert"].Value == null ?
+						false : (bool)row.Cells["convert"].Value);
 
-					// Don't bother saving anything if there isn't
-					// a phone (sequence) or base character.
-					if (phone != null && phone.Trim().Length > 0 &&
-						basechar != null && basechar.Trim().Length > 0)
-					{
-						AmbiguousSeq seq = new AmbiguousSeq(phone.Trim());
-						seq.BaseChar = basechar.Trim();
-						seq.Convert = (row.Cells["convert"].Value == null ?
-							false : (bool)row.Cells["convert"].Value);
-
-						seq.IsGenerated = (bool)row.Cells["generated"].Value;
-						ambigSeqList.Add(seq);
-					}
+					seq.IsGenerated = (bool)row.Cells["generated"].Value;
+					ambigSeqList.Add(seq);
 				}
 			}
 
