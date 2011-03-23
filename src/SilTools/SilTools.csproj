@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -12,6 +12,26 @@
     <AssemblyName>SilTools</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,6 +43,7 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>1591, 1573</NoWarn>
     <DocumentationFile>..\..\Output\Debug\SilTools.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,9 +54,11 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>1591</NoWarn>
     <DocumentationFile>..\..\Output\Release\SilTools.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -44,7 +67,7 @@
     <Reference Include="System.Management" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Configuration" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorHelper.cs" />
@@ -57,11 +80,23 @@
     <Compile Include="Controls\AutoHeightLabel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\AutoHeightRadioButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\CustomDropDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\CustomDropDownComboBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Controls\CustomDropDownComboBox.designer.cs">
+      <DependentUpon>CustomDropDownComboBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ExceptionViewer.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\ExceptionViewer.designer.cs">
+      <DependentUpon>ExceptionViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\HeaderLabel.cs">
       <SubType>Component</SubType>
@@ -72,11 +107,29 @@
     <Compile Include="Controls\OutlookBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Controls\OutlookBar.designer.cs">
+      <DependentUpon>OutlookBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\ProgressForm.Designer.cs">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ProgressWheel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ProgressWheel.Designer.cs">
+      <DependentUpon>ProgressWheel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ShortcutKeysDropDown.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\ShortcutKeysEditor.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ShortcutKeysEditor.designer.cs">
+      <DependentUpon>ShortcutKeysEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SilGradientPanel.cs">
       <SubType>Component</SubType>
@@ -90,11 +143,11 @@
     <Compile Include="Controls\SilPopup.designer.cs">
       <DependentUpon>SilPopup.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SilTextPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controls\SmallFadingWnd.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\SmallFadingWnd.designer.cs">
+      <DependentUpon>SmallFadingWnd.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SplashScreen.cs" />
     <Compile Include="Controls\SplashScreenForm.cs">
@@ -105,6 +158,9 @@
     </Compile>
     <Compile Include="FontHelper.cs" />
     <Compile Include="Grid\CheckBoxColumnHeaderHandler.cs" />
+    <Compile Include="Grid\CellCustomDropDownList.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Grid\GridCellPiecePainter.cs" />
     <Compile Include="Grid\SilButtonCell.cs" />
     <Compile Include="Grid\SilButtonColumn.cs" />
@@ -136,21 +192,6 @@
     <Compile Include="Utils.cs" />
     <Compile Include="XmlHelper.cs" />
     <Compile Include="XmlSerializationHelper.cs" />
-    <Compile Include="Controls\CustomDropDownComboBox.Designer.cs">
-      <DependentUpon>CustomDropDownComboBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ExceptionViewer.Designer.cs">
-      <DependentUpon>ExceptionViewer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\OutlookBar.Designer.cs">
-      <DependentUpon>OutlookBar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ShortcutKeysEditor.Designer.cs">
-      <DependentUpon>ShortcutKeysEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\SmallFadingWnd.Designer.cs">
-      <DependentUpon>SmallFadingWnd.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\AboutDlg.resx">
@@ -168,6 +209,12 @@
     <EmbeddedResource Include="Controls\OutlookBar.resx">
       <DependentUpon>OutlookBar.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ProgressForm.resx">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ProgressWheel.resx">
+      <DependentUpon>ProgressWheel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ShortcutKeysEditor.resx">
       <DependentUpon>ShortcutKeysEditor.cs</DependentUpon>
@@ -207,8 +254,36 @@
   <ItemGroup>
     <None Include="Resources\Splash1.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RemoveGridRowHot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RemoveGridRowNormal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Blue Wheel.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LoadingWheel.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -1,15 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
 {
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public partial class OptionsDlg
 	{
@@ -19,7 +16,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeSortingTab()
 		{
 			// This tab isn't valid if there is no project loaded.
-			if (App.Project == null)
+			if (m_project == null)
 			{
 				tabOptions.TabPages.Remove(tpgSorting);
 				return;
@@ -34,19 +31,19 @@ namespace SIL.Pa.UI.Dialogs
 			chkSaveManual.Font = FontHelper.UIFont;
 			lblSaveManual.Font = FontHelper.UIFont;
 
-			SortOptionsTypeComboItem item = new SortOptionsTypeComboItem(
-				cboListType.Items[0].ToString(), App.Project.DataCorpusVwSortOptions.Clone());
+			var item = new SortOptionsTypeComboItem(cboListType.Items[0].ToString(),
+				m_project.DataCorpusVwSortOptions.Copy());
 
 			cboListType.Items.RemoveAt(0);
 			cboListType.Items.Insert(0, item);
 
 			item = new SortOptionsTypeComboItem(cboListType.Items[1].ToString(),
-				App.Project.SearchVwSortOptions.Clone());
+				m_project.SearchVwSortOptions.Copy());
 			cboListType.Items.RemoveAt(1);
 			cboListType.Items.Insert(1, item);
 
 			item = new SortOptionsTypeComboItem(cboListType.Items[2].ToString(),
-				App.Project.DistributionChartVwSortOptions.Clone());
+				m_project.DistributionChartVwSortOptions.Copy());
 			cboListType.Items.RemoveAt(2);
 			cboListType.Items.Add(item);
 
@@ -55,31 +52,12 @@ namespace SIL.Pa.UI.Dialogs
 			cboListType.Left = lblListType.Right + 10;
 			cboListType.SelectedIndex = 0;
 			m_sortingGrid.IsDirty = false;
-			App.InitializeGridSelectionColors(m_sortingGrid, false);
-
-			Shown += OptionsDlg_Shown;
+			App.SetGridSelectionColors(m_sortingGrid, false);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void OptionsDlg_Shown(object sender, EventArgs e)
-		{
-			phoneticSortOptions.LayoutControls();
-			Shown -= OptionsDlg_Shown;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void BuildGrid()
 		{
-			m_sortingGrid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
-
 			// Create the column for the ascending check box.
 			DataGridViewColumn col = SilGrid.CreateCheckBoxColumn("include");
 			col.HeaderText = string.Empty;
@@ -88,14 +66,16 @@ namespace SIL.Pa.UI.Dialogs
 
 			// Create the column for the column name.
 			col = SilGrid.CreateTextBoxColumn("column");
-			col.HeaderText = Properties.Resources.kstidDefineSortOrderColumnCol;
 			col.ReadOnly = true;
 			m_sortingGrid.Columns.Add(col);
+			App.GetStringForObject(m_sortingGrid.Columns["column"],
+				"OptionsDlg.SortingTab.SortOrderColumnColumnHeadingText", "Column");
 
 			// Create the column for the ascending check box.
 			col = SilGrid.CreateCheckBoxColumn("direction");
-			col.HeaderText = Properties.Resources.kstidDefineSortOrderAscendingCol;
 			m_sortingGrid.Columns.Add(col);
+			App.GetStringForObject(m_sortingGrid.Columns["direction"],
+				"OptionsDlg.SortingTab.SortOrderDirectionColumnHeadingText", "Ascending?");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -111,19 +91,19 @@ namespace SIL.Pa.UI.Dialogs
 			if (m_prevListType != null)
 				m_prevListType.SortOptions = GetSortOptionsFromTab();
 
-			SortOptionsTypeComboItem item = cboListType.Items[0] as SortOptionsTypeComboItem;
+			var item = cboListType.Items[0] as SortOptionsTypeComboItem;
 			if (item != null)
-				App.Project.DataCorpusVwSortOptions = item.SortOptions;
+				m_project.DataCorpusVwSortOptions = item.SortOptions;
 
 			item = cboListType.Items[1] as SortOptionsTypeComboItem;
 			if (item != null)
-				App.Project.SearchVwSortOptions = item.SortOptions;
+				m_project.SearchVwSortOptions = item.SortOptions;
 
 			item = cboListType.Items[2] as SortOptionsTypeComboItem;
 			if (item != null)
-				App.Project.DistributionChartVwSortOptions = item.SortOptions;
+				m_project.DistributionChartVwSortOptions = item.SortOptions;
 
-			App.MsgMediator.SendMessage("SortingOptionsChanged", null);
+			App.MsgMediator.SendMessage("SortingOptionsChanged", m_project);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -133,7 +113,7 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				foreach (object item in cboListType.Items)
 				{
-					SortOptionsTypeComboItem sotcbi = item as SortOptionsTypeComboItem;
+					var sotcbi = item as SortOptionsTypeComboItem;
 					if (sotcbi != null && sotcbi.IsDirty)
 						return true;
 				}
@@ -150,7 +130,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void HandleListTypeComboSelectedIndexChanged(object sender, EventArgs e)
 		{
 			phoneticSortOptions.AdvancedOptionsEnabled = (cboListType.SelectedIndex > 0);
-			SortOptionsTypeComboItem item = cboListType.SelectedItem as SortOptionsTypeComboItem;
+			var item = cboListType.SelectedItem as SortOptionsTypeComboItem;
 
 			if (item == null)
 				return;
@@ -160,28 +140,28 @@ namespace SIL.Pa.UI.Dialogs
 				m_prevListType.SortOptions = GetSortOptionsFromTab();
 
 			m_prevListType = item;
-			SortOptions sortOptions = item.SortOptions;
+			var sortOptions = item.SortOptions;
 			phoneticSortOptions.SortOptions = sortOptions;
 			chkSaveManual.Checked = sortOptions.SaveManuallySetSortOptions;
-			List<string> sortFieldNames = LoadListFromSortOptions(sortOptions);
+			var sortFieldNames = LoadListFromSortOptions(sortOptions);
 
 			grpPhoneticSortOptions.Enabled = true;
 
 			// Now look through the list of checked items in the list on the Word List
 			// tab to make sure we include those items in our list of potential sort fields.
-			foreach (PaFieldInfo fieldInfo in fldSelGridWrdList.CheckedFields)
+			foreach (var field in fldSelGridWrdList.GetCheckedFields())
 			{
-				if (!sortFieldNames.Contains(fieldInfo.FieldName))
+				if (!sortFieldNames.Contains(field.Name))
 				{
-					m_sortingGrid.Rows.Add(new object[] { false, fieldInfo, true });
+					m_sortingGrid.Rows.Add(new object[] { false, field, true });
 
 					// If the field is the phonetic field then disable the phonetic sort options.
-					if (fieldInfo.IsPhonetic)
+					if (field.Type == FieldType.Phonetic)
 						grpPhoneticSortOptions.Enabled = false;
 				}
 			}
 
-			if (m_sortingGrid.Rows.Count > 0)
+			if (m_sortingGrid.RowCount > 0)
 			{
 				m_sortingGrid.CurrentCell = m_sortingGrid[0, 0];
 				HandleSortingGridRowEnter(null, new DataGridViewCellEventArgs(0, 0));
@@ -197,16 +177,13 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private List<string> LoadListFromSortOptions(SortOptions sortOptions)
 		{
-			List<string> sortFieldNames = new List<string>();
+			var sortFieldNames = new List<string>();
 			m_sortingGrid.Rows.Clear();
 
-			foreach (SortInformation sinfo in sortOptions.SortInformationList)
+			foreach (var sf in sortOptions.SortFields.Where(sf => sf.Field != null))
 			{
-				if (sinfo.FieldInfo != null)
-				{
-					m_sortingGrid.Rows.Add(new object[] {true, sinfo.FieldInfo, sinfo.ascending });
-					sortFieldNames.Add(sinfo.FieldInfo.FieldName);
-				}
+				m_sortingGrid.Rows.Add(new object[] {true, sf.Field, sf.Ascending });
+				sortFieldNames.Add(sf.Field.Name);
 			}
 
 			return sortFieldNames;
@@ -215,16 +192,16 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private SortOptions GetSortOptionsFromTab()
 		{
-			SortOptions sortOptions = phoneticSortOptions.SortOptions;
+			var sortOptions = phoneticSortOptions.SortOptions;
 			sortOptions.SaveManuallySetSortOptions = chkSaveManual.Checked;
-			sortOptions.SortInformationList.Clear();
+			sortOptions.SortFields.Clear();
 
 			for (int i = m_sortingGrid.Rows.Count - 1; i >= 0; i--)
 			{
-				DataGridViewRow row = m_sortingGrid.Rows[i];
+				var row = m_sortingGrid.Rows[i];
 				if ((bool)row.Cells[0].Value)
 				{
-					sortOptions.SetPrimarySortField(row.Cells[1].Value as PaFieldInfo,
+					sortOptions.SetPrimarySortField(row.Cells[1].Value as PaField,
 						false, (bool)row.Cells[2].Value);
 				}
 			}
@@ -237,7 +214,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			m_dirty = true;
 
-			SortOptionsTypeComboItem item = cboListType.SelectedItem as SortOptionsTypeComboItem;
+			var item = cboListType.SelectedItem as SortOptionsTypeComboItem;
 
 			if (item != null)
 				item.IsDirty = true;
@@ -248,7 +225,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			m_dirty = true;
 
-			SortOptionsTypeComboItem item = cboListType.SelectedItem as SortOptionsTypeComboItem;
+			var item = cboListType.SelectedItem as SortOptionsTypeComboItem;
 
 			if (item != null)
 				item.IsDirty = true;
@@ -261,7 +238,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleButtonMoveSortFieldUpClick(object sender, EventArgs e)
 		{
-			DataGridViewRow currRow = m_sortingGrid.CurrentRow;
+			var currRow = m_sortingGrid.CurrentRow;
 			if (currRow != null)
 			{
 				int i = currRow.Index;
@@ -278,7 +255,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleButtonMoveSortFieldDownClick(object sender, EventArgs e)
 		{
-			DataGridViewRow currRow = m_sortingGrid.CurrentRow;
+			var currRow = m_sortingGrid.CurrentRow;
 			if (currRow != null)
 			{
 				int i = currRow.Index;
@@ -306,9 +283,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleSortingGridCellContentClick(object sender, DataGridViewCellEventArgs e)
 		{
-			PaFieldInfo fieldInfo = m_sortingGrid[1, e.RowIndex].Value as PaFieldInfo;
+			var field = m_sortingGrid[1, e.RowIndex].Value as PaField;
 
-			if (fieldInfo != null && fieldInfo.IsPhonetic)
+			if (field.Type == FieldType.Phonetic)
 			{
 				m_sortingGrid.CommitEdit(DataGridViewDataErrorContexts.Commit);
 				grpPhoneticSortOptions.Enabled = (bool)m_sortingGrid[0, e.RowIndex].Value;
@@ -324,41 +301,19 @@ namespace SIL.Pa.UI.Dialogs
 		private class SortOptionsTypeComboItem
 		{
 			private readonly string m_text;
-			private SortOptions m_sortOptions;
-			private bool m_isDirty;
 
-			/// ------------------------------------------------------------------------------------
-			/// <summary>
-			/// 
-			/// </summary>
 			/// ------------------------------------------------------------------------------------
 			internal SortOptionsTypeComboItem(string text, SortOptions sortOptions)
 			{
 				m_text = text;
-				m_sortOptions = sortOptions;
+				SortOptions = sortOptions;
 			}
 
 			/// ------------------------------------------------------------------------------------
-			/// <summary>
-			/// 
-			/// </summary>
-			/// ------------------------------------------------------------------------------------
-			internal SortOptions SortOptions
-			{
-				get { return m_sortOptions; }
-				set { m_sortOptions = value; }
-			}
+			internal SortOptions SortOptions { get; set; }
 
 			/// --------------------------------------------------------------------------------
-			/// <summary>
-			/// 
-			/// </summary>
-			/// --------------------------------------------------------------------------------
-			public bool IsDirty
-			{
-				get { return m_isDirty; }
-				set { m_isDirty = value; }
-			}
+			public bool IsDirty { get; set; }
 
 			/// ------------------------------------------------------------------------------------
 			/// <summary>

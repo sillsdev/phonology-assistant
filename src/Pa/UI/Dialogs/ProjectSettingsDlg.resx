@@ -117,89 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="pnlButtons.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 303</value>
-  </data>
-  <data name="pnlButtons.Size" type="System.Drawing.Size, System.Drawing">
-    <value>649, 40</value>
-  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="pnlButtons.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.Name" xml:space="preserve">
-    <value>pnlButtons</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;pnlButtons.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="lblProjName.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <metadata name="locExtender.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>121, 17</value>
   </metadata>
-  <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>483, 7</value>
-  </data>
-  <data name="btnCancel.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;btnCancel.Name" xml:space="preserve">
-    <value>btnCancel</value>
-  </data>
-  <data name="&gt;&gt;btnCancel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnCancel.Parent" xml:space="preserve">
-    <value>pnlButtons</value>
-  </data>
-  <data name="&gt;&gt;btnCancel.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>397, 7</value>
-  </data>
-  <data name="btnOK.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
-    <value>btnOK</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Parent" xml:space="preserve">
-    <value>pnlButtons</value>
-  </data>
-  <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="btnHelp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>569, 7</value>
-  </data>
-  <data name="btnHelp.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;btnHelp.Name" xml:space="preserve">
-    <value>btnHelp</value>
-  </data>
-  <data name="&gt;&gt;btnHelp.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnHelp.Parent" xml:space="preserve">
-    <value>pnlButtons</value>
-  </data>
-  <data name="&gt;&gt;btnHelp.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="lblProjName.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="lblProjName.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 3</value>
   </data>
@@ -235,16 +160,16 @@
     <value>NoControl</value>
   </data>
   <data name="lblTranscriber.Location" type="System.Drawing.Point, System.Drawing">
-    <value>340, 3</value>
+    <value>317, 3</value>
   </data>
   <data name="lblTranscriber.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 0</value>
+    <value>8, 3, 3, 0</value>
   </data>
   <data name="lblTranscriber.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 13</value>
   </data>
   <data name="lblTranscriber.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+    <value>9</value>
   </data>
   <data name="lblTranscriber.Text" xml:space="preserve">
     <value>&amp;Transcriber:</value>
@@ -259,7 +184,7 @@
     <value>tblLayout</value>
   </data>
   <data name="&gt;&gt;lblTranscriber.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>11</value>
   </data>
   <data name="lblSpeaker.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -268,16 +193,16 @@
     <value>NoControl</value>
   </data>
   <data name="lblSpeaker.Location" type="System.Drawing.Point, System.Drawing">
-    <value>340, 31</value>
+    <value>317, 31</value>
   </data>
   <data name="lblSpeaker.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 8, 3, 0</value>
+    <value>8, 8, 3, 0</value>
   </data>
   <data name="lblSpeaker.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 13</value>
   </data>
   <data name="lblSpeaker.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
+    <value>11</value>
   </data>
   <data name="lblSpeaker.Text" xml:space="preserve">
     <value>&amp;Speaker:</value>
@@ -301,16 +226,16 @@
     <value>NoControl</value>
   </data>
   <data name="lblComments.Location" type="System.Drawing.Point, System.Drawing">
-    <value>340, 59</value>
+    <value>317, 59</value>
   </data>
   <data name="lblComments.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 8, 3, 0</value>
+    <value>8, 8, 3, 0</value>
   </data>
   <data name="lblComments.Size" type="System.Drawing.Size, System.Drawing">
     <value>59, 13</value>
   </data>
   <data name="lblComments.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
+    <value>13</value>
   </data>
   <data name="lblComments.Text" xml:space="preserve">
     <value>&amp;Comments:</value>
@@ -325,100 +250,10 @@
     <value>tblLayout</value>
   </data>
   <data name="&gt;&gt;lblComments.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>13</value>
   </data>
   <data name="txtProjName.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
-  </data>
-  <data name="txtProjName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>98, 0</value>
-  </data>
-  <data name="txtProjName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 0, 3, 3</value>
-  </data>
-  <data name="txtProjName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>236, 20</value>
-  </data>
-  <data name="txtProjName.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;txtProjName.Name" xml:space="preserve">
-    <value>txtProjName</value>
-  </data>
-  <data name="&gt;&gt;txtProjName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtProjName.Parent" xml:space="preserve">
-    <value>tblLayout</value>
-  </data>
-  <data name="&gt;&gt;txtProjName.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="txtTranscriber.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="txtTranscriber.Location" type="System.Drawing.Point, System.Drawing">
-    <value>409, 0</value>
-  </data>
-  <data name="txtTranscriber.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 0, 0, 3</value>
-  </data>
-  <data name="txtTranscriber.Size" type="System.Drawing.Size, System.Drawing">
-    <value>239, 20</value>
-  </data>
-  <data name="txtTranscriber.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;txtTranscriber.Name" xml:space="preserve">
-    <value>txtTranscriber</value>
-  </data>
-  <data name="&gt;&gt;txtTranscriber.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtTranscriber.Parent" xml:space="preserve">
-    <value>tblLayout</value>
-  </data>
-  <data name="&gt;&gt;txtTranscriber.ZOrder" xml:space="preserve">
-    <value>14</value>
-  </data>
-  <data name="txtSpeaker.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="txtSpeaker.Location" type="System.Drawing.Point, System.Drawing">
-    <value>409, 28</value>
-  </data>
-  <data name="txtSpeaker.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 5, 0, 3</value>
-  </data>
-  <data name="txtSpeaker.Size" type="System.Drawing.Size, System.Drawing">
-    <value>239, 20</value>
-  </data>
-  <data name="txtSpeaker.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="&gt;&gt;txtSpeaker.Name" xml:space="preserve">
-    <value>txtSpeaker</value>
-  </data>
-  <data name="&gt;&gt;txtSpeaker.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtSpeaker.Parent" xml:space="preserve">
-    <value>tblLayout</value>
-  </data>
-  <data name="&gt;&gt;txtSpeaker.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="txtComments.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="txtComments.Location" type="System.Drawing.Point, System.Drawing">
-    <value>409, 56</value>
-  </data>
-  <data name="txtComments.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 5, 0, 6</value>
-  </data>
-  <data name="txtComments.Multiline" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="tblLayout.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -427,7 +262,34 @@
     <value>True</value>
   </data>
   <data name="tblLayout.ColumnCount" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>6</value>
+  </data>
+  <data name="txtLanguageCode.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="txtLanguageCode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>98, 56</value>
+  </data>
+  <data name="txtLanguageCode.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 3, 3</value>
+  </data>
+  <data name="txtLanguageCode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>141, 20</value>
+  </data>
+  <data name="txtLanguageCode.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;txtLanguageCode.Name" xml:space="preserve">
+    <value>txtLanguageCode</value>
+  </data>
+  <data name="&gt;&gt;txtLanguageCode.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtLanguageCode.Parent" xml:space="preserve">
+    <value>tblLayout</value>
+  </data>
+  <data name="&gt;&gt;txtLanguageCode.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="lblResearcher.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -445,7 +307,7 @@
     <value>65, 13</value>
   </data>
   <data name="lblResearcher.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="lblResearcher.Text" xml:space="preserve">
     <value>R&amp;esearcher:</value>
@@ -460,7 +322,7 @@
     <value>tblLayout</value>
   </data>
   <data name="&gt;&gt;lblResearcher.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="txtResearcher.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -472,10 +334,10 @@
     <value>3, 5, 3, 6</value>
   </data>
   <data name="txtResearcher.Size" type="System.Drawing.Size, System.Drawing">
-    <value>236, 20</value>
+    <value>208, 20</value>
   </data>
   <data name="txtResearcher.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="&gt;&gt;txtResearcher.Name" xml:space="preserve">
     <value>txtResearcher</value>
@@ -487,243 +349,6 @@
     <value>tblLayout</value>
   </data>
   <data name="&gt;&gt;txtResearcher.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="pnlGrid.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="m_grid.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="m_grid.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt</value>
-  </data>
-  <data name="m_grid.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 24</value>
-  </data>
-  <data name="m_grid.RowHeadersWidth" type="System.Int32, mscorlib">
-    <value>22</value>
-  </data>
-  <data name="m_grid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>515, 146</value>
-  </data>
-  <data name="m_grid.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;m_grid.Name" xml:space="preserve">
-    <value>m_grid</value>
-  </data>
-  <data name="&gt;&gt;m_grid.Type" xml:space="preserve">
-    <value>SilTools.SilGrid, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;m_grid.Parent" xml:space="preserve">
-    <value>pnlGrid</value>
-  </data>
-  <data name="&gt;&gt;m_grid.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="pnlGridHdg.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="pnlGridHdg.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 12world</value>
-  </data>
-  <data name="pnlGridHdg.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="pnlGridHdg.Size" type="System.Drawing.Size, System.Drawing">
-    <value>515, 24</value>
-  </data>
-  <data name="pnlGridHdg.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="pnlGridHdg.Text" xml:space="preserve">
-    <value>&amp;Data Sources</value>
-  </data>
-  <data name="&gt;&gt;pnlGridHdg.Name" xml:space="preserve">
-    <value>pnlGridHdg</value>
-  </data>
-  <data name="&gt;&gt;pnlGridHdg.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;pnlGridHdg.Parent" xml:space="preserve">
-    <value>pnlGrid</value>
-  </data>
-  <data name="&gt;&gt;pnlGridHdg.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="pnlGrid.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 12world</value>
-  </data>
-  <data name="pnlGrid.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="pnlGrid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>517, 172</value>
-  </data>
-  <data name="pnlGrid.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;pnlGrid.Name" xml:space="preserve">
-    <value>pnlGrid</value>
-  </data>
-  <data name="&gt;&gt;pnlGrid.Type" xml:space="preserve">
-    <value>SilTools.Controls.SilPanel, SilTools, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;pnlGrid.Parent" xml:space="preserve">
-    <value>pnlDataSourcesMngmnt</value>
-  </data>
-  <data name="&gt;&gt;pnlGrid.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="btnAdd.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="btnAdd.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
-  </data>
-  <data name="btnAdd.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnAdd.Location" type="System.Drawing.Point, System.Drawing">
-    <value>526, 0</value>
-  </data>
-  <data name="btnAdd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 26</value>
-  </data>
-  <data name="btnAdd.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="btnAdd.Text" xml:space="preserve">
-    <value>&amp;Add</value>
-  </data>
-  <data name="btnAdd.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
-    <value>TextBeforeImage</value>
-  </data>
-  <data name="&gt;&gt;btnAdd.Name" xml:space="preserve">
-    <value>btnAdd</value>
-  </data>
-  <data name="&gt;&gt;btnAdd.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnAdd.Parent" xml:space="preserve">
-    <value>pnlDataSourcesMngmnt</value>
-  </data>
-  <data name="&gt;&gt;btnAdd.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="btnCustomFields.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="btnCustomFields.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnCustomFields.Location" type="System.Drawing.Point, System.Drawing">
-    <value>526, 96</value>
-  </data>
-  <data name="btnCustomFields.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 26</value>
-  </data>
-  <data name="btnCustomFields.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="btnCustomFields.Text" xml:space="preserve">
-    <value>Custom &amp;Fields...</value>
-  </data>
-  <data name="&gt;&gt;btnCustomFields.Name" xml:space="preserve">
-    <value>btnCustomFields</value>
-  </data>
-  <data name="&gt;&gt;btnCustomFields.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnCustomFields.Parent" xml:space="preserve">
-    <value>pnlDataSourcesMngmnt</value>
-  </data>
-  <data name="&gt;&gt;btnCustomFields.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="btnRemove.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="btnRemove.Location" type="System.Drawing.Point, System.Drawing">
-    <value>526, 32</value>
-  </data>
-  <data name="btnRemove.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 26</value>
-  </data>
-  <data name="btnRemove.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="btnRemove.Text" xml:space="preserve">
-    <value>&amp;Remove</value>
-  </data>
-  <data name="&gt;&gt;btnRemove.Name" xml:space="preserve">
-    <value>btnRemove</value>
-  </data>
-  <data name="&gt;&gt;btnRemove.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnRemove.Parent" xml:space="preserve">
-    <value>pnlDataSourcesMngmnt</value>
-  </data>
-  <data name="&gt;&gt;btnRemove.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="btnProperties.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="btnProperties.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnProperties.Location" type="System.Drawing.Point, System.Drawing">
-    <value>526, 64</value>
-  </data>
-  <data name="btnProperties.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 26</value>
-  </data>
-  <data name="btnProperties.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="btnProperties.Text" xml:space="preserve">
-    <value>&amp;Properties...</value>
-  </data>
-  <data name="&gt;&gt;btnProperties.Name" xml:space="preserve">
-    <value>btnProperties</value>
-  </data>
-  <data name="&gt;&gt;btnProperties.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnProperties.Parent" xml:space="preserve">
-    <value>pnlDataSourcesMngmnt</value>
-  </data>
-  <data name="&gt;&gt;btnProperties.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="pnlDataSourcesMngmnt.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="pnlDataSourcesMngmnt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 113</value>
-  </data>
-  <data name="pnlDataSourcesMngmnt.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 3, 0, 3</value>
-  </data>
-  <data name="pnlDataSourcesMngmnt.Size" type="System.Drawing.Size, System.Drawing">
-    <value>648, 174</value>
-  </data>
-  <data name="pnlDataSourcesMngmnt.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="&gt;&gt;pnlDataSourcesMngmnt.Name" xml:space="preserve">
-    <value>pnlDataSourcesMngmnt</value>
-  </data>
-  <data name="&gt;&gt;pnlDataSourcesMngmnt.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pnlDataSourcesMngmnt.Parent" xml:space="preserve">
-    <value>tblLayout</value>
-  </data>
-  <data name="&gt;&gt;pnlDataSourcesMngmnt.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
   <data name="lblLanguageName.AutoSize" type="System.Boolean, mscorlib">
@@ -762,99 +387,6 @@
   <data name="&gt;&gt;lblLanguageName.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="pnlLanguageCode.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="pnlLanguageCode.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="pnlLanguageCode.AutoSizeMode" type="System.Windows.Forms.AutoSizeMode, System.Windows.Forms">
-    <value>GrowAndShrink</value>
-  </data>
-  <data name="txtLanguageCode.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="txtLanguageCode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="txtLanguageCode.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="txtLanguageCode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 20</value>
-  </data>
-  <data name="txtLanguageCode.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;txtLanguageCode.Name" xml:space="preserve">
-    <value>txtLanguageCode</value>
-  </data>
-  <data name="&gt;&gt;txtLanguageCode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtLanguageCode.Parent" xml:space="preserve">
-    <value>pnlLanguageCode</value>
-  </data>
-  <data name="&gt;&gt;txtLanguageCode.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="lnkEthnologue.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Right</value>
-  </data>
-  <data name="lnkEthnologue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>154, 1</value>
-  </data>
-  <data name="lnkEthnologue.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="lnkEthnologue.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 16</value>
-  </data>
-  <data name="lnkEthnologue.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="lnkEthnologue.Text" xml:space="preserve">
-    <value>Ethnologue</value>
-  </data>
-  <data name="lnkEthnologue.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
-  </data>
-  <data name="&gt;&gt;lnkEthnologue.Name" xml:space="preserve">
-    <value>lnkEthnologue</value>
-  </data>
-  <data name="&gt;&gt;lnkEthnologue.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lnkEthnologue.Parent" xml:space="preserve">
-    <value>pnlLanguageCode</value>
-  </data>
-  <data name="&gt;&gt;lnkEthnologue.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="pnlLanguageCode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>98, 56</value>
-  </data>
-  <data name="pnlLanguageCode.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 5, 3, 3</value>
-  </data>
-  <data name="pnlLanguageCode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>236, 20</value>
-  </data>
-  <data name="pnlLanguageCode.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;pnlLanguageCode.Name" xml:space="preserve">
-    <value>pnlLanguageCode</value>
-  </data>
-  <data name="&gt;&gt;pnlLanguageCode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pnlLanguageCode.Parent" xml:space="preserve">
-    <value>tblLayout</value>
-  </data>
-  <data name="&gt;&gt;pnlLanguageCode.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
   <data name="lblLanguageCode.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -886,7 +418,7 @@
     <value>tblLayout</value>
   </data>
   <data name="&gt;&gt;lblLanguageCode.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>5</value>
   </data>
   <data name="txtLanguageName.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -898,7 +430,7 @@
     <value>3, 5, 3, 3</value>
   </data>
   <data name="txtLanguageName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>236, 20</value>
+    <value>208, 20</value>
   </data>
   <data name="txtLanguageName.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -913,16 +445,337 @@
     <value>tblLayout</value>
   </data>
   <data name="&gt;&gt;txtLanguageName.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="txtComments.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="txtComments.Location" type="System.Drawing.Point, System.Drawing">
+    <value>386, 56</value>
+  </data>
+  <data name="txtComments.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 0, 6</value>
+  </data>
+  <data name="txtComments.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="txtComments.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Vertical</value>
+  </data>
+  <data name="txtComments.Size" type="System.Drawing.Size, System.Drawing">
+    <value>239, 48</value>
+  </data>
+  <data name="txtComments.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;txtComments.Name" xml:space="preserve">
+    <value>txtComments</value>
+  </data>
+  <data name="&gt;&gt;txtComments.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtComments.Parent" xml:space="preserve">
+    <value>tblLayout</value>
+  </data>
+  <data name="&gt;&gt;txtComments.ZOrder" xml:space="preserve">
     <value>8</value>
+  </data>
+  <data name="txtSpeaker.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="txtSpeaker.Location" type="System.Drawing.Point, System.Drawing">
+    <value>386, 28</value>
+  </data>
+  <data name="txtSpeaker.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 5, 0, 3</value>
+  </data>
+  <data name="txtSpeaker.Size" type="System.Drawing.Size, System.Drawing">
+    <value>239, 20</value>
+  </data>
+  <data name="txtSpeaker.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;txtSpeaker.Name" xml:space="preserve">
+    <value>txtSpeaker</value>
+  </data>
+  <data name="&gt;&gt;txtSpeaker.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtSpeaker.Parent" xml:space="preserve">
+    <value>tblLayout</value>
+  </data>
+  <data name="&gt;&gt;txtSpeaker.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="txtTranscriber.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="txtTranscriber.Location" type="System.Drawing.Point, System.Drawing">
+    <value>386, 0</value>
+  </data>
+  <data name="txtTranscriber.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 0, 0, 3</value>
+  </data>
+  <data name="txtTranscriber.Size" type="System.Drawing.Size, System.Drawing">
+    <value>239, 20</value>
+  </data>
+  <data name="txtTranscriber.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;txtTranscriber.Name" xml:space="preserve">
+    <value>txtTranscriber</value>
+  </data>
+  <data name="&gt;&gt;txtTranscriber.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtTranscriber.Parent" xml:space="preserve">
+    <value>tblLayout</value>
+  </data>
+  <data name="&gt;&gt;txtTranscriber.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="lnkEthnologue.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lnkEthnologue.Location" type="System.Drawing.Point, System.Drawing">
+    <value>245, 59</value>
+  </data>
+  <data name="lnkEthnologue.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 8, 3, 0</value>
+  </data>
+  <data name="lnkEthnologue.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 13</value>
+  </data>
+  <data name="lnkEthnologue.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="lnkEthnologue.Text" xml:space="preserve">
+    <value>Ethnologue</value>
+  </data>
+  <data name="lnkEthnologue.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;lnkEthnologue.Name" xml:space="preserve">
+    <value>lnkEthnologue</value>
+  </data>
+  <data name="&gt;&gt;lnkEthnologue.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lnkEthnologue.Parent" xml:space="preserve">
+    <value>tblLayout</value>
+  </data>
+  <data name="&gt;&gt;lnkEthnologue.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="btnAdd.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="btnAdd.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="btnAdd.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="btnAdd.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnAdd.Location" type="System.Drawing.Point, System.Drawing">
+    <value>530, 110</value>
+  </data>
+  <data name="btnAdd.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 5</value>
+  </data>
+  <data name="btnAdd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 26</value>
+  </data>
+  <data name="btnAdd.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="btnAdd.Text" xml:space="preserve">
+    <value>&amp;Add</value>
+  </data>
+  <data name="btnAdd.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
+    <value>TextBeforeImage</value>
+  </data>
+  <data name="&gt;&gt;btnAdd.Name" xml:space="preserve">
+    <value>btnAdd</value>
+  </data>
+  <data name="&gt;&gt;btnAdd.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnAdd.Parent" xml:space="preserve">
+    <value>tblLayout</value>
+  </data>
+  <data name="&gt;&gt;btnAdd.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="btnRemove.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="btnRemove.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="btnRemove.Location" type="System.Drawing.Point, System.Drawing">
+    <value>530, 141</value>
+  </data>
+  <data name="btnRemove.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 5</value>
+  </data>
+  <data name="btnRemove.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 26</value>
+  </data>
+  <data name="btnRemove.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="btnRemove.Text" xml:space="preserve">
+    <value>&amp;Remove</value>
+  </data>
+  <data name="&gt;&gt;btnRemove.Name" xml:space="preserve">
+    <value>btnRemove</value>
+  </data>
+  <data name="&gt;&gt;btnRemove.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnRemove.Parent" xml:space="preserve">
+    <value>tblLayout</value>
+  </data>
+  <data name="&gt;&gt;btnRemove.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="m_grid.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="m_grid.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
+  <data name="m_grid.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 25</value>
+  </data>
+  <data name="m_grid.RowHeadersWidth" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="m_grid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>523, 146</value>
+  </data>
+  <data name="m_grid.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;m_grid.Name" xml:space="preserve">
+    <value>m_grid</value>
+  </data>
+  <data name="&gt;&gt;m_grid.Type" xml:space="preserve">
+    <value>SilTools.SilGrid, SilTools, Version=1.5.4066.24484, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;m_grid.Parent" xml:space="preserve">
+    <value>pnlGrid</value>
+  </data>
+  <data name="&gt;&gt;m_grid.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="pnlGridHdg.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="pnlGridHdg.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12world</value>
+  </data>
+  <data name="pnlGridHdg.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="pnlGridHdg.Size" type="System.Drawing.Size, System.Drawing">
+    <value>523, 25</value>
+  </data>
+  <data name="pnlGridHdg.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="pnlGridHdg.Text" xml:space="preserve">
+    <value>&amp;Data Sources</value>
+  </data>
+  <data name="&gt;&gt;pnlGridHdg.Name" xml:space="preserve">
+    <value>pnlGridHdg</value>
+  </data>
+  <data name="&gt;&gt;pnlGridHdg.Type" xml:space="preserve">
+    <value>SilTools.Controls.SilGradientPanel, SilTools, Version=1.5.4066.24484, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;pnlGridHdg.Parent" xml:space="preserve">
+    <value>pnlGrid</value>
+  </data>
+  <data name="&gt;&gt;pnlGridHdg.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="pnlGrid.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="pnlGrid.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12world</value>
+  </data>
+  <data name="pnlGrid.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 110</value>
+  </data>
+  <data name="pnlGrid.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 5, 0</value>
+  </data>
+  <data name="pnlGrid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>525, 173</value>
+  </data>
+  <data name="pnlGrid.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;pnlGrid.Name" xml:space="preserve">
+    <value>pnlGrid</value>
+  </data>
+  <data name="&gt;&gt;pnlGrid.Type" xml:space="preserve">
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4066.24484, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;pnlGrid.Parent" xml:space="preserve">
+    <value>tblLayout</value>
+  </data>
+  <data name="&gt;&gt;pnlGrid.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="btnProperties.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="btnProperties.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="btnProperties.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnProperties.Location" type="System.Drawing.Point, System.Drawing">
+    <value>530, 172</value>
+  </data>
+  <data name="btnProperties.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 5</value>
+  </data>
+  <data name="btnProperties.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 26</value>
+  </data>
+  <data name="btnProperties.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="btnProperties.Text" xml:space="preserve">
+    <value>&amp;Properties...</value>
+  </data>
+  <data name="&gt;&gt;btnProperties.Name" xml:space="preserve">
+    <value>btnProperties</value>
+  </data>
+  <data name="&gt;&gt;btnProperties.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnProperties.Parent" xml:space="preserve">
+    <value>tblLayout</value>
+  </data>
+  <data name="&gt;&gt;btnProperties.ZOrder" xml:space="preserve">
+    <value>18</value>
   </data>
   <data name="tblLayout.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 13</value>
   </data>
   <data name="tblLayout.RowCount" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>8</value>
   </data>
   <data name="tblLayout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>648, 290</value>
+    <value>625, 283</value>
   </data>
   <data name="tblLayout.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -937,54 +790,69 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;tblLayout.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="tblLayout.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="lblResearcher" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="txtResearcher" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="pnlDataSourcesMngmnt" Row="4" RowSpan="1" Column="0" ColumnSpan="4" /&gt;&lt;Control Name="lblProjName" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="lblLanguageName" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="pnlLanguageCode" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="lblLanguageCode" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="txtProjName" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="txtLanguageName" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="lblComments" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="txtComments" Row="2" RowSpan="2" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="txtSpeaker" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="lblSpeaker" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="lblTranscriber" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="txtTranscriber" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,50,AutoSize,0,Percent,50" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,Percent,100,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="txtLanguageCode" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="lblResearcher" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="txtResearcher" Row="3" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="lblProjName" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="lblLanguageName" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="lblLanguageCode" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="txtProjName" Row="0" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="txtLanguageName" Row="1" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="txtComments" Row="2" RowSpan="2" Column="4" ColumnSpan="2" /&gt;&lt;Control Name="txtSpeaker" Row="1" RowSpan="1" Column="4" ColumnSpan="2" /&gt;&lt;Control Name="txtTranscriber" Row="0" RowSpan="1" Column="4" ColumnSpan="2" /&gt;&lt;Control Name="lblTranscriber" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="lblSpeaker" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="lblComments" Row="2" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="lnkEthnologue" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="btnAdd" Row="4" RowSpan="1" Column="5" ColumnSpan="1" /&gt;&lt;Control Name="btnRemove" Row="5" RowSpan="1" Column="5" ColumnSpan="1" /&gt;&lt;Control Name="pnlGrid" Row="4" RowSpan="4" Column="0" ColumnSpan="5" /&gt;&lt;Control Name="btnProperties" Row="6" RowSpan="1" Column="5" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,50,AutoSize,0,AutoSize,0,Percent,50,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
-  <data name="txtComments.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
-    <value>Vertical</value>
+  <data name="txtProjName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>98, 0</value>
   </data>
-  <data name="txtComments.Size" type="System.Drawing.Size, System.Drawing">
-    <value>239, 48</value>
+  <data name="txtProjName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 0, 3, 3</value>
   </data>
-  <data name="txtComments.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
+  <data name="txtProjName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>208, 20</value>
   </data>
-  <data name="&gt;&gt;txtComments.Name" xml:space="preserve">
-    <value>txtComments</value>
+  <data name="txtProjName.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
-  <data name="&gt;&gt;txtComments.Type" xml:space="preserve">
+  <data name="&gt;&gt;txtProjName.Name" xml:space="preserve">
+    <value>txtProjName</value>
+  </data>
+  <data name="&gt;&gt;txtProjName.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;txtComments.Parent" xml:space="preserve">
+  <data name="&gt;&gt;txtProjName.Parent" xml:space="preserve">
     <value>tblLayout</value>
   </data>
-  <data name="&gt;&gt;txtComments.ZOrder" xml:space="preserve">
-    <value>10</value>
+  <data name="&gt;&gt;txtProjName.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
-  <metadata name="cmnuAdd.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="mnuAdd.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="cmnuAddOtherDataSource.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="mnuAddOtherDataSource.Size" type="System.Drawing.Size, System.Drawing">
     <value>208, 22</value>
   </data>
-  <data name="cmnuAddOtherDataSource.Text" xml:space="preserve">
+  <data name="mnuAddOtherDataSource.Text" xml:space="preserve">
     <value>&amp;Non FieldWorks Data Source...</value>
   </data>
-  <data name="cmnuAddFwDataSource.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="mnuAddFw7DataSource.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 22</value>
+  </data>
+  <data name="mnuAddFw7DataSource.Text" xml:space="preserve">
+    <value>&amp;7.0 or Later...</value>
+  </data>
+  <data name="mnuAddFw6DataSource.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 22</value>
+  </data>
+  <data name="mnuAddFw6DataSource.Text" xml:space="preserve">
+    <value>&amp;6.0.6 or Older...</value>
+  </data>
+  <data name="mnuAddFwDataSource.Size" type="System.Drawing.Size, System.Drawing">
     <value>208, 22</value>
   </data>
-  <data name="cmnuAddFwDataSource.Text" xml:space="preserve">
-    <value>&amp;FieldWorks Data Source...</value>
+  <data name="mnuAddFwDataSource.Text" xml:space="preserve">
+    <value>&amp;FieldWorks Data Source</value>
   </data>
-  <data name="cmnuAdd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>209, 48</value>
+  <data name="mnuAdd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>209, 70</value>
   </data>
-  <data name="&gt;&gt;cmnuAdd.Name" xml:space="preserve">
-    <value>cmnuAdd</value>
+  <data name="&gt;&gt;mnuAdd.Name" xml:space="preserve">
+    <value>mnuAdd</value>
   </data>
-  <data name="&gt;&gt;cmnuAdd.Type" xml:space="preserve">
+  <data name="&gt;&gt;mnuAdd.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -997,10 +865,10 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>669, 343</value>
+    <value>646, 336</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>580, 295</value>
+    <value>580, 325</value>
   </data>
   <data name="$this.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>10, 0, 10, 0</value>
@@ -1008,28 +876,40 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Project Settings</value>
   </data>
-  <data name="&gt;&gt;cmnuAddOtherDataSource.Name" xml:space="preserve">
-    <value>cmnuAddOtherDataSource</value>
+  <data name="&gt;&gt;mnuAddOtherDataSource.Name" xml:space="preserve">
+    <value>mnuAddOtherDataSource</value>
   </data>
-  <data name="&gt;&gt;cmnuAddOtherDataSource.Type" xml:space="preserve">
+  <data name="&gt;&gt;mnuAddOtherDataSource.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;cmnuAddFwDataSource.Name" xml:space="preserve">
-    <value>cmnuAddFwDataSource</value>
+  <data name="&gt;&gt;mnuAddFwDataSource.Name" xml:space="preserve">
+    <value>mnuAddFwDataSource</value>
   </data>
-  <data name="&gt;&gt;cmnuAddFwDataSource.Type" xml:space="preserve">
+  <data name="&gt;&gt;mnuAddFwDataSource.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;mnuAddFw7DataSource.Name" xml:space="preserve">
+    <value>mnuAddFw7DataSource</value>
+  </data>
+  <data name="&gt;&gt;mnuAddFw7DataSource.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;mnuAddFw6DataSource.Name" xml:space="preserve">
+    <value>mnuAddFw6DataSource</value>
+  </data>
+  <data name="&gt;&gt;mnuAddFw6DataSource.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;locExtender.Name" xml:space="preserve">
     <value>locExtender</value>
   </data>
   <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
-    <value>SIL.Localization.LocalizationExtender, LocalizationManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Localization.UI.LocalizationExtender, LocalizationManager, Version=1.0.4059.31465, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ProjectSettingsDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.1.3758.17603, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.2.9.9, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

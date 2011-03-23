@@ -19,13 +19,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using Localization;
 using Localization.UI;
-using Microsoft.Win32;
+using Palaso.IO;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Processing;
@@ -56,24 +58,17 @@ namespace SIL.Pa
 
 	#region IUndockedViewWnd interface
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public interface IUndockedViewWnd
 	{
 		ToolStripProgressBar ProgressBar { get;}
 		ToolStripStatusLabel ProgressBarLabel { get;}
+		ToolStripStatusLabel ProgressPercentLabel { get; }
 		ToolStripStatusLabel StatusBarLabel { get;}
 		StatusStrip StatusBar { get; }
 	}
 
 	#endregion
 
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ------------------------------------------------------------------------------------
 	public static class App
 	{
@@ -102,74 +97,39 @@ namespace SIL.Pa
 		public const string kPaRegKeyName = @"Software\SIL\Phonology Assistant";
 		public const string kAppSettingsName = "application";
 
-		public const string kLocalizationGroupTMItems = "Toolbar and Menu Items";
-		public const string kLocalizationGroupUICtrls = "User Interface Controls";
-		public const string kLocalizationGroupDialogs = "Dialog Boxes";
-		public const string kLocalizationGroupInfoMsg = "Information Messages";
-		public const string kLocalizationGroupMisc = "Miscellaneous Strings";
-
-		//public static string kOpenClassBracket;
-		//public static string kCloseClassBracket;
-		//public static string kstidFileTypeAllExe;
-		//public static string kstidFileTypeAllFiles;
-		//public static string kstidFileTypeHTML;
-		//public static string kstidFileTypeWordXml;
-		//public static string kstidFileTypePAXML;
-		//public static string kstidFileTypePAProject;
-		//public static string kstidFiletypeRTF;
-		//public static string kstidFiletypeSASoundMP3;
-		//public static string kstidFiletypeSASoundWave;
-		//public static string kstidFiletypeSASoundWMA;
-		//public static string kstidFileTypeToolboxDB;
-		//public static string kstidFileTypeToolboxITX;
-		//public static string kstidFileTypeXML;
-		//public static string kstidFileTypeXSLT;
-		//public static string kstidQuerySearchingMsg;
-		//public static string kstidSaveChangesMsg;
-		//public static string kstidSaveFileDialogGenericCaption;
-
 		#endregion
 
 		private static string s_helpFilePath;
 		private static ToolStripStatusLabel s_statusBarLabel;
 		private static ToolStripProgressBar s_progressBar;
 		private static ToolStripStatusLabel s_progressBarLabel;
+		private static ToolStripStatusLabel s_percentLabel;
 		private static ToolStripProgressBar s_activeProgressBar;
 		private static ToolStripStatusLabel s_activeProgBarLabel;
-		private static PaFieldInfoList s_fieldInfo;
+		private static ToolStripStatusLabel s_activePercentLabel;
+		private static string s_progressPercentFormat;
+		private static string s_splashScreenLoadingMessageFormat;
 		private static List<ITMAdapter> s_defaultMenuAdapters;
 		private static readonly Dictionary<Type, Form> s_openForms = new Dictionary<Type, Form>();
 		private static readonly List<IxCoreColleague> s_colleagueList = new List<IxCoreColleague>();
 
-		/// --------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		#region Construction and startup methods
 		/// --------------------------------------------------------------------------------
 		static App()
 		{
 			if (DesignMode)
 				return;
 
-			InitializePaRegKey();
-			SettingsFile = Path.Combine(DefaultProjectFolder, "pa.xml");
-			SettingsHandler = new PaSettingsHandler(SettingsFile);
+			InventoryHelper.Load();
+			InitializeSettingsFileLocation();
+			InitializeProjectFolder();
 			MsgMediator = new Mediator();
-
-			PortableSettingsProvider.SettingsFileFolder = DefaultProjectFolder;
-			PortableSettingsProvider.SettingsFileName = "Pa.settings";
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList);
-
 			ProcessHelper.CopyFilesForPrettyHTMLExports();
-
+			InitializeFonts();
 			SetUILanguage();
-			LocalizationManager.DefaultStringGroup = kLocalizationGroupMisc;
-			L10NMngr = LocalizationManager.Create("Pa", "Phonology Assistant",
-				Path.Combine(DefaultProjectFolder, "Localizations"));
 
-			// Create the master set of PA fields. When a project is opened, any
-			// custom fields belonging to the project will be added to this list.
-			s_fieldInfo = PaFieldInfoList.DefaultFieldInfoList;
+			L10NMngr = LocalizationManager.Create("Pa", "Phonology Assistant", DefaultProjectFolder);
 
 			MinimumViewWindowSize = Settings.Default.MinimumViewWindowSize;
 			FwDBUtils.ShowMsgWhenGatheringFWInfo = Settings.Default.ShowMsgWhenGatheringFwInfo;
@@ -184,18 +144,84 @@ namespace SIL.Pa
 
 			ReadAddOns();
 
-			// Load the cache of IPA symbols, articulatory and binary features.
-			InventoryHelper.Load();
-
-			LocalizeItemDlg.SaveDialogSplitterPosition += (pos => Settings.Default.LocalizeDlgSplitterPos = pos);
+			LocalizeItemDlg.SaveDialogSplitterPosition += (pos =>
+				Settings.Default.LocalizeDlgSplitterPos = pos);
+			
 			LocalizeItemDlg.SetDialogSplitterPosition += (currPos =>
 				(Settings.Default.LocalizeDlgSplitterPos > 0 ? Settings.Default.LocalizeDlgSplitterPos : currPos));
-			LocalizeItemDlg.SaveDialogBounds += (dlg => Settings.Default.LocalizeDlgBounds = dlg.Bounds);
+			
+			LocalizeItemDlg.SaveDialogBounds += (dlg =>
+				Settings.Default.LocalizeDlgBounds = dlg.Bounds);
+			
 			LocalizeItemDlg.SetDialogBounds += (dlg =>
 			{
 				if (!Settings.Default.LocalizeDlgBounds.IsEmpty)
 					dlg.Bounds = Settings.Default.LocalizeDlgBounds;
 			});
+
+			LocalizeItemDlg.StringsLocalized += (() => MsgMediator.SendMessage("StringLocalized", L10NMngr));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void InitializeSettingsFileLocation()
+		{
+			string path = null;
+
+			try
+			{
+				// Specifying the UI language on the command-line trumps the one in
+				// the settings file (i.e. the one set in the options dialog box).
+				foreach (var arg in Environment.GetCommandLineArgs()
+					.Where(arg => arg.ToLower().StartsWith("/sf:") || arg.ToLower().StartsWith("-sf:")))
+				{
+					path = arg.Substring(4);
+					PortableSettingsProvider.SettingsFileFolder = Path.GetDirectoryName(path);
+					PortableSettingsProvider.SettingsFileName = Path.GetFileName(path);
+					return;
+				}
+			}
+			catch
+			{
+				var msg = string.Format("There was an error retrieving the settings file\n\n" +
+					"'{0}'\n\nThe default settings file will be used instead.", path);
+
+				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			}
+
+			PortableSettingsProvider.SettingsFileFolder = GetDefaultProjectFolder();
+			PortableSettingsProvider.SettingsFileName = "Pa.settings";
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void InitializeFonts()
+		{
+			// If the user knows enough to add an entry to the settings file to
+			// override the default UI font, then read it and use it.
+			if (Settings.Default.UIFont != null)
+				FontHelper.UIFont = Settings.Default.UIFont;
+
+			if (Settings.Default.PhoneticFont != null)
+			{
+				PhoneticFont = Settings.Default.PhoneticFont;
+				return;
+			}
+			
+			// These should get intialized via the settings file, but in case there is no
+			// settings file, this will ensure at least something.
+			if (FontHelper.FontInstalled("Doulos SIL"))
+				PhoneticFont = FontHelper.MakeFont("Doulos SIL", 13, FontStyle.Regular);
+			else if (FontHelper.FontInstalled("Charis SIL"))
+				PhoneticFont = FontHelper.MakeFont("Charis SIL", 13, FontStyle.Regular);
+			else if (FontHelper.FontInstalled("Galatia SIL"))
+				PhoneticFont = FontHelper.MakeFont("Galatia SIL", 13, FontStyle.Regular);
+			else if (FontHelper.FontInstalled("Gentium Plus"))
+				PhoneticFont = FontHelper.MakeFont("Gentium Plus", 13, FontStyle.Regular);
+			else if (FontHelper.FontInstalled("Arial Unicode"))
+				PhoneticFont = FontHelper.MakeFont("Arial Unicode", 11, FontStyle.Regular);
+			else if (FontHelper.FontInstalled("Lucida Sans Unicode"))
+				PhoneticFont = FontHelper.MakeFont("Lucida Sans Unicode", 11, FontStyle.Regular);
+			else
+				PhoneticFont = FontHelper.UIFont;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -205,272 +231,16 @@ namespace SIL.Pa
 
 			// Specifying the UI language on the command-line trumps the one in
 			// the settings file (i.e. the one set in the options dialog box).
-			foreach (var arg in Environment.GetCommandLineArgs())
+			foreach (var arg in Environment.GetCommandLineArgs()
+				.Where(arg => arg.ToLower().StartsWith("/uilang:") || arg.ToLower().StartsWith("-uilang:")))
 			{
-				if (arg.ToLower().StartsWith("/uilang:") || arg.ToLower().StartsWith("-uilang:"))
-				{
-					langId = arg.Substring(8);
-					break;
-				}
+				langId = arg.Substring(8);
+				break;
 			}
 
 			LocalizationManager.UILanguageId = (string.IsNullOrEmpty(langId) ?
 				LocalizationManager.kDefaultLang : langId);
 		}
-
-		#region Misc. localized global strings
-		/// ------------------------------------------------------------------------------------
-		public static string kOpenClassBracket
-		{
-			get
-			{
-				return LocalizeString("OpenClassSymbol", "<",
-					"Character used to delineate the opening of a phonetic search class.",
-					kLocalizationGroupMisc);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string kCloseClassBracket
-		{
-			get
-			{
-				return LocalizeString("CloseClassSymbol", ">",
-					"Character used to delineate the closing of a phonetic search class.",
-					kLocalizationGroupMisc);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string kstidFileTypeAllExe
-		{
-			get
-			{
-				return LocalizeString("FileTypes.ExecutableFileTypes",
-					"All Executables (*.exe;*.com;*.pif;*.bat;*.cmd)|*.exe;*.com;*.pif;*.bat;*.cmd",
-					"File types for executable files.", kLocalizationGroupMisc);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string kstidFileTypeAllFiles
-		{
-			get
-			{
-				return LocalizeString("FileTypes.AllFileTypes",
-					"All Files (*.*)|*.*", "Used in open/save file dialogs as the type for all files.",
-					kLocalizationGroupMisc);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string kstidFileTypeHTML
-		{
-			get
-			{
-				return LocalizeString("FileTypes.HTMLFileType",
-					"HTML Files (*.html)|*.html", kLocalizationGroupMisc);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string kstidFileTypeWordXml
-		{
-			get
-			{
-				return LocalizeString("FileTypes.Word2003XmlFileType",
-					"Word 2003 XML Files (*.xml)|*.xml", kLocalizationGroupMisc);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string kstidFileTypeXLingPaper
-		{
-			get
-			{
-				return LocalizeString("FileTypes.XLingPaperFileType",
-					"XLingPaper Files (*.xml)|*.xml", kLocalizationGroupMisc);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string kstidFileTypePAXML
-		{
-			get
-			{
-				return LocalizeString("FileTypes.PaXMLFileType",
-					"{0} XML Files (*.paxml)|*.paxml", "Parameter is the application name.",
-					kLocalizationGroupMisc);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string kstidFileTypePAProject
-		{
-			get
-			{
-				return LocalizeString("FileTypes.PaProjectFileType",
-					"{0} Projects (*.pap)|*.pap",
-					"File type for Phonology Assistant projects. The parameter is the application name.",
-					kLocalizationGroupMisc);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string kstidFiletypeRTF
-		{
-			get
-			{
-				return LocalizeString("FileTypes.RTFFileType",
-					"Rich Text Format (*.rtf)|*.rtf", "File type for rich text format output.",
-					kLocalizationGroupMisc);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string kstidFiletypeSASoundMP3
-		{
-			get
-			{
-				return LocalizeString("FileTypes.Mp3FileType",
-					"Speech Analyzer MP3 Files (*.mp3)|*.mp3", kLocalizationGroupMisc);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string kstidFiletypeSASoundWave
-		{
-			get
-			{
-				return LocalizeString("FileTypes.WaveFileType",
-					"Speech Analyzer Wave Files (*.wav)|*.wav", kLocalizationGroupMisc);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string kstidFiletypeSASoundWMA
-		{
-			get
-			{
-				return LocalizeString("FileTypes.WindowsMediaAudioFileType",
-					"Speech Analyzer WMA Files (*.wma)|*.wma", kLocalizationGroupMisc);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string kstidFileTypeToolboxDB
-		{
-			get
-			{
-				return LocalizeString("FileTypes.ToolboxFileType",
-					"Toolbox Files (*.db)|*.db", kLocalizationGroupMisc);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string kstidFileTypeToolboxITX
-		{
-			get
-			{
-				return LocalizeString("FileTypes.ToolboxInterlinearFileType",
-					"Interlinear Toolbox Files (*.itx)|*.itx", kLocalizationGroupMisc);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string kstidFileTypeXML
-		{
-			get
-			{
-				return LocalizeString("FileTypes.XmlFileType",
-					"XML Files (*.xml)|*.xml", kLocalizationGroupMisc);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string kstidFileTypeXSLT
-		{
-			get
-			{
-				return LocalizeString("FileTypes.XsltTFileType",
-					"XSLT Files (*.xslt)|*.xslt", kLocalizationGroupMisc);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string kstidFileTypeZip
-		{
-			get
-			{
-				return LocalizeString("FileTypes.ZipFileType",
-					"Zip Files (*.zip)|*.zip", kLocalizationGroupMisc);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string kstidQuerySearchingMsg
-		{
-			get
-			{
-				return LocalizeString(
-					"PhoneticSearchingInProgressMessage", "Searching...",
-					"Message displayed in status bar next to the progress bar when doing a query searches.",
-					kLocalizationGroupMisc);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string kstidSaveChangesMsg
-		{
-			get
-			{
-				return LocalizeString("GenericSaveChangesQuestion",
-					"Would you like to save your changes?", kLocalizationGroupMisc);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static string kstidSaveFileDialogGenericCaption
-		{
-			get
-			{
-				return LocalizeString("GenericSaveFileDialogCaption",
-					"Save File", kLocalizationGroupMisc);
-			}
-		}
-
-		#endregion
-
-		#region SplashScreen stuff
-		/// ------------------------------------------------------------------------------------
-		public static bool ShouldShowSplashScreen
-		{
-			get {
-				// FIXME Linux - closing splash screen makes PA freeze; disable for now
-				if (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX)
-					return false;
-				else
-					return Settings.Default.ShowSplashScreen;
-			}
-			set
-			{
-				Settings.Default.ShowSplashScreen = value;
-				Settings.Default.Save();
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static void ShowSplashScreen()
-		{
-			if (ShouldShowSplashScreen)
-			{
-				SplashScreen = new SplashScreen(true, VersionType.Alpha);
-				SplashScreen.Show();
-				SplashScreen.Message = Properties.Resources.kstidSplashScreenLoadingMsg;
-			}
-		}
-
-		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -501,7 +271,7 @@ namespace SIL.Pa
 				return;
 			}
 
-			if (addOnAssemblyFiles == null || addOnAssemblyFiles.Length == 0)
+			if (addOnAssemblyFiles.Length == 0)
 				return;
 
 			foreach (string filename in addOnAssemblyFiles)
@@ -532,149 +302,276 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static void InitializePaRegKey()
+		private static void InitializeProjectFolder()
 		{
 			// FIXME Linux - make a resonable default location here
-			string projPath = GetDefaultProjectFolder();
+			DefaultProjectFolder = Settings.Default.UsersProjectFolderName;
 
-			// Check if an entry in the registry specifies the default project path.
-			RegistryKey key = Registry.CurrentUser.CreateSubKey(kPaRegKeyName);
-
-			if (key != null)
+			if (string.IsNullOrEmpty(DefaultProjectFolder) || !Directory.Exists(DefaultProjectFolder))
 			{
-				string tmpProjPath = key.GetValue("DefaultProjectsLocation") as string;
-
-				// If the registry value was not found, then create it. Otherwise, use
-				// the path found in the registry and not the one constructed above.
-				if (string.IsNullOrEmpty(tmpProjPath))
-					key.SetValue("DefaultProjectsLocation", projPath);
-				else
-					projPath = tmpProjPath;
-
-				key.Close();
+				DefaultProjectFolder = GetDefaultProjectFolder();
+				Settings.Default.UsersProjectFolderName = DefaultProjectFolder;
+				Settings.Default.Save();
 			}
 
-			DefaultProjectFolder = projPath;
+			PortableSettingsProvider.SettingsFileFolder = DefaultProjectFolder;
 
 			// Create the folder if it doesn't exist.
-			if (!Directory.Exists(projPath))
-				Directory.CreateDirectory(projPath);
+			if (!Directory.Exists(DefaultProjectFolder))
+				Directory.CreateDirectory(DefaultProjectFolder);
 		}
 
+		#endregion
+
+		#region Misc. localized global strings
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Construct the default project path.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string GetDefaultProjectFolder()
+		public static string kOpenClassBracket
 		{
-			// Construct the default project path.
-			string projPath;
-			if (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX) // Linux
+			get
 			{
-				// FIXME Linux - make this locale-neutral via `/usr/bin/xdg-user-dir DOCUMENTS` _OR_ GLib g_get_user_special_dir() (see http://tinyurl.com/48haea9)
-				// FIXME Linux - decide if we want ~/Documents/Phonology\ Assistant  or  ~/.phonology-assistant or something else
-				
-				// Work around Mono bug https://bugzilla.novell.com/show_bug.cgi?id=597907
-				// in Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments):
-				projPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Documents");
+				return GetString("OpenClassSymbol", "<",
+					"Character used to delineate the opening of a phonetic search class.");
 			}
-			else // Windows
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string kCloseClassBracket
+		{
+			get
 			{
-				projPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-	
-				// I found that in limited user mode on Vista, Environment.SpecialFolder.MyDocuments
-				// returns an empty string. Argh!!! Therefore, I have to make sure there is
-				// a valid and full path. Do that by getting the user's desktop folder and
-				// chopping off everything that follows the last backslash. If getting the user's
-				// desktop folder fails, then fall back to the program's folder, which is
-				// probably not right, but we'll have to assume it will never happen. :o)
-				if (string.IsNullOrEmpty (projPath))
-				{
-					projPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-					if (string.IsNullOrEmpty (projPath) || !Directory.Exists (projPath))
-						return AssemblyPath;
-	
-					projPath = projPath.TrimEnd(Path.DirectorySeparatorChar);
-					int i = projPath.LastIndexOf(Path.DirectorySeparatorChar);
-					if (i < 2)
-						return AssemblyPath;
-					projPath = projPath.Substring(0, i);
-				}
+				return GetString("CloseClassSymbol", ">",
+					"Character used to delineate the closing of a phonetic search class.");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypeAllExe
+		{
+			get
+			{
+				return GetString("FileTypes.ExecutableFileTypes",
+					"All Executables (*.exe;*.com;*.pif;*.bat;*.cmd)|*.exe;*.com;*.pif;*.bat;*.cmd",
+					"File types for executable files.");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypeAllFiles
+		{
+			get
+			{
+				return GetString("FileTypes.AllFileTypes",
+					"All Files (*.*)|*.*", "Used in open/save file dialogs as the type for all files.");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypeHTML
+		{
+			get
+			{
+				return GetString("FileTypes.HTMLFileType", "HTML Files (*.html)|*.html");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypeWordXml
+		{
+			get
+			{
+				return GetString("FileTypes.Word2003XmlFileType", "Word 2003 XML Files (*.xml)|*.xml");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypeXLingPaper
+		{
+			get
+			{
+				return GetString("FileTypes.XLingPaperFileType", "XLingPaper Files (*.xml)|*.xml");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypePAXML
+		{
+			get
+			{
+				return GetString("FileTypes.PaXMLFileType",
+					"{0} XML Files (*.paxml)|*.paxml", "Parameter is the application name.");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypePAProject
+		{
+			get
+			{
+				return GetString("FileTypes.PaProjectFileType", "{0} Projects (*.pap)|*.pap",
+					"File type for Phonology Assistant projects. The parameter is the application name.");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFiletypeRTF
+		{
+			get
+			{
+				return GetString("FileTypes.RTFFileType", "Rich Text Format (*.rtf)|*.rtf",
+					"File type for rich text format output.");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFiletypeSASoundMP3
+		{
+			get
+			{
+				return GetString("FileTypes.Mp3FileType", "Speech Analyzer MP3 Files (*.mp3)|*.mp3");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFiletypeSASoundWave
+		{
+			get
+			{
+				return GetString("FileTypes.WaveFileType", "Speech Analyzer Wave Files (*.wav)|*.wav");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFiletypeSASoundWMA
+		{
+			get
+			{
+				return GetString("FileTypes.WindowsMediaAudioFileType", "Speech Analyzer WMA Files (*.wma)|*.wma");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypeToolboxDB
+		{
+			get
+			{
+				return GetString("FileTypes.ToolboxFileType", "Toolbox Files (*.db)|*.db");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypeToolboxITX
+		{
+			get
+			{
+				return GetString("FileTypes.ToolboxInterlinearFileType", "Interlinear Toolbox Files (*.itx)|*.itx");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypeXML
+		{
+			get
+			{
+				return GetString("FileTypes.XmlFileType", "XML Files (*.xml)|*.xml");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypeXSLT
+		{
+			get
+			{
+				return GetString("FileTypes.XsltTFileType", "XSLT Files (*.xslt)|*.xslt");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string kstidFileTypeZip
+		{
+			get
+			{
+				return GetString("FileTypes.ZipFileType", "Zip Files (*.zip)|*.zip");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string kstidQuerySearchingMsg
+		{
+			get
+			{
+				return GetString("PhoneticSearchingInProgressMessage", "Searching...",
+					"Message displayed in status bar next to the progress bar when doing a query searches.");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string kstidSaveChangesMsg
+		{
+			get
+			{
+				return GetString("GenericSaveChangesQuestion", "Would you like to save your changes?");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string kstidSaveFileDialogGenericCaption
+		{
+			get
+			{
+				return GetString("GenericSaveFileDialogCaption", "Save File");
+			}
+		}
+
+		#endregion
+
+		#region SplashScreen stuff
+		/// ------------------------------------------------------------------------------------
+		public static bool ShouldShowSplashScreen
+		{
+			get {
+				// FIXME Linux - closing splash screen makes PA freeze; disable for now
+				if (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX)
+					return false;
+				else
+					return (Settings.Default.ShowSplashScreen &&
+						(Control.ModifierKeys & Keys.Control) != Keys.Control);
+			}
+			set
+			{
+				Settings.Default.ShowSplashScreen = value;
+				Settings.Default.Save();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void ShowSplashScreen()
+		{
+			if (ShouldShowSplashScreen)
+			{
+				SplashScreen = new SplashScreen(true, VersionType.Alpha);
+				SplashScreen.Show();
+				SplashScreen.Message = GetString("SplashScreenLoadingMsg", "Loading...");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Closes the splash screen if it's showing.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void CloseSplashScreen()
+		{
+			if (SplashScreen != null && SplashScreen.StillAlive)
+			{
+				Application.DoEvents();
+				if (MainForm != null)
+					MainForm.Activate();
+
+				SplashScreen.Close();
 			}
 
-			return Path.Combine(projPath, Properties.Resources.kstidDefaultProjFileFolderName);
+			SplashScreen = null;
 		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// The normal DesignMode property doesn't work when derived classes are loaded in
-		/// designer. (This is a kludge, I know.)
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static bool DesignMode
-		{
-			get { return Process.GetCurrentProcess().ProcessName == "devenv"; }
-		}
-
-		#region Cache related properties and methods
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the IPA symbols cache.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static IPASymbolCache IPASymbolCache
-		{
-			get { return InventoryHelper.IPASymbolCache; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the cache of articulatory features.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static AFeatureCache AFeatureCache
-		{
-			get { return InventoryHelper.AFeatureCache; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the cache of binary features.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static BFeatureCache BFeatureCache
-		{
-			get { return InventoryHelper.BFeatureCache; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static RecordCache RecordCache { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static WordCache WordCache { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the cache of phones in the current project, without respect to current filter.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static PhoneCache UnfilteredPhoneCache { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the cache of phones in the current project, with respect to current filter.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static PhoneCache PhoneCache { get; set; }
 		
 		#endregion
 
@@ -716,8 +613,18 @@ namespace SIL.Pa
 		#region Misc. Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// The normal DesignMode property doesn't work when derived classes are loaded in
+		/// designer. (This is a kludge, I know.)
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool DesignMode
+		{
+			get { return Process.GetCurrentProcess().ProcessName == "devenv"; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Font PhoneticFont { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		public static string BreakChars
 		{
@@ -776,22 +683,60 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the path where the application's factory configuration files are stored.
+		/// Gets the top-level registry key path to the application's registry entry.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string ConfigFolder
+		public static string ApplicationRegKeyPath
 		{
-			get { return Path.Combine(AssemblyPath, "Configuration"); }
+			get { return @"Software\SIL\Phonology Assistant"; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the path where the application's processing files (i.e. xslt) are stored.
+		/// Gets just the folder name (no leading path) where the application's factory
+		/// configuration files are stored.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string ProcessingFolder
+		public static string ConfigFolderName
 		{
-			get { return Path.Combine(AssemblyPath, "Processing"); }
+			get { return "Configuration"; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the just the name of the folder (no leading path) where the application's
+		/// processing files (i.e. xslt) are stored.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string ProcessingFolderName
+		{
+			get { return "Processing"; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static IPASymbolCache IPASymbolCache
+		{
+			get { return InventoryHelper.IPASymbolCache; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the cache of articulatory features.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static AFeatureCache AFeatureCache
+		{
+			get { return InventoryHelper.AFeatureCache; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the cache of binary features.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static BFeatureCache BFeatureCache
+		{
+			get { return InventoryHelper.BFeatureCache; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -810,43 +755,11 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static PaFieldInfoList FieldInfo
-		{
-			get
-			{
-				if (s_fieldInfo == null)
-					s_fieldInfo = PaFieldInfoList.DefaultFieldInfoList;
-
-				return s_fieldInfo;
-			}
-			set { s_fieldInfo = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Gets or sets the toolbar menu adapter PaMainWnd. This value should only be set
 		/// by the PaMainWnd class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static ITMAdapter TMAdapter { get; set; }
-
-		/// --------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the full path and filename of the XML file that stores the application's
-		/// settings.
-		/// </summary>
-		/// --------------------------------------------------------------------------------
-		public static string SettingsFile { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static PaSettingsHandler SettingsHandler { get; private set; }
 
 		/// --------------------------------------------------------------------------------
 		/// <summary>
@@ -880,6 +793,494 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static Type CurrentViewType { get; set; }
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// PA add-on DLL provides undocumented features, if it exists in the pa.exe folder.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static List<Assembly> AddOnAssemblys { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// PA add-on manager provides undocumented features, if it exists.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static List<object> AddOnManagers { get; private set; }
+
+		#endregion
+
+		#region Grid color methods and properties
+		/// ------------------------------------------------------------------------------------
+		public static void SetCellColors(DataGridView grid, DataGridViewCellFormattingEventArgs e)
+		{
+			if (grid.CurrentRow == null || grid.CurrentRow.Index != e.RowIndex)
+				return;
+
+			if (!grid.Focused)
+			{
+				e.CellStyle.SelectionBackColor = GridRowUnfocusedSelectionBackColor;
+				e.CellStyle.SelectionForeColor = GridRowUnfocusedSelectionForeColor;
+				return;
+			}
+
+			if (grid.CurrentCell != null && grid.CurrentCell.ColumnIndex == e.ColumnIndex)
+			{
+				// Set the selected cell's background color to be
+				// distinct from the rest of the current row.
+				e.CellStyle.SelectionBackColor = GridCellFocusedBackColor;
+				e.CellStyle.SelectionForeColor = GridCellFocusedForeColor;
+			}
+			else
+			{
+				// Set the selected row's background color.
+				e.CellStyle.SelectionBackColor = GridRowFocusedBackColor;
+				e.CellStyle.SelectionForeColor = GridRowFocusedForeColor;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void SetGridSelectionColors(SilGrid grid, bool makeSelectedCellsDifferent)
+		{
+			grid.SelectedRowBackColor = GridRowFocusedBackColor;
+			grid.SelectedRowForeColor = GridRowFocusedForeColor;
+
+			grid.SelectedCellBackColor = (makeSelectedCellsDifferent ?
+				GridCellFocusedBackColor : GridRowFocusedBackColor);
+
+			grid.SelectedCellForeColor = (makeSelectedCellsDifferent ?
+				GridCellFocusedForeColor : GridRowFocusedForeColor);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Color GridColor
+		{
+			get
+			{
+				var clr = Settings.Default.WordListGridColor;
+				return (clr != Color.Transparent && clr != Color.Empty ? clr :
+					ColorHelper.CalculateColor(SystemColors.WindowText, SystemColors.Window, 25));
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Color GridRowFocusedForeColor
+		{
+			get
+			{
+				return (Settings.Default.UseSystemColors ? SystemColors.WindowText :
+					Settings.Default.GridRowSelectionForeColor);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Color GridRowFocusedBackColor
+		{
+			get
+			{
+				return (Settings.Default.UseSystemColors ? ColorHelper.LightHighlight :
+					Settings.Default.GridRowSelectionBackColor);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Color GridCellFocusedForeColor
+		{
+			get
+			{
+				return (Settings.Default.UseSystemColors ? SystemColors.WindowText :
+					Settings.Default.GridCellSelectionForeColor);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Color GridCellFocusedBackColor
+		{
+			get
+			{
+				return (Settings.Default.UseSystemColors ? ColorHelper.LightLightHighlight :
+					Settings.Default.GridCellSelectionBackColor);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Color GridRowUnfocusedSelectionBackColor
+		{
+			get
+			{
+				return (Settings.Default.UseSystemColors ? SystemColors.Control :
+					Settings.Default.GridRowUnfocusedSelectionBackColor);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Color GridRowUnfocusedSelectionForeColor
+		{
+			get
+			{
+				if (!Settings.Default.UseSystemColors)
+					return Settings.Default.GridRowUnfocusedSelectionForeColor;
+
+				// It turns out the control color for the silver Windows XP theme is very close
+				// to the default color calculated for selected rows in PA word lists. Therefore,
+				// when a word list grid looses focus and a selected row's background color gets
+				// changed to the control color, it's very hard to tell the difference between a
+				// selected row in a focused grid from that of a non focused grid. So, when the
+				// theme is the silver (i.e. Metallic) then also make the text gray for selected
+				// rows in non focused grid's.
+				if (PaintingHelper.CanPaintVisualStyle() &&
+					System.Windows.Forms.VisualStyles.VisualStyleInformation.DisplayName == "Windows XP style" &&
+					System.Windows.Forms.VisualStyles.VisualStyleInformation.ColorScheme == "Metallic")
+				{
+					return SystemColors.GrayText;
+				}
+					
+				return SystemColors.ControlText;
+			}
+		}
+
+		#endregion
+
+		#region Localization Manager Access methods
+		/// ------------------------------------------------------------------------------------
+		private static LocalizationManager L10NMngr { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		internal static void ReapplyLocalizationsToAllObjects()
+		{
+			if (L10NMngr != null)
+				L10NMngr.ReapplyLocalizationsToAllObjects();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static void RefreshToolTipsOnLocalizationManager()
+		{
+			if (L10NMngr != null)
+				L10NMngr.RefreshToolTips();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static string GetUILanguageId()
+		{
+			return LocalizationManager.UILanguageId;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static string GetString(string id, string defaultText)
+		{
+			return (L10NMngr == null ? defaultText :
+				L10NMngr.LocalizeString(id, defaultText, null, null,
+					LocalizationCategory.Unspecified, LocalizationPriority.High));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static string GetString(string id, string defaultText, string comment)
+		{
+			return (L10NMngr == null ? defaultText :
+				L10NMngr.LocalizeString(id, defaultText, comment, null,
+					LocalizationCategory.Unspecified, LocalizationPriority.High));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static string GetStringForObject(object obj)
+		{
+			return (L10NMngr == null ? "??????" : L10NMngr.GetString(obj));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static void GetStringForObject(object obj, string id, string defaultText)
+		{
+			if (L10NMngr != null)
+			{
+				L10NMngr.LocalizeObject(obj, id, defaultText, null, null, null, null,
+					LocalizationCategory.Unspecified, LocalizationPriority.High);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static void GetStringForObject(object obj, string id, string defaultText, string comment)
+		{
+			if (L10NMngr != null)
+			{
+				L10NMngr.LocalizeObject(obj, id, defaultText, null, null, comment, null,
+					LocalizationCategory.Unspecified, LocalizationPriority.High);
+			}
+		}
+
+		#endregion
+
+		#region Misc. methods
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Construct the default project path.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string GetDefaultProjectFolder()
+		{
+			// Construct the default project path.
+			string projPath;
+			if (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX) // Linux
+			{
+				// FIXME Linux - make this locale-neutral via `/usr/bin/xdg-user-dir DOCUMENTS` _OR_ GLib g_get_user_special_dir() (see http://tinyurl.com/48haea9)
+				// FIXME Linux - decide if we want ~/Documents/Phonology\ Assistant  or  ~/.phonology-assistant or something else
+				
+				// Work around Mono bug https://bugzilla.novell.com/show_bug.cgi?id=597907
+				// in Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments):
+				projPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Documents");
+			}
+			else // Windows
+			{
+				projPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+				// I found that in limited user mode on Vista, Environment.SpecialFolder.MyDocuments
+				// returns an empty string. Argh!!! Therefore, I have to make sure there is
+				// a valid and full path. Do that by getting the user's desktop folder and
+				// chopping off everything that follows the last backslash. If getting the user's
+				// desktop folder fails, then fall back to the program's folder, which is
+				// probably not right, but we'll have to assume it will never happen. :o)
+				if (string.IsNullOrEmpty(projPath))
+				{
+					projPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+					if (string.IsNullOrEmpty(projPath) || !Directory.Exists(projPath))
+						return AssemblyPath;
+
+					projPath = projPath.TrimEnd(Path.DirectorySeparatorChar);
+					int i = projPath.LastIndexOf(Path.DirectorySeparatorChar);
+					if (i < 2)
+						return AssemblyPath;
+					projPath = projPath.Substring(0, i);
+				}
+			}
+			return Path.Combine(projPath, Application.ProductName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Prepares the adapter for localization support.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void PrepareAdapterForLocalizationSupport(ITMAdapter adapter)
+		{
+			adapter.LocalizeItem += HandleLocalizingTMItem;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Reverses what the method PrepareAdapterForLocalizationSupport does to prepare
+		/// the specified adapter for localization.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void UnPrepareAdapterForLocalizationSupport(ITMAdapter adapter)
+		{
+			adapter.LocalizeItem -= HandleLocalizingTMItem;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Handles localizing a toolbar/menu item.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		static void HandleLocalizingTMItem(object item, string id, TMItemProperties itemProps)
+		{
+			if (L10NMngr != null)
+			{
+				L10NMngr.LocalizeObject(item, id, itemProps.Text, itemProps.Tooltip,
+					ShortcutKeysEditor.KeysToString(itemProps.ShortcutKey), "Toolbar or Menu item",
+					null, LocalizationPriority.High);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static int GetPlaybackSpeedForVwType(Type vwType)
+		{
+			if (vwType == typeof(DataCorpusVw))
+				return Settings.Default.DataCorpusVwPlaybackSpeed;
+
+			if (vwType == typeof(SearchVw))
+				return Settings.Default.SearchVwPlaybackSpeed;
+
+			if (vwType == typeof(DistributionChartVw))
+				return Settings.Default.DistChartVwPlaybackSpeed;
+
+			return 100;
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		public static FormSettings InitializeForm(Form frm, FormSettings settings)
+		{
+			if (settings != null)
+				settings.InitializeForm(frm);
+			else
+				settings = FormSettings.Create(frm);
+
+			return settings;
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Loads the default phonology assistant menu in the specified container control.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static ITMAdapter LoadDefaultMenu(Control menuContainer)
+		{
+			var adapter = AdapterHelper.CreateTMAdapter();
+
+			if (adapter != null)
+			{
+				PrepareAdapterForLocalizationSupport(adapter);
+
+				var defs = new[] { FileLocator.GetFileDistributedWithApplication(ConfigFolderName,
+					"PaTMDefinition.xml") };
+				
+				adapter.Initialize(menuContainer, MsgMediator, ApplicationRegKeyPath, defs);
+				adapter.AllowUpdates = true;
+				adapter.RecentFilesList = (MruFiles.Paths ?? new string[] { });
+				adapter.RecentlyUsedItemChosen += (filename => MsgMediator.SendMessage("RecentlyUsedProjectChosen", filename));
+			}
+
+			if (s_defaultMenuAdapters == null)
+				s_defaultMenuAdapters = new List<ITMAdapter>();
+
+			s_defaultMenuAdapters.Add(adapter);
+			return adapter;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void UnloadDefaultMenu(ITMAdapter adapter)
+		{
+			if (s_defaultMenuAdapters != null && s_defaultMenuAdapters.Contains(adapter))
+				s_defaultMenuAdapters.Remove(adapter);
+
+			if (adapter != null)
+			{
+				adapter.Dispose();
+				adapter = null;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adds the specified file to the recently used projects list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void AddProjectToRecentlyUsedProjectsList(string filename)
+		{
+			AddProjectToRecentlyUsedProjectsList(filename, false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adds the specified file to the recently used projects list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void AddProjectToRecentlyUsedProjectsList(string filename, bool addToEnd)
+		{
+			MruFiles.AddNewPath(filename, addToEnd);
+
+			if (s_defaultMenuAdapters != null)
+			{
+				foreach (ITMAdapter adapter in s_defaultMenuAdapters)
+					adapter.RecentFilesList = (MruFiles.Paths ?? new string[] { });
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Enables or disables a TM item based on whether or not there is project loaded.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void EnableWhenProjectOpen(TMItemProperties itemProps)
+		{
+			bool enable = (Project != null);
+
+			if (itemProps != null && itemProps.Enabled != enable)
+			{
+				itemProps.Visible = true;
+				itemProps.Enabled = enable;
+				itemProps.Update = true;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Enables or disables a TM item based on whether or not there is a project loaded
+		/// and the specified view type is current.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool DetermineMenuStateBasedOnViewType(TMItemProperties itemProps, Type viewType)
+		{
+			bool enable = (Project != null && CurrentViewType != viewType);
+
+			if (itemProps != null && itemProps.Enabled != enable)
+			{
+				itemProps.Visible = true;
+				itemProps.Enabled = enable;
+				itemProps.Update = true;
+			}
+
+			return (itemProps != null && CurrentViewType == viewType);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Determines whether or not the specified view type or form is the active.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool IsViewOrFormActive(Type viewType, Form frm)
+		{
+			return (viewType == CurrentViewType && frm != null && frm.ContainsFocus);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Determines whether or not the specified form is the active form.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static bool IsFormActive(Form frm)
+		{
+			if (frm == null)
+				return false;
+
+			if (frm.ContainsFocus || frm.GetType() == CurrentViewType)
+				return true;
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Closes all MDI child forms.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static void CloseAllForms()
+		{
+			s_openForms.Clear();
+
+			if (MainForm == null)
+				return;
+
+			// There may be some child forms not in the s_openForms collection. If that's
+			// the case, then close them this way.
+			for (int i = MainForm.MdiChildren.Length - 1; i >= 0; i--)
+				MainForm.MdiChildren[i].Close();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void DrawWatermarkImage(string imageId, Graphics g, Rectangle clientRectangle)
+		{
+			Image watermark = Properties.Resources.ResourceManager.GetObject(imageId) as Image;
+			if (watermark == null)
+				return;
+
+			Rectangle rc = new Rectangle();
+			rc.Size = watermark.Size;
+			rc.X = clientRectangle.Right - rc.Width - 10;
+			rc.Y = clientRectangle.Bottom - rc.Height - 10;
+			g.DrawImage(watermark, rc);
+		}
+
+		#endregion
+
+		#region Progress/Status bar properties and methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the main status bar label on PaMainWnd.
@@ -933,363 +1334,19 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// PA add-on DLL provides undocumented features, if it exists in the pa.exe folder.
+		/// Gets or sets the progress percentage label on the PaMainWnd.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static List<Assembly> AddOnAssemblys { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// PA add-on manager provides undocumented features, if it exists.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static List<object> AddOnManagers { get; private set; }
-
-		#endregion
-
-		/// ------------------------------------------------------------------------------------
-		public static void InitializeGridSelectionColors(SilGrid grid, bool makeSelectedCellsDifferent)
-		{
-			grid.SelectedRowBackColor = Settings.Default.GridRowSelectionBackColor;
-			grid.SelectedRowForeColor = Settings.Default.GridRowSelectionForeColor;
-			
-			grid.SelectedCellBackColor = (makeSelectedCellsDifferent ?
-				Settings.Default.GridCellSelectionBackColor :
-				Settings.Default.GridRowSelectionBackColor);
-
-			grid.SelectedCellForeColor = (makeSelectedCellsDifferent ?
-				Settings.Default.GridCellSelectionForeColor :
-				Settings.Default.GridRowSelectionForeColor);
-		}
-
-		#region Options Properties
-		/// ------------------------------------------------------------------------------------
-		public static Color WordListGridColor
+		public static ToolStripStatusLabel PercentLabel
 		{
 			get
 			{
-				var clr = Settings.Default.WordListGridColor;
-				return (clr != Color.Transparent && clr != Color.Empty ? clr :
-					ColorHelper.CalculateColor(SystemColors.WindowText, SystemColors.Window, 25));
+				IUndockedViewWnd udvwnd = (CurrentView != null && CurrentView.ActiveView ?
+				    CurrentView.OwningForm : MainForm) as IUndockedViewWnd;
+
+				return (udvwnd != null ? udvwnd.ProgressPercentLabel : s_percentLabel);
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static Color SelectedFocusedWordListRowBackColor
-		{
-			get
-			{
-				var clr = Settings.Default.GridRowSelectionBackColor;
-				return (clr == Color.Empty ? ColorHelper.LightHighlight : clr);
-			}
-			set { Settings.Default.GridRowSelectionBackColor = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static Color SelectedUnFocusedWordListRowForeColor
-		{
-			get
-			{
-				Color clr;
-
-				// It turns out the control color for the silver Windows XP theme is very
-				// close to the default color calculated for selected rows in PA word lists.
-				// Therefore, when a word list grid looses focus and a selected row's
-				// background color gets changed to the control color, it's very hard to
-				// tell the difference between a selected row in a focused grid from that
-				// of a non focused grid. So, when the theme is the silver (i.e. Metallic)
-				// then also make the text gray for selected rows in non focused grid's.
-				if (PaintingHelper.CanPaintVisualStyle() &&
-					System.Windows.Forms.VisualStyles.VisualStyleInformation.DisplayName == "Windows XP style" &&
-					System.Windows.Forms.VisualStyles.VisualStyleInformation.ColorScheme == "Metallic")
-				{
-					clr = Settings.Default.WordListSelectedUnFocusedRowForeColor;
-					return (clr == Color.Empty ? SystemColors.GrayText : clr);
-				}
-
-				clr = Settings.Default.WordListSelectedUnFocusedRowForeColor;
-				return (clr == Color.Empty ? SystemColors.ControlText : clr);
-			}
-			set { Settings.Default.WordListSelectedUnFocusedRowForeColor = value; }
-		}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// 
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public static Color SelectedWordListCellBackColor
-		//{
-		//    get
-		//    {
-		//        var clr = Settings.Default.WordListSelectedCellBackColor;
-		//        return (clr == Color.Empty ? ColorHelper.LightLightHighlight : clr);
-		//    }
-		//    set { Settings.Default.WordListSelectedCellBackColor = value; }
-		//}
-
-		#endregion
-
-		/// ------------------------------------------------------------------------------------
-		private static LocalizationManager L10NMngr { get; set; }
-
-		#region Localization Manager Access methods
-		/// ------------------------------------------------------------------------------------
-		internal static void ReapplyLocalizationsToAllObjects()
-		{
-			if (L10NMngr != null)
-				L10NMngr.ReapplyLocalizationsToAllObjects();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static string GetString(object obj)
-		{
-			return (L10NMngr == null ? "?????" : L10NMngr.GetString(obj));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static void RefreshToolTipsOnLocalizationManager()
-		{
-			if (L10NMngr != null)
-				L10NMngr.RefreshToolTips();
-		}
-		
-		/// ------------------------------------------------------------------------------------
-		internal static string LocalizeString(string id, string defaultText)
-		{
-			return LocalizeString(id, defaultText, null, null,
-				LocalizationCategory.Unspecified, LocalizationPriority.High);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static string LocalizeString(string id, string defaultText,
-			string localizationGroup)
-		{
-			return LocalizeString(id, defaultText, null, localizationGroup,
-				LocalizationCategory.Unspecified, LocalizationPriority.High);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static string LocalizeString(string id, string defaultText, string comment,
-			string localizationGroup)
-		{
-			return LocalizeString(id, defaultText, comment, localizationGroup,
-				LocalizationCategory.Unspecified, LocalizationPriority.High);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static string LocalizeString(string id, string defaultText,
-			string comment, string localizationGroup, LocalizationCategory category,
-			LocalizationPriority priority)
-		{
-			return (L10NMngr == null ? defaultText :
-				L10NMngr.LocalizeString(id, defaultText, comment, localizationGroup, category, priority));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static void LocalizeObject(object obj, string id, string defaultText)
-		{
-			LocalizeObject(obj, id, defaultText, null, kLocalizationGroupMisc);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static void LocalizeObject(object obj, string id, string defaultText, string group)
-		{
-			LocalizeObject(obj, id, defaultText, null, group);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static void LocalizeObject(object obj, string id, string defaultText,
-			string comment, string group)
-		{
-			if (L10NMngr != null)
-			{
-				L10NMngr.LocalizeObject(obj, id, defaultText, comment, group,
-					LocalizationCategory.Unspecified, LocalizationPriority.High);
-			}
-		}
-
-		#endregion
-
-		#region Misc. methods
-		/// ------------------------------------------------------------------------------------
-		public static int GetPlaybackSpeedForVwType(Type vwType)
-		{
-			if (vwType == typeof(DataCorpusVw))
-				return Settings.Default.DataCorpusVwPlaybackSpeed;
-
-			if (vwType == typeof(SearchVw))
-				return Settings.Default.SearchVwPlaybackSpeed;
-
-			if (vwType == typeof(DistributionChartVw))
-				return Settings.Default.DistChartVwPlaybackSpeed;
-
-			return 100;
-		}
-		
-		/// ------------------------------------------------------------------------------------
-		public static FormSettings InitializeForm(Form frm, FormSettings settings)
-		{
-			if (settings != null)
-				settings.InitializeForm(frm);
-			else
-				settings = FormSettings.Create(frm);
-
-			return settings;
-		}
-		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Loads the default phonology assistant menu in the specified container control.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static ITMAdapter LoadDefaultMenu(Control menuContainer)
-		{
-			ITMAdapter adapter = AdapterHelper.CreateTMAdapter();
-
-			if (adapter != null)
-			{
-				PrepareAdapterForLocalizationSupport(adapter);
-
-				string[] defs = new string[1];
-				defs[0] = Path.Combine(ConfigFolder, "PaTMDefinition.xml");
-				adapter.Initialize(menuContainer, MsgMediator, ApplicationRegKeyPath, defs);
-				adapter.AllowUpdates = true;
-				adapter.RecentFilesList = (MruFiles.Paths ?? new string[] { });
-				adapter.RecentlyUsedItemChosen += (filename => MsgMediator.SendMessage("RecentlyUsedProjectChosen", filename));
-			}
-
-			if (s_defaultMenuAdapters == null)
-				s_defaultMenuAdapters = new List<ITMAdapter>();
-
-			s_defaultMenuAdapters.Add(adapter);
-			return adapter;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Prepares the adapter for localization support.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void PrepareAdapterForLocalizationSupport(ITMAdapter adapter)
-		{
-			adapter.LocalizeItem += HandleLocalizingTMItem;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Reverses what the method PrepareAdapterForLocalizationSupport does to prepare
-		/// the specified adapter for localization.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void UnPrepareAdapterForLocalizationSupport(ITMAdapter adapter)
-		{
-			adapter.LocalizeItem -= HandleLocalizingTMItem;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Handles localizing a toolbar/menu item.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		static void HandleLocalizingTMItem(object item, string id, TMItemProperties itemProps)
-		{
-			if (L10NMngr != null)
-			{
-				L10NMngr.LocalizeObject(item, id, itemProps.Text, itemProps.Tooltip,
-					ShortcutKeysEditor.KeysToString(itemProps.ShortcutKey), "Toolbar or Menu item",
-					kLocalizationGroupTMItems, LocalizationPriority.High);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void UnloadDefaultMenu(ITMAdapter adapter)
-		{
-			if (s_defaultMenuAdapters != null && s_defaultMenuAdapters.Contains(adapter))
-				s_defaultMenuAdapters.Remove(adapter);
-
-			if (adapter != null)
-			{
-				adapter.Dispose();
-				adapter = null;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Adds the specified file to the recently used projects list.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void AddProjectToRecentlyUsedProjectsList(string filename)
-		{
-			AddProjectToRecentlyUsedProjectsList(filename, false);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Adds the specified file to the recently used projects list.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void AddProjectToRecentlyUsedProjectsList(string filename, bool addToEnd)
-		{
-			MruFiles.AddNewPath(filename, addToEnd);
-
-			if (s_defaultMenuAdapters != null)
-			{
-				foreach (ITMAdapter adapter in s_defaultMenuAdapters)
-					adapter.RecentFilesList = (MruFiles.Paths ?? new string[] { });
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the top-level registry key path to the application's registry entry.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string ApplicationRegKeyPath
-		{
-			get { return @"Software\SIL\Phonology Assistant"; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Enables or disables a TM item based on whether or not there is project loaded.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void EnableWhenProjectOpen(TMItemProperties itemProps)
-		{
-			bool enable = (Project != null);
-
-			if (itemProps != null && itemProps.Enabled != enable)
-			{
-				itemProps.Visible = true;
-				itemProps.Enabled = enable;
-				itemProps.Update = true;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Enables or disables a TM item based on whether or not there is a project loaded
-		/// and the specified view type is current.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static bool DetermineMenuStateBasedOnViewType(TMItemProperties itemProps, Type viewType)
-		{
-			bool enable = (Project != null && CurrentViewType != viewType);
-
-			if (itemProps != null && itemProps.Enabled != enable)
-			{
-				itemProps.Visible = true;
-				itemProps.Enabled = enable;
-				itemProps.Update = true;
-			}
-
-			return (itemProps != null && CurrentViewType == viewType);
+			set { s_percentLabel = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1300,33 +1357,39 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static ToolStripProgressBar InitializeProgressBar(string text)
 		{
-			return InitializeProgressBar(text, WordCache.Count);
+			return InitializeProgressBar(text, Project.WordCache.Count);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static ToolStripProgressBar InitializeProgressBar(string text, int maxValue)
 		{
-			IUndockedViewWnd udvwnd = (CurrentView != null && CurrentView.ActiveView ?
+			s_splashScreenLoadingMessageFormat =
+				GetString("SplashScreenProgressMessageFormat", "{0}  {1}",
+				"Format for message displayed in the splash screen when loading a project. First parameter is the message; second is the percentage value.");
+
+			var udvwnd = (CurrentView != null && CurrentView.ActiveView ?
 				CurrentView.OwningForm : MainForm) as IUndockedViewWnd;
 
-			ToolStripProgressBar bar =
-				(udvwnd != null ? udvwnd.ProgressBar : s_progressBar);
-
-			ToolStripStatusLabel lbl =
-				(udvwnd != null ? udvwnd.ProgressBarLabel : s_progressBarLabel);
+			var bar = (udvwnd != null ? udvwnd.ProgressBar : s_progressBar);
+			var lbl = (udvwnd != null ? udvwnd.ProgressBarLabel : s_progressBarLabel);
+			var lblPct = (udvwnd != null ? udvwnd.ProgressPercentLabel : s_percentLabel);
+			lblPct.Tag = maxValue;
 
 			if (bar != null)
 			{
+				s_progressPercentFormat = GetString("ProgressPercentageFormat", "{0}%");
 				bar.Maximum = maxValue;
 				bar.Value = 0;
+				bar.Visible = Settings.Default.UseProgressBarInMainWindow;
+				lblPct.Text = string.Format(s_progressPercentFormat, 0);
+				lblPct.Visible = (SplashScreen == null && !bar.Visible);
+				lblPct.Tag = 0;
 				lbl.Text = text;
-				lbl.Visible = bar.Visible = true;
+				lbl.Visible = (SplashScreen == null);
 				s_activeProgBarLabel = lbl;
+				s_activePercentLabel = lblPct;
 				s_activeProgressBar = bar;
+				UpdateSplashScreenMessage(lbl, lblPct.Text);
 				Utils.WaitCursors(true);
 			}
 
@@ -1347,14 +1410,11 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static void UninitializeProgressBar()
 		{
-			ToolStripProgressBar bar = (s_activeProgressBar ?? s_progressBar);
-			ToolStripStatusLabel lbl = (s_activeProgBarLabel ?? s_progressBarLabel);
+			var bar = (s_activeProgressBar ?? s_progressBar);
+			var lbl = (s_activeProgBarLabel ?? s_progressBarLabel);
+			var lblPct = (s_activePercentLabel ?? s_percentLabel);
 
 			if (bar != null)
 				bar.Visible = false;
@@ -1362,7 +1422,11 @@ namespace SIL.Pa
 			if (lbl != null)
 				lbl.Visible = false;
 
+			if (lblPct != null)
+				lblPct.Visible = false;
+
 			s_activeProgBarLabel = null;
+			s_activePercentLabel = null;
 			s_activeProgressBar = null;
 			Utils.WaitCursors(false);
 		}
@@ -1385,7 +1449,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void IncProgressBar(int amount)
 		{
-			ToolStripProgressBar bar = (s_activeProgressBar ?? s_progressBar);
+			var bar = (s_activeProgressBar ?? s_progressBar);
 
 			if (bar != null)
 			{
@@ -1393,6 +1457,18 @@ namespace SIL.Pa
 					bar.Value += amount;
 				else
 					bar.Value = bar.Maximum;
+
+				var lblPct = (s_activePercentLabel ?? s_percentLabel);
+				if (lblPct == null)
+					return;
+
+				int pct = (int)((bar.Value / (float)bar.Maximum) * 100);
+				if (pct >= (int)s_percentLabel.Tag + 5 || pct == 100)
+				{
+					lblPct.Text = string.Format(s_progressPercentFormat, pct);
+					lblPct.Tag = pct;
+					UpdateSplashScreenMessage(s_activeProgBarLabel ?? s_progressBarLabel, lblPct.Text);
+				}
 			}
 		}
 
@@ -1403,41 +1479,29 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void UpdateProgressBarLabel(string label)
 		{
-			ToolStripStatusLabel lbl = (s_activeProgBarLabel ?? s_progressBarLabel);
+			var lbl = (s_activeProgBarLabel ?? s_progressBarLabel);
 
 			if (lbl != null)
 			{
-				if (SplashScreen != null && SplashScreen.StillAlive)
-					SplashScreen.Message = label;
-
 				lbl.Text = label;
+				UpdateSplashScreenMessage(lbl, null);
 				Application.DoEvents();
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Closes the splash screen if it's showing.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void CloseSplashScreen()
+		private static void UpdateSplashScreenMessage(ToolStripStatusLabel lblMsg, string pct)
 		{
-			if (SplashScreen != null && SplashScreen.StillAlive)
-			{
-				Application.DoEvents();
-				if (MainForm != null)
-					MainForm.Activate();
+			if (SplashScreen == null || !SplashScreen.StillAlive || lblMsg == null)
+				return;
 
-				SplashScreen.Close();
-			}
-
-			SplashScreen = null;
+			SplashScreen.Message = (string.IsNullOrEmpty(pct) ? lblMsg.Text :
+				string.Format(s_splashScreenLoadingMessageFormat, lblMsg.Text, pct));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		#endregion
+
+		#region Open/Save file dialog methods
 		/// ------------------------------------------------------------------------------------
 		public static string OpenFileDialog(string defaultFileType, string filter, string dlgTitle)
 		{
@@ -1445,10 +1509,6 @@ namespace SIL.Pa
 			return OpenFileDialog(defaultFileType, filter, ref filterIndex, dlgTitle);
 		}
 
-		/// --------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// --------------------------------------------------------------------------------
 		public static string OpenFileDialog(string defaultFileType, string filter,
 			ref int filterIndex, string dlgTitle)
@@ -1460,10 +1520,6 @@ namespace SIL.Pa
 		}
 
 		/// --------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// --------------------------------------------------------------------------------
 		public static string[] OpenFileDialog(string defaultFileType, string filter,
 			ref int filterIndex, string dlgTitle, bool multiSelect)
 		{
@@ -1471,10 +1527,6 @@ namespace SIL.Pa
 				dlgTitle, multiSelect, null);
 		}
 
-		/// --------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// --------------------------------------------------------------------------------
 		public static string[] OpenFileDialog(string defaultFileType, string filter,
 			ref int filterIndex, string dlgTitle, bool multiSelect, string initialDirectory)
@@ -1557,52 +1609,9 @@ namespace SIL.Pa
 			return string.Empty;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Determines whether or not the specified view type or form is the active.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static bool IsViewOrFormActive(Type viewType, Form frm)
-		{
-			return (viewType == CurrentViewType && frm != null && frm.ContainsFocus);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Determines whether or not the specified form is the active form.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static bool IsFormActive(Form frm)
-		{
-			if (frm == null)
-				return false;
-
-			if (frm.ContainsFocus || frm.GetType() == CurrentViewType)
-				return true;
-
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Closes all MDI child forms.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void CloseAllForms()
-		{
-			s_openForms.Clear();
-
-			if (MainForm == null)
-				return;
-
-			// There may be some child forms not in the s_openForms collection. If that's
-			// the case, then close them this way.
-			for (int i = MainForm.MdiChildren.Length - 1; i >= 0; i--)
-				MainForm.MdiChildren[i].Close();
-		}
-
 		#endregion
 
+		#region Search query methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Creates and loads a result cache for the specified search query.
@@ -1654,10 +1663,8 @@ namespace SIL.Pa
 			if (!ConvertClassesToPatterns(query, out modifiedQuery, showErrMsg))
 				return null;
 
-			if (Project != null)
-				SearchEngine.IgnoreUndefinedCharacters = Project.IgnoreUndefinedCharsInSearches;
-
-			SearchEngine engine = new SearchEngine(modifiedQuery, PhoneCache);
+			SearchEngine.IgnoreUndefinedCharacters = Project.IgnoreUndefinedCharsInSearches;
+			var engine = new SearchEngine(modifiedQuery, Project.PhoneCache);
 
 			string msg = engine.GetCombinedErrorMessages();
 			if (!string.IsNullOrEmpty(msg))
@@ -1677,9 +1684,9 @@ namespace SIL.Pa
 				return null;
 			}
 
-			WordListCache resultCache = (returnCountOnly ? null : new WordListCache());
+			var resultCache = (returnCountOnly ? null : new WordListCache());
 
-			foreach (WordCacheEntry wordEntry in WordCache)
+			foreach (var wordEntry in Project.WordCache)
 			{
 				if (incProgressBar && (incCounter++) == incAmount)
 				{
@@ -1721,7 +1728,7 @@ namespace SIL.Pa
 					// match at the extremes of the phonetic values.
 					if (patternContainsWordBoundaries)
 					{
-						List<string> tmpChars = new List<string>(eticWords[i]);
+						var tmpChars = new List<string>(eticWords[i]);
 						tmpChars.Insert(0, " ");
 						tmpChars.Add(" ");
 						eticWords[i] = tmpChars.ToArray();
@@ -1828,10 +1835,6 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private static bool VerifyMiscPatternConditions(SearchEngine engine, bool showErrMsg)
 		{
 			if (engine == null)
@@ -1855,28 +1858,9 @@ namespace SIL.Pa
 			return (msg == null);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void DrawWatermarkImage(string imageId, Graphics g, Rectangle clientRectangle)
-		{
-			Image watermark = Properties.Resources.ResourceManager.GetObject(imageId) as Image;
-			if (watermark == null)
-				return;
+		#endregion
 
-			Rectangle rc = new Rectangle();
-			rc.Size = watermark.Size;
-			rc.X = clientRectangle.Right - rc.Width - 10;
-			rc.Y = clientRectangle.Bottom - rc.Height - 10;
-			g.DrawImage(watermark, rc);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		#region Help related properties and methods
 		/// ------------------------------------------------------------------------------------
 		public static string HelpFilePath
 		{
@@ -1894,19 +1878,11 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static void ShowHelpTopic(Control ctrl)
 		{
 			ShowHelpTopic("hid" + ctrl.Name);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static void ShowHelpTopic(string hid)
 		{
@@ -1921,6 +1897,9 @@ namespace SIL.Pa
 			}
 		}
 
+		#endregion
+
+		#region MOA and POA key generating methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Builds a manner of articulation sort key for the specified phone.
@@ -1933,10 +1912,10 @@ namespace SIL.Pa
 			if (string.IsNullOrEmpty(phone))
 				return null;
 
-			StringBuilder keybldr = new StringBuilder(6);
+			var keybldr = new StringBuilder(6);
 			foreach (char c in phone)
 			{
-				IPASymbol info = IPASymbolCache[c];
+				var info = IPASymbolCache[c];
 				keybldr.Append(info == null ? "000" :
 					string.Format("{0:X3}", info.MOArticulation));
 			}
@@ -1956,66 +1935,15 @@ namespace SIL.Pa
 			if (string.IsNullOrEmpty(phone))
 				return null;
 
-			StringBuilder keybldr = new StringBuilder(6);
+			var keybldr = new StringBuilder(6);
 			foreach (char c in phone)
 			{
-				IPASymbol info = IPASymbolCache[c];
+				var info = IPASymbolCache[c];
 				keybldr.Append(info == null ? "000" :
 					string.Format("{0:X3}", info.POArticulation));
 			}
 
 			return keybldr.ToString();
-		}
-
-		#region Method to migrate previous versions of a file to current.
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static bool MigrateToLatestVersion(string filename, Assembly assembly,
-			string transformNamespace, string errMsg)
-		{
-			var oldFile = Path.ChangeExtension(filename, "old");
-
-			using (var stream = assembly.GetManifestResourceStream(transformNamespace))
-			{
-				var updatedFile = XmlHelper.TransformFile(filename, stream);
-				if (updatedFile == null)
-					return false;
-
-				try
-				{
-					if (File.Exists(oldFile))
-						File.Delete(oldFile);
-
-					File.Move(filename, oldFile);
-					File.Move(updatedFile, filename);
-					return true;
-				}
-				catch (Exception e1)
-				{
-					try
-					{
-						errMsg = string.Format(errMsg, e1.Message, oldFile);
-					}
-					catch { }
-
-					Utils.MsgBox(errMsg);
-
-					try
-					{
-						if (!File.Exists(oldFile))
-							File.Move(filename, oldFile);
-					}
-					catch (Exception e2)
-					{
-						Utils.MsgBox(e2.Message);
-					}
-				}
-			}
-
-			return false;
 		}
 
 		#endregion

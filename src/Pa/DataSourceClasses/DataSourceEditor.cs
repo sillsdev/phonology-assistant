@@ -2,10 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
+using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SIL.Pa.UI.Dialogs;
 using SilTools;
 
@@ -58,7 +61,7 @@ namespace SIL.Pa.DataSource
 		private static List<Process> s_saProcesses;
 		
 		private readonly bool m_showFwJumpUrlDlg;
-		private readonly string m_saListFileContentFmt = "[Settings]\nCallingApp={0}\n" +
+		private const string kSaListFileContentFmt = "[Settings]\nCallingApp={0}\n" +
 			"[AudioFiles]\nFile0={1}\n[BeginningWAVOffsets]\nOffset0={2}\n" +
 			"[EndingWAVOffsets]\nOffset0={3}\n[Commands]\nCommand0=SelectFile(0)";
 
@@ -83,18 +86,22 @@ namespace SIL.Pa.DataSource
 		{
 			m_showFwJumpUrlDlg = showFwUrlDialog;
 		
-			DataSourceType sourceType = wcentry.RecordEntry.DataSource.DataSourceType;
+			var sourceType = wcentry.RecordEntry.DataSource.Type;
 
-			if (sourceType == DataSourceType.SFM)
-				EditRecordInSFMEditor(wcentry.RecordEntry);
-			else if (sourceType == DataSourceType.Toolbox)
-				EditRecordInToolbox(wcentry.RecordEntry);
-			else if (sourceType == DataSourceType.FW)
-				EditRecordInFieldWorks(wcentry.RecordEntry);
-			else if (sourceType == DataSourceType.SA)
-				EditRecordInSA(wcentry, callingApp);
-			else
-				Utils.MsgBox(Properties.Resources.kstidUnableToEditSourceRecordMsg);
+			switch (sourceType)
+			{
+				case DataSourceType.SFM: EditRecordInSFMEditor(wcentry.RecordEntry); break;
+				case DataSourceType.Toolbox: EditRecordInToolbox(wcentry.RecordEntry); break;
+				case DataSourceType.FW:
+				case DataSourceType.FW7: EditRecordInFieldWorks(wcentry.RecordEntry); break;
+				case DataSourceType.SA: EditRecordInSA(wcentry, callingApp); break;
+				default:
+					var msg = App.GetString("UnableToEditSourceRecordMsg",
+						"There is no source record editor associated with this record.");
+
+					Utils.MsgBox(msg);
+					break;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -104,17 +111,7 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		public static bool IsToolboxRunning
 		{
-			get
-			{
-				Process[] processes = Process.GetProcesses();
-				foreach (Process prs in processes)
-				{
-					if (prs.ProcessName.ToLower().StartsWith("toolbox"))
-						return true;
-				}
-
-				return false;
-			}
+			get { return Process.GetProcesses().Any(prs => prs.ProcessName.ToLower().StartsWith("toolbox")); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -132,28 +129,33 @@ namespace SIL.Pa.DataSource
 			// Make sure an editor has been specified.
 			if (string.IsNullOrEmpty(recEntry.DataSource.Editor))
 			{
-				msg = string.Format(Properties.Resources.kstidNoDataSourceEditorSpecifiedMsg,
-					Utils.PrepFilePathForMsgBox(recEntry.DataSource.DataSourceFile));
+				msg = App.GetString("NoDataSourceEditorSpecifiedMsg",
+					"No editor has been specified in the project settings for the following data source:\n\n{0}\n\nSee the help file for more information.",
+					"Displayed when no editor has been specified and the user chooses 'Edit Source Record' from the edit menu.");
+
+				msg = string.Format(msg, Utils.PrepFilePathForMsgBox(recEntry.DataSource.SourceFile));
 			}
 
 			// Make sure editor exists.
 			if (msg == null && !File.Exists(recEntry.DataSource.Editor))
 			{
-				msg = string.Format(Properties.Resources.kstidDataSourceEditorMissingMsg,
-					Utils.PrepFilePathForMsgBox(recEntry.DataSource.Editor));
+				msg = App.GetString("DataSourceEditorMissingMsg", "The editor '{0}' cannot be found.",
+					"Displayed when specified editor cannot be found when the user chooses 'Edit Source Record' from the edit menu.");
+
+				msg = string.Format(msg, Utils.PrepFilePathForMsgBox(recEntry.DataSource.Editor));
 			}
 
 			if (msg != null)
 			{
-				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(msg);
 				return;
 			}
 
-			// Start SA.
-			Process prs = new Process();
+			// Start editor.
+			var prs = new Process();
 			prs.StartInfo.UseShellExecute = true;
 			prs.StartInfo.FileName = "\"" + recEntry.DataSource.Editor + "\"";
-			prs.StartInfo.Arguments = " \"" + recEntry.DataSource.DataSourceFile + "\"";
+			prs.StartInfo.Arguments = " \"" + recEntry.DataSource.SourceFile + "\"";
 			prs.Start();
 		}
 
@@ -167,33 +169,33 @@ namespace SIL.Pa.DataSource
 			if (!IsToolboxRunning)
 			{
 				string msg = string.Format(Properties.Resources.kstidToolboxNotRunningMsg,
-					Utils.PrepFilePathForMsgBox(recEntry.DataSource.DataSourceFile));
+					Utils.PrepFilePathForMsgBox(recEntry.DataSource.SourceFile));
 				
 				Utils.MsgBox(msg);
 			    return;
 			}
 
-			string sortField = recEntry.DataSource.ToolboxSortField;
+			string sortFieldName = recEntry.DataSource.ToolboxSortField;
 
 			// Get the record field whose value will tell us what record to jump to.
-			if (string.IsNullOrEmpty(sortField))
+			if (string.IsNullOrEmpty(sortFieldName))
 			{
 				Utils.MsgBox(Properties.Resources.kstidNoToolboxSortFieldSpecified);
 				return;
 			}
 
 			// Find the field information for the specified sort field.
-			PaFieldInfo fieldInfo = App.Project.FieldInfo[sortField];
-			if (fieldInfo == null)
+			var field = recEntry.Project.GetFieldForName(sortFieldName);
+			if (field == null)
 			{
-				string msg = Properties.Resources.kstidInvalidToolboxSortField;
-				Utils.MsgBox(string.Format(msg, sortField));
+				var msg = Properties.Resources.kstidInvalidToolboxSortField;
+				Utils.MsgBox(string.Format(msg, sortFieldName));
 				return;
 			}
 
 			// Get the value indicating what record to jump to.
-			string jumpValue = (fieldInfo.IsPhonetic ?
-				GetPhoneticJumpWord(recEntry) : recEntry[sortField]);
+			var jumpValue = (field.Type == FieldType.Phonetic ?
+				GetPhoneticJumpWord(recEntry) : recEntry[sortFieldName]);
 
 			if (string.IsNullOrEmpty(jumpValue))
 				return;
@@ -220,8 +222,8 @@ namespace SIL.Pa.DataSource
 			// sure the original phonetic data is used for the jump value. Therefore, we'll
 			// pull the original phonetic data from a temporary file containing all the
 			// original phonetic data for each data source record.
-			Dictionary<int, string> tempCache = TempRecordCache.Load();
-			string jumpValue = tempCache[recEntry.Id];
+			var tempCache = TempRecordCache.Load();
+			var jumpValue = tempCache[recEntry.Id];
 			tempCache.Clear();
 			return jumpValue;
 		}
@@ -233,38 +235,48 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private void EditRecordInFieldWorks(RecordCacheEntry recEntry)
 		{
-			PaFieldInfo fieldInfo = App.Project.FieldInfo.GuidField;
-			string url = Model.FwDBAccessInfo.JumpUrl;
+			var field = recEntry.Project.GetFieldForName("GUID");
+			var url = (recEntry.DataSource.Type == DataSourceType.FW ?
+				FwDBAccessInfo.JumpUrl : Settings.Default.Fw7JumpUrlFormat);
 
-			if (fieldInfo != null && !string.IsNullOrEmpty(url))
+			if (field == null || string.IsNullOrEmpty(url))
+				return;
+
+			if (recEntry.DataSource.Type == DataSourceType.FW)
 			{
-				url = string.Format(url, recEntry[fieldInfo.FieldName],
-					recEntry.DataSource.FwDataSourceInfo.MachineName,
-					recEntry.DataSource.FwDataSourceInfo.DBName);
+				url = string.Format(url, recEntry[field.Name],
+					recEntry.DataSource.FwDataSourceInfo.Server,
+					recEntry.DataSource.FwDataSourceInfo.Name);
+			}
+			else
+			{
+				url = string.Format(url, recEntry.DataSource.FwDataSourceInfo.Name,
+					recEntry.DataSource.FwDataSourceInfo.Server, recEntry[field.Name]);
+			}
 
-				// Spaces aren't allowed in the URL. They should be converted to '+'.
-				url = url.Trim().Replace(' ', '+');
+			// Spaces aren't allowed in the URL. They should be converted to '+'.
+			url = url.Trim().Replace(' ', '+');
 
-				try
+			try
+			{
+				if (m_showFwJumpUrlDlg)
 				{
-					if (m_showFwJumpUrlDlg)
+					using (var dlg = new EditFwUrlDlg(url))
 					{
-						using (EditFwUrlDlg dlg = new EditFwUrlDlg(url))
-						{
-							if (dlg.ShowDialog() == DialogResult.Cancel)
-								return;
-							url = dlg.Url;
-						}
-					}
+						if (dlg.ShowDialog() == DialogResult.Cancel)
+							return;
 
-					RestoreAppIfRunning("Flex");
-					Process.Start(url);
+						url = dlg.Url;
+					}
 				}
-				catch
-				{
-					// TODO: Should this be a message box?
-					Clipboard.SetText(url);
-				}
+
+				RestoreAppIfRunning("Flex");
+				Process.Start(url);
+			}
+			catch
+			{
+				// TODO: Should this be a message box?
+				Clipboard.SetText(url);
 			}
 		}
 
@@ -276,30 +288,32 @@ namespace SIL.Pa.DataSource
 		private void EditRecordInSA(WordCacheEntry wcentry, string callingApp)
 		{
 			// Get the audio file field.
-			PaFieldInfo fieldInfo = App.Project.FieldInfo.AudioFileField;
-			if (fieldInfo == null)
+			var field = wcentry.Project.GetAudioFileField();
+			if (field == null)
 			{
-				Utils.MsgBox(Properties.Resources.kstidNoAudioField);
+				Utils.MsgBox(App.GetString("NoAudioFileFieldMissingMsg",
+					"This project doesn't contain a field definition for an audio file path."));
+				
 				return;
 			}
 
 			// Get the audio file and make sure it exists.
-			string audioFile = wcentry[fieldInfo.FieldName];
+			var audioFile = wcentry[field.Name];
 			if (string.IsNullOrEmpty(audioFile) || !File.Exists(audioFile))
 			{
-				Utils.MsgBox(Properties.Resources.kstidAudioFileMissingMsg);
+				var msg = App.GetString("AudioFileMissingMsg", "The audio file '{0}' is cannot be found.");
+				Utils.MsgBox(string.Format(msg, audioFile));
 				return;
 			}
 
 			// Make sure SA exists.
-			string saPath = AudioPlayer.GetSaPath();
+			var saPath = AudioPlayer.GetSaPath();
 			if (saPath == null || !File.Exists(saPath))
 			{
-				var msg = App.LocalizeString("AudioEditProblemMsg",
+				var msg = App.GetString("AudioEditProblemMsg",
 					"Speech Analyzer 3.0.1 is required to edit audio data sources, but it " +
 					"is not installed. Please install Speech Analyzer 3.0.1 and try again.",
-					"Message displayed when SA 3.0.1 is not installed and the user is attempting to edit an audio file.",
-					App.kLocalizationGroupInfoMsg);
+					"Message displayed when SA 3.0.1 is not installed and the user is attempting to edit an audio file.");
 
 				using (var dlg = new DownloadSaDlg(msg))
 					dlg.ShowDialog();
@@ -307,10 +321,10 @@ namespace SIL.Pa.DataSource
 				return;
 			}
 
-			string lstFile = GetSaListFile(wcentry, audioFile, callingApp);
+			var lstFile = GetSaListFile(wcentry, audioFile, callingApp);
 
 			// Start SA.
-			Process prs = new Process();
+			var prs = new Process();
 			prs.StartInfo.UseShellExecute = true;
 			prs.StartInfo.FileName = "\"" + saPath + "\"";
 			prs.StartInfo.Arguments = "-l " + lstFile;
@@ -334,7 +348,7 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private static void SA_Exited(object sender, EventArgs e)
 		{
-			Process prs = sender as Process;
+			var prs = sender as Process;
 			if (prs != null)
 			{
 				prs.Exited -= SA_Exited;
@@ -354,7 +368,7 @@ namespace SIL.Pa.DataSource
 		{
 			if (s_saProcesses != null)
 			{
-				foreach (Process prs in s_saProcesses)
+				foreach (var prs in s_saProcesses)
 				{
 					prs.Exited -= SA_Exited;
 					prs.CloseMainWindow();
@@ -372,18 +386,18 @@ namespace SIL.Pa.DataSource
 		{
 			// Get the utterance's offset.
 			ulong offset;
-			PaFieldInfo fieldInfo = App.FieldInfo.AudioFileOffsetField;
-			if (fieldInfo == null || !ulong.TryParse(wcentry[fieldInfo.FieldName], out offset))
+			var field = wcentry.Project.GetAudioOffsetField();
+			if (field == null || !ulong.TryParse(wcentry[field.Name], out offset))
 				offset = 0;
 
 			// Get the utterance's length.
 			ulong length;
-			fieldInfo = App.FieldInfo.AudioFileLengthField;
-			if (fieldInfo == null || !ulong.TryParse(wcentry[fieldInfo.FieldName], out length))
+			field = wcentry.Project.GetAudioLengthField();
+			if (field == null || !ulong.TryParse(wcentry[field.Name], out length))
 				length = 0;
 
 			// Create the contents for the SA list file.
-			string saListFileContent = string.Format(m_saListFileContentFmt,
+			string saListFileContent = string.Format(kSaListFileContentFmt,
 				new object[] { callingApp, audioFile, offset, offset + length });
 			saListFileContent = Utils.ConvertLiteralNewLines(saListFileContent);
 
@@ -395,17 +409,13 @@ namespace SIL.Pa.DataSource
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void RestoreAppIfRunning(string processName)
 		{
-			Process[] prs = Process.GetProcessesByName(processName);
+			var prs = Process.GetProcessesByName(processName);
 
-			if (prs != null && prs.Length > 0)
+			if (prs.Length > 0)
 			{
-				WINDOWPLACEMENT placement = new WINDOWPLACEMENT();
+				var placement = new WINDOWPLACEMENT();
 				placement.length = Marshal.SizeOf(placement);
 				GetWindowPlacement(prs[0].MainWindowHandle, ref placement);
 

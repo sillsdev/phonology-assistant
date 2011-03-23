@@ -348,7 +348,9 @@ namespace SIL.Pa.UI.Dialogs
 			//    return;
 			//}
 
-			new RtfCreator(m_exportTarget, m_exportFormat, m_grid, m_grid.Cache, m_rtfEditor);
+			new RtfCreator(App.Project, m_exportTarget, m_exportFormat,
+				m_grid, m_grid.Cache, m_rtfEditor);
+			
 			Close();
 		}
 
@@ -360,7 +362,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void btnSetEditor_Click(object sender, EventArgs e)
 		{
 			// clear the status bar
-			OpenFileDialog dlg = new OpenFileDialog();
+			var dlg = new OpenFileDialog();
 			dlg.CheckFileExists = true;
 			dlg.CheckPathExists = true;
 			dlg.Title = Properties.Resources.kstidSetRTFEditorOFDlgTitle;

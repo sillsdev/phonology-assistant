@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
+using Palaso.IO;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
@@ -43,14 +44,12 @@ namespace SIL.Pa.UI.Views
 		private readonly SplitterPanel m_dockedSidePanel;
 		private readonly Keys m_savePatternHotKey = Keys.None;
 
-		#region Form construction
+		#region construction
 		/// ------------------------------------------------------------------------------------
 		public SearchVw()
 		{
-			var msg = App.LocalizeString("InitializingSearchViewMsg",
-				"Initializing Search View...",
-				"Message displayed whenever the search view is being initialized.",
-				App.kLocalizationGroupInfoMsg);
+			var msg = App.GetString("InitializingSearchViewMsg", "Initializing Search View...",
+				"Message displayed whenever the search view is being initialized.");
 
 			App.InitializeProgressBarForLoadingView(msg, 6);
 			InitializeComponent();
@@ -96,14 +95,27 @@ namespace SIL.Pa.UI.Views
 
 			// Remove these lines when the pattern building bar is working.
 			{
-				m_patternBuilderBar.Visible = false;
-				ptrnTextBox.Margin = new Padding(ptrnTextBox.Margin.Left, ptrnTextBox.Margin.Top,
-					ptrnTextBox.Margin.Right, ptrnTextBox.Margin.Top);
-				btnRefresh.Margin = new Padding(btnRefresh.Margin.Left, btnRefresh.Margin.Top,
-					btnRefresh.Margin.Right, btnRefresh.Margin.Top);
-				lblCurrPattern.Margin = new Padding(lblCurrPattern.Margin.Left, lblCurrPattern.Margin.Top,
-					lblCurrPattern.Margin.Right, lblCurrPattern.Margin.Top);
+				//m_patternBuilderBar.Visible = false;
+				//ptrnTextBox.Margin = new Padding(ptrnTextBox.Margin.Left, ptrnTextBox.Margin.Top,
+				//    ptrnTextBox.Margin.Right, ptrnTextBox.Margin.Top);
+				//btnRefresh.Margin = new Padding(btnRefresh.Margin.Left, btnRefresh.Margin.Top,
+				//    btnRefresh.Margin.Right, btnRefresh.Margin.Top);
+				//lblCurrPattern.Margin = new Padding(lblCurrPattern.Margin.Left, lblCurrPattern.Margin.Top,
+				//    lblCurrPattern.Margin.Right, lblCurrPattern.Margin.Top);
 			}
+
+			m_patternBuilderBar.ItemSelectedHandler = (text =>
+			{
+				if (!string.IsNullOrEmpty(text))
+					ptrnTextBox.Insert(text);
+			});
+
+			// TODO: Enable this in a later version.
+			m_patternBuilderBar.Visible = false;
+
+			// Subscribe to these here because I found that sometimes the designer chokes on these.
+			splitResults.Panel1.DragDrop += HandleSplitResultsPanel1DragDrop;
+			splitResults.Panel1.DragOver += HandleSplitResultsPanel1DragOver;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -205,8 +217,9 @@ namespace SIL.Pa.UI.Views
 				App.PrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 
-				string[] defs = new string[1];
-				defs[0] = Path.Combine(App.ConfigFolder, "SearchTMDefinition.xml");
+				var defs = new[] { FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
+					"SearchTMDefinition.xml") };
+				
 				m_tmAdapter.Initialize(this, App.MsgMediator, App.ApplicationRegKeyPath, defs);
 				m_tmAdapter.AllowUpdates = true;
 			}
@@ -263,7 +276,7 @@ namespace SIL.Pa.UI.Views
 				Settings.Default.SearchVwSidePanelWidth,
 				newWidth => Settings.Default.SearchVwSidePanelWidth = newWidth);
 			
-			App.LocalizeObject(m_slidingPanel.Tab, "SearchVw.UndockedSideBarTabText",
+			App.GetStringForObject(m_slidingPanel.Tab, "SearchVw.UndockedSideBarTabText",
 				"Patterns & Pattern Building", "Views");
 
 			SuspendLayout();
@@ -283,17 +296,6 @@ namespace SIL.Pa.UI.Views
 		public SearchResultsViewManager ResultViewManger
 		{
 			get { return m_rsltVwMngr; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a value indicating whether or not class names should be shown in search
-		/// patterns. If false, then the class' members are shown.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static bool ShowClassNames
-		{
-			get { return (App.Project == null || App.Project.ShowClassNamesInSearchPatterns); }
 		}
 		
 		#endregion
@@ -370,10 +372,9 @@ namespace SIL.Pa.UI.Views
 			tvSavedPatterns.SaveSettings();
 
 			// Save the list of recently used queries.
-			List<SearchQuery> recentList = new List<SearchQuery>();
-			for (int i = 0; i < lstRecentPatterns.Items.Count; i++)
-				recentList.Add(lstRecentPatterns.Items[i] as SearchQuery);
-
+			var recentList = 
+				(from object rp in lstRecentPatterns.Items select rp as SearchQuery).ToList();
+			
 			string path = Path.Combine(App.DefaultProjectFolder, kRecentlyUsedPatternFile);
 			if (recentList.Count > 0)
 				XmlSerializationHelper.SerializeToFile(path, recentList);
@@ -763,33 +764,28 @@ namespace SIL.Pa.UI.Views
 		{
 			Rectangle rc = m_patternTableLayoutPanel.ClientRectangle;
 
-			Color clrTop =
-				ColorHelper.CalculateColor(SystemColors.Control, Color.White, 100);
+			// I found that this actually happened when the program was
+			// being restored after being minimized.
+			if (rc.Width == 0 || rc.Height == 0)
+				return;
 
-			Color clrBottom =
-				ColorHelper.CalculateColor(SystemColors.ControlDark, Color.White, 75);
+			Color clrTop;
+			Color clrBottom;
 
-			using (LinearGradientBrush br = new LinearGradientBrush(rc, clrTop, clrBottom, 90))
+			if (Settings.Default.UseSystemColors)
 			{
-				e.Graphics.FillRectangle(br, rc);
-				e.Graphics.DrawLine(SystemPens.ControlDark, rc.X, rc.Bottom - 1, rc.Right - 1, rc.Bottom - 1);
+				clrTop = ColorHelper.CalculateColor(SystemColors.Control, Color.White, 100);
+				clrBottom = ColorHelper.CalculateColor(SystemColors.ControlDark, Color.White, 75);
+			}
+			else
+			{
+				clrTop = Settings.Default.TextPanelGradientTopColor;
+				clrBottom = Settings.Default.TextPanelGradientBottomColor;
 			}
 
-			//Rectangle rc = tableLayoutPanel1.ClientRectangle;
-
-			////Color clrTop = Color.FromArgb(0xB5, 0xA8, 0x81);
-			////Color clrBottom = Color.FromArgb(0xA4, 0x7D, 0x49);
-			//Color clrTop = Color.White;
-			////Color clrBottom = Color.FromArgb(0xdf, 0xcf, 0x9f);
-			//Color clrBottom = Settings.Default.GridCellSelectionBackColor;
-
-			//using (LinearGradientBrush br = new LinearGradientBrush(rc, clrTop, clrBottom, 90))
-			//{
-			//    e.Graphics.FillRectangle(br, rc);
-			//    e.Graphics.DrawLine(SystemPens.ControlDark, rc.X, rc.Bottom - 1,
-			//        rc.Right - 1, rc.Bottom - 1);
-			//}
-
+			PaintingHelper.DrawGradientBackground(e.Graphics, rc, clrTop, clrBottom, false);
+			e.Graphics.DrawLine(SystemPens.ControlDark, rc.X, rc.Bottom - 1,
+				rc.Right - 1, rc.Bottom - 1);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -927,14 +923,14 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void HandleClassListDoubleClick(object sender, MouseEventArgs e)
 		{
-			ClassListView lv = ptrnBldrComponent.ClassListView;
+			var lv = ptrnBldrComponent.ClassListView;
 
 			if (lv.SelectedItems.Count > 0)
 			{
-				ClassListViewItem item = lv.SelectedItems[0] as ClassListViewItem;
+				var item = lv.SelectedItems[0] as ClassListViewItem;
 				if (item != null)
 				{
-					ptrnTextBox.Insert((item.Pattern == null || ShowClassNames ?
+					ptrnTextBox.Insert((item.Pattern == null || Settings.Default.ShowClassNamesInSearchPatterns ?
 						App.kOpenClassBracket + item.Text + App.kCloseClassBracket : item.Pattern));
 				}
 			}
@@ -976,13 +972,9 @@ namespace SIL.Pa.UI.Views
 				dragText = ((FeatureListView)sender).CurrentFormattedFeature;
 			else if (e.Item is ClassListViewItem)
 			{
-				ClassListViewItem item = e.Item as ClassListViewItem;
-				if (item != null)
-				{
-					dragText = (item.Pattern == null || ShowClassNames ?
-						App.kOpenClassBracket + item.Text + App.kCloseClassBracket :
-						item.Pattern);
-				}
+				var item = e.Item as ClassListViewItem;
+				dragText = (item.Pattern == null || Settings.Default.ShowClassNamesInSearchPatterns ?
+					App.kOpenClassBracket + item.Text + App.kCloseClassBracket : item.Pattern);
 			}
 
 			// At this point, any text we've got we use to construct a query since
@@ -990,7 +982,7 @@ namespace SIL.Pa.UI.Views
 			// Then begin dragging.
 			if (dragText != null)
 			{
-				SearchQuery query = new SearchQuery();
+				var query = new SearchQuery();
 				query.Pattern = dragText.Replace(App.kDottedCircle, string.Empty);
 				query.PatternOnly = true;
 				DoDragDrop(query, DragDropEffects.Copy);
@@ -1196,9 +1188,9 @@ namespace SIL.Pa.UI.Views
 		/// Handle a pattern being dragged over an empty results area.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleSplitResultsPanel1DragOver(object sender, DragEventArgs e)
+		private static void HandleSplitResultsPanel1DragOver(object sender, DragEventArgs e)
 		{
-			SearchQuery query = e.Data.GetData(typeof(SearchQuery)) as SearchQuery;
+			var query = e.Data.GetData(typeof(SearchQuery)) as SearchQuery;
 			e.Effect = (query == null ?	DragDropEffects.None : DragDropEffects.Move); 
 		}
 		
@@ -1325,14 +1317,14 @@ namespace SIL.Pa.UI.Views
 			rtfRecVw.UpdateFonts();
 			ptrnBldrComponent.RefreshFonts();
 			lblCurrPattern.Font = FontHelper.UIFont;
-			ptrnTextBox.Font = FontHelper.PhoneticFont;
+			ptrnTextBox.Font = App.PhoneticFont;
 			hlblRecentPatterns.Font = FontHelper.UIFont;
 			hlblSavedPatterns.Font = FontHelper.UIFont;
 			
-			lstRecentPatterns.Font = new Font(FontHelper.PhoneticFont.FontFamily, 
+			lstRecentPatterns.Font = new Font(App.PhoneticFont.FontFamily, 
 				Settings.Default.SearchVwRecentPatternsListFontSize);
 
-			tvSavedPatterns.Font = new Font(FontHelper.PhoneticFont.FontFamily,
+			tvSavedPatterns.Font = new Font(App.PhoneticFont.FontFamily,
 				Settings.Default.SearchVwSavedPatternsListFontSize);
 
 			//pnlCurrPattern.Invalidate();
@@ -1463,8 +1455,7 @@ namespace SIL.Pa.UI.Views
 				}
 				catch { }
 			
-				if (btnRemoveFromRecentList.Enabled != enable)
-					btnRemoveFromRecentList.Enabled = enable;
+				btnRemoveFromRecentList.Enabled = enable;
 			}
 			else
 				return false;
@@ -1486,11 +1477,9 @@ namespace SIL.Pa.UI.Views
 				return false;
 
 			bool enable = (lstRecentPatterns.Items.Count > 0);
-
-			if (btnClearRecentList.Enabled != enable)
-				btnClearRecentList.Enabled = enable;
+			btnClearRecentList.Enabled = enable;
 			
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null)
 				return false;
 

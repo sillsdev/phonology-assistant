@@ -4,9 +4,14 @@ using System.Windows.Forms.VisualStyles;
 
 namespace SilTools.Controls
 {
-	public class HeaderLabel : SilTextPanel
+	public class HeaderLabel : SilPanel
 	{
-		private bool m_showWindowBackgroudOnTopAndRightEdge = true;
+		/// ------------------------------------------------------------------------------------
+		public HeaderLabel()
+		{
+			ShowWindowBackgroudOnTopAndRightEdge = true;
+			BorderStyle = BorderStyle.None;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -15,11 +20,7 @@ namespace SilTools.Controls
 		/// way a list view header is drawn... believe it or not.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool ShowWindowBackgroudOnTopAndRightEdge
-		{
-			get { return m_showWindowBackgroudOnTopAndRightEdge; }
-			set { m_showWindowBackgroudOnTopAndRightEdge = value; }
-		}
+		public bool ShowWindowBackgroudOnTopAndRightEdge { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -41,7 +42,7 @@ namespace SilTools.Controls
 				// side of normal list resultView header isn't visible.
 				rc.Width += 2;
 
-				if (m_showWindowBackgroudOnTopAndRightEdge)
+				if (ShowWindowBackgroudOnTopAndRightEdge)
 				{
 					// Shrink the rectangle so the top and left
 					// edge window background don't get clobbered.
@@ -53,7 +54,7 @@ namespace SilTools.Controls
 				VisualStyleRenderer renderer = new VisualStyleRenderer(element);
 				renderer.DrawBackground(e.Graphics, rc);
 
-				if (m_showWindowBackgroudOnTopAndRightEdge)
+				if (ShowWindowBackgroudOnTopAndRightEdge)
 				{
 					// Draw a window background color line down the right edge.
 					rc = ClientRectangle;

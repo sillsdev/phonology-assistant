@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SaFields version="3.0">
+	<field name="Phonetic" type="Phonetic" />
+	<field name="Phonemic" type="GeneralText" />
+	<field name="Tone" type="GeneralText" />
+	<field name="Gloss" type="GeneralText" />
+	<field name="Orthographic" type="GeneralText" />
+	<field name="Reference" type="Reference" />
+	<field name="AudioFile" type="AudioFilePath" />
+	<field name="AudioLength" type="AudioLength" />
+	<field name="AudioOffset" type="AudioOffset" />
+	<field name="FreeFormTranslation" type="GeneralText"/>
+	<field name="NoteBookReference" type="GeneralText"/>
+	<field name="Dialect" type="GeneralText"/>
+	<field name="EthnologueId" type="GeneralText"/>
+	<field name="LanguageName" type="GeneralText"/>
+	<field name="Region" type="GeneralText"/>
+	<field name="Country" type="GeneralText"/>
+	<field name="Family" type="GeneralText"/>
+	<field name="Transcriber" type="GeneralText"/>
+	<field name="SpeakerName" type="GeneralText"/>
+	<field name="SpeakerGender" type="GeneralText"/>
+	<field name="SADescription" type="GeneralText"/>
+</SaFields>

@@ -32,7 +32,6 @@ namespace SIL.Pa.UI.Dialogs
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FwProjectsDlg));
 			this.lblMsg = new System.Windows.Forms.Label();
 			this.lstFwProjects = new System.Windows.Forms.ListBox();
-			this.btnProperties = new System.Windows.Forms.Button();
 			this.tvNetwork = new SIL.Pa.UI.Controls.NetworkTreeView();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.lblNetwork = new System.Windows.Forms.Label();
@@ -59,17 +58,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.lstFwProjects.FormattingEnabled = true;
 			this.lstFwProjects.Name = "lstFwProjects";
 			// 
-			// btnProperties
-			// 
-			resources.ApplyResources(this.btnProperties, "btnProperties");
-			this.locExtender.SetLocalizableToolTip(this.btnProperties, null);
-			this.locExtender.SetLocalizationComment(this.btnProperties, "Text on button on FieldWorks Projects dialog box.");
-			this.locExtender.SetLocalizingId(this.btnProperties, "FwProjectsDlg.btnProperties");
-			this.btnProperties.MinimumSize = new System.Drawing.Size(86, 26);
-			this.btnProperties.Name = "btnProperties";
-			this.btnProperties.UseVisualStyleBackColor = true;
-			this.btnProperties.Click += new System.EventHandler(this.btnProperties_Click);
-			// 
 			// tvNetwork
 			// 
 			resources.ApplyResources(this.tvNetwork, "tvNetwork");
@@ -79,7 +67,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizationPriority(this.tvNetwork, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.tvNetwork, "FwProjectsDlg.tvNetwork");
 			this.tvNetwork.Name = "tvNetwork";
-			this.tvNetwork.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvNetwork_AfterSelect);
+			this.tvNetwork.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.HandleNetworkTreeViewAfterSelect);
 			// 
 			// splitContainer1
 			// 
@@ -88,7 +76,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// splitContainer1.Panel1
 			// 
-			this.splitContainer1.Panel1.Controls.Add(this.btnProperties);
 			this.splitContainer1.Panel1.Controls.Add(this.tvNetwork);
 			this.splitContainer1.Panel1.Controls.Add(this.lblNetwork);
 			// 
@@ -159,7 +146,6 @@ namespace SIL.Pa.UI.Dialogs
 
 		private System.Windows.Forms.Label lblMsg;
 		private System.Windows.Forms.ListBox lstFwProjects;
-		private System.Windows.Forms.Button btnProperties;
 		private SIL.Pa.UI.Controls.NetworkTreeView tvNetwork;
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.Label lblNetwork;

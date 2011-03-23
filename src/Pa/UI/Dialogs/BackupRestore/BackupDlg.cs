@@ -79,14 +79,14 @@ namespace SIL.Pa.UI.Dialogs
 
 			foreach (PaDataSource dataSource in App.Project.DataSources)
 			{
-				if (dataSource.DataSourceFile != null)
+				if (dataSource.SourceFile != null)
 				{
-					m_dsFiles.Add(dataSource.DataSourceFile);
+					m_dsFiles.Add(dataSource.SourceFile);
 
 					// If the data source is an SA data source, then make sure the file
 					// containing the transcriptions is also included in the back up.
-					if (dataSource.DataSourceType == DataSourceType.SA)
-						m_dsFiles.Add(Path.ChangeExtension(dataSource.DataSourceFile, "saxml"));
+					if (dataSource.Type == DataSourceType.SA)
+						m_dsFiles.Add(Path.ChangeExtension(dataSource.SourceFile, "saxml"));
 				}
 			}
 		}
@@ -94,17 +94,13 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private string GetBackupZipFile()
 		{
-			var fmt = App.LocalizeString("BackupDlg.BackupFilenameFmt",
-				"{0} Backup ({1}).zip", App.kLocalizationGroupDialogs);
-
+			var fmt = App.GetString("BackupDlg.BackupFilenameFmt", "{0} Backup ({1}).zip");
 			var fileName = string.Format(fmt, App.Project.Name, DateTime.Now.ToShortDateString());
 
 			// Slashes are invalid in a file name.
 			fileName = fileName.Replace("/", "-");
 
-			var caption = App.LocalizeString("BackupDlg.BackupOFDCaption",
-				"Backup File to Create", App.kLocalizationGroupDialogs);
-			
+			var caption = App.GetString("BackupDlg.BackupOFDCaption", "Backup File to Create");
 			int filterIndex = 0;
 
 			return App.SaveFileDialog("zip", App.kstidFileTypeZip + "|" + App.kstidFileTypeAllFiles,

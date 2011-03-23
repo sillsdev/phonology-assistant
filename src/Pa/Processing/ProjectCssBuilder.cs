@@ -17,21 +17,15 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
+using SIL.Pa.Model;
 using SIL.Pa.Properties;
 
 namespace SIL.Pa.Processing
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class ProjectCssBuilder : ExporterBase
 	{
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static bool Process(PaProject project)
 		{
@@ -43,10 +37,6 @@ namespace SIL.Pa.Processing
 				Pipeline.ProcessType.ExportToCss);
 		}
 
-		///  ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected ProjectCssBuilder(PaProject project) : base(project)
 		{
@@ -54,19 +44,11 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override string Title
 		{
 			get { return "CSS"; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void WriteMetadata()
 		{
@@ -76,20 +58,12 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<KeyValuePair<string, Font>> GetFormattingFieldInfo()
 		{
-			foreach (var fieldInfo in m_project.FieldInfo)
-				yield return new KeyValuePair<string, Font>(fieldInfo.DisplayText, fieldInfo.Font);
+			return m_project.Fields.Select(field =>
+				new KeyValuePair<string, Font>(field.DisplayName, field.Font));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void WriteTable()
 		{

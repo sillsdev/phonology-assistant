@@ -12,21 +12,14 @@ using SilTools;
 namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class FeaturesDlg : OKCancelDlgBase
 	{
+		private readonly PaProject m_project;
 		private FeatureListView m_lvAFeatures;
 		private FeatureListView m_lvBFeatures;
 		private ToolTip m_phoneToolTip;
 		private List<IPhoneInfo> m_phones;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public FeaturesDlg()
 		{
@@ -37,8 +30,17 @@ namespace SIL.Pa.UI.Dialogs
 
 			DoubleBuffered = true;
 			tabFeatures.Font = FontHelper.UIFont;
+			pgpPhoneList.Font = FontHelper.UIFont;
 			lblAFeatures.Font = new Font(FontHelper.UIFont, FontStyle.Bold);
 			m_phoneToolTip = new ToolTip();
+			pgpPhoneList.BorderStyle = BorderStyle.None;
+			pgpPhoneList.DrawOnlyBottomBorder = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public FeaturesDlg(PaProject project) : this()
+		{
+			m_project = project;
 
 			SetupFeatureLists();
 			BuildPhoneGrid();
@@ -48,10 +50,6 @@ namespace SIL.Pa.UI.Dialogs
 			tblLayoutButtons.Controls.Add(btnReset, 0, 0);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
@@ -107,7 +105,6 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			gridPhones.Name = Name + "PhoneGrid";
 			gridPhones.AutoGenerateColumns = false;
-			gridPhones.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
 			gridPhones.Font = FontHelper.UIFont;
 			gridPhones.VirtualMode = true;
 			gridPhones.CellValueNeeded += HandlePhoneGridCellValueNeeded;
@@ -116,10 +113,9 @@ namespace SIL.Pa.UI.Dialogs
 			col.ReadOnly = true;
 			col.Width = 55;
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-			col.DefaultCellStyle.Font = FontHelper.PhoneticFont;
-			col.CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			col.HeaderText = App.LocalizeString(
-				"FeaturesDlg.PhoneListPhoneHeadingText", "Phone", App.kLocalizationGroupDialogs);
+			col.DefaultCellStyle.Font = App.PhoneticFont;
+			col.CellTemplate.Style.Font = App.PhoneticFont;
+			col.HeaderText = App.GetString("FeaturesDlg.PhoneListPhoneHeadingText", "Phone");
 			
 			gridPhones.Columns.Add(col);
 
@@ -128,8 +124,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.Width = 55;
 			col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-			col.HeaderText = App.LocalizeString(
-				"FeaturesDlg.PhoneListCountHeadingText", "Count", App.kLocalizationGroupDialogs);
+			col.HeaderText = App.GetString("FeaturesDlg.PhoneListCountHeadingText", "Count");
 
 			gridPhones.Columns.Add(col);
 
@@ -138,15 +133,11 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void LoadPhoneGrid()
 		{
 			gridPhones.Rows.Clear();
 
-			m_phones = (from x in App.PhoneCache.Values
+			m_phones = (from x in m_project.PhoneCache.Values
 						orderby x.POAKey
 						select x.Clone()).ToList();
 
@@ -184,10 +175,6 @@ namespace SIL.Pa.UI.Dialogs
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
@@ -293,10 +280,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void HandlePhoneGridCellMouseEnter(object sender, DataGridViewCellEventArgs e)
 		{
 			try
@@ -304,7 +287,7 @@ namespace SIL.Pa.UI.Dialogs
 				if (e.ColumnIndex != 0)
 					return;
 
-				PhoneInfo phoneInfo = m_phones[e.RowIndex] as PhoneInfo;
+				var phoneInfo = m_phones[e.RowIndex] as PhoneInfo;
 				if (phoneInfo == null || phoneInfo.Phone.Trim().Length == 0)
 					return;
 
@@ -312,12 +295,9 @@ namespace SIL.Pa.UI.Dialogs
 				foreach (char c in phoneInfo.Phone)
 					bldr.AppendFormat("U+{0:X4}, ", (int)c);
 
-				var fmt = App.LocalizeString("FeaturesDlg.PhonesGridInfoFormat",
-					"Unicode Values:\n{0}", App.kLocalizationGroupDialogs);
-
-				string tip = bldr.ToString();
+				var fmt = App.GetString("FeaturesDlg.PhonesGridInfoFormat", "Unicode Values:\n{0}");
+				var tip = bldr.ToString();
 				tip = string.Format(fmt, tip.Substring(0, tip.Length - 2));
-
 				tip = Utils.ConvertLiteralNewLines(tip);
 
 				var rc = gridPhones.GetCellDisplayRectangle(0, e.RowIndex, true);
@@ -330,10 +310,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void HandlePhoneGridCellMouseLeave(object sender, DataGridViewCellEventArgs e)
 		{
 			try
@@ -341,18 +317,14 @@ namespace SIL.Pa.UI.Dialogs
 				// Sometimes this event is fired because the mouse is over the tooltip, even
 				// though it's tip's point is still within the bounds of the cell. It is only
 				// when the mouse location leaves the cell do we want to hide the tooltip.
-				Rectangle rc = gridPhones.GetCellDisplayRectangle(0, e.RowIndex, true);
-				Point pt = gridPhones.PointToClient(MousePosition);
+				var rc = gridPhones.GetCellDisplayRectangle(0, e.RowIndex, true);
+				var pt = gridPhones.PointToClient(MousePosition);
 				if (!rc.Contains(pt))
 					m_phoneToolTip.Hide(this);
 			}
 			catch { }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandlePhoneGridRowEnter(object sender, DataGridViewCellEventArgs e)
 		{
@@ -364,10 +336,6 @@ namespace SIL.Pa.UI.Dialogs
 
 		#endregion
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void btnReset_Click(object sender, EventArgs e)
 		{
@@ -389,19 +357,11 @@ namespace SIL.Pa.UI.Dialogs
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void HandleArticulatoryFeatureCheckChanged(object sender, FeatureMask newMask)
 		{
 			lblAFeatures.Text = m_lvAFeatures.FormattedFeaturesString;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandleTableLayoutPaint(object sender, PaintEventArgs e)
 		{
@@ -410,10 +370,6 @@ namespace SIL.Pa.UI.Dialogs
 				rc.Right - 1, rc.Bottom - 6);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void tabFeatures_SizeChanged(object sender, EventArgs e)
 		{

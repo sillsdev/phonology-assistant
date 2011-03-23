@@ -1,7 +1,8 @@
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using Palaso.IO;
 using SilTools;
 
 namespace SIL.Pa.PhoneticSearching
@@ -28,29 +29,26 @@ namespace SIL.Pa.PhoneticSearching
 	/// ----------------------------------------------------------------------------------------
 	public static class FFNormalizer
 	{
-		public const string kstidNormalizationExceptionsFile = "NormalizationExceptions.xml";
-		
 		private static List<NormalizationException> s_exceptionsList;
 		private static bool s_loadAttempted;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static void Load()
 		{
 			s_loadAttempted = true;
 
-			string filename = Path.Combine(App.ConfigFolder, kstidNormalizationExceptionsFile);
-			if (File.Exists(filename))
+			const string filename = "PhoneticInventory.xml";
+
+			try
+			{
+				FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, filename);
+			}
+			catch
+			{
 				s_exceptionsList = XmlSerializationHelper.DeserializeFromFile<List<NormalizationException>>(filename);
+			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static string Normalize(string toConvert)
 		{
@@ -69,15 +67,11 @@ namespace SIL.Pa.PhoneticSearching
 				Load();
 			}
 
-			// If there's an excptions list, then "recompose" those
-			// items in the exceptions list.
+			// If there's an excptions list, then "recompose" those items in the exceptions list.
 			if (s_exceptionsList != null)
 			{
-				foreach (NormalizationException normException in s_exceptionsList)
-				{
-					toConvert = toConvert.Replace(normException.DecomposedForm,
-						normException.ComposedForm);
-				}
+				toConvert = s_exceptionsList.Aggregate(toConvert, (curr, err) =>
+					curr.Replace(err.DecomposedForm, err.ComposedForm));
 			}
 
 			return toConvert;

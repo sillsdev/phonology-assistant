@@ -145,7 +145,7 @@
     <value>fldSelGridWrdList</value>
   </data>
   <data name="&gt;&gt;fldSelGridWrdList.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, Pa, Version=3.2.4033.40684, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, Pa, Version=3.2.9.9, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fldSelGridWrdList.Parent" xml:space="preserve">
     <value>grpColSettings</value>
@@ -697,7 +697,7 @@
     <value>fldSelGridRecView</value>
   </data>
   <data name="&gt;&gt;fldSelGridRecView.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, Pa, Version=3.2.4033.40684, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.FieldSelectorGrid, Pa, Version=3.2.9.9, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;fldSelGridRecView.Parent" xml:space="preserve">
     <value>grpFieldSettings</value>
@@ -1345,7 +1345,7 @@
     <value>tonePicker</value>
   </data>
   <data name="&gt;&gt;tonePicker.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.CharPicker, Pa, Version=3.2.4033.40684, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.CharPicker, Pa, Version=3.2.9.9, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;tonePicker.Parent" xml:space="preserve">
     <value>pnlTone</value>
@@ -1468,7 +1468,7 @@
     <value>lengthPicker</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.CharPicker, Pa, Version=3.2.4033.40684, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.CharPicker, Pa, Version=3.2.9.9, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lengthPicker.Parent" xml:space="preserve">
     <value>pnlLength</value>
@@ -1588,7 +1588,7 @@
     <value>stressPicker</value>
   </data>
   <data name="&gt;&gt;stressPicker.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.CharPicker, Pa, Version=3.2.4033.40684, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.CharPicker, Pa, Version=3.2.9.9, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;stressPicker.Parent" xml:space="preserve">
     <value>pnlStress</value>
@@ -1720,7 +1720,7 @@
     <value>m_sortingGrid</value>
   </data>
   <data name="&gt;&gt;m_sortingGrid.Type" xml:space="preserve">
-    <value>SilTools.SilGrid, SilTools, Version=1.5.4030.28305, Culture=neutral, PublicKeyToken=null</value>
+    <value>SilTools.SilGrid, SilTools, Version=1.5.4070.20539, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;m_sortingGrid.Parent" xml:space="preserve">
     <value>grpColSortOptions</value>
@@ -1905,17 +1905,20 @@
   <data name="&gt;&gt;lblSortInfo.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="phoneticSortOptions.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="phoneticSortOptions.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="phoneticSortOptions.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="phoneticSortOptions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 13</value>
+    <value>9, 17</value>
   </data>
   <data name="phoneticSortOptions.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
   <data name="phoneticSortOptions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 197</value>
+    <value>205, 189</value>
   </data>
   <data name="phoneticSortOptions.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -1924,7 +1927,7 @@
     <value>phoneticSortOptions</value>
   </data>
   <data name="&gt;&gt;phoneticSortOptions.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.SortOptionsDropDown, Pa, Version=3.2.4033.40684, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.SortOptionsDropDown, Pa, Version=3.2.9.9, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;phoneticSortOptions.Parent" xml:space="preserve">
     <value>grpPhoneticSortOptions</value>
@@ -2005,13 +2008,13 @@
     <value>Search Results</value>
   </data>
   <data name="cboListType.Items2" xml:space="preserve">
-    <value>XY Chart Search Results</value>
+    <value>Distribution Chart Search Results</value>
   </data>
   <data name="cboListType.Location" type="System.Drawing.Point, System.Drawing">
     <value>151, 54</value>
   </data>
   <data name="cboListType.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 23</value>
+    <value>216, 23</value>
   </data>
   <data name="cboListType.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -2055,11 +2058,38 @@
   <data name="&gt;&gt;tpgSorting.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="pnlFonts.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="pnlFonts.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12world</value>
+  </data>
+  <data name="pnlFonts.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 10</value>
+  </data>
+  <data name="pnlFonts.Size" type="System.Drawing.Size, System.Drawing">
+    <value>512, 362</value>
+  </data>
+  <data name="pnlFonts.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;pnlFonts.Name" xml:space="preserve">
+    <value>pnlFonts</value>
+  </data>
+  <data name="&gt;&gt;pnlFonts.Type" xml:space="preserve">
+    <value>SilTools.Controls.SilPanel, SilTools, Version=1.5.4070.20539, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;pnlFonts.Parent" xml:space="preserve">
+    <value>tpgFonts</value>
+  </data>
+  <data name="&gt;&gt;pnlFonts.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="tpgFonts.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
   </data>
   <data name="tpgFonts.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>6, 6, 6, 6</value>
+    <value>10, 10, 10, 10</value>
   </data>
   <data name="tpgFonts.Size" type="System.Drawing.Size, System.Drawing">
     <value>532, 382</value>
@@ -2284,12 +2314,12 @@
     <value>locExtender</value>
   </data>
   <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
-    <value>Localization.UI.LocalizationExtender, LocalizationManager, Version=1.0.4024.41930, Culture=neutral, PublicKeyToken=null</value>
+    <value>Localization.UI.LocalizationExtender, LocalizationManager, Version=1.0.4059.31465, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>OptionsDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.2.4033.40684, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.2.9.9, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

@@ -37,20 +37,12 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
 			base.OnShown(e);
 			m_transChangeCtrl.RefreshHeader();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Clean up.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosed(FormClosedEventArgs e)
 		{

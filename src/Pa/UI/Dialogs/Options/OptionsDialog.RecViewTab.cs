@@ -1,25 +1,20 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
+using SIL.Pa.Model;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class OptionsDlg
 	{
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void InitializeRecViewTab()
 		{
 			// This tab isn't valid if there is no project loaded.
-			if (App.Project == null)
+			if (m_project == null)
 			{
 				tabOptions.TabPages.Remove(tpgRecView);
 				return;
@@ -27,7 +22,11 @@ namespace SIL.Pa.UI.Dialogs
 
 			lblShowFields.Font = FontHelper.UIFont;
 			grpFieldSettings.Font = FontHelper.UIFont;
-			fldSelGridRecView.Load(true, false);
+		
+			fldSelGridRecView.Load(from field in m_project.GetMappedFields()
+						where !field.IsHidden
+						orderby field.DisplayIndexInRecView
+						select new KeyValuePair<PaField, bool>(field, field.VisibleInRecView));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -40,14 +39,17 @@ namespace SIL.Pa.UI.Dialogs
 			if (!IsRecViewTabDirty)
 				return;
 
-			fldSelGridRecView.Save(false);
+			int i = 0;
+			foreach (var kvp in fldSelGridRecView.GetSelections())
+			{
+				var field = m_project.GetFieldForDisplayName(kvp.Key);
+				field.VisibleInRecView = kvp.Value;
+				field.DisplayIndexInRecView = i++;
+			}
+
 			App.MsgMediator.SendMessage("RecordViewOptionsChanged", null);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private bool IsRecViewTabDirty
 		{

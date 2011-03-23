@@ -8,10 +8,6 @@ using SilTools;
 namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class SaveDistributionChartDlg : OKCancelDlgBase
 	{
 		private readonly DistributionGrid m_xyGrid;
@@ -19,25 +15,17 @@ namespace SIL.Pa.UI.Dialogs
 		private DistributionChartLayout m_layoutToOverwrite;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public SaveDistributionChartDlg()
 		{
 			InitializeComponent();
 			lblName.Font = FontHelper.UIFont;
-			txtName.Font = FontHelper.PhoneticFont;
+			txtName.Font = App.PhoneticFont;
 
 			// Set the height of the dialog box.
 			int dy = Height - ClientSize.Height;
 			Height = tlpName.Bottom + 8 + tblLayoutButtons.Height + dy;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SaveDistributionChartDlg(DistributionGrid xyGrid, List<DistributionChartLayout>savedCharts) : this()
 		{

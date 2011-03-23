@@ -168,12 +168,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 
 	<toolbars settingFilesPrefix="PA.FF.TBDef">
 		<toolbar name="tbFFWnd" text="" row="0" position="0" allowcustomizing="false" stretch="true">
-			<item name="tbbNewTab" commandid="CmdNewTab" type="2" displaytype="2" split="true" leftmargin="7">
-				<item name="tbbNewTabInCurrentTabGroup" commandid="CmdNewTabInCurrentTabGroup" type="0" displaytype="2"/>
-				<item name="tbbNewTabInSideBySideTabGroup" commandid="CmdNewTabInNewSideBySideTabGroup" type="0" displaytype="2"/>
-				<item name="tbbNewTabInStackedTabGroup" commandid="CmdNewTabInNewStackedTabGroup" type="0" displaytype="2"/>
-			</item>
-			<item name="tbbShowResults" commandid="CmdShowResults" type="0" displaytype="2" begingroup="true"/>
+			<item name="tbbShowResults" commandid="CmdShowResults" type="0" displaytype="2" leftmargin="7"/>
 			<item name="tbbInsertIntoPattern" commandid="CmdInsertIntoPattern" type="2" begingroup="true" split="false" showimagemargin="false">
 				<item name="tbbInsertConsonant" commandid="CmdInsertConsonant" type="0" displaytype="2"/>
 				<item name="tbbInsertVowel" commandid="CmdInsertVowel" type="0" displaytype="2"/>

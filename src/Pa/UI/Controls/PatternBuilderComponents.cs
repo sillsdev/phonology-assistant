@@ -235,17 +235,17 @@ namespace SIL.Pa.UI.Controls
 
 			// Go through all the phones in the cache and strip off their diacritics,
 			// add the diacritics to a collection of diacritics.
-			foreach (KeyValuePair<string, IPhoneInfo> phoneInfo in App.PhoneCache)
+			foreach (var phoneInfo in App.Project.PhoneCache)
 			{
 				foreach (char c in phoneInfo.Key)
 				{
-					IPASymbol charInfo = App.IPASymbolCache[c];
+					var charInfo = App.IPASymbolCache[c];
 					if (charInfo != null && !charInfo.IsBase)
 						m_diacriticsInCache.Add(c);
 				}
 			}
 
-			List<IPASymbolTypeInfo> typesToShow = new List<IPASymbolTypeInfo>();
+			var typesToShow = new List<IPASymbolTypeInfo>();
 
 			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Diacritics));
 
@@ -259,10 +259,22 @@ namespace SIL.Pa.UI.Controls
 				IPASymbolSubType.OtherSymbols));
 
 			charExplorer.TypesToShow = typesToShow;
-			charExplorer.ShouldLoadChar += OtherCharShouldLoadChar;
 			charExplorer.ItemDrag += OtherCharDragHandler;
 			charExplorer.CharPicked += OtherCharPickedHandler;
-			charExplorer.Load();
+			charExplorer.Load(ci =>
+			{
+				// TODO: Fix this when chao characters are supported.
+
+				// Always allow non consonants.
+				if (ci.Type != IPASymbolType.Consonant)
+					return true;
+
+				char chr = ci.Literal[0];
+
+				// The only consonants to allow are the tie bars.
+				return (m_diacriticsInCache.Contains(chr) ||
+					chr == App.kTopTieBarC || chr == App.kBottomTieBarC);
+			});
 
 			m_diacriticsInCache = null;
 		}
@@ -286,27 +298,6 @@ namespace SIL.Pa.UI.Controls
 			flv.CustomDoubleClick += FeatureListDoubleClickHandler;
 
 			return flv;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Determines whether or not the specified modifying characters should be loaded into
-		/// the character explorer on the "Other" tab.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		bool OtherCharShouldLoadChar(CharPicker picker, IPASymbol charInfo)
-		{
-			// TODO: Fix this when chao characters are supported.
-
-			// Always allow non consonants.
-			if (charInfo.Type != IPASymbolType.Consonant)
-				return true;
-
-			char chr = charInfo.Literal[0];
-
-			// The only consonants to allow are the tie bars.
-			return (m_diacriticsInCache.Contains(chr) ||
-				chr == App.kTopTieBarC || chr == App.kBottomTieBarC);
 		}
 
 		/// ------------------------------------------------------------------------------------

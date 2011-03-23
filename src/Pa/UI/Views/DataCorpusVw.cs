@@ -1,8 +1,8 @@
 using System;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 using System.Xml;
+using Palaso.IO;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.Processing;
@@ -13,10 +13,6 @@ using SIL.Pa.UI.Dialogs;
 
 namespace SIL.Pa.UI.Views
 {
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public partial class DataCorpusVw : UserControl, IxCoreColleague, ITabView
 	{
@@ -32,10 +28,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public DataCorpusVw()
 		{
-			var msg = App.LocalizeString("InitializingDataCorpusViewMsg",
-				"Initializing Data Corpus View...",
-				"Message displayed whenever the data corpus view is being initialized.",
-				App.kLocalizationGroupInfoMsg);
+			var msg = App.GetString("InitializingDataCorpusViewMsg",
+				"Initializing Data Corpus View...", "Message displayed whenever the data corpus view is being initialized.");
 
 			App.InitializeProgressBarForLoadingView(msg, 2);
 
@@ -72,8 +66,9 @@ namespace SIL.Pa.UI.Views
 			{
 				App.PrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
-				string[] defs = new string[1];
-				defs[0] = Path.Combine(App.ConfigFolder, "DataCorpusTMDefinition.xml");
+				var defs = new[] { FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
+					"DataCorpusTMDefinition.xml") };
+				
 				m_tmAdapter.Initialize(this, App.MsgMediator, App.ApplicationRegKeyPath, defs);
 				m_tmAdapter.AllowUpdates = true;
 			}
@@ -102,10 +97,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void m_playbackSpeedAdjuster_Disposed(object sender, EventArgs e)
 		{
 			m_playbackSpeedAdjuster.lnkPlay.Click -= HandlePlaybackSpeedAdjusterPlayClick;
@@ -127,6 +118,8 @@ namespace SIL.Pa.UI.Views
 			else
 			{
 				m_grid = new PaWordListGrid(cache, GetType(), false);
+				m_grid.BorderStyle = BorderStyle.None;
+				m_grid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
 				m_grid.TMAdapter = m_tmAdapter;
 
 				// Even thought the grid is docked, setting it's size here prevents the user
@@ -138,7 +131,7 @@ namespace SIL.Pa.UI.Views
 				m_grid.LoadSettings();
 				m_grid.RowEnter += m_grid_RowEnter;
 				m_grid.Visible = false;
-				splitOuter.Panel1.Controls.Add(m_grid);
+				pnlGrid.Controls.Add(m_grid);
 				m_grid.Visible = true;
 				m_grid.TabIndex = 0;
 				m_grid.Focus();
@@ -161,8 +154,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void LoadWindow()
 		{
-			WordListCache cache = new WordListCache();
-			foreach (WordCacheEntry entry in App.WordCache)
+			var cache = new WordListCache();
+			foreach (var entry in App.Project.WordCache)
 				cache.Add(entry);
 
 			Initialize(cache);
@@ -341,10 +334,6 @@ namespace SIL.Pa.UI.Views
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
@@ -473,10 +462,10 @@ namespace SIL.Pa.UI.Views
 
 			if (m_grid.IsGroupedByField)
 				m_grid.GroupByField = null;
-			else if (m_grid.SortOptions.SortInformationList != null &&
-				m_grid.SortOptions.SortInformationList.Count > 0)
+			else if (m_grid.SortOptions.SortFields != null &&
+				m_grid.SortOptions.SortFields.Count > 0)
 			{
-				m_grid.GroupByField = m_grid.SortOptions.SortInformationList[0].FieldInfo;
+				m_grid.GroupByField = m_grid.SortOptions.SortFields[0].Field;
 				if (Settings.Default.CollapseWordListsOnGrouping)
 					m_grid.ToggleGroupExpansion(false);
 			}
@@ -727,10 +716,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnDataSourcesModified(object args)
 		{
 			int savCurrRowIndex = 0;
@@ -830,7 +815,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsHTML(object args)
 		{
-			var fmt = App.LocalizeString("DefaultDataCorpusHTMLExportFileAffix",
+			var fmt = App.GetString("DefaultDataCorpusHTMLExportFileAffix",
 				"{0}-DataCorpus.html", "Export");
 
 			return Export(fmt, App.kstidFileTypeHTML, "html",
@@ -841,7 +826,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsWordXml(object args)
 		{
-			var fmt = App.LocalizeString("DefaultDataCorpusWordXmlExportFileAffix",
+			var fmt = App.GetString("DefaultDataCorpusWordXmlExportFileAffix",
 				"{0}-DataCorpus-(Word).xml", "Export");
 
 			return Export(fmt, App.kstidFileTypeWordXml, "xml",
@@ -852,7 +837,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsXLingPaper(object args)
 		{
-			var fmt = App.LocalizeString("DefaultDataCorpusXLingPaperExportFileAffix",
+			var fmt = App.GetString("DefaultDataCorpusXLingPaperExportFileAffix",
 				"{0}-DataCorpus-(XLingPap).xml", "Export");
 
 			return Export(fmt, App.kstidFileTypeXLingPaper, "xml",

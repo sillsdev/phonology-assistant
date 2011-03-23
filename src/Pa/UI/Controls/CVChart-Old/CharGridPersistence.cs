@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using Palaso.IO;
 using SIL.Pa.Model;
 using SilTools;
 
@@ -15,9 +16,6 @@ namespace SIL.Pa.UI.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class DefaultChartHeadings : CharGridPersistence
 	{
-		public const string kDefaultConChartHeadingsFile = "DefaultConsonantChartHeadings.xml";
-		public const string kDefaultVowChartHeadingsFile = "DefaultVowelChartHeadings.xml";
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads the headings from the XML file.
@@ -25,8 +23,9 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public static bool Load(CharGridBuilder chrGridBldr, IPASymbolType chrType)
 		{
-			var filename = Path.Combine(App.ConfigFolder, (chrType == IPASymbolType.Consonant ?
-				kDefaultConChartHeadingsFile : kDefaultVowChartHeadingsFile));
+			var filename = (chrType == IPASymbolType.Consonant ?
+				FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultConsonantChartHeadings.xml") :
+				FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultVowelChartHeadings.xml"));
 
 			return Load(chrGridBldr, filename);
 		}

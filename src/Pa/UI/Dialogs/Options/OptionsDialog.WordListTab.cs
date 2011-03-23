@@ -1,25 +1,20 @@
 using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.Windows.Forms;
+using SIL.Pa.Model;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class OptionsDlg
 	{
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void InitializeWordListTab()
 		{
 			// This tab isn't valid if there is no project loaded.
-			if (App.Project == null)
+			if (m_project == null)
 			{
 				tabOptions.TabPages.Remove(tpgWordLists);
 				return;
@@ -50,15 +45,18 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void InitializeWordListValues()
 		{
-			fldSelGridWrdList.Load(true, true);
+			fldSelGridWrdList.Load(from field in m_project.GetMappedFields()
+								   where !field.IsHidden
+								   orderby field.DisplayIndexInGrid
+								   select new KeyValuePair<PaField, bool>(field, field.VisibleInGrid));
 
-			chkSaveReorderedColumns.Checked = App.Project.GridLayoutInfo.SaveReorderedCols;
-			chkSaveColHdrHeight.Checked = App.Project.GridLayoutInfo.SaveAdjustedColHeaderHeight;
-			chkSaveColWidths.Checked = App.Project.GridLayoutInfo.SaveAdjustedColWidths;
-			chkAutoAdjustPhoneticCol.Checked = App.Project.GridLayoutInfo.AutoAdjustPhoneticCol;
-			nudMaxEticColWidth.Value = App.Project.GridLayoutInfo.AutoAjustedMaxWidth;
+			chkSaveReorderedColumns.Checked = m_project.GridLayoutInfo.SaveReorderedCols;
+			chkSaveColHdrHeight.Checked = m_project.GridLayoutInfo.SaveAdjustedColHeaderHeight;
+			chkSaveColWidths.Checked = m_project.GridLayoutInfo.SaveAdjustedColWidths;
+			chkAutoAdjustPhoneticCol.Checked = m_project.GridLayoutInfo.AutoAdjustPhoneticCol;
+			nudMaxEticColWidth.Value = m_project.GridLayoutInfo.AutoAjustedMaxWidth;
 
-			switch (App.Project.GridLayoutInfo.GridLines)
+			switch (m_project.GridLayoutInfo.GridLines)
 			{
 				case DataGridViewCellBorderStyle.Single:
 					rbGridLinesBoth.Checked = true;
@@ -88,29 +86,32 @@ namespace SIL.Pa.UI.Dialogs
 			if (!IsWordListTabDirty)
 				return;
 
-			App.Project.GridLayoutInfo.SaveReorderedCols = chkSaveReorderedColumns.Checked;
-			App.Project.GridLayoutInfo.SaveAdjustedColHeaderHeight = chkSaveColHdrHeight.Checked;
-			App.Project.GridLayoutInfo.SaveAdjustedColWidths = chkSaveColWidths.Checked;
-			App.Project.GridLayoutInfo.AutoAdjustPhoneticCol = chkAutoAdjustPhoneticCol.Checked;
-			App.Project.GridLayoutInfo.AutoAjustedMaxWidth = (int)nudMaxEticColWidth.Value;
+			m_project.GridLayoutInfo.SaveReorderedCols = chkSaveReorderedColumns.Checked;
+			m_project.GridLayoutInfo.SaveAdjustedColHeaderHeight = chkSaveColHdrHeight.Checked;
+			m_project.GridLayoutInfo.SaveAdjustedColWidths = chkSaveColWidths.Checked;
+			m_project.GridLayoutInfo.AutoAdjustPhoneticCol = chkAutoAdjustPhoneticCol.Checked;
+			m_project.GridLayoutInfo.AutoAjustedMaxWidth = (int)nudMaxEticColWidth.Value;
 
 			if (rbGridLinesBoth.Checked)
-				App.Project.GridLayoutInfo.GridLines = DataGridViewCellBorderStyle.Single;
+				m_project.GridLayoutInfo.GridLines = DataGridViewCellBorderStyle.Single;
 			else if (rbGridLinesVertical.Checked)
-				App.Project.GridLayoutInfo.GridLines = DataGridViewCellBorderStyle.SingleVertical;
+				m_project.GridLayoutInfo.GridLines = DataGridViewCellBorderStyle.SingleVertical;
 			else if (rbGridLinesHorizontal.Checked)
-				App.Project.GridLayoutInfo.GridLines = DataGridViewCellBorderStyle.SingleHorizontal;
+				m_project.GridLayoutInfo.GridLines = DataGridViewCellBorderStyle.SingleHorizontal;
 			else if (rbGridLinesNone.Checked)
-				App.Project.GridLayoutInfo.GridLines = DataGridViewCellBorderStyle.None;
+				m_project.GridLayoutInfo.GridLines = DataGridViewCellBorderStyle.None;
 
-			fldSelGridWrdList.Save(true);
+			int i = 0;
+			foreach (var kvp in fldSelGridWrdList.GetSelections())
+			{
+				var field = m_project.GetFieldForDisplayName(kvp.Key);
+				field.VisibleInGrid = kvp.Value;
+				field.DisplayIndexInGrid = i++;
+			}
+
 			App.MsgMediator.SendMessage("WordListOptionsChanged", null);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private bool IsWordListTabDirty
 		{
@@ -120,19 +121,19 @@ namespace SIL.Pa.UI.Dialogs
 					return false;
 				
 				bool gridLinesChanged = ((rbGridLinesBoth.Checked &&
-					App.Project.GridLayoutInfo.GridLines != DataGridViewCellBorderStyle.Single) ||
+					m_project.GridLayoutInfo.GridLines != DataGridViewCellBorderStyle.Single) ||
 					(rbGridLinesVertical.Checked &&
-					App.Project.GridLayoutInfo.GridLines != DataGridViewCellBorderStyle.SingleVertical) ||
+					m_project.GridLayoutInfo.GridLines != DataGridViewCellBorderStyle.SingleVertical) ||
 					(rbGridLinesHorizontal.Checked &&
-					App.Project.GridLayoutInfo.GridLines != DataGridViewCellBorderStyle.SingleHorizontal) ||
+					m_project.GridLayoutInfo.GridLines != DataGridViewCellBorderStyle.SingleHorizontal) ||
 					(rbGridLinesNone.Checked &&
-					App.Project.GridLayoutInfo.GridLines != DataGridViewCellBorderStyle.None));
+					m_project.GridLayoutInfo.GridLines != DataGridViewCellBorderStyle.None));
 
 				return (fldSelGridWrdList.IsDirty || gridLinesChanged ||
-					chkSaveReorderedColumns.Checked != App.Project.GridLayoutInfo.SaveReorderedCols ||
-					chkSaveColHdrHeight.Checked != App.Project.GridLayoutInfo.SaveAdjustedColHeaderHeight ||
-					chkSaveColWidths.Checked != App.Project.GridLayoutInfo.SaveAdjustedColWidths ||
-					chkAutoAdjustPhoneticCol.Checked != App.Project.GridLayoutInfo.AutoAdjustPhoneticCol);
+					chkSaveReorderedColumns.Checked != m_project.GridLayoutInfo.SaveReorderedCols ||
+					chkSaveColHdrHeight.Checked != m_project.GridLayoutInfo.SaveAdjustedColHeaderHeight ||
+					chkSaveColWidths.Checked != m_project.GridLayoutInfo.SaveAdjustedColWidths ||
+					chkAutoAdjustPhoneticCol.Checked != m_project.GridLayoutInfo.AutoAdjustPhoneticCol);
 			}
 		}
 

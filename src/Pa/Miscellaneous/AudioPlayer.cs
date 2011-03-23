@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using SIL.Pa.DataSource.Sa;
 using SIL.Pa.UI.Dialogs;
 using SilTools;
 #if !__MonoCS__
@@ -143,7 +144,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static long MillisecondValueToBytes(long millisecondVal, string filename)
 		{
-			using (AudioReader reader = new AudioReader())
+			using (var reader = new AudioReader())
 			{
 				if (reader.Initialize(filename) == AudioReader.InitResult.FileNotFound)
 					return 0;
@@ -176,11 +177,10 @@ namespace SIL.Pa
 			string saLoc = GetSaPath();
 			if (saLoc == null)
 			{
-				var msg = App.LocalizeString("AudioPlaybackSpeedProblemMsg",
+				var msg = App.GetString("AudioPlaybackSpeedProblemMsg",
 					"Speech Analyzer 3.0.1 is required to playback utterances at speeds other than " +
 					"100%, but it is not installed. Please install Speech Analyzer 3.0.1 and try again.",
-					"Message displayed when SA 3.0.1 is not installed and the user is attempting to playback audio at a speed other than 100 percent.",
-					App.kLocalizationGroupInfoMsg);
+					"Message displayed when SA 3.0.1 is not installed and the user is attempting to playback audio at a speed other than 100 percent.");
 
 				using (var dlg = new DownloadSaDlg(msg))
 					dlg.ShowDialog();

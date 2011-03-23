@@ -9,7 +9,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private readonly List<string> _excludeList = new List<string>(new[]
 		{
-			"xName", "xAbbreviation", "xPronunciations", "xSenses", "xAlomorphs",
+			"xName", "xAbbreviation", "xPronunciations", "xSenses", "xAllomorphs",
 			"xLexemeForm", "xMorphType", "xCitationForm", "xNote", "xLiteralMeaning",
 			"xBibliography", "xRestrictions", "xVariantComment", "xSummaryDefinition",
 			"xVariant", "xVariantType", "xEtymology", "xForm", "xLocation", "xMediaFiles",
@@ -17,7 +17,10 @@ namespace SIL.Pa
 			"xEncyclopedicInfoInfo", "xGeneralNote", "xGloss", "xGrammarNote", "xPhonologyNote",
 			"xRestrictions", "xSemanticsNote", "xSociolinguisticsNote", "xAnthroCodes",
 			"xDomainTypes", "xEncyclopedicInfo", "xUsages", "xSemanticDomains", "xStatus",
-			"xSenseType", "xPartOfSpeech", "xLabel"
+			"xSenseType", "xPartOfSpeech", "xLabel", "xComplexForms", "xSummary", "xOwningEntry",
+			"xReferenceTypes", "xVariantType", "xVariantComment", "xVariantForm", "xComponents",
+			"xComplexFormType", "xComplexForms", "xVariantOfInfo", "xVariants", "xVariantInfo",
+			"xComplexFormInfo", "xComplexFormComment", "xReversalEntries", "xGuid",
 		});
 
 		/// ------------------------------------------------------------------------------------

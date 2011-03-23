@@ -114,10 +114,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void BuildCharPickerRows()
 		{
 			if (!CharGridPersistence.Load(this, m_persistedInfoFilename))
@@ -126,7 +122,7 @@ namespace SIL.Pa.UI.Controls
 				// specified phone type. For building a picker we need to have first built and
 				// persisted the contents of a CharGrid for the same phone type. Therefore,
 				// force building a default CharGrid and persist its layout.
-				CharGridBuilder bldr = new CharGridBuilder(new CharGrid(), m_chrType);
+				var bldr = new CharGridBuilder(new CharGrid(), m_chrType);
 				bldr.Build();
 
 				// Try again.
@@ -163,8 +159,8 @@ namespace SIL.Pa.UI.Controls
 			{
 				try
 				{
-					IPhoneInfo xpi = App.PhoneCache[x.Phone];
-					IPhoneInfo ypi = App.PhoneCache[y.Phone];
+					IPhoneInfo xpi = App.Project.PhoneCache[x.Phone];
+					IPhoneInfo ypi = App.Project.PhoneCache[y.Phone];
 					return string.CompareOrdinal(xpi.MOAKey, ypi.MOAKey);
 				}
 				catch { }
@@ -283,16 +279,16 @@ namespace SIL.Pa.UI.Controls
 			SortedList<string, CharGridCell> tmpPhoneList = new SortedList<string, CharGridCell>();
 
 			// This should only happen in design mode.
-			if (App.PhoneCache == null)
+			if (App.Project.PhoneCache == null)
 				return;
 
 			const TextFormatFlags flags = TextFormatFlags.SingleLine | TextFormatFlags.NoPrefix |
 				TextFormatFlags.LeftAndRightPadding;
 
-			Font fnt = (m_chrGrid != null ? m_chrGrid.ChartFont : FontHelper.PhoneticFont);
+			Font fnt = (m_chrGrid != null ? m_chrGrid.ChartFont : App.PhoneticFont);
 
 			// Get phones from the Phone cache.
-			foreach (KeyValuePair<string, IPhoneInfo> phoneInfo in App.PhoneCache)
+			foreach (KeyValuePair<string, IPhoneInfo> phoneInfo in App.Project.PhoneCache)
 			{
 				string phone = QualifyingPhone(phoneInfo.Key, phoneInfo.Value, tmpPhoneList);
 				if (phone == null)
@@ -300,7 +296,7 @@ namespace SIL.Pa.UI.Controls
 
 				// Find the Phone's base character in the IPA character cache
 				// in order to find it's default placement in the chart.
-				IPASymbol info = App.PhoneCache.GetBaseCharInfoForPhone(phoneInfo.Key);
+				IPASymbol info = App.Project.PhoneCache.GetBaseCharInfoForPhone(phoneInfo.Key);
 
 				if (info != null)
 				{
@@ -578,7 +574,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private CharGridCell FindSimilarPhone(CharGridCell cgc)
 		{
-			IPhoneInfo phoneInfo = App.PhoneCache[cgc.Phone];
+			IPhoneInfo phoneInfo = App.Project.PhoneCache[cgc.Phone];
 			if (phoneInfo == null)
 				return null;
 
@@ -595,7 +591,7 @@ namespace SIL.Pa.UI.Controls
 					CharGridCell tmpcgc = row.Cells[c].Value as CharGridCell;
 					if (tmpcgc != null)
 					{
-						IPhoneInfo tmppi = App.PhoneCache[tmpcgc.Phone];
+						IPhoneInfo tmppi = App.Project.PhoneCache[tmpcgc.Phone];
 						if (tmppi != null && tmppi.BaseCharacter == phoneInfo.BaseCharacter)
 							return tmpcgc;
 					}

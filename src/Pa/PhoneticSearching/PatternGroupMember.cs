@@ -40,10 +40,6 @@ namespace SIL.Pa.PhoneticSearching
 		private string m_singlePhoneForToString;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public PatternGroupMember()
 		{
 			m_memberBuilder = new StringBuilder();
@@ -119,20 +115,12 @@ namespace SIL.Pa.PhoneticSearching
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void AddToMember(char c)
 		{
 			m_memberBuilder.Append(c);
 		}
 
 		#region Methods for closing a member
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public PatternGroupMember[] CloseMember()
 		{
@@ -221,9 +209,9 @@ namespace SIL.Pa.PhoneticSearching
 		private PatternGroupMember[] ClosePhoneRunMember()
 		{
 			m_type = MemberType.SinglePhone;
-			List<PatternGroupMember> memberPhones = new List<PatternGroupMember>();
+			var memberPhones = new List<PatternGroupMember>();
 
-			string[] phones = App.IPASymbolCache.PhoneticParser(m_member, true,
+			var phones = App.Project.PhoneticParser.Parse(m_member, true,
 				Settings.Default.ConvertPatternsWithTranscriptionChanges);
 
 			if (phones == null || phones.Length == 0)
@@ -236,7 +224,7 @@ namespace SIL.Pa.PhoneticSearching
 			// Now go through any following phones in the run and create new members for them.
 			for (int i = 1; i < phones.Length; i++)
 			{
-				PatternGroupMember member = new PatternGroupMember();
+				var member = new PatternGroupMember();
 				member.CloseSinglePhoneMemeber(phones[i]);
 				memberPhones.Add(member);
 			}
@@ -386,22 +374,17 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public CompareResultType CheckPhoneContainingTieBar(string phone)
 		{
-			PhoneCache tmpPhoneCache = new PhoneCache();
+			var tmpPhoneCache = new PhoneCache(App.Project);
 
 			// Split the phone where the tie-bar is and send each remaining piece to
 			// ContainMatch as though each piece were a separate phone.
-			foreach (string phonePart in phone.Split(App.kTieBars,
-				StringSplitOptions.RemoveEmptyEntries))
+			foreach (var phonePart in phone.Split(App.kTieBars, StringSplitOptions.RemoveEmptyEntries))
 			{
 				tmpPhoneCache.AddPhone(phonePart);
 				
-				CompareResultType compareResult = ContainsMatch(phonePart, tmpPhoneCache);
+				var compareResult = ContainsMatch(phonePart, tmpPhoneCache);
 				if (compareResult == CompareResultType.Error)
 					return CompareResultType.Error;
 

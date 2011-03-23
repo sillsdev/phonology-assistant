@@ -1,7 +1,6 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using SilTools;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -18,40 +17,39 @@ namespace SIL.Pa.UI.Controls
 		private Rectangle m_hotArea;
 		private const int kHotDimension = 13;
 		private bool m_resizeDoEvents;
-		private readonly SettingsHandler m_settingsHndlr;
 
-		/// ------------------------------------------------------------------------------------
-		public SizableDropDownPanel(string savedSettingName, Size defaultSize) :
-			this(null, savedSettingName, defaultSize)
-		{
-		}
+		///// ------------------------------------------------------------------------------------
+		//public SizableDropDownPanel(string savedSettingName, Size defaultSize) :
+		//    this(null, savedSettingName, defaultSize)
+		//{
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		public SizableDropDownPanel(SettingsHandler settingsHndlr, string savedSettingName,
-			Size defaultSize)
-		{
-			m_settingsHndlr = settingsHndlr;
+		///// ------------------------------------------------------------------------------------
+		//public SizableDropDownPanel(SettingsHandler settingsHndlr, string savedSettingName,
+		//    Size defaultSize)
+		//{
+		//    m_settingsHndlr = settingsHndlr;
 
-			Padding = new Padding(0, 0, 0, kHotDimension);
-			base.DoubleBuffered = true;
-			base.BackColor = Color.White;
+		//    Padding = new Padding(0, 0, 0, kHotDimension);
+		//    base.DoubleBuffered = true;
+		//    base.BackColor = Color.White;
 
-			int width = SettingsHandler.GetIntSettingsValue(savedSettingName, "width", defaultSize.Width);
-			int height = SettingsHandler.GetIntSettingsValue(savedSettingName, "height", defaultSize.Height);
-			Size = new Size(width, height);
-			m_savedSettingsName = savedSettingName;
-		}
+		//    int width = SettingsHandler.GetIntSettingsValue(savedSettingName, "width", defaultSize.Width);
+		//    int height = SettingsHandler.GetIntSettingsValue(savedSettingName, "height", defaultSize.Height);
+		//    Size = new Size(width, height);
+		//    m_savedSettingsName = savedSettingName;
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the settings handler the drop-down uses to get and retrieve the
-		/// value of the drop-down's size.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private SettingsHandler SettingsHandler
-		{
-			get { return (m_settingsHndlr ?? App.SettingsHandler); }
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets the settings handler the drop-down uses to get and retrieve the
+		///// value of the drop-down's size.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private SettingsHandler SettingsHandler
+		//{
+		//    get { return (m_settingsHndlr ?? App.SettingsHandler); }
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -65,10 +63,6 @@ namespace SIL.Pa.UI.Controls
 			set { m_savedSettingsName = value; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnVisibleChanged(EventArgs e)
 		{
@@ -92,10 +86,6 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnResize(EventArgs e)
 		{
@@ -156,20 +146,12 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
 			m_leftMouseDown = true;
 			m_anchor = PointToScreen(e.Location);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
@@ -178,14 +160,10 @@ namespace SIL.Pa.UI.Controls
 			m_leftMouseDown = false;
 
 			// Save the popup's size in case it was changed.
-			SettingsHandler.SaveSettingsValue(m_savedSettingsName, "width", Width);
-			SettingsHandler.SaveSettingsValue(m_savedSettingsName, "height", Height);
+			//SettingsHandler.SaveSettingsValue(m_savedSettingsName, "width", Width);
+			//SettingsHandler.SaveSettingsValue(m_savedSettingsName, "height", Height);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseLeave(EventArgs e)
 		{
@@ -195,10 +173,6 @@ namespace SIL.Pa.UI.Controls
 				Cursor = Cursors.Default;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnPaint(PaintEventArgs e)
 		{

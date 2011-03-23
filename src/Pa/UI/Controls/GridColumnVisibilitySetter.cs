@@ -39,14 +39,14 @@ namespace SIL.Pa.UI.Controls
 	
 			foreach (DataGridViewColumn col in grid.Columns)
 			{
-				PaFieldInfo fieldInfo = App.Project.FieldInfo[col.Name];
+				var field = App.Project.GetFieldForName(col.Name);
 				
 				// Phonetic column cannot be hidden so don't include it in the list.
-				if (!fieldInfo.IsPhonetic)
+				if (field.Type != FieldType.Phonetic)
 					colList[col.DisplayIndex] = col;
 			}
 
-			foreach (KeyValuePair<int, DataGridViewColumn> col in colList)
+			foreach (var col in colList)
 			{
 				CheckBox chkbox = new CheckBox();
 				chkbox.Text = col.Value.HeaderText;

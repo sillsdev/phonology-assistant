@@ -1,34 +1,29 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class OptionsDlg : OKCancelDlgBase
 	{
 		private readonly Dictionary<TabPage, string> m_tabPageHelpTopicIds;
+		private readonly PaProject m_project;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public OptionsDlg()
 		{
-			App.InitializeProgressBar(Properties.Resources.kstidLoadingOptionsProgressBarText, 9);
-
 			Utils.WaitCursors(true);
 			InitializeComponent();
 
 			if (DesignMode)
+			{
+				Utils.WaitCursors(false);
 				return;
+			}
 
 			// Remove this until we implement it.
 			tabOptions.TabPages.Remove(tpgColors);
@@ -36,29 +31,26 @@ namespace SIL.Pa.UI.Dialogs
 			// Remove this for now. We may never use it, but
 			// I'm hesitant to yank all the code just yet.
 			tabOptions.TabPages.Remove(tpgFindPhones);
+		}
 
-			App.IncProgressBar();
+		/// ------------------------------------------------------------------------------------
+		public OptionsDlg(PaProject project) : this()
+		{
+			m_project = project;
+
 			InitializeFontTab();
-			App.IncProgressBar();
 			//InitializeFindPhonesTab();
-			App.IncProgressBar();
 			InitializeWordListTab();
-			App.IncProgressBar();
 			InitializeRecViewTab();
-			App.IncProgressBar();
 			InitializeCVPatternsTab();
-			App.IncProgressBar();
 			InitializeSortingTab();
-			App.IncProgressBar();
 			InitializeUserInterfaceTab();
-			App.IncProgressBar();
 
 			tabOptions.Font = FontHelper.UIFont;
 			lblSaveInfo.Font = FontHelper.UIFont;
 			lblSaveInfo.Top = (tblLayoutButtons.Height - lblSaveInfo.Height) / 2;
 			picSaveInfo.Top = lblSaveInfo.Top;
 
-			App.IncProgressBar();
 			m_tabPageHelpTopicIds = new Dictionary<TabPage, string>();
 			m_tabPageHelpTopicIds[tpgWordLists] = "hidWordListOptions";
 			m_tabPageHelpTopicIds[tpgRecView] = "hidRecordViewOptions";
@@ -70,21 +62,12 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
 			Utils.WaitCursors(false);
 			base.OnShown(e);
-			App.UninitializeProgressBar();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override bool IsDirty
 		{
@@ -118,7 +101,7 @@ namespace SIL.Pa.UI.Dialogs
 			SaveCvPatternsTabChanges();
 			SaveUserInterfaceTabChanges();
 
-			App.Project.Save();
+			m_project.Save();
 			Settings.Default.Save();
 			return true;
 		}

@@ -18,9 +18,9 @@ namespace SIL.Pa.UI.Controls
 		{
 			InitializeComponent();
 			lblName.Font = FontHelper.UIFont;
-			lblNameValue.Font = FontHelper.PhoneticFont;
+			lblNameValue.Font = App.PhoneticFont;
 			lblPattern.Font = FontHelper.UIFont;
-			lblPatternValue.Font = FontHelper.PhoneticFont;
+			lblPatternValue.Font = App.PhoneticFont;
 			lblRecords.Font = FontHelper.UIFont;
 			lblRecordsValue.Font = FontHelper.UIFont;
 

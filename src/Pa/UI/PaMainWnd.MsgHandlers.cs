@@ -17,11 +17,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Filters;
+using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
 using SIL.Pa.Resources;
@@ -53,16 +55,15 @@ namespace SIL.Pa.UI
 
 			if (!File.Exists(filename))
 			{
-				var fmt = App.LocalizeString("RecentlyOpenedProjectMissingMsg",
-					"The project file '{0}' is missing.", App.kLocalizationGroupInfoMsg);
+				var fmt = App.GetString("RecentlyOpenedProjectMissingMsg",
+					"The project file '{0}' is missing.");
 				
 				Utils.MsgBox(string.Format(fmt, filename), MessageBoxIcon.Exclamation);
 			}
-			else if (App.Project == null || App.Project.FileName != filename)
+			else if (m_project == null || m_project.FileName != filename)
 			{
 				LoadProject(filename);
-				UndefinedPhoneticCharactersDlg.Show(App.Project == null ?
-					string.Empty : App.Project.Name);
+				UndefinedPhoneticCharactersDlg.Show(m_project);
 			}
 
 			return true;
@@ -71,14 +72,14 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDataSourcesModified(object args)
 		{
-			PaProject project = args as PaProject;
+			var project = args as PaProject;
 			if (project != null)
 			{
 				SetWindowText(project);
 				Invalidate();
 			}
 
-			UndefinedPhoneticCharactersDlg.Show(args as string);
+			UndefinedPhoneticCharactersDlg.Show(project);
 			return false;
 		}
 
@@ -92,7 +93,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnHelpAbout(object args)
 		{
-			using (AboutDlg dlg = new AboutDlg(true, false))
+			using (var dlg = new AboutDlg(true, false))
 				dlg.ShowDialog(this);
 
 			return true;
@@ -127,15 +128,15 @@ namespace SIL.Pa.UI
 
 			if (!File.Exists(path))
 			{
-				var fmt = App.LocalizeString("TrainingFileMissingMsg",
-					"The training file '{0}' is missing.", App.kLocalizationGroupInfoMsg);
+				var fmt = App.GetString("TrainingFileMissingMsg",
+					"The training file '{0}' is missing.");
 
 				var msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(path));
 				Utils.MsgBox(msg, MessageBoxIcon.Exclamation);
 				return;
 			}
 
-			Process prs = new Process();
+			var prs = new Process();
 			prs.StartInfo.UseShellExecute = true;
 			prs.StartInfo.FileName = "\"" + path + "\"";
 			prs.Start();
@@ -151,19 +152,19 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnNewProject(object args)
 		{
-			ProjectSettingsDlg dlg = new ProjectSettingsDlg();
+			var dlg = new ProjectSettingsDlg(null);
 
 			if (dlg.ShowDialog(this) == DialogResult.OK && dlg.Project != null)
 			{
-				var fmt = App.LocalizeString("LoadNewlyCreatedProjectQuestion",
-					"Would you like to load the '{0}' project?", App.kLocalizationGroupInfoMsg);
+				var fmt = App.GetString("LoadNewlyCreatedProjectQuestion",
+					"Would you like to load the '{0}' project?");
 
 				var msg = string.Format(fmt, dlg.Project.Name);
 
 				if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
 				{
 					LoadProject(dlg.Project.FileName);
-					UndefinedPhoneticCharactersDlg.Show(dlg.Project.Name, true);
+					UndefinedPhoneticCharactersDlg.Show(dlg.Project, true);
 				}
 			}
 
@@ -178,11 +179,8 @@ namespace SIL.Pa.UI
 			string filter = string.Format(App.kstidFileTypePAProject,
 				Application.ProductName) + "|" + App.kstidFileTypeAllFiles;
 
-			var fmt = App.LocalizeString("ProjectOpenFileDlg.WindowText",
-				"Open {0} Project File", App.kLocalizationGroupDialogs);
-			
-			string initialDir =
-				(Settings.Default.LastFolderForOpenProjectDlg ?? App.DefaultProjectFolder);
+			var fmt = App.GetString("ProjectOpenFileDlg.WindowText", "Open {0} Project File");
+			string initialDir = (Settings.Default.LastFolderForOpenProjectDlg ?? App.DefaultProjectFolder);
 
 			string[] filenames = App.OpenFileDialog("pap", filter, ref filterindex,
 				string.Format(fmt, Application.ProductName), false, initialDir);
@@ -199,53 +197,45 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnProjectSettings(object args)
 		{
-			using (ProjectSettingsDlg dlg = new ProjectSettingsDlg(App.Project))
+			using (var dlg = new ProjectSettingsDlg(m_project))
 			{
-				dlg.ShowDialog(this);
-				if (dlg.ChangesWereMade)
-					FullProjectReload();
+				if (dlg.ShowDialog(this) != DialogResult.OK || !dlg.ChangesWereMade)
+					return true;
+
+				Utils.WaitCursors(false);
+
+				// Fully reload the project and blow away the previous project instance.
+				var project = PaProject.Load(m_project.FileName, this);
+				if (project != null)
+				{
+					// If there was a project loaded before this,
+					// then get rid of it to make way for the new one.
+					if (m_project != null)
+					{
+						m_project.Dispose();
+						m_project = null;
+					}
+
+					project.LastNewlyMappedFields = dlg.NewlyMappedFields;
+					App.Project = m_project = project;
+					App.MsgMediator.SendMessage("DataSourcesModified", project);
+				}
+
+				Utils.WaitCursors(false);
 			}
 
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Reloads the project fully. I.e. blows away the previous project and starts reload
-		/// from scratch.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void FullProjectReload()
-		{
-			Utils.WaitCursors(false);
-
-			PaProject project = PaProject.Load(App.Project.FileName, this);
-			if (project != null)
-			{
-				// If there was a project loaded before this,
-				// then get rid of it to make way for the new one.
-				if (App.Project != null)
-				{
-					App.Project.Dispose();
-					App.Project = null;
-				}
-
-				App.Project = project;
-				App.MsgMediator.SendMessage("DataSourcesModified", project);
-			}
-
-			Utils.WaitCursors(false);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateProjectSettings(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null)
 				return false;
 
 			itemProps.Visible = true;
-			itemProps.Enabled = (App.Project != null);
+			itemProps.Enabled = (m_project != null);
 			itemProps.Update = true;
 			return true;
 		}
@@ -264,7 +254,7 @@ namespace SIL.Pa.UI
 		///----------------------------------------------------------------------------------
 		protected bool OnExportAsPAXML(object args)
 		{
-			SaveFileDialog dlg = new SaveFileDialog();
+			var dlg = new SaveFileDialog();
 			dlg.OverwritePrompt = true;
 			dlg.CheckFileExists = false;
 			dlg.CheckPathExists = true;
@@ -274,17 +264,15 @@ namespace SIL.Pa.UI
 			dlg.InitialDirectory = Environment.CurrentDirectory;
 			dlg.DefaultExt = "paxml";
 
-			var fmt = App.LocalizeString("PaXmlExportSaveFileDlg.WindowText",
-				"Export to {0} XML", App.kLocalizationGroupDialogs);
-
+			var fmt = App.GetString("PaXmlExportSaveFileDlg.WindowText", "Export to {0} XML");
 			dlg.Title = string.Format(fmt, Application.ProductName);
-			dlg.FileName = App.Project.Name + ".paxml";
+			dlg.FileName = m_project.Name + ".paxml";
 			dlg.FilterIndex = 0;
 			dlg.Filter = string.Format(App.kstidFileTypePAXML, Application.ProductName) +
 				"|" + App.kstidFileTypeAllFiles;
 
 			if (dlg.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(dlg.FileName))
-				App.RecordCache.Save(dlg.FileName);
+				m_project.RecordCache.Save(dlg.FileName);
 			
 			return true;
 		}
@@ -292,21 +280,21 @@ namespace SIL.Pa.UI
 		///----------------------------------------------------------------------------------
 		protected bool OnUpdateExportAsPAXML(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null)
 				return false;
 			
 			itemProps.Update = true;
 			itemProps.Visible = true;
 			itemProps.Text = string.Format(itemProps.OriginalText, Application.ProductName);
-			itemProps.Enabled = (App.Project != null && App.RecordCache != null);
+			itemProps.Enabled = (m_project != null && m_project.RecordCache != null);
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected bool OnToolsOptions(object args)
 		{
-			using (OptionsDlg optionsDlg = new OptionsDlg())
+			using (var optionsDlg = new OptionsDlg(m_project))
 			{
 				// TODO: Send a message indicating the options were changed.
 				if (optionsDlg.ShowDialog(this) == DialogResult.OK)
@@ -320,33 +308,33 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateToolsOptions(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null)
 				return false;
 
 			itemProps.Update = true;
 			itemProps.Visible = true;
-			itemProps.Enabled = (App.Project != null);
+			itemProps.Enabled = (m_project != null);
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUndefinedCharacters(object args)
 		{
-			UndefinedPhoneticCharactersDlg.Show(App.Project.Name, true);
+			UndefinedPhoneticCharactersDlg.Show(m_project, true);
 			return true;
 		}
 		
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateUndefinedCharacters(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null)
 				return false;
 
 			itemProps.Visible = true;
 			itemProps.Update = true;
-			itemProps.Enabled = (App.Project != null &&
+			itemProps.Enabled = (m_project != null &&
 				App.IPASymbolCache.UndefinedCharacters != null &&
 				App.IPASymbolCache.UndefinedCharacters.Count > 0);
 
@@ -356,20 +344,20 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnReloadProject(object args)
 		{
-			App.Project.ReloadDataSources();
+			m_project.ReloadDataSources();
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateReloadProject(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null)
 				return false;
 
 			itemProps.Visible = true;
 			itemProps.Enabled =
-				(App.Project != null && App.Project.DataSources != null && App.Project.DataSources.Count > 0);
+				(m_project != null && m_project.DataSources != null && m_project.DataSources.Count > 0);
 			itemProps.Update = true;
 			return true;
 		}
@@ -393,7 +381,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateEditSourceRecord(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			bool enabled = true;
 
 			if (itemProps == null)
@@ -425,7 +413,7 @@ namespace SIL.Pa.UI
 
 			itemProps.Visible = true;
 			itemProps.Update = true;
-			itemProps.Enabled = (App.Project != null && grid != null && enabled && App.WordCache.Count != 0);
+			itemProps.Enabled = (m_project != null && grid != null && enabled && m_project.WordCache.Count != 0);
 			return true;
 		}
 
@@ -464,7 +452,7 @@ namespace SIL.Pa.UI
 			tbpi.Adapter.AddCommandItem(cmdId, "EnableFilter");
 
 			bool firstItem = true;
-			foreach (var filter in FilterHelper.Filters.OrderBy(x => x.Name))
+			foreach (var filter in m_project.FilterHelper.Filters.OrderBy(x => x.Name))
 			{
 				if (filter.ShowInToolbarList)
 				{
@@ -474,7 +462,7 @@ namespace SIL.Pa.UI
 					props.CommandId = cmdId;
 					props.Name = "FILTER:" + filter.Name;
 					props.Tag = filter;
-					props.Checked = (FilterHelper.CurrentFilter == filter);
+					props.Checked = (m_project.FilterHelper.CurrentFilter == filter);
 					props.Visible = true;
 					props.Update = true;
 					tbpi.Adapter.AddMenuItem(props, "mnuFiltersMain", "mnuFilterPlaceholder");
@@ -496,7 +484,7 @@ namespace SIL.Pa.UI
 			if (itemProps == null)
 				return false;
 
-			foreach (var filter in FilterHelper.Filters)
+			foreach (var filter in m_project.FilterHelper.Filters)
 			{
 				if (filter.ShowInToolbarList)
 					itemProps.Adapter.RemoveItem("FILTER:" + filter.Name);
@@ -512,14 +500,14 @@ namespace SIL.Pa.UI
 			if (itemProps == null)
 				return false;
 
-			FilterHelper.ApplyFilter(itemProps.Tag as Filter);
+			m_project.FilterHelper.ApplyFilter(itemProps.Tag as Filter);
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected bool OnFilters(object args)
 		{
-			using (var dlg = new FiltersDlg())
+			using (var dlg = new FiltersDlg(m_project))
 				dlg.ShowDialog(this);
 			
 			return true;
@@ -535,7 +523,8 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnNoFilter(object args)
 		{
-			FilterHelper.TurnOffCurrentFilter();
+			OnFilterTurnedOff(null);
+			m_project.FilterHelper.TurnOffCurrentFilter();
 			return true;
 		}
 
@@ -546,7 +535,7 @@ namespace SIL.Pa.UI
 			if (itemProps == null)
 				return false;
 
-			itemProps.Enabled = (FilterHelper.CurrentFilter != null);
+			itemProps.Enabled = (m_project.FilterHelper.CurrentFilter != null);
 			itemProps.Visible = true;
 			itemProps.Update = true;
 			return true;
@@ -558,7 +547,11 @@ namespace SIL.Pa.UI
 			var filter = args as Filter;
 			sblblFilter.Visible = (filter != null);
 			if (filter != null)
+			{
 				sblblFilter.Text = filter.Name;
+				var constraint = new Size(statusStrip.Width / 3, 0);
+				sblblFilter.Width = sblblFilter.GetPreferredSize(constraint).Width + 20;
+			}
 
 			return false;
 		}
@@ -574,7 +567,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnFeatures(object args)
 		{
-			using (var dlg = new FeaturesDlg())
+			using (var dlg = new FeaturesDlg(m_project))
 				dlg.ShowDialog(this);
 
 			return true;
@@ -590,7 +583,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnAmbiguousSequences(object args)
 		{
-			using (var dlg = new AmbiguousSequencesDlg())
+			using (var dlg = new AmbiguousSequencesDlg(m_project))
 				dlg.ShowDialog(this);
 
 			return true;
@@ -622,7 +615,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnClasses(object args)
 		{
-			using (ClassesDlg dlg = new ClassesDlg())
+			using (ClassesDlg dlg = new ClassesDlg(m_project))
 				dlg.ShowDialog(this);
 
 			return true;

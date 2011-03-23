@@ -30,10 +30,6 @@ namespace SilTools
 {
 	#region SplashScreenForm class
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class SplashScreenForm : Form
 	{
 		#region Data members
@@ -56,6 +52,7 @@ namespace SilTools
 		private readonly bool m_showBuildNum;
 		private readonly VersionType m_versionType;
 		private readonly string m_versionFmt;
+		private PictureBox picLoadingWheel;
 		private readonly string m_buildFmt;
 		#endregion
 
@@ -122,6 +119,7 @@ namespace SilTools
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SplashScreenForm));
 			this.m_panel = new System.Windows.Forms.Panel();
+			this.picLoadingWheel = new System.Windows.Forms.PictureBox();
 			this.lblBuildNumber = new System.Windows.Forms.Label();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.lblVersion = new System.Windows.Forms.Label();
@@ -129,12 +127,14 @@ namespace SilTools
 			this.lblCopyright = new System.Windows.Forms.Label();
 			this.lblProductName = new System.Windows.Forms.Label();
 			this.m_panel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.picLoadingWheel)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// m_panel
 			// 
 			this.m_panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.m_panel.Controls.Add(this.picLoadingWheel);
 			this.m_panel.Controls.Add(this.lblBuildNumber);
 			this.m_panel.Controls.Add(this.pictureBox1);
 			this.m_panel.Controls.Add(this.lblVersion);
@@ -145,6 +145,14 @@ namespace SilTools
 			this.m_panel.Name = "m_panel";
 			this.m_panel.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleBackgroundPanelPaint);
 			// 
+			// picLoadingWheel
+			// 
+			this.picLoadingWheel.BackColor = System.Drawing.Color.Transparent;
+			this.picLoadingWheel.Image = global::SilTools.Properties.Resources.LoadingWheel;
+			resources.ApplyResources(this.picLoadingWheel, "picLoadingWheel");
+			this.picLoadingWheel.Name = "picLoadingWheel";
+			this.picLoadingWheel.TabStop = false;
+			// 
 			// lblBuildNumber
 			// 
 			resources.ApplyResources(this.lblBuildNumber, "lblBuildNumber");
@@ -153,10 +161,8 @@ namespace SilTools
 			// 
 			// pictureBox1
 			// 
-			this.pictureBox1.ErrorImage = null;
-			this.pictureBox1.Image = global::SilTools.Properties.Resources.kimidSilLogo;
 			resources.ApplyResources(this.pictureBox1, "pictureBox1");
-			this.pictureBox1.InitialImage = null;
+			this.pictureBox1.Image = global::SilTools.Properties.Resources.kimidSilLogo;
 			this.pictureBox1.Name = "pictureBox1";
 			this.pictureBox1.TabStop = false;
 			// 
@@ -169,9 +175,10 @@ namespace SilTools
 			// 
 			// lblMessage
 			// 
+			resources.ApplyResources(this.lblMessage, "lblMessage");
+			this.lblMessage.AutoEllipsis = true;
 			this.lblMessage.BackColor = System.Drawing.Color.Transparent;
 			this.lblMessage.ForeColor = System.Drawing.Color.Black;
-			resources.ApplyResources(this.lblMessage, "lblMessage");
 			this.lblMessage.Name = "lblMessage";
 			// 
 			// lblCopyright
@@ -201,11 +208,12 @@ namespace SilTools
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "SplashScreenForm";
-			this.Opacity = 0;
+			this.Opacity = 0D;
 			this.ShowInTaskbar = false;
 			this.TopMost = true;
 			this.m_panel.ResumeLayout(false);
 			this.m_panel.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.picLoadingWheel)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);
 
@@ -271,6 +279,7 @@ namespace SilTools
 			try
 			{
 				lblMessage.Text = value;
+				picLoadingWheel.Visible = !string.IsNullOrEmpty(value);
 			}
 			catch { }
 		}
@@ -293,20 +302,6 @@ namespace SilTools
 		#region Public properties set automatically in constructor for .Net apps
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// The product name which appears in the Name label on the splash screen
-		/// </summary>
-		/// <remarks>
-		/// .Net clients should not set this. It will be ignored. They should set the
-		/// AssemblyTitle attribute in AssemblyInfo.cs of the executable.
-		/// </remarks>
-		/// ------------------------------------------------------------------------------------
-		public virtual void SetProdName(string value)
-		{
-			lblProductName.Text = value;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// The product version which appears in the App Version label on the splash screen
 		/// </summary>
 		/// <remarks>
@@ -319,8 +314,8 @@ namespace SilTools
 			string version = value;
 			if (string.IsNullOrEmpty(version))
 			{
-				Version ver = new Version(Application.ProductVersion);
-				version = ver.ToString(2);
+				var ver = new Version(Application.ProductVersion);
+				version = ver.ToString(3);
 			}
 
 			var verType = string.Empty;
@@ -353,10 +348,6 @@ namespace SilTools
 		#endregion
 
 		#region Non-public methods
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
@@ -438,23 +429,17 @@ namespace SilTools
 
 				SetProdVersion(null);
 
-				// Get copyright information from assembly info. By doing this we don't have
-				// to update the splash screen each year.
-				string copyRight;
-
 				if (assembly == null)
 					assembly = Assembly.GetExecutingAssembly();
 
 				attributes = assembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
-				
-				if (attributes != null && attributes.Length > 0)
-					copyRight = ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
-				else
-				{
-					// if we can't find it in the assembly info, use generic one (which 
-					// might be out of date)
-					copyRight = "(C) 2002-2011 SIL International";
-				}
+
+				// Get copyright information from assembly info. By doing this we don't have to
+				// update the splash screen each year. If we can't find the copyright in the
+				// assembly info, use generic one (which might be out of date)
+				var copyRight = attributes.Length > 0 ?
+					((AssemblyCopyrightAttribute)attributes[0]).Copyright :
+					"(C) 2002-2011 SIL International";
 
 				lblCopyright.Text = string.Format(lblCopyright.Text,
 					copyRight.Replace("(C)", "©"), "\n");
@@ -466,15 +451,11 @@ namespace SilTools
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleBackgroundPanelPaint(object sender, PaintEventArgs e)
 		{
-			Color clr1 = m_panel.BackColor;
-			Color clr2 = ColorHelper.CalculateColor(Color.White, Color.DarkGray, 150);
-			Rectangle rc = m_panel.ClientRectangle;
+			var clr1 = m_panel.BackColor;
+			var clr2 = ColorHelper.CalculateColor(Color.White, Color.DarkGray, 150);
+			var rc = m_panel.ClientRectangle;
 			using (LinearGradientBrush br = new LinearGradientBrush(rc, clr1, clr2, 45))
 				e.Graphics.FillRectangle(br, rc);
 
@@ -540,10 +521,6 @@ namespace SilTools
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual void UpdateOpacity()
 		{
 			try
@@ -567,10 +544,6 @@ namespace SilTools
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public virtual void MakeFullyOpaque()
 		{

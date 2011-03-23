@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Filters;
@@ -8,10 +9,6 @@ using SilTools;
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class UndockedViewWnd : Form, IUndockedViewWnd, IxCoreColleague
 	{
 		private readonly Control m_view;
@@ -19,19 +16,11 @@ namespace SIL.Pa.UI.Controls
 		private bool m_checkForModifiedDataSources = true;
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public UndockedViewWnd()
 		{
 			InitializeComponent();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public UndockedViewWnd(Control view) : this()
 		{
@@ -54,12 +43,16 @@ namespace SIL.Pa.UI.Controls
 			m_view = view;
 			Opacity = 0;
 
+			sblblProgress.Font = FontHelper.MakeFont(FontHelper.UIFont, 9, FontStyle.Bold);
 			sbProgress.Visible = false;
 			sblblMain.Text = sblblProgress.Text = string.Empty;
+			sblblPercent.Visible = false;
 			MinimumSize = App.MinimumViewWindowSize;
 
-			sblblFilter.Paint += FilterHelper.HandleFilterStatusStripLabelPaint;
-			OnFilterChanged(FilterHelper.CurrentFilter);
+			sblblFilter.Paint += HandleFilterStatusStripLabelPaint;
+			
+			if (App.Project != null)
+				OnFilterChanged(App.Project.CurrentFilter);
 
 			App.MsgMediator.AddColleague(this);
 		}
@@ -80,10 +73,6 @@ namespace SIL.Pa.UI.Controls
 			base.Dispose(disposing);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
@@ -117,10 +106,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnActivated(EventArgs e)
 		{
 			base.OnActivated(e);
@@ -138,10 +123,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnDeactivate(EventArgs e)
 		{
 			base.OnDeactivate(e);
@@ -150,10 +131,6 @@ namespace SIL.Pa.UI.Controls
 				m_mainMenuAdapter.AllowUpdates = false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
@@ -178,8 +155,23 @@ namespace SIL.Pa.UI.Controls
 
 			if (App.Project == null)
 				Invalidate();
+		}
 
-			sblblFilter.Width = Math.Max(175, statusStrip.Width / 3);
+		/// ------------------------------------------------------------------------------------
+		private void HandleProgressLabelVisibleChanged(object sender, EventArgs e)
+		{
+			sblblMain.BorderSides = (sblblProgress.Visible ?
+				ToolStripStatusLabelBorderSides.Right : ToolStripStatusLabelBorderSides.None);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleFilterStatusStripLabelPaint(object sender, PaintEventArgs e)
+		{
+			if (App.Project != null && App.Project.CurrentFilter != null)
+			{
+				PaMainWnd.PaintFilterStatusStripLabel(sender as ToolStripStatusLabel,
+					App.Project.CurrentFilter.Name, e);
+			}
 		}
 	
 		/// ------------------------------------------------------------------------------------
@@ -224,23 +216,29 @@ namespace SIL.Pa.UI.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Gets the status bar label.
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public ToolStripStatusLabel ProgressPercentLabel
+		{
+			get { return sblblPercent; }
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected bool OnFilterChanged(object args)
 		{
 			var filter = args as Filter;
 			sblblFilter.Visible = (filter != null);
 			if (filter != null)
+			{
 				sblblFilter.Text = filter.Name;
+				var constraint = new Size(statusStrip.Width / 3, 0);
+				sblblFilter.Width = sblblFilter.GetPreferredSize(constraint).Width + 20;
+			}
 
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnFilterTurnedOff(object args)
 		{

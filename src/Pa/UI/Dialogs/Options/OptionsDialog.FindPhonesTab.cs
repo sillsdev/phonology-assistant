@@ -1,7 +1,3 @@
-using System;
-using System.Drawing;
-using SIL.Pa.Model;
-using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
 {

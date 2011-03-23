@@ -108,6 +108,8 @@ namespace SilTools.Controls
 				PaintingHelper.DrawGradientBackground(e.Graphics, ClientRectangle,
 					m_colorTop, m_colorBottom, false);
 			}
+
+			DrawBottomBorder(e);
 		}
 	}
 }

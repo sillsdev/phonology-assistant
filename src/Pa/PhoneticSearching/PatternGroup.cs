@@ -1226,16 +1226,12 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public bool Search(string eticWord, int startIndex, out int[] results)
 		{
 			if (eticWord != m_cachedSearchWord)
 			{
 				m_cachedSearchWord = eticWord;
-				m_cachedSearchChars = App.IPASymbolCache.PhoneticParser(eticWord, false);
+				m_cachedSearchChars = App.Project.PhoneticParser.Parse(eticWord, false);
 			}
 
 			// TODO: For this overload of Search, the index in results should probably

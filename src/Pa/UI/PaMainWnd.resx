@@ -129,7 +129,7 @@
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="sblblMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>549, 19</value>
+    <value>424, 17</value>
   </data>
   <data name="sblblMain.Text" xml:space="preserve">
     <value>#</value>
@@ -137,32 +137,41 @@
   <data name="sblblMain.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
+  <data name="sblblProgress.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
   <data name="sblblProgress.Size" type="System.Drawing.Size, System.Drawing">
-    <value>18, 19</value>
+    <value>30, 17</value>
   </data>
   <data name="sblblProgress.Text" xml:space="preserve">
+    <value>#</value>
+  </data>
+  <data name="sblblPercent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 17</value>
+  </data>
+  <data name="sblblPercent.Text" xml:space="preserve">
     <value>#</value>
   </data>
   <data name="sbProgress.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="sbProgress.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 18</value>
+    <value>200, 16</value>
   </data>
   <data name="sblblFilter.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="sblblFilter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 15</value>
+    <value>96, 17</value>
   </data>
   <data name="sblblFilter.Text" xml:space="preserve">
     <value>FilterIndicator</value>
   </data>
   <data name="statusStrip.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 514</value>
+    <value>0, 516</value>
   </data>
   <data name="statusStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>794, 24</value>
+    <value>794, 22</value>
   </data>
   <data name="statusStrip.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -187,7 +196,7 @@
     <value>0, 0</value>
   </data>
   <data name="vwTabGroup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>794, 514</value>
+    <value>794, 516</value>
   </data>
   <data name="vwTabGroup.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -199,7 +208,7 @@
     <value>vwTabGroup</value>
   </data>
   <data name="&gt;&gt;vwTabGroup.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Controls.ViewTabGroup, Pa, Version=3.1.3786.19575, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Controls.ViewTabGroup, Pa, Version=3.2.9.9, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;vwTabGroup.Parent" xml:space="preserve">
     <value>$this</value>
@@ -816,6 +825,12 @@
   <data name="&gt;&gt;sblblProgress.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;sblblPercent.Name" xml:space="preserve">
+    <value>sblblPercent</value>
+  </data>
+  <data name="&gt;&gt;sblblPercent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;sbProgress.Name" xml:space="preserve">
     <value>sbProgress</value>
   </data>
@@ -832,7 +847,7 @@
     <value>locExtender</value>
   </data>
   <data name="&gt;&gt;locExtender.Type" xml:space="preserve">
-    <value>SIL.Localization.LocalizationExtender, LocalizationManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Localization.UI.LocalizationExtender, LocalizationManager, Version=1.0.4059.31465, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>PaMainWnd</value>

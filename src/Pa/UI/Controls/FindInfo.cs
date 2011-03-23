@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using SIL.Pa.Model;
@@ -53,18 +54,12 @@ namespace SIL.Pa.UI.Controls
 		public static void UpdateColumnIndexes()
 		{
 			// Update the column indexes
-			List<FindDlgColItem> columnsToSearch = new List<FindDlgColItem>();
-			foreach (FindDlgColItem dlgColItem in ColumnsToSearch)
-			{
-				FindDlgColItem item = new FindDlgColItem(
-					s_grid.Columns[dlgColItem.FieldName].Index,
+
+			ColumnsToSearch = ColumnsToSearch.Select(dlgColItem =>
+				new FindDlgColItem(s_grid.Columns[dlgColItem.FieldName].Index,
 					dlgColItem.DisplayIndex,
-					dlgColItem.ToString(), dlgColItem.FieldName);
-
-				columnsToSearch.Add(item);
-			}
-
-			ColumnsToSearch = columnsToSearch.ToArray();
+					dlgColItem.ToString(),
+					dlgColItem.FieldName)).ToArray();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -502,10 +497,10 @@ namespace SIL.Pa.UI.Controls
 			if (cellValue == null)
 				return false;
 
-			PaFieldInfo fieldInfo =
-				App.Project.FieldInfo[s_grid.Columns[cell.ColumnIndex].Name];
+			var field =
+				App.Project.GetFieldForName(s_grid.Columns[cell.ColumnIndex].Name);
 
-			if (!fieldInfo.IsPhonetic)
+			if (field.Type != FieldType.Phonetic)
 				cellValue = FFNormalizer.Normalize(cellValue);
 
 			try

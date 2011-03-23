@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.ComponentModel;
 using System.IO;
-using System.Reflection;
-using System.Text;
+using System.Linq;
 using System.Windows.Forms;
+using SIL.Pa.DataSource.FieldWorks;
+using SIL.Pa.DataSource.Sa;
 using SIL.Pa.Model;
-using SIL.Pa.ResourceStuff;
-using SIL.Pa.UI.Dialogs;
-using SIL.SpeechTools.Utils;
 using SilTools;
 
 namespace SIL.Pa.DataSource
@@ -21,14 +19,8 @@ namespace SIL.Pa.DataSource
 	public class DataSourceReader
 	{
 		protected RecordCache m_recCache;
-		protected RecordCacheEntry m_recCacheEntry;
 		protected PaProject m_project;
-		protected PaDataSource m_currDataSource;
 		protected List<PaDataSource> m_dataSources;
-		protected List<SFMarkerMapping> m_mappings;
-		protected Dictionary<string, List<string>> m_fieldsForMarkers;
-		protected List<string> m_interlinearFields;
-		protected int m_totalLinesToRead;
 		protected ToolStripProgressBar m_progressBar;
 
 		/// ------------------------------------------------------------------------------------
@@ -40,34 +32,58 @@ namespace SIL.Pa.DataSource
 		{
 			m_project = project;
 			m_dataSources = new List<PaDataSource>();
-			CheckNeedForSQLServer(project.DataSources);
 
-			foreach (PaDataSource source in project.DataSources)
+			CheckNeedForSQLServer(project.DataSources.Where(ds => !ds.SkipLoading));
+
+			foreach (var ds in project.DataSources.Where(ds => !ds.SkipLoading && !ds.SkipLoadingBecauseOfProblem))
+				Initialize(ds);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void Initialize(PaDataSource ds)
+		{
+			if (ds.Type == DataSourceType.FW && ds.FwSourceDirectFromDB)
 			{
-				if (source.FwSourceDirectFromDB)
+				CheckExistenceOfFwDatabase(ds);
+			}
+			else if (!File.Exists(ds.SourceFile))
+			{
+				string newPath = GetMissingDataSourceAction(ds.SourceFile);
+				if (newPath == null)
 				{
-					if (!source.SkipLoading)
-						CheckExistenceOfFWDatabase(source);
+					ds.SkipLoadingBecauseOfProblem = true;
+					return;
 				}
-				else if (!File.Exists(source.DataSourceFile))
-				{					
-					string newPath = GetMissingDataSourceAction(source.DataSourceFile);
-					if (newPath == null)
-					{
-						source.SkipLoading = true;
-						continue;
-					}
 
-					source.DataSourceFile = newPath;
-					project.Save();
-				}
-				
-				if (source.DataSourceType != DataSourceType.XML &&
-					source.DataSourceType != DataSourceType.Unknown && !source.SkipLoading)
-				{
-					m_dataSources.Add(source);
-					m_totalLinesToRead += source.TotalLinesInFile;
-				}
+				ds.SourceFile = newPath;
+				m_project.Save();
+			}
+
+			if (ds.SkipLoadingBecauseOfProblem)
+				return;
+
+			if (ds.Type == DataSourceType.FW7 && !FwDBUtils.IsFw7Installed)
+			{
+				var msg = App.GetString("FieldWorks7NotInstalledMsg",
+				    "FieldWorks 7.0 (or later) is not installed. It must be installed\nin order for {0} to read the data source\n\n'{1}'.\n\nThis data source will be skipped.");
+
+				Utils.MsgBox(string.Format(msg, Application.ProductName, ds.SourceFile));
+				ds.SkipLoadingBecauseOfProblem = true;
+				return;
+			}
+
+			if (ds.Type != DataSourceType.XML && ds.Type != DataSourceType.Unknown)
+				m_dataSources.Add(ds);
+
+			if (!ds.VerifyMappings())
+			{
+				var msg = App.GetString("MarkersMissingFromDataSourceMsg",
+					"The data source file '{0}' is missing some standard format markers that were " +
+					"assigned to {1} fields. Those assignments have been removed. To verify the " +
+					"assignment of markers to fields, go to the project settings dialog box, select " +
+					"the data source and click 'Properties'.");
+
+				Utils.MsgBox(string.Format(msg, ds.SourceFile, Application.ProductName));
 			}
 		}
 
@@ -78,20 +94,17 @@ namespace SIL.Pa.DataSource
 		/// already started.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void CheckNeedForSQLServer(IEnumerable<PaDataSource> dataSources)
+		private static void CheckNeedForSQLServer(IEnumerable<PaDataSource> dataSourcesToLoad)
 		{
 			bool alreadyTriedToStartSQLServer = false;
 
-			foreach (PaDataSource source in dataSources)
+			foreach (var ds in dataSourcesToLoad.Where(ds => ds.Type == DataSourceType.FW && ds.FwSourceDirectFromDB))
 			{
-				if (source.FwSourceDirectFromDB)
-				{
-					if (!alreadyTriedToStartSQLServer && FwDBUtils.StartSQLServer(true))
-						return;
+				if (!alreadyTriedToStartSQLServer && FwDBUtils.StartSQLServer(true))
+					return;
 
-					alreadyTriedToStartSQLServer = true;
-					source.SkipLoading = true;
-				}
+				alreadyTriedToStartSQLServer = true;
+				ds.SkipLoadingBecauseOfProblem = true;
 			}
 		}
 
@@ -100,36 +113,27 @@ namespace SIL.Pa.DataSource
 		/// Verifies the existence of the specified FW data source.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void CheckExistenceOfFWDatabase(PaDataSource datasource)
+		private static void CheckExistenceOfFwDatabase(PaDataSource ds)
 		{
-			if (datasource == null)
+			if (ds == null)
 				return;
 
-			if (!FwDBUtils.IsSQLServerStarted)
+			if (!FwDBUtils.IsSQLServerStarted && !FwDBUtils.StartSQLServer(true))
+				return;
+
+			if (ds.FwDataSourceInfo != null)
 			{
-				if (!FwDBUtils.StartSQLServer(true))
+				var fwDBInfoList =
+					FwDBUtils.GetFwDataSourceInfoList(ds.FwDataSourceInfo.Server, false);
+
+				if (fwDBInfoList.Any(fwinfo => ds.FwPrjName == fwinfo.Name))
 					return;
+
+				ds.FwDataSourceInfo.IsMissing = true;
 			}
 
-			if (datasource.FwDataSourceInfo != null)
-			{
-				FwDataSourceInfo[] fwDBInfoList =
-					FwDBUtils.GetFwDataSourceInfoList(datasource.FwDataSourceInfo.MachineName, false);
-
-				if (fwDBInfoList != null)
-				{
-					foreach (FwDataSourceInfo fwDBInfo in fwDBInfoList)
-					{
-						if (datasource.FwDBName == fwDBInfo.DBName)
-							return;
-					}
-				}
-
-				datasource.FwDataSourceInfo.IsMissing = true;
-			}
-
-			MissingFWDatabaseMsgBox.ShowDialog(datasource.ToString(true));
-			datasource.SkipLoading = true;
+			MissingFWDatabaseMsgBox.ShowDialog(ds.ToString(true));
+			ds.SkipLoadingBecauseOfProblem = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -143,16 +147,15 @@ namespace SIL.Pa.DataSource
 			if (MissingDataSourceMsgBox.ShowDialog(dataSourceFile) == DialogResult.Cancel)
 				return null;
 		
-			OpenFileDialog dlg = new OpenFileDialog();
+			var dlg = new OpenFileDialog();
 			dlg.CheckFileExists = true;
 			dlg.CheckPathExists = true;
 			dlg.FileName = Path.GetFileName(dataSourceFile);
 			dlg.Filter = App.kstidFileTypeAllFiles;
 			dlg.ShowReadOnly = false;
 			dlg.InitialDirectory = Path.GetFullPath(dataSourceFile);
-			dlg.Title = App.LocalizeString(
-				"SpecifyNewLocationForDatasourceOpenFileDlgCaption",
-				"Choose New Data Source Location", App.kLocalizationGroupDialogs);
+			dlg.Title = App.GetString("SpecifyNewLocationForDatasourceOpenFileDlgCaption",
+				"Choose New Data Source Location");
 			
 			while (dlg.ShowDialog() == DialogResult.Cancel)
 			{
@@ -164,205 +167,165 @@ namespace SIL.Pa.DataSource
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public RecordCache Read()
+		{
+			TempRecordCache.Dispose();
+			m_recCache = new RecordCache(m_project);
+			App.IPASymbolCache.ClearUndefinedCharacterCollection();
+
+			var worker = new BackgroundWorker { WorkerReportsProgress = true };
+			worker.DoWork += HandleBackgroundProcessStart;
+			worker.ProgressChanged += HandleBackgroundProcessProgressChanged;
+			worker.RunWorkerAsync();
+
+			while (worker.IsBusy)
+				Application.DoEvents();
+			
+			return m_recCache;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleBackgroundProcessProgressChanged(object sender, ProgressChangedEventArgs e)
+		{
+			if (e.UserState is string)
+			{
+				var msg = App.GetString("ReadingDataSourceProgressMsg", "Reading {0}...");
+				msg = string.Format(msg, e.UserState);
+				App.InitializeProgressBar(msg, e.ProgressPercentage);
+			}
+			else if (e.UserState is object[])
+			{
+				var msg = (string)((object[])e.UserState)[0];
+				var ds = (PaDataSource)((object[])e.UserState)[1];
+				App.MsgMediator.SendMessage(msg, ds);
+			}
+			else if (e.ProgressPercentage == 0)
+				App.IncProgressBar();
+			else
+				App.IncProgressBar(e.ProgressPercentage);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Read each data source file into the record cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public RecordCache Read()
+		void HandleBackgroundProcessStart(object sender, DoWorkEventArgs e)
 		{
-			if (App.RecordCache != null)
-				App.RecordCache.Dispose();
+			var worker = sender as BackgroundWorker;
 
-			Application.DoEvents();
-			TempRecordCache.Dispose();
-			m_recCache = new RecordCache();
-			App.RecordCache = m_recCache;
-			App.InitializeProgressBar(string.Empty, m_totalLinesToRead);
-			App.IPASymbolCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
-
-			foreach (PaDataSource source in m_dataSources)
+			foreach (var ds in m_dataSources)
 			{
 				App.IPASymbolCache.UndefinedCharacters.CurrentDataSourceName =
-					(source.DataSourceType == DataSourceType.FW && source.FwDataSourceInfo != null ?
-					source.FwDataSourceInfo.ToString() : Path.GetFileName(source.DataSourceFile));
+					((ds.Type == DataSourceType.FW || ds.Type == DataSourceType.FW7) &&
+					ds.FwDataSourceInfo != null ? ds.FwDataSourceInfo.ToString() : Path.GetFileName(ds.SourceFile));
 
-				App.IPASymbolCache.LogUndefinedCharactersWhenParsing = true;
-
-				m_currDataSource = source;
-
-				var fmt = App.LocalizeString("ReadingDatasourceProgressBarMsg",
-					"Reading {0}", App.kLocalizationGroupInfoMsg);
-
-				App.UpdateProgressBarLabel(string.Format(fmt,
-					(source.FwSourceDirectFromDB && source.FwDataSourceInfo != null ?
-					source.FwDataSourceInfo.DBName : Path.GetFileName(source.DataSourceFile))));
-
-				StreamReader reader = null;
+				m_project.PhoneticParser.LogUndefinedCharactersWhenParsing = true;
+				worker.ReportProgress(ds.TotalLinesInFile, ds.DisplayTextWhenReading);
+				
+				string fmt;
 
 				try
 				{
-					App.MsgMediator.SendMessage("BeforeReadingDataSource", source);
+					worker.ReportProgress(0, new object[] { "BeforeReadingDataSource", ds });
 					bool readSuccess = true;
 
-					switch (source.DataSourceType)
+					switch (ds.Type)
 					{
 						case DataSourceType.Toolbox:
-						case DataSourceType.SFM:
-							source.LastModification = File.GetLastWriteTimeUtc(source.DataSourceFile);
-							reader = new StreamReader(source.DataSourceFile);
-							m_mappings = source.SFMappings;
-							BuildListOfFieldsForMarkers();
-							readSuccess = ReadSFMFile(reader);
-							break;
-
-						case DataSourceType.SA:
-							ReadSASource(source.DataSourceFile);
-							break;
-
-						case DataSourceType.XML:
-							source.LastModification = File.GetLastWriteTimeUtc(source.DataSourceFile);
-							break;
-
+						case DataSourceType.SFM: readSuccess = ReadSfmDataSource(worker, ds); break;
+						case DataSourceType.SA: ReadSaDataSource(worker, ds); break;
+						case DataSourceType.FW7: ReadFw7DataSource(worker, ds); break;
+						case DataSourceType.XML: break;
 						case DataSourceType.FW:
 						case DataSourceType.PAXML:
-							if (source.FwSourceDirectFromDB)
-								ReadFwDataSource();
+							if (ds.FwSourceDirectFromDB)
+								ReadFw6DataSource(worker, ds);
 							else
-							{
-								source.LastModification = File.GetLastWriteTimeUtc(source.DataSourceFile);
-								ReadPaXMLFile();
-							}
+								ReadPaXmlFile(worker, ds);
 							break;
 					}
 
+					worker.ReportProgress(-1);
+
 					if (readSuccess)
-						App.MsgMediator.SendMessage("AfterReadingDataSource", source);
+					{
+						ds.UpdateLastModifiedTime();
+						worker.ReportProgress(0, new object[] { "AfterReadingDataSource", ds });
+					}
 					else
 					{
-						fmt = App.LocalizeString("DatasourceFileUnsuccessfullyReadMsg",
-							"Error processing data source file '{0}'.", App.kLocalizationGroupInfoMsg);
+						fmt = App.GetString("DatasourceFileUnsuccessfullyReadMsg",
+							"Error processing data source file '{0}'.");
 
-						string msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(source.DataSourceFile));
+						string msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(ds.SourceFile));
 						Utils.MsgBox(msg, MessageBoxIcon.Exclamation);
-						App.MsgMediator.SendMessage("AfterReadingDataSourceFailure", source);
+						worker.ReportProgress(0, new object[] { "AfterReadingDataSourceFailure", ds });
 					}
 				}
-				catch (Exception e)
+				catch (Exception ex)
 				{
-					fmt = App.LocalizeString("DatasourceFileReadingErrorMsg",
-							"The following error occurred reading data source file '{0}'.{1}",
-							"First parameter is data source file name; second parameter is error message.",
-							App.kLocalizationGroupInfoMsg);
+					fmt = App.GetString("DatasourceFileReadingErrorMsg",
+							"The following error occurred while reading data source file '{0}'.{1}",
+							"First parameter is data source file name; second parameter is error message.");
 		
-					string msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(source.DataSourceFile), e.Message);
+					string msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(ds.SourceFile), ex.Message);
 					Utils.MsgBox(msg, MessageBoxIcon.Exclamation);
 				}
-				finally
-				{
-					if (reader != null)
-						reader.Close();
-				}
 			}
-
-			return m_recCache;
 		}
 
-		#region PaXML/FW data source reading
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void ReadFwDataSource()
+		private string GetPhoneticMappingErrorMsg()
 		{
-			App.IncProgressBar();
-
-			if (m_currDataSource.FwDataSourceInfo != null)
-			{
-				// Get the lexical data from the FW database.
-				FwDataReader fwReader = new FwDataReader(m_currDataSource.FwDataSourceInfo);
-				m_currDataSource.SkipLoading = !fwReader.GetData(HandleReadingFwData);
-				m_currDataSource.FwDataSourceInfo.IsMissing = m_currDataSource.SkipLoading;
-			
-				if (!m_currDataSource.SkipLoading && !m_currDataSource.FwDataSourceInfo.IsMissing)
-					m_currDataSource.FwDataSourceInfo.UpdateLastModifiedStamp();
-			}
+			return App.GetString("DatasourcePhoneticMappingErrorMsg",
+				"A field mapping to the phonetic field could not be found for the data source '{0}'",
+				"First parameter is data source name.");
 		}
 
+		#region FieldWorks 6 (and older) data source reading
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HandleReadingFwData(SqlDataReader reader)
+		private void ReadFw6DataSource(BackgroundWorker worker, PaDataSource ds)
 		{
-			if (reader == null || reader.IsClosed)
-				return;
+			var reader = Fw6DataSourceReader.Create(worker, m_project, ds);
 
-			// First, get a list of the fields returned from the query
-			// and translate those to their corresponding PA fields.
-			List<string> fieldNames = new List<string>();
-			for (int i = 0; i < reader.FieldCount; i++)
+			if (reader == null)
+				Utils.MsgBox(string.Format(GetPhoneticMappingErrorMsg(), ds.FwPrjName));
+			else
 			{
-				PaFieldInfo fieldInfo =
-					m_project.FieldInfo.GetFieldFromFwQueryFieldName(reader.GetName(i));
-
-				fieldNames.Add(fieldInfo != null ? fieldInfo.FieldName : null);
+				reader.Read(m_recCache);
+				reader.Dispose();
 			}
-
-			while (reader.Read())
-			{
-				// Make a new record entry.
-				m_recCacheEntry = new RecordCacheEntry(false);
-				m_recCacheEntry.DataSource = m_currDataSource;
-				m_recCacheEntry.NeedsParsing = false;
-				m_recCacheEntry.WordEntries = new List<WordCacheEntry>();
-
-				// Make a new word entry because for FW data sources read directly from the
-				// database, there will be a one-to-one correspondence between record cache
-				// entries and word cache entries.
-				var wentry = new WordCacheEntry(m_recCacheEntry, true);
-
-				// Read the data for all columns. If there are columns the record
-				// or word entries don't recognize, they'll just be ignored.
-				for (int i = 0; i < fieldNames.Count; i++)
-				{
-					if (!(reader[i] is DBNull) && fieldNames[i] != null)
-					{
-						m_recCacheEntry.SetValue(fieldNames[i], reader[i].ToString());
-						wentry.SetValue(fieldNames[i], reader[i].ToString());
-
-						if (fieldNames[i] == m_project.FieldInfo.AudioFileField.FieldName)
-						{
-							string lengthField = m_project.FieldInfo.AudioFileLengthField.FieldName;
-							string offsetField = m_project.FieldInfo.AudioFileOffsetField.FieldName;
-
-							if (wentry[lengthField] == null)
-								wentry.SetValue(lengthField, "0");
-	
-							if (wentry[offsetField] == null)
-								wentry.SetValue(offsetField, "0");
-						}
-					}
-				}
-
-				// Add the entries to the caches.
-				m_recCacheEntry.WordEntries.Add(wentry);
-				m_recCache.Add(m_recCacheEntry);
-			}
-
-			m_currDataSource.LastModification = DateTime.Now;
-			m_currDataSource.FwDataSourceInfo.UpdateLastModifiedStamp();
 		}
 
+		#endregion
+
+		#region FieldWorks 7 and later data source reading methods
+		/// ------------------------------------------------------------------------------------
+		private void ReadFw7DataSource(BackgroundWorker worker, PaDataSource ds)
+		{
+			var reader = Fw7DataSourceReader.Create(worker, m_project, ds);
+
+			if (reader == null)
+				Utils.MsgBox(string.Format(GetPhoneticMappingErrorMsg(), ds.FwPrjName));
+			else
+			{
+				reader.Read(m_recCache);
+				reader.Dispose();
+			}
+		}
+
+		#endregion
+
+		#region PaXml data source reading methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Reads a PA XML file into the record cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ReadPaXMLFile()
+		private void ReadPaXmlFile(BackgroundWorker worker, PaDataSource ds)
 		{
-			RecordCache cache = RecordCache.Load(m_currDataSource);
+			var cache = RecordCache.Load(ds, m_project);
 			if (cache == null)
 				return;
 
@@ -374,14 +337,14 @@ namespace SIL.Pa.DataSource
 			// member variable cache.
 			if (m_recCache.Count == 0)
 			{
-				App.IncProgressBar(cache.Count);
+				worker.ReportProgress(-1);
 				m_recCache = cache;
 			}
 			else
 			{
 				while (cache.Count > 0)
 				{
-					App.IncProgressBar();
+					worker.ReportProgress(0);
 					m_recCache.Add(cache[0]);
 					cache.RemoveAt(0);
 				}
@@ -396,164 +359,42 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private void AddCustomFieldsFromPaXML(RecordCache cache)
 		{
-			if (cache.DeserializedCustomFields != null &&
-				cache.DeserializedCustomFields.Count > 0)
-			{
-				foreach (PaFieldInfo customField in cache.DeserializedCustomFields)
-				{
-					PaFieldInfo fieldInfo = m_project.FieldInfo[customField.FieldName];
-					if (fieldInfo == null)
-						m_project.FieldInfo.Add(customField);
-				}
+			// TODO: Fix
+			//if (cache.DeserializedCustomFields != null &&
+			//    cache.DeserializedCustomFields.Count > 0)
+			//{
+			//    foreach (PaFieldInfo customField in cache.DeserializedCustomFields)
+			//    {
+			//        PaFieldInfo fieldInfo = m_project.FieldInfo[customField.FieldName];
+			//        if (fieldInfo == null)
+			//            m_project.FieldInfo.Add(customField);
+			//    }
 
-				cache.DeserializedCustomFields = null;
-			}
+			//    cache.DeserializedCustomFields = null;
+			//}
 		}
 
 		#endregion
 
-		#region SA data source reading
+		#region SA data source reading methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Reads an SA sound file data source.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void ReadSASource(string audioFile)
+		protected bool ReadSaDataSource(BackgroundWorker worker, PaDataSource ds)
 		{
-			// At this point, we know we have an SA data source to read so set the help
-			// file and help topic for the encoding conversion dialog's help button.
-			// That dialog is common to PA and SA, so take special treatment (i.e. not
-			// the way all the other PA dialog's help buttons are handled). Set the
-			// encoding conversion dialog's static variables so the proper help file and
-			// topic are jumped to if the user is presented with that dialog and chooses
-			// to click its help button.
-			TransConvertersDlg.HelpFilePath = App.HelpFilePath;
-			TransConvertersDlg.HelpTopic = HelpTopicPaths.hidTransConvertersDlg;
+			var reader = SaDataSourceReader.Create(worker, m_project, ds);
 
-			m_currDataSource.LastModification =
-				SaAudioDocument.GetTranscriptionFileModifiedTime(audioFile);
-
-			SaAudioDocumentReader reader = new SaAudioDocumentReader();
-			reader.ContinueConvertingWaveWithEmbeddedData = HandleWaveFileNeedsConverting;
-			if (!reader.Initialize(audioFile))
-				return;
-
-			SortedDictionary<uint, AudioDocWords> adWords = reader.Words;
-			if (adWords == null)
-				return;
-			
-			// Make only a single record entry for the entire wave file.
-			m_recCacheEntry = new RecordCacheEntry(false);
-			m_recCacheEntry.DataSource = m_currDataSource;
-			m_recCacheEntry.NeedsParsing = false;
-			m_recCacheEntry.Channels = reader.Channels;
-			m_recCacheEntry.BitsPerSample = reader.BitsPerSample;
-			m_recCacheEntry.SamplesPerSecond = reader.SamplesPerSecond;
-			ReadRecLevelSaFields(reader);
-
-			PaFieldInfo fieldInfo = App.FieldInfo.AudioFileField;
-			if (fieldInfo != null)
-				m_recCacheEntry.SetValue(fieldInfo.FieldName, audioFile);
-
-			App.IncProgressBar();
-			int wordIndex = 0;
-			List<WordCacheEntry> wordEntries = new List<WordCacheEntry>();
-
-			// Go through each word, adding a word cache entry for each.
-			foreach (KeyValuePair<uint, AudioDocWords> adw in adWords)
+			if (reader == null)
 			{
-				var wentry = new WordCacheEntry(m_recCacheEntry, wordIndex++, true);
-				
-				fieldInfo = App.FieldInfo.PhoneticField;
-				if (fieldInfo != null)
-					wentry[fieldInfo.FieldName] = adw.Value.Phonetic;
-
-				fieldInfo = App.FieldInfo.PhonemicField;
-				if (fieldInfo != null)
-					wentry[fieldInfo.FieldName] = adw.Value.Phonemic;
-
-				fieldInfo = App.FieldInfo.ToneField;
-				if (fieldInfo != null)
-					wentry[fieldInfo.FieldName] = adw.Value.Tone;
-
-				fieldInfo = App.FieldInfo.OrthoField;
-				if (fieldInfo != null)
-					wentry[fieldInfo.FieldName] = adw.Value.Orthographic;
-
-				fieldInfo = App.FieldInfo.GlossField;
-				if (fieldInfo != null)
-					wentry[fieldInfo.FieldName] = adw.Value.Gloss;
-
-				fieldInfo = App.FieldInfo.ReferenceField;
-				if (fieldInfo != null)
-					wentry[fieldInfo.FieldName] = adw.Value.Reference;
-
-				fieldInfo = App.FieldInfo.AudioFileLengthField;
-				if (fieldInfo != null)
-					wentry[fieldInfo.FieldName] = adw.Value.AudioLength.ToString();
-
-				fieldInfo = App.FieldInfo.AudioFileOffsetField;
-				if (fieldInfo != null)
-					wentry[fieldInfo.FieldName] = adw.Key.ToString();
-
-				wordEntries.Add(wentry);
+				Utils.MsgBox(string.Format(GetPhoneticMappingErrorMsg(), ds.SourceFile));
+				return false;
 			}
 
-			m_recCacheEntry.WordEntries = wordEntries;
-			m_recCache.Add(m_recCacheEntry);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private bool HandleWaveFileNeedsConverting(string filename)
-		{
-			if (AudioPlayer.GetSaPath() != null)
-				return true;
-
-			var msg = App.LocalizeString("AudioConvertProblemMsg",
-                "It appears the audio file '{0}' may have been created using an old version " +
-				"of Speech Analyzer. In order for Phonology Assistant to read data associated " +
-				"with the audio file it must first be converted using some components of " +
-				"Speech Analyzer 3.0.1, but it is not installed. Please install Speech Analyzer " +
-				"3.0.1 and try again.", "Message displayed when SA 3.0.1 is not installed and " +
-				"PA is trying to read an audio file created using a version SA older than 3.0.1.",
-				App.kLocalizationGroupInfoMsg);
-
-			msg = string.Format(msg, filename);
-
-			using (var dlg = new DownloadSaDlg(msg))
-				dlg.ShowDialog();
-
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Reads misc. fields from the SA data source that are stored in a record cache entry.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void ReadRecLevelSaFields(SaAudioDocumentReader reader)
-		{
-			if (m_project.FieldInfo == null)
-				return;
-
-			const BindingFlags kFlags = BindingFlags.GetProperty |
-				BindingFlags.Instance | BindingFlags.Public;
-			
-			foreach (PaFieldInfo fieldInfo in m_project.FieldInfo)
-			{
-				if (string.IsNullOrEmpty(fieldInfo.SaFieldName))
-					continue;
-
-				try
-				{
-					object value = typeof(SaAudioDocumentReader).InvokeMember(
-						fieldInfo.SaFieldName, kFlags, null, reader, null);
-
-					if (value != null)
-						m_recCacheEntry.SetValue(fieldInfo.FieldName, value.ToString());
-				}
-				catch { }
-			}
+			reader.Read(m_recCache);
+			reader.Dispose();
+			return true;
 		}
 
 		#endregion
@@ -561,283 +402,25 @@ namespace SIL.Pa.DataSource
 		#region SFM file reading methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Builds a list of mappings and all the fields that are mapped to those markers.
-		/// Also, a list of all the fields marked as interlinear are saved.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void BuildListOfFieldsForMarkers()
-		{
-			m_fieldsForMarkers = new Dictionary<string, List<string>>();
-			m_interlinearFields = new List<string>();
-
-			foreach (SFMarkerMapping mapping in m_mappings)
-			{
-				if (mapping.FieldName != PaDataSource.kRecordMarker && !string.IsNullOrEmpty(mapping.Marker))
-				{
-					if (!m_fieldsForMarkers.ContainsKey(mapping.Marker))
-						m_fieldsForMarkers[mapping.Marker] = new List<string>();
-
-					m_fieldsForMarkers[mapping.Marker].Add(mapping.FieldName);
-
-					if (mapping.IsInterlinear)
-						m_interlinearFields.Add(mapping.FieldName);
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Reads a single SFM file
 		/// </summary>
 		/// <returns>True indicates success</returns>
 		/// ------------------------------------------------------------------------------------
-		protected bool ReadSFMFile(StreamReader file)
+		protected bool ReadSfmDataSource(BackgroundWorker worker, PaDataSource ds)
 		{
-			string recMarker = GetRecordMarkerSFM(m_currDataSource);
-			if (string.IsNullOrEmpty(recMarker))
+			var reader = SfmDataSourceReader.Create(worker, m_project, ds);
+
+			if (reader == null)
+			{
+				Utils.MsgBox(string.Format(GetPhoneticMappingErrorMsg(), ds.FwPrjName));
 				return false;
-
-			string currLine;
-			StringBuilder field = new StringBuilder();
-			bool onFirstRecordMarker = false;
-			bool foundFirstRecord = false;
-			m_recCacheEntry = null;
-
-			while ((currLine = file.ReadLine()) != null) 
-			{
-				App.IncProgressBar();
-				currLine = currLine.Trim();
-				string currMarker = null;
-
-				if (currLine.StartsWith("\\"))
-				{
-					string[] split = currLine.Split(" ".ToCharArray(), 2);
-					if (split.Length >= 1)
-						currMarker = split[0];
-				}
-
-				// Ignore all data up to the first record.
-				if (!foundFirstRecord)
-				{
-					if (currMarker != recMarker)
-						continue;
-
-					foundFirstRecord = true;
-					onFirstRecordMarker = true;
-				}
-
-				// If the current line doesn't start a new field, then add it to the
-				// previous line's data.
-				if (!currLine.StartsWith("\\"))
-				{
-					field.Append(" " + currLine);
-					continue;
-				}
-
-				// At this point, if the string builder contains any data, we know we've
-				// finished reading the data for a single field. Therefore, save the field's
-				// data.
-				if (field.Length > 0)
-					ParseAndStoreSFMField(field.ToString());
-
-				// Check if we've come to the beginning of a record. If so, then make sure
-				// to save the contents of the previous record and begin a new one.
-				if (currMarker == recMarker)
-				{
-					if (onFirstRecordMarker)
-						onFirstRecordMarker = false;
-					else if (m_recCacheEntry != null)
-					{
-						m_recCache.Add(m_recCacheEntry);
-						m_recCacheEntry = null;
-					}
-				}
-
-				// Prepare to start a new field's data accumulation and add the line
-				// just read from the file.
-				field.Length = 0;
-				field.Append(currLine);
 			}
 
-			// Process the final field in the file
-			if (field.Length > 0)
-				ParseAndStoreSFMField(field.ToString());
-			
-			// Save the final record in the file
-			if (m_recCacheEntry != null)
-			{
-				m_recCache.Add(m_recCacheEntry);
-				m_recCacheEntry = null;
-			}
-
+			reader.Read(m_recCache);
+			reader.Dispose();
 			return true;
 		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the marker that was mapped as the record marker. This is used to determine
-		/// where record breaks are.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static string GetRecordMarkerSFM(PaDataSource source)
-		{
-			foreach (SFMarkerMapping mapping in source.SFMappings)
-			{
-				if (mapping.FieldName == PaDataSource.kRecordMarker)
-					return mapping.Marker;
-			}
-
-			return null;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Adds to the record cache the data for a single field read from an SFM data source
-		/// record.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void ParseAndStoreSFMField(string field)
-		{
-			if (field == null)
-				return;
-
-			field = field.Trim();
-
-			if (!field.StartsWith("\\"))
-				return;
-
-			// Get two strings, the first containing the backslash marker
-			// and the other contianing the data following the marker.
-			string[] split = field.Split(" ".ToCharArray(), 2);
-
-			// If we didn't get two strings back then ignore this field.
-			if (split.Length != 2)
-				return;
-
-			// If there's no mapping for the marker, ignore this field.
-			if (!m_fieldsForMarkers.ContainsKey(split[0]))
-				return;
-
-			if (m_recCacheEntry == null)
-			{
-				m_recCacheEntry = new RecordCacheEntry(true);
-				m_recCacheEntry.NeedsParsing = true;
-				m_recCacheEntry.DataSource = m_currDataSource;
-				m_recCacheEntry.FirstInterlinearField = m_currDataSource.FirstInterlinearField;
-				m_recCacheEntry.InterlinearFields = m_interlinearFields;
-			}
-
-			PaFieldInfo audioFilefieldInfo = m_project.FieldInfo.AudioFileField;
-			PaFieldInfo offsetFieldInfo = m_project.FieldInfo.AudioFileOffsetField;
-			PaFieldInfo lengthFieldInfo = m_project.FieldInfo.AudioFileLengthField;
-
-			foreach (string fld in m_fieldsForMarkers[split[0]])
-			{
-				if (audioFilefieldInfo == null || audioFilefieldInfo.FieldName != fld)
-				{
-					m_recCacheEntry.SetValue(fld, split[1]);
-					continue;
-				}
-
-				long startPoint;
-				long endPoint;
-				string audioFileName = ParseSoundFileName(split[1], out startPoint, out endPoint);
-
-				if (!string.IsNullOrEmpty(audioFileName))
-				{
-					m_recCacheEntry.SetValue(audioFilefieldInfo.FieldName, audioFileName);
-
-					if (offsetFieldInfo != null && lengthFieldInfo != null)
-					{
-						long length = endPoint - startPoint;
-						m_recCacheEntry.SetValue(offsetFieldInfo.FieldName, startPoint.ToString());
-						m_recCacheEntry.SetValue(lengthFieldInfo.FieldName, length.ToString());
-					}
-				}
-			}
-
-			return;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Parse the sound file name returning the file name and beginning / ending points
-		/// for playing, if any.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static string ParseSoundFileName(string fileName, out long startPoint, out long endPoint)
-		{
-			startPoint = 0L;
-			endPoint = 0L;
-
-			// Handle null
-			if (fileName == null)
-				return string.Empty;
-
-			// Handle empty string
-			fileName = fileName.Trim();
-			if (fileName == string.Empty)
-				return string.Empty;
-
-			// Check if the end of the file name string is one of the common audio file types.
-			// If so, there's no sense in checking for start and end points since the entire
-			// string ends with a file extension.
-			foreach (string ext in new[] {".wav", ".mp3", ".wma", ".ogg", ".ram", ".aif", ".au", ".voc"})
-			{
-				if (fileName.ToLower().EndsWith(ext))
-					return fileName;
-			}
-
-			// Find the last space in the file name string. If one cannot be
-			// found then we know there is no start and stop point.
-			int iSpace = fileName.LastIndexOf(' ');
-			if (iSpace < 0)
-				return fileName;
-
-			// Remove everything following the last space and assume it's a numeric value
-			// indicating a start or stop point (in seconds) in the audio file.
-			string sTime2 = fileName.Substring(iSpace);
-			
-			// Try to convert the value to a numeric.
-			float fTime2;
-			if (!Utils.TryFloatParse(sTime2, out fTime2))
-				return fileName;
-
-			// Remove from the file name string the text removed that represents a numeric value.
-			fileName = fileName.Substring(0, iSpace);
-
-			// Find the last space in the file name string. If one cannot be
-			// found then we know there is only a start point and stop point.
-			iSpace = fileName.LastIndexOf(' ');
-			if (iSpace < 0)
-			{
-				// Assume the time was specified in seconds. We want it in milliseconds.
-				startPoint = (long)(Math.Ceiling(fTime2 * 1000f));
-				return fileName;
-			}
-
-			// Remove everything following the last space and assume it's a numeric value
-			// indicating a start point (in seconds) in the audio file.
-			string sTime1 = fileName.Substring(iSpace);
-
-			// Try to convert the value to a numeric.
-			float fTime1;
-			if (!Utils.TryFloatParse(sTime1, out fTime1))
-			{
-				// Assume the time was specified in seconds. We want it in milliseconds.
-				// The parse attempt failed so just make the start and end times the same.
-				startPoint = (long)(Math.Ceiling(fTime2 * 1000f));
-				return fileName;
-			}
-
-			// Assume the times are specified in seconds. We want it in milliseconds.
-			startPoint = (long)(Math.Ceiling(fTime1 * 1000f));
-			endPoint = (long)(Math.Ceiling(fTime2 * 1000f));
-
-			// Remove from the file name string the text removed that represents the start point.
-			return fileName.Substring(0, iSpace);
-		}
-
+		
 		#endregion
 	}  
 }

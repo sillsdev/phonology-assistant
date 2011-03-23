@@ -1,19 +1,14 @@
 using System.Linq;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Xml.Serialization;
 using SilTools;
 
-/// --------------------------------------------------------------------------------------------
-/// Contains classes for handling ambiguous sequences. These classes replace what's in the file
-/// AmbiguousItemInfo.cs.
-/// --------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------
+// Contains classes for handling ambiguous sequences. These classes replace what's in the file
+// AmbiguousItemInfo.cs.
+// --------------------------------------------------------------------------------------------
 namespace SIL.Pa.Model
 {
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	[XmlType("ambiguousSequences")]
 	public class AmbiguousSequences : List<AmbiguousSeq>
@@ -31,27 +26,6 @@ namespace SIL.Pa.Model
 		// sequences they represent.
 		private Dictionary<char, string> m_parseTokens;
 
-		#region Method to migrate previous versions of ambiguous sequences file to current.
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void MigrateToLatestVersion(string filename)
-		{
-			var errMsg = App.LocalizeString("AmbiguousSeqMigrationErrMsg",
-				"The following error occurred while attempting to update your project’s ambiguous " +
-				"sequences file:\n\n{0}\n\nIn order to continue working, your original ambiguous " +
-				"sequence file  will be renamed to the following file: '{1}'.",
-				"Message displayed when updating ambiguous sequences file to new version.",
-				App.kLocalizationGroupMisc);
-
-			App.MigrateToLatestVersion(filename, Assembly.GetExecutingAssembly(),
-				"SIL.Pa.Model.UpdateFileTransforms.UpdateAmbiguousSequenceFile.xslt", errMsg);
-		}
-
-		#endregion
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads the default and project-specific ambiguous sequences.
@@ -59,18 +33,21 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static AmbiguousSequences Load(string projectPathPrefix)
 		{
-			string filename = projectPathPrefix + kFileName;
-			MigrateToLatestVersion(filename);
-
+			string filename = GetFileForProject(projectPathPrefix);
 			var list = XmlSerializationHelper.DeserializeFromFile<AmbiguousSequences>(filename);
-
 			return (list ?? new AmbiguousSequences());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// Gets the project's ambiguous sequences file.
 		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string GetFileForProject(string projectPathPrefix)
+		{
+			return projectPathPrefix + kFileName;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public AmbiguousSequences()
 		{
@@ -78,20 +55,12 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public AmbiguousSequences(IEnumerable<AmbiguousSeq> list) : base(list)
 		{
 			m_parseTokens = null;
 			s_unusedToken = '\uFFFF';
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public new void Clear()
 		{
@@ -205,13 +174,9 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public AmbiguousSeq GetAmbiguousSeq(string phone, bool convert)
 		{
-			foreach (AmbiguousSeq ambigSeq in this)
-			{
-				if (ambigSeq.Literal == phone)
-					return (ambigSeq.Convert || !convert ? ambigSeq : null);
-			}
-
-			return null;
+			return (from ambigSeq in this
+					where ambigSeq.Literal == phone
+					select (ambigSeq.Convert || !convert ? ambigSeq : null)).FirstOrDefault();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -241,20 +206,12 @@ namespace SIL.Pa.Model
 
 			// Create the token list if it hasn't already been built.
 			if (m_parseTokens == null)
-			{
-				m_parseTokens = new Dictionary<char, string>();
-				foreach (AmbiguousSeq seq in this)
-					m_parseTokens[seq.ParseToken] = seq.Literal;
-			}
+				m_parseTokens = this.ToDictionary(s => s.ParseToken, s => s.Literal);
 
 			m_parseTokens.TryGetValue(token, out ambigSeq);
 			return ambigSeq;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void SortByUnitLength()
 		{
@@ -290,10 +247,6 @@ namespace SIL.Pa.Model
 	}
 
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	[XmlType("sequence")]
 	public class AmbiguousSeq
 	{
@@ -318,18 +271,10 @@ namespace SIL.Pa.Model
 		internal char ParseToken;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public AmbiguousSeq()
 		{
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public AmbiguousSeq(string unit)
 		{
@@ -364,9 +309,12 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// <returns></returns>
+		public AmbiguousSeq(string unit, bool convert, bool isGenerated) : this(unit)
+		{
+			Convert = convert;
+			IsGenerated = isGenerated;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{

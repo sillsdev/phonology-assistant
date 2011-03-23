@@ -30,10 +30,6 @@ namespace SIL.Pa.UI.Controls
 
 		#region Constructing the control, grid and loading the grid
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public TranscriptionChangesControl()
 		{
 			// Create the label over the column containing transcriptions to convert.
@@ -70,13 +66,11 @@ namespace SIL.Pa.UI.Controls
 			lblSourceHdg.Top = lblTargetHdg.Top = (m_header.Height - lblSourceHdg.Height) / 2;
 
 			// Set the heading text.
-			App.LocalizeObject(lblSourceHdg, "TranscriptionChangesDlg.Heading1",
-				"Transcribed in source as:", "Heading in transcription changes control.",
-				App.kLocalizationGroupDialogs);
+			App.GetStringForObject(lblSourceHdg, "TranscriptionChangesControl.Heading1",
+				"Transcribed in source as:", "Heading in transcription changes control.");
 
-			App.LocalizeObject(lblTargetHdg, "TranscriptionChangesDlg.Heading2",
-				"Replace with one of these options:", 
-				"Heading in transcription changes control.", App.kLocalizationGroupDialogs);
+			App.GetStringForObject(lblTargetHdg, "TranscriptionChangesControl.Heading2",
+				"Replace with one of these options:", "Heading in transcription changes control.");
 
 			BuildGrid();
 			LoadGrid();
@@ -125,7 +119,7 @@ namespace SIL.Pa.UI.Controls
 			m_grid.CurrentCellDirtyStateChanged += m_grid_CurrentCellDirtyStateChanged;
 			m_grid.CellPainting += m_grid_CellPainting;
 			m_grid.ColumnWidthChanged += m_grid_ColumnWidthChanged;
-			App.InitializeGridSelectionColors(m_grid, true);
+			App.SetGridSelectionColors(m_grid, true);
 
 			// The sequence-to-convert column.
 			DataGridViewColumn col = new RadioButtonColumn("col0", false, true);
@@ -152,7 +146,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void LoadGrid()
 		{
-			TranscriptionChanges expList = App.IPASymbolCache.TranscriptionChanges;
+			var expList = App.Project.TranscriptionChanges;
 
 			if (expList == null || expList.Count == 0)
 			{
@@ -164,14 +158,14 @@ namespace SIL.Pa.UI.Controls
 			m_grid.Rows.Add(expList.Count);
 
 			int i = 0;
-			foreach (TranscriptionChange info in expList)
+			foreach (var info in expList)
 			{
 				m_grid[0, i].Value = info.WhatToReplace;
 				bool noneChecked = false;
 
 				// Load the cell indicating whether or not a
 				// replacement will take place for this item.
-				RadioButtonCell cell = m_grid[kCnvrtCol, i] as RadioButtonCell;
+				var cell = m_grid[kCnvrtCol, i] as RadioButtonCell;
 				if (cell != null)
 				{
 					cell.Checked = (info.ReplaceWith == null);
@@ -227,28 +221,24 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnPaFontsChanged(object args)
 		{
-			m_grid.Columns["col0"].CellTemplate.Style.Font = FontHelper.PhoneticFont;
-			m_grid.Columns["col0"].DefaultCellStyle.Font = FontHelper.PhoneticFont;
+			m_grid.Columns["col0"].CellTemplate.Style.Font = App.PhoneticFont;
+			m_grid.Columns["col0"].DefaultCellStyle.Font = App.PhoneticFont;
 
 			foreach (DataGridViewRow row in m_grid.Rows)
-				row.Cells["col0"].Style.Font = FontHelper.PhoneticFont;
+				row.Cells["col0"].Style.Font = App.PhoneticFont;
 
 			for (int i = kFirstCnvrtToCol; i < m_grid.ColumnCount; i++)
 			{
-				m_grid.Columns[i].CellTemplate.Style.Font = FontHelper.PhoneticFont;
-				m_grid.Columns[i].DefaultCellStyle.Font = FontHelper.PhoneticFont;
+				m_grid.Columns[i].CellTemplate.Style.Font = App.PhoneticFont;
+				m_grid.Columns[i].DefaultCellStyle.Font = App.PhoneticFont;
 
 				foreach (DataGridViewRow row in m_grid.Rows)
-					row.Cells[i].Style.Font = FontHelper.PhoneticFont;
+					row.Cells[i].Style.Font = App.PhoneticFont;
 			}
 
 			return false;
 		}
 		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnSizeChanged(EventArgs e)
 		{
@@ -311,10 +301,6 @@ namespace SIL.Pa.UI.Controls
 
 		#region Grid event methods
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		static void m_grid_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
 		{
 			// When the steps performed in "RowWasRemoved" were done in this method, there
@@ -361,10 +347,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		void m_grid_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
 		{
 			if (e.RowIndex == m_grid.NewRowIndex)
@@ -374,7 +356,7 @@ namespace SIL.Pa.UI.Controls
 
 				// When a new row is beginning to be edited, then check the
 				// "None" column. But don't consider it dirty yet.
-				RadioButtonCell cell = m_grid[kCnvrtCol, e.RowIndex] as RadioButtonCell;
+				var cell = m_grid[kCnvrtCol, e.RowIndex] as RadioButtonCell;
 				if (cell != null)
 				{
 					bool wasDirty = m_grid.IsDirty;
@@ -386,10 +368,6 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void m_grid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
 		{
@@ -420,7 +398,7 @@ namespace SIL.Pa.UI.Controls
 				// If the cell just edited is one of the convert to experimentaTransList
 				// then check it, on the assumption the user wants the latest of their
 				// added/edited experimentaTransList.
-				RadioButtonCell cell = m_grid[e.ColumnIndex, e.RowIndex] as RadioButtonCell;
+				var cell = m_grid[e.ColumnIndex, e.RowIndex] as RadioButtonCell;
 				if (cell != null && !string.IsNullOrEmpty(cell.Value as string))
 					cell.Checked = true;
 
@@ -454,10 +432,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnRemoveRow(object args)
 		{
 			if (args.GetType() == typeof(int))
@@ -473,10 +447,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnRemoveLastColumn(object args)
 		{
 			m_grid.Columns.RemoveAt(m_grid.Columns.Count - 1);
@@ -489,7 +459,7 @@ namespace SIL.Pa.UI.Controls
 			if (row >= 0 && row < m_grid.NewRowIndex)
 			{
 				// Now make sure at least one convert to item is checked
-				RadioButtonCell cell = m_grid[kFirstCnvrtToCol, row] as RadioButtonCell;
+				var cell = m_grid[kFirstCnvrtToCol, row] as RadioButtonCell;
 				if (GetRowsConvertToValue(row) == null && cell != null &&
 					!string.IsNullOrEmpty(cell.Value as string))
 				{
@@ -526,7 +496,7 @@ namespace SIL.Pa.UI.Controls
 			if (e.RowIndex >= 0)
 				return;
 
-			Rectangle rc = e.CellBounds;
+			var rc = e.CellBounds;
 
 			// This is somewhat kludgy. I encountered a problem drawing a line across the
 			// bottom of each column heading cell. In most cells it worked, but the line would
@@ -535,7 +505,7 @@ namespace SIL.Pa.UI.Controls
 			// painting. Since there isn't a problem with rectangle filling, I first fill the
 			// full cell with the line color, then decrease the height of the rectangle by
 			// one pixel and fill with the cell's desired background color. Argh!
-			using (SolidBrush br = new SolidBrush(SystemColors.ControlDark))
+			using (var br = new SolidBrush(SystemColors.ControlDark))
 			{
 				e.Graphics.FillRectangle(br, rc);
 				rc.Height--;
@@ -564,8 +534,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void m_header_Paint(object sender, PaintEventArgs e)
 		{
-			Rectangle rc = m_grid.GetColumnDisplayRectangle(kCnvrtCol, true);
-			Point pt = m_grid.PointToScreen(rc.Location);
+			var rc = m_grid.GetColumnDisplayRectangle(kCnvrtCol, true);
+			var pt = m_grid.PointToScreen(rc.Location);
 			pt = m_header.PointToClient(pt);
 			e.Graphics.DrawLine(SystemPens.ControlText,
 				pt.X - 1, 0, pt.X - 1, m_grid.Top - 1);
@@ -617,16 +587,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool IsRowEmpty(DataGridViewRow row)
 		{
-			foreach (DataGridViewCell cell in row.Cells)
-			{
-				if ((cell.ColumnIndex == 0 || cell.ColumnIndex > kCnvrtCol) &&
-					!string.IsNullOrEmpty(cell.Value as string))
-				{
-					return false;
-				}
-			}
-
-			return true;
+			return row.Cells.Cast<DataGridViewCell>().All(cell =>
+				(cell.ColumnIndex != 0 && cell.ColumnIndex <= kCnvrtCol) || string.IsNullOrEmpty(cell.Value as string));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -637,7 +599,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool IsRowFull(DataGridViewRow row)
 		{
-			DataGridViewCell lastCell = row.Cells[row.Cells.Count - 1];
+			var lastCell = row.Cells[row.Cells.Count - 1];
 			return !string.IsNullOrEmpty(lastCell.Value as string);
 		}
 
@@ -657,23 +619,17 @@ namespace SIL.Pa.UI.Controls
 				if (col < 0)
 					return false;
 
-				foreach (DataGridViewRow row in m_grid.Rows)
+				foreach (var row in m_grid.GetRows().Where(r => r.Index >= 0 && r.Index != m_grid.NewRowIndex))
 				{
-					if (row.Index >= 0 && row.Index != m_grid.NewRowIndex)
-					{
-						if (!string.IsNullOrEmpty(row.Cells[col].Value as string))
-							return false;
-					}
+					if (!string.IsNullOrEmpty(row.Cells[col].Value as string))
+						return false;
 				}
 
 				col = m_grid.Columns.Count - 1;
-				foreach (DataGridViewRow row in m_grid.Rows)
+				foreach (var row in m_grid.GetRows().Where(r => r.Index >= 0 && r.Index != m_grid.NewRowIndex))
 				{
-					if (row.Index >= 0 && row.Index != m_grid.NewRowIndex)
-					{
-						if (!string.IsNullOrEmpty(row.Cells[col].Value as string))
-							return false;
-					}
+					if (!string.IsNullOrEmpty(row.Cells[col].Value as string))
+						return false;
 				}
 
 				return true;
@@ -684,28 +640,21 @@ namespace SIL.Pa.UI.Controls
 
 		#region Method for saving changes
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void SaveChanges()
 		{
 			// Commit pending changes in the grid.
 			m_grid.EndEdit();
 
-			TranscriptionChanges transChanges = new TranscriptionChanges();
-			foreach (DataGridViewRow row in m_grid.Rows)
+			var transChanges = new TranscriptionChanges();
+			foreach (var row in m_grid.GetRows().Where(r => r.Index != m_grid.NewRowIndex))
 			{
-				if (row.Index == m_grid.NewRowIndex)
-					continue;
-
-				TranscriptionChange change = new TranscriptionChange();
+				var change = new TranscriptionChange();
 				change.WhatToReplace = (row.Cells[0].Value as string);
 
-				List<string> replacementOptions = new List<string>();
+				var replacementOptions = new List<string>();
 				for (int i = kFirstCnvrtToCol; i < m_grid.Columns.Count; i++)
 				{
-					RadioButtonCell cell = row.Cells[i] as RadioButtonCell;
+					var cell = row.Cells[i] as RadioButtonCell;
 					if (cell != null && !string.IsNullOrEmpty(cell.Value as string))
 					{
 						replacementOptions.Add(cell.Value as string);
@@ -721,8 +670,7 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			App.MsgMediator.SendMessage("BeforeTranscriptionChangesSaved", transChanges);
-			transChanges.Save(App.Project.ProjectPathFilePrefix);
-			App.IPASymbolCache.TranscriptionChanges = transChanges;
+			App.Project.SaveAndLoadTranscriptionChanges(transChanges);
 			m_grid.IsDirty = false;
 			App.MsgMediator.SendMessage("AfterTranscriptionChangesSaved", transChanges);
 		}
@@ -755,33 +703,21 @@ namespace SIL.Pa.UI.Controls
 
 	#region RadioButtonColumn class
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class RadioButtonColumn : DataGridViewColumn
 	{
-		private bool m_includeCVPattern = true;
-		private bool m_showRadioButton = true;
 		private readonly bool m_forNoConvertColumn;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public RadioButtonColumn() : base(new RadioButtonCell())
 		{
-			base.DefaultCellStyle.Font = FontHelper.PhoneticFont;
+			IncludeCVPattern = true;
+			ShowRadioButton = true;
+			base.DefaultCellStyle.Font = App.PhoneticFont;
 			Width = 110;
 			HeaderText = string.Empty;
 			base.Resizable = DataGridViewTriState.True;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public RadioButtonColumn(string name) : this()
 		{
@@ -793,16 +729,16 @@ namespace SIL.Pa.UI.Controls
 			: this()
 		{
 			Name = name;
-			m_includeCVPattern = includeCVPattern;
-			m_showRadioButton = showRadioButton;
+			IncludeCVPattern = includeCVPattern;
+			ShowRadioButton = showRadioButton;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public RadioButtonColumn(bool forNoConvertColumn) : this()
 		{
 			Name = "None";
-			m_includeCVPattern = false;
-			m_showRadioButton = true;
+			IncludeCVPattern = false;
+			ShowRadioButton = true;
 			m_forNoConvertColumn = true;
 
 			base.DefaultCellStyle.Font = FontHelper.UIFont;
@@ -810,10 +746,6 @@ namespace SIL.Pa.UI.Controls
 			base.ReadOnly = true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool ForNoConvertColumn
 		{
@@ -825,11 +757,7 @@ namespace SIL.Pa.UI.Controls
 		/// Gets or sets a value indicating whether or not to show the radio button.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool ShowRadioButton
-		{
-			get { return m_showRadioButton; }
-			set { m_showRadioButton = value; }
-		}
+		public bool ShowRadioButton { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -837,11 +765,7 @@ namespace SIL.Pa.UI.Controls
 		/// include a CV pattern.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool IncludeCVPattern
-		{
-			get { return m_includeCVPattern; }
-			set { m_includeCVPattern = value; }
-		}
+		public bool IncludeCVPattern { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -865,10 +789,6 @@ namespace SIL.Pa.UI.Controls
 
 	#region RadioButtonCell class
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class RadioButtonCell : DataGridViewTextBoxCell
 	{
 		private const int m_rbDimension = 14;
@@ -885,13 +805,13 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public RadioButtonCell()
 		{
-			if (App.Project.FieldInfo.CVPatternField != null)
-				m_fntCV = App.Project.FieldInfo.CVPatternField.Font;
+			var cvField = App.Project.GetFieldForName(PaField.kCVPatternFieldName);
 
-			m_noneText = App.LocalizeString(
-				"ExperimentalTranscriptionsDlg.DontConvertText", "None",
-				"Text in the experimental " + "transcription list of experimental transcription dialog box.",
-				App.kLocalizationGroupDialogs);
+			if (cvField != null)
+				m_fntCV = cvField.Font;
+
+			m_noneText = App.GetString("TranscriptionChangesControl.DontConvertText", "None",
+				"Text in the experimental transcription list of experimental transcription dialog box.");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -916,7 +836,7 @@ namespace SIL.Pa.UI.Controls
 				{
 					foreach (DataGridViewCell cell in DataGridView.Rows[RowIndex].Cells)
 					{
-						RadioButtonCell rbCell = cell as RadioButtonCell;
+						var rbCell = cell as RadioButtonCell;
 						if (rbCell != null && rbCell != this)
 							rbCell.m_checked = false;
 					}
@@ -953,7 +873,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				RadioButtonColumn owningCol = OwningColumn as RadioButtonColumn;
+				var owningCol = OwningColumn as RadioButtonColumn;
 				bool forNoConvertCol = (owningCol != null && owningCol.ForNoConvertColumn);
 				bool hasRadioButton = (owningCol != null && owningCol.ShowRadioButton);
 
@@ -974,7 +894,7 @@ namespace SIL.Pa.UI.Controls
 		public bool IsPointOverRadioButton(Point pt, bool relativeToCell)
 		{
 			// Get the rectangle for the radion button area.
-			Rectangle rc = DataGridView.GetCellDisplayRectangle(ColumnIndex, RowIndex, false);
+			var rc = DataGridView.GetCellDisplayRectangle(ColumnIndex, RowIndex, false);
 			Rectangle rcrb;
 			Rectangle rcText;
 			Rectangle rcCVPattern;
@@ -1015,10 +935,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseMove(DataGridViewCellMouseEventArgs e)
 		{
 			base.OnMouseMove(e);
@@ -1038,10 +954,6 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseClick(DataGridViewCellMouseEventArgs e)
 		{
@@ -1071,7 +983,7 @@ namespace SIL.Pa.UI.Controls
 			DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts parts)
 		{
 			// Determine whether or not this cell belongs to the "None" column.
-			RadioButtonColumn owningCol = OwningColumn as RadioButtonColumn;
+			var owningCol = OwningColumn as RadioButtonColumn;
 			bool forNoConvertCol = (owningCol != null && owningCol.ForNoConvertColumn);
 			if (forNoConvertCol)
 			{
@@ -1153,17 +1065,16 @@ namespace SIL.Pa.UI.Controls
 			if (!ShowRadioButton)
 				return;
 
-			VisualStyleElement element = GetVisualStyleRadioButton();
+			var element = GetVisualStyleRadioButton();
 
 			if (PaintingHelper.CanPaintVisualStyle(element))
 			{
-				VisualStyleRenderer renderer = new VisualStyleRenderer(element);
+				var renderer = new VisualStyleRenderer(element);
 				renderer.DrawBackground(g, rcrb);
 			}
 			else
 			{
-				ButtonState buttonState = ButtonState.Flat |
-					(m_checked ? ButtonState.Checked : ButtonState.Normal);
+				var buttonState = ButtonState.Flat | (m_checked ? ButtonState.Checked : ButtonState.Normal);
 
 				if (m_enabled)
 					buttonState |= ButtonState.Inactive;
@@ -1255,7 +1166,7 @@ namespace SIL.Pa.UI.Controls
 
 			foreach (DataGridViewRow row in DataGridView.Rows)
 			{
-				RadioButtonCell cell = row.Cells[ColumnIndex] as RadioButtonCell;
+				var cell = row.Cells[ColumnIndex] as RadioButtonCell;
 				if (cell != null)
 				{
 					Size sz = TextRenderer.MeasureText(g, cell.CVPattern,
@@ -1283,7 +1194,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				RadioButtonColumn owingCol = OwningColumn as RadioButtonColumn;
+				var owingCol = OwningColumn as RadioButtonColumn;
 				return (owingCol != null && owingCol.ShowRadioButton);
 			}
 		}
@@ -1298,7 +1209,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				RadioButtonColumn owingCol = OwningColumn as RadioButtonColumn;
+				var owingCol = OwningColumn as RadioButtonColumn;
 				return (owingCol != null && owingCol.IncludeCVPattern);
 			}
 		}
@@ -1318,7 +1229,7 @@ namespace SIL.Pa.UI.Controls
 				//bool isCellForItemToConvert = (owningCol != null && !owningCol.ShowRadioButton);
 				
 				return (!ShowCVPattern || string.IsNullOrEmpty(Value as string) ? string.Empty :
-					App.PhoneCache.GetCVPattern(Value as string, false));
+					App.Project.PhoneCache.GetCVPattern(Value as string, false));
 			}
 		}
 	}

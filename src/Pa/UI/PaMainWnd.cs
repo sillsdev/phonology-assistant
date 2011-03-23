@@ -1,19 +1,3 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2005, SIL International. All Rights Reserved.   
-// <copyright from='2005' to='2005' company='SIL International'>
-//		Copyright (c) 2005, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
-// 
-// File: PaMainWnd.cs
-// Responsibility: DavidO
-// 
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -24,7 +8,6 @@ using Localization.UI;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
-using SIL.Pa.Filters;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Views;
 using SilTools;
@@ -40,11 +23,15 @@ namespace SIL.Pa.UI
 	public partial class PaMainWnd : Form, IxCoreColleague
 	{
 		private ITMAdapter m_tmAdapter;
+		private readonly bool m_doNotLoadLastProject;
+
+		private PaProject m_project;
 
 		#region Construction and Setup
 		/// ------------------------------------------------------------------------------------
 		public PaMainWnd()
 		{
+			m_doNotLoadLastProject = ((ModifierKeys & Keys.Shift) == Keys.Shift);
 			InitializeComponent();
 			Settings.Default.MainWindow = App.InitializeForm(this, Settings.Default.MainWindow);
 		}
@@ -56,28 +43,31 @@ namespace SIL.Pa.UI
 				App.ShowSplashScreen();
 
 			sblblMain.Text = string.Empty;
+
+			sblblProgress.Font = FontHelper.MakeFont(FontHelper.UIFont, 9, FontStyle.Bold);
+			sblblPercent.Font = sblblProgress.Font;
 			App.MainForm = this;
 			App.StatusBarLabel = sblblMain;
 			App.ProgressBar = sbProgress;
 			App.ProgressBarLabel = sblblProgress;
+			App.PercentLabel = sblblPercent;
 			App.AddMediatorColleague(this);
 			sbProgress.Visible = false;
 			sblblProgress.Visible = false;
+			sblblPercent.Visible = false;
 			sblblFilter.Text = string.Empty;
 			sblblFilter.Visible = false;
-			sblblFilter.Paint += FilterHelper.HandleFilterStatusStripLabelPaint;
+			sblblFilter.Paint += HandleFilterStatusStripLabelPaint;
 
-			vwTabGroup.CaptionPanel.ColorTop = Settings.Default.GradientPanelTopColor;
-			vwTabGroup.CaptionPanel.ColorBottom = Settings.Default.GradientPanelBottomColor;
-			vwTabGroup.CaptionPanel.ForeColor = Settings.Default.GradientPanelTextColor;
+			if (!Settings.Default.UseSystemColors)
+			{
+				vwTabGroup.CaptionPanel.ColorTop = Settings.Default.GradientPanelTopColor;
+				vwTabGroup.CaptionPanel.ColorBottom = Settings.Default.GradientPanelBottomColor;
+				vwTabGroup.CaptionPanel.ForeColor = Settings.Default.GradientPanelTextColor;
+			}
 
 			base.MinimumSize = App.MinimumViewWindowSize;
 			LoadToolbarsAndMenus();
-
-			// If the user knows enough to add an entry to the settings file to
-			// override the default UI font, then read it and use it.
-			if (Settings.Default.UIFont != null)
-				FontHelper.UIFont = Settings.Default.UIFont;
 
 			Show();
 
@@ -90,20 +80,18 @@ namespace SIL.Pa.UI
 			var tph = new TrainingProjectsHelper();
 			tph.Setup();
 
-			LocalizeItemDlg.StringsLocalized += (() => SetWindowText(App.Project));
-			SetWindowText(App.Project);
+			LocalizeItemDlg.StringsLocalized += delegate { SetWindowText(m_project); };
+			SetWindowText(m_project);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void SetWindowText(PaProject project)
 		{
 			if (project == null || string.IsNullOrEmpty(project.Name))
-				Text = App.GetString(this);
+				Text = App.GetStringForObject(this);
 			else
 			{
-				var fmt = App.LocalizeString("WindowTitleWithProject",
-					"{0} - Phonology Assistant", "Main Window");
-				
+				var fmt = App.GetString("PaMainWnd.WindowTitleWithProject","{0} - Phonology Assistant");
 				Text = string.Format(fmt, project.Name);
 			}
 		}
@@ -124,15 +112,15 @@ namespace SIL.Pa.UI
 
 			if (projArg != null)
 				LoadProject(projArg.Substring(3));
-			else
+			else if (!m_doNotLoadLastProject)
 				LoadProject(Settings.Default.LastProjectLoaded);
 
 			App.CloseSplashScreen();
 
-			if (App.Project != null)
+			if (m_project != null)
 			{
-				OnDataSourcesModified(App.Project.Name);
-				OnFilterChanged(FilterHelper.CurrentFilter);
+				OnDataSourcesModified(m_project);
+				OnFilterChanged(m_project.CurrentFilter);
 			}
 
 			App.MsgMediator.SendMessage("MainViewOpened", this);
@@ -145,7 +133,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		private void EnableOptionsMenus(bool enable)
 		{
-			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("mnuOptionsMain");
+			var itemProps = m_tmAdapter.GetItemProperties("mnuOptionsMain");
 			if (itemProps != null)
 			{
 				itemProps.Visible = true;
@@ -162,7 +150,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		public void EnableUndockMenu(bool enable)
 		{
-			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("mnuUnDockView");
+			var itemProps = m_tmAdapter.GetItemProperties("mnuUnDockView");
 			if (itemProps != null)
 			{
 				itemProps.Visible = true;
@@ -173,19 +161,15 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void LoadProject(string projectFileName)
 		{
 			if (string.IsNullOrEmpty(projectFileName))
 				return;
 
-			if (App.Project != null)
+			if (m_project != null)
 			{
-				App.Project.EnsureSortOptionsSaved();
-				App.Project.Save();
+				m_project.EnsureSortOptionsSaved();
+				m_project.Save();
 			}
 
 			App.ProjectLoadInProcess = true;
@@ -196,10 +180,10 @@ namespace SIL.Pa.UI
 			{
 				vwTabGroup.CloseAllViews();
 
-				if (App.Project != null)
-					App.Project.Dispose();
+				if (m_project != null)
+					m_project.Dispose();
 
-				App.Project = project;
+				App.Project = m_project = project;
 				Settings.Default.LastProjectLoaded = projectFileName;
 
 				SetWindowText(project);
@@ -224,7 +208,7 @@ namespace SIL.Pa.UI
 
 				App.AddProjectToRecentlyUsedProjectsList(projectFileName);
 
-				OnFilterChanged(FilterHelper.CurrentFilter);
+				OnFilterChanged(m_project.CurrentFilter);
 				EnableOptionsMenus(true);
 				EnableUndockMenu(true);
 			}
@@ -252,55 +236,41 @@ namespace SIL.Pa.UI
 			var itemProps = m_tmAdapter.GetItemProperties("mnuDataCorpus");
 			var img = (itemProps == null ? null : itemProps.Image);
 			var text = (itemProps == null ? "Error!" : itemProps.Text);
-			var tooltip = App.LocalizeString("DataCorpusViewTabToolTip",
-				"Data Corpus View (Ctrl+Alt+D)", "Main Window");
-			var helptooltip = App.LocalizeString("DataCorpusViewHelpButtonToolTip",
-				"Data Corpus View Help", "Main Window");
+			var tooltip = App.GetString("PaMainWnd.DataCorpusViewTabToolTip", "Data Corpus View (Ctrl+Alt+D)");
+			var helptooltip = App.GetString("PaMainWnd.DataCorpusViewHelpButtonToolTip", "Data Corpus View Help");
 			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidDataCorpusView", img, typeof(DataCorpusVw));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuFindPhones");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tooltip = App.LocalizeString("SearchViewTabToolTip",
-				"Search View (Ctrl+Alt+S)", "Main Window");
-			helptooltip = App.LocalizeString("SearchViewHelpButtonToolTip",
-				"Search View Help", "Main Window");
+			tooltip = App.GetString("PaMainWnd.SearchViewTabToolTip", "Search View (Ctrl+Alt+S)");
+			helptooltip = App.GetString("PaMainWnd.SearchViewHelpButtonToolTip", "Search View Help");
 			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidSearchView", img, typeof(SearchVw));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuConsonantChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tooltip = App.LocalizeString("ConsonantChartViewTabToolTip",
-				"Consonant Chart View (Ctrl+Alt+C)", "Main Window");
-			helptooltip = App.LocalizeString("ConsonantChartViewHelpButtonToolTip",
-				"Consonant Chart View Help", "Main Window");
+			tooltip = App.GetString("PaMainWnd.ConsonantChartViewTabToolTip", "Consonant Chart View (Ctrl+Alt+C)");
+			helptooltip = App.GetString("PaMainWnd.ConsonantChartViewHelpButtonToolTip", "Consonant Chart View Help");
 			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidConsonantChartView", img, typeof(ConsonantChartVw));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuVowelChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tooltip = App.LocalizeString("VowelChartViewTabToolTip",
-				"Vowel Chart View (Ctrl+Alt+V)", "Main Window");
-			helptooltip = App.LocalizeString("VowelChartViewHelpButtonToolTip",
-				"Vowel Chart View Help", "Main Window");
+			tooltip = App.GetString("PaMainWnd.VowelChartViewTabToolTip", "Vowel Chart View (Ctrl+Alt+V)");
+			helptooltip = App.GetString("PaMainWnd.VowelChartViewHelpButtonToolTip", "Vowel Chart View Help");
 			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidVowelChartView", img, typeof(VowelChartVw));
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuXYChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tooltip = App.LocalizeString("DistributionChartViewTabToolTip",
-				"Distribution Charts View (Ctrl+Alt+X)", locExtender.LocalizationGroup);
-			helptooltip = App.LocalizeString("DistributionChartViewHelpButtonToolTip",
-				"Distribution Charts View Help", "Main Window");
+			tooltip = App.GetString("PaMainWnd.DistributionChartViewTabToolTip", "Distribution Charts View (Ctrl+Alt+X)");
+			helptooltip = App.GetString("PaMainWnd.DistributionChartViewHelpButtonToolTip", "Distribution Charts View Help");
 			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidXYChartsView", img, typeof(DistributionChartVw));
 			
 			vwTabGroup.Visible = true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void LoadToolbarsAndMenus()
 		{
@@ -308,7 +278,7 @@ namespace SIL.Pa.UI
 			App.TMAdapter = m_tmAdapter;
 
 			// This item is only visible for the main PA window (i.e. this one).
-			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("mnuUnDockView");
+			var itemProps = m_tmAdapter.GetItemProperties("mnuUnDockView");
 			if (itemProps != null)
 			{
 				itemProps.Visible = true;
@@ -341,10 +311,6 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnClosed(EventArgs e)
 		{
 			Settings.Default.Save();
@@ -352,13 +318,8 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnClosing(CancelEventArgs e)
 		{
-
 			// Closing isn't allowed in the middle of loading a project.
 			if (App.ProjectLoadInProcess)
 			{
@@ -372,8 +333,10 @@ namespace SIL.Pa.UI
 				return;
 			}
 
-			if (App.Project != null)
-				App.Project.EnsureSortOptionsSaved();
+			App.MsgMediator.SendMessage("StopAllPlayback", null);
+
+			if (m_project != null)
+				m_project.EnsureSortOptionsSaved();
 
 			if (vwTabGroup.CurrentTab != null)
 				Settings.Default.LastViewShowing = vwTabGroup.CurrentTab.ViewType.ToString();
@@ -400,24 +363,24 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
-			if (App.Project != null)
+			if (m_project != null)
 			{
 				base.OnPaintBackground(e);
 				return;
 			}
 
-			Color clr1 = ColorHelper.CalculateColor(Color.White,
+			var clr1 = ColorHelper.CalculateColor(Color.White,
 				SystemColors.AppWorkspace, 200);
 
-			using (LinearGradientBrush br = new LinearGradientBrush(ClientRectangle,
+			using (var br = new LinearGradientBrush(ClientRectangle,
 				clr1, SystemColors.AppWorkspace, 45))
 			{
 				e.Graphics.FillRectangle(br, ClientRectangle);
 			}
 
 			// Draw the PA logo at the bottom right corner of the application workspace.
-			Image img = Properties.Resources.kimidPaLogo;
-			Rectangle rc = new Rectangle(0, 0, img.Width, img.Height);
+			var img = Properties.Resources.kimidPaLogo;
+			var rc = new Rectangle(0, 0, img.Width, img.Height);
 			rc.X = ClientRectangle.Right - img.Width - 20;
 			rc.Y = ClientRectangle.Bottom - img.Height - 20 - statusStrip.Height;
 			e.Graphics.DrawImageUnscaledAndClipped(img, rc);
@@ -433,10 +396,8 @@ namespace SIL.Pa.UI
 		{
 			base.OnResize(e);
 
-			if (App.Project == null)
+			if (m_project == null)
 				Invalidate();
-
-			sblblFilter.Width = Math.Max(175, statusStrip.Width / 3);
 		}
 
 		#endregion
@@ -463,7 +424,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnPlaybackBeginning(object args)
 		{
-			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("mnuStopPlayback");
+			var itemProps = m_tmAdapter.GetItemProperties("mnuStopPlayback");
 			if (itemProps != null)
 			{
 				itemProps.Visible = true;
@@ -485,7 +446,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnPlaybackEnded(object args)
 		{
-			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("mnuStopPlayback");
+			var itemProps = m_tmAdapter.GetItemProperties("mnuStopPlayback");
 			if (itemProps != null)
 			{
 				itemProps.Visible = true;
@@ -498,5 +459,62 @@ namespace SIL.Pa.UI
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleProgressLabelVisibleChanged(object sender, EventArgs e)
+		{
+			sblblMain.BorderSides = (sblblProgress.Visible ?
+				ToolStripStatusLabelBorderSides.Right : ToolStripStatusLabelBorderSides.None);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleFilterStatusStripLabelPaint(object sender, PaintEventArgs e)
+		{
+			if (m_project != null && m_project.CurrentFilter != null)
+			{
+				PaintFilterStatusStripLabel(sender as ToolStripStatusLabel,
+					m_project.CurrentFilter.Name, e);
+			}
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		public static void PaintFilterStatusStripLabel(ToolStripStatusLabel lbl, string filterName,
+			PaintEventArgs e)
+		{
+			if (lbl == null || !lbl.Visible || filterName == null)
+				return;
+
+			var rc = lbl.ContentRectangle;
+
+			// Fill in shaded background
+			using (var br = new LinearGradientBrush(rc,
+				Color.Gold, Color.Khaki, LinearGradientMode.Horizontal))
+			{
+				e.Graphics.FillRectangle(br, rc);
+			}
+
+			// Draw side borders
+			using (Pen pen = new Pen(Color.Goldenrod))
+			{
+				e.Graphics.DrawLine(pen, 0, 0, 0, rc.Height);
+				e.Graphics.DrawLine(pen, rc.Width - 1, 0, rc.Width - 1, rc.Height);
+			}
+
+			// Draw little filter image
+			var img = Properties.Resources.kimidFilterSmall;
+			rc = lbl.ContentRectangle;
+			var rcImage = new Rectangle(0, 0, img.Width, img.Height);
+			rcImage.X = rc.X + 10;
+			rcImage.Y = rc.Y + (int)(Math.Ceiling(((decimal)rc.Height - rcImage.Height) / 2));
+			e.Graphics.DrawImageUnscaledAndClipped(img, rcImage);
+
+			// Draw text
+			rc.X = rcImage.Right + 3;
+			rc.Width -= rc.X;
+			const TextFormatFlags flags = TextFormatFlags.EndEllipsis |
+				TextFormatFlags.SingleLine | TextFormatFlags.VerticalCenter;
+
+			TextRenderer.DrawText(e.Graphics, filterName, lbl.Font, rc, Color.Black, flags);
+		}
 	}
 }

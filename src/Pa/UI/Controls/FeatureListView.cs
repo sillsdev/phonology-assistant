@@ -7,8 +7,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SIL.Pa.Model;
-using SIL.FieldWorks.Common.UIAdapters;
 using SilTools;
+using SilTools.Controls;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -41,20 +41,12 @@ namespace SIL.Pa.UI.Controls
 		private readonly ToolTip m_tooltip;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public FeatureListView(App.FeatureType featureType, CustomDropDown hostingDropDown)
 			: this(featureType)
 		{
 			m_hostingDropDown = hostingDropDown;
 		}
 		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public FeatureListView(App.FeatureType featureType)
 		{
@@ -235,10 +227,6 @@ namespace SIL.Pa.UI.Controls
 				m_hostingDropDown.Close();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnAfterLabelEdit(LabelEditEventArgs e)
 		{

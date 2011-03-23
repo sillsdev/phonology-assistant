@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
@@ -95,10 +96,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		#region IDisposable Members
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
@@ -318,10 +315,10 @@ namespace SIL.Pa.UI.Controls
 
 				if (grid.IsGroupedByField)
 					grid.GroupByField = null;
-				else if (grid.SortOptions.SortInformationList != null &&
-					grid.SortOptions.SortInformationList.Count > 0)
+				else if (grid.SortOptions.SortFields != null &&
+					grid.SortOptions.SortFields.Count > 0)
 				{
-					grid.GroupByField = grid.SortOptions.SortInformationList[0].FieldInfo;
+					grid.GroupByField = grid.SortOptions.SortFields[0].Field;
 
 					if (Settings.Default.WordListCollapseOnGrouping)
 						grid.ToggleGroupExpansion(false);
@@ -1104,7 +1101,7 @@ namespace SIL.Pa.UI.Controls
 		/// Once the tab is created, it's selected.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void CreateTab(SearchResultLocation resultLocation)
+		public void CreateTab(SearchResultLocation resultLocation)
 		{
 			CreateTab(resultLocation, null);
 		}
@@ -1126,13 +1123,14 @@ namespace SIL.Pa.UI.Controls
 				resultLocation == SearchResultLocation.CurrentTab)
 			{
 				tab = m_currTabGroup.CurrentTab;
-				if (tab != null && resultView != null)
+				if (resultView != null)
 				{
 					tab.Text = null;
 					m_currTabGroup.InitializeTab(tab, resultView, true);
 				}
 
 				m_resultsPanel.ResumeLayout(true);
+
 				// Must Select the Tab, so the Current Playback Grid for the tab is set to true.
 				// This will ensure the sound file Playback will always work.
 				m_currTabGroup.SelectTab(tab, true);
@@ -1301,13 +1299,9 @@ namespace SIL.Pa.UI.Controls
 
 		#region Phonetic Sort methods
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownSearchResultPhoneticSort(object args)
 		{
-			ToolBarPopupInfo itemProps = args as ToolBarPopupInfo;
+			var itemProps = args as ToolBarPopupInfo;
 			if (!m_view.ActiveView || CurrentViewsGrid == null || itemProps == null)
 				return false;
 
@@ -1319,10 +1313,6 @@ namespace SIL.Pa.UI.Controls
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownClosedSearchResultPhoneticSort(object args)
 		{
@@ -1526,7 +1516,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public string HTMLExport()
 		{
-			var fmt = App.LocalizeString("DefaultSearchResultHtmlExportFileAffix",
+			var fmt = App.GetString("DefaultSearchResultHtmlExportFileAffix",
 				"{0}-{1}SearchResults.html", "Export");
 
 			return Export(fmt, App.kstidFileTypeHTML, "html",
@@ -1541,7 +1531,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public string WordXmlExport()
 		{
-			var fmt = App.LocalizeString("DefaultSearchResultWordXmlExportFileAffix",
+			var fmt = App.GetString("DefaultSearchResultWordXmlExportFileAffix",
 				"{0}-{1}SearchResults-(Word).xml", "Export");
 
 			return Export(fmt, App.kstidFileTypeWordXml, "xml",
@@ -1556,7 +1546,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public string XLingPaperExport()
 		{
-			var fmt = App.LocalizeString("DefaultSearchResultXLingPaperExportFileAffix",
+			var fmt = App.GetString("DefaultSearchResultXLingPaperExportFileAffix",
 				"{0}-{1}SearchResults-(XLingPaper).xml", "Export");
 
 			return Export(fmt, App.kstidFileTypeXLingPaper, "xml",
@@ -1579,14 +1569,8 @@ namespace SIL.Pa.UI.Controls
 			// The query name may just be the pattern and in that case, we won't use it as
 			// part of the default output file name. But if all characters in the name
 			// are valid, then it will be used as part of the default file name.
-			foreach (char invalidChar in Path.GetInvalidFileNameChars())
-			{
-				if (queryName.Contains(invalidChar.ToString()))
-				{
-					queryName = string.Empty;
-					break;
-				}
-			}
+			if (Path.GetInvalidFileNameChars().Any(invalidChar => queryName.Contains(invalidChar.ToString())))
+				queryName = string.Empty;
 
 			var defaultFileName = string.Format(fmtFileName, App.Project.LanguageName, queryName);
 

@@ -10,16 +10,12 @@ namespace SIL.Pa.Filters
 {
 	#region FilterExpression class
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	[XmlType("expression")]
 	public class FilterExpression
 	{
-		public static string OtherFilterField = App.LocalizeString(
-			"FiltersDlg.FilterExpressionOperators.OtherFilter", "(OTHER FILTER)",
-			"Displayed in the filters dialog.", App.kLocalizationGroupDialogs);
+		public static string OtherFilterField = App.GetString(
+			"FilterExpressionOperators.OtherFilter", "(OTHER FILTER)",
+			"Displayed in the filters dialog.");
 
 		private Filter.ExpressionType m_expTypep = Filter.ExpressionType.Normal;
 		private string m_pattern;
@@ -31,23 +27,15 @@ namespace SIL.Pa.Filters
 		private SearchQuery m_searchQuery;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public FilterExpression()
 		{
 			Operator = Filter.Operator.Equals;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public FilterExpression Clone()
 		{
-			FilterExpression clone = new FilterExpression();
+			var clone = new FilterExpression();
 			clone.FieldName = FieldName;
 			clone.Pattern = Pattern;
 			clone.Operator = Operator;
@@ -61,17 +49,9 @@ namespace SIL.Pa.Filters
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlElement("fieldName")]
 		public string FieldName { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlElement("operator")]
 		public Filter.Operator Operator { get; set; }
@@ -95,10 +75,6 @@ namespace SIL.Pa.Filters
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlElement("expressionType")]
 		public Filter.ExpressionType ExpressionType
 		{
@@ -112,25 +88,13 @@ namespace SIL.Pa.Filters
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlElement("searchQuery")]
 		public SearchQuery SearchQuery { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public SearchEngine SearchEngine { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool Matches(WordCacheEntry entry)
 		{
@@ -144,12 +108,12 @@ namespace SIL.Pa.Filters
 
 			if (!m_fieldTypeDetermined)
 			{
-				PaFieldInfo fieldInfo = App.FieldInfo[FieldName];
-				if (fieldInfo != null)
+				var field = entry.Project.GetFieldForName(FieldName);
+				if (field != null)
 				{
-					m_fieldIsDate = fieldInfo.IsDate;
-					m_fieldIsNumeric = fieldInfo.IsNumeric ||
-						fieldInfo.IsAudioLength || fieldInfo.IsAudioOffset;
+					m_fieldIsDate = (field.Type == FieldType.Date);
+					m_fieldIsNumeric = (field.Type == FieldType.GeneralNumeric ||
+						field.Type == FieldType.AudioLength || field.Type == FieldType.AudioOffset);
 					m_fieldTypeDetermined = true;
 				}
 			}
@@ -193,15 +157,11 @@ namespace SIL.Pa.Filters
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private bool MatchesFilter(WordCacheEntry entry)
 		{
-			if (FilterHelper.Filters != null)
+			if (entry.Project.FilterHelper.Filters != null)
 			{
-				var filter = FilterHelper.GetFilter(m_pattern);
+				var filter = entry.Project.FilterHelper.GetFilter(m_pattern);
 				if (filter != null)
 					return filter.Matches(entry);
 			}
@@ -209,10 +169,6 @@ namespace SIL.Pa.Filters
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private bool MatchesNumeric(string entryValue)
 		{
@@ -245,10 +201,6 @@ namespace SIL.Pa.Filters
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private bool MatchesDate(string entryValue)
 		{
 			DateTime date1, date2;
@@ -279,10 +231,6 @@ namespace SIL.Pa.Filters
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool MatchesSearchPattern(WordCacheEntry entry)
 		{
@@ -335,10 +283,6 @@ namespace SIL.Pa.Filters
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{

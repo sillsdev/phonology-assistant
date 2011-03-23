@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using SIL.Pa.Model;
 
@@ -56,10 +57,6 @@ namespace SIL.Pa.PhoneticSearching
 		private readonly List<string> m_errors = new List<string>();
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		static SearchEngine()
 		{
 			IgnoredPhones = new List<string>();
@@ -67,10 +64,6 @@ namespace SIL.Pa.PhoneticSearching
 			IgnoreDiacritics = true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SearchEngine(SearchQuery query, Dictionary<string, IPhoneInfo> phoneCache)
 			: this(query.Pattern)
@@ -83,10 +76,6 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public SearchEngine(SearchQuery query) : this(query.Pattern)
 		{
 			CurrentSearchQuery = query;
@@ -95,10 +84,6 @@ namespace SIL.Pa.PhoneticSearching
 				query.ErrorMessages.AddRange(m_errors);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SearchEngine(string pattern)
 		{
@@ -257,7 +242,7 @@ namespace SIL.Pa.PhoneticSearching
 				errors.Append(separateErrorsWithLineBreaks ? Environment.NewLine : " ");
 			}
 
-			var fmt = App.LocalizeString("PatternParsingErrorMsg",
+			var fmt = App.GetString("PatternParsingErrorMsg",
 				"The following error(s) occurred when parsing the search pattern:\n\n{0}",
 				"Search Query Messages");
 
@@ -285,7 +270,7 @@ namespace SIL.Pa.PhoneticSearching
 
 			if (ptrnGrp.Members == null || ptrnGrp.Members.Count == 0)
 			{
-				var fmt = App.LocalizeString("ParsedToNothingErrorMsg",
+				var fmt = App.GetString("ParsedToNothingErrorMsg",
 					"Error parsing the {0}.", "Search Query Messages");
 
 				m_errors.Add(string.Format(fmt, envType));
@@ -326,7 +311,7 @@ namespace SIL.Pa.PhoneticSearching
 				// are not base characters are only one codepoint in length.
 				foreach (string ignoredItem in value.CompleteIgnoredList)
 				{
-					IPASymbol charInfo = App.IPASymbolCache[ignoredItem];
+					var charInfo = App.IPASymbolCache[ignoredItem];
 					if (charInfo != null)
 					{
 						if (charInfo.IsBase)
@@ -350,10 +335,9 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			if (App.IPASymbolCache.UndefinedCharacters != null && IgnoredPhones != null)
 			{
-				foreach (UndefinedPhoneticCharactersInfo upci in App.IPASymbolCache.UndefinedCharacters)
+				foreach (var upci in App.IPASymbolCache.UndefinedCharacters.Where(upci => !IgnoredPhones.Contains(upci.Character.ToString())))
 				{
-					if (!IgnoredPhones.Contains(upci.Character.ToString()))
-						IgnoredPhones.Add(upci.Character.ToString());
+					IgnoredPhones.Add(upci.Character.ToString());
 				}
 			}
 		}
@@ -367,7 +351,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			if (App.IPASymbolCache.UndefinedCharacters != null && IgnoredPhones != null)
 			{
-				foreach (UndefinedPhoneticCharactersInfo upci in App.IPASymbolCache.UndefinedCharacters)
+				foreach (var upci in App.IPASymbolCache.UndefinedCharacters)
 				{
 					if (IgnoredPhones.Contains(upci.Character.ToString()))
 						IgnoredPhones.Remove(upci.Character.ToString());
@@ -375,10 +359,6 @@ namespace SIL.Pa.PhoneticSearching
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static List<char> IgnoredChars { get; private set; }
 
@@ -396,10 +376,6 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public static bool IgnoreDiacritics { get; private set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static bool IgnoreUndefinedCharacters
 		{
@@ -460,46 +436,34 @@ namespace SIL.Pa.PhoneticSearching
 			bldrPhones.Append(GetPhonesFromMember(m_envAfter));
 
 			return (bldrPhones.Length == 0 ? null :
-				App.IPASymbolCache.PhoneticParser(bldrPhones.ToString(), true,
+				App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true,
 				ConvertPatternWithTranscriptionChanges));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string[] GetPhonesInSearchItem()
 		{
 			var bldrPhones = new StringBuilder(GetPhonesFromMember(m_srchItem));
 			return (bldrPhones.Length == 0 ? null :
-				App.IPASymbolCache.PhoneticParser(bldrPhones.ToString(), true,
+				App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true,
 				ConvertPatternWithTranscriptionChanges));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string[] GetPhonesInPrecedingEnv()
 		{
 			var bldrPhones = new StringBuilder(GetPhonesFromMember(m_envBefore));
 			return (bldrPhones.Length == 0 ? null :
-				App.IPASymbolCache.PhoneticParser(bldrPhones.ToString(), true,
+				App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true,
 				ConvertPatternWithTranscriptionChanges));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string[] GetPhonesInFollowingEnv()
 		{
 			var bldrPhones = new StringBuilder(GetPhonesFromMember(m_envAfter));
 			return (bldrPhones.Length == 0 ? null :
-				App.IPASymbolCache.PhoneticParser(bldrPhones.ToString(), true,
+				App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true,
 				ConvertPatternWithTranscriptionChanges));
 		}
 		
@@ -782,7 +746,7 @@ namespace SIL.Pa.PhoneticSearching
 
 			foreach (char c in phone)
 			{
-				IPASymbol charInfo = App.IPASymbolCache[c];
+				var charInfo = App.IPASymbolCache[c];
 
 				// This should never be null.
 				if (charInfo == null || charInfo.IsUndefined)
@@ -828,7 +792,7 @@ namespace SIL.Pa.PhoneticSearching
 				return false;
 
 			m_matchIndex = 0;
-			return SearchWord(App.IPASymbolCache.PhoneticParser(phonetic, true), out result);
+			return SearchWord(App.Project.PhoneticParser.Parse(phonetic, true), out result);
 		}
 
 		/// ------------------------------------------------------------------------------------

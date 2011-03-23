@@ -37,7 +37,7 @@ namespace SIL.Pa.UI.Controls
 		/// Default constructor for a ClassListViewItem
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ClassListViewItem() : base(App.LocalizeString("DefaultNewClassName", "New Class"))
+		public ClassListViewItem() : base(App.GetString("DefaultNewClassName", "New Class"))
 		{
 		}
 
@@ -140,7 +140,7 @@ namespace SIL.Pa.UI.Controls
 			get
 			{
 				return (ClassType == SearchClassType.Phones ?
-					FontHelper.PhoneticFont : FontHelper.UIFont);
+					App.PhoneticFont : FontHelper.UIFont);
 			}
 		}
 
@@ -181,19 +181,16 @@ namespace SIL.Pa.UI.Controls
 				switch (ClassType)
 				{
 					case SearchClassType.Phones:
-						return App.LocalizeString("PhonesClassTypeLabel",
-							"Phones", "Label on the define classes dialog box indicating class type",
-							App.kLocalizationGroupMisc);
+						return App.GetString("PhonesClassTypeLabel",
+							"Phones", "Label on the define classes dialog box indicating class type");
 
 					case SearchClassType.Articulatory:
-						return App.LocalizeString("ArticulatoryFeaturesClassTypeLabel",
-							"Articulatory features", "Articulatory features class type label.",
-							App.kLocalizationGroupMisc);
+						return App.GetString("ArticulatoryFeaturesClassTypeLabel",
+							"Articulatory features", "Articulatory features class type label.");
 
 					case SearchClassType.Binary:
-						return App.LocalizeString("BinaryFeaturesClassTypeLabel",
-							"Binary features", "Binary features class type label.",
-							App.kLocalizationGroupMisc);
+						return App.GetString("BinaryFeaturesClassTypeLabel",
+							"Binary features", "Binary features class type label.");
 				
 					default:
 						return null;
@@ -233,7 +230,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				SearchClass srchClass = new SearchClass();
 				srchClass.Name = (Text == null ? string.Empty : Text.Trim());
-				srchClass.SearchClassType = ClassType;
+				srchClass.Type = ClassType;
 				srchClass.Pattern = Pattern;
 				return srchClass;
 			}
@@ -432,7 +429,7 @@ namespace SIL.Pa.UI.Controls
 				if (i == 1 && ClassType == SearchClassType.Phones)
 				{
 					fnt = (ListView is ClassListView ?
-						((ClassListView)ListView).PhoneticFont : FontHelper.PhoneticFont);
+						((ClassListView)ListView).PhoneticFont : App.PhoneticFont);
 				}
 
 				TextRenderer.DrawText(e.Graphics, SubItems[i].Text, fnt, rc, clrFore, flags);
@@ -457,7 +454,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			ClassListViewItem item = new ClassListViewItem(srchClass.Name);
 			item.Name = kClassNameSubitem;
-			item.ClassType = srchClass.SearchClassType;
+			item.ClassType = srchClass.Type;
 
 			if (addMembersAndClassTypeColumns)
 			{
@@ -468,12 +465,12 @@ namespace SIL.Pa.UI.Controls
 			item.ANDFeatures = (string.IsNullOrEmpty(srchClass.Pattern) ||
 				srchClass.Pattern[0] == '[');
 
-			if (srchClass.SearchClassType == SearchClassType.Articulatory)
+			if (srchClass.Type == SearchClassType.Articulatory)
 			{
 				item.Mask = App.AFeatureCache.GetEmptyMask();
 				GetMasksFromPattern(item, srchClass.Pattern);
 			}
-			else if (srchClass.SearchClassType == SearchClassType.Binary)
+			else if (srchClass.Type == SearchClassType.Binary)
 			{
 				item.Mask = App.BFeatureCache.GetEmptyMask();
 				GetMasksFromPattern(item, srchClass.Pattern);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.IO;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using System.Diagnostics;
 using System.Xml;
@@ -98,7 +99,7 @@ namespace SilTools
 				{
 					if (m_fKeepWhitespaceInElements && 
 						(base.NodeType == XmlNodeType.Whitespace || base.NodeType == XmlNodeType.SignificantWhitespace) && 
-						Value != null && Value.IndexOf('\n') < 0 && Value.Trim().Length == 0)
+						Value.IndexOf('\n') < 0 && Value.Trim().Length == 0)
 					{
 						// We found some whitespace that was most
 						// likely whitespace we want to keep.
@@ -186,19 +187,11 @@ namespace SilTools
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static bool SerializeToFile<T>(string filename, T data)
 		{
 			return SerializeToFile(filename, data, null);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static bool SerializeToFile<T>(string filename, T data, out Exception e)
 		{
@@ -246,13 +239,17 @@ namespace SilTools
 
 					serializer.Serialize(writer, data, nameSpace);
 					writer.Close();
-					return true;
 				}
+
+				//var xe = XElement.Load(filename);
+				//xe.SetAttributeValue("version", "2.0");
+				//xe.Save(filename);
+				return true;
 			}
 			catch (Exception ex)
 			{
-				Debug.Fail(e.Message);
 				e = ex;
+				Debug.Fail(ex.Message);
 			}
 
 			return false;

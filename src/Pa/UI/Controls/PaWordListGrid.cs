@@ -2,14 +2,15 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using Microsoft.Win32;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.DataSource;
+using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
@@ -40,15 +41,13 @@ namespace SIL.Pa.UI.Controls
 		private int m_currPlaybackRow = -2;
 		private AudioPlayer m_audioPlayer;
 		private int m_playbackSpeed;
-		private string m_dataSourcePathFieldName;
-		private PaFieldInfo m_groupByField;
+		private PaField m_groupByField;
 		private Label m_noCIEResultsMsg;
 		private ToolTip m_audioFilePathToolTip;
 
 		private bool m_ToggleGroupExpansion;
 
 		private LocalWindowsHook m_kbHook;
-		private PaFieldInfoList m_fieldInfoList;
 		private readonly string m_fwRootDataDir;
 		private readonly bool m_drawFocusRectAroundCurrCell;
 		private readonly Keys m_stopPlaybackKey = Keys.None;
@@ -62,12 +61,16 @@ namespace SIL.Pa.UI.Controls
 		private Color m_uncertainPhoneForeColor;
 		private Color m_searchItemBackColor;
 		private Color m_searchItemForeColor;
-		private Color m_selectedFocusedRowBackColor;
-		private Color m_selectedFocusedRowForeColor;
-		private Color m_selectedUnFocusedRowBackColor;
-		private Color m_selectedUnFocusedRowForeColor;
-		private Color m_selectedCellBackColor;
-		private Color m_selectedCellForeColor;
+		
+		
+		//private Color m_selectedFocusedRowBackColor;
+		//private Color m_selectedFocusedRowForeColor;
+		
+		//private Color m_selectedCellBackColor;
+		//private Color m_selectedCellForeColor;
+		
+		//private Color m_selectedUnFocusedRowBackColor;
+		//private Color m_selectedUnFocusedRowForeColor;
 
 		#region Constructors
 		/// ------------------------------------------------------------------------------------
@@ -99,11 +102,18 @@ namespace SIL.Pa.UI.Controls
 			: this()
 		{
 			Cache = cache;
+
 			OwningViewType = owningViewType;
 
-			m_audioFileFieldName = FieldInfoList.AudioFileField.FieldName;
-			m_audioFileOffsetFieldName = FieldInfoList.AudioFileOffsetField.FieldName;
-			m_audioFileLengthFieldName = FieldInfoList.AudioFileLengthField.FieldName;
+			var field = App.Project.GetAudioFileField();
+			m_audioFileFieldName = (field != null ? field.Name : null);
+
+			field = App.Project.GetAudioOffsetField();
+			m_audioFileOffsetFieldName = (field != null ? field.Name : null);
+
+			field = App.Project.GetAudioLengthField();
+			m_audioFileLengthFieldName = (field != null ? field.Name : null);
+			
 			m_spkrImage = Properties.Resources.kimidSpeaker;
 			OnSortingOptionsChanged(performInitialSort);
 		}
@@ -130,6 +140,8 @@ namespace SIL.Pa.UI.Controls
 			VirtualMode = true;
 			RowHeadersWidth = 25;
 			RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+			ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+			RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
 			OnSystemColorsChanged(null);
 			BuildColumns();
 			OnWordListOptionsChanged(null);
@@ -139,7 +151,7 @@ namespace SIL.Pa.UI.Controls
 			// list and the experimental transcriptions list.
 			m_cellInfoPopup = new GridCellInfoPopup();
 			m_cellInfoPopup.AssociatedGrid = this;
-			m_cellInfoPopup.HeadingPanel.Font = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
+			m_cellInfoPopup.HeadingPanel.Font = FontHelper.MakeFont(App.PhoneticFont, FontStyle.Bold);
 			m_cellInfoPopup.Paint += m_cellInfoPopup_Paint;
 			m_cellInfoPopup.CommandLink.Click += PopupsCommandLink_Click;
 
@@ -166,32 +178,13 @@ namespace SIL.Pa.UI.Controls
 			if (string.IsNullOrEmpty(key))
 				return null;
 
-			using (Microsoft.Win32.RegistryKey regKey =
-				Microsoft.Win32.Registry.LocalMachine.OpenSubKey(key))
+			using (RegistryKey regKey = Registry.LocalMachine.OpenSubKey(key))
 			{
 				if (regKey != null)
-				{
-					return regKey.GetValue(FwDBAccessInfo.RootDataDirValue, null)
-						as string;
-				}
+					return regKey.GetValue(FwDBAccessInfo.RootDataDirValue, null) as string;
 			}
 
 			return null;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private PaFieldInfoList FieldInfoList
-		{
-			get
-			{
-				if (m_fieldInfoList == null || m_fieldInfoList.Count == 0)
-					m_fieldInfoList = App.Project.FieldInfo;
-
-				if (m_fieldInfoList == null)
-					m_fieldInfoList = new PaFieldInfoList();
-
-				return m_fieldInfoList;
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -204,11 +197,8 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_suspendSavingColumnChanges = true;
 
-			foreach (PaFieldInfo fieldInfo in FieldInfoList)
-			{
-				if (fieldInfo.DisplayIndexInGrid >= 0)
-					AddNewColumn(fieldInfo);
-			}
+			foreach (var field in App.Project.GetMappedFields().Where(f => f.DisplayIndexInGrid >= 0))
+				AddNewColumn(field);
 
 			RefreshColumnFonts(false);
 			m_suspendSavingColumnChanges = false;
@@ -220,25 +210,25 @@ namespace SIL.Pa.UI.Controls
 		/// object.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected virtual DataGridViewColumn AddNewColumn(PaFieldInfo fieldInfo)
+		protected virtual DataGridViewColumn AddNewColumn(PaField field)
 		{
-			DataGridViewColumn col = SilGrid.CreateTextBoxColumn(fieldInfo.FieldName);
-			col.HeaderText = fieldInfo.DisplayText;
-			col.DataPropertyName = fieldInfo.FieldName;
-			col.DefaultCellStyle.Font = fieldInfo.Font;
+			DataGridViewColumn col = SilGrid.CreateTextBoxColumn(field.Name);
+			col.HeaderText = field.DisplayName;
+			col.DataPropertyName = field.Name;
+			col.DefaultCellStyle.Font = field.Font;
 
-			// Allow left to right display for any field but phonetic and phonemic.
-			if (fieldInfo.RightToLeft && !fieldInfo.IsPhonetic && !fieldInfo.IsPhonemic)
+			// Allow right to left display for any field but phonetic.
+			if (field.RightToLeft && field.Type != FieldType.Phonetic)
 			{
 				col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 				col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
 			}
 
-			col.SortMode = (fieldInfo.IsPhonetic ?
+			col.SortMode = (field.Type == FieldType.Phonetic ?
 				DataGridViewColumnSortMode.Programmatic :
 				DataGridViewColumnSortMode.Automatic);
 
-			int i = fieldInfo.DisplayIndexInGrid;
+			int i = field.DisplayIndexInGrid;
 			if (i < ColumnCount)
 			{
 				while (i < ColumnCount && Columns[i].Frozen)
@@ -246,17 +236,17 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			col.DisplayIndex = i;
-			col.Visible = fieldInfo.VisibleInGrid;
-			if (fieldInfo.WidthInGrid > -1)
-				col.Width = fieldInfo.WidthInGrid;
+			col.Visible = field.VisibleInGrid;
+			if (field.WidthInGrid > -1)
+				col.Width = field.WidthInGrid;
 
 			Columns.Add(col);
 
 			// Save this because we'll need it later.
-			if (fieldInfo.IsPhonetic)
-				m_phoneticColName = fieldInfo.FieldName;
-			else if (fieldInfo.IsAudioFile)
-				m_audioFileColName = fieldInfo.FieldName;
+			if (field.Type == FieldType.Phonetic)
+				m_phoneticColName = field.Name;
+			else if (field.Type == FieldType.AudioFilePath)
+				m_audioFileColName = field.Name;
 
 			return col;
 		}
@@ -266,35 +256,13 @@ namespace SIL.Pa.UI.Controls
 		{
 			ForeColor = SystemColors.WindowText;
 			BackgroundColor = SystemColors.Window;
-			GridColor = App.WordListGridColor;
+			GridColor = App.GridColor;
 
 			m_uncertainPhoneForeColor = Settings.Default.UncertainPhoneForeColor;
 			m_searchItemBackColor = Settings.Default.QuerySearchItemBackColor;
 			m_searchItemForeColor = Settings.Default.QuerySearchItemForeColor;
-			m_selectedCellBackColor = Settings.Default.GridCellSelectionBackColor;
-			m_selectedCellForeColor = Settings.Default.GridCellSelectionForeColor;
-			m_selectedFocusedRowBackColor = App.SelectedFocusedWordListRowBackColor;
-			m_selectedFocusedRowForeColor = Settings.Default.GridRowSelectionForeColor;
-			
-			bool changeSelectionOnFocusLoss = Settings.Default.WordListChangeSelectionOnFocusLoss;
-
-			m_selectedUnFocusedRowBackColor = (changeSelectionOnFocusLoss ?
-				Settings.Default.WordListSelectedUnFocusedRowBackColor : m_selectedFocusedRowBackColor);
-			
-			m_selectedUnFocusedRowForeColor = (changeSelectionOnFocusLoss ?
-				App.SelectedUnFocusedWordListRowForeColor : m_selectedFocusedRowForeColor);
-
-			RowsDefaultCellStyle.SelectionForeColor = (Focused ?
-				m_selectedFocusedRowForeColor : m_selectedUnFocusedRowForeColor);
-
-			RowsDefaultCellStyle.SelectionBackColor = (Focused ?
-				m_selectedFocusedRowBackColor : m_selectedUnFocusedRowBackColor);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
@@ -346,10 +314,6 @@ namespace SIL.Pa.UI.Controls
 		{
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void SaveGridChange()
 		{
@@ -403,7 +367,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (m_cache != null && rowIndex >= 0 && rowIndex < RowCount)
 			{
-				PaCacheGridRow row = Rows[rowIndex] as PaCacheGridRow;
+				var row = Rows[rowIndex] as PaCacheGridRow;
 				if (row != null)
 				{
 					int i = (row.ParentRow == null ? row.CacheEntryIndex :
@@ -427,15 +391,15 @@ namespace SIL.Pa.UI.Controls
 		{
 			long offset;
 			long length;
-			SortedList<int, WordCacheEntry> entries = new SortedList<int, WordCacheEntry>();
+			var entries = new SortedList<int, WordCacheEntry>();
 
 			// Go through the selected rows collection.
 			if (SelectedRows.Count > 0)
 			{
-				foreach (DataGridViewRow row in SelectedRows)
+				foreach (var row in SelectedRows.Cast<DataGridViewRow>()
+					.Where(row => CanRowPlayAudio(row.Index, out offset, out length)))
 				{
-					if (CanRowPlayAudio(row.Index, out offset, out length))
-						entries[row.Index] = GetWordEntry(row.Index).WordCacheEntry;
+					entries[row.Index] = GetWordEntry(row.Index).WordCacheEntry;
 				}
 			}
 
@@ -458,19 +422,22 @@ namespace SIL.Pa.UI.Controls
 			offset = -1;
 			length = -1;
 
-			WordListCacheEntry wlentry = GetWordEntry(rowIndex);
+			if (string.IsNullOrEmpty(m_audioFileFieldName))
+				return false;
+
+			var wlentry = GetWordEntry(rowIndex);
 			if (wlentry == null)
 				return false;
 
-			string strVal = wlentry[m_audioFileOffsetFieldName];
+			var strVal = (wlentry[m_audioFileOffsetFieldName] ?? "0");
 			if (!long.TryParse(strVal, out offset))
 				return false;
 
-			strVal = wlentry[m_audioFileLengthFieldName];
+			strVal = (wlentry[m_audioFileLengthFieldName] ?? "0");
 			if (!long.TryParse(strVal, out length))
 				return false;
 
-			string audioFilePath = wlentry[m_audioFileFieldName];
+			var audioFilePath = wlentry[m_audioFileFieldName];
 			if (audioFilePath == null)
 				return false;
 
@@ -509,16 +476,9 @@ namespace SIL.Pa.UI.Controls
 				if (TryToFindAudioFile(entry, audioFilePath, m_fwRootDataDir))
 					return true;
 			}
-			else if (m_dataSourcePathFieldName == null)
-			{
-				// Get the name of the data source path field name, if it hasn't already been done.
-				// The data source path is only relevant for non FW data sources.
-				if (FieldInfoList.DataSourcePathField != null)
-					m_dataSourcePathFieldName = FieldInfoList.DataSourcePathField.FieldName;
-			}
 
 			// Check a path relative to the data source file's path.
-			if (TryToFindAudioFile(entry, audioFilePath, entry[m_dataSourcePathFieldName]))
+			if (TryToFindAudioFile(entry, audioFilePath, entry[PaField.kDataSourcePathFieldName]))
 				return true;
 
 			// Check a path relative to the project file's path
@@ -601,7 +561,7 @@ namespace SIL.Pa.UI.Controls
 				itemProps.CommandId = "CmdGroupByField";
 				itemProps.Text = col.HeaderText;
 				itemProps.Name = col.Name;
-				itemProps.Checked = (GroupByField != null && GroupByField.FieldName == col.Name);
+				itemProps.Checked = (GroupByField != null && GroupByField.Name == col.Name);
 				tmAdapter.AddMenuItem(itemProps, parentItem, null);
 			}
 		}
@@ -620,7 +580,7 @@ namespace SIL.Pa.UI.Controls
 				return false;
 			}
 
-			GroupByField = App.FieldInfo[itemProps.Name];
+			GroupByField = App.Project.GetFieldForName(itemProps.Name);
 			return true;
 		}
 
@@ -760,16 +720,16 @@ namespace SIL.Pa.UI.Controls
 					col.HeaderCell.SortGlyphDirection = SortOrder.None;
 				
 				// Add the sortGlyph direction
-				if (m_sortOptions.SortInformationList.Count > 0)
+				if (m_sortOptions.SortFields.Count > 0)
 				{
-					string colName = m_sortOptions.SortInformationList[0].FieldInfo.FieldName;
+					string colName = m_sortOptions.SortFields[0].Field.Name;
 
 					Columns[colName].HeaderCell.SortGlyphDirection =
-						(m_sortOptions.SortInformationList[0].ascending ?
+						(m_sortOptions.SortFields[0].Ascending ?
 						SortOrder.Ascending : SortOrder.Descending);
 
 					if (m_groupByField != null)
-						m_groupByField = m_sortOptions.SortInformationList[0].FieldInfo;
+						m_groupByField = m_sortOptions.SortFields[0].Field;
 				}
 
 				m_cache.Sort(m_sortOptions);
@@ -782,21 +742,13 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public DataGridViewColumn GroupByColumn
 		{
-			get { return (m_groupByField == null ? null : Columns[m_groupByField.FieldName]); }
+			get { return (m_groupByField == null ? null : Columns[m_groupByField.Name]); }
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public virtual PaFieldInfo GroupByField
+		public virtual PaField GroupByField
 		{
 			get	{return m_groupByField;}
 			set
@@ -906,68 +858,42 @@ namespace SIL.Pa.UI.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Set the status bar accordingly.
+		/// Set the status bar accordingly. I use this override instead of OnLeave because
+		/// when using OnLeave, I found some edge cases when the current row wasn't getting
+		/// invalidated properly. Overriding this event fixed it.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void OnLeave(EventArgs e)
+		protected override void OnLostFocus(EventArgs e)
 		{
 			App.StatusBarLabel.Text = string.Empty;
-			base.OnLeave(e);
-
+			base.OnLostFocus(e);
 			if (m_audioFilePathToolTip != null)
 			{
 				m_audioFilePathToolTip.Dispose();
 				m_audioFilePathToolTip = null;
 			}
+
+			if (CurrentRow != null)
+				InvalidateRow(CurrentRow.Index);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Set the status bar accordingly.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnEnter(EventArgs e)
-		{
-			SetStatusBarText();
-			base.OnEnter(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Set the background color of the selected row accordingly.
+		/// Set the status bar accordingly. I use this override instead of OnEnter because
+		/// when using OnEnter, I found some edge cases when the current row wasn't getting
+		/// invalidated properly. Overriding this event fixed it.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnGotFocus(EventArgs e)
 		{
+			SetStatusBarText();
+
+			if (CurrentRow != null)
+				InvalidateRow(CurrentRow.Index);
+
 			base.OnGotFocus(e);
-
-			RowsDefaultCellStyle.SelectionForeColor = m_selectedFocusedRowForeColor;
-			RowsDefaultCellStyle.SelectionBackColor = m_selectedFocusedRowBackColor;
-
-			if (CurrentRow != null)
-				InvalidateRow(CurrentRow.Index);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Set the background color of the selected row accordingly.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnLostFocus(EventArgs e)
-		{
-			base.OnLostFocus(e);
-
-			RowsDefaultCellStyle.SelectionForeColor = m_selectedUnFocusedRowForeColor;
-			RowsDefaultCellStyle.SelectionBackColor = m_selectedUnFocusedRowBackColor;
-
-			if (CurrentRow != null)
-				InvalidateRow(CurrentRow.Index);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnRowEnter(DataGridViewCellEventArgs e)
 		{
@@ -1073,15 +999,17 @@ namespace SIL.Pa.UI.Controls
 				
 				string fieldName = Columns[e.ColumnIndex].DataPropertyName;
 
-				// When the entry is from a data source that was parsed used the one-to-one
+				// When the entry is from a data source that was parsed using the one-to-one
 				// option and the field is a parsed field, then handle that case specially.
 				// In that case, we don't want to display the record entry's value when the
 				// word cache entry's value is null. We just want to display nothing. PA-709
 				if (entry.WordCacheEntry.RecordEntry.DataSource.ParseType ==
 					DataSourceParseType.OneToOne)
 				{
-					PaFieldInfo fieldInfo = FieldInfoList[fieldName];
-					if (fieldInfo != null && fieldInfo.IsParsed)
+					var field = entry.WordCacheEntry.RecordEntry.DataSource.FieldMappings
+						.SingleOrDefault(m => m.Field.Name == fieldName);
+
+					if (field != null && field.IsParsed)
 					{
 						e.Value = entry.WordCacheEntry.GetField(fieldName, false);
 						return;
@@ -1114,26 +1042,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
 		{
-			if (e.CellStyle.Font != Columns[e.ColumnIndex].DefaultCellStyle.Font)
-				e.CellStyle.Font = Columns[e.ColumnIndex].DefaultCellStyle.Font;
-
-			if (CurrentRow != null && CurrentRow.Index == e.RowIndex)
-			{
-				if (CurrentCell != null && CurrentCell.ColumnIndex == e.ColumnIndex)
-				{
-					// Set the selected cell's background color to be
-					// distinct from the rest of the current row.
-					e.CellStyle.SelectionBackColor = (Focused ?
-						m_selectedCellBackColor : m_selectedUnFocusedRowBackColor);
-				}
-				else
-				{
-					// Set the selected row's background color.
-					e.CellStyle.SelectionBackColor = (Focused ?
-						m_selectedFocusedRowBackColor : m_selectedUnFocusedRowBackColor);
-				}
-			}
-
+			e.CellStyle.Font = Columns[e.ColumnIndex].DefaultCellStyle.Font;
+			App.SetCellColors(this, e);
 			base.OnCellFormatting(e);
 		}
 
@@ -1530,12 +1440,12 @@ namespace SIL.Pa.UI.Controls
 				return;
 			
 			int hdgWidth;
-			using (Font fnt = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold))
+			using (Font fnt = FontHelper.MakeFont(App.PhoneticFont, FontStyle.Bold))
 				hdgWidth = m_cellInfoPopup.SetHeadingText(entry.PhoneticValue, fnt);
 
 			m_cellInfoPopup.PurposeIndicator = GridCellInfoPopup.Purpose.UncertainPossibilities;
 			m_cellInfoPopup.CacheEntry = entry;
-			m_cellInfoPopup.MeasureBodyHeight(FontHelper.PhoneticFont, possibleWords.Length);
+			m_cellInfoPopup.MeasureBodyHeight(App.PhoneticFont, possibleWords.Length);
 			m_cellInfoPopup.Width = hdgWidth + kPopupSidePadding;
 			m_cellInfoPopup.AssociatedCell = this[col, row];
 
@@ -1558,32 +1468,31 @@ namespace SIL.Pa.UI.Controls
 			s_showBottomRightHotState = true;
 			InvalidateCell(col, row);
 
-			WordListCacheEntry wlentry = GetWordEntry(row);
+			var wlentry = GetWordEntry(row);
 			if (wlentry == null)
 				return;
 
-			WordCacheEntry entry = wlentry.WordCacheEntry;
+			var entry = wlentry.WordCacheEntry;
 			if (entry == null)
 				return;
 
-			Dictionary<string, string> experimentalTrans = entry.AppliedExperimentalTranscriptions;
+			var experimentalTrans = entry.AppliedExperimentalTranscriptions;
 			if (experimentalTrans == null)
 				return;
 
 			int widestExperimentalTrans = GetWidestExperimentalTrancription(experimentalTrans);
 
 			int hdgWidth;
-			string hdgText = App.LocalizeString("CellInfoExperimentalTransHdgText",
-				"Experimental transcription(s)\nconverted in this entry:",
-				"Heading text on experimental transcription popup in word lists.",
-				App.kLocalizationGroupUICtrls + ".Word Lists");
+			string hdgText = App.GetString("CellInfoExperimentalTransHdgText",
+				"Transcription changes\nmade in this entry:",
+				"Heading text on transcription changes popup in word lists.");
 			
-			using (Font fnt = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold))
+			using (var fnt = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold))
 				hdgWidth = m_cellInfoPopup.SetHeadingText(hdgText, fnt);
 
 			m_cellInfoPopup.CacheEntry = entry;
 			m_cellInfoPopup.PurposeIndicator = GridCellInfoPopup.Purpose.ExperimentalTranscription;
-			m_cellInfoPopup.MeasureBodyHeight(FontHelper.PhoneticFont, experimentalTrans.Count);
+			m_cellInfoPopup.MeasureBodyHeight(App.PhoneticFont, experimentalTrans.Count);
 			m_cellInfoPopup.Width = Math.Max(hdgWidth, widestExperimentalTrans) + kPopupSidePadding;
 			m_cellInfoPopup.AssociatedCell = this[col, row];
 			m_cellInfoPopup.HeadingTextSidePadding = (kPopupSidePadding / 2 - 3);
@@ -1594,8 +1503,8 @@ namespace SIL.Pa.UI.Controls
 
 			// Calculate a point just to the right and even with the top of
 			// the cell to which the popup belongs. Then show the popup there.
-			Rectangle rc = GetCellDisplayRectangle(col, row, false);
-			Point pt = new Point(rc.Right - 1, rc.Y);
+			var rc = GetCellDisplayRectangle(col, row, false);
+			var pt = new Point(rc.Right - 1, rc.Y);
 			m_cellInfoPopup.Show(this, pt);
 		}
 
@@ -1616,10 +1525,10 @@ namespace SIL.Pa.UI.Controls
 			foreach (KeyValuePair<string, string> item in experimentalTrans)
 			{
 				int itemWidth = TextRenderer.MeasureText(item.Key,
-					FontHelper.PhoneticFont, Size.Empty, kFlags).Width;
+					App.PhoneticFont, Size.Empty, kFlags).Width;
 
 				itemWidth += TextRenderer.MeasureText(item.Value,
-					FontHelper.PhoneticFont, Size.Empty, kFlags).Width;
+					App.PhoneticFont, Size.Empty, kFlags).Width;
 
 				maxWidth = Math.Max(itemWidth, maxWidth);
 			}
@@ -1677,11 +1586,11 @@ namespace SIL.Pa.UI.Controls
 						ph = ph.Substring(1);
 					}
 
-					TextRenderer.DrawText(g, ph, FontHelper.PhoneticFont, rc, clrText, kFlags);
+					TextRenderer.DrawText(g, ph, App.PhoneticFont, rc, clrText, kFlags);
 
 					// Figure out where the next phone should be drawn.
 					int phoneWidth = TextRenderer.MeasureText(g, ph,
-						FontHelper.PhoneticFont, Size.Empty, kFlags).Width;
+						App.PhoneticFont, Size.Empty, kFlags).Width;
 
 					rc.X += phoneWidth;
 				}
@@ -1713,10 +1622,10 @@ namespace SIL.Pa.UI.Controls
 
 			foreach (KeyValuePair<string, string> item in experimentalTrans)
 			{
-				TextRenderer.DrawText(g, item.Key, FontHelper.PhoneticFont, rc,
+				TextRenderer.DrawText(g, item.Key, App.PhoneticFont, rc,
 					Color.Black, kFlags);
 
-				Size sz = TextRenderer.MeasureText(g, item.Key, FontHelper.PhoneticFont);
+				Size sz = TextRenderer.MeasureText(g, item.Key, App.PhoneticFont);
 
 				// Draw an arrow that points to what experimental transcription the
 				// phone was converted to.
@@ -1730,7 +1639,7 @@ namespace SIL.Pa.UI.Controls
 
 				Rectangle rcTmp = rc;
 				rcTmp.X += sz.Width + 15;
-				TextRenderer.DrawText(g, item.Value, FontHelper.PhoneticFont, rcTmp,
+				TextRenderer.DrawText(g, item.Value, App.PhoneticFont, rcTmp,
 					Color.Black, kFlags);
 
 				rc.Y += rc.Height;
@@ -1919,8 +1828,10 @@ namespace SIL.Pa.UI.Controls
 				return;
 			}
 
-			WordListCacheEntry wlentry = GetWordEntry(e.RowIndex);
-			if (wlentry == null)
+			var wlentry = GetWordEntry(e.RowIndex);
+			var field = App.Project.GetFieldForName(Columns[e.ColumnIndex].Name);
+
+			if (wlentry == null || field == null)
 			{
 				base.OnCellPainting(e);
 				return;
@@ -1930,8 +1841,7 @@ namespace SIL.Pa.UI.Controls
 			m_currPaintingCellSelected =
 				((e.State & DataGridViewElementStates.Selected) > 0);
 
-			if (Columns[e.ColumnIndex].Name == FieldInfoList.AudioFileField.FieldName ||
-				Columns[e.ColumnIndex].Name == FieldInfoList.DataSourcePathField.FieldName)
+			if (field.Type == FieldType.AudioFilePath || field.Type == FieldType.GeneralFilePath)
 			{
 				DrawFilePath(e);
 				e.Handled = true;
@@ -1978,17 +1888,9 @@ namespace SIL.Pa.UI.Controls
 		/// Gets the foreground color for the current cell being painted.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private Color GetCurrentCellDrawForeColor(int colindex)
+		private Color GetCurrentCellDrawForeColor(DataGridViewCellPaintingEventArgs e)
 		{
-			Color clr = RowsDefaultCellStyle.ForeColor;
-
-			if (m_currPaintingCellSelected)
-			{
-				clr = (Focused && CurrentCellAddress.X == colindex ?
-					m_selectedCellForeColor : RowsDefaultCellStyle.SelectionForeColor);
-			}
-
-			return clr;
+			return (m_currPaintingCellSelected ? e.CellStyle.SelectionForeColor : e.CellStyle.ForeColor);
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -2001,7 +1903,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			Rectangle rc = e.CellBounds;
 
-			DataGridViewPaintParts parts = DataGridViewPaintParts.All;
+			var parts = DataGridViewPaintParts.All;
 			parts &= ~DataGridViewPaintParts.Focus;
 
 			// Draw default everything but text if paintContent is false.
@@ -2017,7 +1919,7 @@ namespace SIL.Pa.UI.Controls
 			else
 			{
 				Color clr = e.CellStyle.SelectionForeColor;
-				e.CellStyle.SelectionForeColor = GetCurrentCellDrawForeColor(e.ColumnIndex);
+				e.CellStyle.SelectionForeColor = GetCurrentCellDrawForeColor(e);
 				e.Paint(rc, parts);
 				e.CellStyle.SelectionForeColor = clr;
 
@@ -2106,7 +2008,7 @@ namespace SIL.Pa.UI.Controls
 				TextFormatFlags.PreserveGraphicsClipping;
 
 			TextRenderer.DrawText(e.Graphics, soundFilePath, e.CellStyle.Font, e.CellBounds,
-				GetCurrentCellDrawForeColor(e.ColumnIndex), kFlags);
+				GetCurrentCellDrawForeColor(e), kFlags);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -2152,7 +2054,7 @@ namespace SIL.Pa.UI.Controls
 
 			// Calculate the width of the search item.
 			int itemWidth = TextRenderer.MeasureText(e.Graphics, srchItem,
-				FontHelper.PhoneticFont, Size.Empty, kFlags).Width;
+				App.PhoneticFont, Size.Empty, kFlags).Width;
 
 			if (itemWidth == 0)
 				itemWidth = m_widthOfWrdBoundarySrchRsltMatch;
@@ -2165,7 +2067,7 @@ namespace SIL.Pa.UI.Controls
 			DrawSearchItemPhones(e.Graphics, wlentry.Phones, rc, srchItemOffset,
 				envAfterOffset, kFlags, itemLeft);
 
-			Color clrText = GetCurrentCellDrawForeColor(e.ColumnIndex);
+			Color clrText = GetCurrentCellDrawForeColor(e);
 
 			// Draw the phones in the environment after.
 			rc.X = itemLeft + itemWidth;
@@ -2212,15 +2114,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void DrawSearchItemPhones(IDeviceContext g, string[] phones, Rectangle cellBounds,
 			int begin, int end, TextFormatFlags flags, int left)
 		{
 			Color clrText = (m_currPaintingCellSelected && !Focused ?
-				m_selectedUnFocusedRowForeColor : m_searchItemForeColor);
+				 Settings.Default.GridRowUnfocusedSelectionForeColor : m_searchItemForeColor);
 			
 			Rectangle rc = new Rectangle(left, cellBounds.Y,
 				cellBounds.Right - left, cellBounds.Height);
@@ -2259,7 +2157,7 @@ namespace SIL.Pa.UI.Controls
 				TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine |
 				TextFormatFlags.Left | TextFormatFlags.PreserveGraphicsClipping;
 
-			Color clrText = GetCurrentCellDrawForeColor(e.ColumnIndex);
+			Color clrText = GetCurrentCellDrawForeColor(e);
 
 			rc.X += 4;
 			rc.Width -= 4;
@@ -2291,10 +2189,10 @@ namespace SIL.Pa.UI.Controls
 					m_currPaintingCellEntry.UncertainPhones.ContainsKey(i) ?
 					m_uncertainPhoneForeColor : clrText);
 
-				TextRenderer.DrawText(g, phones[i], FontHelper.PhoneticFont, rc, clr, flags);
+				TextRenderer.DrawText(g, phones[i], App.PhoneticFont, rc, clr, flags);
 
 				int phoneWidth = TextRenderer.MeasureText(g, phones[i],
-					FontHelper.PhoneticFont, Size.Empty, flags).Width;
+					App.PhoneticFont, Size.Empty, flags).Width;
 
 				// If the phones are being drawn from L to R (which should always be true unless
 				// we're drawing the environment before in a find phone search result grid) then
@@ -2591,7 +2489,7 @@ namespace SIL.Pa.UI.Controls
 			if (Cache == null || Cache.IsEmpty)
 				return;
 
-			object[] args = new object[] {colName, changeSortDirection};
+			var args = new object[] {colName, changeSortDirection};
 			if (App.MsgMediator.SendMessage("BeforeWordListSorted", args))
 				return;
 			
@@ -2614,17 +2512,17 @@ namespace SIL.Pa.UI.Controls
 			if (IsGroupedByField && !Cache.IsCIEList)
 			{
 				allGroupCollapsed = AllGroupsCollapsed;
-				PaFieldInfo groupByField = m_groupByField;
+				var groupByField = m_groupByField;
 				//ToggleGroupExpansion(true);
 				m_groupByField = null;
 				WordListGroupingBuilder.UnGroup(this);
 				m_groupByField = groupByField;
 
 				// This code is necessary for correctly changing the Group Headings
-				if (SortOptions.SortInformationList != null &&
-					SortOptions.SortInformationList.Count > 0)
+				if (SortOptions.SortFields != null &&
+					SortOptions.SortFields.Count > 0)
 				{
-					m_groupByField = SortOptions.SortInformationList[0].FieldInfo;
+					m_groupByField = SortOptions.SortFields[0].Field;
 				}
 			}
 
@@ -2708,9 +2606,9 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (updateColumnFonts)
 				{
-					PaFieldInfo fieldInfo = FieldInfoList[col.Name];
-					if (fieldInfo != null)
-						col.DefaultCellStyle.Font = fieldInfo.Font;
+					var field = App.Project.GetFieldForName(col.Name);
+					if (field != null)
+						col.DefaultCellStyle.Font = field.Font;
 				}
 
 				if (col.Visible && col.DefaultCellStyle.Font != null)
@@ -2849,12 +2747,12 @@ namespace SIL.Pa.UI.Controls
 			if (OwningViewType.Name == "DataCorpusVw")
 				sortOptions = App.Project.DataCorpusVwSortOptions;
 			else if (OwningViewType.Name == "SearchVw")
-				sortOptions = App.Project.SearchVwSortOptions.Clone();
+				sortOptions = App.Project.SearchVwSortOptions.Copy();
 			else if (OwningViewType.Name == "XYChartVw")
-				sortOptions = App.Project.DistributionChartVwSortOptions.Clone();
+				sortOptions = App.Project.DistributionChartVwSortOptions.Copy();
 
 			if (sortOptions == null)
-				sortOptions = new SortOptions(true);
+				sortOptions = new SortOptions(true, App.Project);
 
 			// If the default sort options should not change as the user clicks headings or
 			// changes phonetic sort options from the phonetic sort option drop-down, then
@@ -2862,7 +2760,7 @@ namespace SIL.Pa.UI.Controls
 			// headings and change phonetic sort options, the changes won't get saved to
 			// the sort options object in the project.
 			if (!sortOptions.SaveManuallySetSortOptions)
-				sortOptions = sortOptions.Clone();
+				sortOptions = sortOptions.Copy();
 
 			if (performSort)
 				SortOptions = sortOptions;
@@ -2874,17 +2772,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual bool OnDataSourcesModified(object args)
 		{
-			m_fieldInfoList = null;
+			var project = args as PaProject;
+			var mappedFields = project.GetMappedFields().Where(f => !f.IsHidden).ToList();
 
-			if (App.Project == null || FieldInfoList.Count == 0)
-				return false;
-			
 			m_suspendSavingColumnChanges = true;
 
 			// Hide the first column (collapse/expand group) so it won't mess up
@@ -2902,39 +2794,34 @@ namespace SIL.Pa.UI.Controls
 				else
 				{
 					// If there's no longer a field for the column, then remove it.
-					PaFieldInfo fieldInfo = FieldInfoList[Columns[i].Name];
-					if (fieldInfo == null)
+					if (!mappedFields.Any(f => f.Name == Columns[i].Name))
 						Columns.RemoveAt(i);
 				}
 			}
 
 			// Make sure there are columns for new fields
 			// that may have been added to the project.
-			foreach (PaFieldInfo fieldInfo in FieldInfoList)
+			foreach (var field in mappedFields)
 			{
-				DataGridViewColumn col = Columns[fieldInfo.FieldName];
+				var col = Columns[field.Name];
 				if (col == null)
 				{
-					if (fieldInfo.DisplayIndexInGrid < 0)
+					if (field.DisplayIndexInGrid < 0 || !project.LastNewlyMappedFields.Contains(field.Name))
 						continue;
 
-					col = AddNewColumn(fieldInfo);
+					field.VisibleInGrid = true;
+					col = AddNewColumn(field);
 				}
 
-				if (col.HeaderText != fieldInfo.DisplayText)
-					col.HeaderText = fieldInfo.DisplayText;
+				col.HeaderText = field.DisplayName;
 
-				col.DefaultCellStyle.Alignment = (fieldInfo.RightToLeft &&
-					!fieldInfo.IsPhonetic && !fieldInfo.IsPhonemic ?
-					DataGridViewContentAlignment.MiddleRight :
-					DataGridViewContentAlignment.MiddleLeft);
+				col.DefaultCellStyle.Alignment = (field.RightToLeft && field.Type != FieldType.Phonetic ?
+					DataGridViewContentAlignment.MiddleRight : DataGridViewContentAlignment.MiddleLeft);
 
-				col.HeaderCell.Style.Alignment = (fieldInfo.RightToLeft &&
-					!fieldInfo.IsPhonetic && !fieldInfo.IsPhonemic ?
-					DataGridViewContentAlignment.MiddleRight :
-					DataGridViewContentAlignment.MiddleLeft);
+				col.HeaderCell.Style.Alignment = (field.RightToLeft && field.Type != FieldType.Phonetic ?
+					DataGridViewContentAlignment.MiddleRight : DataGridViewContentAlignment.MiddleLeft);
 				
-				if (fieldInfo.DisplayIndexInGrid < 0)
+				if (field.DisplayIndexInGrid < 0)
 					col.Visible = false;
 				else
 				{
@@ -2947,15 +2834,14 @@ namespace SIL.Pa.UI.Controls
 						// adding hierarchicalGridColumnCount to DisplayIndexInGrid will
 						// make sure the hierarchical grid columns stay at the beginning of
 						// the displayed columns.
-						col.DisplayIndex =
-							fieldInfo.DisplayIndexInGrid + hierarchicalGridColumnCount;
+						col.DisplayIndex = field.DisplayIndexInGrid + hierarchicalGridColumnCount;
 					}
 					catch
 					{
 						col.DisplayIndex = Columns.Count - 1;
 					}
 
-					col.Visible = fieldInfo.VisibleInGrid;
+					col.Visible = field.VisibleInGrid;
 				}
 			}
 
@@ -2974,6 +2860,7 @@ namespace SIL.Pa.UI.Controls
 			if (CurrentRow != null)
 				InvalidateRow(CurrentRow.Index);
 
+			RefreshColumnFonts(true);
 			Cursor = Cursors.Default;
 			return false;
 		}
@@ -2985,42 +2872,24 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool OnCVPatternsChanged(object args)
 		{
-			PaFieldInfo fieldInfo = FieldInfoList.CVPatternField;
-			if (fieldInfo != null)
+			// Check if the CV pattern is one of the fields on which the list
+			// is sorted. If it is, then resort the word list. This will also
+			// regroup the list if it's grouped.
+			if (m_sortOptions != null && m_sortOptions.SortFields != null &&
+				m_sortOptions.SortFields.Any(si => si.Field.Name == PaField.kCVPatternFieldName))
 			{
-				bool resorted = false;
-
-				if (m_sortOptions != null && m_sortOptions.SortInformationList != null)
-				{
-					// Check if the CV pattern is one of the fields on which the list
-					// is sorted. If it is, then resort the word list. This will also
-					// regroup the list if it's grouped.
-					foreach (SortInformation si in m_sortOptions.SortInformationList)
-					{
-						if (si.FieldInfo == fieldInfo)
-						{
-							Sort(m_sortOptions.SortInformationList[0].FieldInfo.FieldName, false);
-							resorted = true;
-							break;
-						}
-					}
-				}
-
-				if (!resorted)
-				{
-					DataGridViewColumn col = Columns[fieldInfo.FieldName];
-					if (col != null)
-						InvalidateColumn(col.Index);
-				}
+				Sort(m_sortOptions.SortFields[0].Field.Name, false);
+			}
+			else
+			{
+				DataGridViewColumn col = Columns[PaField.kCVPatternFieldName];
+				if (col != null)
+					InvalidateColumn(col.Index);
 			}
 
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool OnWordListOptionsChanged(object args)
 		{
@@ -3061,8 +2930,8 @@ namespace SIL.Pa.UI.Controls
 			// If the column that was grouped on is no longer visible, then ungroup.
 			if (m_groupByField != null)
 			{
-				if (!Columns.Contains(m_groupByField.FieldName) ||
-					!Columns[m_groupByField.FieldName].Visible)
+				if (!Columns.Contains(m_groupByField.Name) ||
+					!Columns[m_groupByField.Name].Visible)
 				{
 					GroupByField = null;
 				}
@@ -3074,13 +2943,13 @@ namespace SIL.Pa.UI.Controls
 			// If the sort options contain any fields whose column was removed, then
 			// remove the field from the sort options and resort the list.
 			bool reSort = false;
-			for (int i = SortOptions.SortInformationList.Count - 1; i >= 0; i--)
+			for (int i = SortOptions.SortFields.Count - 1; i >= 0; i--)
 			{
-				string fldName = SortOptions.SortInformationList[i].FieldInfo.FieldName;
+				string fldName = SortOptions.SortFields[i].Field.Name;
 
 				if (!Columns.Contains(fldName) || !Columns[fldName].Visible)
 				{
-					SortOptions.SortInformationList.RemoveAt(i);
+					SortOptions.SortFields.RemoveAt(i);
 					reSort = true;
 				}
 			}
@@ -3088,10 +2957,10 @@ namespace SIL.Pa.UI.Controls
 			if (!reSort)
 				return;
 
-			if (SortOptions.SortInformationList.Count > 0)
+			if (SortOptions.SortFields.Count > 0)
 			{
 				// Sort on the first column in the sort option's field list.
-				Sort(SortOptions.SortInformationList[0].FieldInfo.FieldName, false);
+				Sort(SortOptions.SortFields[0].Field.Name, false);
 				return;
 			}
 
@@ -3122,8 +2991,9 @@ namespace SIL.Pa.UI.Controls
 			else if (CurrentRow != null)
 				row = CurrentRow.Index;
 
-			if (GetWordEntry(row) != null)
-				new DataSourceEditor(GetWordEntry(row).WordCacheEntry, FindForm().Text);
+			var wentry = GetWordEntry(row);
+			if (wentry != null)
+				new DataSourceEditor(wentry.WordCacheEntry, FindForm().Text);
 
 			return true;
 		}
@@ -3362,19 +3232,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdatePlaybackRepeatedly(object args)
 		{
 			return OnUpdatePlayback(args);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateAdjustPlaybackSpeed(object args)
 		{
@@ -3382,19 +3244,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateAdjustPlaybackSpeedParent(object args)
 		{
 			return OnUpdatePlayback(args);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnStopPlayback(object args)
 		{
@@ -3414,9 +3268,20 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		protected bool OnStopAllPlayback(object args)
+		{
+			if (m_playbackInProgress)
+			{
+				m_playbackInProgress = false;
+				m_playbackAborted = true;
+				
+				if (m_audioPlayer != null)
+					m_audioPlayer.Stop();
+			}
+
+			return true;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateStopPlayback(object args)
 		{
@@ -3662,12 +3527,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void PlaybackSingleEntry(WordCacheEntry entry)
 		{
-			RecordCacheEntry recEntry = entry.RecordEntry;
+			var recEntry = entry.RecordEntry;
 			if (recEntry == null || m_audioPlayer == null)
 				return;
 
-			long offset = long.Parse(entry[m_audioFileOffsetFieldName]);
-			long length = long.Parse(entry[m_audioFileLengthFieldName]);
+			long offset = (entry[m_audioFileOffsetFieldName] == null ? -1 : long.Parse(entry[m_audioFileOffsetFieldName]));
+			long length = (entry[m_audioFileLengthFieldName] == null ? -1 : long.Parse(entry[m_audioFileLengthFieldName]));
 			string audioFile = (string.IsNullOrEmpty(entry.AbsoluteAudioFilePath) ?
 				entry[m_audioFileFieldName] : entry.AbsoluteAudioFilePath);
 
@@ -3677,13 +3542,13 @@ namespace SIL.Pa.UI.Controls
 			// If the speed is not 100% then use Speech Analyzer to playback the utterance.
 			if (m_playbackSpeed != 100f)
 			{
-				PlaybackEntryUsingSA(recEntry.DataSource.DataSourceType, audioFile, offset, length);
+				PlaybackEntryUsingSA(recEntry.DataSource.Type, audioFile, offset, length);
 				return;
 			}
 
 			// For SA wave files, the offset and length are in bytes, not milliseconds.
 			// Therefore, we need to calculate what those values are in milliseconds.
-			if (recEntry.DataSource.DataSourceType == DataSourceType.SA)
+			if (recEntry.DataSource.Type == DataSourceType.SA)
 			{
 				offset = AudioPlayer.ByteValueToMilliseconds(offset, recEntry.Channels,
 					recEntry.SamplesPerSecond, recEntry.BitsPerSample);
@@ -3716,7 +3581,7 @@ namespace SIL.Pa.UI.Controls
 
 			// If AlteredSpeedPlayback returns null it means SA couldn't be found.
 			// Therefore, abort trying to playback anymore utterances.
-			Process saPrs = m_audioPlayer.AlteredSpeedPlayback(FindForm().Text,
+			var saPrs = m_audioPlayer.AlteredSpeedPlayback(FindForm().Text,
 				audioFile, offset, offset + length, m_playbackSpeed);
 
 			if (saPrs == null)

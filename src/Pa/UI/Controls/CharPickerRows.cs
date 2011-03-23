@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 
@@ -20,10 +21,6 @@ namespace SIL.Pa.UI.Controls
 		public event ToolStripItemClickedEventHandler ItemClicked;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public CharPickerRows()
 		{
 			InitializeComponent();
@@ -31,20 +28,12 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
 			RefreshSize();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void Reset()
 		{
@@ -56,10 +45,6 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void RefreshFont()
 		{
@@ -91,10 +76,6 @@ namespace SIL.Pa.UI.Controls
 			MinimumSize = new Size(maxRowWidth, 0);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void LoadPhones(List<CharGridCell> phoneList)
 		{
@@ -141,27 +122,24 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void FixupUnspecifiedRows(List<CharGridCell> phoneList)
 		{
-			foreach (CharGridCell cgc1 in phoneList)
+			foreach (var cgc1 in phoneList)
 			{
 				if (!cgc1.Visible || cgc1.Row >= 0)
 					continue;
 
-				IPhoneInfo phoneInfo = App.PhoneCache[cgc1.Phone];
+				var phoneInfo = App.Project.PhoneCache[cgc1.Phone];
 				if (phoneInfo == null)
 					continue;
 
-				IPASymbol charInfo = App.IPASymbolCache[phoneInfo.BaseCharacter];
+				var charInfo = App.IPASymbolCache[phoneInfo.BaseCharacter];
 				if (charInfo == null)
 					continue;
 
 				cgc1.Group = charInfo.ChartGroup;
-				foreach (CharGridCell cgc2 in phoneList)
+				foreach (var cgc2 in phoneList.Where(cgc2 => cgc1.Group == cgc2.Group && cgc2.Row >= 0 && cgc2.Visible))
 				{
-					if (cgc1.Group == cgc2.Group && cgc2.Row >= 0 && cgc2.Visible)
-					{
-						cgc1.Row = cgc2.Row;
-						break;
-					}
+					cgc1.Row = cgc2.Row;
+					break;
 				}
 			}
 		}

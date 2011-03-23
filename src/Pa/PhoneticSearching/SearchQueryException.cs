@@ -20,12 +20,11 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			if (query.ErrorMessages.Count > 0)
 			{
-				var fmt = App.LocalizeString(
+				var fmt = App.GetString(
 					"SearchQuery.ErrListMsg", "{0}) {1}\n\n",
-					"This is a format string for a number list of error messages for a search query.",
-					App.kLocalizationGroupInfoMsg);
+					"This is a format string for a number list of error messages for a search query.");
 
-				StringBuilder errors = new StringBuilder();
+				var errors = new StringBuilder();
 				for (int i = 0; i < query.ErrorMessages.Count; i++)
 					errors.AppendFormat(fmt, i + 1, query.ErrorMessages[i]);
 
@@ -37,7 +36,7 @@ namespace SIL.Pa.PhoneticSearching
 				if (!App.ConvertClassesToPatterns(query, out modifiedQuery, false, out m_queryErrorMsg))
 					return;
 
-				SearchEngine engine = new SearchEngine(modifiedQuery.Pattern);
+				var engine = new SearchEngine(modifiedQuery.Pattern);
 
 				if (engine.GetWordBoundaryCondition() != SearchEngine.WordBoundaryCondition.NoCondition)
 					m_queryErrorMsg = WordBoundaryError;
@@ -66,9 +65,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			get
 			{
-				return App.LocalizeString("SearchQuery.WordBoundaryError",
-						"The space/word boundary symbol (#) may not be the first or last item in the search item portion (what precedes the slash) of the search pattern. Please correct this and try your search again.",
-						App.kLocalizationGroupInfoMsg);
+				return App.GetString("SearchQuery.WordBoundaryError",
+						"The space/word boundary symbol (#) may not be the first or last item in the search item portion (what precedes the slash) of the search pattern. Please correct this and try your search again.");
 			}
 		}
 
@@ -77,9 +75,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			get
 			{
-				return App.LocalizeString("SearchQuery.ZeroOrMoreError",
-					"The zero-or-more symbol (*) was found in an invalid location within the search pattern. The zero-or-more symbol may only be the first item in the preceding environment and/or the last item in the environment after. Please correct this and try your search again.",
-					App.kLocalizationGroupInfoMsg);
+				return App.GetString("SearchQuery.ZeroOrMoreError",
+					"The zero-or-more symbol (*) was found in an invalid location within the search pattern. The zero-or-more symbol may only be the first item in the preceding environment and/or the last item in the environment after. Please correct this and try your search again.");
 			}
 		}
 
@@ -88,9 +85,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			get
 			{
-				return App.LocalizeString("SearchQuery.OneOrMoreError",
-					"The one-or-more symbol (+) was found in an invalid location within the search pattern. The one-or-more symbol may only be the first item in the preceding environment and/or the last item in the environment after. Please correct this and try your search again.",
-					App.kLocalizationGroupInfoMsg);
+				return App.GetString("SearchQuery.OneOrMoreError",
+					"The one-or-more symbol (+) was found in an invalid location within the search pattern. The one-or-more symbol may only be the first item in the preceding environment and/or the last item in the environment after. Please correct this and try your search again.");
 			}
 		}
 

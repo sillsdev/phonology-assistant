@@ -18,7 +18,6 @@ namespace SIL.Pa.UI.Controls
 		private const int kBigFontSize = 19;
 
 		public event CharPicker.CharPickedHandler CharPicked;
-		public event CharPicker.ShouldLoadCharHandler ShouldLoadChar;
 		public event ItemDragEventHandler ItemDrag;
 
 		private CharPicker m_pickerConsonant;
@@ -29,6 +28,8 @@ namespace SIL.Pa.UI.Controls
 		private CharPicker m_pickerDiacritics;
 		private CharPicker m_pickerTone;
 		private List<IPASymbolTypeInfo> m_typesToShow;
+
+		private Func<IPASymbol, bool> ShouldLoadCharacterDelegate { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -75,7 +76,6 @@ namespace SIL.Pa.UI.Controls
 				if (m_pickerConsonant != null && !m_pickerConsonant.IsDisposed)
 				{
 					m_pickerConsonant.CharPicked -= HandleCharPicked;
-					m_pickerConsonant.ShouldLoadChar -= HandleShouldLoadCharacter;
 					m_pickerConsonant.ItemDrag -= HandleCharacterItemDrag;
 					m_pickerConsonant.Dispose();
 				}
@@ -83,7 +83,6 @@ namespace SIL.Pa.UI.Controls
 				if (m_pickerNonPulmonics != null && !m_pickerNonPulmonics.IsDisposed)
 				{
 					m_pickerNonPulmonics.CharPicked -= HandleCharPicked;
-					m_pickerNonPulmonics.ShouldLoadChar -= HandleShouldLoadCharacter;
 					m_pickerNonPulmonics.ItemDrag -= HandleCharacterItemDrag;
 					m_pickerNonPulmonics.Dispose();
 				}
@@ -91,7 +90,6 @@ namespace SIL.Pa.UI.Controls
 				if (m_pickerOther != null && !m_pickerOther.IsDisposed)
 				{
 					m_pickerOther.CharPicked -= HandleCharPicked;
-					m_pickerOther.ShouldLoadChar -= HandleShouldLoadCharacter;
 					m_pickerOther.ItemDrag -= HandleCharacterItemDrag;
 					m_pickerOther.Dispose();
 				}
@@ -99,7 +97,6 @@ namespace SIL.Pa.UI.Controls
 				if (m_pickerVowel != null && !m_pickerVowel.IsDisposed)
 				{
 					m_pickerVowel.CharPicked -= HandleCharPicked;
-					m_pickerVowel.ShouldLoadChar -= HandleShouldLoadCharacter;
 					m_pickerVowel.ItemDrag -= HandleCharacterItemDrag;
 					m_pickerVowel.Dispose();
 				}
@@ -107,7 +104,6 @@ namespace SIL.Pa.UI.Controls
 				if (m_pickerDiacritics != null && !m_pickerDiacritics.IsDisposed)
 				{
 					m_pickerDiacritics.CharPicked -= HandleCharPicked;
-					m_pickerDiacritics.ShouldLoadChar -= HandleShouldLoadCharacter;
 					m_pickerDiacritics.ItemDrag -= HandleCharacterItemDrag;
 					m_pickerDiacritics.Dispose();
 				}
@@ -115,7 +111,6 @@ namespace SIL.Pa.UI.Controls
 				if (m_pickerSSeg != null && !m_pickerSSeg.IsDisposed)
 				{
 					m_pickerSSeg.CharPicked -= HandleCharPicked;
-					m_pickerSSeg.ShouldLoadChar -= HandleShouldLoadCharacter;
 					m_pickerSSeg.ItemDrag -= HandleCharacterItemDrag;
 					m_pickerSSeg.Dispose();
 				}
@@ -123,7 +118,6 @@ namespace SIL.Pa.UI.Controls
 				if (m_pickerTone != null && !m_pickerTone.IsDisposed)
 				{
 					m_pickerTone.CharPicked -= HandleCharPicked;
-					m_pickerTone.ShouldLoadChar -= HandleShouldLoadCharacter;
 					m_pickerTone.ItemDrag -= HandleCharacterItemDrag;
 					m_pickerTone.Dispose();
 				}
@@ -141,9 +135,21 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void Load()
 		{
+			Load(null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Initializes the explorer bar with all the necessary IPA character choosers for
+		/// classes based on IPA characters.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void Load(Func<IPASymbol, bool> shouldLoadCharDelegate)
+		{
 			if (App.DesignMode)
 				return;
 
+			ShouldLoadCharacterDelegate = shouldLoadCharDelegate;
 			Utils.SetWindowRedraw(this, false, false);
 
 			// Loop through the list of character types for which to build a chooser.
@@ -194,7 +200,7 @@ namespace SIL.Pa.UI.Controls
 			if (suspendDraw)
 				Utils.SetWindowRedraw(this, false, false);
 
-			foreach (ExplorerBarItem item in Items)
+			foreach (var item in Items)
 			{
 				CharPicker picker = item.Control as CharPicker;
 				if (picker != null && picker == item.Control)
@@ -215,18 +221,16 @@ namespace SIL.Pa.UI.Controls
 			m_pickerConsonant = new CharPicker();
 			m_pickerConsonant.Name = "chrPickerConsonants";
 			m_pickerConsonant.CharPicked += HandleCharPicked;
-			m_pickerConsonant.ShouldLoadChar += HandleShouldLoadCharacter;
 			m_pickerConsonant.ItemDrag += HandleCharacterItemDrag;
-			m_pickerConsonant.LoadCharacterType(typeInfo);
+			m_pickerConsonant.LoadCharacterType(typeInfo, ShouldLoadCharacterDelegate);
 			m_pickerConsonant.CheckItemsOnClick = false;
 			m_pickerConsonant.AutoSizeItems = true;
 
-			ExplorerBarItem item = Add(m_pickerConsonant);
+			var item = Add(m_pickerConsonant);
 
-			App.LocalizeObject(item.Button, 
+			App.GetStringForObject(item.Button, 
 				"IPACharacterChooser.ConsonantsCharChooserHeading", "Consonants", 
-				"Text on heading above list of consonants from which to choose in side bar of search and XY chart views.",
-				App.kLocalizationGroupDialogs);
+				"Text on heading above list of consonants from which to choose in side bar of search and XY chart views.");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -239,18 +243,16 @@ namespace SIL.Pa.UI.Controls
 			m_pickerNonPulmonics = new CharPicker();
 			m_pickerNonPulmonics.Name = "chrPickerNonPulmonics";
 			m_pickerNonPulmonics.CharPicked += HandleCharPicked;
-			m_pickerNonPulmonics.ShouldLoadChar += HandleShouldLoadCharacter;
 			m_pickerNonPulmonics.ItemDrag += HandleCharacterItemDrag;
-			m_pickerNonPulmonics.LoadCharacterType(typeInfo);
+			m_pickerNonPulmonics.LoadCharacterType(typeInfo, ShouldLoadCharacterDelegate);
 			m_pickerNonPulmonics.CheckItemsOnClick = false;
 			m_pickerNonPulmonics.AutoSizeItems = true;
 			
-			ExplorerBarItem item = Add(m_pickerNonPulmonics);
+			var item = Add(m_pickerNonPulmonics);
 
-			App.LocalizeObject(item.Button,
+			App.GetStringForObject(item.Button,
 				"IPACharacterChooser.NonPulmonicsCharChooserHeading", "Non Pulmonics", 
-				"Text on heading above list of non pulmonic consonants from which to choose in side bar of search and XY chart views.",
-				App.kLocalizationGroupDialogs);
+				"Text on heading above list of non pulmonic consonants from which to choose in side bar of search and XY chart views.");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -263,18 +265,16 @@ namespace SIL.Pa.UI.Controls
 			m_pickerOther = new CharPicker();
 			m_pickerOther.Name = "chrPickerOthers";
 			m_pickerOther.CharPicked += HandleCharPicked;
-			m_pickerOther.ShouldLoadChar += HandleShouldLoadCharacter;
 			m_pickerOther.ItemDrag += HandleCharacterItemDrag;
-			m_pickerOther.LoadCharacterType(typeInfo);
+			m_pickerOther.LoadCharacterType(typeInfo, ShouldLoadCharacterDelegate);
 			m_pickerOther.CheckItemsOnClick = false;
 			m_pickerOther.AutoSizeItems = true;
 			
-			ExplorerBarItem item = Add(m_pickerOther);
+			var item = Add(m_pickerOther);
 
-			App.LocalizeObject(item.Button,
+			App.GetStringForObject(item.Button,
 				"IPACharacterChooser.OtherSymbolsCharChooserHeading", "Other Symbols",
-				"Text on heading above list of other symbols from which to choose in side bar of search and XY chart views.",
-				App.kLocalizationGroupDialogs);
+				"Text on heading above list of other symbols from which to choose in side bar of search and XY chart views.");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -287,18 +287,16 @@ namespace SIL.Pa.UI.Controls
 			m_pickerVowel = new CharPicker();
 			m_pickerVowel.Name = "chrPickerVowels";
 			m_pickerVowel.CharPicked += HandleCharPicked;
-			m_pickerVowel.ShouldLoadChar += HandleShouldLoadCharacter;
 			m_pickerVowel.ItemDrag += HandleCharacterItemDrag;
-			m_pickerVowel.LoadCharacterType(typeInfo);
+			m_pickerVowel.LoadCharacterType(typeInfo, ShouldLoadCharacterDelegate);
 			m_pickerVowel.CheckItemsOnClick = false;
 			m_pickerVowel.AutoSizeItems = true;
 
-			ExplorerBarItem item = Add(m_pickerVowel);
+			var item = Add(m_pickerVowel);
 
-			App.LocalizeObject(item.Button,
+			App.GetStringForObject(item.Button,
 				"IPACharacterChooser.VowelsCharChooserHeading", "Vowels",
-				"Text on heading above list of vowels from which to choose in side bar of search and XY chart views.",
-				App.kLocalizationGroupDialogs);
+				"Text on heading above list of vowels from which to choose in side bar of search and XY chart views.");
 		}
         
 		/// ------------------------------------------------------------------------------------
@@ -311,19 +309,17 @@ namespace SIL.Pa.UI.Controls
 			m_pickerDiacritics = new CharPicker();
 			m_pickerDiacritics.Name = "chrPickerDiacritics";
 			m_pickerDiacritics.CharPicked += HandleCharPicked;
-			m_pickerDiacritics.ShouldLoadChar += HandleShouldLoadCharacter;
 			m_pickerDiacritics.ItemDrag += HandleCharacterItemDrag;
-			m_pickerDiacritics.LoadCharacterType(typeInfo);
+			m_pickerDiacritics.LoadCharacterType(typeInfo, ShouldLoadCharacterDelegate);
 			
 			m_pickerDiacritics.CheckItemsOnClick = false;
 			m_pickerDiacritics.AutoSizeItems = true;
 
-			ExplorerBarItem item = Add(m_pickerDiacritics);
+			var item = Add(m_pickerDiacritics);
 
-			App.LocalizeObject(item.Button,
+			App.GetStringForObject(item.Button,
 				"IPACharacterChooser.DiacriticsCharChooserHeading", "Diacritics",
-				"Text on heading above list of diacritics from which to choose in side bar of search and XY chart views.",
-				App.kLocalizationGroupDialogs);
+				"Text on heading above list of diacritics from which to choose in side bar of search and XY chart views.");
 
 			// Enlarge the font and cell size
 			m_pickerDiacritics.Font = FontHelper.MakeFont(m_pickerDiacritics.Font, kBigFontSize);
@@ -340,19 +336,17 @@ namespace SIL.Pa.UI.Controls
 			m_pickerSSeg = new CharPicker();
 			m_pickerSSeg.Name = "chrPickerSSegs";
 			m_pickerSSeg.CharPicked += HandleCharPicked;
-			m_pickerSSeg.ShouldLoadChar += HandleShouldLoadCharacter;
 			m_pickerSSeg.ItemDrag += HandleCharacterItemDrag;
-			m_pickerSSeg.LoadCharacterType(typeInfo);
+			m_pickerSSeg.LoadCharacterType(typeInfo, ShouldLoadCharacterDelegate);
 			
 			m_pickerSSeg.CheckItemsOnClick = false;
 			m_pickerSSeg.AutoSizeItems = true;
 	
-			ExplorerBarItem item = Add(m_pickerSSeg);
+			var item = Add(m_pickerSSeg);
 
-			App.LocalizeObject(item.Button,
+			App.GetStringForObject(item.Button,
 				"IPACharacterChooser.SSegsCharChooserHeading", "Stress and Length\\n(Suprasegmentals)",
-				"Text on heading above list of suprasegmentals from which to choose in side bar of search and XY chart views.",
-				App.kLocalizationGroupDialogs);
+				"Text on heading above list of suprasegmentals from which to choose in side bar of search and XY chart views.");
 
 			// Enlarge the font and cell size
 			m_pickerSSeg.Font = FontHelper.MakeFont(m_pickerSSeg.Font, kBigFontSize);
@@ -369,34 +363,21 @@ namespace SIL.Pa.UI.Controls
 			m_pickerTone = new CharPicker();
 			m_pickerTone.Name = "chrPickerTone";
 			m_pickerTone.CharPicked += HandleCharPicked;
-			m_pickerTone.ShouldLoadChar += HandleShouldLoadCharacter;
 			m_pickerTone.ItemDrag += HandleCharacterItemDrag;
-			m_pickerTone.LoadCharacterType(typeInfo);
+			m_pickerTone.LoadCharacterType(typeInfo, ShouldLoadCharacterDelegate);
 
 			m_pickerTone.CheckItemsOnClick = false;
 			m_pickerTone.AutoSizeItems = true;
 			
-			ExplorerBarItem item = Add(m_pickerTone);
+			var item = Add(m_pickerTone);
 
-			App.LocalizeObject(item.Button,
+			App.GetStringForObject(item.Button,
 				"IPACharacterChooser.ToneCharChooserHeading", "Tone and Accents",
-				"Text on heading above list of tones and accents from which to choose in side bar of search and XY chart views.",
-				App.kLocalizationGroupDialogs);
+				"Text on heading above list of tones and accents from which to choose in side bar of search and XY chart views.");
 
 			// Enlarge the font and cell size
 			m_pickerTone.Font = FontHelper.MakeFont(m_pickerTone.Font, kBigFontSize);
 			m_pickerTone.ItemSize = new Size(40, 46);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Calls the delegate assigned to determining whether or not the specified IPA
-		/// character should be loaded in the specified chooser.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private bool HandleShouldLoadCharacter(CharPicker picker, IPASymbol charInfo)
-		{
-			return (ShouldLoadChar == null ? true : ShouldLoadChar(picker, charInfo));
 		}
 
 		#endregion

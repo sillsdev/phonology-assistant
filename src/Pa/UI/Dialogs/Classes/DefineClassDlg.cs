@@ -33,10 +33,6 @@ namespace SIL.Pa.UI.Dialogs
 
 		#region Construction and setup
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private DefineClassDlg()
 		{
 			Utils.WaitCursors(true);
@@ -71,19 +67,11 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private DefineClassDlg(ClassesDlg classDlg) : this()
 		{
 			m_classesDlg = classDlg;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public DefineClassDlg(SearchClassType type, ClassesDlg classDlg) : this(classDlg)
 		{
@@ -92,10 +80,6 @@ namespace SIL.Pa.UI.Dialogs
 			Setup();
 		}
 		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public DefineClassDlg(ClassListViewItem classInfo, ClassesDlg classDlg) : this(classDlg)
 		{
@@ -106,10 +90,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void SetClassTypeTexts()
 		{
 			string classTypeText = string.Empty;
@@ -117,37 +97,33 @@ namespace SIL.Pa.UI.Dialogs
 			switch (m_classInfo.ClassType)
 			{
 				case SearchClassType.Phones:
-					classTypeText = App.LocalizeString(
+					classTypeText = App.GetString(
 						"DefineClassDlg.PhoneClassDialogCaptionPrefix", "Phones", 
-						"Part of the title for the dialog box when defining a phone class.",
-						App.kLocalizationGroupDialogs);
+						"Part of the title for the dialog box when defining a phone class.");
 
-					lblClassTypeValue.Text = App.LocalizeString("DefineClassDlg.PhonesClassTypeLabel",
-						"Phones", "Phone class type label.", App.kLocalizationGroupDialogs);
+					lblClassTypeValue.Text = App.GetString("DefineClassDlg.PhonesClassTypeLabel",
+						"Phones", "Phone class type label.");
 
 					break;
 
 				case SearchClassType.Articulatory:
-					classTypeText = App.LocalizeString(
+					classTypeText = App.GetString(
 						"DefineClassDlg.ArticulatoryFeatureClassDialogCaptionPrefix", "Articulatory Features",
-						"Part of the title for the dialog box when defining a articulatory features class.",
-						App.kLocalizationGroupDialogs);
+						"Part of the title for the dialog box when defining a articulatory features class.");
 
-					lblClassTypeValue.Text = App.LocalizeString(
+					lblClassTypeValue.Text = App.GetString(
 						"DefineClassDlg.ArticulatoryFeaturesClassTypeLabel", "Articulatory features",
-						"Articulatory features class type label.", App.kLocalizationGroupDialogs);
+						"Articulatory features class type label.");
 
 					break;
 
 				case SearchClassType.Binary:
-					classTypeText = App.LocalizeString(
+					classTypeText = App.GetString(
 						"DefineClassDlg.BinaryFeatureClassDialogCaptionPrefix", "Binary Features",
-						"Part of the title for the dialog box when defining a binary features class.",
-						App.kLocalizationGroupDialogs);
+						"Part of the title for the dialog box when defining a binary features class.");
 
-					lblClassTypeValue.Text = App.LocalizeString("DefineClassDlg.BinaryFeaturesClassTypeLabel",
-						"Binary features", "Binary features class type label.",
-						App.kLocalizationGroupDialogs);
+					lblClassTypeValue.Text = App.GetString("DefineClassDlg.BinaryFeaturesClassTypeLabel",
+						"Binary features", "Binary features class type label.");
 
 					break;
 
@@ -207,7 +183,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			// Adjust properties of the members text box accordingly.
 			txtMembers.Font = (m_classInfo.ClassType == SearchClassType.Phones ?
-				FontHelper.MakeEticRegFontDerivative(16) : FontHelper.UIFont);
+				FontHelper.MakeRegularFontDerivative(App.PhoneticFont, 16) : FontHelper.UIFont);
 
 			txtMembers.Text = m_classInfo.FormattedMembersString;
 			txtMembers.ReadOnly = (m_classInfo.ClassType != SearchClassType.Phones);
@@ -267,7 +243,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void SetupPhoneViewers()
 		{
-			m_conViewer = new PhonesInFeatureViewer(IPASymbolType.Consonant,
+			m_conViewer = new PhonesInFeatureViewer(m_classesDlg.Project, IPASymbolType.Consonant,
 				Settings.Default.DefineClassDlgShowAllConsonantsInViewer,
 				Settings.Default.DefineClassDlgUseCompactConsonantView,
 				showAll => Settings.Default.DefineClassDlgShowAllConsonantsInViewer = showAll,
@@ -278,7 +254,7 @@ namespace SIL.Pa.UI.Dialogs
 			splitCV.Panel1.Controls.Add(m_conViewer);
 			m_conViewer.BringToFront();
 
-			m_vowViewer = new PhonesInFeatureViewer(IPASymbolType.Vowel,
+			m_vowViewer = new PhonesInFeatureViewer(m_classesDlg.Project, IPASymbolType.Vowel,
 				Settings.Default.DefineClassDlgShowAllVowelsInViewer,
 				Settings.Default.DefineClassDlgUseCompactVowelView,
 				showAll => Settings.Default.DefineClassDlgShowAllVowelsInViewer = showAll,
@@ -289,7 +265,7 @@ namespace SIL.Pa.UI.Dialogs
 			splitCV.Panel2.Controls.Add(m_vowViewer);
 			m_vowViewer.BringToFront();
 
-			m_otherPhonesViewer = new PhonesInFeatureViewer(IPASymbolType.Unknown,
+			m_otherPhonesViewer = new PhonesInFeatureViewer(m_classesDlg.Project, IPASymbolType.Unknown,
 				Settings.Default.DefineClassDlgShowAllOthersInViewer,
 				Settings.Default.DefineClassDlgUseCompactOtherView,
 				showAll => Settings.Default.DefineClassDlgShowAllOthersInViewer = showAll,
@@ -357,10 +333,6 @@ namespace SIL.Pa.UI.Dialogs
 
 		#region Overridden methods
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
 			Debug.Assert(m_classesDlg != null);
@@ -424,7 +396,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (m_classInfo.ClassType == SearchClassType.Phones)
 			{
 				// Check if any of the characters entered are invalid.
-				List<char> undefinedChars = new List<char>();
+				var undefinedChars = new List<char>();
 				foreach (char c in txtMembers.Text.Trim().Replace(",", string.Empty))
 				{
 					if (App.IPASymbolCache[c] == null || App.IPASymbolCache[c].IsUndefined)
@@ -457,8 +429,7 @@ namespace SIL.Pa.UI.Dialogs
 			// Ensure the new class doesn't have an empty class name
 			if (txtClassName.Text == string.Empty)
 			{
-				Utils.MsgBox(Properties.Resources.kstidDefineClassEmptyClassName,
-					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(App.GetString("DefineClassDlg.EmptyClassNameMsg", "Class name must not be empty."));
 				return false;
 			}
 
@@ -490,7 +461,7 @@ namespace SIL.Pa.UI.Dialogs
 					return txtMembers.Text.Trim();
 
 				string phones = txtMembers.Text.Trim().Replace(",", string.Empty);
-				phones = App.IPASymbolCache.PhoneticParser_CommaDelimited(phones, true, true);
+				phones = m_classesDlg.Project.PhoneticParser.PhoneticParser_CommaDelimited(phones, true, true);
 				return "{" + (phones ?? string.Empty) + "}";
 			}
 		}
@@ -591,7 +562,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void lvClasses_DoubleClick(object sender, EventArgs e)
 		{
-			if (lvClasses.SelectedItems == null || lvClasses.SelectedItems.Count == 0)
+			if (lvClasses.SelectedItems.Count == 0)
 				return;
 
 			//ClassListViewItem item = lvClasses.SelectedItems[0] as ClassListViewItem;

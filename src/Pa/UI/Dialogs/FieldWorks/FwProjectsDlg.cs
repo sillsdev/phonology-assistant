@@ -1,6 +1,8 @@
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows.Forms;
+using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
@@ -15,33 +17,16 @@ namespace SIL.Pa.UI.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class FwProjectsDlg : OKCancelDlgBase
 	{
-		private readonly PaProject m_project;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public FwProjectsDlg()
 		{
 			InitializeComponent();
-
-			if (DesignMode)
-				return;
-
-			btnProperties.Margin = new Padding(0, btnOK.Margin.Top, 0, btnOK.Margin.Bottom);
-			tblLayoutButtons.Controls.Add(btnProperties, 0, 0);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public FwProjectsDlg(PaProject project) : this()
 		{
 			Debug.Assert(project != null);
-			m_project = project;
 
 			lblMsg.Font = FontHelper.UIFont;
 			lstFwProjects.Font = FontHelper.UIFont;
@@ -67,13 +52,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		void Application_Idle(object sender, EventArgs e)
 		{
-			btnOK.Enabled = btnProperties.Enabled = (ChosenDatabase != null);
+			btnOK.Enabled = (ChosenDatabase != null);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
@@ -85,31 +66,12 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnHandleCreated(EventArgs e)
-		{
-			base.OnHandleCreated(e);
-			App.MsgMediator.SendMessage(Name + "HandleCreated", this);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
 			Settings.Default.FwProjectsDlgSplitLoc = splitContainer1.SplitterDistance;
 			base.SaveSettings();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnClosed(EventArgs e)
 		{
@@ -128,32 +90,13 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void btnProperties_Click(object sender, EventArgs e)
+		private void HandleNetworkTreeViewAfterSelect(object sender, TreeViewEventArgs e)
 		{
-			using (FwDataSourcePropertiesDlg dlg =
-				new FwDataSourcePropertiesDlg(m_project, ChosenDatabase))
-			{
-				dlg.ShowDialog(this);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void tvNetwork_AfterSelect(object sender, TreeViewEventArgs e)
-		{
-			NetworkTreeNode node = e.Node as NetworkTreeNode;
+			var node = e.Node as NetworkTreeNode;
 			if (node == null)
 				return;
 
 			Cursor = Cursors.WaitCursor;
-			btnProperties.Enabled = false;
 			btnOK.Enabled = false;
 			lstFwProjects.SelectedIndex = -1;
 			lstFwProjects.Items.Clear();
@@ -163,31 +106,23 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (!string.IsNullOrEmpty(node.MachineName))
 			{
-				txtMsg.Text = App.LocalizeString(
-					"FwProjectsDlg..SearchingForFwDatabasesMsg", "Searching...",
-					App.kLocalizationGroupDialogs);
-				
+				txtMsg.Text = App.GetString("FwProjectsDlg.SearchingForFwDatabasesMsg", "Searching...");
 				txtMsg.Visible = true;
 				Application.DoEvents();
 
-				FwDataSourceInfo[] fwDataSourceInfo =
-					FwDBUtils.GetFwDataSourceInfoList(node.MachineName, false);
-
 				lstFwProjects.Items.Clear();
-
-				if (fwDataSourceInfo != null && fwDataSourceInfo.Length > 0)
+				
+				var dsInfo = FwDBUtils.GetFwDataSourceInfoList(node.MachineName, false).ToArray();
+				if (dsInfo.Length > 0)
 				{
-					lstFwProjects.Items.AddRange(fwDataSourceInfo);
+					lstFwProjects.Items.AddRange(dsInfo);
 					lstFwProjects.SelectedIndex = 0;
 					lstFwProjects.Visible = true;
 					txtMsg.Visible = false;
 				}
 				else
 				{
-					var fmt = App.LocalizeString(
-						"FwProjectsDlg.NoFwProjectsFoundMsg", "No projects found on '{0}'.",
-						App.kLocalizationGroupDialogs);
-		
+					var fmt = App.GetString("FwProjectsDlg.NoFwProjectsFoundMsg", "No projects found on '{0}'.");
 					txtMsg.Text = string.Format(fmt, node.MachineName);
 				}
 			}

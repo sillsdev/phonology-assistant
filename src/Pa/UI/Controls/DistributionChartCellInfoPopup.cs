@@ -41,7 +41,7 @@ namespace SIL.Pa.UI.Controls
 			m_popupTimer.Tick += m_popupTimer_Tick;
 			m_popupTimer.Stop();
 
-			m_eticBold = FontHelper.MakeFont(FontHelper.PhoneticFont, FontStyle.Bold);
+			m_eticBold = FontHelper.MakeFont(App.PhoneticFont, FontStyle.Bold);
 			m_lblMsg.Font = FontHelper.UIFont;
 		}
 
@@ -138,7 +138,7 @@ namespace SIL.Pa.UI.Controls
 							bldr.Append(invalidItems[i]);
 						else
 						{
-							var fmt = App.LocalizeString("ChartPopupUndefinedSymbolFormatMsg",
+							var fmt = App.GetString("ChartPopupUndefinedSymbolFormatMsg",
 								"{0} (U+{1})", "Views.Distribution Charts");
 
 							bldr.AppendFormat(fmt, invalidItems[i],
@@ -177,12 +177,12 @@ namespace SIL.Pa.UI.Controls
 			else if (msgType == MsgType.InvalidCharacters)
 			{
 				msg = DistributionGrid.PopupUndefinedSymbolsMsg;
-				m_lblInfo.Font = FontHelper.PhoneticFont;
+				m_lblInfo.Font = App.PhoneticFont;
 			}
 			else
 			{
 				msg = DistributionGrid.PopupInvalidPhonesMsg;
-				m_lblInfo.Font = FontHelper.PhoneticFont;
+				m_lblInfo.Font = App.PhoneticFont;
 			}
 
 			m_lblMsg.Text = Utils.ConvertLiteralNewLines(msg);

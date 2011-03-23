@@ -1,16 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
-using SIL.Pa.Model;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
 {
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class RtfHelper
 	{
@@ -27,26 +23,20 @@ namespace SIL.Pa.UI.Controls
 			else
 				fontNumbers.Clear();
 
-			PaFieldInfoList fields = (App.Project != null ?
-				App.Project.FieldInfo : App.FieldInfo);
-			
 			const string fontFmt = "{{\\f{0}\\fnil {1};}}";
 
 			// Save the font information that will be written to the RTF.
-			StringBuilder bldr = new StringBuilder();
+			var bldr = new StringBuilder();
+			int i = 0;
 			bldr.AppendLine("{\\fonttbl");
-			for (int i = 0; i < fields.Count; i++)
+			foreach (var field in App.Project.Fields.Where(f => f.Font != null))
 			{
-				if (fields[i].Font != null)
-				{
-					bldr.AppendLine(string.Format(fontFmt, i, fields[i].Font.Name));
-					fontNumbers[fields[i].FieldName] = i;
-				}
+				bldr.AppendLine(string.Format(fontFmt, i, field.Font.Name));
+				fontNumbers[field.Name] = i++;
 			}
 
 			// Now write the UI font to the font table.
-			uiFontNumber = fields.Count;
-			bldr.AppendFormat(fontFmt, uiFontNumber, FontHelper.UIFont.Name);
+			bldr.AppendFormat(fontFmt, i, FontHelper.UIFont.Name);
 
 			return bldr.Append("}").ToString();
 		}
@@ -120,7 +110,7 @@ namespace SIL.Pa.UI.Controls
 		public static string TranslateUnicodeChars(string rtf)
 		{
 			const string unicodeMarkup = "\\u{0}?";
-			StringBuilder newRtf = new StringBuilder();
+			var newRtf = new StringBuilder();
 
 			foreach (char c in rtf)
 			{

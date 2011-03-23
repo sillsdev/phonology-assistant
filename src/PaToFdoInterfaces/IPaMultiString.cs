@@ -10,10 +10,10 @@ namespace SIL.PaToFdoInterfaces
 	{
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the string for the writing system having the specified hvo.
+		/// Gets the string for the writing system having the specified Id.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		string GetString(int hvoWs);
+		string GetString(string wsId);
 	}
 
 	#endregion

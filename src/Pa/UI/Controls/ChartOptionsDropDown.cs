@@ -23,11 +23,14 @@ namespace SIL.Pa.UI.Controls
 
 			float fontSize = Math.Min(17, SystemInformation.MenuFont.SizeInPoints * 2);
 
-			pickerIgnore.Font =	FontHelper.MakeEticRegFontDerivative(fontSize);
+			pickerIgnore.Font =	FontHelper.MakeRegularFontDerivative(App.PhoneticFont, fontSize);
+			
 			pickerIgnore.ItemSize = new Size(pickerIgnore.PreferredItemHeight,
 				pickerIgnore.PreferredItemHeight);
-			pickerIgnore.ShouldLoadChar += pickerIgnore_ShouldLoadChar;
-			pickerIgnore.LoadCharacters();
+			
+			pickerIgnore.LoadCharacters(ci =>
+				!ci.IsBase && ci.IgnoreType != IPASymbolIgnoreType.NotApplicable);
+
 			SetIgnoredChars(ignoreList);
 
 			// Adjust the size of the drop-down to fit 5 columns.
@@ -41,17 +44,6 @@ namespace SIL.Pa.UI.Controls
 
 			lnkHelp.Top = lnkRefresh.Top;
 			lnkHelp.Left = ClientRectangle.Right - lnkHelp.Width - 10;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Returns a value indicating whether or not the character in the specified
-		/// IPACharInfo object should be in the ignore list.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private bool pickerIgnore_ShouldLoadChar(CharPicker picker, IPASymbol charInfo)
-		{
-			return (!charInfo.IsBase && charInfo.IgnoreType != IPASymbolIgnoreType.NotApplicable);
 		}
 
 		/// ------------------------------------------------------------------------------------

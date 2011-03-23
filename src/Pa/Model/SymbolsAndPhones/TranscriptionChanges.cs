@@ -18,30 +18,6 @@ namespace SIL.Pa.Model
 	{
 		public const string kFileName = "TranscriptionChanges.xml";
 
-		#region Method to migrate previous versions of transcription changes file to current.
-		/// ------------------------------------------------------------------------------------
-		public static void MigrateToLatestVersion(string newFileName, string projectPathPrefix)
-		{
-			var errMsg = App.LocalizeString(
-				"TranscriptionChangesMigrationErrMsg",
-				"The following error occurred while attempting to update your project’s " +
-				"transcription changes file (formerly experimental transcriptions):\n\n{0}\n\n" +
-				"In order to continue working, your original file containing transcriptions " +
-				"will be renamed to the following file: '{1}'.",
-				"Message displayed when updating transcription changes (formerly experimental transcriptions) file to new version.",
-				App.kLocalizationGroupMisc);
-
-			var oldFileName = projectPathPrefix + "ExperimentalTranscriptions.xml";
-
-			App.MigrateToLatestVersion(oldFileName, Assembly.GetExecutingAssembly(),
-			    "SIL.Pa.Model.UpdateFileTransforms.UpdateExperimentalTranscriptionFile.xslt", errMsg);
-
-			if (File.Exists(oldFileName) && !File.Exists(newFileName))
-				File.Move(oldFileName, newFileName);
-		}
-
-		#endregion
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads the project's transcription changes.
@@ -49,41 +25,37 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static TranscriptionChanges Load(string projectPathPrefix)
 		{
-			string filename = projectPathPrefix + kFileName;
+			string filename = GetFileForProject(projectPathPrefix);
 
-			MigrateToLatestVersion(filename, projectPathPrefix);
-			
-			var experimentalTrans = XmlSerializationHelper.DeserializeFromFile<TranscriptionChanges>(filename);
+			var transChanges = XmlSerializationHelper.DeserializeFromFile<TranscriptionChanges>(filename);
 
 			// This should never need to be done, but just in case there are entries in
 			// the list whose source transcription (i.e. Item) is null, remove them from
 			// the list since those entries will cause problems further down the line.
-			if (experimentalTrans != null)
+			if (transChanges != null)
 			{
-				for (int i = experimentalTrans.Count - 1; i >= 0; i--)
+				for (int i = transChanges.Count - 1; i >= 0; i--)
 				{
-					if (experimentalTrans[i].WhatToReplace == null)
-						experimentalTrans.RemoveAt(i);
+					if (transChanges[i].WhatToReplace == null)
+						transChanges.RemoveAt(i);
 				}
 			}
 
-			return (experimentalTrans ?? new TranscriptionChanges());
+			return (transChanges ?? new TranscriptionChanges());
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public static string GetFileForProject(string projectPathPrefix)
+		{
+			return projectPathPrefix + kFileName;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public void Save(string pathPrefix)
 		{
 			XmlSerializationHelper.SerializeToFile(pathPrefix + kFileName, this);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public bool AnyTranscriptionChanges
@@ -188,14 +160,13 @@ namespace SIL.Pa.Model
 			}
 
 			char token = (char)1;
-			Dictionary<char, KeyValuePair<string, string>> transAndMarkerInfo =
-				new Dictionary<char, KeyValuePair<string, string>>();
+			var transAndMarkerInfo = new Dictionary<char, KeyValuePair<string, string>>();
 
 			// This loop will go through the phonetic string and replace each occurance of
 			// an experimental transcription with a single character token. Each experimental
 			// transcription receives a unique token which is later replaced by the experimantal
 			// transcription itself.
-			foreach (KeyValuePair<string, string> kvp in ConversionList)
+			foreach (var kvp in ConversionList)
 			{
 				if (kvp.Key != null && kvp.Value != null &&
 					text.IndexOf(kvp.Key, StringComparison.Ordinal) >= 0)
@@ -210,7 +181,7 @@ namespace SIL.Pa.Model
 			
 			// Now replace each token with it's experimental transcription
 			// and build a list of the conversions that were actually made.
-			foreach (KeyValuePair<char, KeyValuePair<string, string>> kvp in transAndMarkerInfo)
+			foreach (var kvp in transAndMarkerInfo)
 			{
 				if (text.IndexOf(kvp.Key) >= 0)
 				{
@@ -228,19 +199,11 @@ namespace SIL.Pa.Model
 	}
 
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	[XmlType("change")]
 	public class TranscriptionChange
 	{
 		private string m_replaceWith;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public TranscriptionChange()
 		{
@@ -287,17 +250,9 @@ namespace SIL.Pa.Model
 		public List<ReplacementOption> ReplacementOptions { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		internal int DisplayIndex { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void SetReplacementOptions(List<string> replacementOptions)
 		{
@@ -308,10 +263,6 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
 			return WhatToReplace + (string.IsNullOrEmpty(ReplaceWith) ?
@@ -320,19 +271,11 @@ namespace SIL.Pa.Model
 	}
 
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class ReplacementOption
 	{
 		[XmlAttribute("literal")]
 		public string Literal { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{

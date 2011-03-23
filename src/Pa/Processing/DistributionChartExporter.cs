@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
@@ -115,13 +116,13 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		protected override string NumberOfRecords
 		{
-			get { return App.WordCache.Count.ToString(); }
+			get { return m_project.WordCache.Count.ToString(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<KeyValuePair<string, Font>> GetFormattingFieldInfo()
 		{
-			yield return new KeyValuePair<string, Font>("Phonetic", FontHelper.PhoneticFont);
+			yield return new KeyValuePair<string, Font>("Phonetic", m_project.GetPhoneticField().Font);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -191,7 +192,7 @@ namespace SIL.Pa.Processing
 			var invalidPhones = query.GetPhonesNotInCache() as string[];
 			if (invalidPhones != null)
 			{
-				msg = App.LocalizeString(
+				msg = App.GetString(
 					"HTMLExport.DistributionCharts.ChartHtmlPopupInfoInvalidPhonesMsg",
 					"This pattern contains the following phone(s) not found in the data: ",
 					"Export");
@@ -205,12 +206,12 @@ namespace SIL.Pa.Processing
 			var invalidSymbols = query.GetSymbolsNotInInventory() as char[];
 			if (invalidSymbols != null)
 			{
-				msg = App.LocalizeString(
+				msg = App.GetString(
 					"HTMLExport.DistributionCharts.Export.ChartHtmlPopupInfoUndefinedSymbolsMsg",
 					"This pattern contains the following undefined phonetic symbol(s): ",
 					"Export");
 
-				var fmt = App.LocalizeString(
+				var fmt = App.GetString(
 					"HTMLExport.DistributionCharts.ChartHtmlPopupUndefinedSymbolFormatMsg", "{0} (U+{1}), ",
 					"Export");
 

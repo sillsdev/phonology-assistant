@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 
 namespace SIL.Pa.PhoneticSearching
 {
@@ -522,7 +522,7 @@ namespace SIL.Pa.PhoneticSearching
 				return null;
 			}
 
-			return new SearchEngine(modifiedQuery, App.PhoneCache);
+			return new SearchEngine(modifiedQuery, App.Project.PhoneCache);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -565,7 +565,7 @@ namespace SIL.Pa.PhoneticSearching
 			var phonesNotInData = new List<string>();
 			foreach (string phone in phonesInQuery)
 			{
-				if (!App.PhoneCache.ContainsKey(phone) && !phonesNotInData.Contains(phone))
+				if (!App.Project.PhoneCache.ContainsKey(phone) && !phonesNotInData.Contains(phone))
 					phonesNotInData.Add(phone);
 			}
 
@@ -612,19 +612,13 @@ namespace SIL.Pa.PhoneticSearching
 			if (lst1 == null && lst2 == null)
 				return true;
 
-			if ((lst1 == null && lst2 != null) || (lst2 == null && lst1 != null))
+			if (lst1 == null || lst2 == null)
 				return false;
 
 			if (lst1.Count != lst2.Count)
 				return false;
 
-			foreach (string item in lst1)
-			{
-				if (!lst2.Contains(item))
-					return false;
-			}
-
-			return true;
+			return lst1.All(lst2.Contains);
 		}
 	}
 

@@ -11,12 +11,16 @@ using System.Windows.Forms.VisualStyles;
 namespace SilTools
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class SilGrid : DataGridView
 	{
+		public delegate KeyValuePair<object, IEnumerable<object>> GetComboCellListHandler(object sender,
+			DataGridViewCell cell, DataGridViewEditingControlShowingEventArgs args);
+		
+		public event GetComboCellListHandler GetComboCellList;
+
+		//public delegate void ComboCellListValueSelectedHandler(object sender, DataGridViewCell cell, object selectedValue);
+		//public event ComboCellListValueSelectedHandler ComboCellListValueSelected;
+	
 		/// <summary>Occurs when a row is entered and after the current row's index changes.</summary>
 		public event EventHandler CurrentRowChanged;
 
@@ -28,7 +32,12 @@ namespace SilTools
 		public event GetWaterMarkRectHandler GetWaterMarkRect;
 
 		private const string kDropDownStyle = "DropDown";
-		
+
+		protected Action<int> RemoveRowAction;
+		protected Func<string> GetRemoveRowToolTipText;
+		protected Image m_removeRowImageNormal;
+		protected Image m_removeRowImageHot;
+
 		protected bool _isDirty;
 		protected bool _paintWaterMark;
 		protected bool _showWaterMarkWhenDirty;
@@ -303,31 +312,13 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		public VScrollBar VScrollBar
 		{
-			get
-			{
-				foreach (var ctrl in Controls)
-				{
-					if (ctrl is VScrollBar)
-						return ctrl as VScrollBar;
-				}
-
-				return null;
-			}
+			get { return Controls.OfType<VScrollBar>().Select(ctrl => ctrl).FirstOrDefault(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public HScrollBar HScrollBar
 		{
-			get
-			{
-				foreach (var ctrl in Controls)
-				{
-					if (ctrl is HScrollBar)
-						return ctrl as HScrollBar;
-				}
-
-				return null;
-			}
+			get { return Controls.OfType<HScrollBar>().Select(ctrl => ctrl).FirstOrDefault(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -569,6 +560,13 @@ namespace SilTools
 				CommitEdit(DataGridViewDataErrorContexts.Commit);
 				EndEdit();
 			}
+			else if (e.RowIndex < NewRowIndex && RemoveRowAction != null &&
+				GetColumnName(e.ColumnIndex) == "removerow")
+			{
+				RemoveRowAction(e.RowIndex);
+				RowCount--;
+				Invalidate();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -613,17 +611,23 @@ namespace SilTools
 				e.Control.Parent.Paint += HandleEditControlTextBoxPanelPaint;
 			}
 
+			var cbo = e.Control as ComboBox;
+			if (cbo == null)
+				return;
+
+			InitializeComboCellList(cbo, OnGetComboCellList(CurrentCell, e));
+
 			// When the cell style's tag is storing a ComboBoxStyle value, we know that value is
 			// ComboBoxStyle.DropDown. Therefore, modify the control's DropDownStyle property.
-			ComboBox cbo = e.Control as ComboBox;
-			if (cbo == null || (e.CellStyle.Tag as string) != kDropDownStyle)
+			if ((e.CellStyle.Tag as string) != kDropDownStyle)
 				return;
 
 			cbo.DropDownStyle = ComboBoxStyle.DropDown;
 			
 			// ENHANCE: Should an event delegate be provided? One to allow
 			// subscribers to have a chance to use a custom sort.
-			SortComboList(cbo);
+			if (GetComboCellList == null)
+				SortComboList(cbo);
 
 			cbo.TextChanged += delegate
 			{
@@ -633,6 +637,75 @@ namespace SilTools
 				NotifyCurrentCellDirty(true);
 			};
 		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual KeyValuePair<object, IEnumerable<object>> OnGetComboCellList(DataGridViewCell cell,
+			DataGridViewEditingControlShowingEventArgs e)
+		{
+			// Allow delegates to provide combobox cell lists on the fly.
+			return (GetComboCellList == null ?
+				new KeyValuePair<object, IEnumerable<object>>(null, null) :
+				GetComboCellList(this, cell, e));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void InitializeComboCellList(ComboBox cbo, KeyValuePair<object, IEnumerable<object>> listInfo)
+		{
+			if (listInfo.Value == null)
+				return;
+
+			//cbo.SelectionChangeCommitted -= HandleComboCellSelectionChangeCommitted;
+			//cbo.SelectionChangeCommitted += HandleComboCellSelectionChangeCommitted;
+			//cbo.HandleDestroyed -= HandleComboCellControlHandleDestroyed;
+			//cbo.HandleDestroyed += HandleComboCellControlHandleDestroyed;
+			cbo.Items.Clear();
+			cbo.Items.AddRange(listInfo.Value.ToArray());
+
+			if (listInfo.Key == null || listInfo.Value.Count() == 0)
+				return;
+
+			if (listInfo.Key.GetType() != typeof(int))
+				cbo.SelectedItem = listInfo.Key;
+			else
+			{
+				int index = (int)listInfo.Key;
+				if (index >= 0 && index < cbo.Items.Count)
+					cbo.SelectedIndex = index;
+			}
+		}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// After the user has selected an item from a combo box cell list, inform any
+		///// delegates who would like to know.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private void HandleComboCellSelectionChangeCommitted(object sender, EventArgs e)
+		//{
+		//    var cbo = sender as ComboBox;
+		//    if (cbo != null)
+		//        OnComboCellListValueSelected(CurrentCell, cbo.SelectedItem);
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		//protected virtual void OnComboCellListValueSelected(DataGridViewCell cell, object selectedItem)
+		//{
+		//    if (ComboCellListValueSelected == null)
+		//        CurrentCell.Value = selectedItem;
+		//    else
+		//        ComboCellListValueSelected(this, cell, selectedItem);
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		//void HandleComboCellControlHandleDestroyed(object sender, EventArgs e)
+		//{
+		//    var cbo = sender as ComboBox;
+		//    if (cbo == null)
+		//        return;
+
+		//    cbo.SelectionChangeCommitted -= HandleComboCellSelectionChangeCommitted;
+		//    cbo.HandleDestroyed += HandleComboCellControlHandleDestroyed;
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleEditControlTextBoxPanelPaint(object sender, PaintEventArgs e)
@@ -659,15 +732,9 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		private static void SortComboList(ComboBox cbo)
 		{
-			SortedList lst = new SortedList();
-
-			foreach (object obj in cbo.Items)
-				lst[obj] = null;
-
+			var items = cbo.Items.Cast<object>().OrderBy(o => o).ToArray();
 			cbo.Items.Clear();
-
-			foreach (DictionaryEntry de in lst)
-				cbo.Items.Add(de.Key);
+			cbo.Items.AddRange(items);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -682,18 +749,18 @@ namespace SilTools
 
 			try
 			{
-				DataGridViewComboBoxColumn col = Columns[e.ColumnIndex] as DataGridViewComboBoxColumn;
+				var col = Columns[e.ColumnIndex] as DataGridViewComboBoxColumn;
 				if (col == null || (col.DefaultCellStyle.Tag as string) != kDropDownStyle)
 					return;
 
 				// If the entered value is empty, then don't add it to the list.
-				string value = e.FormattedValue as string;
+				var value = e.FormattedValue as string;
 				if (value != null && value.Trim() == string.Empty)
 					return;
 
 				// Convert the formatted value to the type the column is expecting. Then add it
 				// to the combo list if it isn't already in there.
-				object obj = Convert.ChangeType(e.FormattedValue, col.ValueType);
+				var obj = Convert.ChangeType(e.FormattedValue, col.ValueType);
 				if (obj != null && !(col.Items.Contains(obj)))
 					col.Items.Add(obj);
 			}
@@ -701,6 +768,110 @@ namespace SilTools
 		}
 
 		#endregion
+
+		#region Methods for removing rows and the special column for removing rows.
+		/// ------------------------------------------------------------------------------------
+		public void AddRemoveRowColumn(Image imgNormal, Image imgHot,
+			Func<string> getRemoveRowToolTipText, Action<int> removeRowAction)
+		{
+			RemoveRowAction = removeRowAction;
+			m_removeRowImageNormal = imgNormal ?? Properties.Resources.RemoveGridRowNormal;
+			m_removeRowImageHot = imgHot ?? Properties.Resources.RemoveGridRowHot;
+			GetRemoveRowToolTipText = getRemoveRowToolTipText;
+
+			var col = CreateImageColumn("removerow");
+			col.HeaderText = string.Empty;
+			col.SortMode = DataGridViewColumnSortMode.NotSortable;
+			col.Resizable = DataGridViewTriState.False;
+			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+			col.Width = Properties.Resources.RemoveGridRowNormal.Width + 4;
+			col.Image = new Bitmap(m_removeRowImageNormal.Width, m_removeRowImageNormal.Height,
+				System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+			Columns.Add(col);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellValueNeeded(DataGridViewCellValueEventArgs e)
+		{
+			if (e.RowIndex != NewRowIndex && GetColumnName(e.ColumnIndex) == "removerow")
+			{
+				var rc = GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
+				bool mouseOverRemoveImage = rc.Contains(PointToClient(MousePosition));
+
+				if (CurrentCellAddress.Y == e.RowIndex || mouseOverRemoveImage)
+				{
+					e.Value = (mouseOverRemoveImage ?
+					m_removeRowImageHot : m_removeRowImageNormal);
+				}
+			}
+
+			base.OnCellValueNeeded(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellMouseEnter(DataGridViewCellEventArgs e)
+		{
+			if (e.RowIndex < NewRowIndex && e.RowIndex >= 0 && GetColumnName(e.ColumnIndex) == "removerow")
+				InvalidateCell(e.ColumnIndex, e.RowIndex);
+
+			base.OnCellMouseEnter(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellMouseLeave(DataGridViewCellEventArgs e)
+		{
+			if (e.RowIndex < NewRowIndex && e.RowIndex >= 0 && GetColumnName(e.ColumnIndex) == "removerow")
+				InvalidateCell(e.ColumnIndex, e.RowIndex);
+
+			base.OnCellMouseLeave(e);
+		}
+
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellToolTipTextNeeded(DataGridViewCellToolTipTextNeededEventArgs e)
+		{
+			if (e.RowIndex < NewRowIndex && e.RowIndex >= 0 &&
+				GetColumnName(e.ColumnIndex) == "removerow" && GetRemoveRowToolTipText != null)
+			{
+				e.ToolTipText = GetRemoveRowToolTipText();
+			}
+
+			base.OnCellToolTipTextNeeded(e);
+		}
+
+		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<DataGridViewRow> GetRows()
+		{
+			return Rows.Cast<DataGridViewRow>();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetColumnName(int index)
+		{
+			return (index >= 0 && index < ColumnCount ? Columns[index].Name : null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetCurrentColumnName()
+		{
+			return GetColumnName(CurrentCellAddress.X);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void MakeFirstVisibleCellCurrentInRow(int rowIndex)
+		{
+			if (rowIndex < 0 || rowIndex >= RowCount)
+				return;
+
+			var visibleCols = Columns.Cast<DataGridViewColumn>()
+				.Where(col => col.Visible).OrderBy(col => col.DisplayIndex).ToArray();
+
+			if (visibleCols.Length > 0)
+				CurrentCell = this[visibleCols[0].Index, rowIndex];
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -823,21 +994,43 @@ namespace SilTools
 						e.CellStyle.SelectionForeColor = SelectedRowForeColor;
 				}
 			}
-			
+
+			// Make sure the remove row cell in the new row (if there is a new row) doesn't
+			// contain the default no image, image (i.e. white square box containing a red x).
+			if (e.RowIndex == NewRowIndex && GetColumnName(e.ColumnIndex) == "removerow")
+				e.Value = ((DataGridViewImageColumn)Columns["removerow"]).Image;
+
 			base.OnCellFormatting(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
 		{
-			if (e.ColumnIndex >= 0 && Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn &&
-				(e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected &&
-				SelectedCellBackColor != Color.Empty)
+			if (e.RowIndex >= 0 && GetColumnName(e.ColumnIndex) == "removerow")
 			{
-				// If we don't intervene, selected checkbox cells
-				// will get the default selection color.
-				e.CellStyle.SelectionBackColor = SelectedCellBackColor;
-				e.Paint(e.CellBounds, e.PaintParts);
+				// Don't draw borders around remove row image cells.
+				e.AdvancedBorderStyle.Bottom = DataGridViewAdvancedCellBorderStyle.None;
+				e.AdvancedBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.None;
+				e.AdvancedBorderStyle.Right = DataGridViewAdvancedCellBorderStyle.None;
+				e.CellStyle.SelectionBackColor = BackgroundColor;
+			}
+			else if (e.RowIndex == CurrentCellAddress.Y && e.ColumnIndex >= 0 &&
+				Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn)
+			{
+				if (SelectionMode == DataGridViewSelectionMode.FullRowSelect ||
+					e.ColumnIndex == CurrentCellAddress.X)
+				{
+					// If we don't intervene, selected checkbox cells
+					// will get the default selection color.
+					var backColor = (e.ColumnIndex == CurrentCellAddress.X ?
+						SelectedCellBackColor : SelectedRowBackColor);
+
+					if (backColor != Color.Empty)
+					{
+						e.CellStyle.SelectionBackColor = backColor;
+						e.Paint(e.CellBounds, e.PaintParts);
+					}
+				}
 			}
 
 			base.OnCellPainting(e);

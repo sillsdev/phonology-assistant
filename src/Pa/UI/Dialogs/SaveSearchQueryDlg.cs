@@ -8,19 +8,11 @@ using SilTools;
 namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class SaveSearchQueryDlg : OKCancelDlgBase
 	{
 		private readonly SearchQuery m_query;
 		private readonly SearchPatternTreeView m_tvSrchPatterns;
 		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SaveSearchQueryDlg()
 		{
@@ -32,9 +24,9 @@ namespace SIL.Pa.UI.Dialogs
 			lblName.Font = FontHelper.UIFont;
 			lblCategories.Font = FontHelper.UIFont;
 
-			lblPattern.Font = FontHelper.PhoneticFont;
-			txtName.Font = FontHelper.PhoneticFont;
-			cboCategories.Font = FontHelper.PhoneticFont;
+			lblPattern.Font = App.PhoneticFont;
+			txtName.Font = App.PhoneticFont;
+			cboCategories.Font = App.PhoneticFont;
 
 			AdjustLabelLocations();
 
@@ -42,10 +34,6 @@ namespace SIL.Pa.UI.Dialogs
 				cboCategories.Items.Add(group.Name);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SaveSearchQueryDlg(SearchQuery query, SearchPatternTreeView tvSrchPatterns,
 			bool canChangeQuerysCategory) : this()

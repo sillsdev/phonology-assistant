@@ -114,6 +114,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.picSaveInfo = new System.Windows.Forms.PictureBox();
 			this.lblSaveInfo = new System.Windows.Forms.Label();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this.pnlFonts = new SilTools.Controls.SilPanel();
 			this.tabOptions.SuspendLayout();
 			this.tpgWordLists.SuspendLayout();
 			this.grpColSettings.SuspendLayout();
@@ -138,6 +139,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.grpColSortOptions.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_sortingGrid)).BeginInit();
 			this.grpPhoneticSortOptions.SuspendLayout();
+			this.tpgFonts.SuspendLayout();
 			this.tpgUI.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picSaveInfo)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -206,6 +208,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.fldSelGridWrdList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			this.fldSelGridWrdList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.fldSelGridWrdList.ColumnHeadersVisible = false;
+			this.fldSelGridWrdList.DrawTextBoxEditControlBorder = false;
 			resources.ApplyResources(this.fldSelGridWrdList, "fldSelGridWrdList");
 			this.fldSelGridWrdList.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
 			this.fldSelGridWrdList.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
@@ -219,8 +222,13 @@ namespace SIL.Pa.UI.Dialogs
 			this.fldSelGridWrdList.PaintHeaderAcrossFullGridWidth = true;
 			this.fldSelGridWrdList.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			this.fldSelGridWrdList.RowHeadersVisible = false;
+			this.fldSelGridWrdList.SelectedCellBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(213)))), ((int)(((byte)(255)))));
+			this.fldSelGridWrdList.SelectedCellForeColor = System.Drawing.SystemColors.WindowText;
+			this.fldSelGridWrdList.SelectedRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(213)))), ((int)(((byte)(255)))));
+			this.fldSelGridWrdList.SelectedRowForeColor = System.Drawing.SystemColors.WindowText;
 			this.fldSelGridWrdList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.fldSelGridWrdList.ShowWaterMarkWhenDirty = false;
+			this.fldSelGridWrdList.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
 			this.fldSelGridWrdList.WaterMark = "!";
 			this.fldSelGridWrdList.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.fldSelGridWrdList_RowEnter);
 			// 
@@ -436,6 +444,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.fldSelGridRecView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			this.fldSelGridRecView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.fldSelGridRecView.ColumnHeadersVisible = false;
+			this.fldSelGridRecView.DrawTextBoxEditControlBorder = false;
 			resources.ApplyResources(this.fldSelGridRecView, "fldSelGridRecView");
 			this.fldSelGridRecView.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
 			this.fldSelGridRecView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
@@ -449,8 +458,13 @@ namespace SIL.Pa.UI.Dialogs
 			this.fldSelGridRecView.PaintHeaderAcrossFullGridWidth = true;
 			this.fldSelGridRecView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			this.fldSelGridRecView.RowHeadersVisible = false;
+			this.fldSelGridRecView.SelectedCellBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(213)))), ((int)(((byte)(255)))));
+			this.fldSelGridRecView.SelectedCellForeColor = System.Drawing.SystemColors.WindowText;
+			this.fldSelGridRecView.SelectedRowBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(213)))), ((int)(((byte)(255)))));
+			this.fldSelGridRecView.SelectedRowForeColor = System.Drawing.SystemColors.WindowText;
 			this.fldSelGridRecView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.fldSelGridRecView.ShowWaterMarkWhenDirty = false;
+			this.fldSelGridRecView.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
 			this.fldSelGridRecView.WaterMark = "!";
 			this.fldSelGridRecView.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.fldSelGridRecView_RowEnter);
 			// 
@@ -685,6 +699,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tonePicker.AutoSizeItems = false;
 			this.tonePicker.BackColor = System.Drawing.Color.Transparent;
 			this.tonePicker.CheckItemsOnClick = true;
+			this.tonePicker.FontSize = 14F;
 			this.tonePicker.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.tonePicker.ItemSize = new System.Drawing.Size(30, 32);
 			this.tonePicker.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
@@ -728,6 +743,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lengthPicker.AutoSizeItems = false;
 			this.lengthPicker.BackColor = System.Drawing.Color.Transparent;
 			this.lengthPicker.CheckItemsOnClick = true;
+			this.lengthPicker.FontSize = 14F;
 			this.lengthPicker.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.lengthPicker.ItemSize = new System.Drawing.Size(30, 32);
 			this.lengthPicker.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
@@ -771,6 +787,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.stressPicker.AutoSizeItems = false;
 			this.stressPicker.BackColor = System.Drawing.Color.Transparent;
 			this.stressPicker.CheckItemsOnClick = true;
+			this.stressPicker.FontSize = 14F;
 			this.stressPicker.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.stressPicker.ItemSize = new System.Drawing.Size(30, 32);
 			this.stressPicker.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
@@ -839,6 +856,7 @@ namespace SIL.Pa.UI.Dialogs
 			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
 			this.m_sortingGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
 			this.m_sortingGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.m_sortingGrid.DrawTextBoxEditControlBorder = false;
 			resources.ApplyResources(this.m_sortingGrid, "m_sortingGrid");
 			this.m_sortingGrid.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
 			this.m_sortingGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
@@ -852,11 +870,16 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_sortingGrid.PaintHeaderAcrossFullGridWidth = true;
 			this.m_sortingGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			this.m_sortingGrid.RowHeadersVisible = false;
+			this.m_sortingGrid.SelectedCellBackColor = System.Drawing.Color.Empty;
+			this.m_sortingGrid.SelectedCellForeColor = System.Drawing.Color.Empty;
+			this.m_sortingGrid.SelectedRowBackColor = System.Drawing.Color.Empty;
+			this.m_sortingGrid.SelectedRowForeColor = System.Drawing.Color.Empty;
 			this.m_sortingGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.m_sortingGrid.ShowWaterMarkWhenDirty = false;
+			this.m_sortingGrid.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
 			this.m_sortingGrid.WaterMark = "!";
-			this.m_sortingGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleSortingGridRowEnter);
 			this.m_sortingGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleSortingGridCellContentClick);
+			this.m_sortingGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleSortingGridRowEnter);
 			// 
 			// btnMoveSortFieldUp
 			// 
@@ -919,8 +942,9 @@ namespace SIL.Pa.UI.Dialogs
 			// phoneticSortOptions
 			// 
 			this.phoneticSortOptions.AdvancedOptionsEnabled = true;
-			this.phoneticSortOptions.BackColor = System.Drawing.Color.Transparent;
 			resources.ApplyResources(this.phoneticSortOptions, "phoneticSortOptions");
+			this.phoneticSortOptions.BackColor = System.Drawing.Color.Transparent;
+			this.phoneticSortOptions.DrawWithGradientBackground = false;
 			this.locExtender.SetLocalizableToolTip(this.phoneticSortOptions, null);
 			this.locExtender.SetLocalizationComment(this.phoneticSortOptions, null);
 			this.locExtender.SetLocalizationPriority(this.phoneticSortOptions, Localization.LocalizationPriority.NotLocalizable);
@@ -928,7 +952,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.phoneticSortOptions.MakePhoneticPrimarySortFieldWhenOptionsChange = true;
 			this.phoneticSortOptions.Name = "phoneticSortOptions";
 			this.phoneticSortOptions.ShowAdvancedOptions = true;
-			this.phoneticSortOptions.ShowHelpLink = false;
+			this.phoneticSortOptions.ShowButtons = false;
 			this.phoneticSortOptions.SortOptionsChanged += new SIL.Pa.UI.Controls.SortOptionsDropDown.SortOptionsChangedHandler(this.HandlePhoneticSortOptionsChanged);
 			// 
 			// lblListType
@@ -956,6 +980,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// tpgFonts
 			// 
+			this.tpgFonts.Controls.Add(this.pnlFonts);
 			this.locExtender.SetLocalizableToolTip(this.tpgFonts, null);
 			this.locExtender.SetLocalizationComment(this.tpgFonts, "Text on tab in options dialog box.");
 			this.locExtender.SetLocalizingId(this.tpgFonts, "OptionsDlg.tpgFonts");
@@ -1026,6 +1051,24 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.LocalizationGroup = "Dialog Boxes";
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
+			// pnlFonts
+			// 
+			this.pnlFonts.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+			this.pnlFonts.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlFonts.ClipTextForChildControls = true;
+			this.pnlFonts.ControlReceivingFocusOnMnemonic = null;
+			resources.ApplyResources(this.pnlFonts, "pnlFonts");
+			this.pnlFonts.DoubleBuffered = true;
+			this.pnlFonts.DrawOnlyBottomBorder = false;
+			this.pnlFonts.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.locExtender.SetLocalizableToolTip(this.pnlFonts, null);
+			this.locExtender.SetLocalizationComment(this.pnlFonts, null);
+			this.locExtender.SetLocalizationPriority(this.pnlFonts, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.pnlFonts, "OptionsDlg.pnlFonts");
+			this.pnlFonts.MnemonicGeneratesClick = false;
+			this.pnlFonts.Name = "pnlFonts";
+			this.pnlFonts.PaintExplorerBarBackground = false;
+			// 
 			// OptionsDlg
 			// 
 			resources.ApplyResources(this, "$this");
@@ -1065,6 +1108,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.grpColSortOptions.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.m_sortingGrid)).EndInit();
 			this.grpPhoneticSortOptions.ResumeLayout(false);
+			this.tpgFonts.ResumeLayout(false);
 			this.tpgUI.ResumeLayout(false);
 			this.tpgUI.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picSaveInfo)).EndInit();
@@ -1147,5 +1191,6 @@ namespace SIL.Pa.UI.Dialogs
 		private ComboBox cboUILanguage;
 		private Localization.UI.LocalizationExtender locExtender;
 		private CheckBox chkStress;
+		private SilTools.Controls.SilPanel pnlFonts;
 	}
 }

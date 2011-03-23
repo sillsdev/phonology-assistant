@@ -1,7 +1,10 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
+using System.Linq;
 using System.Xml.Serialization;
+using Palaso.IO;
+using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.PhoneticSearching
@@ -28,15 +31,89 @@ namespace SIL.Pa.PhoneticSearching
 
 	#region SearchClassList class
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	[XmlType("SearchClasses")]
 	public class SearchClassList : List<SearchClass>
 	{
 		public const string kSearchClassesFilePrefix = "SearchClasses.xml";
-		public const string kDefaultSearchClassesFile = "DefaultSearchClasses.xml";
+
+		private PaProject m_project;
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This is for serialization/deserialization.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public SearchClassList()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public SearchClassList(PaProject project)
+		{
+			m_project = project;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Loads the list of default search classes.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static SearchClassList LoadDefaults(PaProject project)
+		{
+			return InternalLoad(project,
+				FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultSearchClasses.xml"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Loads the list of search classes for the specified project. If the project is
+		/// null, then the default list is loaded.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static SearchClassList Load(PaProject project)
+		{
+			return InternalLoad(project, project.ProjectPathFilePrefix + kSearchClassesFilePrefix);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Loads the list of search classes for the specified project. If the project is
+		/// null, then the default list is loaded.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static SearchClassList InternalLoad(PaProject project, string filename)
+		{
+			SearchClassList srchClasses = null;
+
+			if (File.Exists(filename))
+				srchClasses = XmlSerializationHelper.DeserializeFromFile<SearchClassList>(filename);
+
+			if (srchClasses == null)
+				return new SearchClassList(project);
+
+			srchClasses.m_project = project;
+			bool upgradeMade = false;
+
+			// Run through this for the sake of classes created before 26-Jul-07
+			// that used the enumeration PhoneticChars instead of Phones.
+			foreach (var srchClass in srchClasses.Where(c => c.Type == SearchClassType.PhoneticChars))
+			{
+				srchClass.Type = SearchClassType.Phones;
+				upgradeMade = true;
+			}
+
+			if (upgradeMade)
+				srchClasses.Save();
+
+			return srchClasses;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void Save()
+		{
+			var filename = m_project.ProjectPathFilePrefix + kSearchClassesFilePrefix;
+			XmlSerializationHelper.SerializeToFile(filename, this);
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -47,7 +124,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public SearchClass this[string className]
 		{
-			get	{return GetSearchClass(className, false); }
+			get { return GetSearchClass(className, false); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -59,95 +136,18 @@ namespace SIL.Pa.PhoneticSearching
 		public SearchClass GetSearchClass(string className, bool ignoreCase)
 		{
 			// Strip off the brackets if they're there.
-			string modifiedName = className.Replace(App.kOpenClassBracket, string.Empty);
+			var modifiedName = className.Replace(App.kOpenClassBracket, string.Empty);
 			modifiedName = modifiedName.Replace(App.kCloseClassBracket, string.Empty);
 
 			if (ignoreCase)
 				modifiedName = modifiedName.ToLower();
 
-			foreach (SearchClass srchClass in this)
-			{
-				string storedName = (ignoreCase ? srchClass.Name.ToLower() : srchClass.Name);
-				if (storedName == modifiedName)
-					return srchClass;
-			}
-
-			return null;
-		}
-		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Loads the list of default search classes.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static SearchClassList Load()
-		{
-			return Load(null);
+			return (from srchClass in this
+					let storedName = (ignoreCase ? srchClass.Name.ToLower() : srchClass.Name)
+					where storedName == modifiedName
+					select srchClass).FirstOrDefault();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Loads the list of search classes for the specified project. If the project is
-		/// null, then the default list is loaded.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static SearchClassList Load(PaProject project)
-		{
-			string filename = (project != null ?
-				project.ProjectPathFilePrefix + kSearchClassesFilePrefix :
-				Path.Combine(App.ConfigFolder, kDefaultSearchClassesFile));
-
-			SearchClassList srchClasses = null;
-
-			if (File.Exists(filename))
-				srchClasses = XmlSerializationHelper.DeserializeFromFile<SearchClassList>(filename);
-
-			if (srchClasses != null)
-			{
-				bool upgradeMade = false;
-
-				// Run through this for the sake of classes created before 26-Jul-07
-				// that used the enumeration PhoneticChars instead of Phones.
-				foreach (SearchClass srchClass in srchClasses)
-				{
-					if (srchClass.SearchClassType == SearchClassType.PhoneticChars)
-					{
-						srchClass.SearchClassType = SearchClassType.Phones;
-						upgradeMade = true;
-					}
-				}
-
-				if (upgradeMade)
-					srchClasses.Save(project);
-			}
-
-			return (srchClasses ?? new SearchClassList());
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Save()
-		{
-			Save(App.Project);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Save(PaProject project)
-		{
-			if (project != null)
-			{
-				var filename = project.ProjectPathFilePrefix + kSearchClassesFilePrefix;
-				XmlSerializationHelper.SerializeToFile(filename, this);
-			}
-		}
-		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Modify the tab's pattern text.
@@ -155,17 +155,18 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public string ModifyPatternText(string tabText)
 		{
-			foreach (SearchClass srchClass in this)
+			foreach (var srchClass in this)
 			{
-				string className = App.kOpenClassBracket + srchClass.Name + App.kCloseClassBracket;
-				string oldText = (App.Project.ShowClassNamesInSearchPatterns ? srchClass.Pattern : className);
+				var className = App.kOpenClassBracket + srchClass.Name + App.kCloseClassBracket;
+				var oldText = (Settings.Default.ShowClassNamesInSearchPatterns ? srchClass.Pattern : className);
 
 				if (tabText.Contains(oldText))
 				{
-					string newText = (App.Project.ShowClassNamesInSearchPatterns ? className : srchClass.Pattern);
+					var newText = (Settings.Default.ShowClassNamesInSearchPatterns ? className : srchClass.Pattern);
 					return tabText.Replace(oldText, newText);
 				}
 			}
+
 			return string.Empty;
 		}
 	}
@@ -180,28 +181,13 @@ namespace SIL.Pa.PhoneticSearching
 	/// ----------------------------------------------------------------------------------------
 	public class SearchClass
 	{
-		private string m_name;
 		private string m_pattern;
-		private string m_group;
-		private SearchClassType m_type;
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public string Name
-		{
-			get { return m_name; }
-			set { m_name = value; }
-		}
+		public string Name { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string Pattern
 		{
@@ -210,28 +196,12 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public string Group
-		{
-			get { return m_group; }
-			set { m_group = value; }
-		}
+		public string Group { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlAttribute]
-		public SearchClassType SearchClassType
-		{
-			get { return m_type; }
-			set { m_type = value; }
-		}
+		[XmlAttribute("SearchClassType")]
+		public SearchClassType Type { get; set; }
 
 		#endregion
 	}

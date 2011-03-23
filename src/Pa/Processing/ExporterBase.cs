@@ -7,7 +7,6 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
-using SIL.Pa.Filters;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
@@ -15,10 +14,6 @@ using SilTools;
 
 namespace SIL.Pa.Processing
 {
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class ExporterBase
 	{
@@ -38,14 +33,10 @@ namespace SIL.Pa.Processing
 		protected OutputFormat m_outputFormat;
 		protected readonly string m_groupedFieldName;
 		protected readonly DataGridViewColumn m_groupByColumn;
-		protected readonly PaFieldInfo m_groupByField;
+		protected readonly PaField m_groupByField;
 		protected readonly bool m_isGridGrouped;
 		protected readonly PaProject m_project;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static bool CallAppToExportedFile(string application, string outputFileName)
 		{
@@ -74,10 +65,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected ExporterBase(PaProject project)
 		{
 			m_project = project;
@@ -87,10 +74,6 @@ namespace SIL.Pa.Processing
 				ProjectCssBuilder.Process(m_project);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected ExporterBase(PaProject project, string outputFileName,
 			OutputFormat outputFormat, DataGridView dgrid) : this(project)
@@ -117,25 +100,20 @@ namespace SIL.Pa.Processing
 				// Subtract on at the end to account for the column containing the
 				// expand/collapse glyph. That doesn't count in the col. span.
 				m_leftColSpanForGroupedList = (from x in m_grid.Columns.Cast<DataGridViewColumn>()
-						where x.Visible && x.DisplayIndex < groupByColIndex
-						select x).Count() - 1;
+											   where x.Visible && x.DisplayIndex < groupByColIndex
+											   select x).Count() - 1;
 
 				m_rightColSpanForGroupedList = (from x in m_grid.Columns.Cast<DataGridViewColumn>()
-						where x.Visible && x.DisplayIndex > groupByColIndex
-						select x).Count();
+												where x.Visible && x.DisplayIndex > groupByColIndex
+												select x).Count();
 
-				m_groupByField = (grid.Cache.IsCIEList ? App.FieldInfo.PhoneticField :
-					((PaWordListGrid)m_grid).GroupByField);
-
-				m_groupedFieldName = ProcessHelper.MakeAlphaNumeric(m_groupByField.DisplayText);
+				var field = project.GetPhoneticField();
+				m_groupByField = (grid.Cache.IsCIEList ? field : ((PaWordListGrid)m_grid).GroupByField);
+				m_groupedFieldName = ProcessHelper.MakeAlphaNumeric(m_groupByField.DisplayName);
 			}
 		}
 
 		#region Processing methods
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool InternalProcess(bool keepIntermediateFile,
 			params Pipeline.ProcessType[] processTypes)
@@ -147,25 +125,17 @@ namespace SIL.Pa.Processing
 			// Create a stream of xml data containing the phones in the project.
 			var inputStream = CreateInputFileToTransformPipeline(keepIntermediateFile);
 
-			var msg = App.LocalizeString("ProgressMsg", "Exporting (Step {0})...",
-				"Message displayed when exporting lists and charts.", "Export");
+			var msg = App.GetString("ExportProgressMsg", "Exporting (Step {0})...",
+				"Message displayed when exporting lists and charts.");
 
 			MemoryStream outputStream = null;
 			int processingStep = 0;
 
-			foreach (var prsType in processTypes)
+			foreach (var pipeline in processTypes.Select(pt => ProcessHelper.CreatePipeline(pt)).Where(pl => pl != null))
 			{
-				var pipeline = ProcessHelper.CreatePipline(prsType);
-
-				// REVIEW: Should we warn the user that this failed?
-				if (pipeline == null)
-					continue;
-
 				if (m_showExportProgress)
 				{
-					App.InitializeProgressBar(string.Format(msg, ++processingStep),
-						pipeline.ProcessingSteps.Count);
-				
+					App.InitializeProgressBar(string.Format(msg, ++processingStep), pipeline.ProcessingSteps.Count);
 					pipeline.BeforeStepProcessed += BeforePipelineStepProcessed;
 				}
 
@@ -186,10 +156,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		void BeforePipelineStepProcessed(Pipeline pipeline, Step step)
 		{
 			App.IncProgressBar();
@@ -199,19 +165,11 @@ namespace SIL.Pa.Processing
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual string Title
 		{
 			get { return "unknown title"; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual string Name
 		{
@@ -219,19 +177,11 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual string View
 		{
 			get { return "unknown view"; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual string TableClass
 		{
@@ -239,29 +189,17 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual string SearchPattern
 		{
 			get { return null; }
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual string CIEOption
 		{
 			get { return null; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual string IntermediateFileName
 		{
@@ -273,29 +211,17 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual string NumberOfRecords
 		{
-			get { throw new NotImplementedException(); }
+			get { throw new NotImplementedException("Must implement in derived classes"); }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual string NumberOfGroups
 		{
 			get { return null; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual string NumberOfPhones
 		{
@@ -306,10 +232,6 @@ namespace SIL.Pa.Processing
 
 		#region Methods for getting the rows, columns and field info. for the grid
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual IEnumerable<DataGridViewColumn> GetGridColumns()
 		{
 			return from x in m_grid.Columns.Cast<DataGridViewColumn>()
@@ -319,32 +241,20 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual IEnumerable<DataGridViewRow> GetGridRows()
 		{
 			return m_grid.Rows.Cast<DataGridViewRow>().Where(x => x.Index != m_grid.NewRowIndex);
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual IEnumerable<KeyValuePair<string, Font>> GetFormattingFieldInfo()
 		{
-			foreach (DataGridViewColumn col in GetGridColumns())
-				yield return new KeyValuePair<string, Font>(col.HeaderText, col.DefaultCellStyle.Font);
+			return GetGridColumns().Select(col =>
+				new KeyValuePair<string, Font>(col.HeaderText, col.DefaultCellStyle.Font));
 		}
 
 		#endregion
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual MemoryStream CreateInputFileToTransformPipeline(bool writeStreamToDisk)
 		{
@@ -378,10 +288,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteHead()
 		{
 			m_writer.WriteStartElement("head");
@@ -395,10 +301,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteBody()
 		{
 			m_writer.WriteStartElement("body");
@@ -407,10 +309,6 @@ namespace SIL.Pa.Processing
 			m_writer.WriteEndElement();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteMetadata()
 		{
@@ -422,10 +320,6 @@ namespace SIL.Pa.Processing
 			m_writer.WriteEndElement();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteMetadataOptions()
 		{
@@ -440,10 +334,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteMetadataWordXMLOptions()
 		{
 			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
@@ -453,10 +343,6 @@ namespace SIL.Pa.Processing
 				"li", "class", "fileName", Path.GetFileName(m_outputFileName));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteMetadataXHTMLOptions()
 		{
@@ -471,10 +357,6 @@ namespace SIL.Pa.Processing
 				"specificStylesheetFile", Path.GetFileName(m_project.CssFileName));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteRelativePath(string elementName, string path1, string path2)
 		{
@@ -491,10 +373,6 @@ namespace SIL.Pa.Processing
 			m_writer.WriteEndElement();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteMetadataFormatting()
 		{
@@ -517,18 +395,10 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteMeatadataSortInformation()
 		{
 		}
 	
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteMetadataDetails()
 		{
@@ -537,17 +407,11 @@ namespace SIL.Pa.Processing
 
 			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class", "view", View);
 
-			if (FilterHelper.CurrentFilter != null)
+			if (m_project.CurrentFilter != null)
 			{
 				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
-					"li", "class", "filter", FilterHelper.CurrentFilter.Name);
+					"li", "class", "filter", m_project.CurrentFilter.Name);
 			}
-
-			//if (View != Title && !string.IsNullOrEmpty(Title))
-			//{
-			//    ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
-			//        "li", "class", "title", Title);
-			//}
 
 			if (!string.IsNullOrEmpty(Name))
 			{
@@ -611,10 +475,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteTable()
 		{
 			ProcessHelper.WriteStartElementWithAttrib(m_writer, "table", "class", TableClass);
@@ -625,20 +485,12 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteTableHeadingColumnGroups()
 		{
 			for (int i = 0; i < GetGridColumns().Count(); i++)
 				ProcessHelper.WriteColumnGroup(m_writer, 1);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteTableHeading()
 		{
@@ -652,20 +504,12 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteTableHeadingContent()
 		{
 			foreach (var col in GetGridColumns())
 				WriteTableHeadingContentForColumn(col);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteTableHeadingContentForColumn(DataGridViewColumn col)
 		{
@@ -686,10 +530,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteTableBody()
 		{
 			if (!m_isGridGrouped)
@@ -701,10 +541,6 @@ namespace SIL.Pa.Processing
 				m_writer.WriteEndElement();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteTableBodyContent()
 		{
@@ -729,10 +565,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteTableGroupHeading(SilHierarchicalGridRow row)
 		{
 			ProcessHelper.WriteStartElementWithAttrib(m_writer, "tr", "class", "heading");
@@ -748,10 +580,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteTableGroupHeadingGroupField(SilHierarchicalGridRow row)
 		{
 			ProcessHelper.WriteStartElementWithAttrib(m_writer, "th", "class", m_groupedFieldName);
@@ -762,10 +590,6 @@ namespace SIL.Pa.Processing
 			m_writer.WriteEndElement();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteLeftColSpan()
 		{
@@ -779,10 +603,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteRightColSpan()
 		{
 			if (m_rightColSpanForGroupedList > 0)
@@ -794,10 +614,6 @@ namespace SIL.Pa.Processing
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteTableRow(DataGridViewRow row)
 		{
@@ -811,20 +627,12 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteTableRowContent(DataGridViewRow row)
 		{
 			foreach (var col in GetGridColumns())
 				WriteTableRowCell(row, col);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteTableRowCell(DataGridViewRow row, DataGridViewColumn col)
 		{
@@ -841,10 +649,6 @@ namespace SIL.Pa.Processing
 			m_writer.WriteEndElement();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual string GetTableRowCellValue(DataGridViewRow row, DataGridViewColumn col)
 		{

@@ -53,7 +53,7 @@ namespace SIL.Pa.Tests
 			App.Project = proj;
 
 			m_dataSource = new PaDataSource();
-			m_dataSource.DataSourceType = DataSourceType.Toolbox;
+			m_dataSource.Type = DataSourceType.Toolbox;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -718,22 +718,22 @@ namespace SIL.Pa.UI.Controls
 
 					if (col == 0)
 					{
-						m_tooltip.ToolTipTitle = App.LocalizeString(
-							"DistributionChartVw.AddSearchItemCellToolTipTitle",
+						m_tooltip.ToolTipTitle = App.GetString(
+							"DistributionGrid.AddSearchItemCellToolTipTitle",
 							"Search Item Column:", "Views");
 						
-						text = App.LocalizeString(
-							"DistributionChartVw.AddSearchItemCellToolTip",
+						text = App.GetString(
+							"DistributionGrid.AddSearchItemCellToolTip",
 							"Add a search item in this cell", "Views");
 					}
 					else
 					{
-						m_tooltip.ToolTipTitle = App.LocalizeString(
-							"DistributionChartVw.AddEnvironmentCellToolTipTitle",
+						m_tooltip.ToolTipTitle = App.GetString(
+							"DistributionGrid.AddEnvironmentCellToolTipTitle",
 							"Environment Row:", "Views");
 
-						text = App.LocalizeString(
-							"DistributionChartVw.AddEnvironmentCellToolTip",
+						text = App.GetString(
+							"DistributionGrid.AddEnvironmentCellToolTip",
 							"Add a search environment\nin this cell", "Views");
 					}
 
@@ -858,7 +858,7 @@ namespace SIL.Pa.UI.Controls
 
 			// Items in the first row and column use the phonetic font.
 			if ((row == 0 && col > 0) || (col == 0 && row > 0))
-				e.CellStyle.Font = FontHelper.PhoneticFont;
+				e.CellStyle.Font = App.PhoneticFont;
 
 			// Make cells with zero in them a different color from those
 			if (col > 0 && row > 0 && col < ColumnCount && row < RowCount &&
@@ -1177,7 +1177,7 @@ namespace SIL.Pa.UI.Controls
 		public void Reset()
 		{
 			if (m_lblName != null)
-				m_lblName.Text = App.LocalizeString("DistributionChartVw.EmptyName", "(none)", "Views");
+				m_lblName.Text = App.GetString("DistributionGrid.EmptyName", "(none)", "Views");
 
 			Rows.Clear();
 			Columns.Clear();
@@ -1243,7 +1243,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				return App.LocalizeString("ChartPopupInfoSyntaxErrorsMsg",
+				return App.GetString("ChartPopupInfoSyntaxErrorsMsg",
 					"This search pattern contains the following error(s):",
 					"Views.Distribution Charts");
 			}
@@ -1254,7 +1254,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				return App.LocalizeString("ChartPopupInfoUndefinedSymbolsMsg",
+				return App.GetString("ChartPopupInfoUndefinedSymbolsMsg",
 					"This search pattern contains the following undefined phonetic symbol(s).",
 					"Views.Distribution Charts");
 			}
@@ -1265,7 +1265,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				return App.LocalizeString("ChartPopupInfoInvalidPhonesMsg",
+				return App.GetString("ChartPopupInfoInvalidPhonesMsg",
 					"This search pattern contains the following phone(s) not found in the data.",
 					"Views.Distribution Charts");
 			}
@@ -1367,7 +1367,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnPaFontsChanged(object args)
 		{
-			m_defaultRowHeight = FontHelper.PhoneticFont.Height + 10;
+			m_defaultRowHeight = App.PhoneticFont.Height + 10;
 			RowTemplate.MinimumHeight = m_defaultRowHeight;
 			RowTemplate.Height = m_defaultRowHeight;
 

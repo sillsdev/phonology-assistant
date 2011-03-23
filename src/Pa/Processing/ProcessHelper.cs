@@ -20,6 +20,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using Palaso.IO;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
@@ -27,20 +28,12 @@ using SilTools;
 namespace SIL.Pa.Processing
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public static class ProcessHelper
 	{
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static string ProcessFile
 		{
-			get { return Path.Combine(App.ProcessingFolder, "Processing.xml"); }
+			get { return FileLocator.GetFileDistributedWithApplication(App.ProcessingFolderName, "Processing.xml"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -68,13 +61,10 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Pipeline CreatePipline(Pipeline.ProcessType prsType)
+		public static Pipeline CreatePipeline(Pipeline.ProcessType prsType)
 		{
-			return Pipeline.Create(prsType, ProcessFile, App.ProcessingFolder);
+			var processingFolder = FileLocator.GetDirectoryDistributedWithApplication(App.ProcessingFolderName);
+			return Pipeline.Create(prsType, ProcessFile, processingFolder);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -85,18 +75,16 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		public static void CopyFilesForPrettyHTMLExports()
 		{
-			// This should only be non existant when running tests.
-			if (!Directory.Exists(App.ProcessingFolder))
-				return;
+			var processingFolder = FileLocator.GetDirectoryDistributedWithApplication(App.ProcessingFolderName);
 
-			foreach (var filename in Directory.GetFiles(App.ProcessingFolder, "*.css"))
+			foreach (var filename in Directory.GetFiles(processingFolder, "*.css"))
 			{
 				var dst = Path.Combine(App.DefaultProjectFolder, Path.GetFileName(filename));
 				if (!File.Exists(dst))
 					File.Copy(filename, dst);
 			}
 
-			foreach (var filename in Directory.GetFiles(App.ProcessingFolder, "*.js"))
+			foreach (var filename in Directory.GetFiles(processingFolder, "*.js"))
 			{
 				var dst = Path.Combine(App.DefaultProjectFolder, Path.GetFileName(filename));
 				if (!File.Exists(dst))
@@ -182,7 +170,9 @@ namespace SIL.Pa.Processing
 
 			writer.WriteStartElement("li");
 			writer.WriteAttributeString("class", "programConfigurationFolder");
-			writer.WriteString(TerminateFolderPath(App.ConfigFolder));
+
+			var path = FileLocator.GetDirectoryDistributedWithApplication(App.ConfigFolderName);
+			writer.WriteString(TerminateFolderPath(path));
 			writer.WriteEndElement();
 
 			writer.WriteStartElement("li");

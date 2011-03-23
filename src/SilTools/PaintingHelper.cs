@@ -165,9 +165,9 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		public static Graphics PaintDropDownContainer(IntPtr hwnd, bool returnGraphics)
 		{
-			IntPtr hwndParent = GetParent(hwnd);
-			Graphics g = Graphics.FromHwnd(hwndParent);
-			RectangleF rc = g.VisibleClipBounds;
+			var hwndParent = GetParent(hwnd);
+			var g = Graphics.FromHwnd(hwndParent);
+			var rc = g.VisibleClipBounds;
 			rc.Inflate(-1, -1);
 			g.FillRectangle(SystemBrushes.Menu, rc);
 
@@ -235,11 +235,20 @@ namespace SilTools
 			{
 				if (rc.Width > 0 && rc.Height > 0)
 				{
-					using (LinearGradientBrush br = new LinearGradientBrush(rc, clrTop, clrBottom, 90))
+					using (var br = new LinearGradientBrush(rc, clrTop, clrBottom, 90))
 						g.FillRectangle(br, rc);
 				}
 			}
 			catch { }
+		}
+	}
+
+	/// ----------------------------------------------------------------------------------------
+	public class NoToolStripBorderRenderer : ToolStripProfessionalRenderer
+	{
+		protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
+		{
+			// Eat this event.
 		}
 	}
 }

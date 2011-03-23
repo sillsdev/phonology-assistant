@@ -5,10 +5,8 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.Pa.DataSource;
-using SIL.Pa.Filters;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Processing;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.Model
@@ -20,33 +18,29 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class PaXMLContent
 	{
-		public PaFieldInfoList CustomFields;
-		
 		[XmlElement("PaRecords")]
 		public RecordCache Cache;
 	}
 
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class RecordCache : List<RecordCacheEntry>, IDisposable
 	{
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		private string m_phoneticFieldName;
+		private PaProject m_project;
+
 		/// ------------------------------------------------------------------------------------
 		public RecordCache()
 		{
-			RecordCacheEntry.ResetCounter();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public RecordCache(PaProject project)
+		{
+			m_project = project;
+			m_phoneticFieldName = m_project.GetPhoneticField().Name;
+			RecordCacheEntry.ResetCounter();
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
@@ -77,41 +71,51 @@ namespace SIL.Pa.Model
 		public WordCache WordsNotInCurrentFilter { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public PhoneCache PhoneCache { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the cache of phones without respect to current filter.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public PhoneCache UnfilteredPhoneCache { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Deserializes a PAXML file to a RecordCache instance.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static RecordCache Load(PaDataSource dataSource)
+		public static RecordCache Load(PaDataSource dataSource, PaProject project)
 		{
 			if (dataSource == null)
 				return null;
 
-			string filename = dataSource.DataSourceFile;
+			string filename = dataSource.SourceFile;
 
 			try
 			{
 				var paxmlcontent = XmlSerializationHelper.DeserializeFromFile<PaXMLContent>(filename);
-				RecordCache cache = (paxmlcontent == null ? null : paxmlcontent.Cache);
+				var cache = (paxmlcontent == null ? null : paxmlcontent.Cache);
 
-				if (cache != null)
+				if (cache == null)
+					return null;
+
+				cache.m_project = project;
+				cache.m_phoneticFieldName = project.GetPhoneticField().Name;
+				string fwServer;
+				string fwDBName;
+				PaDataSource.GetPaXmlType(filename, out fwServer, out fwDBName);
+
+				foreach (var entry in cache)
 				{
-					cache.DeserializedCustomFields = paxmlcontent.CustomFields;
-					
-					string fwServer;
-					string fwDBName;
-					PaDataSource.GetPaXMLType(filename, out fwServer, out fwDBName);
-					//dataSource.FwServer = fwServer;
-					dataSource.FwDBName = fwDBName;
+					entry.PostDeserializeProcess(dataSource, project);
 
-					foreach (RecordCacheEntry entry in cache)
+					if (entry.FieldValues.Count > 0 &&
+						(entry.WordEntries == null || entry.WordEntries.Count == 0))
 					{
-						entry.PostDeserializeProcess(dataSource);
-
-						if (entry.FieldValues.Count > 0 &&
-							(entry.WordEntries == null || entry.WordEntries.Count == 0))
-						{
-							entry.NeedsParsing = true;
-						}
+						entry.NeedsParsing = true;
 					}
 				}
 
@@ -119,13 +123,16 @@ namespace SIL.Pa.Model
 			}
 			catch (Exception e)
 			{
+				var msg = App.GetString("LoadingRecordCacheErrorMsg",
+					"The following error occurred while loading '{0}':\n{1}",
+					"Message displayed when failing to load a PaXml file. Parameter 0 is filename, and parameter 1 is the error message.");
+
 				filename = Utils.PrepFilePathForMsgBox(filename);
-
-				Utils.MsgBox(string.Format(Properties.Resources.kstidLoadingRecordCacheError,
-					filename, e.Message), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(string.Format(msg, filename, e.Message), MessageBoxButtons.OK,
+					MessageBoxIcon.Exclamation);
+				
+				return null;
 			}
-
-			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -137,18 +144,16 @@ namespace SIL.Pa.Model
 		{
 			try
 			{
-				PaXMLContent paxmlcontent = new PaXMLContent();
+				var paxmlcontent = new PaXMLContent();
 				paxmlcontent.Cache = this;
-				paxmlcontent.CustomFields = new PaFieldInfoList();
 
-				foreach (PaFieldInfo fieldInfo in App.Project.FieldInfo)
-				{
-					if (fieldInfo.IsCustom)
-						paxmlcontent.CustomFields.Add(fieldInfo);
-				}
+				//paxmlcontent.CustomFields = new PaFieldInfoList();
 
-				if (paxmlcontent.CustomFields.Count == 0)
-					paxmlcontent.CustomFields = null;
+				//foreach (var field in m_project.Fiel.Where(fi => fi.IsCustom))
+				//    paxmlcontent.CustomFields.Add(fieldInfo);
+
+				//if (paxmlcontent.CustomFields.Count == 0)
+				//    paxmlcontent.CustomFields = null;
 
 				XmlSerializationHelper.SerializeToFile(filename, paxmlcontent);
 			}
@@ -160,96 +165,69 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public PaFieldInfoList DeserializedCustomFields { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void BuildWordCache(PaProject project, ToolStripProgressBar progBar)
+		public void BuildWordCache(ToolStripProgressBar progBar)
 		{
 			FindAutoGeneratedAmbigousSequences();
 			var tmpWordCache = new WordCache();
+			var recEntryParser = new RecordEntryParser(m_phoneticFieldName, TempRecordCache.Add);
 
-			foreach (RecordCacheEntry entry in this)
+			foreach (var entry in this)
 			{
 				if (progBar != null)
 					progBar.Increment(1);
 
-				// A record entry doesn't need parsing if it came from a PAXML data source.
-				// In that case, a word cache entry only needs to have two things done here:
-				// 1) have its owning record entry set and 2) it needs to be added to the
-				// word cache.
+				//// A record entry doesn't need parsing if it came from a PAXML data source.
+				//// In that case, a word cache entry only needs to have two things done here:
+				//// 1) have its owning record entry set and 2) it needs to be added to the
+				//// word cache.
 				if (entry.NeedsParsing)
-					ParseEntry(entry);
+					recEntryParser.ParseEntry(entry);
 
-				foreach (WordCacheEntry wentry in entry.WordEntries)
+				foreach (var wentry in entry.WordEntries)
 				{
 					wentry.RecordEntry = entry;
 					tmpWordCache.Add(wentry);
 				}	
 			}
 
-			App.UnfilteredPhoneCache = GetPhonesFromWordCache(tmpWordCache);
-			SearchEngine.PhoneCache = App.UnfilteredPhoneCache;
-			BuildFilteredWordCache(project, tmpWordCache);
+			UnfilteredPhoneCache = GetPhonesFromWordCache(tmpWordCache);
+			SearchEngine.PhoneCache = UnfilteredPhoneCache;
+			BuildFilteredWordCache(tmpWordCache);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void BuildFilteredWordCache()
 		{
-			BuildFilteredWordCache(App.Project, WordCache.Union(WordsNotInCurrentFilter));
+			BuildFilteredWordCache(WordCache.Union(WordsNotInCurrentFilter));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void BuildFilteredWordCache(PaProject project, IEnumerable<WordCacheEntry> tmpWordCache)
+		private void BuildFilteredWordCache(IEnumerable<WordCacheEntry> tmpWordCache)
 		{
 			WordsNotInCurrentFilter = new WordCache();
 			WordCache = new WordCache();
 
-			foreach (WordCacheEntry wentry in tmpWordCache)
+			foreach (var wentry in tmpWordCache)
 			{
-				if (FilterHelper.EntryMatchesCurrentFilter(wentry))
+				if (m_project.FilterHelper.EntryMatchesCurrentFilter(wentry))
 					WordCache.Add(wentry);
 				else
 					WordsNotInCurrentFilter.Add(wentry);
 			}
 
-			App.PhoneCache = GetPhonesFromWordCache(WordCache);
-			App.WordCache = WordCache;
-			FilterHelper.PostCacheBuildingFinalize();
-			ProjectInventoryBuilder.Process(project, App.PhoneCache);
+			PhoneCache = GetPhonesFromWordCache(WordCache);
+			m_project.FilterHelper.PostCacheBuildingFinalize();
+			ProjectInventoryBuilder.Process(m_project);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static PhoneCache GetPhonesFromWordCache(IEnumerable<WordCacheEntry> wordCache)
+		private PhoneCache GetPhonesFromWordCache(IEnumerable<WordCacheEntry> wordCache)
 		{
-			string conSymbol = Settings.Default.ConsonantSymbol;
-			string vowSymbol = Settings.Default.VowelSymbol;
+			var phoneCache = new PhoneCache(m_project);
 
-			var phoneCache = new PhoneCache(conSymbol, vowSymbol);
-
-			foreach (WordCacheEntry entry in wordCache)
+			foreach (var entry in wordCache)
 			{
-				string[] phones = entry.Phones;
+				var phones = entry.Phones;
 
 				if (phones == null)
 					continue;
@@ -282,21 +260,16 @@ namespace SIL.Pa.Model
 						if (entry.ContiansUncertainties)
 						{
 							AddUncertainPhonesToCache(entry.UncertainPhones[i], phoneCache);
-							UpdateSiblingUncertaintys(entry.UncertainPhones, phoneCache);
+							UpdateSiblingUncertainties(entry.UncertainPhones, phoneCache);
 						}
 					}
 				}
 			}
 
-			if (PhoneCache.FeatureOverrides != null)
-				PhoneCache.FeatureOverrides.MergeWithPhoneCache(phoneCache);
+			if (m_project.FeatureOverrides != null)
+				m_project.FeatureOverrides.MergeWithPhoneCache(phoneCache);
 
-			if (App.IPASymbolCache.UndefinedCharacters != null &&
-				App.IPASymbolCache.UndefinedCharacters.Count > 0)
-			{
-				AddUndefinedCharsToCaches(phoneCache);
-			}
-
+			AddUndefinedCharsToCaches(phoneCache);
 			return phoneCache;
 		}
 
@@ -306,18 +279,18 @@ namespace SIL.Pa.Model
 		/// the specified uncertain groups.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void UpdateSiblingUncertaintys(
+		private static void UpdateSiblingUncertainties(
 			IDictionary<int, string[]> uncertainPhones, IDictionary<string, IPhoneInfo> phoneCache)
 		{
 			// Go through the uncertain phone groups
-			foreach (string[] uPhones in uncertainPhones.Values)
+			foreach (var uPhones in uncertainPhones.Values)
 			{
 				// Go through the uncertain phones in this group.
 				for (int i = 0; i < uPhones.Length; i++)
 				{
 					IPhoneInfo phoneUpdating;
 
-					// TODO: Log an error that the phone isn't found in the the cache
+					// TODO: Log an error when the phone isn't found in the the cache
 					// Get the cache entry for the phone whose sibling list will be updated.
 					if (!phoneCache.TryGetValue(uPhones[i], out phoneUpdating))
 						continue;
@@ -349,7 +322,13 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		private static void AddUndefinedCharsToCaches(PhoneCache phoneCache)
 		{
-			foreach (UndefinedPhoneticCharactersInfo upci in App.IPASymbolCache.UndefinedCharacters)
+			if (App.IPASymbolCache.UndefinedCharacters == null ||
+				App.IPASymbolCache.UndefinedCharacters.Count == 0)
+			{
+				return;
+			}
+
+			foreach (var upci in App.IPASymbolCache.UndefinedCharacters)
 			{
 				App.IPASymbolCache.AddUndefinedCharacter(upci.Character);
 				phoneCache.AddUndefinedPhone(upci.Character.ToString());
@@ -391,204 +370,23 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		private void FindAutoGeneratedAmbigousSequences()
 		{
-			List<string> ambigSeqs = new List<string>();
-			string phoneticField = App.FieldInfo.PhoneticField.FieldName;
-
-			foreach (RecordCacheEntry entry in this)
-			{
-				string phonetic = entry.GetValue(phoneticField);
-				if (phonetic != null)
-				{
-					List<string> seqs = App.IPASymbolCache.FindAmbiguousSequences(phonetic);
-					if (seqs != null)
-						ambigSeqs.AddRange(seqs);
-				}
-			}
-
-			if (ambigSeqs.Count == 0)
-				return;
-
-			var list = App.IPASymbolCache.AmbiguousSequences ?? new AmbiguousSequences();
-
-			foreach (string seq in ambigSeqs)
-			{
-				AmbiguousSeq newSeq = new AmbiguousSeq(seq);
-				newSeq.Convert = true;
-				newSeq.IsGenerated = true;
-				list.Add(newSeq);
-			}
-
-			// This may seem unecessary since PaApp.IPASymbolCache.AmbiguousSequences is
-			// a reference type and list just points to it, but it forces a rebuild
-			// of an internal list kept by the IPASymbolCache.
-			App.IPASymbolCache.AmbiguousSequences = list;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Parses a single record, going through its fields and parsing them individually
-		/// as needed.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void ParseEntry(RecordCacheEntry entry)
-		{
-			PaFieldInfo phoneticField = App.FieldInfo.PhoneticField;
-
-			if (phoneticField != null)
-				TempRecordCache.Add(entry.Id, entry[phoneticField.FieldName]);
-
-			entry.WordEntries = new List<WordCacheEntry>();
-
-			// Parse interlinear fields first, if there are any.
-			if (entry.HasInterlinearData)
-				ParseEntryAsInterlinear(entry);
+			var ambigSeqs = new List<string>();
+			var sequences = from entry in this
+							select entry.GetValue(m_phoneticFieldName) into phonetic
+							where phonetic != null
+							select m_project.PhoneticParser.FindAmbiguousSequences(phonetic) into seqs
+							where seqs != null
+							select seqs;
 			
-			// If we didn't parse any interlinear fields or the phonetic wasn't among
-			// them, make sure it gets parsed before any other non interlinear fields.
-			if (phoneticField != null && phoneticField.IsParsed &&
-				(entry.InterlinearFields == null ||
-				!entry.InterlinearFields.Contains(phoneticField.FieldName)))
+			foreach (var seqs in sequences)
+				ambigSeqs.AddRange(seqs);
+
+			if (ambigSeqs.Count > 0)
 			{
-				ParseSingleFieldInEntry(entry, phoneticField);
+				var list = m_project.AmbiguousSequences ?? new AmbiguousSequences();
+				list.AddRange(ambigSeqs.Select(seq => new AmbiguousSeq(seq, true, true)));
+				m_project.SaveAndLoadAmbiguousSequences(list);
 			}
-			
-			// Parse all the non phonetic, non interlinear fields.
-			foreach (PaFieldInfo fieldInfo in App.FieldInfo)
-			{
-				if (fieldInfo.IsParsed && !fieldInfo.IsPhonetic &&
-					(entry.InterlinearFields == null ||
-					!entry.InterlinearFields.Contains(fieldInfo.FieldName)))
-				{
-					ParseSingleFieldInEntry(entry, fieldInfo);
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Parses a non interlinear field (if necessary) and saves the field contents in one
-		/// or more word cache entries. Parsing will depend on the data source's parse type
-		/// and the field being parsed.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void ParseSingleFieldInEntry(RecordCacheEntry entry, PaFieldInfo fieldInfo)
-		{
-			entry.NeedsParsing = false;
-			string unparsedData = entry[fieldInfo.FieldName];
-
-			if (string.IsNullOrEmpty(unparsedData))
-				return;
-
-			// If we're not dealing with the phonetic field then check if our parsing type is
-			// only phonetic or none at all. If either casecase then do nothing which will cause
-			// any reference to the word cache entry's value for the field to defer to the
-			// value that's stored in the word cache entry's owning record entry.
-			if (!fieldInfo.IsPhonetic &&
-				(entry.DataSource.ParseType == DataSourceParseType.PhoneticOnly ||
-				entry.DataSource.ParseType == DataSourceParseType.None))
-			{
-				return;
-			}
-
-			// By this time we know we're dealing with one of three conditions: 1) the
-			// field is phonetic or 2) the field should be parsed or 3) both 1 and
-			// 2. When the field should be parsed then split it into individual words.
-			string[] split = (entry.DataSource.ParseType == DataSourceParseType.None ?
-				new[] {unparsedData} : unparsedData.Split(App.BreakChars.ToCharArray(),
-					StringSplitOptions.RemoveEmptyEntries));
-
-			for (int i = 0; i < split.Length; i++)
-			{
-				// Expand the capacity for more word entries if necessary.
-				if (i == entry.WordEntries.Count)
-					entry.WordEntries.Add(new WordCacheEntry(entry, i, true));
-
-				entry.WordEntries[i][fieldInfo.FieldName] = split[i];
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// \tx nimeolewa.
-		/// \mb ni-  me - oa    -le  -wa
-		/// \ge 1S-  PF - marry -DER -PASS
-		/// \ps pro- tns- v     -sfx -sfx
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void ParseEntryAsInterlinear(RecordCacheEntry entry)
-		{
-			string firstInterlinearLine = entry[entry.FirstInterlinearField];
-
-			if (string.IsNullOrEmpty(firstInterlinearLine))
-				return;
-
-			// Get the width of each interlinear column.
-			List<int> colWidths = GetInterlinearColumnWidths(firstInterlinearLine);
-
-			// Store the unparsed interlinear lines in a collection of strings, then remove
-			// those lines from the record cache entry so they no longer take up space.
-			Dictionary<string, string> unparsedLines = new Dictionary<string, string>();
-			foreach (string field in entry.InterlinearFields)
-			{
-				unparsedLines[field] = entry[field];
-				entry.SetValue(field, null);
-			}
-
-			// Now parse each interlinear line.
-			int i = 0;
-			int wordIndex = 0;
-			for (int w = 0; w < colWidths.Count; w++)
-			{
-				var wordEntry = new WordCacheEntry(entry, wordIndex++, true);
-				
-				foreach (KeyValuePair<string, string> line in unparsedLines)
-				{
-					if (line.Value != null && i < line.Value.Length)
-					{
-						wordEntry[line.Key] =
-							(i + colWidths[w] >= line.Value.Length || w == colWidths.Count - 1 ?
-							line.Value.Substring(i).Trim() :
-							line.Value.Substring(i, colWidths[w]).Trim());
-
-						if (line.Key == firstInterlinearLine)
-							wordEntry.SetFieldAsFirstLineInterlinear(line.Key);
-						else
-							wordEntry.SetFieldAsSubordinateInterlinear(line.Key);
-					}
-				}
-
-				entry.WordEntries.Add(wordEntry);
-				i += colWidths[w];
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static List<int> GetInterlinearColumnWidths(string firstInterlinearLine)
-		{
-			int i;
-			int start = 0;
-			List<int> colWidths = new List<int>();
-
-			while ((i = firstInterlinearLine.IndexOf(' ', start)) >= 0)
-			{
-				while (i < firstInterlinearLine.Length && firstInterlinearLine[i] == ' ')
-					i++;
-
-				if (i == firstInterlinearLine.Length)
-					break;
-
-				colWidths.Add(i - start);
-				start = i;
-			}
-
-			colWidths.Add(firstInterlinearLine.Length - start);
-			return colWidths;
 		}
 	}
 
@@ -624,10 +422,6 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static Dictionary<int, string> Load()
 		{
 			if (!File.Exists(s_tmpFilename))
@@ -637,18 +431,11 @@ namespace SIL.Pa.Model
 			if (tmpList == null)
 				return null;
 
-			s_cache = new Dictionary<int, string>();
-			foreach (TempRecordCacheEntry entry in tmpList)
-				s_cache[entry.Id] = entry.Phonetic;
-
+			s_cache = tmpList.ToDictionary(e => e.Id, e => e.Phonetic);
 			tmpList.Clear();
 			return s_cache;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static void Save()
 		{
@@ -658,10 +445,7 @@ namespace SIL.Pa.Model
 			if (string.IsNullOrEmpty(s_tmpFilename))
 				s_tmpFilename = Path.GetTempFileName();
 
-			var tmpList = new List<TempRecordCacheEntry>();
-			foreach (var entry in s_cache)
-				tmpList.Add(new TempRecordCacheEntry(entry.Key, entry.Value));
-
+			var tmpList = s_cache.Select(e => new TempRecordCacheEntry(e.Key, e.Value)).ToList();
 			XmlSerializationHelper.SerializeToFile(s_tmpFilename, tmpList);
 			s_cache.Clear();
 			tmpList.Clear();
@@ -690,10 +474,6 @@ namespace SIL.Pa.Model
 	#endregion
 
 	#region TempRecordCacheEntry class
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	[XmlType("OriginalPhonetic")]
 	public class TempRecordCacheEntry

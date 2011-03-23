@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Model;
@@ -10,10 +11,6 @@ using SilTools;
 
 namespace SIL.Pa.UI.Controls
 {
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public interface IRecordView
 	{
@@ -76,13 +73,9 @@ namespace SIL.Pa.UI.Controls
 		private int m_fieldLabelColorRefNumber;
 		private float m_pixelsPerInch;
 		private RecordCacheEntry m_recEntry;
-		private readonly TextFormatFlags m_txtFmtFlags = TextFormatFlags.NoPadding |
+		private const TextFormatFlags kTxtFmtFlags = TextFormatFlags.NoPadding |
 			TextFormatFlags.NoPrefix | TextFormatFlags.SingleLine;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public RtfRecordView()
 		{
@@ -156,17 +149,14 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_uiFontSize = (int)FontHelper.UIFont.SizeInPoints * 2;
 
-			if (App.Project.FieldInfo == null)
+			if (App.Project == null)
 				return;
 
 			m_fontSizes = new Dictionary<string, int>();
-			foreach (PaFieldInfo fieldInfo in App.Project.FieldInfo)
+			foreach (var field in App.Project.Fields.Where(f => f.Font != null))
 			{
-				if (fieldInfo.Font != null)
-				{
-					m_fontSizes[fieldInfo.FieldName] = (int)(fieldInfo.Font.SizeInPoints * 2);
-					m_fonts[fieldInfo.FieldName] = fieldInfo.Font;
-				}
+				m_fontSizes[field.Name] = (int)(field.Font.SizeInPoints * 2);
+				m_fonts[field.Name] = field.Font;
 			}
 
 			m_rtf = khdr + RtfHelper.FontTable(m_fontNumbers, ref m_uiFontNumber);
@@ -176,19 +166,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void UpdateRecord(RecordCacheEntry entry)
 		{
 			UpdateRecord(entry, false);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void UpdateRecord(RecordCacheEntry entry, bool forceUpdate)
 		{
@@ -203,7 +185,7 @@ namespace SIL.Pa.UI.Controls
 			if (entry == m_recEntry && !forceUpdate)
 				return;
 
-			if (m_fontSizes.Count != App.FieldInfo.Count)
+			if (m_fontSizes.Count != App.Project.Fields.Count())
 				UpdateFonts(false);
 
 			m_recEntry = entry;
@@ -364,15 +346,15 @@ namespace SIL.Pa.UI.Controls
 			m_maxFontNumber = m_uiFontNumber;
 			float maxFontHeight = FontHelper.UIFont.GetHeight(dpiY);
 
-			for (int i = 0; i < m_rtfFields.Count; i++)
+			foreach (var fldInfo in m_rtfFields)
 			{
-				PaFieldInfo fieldInfo = App.Project.FieldInfo[m_rtfFields[i].field];
+				var field = App.Project.GetFieldForName(fldInfo.field);
 
-				if (fieldInfo != null && maxFontHeight < fieldInfo.Font.GetHeight(dpiY))
+				if (field != null && maxFontHeight < field.Font.GetHeight(dpiY))
 				{
-					maxFontHeight = fieldInfo.Font.GetHeight(dpiY);
-					m_maxFontSize = m_fontSizes[m_rtfFields[i].field];
-				    m_maxFontNumber = m_fontNumbers[m_rtfFields[i].field];
+					maxFontHeight = field.Font.GetHeight(dpiY);
+					m_maxFontSize = m_fontSizes[fldInfo.field];
+					m_maxFontNumber = m_fontNumbers[fldInfo.field];
 				}
 			}
 
@@ -467,11 +449,11 @@ namespace SIL.Pa.UI.Controls
 				// from the record cache entry. Don't bother with fields whose value is null,
 				// those that aren't supposed to be visible in the record view, and those
 				// that are interlinear (interlinear fields are handled above).
-				foreach (PaFieldInfo field in App.Project.FieldInfo)
+				foreach (var field in App.Project.Fields)
 				{
-					string fieldValue = m_recEntry[field.FieldName];
+					string fieldValue = m_recEntry[field.Name];
 					if (!field.VisibleInRecView || field.DisplayIndexInRecView < 0 ||
-						fieldValue == null || m_recEntry.IsInterlinearField(field.FieldName))
+						fieldValue == null || m_recEntry.GetIsInterlinearField(field.Name))
 					{
 						continue;
 					}
@@ -479,34 +461,28 @@ namespace SIL.Pa.UI.Controls
 					// Save the field name, it's displayable name (e.g. Freeform = Free Form)
 					// and the field's value. Replace any backslashes with double ones for
 					// the sake of RTF.
-					RTFFieldInfo info = new RTFFieldInfo();
-					info.field = field.FieldName;
-					info.label = field.DisplayText;
+					var info = new RTFFieldInfo();
+					info.field = field.Name;
+					info.label = field.DisplayName;
 					info.displayIndex = field.DisplayIndexInRecView;
 					info.fieldValue = fieldValue.Replace("\\", "\\\\");
 
 					// All headers are bold
-					using (Font headerFont = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold))
+					using (var headerFont = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold))
 					{
-						info.labelWidth = TextRenderer.MeasureText(g, field.DisplayText,
-							headerFont, Size.Empty, m_txtFmtFlags).Width;
+						info.labelWidth = TextRenderer.MeasureText(g, field.DisplayName,
+							headerFont, Size.Empty, kTxtFmtFlags).Width;
 					}
 
 					info.valueWidth = TextRenderer.MeasureText(g, fieldValue, field.Font,
-						Size.Empty, m_txtFmtFlags).Width;
+						Size.Empty, kTxtFmtFlags).Width;
 
 					m_rtfFields.Add(info);
 				}
 			}
 
 			// Now sort the list on the order in which the fields should be displayed.
-			SortedList<int, RTFFieldInfo> sortedFields = new SortedList<int, RTFFieldInfo>();
-			foreach (RTFFieldInfo info in m_rtfFields)
-				sortedFields[info.displayIndex] = info;
-
-			m_rtfFields.Clear();
-			foreach (RTFFieldInfo info in sortedFields.Values)
-				m_rtfFields.Add(info);
+			m_rtfFields.Sort((x, y) => x.displayIndex.CompareTo(y.displayIndex));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -520,28 +496,28 @@ namespace SIL.Pa.UI.Controls
 				return;
 
 			SortedList sortedFieldInfo = new SortedList();
-			List<RTFFieldInfo> tmpFields = new List<RTFFieldInfo>();
+			var tmpFields = new List<RTFFieldInfo>();
 
-			foreach (string field in m_recEntry.InterlinearFields)
+			foreach (var fieldName in m_recEntry.InterlinearFields)
 			{
-				PaFieldInfo fieldInfo = App.Project.FieldInfo[field];
-				string[] colValues = m_recEntry.GetParsedFieldValues(fieldInfo, true);
-				if (fieldInfo == null || !fieldInfo.VisibleInRecView ||
-					fieldInfo.DisplayIndexInRecView < 0 || colValues == null)
+				var field = App.Project.GetFieldForName(fieldName);
+				string[] colValues = m_recEntry.GetParsedFieldValues(field, true);
+				if (field == null || !field.VisibleInRecView ||
+					field.DisplayIndexInRecView < 0 || colValues == null)
 				{
 					continue;
 				}
 
-				RTFFieldInfo info = new RTFFieldInfo();
+				var info = new RTFFieldInfo();
 				info.isInterlinearField = true;
-				info.field = fieldInfo.FieldName;
-				info.label = fieldInfo.DisplayText;
-				info.displayIndex = fieldInfo.DisplayIndexInRecView;
+				info.field = field.Name;
+				info.label = field.DisplayName;
+				info.displayIndex = field.DisplayIndexInRecView;
 				info.columnValues = colValues;
-				using (Font headerFont = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold))
+				using (var headerFont = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold))
 				{
 					info.labelWidth = TextRenderer.MeasureText(g, info.label,
-						headerFont, Size.Empty, m_txtFmtFlags).Width;
+						headerFont, Size.Empty, kTxtFmtFlags).Width;
 				}
 
 				// Sort the info by their display order
@@ -737,10 +713,10 @@ namespace SIL.Pa.UI.Controls
 			RTFFieldInfo secondField;
 			GetFirstAndSecondInterlinearFields(out firstField, out secondField);
 
-			Font firstLineFont = App.FieldInfo[firstField.field].Font;
+			var firstLineFont = App.Project.GetFieldForName(firstField.field).Font;
 			int numInterlinearColumns = firstField.columnValues.Length;
 
-			using (Graphics g = CreateGraphics())
+			using (var g = CreateGraphics())
 			{
 				// Iterate through the interlinear columns.
 				for (int col = 0; col < numInterlinearColumns; col++)
@@ -756,7 +732,7 @@ namespace SIL.Pa.UI.Controls
 
 					int firstLineColWidth = TextRenderer.MeasureText(g,
 						firstField.columnValues[col], firstLineFont, Size.Empty,
-						m_txtFmtFlags).Width;
+						kTxtFmtFlags).Width;
 
 					// Iterate through the sub columns of the current
 					// column to find which one is the widest.
@@ -833,10 +809,9 @@ namespace SIL.Pa.UI.Controls
 					continue;
 				}
 
-				PaFieldInfo fieldInfo = App.FieldInfo[m_rtfFields[row].field];
-				int width = TextRenderer.MeasureText(g,
-					m_rtfFields[row].parsedColValues[col][subcol],
-					fieldInfo.Font, Size.Empty, m_txtFmtFlags).Width;
+				var field = App.Project.GetFieldForName(m_rtfFields[row].field);
+				int width = TextRenderer.MeasureText(g, m_rtfFields[row].parsedColValues[col][subcol],
+					field.Font, Size.Empty, kTxtFmtFlags).Width;
 
 				maxSubColWidth = Math.Max(width, maxSubColWidth);
 				accumulatedWidth += width;
@@ -886,7 +861,7 @@ namespace SIL.Pa.UI.Controls
 		private static Dictionary<int, List<string>> GetInterlinearSubColumnContents(
 			List<string> unparsedColValues)
 		{
-			Dictionary<int, List<string>> parsedColContent = new Dictionary<int, List<string>>();
+			var parsedColContent = new Dictionary<int, List<string>>();
 
 			// No need to do any parsing if there's only one row's worth of information.
 			if (unparsedColValues.Count == 1)
@@ -896,9 +871,7 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			// Find the longest unparsed interlinear field.
-			int maxWidth = 0;
-			for (int i = 0; i < unparsedColValues.Count; i++)
-				maxWidth = Math.Max(maxWidth, unparsedColValues[i].Length);
+			int maxWidth = unparsedColValues.Aggregate(0, (current, t) => Math.Max((sbyte) current, (sbyte) t.Length));
 
 			// Preallocate space for the returned values and pad the
 			// unparsed column values so each value is the same width.

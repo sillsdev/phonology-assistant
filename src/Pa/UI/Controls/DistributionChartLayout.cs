@@ -59,7 +59,7 @@ namespace SIL.Pa.UI.Controls
 			for (int i = 1; i < grid.Columns.Count - 1; i++)
 			{
 				ColumnWidths.Add(grid.Columns[i].Width);
-				SearchQuery query = grid.Columns[i].Tag as SearchQuery;
+				var query = grid.Columns[i].Tag as SearchQuery;
 				if (query != null)
 					SearchQueries.Add(query);
 			}
@@ -75,14 +75,14 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public DistributionChartLayout Clone()
 		{
-			DistributionChartLayout clone = new DistributionChartLayout();
+			var clone = new DistributionChartLayout();
 
 			clone.m_name = m_name;
 			
-			foreach (string srchItem in SearchItems)
+			foreach (var srchItem in SearchItems)
 				clone.SearchItems.Add(srchItem);
 
-			foreach (SearchQuery query in SearchQueries)
+			foreach (var query in SearchQueries)
 				clone.SearchQueries.Add(query.Clone());
 
 			foreach (int width in ColumnWidths)
@@ -102,7 +102,7 @@ namespace SIL.Pa.UI.Controls
 			get
 			{
 				return (string.IsNullOrEmpty(Name) ?
-					App.LocalizeString("DistributionChartVw.EmptyName", "(none)", "Views") : Name);
+					App.GetString("DistributionCharLayout.EmptyName", "(none)", "Views") : Name);
 			}
 		}
 

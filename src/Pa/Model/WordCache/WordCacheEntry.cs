@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using SIL.Pa.DataSource;
@@ -22,18 +23,15 @@ namespace SIL.Pa.Model
 	[XmlType("ParsedFieldGroup")]
 	public class WordCacheEntry
 	{
-		private Dictionary<string, PaFieldValue> m_fieldValues;
-		private PaFieldValue m_phoneticValue;
+		private Dictionary<string, FieldValue> m_fieldValues;
+		private Dictionary<string, IEnumerable<string>> m_collectionValues;
+		private FieldValue m_phoneticValue;
 		private string m_origPhoneticValue;
-		private int m_wordIndex;
 		private Dictionary<int, string[]> m_uncertainPhones;
-		private RecordCacheEntry m_recEntry;
 		private string[] m_phones;
-		private string m_absoluteAudioFilePath;
-		private object m_tag;
 
 		// This is only used for deserialization
-		private List<PaFieldValue> m_fieldValuesList;
+		private List<FieldValue> m_fieldValuesList;
 
 		// This conversion list is specific to each WordCacheEntry list and contains only
 		// those conversions that were applied to the phonetic word. Conversions contained
@@ -45,18 +43,10 @@ namespace SIL.Pa.Model
 
 		#region Constructors
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public WordCacheEntry()
 		{
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public WordCacheEntry(bool allocateSpaceForFieldValues) :
 			this(null, allocateSpaceForFieldValues)
@@ -64,49 +54,44 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public WordCacheEntry(RecordCacheEntry recEntry, bool allocateSpaceForFieldValues) :
 			this(recEntry, 0, allocateSpaceForFieldValues)
 		{
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public WordCacheEntry(RecordCacheEntry recEntry, int wordIndex,
 			bool allocateSpaceForFieldValues)
 		{
-			m_recEntry = recEntry;
-			m_wordIndex = wordIndex;
+			RecordEntry = recEntry;
+			WordIndex = wordIndex;
 
 			if (!allocateSpaceForFieldValues)
 				return;
 
-			m_fieldValues = new Dictionary<string, PaFieldValue>();
+			m_fieldValues = (from m in recEntry.DataSource.FieldMappings
+							 where (m.IsParsed || m.IsInterlinear) && m.Field != null
+							 select m.Field).ToDictionary(f => f.Name, f => new FieldValue(f.Name));
 
-			foreach (PaFieldInfo fieldInfo in App.FieldInfo)
-			{
-				if (fieldInfo.IsParsed)
-				{
-					m_fieldValues[fieldInfo.FieldName] = new PaFieldValue(fieldInfo.FieldName);
-					if (fieldInfo.IsPhonetic)
-						m_phoneticValue = m_fieldValues[fieldInfo.FieldName];
-				}
-			}
+			var mapping = recEntry.DataSource.FieldMappings
+				.SingleOrDefault(m => m.Field != null && m.Field.Type == FieldType.Phonetic);
+
+			if (mapping != null)
+				m_phoneticValue = m_fieldValues[mapping.Field.Name];
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public WordCacheEntry(RecordCacheEntry recEntry, IEnumerable<string> fields, string phoneticFieldName)
+		{
+			RecordEntry = recEntry;
+			WordIndex = 0;
+			m_fieldValues = fields.ToDictionary(f => f, f => new FieldValue(f));
+			m_fieldValues[phoneticFieldName] = m_phoneticValue = new FieldValue(phoneticFieldName);
 		}
 
 		#endregion
 
 		#region Methods and Indexers for getting and setting field values
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string this[string field]
 		{
@@ -124,9 +109,12 @@ namespace SIL.Pa.Model
 			if (string.IsNullOrEmpty(value))
 				return;
 
-			PaFieldValue fieldValue;
+			FieldValue fieldValue;
 			if (!m_fieldValues.TryGetValue(field, out fieldValue))
-				return;
+			{
+				fieldValue = new FieldValue(field);
+				m_fieldValues[field] = fieldValue;
+			}
 
 			// Are we setting the phonetic value?
 			if (fieldValue != m_phoneticValue)
@@ -139,9 +127,28 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public void SetCollection(string field, IEnumerable<string> collection)
+		{
+			if (string.IsNullOrEmpty(field) || collection == null || collection.Count() == 0)
+				return;
+
+			if (m_collectionValues == null)
+				m_collectionValues = new Dictionary<string, IEnumerable<string>>();
+
+			m_collectionValues[field] = collection;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<string> GetCollection(string field)
+		{
+			if (string.IsNullOrEmpty(field) || m_collectionValues == null || m_collectionValues.Count() == 0)
+				return null;
+
+			IEnumerable<string> collection;
+			return (m_collectionValues.TryGetValue(field, out collection) ?
+				collection : RecordEntry.GetCollection(field));
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public string GetField(string field)
 		{
@@ -149,47 +156,34 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public string GetField(string field, bool deferToParentRecEntryWhenMissingValue)
 		{
 			if (field == null)
 				return null;
 
-			PaFieldValue fieldValue;
-			if (m_fieldValues.TryGetValue(field, out fieldValue))
-			{
-				if (fieldValue.Value != null)
-					return fieldValue.Value;
-			}
+			FieldValue fieldValue;
+			if (m_fieldValues.TryGetValue(field, out fieldValue) && fieldValue.Value != null)
+				return fieldValue.Value;
 
 			// At this point, we know we don't have a value for the specified field or we
 			// do and the value is null.
  
-			if (App.Project != null)
+			if (field == PaField.kCVPatternFieldName)
 			{
-				PaFieldInfo fieldInfo = App.Project.FieldInfo[field];
-				
-				// Are we after the CV pattern?
-				if (fieldInfo != null && fieldInfo.IsCVPattern)
-				{
-					// Check if the CV value is in the record cache. If so, return it.
-					string recEntryVal = m_recEntry.GetValueBasic(field);
-					if (deferToParentRecEntryWhenMissingValue && recEntryVal != null)
-						return recEntryVal;
+				// Check if the CV value is in the record cache. If so, return it.
+				var recEntryVal = RecordEntry.GetValueBasic(field);
+				if (deferToParentRecEntryWhenMissingValue && recEntryVal != null)
+					return recEntryVal;
 
-					// Build the CV pattern since it didn't come from the data source.
-					return (m_phones == null || App.PhoneCache == null ?
-						null : App.PhoneCache.GetCVPattern(m_phones));
-				}
+				// Build the CV pattern since it didn't come from the data source.
+				return (m_phones == null || Project.PhoneCache == null ?
+					null : Project.PhoneCache.GetCVPattern(m_phones));
 			}
 			
 			// If deferToParentRecEntryWhenMissingValue is true then the value returned
 			// is defered to the owning record entry's value for the field. Otherwise,
 			// just return null.
-			return (deferToParentRecEntryWhenMissingValue ? m_recEntry[field] : null);
+			return (deferToParentRecEntryWhenMissingValue ? RecordEntry[field] : null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -200,7 +194,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void SetFieldAsFirstLineInterlinear(string field)
 		{
-			PaFieldValue fieldValue;
+			FieldValue fieldValue;
 			if (m_fieldValues.TryGetValue(field, out fieldValue))
 				fieldValue.IsFirstLineInterlinearField = true;
 		}
@@ -212,7 +206,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void SetFieldAsSubordinateInterlinear(string field)
 		{
-			PaFieldValue fieldValue;
+			FieldValue fieldValue;
 			if (m_fieldValues.TryGetValue(field, out fieldValue))
 				fieldValue.IsSubordinateInterlinearField = true;
 		}
@@ -221,33 +215,17 @@ namespace SIL.Pa.Model
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public object Tag
-		{
-			get { return m_tag; }
-			set { m_tag = value; }
-		}
+		public object Tag { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlArray("Fields")]
-		public List<PaFieldValue> FieldValues
+		public List<FieldValue> FieldValues
 		{
 			get
 			{
 				if (m_fieldValues != null)
-				{
-					m_fieldValuesList = new List<PaFieldValue>();
-					foreach (KeyValuePair<string, PaFieldValue> fieldValue in m_fieldValues)
-						m_fieldValuesList.Add(fieldValue.Value);
-				}
+					m_fieldValuesList = m_fieldValues.Values.ToList();
 
 				return m_fieldValuesList;
 			}
@@ -289,8 +267,8 @@ namespace SIL.Pa.Model
 			{
 				if (ContiansUncertainties && m_phones != null)
 				{
-					StringBuilder bldr = new StringBuilder();
-					foreach (string phone in m_phones)
+					var bldr = new StringBuilder();
+					foreach (var phone in m_phones)
 						bldr.Append(phone);
 
 					return bldr.ToString();
@@ -322,7 +300,7 @@ namespace SIL.Pa.Model
 		{
 			get { return m_uncertainPhones; }
 		}
-		
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the index of the word within the record entry. When a record has only one
@@ -331,11 +309,7 @@ namespace SIL.Pa.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public int WordIndex
-		{
-			get { return m_wordIndex; }
-			set { m_wordIndex = value; }
-		}
+		public int WordIndex { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -343,10 +317,13 @@ namespace SIL.Pa.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public RecordCacheEntry RecordEntry
+		public RecordCacheEntry RecordEntry { get; internal set; }
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public PaProject Project
 		{
-			get { return m_recEntry; }
-			internal set {m_recEntry = value;}
+			get { return RecordEntry.Project; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -387,12 +364,8 @@ namespace SIL.Pa.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public string AbsoluteAudioFilePath
-		{
-			get { return m_absoluteAudioFilePath; }
-			set { m_absoluteAudioFilePath = value; }
-		}
-		
+		public string AbsoluteAudioFilePath { get; set; }
+
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -408,15 +381,16 @@ namespace SIL.Pa.Model
 			if (m_fieldValuesList == null || m_fieldValuesList.Count == 0)
 				return;
 
-			m_fieldValues = new Dictionary<string, PaFieldValue>();
-			foreach (PaFieldValue fieldValue in m_fieldValuesList)
+			m_fieldValues = new Dictionary<string, FieldValue>();
+			
+			foreach (var fieldValue in m_fieldValuesList)
 			{
 				m_fieldValues[fieldValue.Name] = fieldValue;
 
 				if (m_phoneticValue == null)
 				{
-					PaFieldInfo fieldInfo = App.FieldInfo[fieldValue.Name];
-					if (fieldInfo.IsPhonetic)
+					var field = Project.GetFieldForName(fieldValue.Name);
+					if (field.Type == FieldType.Phonetic)
 					{
 						m_phoneticValue = fieldValue;
 						SetPhoneticValue(fieldValue.Value);
@@ -429,10 +403,6 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void SetPhoneticValue(string origPhonetic)
 		{
 			string phonetic = origPhonetic;
@@ -442,10 +412,10 @@ namespace SIL.Pa.Model
 				// Normalize the phonetic string.
 				phonetic = FFNormalizer.Normalize(phonetic);
 
-				if (App.IPASymbolCache.TranscriptionChanges != null)
+				if (Project.TranscriptionChanges != null)
 				{
 					// Convert experimental transcriptions within the phonetic string.
-					phonetic = App.IPASymbolCache.TranscriptionChanges.Convert(
+					phonetic = Project.TranscriptionChanges.Convert(
 						phonetic, out m_experimentalTranscriptionList);
 
 					// Save this for displaying in the record view.
@@ -470,23 +440,20 @@ namespace SIL.Pa.Model
 
 			if (App.IPASymbolCache.UndefinedCharacters != null)
 			{
-				PaFieldInfo fieldInfo = App.FieldInfo.ReferenceField;
-				if (fieldInfo != null)
-				{
-					App.IPASymbolCache.UndefinedCharacters.CurrentReference =
-						GetField(fieldInfo.FieldName, true);
-				}
+				var field = Project.Fields.SingleOrDefault(f => f.Type == FieldType.Reference);
+				if (field != null)
+					App.IPASymbolCache.UndefinedCharacters.CurrentReference = GetField(field.Name, true);
 
 				App.IPASymbolCache.UndefinedCharacters.CurrentDataSourceName =
-					(RecordEntry.DataSource.DataSourceType == DataSourceType.FW &&
+					(RecordEntry.DataSource.Type == DataSourceType.FW &&
 					RecordEntry.DataSource.FwDataSourceInfo != null ?
 					RecordEntry.DataSource.FwDataSourceInfo.ToString() :
-					Path.GetFileName(RecordEntry.DataSource.DataSourceFile));
+					Path.GetFileName(RecordEntry.DataSource.SourceFile));
 			}
 
-			m_phones = App.IPASymbolCache.PhoneticParser(
-				m_phoneticValue.Value, false, false, out m_uncertainPhones);
-
+			m_phones = Project.PhoneticParser.Parse(m_phoneticValue.Value,
+				false, false, out m_uncertainPhones);
+			
 			if (m_phones != null && m_phones.Length == 0)
 			{
 				m_phones = null;
@@ -510,15 +477,14 @@ namespace SIL.Pa.Model
 			string formattingMarker = (includeFormattingMarker ? "|" : string.Empty);
 
 			// Determine how many words will be returned.
-			int totalWords = 1;
-			foreach (string[] uncertainties in m_uncertainPhones.Values)
-				totalWords *= uncertainties.Length;
+			int totalWords = m_uncertainPhones.Values
+				.Aggregate(1, (current, uncertainties) => current * uncertainties.Length);
 
 			// Preallocate the a copy of all the words that will be returned. For now, each
 			// preallocated copy will contain the same phones (i.e. the phones already in
 			// the word's phone collection -- the uncertain ones being the first (or primary)
 			// uncertain phone from the uncertainty list(s)).
-			List<string[]> unsortedInfo = new List<string[]>(totalWords);
+			var unsortedInfo = new List<string[]>(totalWords);
 			for (int w = 0; w < totalWords; w++)
 			{
 				unsortedInfo.Add(new string[m_phones.Length]);

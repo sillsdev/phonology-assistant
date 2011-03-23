@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Reflection;
 using System.Windows.Forms;
 using SIL.Pa.Model;
@@ -12,9 +14,8 @@ namespace SIL.Pa.UI.Controls
 	{
 		public delegate void SortOptionsChangedHandler(SortOptions sortOptions);
 		public event SortOptionsChangedHandler SortOptionsChanged;
-		
-		private bool m_makePhoneticPrimarySortFieldOnChange = true;
-		private bool m_showHelpLink = true;
+
+		private bool m_showButtons = true;
 		private bool m_showAdvancedOptions;
 		private SortOptions m_sortOptions;
 		private readonly int[] m_checkedIndexes;
@@ -23,33 +24,20 @@ namespace SIL.Pa.UI.Controls
 		private readonly RadioButton[] m_rbAdvSort1;
 		private readonly RadioButton[] m_rbAdvSort2;
 		private readonly CheckBox[] m_chkRL;
-		private readonly int m_dxAdvGrpTbl;
-		private readonly Point m_advTableLocation;
 
 		#region Constructor and Loading
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public SortOptionsDropDown()
 		{
+			MakePhoneticPrimarySortFieldWhenOptionsChange = true;
+			DrawWithGradientBackground = true;
+			DoubleBuffered = true;
+
 			InitializeComponent();
-
-			// Save the difference between the width of the advanced
-			// options group and it's contained table layout panel.
-			m_dxAdvGrpTbl = grpAdvSortOptions.Width - tblAdvSorting.Width;
-
-			// Save the location of the table layout panel.
-			m_advTableLocation = tblAdvSorting.Location;
-
-			// Horizontally center the advanced panel. This should be done in the designer
-			// but it always seems to get mucked up by a pixel or two, one way or the other.
-			grpAdvSortOptions.Left = (ClientSize.Width - grpAdvSortOptions.Width) / 2;
 
 			SetUiFonts();
 
-			m_sortOptions = new SortOptions(true);
+			m_sortOptions = new SortOptions(true, App.Project);
 
 			m_rbSort = new[] { rbPlaceArticulation, rbMannerArticulation, rbUnicodeOrder };
 			m_rbAdvSort0 = new[] { rbBefore1st, rbItem1st, rbAfter1st };
@@ -63,9 +51,23 @@ namespace SIL.Pa.UI.Controls
 			m_checkedIndexes[1] = m_sortOptions.AdvSortOrder[1];
 			m_checkedIndexes[2] = m_sortOptions.AdvSortOrder[2];
 
-			LayoutControls();
+			SetupStaticEventSubscriptions(m_rbAdvSort0);
+			SetupStaticEventSubscriptions(m_rbAdvSort1);
+			SetupStaticEventSubscriptions(m_rbAdvSort2);
+			SetupStaticEventSubscriptions(m_chkRL);
 		}
-		
+
+		/// ------------------------------------------------------------------------------------
+		private static void SetupStaticEventSubscriptions(IEnumerable<Control> ctrlArray)
+		{
+			foreach (var ctrl in ctrlArray)
+			{
+				ctrl.Paint += HandleAdvancedOptionItemPaint;
+				ctrl.Enter += HandleAdvancedOptionItemEnter;
+				ctrl.Leave += HandleAdvancedOptionItemLeave;
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// SortOptions constructor.
@@ -98,60 +100,6 @@ namespace SIL.Pa.UI.Controls
 			lblSecond.Font = FontHelper.UIFont;
 			lblThird.Font = FontHelper.UIFont;
 			lblRL.Font = FontHelper.UIFont;
-			lnkHelp.Font = FontHelper.UIFont;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Adjusts the size of controls on the drop-down and the drop-down itself. Because
-		/// things get sort of out of wack when the system's dpi is changed from 96, we need
-		/// to adjust these things manually.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void LayoutControls()
-		{
-			grpAdvSortOptions.Width = tblAdvSorting.Width = 0;
-
-			// Find the widest of the 3 upper radio buttons.
-			int widestSortTypeRB = rbPlaceArticulation.Width;
-			widestSortTypeRB = Math.Max(widestSortTypeRB, rbMannerArticulation.Width);
-			widestSortTypeRB = Math.Max(widestSortTypeRB, rbUnicodeOrder.Width);
-
-			if (m_showAdvancedOptions)
-			{
-				int width = 0;
-
-				// First, check which label of "Preceding", "Item" and "Following" is longest.
-				width = Math.Max(width, lblBefore.PreferredWidth);
-				width = Math.Max(width, lblItem.PreferredWidth);
-				width = Math.Max(width, lblAfter.PreferredWidth);
-
-				lblBefore.Width = lblItem.Width = lblAfter.Width = width;
-
-				// Now check which of the column headings is widest
-				width = lblFirst.PreferredWidth;
-				width = Math.Max(width, lblSecond.PreferredWidth);
-				width = Math.Max(width, lblThird.PreferredWidth);
-				width = Math.Max(width, lblRL.PreferredWidth);
-
-				lblFirst.Width = lblSecond.Width = lblThird.Width = lblRL.Width = width;
-				pnlAdvSort0.Width = pnlAdvSort1.Width = pnlAdvSort2.Width = width;
-
-				tblAdvSorting.Width = tblAdvSorting.PreferredSize.Width;
-				grpAdvSortOptions.Width = tblAdvSorting.Width + m_dxAdvGrpTbl;
-				tblAdvSorting.Location = m_advTableLocation;
-			}
-
-			Width = Math.Max(grpAdvSortOptions.Width, widestSortTypeRB) + 16;
-			
-			rbPlaceArticulation.Left = rbMannerArticulation.Left =
-				rbUnicodeOrder.Left = (Width - widestSortTypeRB) / 2;
-
-			if (m_showAdvancedOptions)
-				grpAdvSortOptions.Left = (Width - grpAdvSortOptions.Width) / 2;
-
-			lnkHelp.Top = ClientRectangle.Bottom - lnkHelp.Height - 8;
-			lnkHelp.Left = ClientRectangle.Right - lnkHelp.Width - 10;
 		}
 
 		#region Properties
@@ -167,7 +115,7 @@ namespace SIL.Pa.UI.Controls
 			get { return m_sortOptions; }
 			set 
 			{
-				m_sortOptions = (value ?? new SortOptions(true));
+				m_sortOptions = (value ?? new SortOptions(true, App.Project));
 
 				m_rbSort[(int)PhoneticSortType.Unicode].Checked =
 					(m_sortOptions.SortType == PhoneticSortType.Unicode);
@@ -188,25 +136,15 @@ namespace SIL.Pa.UI.Controls
 
 				AdvancedOptionsEnabled = m_sortOptions.AdvancedEnabled;
 				tblAdvSorting.Enabled = m_sortOptions.AdvancedEnabled;
-
-				if (grpAdvSortOptions.Visible != m_showAdvancedOptions)
-				{
-					grpAdvSortOptions.Visible = m_showAdvancedOptions;
-					SetHeight();
-				}
+				pnlAdvOptions.Visible = m_showAdvancedOptions;
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public bool MakePhoneticPrimarySortFieldWhenOptionsChange { get; set; }
+
 		/// ------------------------------------------------------------------------------------
-		public bool MakePhoneticPrimarySortFieldWhenOptionsChange
-		{
-			get { return m_makePhoneticPrimarySortFieldOnChange; }
-			set { m_makePhoneticPrimarySortFieldOnChange = value; }
-		}
+		public bool DrawWithGradientBackground { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -219,14 +157,9 @@ namespace SIL.Pa.UI.Controls
 			get { return m_showAdvancedOptions; }
 			set
 			{
-				if (m_showAdvancedOptions != value)
-				{
-					m_showAdvancedOptions = value;
-					grpAdvSortOptions.Visible = value;
-					grpAdvSortOptions.Enabled = value;
-					LayoutControls();
-					SetHeight();
-				}
+				m_showAdvancedOptions = value;
+				pnlAdvOptions.Visible = value;
+				pnlAdvOptions.Enabled = value;
 			}
 		}
 
@@ -236,17 +169,14 @@ namespace SIL.Pa.UI.Controls
 		/// bottom of the control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool ShowHelpLink
+		public bool ShowButtons
 		{
-			get { return m_showHelpLink; }
+			get { return m_showButtons; }
 			set
 			{
-				if (m_showHelpLink != value)
-				{
-					m_showHelpLink = value;
-					lnkHelp.Visible = value;
-					SetHeight();
-				}
+				m_showButtons = value;
+				btnHelp.Visible = value;
+				btnClose.Visible = value;
 			}
 		}
 
@@ -258,33 +188,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool AdvancedOptionsEnabled
 		{
-			get { return grpAdvSortOptions.Enabled; }
-			set { grpAdvSortOptions.Enabled = value;}
+			get { return pnlAdvOptions.Enabled; }
+			set { pnlAdvOptions.Enabled = value;}
 		}
 
 		#endregion
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Sets the height of the control based on settings for the help link and the
-		/// advanced options.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void SetHeight()
-		{
-			int	height = (m_showAdvancedOptions ?
-				grpAdvSortOptions.Bottom + 7 : grpAdvSortOptions.Top);
-
-			if (m_showHelpLink)
-				height += (lnkHelp.Height + 8);
-
-			Height = height;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected void Close()
 		{
@@ -306,18 +215,27 @@ namespace SIL.Pa.UI.Controls
 
 		#region Events
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		private void HandleOuterTableLayoutSizeChanged(object sender, EventArgs e)
+		{
+			Size = tblLayoutOuter.Size;
+			System.Diagnostics.Debug.WriteLine(Size.ToString());
+		}
+
 		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleHelpClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		private void HandleHelpButtonClick(object sender, EventArgs e)
 		{
 			Close();
-			
+
 			App.ShowHelpTopic((m_showAdvancedOptions ?
 				"hidAdvancedPhoneticSortOptions" : "hidBasicPhoneticSortOptions"));
 		}
-		
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleCloseButtonClick(object sender, EventArgs e)
+		{
+			Close();
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Send the changed message.
@@ -325,13 +243,13 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void SendChangedEvent()
 		{
-			if (SortOptionsChanged != null)
-			{
-				if (m_makePhoneticPrimarySortFieldOnChange)
-					m_sortOptions.SetPrimarySortField(App.Project.FieldInfo.PhoneticField, false);
-	
-				SortOptionsChanged(m_sortOptions);
-			}
+			if (SortOptionsChanged == null)
+				return;
+			
+			if (MakePhoneticPrimarySortFieldWhenOptionsChange)
+				m_sortOptions.SetPrimarySortField(App.Project.GetPhoneticField(), false);
+
+			SortOptionsChanged(m_sortOptions);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -524,9 +442,9 @@ namespace SIL.Pa.UI.Controls
 		/// rectangle drawn around them..
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleAdvancedOptionItemLeave(object sender, EventArgs e)
+		private static void HandleAdvancedOptionItemLeave(object sender, EventArgs e)
 		{
-			Control ctrl = sender as Control;
+			var ctrl = sender as Control;
 
 			if (ctrl != null)
 			{
@@ -546,7 +464,7 @@ namespace SIL.Pa.UI.Controls
 		/// rectangle drawn around them or they have it erased.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleAdvancedOptionItemEnter(object sender, EventArgs e)
+		private static void HandleAdvancedOptionItemEnter(object sender, EventArgs e)
 		{
 			(sender as Control).Invalidate();
 		}
@@ -556,9 +474,9 @@ namespace SIL.Pa.UI.Controls
 		/// Handle the 'paint' event for the Right/Left checkboxes.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleAdvancedOptionItemPaint(object sender, PaintEventArgs e)
+		private static void HandleAdvancedOptionItemPaint(object sender, PaintEventArgs e)
 		{
-			Control ctrl = sender as Control;
+			var ctrl = sender as Control;
 
 			if (ctrl != null && (!ctrl.Focused || ctrl.Tag != null))
 			{
@@ -567,7 +485,7 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			Rectangle rc;
-			Graphics g = e.Graphics;
+			var g = e.Graphics;
 
 			if (ctrl is RadioButton)
 			{
@@ -589,6 +507,24 @@ namespace SIL.Pa.UI.Controls
 
 			if (ctrl is RadioButton)
 				g.Dispose();
+		}
+
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			base.OnPaint(e);
+
+			if (DrawWithGradientBackground)
+			{
+				var clr1 = Color.White;
+				var clr2 = ColorHelper.CalculateColor(Color.White, SystemColors.GradientActiveCaption, 100);
+				var rc = ClientRectangle;
+				rc.Inflate(-1, -1);
+
+				using (var br = new LinearGradientBrush(rc, clr1, clr2, 45f))
+					e.Graphics.FillRectangle(br, rc);
+			}
 		}
 
 		#endregion

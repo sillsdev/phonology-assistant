@@ -14,13 +14,9 @@
 // <remarks>
 // </remarks>
 // ---------------------------------------------------------------------------------------------
-using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SilTools;
@@ -28,75 +24,51 @@ using SilTools;
 namespace SIL.Pa.Filters
 {
 	#region FilterHelper static class
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ------------------------------------------------------------------------------------
-	public static class FilterHelper
+	public class FilterHelper
 	{
 		public const string kFiltersFilePrefix = "Filters.xml";
 
-		public static Filter CurrentFilter { get; private set; }
-		public static List<Filter> Filters { get; private set; }
+		private readonly PaProject m_project;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public Filter CurrentFilter { get; private set; }
+
 		/// ------------------------------------------------------------------------------------
-		static FilterHelper()
+		public List<Filter> Filters { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		public FilterHelper(PaProject project)
 		{
-			Filters = new List<Filter>();
+			m_project = project;
+			Load();
 		}
 
 		#region Loading and saving filters
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Loads the list of filters for the currently loaded project.
+		/// Loads the list of filters for the specified project. If the file containing a
+		/// project's filters does not exist, then an empty list is returned.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void LoadFilters()
+		public void Load()
 		{
-			LoadFilters(App.Project);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Loads the list of filters for the specified project. If the project is
-		/// null, then an empty list is returned.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void LoadFilters(PaProject project)
-		{
-			string filename = (project != null ?
-				project.ProjectPathFilePrefix + kFiltersFilePrefix : null);
-
-			List<Filter> filtersList = null;
+			var filename = m_project.ProjectPathFilePrefix + kFiltersFilePrefix;
 
 			if (filename != null && File.Exists(filename))
-				filtersList = XmlSerializationHelper.DeserializeFromFile<List<Filter>>(filename, "filters");
+				Filters = XmlSerializationHelper.DeserializeFromFile<List<Filter>>(filename, "filters");
 
-			if (filtersList != null)
-				filtersList.Sort((x, y) => x.Name.CompareTo(y.Name));
-
-			Filters = (filtersList ?? new List<Filter>());
+			if (Filters == null)
+				Filters = new List<Filter>();
+			else
+				Filters.Sort((x, y) => x.Name.CompareTo(y.Name));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static void SaveFilters()
+		public void Save()
 		{
-			SaveFilters(App.Project);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static void SaveFilters(PaProject project)
-		{
-			if (project != null)
-			{
-				string filename = project.ProjectPathFilePrefix + kFiltersFilePrefix;
-				XmlSerializationHelper.SerializeToFile(filename, Filters, "filters");
-			}
+			var filename = m_project.ProjectPathFilePrefix + kFiltersFilePrefix;
+			XmlSerializationHelper.SerializeToFile(filename, Filters, "filters");
 		}
 
 		#endregion
@@ -108,7 +80,7 @@ namespace SIL.Pa.Filters
 		/// then true is returned. Otherwise false is returned.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static bool SetCurrentFilter(string filterName, bool apply)
+		public bool SetCurrentFilter(string filterName, bool apply)
 		{
 			var filter = GetFilter(filterName);
 			if (filter == null)
@@ -122,31 +94,19 @@ namespace SIL.Pa.Filters
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Filter GetFilter(string filterName)
+		public Filter GetFilter(string filterName)
 		{
 			return Filters.FirstOrDefault(x => x.Name == filterName);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void TurnOffCurrentFilter()
+		public void TurnOffCurrentFilter()
 		{
 			TurnOffCurrentFilter(true);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void TurnOffCurrentFilter(bool apply)
+		public void TurnOffCurrentFilter(bool apply)
 		{
 			if (apply)
 				ApplyFilter(null);
@@ -157,62 +117,43 @@ namespace SIL.Pa.Filters
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static bool EntryMatchesCurrentFilter(WordCacheEntry entry)
+		public bool EntryMatchesCurrentFilter(WordCacheEntry entry)
 		{
 			return (CurrentFilter == null ? true : CurrentFilter.Matches(entry));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void ApplyFilter(Filter filter)
+		public void ApplyFilter(Filter filter)
 		{
 			ApplyFilter(filter, false);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void ApplyFilter(Filter filter, bool forceReapplication)
+		public void ApplyFilter(Filter filter, bool forceReapplication)
 		{
-			if (App.RecordCache == null || (CurrentFilter == filter && !forceReapplication))
+			if (m_project.RecordCache == null || (CurrentFilter == filter && !forceReapplication))
 				return;
 
 			CurrentFilter = filter;
-
-			App.RecordCache.BuildFilteredWordCache();
-			App.MsgMediator.SendMessage("DataSourcesModified", App.Project.FileName);
+			m_project.RecordCache.BuildFilteredWordCache();
+			m_project.Save();
+			App.MsgMediator.SendMessage("DataSourcesModified", m_project);
 			App.MsgMediator.SendMessage("FilterChanged", filter);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static SearchEngine CheckSearchQuery(SearchQuery query, bool showErrMsg)
+		public SearchEngine CheckSearchQuery(SearchQuery query, bool showErrMsg)
 		{
 			query.ErrorMessages.Clear();
 			SearchQuery modifiedQuery;
 			if (!App.ConvertClassesToPatterns(query, out modifiedQuery, showErrMsg))
 				return null;
 
-			if (App.Project != null)
-				SearchEngine.IgnoreUndefinedCharacters = App.Project.IgnoreUndefinedCharsInSearches;
-
-			var engine = new SearchEngine(modifiedQuery, App.PhoneCache ?? SearchEngine.PhoneCache);
+			SearchEngine.IgnoreUndefinedCharacters = m_project.IgnoreUndefinedCharsInSearches;
+			var engine = new SearchEngine(modifiedQuery, m_project.PhoneCache ?? SearchEngine.PhoneCache);
 
 			string[] errors = modifiedQuery.ErrorMessages.ToArray();
-			string msg = ReflectionHelper.GetStrResult(typeof(App),
-				"CombineErrorMessages", errors);
+			string msg = ReflectionHelper.GetStrResult(typeof(App), "CombineErrorMessages", errors);
 
 			if (!string.IsNullOrEmpty(msg))
 			{
@@ -234,11 +175,7 @@ namespace SIL.Pa.Filters
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void PostCacheBuildingFinalize()
+		public void PostCacheBuildingFinalize()
 		{
 			CleanUpExpressionSearchEngines(CurrentFilter);
 		}
@@ -250,64 +187,16 @@ namespace SIL.Pa.Filters
 		/// created by expressions that are based on other filters.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void CleanUpExpressionSearchEngines(Filter filter)
+		private void CleanUpExpressionSearchEngines(Filter filter)
 		{
 			if (filter == null)
 				return;
 
-			foreach (FilterExpression expression in filter.Expressions)
+			foreach (var expression in filter.Expressions.Where(e => e.ExpressionType == Filter.ExpressionType.PhoneticSrchPtrn))
 			{
-				if (expression.ExpressionType == Filter.ExpressionType.PhoneticSrchPtrn)
-				{
-					CleanUpExpressionSearchEngines(GetFilter(expression.Pattern));
-					expression.SearchEngine = null;
-				}
+				CleanUpExpressionSearchEngines(GetFilter(expression.Pattern));
+				expression.SearchEngine = null;
 			}
-		}
-		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void HandleFilterStatusStripLabelPaint(object sender, PaintEventArgs e)
-		{
-			var lbl = sender as ToolStripStatusLabel;
-
-			if (lbl == null || !lbl.Visible || CurrentFilter == null)
-				return;
-
-			Rectangle rc = lbl.ContentRectangle;
-
-			// Fill in shaded background
-			using (LinearGradientBrush br = new LinearGradientBrush(rc,
-				Color.Gold, Color.Khaki, LinearGradientMode.Horizontal))
-			{
-				e.Graphics.FillRectangle(br, rc);
-			}
-
-			// Draw side borders
-			using (Pen pen = new Pen(Color.Goldenrod))
-			{
-				e.Graphics.DrawLine(pen, 0, 0, 0, rc.Height);
-				e.Graphics.DrawLine(pen, rc.Width - 1, 0, rc.Width - 1, rc.Height);
-			}
-
-			// Draw little filter image
-			Image img = Properties.Resources.kimidFilterSmall;
-			rc = lbl.ContentRectangle;
-			Rectangle rcImage = new Rectangle(0, 0, img.Width, img.Height);
-			rcImage.X = 3;
-			rcImage.Y = (int)(Math.Ceiling(((decimal)rc.Height - rcImage.Height) / 2));
-			e.Graphics.DrawImageUnscaledAndClipped(img, rcImage);
-
-			// Draw text
-			rc.X = rcImage.Width + 4;
-			rc.Width -= rc.X;
-			const TextFormatFlags flags = TextFormatFlags.EndEllipsis |
-				TextFormatFlags.SingleLine | TextFormatFlags.VerticalCenter;
-
-			TextRenderer.DrawText(e.Graphics, CurrentFilter.Name, lbl.Font, rc, Color.Black, flags);
 		}
 	}
 

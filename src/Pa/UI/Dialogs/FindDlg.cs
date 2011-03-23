@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Model;
@@ -13,19 +14,16 @@ using SilTools;
 namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class FindDlg : Form
 	{
 		private const int kMaxSavedFindPatterns = 20;
 
+		private static readonly List<string> s_findWhatItems = new List<string>();
+		private static List<string> s_checkedFields;
+		
 		private bool m_cancel;
 		private bool m_prevMatchCaseValue;
 		private readonly PaWordListGrid m_grid;
-		private static readonly List<string> s_findWhatItems = new List<string>();
-		private static readonly List<string> s_colsToFindIn = new List<string>();
 		private readonly List<char> m_reservedRegexChars =
 			new List<char>(new[] { '\\', '[', '^', '$', '.', '|', '?', '*', '+', '(', ')' });
 
@@ -45,15 +43,23 @@ namespace SIL.Pa.UI.Dialogs
 			Settings.Default.FindDlg = App.InitializeForm(this, Settings.Default.FindDlg);
 			SetUiFonts();
 
-			// Select previous selected columns
-			fldSelGridSrchCols.Load(false, true, s_colsToFindIn);
+			var fieldsInList = from field in App.Project.Fields
+							   where field.VisibleInGrid && field.DisplayIndexInGrid >= 0
+							   orderby field.DisplayIndexInGrid
+							   select field;
+
+			if (s_checkedFields == null)
+				s_checkedFields = fieldsInList.Select(f => f.Name).ToList();
+
+			fldSelGridSrchCols.Load(fieldsInList.Select(f =>
+				new KeyValuePair<PaField, bool>(f,  s_checkedFields.Contains(f.Name))));
 
 			// Load the cbFindWhat comboBox with past searches
 			foreach (string searchPattern in s_findWhatItems)
 				cboFindWhat.Items.Add(searchPattern);
 
 			LoadSettings();
-			btnFind.Enabled = (fldSelGridSrchCols.CheckedFields.Count > 0);
+			btnFind.Enabled = (fldSelGridSrchCols.CheckedItemCount > 0);
 			chkSrchCollapsedGrps.Enabled = (grid.IsGroupedByField || grid.Cache.IsCIEList);
 
 			// Will prevent opening more than one FindDlg instance.
@@ -68,7 +74,7 @@ namespace SIL.Pa.UI.Dialogs
 		public void SetUiFonts()
 		{
 			chkRegEx.Font = FontHelper.UIFont;
-			cboFindWhat.Font = FontHelper.PhoneticFont;
+			cboFindWhat.Font = App.PhoneticFont;
 			chkMatchCase.Font = FontHelper.UIFont;
 			chkMatchEntireWord.Font = FontHelper.UIFont;
 			chkStartsWith.Font = FontHelper.UIFont;
@@ -76,6 +82,8 @@ namespace SIL.Pa.UI.Dialogs
 			lblSearchColumns.Font = FontHelper.UIFont;
 			lblFindWhat.Font = FontHelper.UIFont;
 			gbOptions.Font = FontHelper.UIFont;
+
+			LayoutEngine.Layout(this, new LayoutEventArgs(tblLayoutFindWhat, "Height"));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -101,12 +109,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnClosing(CancelEventArgs e)
 		{
-			// Save the FieldNames of the search columns for initial selection when
-			// the FindDlg is reopened
-			s_colsToFindIn.Clear();
-			
-			foreach (PaFieldInfo fieldInfo in fldSelGridSrchCols.CheckedFields)
-				s_colsToFindIn.Add(fieldInfo.FieldName);
+			// Save the checked fields for initial selection when the FindDlg is reopened
+			s_checkedFields = fldSelGridSrchCols.GetCheckedFields().Select(f => f.Name).ToList();
 			
 			// Save window settings if not canceled
 			if (!m_cancel)
@@ -151,7 +155,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (chkRegEx.Checked)
 				return orginalFindPattern;
 
-			StringBuilder findPattern = new StringBuilder();
+			var findPattern = new StringBuilder();
 
 			// Change all special characters to literals
 			foreach (char c in orginalFindPattern)
@@ -203,17 +207,10 @@ namespace SIL.Pa.UI.Dialogs
 			FindInfo.FindText = cboFindWhat.Text;
 			FindInfo.SearchCollapsedGroups = chkSrchCollapsedGrps.Checked;
 
-			List<FindDlgColItem> columnsToSearch = new List<FindDlgColItem>();
-
-			foreach (PaFieldInfo fieldInfo in fldSelGridSrchCols.CheckedFields)
-			{
-				columnsToSearch.Add(new FindDlgColItem(
-					m_grid.Columns[fieldInfo.FieldName].Index,
-					fieldInfo.DisplayIndexInGrid,
-					fieldInfo.DisplayText, fieldInfo.FieldName));
-			}
-
-			FindInfo.ColumnsToSearch = columnsToSearch.ToArray();
+			FindInfo.ColumnsToSearch = fldSelGridSrchCols.GetCheckedFields().Select(field =>
+				new FindDlgColItem(m_grid.Columns[field.Name].Index,
+					field.DisplayIndexInGrid, field.DisplayName, field.Name)).ToArray();
+			
 			FindInfo.FindFirst(chkReverseSearch.Checked);
 			Close();
 		}
@@ -233,14 +230,10 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void fldSelGridSrchCols_AfterUserChangedValue(PaFieldInfo fieldInfo,
+		private void fldSelGridSrchCols_AfterUserChangedValue(PaField field,
 			bool selectAllValueChanged, bool newValue)
 		{
-			if (selectAllValueChanged || fieldInfo.IsPhonetic)
+			if (selectAllValueChanged || field.Type == FieldType.Phonetic)
 			{
 				// Disable chkMatchCase if the "Select All" or phonetic field is checked.
 				chkMatchCase.Enabled = !newValue;
@@ -255,7 +248,7 @@ namespace SIL.Pa.UI.Dialogs
 			}
 
 			// Enable the Find button if any columns are checked
-			btnFind.Enabled = (fldSelGridSrchCols.CheckedFields.Count > 0); 
+			btnFind.Enabled = (fldSelGridSrchCols.CheckedItemCount > 0); 
 		}
 		
 		/// ----------------------------------------------------------------------------------------
@@ -294,10 +287,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void btnHelp_Click(object sender, EventArgs e)
 		{
 			App.ShowHelpTopic(this);
@@ -306,10 +295,6 @@ namespace SIL.Pa.UI.Dialogs
 		#endregion
 
 		#region Overrides
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleCreated(EventArgs e)
 		{
@@ -324,8 +309,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
-			cboFindWhat.Font = FontHelper.PhoneticFont;
 			cboFindWhat.AutoCompleteSource = AutoCompleteSource.ListItems;
+			cboFindWhat.Height = cboFindWhat.PreferredHeight;
 			base.OnShown(e);
 		}
 

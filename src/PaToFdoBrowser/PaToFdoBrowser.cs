@@ -68,11 +68,10 @@ namespace SIL.Pa
 					return;
 				}
 
-				var fifp = new FdoInfoForPa
-				{
-					LexEntries = _paFwHelper.LexEntries.ToList(),
-					WritingSystems = _paFwHelper.WritingSystems.ToList()
-				};
+				var fifp = new FdoInfoForPa();
+				fifp.WritingSystems = _paFwHelper.WritingSystems.ToList();
+				var wsId = fifp.WritingSystems.Single(w => w.IsDefaultVernacular).Id;
+				fifp.LexEntries = _paFwHelper.LexEntries.OrderBy(lx => lx.LexemeForm.GetString(wsId)).ToList();
 
 				var caption = Path.GetFileName(name);
 				MakeAppCaption(caption);

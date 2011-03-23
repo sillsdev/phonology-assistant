@@ -97,7 +97,6 @@ namespace SIL.Pa.UI.Views
 			// pnlRecView
 			// 
 			this.pnlRecView.BackColor = System.Drawing.SystemColors.Window;
-			this.pnlRecView.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.pnlRecView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlRecView.ClipTextForChildControls = true;
 			this.pnlRecView.ControlReceivingFocusOnMnemonic = null;
@@ -201,7 +200,6 @@ namespace SIL.Pa.UI.Views
 			// 
 			// pnlSideBarCaption
 			// 
-			this.pnlSideBarCaption.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.pnlSideBarCaption.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlSideBarCaption.ClipTextForChildControls = true;
 			this.pnlSideBarCaption.ColorBottom = System.Drawing.Color.Empty;
@@ -271,7 +269,6 @@ namespace SIL.Pa.UI.Views
 			// 
 			// pnlSavedCharts
 			// 
-			this.pnlSavedCharts.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
 			this.pnlSavedCharts.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlSavedCharts.ClipTextForChildControls = true;
 			this.pnlSavedCharts.ControlReceivingFocusOnMnemonic = null;

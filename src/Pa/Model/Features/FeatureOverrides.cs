@@ -14,46 +14,44 @@ namespace SIL.Pa.Model
 	{
 		public const string kFileName = "FeatureOverrides.xml";
 
-		#region Method to migrate previous versions of ambiguous sequences file to current.
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// 
+		/// This is necessary for serialization/deserialization.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void MigrateToLatestVersion(string filename)
+		public FeatureOverrides() : base(null)
 		{
-			var errMsg = App.LocalizeString("FeatureOverridesMigrationErrMsg",
-				"The following error occurred while attempting to update your project’s feature " +
-				"overrides file:\n\n{0}\n\nIn order to continue working, your original feature " +
-				"overrides file  will be renamed to the following file: '{1}'.",
-				"Message displayed when updating ambiguous sequences file to new version.",
-				App.kLocalizationGroupMisc);
-
-			App.MigrateToLatestVersion(filename, Assembly.GetExecutingAssembly(),
-				"SIL.Pa.Model.UpdateFileTransforms.UpdateFeatureOverridesFile.xslt", errMsg);
 		}
 
-		#endregion
+		/// ------------------------------------------------------------------------------------
+		public FeatureOverrides(PaProject project) : base(project)
+		{
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads the default and project-specific list of overriding phone features.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static FeatureOverrides Load(string projectPathPrefix)
+		public static FeatureOverrides Load(PaProject project)
 		{
-			string filename = projectPathPrefix + kFileName;
-			MigrateToLatestVersion(filename);
+			string filename = GetFileForProject(project.ProjectPathFilePrefix);
 			var list = XmlSerializationHelper.DeserializeFromFile<List<PhoneInfo>>(filename, "phones");
 
 			if (list == null || list.Count == 0)
 				return null;
 
-			var overrides = new FeatureOverrides();
-			foreach (PhoneInfo phoneInfo in list)
+			var overrides = new FeatureOverrides(project);
+			foreach (var phoneInfo in list)
 				overrides[phoneInfo.Phone] = phoneInfo;
 
 			return overrides;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string GetFileForProject(string projectPathPrefix)
+		{
+			return projectPathPrefix + kFileName;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -88,7 +86,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void MergeWithPhoneCache(PhoneCache phoneCache)
 		{
-			foreach (KeyValuePair<string, IPhoneInfo> kvp in this)
+			foreach (var kvp in this)
 			{
 				var phoneOverride = kvp.Value as PhoneInfo;
 				var phoneCacheEntry = phoneCache[kvp.Key] as PhoneInfo;
