@@ -31,16 +31,15 @@ namespace SIL.Pa.UI.Controls
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PhonesInFeatureViewer));
 			this.cmnuViewOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.mnuShowAll = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuSep = new System.Windows.Forms.ToolStripSeparator();
 			this.mnuCompact = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuExpanded = new System.Windows.Forms.ToolStripMenuItem();
-			this.pnlOuter = new SilPanel();
+			this.pnlOuter = new SilTools.Controls.SilPanel();
 			this.pnlExpandedView = new System.Windows.Forms.Panel();
-			this.header = new HeaderLabel();
-			this.btnDropDownArrow = new XButton();
+			this.header = new SilTools.Controls.HeaderLabel();
+			this.btnDropDownArrow = new SilTools.Controls.XButton();
 			this.cmnuViewOptions.SuspendLayout();
 			this.pnlOuter.SuspendLayout();
 			this.header.SuspendLayout();
@@ -48,78 +47,110 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// cmnuViewOptions
 			// 
-			resources.ApplyResources(this.cmnuViewOptions, "cmnuViewOptions");
+			this.cmnuViewOptions.AutoSize = false;
 			this.cmnuViewOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuShowAll,
             this.mnuSep,
             this.mnuCompact,
             this.mnuExpanded});
 			this.cmnuViewOptions.Name = "contextMenuStrip1";
+			this.cmnuViewOptions.Size = new System.Drawing.Size(167, 98);
 			// 
 			// mnuShowAll
 			// 
 			this.mnuShowAll.Name = "mnuShowAll";
-			resources.ApplyResources(this.mnuShowAll, "mnuShowAll");
+			this.mnuShowAll.Size = new System.Drawing.Size(160, 22);
+			this.mnuShowAll.Text = "&Show All Phones";
+			this.mnuShowAll.ToolTipText = "Show phones, even when they don\'t occur in the selected feature(s)";
 			this.mnuShowAll.Click += new System.EventHandler(this.mnuShowAll_Click);
 			// 
 			// mnuSep
 			// 
 			this.mnuSep.Name = "mnuSep";
-			resources.ApplyResources(this.mnuSep, "mnuSep");
+			this.mnuSep.Size = new System.Drawing.Size(163, 6);
 			// 
 			// mnuCompact
 			// 
 			this.mnuCompact.Name = "mnuCompact";
-			resources.ApplyResources(this.mnuCompact, "mnuCompact");
+			this.mnuCompact.Size = new System.Drawing.Size(160, 22);
+			this.mnuCompact.Text = "&Compact View";
+			this.mnuCompact.ToolTipText = "Arranges without new rows for each manner of articulation";
 			this.mnuCompact.Click += new System.EventHandler(this.mnuCompact_Click);
 			// 
 			// mnuExpanded
 			// 
 			this.mnuExpanded.Name = "mnuExpanded";
-			resources.ApplyResources(this.mnuExpanded, "mnuExpanded");
+			this.mnuExpanded.Size = new System.Drawing.Size(160, 22);
+			this.mnuExpanded.Text = "&Expanded View";
+			this.mnuExpanded.ToolTipText = "Arranges with new rows for each manner of articulation";
 			this.mnuExpanded.Click += new System.EventHandler(this.mnuExpanded_Click);
 			// 
 			// pnlOuter
 			// 
 			this.pnlOuter.BackColor = System.Drawing.SystemColors.Window;
+			this.pnlOuter.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this.pnlOuter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlOuter.ClipTextForChildControls = true;
 			this.pnlOuter.ControlReceivingFocusOnMnemonic = null;
 			this.pnlOuter.Controls.Add(this.pnlExpandedView);
 			this.pnlOuter.Controls.Add(this.header);
-			resources.ApplyResources(this.pnlOuter, "pnlOuter");
+			this.pnlOuter.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlOuter.DoubleBuffered = true;
+			this.pnlOuter.DrawOnlyBottomBorder = false;
+			this.pnlOuter.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this.pnlOuter.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.pnlOuter.Location = new System.Drawing.Point(0, 0);
 			this.pnlOuter.MnemonicGeneratesClick = false;
 			this.pnlOuter.Name = "pnlOuter";
 			this.pnlOuter.PaintExplorerBarBackground = false;
+			this.pnlOuter.Size = new System.Drawing.Size(150, 150);
+			this.pnlOuter.TabIndex = 10;
 			// 
 			// pnlExpandedView
 			// 
-			resources.ApplyResources(this.pnlExpandedView, "pnlExpandedView");
+			this.pnlExpandedView.AutoScroll = true;
+			this.pnlExpandedView.Location = new System.Drawing.Point(23, 30);
 			this.pnlExpandedView.Name = "pnlExpandedView";
+			this.pnlExpandedView.Size = new System.Drawing.Size(96, 41);
+			this.pnlExpandedView.TabIndex = 0;
 			// 
 			// header
 			// 
+			this.header.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this.header.ClipTextForChildControls = true;
 			this.header.ControlReceivingFocusOnMnemonic = null;
 			this.header.Controls.Add(this.btnDropDownArrow);
-			resources.ApplyResources(this.header, "header");
+			this.header.Dock = System.Windows.Forms.DockStyle.Top;
+			this.header.DoubleBuffered = true;
+			this.header.DrawOnlyBottomBorder = false;
+			this.header.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this.header.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.header.Location = new System.Drawing.Point(0, 0);
 			this.header.MnemonicGeneratesClick = true;
 			this.header.Name = "header";
+			this.header.PaintExplorerBarBackground = false;
 			this.header.ShowWindowBackgroudOnTopAndRightEdge = true;
+			this.header.Size = new System.Drawing.Size(148, 24);
+			this.header.TabIndex = 12;
+			this.header.Text = "#";
 			this.header.Click += new System.EventHandler(this.header_Click);
 			// 
 			// btnDropDownArrow
 			// 
-			resources.ApplyResources(this.btnDropDownArrow, "btnDropDownArrow");
+			this.btnDropDownArrow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnDropDownArrow.BackColor = System.Drawing.Color.Transparent;
 			this.btnDropDownArrow.CanBeChecked = false;
 			this.btnDropDownArrow.Checked = false;
 			this.btnDropDownArrow.DrawEmpty = false;
 			this.btnDropDownArrow.DrawLeftArrowButton = false;
 			this.btnDropDownArrow.DrawRightArrowButton = false;
+			this.btnDropDownArrow.Font = new System.Drawing.Font("Marlett", 9F);
 			this.btnDropDownArrow.Image = null;
+			this.btnDropDownArrow.Location = new System.Drawing.Point(128, 4);
 			this.btnDropDownArrow.Name = "btnDropDownArrow";
+			this.btnDropDownArrow.Size = new System.Drawing.Size(16, 16);
+			this.btnDropDownArrow.TabIndex = 1;
+			this.btnDropDownArrow.Text = "6";
 			this.btnDropDownArrow.Click += new System.EventHandler(this.btnDropDownArrow_Click);
 			// 
 			// PhonesInFeatureViewer

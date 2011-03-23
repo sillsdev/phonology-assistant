@@ -610,7 +610,7 @@ namespace SIL.Pa.UI.Dialogs
 			try
 			{
 				var colHdrText = m_fieldsGrid.Columns["tgtfield"].HeaderText;
-				var text = App.GetStringForObject(lblInformation);
+				var text = App.GetStringForObject(lblInformation, lblInformation.Text);
 				lblInformation.Text = string.Format(text, colHdrText, colHdrText);
 			}
 

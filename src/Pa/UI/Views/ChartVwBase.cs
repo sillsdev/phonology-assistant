@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -40,10 +41,14 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public ChartVwBase()
 		{
-			if (!App.DesignMode)
+			if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
 				App.InitializeProgressBarForLoadingView(InitializationMessage, 5);
 			
 			InitializeComponent();
+
+			if (LicenseManager.UsageMode == LicenseUsageMode.Designtime)
+				return;
+			
 			base.DoubleBuffered = true;
 			App.IncProgressBar();
 			

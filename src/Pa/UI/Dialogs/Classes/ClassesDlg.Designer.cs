@@ -31,7 +31,6 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClassesDlg));
 			this.btnDelete = new System.Windows.Forms.Button();
 			this.btnCopy = new System.Windows.Forms.Button();
 			this.btnAdd = new System.Windows.Forms.Button();
@@ -48,59 +47,89 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// btnDelete
 			// 
-			resources.ApplyResources(this.btnDelete, "btnDelete");
+			this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnDelete.AutoSize = true;
+			this.btnDelete.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnDelete, null);
 			this.locExtender.SetLocalizationComment(this.btnDelete, "Text on add button drop-down on classes dialog box.");
 			this.locExtender.SetLocalizingId(this.btnDelete, "ClassesDlg.btnDelete");
+			this.btnDelete.Location = new System.Drawing.Point(53, 236);
 			this.btnDelete.MinimumSize = new System.Drawing.Size(80, 26);
 			this.btnDelete.Name = "btnDelete";
+			this.btnDelete.Size = new System.Drawing.Size(80, 26);
+			this.btnDelete.TabIndex = 3;
+			this.btnDelete.Text = "&Delete";
 			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
 			// 
 			// btnCopy
 			// 
-			resources.ApplyResources(this.btnCopy, "btnCopy");
+			this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnCopy.AutoSize = true;
+			this.btnCopy.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnCopy, null);
 			this.locExtender.SetLocalizationComment(this.btnCopy, "Text on add button drop-down on classes dialog box.");
 			this.locExtender.SetLocalizingId(this.btnCopy, "ClassesDlg.btnCopy");
+			this.btnCopy.Location = new System.Drawing.Point(150, 246);
 			this.btnCopy.MinimumSize = new System.Drawing.Size(80, 26);
 			this.btnCopy.Name = "btnCopy";
+			this.btnCopy.Size = new System.Drawing.Size(80, 26);
+			this.btnCopy.TabIndex = 2;
+			this.btnCopy.Text = "&Copy";
 			this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
 			// 
 			// btnAdd
 			// 
-			resources.ApplyResources(this.btnAdd, "btnAdd");
+			this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnAdd.AutoSize = true;
 			this.btnAdd.Image = global::SIL.Pa.Properties.Resources.kimidButtonDropDownArrow;
+			this.btnAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.btnAdd.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnAdd, null);
 			this.locExtender.SetLocalizationComment(this.btnAdd, "Text on add button drop-down on classes dialog box.");
 			this.locExtender.SetLocalizationPriority(this.btnAdd, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnAdd, "ClassesDlg.btnAdd");
+			this.btnAdd.Location = new System.Drawing.Point(135, 181);
 			this.btnAdd.MinimumSize = new System.Drawing.Size(80, 26);
 			this.btnAdd.Name = "btnAdd";
+			this.btnAdd.Size = new System.Drawing.Size(80, 26);
+			this.btnAdd.TabIndex = 0;
+			this.btnAdd.Text = "&Add";
+			this.btnAdd.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
 			this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
 			// 
 			// btnModify
 			// 
-			resources.ApplyResources(this.btnModify, "btnModify");
+			this.btnModify.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnModify.AutoSize = true;
+			this.btnModify.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnModify, null);
 			this.locExtender.SetLocalizationComment(this.btnModify, "Text on add button drop-down on classes dialog box.");
 			this.locExtender.SetLocalizingId(this.btnModify, "ClassesDlg.btnModify");
+			this.btnModify.Location = new System.Drawing.Point(250, 181);
 			this.btnModify.MinimumSize = new System.Drawing.Size(80, 26);
 			this.btnModify.Name = "btnModify";
+			this.btnModify.Size = new System.Drawing.Size(80, 26);
+			this.btnModify.TabIndex = 1;
+			this.btnModify.Text = "&Modify...";
 			this.btnModify.Click += new System.EventHandler(this.btnModify_Click);
 			// 
 			// lvClasses
 			// 
 			this.lvClasses.AppliesTo = SIL.Pa.UI.Controls.ClassListView.ListApplicationType.ClassesDialog;
-			resources.ApplyResources(this.lvClasses, "lvClasses");
+			this.lvClasses.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lvClasses.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.lvClasses.FullRowSelect = true;
 			this.lvClasses.HideSelection = false;
 			this.locExtender.SetLocalizableToolTip(this.lvClasses, null);
 			this.locExtender.SetLocalizationComment(this.lvClasses, null);
 			this.locExtender.SetLocalizingId(this.lvClasses, "ClassesDlg.lvClasses");
+			this.lvClasses.Location = new System.Drawing.Point(10, 10);
 			this.lvClasses.MultiSelect = false;
 			this.lvClasses.Name = "lvClasses";
 			this.lvClasses.OwnerDraw = true;
 			this.lvClasses.ShowMembersAndTypeColumns = true;
+			this.lvClasses.Size = new System.Drawing.Size(617, 402);
+			this.lvClasses.TabIndex = 0;
 			this.lvClasses.UseCompatibleStateImageBehavior = false;
 			this.lvClasses.View = System.Windows.Forms.View.Details;
 			this.lvClasses.SelectedIndexChanged += new System.EventHandler(this.lvClasses_SelectedIndexChanged);
@@ -118,7 +147,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizingId(this.cmnuAdd, "cmnuAdd.cmnuAdd");
 			this.cmnuAdd.Name = "cmnuAdd";
 			this.cmnuAdd.ShowImageMargin = false;
-			resources.ApplyResources(this.cmnuAdd, "cmnuAdd");
+			this.cmnuAdd.Size = new System.Drawing.Size(198, 70);
 			// 
 			// cmnuAddCharClass
 			// 
@@ -127,7 +156,8 @@ namespace SIL.Pa.UI.Dialogs
 					"x.");
 			this.locExtender.SetLocalizingId(this.cmnuAddCharClass, "ClassesDlg.cmnuAddCharClass");
 			this.cmnuAddCharClass.Name = "cmnuAddCharClass";
-			resources.ApplyResources(this.cmnuAddCharClass, "cmnuAddCharClass");
+			this.cmnuAddCharClass.Size = new System.Drawing.Size(197, 22);
+			this.cmnuAddCharClass.Text = "&Phones Class...";
 			this.cmnuAddCharClass.Click += new System.EventHandler(this.cmnuAddCharClass_Click);
 			// 
 			// cmnuAddArtFeatureClass
@@ -137,7 +167,8 @@ namespace SIL.Pa.UI.Dialogs
 					"x.");
 			this.locExtender.SetLocalizingId(this.cmnuAddArtFeatureClass, "ClassesDlg.cmnuAddArtFeatureClass");
 			this.cmnuAddArtFeatureClass.Name = "cmnuAddArtFeatureClass";
-			resources.ApplyResources(this.cmnuAddArtFeatureClass, "cmnuAddArtFeatureClass");
+			this.cmnuAddArtFeatureClass.Size = new System.Drawing.Size(197, 22);
+			this.cmnuAddArtFeatureClass.Text = "&Articulatory Features Class...";
 			this.cmnuAddArtFeatureClass.Click += new System.EventHandler(this.cmnuAddArtFeatureClass_Click);
 			// 
 			// cmnuAddBinFeatureClass
@@ -147,19 +178,21 @@ namespace SIL.Pa.UI.Dialogs
 					"x.");
 			this.locExtender.SetLocalizingId(this.cmnuAddBinFeatureClass, "ClassesDlg.cmnuAddBinFeatureClass");
 			this.cmnuAddBinFeatureClass.Name = "cmnuAddBinFeatureClass";
-			resources.ApplyResources(this.cmnuAddBinFeatureClass, "cmnuAddBinFeatureClass");
+			this.cmnuAddBinFeatureClass.Size = new System.Drawing.Size(197, 22);
+			this.cmnuAddBinFeatureClass.Text = "&Binary Features Class...";
 			this.cmnuAddBinFeatureClass.Click += new System.EventHandler(this.cmnuAddBinFeatureClass_Click);
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "Dialog Boxes";
+			this.locExtender.LocalizationGroup = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidExportAsToolTip;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// ClassesDlg
 			// 
 			this.AcceptButton = null;
-			resources.ApplyResources(this, "$this");
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.ClientSize = new System.Drawing.Size(637, 452);
 			this.Controls.Add(this.btnModify);
 			this.Controls.Add(this.btnAdd);
 			this.Controls.Add(this.btnCopy);
@@ -168,7 +201,10 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "ClassesDlg.WindowTitle");
+			this.MinimumSize = new System.Drawing.Size(645, 375);
 			this.Name = "ClassesDlg";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+			this.Text = "Classes";
 			this.Controls.SetChildIndex(this.lvClasses, 0);
 			this.Controls.SetChildIndex(this.btnDelete, 0);
 			this.Controls.SetChildIndex(this.btnCopy, 0);

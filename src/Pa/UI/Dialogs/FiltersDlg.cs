@@ -85,6 +85,9 @@ namespace SIL.Pa.UI.Dialogs
 			cboExpressionMatch.Items.Add(App.GetString("FiltersDlg.FilterExpressionMatchTypes.All", "all"));
 			lblExpressionMatchMsgPart1.Tag = lblExpressionMatchMsgPart1.Text;
 
+			pnlExpressionMatch.BorderStyle = BorderStyle.None;
+			pnlExpressionMatch.DrawOnlyBottomBorder = true;
+
 			m_filterDropDown = new ExpressionValueDropDownListBox(m_project);
 			BuildFiltersGrid();
 			BuildExpressionsGrid();

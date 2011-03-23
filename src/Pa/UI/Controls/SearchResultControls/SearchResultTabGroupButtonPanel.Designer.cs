@@ -125,7 +125,7 @@
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "User Interface Controls";
+			this.locExtender.LocalizationGroup = "";
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// SearchResultTabGroupButtonPanel

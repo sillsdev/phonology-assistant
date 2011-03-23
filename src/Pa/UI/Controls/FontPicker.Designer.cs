@@ -258,7 +258,7 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "User Interface Controls";
+			this.locExtender.LocalizationGroup = "";
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// FontPicker

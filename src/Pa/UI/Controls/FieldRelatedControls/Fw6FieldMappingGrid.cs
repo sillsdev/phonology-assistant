@@ -46,13 +46,13 @@ namespace SIL.Pa.UI.Controls
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			int i = FontColumnIndex;
 			Columns.Insert(i, col);
-			App.GetStringForObject(Columns[i], "FieldMappingGrid.FwWritingSystemColumnHeadingText", "Writing System");
+			App.GetStringForObject(Columns[i], "Fw6FieldMappingGrid.WritingSystemColumnHeadingText", "Writing System");
 		}
 		
 		/// ------------------------------------------------------------------------------------
 		protected virtual string GetNoWritingSystemText()
 		{
-			return App.GetString("FieldMappingGrid.NoWritingSystemText", "(none)");
+			return App.GetString("Fw6FieldMappingGrid.NoWritingSystemText", "(none)");
 		}
 
 		/// ------------------------------------------------------------------------------------

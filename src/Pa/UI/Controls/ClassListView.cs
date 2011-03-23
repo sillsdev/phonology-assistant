@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
@@ -187,10 +188,6 @@ namespace SIL.Pa.UI.Controls
 	#endregion
 
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class ClassListView : ListView
 	{
 		/// ------------------------------------------------------------------------------------
@@ -245,10 +242,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)
@@ -273,11 +266,14 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void AddColumns()
 		{
+			if (App.DesignMode)
+				return;
+
 			SmallImageList = null;
 			Columns.Clear();
 
 			// Add the column for the class name.
-			ColumnHeader hdr = new ColumnHeader();
+			var hdr = new ColumnHeader();
 			hdr.Name = "hdr" + ClassListViewItem.kClassNameSubitem;
 			hdr.Width = 180;
 			Columns.Add(hdr);
@@ -323,18 +319,17 @@ namespace SIL.Pa.UI.Controls
 
 			Items.Clear();
 
-			foreach (SearchClass srchClass in App.Project.SearchClasses)
+			foreach (var srchClass in App.Project.SearchClasses)
 				Items.Add(ClassListViewItem.Create(srchClass, m_showMembersAndClassTypeColumns));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
+
+			if (App.DesignMode)
+				return;
 
 			AddColumns();
 
@@ -452,10 +447,6 @@ namespace SIL.Pa.UI.Controls
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnBeforeLabelEdit(LabelEditEventArgs e)
 		{
 			ClassListViewItem item = Items[e.Item] as ClassListViewItem;
@@ -477,7 +468,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnAfterLabelEdit(e);
 
-			ClassListViewItem item = Items[e.Item] as ClassListViewItem;
+			var item = Items[e.Item] as ClassListViewItem;
 
 			if (e.Label != null && item != null)
 			{
@@ -580,16 +571,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				if (m_deletedClass)
-					return true;
-
-				foreach (ClassListViewItem item in Items)
-				{
-					if (item.IsDirty)
-						return true;
-				}
-
-				return false;
+				return (m_deletedClass || Items.Cast<ClassListViewItem>().Any(item => item.IsDirty));
 			}
 		}
 

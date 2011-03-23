@@ -295,9 +295,6 @@
     <Compile Include="UI\Controls\CVChart-Old\CharGrid.designer.cs">
       <DependentUpon>CharGrid.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controls\CVChart-Old\CharGrid.MsgHandlers.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="UI\Controls\CVChart-Old\CharGridBuilder.cs" />
     <Compile Include="UI\Controls\CVChart-Old\CharGridHeader.cs">
       <SubType>Component</SubType>
@@ -668,9 +665,6 @@
     </Compile>
     <Compile Include="UI\PaMainWnd.Designer.cs">
       <DependentUpon>PaMainWnd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\PaMainWnd.MsgHandlers.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Views\ChartVwBase.cs">
       <SubType>UserControl</SubType>

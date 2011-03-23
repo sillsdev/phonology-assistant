@@ -19,7 +19,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			InitializeComponent();
 
-			if (DesignMode)
+			if (App.DesignMode)
 				return;
 
 			btnAdd.Margin = new Padding(0, btnOK.Margin.Top, btnOK.Margin.Left, btnOK.Margin.Bottom);
@@ -54,6 +54,10 @@ namespace SIL.Pa.UI.Dialogs
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
+			
+			if (App.DesignMode)
+				return;
+			
 			lvClasses.LoadSettings(Name);
 		}
 

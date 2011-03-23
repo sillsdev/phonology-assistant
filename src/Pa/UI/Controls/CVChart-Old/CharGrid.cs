@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Media;
 using System.Windows.Forms;
 using System.Xml.Serialization;
@@ -31,49 +32,42 @@ namespace SIL.Pa.UI.Controls
 		private const int kMinHdrSize = 22;
 
 		private readonly int m_cellHeight; // = 60; //34;
-		private int m_cellWidth = 38;
 		private CharGridHeader m_currentHeader;
-		private bool m_searchWhenPhoneDoubleClicked = true;
 		private Point m_mouseDownGridLocation = Point.Empty;
 		private DataGridViewCell m_cellDraggedOver;
 		private string m_phoneBeingDragged;
 		private ITMAdapter m_tmAdapter;
-		private bool m_showUncertainPhones;
-		private string m_supraSegsToIgnore = PhoneCache.kDefaultChartSupraSegsToIgnore;
 		private CharGridHeader m_currentRowHeader;
 		private CharGridHeader m_currentColHeader;
-		private Type m_owningViewType;
 		private CellKBMovingCellHelper m_phoneMovingHelper;
-		private List<CharGridHeader> m_colHdrs;
-		private List<CharGridHeader> m_rowHdrs;
 		private CharGridHeaderCollectionPanel m_pnlColHeaders;
-		private CharGridHeaderCollectionPanel m_pnlRowHeaders;
-		private readonly Font m_chartFont;
 		private PhoneInfoPopup m_phoneInfoPopup;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public CharGrid()
 		{
+			CellWidth = 38;
+			SearchWhenPhoneDoubleClicked = true;
+			SupraSegsToIgnore = PhoneCache.kDefaultChartSupraSegsToIgnore;
 			m_cellHeight = Settings.Default.CVChartsCellHeight;
-			m_rowHdrs = new List<CharGridHeader>();
-			m_colHdrs = new List<CharGridHeader>();
-			m_chartFont = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, 14);
+			RowHeaders = new List<CharGridHeader>();
+			ColumnHeaders = new List<CharGridHeader>();
+			ChartFont = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, 14);
 			m_pnlColHeaders = new CharGridHeaderCollectionPanel(true);
-			m_pnlRowHeaders = new CharGridHeaderCollectionPanel(false);
+			RowHeadersCollectionPanel = new CharGridHeaderCollectionPanel(false);
 
 			InitializeComponent();
 
+			if (App.DesignMode)
+				return;
+
 			SuspendLayout();
-			m_grid.OwningPanel = pnlGrid;
-			m_grid.Font = m_chartFont;
-			m_grid.GridColor = kGridColor;
+			Grid.OwningPanel = pnlGrid;
+			Grid.Font = ChartFont;
+			Grid.GridColor = kGridColor;
 			pnlColHeaderOuter.Controls.Add(m_pnlColHeaders);
-			pnlRowHeaderOuter.Controls.Add(m_pnlRowHeaders);
-			m_phoneInfoPopup = new PhoneInfoPopup(m_grid);
+			pnlRowHeaderOuter.Controls.Add(RowHeadersCollectionPanel);
+			m_phoneInfoPopup = new PhoneInfoPopup(Grid);
 			ResumeLayout(true);
 
 			AdjustRowHeadingLocation();
@@ -83,19 +77,15 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		void CharGrid_Disposed(object sender, EventArgs e)
 		{
 			Disposed -= CharGrid_Disposed;
 
-			m_rowHdrs = null;
-			m_colHdrs = null;
+			RowHeaders = null;
+			ColumnHeaders = null;
 
-			if (m_chartFont != null)
-				m_chartFont.Dispose();
+			if (ChartFont != null)
+				ChartFont.Dispose();
 
 			if (m_pnlColHeaders != null && !m_pnlColHeaders.IsDisposed)
 			{
@@ -103,10 +93,10 @@ namespace SIL.Pa.UI.Controls
 				m_pnlColHeaders = null;
 			}
 
-			if (m_pnlRowHeaders != null && !m_pnlRowHeaders.IsDisposed)
+			if (RowHeadersCollectionPanel != null && !RowHeadersCollectionPanel.IsDisposed)
 			{
-				m_pnlRowHeaders.Dispose();
-				m_pnlRowHeaders = null;
+				RowHeadersCollectionPanel.Dispose();
+				RowHeadersCollectionPanel = null;
 			}
 
 			if (m_phoneInfoPopup != null && !m_phoneInfoPopup.IsDisposed)
@@ -125,12 +115,12 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_currentColHeader = null;
 			m_currentRowHeader = null;
-			m_grid.Rows.Clear();
-			m_grid.Columns.Clear();
-			m_pnlRowHeaders.Controls.Clear();
-			m_rowHdrs.Clear();
+			Grid.Rows.Clear();
+			Grid.Columns.Clear();
+			RowHeadersCollectionPanel.Controls.Clear();
+			RowHeaders.Clear();
 			m_pnlColHeaders.Controls.Clear();
-			m_colHdrs.Clear();
+			ColumnHeaders.Clear();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -151,10 +141,7 @@ namespace SIL.Pa.UI.Controls
 		/// Gets the font used in the chart.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Font ChartFont
-		{
-			get { return m_chartFont; }
-		}
+		public Font ChartFont { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -180,11 +167,7 @@ namespace SIL.Pa.UI.Controls
 		/// chart is loaded with phones.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public int CellWidth
-		{
-			get { return m_cellWidth; }
-			set { m_cellWidth = value; }
-		}
+		public int CellWidth { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -192,11 +175,7 @@ namespace SIL.Pa.UI.Controls
 		/// a phone when the cell it's in is double-clicked.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool SearchWhenPhoneDoubleClicked
-		{
-			get { return m_searchWhenPhoneDoubleClicked; }
-			set { m_searchWhenPhoneDoubleClicked = value; }
-		}
+		public bool SearchWhenPhoneDoubleClicked { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -216,11 +195,11 @@ namespace SIL.Pa.UI.Controls
 
 				if (m_tmAdapter != null)
 				{
-					m_tmAdapter.SetContextMenuForControl(m_grid, "cmnuCharChartGrid");
-					if (m_grid.ContextMenuStrip != null)
+					m_tmAdapter.SetContextMenuForControl(Grid, "cmnuCharChartGrid");
+					if (Grid.ContextMenuStrip != null)
 					{
-						m_grid.ContextMenuStrip.Opening += ((sender, args) => m_phoneInfoPopup.Enabled = false);
-						m_grid.ContextMenuStrip.Closed += ((sender, args) => m_phoneInfoPopup.Enabled = true);
+						Grid.ContextMenuStrip.Opening += ((sender, args) => m_phoneInfoPopup.Enabled = false);
+						Grid.ContextMenuStrip.Closed += ((sender, args) => m_phoneInfoPopup.Enabled = true);
 					}
 				}
 
@@ -233,25 +212,16 @@ namespace SIL.Pa.UI.Controls
 		/// Gets or sets the owning view type.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public Type OwningViewType
-		{
-			get { return m_owningViewType; }
-			set { m_owningViewType = value; }
-		}
+		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public Type OwningViewType { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the chart's grid control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public DataGridView Grid
-		{
-			get { return m_grid; }
-		}
+		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public CharGridView Grid { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -264,8 +234,8 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				CharGridCell cell = (m_grid.CurrentCell == null ?
-					null : m_grid.CurrentCell.Value as CharGridCell);
+				CharGridCell cell = (Grid.CurrentCell == null ?
+					null : Grid.CurrentCell.Value as CharGridCell);
 
 				return (cell == null || string.IsNullOrEmpty(cell.Phone) ? null : cell.Phone);
 			}
@@ -282,9 +252,9 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				List<string> phones = new List<string>();
+				var phones = new List<string>();
 
-				if (m_grid.SelectedCells.Count == 0)
+				if (Grid.SelectedCells.Count == 0)
 				{
 					string currPhone = CurrentPhone;
 					if (!string.IsNullOrEmpty(currPhone))
@@ -292,9 +262,9 @@ namespace SIL.Pa.UI.Controls
 				}
 				else
 				{
-					foreach (DataGridViewCell dgvCell in m_grid.SelectedCells)
+					foreach (DataGridViewCell dgvCell in Grid.SelectedCells)
 					{
-						CharGridCell cell = dgvCell.Value as CharGridCell;
+						var cell = dgvCell.Value as CharGridCell;
 						if (cell != null && !string.IsNullOrEmpty(cell.Phone))
 							phones.Add(cell.Phone);
 					}
@@ -321,35 +291,24 @@ namespace SIL.Pa.UI.Controls
 		/// Gets the panel that owns the collection of row header controls.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public CharGridHeaderCollectionPanel RowHeadersCollectionPanel
-		{
-			get { return m_pnlRowHeaders; }
-		}
+		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public CharGridHeaderCollectionPanel RowHeadersCollectionPanel { get; private set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the collection of row headers.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public List<CharGridHeader> RowHeaders
-		{
-			get { return m_rowHdrs; }
-		}
+		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public List<CharGridHeader> RowHeaders { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the collection of column headers.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public List<CharGridHeader> ColumnHeaders
-		{
-			get { return m_colHdrs; }
-		}
+		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public List<CharGridHeader> ColumnHeaders { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -364,7 +323,7 @@ namespace SIL.Pa.UI.Controls
 			set
 			{
 				pnlRowHeaderOuter.Width = (value < kMinHdrSize ? kMinHdrSize : value);
-				m_pnlRowHeaders.Width = pnlRowHeaderOuter.Width;
+				RowHeadersCollectionPanel.Width = pnlRowHeaderOuter.Width;
 			}
 		}
 
@@ -390,47 +349,33 @@ namespace SIL.Pa.UI.Controls
 		/// Gets or sets a value indicating whether or not to show uncertain phones in the chart.
 		/// </summary>
 		/// --------------------------------------------------------------------------------------------
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public bool ShowUncertainPhones
-		{
-			get { return m_showUncertainPhones; }
-			set { m_showUncertainPhones = value; }
-		}
+		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool ShowUncertainPhones { get; set; }
 
 		/// --------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the list of suprasegmentals to ignore.
 		/// </summary>
 		/// --------------------------------------------------------------------------------------------
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public string SupraSegsToIgnore
-		{
-			get { return m_supraSegsToIgnore; }
-			set { m_supraSegsToIgnore = value; }
-		}
+		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public string SupraSegsToIgnore { get; set; }
 
 		#endregion
 
 		#region Save/Restore settings
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
 
-			if (!App.DesignMode)
-			{
-				m_pnlRowHeaders.Width = pnlRowHeaderOuter.Width;
-				m_pnlColHeaders.Height = pnlColHeaderOuter.Height;
-				Adjust();
+			if (LicenseManager.UsageMode == LicenseUsageMode.Designtime || App.DesignMode)
+				return;
 
-				m_grid_CurrentCellChanged(null, null);
-			}
+			RowHeadersCollectionPanel.Width = pnlRowHeaderOuter.Width;
+			m_pnlColHeaders.Height = pnlColHeaderOuter.Height;
+			Adjust();
+
+			m_grid_CurrentCellChanged(null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -454,7 +399,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public int GetRowsGroup(int rowIndex)
 		{
-			CharGridHeader hdr = GetRowsHeader(rowIndex);
+			var hdr = GetRowsHeader(rowIndex);
 			return (hdr == null ? -1 : hdr.Group);
 		}
 
@@ -465,15 +410,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public CharGridHeader GetRowsHeader(int rowIndex)
 		{
-			if (rowIndex >= 0 && rowIndex < m_grid.Rows.Count)
+			if (rowIndex >= 0 && rowIndex < Grid.Rows.Count)
 			{
-				foreach (CharGridHeader hdr in m_rowHdrs)
+				foreach (var hdr in RowHeaders)
 				{
-					foreach (DataGridViewRow row in hdr.OwnedRows)
-					{
-						if (row.Index == rowIndex)
-							return hdr;
-					}
+					if (hdr.OwnedRows.Any(row => row.Index == rowIndex))
+						return hdr;
 				}
 			}
 
@@ -487,9 +429,9 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public CharGridHeader GetColumnsHeader(int colIndex)
 		{
-			if (colIndex >= 0 && colIndex < m_grid.Columns.Count)
+			if (colIndex >= 0 && colIndex < Grid.Columns.Count)
 			{
-				foreach (CharGridHeader hdr in m_colHdrs)
+				foreach (CharGridHeader hdr in ColumnHeaders)
 				{
 					foreach (DataGridViewColumn col in hdr.OwnedColumns)
 					{
@@ -509,10 +451,10 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void RemoveRow(int rowIndex)
 		{
-			if (rowIndex < 0 || rowIndex >= m_grid.Rows.Count)
+			if (rowIndex < 0 || rowIndex >= Grid.Rows.Count)
 				return;
 
-			CharGridHeader hdr = m_grid.Rows[rowIndex].Tag as CharGridHeader;
+			CharGridHeader hdr = Grid.Rows[rowIndex].Tag as CharGridHeader;
 			if (hdr == null)
 				return;
 
@@ -521,9 +463,9 @@ namespace SIL.Pa.UI.Controls
 				RemoveRowHeader(hdr);
 			else
 			{
-				hdr.RemoveRow(m_grid.Rows[rowIndex]);
-				m_grid.Rows.RemoveAt(rowIndex);
-				m_grid.Refresh();
+				hdr.RemoveRow(Grid.Rows[rowIndex]);
+				Grid.Rows.RemoveAt(rowIndex);
+				Grid.Refresh();
 				CalcHeights();
 				AdjustRowHeadingLocation();
 			}
@@ -536,10 +478,10 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void RemoveColumn(int colIndex)
 		{
-			if (colIndex < 0 || colIndex >= m_grid.Columns.Count)
+			if (colIndex < 0 || colIndex >= Grid.Columns.Count)
 				return;
 
-			CharGridHeader hdr = m_grid.Columns[colIndex].Tag as CharGridHeader;
+			CharGridHeader hdr = Grid.Columns[colIndex].Tag as CharGridHeader;
 			if (hdr == null)
 				return;
 
@@ -548,9 +490,9 @@ namespace SIL.Pa.UI.Controls
 				RemoveColumnHeader(hdr);
 			else
 			{
-				hdr.RemoveColumn(m_grid.Columns[colIndex]);
-				m_grid.Columns.RemoveAt(colIndex);
-				m_grid.Refresh();
+				hdr.RemoveColumn(Grid.Columns[colIndex]);
+				Grid.Columns.RemoveAt(colIndex);
+				Grid.Refresh();
 				CalcWidths();
 				AdjustColumnHeadingLocation();
 			}
@@ -567,9 +509,9 @@ namespace SIL.Pa.UI.Controls
 			{
 				m_currentRowHeader = null;
 				hdr.RemoveOwnedRows();
-				m_rowHdrs.Remove(hdr);
-				m_pnlRowHeaders.Controls.Remove(hdr);
-				m_grid.Refresh();
+				RowHeaders.Remove(hdr);
+				RowHeadersCollectionPanel.Controls.Remove(hdr);
+				Grid.Refresh();
 				CalcHeights();
 			}
 		}
@@ -585,9 +527,9 @@ namespace SIL.Pa.UI.Controls
 			{
 				m_currentColHeader = null;
 				hdr.RemoveOwnedColumns();
-				m_colHdrs.Remove(hdr);
+				ColumnHeaders.Remove(hdr);
 				m_pnlColHeaders.Controls.Remove(hdr);
-				m_grid.Refresh();
+				Grid.Refresh();
 				CalcWidths();
 			}
 		}
@@ -650,9 +592,9 @@ namespace SIL.Pa.UI.Controls
 			if (hdr == null)
 				return null;
 
-			int insertRowIndex = (hdr.LastRow == null ? m_grid.Rows.Count : hdr.LastRow.Index + 1);
-			m_grid.Rows.Insert(insertRowIndex, new DataGridViewRow());
-			DataGridViewRow newRow = m_grid.Rows[insertRowIndex];
+			int insertRowIndex = (hdr.LastRow == null ? Grid.Rows.Count : hdr.LastRow.Index + 1);
+			Grid.Rows.Insert(insertRowIndex, new DataGridViewRow());
+			DataGridViewRow newRow = Grid.Rows[insertRowIndex];
 			newRow.Height = m_cellHeight;
 			hdr.AddRow(newRow, subheadtext);
 			CalcHeights();
@@ -666,30 +608,30 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private CharGridHeader CreateRowHeader(string text, int insertIndex)
 		{
-			m_pnlRowHeaders.SuspendLayout();
+			RowHeadersCollectionPanel.SuspendLayout();
 
 			CharGridHeader newHdr = new CharGridHeader(text, false);
 			newHdr.Height = m_cellHeight;
 
 			if (insertIndex == -1)
 			{
-				m_rowHdrs.Add(newHdr);
-				m_pnlRowHeaders.Controls.Add(newHdr);
+				RowHeaders.Add(newHdr);
+				RowHeadersCollectionPanel.Controls.Add(newHdr);
 				newHdr.BringToFront();
 			}
 			else
 			{
-				m_rowHdrs.Insert(insertIndex, newHdr);
-				m_pnlRowHeaders.Controls.Clear();
-				foreach (CharGridHeader hdr in m_rowHdrs)
+				RowHeaders.Insert(insertIndex, newHdr);
+				RowHeadersCollectionPanel.Controls.Clear();
+				foreach (CharGridHeader hdr in RowHeaders)
 				{
-					m_pnlRowHeaders.Controls.Add(hdr);
+					RowHeadersCollectionPanel.Controls.Add(hdr);
 					hdr.BringToFront();
 				}
 			}
 
 			CalcHeights();
-			m_pnlRowHeaders.ResumeLayout();
+			RowHeadersCollectionPanel.ResumeLayout();
 			return newHdr;
 		}
 
@@ -701,11 +643,11 @@ namespace SIL.Pa.UI.Controls
 		private void CalcHeights()
 		{
 			int height = 0;
-			foreach (Control ctrl in m_pnlRowHeaders.Controls)
+			foreach (Control ctrl in RowHeadersCollectionPanel.Controls)
 				height += ctrl.Height;
 
-			m_pnlRowHeaders.Height = height;
-			m_grid.Height = height + 1;
+			RowHeadersCollectionPanel.Height = height;
+			Grid.Height = height + 1;
 		}
 
 		#endregion
@@ -767,13 +709,13 @@ namespace SIL.Pa.UI.Controls
 				return null;
 
 			int insertColIndex = (hdr.LastColumn == null ?
-				m_grid.Columns.Count : hdr.LastColumn.Index + 1);
+				Grid.Columns.Count : hdr.LastColumn.Index + 1);
 
 			DataGridViewColumn newCol = CreateColumn();
 			hdr.AddColumn(newCol, subheadtext);
 			CalcWidths();
-			m_grid.Columns.Insert(insertColIndex, newCol);
-			return m_grid.Columns[insertColIndex];
+			Grid.Columns.Insert(insertColIndex, newCol);
+			return Grid.Columns[insertColIndex];
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -785,19 +727,19 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_pnlColHeaders.SuspendLayout();
 			CharGridHeader newHdr = new CharGridHeader(text, true);
-			newHdr.Width = m_cellWidth;
+			newHdr.Width = CellWidth;
 
 			if (insertIndex == -1)
 			{
-				m_colHdrs.Add(newHdr);
+				ColumnHeaders.Add(newHdr);
 				m_pnlColHeaders.Controls.Add(newHdr);
 				newHdr.BringToFront();
 			}
 			else
 			{
-				m_colHdrs.Insert(insertIndex, newHdr);
+				ColumnHeaders.Insert(insertIndex, newHdr);
 				m_pnlColHeaders.Controls.Clear();
-				foreach (CharGridHeader hdr in m_colHdrs)
+				foreach (CharGridHeader hdr in ColumnHeaders)
 				{
 					m_pnlColHeaders.Controls.Add(hdr);
 					hdr.BringToFront();
@@ -816,10 +758,10 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public DataGridViewColumn CreateColumn()
 		{
-			string colName = string.Format("col{0}", m_grid.Columns.Count);
+			string colName = string.Format("col{0}", Grid.Columns.Count);
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn(colName);
-			col.CellTemplate.Style.Font = m_chartFont;
-			col.Width = m_cellWidth;
+			col.CellTemplate.Style.Font = ChartFont;
+			col.Width = CellWidth;
 			return col;
 		}
 
@@ -835,10 +777,10 @@ namespace SIL.Pa.UI.Controls
 				width += ctrl.Width;
 
 			m_pnlColHeaders.Width = width;
-			m_grid.Width = width + 1;
+			Grid.Width = width + 1;
 
-			if (m_grid.Rows.Count > 0)
-				m_grid.Height = (m_grid.Rows.Count * m_cellHeight) + 1;
+			if (Grid.Rows.Count > 0)
+				Grid.Height = (Grid.Rows.Count * m_cellHeight) + 1;
 		}
 
 		#endregion
@@ -857,7 +799,7 @@ namespace SIL.Pa.UI.Controls
 				pnlCorner.Invalidate();
 			}
 
-			m_pnlRowHeaders.Width = pnlRowHeaderOuter.Width;
+			RowHeadersCollectionPanel.Width = pnlRowHeaderOuter.Width;
 			m_pnlColHeaders.Height = pnlColHeaderOuter.Height;
 
 			Point ptv = pnlWrapper.PointToScreen(new Point(m_vsplitter.SplitPosition, 0));
@@ -866,7 +808,7 @@ namespace SIL.Pa.UI.Controls
 			Point pth = pnlWrapper.PointToScreen(new Point(0, m_hsplitter.SplitPosition));
 			pth = pnlGrid.PointToClient(pth);
 
-			m_grid.Location = new Point(ptv.X + m_vsplitter.Width - 1,
+			Grid.Location = new Point(ptv.X + m_vsplitter.Width - 1,
 				pth.Y + m_hsplitter.Height - 1);
 
 			AdjustColumnHeadingLocation();
@@ -880,7 +822,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void AdjustColumnHeadingLocation()
 		{
-			Point pt = pnlGrid.PointToScreen(m_grid.Location);
+			Point pt = pnlGrid.PointToScreen(Grid.Location);
 			pt = pnlColHeaderOuter.PointToClient(pt);
 			m_pnlColHeaders.Left = pt.X + 1;
 		}
@@ -892,9 +834,9 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void AdjustRowHeadingLocation()
 		{
-			Point pt = pnlGrid.PointToScreen(m_grid.Location);
+			Point pt = pnlGrid.PointToScreen(Grid.Location);
 			pt = pnlRowHeaderOuter.PointToClient(pt);
-			m_pnlRowHeaders.Top = pt.Y + 1;
+			RowHeadersCollectionPanel.Top = pt.Y + 1;
 		}
 
 		#endregion
@@ -919,7 +861,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void m_grid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
 		{
-			foreach (DataGridViewRow row in m_grid.Rows)
+			foreach (DataGridViewRow row in Grid.Rows)
 			{
 				if (row.Height != m_cellHeight)
 					row.Height = m_cellHeight;
@@ -933,7 +875,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void m_grid_CurrentCellChanged(object sender, EventArgs e)
 		{
-			if (m_grid.CurrentCell == null)
+			if (Grid.CurrentCell == null)
 				return;
 
 			// This will need to be added back in when moving rows and columns is added.
@@ -946,7 +888,7 @@ namespace SIL.Pa.UI.Controls
 			////PaApp.MsgMediator.SendMessage("UpdateMoveCharChartRowUp", allowed);
 
 			// Check if the current row header changed.
-			CharGridHeader hdr = GetRowsHeader(m_grid.CurrentCell.RowIndex);
+			CharGridHeader hdr = GetRowsHeader(Grid.CurrentCell.RowIndex);
 			if (hdr != m_currentRowHeader)
 			{
 				if (m_currentRowHeader != null)
@@ -957,7 +899,7 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			// Check if the current column header changed.
-			hdr = GetColumnsHeader(m_grid.CurrentCell.ColumnIndex);
+			hdr = GetColumnsHeader(Grid.CurrentCell.ColumnIndex);
 			if (hdr != m_currentColHeader)
 			{
 				if (m_currentColHeader != null)
@@ -975,7 +917,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void m_grid_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
 		{
-			if (m_searchWhenPhoneDoubleClicked && !string.IsNullOrEmpty(CurrentPhone))
+			if (SearchWhenPhoneDoubleClicked && !string.IsNullOrEmpty(CurrentPhone))
 				App.MsgMediator.SendMessage("ChartPhoneSearchAnywhere", null);
 		}
 
@@ -987,14 +929,14 @@ namespace SIL.Pa.UI.Controls
 		public void RemoveAllEmptyRowsAndColumns()
 		{
 			// Remove empty rows.
-			for (int r = m_grid.Rows.Count - 1; r >= 0; r--)
+			for (int r = Grid.Rows.Count - 1; r >= 0; r--)
 			{
 				if (IsRowEmtpy(r))
 					RemoveRow(r);
 			}
 
 			// Remove empty columns.
-			for (int c = m_grid.Columns.Count - 1; c >= 0; c--)
+			for (int c = Grid.Columns.Count - 1; c >= 0; c--)
 			{
 				if (IsColumnEmtpy(c))
 					RemoveColumn(c);
@@ -1013,7 +955,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			// Only paint the row headings and the first row.
 			if (e.ColumnIndex >= 0 && e.RowIndex >= 0 &&
-				(m_grid[e.ColumnIndex, e.RowIndex].Tag as string) == kDropTargetCell)
+				(Grid[e.ColumnIndex, e.RowIndex].Tag as string) == kDropTargetCell)
 			{
 				Color clr = ColorHelper.CalculateColor(SystemColors.WindowText,
 					SystemColors.Window, 65);
@@ -1023,7 +965,7 @@ namespace SIL.Pa.UI.Controls
 					TextFormatFlags.NoPrefix | TextFormatFlags.PreserveGraphicsClipping;
 
 				TextRenderer.DrawText(e.Graphics, m_phoneBeingDragged,
-					m_chartFont, e.CellBounds, clr, flags);
+					ChartFont, e.CellBounds, clr, flags);
 
 				e.Handled = true;
 			}
@@ -1113,14 +1055,14 @@ namespace SIL.Pa.UI.Controls
 		{
 			// This will not be empty when the mouse button is down.
 			if (!m_mouseDownGridLocation.IsEmpty || e.ColumnIndex < 0 || e.RowIndex < 0 ||
-				(m_grid[e.ColumnIndex, e.RowIndex].Value as CharGridCell) == null ||
+				(Grid[e.ColumnIndex, e.RowIndex].Value as CharGridCell) == null ||
 				!App.IsFormActive(FindForm()))
 			{
 				return;
 			}
 
-			Rectangle rc = m_grid.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
-			if (m_phoneInfoPopup.Initialize(m_grid[e.ColumnIndex, e.RowIndex]))
+			Rectangle rc = Grid.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
+			if (m_phoneInfoPopup.Initialize(Grid[e.ColumnIndex, e.RowIndex]))
 				m_phoneInfoPopup.Show(rc);
 		}
 
@@ -1138,9 +1080,9 @@ namespace SIL.Pa.UI.Controls
 				m_mouseDownGridLocation = e.Location;
 			else if (e.Button == MouseButtons.Right && e.ColumnIndex >= 0 && e.RowIndex >= 0)
 			{
-				m_grid.CurrentCell = m_grid[e.ColumnIndex, e.RowIndex];
-				if (!m_grid.Focused)
-					m_grid.Focus();
+				Grid.CurrentCell = Grid[e.ColumnIndex, e.RowIndex];
+				if (!Grid.Focused)
+					Grid.Focus();
 			}
 		}
 
@@ -1163,7 +1105,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			// This will be empty when the mouse button is not down.
 			if (m_mouseDownGridLocation.IsEmpty || e.ColumnIndex < 0 || e.RowIndex < 0 ||
-				(m_grid[e.ColumnIndex, e.RowIndex].Value as CharGridCell) == null)
+				(Grid[e.ColumnIndex, e.RowIndex].Value as CharGridCell) == null)
 			{
 				return;
 			}
@@ -1175,7 +1117,7 @@ namespace SIL.Pa.UI.Controls
 			if (dx >= 4 || dy >= 4)
 			{
 				m_mouseDownGridLocation = Point.Empty;
-				DataGridViewCell cell = m_grid[e.ColumnIndex, e.RowIndex];
+				DataGridViewCell cell = Grid[e.ColumnIndex, e.RowIndex];
 
 				// When someone has subscribed to the drag event (which is really more like
 				// a begin drag event) then call that. Otherwise, start a drag, drop event
@@ -1189,7 +1131,7 @@ namespace SIL.Pa.UI.Controls
 				{
 					m_phoneBeingDragged = ((CharGridCell)cell.Value).Phone;
 					m_cellDraggedOver = cell;
-					m_grid.DoDragDrop(m_grid[e.ColumnIndex, e.RowIndex], DragDropEffects.Move);
+					Grid.DoDragDrop(Grid[e.ColumnIndex, e.RowIndex], DragDropEffects.Move);
 				}
 			}
 		}
@@ -1205,19 +1147,19 @@ namespace SIL.Pa.UI.Controls
 			DataGridViewTextBoxCell draggedCell =
 				e.Data.GetData(typeof(DataGridViewTextBoxCell)) as DataGridViewTextBoxCell;
 
-			Point pt = m_grid.PointToClient(new Point(e.X, e.Y));
-			DataGridView.HitTestInfo hinfo = m_grid.HitTest(pt.X, pt.Y);
+			Point pt = Grid.PointToClient(new Point(e.X, e.Y));
+			DataGridView.HitTestInfo hinfo = Grid.HitTest(pt.X, pt.Y);
 
 			// Drop is not allowed if we can't determine what cell we're over.
-			if (hinfo.ColumnIndex < 0 || hinfo.ColumnIndex >= m_grid.Columns.Count ||
-				hinfo.RowIndex < 0 || hinfo.RowIndex >= m_grid.Rows.Count || draggedCell == null)
+			if (hinfo.ColumnIndex < 0 || hinfo.ColumnIndex >= Grid.Columns.Count ||
+				hinfo.RowIndex < 0 || hinfo.RowIndex >= Grid.Rows.Count || draggedCell == null)
 			{
 				e.Effect = DragDropEffects.None;
 				return;
 			}
 
 			// Can't drop on a cell that already has data in it.
-			DataGridViewTextBoxCell cellOver = m_grid[hinfo.ColumnIndex, hinfo.RowIndex] as
+			DataGridViewTextBoxCell cellOver = Grid[hinfo.ColumnIndex, hinfo.RowIndex] as
 				DataGridViewTextBoxCell;
 
 			// If we're dragging over a cell that hasn't been given a drag-over background,
@@ -1226,7 +1168,7 @@ namespace SIL.Pa.UI.Controls
 			if (m_cellDraggedOver != null && m_cellDraggedOver != cellOver)
 			{
 				m_cellDraggedOver.Tag = null;
-				m_grid.InvalidateCell(m_cellDraggedOver);
+				Grid.InvalidateCell(m_cellDraggedOver);
 			}
 
 			if (cellOver == null || (cellOver.Value as CharGridCell) != null)
@@ -1243,7 +1185,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				m_cellDraggedOver = cellOver;
 				m_cellDraggedOver.Tag = kDropTargetCell;
-				m_grid.InvalidateCell(m_cellDraggedOver);
+				Grid.InvalidateCell(m_cellDraggedOver);
 			}
 		}
 
@@ -1257,7 +1199,7 @@ namespace SIL.Pa.UI.Controls
 			if (m_cellDraggedOver != null)
 			{
 				m_cellDraggedOver.Tag = null;
-				m_grid.InvalidateCell(m_cellDraggedOver);
+				Grid.InvalidateCell(m_cellDraggedOver);
 			}
 		}
 
@@ -1271,7 +1213,7 @@ namespace SIL.Pa.UI.Controls
 			if (m_cellDraggedOver != null)
 			{
 				m_cellDraggedOver.Tag = null;
-				m_grid.InvalidateCell(m_cellDraggedOver);
+				Grid.InvalidateCell(m_cellDraggedOver);
 			}
 
 			m_cellDraggedOver = null;
@@ -1280,15 +1222,15 @@ namespace SIL.Pa.UI.Controls
 			DataGridViewTextBoxCell draggedCell =
 				e.Data.GetData(typeof(DataGridViewTextBoxCell)) as DataGridViewTextBoxCell;
 
-			Point pt = m_grid.PointToClient(new Point(e.X, e.Y));
-			DataGridView.HitTestInfo hinfo = m_grid.HitTest(pt.X, pt.Y);
+			Point pt = Grid.PointToClient(new Point(e.X, e.Y));
+			DataGridView.HitTestInfo hinfo = Grid.HitTest(pt.X, pt.Y);
 
 			// Get the cell we're dropping on.
 			DataGridViewTextBoxCell droppedOnCell = null;
-			if (hinfo.ColumnIndex >= 0 && hinfo.ColumnIndex < m_grid.Columns.Count &&
-				hinfo.RowIndex >= 0 && hinfo.RowIndex < m_grid.Rows.Count && draggedCell != null)
+			if (hinfo.ColumnIndex >= 0 && hinfo.ColumnIndex < Grid.Columns.Count &&
+				hinfo.RowIndex >= 0 && hinfo.RowIndex < Grid.Rows.Count && draggedCell != null)
 			{
-				droppedOnCell = m_grid[hinfo.ColumnIndex, hinfo.RowIndex] as
+				droppedOnCell = Grid[hinfo.ColumnIndex, hinfo.RowIndex] as
 					DataGridViewTextBoxCell;
 			}
 
@@ -1296,7 +1238,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				droppedOnCell.Value = draggedCell.Value;
 				draggedCell.Value = null;
-				m_grid.CurrentCell = droppedOnCell;
+				Grid.CurrentCell = droppedOnCell;
 
 				App.MsgMediator.SendMessage("ChartPhoneMoved",
 					new object[] { this, droppedOnCell.Value as CharGridCell,
@@ -1314,13 +1256,13 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void m_grid_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (!e.Alt || m_grid.CurrentCell == null || (m_phoneMovingHelper != null &&
+			if (!e.Alt || Grid.CurrentCell == null || (m_phoneMovingHelper != null &&
 				m_phoneMovingHelper.MovingInProgress))
 			{
 				return;
 			}
 
-			CharGridCell cgc = m_grid.CurrentCell.Value as CharGridCell;
+			var cgc = Grid.CurrentCell.Value as CharGridCell;
 			if (cgc == null)
 				return;
 
@@ -1329,19 +1271,19 @@ namespace SIL.Pa.UI.Controls
 			switch (e.KeyCode)
 			{
 				case Keys.Up:
-					beginMove = (m_grid.CurrentCellAddress.Y > 0);
+					beginMove = (Grid.CurrentCellAddress.Y > 0);
 					break;
 
 				case Keys.Down:
-					beginMove = (m_grid.CurrentCellAddress.Y < m_grid.RowCount - 1);
+					beginMove = (Grid.CurrentCellAddress.Y < Grid.RowCount - 1);
 					break;
 
 				case Keys.Left:
-					beginMove = (m_grid.CurrentCellAddress.X > 0);
+					beginMove = (Grid.CurrentCellAddress.X > 0);
 					break;
 
 				case Keys.Right:
-					beginMove = (m_grid.CurrentCellAddress.X < m_grid.ColumnCount - 1);
+					beginMove = (Grid.CurrentCellAddress.X < Grid.ColumnCount - 1);
 					break;
 
 				default:
@@ -1353,7 +1295,7 @@ namespace SIL.Pa.UI.Controls
 				if (m_phoneMovingHelper == null)
 					m_phoneMovingHelper = new CellKBMovingCellHelper(this);
 
-				m_phoneMovingHelper.Reset(cgc, m_grid.CurrentCell as DataGridViewTextBoxCell);
+				m_phoneMovingHelper.Reset(cgc, Grid.CurrentCell as DataGridViewTextBoxCell);
 			}
 		}
 
@@ -1378,6 +1320,1041 @@ namespace SIL.Pa.UI.Controls
 		{
 			AdjustRowHeadingLocation();
 			AdjustColumnHeadingLocation();
+		}
+
+		#endregion
+
+		#region Message for editing heading labels
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Put the user in the edit mode for column header labels.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnEditCharChartLabel(object args)
+		{
+			if (!App.IsViewOrFormActive(OwningViewType, FindForm()) || m_currentHeader == null)
+				return false;
+
+			m_currentHeader.EditLabel();
+			return true;
+		}
+
+		#endregion
+
+		#region Message/update handlers for showing sub headings
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Toggle the visible state of a row heading's sub-headings.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnShowChartRowSubHeadingsTBMenu(object args)
+		{
+			m_currentHeader = m_currentRowHeader;
+			return OnShowCharChartSubHeadings(args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Toggle the visible state of a column heading's sub-headings.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnShowChartColSubHeadingsTBMenu(object args)
+		{
+			m_currentHeader = m_currentColHeader;
+			return OnShowCharChartSubHeadings(args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Toggle the visible state of a heading's sub-headings.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnShowCharChartSubHeadings(object args)
+		{
+			if (!App.IsViewOrFormActive(OwningViewType, FindForm()) || m_currentHeader == null)
+				return false;
+
+			m_currentHeader.SubHeadingsVisible = !m_currentHeader.SubHeadingsVisible;
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Updates the "Show sub-headings" menu.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateShowChartRowSubHeadingsTBMenu(object args)
+		{
+			m_currentHeader = m_currentRowHeader;
+			return OnUpdateShowCharChartSubHeadings(args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Updates the "Show sub-headings" menu.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateShowChartColSubHeadingsTBMenu(object args)
+		{
+			m_currentHeader = m_currentColHeader;
+			return OnUpdateShowCharChartSubHeadings(args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Updates the "Show sub-headings" menu.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateShowCharChartSubHeadings(object args)
+		{
+			var itemProps = args as TMItemProperties;
+
+			if (!App.IsViewOrFormActive(OwningViewType, FindForm()) ||
+				(m_currentHeader == null && Visible) || itemProps == null)
+			{
+				return false;
+			}
+
+			int ownedCount = 0;
+
+			if (Visible && m_currentHeader != null)
+			{
+				ownedCount = (m_currentHeader.IsForColumnHeadings ?
+					m_currentHeader.OwnedColumns.Count : m_currentHeader.OwnedRows.Count);
+			}
+
+			itemProps.Update = true;
+			itemProps.Visible = true;
+			itemProps.Enabled = (ownedCount > 1);
+			itemProps.Checked = (Visible && m_currentHeader != null &&
+				m_currentHeader.SubHeadingsVisible);
+
+			return true;
+		}
+
+		#endregion
+
+		#region Methods for adding new rows
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add a new row above the current row and in the same header as the current row.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnAddChartRowBeforeTBMenu(object args)
+		{
+			return AddNewRow(true);
+		}
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add a new row above the current row and in the same header as the current row.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnAddCharChartRowBefore(object args)
+		{
+			return AddNewRow(true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add a new row below the current row and in the same header as the current row.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnAddChartRowAfterTBMenu(object args)
+		{
+			return AddNewRow(false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add a new row below the current row and in the same header as the current row.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnAddCharChartRowAfter(object args)
+		{
+			return AddNewRow(false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adds a new row to the grid (and to the current row's header) either before
+		/// or after the current row.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool AddNewRow(bool beforeCurrRow)
+		{
+			if (!App.IsViewOrFormActive(OwningViewType, FindForm()) ||
+				Grid.CurrentCell == null || Grid.CurrentCell.RowIndex < 0)
+			{
+				return false;
+			}
+
+			int currRowIndex = Grid.CurrentCell.RowIndex;
+			DataGridViewRow currRow = Grid.Rows[currRowIndex];
+			if (currRow.Tag == null || currRow.Tag.GetType() != typeof(CharGridHeader))
+				return false;
+
+			if (!beforeCurrRow)
+				currRowIndex++;
+
+			var newRow = new DataGridViewRow();
+			newRow.Height = m_cellHeight;
+			Grid.Rows.Insert(currRowIndex, newRow);
+			((CharGridHeader)currRow.Tag).AddRow(Grid.Rows[currRowIndex]);
+			CalcHeights();
+			return true;
+		}
+
+		#endregion
+
+		#region Methods for adding new columns
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add a new column below the header that owns the current column. The new column
+		/// is added before the current column.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnAddChartColBeforeTBMenu(object args)
+		{
+			return AddNewColumn(true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add a new column below the header that owns the current column. The new column
+		/// is added after the current column.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnAddChartColAfterTBMenu(object args)
+		{
+			return AddNewColumn(false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add a new column below the header that owns the current column. The new column
+		/// is added before the current column.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnAddCharChartColBefore(object args)
+		{
+			return AddNewColumn(true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add a new column below the header that owns the current column. The new column
+		/// is added after the current column.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnAddCharChartColAfter(object args)
+		{
+			return AddNewColumn(false);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adds a new column to the grid (and to the current column's header) either before
+		/// or after the current column.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool AddNewColumn(bool beforeCurrColumn)
+		{
+			if (!App.IsViewOrFormActive(OwningViewType, FindForm()) ||
+				Grid.CurrentCell == null || Grid.CurrentCell.ColumnIndex < 0)
+			{
+				return false;
+			}
+
+			int currColIndex = Grid.CurrentCell.ColumnIndex;
+			DataGridViewColumn currCol = Grid.Columns[currColIndex];
+			if (currCol.Tag == null || currCol.Tag.GetType() != typeof(CharGridHeader))
+				return false;
+
+			DataGridViewColumn newCol = CreateColumn();
+			((CharGridHeader)currCol.Tag).AddColumn(newCol);
+			CalcWidths();
+			Grid.Columns.Insert(currColIndex + (beforeCurrColumn ? 0 : 1), newCol);
+			return true;
+		}
+
+		#endregion
+
+		#region Methods for adding new row headings
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add a new row heading.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnAddChartRowHeadingBeforeTBMenu(object args)
+		{
+			m_currentHeader = m_currentRowHeader;
+			return OnAddCharChartRowHeadingBefore(null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add a new row heading.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnAddCharChartRowHeadingBefore(object args)
+		{
+			if (!App.IsViewOrFormActive(OwningViewType, FindForm()) || m_currentHeader == null)
+				return false;
+
+			InsertRowHeader(true, true);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add a new row heading.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnAddChartRowHeadingAfterTBMenu(object args)
+		{
+			m_currentHeader = m_currentRowHeader;
+			return OnAddCharChartRowHeadingAfter(null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add a new row heading.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnAddCharChartRowHeadingAfter(object args)
+		{
+			if (!App.IsViewOrFormActive(OwningViewType, FindForm()) || m_currentHeader == null)
+				return false;
+
+			InsertRowHeader(false, true);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Inserts a row header before the specified header.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public CharGridHeader InsertRowHeaderBefore(CharGridHeader hdr)
+		{
+			if (hdr != null)
+			{
+				m_currentHeader = hdr;
+				return InsertRowHeader(true, false);
+			}
+
+			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private CharGridHeader InsertRowHeader(bool beforeClickedOnRow, bool editLabel)
+		{
+			if (m_currentHeader != null)
+				m_currentHeader.EndEditLabel();
+
+			// Get the index of where in the grid we're going to
+			// insert the new header's first grid column.
+			int newGridRowIndex = (beforeClickedOnRow ?
+				m_currentHeader.OwnedRows[0].Index :
+				m_currentHeader.LastRow.Index + 1);
+
+			// Get the index of where in the header collection we'll insert the new header.
+			int newHdrRowIndex = RowHeaders.IndexOf(m_currentHeader);
+			if (!beforeClickedOnRow)
+				newHdrRowIndex++;
+
+			var newHdr = CreateRowHeader(string.Empty, newHdrRowIndex);
+			var newRow = new DataGridViewRow();
+			newRow.Height = m_cellHeight;
+
+			Grid.Rows.Insert(newGridRowIndex, newRow);
+			newHdr.AddRow(Grid.Rows[newGridRowIndex]);
+			Grid.CurrentCell = Grid[0, newGridRowIndex];
+
+			if (editLabel)
+				newHdr.EditLabel();
+
+			return newHdr;
+		}
+
+		#endregion
+
+		#region Methods for adding new column headings
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add a new row heading.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnAddChartColHeadingBeforeTBMenu(object args)
+		{
+			m_currentHeader = m_currentColHeader;
+			return OnAddCharChartColHeadingBefore(null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add a new column heading.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnAddCharChartColHeadingBefore(object args)
+		{
+			if (!App.IsViewOrFormActive(OwningViewType, FindForm()) || m_currentHeader == null)
+				return false;
+
+			InsertColumnHeader(true, true);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add a new row heading.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnAddChartColHeadingAfterTBMenu(object args)
+		{
+			m_currentHeader = m_currentColHeader;
+			return OnAddCharChartColHeadingAfter(null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add a new column heading.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnAddCharChartColHeadingAfter(object args)
+		{
+			if (!App.IsViewOrFormActive(OwningViewType, FindForm()) || m_currentHeader == null)
+				return false;
+
+			InsertColumnHeader(false, true);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Inserts a column header before the specified header.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public CharGridHeader InsertColumnHeaderBefore(CharGridHeader hdr)
+		{
+			if (hdr != null)
+			{
+				m_currentHeader = hdr;
+				return InsertColumnHeader(true, false);
+			}
+
+			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private CharGridHeader InsertColumnHeader(bool insertBeforeCurr, bool editLabel)
+		{
+			if (m_currentHeader != null)
+				m_currentHeader.EndEditLabel();
+
+			// Get the index of where in the grid we're going to
+			// insert the new header's first grid column.
+			int newGridColIndex = (insertBeforeCurr ?
+				m_currentHeader.OwnedColumns[0].Index :
+				m_currentHeader.LastColumn.Index + 1);
+
+			// Get the index of where in the header collection we'll insert the new header.
+			int newHdrColIndex = ColumnHeaders.IndexOf(m_currentHeader);
+			if (!insertBeforeCurr)
+				newHdrColIndex++;
+
+			var newHdr = CreateColumnHeader(string.Empty, newHdrColIndex);
+			var newCol = CreateColumn();
+
+			newHdr.AddColumn(newCol);
+			Grid.Columns.Insert(newGridColIndex, newCol);
+			Grid.CurrentCell = Grid[newCol.Index, 0];
+
+			if (editLabel)
+				newHdr.EditLabel();
+
+			return newHdr;
+		}
+
+		#endregion
+
+		#region Methods for removing rows and columns
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Removes a row from the grid (toolbar menu item).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnRemoveChartRowTBMenu(object args)
+		{
+			return OnRemoveCharChartRow(args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Updates the removes row toolbar menu item.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateRemoveChartRowTBMenu(object args)
+		{
+			return OnUpdateRemoveCharChartRow(args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Removes a column from the grid (toolbar menu item).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnRemoveChartColTBMenu(object args)
+		{
+			return OnRemoveCharChartCol(args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Updates the removes column toolbar menu item.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateRemoveChartColTBMenu(object args)
+		{
+			return OnUpdateRemoveCharChartCol(args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Removes a row from the grid (context menu item).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnRemoveCharChartRow(object args)
+		{
+			if (!App.IsViewOrFormActive(OwningViewType, FindForm()) || Grid.CurrentCell == null)
+				return false;
+
+			RemoveRow(Grid.CurrentCell.RowIndex);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Updates the removes row context menu item (context menu item).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateRemoveCharChartRow(object args)
+		{
+			var itemProps = args as TMItemProperties;
+			if (!App.IsViewOrFormActive(OwningViewType, FindForm()) ||
+				itemProps == null || Grid.CurrentCell == null)
+			{
+				return false;
+			}
+
+			itemProps.Enabled = (Visible && IsRowEmtpy(Grid.CurrentCell.RowIndex));
+			itemProps.Visible = true;
+			itemProps.Update = true;
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Removes a column from the grid (context menu item).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnRemoveCharChartCol(object args)
+		{
+			if (!App.IsViewOrFormActive(OwningViewType, FindForm()) || Grid.CurrentCell == null)
+				return false;
+
+			RemoveColumn(Grid.CurrentCell.ColumnIndex);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Updates the removes column context menu item.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateRemoveCharChartCol(object args)
+		{
+			var itemProps = args as TMItemProperties;
+			if (!App.IsViewOrFormActive(OwningViewType, FindForm()) ||
+				itemProps == null || Grid.CurrentCell == null)
+			{
+				return false;
+			}
+
+			itemProps.Enabled = (Visible && IsColumnEmtpy(Grid.CurrentCell.ColumnIndex));
+			itemProps.Visible = true;
+			itemProps.Update = true;
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns a value indicating whether or not the specified row is empty.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool IsRowEmtpy(int rowIndex)
+		{
+			for (int i = 0; i < Grid.Columns.Count; i++)
+			{
+				var cgc = Grid[i, rowIndex].Value as CharGridCell;
+				if (cgc != null && cgc.Visible && !string.IsNullOrEmpty(cgc.Phone))
+					return false;
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns a value indicating whether or not the specified column is empty.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private bool IsColumnEmtpy(int colIndex)
+		{
+			for (int i = 0; i < Grid.Rows.Count; i++)
+			{
+				var cgc = Grid[colIndex, i].Value as CharGridCell;
+				if (cgc != null && cgc.Visible && !string.IsNullOrEmpty(cgc.Phone))
+					return false;
+			}
+
+			return true;
+		}
+
+		#endregion
+
+		#region Message handlers for removing all empty rows and columns
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Removes all empty rows and columns in the grid.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnRemoveAllEmptyChartRowsAndColsTBMenu(object args)
+		{
+			if (!App.IsViewOrFormActive(OwningViewType, FindForm()))
+				return false;
+
+			RemoveAllEmptyRowsAndColumns();
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Updates the toolbar menu item for removing all empty rows and columns.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateRemoveAllEmptyChartRowsAndColsTBMenu(object args)
+		{
+			var itemProps = args as TMItemProperties;
+			if (!App.IsViewOrFormActive(OwningViewType, FindForm()) || itemProps == null)
+				return false;
+
+			itemProps.Enabled = false;
+
+			if (Visible)
+			{
+				// Check if any row headers have empty rows.
+				if (RowHeaders.Any(hdr => hdr.IsAnyOwnedRowEmpty))
+					itemProps.Enabled = true;
+
+				// If none of the row headers had any empty rows, then
+				// check if any columns headers have empty columns.
+				if (!itemProps.Enabled)
+				{
+					if (ColumnHeaders.Any(hdr => hdr.IsAnyOwnedColumnEmpty))
+						itemProps.Enabled = true;
+				}
+			}
+
+			itemProps.Visible = true;
+			itemProps.Update = true;
+			return true;
+		}
+
+		#endregion
+
+		#region Message handlers and update handlers for removing row and column headings.
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Removes a row heading and all its grid rows (toolbar button menu item).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnRemoveChartRowHeadingTBMenu(object args)
+		{
+			m_currentHeader = (Grid.CurrentCell == null ? null :
+				GetRowsHeader(Grid.CurrentCell.RowIndex));
+
+			return OnRemoveCharChartRowHeading(args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Updates the remove row heading for current cell toolbar menu item.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateRemoveChartRowHeadingTBMenu(object args)
+		{
+			m_currentHeader = (Grid.CurrentCell == null ? null :
+				GetRowsHeader(Grid.CurrentCell.RowIndex));
+
+			return OnUpdateRemoveCharChartRowHeading(args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Removes a row heading and all its grid rows (context menu item).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnRemoveCharChartRowHeading(object args)
+		{
+			if (!App.IsViewOrFormActive(OwningViewType, FindForm()) || m_currentHeader == null)
+				return false;
+
+			RemoveRowHeader(m_currentHeader);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Updates the remove row heading context menu item.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateRemoveCharChartRowHeading(object args)
+		{
+			var itemProps = args as TMItemProperties;
+			if (!App.IsViewOrFormActive(OwningViewType, FindForm()) ||
+				itemProps == null || (m_currentHeader == null && Visible))
+			{
+				return false;
+			}
+
+			itemProps.Visible = true;
+			itemProps.Enabled = (Visible && m_currentHeader.AreAllOwnedRowsEmpty);
+			itemProps.Update = true;
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Removes a column heading and all its grid columns (toolbar item menu).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnRemoveChartColHeadingTBMenu(object args)
+		{
+			m_currentHeader = (Grid.CurrentCell == null ? null :
+				GetColumnsHeader(Grid.CurrentCell.ColumnIndex));
+
+			return OnRemoveCharChartColHeading(args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Updates the remove column heading for current cell toolbar menu item.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateRemoveChartColHeadingTBMenu(object args)
+		{
+			m_currentHeader = (Grid.CurrentCell == null ? null :
+				GetColumnsHeader(Grid.CurrentCell.ColumnIndex));
+
+			return OnUpdateRemoveCharChartColHeading(args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Removes a column heading and all its grid columns (context menu item).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnRemoveCharChartColHeading(object args)
+		{
+			if (!App.IsViewOrFormActive(OwningViewType, FindForm()) || m_currentHeader == null)
+				return false;
+
+			RemoveColumnHeader(m_currentHeader);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Updates the remove row heading context menu item.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateRemoveCharChartColHeading(object args)
+		{
+			var itemProps = args as TMItemProperties;
+			if (!App.IsViewOrFormActive(OwningViewType, FindForm()) ||
+				itemProps == null || (m_currentHeader == null && Visible))
+			{
+				return false;
+			}
+
+			itemProps.Visible = true;
+			itemProps.Enabled = (Visible && m_currentHeader.AreAllOwnedColumnsEmpty);
+			itemProps.Update = true;
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Moves a row down.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnMoveCharChartRowDown(object args)
+		{
+			//if (!PaApp.IsFormActive(FindForm()) || m_currentHeader.GetType() != typeof(int))
+			//    return false;
+
+			//SwapRows((int)m_currentHeader, (int)m_currentHeader + 1);
+			return true;
+		}
+
+		#endregion
+
+		#region Other message handlers
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// When a header is clicked, then make sure the one clicked becomes current and
+		/// that the current cell tracks with it.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnCharGridHeaderClicked(object args)
+		{
+			var hdr = args as CharGridHeader;
+			if (!App.IsViewOrFormActive(OwningViewType, FindForm()) || hdr == null)
+				return false;
+
+			if (hdr.IsForColumnHeadings)
+			{
+				if (hdr != m_currentColHeader)
+				{
+					int currRow = Grid.CurrentCell.RowIndex;
+					Grid.CurrentCell = Grid[hdr.OwnedColumns[0].Index, currRow];
+				}
+			}
+			else
+			{
+				if (hdr != m_currentRowHeader)
+				{
+					int currCol = Grid.CurrentCell.ColumnIndex;
+					Grid.CurrentCell = Grid[currCol, hdr.OwnedRows[0].Index];
+				}
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Popup a context menu when a header is right-clicked.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnCharGridHeaderRightClicked(object args)
+		{
+			m_currentHeader = args as CharGridHeader;
+			if (!App.IsViewOrFormActive(OwningViewType, FindForm()) || m_currentHeader == null)
+				return false;
+
+			string menu = (m_currentHeader.IsForColumnHeadings ?
+				"cmnuCharChartColHeader" : "cmnuCharChartRowHeader");
+
+			m_tmAdapter.PopupMenu(menu, MousePosition.X, MousePosition.Y);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Determines whether or not the move row down option should be enabled. Only enable
+		/// when the row heading clicked is not the last row in the grid.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateMoveCharChartRowDown(object args)
+		{
+			//TMItemProperties itemProps = args as TMItemProperties;
+			//if (!PaApp.IsFormActive(FindForm()) || itemProps == null)
+			//    return false;
+
+			//itemProps.Update = true;
+
+			//if (m_currentHeader.GetType() != typeof(int))
+			//    itemProps.Enabled = false;
+			//else
+			//{
+			//    int colIndex = (int)m_currentHeader;
+			//    itemProps.Enabled = (colIndex < m_grid.Rows.Count - 2);
+			//}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Moves a row up.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnMoveCharChartRowUp(object args)
+		{
+			//if (!PaApp.IsFormActive(FindForm()) || m_currentHeader.GetType() != typeof(int))
+			//    return false;
+
+			//SwapRows((int)m_currentHeader, (int)m_currentHeader - 1);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Determines whether or not the move row up option should be enabled. Only enable
+		/// when the row heading clicked is not the first row in the grid.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateMoveCharChartRowUp(object args)
+		{
+			//TMItemProperties itemProps = args as TMItemProperties;
+			//if (!PaApp.IsFormActive(FindForm()) || itemProps == null)
+			//    return false;
+
+			//itemProps.Update = true;
+
+			//if (m_currentHeader.GetType() != typeof(int))
+			//    itemProps.Enabled = false;
+			//else
+			//{
+			//    int colIndex = (int)m_currentHeader;
+			//    itemProps.Enabled = (colIndex > 0);
+			//}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateAddCharChartColHeadingBefore(object args)
+		{
+			var itemProps = args as TMItemProperties;
+			if (!App.IsViewOrFormActive(OwningViewType, FindForm()) || itemProps == null)
+				return false;
+
+			itemProps.Visible = true;
+			itemProps.Enabled = Visible;
+			itemProps.Update = true;
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateAddCharChartColHeadingAfter(object args)
+		{
+			return OnUpdateAddCharChartColHeadingBefore(args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateAddCharChartRowHeadingBefore(object args)
+		{
+			return OnUpdateAddCharChartColHeadingBefore(args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateAddCharChartRowHeadingAfter(object args)
+		{
+			return OnUpdateAddCharChartColHeadingBefore(args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateAddCharChartRowBefore(object args)
+		{
+			return OnUpdateAddCharChartColHeadingBefore(args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateAddCharChartRowAfter(object args)
+		{
+			return OnUpdateAddCharChartColHeadingBefore(args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateAddCharChartColBefore(object args)
+		{
+			return OnUpdateAddCharChartColHeadingBefore(args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateAddCharChartColAfter(object args)
+		{
+			return OnUpdateAddCharChartColHeadingBefore(args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateRemoveCVChartRowsColsParent(object args)
+		{
+			var itemProps = args as TMItemProperties;
+			if (itemProps == null)
+				return false;
+
+			itemProps.Visible = true;
+			itemProps.Enabled = Visible;
+			itemProps.Update = true;
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateAddCVChartRowsColsParent(object args)
+		{
+			var itemProps = args as TMItemProperties;
+			if (itemProps == null)
+				return false;
+
+			itemProps.Visible = true;
+			itemProps.Enabled = Visible;
+			itemProps.Update = true;
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This method gets called when the font(s) get changed in the options dialog.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected bool OnPaFontsChanged(object args)
+		{
+			foreach (DataGridViewColumn col in Grid.Columns)
+				col.DefaultCellStyle.Font = ChartFont;
+
+			// Return false to allow other windows to update their fonts.
+			return false;
+		}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Swaps the contents of the specified rows.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private void SwapRows(int row1, int row2)
+		//{
+		//    // Swap the values in the row we're moving down with the
+		//    // values in the row below it.
+		//    for (int i = 0; i < m_grid.Columns.Count; i++)
+		//    {
+		//        string tmpPhone = m_grid[i, row2].Value as string;
+		//        m_grid[i, row2].Value = m_grid[i, row1].Value;
+		//        m_grid[i, row1].Value = tmpPhone;
+		//    }
+
+		//    // Now swap the row heading labels.
+		//    //string tmpLabel = m_rowHdrTexts[row2];
+		//    //m_rowHdrTexts[row2] = m_rowHdrTexts[row1];
+		//    //m_rowHdrTexts[row1] = tmpLabel;
+		//    m_grid.Refresh();
+		//}
+
+		#endregion
+
+		#region IxCoreColleague Members
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the message target.
+		/// </summary>
+		/// <returns></returns>
+		/// ------------------------------------------------------------------------------------
+		public IxCoreColleague[] GetMessageTargets()
+		{
+			return (new IxCoreColleague[] { this });
 		}
 
 		#endregion
