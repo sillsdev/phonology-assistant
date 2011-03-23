@@ -21,7 +21,7 @@ namespace SIL.Pa.UI.Controls
 			lblNameValue.Font = App.PhoneticFont;
 			lblPattern.Font = FontHelper.UIFont;
 			lblPatternValue.Font = App.PhoneticFont;
-			lblRecords.Font = FontHelper.UIFont;
+			lblRecordCount.Font = FontHelper.UIFont;
 			lblRecordsValue.Font = FontHelper.UIFont;
 
 			m_popup = new SilPopup();

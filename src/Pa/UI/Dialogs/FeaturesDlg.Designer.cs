@@ -244,7 +244,7 @@
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "Dialog Boxes";
+			this.locExtender.LocalizationGroup = "";
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// FeaturesDlg

@@ -968,33 +968,27 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		internal static string GetString(string id, string defaultText, string comment)
 		{
-			return (L10NMngr == null ? defaultText : L10NMngr.LocalizeString(id, defaultText, comment));
+			return (L10NMngr == null ? defaultText : L10NMngr.LocalizeString(id, defaultText, comment, null));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal static string GetStringForObject(object obj)
+		internal static string GetStringForObject(object obj, string defaultText)
 		{
-			return (L10NMngr == null ? "??????" : L10NMngr.GetString(obj));
+			return (L10NMngr == null ? defaultText : (L10NMngr.GetString(obj) ?? defaultText));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		internal static void GetStringForObject(object obj, string id, string defaultText)
 		{
 			if (L10NMngr != null)
-			{
-				L10NMngr.LocalizeObject(obj, id, defaultText, null, null, null, null,
-					LocalizationCategory.Unspecified, LocalizationPriority.High);
-			}
+				L10NMngr.LocalizeObject(obj, id, defaultText);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		internal static void GetStringForObject(object obj, string id, string defaultText, string comment)
 		{
 			if (L10NMngr != null)
-			{
-				L10NMngr.LocalizeObject(obj, id, defaultText, null, null, comment, null,
-					LocalizationCategory.Unspecified, LocalizationPriority.High);
-			}
+				L10NMngr.LocalizeObject(obj, id, defaultText, null, comment);
 		}
 
 		#endregion
@@ -1061,8 +1055,8 @@ namespace SIL.Pa
 			if (L10NMngr != null)
 			{
 				L10NMngr.LocalizeObject(item, id, itemProps.Text, itemProps.Tooltip,
-					ShortcutKeysEditor.KeysToString(itemProps.ShortcutKey), "Toolbar or Menu item",
-					null, LocalizationPriority.High);
+					ShortcutKeysEditor.KeysToString(itemProps.ShortcutKey),
+					"Menu or Toolbar item", "Menus and Toolbars");
 			}
 		}
 

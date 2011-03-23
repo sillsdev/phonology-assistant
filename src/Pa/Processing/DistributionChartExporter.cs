@@ -192,13 +192,10 @@ namespace SIL.Pa.Processing
 			var invalidPhones = query.GetPhonesNotInCache() as string[];
 			if (invalidPhones != null)
 			{
-				msg = App.GetString(
-					"HTMLExport.DistributionCharts.ChartHtmlPopupInfoInvalidPhonesMsg",
-					"This pattern contains the following phone(s) not found in the data: ",
-					"Export");
+				msg = App.GetString("DistributionChartExporter.HtmlChartPopupInfoInvalidPhonesMsg",
+					"This pattern contains the following phone(s) not found in the data: ");
 
-				foreach (var phone in invalidPhones)
-					msg += (phone + ", ");
+				msg = invalidPhones.Aggregate(msg, (current, phone) => current + (phone + ", "));
 
 				return new DistributionChartExceptionInfo {Class = "caution", Message = msg.Trim().TrimEnd(',', ' ') };
 			}
@@ -206,14 +203,11 @@ namespace SIL.Pa.Processing
 			var invalidSymbols = query.GetSymbolsNotInInventory() as char[];
 			if (invalidSymbols != null)
 			{
-				msg = App.GetString(
-					"HTMLExport.DistributionCharts.Export.ChartHtmlPopupInfoUndefinedSymbolsMsg",
-					"This pattern contains the following undefined phonetic symbol(s): ",
-					"Export");
+				msg = App.GetString("DistributionChartExporter.HTMLChartPopupInfoUndefinedSymbolsMsg",
+					"This pattern contains the following undefined phonetic symbol(s): ");
 
 				var fmt = App.GetString(
-					"HTMLExport.DistributionCharts.ChartHtmlPopupUndefinedSymbolFormatMsg", "{0} (U+{1}), ",
-					"Export");
+					"DistributionChartExporter.HtmlChartPopupUndefinedSymbolFormatMsg", "{0} (U+{1}), ");
 
 				var bldr = new StringBuilder(msg);
 				foreach (var c in invalidSymbols)

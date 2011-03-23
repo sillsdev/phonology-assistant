@@ -123,7 +123,8 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		public static Font MakeRegularFontDerivative(Font fnt, float size)
 		{
-			return MakeFont(fnt.FontFamily.Name, size, FontStyle.Regular);
+			return (fnt == null ? SystemInformation.MenuFont :
+				MakeFont(SystemInformation.MenuFont.FontFamily.Name, size, FontStyle.Regular));
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -437,7 +437,7 @@ namespace SIL.Pa.UI.Views
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "Views";
+			this.locExtender.LocalizationGroup = "";
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// DistributionChartVw

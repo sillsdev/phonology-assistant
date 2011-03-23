@@ -31,7 +31,7 @@ namespace SIL.Pa.UI.Controls
 		private void InitializeComponent()
 		{
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			this.m_grid = new SIL.Pa.UI.Controls.CharGridView();
+			this.Grid = new SIL.Pa.UI.Controls.CharGridView();
 			this.pnlWrapper = new SilPanel();
 			this.pnlGrid = new System.Windows.Forms.Panel();
 			this.m_vsplitter = new System.Windows.Forms.Splitter();
@@ -39,7 +39,7 @@ namespace SIL.Pa.UI.Controls
 			this.m_hsplitter = new System.Windows.Forms.Splitter();
 			this.pnlColHeaderOuter = new System.Windows.Forms.Panel();
 			this.pnlCorner = new System.Windows.Forms.Panel();
-			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
 			this.pnlWrapper.SuspendLayout();
 			this.pnlGrid.SuspendLayout();
 			this.pnlColHeaderOuter.SuspendLayout();
@@ -47,15 +47,15 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// m_grid
 			// 
-			this.m_grid.AllowDrop = true;
-			this.m_grid.AllowUserToAddRows = false;
-			this.m_grid.AllowUserToDeleteRows = false;
-			this.m_grid.AllowUserToResizeColumns = false;
-			this.m_grid.AllowUserToResizeRows = false;
-			this.m_grid.BackgroundColor = System.Drawing.SystemColors.Window;
-			this.m_grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.m_grid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			this.m_grid.ColumnHeadersVisible = false;
+			this.Grid.AllowDrop = true;
+			this.Grid.AllowUserToAddRows = false;
+			this.Grid.AllowUserToDeleteRows = false;
+			this.Grid.AllowUserToResizeColumns = false;
+			this.Grid.AllowUserToResizeRows = false;
+			this.Grid.BackgroundColor = System.Drawing.SystemColors.Window;
+			this.Grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.Grid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+			this.Grid.ColumnHeadersVisible = false;
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
 			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
 			dataGridViewCellStyle1.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
@@ -63,34 +63,34 @@ namespace SIL.Pa.UI.Controls
 			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
 			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
 			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.m_grid.DefaultCellStyle = dataGridViewCellStyle1;
-			this.m_grid.EnableHeadersVisualStyles = false;
-			this.m_grid.Location = new System.Drawing.Point(0, 0);
-			this.m_grid.Name = "m_grid";
-			this.m_grid.ReadOnly = true;
-			this.m_grid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			this.m_grid.RowHeadersVisible = false;
-			this.m_grid.RowHeadersWidth = 75;
-			this.m_grid.ScrollBars = System.Windows.Forms.ScrollBars.None;
-			this.m_grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-			this.m_grid.ShowCellToolTips = false;
-			this.m_grid.ShowEditingIcon = false;
-			this.m_grid.ShowRowErrors = false;
-			this.m_grid.Size = new System.Drawing.Size(135, 137);
-			this.m_grid.TabIndex = 0;
-			this.m_grid.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_grid_CellMouseDown);
-			this.m_grid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.m_grid_KeyDown);
-			this.m_grid.DragOver += new System.Windows.Forms.DragEventHandler(this.m_grid_DragOver);
-			this.m_grid.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_grid_CellMouseMove);
-			this.m_grid.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.m_grid_CellPainting);
-			this.m_grid.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.m_grid_RowsAdded);
-			this.m_grid.LocationChanged += new System.EventHandler(this.m_grid_LocationChanged);
-			this.m_grid.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_grid_CellMouseUp);
-			this.m_grid.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_grid_CellMouseEnter);
-			this.m_grid.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_grid_CellMouseDoubleClick);
-			this.m_grid.DragDrop += new System.Windows.Forms.DragEventHandler(this.m_grid_DragDrop);
-			this.m_grid.CurrentCellChanged += new System.EventHandler(this.m_grid_CurrentCellChanged);
-			this.m_grid.DragLeave += new System.EventHandler(this.m_grid_DragLeave);
+			this.Grid.DefaultCellStyle = dataGridViewCellStyle1;
+			this.Grid.EnableHeadersVisualStyles = false;
+			this.Grid.Location = new System.Drawing.Point(0, 0);
+			this.Grid.Name = "Grid";
+			this.Grid.ReadOnly = true;
+			this.Grid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+			this.Grid.RowHeadersVisible = false;
+			this.Grid.RowHeadersWidth = 75;
+			this.Grid.ScrollBars = System.Windows.Forms.ScrollBars.None;
+			this.Grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+			this.Grid.ShowCellToolTips = false;
+			this.Grid.ShowEditingIcon = false;
+			this.Grid.ShowRowErrors = false;
+			this.Grid.Size = new System.Drawing.Size(135, 137);
+			this.Grid.TabIndex = 0;
+			this.Grid.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_grid_CellMouseDown);
+			this.Grid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.m_grid_KeyDown);
+			this.Grid.DragOver += new System.Windows.Forms.DragEventHandler(this.m_grid_DragOver);
+			this.Grid.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_grid_CellMouseMove);
+			this.Grid.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.m_grid_CellPainting);
+			this.Grid.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.m_grid_RowsAdded);
+			this.Grid.LocationChanged += new System.EventHandler(this.m_grid_LocationChanged);
+			this.Grid.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_grid_CellMouseUp);
+			this.Grid.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_grid_CellMouseEnter);
+			this.Grid.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_grid_CellMouseDoubleClick);
+			this.Grid.DragDrop += new System.Windows.Forms.DragEventHandler(this.m_grid_DragDrop);
+			this.Grid.CurrentCellChanged += new System.EventHandler(this.m_grid_CurrentCellChanged);
+			this.Grid.DragLeave += new System.EventHandler(this.m_grid_DragLeave);
 			// 
 			// pnlWrapper
 			// 
@@ -117,7 +117,7 @@ namespace SIL.Pa.UI.Controls
 			// 
 			this.pnlGrid.AutoScroll = true;
 			this.pnlGrid.BackColor = System.Drawing.SystemColors.Window;
-			this.pnlGrid.Controls.Add(this.m_grid);
+			this.pnlGrid.Controls.Add(this.Grid);
 			this.pnlGrid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlGrid.Location = new System.Drawing.Point(85, 36);
 			this.pnlGrid.Name = "pnlGrid";
@@ -184,7 +184,7 @@ namespace SIL.Pa.UI.Controls
 			this.Controls.Add(this.pnlWrapper);
 			this.Name = "CharGrid";
 			this.Size = new System.Drawing.Size(456, 380);
-			((System.ComponentModel.ISupportInitialize)(this.m_grid)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
 			this.pnlWrapper.ResumeLayout(false);
 			this.pnlGrid.ResumeLayout(false);
 			this.pnlColHeaderOuter.ResumeLayout(false);
@@ -194,7 +194,6 @@ namespace SIL.Pa.UI.Controls
 
 		#endregion
 
-		private CharGridView m_grid;
 		private SilPanel pnlWrapper;
 		private System.Windows.Forms.Panel pnlCorner;
 		private System.Windows.Forms.Panel pnlColHeaderOuter;

@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SilTools;
@@ -84,7 +83,7 @@ namespace SIL.Pa.UI.Controls
 			// Add the select all item, make it a tri-state cell and
 			// set its order so it always sorts to the top of the list.
 			Rows.Insert(0, new object[] { false,
-				App.GetString("FieldChooserGridSelectAllText", "Select All"), -100 });
+				App.GetString("FieldSelectorGrid.FieldChooserGridSelectAllText", "Select All"), -100 });
 
 			((DataGridViewCheckBoxCell)Rows[0].Cells[kCheckCol]).ThreeState = true;
 			((DataGridViewCheckBoxCell)Rows[0].Cells[kCheckCol]).IndeterminateValue = kIndeterminate;
@@ -324,7 +323,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void CheckAll()
 		{
-			foreach (DataGridViewRow row in Rows)
+			foreach (var row in GetRows())
 				row.Cells[kCheckCol].Value = true;
 
 			InvalidateColumn(0);
@@ -337,16 +336,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void UncheckAll()
 		{
-			foreach (DataGridViewRow row in Rows)
+			foreach (var row in GetRows())
 				row.Cells[kCheckCol].Value = false;
 
 			InvalidateColumn(0);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnRowEnter(DataGridViewCellEventArgs e)
 		{
@@ -416,8 +411,8 @@ namespace SIL.Pa.UI.Controls
 
 					// Because the Displayed property for the row is true even when only part
 					// of the row is visible, we need to make sure all of the row is visible.
-					Rectangle rc1 = GetRowDisplayRectangle(CurrentRow.Index, true);
-					Rectangle rc2 = GetRowDisplayRectangle(CurrentRow.Index, false);
+					var rc1 = GetRowDisplayRectangle(CurrentRow.Index, true);
+					var rc2 = GetRowDisplayRectangle(CurrentRow.Index, false);
 					if (rc1 != rc2)
 						FirstDisplayedScrollingRowIndex++;
 				}

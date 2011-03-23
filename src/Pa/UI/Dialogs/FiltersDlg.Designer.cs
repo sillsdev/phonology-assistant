@@ -466,7 +466,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "Dialog Boxes";
+			this.locExtender.LocalizationGroup = "";
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// FiltersDlg

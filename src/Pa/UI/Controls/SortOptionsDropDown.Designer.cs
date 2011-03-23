@@ -639,7 +639,7 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "User Interface Controls";
+			this.locExtender.LocalizationGroup = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidDoNothingToolTip;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// SortOptionsDropDown

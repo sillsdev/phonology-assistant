@@ -72,7 +72,7 @@ namespace SIL.Pa.UI.Controls
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			col.Visible = false;
 			int i = Columns.Add(col);
-			App.GetStringForObject(Columns[i], "FieldMappingGrid.FontColumnHeadingText", "Font");
+			App.GetStringForObject(Columns[i], "FieldMappingGridBase.FontColumnHeadingText", "Font");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -84,7 +84,7 @@ namespace SIL.Pa.UI.Controls
 			if (string.IsNullOrEmpty(text))
 			{
 				text = App.GetString(
-				"FieldMappingGrid.TargetFieldColumnHeadingText", "Field");
+				"FieldMappingGridBase.TargetFieldColumnHeadingText", "Field");
 			}
 
 			return text;
@@ -158,7 +158,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected virtual string GetNoMappingText()
 		{
-			return App.GetString("FieldMappingGrid.NoMappingText", "(no mapping)");
+			return App.GetString("FieldMappingGridBase.NoMappingText", "(no mapping)");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -230,13 +230,13 @@ namespace SIL.Pa.UI.Controls
 			string fmt;
 
 			if (fnt.Bold && fnt.Italic)
-				fmt = App.GetString("FieldMappingGrid.FontDisplayFormatAll", "{0}, {1}pt, Bold, Italic");
+				fmt = App.GetString("FieldMappingGridBase.FontDisplayFormatAll", "{0}, {1}pt, Bold, Italic");
 			else if (fnt.Bold)
-				fmt = App.GetString("FieldMappingGrid.FontDisplayFormatBold", "{0}, {1}pt, Bold");
+				fmt = App.GetString("FieldMappingGridBase.FontDisplayFormatBold", "{0}, {1}pt, Bold");
 			else if (fnt.Italic)
-				fmt = App.GetString("FieldMappingGrid.FontDisplayFormatItalic", "{0}, {1}pt, Italic");
+				fmt = App.GetString("FieldMappingGridBase.FontDisplayFormatItalic", "{0}, {1}pt, Italic");
 			else
-				fmt = App.GetString("FieldMappingGrid.FontDisplayFormat", "{0}, {1}pt");
+				fmt = App.GetString("FieldMappingGridBase.FontDisplayFormat", "{0}, {1}pt");
 
 			return string.Format(fmt, fnt.FontFamily.Name, (int)fnt.SizeInPoints);
 		}

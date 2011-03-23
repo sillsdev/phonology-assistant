@@ -29,7 +29,6 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FwProjectsDlg));
 			this.lblMsg = new System.Windows.Forms.Label();
 			this.lstFwProjects = new System.Windows.Forms.ListBox();
 			this.tvNetwork = new SIL.Pa.UI.Controls.NetworkTreeView();
@@ -46,53 +45,78 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// lblMsg
 			// 
-			resources.ApplyResources(this.lblMsg, "lblMsg");
+			this.lblMsg.AutoSize = true;
+			this.lblMsg.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.lblMsg, null);
 			this.locExtender.SetLocalizationComment(this.lblMsg, null);
 			this.locExtender.SetLocalizingId(this.lblMsg, "FwProjectsDlg.lblMsg");
+			this.lblMsg.Location = new System.Drawing.Point(11, 10);
 			this.lblMsg.Name = "lblMsg";
+			this.lblMsg.Size = new System.Drawing.Size(305, 15);
+			this.lblMsg.TabIndex = 0;
+			this.lblMsg.Text = "Choose the FieldWorks project to use as a data source.";
 			// 
 			// lstFwProjects
 			// 
-			resources.ApplyResources(this.lstFwProjects, "lstFwProjects");
+			this.lstFwProjects.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lstFwProjects.FormattingEnabled = true;
+			this.lstFwProjects.IntegralHeight = false;
+			this.lstFwProjects.Location = new System.Drawing.Point(0, 23);
 			this.lstFwProjects.Name = "lstFwProjects";
+			this.lstFwProjects.Size = new System.Drawing.Size(211, 211);
+			this.lstFwProjects.TabIndex = 1;
 			// 
 			// tvNetwork
 			// 
-			resources.ApplyResources(this.tvNetwork, "tvNetwork");
+			this.tvNetwork.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tvNetwork.HideSelection = false;
 			this.locExtender.SetLocalizableToolTip(this.tvNetwork, null);
 			this.locExtender.SetLocalizationComment(this.tvNetwork, null);
 			this.locExtender.SetLocalizationPriority(this.tvNetwork, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.tvNetwork, "FwProjectsDlg.tvNetwork");
+			this.tvNetwork.Location = new System.Drawing.Point(0, 23);
 			this.tvNetwork.Name = "tvNetwork";
+			this.tvNetwork.Size = new System.Drawing.Size(234, 211);
+			this.tvNetwork.TabIndex = 1;
 			this.tvNetwork.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.HandleNetworkTreeViewAfterSelect);
 			// 
 			// splitContainer1
 			// 
-			resources.ApplyResources(this.splitContainer1, "splitContainer1");
+			this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.splitContainer1.Location = new System.Drawing.Point(10, 32);
 			this.splitContainer1.Name = "splitContainer1";
 			// 
 			// splitContainer1.Panel1
 			// 
 			this.splitContainer1.Panel1.Controls.Add(this.tvNetwork);
 			this.splitContainer1.Panel1.Controls.Add(this.lblNetwork);
+			this.splitContainer1.Panel1MinSize = 50;
 			// 
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.txtMsg);
 			this.splitContainer1.Panel2.Controls.Add(this.lstFwProjects);
 			this.splitContainer1.Panel2.Controls.Add(this.lblProjects);
+			this.splitContainer1.Size = new System.Drawing.Size(451, 234);
+			this.splitContainer1.SplitterDistance = 234;
+			this.splitContainer1.SplitterWidth = 6;
+			this.splitContainer1.TabIndex = 1;
 			this.splitContainer1.TabStop = false;
 			// 
 			// lblNetwork
 			// 
-			resources.ApplyResources(this.lblNetwork, "lblNetwork");
+			this.lblNetwork.Dock = System.Windows.Forms.DockStyle.Top;
 			this.locExtender.SetLocalizableToolTip(this.lblNetwork, null);
 			this.locExtender.SetLocalizationComment(this.lblNetwork, "Label above the list of networks on the FieldWorks Projects dialog box.");
 			this.locExtender.SetLocalizingId(this.lblNetwork, "FwProjectsDlg.lblNetwork");
+			this.lblNetwork.Location = new System.Drawing.Point(0, 0);
 			this.lblNetwork.Name = "lblNetwork";
+			this.lblNetwork.Size = new System.Drawing.Size(234, 23);
+			this.lblNetwork.TabIndex = 0;
+			this.lblNetwork.Text = "&Look in:";
+			this.lblNetwork.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// txtMsg
 			// 
@@ -101,38 +125,51 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizationComment(this.txtMsg, null);
 			this.locExtender.SetLocalizationPriority(this.txtMsg, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtMsg, "FwProjectsDlg.txtMsg");
-			resources.ApplyResources(this.txtMsg, "txtMsg");
+			this.txtMsg.Location = new System.Drawing.Point(43, 85);
+			this.txtMsg.Multiline = true;
 			this.txtMsg.Name = "txtMsg";
 			this.txtMsg.ReadOnly = true;
+			this.txtMsg.Size = new System.Drawing.Size(131, 96);
+			this.txtMsg.TabIndex = 2;
+			this.txtMsg.Visible = false;
 			// 
 			// lblProjects
 			// 
-			resources.ApplyResources(this.lblProjects, "lblProjects");
+			this.lblProjects.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lblProjects.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblProjects, null);
 			this.locExtender.SetLocalizationComment(this.lblProjects, "Label above the list  of FieldWorks projects on the FieldWorks Projects dialog bo" +
 					"x.");
 			this.locExtender.SetLocalizingId(this.lblProjects, "FwProjectsDlg.lblProjects");
+			this.lblProjects.Location = new System.Drawing.Point(0, 0);
 			this.lblProjects.Name = "lblProjects";
+			this.lblProjects.Size = new System.Drawing.Size(211, 23);
+			this.lblProjects.TabIndex = 0;
+			this.lblProjects.Text = "&Choose a project:";
+			this.lblProjects.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "Dialog Boxes";
+			this.locExtender.LocalizationGroup = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidDoNothingToolTip;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// FwProjectsDlg
 			// 
-			resources.ApplyResources(this, "$this");
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.ClientSize = new System.Drawing.Size(471, 310);
 			this.Controls.Add(this.lblMsg);
 			this.Controls.Add(this.splitContainer1);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "FwProjectsDlg.WindowTitle");
+			this.MinimumSize = new System.Drawing.Size(375, 230);
 			this.Name = "FwProjectsDlg";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultLocation;
+			this.Text = "FieldWorks Projects";
 			this.Controls.SetChildIndex(this.splitContainer1, 0);
 			this.Controls.SetChildIndex(this.lblMsg, 0);
 			this.splitContainer1.Panel1.ResumeLayout(false);
-			this.splitContainer1.Panel1.PerformLayout();
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			this.splitContainer1.Panel2.PerformLayout();
 			this.splitContainer1.ResumeLayout(false);

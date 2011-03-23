@@ -32,10 +32,6 @@ namespace SIL.Pa.UI.Controls
 	}
 
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class CVChartGrid : SilGrid, IxCoreColleague
 	{
 		private readonly PhoneInfoPopup m_phoneInfoPopup;
@@ -49,10 +45,6 @@ namespace SIL.Pa.UI.Controls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public List<CVChartRowGroup> RowGroups { get; private set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public CVChartGrid()
 		{
@@ -72,10 +64,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public CVChartGrid(ITMAdapter tmAdapter) : this()
 		{
 			if (tmAdapter != null)
@@ -90,10 +78,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)
@@ -107,10 +91,6 @@ namespace SIL.Pa.UI.Controls
 			base.Dispose(disposing);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void ClearAll()
 		{
@@ -174,10 +154,6 @@ namespace SIL.Pa.UI.Controls
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
@@ -187,19 +163,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void AddColumnGroup(string text)
 		{
 			ColumnGroups.Add(CVChartColumnGroup.Create(text, this));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void AddRowGroup(string text, int rowCount)
 		{
@@ -209,10 +177,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void AdjustCellSizes()
 		{
 			int width = 0;
@@ -220,7 +184,7 @@ namespace SIL.Pa.UI.Controls
 
 			using (var g = CreateGraphics())
 			{
-				foreach (DataGridViewRow row in Rows)
+				foreach (var row in GetRows())
 				{
 					foreach (DataGridViewColumn col in Columns)
 					{
@@ -237,17 +201,13 @@ namespace SIL.Pa.UI.Controls
 				}
 			}
 
-			foreach (DataGridViewRow row in Rows)
+			foreach (var row in GetRows())
 				row.Height = height;
 
 			foreach (DataGridViewColumn col in Columns)
 				col.Width = width;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellMouseEnter(DataGridViewCellEventArgs e)
 		{
@@ -260,7 +220,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 			}
 
-			Rectangle rc = GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
+			var rc = GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
 			if (m_phoneInfoPopup.Initialize(this[e.ColumnIndex, e.RowIndex]))
 			{
 				//m_cellShowingPopup = this[e.ColumnIndex, e.RowIndex];
@@ -302,10 +262,6 @@ namespace SIL.Pa.UI.Controls
 		//}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
 		{
 			if (e.ColumnIndex == -1 && e.RowIndex == -1)
@@ -338,10 +294,6 @@ namespace SIL.Pa.UI.Controls
 		//}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void PaintTopLeftCornerCell(DataGridViewCellPaintingEventArgs e)
 		{
 			var rc = e.CellBounds;
@@ -364,10 +316,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnScroll(ScrollEventArgs e)
 		{
 			base.OnScroll(e);
@@ -379,10 +327,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnSizeChanged(EventArgs e)
 		{
 			base.OnSizeChanged(e);
@@ -390,10 +334,6 @@ namespace SIL.Pa.UI.Controls
 			RefreshRowHeaderPainting();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellLeave(DataGridViewCellEventArgs e)
 		{
@@ -416,10 +356,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void RefreshColumnHeaderPainting()
 		{
 			var rc = ClientRectangle;
@@ -428,10 +364,6 @@ namespace SIL.Pa.UI.Controls
 			Invalidate(rc);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void RefreshRowHeaderPainting()
 		{

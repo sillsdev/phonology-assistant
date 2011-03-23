@@ -31,7 +31,6 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TranscriptionChangesDlg));
 			this.pnlGrid = new SilTools.Controls.SilPanel();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -43,34 +42,42 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlGrid.ClipTextForChildControls = true;
 			this.pnlGrid.ControlReceivingFocusOnMnemonic = null;
-			resources.ApplyResources(this.pnlGrid, "pnlGrid");
+			this.pnlGrid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlGrid.DoubleBuffered = false;
+			this.pnlGrid.DrawOnlyBottomBorder = false;
+			this.pnlGrid.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this.pnlGrid.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlGrid, null);
 			this.locExtender.SetLocalizationComment(this.pnlGrid, null);
 			this.locExtender.SetLocalizationPriority(this.pnlGrid, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlGrid, "TranscriptionChangesDlg.pnlGrid");
+			this.pnlGrid.Location = new System.Drawing.Point(10, 10);
 			this.pnlGrid.MnemonicGeneratesClick = false;
 			this.pnlGrid.Name = "pnlGrid";
 			this.pnlGrid.PaintExplorerBarBackground = false;
+			this.pnlGrid.Size = new System.Drawing.Size(449, 281);
+			this.pnlGrid.TabIndex = 102;
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "Dialog Boxes";
+			this.locExtender.LocalizationGroup = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidExportAsToolTip;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// TranscriptionChangesDlg
 			// 
-			resources.ApplyResources(this, "$this");
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.ClientSize = new System.Drawing.Size(469, 331);
 			this.Controls.Add(this.pnlGrid);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "TranscriptionChangesDlg.WindowTitle");
 			this.Name = "TranscriptionChangesDlg";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+			this.Text = "Transcription Changes";
 			this.Controls.SetChildIndex(this.pnlGrid, 0);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 

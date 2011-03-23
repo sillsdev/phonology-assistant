@@ -28,7 +28,7 @@ namespace SIL.Pa.UI.Controls
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PhoneInfoPopupContent));
+			this.components = new System.ComponentModel.Container();
 			this.lblNormally = new System.Windows.Forms.Label();
 			this.lblPrimary = new System.Windows.Forms.Label();
 			this.lblNonPrimary = new System.Windows.Forms.Label();
@@ -43,74 +43,161 @@ namespace SIL.Pa.UI.Controls
 			this.lblMonogram = new System.Windows.Forms.Label();
 			this.pnlInfo = new System.Windows.Forms.Panel();
 			this.pnlCounts = new System.Windows.Forms.Panel();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.pnlHeading.SuspendLayout();
 			this.pnlMonogram.SuspendLayout();
 			this.pnlInfo.SuspendLayout();
 			this.pnlCounts.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// lblNormally
 			// 
-			resources.ApplyResources(this.lblNormally, "lblNormally");
+			this.lblNormally.AutoSize = true;
 			this.lblNormally.BackColor = System.Drawing.Color.Transparent;
+			this.lblNormally.Font = new System.Drawing.Font("Arial", 9F);
 			this.lblNormally.ForeColor = System.Drawing.Color.Black;
+			this.locExtender.SetLocalizableToolTip(this.lblNormally, null);
+			this.locExtender.SetLocalizationComment(this.lblNormally, null);
+			this.locExtender.SetLocalizingId(this.lblNormally, "PhoneInfoPopupContent.lblNormally");
+			this.lblNormally.Location = new System.Drawing.Point(0, 4);
 			this.lblNormally.Name = "lblNormally";
+			this.lblNormally.Size = new System.Drawing.Size(59, 15);
+			this.lblNormally.TabIndex = 1;
+			this.lblNormally.Text = "Normally:";
 			// 
 			// lblPrimary
 			// 
-			resources.ApplyResources(this.lblPrimary, "lblPrimary");
+			this.lblPrimary.AutoSize = true;
 			this.lblPrimary.BackColor = System.Drawing.Color.Transparent;
+			this.lblPrimary.Font = new System.Drawing.Font("Arial", 9F);
 			this.lblPrimary.ForeColor = System.Drawing.Color.Black;
+			this.locExtender.SetLocalizableToolTip(this.lblPrimary, null);
+			this.locExtender.SetLocalizationComment(this.lblPrimary, null);
+			this.locExtender.SetLocalizingId(this.lblPrimary, "PhoneInfoPopupContent.lblPrimary");
+			this.lblPrimary.Location = new System.Drawing.Point(0, 22);
 			this.lblPrimary.Name = "lblPrimary";
+			this.lblPrimary.Size = new System.Drawing.Size(130, 15);
+			this.lblPrimary.TabIndex = 2;
+			this.lblPrimary.Text = "As primary uncertainty:";
 			// 
 			// lblNonPrimary
 			// 
-			resources.ApplyResources(this.lblNonPrimary, "lblNonPrimary");
+			this.lblNonPrimary.AutoSize = true;
 			this.lblNonPrimary.BackColor = System.Drawing.Color.Transparent;
+			this.lblNonPrimary.Font = new System.Drawing.Font("Arial", 9F);
 			this.lblNonPrimary.ForeColor = System.Drawing.Color.Black;
+			this.locExtender.SetLocalizableToolTip(this.lblNonPrimary, null);
+			this.locExtender.SetLocalizationComment(this.lblNonPrimary, null);
+			this.locExtender.SetLocalizingId(this.lblNonPrimary, "PhoneInfoPopupContent.lblNonPrimary");
+			this.lblNonPrimary.Location = new System.Drawing.Point(0, 40);
 			this.lblNonPrimary.Name = "lblNonPrimary";
+			this.lblNonPrimary.Size = new System.Drawing.Size(154, 15);
+			this.lblNonPrimary.TabIndex = 3;
+			this.lblNonPrimary.Text = "As non primary uncertainty:";
 			// 
 			// lblNormallyCount
 			// 
-			resources.ApplyResources(this.lblNormallyCount, "lblNormallyCount");
+			this.lblNormallyCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblNormallyCount.BackColor = System.Drawing.Color.Transparent;
+			this.lblNormallyCount.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
 			this.lblNormallyCount.ForeColor = System.Drawing.Color.Black;
+			this.locExtender.SetLocalizableToolTip(this.lblNormallyCount, null);
+			this.locExtender.SetLocalizationComment(this.lblNormallyCount, null);
+			this.locExtender.SetLocalizationPriority(this.lblNormallyCount, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.lblNormallyCount, "PhoneInfoPopupContent.lblNormallyCount");
+			this.lblNormallyCount.Location = new System.Drawing.Point(142, 4);
 			this.lblNormallyCount.Name = "lblNormallyCount";
+			this.lblNormallyCount.Size = new System.Drawing.Size(57, 15);
+			this.lblNormallyCount.TabIndex = 4;
+			this.lblNormallyCount.Text = "0";
+			this.lblNormallyCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// lblPrimaryCount
 			// 
-			resources.ApplyResources(this.lblPrimaryCount, "lblPrimaryCount");
+			this.lblPrimaryCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblPrimaryCount.BackColor = System.Drawing.Color.Transparent;
+			this.lblPrimaryCount.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
 			this.lblPrimaryCount.ForeColor = System.Drawing.Color.Black;
+			this.locExtender.SetLocalizableToolTip(this.lblPrimaryCount, null);
+			this.locExtender.SetLocalizationComment(this.lblPrimaryCount, null);
+			this.locExtender.SetLocalizationPriority(this.lblPrimaryCount, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.lblPrimaryCount, "PhoneInfoPopupContent.lblPrimaryCount");
+			this.lblPrimaryCount.Location = new System.Drawing.Point(157, 22);
 			this.lblPrimaryCount.Name = "lblPrimaryCount";
+			this.lblPrimaryCount.Size = new System.Drawing.Size(42, 15);
+			this.lblPrimaryCount.TabIndex = 5;
+			this.lblPrimaryCount.Text = "0";
+			this.lblPrimaryCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// lblNonPrimaryCount
 			// 
-			resources.ApplyResources(this.lblNonPrimaryCount, "lblNonPrimaryCount");
+			this.lblNonPrimaryCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblNonPrimaryCount.BackColor = System.Drawing.Color.Transparent;
+			this.lblNonPrimaryCount.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
 			this.lblNonPrimaryCount.ForeColor = System.Drawing.Color.Black;
+			this.locExtender.SetLocalizableToolTip(this.lblNonPrimaryCount, null);
+			this.locExtender.SetLocalizationComment(this.lblNonPrimaryCount, null);
+			this.locExtender.SetLocalizationPriority(this.lblNonPrimaryCount, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.lblNonPrimaryCount, "PhoneInfoPopupContent.lblNonPrimaryCount");
+			this.lblNonPrimaryCount.Location = new System.Drawing.Point(157, 40);
 			this.lblNonPrimaryCount.Name = "lblNonPrimaryCount";
+			this.lblNonPrimaryCount.Size = new System.Drawing.Size(42, 15);
+			this.lblNonPrimaryCount.TabIndex = 6;
+			this.lblNonPrimaryCount.Text = "0";
+			this.lblNonPrimaryCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// lblCountHeading
 			// 
 			this.lblCountHeading.AutoEllipsis = true;
 			this.lblCountHeading.BackColor = System.Drawing.Color.Transparent;
-			resources.ApplyResources(this.lblCountHeading, "lblCountHeading");
+			this.lblCountHeading.Dock = System.Windows.Forms.DockStyle.Right;
+			this.lblCountHeading.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
 			this.lblCountHeading.ForeColor = System.Drawing.Color.Black;
+			this.locExtender.SetLocalizableToolTip(this.lblCountHeading, null);
+			this.locExtender.SetLocalizationComment(this.lblCountHeading, null);
+			this.locExtender.SetLocalizingId(this.lblCountHeading, "PhoneInfoPopupContent.lblCountHeading");
+			this.lblCountHeading.Location = new System.Drawing.Point(59, 6);
 			this.lblCountHeading.Name = "lblCountHeading";
+			this.lblCountHeading.Size = new System.Drawing.Size(143, 37);
+			this.lblCountHeading.TabIndex = 7;
+			this.lblCountHeading.Text = "Number of times phone occurs:";
+			this.lblCountHeading.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// lblUncertaintyHeading
 			// 
 			this.lblUncertaintyHeading.BackColor = System.Drawing.Color.Transparent;
-			resources.ApplyResources(this.lblUncertaintyHeading, "lblUncertaintyHeading");
+			this.lblUncertaintyHeading.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lblUncertaintyHeading.Font = new System.Drawing.Font("Arial", 9F);
 			this.lblUncertaintyHeading.ForeColor = System.Drawing.Color.Black;
+			this.lblUncertaintyHeading.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.lblUncertaintyHeading, null);
+			this.locExtender.SetLocalizationComment(this.lblUncertaintyHeading, null);
+			this.locExtender.SetLocalizingId(this.lblUncertaintyHeading, "PhoneInfoPopupContent.lblUncertaintyHeading");
+			this.lblUncertaintyHeading.Location = new System.Drawing.Point(6, 65);
 			this.lblUncertaintyHeading.Name = "lblUncertaintyHeading";
+			this.lblUncertaintyHeading.Size = new System.Drawing.Size(200, 56);
+			this.lblUncertaintyHeading.TabIndex = 9;
+			this.lblUncertaintyHeading.Text = "This phone is an uncertain phone occurring in one or more groups with these other" +
+				" uncertain phones:";
+			this.lblUncertaintyHeading.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// lblSiblingPhones
 			// 
 			this.lblSiblingPhones.BackColor = System.Drawing.Color.Transparent;
-			resources.ApplyResources(this.lblSiblingPhones, "lblSiblingPhones");
+			this.lblSiblingPhones.Dock = System.Windows.Forms.DockStyle.Top;
+			this.lblSiblingPhones.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+			this.lblSiblingPhones.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.lblSiblingPhones, null);
+			this.locExtender.SetLocalizationComment(this.lblSiblingPhones, null);
+			this.locExtender.SetLocalizationPriority(this.lblSiblingPhones, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.lblSiblingPhones, "PhoneInfoPopupContent.lblSiblingPhones");
+			this.lblSiblingPhones.Location = new System.Drawing.Point(6, 121);
 			this.lblSiblingPhones.Name = "lblSiblingPhones";
+			this.lblSiblingPhones.Size = new System.Drawing.Size(200, 29);
+			this.lblSiblingPhones.TabIndex = 10;
+			this.lblSiblingPhones.Text = "#";
+			this.lblSiblingPhones.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.lblSiblingPhones.UseMnemonic = false;
 			// 
 			// pnlHeading
@@ -118,9 +205,13 @@ namespace SIL.Pa.UI.Controls
 			this.pnlHeading.BackColor = System.Drawing.Color.White;
 			this.pnlHeading.Controls.Add(this.lblCountHeading);
 			this.pnlHeading.Controls.Add(this.pnlMonogram);
-			resources.ApplyResources(this.pnlHeading, "pnlHeading");
+			this.pnlHeading.Dock = System.Windows.Forms.DockStyle.Top;
+			this.pnlHeading.Location = new System.Drawing.Point(0, 0);
 			this.pnlHeading.MinimumSize = new System.Drawing.Size(0, 48);
 			this.pnlHeading.Name = "pnlHeading";
+			this.pnlHeading.Padding = new System.Windows.Forms.Padding(13, 6, 10, 6);
+			this.pnlHeading.Size = new System.Drawing.Size(212, 49);
+			this.pnlHeading.TabIndex = 11;
 			this.pnlHeading.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlHeading_Paint);
 			// 
 			// pnlMonogram
@@ -128,25 +219,45 @@ namespace SIL.Pa.UI.Controls
 			this.pnlMonogram.BackColor = System.Drawing.Color.White;
 			this.pnlMonogram.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlMonogram.Controls.Add(this.lblMonogram);
-			resources.ApplyResources(this.pnlMonogram, "pnlMonogram");
+			this.pnlMonogram.Dock = System.Windows.Forms.DockStyle.Left;
+			this.pnlMonogram.Location = new System.Drawing.Point(13, 6);
 			this.pnlMonogram.Name = "pnlMonogram";
+			this.pnlMonogram.Padding = new System.Windows.Forms.Padding(1);
+			this.pnlMonogram.Size = new System.Drawing.Size(40, 37);
+			this.pnlMonogram.TabIndex = 12;
 			// 
 			// lblMonogram
 			// 
 			this.lblMonogram.BackColor = System.Drawing.Color.Black;
-			resources.ApplyResources(this.lblMonogram, "lblMonogram");
+			this.lblMonogram.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lblMonogram.ForeColor = System.Drawing.Color.White;
+			this.lblMonogram.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.lblMonogram, null);
+			this.locExtender.SetLocalizationComment(this.lblMonogram, null);
+			this.locExtender.SetLocalizationPriority(this.lblMonogram, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.lblMonogram, "PhoneInfoPopupContent.lblMonogram");
+			this.lblMonogram.Location = new System.Drawing.Point(1, 1);
 			this.lblMonogram.MinimumSize = new System.Drawing.Size(36, 33);
 			this.lblMonogram.Name = "lblMonogram";
+			this.lblMonogram.Size = new System.Drawing.Size(36, 33);
+			this.lblMonogram.TabIndex = 0;
+			this.lblMonogram.Text = "X";
+			this.lblMonogram.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.lblMonogram.Paint += new System.Windows.Forms.PaintEventHandler(this.lblPhone_Paint);
 			// 
 			// pnlInfo
 			// 
-			resources.ApplyResources(this.pnlInfo, "pnlInfo");
+			this.pnlInfo.AutoSize = true;
+			this.pnlInfo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.pnlInfo.Controls.Add(this.lblSiblingPhones);
 			this.pnlInfo.Controls.Add(this.lblUncertaintyHeading);
 			this.pnlInfo.Controls.Add(this.pnlCounts);
+			this.pnlInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pnlInfo.Location = new System.Drawing.Point(0, 49);
 			this.pnlInfo.Name = "pnlInfo";
+			this.pnlInfo.Padding = new System.Windows.Forms.Padding(6, 0, 6, 8);
+			this.pnlInfo.Size = new System.Drawing.Size(212, 158);
+			this.pnlInfo.TabIndex = 12;
 			this.pnlInfo.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlInfo_Paint);
 			// 
 			// pnlCounts
@@ -157,25 +268,41 @@ namespace SIL.Pa.UI.Controls
 			this.pnlCounts.Controls.Add(this.lblNormallyCount);
 			this.pnlCounts.Controls.Add(this.lblNonPrimaryCount);
 			this.pnlCounts.Controls.Add(this.lblNonPrimary);
-			resources.ApplyResources(this.pnlCounts, "pnlCounts");
+			this.pnlCounts.Dock = System.Windows.Forms.DockStyle.Top;
+			this.pnlCounts.Location = new System.Drawing.Point(6, 0);
 			this.pnlCounts.Name = "pnlCounts";
+			this.pnlCounts.Size = new System.Drawing.Size(200, 65);
+			this.pnlCounts.TabIndex = 11;
 			this.pnlCounts.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlCounts_Paint);
+			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidDoNothingToolTip;
+			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// PhoneInfoPopupContent
 			// 
-			resources.ApplyResources(this, "$this");
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoSize = true;
+			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.BackColor = System.Drawing.Color.Transparent;
 			this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.Controls.Add(this.pnlInfo);
 			this.Controls.Add(this.pnlHeading);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this, "PhoneInfoPopupContent.PhoneInfoPopupContent");
 			this.MinimumSize = new System.Drawing.Size(214, 2);
 			this.Name = "PhoneInfoPopupContent";
+			this.Size = new System.Drawing.Size(212, 207);
 			this.pnlHeading.ResumeLayout(false);
 			this.pnlMonogram.ResumeLayout(false);
 			this.pnlInfo.ResumeLayout(false);
 			this.pnlCounts.ResumeLayout(false);
 			this.pnlCounts.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -197,5 +324,6 @@ namespace SIL.Pa.UI.Controls
 		internal System.Windows.Forms.Panel pnlHeading;
 		internal System.Windows.Forms.Label lblCountHeading;
 		private System.Windows.Forms.Panel pnlCounts;
+		private Localization.UI.LocalizationExtender locExtender;
 	}
 }

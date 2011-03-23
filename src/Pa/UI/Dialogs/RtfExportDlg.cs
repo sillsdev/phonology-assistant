@@ -144,7 +144,6 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RtfExportDlg));
 			this.grpTarget = new System.Windows.Forms.GroupBox();
 			this.rbToClipboard = new System.Windows.Forms.RadioButton();
 			this.rbToFileOpen = new System.Windows.Forms.RadioButton();
@@ -172,100 +171,154 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.grpTarget, null);
 			this.locExtender.SetLocalizationComment(this.grpTarget, "Frame around export destination options in RTF export dialog box.");
 			this.locExtender.SetLocalizingId(this.grpTarget, "RtfExportDlg.grpTarget");
-			resources.ApplyResources(this.grpTarget, "grpTarget");
+			this.grpTarget.Location = new System.Drawing.Point(10, 10);
 			this.grpTarget.Name = "grpTarget";
+			this.grpTarget.Size = new System.Drawing.Size(236, 90);
+			this.grpTarget.TabIndex = 0;
 			this.grpTarget.TabStop = false;
+			this.grpTarget.Text = "Export To";
 			// 
 			// rbToClipboard
 			// 
-			resources.ApplyResources(this.rbToClipboard, "rbToClipboard");
+			this.rbToClipboard.AutoSize = true;
+			this.rbToClipboard.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.locExtender.SetLocalizableToolTip(this.rbToClipboard, null);
 			this.locExtender.SetLocalizationComment(this.rbToClipboard, "Export destination options on RTF export dialog box.");
 			this.locExtender.SetLocalizingId(this.rbToClipboard, "RtfExportDlg.rbToClipboard");
+			this.rbToClipboard.Location = new System.Drawing.Point(12, 60);
 			this.rbToClipboard.Name = "rbToClipboard";
+			this.rbToClipboard.Size = new System.Drawing.Size(69, 17);
+			this.rbToClipboard.TabIndex = 2;
+			this.rbToClipboard.Text = "&Clipboard";
+			this.rbToClipboard.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.rbToClipboard.CheckedChanged += new System.EventHandler(this.HandleExportTargetSelected);
 			// 
 			// rbToFileOpen
 			// 
-			resources.ApplyResources(this.rbToFileOpen, "rbToFileOpen");
+			this.rbToFileOpen.AutoSize = true;
+			this.rbToFileOpen.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.locExtender.SetLocalizableToolTip(this.rbToFileOpen, null);
 			this.locExtender.SetLocalizationComment(this.rbToFileOpen, "Export destination options on RTF export dialog box.");
 			this.locExtender.SetLocalizingId(this.rbToFileOpen, "RtfExportDlg.rbToFileOpen");
+			this.rbToFileOpen.Location = new System.Drawing.Point(12, 40);
 			this.rbToFileOpen.Name = "rbToFileOpen";
+			this.rbToFileOpen.Size = new System.Drawing.Size(164, 17);
+			this.rbToFileOpen.TabIndex = 1;
+			this.rbToFileOpen.Text = "File and open with &RTF editor";
+			this.rbToFileOpen.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.rbToFileOpen.CheckedChanged += new System.EventHandler(this.HandleExportTargetSelected);
 			// 
 			// rbToFile
 			// 
-			resources.ApplyResources(this.rbToFile, "rbToFile");
+			this.rbToFile.AutoSize = true;
+			this.rbToFile.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.locExtender.SetLocalizableToolTip(this.rbToFile, null);
 			this.locExtender.SetLocalizationComment(this.rbToFile, "Export destination options on RTF export dialog box.");
 			this.locExtender.SetLocalizingId(this.rbToFile, "RtfExportDlg.rbToFile");
+			this.rbToFile.Location = new System.Drawing.Point(12, 20);
 			this.rbToFile.Name = "rbToFile";
+			this.rbToFile.Size = new System.Drawing.Size(41, 17);
+			this.rbToFile.TabIndex = 0;
+			this.rbToFile.Text = "&File";
+			this.rbToFile.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.rbToFile.CheckedChanged += new System.EventHandler(this.HandleExportTargetSelected);
 			// 
 			// grpFormat
 			// 
-			resources.ApplyResources(this.grpFormat, "grpFormat");
+			this.grpFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this.grpFormat.Controls.Add(this.rbFmtTabDelim);
 			this.grpFormat.Controls.Add(this.rbFmtTable);
 			this.locExtender.SetLocalizableToolTip(this.grpFormat, null);
 			this.locExtender.SetLocalizationComment(this.grpFormat, "Frame around export format options in RTF export dialog box.");
 			this.locExtender.SetLocalizingId(this.grpFormat, "RtfExportDlg.grpFormat");
+			this.grpFormat.Location = new System.Drawing.Point(254, 10);
 			this.grpFormat.Name = "grpFormat";
+			this.grpFormat.Size = new System.Drawing.Size(130, 90);
+			this.grpFormat.TabIndex = 1;
 			this.grpFormat.TabStop = false;
+			this.grpFormat.Text = "Format";
 			// 
 			// rbFmtTabDelim
 			// 
-			resources.ApplyResources(this.rbFmtTabDelim, "rbFmtTabDelim");
+			this.rbFmtTabDelim.AutoSize = true;
+			this.rbFmtTabDelim.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.locExtender.SetLocalizableToolTip(this.rbFmtTabDelim, null);
 			this.locExtender.SetLocalizationComment(this.rbFmtTabDelim, "Export format options on RTF export dialog box.");
 			this.locExtender.SetLocalizingId(this.rbFmtTabDelim, "RtfExportDlg.rbFmtTabDelim");
+			this.rbFmtTabDelim.Location = new System.Drawing.Point(12, 40);
 			this.rbFmtTabDelim.Name = "rbFmtTabDelim";
+			this.rbFmtTabDelim.Size = new System.Drawing.Size(90, 17);
+			this.rbFmtTabDelim.TabIndex = 1;
+			this.rbFmtTabDelim.Text = "Tab &Delimited";
+			this.rbFmtTabDelim.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.rbFmtTabDelim.CheckedChanged += new System.EventHandler(this.HandleExportFormatSelected);
 			// 
 			// rbFmtTable
 			// 
-			resources.ApplyResources(this.rbFmtTable, "rbFmtTable");
+			this.rbFmtTable.AutoSize = true;
+			this.rbFmtTable.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.locExtender.SetLocalizableToolTip(this.rbFmtTable, null);
 			this.locExtender.SetLocalizationComment(this.rbFmtTable, "Export format options on RTF export dialog box.");
 			this.locExtender.SetLocalizingId(this.rbFmtTable, "RtfExportDlg.rbFmtTable");
+			this.rbFmtTable.Location = new System.Drawing.Point(12, 20);
 			this.rbFmtTable.Name = "rbFmtTable";
+			this.rbFmtTable.Size = new System.Drawing.Size(52, 17);
+			this.rbFmtTable.TabIndex = 0;
+			this.rbFmtTable.Text = "&Table";
+			this.rbFmtTable.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.rbFmtTable.CheckedChanged += new System.EventHandler(this.HandleExportFormatSelected);
 			// 
 			// btnExport
 			// 
-			resources.ApplyResources(this.btnExport, "btnExport");
+			this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.locExtender.SetLocalizableToolTip(this.btnExport, null);
 			this.locExtender.SetLocalizationComment(this.btnExport, "Button on RTF export dialog box.");
 			this.locExtender.SetLocalizingId(this.btnExport, "RtfExportDlg.btnExport");
+			this.btnExport.Location = new System.Drawing.Point(123, 7);
 			this.btnExport.Name = "btnExport";
+			this.btnExport.Size = new System.Drawing.Size(80, 26);
+			this.btnExport.TabIndex = 1;
+			this.btnExport.Text = "E&xport";
 			this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
 			// 
 			// btnCancel
 			// 
-			resources.ApplyResources(this.btnCancel, "btnCancel");
+			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
 			this.locExtender.SetLocalizationComment(this.btnCancel, "Button on RTF export dialog box.");
 			this.locExtender.SetLocalizingId(this.btnCancel, "RtfExportDlg.btnCancel");
+			this.btnCancel.Location = new System.Drawing.Point(209, 7);
 			this.btnCancel.Name = "btnCancel";
+			this.btnCancel.Size = new System.Drawing.Size(80, 26);
+			this.btnCancel.TabIndex = 2;
+			this.btnCancel.Text = "Cancel";
 			// 
 			// btnSetEditor
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnSetEditor, null);
 			this.locExtender.SetLocalizationComment(this.btnSetEditor, "Button on RTF export dialog box.");
 			this.locExtender.SetLocalizingId(this.btnSetEditor, "RtfExportDlg.btnSetEditor");
-			resources.ApplyResources(this.btnSetEditor, "btnSetEditor");
+			this.btnSetEditor.Location = new System.Drawing.Point(0, 7);
 			this.btnSetEditor.Name = "btnSetEditor";
+			this.btnSetEditor.Size = new System.Drawing.Size(80, 26);
+			this.btnSetEditor.TabIndex = 0;
+			this.btnSetEditor.Text = "Set &Editor...";
 			this.btnSetEditor.Click += new System.EventHandler(this.btnSetEditor_Click);
 			// 
 			// btnHelp
 			// 
-			resources.ApplyResources(this.btnHelp, "btnHelp");
+			this.btnHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnHelp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
 			this.locExtender.SetLocalizationComment(this.btnHelp, "Button on RTF export dialog box.");
 			this.locExtender.SetLocalizingId(this.btnHelp, "RtfExportDlg.btnHelp");
+			this.btnHelp.Location = new System.Drawing.Point(295, 7);
 			this.btnHelp.Name = "btnHelp";
+			this.btnHelp.Size = new System.Drawing.Size(80, 26);
+			this.btnHelp.TabIndex = 3;
+			this.btnHelp.Text = "Help";
 			this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
 			// 
 			// panel1
@@ -274,19 +327,23 @@ namespace SIL.Pa.UI.Dialogs
 			this.panel1.Controls.Add(this.btnExport);
 			this.panel1.Controls.Add(this.btnCancel);
 			this.panel1.Controls.Add(this.btnHelp);
-			resources.ApplyResources(this.panel1, "panel1");
+			this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.panel1.Location = new System.Drawing.Point(10, 115);
 			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(374, 40);
+			this.panel1.TabIndex = 2;
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "Dialog Boxes";
+			this.locExtender.LocalizationGroup = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidExportAsToolTip;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// RtfExportDlg
 			// 
 			this.AcceptButton = this.btnExport;
-			resources.ApplyResources(this, "$this");
+			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
 			this.CancelButton = this.btnCancel;
+			this.ClientSize = new System.Drawing.Size(394, 155);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.grpFormat);
 			this.Controls.Add(this.grpTarget);
@@ -297,8 +354,11 @@ namespace SIL.Pa.UI.Dialogs
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "RtfExportDlg";
+			this.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+			this.Text = "Export to Rich Text Format";
 			this.grpTarget.ResumeLayout(false);
 			this.grpTarget.PerformLayout();
 			this.grpFormat.ResumeLayout(false);

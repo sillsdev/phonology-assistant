@@ -32,12 +32,7 @@ namespace SIL.Pa.UI.Views
 			// 
 			// m_chrGrid
 			// 
-			this.m_chrGrid.HeadersVisible = true;
 			this.m_chrGrid.Size = new System.Drawing.Size(543, 290);
-			// 
-			// m_pnlGrid
-			// 
-			this.m_pnlGrid.Size = new System.Drawing.Size(543, 290);
 			// 
 			// VowelChartVw
 			// 
