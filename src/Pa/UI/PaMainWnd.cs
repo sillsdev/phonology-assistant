@@ -664,7 +664,7 @@ namespace SIL.Pa.UI
 			string filter = string.Format(App.kstidFileTypePAProject,
 				Application.ProductName) + "|" + App.kstidFileTypeAllFiles;
 
-			var fmt = App.GetString("ProjectOpenFileDlg.WindowText", "Open {0} Project File");
+			var fmt = App.GetString("ProjectOpenFileDialogText", "Open {0} Project File");
 			string initialDir = (Settings.Default.LastFolderForOpenProjectDlg ?? App.DefaultProjectFolder);
 
 			string[] filenames = App.OpenFileDialog("pap", filter, ref filterindex,
@@ -749,7 +749,7 @@ namespace SIL.Pa.UI
 			dlg.InitialDirectory = Environment.CurrentDirectory;
 			dlg.DefaultExt = "paxml";
 
-			var fmt = App.GetString("PaXmlExportSaveFileDlg.WindowText", "Export to {0} XML");
+			var fmt = App.GetString("PaXmlExportSaveFileDialogText", "Export to {0} XML");
 			dlg.Title = string.Format(fmt, Application.ProductName);
 			dlg.FileName = m_project.Name + ".paxml";
 			dlg.FilterIndex = 0;

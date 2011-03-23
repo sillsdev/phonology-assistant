@@ -330,9 +330,6 @@
     <value>Count</value>
     <comment>Heading for column in undefined phonetic chars. dialog</comment>
   </data>
-  <data name="kstidDefClassPhoneHdrVow" xml:space="preserve">
-    <value>&amp;Vowels</value>
-  </data>
   <data name="kstidUndefPhoneticCharsGridGroupHdgCountFmtMed" xml:space="preserve">
     <value>({0} occur.)</value>
     <comment>Format string for buiding the group heading text for the grid in the undefined phonetic characters dialog. The first parameter is the character and the second is the unicode value.</comment>
@@ -475,9 +472,6 @@
   </data>
   <data name="kstidErrorLoadingQueriesMsg" xml:space="preserve">
     <value>The file that contains FieldWorks queries ({0}) is either missing or corrupt. Until this problem is corrected, FieldWorks data sources cannot be accessed or added as data sources.</value>
-  </data>
-  <data name="kstidDefClassPhoneHdrCon" xml:space="preserve">
-    <value>&amp;Consonants</value>
   </data>
   <data name="kstidPatternEmptyErr" xml:space="preserve">
     <value>The {0} is empty.</value>
@@ -648,9 +642,6 @@
   <data name="kstidUnicodeNumHdg" xml:space="preserve">
     <value>Unicode\nNumber</value>
     <comment>Heading for column in undefined phonetic chars. dialog</comment>
-  </data>
-  <data name="kstidDefClassPhoneHdrOther" xml:space="preserve">
-    <value>&amp;Other Phones</value>
   </data>
   <data name="kstidRtfOpenError2" xml:space="preserve">
     <value>An error occurred trying to open the RTF file.\n\nFile: {0}\nEditor: {1}\n\n{2}</value>

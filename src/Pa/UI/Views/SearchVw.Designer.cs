@@ -673,7 +673,7 @@ namespace SIL.Pa.UI.Views
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "";
+			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// SearchVw

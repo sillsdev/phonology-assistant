@@ -173,7 +173,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "";
+			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// m_tableLayout

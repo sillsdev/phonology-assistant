@@ -31,68 +31,10 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("User Defined", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Voicing", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Consonant - Place of Articulation", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Consonant - Manner of Articulation", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Vowels", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("User Defined", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup7 = new System.Windows.Forms.ListViewGroup("Voicing", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup8 = new System.Windows.Forms.ListViewGroup("Consonant - Place of Articulation", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup9 = new System.Windows.Forms.ListViewGroup("Consonant - Manner of Articulation", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup10 = new System.Windows.Forms.ListViewGroup("Vowels", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup11 = new System.Windows.Forms.ListViewGroup("User Defined", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup12 = new System.Windows.Forms.ListViewGroup("Voicing", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup13 = new System.Windows.Forms.ListViewGroup("Consonant - Place of Articulation", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup14 = new System.Windows.Forms.ListViewGroup("Consonant - Manner of Articulation", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup15 = new System.Windows.Forms.ListViewGroup("Vowels", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup16 = new System.Windows.Forms.ListViewGroup("User Defined", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup17 = new System.Windows.Forms.ListViewGroup("Voicing", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup18 = new System.Windows.Forms.ListViewGroup("Consonant - Place of Articulation", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup19 = new System.Windows.Forms.ListViewGroup("Consonant - Manner of Articulation", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup20 = new System.Windows.Forms.ListViewGroup("Vowels", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup21 = new System.Windows.Forms.ListViewGroup("User Defined", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup22 = new System.Windows.Forms.ListViewGroup("Voicing", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup23 = new System.Windows.Forms.ListViewGroup("Consonant - Place of Articulation", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup24 = new System.Windows.Forms.ListViewGroup("Consonant - Manner of Articulation", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup25 = new System.Windows.Forms.ListViewGroup("Vowels", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup26 = new System.Windows.Forms.ListViewGroup("User Defined", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup27 = new System.Windows.Forms.ListViewGroup("Voicing", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup28 = new System.Windows.Forms.ListViewGroup("Consonant - Place of Articulation", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup29 = new System.Windows.Forms.ListViewGroup("Consonant - Manner of Articulation", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup30 = new System.Windows.Forms.ListViewGroup("Vowels", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup31 = new System.Windows.Forms.ListViewGroup("User Defined", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup32 = new System.Windows.Forms.ListViewGroup("Voicing", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup33 = new System.Windows.Forms.ListViewGroup("Consonant - Place of Articulation", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup34 = new System.Windows.Forms.ListViewGroup("Consonant - Manner of Articulation", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup35 = new System.Windows.Forms.ListViewGroup("Vowels", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup36 = new System.Windows.Forms.ListViewGroup("User Defined", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup37 = new System.Windows.Forms.ListViewGroup("Voicing", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup38 = new System.Windows.Forms.ListViewGroup("Consonant - Place of Articulation", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup39 = new System.Windows.Forms.ListViewGroup("Consonant - Manner of Articulation", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup40 = new System.Windows.Forms.ListViewGroup("Vowels", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup41 = new System.Windows.Forms.ListViewGroup("User Defined", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup42 = new System.Windows.Forms.ListViewGroup("Voicing", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup43 = new System.Windows.Forms.ListViewGroup("Consonant - Place of Articulation", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup44 = new System.Windows.Forms.ListViewGroup("Consonant - Manner of Articulation", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup45 = new System.Windows.Forms.ListViewGroup("Vowels", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup46 = new System.Windows.Forms.ListViewGroup("General", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup47 = new System.Windows.Forms.ListViewGroup("User Defined", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup48 = new System.Windows.Forms.ListViewGroup("Voicing", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup49 = new System.Windows.Forms.ListViewGroup("Consonant - Place of Articulation", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup50 = new System.Windows.Forms.ListViewGroup("Consonant - Manner of Articulation", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup51 = new System.Windows.Forms.ListViewGroup("Vowels", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup52 = new System.Windows.Forms.ListViewGroup("General", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup53 = new System.Windows.Forms.ListViewGroup("User Defined", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup54 = new System.Windows.Forms.ListViewGroup("Voicing", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup55 = new System.Windows.Forms.ListViewGroup("Consonant - Place of Articulation", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup56 = new System.Windows.Forms.ListViewGroup("Consonant - Manner of Articulation", System.Windows.Forms.HorizontalAlignment.Left);
-			System.Windows.Forms.ListViewGroup listViewGroup57 = new System.Windows.Forms.ListViewGroup("Vowels", System.Windows.Forms.HorizontalAlignment.Left);
 			this.pnlMemberPickingContainer = new System.Windows.Forms.Panel();
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
 			this.splitPhoneViewers = new System.Windows.Forms.SplitContainer();
 			this.splitCV = new System.Windows.Forms.SplitContainer();
-			this.lvClasses = new SIL.Pa.UI.Controls.ClassListView();
 			this.charExplorer = new SIL.Pa.UI.Controls.IPACharacterExplorer();
 			this.txtClassName = new System.Windows.Forms.TextBox();
 			this.lblClassName = new System.Windows.Forms.Label();
@@ -119,7 +61,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlMemberPickingContainer.BackColor = System.Drawing.SystemColors.Window;
 			this.tblLayoutTop.SetColumnSpan(this.pnlMemberPickingContainer, 3);
 			this.pnlMemberPickingContainer.Controls.Add(this.splitOuter);
-			this.pnlMemberPickingContainer.Controls.Add(this.lvClasses);
 			this.pnlMemberPickingContainer.Controls.Add(this.charExplorer);
 			this.pnlMemberPickingContainer.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlMemberPickingContainer.Location = new System.Drawing.Point(0, 126);
@@ -182,204 +123,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.splitCV.SplitterDistance = 59;
 			this.splitCV.SplitterWidth = 6;
 			this.splitCV.TabIndex = 0;
-			// 
-			// lvClasses
-			// 
-			this.lvClasses.AccessibleName = "lvClasses";
-			this.lvClasses.AccessibleRole = System.Windows.Forms.AccessibleRole.List;
-			this.lvClasses.AppliesTo = SIL.Pa.UI.Controls.ClassListView.ListApplicationType.DefineClassDialog;
-			this.lvClasses.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			this.lvClasses.FullRowSelect = true;
-			listViewGroup1.Header = "User Defined";
-			listViewGroup1.Name = null;
-			listViewGroup2.Header = "Voicing";
-			listViewGroup2.Name = null;
-			listViewGroup3.Header = "Consonant - Place of Articulation";
-			listViewGroup3.Name = null;
-			listViewGroup4.Header = "Consonant - Manner of Articulation";
-			listViewGroup4.Name = null;
-			listViewGroup5.Header = "Vowels";
-			listViewGroup5.Name = null;
-			listViewGroup6.Header = "User Defined";
-			listViewGroup6.Name = null;
-			listViewGroup7.Header = "Voicing";
-			listViewGroup7.Name = null;
-			listViewGroup8.Header = "Consonant - Place of Articulation";
-			listViewGroup8.Name = null;
-			listViewGroup9.Header = "Consonant - Manner of Articulation";
-			listViewGroup9.Name = null;
-			listViewGroup10.Header = "Vowels";
-			listViewGroup10.Name = null;
-			listViewGroup11.Header = "User Defined";
-			listViewGroup11.Name = null;
-			listViewGroup12.Header = "Voicing";
-			listViewGroup12.Name = null;
-			listViewGroup13.Header = "Consonant - Place of Articulation";
-			listViewGroup13.Name = null;
-			listViewGroup14.Header = "Consonant - Manner of Articulation";
-			listViewGroup14.Name = null;
-			listViewGroup15.Header = "Vowels";
-			listViewGroup15.Name = null;
-			listViewGroup16.Header = "User Defined";
-			listViewGroup16.Name = null;
-			listViewGroup17.Header = "Voicing";
-			listViewGroup17.Name = null;
-			listViewGroup18.Header = "Consonant - Place of Articulation";
-			listViewGroup18.Name = null;
-			listViewGroup19.Header = "Consonant - Manner of Articulation";
-			listViewGroup19.Name = null;
-			listViewGroup20.Header = "Vowels";
-			listViewGroup20.Name = null;
-			listViewGroup21.Header = "User Defined";
-			listViewGroup21.Name = null;
-			listViewGroup22.Header = "Voicing";
-			listViewGroup22.Name = null;
-			listViewGroup23.Header = "Consonant - Place of Articulation";
-			listViewGroup23.Name = null;
-			listViewGroup24.Header = "Consonant - Manner of Articulation";
-			listViewGroup24.Name = null;
-			listViewGroup25.Header = "Vowels";
-			listViewGroup25.Name = null;
-			listViewGroup26.Header = "User Defined";
-			listViewGroup26.Name = null;
-			listViewGroup27.Header = "Voicing";
-			listViewGroup27.Name = null;
-			listViewGroup28.Header = "Consonant - Place of Articulation";
-			listViewGroup28.Name = null;
-			listViewGroup29.Header = "Consonant - Manner of Articulation";
-			listViewGroup29.Name = null;
-			listViewGroup30.Header = "Vowels";
-			listViewGroup30.Name = null;
-			listViewGroup31.Header = "User Defined";
-			listViewGroup31.Name = null;
-			listViewGroup32.Header = "Voicing";
-			listViewGroup32.Name = null;
-			listViewGroup33.Header = "Consonant - Place of Articulation";
-			listViewGroup33.Name = null;
-			listViewGroup34.Header = "Consonant - Manner of Articulation";
-			listViewGroup34.Name = null;
-			listViewGroup35.Header = "Vowels";
-			listViewGroup35.Name = null;
-			listViewGroup36.Header = "User Defined";
-			listViewGroup36.Name = null;
-			listViewGroup37.Header = "Voicing";
-			listViewGroup37.Name = null;
-			listViewGroup38.Header = "Consonant - Place of Articulation";
-			listViewGroup38.Name = null;
-			listViewGroup39.Header = "Consonant - Manner of Articulation";
-			listViewGroup39.Name = null;
-			listViewGroup40.Header = "Vowels";
-			listViewGroup40.Name = null;
-			listViewGroup41.Header = "User Defined";
-			listViewGroup41.Name = null;
-			listViewGroup42.Header = "Voicing";
-			listViewGroup42.Name = null;
-			listViewGroup43.Header = "Consonant - Place of Articulation";
-			listViewGroup43.Name = null;
-			listViewGroup44.Header = "Consonant - Manner of Articulation";
-			listViewGroup44.Name = null;
-			listViewGroup45.Header = "Vowels";
-			listViewGroup45.Name = null;
-			listViewGroup46.Header = "General";
-			listViewGroup46.Name = null;
-			listViewGroup47.Header = "User Defined";
-			listViewGroup47.Name = null;
-			listViewGroup48.Header = "Voicing";
-			listViewGroup48.Name = null;
-			listViewGroup49.Header = "Consonant - Place of Articulation";
-			listViewGroup49.Name = null;
-			listViewGroup50.Header = "Consonant - Manner of Articulation";
-			listViewGroup50.Name = null;
-			listViewGroup51.Header = "Vowels";
-			listViewGroup51.Name = null;
-			listViewGroup52.Header = "General";
-			listViewGroup52.Name = null;
-			listViewGroup53.Header = "User Defined";
-			listViewGroup53.Name = null;
-			listViewGroup54.Header = "Voicing";
-			listViewGroup54.Name = null;
-			listViewGroup55.Header = "Consonant - Place of Articulation";
-			listViewGroup55.Name = null;
-			listViewGroup56.Header = "Consonant - Manner of Articulation";
-			listViewGroup56.Name = null;
-			listViewGroup57.Header = "Vowels";
-			listViewGroup57.Name = null;
-			this.lvClasses.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2,
-            listViewGroup3,
-            listViewGroup4,
-            listViewGroup5,
-            listViewGroup6,
-            listViewGroup7,
-            listViewGroup8,
-            listViewGroup9,
-            listViewGroup10,
-            listViewGroup11,
-            listViewGroup12,
-            listViewGroup13,
-            listViewGroup14,
-            listViewGroup15,
-            listViewGroup16,
-            listViewGroup17,
-            listViewGroup18,
-            listViewGroup19,
-            listViewGroup20,
-            listViewGroup21,
-            listViewGroup22,
-            listViewGroup23,
-            listViewGroup24,
-            listViewGroup25,
-            listViewGroup26,
-            listViewGroup27,
-            listViewGroup28,
-            listViewGroup29,
-            listViewGroup30,
-            listViewGroup31,
-            listViewGroup32,
-            listViewGroup33,
-            listViewGroup34,
-            listViewGroup35,
-            listViewGroup36,
-            listViewGroup37,
-            listViewGroup38,
-            listViewGroup39,
-            listViewGroup40,
-            listViewGroup41,
-            listViewGroup42,
-            listViewGroup43,
-            listViewGroup44,
-            listViewGroup45,
-            listViewGroup46,
-            listViewGroup47,
-            listViewGroup48,
-            listViewGroup49,
-            listViewGroup50,
-            listViewGroup51,
-            listViewGroup52,
-            listViewGroup53,
-            listViewGroup54,
-            listViewGroup55,
-            listViewGroup56,
-            listViewGroup57});
-			this.lvClasses.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-			this.lvClasses.HideSelection = false;
-			this.locExtender.SetLocalizableToolTip(this.lvClasses, null);
-			this.locExtender.SetLocalizationComment(this.lvClasses, null);
-			this.locExtender.SetLocalizationPriority(this.lvClasses, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.lvClasses, "DefineClassDlg.lvClasses");
-			this.lvClasses.Location = new System.Drawing.Point(14, 17);
-			this.lvClasses.MultiSelect = false;
-			this.lvClasses.Name = "lvClasses";
-			this.lvClasses.OwnerDraw = true;
-			this.lvClasses.ShowMembersAndTypeColumns = true;
-			this.lvClasses.Size = new System.Drawing.Size(425, 74);
-			this.lvClasses.TabIndex = 0;
-			this.lvClasses.UseCompatibleStateImageBehavior = false;
-			this.lvClasses.View = System.Windows.Forms.View.Details;
-			this.lvClasses.Visible = false;
-			this.lvClasses.DoubleClick += new System.EventHandler(this.lvClasses_DoubleClick);
-			this.lvClasses.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.lvClasses_KeyPress);
 			// 
 			// charExplorer
 			// 
@@ -565,7 +308,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidExportAsToolTip;
+			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// DefineClassDlg
@@ -608,7 +351,6 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.RadioButton rbMatchAll;
 		private System.Windows.Forms.RadioButton rbMatchAny;
 		private System.Windows.Forms.Label lblMembers;
-		private SIL.Pa.UI.Controls.ClassListView lvClasses;
 		private System.Windows.Forms.SplitContainer splitOuter;
 		private System.Windows.Forms.SplitContainer splitCV;
 		private System.Windows.Forms.SplitContainer splitPhoneViewers;

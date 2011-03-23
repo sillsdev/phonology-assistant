@@ -586,33 +586,6 @@ namespace SIL.Pa.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;Consonants.
-        /// </summary>
-        internal static string kstidDefClassPhoneHdrCon {
-            get {
-                return ResourceManager.GetString("kstidDefClassPhoneHdrCon", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &amp;Other Phones.
-        /// </summary>
-        internal static string kstidDefClassPhoneHdrOther {
-            get {
-                return ResourceManager.GetString("kstidDefClassPhoneHdrOther", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &amp;Vowels.
-        /// </summary>
-        internal static string kstidDefClassPhoneHdrVow {
-            get {
-                return ResourceManager.GetString("kstidDefClassPhoneHdrVow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Dock.
         /// </summary>
         internal static string kstidDockToolTip {

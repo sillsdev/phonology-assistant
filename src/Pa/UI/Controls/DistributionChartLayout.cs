@@ -102,7 +102,7 @@ namespace SIL.Pa.UI.Controls
 			get
 			{
 				return (string.IsNullOrEmpty(Name) ?
-					App.GetString("DistributionCharLayout.EmptyName", "(none)", "Views") : Name);
+					App.GetString("DistributionChartLayout.EmptyName", "(none)", "Views") : Name);
 			}
 		}
 

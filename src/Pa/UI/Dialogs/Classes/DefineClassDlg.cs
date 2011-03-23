@@ -13,12 +13,9 @@ using Utils=SilTools.Utils;
 namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class DefineClassDlg : OKCancelDlgBase
 	{
+		private readonly ClassListView lvClasses;
 		private bool m_splitterSettingsLoaded;
 		private PhonesInFeatureViewer m_conViewer;
 		private PhonesInFeatureViewer m_vowViewer;
@@ -28,15 +25,20 @@ namespace SIL.Pa.UI.Dialogs
 		private readonly ClassListViewItem m_origClassInfo;
 		private readonly FeatureListView m_lvArticulatoryFeatures;
 		private readonly FeatureListView m_lvBinaryFeatures;
-		private readonly Dictionary<SearchClassType, Control> m_ctrls =
-			new Dictionary<SearchClassType, Control>();
+		private readonly Dictionary<SearchClassType, Control> m_ctrls = new Dictionary<SearchClassType, Control>();
 
 		#region Construction and setup
 		/// ------------------------------------------------------------------------------------
 		private DefineClassDlg()
 		{
 			Utils.WaitCursors(true);
+			lvClasses = new ClassListView();
+			lvClasses.KeyPress += HandleClassesListViewKeyPress;
+			lvClasses.DoubleClick += HandleClassesListViewDoubleClick;
+
 			InitializeComponent();
+
+			pnlMemberPickingContainer.Controls.Add(lvClasses);
 
 			lblClassType.Font = FontHelper.UIFont;
 			lblClassTypeValue.Font = FontHelper.UIFont;
@@ -61,8 +63,6 @@ namespace SIL.Pa.UI.Dialogs
 
 			splitOuter.Dock = DockStyle.Fill;
 
-			SetupPhoneViewers();
-
 			LocalizeItemDlg.StringsLocalized += SetClassTypeTexts;
 		}
 
@@ -70,6 +70,7 @@ namespace SIL.Pa.UI.Dialogs
 		private DefineClassDlg(ClassesDlg classDlg) : this()
 		{
 			m_classesDlg = classDlg;
+			SetupPhoneViewers();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -166,7 +167,7 @@ namespace SIL.Pa.UI.Dialogs
 			
 			splitOuter.SuspendLayout();
 
-			foreach (Control ctrl in m_ctrls.Values)
+			foreach (var ctrl in m_ctrls.Values)
 				ctrl.Visible = false;
 
 			m_ctrls[m_classInfo.ClassType].Visible = true;
@@ -199,33 +200,23 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void IinitializeCharExplorer()
 		{
-			List<IPASymbolTypeInfo> typesToShow = new List<IPASymbolTypeInfo>();
-			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Consonant,
-				IPASymbolSubType.Pulmonic));
-			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Consonant,
-				IPASymbolSubType.NonPulmonic));
-			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Consonant,
-				IPASymbolSubType.OtherSymbols));
+			var typesToShow = new List<IPASymbolTypeInfo>();
+			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Consonant, IPASymbolSubType.Pulmonic));
+			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Consonant, IPASymbolSubType.NonPulmonic));
+			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Consonant, IPASymbolSubType.OtherSymbols));
 			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Vowel));
 			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Diacritics));
-			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Suprasegmentals,
-				IPASymbolSubType.StressAndLength));
-			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Suprasegmentals,
-				IPASymbolSubType.ToneAndAccents));
-
+			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Suprasegmentals, IPASymbolSubType.StressAndLength));
+			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Suprasegmentals, IPASymbolSubType.ToneAndAccents));
 			charExplorer.TypesToShow = typesToShow;
 			charExplorer.Dock = DockStyle.Fill;
 			charExplorer.Load();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private FeatureListView InitializeFeatureList(App.FeatureType featureType)
 		{
-			FeatureListView flv = new FeatureListView(featureType);
+			var flv = new FeatureListView(featureType);
 			flv.Load();
 			flv.Dock = DockStyle.Fill;
 			flv.Visible = true;
@@ -237,10 +228,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void SetupPhoneViewers()
 		{
 			m_conViewer = new PhonesInFeatureViewer(m_classesDlg.Project, IPASymbolType.Consonant,
@@ -249,7 +236,7 @@ namespace SIL.Pa.UI.Dialogs
 				showAll => Settings.Default.DefineClassDlgShowAllConsonantsInViewer = showAll,
 				compactVw => Settings.Default.DefineClassDlgUseCompactConsonantView = compactVw);
 			
-			m_conViewer.HeaderText = Properties.Resources.kstidDefClassPhoneHdrCon;
+			m_conViewer.HeaderText = App.GetString("DefineClassDlg.ConsonantViewerHeaderText", "&Consonants");
 			m_conViewer.Dock = DockStyle.Fill;
 			splitCV.Panel1.Controls.Add(m_conViewer);
 			m_conViewer.BringToFront();
@@ -260,7 +247,7 @@ namespace SIL.Pa.UI.Dialogs
 				showAll => Settings.Default.DefineClassDlgShowAllVowelsInViewer = showAll,
 				compactVw => Settings.Default.DefineClassDlgUseCompactVowelView = compactVw);
 
-			m_vowViewer.HeaderText = Properties.Resources.kstidDefClassPhoneHdrVow;
+			m_vowViewer.HeaderText = App.GetString("DefineClassDlg.VowelViewerHeaderText", "&Vowels");
 			m_vowViewer.Dock = DockStyle.Fill;
 			splitCV.Panel2.Controls.Add(m_vowViewer);
 			m_vowViewer.BringToFront();
@@ -271,7 +258,7 @@ namespace SIL.Pa.UI.Dialogs
 				showAll => Settings.Default.DefineClassDlgShowAllOthersInViewer = showAll,
 				compactVw => Settings.Default.DefineClassDlgUseCompactOtherView = compactVw);
 
-			m_otherPhonesViewer.HeaderText = Properties.Resources.kstidDefClassPhoneHdrOther;
+			m_otherPhonesViewer.HeaderText = App.GetString("DefineClassDlg.OtherPhonesViewerHeaderText", "&Other Phones");
 			m_otherPhonesViewer.CanViewExpandAndCompact = false;
 			m_otherPhonesViewer.Dock = DockStyle.Fill;
 			splitPhoneViewers.Panel2.Controls.Add(m_otherPhonesViewer);
@@ -354,10 +341,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override bool IsDirty
 		{
 			get	
@@ -371,10 +354,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
 			charExplorer.SaveSettings(Name);
@@ -386,10 +365,6 @@ namespace SIL.Pa.UI.Dialogs
 			base.SaveSettings();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
@@ -470,23 +445,13 @@ namespace SIL.Pa.UI.Dialogs
 
 		#region Event handlers
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void HandleHelpClick(object sender, EventArgs e)
 		{
 			switch (m_classInfo.ClassType)
 			{
-				case SearchClassType.Phones:
-					App.ShowHelpTopic("hidPhoneticCharacterClassDlg");
-					break;
-				case SearchClassType.Articulatory:
-					App.ShowHelpTopic("hidArticulatoryFeatureClassDlg");
-					break;
-				case SearchClassType.Binary:
-					App.ShowHelpTopic("hidBinaryFeatureClassDlg");
-					break;
+				case SearchClassType.Phones: App.ShowHelpTopic("hidPhoneticCharacterClassDlg"); break;
+				case SearchClassType.Articulatory: App.ShowHelpTopic("hidArticulatoryFeatureClassDlg"); break;
+				case SearchClassType.Binary: App.ShowHelpTopic("hidBinaryFeatureClassDlg"); break;
 			}
 		}
 		
@@ -512,13 +477,9 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void InsertText(string itemText)
 		{
-			IPASymbol charInfo = App.IPASymbolCache[itemText];
+			var charInfo = App.IPASymbolCache[itemText];
 			bool isBase = (charInfo == null || charInfo.IsBase);
 
 			int selStart = txtMembers.SelectionStart;
@@ -560,7 +521,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// as a member of the class being defined.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void lvClasses_DoubleClick(object sender, EventArgs e)
+		private void HandleClassesListViewDoubleClick(object sender, EventArgs e)
 		{
 			if (lvClasses.SelectedItems.Count == 0)
 				return;
@@ -579,10 +540,10 @@ namespace SIL.Pa.UI.Dialogs
 		/// as a member of the class being defined.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void lvClasses_KeyPress(object sender, KeyPressEventArgs e)
+		private void HandleClassesListViewKeyPress(object sender, KeyPressEventArgs e)
 		{
 			if (e.KeyChar == (char)Keys.Enter)
-				lvClasses_DoubleClick(null, null);
+				HandleClassesListViewDoubleClick(null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
