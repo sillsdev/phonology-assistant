@@ -58,9 +58,15 @@ namespace SIL.Pa.UI.Dialogs
 			m_gridExpressions.Font = FontHelper.UIFont;
 			m_gridFilters.Font = FontHelper.UIFont;
 			hlblExpressions.Font = FontHelper.UIFont;
-			lblExpressionMatchMsgPart1.Font = FontHelper.UIFont;
-			lblExpressionMatchMsgPart2.Font = FontHelper.UIFont;
-			cboExpressionMatch.Font = FontHelper.UIFont;
+			lblExpressionMatchMsgPart.Font = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
+			rbAllExpressions.Font = FontHelper.UIFont;
+			rbAnyExpression.Font = FontHelper.UIFont;
+
+			lblExpressionMatchMsgPart.Tag = lblExpressionMatchMsgPart.Text;
+
+			pnlExpressionMatch.BorderStyle = BorderStyle.None;
+			pnlExpressionMatch.DrawOnlyTopBorder = true;
+			pnlExpressionMatch.DrawOnlyBottomBorder = false;
 
 			// Get rid of these three lines when there is a help topic for this dialog box.
 			btnHelp.Visible = false;
@@ -80,13 +86,6 @@ namespace SIL.Pa.UI.Dialogs
 			//pnlExpressionMatch.ColorBottom = Settings.Default.GradientPanelBottomColor;
 			//lblExpressionMatchMsgPart1.ForeColor = Settings.Default.GradientPanelTextColor;
 			//lblExpressionMatchMsgPart2.ForeColor = Settings.Default.GradientPanelTextColor;
-
-			cboExpressionMatch.Items.Add(App.GetString("FiltersDlg.FilterExpressionMatchTypes.Any", "any"));
-			cboExpressionMatch.Items.Add(App.GetString("FiltersDlg.FilterExpressionMatchTypes.All", "all"));
-			lblExpressionMatchMsgPart1.Tag = lblExpressionMatchMsgPart1.Text;
-
-			pnlExpressionMatch.BorderStyle = BorderStyle.None;
-			pnlExpressionMatch.DrawOnlyBottomBorder = true;
 
 			m_filterDropDown = new ExpressionValueDropDownListBox(m_project);
 			BuildFiltersGrid();
@@ -215,17 +214,7 @@ namespace SIL.Pa.UI.Dialogs
 			}
 			catch { }
 
-			// Size the expression match combo. to the width of its longest item.
-			using (var g = CreateGraphics())
-			{
-				var font = cboExpressionMatch.Font;
-
-				int width = cboExpressionMatch.Items.OfType<string>()
-					.Aggregate(0, (sum, text) => Math.Max(sum, TextRenderer.MeasureText(g, text, font).Width));
-
-				cboExpressionMatch.Width = width + SystemInformation.VerticalScrollBarWidth;
-			}
-
+			hlblExpressions.Height = m_gridFilters.ColumnHeadersHeight;
 			m_gridFilters.Focus();
 		}
 
@@ -383,8 +372,11 @@ namespace SIL.Pa.UI.Dialogs
 			m_gridExpressions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
 			App.SetGridSelectionColors(m_gridExpressions, true);
 
-			var fieldNames = m_project.Fields.Select(f => f.DisplayName).OrderBy(n => n).ToList();
-		
+			var fieldNames = (from field in m_project.GetMappedFields()
+							  where !field.IsHidden
+							  orderby field.DisplayName
+							  select field.DisplayName).ToList();
+
 			// Add the "field" that represents another filter, rather than a field in the data.
 			fieldNames.Add(FilterExpression.OtherFilterField);
 
@@ -394,8 +386,7 @@ namespace SIL.Pa.UI.Dialogs
 			((DataGridViewComboBoxColumn)col).MaxDropDownItems = 15;
 			m_gridExpressions.Columns.Add(col);
 			App.GetStringForObject(m_gridExpressions.Columns["expField"],
-				"FiltersDlg.ExpressionsGridFieldColumnHeadingText",
-				"Field");
+				"FiltersDlg.ExpressionsGridFieldColumnHeadingText", "Field");
 
 			col = SilGrid.CreateDropDownListComboBoxColumn("expOperator", new List<string>(m_operatorToText.Values));
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -403,8 +394,7 @@ namespace SIL.Pa.UI.Dialogs
 			((DataGridViewComboBoxColumn)col).MaxDropDownItems = 15;
 			m_gridExpressions.Columns.Add(col);
 			App.GetStringForObject(m_gridExpressions.Columns["expOperator"],
-				"FiltersDlg.ExpressionsGridOperatorColumnHeadingText",
-				"Operator");
+				"FiltersDlg.ExpressionsGridOperatorColumnHeadingText", "Operator");
 
 			col = new SilButtonColumn("expValue");
 			((SilButtonColumn)col).ButtonStyle = SilButtonColumn.ButtonType.MinimalistCombo;
@@ -414,8 +404,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.DefaultCellStyle.Font = App.PhoneticFont;
 			m_gridExpressions.Columns.Add(col);
 			App.GetStringForObject(m_gridExpressions.Columns["expValue"],
-				"FiltersDlg.ExpressionsGridValueColumnHeadingText",
-				"Value");
+				"FiltersDlg.ExpressionsGridValueColumnHeadingText", "Value");
 
 			col = SilGrid.CreateDropDownListComboBoxColumn("expType", new List<string>(m_expTypeToText.Values));
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -423,8 +412,7 @@ namespace SIL.Pa.UI.Dialogs
 			((DataGridViewComboBoxColumn)col).MaxDropDownItems = 15;
 			m_gridExpressions.Columns.Add(col);
 			App.GetStringForObject(m_gridExpressions.Columns["expType"],
-				"FiltersDlg.ExpressionsGridTypeColumnHeadingText",
-				"Type");
+				"FiltersDlg.ExpressionsGridTypeColumnHeadingText", "Type");
 
 			col = SilGrid.CreateImageColumn("deleteExp");
 			col.HeaderText = string.Empty;
@@ -453,6 +441,7 @@ namespace SIL.Pa.UI.Dialogs
 			bool wasDirty = m_gridExpressions.IsDirty;
 			m_gridExpressions.RowValidated -= HandleExpressionsGridRowValidated;
 			m_gridExpressions.CurrentCellDirtyStateChanged -= HandleExpressionsGridCurrentCellDirtyStateChanged;
+			m_gridExpressions.CurrentRowChanged -= HandleExpressionsGridCurrentRowChanged;
 			m_gridExpressions.Rows.Clear();
 
 			if (filter != null && filter.Expressions.Count > 0)
@@ -474,6 +463,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			m_gridExpressions.RowValidated += HandleExpressionsGridRowValidated;
 			m_gridExpressions.CurrentCellDirtyStateChanged += HandleExpressionsGridCurrentCellDirtyStateChanged;
+			m_gridExpressions.CurrentRowChanged += HandleExpressionsGridCurrentRowChanged;
 			m_gridExpressions.IsDirty = wasDirty;
 		}
 
@@ -533,10 +523,27 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			if (e.ColumnIndex == kFilterNameCol)
 			{
-				var currFilter = CurrentFilter;
+				Tag = CurrentFilter;
 				m_filterList.Sort((x, y) => x.Name.CompareTo(y.Name));
-				LoadFilters(currFilter);
+				m_gridFilters.Refresh();
+
+				// This seems like a kludge, but if the user presses enter to end edit,
+				// the normal grid behavior is to move to the next row. We don't want
+				// that. We want the row just edited remain the current row. But to
+				// accomplish that takes a hideous amount of code in a derived grid
+				// class. I'm not up for that now, so I settle for this kludge.
+				Application.Idle += ReloadFiltersOnIdle;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void ReloadFiltersOnIdle(object sender, EventArgs e)
+		{
+			Application.Idle -= ReloadFiltersOnIdle;
+
+			var index = m_filterList.IndexOf(Tag as Filter);
+			if (index >= 0)
+				m_gridFilters.CurrentCell = m_gridFilters[kFilterNameCol, index];
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -562,6 +569,12 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleFilterGridKeyDown(object sender, KeyEventArgs e)
 		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				e.Handled = true;
+				return;
+			}
+
 			if (!m_gridFilters.IsCurrentCellInEditMode)
 			{
 				if (e.KeyCode == Keys.Delete)
@@ -838,10 +851,10 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleExpressionMatchComboIndexChanged(object sender, EventArgs e)
+		private void HandleExpressionMatchTypeCheckedChanged(object sender, EventArgs e)
 		{
 			if (CurrentFilter != null)
-				CurrentFilter.MatchAny = (cboExpressionMatch.SelectedIndex == 0);
+				CurrentFilter.MatchAny = rbAnyExpression.Checked;
 
 			UpdateView(false);
 		}
@@ -971,14 +984,18 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (nameToCopy != null)
 			{
-				fmt = Properties.Resources.kstidCopiedFilterNamePrefix;
+				fmt = App.GetString("FiltersDlg.CopiedFilterNamePrefixFormat", "Copy of {0}",
+					"The parameter is the name of the filter to copy in the define filterrs dialog.");
+
 				while (FilterNameExists(nameToCopy))
 					nameToCopy = string.Format(fmt, nameToCopy);
 
 				return nameToCopy;
 			}
 
-			fmt = Properties.Resources.kstidNewFilterName;
+			fmt = App.GetString("FiltersDlg.NewFilterNameFormat", "New Filter {0}",
+				"The parameter is a number. Used as default filter name when adding filters in the define filters dialog.");
+			
 			string newName = string.Format(fmt, string.Empty).Trim();
 			int i = 1;
 			while (FilterNameExists(newName))
@@ -994,13 +1011,7 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void UpdateView()
-		{
-			UpdateView(true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void UpdateView(bool updateExpressionMatchCombo)
+		private void UpdateView(bool updateExpressionMatchRadioButtons = true)
 		{
 			Utils.SetWindowRedraw(this, false);
 
@@ -1010,20 +1021,23 @@ namespace SIL.Pa.UI.Dialogs
 			btnCopy.Enabled = (filter != null);
 			btnApplyNow.Enabled = (filter != null);
 
-			flowLayoutPanel.Visible = (filter != null);
+			pnlExpressionMatch.Enabled = (filter != null);
 
 			if (filter != null)
 			{
-				if (updateExpressionMatchCombo)
+				if (updateExpressionMatchRadioButtons)
 				{
-					cboExpressionMatch.SelectedIndexChanged -= HandleExpressionMatchComboIndexChanged;
-					cboExpressionMatch.SelectedIndex = (filter.MatchAny ? 0 : 1);
-					cboExpressionMatch.SelectedIndexChanged += HandleExpressionMatchComboIndexChanged;
+					rbAllExpressions.CheckedChanged -= HandleExpressionMatchTypeCheckedChanged;
+					rbAnyExpression.CheckedChanged -= HandleExpressionMatchTypeCheckedChanged;
+					rbAllExpressions.Checked = !filter.MatchAny;
+					rbAnyExpression.Checked = filter.MatchAny;
+					rbAllExpressions.CheckedChanged += HandleExpressionMatchTypeCheckedChanged;
+					rbAnyExpression.CheckedChanged += HandleExpressionMatchTypeCheckedChanged;
 				}
-
-				var text = lblExpressionMatchMsgPart1.Tag as string;
-				lblExpressionMatchMsgPart1.Text = string.Format(text, filter.Name);
 			}
+
+			var text = lblExpressionMatchMsgPart.Tag as string;
+			lblExpressionMatchMsgPart.Text = string.Format(text, (filter == null ? string.Empty : filter.Name));
 
 			Utils.SetWindowRedraw(this, true);
 		}
@@ -1050,11 +1064,13 @@ namespace SIL.Pa.UI.Dialogs
 	internal class ExpressionValueDropDownListBox : CellCustomDropDownList
 	{
 		private readonly PaProject m_project;
+		private readonly List<PaField> m_fields;
 
 		/// ------------------------------------------------------------------------------------
 		internal ExpressionValueDropDownListBox(PaProject project)
 		{
 			m_project = project;
+			m_fields = m_project.Fields.ToList();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1068,7 +1084,7 @@ namespace SIL.Pa.UI.Dialogs
 		internal void ShowFieldValues(DataGridViewCell cell, string fieldName)
 		{
 			var field = (m_project.GetFieldForName(fieldName) ??
-				m_project.Fields.SingleOrDefault(f => f.DisplayName == fieldName));
+				m_fields.SingleOrDefault(f => f.DisplayName == fieldName));
 
 			if (field == null)
 				return;

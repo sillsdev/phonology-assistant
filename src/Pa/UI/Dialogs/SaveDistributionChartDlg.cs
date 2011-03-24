@@ -63,18 +63,19 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (string.IsNullOrEmpty(text))
 			{
-				string msg = Properties.Resources.kstidNoSavedChartNameMsg;
-				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(App.GetString("NoSavedChartNameMsg", "You must specify a name for your XY chart."));
 				txtName.SelectAll();
 				txtName.Focus();
 				return false;
 			}
 
-			DistributionChartLayout existingLayout = GetExistingLayoutByName(m_xyGrid.ChartLayout, text);
+			var existingLayout = GetExistingLayoutByName(m_xyGrid.ChartLayout, text);
 			if (existingLayout != null)
 			{
-				string msg = Properties.Resources.kstidSavedChartNameAlreadyExistsOverwriteMsg;
+				var msg = App.GetString("SaveDistributionChartDlg.OverwriteSavedChartNameMsg",
+					"There is already a saved chart with the name '{0}'.\nDo you want it overwritten?");
 				msg = string.Format(msg, text);
+				
 				if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
 					m_layoutToOverwrite = existingLayout;
 				else
@@ -104,7 +105,7 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				// Check if chart name already exists. If it does,
 				// tell the user and don't cancel the current edit.
-				foreach (DistributionChartLayout savedChart in m_savedCharts)
+				foreach (var savedChart in m_savedCharts)
 				{
 					if (savedChart != chartToSkip && savedChart.Name == nameToCheck)
 						return savedChart;

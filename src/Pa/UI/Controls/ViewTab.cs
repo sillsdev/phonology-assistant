@@ -222,9 +222,10 @@ namespace SIL.Pa.UI.Controls
 				m_viewsForm.Icon = Icon.FromHandle(((Bitmap)m_image).GetHicon());
 			
 			// Strip out accelerator key prefixes but keep ampersands that should be kept.
-			string caption = Utils.RemoveAcceleratorPrefix(Text);
-			m_viewsForm.Text = string.Format(Properties.Resources.kstidUndockedViewCaption,
-				App.Project.Name, caption, Application.ProductName);
+			var caption = Utils.RemoveAcceleratorPrefix(Text);
+			var fmt = App.GetString("UndockedViewCaptionFormat", "{0} ({1}) - {2}",
+				"Parameter one is the project name; parameter 2 is the view name; parameter 3 is the application name.");
+			m_viewsForm.Text = string.Format(fmt, App.Project.Name, caption, Application.ProductName);
 			
 			Visible = false;
 

@@ -111,7 +111,10 @@ namespace SIL.Pa.UI.Controls
 			{
 
 				if (string.IsNullOrEmpty(value))
-					Text = Properties.Resources.kstidEmtpyRawRecView;
+				{
+					Text = App.GetString("RtfRecordView.EmtpyView", "(no data)",
+						"What's displayed in the record view when there is no data.");
+				}
 				else
 					base.Rtf = value;
 			}

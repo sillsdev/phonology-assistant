@@ -30,7 +30,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			AdjustLabelLocations();
 
-			foreach (SearchQueryGroup group in App.Project.SearchQueryGroups)
+			foreach (var group in App.Project.SearchQueryGroups)
 				cboCategories.Items.Add(group.Name);
 		}
 
@@ -53,7 +53,7 @@ namespace SIL.Pa.UI.Dialogs
 				// saved pattern's tree view control. When that happens queries belonging
 				// to that category that are already loaded into search result views
 				// no longer have the correct category name but their Id is still good.
-				SearchQueryGroup group = App.Project.SearchQueryGroups.GetGroupFromQueryId(m_query.Id);
+				var group = App.Project.SearchQueryGroups.GetGroupFromQueryId(m_query.Id);
 				cboCategories.Text = (group != null ? group.Name : m_query.Category);
 			}
 			else
@@ -92,10 +92,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
 			string name = txtName.Text.Trim();
@@ -107,25 +103,19 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override bool Verify()
 		{
-			string queryName = txtName.Text.Trim();
-			if (string.IsNullOrEmpty(queryName))
+			if (txtName.Text.Trim() == string.Empty)
 			{
-				Utils.MsgBox(Properties.Resources.kstidNoSavedPatternNameMsg);
+				Utils.MsgBox(App.GetString("SaveSearchQueryDlg.NoSavedPatternNameMsg", "You must specify a name for your saved pattern."));
 				txtName.SelectAll();
 				txtName.Focus();
 				return false;
 			}
-
-			string categoryName = cboCategories.Text.Trim();
-			if (string.IsNullOrEmpty(categoryName))
+			
+			if (cboCategories.Text.Trim() == string.Empty)
 			{
-				Utils.MsgBox(Properties.Resources.kstidNoSavedPatternCategoryMsg);
+				Utils.MsgBox(App.GetString("SaveSearchQueryDlg.NoSavedPatternCategoryMsg", "You must specify a category for your saved pattern."));
 				cboCategories.SelectAll();
 				cboCategories.Focus();
 				return false;
@@ -143,8 +133,8 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			base.OnPaint(e);
 
-			Point pt1 = new Point(tblLayoutButtons.Left, tblLayoutButtons.Top - 2);
-			Point pt2 = new Point(tblLayoutButtons.Right - 1, tblLayoutButtons.Top - 2);
+			var pt1 = new Point(tblLayoutButtons.Left, tblLayoutButtons.Top - 2);
+			var pt2 = new Point(tblLayoutButtons.Right - 1, tblLayoutButtons.Top - 2);
 
 			using (Pen pen = new Pen(SystemColors.ControlDark))
 			{
@@ -156,10 +146,6 @@ namespace SIL.Pa.UI.Dialogs
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandleTextChanged(object sender, EventArgs e)
 		{

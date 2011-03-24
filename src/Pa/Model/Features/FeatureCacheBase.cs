@@ -168,8 +168,10 @@ namespace SIL.Pa.Model
 
 			if (showMsgWhenExists)
 			{
-				Utils.MsgBox(string.Format(Properties.Resources.kstidFeatureExistsMsg, featureName),
-					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				var msg = App.GetString("FeatureExistsMsg", "Feature '{0}' already exists.",
+					"Message displayed when user is trying to add a new feature that already exists.");
+				
+				Utils.MsgBox(string.Format(msg, featureName));
 			}
 
 			return true;

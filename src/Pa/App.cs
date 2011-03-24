@@ -1056,7 +1056,7 @@ namespace SIL.Pa
 			{
 				L10NMngr.LocalizeObject(item, id, itemProps.Text, itemProps.Tooltip,
 					ShortcutKeysEditor.KeysToString(itemProps.ShortcutKey),
-					"Menu or Toolbar item", "Menus and Toolbars");
+					"Menu or Toolbar item", "UI.Menus and Toolbars");
 			}
 		}
 
@@ -1783,7 +1783,9 @@ namespace SIL.Pa
 						modifiedQuery.Pattern = modifiedQuery.Pattern.Replace(className, srchClass.Pattern);
 					else
 					{
-						errorMsg = Properties.Resources.kstidMissingClassMsg;
+						errorMsg = GetString("ClassMissingMsg", "The class '{0}' is not in this project. It may have been deleted.",
+							"Message displayed when a search pattern contains a class that doesn't exist in the project.");
+						
 						errorMsg = string.Format(errorMsg, className);
 						modifiedQuery.ErrorMessages.Add(errorMsg);
 						query.ErrorMessages.Add(errorMsg);
@@ -1861,10 +1863,8 @@ namespace SIL.Pa
 				Help.ShowHelp(new Label(), HelpFilePath, HelpTopicPaths.ResourceManager.GetString(hid));
 			else
 			{
-				string msg = string.Format(Properties.Resources.kstidHelpFileMissingMsg,
-					Utils.PrepFilePathForMsgBox(s_helpFilePath));
-
-				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				var msg = GetString("HelpFileMissingMsg", "The help file '{0}' cannot be found.");
+				Utils.MsgBox(string.Format(msg, Utils.PrepFilePathForMsgBox(s_helpFilePath)));
 			}
 		}
 

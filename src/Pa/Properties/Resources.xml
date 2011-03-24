@@ -1,0 +1,398 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+App.GetString("CharHdg",
+  "Character"
+    , "Heading for column in undefined phonetic chars. dialog"
+  );
+App.GetString("TooManyZeroOrMoreErr",
+  "Too many zero-or-more symbols (*) found in the {0}. Only one is allowed."
+  );
+App.GetString("RtfGridHdrProjectName",
+  "Project:{0}{1}"
+    , "The heading output for Project name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the project name."
+  );
+App.GetString("UnAppliedPhoneInventoryChangesMsg",
+  "There are unapplied changes in Phone Inventory view. Would you like to save the changes?"
+    , "Message displayed when PA is shutting down and there have been unsaved changes made on the phone inventory tab's view."
+  );
+App.GetString("ExpSilHierarchicalGridRowKey",
+  "9999"
+  );
+App.GetString("MyNetworkPlaces",
+  "Network places in your area"
+    , "Used in the dialog for choosing an FW database"
+  );
+App.GetString("NoSavedPatternNameMsg",
+  "You must specify a name for your saved pattern."
+  );
+App.GetString("RemoveFeatureMsg",
+  "Are you sure you want to remove the feature '{0}'?"
+    , "Question asked when the user clicks on the remove button on the Define Articulatory Features dialog box."
+  );
+App.GetString("SearchingForCIEResultsMsg",
+  "Finding Minimal Pairs..."
+  );
+App.GetString("RestoreDefaultFeatureMsg",
+  "Are you sure you want to restore the default feature names and default character features definitions? This operation cannot be undone."
+    , "This message is displayed when the user chooses to restore the default articulatory or binary features."
+  );
+App.GetString("MappingsButtonToolTip",
+  "Specify field mappings"
+    , "Tooltip for the button in the data source column in the project settings dialog"
+  );
+App.GetString("FindDoneSearching",
+  "Find has finished searching."
+    , "Popup message when all records have been searched with the FindDlg"
+  );
+App.GetString("ShortNameFileMissingMsg",
+  "FieldWorks Project: {0}\nServer: {1}\n\nThe version of this FieldWorks project indicates it is too\nrecent to be read by Phonology Assistant. You must\ndownload the file '{2}' from\nthe Phonology Assistant website and copy it to the\nfollowing folder:\n\n{3}\n\nWhen '{4}' is present in that folder,\nyour FieldWorks project can be read by Phonology Assistant.\n\nThe Phonology Assistant website can be found at:\nhttp://www.sil.org/computing/pa/index.htm"
+  );
+App.GetString("LoadingOptionsProgressBarText",
+  "Loading Options..."
+    , "Progress bar text when options dialog is being loaded."
+  );
+App.GetString("PatternContainsSpacesErr",
+  "There were spaces found in the {0}. Use '#' instead."
+  );
+App.GetString("ToolboxNotRunningMsg",
+  "For this feature to work, you must have Toolbox running with the following database opened:\n\n {0}\n\nSee the help file for more information."
+  );
+App.GetString("RtfGridHdrLanguageName",
+  "Language:{0}{1}"
+    , "The heading output for Language name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the language name."
+  );
+App.GetString("UndefPhoneticCharsGridGroupHdgFmt",
+  "{0} - (U+{1:X4})"
+    , "Format string for buiding the group heading text for the grid in the undefined phonetic characters dialog. The first parameter is the character and the second is the unicode value."
+  );
+App.GetString("RtfGridHdrGroupField",
+  "Grouped By:{0}{1}"
+    , "The heading output for the grouped on field when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern."
+  );
+App.GetString("FeatureExistsMsg",
+  "Feature '{0}' already exists."
+    , "Message displayed when user is trying to add a new feature that already exists."
+  );
+App.GetString("MissingRTFEditorMsg",
+  "You must first specify an RTF editor."
+  );
+App.GetString("UndefPhoneticCharsGridGroupHdgCountFmtShort",
+  "({0})"
+    , "Format string for buiding the group heading text for the grid in the undefined phonetic characters dialog. The first parameter is the character and the second is the unicode value."
+  );
+App.GetString("CopiedFilterNamePrefix",
+  "Copy of {0}"
+    , "The parameter is the name of the filter to copy in the define filterrs dialog."
+  );
+App.GetString("RtfGridHdrDateTimeName",
+  "Date/Time:{0}{1}"
+    , "The heading output for Date/Time name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the Date/Time name."
+  );
+App.GetString("ImplosivesHeading",
+  "Implosives"
+  );
+App.GetString("UndefPhoneticChartsGridCodePointColFmt",
+  "U+{0:X4}"
+    , "Format for displaying a character's codepoint value in the undefined phonetic characters dialog"
+  );
+App.GetString("TooManyDiacriticPlaceholdersErr",
+  "There are too many diacritic placeholders between a single set of brackets in the {0}."
+  );
+App.GetString("UndefPhoneticCharsGridGroupHdgCountFmtLong",
+  "({0} occurrences)"
+    , "Format string for buiding the group heading text for the grid in the undefined phonetic characters dialog. The first parameter is the character and the second is the unicode value."
+  );
+App.GetString("SearchItem",
+  "search item"
+  );
+App.GetString("UndockedViewCaption",
+  "{0} ({1}) - {2}"
+    , "Parameter one is the project name; parameter 2 is the view name; parameter 3 is the application name."
+  );
+App.GetString("EnvironmentBefore",
+  "preceding environment"
+  );
+App.GetString("WordListCellValueError",
+  "Error getting data!"
+    , "Displayed in a word list cell when there was an error retrieving data for the cell. This should never be used, but just in case..."
+  );
+App.GetString("WordListStatusBarText",
+  "Record {0} of {1}"
+  );
+App.GetString("XSLTColButtonText",
+  "..."
+    , "Text on the button in the XSLT column in the project settings dialog"
+  );
+App.GetString("CountHdg",
+  "Count"
+    , "Heading for column in undefined phonetic chars. dialog"
+  );
+App.GetString("UndefPhoneticCharsGridGroupHdgCountFmtMed",
+  "({0} occur.)"
+    , "Format string for buiding the group heading text for the grid in the undefined phonetic characters dialog. The first parameter is the character and the second is the unicode value."
+  );
+App.GetString("SavedChartNameAlreadyExistsOverwriteMsg",
+  "There is already a saved chart with the name "{0}".\nDo you want it overwritten?"
+  );
+App.GetString("FwPropsButtonToolTip",
+  "Specify Properties"
+    , "Tooltip for the button in the data source column in the project settings dialog"
+  );
+App.GetString("TooManyOneOrMoreErr",
+  "Too many one-or-more symbols (+) found in the {0}. Only one is allowed."
+  );
+App.GetString("MismatchedBracketsErr",
+  "Mismatched brackets found in the {0}."
+  );
+App.GetString("ZeroOrMoreEndingErr",
+  "When the zero-or-more symbol (*) is present in the following environment, it must be at the end."
+  );
+App.GetString("RtfGridHdrWordListName",
+  "Word List:{0}{1}"
+    , "The heading output for Word List name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the Word List name."
+  );
+App.GetString("DataSourceHdg",
+  "Data Source"
+    , "Heading for column in the undefined phonetic characters dialog"
+  );
+App.GetString("DataSourceOpenFileCaption",
+  "Choose Data Source File(s)"
+    , "Open file dialog caption when choosing data source files"
+  );
+App.GetString("DataSourcePropertiesButtonText",
+  "..."
+    , "Text on the button in the data source column in the project settings dialog"
+  );
+App.GetString("RtfGridHdrNbrOfRecords",
+  "Number of Records:{0}{1}"
+    , "The heading output for Number of Records when exporting word lists &amp; find phone results to rtf. 1st param is a rtf tab; 2nd param is the number or records."
+  );
+App.GetString("OneOrMoreBeginningErr",
+  "When the one-or-more symbol (+) is present in the preceding environment, it must be  at the beginning."
+  );
+App.GetString("DropDownNoneEntry",
+  "(none)"
+    , "Used for combo box drop-down lists from which no value may be chosen"
+  );
+App.GetString("EmptySearchPatternToolTip",
+  "Double-click, press enter on, or drag{0}to insert a class or IPA characters{1}to the current search pattern"
+    , "Tooltip text for empty search patterns in Find Phone window. The parameters are where there will be line breaks. If the localized version does not require line breaks, omit the parameters in the localization"
+  );
+App.GetString("IrregularDiacriticPlaceholderErr",
+  "Irregular diacritic placeholder syntax in {0}."
+  );
+App.GetString("MissingClassMsg",
+  "The class '{0}' is not in this project. It may have been deleted."
+    , "Message displayed when a search pattern contains a class that doesn't exist in the project."
+  );
+App.GetString("RtfGridHdrSearchPatternForMinPairs",
+  "Search Pattern:{0}{1}  (Minimal Pairs)"
+    , "The heading output for  the Search Query when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern."
+  );
+App.GetString("IngoreTieBarToolTip",
+  "Ignoring tie-bars is somewhat different from ignoring other\nsymbols since tie-bars are not phone modifiers. Normally\nthe searching process considers a tie-bar and whatever it\njoins to be a single phone. However, when ignoring tie-bars,\nthe single phone created by the tie-bar will be recognized\nas two, unique phones."
+    , "Tooltip used displayed when hovering over the ignore tie bars check box on the search view's options drop-down list."
+  );
+App.GetString("ZeroAndOneOrMoreFoundErr",
+  "The zero-or-more symbol (*) cannot be in the {0} with the one-or-more symbol (+)."
+  );
+App.GetString("InvalidToolboxSortField",
+  "The field '{0}' is invalid."
+  );
+App.GetString("CollapsingGroups",
+  "Collapsing groups..."
+  );
+App.GetString("FindDataNotFound",
+  "The following specified text was not found: "
+    , "Message shown when all data has been searched without one match."
+  );
+App.GetString("MachineHasNoProjectsMsg",
+  "{0} has no projects."
+    , "Message displayexd in the dialog for choosing an FW data source when the specified computer does not contain any FW projects."
+  );
+App.GetString("ZeroOneOrMoreFoundInSrchItemErr",
+  "The zero-or-more (*) and one-or-more (+) symbols are not allowed in the search item."
+  );
+App.GetString("PatternEmptyErr",
+  "The {0} is empty."
+  );
+App.GetString("GroupByNoneFieldName",
+  "None"
+    , "The item in the group by fields menu (and toolbar menu) indicating no field is being grouped on."
+  );
+App.GetString("SyntaxErr",
+  "Syntax error in {0}."
+  );
+App.GetString("ZeroOrMoreBeginningErr",
+  "When the zero-or-more symbol (*) is present in the preceding environment, it must be at the beginning."
+  );
+App.GetString("HideRecPaneToolTip",
+  "Hide record pane"
+  );
+App.GetString("WordListWindowCaption",
+  "{0} ({1} Records)"
+    , "word list window caption for non search results. Parameter 0 is langauge name, parameter 1 is for the number of records in the list"
+  );
+App.GetString("SetRTFEditorOFDlgFilter",
+  "All Executables (*.exe;*.com;*.pif;*.bat;*.cmd)|*.exe;*.com;*.pif;*.bat;*.cmd|All Files (*.*)|*.*"
+  );
+App.GetString("MismatchedBracketsOrBracesErr",
+  "Mismatched brackets or braces found in the {0}."
+  );
+App.GetString("NoMinimalPairsPopupMsg",
+  "No minimal pairs to display."
+    , "The user should never really see this message. :o)"
+  );
+App.GetString("DockToolTip",
+  "Dock"
+    , "Tooktip for the sliding panel dock button"
+  );
+App.GetString("MismatchedBracesErr",
+  "Mismatched braces found in the {0}."
+  );
+App.GetString("RTFExportCaptionSFD",
+  "Save RTF File"
+    , "Save file dialog caption for specifying the rtf file exported to under RTF export"
+  );
+App.GetString("EnvironmentAfter",
+  "following environment"
+  );
+App.GetString("SearchPatternTooltip",
+  "Enter search pattern in the form:\n[Search Item]/[Preceding Environment]__[Following Environment]"
+    , "Tooltip for search pattern text box in the find phone window."
+  );
+App.GetString("UndockViewToolTip",
+  "Undock view"
+  );
+App.GetString("EmtpyRawRecView",
+  "(no data)"
+    , "What's displayed in the record view when there is no data."
+  );
+App.GetString("NoSearchResultsFoundMsg",
+  "No Results Found."
+    , "Displayed in the search results area when no matches were found."
+  );
+App.GetString("RtfOpenError1",
+  "An error occurred trying to open the RTF file.\n\n{0}\n\n{1}"
+    , "First argument is rtf file; second argument is error message."
+  );
+App.GetString("ReferenceHdg",
+  "Reference"
+    , "Heading for column in undefined phonetic chars. dialog"
+  );
+App.GetString("PAFilesCaptionSFD",
+  "Save {0} Project File"
+    , "Caption for the save PA project dialog. The parameter is for the application name."
+  );
+App.GetString("XSLTColButtonToolTip",
+  "Specify XSLT"
+    , "Tooltip for the button in the XSLTe column in the project settings dialog"
+  );
+App.GetString("OneOrMoreEndingErr",
+  "When the one-or-more symbol (+) is present in the following environment, it must be  at the end."
+  );
+App.GetString("ErrorLoadingCacheFiles",
+  "Error loading cache files: {0}"
+    , "Parameter is the error message thrown by the system."
+  );
+App.GetString("MisplacedDiacriticErr",
+  "Misplaced diacritic in the {0}."
+  );
+App.GetString("DataSourceOpenFileXSLTCaption",
+  "Choose XSLT to Transform Data Source"
+    , "Open file dialog caption when choosing an XSLT file"
+  );
+App.GetString("HTMLExportFileMissingMsg",
+  "The file {0} is missing. Exporting cannot be completed."
+  );
+App.GetString("ErrorLoadingCharPickerRowsMsg",
+  "{0} list failed to load."
+  );
+App.GetString("RtfGridAllWordsLabel",
+  "All Words"
+    , "The value for the 'Word List' label when the exported list is not filtered or the result of a  search query."
+  );
+App.GetString("GettingFwProjInfoMsg",
+  "Gathering FieldWorks Project Information..."
+  );
+App.GetString("ExpandingGroups",
+  "Expanding groups..."
+  );
+App.GetString("UnicodeNumHdg",
+  "Unicode\nNumber"
+    , "Heading for column in undefined phonetic chars. dialog"
+  );
+App.GetString("RtfOpenError2",
+  "An error occurred trying to open the RTF file.\n\nFile: {0}\nEditor: {1}\n\n{2}"
+    , "First argument is rtf file; second argument is the editor; third argument is error message."
+  );
+App.GetString("NoSavedPatternCategoryMsg",
+  "You must specify a category for your saved pattern."
+  );
+App.GetString("InvalidPhoneticCharMsg",
+  "Invalid phonetic character."
+    , "Message displayed when defining a phonetic characters class and the user types, from the keyboard, a character not found in the phonetic character inventory."
+  );
+App.GetString("NewFilterName",
+  "New Filter {0}"
+    , "The parameter is a number. Used as default filter name when adding filters in the define filters dialog."
+  );
+App.GetString("SearchResultWordListWindowCaption",
+  "Search Results ({0} Records)"
+    , "word list window caption for search results. Parameter 0 is for the number of records in the list"
+  );
+App.GetString("DefaultNewCustomFeatureName",
+  "New Custom Feature"
+    , "Default name given to new custom features when the user clicks add on the Define Articulatory dialog box."
+  );
+App.GetString("HelpFileMissingMsg",
+  "The help file '{0}' cannot be found."
+  );
+App.GetString("PatternSyntaxError",
+  "Syntax error. Pattern is not in the correct format: {0}"
+  );
+App.GetString("NoMinimalPairsMsg",
+  "No minimal pairs to display.\nChange the minimal pairs options and try again."
+    , "Shows in place of a word list grid when the user has turned on minimal pairs and there aren't any to show."
+  );
+App.GetString("NoToolboxSortFieldSpecified",
+  "The first Toolbox sort field for this record's data source has not\nbeen specified. To specify the first Toolbox sort field, go to the\ndata source's properties from the project properties dialog."
+  );
+App.GetString("NoSavedChartNameMsg",
+  "You must specify a name for your XY chart."
+  );
+App.GetString("FindSelectAll",
+  "Select All"
+    , ""Select All" caption in the CheckedListBox"
+  );
+App.GetString("SavedChartNameAlreadyExistsMsg",
+  "There is already a saved chart with the name "{0}"."
+  );
+App.GetString("ConfirmSavedChartRemoval",
+  "Are you sure you want to remove the saved chart?"
+  );
+App.GetString("EmptySearchPatternText",
+  "Empty"
+    , "Text shown in empty search patterns in the Find Phone window"
+  );
+App.GetString("SavingRecordCacheError",
+  "Error saving records: {0}"
+    , "Message displayed if there was an error saving the records to an XML file."
+  );
+App.GetString("SFMMappingMissingError",
+  "You must specify a marker for the field '{0}'. "
+    , "This message is used when verifying SFM import mappings"
+  );
+App.GetString("SetRTFEditorOFDlgTitle",
+  "Set RTF Editor..."
+    , "Caption on the open file dialog used to let the user browse the file system for the RTF editor they want PA to use when opening RTF files."
+  );
+App.GetString("WordHdg",
+  "Transcription"
+    , "Heading for column in undefined phonetic chars. dialog"
+  );
+App.GetString("RtfGridHdrSearchPattern",
+  "Search Pattern:{0}{1}"
+    , "The heading output for  the Search Query when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern."
+  );
+</root>

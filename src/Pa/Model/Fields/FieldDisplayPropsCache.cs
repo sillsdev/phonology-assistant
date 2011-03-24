@@ -129,7 +129,7 @@ namespace SIL.Pa.Model
 
 		#region setter methods
 		/// ------------------------------------------------------------------------------------
-		public void SetFont(string name, Font fntNew)
+		public bool SetFont(string name, Font fntNew)
 		{
 			var fnt = s_fontCache.SingleOrDefault(f => FontHelper.AreFontsSame(f, fntNew));
 			if (fnt == null)
@@ -140,69 +140,97 @@ namespace SIL.Pa.Model
 
 			var props = GetDisplayProps(name);
 			if (props == null)
+			{
 				Add(new PaFieldDisplayProperties(name, false, false) { Font = fnt });
-			else
-				props.Font = fnt;
+				return true;
+			}
+
+			props.Font = fnt;
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetIsRightToLeft(string name, bool isRightToLeft)
+		public bool SetIsRightToLeft(string name, bool isRightToLeft)
 		{
 			var props = GetDisplayProps(name);
 			if (props == null)
+			{
 				Add(new PaFieldDisplayProperties(name, false, false) { RightToLeft = isRightToLeft });
-			else
-				props.RightToLeft = isRightToLeft;
+				return true;
+			}
+
+			props.RightToLeft = isRightToLeft;
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetWidthInGrid(string name, int width)
+		public bool SetWidthInGrid(string name, int width)
 		{
 			var props = GetDisplayProps(name);
 			if (props == null)
+			{
 				Add(new PaFieldDisplayProperties(name, false, false) { WidthInGrid = width });
-			else
-				props.WidthInGrid = width;
+				return true;
+			}
+
+			props.WidthInGrid = width;
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetIndexInGrid(string name, int index)
+		public bool SetIndexInGrid(string name, int index)
 		{
 			var props = GetDisplayProps(name);
 			if (props == null)
+			{
 				Add(new PaFieldDisplayProperties(name, false, false) { DisplayIndexInGrid = index });
-			else
-				props.DisplayIndexInGrid = index;
+				return true;
+			}
+
+			props.DisplayIndexInGrid = index;
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetIndexInRecView(string name, int index)
+		public bool SetIndexInRecView(string name, int index)
 		{
 			var props = GetDisplayProps(name);
 			if (props == null)
+			{
 				Add(new PaFieldDisplayProperties(name, false, false) { DisplayIndexInRecView = index });
-			else
-				props.DisplayIndexInRecView = index;
+				return true;
+			}
+
+			props.DisplayIndexInRecView = index;
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetIsVisibleInGrid(string name, bool visible)
+		public bool SetIsVisibleInGrid(string name, bool visible)
 		{
 			var props = GetDisplayProps(name);
 			if (props == null)
+			{
 				Add(new PaFieldDisplayProperties(name, false, false) { VisibleInGrid = visible });
-			else
-				props.VisibleInGrid = visible;
+				return true;
+			}
+	
+			props.VisibleInGrid = visible;
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void SetIsVisibleInRecView(string name, bool visible)
+		public bool SetIsVisibleInRecView(string name, bool visible)
 		{
 			var props = GetDisplayProps(name);
 			if (props == null)
+			{
 				Add(new PaFieldDisplayProperties(name, false, false) { VisibleInRecView = visible });
-			else
-				props.VisibleInRecView = visible;
+				return true;
+			}
+
+			props.VisibleInRecView = visible;
+			return false;
 		}
 
 		#endregion

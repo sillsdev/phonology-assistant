@@ -43,6 +43,7 @@ namespace SilTools.Controls
 		protected bool m_overrideBorderDrawing;
 		private bool m_paintExplorerBarBackground;
 		private bool m_drawOnlyBottomBorder;
+		private bool m_drawOnlyTopBorder;
 		protected Color m_borderColor;
 
 		/// ------------------------------------------------------------------------------------
@@ -255,6 +256,23 @@ namespace SilTools.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Gets or sets a value indicating whether or not the only border to draw is on the
+		/// top edge. For this property to work, the BorderStyle property must be set to
+		/// None and a border color must be specified.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool DrawOnlyTopBorder
+		{
+			get { return m_drawOnlyTopBorder; }
+			set
+			{
+				m_drawOnlyTopBorder = value;
+				Invalidate();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Calculates the rectangle of the text when there are child controls. This method
 		/// assumes that controls to the right of the text should clip the text. However, if
 		/// the controls are above and below the text, this method will probably screw up
@@ -360,6 +378,7 @@ namespace SilTools.Controls
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			DrawBottomBorder(e);
+			DrawTopBorder(e);
 
 			var text = (BeforeDrawText != null ? BeforeDrawText(this) : Text);
 			
@@ -377,6 +396,17 @@ namespace SilTools.Controls
 				var rc = ClientRectangle;
 				using (var pen = new Pen(m_borderColor))
 					e.Graphics.DrawLine(pen, 0, rc.Height - 1, rc.Width, rc.Height - 1);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void DrawTopBorder(PaintEventArgs e)
+		{
+			if (m_drawOnlyTopBorder)
+			{
+				var rc = ClientRectangle;
+				using (var pen = new Pen(m_borderColor))
+					e.Graphics.DrawLine(pen, 0, 0, rc.Width, 0);
 			}
 		}
 	}

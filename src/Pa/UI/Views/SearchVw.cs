@@ -468,9 +468,12 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void SetToolTips()
 		{
+			var msg = App.GetString("SearchVw.SearchPatternTooltip",
+				"Enter search pattern in the form:\n[Search Item]/[Preceding Environment]__[Following Environment]",
+				"Tooltip for search pattern text box in the find phone window.");
+
 			m_tooltip = new ToolTip(components);
-			string tip = Properties.Resources.kstidSearchPatternTooltip;
-			m_tooltip.SetToolTip(ptrnTextBox, Utils.ConvertLiteralNewLines(tip));
+			m_tooltip.SetToolTip(ptrnTextBox, Utils.ConvertLiteralNewLines(msg));
 			App.RefreshToolTipsOnLocalizationManager();
 		}
 

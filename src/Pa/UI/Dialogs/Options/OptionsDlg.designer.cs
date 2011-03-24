@@ -1326,6 +1326,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlFonts.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlFonts.DoubleBuffered = true;
 			this.pnlFonts.DrawOnlyBottomBorder = false;
+			this.pnlFonts.DrawOnlyTopBorder = false;
 			this.pnlFonts.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlFonts.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlFonts, null);
@@ -1341,9 +1342,9 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// tpgColors
 			// 
-			this.locExtender.SetLocalizationPriority(this.tpgColors, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizableToolTip(this.tpgColors, null);
 			this.locExtender.SetLocalizationComment(this.tpgColors, "Text on tab in options dialog box.");
+			this.locExtender.SetLocalizationPriority(this.tpgColors, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.tpgColors, "OptionsDlg.tpgColors");
 			this.tpgColors.Location = new System.Drawing.Point(4, 22);
 			this.tpgColors.Name = "tpgColors";
@@ -1376,7 +1377,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizationComment(this.cboUILanguage, null);
 			this.locExtender.SetLocalizationPriority(this.cboUILanguage, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.cboUILanguage, "OptionsDlg.UITab.cboUILanguage");
-			this.cboUILanguage.Location = new System.Drawing.Point(179, 34);
+			this.cboUILanguage.Location = new System.Drawing.Point(31, 56);
 			this.cboUILanguage.Name = "cboUILanguage";
 			this.cboUILanguage.Size = new System.Drawing.Size(208, 21);
 			this.cboUILanguage.TabIndex = 1;
@@ -1388,7 +1389,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.lblUILanguage, null);
 			this.locExtender.SetLocalizationComment(this.lblUILanguage, "Label on user interface tab of options dialog box.");
 			this.locExtender.SetLocalizingId(this.lblUILanguage, "OptionsDlg.UITab.lblUILanguage");
-			this.lblUILanguage.Location = new System.Drawing.Point(28, 34);
+			this.lblUILanguage.Location = new System.Drawing.Point(32, 34);
 			this.lblUILanguage.Name = "lblUILanguage";
 			this.lblUILanguage.Size = new System.Drawing.Size(145, 15);
 			this.lblUILanguage.TabIndex = 0;

@@ -35,6 +35,7 @@ namespace SIL.Pa.UI.Dialogs
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.splitFilters = new System.Windows.Forms.SplitContainer();
 			this.pnlFilters = new SilTools.Controls.SilPanel();
+			this.btnApplyNow = new System.Windows.Forms.Button();
 			this.m_gridFilters = new SilTools.SilGrid();
 			this.flwLayoutFilterButtons = new System.Windows.Forms.FlowLayoutPanel();
 			this.btnAdd = new System.Windows.Forms.Button();
@@ -42,14 +43,13 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnDeleteFilter = new System.Windows.Forms.Button();
 			this.tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this.pnlExpressions = new SilTools.Controls.SilPanel();
-			this.btnApplyNow = new System.Windows.Forms.Button();
 			this.m_gridExpressions = new SilTools.SilGrid();
-			this.hlblExpressions = new SilTools.Controls.HeaderLabel();
 			this.pnlExpressionMatch = new SilTools.Controls.SilGradientPanel();
-			this.flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-			this.lblExpressionMatchMsgPart1 = new System.Windows.Forms.Label();
-			this.cboExpressionMatch = new System.Windows.Forms.ComboBox();
-			this.lblExpressionMatchMsgPart2 = new System.Windows.Forms.Label();
+			this.tableLayoutExpressionMatching = new System.Windows.Forms.TableLayoutPanel();
+			this.lblExpressionMatchMsgPart = new System.Windows.Forms.Label();
+			this.rbAllExpressions = new System.Windows.Forms.RadioButton();
+			this.rbAnyExpression = new System.Windows.Forms.RadioButton();
+			this.hlblExpressions = new SilTools.Controls.HeaderLabel();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.m_tooltip = new System.Windows.Forms.ToolTip(this.components);
 			this.splitFilters.Panel1.SuspendLayout();
@@ -62,7 +62,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlExpressions.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_gridExpressions)).BeginInit();
 			this.pnlExpressionMatch.SuspendLayout();
-			this.flowLayoutPanel.SuspendLayout();
+			this.tableLayoutExpressionMatching.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -82,7 +82,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.splitFilters.Panel2.Controls.Add(this.tableLayout);
 			this.splitFilters.Size = new System.Drawing.Size(685, 316);
-			this.splitFilters.SplitterDistance = 221;
+			this.splitFilters.SplitterDistance = 225;
 			this.splitFilters.SplitterWidth = 6;
 			this.splitFilters.TabIndex = 0;
 			this.splitFilters.TabStop = false;
@@ -93,10 +93,12 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlFilters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlFilters.ClipTextForChildControls = true;
 			this.pnlFilters.ControlReceivingFocusOnMnemonic = null;
+			this.pnlFilters.Controls.Add(this.btnApplyNow);
 			this.pnlFilters.Controls.Add(this.m_gridFilters);
 			this.pnlFilters.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlFilters.DoubleBuffered = true;
 			this.pnlFilters.DrawOnlyBottomBorder = false;
+			this.pnlFilters.DrawOnlyTopBorder = false;
 			this.pnlFilters.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlFilters.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlFilters, null);
@@ -106,8 +108,27 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlFilters.MnemonicGeneratesClick = false;
 			this.pnlFilters.Name = "pnlFilters";
 			this.pnlFilters.PaintExplorerBarBackground = false;
-			this.pnlFilters.Size = new System.Drawing.Size(221, 282);
+			this.pnlFilters.Size = new System.Drawing.Size(225, 286);
 			this.pnlFilters.TabIndex = 0;
+			// 
+			// btnApplyNow
+			// 
+			this.btnApplyNow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnApplyNow.AutoSize = true;
+			this.btnApplyNow.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.btnApplyNow.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.btnApplyNow, null);
+			this.locExtender.SetLocalizationComment(this.btnApplyNow, null);
+			this.locExtender.SetLocalizingId(this.btnApplyNow, "FiltersDlg.btnApplyNow");
+			this.btnApplyNow.Location = new System.Drawing.Point(53, 128);
+			this.btnApplyNow.Margin = new System.Windows.Forms.Padding(3, 5, 5, 5);
+			this.btnApplyNow.MinimumSize = new System.Drawing.Size(95, 26);
+			this.btnApplyNow.Name = "btnApplyNow";
+			this.btnApplyNow.Size = new System.Drawing.Size(95, 26);
+			this.btnApplyNow.TabIndex = 1;
+			this.btnApplyNow.Text = "Apply No&w";
+			this.btnApplyNow.UseVisualStyleBackColor = true;
+			this.btnApplyNow.Click += new System.EventHandler(this.HandleButtonApplyNowClick);
 			// 
 			// m_gridFilters
 			// 
@@ -150,9 +171,9 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_gridFilters.SelectedRowForeColor = System.Drawing.Color.Empty;
 			this.m_gridFilters.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.m_gridFilters.ShowWaterMarkWhenDirty = false;
-			this.m_gridFilters.Size = new System.Drawing.Size(219, 280);
+			this.m_gridFilters.Size = new System.Drawing.Size(223, 284);
 			this.m_gridFilters.StandardTab = true;
-			this.m_gridFilters.TabIndex = 2;
+			this.m_gridFilters.TabIndex = 0;
 			this.m_gridFilters.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
 			this.m_gridFilters.WaterMark = "!";
 			this.m_gridFilters.CurrentRowChanged += new System.EventHandler(this.HandleFilterGridCurrentRowChanged);
@@ -172,11 +193,10 @@ namespace SIL.Pa.UI.Dialogs
 			this.flwLayoutFilterButtons.Controls.Add(this.btnCopy);
 			this.flwLayoutFilterButtons.Controls.Add(this.btnDeleteFilter);
 			this.flwLayoutFilterButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.flwLayoutFilterButtons.Location = new System.Drawing.Point(0, 282);
+			this.flwLayoutFilterButtons.Location = new System.Drawing.Point(0, 286);
 			this.flwLayoutFilterButtons.Name = "flwLayoutFilterButtons";
-			this.flwLayoutFilterButtons.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
-			this.flwLayoutFilterButtons.Size = new System.Drawing.Size(221, 34);
-			this.flwLayoutFilterButtons.TabIndex = 1;
+			this.flwLayoutFilterButtons.Size = new System.Drawing.Size(225, 30);
+			this.flwLayoutFilterButtons.TabIndex = 0;
 			// 
 			// btnAdd
 			// 
@@ -188,7 +208,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizationComment(this.btnAdd, null);
 			this.locExtender.SetLocalizingId(this.btnAdd, "FiltersDlg.btnAdd");
 			this.btnAdd.Location = new System.Drawing.Point(0, 4);
-			this.btnAdd.Margin = new System.Windows.Forms.Padding(0, 0, 5, 4);
+			this.btnAdd.Margin = new System.Windows.Forms.Padding(0, 4, 5, 0);
 			this.btnAdd.MinimumSize = new System.Drawing.Size(70, 26);
 			this.btnAdd.Name = "btnAdd";
 			this.btnAdd.Size = new System.Drawing.Size(70, 26);
@@ -206,7 +226,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizationComment(this.btnCopy, null);
 			this.locExtender.SetLocalizingId(this.btnCopy, "FiltersDlg.btnCopy");
 			this.btnCopy.Location = new System.Drawing.Point(75, 4);
-			this.btnCopy.Margin = new System.Windows.Forms.Padding(0, 0, 5, 4);
+			this.btnCopy.Margin = new System.Windows.Forms.Padding(0, 4, 5, 0);
 			this.btnCopy.MinimumSize = new System.Drawing.Size(70, 26);
 			this.btnCopy.Name = "btnCopy";
 			this.btnCopy.Size = new System.Drawing.Size(70, 26);
@@ -224,7 +244,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizationComment(this.btnDeleteFilter, null);
 			this.locExtender.SetLocalizingId(this.btnDeleteFilter, "FiltersDlg.btnDeleteFilter");
 			this.btnDeleteFilter.Location = new System.Drawing.Point(150, 4);
-			this.btnDeleteFilter.Margin = new System.Windows.Forms.Padding(0, 0, 0, 4);
+			this.btnDeleteFilter.Margin = new System.Windows.Forms.Padding(0, 4, 0, 0);
 			this.btnDeleteFilter.MinimumSize = new System.Drawing.Size(70, 26);
 			this.btnDeleteFilter.Name = "btnDeleteFilter";
 			this.btnDeleteFilter.Size = new System.Drawing.Size(70, 26);
@@ -247,7 +267,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tableLayout.RowCount = 2;
 			this.tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayout.Size = new System.Drawing.Size(458, 316);
+			this.tableLayout.Size = new System.Drawing.Size(454, 316);
 			this.tableLayout.TabIndex = 0;
 			// 
 			// pnlExpressions
@@ -256,13 +276,13 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlExpressions.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlExpressions.ClipTextForChildControls = true;
 			this.pnlExpressions.ControlReceivingFocusOnMnemonic = null;
-			this.pnlExpressions.Controls.Add(this.btnApplyNow);
 			this.pnlExpressions.Controls.Add(this.m_gridExpressions);
-			this.pnlExpressions.Controls.Add(this.hlblExpressions);
 			this.pnlExpressions.Controls.Add(this.pnlExpressionMatch);
+			this.pnlExpressions.Controls.Add(this.hlblExpressions);
 			this.pnlExpressions.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlExpressions.DoubleBuffered = true;
 			this.pnlExpressions.DrawOnlyBottomBorder = false;
+			this.pnlExpressions.DrawOnlyTopBorder = false;
 			this.pnlExpressions.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlExpressions.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlExpressions, null);
@@ -273,27 +293,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlExpressions.MnemonicGeneratesClick = false;
 			this.pnlExpressions.Name = "pnlExpressions";
 			this.pnlExpressions.PaintExplorerBarBackground = false;
-			this.pnlExpressions.Size = new System.Drawing.Size(458, 316);
+			this.pnlExpressions.Size = new System.Drawing.Size(454, 316);
 			this.pnlExpressions.TabIndex = 0;
-			// 
-			// btnApplyNow
-			// 
-			this.btnApplyNow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnApplyNow.AutoSize = true;
-			this.btnApplyNow.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.btnApplyNow.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.locExtender.SetLocalizableToolTip(this.btnApplyNow, null);
-			this.locExtender.SetLocalizationComment(this.btnApplyNow, null);
-			this.locExtender.SetLocalizingId(this.btnApplyNow, "FiltersDlg.btnApplyNow");
-			this.btnApplyNow.Location = new System.Drawing.Point(42, 194);
-			this.btnApplyNow.Margin = new System.Windows.Forms.Padding(3, 5, 5, 5);
-			this.btnApplyNow.MinimumSize = new System.Drawing.Size(95, 26);
-			this.btnApplyNow.Name = "btnApplyNow";
-			this.btnApplyNow.Size = new System.Drawing.Size(95, 26);
-			this.btnApplyNow.TabIndex = 0;
-			this.btnApplyNow.Text = "Apply No&w";
-			this.btnApplyNow.UseVisualStyleBackColor = true;
-			this.btnApplyNow.Click += new System.EventHandler(this.HandleButtonApplyNowClick);
 			// 
 			// m_gridExpressions
 			// 
@@ -324,7 +325,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.m_gridExpressions, null);
 			this.locExtender.SetLocalizationComment(this.m_gridExpressions, null);
 			this.locExtender.SetLocalizingId(this.m_gridExpressions, "FiltersDlg.m_gridExpressions");
-			this.m_gridExpressions.Location = new System.Drawing.Point(0, 62);
+			this.m_gridExpressions.Location = new System.Drawing.Point(0, 27);
 			this.m_gridExpressions.MultiSelect = false;
 			this.m_gridExpressions.Name = "m_gridExpressions";
 			this.m_gridExpressions.PaintHeaderAcrossFullGridWidth = true;
@@ -336,7 +337,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_gridExpressions.SelectedRowForeColor = System.Drawing.Color.Empty;
 			this.m_gridExpressions.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.m_gridExpressions.ShowWaterMarkWhenDirty = false;
-			this.m_gridExpressions.Size = new System.Drawing.Size(456, 252);
+			this.m_gridExpressions.Size = new System.Drawing.Size(452, 217);
 			this.m_gridExpressions.TabIndex = 1;
 			this.m_gridExpressions.TextBoxEditControlBorderColor = System.Drawing.Color.DimGray;
 			this.m_gridExpressions.WaterMark = "!";
@@ -351,6 +352,103 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_gridExpressions.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleExpressionsGridKeyDown);
 			this.m_gridExpressions.Leave += new System.EventHandler(this.HandleExpressionsGridEnterAndLeave);
 			// 
+			// pnlExpressionMatch
+			// 
+			this.pnlExpressionMatch.AutoSize = true;
+			this.pnlExpressionMatch.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.pnlExpressionMatch.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+			this.pnlExpressionMatch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlExpressionMatch.ClipTextForChildControls = true;
+			this.pnlExpressionMatch.ColorBottom = System.Drawing.Color.Empty;
+			this.pnlExpressionMatch.ColorTop = System.Drawing.Color.Empty;
+			this.pnlExpressionMatch.ControlReceivingFocusOnMnemonic = null;
+			this.pnlExpressionMatch.Controls.Add(this.tableLayoutExpressionMatching);
+			this.pnlExpressionMatch.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.pnlExpressionMatch.DoubleBuffered = true;
+			this.pnlExpressionMatch.DrawOnlyBottomBorder = true;
+			this.pnlExpressionMatch.DrawOnlyTopBorder = false;
+			this.pnlExpressionMatch.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this.pnlExpressionMatch.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.locExtender.SetLocalizableToolTip(this.pnlExpressionMatch, null);
+			this.locExtender.SetLocalizationComment(this.pnlExpressionMatch, null);
+			this.locExtender.SetLocalizingId(this.pnlExpressionMatch, "FiltersDlg.pnlExpressionMatch");
+			this.pnlExpressionMatch.Location = new System.Drawing.Point(0, 244);
+			this.pnlExpressionMatch.MakeDark = false;
+			this.pnlExpressionMatch.Margin = new System.Windows.Forms.Padding(0);
+			this.pnlExpressionMatch.MnemonicGeneratesClick = false;
+			this.pnlExpressionMatch.Name = "pnlExpressionMatch";
+			this.pnlExpressionMatch.PaintExplorerBarBackground = false;
+			this.pnlExpressionMatch.Size = new System.Drawing.Size(452, 70);
+			this.pnlExpressionMatch.TabIndex = 2;
+			// 
+			// tableLayoutExpressionMatching
+			// 
+			this.tableLayoutExpressionMatching.AutoSize = true;
+			this.tableLayoutExpressionMatching.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.tableLayoutExpressionMatching.ColumnCount = 1;
+			this.tableLayoutExpressionMatching.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutExpressionMatching.Controls.Add(this.lblExpressionMatchMsgPart, 0, 0);
+			this.tableLayoutExpressionMatching.Controls.Add(this.rbAllExpressions, 0, 2);
+			this.tableLayoutExpressionMatching.Controls.Add(this.rbAnyExpression, 0, 1);
+			this.tableLayoutExpressionMatching.Location = new System.Drawing.Point(0, 0);
+			this.tableLayoutExpressionMatching.Margin = new System.Windows.Forms.Padding(0);
+			this.tableLayoutExpressionMatching.Name = "tableLayoutExpressionMatching";
+			this.tableLayoutExpressionMatching.RowCount = 3;
+			this.tableLayoutExpressionMatching.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutExpressionMatching.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutExpressionMatching.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tableLayoutExpressionMatching.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tableLayoutExpressionMatching.Size = new System.Drawing.Size(288, 68);
+			this.tableLayoutExpressionMatching.TabIndex = 0;
+			// 
+			// lblExpressionMatchMsgPart
+			// 
+			this.lblExpressionMatchMsgPart.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this.lblExpressionMatchMsgPart.AutoSize = true;
+			this.lblExpressionMatchMsgPart.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+			this.lblExpressionMatchMsgPart.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.lblExpressionMatchMsgPart, null);
+			this.locExtender.SetLocalizationComment(this.lblExpressionMatchMsgPart, null);
+			this.locExtender.SetLocalizingId(this.lblExpressionMatchMsgPart, "FiltersDlg.lblExpressionMatchMsgPart");
+			this.lblExpressionMatchMsgPart.Location = new System.Drawing.Point(10, 5);
+			this.lblExpressionMatchMsgPart.Margin = new System.Windows.Forms.Padding(10, 5, 10, 5);
+			this.lblExpressionMatchMsgPart.Name = "lblExpressionMatchMsgPart";
+			this.lblExpressionMatchMsgPart.Size = new System.Drawing.Size(268, 13);
+			this.lblExpressionMatchMsgPart.TabIndex = 0;
+			this.lblExpressionMatchMsgPart.Text = "For the \'{0}\' filter, what must be true to display a record?";
+			// 
+			// rbAllExpressions
+			// 
+			this.rbAllExpressions.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this.rbAllExpressions, null);
+			this.locExtender.SetLocalizationComment(this.rbAllExpressions, null);
+			this.locExtender.SetLocalizingId(this.rbAllExpressions, "FiltersDlg.rbAllExpressions");
+			this.rbAllExpressions.Location = new System.Drawing.Point(15, 44);
+			this.rbAllExpressions.Margin = new System.Windows.Forms.Padding(15, 0, 10, 5);
+			this.rbAllExpressions.Name = "rbAllExpressions";
+			this.rbAllExpressions.Size = new System.Drawing.Size(207, 19);
+			this.rbAllExpressions.TabIndex = 2;
+			this.rbAllExpressions.TabStop = true;
+			this.rbAllExpressions.Text = "A&ll expressions above must be true";
+			this.rbAllExpressions.UseVisualStyleBackColor = true;
+			this.rbAllExpressions.CheckedChanged += new System.EventHandler(this.HandleExpressionMatchTypeCheckedChanged);
+			// 
+			// rbAnyExpression
+			// 
+			this.rbAnyExpression.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this.rbAnyExpression, null);
+			this.locExtender.SetLocalizationComment(this.rbAnyExpression, null);
+			this.locExtender.SetLocalizingId(this.rbAnyExpression, "FiltersDlg.rbAnyExpression");
+			this.rbAnyExpression.Location = new System.Drawing.Point(15, 23);
+			this.rbAnyExpression.Margin = new System.Windows.Forms.Padding(15, 0, 10, 2);
+			this.rbAnyExpression.Name = "rbAnyExpression";
+			this.rbAnyExpression.Size = new System.Drawing.Size(250, 19);
+			this.rbAnyExpression.TabIndex = 1;
+			this.rbAnyExpression.TabStop = true;
+			this.rbAnyExpression.Text = "At least &one expression above must be true";
+			this.rbAnyExpression.UseVisualStyleBackColor = true;
+			this.rbAnyExpression.CheckedChanged += new System.EventHandler(this.HandleExpressionMatchTypeCheckedChanged);
+			// 
 			// hlblExpressions
 			// 
 			this.hlblExpressions.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
@@ -359,110 +457,20 @@ namespace SIL.Pa.UI.Dialogs
 			this.hlblExpressions.Dock = System.Windows.Forms.DockStyle.Top;
 			this.hlblExpressions.DoubleBuffered = true;
 			this.hlblExpressions.DrawOnlyBottomBorder = false;
+			this.hlblExpressions.DrawOnlyTopBorder = false;
 			this.hlblExpressions.Font = new System.Drawing.Font("Arial", 9F);
 			this.hlblExpressions.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.hlblExpressions, null);
 			this.locExtender.SetLocalizationComment(this.hlblExpressions, null);
 			this.locExtender.SetLocalizingId(this.hlblExpressions, "FiltersDlg.hlblExpressions");
-			this.hlblExpressions.Location = new System.Drawing.Point(0, 35);
+			this.hlblExpressions.Location = new System.Drawing.Point(0, 0);
 			this.hlblExpressions.MnemonicGeneratesClick = true;
 			this.hlblExpressions.Name = "hlblExpressions";
 			this.hlblExpressions.PaintExplorerBarBackground = false;
 			this.hlblExpressions.ShowWindowBackgroudOnTopAndRightEdge = false;
-			this.hlblExpressions.Size = new System.Drawing.Size(456, 27);
+			this.hlblExpressions.Size = new System.Drawing.Size(452, 27);
 			this.hlblExpressions.TabIndex = 0;
 			this.hlblExpressions.Text = "&Expressions";
-			// 
-			// pnlExpressionMatch
-			// 
-			this.pnlExpressionMatch.AutoSize = true;
-			this.pnlExpressionMatch.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
-			this.pnlExpressionMatch.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pnlExpressionMatch.ClipTextForChildControls = true;
-			this.pnlExpressionMatch.ColorBottom = System.Drawing.Color.Empty;
-			this.pnlExpressionMatch.ColorTop = System.Drawing.Color.Empty;
-			this.pnlExpressionMatch.ControlReceivingFocusOnMnemonic = null;
-			this.pnlExpressionMatch.Controls.Add(this.flowLayoutPanel);
-			this.pnlExpressionMatch.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pnlExpressionMatch.DoubleBuffered = true;
-			this.pnlExpressionMatch.DrawOnlyBottomBorder = true;
-			this.pnlExpressionMatch.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			this.pnlExpressionMatch.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.locExtender.SetLocalizableToolTip(this.pnlExpressionMatch, null);
-			this.locExtender.SetLocalizationComment(this.pnlExpressionMatch, null);
-			this.locExtender.SetLocalizingId(this.pnlExpressionMatch, "FiltersDlg.pnlExpressionMatch");
-			this.pnlExpressionMatch.Location = new System.Drawing.Point(0, 0);
-			this.pnlExpressionMatch.MakeDark = false;
-			this.pnlExpressionMatch.Margin = new System.Windows.Forms.Padding(0);
-			this.pnlExpressionMatch.MnemonicGeneratesClick = false;
-			this.pnlExpressionMatch.Name = "pnlExpressionMatch";
-			this.pnlExpressionMatch.Padding = new System.Windows.Forms.Padding(3, 5, 0, 5);
-			this.pnlExpressionMatch.PaintExplorerBarBackground = false;
-			this.pnlExpressionMatch.Size = new System.Drawing.Size(456, 35);
-			this.pnlExpressionMatch.TabIndex = 3;
-			// 
-			// flowLayoutPanel
-			// 
-			this.flowLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
-			this.flowLayoutPanel.AutoSize = true;
-			this.flowLayoutPanel.BackColor = System.Drawing.Color.Transparent;
-			this.flowLayoutPanel.Controls.Add(this.lblExpressionMatchMsgPart1);
-			this.flowLayoutPanel.Controls.Add(this.cboExpressionMatch);
-			this.flowLayoutPanel.Controls.Add(this.lblExpressionMatchMsgPart2);
-			this.flowLayoutPanel.Location = new System.Drawing.Point(3, 5);
-			this.flowLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
-			this.flowLayoutPanel.Name = "flowLayoutPanel";
-			this.flowLayoutPanel.Size = new System.Drawing.Size(453, 23);
-			this.flowLayoutPanel.TabIndex = 1;
-			// 
-			// lblExpressionMatchMsgPart1
-			// 
-			this.lblExpressionMatchMsgPart1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.lblExpressionMatchMsgPart1.AutoSize = true;
-			this.lblExpressionMatchMsgPart1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.lblExpressionMatchMsgPart1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.locExtender.SetLocalizableToolTip(this.lblExpressionMatchMsgPart1, null);
-			this.locExtender.SetLocalizationComment(this.lblExpressionMatchMsgPart1, null);
-			this.locExtender.SetLocalizingId(this.lblExpressionMatchMsgPart1, "FiltersDlg.lblExpressionMatchMsgPart1");
-			this.lblExpressionMatchMsgPart1.Location = new System.Drawing.Point(0, 4);
-			this.lblExpressionMatchMsgPart1.Margin = new System.Windows.Forms.Padding(0);
-			this.lblExpressionMatchMsgPart1.Name = "lblExpressionMatchMsgPart1";
-			this.lblExpressionMatchMsgPart1.Size = new System.Drawing.Size(191, 13);
-			this.lblExpressionMatchMsgPart1.TabIndex = 3;
-			this.lblExpressionMatchMsgPart1.Text = "For the \'{0}\' filter, display records where";
-			// 
-			// cboExpressionMatch
-			// 
-			this.cboExpressionMatch.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.cboExpressionMatch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboExpressionMatch.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.cboExpressionMatch.FormattingEnabled = true;
-			this.locExtender.SetLocalizableToolTip(this.cboExpressionMatch, null);
-			this.locExtender.SetLocalizationComment(this.cboExpressionMatch, null);
-			this.locExtender.SetLocalizingId(this.cboExpressionMatch, "FiltersDlg.cboExpressionMatch");
-			this.cboExpressionMatch.Location = new System.Drawing.Point(193, 0);
-			this.cboExpressionMatch.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-			this.cboExpressionMatch.Name = "cboExpressionMatch";
-			this.cboExpressionMatch.Size = new System.Drawing.Size(63, 21);
-			this.cboExpressionMatch.TabIndex = 4;
-			this.cboExpressionMatch.SelectedIndexChanged += new System.EventHandler(this.HandleExpressionMatchComboIndexChanged);
-			// 
-			// lblExpressionMatchMsgPart2
-			// 
-			this.lblExpressionMatchMsgPart2.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.lblExpressionMatchMsgPart2.AutoSize = true;
-			this.lblExpressionMatchMsgPart2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.lblExpressionMatchMsgPart2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.locExtender.SetLocalizableToolTip(this.lblExpressionMatchMsgPart2, null);
-			this.locExtender.SetLocalizationComment(this.lblExpressionMatchMsgPart2, null);
-			this.locExtender.SetLocalizingId(this.lblExpressionMatchMsgPart2, "FiltersDlg.lblExpressionMatchMsgPart2");
-			this.lblExpressionMatchMsgPart2.Location = new System.Drawing.Point(258, 4);
-			this.lblExpressionMatchMsgPart2.Margin = new System.Windows.Forms.Padding(0);
-			this.lblExpressionMatchMsgPart2.Name = "lblExpressionMatchMsgPart2";
-			this.lblExpressionMatchMsgPart2.Size = new System.Drawing.Size(178, 13);
-			this.lblExpressionMatchMsgPart2.TabIndex = 5;
-			this.lblExpressionMatchMsgPart2.Text = "of the following expressions are true.";
 			// 
 			// locExtender
 			// 
@@ -488,6 +496,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.splitFilters.Panel2.PerformLayout();
 			this.splitFilters.ResumeLayout(false);
 			this.pnlFilters.ResumeLayout(false);
+			this.pnlFilters.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_gridFilters)).EndInit();
 			this.flwLayoutFilterButtons.ResumeLayout(false);
 			this.flwLayoutFilterButtons.PerformLayout();
@@ -497,8 +506,8 @@ namespace SIL.Pa.UI.Dialogs
 			((System.ComponentModel.ISupportInitialize)(this.m_gridExpressions)).EndInit();
 			this.pnlExpressionMatch.ResumeLayout(false);
 			this.pnlExpressionMatch.PerformLayout();
-			this.flowLayoutPanel.ResumeLayout(false);
-			this.flowLayoutPanel.PerformLayout();
+			this.tableLayoutExpressionMatching.ResumeLayout(false);
+			this.tableLayoutExpressionMatching.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
@@ -519,11 +528,11 @@ namespace SIL.Pa.UI.Dialogs
 		private Localization.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.FlowLayoutPanel flwLayoutFilterButtons;
 		private System.Windows.Forms.ToolTip m_tooltip;
-		private System.Windows.Forms.Label lblExpressionMatchMsgPart1;
-		private System.Windows.Forms.ComboBox cboExpressionMatch;
-		private System.Windows.Forms.Label lblExpressionMatchMsgPart2;
-		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel;
+		private System.Windows.Forms.Label lblExpressionMatchMsgPart;
 		private SilGradientPanel pnlExpressionMatch;
 		private SilTools.SilGrid m_gridFilters;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutExpressionMatching;
+		private System.Windows.Forms.RadioButton rbAllExpressions;
+		private System.Windows.Forms.RadioButton rbAnyExpression;
 	}
 }

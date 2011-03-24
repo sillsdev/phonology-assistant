@@ -1,6 +1,5 @@
 ﻿using System.Data.SqlClient;
 using System.IO;
-using System.Windows.Forms;
 using System.Xml.Serialization;
 using Palaso.IO;
 using SilTools;
@@ -103,8 +102,16 @@ namespace SIL.Pa.DataSource.FieldWorks
 			{
 				var path = Utils.PrepFilePathForMsgBox(Path.GetDirectoryName(queryFile));
 				var args = new[] { dbName, machineName, filename, path, filename };
-				var msg = string.Format(Properties.Resources.kstidShortNameFileMissingMsg, args);
-				Utils.MsgBox(msg, MessageBoxButtons.OK);
+
+				var msg = App.GetString("ShortNameFileMissingMsg",
+					"FieldWorks Project: {0}\nServer: {1}\n\nThe version of this FieldWorks project " +
+					"indicates it is too\nrecent to be read by Phonology Assistant. You must\ndownload " + 
+					"the file '{2}' from\nthe Phonology Assistant website and copy it to the\nfollowing " +
+					"folder:\n\n{3}\n\nWhen '{4}' is present in that folder,\nyour FieldWorks project " +
+					"can be read by Phonology Assistant.\n\nThe Phonology Assistant website can be found " +
+					"at:\nhttp://www.sil.org/computing/pa/index.htm");
+				
+				Utils.MsgBox(string.Format(msg, args));
 				return false;
 			}
 
@@ -123,7 +130,13 @@ namespace SIL.Pa.DataSource.FieldWorks
 			else if (ShowMsgOnFileLoadFailure)
 			{
 				string filePath = Utils.PrepFilePathForMsgBox(queryFile);
-				Utils.MsgBox(string.Format(Properties.Resources.kstidErrorLoadingQueriesMsg, filePath));
+
+				var msg = App.GetString("LoadingSQLQueriesErrorMsg",
+					"The file that contains FieldWorks queries\n\n'{0}'\n\nis either missing or corrupt. " +
+					"Until this problem is corrected, FieldWorks data sources cannot be accessed or " +
+					"added as data sources.");
+
+				Utils.MsgBox(string.Format(msg, filePath));
 				fwqueries = new FwQueries(true);
 			}
 

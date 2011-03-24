@@ -425,8 +425,11 @@ namespace SIL.Pa.UI.Dialogs
 			var dlg = new OpenFileDialog();
 			dlg.CheckFileExists = true;
 			dlg.CheckPathExists = true;
-			dlg.Title = Properties.Resources.kstidSetRTFEditorOFDlgTitle;
-			dlg.Filter = Properties.Resources.kstidSetRTFEditorOFDlgFilter;
+			dlg.Title = App.GetString("RtfExportDlg.SetRTFEditorOpenFileDialogText",
+				"Set RTF Editor...", "Caption on the open file dialog used to let the user browse the file system for the RTF editor they want PA to use when opening RTF files.");
+
+			dlg.Filter = App.GetString("RtfExportDlg.SetRTFEditorOpenFileDialogFilter",
+				"All Executables (*.exe;*.com;*.pif;*.bat;*.cmd)|*.exe;*.com;*.pif;*.bat;*.cmd|All Files (*.*)|*.*");
 
 			// Default the initial directory to "C:\Program Files"
 			dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);

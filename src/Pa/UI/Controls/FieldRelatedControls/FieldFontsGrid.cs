@@ -13,7 +13,7 @@ namespace SIL.Pa.UI.Controls
 			m_mappings = m_potentialFields.Select(f => new FieldMapping { Field = f }).ToList();
 			
 			LockTargetFieldColumn();
-			ShowFontColumn(false);
+			ShowFontColumn(true);
 			RowCount = m_mappings.Count;
 		}
 	}

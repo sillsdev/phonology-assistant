@@ -261,15 +261,15 @@ namespace SIL.Pa.UI.Views
 		{
 			// Check if chart name already exists. If it does,
 			// tell the user and don't cancel the current edit.
-			foreach (DistributionChartLayout savedLayout in m_savedCharts)
+			foreach (var savedLayout in m_savedCharts)
 			{
 				if (savedLayout != layoutToSkip && savedLayout.Name == nameToCheck)
 				{
 					if (showMsg)
 					{
-						string msg = string.Format(
-							Properties.Resources.kstidSavedChartNameAlreadyExistsMsg, nameToCheck);
-						Utils.MsgBox(msg);
+						var fmt = App.GetString("DistributionChartVw.SavedChartNameAlreadyExistsMsg",
+							"There is already a saved chart with the name '{0}'.");
+						Utils.MsgBox(string.Format(fmt, nameToCheck));
 					}
 					
 					return savedLayout;
@@ -719,7 +719,9 @@ namespace SIL.Pa.UI.Views
 			if (lvSavedCharts.SelectedItems.Count == 0)
 				return;
 
-			var msg = Properties.Resources.kstidConfirmSavedChartRemoval;
+			var msg = App.GetString("DistributionChartVw.ConfirmSavedChartRemoveMsg",
+				"Are you sure you want to remove the saved chart?");
+			
 			if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
 				return;
 

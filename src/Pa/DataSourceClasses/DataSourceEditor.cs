@@ -168,10 +168,9 @@ namespace SIL.Pa.DataSource
 		{
 			if (!IsToolboxRunning)
 			{
-				string msg = string.Format(Properties.Resources.kstidToolboxNotRunningMsg,
-					Utils.PrepFilePathForMsgBox(recEntry.DataSource.SourceFile));
-				
-				Utils.MsgBox(msg);
+				var msg = App.GetString("ToolboxNotRunningMsg",
+					"For this feature to work, you must have Toolbox running with the following database opened:\n\n {0}\n\nSee the help file for more information.");
+				Utils.MsgBox(string.Format(msg, Utils.PrepFilePathForMsgBox(recEntry.DataSource.SourceFile)));
 			    return;
 			}
 
@@ -180,7 +179,11 @@ namespace SIL.Pa.DataSource
 			// Get the record field whose value will tell us what record to jump to.
 			if (string.IsNullOrEmpty(sortFieldName))
 			{
-				Utils.MsgBox(Properties.Resources.kstidNoToolboxSortFieldSpecified);
+				var msg = App.GetString("NoToolboxSortFieldSpecified",
+					"The first Toolbox sort field for this record's data source has not\nbeen specified. " +
+					"To specify the first Toolbox sort field, go to the\ndata source's properties from " +
+					"the project properties dialog.");
+				Utils.MsgBox(msg);
 				return;
 			}
 
@@ -188,7 +191,7 @@ namespace SIL.Pa.DataSource
 			var field = recEntry.Project.GetFieldForName(sortFieldName);
 			if (field == null)
 			{
-				var msg = Properties.Resources.kstidInvalidToolboxSortField;
+				var msg = App.GetString("InvalidToolboxSortField", "The field '{0}' is invalid.");
 				Utils.MsgBox(string.Format(msg, sortFieldName));
 				return;
 			}

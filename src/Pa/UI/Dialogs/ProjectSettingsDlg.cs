@@ -153,9 +153,14 @@ namespace SIL.Pa.UI.Dialogs
 		    col.Width = 170;
 			((SilButtonColumn)col).ButtonWidth = 20;
 			((SilButtonColumn)col).DrawTextWithEllipsisPath = true;
-			((SilButtonColumn)col).ButtonText = Properties.Resources.kstidXSLTColButtonText;
-			((SilButtonColumn)col).ButtonToolTip = Properties.Resources.kstidXSLTColButtonToolTip;
 			((SilButtonColumn)col).ButtonClicked += HandleSpecifyXSLTClick;
+			
+			((SilButtonColumn)col).ButtonText = App.GetString("ProjectSettingsDlg.XsltColButtonText",
+				"...", "Text on the button in the XSLT column in the project settings dialog");
+
+			((SilButtonColumn)col).ButtonToolTip = App.GetString("ProjectSettingsDlg.XsltColButtonToolTip",
+				"Specify XSLT", "Tooltip for the button in the XSLTe column in the project settings dialog");
+			
 			m_grid.Columns.Add(col);
 			App.GetStringForObject(m_grid.Columns["xslt"],
 				"ProjectSettingsDlg.DataSourceFileXSLTColumnHdg", "XSLT",
@@ -393,6 +398,7 @@ namespace SIL.Pa.UI.Dialogs
 				}
 			}
 
+			Utils.WaitCursors(true);
 			Project.Name = txtProjName.Text.Trim();
 			Project.LanguageName = txtLanguageName.Text.Trim();
 			Project.LanguageCode = txtLanguageCode.Text.Trim();
@@ -403,8 +409,25 @@ namespace SIL.Pa.UI.Dialogs
 			Project.DataSources = m_dataSources;
 			Project.FixupFieldsAndMappings();
 
-			if (m_isProjectNew && Project.DataSources.Any(ds => ds.Type == DataSourceType.FW7))
-				InitializeFontsToFw7Values();
+			if (m_isProjectNew)
+			{
+				Project.Save();
+				
+				if (Project.DataSources.Any(ds => ds.Type == DataSourceType.FW7))
+					InitializeFontsToFw7Values();
+
+				int i = 0;
+				foreach (var field in Settings.Default.DefaultVisibleFieldsForNewProject.Cast<string>()
+					.Select(fname => Project.GetMappedFields()
+						.SingleOrDefault(f => f.Name == fname))
+						.Where(field => field != null))
+				{
+					field.DisplayIndexInGrid = i;
+					field.DisplayIndexInRecView = i++;
+					field.VisibleInGrid = true;
+					field.VisibleInRecView = true;
+				}
+			}
 
 			Project.Save();
 
@@ -412,6 +435,7 @@ namespace SIL.Pa.UI.Dialogs
 								 where !m_originallyMappedFields.Contains(mapping.Field.Name)
 								 select mapping.Field.Name).ToList();
 
+			Utils.WaitCursors(false);
 			return true;
 		}
 
@@ -434,28 +458,37 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private string GetProjectFileName()
 		{
-		    SaveFileDialog dlg = new SaveFileDialog();
+		    var dlg = new SaveFileDialog();
 		    dlg.OverwritePrompt = true;
 		    dlg.CheckFileExists = false;
 		    dlg.CheckPathExists = true;
 		    dlg.AddExtension = true;
 		    dlg.DefaultExt = "pap";
+		    dlg.RestoreDirectory = false;
+		    dlg.InitialDirectory = (Settings.Default.LastFolderForSavedProject ?? App.DefaultProjectFolder);
+			dlg.ShowHelp = false;
+		    dlg.FilterIndex = 0;
+			
+			dlg.FileName = (txtProjName.Text.Trim() == string.Empty ?
+				Project.Name : txtProjName.Text.Trim()) + ".pap";
 			
 			dlg.Filter = string.Format(App.kstidFileTypePAProject,
 				Application.ProductName) + "|" + App.kstidFileTypeAllFiles;
 			
-			dlg.ShowHelp = false;
-		    dlg.Title = string.Format(Properties.Resources.kstidPAFilesCaptionSFD, Application.ProductName);
-		    dlg.RestoreDirectory = false;
-		    dlg.InitialDirectory = Environment.CurrentDirectory;
-		    dlg.FilterIndex = 0;
-			dlg.FileName = (txtProjName.Text.Trim() == string.Empty ?
-				Project.Name : txtProjName.Text.Trim()) + ".pap";
+		    dlg.Title = string.Format(App.GetString("ProjectSettingsDlg.ProjectSaveDialogText", "Save {0} Project File",
+				"Caption for the save PA project dialog. The parameter is for the application name."),
+				Application.ProductName);
 
 		    var result = dlg.ShowDialog(this);
 
-		    return (string.IsNullOrEmpty(dlg.FileName) || result == DialogResult.Cancel ?
-				null : dlg.FileName);
+			if (result != DialogResult.Cancel && !string.IsNullOrEmpty(dlg.FileName))
+			{
+				Settings.Default.LastFolderForSavedProject = Path.GetDirectoryName(dlg.FileName);
+				Settings.Default.Save();
+				return dlg.FileName;
+			}
+
+			return null;
 		}
 
 		#endregion
@@ -485,9 +518,11 @@ namespace SIL.Pa.UI.Dialogs
 			fileTypes.Append("|");
 			fileTypes.Append(App.kstidFileTypeAllFiles);
 
+			var caption = App.GetString("ProjectSettingsDlg.DataSourceOpenFileDialogText",
+				"Choose Data Source File(s)", "Open file dialog caption when choosing data source files");
+
 			string[] filenames = App.OpenFileDialog("db", fileTypes.ToString(),
-				ref filterIndex, Properties.Resources.kstidDataSourceOpenFileCaption,
-				true, Project.Folder ?? App.DefaultProjectFolder);
+				ref filterIndex, caption, true, Project.Folder ?? App.DefaultProjectFolder);
 
 			if (filenames.Length == 0)
 				return;
@@ -714,7 +749,9 @@ namespace SIL.Pa.UI.Dialogs
 
 			var filter = App.kstidFileTypeXSLT + "|" + App.kstidFileTypeAllFiles;
 			var filename = App.OpenFileDialog("xslt", filter, ref filterIndex,
-				Properties.Resources.kstidDataSourceOpenFileXSLTCaption);
+				App.GetString("ProjectSettingsDlg.XsltDataSourceOpenFileDialogText",
+					"Choose XSLT to Transform Data Source",
+					"Open file dialog caption when choosing an XSLT file"));
 
 			if (filename != null)
 			{

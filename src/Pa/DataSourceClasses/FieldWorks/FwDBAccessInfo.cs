@@ -58,8 +58,14 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 			if (s_dbAccessInfo == null && ShowMsgOnFileLoadFailure)
 			{
-				string filePath = Utils.PrepFilePathForMsgBox(s_accessInfoFile);
-				Utils.MsgBox(string.Format(Properties.Resources.kstidErrorLoadingDBAccessInfoMsg, filePath));
+				var filePath = Utils.PrepFilePathForMsgBox(s_accessInfoFile);
+
+				var msg = App.GetString("LoadingDBAccessInfoErorMsg",
+					"The file that contains information to access FieldWork databases\n\n'{0}'" +
+					"\n\nis either missing or corrupt. Until this problem is corrected, " +
+					"FieldWorks data sources cannot be accessed or added as data sources.");
+				
+				Utils.MsgBox(string.Format(msg, filePath));
 			}
 		}
 

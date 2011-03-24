@@ -191,9 +191,10 @@ namespace SIL.Pa.UI.Controls
 
 			using (Font fnt = FontHelper.MakeFont(SystemInformation.MenuFont, 10, FontStyle.Bold))
 			{
-				TextRenderer.DrawText(e.Graphics,
-					Properties.Resources.kstidNoSearchResultsFoundMsg, fnt,	ClientRectangle,
-					ForeColor, flags);
+				var msg = App.GetString("SearchResultView.NoSearchResultsFoundMsg", "No Results Found.",
+					"Displayed in the search results area when no matches were found.");
+				
+				TextRenderer.DrawText(e.Graphics, msg, fnt, ClientRectangle, ForeColor, flags);
 			}
 
 			App.DrawWatermarkImage("kimidSearchWatermark", e.Graphics, ClientRectangle);

@@ -9,16 +9,8 @@ using SilTools.Controls;
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class GridCellInfoPopup : SilPopup
 	{
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public enum Purpose
 		{
@@ -33,8 +25,6 @@ namespace SIL.Pa.UI.Controls
 		private const int kPopupGapBetweenItems = 10;
 		private const int kPopupBottomMargin = 10;
 
-		private DataGridView m_associatedGrid;
-		private DataGridViewCell m_associatedCell;
 		private string m_headingText = string.Empty;
 		private TextFormatFlags m_hdgTxtFmtFlags;
 		private int m_popupListItemHeight;
@@ -42,10 +32,6 @@ namespace SIL.Pa.UI.Controls
 		private WordCacheEntry m_cacheEntry;
 		private int m_hdgTextSidePadding;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public GridCellInfoPopup()
 		{
@@ -180,23 +166,23 @@ namespace SIL.Pa.UI.Controls
 
 				if (value == Purpose.UncertainPossibilities)
 				{
-					lnkCommand.Text = Properties.Resources.kstidCellInfoLnkCmdUncertainText;
-					m_toolTip.SetToolTip(lnkCommand,
-						Properties.Resources.kstidCellInfoLnkCmdUncertainToolTip);
+					lnkCommand.Text = App.GetString("UncertainPhonesCellInfoLinkText", "Edit",
+						"Text for command link on the uncertainty possibilities cell popup");
+					
+					m_toolTip.SetToolTip(lnkCommand, App.GetString("UncertainPhonesCellInfoLinkToolTip",
+						"Edit source record"));
 				}
 				else
 				{
-					lnkCommand.Text = Properties.Resources.kstidCellInfoLnkCmdExperimentalTransText;
-					m_toolTip.SetToolTip(lnkCommand,
-						Properties.Resources.kstidCellInfoLnkCmdExperimentalTransToolTip);
+					lnkCommand.Text = App.GetString("TranscriptionChangesCellInfoLinkText", "Settings",
+						"Text for command link on the experimental transcription items cell popup");
+					
+					m_toolTip.SetToolTip(lnkCommand, App.GetString("TranscriptionChangesCellInfoLinkToolTip",
+						"Transcription Changes"));
 				}
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public Panel HeadingPanel
 		{
@@ -228,22 +214,14 @@ namespace SIL.Pa.UI.Controls
 		/// Gets or sets the cell associated with this popup.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public DataGridViewCell AssociatedCell
-		{
-			get { return m_associatedCell; }
-			set { m_associatedCell = value; }
-		}
+		public DataGridViewCell AssociatedCell { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the grid associated with this popup.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public DataGridView AssociatedGrid
-		{
-			get { return m_associatedGrid; }
-			set { m_associatedGrid = value; }
-		}
+		public DataGridView AssociatedGrid { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -255,18 +233,18 @@ namespace SIL.Pa.UI.Controls
 		{
  			base.OnTimerTick();
 
-			if (m_associatedCell == null || m_associatedGrid == null || m_mouseOver)
+			if (AssociatedCell == null || AssociatedGrid == null || m_mouseOver)
 				return;
 
-			Form frm = m_associatedGrid.FindForm();
+			var frm = AssociatedGrid.FindForm();
 			if (frm != null && !frm.ContainsFocus)
 				return;
 
 			// Get the rectangle for the associated cell.
-			Rectangle rc = m_associatedGrid.GetCellDisplayRectangle(
-				m_associatedCell.ColumnIndex, m_associatedCell.RowIndex, false);
+			var rc = AssociatedGrid.GetCellDisplayRectangle(
+				AssociatedCell.ColumnIndex, AssociatedCell.RowIndex, false);
 
-			Point pt = m_associatedGrid.PointToClient(MousePosition);
+			var pt = AssociatedGrid.PointToClient(MousePosition);
 			if (!rc.Contains(pt))
 				Hide();
 			else
@@ -279,13 +257,12 @@ namespace SIL.Pa.UI.Controls
 				// cell mouse move messages over the associated cell.
 			    const BindingFlags flags = BindingFlags.NonPublic | BindingFlags.InvokeMethod;
 
-			    DataGridViewCellMouseEventArgs args =
-			        new DataGridViewCellMouseEventArgs(m_associatedCell.ColumnIndex,
-					m_associatedCell.RowIndex, pt.X - rc.X, pt.Y - rc.Y,
+			    var args = new DataGridViewCellMouseEventArgs(AssociatedCell.ColumnIndex,
+					AssociatedCell.RowIndex, pt.X - rc.X, pt.Y - rc.Y,
 					new MouseEventArgs(MouseButtons, 0, pt.X, pt.Y, 0));
 				
 			    typeof(DataGridView).InvokeMember("OnCellMouseMove",
-			        flags | BindingFlags.Instance, null, m_associatedGrid,
+			        flags | BindingFlags.Instance, null, AssociatedGrid,
 					new object[] {args});
 			}
 		}
@@ -372,10 +349,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
 			base.OnPaintBackground(e);
@@ -400,18 +373,14 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void pnlHeading_Paint(object sender, PaintEventArgs e)
 		{
-			Rectangle rc = pnlHeading.ClientRectangle;
+			var rc = pnlHeading.ClientRectangle;
 			PaintHeadingBackground(e.Graphics, rc);
 
 			if (!string.IsNullOrEmpty(m_headingText))
 			{
-				Rectangle rcText = rc;
+				var rcText = rc;
 				rcText.Inflate(-m_hdgTextSidePadding, 0);
 
 				// Draw the heading text
@@ -424,10 +393,10 @@ namespace SIL.Pa.UI.Controls
 			// the top of the row containing the associated cell, we can figure out where
 			// the arrow glyph should go so it points to an imaginary line that goes
 			// horizontally through the midpoint of the cell for whom the popup belongs.
-			int rowIndex = (m_associatedCell != null ? m_associatedCell.RowIndex : -1);
-			if (m_associatedGrid != null && rowIndex >= 0 && rowIndex < m_associatedGrid.RowCount)
+			int rowIndex = (AssociatedCell != null ? AssociatedCell.RowIndex : -1);
+			if (AssociatedGrid != null && rowIndex >= 0 && rowIndex < AssociatedGrid.RowCount)
 			{
-				int arrowTipsY = m_associatedGrid.Rows[rowIndex].Height / 2;
+				int arrowTipsY = AssociatedGrid.Rows[rowIndex].Height / 2;
 				PaintArrow(e.Graphics, arrowTipsY, rc);
 			}
 		}
