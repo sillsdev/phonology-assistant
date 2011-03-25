@@ -348,6 +348,8 @@ namespace SIL.Pa.UI
 
 			App.MsgMediator.SendMessage("StopAllPlayback", null);
 
+			App.SaveOnTheFlyLocalizations();
+
 			if (m_project != null)
 				m_project.EnsureSortOptionsSaved();
 
@@ -543,8 +545,7 @@ namespace SIL.Pa.UI
 		protected bool OnUserInterfaceLangaugeChanged(object args)
 		{
 			App.ReapplyLocalizationsToAllObjects();
-			vwTabGroup.AdjustTabWidths();
-			vwTabGroup.RefreshCaption();
+			OnStringsLocalized(null);
 			return false;
 		}
 

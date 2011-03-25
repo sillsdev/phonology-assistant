@@ -169,7 +169,11 @@ namespace SIL.Pa
 					dlg.Bounds = Settings.Default.LocalizeDlgBounds;
 			});
 
-			LocalizeItemDlg.StringsLocalized += (() => MsgMediator.SendMessage("StringsLocalized", L10NMngr));
+			LocalizeItemDlg.StringsLocalized += (() =>
+			{
+				MsgMediator.SendMessage("StringsLocalized", L10NMngr);
+				PaFieldDisplayProperties.ResetDisplayNameCache();
+			});
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -948,6 +952,13 @@ namespace SIL.Pa
 		#region Localization Manager Access methods
 		/// ------------------------------------------------------------------------------------
 		private static LocalizationManager L10NMngr { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		internal static void SaveOnTheFlyLocalizations()
+		{
+			if (L10NMngr != null)
+				L10NMngr.SaveOnTheFlyLocalizations();
+		}
 
 		/// ------------------------------------------------------------------------------------
 		internal static void ReapplyLocalizationsToAllObjects()

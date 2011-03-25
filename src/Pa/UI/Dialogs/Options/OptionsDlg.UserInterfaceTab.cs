@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Globalization;
 using Localization;
+using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
 
@@ -37,16 +38,13 @@ namespace SIL.Pa.UI.Dialogs
 			if (!IsUserInterfaceTabDirty)
 				return;
 
-			string newLangId = ((CultureInfo)cboUILanguage.SelectedItem).Name;
+			var newLangId = ((CultureInfo)cboUILanguage.SelectedItem).Name;
 			Settings.Default.UserInterfaceLanguage = newLangId;
 			LocalizationManager.UILanguageId = newLangId;
+			PaFieldDisplayProperties.ResetDisplayNameCache();
 			App.MsgMediator.SendMessage("UserInterfaceLangaugeChanged", null);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private bool IsUserInterfaceTabDirty
 		{

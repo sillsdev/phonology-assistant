@@ -252,6 +252,26 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected bool OnStringsLocalized(object args)
+		{
+			OnUserInterfaceLangaugeChanged(null);
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUserInterfaceLangaugeChanged(object args)
+		{
+			foreach (DataGridViewColumn col in Columns)
+			{
+				var field = App.Project.GetFieldForName(col.Name);
+				if (field != null)
+					col.HeaderText = field.DisplayName;
+			}
+
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnSystemColorsChanged(EventArgs e)
 		{
 			ForeColor = SystemColors.WindowText;
