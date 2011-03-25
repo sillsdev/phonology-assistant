@@ -56,17 +56,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override string InitializationMessage
-		{
-			get
-			{
-				return App.GetString("InitializingVowelChartViewMsg",
-					"Initializing Vowel Chart View...",
-					"Message displayed whenever the consonant chart is being initialized.");
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
 		protected override float SplitterRatioSetting
 		{
 			get { return Settings.Default.VowelChartVwSplitRatio; }
@@ -145,7 +134,7 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return App.GetString("DefaultVowelChartXLingPaperFileAffix",
+				return App.GetString("DefaultVowelChartXLingPaperExportFileAffix",
 					"{0}-VowelChart-(XLingPaper).xml", "Export");
 			}
 		}

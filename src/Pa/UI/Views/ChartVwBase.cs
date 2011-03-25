@@ -41,20 +41,16 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public ChartVwBase()
 		{
-			if (LicenseManager.UsageMode != LicenseUsageMode.Designtime)
-				App.InitializeProgressBarForLoadingView(InitializationMessage, 5);
-			
 			InitializeComponent();
 
 			if (LicenseManager.UsageMode == LicenseUsageMode.Designtime)
 				return;
-			
+
+			Utils.WaitCursors(true);
 			base.DoubleBuffered = true;
-			App.IncProgressBar();
 			
 			LoadToolbarAndContextMenus();
 			m_chrGrid.OwningViewType = GetType();
-			App.IncProgressBar();
 
 			m_chartGrid = new CVChartGrid(m_tmAdapter);
 			m_chartGrid.Dock = DockStyle.Fill;
@@ -71,16 +67,11 @@ namespace SIL.Pa.UI.Views
 			
 			m_chrGrid.Visible = false;
 			splitOuter.Panel1.Controls.Add(m_pnlGrid);
+			Utils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual CVChartType ChartType
-		{
-			get { throw new NotImplementedException("The property must be overridden in derived class."); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected virtual string InitializationMessage
 		{
 			get { throw new NotImplementedException("The property must be overridden in derived class."); }
 		}
@@ -124,10 +115,9 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void LoadOldChart()
 		{
-			CharGridBuilder bldr = new CharGridBuilder(m_chrGrid, CharacterType);
+			var bldr = new CharGridBuilder(m_chrGrid, CharacterType);
 			m_phoneList = bldr.Build();
 			m_persistedInfoFilename = bldr.PersistedInfoFilename;
-			App.IncProgressBar();
 
 			// This should only be null when something has gone wrong...
 			// which should never happen. :o)
@@ -147,10 +137,8 @@ namespace SIL.Pa.UI.Views
 				}
 			}
 
-			App.IncProgressBar();
 			m_histogram.LoadPhones(histogramPhones);
 			App.MsgMediator.PostMessage("LayoutHistogram", Name);
-			App.IncProgressBar();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -343,8 +331,8 @@ namespace SIL.Pa.UI.Views
 			}
 
 			// Give the chart Phone search toolbar button a default image.
-			TMItemProperties childItemProps = m_tmAdapter.GetItemProperties("tbbChartPhoneSearchAnywhere");
-			TMItemProperties parentItemProps = m_tmAdapter.GetItemProperties("tbbChartPhoneSearch");
+			var childItemProps = m_tmAdapter.GetItemProperties("tbbChartPhoneSearchAnywhere");
+			var parentItemProps = m_tmAdapter.GetItemProperties("tbbChartPhoneSearch");
 			if (parentItemProps != null && childItemProps != null)
 			{
 				parentItemProps.Image = childItemProps.Image;
@@ -459,9 +447,7 @@ namespace SIL.Pa.UI.Views
 		{
 			if (args == this)
 			{
-				if (m_chrGrid.Grid is CharGridView)
-					((CharGridView)m_chrGrid.Grid).SetDoubleBuffering(false);
-
+				m_chrGrid.Grid.SetDoubleBuffering(false);
 				SaveSettings();
 			}
 
@@ -469,31 +455,21 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnViewUndocked(object args)
 		{
-			if (args == this && m_chrGrid.Grid is CharGridView)
-				((CharGridView)m_chrGrid.Grid).SetDoubleBuffering(true);
+			if (args == this)
+				m_chrGrid.Grid.SetDoubleBuffering(true);
 
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnBeginViewDocking(object args)
 		{
 			if (args == this && IsHandleCreated)
 			{
 				SaveSettings();
-
-				if (m_chrGrid.Grid is CharGridView)
-					((CharGridView)m_chrGrid.Grid).SetDoubleBuffering(false);
+				m_chrGrid.Grid.SetDoubleBuffering(false);
 			}
 
 			return false;
@@ -515,8 +491,7 @@ namespace SIL.Pa.UI.Views
 				}
 				catch { }
 
-				if (m_chrGrid.Grid is CharGridView)
-					((CharGridView)m_chrGrid.Grid).SetDoubleBuffering(true);
+				m_chrGrid.Grid.SetDoubleBuffering(true);
 
 				// Don't need to load the tool bar or menus if this is the first time
 				// the view was docked since that all gets done during construction.
@@ -541,10 +516,6 @@ namespace SIL.Pa.UI.Views
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public bool HistogramOn
 		{
 			get { return m_histogramOn; }
@@ -554,7 +525,7 @@ namespace SIL.Pa.UI.Views
 				{
 					m_histogramOn = value;
 					splitOuter.Panel2Collapsed = !value;
-					Padding padding = splitOuter.Panel1.Padding;
+					var padding = splitOuter.Panel1.Padding;
 					padding = new Padding(padding.Left, padding.Top, padding.Right,
 						(value ? 0 : splitOuter.Panel2.Padding.Bottom));
 					splitOuter.Panel1.Padding = padding;

@@ -51,10 +51,9 @@ namespace SIL.Pa.UI.Views
 			var msg = App.GetString("InitializingSearchViewMsg", "Initializing Search View...",
 				"Message displayed whenever the search view is being initialized.");
 
-			App.InitializeProgressBarForLoadingView(msg, 6);
+			Utils.WaitCursors(true);
 			InitializeComponent();
 			Name = "SearchVw";
-			App.IncProgressBar();
 
 			hlblRecentPatterns.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
 			hlblSavedPatterns.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
@@ -64,21 +63,15 @@ namespace SIL.Pa.UI.Views
 			LoadToolbarAndContextMenus();
 
 			lblCurrPattern.Text = Utils.ConvertLiteralNewLines(lblCurrPattern.Text);
-			App.IncProgressBar();
 
 			SetToolTips();
 			SetupSidePanelContents();
-			App.IncProgressBar();
 			SetupSlidingPanel();
-			App.IncProgressBar();
 			OnPaFontsChanged(null);
-			App.IncProgressBar();
 
 			m_dockedSidePanel = (m_slidingPanel.SlideFromLeft ? splitOuter.Panel1 : splitOuter.Panel2);
 
 			LoadSettings();
-			App.IncProgressBar();
-			App.UninitializeProgressBar();
 
 			base.DoubleBuffered = true;
 			ReflectionHelper.SetProperty(splitOuter, "DoubleBuffered", true);
@@ -89,7 +82,7 @@ namespace SIL.Pa.UI.Views
 			ptrnTextBox.SearchOptionsDropDown.lnkHelp.Click += HandleSearchDropDownHelpLinkClick;
 			Disposed += ViewDisposed;
 
-			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("tbbSavePatternOnMenu");
+			var itemProps = m_tmAdapter.GetItemProperties("tbbSavePatternOnMenu");
 			if (itemProps != null)
 				m_savePatternHotKey = itemProps.ShortcutKey;
 
@@ -116,6 +109,8 @@ namespace SIL.Pa.UI.Views
 			// Subscribe to these here because I found that sometimes the designer chokes on these.
 			splitResults.Panel1.DragDrop += HandleSplitResultsPanel1DragDrop;
 			splitResults.Panel1.DragOver += HandleSplitResultsPanel1DragOver;
+
+			Utils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -276,7 +271,7 @@ namespace SIL.Pa.UI.Views
 				Settings.Default.SearchVwSidePanelWidth,
 				newWidth => Settings.Default.SearchVwSidePanelWidth = newWidth);
 			
-			App.GetStringForObject(m_slidingPanel.Tab, "SearchVw.UndockedSideBarTabText",
+			App.RegisterForLocalization(m_slidingPanel.Tab, "SearchVw.UndockedSideBarTabText",
 				"Patterns & Pattern Building", "Views");
 
 			SuspendLayout();

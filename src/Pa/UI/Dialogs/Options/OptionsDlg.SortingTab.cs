@@ -68,13 +68,13 @@ namespace SIL.Pa.UI.Dialogs
 			col = SilGrid.CreateTextBoxColumn("column");
 			col.ReadOnly = true;
 			m_sortingGrid.Columns.Add(col);
-			App.GetStringForObject(m_sortingGrid.Columns["column"],
+			App.RegisterForLocalization(m_sortingGrid.Columns["column"],
 				"OptionsDlg.SortingTab.SortOrderColumnColumnHeadingText", "Column");
 
 			// Create the column for the ascending check box.
 			col = SilGrid.CreateCheckBoxColumn("direction");
 			m_sortingGrid.Columns.Add(col);
-			App.GetStringForObject(m_sortingGrid.Columns["direction"],
+			App.RegisterForLocalization(m_sortingGrid.Columns["direction"],
 				"OptionsDlg.SortingTab.SortOrderDirectionColumnHeadingText", "Ascending?");
 		}
 

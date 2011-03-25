@@ -46,7 +46,7 @@ namespace SIL.Pa.UI.Controls
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			int i = FontColumnIndex;
 			Columns.Insert(i, col);
-			App.GetStringForObject(Columns[i], "Fw6FieldMappingGrid.WritingSystemColumnHeadingText", "Writing System");
+			App.RegisterForLocalization(Columns[i], "Fw6FieldMappingGrid.WritingSystemColumnHeadingText", "Writing System");
 		}
 		
 		/// ------------------------------------------------------------------------------------

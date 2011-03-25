@@ -66,10 +66,10 @@ namespace SIL.Pa.UI.Controls
 			lblSourceHdg.Top = lblTargetHdg.Top = (m_header.Height - lblSourceHdg.Height) / 2;
 
 			// Set the heading text.
-			App.GetStringForObject(lblSourceHdg, "TranscriptionChangesControl.Heading1",
+			App.RegisterForLocalization(lblSourceHdg, "TranscriptionChangesControl.Heading1",
 				"Transcribed in source as:", "Heading in transcription changes control.");
 
-			App.GetStringForObject(lblTargetHdg, "TranscriptionChangesControl.Heading2",
+			App.RegisterForLocalization(lblTargetHdg, "TranscriptionChangesControl.Heading2",
 				"Replace with one of these options:", "Heading in transcription changes control.");
 
 			BuildGrid();

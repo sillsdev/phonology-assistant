@@ -34,15 +34,9 @@ namespace SIL.Pa.UI.Controls
 		private Point m_mouseDownLocation = Point.Empty;
 		private bool m_mouseOver;
 		private bool m_selected;
-		private ViewTabGroup m_owningTabGroup;
-		private readonly Image m_image;
-		private Control m_viewsControl;
 		private UndockedViewWnd m_viewsForm;
-		private readonly Type m_viewType;
 		private bool m_viewDocked;
 		private bool m_undockingInProgress;
-		private string m_helpToolTipText = string.Empty;
-		private string m_helpTopicId;
 
 		/// <summary>
 		/// This flag gets set when a view is undocking. Suppose view A is being undocked.
@@ -58,13 +52,14 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public ViewTab(ViewTabGroup owningTabControl, Image img, Type viewType)
 		{
+			HelpToolTipText = string.Empty;
 			base.DoubleBuffered = true;
 			base.AutoSize = false;
 			base.AllowDrop = true;
 			base.Font = ViewTabGroup.s_tabFont;
-			m_owningTabGroup = owningTabControl;
-			m_viewType = viewType;
-			m_image = img;
+			OwningTabGroup = owningTabControl;
+			ViewType = viewType;
+			TabImage = img;
 
 			if (App.MainForm != null)
 				App.MainForm.Activated += MainForm_Activated;
@@ -96,37 +91,34 @@ namespace SIL.Pa.UI.Controls
 			App.StatusBarLabel.Text = string.Empty;
 
 			// Check if the view is already loaded.
-			if (m_viewsControl != null || m_viewType == null)
+			if (View != null || ViewType == null)
 			{
 				if (m_viewsForm != null)
 					m_viewsForm.Activate();
-				else if ( m_viewsControl != null)
-					m_viewsControl.Visible = true;
+				else if ( View != null)
+					View.Visible = true;
 
-				return m_viewsControl;
+				return View;
 			}
 
 			// Create an instance of the view's form
-			m_viewsControl = (Control)m_viewType.Assembly.CreateInstance(m_viewType.FullName);
-			App.MsgMediator.SendMessage("BeginViewOpen", m_viewsControl);
-			m_viewsControl.Dock = DockStyle.Fill;
+			View = (Control)ViewType.Assembly.CreateInstance(ViewType.FullName);
+			App.MsgMediator.SendMessage("BeginViewOpen", View);
+			View.Dock = DockStyle.Fill;
 
-			if (!(m_viewsControl is ITabView))
-			{
-				Utils.MsgBox(string.Format("Error: {0} is not based on ITabView!",
-					m_viewType));
-			}
+			if (!(View is ITabView))
+				Utils.MsgBox(string.Format("Error: {0} is not based on ITabView!", ViewType));
 
 			try
 			{
-				if (m_viewsControl is IxCoreColleague)
-					App.AddMediatorColleague(m_viewsControl as IxCoreColleague);
+				if (View is IxCoreColleague)
+					App.AddMediatorColleague(View as IxCoreColleague);
 			}
 			catch { }
 
 			DockView();
-			App.MsgMediator.SendMessage("ViewOpened", m_viewsControl);
-			return m_viewsControl;
+			App.MsgMediator.SendMessage("ViewOpened", View);
+			return View;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -136,31 +128,31 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void CloseView()
 		{
-			if (m_undockingInProgress || m_viewsControl == null)
+			if (m_undockingInProgress || View == null)
 				return;
 
-			App.MsgMediator.SendMessage("BeginViewClosing", m_viewsControl);
+			App.MsgMediator.SendMessage("BeginViewClosing", View);
 			Visible = true;
 
-			if (!m_viewsControl.IsDisposed)
+			if (!View.IsDisposed)
 			{
-				if (m_owningTabGroup != null && m_owningTabGroup.Controls.Contains(m_viewsControl))
-					m_owningTabGroup.Controls.Remove(m_viewsControl);
+				if (OwningTabGroup != null && OwningTabGroup.Controls.Contains(View))
+					OwningTabGroup.Controls.Remove(View);
 
-				if (m_viewsControl is IxCoreColleague)
-					App.RemoveMediatorColleague(m_viewsControl as IxCoreColleague);
+				if (View is IxCoreColleague)
+					App.RemoveMediatorColleague(View as IxCoreColleague);
 
-				if (m_viewsControl is ITabView)
-					((ITabView)m_viewsControl).TMAdapter.Dispose();
+				if (View is ITabView)
+					((ITabView)View).TMAdapter.Dispose();
 
-				m_viewsControl.Dispose();
-				m_viewsControl = null;
+				View.Dispose();
+				View = null;
 			}
 
 			if (m_viewsForm != null)
 				m_viewsForm.Close();
 
-			App.MsgMediator.SendMessage("ViewClosed", m_viewType);
+			App.MsgMediator.SendMessage("ViewClosed", ViewType);
 			m_viewDocked = false;
 		}
 
@@ -174,25 +166,25 @@ namespace SIL.Pa.UI.Controls
 			if (m_undockingInProgress || m_viewDocked)
 				return;
 
-			App.MsgMediator.SendMessage("BeginViewDocking", m_viewsControl);
-			Utils.SetWindowRedraw(m_owningTabGroup, false, false);
+			App.MsgMediator.SendMessage("BeginViewDocking", View);
+			Utils.SetWindowRedraw(OwningTabGroup, false, false);
 			Visible = true;
 			
-			m_owningTabGroup.ViewWasDocked(this);
-			m_viewsControl.Size = m_owningTabGroup.ClientSize;
-			m_owningTabGroup.Controls.Add(m_viewsControl);
-			m_viewsControl.PerformLayout();
-			m_viewsControl.BringToFront();
+			OwningTabGroup.ViewWasDocked(this);
+			View.Size = OwningTabGroup.ClientSize;
+			OwningTabGroup.Controls.Add(View);
+			View.PerformLayout();
+			View.BringToFront();
 
 			m_viewDocked = true;
 			m_ignoreTabSelection = true;
-			m_owningTabGroup.SelectTab(this);
+			OwningTabGroup.SelectTab(this);
 			m_ignoreTabSelection = false;
 
-			Utils.SetWindowRedraw(m_owningTabGroup, true, true);
-			m_viewsControl.Focus();
-			m_owningTabGroup.SetActiveView(m_viewsControl as ITabView, false);
-			App.MsgMediator.SendMessage("ViewDocked", m_viewsControl);
+			Utils.SetWindowRedraw(OwningTabGroup, true, true);
+			View.Focus();
+			OwningTabGroup.SetActiveView(View as ITabView, false);
+			App.MsgMediator.SendMessage("ViewDocked", View);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -205,21 +197,21 @@ namespace SIL.Pa.UI.Controls
 			if (s_undockingInProgress || !m_viewDocked)
 				return;
 
-			App.MsgMediator.SendMessage("BeginViewUnDocking", m_viewsControl);
+			App.MsgMediator.SendMessage("BeginViewUnDocking", View);
 			m_undockingInProgress = true;
 			s_undockingInProgress = true;
 
-			if (m_owningTabGroup.Controls.Contains(m_viewsControl))
-				m_owningTabGroup.Controls.Remove(m_viewsControl);
+			if (OwningTabGroup.Controls.Contains(View))
+				OwningTabGroup.Controls.Remove(View);
 
 			// Prepare the undocked view's form to host the view and be displayed.
-			m_viewsForm = new UndockedViewWnd(m_viewsControl);
+			m_viewsForm = new UndockedViewWnd(View);
 			m_viewsForm.FormClosing += m_viewsForm_FormClosing;
 			m_viewsForm.FormClosed += m_viewsForm_FormClosed;
 			m_viewsForm.Activated += m_viewsForm_Activated;
 
-			if (m_image != null)
-				m_viewsForm.Icon = Icon.FromHandle(((Bitmap)m_image).GetHicon());
+			if (TabImage != null)
+				m_viewsForm.Icon = Icon.FromHandle(((Bitmap)TabImage).GetHicon());
 			
 			// Strip out accelerator key prefixes but keep ampersands that should be kept.
 			var caption = Utils.RemoveAcceleratorPrefix(Text);
@@ -231,7 +223,7 @@ namespace SIL.Pa.UI.Controls
 
 			// Inform the tab group that one of it's views has been undocked.
 			m_ignoreTabSelection = true;
-			m_owningTabGroup.ViewWasUnDocked(this);
+			OwningTabGroup.ViewWasUnDocked(this);
 			m_ignoreTabSelection = false;
 			s_undockingInProgress = false;
 			m_viewDocked = false;
@@ -239,18 +231,14 @@ namespace SIL.Pa.UI.Controls
 
 			m_viewsForm.Show();
 			m_viewsForm.Activate();
-			App.MsgMediator.SendMessage("ViewUndocked", m_viewsControl);
+			App.MsgMediator.SendMessage("ViewUndocked", View);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void MainForm_Activated(object sender, EventArgs e)
 		{
-			if (m_viewDocked && m_viewsControl != null && m_viewsControl.Visible)
-				m_owningTabGroup.SetActiveView(m_viewsControl as ITabView, false);
+			if (m_viewDocked && View != null && View.Visible)
+				OwningTabGroup.SetActiveView(View as ITabView, false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -260,7 +248,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void m_viewsForm_Activated(object sender, EventArgs e)
 		{
-			m_owningTabGroup.SetActiveView(m_viewsControl as ITabView, false);
+			OwningTabGroup.SetActiveView(View as ITabView, false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -289,7 +277,7 @@ namespace SIL.Pa.UI.Controls
 			m_viewsForm.FormClosed -= m_viewsForm_FormClosed;
 			m_viewsForm.Activated -= m_viewsForm_Activated;
 			
-			if (m_viewsControl != null)
+			if (View != null)
 				DockView();
 			
 			m_viewsForm.Dispose();
@@ -309,47 +297,36 @@ namespace SIL.Pa.UI.Controls
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
+		public Image TabImage { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the tab's tool tip for displaying over the tab group's help button
 		/// (i.e. the button to the far right of the view tab group's caption bar).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string HelpToolTipText
-		{
-			get { return m_helpToolTipText; }
-			set { m_helpToolTipText = value; }
-		}
-		
+		public string HelpToolTipText { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the help topic ID for the view's overview topic.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string HelpTopicId
-		{
-			get { return m_helpTopicId; }
-			set { m_helpTopicId = value; }
-		}
+		public string HelpTopicId { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the tab's view type.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Type ViewType
-		{
-			get { return m_viewType; }
-		}
+		public Type ViewType { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the tab's view form.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Control View
-		{
-			get { return m_viewsControl; }
-		}
+		public Control View { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -372,10 +349,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public bool Selected
 		{
 			get { return m_selected; }
@@ -391,7 +364,7 @@ namespace SIL.Pa.UI.Controls
 
 				// Invalidate the tab to the left of this one in
 				// case it needs to redraw its etched right border.
-				ViewTab adjacentTab = m_owningTabGroup.FindFirstVisibleTabToLeft(this);
+				ViewTab adjacentTab = OwningTabGroup.FindFirstVisibleTabToLeft(this);
 				if (adjacentTab != null)
 				{
 					adjacentTab.Invalidate();
@@ -402,8 +375,8 @@ namespace SIL.Pa.UI.Controls
 				{
 					if (value)
 						OpenView();
-					else if (m_viewsControl != null && m_viewDocked)
-						m_viewsControl.Visible = false;
+					else if (View != null && m_viewDocked)
+						View.Visible = false;
 				}
 
 				s_viewSelectionInProgress = false;
@@ -415,11 +388,7 @@ namespace SIL.Pa.UI.Controls
 		/// Gets or sets the tab's owning group.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ViewTabGroup OwningTabGroup
-		{
-			get { return m_owningTabGroup; }
-			set { m_owningTabGroup = value; }
-		}
+		public ViewTabGroup OwningTabGroup { get; set; }
 
 		#endregion
 
@@ -436,10 +405,6 @@ namespace SIL.Pa.UI.Controls
 		//}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Left)
@@ -455,20 +420,12 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
 			m_mouseDownLocation = Point.Empty; 
 			base.OnMouseUp(e);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
@@ -490,10 +447,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseEnter(EventArgs e)
 		{
 			m_mouseOver = true;
@@ -502,10 +455,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseLeave(EventArgs e)
 		{
 			m_mouseOver = false;
@@ -513,10 +462,6 @@ namespace SIL.Pa.UI.Controls
 			base.OnMouseLeave(e);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnPaint(PaintEventArgs e)
 		{
@@ -533,18 +478,18 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void DrawBackground(Graphics g)
 		{
-			Rectangle rc = ClientRectangle;
+			var rc = ClientRectangle;
 
 			// First, fill the entire background with the control color.
 			g.FillRectangle(SystemBrushes.Control, rc);
 
-			Point[] pts = new[] {new Point(0, rc.Bottom), new Point(0, rc.Top + 3),
+			var pts = new[] {new Point(0, rc.Bottom), new Point(0, rc.Top + 3),
 				new Point(3, 0), new Point(rc.Right - 4, 0), new Point(rc.Right - 1, rc.Top + 3),
 				new Point(rc.Right - 1, rc.Bottom)};
 
 			if (m_selected)
 			{
-				using (SolidBrush br = new SolidBrush(Color.White))
+				using (var br = new SolidBrush(Color.White))
 					g.FillPolygon(br, pts);
 
 				g.DrawLines(SystemPens.ControlDark, pts);
@@ -553,7 +498,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				// Draw the etched line on the right edge to act as a separator. But
 				// only draw it when the tab to the right of this one is not selected.
-				if (!m_owningTabGroup.IsRightAdjacentTabSelected(this))
+				if (!OwningTabGroup.IsRightAdjacentTabSelected(this))
 				{
 					g.DrawLine(SystemPens.ControlDark, rc.Width - 2, 1, rc.Width - 2, rc.Height - 5);
 					g.DrawLine(SystemPens.ControlLight, rc.Width - 1, 1, rc.Width - 1, rc.Height - 5);
@@ -572,18 +517,18 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void DrawImage(Graphics g)
 		{
-			if (m_image == null)
+			if (TabImage == null)
 				return;
 
-			Rectangle rc = ClientRectangle;
+			var rc = ClientRectangle;
 			rc.X = 7;
-			rc.Y = (rc.Height - m_image.Height) / 2;
-			rc.Size = m_image.Size;
+			rc.Y = (rc.Height - TabImage.Height) / 2;
+			rc.Size = TabImage.Size;
 
 			if (m_selected)
 				rc.Y++;
 
-			g.DrawImage(m_image, rc);
+			g.DrawImage(TabImage, rc);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -598,17 +543,17 @@ namespace SIL.Pa.UI.Controls
 				TextFormatFlags.SingleLine | TextFormatFlags.NoPadding |
 				TextFormatFlags.HidePrefix | TextFormatFlags.PreserveGraphicsClipping;
 
-			Color clrText = (m_selected ? Color.Black :
+			var clrText = (m_selected ? Color.Black :
 				ColorHelper.CalculateColor(SystemColors.ControlText,
 				SystemColors.Control, 145));
 			
-			Rectangle rc = ClientRectangle;
+			var rc = ClientRectangle;
 
 			// Account for the image if there is one.
-			if (m_image != null)
+			if (TabImage != null)
 			{
-				rc.X += (5 + m_image.Width);
-				rc.Width -= (5 + m_image.Width);
+				rc.X += (5 + TabImage.Width);
+				rc.Width -= (5 + TabImage.Width);
 			}
 
 			// When the tab is selected, then bump the text down a couple of pixels.
@@ -632,9 +577,9 @@ namespace SIL.Pa.UI.Controls
 			if (!m_mouseOver)
 				return;
 
-			Rectangle rc = ClientRectangle;
+			var rc = ClientRectangle;
 
-			Color clr = (PaintingHelper.CanPaintVisualStyle() ?
+			var clr = (PaintingHelper.CanPaintVisualStyle() ?
 				VisualStyleInformation.ControlHighlightHot : SystemColors.Highlight);
 
 			// Draw the lines that only show when the mouse is over the tab.

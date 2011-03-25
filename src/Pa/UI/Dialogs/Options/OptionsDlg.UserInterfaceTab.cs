@@ -23,7 +23,7 @@ namespace SIL.Pa.UI.Dialogs
 			foreach (var ci in allowedUILangs)
 				cboUILanguage.Items.Add(ci);
 
-			CultureInfo currCulture = CultureInfo.GetCultureInfo(LocalizationManager.UILanguageId);
+			var currCulture = CultureInfo.GetCultureInfo(LocalizationManager.UILanguageId);
 			cboUILanguage.SelectedItem = currCulture;
 		}
 

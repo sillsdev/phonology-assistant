@@ -105,10 +105,10 @@ namespace SIL.Pa.UI.Dialogs
 		}
  
 		/// ------------------------------------------------------------------------------------
-		protected override void SetWindowText()
+		protected override void OnStringsLocalized()
 		{
 			if (!m_isProjectNew)
-				base.SetWindowText();
+				base.OnStringsLocalized();
 			else
 			{
 				Text = App.GetString("ProjectSettingsDlg.WindowTitleWhenProjectIsNew",
@@ -128,7 +128,7 @@ namespace SIL.Pa.UI.Dialogs
 			App.SetGridSelectionColors(m_grid, false);
 
 			m_grid.Columns.Add(SilGrid.CreateCheckBoxColumn("skip"));
-			App.GetStringForObject(m_grid.Columns["skip"],
+			App.RegisterForLocalization(m_grid.Columns["skip"],
 				"ProjectSettingsDlg.LoadDataSourceColumnHdg", "Load",
 				"Column heading in data source list in project settings dialog box.");
 
@@ -136,7 +136,7 @@ namespace SIL.Pa.UI.Dialogs
 		    col.ReadOnly = true;
 		    col.Width = 250;
 			m_grid.Columns.Add(col);
-			App.GetStringForObject(m_grid.Columns["sourceFiles"],
+			App.RegisterForLocalization(m_grid.Columns["sourceFiles"],
 				"ProjectSettingsDlg.DataSourceNameColumnHdg", "Source",
 				"Column heading in data source list in project settings dialog box.");
 
@@ -144,7 +144,7 @@ namespace SIL.Pa.UI.Dialogs
 		    col.ReadOnly = true;
 			col.Width = 75;
 		    m_grid.Columns.Add(col);
-			App.GetStringForObject(m_grid.Columns["type"],
+			App.RegisterForLocalization(m_grid.Columns["type"],
 				"ProjectSettingsDlg.DataSourceTypeColumnHdg", "Type",
 				"Column heading in data source list in project settings dialog box.");
 
@@ -162,7 +162,7 @@ namespace SIL.Pa.UI.Dialogs
 				"Specify XSLT", "Tooltip for the button in the XSLTe column in the project settings dialog");
 			
 			m_grid.Columns.Add(col);
-			App.GetStringForObject(m_grid.Columns["xslt"],
+			App.RegisterForLocalization(m_grid.Columns["xslt"],
 				"ProjectSettingsDlg.DataSourceFileXSLTColumnHdg", "XSLT",
 				"Column heading in data source list in project settings dialog box.");
 

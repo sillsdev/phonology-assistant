@@ -246,35 +246,40 @@ namespace SIL.Pa.UI
 			var text = (itemProps == null ? "Error!" : itemProps.Text);
 			var tooltip = App.GetString("PaMainWnd.DataCorpusViewTabToolTip", "Data Corpus View (Ctrl+Alt+D)");
 			var helptooltip = App.GetString("PaMainWnd.DataCorpusViewHelpButtonToolTip", "Data Corpus View Help");
-			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidDataCorpusView", img, typeof(DataCorpusVw));
+			var tab = vwTabGroup.AddTab(text, tooltip, helptooltip, "hidDataCorpusView", img, typeof(DataCorpusVw));
+			App.RegisterForLocalization(tab, "MenuItems.DataCorpus");
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuFindPhones");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
 			tooltip = App.GetString("PaMainWnd.SearchViewTabToolTip", "Search View (Ctrl+Alt+S)");
 			helptooltip = App.GetString("PaMainWnd.SearchViewHelpButtonToolTip", "Search View Help");
-			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidSearchView", img, typeof(SearchVw));
+			tab = vwTabGroup.AddTab(text, tooltip, helptooltip, "hidSearchView", img, typeof(SearchVw));
+			App.RegisterForLocalization(tab, "MenuItems.FindPhones");
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuConsonantChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
 			tooltip = App.GetString("PaMainWnd.ConsonantChartViewTabToolTip", "Consonant Chart View (Ctrl+Alt+C)");
 			helptooltip = App.GetString("PaMainWnd.ConsonantChartViewHelpButtonToolTip", "Consonant Chart View Help");
-			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidConsonantChartView", img, typeof(ConsonantChartVw));
+			tab = vwTabGroup.AddTab(text, tooltip, helptooltip, "hidConsonantChartView", img, typeof(ConsonantChartVw));
+			App.RegisterForLocalization(tab, "MenuItems.ConsonantChart");
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuVowelChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
 			tooltip = App.GetString("PaMainWnd.VowelChartViewTabToolTip", "Vowel Chart View (Ctrl+Alt+V)");
 			helptooltip = App.GetString("PaMainWnd.VowelChartViewHelpButtonToolTip", "Vowel Chart View Help");
-			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidVowelChartView", img, typeof(VowelChartVw));
+			tab = vwTabGroup.AddTab(text, tooltip, helptooltip, "hidVowelChartView", img, typeof(VowelChartVw));
+			App.RegisterForLocalization(tab, "MenuItems.VowelChart");
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuXYChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
 			tooltip = App.GetString("PaMainWnd.DistributionChartViewTabToolTip", "Distribution Charts View (Ctrl+Alt+X)");
 			helptooltip = App.GetString("PaMainWnd.DistributionChartViewHelpButtonToolTip", "Distribution Charts View Help");
-			vwTabGroup.AddTab(text, tooltip, helptooltip, "hidXYChartsView", img, typeof(DistributionChartVw));
+			tab = vwTabGroup.AddTab(text, tooltip, helptooltip, "hidXYChartsView", img, typeof(DistributionChartVw));
+			App.RegisterForLocalization(tab, "MenuItems.XYChart");
 			
 			vwTabGroup.Visible = true;
 		}
@@ -527,9 +532,19 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected bool OnStringsLocalized(object args)
+		{
+			vwTabGroup.AdjustTabWidths();
+			vwTabGroup.RefreshCaption();
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected bool OnUserInterfaceLangaugeChanged(object args)
 		{
 			App.ReapplyLocalizationsToAllObjects();
+			vwTabGroup.AdjustTabWidths();
+			vwTabGroup.RefreshCaption();
 			return false;
 		}
 

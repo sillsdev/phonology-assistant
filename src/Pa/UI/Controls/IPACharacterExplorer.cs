@@ -9,10 +9,6 @@ using SilTools;
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class IPACharacterExplorer : SimpleExplorerBar
 	{
 		private const int kBigFontSize = 19;
@@ -31,10 +27,6 @@ namespace SIL.Pa.UI.Controls
 
 		private Func<IPASymbol, bool> ShouldLoadCharacterDelegate { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public IPACharacterExplorer()
 		{
@@ -191,10 +183,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void LayoutPickers(bool suspendDraw)
 		{
 			if (suspendDraw)
@@ -228,8 +216,8 @@ namespace SIL.Pa.UI.Controls
 
 			var item = Add(m_pickerConsonant);
 
-			App.GetStringForObject(item.Button, 
-				"IPACharacterChooser.ConsonantsCharChooserHeading", "Consonants", 
+			App.RegisterForLocalization(item.Button, 
+				"IPACharacterExplorer.ConsonantChooserHeading", "Consonants", 
 				"Text on heading above list of consonants from which to choose in side bar of search and XY chart views.");
 		}
 
@@ -250,8 +238,8 @@ namespace SIL.Pa.UI.Controls
 			
 			var item = Add(m_pickerNonPulmonics);
 
-			App.GetStringForObject(item.Button,
-				"IPACharacterChooser.NonPulmonicsCharChooserHeading", "Non Pulmonics", 
+			App.RegisterForLocalization(item.Button,
+				"IPACharacterExplorer.NonPulmonicChooserHeading", "Non Pulmonics", 
 				"Text on heading above list of non pulmonic consonants from which to choose in side bar of search and XY chart views.");
 		}
 
@@ -272,8 +260,8 @@ namespace SIL.Pa.UI.Controls
 			
 			var item = Add(m_pickerOther);
 
-			App.GetStringForObject(item.Button,
-				"IPACharacterChooser.OtherSymbolsCharChooserHeading", "Other Symbols",
+			App.RegisterForLocalization(item.Button,
+				"IPACharacterExplorer.OtherSymbolChooserHeading", "Other Symbols",
 				"Text on heading above list of other symbols from which to choose in side bar of search and XY chart views.");
 		}
 
@@ -294,8 +282,8 @@ namespace SIL.Pa.UI.Controls
 
 			var item = Add(m_pickerVowel);
 
-			App.GetStringForObject(item.Button,
-				"IPACharacterChooser.VowelsCharChooserHeading", "Vowels",
+			App.RegisterForLocalization(item.Button,
+				"IPACharacterExplorer.VowelChooserHeading", "Vowels",
 				"Text on heading above list of vowels from which to choose in side bar of search and XY chart views.");
 		}
         
@@ -317,8 +305,8 @@ namespace SIL.Pa.UI.Controls
 
 			var item = Add(m_pickerDiacritics);
 
-			App.GetStringForObject(item.Button,
-				"IPACharacterChooser.DiacriticsCharChooserHeading", "Diacritics",
+			App.RegisterForLocalization(item.Button,
+				"IPACharacterExplorer.DiacriticChooserHeading", "Diacritics",
 				"Text on heading above list of diacritics from which to choose in side bar of search and XY chart views.");
 
 			// Enlarge the font and cell size
@@ -344,8 +332,8 @@ namespace SIL.Pa.UI.Controls
 	
 			var item = Add(m_pickerSSeg);
 
-			App.GetStringForObject(item.Button,
-				"IPACharacterChooser.SSegsCharChooserHeading", "Stress and Length\\n(Suprasegmentals)",
+			App.RegisterForLocalization(item.Button,
+				"IPACharacterExplorer.SSegChooserHeading", "Stress and Length\\n(Suprasegmentals)",
 				"Text on heading above list of suprasegmentals from which to choose in side bar of search and XY chart views.");
 
 			// Enlarge the font and cell size
@@ -371,8 +359,8 @@ namespace SIL.Pa.UI.Controls
 			
 			var item = Add(m_pickerTone);
 
-			App.GetStringForObject(item.Button,
-				"IPACharacterChooser.ToneCharChooserHeading", "Tone and Accents",
+			App.RegisterForLocalization(item.Button,
+				"IPACharacterExplorer.ToneChooserHeading", "Tone and Accents",
 				"Text on heading above list of tones and accents from which to choose in side bar of search and XY chart views.");
 
 			// Enlarge the font and cell size
@@ -393,10 +381,6 @@ namespace SIL.Pa.UI.Controls
 				ItemDrag(sender, e);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandleCharPicked(CharPicker picker, ToolStripButton item)
 		{

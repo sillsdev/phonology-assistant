@@ -129,6 +129,16 @@ namespace SIL.Pa
 			InitializeFonts();
 			SetUILanguage();
 
+			// Copy the localization file to where the settings file is located.
+			var localizationFilePath = Path.Combine(PortableSettingsProvider.SettingsFileFolder, "Pa.tmx");
+			if (!File.Exists(localizationFilePath))
+			{
+				var srcLocalizationFilePath =
+					FileLocator.GetFileDistributedWithApplication(ConfigFolderName, "Pa.tmx");
+
+				File.Copy(srcLocalizationFilePath, localizationFilePath);
+			}
+
 			L10NMngr = LocalizationManager.Create("Pa", "Phonology Assistant", DefaultProjectFolder);
 
 			MinimumViewWindowSize = Settings.Default.MinimumViewWindowSize;
@@ -159,7 +169,7 @@ namespace SIL.Pa
 					dlg.Bounds = Settings.Default.LocalizeDlgBounds;
 			});
 
-			LocalizeItemDlg.StringsLocalized += (() => MsgMediator.SendMessage("StringLocalized", L10NMngr));
+			LocalizeItemDlg.StringsLocalized += (() => MsgMediator.SendMessage("StringsLocalized", L10NMngr));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -185,7 +195,7 @@ namespace SIL.Pa
 				var msg = string.Format("There was an error retrieving the settings file\n\n" +
 					"'{0}'\n\nThe default settings file will be used instead.", path);
 
-				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(msg);
 			}
 
 			PortableSettingsProvider.SettingsFileFolder = GetDefaultProjectFolder();
@@ -974,21 +984,35 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		internal static string GetStringForObject(object obj, string defaultText)
 		{
-			return (L10NMngr == null ? defaultText : (L10NMngr.GetString(obj) ?? defaultText));
+		    return (L10NMngr == null ? defaultText : (L10NMngr.GetString(obj) ?? defaultText));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal static void GetStringForObject(object obj, string id, string defaultText)
+		internal static void RegisterForLocalization(object obj, string id)
 		{
 			if (L10NMngr != null)
-				L10NMngr.LocalizeObject(obj, id, defaultText);
+				L10NMngr.LocalizeObject(obj, id);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal static void GetStringForObject(object obj, string id, string defaultText, string comment)
+		internal static void RegisterForLocalization(object obj, string id, string defaultText)
 		{
-			if (L10NMngr != null)
-				L10NMngr.LocalizeObject(obj, id, defaultText, null, comment);
+			if (L10NMngr == null)
+				return;
+			
+			L10NMngr.LocalizeString(id, defaultText);
+			L10NMngr.LocalizeObject(obj, id);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static void RegisterForLocalization(object obj, string id,
+			string defaultText, string comment)
+		{
+			if (L10NMngr == null)
+				return;
+
+			L10NMngr.LocalizeObject(obj, id, defaultText, null, comment);
+			L10NMngr.LocalizeObject(obj, id);
 		}
 
 		#endregion

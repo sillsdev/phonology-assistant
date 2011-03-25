@@ -72,7 +72,7 @@ namespace SIL.Pa.UI.Controls
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			col.Visible = false;
 			int i = Columns.Add(col);
-			App.GetStringForObject(Columns[i], "FieldMappingGridBase.FontColumnHeadingText", "Font");
+			App.RegisterForLocalization(Columns[i], "FieldMappingGridBase.FontColumnHeadingText", "Font");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -82,10 +82,7 @@ namespace SIL.Pa.UI.Controls
 				m_targetFieldColumnHeadingTextHandler() : null);
 
 			if (string.IsNullOrEmpty(text))
-			{
-				text = App.GetString(
-				"FieldMappingGridBase.TargetFieldColumnHeadingText", "Field");
-			}
+				text = App.GetString("FieldMappingGridBase.TargetFieldColumnHeadingText", "Field");
 
 			return text;
 		}

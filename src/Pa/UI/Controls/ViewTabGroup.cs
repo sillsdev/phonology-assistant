@@ -302,24 +302,14 @@ namespace SIL.Pa.UI.Controls
 			if (m_pnlTabs.Left > 0)
 				m_pnlTabs.Left = 0; 
 			
-			ViewTab tab = new ViewTab(this, img, viewType);
+			var tab = new ViewTab(this, img, viewType);
 			tab.Text = Utils.RemoveAcceleratorPrefix(text);
 			tab.HelpToolTipText = helptootip;
 			tab.HelpTopicId = helptopicid;
 			tab.Dock = DockStyle.Left;
 			tab.Click += tab_Click;
+			SetTabsWidth(tab);
 
-			// Get the text's width.
-			using (Graphics g = CreateGraphics())
-			{
-				tab.Width = TextRenderer.MeasureText(g, text, tab.Font,
-					Size.Empty, kTxtFmtFlags).Width;
-				
-				if (img != null)
-					tab.Width += (img.Width + 5);
-			}
-
-			tab.Width += 6;
 			m_pnlTabs.Controls.Add(tab);
 			tab.BringToFront();
 			m_tabs.Add(tab);
@@ -332,9 +322,29 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public void AdjustTabWidths()
+		{
+			foreach (var tab in m_tabs)
+				SetTabsWidth(tab);
+
+			AdjustTabContainerWidth(true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void SetTabsWidth(ViewTab tab)
+		{
+			using (var g = CreateGraphics())
+			{
+				tab.Width = TextRenderer.MeasureText(g, tab.Text, tab.Font,
+					Size.Empty, kTxtFmtFlags).Width;
+
+				if (tab.TabImage != null)
+					tab.Width += (tab.TabImage.Width + 5);
+			}
+
+			tab.Width += 6;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		private void AdjustTabContainerWidth(bool includeInVisibleTabs)
 		{
@@ -404,10 +414,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void SelectTab(ViewTab newSelectedTab)
 		{
 			newSelectedTab.Selected = true;
@@ -418,7 +424,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 
 			SuspendLayout();
-			foreach (ViewTab tab in m_tabs)
+			foreach (var tab in m_tabs)
 			{
 				if (tab != newSelectedTab && tab.Selected)
 					tab.Selected = false;
@@ -426,15 +432,17 @@ namespace SIL.Pa.UI.Controls
 
 			EnsureTabVisible(newSelectedTab);
 			ResumeLayout();
-			m_pnlCaption.Invalidate();
-			m_captionText = newSelectedTab.Text;
-			m_tooltip.SetToolTip(m_btnHelp, newSelectedTab.HelpToolTipText);
+			RefreshCaption();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public void RefreshCaption()
+		{
+			m_pnlCaption.Invalidate();
+			m_captionText = m_currTab.Text;
+			m_tooltip.SetToolTip(m_btnHelp, m_currTab.HelpToolTipText);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public void EnsureTabVisible(ViewTab tab)
 		{
@@ -469,7 +477,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void tab_Click(object sender, EventArgs e)
 		{
-			ViewTab tab = sender as ViewTab;
+			var tab = sender as ViewTab;
 			if (tab != null && !tab.Selected)
 			{
 				SelectTab(tab);

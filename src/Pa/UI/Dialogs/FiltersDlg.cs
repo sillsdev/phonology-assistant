@@ -319,14 +319,14 @@ namespace SIL.Pa.UI.Dialogs
 			col.ReadOnly = false;
 			col.Width = 200;
 			m_gridFilters.Columns.Add(col);
-			App.GetStringForObject(m_gridFilters.Columns["filterName"],
+			App.RegisterForLocalization(m_gridFilters.Columns["filterName"],
 				"FiltersDlg.FiltersListFilterNameColumnHeadingText", "Available Filters");
 
 			col = SilGrid.CreateCheckBoxColumn("showInList");
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			col.Resizable = DataGridViewTriState.False;
 			m_gridFilters.Columns.Add(col);
-			App.GetStringForObject(m_gridFilters.Columns["showInList"],
+			App.RegisterForLocalization(m_gridFilters.Columns["showInList"],
 				"FiltersDlg.FiltersListVisibleInFilterMenuNameColumnHeadingText", "Visible");
 
 			m_gridFilters.AutoResizeColumn(1, DataGridViewAutoSizeColumnMode.ColumnHeader);
@@ -385,7 +385,7 @@ namespace SIL.Pa.UI.Dialogs
 			((DataGridViewComboBoxColumn)col).DropDownWidth = 135;
 			((DataGridViewComboBoxColumn)col).MaxDropDownItems = 15;
 			m_gridExpressions.Columns.Add(col);
-			App.GetStringForObject(m_gridExpressions.Columns["expField"],
+			App.RegisterForLocalization(m_gridExpressions.Columns["expField"],
 				"FiltersDlg.ExpressionsGridFieldColumnHeadingText", "Field");
 
 			col = SilGrid.CreateDropDownListComboBoxColumn("expOperator", new List<string>(m_operatorToText.Values));
@@ -393,7 +393,7 @@ namespace SIL.Pa.UI.Dialogs
 			((DataGridViewComboBoxColumn)col).DropDownWidth = 150;
 			((DataGridViewComboBoxColumn)col).MaxDropDownItems = 15;
 			m_gridExpressions.Columns.Add(col);
-			App.GetStringForObject(m_gridExpressions.Columns["expOperator"],
+			App.RegisterForLocalization(m_gridExpressions.Columns["expOperator"],
 				"FiltersDlg.ExpressionsGridOperatorColumnHeadingText", "Operator");
 
 			col = new SilButtonColumn("expValue");
@@ -403,7 +403,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			col.DefaultCellStyle.Font = App.PhoneticFont;
 			m_gridExpressions.Columns.Add(col);
-			App.GetStringForObject(m_gridExpressions.Columns["expValue"],
+			App.RegisterForLocalization(m_gridExpressions.Columns["expValue"],
 				"FiltersDlg.ExpressionsGridValueColumnHeadingText", "Value");
 
 			col = SilGrid.CreateDropDownListComboBoxColumn("expType", new List<string>(m_expTypeToText.Values));
@@ -411,7 +411,7 @@ namespace SIL.Pa.UI.Dialogs
 			((DataGridViewComboBoxColumn)col).DropDownWidth = 150;
 			((DataGridViewComboBoxColumn)col).MaxDropDownItems = 15;
 			m_gridExpressions.Columns.Add(col);
-			App.GetStringForObject(m_gridExpressions.Columns["expType"],
+			App.RegisterForLocalization(m_gridExpressions.Columns["expType"],
 				"FiltersDlg.ExpressionsGridTypeColumnHeadingText", "Type");
 
 			col = SilGrid.CreateImageColumn("deleteExp");
