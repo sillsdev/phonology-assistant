@@ -277,8 +277,7 @@ namespace SIL.Pa.UI.Controls
 			hdr.Name = "hdr" + ClassListViewItem.kClassNameSubitem;
 			hdr.Width = 180;
 			Columns.Add(hdr);
-
-			App.GetStringForObject(hdr, "ClassListView.NameColumnHdg", "Name", "Name column heading for list of classes");
+			App.RegisterForLocalization(hdr, "ClassListView.NameColumnHdg", "Name", "Name column heading for list of classes");
 
 			if (!m_showMembersAndClassTypeColumns)
 				return;
@@ -297,14 +296,16 @@ namespace SIL.Pa.UI.Controls
 			hdr.Name = "hdr" + kMemberSubitem;
 			hdr.Width = 205;
 			Columns.Add(hdr);
-			App.GetStringForObject(hdr, "ClassListView.MembersColumnHdg", "Members", "Members column heading for list of classes");
+			App.RegisterForLocalization(hdr, "ClassListView.MembersColumnHdg",
+				"Members", "Members column heading for list of classes");
 
 			// Add a column for the text showing what the class is based on.
 			hdr = new ColumnHeader();
 			hdr.Name = "hdr" + kBasedOnSubitem;
 			hdr.Width = 175;
 			Columns.Add(hdr);
-			App.GetStringForObject(hdr, "ClassListView.TypeColumnHdg", "Type", "Type column heading for list of classes");
+			App.RegisterForLocalization(hdr, "ClassListView.TypeColumnHdg",
+				"Type", "Type column heading for list of classes");
 		}
 
 		/// ------------------------------------------------------------------------------------

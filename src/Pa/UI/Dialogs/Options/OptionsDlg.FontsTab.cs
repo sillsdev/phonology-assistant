@@ -29,7 +29,10 @@ namespace SIL.Pa.UI.Dialogs
 			pnlFonts.Controls.Add(m_fntGrid);
 
 			if (Settings.Default.OptionsDlgFontGrid != null)
+			{
 				Settings.Default.OptionsDlgFontGrid.InitializeGrid(m_fntGrid);
+				m_fntGrid.ShowFontColumn(true);
+			}
 			else
 			{
 				m_fntGrid.AutoResizeColumnHeadersHeight();

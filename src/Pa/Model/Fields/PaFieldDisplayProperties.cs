@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Xml.Serialization;
 using SilTools;
@@ -18,6 +19,8 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class PaFieldDisplayProperties : IDisposable
 	{
+		private static Dictionary<string, string> s_displayNames;
+
 		public const int kDefaultWidthInGrid = 120;
 		
 		private Font m_font;
@@ -120,82 +123,96 @@ namespace SIL.Pa.Model
 
 		#region static methods
 		/// ------------------------------------------------------------------------------------
-		public static string GetDisplayName(string name)
+		public static void ResetDisplayNameCache()
 		{
-			switch (name)
+			s_displayNames.Clear();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string GetDisplayName(string fname)
+		{
+			string dispName;
+
+			if (s_displayNames == null)
+				s_displayNames = new Dictionary<string, string>();
+			else if (s_displayNames.TryGetValue(fname, out dispName))
+				return dispName;
+
+			switch (fname)
 			{
-				case PaField.kCVPatternFieldName: return App.GetString("DisplayableFieldNames.CVPattern", "CV Pattern");
-				case PaField.kDataSourceFieldName: return App.GetString("DisplayableFieldNames.DataSource", "Data Source");
-				case PaField.kDataSourcePathFieldName: return App.GetString("DisplayableFieldNames.DataSourcePath", "Data Source Path");
-				case "Reference": return App.GetString("DisplayableFieldNames.Reference", "Reference");
-				case "Phonetic": return App.GetString("DisplayableFieldNames.Phonetic", "Phonetic");
-				case "Gloss": return App.GetString("DisplayableFieldNames.Gloss", "Gloss");
-				case "Gloss-Secondary": return App.GetString("DisplayableFieldNames.GlossSecondary", "Gloss (Secondary)");
-				case "Gloss-Other": return App.GetString("DisplayableFieldNames.GlossOther", "Gloss (Other)");
-				case "PartOfSpeech": return App.GetString("DisplayableFieldNames.PartOfSpeech", "Part of Speech");
-				case "Tone": return App.GetString("DisplayableFieldNames.Tone", "Tone");
-				case "Orthographic": return App.GetString("DisplayableFieldNames.Orthographic", "Orthographic");
-				case "Phonemic": return App.GetString("DisplayableFieldNames.Phonemic", "Phonemic");
-				case "AudioFile": return App.GetString("DisplayableFieldNames.AudioFile", "Audio File");
-				case "AudioFileLabel": return App.GetString("DisplayableFieldNames.AudioFileLabel", "Audio File Label");
-				case "FreeFormTranslation": return App.GetString("DisplayableFieldNames.FreeFormTranslation", "Free Translation");
-				case "NoteBookReference": return App.GetString("DisplayableFieldNames.NoteBookReference", "Note Book Ref.");
-				case "Dialect": return App.GetString("DisplayableFieldNames.Dialect", "Dialect");
-				case "EthnologueId": return App.GetString("DisplayableFieldNames.EthnologueId", "Ethnologue Id");
-				case "LanguageName": return App.GetString("DisplayableFieldNames.LanguageName", "Language Name");
-				case "Region": return App.GetString("DisplayableFieldNames.Region", "Region");
-				case "Country": return App.GetString("DisplayableFieldNames.Country", "Country");
-				case "Family": return App.GetString("DisplayableFieldNames.Family", "Family");
-				case "Transcriber": return App.GetString("DisplayableFieldNames.Transcriber", "Transcriber");
-				case "SpeakerName": return App.GetString("DisplayableFieldNames.SpeakerName", "Speaker Name");
-				case "SpeakerGender": return App.GetString("DisplayableFieldNames.SpeakerGender", "Speaker Gender");
-				case "SADescription": return App.GetString("DisplayableFieldNames.SADescription", "Description");
-				case "CitationForm": return App.GetString("DisplayableFieldNames.CitationForm", "Citation Form");
-				case "MorphType": return App.GetString("DisplayableFieldNames.MorphType", "Morpheme Type");
-				case "Etymology": return App.GetString("DisplayableFieldNames.Etymology", "Etymology");
-				case "LiteralMeaning": return App.GetString("DisplayableFieldNames.LiteralMeaning", "Literal Meaning");
-				case "Bibliography": return App.GetString("DisplayableFieldNames.Bibliography", "Bibliography");
-				case "Restrictions": return App.GetString("DisplayableFieldNames.Restrictions", "Restrictions");
-				case "SummaryDefinition": return App.GetString("DisplayableFieldNames.SummaryDefinition", "Summary Definition");
-				case "Note": return App.GetString("DisplayableFieldNames.Note", "Note");
-				case "CV-Pattern-Source": return App.GetString("DisplayableFieldNames.DataSourceCVPattern", "CV Pattern (from source)");
-				case "Location": return App.GetString("DisplayableFieldNames.Location", "Location");
-				case "ExcludeAsHeadword": return App.GetString("DisplayableFieldNames.ExcludeAsHeadword", "Exclude As Headword");
-				case "ImportResidue": return App.GetString("DisplayableFieldNames.ImportResidue", "Import Residue");
-				case "DateCreated": return App.GetString("DisplayableFieldNames.DateCreated", "Date Created");
-				case "DateModified": return App.GetString("DisplayableFieldNames.DateModified", "Date Modified");
-				case "Definition": return App.GetString("DisplayableFieldNames.Definition", "Definition");
-				case "ScientificName": return App.GetString("DisplayableFieldNames.ScientificName", "Scientific Name");
-				case "AnthropologyNote": return App.GetString("DisplayableFieldNames.AnthropologyNote", "Anthropology Note");
-				case "Bibliography-Sense": return App.GetString("DisplayableFieldNames.Bibliography-Sense", "Bibliography (Sense)");
-				case "DiscourseNote": return App.GetString("DisplayableFieldNames.DiscourseNote", "Discourse Note");
-				case "EncyclopedicInfo": return App.GetString("DisplayableFieldNames.EncyclopedicInfo", "Encyclopedic Info.");
-				case "GeneralNote": return App.GetString("DisplayableFieldNames.GeneralNote", "General Note");
-				case "GrammarNote": return App.GetString("DisplayableFieldNames.Grammar Note", "Grammar Note");
-				case "PhonologyNote": return App.GetString("DisplayableFieldNames.PhonologyNote", "Phonology Note");
-				case "Restrictions-Sense": return App.GetString("DisplayableFieldNames.Restrictions-Sense", "Restrictions (Sense)");
-				case "SemanticsNote": return App.GetString("DisplayableFieldNames.SemanticsNote", "Semantics Note");
-				case "SociolinguisticsNote": return App.GetString("DisplayableFieldNames.SociolinguisticsNote", "Sociolinguistics Note");
-				case "ReversalEntries": return App.GetString("DisplayableFieldNames.ReversalEntries", "Reversal Entries");
-				case "Source": return App.GetString("DisplayableFieldNames.Source", "Source");
-				case "SenseType": return App.GetString("DisplayableFieldNames.SenseType", "Sense Type");
-				case "Status": return App.GetString("DisplayableFieldNames.Status", "Status");
-				case "ImportResidue-Sense": return App.GetString("DisplayableFieldNames.ImportResidue-Sense", "Import Residue (Sense)");
-				case "AnthroCodes": return App.GetString("DisplayableFieldNames.AnthroCategories", "Anthropology Categories");
-				case "DomainTypes": return App.GetString("DisplayableFieldNames.DomainTypes", "Domain Types");
-				case "SemanticDomains": return App.GetString("DisplayableFieldNames.SemanticDomains", "Semantic Domains");
-				case "Usages": return App.GetString("DisplayableFieldNames.Usages", "Usages");
-				case "Variants": return App.GetString("DisplayableFieldNames.Variants", "Variants");
-				case "VariantTypes": return App.GetString("DisplayableFieldNames.VariantTypes", "Variant Types");
-				case "VariantComments": return App.GetString("DisplayableFieldNames.VariantComments", "Variant Comments");
-				case "ComplexForms": return App.GetString("DisplayableFieldNames.ComplexForms", "Complex Forms");
-				case "Components": return App.GetString("DisplayableFieldNames.Components", "Components");
-				case "ComplexTypes": return App.GetString("DisplayableFieldNames.ComplexTypes", "Complex Types");
-				case "ComplexFormComments": return App.GetString("DisplayableFieldNames.ComplexFormComments", "Complex Form Comments");
-				case "Allomorphs": return App.GetString("DisplayableFieldNames.Allomorphs", "Allomorphs");
+				case PaField.kCVPatternFieldName: s_displayNames[fname] = App.GetString("DisplayableFieldNames.CVPattern", "CV Pattern"); break;
+				case PaField.kDataSourceFieldName: s_displayNames[fname] = App.GetString("DisplayableFieldNames.DataSource", "Data Source"); break;
+				case PaField.kDataSourcePathFieldName: s_displayNames[fname] = App.GetString("DisplayableFieldNames.DataSourcePath", "Data Source Path"); break;
+				case "Reference": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Reference", "Reference"); break;
+				case "Phonetic": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Phonetic", "Phonetic"); break;
+				case "Gloss": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Gloss", "Gloss"); break;
+				case "Gloss-Secondary": s_displayNames[fname] = App.GetString("DisplayableFieldNames.GlossSecondary", "Gloss (Secondary)"); break;
+				case "Gloss-Other": s_displayNames[fname] = App.GetString("DisplayableFieldNames.GlossOther", "Gloss (Other)"); break;
+				case "PartOfSpeech": s_displayNames[fname] = App.GetString("DisplayableFieldNames.PartOfSpeech", "Part of Speech"); break;
+				case "Tone": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Tone", "Tone"); break;
+				case "Orthographic": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Orthographic", "Orthographic"); break;
+				case "Phonemic": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Phonemic", "Phonemic"); break;
+				case "AudioFile": s_displayNames[fname] = App.GetString("DisplayableFieldNames.AudioFile", "Audio File"); break;
+				case "AudioFileLabel": s_displayNames[fname] = App.GetString("DisplayableFieldNames.AudioFileLabel", "Audio File Label"); break;
+				case "FreeFormTranslation": s_displayNames[fname] = App.GetString("DisplayableFieldNames.FreeFormTranslation", "Free Translation"); break;
+				case "NoteBookReference": s_displayNames[fname] = App.GetString("DisplayableFieldNames.NoteBookReference", "Note Book Ref."); break;
+				case "Dialect": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Dialect", "Dialect"); break;
+				case "EthnologueId": s_displayNames[fname] = App.GetString("DisplayableFieldNames.EthnologueId", "Ethnologue Id"); break;
+				case "LanguageName": s_displayNames[fname] = App.GetString("DisplayableFieldNames.LanguageName", "Language Name"); break;
+				case "Region": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Region", "Region"); break;
+				case "Country": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Country", "Country"); break;
+				case "Family": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Family", "Family"); break;
+				case "Transcriber": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Transcriber", "Transcriber"); break;
+				case "SpeakerName": s_displayNames[fname] = App.GetString("DisplayableFieldNames.SpeakerName", "Speaker Name"); break;
+				case "SpeakerGender": s_displayNames[fname] = App.GetString("DisplayableFieldNames.SpeakerGender", "Speaker Gender"); break;
+				case "SADescription": s_displayNames[fname] = App.GetString("DisplayableFieldNames.SADescription", "Description"); break;
+				case "CitationForm": s_displayNames[fname] = App.GetString("DisplayableFieldNames.CitationForm", "Citation Form"); break;
+				case "MorphType": s_displayNames[fname] = App.GetString("DisplayableFieldNames.MorphType", "Morpheme Type"); break;
+				case "Etymology": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Etymology", "Etymology"); break;
+				case "LiteralMeaning": s_displayNames[fname] = App.GetString("DisplayableFieldNames.LiteralMeaning", "Literal Meaning"); break;
+				case "Bibliography": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Bibliography", "Bibliography"); break;
+				case "Restrictions": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Restrictions", "Restrictions"); break;
+				case "SummaryDefinition": s_displayNames[fname] = App.GetString("DisplayableFieldNames.SummaryDefinition", "Summary Definition"); break;
+				case "Note": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Note", "Note"); break;
+				case "CV-Pattern-Source": s_displayNames[fname] = App.GetString("DisplayableFieldNames.DataSourceCVPattern", "CV Pattern (from source)"); break;
+				case "Location": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Location", "Location"); break;
+				case "ExcludeAsHeadword": s_displayNames[fname] = App.GetString("DisplayableFieldNames.ExcludeAsHeadword", "Exclude As Headword"); break;
+				case "ImportResidue": s_displayNames[fname] = App.GetString("DisplayableFieldNames.ImportResidue", "Import Residue"); break;
+				case "DateCreated": s_displayNames[fname] = App.GetString("DisplayableFieldNames.DateCreated", "Date Created"); break;
+				case "DateModified": s_displayNames[fname] = App.GetString("DisplayableFieldNames.DateModified", "Date Modified"); break;
+				case "Definition": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Definition", "Definition"); break;
+				case "ScientificName": s_displayNames[fname] = App.GetString("DisplayableFieldNames.ScientificName", "Scientific Name"); break;
+				case "AnthropologyNote": s_displayNames[fname] = App.GetString("DisplayableFieldNames.AnthropologyNote", "Anthropology Note"); break;
+				case "Bibliography-Sense": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Bibliography-Sense", "Bibliography (Sense)"); break;
+				case "DiscourseNote": s_displayNames[fname] = App.GetString("DisplayableFieldNames.DiscourseNote", "Discourse Note"); break;
+				case "EncyclopedicInfo": s_displayNames[fname] = App.GetString("DisplayableFieldNames.EncyclopedicInfo", "Encyclopedic Info."); break;
+				case "GeneralNote": s_displayNames[fname] = App.GetString("DisplayableFieldNames.GeneralNote", "General Note"); break;
+				case "GrammarNote": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Grammar Note", "Grammar Note"); break;
+				case "PhonologyNote": s_displayNames[fname] = App.GetString("DisplayableFieldNames.PhonologyNote", "Phonology Note"); break;
+				case "Restrictions-Sense": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Restrictions-Sense", "Restrictions (Sense)"); break;
+				case "SemanticsNote": s_displayNames[fname] = App.GetString("DisplayableFieldNames.SemanticsNote", "Semantics Note"); break;
+				case "SociolinguisticsNote": s_displayNames[fname] = App.GetString("DisplayableFieldNames.SociolinguisticsNote", "Sociolinguistics Note"); break;
+				case "ReversalEntries": s_displayNames[fname] = App.GetString("DisplayableFieldNames.ReversalEntries", "Reversal Entries"); break;
+				case "Source": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Source", "Source"); break;
+				case "SenseType": s_displayNames[fname] = App.GetString("DisplayableFieldNames.SenseType", "Sense Type"); break;
+				case "Status": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Status", "Status"); break;
+				case "ImportResidue-Sense": s_displayNames[fname] = App.GetString("DisplayableFieldNames.ImportResidue-Sense", "Import Residue (Sense)"); break;
+				case "AnthroCodes": s_displayNames[fname] = App.GetString("DisplayableFieldNames.AnthroCategories", "Anthropology Categories"); break;
+				case "DomainTypes": s_displayNames[fname] = App.GetString("DisplayableFieldNames.DomainTypes", "Domain Types"); break;
+				case "SemanticDomains": s_displayNames[fname] = App.GetString("DisplayableFieldNames.SemanticDomains", "Semantic Domains"); break;
+				case "Usages": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Usages", "Usages"); break;
+				case "Variants": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Variants", "Variants"); break;
+				case "VariantTypes": s_displayNames[fname] = App.GetString("DisplayableFieldNames.VariantTypes", "Variant Types"); break;
+				case "VariantComments": s_displayNames[fname] = App.GetString("DisplayableFieldNames.VariantComments", "Variant Comments"); break;
+				case "ComplexForms": s_displayNames[fname] = App.GetString("DisplayableFieldNames.ComplexForms", "Complex Forms"); break;
+				case "Components": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Components", "Components"); break;
+				case "ComplexTypes": s_displayNames[fname] = App.GetString("DisplayableFieldNames.ComplexTypes", "Complex Types"); break;
+				case "ComplexFormComments": s_displayNames[fname] = App.GetString("DisplayableFieldNames.ComplexFormComments", "Complex Form Comments"); break;
+				case "Allomorphs": s_displayNames[fname] = App.GetString("DisplayableFieldNames.Allomorphs", "Allomorphs"); break;
+				default: return fname;
 			}
 
-			return name;
+			return s_displayNames[fname];
 		}
 
 		#endregion

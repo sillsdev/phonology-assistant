@@ -159,8 +159,9 @@ namespace SIL.Pa.Model
 			}
 			catch (Exception e)
 			{
-				Utils.MsgBox(string.Format(Properties.Resources.kstidSavingRecordCacheError,
-					e.Message), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				var msg = App.GetString("SavingRecordCacheErrorMsg", "Error saving records: {0}",
+					"Message displayed if there was an error saving the records to an XML file.");
+				Utils.MsgBox(string.Format(msg, e.Message));
 			}
 		}
 
@@ -206,6 +207,7 @@ namespace SIL.Pa.Model
 		{
 			WordsNotInCurrentFilter = new WordCache();
 			WordCache = new WordCache();
+			PhoneCache = GetPhonesFromWordCache(tmpWordCache);
 
 			foreach (var wentry in tmpWordCache)
 			{

@@ -174,7 +174,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tpgWordLists.Controls.Add(this.grpGridLines);
 			this.locExtender.SetLocalizableToolTip(this.tpgWordLists, null);
 			this.locExtender.SetLocalizationComment(this.tpgWordLists, "Text on tab in options dialog box.");
-			this.locExtender.SetLocalizingId(this.tpgWordLists, "OptionsDlg.tpgWordLists");
+			this.locExtender.SetLocalizingId(this.tpgWordLists, "OptionsDlg.WordListTab.Text");
 			this.tpgWordLists.Location = new System.Drawing.Point(4, 22);
 			this.tpgWordLists.Name = "tpgWordLists";
 			this.tpgWordLists.Padding = new System.Windows.Forms.Padding(3);
@@ -228,7 +228,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.fldSelGridWrdList, null);
 			this.locExtender.SetLocalizationComment(this.fldSelGridWrdList, null);
 			this.locExtender.SetLocalizationPriority(this.fldSelGridWrdList, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.fldSelGridWrdList, "OptionsDlg.fldSelGridWrdList");
+			this.locExtender.SetLocalizingId(this.fldSelGridWrdList, "OptionsDlg.WordListTab.fldSelGridWrdList");
 			this.fldSelGridWrdList.Location = new System.Drawing.Point(8, 57);
 			this.fldSelGridWrdList.MultiSelect = false;
 			this.fldSelGridWrdList.Name = "fldSelGridWrdList";
@@ -504,7 +504,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tpgRecView.Controls.Add(this.grpFieldSettings);
 			this.locExtender.SetLocalizableToolTip(this.tpgRecView, null);
 			this.locExtender.SetLocalizationComment(this.tpgRecView, "Text on tab in options dialog box.");
-			this.locExtender.SetLocalizingId(this.tpgRecView, "OptionsDlg.tpgRecView");
+			this.locExtender.SetLocalizingId(this.tpgRecView, "OptionsDlg.RecordViewTab.Text");
 			this.tpgRecView.Location = new System.Drawing.Point(4, 22);
 			this.tpgRecView.Name = "tpgRecView";
 			this.tpgRecView.Padding = new System.Windows.Forms.Padding(3);
@@ -559,7 +559,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.fldSelGridRecView, null);
 			this.locExtender.SetLocalizationComment(this.fldSelGridRecView, null);
 			this.locExtender.SetLocalizationPriority(this.fldSelGridRecView, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.fldSelGridRecView, "OptionsDlg.fldSelGridRecView");
+			this.locExtender.SetLocalizingId(this.fldSelGridRecView, "OptionsDlg.RecordViewTab.fldSelGridRecView");
 			this.fldSelGridRecView.Location = new System.Drawing.Point(11, 57);
 			this.fldSelGridRecView.MultiSelect = false;
 			this.fldSelGridRecView.Name = "fldSelGridRecView";
@@ -629,7 +629,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tpgFindPhones.Controls.Add(this.grpClassSettings);
 			this.locExtender.SetLocalizableToolTip(this.tpgFindPhones, null);
 			this.locExtender.SetLocalizationComment(this.tpgFindPhones, "Text on tab in options dialog box.");
-			this.locExtender.SetLocalizingId(this.tpgFindPhones, "OptionsDlg.tpgFindPhones");
+			this.locExtender.SetLocalizingId(this.tpgFindPhones, "OptionsDlg.SearchPatternsTab.Text");
 			this.tpgFindPhones.Location = new System.Drawing.Point(4, 22);
 			this.tpgFindPhones.Name = "tpgFindPhones";
 			this.tpgFindPhones.Size = new System.Drawing.Size(532, 382);
@@ -737,7 +737,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tpgCVPatterns.Controls.Add(this.grpStress);
 			this.locExtender.SetLocalizableToolTip(this.tpgCVPatterns, null);
 			this.locExtender.SetLocalizationComment(this.tpgCVPatterns, "Text on tab in options dialog box.");
-			this.locExtender.SetLocalizingId(this.tpgCVPatterns, "OptionsDlg.tpgCVPatterns");
+			this.locExtender.SetLocalizingId(this.tpgCVPatterns, "OptionsDlg.CVPatternsTab.Text");
 			this.tpgCVPatterns.Location = new System.Drawing.Point(4, 22);
 			this.tpgCVPatterns.Name = "tpgCVPatterns";
 			this.tpgCVPatterns.Padding = new System.Windows.Forms.Padding(3);
@@ -789,7 +789,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.lblExampleCV, null);
 			this.locExtender.SetLocalizationComment(this.lblExampleCV, null);
 			this.locExtender.SetLocalizationPriority(this.lblExampleCV, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.lblExampleCV, "OptionsDlg.lblExampleCV");
+			this.locExtender.SetLocalizingId(this.lblExampleCV, "OptionsDlg.CVPatternsTab.lblExampleCV");
 			this.lblExampleCV.Location = new System.Drawing.Point(89, 227);
 			this.lblExampleCV.Name = "lblExampleCV";
 			this.lblExampleCV.Size = new System.Drawing.Size(46, 24);
@@ -804,7 +804,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.txtCustomChars, null);
 			this.locExtender.SetLocalizationComment(this.txtCustomChars, null);
 			this.locExtender.SetLocalizationPriority(this.txtCustomChars, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.txtCustomChars, "OptionsDlg.txtCustomChars");
+			this.locExtender.SetLocalizingId(this.txtCustomChars, "OptionsDlg.CVPatternsTab.txtCustomChars");
 			this.txtCustomChars.Location = new System.Drawing.Point(16, 77);
 			this.txtCustomChars.Name = "txtCustomChars";
 			this.txtCustomChars.Size = new System.Drawing.Size(193, 29);
@@ -820,7 +820,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.lblExampleCVCV, null);
 			this.locExtender.SetLocalizationComment(this.lblExampleCVCV, null);
 			this.locExtender.SetLocalizationPriority(this.lblExampleCVCV, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.lblExampleCVCV, "OptionsDlg.lblExampleCVCV");
+			this.locExtender.SetLocalizingId(this.lblExampleCVCV, "OptionsDlg.CVPatternsTab.lblExampleCVCV");
 			this.lblExampleCVCV.Location = new System.Drawing.Point(25, 227);
 			this.lblExampleCVCV.Name = "lblExampleCVCV";
 			this.lblExampleCVCV.Size = new System.Drawing.Size(62, 24);
@@ -849,7 +849,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.txtExampleInput, null);
 			this.locExtender.SetLocalizationComment(this.txtExampleInput, null);
 			this.locExtender.SetLocalizationPriority(this.txtExampleInput, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.txtExampleInput, "OptionsDlg.txtExampleInput");
+			this.locExtender.SetLocalizingId(this.txtExampleInput, "OptionsDlg.CVPatternsTab.txtExampleInput");
 			this.txtExampleInput.Location = new System.Drawing.Point(16, 157);
 			this.txtExampleInput.Name = "txtExampleInput";
 			this.txtExampleInput.ReadOnly = true;
@@ -893,7 +893,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.grpTone, null);
 			this.locExtender.SetLocalizationComment(this.grpTone, null);
 			this.locExtender.SetLocalizationPriority(this.grpTone, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.grpTone, "OptionsDlg.grpTone");
+			this.locExtender.SetLocalizingId(this.grpTone, "OptionsDlg.CVPatternsTab.grpTone");
 			this.grpTone.Location = new System.Drawing.Point(14, 164);
 			this.grpTone.Name = "grpTone";
 			this.grpTone.Padding = new System.Windows.Forms.Padding(7, 10, 7, 7);
@@ -925,7 +925,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.tonePicker, null);
 			this.locExtender.SetLocalizationComment(this.tonePicker, null);
 			this.locExtender.SetLocalizationPriority(this.tonePicker, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.tonePicker, "OptionsDlg.tonePicker");
+			this.locExtender.SetLocalizingId(this.tonePicker, "OptionsDlg.CVPatternsTab.tonePicker");
 			this.tonePicker.Location = new System.Drawing.Point(0, 0);
 			this.tonePicker.Name = "tonePicker";
 			this.tonePicker.Padding = new System.Windows.Forms.Padding(0);
@@ -956,7 +956,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.grpLength, null);
 			this.locExtender.SetLocalizationComment(this.grpLength, null);
 			this.locExtender.SetLocalizationPriority(this.grpLength, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.grpLength, "OptionsDlg.grpLength");
+			this.locExtender.SetLocalizingId(this.grpLength, "OptionsDlg.CVPatternsTab.grpLength");
 			this.grpLength.Location = new System.Drawing.Point(14, 86);
 			this.grpLength.Name = "grpLength";
 			this.grpLength.Padding = new System.Windows.Forms.Padding(7, 10, 7, 7);
@@ -988,7 +988,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.lengthPicker, null);
 			this.locExtender.SetLocalizationComment(this.lengthPicker, null);
 			this.locExtender.SetLocalizationPriority(this.lengthPicker, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.lengthPicker, "OptionsDlg.lengthPicker");
+			this.locExtender.SetLocalizingId(this.lengthPicker, "OptionsDlg.CVPatternsTab.lengthPicker");
 			this.lengthPicker.Location = new System.Drawing.Point(0, 0);
 			this.lengthPicker.Name = "lengthPicker";
 			this.lengthPicker.Padding = new System.Windows.Forms.Padding(0);
@@ -1020,7 +1020,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.grpStress, null);
 			this.locExtender.SetLocalizationComment(this.grpStress, null);
 			this.locExtender.SetLocalizationPriority(this.grpStress, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.grpStress, "OptionsDlg.grpStress");
+			this.locExtender.SetLocalizingId(this.grpStress, "OptionsDlg.CVPatternsTab.grpStress");
 			this.grpStress.Location = new System.Drawing.Point(14, 8);
 			this.grpStress.Name = "grpStress";
 			this.grpStress.Padding = new System.Windows.Forms.Padding(7, 10, 7, 7);
@@ -1052,7 +1052,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.stressPicker, null);
 			this.locExtender.SetLocalizationComment(this.stressPicker, null);
 			this.locExtender.SetLocalizationPriority(this.stressPicker, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.stressPicker, "OptionsDlg.stressPicker");
+			this.locExtender.SetLocalizingId(this.stressPicker, "OptionsDlg.CVPatternsTab.stressPicker");
 			this.stressPicker.Location = new System.Drawing.Point(0, 0);
 			this.stressPicker.Name = "stressPicker";
 			this.stressPicker.Padding = new System.Windows.Forms.Padding(0);
@@ -1071,7 +1071,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.tpgSorting, null);
 			this.locExtender.SetLocalizationComment(this.tpgSorting, "Text on tab in options dialog box.");
 			this.locExtender.SetLocalizationPriority(this.tpgSorting, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.tpgSorting, "OptionsDlg.tpgSorting");
+			this.locExtender.SetLocalizingId(this.tpgSorting, "OptionsDlg.SortingTab.Text");
 			this.tpgSorting.Location = new System.Drawing.Point(4, 22);
 			this.tpgSorting.Name = "tpgSorting";
 			this.tpgSorting.Padding = new System.Windows.Forms.Padding(15, 13, 15, 0);
@@ -1139,7 +1139,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.m_sortingGrid, null);
 			this.locExtender.SetLocalizationComment(this.m_sortingGrid, null);
 			this.locExtender.SetLocalizationPriority(this.m_sortingGrid, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.m_sortingGrid, "OptionsDlg.m_sortingGrid");
+			this.locExtender.SetLocalizingId(this.m_sortingGrid, "OptionsDlg.SortingTab.Grid");
 			this.m_sortingGrid.Location = new System.Drawing.Point(8, 57);
 			this.m_sortingGrid.MultiSelect = false;
 			this.m_sortingGrid.Name = "m_sortingGrid";
@@ -1308,7 +1308,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tpgFonts.Controls.Add(this.pnlFonts);
 			this.locExtender.SetLocalizableToolTip(this.tpgFonts, null);
 			this.locExtender.SetLocalizationComment(this.tpgFonts, "Text on tab in options dialog box.");
-			this.locExtender.SetLocalizingId(this.tpgFonts, "OptionsDlg.tpgFonts");
+			this.locExtender.SetLocalizingId(this.tpgFonts, "OptionsDlg.FontsTab.Text");
 			this.tpgFonts.Location = new System.Drawing.Point(4, 22);
 			this.tpgFonts.Name = "tpgFonts";
 			this.tpgFonts.Padding = new System.Windows.Forms.Padding(10);
@@ -1326,12 +1326,13 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlFonts.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlFonts.DoubleBuffered = true;
 			this.pnlFonts.DrawOnlyBottomBorder = false;
+			this.pnlFonts.DrawOnlyTopBorder = false;
 			this.pnlFonts.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlFonts.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlFonts, null);
 			this.locExtender.SetLocalizationComment(this.pnlFonts, null);
 			this.locExtender.SetLocalizationPriority(this.pnlFonts, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.pnlFonts, "OptionsDlg.pnlFonts");
+			this.locExtender.SetLocalizingId(this.pnlFonts, "OptionsDlg.FontsTab.pnlFonts");
 			this.pnlFonts.Location = new System.Drawing.Point(10, 10);
 			this.pnlFonts.MnemonicGeneratesClick = false;
 			this.pnlFonts.Name = "pnlFonts";
@@ -1343,6 +1344,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.tpgColors, null);
 			this.locExtender.SetLocalizationComment(this.tpgColors, "Text on tab in options dialog box.");
+			this.locExtender.SetLocalizationPriority(this.tpgColors, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.tpgColors, "OptionsDlg.tpgColors");
 			this.tpgColors.Location = new System.Drawing.Point(4, 22);
 			this.tpgColors.Name = "tpgColors";
@@ -1357,7 +1359,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tpgUI.Controls.Add(this.lblUILanguage);
 			this.locExtender.SetLocalizableToolTip(this.tpgUI, null);
 			this.locExtender.SetLocalizationComment(this.tpgUI, "Text on tab in options dialog box.");
-			this.locExtender.SetLocalizingId(this.tpgUI, "OptionsDlg.tpgUI");
+			this.locExtender.SetLocalizingId(this.tpgUI, "OptionsDlg.UITab.Text");
 			this.tpgUI.Location = new System.Drawing.Point(4, 22);
 			this.tpgUI.Name = "tpgUI";
 			this.tpgUI.Padding = new System.Windows.Forms.Padding(3);
@@ -1374,8 +1376,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.cboUILanguage, null);
 			this.locExtender.SetLocalizationComment(this.cboUILanguage, null);
 			this.locExtender.SetLocalizationPriority(this.cboUILanguage, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.cboUILanguage, "OptionsDlg.cboUILanguage");
-			this.cboUILanguage.Location = new System.Drawing.Point(179, 34);
+			this.locExtender.SetLocalizingId(this.cboUILanguage, "OptionsDlg.UITab.cboUILanguage");
+			this.cboUILanguage.Location = new System.Drawing.Point(31, 56);
 			this.cboUILanguage.Name = "cboUILanguage";
 			this.cboUILanguage.Size = new System.Drawing.Size(208, 21);
 			this.cboUILanguage.TabIndex = 1;
@@ -1386,8 +1388,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblUILanguage.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.lblUILanguage, null);
 			this.locExtender.SetLocalizationComment(this.lblUILanguage, "Label on user interface tab of options dialog box.");
-			this.locExtender.SetLocalizingId(this.lblUILanguage, "OptionsDlg.SortingTab.lblUILanguage");
-			this.lblUILanguage.Location = new System.Drawing.Point(28, 34);
+			this.locExtender.SetLocalizingId(this.lblUILanguage, "OptionsDlg.UITab.lblUILanguage");
+			this.lblUILanguage.Location = new System.Drawing.Point(32, 34);
 			this.lblUILanguage.Name = "lblUILanguage";
 			this.lblUILanguage.Size = new System.Drawing.Size(145, 15);
 			this.lblUILanguage.TabIndex = 0;
@@ -1426,7 +1428,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidExportAsToolTip;
+			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// OptionsDlg

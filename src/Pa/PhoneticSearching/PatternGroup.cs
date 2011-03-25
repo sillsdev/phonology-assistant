@@ -336,12 +336,12 @@ namespace SIL.Pa.PhoneticSearching
 				// one for each of the phones found in the phonetic character run. Therefore,
 				// each of those phones needs to be added to our member collection as a single
 				// phone member. The first member in the collection will always be m_currMember.
-				foreach (PatternGroupMember member in members)
+				foreach (var member in members)
 				{
 					if (!string.IsNullOrEmpty(member.DiacriticPattern) &&
 						(string.IsNullOrEmpty(member.Member)))
 					{
-						LogError("kstidMisplacedDiacriticErr");
+						LogError(GetErrorMsg("MisplacedDiacriticErrorMsg"));
 						return;
 					}
 
@@ -433,7 +433,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			if (m_members.Count == 0 && m_currMember == null)
 			{
-				LogError("kstidIrregularDiacriticPlaceholderErr");
+				LogError(GetErrorMsg("IrregularDiacriticPlaceholderErrorMsg"));
 				return;
 			}
 
@@ -540,7 +540,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			if (string.IsNullOrEmpty(pattern))
 			{
-				LogError("kstidPatternEmptyErr");
+				LogError(GetErrorMsg("PatternEmptyErrorMsg"));
 				return false;
 			}
 
@@ -548,7 +548,7 @@ namespace SIL.Pa.PhoneticSearching
 
 			if (!VerifyNoIllegalSpaces(pattern))
 			{
-				LogError("kstidPatternContainsSpacesErr");
+				LogError(GetErrorMsg("PatternContainsSpacesErrorMsg"));
 				return false;
 			}
 
@@ -558,38 +558,38 @@ namespace SIL.Pa.PhoneticSearching
 			// Check for too many zero-or-more symbols
 			if (pattern.IndexOf("**") >= 0)
 			{
-				LogError("kstidTooManyZeroOrMoreErr");
+				LogError(GetErrorMsg("TooManyZeroOrMoreErrorMsg"));
 				return false;
 			}
 
 			// Check for too many one-or-more symbols
 			if (pattern.IndexOf("++") >= 0)
 			{
-				LogError("kstidTooManyOneOrMoreErr");
+				LogError(GetErrorMsg("TooManyOneOrMoreErrorMsg"));
 				return false;
 			}
 
 			if (!VerifyMatchingBrackets(pattern, '[', ']'))
 			{
-				LogError("kstidMismatchedBracketsErr");
+				LogError(GetErrorMsg("MismatchedBracketsErrorMsg"));
 				return false;
 			}
 
 			if (!VerifyMatchingBrackets(pattern, '{', '}'))
 			{
-				LogError("kstidMismatchedBracesErr");
+				LogError(GetErrorMsg("MismatchedBracesErrorMsg"));
 				return false;
 			}
 
 			if (!VerifyBracketOrdering(pattern))
 			{
-				LogError("kstidMismatchedBracketsOrBracesErr");
+				LogError(GetErrorMsg("MismatchedBracketsOrBracesErrorMsg"));
 				return false;
 			}
 
 			if (!VerifyDiacriticPlaceholderCluster(ref pattern))
 			{
-				LogError("kstidIrregularDiacriticPlaceholderErr");
+				LogError(GetErrorMsg("IrregularDiacriticPlaceholderErrorMsg"));
 				return false;
 			}
 
@@ -629,7 +629,7 @@ namespace SIL.Pa.PhoneticSearching
 					(pattern[0] != '[' && pattern[0] != '{') ||
 					(closeBracket != ']' && closeBracket != '}'))
 				{
-					LogError("kstidMismatchedBracketsOrBracesErr");
+					LogError(GetErrorMsg("MismatchedBracketsOrBracesErrorMsg"));
 					return false;
 				}
 			}
@@ -822,12 +822,12 @@ namespace SIL.Pa.PhoneticSearching
 				cluster = cluster.Replace(App.kDottedCircle, string.Empty);
 
 				if (foundZeroOrMoreSymbol && foundOneOrMoreSymbol)
-					LogError("kstidZeroAndOneOrMoreFoundErr");
+					LogError(GetErrorMsg("ZeroAndOneOrMoreFoundErrorMsg"));
 
 				// This should never happen.
 				if (s_currDiacriticPlaceholderMaker == 31)
 				{
-					LogError("kstidTooManyDiacriticPlaceholdersErr");
+					LogError(GetErrorMsg("TooManyDiacriticPlaceholdersErrorMsg"));
 					pattern = pattern.Substring(0, i - 1) + pattern.Substring(idxCloseBracket + 1);
 					continue;
 				}
@@ -860,7 +860,7 @@ namespace SIL.Pa.PhoneticSearching
 			string[] splits = tmpPattern.Split("*".ToCharArray());
 			if (splits.Length > 2)
 			{
-				LogError("kstidTooManyZeroOrMoreErr");
+				LogError(GetErrorMsg("TooManyZeroOrMoreErrorMsg"));
 				return false;
 			}
 
@@ -868,7 +868,7 @@ namespace SIL.Pa.PhoneticSearching
 			splits = tmpPattern.Split("+".ToCharArray());
 			if (splits.Length > 2)
 			{
-				LogError("kstidTooManyOneOrMoreErr");
+				LogError(GetErrorMsg("TooManyOneOrMoreErrorMsg"));
 				return false;
 			}
 			
@@ -878,14 +878,14 @@ namespace SIL.Pa.PhoneticSearching
 			// Can't have both in the same pattern.
 			if (z >= 0 && o >= 0)
 			{
-				LogError("kstidZeroAndOneOrMoreFoundErr");
+				LogError(GetErrorMsg("ZeroAndOneOrMoreFoundErrorMsg"));
 				return false;
 			}
 
 			// Niether one are valid in the search item.
 			if (m_envType == EnvironmentType.Item && (z >= 0 || o >= 0))
 			{
-				LogError("kstidZeroOneOrMoreFoundInSrchItemErr");
+				LogError(GetErrorMsg("ZeroOneOrMoreFoundInSrchItemErrorMsg"));
 				return false;
 			}
 
@@ -896,7 +896,7 @@ namespace SIL.Pa.PhoneticSearching
 					// Must be first item in pattern.
 					if (z != 0)
 					{
-						LogError("kstidZeroOrMoreBeginningErr");
+						LogError(GetErrorMsg("ZeroOrMoreBeginningErrorMsg"));
 						return false;
 					}
 
@@ -907,7 +907,7 @@ namespace SIL.Pa.PhoneticSearching
 					// Must be last item in pattern
 					if (z != tmpPattern.Length - 1)
 					{
-						LogError("kstidZeroOrMoreEndingErr");
+						LogError(GetErrorMsg("ZeroOrMoreEndingErrorMsg"));
 						return false;
 					}
 
@@ -923,7 +923,7 @@ namespace SIL.Pa.PhoneticSearching
 					// Must be first item in pattern.
 					if (o != 0)
 					{
-						LogError("kstidOneOrMoreBeginningErr");
+						LogError(GetErrorMsg("OneOrMoreBeginningErrorMsg"));
 						return false;
 					}
 
@@ -934,7 +934,7 @@ namespace SIL.Pa.PhoneticSearching
 					// Must be last item in pattern
 					if (o != tmpPattern.Length - 1)
 					{
-						LogError("kstidOneOrMoreEndingErr");
+						LogError(GetErrorMsg("OneOrMoreEndingErrorMsg"));
 						return false;
 					}
 
@@ -1032,7 +1032,7 @@ namespace SIL.Pa.PhoneticSearching
 				// We had better find the close bracket for the member.
 				if (closeIndex == pattern.Length)
 				{
-					LogError("kstidMismatchedBracketsErr");
+					LogError(GetErrorMsg("MismatchedBracketsErrorMsg"));
 					return false;
 				}
 
@@ -1044,7 +1044,7 @@ namespace SIL.Pa.PhoneticSearching
 					if (i == 0 || pattern[i - 1] != '[' || closeIndex >= pattern.Length - 1 ||
 						pattern[closeIndex + 1] != ']')
 					{
-						LogError("kstidMismatchedBracketsErr");
+						LogError(GetErrorMsg("MismatchedBracketsErrorMsg"));
 						return false;
 					}
 				
@@ -1127,43 +1127,75 @@ namespace SIL.Pa.PhoneticSearching
 
 		#region Error logging
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LogError()
+		private static string GetErrorMsg(string id)
 		{
-			LogError("kstidSyntaxErr");
+			switch (id)
+			{
+				case "TooManyOneOrMoreErrorMsg" :
+					return App.GetString("TooManyOneOrMoreErrorMsg", "Too many one-or-more symbols (+) found in the {0}. Only one is allowed.");
+				
+				case "PatternContainsSpacesErrorMsg" :
+					return App.GetString("PatternContainsSpacesErrorMsg", "There were spaces found in the {0}. Use '#' instead.");
+				
+				case "PatternEmptyErrorMsg" :
+					return App.GetString("PatternEmptyErrorMsg", "The {0} is empty.");
+				
+				case "MisplacedDiacriticErrorMsg" :
+					return App.GetString("MisplacedDiacriticErrorMsg", "Misplaced diacritic in the {0}.");
+				
+				case "IrregularDiacriticPlaceholderErrorMsg" :
+					return App.GetString("IrregularDiacriticPlaceholderErrorMsg", "Irregular diacritic placeholder syntax in {0}.");
+
+				case "TooManyZeroOrMoreErrorMsg":
+					return App.GetString("TooManyZeroOrMoreErrorMsg", "Too many zero-or-more symbols (*) found in the {0}. Only one is allowed.");
+
+				case "MismatchedBracketsErrorMsg":
+					return App.GetString("MismatchedBracketsErrorMsg", "Mismatched brackets found in the {0}.");
+
+				case "MismatchedBracesErrorMsg":
+					return App.GetString("MismatchedBracesErrorMsg", "Mismatched braces found in the {0}.");
+
+				case "MismatchedBracketsOrBracesErrorMsg":
+					return App.GetString("MismatchedBracketsOrBracesErrorMsg", "Mismatched brackets or braces found in the {0}.");
+
+				case "ZeroAndOneOrMoreFoundErrorMsg":
+					return App.GetString("ZeroAndOneOrMoreFoundErrorMsg", "The zero-or-more symbol (*) cannot be in the {0} with the one-or-more symbol (+).");
+
+				case "TooManyDiacriticPlaceholdersErrorMsg":
+					return App.GetString("TooManyDiacriticPlaceholdersErrorMsg", "There are too many diacritic placeholders between a single set of brackets in the {0}.");
+
+				case "ZeroOneOrMoreFoundInSrchItemErrorMsg":
+					return App.GetString("ZeroOneOrMoreFoundInSrchItemErrorMsg", "The zero-or-more (*) and one-or-more (+) symbols are not allowed in the search item.");
+
+				case "ZeroOrMoreBeginningErrorMsg":
+					return App.GetString("ZeroOrMoreBeginningErrorMsg", "When the zero-or-more symbol (*) is present in the preceding environment, it must be at the beginning.");
+
+				case "ZeroOrMoreEndingErrorMsg":
+					return App.GetString("ZeroOrMoreEndingErrorMsg", "When the zero-or-more symbol (*) is present in the following environment, it must be at the end.");
+
+				case "OneOrMoreBeginningErrorMsg":
+					return App.GetString("OneOrMoreBeginningErrorMsg", "When the one-or-more symbol (+) is present in the preceding environment, it must be  at the beginning.");
+
+				case "OneOrMoreEndingErrorMsg":
+					return App.GetString("OneOrMoreEndingErrorMsg", "When the one-or-more symbol (+) is present in the following environment, it must be  at the end.");
+			}
+
+			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LogError(string stid)
+		private void LogError()
 		{
-			if (m_rootGroup == null)
+			LogError(SearchEngine.GetSyntaxErrorMsg());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void LogError(string msg)
+		{
+			if (m_rootGroup == null || msg == null)
 				return;
 
-			string envType = null;
-			switch(m_rootGroup.m_envType)
-			{
-				case EnvironmentType.Before:
-					envType = Properties.Resources.kstidEnvironmentBefore;
-					break;
-				case EnvironmentType.After:
-					envType = Properties.Resources.kstidEnvironmentAfter;
-					break;
-				case EnvironmentType.Item:
-					envType = Properties.Resources.kstidSearchItem;
-					break;
-			}
-
-			System.Resources.ResourceManager rm = Properties.Resources.ResourceManager;
-			string msg = rm.GetString(stid);
-			if (msg == null)
-				return;
+			var envType = SearchEngine.GetEnvironmentTypeString(m_rootGroup.m_envType);
 
 			if (m_rootGroup.m_errors == null)
 				m_rootGroup.m_errors = new List<string>();

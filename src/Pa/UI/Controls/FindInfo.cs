@@ -419,8 +419,14 @@ namespace SIL.Pa.UI.Controls
 				if (s_iRow == s_startRow && !s_firstMatch)
 				{
 					if (ShowMessages)
-						Utils.MsgBox(Properties.Resources.kstidFindDataNotFound + FindText);
-					
+					{
+						var msg = App.GetString("FindInfo.FindDataNotFound",
+							"The following specified text was not found:\n\n{0}",
+							"Message shown when all data has been searched without one match.");
+						
+						Utils.MsgBox(string.Format(msg, FindText));
+					}
+
 					return true;
 				}
 			}
@@ -572,7 +578,8 @@ namespace SIL.Pa.UI.Controls
 				{
 					// Display message that all records have been searched
 					if (ShowMessages)
-						Utils.MsgBox(Properties.Resources.kstidFindDoneSearching);
+						Utils.MsgBox(GetDoneSearchingMsg());
+					
 					s_firstMatchedRow = cell.RowIndex;
 					s_firstMatchedCol = cell.ColumnIndex;
 				}
@@ -589,7 +596,7 @@ namespace SIL.Pa.UI.Controls
 					s_doneFinding = true;
 					// Display message that all records have been searched
 					if (ShowMessages)
-						Utils.MsgBox(Properties.Resources.kstidFindDoneSearching);
+						Utils.MsgBox(GetDoneSearchingMsg());
 					
 					return true;
 				}
@@ -598,6 +605,14 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static string GetDoneSearchingMsg()
+		{
+			return App.GetString("FindInfo.FindDoneSearching",
+							"Find has finished searching.",
+							"Popup message when all records have been searched with the FindDlg");
 		}
 
 		/// ------------------------------------------------------------------------------------

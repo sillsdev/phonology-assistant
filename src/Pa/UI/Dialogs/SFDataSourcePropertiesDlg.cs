@@ -17,15 +17,15 @@ namespace SIL.Pa.UI.Dialogs
 	/// Summary description for SFDataSourcePropertiesDlg.
 	/// </summary>
 	/// --------------------------------------------------------------------------------
-	public partial class SFDataSourcePropertiesDlg : OKCancelDlgBase, IxCoreColleague
+	public partial class SFDataSourcePropertiesDlg : OKCancelDlgBase
 	{
 		#region member variables
 
-		private string m_filename;
 		private List<string> m_markersInFile;
 		private SfmFieldMappingGrid m_fieldsGrid;
-		private IEnumerable<PaField> m_potentialFields;
+		private readonly IEnumerable<PaField> m_potentialFields;
 		private readonly PaDataSource m_datasource;
+		private readonly string m_filename;
 
 		#endregion
 
@@ -250,7 +250,7 @@ namespace SIL.Pa.UI.Dialogs
 			pnlMappings.Controls.Add(m_fieldsGrid);
 			m_fieldsGrid.BringToFront();
 			pnlMappingsHdg.ControlReceivingFocusOnMnemonic = m_fieldsGrid;
-			OnStringLocalized(null);
+			OnStringsLocalized();
 			m_fieldsGrid.ShowFontColumn(false);
 
 			if (Settings.Default.SFDataSourcePropertiesDlgMappingGrid != null)
@@ -605,7 +605,7 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected bool OnStringLocalized(object args)
+		protected override void OnStringsLocalized()
 		{
 			try
 			{
@@ -616,15 +616,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			catch { }
 
-			return false;
-		}
-
-		#endregion
-
-		#region IxCoreColleague Members
-		public IxCoreColleague[] GetMessageTargets()
-		{
-			return (new IxCoreColleague[] {this});
+			base.OnStringsLocalized();
 		}
 
 		#endregion

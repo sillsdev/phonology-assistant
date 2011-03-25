@@ -415,34 +415,34 @@ namespace SIL.Pa.UI.Controls
 			if (m_cache.IsForSearchResults && m_cache.SearchQuery != null)
 			{
 				string fmt = (m_cache.IsCIEList ?
-					Properties.Resources.kstidRtfGridHdrSearchPatternForMinPairs :
-					Properties.Resources.kstidRtfGridHdrSearchPattern);
+					App.GetString("RtfExportGridHeaderSearchPatternForMinPairs", "Search Pattern:{0}{1}  (Minimal Pairs)", "The heading output for  the Search Query when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern.") :
+					App.GetString("RtfExportGridHeaderSearchPattern", "Search Pattern:{0}{1}", "The heading output for  the Search Query when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern."));
 				
 				m_rtfBldr.AppendFormat(fmt,	ktab, m_cache.SearchQuery.Pattern);
 			}
 			else
 			{
-				m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrWordListName,
-					ktab, Properties.Resources.kstidRtfGridAllWordsLabel);
+				m_rtfBldr.AppendFormat(App.GetString("RtfExportGridHeaderWordListName", "Word List:{0}{1}", "The heading output for Word List name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the Word List name."),
+					ktab, App.GetString("RtfGridAllWordsLabel", "All Words", "The value for the 'Word List' label when the exported list is not filtered or the result of a  search query."));
 			}
 			
 			m_rtfBldr.AppendLine(kline);
-			m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrNbrOfRecords, ktab, m_numberOfRecords);
+			m_rtfBldr.AppendFormat(App.GetString("RtfExportGridHeaderNbrOfRecords", "Number of Records:{0}{1}", "The heading output for Number of Records when exporting word lists &amp; find phone results to rtf. 1st param is a rtf tab; 2nd param is the number or records."), ktab, m_numberOfRecords);
 
 			// Add the field the word list is grouped on if it is grouped.
 			if (m_grid is PaWordListGrid && ((PaWordListGrid)m_grid).GroupByField != null)
 			{
 				m_rtfBldr.AppendLine(kline);
-				m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrGroupField,
+				m_rtfBldr.AppendFormat(App.GetString("RtfExportGridHeaderGroupField", "Grouped By:{0}{1}", "The heading output for the grouped on field when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern."),
 					ktab, ((PaWordListGrid)m_grid).GroupByField.DisplayName);
 			}
 			
 			m_rtfBldr.AppendLine(kline);
-			m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrProjectName,	ktab, App.Project.Name);
+			m_rtfBldr.AppendFormat(App.GetString("RtfExportGridHeaderProjectName", "Project:{0}{1}", "The heading output for Project name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the project name."), ktab, App.Project.Name);
 			m_rtfBldr.AppendLine(kline);
-			m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrLanguageName, ktab, App.Project.LanguageName);
+			m_rtfBldr.AppendFormat(App.GetString("RtfExportGridHeaderLanguageName", "Language:{0}{1}", "The heading output for Language name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the language name."), ktab, App.Project.LanguageName);
 			m_rtfBldr.AppendLine(kline);
-			m_rtfBldr.AppendFormat(Properties.Resources.kstidRtfGridHdrDateTimeName, ktab, DateTime.Now);
+			m_rtfBldr.AppendFormat(App.GetString("RtfExportGridHeaderDateTimeName", "Date/Time:{0}{1}", "The heading output for Date/Time name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the Date/Time name."), ktab, DateTime.Now);
 			
 			m_rtfBldr.Append("}");
 			m_rtfBldr.AppendLine(@"\par\par\pard");
@@ -825,9 +825,11 @@ namespace SIL.Pa.UI.Controls
 			string filter = App.kstidFiletypeRTF + "|" + App.kstidFileTypeAllFiles;
 
 			int filterIndex = 0;
-			var filename = App.SaveFileDialog("rtf", filter, ref filterIndex,
-				Properties.Resources.kstidRTFExportCaptionSFD, string.Empty);
 
+			var caption = App.GetString("RTFExportSaveFileDialogText", "Save RTF File",
+				"Save file dialog caption for specifying the rtf file exported to under RTF export");
+			
+			var filename = App.SaveFileDialog("rtf", filter, ref filterIndex, caption, string.Empty);
 			if (filename != string.Empty)
 			{
 				try
@@ -874,12 +876,16 @@ namespace SIL.Pa.UI.Controls
 
 				if (string.IsNullOrEmpty(m_rtfEditor))
 				{
-					msg = string.Format(Properties.Resources.kstidRtfOpenError1,
+					msg = string.Format(App.GetString("RtfOpenErrorMsg1",
+						"An error occurred trying to open the RTF file.\n\n{0}\n\n{1}",
+						"First argument is rtf file; second argument is error message."),
 						filename, ex.Message);
 				}
 				else
 				{
-					msg = string.Format(Properties.Resources.kstidRtfOpenError2,
+					msg = string.Format(App.GetString("RtfOpenErrorMsg2",
+						"An error occurred trying to open the RTF file.\n\nFile: {0}\nEditor: {1}\n\n{2}",
+						"First argument is rtf file; second argument is the editor; third argument is error message."),
 						filename, m_rtfEditor, ex.Message);
 				}
 				

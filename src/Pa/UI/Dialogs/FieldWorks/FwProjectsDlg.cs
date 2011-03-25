@@ -96,7 +96,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (node == null)
 				return;
 
-			Cursor = Cursors.WaitCursor;
+			Utils.WaitCursors(true);
 			btnOK.Enabled = false;
 			lstFwProjects.SelectedIndex = -1;
 			lstFwProjects.Items.Clear();
@@ -112,10 +112,10 @@ namespace SIL.Pa.UI.Dialogs
 
 				lstFwProjects.Items.Clear();
 				
-				var dsInfo = FwDBUtils.GetFwDataSourceInfoList(node.MachineName, false).ToArray();
-				if (dsInfo.Length > 0)
+				var dsInfo = FwDBUtils.GetFwDataSourceInfoList(node.MachineName, true);
+				if (dsInfo != null && dsInfo.Count() > 0)
 				{
-					lstFwProjects.Items.AddRange(dsInfo);
+					lstFwProjects.Items.AddRange(dsInfo.ToArray());
 					lstFwProjects.SelectedIndex = 0;
 					lstFwProjects.Visible = true;
 					txtMsg.Visible = false;
@@ -127,7 +127,7 @@ namespace SIL.Pa.UI.Dialogs
 				}
 			}
 
-			Cursor = Cursors.Default;
+			Utils.WaitCursors(false);
 		}
 	}
 }

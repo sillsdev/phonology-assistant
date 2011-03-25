@@ -61,17 +61,17 @@ namespace SIL.Pa.UI.Controls
 			col = CreateDropDownListComboBoxColumn("fieldtype", m_displayableFieldTypes.Values);
 			int i = FontColumnIndex;
 			Columns.Insert(i, col);
-			App.GetStringForObject(Columns[i], "SfmFieldMappingGrid.FieldTypeColumnHeadingText", "Type");
+			App.RegisterForLocalization(Columns[i], "SfmFieldMappingGrid.FieldTypeColumnHeadingText", "Type");
 
 			// Create the parsed column.
 			col = CreateCheckBoxColumn("parsed");
 			Columns.Insert(i, col);
-			App.GetStringForObject(Columns[i], "SfmFieldMappingGrid.FieldIsParsedColumnHeadingText", "Is Parsed?");
+			App.RegisterForLocalization(Columns[i], "SfmFieldMappingGrid.FieldIsParsedColumnHeadingText", "Is Parsed?");
 
 			// Create the interlinear column.
 			col = CreateCheckBoxColumn("interlinear");
 			Columns.Insert(i, col);
-			App.GetStringForObject(Columns[i], "SfmFieldMappingGrid.FieldCanBeInterlinearColumnHeadingText", "Is Interlinear?");
+			App.RegisterForLocalization(Columns[i], "SfmFieldMappingGrid.FieldCanBeInterlinearColumnHeadingText", "Is Interlinear?");
 		}
 
 		/// ------------------------------------------------------------------------------------

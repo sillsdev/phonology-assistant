@@ -82,26 +82,41 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 			SmallFadingWnd msgWnd = null;
 			if (ShowMsgWhenGatheringFWInfo)
-				msgWnd = new SmallFadingWnd(Properties.Resources.kstidGettingFwProjInfoMsg);
+				msgWnd = new SmallFadingWnd(App.GetString("GatheringFw6ProjectInfoMsg", "Gathering FieldWorks Project Information..."));
 
-			// Read all the SQL databases from the server's master table.
-			using (var connection = FwConnection(FwDBAccessInfo.MasterDB, server))
+			try
 			{
-				if (connection != null && FwDBAccessInfo.FwDatabasesSQL != null)
+				// Read all the SQL databases from the server's master table.
+				using (var connection = FwConnection(FwDBAccessInfo.MasterDB, server))
 				{
-					var command = new SqlCommand(FwDBAccessInfo.FwDatabasesSQL, connection);
-
-					// Get all the database names.
-					using (var reader = command.ExecuteReader(CommandBehavior.SingleResult))
+					if (connection != null && FwDBAccessInfo.FwDatabasesSQL != null)
 					{
-						while (reader.Read() && !string.IsNullOrEmpty(reader[0] as string))
-							fwDBInfoList.Add(new FwDataSourceInfo(reader[0] as string, server, DataSourceType.FW));
+						var command = new SqlCommand(FwDBAccessInfo.FwDatabasesSQL, connection);
 
-						reader.Close();
+						// Get all the database names.
+						using (var reader = command.ExecuteReader(CommandBehavior.SingleResult))
+						{
+							while (reader.Read() && !string.IsNullOrEmpty(reader[0] as string))
+								fwDBInfoList.Add(new FwDataSourceInfo(reader[0] as string, server, DataSourceType.FW));
+
+							reader.Close();
+						}
+
+						connection.Close();
 					}
-
-					connection.Close();
 				}
+			}
+			catch (Exception e)
+			{
+				if (s_showErrorOnConnectionFailure)
+				{
+					var msg = App.GetString("GettingFwProjectErrorMsg",
+						"The following error occurred when trying to get a list of FieldWorks projects: \n\n{0}");
+
+					Utils.MsgBox(string.Format(msg, e.Message));
+				}
+
+				fwDBInfoList = null;
 			}
 
 			if (msgWnd != null)
@@ -246,12 +261,21 @@ namespace SIL.Pa.DataSource.FieldWorks
 					// Check if we've timed out.
 					if (msg != null && msg.ToLower().IndexOf("time out") < 0)
 					{
-						Utils.MsgBox(string.Format(Properties.Resources.kstidErrorStartingSQLServer1, msg));
+						var fmt = App.GetString("ErrorStartingSQLServer1",
+							"SQL Server cannot be started. It may not be installed.\nThe following error was " +
+							"reported:\n\n{0}\n\nMake sure FieldWorks Language Explorer has been installed." +
+							"\nOr, restart Phonology Assistant to try again.");
+
+						Utils.MsgBox(string.Format(fmt, msg));
 						return false;
 					}
 
-					msg = string.Format(Properties.Resources.kstidErrorStartingSQLServer2,
-						FwDBAccessInfo.SecsToWaitForDBEngineStartup);
+					msg = App.GetString("ErrorStartingSQLServer2",
+						"Phonology Assistant waited {0} seconds for SQL Server to fully start up." +
+						"\nEither that is not enough time for your computer or it may not be installed." +
+						"\nMake sure FieldWorks Language Explorer has been installed. Would you\nlike to try again?");
+						
+					msg = string.Format(msg, FwDBAccessInfo.SecsToWaitForDBEngineStartup);
 
 					if (Utils.MsgBox(msg, MessageBoxButtons.YesNo,
 						MessageBoxIcon.Question) != DialogResult.Yes)

@@ -7,10 +7,6 @@ using SIL.Pa.Model;
 namespace SIL.Pa.PhoneticSearching
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class SearchEngine
 	{
 		public enum WordBoundaryCondition
@@ -95,7 +91,7 @@ namespace SIL.Pa.PhoneticSearching
 			string[] patterns = GetPatternPieces(pattern);
 			if (patterns == null)
 			{
-				m_errors.Add(string.Format(Properties.Resources.kstidSyntaxErr, pattern));
+				m_errors.Add(string.Format(GetSyntaxErrorMsg(), pattern));
 				return;
 			}
 
@@ -103,9 +99,7 @@ namespace SIL.Pa.PhoneticSearching
 				string.IsNullOrEmpty(patterns[0]) ||
 				(pattern.IndexOf('_') >= 0 && pattern.IndexOf('/') < 0))
 			{
-				m_errors.Add(string.Format(Properties.Resources.kstidPatternSyntaxError,
-					App.kEmptyDiamondPattern));
-
+				m_errors.Add(string.Format(GetPatternSyntaxErrorMsg(), App.kEmptyDiamondPattern));
 				return;
 			}
 
@@ -135,8 +129,7 @@ namespace SIL.Pa.PhoneticSearching
 			}
 			catch
 			{
-				m_errors.Add(string.Format(Properties.Resources.kstidPatternSyntaxError,
-					App.kEmptyDiamondPattern));
+				m_errors.Add(string.Format(GetPatternSyntaxErrorMsg(), App.kEmptyDiamondPattern));
 			}
 
 			m_srchItemStr = patterns[0];
@@ -235,14 +228,14 @@ namespace SIL.Pa.PhoneticSearching
 			if (m_errors == null || m_errors.Count == 0)
 				return null;
 
-			StringBuilder errors = new StringBuilder();
+			var errors = new StringBuilder();
 			foreach (var err in m_errors)
 			{
 				errors.Append(err);
 				errors.Append(separateErrorsWithLineBreaks ? Environment.NewLine : " ");
 			}
 
-			var fmt = App.GetString("PatternParsingErrorMsg",
+			var fmt = App.GetString("SearchEngine.PatternParsingErrorMsg",
 				"The following error(s) occurred when parsing the search pattern:\n\n{0}",
 				"Search Query Messages");
 
@@ -252,25 +245,12 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		private void Parse(PatternGroup ptrnGrp, string pattern)
 		{
-			bool success = ptrnGrp.Parse(pattern, m_errors);
-
-			string envType = null;
-			switch (ptrnGrp.EnvironmentType)
-			{
-				case EnvironmentType.Before:
-					envType = Properties.Resources.kstidEnvironmentBefore;
-					break;
-				case EnvironmentType.After:
-					envType = Properties.Resources.kstidEnvironmentAfter;
-					break;
-				case EnvironmentType.Item:
-					envType = Properties.Resources.kstidSearchItem;
-					break;
-			}
-
+			var success = ptrnGrp.Parse(pattern, m_errors);
+			var envType = GetEnvironmentTypeString(ptrnGrp.EnvironmentType);
+			
 			if (ptrnGrp.Members == null || ptrnGrp.Members.Count == 0)
 			{
-				var fmt = App.GetString("ParsedToNothingErrorMsg",
+				var fmt = App.GetString("SearchEngine.ParsedToNothingErrorMsg",
 					"Error parsing the {0}.", "Search Query Messages");
 
 				m_errors.Add(string.Format(fmt, envType));
@@ -278,7 +258,33 @@ namespace SIL.Pa.PhoneticSearching
 			}
 
 			if (!success)
-				m_errors.Add(string.Format(Properties.Resources.kstidSyntaxErr, envType));
+				m_errors.Add(string.Format(GetSyntaxErrorMsg(), envType));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string GetEnvironmentTypeString(EnvironmentType type)
+		{
+			switch (type)
+			{
+				case EnvironmentType.Before: return App.GetString("SearchEngine.EnvironmentBefore", "preceding environment");
+				case EnvironmentType.After: return App.GetString("SearchEngine.EnvironmentAfter", "following environment");
+				case EnvironmentType.Item: return App.GetString("SearchEngine.SearchItem", "search item");
+			}
+
+			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string GetSyntaxErrorMsg()
+		{
+			return App.GetString("SearchEngine.SyntaxErrorMsg", "Syntax error in {0}.");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static string GetPatternSyntaxErrorMsg()
+		{
+			return App.GetString("SearchEngine.PatternSyntaxErrorMsg",
+				"Syntax error. Pattern is not in the correct format: {0}");
 		}
 
 		#region Properties

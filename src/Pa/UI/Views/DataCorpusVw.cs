@@ -28,24 +28,17 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public DataCorpusVw()
 		{
-			var msg = App.GetString("InitializingDataCorpusViewMsg",
-				"Initializing Data Corpus View...", "Message displayed whenever the data corpus view is being initialized.");
-
-			App.InitializeProgressBarForLoadingView(msg, 2);
-
 			InitializeComponent();
 			Name = "DataCorpusVw";
 
 			if (App.DesignMode)
 				return;
 
-			App.IncProgressBar();
+			Utils.WaitCursors(true);
 			LoadToolbar();
-			App.IncProgressBar();
 			LoadWindow();
-			App.UninitializeProgressBar();
-
 			base.DoubleBuffered = true;
+			Utils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -26,7 +26,7 @@ namespace SIL.Pa.UI.Dialogs
 				btnHelp.TabIndex = 1003;
 			}
 
-			Localization.UI.LocalizeItemDlg.StringsLocalized += SetWindowText;
+			Localization.UI.LocalizeItemDlg.StringsLocalized += OnStringsLocalized;
 		}
 
 		///// ------------------------------------------------------------------------------------
@@ -107,7 +107,7 @@ namespace SIL.Pa.UI.Dialogs
 		protected override void OnShown(EventArgs e)
 		{
 			base.OnShown(e);
-			SetWindowText();
+			OnStringsLocalized();
 			Utils.UpdateWindow(Handle);
 
 			// At this point, the opacity should be zero. Now that we're shown and the handles
@@ -122,7 +122,7 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void SetWindowText()
+		protected virtual void OnStringsLocalized()
 		{
 			Text = App.GetStringForObject(this, Text);
 		}

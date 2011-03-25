@@ -129,8 +129,9 @@ namespace SIL.Pa.UI.Controls
 				if (!CharGridPersistence.Load(this, m_persistedInfoFilename))
 				{
 					m_phoneList = null;
-					Utils.MsgBox(string.Format(
-						Properties.Resources.kstidErrorLoadingCharPickerRowsMsg, m_chrType));
+					Utils.MsgBox(string.Format(App.GetString("LoadingCharPickerRowsErrorMsg",
+						"{0} list failed to load."), m_chrType));
+					
 					return;
 				}
 			}

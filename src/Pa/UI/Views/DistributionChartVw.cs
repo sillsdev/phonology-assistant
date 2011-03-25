@@ -39,14 +39,9 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public DistributionChartVw()
 		{
-			var msg = App.GetString("DistributionChartVw.InitializingViewMsg",
-				"Initializing Distribution Chart View...",
-				"Message displayed whenever the distribution chart view is being initialized.");
-
-			App.InitializeProgressBarForLoadingView(msg, 6);
+			Utils.WaitCursors(true);
 			InitializeComponent();
 			Name = "XYChartVw";
-			App.IncProgressBar();
 
 			hlblSavedCharts.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
 
@@ -56,18 +51,14 @@ namespace SIL.Pa.UI.Views
 			m_grid.TabIndex = lblChartName.TabIndex + 1;
 			m_grid.KeyDown += HandleGridKeyDown;
 			m_grid.CellMouseDoubleClick += HandleGridCellMouseDoubleClick;
-			App.IncProgressBar();
 
 			LoadToolbarAndContextMenus();
 			m_grid.TMAdapter = m_tmAdapter;
 			m_grid.OwnersNameLabelControl = lblChartNameValue;
-			App.IncProgressBar();
 
 			SetupSidePanelContents();
-			App.IncProgressBar();
 			SetupSlidingPanel();
 			OnPaFontsChanged(null);
-			App.IncProgressBar();
 
 			m_dockedSidePanel = (m_slidingPanel.SlideFromLeft ? splitOuter.Panel1 : splitOuter.Panel2);
 			
@@ -77,19 +68,19 @@ namespace SIL.Pa.UI.Views
 			m_grid.BringToFront();
 			splitChart.Panel1MinSize = m_grid.Top + 10;
 			splitChart.Panel2Collapsed = true;
-			App.IncProgressBar();
 
 			UpdateButtons();
-			App.UninitializeProgressBar();
 
 			base.DoubleBuffered = true;
 			Disposed += ViewDisposed;
 
-			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("tbbSaveChartOnMenu");
+			var itemProps = m_tmAdapter.GetItemProperties("tbbSaveChartOnMenu");
 			if (itemProps != null)
 				m_saveChartHotKey = itemProps.ShortcutKey;
 
 			lblChartNameValue.Left = lblChartName.Right + 10;
+
+			Utils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -261,15 +252,15 @@ namespace SIL.Pa.UI.Views
 		{
 			// Check if chart name already exists. If it does,
 			// tell the user and don't cancel the current edit.
-			foreach (DistributionChartLayout savedLayout in m_savedCharts)
+			foreach (var savedLayout in m_savedCharts)
 			{
 				if (savedLayout != layoutToSkip && savedLayout.Name == nameToCheck)
 				{
 					if (showMsg)
 					{
-						string msg = string.Format(
-							Properties.Resources.kstidSavedChartNameAlreadyExistsMsg, nameToCheck);
-						Utils.MsgBox(msg);
+						var fmt = App.GetString("DistributionChartVw.SavedChartNameAlreadyExistsMsg",
+							"There is already a saved chart with the name '{0}'.");
+						Utils.MsgBox(string.Format(fmt, nameToCheck));
 					}
 					
 					return savedLayout;
@@ -319,7 +310,7 @@ namespace SIL.Pa.UI.Views
 				Settings.Default.DistChartVwSidePanelWidth,
 				newWidth => Settings.Default.DistChartVwSidePanelWidth = newWidth);
 
-			App.GetStringForObject(m_slidingPanel.Tab,
+			App.RegisterForLocalization(m_slidingPanel.Tab,
 				"DistributionChartVw.UndockedSideBarTabText", "Charts & Chart Building",
 				"Text on vertical tab when the side bar is undocked in the distribution charts view.");
 
@@ -719,7 +710,9 @@ namespace SIL.Pa.UI.Views
 			if (lvSavedCharts.SelectedItems.Count == 0)
 				return;
 
-			var msg = Properties.Resources.kstidConfirmSavedChartRemoval;
+			var msg = App.GetString("DistributionChartVw.ConfirmSavedChartRemoveMsg",
+				"Are you sure you want to remove the saved chart?");
+			
 			if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
 				return;
 

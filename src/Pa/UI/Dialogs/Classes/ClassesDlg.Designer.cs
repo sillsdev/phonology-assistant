@@ -144,16 +144,16 @@ namespace SIL.Pa.UI.Dialogs
             this.cmnuAddBinFeatureClass});
 			this.locExtender.SetLocalizableToolTip(this.cmnuAdd, null);
 			this.locExtender.SetLocalizationComment(this.cmnuAdd, null);
-			this.locExtender.SetLocalizingId(this.cmnuAdd, "cmnuAdd.cmnuAdd");
+			this.locExtender.SetLocalizationPriority(this.cmnuAdd, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.cmnuAdd, "ClassesDlg.cmnuAdd");
 			this.cmnuAdd.Name = "cmnuAdd";
 			this.cmnuAdd.ShowImageMargin = false;
-			this.cmnuAdd.Size = new System.Drawing.Size(198, 70);
+			this.cmnuAdd.Size = new System.Drawing.Size(198, 92);
 			// 
 			// cmnuAddCharClass
 			// 
 			this.locExtender.SetLocalizableToolTip(this.cmnuAddCharClass, null);
-			this.locExtender.SetLocalizationComment(this.cmnuAddCharClass, "Text on the drop-down displayed when clicking Add button on the classes dialog bo" +
-					"x.");
+			this.locExtender.SetLocalizationComment(this.cmnuAddCharClass, "Text on drop-down displayed when clicking Add button on classes dialog box.");
 			this.locExtender.SetLocalizingId(this.cmnuAddCharClass, "ClassesDlg.cmnuAddCharClass");
 			this.cmnuAddCharClass.Name = "cmnuAddCharClass";
 			this.cmnuAddCharClass.Size = new System.Drawing.Size(197, 22);
@@ -163,8 +163,7 @@ namespace SIL.Pa.UI.Dialogs
 			// cmnuAddArtFeatureClass
 			// 
 			this.locExtender.SetLocalizableToolTip(this.cmnuAddArtFeatureClass, null);
-			this.locExtender.SetLocalizationComment(this.cmnuAddArtFeatureClass, "Text on the drop-down displayed when clicking Add button on the classes dialog bo" +
-					"x.");
+			this.locExtender.SetLocalizationComment(this.cmnuAddArtFeatureClass, "Text on drop-down displayed when clicking Add button on classes dialog box.");
 			this.locExtender.SetLocalizingId(this.cmnuAddArtFeatureClass, "ClassesDlg.cmnuAddArtFeatureClass");
 			this.cmnuAddArtFeatureClass.Name = "cmnuAddArtFeatureClass";
 			this.cmnuAddArtFeatureClass.Size = new System.Drawing.Size(197, 22);
@@ -174,8 +173,7 @@ namespace SIL.Pa.UI.Dialogs
 			// cmnuAddBinFeatureClass
 			// 
 			this.locExtender.SetLocalizableToolTip(this.cmnuAddBinFeatureClass, null);
-			this.locExtender.SetLocalizationComment(this.cmnuAddBinFeatureClass, "Text on the drop-down displayed when clicking Add button on the classes dialog bo" +
-					"x.");
+			this.locExtender.SetLocalizationComment(this.cmnuAddBinFeatureClass, "Text on drop-down displayed when clicking Add button on classes dialog box.");
 			this.locExtender.SetLocalizingId(this.cmnuAddBinFeatureClass, "ClassesDlg.cmnuAddBinFeatureClass");
 			this.cmnuAddBinFeatureClass.Name = "cmnuAddBinFeatureClass";
 			this.cmnuAddBinFeatureClass.Size = new System.Drawing.Size(197, 22);
@@ -184,7 +182,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidExportAsToolTip;
+			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// ClassesDlg

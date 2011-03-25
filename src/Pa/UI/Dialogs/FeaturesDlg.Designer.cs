@@ -244,7 +244,7 @@
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = "";
+			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// FeaturesDlg

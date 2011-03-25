@@ -4,184 +4,184 @@
 		<DirectoryRef Id="APPLICATIONFOLDER">
 			<Directory Id="Processing" Name="Processing">
 				<Component Id="jquery.js" Guid="{3A4581D4-6F14-42AA-8AF6-189B30DBFCA4}">
-					<File Id="jquery.js" KeyPath="yes" Source="..\output\release\Processing\jquery.js" />
+					<File Id="jquery.js" KeyPath="yes" Source="..\DistFiles\Processing\jquery.js" />
 				</Component>
 				<Component Id="phonology.css" Guid="{29DEA81F-4001-42B4-A870-96056EBFB79F}">
-					<File Id="phonology.css" KeyPath="yes" Source="..\output\release\Processing\phonology.css" />
+					<File Id="phonology.css" KeyPath="yes" Source="..\DistFiles\Processing\phonology.css" />
 				</Component>
 				<Component Id="phonology.js" Guid="{F631A06D-5224-4DCE-B5C1-A2205CB20361}">
-					<File Id="phonology.js" KeyPath="yes" Source="..\output\release\Processing\phonology.js" />
+					<File Id="phonology.js" KeyPath="yes" Source="..\DistFiles\Processing\phonology.js" />
 				</Component>
 				<Component Id="phonology_CSS3.css" Guid="{09F2515C-987E-40F2-AA86-C4362158E760}">
-					<File Id="phonology_CSS3.css" KeyPath="yes" Source="..\output\release\Processing\phonology_CSS3.css" />
+					<File Id="phonology_CSS3.css" KeyPath="yes" Source="..\DistFiles\Processing\phonology_CSS3.css" />
 				</Component>
 				<Component Id="phonology_export_options.xsl" Guid="{4FD86012-1D94-4C00-A209-6097DECF5D26}">
-					<File Id="phonology_export_options.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_options.xsl" />
+					<File Id="phonology_export_options.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_options.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_CV_chart_0a_from_distribution_chart.xsl" Guid="{8D8C392D-2BC0-472B-84A2-0E22DBEF3CCB}">
-					<File Id="phonology_export_view_CV_chart_0a_from_distribution_chart.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_CV_chart_0a_from_distribution_chart.xsl" />
+					<File Id="phonology_export_view_CV_chart_0a_from_distribution_chart.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_CV_chart_0a_from_distribution_chart.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_CV_chart_0b_from_distribution_chart.xsl" Guid="{05D21825-9955-41F4-8E85-AE4788FA4200}">
-					<File Id="phonology_export_view_CV_chart_0b_from_distribution_chart.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_CV_chart_0b_from_distribution_chart.xsl" />
+					<File Id="phonology_export_view_CV_chart_0b_from_distribution_chart.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_CV_chart_0b_from_distribution_chart.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_CV_chart_0c_from_distribution_chart.xsl" Guid="{6F08308C-2116-4231-A24A-67817EA88ABE}">
-					<File Id="phonology_export_view_CV_chart_0c_from_distribution_chart.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_CV_chart_0c_from_distribution_chart.xsl" />
+					<File Id="phonology_export_view_CV_chart_0c_from_distribution_chart.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_CV_chart_0c_from_distribution_chart.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_CV_chart_1.xsl" Guid="{2C6B062E-76A1-44FF-9A54-C8451EDBF950}">
-					<File Id="phonology_export_view_CV_chart_1.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_CV_chart_1.xsl" />
+					<File Id="phonology_export_view_CV_chart_1.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_CV_chart_1.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_CV_chart_2a_features.xsl" Guid="{62C15E30-A225-46E2-A038-A4897EE7B596}">
-					<File Id="phonology_export_view_CV_chart_2a_features.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_CV_chart_2a_features.xsl" />
+					<File Id="phonology_export_view_CV_chart_2a_features.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_CV_chart_2a_features.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_CV_chart_2b_features.xsl" Guid="{3D1D33C5-1D7C-4024-BD08-95B7C88A8889}">
-					<File Id="phonology_export_view_CV_chart_2b_features.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_CV_chart_2b_features.xsl" />
+					<File Id="phonology_export_view_CV_chart_2b_features.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_CV_chart_2b_features.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_CV_chart_2c_features.xsl" Guid="{BD9AF120-77FF-4E27-8F1B-26894A803BC3}">
-					<File Id="phonology_export_view_CV_chart_2c_features.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_CV_chart_2c_features.xsl" />
+					<File Id="phonology_export_view_CV_chart_2c_features.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_CV_chart_2c_features.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_CV_chart_3a_feature_chart.xsl" Guid="{9420E9A6-6D1D-40E2-B6A8-9935712E0E8B}">
-					<File Id="phonology_export_view_CV_chart_3a_feature_chart.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_CV_chart_3a_feature_chart.xsl" />
+					<File Id="phonology_export_view_CV_chart_3a_feature_chart.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_CV_chart_3a_feature_chart.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_CV_chart_3b_feature_chart.xsl" Guid="{487C70FE-3102-4C8F-98D1-B28180CC6A92}">
-					<File Id="phonology_export_view_CV_chart_3b_feature_chart.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_CV_chart_3b_feature_chart.xsl" />
+					<File Id="phonology_export_view_CV_chart_3b_feature_chart.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_CV_chart_3b_feature_chart.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_distribution_chart_generalize.xsl" Guid="{028F79C5-0E74-466E-B979-C899390AC874}">
-					<File Id="phonology_export_view_distribution_chart_generalize.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_distribution_chart_generalize.xsl" />
+					<File Id="phonology_export_view_distribution_chart_generalize.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_distribution_chart_generalize.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_distribution_chart_transpose.xsl" Guid="{C8119C62-F3A6-4D83-BBCA-A6DA64DB28BE}">
-					<File Id="phonology_export_view_distribution_chart_transpose.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_distribution_chart_transpose.xsl" />
+					<File Id="phonology_export_view_distribution_chart_transpose.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_distribution_chart_transpose.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_list_1a_minimal_pairs_omit.xsl" Guid="{06B61FDA-D73C-4015-88E5-BD5543B7E28E}">
-					<File Id="phonology_export_view_list_1a_minimal_pairs_omit.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_list_1a_minimal_pairs_omit.xsl" />
+					<File Id="phonology_export_view_list_1a_minimal_pairs_omit.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_list_1a_minimal_pairs_omit.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_list_1b_minimal_pairs_split.xsl" Guid="{2C58D31E-E5D6-45E0-865A-171CD2B65690}">
-					<File Id="phonology_export_view_list_1b_minimal_pairs_split.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_list_1b_minimal_pairs_split.xsl" />
+					<File Id="phonology_export_view_list_1b_minimal_pairs_split.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_list_1b_minimal_pairs_split.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_list_1c_minimal_pairs_similar.xsl" Guid="{9C053E56-DACA-4692-B74D-AD04DCACFFC8}">
-					<File Id="phonology_export_view_list_1c_minimal_pairs_similar.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_list_1c_minimal_pairs_similar.xsl" />
+					<File Id="phonology_export_view_list_1c_minimal_pairs_similar.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_list_1c_minimal_pairs_similar.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_list_2a_sort.xsl" Guid="{6E469218-CE02-4FA8-958D-CFAC95033696}">
-					<File Id="phonology_export_view_list_2a_sort.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_list_2a_sort.xsl" />
+					<File Id="phonology_export_view_list_2a_sort.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_list_2a_sort.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_list_2b_sort_manner.xsl" Guid="{867C8182-A324-4946-92D6-04AFBBA12695}">
-					<File Id="phonology_export_view_list_2b_sort_manner.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_list_2b_sort_manner.xsl" />
+					<File Id="phonology_export_view_list_2b_sort_manner.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_list_2b_sort_manner.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_list_2c_sort_place.xsl" Guid="{0A0E9FC4-A546-4760-B5E0-F598303BE826}">
-					<File Id="phonology_export_view_list_2c_sort_place.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_list_2c_sort_place.xsl" />
+					<File Id="phonology_export_view_list_2c_sort_place.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_list_2c_sort_place.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_list_2d_sort.xsl" Guid="{59865A35-6A20-438A-A6E5-666C52B3546C}">
-					<File Id="phonology_export_view_list_2d_sort.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_list_2d_sort.xsl" />
+					<File Id="phonology_export_view_list_2d_sort.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_list_2d_sort.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_list_3a_minimal_pairs_merge.xsl" Guid="{261C4E69-90CC-467C-80B6-952969F3C37D}">
-					<File Id="phonology_export_view_list_3a_minimal_pairs_merge.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_list_3a_minimal_pairs_merge.xsl" />
+					<File Id="phonology_export_view_list_3a_minimal_pairs_merge.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_list_3a_minimal_pairs_merge.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_list_3b_minimal_pairs_differences.xsl" Guid="{DCFD9EE3-B21A-48E2-800E-950FF0A53C95}">
-					<File Id="phonology_export_view_list_3b_minimal_pairs_differences.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_list_3b_minimal_pairs_differences.xsl" />
+					<File Id="phonology_export_view_list_3b_minimal_pairs_differences.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_list_3b_minimal_pairs_differences.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_list_3c_minimal_pairs.xsl" Guid="{E68DD6F3-B1DF-41C0-8B8B-00316EE1ED21}">
-					<File Id="phonology_export_view_list_3c_minimal_pairs.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_list_3c_minimal_pairs.xsl" />
+					<File Id="phonology_export_view_list_3c_minimal_pairs.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_list_3c_minimal_pairs.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_to_CSS.xsl" Guid="{0C9C918B-C585-4C2F-A728-981E2B855D12}">
-					<File Id="phonology_export_view_to_CSS.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_to_CSS.xsl" />
+					<File Id="phonology_export_view_to_CSS.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_to_CSS.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_to_Word_2003_XML.xsl" Guid="{767CBCA6-0FBD-47D7-9913-61EDD308A1F0}">
-					<File Id="phonology_export_view_to_Word_2003_XML.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_to_Word_2003_XML.xsl" />
+					<File Id="phonology_export_view_to_Word_2003_XML.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_to_Word_2003_XML.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_XLingPaper.xsl" Guid="{2C6DE57A-E288-49A9-B352-E4AAAAF846D8}">
-					<File Id="phonology_export_view_XLingPaper.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_XLingPaper.xsl" />
+					<File Id="phonology_export_view_XLingPaper.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_XLingPaper.xsl" />
 				</Component>
 				<Component Id="phonology_export_view_to_XHTML.xsl" Guid="{B81D5B06-34CE-44F6-B1C7-291F8AC8C6A1}">
-					<File Id="phonology_export_view_to_XHTML.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_export_view_to_XHTML.xsl" />
+					<File Id="phonology_export_view_to_XHTML.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_export_view_to_XHTML.xsl" />
 				</Component>
 				<Component Id="phonology_IE6.css" Guid="{A4762294-1DBC-4650-9B76-EA94280CC0B6}">
-					<File Id="phonology_IE6.css" KeyPath="yes" Source="..\output\release\Processing\phonology_IE6.css" />
+					<File Id="phonology_IE6.css" KeyPath="yes" Source="..\DistFiles\Processing\phonology_IE6.css" />
 				</Component>
 				<Component Id="phonology_IE7.css" Guid="{66693011-AA41-4CE0-A2D9-B645F060D580}">
-					<File Id="phonology_IE7.css" KeyPath="yes" Source="..\output\release\Processing\phonology_IE7.css" />
+					<File Id="phonology_IE7.css" KeyPath="yes" Source="..\DistFiles\Processing\phonology_IE7.css" />
 				</Component>
 				<Component Id="phonology_print.css" Guid="{AA507686-0437-4CC6-8B58-0E0434C33C34}">
-					<File Id="phonology_print.css" KeyPath="yes" Source="..\output\release\Processing\phonology_print.css" />
+					<File Id="phonology_print.css" KeyPath="yes" Source="..\DistFiles\Processing\phonology_print.css" />
 				</Component>
 				<Component Id="phonology_project_inventory_1a.xsl" Guid="{6CE9CDEC-354C-43DC-81EA-221051F3041B}">
-					<File Id="phonology_project_inventory_1a.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_inventory_1a.xsl" />
+					<File Id="phonology_project_inventory_1a.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_inventory_1a.xsl" />
 				</Component>
 				<Component Id="phonology_project_inventory_1b_ambiguous_sequences.xsl" Guid="{4329A87C-9FF1-4661-AF98-919FF2CA317A}">
-					<File Id="phonology_project_inventory_1b_ambiguous_sequences.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_inventory_1b_ambiguous_sequences.xsl" />
+					<File Id="phonology_project_inventory_1b_ambiguous_sequences.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_inventory_1b_ambiguous_sequences.xsl" />
 				</Component>
 				<Component Id="phonology_project_inventory_2a_diacritics.xsl" Guid="{DC8B6718-E167-471B-BA76-14E11B447DBF}">
-					<File Id="phonology_project_inventory_2a_diacritics.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_inventory_2a_diacritics.xsl" />
+					<File Id="phonology_project_inventory_2a_diacritics.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_inventory_2a_diacritics.xsl" />
 				</Component>
 				<Component Id="phonology_project_inventory_2b_base_sequences.xsl" Guid="{C6A5BF6B-801D-4E16-81B7-F0BE1F8CDE2F}">
-					<File Id="phonology_project_inventory_2b_base_sequences.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_inventory_2b_base_sequences.xsl" />
+					<File Id="phonology_project_inventory_2b_base_sequences.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_inventory_2b_base_sequences.xsl" />
 				</Component>
 				<Component Id="phonology_project_inventory_2c_feature_overrides.xsl" Guid="{FEB02B76-7C14-4D11-B5B9-670BD1D5861C}">
-					<File Id="phonology_project_inventory_2c_feature_overrides.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_inventory_2c_feature_overrides.xsl" />
+					<File Id="phonology_project_inventory_2c_feature_overrides.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_inventory_2c_feature_overrides.xsl" />
 				</Component>
 				<Component Id="phonology_project_inventory_2d_feature_rules.xsl" Guid="{BEB70293-66C2-4070-840F-EF7E4346FBD1}">
-					<File Id="phonology_project_inventory_2d_feature_rules.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_inventory_2d_feature_rules.xsl" />
+					<File Id="phonology_project_inventory_2d_feature_rules.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_inventory_2d_feature_rules.xsl" />
 				</Component>
 				<Component Id="phonology_project_inventory_2e_feature_rules.xsl" Guid="{992BCD2F-2E21-41AA-B979-9AA8DAE6E8B8}">
-					<File Id="phonology_project_inventory_2e_feature_rules.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_inventory_2e_feature_rules.xsl" />
+					<File Id="phonology_project_inventory_2e_feature_rules.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_inventory_2e_feature_rules.xsl" />
 				</Component>
 				<Component Id="phonology_project_inventory_2f_feature_rules.xsl" Guid="{E6A8D901-6E94-4D44-B610-6C2E7ACE7AEA}">
-					<File Id="phonology_project_inventory_2f_feature_rules.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_inventory_2f_feature_rules.xsl" />
+					<File Id="phonology_project_inventory_2f_feature_rules.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_inventory_2f_feature_rules.xsl" />
 				</Component>
 				<Component Id="phonology_project_inventory_3a_feature_order.xsl" Guid="{3240FFAA-D61C-4BB3-AC5E-466FFB4EFBDE}">
-					<File Id="phonology_project_inventory_3a_feature_order.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_inventory_3a_feature_order.xsl" />
+					<File Id="phonology_project_inventory_3a_feature_order.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_inventory_3a_feature_order.xsl" />
 				</Component>
 				<Component Id="phonology_project_inventory_3b_feature_changes.xsl" Guid="{5CDE4C1D-C113-4075-880C-C5E31595AB20}">
-					<File Id="phonology_project_inventory_3b_feature_changes.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_inventory_3b_feature_changes.xsl" />
+					<File Id="phonology_project_inventory_3b_feature_changes.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_inventory_3b_feature_changes.xsl" />
 				</Component>
 				<Component Id="phonology_project_inventory_4a_phonetic_sort_order.xsl" Guid="{558F6620-F8D4-4954-A18D-7ADC16C7E1F2}">
-					<File Id="phonology_project_inventory_4a_phonetic_sort_order.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_inventory_4a_phonetic_sort_order.xsl" />
+					<File Id="phonology_project_inventory_4a_phonetic_sort_order.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_inventory_4a_phonetic_sort_order.xsl" />
 				</Component>
 				<Component Id="phonology_project_inventory_4b_place_of_articulation.xsl" Guid="{0A5DAD54-CE27-4B56-AE1F-E1444347C152}">
-					<File Id="phonology_project_inventory_4b_place_of_articulation.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_inventory_4b_place_of_articulation.xsl" />
+					<File Id="phonology_project_inventory_4b_place_of_articulation.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_inventory_4b_place_of_articulation.xsl" />
 				</Component>
 				<Component Id="phonology_project_inventory_4c_manner_of_articulation.xsl" Guid="{68D1103E-1FB8-44B2-939A-5415EFEB8D0C}">
-					<File Id="phonology_project_inventory_4c_manner_of_articulation.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_inventory_4c_manner_of_articulation.xsl" />
+					<File Id="phonology_project_inventory_4c_manner_of_articulation.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_inventory_4c_manner_of_articulation.xsl" />
 				</Component>
 				<Component Id="phonology_project_inventory_5a_description.xsl" Guid="{C59CF3AF-1694-4441-B45C-755DFF0F8F79}">
-					<File Id="phonology_project_inventory_5a_description.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_inventory_5a_description.xsl" />
+					<File Id="phonology_project_inventory_5a_description.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_inventory_5a_description.xsl" />
 				</Component>
 				<Component Id="phonology_project_inventory_5b_description.xsl" Guid="{E3AD6C9E-84B9-4E37-94B7-717017831158}">
-					<File Id="phonology_project_inventory_5b_description.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_inventory_5b_description.xsl" />
+					<File Id="phonology_project_inventory_5b_description.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_inventory_5b_description.xsl" />
 				</Component>
 				<Component Id="phonology_project_inventory_6a_similar_phone_pairs.xsl" Guid="{839AD742-A6F0-4248-A2CC-36767C9B6AD4}">
-					<File Id="phonology_project_inventory_6a_similar_phone_pairs.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_inventory_6a_similar_phone_pairs.xsl" />
+					<File Id="phonology_project_inventory_6a_similar_phone_pairs.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_inventory_6a_similar_phone_pairs.xsl" />
 				</Component>
 				<Component Id="phonology_project_inventory_6b_similar_phone_pairs.xsl" Guid="{F8BD4E36-5DFD-4AE5-87FF-9681102B1DBF}">
-					<File Id="phonology_project_inventory_6b_similar_phone_pairs.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_inventory_6b_similar_phone_pairs.xsl" />
+					<File Id="phonology_project_inventory_6b_similar_phone_pairs.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_inventory_6b_similar_phone_pairs.xsl" />
 				</Component>
 				<Component Id="phonology_project_inventory_6c_similar_phone_pairs.xsl" Guid="{D51C60F9-F491-4F31-B03B-0EAA01ECF17C}">
-					<File Id="phonology_project_inventory_6c_similar_phone_pairs.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_inventory_6c_similar_phone_pairs.xsl" />
+					<File Id="phonology_project_inventory_6c_similar_phone_pairs.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_inventory_6c_similar_phone_pairs.xsl" />
 				</Component>
 				<Component Id="phonology_project_inventory_7.xsl" Guid="{B8BEFBE8-593D-4CFE-AF9C-8645DB4136A8}">
-					<File Id="phonology_project_inventory_7.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_inventory_7.xsl" />
+					<File Id="phonology_project_inventory_7.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_inventory_7.xsl" />
 				</Component>
 				<Component Id="phonology_project_inventory_articulatory_features.xsl" Guid="{3AB4DD2C-EF58-4D14-9D1F-201518C26945}">
-					<File Id="phonology_project_inventory_articulatory_features.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_inventory_articulatory_features.xsl" />
+					<File Id="phonology_project_inventory_articulatory_features.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_inventory_articulatory_features.xsl" />
 				</Component>
 				<Component Id="phonology_project_inventory_binary_features.xsl" Guid="{78879DC5-635D-4001-A6A9-87362EF20D6B}">
-					<File Id="phonology_project_inventory_binary_features.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_inventory_binary_features.xsl" />
+					<File Id="phonology_project_inventory_binary_features.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_inventory_binary_features.xsl" />
 				</Component>
 				<Component Id="phonology_project_inventory_boolean_conditions.xsl" Guid="{5350273B-CDC2-42A5-BE2F-66DEA596DA5F}">
-					<File Id="phonology_project_inventory_boolean_conditions.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_inventory_boolean_conditions.xsl" />
+					<File Id="phonology_project_inventory_boolean_conditions.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_inventory_boolean_conditions.xsl" />
 				</Component>
 				<Component Id="phonology_project_to_CV_chart_1a.xsl" Guid="{6331BD82-F2CB-4FAE-A6FB-F15AF0A7C50C}">
-					<File Id="phonology_project_to_CV_chart_1a.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_to_CV_chart_1a.xsl" />
+					<File Id="phonology_project_to_CV_chart_1a.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_to_CV_chart_1a.xsl" />
 				</Component>
 				<Component Id="phonology_project_to_CV_chart_1b.xsl" Guid="{2C95D5CE-1287-4B1D-8A73-792676CAA3D7}">
-					<File Id="phonology_project_to_CV_chart_1b.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_to_CV_chart_1b.xsl" />
+					<File Id="phonology_project_to_CV_chart_1b.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_to_CV_chart_1b.xsl" />
 				</Component>
 				<Component Id="phonology_project_to_CV_chart_2.xsl" Guid="{8E1071AD-6975-42A1-B832-D250B059A08A}">
-					<File Id="phonology_project_to_CV_chart_2.xsl" KeyPath="yes" Source="..\output\release\Processing\phonology_project_to_CV_chart_2.xsl" />
+					<File Id="phonology_project_to_CV_chart_2.xsl" KeyPath="yes" Source="..\DistFiles\Processing\phonology_project_to_CV_chart_2.xsl" />
 				</Component>
 				<Component Id="Processing.xml" Guid="{B3FC6261-084C-43FC-8849-B621D163229C}">
-					<File Id="Processing.xml" KeyPath="yes" Source="..\output\release\Processing\Processing.xml" />
+					<File Id="Processing.xml" KeyPath="yes" Source="..\DistFiles\Processing\Processing.xml" />
 				</Component>
 				<Component Id="similarPhonePatterns.xml" Guid="{34B06703-6E15-4B19-BAA6-1CD6EC08CB1E}">
-					<File Id="similarPhonePatterns.xml" KeyPath="yes" Source="..\output\release\Processing\similarPhonePatterns.xml" />
+					<File Id="similarPhonePatterns.xml" KeyPath="yes" Source="..\DistFiles\Processing\similarPhonePatterns.xml" />
 				</Component>
 			</Directory>
 		</DirectoryRef>

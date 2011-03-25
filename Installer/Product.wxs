@@ -18,7 +18,7 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 			   Version="$(var.Property_ProductVersion)" Manufacturer="SIL"
 			   UpgradeCode="$(var.Property_UpgradeCode)">-->
 
-	<Product Id="$(var.Property_ProductCode)" Name="Phonology Assistant 3.2" Language="1033"
+	<Product Id="$(var.Property_ProductCode)" Name="Phonology Assistant 3.3" Language="1033"
 			   Version="$(var.Property_ProductVersion)" Manufacturer="SIL"
 			   UpgradeCode="$(var.Property_UpgradeCode)">
 
@@ -57,7 +57,7 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 		</DirectoryRef>
 
 		<Feature Id="ProgramFiles" Level="1" Absent="disallow" Title="Program Files">
-			<ComponentRef Id ="AddShortcutDir"/>
+			<ComponentRef Id="AddShortcutDir"/>
 			<ComponentRef Id="Pa.exe" />
 			<ComponentRef Id="Pa.exe.config" />
 			<ComponentRef Id="Pa.pdb" />
@@ -69,10 +69,12 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 			<ComponentRef Id="DisablePASplashScreen.pdb" />
 			<ComponentRef Id="ICSharpCode.SharpZipLib.dll" />
 			<ComponentRef Id="LocalizationManager.dll" />
+			<ComponentRef Id="Palaso.dll" />
+			<ComponentRef Id="PaToFdoInterfaces.dll" />
 			<ComponentRef Id="SilTools.dll" />
 			<ComponentRef Id="SilTools.pdb" />
-			<ComponentRef Id="SpeechToolsUtils.dll" />
 			<ComponentRef Id="Phonology_Assistant_Help.chm" />
+			<ComponentRef Id="Pa.tmx" />
 			<ComponentRef Id="PaTMDefinition.xml" />
 			<ComponentRef Id="DataCorpusTMDefinition.xml" />
 			<ComponentRef Id="SearchTMDefinition.xml" />
@@ -87,10 +89,10 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 			<ComponentRef Id="DefaultBFeatures.xml" />
 			<ComponentRef Id="DefaultConsonantChartHeadings.xml" />
 			<ComponentRef Id="DefaultVowelChartHeadings.xml" />
-			<ComponentRef Id="DefaultFieldInfo.xml" />
+			<ComponentRef Id="DefaultFields.xml" />
 			<ComponentRef Id="DefaultSearchClasses.xml" />
 			<ComponentRef Id="DefaultSearchQueries.xml" />
-			<ComponentRef Id="DefaultXYCharts.xml" />
+			<ComponentRef Id="DefaultDistributionCharts.xml" />
 			<ComponentRef Id="XYChartXml2Xhtml.xsl" />
 			<ComponentRef Id="CVChartXml2Xhtml.xsl" />
 			<ComponentRef Id="GridXml2Xhtml.xsl" />

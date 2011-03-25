@@ -8,10 +8,6 @@ using SIL.Pa.UI.Controls;
 namespace SIL.Pa.UI.Views
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class ConsonantChartVw : ChartVwBase
 	{
 		/// ------------------------------------------------------------------------------------
@@ -57,17 +53,6 @@ namespace SIL.Pa.UI.Views
 		protected override IPASymbolType CharacterType
 		{
 			get { return IPASymbolType.Consonant; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override string InitializationMessage
-		{
-			get
-			{
-				return App.GetString("InitializingConsonantChartViewMsg",
-					"Initializing Consonant Chart View...",
-					"Message displayed whenever the consonant chart is being initialized.");
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -133,7 +118,7 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return App.GetString("DefaultConsonantChartXLingPaperFileAffix",
+				return App.GetString("DefaultConsonantChartXLingPaperExportFileAffix",
 					"{0}-ConsonantChart-(XLingPaper).xml", "Export");
 			}
 		}

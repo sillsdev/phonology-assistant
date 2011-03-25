@@ -820,12 +820,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int XYChartVwClassListViewColWidth0 {
+        public int DistributionChartVwClassListViewColWidth0 {
             get {
-                return ((int)(this["XYChartVwClassListViewColWidth0"]));
+                return ((int)(this["DistributionChartVwClassListViewColWidth0"]));
             }
             set {
-                this["XYChartVwClassListViewColWidth0"] = value;
+                this["DistributionChartVwClassListViewColWidth0"] = value;
             }
         }
         
@@ -1448,12 +1448,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.FormSettings XYChartVw {
+        public global::SilTools.FormSettings DistributionChartVw {
             get {
-                return ((global::SilTools.FormSettings)(this["XYChartVw"]));
+                return ((global::SilTools.FormSettings)(this["DistributionChartVw"]));
             }
             set {
-                this["XYChartVw"] = value;
+                this["DistributionChartVw"] = value;
             }
         }
         
@@ -3213,8 +3213,6 @@ namespace SIL.Pa.Properties {
   <string>CitationForm</string>
   <string>PartOfSpeech</string>
   <string>MorphType</string>
-  <string>CV-Pattern-Source</string>
-  <string>Tone</string>
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection DefaultMappedFw7Fields {
             get {
@@ -3481,6 +3479,36 @@ namespace SIL.Pa.Properties {
             }
             set {
                 this["UsersProjectFolderName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>Phonetic</string>
+  <string>Gloss</string>
+  <string>CitationForm</string>
+  <string>MorphTypeGloss</string>
+  <string>PartOfSpeech</string>
+  <string>CVPattern</string>
+  <string>Reference</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection DefaultVisibleFieldsForNewProject {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["DefaultVisibleFieldsForNewProject"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public string LastFolderForSavedProject {
+            get {
+                return ((string)(this["LastFolderForSavedProject"]));
+            }
+            set {
+                this["LastFolderForSavedProject"] = value;
             }
         }
     }

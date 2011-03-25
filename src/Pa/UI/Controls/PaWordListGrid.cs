@@ -178,7 +178,7 @@ namespace SIL.Pa.UI.Controls
 			if (string.IsNullOrEmpty(key))
 				return null;
 
-			using (RegistryKey regKey = Registry.LocalMachine.OpenSubKey(key))
+			using (var regKey = Registry.LocalMachine.OpenSubKey(key))
 			{
 				if (regKey != null)
 					return regKey.GetValue(FwDBAccessInfo.RootDataDirValue, null) as string;
@@ -249,6 +249,26 @@ namespace SIL.Pa.UI.Controls
 				m_audioFileColName = field.Name;
 
 			return col;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnStringsLocalized(object args)
+		{
+			OnUserInterfaceLangaugeChanged(null);
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUserInterfaceLangaugeChanged(object args)
+		{
+			foreach (DataGridViewColumn col in Columns)
+			{
+				var field = App.Project.GetFieldForName(col.Name);
+				if (field != null)
+					col.HeaderText = field.DisplayName;
+			}
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -538,14 +558,16 @@ namespace SIL.Pa.UI.Controls
 			tmAdapter.RemoveMenuSubItems(parentItem);
 
 			// Add the "None" item first.
-			TMItemProperties itemProps = new TMItemProperties();
+			var itemProps = new TMItemProperties();
 			itemProps.CommandId = "CmdGroupByField";
-			itemProps.Text = Properties.Resources.kstidGroupByNoneFieldName;
+			itemProps.Text = App.GetString("GroupByNoneFieldName", "None",
+				"The item in the group by fields menu (and toolbar menu) indicating no field is being grouped on.");
+			
 			itemProps.Name = null;
 			itemProps.Checked = !IsGroupedByField;
 			tmAdapter.AddMenuItem(itemProps, parentItem, null);
 
-			SortedList<int, DataGridViewColumn> sortedCols = new SortedList<int, DataGridViewColumn>();
+			var sortedCols = new SortedList<int, DataGridViewColumn>();
 
 			// Sort the items in column display order.
 			foreach (DataGridViewColumn col in Columns)
@@ -945,9 +967,9 @@ namespace SIL.Pa.UI.Controls
 				sblbl.Text = string.Empty;
 			else
 			{
-				PaCacheGridRow row = Rows[rowIndex] as PaCacheGridRow;
+				var row = Rows[rowIndex] as PaCacheGridRow;
 				sblbl.Text = (row == null ? string.Empty :
-					string.Format(Properties.Resources.kstidWordListStatusBarText,
+					string.Format(App.GetString("WordListStatusBarText", "Record {0} of {1}"),
 					row.CacheEntryIndex + 1, m_cache.Count));
 			}
 		}
@@ -1020,7 +1042,8 @@ namespace SIL.Pa.UI.Controls
 			}
 			catch
 			{
-				e.Value = Properties.Resources.kstidWordListCellValueError;
+				e.Value = App.GetString("WordListCellValueErrorMsg", "Error getting data!",
+					"Displayed in a word list cell when there was an error retrieving data for the cell. This should never be used, but just in case...");
 			}
 		}
 
@@ -1522,7 +1545,7 @@ namespace SIL.Pa.UI.Controls
 			// Determine the width of each experimental transcription and the width of the
 			// string it was converted to. Determine the maximum of all the widths.
 			int maxWidth = 0;
-			foreach (KeyValuePair<string, string> item in experimentalTrans)
+			foreach (var item in experimentalTrans)
 			{
 				int itemWidth = TextRenderer.MeasureText(item.Key,
 					App.PhoneticFont, Size.Empty, kFlags).Width;
@@ -2344,13 +2367,13 @@ namespace SIL.Pa.UI.Controls
 			if (CIEOptions == null)
 				CIEOptions = App.Project.CIEOptions;
 
-			CIEBuilder builder = new CIEBuilder(m_cache, m_sortOptions, CIEOptions);
-			WordListCache cieCache = builder.FindMinimalPairs();
+			var builder = new CIEBuilder(m_cache, m_sortOptions, CIEOptions);
+			var cieCache = builder.FindMinimalPairs();
 
 			// This should never happen.
 			if (cieCache == null)
 			{
-				Utils.MsgBox(Properties.Resources.kstidNoMinimalPairsPopupMsg);
+				Utils.MsgBox(App.GetString("NoMinimalPairsPopupMsg", "No minimal pairs to display."));
 				return false;
 			}
 
@@ -2431,9 +2454,12 @@ namespace SIL.Pa.UI.Controls
 				m_noCIEResultsMsg.AutoSize = false;
 				m_noCIEResultsMsg.Dock = DockStyle.Fill;
 				m_noCIEResultsMsg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-				m_noCIEResultsMsg.Text = Utils.ConvertLiteralNewLines(Properties.Resources.kstidNoMinimalPairsMsg);
 				m_noCIEResultsMsg.BackColor = Color.Transparent;
 				m_noCIEResultsMsg.MouseDown += delegate { Focus(); };
+				m_noCIEResultsMsg.Text = Utils.ConvertLiteralNewLines(App.GetString("NoMinimalPairsMsg",
+					"No minimal pairs to display.\nChange the minimal pairs options and try again.",
+					"Shows in place of a word list grid when the user has turned on minimal pairs and there aren't any to show."));
+
 				Controls.Add(m_noCIEResultsMsg);
 				m_noCIEResultsMsg.BringToFront();
 				App.MsgMediator.SendMessage("NoCIEResultsShowing", this);
@@ -2570,16 +2596,14 @@ namespace SIL.Pa.UI.Controls
 			AllGroupsCollapsed = !expand;
 			AllGroupsExpanded = expand;
 
-			App.InitializeProgressBar(expand ? Properties.Resources.kstidExpandingGroups :
-				Properties.Resources.kstidCollapsingGroups, RowCount);
+			App.InitializeProgressBar(expand ?
+				App.GetString("ExpandingGroupsProgressMsg", "Expanding groups...") :
+				App.GetString("CollapsingGroupsProgressMsg", "Collapsing groups..."), RowCount);
 
-			foreach (DataGridViewRow row in Rows)
+			foreach (var row in Rows.Cast<DataGridViewRow>().Where(r => r is SilHierarchicalGridRow))
 			{
-				if (row is SilHierarchicalGridRow)
-				{
-					((SilHierarchicalGridRow)row).SetExpandedState(expand, forceStateChange, false);
-					App.IncProgressBar(((SilHierarchicalGridRow)row).ChildCount);
-				}
+				((SilHierarchicalGridRow)row).SetExpandedState(expand, forceStateChange, false);
+				App.IncProgressBar(((SilHierarchicalGridRow)row).ChildCount);
 			}
 
 			// Force users to restart Find when collapsing all rows

@@ -129,6 +129,16 @@ namespace SIL.Pa
 			InitializeFonts();
 			SetUILanguage();
 
+			// Copy the localization file to where the settings file is located.
+			var localizationFilePath = Path.Combine(PortableSettingsProvider.SettingsFileFolder, "Pa.tmx");
+			if (!File.Exists(localizationFilePath))
+			{
+				var srcLocalizationFilePath =
+					FileLocator.GetFileDistributedWithApplication(ConfigFolderName, "Pa.tmx");
+
+				File.Copy(srcLocalizationFilePath, localizationFilePath);
+			}
+
 			L10NMngr = LocalizationManager.Create("Pa", "Phonology Assistant", DefaultProjectFolder);
 
 			MinimumViewWindowSize = Settings.Default.MinimumViewWindowSize;
@@ -159,7 +169,11 @@ namespace SIL.Pa
 					dlg.Bounds = Settings.Default.LocalizeDlgBounds;
 			});
 
-			LocalizeItemDlg.StringsLocalized += (() => MsgMediator.SendMessage("StringLocalized", L10NMngr));
+			LocalizeItemDlg.StringsLocalized += (() =>
+			{
+				MsgMediator.SendMessage("StringsLocalized", L10NMngr);
+				PaFieldDisplayProperties.ResetDisplayNameCache();
+			});
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -185,7 +199,7 @@ namespace SIL.Pa
 				var msg = string.Format("There was an error retrieving the settings file\n\n" +
 					"'{0}'\n\nThe default settings file will be used instead.", path);
 
-				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(msg);
 			}
 
 			PortableSettingsProvider.SettingsFileFolder = GetDefaultProjectFolder();
@@ -945,6 +959,13 @@ namespace SIL.Pa
 		private static LocalizationManager L10NMngr { get; set; }
 
 		/// ------------------------------------------------------------------------------------
+		internal static void SaveOnTheFlyLocalizations()
+		{
+			if (L10NMngr != null)
+				L10NMngr.SaveOnTheFlyLocalizations();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		internal static void ReapplyLocalizationsToAllObjects()
 		{
 			if (L10NMngr != null)
@@ -979,21 +1000,35 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		internal static string GetStringForObject(object obj, string defaultText)
 		{
-			return (L10NMngr == null ? defaultText : (L10NMngr.GetString(obj) ?? defaultText));
+		    return (L10NMngr == null ? defaultText : (L10NMngr.GetString(obj) ?? defaultText));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal static void GetStringForObject(object obj, string id, string defaultText)
+		internal static void RegisterForLocalization(object obj, string id)
 		{
 			if (L10NMngr != null)
-				L10NMngr.LocalizeObject(obj, id, defaultText);
+				L10NMngr.LocalizeObject(obj, id);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal static void GetStringForObject(object obj, string id, string defaultText, string comment)
+		internal static void RegisterForLocalization(object obj, string id, string defaultText)
 		{
-			if (L10NMngr != null)
-				L10NMngr.LocalizeObject(obj, id, defaultText, null, comment);
+			if (L10NMngr == null)
+				return;
+			
+			L10NMngr.LocalizeString(id, defaultText);
+			L10NMngr.LocalizeObject(obj, id);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		internal static void RegisterForLocalization(object obj, string id,
+			string defaultText, string comment)
+		{
+			if (L10NMngr == null)
+				return;
+
+			L10NMngr.LocalizeObject(obj, id, defaultText, null, comment);
+			L10NMngr.LocalizeObject(obj, id);
 		}
 
 		#endregion
@@ -1075,7 +1110,7 @@ namespace SIL.Pa
 			{
 				L10NMngr.LocalizeObject(item, id, itemProps.Text, itemProps.Tooltip,
 					ShortcutKeysEditor.KeysToString(itemProps.ShortcutKey),
-					"Menu or Toolbar item", "Menus and Toolbars");
+					"Menu or Toolbar item", "UI.Menus and Toolbars");
 			}
 		}
 
@@ -1802,7 +1837,9 @@ namespace SIL.Pa
 						modifiedQuery.Pattern = modifiedQuery.Pattern.Replace(className, srchClass.Pattern);
 					else
 					{
-						errorMsg = Properties.Resources.kstidMissingClassMsg;
+						errorMsg = GetString("ClassMissingMsg", "The class '{0}' is not in this project. It may have been deleted.",
+							"Message displayed when a search pattern contains a class that doesn't exist in the project.");
+						
 						errorMsg = string.Format(errorMsg, className);
 						modifiedQuery.ErrorMessages.Add(errorMsg);
 						query.ErrorMessages.Add(errorMsg);
@@ -1880,10 +1917,8 @@ namespace SIL.Pa
 				Help.ShowHelp(new Label(), HelpFilePath, HelpTopicPaths.ResourceManager.GetString(hid));
 			else
 			{
-				string msg = string.Format(Properties.Resources.kstidHelpFileMissingMsg,
-					Utils.PrepFilePathForMsgBox(s_helpFilePath));
-
-				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				var msg = GetString("HelpFileMissingMsg", "The help file '{0}' cannot be found.");
+				Utils.MsgBox(string.Format(msg, Utils.PrepFilePathForMsgBox(s_helpFilePath)));
 			}
 		}
 

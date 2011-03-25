@@ -68,7 +68,7 @@ namespace SIL.Pa.UI.Controls
 			// Client Network".
 			node = new NetworkTreeNode();
 			node.ImageIndex = node.SelectedImageIndex = 2;
-			node.Text = Properties.Resources.kstidMyNetworkPlaces;
+			node.Text = App.GetString("MyNetworkPlacesText", "Network places in your area", "Used in the dialog for choosing an FW database");
 			node.NodeType = NetworkTreeNode.NetResTreeNodeType.PlacesInArea;
 			Nodes.Add(node);
 
