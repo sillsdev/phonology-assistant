@@ -890,11 +890,6 @@
     <None Include="Resources\Filter-Small.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.xml">
-      <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <None Include="Resources\AddStackedTabGroup.png" />
     <None Include="Resources\AddSideBySideTabGroup.png" />
     <None Include="Resources\LoadingWheel.gif" />

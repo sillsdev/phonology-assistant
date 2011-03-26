@@ -293,6 +293,9 @@ namespace SIL.Pa.Model
 			SearchVwSortOptions.PostDeserializeInitialization(this);
 			DistributionChartVwSortOptions.PostDeserializeInitialization(this);
 			FixupFieldsAndMappings();
+
+			foreach (var ds in DataSources)
+				ds.PostDeserializeInitialization(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -575,18 +578,6 @@ namespace SIL.Pa.Model
 		public PaField GetAudioFileField()
 		{
 			return (Fields == null ? null : Fields.SingleOrDefault(f => f.Type == FieldType.AudioFilePath));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public PaField GetAudioOffsetField()
-		{
-			return (Fields == null ? null : Fields.SingleOrDefault(f => f.Type == FieldType.AudioOffset));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public PaField GetAudioLengthField()
-		{
-			return (Fields == null ? null : Fields.SingleOrDefault(f => f.Type == FieldType.AudioLength));
 		}
 
 		/// ------------------------------------------------------------------------------------

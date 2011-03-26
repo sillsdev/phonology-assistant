@@ -373,7 +373,6 @@ namespace SIL.Pa.UI.Dialogs
 			App.SetGridSelectionColors(m_gridExpressions, true);
 
 			var fieldNames = (from field in m_project.GetMappedFields()
-							  where !field.IsHidden
 							  orderby field.DisplayName
 							  select field.DisplayName).ToList();
 

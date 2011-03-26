@@ -785,10 +785,13 @@ namespace SIL.Pa.UI
 			if (itemProps == null)
 				return false;
 
+			// TODO: Make this visible when PaXml is supported again.
+			itemProps.Visible = false;
 			itemProps.Update = true;
-			itemProps.Visible = true;
-			itemProps.Text = string.Format(itemProps.OriginalText, Application.ProductName);
-			itemProps.Enabled = (m_project != null && m_project.RecordCache != null);
+			
+			//itemProps.Visible = true;
+			//itemProps.Text = string.Format(itemProps.OriginalText, Application.ProductName);
+			//itemProps.Enabled = (m_project != null && m_project.RecordCache != null);
 			return true;
 		}
 

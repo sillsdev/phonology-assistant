@@ -3391,7 +3391,6 @@ namespace SIL.Pa.Properties {
   <string>AudioFile</string>
   <string>DateCreated</string>
   <string>DateModified</string>
-  <string>Guid</string>
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection DefaultFw6Fields {
             get {
@@ -3411,7 +3410,6 @@ namespace SIL.Pa.Properties {
   <string>DateCreated</string>
   <string>DateModified</string>
   <string>Reference</string>
-  <string>Guid</string>
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection DefaultMappedFw6Fields {
             get {

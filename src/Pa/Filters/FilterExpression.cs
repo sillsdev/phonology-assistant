@@ -112,8 +112,7 @@ namespace SIL.Pa.Filters
 				if (field != null)
 				{
 					m_fieldIsDate = (field.Type == FieldType.Date);
-					m_fieldIsNumeric = (field.Type == FieldType.GeneralNumeric ||
-						field.Type == FieldType.AudioLength || field.Type == FieldType.AudioOffset);
+					m_fieldIsNumeric = (field.Type == FieldType.GeneralNumeric);
 					m_fieldTypeDetermined = true;
 				}
 			}

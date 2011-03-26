@@ -24,7 +24,6 @@ namespace SIL.Pa.UI.Dialogs
 			grpFieldSettings.Font = FontHelper.UIFont;
 		
 			fldSelGridRecView.Load(from field in m_project.GetMappedFields()
-						where !field.IsHidden
 						orderby field.DisplayIndexInRecView
 						select new KeyValuePair<PaField, bool>(field, field.VisibleInRecView));
 		}

@@ -128,10 +128,8 @@ namespace SIL.Pa.DataSource
 				return;
 
 			var length = end - start;
-			var offsetField = m_project.GetAudioOffsetField();
-			var lengthField = m_project.GetAudioLengthField();
-			recCacheEntry.SetValue(offsetField.Name, start.ToString());
-			recCacheEntry.SetValue(lengthField.Name, length.ToString());
+			recCacheEntry.AudioOffset = start;
+			recCacheEntry.AudioLength = length;
 			recCacheEntry.SetValue(audioFilefield.Name, fileName);
 		}
 

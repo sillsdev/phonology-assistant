@@ -131,7 +131,6 @@
 						<xsl:when test="@FieldName='Comment'">Note</xsl:when>
 						<xsl:when test="substring(@FieldName, 9)='s Gender'">SpeakerGender</xsl:when>
 						<xsl:when test="@FieldName='Speaker'">SpeakerName</xsl:when>
-						<xsl:when test="@FieldName='GUID'">Guid</xsl:when>
 						<xsl:otherwise>
 							<xsl:value-of select="@FieldName" />
 						</xsl:otherwise>
@@ -168,7 +167,7 @@
 					<xsl:when test="FieldInfo/@Name='Speaker'">SpeakerName</xsl:when>
 					<xsl:when test="FieldInfo/@Name='Data Source'">DataSource</xsl:when>
 					<xsl:when test="FieldInfo/@Name='Data Source Path'">DataSourcePath</xsl:when>
-					<xsl:when test="FieldInfo/@Name='GUID'">Guid</xsl:when>
+					<xsl:when test="FieldInfo/@Name='GUID'"></xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="FieldInfo/@Name" />
 					</xsl:otherwise>

@@ -40,11 +40,18 @@ namespace SIL.Pa.Model
 				ParseEntryAsInterlinear(entry);
 
 			var eticField = entry.Project.GetPhoneticField();
-			var eticMapping = entry.DataSource.FieldMappings.Single(m => m.Field.Name == eticField.Name);
+//			var eticMapping = entry.DataSource.FieldMappings.Single(m => m.Field.Name == eticField.Name);
 
 			// If we didn't parse any interlinear fields or the phonetic wasn't among
 			// them, make sure it gets parsed before any other non interlinear fields.
-			if (eticMapping.IsParsed && !entry.GetIsInterlinearField(eticField.Name))
+			//if (eticMapping.IsParsed && !entry.GetIsInterlinearField(eticField.Name))
+			//    ParseSingleFieldInEntry(entry, eticField);
+			
+			// I've commented out the check above because it doesn't seem right that the
+			// phonetic mapping's IsParsed can be false. Therefore, I will always parse
+			// it. I hesitate to delete the commented out code in case I'm overlooking
+			// something.
+			if (!entry.GetIsInterlinearField(eticField.Name))
 				ParseSingleFieldInEntry(entry, eticField);
 
 			// Parse all the non phonetic, non interlinear fields.
@@ -92,9 +99,9 @@ namespace SIL.Pa.Model
 			{
 				// Expand the capacity for more word entries if necessary.
 				if (i == entry.WordEntries.Count)
-					entry.WordEntries.Add(new WordCacheEntry(entry, i, true));
+					entry.WordEntries.Add(new WordCacheEntry(entry, i));
 
-				entry.WordEntries[i][field.Name] = split[i];
+				entry.WordEntries[i].SetValue(field.Name, split[i]);
 			}
 		}
 
@@ -129,7 +136,7 @@ namespace SIL.Pa.Model
 			int wordIndex = 0;
 			foreach (int width in colWidths)
 			{
-				var wordEntry = new WordCacheEntry(entry, wordIndex++, true);
+				var wordEntry = new WordCacheEntry(entry, wordIndex++);
 
 				foreach (var line in unparsedLines.Where(l => l.Value != null && startIndex < l.Value.Length))
 				{
