@@ -322,13 +322,10 @@ namespace SIL.Pa.UI.Views
 
 		#region Loading and saving settings
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void LoadSettings()
 		{
-			ptrnBldrComponent.LoadSettings(Name);
+			ptrnBldrComponent.LoadSettings(Name,
+				Settings.Default.DistributionChartsIPACharExplorerExpandedStates);
 
 			if (Settings.Default.DistChartVwSidePanelDocked)
 				btnDock_Click(null, null);
@@ -393,7 +390,9 @@ namespace SIL.Pa.UI.Views
 			Settings.Default.DistChartVwSidePanelDocked = m_slidingPanel.SlideFromLeft ?
 				!splitOuter.Panel1Collapsed : !splitOuter.Panel2Collapsed;
 
-			ptrnBldrComponent.SaveSettings(Name);
+			ptrnBldrComponent.SaveSettings(Name, charExplorerStates =>
+				Settings.Default.DistributionChartsIPACharExplorerExpandedStates = charExplorerStates);
+			
 			Settings.Default.DistChartVwrRcordPaneVisible = ResultViewManger.RecordViewOn;
 
 			try

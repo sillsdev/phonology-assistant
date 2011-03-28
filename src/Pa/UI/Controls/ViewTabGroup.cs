@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SilTools;
@@ -17,7 +18,6 @@ namespace SIL.Pa.UI.Controls
 			TextFormatFlags.SingleLine | TextFormatFlags.LeftAndRightPadding;
 
 		private bool m_isCurrentTabControl;
-		private List<ViewTab> m_tabs;
 		private ViewTab m_currTab;
 		private SilGradientPanel m_pnlCaption;
 		private Panel m_pnlHdrBand;
@@ -56,7 +56,7 @@ namespace SIL.Pa.UI.Controls
 			SetupUndockingControls();
 			SetupScrollPanel();
 
-			m_tabs = new List<ViewTab>();
+			Tabs = new List<ViewTab>();
 
 			if (!App.DesignMode)
 				App.AddMediatorColleague(this);
@@ -67,12 +67,12 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (disposing)
 			{
-				if (m_tabs != null)
+				if (Tabs != null)
 				{
-					for (int i = m_tabs.Count - 1; i >= 0; i--)
+					for (int i = Tabs.Count - 1; i >= 0; i--)
 					{
-						if (m_tabs[i] != null && !m_tabs[i].IsDisposed)
-							m_tabs[i].Dispose();
+						if (Tabs[i] != null && !Tabs[i].IsDisposed)
+							Tabs[i].Dispose();
 					}
 				}
 
@@ -238,20 +238,12 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(EventArgs e)
 		{
 			base.OnHandleDestroyed(e);
 			App.RemoveMediatorColleague(this);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void m_btnHelp_Click(object sender, EventArgs e)
 		{
@@ -266,13 +258,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public ViewTab GetTab(Type viewType)
 		{
-			foreach (ViewTab tab in m_tabs)
-			{
-				if (tab.ViewType == viewType)
-					return tab;
-			}
-
-			return null;
+			return Tabs.FirstOrDefault(tab => tab.ViewType == viewType);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -282,7 +268,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void CloseAllViews()
 		{
-			foreach (ViewTab tab in m_tabs)
+			foreach (ViewTab tab in Tabs)
 				tab.CloseView();
 
 			AdjustTabContainerWidth(true);
@@ -292,19 +278,19 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public ViewTab AddTab(string text, Type viewType)
 		{
-			return AddTab(text, null, null, null, null, viewType);
+			return AddTab(text, null, viewType, null, null);
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		public ViewTab AddTab(string text, string tooltip, string helptootip,
-			string helptopicid, Image img, Type viewType)
+		public ViewTab AddTab(string text, Image img, Type viewType, string helptopicid,
+			Func<string> getHelpToolTipAction)
 		{
 			if (m_pnlTabs.Left > 0)
 				m_pnlTabs.Left = 0; 
 			
 			var tab = new ViewTab(this, img, viewType);
 			tab.Text = Utils.RemoveAcceleratorPrefix(text);
-			tab.HelpToolTipText = helptootip;
+			tab.GetHelpToolTipAction = getHelpToolTipAction;
 			tab.HelpTopicId = helptopicid;
 			tab.Dock = DockStyle.Left;
 			tab.Click += tab_Click;
@@ -312,11 +298,8 @@ namespace SIL.Pa.UI.Controls
 
 			m_pnlTabs.Controls.Add(tab);
 			tab.BringToFront();
-			m_tabs.Add(tab);
+			Tabs.Add(tab);
 			AdjustTabContainerWidth(true);
-
-			if (tooltip != null)
-				m_tooltip.SetToolTip(tab, tooltip);
 
 			return tab;
 		}
@@ -324,7 +307,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void AdjustTabWidths()
 		{
-			foreach (var tab in m_tabs)
+			foreach (var tab in Tabs)
 				SetTabsWidth(tab);
 
 			AdjustTabContainerWidth(true);
@@ -348,42 +331,29 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void AdjustTabContainerWidth(bool includeInVisibleTabs)
 		{
-			int totalWidth = 0;
-			foreach (ViewTab tab in m_tabs)
-			{
-				if (tab.Visible || includeInVisibleTabs)
-					totalWidth += tab.Width;
-			}
-
+			int totalWidth = Tabs.Where(tab => tab.Visible || includeInVisibleTabs).Sum(tab => tab.Width);
 			m_pnlTabs.Width = totalWidth + m_pnlTabs.Padding.Left + m_pnlTabs.Padding.Right;
 			RefreshScrollButtonPanel();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		internal void SetActiveView(ITabView view, bool activateViewsForm)
 		{
 			if (view == null)
 				return;
 
-			foreach (ViewTab tab in m_tabs)
+			foreach (var tab in Tabs.Where(t => t.View is ITabView))
 			{
-				if (tab.View is ITabView)
-				{
-					ITabView tabsView = tab.View as ITabView;
-					bool active = (tabsView == view);
-					tabsView.SetViewActive(active, tab.IsViewDocked);
-					tabsView.TMAdapter.AllowUpdates = active;
-				}
+				var tabsView = tab.View as ITabView;
+				bool active = (tabsView == view);
+				tabsView.SetViewActive(active, tab.IsViewDocked);
+				tabsView.TMAdapter.AllowUpdates = active;
 			}
 
 			App.CurrentView = view;
 			App.CurrentViewType = view.GetType();
 
-			Control ctrl = view as Control;
+			var ctrl = view as Control;
 			if (activateViewsForm && ctrl != null && ctrl.FindForm() != null)
 			{
 				if (ctrl.FindForm().WindowState == FormWindowState.Minimized)
@@ -402,7 +372,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public Control ActivateView(Type viewType)
 		{
-			ViewTab tab = GetTab(viewType);
+			var tab = GetTab(viewType);
 			if (tab != null)
 			{
 				SelectTab(tab);
@@ -424,11 +394,9 @@ namespace SIL.Pa.UI.Controls
 				return;
 
 			SuspendLayout();
-			foreach (var tab in m_tabs)
-			{
-				if (tab != newSelectedTab && tab.Selected)
-					tab.Selected = false;
-			}
+		
+			foreach (var tab in Tabs.Where(t => t != newSelectedTab && t.Selected))
+				tab.Selected = false;
 
 			EnsureTabVisible(newSelectedTab);
 			ResumeLayout();
@@ -440,7 +408,11 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_pnlCaption.Invalidate();
 			m_captionText = m_currTab.Text;
-			m_tooltip.SetToolTip(m_btnHelp, m_currTab.HelpToolTipText);
+
+			var tip = (m_currTab.GetHelpToolTipAction == null ? null :
+				m_currTab.GetHelpToolTipAction());
+
+			m_tooltip.SetToolTip(m_btnHelp, tip);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -471,10 +443,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void tab_Click(object sender, EventArgs e)
 		{
 			var tab = sender as ViewTab;
@@ -492,13 +460,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUnDockView(object args)
 		{
-			int visibleCount = 0;
-
-			foreach (Control ctrl in m_pnlTabs.Controls)
-			{
-				if (ctrl.Visible)
-					visibleCount++;
-			}
+			int visibleCount = m_pnlTabs.Controls.Cast<Control>().Count(ctrl => ctrl.Visible);
 
 			// Don't undock the last tab.
 			if (m_currTab != null && visibleCount > 1)
@@ -507,10 +469,6 @@ namespace SIL.Pa.UI.Controls
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		internal void ViewWasDocked(ViewTab tab)
 		{
@@ -579,7 +537,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool IsRightAdjacentTabSelected(ViewTab tab)
 		{
-			ViewTab adjacentTab = FindFirstVisibleTabToRight(tab);
+			var adjacentTab = FindFirstVisibleTabToRight(tab);
 			return (adjacentTab == null ? false : adjacentTab.Selected);
 		}
 
@@ -590,12 +548,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnViewTabChanging(object args)
 		{
-			ViewTabGroup ctrl = args as ViewTabGroup;
+			var ctrl = args as ViewTabGroup;
 			if (ctrl != null)
 			{
 				m_isCurrentTabControl = (ctrl == this);
 				
-				foreach (ViewTab tab in m_tabs)
+				foreach (var tab in Tabs)
 					tab.Invalidate();
 			}
 			
@@ -603,16 +561,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnDockView(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || itemProps.ParentControl.FindForm() == FindForm())
 				return false;
-
 			
 			if (itemProps.ParentControl.FindForm() != null)
 				itemProps.ParentControl.FindForm().Close();
@@ -624,19 +577,11 @@ namespace SIL.Pa.UI.Controls
 
 		#region Methods for managing scrolling of the tabs
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Make sure the 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		void m_pnlHdrBand_Resize(object sender, EventArgs e)
 		{
 			RefreshScrollButtonPanel();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void RefreshScrollButtonPanel()
 		{
@@ -673,7 +618,7 @@ namespace SIL.Pa.UI.Controls
 
 			// Find the furthest right tab that is partially
 			// obscurred and needs to be scrolled into view.
-			foreach (ViewTab tab in m_tabs)
+			foreach (var tab in Tabs)
 			{
 				if (left < 0 && left + tab.Width >= 0)
 				{
@@ -697,7 +642,7 @@ namespace SIL.Pa.UI.Controls
 
 			// Find the furthest left tab that is partially
 			// obscurred and needs to be scrolled into view.
-			foreach (ViewTab tab in m_tabs)
+			foreach (var tab in Tabs)
 			{
 				if (left <= m_pnlScroll.Left && left + tab.Width > m_pnlScroll.Left)
 				{
@@ -757,7 +702,7 @@ namespace SIL.Pa.UI.Controls
 			if (string.IsNullOrEmpty(m_captionText))
 				return;
 
-			Rectangle rc = m_pnlCaption.ClientRectangle;
+			var rc = m_pnlCaption.ClientRectangle;
 			rc.X += 6;
 			rc.Width -= 6;
 
@@ -771,17 +716,13 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		void m_pnlHdrBand_Paint(object sender, PaintEventArgs e)
 		{
-			Rectangle rc = m_pnlHdrBand.ClientRectangle;
+			var rc = m_pnlHdrBand.ClientRectangle;
 			int y = rc.Bottom - 6;
 			e.Graphics.DrawLine(SystemPens.ControlDark, rc.Left, y, rc.Right, y);
 
-			using (SolidBrush br = new SolidBrush(Color.White))
+			using (var br = new SolidBrush(Color.White))
 				e.Graphics.FillRectangle(br, rc.Left, y + 1, rc.Right, rc.Bottom);
 		}
 
@@ -792,12 +733,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		static void HandleLinePaint(object sender, PaintEventArgs e)
 		{
-			Panel pnl = sender as Panel;
+			var pnl = sender as Panel;
 
 			if (pnl == null)
 				return;
 
-			Rectangle rc = pnl.ClientRectangle;
+			var rc = pnl.ClientRectangle;
 			int y = rc.Bottom - 1;
 			e.Graphics.DrawLine(SystemPens.ControlDark, rc.Left, y, rc.Right, y);
 		}
@@ -814,17 +755,7 @@ namespace SIL.Pa.UI.Controls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public int DockedTabCount
 		{
-			get
-			{
-				int count = 0;
-				foreach (ViewTab tab in m_tabs)
-				{
-					if (tab.IsViewDocked)
-						count++;
-				}
-				
-				return count;
-			}
+			get { return Tabs.Count(tab => tab.IsViewDocked); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -836,17 +767,7 @@ namespace SIL.Pa.UI.Controls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public int UnDockedTabCount
 		{
-			get
-			{
-				int count = 0;
-				foreach (ViewTab tab in m_tabs)
-				{
-					if (!tab.IsViewDocked)
-						count++;
-				}
-
-				return count;
-			}
+			get { return Tabs.Count(tab => !tab.IsViewDocked); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -887,17 +808,8 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public List<ViewTab> Tabs
-		{
-			get { return m_tabs; }
-			set { m_tabs = value; }
-		}
+		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public List<ViewTab> Tabs { get; set; }
 
 		#endregion
 

@@ -2,7 +2,7 @@
 <!-- These variables define the Windows Installer product version, product code and upgrade code. They   -->
 <!-- will be used later on in this file.                                                                 -->
 <!--<?define Property_ProductVersion = "BUILD_SCRIPT_MUST_REPLACE_AT_RUNTIME" ?> -->
-<?define Property_ProductVersion = "3.2.0.0" ?>
+<?define Property_ProductVersion = "3.3.0.0" ?>
 <!--this is replaced at build time by the msbuild 'package' target -->
 <?define Property_ProductCode = "*" ?>
 <!-- auto-generate a new guid each time -->
@@ -18,7 +18,7 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 			   Version="$(var.Property_ProductVersion)" Manufacturer="SIL"
 			   UpgradeCode="$(var.Property_UpgradeCode)">-->
 
-	<Product Id="$(var.Property_ProductCode)" Name="Phonology Assistant 3.3" Language="1033"
+	<Product Id="$(var.Property_ProductCode)" Name="Phonology Assistant 3.3 (Test Version)" Language="1033"
 			   Version="$(var.Property_ProductVersion)" Manufacturer="SIL"
 			   UpgradeCode="$(var.Property_UpgradeCode)">
 
@@ -37,7 +37,7 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 		-->
 
 		<PropertyRef Id="NETFRAMEWORK35" />
-		<Condition Message="Before Phonology Assistant can install, you need to install Microsoft's free .NET Framework 3.5.  A full discussion of Phonology Assistant's requirements can be found at SayMore.org/wiki/Prerequisites.">
+		<Condition Message="Before Phonology Assistant can install, you need to install Microsoft's free .NET Framework 3.5.">
 			Installed OR NETFRAMEWORK35
 		</Condition>
 
@@ -46,11 +46,11 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 
 		<DirectoryRef Id="TARGETDIR">
 			<Directory Id='ProgramMenuFolder' Name='Programs'>
-				<Directory Id='ShortcutDir' Name='Phonology Assistant'>
-					<Component Id="AddShortcutDir" Guid="{053F02A5-B845-47d2-9ADB-D2F7EA9695E9}">
-						<Shortcut Id="AppMenuShortcut" Name="Phonology Assistant" Target="[!Pa.exe]" />
+				<Directory Id='ShortcutDir' Name='Phonology Assistant 3.3'>
+					<Component Id="AddShortcutDir" Guid="{5F66AE70-D4E4-43A2-A74C-A708CF73D3DA}">
+						<Shortcut Id="AppMenuShortcut" Name="Phonology Assistant 3.3" Target="[!Pa.exe]" />
 						<RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
-						<RegistryValue Root="HKCU" Key="Software\Phonology Assistant" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+						<RegistryValue Root="HKCU" Key="Software\Phonology Assistant 3.3" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
 					</Component>
 				</Directory>
 			</Directory>
@@ -164,6 +164,7 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 			<ComponentRef Id="PA_Needs_Assessment.doc" />
 			<ComponentRef Id="PA_Student_Evaluation.doc" />
 			<ComponentRef Id="PA_Student_Manual.doc" />
+			<ComponentRef Id="TrainingProjectsSetup.xml" />
 			<ComponentRef Id="PaTrainingProjects.zip" />
 		</Feature>
 

@@ -784,7 +784,7 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public Filter CurrentFilter
 		{
-			get { return FilterHelper.CurrentFilter; }
+			get { return (FilterHelper != null ? FilterHelper.CurrentFilter : null); }
 		}
 
 		/// ------------------------------------------------------------------------------------

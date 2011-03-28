@@ -1,22 +1,19 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using Microsoft.Win32;
+using System.Xml.Serialization;
+using System.Linq;
+using Palaso.IO;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class TrainingProjectsHelper
 	{
-		private const string kRegKey = "TrainingProjectsUnpacked";
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// This method will unpack sample data into a sub-foldere of the user's default
@@ -29,105 +26,69 @@ namespace SIL.Pa
 			try
 			{
 				// Don't bother unpacking if that's been done before.
-				RegistryKey key = Registry.CurrentUser.OpenSubKey(App.kPaRegKeyName);
-				if (key != null && (int)key.GetValue(kRegKey, 0) > 0)
+				if (Settings.Default.TrainingProjectsUnpacked)
 					return;
 
-				TrainingProjectSetupInfo tpsi = TrainingProjectSetupInfo.Load();
+				var tpsi = TrainingProjectSetupInfo.Load();
 				if (tpsi == null)
 					return;
 
 				// Can't unpack the samples if the training projects zip file doesn't exist.
-				string zipFile = Path.Combine(Application.StartupPath, App.kTrainingSubFolder);
+				var zipFile = Path.Combine(Application.StartupPath, App.kTrainingSubFolder);
 				zipFile = Path.Combine(zipFile, tpsi.TrainingProjectsZipFile);
 				if (!File.Exists(zipFile))
 					return;
 
+				var destFolder = Path.Combine(App.DefaultProjectFolder, tpsi.TrainingProjectFolder);
+
 				// Make sure the target folder for the training projects exists.
-				string destFolder = Path.Combine(App.DefaultProjectFolder,
-					tpsi.TrainingProjectFolder);
-
-				// Do this just in case there's a dot or dot, dot at the end.
-				destFolder = Path.GetDirectoryName(destFolder);
-
 				if (!Directory.Exists(destFolder))
 					Directory.CreateDirectory(destFolder);
 
 				ZipHelper.UncompressFilesInZip(zipFile, destFolder);
 
-				// Write a value to the registry so training projects won't be unpacked
+				// Save a value to the settings so training projects won't be unpacked
 				// again. I could write this to the settings file but I don't want to
 				// unpack if the user has deleted the training projects and his settings
 				// file at some point after having already unpacked the training projects.
-				key = Registry.CurrentUser.CreateSubKey(App.kPaRegKeyName);
-				key.SetValue(kRegKey, 1);
+				Settings.Default.TrainingProjectsUnpacked = true;
+				Settings.Default.Save();
 
-				foreach (PapModification papmod in tpsi.PapModifications)
+				foreach (var papmod in tpsi.PapModifications)
 					papmod.Modify(destFolder);
-
-				tpsi.Delete();
 			}
 			catch { }
 		}
 	}
 
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class TrainingProjectSetupInfo
 	{
 		public string TrainingProjectsZipFile;
 		public string TrainingProjectFolder;
 		public List<PapModification> PapModifications;
-		private static string s_tpsPath;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		internal static TrainingProjectSetupInfo Load()
 		{
-			s_tpsPath = Path.Combine(Application.StartupPath, App.kTrainingSubFolder);
-			s_tpsPath = Path.Combine(s_tpsPath, "TrainingProjectsSetup.xml");
+			var path = Path.Combine(Application.StartupPath, App.kTrainingSubFolder);
+			path = Path.Combine(path, "TrainingProjectsSetup.xml");
 
 			try
 			{
-				return XmlSerializationHelper.DeserializeFromFile<TrainingProjectSetupInfo>(s_tpsPath);
+				return XmlSerializationHelper.DeserializeFromFile<TrainingProjectSetupInfo>(path);
 			}
 			catch { }
 
 			return null;
 		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal void Delete()
-		{
-			try
-			{
-				File.Delete(s_tpsPath);
-			}
-			catch
-			{
-			}
-		}
 	}
 
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class PapModification
 	{
+		[XmlAttribute("papFile")]
 		public string PapFile;
-		public string DataSourcePath;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -147,14 +108,11 @@ namespace SIL.Pa
 			if (prj == null)
 				return;
 
-			foreach (PaDataSource dataSource in prj.DataSources)
+			foreach (var dataSource in prj.DataSources.Where(ds => ds.SourceFile != null))
 			{
-				if (dataSource.SourceFile != null)
-				{
-					string newPath = Path.Combine(path, DataSourcePath);
-					string filename = Path.GetFileName(dataSource.SourceFile);
-					dataSource.SourceFile = Path.Combine(newPath, filename);
-				}
+				string newPath = Path.GetDirectoryName(papFilePath);
+				string filename = Path.GetFileName(dataSource.SourceFile);
+				dataSource.SourceFile = Path.Combine(newPath, filename);
 			}
 
 			XmlSerializationHelper.SerializeToFile(papFilePath, prj);

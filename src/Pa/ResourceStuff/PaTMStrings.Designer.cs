@@ -493,7 +493,7 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Consonant Chart.
+        ///   Looks up a localized string similar to Consonant Chart View (Ctrl+Alt+C).
         /// </summary>
         public static string kstidConsonantChartToolTip {
             get {
@@ -597,6 +597,15 @@ namespace SIL.Pa.ResourceStuff {
         public static string kstidDataCorpusText {
             get {
                 return ResourceManager.GetString("kstidDataCorpusText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data Corpus View (Ctrl+Alt+D).
+        /// </summary>
+        public static string kstidDataCorpusToolTip {
+            get {
+                return ResourceManager.GetString("kstidDataCorpusToolTip", resourceCulture);
             }
         }
         
@@ -997,7 +1006,7 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search for Phones.
+        ///   Looks up a localized string similar to Search View (Ctrl+Alt+S).
         /// </summary>
         public static string kstidFindPhonesToolTip {
             get {
@@ -2356,7 +2365,7 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Vowel Chart.
+        ///   Looks up a localized string similar to Vowel Chart View (Ctrl+Alt+V).
         /// </summary>
         public static string kstidVowelChartToolTip {
             get {
@@ -2446,7 +2455,7 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Distribution Charts.
+        ///   Looks up a localized string similar to Distribution Charts View (Ctrl+Alt+X).
         /// </summary>
         public static string kstidXYChartToolTip {
             get {

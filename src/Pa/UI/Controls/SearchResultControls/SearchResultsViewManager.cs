@@ -990,10 +990,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public WordListCache PerformSearch(SearchQuery query, SearchResultLocation resultLocation)
 		{
 			if (query == null)
@@ -1007,7 +1003,7 @@ namespace SIL.Pa.UI.Controls
 
 			m_srchRsltVwHost.BeforeSearchPerformed(query, null);
 			App.InitializeProgressBar(App.kstidQuerySearchingMsg);
-			WordListCache resultCache = App.Search(query, 5);
+			var resultCache = App.Search(query, 5);
 
 			if (resultCache != null)
 			{

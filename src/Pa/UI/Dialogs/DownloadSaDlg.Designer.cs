@@ -175,7 +175,7 @@
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "Speech Analyzer Not Installed";
+			this.Text = "Speech Analyzer Needed";
 			this.tableLayout.ResumeLayout(false);
 			this.tableLayout.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picIcon)).EndInit();

@@ -333,7 +333,7 @@ namespace SIL.Pa.UI.Dialogs
 				LoadSplitterSettings();
 			}
 
-			charExplorer.LoadSettings(Name);
+			charExplorer.LoadSettings(Settings.Default.DefineClassDlgIPACharExplorerExpandedStates);
 			UpdateCharacterViewers();
 			Utils.WaitCursors(false);
 
@@ -356,7 +356,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			charExplorer.SaveSettings(Name);
+			Settings.Default.DefineClassDlgIPACharExplorerExpandedStates = charExplorer.GetExpandedStates();
 			lvClasses.SaveSettings(Name);
 
 			Settings.Default.DefineClassDlgSplit1Loc = splitCV.SplitterDistance;

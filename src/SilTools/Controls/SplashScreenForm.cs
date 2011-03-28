@@ -320,7 +320,7 @@ namespace SilTools
 
 			var verType = string.Empty;
 			if (m_versionType == VersionType.Alpha)
-				verType = "Alpha";
+				verType = "Test Version";
 			else if (m_versionType == VersionType.Beta)
 				verType = "Beta";
 

@@ -3509,5 +3509,53 @@ namespace SIL.Pa.Properties {
                 this["LastFolderForSavedProject"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection SearchVwIPACharExplorerExpandedStates {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["SearchVwIPACharExplorerExpandedStates"]));
+            }
+            set {
+                this["SearchVwIPACharExplorerExpandedStates"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection DefineClassDlgIPACharExplorerExpandedStates {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["DefineClassDlgIPACharExplorerExpandedStates"]));
+            }
+            set {
+                this["DefineClassDlgIPACharExplorerExpandedStates"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection DistributionChartsIPACharExplorerExpandedStates {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["DistributionChartsIPACharExplorerExpandedStates"]));
+            }
+            set {
+                this["DistributionChartsIPACharExplorerExpandedStates"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public bool TrainingProjectsUnpacked {
+            get {
+                return ((bool)(this["TrainingProjectsUnpacked"]));
+            }
+            set {
+                this["TrainingProjectsUnpacked"] = value;
+            }
+        }
     }
 }
