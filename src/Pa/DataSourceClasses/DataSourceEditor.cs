@@ -238,23 +238,19 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private void EditRecordInFieldWorks(RecordCacheEntry recEntry)
 		{
-			var field = recEntry.Project.GetFieldForName("GUID");
 			var url = (recEntry.DataSource.Type == DataSourceType.FW ?
 				FwDBAccessInfo.JumpUrl : Settings.Default.Fw7JumpUrlFormat);
 
-			if (field == null || string.IsNullOrEmpty(url))
-				return;
-
 			if (recEntry.DataSource.Type == DataSourceType.FW)
 			{
-				url = string.Format(url, recEntry[field.Name],
+				url = string.Format(url, recEntry.Guid,
 					recEntry.DataSource.FwDataSourceInfo.Server,
 					recEntry.DataSource.FwDataSourceInfo.Name);
 			}
 			else
 			{
 				url = string.Format(url, recEntry.DataSource.FwDataSourceInfo.Name,
-					recEntry.DataSource.FwDataSourceInfo.Server, recEntry[field.Name]);
+					recEntry.DataSource.FwDataSourceInfo.Server, recEntry.Guid);
 			}
 
 			// Spaces aren't allowed in the URL. They should be converted to '+'.
@@ -388,24 +384,17 @@ namespace SIL.Pa.DataSource
 		private string GetSaListFile(WordCacheEntry wcentry, string audioFile, string callingApp)
 		{
 			// Get the utterance's offset.
-			ulong offset;
-			var field = wcentry.Project.GetAudioOffsetField();
-			if (field == null || !ulong.TryParse(wcentry[field.Name], out offset))
-				offset = 0;
-
-			// Get the utterance's length.
-			ulong length;
-			field = wcentry.Project.GetAudioLengthField();
-			if (field == null || !ulong.TryParse(wcentry[field.Name], out length))
-				length = 0;
+			var offset = wcentry.AudioOffset;
+			var length = wcentry.AudioLength;
 
 			// Create the contents for the SA list file.
-			string saListFileContent = string.Format(kSaListFileContentFmt,
+			var saListFileContent = string.Format(kSaListFileContentFmt,
 				new object[] { callingApp, audioFile, offset, offset + length });
+			
 			saListFileContent = Utils.ConvertLiteralNewLines(saListFileContent);
 
 			// Write the list file.
-			string lstFile = Path.GetTempFileName();
+			var lstFile = Path.GetTempFileName();
 			File.AppendAllText(lstFile, saListFileContent);
 
 			return lstFile;

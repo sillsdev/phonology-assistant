@@ -23,10 +23,6 @@ using SilTools;
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class ViewTab : Label
 	{
 		private static bool s_viewSelectionInProgress;
@@ -48,11 +44,12 @@ namespace SIL.Pa.UI.Controls
 		/// is the normal behavior when a view is docked.
 		/// </summary>
 		private static bool s_undockingInProgress;
-		
+
+		public Func<string> GetHelpToolTipAction { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		public ViewTab(ViewTabGroup owningTabControl, Image img, Type viewType)
 		{
-			HelpToolTipText = string.Empty;
 			base.DoubleBuffered = true;
 			base.AutoSize = false;
 			base.AllowDrop = true;
@@ -298,14 +295,6 @@ namespace SIL.Pa.UI.Controls
 		#region Properties
 		/// ------------------------------------------------------------------------------------
 		public Image TabImage { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the tab's tool tip for displaying over the tab group's help button
-		/// (i.e. the button to the far right of the view tab group's caption bar).
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string HelpToolTipText { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

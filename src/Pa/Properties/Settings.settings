@@ -899,7 +899,6 @@
   &lt;string&gt;AudioFile&lt;/string&gt;
   &lt;string&gt;DateCreated&lt;/string&gt;
   &lt;string&gt;DateModified&lt;/string&gt;
-  &lt;string&gt;Guid&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="DefaultMappedFw6Fields" Type="System.Collections.Specialized.StringCollection" Scope="Application">
@@ -913,7 +912,6 @@
   &lt;string&gt;DateCreated&lt;/string&gt;
   &lt;string&gt;DateModified&lt;/string&gt;
   &lt;string&gt;Reference&lt;/string&gt;
-  &lt;string&gt;Guid&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="MappableFw6Fields" Type="System.Collections.Specialized.StringCollection" Scope="Application">
@@ -954,6 +952,18 @@
     </Setting>
     <Setting Name="LastFolderForSavedProject" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SearchVwIPACharExplorerExpandedStates" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DefineClassDlgIPACharExplorerExpandedStates" Provider="SilTools.PortableSettingsProvider" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DistributionChartsIPACharExplorerExpandedStates" Provider="SilTools.PortableSettingsProvider" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="TrainingProjectsUnpacked" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

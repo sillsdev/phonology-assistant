@@ -2,17 +2,9 @@
 <TrainingProjectSetupInfo>
 	<TrainingProjectsZipFile>PaTrainingProjects.zip</TrainingProjectsZipFile>
 	<!-- This is the subfolder under My Documents\Phonology Assistant where training projects are unzipped -->
-	<TrainingProjectFolder>.</TrainingProjectFolder>
+	<TrainingProjectFolder>Training Projects</TrainingProjectFolder>
 	<PapModifications>
-		<PapModification>
-			<!-- These paths are relative to My Documents\Phonology Assistant -->
-			<PapFile>Training Projects\Sekpele 2\Sekpele 2.pap</PapFile>
-			<DataSourcePath>Training Projects\Sekpele 2</DataSourcePath>
-		</PapModification>
-		<PapModification>
-			<!-- These paths are relative to My Documents\Phonology Assistant -->
-			<PapFile>Training Projects\Sekpele 3\Sekpele 3.pap</PapFile>
-			<DataSourcePath>Training Projects\Sekpele 3</DataSourcePath>
-		</PapModification>
+		<PapModification papFile="Sekpele 2\Sekpele 2.pap" />
+		<PapModification papFile="Sekpele 3\Sekpele 3.pap" />
 	</PapModifications>
 </TrainingProjectSetupInfo>

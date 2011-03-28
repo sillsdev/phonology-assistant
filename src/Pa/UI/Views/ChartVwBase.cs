@@ -770,13 +770,9 @@ namespace SIL.Pa.UI.Views
 
 		#region Messages for ignore characters drop down
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateChartTBMenuIgnoredCharsParent(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !m_activeView)
 				return false;
 
@@ -788,13 +784,9 @@ namespace SIL.Pa.UI.Views
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownChooseIgnoredCharactersTBMenu(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !m_activeView)
 				return false;
 

@@ -148,6 +148,7 @@ namespace SilTools
 		private Label lblCopyright;
 		private Label lblName;
 		private string m_sDriveLetter;
+		private LinkLabel lnkFeedback;
 		private string m_tmpProdVersion;
 		#endregion
 
@@ -175,10 +176,6 @@ namespace SilTools
 			Initialize();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public AboutDlg(bool showBuild, bool isBetaVersion) : this()
 		{
@@ -226,6 +223,7 @@ namespace SilTools
 			System.Windows.Forms.Label lblAvailableDiskSpace;
 			System.Windows.Forms.PictureBox fieldWorksIcon;
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.lnkFeedback = new System.Windows.Forms.LinkLabel();
 			this.lblBuild = new System.Windows.Forms.Label();
 			this.lblAppVersion = new System.Windows.Forms.Label();
 			this.lblAvailableMemoryValue = new System.Windows.Forms.Label();
@@ -268,16 +266,15 @@ namespace SilTools
 			// 
 			// fieldWorksIcon
 			// 
-			fieldWorksIcon.ErrorImage = null;
-			fieldWorksIcon.Image = global::SilTools.Properties.Resources.kimidSilLogo;
 			resources.ApplyResources(fieldWorksIcon, "fieldWorksIcon");
-			fieldWorksIcon.InitialImage = null;
+			fieldWorksIcon.Image = global::SilTools.Properties.Resources.kimidSilLogo;
 			fieldWorksIcon.Name = "fieldWorksIcon";
 			fieldWorksIcon.TabStop = false;
 			// 
 			// panel1
 			// 
 			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.panel1.Controls.Add(this.lnkFeedback);
 			this.panel1.Controls.Add(this.lblBuild);
 			this.panel1.Controls.Add(this.lblAppVersion);
 			this.panel1.Controls.Add(this.lblAvailableMemoryValue);
@@ -290,6 +287,14 @@ namespace SilTools
 			this.panel1.Controls.Add(buttonOk);
 			resources.ApplyResources(this.panel1, "panel1");
 			this.panel1.Name = "panel1";
+			// 
+			// lnkFeedback
+			// 
+			resources.ApplyResources(this.lnkFeedback, "lnkFeedback");
+			this.lnkFeedback.Name = "lnkFeedback";
+			this.lnkFeedback.TabStop = true;
+			this.lnkFeedback.UseCompatibleTextRendering = true;
+			this.lnkFeedback.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleFeedbackLinkClicked);
 			// 
 			// lblBuild
 			// 
@@ -497,7 +502,7 @@ namespace SilTools
 		/// ----------------------------------------------------------------------------------------
 		int IAboutDlg.ShowDialog()
 		{
-			return (int)base.ShowDialog();
+			return (int)ShowDialog();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -599,6 +604,12 @@ namespace SilTools
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleFeedbackLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			System.Diagnostics.Process.Start("mailto:PaFeedback@sil.org?subject=Bug%20Report");
+		}
 	}
 
 	#endregion

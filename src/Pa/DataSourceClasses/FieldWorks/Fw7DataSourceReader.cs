@@ -270,7 +270,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 			if (m_fwDsInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.AllPronunciationFields)
 				return CreateWordEntriesFromPronunciations(lxEntry, recCacheEntry);
 
-			recCacheEntry.SetValue("GUID", lxEntry.Guid.ToString());
+			recCacheEntry.Guid = new Guid(lxEntry.Guid.ToString());
 
 			var pro = (lxEntry.Pronunciations.Count() == 0 ? null : lxEntry.Pronunciations.ElementAt(0));
 
@@ -280,7 +280,6 @@ namespace SIL.Pa.DataSource.FieldWorks
 				return false;
 			}
 
-			var parsedFields = Settings.Default.ParsedFw7Fields.Cast<string>();
 			string eticValue = null;
 
 			eticValue = m_fwDsInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.LexemeForm ?
@@ -289,7 +288,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 			if (eticValue == null)
 				return false;
 
-			var wentry = new WordCacheEntry(recCacheEntry, parsedFields, "Phonetic");
+			var wentry = new WordCacheEntry(recCacheEntry, m_phoneticFieldName);
 			wentry.SetValue(m_phoneticFieldName, eticValue);
 
 			if (pro != null)
@@ -302,17 +301,14 @@ namespace SIL.Pa.DataSource.FieldWorks
 		/// ------------------------------------------------------------------------------------
 		private bool CreateWordEntriesFromPronunciations(IPaLexEntry lxEntry, RecordCacheEntry recCacheEntry)
 		{
-			var parsedFields = Settings.Default.ParsedFw7Fields.Cast<string>();
-
 			foreach (var pro in lxEntry.Pronunciations)
 			{
 				var eticValue = pro.Form.GetString(m_phoneticWsId);
 				if (eticValue != null)
 				{
-					var wentry = new WordCacheEntry(recCacheEntry, parsedFields, "Phonetic");
+					var wentry = new WordCacheEntry(recCacheEntry, m_phoneticFieldName);
 					wentry.SetValue(m_phoneticFieldName, eticValue);
-					wentry.SetValue("GUID", lxEntry.Guid.ToString());
-
+					wentry.Guid = new Guid(lxEntry.Guid.ToString());
 					ReadSinglePronunciation(pro, wentry);
 					recCacheEntry.WordEntries.Add(wentry);
 				}

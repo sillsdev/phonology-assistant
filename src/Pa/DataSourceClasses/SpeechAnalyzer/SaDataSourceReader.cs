@@ -64,21 +64,17 @@ namespace SIL.Pa.DataSource.Sa
 			foreach (var fname in m_dataSource.FieldMappings.Where(m => !m.IsParsed).Select(m => m.Field.Name))
 				SetFieldValueFromObject(typeof(SaAudioDocumentReader), fname, reader, recCacheEntry.SetValue);
 
-			// Get all the word level fields.
-			var audioOffsetField = m_project.GetAudioOffsetField();
-			var audioLengthField = m_project.GetAudioLengthField();
-
 			int wordIndex = 0;
 			recCacheEntry.WordEntries = new List<WordCacheEntry>();
 			foreach (var kvp in reader.Words)
 			{
-				var wentry = new WordCacheEntry(recCacheEntry, wordIndex++, true);
+				var wentry = new WordCacheEntry(recCacheEntry, wordIndex++);
 
 				foreach (var fname in m_dataSource.FieldMappings.Where(m => m.IsParsed).Select(m => m.Field.Name))
 					SetFieldValueFromObject(typeof(AudioDocWords), fname, kvp.Value, wentry.SetValue);
 
-				wentry.SetValue(audioOffsetField.Name, kvp.Key.ToString());
-				wentry.SetValue(audioLengthField.Name, kvp.Value.AudioLength.ToString());
+				wentry.AudioOffset = kvp.Key;
+				wentry.AudioLength = kvp.Value.AudioLength;
 				recCacheEntry.WordEntries.Add(wentry);
 			}
 

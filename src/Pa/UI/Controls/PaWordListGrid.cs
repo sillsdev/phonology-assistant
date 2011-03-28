@@ -53,8 +53,6 @@ namespace SIL.Pa.UI.Controls
 		private readonly Keys m_stopPlaybackKey = Keys.None;
 		private readonly GridCellInfoPopup m_cellInfoPopup;
 		private readonly string m_audioFileFieldName;
-		private readonly string m_audioFileOffsetFieldName;
-		private readonly string m_audioFileLengthFieldName;
 		private readonly Bitmap m_spkrImage;
 		private readonly int m_widthOfWrdBoundarySrchRsltMatch;
 
@@ -108,12 +106,6 @@ namespace SIL.Pa.UI.Controls
 			var field = App.Project.GetAudioFileField();
 			m_audioFileFieldName = (field != null ? field.Name : null);
 
-			field = App.Project.GetAudioOffsetField();
-			m_audioFileOffsetFieldName = (field != null ? field.Name : null);
-
-			field = App.Project.GetAudioLengthField();
-			m_audioFileLengthFieldName = (field != null ? field.Name : null);
-			
 			m_spkrImage = Properties.Resources.kimidSpeaker;
 			OnSortingOptionsChanged(performInitialSort);
 		}
@@ -409,15 +401,13 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public SortedList<int, WordCacheEntry> GetAudioEntriesInSelectedRows()
 		{
-			long offset;
-			long length;
 			var entries = new SortedList<int, WordCacheEntry>();
 
 			// Go through the selected rows collection.
 			if (SelectedRows.Count > 0)
 			{
 				foreach (var row in SelectedRows.Cast<DataGridViewRow>()
-					.Where(row => CanRowPlayAudio(row.Index, out offset, out length)))
+					.Where(row => CanRowPlayAudio(row.Index)))
 				{
 					entries[row.Index] = GetWordEntry(row.Index).WordCacheEntry;
 				}
@@ -425,7 +415,7 @@ namespace SIL.Pa.UI.Controls
 
 			// Now add the current row if it's not already in the collection.
 			int currRow = CurrentCellAddress.Y;
-			if (CanRowPlayAudio(currRow, out offset, out length) &&	!entries.ContainsKey(currRow))
+			if (CanRowPlayAudio(currRow) &&	!entries.ContainsKey(currRow))
 				entries[currRow] = GetWordEntry(currRow).WordCacheEntry;
 
 			return (entries.Count == 0 ? null : entries);
@@ -437,24 +427,13 @@ namespace SIL.Pa.UI.Controls
 		/// audio file (or a portion thereof).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool CanRowPlayAudio(int rowIndex, out long offset, out long length)
+		private bool CanRowPlayAudio(int rowIndex)
 		{
-			offset = -1;
-			length = -1;
-
 			if (string.IsNullOrEmpty(m_audioFileFieldName))
 				return false;
 
 			var wlentry = GetWordEntry(rowIndex);
 			if (wlentry == null)
-				return false;
-
-			var strVal = (wlentry[m_audioFileOffsetFieldName] ?? "0");
-			if (!long.TryParse(strVal, out offset))
-				return false;
-
-			strVal = (wlentry[m_audioFileLengthFieldName] ?? "0");
-			if (!long.TryParse(strVal, out length))
 				return false;
 
 			var audioFilePath = wlentry[m_audioFileFieldName];
@@ -2799,7 +2778,7 @@ namespace SIL.Pa.UI.Controls
 		protected virtual bool OnDataSourcesModified(object args)
 		{
 			var project = args as PaProject;
-			var mappedFields = project.GetMappedFields().Where(f => !f.IsHidden).ToList();
+			var mappedFields = project.GetMappedFields().ToList();
 
 			m_suspendSavingColumnChanges = true;
 
@@ -3555,8 +3534,8 @@ namespace SIL.Pa.UI.Controls
 			if (recEntry == null || m_audioPlayer == null)
 				return;
 
-			long offset = (entry[m_audioFileOffsetFieldName] == null ? -1 : long.Parse(entry[m_audioFileOffsetFieldName]));
-			long length = (entry[m_audioFileLengthFieldName] == null ? -1 : long.Parse(entry[m_audioFileLengthFieldName]));
+			var offset = entry.AudioOffset;
+			var length = entry.AudioLength;
 			string audioFile = (string.IsNullOrEmpty(entry.AbsoluteAudioFilePath) ?
 				entry[m_audioFileFieldName] : entry.AbsoluteAudioFilePath);
 

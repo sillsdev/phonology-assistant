@@ -373,7 +373,6 @@ namespace SIL.Pa.UI.Dialogs
 			App.SetGridSelectionColors(m_gridExpressions, true);
 
 			var fieldNames = (from field in m_project.GetMappedFields()
-							  where !field.IsHidden
 							  orderby field.DisplayName
 							  select field.DisplayName).ToList();
 
@@ -1010,8 +1009,15 @@ namespace SIL.Pa.UI.Dialogs
 			return (m_filterList.SingleOrDefault(f => f.Name == filterName) != null);
 		}
 
+		
 		/// ------------------------------------------------------------------------------------
-		private void UpdateView(bool updateExpressionMatchRadioButtons = true)
+		private void UpdateView()
+		{
+			UpdateView(true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void UpdateView(bool updateExpressionMatchRadioButtons)
 		{
 			Utils.SetWindowRedraw(this, false);
 

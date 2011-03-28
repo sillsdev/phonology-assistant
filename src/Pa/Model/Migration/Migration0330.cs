@@ -203,9 +203,10 @@ namespace SIL.Pa.Model.Migration
 			var xmlProject = XElement.Load(m_projectFilePath);
 
 			// Get all mapping nodes.
-			var mappings = xmlProject.Element("DataSources").Elements()
-				.Select(e => e.Element("FieldMappings"))
-				.SelectMany(e => e.Elements("mapping"));
+			var mappings = (from e in xmlProject.Element("DataSources").Elements()
+							let fm = e.Element("FieldMappings")
+							where fm != null
+							select fm).SelectMany(e => e.Elements("mapping"));
 
 			// Get all parsed fields from the old field info.
 			var parsedFields = from e in xmlFieldInfo.Elements()

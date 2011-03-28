@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,12 +24,15 @@ namespace SIL.Pa.Model
 	[XmlType("ParsedFieldGroup")]
 	public class WordCacheEntry
 	{
-		private Dictionary<string, FieldValue> m_fieldValues;
+		private Dictionary<string, FieldValue> m_fieldValues = new Dictionary<string,FieldValue>();
 		private Dictionary<string, IEnumerable<string>> m_collectionValues;
 		private FieldValue m_phoneticValue;
 		private string m_origPhoneticValue;
 		private Dictionary<int, string[]> m_uncertainPhones;
 		private string[] m_phones;
+		private Guid m_guid;
+		private long m_audioOffset = -999;
+		private long m_audioLength = -999;
 
 		// This is only used for deserialization
 		private List<FieldValue> m_fieldValuesList;
@@ -43,50 +47,38 @@ namespace SIL.Pa.Model
 
 		#region Constructors
 		/// ------------------------------------------------------------------------------------
-		public WordCacheEntry()
+		public WordCacheEntry() : this(null)
 		{
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public WordCacheEntry(bool allocateSpaceForFieldValues) :
-			this(null, allocateSpaceForFieldValues)
+		public WordCacheEntry(RecordCacheEntry recEntry) : this(recEntry, 0)
 		{
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public WordCacheEntry(RecordCacheEntry recEntry, bool allocateSpaceForFieldValues) :
-			this(recEntry, 0, allocateSpaceForFieldValues)
-		{
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public WordCacheEntry(RecordCacheEntry recEntry, int wordIndex,
-			bool allocateSpaceForFieldValues)
+		public WordCacheEntry(RecordCacheEntry recEntry, int wordIndex)
 		{
 			RecordEntry = recEntry;
 			WordIndex = wordIndex;
-
-			if (!allocateSpaceForFieldValues)
-				return;
-
-			m_fieldValues = (from m in recEntry.DataSource.FieldMappings
-							 where (m.IsParsed || m.IsInterlinear) && m.Field != null
-							 select m.Field).ToDictionary(f => f.Name, f => new FieldValue(f.Name));
 
 			var mapping = recEntry.DataSource.FieldMappings
 				.SingleOrDefault(m => m.Field != null && m.Field.Type == FieldType.Phonetic);
 
 			if (mapping != null)
-				m_phoneticValue = m_fieldValues[mapping.Field.Name];
+			{
+				m_phoneticValue = new FieldValue(mapping.Field.Name);
+				m_fieldValues[mapping.Field.Name] = m_phoneticValue;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public WordCacheEntry(RecordCacheEntry recEntry, IEnumerable<string> fields, string phoneticFieldName)
+		public WordCacheEntry(RecordCacheEntry recEntry, string phoneticFieldName)
 		{
 			RecordEntry = recEntry;
 			WordIndex = 0;
-			m_fieldValues = fields.ToDictionary(f => f, f => new FieldValue(f));
-			m_fieldValues[phoneticFieldName] = m_phoneticValue = new FieldValue(phoneticFieldName);
+			m_phoneticValue = new FieldValue(phoneticFieldName);
+			m_fieldValues[phoneticFieldName] = m_phoneticValue;
 		}
 
 		#endregion
@@ -365,6 +357,30 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public string AbsoluteAudioFilePath { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public long AudioOffset
+		{
+			get { return (m_audioOffset == -999 ? RecordEntry.AudioOffset : m_audioOffset); } 
+			set { m_audioOffset = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public long AudioLength
+		{
+			get { return (m_audioLength == -999 ? RecordEntry.AudioLength : m_audioLength); }
+			set { m_audioLength = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public Guid Guid
+		{
+			get { return (m_guid == Guid.Empty ? RecordEntry.Guid : m_guid); }
+			set { m_guid = value; }
+		}
 
 		#endregion
 

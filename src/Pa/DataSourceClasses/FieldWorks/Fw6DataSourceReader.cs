@@ -135,6 +135,9 @@ namespace SIL.Pa.DataSource.FieldWorks
 					fieldNames[i] = reader.GetName(i);
 			}
 
+			var eticField = m_dataSource.FieldMappings.FirstOrDefault(m => m.Field.Type == FieldType.Phonetic);
+			var eticFieldName = (eticField != null ? eticField.PaFieldName : null);
+
 			while (reader.Read())
 			{
 				// Make a new record entry for each row returned from the query.
@@ -145,10 +148,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 					WordEntries = new List<WordCacheEntry>(),
 				};
 
-				// Make a new word entry because for FW data sources read directly from the
-				// database, there will be a one-to-one correspondence between record cache
-				// entries and word cache entries.
-				var wentry = new WordCacheEntry(recCacheEntry, true);
+				var wentry = new WordCacheEntry(recCacheEntry);
 
 				// Read the data for all columns having a mapped field.
 				foreach (var kvp in fieldNames)
@@ -158,9 +158,17 @@ namespace SIL.Pa.DataSource.FieldWorks
 					if (dbValue is DBNull)
 						continue;
 
-					recCacheEntry.SetValue(kvp.Value, dbValue.ToString());
-					wentry.SetValue(kvp.Value, dbValue.ToString());
+					// Put the phonetic field in a word entry and all the other data in the
+					// record entry.
+					if (kvp.Value != eticFieldName)
+						recCacheEntry.SetValue(kvp.Value, dbValue.ToString());
+					else
+						wentry.SetValue(kvp.Value, dbValue.ToString());
 				}
+
+				var guid = reader["Guid"];
+				if (!(guid is DBNull))
+					recCacheEntry.Guid = new Guid(guid.ToString());
 
 				// Add the entries to the caches.
 				recCacheEntry.WordEntries.Add(wentry);

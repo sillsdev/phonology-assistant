@@ -149,6 +149,7 @@
 			<xsl:attribute name="name">
 				<xsl:value-of select="@Name"/>
 			</xsl:attribute>
+			<xsl:attribute name="type">AudioFilePath</xsl:attribute>
 			<possibleDataSourceFieldNames>\sf;\snd</possibleDataSourceFieldNames>
 		</field>
 	</xsl:template>

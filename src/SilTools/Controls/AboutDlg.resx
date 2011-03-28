@@ -135,7 +135,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="buttonOk.Location" type="System.Drawing.Point, System.Drawing">
-    <value>217, 253</value>
+    <value>418, 251</value>
   </data>
   <data name="buttonOk.Size" type="System.Drawing.Size, System.Drawing">
     <value>91, 26</value>
@@ -160,7 +160,7 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;buttonOk.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <metadata name="lblAvailableMemory.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -175,7 +175,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblAvailableMemory.Location" type="System.Drawing.Point, System.Drawing">
-    <value>150, 202</value>
+    <value>150, 187</value>
   </data>
   <data name="lblAvailableMemory.Size" type="System.Drawing.Size, System.Drawing">
     <value>92, 13</value>
@@ -196,7 +196,7 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;lblAvailableMemory.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <metadata name="lblAvailableDiskSpace.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -211,7 +211,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblAvailableDiskSpace.Location" type="System.Drawing.Point, System.Drawing">
-    <value>150, 226</value>
+    <value>150, 211</value>
   </data>
   <data name="lblAvailableDiskSpace.Size" type="System.Drawing.Size, System.Drawing">
     <value>107, 13</value>
@@ -232,13 +232,19 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;lblAvailableDiskSpace.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <metadata name="fieldWorksIcon.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
+  <data name="fieldWorksIcon.ErrorImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
   <data name="fieldWorksIcon.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
+  </data>
+  <data name="fieldWorksIcon.InitialImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
   </data>
   <data name="fieldWorksIcon.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 13</value>
@@ -262,7 +268,37 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;fieldWorksIcon.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
+  </data>
+  <data name="lnkFeedback.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lnkFeedback.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
+    <value>37, 55</value>
+  </data>
+  <data name="lnkFeedback.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 258</value>
+  </data>
+  <data name="lnkFeedback.Size" type="System.Drawing.Size, System.Drawing">
+    <value>302, 17</value>
+  </data>
+  <data name="lnkFeedback.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="lnkFeedback.Text" xml:space="preserve">
+    <value>Please report errors and comments to PaFeedback@sil.org</value>
+  </data>
+  <data name="&gt;&gt;lnkFeedback.Name" xml:space="preserve">
+    <value>lnkFeedback</value>
+  </data>
+  <data name="&gt;&gt;lnkFeedback.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lnkFeedback.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;lnkFeedback.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="lblBuild.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -271,7 +307,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblBuild.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 245</value>
+    <value>9, 240</value>
   </data>
   <data name="lblBuild.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 13</value>
@@ -292,7 +328,7 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;lblBuild.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="lblAppVersion.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -319,7 +355,7 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;lblAppVersion.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="lblAvailableMemoryValue.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -328,7 +364,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblAvailableMemoryValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>265, 199</value>
+    <value>265, 184</value>
   </data>
   <data name="lblAvailableMemoryValue.Size" type="System.Drawing.Size, System.Drawing">
     <value>244, 19</value>
@@ -352,7 +388,7 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;lblAvailableMemoryValue.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="lblAvailableDiskSpaceValue.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -361,7 +397,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblAvailableDiskSpaceValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>265, 224</value>
+    <value>265, 209</value>
   </data>
   <data name="lblAvailableDiskSpaceValue.Size" type="System.Drawing.Size, System.Drawing">
     <value>244, 17</value>
@@ -385,7 +421,7 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;lblAvailableDiskSpaceValue.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="lblCopyright.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -394,7 +430,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblCopyright.Location" type="System.Drawing.Point, System.Drawing">
-    <value>149, 164</value>
+    <value>149, 150</value>
   </data>
   <data name="lblCopyright.Size" type="System.Drawing.Size, System.Drawing">
     <value>360, 24</value>
@@ -415,7 +451,7 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;lblCopyright.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="lblName.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 18.75pt, style=Bold</value>
@@ -445,7 +481,7 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;lblName.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>

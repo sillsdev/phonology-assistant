@@ -177,7 +177,8 @@ namespace SIL.Pa.Model
 				if (progBar != null)
 					progBar.Increment(1);
 
-				//// A record entry doesn't need parsing if it came from a PAXML data source.
+				//// A record entry doesn't need parsing if it came from a PAXML data source
+				//// or from an SA data source.
 				//// In that case, a word cache entry only needs to have two things done here:
 				//// 1) have its owning record entry set and 2) it needs to be added to the
 				//// word cache.

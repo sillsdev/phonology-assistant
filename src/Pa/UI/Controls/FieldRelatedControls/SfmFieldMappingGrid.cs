@@ -101,8 +101,8 @@ namespace SIL.Pa.UI.Controls
 		protected override KeyValuePair<object, IEnumerable<object>> OnGetComboCellList(
 			DataGridViewCell cell, DataGridViewEditingControlShowingEventArgs e)
 		{
-			var invalidTypes = new[] { FieldType.AudioFilePath, FieldType.AudioLength,
-				FieldType.AudioOffset, FieldType.Phonetic, FieldType.Reference, FieldType.Guid };
+			var invalidTypes = new[] { FieldType.AudioFilePath,
+				FieldType.Phonetic, FieldType.Reference };
 
 			// Build a list of field types the user may choose.
 			var validTypeNames = m_displayableFieldTypes.Where(kvp =>

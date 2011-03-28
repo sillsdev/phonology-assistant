@@ -302,35 +302,6 @@ namespace SIL.Pa.UI.Dialogs
 						msg = string.Format(msg, Utils.PrepFilePathForMsgBox(m_dataSources[i].SourceFile));
 						break;
 					}
-					
-					//if (!Project.DataSources[i].MappingsExist &&
-					//    (Project.DataSources[i].Type == DataSourceType.SFM ||
-					//    Project.DataSources[i].Type == DataSourceType.Toolbox))
-					//{
-					//    // No mappings have been specified.
-					//    offendingIndex = i;
-					//    msg = App.LocalizeString("ProjectSettingsDlg.NoMappingsMsg",
-					//        "You must specify field mappings for\n\n'{0}'.\n\nSelect it in the Data Sources list and click 'Properties'.",
-					//        App.kLocalizationGroupDialogs);
-						
-					//    msg = string.Format(msg, Project.DataSources[i].DataSourceFile);
-					//    break;
-					//}
-					
-					// TODO: Fix so "phonetic" is not hardcoded.
-					//if (m_dataSources[i].Type == DataSourceType.FW && m_dataSources[i].FwSourceDirectFromDB &&
-					//    !m_dataSources[i].FwDataSourceInfo.HasWritingSystemInfo("phonetic"))
-					//{
-					//    // FW data source information is incomplete.
-					//    offendingIndex = i;
-
-					//    msg = App.LocalizeString("ProjectSettingsDlg.MissingFwDatasourceWsMsg",
-					//        "The writing system for the phonetic field has not been specified for the FieldWorks data source '{0}'.\n\nSelect the FieldWorks data source and click the properties button.",
-					//        App.kLocalizationGroupDialogs);
-
-					//    msg = string.Format(msg, m_dataSources[i].FwDataSourceInfo);
-					//    break;
-					//}
 				}
 			}
 

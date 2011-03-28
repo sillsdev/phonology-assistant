@@ -119,6 +119,7 @@ namespace SIL.Pa.DataSource
 			};
 		}
 
+		#region Methods for creating default mappings
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<FieldMapping> CreateDefaultSaMappings(IEnumerable<PaField> projectFields)
 		{
@@ -176,6 +177,17 @@ namespace SIL.Pa.DataSource
 				   where field != null
 				   orderby mkr
 				   select new FieldMapping(mkr, field, defaultParsedFlds.Contains(field.Name));
+		}
+
+		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		public void PostDeserializeInitialization(PaProject project)
+		{
+			// Make sure SA data sources have mappings. This check should really only be
+			// necessary when upgrading from a project last saved in version 3.0.1 of PA.
+			if (Type == DataSourceType.SA && FieldMappings.Count == 0)
+				FieldMappings = CreateDefaultSaMappings(project.Fields).ToList();
 		}
 
 		/// ------------------------------------------------------------------------------------

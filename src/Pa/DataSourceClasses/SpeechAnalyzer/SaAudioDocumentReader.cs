@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Forms;
+using SIL.Pa.UI.Dialogs;
 using SilTools;
 
 namespace SIL.Pa.DataSource.Sa
@@ -99,10 +101,20 @@ namespace SIL.Pa.DataSource.Sa
 						return false;
 					}
 
-					// If audio file is old SA format, then tell user to install SA and convert first.
+					// If audio file is old SA format, then tell user to use SA 3.0.1 to convert first.
 					if (audioReader.IsOldSaFormat)
 					{
-						// TODO: Tell user to install SA for conversion.
+						App.CloseSplashScreen();
+
+						var msg = App.GetString("AudioFileNeedsConversionMsg", "It appears the audio file '{0}' may " +
+							"have been created using an old version of Speech Analyzer. In order for {1} " +
+							"to read data associated with this audio file it must first be converted using " +
+							"Speech Analyzer 3.0.1.");
+
+						msg = string.Format(msg, audioFilePath, Application.ProductName);
+						using (var dlg = new DownloadSaDlg(msg))
+							dlg.ShowDialog();
+						
 						return false;
 					}
 

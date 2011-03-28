@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -42,6 +43,8 @@ namespace SIL.Pa.Model
 		{
 			Project = project;
 			Id = s_counter++;
+			AudioOffset = -1;
+			AudioLength = -1;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -329,6 +332,18 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public int BitsPerSample { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public Guid Guid { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public long AudioOffset { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public long AudioLength { get; set; }
 
 		#endregion
 

@@ -197,18 +197,6 @@ namespace SIL.Pa.DataSource.FieldWorks
 			}
 
 			return false;
-			//// We don't have a way to get the last modified time for server-based projects.
-			//// TODO: Figure out how to deal with getting modifed time for server-based projects.
-			//if (IsMultiAccessProject)
-			//    return false;
-
-			//var lastWriteTime = File.GetLastWriteTimeUtc(Name);
-			
-			//if (lastWriteTime <= m_lastModified7)
-			//    return false;
-
-			//m_lastModified7 = lastWriteTime;
-			//return true;
 		}
 
 		/// ------------------------------------------------------------------------------------

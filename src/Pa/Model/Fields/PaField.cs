@@ -20,9 +20,6 @@ namespace SIL.Pa.Model
 		Reference,
 		Phonetic,
 		AudioFilePath,
-		AudioOffset,
-		AudioLength,
-		Guid,
 	}
 
 	/// ----------------------------------------------------------------------------------------
@@ -36,9 +33,6 @@ namespace SIL.Pa.Model
 		public const string kDataSourceFieldName = "DataSource";
 		public const string kDataSourcePathFieldName = "DataSourcePath";
 		public const string kAudioFileFieldName = "AudioFile";
-		public const string kAudioOffsetFieldName = "AudioOffset";
-		public const string kAudioLengthFieldName = "AudioLength";
-		public const string kGuidFieldName = "GUID";
 
 		private string m_isCollection;
 
@@ -67,7 +61,6 @@ namespace SIL.Pa.Model
 				Name = Name,
 				Type = Type,
 				SerializablePossibleDataSourceFieldNames = SerializablePossibleDataSourceFieldNames,
-				IsHidden = IsHidden,
 				FwWsType = FwWsType,
 			};
 		}
@@ -108,10 +101,6 @@ namespace SIL.Pa.Model
 		[XmlElement("fwWritingSystemType")]
 		public FwDBUtils.FwWritingSystemType FwWsType { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public bool IsHidden { get; set; }
-
 		#region Display properties
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
@@ -133,7 +122,7 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public bool VisibleInGrid
 		{
-			get { return !IsHidden && s_displayPropsCache.GetIsVisibleInGrid(Name); }
+			get { return s_displayPropsCache.GetIsVisibleInGrid(Name); }
 			set { s_displayPropsCache.SetIsVisibleInGrid(Name, value); }
 		}
 
@@ -141,7 +130,7 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public bool VisibleInRecView
 		{
-			get { return !IsHidden && s_displayPropsCache.GetIsVisibleInRecView(Name); }
+			get { return s_displayPropsCache.GetIsVisibleInRecView(Name); }
 			set { s_displayPropsCache.SetIsVisibleInRecView(Name, value); }
 		}
 
@@ -149,7 +138,7 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public int DisplayIndexInGrid
 		{
-			get { return (IsHidden ? -1 :s_displayPropsCache.GetIndexInGrid(Name)); }
+			get { return (s_displayPropsCache.GetIndexInGrid(Name)); }
 			set { s_displayPropsCache.SetIndexInGrid(Name, value); }
 		}
 
@@ -157,7 +146,7 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public int DisplayIndexInRecView
 		{
-			get { return (IsHidden ? -1 : s_displayPropsCache.GetIndexInRecView(Name)); }
+			get { return (s_displayPropsCache.GetIndexInRecView(Name)); }
 			set { s_displayPropsCache.SetIndexInRecView(Name, value); }
 		}
 
@@ -228,8 +217,7 @@ namespace SIL.Pa.Model
 		public static bool GetIsReservedFieldName(string name)
 		{
 			return ((kCVPatternFieldName + ";" + kDataSourceFieldName + ";" +
-				kDataSourcePathFieldName + ";" + kAudioOffsetFieldName + ";" +
-				kAudioLengthFieldName + ";" + kGuidFieldName).Contains(name));
+				kDataSourcePathFieldName).Contains(name));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -277,7 +265,7 @@ namespace SIL.Pa.Model
 			if (s_displayPropsCache == null)
 				s_displayPropsCache = FieldDisplayPropsCache.LoadProjectFieldDisplayProps(project);
 
-			Exception e = s_displayPropsCache.SaveProjectFieldDisplayProps(project);
+			var e = s_displayPropsCache.SaveProjectFieldDisplayProps(project);
 			var path = project.ProjectPathFilePrefix + "Fields.xml";
 			XmlSerializationHelper.SerializeToFile(path, project.Fields.ToList(), "Fields", out e);
 			return e;
@@ -306,10 +294,6 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static IEnumerable<PaField> EnsureListContainsCalculatedFields(List<PaField> fields)
 		{
-			CreateHiddenFieldIfNotExist(fields, kAudioOffsetFieldName, FieldType.AudioOffset);
-			CreateHiddenFieldIfNotExist(fields, kAudioLengthFieldName, FieldType.AudioLength);
-			CreateHiddenFieldIfNotExist(fields, kGuidFieldName, FieldType.Guid);
-
 			if (!fields.Any(f => f.Name == kDataSourcePathFieldName))
 				fields.Add(new PaField(kDataSourcePathFieldName, FieldType.GeneralFilePath));
 
@@ -320,19 +304,6 @@ namespace SIL.Pa.Model
 				fields.Add(new PaField(kCVPatternFieldName, default(FieldType)));
 
 			return fields.OrderBy(f => f.DisplayName);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private static void CreateHiddenFieldIfNotExist(List<PaField> existingFields, string name, FieldType type)
-		{
-			var field = existingFields.SingleOrDefault(f => f.Name == name);
-			if (field == null)
-			{
-				field = new PaField(name, type);
-				existingFields.Add(field);
-			}
-
-			field.IsHidden = true;
 		}
 
 		/// ------------------------------------------------------------------------------------

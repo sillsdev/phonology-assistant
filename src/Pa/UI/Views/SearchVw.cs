@@ -376,7 +376,8 @@ namespace SIL.Pa.UI.Views
 			else
 				File.Delete(path);
 
-			ptrnBldrComponent.SaveSettings(Name);
+			ptrnBldrComponent.SaveSettings(Name, charExplorerStates =>
+				Settings.Default.SearchVwIPACharExplorerExpandedStates = charExplorerStates);
 
 			Settings.Default.SearchVwRecordPaneVisible = m_rsltVwMngr.RecordViewOn;
 
@@ -486,13 +487,9 @@ namespace SIL.Pa.UI.Views
 
 		#region Loading/Saving settings
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void LoadSettings()
 		{
-			ptrnBldrComponent.LoadSettings(Name);
+			ptrnBldrComponent.LoadSettings(Name, Settings.Default.SearchVwIPACharExplorerExpandedStates);
 
 			if (Settings.Default.SearchVwSidePanelDocked)
 				HandleDockButtonClick(null, null);

@@ -244,41 +244,41 @@ namespace SIL.Pa.UI
 			var itemProps = m_tmAdapter.GetItemProperties("mnuDataCorpus");
 			var img = (itemProps == null ? null : itemProps.Image);
 			var text = (itemProps == null ? "Error!" : itemProps.Text);
-			var tooltip = App.GetString("PaMainWnd.DataCorpusViewTabToolTip", "Data Corpus View (Ctrl+Alt+D)");
-			var helptooltip = App.GetString("PaMainWnd.DataCorpusViewHelpButtonToolTip", "Data Corpus View Help");
-			var tab = vwTabGroup.AddTab(text, tooltip, helptooltip, "hidDataCorpusView", img, typeof(DataCorpusVw));
+			var tab = vwTabGroup.AddTab(text,img, typeof(DataCorpusVw), "hidDataCorpusView",
+				() => App.GetString("PaMainWnd.DataCorpusViewHelpButtonToolTip", "Data Corpus View Help"));
+			
 			App.RegisterForLocalization(tab, "MenuItems.DataCorpus");
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuFindPhones");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tooltip = App.GetString("PaMainWnd.SearchViewTabToolTip", "Search View (Ctrl+Alt+S)");
-			helptooltip = App.GetString("PaMainWnd.SearchViewHelpButtonToolTip", "Search View Help");
-			tab = vwTabGroup.AddTab(text, tooltip, helptooltip, "hidSearchView", img, typeof(SearchVw));
+			tab = vwTabGroup.AddTab(text, img, typeof(SearchVw), "hidSearchView",
+				() => App.GetString("PaMainWnd.SearchViewHelpButtonToolTip", "Search View Help"));
+			
 			App.RegisterForLocalization(tab, "MenuItems.FindPhones");
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuConsonantChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tooltip = App.GetString("PaMainWnd.ConsonantChartViewTabToolTip", "Consonant Chart View (Ctrl+Alt+C)");
-			helptooltip = App.GetString("PaMainWnd.ConsonantChartViewHelpButtonToolTip", "Consonant Chart View Help");
-			tab = vwTabGroup.AddTab(text, tooltip, helptooltip, "hidConsonantChartView", img, typeof(ConsonantChartVw));
+			tab = vwTabGroup.AddTab(text, img, typeof(ConsonantChartVw), "hidConsonantChartView", 
+				() => App.GetString("PaMainWnd.ConsonantChartViewHelpButtonToolTip", "Consonant Chart View Help"));
+
 			App.RegisterForLocalization(tab, "MenuItems.ConsonantChart");
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuVowelChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tooltip = App.GetString("PaMainWnd.VowelChartViewTabToolTip", "Vowel Chart View (Ctrl+Alt+V)");
-			helptooltip = App.GetString("PaMainWnd.VowelChartViewHelpButtonToolTip", "Vowel Chart View Help");
-			tab = vwTabGroup.AddTab(text, tooltip, helptooltip, "hidVowelChartView", img, typeof(VowelChartVw));
+			tab = vwTabGroup.AddTab(text, img, typeof(VowelChartVw), "hidVowelChartView",
+				() => App.GetString("PaMainWnd.VowelChartViewHelpButtonToolTip", "Vowel Chart View Help"));
+
 			App.RegisterForLocalization(tab, "MenuItems.VowelChart");
 
 			itemProps = m_tmAdapter.GetItemProperties("mnuXYChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tooltip = App.GetString("PaMainWnd.DistributionChartViewTabToolTip", "Distribution Charts View (Ctrl+Alt+X)");
-			helptooltip = App.GetString("PaMainWnd.DistributionChartViewHelpButtonToolTip", "Distribution Charts View Help");
-			tab = vwTabGroup.AddTab(text, tooltip, helptooltip, "hidXYChartsView", img, typeof(DistributionChartVw));
+			tab = vwTabGroup.AddTab(text, img, typeof(DistributionChartVw), "hidXYChartsView",
+				() => App.GetString("PaMainWnd.DistributionChartViewHelpButtonToolTip", "Distribution Charts View Help"));
+			
 			App.RegisterForLocalization(tab, "MenuItems.XYChart");
 			
 			vwTabGroup.Visible = true;
@@ -538,6 +538,7 @@ namespace SIL.Pa.UI
 		{
 			vwTabGroup.AdjustTabWidths();
 			vwTabGroup.RefreshCaption();
+			App.RefreshToolTipsOnLocalizationManager();
 			return false;
 		}
 
@@ -785,10 +786,13 @@ namespace SIL.Pa.UI
 			if (itemProps == null)
 				return false;
 
+			// TODO: Make this visible when PaXml is supported again.
+			itemProps.Visible = false;
 			itemProps.Update = true;
-			itemProps.Visible = true;
-			itemProps.Text = string.Format(itemProps.OriginalText, Application.ProductName);
-			itemProps.Enabled = (m_project != null && m_project.RecordCache != null);
+			
+			//itemProps.Visible = true;
+			//itemProps.Text = string.Format(itemProps.OriginalText, Application.ProductName);
+			//itemProps.Enabled = (m_project != null && m_project.RecordCache != null);
 			return true;
 		}
 

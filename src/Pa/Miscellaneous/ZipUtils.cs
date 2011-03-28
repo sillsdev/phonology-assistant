@@ -28,10 +28,6 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static void UncompressFilesInZip(string zipFileName, string outputPath)
 		{
 			FastZip zipper = new FastZip();

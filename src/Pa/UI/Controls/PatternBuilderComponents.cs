@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Drawing;
 using System.Windows.Forms;
 using SIL.Pa.Model;
@@ -102,9 +103,9 @@ namespace SIL.Pa.UI.Controls
 		/// Loads settings using the specified form name.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void LoadSettings(string frmName)
+		public void LoadSettings(string frmName, StringCollection explorerSettings)
 		{
-			charExplorer.LoadSettings(frmName);
+			charExplorer.LoadSettings(explorerSettings);
 			lvClasses.LoadSettings(frmName);
 		}
 
@@ -113,10 +114,10 @@ namespace SIL.Pa.UI.Controls
 		/// Saves settings using the specified form name.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void SaveSettings(string frmName)
+		public void SaveSettings(string frmName, Action<StringCollection> getCharExplorerStatesAction)
 		{
-			charExplorer.SaveSettings(frmName);
 			lvClasses.SaveSettings(frmName);
+			getCharExplorerStatesAction(charExplorer.GetExpandedStates());
 		}
 
 		/// ------------------------------------------------------------------------------------

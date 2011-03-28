@@ -225,7 +225,7 @@
     <value>&amp;Consonant Chart</value>
   </data>
   <data name="kstidConsonantChartToolTip" xml:space="preserve">
-    <value>Consonant Chart</value>
+    <value>Consonant Chart View (Ctrl+Alt+C)</value>
   </data>
   <data name="kstidViewCategory" xml:space="preserve">
     <value>View</value>
@@ -235,7 +235,7 @@
     <comment>Menu item text</comment>
   </data>
   <data name="kstidVowelChartToolTip" xml:space="preserve">
-    <value>Vowel Chart</value>
+    <value>Vowel Chart View (Ctrl+Alt+V)</value>
   </data>
   <data name="kstidDiacriticChartText" xml:space="preserve">
     <value>&amp;Diacritic Chart...</value>
@@ -247,7 +247,7 @@
     <value>&amp;Search</value>
   </data>
   <data name="kstidFindPhonesToolTip" xml:space="preserve">
-    <value>Search for Phones</value>
+    <value>Search View (Ctrl+Alt+S)</value>
   </data>
   <data name="kstidInterlinearViewText" xml:space="preserve">
     <value>&amp;Interlinear View...</value>
@@ -675,8 +675,7 @@
     <comment>Menu item text</comment>
   </data>
   <data name="kstidXYChartToolTip" xml:space="preserve">
-    <value>Distribution Charts</value>
-    <comment>Menu item text</comment>
+    <value>Distribution Charts View (Ctrl+Alt+X)</value>
   </data>
   <data name="kstidAmbiguousItemsText" xml:space="preserve">
     <value>&amp;Ambiguous Items...</value>
@@ -943,5 +942,8 @@
   </data>
   <data name="kstidExportAsXLingPaperToolTip" xml:space="preserve">
     <value>Export to XLingPaper File</value>
+  </data>
+  <data name="kstidDataCorpusToolTip" xml:space="preserve">
+    <value>Data Corpus View (Ctrl+Alt+D)</value>
   </data>
 </root>
