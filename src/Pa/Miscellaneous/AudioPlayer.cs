@@ -8,9 +8,6 @@ using Microsoft.Win32;
 using SIL.Pa.DataSource.Sa;
 using SIL.Pa.UI.Dialogs;
 using SilTools;
-#if !__MonoCS__
-using SIL.SpeechTools.Utils;
-#endif
 
 namespace SIL.Pa
 {
