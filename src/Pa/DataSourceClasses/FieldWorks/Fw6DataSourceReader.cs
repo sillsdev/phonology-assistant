@@ -83,7 +83,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 				return true;
 			}
 
-			foreach (var fname in Settings.Default.DefaultFw6Fields.Cast<string>())
+			foreach (var fname in Settings.Default.AllPossibleFw6Fields.Cast<string>())
 			{
 				var mapping = m_dataSource.FieldMappings.SingleOrDefault(m => m.Field.Name == fname);
 				var replace = string.Format("${0}Ws$", fname);

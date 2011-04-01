@@ -236,9 +236,19 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static List<PaField> GetProjectFields(PaProject project)
 		{
-			var path = GetFileForProject(project.ProjectPathFilePrefix);
-			var fields = (File.Exists(path) ? LoadFields(path, "Fields") : GetDefaultFields());
 			s_displayPropsCache = FieldDisplayPropsCache.LoadProjectFieldDisplayProps(project);
+			var defaultFields = GetDefaultFields();
+			var path = GetFileForProject(project.ProjectPathFilePrefix);
+
+			if (!File.Exists(path))
+				return defaultFields;
+
+			// Go through the project's fields making sure that
+			// all the default fields are contained therein.
+			var fields = LoadFields(path, "Fields");
+			foreach (var fld in defaultFields.Where(fld => !fields.Any(f => f.Name == fld.Name)))
+				fields.Add(fld);
+			
 			return fields;
 		}
 

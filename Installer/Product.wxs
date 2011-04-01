@@ -18,7 +18,7 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 			   Version="$(var.Property_ProductVersion)" Manufacturer="SIL"
 			   UpgradeCode="$(var.Property_UpgradeCode)">-->
 
-	<Product Id="$(var.Property_ProductCode)" Name="Phonology Assistant 3.3 (Test Version)" Language="1033"
+	<Product Id="$(var.Property_ProductCode)" Name="Phonology Assistant 3.3.0 (Test Version)" Language="1033"
 			   Version="$(var.Property_ProductVersion)" Manufacturer="SIL"
 			   UpgradeCode="$(var.Property_UpgradeCode)">
 
@@ -46,11 +46,11 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 
 		<DirectoryRef Id="TARGETDIR">
 			<Directory Id='ProgramMenuFolder' Name='Programs'>
-				<Directory Id='ShortcutDir' Name='Phonology Assistant 3.3'>
+				<Directory Id='ShortcutDir' Name='Phonology Assistant 3.3.0'>
 					<Component Id="AddShortcutDir" Guid="{5F66AE70-D4E4-43A2-A74C-A708CF73D3DA}">
-						<Shortcut Id="AppMenuShortcut" Name="Phonology Assistant 3.3" Target="[!Pa.exe]" />
+						<Shortcut Id="AppMenuShortcut" Name="Phonology Assistant 3.3.0" Target="[!Pa.exe]" />
 						<RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
-						<RegistryValue Root="HKCU" Key="Software\Phonology Assistant 3.3" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+						<RegistryValue Root="HKCU" Key="Software\Phonology Assistant 3.3.0" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
 					</Component>
 				</Directory>
 			</Directory>

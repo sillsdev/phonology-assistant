@@ -719,18 +719,30 @@ namespace SIL.Pa.UI.Controls
 				// Turn off the glyph on all the columns.
 				foreach (DataGridViewColumn col in Columns)
 					col.HeaderCell.SortGlyphDirection = SortOrder.None;
-				
+
 				// Add the sortGlyph direction
 				if (m_sortOptions.SortFields.Count > 0)
 				{
-					string colName = m_sortOptions.SortFields[0].Field.Name;
+					// Toss out sort fields that don't have columns. This should never happen,
+					// but it did once after a migration to a new version. A sort field in an
+					// old project must have been renamed during migration.
+					for (int i = m_sortOptions.SortFields.Count - 1; i >= 0; i--)
+					{
+						if (Columns[m_sortOptions.SortFields[i].Field.Name] == null)
+							m_sortOptions.SortFields.RemoveAt(i);
+					}
 
-					Columns[colName].HeaderCell.SortGlyphDirection =
-						(m_sortOptions.SortFields[0].Ascending ?
-						SortOrder.Ascending : SortOrder.Descending);
+					if (m_sortOptions.SortFields.Count > 0)
+					{
+						string colName = m_sortOptions.SortFields[0].Field.Name;
 
-					if (m_groupByField != null)
-						m_groupByField = m_sortOptions.SortFields[0].Field;
+						Columns[colName].HeaderCell.SortGlyphDirection =
+							(m_sortOptions.SortFields[0].Ascending ?
+							SortOrder.Ascending : SortOrder.Descending);
+
+						if (m_groupByField != null)
+							m_groupByField = m_sortOptions.SortFields[0].Field;
+					}
 				}
 
 				m_cache.Sort(m_sortOptions);

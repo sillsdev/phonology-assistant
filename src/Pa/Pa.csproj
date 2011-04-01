@@ -97,6 +97,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="LocalizationManager, Version=1.0.4104.25215, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DistFiles\LocalizationManager.dll</HintPath>
+    </Reference>
     <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\Palaso.dll</HintPath>
@@ -1063,10 +1067,6 @@
     <None Include="Resources\Automatically_hide.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\LocalizationManager\LocalizationManager.csproj">
-      <Project>{8EE0895A-7B9D-4B49-8F73-9F1270F1E583}</Project>
-      <Name>LocalizationManager</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SilTools\SilTools.csproj">
       <Project>{87F94FCC-BC32-4203-A919-115F4FF43FF0}</Project>
       <Name>SilTools</Name>

@@ -72,7 +72,7 @@ namespace SIL.Pa.Processing
 						"Status bar message displayed when building list of consonants from phone list.");
 				}
 
-				return App.GetString("ProcessingVowelChartMsg", "Separating Vowel...",
+				return App.GetString("ProcessingVowelChartMsg", "Separating Vowels...",
 					"Status bar message displayed when building list of vowels from phone list.");
 			}
 		}

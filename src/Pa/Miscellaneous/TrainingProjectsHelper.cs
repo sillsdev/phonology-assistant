@@ -3,8 +3,6 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using System.Linq;
-using Palaso.IO;
-using SIL.Pa.DataSource;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;

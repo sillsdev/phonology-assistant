@@ -19,7 +19,7 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class PaProject : IDisposable
 	{
-		private const string kCurrVersion = "3.3";
+		private const string kCurrVersion = "3.3.0";
 
 		private Form m_appWindow;
 		private bool m_newProject;

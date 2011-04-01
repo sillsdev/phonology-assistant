@@ -9,10 +9,7 @@
     </xsl:template>
 
 	<xsl:template match="PaProject">
-		<PaProject>
-			<xsl:attribute name="version">
-				<xsl:value-of select="3.3"/>
-			</xsl:attribute>
+		<PaProject version="3.3.0">
 			<xsl:if test="@ShowUndefinedCharsDlg">
 				<xsl:element name="ShowUndefinedCharsDlg">
 					<xsl:value-of select="@ShowUndefinedCharsDlg" />

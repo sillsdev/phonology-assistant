@@ -3392,9 +3392,9 @@ namespace SIL.Pa.Properties {
   <string>DateCreated</string>
   <string>DateModified</string>
 </ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection DefaultFw6Fields {
+        public global::System.Collections.Specialized.StringCollection AllPossibleFw6Fields {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["DefaultFw6Fields"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["AllPossibleFw6Fields"]));
             }
         }
         
@@ -3429,9 +3429,9 @@ namespace SIL.Pa.Properties {
   <string>Gloss-Other</string>
   <string>PartOfSpeech</string>
 </ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection MappableFw6Fields {
+        public global::System.Collections.Specialized.StringCollection Fw6FieldsMappableInPropsDlg {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["MappableFw6Fields"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["Fw6FieldsMappableInPropsDlg"]));
             }
         }
         

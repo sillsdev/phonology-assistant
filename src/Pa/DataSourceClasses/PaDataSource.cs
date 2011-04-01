@@ -184,10 +184,28 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		public void PostDeserializeInitialization(PaProject project)
 		{
-			// Make sure SA data sources have mappings. This check should really only be
-			// necessary when upgrading from a project last saved in version 3.0.1 of PA.
 			if (Type == DataSourceType.SA && FieldMappings.Count == 0)
+			{
+				// Make sure SA data sources have mappings. This check should really only be
+				// necessary when upgrading from a project last saved in version 3.0.1 of PA.
 				FieldMappings = CreateDefaultSaMappings(project.Fields).ToList();
+			}
+			else if (Type == DataSourceType.FW)
+			{
+				// Make sure FW6 data source mappings include all the default FW6 fields
+				// that cannot be mapped in the data source properties dialog box. This
+				// check should only be necessary the first time the project has been
+				// opened after having been migrated to version 3.3.0
+				foreach (var fname in Settings.Default.AllPossibleFw6Fields)
+				{
+					if (!Settings.Default.Fw6FieldsMappableInPropsDlg.Contains(fname) &&
+						!FieldMappings.Any(m => m.PaFieldName == fname))
+					{
+						FieldMappings.Add(new FieldMapping(
+							project.Fields.Single(f => f.Name == fname), false));
+					}
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

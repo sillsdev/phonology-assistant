@@ -884,7 +884,7 @@
     <Setting Name="DefaultFw7InferredFontSizeAndStyle" Type="System.String" Scope="Application">
       <Value Profile="(Default)">{0}, 11, Regular</Value>
     </Setting>
-    <Setting Name="DefaultFw6Fields" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+    <Setting Name="AllPossibleFw6Fields" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
   &lt;string&gt;Phonetic&lt;/string&gt;
@@ -914,7 +914,7 @@
   &lt;string&gt;Reference&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
-    <Setting Name="MappableFw6Fields" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+    <Setting Name="Fw6FieldsMappableInPropsDlg" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
   &lt;string&gt;Phonetic&lt;/string&gt;

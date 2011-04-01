@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Pa")]
+[assembly: AssemblyTitle("Phonology Assistant")]
 [assembly: AssemblyDescription("Phonology Assistant Main Application Assembly")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SIL")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("f2950133-053f-462b-a5da-37b97a32576b")]
+[assembly: Guid("5B32F4B7-E4F6-4A71-91B2-47095D339BA6")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -30,7 +30,7 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("3.2.*")]
+[assembly: AssemblyVersion("3.3.0")]
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyFile("")]
 [assembly: AssemblyKeyName("")]
