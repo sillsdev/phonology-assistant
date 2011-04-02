@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Forms;
 using SIL.Pa.Model;
+using SIL.Pa.UI.Controls;
 using SIL.Pa.UI.Dialogs;
-using SilUtils;
+using SilTools;
 
 namespace SIL.Pa
 {
@@ -117,24 +119,8 @@ namespace SIL.Pa
 		private readonly float m_original_moa;
 		private readonly float m_original_poa;
 
-		// Chart Columns and Groups
-		// The SortedList Key is the col/grp number and the Value is the col/grp name
-		private readonly string m_origChartGroup = string.Empty;
-		private readonly string m_origChartColumn = string.Empty;
-		private readonly int m_origChartColumnOtherSymbol;
-		private readonly SortedList<float, string> m_CChartCols = new SortedList<float, string>();
-		private readonly SortedList<float, string> m_CChartGrps = new SortedList<float, string>();
-		private readonly SortedList<float, string> m_VChartGrps = new SortedList<float, string>();
-		private readonly SortedList<float, string> m_VChartCols = new SortedList<float, string>();
-
 		private readonly bool m_addingChar = true;
 		private readonly List<int> m_codePoints = new List<int>();
-		private readonly PCIEditor m_pciEditor;
-		private readonly string m_saveAFeatureDropDownName;
-		private readonly string m_saveBFeatureDropDownName;
-		private IPASymbol m_charInfo;
-		private FeatureMask m_aMask;
-		private FeatureMask m_bMask;
 		#endregion
 
 		#region Constructor
@@ -158,24 +144,10 @@ namespace SIL.Pa
 			InitializeComponent();
 
 			PCIEditor.SettingsHandler.LoadFormProperties(this);
-			m_pciEditor = pciEditor;
 
-			// Prepare things to use the same feature drop-downs that are used on the
-			// main form, for the grid's feature columns.
-			m_saveAFeatureDropDownName = m_pciEditor.m_sddpAFeatures.SavedSettingsName;
-			m_saveBFeatureDropDownName = m_pciEditor.m_sddpBFeatures.SavedSettingsName;
-			m_pciEditor.m_sddpAFeatures.SavedSettingsName = Name + "AFeatureDropDown";
-			m_pciEditor.m_sddpBFeatures.SavedSettingsName = Name + "BFeatureDropDown";
-			m_pciEditor.m_aFeatureDropdown.Closing += m_aFeatureDropdown_Closing;
-			m_pciEditor.m_bFeatureDropdown.Closing += m_bFeatureDropdown_Closing;
-
-			// Unhook the delegates from the the main form.
-			m_pciEditor.m_aFeatureDropdown.Closing -= m_pciEditor.m_featureDropdown_Closing;
-			m_pciEditor.m_bFeatureDropdown.Closing -= m_pciEditor.m_featureDropdown_Closing;
-
-			lblChar.Font = FontHelper.PhoneticFont;
-			cboMoa.Font = FontHelper.PhoneticFont;
-			cboPoa.Font = FontHelper.PhoneticFont;
+			lblChar.Font = App.PhoneticFont;
+			cboMoa.Font = App.PhoneticFont;
+			cboPoa.Font = App.PhoneticFont;
 
 			lblChar.Top = lblCharLable.Top - ((lblChar.Height - lblCharLable.Height) / 2);
 
@@ -191,8 +163,6 @@ namespace SIL.Pa
 			cboSubType.SelectedIndex = 0;
 			cboIgnoreType.SelectedIndex = 0;
 
-			LoadChartColumnsGroups();
-
 			m_addingChar = addingChar;
 			
 			if (m_addingChar)
@@ -207,18 +177,16 @@ namespace SIL.Pa
 				m_original_moa = -1f;
 				m_original_poa = -1f;
 
-				LoadMoaPoaComboBoxes(pciEditor.m_grid);
+				LoadMoaPoaComboBoxes(pciEditor.Grid);
 				CreateDirtyStateHandlers();
 				return;
 			}
 
-			DataGridViewRow row = pciEditor.m_grid.CurrentRow;
+			DataGridViewRow row = pciEditor.Grid.CurrentRow;
 			if (row.Tag is IPASymbol)
 			{
-				m_aMask = ((IPASymbol)row.Tag).AMask.Clone();
-				m_bMask = ((IPASymbol)row.Tag).BMask.Clone();
-				txtArticulatory.Text = App.AFeatureCache.GetFeaturesText(m_aMask);
-				txtBinary.Text = App.BFeatureCache.GetFeaturesText(m_bMask);
+				CharInfo = (IPASymbol)row.Tag;
+				_featuresTab.SetCurrentInfo((IPASymbol)row.Tag);
 			}
 
 			// Identity
@@ -241,40 +209,7 @@ namespace SIL.Pa
 			// Articulation - load the Moa/Poa combo boxes
 			m_original_moa = float.Parse(row.Cells[kMOA].Value.ToString());
 			m_original_poa = float.Parse(row.Cells[kPOA].Value.ToString());
-			LoadMoaPoaComboBoxes(pciEditor.m_grid);
-
-			// Chart Position
-			if (cboType.SelectedItem.ToString() == kConsonant)
-			{
-				if (!m_CChartGrps.TryGetValue((int)row.Cells[kChartGroup].Value, out m_origChartGroup))
-					m_origChartGroup = m_CChartGrps[0];
-
-				if (m_origChartGroup == kOtherSymbols)
-					m_origChartColumnOtherSymbol = (int)row.Cells[kChartColumn].Value;
-				else if (!m_CChartCols.TryGetValue(
-					(int)row.Cells[kChartColumn].Value, out m_origChartColumn))
-				{
-					m_origChartColumn = m_CChartCols[0];
-				}
-			}
-			else if (cboType.SelectedItem.ToString() == kVowel)
-			{
-				if (!m_VChartGrps.TryGetValue((int)row.Cells[kChartGroup].Value, out m_origChartGroup))
-					m_origChartGroup = m_VChartGrps[0];
-
-				if (!m_VChartCols.TryGetValue((int)row.Cells[kChartColumn].Value, out m_origChartColumn))
-					m_origChartColumn = m_VChartCols[0];
-			}
-
-			if (m_origChartGroup != string.Empty)
-				cboChartGroup.SelectedItem = m_origChartGroup;
-			if (m_origChartGroup == kOtherSymbols)
-				cboChartColumn.SelectedIndex = m_origChartColumnOtherSymbol;
-			else
-			{
-				if (m_origChartColumn != string.Empty)
-					cboChartColumn.SelectedItem = m_origChartColumn;
-			}
+			LoadMoaPoaComboBoxes(pciEditor.Grid);
 
 			CreateDirtyStateHandlers();
 			m_dirty = false;
@@ -282,106 +217,30 @@ namespace SIL.Pa
 		
 		/// --------------------------------------------------------------------------------------------
 		/// <summary>
-		/// Load the Chart Column and Group sorted lists.
-		/// </summary>
-		/// --------------------------------------------------------------------------------------------
-		void LoadChartColumnsGroups()
-		{
-			// Vowel Groups
-			m_VChartGrps[0] = kClose;
-			m_VChartGrps[1] = kNearClose;
-			m_VChartGrps[2] = kCloseMid;
-			m_VChartGrps[3] = kMid;
-			m_VChartGrps[4] = kOpenMid;
-			m_VChartGrps[5] = kNearOpen;
-			m_VChartGrps[6] = kOpen;
-			m_VChartGrps[7] = kOther;
-
-			// Vowel Columns
-			m_VChartCols[0] = kFrontUnrounded;
-			m_VChartCols[1] = kFrontRounded;
-			m_VChartCols[2] = kNearFrontUnrounded;
-			m_VChartCols[3] = kNearFrontRounded;
-			m_VChartCols[4] = kCentralUnrounded;
-			m_VChartCols[5] = kCentral;
-			m_VChartCols[6] = kCentralRounded;
-			m_VChartCols[7] = kNearBackRounded;
-			m_VChartCols[8] = kBackUnrounded;
-			m_VChartCols[9] = kBackRounded;
-
-			// CONSONANT PULMONIC Columns
-			m_CChartCols[0] = kVoicelessBilabial;
-			m_CChartCols[1] = kVoicedBilabial;
-			m_CChartCols[2] = kVoicelessLabiodental;
-			m_CChartCols[3] = kVoicedLabiodental;
-			m_CChartCols[4] = kVoicelessDental;
-			m_CChartCols[5] = kVoicedDental;
-			m_CChartCols[6] = kVoicelessAlveolar;
-			m_CChartCols[7] = kVoicedAlveolar;
-			m_CChartCols[8] = kVoicelessPostalveolar;
-			m_CChartCols[9] = kVoicedPostalveolar;
-			m_CChartCols[10] = kVoicelessRetroflex;
-			m_CChartCols[11] = kVoicedRetroflex;
-			m_CChartCols[12] = kVoicedAlvPalatal;
-			m_CChartCols[13] = kVoicelessAlvPalatal;
-			m_CChartCols[14] = kVoicelessPalatal;
-			m_CChartCols[15] = kVoicedPalatal;
-			m_CChartCols[16] = kVoicelessVelar;
-			m_CChartCols[17] = kVoicedVelar;                      
-			m_CChartCols[18] = kVoicelessUvular;
-			m_CChartCols[19] = kVoicedUvular;
-			m_CChartCols[20] = kVoicelessPharyngeal;
-			m_CChartCols[21] = kVoicedPharyngeal;
-			m_CChartCols[22] = kVoicelessGlottal;
-			m_CChartCols[23] = kVoicedGlottal;
-			m_CChartCols[24] = kVoicelessEpiglottal;
-			m_CChartCols[25] = kVoicedEpiglottal;
-
-			// CONSONANT Groups
-			m_CChartGrps[0] = kPlosive;
-			m_CChartGrps[1] = kNasal;
-			m_CChartGrps[2] = kTrill;
-			m_CChartGrps[3] = kTapOrFlap;
-			m_CChartGrps[4] = kFricative;
-			m_CChartGrps[5] = kLateralFricative;
-			m_CChartGrps[6] = kApproximant;
-			m_CChartGrps[7] = kLateralApproximant;
-			m_CChartGrps[8] = kImplosive;
-			m_CChartGrps[9] = kClick;
-			m_CChartGrps[10] = kOther;
-		}
-
-		/// --------------------------------------------------------------------------------------------
-		/// <summary>
 		/// Create DirtyStateChanged event handlers.
 		/// </summary>
 		/// --------------------------------------------------------------------------------------------
 		void CreateDirtyStateHandlers()
 		{
-			txtHexValue.TextChanged += ipaCharAdd_DirtyStateChanged;
-			txtCharName.TextChanged += ipaCharAdd_DirtyStateChanged;
-			txtCharDesc.TextChanged += ipaCharAdd_DirtyStateChanged;
-			cboType.SelectedIndexChanged += ipaCharAdd_DirtyStateChanged;
-			cboSubType.SelectedIndexChanged += ipaCharAdd_DirtyStateChanged;
-			cboIgnoreType.SelectedIndexChanged += ipaCharAdd_DirtyStateChanged;
-			chkIsBase.CheckStateChanged += ipaCharAdd_DirtyStateChanged;
-			chkPreceedBaseChar.CheckStateChanged += ipaCharAdd_DirtyStateChanged;
-			chkDottedCircle.CheckStateChanged += ipaCharAdd_DirtyStateChanged;
-			cboMoa.SelectedValueChanged += ipaCharAdd_DirtyStateChanged;
-			cboPoa.SelectedValueChanged += ipaCharAdd_DirtyStateChanged;
-			cboChartColumn.SelectedValueChanged += ipaCharAdd_DirtyStateChanged;
-			cboChartGroup.SelectedValueChanged += ipaCharAdd_DirtyStateChanged;
+			txtHexValue.TextChanged += ((s, e) => m_dirty = true);
+			txtCharName.TextChanged += ((s, e) => m_dirty = true);
+			txtCharDesc.TextChanged += ((s, e) => m_dirty = true);
+			cboType.SelectedIndexChanged += ((s, e) => m_dirty = true);
+			cboSubType.SelectedIndexChanged += ((s, e) => m_dirty = true);
+			cboIgnoreType.SelectedIndexChanged += ((s, e) => m_dirty = true);
+			chkIsBase.CheckStateChanged += ((s, e) => m_dirty = true);
+			chkPreceedBaseChar.CheckStateChanged += ((s, e) => m_dirty = true);
+			chkDottedCircle.CheckStateChanged += ((s, e) => m_dirty = true);
+			cboMoa.SelectedValueChanged += ((s, e) => m_dirty = true);
+			cboPoa.SelectedValueChanged += ((s, e) => m_dirty = true);
 		}
 
-		/// --------------------------------------------------------------------------------------------
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// The data has been changed, so set the dirty flag.
+		/// Gets the CharInfo object created from the changes made on the dialog.
 		/// </summary>
-		/// --------------------------------------------------------------------------------------------
-		void ipaCharAdd_DirtyStateChanged(object sender, EventArgs e)
-		{
-			m_dirty = true;
-		}
+		/// ------------------------------------------------------------------------------------
+		public IPASymbol CharInfo { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -415,7 +274,7 @@ namespace SIL.Pa
 			}
 
 			// Load the combo boxes
-			foreach (KeyValuePair<float, string> moa in m_MOA)
+			foreach (var moa in m_MOA)
 			{
 				if (moa.Key != m_original_moa)
 					cboMoa.Items.Add(moa.Value);
@@ -423,7 +282,7 @@ namespace SIL.Pa
 					cboMoa.SelectedIndex = cboMoa.Items.Count - 1;
 			}
 
-			foreach (KeyValuePair<float, string> poa in m_POA)
+			foreach (var poa in m_POA)
 			{
 				if (poa.Key != m_original_poa)
 					cboPoa.Items.Add(poa.Value);
@@ -437,9 +296,9 @@ namespace SIL.Pa
 		/// Add a space before each capital letter to make the string easier to read.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static string SeperateWordsWithSpace(string multiWord)
+		private static string SeperateWordsWithSpace(IEnumerable<char> multiWord)
 		{
-			string newName = string.Empty;
+			var newName = string.Empty;
 			foreach (char letter in multiWord)
 			{
 				if (Char.IsUpper(letter))
@@ -451,150 +310,14 @@ namespace SIL.Pa
 		
 		#endregion
 
-		#region Private Methods
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Load the chart group combo box.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LoadChartGroupItems()
-		{
-			cboChartGroup.Items.Clear();
-			cboChartColumn.Items.Clear();
-
-			if (cboType.SelectedItem.ToString() == kConsonant)
-			{
-				foreach (KeyValuePair<float, string> col in m_CChartGrps)
-					cboChartGroup.Items.Add(col.Value);
-			}
-			else if (cboType.SelectedItem.ToString() == kVowel)
-			{
-				foreach (KeyValuePair<float, string> col in m_VChartGrps)
-					cboChartGroup.Items.Add(col.Value);
-			}
-			else
-			{
-				cboChartGroup.Enabled = false;
-				return;
-			}
-
-			// Select the correct cbo item
-			if (cboChartGroup.Items.Contains(m_origChartGroup))
-				cboChartGroup.SelectedItem = m_origChartGroup;
-			else if (cboChartGroup.Items.Count > 0)
-				cboChartGroup.SelectedIndex = 0;
-
-			cboChartGroup.Enabled = true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Load the chart column combo box.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LoadChartColumnItems()
-		{
-			cboChartColumn.Items.Clear();
-
-			if (cboType.SelectedItem.ToString() == kConsonant)
-			{
-				foreach (KeyValuePair<float, string> col in m_CChartCols)
-					cboChartColumn.Items.Add(col.Value);
-			}
-			else if (cboType.SelectedItem.ToString() == kVowel)
-			{
-				foreach (KeyValuePair<float, string> col in m_VChartCols)
-					cboChartColumn.Items.Add(col.Value);
-			}
-			else
-			{
-				cboChartColumn.Enabled = false;
-				return;
-			}
-
-			if (cboChartColumn.Items.Contains(m_origChartColumn))
-				cboChartColumn.SelectedItem = m_origChartColumn;
-			else if (cboChartColumn.Items.Count > 0)
-				cboChartColumn.SelectedIndex = 0;
-
-			cboChartColumn.Enabled = true;
-		}
-
-		#endregion
-
 		#region Overrides
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			m_pciEditor.m_sddpAFeatures.SavedSettingsName = m_saveAFeatureDropDownName;
-			m_pciEditor.m_sddpBFeatures.SavedSettingsName = m_saveBFeatureDropDownName;
-			m_pciEditor.m_aFeatureDropdown.Closing -= m_aFeatureDropdown_Closing;
-			m_pciEditor.m_bFeatureDropdown.Closing -= m_bFeatureDropdown_Closing;
-
-			// Hook up the delegates back on the main form.
-			m_pciEditor.m_aFeatureDropdown.Closing += m_pciEditor.m_featureDropdown_Closing;
-			m_pciEditor.m_bFeatureDropdown.Closing += m_pciEditor.m_featureDropdown_Closing;
-
 			PCIEditor.SettingsHandler.SaveFormProperties(this);
 			base.OnFormClosing(e);
 		}
-		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Return the column key.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private int GetColumnKey(SortedList<float, string> sortedList)
-		{
-			// Check if the selectedItem is a number
-			if (cboChartColumn.SelectedItem.ToString().Length < 3)
-				return (int)cboChartColumn.SelectedItem;
 
-			foreach (KeyValuePair<float, string> column in sortedList)
-			{
-				if (column.Value == cboChartColumn.SelectedItem.ToString())
-				{
-					return (int)column.Key;
-				}
-			}
-			return 0;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Return the group key.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private int GetGroupKey(SortedList<float, string> sortedList)
-		{
-			// Check if the selectedItem is a number
-			if (cboChartGroup.SelectedItem.ToString().Length < 3)
-				return (int)cboChartGroup.SelectedItem;
-
-			foreach (KeyValuePair<float, string> column in sortedList)
-			{
-				if (column.Value == cboChartGroup.SelectedItem.ToString())
-				{
-					return (int)column.Key;
-				}
-			}
-			return 0;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the CharInfo object created from the changes made on the dialog.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public IPASymbol CharInfo
-		{
-			get { return m_charInfo; }
-		}
-		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Save Changes.
@@ -602,45 +325,45 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
-			m_charInfo = new IPASymbol();
+			CharInfo = new IPASymbol();
 
-			m_charInfo.Decimal = int.Parse((m_addingChar ?
+			CharInfo.Decimal = int.Parse((m_addingChar ?
 				txtHexValue.Text : lblUnicodeValue.Text), NumberStyles.HexNumber);
 
-			m_charInfo.Hexadecimal = (m_addingChar ? txtHexValue.Text : lblUnicodeValue.Text);
-			m_charInfo.Literal = lblChar.Text;
-			m_charInfo.Name = txtCharName.Text;
-			m_charInfo.Description = txtCharDesc.Text;
-			m_charInfo.AMask = m_aMask;
-			m_charInfo.BMask = m_bMask;
+			CharInfo.Hexadecimal = (m_addingChar ? txtHexValue.Text : lblUnicodeValue.Text);
+			CharInfo.Literal = lblChar.Text;
+			CharInfo.Name = txtCharName.Text;
+			CharInfo.Description = txtCharDesc.Text;
+			//CharInfo.AMask =  m_aMask;
+			//CharInfo.BMask = m_bMask;
 
 			// Types - remove the spaces in the Type strings
-			m_charInfo.Type = (IPASymbolType)Enum.Parse(
+			CharInfo.Type = (IPASymbolType)Enum.Parse(
 				typeof(IPASymbolType), cboType.SelectedItem.ToString().Replace(" ", ""));
-			m_charInfo.SubType = (IPASymbolSubType)Enum.Parse(
+			CharInfo.SubType = (IPASymbolSubType)Enum.Parse(
 				typeof(IPASymbolSubType), cboSubType.SelectedItem.ToString().Replace(" ", ""));
-			m_charInfo.IgnoreType = (IPASymbolIgnoreType)Enum.Parse(
+			CharInfo.IgnoreType = (IPASymbolIgnoreType)Enum.Parse(
 				typeof(IPASymbolIgnoreType), cboIgnoreType.SelectedItem.ToString().Replace(" ", ""));
 
 			// Base Character
-			m_charInfo.IsBase = chkIsBase.Checked;
-			m_charInfo.CanPrecedeBase = chkPreceedBaseChar.Checked;
-			m_charInfo.DisplayWithDottedCircle = chkDottedCircle.Checked;
+			CharInfo.IsBase = chkIsBase.Checked;
+			CharInfo.CanPrecedeBase = chkPreceedBaseChar.Checked;
+			CharInfo.DisplayWithDottedCircle = chkDottedCircle.Checked;
 
 			// Save the manner of articulation sort order value
 			if (cboMoa.SelectedItem == null)
 			{
 				// use original value if not modified
-				m_charInfo.MOArticulation = (int)m_original_moa;
+				CharInfo.MOArticulation = (int)m_original_moa;
 			}
 			else
 			{
-				foreach (KeyValuePair<float, string> moa in m_MOA)
+				foreach (var moa in m_MOA)
 				{
 					if (moa.Value == cboMoa.SelectedItem.ToString())
 					{
 						// Make sure the user actually changed the MOA
-						m_charInfo.MOArticulation =
+						CharInfo.MOArticulation =
 							(int)(m_original_moa == moa.Key ? m_original_moa : moa.Key + 1f);
 						break;
 					}
@@ -651,37 +374,20 @@ namespace SIL.Pa
 			if (cboPoa.SelectedItem == null)
 			{
 				// use original value if not modified
-				m_charInfo.POArticulation = (int)m_original_poa;
+				CharInfo.POArticulation = (int)m_original_poa;
 			}
 			else
 			{
-				foreach (KeyValuePair<float, string> poa in m_POA)
+				foreach (var poa in m_POA)
 				{
 					if (poa.Value == cboPoa.SelectedItem.ToString())
 					{
 						// Make sure the user actually changed the POA
-						m_charInfo.POArticulation =
+						CharInfo.POArticulation =
 							(int)(m_original_poa == poa.Key ? m_original_poa : poa.Key + 1f);
 						break;
 					}
 				}
-			}
-
-			// Save Chart Position
-			if (cboType.SelectedItem.ToString() == kConsonant)
-			{
-				m_charInfo.ChartGroup = GetGroupKey(m_CChartGrps);
-				m_charInfo.ChartColumn = GetColumnKey(m_CChartCols);
-			}
-			else if (cboType.SelectedItem.ToString() == kVowel)
-			{
-				m_charInfo.ChartGroup = GetGroupKey(m_VChartGrps);
-				m_charInfo.ChartColumn = GetColumnKey(m_VChartCols);
-			}
-			else
-			{
-				m_charInfo.ChartColumn = 0;
-				m_charInfo.ChartGroup = 0;
 			}
 
 			return true;
@@ -703,45 +409,33 @@ namespace SIL.Pa
 				}
 				catch
 				{
-					Utils.MsgBox(Properties.Resources.kstidInvalidUnicodeValueMsg,
-						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					Utils.MsgBox(Properties.Resources.kstidInvalidUnicodeValueMsg);
 					return false;
 				}
 
 				int codePoint = int.Parse(txtHexValue.Text.Trim(), NumberStyles.HexNumber);
 				if (codePoint <= kInvalidCodePoint)
 				{
-					Utils.MsgBox(Properties.Resources.kstidUnicodeValueTooSmallMsg,
-						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					Utils.MsgBox(Properties.Resources.kstidUnicodeValueTooSmallMsg);
 					return false;
 				}
 
 				// Make sure the codePoint is unique
 				if (m_codePoints.Contains(codePoint))
 				{
-					Utils.MsgBox(string.Format(Properties.Resources.kstidDuplicateCharMsg,
-						txtHexValue.Text), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					Utils.MsgBox(string.Format(Properties.Resources.kstidDuplicateCharMsg));
 					return false;
 				}
 
 				// Make sure the code point isn't one of the reserved characters.
-				foreach (char c in m_invalidPhoneticChars)
+				if (m_invalidPhoneticChars.Any(c => codePoint == c))
 				{
-					if (codePoint == c)
-					{
-						Utils.MsgBox(string.Format(
-							Properties.Resources.kstidUnicodeValueIsReservedMsg,
-							txtHexValue.Text, kInvalidPhoneticCharsDisplay),
-							MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-					
-						return false;
-					}
+					Utils.MsgBox(string.Format(
+					Properties.Resources.kstidUnicodeValueIsReservedMsg,
+					txtHexValue.Text, kInvalidPhoneticCharsDisplay));
+					return false;
 				}
 			}
-
-			bool mustHaveColAndGrp = (cboType.SelectedItem != null && (
-				cboType.SelectedItem.ToString() == kConsonant ||
-				cboType.SelectedItem.ToString() == kVowel));
 
 			string missingFields = string.Empty;
 			if (m_addingChar && txtHexValue.Text == string.Empty)
@@ -752,10 +446,6 @@ namespace SIL.Pa
 				missingFields += (kLblMoa + ", ");
 			if (m_addingChar && cboPoa.SelectedItem == null)
 				missingFields += (kLblPoa + ", ");
-			if (cboChartColumn.SelectedItem == null && mustHaveColAndGrp)
-				missingFields += (kLblChartColumn + ", ");
-			if (cboChartGroup.SelectedItem == null && mustHaveColAndGrp)
-				missingFields += (kLblChartGroup + ", ");
 
 			if (missingFields != string.Empty)
 			{
@@ -765,7 +455,7 @@ namespace SIL.Pa
 				missingFields = missingFields.Replace(":", string.Empty);
 				missingFields = missingFields.TrimEnd(new[] { ',', ' ' });
 				missingFields = string.Format(Properties.Resources.kstidMissingFieldsMsg, missingFields);
-				Utils.MsgBox(missingFields, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				Utils.MsgBox(missingFields);
 				return false;
 			}
 
@@ -798,21 +488,13 @@ namespace SIL.Pa
 		//}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void HandleHelpClick(object sender, EventArgs e)
 		{
 			PCIEditor.ShowHelpTopic(@"Phonetic_Character_Inventory_Editor/Phonetic_Character_Properties.htm");
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void txtHexValue_KeyPress(object sender, KeyPressEventArgs e)
+		private static void txtHexValue_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			if (e.KeyChar >= 'a' && e.KeyChar <= 'f')
 				e.KeyChar = (char)(e.KeyChar & ~0x20);
@@ -847,79 +529,6 @@ namespace SIL.Pa
 				lblChar.Text = string.Empty;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Handle the Selected Index Changed event for the Type combo box.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void cboType_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			LoadChartGroupItems();
-			LoadChartColumnItems();
-		}
-
 		#endregion
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void btnArticulatory_Click(object sender, EventArgs e)
-		{
-			// Use the drop-down from the main form's grid.
-			m_pciEditor.m_lvAFeatures.CurrentMask = m_aMask.Clone();
-			Point pt = new Point(0, hlblArticulatory.Height);
-			pt = hlblArticulatory.PointToScreen(pt);
-			m_pciEditor.m_aFeatureDropdown.Show(pt);
-			m_pciEditor.m_lvAFeatures.Focus();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void btnBinary_Click(object sender, EventArgs e)
-		{
-			// Use the drop-down from the main form's grid.
-			m_pciEditor.m_lvBFeatures.CurrentMask = m_bMask.Clone();
-			Point pt = new Point(0, hlblBinary.Height);
-			pt = hlblBinary.PointToScreen(pt);
-			m_pciEditor.m_bFeatureDropdown.Show(pt);
-			m_pciEditor.m_lvBFeatures.Focus();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Updates the articulatory feature list based on what the user chose
-		/// in the articulatory feature drop-down.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void m_aFeatureDropdown_Closing(object sender, ToolStripDropDownClosingEventArgs e)
-		{
-			if (m_pciEditor.m_lvAFeatures.CurrentMask != m_aMask)
-			{
-				m_aMask = m_pciEditor.m_lvAFeatures.CurrentMask;
-				txtArticulatory.Text = App.AFeatureCache.GetFeaturesText(m_aMask);
-				m_dirty = true;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Updates the binary feature list based on what the user chose in the binary feature
-		/// drop-down.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void m_bFeatureDropdown_Closing(object sender, ToolStripDropDownClosingEventArgs e)
-		{
-			if (m_pciEditor.m_lvBFeatures.CurrentMask != m_bMask)
-			{
-				m_bMask = m_pciEditor.m_lvBFeatures.CurrentMask;
-				txtBinary.Text = App.BFeatureCache.GetFeaturesText(m_bMask);
-				m_dirty = true;
-			}
-		}
 	}
 }

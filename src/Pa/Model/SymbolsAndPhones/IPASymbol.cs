@@ -19,6 +19,15 @@ using System.Xml.Serialization;
 
 namespace SIL.Pa.Model
 {
+	/// ----------------------------------------------------------------------------------------
+	public interface IFeatureBearer
+	{
+		FeatureMask AMask { get; set; }
+		FeatureMask BMask { get; set; }
+		void ResetAFeatures();
+		void ResetBFeatures();
+	}
+
 	#region IPASymbol class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
@@ -26,7 +35,7 @@ namespace SIL.Pa.Model
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	[XmlType("symbol")]
-	public class IPASymbol
+	public class IPASymbol : IFeatureBearer
 	{
 		[XmlIgnore]
 		public bool IsUndefined { get; set; }
@@ -90,6 +99,29 @@ namespace SIL.Pa.Model
 		private FeatureMask m_aMask;
 		private FeatureMask m_bMask;
 
+		private FeatureMask m_aDefaultMask;
+		private FeatureMask m_bDefaultMask;
+		
+		/// ------------------------------------------------------------------------------------
+		public void ResetAFeatures()
+		{
+			if (m_aDefaultMask != null)
+			{
+				m_aMask = m_aDefaultMask;
+				m_aFeatures = null;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void ResetBFeatures()
+		{
+			if (m_bDefaultMask != null)
+			{
+				m_bMask = m_bDefaultMask;
+				m_bFeatures = null;
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the list of articulatory features.
@@ -101,7 +133,7 @@ namespace SIL.Pa.Model
 			get
 			{
 				return (m_aFeatures == null && m_aMask != null && !m_aMask.IsEmpty ?
-					App.AFeatureCache.GetFeatureList(m_aMask) : m_aFeatures);
+					InventoryHelper.AFeatureCache.GetFeatureList(m_aMask) : m_aFeatures);
 			}
 			set { m_aFeatures = value; }
 		}
@@ -117,7 +149,7 @@ namespace SIL.Pa.Model
 			get
 			{
 				return (m_bFeatures == null && m_bMask != null && !m_bMask.IsEmpty ?
-					App.BFeatureCache.GetFeatureList(m_bMask) : m_bFeatures);
+					InventoryHelper.BFeatureCache.GetFeatureList(m_bMask) : m_bFeatures);
 			}
 			set { m_bFeatures = value; }
 		}
@@ -134,14 +166,18 @@ namespace SIL.Pa.Model
 			{
 				if (m_aMask == null || m_aMask.IsEmpty)
 				{
-					m_aMask = App.AFeatureCache.GetMask(m_aFeatures);
+					m_aMask = InventoryHelper.AFeatureCache.GetMask(m_aFeatures);
+					
+					if (m_aDefaultMask == null)
+						m_aDefaultMask = m_aMask;
+				
 					if (m_aFeatures != null && m_aFeatures.Count > 0)
 						m_aFeatures = null;
 				}
 
 				return m_aMask;
 			}
-			set { m_aMask = (value ?? App.AFeatureCache.GetEmptyMask()); }
+			set { m_aMask = (value ?? InventoryHelper.AFeatureCache.GetEmptyMask()); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -156,20 +192,20 @@ namespace SIL.Pa.Model
 			{
 				if (m_bMask == null || m_bMask.IsEmpty)
 				{
-					m_bMask = App.BFeatureCache.GetMask(m_bFeatures);
+					m_bMask = InventoryHelper.BFeatureCache.GetMask(m_bFeatures);
+
+					if (m_bDefaultMask == null)
+						m_bDefaultMask = m_bMask;
+	
 					if (m_bFeatures != null && m_bFeatures.Count > 0)
 						m_bFeatures = null;
 				}
 
 				return m_bMask;
 			}
-			set { m_bMask = (value ?? App.BFeatureCache.GetEmptyMask()); }
+			set { m_bMask = (value ?? InventoryHelper.BFeatureCache.GetEmptyMask()); }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
@@ -180,10 +216,6 @@ namespace SIL.Pa.Model
 	#endregion
 
 	#region IPASymbolUsage
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	[XmlType("usage")]
 	public class IPASymbolUsage

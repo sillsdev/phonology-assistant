@@ -48,34 +48,6 @@ namespace SIL.Pa
 			this.mnuMain.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// pnlButtons
-			// 
-			//resources.ApplyResources(this.pnlButtons, "pnlButtons");
-			//this.pnlButtons.Controls.Add(this.btnDelete);
-			//this.pnlButtons.Controls.Add(this.btnModify);
-			//this.pnlButtons.Controls.Add(this.btnAdd);
-			//this.pnlButtons.Controls.SetChildIndex(this.btnAdd, 0);
-			//this.pnlButtons.Controls.SetChildIndex(this.btnOK, 0);
-			//this.pnlButtons.Controls.SetChildIndex(this.btnCancel, 0);
-			//this.pnlButtons.Controls.SetChildIndex(this.btnHelp, 0);
-			//this.pnlButtons.Controls.SetChildIndex(this.btnModify, 0);
-			//this.pnlButtons.Controls.SetChildIndex(this.btnDelete, 0);
-			this.Controls.Add(this.btnDelete);
-			this.Controls.Add(this.btnModify);
-			this.Controls.Add(this.btnAdd);
-			// 
-			// btnCancel
-			// 
-			resources.ApplyResources(this.btnCancel, "btnCancel");
-			// 
-			// btnOK
-			// 
-			resources.ApplyResources(this.btnOK, "btnOK");
-			// 
-			// btnHelp
-			// 
-			resources.ApplyResources(this.btnHelp, "btnHelp");
-			// 
 			// mnuMain
 			// 
 			this.mnuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -188,16 +160,20 @@ namespace SIL.Pa
 			this.CancelButton = null;
 			this.Controls.Add(this.pnlGrid);
 			this.Controls.Add(this.mnuMain);
+			this.Controls.Add(this.btnDelete);
+			this.Controls.Add(this.btnModify);
+			this.Controls.Add(this.btnAdd);
 			this.MainMenuStrip = this.mnuMain;
 			this.MaximizeBox = true;
 			this.MinimizeBox = true;
 			this.Name = "PCIEditor";
 			this.ShowIcon = true;
 			this.ShowInTaskbar = true;
+			this.Controls.SetChildIndex(this.btnAdd, 0);
+			this.Controls.SetChildIndex(this.btnModify, 0);
+			this.Controls.SetChildIndex(this.btnDelete, 0);
 			this.Controls.SetChildIndex(this.mnuMain, 0);
-			//this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.pnlGrid, 0);
-			//this.pnlButtons.ResumeLayout(false);
 			this.mnuMain.ResumeLayout(false);
 			this.mnuMain.PerformLayout();
 			this.ResumeLayout(false);

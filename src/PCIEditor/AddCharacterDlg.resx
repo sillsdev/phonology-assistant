@@ -129,7 +129,7 @@
     <value>48, 20</value>
   </data>
   <data name="txtHexValue.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="&gt;&gt;txtHexValue.Name" xml:space="preserve">
     <value>txtHexValue</value>
@@ -151,10 +151,10 @@
     <value>108, 97</value>
   </data>
   <data name="txtCharName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>246, 20</value>
+    <value>226, 20</value>
   </data>
   <data name="txtCharName.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="&gt;&gt;txtCharName.Name" xml:space="preserve">
     <value>txtCharName</value>
@@ -175,10 +175,10 @@
     <value>108, 123</value>
   </data>
   <data name="txtCharDesc.Size" type="System.Drawing.Size, System.Drawing">
-    <value>246, 20</value>
+    <value>226, 20</value>
   </data>
   <data name="txtCharDesc.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="&gt;&gt;txtCharDesc.Name" xml:space="preserve">
     <value>txtCharDesc</value>
@@ -193,13 +193,13 @@
     <value>8</value>
   </data>
   <data name="cboType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>109, 17</value>
+    <value>47, 19</value>
   </data>
   <data name="cboType.Size" type="System.Drawing.Size, System.Drawing">
     <value>128, 21</value>
   </data>
   <data name="cboType.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;cboType.Name" xml:space="preserve">
     <value>cboType</value>
@@ -214,13 +214,13 @@
     <value>3</value>
   </data>
   <data name="cboSubType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>109, 44</value>
+    <value>265, 19</value>
   </data>
   <data name="cboSubType.Size" type="System.Drawing.Size, System.Drawing">
     <value>128, 21</value>
   </data>
   <data name="cboSubType.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="&gt;&gt;cboSubType.Name" xml:space="preserve">
     <value>cboSubType</value>
@@ -235,7 +235,7 @@
     <value>5</value>
   </data>
   <data name="cboIgnoreType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>109, 70</value>
+    <value>492, 19</value>
   </data>
   <data name="cboIgnoreType.Size" type="System.Drawing.Size, System.Drawing">
     <value>128, 21</value>
@@ -255,6 +255,9 @@
   <data name="&gt;&gt;cboIgnoreType.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="groupBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
   <data name="lblIgnoreType.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -262,13 +265,13 @@
     <value>NoControl</value>
   </data>
   <data name="lblIgnoreType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 73</value>
+    <value>419, 22</value>
   </data>
   <data name="lblIgnoreType.Size" type="System.Drawing.Size, System.Drawing">
     <value>67, 13</value>
   </data>
   <data name="lblIgnoreType.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="lblIgnoreType.Text" xml:space="preserve">
     <value>Ign&amp;ore Type:</value>
@@ -292,13 +295,13 @@
     <value>NoControl</value>
   </data>
   <data name="lblSubType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 47</value>
+    <value>203, 22</value>
   </data>
   <data name="lblSubType.Size" type="System.Drawing.Size, System.Drawing">
     <value>56, 13</value>
   </data>
   <data name="lblSubType.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="lblSubType.Text" xml:space="preserve">
     <value>&amp;Sub Type:</value>
@@ -322,7 +325,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 20</value>
+    <value>7, 22</value>
   </data>
   <data name="lblType.Size" type="System.Drawing.Size, System.Drawing">
     <value>34, 13</value>
@@ -346,10 +349,10 @@
     <value>2</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 188</value>
+    <value>10, 170</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>250, 99</value>
+    <value>629, 51</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -367,7 +370,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="cboMoa.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -376,7 +379,7 @@
     <value>False</value>
   </data>
   <data name="cboMoa.Location" type="System.Drawing.Point, System.Drawing">
-    <value>173, 68</value>
+    <value>200, 58</value>
   </data>
   <data name="cboMoa.Size" type="System.Drawing.Size, System.Drawing">
     <value>66, 21</value>
@@ -406,7 +409,7 @@
     <value>7, 20</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>228, 41</value>
+    <value>255, 30</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -426,6 +429,9 @@
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="groupBox2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
   <data name="lblUnicodeValue.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -439,7 +445,7 @@
     <value>34, 13</value>
   </data>
   <data name="lblUnicodeValue.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="lblUnicodeValue.Text" xml:space="preserve">
     <value>         </value>
@@ -469,7 +475,7 @@
     <value>46, 13</value>
   </data>
   <data name="lblChar.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="lblChar.Text" xml:space="preserve">
     <value>             </value>
@@ -499,7 +505,7 @@
     <value>63, 13</value>
   </data>
   <data name="lblDescription.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="lblDescription.Text" xml:space="preserve">
     <value>&amp;Description:</value>
@@ -529,7 +535,7 @@
     <value>38, 13</value>
   </data>
   <data name="lblName.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="lblName.Text" xml:space="preserve">
     <value>&amp;Name:</value>
@@ -559,7 +565,7 @@
     <value>80, 13</value>
   </data>
   <data name="lblUnicode.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="lblUnicode.Text" xml:space="preserve">
     <value>&amp;Unicode Value:</value>
@@ -589,7 +595,7 @@
     <value>56, 13</value>
   </data>
   <data name="lblCharLable.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
+    <value>0</value>
   </data>
   <data name="lblCharLable.Text" xml:space="preserve">
     <value>Character:</value>
@@ -619,7 +625,7 @@
     <value>21, 13</value>
   </data>
   <data name="lblUPlus.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="lblUPlus.Text" xml:space="preserve">
     <value>U+</value>
@@ -637,10 +643,10 @@
     <value>9</value>
   </data>
   <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 13</value>
+    <value>10, 7</value>
   </data>
   <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>366, 167</value>
+    <value>346, 157</value>
   </data>
   <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -667,7 +673,7 @@
     <value>False</value>
   </data>
   <data name="cboPoa.Location" type="System.Drawing.Point, System.Drawing">
-    <value>173, 120</value>
+    <value>200, 110</value>
   </data>
   <data name="cboPoa.Size" type="System.Drawing.Size, System.Drawing">
     <value>66, 21</value>
@@ -687,6 +693,9 @@
   <data name="&gt;&gt;cboPoa.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="grpSortOrder.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
   <data name="lblPOA.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -694,7 +703,7 @@
     <value>NoControl</value>
   </data>
   <data name="lblPOA.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 127</value>
+    <value>7, 117</value>
   </data>
   <data name="lblPOA.Size" type="System.Drawing.Size, System.Drawing">
     <value>104, 13</value>
@@ -721,7 +730,7 @@
     <value>True</value>
   </data>
   <data name="lblMOA.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 75</value>
+    <value>7, 65</value>
   </data>
   <data name="lblMOA.Size" type="System.Drawing.Size, System.Drawing">
     <value>113, 13</value>
@@ -748,10 +757,10 @@
     <value>False</value>
   </data>
   <data name="grpSortOrder.Location" type="System.Drawing.Point, System.Drawing">
-    <value>382, 13</value>
+    <value>362, 7</value>
   </data>
   <data name="grpSortOrder.Size" type="System.Drawing.Size, System.Drawing">
-    <value>250, 167</value>
+    <value>277, 157</value>
   </data>
   <data name="grpSortOrder.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -770,252 +779,6 @@
   </data>
   <data name="&gt;&gt;grpSortOrder.ZOrder" xml:space="preserve">
     <value>3</value>
-  </data>
-  <data name="chkDottedCircle.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="chkDottedCircle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="chkDottedCircle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 71</value>
-  </data>
-  <data name="chkDottedCircle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 17</value>
-  </data>
-  <data name="chkDottedCircle.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="chkDottedCircle.Text" xml:space="preserve">
-    <value>Display &amp;With Dotted Circle</value>
-  </data>
-  <data name="&gt;&gt;chkDottedCircle.Name" xml:space="preserve">
-    <value>chkDottedCircle</value>
-  </data>
-  <data name="&gt;&gt;chkDottedCircle.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;chkDottedCircle.Parent" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;chkDottedCircle.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="chkPreceedBaseChar.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="chkPreceedBaseChar.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="chkPreceedBaseChar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 48</value>
-  </data>
-  <data name="chkPreceedBaseChar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 17</value>
-  </data>
-  <data name="chkPreceedBaseChar.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="chkPreceedBaseChar.Text" xml:space="preserve">
-    <value>Is &amp;Linking Character</value>
-  </data>
-  <data name="&gt;&gt;chkPreceedBaseChar.Name" xml:space="preserve">
-    <value>chkPreceedBaseChar</value>
-  </data>
-  <data name="&gt;&gt;chkPreceedBaseChar.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;chkPreceedBaseChar.Parent" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;chkPreceedBaseChar.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="chkIsBase.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="chkIsBase.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="chkIsBase.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 25</value>
-  </data>
-  <data name="chkIsBase.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 17</value>
-  </data>
-  <data name="chkIsBase.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="chkIsBase.Text" xml:space="preserve">
-    <value>&amp;Is Base</value>
-  </data>
-  <data name="&gt;&gt;chkIsBase.Name" xml:space="preserve">
-    <value>chkIsBase</value>
-  </data>
-  <data name="&gt;&gt;chkIsBase.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;chkIsBase.Parent" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;chkIsBase.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>462, 188</value>
-  </data>
-  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 99</value>
-  </data>
-  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>Base Character</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="label11.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label11.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 32</value>
-  </data>
-  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>39, 13</value>
-  </data>
-  <data name="label11.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="label11.Text" xml:space="preserve">
-    <value>&amp;Group:</value>
-  </data>
-  <data name="&gt;&gt;label11.Name" xml:space="preserve">
-    <value>label11</value>
-  </data>
-  <data name="&gt;&gt;label11.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label11.Parent" xml:space="preserve">
-    <value>groupBox5</value>
-  </data>
-  <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="label10.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <data name="label10.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label10.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 59</value>
-  </data>
-  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 13</value>
-  </data>
-  <data name="label10.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="label10.Text" xml:space="preserve">
-    <value>&amp;Column:</value>
-  </data>
-  <data name="&gt;&gt;label10.Name" xml:space="preserve">
-    <value>label10</value>
-  </data>
-  <data name="&gt;&gt;label10.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label10.Parent" xml:space="preserve">
-    <value>groupBox5</value>
-  </data>
-  <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="cboChartGroup.Location" type="System.Drawing.Point, System.Drawing">
-    <value>51, 29</value>
-  </data>
-  <data name="cboChartGroup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 21</value>
-  </data>
-  <data name="cboChartGroup.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;cboChartGroup.Name" xml:space="preserve">
-    <value>cboChartGroup</value>
-  </data>
-  <data name="&gt;&gt;cboChartGroup.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cboChartGroup.Parent" xml:space="preserve">
-    <value>groupBox5</value>
-  </data>
-  <data name="&gt;&gt;cboChartGroup.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="cboChartColumn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>51, 56</value>
-  </data>
-  <data name="cboChartColumn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 21</value>
-  </data>
-  <data name="cboChartColumn.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;cboChartColumn.Name" xml:space="preserve">
-    <value>cboChartColumn</value>
-  </data>
-  <data name="&gt;&gt;cboChartColumn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cboChartColumn.Parent" xml:space="preserve">
-    <value>groupBox5</value>
-  </data>
-  <data name="&gt;&gt;cboChartColumn.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="groupBox5.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="groupBox5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>266, 188</value>
-  </data>
-  <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 99</value>
-  </data>
-  <data name="groupBox5.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="groupBox5.Text" xml:space="preserve">
-    <value>Chart Coordinates</value>
-  </data>
-  <data name="&gt;&gt;groupBox5.Name" xml:space="preserve">
-    <value>groupBox5</value>
-  </data>
-  <data name="&gt;&gt;groupBox5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox5.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupBox5.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1041,286 +804,127 @@
   <data name="&gt;&gt;label5.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="grpFeatures.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom</value>
+  <data name="_featuresTab.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="pnlBinary.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
+  <data name="_featuresTab.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 227</value>
   </data>
-  <metadata name="txtBinary.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="txtBinary.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="_featuresTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>629, 242</value>
   </data>
-  <data name="txtBinary.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 8.25pt</value>
-  </data>
-  <data name="txtBinary.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 22</value>
-  </data>
-  <data name="txtBinary.Multiline" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="txtBinary.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
-    <value>Vertical</value>
-  </data>
-  <data name="txtBinary.Size" type="System.Drawing.Size, System.Drawing">
-    <value>292, 53</value>
-  </data>
-  <data name="txtBinary.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;txtBinary.Name" xml:space="preserve">
-    <value>txtBinary</value>
-  </data>
-  <data name="&gt;&gt;txtBinary.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtBinary.Parent" xml:space="preserve">
-    <value>pnlBinary</value>
-  </data>
-  <data name="&gt;&gt;txtBinary.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="btnBinary.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Right</value>
-  </data>
-  <data name="btnBinary.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Marlett, 9pt, style=Bold</value>
-  </data>
-  <data name="btnBinary.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnBinary.Location" type="System.Drawing.Point, System.Drawing">
-    <value>273, 3</value>
-  </data>
-  <data name="btnBinary.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 16</value>
-  </data>
-  <data name="btnBinary.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="btnBinary.Text" xml:space="preserve">
+  <data name="_featuresTab.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
-  <data name="btnBinary.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleCenter</value>
+  <data name="&gt;&gt;_featuresTab.Name" xml:space="preserve">
+    <value>_featuresTab</value>
   </data>
-  <data name="&gt;&gt;btnBinary.Name" xml:space="preserve">
-    <value>btnBinary</value>
+  <data name="&gt;&gt;_featuresTab.Type" xml:space="preserve">
+    <value>SIL.Pa.UI.Controls.FeaturesTab, Pa, Version=3.3.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;btnBinary.Type" xml:space="preserve">
-    <value>SilUtils.Controls.XButton, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;btnBinary.Parent" xml:space="preserve">
-    <value>hlblBinary</value>
-  </data>
-  <data name="&gt;&gt;btnBinary.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="hlblBinary.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="hlblBinary.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 8.25pt</value>
-  </data>
-  <data name="hlblBinary.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="hlblBinary.Size" type="System.Drawing.Size, System.Drawing">
-    <value>292, 22</value>
-  </data>
-  <data name="hlblBinary.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="hlblBinary.Text" xml:space="preserve">
-    <value>&amp;Binary</value>
-  </data>
-  <data name="&gt;&gt;hlblBinary.Name" xml:space="preserve">
-    <value>hlblBinary</value>
-  </data>
-  <data name="&gt;&gt;hlblBinary.Type" xml:space="preserve">
-    <value>SilUtils.Controls.HeaderLabel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;hlblBinary.Parent" xml:space="preserve">
-    <value>pnlBinary</value>
-  </data>
-  <data name="&gt;&gt;hlblBinary.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="pnlBinary.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 12world</value>
-  </data>
-  <data name="pnlBinary.Location" type="System.Drawing.Point, System.Drawing">
-    <value>317, 21</value>
-  </data>
-  <data name="pnlBinary.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 77</value>
-  </data>
-  <data name="pnlBinary.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;pnlBinary.Name" xml:space="preserve">
-    <value>pnlBinary</value>
-  </data>
-  <data name="&gt;&gt;pnlBinary.Type" xml:space="preserve">
-    <value>SilUtils.Controls.SilPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;pnlBinary.Parent" xml:space="preserve">
-    <value>grpFeatures</value>
-  </data>
-  <data name="&gt;&gt;pnlBinary.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <metadata name="txtArticulatory.Locked" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="txtArticulatory.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="txtArticulatory.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 8.25pt</value>
-  </data>
-  <data name="txtArticulatory.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 22</value>
-  </data>
-  <data name="txtArticulatory.Multiline" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="txtArticulatory.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
-    <value>Vertical</value>
-  </data>
-  <data name="txtArticulatory.Size" type="System.Drawing.Size, System.Drawing">
-    <value>292, 53</value>
-  </data>
-  <data name="txtArticulatory.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;txtArticulatory.Name" xml:space="preserve">
-    <value>txtArticulatory</value>
-  </data>
-  <data name="&gt;&gt;txtArticulatory.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtArticulatory.Parent" xml:space="preserve">
-    <value>paPanel1</value>
-  </data>
-  <data name="&gt;&gt;txtArticulatory.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="btnArticulatory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Right</value>
-  </data>
-  <data name="btnArticulatory.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Marlett, 9pt, style=Bold</value>
-  </data>
-  <data name="btnArticulatory.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnArticulatory.Location" type="System.Drawing.Point, System.Drawing">
-    <value>273, 3</value>
-  </data>
-  <data name="btnArticulatory.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 16</value>
-  </data>
-  <data name="btnArticulatory.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="btnArticulatory.Text" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="btnArticulatory.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleCenter</value>
-  </data>
-  <data name="&gt;&gt;btnArticulatory.Name" xml:space="preserve">
-    <value>btnArticulatory</value>
-  </data>
-  <data name="&gt;&gt;btnArticulatory.Type" xml:space="preserve">
-    <value>SilUtils.Controls.XButton, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;btnArticulatory.Parent" xml:space="preserve">
-    <value>hlblArticulatory</value>
-  </data>
-  <data name="&gt;&gt;btnArticulatory.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="hlblArticulatory.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="hlblArticulatory.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 8.25pt</value>
-  </data>
-  <data name="hlblArticulatory.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="hlblArticulatory.Size" type="System.Drawing.Size, System.Drawing">
-    <value>292, 22</value>
-  </data>
-  <data name="hlblArticulatory.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="hlblArticulatory.Text" xml:space="preserve">
-    <value>&amp;Articulatory</value>
-  </data>
-  <data name="&gt;&gt;hlblArticulatory.Name" xml:space="preserve">
-    <value>hlblArticulatory</value>
-  </data>
-  <data name="&gt;&gt;hlblArticulatory.Type" xml:space="preserve">
-    <value>SilUtils.Controls.HeaderLabel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;hlblArticulatory.Parent" xml:space="preserve">
-    <value>paPanel1</value>
-  </data>
-  <data name="&gt;&gt;hlblArticulatory.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="paPanel1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 12world</value>
-  </data>
-  <data name="paPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 21</value>
-  </data>
-  <data name="paPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 77</value>
-  </data>
-  <data name="paPanel1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;paPanel1.Name" xml:space="preserve">
-    <value>paPanel1</value>
-  </data>
-  <data name="&gt;&gt;paPanel1.Type" xml:space="preserve">
-    <value>SilUtils.Controls.SilPanel, SilUtils, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;paPanel1.Parent" xml:space="preserve">
-    <value>grpFeatures</value>
-  </data>
-  <data name="&gt;&gt;paPanel1.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="grpFeatures.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 295</value>
-  </data>
-  <data name="grpFeatures.Size" type="System.Drawing.Size, System.Drawing">
-    <value>622, 109</value>
-  </data>
-  <data name="grpFeatures.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="grpFeatures.Text" xml:space="preserve">
-    <value>Features</value>
-  </data>
-  <data name="&gt;&gt;grpFeatures.Name" xml:space="preserve">
-    <value>grpFeatures</value>
-  </data>
-  <data name="&gt;&gt;grpFeatures.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;grpFeatures.Parent" xml:space="preserve">
+  <data name="&gt;&gt;_featuresTab.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;grpFeatures.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;_featuresTab.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="chkIsBase.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="chkIsBase.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chkIsBase.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chkIsBase.Location" type="System.Drawing.Point, System.Drawing">
+    <value>288, 228</value>
+  </data>
+  <data name="chkIsBase.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 17</value>
+  </data>
+  <data name="chkIsBase.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="chkIsBase.Text" xml:space="preserve">
+    <value>&amp;Is Base</value>
+  </data>
+  <data name="&gt;&gt;chkIsBase.Name" xml:space="preserve">
+    <value>chkIsBase</value>
+  </data>
+  <data name="&gt;&gt;chkIsBase.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkIsBase.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chkIsBase.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="chkPreceedBaseChar.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="chkPreceedBaseChar.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chkPreceedBaseChar.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chkPreceedBaseChar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>364, 228</value>
+  </data>
+  <data name="chkPreceedBaseChar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 17</value>
+  </data>
+  <data name="chkPreceedBaseChar.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="chkPreceedBaseChar.Text" xml:space="preserve">
+    <value>Is &amp;Linking Character</value>
+  </data>
+  <data name="&gt;&gt;chkPreceedBaseChar.Name" xml:space="preserve">
+    <value>chkPreceedBaseChar</value>
+  </data>
+  <data name="&gt;&gt;chkPreceedBaseChar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkPreceedBaseChar.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chkPreceedBaseChar.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="chkDottedCircle.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="chkDottedCircle.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chkDottedCircle.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chkDottedCircle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>495, 228</value>
+  </data>
+  <data name="chkDottedCircle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 17</value>
+  </data>
+  <data name="chkDottedCircle.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="chkDottedCircle.Text" xml:space="preserve">
+    <value>Display &amp;With Dotted Circle</value>
+  </data>
+  <data name="&gt;&gt;chkDottedCircle.Name" xml:space="preserve">
+    <value>chkDottedCircle</value>
+  </data>
+  <data name="&gt;&gt;chkDottedCircle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkDottedCircle.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chkDottedCircle.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -1330,7 +934,10 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>642, 445</value>
+    <value>649, 512</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>665, 425</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
@@ -1342,6 +949,6 @@
     <value>AddCharacterDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.1.3796.16933, Culture=neutral, PublicKeyToken=null</value>
+    <value>SIL.Pa.UI.Dialogs.OKCancelDlgBase, Pa, Version=3.3.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

@@ -331,6 +331,12 @@
     <Compile Include="UI\Controls\FeatureListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\Controls\FeaturesTab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\FeaturesTab.Designer.cs">
+      <DependentUpon>FeaturesTab.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Controls\FieldRelatedControls\Fw6FieldMappingGrid.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -736,6 +742,9 @@
     <EmbeddedResource Include="UI\Controls\CIEOptionsDropDown.resx">
       <DependentUpon>CIEOptionsDropDown.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\FeaturesTab.resx">
+      <DependentUpon>FeaturesTab.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\FontPicker.resx">
       <DependentUpon>FontPicker.cs</DependentUpon>

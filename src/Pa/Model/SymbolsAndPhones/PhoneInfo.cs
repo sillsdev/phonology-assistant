@@ -27,7 +27,7 @@ namespace SIL.Pa.Model
 	/// A class defining an object to store the information for a single phonetic character.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public class PhoneInfo : IPhoneInfo
+	public class PhoneInfo : IPhoneInfo, IFeatureBearer
 	{
 		private string m_moaKey;
 		private string m_poaKey;
@@ -83,11 +83,11 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		private void InitializeFeatureMasks(IEnumerable<char> phone)
 		{
-			m_aMask = DefaultAMask = App.AFeatureCache.GetEmptyMask();
-			m_bMask = DefaultBMask = App.BFeatureCache.GetEmptyMask();
+			m_aMask = DefaultAMask = InventoryHelper.AFeatureCache.GetEmptyMask();
+			m_bMask = DefaultBMask = InventoryHelper.BFeatureCache.GetEmptyMask();
 
 			// Go through each codepoint of the phone, building the feature masks along the way.
-			foreach (var ci in phone.Select(ci => App.IPASymbolCache[ci]).Where(ci => ci != null))
+			foreach (var ci in phone.Select(ci => InventoryHelper.IPASymbolCache[ci]).Where(ci => ci != null))
 			{
 				m_aMask |= ci.AMask;
 				m_bMask |= ci.BMask;
@@ -108,7 +108,7 @@ namespace SIL.Pa.Model
 
 			foreach (char c in phone)
 			{
-				var charInfo = App.IPASymbolCache[c];
+				var charInfo = InventoryHelper.IPASymbolCache[c];
 				if (charInfo != null && charInfo.IsBase)
 				{
 					if (charInfo.Type == IPASymbolType.Consonant)
@@ -161,7 +161,7 @@ namespace SIL.Pa.Model
 
 			if (ambigSeq != null)
 			{
-				var charInfo = App.IPASymbolCache[ambigSeq.BaseChar];
+				var charInfo = InventoryHelper.IPASymbolCache[ambigSeq.BaseChar];
 				if (charInfo != null)
 				{
 					m_baseChar = ambigSeq.BaseChar[0];
@@ -353,14 +353,14 @@ namespace SIL.Pa.Model
 			{
 				if (m_aMask == null || m_aMask.IsEmpty)
 				{
-					m_aMask = App.AFeatureCache.GetMask(m_aFeatures);
+					m_aMask = InventoryHelper.AFeatureCache.GetMask(m_aFeatures);
 					if (m_aFeatures != null && m_aFeatures.Count > 0)
 						m_aFeatures = null;
 				}
 
 				return m_aMask;
 			}
-			set { m_aMask = (value ?? App.AFeatureCache.GetEmptyMask()); }
+			set { m_aMask = (value ?? InventoryHelper.AFeatureCache.GetEmptyMask()); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -375,14 +375,14 @@ namespace SIL.Pa.Model
 			{
 				if (m_bMask == null || m_bMask.IsEmpty)
 				{
-					m_bMask = App.BFeatureCache.GetMask(m_bFeatures);
+					m_bMask = InventoryHelper.BFeatureCache.GetMask(m_bFeatures);
 					if (m_bFeatures != null && m_bFeatures.Count > 0)
 						m_bFeatures = null;
 				}
 
 				return m_bMask;
 			}
-			set { m_bMask = (value ?? App.BFeatureCache.GetEmptyMask()); }
+			set { m_bMask = (value ?? InventoryHelper.BFeatureCache.GetEmptyMask()); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -397,7 +397,7 @@ namespace SIL.Pa.Model
 			get
 			{
 				return (m_aFeatures == null && m_aMask != null && !m_aMask.IsEmpty ?
-					App.AFeatureCache.GetFeatureList(m_aMask) : m_aFeatures);
+					InventoryHelper.AFeatureCache.GetFeatureList(m_aMask) : m_aFeatures);
 			}
 			set { m_aFeatures = value; }
 		}
@@ -414,7 +414,7 @@ namespace SIL.Pa.Model
 			get
 			{
 				return (m_bFeatures == null && m_bMask != null && !m_bMask.IsEmpty ?
-					App.BFeatureCache.GetFeatureList(m_bMask) : m_bFeatures);
+					InventoryHelper.BFeatureCache.GetFeatureList(m_bMask) : m_bFeatures);
 			}
 			set { m_bFeatures = value; }
 		}
@@ -489,7 +489,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<IPASymbol> GetSymbols()
 		{
-			return Phone.Select(c => App.IPASymbolCache[c]);
+			return Phone.Select(c => InventoryHelper.IPASymbolCache[c]);
 		}
 	}
 

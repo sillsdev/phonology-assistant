@@ -13,6 +13,7 @@ using SIL.Pa.DataSource;
 using SIL.Pa.Filters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Processing;
 using SIL.Pa.Properties;
 using SIL.Pa.Resources;
 using SIL.Pa.UI.Controls;
@@ -40,8 +41,13 @@ namespace SIL.Pa.UI
 		public PaMainWnd()
 		{
 			m_doNotLoadLastProject = ((ModifierKeys & Keys.Shift) == Keys.Shift);
+			
+			App.InitializeLocalization();
 			InitializeComponent();
 			Settings.Default.MainWindow = App.InitializeForm(this, Settings.Default.MainWindow);
+			InventoryHelper.Load();
+			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList);
+			ProcessHelper.CopyFilesForPrettyHTMLExports();
 		}
 
 		/// ------------------------------------------------------------------------------------

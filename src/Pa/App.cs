@@ -120,26 +120,10 @@ namespace SIL.Pa
 			if (DesignMode)
 				return;
 
-			InventoryHelper.Load();
 			InitializeSettingsFileLocation();
 			InitializeProjectFolder();
 			MsgMediator = new Mediator();
-			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList);
-			ProcessHelper.CopyFilesForPrettyHTMLExports();
 			InitializeFonts();
-			SetUILanguage();
-
-			// Copy the localization file to where the settings file is located.
-			var localizationFilePath = Path.Combine(PortableSettingsProvider.SettingsFileFolder, "Pa.tmx");
-			if (!File.Exists(localizationFilePath))
-			{
-				var srcLocalizationFilePath =
-					FileLocator.GetFileDistributedWithApplication(ConfigFolderName, "Pa.tmx");
-
-				File.Copy(srcLocalizationFilePath, localizationFilePath);
-			}
-
-			L10NMngr = LocalizationManager.Create("Pa", "Phonology Assistant", DefaultProjectFolder);
 
 			MinimumViewWindowSize = Settings.Default.MinimumViewWindowSize;
 			FwDBUtils.ShowMsgWhenGatheringFWInfo = Settings.Default.ShowMsgWhenGatheringFwInfo;
@@ -153,7 +137,24 @@ namespace SIL.Pa
 				IPASymbolCache.UncertainGroupAbsentPhoneChar = chrs;
 
 			ReadAddOns();
+		}
 
+		/// ------------------------------------------------------------------------------------
+		public static void InitializeLocalization()
+		{
+			SetUILanguage();
+
+			// Copy the localization file to where the settings file is located.
+			var localizationFilePath = Path.Combine(PortableSettingsProvider.SettingsFileFolder, "Pa.tmx");
+			if (!File.Exists(localizationFilePath))
+			{
+				var srcLocalizationFilePath =
+					FileLocator.GetFileDistributedWithApplication(ConfigFolderName, "Pa.tmx");
+
+				File.Copy(srcLocalizationFilePath, localizationFilePath);
+			}
+
+			L10NMngr = LocalizationManager.Create("Pa", "Phonology Assistant", DefaultProjectFolder);
 			LocalizeItemDlg.SaveDialogSplitterPosition += (pos =>
 				Settings.Default.LocalizeDlgSplitterPos = pos);
 			
@@ -207,7 +208,7 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static void InitializeFonts()
+		public static void InitializeFonts()
 		{
 			// If the user knows enough to add an entry to the settings file to
 			// override the default UI font, then read it and use it.
@@ -1056,7 +1057,7 @@ namespace SIL.Pa
 				projPath = projPath.Substring(0, i);
 			}
 
-			return Path.Combine(projPath, Application.ProductName);
+			return Path.Combine(projPath, "Phonology Assistant");
 		}
 
 		/// ------------------------------------------------------------------------------------
