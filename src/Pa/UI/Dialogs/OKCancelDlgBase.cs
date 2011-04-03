@@ -178,10 +178,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected void ReAddButtons(int startIndexInTablePanel)
 		{
 			tblLayoutButtons.Controls.Add(btnOK, startIndexInTablePanel, 0);
@@ -197,11 +193,16 @@ namespace SIL.Pa.UI.Dialogs
 		/// beside clicking on the OK button.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void btnCancel_Click(object sender, EventArgs e)
+		protected virtual void HandleCancelClick(object sender, EventArgs e)
 		{
 			m_cancelButtonPressed = true;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		protected virtual void HandleOKButtonClick(object sender, EventArgs e)
+		{
+		}
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets a value indicating whether or not the user saved the changes

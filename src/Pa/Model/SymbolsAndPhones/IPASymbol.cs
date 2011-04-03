@@ -85,9 +85,6 @@ namespace SIL.Pa.Model
 		[XmlElement("placeOfArticulation")]
 		public int POArticulation { get; set; }
 
-		//[XmlElement("displayOrder")]
-		//public int DisplayOrder { get; set; }
-
 		[XmlElement("chartColumn")]
 		public int ChartColumn { get; set; }
 		
@@ -99,27 +96,30 @@ namespace SIL.Pa.Model
 		private FeatureMask m_aMask;
 		private FeatureMask m_bMask;
 
-		private FeatureMask m_aDefaultMask;
-		private FeatureMask m_bDefaultMask;
-		
 		/// ------------------------------------------------------------------------------------
-		public void ResetAFeatures()
+		public IPASymbol Copy()
 		{
-			if (m_aDefaultMask != null)
+			return new IPASymbol
 			{
-				m_aMask = m_aDefaultMask;
-				m_aFeatures = null;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void ResetBFeatures()
-		{
-			if (m_bDefaultMask != null)
-			{
-				m_bMask = m_bDefaultMask;
-				m_bFeatures = null;
-			}
+				IsUndefined = IsUndefined,
+				Decimal = Decimal,
+				Literal = Literal,
+				Hexadecimal = Hexadecimal,
+				IPANumber = IPANumber,
+				Name = Name,
+				Usage = Usage,
+				Description = Description,
+				Type = Type,
+				SubType = SubType,
+				IgnoreType = IgnoreType,
+				IsBase = IsBase,
+				CanPrecedeBase = CanPrecedeBase,
+				DisplayWithDottedCircle = DisplayWithDottedCircle,
+				MOArticulation = MOArticulation,
+				POArticulation = POArticulation,
+				AMask = AMask.Clone(),
+				BMask = BMask.Clone(),
+			};
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -167,10 +167,6 @@ namespace SIL.Pa.Model
 				if (m_aMask == null || m_aMask.IsEmpty)
 				{
 					m_aMask = InventoryHelper.AFeatureCache.GetMask(m_aFeatures);
-					
-					if (m_aDefaultMask == null)
-						m_aDefaultMask = m_aMask;
-				
 					if (m_aFeatures != null && m_aFeatures.Count > 0)
 						m_aFeatures = null;
 				}
@@ -193,10 +189,6 @@ namespace SIL.Pa.Model
 				if (m_bMask == null || m_bMask.IsEmpty)
 				{
 					m_bMask = InventoryHelper.BFeatureCache.GetMask(m_bFeatures);
-
-					if (m_bDefaultMask == null)
-						m_bDefaultMask = m_bMask;
-	
 					if (m_bFeatures != null && m_bFeatures.Count > 0)
 						m_bFeatures = null;
 				}
@@ -204,6 +196,16 @@ namespace SIL.Pa.Model
 				return m_bMask;
 			}
 			set { m_bMask = (value ?? InventoryHelper.BFeatureCache.GetEmptyMask()); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void ResetAFeatures()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void ResetBFeatures()
+		{
 		}
 
 		/// ------------------------------------------------------------------------------------

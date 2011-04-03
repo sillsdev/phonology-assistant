@@ -104,9 +104,13 @@ namespace SIL.Pa.Model
 					filePath + "' not found.");
 			}
 
-			var ih = XmlSerializationHelper.DeserializeFromFile<InventoryHelper>(filePath);
+			Exception e;
+			var ih = XmlSerializationHelper.DeserializeFromFile<InventoryHelper>(filePath, out e);
 			if (ih == null)
-				throw new Exception(string.Format("Error reading phonetic inventory file '{0}'", filePath));
+			{
+				Utils.MsgBox(string.Format("Error reading phonetic inventory file '{0}'", filePath));
+				throw e;
+			}
 
 			return ih;
 		}

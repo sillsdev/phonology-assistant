@@ -1,27 +1,20 @@
 using System;
 using System.Linq;
-using System.Text;
-using System.Xml;
 using System.Xml.Linq;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using System.Xml.Serialization;
 using Palaso.IO;
+using Palaso.Reporting;
 using SIL.Pa.Model;
-using SIL.Pa.UI.Controls;
 using SIL.Pa.UI.Dialogs;
 using SilTools;
-using SilTools.Controls;
 
 namespace SIL.Pa
 {
 	public partial class PCIEditor : OKCancelDlgBase
 	{
-		// Define Constants
-		private const string kDecimal = "Decimal";
 		private const string kLiteral = "Literal";
 		private const string kHexadecimal = "Hexadecimal";
 		private const string kName = "Name";
@@ -32,50 +25,38 @@ namespace SIL.Pa
 		private const string kIsBase = "IsBase";
 		private const string kCanPrecedeBase = "CanPrecedeBaseChar";
 		private const string kDisplayWithDottedCircle = "DisplayWithDottedCircle";
-		private const string kMOA = "MOA";
-		private const string kPOA = "POA";
-		private const string kChartColumn = "ChartColumn";
-		private const string kChartGroup = "ChartGroup";
-		private const string kAFeatures = "afeatures";
-		private const string kBFeatures = "bfeatures";
-		private const string kUnknown = "Unknown";
+		//private const string kMOA = "MOA";
+		//private const string kPOA = "POA";
+		//private const string kChartColumn = "ChartColumn";
+		//private const string kChartGroup = "ChartGroup";
+		//private const string kAFeatures = "afeatures";
+		//private const string kBFeatures = "bfeatures";
+		//private const string kUnknown = "Unknown";
 		// These values of these fields should be left at zero
-		private const string kDisplayOrder = "DisplayOrder";
-		private const string kAMask = "AMask";
-		private const string kBMask = "BMask";
+		private const string kAFeatures = "AMask";
+		private const string kBFeatures = "BMask";
 
 		private const int kDefaultFeatureColWidth = 225;
 
 		private static SettingsHandler s_settingsHndlr;
-		private List<IPASymbol> m_charInventory;
-		private readonly bool m_amTesting;
+		private List<IPASymbol> m_symbols;
+		private List<IPASymbol> m_nonEditableSymbols;
 		private readonly List<string> unknownCharTypes;
 		private readonly List<string> knownCharTypes;
 		private string m_xmlFilePath = string.Empty;
-		private readonly List<int> m_codePoints = new List<int>();
-		private const int kInvalidCodePoint = 31;
-		private readonly SortedDictionary<int, DataGridViewRow> m_gridDictionary =
-			new SortedDictionary<int, DataGridViewRow>();
+		//private readonly SortedDictionary<int, DataGridViewRow> m_gridDictionary =
+		//    new SortedDictionary<int, DataGridViewRow>();
 
-		// The SortedList Key is the moa or poa and the Value is the hexIpaChar
-		private readonly SortedList<float, int> m_MOA = new SortedList<float, int>();
-		private readonly SortedList<float, int> m_POA = new SortedList<float, int>();
+		//// The SortedList Key is the moa or poa and the Value is the hexIpaChar
+		//private readonly SortedList<float, int> m_MOA = new SortedList<float, int>();
+		//private readonly SortedList<float, int> m_POA = new SortedList<float, int>();
 
-		private DataGridViewColumn m_lastSortedCol;
-		private ListSortDirection m_lastSortDirection = ListSortDirection.Ascending;
-
-		internal SizableDropDownPanel m_sddpAFeatures;
-		internal CustomDropDown m_aFeatureDropdown;
-		internal FeatureListView m_lvAFeatures;
-		internal SizableDropDownPanel m_sddpBFeatures;
-		internal CustomDropDown m_bFeatureDropdown;
-		internal FeatureListView m_lvBFeatures;
-		internal int m_startupChar;
-
+		private SortOrder m_sortDirection = SortOrder.Ascending;
+		private string m_sortField = kHexadecimal;
 		private static SmallFadingWnd s_loadingWnd;
 
 		/// ------------------------------------------------------------------------------------
-		public SilGrid Grid { get; set; }
+		public SilGrid Grid { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -88,22 +69,27 @@ namespace SIL.Pa
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
+			ErrorReport.AddProperty("EmailAddress", "PaFeedback@sil.org");
+			ErrorReport.AddStandardProperties();
+			ExceptionHandler.Init();
+			
 			s_loadingWnd = new SmallFadingWnd(Properties.Resources.kstidLoadingProgramMsg);
 
-			string exePath = FileLocator.GetDirectoryDistributedWithApplication(App.ConfigFolderName);
+			string inventoryFilePath =
+				FileLocator.GetDirectoryDistributedWithApplication(App.ConfigFolderName);
 
 			// This is the poor man's way of determining whether or not the user has
 			// write access to the folder in which the phonetic inventory
 			// is stored. I'm sure there is a great class in .Net to use for such a
 			// thing, but I couldn't find it in the little bit of digging I did. Sigh!
-			string tmpFile = Path.Combine(exePath, "!~tmpaccesstest~!");
+			string tmpFile = Path.Combine(inventoryFilePath, "!~tmpaccesstest~!");
 			try
 			{
 				File.WriteAllText(tmpFile, string.Empty);
 			}
 			catch
 			{
-				string msg = string.Format(Properties.Resources.kstidWriteAccessErrorMsg, exePath);
+				string msg = string.Format(Properties.Resources.kstidWriteAccessErrorMsg, inventoryFilePath);
 				Utils.MsgBox(msg);
 				return;
 			}
@@ -126,30 +112,8 @@ namespace SIL.Pa
 				return;
 			}
 
-			int startupChar = 0;
-			if (rgArgs != null && rgArgs.Length > 0)
-			{
-				foreach (string arg in rgArgs)
-				{
-					if (arg.ToLower().StartsWith("/edit:"))
-					{
-						string unicodeVal = arg.Substring(6).ToLower();
-						unicodeVal = unicodeVal.Replace("u+", string.Empty);
-						unicodeVal = unicodeVal.Replace("0x", string.Empty);
-						int.TryParse(unicodeVal,
-							System.Globalization.NumberStyles.HexNumber, null, out startupChar);
-						
-						break;
-					}
-				}
-			}
-
-			s_settingsHndlr = new PaSettingsHandler(Path.Combine(exePath, "pcieditor.xml"));
-			var editor = new PCIEditor(startupChar);
-
-			//if (rgArgs != null && rgArgs.Length > 0)
-			//    editor.OpenFile(rgArgs[0]);
-
+			s_settingsHndlr = new PaSettingsHandler(Path.Combine(Application.StartupPath, "PCIEditor.xml"));
+			var editor = new PCIEditor();
 			editor.OpenFile(inventoryPath);
 			Application.Run(editor);
 		}
@@ -162,13 +126,6 @@ namespace SIL.Pa
 		public static SettingsHandler SettingsHandler
 		{
 			get { return s_settingsHndlr; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public PCIEditor(int startupChar) : this()
-		{
-			if (startupChar > 32)
-				m_startupChar = startupChar;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -196,17 +153,17 @@ namespace SIL.Pa
 
 			InventoryHelper.Load();
 
-			Version ver = new Version(Application.ProductVersion);
+			var ver = new Version(Application.ProductVersion);
 			string version = string.Format(Properties.Resources.kstidVersionFormat, ver.ToString(3));
-			ToolStripLabel tslbl = new ToolStripLabel(version);
+			var tslbl = new ToolStripLabel(version);
 			tslbl.Alignment = ToolStripItemAlignment.Right;
-			Padding pdg = tslbl.Margin;
+			var pdg = tslbl.Margin;
 			tslbl.Margin = new Padding(pdg.Left, pdg.Top, 5, pdg.Bottom);
 			tslbl.Font = SystemInformation.MenuFont;
 			mnuMain.Items.Add(tslbl);
 
-			string eticFntName = SettingsHandler.GetStringSettingsValue("phoneticfont", "name", "Doulos SIL");
-			float eticFntSz = SettingsHandler.GetFloatSettingsValue("phoneticfont", "size", 13f);
+			var eticFntName = SettingsHandler.GetStringSettingsValue("phoneticfont", "name", "Doulos SIL");
+			var eticFntSz = SettingsHandler.GetFloatSettingsValue("phoneticfont", "size", 13f);
 			SettingsHandler.SaveSettingsValue("phoneticfont", "name", eticFntName);
 			SettingsHandler.SaveSettingsValue("phoneticfont", "size", eticFntSz);
 			App.PhoneticFont = new Font(eticFntName, eticFntSz, GraphicsUnit.Point);
@@ -223,70 +180,6 @@ namespace SIL.Pa
 			unknownCharTypes.Add("Breaking");
 
 			s_settingsHndlr.LoadFormProperties(this);
-
-			m_amTesting = false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void InitializeFeatureDropDowns()
-		{
-			// Build the articulatory features drop-down.
-			m_sddpAFeatures = new SizableDropDownPanel();
-			m_sddpAFeatures.MinimumSize = new Size(200, 100);
-			m_sddpAFeatures.BorderStyle = BorderStyle.FixedSingle;
-			m_sddpAFeatures.Padding = new Padding(7, 0, 7, m_sddpAFeatures.Padding.Bottom);
-
-			var lbl = new Label();
-			lbl.AutoSize = false;
-			lbl.Text = Properties.Resources.kstidAfeaturesHdg;
-			lbl.Font = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
-			lbl.Dock = DockStyle.Top;
-			lbl.Height = lbl.PreferredHeight + 10;
-			lbl.TextAlign = ContentAlignment.MiddleLeft;
-			m_sddpAFeatures.Controls.Add(lbl);
-
-			m_aFeatureDropdown = new CustomDropDown();
-			m_aFeatureDropdown.AutoCloseWhenMouseLeaves = false;
-			m_aFeatureDropdown.AddControl(m_sddpAFeatures);
-			m_aFeatureDropdown.Closing += m_featureDropdown_Closing;
-
-			m_lvAFeatures = new FeatureListView(App.FeatureType.Articulatory, m_aFeatureDropdown);
-			m_lvAFeatures.Dock = DockStyle.Fill;
-			m_lvAFeatures.Load();
-			m_sddpAFeatures.Controls.Add(m_lvAFeatures);
-			m_lvAFeatures.BringToFront();
-
-			// Build the binary features drop-down.
-			m_sddpBFeatures = new SizableDropDownPanel();
-			m_sddpBFeatures.MinimumSize = new Size(200, 100);
-			m_sddpBFeatures.BorderStyle = BorderStyle.FixedSingle;
-			m_sddpBFeatures.Padding = new Padding(7, 0, 7, m_sddpBFeatures.Padding.Bottom);
-
-			lbl = new Label();
-			lbl.AutoSize = false;
-			lbl.Text = Properties.Resources.kstidBFeaturesHdg;
-			lbl.Font = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
-			lbl.Dock = DockStyle.Top;
-			lbl.Height = lbl.PreferredHeight + 10;
-			lbl.TextAlign = ContentAlignment.MiddleLeft;
-			m_sddpBFeatures.Controls.Add(lbl);
-
-			m_bFeatureDropdown = new CustomDropDown();
-			m_bFeatureDropdown.AutoCloseWhenMouseLeaves = false;
-			m_bFeatureDropdown.AddControl(m_sddpBFeatures);
-			m_bFeatureDropdown.Closing += m_featureDropdown_Closing;
-
-			m_lvBFeatures = new FeatureListView(App.FeatureType.Binary, m_bFeatureDropdown);
-			m_lvBFeatures.Dock = DockStyle.Fill;
-			m_lvBFeatures.Load();
-			m_sddpBFeatures.Controls.Add(m_lvBFeatures);
-			m_lvBFeatures.BringToFront();
-
-			if (!PaintingHelper.CanPaintVisualStyle())
-			{
-				m_lvAFeatures.BorderStyle = BorderStyle.FixedSingle;
-				m_lvBFeatures.BorderStyle = BorderStyle.FixedSingle;
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -300,71 +193,22 @@ namespace SIL.Pa
 				s_loadingWnd.Dispose();
 				s_loadingWnd = null;
 			}
-
-			if (m_startupChar < 32)
-				return;
-
-			foreach (var row in Grid.GetRows().Where(r => (int) r.Cells[kDecimal].Value == m_startupChar))
-			{
-				Grid.CurrentCell = row.Cells[kHexadecimal];
-				Grid.FirstDisplayedCell = Grid.CurrentCell;
-				btnModify_Click(null, null);
-				m_startupChar = 0;
-				return;
-			}
-
-			AddChar(m_startupChar);
-			m_startupChar = 0;
+			
+			SortList(m_symbols[0]);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Update a phones feature mask(s) after one of the feature drop-down lists closes.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal void m_featureDropdown_Closing(object sender, ToolStripDropDownClosingEventArgs e)
+		protected override void HandleCancelClick(object sender, EventArgs e)
 		{
-			// If this form doesn't have focus, it probably means the drop-down was used
-			// and closed on the AddCharacterDlg.
-			if (!Focused)
-				Grid.Focus();
+			base.HandleCancelClick(sender, e);
+			Close();
+		}
 
-			FeatureListView lv;
-			if (sender == m_aFeatureDropdown)
-				lv = m_lvAFeatures;
-			else if (sender == m_bFeatureDropdown)
-				lv = m_lvBFeatures;
-			else
-				return;
-
-			if (Grid.CurrentRow == null)
-				return;
-
-			var charInfo = Grid.CurrentRow.Tag as IPASymbol;
-			if (charInfo == null)
-				return;
-
-			bool changed;
-
-			if (sender == m_aFeatureDropdown)
-			{
-				changed = (charInfo.AMask != lv.CurrentMask);
-				charInfo.AMask = lv.CurrentMask;
-				Grid.CurrentRow.Cells[kAMask].Value = lv.CurrentMask;
-				Grid.CurrentRow.Cells[kAFeatures].Value =
-					App.AFeatureCache.GetFeaturesText(lv.CurrentMask);
-			}
-			else
-			{
-				changed = (charInfo.BMask != lv.CurrentMask);
-				charInfo.BMask = lv.CurrentMask;
-				Grid.CurrentRow.Cells[kBMask].Value = lv.CurrentMask;
-				Grid.CurrentRow.Cells[kBFeatures].Value =
-					App.BFeatureCache.GetFeaturesText(charInfo.BMask);
-			}
-
-			if (!m_dirty)
-				m_dirty = changed;
+		/// ------------------------------------------------------------------------------------
+		protected override void HandleOKButtonClick(object sender, EventArgs e)
+		{
+			base.HandleOKButtonClick(sender, e);
+			Close();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -377,49 +221,6 @@ namespace SIL.Pa
 			s_settingsHndlr.SaveFormProperties(this);
 			s_settingsHndlr.SaveGridProperties(Grid);
 			base.OnFormClosing(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Save the inventory.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void SaveInventory()
-		{
-			var tmpCache = new List<IPASymbol>();
-
-			foreach (var row in m_gridDictionary.Values)
-			{
-				IPASymbol info = new IPASymbol();
-				info.Decimal = (int)row.Cells[kDecimal].Value;
-
-				info.Literal = (info.Decimal < 0 ? row.Cells[kLiteral].Value as string :
-					((char)info.Decimal).ToString());
-				
-				info.Hexadecimal = row.Cells[kHexadecimal].Value as string;
-				info.Name = (string)row.Cells[kName].Value;
-				info.Description = (string)row.Cells[kDescription].Value;
-				info.Type = (IPASymbolType)Enum.Parse(
-					typeof(IPASymbolType), (string)row.Cells[kType].Value);
-				info.SubType = (IPASymbolSubType)Enum.Parse(
-					typeof(IPASymbolSubType), (string)row.Cells[kSubType].Value);
-				info.IgnoreType = (IPASymbolIgnoreType)Enum.Parse(
-					typeof(IPASymbolIgnoreType), (string)row.Cells[kIgnoreType].Value);
-				info.IsBase = (bool)row.Cells[kIsBase].Value;
-				info.CanPrecedeBase = (bool)row.Cells[kCanPrecedeBase].Value;
-				info.DisplayWithDottedCircle = (bool)row.Cells[kDisplayWithDottedCircle].Value;
-				info.MOArticulation = (int)row.Cells[kMOA].Value;
-				info.POArticulation = (int)row.Cells[kPOA].Value;
-				info.AMask = (FeatureMask)row.Cells[kAMask].Value;
-				info.BMask = (FeatureMask)row.Cells[kBMask].Value;
-				info.ChartColumn = (int)row.Cells[kChartColumn].Value;
-				info.ChartGroup = (int)row.Cells[kChartGroup].Value;
-
-				tmpCache.Add(info);
-			}
-
-			App.IPASymbolCache.LoadFromList(tmpCache);
-			//InventoryHelper.Save();
 		}
 
 		/// --------------------------------------------------------------------------------------------
@@ -439,45 +240,33 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected override bool Verify()
 		{
-			m_codePoints.Clear();
-
-			foreach (var row in Grid.GetRows())
+			for (int i = 0; i < m_symbols.Count; i++)
 			{
-				// Don't verify the 'new' record at the very bottom
-				if (row.Cells[kHexadecimal].Value == null || row.Cells[kDecimal].Value == null)
-					continue;
+				if (m_symbols[i].IsBase && m_symbols[i].CanPrecedeBase)
+					return ShowErrorMessage(Properties.Resources.kstidIpaGridErrBothTrue, i);
 
-				int codePoint = (int)row.Cells[kDecimal].Value;
-				m_codePoints.Add(codePoint);
+				//string charTypeVal = row.Cells[kType].Value.ToString();
+				//string charSubTypeVal = row.Cells[kSubType].Value.ToString();
 
-				string charTypeVal = row.Cells[kType].Value.ToString();
-				string charSubTypeVal = row.Cells[kSubType].Value.ToString();
+				//// Don't allow CharType's of 'Unknown'
+				//if (row.Visible && row.Cells[kType].Value.ToString() == kUnknown)
+				//    return ShowErrorMessage(Properties.Resources.kstidIpaGridErrUnknownCharType, row);
 
-				// Don't allow CharType's of 'Unknown'
-				if (row.Visible && row.Cells[kType].Value.ToString() == kUnknown)
-					return ShowErrorMessage(Properties.Resources.kstidIpaGridErrUnknownCharType, row);
+				//if (unknownCharTypes.Contains(charTypeVal))
+				//{
+				//    if (charSubTypeVal != kUnknown)
+				//    {
+				//        return ShowErrorMessage(string.Format(
+				//            Properties.Resources.kstidIpaGridErrNeedUnknown, charTypeVal), row);
+				//    }
+				//}
 
-				if (unknownCharTypes.Contains(charTypeVal))
-				{
-					if (charSubTypeVal != kUnknown)
-					{
-						return ShowErrorMessage(string.Format(
-							Properties.Resources.kstidIpaGridErrNeedUnknown, charTypeVal), row);
-					}
-				}
-
-				if (knownCharTypes.Contains(charTypeVal))
-				{
-					if (charSubTypeVal == kUnknown)
-						return ShowErrorMessage(
-							string.Format(Properties.Resources.kstidIpaGridErrRemoveUnknown, charTypeVal), row);
-				}
-
-				bool isBaseChar = (bool)row.Cells[kIsBase].Value;
-				bool canProceedBase = (bool)row.Cells[kCanPrecedeBase].Value;
-
-				if (isBaseChar && canProceedBase)
-					return ShowErrorMessage(Properties.Resources.kstidIpaGridErrBothTrue, row);
+				//if (knownCharTypes.Contains(charTypeVal))
+				//{
+				//    if (charSubTypeVal == kUnknown)
+				//        return ShowErrorMessage(
+				//            string.Format(Properties.Resources.kstidIpaGridErrRemoveUnknown, charTypeVal), row);
+				//}
 			}
 
 			return true;
@@ -498,10 +287,10 @@ namespace SIL.Pa
 		/// Show the error message.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool ShowErrorMessage(string errMsg, DataGridViewRow row)
+		private bool ShowErrorMessage(string errMsg, int row)
 		{
-			row.Selected = true;
-			Grid.FirstDisplayedScrollingRowIndex = row.Index; // Scroll error row to the top
+			Grid.Rows[row].Selected = true;
+			Grid.FirstDisplayedScrollingRowIndex = row; // Scroll error row to the top
 			warningMessage(Properties.Resources.kstidIpaGridErrTitleDataConflict, errMsg);
 			return false;
 		}
@@ -516,7 +305,18 @@ namespace SIL.Pa
 		protected override bool SaveChanges()
 		{
 			RenumberArticulators();
-			SaveInventory();
+			
+			m_symbols.AddRange(m_nonEditableSymbols);
+			m_symbols = m_symbols.OrderBy(x => x.Decimal).ToList();
+
+			var xml = XmlSerializationHelper.SerializeToString(m_symbols, true);
+			var newSymbols = XElement.Parse(xml);
+			newSymbols.Name = "symbols";
+
+			var element = XElement.Load(m_xmlFilePath);
+			element.Element("symbols").ReplaceWith(newSymbols);
+			element.Save(m_xmlFilePath);
+			
 			return true;
 		}
 
@@ -527,35 +327,35 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void RenumberArticulators()
 		{
-			int newValue = 0;
-			m_gridDictionary.Clear();
-			m_MOA.Clear();
-			m_POA.Clear();
+			//int newValue = 0;
+			//m_gridDictionary.Clear();
+			//m_MOA.Clear();
+			//m_POA.Clear();
 
-			foreach (var row in Grid.GetRows())
-			{
-				// Don't verify the 'new' record at the very bottom
-				if (row.Cells[kHexadecimal].Value == null || row.Cells[kDecimal].Value == null)
-					continue;
+			//foreach (var row in Grid.GetRows())
+			//{
+			//    // Don't verify the 'new' record at the very bottom
+			//    if (row.Cells[kHexadecimal].Value == null || row.Cells[kDecimal].Value == null)
+			//        continue;
 
-				int codepoint = (int)row.Cells[kDecimal].Value;
-				m_gridDictionary[codepoint] = row;
+			//    int codepoint = (int)row.Cells[kDecimal].Value;
+			//    m_gridDictionary[codepoint] = row;
 
-				if (codepoint <= kInvalidCodePoint || row.Cells[kType].Value.ToString() == kUnknown)
-				{
-					// Make the MOA & POA negative
-					newValue -= 5;
-					row.Cells[kMOA].Value = newValue;
-					row.Cells[kPOA].Value = newValue;
-				}
-				else
-				{
-					LoadArticulators(float.Parse(row.Cells[kMOA].Value.ToString()), codepoint, m_MOA);
-					LoadArticulators(float.Parse(row.Cells[kPOA].Value.ToString()), codepoint, m_POA);
-				}
-			}
+			//    if (codepoint <= kInvalidCodePoint || row.Cells[kType].Value.ToString() == kUnknown)
+			//    {
+			//        // Make the MOA & POA negative
+			//        newValue -= 5;
+			//        row.Cells[kMOA].Value = newValue;
+			//        row.Cells[kPOA].Value = newValue;
+			//    }
+			//    else
+			//    {
+			//        LoadArticulators(float.Parse(row.Cells[kMOA].Value.ToString()), codepoint, m_MOA);
+			//        LoadArticulators(float.Parse(row.Cells[kPOA].Value.ToString()), codepoint, m_POA);
+			//    }
+			//}
 
-			UpdateArticulators();
+			//UpdateArticulators();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -566,17 +366,17 @@ namespace SIL.Pa
 		private static void LoadArticulators(float val, int codepoint,
 			IDictionary<float, int> articulators)
 		{
-			while (true)
-			{
-				if (articulators.ContainsKey(val))
-					val += 0.1F; // Fix any duplicate articulators
-				else
-				{
-					// Key is articulationVal (moa or poa) and Value is "Name + HexIpa"
-					articulators[val] = codepoint;
-					return;
-				}
-			}
+			//while (true)
+			//{
+			//    if (articulators.ContainsKey(val))
+			//        val += 0.1F; // Fix any duplicate articulators
+			//    else
+			//    {
+			//        // Key is articulationVal (moa or poa) and Value is "Name + HexIpa"
+			//        articulators[val] = codepoint;
+			//        return;
+			//    }
+			//}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -586,344 +386,19 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void UpdateArticulators()
 		{
-			int newValue = 0;
-			foreach (int codepoint in m_MOA.Values)
-			{
-				newValue += 5;
-				m_gridDictionary[codepoint].Cells[kMOA].Value = newValue;
-			}
+			//int newValue = 0;
+			//foreach (int codepoint in m_MOA.Values)
+			//{
+			//    newValue += 5;
+			//    m_gridDictionary[codepoint].Cells[kMOA].Value = newValue;
+			//}
 
-			newValue = 0;
-			foreach (int codepoint in m_POA.Values)
-			{
-				newValue += 5;
-				m_gridDictionary[codepoint].Cells[kPOA].Value = newValue;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Open the DefaultIPACharCache file.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private string OpenDefaultIPACharCache()
-		{
-			string fileName = string.Empty;
-
-			while (fileName == string.Empty)
-			{
-				// clear the status bar
-				var dlg = new OpenFileDialog();
-				dlg.CheckFileExists = true;
-				dlg.CheckPathExists = true;
-				dlg.Title = Properties.Resources.kstidIpaGridOpenFileTitle;
-				dlg.Filter = Properties.Resources.kstidIpaGridOpenFileFilter;
-				// Set the initial directory to the startup path
-				dlg.InitialDirectory = App.ConfigFolderName;
-				dlg.Multiselect = false;
-				dlg.ShowReadOnly = false;
-				dlg.FilterIndex = 1;
-				dlg.ValidateNames = true;
-
-				if (dlg.ShowDialog(this) == DialogResult.Cancel)
-					fileName = "NONE";
-				if (dlg.FileName.Length > 0)
-					fileName = dlg.FileName;
-			}
-
-			return fileName;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Add columns to charCache grid.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void AddColumns()
-		{
-			// Add the HexIpa field column.
-			DataGridViewColumn col = SilGrid.CreateTextBoxColumn(kHexadecimal);
-			col.HeaderText = Utils.ConvertLiteralNewLines(Properties.Resources.kstidIpaGridHexIpa);
-			col.SortMode = DataGridViewColumnSortMode.Automatic;
-			col.ReadOnly = true;
-			col.Frozen = true;
-			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-			col.DefaultCellStyle.BackColor = ColorHelper.CalculateColor(Color.Black, SystemColors.Window, 15);
-			Grid.Columns.Add(col);
-
-			// Add the IpaChar field column.
-			col = SilGrid.CreateTextBoxColumn(kLiteral);
-			col.HeaderText = Utils.ConvertLiteralNewLines(Properties.Resources.kstidIpaGridIpaChar);
-			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-			col.DefaultCellStyle.Font = App.PhoneticFont;
-			col.CellTemplate.Style.Font = App.PhoneticFont;
-			col.DefaultCellStyle.BackColor = ColorHelper.CalculateColor(Color.Black, SystemColors.Window, 15);
-			col.SortMode = DataGridViewColumnSortMode.Automatic;
-			col.ReadOnly = true;
-			col.Frozen = true;
-			Grid.Columns.Add(col);
-
-			// Add the CodePoint field column (NOT a visible column).
-			col = SilGrid.CreateTextBoxColumn(kDecimal);
-			col.Visible = false;
-			Grid.Columns.Add(col);
-
-			// Add the Name field column.
-			col = SilGrid.CreateTextBoxColumn(kName);
-			col.HeaderText = Properties.Resources.kstidIpaGridName;
-			col.SortMode = DataGridViewColumnSortMode.Automatic;
-			Grid.Columns.Add(col);
-
-			// Add the Description field column.
-			col = SilGrid.CreateTextBoxColumn(kDescription);
-			col.HeaderText = Properties.Resources.kstidIpaGridDesc;
-			col.SortMode = DataGridViewColumnSortMode.Automatic;
-			Grid.Columns.Add(col);
-
-			// Add the CharType drop down list combo box column.
-			col = SilGrid.CreateDropDownListComboBoxColumn(
-				kType, Enum.GetNames(typeof(IPASymbolType)).Cast<object>());
-			col.HeaderText = Properties.Resources.kstidIpaGridCharType;
-			col.SortMode = DataGridViewColumnSortMode.Automatic;
-			Grid.Columns.Add(col);
-
-			// Add the CharSubType drop down list combo box column.
-			col = SilGrid.CreateDropDownListComboBoxColumn(
-				kSubType, Enum.GetNames(typeof(IPASymbolSubType)).Cast<object>());
-			col.HeaderText = Properties.Resources.kstidIpaGridCharSubType;
-			col.SortMode = DataGridViewColumnSortMode.Automatic;
-			Grid.Columns.Add(col);
-
-			// Add the CharIgnoreType drop down list combo box column.
-			col = SilGrid.CreateDropDownListComboBoxColumn(
-				kIgnoreType, Enum.GetNames(typeof(IPASymbolIgnoreType)).Cast<object>());
-			col.HeaderText = Properties.Resources.kstidIpaGridCharIgnoreType;
-			col.SortMode = DataGridViewColumnSortMode.Automatic;
-			Grid.Columns.Add(col);
-
-			// Add the IsBaseChar check box column.
-			col = SilGrid.CreateCheckBoxColumn(kIsBase);
-			col.HeaderText = Properties.Resources.kstidIpaGridIsBase;
-			col.SortMode = DataGridViewColumnSortMode.Automatic;
-			col.ValueType = typeof(bool);
-			Grid.Columns.Add(col);
-
-			// Add the Can preceed base character check box column.
-			col = SilGrid.CreateCheckBoxColumn(kCanPrecedeBase);
-			col.HeaderText = Utils.ConvertLiteralNewLines(Properties.Resources.kstidIpaGridCanPreceedBase);
-			col.SortMode = DataGridViewColumnSortMode.Automatic;
-			col.ValueType = typeof(bool);
-			Grid.Columns.Add(col);
-
-			// Add the DisplayWDottedCircle check box column.
-			col = SilGrid.CreateCheckBoxColumn(kDisplayWithDottedCircle);
-			col.HeaderText = Utils.ConvertLiteralNewLines(Properties.Resources.kstidIpaGridWDotCircle);
-			col.SortMode = DataGridViewColumnSortMode.Automatic;
-			col.ValueType = typeof(bool);
-			Grid.Columns.Add(col);
-
-			// Add the Display Order column.
-			col = SilGrid.CreateTextBoxColumn(kDisplayOrder);
-			col.HeaderText = Utils.ConvertLiteralNewLines(Properties.Resources.kstidIpaGridDisplayOrder);
-			col.SortMode = DataGridViewColumnSortMode.Automatic;
-			col.Visible = false;	// Currently, not used.
-			Grid.Columns.Add(col);
-
-			// Add the MOA column.
-			col = SilGrid.CreateTextBoxColumn(kMOA);
-			col.HeaderText = Properties.Resources.kstidIpaGridMOA;
-			col.SortMode = DataGridViewColumnSortMode.Automatic;
-			col.ValueType = typeof(int);
-			if (!m_amTesting)
-				col.Visible = false;
-			Grid.Columns.Add(col);
-
-			// Add the POA column.
-			col = SilGrid.CreateTextBoxColumn(kPOA);
-			col.HeaderText = Properties.Resources.kstidIpaGridPOA;
-			col.SortMode = DataGridViewColumnSortMode.Automatic;
-			col.ValueType = typeof(int);
-			if (!m_amTesting)
-				col.Visible = false;
-			Grid.Columns.Add(col);
-
-			// Add the articulatory Mask field (NOT a visible column).
-			col = SilGrid.CreateTextBoxColumn(kAMask);
-			col.Visible = false;
-			Grid.Columns.Add(col);
-
-			// Add the binary Mask field (NOT a visible column).
-			col = SilGrid.CreateTextBoxColumn(kBMask);
-			col.Visible = false;
-			Grid.Columns.Add(col);
-
-			// Add the ChartColumn column.
-			col = SilGrid.CreateTextBoxColumn(kChartColumn);
-			col.HeaderText = Utils.ConvertLiteralNewLines(Properties.Resources.kstidIpaGridChartColumn);
-			col.SortMode = DataGridViewColumnSortMode.Automatic;
-			col.ValueType = typeof(int);
-			if (!m_amTesting)
-				col.Visible = false;
-			Grid.Columns.Add(col);
-
-			// Add the ChartGroup column.
-			col = SilGrid.CreateTextBoxColumn(kChartGroup);
-			col.HeaderText = Utils.ConvertLiteralNewLines(Properties.Resources.kstidIpaGridChartGroup);
-			col.SortMode = DataGridViewColumnSortMode.Automatic;
-			col.ValueType = typeof(int);
-			if (!m_amTesting)
-				col.Visible = false;
-			Grid.Columns.Add(col);
-
-			col = SilGrid.CreateSilButtonColumn(kAFeatures);
-			col.ReadOnly = true;
-			col.HeaderText = Properties.Resources.kstidAfeaturesHdg;
-			col.Width = kDefaultFeatureColWidth;
-			((SilButtonColumn)col).ButtonStyle = SilButtonColumn.ButtonType.PlainCombo;
-			((SilButtonColumn)col).ButtonClicked += HandleFeatureDropDownClick;
-			Grid.Columns.Add(col);
-
-			col = SilGrid.CreateSilButtonColumn(kBFeatures);
-			col.ReadOnly = true;
-			col.HeaderText = Properties.Resources.kstidBFeaturesHdg;
-			col.Width = kDefaultFeatureColWidth;
-			((SilButtonColumn)col).ButtonStyle = SilButtonColumn.ButtonType.PlainCombo;
-			((SilButtonColumn)col).ButtonClicked += HandleFeatureDropDownClick;
-			Grid.Columns.Add(col);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		void HandleFeatureDropDownClick(object sender, DataGridViewCellMouseEventArgs e)
-		{
-			if (Grid.CurrentRow == null)
-				return;
-
-			var charInfo = Grid.CurrentRow.Tag as IPASymbol;
-			if (charInfo == null)
-				return;
-
-			// Figure out what drop-down and list view to use based on the column index.
-			FeatureListView lv;
-			CustomDropDown cdd;
-			if (Grid.Columns[e.ColumnIndex].Name == kAFeatures)
-			{
-				cdd = m_aFeatureDropdown;
-				lv = m_lvAFeatures;
-				lv.CurrentMask = charInfo.AMask.Clone();
-			}
-			else if (Grid.Columns[e.ColumnIndex].Name == kBFeatures)
-			{
-				cdd = m_bFeatureDropdown;
-				lv = m_lvBFeatures;
-				lv.CurrentMask = charInfo.BMask.Clone();
-			}
-			else
-				return;
-
-			var rc = Grid.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
-			
-			// Use this line to align the right edge of the drop-down to
-			// the right edge of the cell.
-			// Point pt = new Point(rc.Right - cdd.Width, rc.Bottom);
-
-			// Use this line to align the left edge of the drop-down to
-			// the left edge of the cell.
-			var pt = new Point(rc.X, rc.Bottom);
-			
-			pt = Grid.PointToScreen(pt);
-			cdd.Show(pt);
-			lv.Focus();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Load grid of all the field fonts.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LoadRows()
-		{
-			foreach (var charInfo in m_charInventory)
-				LoadRowWithCharInfo(null, charInfo);
-
-			// Hide all rows with a CharType of "Unknown" OR a CodePoint that is below 32
-			foreach (var row in Grid.GetRows())
-			{
-				if (row.Cells[kDecimal].Value == null || row.Cells[kType].Value == null)
-					continue;
-
-				if ((int)row.Cells[kDecimal].Value <= kInvalidCodePoint ||
-					(string)row.Cells[kType].Value == kUnknown)
-				{
-					row.Visible = false;
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Create a grid row.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private int LoadRowWithCharInfo(DataGridViewRow row, IPASymbol charInfo)
-		{
-			int rowIndex;
-			
-			if (row != null)
-				rowIndex = row.Index;
-			else
-			{
-				Grid.Rows.Add();
-				rowIndex = Grid.RowCount - 1;
-				row = Grid.Rows[rowIndex];
-			}
-
-			row.Cells[kHexadecimal].Value = charInfo.Decimal.ToString("X4");
-			row.Cells[kDecimal].Value = charInfo.Decimal;
-			row.Cells[kLiteral].Value = (charInfo.DisplayWithDottedCircle ?
-				App.kDottedCircle : string.Empty) + charInfo.Literal;
-
-			// Identity
-			row.Cells[kName].Value = charInfo.Name;
-			row.Cells[kDescription].Value = charInfo.Description;
-
-			// Type
-			row.Cells[kType].Value = charInfo.Type.ToString();
-			row.Cells[kSubType].Value = charInfo.SubType.ToString();
-			row.Cells[kIgnoreType].Value = charInfo.IgnoreType.ToString();
-
-			// Base Character
-			row.Cells[kIsBase].Value = charInfo.IsBase;
-			row.Cells[kCanPrecedeBase].Value = charInfo.CanPrecedeBase;
-			row.Cells[kDisplayWithDottedCircle].Value = charInfo.DisplayWithDottedCircle;
-
-			// Articulation
-			row.Cells[kMOA].Value = charInfo.MOArticulation;
-			row.Cells[kPOA].Value = charInfo.POArticulation;
-
-			// Chart Position
-			row.Cells[kChartColumn].Value = charInfo.ChartColumn;
-			row.Cells[kChartGroup].Value = charInfo.ChartGroup;
-
-			// Features
-			row.Cells[kAFeatures].Value = App.AFeatureCache.GetFeaturesText(charInfo.AMask);
-			row.Cells[kBFeatures].Value = App.BFeatureCache.GetFeaturesText(charInfo.BMask);
-			row.Cells[kAMask].Value = charInfo.AMask;
-			row.Cells[kBMask].Value = charInfo.BMask;
-
-			row.Tag = charInfo;
-
-			return rowIndex;
-		}
-
-		public class test
-		{
-			/// ------------------------------------------------------------------------------------
-			/// <summary>
-			/// Use only for serialization/deserialization
-			/// </summary>
-			/// ------------------------------------------------------------------------------------
-			[XmlArray("symbols"), XmlArrayItem("symbol")]
-			public List<IPASymbol> IPASymbols { get; set; }
+			//newValue = 0;
+			//foreach (int codepoint in m_POA.Values)
+			//{
+			//    newValue += 5;
+			//    m_gridDictionary[codepoint].Cells[kPOA].Value = newValue;
+			//}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -933,21 +408,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void OpenFile(string filePath)
 		{
-			if (m_amTesting)
-			{
-				// TODO: FOR TESTING ONLY!
-				//filePath = "C:\\Speech Tools\\src\\pa\\IPACharCacheEditor\\Test2.xml";
-				filePath = "C:\\Speech Tools\\Output\\Debug\\aTest DefaultIPACharCache.xml";
-				//filePath = "C:\\Speech Tools\\Output\\Debug\\DefaultIPACharCache.xml";
-				//filePath = "C:\\Speech Tools\\distfiles\\pa\\DefaultIPACharCache.xml";
-				//filePath = "C:\\Speech Tools\\Output\\Debug\\aTest_Output.xml";
-			}
-
-			m_xmlFilePath = (string.IsNullOrEmpty(filePath) ? OpenDefaultIPACharCache() : filePath);
-
-			// The user clicked 'Cancel' so exit
-			if (m_xmlFilePath == "NONE")
-				return;
+			m_xmlFilePath = filePath;
 
 			// Make sure the file exists
 			if (!File.Exists(m_xmlFilePath))
@@ -959,34 +420,11 @@ namespace SIL.Pa
 			}
 
 			InventoryHelper.Load();
-			m_charInventory = InventoryHelper.IPASymbolCache.Values.ToList();
-
-			//var xml = XmlSerializationHelper.SerializeToString(m_charInventory, true);
-			//var t = XElement.Parse(xml);
-			//t.Name = "symbols";
-
-			//InventoryHelper.Load(m_xmlFilePath);
-			//m_charInventory = App.IPASymbolCache.Values.ToList();
-
-			if (m_amTesting)
-			{
-				// TODO: FOR TESTING ONLY!
-				//m_xmlFilePath = "C:\\Speech Tools\\src\\pa\\IPACharCacheEditor\\Test2_Output2.xml";
-				//m_xmlFilePath = "C:\\Speech Tools\\Output\\Debug\\DefaultIPACharCache.xml";
-				//m_xmlFilePath = "C:\\Speech Tools\\distfiles\\pa\\DefaultIPACharCache.xml";
-				m_xmlFilePath = "C:\\Speech Tools\\Output\\Debug\\aTest_Output.xml";
-			}
+			m_nonEditableSymbols = InventoryHelper.IPASymbolCache.Values.Where(x => x.Decimal < 0).ToList();
+			m_symbols = InventoryHelper.IPASymbolCache.Values.Where(x => x.Decimal > 0).ToList();
 
 			BuildGrid();
 			RenumberArticulators();
-
-			if (m_sddpAFeatures != null)
-				m_sddpAFeatures.Dispose();
-
-			if (m_sddpBFeatures != null)
-				m_sddpBFeatures.Dispose();
-
-			InitializeFeatureDropDowns();
 
 			// Allow users to addingChar records to the opened file
 			btnAdd.Enabled = true;
@@ -1010,10 +448,13 @@ namespace SIL.Pa
 			Grid.RowHeadersVisible = true;
 			Grid.AllowUserToAddRows = false;
 			Grid.AllowUserToOrderColumns = true;
+			Grid.VirtualMode = true;
+			Grid.CellValueNeeded += HandleCellValueNeeded;
+			Grid.CellValuePushed += HandleCellValuePushed;
 
 			AddColumns();
-			LoadRows();
 
+			Grid.RowCount = m_symbols.Count;
 			pnlGrid.Controls.Add(Grid);
 			Grid.BringToFront();
 
@@ -1025,12 +466,7 @@ namespace SIL.Pa
 			Grid.Columns[kBFeatures].Width = kDefaultFeatureColWidth;
 			Grid.CurrentCellDirtyStateChanged += m_grid_CurrentCellDirtyStateChanged;
 			Grid.MouseDoubleClick += m_grid_MouseDoubleClick;
-			Grid.ColumnHeaderMouseClick += m_grid_ColumnHeaderMouseClick;
-
-			m_lastSortedCol = Grid.Columns[kHexadecimal];
-			m_lastSortDirection = ListSortDirection.Ascending;
-			Grid.Sort(m_lastSortedCol, m_lastSortDirection);
-			mnuColSort.Checked = true;
+			Grid.ColumnHeaderMouseClick += HandleGridColumnHeaderMouseClick;
 
 			Grid.FirstDisplayedCell = Grid.CurrentCell = Grid[0, 0];
 			s_settingsHndlr.LoadGridProperties(Grid);
@@ -1038,21 +474,188 @@ namespace SIL.Pa
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Add columns to grid.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void AddColumns()
+		{
+			// Add the HexIpa field column.
+			DataGridViewColumn col = SilGrid.CreateTextBoxColumn(kHexadecimal);
+			col.HeaderText = Utils.ConvertLiteralNewLines(Properties.Resources.kstidIpaGridHexIpa);
+			col.SortMode = DataGridViewColumnSortMode.Programmatic;
+			col.ReadOnly = true;
+			col.Frozen = true;
+			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+			col.DefaultCellStyle.BackColor = ColorHelper.CalculateColor(Color.Black, SystemColors.Window, 15);
+			Grid.Columns.Add(col);
+
+			// Add the IpaChar field column.
+			col = SilGrid.CreateTextBoxColumn(kLiteral);
+			col.HeaderText = Utils.ConvertLiteralNewLines(Properties.Resources.kstidIpaGridIpaChar);
+			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+			col.DefaultCellStyle.Font = App.PhoneticFont;
+			col.CellTemplate.Style.Font = App.PhoneticFont;
+			col.DefaultCellStyle.BackColor = ColorHelper.CalculateColor(Color.Black, SystemColors.Window, 15);
+			col.SortMode = DataGridViewColumnSortMode.Programmatic;
+			col.ReadOnly = true;
+			col.Frozen = true;
+			Grid.Columns.Add(col);
+
+			// Add the Name field column.
+			col = SilGrid.CreateTextBoxColumn(kName);
+			col.HeaderText = Properties.Resources.kstidIpaGridName;
+			col.SortMode = DataGridViewColumnSortMode.Programmatic;
+			Grid.Columns.Add(col);
+
+			// Add the Description field column.
+			col = SilGrid.CreateTextBoxColumn(kDescription);
+			col.HeaderText = Properties.Resources.kstidIpaGridDesc;
+			col.SortMode = DataGridViewColumnSortMode.Programmatic;
+			Grid.Columns.Add(col);
+
+			// Add the CharType drop down list combo box column.
+			col = SilGrid.CreateDropDownListComboBoxColumn(
+				kType, Enum.GetNames(typeof(IPASymbolType)).Cast<object>());
+			col.HeaderText = Properties.Resources.kstidIpaGridCharType;
+			col.SortMode = DataGridViewColumnSortMode.Programmatic;
+			Grid.Columns.Add(col);
+
+			// Add the CharSubType drop down list combo box column.
+			col = SilGrid.CreateDropDownListComboBoxColumn(
+				kSubType, Enum.GetNames(typeof(IPASymbolSubType)).Cast<object>());
+			col.HeaderText = Properties.Resources.kstidIpaGridCharSubType;
+			col.SortMode = DataGridViewColumnSortMode.Programmatic;
+			Grid.Columns.Add(col);
+
+			// Add the CharIgnoreType drop down list combo box column.
+			col = SilGrid.CreateDropDownListComboBoxColumn(
+				kIgnoreType, Enum.GetNames(typeof(IPASymbolIgnoreType)).Cast<object>());
+			col.HeaderText = Properties.Resources.kstidIpaGridCharIgnoreType;
+			col.SortMode = DataGridViewColumnSortMode.Programmatic;
+			Grid.Columns.Add(col);
+
+			// Add the IsBaseChar check box column.
+			col = SilGrid.CreateCheckBoxColumn(kIsBase);
+			col.HeaderText = Properties.Resources.kstidIpaGridIsBase;
+			col.SortMode = DataGridViewColumnSortMode.Programmatic;
+			col.ValueType = typeof(bool);
+			Grid.Columns.Add(col);
+
+			// Add the Can preceed base character check box column.
+			col = SilGrid.CreateCheckBoxColumn(kCanPrecedeBase);
+			col.HeaderText = Utils.ConvertLiteralNewLines(Properties.Resources.kstidIpaGridCanPreceedBase);
+			col.SortMode = DataGridViewColumnSortMode.Programmatic;
+			col.ValueType = typeof(bool);
+			Grid.Columns.Add(col);
+
+			// Add the DisplayWDottedCircle check box column.
+			col = SilGrid.CreateCheckBoxColumn(kDisplayWithDottedCircle);
+			col.HeaderText = Utils.ConvertLiteralNewLines(Properties.Resources.kstidIpaGridWDotCircle);
+			col.SortMode = DataGridViewColumnSortMode.Programmatic;
+			col.ValueType = typeof(bool);
+			Grid.Columns.Add(col);
+
+			//// Add the MOA column.
+			//col = SilGrid.CreateTextBoxColumn(kMOA);
+			//col.HeaderText = Properties.Resources.kstidIpaGridMOA;
+			//col.SortMode = DataGridViewColumnSortMode.Automatic;
+			//col.ValueType = typeof(int);
+			//if (!m_amTesting)
+			//    col.Visible = false;
+			//Grid.Columns.Add(col);
+
+			//// Add the POA column.
+			//col = SilGrid.CreateTextBoxColumn(kPOA);
+			//col.HeaderText = Properties.Resources.kstidIpaGridPOA;
+			//col.SortMode = DataGridViewColumnSortMode.Automatic;
+			//col.ValueType = typeof(int);
+			//if (!m_amTesting)
+			//    col.Visible = false;
+			//Grid.Columns.Add(col);
+
+			// Add the articulatory Mask field.
+			col = SilGrid.CreateTextBoxColumn(kAFeatures);
+			col.HeaderText = Properties.Resources.kstidAfeaturesHdg;
+			col.SortMode = DataGridViewColumnSortMode.Programmatic;
+			col.ReadOnly = true;
+			Grid.Columns.Add(col);
+
+			// Add the binary Mask field.
+			col = SilGrid.CreateTextBoxColumn(kBFeatures);
+			col.HeaderText = Properties.Resources.kstidBFeaturesHdg;
+			col.SortMode = DataGridViewColumnSortMode.Programmatic;
+			col.ReadOnly = true;
+			Grid.Columns.Add(col);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+		{
+			if (e.RowIndex < 0)
+				return;
+
+			var charInfo = m_symbols[e.RowIndex];
+
+			switch (Grid.Columns[e.ColumnIndex].Name)
+			{
+				case kHexadecimal: e.Value = charInfo.Decimal.ToString("X4"); break;
+				case kLiteral: e.Value = (charInfo.DisplayWithDottedCircle ? App.kDottedCircle : string.Empty) + charInfo.Literal; break;
+				case kName: e.Value = charInfo.Name; break;
+				case kDescription: e.Value = charInfo.Description; break;
+				case kType: e.Value = charInfo.Type.ToString(); break;
+				case kSubType: e.Value = charInfo.SubType.ToString(); break;
+				case kIgnoreType: e.Value = charInfo.IgnoreType.ToString(); break;
+				case kIsBase: e.Value = charInfo.IsBase; break;
+				case kCanPrecedeBase: e.Value = charInfo.CanPrecedeBase; break;
+				case kDisplayWithDottedCircle: e.Value = charInfo.DisplayWithDottedCircle; break;
+				case kAFeatures: e.Value = InventoryHelper.AFeatureCache.GetFeaturesText(charInfo.AMask); break;
+				case kBFeatures: e.Value = InventoryHelper.BFeatureCache.GetFeaturesText(charInfo.BMask); break;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		void HandleCellValuePushed(object sender, DataGridViewCellValueEventArgs e)
+		{
+			if (e.RowIndex < 0)
+				return;
+
+			var charInfo = m_symbols[e.RowIndex];
+
+			switch (Grid.Columns[e.ColumnIndex].Name)
+			{
+				case kName:  charInfo.Name = e.Value as string; break;
+				case kDescription: charInfo.Description = e.Value as string; break;
+				case kType: charInfo.Type = (IPASymbolType)Enum.Parse(typeof(IPASymbolType), e.Value as string); break;
+				case kSubType: charInfo.SubType = (IPASymbolSubType)Enum.Parse(typeof(IPASymbolSubType), e.Value as string); break;
+				case kIgnoreType: charInfo.IgnoreType = (IPASymbolIgnoreType)Enum.Parse(typeof(IPASymbolIgnoreType), e.Value as string); break;
+				case kIsBase: charInfo.IsBase = (bool)e.Value; break;
+				case kCanPrecedeBase: charInfo.CanPrecedeBase = (bool)e.Value; break;
+				case kDisplayWithDottedCircle: charInfo.DisplayWithDottedCircle = (bool)e.Value; break;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Saves the new sort column and direction.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void m_grid_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+		void HandleGridColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
 		{
-			m_lastSortedCol = Grid.SortedColumn;
-			m_lastSortDirection = (Grid.SortOrder == SortOrder.Descending ?
-				ListSortDirection.Descending : ListSortDirection.Ascending);
+			if (e.ColumnIndex < 0)
+				return;
 
-			if (!mnuColSort.Checked)
+			if (m_sortField != Grid.GetColumnName(e.ColumnIndex))
 			{
-				mnuColSort.Checked = true;
-				mnuMOA.Checked = false;
-				mnuPOA.Checked = false;
+				m_sortField = Grid.GetColumnName(e.ColumnIndex);
+				m_sortDirection = SortOrder.Ascending;
 			}
+			else
+			{
+				m_sortDirection = (m_sortDirection == SortOrder.Ascending ?
+					SortOrder.Descending : SortOrder.Ascending);
+			}
+
+			SortList();
 		}
 		
 		///// ------------------------------------------------------------------------------------
@@ -1150,41 +753,12 @@ namespace SIL.Pa
 			Close();
 		}
 
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Clicked the OK button.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//private void btnOK_Click(object sender, EventArgs e)
-		//{
-		//    Close();
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Clicked the CANCEL button.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//private void btnCancel_Click(object sender, EventArgs e)
-		//{
-		//    m_dirty = false;
-		//    Close();
-		//}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleHelpClick(object sender, EventArgs e)
 		{
 			ShowHelpTopic(@"Phonetic_Character_Inventory_Editor/Phonetic_Character_Inventory_Editor_overview.htm");
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static void ShowHelpTopic(string topicPath)
 		{
@@ -1223,24 +797,14 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
-			AddChar(0);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void AddChar(int codepoint)
-		{
-			using (var dlg = (codepoint == 0 ?
-				new AddCharacterDlg(this, true) : new AddCharacterDlg(this, codepoint)))
+			using (var dlg = new AddCharacterDlg(null))
 			{
-				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.CharInfo != null)
+				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.Symbol != null)
 				{
-					int newRowIndex = LoadRowWithCharInfo(null, dlg.CharInfo);
-					Grid.CurrentCell = (Grid.Rows[newRowIndex]).Cells[kHexadecimal];
+					m_symbols.Add(dlg.Symbol);
+					Grid.RowCount++;
 					m_dirty = true;
+					SortList(dlg.Symbol);
 				}
 			}
 		}
@@ -1252,13 +816,19 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void btnModify_Click(object sender, EventArgs e)
 		{
-			using (var dlg = new AddCharacterDlg(this, false))
+			int i = Grid.CurrentCellAddress.Y;
+
+			if (i < 0 || i >= m_symbols.Count)
+				return;
+
+			using (var dlg = new AddCharacterDlg(m_symbols[i]))
 			{
-				if (dlg.ShowDialog(this) != DialogResult.OK || dlg.CharInfo == null)
+				if (dlg.ShowDialog(this) != DialogResult.OK || dlg.Symbol == null)
 					return;
 
-				LoadRowWithCharInfo(Grid.CurrentRow, dlg.CharInfo);
+				m_symbols[i] = dlg.Symbol;
 				m_dirty = true;
+				SortList(m_symbols[i]);
 			}
 		}
 
@@ -1269,39 +839,119 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private void btnDelete_Click(object sender, EventArgs e)
 		{
+			int i = Grid.CurrentCellAddress.Y;
+
+			if (i < 0 || i >= m_symbols.Count)
+				return;
+
 			if (Utils.MsgBox(Properties.Resources.kstidIpaGridDeletion,
 				MessageBoxButtons.YesNo) == DialogResult.Yes)
 			{
-				Grid.Rows.Remove(Grid.CurrentRow);
+				m_symbols.RemoveAt(i);
 				m_dirty = true;
+				Grid.RowCount--;
+				SortList(i == m_symbols.Count ? m_symbols[i - 1] : m_symbols[i]);
 			}
 		}
 
+		#endregion
+
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Clicked the drop down Sort menu option.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void mnuSort_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+		private void SortList()
 		{
-			var item = e.ClickedItem as ToolStripMenuItem;
-			if (item == null)
-				return;
-
-			mnuColSort.Checked = false;
-			mnuPOA.Checked = false;
-			mnuMOA.Checked = false;
-
-			if (item == mnuColSort)
-				Grid.Sort(m_lastSortedCol, m_lastSortDirection);
-			else if (item == mnuMOA)
-				Grid.Sort(Grid.Columns[kMOA], ListSortDirection.Ascending);
-			else if (item == mnuPOA)
-				Grid.Sort(Grid.Columns[kPOA], ListSortDirection.Ascending);
-
-			item.Checked = true;
+			int i = Grid.CurrentCellAddress.Y;
+			SortList(i < 0 || i >= m_symbols.Count ? m_symbols[0] : m_symbols[i]);
 		}
 
-		#endregion
+		/// ------------------------------------------------------------------------------------
+		private void SortList(IPASymbol symbolToReturnTo)
+		{
+			foreach (DataGridViewColumn col in Grid.Columns)
+			{
+				col.HeaderCell.SortGlyphDirection =
+					(col.Name != m_sortField ? SortOrder.None : m_sortDirection);
+			}
+
+			switch (m_sortField)
+			{
+				case kHexadecimal:
+					m_symbols = (m_sortDirection == SortOrder.Ascending ?
+						m_symbols.OrderBy(x => x.Hexadecimal) :
+						m_symbols.OrderByDescending(x => x.Hexadecimal)).ToList();
+					break;
+
+				case kLiteral:
+					m_symbols = (m_sortDirection == SortOrder.Ascending ?
+						m_symbols.OrderBy(x => x.Literal) :
+						m_symbols.OrderByDescending(x => x.Literal)).ToList();
+					break;
+
+				case kName:
+					m_symbols = (m_sortDirection == SortOrder.Ascending ?
+						m_symbols.OrderBy(x => x.Name) :
+						m_symbols.OrderByDescending(x => x.Name)).ToList();
+					break;
+
+				case kDescription:
+					m_symbols = (m_sortDirection == SortOrder.Ascending ?
+						m_symbols.OrderBy(x => x.Description) :
+						m_symbols.OrderByDescending(x => x.Description)).ToList();
+					break;
+
+				case kType:
+					m_symbols = (m_sortDirection == SortOrder.Ascending ?
+						m_symbols.OrderBy(x => x.Type.ToString()) :
+						m_symbols.OrderByDescending(x => x.Type.ToString())).ToList();
+					break;
+
+				case kSubType:
+					m_symbols = (m_sortDirection == SortOrder.Ascending ?
+						m_symbols.OrderBy(x => x.SubType.ToString()) :
+						m_symbols.OrderByDescending(x => x.SubType.ToString())).ToList();
+					break;
+
+				case kIgnoreType:
+					m_symbols = (m_sortDirection == SortOrder.Ascending ?
+						m_symbols.OrderBy(x => x.IgnoreType.ToString()) :
+						m_symbols.OrderByDescending(x => x.IgnoreType.ToString())).ToList();
+					break;
+
+				case kIsBase:
+					m_symbols = (m_sortDirection == SortOrder.Ascending ?
+						m_symbols.OrderBy(x => x.IsBase) :
+						m_symbols.OrderByDescending(x => x.IsBase)).ToList();
+					break;
+
+				case kCanPrecedeBase:
+					m_symbols = (m_sortDirection == SortOrder.Ascending ?
+						m_symbols.OrderBy(x => x.CanPrecedeBase) :
+						m_symbols.OrderByDescending(x => x.CanPrecedeBase)).ToList();
+					break;
+
+				case kDisplayWithDottedCircle:
+					m_symbols = (m_sortDirection == SortOrder.Ascending ?
+						m_symbols.OrderBy(x => x.DisplayWithDottedCircle) :
+						m_symbols.OrderByDescending(x => x.DisplayWithDottedCircle)).ToList();
+					break;
+
+				case kAFeatures:
+					m_symbols = (m_sortDirection == SortOrder.Ascending ?
+						m_symbols.OrderBy(x => InventoryHelper.AFeatureCache.GetFeaturesText(x.AMask)) :
+						m_symbols.OrderByDescending(x => InventoryHelper.AFeatureCache.GetFeaturesText(x.AMask))).ToList();
+					break;
+
+				case kBFeatures:
+					m_symbols = (m_sortDirection == SortOrder.Ascending ?
+						m_symbols.OrderBy(x => InventoryHelper.BFeatureCache.GetFeaturesText(x.BMask)) :
+						m_symbols.OrderByDescending(x => InventoryHelper.BFeatureCache.GetFeaturesText(x.BMask))).ToList();
+					break;
+			}
+
+			int c = Grid.CurrentCellAddress.X;
+			int r = m_symbols.IndexOf(symbolToReturnTo);
+			Grid.Refresh();
+			Grid.CurrentCell = Grid[c, r];
+			Grid.FirstDisplayedScrollingRowIndex = r;
+		}
 	}
 }

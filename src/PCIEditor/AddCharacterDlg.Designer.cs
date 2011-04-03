@@ -71,6 +71,7 @@ namespace SIL.Pa
 			resources.ApplyResources(this.txtHexValue, "txtHexValue");
 			this.txtHexValue.Name = "txtHexValue";
 			this.txtHexValue.TextChanged += new System.EventHandler(this.txtHexValue_TextChanged);
+			this.txtHexValue.KeyPress += txtHexValue_KeyPress;
 			// 
 			// txtCharName
 			// 

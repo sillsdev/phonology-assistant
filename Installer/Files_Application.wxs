@@ -45,14 +45,12 @@
 					<Component Id="Pa.pdb" Guid="{8C44B41B-2937-4A69-99FC-602DC89949D8}">
 						<File Id="Pa.pdb" KeyPath="yes" Source="..\output\release\Pa.pdb" />
 					</Component>
-<!--
-					<Component Id="PCIEditor.exe" Guid="{A685660A-B5C7-4A52-A412-33946BF79C40}">
+					<Component Id="PCIEditor.exe" Guid="{40801E28-D701-4857-873A-F045009DFBBC}">
 						<File Id="PCIEditor.exe" KeyPath="yes" Source="..\output\release\PCIEditor.exe" />
 					</Component>
-					<Component Id="PCIEditor.pdb" Guid="{3075C4D5-14D3-4EFD-A5A1-BDFEB608EC17}">
+					<Component Id="PCIEditor.pdb" Guid="{0FA906C6-B120-4295-9F43-9005B34AFC35}">
 						<File Id="PCIEditor.pdb" KeyPath="yes" Source="..\output\release\PCIEditor.pdb" />
 					</Component>
--->
 					<Component Id="Phonology_Assistant_Help.chm" Guid="{06DFF774-C027-4CB5-8821-0B5F2C6FD88B}">
 						<File Id="Phonology_Assistant_Help.chm" KeyPath="yes" Source="..\distfiles\Phonology_Assistant_Help.chm" />
 					</Component>

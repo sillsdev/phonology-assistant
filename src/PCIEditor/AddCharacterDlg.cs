@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using SIL.Pa.Model;
-using SIL.Pa.UI.Controls;
 using SIL.Pa.UI.Dialogs;
 using SilTools;
 
@@ -21,91 +19,12 @@ namespace SIL.Pa
 
 		#region Constants
 		// Define Constants
-		private const string kDecimal = "Decimal";
-		private const string kLiteral = "Literal";
-		private const string kHexadecimal = "Hexadecimal";
-		private const string kName = "Name";
-		private const string kDescription = "Description";
-		private const string kType = "Type";
-		private const string kSubType = "SubType";
-		private const string kIgnoreType = "IgnoreType";
-		private const string kIsBase = "IsBase";
-		private const string kCanPrecedeBaseChar = "CanPrecedeBaseChar";
-		private const string kDisplayWithDottedCircle = "DisplayWithDottedCircle";
-		private const string kMOA = "MOA";
-		private const string kPOA = "POA";
-		private const string kLblMoa = "MOA Sort Order";
-		private const string kLblPoa = "POA Sort Order";
-		private const string kChartColumn = "ChartColumn";
-		private const string kChartGroup = "ChartGroup";
-		private const string kLblChartColumn = "Column";
-		private const string kLblChartGroup = "Group";
-		private const string kUnknown = "Unknown";
-		private const string kConsonant = "Consonant";
-		private const string kVowel = "Vowel";
-		private const string kOtherSymbols = "Other Symbols";
-
-		// VOWEL Groups
-		private const string kClose = "Close";
-		private const string kNearClose = "Near-close";
-		private const string kCloseMid = "Close-mid";
-		private const string kMid = "Mid";
-		private const string kOpenMid = "Open-mid";
-		private const string kNearOpen = "Near-open";
-		private const string kOpen = "Open";
-		private const string kOther = "Other";
-
-		// VOWEL Columns
-		private const string kFrontUnrounded = "Front Unrounded";
-		private const string kFrontRounded = "Front Rounded";
-		private const string kNearFrontUnrounded = "Near-front Unrounded";
-		private const string kNearFrontRounded = "Near-front Rounded";
-		private const string kCentralUnrounded = "Central Unrounded";
-		private const string kCentral = "Central";
-		private const string kCentralRounded = "Central Rounded";
-		private const string kNearBackRounded = "Near-back Rounded";
-		private const string kBackUnrounded = "Back Unrounded";
-		private const string kBackRounded = "Back Rounded";
-
-		// CONSONANT Columns
-		private const string kVoicelessBilabial = "Voiceless Bilabial";
-		private const string kVoicedBilabial = "Voiced Bilabial";
-		private const string kVoicelessLabiodental = "Voiceless Labiodental";
-		private const string kVoicedLabiodental = "Voiced Labiodental";
-		private const string kVoicelessDental = "Voiceless Dental";
-		private const string kVoicedDental = "Voiced Dental";
-		private const string kVoicelessAlveolar = "Voiceless Alveolar";
-		private const string kVoicedAlveolar = "Voiced Alveolar";
-		private const string kVoicelessPostalveolar = "Voiceless Postalveolar";
-		private const string kVoicedPostalveolar = "Voiced Postalveolar";
-		private const string kVoicelessRetroflex = "Voiceless Retroflex";
-		private const string kVoicedRetroflex = "Voiced Retroflex";
-		private const string kVoicelessAlvPalatal = "Voiceless Alv-palatal";
-		private const string kVoicedAlvPalatal = "Voiced Alv-palatal";
-		private const string kVoicelessPalatal = "Voiceless Palatal";
-		private const string kVoicedPalatal = "Voiced Palatal";
-		private const string kVoicelessVelar = "Voiceless Velar";
-		private const string kVoicedVelar = "Voiced Velar";
-		private const string kVoicelessUvular = "Voiceless Uvular";
-		private const string kVoicedUvular = "Voiced Uvular";
-		private const string kVoicelessPharyngeal = "Voiceless Pharyngeal";
-		private const string kVoicedPharyngeal = "Voiced Pharyngeal";
-		private const string kVoicelessGlottal = "Voiceless Glottal";
-		private const string kVoicedGlottal = "Voiced Glottal";
-		private const string kVoicelessEpiglottal = "Voiceless Epiglottal";
-		private const string kVoicedEpiglottal = "Voiced Epiglottal";
-
-		// CONSONANT Groups
-		private const string kPlosive = "Plosive";
-		private const string kNasal = "Nasal";
-		private const string kTrill = "Trill";
-		private const string kTapOrFlap = "Tap or Flap";
-		private const string kFricative = "Fricative";
-		private const string kLateralFricative = "Lateral Fricative";
-		private const string kApproximant = "Approximant";
-		private const string kLateralApproximant = "Lateral Approximant";
-		private const string kImplosive = "Implosives";
-		private const string kClick = "Clicks";
+		//private const string kDecimal = "Decimal";
+		//private const string kLiteral = "Literal";
+		//private const string kType = "Type";
+		//private const string kMOA = "MOA";
+		//private const string kPOA = "POA";
+		//private const string kUnknown = "Unknown";
 
 		#endregion
 
@@ -114,13 +33,12 @@ namespace SIL.Pa
 
 		// MOA & POA
 		// The SortedList Key is the moa or poa and the Value is the hexIpaChar
-		private readonly SortedList<float, string> m_MOA = new SortedList<float, string>();
-		private readonly SortedList<float, string> m_POA = new SortedList<float, string>();
-		private readonly float m_original_moa;
-		private readonly float m_original_poa;
+		//private readonly SortedList<float, string> m_MOA = new SortedList<float, string>();
+		//private readonly SortedList<float, string> m_POA = new SortedList<float, string>();
 
-		private readonly bool m_addingChar = true;
+		private readonly bool m_addingSymbol = true;
 		private readonly List<int> m_codePoints = new List<int>();
+		private readonly IPASymbol m_origSymbol;
 		#endregion
 
 		#region Constructor
@@ -129,17 +47,7 @@ namespace SIL.Pa
 		/// AddCharacterDlg Constructor.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public AddCharacterDlg(PCIEditor pciEditor, int newChar) : this(pciEditor, true)
-		{
-			txtHexValue.Text = newChar.ToString("X4");
-		}
-		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// AddCharacterDlg Constructor.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public AddCharacterDlg(PCIEditor pciEditor,  bool addingChar)
+		public AddCharacterDlg(IPASymbol symbol)
 		{
 			InitializeComponent();
 
@@ -163,54 +71,39 @@ namespace SIL.Pa
 			cboSubType.SelectedIndex = 0;
 			cboIgnoreType.SelectedIndex = 0;
 
-			m_addingChar = addingChar;
-			
-			if (m_addingChar)
+			m_addingSymbol = (symbol == null);
+
+			if (m_addingSymbol)
 			{
+				Symbol = new IPASymbol();
+				m_origSymbol = Symbol;
 				lblUnicodeValue.Visible = false;
-				txtHexValue.Text = string.Empty;
-				lblChar.Text = string.Empty;
-				txtCharName.Text = string.Empty;
-				txtCharDesc.Text = string.Empty;
-
-				// Load the Moa/Poa combo boxes
-				m_original_moa = -1f;
-				m_original_poa = -1f;
-
-				LoadMoaPoaComboBoxes(pciEditor.Grid);
-				CreateDirtyStateHandlers();
-				return;
 			}
-
-			DataGridViewRow row = pciEditor.Grid.CurrentRow;
-			if (row.Tag is IPASymbol)
+			else
 			{
-				CharInfo = (IPASymbol)row.Tag;
-				_featuresTab.SetCurrentInfo((IPASymbol)row.Tag);
+				m_origSymbol = symbol;
+				Symbol = symbol.Copy();
+
+				// Identity
+				txtHexValue.Visible = false;
+				lblUnicodeValue.Text = Symbol.Hexadecimal;
+				lblChar.Text = Symbol.Literal;
+				txtCharName.Text = Symbol.Name;
+				txtCharDesc.Text = Symbol.Description;
+
+				// Types
+				cboType.SelectedItem = SeperateWordsWithSpace(Symbol.Type.ToString());
+				cboSubType.SelectedItem = SeperateWordsWithSpace(Symbol.SubType.ToString());
+				cboIgnoreType.SelectedItem = SeperateWordsWithSpace(Symbol.IgnoreType.ToString());
+
+				// Base Character
+				chkIsBase.Checked = Symbol.IsBase;
+				chkPreceedBaseChar.Checked = Symbol.CanPrecedeBase;
+				chkDottedCircle.Checked = Symbol.DisplayWithDottedCircle;
 			}
 
-			// Identity
-			txtHexValue.Visible = false;
-			lblUnicodeValue.Text = row.Cells[kHexadecimal].Value as string;
-			lblChar.Text = row.Cells[kLiteral].Value as string;
-			txtCharName.Text = row.Cells[kName].Value as string;
-			txtCharDesc.Text = row.Cells[kDescription].Value as string;
-
-			// Types
-			cboType.SelectedItem = SeperateWordsWithSpace(row.Cells[kType].Value as string);
-			cboSubType.SelectedItem = SeperateWordsWithSpace(row.Cells[kSubType].Value as string);
-			cboIgnoreType.SelectedItem = SeperateWordsWithSpace(row.Cells[kIgnoreType].Value as string);
-
-			// Base Character
-			chkIsBase.Checked = (bool)row.Cells[kIsBase].Value;
-			chkPreceedBaseChar.Checked = (bool)row.Cells[kCanPrecedeBaseChar].Value;
-			chkDottedCircle.Checked = (bool)row.Cells[kDisplayWithDottedCircle].Value;
-
-			// Articulation - load the Moa/Poa combo boxes
-			m_original_moa = float.Parse(row.Cells[kMOA].Value.ToString());
-			m_original_poa = float.Parse(row.Cells[kPOA].Value.ToString());
-			LoadMoaPoaComboBoxes(pciEditor.Grid);
-
+			_featuresTab.SetCurrentInfo(Symbol);
+//			LoadMoaPoaComboBoxes(pciEditor.Grid);
 			CreateDirtyStateHandlers();
 			m_dirty = false;
 		}
@@ -240,56 +133,56 @@ namespace SIL.Pa
 		/// Gets the CharInfo object created from the changes made on the dialog.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public IPASymbol CharInfo { get; private set; }
+		public IPASymbol Symbol { get; private set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Load the MOA and POA combo boxes.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LoadMoaPoaComboBoxes(DataGridView charGrid)
-		{
-			foreach (DataGridViewRow gridRow in charGrid.Rows)
-			{
-				// Save unique codePoint's / IPAChar's for Verification later
-				int codePoint = (int)gridRow.Cells[kDecimal].Value;
-				if (!m_codePoints.Contains(codePoint))
-					m_codePoints.Add(codePoint);
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Load the MOA and POA combo boxes.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private void LoadMoaPoaComboBoxes(DataGridView charGrid)
+		//{
+		//    foreach (DataGridViewRow gridRow in charGrid.Rows)
+		//    {
+		//        // Save unique codePoint's / IPAChar's for Verification later
+		//        int codePoint = (int)gridRow.Cells[kDecimal].Value;
+		//        if (!m_codePoints.Contains(codePoint))
+		//            m_codePoints.Add(codePoint);
 
-				if (gridRow.Cells[kDecimal].Value != null && gridRow.Cells[kType].Value != null)
-				{
-					if ((int)gridRow.Cells[kDecimal].Value <= kInvalidCodePoint ||
-						(string)gridRow.Cells[kType].Value == kUnknown)
-						continue;
-				}
+		//        if (gridRow.Cells[kDecimal].Value != null && gridRow.Cells[kType].Value != null)
+		//        {
+		//            if ((int)gridRow.Cells[kDecimal].Value <= kInvalidCodePoint ||
+		//                (string)gridRow.Cells[kType].Value == kUnknown)
+		//                continue;
+		//        }
 
-				if (gridRow.Cells[kLiteral].Value != null)
-				{
-					// Create sorted lists of the manners and points of articulation.
-					float moa = float.Parse(gridRow.Cells[kMOA].Value.ToString());
-					float poa = float.Parse(gridRow.Cells[kPOA].Value.ToString());
-					m_MOA[moa] = gridRow.Cells[kLiteral].Value.ToString();
-					m_POA[poa] = gridRow.Cells[kLiteral].Value.ToString();
-				}
-			}
+		//        if (gridRow.Cells[kLiteral].Value != null)
+		//        {
+		//            // Create sorted lists of the manners and points of articulation.
+		//            float moa = float.Parse(gridRow.Cells[kMOA].Value.ToString());
+		//            float poa = float.Parse(gridRow.Cells[kPOA].Value.ToString());
+		//            m_MOA[moa] = gridRow.Cells[kLiteral].Value.ToString();
+		//            m_POA[poa] = gridRow.Cells[kLiteral].Value.ToString();
+		//        }
+		//    }
 
-			// Load the combo boxes
-			foreach (var moa in m_MOA)
-			{
-				if (moa.Key != m_original_moa)
-					cboMoa.Items.Add(moa.Value);
-				else
-					cboMoa.SelectedIndex = cboMoa.Items.Count - 1;
-			}
+			//// Load the combo boxes
+			//foreach (var moa in m_MOA)
+			//{
+			//    if (moa.Key != m_original_moa)
+			//        cboMoa.Items.Add(moa.Value);
+			//    else
+			//        cboMoa.SelectedIndex = cboMoa.Items.Count - 1;
+			//}
 
-			foreach (var poa in m_POA)
-			{
-				if (poa.Key != m_original_poa)
-					cboPoa.Items.Add(poa.Value);
-				else
-					cboPoa.SelectedIndex = cboPoa.Items.Count - 1;
-			}
-		}
+			//foreach (var poa in m_POA)
+			//{
+			//    if (poa.Key != m_original_poa)
+			//        cboPoa.Items.Add(poa.Value);
+			//    else
+			//        cboPoa.SelectedIndex = cboPoa.Items.Count - 1;
+			//}
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -319,76 +212,75 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override bool IsDirty
+		{
+			get
+			{
+				return (base.IsDirty || m_addingSymbol ||
+					Symbol.AMask != m_origSymbol.AMask ||
+					Symbol.BMask != m_origSymbol.BMask);
+			}
+		}
+		
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Save Changes.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
-			CharInfo = new IPASymbol();
-
-			CharInfo.Decimal = int.Parse((m_addingChar ?
+			Symbol.Decimal = int.Parse((m_addingSymbol ?
 				txtHexValue.Text : lblUnicodeValue.Text), NumberStyles.HexNumber);
 
-			CharInfo.Hexadecimal = (m_addingChar ? txtHexValue.Text : lblUnicodeValue.Text);
-			CharInfo.Literal = lblChar.Text;
-			CharInfo.Name = txtCharName.Text;
-			CharInfo.Description = txtCharDesc.Text;
-			//CharInfo.AMask =  m_aMask;
-			//CharInfo.BMask = m_bMask;
+			Symbol.Hexadecimal = (m_addingSymbol ? txtHexValue.Text : lblUnicodeValue.Text);
+			Symbol.Literal = lblChar.Text;
+			Symbol.Name = txtCharName.Text;
+			Symbol.Description = txtCharDesc.Text;
 
 			// Types - remove the spaces in the Type strings
-			CharInfo.Type = (IPASymbolType)Enum.Parse(
+			Symbol.Type = (IPASymbolType)Enum.Parse(
 				typeof(IPASymbolType), cboType.SelectedItem.ToString().Replace(" ", ""));
-			CharInfo.SubType = (IPASymbolSubType)Enum.Parse(
+			Symbol.SubType = (IPASymbolSubType)Enum.Parse(
 				typeof(IPASymbolSubType), cboSubType.SelectedItem.ToString().Replace(" ", ""));
-			CharInfo.IgnoreType = (IPASymbolIgnoreType)Enum.Parse(
+			Symbol.IgnoreType = (IPASymbolIgnoreType)Enum.Parse(
 				typeof(IPASymbolIgnoreType), cboIgnoreType.SelectedItem.ToString().Replace(" ", ""));
 
 			// Base Character
-			CharInfo.IsBase = chkIsBase.Checked;
-			CharInfo.CanPrecedeBase = chkPreceedBaseChar.Checked;
-			CharInfo.DisplayWithDottedCircle = chkDottedCircle.Checked;
+			Symbol.IsBase = chkIsBase.Checked;
+			Symbol.CanPrecedeBase = chkPreceedBaseChar.Checked;
+			Symbol.DisplayWithDottedCircle = chkDottedCircle.Checked;
 
-			// Save the manner of articulation sort order value
-			if (cboMoa.SelectedItem == null)
-			{
-				// use original value if not modified
-				CharInfo.MOArticulation = (int)m_original_moa;
-			}
-			else
-			{
-				foreach (var moa in m_MOA)
-				{
-					if (moa.Value == cboMoa.SelectedItem.ToString())
-					{
-						// Make sure the user actually changed the MOA
-						CharInfo.MOArticulation =
-							(int)(m_original_moa == moa.Key ? m_original_moa : moa.Key + 1f);
-						break;
-					}
-				}
-			}
+			//// Save the manner of articulation sort order value
+			//if (cboMoa.SelectedItem == null)
+			//{
+			//    // use original value if not modified
+			//    CharInfo.MOArticulation = (int)m_original_moa;
+			//}
+			//else
+			//{
+			//    foreach (var moa in m_MOA.Where(moa => moa.Value == cboMoa.SelectedItem.ToString()))
+			//    {
+			//        // Make sure the user actually changed the MOA
+			//        CharInfo.MOArticulation = (int)(m_original_moa == moa.Key ? m_original_moa : moa.Key + 1f);
+			//        break;
+			//    }
+			//}
 
-			// Save the place of articulation sort order value
-			if (cboPoa.SelectedItem == null)
-			{
-				// use original value if not modified
-				CharInfo.POArticulation = (int)m_original_poa;
-			}
-			else
-			{
-				foreach (var poa in m_POA)
-				{
-					if (poa.Value == cboPoa.SelectedItem.ToString())
-					{
-						// Make sure the user actually changed the POA
-						CharInfo.POArticulation =
-							(int)(m_original_poa == poa.Key ? m_original_poa : poa.Key + 1f);
-						break;
-					}
-				}
-			}
+			//// Save the place of articulation sort order value
+			//if (cboPoa.SelectedItem == null)
+			//{
+			//    // use original value if not modified
+			//    CharInfo.POArticulation = (int)m_original_poa;
+			//}
+			//else
+			//{
+			//    foreach (var poa in m_POA.Where(poa => poa.Value == cboPoa.SelectedItem.ToString()))
+			//    {
+			//        // Make sure the user actually changed the POA
+			//        CharInfo.POArticulation = (int)(m_original_poa == poa.Key ? m_original_poa : poa.Key + 1f);
+			//        break;
+			//    }
+			//}
 
 			return true;
 		}
@@ -401,7 +293,7 @@ namespace SIL.Pa
 		protected override bool Verify()
 		{
 			// Check for an invalid hex number
-			if (m_addingChar)
+			if (m_addingSymbol)
 			{
 				try
 				{
@@ -431,21 +323,22 @@ namespace SIL.Pa
 				if (m_invalidPhoneticChars.Any(c => codePoint == c))
 				{
 					Utils.MsgBox(string.Format(
-					Properties.Resources.kstidUnicodeValueIsReservedMsg,
-					txtHexValue.Text, kInvalidPhoneticCharsDisplay));
+						Properties.Resources.kstidUnicodeValueIsReservedMsg,
+						txtHexValue.Text, kInvalidPhoneticCharsDisplay));
+					
 					return false;
 				}
 			}
 
 			string missingFields = string.Empty;
-			if (m_addingChar && txtHexValue.Text == string.Empty)
+			if (m_addingSymbol && txtHexValue.Text == string.Empty)
 				missingFields += (lblUnicode.Text + ", ");
 			if (txtCharName.Text == string.Empty)
 				missingFields += (lblName.Text + ", ");
-			if (m_addingChar && cboMoa.SelectedItem == null)
-				missingFields += (kLblMoa + ", ");
-			if (m_addingChar && cboPoa.SelectedItem == null)
-				missingFields += (kLblPoa + ", ");
+			//if (m_addingChar && cboMoa.SelectedItem == null)
+			//    missingFields += (kLblMoa + ", ");
+			//if (m_addingChar && cboPoa.SelectedItem == null)
+			//    missingFields += (kLblPoa + ", ");
 
 			if (missingFields != string.Empty)
 			{
@@ -465,28 +358,6 @@ namespace SIL.Pa
 		#endregion
 		
 		#region Event Handlers
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Clicked the OK button.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//private void btnOK_Click(object sender, EventArgs e)
-		//{
-		//    Close();
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Clicked the CANCEL button.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//private void btnCancel_Click(object sender, EventArgs e)
-		//{
-		//    m_dirty = false;
-		//    m_charInfo = null;
-		//    Close();
-		//}
-
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleHelpClick(object sender, EventArgs e)
 		{
@@ -494,7 +365,7 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static void txtHexValue_KeyPress(object sender, KeyPressEventArgs e)
+		private void txtHexValue_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			if (e.KeyChar >= 'a' && e.KeyChar <= 'f')
 				e.KeyChar = (char)(e.KeyChar & ~0x20);

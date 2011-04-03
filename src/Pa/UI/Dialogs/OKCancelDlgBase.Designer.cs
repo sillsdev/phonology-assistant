@@ -73,7 +73,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnCancel.TabIndex = 2;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
-			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+			this.btnCancel.Click += new System.EventHandler(this.HandleCancelClick);
 			// 
 			// btnOK
 			// 
@@ -92,6 +92,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnOK.TabIndex = 1;
 			this.btnOK.Text = "OK";
 			this.btnOK.UseVisualStyleBackColor = true;
+			this.btnOK.Click += new System.EventHandler(this.HandleOKButtonClick);
 			// 
 			// locExtender
 			// 

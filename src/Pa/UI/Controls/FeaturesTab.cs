@@ -23,6 +23,7 @@ namespace SIL.Pa.UI.Controls
 			InitializeComponent();
 			_tabCtrl.Font = FontHelper.UIFont;
 			lblAFeatures.Font = new Font(FontHelper.UIFont, FontStyle.Bold);
+			lblAFeatures.Text = string.Empty;
 			SetupFeatureLists();
 		}
 

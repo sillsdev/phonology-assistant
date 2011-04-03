@@ -126,7 +126,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="mnuOpen.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="mnuOpen.Text" xml:space="preserve">
     <value>&amp;Open</value>
@@ -136,7 +136,7 @@
     <value>False</value>
   </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 6</value>
+    <value>149, 6</value>
   </data>
   <data name="toolStripSeparator1.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -145,13 +145,13 @@
     <value>Ctrl+S</value>
   </data>
   <data name="mnuSave.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="mnuSave.Text" xml:space="preserve">
     <value>&amp;Save</value>
   </data>
   <data name="mnuSaveAs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="mnuSaveAs.Text" xml:space="preserve">
     <value>Save &amp;As...</value>
@@ -160,10 +160,10 @@
     <value>False</value>
   </data>
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 6</value>
+    <value>149, 6</value>
   </data>
   <data name="mnuExit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="mnuExit.Text" xml:space="preserve">
     <value>E&amp;xit</value>
@@ -173,30 +173,6 @@
   </data>
   <data name="mnuFile.Text" xml:space="preserve">
     <value>&amp;File</value>
-  </data>
-  <data name="mnuColSort.Size" type="System.Drawing.Size, System.Drawing">
-    <value>210, 22</value>
-  </data>
-  <data name="mnuColSort.Text" xml:space="preserve">
-    <value>By &amp;Column</value>
-  </data>
-  <data name="mnuPOA.Size" type="System.Drawing.Size, System.Drawing">
-    <value>210, 22</value>
-  </data>
-  <data name="mnuPOA.Text" xml:space="preserve">
-    <value>By &amp;Place of Articulation</value>
-  </data>
-  <data name="mnuMOA.Size" type="System.Drawing.Size, System.Drawing">
-    <value>210, 22</value>
-  </data>
-  <data name="mnuMOA.Text" xml:space="preserve">
-    <value>By &amp;Manner of Articulation</value>
-  </data>
-  <data name="mnuSort.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 20</value>
-  </data>
-  <data name="mnuSort.Text" xml:space="preserve">
-    <value>&amp;Sort</value>
   </data>
   <data name="mnuMain.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 0</value>
@@ -247,7 +223,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnAdd.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="btnModify.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -280,7 +256,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnModify.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="btnDelete.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -313,7 +289,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnDelete.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="pnlGrid.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -424,30 +400,6 @@
     <value>mnuExit</value>
   </data>
   <data name="&gt;&gt;mnuExit.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;mnuSort.Name" xml:space="preserve">
-    <value>mnuSort</value>
-  </data>
-  <data name="&gt;&gt;mnuSort.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;mnuColSort.Name" xml:space="preserve">
-    <value>mnuColSort</value>
-  </data>
-  <data name="&gt;&gt;mnuColSort.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;mnuPOA.Name" xml:space="preserve">
-    <value>mnuPOA</value>
-  </data>
-  <data name="&gt;&gt;mnuPOA.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;mnuMOA.Name" xml:space="preserve">
-    <value>mnuMOA</value>
-  </data>
-  <data name="&gt;&gt;mnuMOA.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

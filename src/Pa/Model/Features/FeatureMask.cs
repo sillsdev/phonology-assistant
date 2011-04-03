@@ -22,10 +22,6 @@ namespace SIL.Pa.Model
 {
 	#region FeatureMask class
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class FeatureMask
 	{
 		private const string kBitSizeMismatchMsg = "Bit count mismatch: both masks must contain same number of bits.";
@@ -70,10 +66,6 @@ namespace SIL.Pa.Model
 			return clone;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static FeatureMask Empty
 		{
@@ -296,7 +288,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			StringBuilder bldr = new StringBuilder();
+			var bldr = new StringBuilder();
 
 			for (int i = m_maskCount - 1; i >= 0; i--)
 			{
