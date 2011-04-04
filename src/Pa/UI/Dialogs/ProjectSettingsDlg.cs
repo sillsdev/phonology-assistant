@@ -436,7 +436,7 @@ namespace SIL.Pa.UI.Dialogs
 		    dlg.AddExtension = true;
 		    dlg.DefaultExt = "pap";
 		    dlg.RestoreDirectory = false;
-		    dlg.InitialDirectory = (Settings.Default.LastFolderForSavedProject ?? App.DefaultProjectFolder);
+		    dlg.InitialDirectory = (Settings.Default.LastFolderForSavedProject ?? App.ProjectFolder);
 			dlg.ShowHelp = false;
 		    dlg.FilterIndex = 0;
 			
@@ -493,7 +493,7 @@ namespace SIL.Pa.UI.Dialogs
 				"Choose Data Source File(s)", "Open file dialog caption when choosing data source files");
 
 			string[] filenames = App.OpenFileDialog("db", fileTypes.ToString(),
-				ref filterIndex, caption, true, Project.Folder ?? App.DefaultProjectFolder);
+				ref filterIndex, caption, true, Project.Folder ?? App.ProjectFolder);
 
 			if (filenames.Length == 0)
 				return;

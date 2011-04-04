@@ -113,6 +113,12 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected virtual bool WasLastChartViewHTML
+		{
+			get { throw new NotImplementedException("The property must be overridden in derived class."); }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void LoadOldChart()
 		{
 			var bldr = new CharGridBuilder(m_chrGrid, CharacterType);
@@ -131,7 +137,7 @@ namespace SIL.Pa.UI.Views
 			{
 				for (int iRow = 0; iRow < m_chrGrid.Grid.Rows.Count; iRow++)
 				{
-					CharGridCell cgc = m_chrGrid.Grid[iCol, iRow].Value as CharGridCell;
+					var cgc = m_chrGrid.Grid[iCol, iRow].Value as CharGridCell;
 					if (cgc != null)
 						histogramPhones.Add(cgc);
 				}
@@ -212,6 +218,7 @@ namespace SIL.Pa.UI.Views
 		protected virtual bool ShowHtmlChartWhenViewLoaded
 		{
 			get { throw new NotImplementedException("The property must be overridden in derived class."); }
+			set { throw new NotImplementedException("The property must be overridden in derived class."); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -301,10 +308,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void LoadToolbarAndContextMenus()
 		{
 			if (App.DesignMode)
@@ -357,10 +360,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual void BuildDefaultChart()
 		{
 			throw new NotImplementedException("The method must be overridden in derived class.");
@@ -368,19 +367,11 @@ namespace SIL.Pa.UI.Views
 
 		#region ITabView Members
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public bool ActiveView
 		{
 			get { return m_activeView; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void SetViewActive(bool makeActive, bool isDocked)
 		{
@@ -431,6 +422,7 @@ namespace SIL.Pa.UI.Views
 			CharGridPersistence.Save(m_chrGrid, m_phoneList, m_persistedInfoFilename);
 			SplitterRatioSetting = splitOuter.SplitterDistance / (float)splitOuter.Height;
 			HistogramVisibleSetting = HistogramOn;
+			ShowHtmlChartWhenViewLoaded = m_htmlVw.Visible;
 		}
 
 		/// ------------------------------------------------------------------------------------

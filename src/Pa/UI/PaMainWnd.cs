@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Localization.UI;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.DataSource;
+using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Filters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
@@ -42,8 +43,31 @@ namespace SIL.Pa.UI
 		{
 			m_doNotLoadLastProject = ((ModifierKeys & Keys.Shift) == Keys.Shift);
 			
+			App.InitializeSettingsFileLocation();
+			
+			// If the user knows enough to add an entry to the settings file to
+			// override the default UI font and the phonetic font, then use those.
+			if (Settings.Default.UIFont != null)
+				FontHelper.UIFont = Settings.Default.UIFont;
+			if (Settings.Default.PhoneticFont != null)
+				App.PhoneticFont = Settings.Default.PhoneticFont;
+			
 			App.InitializeLocalization();
+			App.MinimumViewWindowSize = Settings.Default.MinimumViewWindowSize;
+			FwDBUtils.ShowMsgWhenGatheringFWInfo = Settings.Default.ShowMsgWhenGatheringFwInfo;
+
+			var chrs = Settings.Default.UncertainGroupAbsentPhoneChars;
+			if (!string.IsNullOrEmpty(chrs))
+				IPASymbolCache.UncertainGroupAbsentPhoneChars = chrs;
+
+			chrs = Settings.Default.UncertainGroupAbsentPhoneChar;
+			if (!string.IsNullOrEmpty(chrs))
+				IPASymbolCache.UncertainGroupAbsentPhoneChar = chrs;
+
+			App.ReadAddOns();
+
 			InitializeComponent();
+			
 			Settings.Default.MainWindow = App.InitializeForm(this, Settings.Default.MainWindow);
 			InventoryHelper.Load();
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList);
@@ -688,7 +712,7 @@ namespace SIL.Pa.UI
 				Application.ProductName) + "|" + App.kstidFileTypeAllFiles;
 
 			var fmt = App.GetString("ProjectOpenFileDialogText", "Open {0} Project File");
-			string initialDir = (Settings.Default.LastFolderForOpenProjectDlg ?? App.DefaultProjectFolder);
+			string initialDir = (Settings.Default.LastFolderForOpenProjectDlg ?? App.ProjectFolder);
 
 			string[] filenames = App.OpenFileDialog("pap", filter, ref filterindex,
 				string.Format(fmt, Application.ProductName), false, initialDir);

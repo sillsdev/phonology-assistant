@@ -79,8 +79,8 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this.rbUnicodeOrder, null);
 			this.locExtender.SetLocalizationComment(this.rbUnicodeOrder, null);
 			this.locExtender.SetLocalizingId(this.rbUnicodeOrder, "SortOptionsDropDown.rbUnicodeOrder");
-			this.rbUnicodeOrder.Location = new System.Drawing.Point(10, 72);
-			this.rbUnicodeOrder.Margin = new System.Windows.Forms.Padding(10, 0, 2, 7);
+			this.rbUnicodeOrder.Location = new System.Drawing.Point(12, 49);
+			this.rbUnicodeOrder.Margin = new System.Windows.Forms.Padding(12, 0, 2, 0);
 			this.rbUnicodeOrder.Name = "rbUnicodeOrder";
 			this.rbUnicodeOrder.Size = new System.Drawing.Size(94, 17);
 			this.rbUnicodeOrder.TabIndex = 2;
@@ -96,8 +96,8 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this.rbPlaceArticulation, null);
 			this.locExtender.SetLocalizationComment(this.rbPlaceArticulation, null);
 			this.locExtender.SetLocalizingId(this.rbPlaceArticulation, "SortOptionsDropDown.rbPlaceArticulation");
-			this.rbPlaceArticulation.Location = new System.Drawing.Point(10, 28);
-			this.rbPlaceArticulation.Margin = new System.Windows.Forms.Padding(10, 0, 2, 5);
+			this.rbPlaceArticulation.Location = new System.Drawing.Point(12, 5);
+			this.rbPlaceArticulation.Margin = new System.Windows.Forms.Padding(12, 5, 2, 5);
 			this.rbPlaceArticulation.Name = "rbPlaceArticulation";
 			this.rbPlaceArticulation.Size = new System.Drawing.Size(119, 17);
 			this.rbPlaceArticulation.TabIndex = 0;
@@ -113,8 +113,8 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this.rbMannerArticulation, null);
 			this.locExtender.SetLocalizationComment(this.rbMannerArticulation, null);
 			this.locExtender.SetLocalizingId(this.rbMannerArticulation, "SortOptionsDropDown.rbMannerArticulation");
-			this.rbMannerArticulation.Location = new System.Drawing.Point(10, 50);
-			this.rbMannerArticulation.Margin = new System.Windows.Forms.Padding(10, 0, 2, 5);
+			this.rbMannerArticulation.Location = new System.Drawing.Point(12, 27);
+			this.rbMannerArticulation.Margin = new System.Windows.Forms.Padding(12, 0, 2, 5);
 			this.rbMannerArticulation.Name = "rbMannerArticulation";
 			this.rbMannerArticulation.Size = new System.Drawing.Size(128, 17);
 			this.rbMannerArticulation.TabIndex = 1;
@@ -542,7 +542,7 @@ namespace SIL.Pa.UI.Controls
 			this.tblLayoutOuter.Controls.Add(this.rbMannerArticulation, 0, 1);
 			this.tblLayoutOuter.Controls.Add(this.rbUnicodeOrder, 0, 2);
 			this.tblLayoutOuter.Controls.Add(this.rbPlaceArticulation, 0, 1);
-			this.tblLayoutOuter.Controls.Add(this.flowPanelButtons, 0, 0);
+			this.tblLayoutOuter.Controls.Add(this.flowPanelButtons, 0, 4);
 			this.tblLayoutOuter.Location = new System.Drawing.Point(0, 0);
 			this.tblLayoutOuter.Name = "tblLayoutOuter";
 			this.tblLayoutOuter.RowCount = 5;
@@ -551,7 +551,8 @@ namespace SIL.Pa.UI.Controls
 			this.tblLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tblLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tblLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tblLayoutOuter.Size = new System.Drawing.Size(205, 201);
+			this.tblLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.tblLayoutOuter.Size = new System.Drawing.Size(211, 203);
 			this.tblLayoutOuter.TabIndex = 0;
 			this.tblLayoutOuter.SizeChanged += new System.EventHandler(this.HandleOuterTableLayoutSizeChanged);
 			// 
@@ -566,13 +567,14 @@ namespace SIL.Pa.UI.Controls
 			this.pnlAdvOptions.Controls.Add(this.tblAdvSorting);
 			this.pnlAdvOptions.DoubleBuffered = true;
 			this.pnlAdvOptions.DrawOnlyBottomBorder = false;
+			this.pnlAdvOptions.DrawOnlyTopBorder = false;
 			this.pnlAdvOptions.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlAdvOptions.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlAdvOptions, null);
 			this.locExtender.SetLocalizationComment(this.pnlAdvOptions, null);
 			this.locExtender.SetLocalizingId(this.pnlAdvOptions, "SortOptionsDropDown.pnlAdvOptions");
-			this.pnlAdvOptions.Location = new System.Drawing.Point(5, 96);
-			this.pnlAdvOptions.Margin = new System.Windows.Forms.Padding(5, 0, 5, 5);
+			this.pnlAdvOptions.Location = new System.Drawing.Point(8, 73);
+			this.pnlAdvOptions.Margin = new System.Windows.Forms.Padding(8, 7, 8, 0);
 			this.pnlAdvOptions.MnemonicGeneratesClick = false;
 			this.pnlAdvOptions.Name = "pnlAdvOptions";
 			this.pnlAdvOptions.PaintExplorerBarBackground = false;
@@ -588,10 +590,10 @@ namespace SIL.Pa.UI.Controls
 			this.flowPanelButtons.Controls.Add(this.btnClose);
 			this.flowPanelButtons.Controls.Add(this.btnHelp);
 			this.flowPanelButtons.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-			this.flowPanelButtons.Location = new System.Drawing.Point(0, 7);
-			this.flowPanelButtons.Margin = new System.Windows.Forms.Padding(0, 7, 9, 5);
+			this.flowPanelButtons.Location = new System.Drawing.Point(0, 180);
+			this.flowPanelButtons.Margin = new System.Windows.Forms.Padding(0, 7, 7, 7);
 			this.flowPanelButtons.Name = "flowPanelButtons";
-			this.flowPanelButtons.Size = new System.Drawing.Size(196, 16);
+			this.flowPanelButtons.Size = new System.Drawing.Size(204, 16);
 			this.flowPanelButtons.TabIndex = 1;
 			// 
 			// btnClose
@@ -607,7 +609,7 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this.btnClose, "Close");
 			this.locExtender.SetLocalizationComment(this.btnClose, null);
 			this.locExtender.SetLocalizingId(this.btnClose, "SortOptionsDropDown.btnClose");
-			this.btnClose.Location = new System.Drawing.Point(180, 0);
+			this.btnClose.Location = new System.Drawing.Point(188, 0);
 			this.btnClose.Margin = new System.Windows.Forms.Padding(10, 0, 0, 0);
 			this.btnClose.Name = "btnClose";
 			this.btnClose.Size = new System.Drawing.Size(16, 16);
@@ -629,7 +631,7 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this.btnHelp, "Help");
 			this.locExtender.SetLocalizationComment(this.btnHelp, null);
 			this.locExtender.SetLocalizingId(this.btnHelp, "SortOptionsDropDown.btnHelp");
-			this.btnHelp.Location = new System.Drawing.Point(154, 0);
+			this.btnHelp.Location = new System.Drawing.Point(162, 0);
 			this.btnHelp.Margin = new System.Windows.Forms.Padding(7, 0, 0, 0);
 			this.btnHelp.Name = "btnHelp";
 			this.btnHelp.Size = new System.Drawing.Size(16, 16);
@@ -651,7 +653,7 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "SortOptionsDropDown.SortOptionsDropDown");
-			this.Margin = new System.Windows.Forms.Padding(2);
+			this.Margin = new System.Windows.Forms.Padding(5);
 			this.Name = "SortOptionsDropDown";
 			this.Size = new System.Drawing.Size(259, 222);
 			this.tblAdvSorting.ResumeLayout(false);

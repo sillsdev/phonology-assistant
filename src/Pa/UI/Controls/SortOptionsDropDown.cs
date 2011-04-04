@@ -218,7 +218,6 @@ namespace SIL.Pa.UI.Controls
 		private void HandleOuterTableLayoutSizeChanged(object sender, EventArgs e)
 		{
 			Size = tblLayoutOuter.Size;
-			System.Diagnostics.Debug.WriteLine(Size.ToString());
 		}
 
 		/// ------------------------------------------------------------------------------------

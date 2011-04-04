@@ -79,14 +79,14 @@ namespace SIL.Pa.Processing
 
 			foreach (var filename in Directory.GetFiles(processingFolder, "*.css"))
 			{
-				var dst = Path.Combine(App.DefaultProjectFolder, Path.GetFileName(filename));
+				var dst = Path.Combine(App.ProjectFolder, Path.GetFileName(filename));
 				if (!File.Exists(dst))
 					File.Copy(filename, dst);
 			}
 
 			foreach (var filename in Directory.GetFiles(processingFolder, "*.js"))
 			{
-				var dst = Path.Combine(App.DefaultProjectFolder, Path.GetFileName(filename));
+				var dst = Path.Combine(App.ProjectFolder, Path.GetFileName(filename));
 				if (!File.Exists(dst))
 					File.Copy(filename, dst);
 			}
@@ -182,7 +182,7 @@ namespace SIL.Pa.Processing
 
 			writer.WriteStartElement("li");
 			writer.WriteAttributeString("class", "userFolder");
-			writer.WriteString(TerminateFolderPath(App.DefaultProjectFolder));
+			writer.WriteString(TerminateFolderPath(App.ProjectFolder));
 			writer.WriteEndElement();
 
 			writer.WriteStartElement("li");

@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SIL.Pa.UI.Dialogs;
 using SilTools;
 
@@ -50,8 +51,6 @@ namespace SIL.Pa
 		public AddCharacterDlg(IPASymbol symbol)
 		{
 			InitializeComponent();
-
-			PCIEditor.SettingsHandler.LoadFormProperties(this);
 
 			lblChar.Font = App.PhoneticFont;
 			cboMoa.Font = App.PhoneticFont;
@@ -106,6 +105,8 @@ namespace SIL.Pa
 //			LoadMoaPoaComboBoxes(pciEditor.Grid);
 			CreateDirtyStateHandlers();
 			m_dirty = false;
+
+			Settings.Default.AddCharacterDlg = App.InitializeForm(this, Settings.Default.MainWindow);
 		}
 		
 		/// --------------------------------------------------------------------------------------------
@@ -204,13 +205,6 @@ namespace SIL.Pa
 		#endregion
 
 		#region Overrides
-		/// ------------------------------------------------------------------------------------
-		protected override void OnFormClosing(FormClosingEventArgs e)
-		{
-			PCIEditor.SettingsHandler.SaveFormProperties(this);
-			base.OnFormClosing(e);
-		}
-
 		/// ------------------------------------------------------------------------------------
 		protected override bool IsDirty
 		{

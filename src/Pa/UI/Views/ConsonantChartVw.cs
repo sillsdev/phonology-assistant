@@ -43,6 +43,7 @@ namespace SIL.Pa.UI.Views
 		protected override bool ShowHtmlChartWhenViewLoaded
 		{
 			get { return Settings.Default.HtmlConsonantChartVisible; }
+			set { Settings.Default.HtmlConsonantChartVisible = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------

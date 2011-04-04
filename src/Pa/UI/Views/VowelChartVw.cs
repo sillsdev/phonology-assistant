@@ -43,6 +43,7 @@ namespace SIL.Pa.UI.Views
 		protected override bool ShowHtmlChartWhenViewLoaded
 		{
 			get { return Settings.Default.HtmlVowelChartVisible; }
+			set { Settings.Default.HtmlVowelChartVisible = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -76,19 +77,11 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override string LayoutFile
 		{
 			get { return App.Project.ProjectPathFilePrefix + "VowelChartBeta.xml"; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override int ColumnHeaderHeight
 		{
@@ -96,19 +89,11 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override int RowHeaderWidth
 		{
 			get { return Settings.Default.VowelChartRowHdrWidth; }
 		}
 
-		/// --------------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// --------------------------------------------------------------------------------------------
 		protected override string DefaultHTMLOutputFile
 		{

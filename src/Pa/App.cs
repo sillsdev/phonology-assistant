@@ -27,10 +27,8 @@ using Localization;
 using Localization.UI;
 using Palaso.IO;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.Processing;
 using SIL.Pa.Properties;
 using SIL.Pa.ResourceStuff;
 using SIL.Pa.UI.Views;
@@ -120,65 +118,60 @@ namespace SIL.Pa
 			if (DesignMode)
 				return;
 
-			InitializeSettingsFileLocation();
 			InitializeProjectFolder();
+			InitializePhoneticFont();
 			MsgMediator = new Mediator();
-			InitializeFonts();
-
-			MinimumViewWindowSize = Settings.Default.MinimumViewWindowSize;
-			FwDBUtils.ShowMsgWhenGatheringFWInfo = Settings.Default.ShowMsgWhenGatheringFwInfo;
-
-			var chrs = Settings.Default.UncertainGroupAbsentPhoneChars;
-			if (!string.IsNullOrEmpty(chrs))
-				IPASymbolCache.UncertainGroupAbsentPhoneChars = chrs;
-
-			chrs = Settings.Default.UncertainGroupAbsentPhoneChar;
-			if (!string.IsNullOrEmpty(chrs))
-				IPASymbolCache.UncertainGroupAbsentPhoneChar = chrs;
-
-			ReadAddOns();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static void InitializeLocalization()
+		/// <summary>
+		/// Construct the default project path.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void InitializeProjectFolder()
 		{
-			SetUILanguage();
-
-			// Copy the localization file to where the settings file is located.
-			var localizationFilePath = Path.Combine(PortableSettingsProvider.SettingsFileFolder, "Pa.tmx");
-			if (!File.Exists(localizationFilePath))
+			// Specifying the UI language on the command-line trumps the one in
+			// the settings file (i.e. the one set in the options dialog box).
+			foreach (var arg in Environment.GetCommandLineArgs()
+				.Where(arg => arg.ToLower().StartsWith("/pf:") || arg.ToLower().StartsWith("-pf:")))
 			{
-				var srcLocalizationFilePath =
-					FileLocator.GetFileDistributedWithApplication(ConfigFolderName, "Pa.tmx");
-
-				File.Copy(srcLocalizationFilePath, localizationFilePath);
+				ProjectFolder = arg.Substring(4);
+				if (Directory.Exists(ProjectFolder))
+					return;
 			}
 
-			L10NMngr = LocalizationManager.Create("Pa", "Phonology Assistant", DefaultProjectFolder);
-			LocalizeItemDlg.SaveDialogSplitterPosition += (pos =>
-				Settings.Default.LocalizeDlgSplitterPos = pos);
-			
-			LocalizeItemDlg.SetDialogSplitterPosition += (currPos =>
-				(Settings.Default.LocalizeDlgSplitterPos > 0 ? Settings.Default.LocalizeDlgSplitterPos : currPos));
-			
-			LocalizeItemDlg.SaveDialogBounds += (dlg =>
-				Settings.Default.LocalizeDlgBounds = dlg.Bounds);
-			
-			LocalizeItemDlg.SetDialogBounds += (dlg =>
-			{
-				if (!Settings.Default.LocalizeDlgBounds.IsEmpty)
-					dlg.Bounds = Settings.Default.LocalizeDlgBounds;
-			});
+			// Construct the default project path.
+			ProjectFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-			LocalizeItemDlg.StringsLocalized += (() =>
+			// I found that in limited user mode on Vista, Environment.SpecialFolder.MyDocuments
+			// returns an empty string. Argh!!! Therefore, I have to make sure there is
+			// a valid and full path. Do that by getting the user's desktop folder and
+			// chopping off everything that follows the last backslash. If getting the user's
+			// desktop folder fails, then fall back to the program's folder, which is
+			// probably not right, but we'll have to assume it will never happen. :o)
+			if (string.IsNullOrEmpty(ProjectFolder))
 			{
-				MsgMediator.SendMessage("StringsLocalized", L10NMngr);
-				PaFieldDisplayProperties.ResetDisplayNameCache();
-			});
+				ProjectFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+				if (string.IsNullOrEmpty(ProjectFolder) || !Directory.Exists(ProjectFolder))
+				{
+					ProjectFolder = AssemblyPath;
+					return;
+				}
+
+				ProjectFolder = ProjectFolder.TrimEnd('\\');
+				int i = ProjectFolder.LastIndexOf('\\');
+				ProjectFolder = ProjectFolder.Substring(0, i);
+			}
+
+			ProjectFolder = Path.Combine(ProjectFolder, "Phonology Assistant");
+
+			// Create the folder if it doesn't exist.
+			if (!Directory.Exists(ProjectFolder))
+				Directory.CreateDirectory(ProjectFolder);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static void InitializeSettingsFileLocation()
+		public static void InitializeSettingsFileLocation()
 		{
 			string path = null;
 
@@ -203,24 +196,54 @@ namespace SIL.Pa
 				Utils.MsgBox(msg);
 			}
 
-			PortableSettingsProvider.SettingsFileFolder = GetDefaultProjectFolder();
+			if (ProjectFolder == null)
+				InitializeProjectFolder();
+
+			PortableSettingsProvider.SettingsFileFolder = ProjectFolder;
 			PortableSettingsProvider.SettingsFileName = "Pa.settings";
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static void InitializeFonts()
+		public static void InitializeLocalization()
 		{
-			// If the user knows enough to add an entry to the settings file to
-			// override the default UI font, then read it and use it.
-			if (Settings.Default.UIFont != null)
-				FontHelper.UIFont = Settings.Default.UIFont;
+			SetUILanguage();
 
-			if (Settings.Default.PhoneticFont != null)
+			// Copy the localization file to where the settings file is located.
+			var localizationFilePath = Path.Combine(PortableSettingsProvider.SettingsFileFolder, "Pa.tmx");
+			if (!File.Exists(localizationFilePath))
 			{
-				PhoneticFont = Settings.Default.PhoneticFont;
-				return;
+				var srcLocalizationFilePath =
+					FileLocator.GetFileDistributedWithApplication(ConfigFolderName, "Pa.tmx");
+
+				File.Copy(srcLocalizationFilePath, localizationFilePath);
 			}
+
+			L10NMngr = LocalizationManager.Create("Pa", "Phonology Assistant", ProjectFolder);
+			LocalizeItemDlg.SaveDialogSplitterPosition += (pos =>
+				Settings.Default.LocalizeDlgSplitterPos = pos);
 			
+			LocalizeItemDlg.SetDialogSplitterPosition += (currPos =>
+				(Settings.Default.LocalizeDlgSplitterPos > 0 ? Settings.Default.LocalizeDlgSplitterPos : currPos));
+			
+			LocalizeItemDlg.SaveDialogBounds += (dlg =>
+				Settings.Default.LocalizeDlgBounds = dlg.Bounds);
+			
+			LocalizeItemDlg.SetDialogBounds += (dlg =>
+			{
+				if (!Settings.Default.LocalizeDlgBounds.IsEmpty)
+					dlg.Bounds = Settings.Default.LocalizeDlgBounds;
+			});
+
+			LocalizeItemDlg.StringsLocalized += (() =>
+			{
+				MsgMediator.SendMessage("StringsLocalized", L10NMngr);
+				PaFieldDisplayProperties.ResetDisplayNameCache();
+			});
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void InitializePhoneticFont()
+		{
 			// These should get intialized via the settings file, but in case there is no
 			// settings file, this will ensure at least something.
 			if (FontHelper.FontInstalled("Doulos SIL"))
@@ -269,7 +292,7 @@ namespace SIL.Pa
 		/// add on to do it.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void ReadAddOns()
+		public static void ReadAddOns()
 		{
 			if (DesignMode)
 				return;
@@ -314,25 +337,6 @@ namespace SIL.Pa
 				}
 				catch { }
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private static void InitializeProjectFolder()
-		{
-			DefaultProjectFolder = Settings.Default.UsersProjectFolderName;
-
-			if (string.IsNullOrEmpty(DefaultProjectFolder) || !Directory.Exists(DefaultProjectFolder))
-			{
-				DefaultProjectFolder = GetDefaultProjectFolder();
-				Settings.Default.UsersProjectFolderName = DefaultProjectFolder;
-				Settings.Default.Save();
-			}
-
-			PortableSettingsProvider.SettingsFileFolder = DefaultProjectFolder;
-
-			// Create the folder if it doesn't exist.
-			if (!Directory.Exists(DefaultProjectFolder))
-				Directory.CreateDirectory(DefaultProjectFolder);
 		}
 
 		#endregion
@@ -651,7 +655,7 @@ namespace SIL.Pa
 		/// Gets the XCore message mediator for the application.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static Mediator MsgMediator { get; private set; }
+		public static Mediator MsgMediator { get; internal set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -659,14 +663,14 @@ namespace SIL.Pa
 		/// can hold all the views.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static Size MinimumViewWindowSize { get; private set; }
+		public static Size MinimumViewWindowSize { get; internal set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the default location for PA projects.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string DefaultProjectFolder { get; set; }
+		public static string ProjectFolder { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -1030,36 +1034,6 @@ namespace SIL.Pa
 		#endregion
 
 		#region Misc. methods
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Construct the default project path.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string GetDefaultProjectFolder()
-		{
-			// Construct the default project path.
-			string projPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
-			// I found that in limited user mode on Vista, Environment.SpecialFolder.MyDocuments
-			// returns an empty string. Argh!!! Therefore, I have to make sure there is
-			// a valid and full path. Do that by getting the user's desktop folder and
-			// chopping off everything that follows the last backslash. If getting the user's
-			// desktop folder fails, then fall back to the program's folder, which is
-			// probably not right, but we'll have to assume it will never happen. :o)
-			if (string.IsNullOrEmpty(projPath))
-			{
-				projPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-				if (string.IsNullOrEmpty(projPath) || !Directory.Exists(projPath))
-					return AssemblyPath;
-
-				projPath = projPath.TrimEnd('\\');
-				int i = projPath.LastIndexOf('\\');
-				projPath = projPath.Substring(0, i);
-			}
-
-			return Path.Combine(projPath, "Phonology Assistant");
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Prepares the adapter for localization support.

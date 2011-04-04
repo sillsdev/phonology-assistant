@@ -350,7 +350,7 @@ namespace SIL.Pa.Processing
 				"li", "class", "format", "XHTML");
 
 			var outPath = Path.GetDirectoryName(m_outputFileName);
-			WriteRelativePath("genericRelativePath", outPath, App.DefaultProjectFolder);
+			WriteRelativePath("genericRelativePath", outPath, App.ProjectFolder);
 			WriteRelativePath("specificRelativePath", outPath, Path.GetDirectoryName(m_project.CssFileName));
 
 			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",

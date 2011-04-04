@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Palaso.IO;
 using Palaso.Reporting;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SIL.Pa.UI.Dialogs;
 using SilTools;
 
@@ -38,7 +39,6 @@ namespace SIL.Pa
 
 		private const int kDefaultFeatureColWidth = 225;
 
-		private static SettingsHandler s_settingsHndlr;
 		private List<IPASymbol> m_symbols;
 		private List<IPASymbol> m_nonEditableSymbols;
 		private readonly List<string> unknownCharTypes;
@@ -74,6 +74,9 @@ namespace SIL.Pa
 			ExceptionHandler.Init();
 			
 			s_loadingWnd = new SmallFadingWnd(Properties.Resources.kstidLoadingProgramMsg);
+
+			PortableSettingsProvider.SettingsFileFolder = App.ProjectFolder;
+			PortableSettingsProvider.SettingsFileName = "PCIEditor.settings";
 
 			string inventoryFilePath =
 				FileLocator.GetDirectoryDistributedWithApplication(App.ConfigFolderName);
@@ -112,20 +115,9 @@ namespace SIL.Pa
 				return;
 			}
 
-			s_settingsHndlr = new PaSettingsHandler(Path.Combine(Application.StartupPath, "PCIEditor.xml"));
 			var editor = new PCIEditor();
 			editor.OpenFile(inventoryPath);
 			Application.Run(editor);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the settings handler for the application.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static SettingsHandler SettingsHandler
-		{
-			get { return s_settingsHndlr; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -162,11 +154,10 @@ namespace SIL.Pa
 			tslbl.Font = SystemInformation.MenuFont;
 			mnuMain.Items.Add(tslbl);
 
-			var eticFntName = SettingsHandler.GetStringSettingsValue("phoneticfont", "name", "Doulos SIL");
-			var eticFntSz = SettingsHandler.GetFloatSettingsValue("phoneticfont", "size", 13f);
-			SettingsHandler.SaveSettingsValue("phoneticfont", "name", eticFntName);
-			SettingsHandler.SaveSettingsValue("phoneticfont", "size", eticFntSz);
-			App.PhoneticFont = new Font(eticFntName, eticFntSz, GraphicsUnit.Point);
+			if (Settings.Default.PhoneticFont != null)
+				App.PhoneticFont = Settings.Default.PhoneticFont;
+			else
+				Settings.Default.PhoneticFont = App.PhoneticFont;
 
 			// Load 'knownCharTypes'
 			knownCharTypes = new List<string>();
@@ -179,7 +170,7 @@ namespace SIL.Pa
 			unknownCharTypes.Add("Diacritics");
 			unknownCharTypes.Add("Breaking");
 
-			s_settingsHndlr.LoadFormProperties(this);
+			Settings.Default.MainWindow = App.InitializeForm(this, Settings.Default.MainWindow);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -218,8 +209,8 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			s_settingsHndlr.SaveFormProperties(this);
-			s_settingsHndlr.SaveGridProperties(Grid);
+			Settings.Default.GridSettings = GridSettings.Create(Grid);
+			Settings.Default.Save();
 			base.OnFormClosing(e);
 		}
 
@@ -469,7 +460,9 @@ namespace SIL.Pa
 			Grid.ColumnHeaderMouseClick += HandleGridColumnHeaderMouseClick;
 
 			Grid.FirstDisplayedCell = Grid.CurrentCell = Grid[0, 0];
-			s_settingsHndlr.LoadGridProperties(Grid);
+			
+			if (Settings.Default.GridSettings != null)
+				Settings.Default.GridSettings.InitializeGrid(Grid);
 		}
 
 		/// ------------------------------------------------------------------------------------

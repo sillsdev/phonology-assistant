@@ -21,7 +21,7 @@ namespace SIL.Pa.UI.Dialogs
 	{
 		private const string kTmpRstFolder = "~PaRestore";
 
-		private string m_lastFolderPicked = App.DefaultProjectFolder;
+		private string m_lastFolderPicked = App.ProjectFolder;
 		private string m_prjName;
 		private string m_tmpFolder;
 		private string m_papPath;

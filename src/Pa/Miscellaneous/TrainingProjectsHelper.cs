@@ -37,7 +37,7 @@ namespace SIL.Pa
 				if (!File.Exists(zipFile))
 					return;
 
-				var destFolder = Path.Combine(App.DefaultProjectFolder, tpsi.TrainingProjectFolder);
+				var destFolder = Path.Combine(App.ProjectFolder, tpsi.TrainingProjectFolder);
 
 				// Make sure the target folder for the training projects exists.
 				if (!Directory.Exists(destFolder))

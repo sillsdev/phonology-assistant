@@ -67,15 +67,15 @@ namespace SilTools
 		{
 			var tmpFolder = (SettingsFileFolder ?? string.Empty);
 
-			if (tmpFolder.Trim() == string.Empty)
-			{
-				var appFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-				appFolder = Path.Combine(appFolder, ApplicationName);
-				if (!Directory.Exists(appFolder))
-					Directory.CreateDirectory(appFolder);
+			if (tmpFolder.Trim() != string.Empty)
+				return;
+			
+			var appFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+			appFolder = Path.Combine(appFolder, ApplicationName);
+			if (!Directory.Exists(appFolder))
+				Directory.CreateDirectory(appFolder);
 
-				SettingsFileFolder = appFolder;
-			}
+			SettingsFileFolder = appFolder;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ namespace SilTools
 			}
 		}
 
-		#region Properties
+		#region Properties and Property-like methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the name of the currently running application.
@@ -197,10 +197,6 @@ namespace SilTools
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private bool GetStringCollection(SettingsPropertyValue value, XmlNode node)
 		{
 			if (node.Attributes.GetNamedItem("type") != null &&
@@ -218,10 +214,6 @@ namespace SilTools
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private bool GetFormSettings(SettingsPropertyValue value, XmlNode node)
 		{
 			if (node.Attributes.GetNamedItem("type") != null &&
@@ -236,10 +228,6 @@ namespace SilTools
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private bool GetGridSettings(SettingsPropertyValue value, XmlNode node)
 		{

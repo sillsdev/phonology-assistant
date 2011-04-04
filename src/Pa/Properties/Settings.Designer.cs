@@ -127,7 +127,7 @@ namespace SIL.Pa.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("C")]
@@ -135,21 +135,15 @@ namespace SIL.Pa.Properties {
             get {
                 return ((string)(this["ConsonantSymbol"]));
             }
-            set {
-                this["ConsonantSymbol"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("V")]
         public string VowelSymbol {
             get {
                 return ((string)(this["VowelSymbol"]));
-            }
-            set {
-                this["VowelSymbol"] = value;
             }
         }
         
@@ -582,7 +576,7 @@ namespace SIL.Pa.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("http://www.ethnologue.com/language_index.asp")]
@@ -590,12 +584,9 @@ namespace SIL.Pa.Properties {
             get {
                 return ((string)(this["EthnologueIndexPage"]));
             }
-            set {
-                this["EthnologueIndexPage"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("http://www.ethnologue.com/language_index.asp?letter={0}")]
@@ -603,21 +594,15 @@ namespace SIL.Pa.Properties {
             get {
                 return ((string)(this["EthnologueFirstLetterOfNameSearch"]));
             }
-            set {
-                this["EthnologueFirstLetterOfNameSearch"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("http://www.ethnologue.com/show_language.asp?code={0}")]
         public string EthnologueCodeSearch {
             get {
                 return ((string)(this["EthnologueCodeSearch"]));
-            }
-            set {
-                this["EthnologueCodeSearch"] = value;
             }
         }
         
@@ -1470,7 +1455,7 @@ namespace SIL.Pa.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("http://downloads.sil.org/Speech%20Analyzer/Corporate%20Release/3.0.1/Speech%20Ana" +
@@ -1479,21 +1464,15 @@ namespace SIL.Pa.Properties {
             get {
                 return ((string)(this["SaDownloadLink"]));
             }
-            set {
-                this["SaDownloadLink"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("www.sil.org/computing/sa")]
         public string SaWebsiteLink {
             get {
                 return ((string)(this["SaWebsiteLink"]));
-            }
-            set {
-                this["SaWebsiteLink"] = value;
             }
         }
         
@@ -3464,19 +3443,6 @@ namespace SIL.Pa.Properties {
         public string DefaultProjectFolderName {
             get {
                 return ((string)(this["DefaultProjectFolderName"]));
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string UsersProjectFolderName {
-            get {
-                return ((string)(this["UsersProjectFolderName"]));
-            }
-            set {
-                this["UsersProjectFolderName"] = value;
             }
         }
         

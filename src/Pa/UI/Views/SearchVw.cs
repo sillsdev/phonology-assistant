@@ -370,7 +370,7 @@ namespace SIL.Pa.UI.Views
 			var recentList = 
 				(from object rp in lstRecentPatterns.Items select rp as SearchQuery).ToList();
 			
-			string path = Path.Combine(App.DefaultProjectFolder, kRecentlyUsedPatternFile);
+			string path = Path.Combine(App.ProjectFolder, kRecentlyUsedPatternFile);
 			if (recentList.Count > 0)
 				XmlSerializationHelper.SerializeToFile(path, recentList);
 			else
@@ -503,7 +503,7 @@ namespace SIL.Pa.UI.Views
 
 			try
 			{
-				string path = Path.Combine(App.DefaultProjectFolder, kRecentlyUsedPatternFile);
+				string path = Path.Combine(App.ProjectFolder, kRecentlyUsedPatternFile);
 				var recentList = XmlSerializationHelper.DeserializeFromFile<List<SearchQuery>>(path);
 				if (recentList != null)
 					lstRecentPatterns.Items.AddRange(recentList.ToArray());
