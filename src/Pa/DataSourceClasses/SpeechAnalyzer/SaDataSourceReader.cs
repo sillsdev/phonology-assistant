@@ -38,12 +38,9 @@ namespace SIL.Pa.DataSource.Sa
 		/// ------------------------------------------------------------------------------------
 		public bool Read(RecordCache recCache)
 		{
-			var reader = new SaAudioDocumentReader();
+			var reader = new SaAudioDocumentReader(m_worker);
 			if (!reader.Initialize(m_dataSource.SourceFile) || reader.Words == null)
-			{
-				// TODO: report error.
 				return false;
-			}
 
 			// Make only a single record entry for the entire wave file.
 			var recCacheEntry = new RecordCacheEntry(false, m_project)

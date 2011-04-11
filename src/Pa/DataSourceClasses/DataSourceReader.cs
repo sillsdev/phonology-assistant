@@ -201,6 +201,8 @@ namespace SIL.Pa.DataSource
 			}
 			else if (e.ProgressPercentage == 0)
 				App.IncProgressBar();
+			else if (e.ProgressPercentage == -1)
+				App.CloseSplashScreen();
 			else
 				App.IncProgressBar(e.ProgressPercentage);
 		}

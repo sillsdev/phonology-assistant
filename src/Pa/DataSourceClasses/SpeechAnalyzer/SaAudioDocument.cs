@@ -142,8 +142,7 @@ namespace SIL.Pa.DataSource.Sa
 
 				if (e != null)
 				{
-					var viewer = new ExceptionViewer(e);
-					viewer.ShowDialog();
+					Palaso.Reporting.ErrorReport.ReportNonFatalException(e);
 					return null;
 				}
 

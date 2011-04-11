@@ -92,7 +92,7 @@ namespace SIL.Pa.DataSource.Sa
 		/// ------------------------------------------------------------------------------------
 		private static bool IsValidWaveFile(FileStream stream)
 		{
-			BinaryReader reader = new BinaryReader(stream);
+			var reader = new BinaryReader(stream);
 
 			// Verify RIFF chunk exists
 			stream.Position = 0;
@@ -219,7 +219,7 @@ namespace SIL.Pa.DataSource.Sa
 		/// ------------------------------------------------------------------------------------
 		public static long GetChunkOffset(FileStream stream, string chunkId)
 		{
-			BinaryReader reader = new BinaryReader(stream);
+			var reader = new BinaryReader(stream);
 
 			// Start at beginning of 'fmt' chunk.
 			stream.Position = 12;
