@@ -31,6 +31,11 @@ namespace SIL.Pa.UI.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class CVChartRowGroup : IDisposable
 	{
+		private const TextFormatFlags kHdrTextRenderingFlags =
+			TextFormatFlags.VerticalCenter | TextFormatFlags.Left |
+			TextFormatFlags.HidePrefix | TextFormatFlags.WordBreak |
+			TextFormatFlags.WordEllipsis | TextFormatFlags.PreserveGraphicsClipping;
+
 		private readonly CVChartGrid m_grid;
 		private readonly int m_firstRowIndex;
 		private readonly int m_lastRowIndex;
@@ -39,19 +44,11 @@ namespace SIL.Pa.UI.Controls
 		public string Text { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static CVChartRowGroup Create(string headerText, int rowCount, CVChartGrid grid)
 		{
 			return new CVChartRowGroup(headerText, rowCount, grid);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private CVChartRowGroup(string headerText, int rowCount, CVChartGrid grid)
 		{
@@ -69,20 +66,12 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
 			if (m_grid != null)
 				m_grid.CellPainting -= HandleCellPainting;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public int PreferredWidth
 		{
@@ -100,24 +89,17 @@ namespace SIL.Pa.UI.Controls
 		/// it is currently not displayed.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private Rectangle GroupRectangle
+		private Rectangle GetGroupRectangle()
 		{
-			get
-			{
-				var rc = m_grid.GetCellDisplayRectangle(-1, m_firstRowIndex, false);
+			var rc = m_grid.GetCellDisplayRectangle(-1, m_firstRowIndex, false);
 
-				var dy = (rc.Height == Rows[0].Height ?
-					rc.Y : m_grid.ColumnHeadersHeight - m_grid.VerticalScrollingOffset);
+			var dy = (rc.Height == Rows[0].Height ?
+				rc.Y : m_grid.ColumnHeadersHeight - m_grid.VerticalScrollingOffset);
 
-				return (m_grid == null ? Rectangle.Empty :
-					new Rectangle(0, dy, m_grid.RowHeadersWidth, Rows.Sum(x => x.Height)));
-			}
+			return (m_grid == null ? Rectangle.Empty :
+				new Rectangle(0, dy, m_grid.RowHeadersWidth, Rows.Sum(x => x.Height)));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private Color CurrentGroupColor
 		{
@@ -130,10 +112,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void HandleCellPainting(object sender, DataGridViewCellPaintingEventArgs e)
 		{
 			if (e.ColumnIndex >= 0 || e.RowIndex < m_firstRowIndex || e.RowIndex > m_lastRowIndex)
@@ -142,7 +120,7 @@ namespace SIL.Pa.UI.Controls
 			e.Graphics.SetClip(new Rectangle(0, m_grid.ColumnHeadersHeight,
 				m_grid.RowHeadersWidth, m_grid.ClientRectangle.Height));
 
-			var rc = GroupRectangle;
+			var rc = GetGroupRectangle();
 
 			using (var br = new SolidBrush(m_grid.BackgroundColor))
 				e.Graphics.FillRectangle(br, rc);
@@ -156,13 +134,8 @@ namespace SIL.Pa.UI.Controls
 
 			rc.Width--;
 
-			const TextFormatFlags flags = TextFormatFlags.VerticalCenter |
-				TextFormatFlags.Left | TextFormatFlags.HidePrefix |
-				TextFormatFlags.WordBreak | TextFormatFlags.WordEllipsis |
-				TextFormatFlags.PreserveGraphicsClipping;
-
 			TextRenderer.DrawText(e.Graphics, Text, FontHelper.UIFont, rc,
-				SystemColors.WindowText, flags);
+				SystemColors.WindowText, kHdrTextRenderingFlags);
 
 			using (var pen = new Pen(m_grid.GridColor))
 				e.Graphics.DrawLine(pen, rc.X, rc.Bottom - 1, rc.Right, rc.Bottom - 1);
@@ -171,10 +144,6 @@ namespace SIL.Pa.UI.Controls
 			e.Graphics.ResetClip();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void DrawDoubleLine(DataGridViewCellPaintingEventArgs e, Rectangle rc)
 		{

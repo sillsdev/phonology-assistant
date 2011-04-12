@@ -56,7 +56,6 @@ namespace SIL.Pa.UI.Views
 			this.splitOuter.Panel2.Controls.Add(this.m_histogram);
 			this.splitOuter.Panel2.Padding = new System.Windows.Forms.Padding(10, 1, 10, 10);
 			this.splitOuter.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.splitOuter.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel2_Paint);
 			this.splitOuter.Size = new System.Drawing.Size(630, 606);
 			this.splitOuter.SplitterDistance = 351;
 			this.splitOuter.SplitterWidth = 8;

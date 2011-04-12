@@ -173,7 +173,7 @@ namespace SIL.Pa.DataSource
 			var defaultParsedFlds = Settings.Default.DefaultParsedSfmFields;
 
 			return from mkr in GetSfMarkers(true)
-				   let field = fields.SingleOrDefault(f => f.GetPossibleDataSourceFieldNames().Contains(mkr))
+				   let field = fields.FirstOrDefault(f => f.GetPossibleDataSourceFieldNames().Contains(mkr))
 				   where field != null
 				   orderby mkr
 				   select new FieldMapping(mkr, field, defaultParsedFlds.Contains(field.Name));

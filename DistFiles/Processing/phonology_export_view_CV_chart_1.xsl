@@ -187,8 +187,8 @@ exclude-result-prefixes="xhtml"
 
 	<!-- Some articulatory features are hyphenated: Alveolo-palatal, Near-front, Near-back. -->
 	<xsl:template match="xhtml:table[@class = 'CV chart']/xhtml:thead/xhtml:tr/xhtml:th[contains(., '-')]">
-		<xsl:variable name="before" select="substring-before(., ' ')" />
-		<xsl:variable name="after" select="substring-after(., ' ')" />
+		<xsl:variable name="before" select="substring-before(., '-')" />
+		<xsl:variable name="after" select="substring-after(., '-')" />
 		<xsl:copy>
 			<xsl:apply-templates select="@*" />
 			<xsl:choose>

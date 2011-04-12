@@ -172,6 +172,8 @@ namespace SIL.Pa.UI.Views
 
 			if (ColumnHeaderHeight > 0)
 				m_chartGrid.ColumnHeadersHeight = ColumnHeaderHeight;
+			else
+				m_chartGrid.AdjustColumnHeaderHeight();
 
 			if (RowHeaderWidth > 0)
 				m_chartGrid.RowHeadersWidth = RowHeaderWidth;
@@ -646,10 +648,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void PerformSearch(string environment, string toolbarItemName)
 		{
 			string[] srchPhones = (m_chrGrid == null || !m_chrGrid.Visible ?
@@ -1062,25 +1060,6 @@ namespace SIL.Pa.UI.Views
 		protected virtual IPASymbolType CharacterType
 		{
 			get { return IPASymbolType.Unknown; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Paint a single line at the top of the panel (which will be just above the
-		/// histogram).
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
-		{
-			//Color clr = (PaintingHelper.CanPaintVisualStyle() ?
-			//    VisualStyleInformation.TextControlBorder : SystemColors.ControlDark);
-
-			//using (Pen pen = new Pen(clr))
-			//{
-			//    e.Graphics.DrawLine(pen, splitContainer1.Panel2.Padding.Left, 0,
-			//        splitContainer1.Panel2.ClientSize.Width -
-			//        (splitContainer1.Panel2.Padding.Right + 1), 0);
-			//}
 		}
 
 		#region Update handlers for menus that shouldn't be enabled when this view is current

@@ -201,11 +201,19 @@ namespace SIL.Pa.UI.Controls
 				}
 			}
 
+			foreach (DataGridViewColumn col in Columns)
+				col.Width = width;
+
 			foreach (var row in GetRows())
 				row.Height = height;
 
-			foreach (DataGridViewColumn col in Columns)
-				col.Width = width;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void AdjustColumnHeaderHeight()
+		{
+			ColumnHeadersHeight = ColumnGroups.Aggregate(0, (curr, grp) =>
+				Math.Max(curr, grp.GetPreferredHeaderHeight()));
 		}
 
 		/// ------------------------------------------------------------------------------------
