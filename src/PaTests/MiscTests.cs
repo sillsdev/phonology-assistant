@@ -35,29 +35,11 @@ namespace SIL.Pa.Tests
 
 		#region Setup/Teardown
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Create temporary test records.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[TestFixtureSetUp]
-		public override void FixtureSetup()
-		{
-			base.FixtureSetup();
-			InventoryHelper.Load();
-		}
-
-		/// ------------------------------------------------------------------------------------
 		[SetUp]
         public void TestSetup()
         {
 			m_recEntry = new RecordCacheEntry(m_prj);
 			m_recEntry.DataSource = new PaDataSource();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		[TearDown]
-        public void TestTearDown()
-        {
 		}
 
 		#endregion

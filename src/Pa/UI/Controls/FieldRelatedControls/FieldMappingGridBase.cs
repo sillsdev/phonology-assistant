@@ -149,6 +149,7 @@ namespace SIL.Pa.UI.Controls
 				var field = GetFieldAt(CurrentCellAddress.Y);
 				Fonts[field.Name] = (Font)m_fontPicker.Font.Clone();
 				UpdateCellValue(CurrentCellAddress.X, CurrentCellAddress.Y);
+				IsDirty = true;
 			}
 		}
 
@@ -196,6 +197,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				var valAsString = (e.Value as string ?? string.Empty);
 				PushFieldName(m_mappings[e.RowIndex], valAsString.Trim(), e.RowIndex);
+				IsDirty = true;
 			}
 
 			InvalidateRow(e.RowIndex);

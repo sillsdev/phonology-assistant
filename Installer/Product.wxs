@@ -2,7 +2,7 @@
 <!-- These variables define the Windows Installer product version, product code and upgrade code. They   -->
 <!-- will be used later on in this file.                                                                 -->
 <!--<?define Property_ProductVersion = "BUILD_SCRIPT_MUST_REPLACE_AT_RUNTIME" ?> -->
-<?define Property_ProductVersion = "3.3.0.0" ?>
+<?define Property_ProductVersion = "3.3.1" ?>
 <!--this is replaced at build time by the msbuild 'package' target -->
 <?define Property_ProductCode = "*" ?>
 <!-- auto-generate a new guid each time -->
@@ -18,7 +18,7 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 			   Version="$(var.Property_ProductVersion)" Manufacturer="SIL"
 			   UpgradeCode="$(var.Property_UpgradeCode)">-->
 
-	<Product Id="$(var.Property_ProductCode)" Name="Phonology Assistant 3.3.0 (Test Version)" Language="1033"
+	<Product Id="$(var.Property_ProductCode)" Name="Phonology Assistant 3.3.1 (Test Version)" Language="1033"
 			   Version="$(var.Property_ProductVersion)" Manufacturer="SIL"
 			   UpgradeCode="$(var.Property_UpgradeCode)">
 
@@ -46,11 +46,11 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 
 		<DirectoryRef Id="TARGETDIR">
 			<Directory Id='ProgramMenuFolder' Name='Programs'>
-				<Directory Id='ShortcutDir' Name='Phonology Assistant 3.3.0'>
+				<Directory Id='ShortcutDir' Name='Phonology Assistant $(var.Property_ProductVersion)'>
 					<Component Id="AddShortcutDir" Guid="{5F66AE70-D4E4-43A2-A74C-A708CF73D3DA}">
-						<Shortcut Id="AppMenuShortcut" Name="Phonology Assistant 3.3.0" Target="[!Pa.exe]" />
+						<Shortcut Id="AppMenuShortcut" Name="Phonology Assistant $(var.Property_ProductVersion)" Target="[!Pa.exe]" />
 						<RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
-						<RegistryValue Root="HKCU" Key="Software\Phonology Assistant 3.3.0" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+						<RegistryValue Root="HKCU" Key="Software\Phonology Assistant $(var.Property_ProductVersion)" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
 					</Component>
 				</Directory>
 			</Directory>

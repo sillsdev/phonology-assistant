@@ -554,7 +554,7 @@ namespace SIL.Pa.PhoneticSearching
 				return ZeroOrMoreCondition.InSearchItem;
 
 			// Check environment before
-			string[] pieces = tmpEnvBefore.Split("*".ToCharArray());
+			string[] pieces = tmpEnvBefore.Split('*');
 
 			if (pieces.Length > 2)
 			    return ZeroOrMoreCondition.MoreThanOneInEnvBefore;
@@ -563,7 +563,7 @@ namespace SIL.Pa.PhoneticSearching
 				return ZeroOrMoreCondition.NotBeginningOfEnvBefore;
 
 			// Check environment after
-			pieces = tmpEnvAfter.Split("*".ToCharArray());
+			pieces = tmpEnvAfter.Split('*');
 
 			if (pieces.Length > 2)
 				return ZeroOrMoreCondition.MoreThanOneInEnvAfter;

@@ -18,6 +18,7 @@ using NUnit.Framework;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Processing;
 using SIL.Pa.TestUtils;
 
 namespace SIL.Pa.Tests
@@ -45,26 +46,19 @@ namespace SIL.Pa.Tests
 		public override void FixtureSetup()
 		{
 			base.FixtureSetup();
-			InventoryHelper.Load();
-			
-			PaProject proj = new PaProject(true);
-			proj.LanguageName = "dummy";
-			proj.Name = "dummy";
-			App.Project = proj;
 
+			ProjectInventoryBuilder.SkipProcessingForTests = true;
 			m_dataSource = new PaDataSource();
 			m_dataSource.Type = DataSourceType.Toolbox;
+			m_dataSource.FieldMappings = new System.Collections.Generic.List<FieldMapping>();
+			m_dataSource.FieldMappings.Add(new FieldMapping("\\ph", m_prj.GetPhoneticField(), true));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-        /// 
-        /// </summary>
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
         public void TestSetup()
         {
-			m_recCache = new RecordCache();
+			m_recCache = m_prj.RecordCache;
 
 			m_sortOptions = new SortOptions();
 			m_sortOptions.AdvancedEnabled = true;

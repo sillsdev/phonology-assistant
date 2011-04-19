@@ -44,7 +44,7 @@ namespace SIL.Pa.UI.Dialogs
 			SetUiFonts();
 
 			var fieldsInList = from field in App.Project.Fields
-							   where field.VisibleInGrid && field.DisplayIndexInGrid >= 0
+							   where field.VisibleInGrid && field.DisplayIndexInGrid >= 0 && m_grid.Columns[field.Name] != null
 							   orderby field.DisplayIndexInGrid
 							   select field;
 

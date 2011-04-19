@@ -51,27 +51,20 @@ namespace SIL.Pa.Tests
 		[TestFixtureSetUp]
 		public override void FixtureSetup()
 		{
+			base.FixtureSetup();
 			ProjectInventoryBuilder.SkipProcessingForTests = true;
-			InventoryHelper.Load();
-
-			PaProject proj = new PaProject(true);
-			proj.LanguageName = "dummy";
-			proj.Name = "dummy";
-			App.Project = proj;
 
 			m_dataSource = new PaDataSource();
 			m_dataSource.Type = DataSourceType.Toolbox;
 			m_dataSource.ParseType = DataSourceParseType.Interlinear;
+			m_dataSource.FieldMappings = new List<FieldMapping>();
+			m_dataSource.FieldMappings.Add(new FieldMapping("\\ph", m_prj.GetPhoneticField(), true));
 
 			FindInfo.ShowMessages = false;
 			FwDBAccessInfo.ShowMsgOnFileLoadFailure = false;
 			FwQueries.ShowMsgOnFileLoadFailure = false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void TestSetup()
@@ -83,10 +76,6 @@ namespace SIL.Pa.Tests
 			m_findDlg.StartsWith = false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[TearDown]
 		public void TestTearDown()
@@ -117,7 +106,7 @@ namespace SIL.Pa.Tests
 		/// ------------------------------------------------------------------------------------
 		private void Initialize(string eticWrds, string cvWrds, string glossWrds)
 		{
-			m_recCache = new RecordCache();
+			m_recCache = m_prj.RecordCache;
 			m_cache = new WordListCache();
 
 			AddWords(eticWrds, cvWrds, glossWrds);

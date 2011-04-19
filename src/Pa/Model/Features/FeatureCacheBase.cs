@@ -1,32 +1,11 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2009, SIL International. All Rights Reserved.
-// <copyright from='2009' to='2009' company='SIL International'>
-//		Copyright (c) 2009, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
-// 
-// File: FeatureCacheBase.cs
-// Responsibility: D. Olson
-// 
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System.Diagnostics;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows.Forms;
 using SilTools;
 
 namespace SIL.Pa.Model
 {
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class FeatureCacheBase : Dictionary<string, Feature>
 	{
@@ -42,16 +21,12 @@ namespace SIL.Pa.Model
 			Clear();
 
 			int bit = 0;
-			foreach (Feature feature in list)
+			foreach (var feature in list.Where(f => f.Name != null))
 			{
-				if (feature.Name != null)
-				{
-					feature.Name = CleanNameForLoad(feature.Name);
-					string fullName = ReflectionHelper.GetField(feature, "m_fullname") as string;
-					feature.FullName = CleanNameForLoad(fullName);
-					feature.Bit = bit++;
-					Add(feature);
-				}
+				feature.Name = CleanNameForLoad(feature.Name);
+				feature.FullName = CleanNameForLoad(feature.GetBaseFullName());
+				feature.Bit = bit++;
+				Add(feature);
 			}
 		}
 
@@ -78,10 +53,6 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public new Feature this[string featureName]
 		{
 			get
@@ -97,13 +68,7 @@ namespace SIL.Pa.Model
 				// If we failed to get a feature object from the specified name, then check
 				// if the name is the full name of a feature by going through the collection
 				// to see if one of their full names matches featureName.
-				foreach (Feature feat in Values)
-				{
-					if (featureName == feat.FullName.ToLower())
-						return feat;
-				}
-
-				return null;
+				return Values.FirstOrDefault(f => featureName == f.FullName.ToLower());
 			}
 			set
 			{
@@ -215,14 +180,11 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public string GetFeaturesText(FeatureMask mask)
 		{
-			List<string> featureList = GetFeatureList(mask);
+			var featureList = GetFeatureList(mask);
 			var bldrfeatures = new StringBuilder();
 
-			foreach (string feature in featureList)
-			{
-				bldrfeatures.Append(feature);
-				bldrfeatures.Append(", ");
-			}
+			foreach (var feature in featureList)
+				bldrfeatures.AppendFormat("{0}, ", feature);
 
 			// Remove the last comma and space.
 			if (bldrfeatures.Length >= 2)
@@ -274,16 +236,12 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public FeatureMask GetMask(List<string> features)
 		{
-			FeatureMask mask = GetEmptyMask();
+			var mask = GetEmptyMask();
 
 			if (features != null)
 			{
-				foreach (string fname in features)
-				{
-					Feature feature = this[fname];
-					if (feature != null)
-						mask[feature.Bit] = true;
-				}
+				foreach (var feature in features.Select(fname => this[fname]).Where(f => f != null))
+					mask[feature.Bit] = true;
 			}
 
 			return mask;

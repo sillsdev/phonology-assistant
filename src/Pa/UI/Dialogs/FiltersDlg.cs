@@ -542,7 +542,7 @@ namespace SIL.Pa.UI.Dialogs
 			Application.Idle -= ReloadFiltersOnIdle;
 
 			var index = m_filterList.IndexOf(Tag as Filter);
-			if (index >= 0)
+			if (index >= 0 && index < m_gridFilters.RowCount)
 				m_gridFilters.CurrentCell = m_gridFilters[kFilterNameCol, index];
 		}
 
