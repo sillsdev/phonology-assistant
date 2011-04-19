@@ -582,7 +582,11 @@ namespace SIL.Pa
 				if (MainForm != null)
 					MainForm.Activate();
 
-				SplashScreen.Close();
+				// Occassionally, I found that we could get to this point and the splash screen
+				// is null. This was due to the fact that in some cases, I force the closure of
+				// the splash screen in another thread when data sources are read.
+				if (SplashScreen != null)
+					SplashScreen.Close();
 			}
 
 			SplashScreen = null;

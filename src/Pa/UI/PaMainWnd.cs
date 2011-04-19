@@ -979,7 +979,7 @@ namespace SIL.Pa.UI
 		protected bool OnDropDownFiltersParent(object args)
 		{
 			var tbpi = args as ToolBarPopupInfo;
-			if (tbpi == null)
+			if (tbpi == null || m_project == null)
 				return false;
 
 			const string cmdId = "CmdExecuteFilter";
@@ -1012,7 +1012,7 @@ namespace SIL.Pa.UI
 		protected bool OnDropDownClosedFiltersParent(object args)
 		{
 			var itemProps = args as TMItemProperties;
-			if (itemProps == null)
+			if (itemProps == null || m_project == null)
 				return false;
 
 			foreach (var filter in m_project.FilterHelper.Filters.Where(f => f.ShowInToolbarList))
@@ -1063,7 +1063,7 @@ namespace SIL.Pa.UI
 			if (itemProps == null)
 				return false;
 
-			itemProps.Enabled = (m_project.FilterHelper.CurrentFilter != null);
+			itemProps.Enabled = (m_project != null && m_project.FilterHelper.CurrentFilter != null);
 			itemProps.Visible = true;
 			itemProps.Update = true;
 			return true;
@@ -1205,7 +1205,7 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected bool OnUpdateViewFindPhones(object args)
+		protected bool OnUpdateViewSearch(object args)
 		{
 			App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(SearchVw));
 			return true;

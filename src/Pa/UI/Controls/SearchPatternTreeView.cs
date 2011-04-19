@@ -254,7 +254,7 @@ namespace SIL.Pa.UI.Controls
 				// First find the category.
 				if (categoryNode.Text == categoryName)
 				{
-					if (categoryNode.Nodes == null || categoryNode.Nodes.Count == 0)
+					if (categoryNode.Nodes.Count == 0)
 						return null;
 
 					// Next, find the query name.
@@ -276,12 +276,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public TreeNode GetPatternsNode(SearchQuery query)
 		{
-			if (query == null || Nodes == null || Nodes.Count == 0)
+			if (query == null || Nodes.Count == 0)
 				return null;
 
 			if (query.Id != 0)
 			{
-				TreeNode[] nodes = Nodes.Find(query.Id.ToString(), true);
+				var nodes = Nodes.Find(query.Id.ToString(), true);
 				if (nodes.Length > 0)
 					return nodes[0];
 			}
@@ -1058,7 +1058,7 @@ namespace SIL.Pa.UI.Controls
 		/// Save the expanded states when the control popup closes.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool OnDropDownClosedViewFindPhones(object args)
+		public bool OnDropDownClosedViewSearch(object args)
 		{
 			if (m_isForToolbarPopup)
 			{

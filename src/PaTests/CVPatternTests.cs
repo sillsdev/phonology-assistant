@@ -41,19 +41,15 @@ namespace SIL.Pa.Tests
 		public override void FixtureSetup()
 		{
 			base.FixtureSetup();
-			InventoryHelper.Load(m_inventoryFile);
+			InventoryHelper.Load();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void TestSetup()
 		{
-			m_cache = new PhoneCache();
-			PhoneCache.CVPatternInfoList = new List<CVPatternInfo>();
+			m_cache = new PhoneCache(m_prj);
+			m_prj.CVPatternInfoList = new List<CVPatternInfo>();
 		}
 
 		#endregion
@@ -121,8 +117,8 @@ namespace SIL.Pa.Tests
 			m_cache.AddPhone("c");
 			m_cache.AddPhone("e");
 
-			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create("c", IPASymbolIgnoreType.NotApplicable));
-			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create("e", IPASymbolIgnoreType.NotApplicable));
+			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("c", IPASymbolIgnoreType.NotApplicable));
+			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("e", IPASymbolIgnoreType.NotApplicable));
 
 			Assert.AreEqual("VCec", m_cache.GetCVPattern("abec"));
 			Assert.AreEqual("CceV", m_cache.GetCVPattern("bcea"));
@@ -144,8 +140,8 @@ namespace SIL.Pa.Tests
 			m_cache.AddPhone("e");
 			m_cache.AddPhone("e\u0301");
 
-			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create("a", IPASymbolIgnoreType.NotApplicable));
-			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create("e\u0301", IPASymbolIgnoreType.NotApplicable));
+			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("a", IPASymbolIgnoreType.NotApplicable));
+			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("e\u0301", IPASymbolIgnoreType.NotApplicable));
 
 			Assert.AreEqual("aCe\u0301C", m_cache.GetCVPattern("abe\u0301c"));
 			Assert.AreEqual("CCVV", m_cache.GetCVPattern("bcea\u0303"));
@@ -167,11 +163,11 @@ namespace SIL.Pa.Tests
 			m_cache.AddPhone("e");
 			m_cache.AddPhone("e\u0301");
 
-			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create("a",
+			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("a",
 				IPASymbolIgnoreType.NotApplicable));
-			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create("\u0301",
+			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("\u0301",
 				IPASymbolIgnoreType.Tone));
-			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create(App.kDottedCircle + "\u0303",
+			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create(App.kDottedCircle + "\u0303",
 				IPASymbolIgnoreType.NotApplicable));
 
 			Assert.AreEqual("aCVC", m_cache.GetCVPattern("abec"));
@@ -192,14 +188,12 @@ namespace SIL.Pa.Tests
 			m_cache.AddPhone("\u207Fb");
 			m_cache.AddPhone("c");
 			m_cache.AddPhone("e");
-			AmbiguousSequences ambigSeqs = new AmbiguousSequences();
-			ambigSeqs.Add("\u207Fb");
-			App.IPASymbolCache.AmbiguousSequences = ambigSeqs;
+			
+			m_prj.AmbiguousSequences.Clear();
+			m_prj.AmbiguousSequences.Add("\u207Fb");
 
-			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create("a",
-				IPASymbolIgnoreType.NotApplicable));
-			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create("\u207F" + App.kDottedCircle,
-				IPASymbolIgnoreType.NotApplicable));
+			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("a", IPASymbolIgnoreType.NotApplicable));
+			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("\u207F" + App.kDottedCircle, IPASymbolIgnoreType.NotApplicable));
 
 			Assert.AreEqual("a\u207FCVC", m_cache.GetCVPattern("a\u207Fbec"));
 			Assert.AreEqual("\u207FCCVa", m_cache.GetCVPattern("\u207Fbcea"));
@@ -221,14 +215,13 @@ namespace SIL.Pa.Tests
 			m_cache.AddPhone("c");
 			m_cache.AddPhone("e");
 
-			AmbiguousSequences ambigSeqs = new AmbiguousSequences();
-			ambigSeqs.Add("\u207Fb");
-			App.IPASymbolCache.AmbiguousSequences = ambigSeqs;
+			m_prj.AmbiguousSequences.Clear();
+			m_prj.AmbiguousSequences.Add("\u207Fb");
 
-			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create(App.kDottedCircle + "\u0303",
+			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create(App.kDottedCircle + "\u0303",
 				IPASymbolIgnoreType.NotApplicable));
 
-			PhoneCache.CVPatternInfoList.Add(CVPatternInfo.Create("\u207F" + App.kDottedCircle,
+			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("\u207F" + App.kDottedCircle,
 				IPASymbolIgnoreType.NotApplicable));
 
 			Assert.AreEqual("VV\u0303\u207FCC", m_cache.GetCVPattern("ea\u0303\u207Fbc"));
@@ -252,8 +245,7 @@ namespace SIL.Pa.Tests
 			trans.SetReplacementOptions(list);
 			trans.ReplaceWith = "y";
 
-			App.IPASymbolCache.TranscriptionChanges = new TranscriptionChanges();
-			App.IPASymbolCache.TranscriptionChanges.Add(trans);
+			m_prj.TranscriptionChanges.Add(trans);
 
 			m_cache.AddPhone("a");
 			m_cache.AddPhone("x");
@@ -278,8 +270,7 @@ namespace SIL.Pa.Tests
 			trans.SetReplacementOptions(replacementOptions);
 			trans.ReplaceWith = "y";
 
-			App.IPASymbolCache.TranscriptionChanges = new TranscriptionChanges();
-			App.IPASymbolCache.TranscriptionChanges.Add(trans);
+			m_prj.TranscriptionChanges.Add(trans);
 
 			m_cache.AddPhone("a");
 			m_cache.AddPhone("x");

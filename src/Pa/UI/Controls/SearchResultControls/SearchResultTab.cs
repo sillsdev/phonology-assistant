@@ -228,9 +228,14 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void SetText(WordListCache resultCache)
 		{
-			Text = (resultCache == null ||
-				resultCache.SearchQuery == null ? string.Empty :
-				resultCache.SearchQuery.ToString());
+			if (resultCache != null)
+				Text = (resultCache.SearchQuery == null ? string.Empty : resultCache.SearchQuery.ToString());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetDoesHaveEmptyText()
+		{
+			return (string.IsNullOrEmpty(Text) || Text == EmptyTabText);
 		}
 
 		#region Properties

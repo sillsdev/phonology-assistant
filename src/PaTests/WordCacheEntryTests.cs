@@ -52,8 +52,7 @@ namespace SIL.Pa.Tests
 		[SetUp]
         public void TestSetup()
         {
-			App.WordCache = new WordCache();
-			m_entry = new WordCacheEntry(true);
+			m_entry = new WordCacheEntry();
 		}
 
 		#endregion
@@ -149,7 +148,7 @@ namespace SIL.Pa.Tests
 		public void PossibleWordsFromUncertainties_2x2()
 		{
 			string[][] result;
-			WordCacheEntry entry = new WordCacheEntry(true);
+			var entry = new WordCacheEntry();
 
 			entry["Phonetic"] = "(1/2)x(3/4)";
 			result = entry.GetAllPossibleUncertainWords(true);

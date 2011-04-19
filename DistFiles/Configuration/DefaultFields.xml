@@ -16,7 +16,6 @@
 		<fwWritingSystemType>Analysis</fwWritingSystemType>
 	</field>
 	<field name="Gloss-Other" type="GeneralText">
-		<possibleDataSourceFieldNames>\gn</possibleDataSourceFieldNames>
 		<fwWritingSystemType>Analysis</fwWritingSystemType>
 	</field>
 	<field name="PartOfSpeech" type="GeneralText">

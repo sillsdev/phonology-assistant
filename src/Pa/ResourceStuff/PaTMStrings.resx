@@ -156,7 +156,7 @@
     <value />
   </data>
   <data name="kstidExportAsRTFText" xml:space="preserve">
-    <value>To &amp;Rich Text Format (RTF)</value>
+    <value>&amp;Rich Text Format (RTF)...</value>
   </data>
   <data name="kstidExportAsRTFToolTip" xml:space="preserve">
     <value>Export to RTF File</value>
@@ -596,7 +596,7 @@
     <value>P&amp;roject Settings...</value>
   </data>
   <data name="kstidExportAsPAXMLText" xml:space="preserve">
-    <value>To {0} &amp;XML</value>
+    <value>{0} &amp;XML...</value>
   </data>
   <data name="kstidCurrentTabGroupText" xml:space="preserve">
     <value>&amp;Search</value>
@@ -657,7 +657,7 @@
     <comment>Menu item text</comment>
   </data>
   <data name="kstidExportAsHTMLText" xml:space="preserve">
-    <value>To &amp;HTML</value>
+    <value>&amp;HTML...</value>
     <comment>Menu item text</comment>
   </data>
   <data name="kstidExportAsHTMLToolTip" xml:space="preserve">
@@ -931,14 +931,11 @@
     <value>(&amp;No Filter)</value>
   </data>
   <data name="kstidExportAsWordXmlText" xml:space="preserve">
-    <value>To &amp;Word 2003 XML</value>
+    <value>&amp;Word 2003 XML...</value>
     <comment>Menu item text</comment>
   </data>
-  <data name="kstidExportAsWordXmlToolTip" xml:space="preserve">
-    <value>To Word 2003 XML</value>
-  </data>
   <data name="kstidExportAsXLingPaperText" xml:space="preserve">
-    <value>To &amp;XLingPaper</value>
+    <value>X&amp;LingPaper...</value>
   </data>
   <data name="kstidExportAsXLingPaperToolTip" xml:space="preserve">
     <value>Export to XLingPaper File</value>

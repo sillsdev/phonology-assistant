@@ -38,6 +38,7 @@ namespace SIL.Pa.Model
 		{
 			m_project = project;
 			m_phoneticFieldName = m_project.GetPhoneticField().Name;
+			PhoneCache = new PhoneCache(project);
 			RecordCacheEntry.ResetCounter();
 		}
 

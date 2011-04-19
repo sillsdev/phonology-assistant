@@ -77,7 +77,7 @@ namespace SIL.Pa
 			if (Cache == null || !Cache.IsForSearchResults)
 				return null;
 
-			foreach (WordListCacheEntry entry in Cache)
+			foreach (var entry in Cache)
 			    entry.CIEGroupId = -1;
 
 			// First, send a message to see if there is an AddOn to find minimal pairs. If so,
@@ -114,7 +114,7 @@ namespace SIL.Pa
 				if (grp.Value.Count < 2)
 					continue;
 
-				foreach (WordListCacheEntry entry in grp.Value)
+				foreach (var entry in grp.Value)
 				{
 					entry.CIEGroupId = cieGroupId;
 					cieCache.Add(entry);

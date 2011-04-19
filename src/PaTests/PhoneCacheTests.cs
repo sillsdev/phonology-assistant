@@ -42,25 +42,17 @@ namespace SIL.Pa.Tests
 		public override void FixtureSetup()
 		{
 			base.FixtureSetup();
-			InventoryHelper.Load(m_inventoryFile);
+			InventoryHelper.Load();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-        /// 
-        /// </summary>
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void TestSetup()
 		{
-			m_cache = new PhoneCache();
-			PhoneCache.CVPatternInfoList = new List<CVPatternInfo>();
+			m_cache = new PhoneCache(m_prj);
+			m_prj.CVPatternInfoList = new List<CVPatternInfo>();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-        /// 
-        /// </summary>
 		/// ------------------------------------------------------------------------------------
 		[TearDown]
         public void TestTearDown()

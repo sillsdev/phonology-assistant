@@ -361,7 +361,7 @@ namespace SIL.Pa.UI.Controls
 				tab.RemoveResultView();
 
 			// If there is no tab text, then get it from the result view's search query.
-			if (string.IsNullOrEmpty(tab.Text) && resultView != null && resultView.SearchQuery != null)
+			if (tab.GetDoesHaveEmptyText() && resultView != null && resultView.SearchQuery != null)
 				tab.Text = resultView.SearchQuery.ToString();
 
 			tab.AdjustWidth();

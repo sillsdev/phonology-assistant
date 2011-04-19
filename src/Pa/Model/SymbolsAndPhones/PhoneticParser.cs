@@ -47,6 +47,16 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Use this only for tests.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void ResetAmbiguousSequencesForTests()
+		{
+			m_sortedAmbiguousSeqList = null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// This will build a list of ambiguous sequences that's in order of their length and
 		/// will include the tone letters as well. The order is longest to shortest with those
 		/// with the same lengths, staying in the order in which the user entered them in the

@@ -65,12 +65,11 @@ namespace SIL.Pa.Tests
         public void TestSetup()
         {
 			m_recCache = new RecordCache();
-			App.RecordCache = m_recCache;
 
 			m_sortOptions = new SortOptions();
 			m_sortOptions.AdvancedEnabled = true;
 			m_sortOptions.AdvRlOptions = new[] { false, false, false };
-			m_sortOptions.SetPrimarySortField(App.Project.FieldInfo.PhoneticField, false, true);
+			m_sortOptions.SetPrimarySortField("Phonetic", false);
 			m_sortOptions.SortType = PhoneticSortType.POA;
 			m_sortOptions.AdvSortOrder = new[] { 0, 2, 1 };
 		}
@@ -78,20 +77,16 @@ namespace SIL.Pa.Tests
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void AddWords(string words)
 		{
-			RecordCacheEntry entry = new RecordCacheEntry(true);
+			RecordCacheEntry entry = new RecordCacheEntry(m_prj);
 			entry.SetValue("Phonetic", words);
 			entry.NeedsParsing = true;
 			entry.DataSource = m_dataSource;
 			m_recCache.Add(entry);
-			m_recCache.BuildWordCache(App.Project, null);
+			m_recCache.BuildWordCache(null);
 
-			SearchQuery query = new SearchQuery();
+			var query = new SearchQuery();
 			query.IgnoreDiacritics = false;
 			query.IgnoredLengthChars = null;
 			query.IgnoredStressChars = null;

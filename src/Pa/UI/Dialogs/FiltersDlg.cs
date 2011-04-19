@@ -317,7 +317,8 @@ namespace SIL.Pa.UI.Dialogs
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			col.Resizable = DataGridViewTriState.True;
 			col.ReadOnly = false;
-			col.Width = 200;
+			col.Width = 170;
+			col.MinimumWidth = 50;
 			m_gridFilters.Columns.Add(col);
 			App.RegisterForLocalization(m_gridFilters.Columns["filterName"],
 				"FiltersDlg.FiltersListFilterNameColumnHeadingText", "Available Filters");
@@ -889,6 +890,14 @@ namespace SIL.Pa.UI.Dialogs
 		private void HandleButtonRemoveClick(object sender, EventArgs e)
 		{
 			if (m_gridFilters.CurrentRow == null)
+				return;
+
+			var msg = App.GetString("FiltersDlg.RemoveFilterConfirmationMsg",
+				"The filter '{0}' will be deleted.");
+
+			msg = string.Format(msg, CurrentFilter.Name);
+
+			if (Utils.MsgBox(msg, MessageBoxButtons.OKCancel) != DialogResult.OK)
 				return;
 
 			int index = m_gridFilters.CurrentRow.Index;

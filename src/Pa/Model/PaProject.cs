@@ -65,6 +65,8 @@ namespace SIL.Pa.Model
 				LoadAmbiguousSequences();
 				LoadTranscriptionChanges();
 				m_newProject = true;
+				RecordCache = new RecordCache(this);
+				PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
 			}
 		}
 
@@ -293,6 +295,9 @@ namespace SIL.Pa.Model
 			SearchVwSortOptions.PostDeserializeInitialization(this);
 			DistributionChartVwSortOptions.PostDeserializeInitialization(this);
 			FixupFieldsAndMappings();
+
+			if (CIEOptions == null)
+				CIEOptions = new CIEOptions();
 
 			foreach (var ds in DataSources)
 				ds.PostDeserializeInitialization(this);

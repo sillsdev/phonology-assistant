@@ -8483,5 +8483,11 @@
         <seg>{0}-VowelChart-(XLingPaper).xml</seg>
       </tuv>
     </tu>
+    <tu tuid="FiltersDlg.RemoveFilterConfirmationMsg">
+      <prop type="x-group">UI.Views.VowelChartVw</prop>
+      <tuv xml:lang="en">
+        <seg>The filter '{0}' will be deleted.</seg>
+      </tuv>
+    </tu>
   </body>
 </tmx>

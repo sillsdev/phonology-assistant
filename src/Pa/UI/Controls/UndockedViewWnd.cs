@@ -43,9 +43,10 @@ namespace SIL.Pa.UI.Controls
 			m_view = view;
 			Opacity = 0;
 
-			sblblProgress.Font = FontHelper.MakeFont(FontHelper.UIFont, 9, FontStyle.Bold);
-			sbProgress.Visible = false;
 			sblblMain.Text = sblblProgress.Text = string.Empty;
+			sblblProgress.Font = FontHelper.MakeFont(FontHelper.UIFont, 9, FontStyle.Bold);
+			sblblProgress.Visible = false;
+			sbProgress.Visible = false;
 			sblblPercent.Visible = false;
 			MinimumSize = App.MinimumViewWindowSize;
 

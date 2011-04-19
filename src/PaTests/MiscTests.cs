@@ -47,28 +47,17 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-        /// 
-        /// </summary>
-		/// ------------------------------------------------------------------------------------
 		[SetUp]
         public void TestSetup()
         {
-			App.IPASymbolCache.UndefinedCharacters = null;
-			App.WordCache = new WordCache();
-			m_recEntry = new RecordCacheEntry(true);
+			m_recEntry = new RecordCacheEntry(m_prj);
 			m_recEntry.DataSource = new PaDataSource();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-        /// 
-        /// </summary>
-		/// ------------------------------------------------------------------------------------
 		[TearDown]
         public void TestTearDown()
         {
-			App.FieldInfo = null;
 		}
 
 		#endregion
@@ -82,10 +71,10 @@ namespace SIL.Pa.Tests
 		public void BuildPhoneCacheTest1()
 		{
 			var wordCache = new WordCache();
-			m_entry = new WordCacheEntry(m_recEntry, true);
+			m_entry = new WordCacheEntry(m_recEntry);
 			m_entry["Phonetic"] = "abc";
 			wordCache.Add(m_entry);
-			m_entry = new WordCacheEntry(m_recEntry, true);
+			m_entry = new WordCacheEntry(m_recEntry);
 			m_entry["Phonetic"] = "xyz";
 			wordCache.Add(m_entry);
 			
@@ -110,10 +99,10 @@ namespace SIL.Pa.Tests
 		{
 			var wordCache = new WordCache();
 			
-			m_entry = new WordCacheEntry(m_recEntry, true);
+			m_entry = new WordCacheEntry(m_recEntry);
 			m_entry["Phonetic"] = "abc";
 			wordCache.Add(m_entry);
-			m_entry = new WordCacheEntry(m_recEntry, true);
+			m_entry = new WordCacheEntry(m_recEntry);
 			m_entry["Phonetic"] = "axc";
 			wordCache.Add(m_entry);
 
@@ -139,7 +128,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void BuildPhoneCacheWithWordBreaksInPhonetic()
 		{
-			m_entry = new WordCacheEntry(m_recEntry, true);
+			m_entry = new WordCacheEntry(m_recEntry);
 			m_entry["Phonetic"] = "ab" + App.BreakChars[0] + "xy";
 			var wordCache = new WordCache();
 			wordCache.Add(m_entry);
@@ -164,10 +153,9 @@ namespace SIL.Pa.Tests
 		{
 			var wordCache = new WordCache();
 
-			App.IPASymbolCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
-			App.IPASymbolCache.LogUndefinedCharactersWhenParsing = true;
+			m_prj.PhoneticParser.LogUndefinedCharactersWhenParsing = true;
 
-			m_entry = new WordCacheEntry(m_recEntry, true);
+			m_entry = new WordCacheEntry(m_recEntry);
 			m_entry["Phonetic"] = "abXY";
 			wordCache.Add(m_entry);
 			var phoneCache = GetResult(typeof(RecordCache), "GetPhonesFromWordCache", wordCache) as PhoneCache;
@@ -193,7 +181,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void BuildPhoneCacheWithUncertainties1()
 		{
-			m_entry = new WordCacheEntry(m_recEntry, true);
+			m_entry = new WordCacheEntry(m_recEntry);
 			m_entry["Phonetic"] = "ab(t/d)c";
 			var wordCache = new WordCache();
 			wordCache.Add(m_entry);
@@ -218,7 +206,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void BuildPhoneCacheWithUncertainties2()
 		{
-			m_entry = new WordCacheEntry(m_recEntry, true);
+			m_entry = new WordCacheEntry(m_recEntry);
 			m_entry["Phonetic"] = "ab(t/d)c(e/i/o)";
 			var wordCache = new WordCache();
 			wordCache.Add(m_entry);
@@ -296,7 +284,7 @@ namespace SIL.Pa.Tests
 		/// ------------------------------------------------------------------------------------
 		private void VerifyUncertaintyGroup(string phontic)
 		{
-			m_entry = new WordCacheEntry(m_recEntry, true);
+			m_entry = new WordCacheEntry(m_recEntry);
 			m_entry["Phonetic"] = phontic;
 			var wordCache = new WordCache();
 			wordCache.Add(m_entry);
@@ -325,7 +313,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void BuildPhoneCacheWithUncertaintiesWithMultiGroups1()
 		{
-			m_entry = new WordCacheEntry(m_recEntry, true);
+			m_entry = new WordCacheEntry(m_recEntry);
 			m_entry["Phonetic"] = "ab(t/d)cxy(u/i)z";
 			var wordCache = new WordCache();
 			wordCache.Add(m_entry);
@@ -355,7 +343,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void BuildPhoneCacheWithUncertaintiesWithMultiGroups2()
 		{
-			m_entry = new WordCacheEntry(m_recEntry, true);
+			m_entry = new WordCacheEntry(m_recEntry);
 			m_entry["Phonetic"] = "ab(t/d)cxy(u/i)z(t/d)mn";
 			var wordCache = new WordCache();
 			wordCache.Add(m_entry);
@@ -384,7 +372,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void DataSourceReader_ParseSoundFileName()
 		{
-			var reader = new DataSourceReader(new PaProject());
+			new DataSourceReader(new PaProject());
 
 			string filename = @"c:\junk1\junk2\junk3.wav";
 

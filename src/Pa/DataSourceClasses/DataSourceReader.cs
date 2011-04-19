@@ -248,7 +248,6 @@ namespace SIL.Pa.DataSource
 							break;
 					}
 
-					worker.ReportProgress(-1);
 
 					if (readSuccess)
 					{
@@ -257,6 +256,7 @@ namespace SIL.Pa.DataSource
 					}
 					else
 					{
+						worker.ReportProgress(-1);
 						fmt = App.GetString("DatasourceFileUnsuccessfullyReadMsg",
 							"Error processing data source file '{0}'.");
 
@@ -267,6 +267,7 @@ namespace SIL.Pa.DataSource
 				}
 				catch (Exception ex)
 				{
+					worker.ReportProgress(-1);
 					fmt = App.GetString("DatasourceFileReadingErrorMsg",
 							"The following error occurred while reading data source file '{0}'.{1}",
 							"First parameter is data source file name; second parameter is error message.");

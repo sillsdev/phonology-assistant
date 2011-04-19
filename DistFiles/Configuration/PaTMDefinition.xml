@@ -142,7 +142,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdFindNext" message="EditFindNext" shortcutkey="F3"/>
 		<command id="CmdFindPrevious" message="EditFindPrevious" shortcutkey="Shift+F3"/>
 		<command id="CmdDataCorpus" message="ViewDataCorpus" shortcutkey="Ctrl+Alt+D"/>
-		<command id="CmdFindPhones" message="ViewFindPhones" shortcutkey="Ctrl+Alt+S"/>
+		<command id="CmdFindPhones" message="ViewSearch" shortcutkey="Ctrl+Alt+S"/>
 		<command id="CmdConsonantChart" message="ViewConsonantChart" shortcutkey="Ctrl+Alt+C"/>
 		<command id="CmdVowelChart" message="ViewVowelChart" shortcutkey="Ctrl+Alt+V"/>
 		<command id="CmdXYChart" message="ViewXYChart" shortcutkey="Ctrl+Alt+X"/>
@@ -235,8 +235,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 			<item name="mnuConsonantChart" commandid="CmdConsonantChart"/>
 			<item name="mnuVowelChart" commandid="CmdVowelChart"/>
 			<item name="mnuXYChart" commandid="CmdXYChart"/>
-			<item name="mnuFiltersOnViewMenu" commandid="CmdFilters" begingroup="true"/>
-			<item name="mnuShowCIEResults" commandid="CmdShowCIEResults" />
+			<item name="mnuShowCIEResults" commandid="CmdShowCIEResults" begingroup="true"/>
 			<item name="mnuGroupBySortedField" commandid="CmdGroupBySortedField" begingroup="true"/>
 			<item name="mnuCollapseAllGroups" commandid="CmdCollapseAllGroups"/>
 			<item name="mnuExpandAllGroups" commandid="CmdExpandAllGroups"/>
@@ -247,11 +246,12 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<!--   TOOLS MENU  -->
 		<!-- *************** -->
 		<item name="mnuTools" commandid="CmdTools">
-			<item name="mnuUndefinedCharacters" commandid="CmdUndefinedCharacters"/>
+			<item name="mnuFiltersOnViewMenu" commandid="CmdFilters"/>
 			<item name="mnuExperimentalTranscriptions" commandid="CmdExperimentalTranscriptions" />
 			<item name="mnuAmbiguousSequences" commandid="CmdAmbiguousSequences"/>
 			<item name="mnuFeatures" commandid="CmdFeatures" />
 			<item name="mnuClasses" commandid="CmdClasses" />
+			<item name="mnuUndefinedCharacters" commandid="CmdUndefinedCharacters"/>
 			<item name="mnuOptions" commandid="CmdOptions" begingroup="true"/>
 		</item>
 

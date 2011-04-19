@@ -351,6 +351,15 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnCellMouseDoubleClick(DataGridViewCellMouseEventArgs e)
+		{
+			base.OnCellMouseDoubleClick(e);
+
+			if (e.Button == MouseButtons.Left && !string.IsNullOrEmpty(CurrentPhone))
+				App.MsgMediator.SendMessage("ChartPhoneSearchAnywhere", null);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Select cells that are right-clicked on.
 		/// </summary>

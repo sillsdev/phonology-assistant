@@ -107,7 +107,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.Name = "SaveDistributionChartDlg";
 			this.Padding = new System.Windows.Forms.Padding(10, 13, 10, 0);
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "Save XY Chart";
+			this.Text = "Save Distribution Chart";
 			this.Controls.SetChildIndex(this.tlpName, 0);
 			this.tlpName.ResumeLayout(false);
 			this.tlpName.PerformLayout();

@@ -15,8 +15,10 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using SIL.Pa.DataSource;
+using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
 using SIL.Pa.Processing;
 using SIL.Pa.TestUtils;
@@ -116,7 +118,6 @@ namespace SIL.Pa.Tests
 		private void Initialize(string eticWrds, string cvWrds, string glossWrds)
 		{
 			m_recCache = new RecordCache();
-			App.RecordCache = m_recCache;
 			m_cache = new WordListCache();
 
 			AddWords(eticWrds, cvWrds, glossWrds);
@@ -167,14 +168,14 @@ namespace SIL.Pa.Tests
 		private void AddWords(string words, string pattern, string gloss)
 		{
 			m_recCache.Clear();
-			RecordCacheEntry entry = new RecordCacheEntry(true);
+			RecordCacheEntry entry = new RecordCacheEntry(m_prj);
 			entry.SetValue(kPhonetic, words);
 			entry.SetValue(kCVPattern, pattern);
 			entry.SetValue(kGloss, gloss);
 			entry.NeedsParsing = true;
 			entry.DataSource = m_dataSource;
 			m_recCache.Add(entry);
-			m_recCache.BuildWordCache(App.Project, null);
+			m_recCache.BuildWordCache(null);
 
 			m_cache.Clear();
 			foreach (var wcEntry in m_recCache.WordCache)
@@ -548,7 +549,7 @@ namespace SIL.Pa.Tests
 			m_grid.Sort("Gloss", false);
 
 			// Adds 5 new SilHierarchicalGridRow's & 1 new column
-			m_grid.GroupByField = App.FieldInfo["Gloss"];
+			m_grid.GroupByField = m_prj.Fields.Single(f => f.Name == "Gloss");
 
 			ResetStartCell();
 			// WordListGroupingBuilder>GroupByField() inserted a hierarchical column for 
@@ -564,9 +565,9 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(true, IsCurrCellLocation(5, 9)); // cvc
 			Assert.AreEqual(true, FindInfo.Find(false));
 
-			/// ------------------------------------------------------------------------------------
-			/// Testing finds in collapsed & expanded groups.
-			/// ------------------------------------------------------------------------------------
+			// ------------------------------------------------------------------------------------
+			// Testing finds in collapsed & expanded groups.
+			// ------------------------------------------------------------------------------------
 
 			m_grid.ToggleGroupExpansion(false); // collapse all groups
 			FindInfo.SearchCollapsedGroups = false;
@@ -583,9 +584,9 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(true, IsCurrCellLocation(5, 9)); // cvc
 			Assert.AreEqual(true, FindInfo.Find(false));
 
-			/// ------------------------------------------------------------------------------------
-			/// Searching for "cvc" in 2 groups after collapsing one of them.
-			/// ------------------------------------------------------------------------------------
+			// ------------------------------------------------------------------------------------
+			// Searching for "cvc" in 2 groups after collapsing one of them.
+			// ------------------------------------------------------------------------------------
 
 			// Collapse 'glbitter' Group
 			((SilHierarchicalGridRow)m_grid.Rows[4]).SetExpandedState(false, false);
@@ -596,10 +597,10 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(true, FindInfo.Find(false));
 			Assert.AreEqual(true, IsCurrCellLocation(1, 9));
 
-			/// ------------------------------------------------------------------------------------
-			/// Searching for "cvc" in 2 groups after collapsing one of them, but
-			/// searching collapsed groups this time.
-			/// ------------------------------------------------------------------------------------
+			// ------------------------------------------------------------------------------------
+			// Searching for "cvc" in 2 groups after collapsing one of them, but
+			// searching collapsed groups this time.
+			// ------------------------------------------------------------------------------------
 			FindInfo.SearchCollapsedGroups = true;
 
 			ResetStartCell();

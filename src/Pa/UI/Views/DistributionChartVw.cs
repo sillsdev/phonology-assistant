@@ -1057,7 +1057,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnCompareGrid(object args)
 		{
-			PaWordListGrid grid = args as PaWordListGrid;
+			var grid = args as PaWordListGrid;
 			return (grid != null && ResultViewManger.CurrentViewsGrid == grid);
 		}
 
@@ -1137,10 +1137,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnSaveChart(object args)
 		{
 			if (!ActiveView)
@@ -1150,9 +1146,6 @@ namespace SIL.Pa.UI.Views
 			if (m_grid.IsCurrentCellInEditMode)
 				m_grid.EndEdit();
 
-			if (!m_grid.IsDirty)
-				return false;
-
 			// If the name isn't specified, then use the save as dialog.
 			if (string.IsNullOrEmpty(m_grid.ChartName))
 				return OnSaveChartAs(args);
@@ -1161,10 +1154,6 @@ namespace SIL.Pa.UI.Views
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnSaveChartAs(object args)
 		{
