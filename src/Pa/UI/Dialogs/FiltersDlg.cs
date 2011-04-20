@@ -348,7 +348,13 @@ namespace SIL.Pa.UI.Dialogs
 			if (m_filterList == null)
 				m_filterList = m_project.FilterHelper.Filters.ToList();
 
+			m_gridFilters.CurrentRowChanged -= HandleFilterGridCurrentRowChanged;
+			m_gridFilters.CellValueNeeded -= HandleFilterGridCellValueNeeded;
+			m_gridFilters.CellPainting -= HandleFilterGridCellPainting;
 			m_gridFilters.RowCount = m_filterList.Count;
+			m_gridFilters.CellPainting += HandleFilterGridCellPainting;
+			m_gridFilters.CellValueNeeded += HandleFilterGridCellValueNeeded;
+			m_gridFilters.CurrentRowChanged += HandleFilterGridCurrentRowChanged;
 
 			if (filterToMakeCurrent != null)
 				index = m_filterList.IndexOf(filterToMakeCurrent);

@@ -309,7 +309,7 @@ namespace SIL.Pa.UI.Dialogs
 					"Each field may only be mapped once."));
 			}
 
-			// Make sure no field is mapped more than once.
+			// Make sure the phonetic field is not mapped more than once.
 			if (m_fieldsGrid.GetIsPhoneticMappedMultipleTimes())
 			{
 				return ShowError(m_fieldsGrid, App.GetString(
