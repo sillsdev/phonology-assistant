@@ -46,7 +46,7 @@ namespace SIL.Pa.UI.Controls
 			Visible = true;
 			base.DoubleBuffered = true;
 			base.AllowDrop = true;
-			base.BackColor = SystemColors.Control;
+
 			s_tabFont = FontHelper.MakeFont(SystemInformation.MenuFont, 9);
 			m_tooltip = new ToolTip();
 
@@ -120,10 +120,11 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_pnlHdrBand = new Panel();
 			m_pnlHdrBand.Dock = DockStyle.Top;
+			m_pnlHdrBand.BackColor = AppColor.ViewTabGroupBackground;
 			m_pnlHdrBand.Padding = new Padding(0, 0, 0, 5);
 			m_pnlHdrBand.Paint += m_pnlHdrBand_Paint;
 			m_pnlHdrBand.Resize += m_pnlHdrBand_Resize;
-			using (Graphics g = CreateGraphics())
+			using (var g = CreateGraphics())
 			{
 				m_pnlHdrBand.Height = TextRenderer.MeasureText(g, "X",
 					s_tabFont, Size.Empty, kTxtFmtFlags).Height + 24;
@@ -143,6 +144,7 @@ namespace SIL.Pa.UI.Controls
 			m_pnlTabs = new Panel();
 			m_pnlTabs.Visible = true;
 			m_pnlTabs.Paint += HandleLinePaint;
+			m_pnlTabs.BackColor = AppColor.ViewTabGroupBackground;
 			m_pnlTabs.Anchor = AnchorStyles.Top | AnchorStyles.Left;
 			m_pnlTabs.Padding = new Padding(3, 3, 0, 0);
 			m_pnlTabs.Location = new Point(0, 0);
@@ -162,10 +164,12 @@ namespace SIL.Pa.UI.Controls
 			m_pnlCaption.Height = 28;
 			m_pnlCaption.Dock = DockStyle.Top;
 			m_pnlCaption.MakeDark = true;
+			m_pnlCaption.ColorTop = AppColor.PrimaryHeaderTop;
+			m_pnlCaption.ColorBottom = AppColor.PrimaryHeaderBottom;
 			m_pnlCaption.Paint += m_pnlCaption_Paint;
 			m_pnlCaption.Font = FontHelper.MakeFont(SystemInformation.MenuFont, 11,	FontStyle.Bold);
 			Controls.Add(m_pnlCaption);
-
+			
 			m_btnHelp = new XButton();
 			m_btnHelp.Size = new Size(20, 20);
 			m_btnHelp.Anchor = AnchorStyles.Right;
@@ -205,6 +209,7 @@ namespace SIL.Pa.UI.Controls
 			m_pnlScroll.Width = 40;
 			m_pnlScroll.Visible = true;
 			m_pnlScroll.Dock = DockStyle.Right;
+			m_pnlScroll.BackColor = m_pnlHdrBand.BackColor;
 			m_pnlScroll.Paint += HandleLinePaint;
 			m_pnlHdrBand.Controls.Add(m_pnlScroll);
 			m_pnlScroll.Visible = false;
@@ -235,6 +240,13 @@ namespace SIL.Pa.UI.Controls
 				m_tooltip.SetToolTip(m_btnLeft, App.GetString("ViewTabsScrollLeftToolTipText", "Scroll Left"));
 				m_tooltip.SetToolTip(m_btnRight, App.GetString("ViewTabsScrollRightToolTipText", "Scroll Right"));
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+			BackColor = AppColor.ViewBackground;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -712,7 +724,7 @@ namespace SIL.Pa.UI.Controls
 				TextFormatFlags.PreserveGraphicsClipping;
 
 			TextRenderer.DrawText(e.Graphics, m_captionText, m_pnlCaption.Font,
-				rc, m_pnlCaption.ForeColor, kFlags);
+				rc, AppColor.PrimaryHeaderForeground, kFlags);
 		}
 
 		/// ------------------------------------------------------------------------------------

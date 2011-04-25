@@ -44,7 +44,7 @@ namespace SIL.Pa.UI.Views
 		private readonly SplitterPanel m_dockedSidePanel;
 		private readonly Keys m_savePatternHotKey = Keys.None;
 
-		#region construction
+		#region Construction
 		/// ------------------------------------------------------------------------------------
 		public SearchVw()
 		{
@@ -263,6 +263,9 @@ namespace SIL.Pa.UI.Views
 		{
 			pnlSideBarCaption.Height = FontHelper.UIFont.Height + 7;
 			pnlSideBarCaption.Font = FontHelper.UIFont;
+			pnlSideBarCaption.ColorTop = AppColor.SecondaryHeaderTop;
+			pnlSideBarCaption.ColorBottom = AppColor.SecondaryHeaderBottom;
+			pnlSideBarCaption.ForeColor = AppColor.SecondaryHeaderForeground;
 
 			btnAutoHide.Top = ((pnlSideBarCaption.Height - btnAutoHide.Height) / 2) - 1;
 			btnDock.Top = btnAutoHide.Top;

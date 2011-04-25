@@ -268,7 +268,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			ForeColor = SystemColors.WindowText;
 			BackgroundColor = SystemColors.Window;
-			GridColor = App.GridColor;
+			GridColor = AppColor.GridColor;
 
 			m_uncertainPhoneForeColor = Settings.Default.UncertainPhoneForeColor;
 			m_searchItemBackColor = Settings.Default.QuerySearchItemBackColor;
@@ -1057,7 +1057,7 @@ namespace SIL.Pa.UI.Controls
 		protected override void OnCellFormatting(DataGridViewCellFormattingEventArgs e)
 		{
 			e.CellStyle.Font = Columns[e.ColumnIndex].DefaultCellStyle.Font;
-			App.SetCellColors(this, e);
+			AppColor.SetCellColors(this, e);
 			base.OnCellFormatting(e);
 		}
 

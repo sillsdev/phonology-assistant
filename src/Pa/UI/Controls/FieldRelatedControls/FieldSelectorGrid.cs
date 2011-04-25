@@ -38,7 +38,7 @@ namespace SIL.Pa.UI.Controls
 			AllowUserToOrderColumns = false;
 			AllowUserToResizeColumns = false;
 			CellBorderStyle = DataGridViewCellBorderStyle.None;
-			App.SetGridSelectionColors(this, false);
+			AppColor.SetGridSelectionColors(this, false);
 
 			if (App.DesignMode)
 				return;
@@ -61,7 +61,7 @@ namespace SIL.Pa.UI.Controls
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			Columns.Add(col);
 
-			App.SetGridSelectionColors(this, false);
+			AppColor.SetGridSelectionColors(this, false);
 		}
 
 		/// ------------------------------------------------------------------------------------

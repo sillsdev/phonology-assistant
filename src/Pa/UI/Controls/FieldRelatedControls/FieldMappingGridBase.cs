@@ -25,7 +25,7 @@ namespace SIL.Pa.UI.Controls
 			Font = FontHelper.UIFont;
 			RowHeadersVisible = false;
 			BorderStyle = BorderStyle.None;
-			App.SetGridSelectionColors(this, true);
+			AppColor.SetGridSelectionColors(this, true);
 			
 			Fonts = new Dictionary<string, Font>();
 			m_cellDropDown = new CellCustomDropDownList();

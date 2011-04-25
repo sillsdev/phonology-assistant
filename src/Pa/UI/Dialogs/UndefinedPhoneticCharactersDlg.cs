@@ -143,7 +143,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_gridChars.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 			m_gridChars.AutoResizeColumnHeadersHeight();
 			m_gridChars.Name = Name + "CharsGrid";
-			App.SetGridSelectionColors(m_gridChars, false);
+			AppColor.SetGridSelectionColors(m_gridChars, false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -181,7 +181,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_gridWhere.AutoResizeColumnHeadersHeight();
 			m_gridWhere.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
 			m_gridWhere.Name = Name + "WhereGrid";
-			App.SetGridSelectionColors(m_gridWhere, false);
+			AppColor.SetGridSelectionColors(m_gridWhere, false);
 		}
 
 		/// ------------------------------------------------------------------------------------

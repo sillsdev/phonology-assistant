@@ -125,7 +125,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.MultiSelect = true;
 		    m_grid.Font = FontHelper.UIFont;
 			m_grid.CurrentRowChanged += HandleCurrentRowChanged;
-			App.SetGridSelectionColors(m_grid, false);
+			AppColor.SetGridSelectionColors(m_grid, false);
 
 			m_grid.Columns.Add(SilGrid.CreateCheckBoxColumn("skip"));
 			App.RegisterForLocalization(m_grid.Columns["skip"],

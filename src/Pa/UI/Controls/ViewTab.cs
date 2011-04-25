@@ -1,23 +1,6 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2010, SIL International. All Rights Reserved.
-// <copyright from='2010' to='2010' company='SIL International'>
-//		Copyright (c) 2010, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
-// 
-// File: ViewTab.cs
-// Responsibility: D. Olson
-// 
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -470,18 +453,20 @@ namespace SIL.Pa.UI.Controls
 			var rc = ClientRectangle;
 
 			// First, fill the entire background with the control color.
-			g.FillRectangle(SystemBrushes.Control, rc);
-
-			var pts = new[] {new Point(0, rc.Bottom), new Point(0, rc.Top + 3),
-				new Point(3, 0), new Point(rc.Right - 4, 0), new Point(rc.Right - 1, rc.Top + 3),
-				new Point(rc.Right - 1, rc.Bottom)};
+			using (var br = new SolidBrush(AppColor.ViewTabGroupBackground))
+				g.FillRectangle(br, rc);
 
 			if (m_selected)
 			{
+				var pts = new[] {new Point(0, rc.Bottom), new Point(0, rc.Top + 3),
+					new Point(3, 0), new Point(rc.Right - 4, 0), new Point(rc.Right - 1, rc.Top + 3),
+					new Point(rc.Right - 1, rc.Bottom)};
+
 				using (var br = new SolidBrush(Color.White))
 					g.FillPolygon(br, pts);
 
-				g.DrawLines(SystemPens.ControlDark, pts);
+				using (var pen = new Pen(AppColor.ViewTabBackgroundActiveBorder))
+					g.DrawLines(pen, pts);
 			}
 			else
 			{
@@ -532,9 +517,8 @@ namespace SIL.Pa.UI.Controls
 				TextFormatFlags.SingleLine | TextFormatFlags.NoPadding |
 				TextFormatFlags.HidePrefix | TextFormatFlags.PreserveGraphicsClipping;
 
-			var clrText = (m_selected ? Color.Black :
-				ColorHelper.CalculateColor(SystemColors.ControlText,
-				SystemColors.Control, 145));
+			var clrText = (m_selected ? AppColor.ViewTabForegroundActive :
+				AppColor.ViewTabForegroundInactive);
 			
 			var rc = ClientRectangle;
 
@@ -568,11 +552,8 @@ namespace SIL.Pa.UI.Controls
 
 			var rc = ClientRectangle;
 
-			var clr = (PaintingHelper.CanPaintVisualStyle() ?
-				VisualStyleInformation.ControlHighlightHot : SystemColors.Highlight);
-
 			// Draw the lines that only show when the mouse is over the tab.
-			using (Pen pen = new Pen(clr))
+			using (Pen pen = new Pen(AppColor.ViewTabMouseHoverLine))
 			{
 				if (m_selected)
 				{

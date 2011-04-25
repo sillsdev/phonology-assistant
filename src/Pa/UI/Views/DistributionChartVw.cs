@@ -302,6 +302,9 @@ namespace SIL.Pa.UI.Views
 		{
 			pnlSideBarCaption.Height = FontHelper.UIFont.Height + 7;
 			pnlSideBarCaption.Font = FontHelper.UIFont;
+			pnlSideBarCaption.ColorTop = AppColor.SecondaryHeaderTop;
+			pnlSideBarCaption.ColorBottom = AppColor.SecondaryHeaderBottom;
+			pnlSideBarCaption.ForeColor = AppColor.SecondaryHeaderForeground;
 
 			btnAutoHide.Top = ((pnlSideBarCaption.Height - btnAutoHide.Height) / 2) - 1;
 			btnDock.Top = btnAutoHide.Top;

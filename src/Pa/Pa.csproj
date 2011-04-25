@@ -135,6 +135,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppColor.cs" />
     <Compile Include="DataSourceClasses\DataSourceEditor.cs" />
     <Compile Include="DataSourceClasses\DataSourceReader.cs" />
     <Compile Include="DataSourceClasses\FieldWorks\EditFwUrlDlg.cs">

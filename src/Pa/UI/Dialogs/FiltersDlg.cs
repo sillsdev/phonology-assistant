@@ -67,6 +67,12 @@ namespace SIL.Pa.UI.Dialogs
 			pnlExpressionMatch.BorderStyle = BorderStyle.None;
 			pnlExpressionMatch.DrawOnlyTopBorder = true;
 			pnlExpressionMatch.DrawOnlyBottomBorder = false;
+			pnlExpressionMatch.ColorTop = AppColor.SecondaryHeaderTop;
+			pnlExpressionMatch.ColorBottom = AppColor.SecondaryHeaderBottom;
+
+			lblExpressionMatchMsgPart.ForeColor = AppColor.SecondaryHeaderForeground;
+			rbAllExpressions.ForeColor = AppColor.SecondaryHeaderForeground;
+			rbAnyExpression.ForeColor = AppColor.SecondaryHeaderForeground;
 
 			// Get rid of these three lines when there is a help topic for this dialog box.
 			btnHelp.Visible = false;
@@ -311,7 +317,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_gridFilters.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 			m_gridFilters.CellBorderStyle = DataGridViewCellBorderStyle.None;
 			m_gridFilters.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-			App.SetGridSelectionColors(m_gridFilters, false);
+			AppColor.SetGridSelectionColors(m_gridFilters, false);
 
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("filterName");
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -377,7 +383,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_gridExpressions.AllowUserToOrderColumns = false;
 			m_gridExpressions.AllowUserToResizeColumns = true;
 			m_gridExpressions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-			App.SetGridSelectionColors(m_gridExpressions, true);
+			AppColor.SetGridSelectionColors(m_gridExpressions, true);
 
 			var fieldNames = (from field in m_project.GetMappedFields()
 							  orderby field.DisplayName
