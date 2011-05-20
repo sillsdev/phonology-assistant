@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using Palaso.Reporting;
 using SIL.Pa.Properties;
 using SilTools;
 
@@ -44,13 +45,9 @@ namespace SIL.Pa.Model
 				return cache;
 
 			var msg = App.GetString("ReadingFieldDisplayPropertiesFileErrorMsg",
-				"The following error occurred when reading the file\n\n'{0}'\n\n{1}");
+				"An error occurred reading the file\n\n'{0}'.");
 
-			while (e.InnerException != null)
-				e = e.InnerException;
-
-			Utils.MsgBox(string.Format(msg, path, e.Message));
-
+			ErrorReport.NotifyUserOfProblem(e, msg, path);
 			return null;
 		}
 

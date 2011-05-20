@@ -1,6 +1,8 @@
 using System;
 using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
+using SIL.Pa.Model;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -16,6 +18,7 @@ namespace SIL.Pa.UI.Controls
 		private UndockedViewWnd m_viewsForm;
 		private bool m_viewDocked;
 		private bool m_undockingInProgress;
+		private readonly PaProject _project;
 
 		/// <summary>
 		/// This flag gets set when a view is undocking. Suppose view A is being undocked.
@@ -31,12 +34,14 @@ namespace SIL.Pa.UI.Controls
 		public Func<string> GetHelpToolTipAction { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public ViewTab(ViewTabGroup owningTabControl, Image img, Type viewType)
+		public ViewTab(PaProject project, ViewTabGroup owningTabControl, Image img, Type viewType)
 		{
 			base.DoubleBuffered = true;
 			base.AutoSize = false;
 			base.AllowDrop = true;
 			base.Font = ViewTabGroup.s_tabFont;
+
+			_project = project;
 			OwningTabGroup = owningTabControl;
 			ViewType = viewType;
 			TabImage = img;
@@ -82,7 +87,9 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			// Create an instance of the view's form
-			View = (Control)ViewType.Assembly.CreateInstance(ViewType.FullName);
+			View = (Control)ViewType.Assembly.CreateInstance(ViewType.FullName, false,
+				BindingFlags.CreateInstance, null, new[] { _project }, null, null);
+			
 			App.MsgMediator.SendMessage("BeginViewOpen", View);
 			View.Dock = DockStyle.Fill;
 
@@ -185,7 +192,7 @@ namespace SIL.Pa.UI.Controls
 				OwningTabGroup.Controls.Remove(View);
 
 			// Prepare the undocked view's form to host the view and be displayed.
-			m_viewsForm = new UndockedViewWnd(View);
+			m_viewsForm = new UndockedViewWnd(_project, View);
 			m_viewsForm.FormClosing += m_viewsForm_FormClosing;
 			m_viewsForm.FormClosed += m_viewsForm_FormClosed;
 			m_viewsForm.Activated += m_viewsForm_Activated;

@@ -408,9 +408,7 @@ namespace SIL.Pa.UI.Dialogs
 			//    return;
 			//}
 
-			new RtfCreator(App.Project, m_exportTarget, m_exportFormat,
-				m_grid, m_grid.Cache, m_rtfEditor);
-			
+			new RtfCreator(m_grid, m_exportTarget, m_exportFormat, m_rtfEditor);
 			Close();
 		}
 

@@ -971,6 +971,14 @@ namespace SIL.Pa.Model
 		[XmlArray("CVPatternInfoList"), XmlArrayItem("CVPatternInfo")]
 		public List<CVPatternInfo> CVPatternInfoList { get; set; }
 
+		/// --------------------------------------------------------------------------------------------
+		[XmlElement("ConsonantChartSuprasegmentalsToIgnore")]
+		public string ConChartSupraSegsToIgnore { get; set; }
+
+		/// --------------------------------------------------------------------------------------------
+		[XmlElement("VowelChartSuprasegmentalsToIgnore")]
+		public string VowChartSupraSegsToIgnore { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the list of phones whose features should be overridden.
@@ -990,10 +998,6 @@ namespace SIL.Pa.Model
 		#endregion
 
 		#region Grid and Record View layout properties
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public GridLayoutInfo GridLayoutInfo
 		{

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Pa.Model;
 using SilTools;
 using SilTools.Controls;
 
@@ -287,20 +288,20 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		#region Tab managment methods
-		/// ------------------------------------------------------------------------------------
-		public ViewTab AddTab(string text, Type viewType)
-		{
-			return AddTab(text, null, viewType, null, null);
-		}
+		///// ------------------------------------------------------------------------------------
+		//public ViewTab AddTab(string text, Type viewType)
+		//{
+		//    return AddTab(text, null, viewType, null, null);
+		//}
 		
 		/// ------------------------------------------------------------------------------------
-		public ViewTab AddTab(string text, Image img, Type viewType, string helptopicid,
-			Func<string> getHelpToolTipAction)
+		public ViewTab AddTab(PaProject project, string text, Image img, Type viewType,
+			string helptopicid, Func<string> getHelpToolTipAction)
 		{
 			if (m_pnlTabs.Left > 0)
 				m_pnlTabs.Left = 0; 
 			
-			var tab = new ViewTab(this, img, viewType);
+			var tab = new ViewTab(project, this, img, viewType);
 			tab.Text = Utils.RemoveAcceleratorPrefix(text);
 			tab.GetHelpToolTipAction = getHelpToolTipAction;
 			tab.HelpTopicId = helptopicid;

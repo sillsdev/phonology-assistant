@@ -25,7 +25,7 @@ namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// Manages painting one or more DataGridView row headings to they look like a single
+	/// Manages painting one or more DataGridView row headings so they look like a single
 	/// heading. Part of that involves drawing the group's heading text.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using Palaso.Reporting;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
@@ -109,10 +110,10 @@ namespace SIL.Pa.DataSource.FieldWorks
 			catch (Exception e)
 			{
 				var msg = App.GetString("ErrorRetrievingFieldWorks6DataMsg",
-					"There was an error retrieving the data from the {0} database.\nIt's possible the file {1} is either missing or\ncorrupt. Reading this data will be skipped.\n\n{2}");
+					"There was an error retrieving the data from the {0} database.\nIt's possible the file {1} is either missing or\ncorrupt. Reading this data will be skipped.");
 
-				Utils.MsgBox(string.Format(msg, m_fwDsInfo.Name,
-					Path.GetFileName(m_fwDsInfo.Queries.QueryFile), e.Message));
+				ErrorReport.NotifyUserOfProblem(e, msg, m_fwDsInfo.Name,
+					Path.GetFileName(m_fwDsInfo.Queries.QueryFile));
 
 			    return false;
 			}

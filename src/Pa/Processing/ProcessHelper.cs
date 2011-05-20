@@ -136,7 +136,7 @@ namespace SIL.Pa.Processing
 					if (showExceptions &&
 						Utils.MsgBox(e.Message, MessageBoxButtons.RetryCancel) == DialogResult.Retry)
 					{
-							continue;
+						continue;
 					}
 
 					return false;

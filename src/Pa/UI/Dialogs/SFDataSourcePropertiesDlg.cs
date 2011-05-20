@@ -126,6 +126,7 @@ namespace SIL.Pa.UI.Dialogs
 				tblLayoutEditor.Height = 0;
 				tblLayoutButtons.Controls.Add(tblLayoutEditor, 0, 0);
 				tblLayoutEditor.Dock = DockStyle.Fill;
+				txtEditor.Text = m_datasource.Editor;
 			}
 		}
 
@@ -398,6 +399,7 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				return (m_fieldsGrid.IsDirty || CurrentParseType != m_datasource.ParseType ||
 					FirstInterlinearField != m_datasource.FirstInterlinearField ||
+					m_datasource.SfmRecordMarker != (cboRecordMarkers.SelectedItem as string) ||
 					ToolBoxSortField != m_datasource.ToolboxSortField ||
 					txtEditor.Text != m_datasource.Editor);
 			}

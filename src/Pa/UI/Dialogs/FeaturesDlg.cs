@@ -199,9 +199,9 @@ namespace SIL.Pa.UI.Dialogs
 			}
 
 			App.MsgMediator.SendMessage("BeforePhoneFeatureOverridesSaved", featureOverrideList);
-			featureOverrideList.Save(App.Project.ProjectPathFilePrefix);
+			featureOverrideList.Save(m_project.ProjectPathFilePrefix);
 			App.MsgMediator.SendMessage("AfterPhoneFeatureOverridesSaved", featureOverrideList);
-			App.Project.ReloadDataSources();
+			m_project.ReloadDataSources();
 			return true;
 		}
 

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
+using System.Linq;
 using System.Xml.Serialization;
 using Palaso.IO;
 using SIL.Pa.Model;
@@ -9,10 +9,6 @@ using SilTools;
 namespace SIL.Pa.UI.Controls
 {
 	#region DefaultChartHeadings class
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class DefaultChartHeadings : CharGridPersistence
 	{
@@ -44,40 +40,23 @@ namespace SIL.Pa.UI.Controls
 	[XmlRoot("PhoneChart")]
 	public class CharGridPersistence
 	{
-		private int m_rowHeaderWidth;
-		private int m_colHeaderHeight;
-		private int m_rowSplitPosition;
-		private int m_colSplitPosition;
-		private List<CharGridCell> m_phones;
-		private List<CharGridHeaderPersistenceInfo> m_colHeadings;
-		private List<CharGridHeaderPersistenceInfo> m_rowHeadings;
-		private bool m_showUncertainPhones;
-		private string m_supraSegsToIgnore;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		internal CharGridPersistence()
 		{
-			m_phones = new List<CharGridCell>();
-			m_colHeadings = new List<CharGridHeaderPersistenceInfo>();
-			m_rowHeadings = new List<CharGridHeaderPersistenceInfo>();
+			Phones = new List<CharGridCell>();
+			ColHeadings = new List<CharGridHeaderPersistenceInfo>();
+			RowHeadings = new List<CharGridHeaderPersistenceInfo>();
 		}
 
 		#region Properties
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the row header's width.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public int RowHeaderWidth
-		{
-			get { return m_rowHeaderWidth; }
-			set { m_rowHeaderWidth = value; }
-		}
+		public int RowHeaderWidth { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -85,12 +64,8 @@ namespace SIL.Pa.UI.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public int ColumnHeaderHeight
-		{
-			get { return m_colHeaderHeight; }
-			set { m_colHeaderHeight = value; }
-		}
-		
+		public int ColumnHeaderHeight { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the position of the virtual splitter between row headers and their
@@ -98,11 +73,7 @@ namespace SIL.Pa.UI.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public int RowSplitPosition
-		{
-			get { return m_rowSplitPosition; }
-			set { m_rowSplitPosition = value; }
-		}
+		public int RowSplitPosition { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -111,11 +82,7 @@ namespace SIL.Pa.UI.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public int ColumnSplitPosition
-		{
-			get { return m_colSplitPosition; }
-			set { m_colSplitPosition = value; }
-		}
+		public int ColumnSplitPosition { get; set; }
 
 		/// --------------------------------------------------------------------------------------------
 		/// <summary>
@@ -123,11 +90,7 @@ namespace SIL.Pa.UI.Controls
 		/// </summary>
 		/// --------------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public bool ShowUncertainPhones
-		{
-			get { return m_showUncertainPhones; }
-			set { m_showUncertainPhones = value; }
-		}
+		public bool ShowUncertainPhones { get; set; }
 
 		/// --------------------------------------------------------------------------------------------
 		/// <summary>
@@ -135,45 +98,29 @@ namespace SIL.Pa.UI.Controls
 		/// </summary>
 		/// --------------------------------------------------------------------------------------------
 		[XmlElement("SupraSegmentsToIgnore")]
-		public string SupraSegsToIgnore
-		{
-			get { return m_supraSegsToIgnore; }
-			set { m_supraSegsToIgnore = value; }
-		}
+		public string SupraSegsToIgnore { get; set; }
 
 		/// --------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the persisted columns headings information for a char grid.
 		/// </summary>
 		/// --------------------------------------------------------------------------------------------
-		public List<CharGridHeaderPersistenceInfo> ColHeadings
-		{
-			get { return m_colHeadings; }
-			set { m_colHeadings = value; }
-		}
+		public List<CharGridHeaderPersistenceInfo> ColHeadings { get; set; }
 
 		/// --------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the persisted row headings information for a char grid.
 		/// </summary>
 		/// --------------------------------------------------------------------------------------------
-		public List<CharGridHeaderPersistenceInfo> RowHeadings
-		{
-			get { return m_rowHeadings; }
-			set { m_rowHeadings = value; }
-		}
+		public List<CharGridHeaderPersistenceInfo> RowHeadings { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the persisted phone information for a char grid.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public List<CharGridCell> Phones
-		{
-			get { return m_phones; }
-			set { m_phones = value; }
-		}
-		
+		public List<CharGridCell> Phones { get; set; }
+
 		#endregion
 
 		#region Methods for saving CharGrid to file.
@@ -185,7 +132,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public static void Save(CharGrid chrGrid, List<CharGridCell> phoneList, string filename)
 		{
-			CharGridPersistence cgp = new CharGridPersistence();
+			var cgp = new CharGridPersistence();
 			cgp.RowHeaderWidth = chrGrid.RowHeaderWidth;
 			cgp.ColumnHeaderHeight = chrGrid.ColumnHeaderHeight;
 			cgp.RowSplitPosition = chrGrid.RowHeadersCollectionPanel.SplitPosition;
@@ -206,23 +153,22 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void StoreHeaders(CharGrid chrGrid, bool isForColumns)
 		{
-			List<CharGridHeader> hdrList = (isForColumns ?
-				chrGrid.ColumnHeaders : chrGrid.RowHeaders);
+			var hdrList = (isForColumns ? chrGrid.ColumnHeaders : chrGrid.RowHeaders);
 
 			// Collect the information about each row header.
-			foreach (CharGridHeader hdr in hdrList)
+			foreach (var hdr in hdrList)
 			{
-				CharGridHeaderPersistenceInfo hdrInfo = new CharGridHeaderPersistenceInfo();
+				var hdrInfo = new CharGridHeaderPersistenceInfo();
 				hdrInfo.SubHeadingsVisible = hdr.SubHeadingsVisible;
 				hdrInfo.HeadingText = hdr.ToString();
 				hdrInfo.Group = hdr.Group;
-				foreach (Label lbl in hdr.SubHeaders)
+				foreach (var lbl in hdr.SubHeaders)
 					hdrInfo.SubHeadingTexts.Add(lbl.Text);
 
 				if (isForColumns)
-					m_colHeadings.Add(hdrInfo);
+					ColHeadings.Add(hdrInfo);
 				else
-					m_rowHeadings.Add(hdrInfo);
+					RowHeadings.Add(hdrInfo);
 			}
 		}
 
@@ -233,21 +179,21 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void StorePhones(CharGrid chrGrid, ICollection<CharGridCell> phoneList)
 		{
-			DataGridView grid = chrGrid.Grid;
-			m_phones.Clear();
+			var grid = chrGrid.Grid;
+			Phones.Clear();
 
 			// Go through each cell in CharGrid's grid control.
 			for (int c = 0; c < grid.Columns.Count; c++)
 			{
 				for (int r = 0; r < grid.Rows.Count; r++)
 				{
-					CharGridCell cgc = grid[c, r].Value as CharGridCell;
+					var cgc = grid[c, r].Value as CharGridCell;
 					if (cgc != null)
 					{
 						cgc.Row = r;
 						cgc.Column = c;
 						cgc.Group = chrGrid.GetRowsGroup(r);
-						m_phones.Add(cgc);
+						Phones.Add(cgc);
 					}
 				}
 			}
@@ -256,11 +202,8 @@ namespace SIL.Pa.UI.Controls
 			{
 				// Now that all the phones from the grid are stored, go through the rest of the
 				// list and make sure invisible phones are also saved.
-				foreach (CharGridCell cgc in phoneList)
-				{
-					if (!phoneList.Contains(cgc))
-						m_phones.Add(cgc);
-				}
+				foreach (var cgc in phoneList.Where(cgc => !phoneList.Contains(cgc)))
+					Phones.Add(cgc);
 			}
 		}
 
@@ -314,22 +257,17 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void LoadHeadings(CharGrid chrGrid, bool isForColumns)
 		{
-			List<CharGridHeaderPersistenceInfo> hdrInfoList = (isForColumns ?
-				m_colHeadings : m_rowHeadings);
+			var hdrInfoList = (isForColumns ? ColHeadings : RowHeadings);
 
-			foreach (CharGridHeaderPersistenceInfo hdrInfo in hdrInfoList)
+			foreach (var hdrInfo in hdrInfoList)
 			{
 				// Determine the subheading text for the first column under the heading.
 				string subheadtext = (hdrInfo.SubHeadingTexts.Count > 0 ?
 					hdrInfo.SubHeadingTexts[0] : string.Empty);
 
-				CharGridHeader hdr = (isForColumns ?
+				var hdr = (isForColumns ?
 					chrGrid.AddColumnHeader(hdrInfo.HeadingText, subheadtext) :
 					chrGrid.AddRowHeader(hdrInfo.HeadingText, subheadtext));
 
@@ -358,23 +296,20 @@ namespace SIL.Pa.UI.Controls
 		private void LoadPhones(IList<CharGridCell> phoneList)
 		{
 			// Go through the phones deserialized from the XML file.
-			foreach (CharGridCell cgc in m_phones)
+			foreach (var cgc in Phones)
 			{
 				bool found = false;
 				
 				// Look for the same phone in the list passed to us. When we find the phone
 				// then use the persisted object to initialize the one in the list passed to us.
-				for (int i = 0; i < phoneList.Count; i++)
+				foreach (var cell in phoneList.Where(cell => cgc.Phone == cell.Phone))
 				{
-					if (cgc.Phone == phoneList[i].Phone)
-					{
-						phoneList[i].Group = cgc.Group;
-						phoneList[i].Row = cgc.Row;
-						phoneList[i].Column = cgc.Column;
-						phoneList[i].Visible = cgc.Visible;
-						found = true;
-						break;
-					}
+					cell.Group = cgc.Group;
+					cell.Row = cgc.Row;
+					cell.Column = cgc.Column;
+					cell.Visible = cgc.Visible;
+					found = true;
+					break;
 				}
 
 				// If the phone in the persisted object cannot be found in the list passed
@@ -403,11 +338,6 @@ namespace SIL.Pa.UI.Controls
 	[XmlType("Heading")]
 	public class CharGridHeaderPersistenceInfo
 	{
-		private bool m_subHeadingsVisible;
-		private string m_headingText;
-		private int m_group;
-		private List<string> m_subHeadingTexts;
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Creates a new CharGridHeaderPersistenceInfo object.
@@ -415,7 +345,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public CharGridHeaderPersistenceInfo()
 		{
-			m_subHeadingTexts = new List<string>();
+			SubHeadingTexts = new List<string>();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -424,11 +354,7 @@ namespace SIL.Pa.UI.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("text")]
-		public string HeadingText
-		{
-			get { return m_headingText; }
-			set { m_headingText = value; }
-		}
+		public string HeadingText { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -436,11 +362,7 @@ namespace SIL.Pa.UI.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public bool SubHeadingsVisible
-		{
-			get { return m_subHeadingsVisible; }
-			set { m_subHeadingsVisible = value; }
-		}
+		public bool SubHeadingsVisible { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -448,11 +370,7 @@ namespace SIL.Pa.UI.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public int Group
-		{
-			get { return m_group; }
-			set { m_group = value; }
-		}
+		public int Group { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -460,11 +378,7 @@ namespace SIL.Pa.UI.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlElement("SubHeading")]
-		public List<string> SubHeadingTexts
-		{
-			get { return m_subHeadingTexts; }
-			set { m_subHeadingTexts = value; }
-		}
+		public List<string> SubHeadingTexts { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -474,7 +388,7 @@ namespace SIL.Pa.UI.Controls
 		[XmlIgnore]
 		public int SubHeadingCount
 		{
-			get { return m_subHeadingTexts.Count; }
+			get { return SubHeadingTexts.Count; }
 		}
 	}
 

@@ -16,13 +16,13 @@ namespace SIL.Pa.UI.Controls
 	/// ----------------------------------------------------------------------------------------
 	public partial class CharPickerRows : UserControl, IPhoneListViewer
 	{
-		private string m_supraSegsToIgnore = PhoneCache.kDefaultChartSupraSegsToIgnore;
 		public event ItemDragEventHandler ItemDrag;
 		public event ToolStripItemClickedEventHandler ItemClicked;
 
 		/// ------------------------------------------------------------------------------------
 		public CharPickerRows()
 		{
+			SupraSegsToIgnore = PhoneCache.kDefaultChartSupraSegsToIgnore;
 			InitializeComponent();
 			Reset();
 		}
@@ -179,12 +179,7 @@ namespace SIL.Pa.UI.Controls
 		/// Gets or sets the list of suprasegmentals to ignore.
 		/// </summary>
 		/// --------------------------------------------------------------------------------------------
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public string SupraSegsToIgnore
-		{
-			get { return m_supraSegsToIgnore; }
-			set { m_supraSegsToIgnore = value; }
-		}
+		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public string SupraSegsToIgnore { get; set; }
 	}
 }

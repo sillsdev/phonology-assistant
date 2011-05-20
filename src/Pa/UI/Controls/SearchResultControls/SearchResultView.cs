@@ -14,17 +14,15 @@ namespace SIL.Pa.UI.Controls
 		private PaWordListGrid m_grid;
 		private ITMAdapter m_tmAdapter;
 		private readonly Type m_owningViewType;
+		private readonly PaProject m_project;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public SearchResultView(Type owningViewType, ITMAdapter tmAdapter)
+		public SearchResultView(PaProject project, Type owningViewType, ITMAdapter tmAdapter)
 		{
 			InitializeComponent();
 			base.DoubleBuffered = true;
 			base.Dock = DockStyle.Fill;
+			m_project = project;
 			m_owningViewType = owningViewType;
 			m_tmAdapter = tmAdapter;
 		}
@@ -53,9 +51,9 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			// Save the grid we're replacing.
-			PaWordListGrid tmpgrid = m_grid;
+			var tmpgrid = m_grid;
 
-			m_grid = new PaWordListGrid(cache, m_owningViewType);
+			m_grid = new PaWordListGrid(m_project, cache, m_owningViewType);
 			m_grid.OwningViewType = m_owningViewType;
 			m_grid.TMAdapter = m_tmAdapter;
 

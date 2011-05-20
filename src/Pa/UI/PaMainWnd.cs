@@ -232,7 +232,7 @@ namespace SIL.Pa.UI
 				if (vwTabGroup.CurrentTab != null)
 					Settings.Default.LastViewShowing = vwTabGroup.CurrentTab.ViewType.ToString();
 
-				LoadViewTabs();
+				LoadViewTabs(project);
 
 				// Make the last tab that was current the current one now.
 				var type = Type.GetType(typeof(DataCorpusVw).FullName);
@@ -261,7 +261,7 @@ namespace SIL.Pa.UI
 		/// Loads the view tabs.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadViewTabs()
+		private void LoadViewTabs(PaProject project)
 		{
 			if (vwTabGroup.Visible)
 			{
@@ -274,7 +274,7 @@ namespace SIL.Pa.UI
 			var itemProps = m_tmAdapter.GetItemProperties("mnuDataCorpus");
 			var img = (itemProps == null ? null : itemProps.Image);
 			var text = (itemProps == null ? "Error!" : itemProps.Text);
-			var tab = vwTabGroup.AddTab(text,img, typeof(DataCorpusVw), "hidDataCorpusView",
+			var tab = vwTabGroup.AddTab(project, text, img, typeof(DataCorpusVw), "hidDataCorpusView",
 				() => App.GetString("PaMainWnd.DataCorpusViewHelpButtonToolTip", "Data Corpus View Help"));
 			
 			App.RegisterForLocalization(tab, "MenuItems.DataCorpus");
@@ -282,7 +282,7 @@ namespace SIL.Pa.UI
 			itemProps = m_tmAdapter.GetItemProperties("mnuFindPhones");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tab = vwTabGroup.AddTab(text, img, typeof(SearchVw), "hidSearchView",
+			tab = vwTabGroup.AddTab(project, text, img, typeof(SearchVw), "hidSearchView",
 				() => App.GetString("PaMainWnd.SearchViewHelpButtonToolTip", "Search View Help"));
 			
 			App.RegisterForLocalization(tab, "MenuItems.FindPhones");
@@ -290,7 +290,7 @@ namespace SIL.Pa.UI
 			itemProps = m_tmAdapter.GetItemProperties("mnuConsonantChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tab = vwTabGroup.AddTab(text, img, typeof(ConsonantChartVw), "hidConsonantChartView", 
+			tab = vwTabGroup.AddTab(project, text, img, typeof(ConsonantChartVw), "hidConsonantChartView", 
 				() => App.GetString("PaMainWnd.ConsonantChartViewHelpButtonToolTip", "Consonant Chart View Help"));
 
 			App.RegisterForLocalization(tab, "MenuItems.ConsonantChart");
@@ -298,7 +298,7 @@ namespace SIL.Pa.UI
 			itemProps = m_tmAdapter.GetItemProperties("mnuVowelChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tab = vwTabGroup.AddTab(text, img, typeof(VowelChartVw), "hidVowelChartView",
+			tab = vwTabGroup.AddTab(project, text, img, typeof(VowelChartVw), "hidVowelChartView",
 				() => App.GetString("PaMainWnd.VowelChartViewHelpButtonToolTip", "Vowel Chart View Help"));
 
 			App.RegisterForLocalization(tab, "MenuItems.VowelChart");
@@ -306,7 +306,7 @@ namespace SIL.Pa.UI
 			itemProps = m_tmAdapter.GetItemProperties("mnuXYChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tab = vwTabGroup.AddTab(text, img, typeof(DistributionChartVw), "hidXYChartsView",
+			tab = vwTabGroup.AddTab(project, text, img, typeof(DistributionChartVw), "hidXYChartsView",
 				() => App.GetString("PaMainWnd.DistributionChartViewHelpButtonToolTip", "Distribution Charts View Help"));
 			
 			App.RegisterForLocalization(tab, "MenuItems.XYChart");
@@ -1127,7 +1127,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExperimentalTranscriptions(object args)
 		{
-			using (var dlg = new TranscriptionChangesDlg())
+			using (var dlg = new TranscriptionChangesDlg(m_project))
 				dlg.ShowDialog(this);
 
 			return true;

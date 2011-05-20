@@ -59,7 +59,6 @@ namespace SIL.Pa.UI.Controls
 		private float m_horzSplitterCount;
 		private float m_vertSplitterCount;
 		private bool m_ignoreTabGroupRemoval;
-		private SearchResultTabGroup m_currTabGroup;
 		private SplitterPanel m_resultsPanel;
 		private bool m_recViewOn = true;
 		private ITabView m_view;
@@ -67,27 +66,23 @@ namespace SIL.Pa.UI.Controls
 		private SplitContainer m_splitResults;
 		private PlaybackSpeedAdjuster m_playbackSpeedAdjuster;
 		private readonly ISearchResultsViewHost m_srchRsltVwHost;
-		private readonly IRecordView m_recView;
 		private readonly List<SearchResultView> m_searchResultViews = new List<SearchResultView>();
 		private readonly Action<int> m_savePlaybackSpeedAction;
 		private int m_playbackSpeed;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public SearchResultsViewManager(ITabView view, ITMAdapter tmAdapter,
+		public SearchResultsViewManager(PaProject project, ITabView view, ITMAdapter tmAdapter,
 			SplitContainer splitResults, IRecordView recView, int playbackSpeed,
 			Action<int> savePlaybackSpeed)
 		{
+			Project = project;
 			m_view = view;
 			m_srchRsltVwHost = view as ISearchResultsViewHost;
 			Debug.Assert(m_srchRsltVwHost != null);
 			m_tmAdapter = tmAdapter;
 			m_splitResults = splitResults;
 			m_resultsPanel = splitResults.Panel1;
-			m_recView = recView;
+			RecordView = recView;
 			m_playbackSpeed = playbackSpeed;
 			m_savePlaybackSpeedAction = savePlaybackSpeed;
 			App.AddMediatorColleague(this);
@@ -104,7 +99,7 @@ namespace SIL.Pa.UI.Controls
 			m_tmAdapter = null;
 			m_splitResults = null;
 			m_resultsPanel = null;
-			m_currTabGroup = null;
+			CurrentTabGroup = null;
 			App.RemoveMediatorColleague(this);
 
 			if (m_srchResultTabPopup != null)
@@ -118,19 +113,11 @@ namespace SIL.Pa.UI.Controls
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the view tabs manager's record view.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public IRecordView RecordView
-		{
-			get { return m_recView; }
-		}
+		public PaProject Project { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public IRecordView RecordView { get; private set; }
+
 		/// ------------------------------------------------------------------------------------
 		public bool RecordViewOn
 		{
@@ -150,11 +137,7 @@ namespace SIL.Pa.UI.Controls
 		/// Gets the current tab group.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SearchResultTabGroup CurrentTabGroup
-		{
-			get { return m_currTabGroup; }
-			set { m_currTabGroup = value; }
-		}
+		public SearchResultTabGroup CurrentTabGroup { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -165,10 +148,10 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				return (m_currTabGroup == null ||
-					m_currTabGroup.CurrentTab == null ||
-					m_currTabGroup.CurrentTab.ResultView == null ? null :
-					m_currTabGroup.CurrentTab.ResultView.Grid);
+				return (CurrentTabGroup == null ||
+					CurrentTabGroup.CurrentTab == null ||
+					CurrentTabGroup.CurrentTab.ResultView == null ? null :
+					CurrentTabGroup.CurrentTab.ResultView.Grid);
 			}
 		}
 
@@ -183,7 +166,7 @@ namespace SIL.Pa.UI.Controls
 			set
 			{
 				m_tmAdapter = value;
-				foreach (SearchResultView resultView in m_searchResultViews)
+				foreach (var resultView in m_searchResultViews)
 					resultView.TMAdapter = value;
 			}
 		}
@@ -209,12 +192,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private bool HandleFindItemUpdate(TMItemProperties itemProps, bool enableAllow)
 		{
-			PaWordListGrid grid = CurrentViewsGrid;
+			var grid = CurrentViewsGrid;
 			
 			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
-			bool enable = (enableAllow && App.Project != null &&
+			bool enable = (enableAllow && Project != null &&
 				grid != null && grid.RowCount > 0);
 
 			if (itemProps.Enabled != enable)
@@ -458,13 +441,9 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateShowRecordPane(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
@@ -518,16 +497,12 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private bool MoveTabToNewTabGroup(SearchResultTab tab, SearchResultLocation resultLocation)
 		{
 			if (tab == null)
 				return false;
 
-			SearchResultTabGroup tabGroup = tab.OwningTabGroup;
+			var tabGroup = tab.OwningTabGroup;
 
 			if (tabGroup != null)
 				tabGroup.RemoveTab(tab, false);
@@ -555,8 +530,8 @@ namespace SIL.Pa.UI.Controls
 				m_resultsPanel.Controls.RemoveAt(0);
 				ctrl.Dispose();
 				m_ignoreTabGroupRemoval = false;
-				m_recView.UpdateRecord(null);
-				m_currTabGroup = null;
+				RecordView.UpdateRecord(null);
+				CurrentTabGroup = null;
 				m_horzSplitterCount = m_vertSplitterCount = 0;
 				m_srchRsltVwHost.NotifyAllTabsClosed();
 			}
@@ -827,8 +802,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		internal void SearchResultTabGroupChanged(SearchResultTabGroup newGroup)
 		{
-			if (m_currTabGroup != newGroup)
-				m_currTabGroup = newGroup;
+			if (CurrentTabGroup != newGroup)
+				CurrentTabGroup = newGroup;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -904,8 +879,8 @@ namespace SIL.Pa.UI.Controls
 			// Hide the record view when there are no more tab groups.
 			if (m_resultsPanel.Controls.Count == 0)
 			{
-				m_currTabGroup = null;
-				m_recView.UpdateRecord(null);
+				CurrentTabGroup = null;
+				RecordView.UpdateRecord(null);
 				m_srchRsltVwHost.NotifyAllTabsClosed();
 			}
 			else if (removedTabGroupWasCurrent)
@@ -1032,8 +1007,8 @@ namespace SIL.Pa.UI.Controls
 			// When the results should be shown in the current tab group, then check if the
 			// current tab is empty. If so, then use that tab instead of creating a new tab
 			// in which to display the results.
-			if (resultLocation == SearchResultLocation.CurrentTabGroup && m_currTabGroup != null &&
-				m_currTabGroup.CurrentTab != null && m_currTabGroup.CurrentTab.IsEmpty)
+			if (resultLocation == SearchResultLocation.CurrentTabGroup && CurrentTabGroup != null &&
+				CurrentTabGroup.CurrentTab != null && CurrentTabGroup.CurrentTab.IsEmpty)
 			{
 				resultLocation = SearchResultLocation.CurrentTab;
 			}
@@ -1041,7 +1016,7 @@ namespace SIL.Pa.UI.Controls
 			if (resultLocation == SearchResultLocation.CurrentTab && ReuseExistingTab(resultCache))
 				return;
 
-			SearchResultView resultView = new SearchResultView(m_view.GetType(), m_tmAdapter);
+			var resultView = new SearchResultView(Project, m_view.GetType(), m_tmAdapter);
 			resultView.Initialize(resultCache);
 			CreateTab(resultLocation, resultView);
 			m_searchResultViews.Add(resultView);
@@ -1069,11 +1044,11 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private bool ReuseExistingTab(WordListCache resultCache)
 		{
-			if (m_currTabGroup != null && m_currTabGroup.CurrentTab != null &&
-				m_currTabGroup.CurrentTab.ResultView != null)
+			if (CurrentTabGroup != null && CurrentTabGroup.CurrentTab != null &&
+				CurrentTabGroup.CurrentTab.ResultView != null)
 			{
-				m_currTabGroup.CurrentTab.RefreshResultView(resultCache);
-				m_currTabGroup.AdjustTabContainerWidth();
+				CurrentTabGroup.CurrentTab.RefreshResultView(resultCache);
+				CurrentTabGroup.AdjustTabContainerWidth();
 				return true;
 			}
 
@@ -1115,25 +1090,25 @@ namespace SIL.Pa.UI.Controls
 
 			// Return the current tab in the current tab group if
 			// it matches the specified location.
-			if (m_currTabGroup != null && m_currTabGroup.CurrentTab != null &&
+			if (CurrentTabGroup != null && CurrentTabGroup.CurrentTab != null &&
 				resultLocation == SearchResultLocation.CurrentTab)
 			{
-				tab = m_currTabGroup.CurrentTab;
+				tab = CurrentTabGroup.CurrentTab;
 				if (resultView != null)
 				{
 					tab.Text = null;
-					m_currTabGroup.InitializeTab(tab, resultView, true);
+					CurrentTabGroup.InitializeTab(tab, resultView, true);
 				}
 
 				m_resultsPanel.ResumeLayout(true);
 
 				// Must Select the Tab, so the Current Playback Grid for the tab is set to true.
 				// This will ensure the sound file Playback will always work.
-				m_currTabGroup.SelectTab(tab, true);
+				CurrentTabGroup.SelectTab(tab, true);
 				return;
 			}
 
-			SearchResultTabGroup tabGroup = m_currTabGroup;
+			SearchResultTabGroup tabGroup = CurrentTabGroup;
 
 			if (m_resultsPanel.Controls.Count == 0)
 			{
@@ -1166,7 +1141,7 @@ namespace SIL.Pa.UI.Controls
 			// that we just got through setting the tab we wanted to be current. Therefore,
 			// try again, when we get back from selecting our new tab and it's still not
 			// selected.
-			if (tabGroup != m_currTabGroup || !tab.Selected)
+			if (tabGroup != CurrentTabGroup || !tab.Selected)
 				tabGroup.SelectTab(tab, true);
 
 			tabGroup.ResumeLayout(false);
@@ -1302,7 +1277,7 @@ namespace SIL.Pa.UI.Controls
 				return false;
 
 			m_phoneticSortOptionsDropDown =
-				new SortOptionsDropDown(CurrentViewsGrid.SortOptions, true);
+				new SortOptionsDropDown(Project, CurrentViewsGrid.SortOptions, true);
 
 			m_phoneticSortOptionsDropDown.SortOptionsChanged += HandlePhoneticSortOptionsChanged;
 			itemProps.Control = m_phoneticSortOptionsDropDown;
@@ -1352,7 +1327,7 @@ namespace SIL.Pa.UI.Controls
 			if (CurrentViewsGrid != null)
 			{
 				CurrentViewsGrid.SortOptions = sortOptions;
-				m_recView.UpdateRecord(CurrentViewsGrid.GetRecord());
+				RecordView.UpdateRecord(CurrentViewsGrid.GetRecord());
 			}
 		}
 
@@ -1367,7 +1342,7 @@ namespace SIL.Pa.UI.Controls
 		protected void OnNoCIEResultsShowing(object args)
 		{
 			if (CurrentViewsGrid != null && CurrentViewsGrid == args)
-				m_recView.UpdateRecord(null);
+				RecordView.UpdateRecord(null);
 		}
 
 		#region Playback related methods
@@ -1568,18 +1543,18 @@ namespace SIL.Pa.UI.Controls
 			if (Path.GetInvalidFileNameChars().Any(invalidChar => queryName.Contains(invalidChar.ToString())))
 				queryName = string.Empty;
 
-			var defaultFileName = string.Format(fmtFileName, App.Project.LanguageName, queryName);
+			var defaultFileName = string.Format(fmtFileName, Project.LanguageName, queryName);
 
 			var fileTypes = fileTypeFilter + "|" + App.kstidFileTypeAllFiles;
 
 			int filterIndex = 0;
 			var outputFileName = App.SaveFileDialog(defaultFileType, fileTypes, ref filterIndex,
-				App.kstidSaveFileDialogGenericCaption, defaultFileName, App.Project.Folder);
+				App.kstidSaveFileDialogGenericCaption, defaultFileName, Project.Folder);
 
 			if (string.IsNullOrEmpty(outputFileName))
 				return null;
 
-			exportAction(App.Project, outputFileName, grid, openAfterExport);
+			exportAction(Project, outputFileName, grid, openAfterExport);
 			return outputFileName;
 		}
 
@@ -1612,10 +1587,10 @@ namespace SIL.Pa.UI.Controls
 				return false;
 
 			if ((int)m.WParam == (int)Keys.M && (Control.ModifierKeys & Keys.Control) > 0 &&
-				(Control.ModifierKeys & Keys.Alt) > 0 && m_currTabGroup != null &&
-				m_currTabGroup.CurrentTab != null)
+				(Control.ModifierKeys & Keys.Alt) > 0 && CurrentTabGroup != null &&
+				CurrentTabGroup.CurrentTab != null)
 			{
-				m_currTabGroup.CurrentTab.ShowCIEOptions();
+				CurrentTabGroup.CurrentTab.ShowCIEOptions();
 				return true;
 			}
 

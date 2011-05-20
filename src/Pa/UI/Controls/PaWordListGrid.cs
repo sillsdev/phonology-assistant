@@ -76,7 +76,7 @@ namespace SIL.Pa.UI.Controls
 		/// Constructs a new DataGridView using the specified query source.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaWordListGrid(WordListCache cache) : this(cache, null)
+		public PaWordListGrid(PaProject project, WordListCache cache) : this(project, cache, null)
 		{
 			base.Cursor = Cursors.Default;
 		}
@@ -86,8 +86,8 @@ namespace SIL.Pa.UI.Controls
 		/// Constructs a new DataGridView using the specified cache as a data source.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaWordListGrid(WordListCache cache, Type owningViewType) :
-			this(cache, owningViewType, true)
+		public PaWordListGrid(PaProject project, WordListCache cache, Type owningViewType) :
+			this(project, cache, owningViewType, true)
 		{
 		}
 
@@ -96,14 +96,15 @@ namespace SIL.Pa.UI.Controls
 		/// Constructs a new DataGridView using the specified cache as a data source.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaWordListGrid(WordListCache cache, Type owningViewType, bool performInitialSort)
-			: this()
+		public PaWordListGrid(PaProject project, WordListCache cache, Type owningViewType,
+			bool performInitialSort) : this()
 		{
+			Project = project;
 			Cache = cache;
 
 			OwningViewType = owningViewType;
 
-			var field = App.Project.GetAudioFileField();
+			var field = Project.GetAudioFileField();
 			m_audioFileFieldName = (field != null ? field.Name : null);
 
 			m_spkrImage = Properties.Resources.kimidSpeaker;
@@ -189,7 +190,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_suspendSavingColumnChanges = true;
 
-			foreach (var field in App.Project.GetMappedFields().Where(f => f.DisplayIndexInGrid >= 0))
+			foreach (var field in Project.GetMappedFields().Where(f => f.DisplayIndexInGrid >= 0))
 				AddNewColumn(field);
 
 			RefreshColumnFonts(false);
@@ -255,7 +256,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			foreach (DataGridViewColumn col in Columns)
 			{
-				var field = App.Project.GetFieldForName(col.Name);
+				var field = Project.GetFieldForName(col.Name);
 				if (field != null)
 					col.HeaderText = field.DisplayName;
 			}
@@ -309,10 +310,10 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_suspendSavingColumnChanges = true;
 
-			if (App.Project.GridLayoutInfo.ColHeaderHeight < 10)
+			if (Project.GridLayoutInfo.ColHeaderHeight < 10)
 				AutoResizeColumnHeadersHeight();
 			else
-				ColumnHeadersHeight = App.Project.GridLayoutInfo.ColHeaderHeight;
+				ColumnHeadersHeight = Project.GridLayoutInfo.ColHeaderHeight;
 
 			m_suspendSavingColumnChanges = false;
 		}
@@ -331,8 +332,8 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (!m_suspendSavingColumnChanges)
 			{
-				App.Project.GridLayoutInfo.Save(this);
-				App.Project.Save();
+				Project.GridLayoutInfo.Save(this);
+				Project.Save();
 			}
 		}
 
@@ -481,7 +482,7 @@ namespace SIL.Pa.UI.Controls
 				return true;
 
 			// Check a path relative to the project file's path
-			if (TryToFindAudioFile(entry, audioFilePath, App.Project.Folder))
+			if (TryToFindAudioFile(entry, audioFilePath, Project.Folder))
 				return true;
 			
 			// Check a path relative to the application's startup path
@@ -490,7 +491,7 @@ namespace SIL.Pa.UI.Controls
 
 			// Now try the alternate path location the user may have specified in
 			// the project's undocumented alternate audio file location field.
-			return TryToFindAudioFile(entry, audioFilePath,	App.Project.AlternateAudioFileFolder);
+			return TryToFindAudioFile(entry, audioFilePath,	Project.AlternateAudioFileFolder);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -574,18 +575,21 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnGroupByField(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !Focused ||
 				!App.IsViewOrFormActive(OwningViewType, FindForm()))
 			{
 				return false;
 			}
 
-			GroupByField = App.Project.GetFieldForName(itemProps.Name);
+			GroupByField = Project.GetFieldForName(itemProps.Name);
 			return true;
 		}
 
 		#region Properties
+		/// ------------------------------------------------------------------------------------
+		public PaProject Project { get; private set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the column that's marked as the phonetic column.
@@ -1843,7 +1847,7 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			var wlentry = GetWordEntry(e.RowIndex);
-			var field = App.Project.GetFieldForName(Columns[e.ColumnIndex].Name);
+			var field = Project.GetFieldForName(Columns[e.ColumnIndex].Name);
 
 			if (wlentry == null || field == null)
 			{
@@ -2356,9 +2360,9 @@ namespace SIL.Pa.UI.Controls
 				return false;
 
 			if (CIEOptions == null)
-				CIEOptions = App.Project.CIEOptions;
+				CIEOptions = Project.CIEOptions;
 
-			var builder = new CIEBuilder(m_cache, m_sortOptions, CIEOptions);
+			var builder = new CIEBuilder(Project, m_cache, m_sortOptions, CIEOptions);
 			var cieCache = builder.FindMinimalPairs();
 
 			// This should never happen.
@@ -2621,7 +2625,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (updateColumnFonts)
 				{
-					var field = App.Project.GetFieldForName(col.Name);
+					var field = Project.GetFieldForName(col.Name);
 					if (field != null)
 						col.DefaultCellStyle.Font = field.Font;
 				}
@@ -2760,14 +2764,14 @@ namespace SIL.Pa.UI.Controls
 			// types because the m_owningViewType's are declared in PaDll which cannot
 			// be referenced by PaControls since PaControls is referenced by PaDll.
 			if (OwningViewType.Name == "DataCorpusVw")
-				sortOptions = App.Project.DataCorpusVwSortOptions;
+				sortOptions = Project.DataCorpusVwSortOptions;
 			else if (OwningViewType.Name == "SearchVw")
-				sortOptions = App.Project.SearchVwSortOptions.Copy();
+				sortOptions = Project.SearchVwSortOptions.Copy();
 			else if (OwningViewType.Name == "XYChartVw")
-				sortOptions = App.Project.DistributionChartVwSortOptions.Copy();
+				sortOptions = Project.DistributionChartVwSortOptions.Copy();
 
 			if (sortOptions == null)
-				sortOptions = new SortOptions(true, App.Project);
+				sortOptions = new SortOptions(true, Project);
 
 			// If the default sort options should not change as the user clicks headings or
 			// changes phonetic sort options from the phonetic sort option drop-down, then
@@ -2914,7 +2918,7 @@ namespace SIL.Pa.UI.Controls
 			// to get saved each time. Therefore, we set a flag here to prevent the saving
 			// of field settings each time the OnColumnDisplayIndexChanged event is fired.
 			m_suspendSavingColumnChanges = true;
-			App.Project.GridLayoutInfo.Load(this);
+			Project.GridLayoutInfo.Load(this);
 			m_suspendSavingColumnChanges = false;
 
 			// Force users to restart Find when adding or removing columns

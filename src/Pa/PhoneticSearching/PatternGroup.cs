@@ -57,19 +57,11 @@ namespace SIL.Pa.PhoneticSearching
 
 		#region Constructors
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public PatternGroup(EnvironmentType envType) : this(envType, null)
 		{
 			m_rootGroup = this;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private PatternGroup(EnvironmentType envType,  PatternGroup rootGroup)
 		{

@@ -37,7 +37,7 @@ namespace SIL.Pa.UI.Controls
 
 			SetUiFonts();
 
-			m_sortOptions = new SortOptions(true, App.Project);
+			m_sortOptions = new SortOptions(true, Project);
 
 			m_rbSort = new[] { rbPlaceArticulation, rbMannerArticulation, rbUnicodeOrder };
 			m_rbAdvSort0 = new[] { rbBefore1st, rbItem1st, rbAfter1st };
@@ -58,6 +58,27 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// SortOptions constructor.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public SortOptionsDropDown(PaProject project, SortOptions sortOptions,
+			bool showAdvancedOptions) : this()
+		{
+			if (App.DesignMode)
+				return;
+
+			Project = project;
+
+			// Reset the SortOptions object
+			SortOptions = sortOptions;
+			ShowAdvancedOptions = showAdvancedOptions;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public PaProject Project { get; set; }
+
+		/// ------------------------------------------------------------------------------------
 		private static void SetupStaticEventSubscriptions(IEnumerable<Control> ctrlArray)
 		{
 			foreach (var ctrl in ctrlArray)
@@ -66,21 +87,6 @@ namespace SIL.Pa.UI.Controls
 				ctrl.Enter += HandleAdvancedOptionItemEnter;
 				ctrl.Leave += HandleAdvancedOptionItemLeave;
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// SortOptions constructor.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public SortOptionsDropDown(SortOptions sortOptions,	bool showAdvancedOptions) : this()
-		{
-			if (App.DesignMode)
-				return;
-
-			// Reset the SortOptions object
-			SortOptions = sortOptions;
-			ShowAdvancedOptions = showAdvancedOptions;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -115,7 +121,7 @@ namespace SIL.Pa.UI.Controls
 			get { return m_sortOptions; }
 			set 
 			{
-				m_sortOptions = (value ?? new SortOptions(true, App.Project));
+				m_sortOptions = (value ?? new SortOptions(true, Project));
 
 				m_rbSort[(int)PhoneticSortType.Unicode].Checked =
 					(m_sortOptions.SortType == PhoneticSortType.Unicode);
@@ -246,7 +252,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 			
 			if (MakePhoneticPrimarySortFieldWhenOptionsChange)
-				m_sortOptions.SetPrimarySortField(App.Project.GetPhoneticField(), false);
+				m_sortOptions.SetPrimarySortField(Project.GetPhoneticField(), false);
 
 			SortOptionsChanged(m_sortOptions);
 		}

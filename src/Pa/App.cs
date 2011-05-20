@@ -26,6 +26,7 @@ using System.Windows.Forms;
 using Localization;
 using Localization.UI;
 using Palaso.IO;
+using Palaso.Reporting;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
@@ -188,12 +189,10 @@ namespace SIL.Pa
 					return;
 				}
 			}
-			catch
+			catch (Exception e)
 			{
-				var msg = string.Format("There was an error retrieving the settings file\n\n" +
-					"'{0}'\n\nThe default settings file will be used instead.", path);
-
-				Utils.MsgBox(msg);
+				ErrorReport.NotifyUserOfProblem(e, "There was an error retrieving the settings file " +
+					"'{0}'. The default settings file will be used instead.", path);
 			}
 
 			if (ProjectFolder == null)
@@ -1675,10 +1674,7 @@ namespace SIL.Pa
 						query.ErrorMessages.Add(errorMsg);
 
 						if (showMsgOnErr)
-						{
-							Utils.MsgBox(errorMsg, MessageBoxButtons.OK,
-								   MessageBoxIcon.Exclamation);
-						}
+							Utils.MsgBox(errorMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 						return false;
 					}

@@ -90,7 +90,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<FieldMapping> Mappings
 		{
-			get { return m_mappings.Where(m => m.Field != null); }
+			get { return m_mappings.Where(m => m.Field != null && m.Field.Name != null); }
 		}
 
 		/// ------------------------------------------------------------------------------------

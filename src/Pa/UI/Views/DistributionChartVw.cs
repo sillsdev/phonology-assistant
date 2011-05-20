@@ -35,13 +35,17 @@ namespace SIL.Pa.UI.Views
 		private readonly SplitterPanel m_dockedSidePanel;
 		private readonly DistributionGrid m_grid;
 		private readonly Keys m_saveChartHotKey = Keys.None;
+		private readonly PaProject _project;
 
 		/// ------------------------------------------------------------------------------------
-		public DistributionChartVw()
+		public DistributionChartVw(PaProject project)
 		{
 			Utils.WaitCursors(true);
+			_project = project;
 			InitializeComponent();
 			Name = "XYChartVw";
+
+			rtfRecVw.Project = project;
 
 			hlblSavedCharts.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
 
@@ -116,7 +120,7 @@ namespace SIL.Pa.UI.Views
 				ResultViewManger.TMAdapter = m_tmAdapter;
 			else
 			{
-				ResultViewManger = new SearchResultsViewManager(this, m_tmAdapter,
+				ResultViewManger = new SearchResultsViewManager(_project, this, m_tmAdapter,
 					splitResults, rtfRecVw, Settings.Default.DistChartVwPlaybackSpeed,
 					newSpeed => Settings.Default.DistChartVwPlaybackSpeed = newSpeed);
 			}
@@ -197,8 +201,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void LoadSavedChartsList()
 		{
-			var filename = App.Project.ProjectPathFilePrefix + kSavedChartsFile;
-			var oldFileName = App.Project.ProjectPathFilePrefix + "XYCharts.xml";
+			var filename = _project.ProjectPathFilePrefix + kSavedChartsFile;
+			var oldFileName = _project.ProjectPathFilePrefix + "XYCharts.xml";
 			
 			// Migrate the old file to the new one and rename the old one.
 			if (File.Exists(oldFileName))
@@ -231,7 +235,7 @@ namespace SIL.Pa.UI.Views
 		{
 			if (m_savedCharts != null)
 			{
-				var filename = App.Project.ProjectPathFilePrefix + kSavedChartsFile;
+				var filename = _project.ProjectPathFilePrefix + kSavedChartsFile;
 				XmlSerializationHelper.SerializeToFile(filename, m_savedCharts);
 			}
 		}
@@ -1360,19 +1364,19 @@ namespace SIL.Pa.UI.Views
 			if (!(objForExport is DistributionGrid))
 				return (wordListExportAction != null);
 
-			var prefix = (App.Project.LanguageName ?? (App.Project.LanguageCode ?? App.Project.Name));
+			var prefix = (_project.LanguageName ?? (_project.LanguageCode ?? _project.Name));
 			var defaultFileName = string.Format(fmtFileName, prefix, m_grid.ChartName).Replace(" ", string.Empty);
 
 			string fileTypes = fileTypeFilter + "|" + App.kstidFileTypeAllFiles;
 
 			int filterIndex = 0;
 			var outputFileName = App.SaveFileDialog(defaultFileType, fileTypes, ref filterIndex,
-				App.kstidSaveFileDialogGenericCaption, defaultFileName, App.Project.Folder);
+				App.kstidSaveFileDialogGenericCaption, defaultFileName, _project.Folder);
 
 			if (string.IsNullOrEmpty(outputFileName))
 				return false;
 
-			exportAction(App.Project, outputFileName, m_grid, openAfterExport);
+			exportAction(_project, outputFileName, m_grid, openAfterExport);
 			return true;
 		}
 

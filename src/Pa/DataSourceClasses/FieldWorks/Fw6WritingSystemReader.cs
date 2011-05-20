@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Windows.Forms;
+using Palaso.Reporting;
 using SilTools;
 
 namespace SIL.Pa.DataSource.FieldWorks
@@ -75,9 +76,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 			}
 			catch (Exception e)
 			{
-				Utils.MsgBox(string.Format(errMsg, fwDsInfo.Name,
-					Path.GetFileName(fwDsInfo.Queries.QueryFile), e.Message),
-					MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				ErrorReport.NotifyUserOfProblem(e, errMsg, fwDsInfo.Name,
+					Path.GetFileName(fwDsInfo.Queries.QueryFile), string.Empty);
 			}
 
 			return wsCollection;

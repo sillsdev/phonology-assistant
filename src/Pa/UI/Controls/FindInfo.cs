@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Palaso.Reporting;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SilTools;
@@ -430,6 +431,7 @@ namespace SIL.Pa.UI.Controls
 					return true;
 				}
 			}
+
 			s_firstLoop = false;
 			return false;
 		}
@@ -503,8 +505,7 @@ namespace SIL.Pa.UI.Controls
 			if (cellValue == null)
 				return false;
 
-			var field =
-				App.Project.GetFieldForName(s_grid.Columns[cell.ColumnIndex].Name);
+			var field = s_grid.Project.GetFieldForName(s_grid.Columns[cell.ColumnIndex].Name);
 
 			if (field.Type != FieldType.Phonetic)
 				cellValue = FFNormalizer.Normalize(cellValue);
@@ -546,8 +547,7 @@ namespace SIL.Pa.UI.Controls
 			}
 			catch (Exception ex)
 			{
-				if (ShowMessages)
-					Utils.MsgBox(ex.Message);
+				ErrorReport.NotifyUserOfProblem(ex, "An error occurred searching.");
 			}
 
 			// Done searching

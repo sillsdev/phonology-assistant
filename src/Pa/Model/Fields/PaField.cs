@@ -5,6 +5,7 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Linq;
 using Palaso.IO;
+using Palaso.Reporting;
 using SIL.Pa.DataSource.FieldWorks;
 using SilTools;
 
@@ -291,13 +292,9 @@ namespace SIL.Pa.Model
 				return EnsureListContainsCalculatedFields(list).ToList();
 
 			var msg = App.GetString("ReadingFieldsFileErrorMsg",
-				"The following error occurred when reading the file\n\n'{0}'\n\n{1}");
+				"An error occurred reading the file\n\n'{0}'.");
 
-			while (e.InnerException != null)
-				e = e.InnerException;
-
-			Utils.MsgBox(string.Format(msg, path, e.Message));
-
+			ErrorReport.NotifyUserOfProblem(e, msg, path);
 			return null;
 		}
 
