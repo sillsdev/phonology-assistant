@@ -97,27 +97,10 @@ namespace SIL.Pa.UI.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public PaWordListGrid(PaProject project, WordListCache cache, Type owningViewType,
-			bool performInitialSort) : this()
+			bool performInitialSort)
 		{
 			Project = project;
-			Cache = cache;
-
-			OwningViewType = owningViewType;
-
-			var field = Project.GetAudioFileField();
-			m_audioFileFieldName = (field != null ? field.Name : null);
-
-			m_spkrImage = Properties.Resources.kimidSpeaker;
-			OnSortingOptionsChanged(performInitialSort);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Constructs a new DataGridView used for find phone results.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public PaWordListGrid()
-		{
+	
 			AllGroupsExpanded = true;
 			base.DoubleBuffered = true;
 			ReadOnly = true;
@@ -154,10 +137,19 @@ namespace SIL.Pa.UI.Controls
 
 			if (App.TMAdapter != null)
 			{
-				TMItemProperties itemProps = App.TMAdapter.GetItemProperties("mnuStopPlayback");
+				var itemProps = App.TMAdapter.GetItemProperties("mnuStopPlayback");
 				if (itemProps != null)
 					m_stopPlaybackKey = itemProps.ShortcutKey;
 			}
+
+			Cache = cache;
+			OwningViewType = owningViewType;
+			
+			var field = Project.GetAudioFileField();
+			m_audioFileFieldName = (field != null ? field.Name : null);
+
+			m_spkrImage = Properties.Resources.kimidSpeaker;
+			OnSortingOptionsChanged(performInitialSort);
 		}
 
 		/// ------------------------------------------------------------------------------------
