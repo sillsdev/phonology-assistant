@@ -112,7 +112,7 @@ namespace SIL.Pa.Tests
 			AddWords(eticWrds, cvWrds, glossWrds);
 
 			// Create grid
-			m_grid = new PaWordListGrid(m_cache, GetType(), false);
+			m_grid = new PaWordListGrid(m_prj, m_cache, GetType(), false);
 			SetField(m_grid, "m_suspendSavingColumnChanges", true);
 
 			// Make all the grid's rows & columns visible and thus searchable

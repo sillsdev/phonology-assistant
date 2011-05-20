@@ -77,7 +77,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static Color PrimaryHeaderBottom
 		{
-			get { return ColorHelper.CalculateColor(SystemColors.ActiveCaption, SystemColors.ActiveCaption, 0); }
+			get { return SystemColors.ActiveCaption; }
 			//Color.FromArgb(0xff, 0x2c, 0x3d, 0x5a);
 		}
 
@@ -225,8 +225,8 @@ namespace SIL.Pa
 				// theme is the silver (i.e. Metallic) then also make the text gray for selected
 				// rows in non focused grid's.
 				if (PaintingHelper.CanPaintVisualStyle() &&
-					System.Windows.Forms.VisualStyles.VisualStyleInformation.DisplayName == "Windows XP style" &&
-					System.Windows.Forms.VisualStyles.VisualStyleInformation.ColorScheme == "Metallic")
+					VisualStyleInformation.DisplayName == "Windows XP style" &&
+					VisualStyleInformation.ColorScheme == "Metallic")
 				{
 					return SystemColors.GrayText;
 				}
