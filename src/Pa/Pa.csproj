@@ -286,6 +286,12 @@
     <Compile Include="UI\Controls\ChartOptionsDropDown.Designer.cs">
       <DependentUpon>ChartOptionsDropDown.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Controls\CheckedGroupBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\CheckedGroupBox.Designer.cs">
+      <DependentUpon>CheckedGroupBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Controls\CIEOptionsDropDown.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -741,6 +747,9 @@
     <EmbeddedResource Include="UI\Controls\ChartOptionsDropDown.resx">
       <DependentUpon>ChartOptionsDropDown.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\CheckedGroupBox.resx">
+      <DependentUpon>CheckedGroupBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\CIEOptionsDropDown.resx">
       <DependentUpon>CIEOptionsDropDown.cs</DependentUpon>
