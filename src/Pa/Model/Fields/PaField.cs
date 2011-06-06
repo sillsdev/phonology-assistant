@@ -331,13 +331,13 @@ namespace SIL.Pa.Model
 		public static IEnumerable<KeyValuePair<FieldType, string>> GetDisplayableFieldTypes()
 		{
 			yield return new KeyValuePair<FieldType, string>(FieldType.GeneralText,
-				App.GetString("DisplayableFieldTypeNames.GeneralText", "General Text"));
+				App.GetString("DisplayableFieldTypeNames.GeneralText", "Text"));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.GeneralNumeric,
-				App.GetString("DisplayableFieldTypeNames.GeneralNumeric", "General Numeric"));
+				App.GetString("DisplayableFieldTypeNames.GeneralNumeric", "Numeric"));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.GeneralFilePath,
-				App.GetString("DisplayableFieldTypeNames.GeneralFilePath", "General File Path"));
+				App.GetString("DisplayableFieldTypeNames.GeneralFilePath", "File Path"));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.Date,
 				App.GetString("DisplayableFieldTypeNames.Date", "Date/Time"));

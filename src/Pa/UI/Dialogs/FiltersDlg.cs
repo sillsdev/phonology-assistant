@@ -162,13 +162,13 @@ namespace SIL.Pa.UI.Dialogs
 				App.GetString("FiltersDlg.FilterExpressionOperators.GreaterThan", "greater than"));
 
 			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.GreaterThanOrEqual,
-				App.GetString("FiltersDlg.FilterExpressionOperators.GreaterThanOrEqual", "greater than or equal"));
+				App.GetString("FiltersDlg.FilterExpressionOperators.GreaterThanOrEqual", "greater than or equal to"));
 
 			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.LessThan,
 				App.GetString("FiltersDlg.FilterExpressionOperators.LessThan", "less than"));
 
 			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.LessThanOrEqual,
-				App.GetString("FiltersDlg.FilterExpressionOperators.LessThanOrEqual", "less than or equal"));
+				App.GetString("FiltersDlg.FilterExpressionOperators.LessThanOrEqual", "less than or equal to"));
 
 			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.PathExists,
 				App.GetString("FiltersDlg.FilterExpressionOperators.PathExists", "file exists"));

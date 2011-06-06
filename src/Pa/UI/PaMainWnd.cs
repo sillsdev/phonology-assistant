@@ -266,7 +266,7 @@ namespace SIL.Pa.UI
 			if (vwTabGroup.Visible)
 			{
 				if (vwTabGroup.CurrentTab != null)
-					vwTabGroup.CurrentTab.RefreshView();
+					vwTabGroup.CurrentTab.RefreshView(project);
 
 				return;
 			}

@@ -18,7 +18,7 @@ namespace SIL.Pa.UI.Controls
 		private UndockedViewWnd m_viewsForm;
 		private bool m_viewDocked;
 		private bool m_undockingInProgress;
-		private readonly PaProject _project;
+		private PaProject _project;
 
 		/// <summary>
 		/// This flag gets set when a view is undocking. Suppose view A is being undocked.
@@ -276,8 +276,9 @@ namespace SIL.Pa.UI.Controls
 		/// Closes and reopens the view's form.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void RefreshView()
+		public void RefreshView(PaProject project)
 		{
+			_project = project;
 			CloseView();
 			OpenView();
 		}
