@@ -24,7 +24,7 @@ namespace SilTools
 		/// <summary>Occurs when a row is entered and after the current row's index changes.</summary>
 		public event EventHandler CurrentRowChanged;
 
-		public event DataGridViewCellPaintingEventHandler DrawFocusRectangle;
+		public event DataGridViewCellPaintingEventHandler AfterDrawFocusRectangle;
 
 		public delegate void GetWaterMarkRectHandler(object sender,
 			Rectangle adjustedClientRect, ref Rectangle rcProposed);
@@ -385,9 +385,9 @@ namespace SilTools
 			if (!_paintWaterMark || string.IsNullOrEmpty(_waterMark))
 				return;
 
-			Rectangle rc = WaterMarkRectangle;
-			GraphicsPath path = new GraphicsPath();
-			FontFamily family = FontFamily.GenericSerif;
+			var rc = WaterMarkRectangle;
+			var path = new GraphicsPath();
+			var family = FontFamily.GenericSerif;
 
 			// Find the first font size equal to or smaller than 256 that
 			// fits in the water mark rectangle.
@@ -480,7 +480,7 @@ namespace SilTools
 			if (txtBox.SelectedText == txtBox.Text)
 				return false;
 
-			Point pt = txtBox.GetPositionFromCharIndex(txtBox.SelectionStart);
+			var pt = txtBox.GetPositionFromCharIndex(txtBox.SelectionStart);
 			
 			if (pt.Y == 0)
 				return false;
@@ -500,11 +500,11 @@ namespace SilTools
 		protected bool ProcessDownKey(TextBox txtBox)
 		{
 			// Don't override the default behavior if all the text is selected.
-			if (txtBox.SelectedText == txtBox.Text)
+			if (txtBox.SelectedText == txtBox.Text || txtBox.SelectionStart == txtBox.Text.Length)
 				return false;
 
 			int chrIndex = txtBox.SelectionStart;
-			Point pt = txtBox.GetPositionFromCharIndex(txtBox.SelectionStart);
+			var pt = txtBox.GetPositionFromCharIndex(txtBox.SelectionStart);
 			pt.Y += TextRenderer.MeasureText("x", txtBox.Font).Height;
 			txtBox.SelectionStart = txtBox.GetCharIndexFromPosition(pt);
 			return (chrIndex != txtBox.SelectionStart);
@@ -1095,7 +1095,17 @@ namespace SilTools
 
 			paintParts &= ~DataGridViewPaintParts.Focus;
 			e.Paint(rc, paintParts);
+			DrawFocusRectangle(e);
 
+			if (AfterDrawFocusRectangle != null)
+				AfterDrawFocusRectangle(this, e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void DrawFocusRectangle(DataGridViewCellPaintingEventArgs e)
+		{
+			var rc = e.CellBounds;
+			
 			int rowAboveCurrent = (CurrentCellAddress.Y == FirstDisplayedScrollingRowIndex ?
 				-1 : CurrentCellAddress.Y - 1);
 
@@ -1106,7 +1116,7 @@ namespace SilTools
 				using (var pen = new Pen(FullRowFocusRectangleColor))
 					e.Graphics.DrawLine(pen, rc.X, rc.Bottom - 1, rc.Right - 1, rc.Bottom - 1);
 			}
-			
+
 			if (e.RowIndex != CurrentCellAddress.Y)
 				return;
 
@@ -1125,9 +1135,6 @@ namespace SilTools
 				if (e.ColumnIndex >= 0 && Columns[e.ColumnIndex].DisplayIndex == ColumnCount - 1)
 					e.Graphics.DrawLine(pen, rc.Right - 1, rc.Y, rc.Right - 1, rc.Bottom - 1);
 			}
-
-			if (DrawFocusRectangle != null)
-				DrawFocusRectangle(this, e);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1194,6 +1201,45 @@ namespace SilTools
 		{
 			if (CurrentRowChanged != null)
 				CurrentRowChanged(this, EventArgs.Empty);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Draws the specified text in the middle of the grid using 12 point/bold version
+		/// of the grid's font. The verticalOffset is how far below the middle of the grid's
+		/// client area the message is drawn.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void DrawMessageInCenterOfGrid(Graphics g, string message, int verticalOffset)
+		{
+			using (var fnt = new Font(Font.FontFamily, 12, FontStyle.Regular))
+				DrawMessageInCenterOfGrid(g, message, fnt, verticalOffset);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Draws the specified text in the middle of the grid using the specified font. The
+		/// text will be drawn using the gray font. The verticalOffset is how far below the
+		/// middle of the grid's client area the message is drawn.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void DrawMessageInCenterOfGrid(Graphics g, string message, Font fnt, int verticalOffset)
+		{
+			var rc = ClientRectangle;
+			rc.Height -= (verticalOffset + ColumnHeadersHeight);
+			rc.Y += verticalOffset;
+
+			// Strangely, the grid's client size doesn't change when the scroll bars
+			// are visible. Therefore, we have to explicitly allow for them.
+			var hscroll = HScrollBar;
+			if (hscroll != null && hscroll.Visible)
+				rc.Height -= hscroll.Height;
+
+			const TextFormatFlags flags = TextFormatFlags.HorizontalCenter |
+				TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis |
+				TextFormatFlags.WordBreak;
+
+			TextRenderer.DrawText(g, message, fnt, rc, SystemColors.GrayText, flags);
 		}
 
 		#region Static methods for creating various column types

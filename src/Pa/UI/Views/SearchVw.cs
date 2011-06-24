@@ -1333,6 +1333,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDataSourcesModified(object args)
 		{
+			rtfRecVw.Project = _project = args as PaProject;
+			rtfRecVw.UpdateRecord(null);
 			ptrnBldrComponent.RefreshComponents();
 			return false;
 		}

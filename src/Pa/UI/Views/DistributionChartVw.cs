@@ -35,7 +35,7 @@ namespace SIL.Pa.UI.Views
 		private readonly SplitterPanel m_dockedSidePanel;
 		private readonly DistributionGrid m_grid;
 		private readonly Keys m_saveChartHotKey = Keys.None;
-		private readonly PaProject _project;
+		private PaProject _project;
 
 		/// ------------------------------------------------------------------------------------
 		public DistributionChartVw(PaProject project)
@@ -1104,6 +1104,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDataSourcesModified(object args)
 		{
+			rtfRecVw.Project = _project = args as PaProject;
+			rtfRecVw.Update();
 			ptrnBldrComponent.RefreshComponents();
 			return false;
 		}

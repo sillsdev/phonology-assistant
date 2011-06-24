@@ -60,7 +60,7 @@ namespace SIL.Pa.UI.Controls
 			SetupCloseButton();
 
 			// Prepare the tab's minimal pair options button.
-			Image img = Properties.Resources.kimidMinimalPairsOptionsDropDown;
+			var img = Properties.Resources.kimidMinimalPairsOptionsDropDown;
 			CIEOptionsButton = new XButton();
 			CIEOptionsButton.Image = img;
 			CIEOptionsButton.Size = new Size(img.Width + 4, img.Height + 4);
@@ -462,7 +462,7 @@ namespace SIL.Pa.UI.Controls
 				if (OwningTabGroup != null && OwningTabGroup.RecordView != null)
 					OwningTabGroup.RecordView.UpdateFonts();
 
-				m_resultView.RefreshResults();
+				m_resultView.RefreshResults(args as PaProject);
 				SubscribeToGridEvents();
 				UpdateRecordView();
 			}

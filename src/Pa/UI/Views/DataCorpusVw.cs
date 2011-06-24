@@ -24,7 +24,7 @@ namespace SIL.Pa.UI.Views
 		private bool m_activeView;
 		private PlaybackSpeedAdjuster m_playbackSpeedAdjuster;
 		private bool m_initialDock = true;
-		private readonly PaProject _project;
+		private PaProject _project;
 
 		/// ------------------------------------------------------------------------------------
 		public DataCorpusVw(PaProject project)
@@ -714,6 +714,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDataSourcesModified(object args)
 		{
+			rtfRecVw.Project = _project = args as PaProject;
+
 			int savCurrRowIndex = 0;
 			int savCurrColIndex = 0;
 			int savFirstRowIndex = 0;

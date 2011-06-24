@@ -922,19 +922,22 @@ namespace SIL.Pa.UI.Controls
 			return null;
 		}
 
-		#region Methods for performing searches
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		protected bool OnDataSourcesModified(object args)
+		{
+			Project = args as PaProject;
+			return false;
+		}
+
+		#region Methods for performing searches
 		/// ------------------------------------------------------------------------------------
 		protected bool OnShowResults(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
-			SearchQuery query = m_srchRsltVwHost.GetQueryForMenu(itemProps.Name);
+			var query = m_srchRsltVwHost.GetQueryForMenu(itemProps.Name);
 			if (query != null)
 				PerformSearch(query, SearchResultLocation.CurrentTab);
 
@@ -942,13 +945,9 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateShowResults(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
@@ -992,10 +991,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void ShowResults(WordListCache resultCache, SearchResultLocation resultLocation)
 		{
 			// When this is true, it probably means there are no results showing.
@@ -1023,13 +1018,9 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnSearchResultViewDestroying(object args)
 		{
-			SearchResultView resultView = args as SearchResultView;
+			var resultView = args as SearchResultView;
 			if (resultView != null && m_searchResultViews.Contains(resultView))
 				m_searchResultViews.Remove(resultView);
 
@@ -1108,7 +1099,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 			}
 
-			SearchResultTabGroup tabGroup = CurrentTabGroup;
+			var tabGroup = CurrentTabGroup;
 
 			if (m_resultsPanel.Controls.Count == 0)
 			{
@@ -1160,7 +1151,7 @@ namespace SIL.Pa.UI.Controls
 			// new tab group. Therefore, a split container is created for the new tab.
 			m_resultsPanel.SuspendLayout();
 
-			SplitContainer split = new SplitContainer();
+			var split = new SplitContainer();
 			split.SuspendLayout();
 			split.SplitterWidth = 8;
 			split.TabStop = false;
@@ -1189,7 +1180,7 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			// Create a new tab group and add it to the new split container.
-			SearchResultTabGroup tabGroup = new SearchResultTabGroup(this);
+			var tabGroup = new SearchResultTabGroup(this);
 			tabGroup.SuspendLayout();
 			tabGroup.Dock = DockStyle.Fill;
 			tabGroup.Size = new Size(split.Panel2.Width, split.Panel2.Height);
@@ -1204,7 +1195,7 @@ namespace SIL.Pa.UI.Controls
 			// In other words, every time a new split container is added for a tab group, it
 			// becomes the wrapper for all subsequent tab group split containers. Whew!
 			m_ignoreTabGroupRemoval = true;
-			Control ctrl = m_resultsPanel.Controls[0];
+			var ctrl = m_resultsPanel.Controls[0];
 			m_resultsPanel.Controls.Remove(ctrl);
 
 			// Set these values now, because, even though they're docked, we're still
@@ -1296,13 +1287,9 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateSearchResultPhoneticSort(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
@@ -1425,10 +1412,6 @@ namespace SIL.Pa.UI.Controls
 
 		#region CIE (i.e. minimal pair) methods
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnShowCIEResults(object args)
 		{
 			if (!m_view.ActiveView || CurrentViewsGrid == null || CurrentViewsGrid.Cache == null)
@@ -1448,13 +1431,9 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateShowCIEResults(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
@@ -1479,7 +1458,7 @@ namespace SIL.Pa.UI.Controls
 		#endregion
 
 		#region Export Methods
-				/// ------------------------------------------------------------------------------------
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Attempts to export the manager's current grid contents to HTML and returns the
 		/// html file.

@@ -13,7 +13,7 @@ namespace SIL.Pa
 		[STAThread]
 		static void Main() 
 		{
-			ErrorReport.AddProperty("EmailAddress", "PaFeedback@sil.org");
+			ErrorReport.EmailAddress = "PaFeedback@sil.org";
 			ErrorReport.AddStandardProperties();
 			ExceptionHandler.Init();
 

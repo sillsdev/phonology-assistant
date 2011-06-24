@@ -998,7 +998,7 @@ namespace SIL.Pa.UI.Controls
 
 			try
 			{
-				WordListCacheEntry entry = GetWordEntry(e.RowIndex);
+				var entry = GetWordEntry(e.RowIndex);
 
 				if (entry == null)
 				{
@@ -2785,8 +2785,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool OnDataSourcesModified(object args)
 		{
-			var project = args as PaProject;
-			var mappedFields = project.GetMappedFields().ToList();
+			Project = args as PaProject;
+			var mappedFields = Project.GetMappedFields().ToList();
 
 			m_suspendSavingColumnChanges = true;
 
@@ -2817,7 +2817,7 @@ namespace SIL.Pa.UI.Controls
 				var col = Columns[field.Name];
 				if (col == null)
 				{
-					if (field.DisplayIndexInGrid < 0 || !project.LastNewlyMappedFields.Contains(field.Name))
+					if (field.DisplayIndexInGrid < 0 || !Project.LastNewlyMappedFields.Contains(field.Name))
 						continue;
 
 					field.VisibleInGrid = true;

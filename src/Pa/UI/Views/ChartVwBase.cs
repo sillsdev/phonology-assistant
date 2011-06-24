@@ -983,6 +983,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDataSourcesModified(object args)
 		{
+			_project = args as PaProject;
 			ReloadChart(false);
 			return false;
 		}

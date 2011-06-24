@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Palaso.Reporting;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
@@ -60,7 +61,11 @@ namespace SIL.Pa.UI.Dialogs
 
 			cboRecordMarkers.Items.AddRange(m_markersInFile.ToArray());
 			var marker = m_markersInFile.SingleOrDefault(m => m == m_datasource.SfmRecordMarker);
-			cboRecordMarkers.SelectedItem = (marker ?? m_markersInFile[0]);
+			
+			if (marker != null)
+				cboRecordMarkers.SelectedItem = marker;
+			else if (m_markersInFile.Count > 0)
+				cboRecordMarkers.SelectedItem = m_markersInFile[0];
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -516,9 +521,9 @@ namespace SIL.Pa.UI.Dialogs
 			catch (Exception e)
 			{
 				var msg = App.GetString("SFDataSourcePropertiesDlg.ErrorReadingSourceFileMsg",
-					"The following error occurred trying to read the source file '{0}'.\n\n{1}");
+					"There was an error trying to read the SFM file '{0}'.");
 
-				MessageBox.Show(string.Format(msg, e.Message));
+				ErrorReport.NotifyUserOfProblem(e, msg, m_filename);
 			}
 		}
 
