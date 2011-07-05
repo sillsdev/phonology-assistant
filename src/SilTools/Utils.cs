@@ -43,8 +43,9 @@ namespace SilTools
 		}
 
 		// FIXME Linux - Windows libraries not available
-		[DllImport("user32")]
-		public static extern int UpdateWindow(IntPtr hwnd);
+//		[DllImport("user32")]
+//		public static extern int UpdateWindow(IntPtr hwnd);
+		public static int UpdateWindow(IntPtr hwnd) { return 0; }
 
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern int FindWindowEx(IntPtr hWnd, int hwndChildAfter,
