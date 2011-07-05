@@ -23,7 +23,7 @@ namespace SIL.Pa.Tests
 		public override void FixtureSetup()
 		{
 			base.FixtureSetup();
-			InventoryHelper.Load(m_inventoryFile);
+			InventoryHelper.Load();
 		}
 
 		#endregion

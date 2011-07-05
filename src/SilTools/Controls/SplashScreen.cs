@@ -306,11 +306,15 @@ namespace SilTools
 		{
 			set
 			{
-				Debug.Assert(m_splashScreen != null);
-				lock (m_splashScreen)
+				try
 				{
-					m_splashScreen.Invoke(new MethodWithStringDelegate(m_splashScreen.SetMessage), value);
+					Debug.Assert(m_splashScreen != null);
+					lock (m_splashScreen)
+					{
+						m_splashScreen.Invoke(new MethodWithStringDelegate(m_splashScreen.SetMessage), value);
+					}
 				}
+				catch { }
 			}
 		}
 
@@ -330,11 +334,15 @@ namespace SilTools
 		{
 			set
 			{
-				Debug.Assert(m_splashScreen != null);
-				lock (m_splashScreen)
+				try
 				{
-					m_splashScreen.Invoke(new MethodWithStringDelegate(m_splashScreen.SetProdVersion), value);
+					Debug.Assert(m_splashScreen != null);
+					lock (m_splashScreen)
+					{
+						m_splashScreen.Invoke(new MethodWithStringDelegate(m_splashScreen.SetProdVersion), value);
+					}
 				}
+				catch { }
 			}
 		}
 
@@ -351,11 +359,15 @@ namespace SilTools
 		{
 			set
 			{
-				Debug.Assert(m_splashScreen != null);
-				lock (m_splashScreen)
+				try
 				{
-					m_splashScreen.Invoke(new MethodWithStringDelegate(m_splashScreen.SetCopyright), value);
+					Debug.Assert(m_splashScreen != null);
+					lock (m_splashScreen)
+					{
+						m_splashScreen.Invoke(new MethodWithStringDelegate(m_splashScreen.SetCopyright), value);
+					}
 				}
+				catch { }
 			}
 		}
 

@@ -149,6 +149,7 @@ namespace SilTools
 		private Label lblName;
 		private string m_sDriveLetter;
 		private LinkLabel lnkFeedback;
+		private LinkLabel lnkWebsite;
 		private string m_tmpProdVersion;
 		#endregion
 
@@ -230,6 +231,7 @@ namespace SilTools
 			this.lblAvailableDiskSpaceValue = new System.Windows.Forms.Label();
 			this.lblCopyright = new System.Windows.Forms.Label();
 			this.lblName = new System.Windows.Forms.Label();
+			this.lnkWebsite = new System.Windows.Forms.LinkLabel();
 			m_toolTip = new System.Windows.Forms.ToolTip(this.components);
 			buttonOk = new System.Windows.Forms.Button();
 			lblAvailableMemory = new System.Windows.Forms.Label();
@@ -274,6 +276,7 @@ namespace SilTools
 			// panel1
 			// 
 			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.panel1.Controls.Add(this.lnkWebsite);
 			this.panel1.Controls.Add(this.lnkFeedback);
 			this.panel1.Controls.Add(this.lblBuild);
 			this.panel1.Controls.Add(this.lblAppVersion);
@@ -327,6 +330,14 @@ namespace SilTools
 			// 
 			resources.ApplyResources(this.lblName, "lblName");
 			this.lblName.Name = "lblName";
+			// 
+			// lnkWebsite
+			// 
+			resources.ApplyResources(this.lnkWebsite, "lnkWebsite");
+			this.lnkWebsite.Name = "lnkWebsite";
+			this.lnkWebsite.TabStop = true;
+			this.lnkWebsite.UseCompatibleTextRendering = true;
+			this.lnkWebsite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleWebsiteLinkClicked);
 			// 
 			// AboutDlg
 			// 
@@ -428,9 +439,13 @@ namespace SilTools
 			else
 			{
 				// The build number is just the number of days since 01/01/2000
-				var ver = new Version(Application.ProductVersion);
-				int bldNum = ver.Build;
-				var bldDate = new DateTime(2000, 1, 1).Add(new TimeSpan(bldNum, 0, 0, 0));
+				//var ver = new Version(Application.ProductVersion);
+				//int bldNum = ver.Build;
+				
+				//var bldDate = (bldNum == 0 ? File.GetCreationTime(Application.ExecutablePath) :
+				//      new DateTime(2000, 1, 1).Add(new TimeSpan(bldNum, 0, 0, 0)));
+
+				var bldDate = File.GetCreationTime(Application.ExecutablePath);
 				lblBuild.Text = string.Format(m_buildFmt, bldDate.ToString("dd-MMM-yyyy"));
 			}
 		}
@@ -608,7 +623,29 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		private void HandleFeedbackLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			System.Diagnostics.Process.Start("mailto:PaFeedback@sil.org?subject=Bug%20Report");
+			try
+			{
+				System.Diagnostics.Process.Start("mailto:PaFeedback@sil.org?subject=Bug%20Report");
+			}
+			catch (Exception ex)
+			{
+				var msg = "There was an error trying to create an e-mail. It's possible a program for sending e-mail has not been installed.\n\n{0}";
+				Utils.MsgBox(string.Format(msg, ex.Message));
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleWebsiteLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			try
+			{
+				System.Diagnostics.Process.Start("http://phonologyassistant.sil.org");
+			}
+			catch (Exception err)
+			{
+				var msg = "The following error occurred when trying to go to the website:\n\n{0}";
+				Utils.MsgBox(string.Format(msg, err.Message));
+			}
 		}
 	}
 

@@ -10,9 +10,11 @@ using System.Windows.Forms;
 using Localization.UI;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.DataSource;
+using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Filters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.Processing;
 using SIL.Pa.Properties;
 using SIL.Pa.Resources;
 using SIL.Pa.UI.Controls;
@@ -40,8 +42,36 @@ namespace SIL.Pa.UI
 		public PaMainWnd()
 		{
 			m_doNotLoadLastProject = ((ModifierKeys & Keys.Shift) == Keys.Shift);
+			
+			App.InitializeSettingsFileLocation();
+			
+			// If the user knows enough to add an entry to the settings file to
+			// override the default UI font and the phonetic font, then use those.
+			if (Settings.Default.UIFont != null)
+				FontHelper.UIFont = Settings.Default.UIFont;
+			if (Settings.Default.PhoneticFont != null)
+				App.PhoneticFont = Settings.Default.PhoneticFont;
+			
+			App.InitializeLocalization();
+			App.MinimumViewWindowSize = Settings.Default.MinimumViewWindowSize;
+			FwDBUtils.ShowMsgWhenGatheringFWInfo = Settings.Default.ShowMsgWhenGatheringFwInfo;
+
+			var chrs = Settings.Default.UncertainGroupAbsentPhoneChars;
+			if (!string.IsNullOrEmpty(chrs))
+				IPASymbolCache.UncertainGroupAbsentPhoneChars = chrs;
+
+			chrs = Settings.Default.UncertainGroupAbsentPhoneChar;
+			if (!string.IsNullOrEmpty(chrs))
+				IPASymbolCache.UncertainGroupAbsentPhoneChar = chrs;
+
+			App.ReadAddOns();
+
 			InitializeComponent();
+			
 			Settings.Default.MainWindow = App.InitializeForm(this, Settings.Default.MainWindow);
+			InventoryHelper.Load();
+			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList);
+			ProcessHelper.CopyFilesForPrettyHTMLExports();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -202,7 +232,7 @@ namespace SIL.Pa.UI
 				if (vwTabGroup.CurrentTab != null)
 					Settings.Default.LastViewShowing = vwTabGroup.CurrentTab.ViewType.ToString();
 
-				LoadViewTabs();
+				LoadViewTabs(project);
 
 				// Make the last tab that was current the current one now.
 				var type = Type.GetType(typeof(DataCorpusVw).FullName);
@@ -231,12 +261,12 @@ namespace SIL.Pa.UI
 		/// Loads the view tabs.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void LoadViewTabs()
+		private void LoadViewTabs(PaProject project)
 		{
 			if (vwTabGroup.Visible)
 			{
 				if (vwTabGroup.CurrentTab != null)
-					vwTabGroup.CurrentTab.RefreshView();
+					vwTabGroup.CurrentTab.RefreshView(project);
 
 				return;
 			}
@@ -244,7 +274,7 @@ namespace SIL.Pa.UI
 			var itemProps = m_tmAdapter.GetItemProperties("mnuDataCorpus");
 			var img = (itemProps == null ? null : itemProps.Image);
 			var text = (itemProps == null ? "Error!" : itemProps.Text);
-			var tab = vwTabGroup.AddTab(text,img, typeof(DataCorpusVw), "hidDataCorpusView",
+			var tab = vwTabGroup.AddTab(project, text, img, typeof(DataCorpusVw), "hidDataCorpusView",
 				() => App.GetString("PaMainWnd.DataCorpusViewHelpButtonToolTip", "Data Corpus View Help"));
 			
 			App.RegisterForLocalization(tab, "MenuItems.DataCorpus");
@@ -252,7 +282,7 @@ namespace SIL.Pa.UI
 			itemProps = m_tmAdapter.GetItemProperties("mnuFindPhones");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tab = vwTabGroup.AddTab(text, img, typeof(SearchVw), "hidSearchView",
+			tab = vwTabGroup.AddTab(project, text, img, typeof(SearchVw), "hidSearchView",
 				() => App.GetString("PaMainWnd.SearchViewHelpButtonToolTip", "Search View Help"));
 			
 			App.RegisterForLocalization(tab, "MenuItems.FindPhones");
@@ -260,7 +290,7 @@ namespace SIL.Pa.UI
 			itemProps = m_tmAdapter.GetItemProperties("mnuConsonantChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tab = vwTabGroup.AddTab(text, img, typeof(ConsonantChartVw), "hidConsonantChartView", 
+			tab = vwTabGroup.AddTab(project, text, img, typeof(ConsonantChartVw), "hidConsonantChartView", 
 				() => App.GetString("PaMainWnd.ConsonantChartViewHelpButtonToolTip", "Consonant Chart View Help"));
 
 			App.RegisterForLocalization(tab, "MenuItems.ConsonantChart");
@@ -268,7 +298,7 @@ namespace SIL.Pa.UI
 			itemProps = m_tmAdapter.GetItemProperties("mnuVowelChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tab = vwTabGroup.AddTab(text, img, typeof(VowelChartVw), "hidVowelChartView",
+			tab = vwTabGroup.AddTab(project, text, img, typeof(VowelChartVw), "hidVowelChartView",
 				() => App.GetString("PaMainWnd.VowelChartViewHelpButtonToolTip", "Vowel Chart View Help"));
 
 			App.RegisterForLocalization(tab, "MenuItems.VowelChart");
@@ -276,7 +306,7 @@ namespace SIL.Pa.UI
 			itemProps = m_tmAdapter.GetItemProperties("mnuXYChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tab = vwTabGroup.AddTab(text, img, typeof(DistributionChartVw), "hidXYChartsView",
+			tab = vwTabGroup.AddTab(project, text, img, typeof(DistributionChartVw), "hidXYChartsView",
 				() => App.GetString("PaMainWnd.DistributionChartViewHelpButtonToolTip", "Distribution Charts View Help"));
 			
 			App.RegisterForLocalization(tab, "MenuItems.XYChart");
@@ -682,7 +712,7 @@ namespace SIL.Pa.UI
 				Application.ProductName) + "|" + App.kstidFileTypeAllFiles;
 
 			var fmt = App.GetString("ProjectOpenFileDialogText", "Open {0} Project File");
-			string initialDir = (Settings.Default.LastFolderForOpenProjectDlg ?? App.DefaultProjectFolder);
+			string initialDir = (Settings.Default.LastFolderForOpenProjectDlg ?? App.ProjectFolder);
 
 			string[] filenames = App.OpenFileDialog("pap", filter, ref filterindex,
 				string.Format(fmt, Application.ProductName), false, initialDir);
@@ -949,7 +979,7 @@ namespace SIL.Pa.UI
 		protected bool OnDropDownFiltersParent(object args)
 		{
 			var tbpi = args as ToolBarPopupInfo;
-			if (tbpi == null)
+			if (tbpi == null || m_project == null)
 				return false;
 
 			const string cmdId = "CmdExecuteFilter";
@@ -982,7 +1012,7 @@ namespace SIL.Pa.UI
 		protected bool OnDropDownClosedFiltersParent(object args)
 		{
 			var itemProps = args as TMItemProperties;
-			if (itemProps == null)
+			if (itemProps == null || m_project == null)
 				return false;
 
 			foreach (var filter in m_project.FilterHelper.Filters.Where(f => f.ShowInToolbarList))
@@ -1033,7 +1063,7 @@ namespace SIL.Pa.UI
 			if (itemProps == null)
 				return false;
 
-			itemProps.Enabled = (m_project.FilterHelper.CurrentFilter != null);
+			itemProps.Enabled = (m_project != null && m_project.FilterHelper.CurrentFilter != null);
 			itemProps.Visible = true;
 			itemProps.Update = true;
 			return true;
@@ -1097,7 +1127,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExperimentalTranscriptions(object args)
 		{
-			using (var dlg = new TranscriptionChangesDlg())
+			using (var dlg = new TranscriptionChangesDlg(m_project))
 				dlg.ShowDialog(this);
 
 			return true;
@@ -1175,7 +1205,7 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected bool OnUpdateViewFindPhones(object args)
+		protected bool OnUpdateViewSearch(object args)
 		{
 			App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, typeof(SearchVw));
 			return true;

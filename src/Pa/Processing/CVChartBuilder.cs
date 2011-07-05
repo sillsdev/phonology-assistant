@@ -57,10 +57,6 @@ namespace SIL.Pa.Processing
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override string ProgressMessage
 		{
 			get
@@ -72,15 +68,11 @@ namespace SIL.Pa.Processing
 						"Status bar message displayed when building list of consonants from phone list.");
 				}
 
-				return App.GetString("ProcessingVowelChartMsg", "Separating Vowel...",
+				return App.GetString("ProcessingVowelChartMsg", "Separating Vowels...",
 					"Status bar message displayed when building list of vowels from phone list.");
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override string TempFileName
 		{
@@ -92,19 +84,11 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override bool KeepTempFile
 		{
 			get { return Settings.Default.KeepTempCVChartBuilderFile; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override Pipeline.ProcessType ProcessType
 		{
@@ -149,11 +133,6 @@ namespace SIL.Pa.Processing
 			return TempFileName;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void PostBuildProcess()
 		{

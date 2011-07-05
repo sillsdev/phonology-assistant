@@ -19,7 +19,7 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class PaProject : IDisposable
 	{
-		private const string kCurrVersion = "3.3";
+		private const string kCurrVersion = "3.3.0";
 
 		private Form m_appWindow;
 		private bool m_newProject;
@@ -65,6 +65,8 @@ namespace SIL.Pa.Model
 				LoadAmbiguousSequences();
 				LoadTranscriptionChanges();
 				m_newProject = true;
+				RecordCache = new RecordCache(this);
+				PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
 			}
 		}
 
@@ -293,6 +295,9 @@ namespace SIL.Pa.Model
 			SearchVwSortOptions.PostDeserializeInitialization(this);
 			DistributionChartVwSortOptions.PostDeserializeInitialization(this);
 			FixupFieldsAndMappings();
+
+			if (CIEOptions == null)
+				CIEOptions = new CIEOptions();
 
 			foreach (var ds in DataSources)
 				ds.PostDeserializeInitialization(this);
@@ -966,6 +971,14 @@ namespace SIL.Pa.Model
 		[XmlArray("CVPatternInfoList"), XmlArrayItem("CVPatternInfo")]
 		public List<CVPatternInfo> CVPatternInfoList { get; set; }
 
+		/// --------------------------------------------------------------------------------------------
+		[XmlElement("ConsonantChartSuprasegmentalsToIgnore")]
+		public string ConChartSupraSegsToIgnore { get; set; }
+
+		/// --------------------------------------------------------------------------------------------
+		[XmlElement("VowelChartSuprasegmentalsToIgnore")]
+		public string VowChartSupraSegsToIgnore { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the list of phones whose features should be overridden.
@@ -985,10 +998,6 @@ namespace SIL.Pa.Model
 		#endregion
 
 		#region Grid and Record View layout properties
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public GridLayoutInfo GridLayoutInfo
 		{

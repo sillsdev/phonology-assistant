@@ -2,14 +2,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using SilTools;
 
 namespace SIL.Pa.Model
 {
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public class BFeatureCache : FeatureCacheBase
 	{
@@ -29,16 +24,12 @@ namespace SIL.Pa.Model
 
 			// Now add the minus features.
 			int bit = list.Count;
-			foreach (Feature plusFeature in list)
+			foreach (var plusFeature in list.Where(f => f.Name != null))
 			{
-				if (plusFeature.Name == null)
-					continue;
-
-				Feature minusFeature = plusFeature.Clone();
-
+				var minusFeature = plusFeature.Clone();
 				minusFeature.Bit = bit++;
 				minusFeature.Name = "-" + minusFeature.Name.Substring(1);
-				string fullName = ReflectionHelper.GetField(minusFeature, "m_fullname") as string;
+				var fullName = minusFeature.GetBaseFullName();
 				if (fullName != null)
 					minusFeature.FullName = "-" + fullName.Substring(1);
 				
@@ -121,7 +112,7 @@ namespace SIL.Pa.Model
 			if (string.IsNullOrEmpty(featName))
 				return null;
 
-			StringBuilder name = new StringBuilder(featName);
+			var name = new StringBuilder(featName);
 			name[0] = (name[0] == '+' ? '-' : '+');
 			return this[name.ToString()];
 		}

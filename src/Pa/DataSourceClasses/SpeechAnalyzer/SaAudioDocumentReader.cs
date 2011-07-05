@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.UI.Dialogs;
@@ -49,6 +50,13 @@ namespace SIL.Pa.DataSource.Sa
 		private uint m_toneEnumIndex;
 		private uint m_orthoEnumIndex;
 		private uint m_markEnumIndex;
+		private readonly BackgroundWorker m_worker;
+
+		/// ------------------------------------------------------------------------------------
+		public SaAudioDocumentReader(BackgroundWorker worker)
+		{
+			m_worker = worker;
+		}
 
 		#region Initialize/Close methods
 		/// ------------------------------------------------------------------------------------
@@ -104,7 +112,8 @@ namespace SIL.Pa.DataSource.Sa
 					// If audio file is old SA format, then tell user to use SA 3.0.1 to convert first.
 					if (audioReader.IsOldSaFormat)
 					{
-						App.CloseSplashScreen();
+						if (m_worker != null)
+							m_worker.ReportProgress(-1);
 
 						var msg = App.GetString("AudioFileNeedsConversionMsg", "It appears the audio file '{0}' may " +
 							"have been created using an old version of Speech Analyzer. In order for {1} " +
@@ -125,8 +134,8 @@ namespace SIL.Pa.DataSource.Sa
 			}
 			catch (Exception e)
 			{
-				var msg = App.GetString("ErrorInitializingDocReaderMsg", "Error initializing SA Document reader.\n\n{0}");
-				Utils.MsgBox(string.Format(msg, e.Message));
+				var msg = App.GetString("ErrorInitializingDocReaderMsg", "Error initializing SA Document reader.");
+				Palaso.Reporting.ErrorReport.ReportNonFatalExceptionWithMessage(e, msg);
 				return false;
 			}
 

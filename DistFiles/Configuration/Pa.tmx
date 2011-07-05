@@ -1470,7 +1470,7 @@
       <note>Status bar message displayed when building list of vowels from phone list.</note>
       <prop type="x-group">Processing.CVChartBuilder</prop>
       <tuv xml:lang="en">
-        <seg>Separating Vowel...</seg>
+        <seg>Separating Vowels...</seg>
       </tuv>
     </tu>
     <tu tuid="ExportProgressMsg">
@@ -8481,6 +8481,12 @@
       <prop type="x-group">UI.Views.VowelChartVw</prop>
       <tuv xml:lang="en">
         <seg>{0}-VowelChart-(XLingPaper).xml</seg>
+      </tuv>
+    </tu>
+    <tu tuid="FiltersDlg.RemoveFilterConfirmationMsg">
+      <prop type="x-group">UI.Views.VowelChartVw</prop>
+      <tuv xml:lang="en">
+        <seg>The filter '{0}' will be deleted.</seg>
       </tuv>
     </tu>
   </body>

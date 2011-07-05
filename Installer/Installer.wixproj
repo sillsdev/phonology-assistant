@@ -48,6 +48,6 @@
     </WixExtension>
   </ItemGroup>
   <PropertyGroup>
-    <PreBuildEvent>$(ProjectDir)..\DistFiles\Zipper  -o:$(ProjectDir)..\Output\Release\Training\PaTrainingProjects.zip "$(ProjectDir)..\DistFiles\Training Projects"</PreBuildEvent>
+    <PreBuildEvent>$(ProjectDir)..\DistFiles\Zipper  -o:"$(ProjectDir)..\Output\Release\Training\PaTrainingProjects.zip" "$(ProjectDir)..\DistFiles\Training Projects"</PreBuildEvent>
   </PropertyGroup>
 </Project>

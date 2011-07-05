@@ -5,6 +5,7 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Linq;
 using Palaso.IO;
+using Palaso.Reporting;
 using SIL.Pa.DataSource.FieldWorks;
 using SilTools;
 
@@ -236,9 +237,19 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static List<PaField> GetProjectFields(PaProject project)
 		{
-			var path = GetFileForProject(project.ProjectPathFilePrefix);
-			var fields = (File.Exists(path) ? LoadFields(path, "Fields") : GetDefaultFields());
 			s_displayPropsCache = FieldDisplayPropsCache.LoadProjectFieldDisplayProps(project);
+			var defaultFields = GetDefaultFields();
+			var path = GetFileForProject(project.ProjectPathFilePrefix);
+
+			if (!File.Exists(path))
+				return defaultFields;
+
+			// Go through the project's fields making sure that
+			// all the default fields are contained therein.
+			var fields = LoadFields(path, "Fields");
+			foreach (var fld in defaultFields.Where(fld => !fields.Any(f => f.Name == fld.Name)))
+				fields.Add(fld);
+			
 			return fields;
 		}
 
@@ -281,13 +292,9 @@ namespace SIL.Pa.Model
 				return EnsureListContainsCalculatedFields(list).ToList();
 
 			var msg = App.GetString("ReadingFieldsFileErrorMsg",
-				"The following error occurred when reading the file\n\n'{0}'\n\n{1}");
+				"An error occurred reading the file\n\n'{0}'.");
 
-			while (e.InnerException != null)
-				e = e.InnerException;
-
-			Utils.MsgBox(string.Format(msg, path, e.Message));
-
+			ErrorReport.NotifyUserOfProblem(e, msg, path);
 			return null;
 		}
 
@@ -324,13 +331,13 @@ namespace SIL.Pa.Model
 		public static IEnumerable<KeyValuePair<FieldType, string>> GetDisplayableFieldTypes()
 		{
 			yield return new KeyValuePair<FieldType, string>(FieldType.GeneralText,
-				App.GetString("DisplayableFieldTypeNames.GeneralText", "General Text"));
+				App.GetString("DisplayableFieldTypeNames.GeneralText", "Text"));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.GeneralNumeric,
-				App.GetString("DisplayableFieldTypeNames.GeneralNumeric", "General Numeric"));
+				App.GetString("DisplayableFieldTypeNames.GeneralNumeric", "Numeric"));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.GeneralFilePath,
-				App.GetString("DisplayableFieldTypeNames.GeneralFilePath", "General File Path"));
+				App.GetString("DisplayableFieldTypeNames.GeneralFilePath", "File Path"));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.Date,
 				App.GetString("DisplayableFieldTypeNames.Date", "Date/Time"));

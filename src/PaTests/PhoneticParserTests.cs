@@ -30,39 +30,21 @@ namespace SIL.Pa.Tests
     public class PhoneticParserTests : TestBase
 	{
 		private AmbiguousSequences m_ambigSeqList;
+		Dictionary<int, string[]> uncertainties;
 
 		#region Setup/Teardown
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Create temporary test records.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[TestFixtureSetUp]
-		public override void FixtureSetup()
-		{
-			base.FixtureSetup();
-			InventoryHelper.Load(m_inventoryFile);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-        /// 
-        /// </summary>
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void TestSetup()
 		{
 			m_ambigSeqList = new AmbiguousSequences();
-			App.IPASymbolCache.AmbiguousSequences.Clear();
-			App.IPASymbolCache.TranscriptionChanges.Clear();
-			App.IPASymbolCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
-			App.IPASymbolCache.LogUndefinedCharactersWhenParsing = true;
+			m_prj.AmbiguousSequences.Clear();
+			m_prj.TranscriptionChanges.Clear();
+			//App.IPASymbolCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
+			m_prj.PhoneticParser.LogUndefinedCharactersWhenParsing = true;
+			m_prj.PhoneticParser.ResetAmbiguousSequencesForTests();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-        /// 
-        /// </summary>
 		/// ------------------------------------------------------------------------------------
 		[TearDown]
         public void TestTearDown()
@@ -79,10 +61,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void PhoneticParserTest_Simple()
 		{
-			string[] result;
-			Dictionary<int, string[]> uncertainties;
-
-			result = App.IPASymbolCache.PhoneticParser("abc", false, out uncertainties);
+			var result = Parse("abc", true, false, out uncertainties);
 			Assert.AreEqual(3, result.Length);
 			Assert.AreEqual("a", result[0]);
 			Assert.AreEqual("b", result[1]);
@@ -97,10 +76,8 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void PhoneticParserTest_InvalidChars()
 		{
-			string[] result;
-			Dictionary<int, string[]> uncertainties;
-
-			result = App.IPASymbolCache.PhoneticParser("abX", false, out uncertainties);
+			App.IPASymbolCache.UndefinedCharacters.Clear();
+			var result = Parse("abX", true, false, out uncertainties);
 			Assert.AreEqual(3, result.Length);
 			Assert.AreEqual("a", result[0]);
 			Assert.AreEqual("b", result[1]);
@@ -108,7 +85,7 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(1, App.IPASymbolCache.UndefinedCharacters.Count);
 			App.IPASymbolCache.UndefinedCharacters.Clear();
 
-			result = App.IPASymbolCache.PhoneticParser("aXb", false, out uncertainties);
+			result = Parse("aXb", true, false, out uncertainties);
 			Assert.AreEqual(3, result.Length);
 			Assert.AreEqual("a", result[0]);
 			Assert.AreEqual("X", result[1]);
@@ -116,7 +93,7 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(1, App.IPASymbolCache.UndefinedCharacters.Count);
 			App.IPASymbolCache.UndefinedCharacters.Clear();
 
-			result = App.IPASymbolCache.PhoneticParser("XaXX", false, out uncertainties);
+			result = Parse("XaXX", true, false, out uncertainties);
 			Assert.AreEqual(4, result.Length);
 			Assert.AreEqual("X", result[0]);
 			Assert.AreEqual("a", result[1]);
@@ -133,24 +110,21 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void PhoneticParserTest_CompositePhones()
 		{
-			string[] result;
-			Dictionary<int, string[]> uncertainties;
-
-			result = App.IPASymbolCache.PhoneticParser("x\u0061\u0306\u0301x", false, out uncertainties);
+			var result = Parse("x\u0061\u0306\u0301x", true, false, out uncertainties);
 			Assert.AreEqual(3, result.Length);
 			Assert.AreEqual("x", result[0]);
 			Assert.AreEqual("\u0061\u0306\u0301", result[1]);
 			Assert.AreEqual("x", result[2]);
 			Assert.AreEqual(0, App.IPASymbolCache.UndefinedCharacters.Count);
 
-			result = App.IPASymbolCache.PhoneticParser("x\u1EAFx", true, out uncertainties);
+			result = Parse("x\u1EAFx", true, true, out uncertainties);
 			Assert.AreEqual(3, result.Length);
 			Assert.AreEqual("x", result[0]);
 			Assert.AreEqual("\u0061\u0306\u0301", result[1]);
 			Assert.AreEqual("x", result[2]);
 			Assert.AreEqual(0, App.IPASymbolCache.UndefinedCharacters.Count);
 
-			result = App.IPASymbolCache.PhoneticParser("xX\u0103\u0301X", true, out uncertainties);
+			result = Parse("xX\u0103\u0301X", true, true, out uncertainties);
 			Assert.AreEqual(4, result.Length);
 			Assert.AreEqual("x", result[0]);
 			Assert.AreEqual("X", result[1]);
@@ -168,10 +142,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void PhoneticParserTest_DiacriticBeforeBase()
 		{
-			string[] result;
-			Dictionary<int, string[]> uncertainties;
-
-			result = App.IPASymbolCache.PhoneticParser("\u0301\u0061\u0306\u0301", false, out uncertainties);
+			var result = Parse("\u0301\u0061\u0306\u0301", true, false, out uncertainties);
 			Assert.AreEqual(1, result.Length);
 			Assert.AreEqual("\u0301\u0061\u0306\u0301", result[0]);
 		}
@@ -184,11 +155,8 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void PhoneticParserTest_TieBars()
 		{
-			string[] result;
-			Dictionary<int, string[]> uncertainties;
-
 			// Top tie bar test
-			result = App.IPASymbolCache.PhoneticParser("abk\u035Cpc", false, out uncertainties);
+			var result = Parse("abk\u035Cpc", true, false, out uncertainties);
 			Assert.AreEqual(4, result.Length);
 			Assert.AreEqual("a", result[0]);
 			Assert.AreEqual("b", result[1]);
@@ -196,7 +164,7 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual("c", result[3]);
 
 			// Bottom tie bar test
-			result = App.IPASymbolCache.PhoneticParser("abk\u0361pc", false, out uncertainties);
+			result = Parse("abk\u0361pc", true, false, out uncertainties);
 			Assert.AreEqual(4, result.Length);
 			Assert.AreEqual("a", result[0]);
 			Assert.AreEqual("b", result[1]);
@@ -204,7 +172,7 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual("c", result[3]);
 
 			// Linking (absence of a break)
-			result = App.IPASymbolCache.PhoneticParser("abk\u203Fpc", false, out uncertainties);
+			result = Parse("abk\u203Fpc", true, false, out uncertainties);
 			Assert.AreEqual(4, result.Length);
 			Assert.AreEqual("a", result[0]);
 			Assert.AreEqual("b", result[1]);
@@ -221,10 +189,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void UncertainDataTest_OneUncertaintyGroup()
 		{
-			string[] result;
-			Dictionary<int, string[]> uncertainties;
-
-			result = App.IPASymbolCache.PhoneticParser("b(a/o)g", false, out uncertainties);
+			var result = Parse("b(a/o)g", true, false, out uncertainties);
 			Assert.AreEqual(3, result.Length);
 			Assert.AreEqual("b", result[0]);
 			Assert.AreEqual("a", result[1]);
@@ -235,7 +200,7 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual("a", uncertainties[1][0]);
 			Assert.AreEqual("o", uncertainties[1][1]);
 
-			result = App.IPASymbolCache.PhoneticParser("bl(a/\u0103\u0301/o)g", false, out uncertainties);
+			result = Parse("bl(a/\u0103\u0301/o)g", false, false, out uncertainties);
 			Assert.AreEqual(4, result.Length);
 			Assert.AreEqual("b", result[0]);
 			Assert.AreEqual("l", result[1]);
@@ -258,10 +223,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void UncertainDataTest_TwoUncertaintyGroup()
 		{
-			string[] result;
-			Dictionary<int, string[]> uncertainties;
-
-			result = App.IPASymbolCache.PhoneticParser("b(a/o)gg(e/a/i)r", false, out uncertainties);
+			var result = Parse("b(a/o)gg(e/a/i)r", true, false, out uncertainties);
 			Assert.AreEqual(6, result.Length);
 			Assert.AreEqual("b", result[0]);
 			Assert.AreEqual("a", result[1]);
@@ -289,10 +251,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void UncertainDataTest_BeginningUncertaintyGroup()
 		{
-			string[] result;
-			Dictionary<int, string[]> uncertainties;
-
-			result = App.IPASymbolCache.PhoneticParser("(d/b)og", false, out uncertainties);
+			var result = Parse("(d/b)og", true, false, out uncertainties);
 			Assert.AreEqual(3, result.Length);
 			Assert.AreEqual("d", result[0]);
 			Assert.AreEqual("o", result[1]);
@@ -313,10 +272,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void UncertainDataTest_EndingUncertaintyGroup()
 		{
-			string[] result;
-			Dictionary<int, string[]> uncertainties;
-
-			result = App.IPASymbolCache.PhoneticParser("di(n/m)", false, out uncertainties);
+			var result = Parse("di(n/m)", true, false, out uncertainties);
 			Assert.AreEqual(3, result.Length);
 			Assert.AreEqual("d", result[0]);
 			Assert.AreEqual("i", result[1]);
@@ -337,10 +293,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void UncertainDataTest_BeginAndEndUncertaintyGroup()
 		{
-			string[] result;
-			Dictionary<int, string[]> uncertainties;
-
-			result = App.IPASymbolCache.PhoneticParser("(1/2)x(3/4)", false, out uncertainties);
+			var result = Parse("(1/2)x(3/4)", true, false, out uncertainties);
 			Assert.AreEqual(3, result.Length);
 			Assert.AreEqual("1", result[0]);
 			Assert.AreEqual("x", result[1]);
@@ -364,10 +317,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void UncertainDataTest_EmptySetInUncertaintyGroup1()
 		{
-			string[] result;
-			Dictionary<int, string[]> uncertainties;
-
-			result = App.IPASymbolCache.PhoneticParser("pe(0/i)t", false, out uncertainties);
+			var result = Parse("pe(0/i)t", true, false, out uncertainties);
 			Assert.AreEqual(4, result.Length);
 			Assert.AreEqual("p", result[0]);
 			Assert.AreEqual("e", result[1]);
@@ -379,7 +329,7 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual("", uncertainties[2][0]);
 			Assert.AreEqual("i", uncertainties[2][1]);
 
-			result = App.IPASymbolCache.PhoneticParser("pe(i/0)t", false, out uncertainties);
+			result = Parse("pe(i/0)t", true, false, out uncertainties);
 			Assert.AreEqual(4, result.Length);
 			Assert.AreEqual("p", result[0]);
 			Assert.AreEqual("e", result[1]);
@@ -401,10 +351,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void UncertainDataTest_EmptySetInUncertaintyGroup2()
 		{
-			string[] result;
-			Dictionary<int, string[]> uncertainties;
-
-			result = App.IPASymbolCache.PhoneticParser("pe(/i)t", false, out uncertainties);
+			var result = Parse("pe(/i)t", true, false, out uncertainties);
 			Assert.AreEqual(4, result.Length);
 			Assert.AreEqual("p", result[0]);
 			Assert.AreEqual("e", result[1]);
@@ -416,7 +363,7 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual("", uncertainties[2][0]);
 			Assert.AreEqual("i", uncertainties[2][1]);
 
-			result = App.IPASymbolCache.PhoneticParser("pe(i/)t", false, out uncertainties);
+			result = Parse("pe(i/)t", true, false, out uncertainties);
 			Assert.AreEqual(4, result.Length);
 			Assert.AreEqual("p", result[0]);
 			Assert.AreEqual("e", result[1]);
@@ -428,7 +375,7 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual("i", uncertainties[2][0]);
 			Assert.AreEqual("", uncertainties[2][1]);
 
-			result = App.IPASymbolCache.PhoneticParser("pe(i//o)t", false, out uncertainties);
+			result = Parse("pe(i//o)t", true, false, out uncertainties);
 			Assert.AreEqual(4, result.Length);
 
 			Assert.AreEqual(1, uncertainties.Count);
@@ -447,10 +394,9 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void UncertainDataTest_ParensWithoutSlashes()
 		{
-			string[] result;
-			Dictionary<int, string[]> uncertainties;
+			App.IPASymbolCache.UndefinedCharacters.Clear();
 
-			result = App.IPASymbolCache.PhoneticParser("p(ai)t", false, out uncertainties);
+			var result = Parse("p(ai)t", true, false, out uncertainties);
 			Assert.AreEqual(6, result.Length);
 			Assert.AreEqual("p", result[0]);
 			Assert.AreEqual("(", result[1]);
@@ -472,10 +418,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void UncertainDataTest_SimultaneousGroups()
 		{
-			string[] result;
-			Dictionary<int, string[]> uncertainties;
-
-			result = App.IPASymbolCache.PhoneticParser("a(1/2)(3/4)(5/6)b", false, out uncertainties);
+			var result = Parse("a(1/2)(3/4)(5/6)b", true, false, out uncertainties);
 			Assert.AreEqual(5, result.Length);
 			Assert.AreEqual("a", result[0]);
 			Assert.AreEqual("1", result[1]);
@@ -505,13 +448,10 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void AmbiguousSeqTest_WordInitial()
 		{
-			string[] result;
-			Dictionary<int, string[]> uncertainties;
-
 			m_ambigSeqList.Add("\u1D50b");
-			App.IPASymbolCache.AmbiguousSequences = m_ambigSeqList;
+			m_prj.AmbiguousSequences.AddRange(m_ambigSeqList);
 
-			result = App.IPASymbolCache.PhoneticParser("\u1D50bai", true, out uncertainties);
+			string[] result = Parse("\u1D50bai", true, true, out uncertainties);
 			Assert.AreEqual(3, result.Length);
 			Assert.AreEqual("\u1D50b", result[0]);
 		}
@@ -525,13 +465,11 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void AmbiguousSeqTest_WordMedial()
 		{
-			string[] result;
-			Dictionary<int, string[]> uncertainties;
-
 			m_ambigSeqList.Add("\u1D50b");
-			App.IPASymbolCache.AmbiguousSequences = m_ambigSeqList;
+			
+			m_prj.AmbiguousSequences.AddRange(m_ambigSeqList);
 
-			result = App.IPASymbolCache.PhoneticParser("a\u1D50bi", true, out uncertainties);
+			var result = Parse("a\u1D50bi", true, true, out uncertainties);
 			Assert.AreEqual(3, result.Length);
 			Assert.AreEqual("\u1D50b", result[1]);
 		}
@@ -545,13 +483,8 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void AmbiguousSeqTest_WordFinal()
 		{
-			string[] result;
-			Dictionary<int, string[]> uncertainties;
-
-			m_ambigSeqList.Add("\u1D50b");
-			App.IPASymbolCache.AmbiguousSequences = m_ambigSeqList;
-
-			result = App.IPASymbolCache.PhoneticParser("ai\u1D50b", true, out uncertainties);
+			m_prj.AmbiguousSequences.Add("\u1D50b");
+			var result = Parse("ai\u1D50b", true, true, out uncertainties);
 			Assert.AreEqual(3, result.Length);
 			Assert.AreEqual("\u1D50b", result[2]);
 		}
@@ -565,19 +498,15 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void AmbiguousSeqTest_MultipleSequences()
 		{
-			string[] result;
-			Dictionary<int, string[]> uncertainties;
+			m_prj.AmbiguousSequences.Add("\u1D51g");
+			m_prj.AmbiguousSequences.Add("t\u0283");
 
-			m_ambigSeqList.Add("\u1D51g");
-			m_ambigSeqList.Add("t\u0283");
-			App.IPASymbolCache.AmbiguousSequences = m_ambigSeqList;
-
-			result = App.IPASymbolCache.PhoneticParser("ab\u1D51gct\u0283de", true, out uncertainties);
+			var result = Parse("ab\u1D51gct\u0283de", true, true, out uncertainties);
 			Assert.AreEqual(7, result.Length);
 			Assert.AreEqual("\u1D51g", result[2]);
 			Assert.AreEqual("t\u0283", result[4]);
 
-			result = App.IPASymbolCache.PhoneticParser("ab\u1D51gt\u0283de", true, out uncertainties);
+			result = Parse("ab\u1D51gt\u0283de", true, true, out uncertainties);
 			Assert.AreEqual(6, result.Length);
 			Assert.AreEqual("\u1D51g", result[2]);
 			Assert.AreEqual("t\u0283", result[3]);
@@ -592,30 +521,27 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void AmbiguousSeqTest_InUncertainGroup()
 		{
-			string[] result;
-			Dictionary<int, string[]> uncertainties;
-
 			m_ambigSeqList.Add("\u1D51g");
 			m_ambigSeqList.Add("t\u0283");
-			App.IPASymbolCache.AmbiguousSequences = m_ambigSeqList;
+			m_prj.AmbiguousSequences.AddRange(m_ambigSeqList);
 
 			// Test at the beginning of the uncertain group.
-			result = App.IPASymbolCache.PhoneticParser("ab(\u1D51g/i/a)de", true, out uncertainties);
+			var result = Parse("ab(\u1D51g/i/a)de", true, true, out uncertainties);
 			Assert.AreEqual(5, result.Length);
 			Assert.AreEqual("\u1D51g", result[2]);
 
 			// Test in the middle of the uncertain group.
-			result = App.IPASymbolCache.PhoneticParser("ab(i/\u1D51g/a)de", true, out uncertainties);
+			result = Parse("ab(i/\u1D51g/a)de", true, true, out uncertainties);
 			Assert.AreEqual(5, result.Length);
 			Assert.AreEqual("\u1D51g", uncertainties[2][1]);
 
 			// Test at the end of the uncertain group.
-			result = App.IPASymbolCache.PhoneticParser("a(i/a/\u1D51g)de", true, out uncertainties);
+			result = Parse("a(i/a/\u1D51g)de", true, true, out uncertainties);
 			Assert.AreEqual(4, result.Length);
 			Assert.AreEqual("\u1D51g", uncertainties[1][2]);
 
 			// Test two ambiguities in the uncertain group.
-			result = App.IPASymbolCache.PhoneticParser("a(i/t\u0283/a/\u1D51g)de", true, out uncertainties);
+			result = Parse("a(i/t\u0283/a/\u1D51g)de", true, true, out uncertainties);
 			Assert.AreEqual(4, result.Length);
 			Assert.AreEqual("i", uncertainties[1][0]);
 			Assert.AreEqual("t\u0283", uncertainties[1][1]);
@@ -632,21 +558,17 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void AmbiguousSeqTest_ToggleConvert()
 		{
-			string[] result;
-			Dictionary<int, string[]> uncertainties;
-
-			AmbiguousSeq ambigItem = new AmbiguousSeq("\u1D4Ab");
+			var ambigItem = new AmbiguousSeq("\u1D4Ab");
 			ambigItem.Convert = false;
-			m_ambigSeqList.Add(ambigItem);
-			App.IPASymbolCache.AmbiguousSequences = m_ambigSeqList;
+			m_prj.AmbiguousSequences.Add(ambigItem);
 
-			result = App.IPASymbolCache.PhoneticParser("d\u1D4Abai", true, out uncertainties);
+			var result = Parse("d\u1D4Abai", true, true, out uncertainties);
 			Assert.AreEqual(4, result.Length);
 			Assert.AreEqual("d\u1D4A", result[0]);
 			Assert.AreEqual("b", result[1]);
 
 			ambigItem.Convert = true;
-			result = App.IPASymbolCache.PhoneticParser("d\u1D4Abai", true, out uncertainties);
+			result = Parse("d\u1D4Abai", true, true, out uncertainties);
 			Assert.AreEqual(4, result.Length);
 			Assert.AreEqual("d", result[0]);
 			Assert.AreEqual("\u1D4Ab", result[1]);
@@ -662,14 +584,11 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void AmbiguousSeqTest_TieBarTest()
 		{
-			string[] result;
-			Dictionary<int, string[]> uncertainties;
-
 			m_ambigSeqList.Add("sc");
 			m_ambigSeqList.Add("t\u0361s");
-			App.IPASymbolCache.AmbiguousSequences = m_ambigSeqList;
+			m_prj.AmbiguousSequences.AddRange(m_ambigSeqList);
 
-			result = App.IPASymbolCache.PhoneticParser("t\u0361sc", true, out uncertainties);
+			var result = Parse("t\u0361sc", true, true, out uncertainties);
 			Assert.AreEqual("t\u0361s", result[0]);
 			Assert.AreEqual("c", result[1]);
 		}

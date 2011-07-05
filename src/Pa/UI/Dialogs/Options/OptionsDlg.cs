@@ -37,6 +37,7 @@ namespace SIL.Pa.UI.Dialogs
 		public OptionsDlg(PaProject project) : this()
 		{
 			m_project = project;
+			phoneticSortOptions.Project = m_project;
 
 			InitializeFontTab();
 			//InitializeFindPhonesTab();

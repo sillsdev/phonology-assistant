@@ -35,13 +35,17 @@ namespace SIL.Pa.UI.Views
 		private readonly SplitterPanel m_dockedSidePanel;
 		private readonly DistributionGrid m_grid;
 		private readonly Keys m_saveChartHotKey = Keys.None;
+		private PaProject _project;
 
 		/// ------------------------------------------------------------------------------------
-		public DistributionChartVw()
+		public DistributionChartVw(PaProject project)
 		{
 			Utils.WaitCursors(true);
+			_project = project;
 			InitializeComponent();
 			Name = "XYChartVw";
+
+			rtfRecVw.Project = project;
 
 			hlblSavedCharts.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
 
@@ -116,7 +120,7 @@ namespace SIL.Pa.UI.Views
 				ResultViewManger.TMAdapter = m_tmAdapter;
 			else
 			{
-				ResultViewManger = new SearchResultsViewManager(this, m_tmAdapter,
+				ResultViewManger = new SearchResultsViewManager(_project, this, m_tmAdapter,
 					splitResults, rtfRecVw, Settings.Default.DistChartVwPlaybackSpeed,
 					newSpeed => Settings.Default.DistChartVwPlaybackSpeed = newSpeed);
 			}
@@ -197,8 +201,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void LoadSavedChartsList()
 		{
-			var filename = App.Project.ProjectPathFilePrefix + kSavedChartsFile;
-			var oldFileName = App.Project.ProjectPathFilePrefix + "XYCharts.xml";
+			var filename = _project.ProjectPathFilePrefix + kSavedChartsFile;
+			var oldFileName = _project.ProjectPathFilePrefix + "XYCharts.xml";
 			
 			// Migrate the old file to the new one and rename the old one.
 			if (File.Exists(oldFileName))
@@ -231,7 +235,7 @@ namespace SIL.Pa.UI.Views
 		{
 			if (m_savedCharts != null)
 			{
-				var filename = App.Project.ProjectPathFilePrefix + kSavedChartsFile;
+				var filename = _project.ProjectPathFilePrefix + kSavedChartsFile;
 				XmlSerializationHelper.SerializeToFile(filename, m_savedCharts);
 			}
 		}
@@ -302,6 +306,9 @@ namespace SIL.Pa.UI.Views
 		{
 			pnlSideBarCaption.Height = FontHelper.UIFont.Height + 7;
 			pnlSideBarCaption.Font = FontHelper.UIFont;
+			pnlSideBarCaption.ColorTop = AppColor.SecondaryHeaderTop;
+			pnlSideBarCaption.ColorBottom = AppColor.SecondaryHeaderBottom;
+			pnlSideBarCaption.ForeColor = AppColor.SecondaryHeaderForeground;
 
 			btnAutoHide.Top = ((pnlSideBarCaption.Height - btnAutoHide.Height) / 2) - 1;
 			btnDock.Top = btnAutoHide.Top;
@@ -1057,7 +1064,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnCompareGrid(object args)
 		{
-			PaWordListGrid grid = args as PaWordListGrid;
+			var grid = args as PaWordListGrid;
 			return (grid != null && ResultViewManger.CurrentViewsGrid == grid);
 		}
 
@@ -1097,6 +1104,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDataSourcesModified(object args)
 		{
+			rtfRecVw.Project = _project = args as PaProject;
+			rtfRecVw.Update();
 			ptrnBldrComponent.RefreshComponents();
 			return false;
 		}
@@ -1137,10 +1146,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnSaveChart(object args)
 		{
 			if (!ActiveView)
@@ -1150,9 +1155,6 @@ namespace SIL.Pa.UI.Views
 			if (m_grid.IsCurrentCellInEditMode)
 				m_grid.EndEdit();
 
-			if (!m_grid.IsDirty)
-				return false;
-
 			// If the name isn't specified, then use the save as dialog.
 			if (string.IsNullOrEmpty(m_grid.ChartName))
 				return OnSaveChartAs(args);
@@ -1161,10 +1163,6 @@ namespace SIL.Pa.UI.Views
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnSaveChartAs(object args)
 		{
@@ -1368,19 +1366,19 @@ namespace SIL.Pa.UI.Views
 			if (!(objForExport is DistributionGrid))
 				return (wordListExportAction != null);
 
-			var prefix = (App.Project.LanguageName ?? (App.Project.LanguageCode ?? App.Project.Name));
+			var prefix = (_project.LanguageName ?? (_project.LanguageCode ?? _project.Name));
 			var defaultFileName = string.Format(fmtFileName, prefix, m_grid.ChartName).Replace(" ", string.Empty);
 
 			string fileTypes = fileTypeFilter + "|" + App.kstidFileTypeAllFiles;
 
 			int filterIndex = 0;
 			var outputFileName = App.SaveFileDialog(defaultFileType, fileTypes, ref filterIndex,
-				App.kstidSaveFileDialogGenericCaption, defaultFileName, App.Project.Folder);
+				App.kstidSaveFileDialogGenericCaption, defaultFileName, _project.Folder);
 
 			if (string.IsNullOrEmpty(outputFileName))
 				return false;
 
-			exportAction(App.Project, outputFileName, m_grid, openAfterExport);
+			exportAction(_project, outputFileName, m_grid, openAfterExport);
 			return true;
 		}
 

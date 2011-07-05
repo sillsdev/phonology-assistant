@@ -32,7 +32,7 @@ namespace SIL.Pa.UI.Views
 			// 
 			// m_chrGrid
 			// 
-			this.m_chrGrid.Size = new System.Drawing.Size(478, 266);
+			this._oldChrGrid.Size = new System.Drawing.Size(478, 266);
 			// 
 			// ConsonantChartVw
 			// 

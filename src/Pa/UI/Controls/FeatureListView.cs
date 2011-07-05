@@ -13,10 +13,6 @@ using SilTools.Controls;
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class FeatureListView : ListView
 	{
 		private const int kMaxColWidth = 210;
@@ -55,7 +51,7 @@ namespace SIL.Pa.UI.Controls
 			Name = "lvFeatures-" + (m_featureType == App.FeatureType.Binary ?
 				"Binary" : "Articulatory");
 
-			ColumnHeader colHdr = new ColumnHeader();
+			var colHdr = new ColumnHeader();
 			colHdr.Width = kMaxColWidth;
 
 			m_tooltip = new ToolTip();
@@ -76,10 +72,6 @@ namespace SIL.Pa.UI.Controls
 
 		#region Overridden methods
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing && m_checkedItemFont != null)
@@ -88,10 +80,6 @@ namespace SIL.Pa.UI.Controls
 			base.Dispose(disposing);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleCreated(EventArgs e)
 		{
@@ -102,12 +90,10 @@ namespace SIL.Pa.UI.Controls
 			if (m_featureType == App.FeatureType.Binary || !Application.RenderWithVisualStyles)
 				return;
 
-			VisualStyleRenderer renderer =
-				new VisualStyleRenderer(VisualStyleElement.Button.CheckBox.UncheckedNormal);
-
+			var renderer = new VisualStyleRenderer(VisualStyleElement.Button.CheckBox.UncheckedNormal);
 			m_glyphColor = renderer.GetColor(ColorProperty.BorderColor);
 
-			using (Graphics g = CreateGraphics())
+			using (var g = CreateGraphics())
 				m_chkBoxSize = renderer.GetPartSize(g, ThemeSizeType.Draw);
 		}
 
@@ -124,10 +110,10 @@ namespace SIL.Pa.UI.Controls
 			if (m_tooltip == null)
 				return;
 
-			ListViewHitTestInfo htinfo = HitTest(e.Location);
+			var htinfo = HitTest(e.Location);
 			if (htinfo.Item != null && htinfo.Item.Tag != null)
 			{
-				FeatureItemInfo item = htinfo.Item.Tag as FeatureItemInfo;
+				var item = htinfo.Item.Tag as FeatureItemInfo;
 				if (item != null && item.FullName != null &&
 					item.Name.ToLower() != item.FullName.ToLower())
 				{
@@ -150,10 +136,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseLeave(EventArgs e)
 		{
 			base.OnMouseLeave(e);
@@ -166,30 +148,22 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void ErasePreviousUnderline()
 		{
 			if (m_tooltip == null)
 				return;
 
-			ListViewItem item = m_tooltip.Tag as ListViewItem;
+			var item = m_tooltip.Tag as ListViewItem;
 			m_tooltip.Tag = null;
 
 			if (item != null)
 			{
 				// Erase the previous 
-				Rectangle rc = GetItemRect(item.Index, ItemBoundsPortion.Label);
+				var rc = GetItemRect(item.Index, ItemBoundsPortion.Label);
 				Invalidate(rc);
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
@@ -215,10 +189,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnKeyPress(KeyPressEventArgs e)
 		{
 			base.OnKeyPress(e);
@@ -235,13 +205,13 @@ namespace SIL.Pa.UI.Controls
 			if (newName != null)
 			{
 				if (e.Label.Trim() == string.Empty ||
-					App.AFeatureCache.FeatureExits(newName, true))
+					InventoryHelper.AFeatureCache.FeatureExits(newName, true))
 				{
 					e.CancelEdit = true;
 				}
 				else
 				{
-					FeatureItemInfo info = Items[e.Item].Tag as FeatureItemInfo;
+					var info = Items[e.Item].Tag as FeatureItemInfo;
 					if (info == null)
 						e.CancelEdit = true;
 					else
@@ -905,19 +875,19 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void LoadAFeatures()
 		{
-			foreach (var feature in App.AFeatureCache.Values.OrderBy(x => x.Name))
+			foreach (var feature in InventoryHelper.AFeatureCache.Values.OrderBy(x => x.Name))
 			{
-				FeatureItemInfo info = new FeatureItemInfo();
+				var info = new FeatureItemInfo();
 				info.Name = feature.Name;
 				info.FullName = feature.FullName;
 				info.Bit = feature.Bit;
 				info.CacheEntry = feature;
-				ListViewItem item = new ListViewItem(info.Name);
+				var item = new ListViewItem(info.Name);
 				item.Tag = info;
 				Items.Add(item);
 			}
 
-			CurrentMask = App.AFeatureCache.GetEmptyMask();
+			CurrentMask = InventoryHelper.AFeatureCache.GetEmptyMask();
 			AdjustColumnWidth();
 		}
 
@@ -928,7 +898,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void LoadBFeatures()
 		{
-			foreach (Feature feature in App.BFeatureCache.PlusFeatures.OrderBy(x => x.Name))
+			foreach (Feature feature in InventoryHelper.BFeatureCache.PlusFeatures.OrderBy(x => x.Name))
 			{
 				FeatureItemInfo info = new FeatureItemInfo();
 				string name = feature.Name.Substring(1);
@@ -936,7 +906,7 @@ namespace SIL.Pa.UI.Controls
 				info.Name = name;
 				info.FullName = fullname;
 				info.PlusBit = feature.Bit;
-				info.MinusBit = App.BFeatureCache.GetOppositeFeature(feature).Bit;
+				info.MinusBit = InventoryHelper.BFeatureCache.GetOppositeFeature(feature).Bit;
 				info.IsBinary = true;
 				info.CacheEntry = feature;
 				ListViewItem item = new ListViewItem(info.Name);
@@ -944,7 +914,7 @@ namespace SIL.Pa.UI.Controls
 				Items.Add(item);
 			}
 
-			CurrentMask = App.BFeatureCache.GetEmptyMask();
+			CurrentMask = InventoryHelper.BFeatureCache.GetEmptyMask();
 			AdjustColumnWidth();
 		}
 

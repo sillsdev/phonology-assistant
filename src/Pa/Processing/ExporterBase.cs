@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
+using Palaso.Reporting;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
@@ -40,24 +41,25 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		public static bool CallAppToExportedFile(string application, string outputFileName)
 		{
-			if (File.Exists(outputFileName))
+			if (!File.Exists(outputFileName))
+				return false;
+
+			try
+			{
+				Process.Start(application, string.Format("\"{0}\"", outputFileName));
+				return true;
+			}
+			catch
 			{
 				try
 				{
-					Process.Start(application, string.Format("\"{0}\"", outputFileName));
+					Process.Start(outputFileName);
 					return true;
 				}
-				catch
+				catch (Exception e)
 				{
-					try
-					{
-						Process.Start(outputFileName);
-						return true;
-					}
-					catch (Exception e)
-					{
-						Utils.MsgBox(e.Message);
-					}
+					var msg = "Error running the program {0} for the file '{1}'.";
+					ErrorReport.NotifyUserOfProblem(e, msg, application, outputFileName);
 				}
 			}
 				
@@ -350,7 +352,7 @@ namespace SIL.Pa.Processing
 				"li", "class", "format", "XHTML");
 
 			var outPath = Path.GetDirectoryName(m_outputFileName);
-			WriteRelativePath("genericRelativePath", outPath, App.DefaultProjectFolder);
+			WriteRelativePath("genericRelativePath", outPath, App.ProjectFolder);
 			WriteRelativePath("specificRelativePath", outPath, Path.GetDirectoryName(m_project.CssFileName));
 
 			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer, "li", "class",

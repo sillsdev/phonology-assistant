@@ -131,6 +131,9 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static string GetDisplayName(string fname)
 		{
+			if (fname == null)
+				return null;
+
 			string dispName;
 
 			if (s_displayNames == null)

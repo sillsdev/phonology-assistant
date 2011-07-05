@@ -37,10 +37,6 @@ namespace SIL.Pa
 			this.mnuSaveAs = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
-			this.mnuSort = new System.Windows.Forms.ToolStripMenuItem();
-			this.mnuColSort = new System.Windows.Forms.ToolStripMenuItem();
-			this.mnuPOA = new System.Windows.Forms.ToolStripMenuItem();
-			this.mnuMOA = new System.Windows.Forms.ToolStripMenuItem();
 			this.btnAdd = new System.Windows.Forms.Button();
 			this.btnModify = new System.Windows.Forms.Button();
 			this.btnDelete = new System.Windows.Forms.Button();
@@ -48,39 +44,10 @@ namespace SIL.Pa
 			this.mnuMain.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// pnlButtons
-			// 
-			//resources.ApplyResources(this.pnlButtons, "pnlButtons");
-			//this.pnlButtons.Controls.Add(this.btnDelete);
-			//this.pnlButtons.Controls.Add(this.btnModify);
-			//this.pnlButtons.Controls.Add(this.btnAdd);
-			//this.pnlButtons.Controls.SetChildIndex(this.btnAdd, 0);
-			//this.pnlButtons.Controls.SetChildIndex(this.btnOK, 0);
-			//this.pnlButtons.Controls.SetChildIndex(this.btnCancel, 0);
-			//this.pnlButtons.Controls.SetChildIndex(this.btnHelp, 0);
-			//this.pnlButtons.Controls.SetChildIndex(this.btnModify, 0);
-			//this.pnlButtons.Controls.SetChildIndex(this.btnDelete, 0);
-			this.Controls.Add(this.btnDelete);
-			this.Controls.Add(this.btnModify);
-			this.Controls.Add(this.btnAdd);
-			// 
-			// btnCancel
-			// 
-			resources.ApplyResources(this.btnCancel, "btnCancel");
-			// 
-			// btnOK
-			// 
-			resources.ApplyResources(this.btnOK, "btnOK");
-			// 
-			// btnHelp
-			// 
-			resources.ApplyResources(this.btnHelp, "btnHelp");
-			// 
 			// mnuMain
 			// 
 			this.mnuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuFile,
-            this.mnuSort});
+            this.mnuFile});
 			resources.ApplyResources(this.mnuMain, "mnuMain");
 			this.mnuMain.Name = "mnuMain";
 			// 
@@ -130,31 +97,6 @@ namespace SIL.Pa
 			resources.ApplyResources(this.mnuExit, "mnuExit");
 			this.mnuExit.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
-			// mnuSort
-			// 
-			this.mnuSort.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuColSort,
-            this.mnuPOA,
-            this.mnuMOA});
-			this.mnuSort.Name = "mnuSort";
-			resources.ApplyResources(this.mnuSort, "mnuSort");
-			this.mnuSort.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.mnuSort_DropDownItemClicked);
-			// 
-			// mnuColSort
-			// 
-			this.mnuColSort.Name = "mnuColSort";
-			resources.ApplyResources(this.mnuColSort, "mnuColSort");
-			// 
-			// mnuPOA
-			// 
-			this.mnuPOA.Name = "mnuPOA";
-			resources.ApplyResources(this.mnuPOA, "mnuPOA");
-			// 
-			// mnuMOA
-			// 
-			this.mnuMOA.Name = "mnuMOA";
-			resources.ApplyResources(this.mnuMOA, "mnuMOA");
-			// 
 			// btnAdd
 			// 
 			resources.ApplyResources(this.btnAdd, "btnAdd");
@@ -188,16 +130,20 @@ namespace SIL.Pa
 			this.CancelButton = null;
 			this.Controls.Add(this.pnlGrid);
 			this.Controls.Add(this.mnuMain);
+			this.Controls.Add(this.btnDelete);
+			this.Controls.Add(this.btnModify);
+			this.Controls.Add(this.btnAdd);
 			this.MainMenuStrip = this.mnuMain;
 			this.MaximizeBox = true;
 			this.MinimizeBox = true;
 			this.Name = "PCIEditor";
 			this.ShowIcon = true;
 			this.ShowInTaskbar = true;
+			this.Controls.SetChildIndex(this.btnAdd, 0);
+			this.Controls.SetChildIndex(this.btnModify, 0);
+			this.Controls.SetChildIndex(this.btnDelete, 0);
 			this.Controls.SetChildIndex(this.mnuMain, 0);
-			//this.Controls.SetChildIndex(this.pnlButtons, 0);
 			this.Controls.SetChildIndex(this.pnlGrid, 0);
-			//this.pnlButtons.ResumeLayout(false);
 			this.mnuMain.ResumeLayout(false);
 			this.mnuMain.PerformLayout();
 			this.ResumeLayout(false);
@@ -218,10 +164,6 @@ namespace SIL.Pa
 		private System.Windows.Forms.Button btnAdd;
 		private System.Windows.Forms.Button btnModify;
 		private System.Windows.Forms.Button btnDelete;
-		private System.Windows.Forms.ToolStripMenuItem mnuSort;
-		private System.Windows.Forms.ToolStripMenuItem mnuColSort;
-		private System.Windows.Forms.ToolStripMenuItem mnuPOA;
-		private System.Windows.Forms.ToolStripMenuItem mnuMOA;
 		private System.Windows.Forms.Panel pnlGrid;
 	}
 }

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
+using Palaso.Reporting;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.DataSource.Sa;
 using SIL.Pa.Model;
@@ -173,7 +174,7 @@ namespace SIL.Pa.DataSource
 			var defaultParsedFlds = Settings.Default.DefaultParsedSfmFields;
 
 			return from mkr in GetSfMarkers(true)
-				   let field = fields.SingleOrDefault(f => f.GetPossibleDataSourceFieldNames().Contains(mkr))
+				   let field = fields.FirstOrDefault(f => f.GetPossibleDataSourceFieldNames().Contains(mkr))
 				   where field != null
 				   orderby mkr
 				   select new FieldMapping(mkr, field, defaultParsedFlds.Contains(field.Name));
@@ -184,10 +185,28 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		public void PostDeserializeInitialization(PaProject project)
 		{
-			// Make sure SA data sources have mappings. This check should really only be
-			// necessary when upgrading from a project last saved in version 3.0.1 of PA.
 			if (Type == DataSourceType.SA && FieldMappings.Count == 0)
+			{
+				// Make sure SA data sources have mappings. This check should really only be
+				// necessary when upgrading from a project last saved in version 3.0.1 of PA.
 				FieldMappings = CreateDefaultSaMappings(project.Fields).ToList();
+			}
+			else if (Type == DataSourceType.FW)
+			{
+				// Make sure FW6 data source mappings include all the default FW6 fields
+				// that cannot be mapped in the data source properties dialog box. This
+				// check should only be necessary the first time the project has been
+				// opened after having been migrated to version 3.3.0
+				foreach (var fname in Settings.Default.AllPossibleFw6Fields)
+				{
+					if (!Settings.Default.Fw6FieldsMappableInPropsDlg.Contains(fname) &&
+						!FieldMappings.Any(m => m.PaFieldName == fname))
+					{
+						FieldMappings.Add(new FieldMapping(
+							project.Fields.Single(f => f.Name == fname), false));
+					}
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -217,9 +236,9 @@ namespace SIL.Pa.DataSource
 				if (showMsgOnError)
 				{
 					var msg = App.GetString("ErrorReadingMarkersFromStandardFormatFileMsg",
-						"The following error occurred trying to read the source file '{0}'.\n\n{1}");
+						"An error occurred trying to read the source file '{0}'.");
 
-					Utils.MsgBox(string.Format(msg, e.Message));
+					ErrorReport.NotifyUserOfProblem(e, msg, m_dataSourceFile);
 				}
 			}
 

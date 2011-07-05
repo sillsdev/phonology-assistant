@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using Palaso.Reporting;
 using SilTools;
 
 namespace SIL.Pa.Model.Migration
@@ -26,9 +27,9 @@ namespace SIL.Pa.Model.Migration
 			if (e != null)
 			{
 				var msg = App.GetString("ProjectMigrationBackupErrorMsg",
-					"The following error occurred while attempting to backup your project before updating it for the latest version of {0}:\n\n{1}");
+					"An error occurred while attempting to backup your project before updating it for the latest version of {0}");
 
-				Utils.MsgBox(string.Format(msg, Application.ProductName, e.Message));
+				ErrorReport.NotifyUserOfProblem(e, msg, Application.ProductName);
 				return false;
 			}
 

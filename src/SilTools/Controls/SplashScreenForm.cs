@@ -21,6 +21,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
@@ -409,8 +410,7 @@ namespace SilTools
 					if (string.IsNullOrEmpty(productName))
 					{
 						attributes = assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
-						productName = (attributes != null && attributes.Length > 0) ?
-							((AssemblyTitleAttribute)attributes[0]).Title : "Unknown";
+						productName = (attributes.Length > 0) ? ((AssemblyTitleAttribute)attributes[0]).Title : "Unknown";
 					}
 					
 					lblProductName.Text = productName;
@@ -420,12 +420,13 @@ namespace SilTools
 				lblBuildNumber.Visible = m_showBuildNum;
 				
 				// The build number is just the number of days since 01/01/2000
-				Version ver = new Version(Application.ProductVersion);
-				DateTime bldDate =
-					new DateTime(2000, 1, 1).Add(new TimeSpan(ver.Build, 0, 0, 0));
-				
-				lblBuildNumber.Text =
-					string.Format(m_buildFmt, bldDate.ToString("dd-MMM-yyyy"));
+				var ver = new Version(Application.ProductVersion);
+				//var bldDate = (ver.Build == 0 ?
+				//    File.GetCreationTime(Application.ExecutablePath) :
+				//    new DateTime(2000, 1, 1).Add(new TimeSpan(ver.Build, 0, 0, 0)));
+
+				var bldDate = File.GetCreationTime(Application.ExecutablePath);
+				lblBuildNumber.Text = string.Format(m_buildFmt, bldDate.ToString("dd-MMM-yyyy"));
 
 				SetProdVersion(null);
 
@@ -439,7 +440,7 @@ namespace SilTools
 				// assembly info, use generic one (which might be out of date)
 				var copyRight = attributes.Length > 0 ?
 					((AssemblyCopyrightAttribute)attributes[0]).Copyright :
-					"(C) 2002-2011 SIL International";
+					string.Format("(C) 2002-{0} SIL International", DateTime.Now.Year);
 
 				lblCopyright.Text = string.Format(lblCopyright.Text,
 					copyRight.Replace("(C)", "©"), "\n");

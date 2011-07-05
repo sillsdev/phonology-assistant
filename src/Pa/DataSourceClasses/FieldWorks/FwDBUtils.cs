@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.ServiceProcess;
 using System.Windows.Forms;
+using Palaso.Reporting;
 using SIL.Pa.Properties;
 using SIL.PaToFdoInterfaces;
 using SilTools;
@@ -111,9 +112,9 @@ namespace SIL.Pa.DataSource.FieldWorks
 				if (s_showErrorOnConnectionFailure)
 				{
 					var msg = App.GetString("GettingFwProjectErrorMsg",
-						"The following error occurred when trying to get a list of FieldWorks projects: \n\n{0}");
+						"An error occurred when trying to get a list of FieldWorks projects.");
 
-					Utils.MsgBox(string.Format(msg, e.Message));
+					ErrorReport.NotifyUserOfProblem(e, msg);
 				}
 
 				fwDBInfoList = null;
@@ -154,10 +155,9 @@ namespace SIL.Pa.DataSource.FieldWorks
 				if (s_showErrorOnConnectionFailure)
 				{
 					var msg = App.GetString("SQLServerNotInstalledMsg",
-						"The following error occurred when trying to establish\na connection to the {0} database on the machine '{1}'.\n\n{2}");
-					
-					msg = string.Format(msg, dbName, machineName, e.Message);
-					Utils.MsgBox(msg);
+						"An error occurred when trying to establish\na connection to the {0} database on the machine '{1}'.");
+
+					ErrorReport.NotifyUserOfProblem(e, msg, dbName, machineName);
 				}
 			}
 

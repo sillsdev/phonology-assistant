@@ -53,7 +53,8 @@ namespace SIL.Pa.UI.Dialogs
 			splitFilters.Panel2MinSize = splitFilters.Panel2.Bounds.Width;
 
 			InitializeExpressionTypeStrings();
-			InitializeOperatorStrings();
+			m_operatorToText = GetOperatorStrings().ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+			m_textToOperator = GetOperatorStrings().ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
 
 			m_gridExpressions.Font = FontHelper.UIFont;
 			m_gridFilters.Font = FontHelper.UIFont;
@@ -67,6 +68,12 @@ namespace SIL.Pa.UI.Dialogs
 			pnlExpressionMatch.BorderStyle = BorderStyle.None;
 			pnlExpressionMatch.DrawOnlyTopBorder = true;
 			pnlExpressionMatch.DrawOnlyBottomBorder = false;
+			pnlExpressionMatch.ColorTop = AppColor.SecondaryHeaderTop;
+			pnlExpressionMatch.ColorBottom = AppColor.SecondaryHeaderBottom;
+
+			lblExpressionMatchMsgPart.ForeColor = AppColor.SecondaryHeaderForeground;
+			rbAllExpressions.ForeColor = AppColor.SecondaryHeaderForeground;
+			rbAnyExpression.ForeColor = AppColor.SecondaryHeaderForeground;
 
 			// Get rid of these three lines when there is a help topic for this dialog box.
 			btnHelp.Visible = false;
@@ -122,76 +129,52 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Create lists that map the Filter.Operator enumeration to it's string equivalent
-		/// and back.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void InitializeOperatorStrings()
+		private IEnumerable<KeyValuePair<Filter.Operator, string>> GetOperatorStrings()
 		{
-			// Create lists that map the FilterOperator enumeration to it's string equivalent and back
-			m_operatorToText = new Dictionary<Filter.Operator, string>();
-			m_textToOperator = new Dictionary<string, Filter.Operator>();
+			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.Equals,
+				App.GetString("FiltersDlg.FilterExpressionOperators.Equals", "equals"));
 
-			var text = App.GetString("FiltersDlg.FilterExpressionOperators.BeginsWith", "Begins with");
-			m_operatorToText[Filter.Operator.BeginsWith] = text;
-			m_textToOperator[text] = Filter.Operator.BeginsWith;
+			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.NotEquals,
+				App.GetString("FiltersDlg.FilterExpressionOperators.NoteEqualTo", "not equal to"));
 
-			text = App.GetString("FiltersDlg.FilterExpressionOperators.Contains", "Contains");
-			m_operatorToText[Filter.Operator.Contains] = text;
-			m_textToOperator[text] = Filter.Operator.Contains;
+			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.Matches,
+				App.GetString("FiltersDlg.FilterExpressionOperators.Matches", "matches"));
 
-			text = App.GetString("FiltersDlg.FilterExpressionOperators.DoesNotBeginWith", "Does not begin with");
-			m_operatorToText[Filter.Operator.DoesNotBeginsWith] = text;
-			m_textToOperator[text] = Filter.Operator.DoesNotBeginsWith;
+			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.Contains,
+				App.GetString("FiltersDlg.FilterExpressionOperators.Contains", "contains"));
 
-			text = App.GetString("FiltersDlg.FilterExpressionOperators.DoesNotContain", "Does not contain");
-			m_operatorToText[Filter.Operator.DoesNotContain] = text;
-			m_textToOperator[text] = Filter.Operator.DoesNotContain;
+			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.DoesNotContain,
+				App.GetString("FiltersDlg.FilterExpressionOperators.DoesNotContain", "does not contain"));
 
-			text = App.GetString("FiltersDlg.FilterExpressionOperators.DoesNotEndWith", "Does not end with");
-			m_operatorToText[Filter.Operator.DoesNotEndsWith] = text;
-			m_textToOperator[text] = Filter.Operator.DoesNotEndsWith;
+			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.BeginsWith,
+				App.GetString("FiltersDlg.FilterExpressionOperators.BeginsWith", "begins with"));
 
-			text = App.GetString("FiltersDlg.FilterExpressionOperators.EndsWith", "Ends with");
-			m_operatorToText[Filter.Operator.EndsWith] = text;
-			m_textToOperator[text] = Filter.Operator.EndsWith;
+			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.DoesNotBeginsWith,
+				App.GetString("FiltersDlg.FilterExpressionOperators.DoesNotBeginWith", "does not begin with"));
 
-			text = App.GetString("FiltersDlg.FilterExpressionOperators.Equals", "Equals");
-			m_operatorToText[Filter.Operator.Equals] = text;
-			m_textToOperator[text] = Filter.Operator.Equals;
+			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.EndsWith,
+				App.GetString("FiltersDlg.FilterExpressionOperators.EndsWith", "ends with"));
 
-			text = App.GetString("FiltersDlg.FilterExpressionOperators.GreaterThan", "Greater than");
-			m_operatorToText[Filter.Operator.GreaterThan] = text;
-			m_textToOperator[text] = Filter.Operator.GreaterThan;
+			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.DoesNotEndsWith,
+				App.GetString("FiltersDlg.FilterExpressionOperators.DoesNotEndWith", "does not end with"));
 
-			text = App.GetString("FiltersDlg.FilterExpressionOperators.GreaterThanOrEqual", "Greater than or equal");
-			m_operatorToText[Filter.Operator.GreaterThanOrEqual] = text;
-			m_textToOperator[text] = Filter.Operator.GreaterThanOrEqual;
+			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.GreaterThan,
+				App.GetString("FiltersDlg.FilterExpressionOperators.GreaterThan", "greater than"));
 
-			text = App.GetString("FiltersDlg.FilterExpressionOperators.LessThan", "Less than");
-			m_operatorToText[Filter.Operator.LessThan] = text;
-			m_textToOperator[text] = Filter.Operator.LessThan;
+			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.GreaterThanOrEqual,
+				App.GetString("FiltersDlg.FilterExpressionOperators.GreaterThanOrEqual", "greater than or equal to"));
 
-			text = App.GetString("FiltersDlg.FilterExpressionOperators.LessThanOrEqual", "Less than or equal");
-			m_operatorToText[Filter.Operator.LessThanOrEqual] = text;
-			m_textToOperator[text] = Filter.Operator.LessThanOrEqual;
+			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.LessThan,
+				App.GetString("FiltersDlg.FilterExpressionOperators.LessThan", "less than"));
 
-			text = App.GetString("FiltersDlg.FilterExpressionOperators.Matches", "Matches");
-			m_operatorToText[Filter.Operator.Matches] = text;
-			m_textToOperator[text] = Filter.Operator.Matches;
+			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.LessThanOrEqual,
+				App.GetString("FiltersDlg.FilterExpressionOperators.LessThanOrEqual", "less than or equal to"));
 
-			text = App.GetString("FiltersDlg.FilterExpressionOperators.NoteEqualTo", "Not equal to");
-			m_operatorToText[Filter.Operator.NotEquals] = text;
-			m_textToOperator[text] = Filter.Operator.NotEquals;
+			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.PathExists,
+				App.GetString("FiltersDlg.FilterExpressionOperators.PathExists", "file exists"));
 
-			text = App.GetString("FiltersDlg.FilterExpressionOperators.PathDoesNotExist", "Path does not exist");
-			m_operatorToText[Filter.Operator.PathDoesNotExist] = text;
-			m_textToOperator[text] = Filter.Operator.PathDoesNotExist;
-
-			text = App.GetString("FiltersDlg.FilterExpressionOperators.PathExists", "Path exists");
-			m_operatorToText[Filter.Operator.PathExists] = text;
-			m_textToOperator[text] = Filter.Operator.PathExists;
+			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.PathDoesNotExist,
+				App.GetString("FiltersDlg.FilterExpressionOperators.PathDoesNotExist", "file does not exist"));
 		}
 
 		#endregion
@@ -311,13 +294,14 @@ namespace SIL.Pa.UI.Dialogs
 			m_gridFilters.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 			m_gridFilters.CellBorderStyle = DataGridViewCellBorderStyle.None;
 			m_gridFilters.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-			App.SetGridSelectionColors(m_gridFilters, false);
+			AppColor.SetGridSelectionColors(m_gridFilters, false);
 
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("filterName");
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			col.Resizable = DataGridViewTriState.True;
 			col.ReadOnly = false;
-			col.Width = 200;
+			col.Width = 170;
+			col.MinimumWidth = 50;
 			m_gridFilters.Columns.Add(col);
 			App.RegisterForLocalization(m_gridFilters.Columns["filterName"],
 				"FiltersDlg.FiltersListFilterNameColumnHeadingText", "Available Filters");
@@ -347,7 +331,13 @@ namespace SIL.Pa.UI.Dialogs
 			if (m_filterList == null)
 				m_filterList = m_project.FilterHelper.Filters.ToList();
 
+			m_gridFilters.CurrentRowChanged -= HandleFilterGridCurrentRowChanged;
+			m_gridFilters.CellValueNeeded -= HandleFilterGridCellValueNeeded;
+			m_gridFilters.CellPainting -= HandleFilterGridCellPainting;
 			m_gridFilters.RowCount = m_filterList.Count;
+			m_gridFilters.CellPainting += HandleFilterGridCellPainting;
+			m_gridFilters.CellValueNeeded += HandleFilterGridCellValueNeeded;
+			m_gridFilters.CurrentRowChanged += HandleFilterGridCurrentRowChanged;
 
 			if (filterToMakeCurrent != null)
 				index = m_filterList.IndexOf(filterToMakeCurrent);
@@ -370,7 +360,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_gridExpressions.AllowUserToOrderColumns = false;
 			m_gridExpressions.AllowUserToResizeColumns = true;
 			m_gridExpressions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-			App.SetGridSelectionColors(m_gridExpressions, true);
+			AppColor.SetGridSelectionColors(m_gridExpressions, true);
 
 			var fieldNames = (from field in m_project.GetMappedFields()
 							  orderby field.DisplayName
@@ -541,7 +531,7 @@ namespace SIL.Pa.UI.Dialogs
 			Application.Idle -= ReloadFiltersOnIdle;
 
 			var index = m_filterList.IndexOf(Tag as Filter);
-			if (index >= 0)
+			if (index >= 0 && index < m_gridFilters.RowCount)
 				m_gridFilters.CurrentCell = m_gridFilters[kFilterNameCol, index];
 		}
 
@@ -889,6 +879,14 @@ namespace SIL.Pa.UI.Dialogs
 		private void HandleButtonRemoveClick(object sender, EventArgs e)
 		{
 			if (m_gridFilters.CurrentRow == null)
+				return;
+
+			var msg = App.GetString("FiltersDlg.RemoveFilterConfirmationMsg",
+				"The filter '{0}' will be deleted.");
+
+			msg = string.Format(msg, CurrentFilter.Name);
+
+			if (Utils.MsgBox(msg, MessageBoxButtons.OKCancel) != DialogResult.OK)
 				return;
 
 			int index = m_gridFilters.CurrentRow.Index;

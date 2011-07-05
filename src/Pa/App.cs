@@ -26,11 +26,10 @@ using System.Windows.Forms;
 using Localization;
 using Localization.UI;
 using Palaso.IO;
+using Palaso.Reporting;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.Processing;
 using SIL.Pa.Properties;
 using SIL.Pa.ResourceStuff;
 using SIL.Pa.UI.Views;
@@ -120,13 +119,92 @@ namespace SIL.Pa
 			if (DesignMode)
 				return;
 
-			InventoryHelper.Load();
-			InitializeSettingsFileLocation();
 			InitializeProjectFolder();
+			InitializePhoneticFont();
 			MsgMediator = new Mediator();
-			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList);
-			ProcessHelper.CopyFilesForPrettyHTMLExports();
-			InitializeFonts();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Construct the default project path.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void InitializeProjectFolder()
+		{
+			// Specifying the UI language on the command-line trumps the one in
+			// the settings file (i.e. the one set in the options dialog box).
+			foreach (var arg in Environment.GetCommandLineArgs()
+				.Where(arg => arg.ToLower().StartsWith("/pf:") || arg.ToLower().StartsWith("-pf:")))
+			{
+				ProjectFolder = arg.Substring(4);
+				if (Directory.Exists(ProjectFolder))
+					return;
+			}
+
+			// Construct the default project path.
+			ProjectFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+			// I found that in limited user mode on Vista, Environment.SpecialFolder.MyDocuments
+			// returns an empty string. Argh!!! Therefore, I have to make sure there is
+			// a valid and full path. Do that by getting the user's desktop folder and
+			// chopping off everything that follows the last backslash. If getting the user's
+			// desktop folder fails, then fall back to the program's folder, which is
+			// probably not right, but we'll have to assume it will never happen. :o)
+			if (string.IsNullOrEmpty(ProjectFolder))
+			{
+				ProjectFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+				if (string.IsNullOrEmpty(ProjectFolder) || !Directory.Exists(ProjectFolder))
+				{
+					ProjectFolder = AssemblyPath;
+					return;
+				}
+
+				ProjectFolder = ProjectFolder.TrimEnd('\\');
+				int i = ProjectFolder.LastIndexOf('\\');
+				ProjectFolder = ProjectFolder.Substring(0, i);
+			}
+
+			ProjectFolder = Path.Combine(ProjectFolder, "Phonology Assistant");
+
+			// Create the folder if it doesn't exist.
+			if (!Directory.Exists(ProjectFolder))
+				Directory.CreateDirectory(ProjectFolder);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void InitializeSettingsFileLocation()
+		{
+			string path = null;
+
+			try
+			{
+				// Specifying the UI language on the command-line trumps the one in
+				// the settings file (i.e. the one set in the options dialog box).
+				foreach (var arg in Environment.GetCommandLineArgs()
+					.Where(arg => arg.ToLower().StartsWith("/sf:") || arg.ToLower().StartsWith("-sf:")))
+				{
+					path = arg.Substring(4);
+					PortableSettingsProvider.SettingsFileFolder = Path.GetDirectoryName(path);
+					PortableSettingsProvider.SettingsFileName = Path.GetFileName(path);
+					return;
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorReport.NotifyUserOfProblem(e, "There was an error retrieving the settings file " +
+					"'{0}'. The default settings file will be used instead.", path);
+			}
+
+			if (ProjectFolder == null)
+				InitializeProjectFolder();
+
+			PortableSettingsProvider.SettingsFileFolder = ProjectFolder;
+			PortableSettingsProvider.SettingsFileName = "Pa.settings";
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void InitializeLocalization()
+		{
 			SetUILanguage();
 
 			// Copy the localization file to where the settings file is located.
@@ -139,21 +217,7 @@ namespace SIL.Pa
 				File.Copy(srcLocalizationFilePath, localizationFilePath);
 			}
 
-			L10NMngr = LocalizationManager.Create("Pa", "Phonology Assistant", DefaultProjectFolder);
-
-			MinimumViewWindowSize = Settings.Default.MinimumViewWindowSize;
-			FwDBUtils.ShowMsgWhenGatheringFWInfo = Settings.Default.ShowMsgWhenGatheringFwInfo;
-
-			var chrs = Settings.Default.UncertainGroupAbsentPhoneChars;
-			if (!string.IsNullOrEmpty(chrs))
-				IPASymbolCache.UncertainGroupAbsentPhoneChars = chrs;
-
-			chrs = Settings.Default.UncertainGroupAbsentPhoneChar;
-			if (!string.IsNullOrEmpty(chrs))
-				IPASymbolCache.UncertainGroupAbsentPhoneChar = chrs;
-
-			ReadAddOns();
-
+			L10NMngr = LocalizationManager.Create("Pa", "Phonology Assistant", ProjectFolder);
 			LocalizeItemDlg.SaveDialogSplitterPosition += (pos =>
 				Settings.Default.LocalizeDlgSplitterPos = pos);
 			
@@ -177,49 +241,8 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static void InitializeSettingsFileLocation()
+		public static void InitializePhoneticFont()
 		{
-			string path = null;
-
-			try
-			{
-				// Specifying the UI language on the command-line trumps the one in
-				// the settings file (i.e. the one set in the options dialog box).
-				foreach (var arg in Environment.GetCommandLineArgs()
-					.Where(arg => arg.ToLower().StartsWith("/sf:") || arg.ToLower().StartsWith("-sf:")))
-				{
-					path = arg.Substring(4);
-					PortableSettingsProvider.SettingsFileFolder = Path.GetDirectoryName(path);
-					PortableSettingsProvider.SettingsFileName = Path.GetFileName(path);
-					return;
-				}
-			}
-			catch
-			{
-				var msg = string.Format("There was an error retrieving the settings file\n\n" +
-					"'{0}'\n\nThe default settings file will be used instead.", path);
-
-				Utils.MsgBox(msg);
-			}
-
-			PortableSettingsProvider.SettingsFileFolder = GetDefaultProjectFolder();
-			PortableSettingsProvider.SettingsFileName = "Pa.settings";
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private static void InitializeFonts()
-		{
-			// If the user knows enough to add an entry to the settings file to
-			// override the default UI font, then read it and use it.
-			if (Settings.Default.UIFont != null)
-				FontHelper.UIFont = Settings.Default.UIFont;
-
-			if (Settings.Default.PhoneticFont != null)
-			{
-				PhoneticFont = Settings.Default.PhoneticFont;
-				return;
-			}
-			
 			// These should get intialized via the settings file, but in case there is no
 			// settings file, this will ensure at least something.
 			if (FontHelper.FontInstalled("Doulos SIL"))
@@ -268,7 +291,7 @@ namespace SIL.Pa
 		/// add on to do it.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private static void ReadAddOns()
+		public static void ReadAddOns()
 		{
 			if (DesignMode)
 				return;
@@ -313,26 +336,6 @@ namespace SIL.Pa
 				}
 				catch { }
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private static void InitializeProjectFolder()
-		{
-			// FIXME Linux - make a resonable default location here
-			DefaultProjectFolder = Settings.Default.UsersProjectFolderName;
-
-			if (string.IsNullOrEmpty(DefaultProjectFolder) || !Directory.Exists(DefaultProjectFolder))
-			{
-				DefaultProjectFolder = GetDefaultProjectFolder();
-				Settings.Default.UsersProjectFolderName = DefaultProjectFolder;
-				Settings.Default.Save();
-			}
-
-			PortableSettingsProvider.SettingsFileFolder = DefaultProjectFolder;
-
-			// Create the folder if it doesn't exist.
-			if (!Directory.Exists(DefaultProjectFolder))
-				Directory.CreateDirectory(DefaultProjectFolder);
 		}
 
 		#endregion
@@ -581,7 +584,11 @@ namespace SIL.Pa
 				if (MainForm != null)
 					MainForm.Activate();
 
-				SplashScreen.Close();
+				// Occassionally, I found that we could get to this point and the splash screen
+				// is null. This was due to the fact that in some cases, I force the closure of
+				// the splash screen in another thread when data sources are read.
+				if (SplashScreen != null)
+					SplashScreen.Close();
 			}
 
 			SplashScreen = null;
@@ -654,7 +661,7 @@ namespace SIL.Pa
 		/// Gets the XCore message mediator for the application.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static Mediator MsgMediator { get; private set; }
+		public static Mediator MsgMediator { get; internal set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -662,14 +669,14 @@ namespace SIL.Pa
 		/// can hold all the views.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static Size MinimumViewWindowSize { get; private set; }
+		public static Size MinimumViewWindowSize { get; internal set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the default location for PA projects.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string DefaultProjectFolder { get; set; }
+		public static string ProjectFolder { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -823,136 +830,6 @@ namespace SIL.Pa
 
 		#endregion
 
-		#region Grid color methods and properties
-		/// ------------------------------------------------------------------------------------
-		public static void SetCellColors(DataGridView grid, DataGridViewCellFormattingEventArgs e)
-		{
-			if (grid.CurrentRow == null || grid.CurrentRow.Index != e.RowIndex)
-				return;
-
-			if (!grid.Focused)
-			{
-				e.CellStyle.SelectionBackColor = GridRowUnfocusedSelectionBackColor;
-				e.CellStyle.SelectionForeColor = GridRowUnfocusedSelectionForeColor;
-				return;
-			}
-
-			if (grid.CurrentCell != null && grid.CurrentCell.ColumnIndex == e.ColumnIndex)
-			{
-				// Set the selected cell's background color to be
-				// distinct from the rest of the current row.
-				e.CellStyle.SelectionBackColor = GridCellFocusedBackColor;
-				e.CellStyle.SelectionForeColor = GridCellFocusedForeColor;
-			}
-			else
-			{
-				// Set the selected row's background color.
-				e.CellStyle.SelectionBackColor = GridRowFocusedBackColor;
-				e.CellStyle.SelectionForeColor = GridRowFocusedForeColor;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static void SetGridSelectionColors(SilGrid grid, bool makeSelectedCellsDifferent)
-		{
-			grid.SelectedRowBackColor = GridRowFocusedBackColor;
-			grid.SelectedRowForeColor = GridRowFocusedForeColor;
-
-			grid.SelectedCellBackColor = (makeSelectedCellsDifferent ?
-				GridCellFocusedBackColor : GridRowFocusedBackColor);
-
-			grid.SelectedCellForeColor = (makeSelectedCellsDifferent ?
-				GridCellFocusedForeColor : GridRowFocusedForeColor);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static Color GridColor
-		{
-			get
-			{
-				var clr = Settings.Default.WordListGridColor;
-				return (clr != Color.Transparent && clr != Color.Empty ? clr :
-					ColorHelper.CalculateColor(SystemColors.WindowText, SystemColors.Window, 25));
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static Color GridRowFocusedForeColor
-		{
-			get
-			{
-				return (Settings.Default.UseSystemColors ? SystemColors.WindowText :
-					Settings.Default.GridRowSelectionForeColor);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static Color GridRowFocusedBackColor
-		{
-			get
-			{
-				return (Settings.Default.UseSystemColors ? ColorHelper.LightHighlight :
-					Settings.Default.GridRowSelectionBackColor);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static Color GridCellFocusedForeColor
-		{
-			get
-			{
-				return (Settings.Default.UseSystemColors ? SystemColors.WindowText :
-					Settings.Default.GridCellSelectionForeColor);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static Color GridCellFocusedBackColor
-		{
-			get
-			{
-				return (Settings.Default.UseSystemColors ? ColorHelper.LightLightHighlight :
-					Settings.Default.GridCellSelectionBackColor);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static Color GridRowUnfocusedSelectionBackColor
-		{
-			get
-			{
-				return (Settings.Default.UseSystemColors ? SystemColors.Control :
-					Settings.Default.GridRowUnfocusedSelectionBackColor);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public static Color GridRowUnfocusedSelectionForeColor
-		{
-			get
-			{
-				if (!Settings.Default.UseSystemColors)
-					return Settings.Default.GridRowUnfocusedSelectionForeColor;
-
-				// It turns out the control color for the silver Windows XP theme is very close
-				// to the default color calculated for selected rows in PA word lists. Therefore,
-				// when a word list grid looses focus and a selected row's background color gets
-				// changed to the control color, it's very hard to tell the difference between a
-				// selected row in a focused grid from that of a non focused grid. So, when the
-				// theme is the silver (i.e. Metallic) then also make the text gray for selected
-				// rows in non focused grid's.
-				if (PaintingHelper.CanPaintVisualStyle() &&
-					System.Windows.Forms.VisualStyles.VisualStyleInformation.DisplayName == "Windows XP style" &&
-					System.Windows.Forms.VisualStyles.VisualStyleInformation.ColorScheme == "Metallic")
-				{
-					return SystemColors.GrayText;
-				}
-					
-				return SystemColors.ControlText;
-			}
-		}
-
-		#endregion
 
 		#region Localization Manager Access methods
 		/// ------------------------------------------------------------------------------------
@@ -1034,50 +911,6 @@ namespace SIL.Pa
 		#endregion
 
 		#region Misc. methods
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Construct the default project path.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string GetDefaultProjectFolder()
-		{
-			// Construct the default project path.
-			string projPath;
-			if (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX) // Linux
-			{
-				// FIXME Linux - make this locale-neutral via `/usr/bin/xdg-user-dir DOCUMENTS` _OR_ GLib g_get_user_special_dir() (see http://tinyurl.com/48haea9)
-				// FIXME Linux - decide if we want ~/Documents/Phonology\ Assistant  or  ~/.phonology-assistant or something else
-				
-				// Work around Mono bug https://bugzilla.novell.com/show_bug.cgi?id=597907
-				// in Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments):
-				projPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Documents");
-			}
-			else // Windows
-			{
-				projPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
-				// I found that in limited user mode on Vista, Environment.SpecialFolder.MyDocuments
-				// returns an empty string. Argh!!! Therefore, I have to make sure there is
-				// a valid and full path. Do that by getting the user's desktop folder and
-				// chopping off everything that follows the last backslash. If getting the user's
-				// desktop folder fails, then fall back to the program's folder, which is
-				// probably not right, but we'll have to assume it will never happen. :o)
-				if (string.IsNullOrEmpty(projPath))
-				{
-					projPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-					if (string.IsNullOrEmpty(projPath) || !Directory.Exists(projPath))
-						return AssemblyPath;
-
-					projPath = projPath.TrimEnd(Path.DirectorySeparatorChar);
-					int i = projPath.LastIndexOf(Path.DirectorySeparatorChar);
-					if (i < 2)
-						return AssemblyPath;
-					projPath = projPath.Substring(0, i);
-				}
-			}
-			return Path.Combine(projPath, Application.ProductName);
-		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Prepares the adapter for localization support.
@@ -1845,10 +1678,7 @@ namespace SIL.Pa
 						query.ErrorMessages.Add(errorMsg);
 
 						if (showMsgOnErr)
-						{
-							Utils.MsgBox(errorMsg, MessageBoxButtons.OK,
-								   MessageBoxIcon.Exclamation);
-						}
+							Utils.MsgBox(errorMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 						return false;
 					}

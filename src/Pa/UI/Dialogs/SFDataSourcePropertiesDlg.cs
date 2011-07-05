@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Palaso.Reporting;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
@@ -60,7 +61,11 @@ namespace SIL.Pa.UI.Dialogs
 
 			cboRecordMarkers.Items.AddRange(m_markersInFile.ToArray());
 			var marker = m_markersInFile.SingleOrDefault(m => m == m_datasource.SfmRecordMarker);
-			cboRecordMarkers.SelectedItem = (marker ?? m_markersInFile[0]);
+			
+			if (marker != null)
+				cboRecordMarkers.SelectedItem = marker;
+			else if (m_markersInFile.Count > 0)
+				cboRecordMarkers.SelectedItem = m_markersInFile[0];
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -126,6 +131,7 @@ namespace SIL.Pa.UI.Dialogs
 				tblLayoutEditor.Height = 0;
 				tblLayoutButtons.Controls.Add(tblLayoutEditor, 0, 0);
 				tblLayoutEditor.Dock = DockStyle.Fill;
+				txtEditor.Text = m_datasource.Editor;
 			}
 		}
 
@@ -309,7 +315,7 @@ namespace SIL.Pa.UI.Dialogs
 					"Each field may only be mapped once."));
 			}
 
-			// Make sure no field is mapped more than once.
+			// Make sure the phonetic field is not mapped more than once.
 			if (m_fieldsGrid.GetIsPhoneticMappedMultipleTimes())
 			{
 				return ShowError(m_fieldsGrid, App.GetString(
@@ -398,6 +404,7 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				return (m_fieldsGrid.IsDirty || CurrentParseType != m_datasource.ParseType ||
 					FirstInterlinearField != m_datasource.FirstInterlinearField ||
+					m_datasource.SfmRecordMarker != (cboRecordMarkers.SelectedItem as string) ||
 					ToolBoxSortField != m_datasource.ToolboxSortField ||
 					txtEditor.Text != m_datasource.Editor);
 			}
@@ -514,9 +521,9 @@ namespace SIL.Pa.UI.Dialogs
 			catch (Exception e)
 			{
 				var msg = App.GetString("SFDataSourcePropertiesDlg.ErrorReadingSourceFileMsg",
-					"The following error occurred trying to read the source file '{0}'.\n\n{1}");
+					"There was an error trying to read the SFM file '{0}'.");
 
-				MessageBox.Show(string.Format(msg, e.Message));
+				ErrorReport.NotifyUserOfProblem(e, msg, m_filename);
 			}
 		}
 

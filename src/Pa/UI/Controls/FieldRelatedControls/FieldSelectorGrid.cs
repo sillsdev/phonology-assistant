@@ -38,7 +38,7 @@ namespace SIL.Pa.UI.Controls
 			AllowUserToOrderColumns = false;
 			AllowUserToResizeColumns = false;
 			CellBorderStyle = DataGridViewCellBorderStyle.None;
-			App.SetGridSelectionColors(this, false);
+			AppColor.SetGridSelectionColors(this, false);
 
 			if (App.DesignMode)
 				return;
@@ -61,7 +61,7 @@ namespace SIL.Pa.UI.Controls
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			Columns.Add(col);
 
-			App.SetGridSelectionColors(this, false);
+			AppColor.SetGridSelectionColors(this, false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -167,7 +167,7 @@ namespace SIL.Pa.UI.Controls
 			if (AfterUserChangedValue != null)
 			{
 				var fieldDisplayName = this[kFieldCol, e.RowIndex].Value as string;
-				AfterUserChangedValue(m_fieldList.Single(f => f.DisplayName == fieldDisplayName),
+				AfterUserChangedValue(m_fieldList.SingleOrDefault(f => f.DisplayName == fieldDisplayName),
 					e.RowIndex == 0, (bool)Rows[e.RowIndex].Cells[0].Value);
 			}
 		}

@@ -43,20 +43,22 @@ namespace SIL.Pa.UI.Views
 		private SearchResultsViewManager m_rsltVwMngr;
 		private readonly SplitterPanel m_dockedSidePanel;
 		private readonly Keys m_savePatternHotKey = Keys.None;
+		private PaProject _project;
 
-		#region construction
+		#region Construction
 		/// ------------------------------------------------------------------------------------
-		public SearchVw()
+		public SearchVw(PaProject project)
 		{
-			var msg = App.GetString("InitializingSearchViewMsg", "Initializing Search View...",
-				"Message displayed whenever the search view is being initialized.");
-
 			Utils.WaitCursors(true);
+			_project = project;
 			InitializeComponent();
 			Name = "SearchVw";
 
 			hlblRecentPatterns.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
 			hlblSavedPatterns.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
+
+			tvSavedPatterns.Project = project;
+			rtfRecVw.Project = project;
 
 			tvSavedPatterns.SetCutCopyPasteButtons(btnCategoryCut, btnCategoryCopy, btnCategoryPaste);
 			ptrnTextBox.OwningView = this;
@@ -202,7 +204,7 @@ namespace SIL.Pa.UI.Views
 				m_rsltVwMngr.TMAdapter = m_tmAdapter;
 			else
 			{
-				m_rsltVwMngr = new SearchResultsViewManager(this, m_tmAdapter,
+				m_rsltVwMngr = new SearchResultsViewManager(_project, this, m_tmAdapter,
 					splitResults, rtfRecVw, Settings.Default.SearchVwPlaybackSpeed,
 					newSpeed => Settings.Default.SearchVwPlaybackSpeed = newSpeed);
 			}
@@ -263,6 +265,9 @@ namespace SIL.Pa.UI.Views
 		{
 			pnlSideBarCaption.Height = FontHelper.UIFont.Height + 7;
 			pnlSideBarCaption.Font = FontHelper.UIFont;
+			pnlSideBarCaption.ColorTop = AppColor.SecondaryHeaderTop;
+			pnlSideBarCaption.ColorBottom = AppColor.SecondaryHeaderBottom;
+			pnlSideBarCaption.ForeColor = AppColor.SecondaryHeaderForeground;
 
 			btnAutoHide.Top = ((pnlSideBarCaption.Height - btnAutoHide.Height) / 2) - 1;
 			btnDock.Top = btnAutoHide.Top;
@@ -370,7 +375,7 @@ namespace SIL.Pa.UI.Views
 			var recentList = 
 				(from object rp in lstRecentPatterns.Items select rp as SearchQuery).ToList();
 			
-			string path = Path.Combine(App.DefaultProjectFolder, kRecentlyUsedPatternFile);
+			string path = Path.Combine(App.ProjectFolder, kRecentlyUsedPatternFile);
 			if (recentList.Count > 0)
 				XmlSerializationHelper.SerializeToFile(path, recentList);
 			else
@@ -503,7 +508,7 @@ namespace SIL.Pa.UI.Views
 
 			try
 			{
-				string path = Path.Combine(App.DefaultProjectFolder, kRecentlyUsedPatternFile);
+				string path = Path.Combine(App.ProjectFolder, kRecentlyUsedPatternFile);
 				var recentList = XmlSerializationHelper.DeserializeFromFile<List<SearchQuery>>(path);
 				if (recentList != null)
 					lstRecentPatterns.Items.AddRange(recentList.ToArray());
@@ -689,7 +694,7 @@ namespace SIL.Pa.UI.Views
 			//// At this point, we know we're dealing with a previously saved query. Therefore,
 			//// we must determine whether or not to show the query save as dialog. Find the
 			//// original query so we can compare its pattern with the current pattern.
-			//SearchQuery origQuery = PaApp.Project.SearchQueryGroups.GetQueryForId(query.Id);
+			//SearchQuery origQuery = _project.SearchQueryGroups.GetQueryForId(query.Id);
 
 			//// Show the dialog when the original pattern is different from the current and
 			//// the query has never been assigned a name. Otherwise, just save without prompting.
@@ -705,10 +710,6 @@ namespace SIL.Pa.UI.Views
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnSavePatternAs(object args)
 		{
@@ -732,7 +733,7 @@ namespace SIL.Pa.UI.Views
 				return false;
 			}
 
-			using (SaveSearchQueryDlg dlg = new SaveSearchQueryDlg(ptrnTextBox.SearchQuery,
+			using (var dlg = new SaveSearchQueryDlg(ptrnTextBox.SearchQuery,
 				tvSavedPatterns, canChangeQuerysCategory))
 			{
 				string saveName = ptrnTextBox.SearchQuery.Name;
@@ -1332,6 +1333,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDataSourcesModified(object args)
 		{
+			rtfRecVw.Project = _project = args as PaProject;
+			rtfRecVw.UpdateRecord(null);
 			ptrnBldrComponent.RefreshComponents();
 			return false;
 		}

@@ -125,7 +125,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.MultiSelect = true;
 		    m_grid.Font = FontHelper.UIFont;
 			m_grid.CurrentRowChanged += HandleCurrentRowChanged;
-			App.SetGridSelectionColors(m_grid, false);
+			AppColor.SetGridSelectionColors(m_grid, false);
 
 			m_grid.Columns.Add(SilGrid.CreateCheckBoxColumn("skip"));
 			App.RegisterForLocalization(m_grid.Columns["skip"],
@@ -436,7 +436,7 @@ namespace SIL.Pa.UI.Dialogs
 		    dlg.AddExtension = true;
 		    dlg.DefaultExt = "pap";
 		    dlg.RestoreDirectory = false;
-		    dlg.InitialDirectory = (Settings.Default.LastFolderForSavedProject ?? App.DefaultProjectFolder);
+		    dlg.InitialDirectory = (Settings.Default.LastFolderForSavedProject ?? App.ProjectFolder);
 			dlg.ShowHelp = false;
 		    dlg.FilterIndex = 0;
 			
@@ -493,7 +493,7 @@ namespace SIL.Pa.UI.Dialogs
 				"Choose Data Source File(s)", "Open file dialog caption when choosing data source files");
 
 			string[] filenames = App.OpenFileDialog("db", fileTypes.ToString(),
-				ref filterIndex, caption, true, Project.Folder ?? App.DefaultProjectFolder);
+				ref filterIndex, caption, true, Project.Folder ?? App.ProjectFolder);
 
 			if (filenames.Length == 0)
 				return;

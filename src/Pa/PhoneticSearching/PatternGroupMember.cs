@@ -172,6 +172,9 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		private bool CloseArticulatoryFeatureMember()
 		{
+			m_member = m_member.Replace('\u00AB', '(');
+			m_member = m_member.Replace('\u00BB', ')');
+
 			if (App.AFeatureCache.FeatureExits(m_member))
 			{
 				m_type = MemberType.Articulatory;

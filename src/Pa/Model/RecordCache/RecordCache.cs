@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using Palaso.Reporting;
 using SIL.Pa.DataSource;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Processing;
@@ -38,6 +39,7 @@ namespace SIL.Pa.Model
 		{
 			m_project = project;
 			m_phoneticFieldName = m_project.GetPhoneticField().Name;
+			PhoneCache = new PhoneCache(project);
 			RecordCacheEntry.ResetCounter();
 		}
 
@@ -123,14 +125,10 @@ namespace SIL.Pa.Model
 			}
 			catch (Exception e)
 			{
-				var msg = App.GetString("LoadingRecordCacheErrorMsg",
-					"The following error occurred while loading '{0}':\n{1}",
-					"Message displayed when failing to load a PaXml file. Parameter 0 is filename, and parameter 1 is the error message.");
+				var msg = App.GetString("LoadingRecordCacheErrorMsg", "An error occurred while loading '{0}'.",
+					"Message displayed when failing to load a PaXml file. Parameter is filename.");
 
-				filename = Utils.PrepFilePathForMsgBox(filename);
-				Utils.MsgBox(string.Format(msg, filename, e.Message), MessageBoxButtons.OK,
-					MessageBoxIcon.Exclamation);
-				
+				ErrorReport.NotifyUserOfProblem(e, msg, Utils.PrepFilePathForMsgBox(filename));
 				return null;
 			}
 		}
@@ -159,9 +157,10 @@ namespace SIL.Pa.Model
 			}
 			catch (Exception e)
 			{
-				var msg = App.GetString("SavingRecordCacheErrorMsg", "Error saving records: {0}",
+				var msg = App.GetString("SavingRecordCacheErrorMsg", "Error saving records.",
 					"Message displayed if there was an error saving the records to an XML file.");
-				Utils.MsgBox(string.Format(msg, e.Message));
+
+				ErrorReport.NotifyUserOfProblem(e, msg);
 			}
 		}
 

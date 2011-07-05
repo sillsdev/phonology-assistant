@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using Palaso.Reporting;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
@@ -102,7 +103,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (m_reloadError)
 				{
-					Utils.MsgBox("Error: " + e.Message);
+					ErrorReport.NotifyUserOfProblem(e, string.Empty);
 					return null;
 				}
 
@@ -174,10 +175,6 @@ namespace SIL.Pa.UI.Controls
 			return (diff != 0 ? diff : x.Column - y.Column);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void BuildCharGrid()
 		{
@@ -350,7 +347,7 @@ namespace SIL.Pa.UI.Controls
 				return null;
 
 			// Now build a new phone without ignored suprasegmentals.
-			StringBuilder bldr = new StringBuilder();
+			var bldr = new StringBuilder();
 			for (int i = 0; i < phone.Length; i++)
 			{
 				if (m_supraSegsToIgnore == null || !m_supraSegsToIgnore.Contains(phone.Substring(i, 1)))

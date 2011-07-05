@@ -45,6 +45,7 @@ namespace SIL.Pa.Model
 			Id = s_counter++;
 			AudioOffset = -1;
 			AudioLength = -1;
+			m_fieldValues = project.Fields.ToDictionary(f => f.Name, f => new FieldValue(f.Name));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -55,7 +56,6 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public RecordCacheEntry(bool newFromParsingSFMFile, PaProject project) : this(project)
 		{
-			m_fieldValues = project.Fields.ToDictionary(f => f.Name, f => new FieldValue(f.Name));
 			CanBeEditedInToolbox = newFromParsingSFMFile;
 		}
 

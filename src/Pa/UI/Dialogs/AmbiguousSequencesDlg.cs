@@ -73,7 +73,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.AllowUserToOrderColumns = false;
 			m_grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
 			m_grid.Font = FontHelper.UIFont;
-			App.SetGridSelectionColors(m_grid, true);
+			AppColor.SetGridSelectionColors(m_grid, true);
 
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("seq");
 			col.Width = 90;

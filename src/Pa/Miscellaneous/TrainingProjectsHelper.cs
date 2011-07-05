@@ -3,8 +3,6 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using System.Linq;
-using Palaso.IO;
-using SIL.Pa.DataSource;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
@@ -39,7 +37,7 @@ namespace SIL.Pa
 				if (!File.Exists(zipFile))
 					return;
 
-				var destFolder = Path.Combine(App.DefaultProjectFolder, tpsi.TrainingProjectFolder);
+				var destFolder = Path.Combine(App.ProjectFolder, tpsi.TrainingProjectFolder);
 
 				// Make sure the target folder for the training projects exists.
 				if (!Directory.Exists(destFolder))

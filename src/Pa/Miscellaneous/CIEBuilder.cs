@@ -18,38 +18,39 @@ namespace SIL.Pa
 		private readonly SortOptions m_sortOptions;
 		private CIEOptions m_cieOptions;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Constructs an object to find the list of minimal pairs within the specified cache.
-		/// (This overload uses default CIE options and sort options.)
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public CIEBuilder(WordListCache cache) : this(cache, new CIEOptions())
-		{
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Constructs an object to find the list of minimal pairs within the specified cache.
+		///// (This overload uses default CIE options and sort options.)
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public CIEBuilder(WordListCache cache) : this(cache, new CIEOptions())
+		//{
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Constructs an object to find the list of minimal pairs within the specified cache.
+		///// (This overload uses default sort options.)
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public CIEBuilder(WordListCache cache, CIEOptions cieOptions) : this(cache, null, cieOptions)
+		//{
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Constructs an object to find the list of minimal pairs within the specified cache.
-		/// (This overload uses default sort options.)
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public CIEBuilder(WordListCache cache, CIEOptions cieOptions) : this(cache, null, cieOptions)
-		{
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Constructs an object to find the list of minimal pairs within the specified cache.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public CIEBuilder(WordListCache cache, SortOptions sortOptions, CIEOptions cieOptions)
+		public CIEBuilder(PaProject project, WordListCache cache, SortOptions sortOptions,
+			CIEOptions cieOptions)
 		{
 			if (cache == null || cache.Count <= 2)
 				return;
 
 			Cache = cache;
-			m_sortOptions = (sortOptions ?? new SortOptions(true, App.Project));
+			m_sortOptions = (sortOptions ?? new SortOptions(true, project));
 			CIEOptions = cieOptions;
 		}
 
@@ -77,7 +78,7 @@ namespace SIL.Pa
 			if (Cache == null || !Cache.IsForSearchResults)
 				return null;
 
-			foreach (WordListCacheEntry entry in Cache)
+			foreach (var entry in Cache)
 			    entry.CIEGroupId = -1;
 
 			// First, send a message to see if there is an AddOn to find minimal pairs. If so,
@@ -114,7 +115,7 @@ namespace SIL.Pa
 				if (grp.Value.Count < 2)
 					continue;
 
-				foreach (WordListCacheEntry entry in grp.Value)
+				foreach (var entry in grp.Value)
 				{
 					entry.CIEGroupId = cieGroupId;
 					cieCache.Add(entry);

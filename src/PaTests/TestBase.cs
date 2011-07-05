@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using NUnit.Framework;
+using SIL.Pa.Model;
 using SIL.Pa.Processing;
 
 namespace SIL.Pa.TestUtils
@@ -14,6 +16,7 @@ namespace SIL.Pa.TestUtils
 	/// ----------------------------------------------------------------------------------------
 	public class TestBase
 	{
+		protected PaProject m_prj;
 		protected string m_inventoryFile;
 		protected string m_settingsFolder;
 
@@ -25,9 +28,16 @@ namespace SIL.Pa.TestUtils
 		[TestFixtureSetUp]
 		public virtual void FixtureSetup()
 		{
-			ProjectInventoryBuilder.SkipProcessingForTests = true;
-			m_inventoryFile = Path.GetTempFileName();
-			File.WriteAllText(m_inventoryFile, Properties.Resources.kfilPhoneticCharacterInventory);
+			InventoryHelper.Load();
+			App.IPASymbolCache.ClearUndefinedCharacterCollection();
+			//ProjectInventoryBuilder.SkipProcessingForTests = true;
+			//m_inventoryFile = Path.GetTempFileName();
+			//File.WriteAllText(m_inventoryFile, Properties.Resources.kfilPhoneticCharacterInventory);
+
+			m_prj = new PaProject(true);
+			m_prj.LanguageName = "dummy";
+			m_prj.Name = "dummy";
+			App.Project = m_prj;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -40,6 +50,18 @@ namespace SIL.Pa.TestUtils
 		{
 			if (File.Exists(m_inventoryFile))
 				File.Delete(m_inventoryFile);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected string[] Parse(string text, bool normalize)
+		{
+			return m_prj.PhoneticParser.Parse(text, normalize);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected string[] Parse(string text, bool normalize, bool cvtExpTrans, out Dictionary<int, string[]> uncertainties)
+		{
+			return m_prj.PhoneticParser.Parse(text, normalize, cvtExpTrans, out uncertainties);
 		}
 
 		/// ------------------------------------------------------------------------------------

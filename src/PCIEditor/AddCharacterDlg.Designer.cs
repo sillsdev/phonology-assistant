@@ -1,4 +1,5 @@
-using SilUtils.Controls;
+
+using SilTools.Controls;
 
 namespace SIL.Pa
 {
@@ -55,35 +56,14 @@ namespace SIL.Pa
 			this.grpSortOrder = new System.Windows.Forms.GroupBox();
 			this.lblPOA = new System.Windows.Forms.Label();
 			this.lblMOA = new System.Windows.Forms.Label();
-			this.groupBox4 = new System.Windows.Forms.GroupBox();
-			this.chkDottedCircle = new System.Windows.Forms.CheckBox();
-			this.chkPreceedBaseChar = new System.Windows.Forms.CheckBox();
-			this.chkIsBase = new System.Windows.Forms.CheckBox();
-			this.groupBox5 = new System.Windows.Forms.GroupBox();
-			this.label11 = new System.Windows.Forms.Label();
-			this.label10 = new System.Windows.Forms.Label();
-			this.cboChartGroup = new System.Windows.Forms.ComboBox();
-			this.cboChartColumn = new System.Windows.Forms.ComboBox();
 			this.label5 = new System.Windows.Forms.Label();
-			this.grpFeatures = new System.Windows.Forms.GroupBox();
-			this.pnlBinary = new SilUtils.Controls.SilPanel();
-			this.txtBinary = new System.Windows.Forms.TextBox();
-			this.hlblBinary = new SilUtils.Controls.HeaderLabel();
-			this.btnBinary = new SilUtils.Controls.XButton();
-			this.paPanel1 = new SilUtils.Controls.SilPanel();
-			this.txtArticulatory = new System.Windows.Forms.TextBox();
-			this.hlblArticulatory = new SilUtils.Controls.HeaderLabel();
-			this.btnArticulatory = new SilUtils.Controls.XButton();
+			this._featuresTab = new SIL.Pa.UI.Controls.FeaturesTab();
+			this.chkIsBase = new System.Windows.Forms.CheckBox();
+			this.chkPreceedBaseChar = new System.Windows.Forms.CheckBox();
+			this.chkDottedCircle = new System.Windows.Forms.CheckBox();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.grpSortOrder.SuspendLayout();
-			this.groupBox4.SuspendLayout();
-			this.groupBox5.SuspendLayout();
-			this.grpFeatures.SuspendLayout();
-			this.pnlBinary.SuspendLayout();
-			this.hlblBinary.SuspendLayout();
-			this.paPanel1.SuspendLayout();
-			this.hlblArticulatory.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// txtHexValue
@@ -91,7 +71,7 @@ namespace SIL.Pa
 			resources.ApplyResources(this.txtHexValue, "txtHexValue");
 			this.txtHexValue.Name = "txtHexValue";
 			this.txtHexValue.TextChanged += new System.EventHandler(this.txtHexValue_TextChanged);
-			this.txtHexValue.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtHexValue_KeyPress);
+			this.txtHexValue.KeyPress += txtHexValue_KeyPress;
 			// 
 			// txtCharName
 			// 
@@ -109,7 +89,6 @@ namespace SIL.Pa
 			this.cboType.FormattingEnabled = true;
 			resources.ApplyResources(this.cboType, "cboType");
 			this.cboType.Name = "cboType";
-			this.cboType.SelectedIndexChanged += new System.EventHandler(this.cboType_SelectedIndexChanged);
 			// 
 			// cboSubType
 			// 
@@ -127,29 +106,32 @@ namespace SIL.Pa
 			// 
 			// groupBox1
 			// 
+			resources.ApplyResources(this.groupBox1, "groupBox1");
 			this.groupBox1.Controls.Add(this.lblIgnoreType);
 			this.groupBox1.Controls.Add(this.lblSubType);
 			this.groupBox1.Controls.Add(this.lblType);
 			this.groupBox1.Controls.Add(this.cboType);
 			this.groupBox1.Controls.Add(this.cboIgnoreType);
 			this.groupBox1.Controls.Add(this.cboSubType);
-			resources.ApplyResources(this.groupBox1, "groupBox1");
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.TabStop = false;
 			// 
 			// lblIgnoreType
 			// 
 			resources.ApplyResources(this.lblIgnoreType, "lblIgnoreType");
+			this.lblIgnoreType.BackColor = System.Drawing.Color.Transparent;
 			this.lblIgnoreType.Name = "lblIgnoreType";
 			// 
 			// lblSubType
 			// 
 			resources.ApplyResources(this.lblSubType, "lblSubType");
+			this.lblSubType.BackColor = System.Drawing.Color.Transparent;
 			this.lblSubType.Name = "lblSubType";
 			// 
 			// lblType
 			// 
 			resources.ApplyResources(this.lblType, "lblType");
+			this.lblType.BackColor = System.Drawing.Color.Transparent;
 			this.lblType.Name = "lblType";
 			// 
 			// cboMoa
@@ -163,10 +145,12 @@ namespace SIL.Pa
 			// label4
 			// 
 			resources.ApplyResources(this.label4, "label4");
+			this.label4.BackColor = System.Drawing.Color.Transparent;
 			this.label4.Name = "label4";
 			// 
 			// groupBox2
 			// 
+			resources.ApplyResources(this.groupBox2, "groupBox2");
 			this.groupBox2.Controls.Add(this.lblUnicodeValue);
 			this.groupBox2.Controls.Add(this.lblChar);
 			this.groupBox2.Controls.Add(this.lblDescription);
@@ -177,7 +161,6 @@ namespace SIL.Pa
 			this.groupBox2.Controls.Add(this.txtCharName);
 			this.groupBox2.Controls.Add(this.txtCharDesc);
 			this.groupBox2.Controls.Add(this.lblUPlus);
-			resources.ApplyResources(this.groupBox2, "groupBox2");
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.TabStop = false;
 			// 
@@ -194,21 +177,25 @@ namespace SIL.Pa
 			// lblDescription
 			// 
 			resources.ApplyResources(this.lblDescription, "lblDescription");
+			this.lblDescription.BackColor = System.Drawing.Color.Transparent;
 			this.lblDescription.Name = "lblDescription";
 			// 
 			// lblName
 			// 
 			resources.ApplyResources(this.lblName, "lblName");
+			this.lblName.BackColor = System.Drawing.Color.Transparent;
 			this.lblName.Name = "lblName";
 			// 
 			// lblUnicode
 			// 
 			resources.ApplyResources(this.lblUnicode, "lblUnicode");
+			this.lblUnicode.BackColor = System.Drawing.Color.Transparent;
 			this.lblUnicode.Name = "lblUnicode";
 			// 
 			// lblCharLable
 			// 
 			resources.ApplyResources(this.lblCharLable, "lblCharLable");
+			this.lblCharLable.BackColor = System.Drawing.Color.Transparent;
 			this.lblCharLable.Name = "lblCharLable";
 			// 
 			// lblUPlus
@@ -226,223 +213,86 @@ namespace SIL.Pa
 			// 
 			// grpSortOrder
 			// 
+			resources.ApplyResources(this.grpSortOrder, "grpSortOrder");
 			this.grpSortOrder.Controls.Add(this.lblPOA);
 			this.grpSortOrder.Controls.Add(this.lblMOA);
 			this.grpSortOrder.Controls.Add(this.label4);
 			this.grpSortOrder.Controls.Add(this.cboMoa);
 			this.grpSortOrder.Controls.Add(this.cboPoa);
-			resources.ApplyResources(this.grpSortOrder, "grpSortOrder");
 			this.grpSortOrder.Name = "grpSortOrder";
 			this.grpSortOrder.TabStop = false;
 			// 
 			// lblPOA
 			// 
 			resources.ApplyResources(this.lblPOA, "lblPOA");
+			this.lblPOA.BackColor = System.Drawing.Color.Transparent;
 			this.lblPOA.Name = "lblPOA";
 			// 
 			// lblMOA
 			// 
 			resources.ApplyResources(this.lblMOA, "lblMOA");
+			this.lblMOA.BackColor = System.Drawing.Color.Transparent;
 			this.lblMOA.Name = "lblMOA";
-			// 
-			// groupBox4
-			// 
-			this.groupBox4.Controls.Add(this.chkDottedCircle);
-			this.groupBox4.Controls.Add(this.chkPreceedBaseChar);
-			this.groupBox4.Controls.Add(this.chkIsBase);
-			resources.ApplyResources(this.groupBox4, "groupBox4");
-			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.TabStop = false;
-			// 
-			// chkDottedCircle
-			// 
-			resources.ApplyResources(this.chkDottedCircle, "chkDottedCircle");
-			this.chkDottedCircle.Name = "chkDottedCircle";
-			this.chkDottedCircle.UseVisualStyleBackColor = true;
-			// 
-			// chkPreceedBaseChar
-			// 
-			resources.ApplyResources(this.chkPreceedBaseChar, "chkPreceedBaseChar");
-			this.chkPreceedBaseChar.Name = "chkPreceedBaseChar";
-			this.chkPreceedBaseChar.UseVisualStyleBackColor = true;
-			// 
-			// chkIsBase
-			// 
-			resources.ApplyResources(this.chkIsBase, "chkIsBase");
-			this.chkIsBase.Name = "chkIsBase";
-			this.chkIsBase.UseVisualStyleBackColor = true;
-			// 
-			// groupBox5
-			// 
-			this.groupBox5.Controls.Add(this.label11);
-			this.groupBox5.Controls.Add(this.label10);
-			this.groupBox5.Controls.Add(this.cboChartGroup);
-			this.groupBox5.Controls.Add(this.cboChartColumn);
-			resources.ApplyResources(this.groupBox5, "groupBox5");
-			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.TabStop = false;
-			// 
-			// label11
-			// 
-			resources.ApplyResources(this.label11, "label11");
-			this.label11.Name = "label11";
-			// 
-			// label10
-			// 
-			resources.ApplyResources(this.label10, "label10");
-			this.label10.Name = "label10";
-			// 
-			// cboChartGroup
-			// 
-			this.cboChartGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboChartGroup.FormattingEnabled = true;
-			resources.ApplyResources(this.cboChartGroup, "cboChartGroup");
-			this.cboChartGroup.Name = "cboChartGroup";
-			// 
-			// cboChartColumn
-			// 
-			this.cboChartColumn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cboChartColumn.FormattingEnabled = true;
-			resources.ApplyResources(this.cboChartColumn, "cboChartColumn");
-			this.cboChartColumn.Name = "cboChartColumn";
 			// 
 			// label5
 			// 
 			resources.ApplyResources(this.label5, "label5");
 			this.label5.Name = "label5";
 			// 
-			// grpFeatures
+			// _featuresTab
 			// 
-			resources.ApplyResources(this.grpFeatures, "grpFeatures");
-			this.grpFeatures.Controls.Add(this.pnlBinary);
-			this.grpFeatures.Controls.Add(this.paPanel1);
-			this.grpFeatures.Name = "grpFeatures";
-			this.grpFeatures.TabStop = false;
+			resources.ApplyResources(this._featuresTab, "_featuresTab");
+			this._featuresTab.BackColor = System.Drawing.Color.Transparent;
+			this._featuresTab.Name = "_featuresTab";
 			// 
-			// pnlBinary
+			// chkIsBase
 			// 
-			resources.ApplyResources(this.pnlBinary, "pnlBinary");
-			this.pnlBinary.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
-			this.pnlBinary.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pnlBinary.ClipTextForChildControls = true;
-			this.pnlBinary.ControlReceivingFocusOnMnemonic = null;
-			this.pnlBinary.Controls.Add(this.txtBinary);
-			this.pnlBinary.Controls.Add(this.hlblBinary);
-			this.pnlBinary.DoubleBuffered = false;
-			this.pnlBinary.MnemonicGeneratesClick = false;
-			this.pnlBinary.Name = "pnlBinary";
-			this.pnlBinary.PaintExplorerBarBackground = false;
+			resources.ApplyResources(this.chkIsBase, "chkIsBase");
+			this.chkIsBase.BackColor = System.Drawing.Color.Transparent;
+			this.chkIsBase.Name = "chkIsBase";
+			this.chkIsBase.UseVisualStyleBackColor = false;
 			// 
-			// txtBinary
+			// chkPreceedBaseChar
 			// 
-			this.txtBinary.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			resources.ApplyResources(this.txtBinary, "txtBinary");
-			this.txtBinary.Name = "txtBinary";
+			resources.ApplyResources(this.chkPreceedBaseChar, "chkPreceedBaseChar");
+			this.chkPreceedBaseChar.BackColor = System.Drawing.Color.Transparent;
+			this.chkPreceedBaseChar.Name = "chkPreceedBaseChar";
+			this.chkPreceedBaseChar.UseVisualStyleBackColor = false;
 			// 
-			// hlblBinary
+			// chkDottedCircle
 			// 
-			this.hlblBinary.ClipTextForChildControls = true;
-			this.hlblBinary.ControlReceivingFocusOnMnemonic = null;
-			this.hlblBinary.Controls.Add(this.btnBinary);
-			resources.ApplyResources(this.hlblBinary, "hlblBinary");
-			this.hlblBinary.MnemonicGeneratesClick = true;
-			this.hlblBinary.Name = "hlblBinary";
-			this.hlblBinary.ShowWindowBackgroudOnTopAndRightEdge = true;
-			this.hlblBinary.Click += new System.EventHandler(this.btnBinary_Click);
-			// 
-			// btnBinary
-			// 
-			resources.ApplyResources(this.btnBinary, "btnBinary");
-			this.btnBinary.BackColor = System.Drawing.Color.Transparent;
-			this.btnBinary.CanBeChecked = false;
-			this.btnBinary.Checked = false;
-			this.btnBinary.DrawEmpty = false;
-			this.btnBinary.DrawLeftArrowButton = false;
-			this.btnBinary.DrawRightArrowButton = false;
-			this.btnBinary.Image = null;
-			this.btnBinary.Name = "btnBinary";
-			this.btnBinary.Click += new System.EventHandler(this.btnBinary_Click);
-			// 
-			// paPanel1
-			// 
-			this.paPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
-			this.paPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.paPanel1.ClipTextForChildControls = true;
-			this.paPanel1.ControlReceivingFocusOnMnemonic = null;
-			this.paPanel1.Controls.Add(this.txtArticulatory);
-			this.paPanel1.Controls.Add(this.hlblArticulatory);
-			this.paPanel1.DoubleBuffered = false;
-			resources.ApplyResources(this.paPanel1, "paPanel1");
-			this.paPanel1.MnemonicGeneratesClick = false;
-			this.paPanel1.Name = "paPanel1";
-			this.paPanel1.PaintExplorerBarBackground = false;
-			// 
-			// txtArticulatory
-			// 
-			this.txtArticulatory.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			resources.ApplyResources(this.txtArticulatory, "txtArticulatory");
-			this.txtArticulatory.Name = "txtArticulatory";
-			// 
-			// hlblArticulatory
-			// 
-			this.hlblArticulatory.ClipTextForChildControls = true;
-			this.hlblArticulatory.ControlReceivingFocusOnMnemonic = null;
-			this.hlblArticulatory.Controls.Add(this.btnArticulatory);
-			resources.ApplyResources(this.hlblArticulatory, "hlblArticulatory");
-			this.hlblArticulatory.MnemonicGeneratesClick = true;
-			this.hlblArticulatory.Name = "hlblArticulatory";
-			this.hlblArticulatory.ShowWindowBackgroudOnTopAndRightEdge = true;
-			this.hlblArticulatory.Click += new System.EventHandler(this.btnArticulatory_Click);
-			// 
-			// btnArticulatory
-			// 
-			resources.ApplyResources(this.btnArticulatory, "btnArticulatory");
-			this.btnArticulatory.BackColor = System.Drawing.Color.Transparent;
-			this.btnArticulatory.CanBeChecked = false;
-			this.btnArticulatory.Checked = false;
-			this.btnArticulatory.DrawEmpty = false;
-			this.btnArticulatory.DrawLeftArrowButton = false;
-			this.btnArticulatory.DrawRightArrowButton = false;
-			this.btnArticulatory.Image = null;
-			this.btnArticulatory.Name = "btnArticulatory";
-			this.btnArticulatory.Click += new System.EventHandler(this.btnArticulatory_Click);
+			resources.ApplyResources(this.chkDottedCircle, "chkDottedCircle");
+			this.chkDottedCircle.BackColor = System.Drawing.Color.Transparent;
+			this.chkDottedCircle.Name = "chkDottedCircle";
+			this.chkDottedCircle.UseVisualStyleBackColor = false;
 			// 
 			// AddCharacterDlg
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.grpFeatures);
-			this.Controls.Add(this.groupBox5);
-			this.Controls.Add(this.groupBox4);
+			this.Controls.Add(this.chkDottedCircle);
+			this.Controls.Add(this.chkPreceedBaseChar);
+			this.Controls.Add(this.chkIsBase);
 			this.Controls.Add(this.grpSortOrder);
 			this.Controls.Add(this.groupBox2);
+			this.Controls.Add(this._featuresTab);
 			this.Controls.Add(this.groupBox1);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Name = "AddCharacterDlg";
 			this.Controls.SetChildIndex(this.groupBox1, 0);
+			this.Controls.SetChildIndex(this._featuresTab, 0);
 			this.Controls.SetChildIndex(this.groupBox2, 0);
 			this.Controls.SetChildIndex(this.grpSortOrder, 0);
-			this.Controls.SetChildIndex(this.groupBox4, 0);
-			this.Controls.SetChildIndex(this.groupBox5, 0);
-			this.Controls.SetChildIndex(this.grpFeatures, 0);
+			this.Controls.SetChildIndex(this.chkIsBase, 0);
+			this.Controls.SetChildIndex(this.chkPreceedBaseChar, 0);
+			this.Controls.SetChildIndex(this.chkDottedCircle, 0);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			this.grpSortOrder.ResumeLayout(false);
 			this.grpSortOrder.PerformLayout();
-			this.groupBox4.ResumeLayout(false);
-			this.groupBox4.PerformLayout();
-			this.groupBox5.ResumeLayout(false);
-			this.groupBox5.PerformLayout();
-			this.grpFeatures.ResumeLayout(false);
-			this.pnlBinary.ResumeLayout(false);
-			this.pnlBinary.PerformLayout();
-			this.hlblBinary.ResumeLayout(false);
-			this.paPanel1.ResumeLayout(false);
-			this.paPanel1.PerformLayout();
-			this.hlblArticulatory.ResumeLayout(false);
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -469,28 +319,14 @@ namespace SIL.Pa
 		private System.Windows.Forms.Label lblChar;
 		private System.Windows.Forms.Label lblUnicodeValue;
 		private System.Windows.Forms.GroupBox grpSortOrder;
-		private System.Windows.Forms.GroupBox groupBox4;
-		private System.Windows.Forms.CheckBox chkDottedCircle;
-		private System.Windows.Forms.CheckBox chkPreceedBaseChar;
-		private System.Windows.Forms.CheckBox chkIsBase;
-		private System.Windows.Forms.GroupBox groupBox5;
-		private System.Windows.Forms.Label label11;
-		private System.Windows.Forms.Label label10;
-		private System.Windows.Forms.ComboBox cboChartGroup;
-		private System.Windows.Forms.ComboBox cboChartColumn;
 		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.GroupBox grpFeatures;
-		private SilUtils.Controls.SilPanel paPanel1;
-		private System.Windows.Forms.TextBox txtArticulatory;
-		private HeaderLabel hlblArticulatory;
-		private XButton btnArticulatory;
-		private SilPanel pnlBinary;
-		private System.Windows.Forms.TextBox txtBinary;
-		private HeaderLabel hlblBinary;
-		private XButton btnBinary;
 		private System.Windows.Forms.Label lblUPlus;
 		private System.Windows.Forms.Label lblMOA;
 		private System.Windows.Forms.Label lblPOA;
+		private UI.Controls.FeaturesTab _featuresTab;
+		private System.Windows.Forms.CheckBox chkIsBase;
+		private System.Windows.Forms.CheckBox chkPreceedBaseChar;
+		private System.Windows.Forms.CheckBox chkDottedCircle;
 
 	}
 }

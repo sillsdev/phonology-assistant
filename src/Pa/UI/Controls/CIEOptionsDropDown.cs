@@ -1,30 +1,23 @@
 using System.ComponentModel;
 using System.Windows.Forms;
+using SIL.Pa.Model;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class CIEOptionsDropDown : SearchOptionsDropDown
 	{
 		private CIEOptions m_cieOptions;
-		private bool m_canceled = false;
+		private bool m_canceled;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public CIEOptionsDropDown()
+		public CIEOptionsDropDown(PaProject project)
 		{
 			InitializeComponent();
 			grpUncertainties.Visible = false;
 			LayoutDropDown();
-			CIEOptions = (App.Project != null ? App.Project.CIEOptions.Clone() : new CIEOptions());
+			CIEOptions = (project != null ? project.CIEOptions.Clone() : new CIEOptions());
 			
 			rbAfter.Font = FontHelper.UIFont;
 			rbBefore.Font = FontHelper.UIFont;
@@ -44,10 +37,6 @@ namespace SIL.Pa.UI.Controls
 			lnkApply.Left = lnkCancel.Left - (lnkApply.Width + 10);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public CIEOptions CIEOptions
 		{
@@ -85,10 +74,6 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -130,10 +115,6 @@ namespace SIL.Pa.UI.Controls
 			Close();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void lnkCancel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{

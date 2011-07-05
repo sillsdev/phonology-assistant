@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Palaso.Reporting;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.DataSource.Sa;
 using SIL.Pa.Model;
@@ -201,6 +202,8 @@ namespace SIL.Pa.DataSource
 			}
 			else if (e.ProgressPercentage == 0)
 				App.IncProgressBar();
+			else if (e.ProgressPercentage == -1)
+				App.CloseSplashScreen();
 			else
 				App.IncProgressBar(e.ProgressPercentage);
 		}
@@ -246,7 +249,6 @@ namespace SIL.Pa.DataSource
 							break;
 					}
 
-					worker.ReportProgress(-1);
 
 					if (readSuccess)
 					{
@@ -255,6 +257,7 @@ namespace SIL.Pa.DataSource
 					}
 					else
 					{
+						worker.ReportProgress(-1);
 						fmt = App.GetString("DatasourceFileUnsuccessfullyReadMsg",
 							"Error processing data source file '{0}'.");
 
@@ -265,12 +268,12 @@ namespace SIL.Pa.DataSource
 				}
 				catch (Exception ex)
 				{
+					worker.ReportProgress(-1);
 					fmt = App.GetString("DatasourceFileReadingErrorMsg",
-							"The following error occurred while reading data source file '{0}'.{1}",
-							"First parameter is data source file name; second parameter is error message.");
+							"An error occurred while reading data source file '{0}'",
+							"Parameter is data source file name.");
 		
-					string msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(ds.SourceFile), ex.Message);
-					Utils.MsgBox(msg, MessageBoxIcon.Exclamation);
+					ErrorReport.NotifyUserOfProblem(ex, fmt, Utils.PrepFilePathForMsgBox(ds.SourceFile));
 				}
 			}
 		}
@@ -280,7 +283,7 @@ namespace SIL.Pa.DataSource
 		{
 			return App.GetString("DatasourcePhoneticMappingErrorMsg",
 				"A field mapping to the phonetic field could not be found for the data source '{0}'",
-				"First parameter is data source name.");
+				"Parameter is data source name.");
 		}
 
 		#region FieldWorks 6 (and older) data source reading

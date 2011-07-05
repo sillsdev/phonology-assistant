@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using Palaso.Reporting;
 using SIL.Pa.UI;
 using SilTools;
 
@@ -12,20 +13,13 @@ namespace SIL.Pa
 		[STAThread]
 		static void Main() 
 		{
-			try
-			{
-				Application.EnableVisualStyles();
-				Application.SetCompatibleTextRenderingDefault(false);
-				Application.Run(new PaMainWnd(true));
-			}
-			catch (Exception e)
-			{
-				ExceptionViewer viewer = new ExceptionViewer(e);
-				viewer.Show();
+			ErrorReport.EmailAddress = "PaFeedback@sil.org";
+			ErrorReport.AddStandardProperties();
+			ExceptionHandler.Init();
 
-				while (viewer.Visible)
-					Application.DoEvents();
-			}
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
+			Application.Run(new PaMainWnd(true));
 		}
 	}
 }

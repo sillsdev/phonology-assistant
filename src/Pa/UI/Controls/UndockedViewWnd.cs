@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Filters;
+using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
 
@@ -11,10 +12,11 @@ namespace SIL.Pa.UI.Controls
 	/// ----------------------------------------------------------------------------------------
 	public partial class UndockedViewWnd : Form, IUndockedViewWnd, IxCoreColleague
 	{
-		private readonly Control m_view;
-		private ITMAdapter m_mainMenuAdapter;
-		private bool m_checkForModifiedDataSources = true;
-		
+		private readonly Control _view;
+		private ITMAdapter _mainMenuAdapter;
+		private bool _checkForModifiedDataSources = true;
+		private readonly PaProject _project;
+
 		/// ------------------------------------------------------------------------------------
 		public UndockedViewWnd()
 		{
@@ -22,8 +24,10 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public UndockedViewWnd(Control view) : this()
+		public UndockedViewWnd(PaProject project, Control view) : this()
 		{
+			_project = project;
+
 			if (view != null)
 				Name = view.GetType().Name;
 
@@ -36,23 +40,24 @@ namespace SIL.Pa.UI.Controls
 				StartPosition = FormStartPosition.CenterScreen;
 			}
 
-			m_mainMenuAdapter = App.LoadDefaultMenu(this);
-			m_mainMenuAdapter.AllowUpdates = false;
+			_mainMenuAdapter = App.LoadDefaultMenu(this);
+			_mainMenuAdapter.AllowUpdates = false;
 			Controls.Add(view);
 			view.BringToFront();
-			m_view = view;
+			_view = view;
 			Opacity = 0;
 
-			sblblProgress.Font = FontHelper.MakeFont(FontHelper.UIFont, 9, FontStyle.Bold);
-			sbProgress.Visible = false;
 			sblblMain.Text = sblblProgress.Text = string.Empty;
+			sblblProgress.Font = FontHelper.MakeFont(FontHelper.UIFont, 9, FontStyle.Bold);
+			sblblProgress.Visible = false;
+			sbProgress.Visible = false;
 			sblblPercent.Visible = false;
 			MinimumSize = App.MinimumViewWindowSize;
 
 			sblblFilter.Paint += HandleFilterStatusStripLabelPaint;
 			
-			if (App.Project != null)
-				OnFilterChanged(App.Project.CurrentFilter);
+			if (project != null)
+				OnFilterChanged(project.CurrentFilter);
 
 			App.MsgMediator.AddColleague(this);
 		}
@@ -100,9 +105,9 @@ namespace SIL.Pa.UI.Controls
 				}
 			}
 
-			m_checkForModifiedDataSources = false;
+			_checkForModifiedDataSources = false;
 			Activate();
-			m_checkForModifiedDataSources = true;
+			_checkForModifiedDataSources = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -110,15 +115,15 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnActivated(e);
 
-			if (m_mainMenuAdapter != null)
-				m_mainMenuAdapter.AllowUpdates = true;
+			if (_mainMenuAdapter != null)
+				_mainMenuAdapter.AllowUpdates = true;
 
 			Invalidate();  // Used to be: Utils.UpdateWindow(Handle); but I'm not sure why. I suspect there was a good reason though.
 
-			if (App.Project != null && m_checkForModifiedDataSources &&
+			if (_project != null && _checkForModifiedDataSources &&
 				Settings.Default.ReloadProjectsWhenAppBecomesActivate)
 			{
-				App.Project.CheckForModifiedDataSources();
+				_project.CheckForModifiedDataSources();
 			}
 		}
 
@@ -127,8 +132,8 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnDeactivate(e);
 
-			if (m_mainMenuAdapter != null)
-				m_mainMenuAdapter.AllowUpdates = false;
+			if (_mainMenuAdapter != null)
+				_mainMenuAdapter.AllowUpdates = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -136,10 +141,10 @@ namespace SIL.Pa.UI.Controls
 		{
 			App.MsgMediator.RemoveColleague(this);
 			Visible = false;
-			App.UnloadDefaultMenu(m_mainMenuAdapter);
-			m_mainMenuAdapter.Dispose();
-			m_mainMenuAdapter = null;
-			Controls.Remove(m_view);
+			App.UnloadDefaultMenu(_mainMenuAdapter);
+			_mainMenuAdapter.Dispose();
+			_mainMenuAdapter = null;
+			Controls.Remove(_view);
 			base.OnFormClosing(e);
 		}
 
@@ -153,7 +158,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnResize(e);
 
-			if (App.Project == null)
+			if (_project == null)
 				Invalidate();
 		}
 
@@ -167,10 +172,10 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void HandleFilterStatusStripLabelPaint(object sender, PaintEventArgs e)
 		{
-			if (App.Project != null && App.Project.CurrentFilter != null)
+			if (_project != null && _project.CurrentFilter != null)
 			{
 				PaMainWnd.PaintFilterStatusStripLabel(sender as ToolStripStatusLabel,
-					App.Project.CurrentFilter.Name, e);
+					_project.CurrentFilter.Name, e);
 			}
 		}
 	

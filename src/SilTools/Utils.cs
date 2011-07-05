@@ -620,17 +620,16 @@ namespace SilTools
 		/// comma for the decimal separator.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static bool TryFloatParse(string input,
-			CultureInfo ci, out float output)
+		public static bool TryFloatParse(string input, CultureInfo ci, out float output)
 		{
 			if (ci == null)
 			{
 				if (float.TryParse(input, out output))
 					return true;
 
-				// The first attempt failed so now try parsing with a culture whose number
-				// system decimal separator is known to be a period.
-				ci = CultureInfo.GetCultureInfo("en");
+				// The first attempt failed so now try parsing with a culture whose
+				//number system decimal separator is known to be a period.
+				ci = CultureInfo.GetCultureInfo("en-US");
 			}
 
 			return float.TryParse(input, NumberStyles.Number, ci.NumberFormat, out output);

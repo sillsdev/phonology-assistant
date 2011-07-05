@@ -19,23 +19,16 @@
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.splitFeatures = new System.Windows.Forms.SplitContainer();
 			this.pnlPhones = new SilTools.Controls.SilPanel();
+			this.btnReset = new System.Windows.Forms.Button();
 			this.gridPhones = new SilTools.SilGrid();
 			this.pgpPhoneList = new SilTools.Controls.SilGradientPanel();
-			this.tabFeatures = new System.Windows.Forms.TabControl();
-			this.tpgAFeatures = new System.Windows.Forms.TabPage();
-			this.btnReset = new System.Windows.Forms.Button();
-			this.tblLayoutAFeatures = new System.Windows.Forms.TableLayoutPanel();
-			this.lblAFeatures = new System.Windows.Forms.Label();
-			this.tpgBFeatures = new System.Windows.Forms.TabPage();
+			this._featuresTab = new SIL.Pa.UI.Controls.FeaturesTab();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.splitFeatures.Panel1.SuspendLayout();
 			this.splitFeatures.Panel2.SuspendLayout();
 			this.splitFeatures.SuspendLayout();
 			this.pnlPhones.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.gridPhones)).BeginInit();
-			this.tabFeatures.SuspendLayout();
-			this.tpgAFeatures.SuspendLayout();
-			this.tblLayoutAFeatures.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -52,9 +45,10 @@
 			// 
 			// splitFeatures.Panel2
 			// 
-			this.splitFeatures.Panel2.Controls.Add(this.tabFeatures);
+			this.splitFeatures.Panel2.Controls.Add(this._featuresTab);
 			this.splitFeatures.Size = new System.Drawing.Size(597, 409);
 			this.splitFeatures.SplitterDistance = 145;
+			this.splitFeatures.SplitterWidth = 6;
 			this.splitFeatures.TabIndex = 0;
 			this.splitFeatures.TabStop = false;
 			// 
@@ -64,11 +58,13 @@
 			this.pnlPhones.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlPhones.ClipTextForChildControls = true;
 			this.pnlPhones.ControlReceivingFocusOnMnemonic = null;
+			this.pnlPhones.Controls.Add(this.btnReset);
 			this.pnlPhones.Controls.Add(this.gridPhones);
 			this.pnlPhones.Controls.Add(this.pgpPhoneList);
 			this.pnlPhones.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlPhones.DoubleBuffered = true;
 			this.pnlPhones.DrawOnlyBottomBorder = false;
+			this.pnlPhones.DrawOnlyTopBorder = false;
 			this.pnlPhones.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlPhones.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlPhones, null);
@@ -80,6 +76,22 @@
 			this.pnlPhones.PaintExplorerBarBackground = false;
 			this.pnlPhones.Size = new System.Drawing.Size(145, 409);
 			this.pnlPhones.TabIndex = 0;
+			// 
+			// btnReset
+			// 
+			this.btnReset.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this.btnReset.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this.btnReset, "Reset Features of Selected Phone");
+			this.locExtender.SetLocalizationComment(this.btnReset, null);
+			this.locExtender.SetLocalizingId(this.btnReset, "FeaturesDlg.btnReset");
+			this.btnReset.Location = new System.Drawing.Point(37, 277);
+			this.btnReset.MinimumSize = new System.Drawing.Size(80, 26);
+			this.btnReset.Name = "btnReset";
+			this.btnReset.Size = new System.Drawing.Size(80, 26);
+			this.btnReset.TabIndex = 1;
+			this.btnReset.Text = "Reset";
+			this.btnReset.UseVisualStyleBackColor = true;
+			this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
 			// 
 			// gridPhones
 			// 
@@ -135,6 +147,7 @@
 			// pgpPhoneList
 			// 
 			this.pgpPhoneList.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+			this.pgpPhoneList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pgpPhoneList.ClipTextForChildControls = true;
 			this.pgpPhoneList.ColorBottom = System.Drawing.Color.Empty;
 			this.pgpPhoneList.ColorTop = System.Drawing.Color.Empty;
@@ -142,6 +155,7 @@
 			this.pgpPhoneList.Dock = System.Windows.Forms.DockStyle.Top;
 			this.pgpPhoneList.DoubleBuffered = false;
 			this.pgpPhoneList.DrawOnlyBottomBorder = true;
+			this.pgpPhoneList.DrawOnlyTopBorder = false;
 			this.pgpPhoneList.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pgpPhoneList.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pgpPhoneList, null);
@@ -156,91 +170,17 @@
 			this.pgpPhoneList.TabIndex = 0;
 			this.pgpPhoneList.Text = "&Phone List";
 			// 
-			// tabFeatures
+			// _featuresTab
 			// 
-			this.tabFeatures.Controls.Add(this.tpgAFeatures);
-			this.tabFeatures.Controls.Add(this.tpgBFeatures);
-			this.tabFeatures.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabFeatures.Location = new System.Drawing.Point(0, 0);
-			this.tabFeatures.Name = "tabFeatures";
-			this.tabFeatures.SelectedIndex = 0;
-			this.tabFeatures.Size = new System.Drawing.Size(448, 409);
-			this.tabFeatures.TabIndex = 0;
-			this.tabFeatures.SizeChanged += new System.EventHandler(this.tabFeatures_SizeChanged);
-			// 
-			// tpgAFeatures
-			// 
-			this.tpgAFeatures.Controls.Add(this.btnReset);
-			this.tpgAFeatures.Controls.Add(this.tblLayoutAFeatures);
-			this.locExtender.SetLocalizableToolTip(this.tpgAFeatures, null);
-			this.locExtender.SetLocalizationComment(this.tpgAFeatures, null);
-			this.locExtender.SetLocalizingId(this.tpgAFeatures, "FeaturesDlg.tpgAFeatures");
-			this.tpgAFeatures.Location = new System.Drawing.Point(4, 22);
-			this.tpgAFeatures.Name = "tpgAFeatures";
-			this.tpgAFeatures.Padding = new System.Windows.Forms.Padding(3, 3, 3, 0);
-			this.tpgAFeatures.Size = new System.Drawing.Size(440, 383);
-			this.tpgAFeatures.TabIndex = 0;
-			this.tpgAFeatures.Text = "Articulatory Features";
-			this.tpgAFeatures.UseVisualStyleBackColor = true;
-			// 
-			// btnReset
-			// 
-			this.btnReset.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.btnReset.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this.btnReset, "Reset Features of Selected Phone");
-			this.locExtender.SetLocalizationComment(this.btnReset, null);
-			this.locExtender.SetLocalizingId(this.btnReset, "FeaturesDlg.btnReset");
-			this.btnReset.Location = new System.Drawing.Point(69, 280);
-			this.btnReset.MinimumSize = new System.Drawing.Size(80, 26);
-			this.btnReset.Name = "btnReset";
-			this.btnReset.Size = new System.Drawing.Size(80, 26);
-			this.btnReset.TabIndex = 1;
-			this.btnReset.Text = "Reset";
-			this.btnReset.UseVisualStyleBackColor = true;
-			this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
-			// 
-			// tblLayoutAFeatures
-			// 
-			this.tblLayoutAFeatures.AutoSize = true;
-			this.tblLayoutAFeatures.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.tblLayoutAFeatures.ColumnCount = 1;
-			this.tblLayoutAFeatures.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tblLayoutAFeatures.Controls.Add(this.lblAFeatures, 0, 0);
-			this.tblLayoutAFeatures.Dock = System.Windows.Forms.DockStyle.Top;
-			this.tblLayoutAFeatures.Location = new System.Drawing.Point(3, 3);
-			this.tblLayoutAFeatures.Name = "tblLayoutAFeatures";
-			this.tblLayoutAFeatures.RowCount = 1;
-			this.tblLayoutAFeatures.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tblLayoutAFeatures.Size = new System.Drawing.Size(434, 26);
-			this.tblLayoutAFeatures.TabIndex = 0;
-			this.tblLayoutAFeatures.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleTableLayoutPaint);
-			// 
-			// lblAFeatures
-			// 
-			this.lblAFeatures.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this.lblAFeatures, null);
-			this.locExtender.SetLocalizationComment(this.lblAFeatures, null);
-			this.locExtender.SetLocalizationPriority(this.lblAFeatures, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.lblAFeatures, "FeaturesDlg.lblAFeatures");
-			this.lblAFeatures.Location = new System.Drawing.Point(3, 3);
-			this.lblAFeatures.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
-			this.lblAFeatures.Name = "lblAFeatures";
-			this.lblAFeatures.Size = new System.Drawing.Size(14, 13);
-			this.lblAFeatures.TabIndex = 0;
-			this.lblAFeatures.Text = "#";
-			// 
-			// tpgBFeatures
-			// 
-			this.locExtender.SetLocalizableToolTip(this.tpgBFeatures, null);
-			this.locExtender.SetLocalizationComment(this.tpgBFeatures, null);
-			this.locExtender.SetLocalizingId(this.tpgBFeatures, "FeaturesDlg.tpgBFeatures");
-			this.tpgBFeatures.Location = new System.Drawing.Point(4, 22);
-			this.tpgBFeatures.Name = "tpgBFeatures";
-			this.tpgBFeatures.Padding = new System.Windows.Forms.Padding(3, 8, 3, 0);
-			this.tpgBFeatures.Size = new System.Drawing.Size(440, 383);
-			this.tpgBFeatures.TabIndex = 1;
-			this.tpgBFeatures.Text = "Binary Features";
-			this.tpgBFeatures.UseVisualStyleBackColor = true;
+			this._featuresTab.BackColor = System.Drawing.Color.Transparent;
+			this._featuresTab.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.locExtender.SetLocalizableToolTip(this._featuresTab, null);
+			this.locExtender.SetLocalizationComment(this._featuresTab, null);
+			this.locExtender.SetLocalizingId(this._featuresTab, "featuresTab1.FeaturesTab");
+			this._featuresTab.Location = new System.Drawing.Point(0, 0);
+			this._featuresTab.Name = "_featuresTab";
+			this._featuresTab.Size = new System.Drawing.Size(446, 409);
+			this._featuresTab.TabIndex = 0;
 			// 
 			// locExtender
 			// 
@@ -264,12 +204,8 @@
 			this.splitFeatures.Panel2.ResumeLayout(false);
 			this.splitFeatures.ResumeLayout(false);
 			this.pnlPhones.ResumeLayout(false);
+			this.pnlPhones.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.gridPhones)).EndInit();
-			this.tabFeatures.ResumeLayout(false);
-			this.tpgAFeatures.ResumeLayout(false);
-			this.tpgAFeatures.PerformLayout();
-			this.tblLayoutAFeatures.ResumeLayout(false);
-			this.tblLayoutAFeatures.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
@@ -281,12 +217,8 @@
 		private SilTools.Controls.SilPanel pnlPhones;
 		private SilTools.SilGrid gridPhones;
 		private SilTools.Controls.SilGradientPanel pgpPhoneList;
-		private System.Windows.Forms.TabControl tabFeatures;
-		private System.Windows.Forms.TabPage tpgAFeatures;
-		private System.Windows.Forms.TabPage tpgBFeatures;
-		private System.Windows.Forms.Label lblAFeatures;
-		private System.Windows.Forms.TableLayoutPanel tblLayoutAFeatures;
 		private Localization.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.Button btnReset;
+		private Controls.FeaturesTab _featuresTab;
 	}
 }

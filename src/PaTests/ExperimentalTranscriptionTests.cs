@@ -41,7 +41,7 @@ namespace SIL.Pa.Tests
 		public override void FixtureSetup()
 		{
 			base.FixtureSetup();
-			InventoryHelper.Load(m_inventoryFile);
+			InventoryHelper.Load();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -54,20 +54,11 @@ namespace SIL.Pa.Tests
 		{
 			m_exTransList = new TranscriptionChanges();
 
-			App.IPASymbolCache.TranscriptionChanges = m_exTransList;
-			App.IPASymbolCache.AmbiguousSequences.Clear();
-			App.IPASymbolCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
-			App.IPASymbolCache.LogUndefinedCharactersWhenParsing = false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-        /// 
-        /// </summary>
-		/// ------------------------------------------------------------------------------------
-		[TearDown]
-        public void TestTearDown()
-        {
+			m_prj.TranscriptionChanges.Clear();
+			m_prj.TranscriptionChanges.AddRange(m_exTransList);
+			m_prj.AmbiguousSequences.Clear();
+			//App.IPASymbolCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
+			m_prj.PhoneticParser.LogUndefinedCharactersWhenParsing = false;
 		}
 
 		#endregion

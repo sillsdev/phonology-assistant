@@ -145,7 +145,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			txtCustomChars.TextChanged += txtCustomChars_TextChanged;
 			
-			foreach (var info in App.Project.CVPatternInfoList)
+			foreach (var info in m_project.CVPatternInfoList)
 			{
 				// Using 'NotApplicable' for custom type
 				if (info.PatternType == IPASymbolIgnoreType.NotApplicable)
@@ -170,7 +170,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (!IsDirty)
 				return;
 
-			App.Project.CVPatternInfoList.Clear();
+			m_project.CVPatternInfoList.Clear();
 			m_allPickerPhones.Clear();
 
 			SaveDisplayLists(stressPicker, IPASymbolIgnoreType.StressSyllable);
@@ -238,7 +238,7 @@ namespace SIL.Pa.UI.Dialogs
 					IPASymbolIgnoreType.NotApplicable));
 
 				if (cvpi != null)
-					App.Project.CVPatternInfoList.Add(cvpi);
+					m_project.CVPatternInfoList.Add(cvpi);
 			}
 		}
 
@@ -254,7 +254,7 @@ namespace SIL.Pa.UI.Dialogs
 				// Remove the dotted circle (if there is one) from the button's text, then
 				// check the button if its text is found in the display list.
 				string chr = item.Text.Replace(App.kDottedCircle, string.Empty);
-				foreach (var info in App.Project.CVPatternInfoList)
+				foreach (var info in m_project.CVPatternInfoList)
 				{
 					// Don't check item's that are already custom types
 					if (chr == info.Phone && info.PatternType != IPASymbolIgnoreType.NotApplicable)

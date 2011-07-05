@@ -114,7 +114,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			// Remove all the old mappings associated with mappable fields in order to make
 			// room for the new mappings.
-			foreach (var oldMapping in Settings.Default.MappableFw6Fields.Cast<string>()
+			foreach (var oldMapping in Settings.Default.Fw6FieldsMappableInPropsDlg.Cast<string>()
 				.Select(fname => m_dataSource.FieldMappings.SingleOrDefault(m => m.PaFieldName == fname))
 				.Where(oldMapping => oldMapping != null))
 			{

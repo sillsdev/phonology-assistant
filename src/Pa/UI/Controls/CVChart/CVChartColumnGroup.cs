@@ -29,6 +29,11 @@ namespace SIL.Pa.UI.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class CVChartColumnGroup : IDisposable
 	{
+		private const TextFormatFlags kHdrTextRenderingFlags =
+			TextFormatFlags.Bottom | TextFormatFlags.HorizontalCenter |
+			TextFormatFlags.HidePrefix | TextFormatFlags.WordBreak |
+			TextFormatFlags.WordEllipsis | TextFormatFlags.PreserveGraphicsClipping;
+		
 		private readonly CVChartGrid m_grid;
 		private readonly string m_headerText;
 
@@ -36,19 +41,11 @@ namespace SIL.Pa.UI.Controls
 		public DataGridViewTextBoxColumn RightColumn { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static CVChartColumnGroup Create(string headerText, CVChartGrid grid)
 		{
 			return new CVChartColumnGroup(headerText, grid);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private CVChartColumnGroup(string headerText, CVChartGrid grid)
 		{
@@ -77,20 +74,12 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
 			if (m_grid != null)
 				m_grid.CellPainting -= HandleCellPainting;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string Text
 		{
@@ -103,36 +92,44 @@ namespace SIL.Pa.UI.Controls
 		/// it is currently not displayed.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private Rectangle GroupRectangle
+		private Rectangle GetGroupRectangle()
 		{
-			get
+			var rc = m_grid.GetCellDisplayRectangle(LeftColumn.Index, -1, false);
+
+			var dx = rc.X;
+
+			if (rc != Rectangle.Empty)
 			{
-				var rc = m_grid.GetCellDisplayRectangle(LeftColumn.Index, -1, false);
-
-				var dx = rc.X;
-
-				if (rc != Rectangle.Empty)
-				{
-					if (rc.Width < LeftColumn.Width)
-						dx = m_grid.RowHeadersWidth - (LeftColumn.Width - rc.Width);
-				}
-				else
-				{
-					rc = m_grid.GetCellDisplayRectangle(RightColumn.Index, -1, false);
-					dx = (rc.Width == RightColumn.Width ?
-						rc.X : m_grid.RowHeadersWidth - (RightColumn.Width - rc.Width));
-					dx -= LeftColumn.Width;
-				}
-				
-				return (m_grid == null ? Rectangle.Empty :
-					new Rectangle(dx, 0, LeftColumn.Width + RightColumn.Width, m_grid.ColumnHeadersHeight));
+				if (rc.Width < LeftColumn.Width)
+					dx = m_grid.RowHeadersWidth - (LeftColumn.Width - rc.Width);
 			}
+			else
+			{
+				rc = m_grid.GetCellDisplayRectangle(RightColumn.Index, -1, false);
+				dx = (rc.Width == RightColumn.Width ?
+					rc.X : m_grid.RowHeadersWidth - (RightColumn.Width - rc.Width));
+				dx -= LeftColumn.Width;
+			}
+				
+			return (m_grid == null ? Rectangle.Empty :
+				new Rectangle(dx, 0, LeftColumn.Width + RightColumn.Width, m_grid.ColumnHeadersHeight));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public int GetPreferredHeaderHeight()
+		{
+			if (m_grid == null || !m_grid.IsHandleCreated)
+				return 0;
+
+			using (var g = m_grid.CreateGraphics())
+			{
+				var sz = new Size(LeftColumn.Width + RightColumn.Width, 0);
+
+				return TextRenderer.MeasureText(g, Text, FontHelper.UIFont,
+					sz, kHdrTextRenderingFlags).Height + 5;
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		private Color CurrentGroupColor
 		{
@@ -144,10 +141,6 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandleCellPainting(object sender, DataGridViewCellPaintingEventArgs e)
 		{
@@ -168,7 +161,7 @@ namespace SIL.Pa.UI.Controls
 			var rcRightColHdr = m_grid.GetCellDisplayRectangle(RightColumn.Index, -1, false);
 			if (e.ColumnIndex == RightColumn.Index || rcRightColHdr == Rectangle.Empty)
 			{
-				var rc = GroupRectangle;
+				var rc = GetGroupRectangle();
 
 				using (var br = new SolidBrush(m_grid.BackgroundColor))
 					e.Graphics.FillRectangle(br, rc);
@@ -182,13 +175,8 @@ namespace SIL.Pa.UI.Controls
 
 				rc.Height--;
 
-				const TextFormatFlags flags = TextFormatFlags.Bottom |
-					TextFormatFlags.HorizontalCenter | TextFormatFlags.HidePrefix |
-					TextFormatFlags.WordBreak | TextFormatFlags.WordEllipsis |
-					TextFormatFlags.PreserveGraphicsClipping;
-
 				TextRenderer.DrawText(e.Graphics, m_headerText, FontHelper.UIFont, rc,
-					SystemColors.WindowText, flags);
+					SystemColors.WindowText, kHdrTextRenderingFlags);
 
 				using (var pen = new Pen(m_grid.GridColor))
 					e.Graphics.DrawLine(pen, rc.Right - 1, rc.Y, rc.Right - 1, rc.Bottom);
@@ -214,10 +202,6 @@ namespace SIL.Pa.UI.Controls
 			e.Handled = true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void DrawDoubleLine(DataGridViewCellPaintingEventArgs e, Rectangle rc)
 		{

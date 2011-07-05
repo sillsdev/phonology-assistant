@@ -25,7 +25,7 @@ namespace SIL.Pa.UI.Controls
 			Font = FontHelper.UIFont;
 			RowHeadersVisible = false;
 			BorderStyle = BorderStyle.None;
-			App.SetGridSelectionColors(this, true);
+			AppColor.SetGridSelectionColors(this, true);
 			
 			Fonts = new Dictionary<string, Font>();
 			m_cellDropDown = new CellCustomDropDownList();
@@ -90,7 +90,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<FieldMapping> Mappings
 		{
-			get { return m_mappings.Where(m => m.Field != null); }
+			get { return m_mappings.Where(m => m.Field != null && m.Field.Name != null); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -149,6 +149,7 @@ namespace SIL.Pa.UI.Controls
 				var field = GetFieldAt(CurrentCellAddress.Y);
 				Fonts[field.Name] = (Font)m_fontPicker.Font.Clone();
 				UpdateCellValue(CurrentCellAddress.X, CurrentCellAddress.Y);
+				IsDirty = true;
 			}
 		}
 
@@ -196,6 +197,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				var valAsString = (e.Value as string ?? string.Empty);
 				PushFieldName(m_mappings[e.RowIndex], valAsString.Trim(), e.RowIndex);
+				IsDirty = true;
 			}
 
 			InvalidateRow(e.RowIndex);

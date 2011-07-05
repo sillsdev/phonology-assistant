@@ -123,6 +123,14 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 
+		/// --------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the list of suprasegmentals to ignore.
+		/// </summary>
+		/// --------------------------------------------------------------------------------------------
+		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public string SupraSegsToIgnore { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the collection of selected phones phone in the chart.
@@ -192,8 +200,8 @@ namespace SIL.Pa.UI.Controls
 						if (phone == null)
 							continue;
 
-						var sz = TextRenderer.MeasureText(g, phone, Font, Size.Empty,
-							TextFormatFlags.LeftAndRightPadding);
+						var sz = TextRenderer.MeasureText(g, phone,
+							Font, Size.Empty, TextFormatFlags.LeftAndRightPadding);
 						
 						width = Math.Max(width, sz.Width);
 						height = Math.Max(height, sz.Height);
@@ -201,11 +209,20 @@ namespace SIL.Pa.UI.Controls
 				}
 			}
 
-			foreach (var row in GetRows())
-				row.Height = height;
-
 			foreach (DataGridViewColumn col in Columns)
 				col.Width = width;
+
+			foreach (var row in GetRows())
+				row.Height = height;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void AdjustColumnHeaderHeight()
+		{
+			var newHeight = ColumnGroups.Aggregate(0, (curr, grp) =>
+				Math.Max(curr, grp.GetPreferredHeaderHeight()));
+
+			ColumnHeadersHeight = (newHeight > 10 ? newHeight : 17);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -340,6 +357,15 @@ namespace SIL.Pa.UI.Controls
 			base.OnCellLeave(e);
 			RefreshColumnHeaderPainting();
 			RefreshRowHeaderPainting();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnCellMouseDoubleClick(DataGridViewCellMouseEventArgs e)
+		{
+			base.OnCellMouseDoubleClick(e);
+
+			if (e.Button == MouseButtons.Left && !string.IsNullOrEmpty(CurrentPhone))
+				App.MsgMediator.SendMessage("ChartPhoneSearchAnywhere", null);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -1,23 +1,8 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2010, SIL International. All Rights Reserved.
-// <copyright from='2010' to='2010' company='SIL International'>
-//		Copyright (c) 2010, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
-// 
-// File: ViewTab.cs
-// Responsibility: D. Olson
-// 
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System;
 using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
+using SIL.Pa.Model;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -33,6 +18,7 @@ namespace SIL.Pa.UI.Controls
 		private UndockedViewWnd m_viewsForm;
 		private bool m_viewDocked;
 		private bool m_undockingInProgress;
+		private PaProject _project;
 
 		/// <summary>
 		/// This flag gets set when a view is undocking. Suppose view A is being undocked.
@@ -48,12 +34,14 @@ namespace SIL.Pa.UI.Controls
 		public Func<string> GetHelpToolTipAction { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		public ViewTab(ViewTabGroup owningTabControl, Image img, Type viewType)
+		public ViewTab(PaProject project, ViewTabGroup owningTabControl, Image img, Type viewType)
 		{
 			base.DoubleBuffered = true;
 			base.AutoSize = false;
 			base.AllowDrop = true;
 			base.Font = ViewTabGroup.s_tabFont;
+
+			_project = project;
 			OwningTabGroup = owningTabControl;
 			ViewType = viewType;
 			TabImage = img;
@@ -99,7 +87,9 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			// Create an instance of the view's form
-			View = (Control)ViewType.Assembly.CreateInstance(ViewType.FullName);
+			View = (Control)ViewType.Assembly.CreateInstance(ViewType.FullName, false,
+				BindingFlags.CreateInstance, null, new[] { _project }, null, null);
+			
 			App.MsgMediator.SendMessage("BeginViewOpen", View);
 			View.Dock = DockStyle.Fill;
 
@@ -202,7 +192,7 @@ namespace SIL.Pa.UI.Controls
 				OwningTabGroup.Controls.Remove(View);
 
 			// Prepare the undocked view's form to host the view and be displayed.
-			m_viewsForm = new UndockedViewWnd(View);
+			m_viewsForm = new UndockedViewWnd(_project, View);
 			m_viewsForm.FormClosing += m_viewsForm_FormClosing;
 			m_viewsForm.FormClosed += m_viewsForm_FormClosed;
 			m_viewsForm.Activated += m_viewsForm_Activated;
@@ -286,8 +276,9 @@ namespace SIL.Pa.UI.Controls
 		/// Closes and reopens the view's form.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void RefreshView()
+		public void RefreshView(PaProject project)
 		{
+			_project = project;
 			CloseView();
 			OpenView();
 		}
@@ -470,18 +461,20 @@ namespace SIL.Pa.UI.Controls
 			var rc = ClientRectangle;
 
 			// First, fill the entire background with the control color.
-			g.FillRectangle(SystemBrushes.Control, rc);
-
-			var pts = new[] {new Point(0, rc.Bottom), new Point(0, rc.Top + 3),
-				new Point(3, 0), new Point(rc.Right - 4, 0), new Point(rc.Right - 1, rc.Top + 3),
-				new Point(rc.Right - 1, rc.Bottom)};
+			using (var br = new SolidBrush(AppColor.ViewTabGroupBackground))
+				g.FillRectangle(br, rc);
 
 			if (m_selected)
 			{
+				var pts = new[] {new Point(0, rc.Bottom), new Point(0, rc.Top + 3),
+					new Point(3, 0), new Point(rc.Right - 4, 0), new Point(rc.Right - 1, rc.Top + 3),
+					new Point(rc.Right - 1, rc.Bottom)};
+
 				using (var br = new SolidBrush(Color.White))
 					g.FillPolygon(br, pts);
 
-				g.DrawLines(SystemPens.ControlDark, pts);
+				using (var pen = new Pen(AppColor.ViewTabBackgroundActiveBorder))
+					g.DrawLines(pen, pts);
 			}
 			else
 			{
@@ -532,9 +525,8 @@ namespace SIL.Pa.UI.Controls
 				TextFormatFlags.SingleLine | TextFormatFlags.NoPadding |
 				TextFormatFlags.HidePrefix | TextFormatFlags.PreserveGraphicsClipping;
 
-			var clrText = (m_selected ? Color.Black :
-				ColorHelper.CalculateColor(SystemColors.ControlText,
-				SystemColors.Control, 145));
+			var clrText = (m_selected ? AppColor.ViewTabForegroundActive :
+				AppColor.ViewTabForegroundInactive);
 			
 			var rc = ClientRectangle;
 
@@ -568,11 +560,8 @@ namespace SIL.Pa.UI.Controls
 
 			var rc = ClientRectangle;
 
-			var clr = (PaintingHelper.CanPaintVisualStyle() ?
-				VisualStyleInformation.ControlHighlightHot : SystemColors.Highlight);
-
 			// Draw the lines that only show when the mouse is over the tab.
-			using (Pen pen = new Pen(clr))
+			using (Pen pen = new Pen(AppColor.ViewTabMouseHoverLine))
 			{
 				if (m_selected)
 				{

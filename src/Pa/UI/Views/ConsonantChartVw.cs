@@ -1,5 +1,4 @@
 using System.Drawing;
-using System.IO;
 using SIL.Pa.Model;
 using SIL.Pa.Processing;
 using SIL.Pa.Properties;
@@ -11,14 +10,11 @@ namespace SIL.Pa.UI.Views
 	public partial class ConsonantChartVw : ChartVwBase
 	{
 		/// ------------------------------------------------------------------------------------
-		public ConsonantChartVw()
+		public ConsonantChartVw(PaProject project) : base(project)
 		{
-			try
-			{
-				File.Delete(App.Project.ProjectPathFilePrefix + "HtmlVwConsonantChart.html");
-			}
-			catch { }
-			
+			DeleteHtmlChartFile("HtmlVwConsonantChart");
+			_newChartGrid.SupraSegsToIgnore = project.ConChartSupraSegsToIgnore;
+
 			InitializeComponent();
 			Name = "ConsonantChartVw";
 		}
@@ -26,11 +22,19 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(System.EventArgs e)
 		{
-			Settings.Default.ConsonantChartColHdrHeight = m_chartGrid.ColumnHeadersHeight;
-			Settings.Default.ConsonantChartRowHdrWidth = m_chartGrid.RowHeadersWidth;
-			Settings.Default.HtmlConsonantChartVisible = m_htmlVw.Visible;
+			Settings.Default.ConsonantChartColHdrHeight = _newChartGrid.ColumnHeadersHeight;
+			Settings.Default.ConsonantChartRowHdrWidth = _newChartGrid.RowHeadersWidth;
+			Settings.Default.HtmlConsonantChartVisible = _htmlVw.Visible;
 			
 			base.OnHandleDestroyed(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void SaveIgnoredSuprasegmentals(string ignoredSegments)
+		{
+			_project.ConChartSupraSegsToIgnore = ignoredSegments;
+			DeleteHtmlChartFile("HtmlVwConsonantChart");
+			CVChartBuilder.Process(_project, CVChartType.Consonant);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -43,6 +47,7 @@ namespace SIL.Pa.UI.Views
 		protected override bool ShowHtmlChartWhenViewLoaded
 		{
 			get { return Settings.Default.HtmlConsonantChartVisible; }
+			set { Settings.Default.HtmlConsonantChartVisible = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -90,7 +95,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override string LayoutFile
 		{
-			get { return App.Project.ProjectPathFilePrefix + "ConsonantChartBeta.xml"; }
+			get { return _project.ProjectPathFilePrefix + "ConsonantChartBeta.xml"; }
 		}
 
 		/// --------------------------------------------------------------------------------------------
@@ -126,9 +131,9 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override string CreateHtmlViewFile()
 		{
-			var outputFile = App.Project.ProjectPathFilePrefix + "HtmlVwConsonantChart.html";
-			return (CVChartExporter.ToHtml(App.Project, CVChartType.Consonant, outputFile,
-				m_chartGrid, false, false) ? outputFile : string.Empty);
+			var outputFile = _project.ProjectPathFilePrefix + "HtmlVwConsonantChart.html";
+			return (CVChartExporter.ToHtml(_project, CVChartType.Consonant, outputFile,
+				_newChartGrid, false, false) ? outputFile : string.Empty);
 		}
 	}
 }

@@ -6,7 +6,6 @@ using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
-using SIL.Pa.UI.Controls;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
@@ -15,8 +14,6 @@ namespace SIL.Pa.UI.Dialogs
 	public partial class FeaturesDlg : OKCancelDlgBase
 	{
 		private readonly PaProject m_project;
-		private FeatureListView m_lvAFeatures;
-		private FeatureListView m_lvBFeatures;
 		private ToolTip m_phoneToolTip;
 		private List<IPhoneInfo> m_phones;
 
@@ -29,9 +26,7 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 
 			DoubleBuffered = true;
-			tabFeatures.Font = FontHelper.UIFont;
 			pgpPhoneList.Font = FontHelper.UIFont;
-			lblAFeatures.Font = new Font(FontHelper.UIFont, FontStyle.Bold);
 			m_phoneToolTip = new ToolTip();
 			pgpPhoneList.BorderStyle = BorderStyle.None;
 			pgpPhoneList.DrawOnlyBottomBorder = true;
@@ -42,7 +37,6 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			m_project = project;
 
-			SetupFeatureLists();
 			BuildPhoneGrid();
 			LoadPhoneGrid();
 
@@ -61,43 +55,10 @@ namespace SIL.Pa.UI.Dialogs
 					m_phoneToolTip = null;
 				}
 
-				if (m_lvAFeatures != null && !m_lvAFeatures.IsDisposed)
-				{
-					m_lvAFeatures.Dispose();
-					m_lvAFeatures = null;
-				}
-
-				if (m_lvBFeatures != null && !m_lvBFeatures.IsDisposed)
-				{
-					m_lvBFeatures.Dispose();
-					m_lvBFeatures = null;
-				}
-
 				components.Dispose();
 			}
 
 			base.Dispose(disposing);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void SetupFeatureLists()
-		{
-			m_lvAFeatures = new FeatureListView(App.FeatureType.Articulatory);
-			m_lvAFeatures.Dock = DockStyle.Fill;
-			m_lvAFeatures.Load();
-			tpgAFeatures.Controls.Add(m_lvAFeatures);
-			m_lvAFeatures.BringToFront();
-
-			m_lvAFeatures.FeatureChanged += HandleArticulatoryFeatureCheckChanged;
-
-			m_lvBFeatures = new FeatureListView(App.FeatureType.Binary);
-			m_lvBFeatures.Dock = DockStyle.Fill;
-			m_lvBFeatures.Load();
-			tpgBFeatures.Controls.Add(m_lvBFeatures);
-			m_lvBFeatures.BringToFront();
-
-			m_lvAFeatures.BorderStyle = BorderStyle.None;
-			m_lvBFeatures.BorderStyle = BorderStyle.None;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -203,19 +164,11 @@ namespace SIL.Pa.UI.Dialogs
 
 		#region Overridden methods of base class
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override bool IsDirty
 		{
 			get { return base.IsDirty || DidPhoneFeaturesChanged; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
@@ -225,20 +178,16 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
 			base.SaveChanges();
 			
-			FeatureOverrides featureOverrideList = new FeatureOverrides();
+			var featureOverrideList = new FeatureOverrides();
 
 			foreach (var pi in m_phones)
 			{
 				// Get the phone from the grid.
-				PhoneInfo phoneInfo = pi as PhoneInfo;
+				var phoneInfo = pi as PhoneInfo;
 				if (phoneInfo == null)
 					continue;
 
@@ -250,19 +199,15 @@ namespace SIL.Pa.UI.Dialogs
 			}
 
 			App.MsgMediator.SendMessage("BeforePhoneFeatureOverridesSaved", featureOverrideList);
-			featureOverrideList.Save(App.Project.ProjectPathFilePrefix);
+			featureOverrideList.Save(m_project.ProjectPathFilePrefix);
 			App.MsgMediator.SendMessage("AfterPhoneFeatureOverridesSaved", featureOverrideList);
-			App.Project.ReloadDataSources();
+			m_project.ReloadDataSources();
 			return true;
 		}
 
 		#endregion
 
 		#region Grid event handlers
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		void HandlePhoneGridCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
@@ -328,10 +273,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandlePhoneGridRowEnter(object sender, DataGridViewCellEventArgs e)
 		{
-			var phoneInfo = m_phones[e.RowIndex];
-			m_lvAFeatures.CurrentMask = phoneInfo.AMask;
-			m_lvBFeatures.CurrentMask = phoneInfo.BMask;
-			lblAFeatures.Text = m_lvAFeatures.FormattedFeaturesString;
+			_featuresTab.SetCurrentInfo(m_phones[e.RowIndex] as IFeatureBearer);
 		}
 
 		#endregion
@@ -343,38 +285,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (i < 0 || i >= m_phones.Count)
 				return;
 
-			if (tabFeatures.SelectedTab == tpgAFeatures)
-			{
-				((PhoneInfo)m_phones[i]).ResetAFeatures();
-				m_lvAFeatures.CurrentMask = m_phones[i].AMask;
-				lblAFeatures.Text = m_lvAFeatures.FormattedFeaturesString;
-			}
-			else if (tabFeatures.SelectedTab == tpgBFeatures)
-			{
-				((PhoneInfo)m_phones[i]).ResetBFeatures();
-				m_lvBFeatures.CurrentMask = m_phones[i].BMask;
-			}
-		}
-		
-		/// ------------------------------------------------------------------------------------
-		private void HandleArticulatoryFeatureCheckChanged(object sender, FeatureMask newMask)
-		{
-			lblAFeatures.Text = m_lvAFeatures.FormattedFeaturesString;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void HandleTableLayoutPaint(object sender, PaintEventArgs e)
-		{
-			var rc = ((Control)sender).ClientRectangle;
-			e.Graphics.DrawLine(SystemPens.GrayText, rc.X, rc.Bottom - 6,
-				rc.Right - 1, rc.Bottom - 6);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void tabFeatures_SizeChanged(object sender, EventArgs e)
-		{
-			// There's a painting bug that manifests itself when tab control's change sizes.
-			tabFeatures.Invalidate();
+			_featuresTab.Reset();
 		}
 	}
 }

@@ -23,7 +23,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public Fw6FieldMappingGrid(PaDataSource ds, IEnumerable<PaField> projectFields) : this(ds)
 		{
-			var mappableFields = Settings.Default.MappableFw6Fields.Cast<string>();
+			var mappableFields = Settings.Default.Fw6FieldsMappableInPropsDlg.Cast<string>();
 			m_potentialFields = projectFields.Where(f => mappableFields.Contains(f.Name));
 
 			m_mappings = (from fname in mappableFields

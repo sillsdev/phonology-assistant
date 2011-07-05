@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using SIL.Pa.Model;
 
@@ -56,19 +57,11 @@ namespace SIL.Pa.PhoneticSearching
 
 		#region Constructors
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public PatternGroup(EnvironmentType envType) : this(envType, null)
 		{
 			m_rootGroup = this;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private PatternGroup(EnvironmentType envType,  PatternGroup rootGroup)
 		{
@@ -170,10 +163,6 @@ namespace SIL.Pa.PhoneticSearching
 			return Parse(pattern, null);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool Parse(string pattern, List<string> errors)
 		{
@@ -291,7 +280,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			for (int i = 0; i < group.Members.Count; i++)
 			{
-				PatternGroup subGroup = group.Members[i] as PatternGroup;
+				var subGroup = group.Members[i] as PatternGroup;
 
 				if (subGroup != null && subGroup.GroupType == GroupType.Sequential)
 				{
@@ -992,12 +981,49 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			string tmpPattern = pattern.ToLower();
 
-			foreach (KeyValuePair<string, Feature> info in App.AFeatureCache)
+			foreach (string feature in App.AFeatureCache.Select(info => "[" + info.Value.Name.ToLower()))
 			{
-				string feature = "[" + info.Value.Name.ToLower();
-				if (!CommaDelimitBracketedMember(feature, tmpPattern, ref modifiedPtrn))
+				if (!DelimitArticulatoryFeature(feature, tmpPattern, ref modifiedPtrn))
 					return;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool DelimitArticulatoryFeature(string feature, string pattern,
+			ref StringBuilder modifiedPtrn)
+		{
+			int i = 0;
+
+			while ((i = pattern.IndexOf(feature, i, System.StringComparison.Ordinal)) >= 0)
+			{
+				int closeIndex = i;
+
+				// Once we find what we're looking for, step through the following 
+				// characters looking for the end of the feature.
+				while (closeIndex < pattern.Length && pattern[closeIndex] != ']')
+				{
+					if (modifiedPtrn[closeIndex] == '(')
+						modifiedPtrn[closeIndex] = '\u00AB';
+
+					if (modifiedPtrn[closeIndex] == ')')
+						modifiedPtrn[closeIndex] = '\u00BB';
+
+					closeIndex++;
+				}
+
+				// We had better find the close bracket for the member.
+				if (closeIndex == pattern.Length)
+				{
+					LogError(GetErrorMsg("MismatchedBracketsErrorMsg"));
+					return false;
+				}
+
+				modifiedPtrn[closeIndex] = '$';
+				modifiedPtrn[i] = '%';
+				i++;
+			}
+
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1073,12 +1099,9 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			// Because diacritic placeholder groups don't count as pattern groups,
 			// take them out before trying to determine the root group type.
-			StringBuilder modifiedPattern = new StringBuilder();
-			for (int i = 0; i < pattern.Length; i++)
-			{
-				if (pattern[i] >= 32)
-					modifiedPattern.Append(pattern[i]);
-			}
+			var modifiedPattern = new StringBuilder();
+			foreach (var chr in pattern.Where(c => c >= 32))
+				modifiedPattern.Append(chr);
 
 			pattern = modifiedPattern.ToString();
 
