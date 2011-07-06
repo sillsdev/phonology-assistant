@@ -27,42 +27,66 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		public static bool SuppressMsgBoxInteractions { get; set; }
 
-		#region Windows 32 stuff
-		/// <summary></summary>
+		#region OS-specific stuff
 		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
 		public struct RECT
 		{
-			/// <summary></summary>
 			public int left;
-			/// <summary></summary>
 			public int top;
-			/// <summary></summary>
 			public int right;
-			/// <summary></summary>
 			public int bottom;
 		}
 
-		// FIXME Linux - Windows libraries not available
-//		[DllImport("user32")]
-//		public static extern int UpdateWindow(IntPtr hwnd);
-		public static int UpdateWindow(IntPtr hwnd) { return 0; }
+#if !__MonoCS__
+		[DllImport("user32")]
+		public static extern int UpdateWindow(IntPtr hwnd);
+#else
+		public static int UpdateWindow(IntPtr hwnd) { return(0); } // FIXME Linux
+#endif
 
+#if !__MonoCS__
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern int FindWindowEx(IntPtr hWnd, int hwndChildAfter,
 			string windowClass, string windowName);
+#else
+		public static int FindWindowEx(IntPtr hWnd, int hwndChildAfter,
+			string windowClass, string windowName) { return(0); } // FIXME Linux
+#endif
 
-		/// <summary></summary>
+#if !__MonoCS__
 		[DllImport("User32.dll")]
 		public extern static bool GetWindowRect(IntPtr hWnd, out RECT rect);
+#else
+		public static bool GetWindowRect(IntPtr hWnd, out RECT rect) // FIXME Linux
+		{
+			rect.left = 0;
+			rect.right = 0;
+			rect.top = 0;
+			rect.bottom = 0;
+			return(false);
+		}
+#endif
 
+#if !__MonoCS__
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern void SendMessage(IntPtr hWnd, int msg, int wParam, int lParam);
+#else
+		public static void SendMessage(IntPtr hWnd, int msg, int wParam, int lParam) { return; } // FIXME Linux
+#endif
 
+#if !__MonoCS__
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern bool PostMessage(int hWnd, uint msg, int wParam, int lParam);
+#else
+		public static bool PostMessage(int hWnd, uint msg, int wParam, int lParam) { return(false); } // FIXME Linux
+#endif
 
+#if !__MonoCS__
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern uint RegisterWindowMessage(string msgName);
+#else
+		public static uint RegisterWindowMessage(string msgName) { return(0); } // FIXME Linux
+#endif
 
 		private const int WM_SETREDRAW = 0xB;
 		public const int HWND_BROADCAST = 0xFFFF;
@@ -104,8 +128,12 @@ namespace SilTools
 		/// <param name="ms">Pointer to a <see cref="MemoryStatus"/>  structure. The 
 		/// <c>GlobalMemoryStatus</c> function stores information about current memory 
 		/// availability into this structure.</param>
+#if !__MonoCS__
 		[DllImport("Kernel32.dll", CharSet = CharSet.Auto)]
 		extern public static void GlobalMemoryStatus(ref MemoryStatus ms);
+#else
+		public static void GlobalMemoryStatus(ref MemoryStatus ms) { return; } // FIXME Linux
+#endif
 
 		#endregion
 
@@ -672,7 +700,7 @@ namespace SilTools
 		{
 			if (ctrl != null && !ctrl.IsDisposed && ctrl.IsHandleCreated)
 			{
-#if !MONO
+#if !__MonoCS__
 				SendMessage(ctrl.Handle, WM_SETREDRAW, (turnOn ? 1 : 0), 0);
 #else
 				if (turnOn)

@@ -26,15 +26,27 @@ namespace SilTools
 	/// ----------------------------------------------------------------------------------------
 	public class PaintingHelper
 	{
-		#region Windows API imported methods
+		#region OS-specific stuff
+#if !__MonoCS__
 		[DllImport("User32.dll")]
 		extern static public IntPtr GetWindowDC(IntPtr hwnd);
+#else
+		static public IntPtr GetWindowDC(IntPtr hwnd) { return (IntPtr.Zero); } // FIXME Linux
+#endif
 
+#if !__MonoCS__
 		[DllImport("User32.dll")]
 		extern static public int ReleaseDC(IntPtr hwnd, IntPtr hdc);
+#else
+		static public int ReleaseDC(IntPtr hwnd, IntPtr hdc) { return(-1); } // FIXME Linux
+#endif
 
+#if !__MonoCS__
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern IntPtr GetParent(IntPtr hWnd);
+#else
+		public static IntPtr GetParent(IntPtr hWnd) { return(IntPtr.Zero); } // FIXME Linux
+#endif
 
 		#endregion
 
@@ -59,18 +71,16 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		public static void DrawCustomBorder(Control ctrl, Color clrBorder)
 		{
-// FIXME Linux - make this work in Linux too
-#if !__MonoCS__
 			IntPtr hdc = GetWindowDC(ctrl.Handle);
 
-			using (Graphics g = Graphics.FromHdc(hdc))
-			{
-				Rectangle rc = new Rectangle(0, 0, ctrl.Width, ctrl.Height);
-				ControlPaint.DrawBorder(g, rc, clrBorder, ButtonBorderStyle.Solid);
+			if (hdc != IntPtr.Zero) {
+				using (Graphics g = Graphics.FromHdc(hdc))
+				{
+					Rectangle rc = new Rectangle(0, 0, ctrl.Width, ctrl.Height);
+					ControlPaint.DrawBorder(g, rc, clrBorder, ButtonBorderStyle.Solid);
+				}
+				ReleaseDC(ctrl.Handle, hdc);
 			}
-
-			ReleaseDC(ctrl.Handle, hdc);
-#endif
 		}
 
 		/// ------------------------------------------------------------------------------------

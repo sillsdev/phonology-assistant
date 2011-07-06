@@ -12,9 +12,14 @@ namespace SilTools
 	/// ----------------------------------------------------------------------------------------
 	public class NoActivateWnd : Form
 	{
+#if !__MonoCS__
 		[DllImport("user32.dll")]
 		private extern static bool SetWindowPos(IntPtr hWnd,
 		  IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, int flags);
+#else
+		private static bool SetWindowPos(IntPtr hWnd,
+		  IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, int flags) { return(false); } // FIXME Linux
+#endif
 
 		private const int HWND_TOPMOST = -1; // 0xffff 
 		private const int SWP_NOSIZE = 1; // 0x0001 

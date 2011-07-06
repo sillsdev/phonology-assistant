@@ -138,32 +138,42 @@ namespace SIL.Pa.UI.Controls
 
 		#endregion
 		
-	#region Win32 Imports
-		// ************************************************************************
-		// Win32: SetWindowsHookEx()
+		#region OS-specific stuff
+#if !__MonoCS__
 		[DllImport("user32.dll")]
 		protected static extern IntPtr SetWindowsHookEx(HookType code, 
 			HookProc func,
 			IntPtr hInstance,
 			int threadID);
-		// ************************************************************************
+#else
+		protected static IntPtr SetWindowsHookEx(HookType code, 
+			HookProc func,
+			IntPtr hInstance,
+			int threadID) { return(IntPtr.Zero); } // FIXME Linux
+#endif
 
-		// ************************************************************************
-		// Win32: UnhookWindowsHookEx()
+#if !__MonoCS__
 		[DllImport("user32.dll")]
 		protected static extern int UnhookWindowsHookEx(IntPtr hhook); 
-		// ************************************************************************
+#else
+		protected static int UnhookWindowsHookEx(IntPtr hhook) { return(0); } // FIXME Linux
+#endif
 
-		// ************************************************************************
-		// Win32: CallNextHookEx()
+#if !__MonoCS__
 		[DllImport("user32.dll")]
 		protected static extern int CallNextHookEx(IntPtr hhook, 
 			int code, IntPtr wParam, IntPtr lParam);
-		// ************************************************************************
-
+#else
+		protected static int CallNextHookEx(IntPtr hhook, 
+			int code, IntPtr wParam, IntPtr lParam) { return(0); } // FIXME Linux
+#endif
+	
+#if !__MonoCS__
 		[DllImport("kernel32.dll")]
 		public static extern int GetCurrentThreadId();
+#else
+		public static int GetCurrentThreadId() { return(0); } // FIXME Linux
+#endif
 	}
-
-	#endregion
+		#endregion
 }
