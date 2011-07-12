@@ -74,7 +74,13 @@ namespace SIL.PaToFdoInterfaces
 			{
 				if (s_fwInstallPath == null)
 				{
-					RegistryKey regkey = Registry.LocalMachine.OpenSubKey(s_regKeyPath);
+					RegistryKey regkey = null;
+					try // exception on Linux because registry key tree does not exist
+					{
+						// FIXME Linux - allow working with FieldWorks for Linux
+						regkey = Registry.LocalMachine.OpenSubKey(s_regKeyPath);
+					}
+					catch (System.Security.SecurityException) {}
 					if (regkey != null)
 						s_fwInstallPath = regkey.GetValue("RootCodeDir", null) as string;
 

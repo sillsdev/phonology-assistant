@@ -162,12 +162,17 @@ namespace SIL.Pa.UI.Controls
 			string key = FwDBAccessInfo.FwRegKey;
 			if (string.IsNullOrEmpty(key))
 				return null;
-
-			using (var regKey = Registry.LocalMachine.OpenSubKey(key))
+			
+			try // exception on Linux because registry key tree does not exist
 			{
-				if (regKey != null)
-					return regKey.GetValue(FwDBAccessInfo.RootDataDirValue, null) as string;
+				// FIXME Linux - allow working with FieldWorks for Linux
+				using (var regKey = Registry.LocalMachine.OpenSubKey(key))
+				{
+					if (regKey != null)
+						return regKey.GetValue(FwDBAccessInfo.RootDataDirValue, null) as string;
+				}
 			}
+			catch (System.Security.SecurityException) {}
 
 			return null;
 		}
