@@ -47,6 +47,18 @@ namespace SIL.Pa.DataSource
 			{
 				CheckExistenceOfFwDatabase(ds);
 			}
+			else if (ds.Type == DataSourceType.FW7)
+			{
+				if (!FwDBUtils.IsFw7Installed)
+				{
+					var msg = App.GetString("FieldWorks7NotInstalledMsg",
+						"FieldWorks 7.0 (or later) is not installed. It must be installed\nin order for {0} to read the data source\n\n'{1}'.\n\nThis data source will be skipped.");
+
+					Utils.MsgBox(string.Format(msg, Application.ProductName, ds.SourceFile));
+					ds.SkipLoadingBecauseOfProblem = true;
+					return;
+				}
+			}
 			else if (!File.Exists(ds.SourceFile))
 			{
 				string newPath = GetMissingDataSourceAction(ds.SourceFile);
@@ -62,16 +74,6 @@ namespace SIL.Pa.DataSource
 
 			if (ds.SkipLoadingBecauseOfProblem)
 				return;
-
-			if (ds.Type == DataSourceType.FW7 && !FwDBUtils.IsFw7Installed)
-			{
-				var msg = App.GetString("FieldWorks7NotInstalledMsg",
-				    "FieldWorks 7.0 (or later) is not installed. It must be installed\nin order for {0} to read the data source\n\n'{1}'.\n\nThis data source will be skipped.");
-
-				Utils.MsgBox(string.Format(msg, Application.ProductName, ds.SourceFile));
-				ds.SkipLoadingBecauseOfProblem = true;
-				return;
-			}
 
 			if (ds.Type != DataSourceType.XML && ds.Type != DataSourceType.Unknown)
 				m_dataSources.Add(ds);
