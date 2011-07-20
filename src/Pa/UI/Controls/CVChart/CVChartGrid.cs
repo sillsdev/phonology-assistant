@@ -206,14 +206,15 @@ namespace SIL.Pa.UI.Controls
 
 			foreach (var row in GetRows())
 				row.Height = height;
-
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void AdjustColumnHeaderHeight()
 		{
-			ColumnHeadersHeight = ColumnGroups.Aggregate(0, (curr, grp) =>
+			var newHeight = ColumnGroups.Aggregate(0, (curr, grp) =>
 				Math.Max(curr, grp.GetPreferredHeaderHeight()));
+
+			ColumnHeadersHeight = (newHeight > 10 ? newHeight : 17);
 		}
 
 		/// ------------------------------------------------------------------------------------

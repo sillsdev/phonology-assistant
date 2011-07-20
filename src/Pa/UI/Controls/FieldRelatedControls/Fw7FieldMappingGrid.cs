@@ -135,7 +135,7 @@ namespace SIL.Pa.UI.Controls
 				UpdateCellValue(Columns["fwws"].Index, e.RowIndex);
 			}
 
-			base.OnCellValueNeeded(e);
+			base.OnCellValuePushed(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
