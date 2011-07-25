@@ -349,7 +349,9 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnActivated(EventArgs e)
 		{
-			Utils.UpdateWindow(Handle);
+			if (Environment.OSVersion.Platform != PlatformID.Unix && Environment.OSVersion.Platform != PlatformID.MacOSX) {
+				Utils.UpdateWindow(Handle);
+			}
 			base.OnActivated(e);
 		}
 

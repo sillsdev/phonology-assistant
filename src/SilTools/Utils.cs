@@ -41,7 +41,11 @@ namespace SilTools
 		[DllImport("user32")]
 		public static extern int UpdateWindow(IntPtr hwnd);
 #else
-		public static int UpdateWindow(IntPtr hwnd) { return(0); } // FIXME Linux
+		public static int UpdateWindow(IntPtr hwnd)
+		{
+			Console.WriteLine("Warning--using unimplemented method UpdateWindow"); // FIXME Linux
+			return(0);
+		}
 #endif
 
 #if !__MonoCS__
@@ -50,15 +54,20 @@ namespace SilTools
 			string windowClass, string windowName);
 #else
 		public static int FindWindowEx(IntPtr hWnd, int hwndChildAfter,
-			string windowClass, string windowName) { return(0); } // FIXME Linux
+			string windowClass, string windowName)
+		{
+			Console.WriteLine("Warning--using unimplemented method FindWindowEx"); // FIXME Linux
+			return(0);
+		}
 #endif
 
 #if !__MonoCS__
 		[DllImport("User32.dll")]
 		public extern static bool GetWindowRect(IntPtr hWnd, out RECT rect);
 #else
-		public static bool GetWindowRect(IntPtr hWnd, out RECT rect) // FIXME Linux
+		public static bool GetWindowRect(IntPtr hWnd, out RECT rect)
 		{
+			Console.WriteLine("Warning--using unimplemented method GetWindowRect"); // FIXME Linux
 			rect.left = 0;
 			rect.right = 0;
 			rect.top = 0;
@@ -71,21 +80,35 @@ namespace SilTools
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern void SendMessage(IntPtr hWnd, int msg, int wParam, int lParam);
 #else
-		public static void SendMessage(IntPtr hWnd, int msg, int wParam, int lParam) { return; } // FIXME Linux
+		public static void SendMessage(IntPtr hWnd, int msg, int wParam, int lParam)
+		{
+			if(msg != PaintingHelper.WM_NCPAINT) { // repaint
+				Console.WriteLine("Warning--using unimplemented method SendMessage"); // FIXME Linux
+			}
+			return;
+		}
 #endif
 
 #if !__MonoCS__
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern bool PostMessage(int hWnd, uint msg, int wParam, int lParam);
 #else
-		public static bool PostMessage(int hWnd, uint msg, int wParam, int lParam) { return(false); } // FIXME Linux
+		public static bool PostMessage(int hWnd, uint msg, int wParam, int lParam)
+		{
+			Console.WriteLine("Warning--using unimplemented method PostMessage"); // FIXME Linux
+			return(false);
+		}
 #endif
 
 #if !__MonoCS__
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern uint RegisterWindowMessage(string msgName);
 #else
-		public static uint RegisterWindowMessage(string msgName) { return(0); } // FIXME Linux
+		public static uint RegisterWindowMessage(string msgName)
+		{
+			Console.WriteLine("Warning--using unimplemented method RegisterWindowMessage"); // FIXME Linux
+			return(0);
+		}
 #endif
 
 		private const int WM_SETREDRAW = 0xB;
@@ -132,7 +155,11 @@ namespace SilTools
 		[DllImport("Kernel32.dll", CharSet = CharSet.Auto)]
 		extern public static void GlobalMemoryStatus(ref MemoryStatus ms);
 #else
-		public static void GlobalMemoryStatus(ref MemoryStatus ms) { return; } // FIXME Linux
+		public static void GlobalMemoryStatus(ref MemoryStatus ms)
+		{
+			Console.WriteLine("Warning--using unimplemented method GlobalMemoryStatus"); // FIXME Linux
+			return;
+		}
 #endif
 
 		#endregion

@@ -189,7 +189,11 @@ namespace SilTools
 		[DllImport("User32.dll", CharSet=CharSet.Auto)]
 		public static extern bool PostMessage(IntPtr hWnd, int Msg, uint wParam, uint lParam);
 #else
-		public static bool PostMessage(IntPtr hWnd, int Msg, uint wParam, uint lParam) { return(false); } // FIXME Linux
+		public static bool PostMessage(IntPtr hWnd, int Msg, uint wParam, uint lParam)
+		{
+			Console.WriteLine("Warning--using unimplemented method PostMessage"); // FIXME Linux
+			return(false);
+		}
 #endif
 		private Queue<QueueItem> m_jobs = new Queue<QueueItem>();	// queue to contain the defered broadcasts
 		private Queue<QueueItem> m_pendingjobs = new Queue<QueueItem>(); // queue to contain the broadcasts until we have a main window

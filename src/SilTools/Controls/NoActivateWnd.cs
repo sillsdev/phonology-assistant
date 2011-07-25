@@ -18,7 +18,11 @@ namespace SilTools
 		  IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, int flags);
 #else
 		private static bool SetWindowPos(IntPtr hWnd,
-		  IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, int flags) { return(false); } // FIXME Linux
+		  IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, int flags)
+		{
+			Console.WriteLine("Warning--using unimplemented method SetWindowPos"); // FIXME Linux
+			return(false);
+		}
 #endif
 
 		private const int HWND_TOPMOST = -1; // 0xffff 

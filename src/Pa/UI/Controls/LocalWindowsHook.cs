@@ -149,14 +149,22 @@ namespace SIL.Pa.UI.Controls
 		protected static IntPtr SetWindowsHookEx(HookType code, 
 			HookProc func,
 			IntPtr hInstance,
-			int threadID) { return(IntPtr.Zero); } // FIXME Linux
+			int threadID)
+		{
+			Console.WriteLine("Warning--using unimplemented method SetWindowsHookEx"); // FIXME Linux
+			return(IntPtr.Zero);
+		}
 #endif
 
 #if !__MonoCS__
 		[DllImport("user32.dll")]
 		protected static extern int UnhookWindowsHookEx(IntPtr hhook); 
 #else
-		protected static int UnhookWindowsHookEx(IntPtr hhook) { return(0); } // FIXME Linux
+		protected static int UnhookWindowsHookEx(IntPtr hhook)
+		{
+			Console.WriteLine("Warning--using unimplemented method UnhookWindowsHookEx"); // FIXME Linux
+			return(0);
+		}
 #endif
 
 #if !__MonoCS__
@@ -165,14 +173,22 @@ namespace SIL.Pa.UI.Controls
 			int code, IntPtr wParam, IntPtr lParam);
 #else
 		protected static int CallNextHookEx(IntPtr hhook, 
-			int code, IntPtr wParam, IntPtr lParam) { return(0); } // FIXME Linux
+			int code, IntPtr wParam, IntPtr lParam)
+		{
+			Console.WriteLine("Warning--using unimplemented method CallNextHookEx"); // FIXME Linux
+			return(0);
+		}
 #endif
 	
 #if !__MonoCS__
 		[DllImport("kernel32.dll")]
 		public static extern int GetCurrentThreadId();
 #else
-		public static int GetCurrentThreadId() { return(0); } // FIXME Linux
+		public static int GetCurrentThreadId()
+		{
+			Console.WriteLine("Warning--using unimplemented method GetCurrentThreadId"); // FIXME Linux
+			return(0);
+		}
 #endif
 	}
 		#endregion

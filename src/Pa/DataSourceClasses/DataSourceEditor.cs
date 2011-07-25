@@ -53,7 +53,11 @@ namespace SIL.Pa.DataSource
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		private static extern int ShowWindow(IntPtr hwnd, int nCmdShow);
 #else
-		private static int ShowWindow(IntPtr hwnd, int nCmdShow) { return(0); } // FIXME Linux
+		private static int ShowWindow(IntPtr hwnd, int nCmdShow)
+		{
+			Console.WriteLine("Warning--using unimplemented method ShowWindow"); // FIXME Linux
+			return(0);
+		}
 #endif
 		
 #if !__MonoCS__
@@ -61,7 +65,11 @@ namespace SIL.Pa.DataSource
 		[return: MarshalAs(UnmanagedType.Bool)]
 		private static extern bool GetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
 #else
-		private static bool GetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl) { return(false); } // FIXME Linux
+		private static bool GetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl)
+		{
+			Console.WriteLine("Warning--using unimplemented method GetWindowPlacement"); // FIXME Linux
+			return(false);
+		}
 #endif
 
 		#endregion
