@@ -144,12 +144,12 @@ namespace SIL.Pa.UI
 
 			// If there's a project specified on the command line, then load that.
 			// Otherwise, load the last loaded project whose name is in the settings file.
-			string projArg = (from args in Environment.GetCommandLineArgs()
-							  where args.StartsWith("/o:") || args.StartsWith("-o:")
-							  select args).FirstOrDefault();
+			string projArg = (from arg in Environment.GetCommandLineArgs()
+							  where arg.ToLower().EndsWith(".pap") && File.Exists(arg)
+							  select arg).FirstOrDefault();
 
 			if (projArg != null)
-				LoadProject(projArg.Substring(3));
+				LoadProject(projArg);
 			else if (!m_doNotLoadLastProject)
 				LoadProject(Settings.Default.LastProjectLoaded);
 

@@ -102,7 +102,12 @@
     <Compile Include="Controls\HeaderLabel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\ImageButton.cs" />
+    <Compile Include="Controls\ImageButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\NicerButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\NoActivateWnd.cs">
       <SubType>Form</SubType>
     </Compile>
