@@ -37,12 +37,12 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\Output\Debug\</OutputPath>
+    <OutputPath>..\..\Output\Debug-Windows\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>1591, 1573</NoWarn>
-    <DocumentationFile>..\..\Output\Debug\SilTools.xml</DocumentationFile>
+    <DocumentationFile>..\..\Output\Debug-Windows\SilTools.xml</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -61,7 +61,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug-Linux\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>..\..\Output\Debug\SilTools.xml</DocumentationFile>
+    <DocumentationFile>..\..\Output\Debug-Windows\SilTools.xml</DocumentationFile>
     <NoWarn>1591, 1573</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>

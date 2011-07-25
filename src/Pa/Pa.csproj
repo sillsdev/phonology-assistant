@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
@@ -42,7 +42,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-Windows|AnyCPU' ">
-    <OutputPath>..\..\Output\Debug\</OutputPath>
+    <OutputPath>..\..\Output\Debug-Windows\</OutputPath>
     <BaseAddress>285212672</BaseAddress>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
@@ -93,10 +93,6 @@
     <Optimize>false</Optimize>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LocalizationManager, Version=1.0.4104.25215, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DistFiles\LocalizationManager.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -122,15 +118,20 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="System.Configuration" />
+    <Reference Include="PaToFdoInterfaces, Version=1.0.4210.20768, Culture=neutral, PublicKeyToken=null">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PaToFdoInterfaces\bin\Debug-Linux\PaToFdoInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="LocalizationManager, Version=1.0.4210.27173, Culture=neutral, PublicKeyToken=null">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\LocalizationManager\bin\Debug-Linux\LocalizationManager.dll</HintPath>
+    </Reference>
     <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DistFiles\Palaso.dll</HintPath>
+      <HintPath>..\..\..\palaso\output\DebugMono\Palaso.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="PaToFdoInterfaces, Version=1.0.4097.23370, Culture=neutral, PublicKeyToken=null">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DistFiles\PaToFdoInterfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppColor.cs" />
