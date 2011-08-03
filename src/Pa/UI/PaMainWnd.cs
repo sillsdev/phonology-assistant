@@ -311,7 +311,17 @@ namespace SIL.Pa.UI
 			
 			App.RegisterForLocalization(tab, "MenuItems.XYChart");
 			
-			vwTabGroup.Visible = true;
+			if (Type.GetType("Mono.Runtime") != null) // running Mono (any platform)
+			{
+				this.Controls.Remove(vwTabGroup); // work-around for bug in Mono--POSSIBLY https://bugzilla.novell.com/show_bug.cgi?id=597582
+				vwTabGroup.Visible = true;
+				this.Controls.Add(vwTabGroup);
+
+			}
+			else // running .NET
+			{
+				vwTabGroup.Visible = true;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
