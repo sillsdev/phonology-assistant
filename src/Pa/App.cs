@@ -545,8 +545,15 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static bool ShouldShowSplashScreen
 		{
-			get {				// FIXME Linux - closing splash screen makes PA freeze in Mono Linux and PA won't even open in Mono Windows; disable for now
-				if (Type.GetType("Mono.Runtime") != null) // running Mono (any platform)					return false;				else					return (Settings.Default.ShowSplashScreen &&						(Control.ModifierKeys & Keys.Control) != Keys.Control);			}			set
+			get {
+				// FIXME Linux - closing splash screen makes PA freeze in Mono Linux and PA won't even open in Mono Windows; disable for now
+				if (Type.GetType("Mono.Runtime") != null) // running Mono (any platform)
+					return false;
+				else
+					return (Settings.Default.ShowSplashScreen &&
+						(Control.ModifierKeys & Keys.Control) != Keys.Control);
+			}
+			set
 			{
 				Settings.Default.ShowSplashScreen = value;
 				Settings.Default.Save();
