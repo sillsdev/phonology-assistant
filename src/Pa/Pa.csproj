@@ -119,14 +119,6 @@
       <HintPath>..\..\DistFiles\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="System.Configuration" />
-    <Reference Include="PaToFdoInterfaces, Version=1.0.4210.20768, Culture=neutral, PublicKeyToken=null">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\PaToFdoInterfaces\bin\Debug-Linux\PaToFdoInterfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="LocalizationManager, Version=1.0.4210.27173, Culture=neutral, PublicKeyToken=null">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\LocalizationManager\bin\Debug-Linux\LocalizationManager.dll</HintPath>
-    </Reference>
     <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\palaso\output\DebugMono\Palaso.dll</HintPath>
@@ -886,7 +878,7 @@
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <ProductName>.NET Framework Client Profile</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
@@ -1087,10 +1079,25 @@
     <None Include="Resources\Automatically_hide.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\LocalizationManager\LocalizationManager.csproj">
+      <Project>{8EE0895A-7B9D-4B49-8F73-9F1270F1E583}</Project>
+      <Name>LocalizationManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\LocalizationManager\LocalizationManager.csproj">
+      <Project>{8EE0895A-7B9D-4B49-8F73-9F1270F1E583}</Project>
+      <Name>LocalizationManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PaToFdoInterfaces\PaToFdoInterfaces.csproj">
+      <Project>{5540C524-713E-4842-BD59-35D5EA6A60C6}</Project>
+      <Name>PaToFdoInterfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SilTools\SilTools.csproj">
       <Project>{87F94FCC-BC32-4203-A919-115F4FF43FF0}</Project>
       <Name>SilTools</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
