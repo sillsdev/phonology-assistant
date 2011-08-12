@@ -501,7 +501,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayout.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.tblLayout.AutoSize = false; // false to work around Mono bug; see notes 2011-08-11
+			this.tblLayout.AutoSize = false; // work around Mono bug--see http://bugzilla.xamarin.com/show_bug.cgi?id=282 and notes 2011-08-11
 			this.tblLayout.ColumnCount = 6;
 			this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
