@@ -387,7 +387,7 @@ namespace SilTools
 		{
 			get
 			{
-				// FIXME Linux - fix MyDocuments here similar to way we did it in GetDefaultProjectFolder ()
+				// FIXME Linux - fix MyDocuments here similar to way we did it in App.InitializeProjectFolder()
 				string silSwPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 				silSwPath = Path.Combine(silSwPath, @"SIL Software");
 
