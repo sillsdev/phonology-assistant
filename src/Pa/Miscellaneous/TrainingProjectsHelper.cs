@@ -38,12 +38,7 @@ namespace SIL.Pa
 					return;
 
 				var destFolder = Path.Combine(App.ProjectFolder, tpsi.TrainingProjectFolder);
-
-				// Make sure the target folder for the training projects exists.
-				if (!Directory.Exists(destFolder))
-					Directory.CreateDirectory(destFolder);
-
-				ZipHelper.UncompressFilesInZip(zipFile, destFolder);
+				ZipHelper.UncompressFilesInZip(zipFile, destFolder); // creates destFolder if necessary
 
 				// Save a value to the settings so training projects won't be unpacked
 				// again. I could write this to the settings file but I don't want to
