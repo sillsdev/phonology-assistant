@@ -385,16 +385,18 @@ namespace SIL.Pa.UI.Controls
 		private void RefreshColumnHeaderPainting()
 		{
 			var rc = ClientRectangle;
-			rc.Width -= RowHeadersWidth;
-			rc.X += RowHeadersWidth;
+			rc.Height = ColumnHeadersHeight;
 			Invalidate(rc);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void RefreshRowHeaderPainting()
 		{
-			var rc = GetCellDisplayRectangle(-1, -1, false);
-			rc.Height = ClientSize.Height;
+			// This used to base its calculations on GetCellDisplayRectangle(-1, -1, false) 
+			// which throws ArgumentOutOfRangeException on Mono; see 
+			// http://bugzilla.xamarin.com/show_bug.cgi?id=341
+			var rc = ClientRectangle;
+			rc.Width = RowHeadersWidth;
 			Invalidate(rc);
 		}
 
