@@ -91,7 +91,9 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private Rectangle GetGroupRectangle()
 		{
-			var rc = m_grid.GetCellDisplayRectangle(-1, m_firstRowIndex, false);
+			// Don't use -1 for columnIndex, below; see
+			// http://bugzilla.xamarin.com/show_bug.cgi?id=341
+			var rc = m_grid.GetCellDisplayRectangle(0, m_firstRowIndex, false);
 
 			var dy = (rc.Height == Rows[0].Height ?
 				rc.Y : m_grid.ColumnHeadersHeight - m_grid.VerticalScrollingOffset);
