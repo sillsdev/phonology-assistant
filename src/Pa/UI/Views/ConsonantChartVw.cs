@@ -24,7 +24,7 @@ namespace SIL.Pa.UI.Views
 		{
 			Settings.Default.ConsonantChartColHdrHeight = _newChartGrid.ColumnHeadersHeight;
 			Settings.Default.ConsonantChartRowHdrWidth = _newChartGrid.RowHeadersWidth;
-			Settings.Default.HtmlConsonantChartVisible = _htmlVw.Visible;
+			Settings.Default.HtmlConsonantChartVisible = _htmlVw != null ? _htmlVw.Visible : false;
 			
 			base.OnHandleDestroyed(e);
 		}
