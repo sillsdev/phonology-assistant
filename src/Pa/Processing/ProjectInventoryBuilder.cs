@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
 using SIL.Pa.Model;
@@ -108,10 +109,25 @@ namespace SIL.Pa.Processing
 			
 			pipeline.BeforeStepProcessed -= BeforePipelineStepProcessed;
 
-			// This makes it all pretty, with proper indentation and line-breaking.
-			var doc = new XmlDocument();
-			doc.Load(m_outputFileName);
-			doc.Save(m_outputFileName);
+			// Some people were receiving the following exception:
+			// "The requested operation cannot be performed on a file with a user-mapped section open."
+			// This was happening on the doc.Save line. Therefore, give it 5 tries and then give up
+			// without complaint. The only reason we do this part anyway, is to make the output pretty,
+			// with proper indentation and line-breaking.
+			for (int i = 0; i < 5; i++)
+			{
+				try
+				{
+					var doc = new XmlDocument();
+					doc.Load(m_outputFileName);
+					doc.Save(m_outputFileName);
+					break;
+				}
+				catch
+				{
+					Thread.Sleep(500);
+				}
+			}
 
 			return true;
 		}
