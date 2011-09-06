@@ -627,10 +627,10 @@ namespace SilTools
 			{
 				System.Diagnostics.Process.Start("mailto:PaFeedback@sil.org?subject=Bug%20Report");
 			}
-			catch
+			catch (Exception ex)
 			{
-				var msg = "There was an error trying to create an e-mail. It's possible a program for sending e-mail has not been installed.";
-				Utils.MsgBox(msg);
+				var msg = "There was an error trying to create an e-mail. It's possible a program for sending e-mail has not been installed.\n\n{0}";
+				Utils.MsgBox(string.Format(msg, ex.Message));
 			}
 		}
 
