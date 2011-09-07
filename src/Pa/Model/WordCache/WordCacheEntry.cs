@@ -121,13 +121,15 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void SetCollection(string field, IEnumerable<string> collection)
 		{
-			if (string.IsNullOrEmpty(field) || collection == null || collection.Count() == 0)
+			var stringCollection = collection.ToArray();
+
+			if (string.IsNullOrEmpty(field) || collection == null || stringCollection.Length == 0)
 				return;
 
 			if (m_collectionValues == null)
 				m_collectionValues = new Dictionary<string, IEnumerable<string>>();
 
-			m_collectionValues[field] = collection;
+			m_collectionValues[field] = stringCollection;
 		}
 
 		/// ------------------------------------------------------------------------------------
