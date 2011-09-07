@@ -1,19 +1,3 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2010, SIL International. All Rights Reserved.
-// <copyright from='2009' to='2010' company='SIL International'>
-//		Copyright (c) 2010, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
-// 
-// File: CVPatternInfo.cs
-// Responsibility: D. Olson
-// 
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System.Text;
 using System.Xml.Serialization;
 using SIL.Pa.PhoneticSearching;
@@ -116,6 +100,18 @@ namespace SIL.Pa.Model
 		public bool HasRightSideDiacritics
 		{
 			get { return !string.IsNullOrEmpty(RightSideDiacritics); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsLeftSideDiacritic(char diacritic)
+		{
+			return (HasLeftSideDiacritics && LeftSideDiacritics.Contains(diacritic.ToString()));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsRightSideDiacritic(char diacritic)
+		{
+			return (HasRightSideDiacritics && RightSideDiacritics.Contains(diacritic.ToString()));
 		}
 
 		/// ------------------------------------------------------------------------------------

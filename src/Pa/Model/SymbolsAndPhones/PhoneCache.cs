@@ -191,20 +191,19 @@ namespace SIL.Pa.Model
 
 			// Get the pieces of the phone that are before and after the base character.
 			string preBase = (baseIndex == 0 ? string.Empty : phone.Substring(0, baseIndex));
-			string postBase = (baseIndex == phone.Length - 1 ? string.Empty :
-				phone.Substring(baseIndex + 1));
+			string postBase = (baseIndex == phone.Length - 1 ? string.Empty : phone.Substring(baseIndex + 1));
+
+			foreach (var diacritic in preBase)
+			{
+				if (m_project.CVPatternInfoList.Any(cvpi => cvpi.GetIsLeftSideDiacritic(diacritic)))
+					bldr.Append(diacritic);
+			}
 
 			var diacriticsAfterBase = new StringBuilder();
-			foreach (var cvpi in m_project.CVPatternInfoList)
+			foreach (var diacritic in postBase)
 			{
-				if (cvpi.HasLeftSideDiacritics && cvpi.LeftSideDiacritics == preBase)
-					bldr.Append(cvpi.LeftSideDiacritics);
-
-				if (!cvpi.HasRightSideDiacritics)
-					continue;
-
-				foreach (char c in cvpi.RightSideDiacritics.Where(c => postBase.IndexOf(c) >= 0))
-					diacriticsAfterBase.Append(c);
+				if (m_project.CVPatternInfoList.Any(cvpi => cvpi.GetIsRightSideDiacritic(diacritic)))
+					diacriticsAfterBase.Append(diacritic);
 			}
 
 			return (diacriticsAfterBase.Length == 0 ? null : diacriticsAfterBase.ToString());
