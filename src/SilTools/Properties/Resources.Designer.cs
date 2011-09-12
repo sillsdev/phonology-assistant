@@ -62,15 +62,23 @@ namespace SilTools.Properties {
         
         internal static System.Drawing.Bitmap kimidCollapse {
             get {
+#if false
                 object obj = ResourceManager.GetObject("kimidCollapse", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+#else
+				return new System.Drawing.Bitmap(32, 32);
+#endif
             }
         }
         
         internal static System.Drawing.Bitmap kimidExpand {
             get {
+#if false
                 object obj = ResourceManager.GetObject("kimidExpand", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+#else
+				return new System.Drawing.Bitmap(32, 32);
+#endif
             }
         }
         
@@ -86,7 +94,11 @@ namespace SilTools.Properties {
         /// </summary>
         internal static string kstidHierarchicalRowChildCountLongFmt {
             get {
+#if false
                 return ResourceManager.GetString("kstidHierarchicalRowChildCountLongFmt", resourceCulture);
+#else
+				return "4";
+#endif
             }
         }
         
@@ -95,7 +107,11 @@ namespace SilTools.Properties {
         /// </summary>
         internal static string kstidHierarchicalRowChildCountMedFmt {
             get {
+#if false
                 return ResourceManager.GetString("kstidHierarchicalRowChildCountMedFmt", resourceCulture);
+#else
+				return "5";
+#endif
             }
         }
         
@@ -104,7 +120,11 @@ namespace SilTools.Properties {
         /// </summary>
         internal static string kstidHierarchicalRowChildCountShortFmt {
             get {
+#if false
                 return ResourceManager.GetString("kstidHierarchicalRowChildCountShortFmt", resourceCulture);
+#else
+				return "6";
+#endif
             }
         }
         
