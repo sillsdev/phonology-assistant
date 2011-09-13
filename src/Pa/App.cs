@@ -558,8 +558,9 @@ namespace SIL.Pa
 		public static bool ShouldShowSplashScreen
 		{
 			get {
-				// FIXME Linux - closing splash screen makes PA freeze in Mono Linux and PA won't even open in Mono Windows; disable for now
-				if (Type.GetType("Mono.Runtime") != null) // running Mono (any platform)
+				// FIXME - splash screen makes PA not open in Mono Windows; ok in Mono Linux and .NET Windows
+				bool UnixLike = (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX);
+				if (Type.GetType("Mono.Runtime") != null && !UnixLike) // running Mono Windows (you may ask, "Why would someone do that?")
 					return false;
 				else
 					return (Settings.Default.ShowSplashScreen &&
