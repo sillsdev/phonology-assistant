@@ -71,6 +71,13 @@ namespace SIL.Pa.UI.Controls
 
 			var order = 0;
 
+			// Add the select all item, make it a tri-state cell and
+			// set its order so it always sorts to the top of the list.
+			// Note for Mono Linux, this must preceed the foreach() loop because 
+			// Rows.Insert() has a bug--http://bugzilla.xamarin.com/show_bug.cgi?id=821
+			Rows.Add(new object[] { false,
+				App.GetString("FieldSelectorGrid.FieldChooserGridSelectAllText", "Select All"), -100 });
+
 			foreach (var rowData in fieldsInList)
 			{
 				int i = Rows.Add(new object[] { rowData.Value, rowData.Key.DisplayName, order++ } );
@@ -79,11 +86,6 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			m_fieldList = fieldsInList.Select(kvp => kvp.Key);
-
-			// Add the select all item, make it a tri-state cell and
-			// set its order so it always sorts to the top of the list.
-			Rows.Insert(0, new object[] { false,
-				App.GetString("FieldSelectorGrid.FieldChooserGridSelectAllText", "Select All"), -100 });
 
 			((DataGridViewCheckBoxCell)Rows[0].Cells[kCheckCol]).ThreeState = true;
 			((DataGridViewCheckBoxCell)Rows[0].Cells[kCheckCol]).IndeterminateValue = kIndeterminate;
