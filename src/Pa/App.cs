@@ -201,6 +201,15 @@ namespace SIL.Pa
 
 			PortableSettingsProvider.SettingsFileFolder = ProjectFolder;
 			PortableSettingsProvider.SettingsFileName = "Pa.settings";
+
+			//bring in settings from any previous version
+			if (Settings.Default.SettingsVersion == Application.ProductVersion)
+				return;
+			
+			//see http://stackoverflow.com/questions/3498561/net-applicationsettingsbase-should-i-call-upgrade-every-time-i-load
+			Settings.Default.Upgrade();
+			Settings.Default.SettingsVersion = Application.ProductVersion;
+			Settings.Default.Save();
 		}
 
 		/// ------------------------------------------------------------------------------------
