@@ -712,7 +712,10 @@ namespace SIL.Pa.UI
 				Application.ProductName) + "|" + App.kstidFileTypeAllFiles;
 
 			var fmt = App.GetString("ProjectOpenFileDialogText", "Open {0} Project File");
-			string initialDir = (Settings.Default.LastFolderForOpenProjectDlg ?? App.ProjectFolder);
+			
+			var initialDir = (Settings.Default.LastFolderForOpenProjectDlg ?? string.Empty);
+			if (!Directory.Exists(initialDir))
+				initialDir = App.ProjectFolder;
 
 			string[] filenames = App.OpenFileDialog("pap", filter, ref filterindex,
 				string.Format(fmt, Application.ProductName), false, initialDir);
