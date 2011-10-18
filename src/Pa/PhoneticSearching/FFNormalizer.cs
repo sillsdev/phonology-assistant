@@ -37,7 +37,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			s_loadAttempted = true;
 
-			const string filename = "PhoneticInventory.xml";
+			const string filename = "NormalizationExceptions.xml";
 
 			try
 			{
@@ -53,7 +53,7 @@ namespace SIL.Pa.PhoneticSearching
 		public static string Normalize(string toConvert)
 		{
 			if (toConvert == null)
-				return toConvert;
+				return null;
 
 			// First normalize and decompose the string.
 			toConvert = toConvert.Normalize(NormalizationForm.FormD);
