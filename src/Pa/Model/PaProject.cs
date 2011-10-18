@@ -338,8 +338,8 @@ namespace SIL.Pa.Model
 			}
 
 			// Now remove any fields that no longer have a mapping and are not in the default set (i.e. custom).
-			var mappedFieldNames = DataSources.SelectMany(d => d.FieldMappings).Select(m => m.PaFieldName);
-			var defaultFieldNames = PaField.GetDefaultFields().Select(f => f.Name);
+			var mappedFieldNames = DataSources.SelectMany(d => d.FieldMappings).Select(m => m.PaFieldName).ToList();
+			var defaultFieldNames = PaField.GetDefaultFields().Select(f => f.Name).ToList();
 
 			for (int i = fields.Count - 1; i >= 0; i--)
 			{
