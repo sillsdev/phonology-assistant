@@ -301,7 +301,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 		/// ------------------------------------------------------------------------------------
 		private bool CreateWordEntriesFromPronunciations(IPaLexEntry lxEntry, RecordCacheEntry recCacheEntry)
 		{
-			foreach (var pro in lxEntry.Pronunciations)
+			foreach (var pro in lxEntry.Pronunciations.Where(p => p.Form != null))
 			{
 				var eticValue = pro.Form.GetString(m_phoneticWsId);
 				if (eticValue != null)
