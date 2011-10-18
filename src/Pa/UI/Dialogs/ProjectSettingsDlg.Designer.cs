@@ -18,7 +18,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.lblProjName = new System.Windows.Forms.Label();
 			this.lblTranscriber = new System.Windows.Forms.Label();
 			this.lblSpeaker = new System.Windows.Forms.Label();
@@ -47,6 +47,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlGrid = new SilTools.Controls.SilPanel();
 			this.pnlGridHdg = new SilTools.Controls.SilGradientPanel();
 			this.tblLayout = new System.Windows.Forms.TableLayoutPanel();
+			this._chkMakeFolder = new System.Windows.Forms.CheckBox();
 			this.mnuAdd.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -111,8 +112,8 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// txtProjName
 			// 
-			this.txtProjName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtProjName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.tblLayout.SetColumnSpan(this.txtProjName, 2);
 			this.locExtender.SetLocalizableToolTip(this.txtProjName, null);
 			this.locExtender.SetLocalizationComment(this.txtProjName, null);
@@ -126,8 +127,8 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// txtTranscriber
 			// 
-			this.txtTranscriber.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtTranscriber.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.tblLayout.SetColumnSpan(this.txtTranscriber, 2);
 			this.locExtender.SetLocalizableToolTip(this.txtTranscriber, null);
 			this.locExtender.SetLocalizationComment(this.txtTranscriber, null);
@@ -141,8 +142,8 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// txtSpeaker
 			// 
-			this.txtSpeaker.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtSpeaker.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.tblLayout.SetColumnSpan(this.txtSpeaker, 2);
 			this.locExtender.SetLocalizableToolTip(this.txtSpeaker, null);
 			this.locExtender.SetLocalizationComment(this.txtSpeaker, null);
@@ -156,9 +157,9 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// txtComments
 			// 
-			this.txtComments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtComments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.tblLayout.SetColumnSpan(this.txtComments, 2);
 			this.locExtender.SetLocalizableToolTip(this.txtComments, null);
 			this.locExtender.SetLocalizationComment(this.txtComments, null);
@@ -230,8 +231,8 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// txtLanguageName
 			// 
-			this.txtLanguageName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtLanguageName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.tblLayout.SetColumnSpan(this.txtLanguageName, 2);
 			this.locExtender.SetLocalizableToolTip(this.txtLanguageName, null);
 			this.locExtender.SetLocalizationComment(this.txtLanguageName, null);
@@ -323,14 +324,14 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_grid.BackgroundColor = System.Drawing.SystemColors.Window;
 			this.m_grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.m_grid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.m_grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle5.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.m_grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
 			this.m_grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.m_grid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.m_grid.DrawTextBoxEditControlBorder = false;
@@ -387,8 +388,8 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// txtLanguageCode
 			// 
-			this.txtLanguageCode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtLanguageCode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.locExtender.SetLocalizableToolTip(this.txtLanguageCode, null);
 			this.locExtender.SetLocalizationComment(this.txtLanguageCode, null);
 			this.locExtender.SetLocalizingId(this.txtLanguageCode, "ProjectSettingsDlg.txtLanguageCode");
@@ -418,8 +419,8 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// txtResearcher
 			// 
-			this.txtResearcher.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.txtResearcher.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.tblLayout.SetColumnSpan(this.txtResearcher, 2);
 			this.locExtender.SetLocalizableToolTip(this.txtResearcher, null);
 			this.locExtender.SetLocalizationComment(this.txtResearcher, null);
@@ -452,11 +453,13 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlGrid.ClipTextForChildControls = true;
 			this.tblLayout.SetColumnSpan(this.pnlGrid, 5);
 			this.pnlGrid.ControlReceivingFocusOnMnemonic = null;
+			this.pnlGrid.Controls.Add(this._chkMakeFolder);
 			this.pnlGrid.Controls.Add(this.m_grid);
 			this.pnlGrid.Controls.Add(this.pnlGridHdg);
 			this.pnlGrid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlGrid.DoubleBuffered = true;
 			this.pnlGrid.DrawOnlyBottomBorder = false;
+			this.pnlGrid.DrawOnlyTopBorder = false;
 			this.pnlGrid.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlGrid.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlGrid, null);
@@ -482,6 +485,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlGridHdg.Dock = System.Windows.Forms.DockStyle.Top;
 			this.pnlGridHdg.DoubleBuffered = true;
 			this.pnlGridHdg.DrawOnlyBottomBorder = true;
+			this.pnlGridHdg.DrawOnlyTopBorder = false;
 			this.pnlGridHdg.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlGridHdg.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlGridHdg, null);
@@ -498,9 +502,9 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// tblLayout
 			// 
-			this.tblLayout.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.tblLayout.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.tblLayout.AutoSize = true;
 			this.tblLayout.ColumnCount = 6;
 			this.tblLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -542,6 +546,22 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayout.Size = new System.Drawing.Size(625, 283);
 			this.tblLayout.TabIndex = 0;
 			// 
+			// _chkMakeFolder
+			// 
+			this._chkMakeFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._chkMakeFolder.AutoSize = true;
+			this._chkMakeFolder.BackColor = System.Drawing.Color.Transparent;
+			this._chkMakeFolder.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+			this.locExtender.SetLocalizableToolTip(this._chkMakeFolder, null);
+			this.locExtender.SetLocalizationComment(this._chkMakeFolder, null);
+			this.locExtender.SetLocalizingId(this._chkMakeFolder, "ProjectSettingsDlg.CreateProjectFolderLabel");
+			this._chkMakeFolder.Location = new System.Drawing.Point(83, 91);
+			this._chkMakeFolder.Name = "_chkMakeFolder";
+			this._chkMakeFolder.Size = new System.Drawing.Size(201, 19);
+			this._chkMakeFolder.TabIndex = 2;
+			this._chkMakeFolder.Text = "Create new folder for project files";
+			this._chkMakeFolder.UseVisualStyleBackColor = false;
+			// 
 			// ProjectSettingsDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -560,6 +580,7 @@ namespace SIL.Pa.UI.Dialogs
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.pnlGrid.ResumeLayout(false);
+			this.pnlGrid.PerformLayout();
 			this.tblLayout.ResumeLayout(false);
 			this.tblLayout.PerformLayout();
 			this.ResumeLayout(false);
@@ -597,5 +618,6 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.ToolStripMenuItem mnuAddFw6DataSource;
 		private SilPanel pnlGrid;
 		private SilGradientPanel pnlGridHdg;
+		private System.Windows.Forms.CheckBox _chkMakeFolder;
 	}
 }
