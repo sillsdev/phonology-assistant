@@ -358,19 +358,18 @@ namespace SIL.Pa.DataSource.FieldWorks
 		/// ------------------------------------------------------------------------------------
 		public static FwWritingSysInfo GetDefaultPhoneticWritingSystem(IEnumerable<FwWritingSysInfo> writingSystems)
 		{
-			var ws = writingSystems.Where(w => w.Type == FwWritingSystemType.Vernacular)
-				.SingleOrDefault(w => w.Name.ToLower().Contains("ipa"));
+			var wsList = writingSystems.ToArray();
+
+			var ws = wsList.Where(w => w.Type == FwWritingSystemType.Vernacular)
+				.FirstOrDefault(w => w.Name.ToLower().Contains("ipa"));
 
 			if (ws != null)
 				return ws;
 
-			ws = writingSystems.Where(w => w.Type == FwWritingSystemType.Vernacular)
-				.SingleOrDefault(w => w.Name.ToLower().Contains("phonetic"));
+			ws = wsList.Where(w => w.Type == FwWritingSystemType.Vernacular)
+				.FirstOrDefault(w => w.Name.ToLower().Contains("phonetic"));
 
-			if (ws != null)
-				return ws;
-
-			return writingSystems.Single(w => w.IsDefaultVernacular);
+			return (ws ?? wsList.Single(w => w.IsDefaultVernacular));
 		}
 
 		/// ------------------------------------------------------------------------------------
