@@ -130,8 +130,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private static void InitializeProjectFolder()
 		{
-			// Specifying the UI language on the command-line trumps the one in
-			// the settings file (i.e. the one set in the options dialog box).
+			// Specifying the project folder on the command-line trumps the default location.
 			foreach (var arg in Environment.GetCommandLineArgs()
 				.Where(arg => arg.ToLower().StartsWith("/pf:") || arg.ToLower().StartsWith("-pf:")))
 			{

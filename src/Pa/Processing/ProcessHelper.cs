@@ -73,22 +73,43 @@ namespace SIL.Pa.Processing
 		/// default user folder (i.e. the folder PA suggests as the parent for projects).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void CopyFilesForPrettyHTMLExports()
+		public static void CopyFilesThatMakePrettyHTMLExports()
 		{
-			var processingFolder = FileLocator.GetDirectoryDistributedWithApplication(App.ProcessingFolderName);
+			IfNecessaryUpgradeFilesThatMakePrettyHTMLExports("*.css");
+			IfNecessaryUpgradeFilesThatMakePrettyHTMLExports("*.js");
+		}
 
-			foreach (var filename in Directory.GetFiles(processingFolder, "*.css"))
-			{
-				var dst = Path.Combine(App.ProjectFolder, Path.GetFileName(filename));
-				if (!File.Exists(dst))
-					File.Copy(filename, dst);
-			}
+		/// ------------------------------------------------------------------------------------
+		private static void IfNecessaryUpgradeFilesThatMakePrettyHTMLExports(string fileTypeExtension)
+		{
+			var processingFolder =
+				FileLocator.GetDirectoryDistributedWithApplication(App.ProcessingFolderName);
 
-			foreach (var filename in Directory.GetFiles(processingFolder, "*.js"))
+			foreach (var filename in Directory.GetFiles(processingFolder, fileTypeExtension))
 			{
-				var dst = Path.Combine(App.ProjectFolder, Path.GetFileName(filename));
-				if (!File.Exists(dst))
-					File.Copy(filename, dst);
+				try
+				{
+					var dst = Path.Combine(App.ProjectFolder, Path.GetFileName(filename));
+
+					if (File.Exists(dst))
+					{
+						var srcfi = new FileInfo(filename);
+						var dstfi = new FileInfo(dst);
+
+						if (srcfi.LastWriteTime != dstfi.LastWriteTime || srcfi.Length != dstfi.Length)
+							File.Delete(dst);
+					}
+
+					if (!File.Exists(dst))
+						File.Copy(filename, dst);
+				}
+				catch (Exception e)
+				{
+					var msg = App.GetString("MiscellaneousMessages.UpgradingProcessFileErrorMsg",
+						"There was an error copying the file '{0}' to '{1}'. Make sure the file is not in use by another program.");
+
+					Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg, filename, App.ProjectFolder);
+				}
 			}
 		}
 

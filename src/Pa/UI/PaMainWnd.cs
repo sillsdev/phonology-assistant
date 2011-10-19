@@ -71,7 +71,7 @@ namespace SIL.Pa.UI
 			Settings.Default.MainWindow = App.InitializeForm(this, Settings.Default.MainWindow);
 			InventoryHelper.Load();
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList);
-			ProcessHelper.CopyFilesForPrettyHTMLExports();
+			ProcessHelper.CopyFilesThatMakePrettyHTMLExports();
 		}
 
 		/// ------------------------------------------------------------------------------------
