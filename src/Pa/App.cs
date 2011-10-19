@@ -177,8 +177,8 @@ namespace SIL.Pa
 
 			try
 			{
-				// Specifying the UI language on the command-line trumps the one in
-				// the settings file (i.e. the one set in the options dialog box).
+				// Specifying the settings file on the command-line trumps the one
+				// at the default location, if there is one at the default location.
 				foreach (var arg in Environment.GetCommandLineArgs()
 					.Where(arg => arg.ToLower().StartsWith("/sf:") || arg.ToLower().StartsWith("-sf:")))
 				{
@@ -199,17 +199,17 @@ namespace SIL.Pa
 			if (ProjectFolder == null)
 				InitializeProjectFolder();
 
+			//// Upgrade the settings if we're running a newer version of the program.
+			//if (Settings.Default.SettingsVersion != Application.ProductVersion)
+			//{
+			//    //see http://stackoverflow.com/questions/3498561/net-applicationsettingsbase-should-i-call-upgrade-every-time-i-load
+			//    Settings.Default.Upgrade();
+			//    Settings.Default.SettingsVersion = Application.ProductVersion;
+			//    Settings.Default.Save();
+			//}
+
 			PortableSettingsProvider.SettingsFileFolder = ProjectFolder;
 			PortableSettingsProvider.SettingsFileName = "Pa.settings";
-
-			//bring in settings from any previous version
-			if (Settings.Default.SettingsVersion == Application.ProductVersion)
-				return;
-			
-			//see http://stackoverflow.com/questions/3498561/net-applicationsettingsbase-should-i-call-upgrade-every-time-i-load
-			Settings.Default.Upgrade();
-			Settings.Default.SettingsVersion = Application.ProductVersion;
-			Settings.Default.Save();
 		}
 
 		/// ------------------------------------------------------------------------------------
