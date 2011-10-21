@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_2d_sort.xsl 2010-05-13 -->
+  <!-- phonology_export_view_list_2d_sort.xsl 2011-10-14 -->
   <!-- Make it possible to sort an interactive list by the Phonetic column. -->
 
 	<!-- Important: If table is neither Data Corpus nor Search view, copy it with no changes. -->
@@ -17,8 +17,9 @@ exclude-result-prefixes="xhtml"
 	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
 	<xsl:variable name="sorting" select="$metadata/xhtml:ul[@class = 'sorting']" />
 	<xsl:variable name="phoneticSortOrder" select="$sorting/xhtml:li[@class = 'phoneticSortOrder']" />
-	<xsl:variable name="phoneticSortOption" select="$sorting/xhtml:li[@class = 'phoneticSortOption']" />
+	<xsl:variable name="phoneticSortClass" select="$sorting/xhtml:li[@class = 'phoneticSortClass']" />
 	<xsl:variable name="fieldOrderPhonetic" select="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[@title = 'Phonetic']" />
+	<xsl:variable name="fieldOrder1" select="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[1]" />
 
 	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
 	<xsl:variable name="view" select="$details/xhtml:li[@class = 'view']" />
@@ -36,13 +37,13 @@ exclude-result-prefixes="xhtml"
       <xsl:when test="contains(@class, 'list') and $phoneticSortOrder = 'true'">
         <xsl:copy>
           <xsl:choose>
-            <xsl:when test="$fieldOrderPhonetic = 'descending' and xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']">
+            <xsl:when test="$fieldOrderPhonetic = 'descending' and xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading']/xhtml:th[starts-with(@class, 'Phonetic pair')]">
 							<!-- If one minimal pair per group, resort the split groups before merging them in the next step. -->
               <xsl:apply-templates select="@*" />
               <xsl:apply-templates select="xhtml:colgroup" />
               <xsl:apply-templates select="xhtml:thead" />
 							<xsl:apply-templates select="xhtml:tbody">
-								<xsl:sort select="xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic item']//xhtml:li[@class = phoneticSortOption]" order="descending" />
+								<xsl:sort select="xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic item']//xhtml:li[@class = phoneticSortClass]" order="descending" />
 							</xsl:apply-templates>
             </xsl:when>
             <xsl:otherwise>
@@ -70,38 +71,37 @@ exclude-result-prefixes="xhtml"
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
-    <xsl:variable name="order" select="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[1]" />
     <xsl:copy>
       <xsl:apply-templates select="@*" />
       <xsl:apply-templates select="xhtml:tr[@class = 'heading']" />
       <xsl:choose>
-        <xsl:when test="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[1]/@title != 'Phonetic'">
+        <xsl:when test="$fieldOrder1/@title != 'Phonetic'">
           <!-- If primary sort order was not Phonetic, sort by exported order. -->
           <xsl:apply-templates select="xhtml:tr[not(@class = 'heading')]">
             <xsl:sort select="xhtml:td[@class = $phoneticFieldClass]//xhtml:li[@class = 'exported']" />
           </xsl:apply-templates>
         </xsl:when>
-        <xsl:when test="$sorting/xhtml:li[@class = 'phoneticSortOption'] = 'mannerOfArticulation'">
+        <xsl:when test="$phoneticSortClass = 'manner_or_height'">
           <!-- If the primary sort order was Phonetic, manner of articulation. -->
           <xsl:choose>
-            <xsl:when test="$order = 'descending'">
+            <xsl:when test="$fieldOrder1 = 'descending'">
               <xsl:apply-templates select="xhtml:tr[not(@class = 'heading')]">
-                <xsl:sort select="xhtml:td[@class = $phoneticFieldClass]//xhtml:li[@class = 'mannerOfArticulation']" order="descending" />
+                <xsl:sort select="xhtml:td[@class = $phoneticFieldClass]//xhtml:li[@class = 'manner_or_height']" order="descending" />
                 <xsl:sort select="xhtml:td[@class = $phoneticFieldClass]//xhtml:li[@class = 'exported']" />
               </xsl:apply-templates>
             </xsl:when>
             <xsl:otherwise>
               <xsl:apply-templates select="xhtml:tr[not(@class = 'heading')]">
-                <xsl:sort select="xhtml:td[@class = $phoneticFieldClass]//xhtml:li[@class = 'mannerOfArticulation']" order="ascending" />
+                <xsl:sort select="xhtml:td[@class = $phoneticFieldClass]//xhtml:li[@class = 'manner_or_height']" order="ascending" />
                 <xsl:sort select="xhtml:td[@class = $phoneticFieldClass]//xhtml:li[@class = 'exported']" />
               </xsl:apply-templates>
             </xsl:otherwise>
           </xsl:choose>
         </xsl:when>
-        <xsl:when test="$order = 'descending'">
+        <xsl:when test="$fieldOrder1 = 'descending'">
           <!-- If the primary sort order was Phonetic, place of articulation, descending. -->
           <xsl:apply-templates select="xhtml:tr[not(@class = 'heading')]">
-            <xsl:sort select="xhtml:td[@class = $phoneticFieldClass]//xhtml:li[@class = 'placeOfArticulation']" order="descending" />
+            <xsl:sort select="xhtml:td[@class = $phoneticFieldClass]//xhtml:li[@class = 'place_or_backness']" order="descending" />
             <xsl:sort select="xhtml:td[@class = $phoneticFieldClass]//xhtml:li[@class = 'exported']" />
           </xsl:apply-templates>
         </xsl:when>
@@ -113,29 +113,49 @@ exclude-result-prefixes="xhtml"
     </xsl:copy>
   </xsl:template>
 
-  <!-- Delete lists in Phonetic pair headings of Search view. -->
-	<xsl:template match="xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']/xhtml:ul[@class = 'sortOrder']" />
+	<!-- Delete lists in Phonetic pair headings of Search view. -->
+	<xsl:template match="xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading']/xhtml:th[starts-with(@class, 'Phonetic pair')]/xhtml:ul[@class = 'sorting_order']" />
+
+	<!-- Delete the exported order of rows in lists. -->
+	<xsl:template match="xhtml:tbody/xhtml:tr/xhtml:td/xhtml:ul[@class = 'sorting_order']/xhtml:li[@class = 'exported']" />
+
+	<!-- Delete the secondary (tone) order of rows in lists. -->
+	<xsl:template match="xhtml:tbody/xhtml:tr/xhtml:*/xhtml:ul[@class = 'sorting_order']/xhtml:li[@class = 'secondary']" />
 
 	<!-- Remove spans and delete lists in Phonetic item headings of Search view only if one minimal pair per group. -->
-	<xsl:template match="xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading'][xhtml:th[@class = 'Phonetic pair']]/xhtml:th[@class = 'Phonetic item']/xhtml:span">
-		<xsl:apply-templates />
+	<xsl:template match="xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading'][xhtml:th[starts-with(@class, 'Phonetic pair')]]/xhtml:th[@class = 'Phonetic item']">
+		<xsl:call-template name="removeFromCell" />
 	</xsl:template>
-	<xsl:template match="xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading'][xhtml:th[@class = 'Phonetic pair']]/xhtml:th[@class = 'Phonetic item']/xhtml:ul[@class = 'sortOrder']" />
 
 	<!-- Remove spans and delete lists in Phonetic item data of Search view only if one minimal pair per group. -->
-	<xsl:template match="xhtml:tbody[contains(@class, 'group')][xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']]/xhtml:tr[@class = 'data']/xhtml:td[@class = 'Phonetic item']/xhtml:span">
-		<xsl:apply-templates />
+	<xsl:template match="xhtml:tbody[contains(@class, 'group')][xhtml:tr[@class = 'heading']/xhtml:th[starts-with(@class, 'Phonetic pair')]]/xhtml:tr[@class = 'data']/xhtml:td[@class = 'Phonetic item']">
+		<xsl:call-template name="removeFromCell" />
 	</xsl:template>
-	<xsl:template match="xhtml:tbody[contains(@class, 'group')][xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']]/xhtml:tr[@class = 'data']/xhtml:td[@class = 'Phonetic item']/xhtml:ul[@class = 'sortOrder']" />
 
 	<!-- Remove spans and delete lists in Phonetic preceding and following fields of Search view. -->
 	<!-- However, keep the span if the cell contains a list other than sortOrder (for example, transcription). -->
-  <xsl:template match="xhtml:tbody/xhtml:tr/xhtml:*[@class = 'Phonetic preceding' or @class = 'Phonetic following'][not(xhtml:ul[@class != 'sortOrder'])]/xhtml:span">
-		<xsl:apply-templates />
+	<xsl:template match="xhtml:tbody/xhtml:tr/xhtml:*[@class = 'Phonetic preceding' or @class = 'Phonetic following']">
+		<xsl:call-template name="removeFromCell" />
 	</xsl:template>
-  <xsl:template match="xhtml:tbody/xhtml:tr/xhtml:*[@class = 'Phonetic preceding' or @class = 'Phonetic following']/xhtml:ul[@class = 'sortOrder']" />
 
-  <!-- Delete the exported order of rows in lists. -->
-  <xsl:template match="xhtml:tbody/xhtml:tr/xhtml:td/xhtml:ul[@class = 'sortOrder']/xhtml:li[@class = 'exported']" />
+	<!-- Remove spans and delete lists in certain Phonetic fields. -->
+	<!-- However, keep the span if the cell contains a list other than sortOrder (for example, transcription). -->
+	<xsl:template name="removeFromCell">
+		<xsl:copy>
+			<xsl:apply-templates select="@*" />
+			<xsl:choose>
+				<xsl:when test="xhtml:ul[@class != 'sorting_order']">
+					<xsl:apply-templates select="xhtml:span" />
+					<xsl:apply-templates select="xhtml:ul[@class != 'sorting_order']" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:if test="not(@lang)">
+						<xsl:apply-templates select="xhtml:span/@lang" />
+					</xsl:if>
+					<xsl:apply-templates select="xhtml:span/node()" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:copy>
+	</xsl:template>
 
 </xsl:stylesheet>

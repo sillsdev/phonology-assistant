@@ -3,10 +3,10 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_1c_minimal_pairs_similar.xsl 2010-05-17 -->
+  <!-- phonology_export_view_list_1c_minimal_pairs_similar.xsl 2011-10-06 -->
   <!-- If the project inventory contains lists of similar pairs, -->
-  <!-- partition the list of minimal pairs into more-similar and less-similar. -->
-	<!-- Append empty groups for any similar pairs for which there are no minimal pairs. -->
+  <!-- classify the list of minimal pairs as more-similar, less-similar, least-similar. -->
+	<!-- Append empty groups for any more-similar pairs for which there are no minimal pairs. -->
 
 	<!-- Important: In case Phonology Assistant exports collapsed in class attributes, test: -->
 	<!-- * xhtml:table[contains(@class, 'list')] instead of @class = 'list' -->
@@ -16,17 +16,41 @@ exclude-result-prefixes="xhtml"
 
 	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
 
-	<!-- A project phonetic inventory file contains features of phonetic or phonological units, or both. -->
+	<!-- A project phonetic inventory file contains features of phonetic or phonological segments, or both. -->
 	<xsl:variable name="settings" select="$metadata/xhtml:ul[@class = 'settings']" />
 	<xsl:variable name="projectFolder" select="$settings/xhtml:li[@class = 'projectFolder']" />
 	<xsl:variable name="projectPhoneticInventoryFile" select="$settings/xhtml:li[@class = 'projectPhoneticInventoryFile']" />
 	<xsl:variable name="projectPhoneticInventoryXML" select="concat($projectFolder, $projectPhoneticInventoryFile)" />
 
 	<xsl:variable name="options" select="$metadata/xhtml:ul[@class = 'options']" />
-	<xsl:variable name="moreSimilarVersusLessSimilarPairs" select="$options/xhtml:li[@class = 'moreSimilarVersusLessSimilarPairs']" />
+	<xsl:variable name="similarPairs" select="$options/xhtml:li[@class = 'similarPairs']" />
 
 	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
 	<xsl:variable name="searchPattern" select="$details/xhtml:li[@class = 'searchPattern']" />
+
+	<xsl:variable name="languageCode3" select="$details/xhtml:li[@class = 'languageCode']" />
+	<xsl:variable name="languageCode1">
+		<xsl:if test="string-length($languageCode3) != 0">
+			<xsl:value-of select="document('ISO_639.html')//xhtml:tr[xhtml:td[@class = 'ISO_639-3'] = $languageCode3]/xhtml:td[@class = 'ISO_639-1']" />
+		</xsl:if>
+	</xsl:variable>
+	<xsl:variable name="languageCode">
+		<xsl:choose>
+			<xsl:when test="string-length($languageCode1) = 2">
+				<xsl:value-of select="$languageCode1" />
+			</xsl:when>
+			<xsl:when test="string-length($languageCode3) != 0">
+				<xsl:value-of select="$languageCode3" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="'und'" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+	<xsl:variable name="langPhonetic">
+		<xsl:value-of select="$languageCode" />
+		<xsl:value-of select="'-fonipa'" />
+	</xsl:variable>
 
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
 	<xsl:template match="@* | node()">
@@ -35,76 +59,66 @@ exclude-result-prefixes="xhtml"
 		</xsl:copy>
 	</xsl:template>
 
+	<xsl:template match="@* | node()" mode="pairs">
+		<xsl:param name="pairs" />
+		<xsl:copy>
+			<xsl:apply-templates select="@* | node()" mode="pairs">
+				<xsl:with-param name="pairs" select="$pairs" />
+			</xsl:apply-templates>
+		</xsl:copy>
+	</xsl:template>
+
 	<xsl:template match="xhtml:table[contains(@class, 'list')][xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']]">
 		<xsl:variable name="searchItem" select="substring-before($searchPattern, '/')" />
 		<xsl:variable name="type">
 			<xsl:choose>
 				<xsl:when test="$searchItem = '[C]'">
-					<xsl:value-of select="'Consonant'" />
+					<xsl:value-of select="'consonant'" />
 				</xsl:when>
 				<xsl:when test="$searchItem = '[V]'">
-					<xsl:value-of select="'Vowel'" />
+					<xsl:value-of select="'vowel'" />
 				</xsl:when>
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:variable name="similarPhonePairs" select="document($projectPhoneticInventoryXML)/inventory/similarPhonePairs" />
+		<xsl:variable name="pairs" select="document($projectPhoneticInventoryXML)/inventory/pairs[@type = $type]" />
 		<xsl:choose>
-			<xsl:when test="count($similarPhonePairs/pair[@type = $type]) != 0">
+			<xsl:when test="$pairs/pair">
 				<xsl:variable name="table" select="." />
 				<xsl:variable name="colspan" select="count(xhtml:colgroup/xhtml:col) - 2" />
-				<div class="report" xmlns="http://www.w3.org/1999/xhtml">
-					<h4>More-similar pairs</h4>
-					<xsl:copy>
-						<xsl:apply-templates select="@* | xhtml:*[not(self::xhtml:tbody)]" />
-						<xsl:apply-templates select="xhtml:tbody" mode="similarPhonePairs">
-							<xsl:with-param name="similarPhonePairs" select="$similarPhonePairs" />
-							<xsl:with-param name="moreSimilar" select="'true'" />
-						</xsl:apply-templates>
-						<!-- For any similar pair of phones for which there are no minimal pairs, append an empty group. -->
-						<xsl:for-each select="$similarPhonePairs/pair[@type = $type]">
-							<xsl:variable name="literal1" select="phone[1]/@literal" />
-							<xsl:variable name="literal2" select="phone[2]/@literal" />
-							<xsl:choose>
-								<xsl:when test="$table/xhtml:tbody/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair'][xhtml:ul/xhtml:li[1]/xhtml:span = $literal1 and xhtml:ul/xhtml:li[2]/xhtml:span = $literal2]" />
-								<xsl:when test="$table/xhtml:tbody/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair'][xhtml:ul/xhtml:li[1]/xhtml:span = $literal2 and xhtml:ul/xhtml:li[2]/xhtml:span = $literal1]" />
-								<xsl:otherwise>
-									<tbody class="group">
-										<tr class="heading">
-											<th class="count">
-												<xsl:value-of select="0" />
-											</th>
-											<th class="Phonetic pair">
-												<ul>
-													<li>
-														<span>
-															<xsl:value-of select="$literal1" />
-														</span>
-													</li>
-													<li>
-														<span>
-															<xsl:value-of select="$literal2" />
-														</span>
-													</li>
-												</ul>
-											</th>
-											<th colspan="{$colspan}" />
-										</tr>
-									</tbody>
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:for-each>
-					</xsl:copy>
-				</div>
-				<div class="report" xmlns="http://www.w3.org/1999/xhtml">
-					<h4>Less-similar pairs</h4>
-					<xsl:copy>
-						<xsl:apply-templates select="@* | xhtml:*[not(self::xhtml:tbody)]" />
-						<xsl:apply-templates select="xhtml:tbody" mode="similarPhonePairs">
-							<xsl:with-param name="similarPhonePairs" select="$similarPhonePairs" />
-							<xsl:with-param name="moreSimilar" select="'false'" />
-						</xsl:apply-templates>
-					</xsl:copy>
-				</div>
+				<xsl:copy>
+					<xsl:apply-templates select="@* | node()" mode="pairs">
+						<xsl:with-param name="pairs" select="$pairs" />
+					</xsl:apply-templates>
+					<!-- For any more-similar pair of segments for which there are no minimal pairs, append an empty group. -->
+					<xsl:for-each select="$pairs/pair[@similarity = 'more']">
+						<xsl:variable name="literal1" select="segment[1]/@literal" />
+						<xsl:variable name="literal2" select="segment[2]/@literal" />
+						<xsl:choose>
+							<xsl:when test="$table/xhtml:tbody/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair'][xhtml:ul/xhtml:li[1] = $literal1 and xhtml:ul/xhtml:li[2] = $literal2]" />
+							<xsl:when test="$table/xhtml:tbody/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair'][xhtml:ul/xhtml:li[1] = $literal2 and xhtml:ul/xhtml:li[2] = $literal1]" />
+							<xsl:otherwise>
+								<tbody class="group" xmlns="http://www.w3.org/1999/xhtml">
+									<tr class="heading">
+										<th class="count">
+											<xsl:value-of select="0" />
+										</th>
+										<th class="Phonetic pair more-similar">
+											<ul>
+												<li lang="{$langPhonetic}">
+													<xsl:value-of select="$literal1" />
+												</li>
+												<li lang="{$langPhonetic}">
+													<xsl:value-of select="$literal2" />
+												</li>
+											</ul>
+										</th>
+										<th colspan="{$colspan}" />
+									</tr>
+								</tbody>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:for-each>
+				</xsl:copy>
 			</xsl:when>
 			<xsl:otherwise>
 				<!-- To ignore all of the following rules, copy instead of apply templates. -->
@@ -113,25 +127,25 @@ exclude-result-prefixes="xhtml"
 		</xsl:choose>
 	</xsl:template>
 
-	<xsl:template match="xhtml:table[contains(@class, 'list')]/xhtml:tbody" mode="similarPhonePairs">
-		<xsl:param name="similarPhonePairs" />
-		<xsl:param name="moreSimilar" />
-		<xsl:variable name="pair" select="xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']" />
-		<xsl:variable name="literal1" select="$pair/xhtml:ul/xhtml:li[1]/xhtml:span" />
-		<xsl:variable name="literal2" select="$pair/xhtml:ul/xhtml:li[2]/xhtml:span" />
-		<xsl:variable name="similarPhonePair" select="$similarPhonePairs/pair[(phone[1]/@literal = $literal1 and phone[2]/@literal = $literal2) or (phone[1]/@literal = $literal2 and phone[2]/@literal = $literal1)]" />
-		<xsl:choose>
-			<xsl:when test="$moreSimilar = 'true'">
-				<xsl:if test="$similarPhonePair">
-					<xsl:copy-of select="." />
-				</xsl:if>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:if test="not($similarPhonePair)">
-					<xsl:copy-of select="." />
-				</xsl:if>
-			</xsl:otherwise>
-		</xsl:choose>
+	<xsl:template match="xhtml:table[contains(@class, 'list')]/xhtml:tbody/xhtml:tr[@class = 'heading']/xhtml:th[@class = 'Phonetic pair']/@class" mode="pairs">
+		<xsl:param name="pairs" />
+		<xsl:variable name="ul" select="../xhtml:ul" />
+		<xsl:variable name="literal1" select="$ul/xhtml:li[1]" />
+		<xsl:variable name="literal2" select="$ul/xhtml:li[2]" />
+		<xsl:variable name="pair" select="$pairs/pair[(segment[1]/@literal = $literal1 and segment[2]/@literal = $literal2) or (segment[1]/@literal = $literal2 and segment[2]/@literal = $literal1)][@similarity]" />
+		<xsl:attribute name="class">
+			<xsl:value-of select="." />
+			<xsl:value-of select="' '" />
+			<xsl:choose>
+				<xsl:when test="$pair">
+					<xsl:value-of select="$pair/@similarity" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="'least'" />
+				</xsl:otherwise>
+			</xsl:choose>
+			<xsl:value-of select="'-similar'" />
+		</xsl:attribute>
 	</xsl:template>
 
 </xsl:stylesheet>

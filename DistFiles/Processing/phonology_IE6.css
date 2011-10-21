@@ -1,38 +1,55 @@
-﻿/* phonology_IE6.css 2010-08-23 */
+﻿/* phonology_IE6.css 2011-07-01 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 /* Here are the exceptions for Internet Explorer 6 and earlier. */
 
+/* At this point in the history of IE, we will tolerate that: */
+/* * the following rule in the phonology.css file only works partially: */
+/*   table.list { border-collapse: collapse; } */
+/* * the following rule in the phonology_IE7.css file works only for non-empty cells: */
+/*   table.list tr.heading th { border-top-style: solid; } */
+
+/* No max-width or position: fixed ------------------------------------------ */
+
+div.article
+{
+width: 45em; /* 720px, instead of max-width */
+}
+
+.nav
+{
+position: absolute; /* instead of position: fixed */
+top: 3.25em; /* 52px = 16 + 36, align with first line after heading */
+left: 45em; /* 720px */
+margin-left: 1.5em; /* 24px */
+}
+
 /* No interactive behavior -------------------------------------------------- */
+
+/* Display sections or tables that are collapsed by default. */
+
+div.collapsed div, /* child division */
+div.collapsed p,
+div.collapsed table,
+div.collapsed ol,
+div.collapsed ul,
+.collapsed tr.data /* in case either div or table is collapsed */
+{
+display: block;
+}
+
+div.collapsed h1,
+div.collapsed h2,
+div.collapsed h3,
+div.collapsed h4
+{
+color: #000000; /* text normal */
+}
 
 /* Do not display elements that people cannot interact with. */
 
-table.features, /* Features tables at the right of CV chart. */
-div.collapsed, /* Feature charts following CV chart. */
-ul.environments /* Tabs between distribution and CV chart. */
+div.distribution_environments_CV ul.environments, /* list of tabs for distribution and CV chart */
+div.distribution_environments_CV table.CV, /* CV chart for distribution chart */
+table.features /* features table at the right of CV chart */
 {
 display: none;
-}
-
-/* Ideally, would not display a CV chart following a distribution chart. */
-
-/* Borders ------------------------------------------------------------------ */
-
-/* Omit the borders because no support for :hover */
-/* Without the borders, increase padding slightly. */
-
-table.list tbody th,
-table.list tbody td
-{
-border-style: none;
-padding-top: 0.25em;
-padding-bottom: 0.25em;
-}
-
-/* Border color ------------------------------------------------------------- */
-
-/* Restore the color from phonology.css that phonology_IE7.css overrides? */
-
-table.list tr.heading th
-{
-border-top-color: #999999; /* border */
 }

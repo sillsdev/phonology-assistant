@@ -5,7 +5,12 @@
 		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_project_inventory_1a.xsl" />
+					<document href="phonology_project_inventory_0.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_1a_symbols.xsl" />
 				</input>
 			</xslt>
 			<xslt>
@@ -15,107 +20,79 @@
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_project_inventory_articulatory_features.xsl" />
+					<document href="phonology_project_inventory_1c_diacritics.xsl" />
 				</input>
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_project_inventory_binary_features.xsl" />
+					<document href="phonology_project_inventory_1d_base_sequences.xsl" />
 				</input>
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_project_inventory_2a_diacritics.xsl" />
+					<document href="phonology_project_inventory_1e_descriptive_features.xsl" />
 				</input>
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_project_inventory_articulatory_features.xsl" />
+					<document href="phonology_project_inventory_2a_phonetic_sort_order.xsl" />
 				</input>
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_project_inventory_2b_base_sequences.xsl" />
+					<document href="phonology_project_chartKey_order_1.xsl" />
 				</input>
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_project_inventory_2c_feature_overrides.xsl" />
+					<document href="phonology_project_chartKey_order_2.xsl" />
 				</input>
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_project_inventory_2d_feature_rules.xsl" />
+					<document href="phonology_project_inventory_2b_place_or_backness.xsl" />
 				</input>
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_project_inventory_2e_feature_rules.xsl" />
+					<document href="phonology_project_inventory_2c_manner_or_height.xsl" />
 				</input>
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_project_inventory_2f_feature_rules.xsl" />
+					<document href="phonology_project_inventory_2d_tone.xsl" />
 				</input>
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_project_inventory_articulatory_features.xsl" />
+					<document href="phonology_project_inventory_3a_description.xsl" />
 				</input>
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_project_inventory_binary_features.xsl" />
+					<document href="phonology_project_inventory_3b_description.xsl" />
 				</input>
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_project_inventory_3a_feature_order.xsl" />
+					<document href="phonology_project_inventory_4a_distinctive_features.xsl" />
 				</input>
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_project_inventory_3b_feature_changes.xsl" />
+					<document href="phonology_project_inventory_4b_distinctive_features.xsl" />
 				</input>
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_project_inventory_4a_phonetic_sort_order.xsl" />
+					<document href="phonology_project_inventory_4c_distinctive_features.xsl" />
 				</input>
 			</xslt>
+			<!--
+			-->
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_project_inventory_4b_place_of_articulation.xsl" />
-				</input>
-			</xslt>
-			<xslt>
-				<input port="stylesheet">
-					<document href="phonology_project_inventory_4c_manner_of_articulation.xsl" />
-				</input>
-			</xslt>
-			<xslt>
-				<input port="stylesheet">
-					<document href="phonology_project_inventory_5a_description.xsl" />
-				</input>
-			</xslt>
-			<xslt>
-				<input port="stylesheet">
-					<document href="phonology_project_inventory_5b_description.xsl" />
-				</input>
-			</xslt>
-			<xslt>
-				<input port="stylesheet">
-					<document href="phonology_project_inventory_6a_similar_phone_pairs.xsl" />
-				</input>
-			</xslt>
-			<xslt>
-				<input port="stylesheet">
-					<document href="phonology_project_inventory_6b_similar_phone_pairs.xsl" />
-				</input>
-			</xslt>
-			<xslt>
-				<input port="stylesheet">
-					<document href="phonology_project_inventory_6c_similar_phone_pairs.xsl" />
+					<document href="phonology_project_inventory_6_similar_pairs.xsl" />
 				</input>
 			</xslt>
 			<xslt>
@@ -131,17 +108,39 @@
 		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_project_to_CV_chart_1a.xsl" />
+					<document href="phonology_project_inventory_0.xsl" />
 				</input>
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_project_to_CV_chart_1b.xsl" />
+					<document href="phonology_project_inventory_5a_CV_chart_order.xsl" />
 				</input>
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_project_to_CV_chart_2.xsl" />
+					<document href="phonology_project_chartKey_order_1.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_chartKey_order_2.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_5b_CV_chart_lists.xsl" />
+					<input port="parameters" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_5c_CV_chart_table.xsl" />
+					<input port="parameters" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_project_inventory_5d_CV_chart_view.xsl" />
 				</input>
 			</xslt>
 		</pipeline>
@@ -160,12 +159,12 @@
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_export_view_list_2b_sort_manner.xsl" />
+					<document href="phonology_export_view_list_2b_sort_manner_or_height.xsl" />
 				</input>
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_export_view_list_2c_sort_place.xsl" />
+					<document href="phonology_export_view_list_2c_sort_place_or_backness.xsl" />
 				</input>
 			</xslt>
 			<xslt>
@@ -204,12 +203,12 @@
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_export_view_list_2b_sort_manner.xsl" />
+					<document href="phonology_export_view_list_2b_sort_manner_or_height.xsl" />
 				</input>
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_export_view_list_2c_sort_place.xsl" />
+					<document href="phonology_export_view_list_2c_sort_place_or_backness.xsl" />
 				</input>
 			</xslt>
 			<xslt>
@@ -224,12 +223,7 @@
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_export_view_list_3b_minimal_pairs_differences.xsl" />
-				</input>
-			</xslt>
-			<xslt>
-				<input port="stylesheet">
-					<document href="phonology_export_view_list_3c_minimal_pairs.xsl" />
+					<document href="phonology_export_view_list_3b_minimal_pairs_count.xsl" />
 				</input>
 			</xslt>
 		</pipeline>
@@ -271,6 +265,32 @@
 					<document href="phonology_export_view_CV_chart_3b_feature_chart.xsl" />
 				</input>
 			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_CV_chart_3c_feature_chart.xsl" />
+				</input>
+			</xslt>
+			<!--
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_quadrilateral.xsl" />
+				</input>
+			</xslt>
+			-->
+		</pipeline>
+	</process>
+	<process type="export" view="V Quadrilateral">
+		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_options.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_quadrilateral.xsl" />
+				</input>
+			</xslt>
 		</pipeline>
 	</process>
 	<process type="export" view="Distribution Chart">
@@ -283,22 +303,6 @@
 			<xslt>
 				<input port="stylesheet">
 					<document href="phonology_export_view_distribution_chart_generalize.xsl" />
-				</input>
-			</xslt>
-			<!-- Begin processing for CV chart that follows some distribution charts. -->
-			<xslt>
-				<input port="stylesheet">
-					<document href="phonology_export_view_CV_chart_0a_from_distribution_chart.xsl" />
-				</input>
-			</xslt>
-			<xslt>
-				<input port="stylesheet">
-					<document href="phonology_export_view_CV_chart_0b_from_distribution_chart.xsl" />
-				</input>
-			</xslt>
-			<xslt>
-				<input port="stylesheet">
-					<document href="phonology_export_view_CV_chart_0c_from_distribution_chart.xsl" />
 				</input>
 			</xslt>
 			<xslt>
@@ -354,13 +358,23 @@
 					<document href="phonology_export_view_to_XHTML.xsl" />
 				</input>
 			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_to_XHTML1.xsl" />
+				</input>
+			</xslt>
 		</pipeline>
 	</process>
-	<process type="export" format="XLingPaper">
+	<process type="export" format="XHTML5">
 		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_export_view_XLingPaper.xsl" />
+					<document href="phonology_export_view_to_XHTML.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view_to_XHTML5.xsl" />
 				</input>
 			</xslt>
 		</pipeline>

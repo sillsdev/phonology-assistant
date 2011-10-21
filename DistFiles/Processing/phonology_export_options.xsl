@@ -2,7 +2,7 @@
 xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
-	<!-- phonology_export_options.xsl 2010-05-21 -->
+	<!-- phonology_export_options.xsl 2011-08-15 -->
 	<!-- Insert options for other XSL Transformations in the pipeline. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
@@ -50,26 +50,28 @@ exclude-result-prefixes="xhtml"
 				<xsl:otherwise>
 					<li class="interactiveWebPage">true</li>
 					<li class="genericStylesheetForCSS3">true</li>
+					<li class="genericStylesheetForIE8">true</li>
 					<li class="genericStylesheetForIE7">true</li>
 					<li class="genericStylesheetForIE6">true</li>
 					<li class="tableOfDetails">true</li>
 					<li class="hyperlinkToEthnologue">true</li>
-					<li class="dateAndTime">true</li>
+					<li class="dateAndTime">false</li>
 					<li class="oneMinimalPairPerGroup">true</li>
-					<li class="moreSimilarVersusLessSimilarPairs">false</li>
+					<li class="similarPairs">true</li>
 					<!--
 					<li class="textFlowOfColumnHeadings">horizontal</li>
 					<li class="textFlowOfColumnHeadings">verticalCounterClockwise</li>
 					<li class="textFlowOfColumnHeadings">verticalClockwise</li>
 					-->
 					<li class="textFlowOfColumnHeadings">horizontal</li>
-					<li class="hyphenatedColumnHeadings">true</li>
-					<li class="articulatoryFeatureTable">true</li>
-					<li class="binaryFeatureTable">true</li>
-					<li class="hierarchicalFeatureTable">true</li>
-					<li class="featureChartByPlaceOfArticulation">true</li>
-					<li class="featureChartByMannerOfArticulation">true</li>
-					<li class="transposeColumnsAndRows">false</li>
+					<li class="headingUppercaseCV">false</li>
+					<li class="breakWideColumnHeadingsCV">true</li>
+					<li class="descriptiveFeatureTable">true</li>
+					<li class="distinctiveFeatureTable">true</li>
+					<li class="distinctiveFeatureChanges">true</li>
+					<li class="featureChartByPlaceOrBackness">true</li>
+					<li class="featureChartByMannerOrHeight">true</li>
+					<li class="distributionChartTransposed">false</li>
 					<!--
 					<li class="withCVchart">true</li>
 					-->

@@ -1,47 +1,48 @@
-﻿/* phonology_IE7.css 2010-05-14 */
+﻿/* phonology_IE7.css 2011-07-01 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 /* Here are the exceptions for Internet Explorer 7. */
 
+/* Sometimes needed for :hover formatting and click across full width. */
+/* Not needed in pages containing CV charts, perhaps because they are float? */
+
+div.section h1,
+div.section h2,
+div.section h3,
+div.section h4
+{
+width: 100%;
+}
+
+/* Margins ------------------------------------------------------------------ */
+
+/* Because IE7 collapses margin-bottom of table contained in first div. */
+
+div.CV_features + div.CV_features
+{
+margin-top: 1em; /* 16px */
+}
+
 /* Borders ------------------------------------------------------------------ */
+
+/* Because IE7 does not support border-top for tbody. */
+
+table.list tr.heading th
+{
+border-top-style: solid;
+border-color: #dddddd; /* lighter border */
+}
+
+table.features tbody tr:first-child td.name
+{
+border-top-style: solid;
+border-color: #999999; /* border */
+}
 
 /* When environment tabs precede a consonant or vowel chart, */
 /* make up for lack of borders for tbody and colgroup. */
+
 ul.environments + table.CV
 {
 border-right-style: solid;
 border-bottom-style: solid;
-}
-
-/* Make up for lack of borders for tbody and colgroup. */
-table.chart thead tr:first-child th:first-child div.zero
-{
-margin-right: -1px; /* Negative width of border-right. */
-border-right-style: solid;
-border-bottom-style: solid;
-}
-
-/* Omit the borders because border-color: transparent becomes */
-/* the background color of the page instead of the cell. */
-/* Without the borders, increase padding slightly. */
-table.features td
-{
-border-style: none;
-padding-top: 0.25em;
-padding-bottom: 0.25em;
-}
-
-/* Border color ------------------------------------------------------------- */
-
-/* Specify color explicitly because border-color: transparent becomes */
-/* the background color of the page instead of the cell. */
-
-table.list th.pair,
-table.list th.count
-{
-border-bottom-color: #cfe6cf; /* interactive instead of transparent */
-}
-
-table.list .item
-{
-border-color: #ffffb2; /* significant */
 }

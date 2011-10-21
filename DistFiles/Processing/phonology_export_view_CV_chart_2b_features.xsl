@@ -3,193 +3,151 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_CV_chart_2b_features.xsl 2010-05-25 -->
+  <!-- phonology_export_view_CV_chart_2b_features.xsl 2011-08-13 -->
 	<!-- Export to XHTML, Interactive Web page, and at least one feature table. -->
-	<!-- Keep the features that distinguish units in the CV chart. -->
+	<!-- Keep the features that distinguish segments in the CV chart. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
-	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
-	<xsl:variable name="settings" select="$metadata/xhtml:ul[@class = 'settings']" />
-	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
-
-	<xsl:variable name="typeOfUnits">
-		<xsl:choose>
-			<xsl:when test="string-length($details/xhtml:li[@class = 'typeOfUnits']) != 0">
-				<xsl:value-of select="$details/xhtml:li[@class = 'typeOfUnits']" />
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="'phonetic'" />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
-
-	<!-- A project phonetic inventory file contains features of phonetic or phonological units, or both. -->
-	<xsl:variable name="projectFolder" select="$settings/xhtml:li[@class = 'projectFolder']" />
-	<xsl:variable name="projectPhoneticInventoryFile" select="$settings/xhtml:li[@class = 'projectPhoneticInventoryFile']" />
-	<xsl:variable name="projectPhoneticInventoryXML" select="concat($projectFolder, $projectPhoneticInventoryFile)" />
-	<xsl:variable name="units" select="document($projectPhoneticInventoryXML)/inventory/units[@type = $typeOfUnits]" />
-
-	<xsl:variable name="countUnits" select="count(//xhtml:body/xhtml:ul[@class = 'CV chart']/xhtml:li)" />
-
-  <!-- Copy all attributes and nodes, and then define more specific template rules. -->
+	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
   <xsl:template match="@* | node()">
     <xsl:copy>
       <xsl:apply-templates select="@* | node()" />
     </xsl:copy>
   </xsl:template>
 
-	<!-- Keep an articulatory feature only if it distinguishes units. -->
-	<!-- That is, at least one unit has it and at least one unit does not. -->
-	<xsl:template match="xhtml:table[@class = 'articulatory features']/xhtml:tbody/xhtml:tr">
-		<xsl:variable name="feature" select="xhtml:td[@class = 'name']" />
-		<xsl:if test="../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'articulatory features'][xhtml:li[. = $feature]]">
-      <xsl:if test="../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'articulatory features'][not(xhtml:li[. = $feature])]">
+	<!-- Descriptive features -->
+	
+	<xsl:template match="xhtml:table[@class = 'descriptive features']">
+		<xsl:variable name="tableCV" select="../xhtml:table[starts-with(@class, 'CV chart')]" />
+		<xsl:copy>
+			<xsl:apply-templates select="@* | node()" mode="descriptive">
+				<xsl:with-param name="tableCV" select="$tableCV" />
+			</xsl:apply-templates>
+		</xsl:copy>
+	</xsl:template>
+
+	<xsl:template match="@* | node()" mode="descriptive">
+		<xsl:param name="tableCV" />
+		<xsl:copy>
+			<xsl:apply-templates select="@* | node()" mode="descriptive">
+				<xsl:with-param name="tableCV" select="$tableCV" />
+			</xsl:apply-templates>
+		</xsl:copy>
+	</xsl:template>
+
+	<!-- Keep a segmental descriptive feature only if it distinguishes segments. -->
+	<!-- That is, at least one segment has it and at least one segment does not. -->
+	<xsl:template match="xhtml:table[@class = 'descriptive features']/xhtml:tbody/xhtml:tr" mode="descriptive">
+		<xsl:param name="tableCV" />
+		<xsl:variable name="feature" select="xhtml:td" />
+		<xsl:if test="$tableCV//xhtml:ul[@class = 'descriptive features'][xhtml:li[. = $feature]]">
+      <xsl:if test="$tableCV//xhtml:ul[@class = 'descriptive features'][not(xhtml:li[. = $feature])]">
 				<xsl:copy-of select="." />
 			</xsl:if>
     </xsl:if>
   </xsl:template>
 
-	<!-- Keep a univalent binary feature only if it distinguish units. -->
-	<!-- That is, at least one unit has it and at least one unit does not. -->
-	<xsl:template match="xhtml:table[@class = 'binary features']/xhtml:tbody/xhtml:tr[@class = 'univalent']">
-		<xsl:variable name="feature" select="xhtml:td[@class = 'name']" />
-		<xsl:if test="../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'binary features'][xhtml:li[. = $feature]]">
-			<xsl:if test="../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'binary features'][not(xhtml:li[. = $feature])]">
-				<xsl:copy-of select="." />
-			</xsl:if>
+	<!-- Keep a suprasegmental descriptive feature if at least one segment has it. -->
+	<xsl:template match="xhtml:table[@class = 'descriptive features']/xhtml:tbody[@class = 'tone']/xhtml:tr" mode="descriptive">
+		<xsl:param name="tableCV" />
+		<xsl:variable name="feature" select="xhtml:td" />
+		<xsl:if test="$tableCV//xhtml:ul[@class = 'descriptive features'][xhtml:li[. = $feature]]">
+			<xsl:copy-of select="." />
 		</xsl:if>
 	</xsl:template>
 
-	<!-- Keep a bivalent binary feature only if at least one of its values distinguishes units. -->
-	<xsl:template match="xhtml:table[@class = 'binary features']//xhtml:tbody/xhtml:tr[@class = 'bivalent']">
-		<xsl:variable name="featureName" select="xhtml:td[@class = 'name']" />
-		<xsl:variable name="featurePlus" select="concat('+', $featureName)" />
-		<!-- Important: Although cells for minus values might contain en-dash, list items have minus. -->
-		<xsl:variable name="featureMinus" select="concat('-', $featureName)" />
-		<xsl:variable name="countPlus" select="count(../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'binary features'][xhtml:li[. = $featurePlus]])" />
-		<xsl:variable name="countMinus" select="count(../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'binary features'][xhtml:li[. = $featureMinus]])" />
-		<xsl:choose>
-			<!-- Remove the feature if no unit has either value. -->
-			<xsl:when test="$countPlus = 0 and $countMinus = 0" />
-			<!-- Remove the feature if all units have the same value. Assume binary values are mutually exclusive. -->
-			<xsl:when test="$countPlus = $countUnits or $countMinus = $countUnits" />
-			<xsl:otherwise>
-				<xsl:copy>
-					<xsl:apply-templates select="@*" />
-					<xsl:apply-templates select="xhtml:td">
-						<xsl:with-param name="countPlus" select="$countPlus" />
-						<xsl:with-param name="countMinus" select="$countMinus" />
-					</xsl:apply-templates>
-				</xsl:copy>
-			</xsl:otherwise>
-		</xsl:choose>
+	<!-- Distinctive features -->
+
+	<xsl:template match="xhtml:table[starts-with(@class, 'distinctive features')]">
+		<xsl:variable name="ancestor" select=".." />
+		<xsl:variable name="positionKeyFormat" select="translate(count($ancestor//xhtml:table[starts-with(@class, 'CV chart')]//xhtml:ul[@class = 'distinctive features']), '0123456789', '0000000000')" />
+		<xsl:copy>
+			<xsl:apply-templates select="@*" />
+			<xsl:apply-templates mode="distinctive">
+				<xsl:with-param name="ancestor" select="$ancestor" />
+				<xsl:with-param name="positionKeyFormat" select="$positionKeyFormat" />
+			</xsl:apply-templates>
+		</xsl:copy>
 	</xsl:template>
 
-	<xsl:template match="xhtml:table[@class = 'binary features']//xhtml:td[@class = 'plus']">
-		<xsl:param name="countPlus" />
-		<xsl:choose>
-			<!-- Keep the class attribute and the text if the value distinguishes units. -->
-			<xsl:when test="$countPlus != 0">
-				<xsl:copy-of select="." />
-			</xsl:when>
-			<!-- Empty cell. -->
-			<xsl:otherwise>
-				<xsl:copy />
-			</xsl:otherwise>
-		</xsl:choose>
+	<xsl:template match="@* | node()" mode="distinctive">
+		<xsl:param name="ancestor" />
+		<xsl:param name="positionKeyFormat" />
+		<xsl:copy>
+			<xsl:apply-templates select="@* | node()" mode="distinctive">
+				<xsl:with-param name="ancestor" select="$ancestor" />
+				<xsl:with-param name="positionKeyFormat" select="$positionKeyFormat" />
+			</xsl:apply-templates>
+		</xsl:copy>
 	</xsl:template>
 
-	<xsl:template match="xhtml:table[@class = 'binary features']//xhtml:td[@class = 'minus']">
-		<xsl:param name="countMinus" />
-		<xsl:choose>
-			<!-- Keep the class attribute and the text if the value distinguishes units. -->
-			<xsl:when test="$countMinus != 0">
-				<xsl:copy-of select="." />
-			</xsl:when>
-			<!-- Empty cell. -->
-			<xsl:otherwise>
-				<xsl:copy />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-
-	<!-- Keep a univalent hierarchical feature if at least one unit has it. -->
-	<xsl:template match="xhtml:table[@class = 'hierarchical features']//xhtml:tbody/xhtml:tr[@class = 'univalent']">
+	<!-- Keep a univalent distinctive feature if at least one segment has it. -->
+	<xsl:template match="xhtml:table[starts-with(@class, 'distinctive features')]/xhtml:tbody/xhtml:tr[@class = 'univalent']" mode="distinctive">
+		<xsl:param name="ancestor" />
 		<xsl:variable name="feature" select="xhtml:td[@class = 'name']" />
-		<xsl:if test="../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'hierarchical features'][xhtml:li[. = $feature]]">
+		<xsl:if test="$ancestor//xhtml:table[starts-with(@class, 'CV chart')]//xhtml:ul[@class = 'distinctive features'][xhtml:li[. = $feature]]">
 			<xsl:copy>
 				<xsl:apply-templates select="@*" />
 				<xsl:attribute name="title">
-					<xsl:apply-templates select="../../../xhtml:table[@class = 'CV chart']//xhtml:td[@class = 'Phonetic'][xhtml:ul[@class = 'hierarchical features']/xhtml:li[. = $feature]]/xhtml:span" mode="sortKey" />
+					<xsl:apply-templates select="$ancestor//xhtml:table[starts-with(@class, 'CV chart')]//xhtml:td[@class = 'Phonetic'][xhtml:ul[@class = 'distinctive features']/xhtml:li[. = $feature]]/xhtml:span" mode="sortKey" />
 				</xsl:attribute>
-				<xsl:apply-templates />
+				<xsl:apply-templates mode="distinctive" />
 			</xsl:copy>
 		</xsl:if>
 	</xsl:template>
 
-	<!-- Keep a bivalent hierarchical feature only if at least one of its values distinguishes units. -->
-	<xsl:template match="xhtml:table[@class = 'hierarchical features']//xhtml:tbody/xhtml:tr[@class = 'bivalent']">
+	<!-- Keep a bivalent distinctive feature only if at least one of its values distinguishes segments. -->
+	<xsl:template match="xhtml:table[starts-with(@class, 'distinctive features')]/xhtml:tbody/xhtml:tr[@class = 'bivalent']" mode="distinctive">
+		<xsl:param name="ancestor" />
+		<xsl:param name="positionKeyFormat" />
 		<xsl:variable name="featureName" select="xhtml:td[@class = 'name']" />
 		<xsl:variable name="featurePlus" select="concat('+', $featureName)" />
 		<!-- Important: Although cells for minus values might contain en-dash, list items have minus. -->
 		<xsl:variable name="featureMinus" select="concat('-', $featureName)" />
-		<xsl:if test="(../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'hierarchical features'][xhtml:li[. = $featurePlus]] and ../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'hierarchical features'][not(xhtml:li[. = $featurePlus])]) or (../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'hierarchical features'][xhtml:li[. = $featureMinus]] and ../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'hierarchical features'][not(xhtml:li[. = $featureMinus])])">
+		<xsl:if test="($ancestor//xhtml:table[starts-with(@class, 'CV chart')]//xhtml:ul[@class = 'distinctive features'][xhtml:li[. = $featurePlus]] and $ancestor//xhtml:table[starts-with(@class, 'CV chart')]//xhtml:ul[@class = 'distinctive features'][not(xhtml:li[. = $featurePlus])]) or ($ancestor//xhtml:table[starts-with(@class, 'CV chart')]//xhtml:ul[@class = 'distinctive features'][xhtml:li[. = $featureMinus]] and $ancestor//xhtml:table[starts-with(@class, 'CV chart')]//xhtml:ul[@class = 'distinctive features'][not(xhtml:li[. = $featureMinus])])">
 			<xsl:copy>
 				<xsl:apply-templates select="@*" />
 				<xsl:apply-templates select="xhtml:td">
-					<xsl:with-param name="countPlus" select="count(../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'hierarchical features'][xhtml:li[. = $featurePlus]])" />
-					<xsl:with-param name="countMinus" select="count(../../../xhtml:table[@class = 'CV chart']//xhtml:ul[@class = 'hierarchical features'][xhtml:li[. = $featureMinus]])" />
+					<xsl:with-param name="positionKeyPlus">
+						<xsl:for-each select="$ancestor//xhtml:table[starts-with(@class, 'CV chart')]//xhtml:ul[@class = 'distinctive features']">
+							<xsl:if test="xhtml:li[. = $featurePlus]">
+								<xsl:value-of select="format-number(position(), $positionKeyFormat)" />
+							</xsl:if>
+						</xsl:for-each>
+					</xsl:with-param>
+					<xsl:with-param name="positionKeyMinus">
+						<xsl:for-each select="$ancestor//xhtml:table[starts-with(@class, 'CV chart')]//xhtml:ul[@class = 'distinctive features']">
+							<xsl:if test="xhtml:li[. = $featureMinus]">
+								<xsl:value-of select="format-number(position(), $positionKeyFormat)" />
+							</xsl:if>
+						</xsl:for-each>
+					</xsl:with-param>
 				</xsl:apply-templates>
 			</xsl:copy>
 		</xsl:if>
 	</xsl:template>
 
-	<xsl:template match="xhtml:table[@class = 'hierarchical features']//xhtml:td[@class = 'plus']">
-		<xsl:param name="countPlus" />
-		<xsl:choose>
-			<!-- Keep the class attribute and the text if the value distinguishes units. -->
-			<xsl:when test="$countPlus != 0">
-				<xsl:variable name="feature" select="concat('+', ../xhtml:td[@class = 'name'])" />
-				<xsl:copy>
-					<xsl:apply-templates select="@*" />
-					<xsl:attribute name="title">
-						<xsl:apply-templates select="../../../../xhtml:table[@class = 'CV chart']//xhtml:td[@class = 'Phonetic'][xhtml:ul[@class = 'hierarchical features']/xhtml:li[. = $feature]]/xhtml:span" mode="sortKey" />
-					</xsl:attribute>
-					<xsl:apply-templates />
-				</xsl:copy>
-			</xsl:when>
-			<!-- Empty cell. -->
-			<xsl:otherwise>
-				<xsl:copy />
-			</xsl:otherwise>
-		</xsl:choose>
+	<!-- Add key as temporary title attribute. -->
+	
+	<xsl:template match="xhtml:table[starts-with(@class, 'distinctive features')]//xhtml:td[. = '+']">
+		<xsl:param name="positionKeyPlus" />
+		<xsl:copy>
+			<xsl:attribute name="title">
+				<xsl:value-of select="$positionKeyPlus" />
+			</xsl:attribute>
+			<xsl:apply-templates />
+		</xsl:copy>
 	</xsl:template>
 
-	<xsl:template match="xhtml:table[@class = 'hierarchical features']//xhtml:td[@class = 'minus']">
-		<xsl:param name="countMinus" />
-		<xsl:choose>
-			<!-- Keep the class attribute and the text if the value distinguishes units. -->
-			<xsl:when test="$countMinus != 0">
-				<xsl:variable name="feature" select="concat('-', ../xhtml:td[@class = 'name'])" />
-				<xsl:copy>
-					<xsl:apply-templates select="@*" />
-					<xsl:attribute name="title">
-						<xsl:apply-templates select="../../../../xhtml:table[@class = 'CV chart']//xhtml:td[@class = 'Phonetic'][xhtml:ul[@class = 'hierarchical features']/xhtml:li[. = $feature]]/xhtml:span" mode="sortKey" />
-					</xsl:attribute>
-					<xsl:apply-templates />
-				</xsl:copy>
-			</xsl:when>
-			<!-- Empty cell. -->
-			<xsl:otherwise>
-				<xsl:copy />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-
-	<xsl:template match="xhtml:td/xhtml:span" mode="sortKey">
-		<xsl:variable name="literal" select="." />
-		<xsl:value-of select="$units/unit[@literal = $literal]/keys/sortKey[@class = 'placeOfArticulation']" />
+	<xsl:template match="xhtml:table[starts-with(@class, 'distinctive features')]//xhtml:td[. = '&#x2013;' or . = '-']">
+		<xsl:param name="positionKeyMinus" />
+		<xsl:copy>
+			<xsl:attribute name="title">
+				<xsl:value-of select="$positionKeyMinus" />
+			</xsl:attribute>
+			<xsl:apply-templates />
+		</xsl:copy>
 	</xsl:template>
 
 </xsl:stylesheet>

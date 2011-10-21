@@ -635,7 +635,7 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
               <xsl:when test="starts-with(@class, 'Phonetic')">
                 <xsl:value-of select="'Phonetic'" />
               </xsl:when>
-              <xsl:when test="@class = 'sortField'">
+              <xsl:when test="@class = 'sorting_field'">
                 <xsl:value-of select="'Strong'" />
               </xsl:when>
               <xsl:when test="self::xhtml:td and ../@class = 'filter'">

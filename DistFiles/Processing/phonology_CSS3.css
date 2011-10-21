@@ -1,30 +1,119 @@
-﻿/* phonology_CSS3.css 2010-05-05 */
+﻿/* phonology_CSS3.css 2011-07-04 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 /* Properties from CSS level 3 and corresponding proprietary extensions. */
 
-/* Rounded borders ---------------------------------------------------------- */
+/* border-radius ------------------------------------------------------------ */
 
 /* Standard CSS3: */
-/* Chrome 4 or later. */
-/* Internet Explorer 9 or later. */
+/* Chrome 4 or later */
+/* Firefox 4 or later */
+/* Internet Explorer 9 or later */
 /* Opera 10.5 or later */
+/* Safari 5 or later */
 
 /* -webkit- extension: Safari 3 or later; Chrome 3 or earlier. */
 /* -moz- extension: Firefox 1 or later. */
 
 ul.environments.interactive li
 {
-border-top-left-radius: 0.5em;
-border-top-right-radius: 0.5em;
--webkit-border-top-left-radius: 0.5em;
--webkit-border-top-right-radius: 0.5em;
 -moz-border-radius-topleft: 0.5em;
 -moz-border-radius-topright: 0.5em;
+-webkit-border-top-left-radius: 0.5em;
+-webkit-border-top-right-radius: 0.5em;
+border-top-left-radius: 0.5em;
+border-top-right-radius: 0.5em;
 }
 
-table.chart thead tr:first-child th:first-child div.zero
+thead th.value div.value
 {
-border-top-left-radius: 0.25em;
--webkit-border-top-left-radius: 0.25em;
 -moz-border-radius-topleft: 0.5em;
+-webkit-border-top-left-radius: 0.5em;
+border-top-left-radius: 0.5em;
+}
+
+thead th[scope] + th.value div.value
+{
+-moz-border-radius-topright: 0.5em;
+-webkit-border-top-right-radius: 0.5em;
+border-top-right-radius: 0.5em;
+-moz-border-radius-topleft: 0;
+-webkit-border-top-left-radius: 0;
+border-top-left-radius: 0;
+}
+
+tfoot th.value div.value
+{
+-moz-border-radius-bottomleft: 0.5em;
+-webkit-border-bottom-left-radius: 0.5em;
+border-bottom-left-radius: 0.5em;
+}
+
+tfoot th[scope] + th.value div.value
+{
+-moz-border-radius-bottomright: 0.5em;
+-webkit-border-bottom-right-radius: 0.5em;
+border-bottom-right-radius: 0.5em;
+-moz-border-radius-bottomleft: 0;
+-webkit-border-bottom-left-radius: 0;
+border-bottom-left-radius: 0;
+}
+
+/* opacity ------------------------------------------------------------------ */
+
+.quadrilaterals.merged .quadrilateral svg.container, /* XHTML5 */
+.quadrilaterals.merged .quadrilateral object
+{
+opacity: 0.333;
+}
+
+.quadrilaterals.merged .quadrilateral.merged svg.container, /* XHTML5 */
+.quadrilaterals.merged .quadrilateral.merged object
+{
+opacity: 1;
+}
+
+/* transform ---------------------------------------------------------------- */
+
+/* -moz- extension: Firefox 3.5 or later */
+/* -ms- extension: Internet Explorer 9 or later */
+/* -o- extension: Opera 10.5 or later */
+/* -webkit- extension: Safari 3.1 or later; Chrome */
+
+/* Rotate label in table heading cells clockwise 90 degrees. */
+
+th.rotate div
+{
+position: relative;
+}
+
+th.rotate span
+{
+position: absolute;
+-ms-transform: rotate(90deg);
+-moz-transform: rotate(90deg);
+-o-transform: rotate(90deg);
+-webkit-transform: rotate(90deg);
+transform: rotate(90deg);
+}
+
+thead th.rotate span
+{
+right: 100%;
+bottom: 0;
+-ms-transform-origin: right bottom;
+-moz-transform-origin: right bottom;
+-o-transform-origin: right bottom;
+-webkit-transform-origin: right bottom;
+transform-origin: right bottom;
+}
+
+tfoot th.rotate span
+{
+left: 0;
+bottom: 100%;
+-ms-transform-origin: left bottom;
+-moz-transform-origin: left bottom;
+-o-transform-origin: left bottom;
+-webkit-transform-origin: left bottom;
+transform-origin: left bottom;
 }

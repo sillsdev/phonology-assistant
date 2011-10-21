@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_1b_minimal_pairs_split.xsl 2010-05-13 -->
+  <!-- phonology_export_view_list_1b_minimal_pairs_split.xsl 2011-09-28 -->
   <!-- If there are minimal pairs, optionally split groups into all combinations of pairs. -->
 
 	<!-- Important: If table is not Search view, copy it with no changes. -->
@@ -21,6 +21,30 @@ exclude-result-prefixes="xhtml"
 
 	<xsl:variable name="options" select="$metadata/xhtml:ul[@class = 'options']" />
 	<xsl:variable name="oneMinimalPairPerGroup" select="$options/xhtml:li[@class = 'oneMinimalPairPerGroup']" />
+
+	<xsl:variable name="languageCode3" select="$details/xhtml:li[@class = 'languageCode']" />
+	<xsl:variable name="languageCode1">
+		<xsl:if test="string-length($languageCode3) != 0">
+			<xsl:value-of select="document('ISO_639.html')//xhtml:tr[xhtml:td[@class = 'ISO_639-3'] = $languageCode3]/xhtml:td[@class = 'ISO_639-1']" />
+		</xsl:if>
+	</xsl:variable>
+	<xsl:variable name="languageCode">
+		<xsl:choose>
+			<xsl:when test="string-length($languageCode1) = 2">
+				<xsl:value-of select="$languageCode1" />
+			</xsl:when>
+			<xsl:when test="string-length($languageCode3) != 0">
+				<xsl:value-of select="$languageCode3" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="'und'" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+	<xsl:variable name="langPhonetic">
+		<xsl:value-of select="$languageCode" />
+		<xsl:value-of select="'-fonipa'" />
+	</xsl:variable>
 
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
   <xsl:template match="@* | node()">
@@ -68,12 +92,12 @@ exclude-result-prefixes="xhtml"
     <xsl:apply-templates select="xhtml:tr[@class = 'data'][1]" mode="enumerate1" />
   </xsl:template>
 
-	<!-- Enumerate the first unit of pairs. -->
-	<!-- That is, all units in the group, except the last (but excluding any duplicate units). -->
+	<!-- Enumerate the first segment of pairs. -->
+	<!-- That is, all segments in the group, except the last (but excluding any duplicate segments). -->
 	<xsl:template match="xhtml:tr" mode="enumerate1">
 		<xsl:variable name="PhoneticItem1" select="xhtml:td[@class = 'Phonetic item']" />
 		<!-- Especially for contrast in analogous environments (that is, not Both Environments Identical), -->
-		<!-- there might be multiple non-adjacent occurrences of units. -->
+		<!-- there might be multiple non-adjacent occurrences of segments. -->
 		<xsl:if test="not(preceding-sibling::xhtml:tr[xhtml:td[@class = 'Phonetic item'] = $PhoneticItem1])">
 			<xsl:apply-templates select="following-sibling::xhtml:tr[xhtml:td[@class = 'Phonetic item'] != $PhoneticItem1][1]" mode="enumerate2">
 				<xsl:with-param name="PhoneticItem1" select="$PhoneticItem1" />
@@ -82,13 +106,13 @@ exclude-result-prefixes="xhtml"
 		<xsl:apply-templates select="following-sibling::xhtml:tr[xhtml:td[@class = 'Phonetic item'] != $PhoneticItem1][1]" mode="enumerate1" />
 	</xsl:template>
 
-	<!-- Enumerate the second unit of pairs. -->
-	<!-- That is, all units in the group following the first unit (but excluding any duplicate units). -->
+	<!-- Enumerate the second segment of pairs. -->
+	<!-- That is, all segments in the group following the first segment (but excluding any duplicate segments). -->
   <xsl:template match="xhtml:tr" mode="enumerate2">
     <xsl:param name="PhoneticItem1" />
     <xsl:variable name="PhoneticItem2" select="xhtml:td[@class = 'Phonetic item']" />
 		<!-- Especially for contrast in analogous environments (that is, not Both Environments Identical), -->
-		<!-- there might be multiple non-adjacent occurrences of units. -->
+		<!-- there might be multiple non-adjacent occurrences of segments. -->
 		<xsl:if test="not(preceding-sibling::xhtml:tr[xhtml:td[@class = 'Phonetic item'] = $PhoneticItem2])">
 			<xsl:apply-templates select="ancestor::xhtml:tbody[contains(@class, 'group')]" mode="minimalPair">
 				<xsl:with-param name="PhoneticItem1" select="$PhoneticItem1" />
@@ -105,20 +129,16 @@ exclude-result-prefixes="xhtml"
     <xsl:param name="PhoneticItem2" />
     <xsl:copy>
       <xsl:apply-templates select="@*" />
-			<!-- In the group heading, insert the pair of units following the count (that is, number of records). -->
+			<!-- In the group heading, insert the pair of segments following the count (that is, number of records). -->
 			<tr class="heading" xmlns="http://www.w3.org/1999/xhtml">
 				<xsl:apply-templates select="xhtml:tr[@class = 'heading']/xhtml:th[@class = 'count']" />
 				<th class="Phonetic pair">
 					<ul>
-						<li>
-							<span>
-								<xsl:value-of select="$PhoneticItem1" />
-							</span>
+						<li lang="{$langPhonetic}">
+							<xsl:value-of select="$PhoneticItem1" />
 						</li>
-						<li>
-							<span>
-								<xsl:value-of select="$PhoneticItem2" />
-							</span>
+						<li lang="{$langPhonetic}">
+							<xsl:value-of select="$PhoneticItem2" />
 						</li>
 					</ul>
 				</th>
