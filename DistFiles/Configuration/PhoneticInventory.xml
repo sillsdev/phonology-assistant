@@ -5783,12 +5783,12 @@
 	</symbolDefinitions>
 	<sequencePatterns>
 		<sequencePattern title="affricate: plosive + fricative/lateral approximant">
-			<symbolDefinition primary="false">
+			<symbol primary="false">
 				<ifAnyOf>
 					<feature>plosive</feature>
 				</ifAnyOf>
-			</symbolDefinition>
-			<symbolDefinition primary="true">
+			</symbol>
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>fricative</feature>
 					<features>
@@ -5801,19 +5801,19 @@
 						<feature category="manner">affricate</feature>
 					</replace>
 				</changes>
-			</symbolDefinition>
+			</symbol>
 		</sequencePattern>
 		<sequencePattern title="double closure: plosive + plosive">
-			<symbolDefinition primary="true">
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>plosive</feature>
 				</ifAnyOf>
-			</symbolDefinition>
-			<symbolDefinition primary="true">
+			</symbol>
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>plosive</feature>
 				</ifAnyOf>
-			</symbolDefinition>
+			</symbol>
 			<changes primary="false">
 				<retain>
 					<feature category="place" />
@@ -5824,16 +5824,16 @@
 			</changes>
 		</sequencePattern>
 		<sequencePattern title="double closure: implosive + implosive">
-			<symbolDefinition primary="true">
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>implosive</feature>
 				</ifAnyOf>
-			</symbolDefinition>
-			<symbolDefinition primary="true">
+			</symbol>
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>implosive</feature>
 				</ifAnyOf>
-			</symbolDefinition>
+			</symbol>
 			<changes primary="false">
 				<retain>
 					<feature category="place" />
@@ -5844,16 +5844,16 @@
 			</changes>
 		</sequencePattern>
 		<sequencePattern title="double closure: plosive + implosive means implosive">
-			<symbolDefinition primary="true">
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>plosive</feature>
 				</ifAnyOf>
-			</symbolDefinition>
-			<symbolDefinition primary="true">
+			</symbol>
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>implosive</feature>
 				</ifAnyOf>
-			</symbolDefinition>
+			</symbol>
 			<changes primary="false">
 				<retain>
 					<feature category="place" />
@@ -5864,16 +5864,16 @@
 			</changes>
 		</sequencePattern>
 		<sequencePattern title="double closure: nasal + nasal">
-			<symbolDefinition primary="true">
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>nasal</feature>
 				</ifAnyOf>
-			</symbolDefinition>
-			<symbolDefinition primary="true">
+			</symbol>
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>nasal</feature>
 				</ifAnyOf>
-			</symbolDefinition>
+			</symbol>
 			<changes primary="false">
 				<retain>
 					<feature category="place" />
@@ -5884,16 +5884,16 @@
 			</changes>
 		</sequencePattern>
 		<sequencePattern title="diphthong: vowel + vowel">
-			<symbolDefinition primary="true">
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>vowel</feature>
 				</ifAnyOf>
-			</symbolDefinition>
-			<symbolDefinition primary="true">
+			</symbol>
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>vowel</feature>
 				</ifAnyOf>
-			</symbolDefinition>
+			</symbol>
 			<changes primary="true">
 				<replace>
 					<feature category="sequence">diphthong</feature>
@@ -5901,7 +5901,7 @@
 			</changes>
 		</sequencePattern>
 		<sequencePattern title="prenasalized: nasal + plosive/trill/fricative">
-			<symbolDefinition primary="false">
+			<symbol primary="false">
 				<ifAnyOf>
 					<feature>nasal</feature>
 				</ifAnyOf>
@@ -5910,17 +5910,17 @@
 						<feature>prenasalized</feature>
 					</add>
 				</changes>
-			</symbolDefinition>
-			<symbolDefinition primary="true">
+			</symbol>
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>plosive</feature>
 					<feature>trill</feature>
 					<feature>fricative</feature>
 				</ifAnyOf>
-			</symbolDefinition>
+			</symbol>
 		</sequencePattern>
 		<sequencePattern title="prenasalized affricate: nasal + plosive + fricative">
-			<symbolDefinition primary="false">
+			<symbol primary="false">
 				<ifAnyOf>
 					<feature>nasal</feature>
 				</ifAnyOf>
@@ -5929,13 +5929,13 @@
 						<feature>prenasalized</feature>
 					</add>
 				</changes>
-			</symbolDefinition>
-			<symbolDefinition primary="false">
+			</symbol>
+			<symbol primary="false">
 				<ifAnyOf>
 					<feature>plosive</feature>
 				</ifAnyOf>
-			</symbolDefinition>
-			<symbolDefinition primary="true">
+			</symbol>
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>fricative</feature>
 				</ifAnyOf>
@@ -5944,10 +5944,10 @@
 						<feature category="manner">affricate</feature>
 					</replace>
 				</changes>
-			</symbolDefinition>
+			</symbol>
 		</sequencePattern>
 		<sequencePattern title="prenasalized double closure: nasal + plosive + plosive">
-			<symbolDefinition primary="false">
+			<symbol primary="false">
 				<ifAnyOf>
 					<feature>nasal</feature>
 				</ifAnyOf>
@@ -5956,17 +5956,17 @@
 						<feature>prenasalized</feature>
 					</add>
 				</changes>
-			</symbolDefinition>
-			<symbolDefinition primary="true">
+			</symbol>
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>plosive</feature>
 				</ifAnyOf>
-			</symbolDefinition>
-			<symbolDefinition primary="true">
+			</symbol>
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>plosive</feature>
 				</ifAnyOf>
-			</symbolDefinition>
+			</symbol>
 			<changes primary="false">
 				<retain>
 					<feature category="place" />
@@ -5977,12 +5977,12 @@
 			</changes>
 		</sequencePattern>
 		<sequencePattern title="prenasalized double closure: nasal + nasal + plosive + plosive">
-			<symbolDefinition primary="false">
+			<symbol primary="false">
 				<ifAnyOf>
 					<feature>nasal</feature>
 				</ifAnyOf>
-			</symbolDefinition>
-			<symbolDefinition primary="false">
+			</symbol>
+			<symbol primary="false">
 				<ifAnyOf>
 					<feature>nasal</feature>
 				</ifAnyOf>
@@ -5991,17 +5991,17 @@
 						<feature>prenasalized</feature>
 					</add>
 				</changes>
-			</symbolDefinition>
-			<symbolDefinition primary="true">
+			</symbol>
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>plosive</feature>
 				</ifAnyOf>
-			</symbolDefinition>
-			<symbolDefinition primary="true">
+			</symbol>
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>plosive</feature>
 				</ifAnyOf>
-			</symbolDefinition>
+			</symbol>
 			<changes primary="false">
 				<retain>
 					<feature category="place" />
@@ -6012,7 +6012,7 @@
 			</changes>
 		</sequencePattern>
 		<sequencePattern title="preaspirated: h + plosive">
-			<symbolDefinition primary="false">
+			<symbol primary="false">
 				<ifAnyOf>
 					<features>
 						<feature>voiceless</feature>
@@ -6025,16 +6025,16 @@
 						<feature>preaspirated</feature>
 					</add>
 				</changes>
-			</symbolDefinition>
-			<symbolDefinition primary="true">
+			</symbol>
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>plosive</feature>
 					<feature>fricative</feature>
 				</ifAnyOf>
-			</symbolDefinition>
+			</symbol>
 		</sequencePattern>
 		<sequencePattern title="preaspirated affricate: h + plosive + fricative">
-			<symbolDefinition primary="false">
+			<symbol primary="false">
 				<ifAnyOf>
 					<features>
 						<feature>voiceless</feature>
@@ -6047,13 +6047,13 @@
 						<feature>preaspirated</feature>
 					</add>
 				</changes>
-			</symbolDefinition>
-			<symbolDefinition primary="false">
+			</symbol>
+			<symbol primary="false">
 				<ifAnyOf>
 					<feature>plosive</feature>
 				</ifAnyOf>
-			</symbolDefinition>
-			<symbolDefinition primary="true">
+			</symbol>
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>fricative</feature>
 				</ifAnyOf>
@@ -6062,10 +6062,10 @@
 						<feature category="manner">affricate</feature>
 					</replace>
 				</changes>
-			</symbolDefinition>
+			</symbol>
 		</sequencePattern>
 		<sequencePattern title="plosive + click indicates voicing and dorsal place.">
-			<symbolDefinition primary="false">
+			<symbol primary="false">
 				<ifAnyOf>
 					<feature>plosive</feature>
 				</ifAnyOf>
@@ -6077,15 +6077,15 @@
 						<feature category="place" />
 					</retain>
 				</changes>
-			</symbolDefinition>
-			<symbolDefinition primary="true">
+			</symbol>
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>click</feature>
 				</ifAnyOf>
-			</symbolDefinition>
+			</symbol>
 		</sequencePattern>
 		<sequencePattern title="nasal + click indicates voicing, nasality, and dorsal place.">
-			<symbolDefinition primary="false">
+			<symbol primary="false">
 				<ifAnyOf>
 					<feature>nasal</feature>
 				</ifAnyOf>
@@ -6098,15 +6098,15 @@
 						<feature category="manner" />
 					</retain>
 				</changes>
-			</symbolDefinition>
-			<symbolDefinition primary="true">
+			</symbol>
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>click</feature>
 				</ifAnyOf>
-			</symbolDefinition>
+			</symbol>
 		</sequencePattern>
 		<sequencePattern title="prestopped: plosive + nasal">
-			<symbolDefinition primary="false">
+			<symbol primary="false">
 				<ifAnyOf>
 					<feature>plosive</feature>
 				</ifAnyOf>
@@ -6115,24 +6115,24 @@
 						<feature>prestopped</feature>
 					</add>
 				</changes>
-			</symbolDefinition>
-			<symbolDefinition primary="true">
+			</symbol>
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>nasal</feature>
 				</ifAnyOf>
-			</symbolDefinition>
+			</symbol>
 		</sequencePattern>
 		<sequencePattern title="double articulation: fricative + fricative">
-			<symbolDefinition primary="true">
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>fricative</feature>
 				</ifAnyOf>
-			</symbolDefinition>
-			<symbolDefinition primary="true">
+			</symbol>
+			<symbol primary="true">
 				<ifAnyOf>
 					<feature>fricative</feature>
 				</ifAnyOf>
-			</symbolDefinition>
+			</symbol>
 			<changes primary="false">
 				<retain>
 					<feature category="place" />
