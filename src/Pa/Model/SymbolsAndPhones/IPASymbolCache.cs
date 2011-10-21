@@ -171,7 +171,6 @@ namespace SIL.Pa.Model
 			{
 				var charInfo = new IPASymbol();
 				charInfo.Literal = c.ToString();
-				charInfo.Decimal = c;
 				charInfo.Hexadecimal = charInfo.Decimal.ToString("X4");
 				charInfo.Type = IPASymbolType.Unknown;
 				charInfo.SubType = IPASymbolSubType.Unknown;
