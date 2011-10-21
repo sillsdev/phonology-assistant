@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Palaso.Progress;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
@@ -48,10 +49,14 @@ namespace SIL.Pa.UI.Dialogs
 			txtProjName.Font = FontHelper.UIFont;
 			txtComments.Font = FontHelper.UIFont;
 			_chkMakeFolder.Font = FontHelper.UIFont;
+			_labelDistinctiveFeaturesSet.Font = FontHelper.UIFont;
+			_comboDistinctiveFeaturesSet.Font = FontHelper.UIFont;
 
 			_chkMakeFolder.Parent.Controls.Remove(_chkMakeFolder);
 			tblLayoutButtons.Controls.Add(_chkMakeFolder, 0, 0);
 			_chkMakeFolder.Checked = Settings.Default.CreateProjectFolderForNewProject;
+
+			_comboDistinctiveFeaturesSet.Items.AddRange(BFeatureCache.GetFeatureSetNames().OrderBy(n => n).ToArray());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -83,8 +88,12 @@ namespace SIL.Pa.UI.Dialogs
 				LoadGrid(-1);
 			}
 
-			Utils.WaitCursors(true);
-	
+			WaitCursor.Show();
+
+			_comboDistinctiveFeaturesSet.SelectedItem =
+				(Project.DistinctiveFeatureSet == BFeatureCache.DefaultFeatureSetName ?
+					string.Format("({0})", BFeatureCache.DefaultFeatureSetName) : Project.DistinctiveFeatureSet);
+
 			if (_dataSources.Any(ds => ds.Type == DataSourceType.FW))
 				FwDBUtils.StartSQLServer(true);
 
@@ -94,7 +103,7 @@ namespace SIL.Pa.UI.Dialogs
 			DialogResult = DialogResult.Cancel;
 			m_dirty = _isProjectNew;
 			m_grid.IsDirty = false;
-			Utils.WaitCursors(false);
+			WaitCursor.Hide();
 
 			UpdateButtonStates();
 		}
@@ -246,12 +255,6 @@ namespace SIL.Pa.UI.Dialogs
 			btnProperties.Enabled = enablePropertiesButton;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		private void HandleTextBoxTextChanged(object sender, EventArgs e)
-		{
-			m_dirty = true;
-		}
-
 		#region Saving Settings and Verifying/Saving changes
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
@@ -264,7 +267,20 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool IsDirty
 		{
-			get { return (m_dirty || m_grid.IsDirty); }
+			get
+			{
+				if (m_grid.IsDirty || _isProjectNew)
+					return true;
+
+				return (txtProjName.Text.Trim() != Project.Name ||
+					txtLanguageName.Text.Trim() != Project.LanguageName ||
+					txtLanguageCode.Text.Trim() != Project.LanguageCode ||
+					txtResearcher.Text.Trim() != Project.Researcher ||
+					txtTranscriber.Text.Trim() != Project.Transcriber ||
+					txtSpeaker.Text.Trim() != Project.SpeakerName ||
+					txtComments.Text.Trim() != Project.Comments ||
+					_comboDistinctiveFeaturesSet.SelectedItem as string != Project.DistinctiveFeatureSet);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -376,8 +392,9 @@ namespace SIL.Pa.UI.Dialogs
 				}
 			}
 
-			Cursor = Cursors.WaitCursor;
-			Utils.WaitCursors(true);
+			WaitCursor.Show();
+			//Cursor = Cursors.WaitCursor;
+			//Utils.WaitCursors(true);
 			Project.Name = txtProjName.Text.Trim();
 			Project.LanguageName = txtLanguageName.Text.Trim();
 			Project.LanguageCode = txtLanguageCode.Text.Trim();
@@ -387,6 +404,10 @@ namespace SIL.Pa.UI.Dialogs
 			Project.Comments = txtComments.Text.Trim();
 			Project.DataSources = _dataSources;
 			Project.FixupFieldsAndMappings();
+
+			var bFeatureSet = _comboDistinctiveFeaturesSet.SelectedItem as string;
+			Project.DistinctiveFeatureSet = bFeatureSet.Trim('(', ')');
+			Project.LoadFeatureOverrides();
 
 			if (_isProjectNew)
 			{
@@ -414,8 +435,9 @@ namespace SIL.Pa.UI.Dialogs
 								 where !_originallyMappedFields.Contains(mapping.Field.Name)
 								 select mapping.Field.Name).ToList();
 
-			Utils.WaitCursors(false);
-			Cursor = Cursors.Default;
+			//Utils.WaitCursors(false);
+			//Cursor = Cursors.Default;
+			WaitCursor.Hide();
 			return true;
 		}
 
