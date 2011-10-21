@@ -9,10 +9,6 @@ using SilTools;
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class PatternBuilderComponents : UserControl, IxCoreColleague
 	{
 		public ItemDragEventHandler ConPickerDragHandler;
@@ -34,10 +30,6 @@ namespace SIL.Pa.UI.Controls
 		private CharPickerRows m_vowPicker;
 		private List<char> m_diacriticsInCache;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public PatternBuilderComponents()
 		{
@@ -63,10 +55,6 @@ namespace SIL.Pa.UI.Controls
 			base.Dispose(disposing);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void Initialize()
 		{
@@ -131,6 +119,14 @@ namespace SIL.Pa.UI.Controls
 			return false;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		protected bool OnDataSourcesModified(object args)
+		{
+			m_lvArticulatoryFeatures.Load();
+			m_lvBinaryFeatures.Load();
+			return false;
+		}
+
 		#region Properties
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -184,10 +180,6 @@ namespace SIL.Pa.UI.Controls
 
 		#endregion
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void SetupVowConPickers(bool firstTime)
 		{
@@ -287,7 +279,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private FeatureListView InitializeFeatureList(App.FeatureType featureType)
 		{
-			FeatureListView flv = new FeatureListView(featureType);
+			var flv = new FeatureListView(featureType);
 			flv.Load();
 			flv.Dock = DockStyle.Fill;
 			flv.LabelEdit = false;
