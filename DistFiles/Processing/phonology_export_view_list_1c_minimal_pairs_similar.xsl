@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_1c_minimal_pairs_similar.xsl 2011-10-06 -->
+  <!-- phonology_export_view_list_1c_minimal_pairs_similar.xsl 2011-10-21 -->
   <!-- If the project inventory contains lists of similar pairs, -->
   <!-- classify the list of minimal pairs as more-similar, less-similar, least-similar. -->
 	<!-- Append empty groups for any more-similar pairs for which there are no minimal pairs. -->
@@ -31,7 +31,7 @@ exclude-result-prefixes="xhtml"
 	<xsl:variable name="languageCode3" select="$details/xhtml:li[@class = 'languageCode']" />
 	<xsl:variable name="languageCode1">
 		<xsl:if test="string-length($languageCode3) != 0">
-			<xsl:value-of select="document('ISO_639.html')//xhtml:tr[xhtml:td[@class = 'ISO_639-3'] = $languageCode3]/xhtml:td[@class = 'ISO_639-1']" />
+			<xsl:value-of select="document('ISO_639.xml')//xhtml:tr[xhtml:td[@class = 'ISO_639-3'] = $languageCode3]/xhtml:td[@class = 'ISO_639-1']" />
 		</xsl:if>
 	</xsl:variable>
 	<xsl:variable name="languageCode">

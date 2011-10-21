@@ -4,7 +4,7 @@ xmlns:svg="http://www.w3.org/2000/svg"
 exclude-result-prefixes="xhtml svg"
 >
 
-  <!-- phonology_export_view_quadrilateral.xsl 2011-05-10 -->
+  <!-- phonology_export_view_quadrilateral.xsl 2011-10-21 -->
 	<!-- Export to SVG or XHTML -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
@@ -31,7 +31,7 @@ exclude-result-prefixes="xhtml svg"
 	<xsl:variable name="languageCode3" select="$details/xhtml:li[@class = 'languageCode']" />
 	<xsl:variable name="languageCode1">
 		<xsl:if test="string-length($languageCode3) != 0">
-			<xsl:value-of select="document('ISO_639.html')//xhtml:tr[xhtml:td[@class = 'ISO_639-3'] = $languageCode3]/xhtml:td[@class = 'ISO_639-1']" />
+			<xsl:value-of select="document('ISO_639.xml')//xhtml:tr[xhtml:td[@class = 'ISO_639-3'] = $languageCode3]/xhtml:td[@class = 'ISO_639-1']" />
 		</xsl:if>
 	</xsl:variable>
 	<xsl:variable name="languageCode">

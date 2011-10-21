@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_2a_sort.xsl 2011-10-14 -->
+  <!-- phonology_export_view_list_2a_sort.xsl 2011-10-21 -->
   <!-- Insert keys to sort by the Phonetic column. -->
 	
 	<!-- Differences between views in the Phonology Assistant program -->
@@ -39,7 +39,7 @@ exclude-result-prefixes="xhtml"
 	<xsl:variable name="languageCode3" select="$details/xhtml:li[@class = 'languageCode']" />
 	<xsl:variable name="languageCode1">
 		<xsl:if test="string-length($languageCode3) != 0">
-			<xsl:value-of select="document('ISO_639.html')//xhtml:tr[xhtml:td[@class = 'ISO_639-3'] = $languageCode3]/xhtml:td[@class = 'ISO_639-1']" />
+			<xsl:value-of select="document('ISO_639.xml')//xhtml:tr[xhtml:td[@class = 'ISO_639-3'] = $languageCode3]/xhtml:td[@class = 'ISO_639-1']" />
 		</xsl:if>
 	</xsl:variable>
 	<xsl:variable name="languageCode">

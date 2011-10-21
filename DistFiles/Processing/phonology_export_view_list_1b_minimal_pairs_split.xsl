@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_1b_minimal_pairs_split.xsl 2011-09-28 -->
+  <!-- phonology_export_view_list_1b_minimal_pairs_split.xsl 2011-10-21 -->
   <!-- If there are minimal pairs, optionally split groups into all combinations of pairs. -->
 
 	<!-- Important: If table is not Search view, copy it with no changes. -->
@@ -25,7 +25,7 @@ exclude-result-prefixes="xhtml"
 	<xsl:variable name="languageCode3" select="$details/xhtml:li[@class = 'languageCode']" />
 	<xsl:variable name="languageCode1">
 		<xsl:if test="string-length($languageCode3) != 0">
-			<xsl:value-of select="document('ISO_639.html')//xhtml:tr[xhtml:td[@class = 'ISO_639-3'] = $languageCode3]/xhtml:td[@class = 'ISO_639-1']" />
+			<xsl:value-of select="document('ISO_639.xml')//xhtml:tr[xhtml:td[@class = 'ISO_639-3'] = $languageCode3]/xhtml:td[@class = 'ISO_639-1']" />
 		</xsl:if>
 	</xsl:variable>
 	<xsl:variable name="languageCode">

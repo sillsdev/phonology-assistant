@@ -1,6 +1,6 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_inventory_1a_symbols.xsl 2011-10-19 -->
+  <!-- phonology_project_inventory_1a_symbols.xsl 2011-10-21 -->
 	<!-- For each segment, copy information about its symbols from the program phonetic inventory. -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
@@ -99,7 +99,7 @@
 				<xsl:variable name="literal" select="@literal" />
 				<xsl:variable name="articulatoryFeaturesChanged" select="$segments/segment[@literal = $literal]/articulatoryFeatures[@changed = 'true']" />
 				<xsl:variable name="base" select="isBase" />
-				<symbol literal="{@literal}" code="{@hexadecimal}" base="{$base}">
+				<symbol literal="{@literal}" code="{@code}" base="{$base}">
 					<xsl:choose>
 						<xsl:when test="$articulatoryFeaturesChanged">
 							<xsl:copy-of select="$articulatoryFeaturesChanged" />

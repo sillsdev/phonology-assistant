@@ -22,7 +22,7 @@ exclude-result-prefixes="xhtml"
 	<xsl:variable name="languageCode3" select="$details/xhtml:li[@class = 'languageCode']" />
 	<xsl:variable name="languageCode1">
 		<xsl:if test="string-length($languageCode3) != 0">
-			<xsl:value-of select="document('ISO_639.html')//xhtml:tr[xhtml:td[@class = 'ISO_639-3'] = $languageCode3]/xhtml:td[@class = 'ISO_639-1']" />
+			<xsl:value-of select="document('ISO_639.xml')//xhtml:tr[xhtml:td[@class = 'ISO_639-3'] = $languageCode3]/xhtml:td[@class = 'ISO_639-1']" />
 		</xsl:if>
 	</xsl:variable>
 	<xsl:variable name="languageCode">
