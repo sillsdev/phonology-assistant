@@ -13,9 +13,9 @@ namespace SIL.Pa.UI.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class FeaturesDlg : OKCancelDlgBase
 	{
-		private readonly PaProject m_project;
-		private ToolTip m_phoneToolTip;
-		private List<IPhoneInfo> m_phones;
+		private readonly PaProject _project;
+		private List<PhoneInfo> _phones;
+		private ToolTip _phoneToolTip;
 
 		/// ------------------------------------------------------------------------------------
 		public FeaturesDlg()
@@ -26,22 +26,22 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 
 			DoubleBuffered = true;
-			pgpPhoneList.Font = FontHelper.UIFont;
-			m_phoneToolTip = new ToolTip();
-			pgpPhoneList.BorderStyle = BorderStyle.None;
-			pgpPhoneList.DrawOnlyBottomBorder = true;
+			_panelPhoneList.Font = FontHelper.UIFont;
+			_phoneToolTip = new ToolTip();
+			_panelPhoneList.BorderStyle = BorderStyle.None;
+			_panelPhoneList.DrawOnlyBottomBorder = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public FeaturesDlg(PaProject project) : this()
 		{
-			m_project = project;
+			_project = project;
 
 			BuildPhoneGrid();
 			LoadPhoneGrid();
 
-			btnReset.Margin = new Padding(0, btnOK.Margin.Top, 0, btnOK.Margin.Bottom);
-			tblLayoutButtons.Controls.Add(btnReset, 0, 0);
+			_buttonReset.Margin = new Padding(0, btnOK.Margin.Top, 0, btnOK.Margin.Bottom);
+			tblLayoutButtons.Controls.Add(_buttonReset, 0, 0);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -49,10 +49,10 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			if (disposing && (components != null))
 			{
-				if (m_phoneToolTip != null)
+				if (_phoneToolTip != null)
 				{
-					m_phoneToolTip.Dispose();
-					m_phoneToolTip = null;
+					_phoneToolTip.Dispose();
+					_phoneToolTip = null;
 				}
 
 				components.Dispose();
@@ -64,11 +64,11 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void BuildPhoneGrid()
 		{
-			gridPhones.Name = Name + "PhoneGrid";
-			gridPhones.AutoGenerateColumns = false;
-			gridPhones.Font = FontHelper.UIFont;
-			gridPhones.VirtualMode = true;
-			gridPhones.CellValueNeeded += HandlePhoneGridCellValueNeeded;
+			_gridPhones.Name = Name + "PhoneGrid";
+			_gridPhones.AutoGenerateColumns = false;
+			_gridPhones.Font = FontHelper.UIFont;
+			_gridPhones.VirtualMode = true;
+			_gridPhones.CellValueNeeded += HandlePhoneGridCellValueNeeded;
 
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("phone");
 			col.ReadOnly = true;
@@ -78,7 +78,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.CellTemplate.Style.Font = App.PhoneticFont;
 			col.HeaderText = App.GetString("FeaturesDlg.PhoneListPhoneHeadingText", "Phone");
 			
-			gridPhones.Columns.Add(col);
+			_gridPhones.Columns.Add(col);
 
 			col = SilGrid.CreateTextBoxColumn("count");
 			col.ReadOnly = true;
@@ -87,28 +87,29 @@ namespace SIL.Pa.UI.Dialogs
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 			col.HeaderText = App.GetString("FeaturesDlg.PhoneListCountHeadingText", "Count");
 
-			gridPhones.Columns.Add(col);
+			_gridPhones.Columns.Add(col);
 
 			if (Settings.Default.FeaturesDlgPhoneGrid != null)
-				Settings.Default.FeaturesDlgPhoneGrid.InitializeGrid(gridPhones);
+				Settings.Default.FeaturesDlgPhoneGrid.InitializeGrid(_gridPhones);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void LoadPhoneGrid()
 		{
-			gridPhones.Rows.Clear();
+			_gridPhones.Rows.Clear();
 
-			m_phones = (from x in m_project.PhoneCache.Values
-						orderby x.POAKey
-						select x.Clone()).ToList();
+			_phones = (from p in _project.PhoneCache.Values
+					   where p is PhoneInfo
+					   orderby p.POAKey
+					   select p.Clone() as PhoneInfo).ToList();
 
-			gridPhones.RowCount = m_phones.Count;
+			_gridPhones.RowCount = _phones.Count;
 
-			if (m_phones.Count > 0)
-				gridPhones.CurrentCell = gridPhones[0, 0];
+			if (_phones.Count > 0)
+				_gridPhones.CurrentCell = _gridPhones[0, 0];
 
-			AdjustGridRows(gridPhones, Settings.Default.FeaturesDlgGridExtraRowHeight);
-			gridPhones.IsDirty = false;
+			AdjustGridRows(_gridPhones, Settings.Default.FeaturesDlgGridExtraRowHeight);
+			_gridPhones.IsDirty = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -143,8 +144,10 @@ namespace SIL.Pa.UI.Dialogs
 
 			int savedLoc = Settings.Default.FeaturesDlgSplitLoc;
 
-			if (savedLoc > 0 && savedLoc >= splitFeatures.Panel1MinSize)
-				splitFeatures.SplitterDistance = savedLoc;
+			if (savedLoc > 0 && savedLoc >= _splitFeatures.Panel1MinSize)
+				_splitFeatures.SplitterDistance = savedLoc;
+
+			UpdateDisplay();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -153,54 +156,35 @@ namespace SIL.Pa.UI.Dialogs
 		/// for the phones in the phone inventory list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool DidPhoneFeaturesChanged
+		private bool GetDidAnyPhoneFeaturesChange()
 		{
-			get
-			{
-				return m_phones.Cast<PhoneInfo>().Any(x =>
-					x.AMask != x.DefaultAMask || x.BMask != x.DefaultBMask);
-			}
+			return (from phone in _phones
+					let origPhone = _project.PhoneCache[phone.Phone]
+					where origPhone.AMask != phone.AMask || origPhone.BMask != phone.BMask
+					select phone).Any();
 		}
 
 		#region Overridden methods of base class
 		/// ------------------------------------------------------------------------------------
 		protected override bool IsDirty
 		{
-			get { return base.IsDirty || DidPhoneFeaturesChanged; }
+			get { return base.IsDirty || GetDidAnyPhoneFeaturesChange(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			Settings.Default.FeaturesDlgPhoneGrid = GridSettings.Create(gridPhones);
-			Settings.Default.FeaturesDlgSplitLoc = splitFeatures.SplitterDistance;
+			Settings.Default.FeaturesDlgPhoneGrid = GridSettings.Create(_gridPhones);
+			Settings.Default.FeaturesDlgSplitLoc = _splitFeatures.SplitterDistance;
 			base.SaveSettings();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
+			Hide();
 			base.SaveChanges();
-			
-			var featureOverrideList = new FeatureOverrides();
-
-			foreach (var pi in m_phones)
-			{
-				// Get the phone from the grid.
-				var phoneInfo = pi as PhoneInfo;
-				if (phoneInfo == null)
-					continue;
-
-				phoneInfo.AFeaturesAreOverridden = (phoneInfo.DefaultAMask != phoneInfo.AMask);
-				phoneInfo.BFeaturesAreOverridden = (phoneInfo.DefaultBMask != phoneInfo.BMask);
-
-				if (phoneInfo.AFeaturesAreOverridden || phoneInfo.BFeaturesAreOverridden)
-					featureOverrideList[phoneInfo.Phone] = phoneInfo;
-			}
-
-			App.MsgMediator.SendMessage("BeforePhoneFeatureOverridesSaved", featureOverrideList);
-			featureOverrideList.Save(App.Project.ProjectPathFilePrefix);
-			App.MsgMediator.SendMessage("AfterPhoneFeatureOverridesSaved", featureOverrideList);
+			_project.UpdateFeatureOverrides(_phones.Where(p => p.HasAFeatureOverrides || p.HasBFeatureOverrides));
 			App.Project.ReloadDataSources();
 			return true;
 		}
@@ -209,19 +193,38 @@ namespace SIL.Pa.UI.Dialogs
 
 		#region Grid event handlers
 		/// ------------------------------------------------------------------------------------
+		private void HandlePhoneGridCellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+		{
+			if (e.ColumnIndex < 0 || e.RowIndex < 0)
+				return;
+
+			//if ((_featuresTab.IsAFeatureTabShowing && _phones[e.RowIndex].HasAFeatureOverrides) ||
+			//    (_featuresTab.IsBFeatureTabShowing && _phones[e.RowIndex].HasBFeatureOverrides))
+			//{
+			//    e.CellStyle.ForeColor = Color.Black;
+			//    e.CellStyle.SelectionForeColor = Color.White;
+				
+			//    e.CellStyle.BackColor = ColorHelper.CalculateColor(
+			//        Color.White, Color.BlueViolet, 220);
+
+			//    e.CellStyle.SelectionBackColor = Color.BlueViolet;
+			//}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		void HandlePhoneGridCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
 			int i = e.RowIndex;
-			if (m_phones == null || i < 0 || i >= m_phones.Count)
+			if (_phones == null || i < 0 || i >= _phones.Count)
 			{
 				e.Value = null;
 				return;
 			}
 
 			if (e.ColumnIndex == 0)
-				e.Value = m_phones[i].Phone;
+				e.Value = _phones[i].Phone;
 			else
-				e.Value = m_phones[i].TotalCount + m_phones[i].CountAsPrimaryUncertainty;
+				e.Value = _phones[i].TotalCount + _phones[i].CountAsPrimaryUncertainty;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -232,7 +235,7 @@ namespace SIL.Pa.UI.Dialogs
 				if (e.ColumnIndex != 0)
 					return;
 
-				var phoneInfo = m_phones[e.RowIndex] as PhoneInfo;
+				var phoneInfo = _phones[e.RowIndex];
 				if (phoneInfo == null || phoneInfo.Phone.Trim().Length == 0)
 					return;
 
@@ -245,11 +248,11 @@ namespace SIL.Pa.UI.Dialogs
 				tip = string.Format(fmt, tip.Substring(0, tip.Length - 2));
 				tip = Utils.ConvertLiteralNewLines(tip);
 
-				var rc = gridPhones.GetCellDisplayRectangle(0, e.RowIndex, true);
-				var pt = gridPhones.PointToScreen(new Point(rc.Right - 5, rc.Bottom - 4));
+				var rc = _gridPhones.GetCellDisplayRectangle(0, e.RowIndex, true);
+				var pt = _gridPhones.PointToScreen(new Point(rc.Right - 5, rc.Bottom - 4));
 				pt = PointToClient(pt);
-				m_phoneToolTip.Tag = rc;
-				m_phoneToolTip.Show(tip, this, pt, 5000);
+				_phoneToolTip.Tag = rc;
+				_phoneToolTip.Show(tip, this, pt, 5000);
 			}
 			catch { }
 		}
@@ -262,10 +265,10 @@ namespace SIL.Pa.UI.Dialogs
 				// Sometimes this event is fired because the mouse is over the tooltip, even
 				// though it's tip's point is still within the bounds of the cell. It is only
 				// when the mouse location leaves the cell do we want to hide the tooltip.
-				var rc = gridPhones.GetCellDisplayRectangle(0, e.RowIndex, true);
-				var pt = gridPhones.PointToClient(MousePosition);
+				var rc = _gridPhones.GetCellDisplayRectangle(0, e.RowIndex, true);
+				var pt = _gridPhones.PointToClient(MousePosition);
 				if (!rc.Contains(pt))
-					m_phoneToolTip.Hide(this);
+					_phoneToolTip.Hide(this);
 			}
 			catch { }
 		}
@@ -273,19 +276,35 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandlePhoneGridRowEnter(object sender, DataGridViewCellEventArgs e)
 		{
-			_featuresTab.SetCurrentInfo(m_phones[e.RowIndex] as IFeatureBearer);
+			UpdateDisplay(e.RowIndex);
 		}
 
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		private void btnReset_Click(object sender, EventArgs e)
+		private void HandleResetButtonClick(object sender, EventArgs e)
 		{
-			int i = gridPhones.CurrentCellAddress.Y;
-			if (i < 0 || i >= m_phones.Count)
+			int i = _gridPhones.CurrentCellAddress.Y;
+			if (i < 0 || i >= _phones.Count)
 				return;
 
 			_featuresTab.Reset();
+			UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void UpdateDisplay()
+		{
+			UpdateDisplay(_gridPhones.CurrentCellAddress.Y);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void UpdateDisplay(int phoneIndex)
+		{
+			_featuresTab.SetCurrentInfo(_phones[phoneIndex]);
+			
+			_buttonReset.Enabled = (_featuresTab.IsAFeatureTabShowing ?
+				_phones[phoneIndex].HasAFeatureOverrides : _phones[phoneIndex].HasBFeatureOverrides);
 		}
 	}
 }

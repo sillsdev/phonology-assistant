@@ -26,6 +26,7 @@ using System.Windows.Forms;
 using Localization;
 using Localization.UI;
 using Palaso.IO;
+using Palaso.Reporting;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
@@ -94,6 +95,7 @@ namespace SIL.Pa
 		public const string kTrainingSubFolder = "Training";
 		public const string kPaRegKeyName = @"Software\SIL\Phonology Assistant";
 		public const string kAppSettingsName = "application";
+		public const string kDefaultInventoryFileName = "PhoneticInventory.xml";
 
 		#endregion
 
@@ -110,6 +112,7 @@ namespace SIL.Pa
 		private static List<ITMAdapter> s_defaultMenuAdapters;
 		private static readonly Dictionary<Type, Form> s_openForms = new Dictionary<Type, Form>();
 		private static readonly List<IxCoreColleague> s_colleagueList = new List<IxCoreColleague>();
+		private static AFeatureCache s_aFeatureCache;
 
 		#region Construction and startup methods
 		/// --------------------------------------------------------------------------------
@@ -740,30 +743,33 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public static string PhoneticInventoryFilePath
+		{
+			get
+			{
+				return FileLocator.GetFileDistributedWithApplication(
+					ConfigFolderName, kDefaultInventoryFileName);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public static IPASymbolCache IPASymbolCache
 		{
 			get { return InventoryHelper.IPASymbolCache; }
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the cache of articulatory features.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static AFeatureCache AFeatureCache
 		{
-			get { return InventoryHelper.AFeatureCache; }
+			get 
+			{
+				return s_aFeatureCache ??
+					(s_aFeatureCache = AFeatureCache.Load(PhoneticInventoryFilePath));
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the cache of binary features.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static BFeatureCache BFeatureCache
-		{
-			get { return InventoryHelper.BFeatureCache; }
-		}
+		public static BFeatureCache BFeatureCache { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -1046,6 +1052,22 @@ namespace SIL.Pa
 		#endregion
 
 		#region Misc. methods
+		/// ------------------------------------------------------------------------------------
+		public static void NotifyUserOfProblem(string msg, params object[] args)
+		{
+			CloseSplashScreen();
+			Utils.WaitCursors(false);
+			ErrorReport.NotifyUserOfProblem(msg, args);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void NotifyUserOfProblem(Exception e, string msg, params object[] args)
+		{
+			CloseSplashScreen();
+			Utils.WaitCursors(false);
+			ErrorReport.NotifyUserOfProblem(e, msg, args);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Prepares the adapter for localization support.

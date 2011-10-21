@@ -17,93 +17,93 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			this.splitFeatures = new System.Windows.Forms.SplitContainer();
-			this.pnlPhones = new SilTools.Controls.SilPanel();
-			this.btnReset = new System.Windows.Forms.Button();
-			this.gridPhones = new SilTools.SilGrid();
-			this.pgpPhoneList = new SilTools.Controls.SilGradientPanel();
+			this._splitFeatures = new System.Windows.Forms.SplitContainer();
+			this._panelPhones = new SilTools.Controls.SilPanel();
+			this._buttonReset = new System.Windows.Forms.Button();
+			this._gridPhones = new SilTools.SilGrid();
+			this._panelPhoneList = new SilTools.Controls.SilGradientPanel();
 			this._featuresTab = new SIL.Pa.UI.Controls.FeaturesTab();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
-			this.splitFeatures.Panel1.SuspendLayout();
-			this.splitFeatures.Panel2.SuspendLayout();
-			this.splitFeatures.SuspendLayout();
-			this.pnlPhones.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.gridPhones)).BeginInit();
+			this._splitFeatures.Panel1.SuspendLayout();
+			this._splitFeatures.Panel2.SuspendLayout();
+			this._splitFeatures.SuspendLayout();
+			this._panelPhones.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this._gridPhones)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// splitFeatures
 			// 
-			this.splitFeatures.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitFeatures.Location = new System.Drawing.Point(10, 10);
-			this.splitFeatures.Name = "splitFeatures";
+			this._splitFeatures.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._splitFeatures.Location = new System.Drawing.Point(10, 10);
+			this._splitFeatures.Name = "splitFeatures";
 			// 
 			// splitFeatures.Panel1
 			// 
-			this.splitFeatures.Panel1.Controls.Add(this.pnlPhones);
-			this.splitFeatures.Panel1MinSize = 100;
+			this._splitFeatures.Panel1.Controls.Add(this._panelPhones);
+			this._splitFeatures.Panel1MinSize = 100;
 			// 
 			// splitFeatures.Panel2
 			// 
-			this.splitFeatures.Panel2.Controls.Add(this._featuresTab);
-			this.splitFeatures.Size = new System.Drawing.Size(597, 409);
-			this.splitFeatures.SplitterDistance = 145;
-			this.splitFeatures.SplitterWidth = 6;
-			this.splitFeatures.TabIndex = 0;
-			this.splitFeatures.TabStop = false;
+			this._splitFeatures.Panel2.Controls.Add(this._featuresTab);
+			this._splitFeatures.Size = new System.Drawing.Size(597, 409);
+			this._splitFeatures.SplitterDistance = 145;
+			this._splitFeatures.SplitterWidth = 6;
+			this._splitFeatures.TabIndex = 0;
+			this._splitFeatures.TabStop = false;
 			// 
 			// pnlPhones
 			// 
-			this.pnlPhones.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
-			this.pnlPhones.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pnlPhones.ClipTextForChildControls = true;
-			this.pnlPhones.ControlReceivingFocusOnMnemonic = null;
-			this.pnlPhones.Controls.Add(this.btnReset);
-			this.pnlPhones.Controls.Add(this.gridPhones);
-			this.pnlPhones.Controls.Add(this.pgpPhoneList);
-			this.pnlPhones.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pnlPhones.DoubleBuffered = true;
-			this.pnlPhones.DrawOnlyBottomBorder = false;
-			this.pnlPhones.DrawOnlyTopBorder = false;
-			this.pnlPhones.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			this.pnlPhones.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.locExtender.SetLocalizableToolTip(this.pnlPhones, null);
-			this.locExtender.SetLocalizationComment(this.pnlPhones, null);
-			this.locExtender.SetLocalizingId(this.pnlPhones, "FeaturesDlg.pnlPhones");
-			this.pnlPhones.Location = new System.Drawing.Point(0, 0);
-			this.pnlPhones.MnemonicGeneratesClick = false;
-			this.pnlPhones.Name = "pnlPhones";
-			this.pnlPhones.PaintExplorerBarBackground = false;
-			this.pnlPhones.Size = new System.Drawing.Size(145, 409);
-			this.pnlPhones.TabIndex = 0;
+			this._panelPhones.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+			this._panelPhones.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this._panelPhones.ClipTextForChildControls = true;
+			this._panelPhones.ControlReceivingFocusOnMnemonic = null;
+			this._panelPhones.Controls.Add(this._buttonReset);
+			this._panelPhones.Controls.Add(this._gridPhones);
+			this._panelPhones.Controls.Add(this._panelPhoneList);
+			this._panelPhones.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._panelPhones.DoubleBuffered = true;
+			this._panelPhones.DrawOnlyBottomBorder = false;
+			this._panelPhones.DrawOnlyTopBorder = false;
+			this._panelPhones.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this._panelPhones.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.locExtender.SetLocalizableToolTip(this._panelPhones, null);
+			this.locExtender.SetLocalizationComment(this._panelPhones, null);
+			this.locExtender.SetLocalizingId(this._panelPhones, "FeaturesDlg.pnlPhones");
+			this._panelPhones.Location = new System.Drawing.Point(0, 0);
+			this._panelPhones.MnemonicGeneratesClick = false;
+			this._panelPhones.Name = "pnlPhones";
+			this._panelPhones.PaintExplorerBarBackground = false;
+			this._panelPhones.Size = new System.Drawing.Size(145, 409);
+			this._panelPhones.TabIndex = 0;
 			// 
 			// btnReset
 			// 
-			this.btnReset.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.btnReset.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this.btnReset, "Reset Features of Selected Phone");
-			this.locExtender.SetLocalizationComment(this.btnReset, null);
-			this.locExtender.SetLocalizingId(this.btnReset, "FeaturesDlg.btnReset");
-			this.btnReset.Location = new System.Drawing.Point(37, 277);
-			this.btnReset.MinimumSize = new System.Drawing.Size(80, 26);
-			this.btnReset.Name = "btnReset";
-			this.btnReset.Size = new System.Drawing.Size(80, 26);
-			this.btnReset.TabIndex = 1;
-			this.btnReset.Text = "Reset";
-			this.btnReset.UseVisualStyleBackColor = true;
-			this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+			this._buttonReset.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this._buttonReset.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._buttonReset, "Reset Features of Selected Phone");
+			this.locExtender.SetLocalizationComment(this._buttonReset, null);
+			this.locExtender.SetLocalizingId(this._buttonReset, "FeaturesDlg.btnReset");
+			this._buttonReset.Location = new System.Drawing.Point(37, 277);
+			this._buttonReset.MinimumSize = new System.Drawing.Size(80, 26);
+			this._buttonReset.Name = "btnReset";
+			this._buttonReset.Size = new System.Drawing.Size(80, 26);
+			this._buttonReset.TabIndex = 1;
+			this._buttonReset.Text = "Reset";
+			this._buttonReset.UseVisualStyleBackColor = true;
+			this._buttonReset.Click += new System.EventHandler(this.HandleResetButtonClick);
 			// 
 			// gridPhones
 			// 
-			this.gridPhones.AllowUserToAddRows = false;
-			this.gridPhones.AllowUserToDeleteRows = false;
-			this.gridPhones.AllowUserToOrderColumns = true;
-			this.gridPhones.AllowUserToResizeRows = false;
-			this.gridPhones.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
-			this.gridPhones.BackgroundColor = System.Drawing.SystemColors.Window;
-			this.gridPhones.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.gridPhones.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
-			this.gridPhones.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+			this._gridPhones.AllowUserToAddRows = false;
+			this._gridPhones.AllowUserToDeleteRows = false;
+			this._gridPhones.AllowUserToOrderColumns = true;
+			this._gridPhones.AllowUserToResizeRows = false;
+			this._gridPhones.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+			this._gridPhones.BackgroundColor = System.Drawing.SystemColors.Window;
+			this._gridPhones.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this._gridPhones.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
+			this._gridPhones.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
 			dataGridViewCellStyle1.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
@@ -111,64 +111,65 @@
 			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
 			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
 			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.gridPhones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-			this.gridPhones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.gridPhones.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gridPhones.DrawTextBoxEditControlBorder = false;
-			this.gridPhones.Font = new System.Drawing.Font("Segoe UI", 9F);
-			this.gridPhones.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
-			this.gridPhones.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
-			this.gridPhones.IsDirty = false;
-			this.locExtender.SetLocalizableToolTip(this.gridPhones, null);
-			this.locExtender.SetLocalizationComment(this.gridPhones, null);
-			this.locExtender.SetLocalizingId(this.gridPhones, "FeaturesDlg.gridPhones");
-			this.gridPhones.Location = new System.Drawing.Point(0, 25);
-			this.gridPhones.MultiSelect = false;
-			this.gridPhones.Name = "gridPhones";
-			this.gridPhones.PaintHeaderAcrossFullGridWidth = true;
-			this.gridPhones.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			this.gridPhones.RowHeadersVisible = false;
-			this.gridPhones.RowHeadersWidth = 22;
-			this.gridPhones.SelectedCellBackColor = System.Drawing.Color.Empty;
-			this.gridPhones.SelectedCellForeColor = System.Drawing.Color.Empty;
-			this.gridPhones.SelectedRowBackColor = System.Drawing.Color.Empty;
-			this.gridPhones.SelectedRowForeColor = System.Drawing.Color.Empty;
-			this.gridPhones.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.gridPhones.ShowWaterMarkWhenDirty = true;
-			this.gridPhones.Size = new System.Drawing.Size(143, 382);
-			this.gridPhones.StandardTab = true;
-			this.gridPhones.TabIndex = 1;
-			this.gridPhones.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
-			this.gridPhones.WaterMark = "!";
-			this.gridPhones.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandlePhoneGridCellMouseEnter);
-			this.gridPhones.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandlePhoneGridCellMouseLeave);
-			this.gridPhones.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandlePhoneGridRowEnter);
+			this._gridPhones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			this._gridPhones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this._gridPhones.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._gridPhones.DrawTextBoxEditControlBorder = false;
+			this._gridPhones.Font = new System.Drawing.Font("Segoe UI", 9F);
+			this._gridPhones.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
+			this._gridPhones.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
+			this._gridPhones.IsDirty = false;
+			this.locExtender.SetLocalizableToolTip(this._gridPhones, null);
+			this.locExtender.SetLocalizationComment(this._gridPhones, null);
+			this.locExtender.SetLocalizingId(this._gridPhones, "FeaturesDlg.gridPhones");
+			this._gridPhones.Location = new System.Drawing.Point(0, 25);
+			this._gridPhones.MultiSelect = false;
+			this._gridPhones.Name = "gridPhones";
+			this._gridPhones.PaintHeaderAcrossFullGridWidth = true;
+			this._gridPhones.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+			this._gridPhones.RowHeadersVisible = false;
+			this._gridPhones.RowHeadersWidth = 22;
+			this._gridPhones.SelectedCellBackColor = System.Drawing.Color.Empty;
+			this._gridPhones.SelectedCellForeColor = System.Drawing.Color.Empty;
+			this._gridPhones.SelectedRowBackColor = System.Drawing.Color.Empty;
+			this._gridPhones.SelectedRowForeColor = System.Drawing.Color.Empty;
+			this._gridPhones.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this._gridPhones.ShowWaterMarkWhenDirty = true;
+			this._gridPhones.Size = new System.Drawing.Size(143, 382);
+			this._gridPhones.StandardTab = true;
+			this._gridPhones.TabIndex = 1;
+			this._gridPhones.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
+			this._gridPhones.WaterMark = "!";
+			this._gridPhones.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.HandlePhoneGridCellFormatting);
+			this._gridPhones.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandlePhoneGridCellMouseEnter);
+			this._gridPhones.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandlePhoneGridCellMouseLeave);
+			this._gridPhones.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandlePhoneGridRowEnter);
 			// 
 			// pgpPhoneList
 			// 
-			this.pgpPhoneList.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
-			this.pgpPhoneList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pgpPhoneList.ClipTextForChildControls = true;
-			this.pgpPhoneList.ColorBottom = System.Drawing.Color.Empty;
-			this.pgpPhoneList.ColorTop = System.Drawing.Color.Empty;
-			this.pgpPhoneList.ControlReceivingFocusOnMnemonic = this.gridPhones;
-			this.pgpPhoneList.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pgpPhoneList.DoubleBuffered = false;
-			this.pgpPhoneList.DrawOnlyBottomBorder = true;
-			this.pgpPhoneList.DrawOnlyTopBorder = false;
-			this.pgpPhoneList.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			this.pgpPhoneList.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.locExtender.SetLocalizableToolTip(this.pgpPhoneList, null);
-			this.locExtender.SetLocalizationComment(this.pgpPhoneList, null);
-			this.locExtender.SetLocalizingId(this.pgpPhoneList, "FeaturesDlg.pgpPhoneList");
-			this.pgpPhoneList.Location = new System.Drawing.Point(0, 0);
-			this.pgpPhoneList.MakeDark = false;
-			this.pgpPhoneList.MnemonicGeneratesClick = false;
-			this.pgpPhoneList.Name = "pgpPhoneList";
-			this.pgpPhoneList.PaintExplorerBarBackground = false;
-			this.pgpPhoneList.Size = new System.Drawing.Size(143, 25);
-			this.pgpPhoneList.TabIndex = 0;
-			this.pgpPhoneList.Text = "&Phone List";
+			this._panelPhoneList.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+			this._panelPhoneList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this._panelPhoneList.ClipTextForChildControls = true;
+			this._panelPhoneList.ColorBottom = System.Drawing.Color.Empty;
+			this._panelPhoneList.ColorTop = System.Drawing.Color.Empty;
+			this._panelPhoneList.ControlReceivingFocusOnMnemonic = this._gridPhones;
+			this._panelPhoneList.Dock = System.Windows.Forms.DockStyle.Top;
+			this._panelPhoneList.DoubleBuffered = false;
+			this._panelPhoneList.DrawOnlyBottomBorder = true;
+			this._panelPhoneList.DrawOnlyTopBorder = false;
+			this._panelPhoneList.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this._panelPhoneList.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.locExtender.SetLocalizableToolTip(this._panelPhoneList, null);
+			this.locExtender.SetLocalizationComment(this._panelPhoneList, null);
+			this.locExtender.SetLocalizingId(this._panelPhoneList, "FeaturesDlg.pgpPhoneList");
+			this._panelPhoneList.Location = new System.Drawing.Point(0, 0);
+			this._panelPhoneList.MakeDark = false;
+			this._panelPhoneList.MnemonicGeneratesClick = false;
+			this._panelPhoneList.Name = "pgpPhoneList";
+			this._panelPhoneList.PaintExplorerBarBackground = false;
+			this._panelPhoneList.Size = new System.Drawing.Size(143, 25);
+			this._panelPhoneList.TabIndex = 0;
+			this._panelPhoneList.Text = "&Phone List";
 			// 
 			// _featuresTab
 			// 
@@ -192,20 +193,20 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(617, 459);
-			this.Controls.Add(this.splitFeatures);
+			this.Controls.Add(this._splitFeatures);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "FeaturesDlg.WindowTitle");
 			this.Name = "FeaturesDlg";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Features";
-			this.Controls.SetChildIndex(this.splitFeatures, 0);
-			this.splitFeatures.Panel1.ResumeLayout(false);
-			this.splitFeatures.Panel2.ResumeLayout(false);
-			this.splitFeatures.ResumeLayout(false);
-			this.pnlPhones.ResumeLayout(false);
-			this.pnlPhones.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.gridPhones)).EndInit();
+			this.Controls.SetChildIndex(this._splitFeatures, 0);
+			this._splitFeatures.Panel1.ResumeLayout(false);
+			this._splitFeatures.Panel2.ResumeLayout(false);
+			this._splitFeatures.ResumeLayout(false);
+			this._panelPhones.ResumeLayout(false);
+			this._panelPhones.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this._gridPhones)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
@@ -213,12 +214,12 @@
 
 		#endregion
 
-		private System.Windows.Forms.SplitContainer splitFeatures;
-		private SilTools.Controls.SilPanel pnlPhones;
-		private SilTools.SilGrid gridPhones;
-		private SilTools.Controls.SilGradientPanel pgpPhoneList;
+		private System.Windows.Forms.SplitContainer _splitFeatures;
+		private SilTools.Controls.SilPanel _panelPhones;
+		private SilTools.SilGrid _gridPhones;
+		private SilTools.Controls.SilGradientPanel _panelPhoneList;
 		private Localization.UI.LocalizationExtender locExtender;
-		private System.Windows.Forms.Button btnReset;
+		private System.Windows.Forms.Button _buttonReset;
 		private Controls.FeaturesTab _featuresTab;
 	}
 }
