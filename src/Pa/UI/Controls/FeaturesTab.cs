@@ -124,5 +124,17 @@ namespace SIL.Pa.UI.Controls
 			e.Graphics.DrawLine(SystemPens.GrayText, rc.X, rc.Bottom - 6,
 				rc.Right - 1, rc.Bottom - 6);
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool IsAFeatureTabShowing
+		{
+			get { return (_tabCtrl.SelectedTab == tpgAFeatures); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool IsBFeatureTabShowing
+		{
+			get { return (_tabCtrl.SelectedTab == tpgBFeatures); }
+		}
 	}
 }

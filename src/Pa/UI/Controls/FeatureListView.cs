@@ -23,10 +23,7 @@ namespace SIL.Pa.UI.Controls
 		public delegate void CustomDoubleClickHandler(object sender, string feature);
 		public event CustomDoubleClickHandler CustomDoubleClick;
 
-		private bool m_allowDoubleClickToChangeCheckState = true;
-		private bool m_isDirty;
 		private bool m_ignoreCheckChanges;
-		private bool m_emphasizeCheckedItems = true;
 		private Size m_chkBoxSize = new Size(13, 13);
 		private Color m_glyphColor = Color.Black;
 		private FeatureMask m_currMask;
@@ -46,6 +43,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public FeatureListView(App.FeatureType featureType)
 		{
+			AllowDoubleClickToChangeCheckState = true;
+			EmphasizeCheckedItems = true;
 			m_featureType = featureType;
 
 			Name = "lvFeatures-" + (m_featureType == App.FeatureType.Binary ?
@@ -205,7 +204,7 @@ namespace SIL.Pa.UI.Controls
 			if (newName != null)
 			{
 				if (e.Label.Trim() == string.Empty ||
-					InventoryHelper.AFeatureCache.FeatureExits(newName, true))
+					App.AFeatureCache.FeatureExits(newName, true))
 				{
 					e.CancelEdit = true;
 				}
@@ -218,7 +217,7 @@ namespace SIL.Pa.UI.Controls
 					{
 						info.Name = newName;
 						((Feature)info.CacheEntry).Name = newName;
-						m_isDirty = true;
+						IsDirty = true;
 					}
 				}
 			}
@@ -236,7 +235,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void WndProc(ref Message m)
 		{
-			if (m.HWnd == Handle && m.Msg == 0x203 && !m_allowDoubleClickToChangeCheckState)
+			if (m.HWnd == Handle && m.Msg == 0x203 && !AllowDoubleClickToChangeCheckState)
 			{
 				m.Result = IntPtr.Zero;
 				m.Msg = 0;
@@ -265,7 +264,7 @@ namespace SIL.Pa.UI.Controls
 			if (m_ignoreCheckChanges)
 				return;
 
-			FeatureItemInfo info = Items[e.Index].Tag as FeatureItemInfo;
+			var info = Items[e.Index].Tag as FeatureItemInfo;
 
 			if (info != null)
 			{
@@ -300,23 +299,25 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void SetCurrentBinaryFeatureMaskInfo(FeatureItemInfo info)
 		{
-			if (info.TriStateValue == BinaryFeatureValue.None)
+			switch (info.TriStateValue)
 			{
-				info.TriStateValue = BinaryFeatureValue.Plus;
-				m_currMask[info.MinusBit] = false;
-				m_currMask[info.PlusBit] = true;
-			}
-			else if (info.TriStateValue == BinaryFeatureValue.Plus)
-			{
-				info.TriStateValue = BinaryFeatureValue.Minus;
-				m_currMask[info.MinusBit] = true;
-				m_currMask[info.PlusBit] = false;
-			}
-			else
-			{
-				info.TriStateValue = BinaryFeatureValue.None;
-				m_currMask[info.MinusBit] = false;
-				m_currMask[info.PlusBit] = false;
+				case BinaryFeatureValue.None:
+					info.TriStateValue = BinaryFeatureValue.Plus;
+					m_currMask[info.MinusBit] = false;
+					m_currMask[info.PlusBit] = true;
+					break;
+				
+				case BinaryFeatureValue.Plus:
+					info.TriStateValue = BinaryFeatureValue.Minus;
+					m_currMask[info.MinusBit] = true;
+					m_currMask[info.PlusBit] = false;
+					break;
+				
+				default:
+					info.TriStateValue = BinaryFeatureValue.None;
+					m_currMask[info.MinusBit] = false;
+					m_currMask[info.PlusBit] = false;
+					break;
 			}
 		}
 
@@ -324,17 +325,13 @@ namespace SIL.Pa.UI.Controls
 
 		#region ListView Item Drawing Methods
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnDrawItem(DrawListViewItemEventArgs e)
 		{
 			e.Graphics.FillRectangle(SystemBrushes.Window, e.Bounds);
-			FeatureItemInfo info = e.Item.Tag as FeatureItemInfo;
+			var info = e.Item.Tag as FeatureItemInfo;
 			DrawText(e, info);
-			Rectangle rc = e.Item.GetBounds(ItemBoundsPortion.Entire);
-			Rectangle rcChkBox = new Rectangle(new Point(rc.X + 3, rc.Y), m_chkBoxSize);
+			var rc = e.Item.GetBounds(ItemBoundsPortion.Entire);
+			var rcChkBox = new Rectangle(new Point(rc.X + 3, rc.Y), m_chkBoxSize);
 			rcChkBox.Y += ((rc.Height - rcChkBox.Height) / 2);
 
 			if (CheckBoxes)
@@ -345,16 +342,16 @@ namespace SIL.Pa.UI.Controls
 					DrawFeatureState(e.Graphics, info, rcChkBox);
 			}
 
+			if (m_tooltip == null || m_tooltip.Tag != e.Item)
+				return;
+			
 			// Draw underline if the current item has a tooltip showing the feature's full name.
-			if (m_tooltip != null && m_tooltip.Tag == e.Item)
+			int width = TextRenderer.MeasureText(e.Item.Text, FontHelper.UIFont).Width;
+			rc = e.Item.GetBounds(ItemBoundsPortion.Label);
+			using (Pen pen = (Pen)SystemPens.WindowText.Clone())
 			{
-				int width = TextRenderer.MeasureText(e.Item.Text, FontHelper.UIFont).Width;
-				rc = e.Item.GetBounds(ItemBoundsPortion.Label);
-				using (Pen pen = (Pen)SystemPens.WindowText.Clone())
-				{
-					pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
-					e.Graphics.DrawLine(pen, rc.X + 2, rc.Bottom - 2, rc.X + width, rc.Bottom - 2);
-				}
+				pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+				e.Graphics.DrawLine(pen, rc.X + 2, rc.Bottom - 2, rc.X + width, rc.Bottom - 2);
 			}
 		}
 
@@ -366,13 +363,13 @@ namespace SIL.Pa.UI.Controls
 		private void DrawText(DrawListViewItemEventArgs e, FeatureItemInfo info)
 		{
 			bool selected = (SelectedItems.Count > 0 && e.Item == SelectedItems[0]);
-			Rectangle rc = e.Item.GetBounds(ItemBoundsPortion.Label);
+			var rc = e.Item.GetBounds(ItemBoundsPortion.Label);
 
 			// Draw the text and its background.
-			Font fnt = Font;
+			var fnt = Font;
 
 			// Determine whether or not to use the emphasized font.
-			if (m_emphasizeCheckedItems)
+			if (EmphasizeCheckedItems)
 			{
 				if (m_featureType == App.FeatureType.Articulatory)
 				{
@@ -387,7 +384,7 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			rc.Width = TextRenderer.MeasureText(e.Item.Text, fnt).Width + 3;
-			Color clrText = SystemColors.WindowText;
+			var clrText = SystemColors.WindowText;
 
 			if (selected)
 			{
@@ -435,7 +432,7 @@ namespace SIL.Pa.UI.Controls
 			// Draw a plus or minus in the empty check box.
 			using (Pen pen = new Pen(m_glyphColor, 1))
 			{
-				Point ptCenter = new Point(rc.X + (rc.Width / 2), rc.Y + (rc.Height / 2));
+				var ptCenter = new Point(rc.X + (rc.Width / 2), rc.Y + (rc.Height / 2));
 
 				// Draw the minus
 				g.DrawLine(pen, ptCenter.X - 3, ptCenter.Y, ptCenter.X + 3, ptCenter.Y);
@@ -445,82 +442,6 @@ namespace SIL.Pa.UI.Controls
 					g.DrawLine(pen, ptCenter.X, ptCenter.Y - 3, ptCenter.X, ptCenter.Y + 3);
 			}
 		}
-
-		#endregion
-
-		#region Methods for adding and removing custom articulatory feature
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Adds a custom articulatory feature to the list of articulatory features.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public void AddCustomArticulatoryFeature()
-		//{
-		//    if (CanCustomFeaturesBeAdded)
-		//    {
-		//        int i = 1;
-		//        string newName = Properties.Resources.kstidDefaultNewCustomFeatureName;
-		//        while (PaApp.AFeatureCache.FeatureExits(newName, false))
-		//            newName = Properties.Resources.kstidDefaultNewCustomFeatureName + i++;
-
-		//        // Feature should never come back null since
-		//        // we ensured the new feature would be unique.
-		//        AFeature feature = PaApp.AFeatureCache.Add(newName, false);
-		//        if (feature == null)
-		//            return;
-
-		//        FeatureItemInfo info = new FeatureItemInfo();
-		//        info.Name = newName;
-		//        info.Mask = feature.Mask;
-		//        info.MaskNum = feature.MaskNumber;
-		//        info.IsCustom = feature.IsCustomFeature;
-		//        info.CacheEntry = feature;
-
-		//        // Now add a list resultView item for the new feature and put the user in the edit mode.
-		//        ListViewItem item = new ListViewItem(newName);
-		//        item.Checked = false;
-		//        Items.Add(item);
-		//        item.EnsureVisible();
-		//        item.Selected = true;
-		//        item.Tag = info;
-		//        Application.DoEvents();
-		//        item.BeginEdit();
-		//        m_isDirty = true;
-		//    }
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Removes a custom articulatory feature to the list of articulatory features.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public void RemoveCustomArticulatoryFeature()
-		//{
-		//    if (!IsCurrentFeatureCustom)
-		//        return;
-
-		//    ListViewItem item = SelectedItems[0];
-		//    FeatureItemInfo info = item.Tag as FeatureItemInfo;
-		//    if (info == null)
-		//        return;
-
-		//    string msg = string.Format(Properties.Resources.kstidRemoveFeatureMsg, info.Name);
-
-		//    // Make sure the user really wants to do this.
-		//    if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
-		//    {
-		//        PaApp.AFeatureCache.Delete(info.Name, false);
-		//        int newIndex = item.Index;
-
-		//        // Remove the item from the list resultView and set the new selected item to
-		//        // the most logical feature near the one deleted.
-		//        Focus();
-		//        item.Remove();
-		//        SelectedItems.Clear();
-		//        SelectedIndices.Add((newIndex < Items.Count ? newIndex : Items.Count - 1));
-		//        m_isDirty = true;
-		//    }
-		//}
 
 		#endregion
 
@@ -538,20 +459,16 @@ namespace SIL.Pa.UI.Controls
 			get
 			{
 				const string fmt = "[{0}]";
-				List<string> features = new List<string>();
-				foreach (ListViewItem item in Items)
+				var features = new List<string>();
+				foreach (var info in (from ListViewItem item in Items select item.Tag).OfType<FeatureItemInfo>())
 				{
-					FeatureItemInfo info = item.Tag as FeatureItemInfo;
-					if (info != null)
+					if (m_featureType == App.FeatureType.Articulatory && info.Checked)
+						features.Add(string.Format(fmt, info.Name.ToLower()));
+					else if (info.TriStateValue != BinaryFeatureValue.None)
 					{
-						if (m_featureType == App.FeatureType.Articulatory && info.Checked)
-							features.Add(string.Format(fmt, info.Name.ToLower()));
-						else if (info.TriStateValue != BinaryFeatureValue.None)
-						{
-							features.Add(string.Format(fmt,
-								(info.TriStateValue == BinaryFeatureValue.Plus ? "+" : "-") +
-								info.Name));
-						}
+						features.Add(string.Format(fmt,
+						    (info.TriStateValue == BinaryFeatureValue.Plus ? "+" : "-") +
+						    info.Name));
 					}
 				}
 
@@ -575,18 +492,18 @@ namespace SIL.Pa.UI.Controls
 	
 				foreach (ListViewItem item in Items)
 				{
-					FeatureItemInfo info = item.Tag as FeatureItemInfo;
-					if (info != null)
-					{
-						if (m_featureType == App.FeatureType.Articulatory && !info.Checked)
-							continue;
+					var info = item.Tag as FeatureItemInfo;
+					if (info == null)
+						continue;
+					
+					if (m_featureType == App.FeatureType.Articulatory && !info.Checked)
+						continue;
 
-						if (info.TriStateValue != BinaryFeatureValue.None)
-							bldr.Append(info.TriStateValue == BinaryFeatureValue.Plus ? "+" : "-");
+					if (info.TriStateValue != BinaryFeatureValue.None)
+						bldr.Append(info.TriStateValue == BinaryFeatureValue.Plus ? "+" : "-");
 
-						bldr.Append(info.Name);
-						bldr.Append(", ");
-					}
+					bldr.Append(info.Name);
+					bldr.Append(", ");
 				}
 
 				return bldr.ToString().TrimEnd(',', ' ');
@@ -607,8 +524,8 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (SelectedItems.Count > 0)
 				{
-					ListViewItem item = SelectedItems[0];
-					FeatureItemInfo info = item.Tag as FeatureItemInfo;
+					var item = SelectedItems[0];
+					var info = item.Tag as FeatureItemInfo;
 					if (info != null)
 					{
 						string feature = "[" + info.Name + "]";
@@ -646,12 +563,8 @@ namespace SIL.Pa.UI.Controls
 
 				// Loop through items in the feature list and set their state according to
 				// the specified mask.
-				foreach (ListViewItem item in Items)
+				foreach (var info in (from ListViewItem item in Items select item.Tag).OfType<FeatureItemInfo>())
 				{
-					FeatureItemInfo info = item.Tag as FeatureItemInfo;
-					if (info == null)
-						continue;
-
 					if (m_featureType == App.FeatureType.Articulatory)
 						info.Checked = (m_currMask[info.Bit]);
 					else
@@ -680,23 +593,19 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				StringBuilder features = new StringBuilder();
+				var features = new StringBuilder();
 				foreach (ListViewItem item in Items)
 				{
-					FeatureItemInfo info = item.Tag as FeatureItemInfo;
-					if (info != null)
-					{
-						if (m_featureType == App.FeatureType.Articulatory && item.Checked)
-							features.Append(info.Name);
-						else if (info.TriStateValue != BinaryFeatureValue.None)
-						{
-							features.Append(
-								(info.TriStateValue == BinaryFeatureValue.Plus ? "+" : "-") +
-								info.Name);
-						}
+					var info = item.Tag as FeatureItemInfo;
+					if (info == null)
+						continue;
+					
+					if (m_featureType == App.FeatureType.Articulatory && item.Checked)
+						features.Append(info.Name);
+					else if (info.TriStateValue != BinaryFeatureValue.None)
+						features.Append((info.TriStateValue == BinaryFeatureValue.Plus ? "+" : "-") + info.Name);
 
-						features.Append(", ");
-					}
+					features.Append(", ");
 				}
 
 				// Remove the last comma and space;
@@ -712,11 +621,7 @@ namespace SIL.Pa.UI.Controls
 		/// change cause an item's value (i.e. check/plus/minus state) to change.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool AllowDoubleClickToChangeCheckState
-		{
-			get { return m_allowDoubleClickToChangeCheckState; }
-			set { m_allowDoubleClickToChangeCheckState = value; }
-		}
+		public bool AllowDoubleClickToChangeCheckState { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -724,31 +629,7 @@ namespace SIL.Pa.UI.Controls
 		/// appear emphasized.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool EmphasizeCheckedItems
-		{
-			get { return m_emphasizeCheckedItems; }
-			set { m_emphasizeCheckedItems = value; }
-		}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Gets a value indicating whether or not the currently selected item in the list is
-		///// a custom feature. Note: this property only applies to articulatory features.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		//[Browsable(false)]
-		//public bool IsCurrentFeatureCustom
-		//{
-		//    get
-		//    {
-		//        if (m_featureType == PaApp.FeatureType.Binary || SelectedItems.Count == 0)
-		//            return false;
-
-		//        FeatureItemInfo info = SelectedItems[0].Tag as FeatureItemInfo;
-		//        return (info == null ? false : info.IsCustom);
-		//    }
-		//}
+		public bool EmphasizeCheckedItems { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -756,55 +637,9 @@ namespace SIL.Pa.UI.Controls
 		/// list has changed.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		[Browsable(false)]
-		public bool IsDirty
-		{
-			get {return m_isDirty;}
-		}
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
+		public bool IsDirty { get; private set; }
 
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Gets or sets the field on which to sort the features list.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		//[Browsable(false)]
-		//public string SortField
-		//{
-		//    get {return m_currSortField;}
-		//    set
-		//    {
-		//        if (value == kFeatureSortField)
-		//            SortByFeatureName();
-		//        else if (value == kTypeSortField)
-		//            SortByType();
-		//    }
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Gets a value indicating whether or not the list is currently sorted by feature name.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		//[Browsable(false)]
-		//public bool IsSortedByFeatureName
-		//{
-		//    get {return (m_currSortField == kFeatureSortField);}
-		//}
-		
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Gets a value indicating whether or not the list is currently sorted by type.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		//[Browsable(false)]
-		//public bool IsSortedByType
-		//{
-		//    get {return (m_currSortField == kTypeSortField);}
-		//}
 		#endregion
 
 		#region Misc. public methods
@@ -817,29 +652,7 @@ namespace SIL.Pa.UI.Controls
 		public void Reset()
 		{
 			Load();
-			m_isDirty = false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void SortByType()
-		{
-			//m_currSortField = kFeatureSortField;
-			//Load();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void SortByFeatureName()
-		{
-			//m_currSortField = kFeatureSortField;
-			//Load();
+			IsDirty = false;
 		}
 
 		#endregion
@@ -875,7 +688,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void LoadAFeatures()
 		{
-			foreach (var feature in InventoryHelper.AFeatureCache.Values.OrderBy(x => x.Name))
+			foreach (var feature in App.AFeatureCache.Values.OrderBy(x => x.Name))
 			{
 				var info = new FeatureItemInfo();
 				info.Name = feature.Name;
@@ -887,7 +700,7 @@ namespace SIL.Pa.UI.Controls
 				Items.Add(item);
 			}
 
-			CurrentMask = InventoryHelper.AFeatureCache.GetEmptyMask();
+			CurrentMask = App.AFeatureCache.GetEmptyMask();
 			AdjustColumnWidth();
 		}
 
@@ -898,23 +711,23 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void LoadBFeatures()
 		{
-			foreach (Feature feature in InventoryHelper.BFeatureCache.PlusFeatures.OrderBy(x => x.Name))
+			foreach (Feature feature in App.BFeatureCache.PlusFeatures.OrderBy(x => x.Name))
 			{
-				FeatureItemInfo info = new FeatureItemInfo();
+				var info = new FeatureItemInfo();
 				string name = feature.Name.Substring(1);
 				string fullname = feature.Name.Substring(1);
 				info.Name = name;
 				info.FullName = fullname;
 				info.PlusBit = feature.Bit;
-				info.MinusBit = InventoryHelper.BFeatureCache.GetOppositeFeature(feature).Bit;
+				info.MinusBit = App.BFeatureCache.GetOppositeFeature(feature).Bit;
 				info.IsBinary = true;
 				info.CacheEntry = feature;
-				ListViewItem item = new ListViewItem(info.Name);
+				var item = new ListViewItem(info.Name);
 				item.Tag = info;
 				Items.Add(item);
 			}
 
-			CurrentMask = InventoryHelper.BFeatureCache.GetEmptyMask();
+			CurrentMask = App.BFeatureCache.GetEmptyMask();
 			AdjustColumnWidth();
 		}
 
@@ -925,12 +738,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void AdjustColumnWidth()
 		{
-			Font fnt = (m_emphasizeCheckedItems ? m_checkedItemFont : FontHelper.UIFont);
+			var fnt = (EmphasizeCheckedItems ? m_checkedItemFont : FontHelper.UIFont);
 			int width = 0;
 
 			for (int i = 0; i < Items.Count; i++)
 			{
-				Size sz = TextRenderer.MeasureText(Items[i].Text, fnt);
+				var sz = TextRenderer.MeasureText(Items[i].Text, fnt);
 				width = Math.Max(width, sz.Width);
 			}
 
@@ -962,10 +775,6 @@ namespace SIL.Pa.UI.Controls
 		None
 	}
 
-	/// ------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ------------------------------------------------------------------------------------
 	internal class FeatureItemInfo
 	{
