@@ -223,9 +223,6 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
-			Symbol.Decimal = int.Parse((m_addingSymbol ?
-				txtHexValue.Text : lblUnicodeValue.Text), NumberStyles.HexNumber);
-
 			Symbol.Hexadecimal = (m_addingSymbol ? txtHexValue.Text : lblUnicodeValue.Text);
 			Symbol.Literal = lblChar.Text;
 			Symbol.Name = txtCharName.Text;
