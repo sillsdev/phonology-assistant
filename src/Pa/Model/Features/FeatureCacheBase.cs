@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Linq;
 using SilTools;
 
 namespace SIL.Pa.Model
@@ -9,13 +10,23 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class FeatureCacheBase : Dictionary<string, Feature>
 	{
+		/// ------------------------------------------------------------------------------------
+		public static IEnumerable<Feature> ReadFeaturesFromXElement(XElement root, string featureType)
+		{
+			var featureDefs = root.Elements("featureDefinitions")
+				.FirstOrDefault(e => (string)e.Attribute("class") == featureType);
+
+			return (featureDefs == null ? new List<Feature>(0) :
+				featureDefs.Elements("featureDefinition").Select(e => Feature.FromXElement(e)));
+		}
+
 		#region Methods for loading and saving
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads binary features from the specified list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		internal virtual void LoadFromList(List<Feature> list)
+		internal virtual void LoadFromList(IEnumerable<Feature> list)
 		{
 			Debug.Assert(list != null);
 			Clear();
