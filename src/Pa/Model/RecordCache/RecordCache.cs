@@ -207,11 +207,12 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		private void BuildFilteredWordCache(IEnumerable<WordCacheEntry> tmpWordCache)
 		{
+			var wordCache = tmpWordCache.ToArray();
 			WordsNotInCurrentFilter = new WordCache();
 			WordCache = new WordCache();
-			PhoneCache = GetPhonesFromWordCache(tmpWordCache);
+			PhoneCache = GetPhonesFromWordCache(wordCache);
 
-			foreach (var wentry in tmpWordCache)
+			foreach (var wentry in wordCache)
 			{
 				if (m_project.FilterHelper.EntryMatchesCurrentFilter(wentry))
 					WordCache.Add(wentry);
@@ -269,9 +270,6 @@ namespace SIL.Pa.Model
 					}
 				}
 			}
-
-			if (m_project.FeatureOverrides != null)
-				m_project.FeatureOverrides.MergeWithPhoneCache(phoneCache);
 
 			AddUndefinedCharsToCaches(phoneCache);
 			return phoneCache;

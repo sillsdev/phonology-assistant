@@ -88,13 +88,17 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void SetCollection(string field, IEnumerable<string> collection)
 		{
-			if (string.IsNullOrEmpty(field) || collection == null || collection.Count() == 0)
+			if (string.IsNullOrEmpty(field) || collection == null)
+				return;
+
+			var tmpCollection = collection.ToArray();
+			if (tmpCollection.Length == 0)
 				return;
 
 			if (m_collectionValues == null)
 				m_collectionValues = new Dictionary<string, IEnumerable<string>>();
 
-			m_collectionValues[field] = collection;
+			m_collectionValues[field] = tmpCollection;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -278,8 +282,8 @@ namespace SIL.Pa.Model
 				// values of m_interlinearFields and m_firstInterlinearField determine
 				// what's returned. Otherwise, this data source's parse type must be
 				// interlinear.
-				bool projParseTypeOK = (DataSource.Type != DataSourceType.SFM &&
-					DataSource.Type != DataSourceType.Toolbox ? true :
+				bool projParseTypeOK = ((DataSource.Type != DataSourceType.SFM &&
+					DataSource.Type != DataSourceType.Toolbox) ||
 					DataSource.ParseType == DataSourceParseType.Interlinear);
 
 				return (projParseTypeOK && InterlinearFields != null &&
