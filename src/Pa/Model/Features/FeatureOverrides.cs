@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Reflection;
-using SilTools;
+using System.Xml.Linq;
 
 namespace SIL.Pa.Model
 {
@@ -10,22 +10,17 @@ namespace SIL.Pa.Model
 	/// the result of performing a bitwise OR on the features of each codepoint making up the
 	/// phone. Therefore, phones in this list have their features overridden.
 	/// ----------------------------------------------------------------------------------------
-	public class FeatureOverrides : PhoneCache
+	public class FeatureOverrides : List<FeatureOverride>
 	{
+		private const string kCurrVersion = "3.3.3";
 		public const string kFileName = "FeatureOverrides.xml";
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This is necessary for serialization/deserialization.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public FeatureOverrides() : base(null)
-		{
-		}
+		private PaProject _project;
 
 		/// ------------------------------------------------------------------------------------
-		public FeatureOverrides(PaProject project) : base(project)
+		public FeatureOverrides(PaProject project)
 		{
+			_project = project;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -35,17 +30,71 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static FeatureOverrides Load(PaProject project)
 		{
-			string filename = GetFileForProject(project.ProjectPathFilePrefix);
-			var list = XmlSerializationHelper.DeserializeFromFile<List<PhoneInfo>>(filename, "phones");
-
-			if (list == null || list.Count == 0)
-				return null;
-
 			var overrides = new FeatureOverrides(project);
-			foreach (var phoneInfo in list)
-				overrides[phoneInfo.Phone] = phoneInfo;
 
+			var filename = GetFileForProject(project.ProjectPathFilePrefix);
+			if (!File.Exists(filename))
+				return overrides;
+
+			var root = XElement.Load(filename);
+			if (root.Nodes().Count() == 0)
+				return overrides;
+
+			AddDescriptiveFeatureOverrides(root, ref overrides);
+			AddDistinctiveFeatureOverrides(root, project, ref overrides);
 			return overrides;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void AddDescriptiveFeatureOverrides(XElement root, ref FeatureOverrides overrides)
+		{
+			var featureTypeElement = root.Elements("featureType")
+				.FirstOrDefault(e => (string)e.Attribute("class") == "descriptive");
+
+			if (featureTypeElement == null)
+				return;
+
+			// Get only the overriding features if they can be found in the descriptive feature cache.
+			var list = from element in featureTypeElement.Elements("featureOverride")
+					   let phone = (string)element.Attribute("segment")
+					   let fnames = element.Elements("feature").Select(e => e.Value).Where(fname => App.AFeatureCache.Keys.Any(n => n == fname))
+					   where !string.IsNullOrEmpty(phone) && fnames != null && fnames.Count() > 0
+					   select new FeatureOverride { Phone = phone, AFeatureNames = fnames.ToArray() };
+
+			overrides.AddRange(list);
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		private static void AddDistinctiveFeatureOverrides(XElement root, PaProject project,
+			ref FeatureOverrides overrides)
+		{
+			var featureTypeElement = root.Elements("featureType").FirstOrDefault(e =>
+				(string)e.Attribute("class") == "distinctive" && (string)e.Attribute("set") == project.DistinctiveFeatureSet);
+
+			if (featureTypeElement == null)
+				return;
+			
+			foreach (var element in featureTypeElement.Elements("featureOverride"))
+			{
+				var phone = element.Attribute("segment").Value;
+				
+				// Get only the overriding feature names if they
+				// can be found in the distinctive feature cache.
+				var fnames = element.Elements("feature").Select(e => e.Value)
+					.Where(fname => project.BFeatureCache.Keys.Any(n => n == fname)).ToArray();
+
+				if (string.IsNullOrEmpty(phone) || fnames.Length == 0)
+					continue;
+
+				var foverride = overrides.GetOverridesForPhone(phone);
+				if (foverride == null)
+				{
+					foverride = new FeatureOverride { Phone = phone };
+					overrides.Add(foverride);
+				}
+
+				foverride.BFeatureNames = fnames;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -55,50 +104,118 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Saves the list of phones with overridden features to a project-specific xml file.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Save(string projectPathPrefix)
+		public FeatureOverride GetOverridesForPhone(string phone)
 		{
-			// Move the entries into a list because dictionaries are not serializable.
-			var list = Values.Select(x => x as PhoneInfo).ToList();
-
-			foreach (var phone in list)
-			{
-				if (!phone.AFeaturesAreOverridden)
-					phone.AMask = FeatureMask.Empty;
-
-				if (!phone.BFeaturesAreOverridden)
-					phone.BMask = FeatureMask.Empty;
-			}
-			
-			string filename = projectPathPrefix + kFileName;
-			XmlSerializationHelper.SerializeToFile(filename, list, "phones");
+			return this.FirstOrDefault(fo => fo.Phone == phone);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Goes through the phones in the override list, finds it's phone entry in the phone
-		/// cache and replaces the features in the phone cache entry with those from the
-		/// override list entry.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void MergeWithPhoneCache(PhoneCache phoneCache)
+		public void Save(IEnumerable<PhoneInfo> phonesWithOverrides)
 		{
-			foreach (var kvp in this)
+			RebuildOverridesFromPhones(phonesWithOverrides);
+			var root = BuildXmlForOverrides();
+			MergeDistinctiveOverridesFromOtherSets(ref root);
+			root.Save(GetFileForProject(_project.ProjectPathFilePrefix));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void RebuildOverridesFromPhones(IEnumerable<PhoneInfo> phonesWithOverrides)
+		{
+			Clear();
+
+			foreach (var phoneInfo in phonesWithOverrides)
 			{
-				var phoneOverride = kvp.Value as PhoneInfo;
-				var phoneCacheEntry = phoneCache[kvp.Key] as PhoneInfo;
-				if (phoneOverride == null || phoneCacheEntry == null)
-					continue;
+				var foverride = new FeatureOverride { Phone = phoneInfo.Phone };
+				
+				if (phoneInfo.HasAFeatureOverrides)
+					foverride.AFeatureNames = phoneInfo.AFeatureNames;
 
-				if (phoneOverride.AFeaturesAreOverridden)
-					phoneCacheEntry.OverrideAFeature(phoneOverride.AMask);
+				if (phoneInfo.HasBFeatureOverrides)
+					foverride.BFeatureNames = phoneInfo.BFeatureNames;
 
-				if (phoneOverride.BFeaturesAreOverridden)
-					phoneCacheEntry.OverrideBFeature(phoneOverride.BMask);
+				Add(foverride);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private XElement BuildXmlForOverrides()
+		{
+			var root = new XElement("featureOverrides", new XAttribute("version", kCurrVersion));
+			
+			var descriptiveElement = new XElement("featureType",
+				new XAttribute("class", "descriptive"));
+			
+			var distinctiveElement = new XElement("featureType",
+				new XAttribute("class", "distinctive"),
+				new XAttribute("set", _project.DistinctiveFeatureSet));
+
+			foreach (var foverride in this)
+			{
+				AddFeaturesForSegmentElement(descriptiveElement, foverride.Phone, foverride.AFeatureNames);
+				AddFeaturesForSegmentElement(distinctiveElement, foverride.Phone, foverride.BFeatureNames);
+			}
+
+			if (descriptiveElement.HasElements)
+				root.Add(descriptiveElement);
+			
+			if (distinctiveElement.HasElements)
+				root.Add(distinctiveElement);
+
+			return root;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void AddFeaturesForSegmentElement(XElement featureTypeElement,
+			string phone, IEnumerable<string> featureNames)
+		{
+			var segmentElement = new XElement("featureOverride", new XAttribute("segment", phone));
+			foreach (var fname in featureNames)
+				segmentElement.Add(new XElement("feature", fname));
+
+			if (segmentElement.HasElements)
+				featureTypeElement.Add(segmentElement);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void MergeDistinctiveOverridesFromOtherSets(ref XElement newRoot)
+		{
+			var filename = GetFileForProject(_project.ProjectPathFilePrefix);
+			if (!File.Exists(filename))
+				return;
+
+			var oldRoot = XElement.Load(filename);
+
+			var distictiveOverrideElementsForOtherSets = oldRoot.Elements("featureType").Where(e =>
+				(string)e.Attribute("class") == "distinctive" && (string)e.Attribute("set") != _project.DistinctiveFeatureSet);
+
+			if (distictiveOverrideElementsForOtherSets.Count() > 0)
+				newRoot.Add(distictiveOverrideElementsForOtherSets);
+
+			//foreach (var otherSets in distictiveOverrideElementsForOtherSets)
 		}
 	}
+
+	#region FeatureOverride class
+	/// ----------------------------------------------------------------------------------------
+	public class FeatureOverride
+	{
+		public string Phone { get; set; }
+		public IEnumerable<string> AFeatureNames { get; set; }
+		public IEnumerable<string> BFeatureNames { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public FeatureOverride()
+		{
+			AFeatureNames = new List<string>(0);
+			BFeatureNames = new List<string>(0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return Phone;
+		}
+	}
+
+	#endregion
 }
