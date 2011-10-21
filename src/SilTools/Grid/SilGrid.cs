@@ -843,9 +843,40 @@ namespace SilTools
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adjusts the rows in the grid by letting the grid calculate the row
+		/// heights automatically, then adds the extra amount specified.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void AdjustGridRows(int extraAmount)
+		{
+			try
+			{
+				// Sometimes (or maybe always) this throws an exception when
+				// the first row is the only row and is the NewRowIndex row.
+				AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+			}
+			catch { }
+
+			AutoResizeRows();
+
+			if (extraAmount <= 0)
+				return;
+			
+			foreach (var row in GetRows())
+				row.Height += extraAmount;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public IEnumerable<DataGridViewRow> GetRows()
 		{
 			return Rows.Cast<DataGridViewRow>();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<DataGridViewColumn> GetColumns()
+		{
+			return Columns.Cast<DataGridViewColumn>();
 		}
 
 		/// ------------------------------------------------------------------------------------

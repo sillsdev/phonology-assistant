@@ -32,18 +32,18 @@
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// splitFeatures
+			// _splitFeatures
 			// 
 			this._splitFeatures.Dock = System.Windows.Forms.DockStyle.Fill;
 			this._splitFeatures.Location = new System.Drawing.Point(10, 10);
-			this._splitFeatures.Name = "splitFeatures";
+			this._splitFeatures.Name = "_splitFeatures";
 			// 
-			// splitFeatures.Panel1
+			// _splitFeatures.Panel1
 			// 
 			this._splitFeatures.Panel1.Controls.Add(this._panelPhones);
 			this._splitFeatures.Panel1MinSize = 100;
 			// 
-			// splitFeatures.Panel2
+			// _splitFeatures.Panel2
 			// 
 			this._splitFeatures.Panel2.Controls.Add(this._featuresTab);
 			this._splitFeatures.Size = new System.Drawing.Size(597, 409);
@@ -52,7 +52,7 @@
 			this._splitFeatures.TabIndex = 0;
 			this._splitFeatures.TabStop = false;
 			// 
-			// pnlPhones
+			// _panelPhones
 			// 
 			this._panelPhones.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this._panelPhones.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -72,12 +72,12 @@
 			this.locExtender.SetLocalizingId(this._panelPhones, "FeaturesDlg.pnlPhones");
 			this._panelPhones.Location = new System.Drawing.Point(0, 0);
 			this._panelPhones.MnemonicGeneratesClick = false;
-			this._panelPhones.Name = "pnlPhones";
+			this._panelPhones.Name = "_panelPhones";
 			this._panelPhones.PaintExplorerBarBackground = false;
 			this._panelPhones.Size = new System.Drawing.Size(145, 409);
 			this._panelPhones.TabIndex = 0;
 			// 
-			// btnReset
+			// _buttonReset
 			// 
 			this._buttonReset.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this._buttonReset.AutoSize = true;
@@ -86,14 +86,14 @@
 			this.locExtender.SetLocalizingId(this._buttonReset, "FeaturesDlg.btnReset");
 			this._buttonReset.Location = new System.Drawing.Point(37, 277);
 			this._buttonReset.MinimumSize = new System.Drawing.Size(80, 26);
-			this._buttonReset.Name = "btnReset";
+			this._buttonReset.Name = "_buttonReset";
 			this._buttonReset.Size = new System.Drawing.Size(80, 26);
 			this._buttonReset.TabIndex = 1;
 			this._buttonReset.Text = "Reset";
 			this._buttonReset.UseVisualStyleBackColor = true;
 			this._buttonReset.Click += new System.EventHandler(this.HandleResetButtonClick);
 			// 
-			// gridPhones
+			// _gridPhones
 			// 
 			this._gridPhones.AllowUserToAddRows = false;
 			this._gridPhones.AllowUserToDeleteRows = false;
@@ -124,7 +124,7 @@
 			this.locExtender.SetLocalizingId(this._gridPhones, "FeaturesDlg.gridPhones");
 			this._gridPhones.Location = new System.Drawing.Point(0, 25);
 			this._gridPhones.MultiSelect = false;
-			this._gridPhones.Name = "gridPhones";
+			this._gridPhones.Name = "_gridPhones";
 			this._gridPhones.PaintHeaderAcrossFullGridWidth = true;
 			this._gridPhones.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			this._gridPhones.RowHeadersVisible = false;
@@ -140,12 +140,13 @@
 			this._gridPhones.TabIndex = 1;
 			this._gridPhones.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
 			this._gridPhones.WaterMark = "!";
+			this._gridPhones.CurrentRowChanged += new System.EventHandler(this.HandlePhoneGridCurrentRowChanged);
 			this._gridPhones.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.HandlePhoneGridCellFormatting);
 			this._gridPhones.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandlePhoneGridCellMouseEnter);
 			this._gridPhones.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandlePhoneGridCellMouseLeave);
 			this._gridPhones.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandlePhoneGridRowEnter);
 			// 
-			// pgpPhoneList
+			// _panelPhoneList
 			// 
 			this._panelPhoneList.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this._panelPhoneList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -165,7 +166,7 @@
 			this._panelPhoneList.Location = new System.Drawing.Point(0, 0);
 			this._panelPhoneList.MakeDark = false;
 			this._panelPhoneList.MnemonicGeneratesClick = false;
-			this._panelPhoneList.Name = "pgpPhoneList";
+			this._panelPhoneList.Name = "_panelPhoneList";
 			this._panelPhoneList.PaintExplorerBarBackground = false;
 			this._panelPhoneList.Size = new System.Drawing.Size(143, 25);
 			this._panelPhoneList.TabIndex = 0;
