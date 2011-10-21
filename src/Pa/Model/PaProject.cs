@@ -43,6 +43,8 @@ namespace SIL.Pa.Model
 			IgnoreUndefinedCharsInSearches = true;
 			LastNewlyMappedFields = new List<string>(0);
 			Version = kCurrVersion;
+			DistinctiveFeatureSet = BFeatureCache.DefaultFeatureSetName;
+			App.BFeatureCache = BFeatureCache = new BFeatureCache();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -53,21 +55,22 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public PaProject(bool newProject) : this()
 		{
-			if (newProject)
-			{
-				Fields = PaField.GetDefaultFields();
-				DataSources = new List<PaDataSource>();
-				CVPatternInfoList = new List<CVPatternInfo>();
-				SearchClasses = SearchClassList.LoadDefaults(this);
-				SearchQueryGroups = SearchQueryGroupList.LoadDefaults(this);
-				FilterHelper = new FilterHelper(this);
-				CIEOptions = new CIEOptions();
-				LoadAmbiguousSequences();
-				LoadTranscriptionChanges();
-				m_newProject = true;
-				RecordCache = new RecordCache(this);
-				PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
-			}
+			if (!newProject)
+				return;
+
+			DistinctiveFeatureSet = BFeatureCache.DefaultFeatureSetName;
+			Fields = PaField.GetDefaultFields();
+			DataSources = new List<PaDataSource>();
+			CVPatternInfoList = new List<CVPatternInfo>();
+			SearchClasses = SearchClassList.LoadDefaults(this);
+			SearchQueryGroups = SearchQueryGroupList.LoadDefaults(this);
+			FilterHelper = new FilterHelper(this);
+			CIEOptions = new CIEOptions();
+			LoadAmbiguousSequences();
+			LoadTranscriptionChanges();
+			m_newProject = true;
+			RecordCache = new RecordCache(this);
+			PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -195,25 +198,26 @@ namespace SIL.Pa.Model
 		public static PaProject Load(string prjFilePath, Form appWindow)
 		{
 			string msg = null;
+			Exception e;
 			PaProject project = null;
 
 			if (!File.Exists(prjFilePath))
 			{
-				msg = App.GetString("ProjectFileMissingMsg", "Project file '{0}' does not exist.",
+				msg = App.GetString("MiscellaneousMessages.ProjectFileMissingMsg", "The project file '{0}' is missing.",
 					"Message displayed when an attempt is made to open a non existant project file. The parameter is the project file name.");
 
-				Utils.MsgBox(string.Format(msg, Utils.PrepFilePathForMsgBox(prjFilePath)));
+				App.NotifyUserOfProblem(msg, prjFilePath);
 				return null;
 			}
 
 			if (!MigrateToLatestVersion(prjFilePath))
 				return null;
 
-			project = LoadProjectFileOnly(prjFilePath, false, ref msg);
+			project = LoadProjectFileOnly(prjFilePath, false, ref msg, out e);
 
-			if (msg != null)
+			if (msg != null || e != null)
 			{
-				Utils.MsgBox(msg);
+				App.NotifyUserOfProblem(e, msg);
 				return null;
 			}
 
@@ -233,7 +237,6 @@ namespace SIL.Pa.Model
 
 			return project;
 		}
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads only the project file for the specified file name.
@@ -242,7 +245,20 @@ namespace SIL.Pa.Model
 		public static PaProject LoadProjectFileOnly(string projFileName, bool showErrors,
 			ref string msg)
 		{
+			Exception e;
+			return LoadProjectFileOnly(projFileName, showErrors, ref msg, out e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Loads only the project file for the specified file name.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static PaProject LoadProjectFileOnly(string projFileName, bool showErrors,
+			ref string msg, out Exception exception)
+		{
 			PaProject project = null;
+			exception = null;
 
 			try
 			{
@@ -252,23 +268,16 @@ namespace SIL.Pa.Model
 			}
 			catch (Exception e)
 			{
-				if (project == null)
-				{
-					msg = string.Format(App.GetString("InvalidProjectFileFormatMsg",
-						"Project File '{0}' has an Invalid Format."),
-		
-						Utils.PrepFilePathForMsgBox(projFileName));	
-				}
-				else
-				{
-					msg = string.Format(App.GetString("ErrorLoadingProjectMsg",
-						"The followng error occurred loading project '{0}'.\n\n{1}"),
+				exception = e;
 
-					Utils.PrepFilePathForMsgBox(projFileName), e.Message);	
-				}
+				msg = (project == null ? 
+					App.GetString("MiscellaneousMessages.InvalidProjectFileErrorMsg", "The project file '{0}' has an invalid format.") :
+					App.GetString("MiscellaneousMessages.LoadingProjectErrorMsg", "There was an error loading the project file '{0}'"));
+
+				msg = string.Format(msg, projFileName);
 
 				if (showErrors)
-					Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					App.NotifyUserOfProblem(e, msg);
 
 				project = null;
 			}
@@ -295,6 +304,8 @@ namespace SIL.Pa.Model
 			SearchVwSortOptions.PostDeserializeInitialization(this);
 			DistributionChartVwSortOptions.PostDeserializeInitialization(this);
 			FixupFieldsAndMappings();
+			LoadDistinctiveFeatureSet();
+			LoadFeatureOverrides();
 
 			if (CIEOptions == null)
 				CIEOptions = new CIEOptions();
@@ -435,7 +446,6 @@ namespace SIL.Pa.Model
 		{
 			LoadAmbiguousSequences();
 			LoadTranscriptionChanges();
-			FeatureOverrides = FeatureOverrides.Load(this);
 			PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
 
 			App.MsgMediator.SendMessage("BeforeLoadingDataSources", this);
@@ -489,6 +499,42 @@ namespace SIL.Pa.Model
 		{
 			CIEOptions = newOptions;
 			Save();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void LoadDistinctiveFeatureSet()
+		{
+			var filePath = BFeatureCache.GetFeatureSetFiles()
+				.FirstOrDefault(f => Path.GetFileName(f).StartsWith(DistinctiveFeatureSet));
+
+			if (filePath == null)
+			{
+				var msg = App.GetString("MiscellaneousMessages.LoadingDistinctiveFeatureSetFileErrorMsg",
+					"The file containing the '{0}' distinctive feature set is missing. The default set will be used instead.");
+				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(msg, DistinctiveFeatureSet);
+				filePath = BFeatureCache.DefaultFeatureSetFile;
+			}
+
+			var root = XElement.Load(filePath);
+			BFeatureCache.LoadFromList(FeatureCacheBase.ReadFeaturesFromXElement(root, "distinctive"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void LoadFeatureOverrides()
+		{
+			FeatureOverrides = FeatureOverrides.Load(this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void UpdateFeatureOverrides(IEnumerable<PhoneInfo> phonesWithOverrides)
+		{
+			App.MsgMediator.SendMessage("BeforePhoneFeatureOverridesSaved",
+				new object[] { this, phonesWithOverrides });
+
+			FeatureOverrides.Save(phonesWithOverrides);
+			
+			App.MsgMediator.SendMessage("AfterPhoneFeatureOverridesSaved",
+				new object[] { this, phonesWithOverrides });
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -776,6 +822,13 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		public string Comments { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public string DistinctiveFeatureSet { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public BFeatureCache BFeatureCache { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		[XmlElement("currentFilter")]
