@@ -124,19 +124,11 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static bool WriteStreamToFile(MemoryStream stream, string outputFileName, bool tidy)
 		{
 			return WriteStreamToFile(stream, outputFileName, false, tidy);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static bool WriteStreamToFile(MemoryStream stream, string outputFileName,
 			bool showExceptions, bool tidy)
@@ -157,7 +149,7 @@ namespace SIL.Pa.Processing
 					if (showExceptions &&
 						Utils.MsgBox(e.Message, MessageBoxButtons.RetryCancel) == DialogResult.Retry)
 					{
-							continue;
+						continue;
 					}
 
 					return false;
@@ -175,10 +167,6 @@ namespace SIL.Pa.Processing
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static void WriteMetadata(XmlWriter writer, PaProject project, bool closeDiv)
 		{
@@ -198,7 +186,12 @@ namespace SIL.Pa.Processing
 
 			writer.WriteStartElement("li");
 			writer.WriteAttributeString("class", "programPhoneticInventoryFile");
-			writer.WriteString(InventoryHelper.kDefaultInventoryFileName);
+			writer.WriteString(App.kDefaultInventoryFileName);
+			writer.WriteEndElement();
+
+			writer.WriteStartElement("li");
+			writer.WriteAttributeString("class", "programDistinctiveFeaturesName");
+			writer.WriteString(project.DistinctiveFeatureSet);
 			writer.WriteEndElement();
 
 			writer.WriteStartElement("li");
@@ -224,10 +217,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static void WriteFieldFormattingInfo(XmlWriter writer, string fieldName, Font fnt)
 		{
 			// Open table row
@@ -252,10 +241,6 @@ namespace SIL.Pa.Processing
 			writer.WriteEndElement();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static void WriteColumnGroup(XmlWriter writer, int colsInGroup)
 		{
