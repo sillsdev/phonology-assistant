@@ -153,7 +153,7 @@ namespace SIL.Pa.UI.Controls
 
 			if (App.TMAdapter != null)
 			{
-				TMItemProperties itemProps = App.TMAdapter.GetItemProperties("mnuStopPlayback");
+				var itemProps = App.TMAdapter.GetItemProperties("mnuStopPlayback");
 				if (itemProps != null)
 					m_stopPlaybackKey = itemProps.ShortcutKey;
 			}
@@ -567,10 +567,6 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnGroupByField(object args)
 		{
@@ -2249,10 +2245,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private static void DrawUncertaintyCornerGlyph(Graphics g, Rectangle rc)
 		{
 			Point pt1 = new Point(rc.Right - 7, rc.Y);
@@ -2274,10 +2266,6 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static void DrawExperimentalTransCornerGlyphs(Graphics g, Rectangle rc)
 		{
