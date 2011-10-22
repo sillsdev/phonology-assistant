@@ -1095,16 +1095,36 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected bool OnFeatures(object args)
+		protected bool OnDescriptiveFeatures(object args)
 		{
-			using (var dlg = new FeaturesDlg(_project))
+			var viewModel = new FeaturesDlgViewModel(_project);
+
+			using (var dlg = new DescriptiveFeaturesDlg(viewModel))
 				dlg.ShowDialog(this);
 
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected bool OnUpdateFeatures(object args)
+		protected bool OnUpdateDescriptiveFeatures(object args)
+		{
+			App.EnableWhenProjectOpen(args as TMItemProperties);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnDistinctiveFeatures(object args)
+		{
+			var viewModel = new FeaturesDlgViewModel(_project);
+
+			using (var dlg = new DistinctiveFeaturesDlg(viewModel))
+				dlg.ShowDialog(this);
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateDistinctiveFeatures(object args)
 		{
 			App.EnableWhenProjectOpen(args as TMItemProperties);
 			return true;

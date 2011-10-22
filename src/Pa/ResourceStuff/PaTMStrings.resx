@@ -917,8 +917,8 @@
     <value>&amp;Transcription Changes...</value>
     <comment>Menu item text</comment>
   </data>
-  <data name="kstidFeaturesText" xml:space="preserve">
-    <value>F&amp;eatures...</value>
+  <data name="kstidDescriptiveFeaturesText" xml:space="preserve">
+    <value>D&amp;escriptive Features...</value>
     <comment>Menu item text</comment>
   </data>
   <data name="kstidFiltersParentToolTip" xml:space="preserve">
@@ -942,5 +942,9 @@
   </data>
   <data name="kstidDataCorpusToolTip" xml:space="preserve">
     <value>Data Corpus View (Ctrl+Alt+D)</value>
+  </data>
+  <data name="kstidDistinctiveFeaturesText" xml:space="preserve">
+    <value>D&amp;istinctive Features...</value>
+    <comment>Menu item text</comment>
   </data>
 </root>

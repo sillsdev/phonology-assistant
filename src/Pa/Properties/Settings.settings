@@ -194,7 +194,7 @@
     <Setting Name="CustomFieldsDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="FeaturesDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
+    <Setting Name="DescriptiveFeaturesDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="TranscriptionChangesDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
@@ -227,10 +227,10 @@
     <Setting Name="FwProjectsDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="FeaturesDlgSplitLoc" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
+    <Setting Name="DescriptiveFeaturesDlgSplitLoc" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="FeaturesDlgGridExtraRowHeight" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
+    <Setting Name="DescriptiveFeaturesDlgGridExtraRowHeight" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">3</Value>
     </Setting>
     <Setting Name="AmbiguousSequencesDlgGridExtraRowHeight" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
@@ -269,7 +269,7 @@
     <Setting Name="LastFolderForOpenProjectDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="FeaturesDlgPhoneGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
+    <Setting Name="DescriptiveFeaturesDlgPhoneGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="MRUList" Provider="SilTools.PortableSettingsProvider" Type="System.Collections.Specialized.StringCollection" Scope="User">
@@ -967,6 +967,18 @@
     </Setting>
     <Setting Name="CreateProjectFolderForNewProject" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DistinctiveFeaturesDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DistinctiveFeaturesDlgGridExtraRowHeight" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">3</Value>
+    </Setting>
+    <Setting Name="DistinctiveFeaturesDlgPhoneGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DistinctiveFeaturesDlgSplitLoc" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
 </SettingsFile>

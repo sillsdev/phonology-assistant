@@ -552,18 +552,31 @@
     <Compile Include="UI\Dialogs\Classes\DefineClassDlg.designer.cs">
       <DependentUpon>DefineClassDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Dialogs\DescriptiveFeaturesDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\DescriptiveFeaturesDlg.Designer.cs">
+      <DependentUpon>DescriptiveFeaturesDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\DistinctiveFeaturesDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\DistinctiveFeaturesDlg.designer.cs">
+      <DependentUpon>DistinctiveFeaturesDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Dialogs\DownloadSaDlg.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Dialogs\DownloadSaDlg.Designer.cs">
       <DependentUpon>DownloadSaDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialogs\FeaturesDlg.cs">
+    <Compile Include="UI\Dialogs\FeaturesDlgBase.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\FeaturesDlg.Designer.cs">
-      <DependentUpon>FeaturesDlg.cs</DependentUpon>
+    <Compile Include="UI\Dialogs\FeaturesDlgBase.designer.cs">
+      <DependentUpon>FeaturesDlgBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Dialogs\FeaturesDlgViewModel.cs" />
     <Compile Include="UI\Dialogs\FieldWorks\Fw7DataSourcePropertiesDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -798,6 +811,15 @@
       <DependentUpon>AmbiguousSequencesDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\DescriptiveFeaturesDlg.resx">
+      <DependentUpon>DescriptiveFeaturesDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\DistinctiveFeaturesDlg.resx">
+      <DependentUpon>DistinctiveFeaturesDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\FeaturesDlgBase.resx">
+      <DependentUpon>FeaturesDlgBase.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\FieldWorks\Fw7DataSourcePropertiesDlg.resx">
       <DependentUpon>Fw7DataSourcePropertiesDlg.cs</DependentUpon>
     </EmbeddedResource>
@@ -991,10 +1013,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\DownloadSaDlg.resx">
       <DependentUpon>DownloadSaDlg.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Dialogs\FeaturesDlg.resx">
-      <DependentUpon>FeaturesDlg.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\FieldWorks\FwProjectsDlg.resx">
       <DependentUpon>FwProjectsDlg.cs</DependentUpon>

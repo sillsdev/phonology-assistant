@@ -160,7 +160,8 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdFilters" message="Filters"/>
 		<command id="CmdAmbiguousSequences" message="AmbiguousSequences"/>
 		<command id="CmdExperimentalTranscriptions" message="ExperimentalTranscriptions"/>
-		<command id="CmdFeatures" message="Features"/>
+    <command id="CmdDescriptiveFeatures" message="DescriptiveFeatures"/>
+    <command id="CmdDistinctiveFeatures" message="DistinctiveFeatures"/>
 		<command id="CmdUndefinedCharacters" message="UndefinedCharacters"/>
 		<command id="CmdOptions" message="ToolsOptions"/>
 		<command id="CmdCascade" message="WindowCascade"/>
@@ -247,10 +248,11 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<!-- *************** -->
 		<item name="mnuTools" commandid="CmdTools">
 			<item name="mnuFiltersOnViewMenu" commandid="CmdFilters"/>
-			<item name="mnuExperimentalTranscriptions" commandid="CmdExperimentalTranscriptions" />
+			<item name="mnuExperimentalTranscriptions" commandid="CmdExperimentalTranscriptions" begingroup="true"/>
 			<item name="mnuAmbiguousSequences" commandid="CmdAmbiguousSequences"/>
-			<item name="mnuFeatures" commandid="CmdFeatures" />
-			<item name="mnuClasses" commandid="CmdClasses" />
+      <item name="mnuDescriptiveFeatures" commandid="CmdDescriptiveFeatures" begingroup="true"/>
+      <item name="mnuDistinctiveFeatures" commandid="CmdDistinctiveFeatures" />
+			<item name="mnuClasses" commandid="CmdClasses" begingroup="true"/>
 			<item name="mnuUndefinedCharacters" commandid="CmdUndefinedCharacters"/>
 			<item name="mnuOptions" commandid="CmdOptions" begingroup="true"/>
 		</item>

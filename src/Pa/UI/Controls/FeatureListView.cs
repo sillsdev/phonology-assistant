@@ -583,6 +583,13 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void SetMaskFromPhoneInfo(IPhoneInfo phoneInfo)
+		{
+			CurrentMask = (m_featureType == App.FeatureType.Articulatory ?
+				phoneInfo.AMask : phoneInfo.BMask);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets a string with all the feature names joined and delimited by a comma and space.
 		/// </summary>

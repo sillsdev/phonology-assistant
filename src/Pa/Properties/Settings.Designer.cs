@@ -854,12 +854,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.FormSettings FeaturesDlg {
+        public global::SilTools.FormSettings DescriptiveFeaturesDlg {
             get {
-                return ((global::SilTools.FormSettings)(this["FeaturesDlg"]));
+                return ((global::SilTools.FormSettings)(this["DescriptiveFeaturesDlg"]));
             }
             set {
-                this["FeaturesDlg"] = value;
+                this["DescriptiveFeaturesDlg"] = value;
             }
         }
         
@@ -987,12 +987,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int FeaturesDlgSplitLoc {
+        public int DescriptiveFeaturesDlgSplitLoc {
             get {
-                return ((int)(this["FeaturesDlgSplitLoc"]));
+                return ((int)(this["DescriptiveFeaturesDlgSplitLoc"]));
             }
             set {
-                this["FeaturesDlgSplitLoc"] = value;
+                this["DescriptiveFeaturesDlgSplitLoc"] = value;
             }
         }
         
@@ -1000,12 +1000,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("3")]
-        public int FeaturesDlgGridExtraRowHeight {
+        public int DescriptiveFeaturesDlgGridExtraRowHeight {
             get {
-                return ((int)(this["FeaturesDlgGridExtraRowHeight"]));
+                return ((int)(this["DescriptiveFeaturesDlgGridExtraRowHeight"]));
             }
             set {
-                this["FeaturesDlgGridExtraRowHeight"] = value;
+                this["DescriptiveFeaturesDlgGridExtraRowHeight"] = value;
             }
         }
         
@@ -1166,12 +1166,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.GridSettings FeaturesDlgPhoneGrid {
+        public global::SilTools.GridSettings DescriptiveFeaturesDlgPhoneGrid {
             get {
-                return ((global::SilTools.GridSettings)(this["FeaturesDlgPhoneGrid"]));
+                return ((global::SilTools.GridSettings)(this["DescriptiveFeaturesDlgPhoneGrid"]));
             }
             set {
-                this["FeaturesDlgPhoneGrid"] = value;
+                this["DescriptiveFeaturesDlgPhoneGrid"] = value;
             }
         }
         
@@ -3547,6 +3547,56 @@ namespace SIL.Pa.Properties {
             }
             set {
                 this["CreateProjectFolderForNewProject"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilTools.FormSettings DistinctiveFeaturesDlg {
+            get {
+                return ((global::SilTools.FormSettings)(this["DistinctiveFeaturesDlg"]));
+            }
+            set {
+                this["DistinctiveFeaturesDlg"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public int DistinctiveFeaturesDlgGridExtraRowHeight {
+            get {
+                return ((int)(this["DistinctiveFeaturesDlgGridExtraRowHeight"]));
+            }
+            set {
+                this["DistinctiveFeaturesDlgGridExtraRowHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilTools.GridSettings DistinctiveFeaturesDlgPhoneGrid {
+            get {
+                return ((global::SilTools.GridSettings)(this["DistinctiveFeaturesDlgPhoneGrid"]));
+            }
+            set {
+                this["DistinctiveFeaturesDlgPhoneGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DistinctiveFeaturesDlgSplitLoc {
+            get {
+                return ((int)(this["DistinctiveFeaturesDlgSplitLoc"]));
+            }
+            set {
+                this["DistinctiveFeaturesDlgSplitLoc"] = value;
             }
         }
     }
