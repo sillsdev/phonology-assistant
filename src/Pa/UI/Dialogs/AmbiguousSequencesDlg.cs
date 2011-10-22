@@ -48,7 +48,7 @@ namespace SIL.Pa.UI.Dialogs
 				row.Cells["cvpattern"].Style.Font = App.PhoneticFont;
 			}
 
-			FeaturesDlg.AdjustGridRows(m_grid, Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
+			m_grid.AdjustGridRows(Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
 			App.AddMediatorColleague(this);
 		}
 
@@ -177,7 +177,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (Settings.Default.AmbiguousSequencesDlgGrid != null)
 				Settings.Default.AmbiguousSequencesDlgGrid.InitializeGrid(m_grid);
 
-			FeaturesDlg.AdjustGridRows(m_grid, Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
+			m_grid.AdjustGridRows(Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
 			m_grid.IsDirty = false;
 			chkShowGenerated.Visible = ambigSeqList.Any(x => x.IsGenerated);
 		}
@@ -219,8 +219,7 @@ namespace SIL.Pa.UI.Dialogs
 				{
 					var seq = new AmbiguousSeq(phone.Trim());
 					seq.BaseChar = basechar.Trim();
-					seq.Convert = (row.Cells["convert"].Value == null ?
-						false : (bool)row.Cells["convert"].Value);
+					seq.Convert = (row.Cells["convert"].Value != null && (bool)row.Cells["convert"].Value);
 
 					seq.IsGenerated = (bool)row.Cells["generated"].Value;
 					ambigSeqList.Add(seq);
@@ -281,7 +280,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void m_grid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
 		{
-			FeaturesDlg.AdjustGridRows(m_grid, Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
+			m_grid.AdjustGridRows(Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -466,7 +465,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected bool OnRemoveAmbiguousSeqRow(object args)
 		{
-			if (args.GetType() == typeof(int))
+			if (args is int)
 			{
 				int rowIndex = (int)args;
 				if (rowIndex >= 0 && rowIndex < m_grid.RowCountLessNewRow)

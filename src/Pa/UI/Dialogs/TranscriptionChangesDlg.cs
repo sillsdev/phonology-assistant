@@ -30,9 +30,9 @@ namespace SIL.Pa.UI.Dialogs
 			m_transChangeCtrl.Grid.RowsAdded += HandleExperimentalTransCtrlRowsAdded;
 			pnlGrid.Controls.Add(m_transChangeCtrl);
 			
-			FeaturesDlg.AdjustGridRows(m_transChangeCtrl.Grid,
+			m_transChangeCtrl.Grid.AdjustGridRows(
 				Settings.Default.TranscriptionChangesDlgGridExtraRowHeight);
-			
+	
 			App.AddMediatorColleague(this);
 		}
 
@@ -96,7 +96,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void HandleExperimentalTransCtrlRowsAdded(object sender,
 			DataGridViewRowsAddedEventArgs e)
 		{
-			FeaturesDlg.AdjustGridRows(m_transChangeCtrl.Grid,
+			m_transChangeCtrl.Grid.AdjustGridRows(
 				Settings.Default.TranscriptionChangesDlgGridExtraRowHeight);
 		}
 
