@@ -5,10 +5,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using SIL.Pa.Model;
 using SilTools;
-using SilTools.Controls;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -24,31 +22,19 @@ namespace SIL.Pa.UI.Controls
 		public event CustomDoubleClickHandler CustomDoubleClick;
 
 		private bool m_ignoreCheckChanges;
-		private Size m_chkBoxSize = new Size(13, 13);
-		private Color m_glyphColor = Color.Black;
+		protected Size m_chkBoxSize = new Size(13, 13);
+		protected Color m_glyphColor = Color.Black;
 		private FeatureMask m_currMask;
-		private FeatureMask m_backupCurrMask;
-		private readonly App.FeatureType m_featureType;
+		private readonly FeatureMask _emptyMask;
 		private readonly Font m_checkedItemFont;
-		private readonly CustomDropDown m_hostingDropDown;
 		private readonly ToolTip m_tooltip;
 
 		/// ------------------------------------------------------------------------------------
-		public FeatureListView(App.FeatureType featureType, CustomDropDown hostingDropDown)
-			: this(featureType)
+		public FeatureListView(FeatureMask emptyMask)
 		{
-			m_hostingDropDown = hostingDropDown;
-		}
-		
-		/// ------------------------------------------------------------------------------------
-		public FeatureListView(App.FeatureType featureType)
-		{
+			_emptyMask = emptyMask;
 			AllowDoubleClickToChangeCheckState = true;
 			EmphasizeCheckedItems = true;
-			m_featureType = featureType;
-
-			Name = "lvFeatures-" + (m_featureType == App.FeatureType.Binary ?
-				"Binary" : "Articulatory");
 
 			var colHdr = new ColumnHeader();
 			colHdr.Width = kMaxColWidth;
@@ -85,15 +71,6 @@ namespace SIL.Pa.UI.Controls
 			m_ignoreCheckChanges = true;
 			base.OnHandleCreated(e);
 			m_ignoreCheckChanges = false;
-
-			if (m_featureType == App.FeatureType.Binary || !Application.RenderWithVisualStyles)
-				return;
-
-			var renderer = new VisualStyleRenderer(VisualStyleElement.Button.CheckBox.UncheckedNormal);
-			m_glyphColor = renderer.GetColor(ColorProperty.BorderColor);
-
-			using (var g = CreateGraphics())
-				m_chkBoxSize = renderer.GetPartSize(g, ThemeSizeType.Draw);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -162,7 +139,34 @@ namespace SIL.Pa.UI.Controls
 				Invalidate(rc);
 			}
 		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// When it is not desired to have double-click cause the checked state of item's to
+		/// change, we need to eat the double-click event here since handling this in the
+		/// override to the double-click is too late. By that time, the list resultView has
+		/// already done the dirty deed of changing the checked state.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected override void WndProc(ref Message m)
+		{
+			if (m.HWnd == Handle && m.Msg == 0x203 && !AllowDoubleClickToChangeCheckState)
+			{
+				m.Result = IntPtr.Zero;
+				m.Msg = 0;
 
+				// Creating a custom delegate for the double-click was easier than trying
+				// to figure out how to get delegates to that event via the Events list.
+				if (CustomDoubleClick != null && SelectedItems.Count > 0)
+					CustomDoubleClick(this, CurrentFormattedFeature);
+			}
+
+			base.WndProc(ref m);
+		}
+
+		#endregion
+
+		#region Overridden methods for editing labels
 		/// ------------------------------------------------------------------------------------
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
@@ -170,30 +174,6 @@ namespace SIL.Pa.UI.Controls
 
 			if (LabelEdit && SelectedItems.Count > 0 && e.KeyCode == Keys.F2)
 				SelectedItems[0].BeginEdit();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Assume that when the list is hosted on a drop-down and the user presses Esc, that
-		/// they want to abort any changes they made since the last time the CurrentMasks
-		/// property was set.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-		{
-			if (keyData == Keys.Escape && m_hostingDropDown != null)
-				m_currMask = m_backupCurrMask.Clone();
-
-			return base.ProcessCmdKey(ref msg, keyData);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnKeyPress(KeyPressEventArgs e)
-		{
-			base.OnKeyPress(e);
-
-			if (e.KeyChar == (char)Keys.Enter && m_hostingDropDown != null)
-				m_hostingDropDown.Close();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -224,30 +204,6 @@ namespace SIL.Pa.UI.Controls
 
 			base.OnAfterLabelEdit(e);
 		}
-		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// When it is not desired to have double-click cause the checked state of item's to
-		/// change, we need to eat the double-click event here since handling this in the
-		/// override to the double-click is too late. By that time, the list resultView has
-		/// already done the dirty deed of changing the checked state.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void WndProc(ref Message m)
-		{
-			if (m.HWnd == Handle && m.Msg == 0x203 && !AllowDoubleClickToChangeCheckState)
-			{
-				m.Result = IntPtr.Zero;
-				m.Msg = 0;
-
-				// Creating a custom delegate for the double-click was easier than trying
-				// to figure out how to get delegates to that event via the Events list.
-				if (CustomDoubleClick != null && SelectedItems.Count > 0)
-					CustomDoubleClick(this, CurrentFormattedFeature);
-			}
-
-			base.WndProc(ref m);
-		}
 
 		#endregion
 
@@ -259,66 +215,21 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnItemCheck(ItemCheckEventArgs e)
 		{
-			// If we're updating the check because the IPA character just changed
+			// If we're updating the check because the segment just changed
 			// then take the default behavior.
 			if (m_ignoreCheckChanges)
 				return;
 
 			var info = Items[e.Index].Tag as FeatureItemInfo;
+			if (info == null)
+				return;
 
-			if (info != null)
-			{
-				if (m_featureType == App.FeatureType.Articulatory)
-					SetCurrentArticulatoryFeatureMaskInfo(info);
-				else
-					SetCurrentBinaryFeatureMaskInfo(info);
+			CycleFeatureStateValue(info, m_currMask);
 
-				Invalidate(Items[e.Index].Bounds);
+			Invalidate(Items[e.Index].Bounds);
 
-				if (FeatureChanged != null)
-					FeatureChanged(this, m_currMask);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Cycles through the articulatory features, building the masks for those that are
-		/// checked.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void SetCurrentArticulatoryFeatureMaskInfo(FeatureItemInfo info)
-		{
-			info.Checked = !info.Checked;
-			m_currMask[info.Bit] = info.Checked;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Set the current mask based on the state of the feature's list view item.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void SetCurrentBinaryFeatureMaskInfo(FeatureItemInfo info)
-		{
-			switch (info.TriStateValue)
-			{
-				case BinaryFeatureValue.None:
-					info.TriStateValue = BinaryFeatureValue.Plus;
-					m_currMask[info.MinusBit] = false;
-					m_currMask[info.PlusBit] = true;
-					break;
-				
-				case BinaryFeatureValue.Plus:
-					info.TriStateValue = BinaryFeatureValue.Minus;
-					m_currMask[info.MinusBit] = true;
-					m_currMask[info.PlusBit] = false;
-					break;
-				
-				default:
-					info.TriStateValue = BinaryFeatureValue.None;
-					m_currMask[info.MinusBit] = false;
-					m_currMask[info.PlusBit] = false;
-					break;
-			}
+			if (FeatureChanged != null)
+				FeatureChanged(this, m_currMask);
 		}
 
 		#endregion
@@ -335,12 +246,7 @@ namespace SIL.Pa.UI.Controls
 			rcChkBox.Y += ((rc.Height - rcChkBox.Height) / 2);
 
 			if (CheckBoxes)
-			{
-				if (m_featureType == App.FeatureType.Articulatory)
-					DrawFeatureState(e.Graphics, info, rcChkBox.Location);
-				else
-					DrawFeatureState(e.Graphics, info, rcChkBox);
-			}
+				DrawFeatureState(e.Graphics, info, rcChkBox);
 
 			if (m_tooltip == null || m_tooltip.Tag != e.Item)
 				return;
@@ -369,19 +275,8 @@ namespace SIL.Pa.UI.Controls
 			var fnt = Font;
 
 			// Determine whether or not to use the emphasized font.
-			if (EmphasizeCheckedItems)
-			{
-				if (m_featureType == App.FeatureType.Articulatory)
-				{
-					if (info != null && info.Checked)
-						fnt = m_checkedItemFont;
-				}
-				else
-				{
-					if (info != null && info.TriStateValue != BinaryFeatureValue.None)
-						fnt = m_checkedItemFont;
-				}
-			}
+			if (EmphasizeCheckedItems && GetIsItemSet(info))
+				fnt = m_checkedItemFont;
 
 			rc.Width = TextRenderer.MeasureText(e.Item.Text, fnt).Width + 3;
 			var clrText = SystemColors.WindowText;
@@ -406,44 +301,54 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Draw normal checked/unchecked check box (for articulatory features).
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static void DrawFeatureState(Graphics g, FeatureItemInfo info, Point pt)
+		protected virtual void DrawFeatureState(Graphics g, FeatureItemInfo info, Rectangle rc)
 		{
-			CheckBoxRenderer.DrawCheckBox(g, pt, (info != null && info.Checked ?
-				CheckBoxState.CheckedNormal : CheckBoxState.UncheckedNormal));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Draw the check box with a plus, minus or nothing (for binary features).
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void DrawFeatureState(Graphics g, FeatureItemInfo info, Rectangle rc)
-		{
-			// Draw an empty checkbox.
-			CheckBoxRenderer.DrawCheckBox(g, rc.Location, CheckBoxState.UncheckedNormal);
-
-			if (info == null || info.TriStateValue == BinaryFeatureValue.None)
-				return;
-
-			// Draw a plus or minus in the empty check box.
-			using (Pen pen = new Pen(m_glyphColor, 1))
-			{
-				var ptCenter = new Point(rc.X + (rc.Width / 2), rc.Y + (rc.Height / 2));
-
-				// Draw the minus
-				g.DrawLine(pen, ptCenter.X - 3, ptCenter.Y, ptCenter.X + 3, ptCenter.Y);
-
-				// Draw the vertical line to make a plus if the feature's value is such.
-				if (info.TriStateValue == BinaryFeatureValue.Plus)
-					g.DrawLine(pen, ptCenter.X, ptCenter.Y - 3, ptCenter.X, ptCenter.Y + 3);
-			}
+			throw new NotImplementedException();
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual string GetFormattedFeatureName(FeatureItemInfo itemInfo, bool includeBrackets)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected IEnumerable<FeatureItemInfo> GetItems()
+		{
+			return Items.Cast<ListViewItem>().Select(i => i.Tag).OfType<FeatureItemInfo>();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected IEnumerable<FeatureItemInfo> GetItemsThatAreSet()
+		{
+			return GetItems().Where(i => GetIsItemSet(i));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual bool GetIsItemSet(FeatureItemInfo itemInfo)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void SetFeatureInfoStateFromMask(FeatureItemInfo itemInfo, FeatureMask mask)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void CycleFeatureStateValue(FeatureItemInfo itemInfo, FeatureMask mask)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void SetMaskFromPhoneInfo(IPhoneInfo phoneInfo)
+		{
+			throw new NotImplementedException();
+		}
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
@@ -452,28 +357,11 @@ namespace SIL.Pa.UI.Controls
 		/// list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public string[] FormattedFeatures
 		{
-			get
-			{
-				const string fmt = "[{0}]";
-				var features = new List<string>();
-				foreach (var info in (from ListViewItem item in Items select item.Tag).OfType<FeatureItemInfo>())
-				{
-					if (m_featureType == App.FeatureType.Articulatory && info.Checked)
-						features.Add(string.Format(fmt, info.Name.ToLower()));
-					else if (info.TriStateValue != BinaryFeatureValue.None)
-					{
-						features.Add(string.Format(fmt,
-						    (info.TriStateValue == BinaryFeatureValue.Plus ? "+" : "-") +
-						    info.Name));
-					}
-				}
-
-				return (features.Count == 0 ? null : features.ToArray());
-			}
+			get { return GetItemsThatAreSet().Select(i => GetFormattedFeatureName(i, true)).ToArray(); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -482,39 +370,13 @@ namespace SIL.Pa.UI.Controls
 		/// checked features.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		[Browsable(false)]
-		public string FormattedFeaturesString
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public virtual string FormattedFeaturesString
 		{
-			get
-			{
-				var bldr = new StringBuilder();
-	
-				foreach (ListViewItem item in Items)
-				{
-					var info = item.Tag as FeatureItemInfo;
-					if (info == null)
-						continue;
-					
-					if (m_featureType == App.FeatureType.Articulatory && !info.Checked)
-						continue;
-
-					if (info.TriStateValue != BinaryFeatureValue.None)
-						bldr.Append(info.TriStateValue == BinaryFeatureValue.Plus ? "+" : "-");
-
-					bldr.Append(info.Name);
-					bldr.Append(", ");
-				}
-
-				return bldr.ToString().TrimEnd(',', ' ');
-			}
+			get { throw new NotImplementedException(); }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a feature name formatted properly. i.e. when the feature list are for binary
-		/// features, then a + or - is tacked on to the front, depending upon the binary state.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		[Browsable(false)]
@@ -524,21 +386,9 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (SelectedItems.Count > 0)
 				{
-					var item = SelectedItems[0];
-					var info = item.Tag as FeatureItemInfo;
+					var info = SelectedItems[0].Tag as FeatureItemInfo;
 					if (info != null)
-					{
-						string feature = "[" + info.Name + "]";
-
-						if (m_featureType == App.FeatureType.Articulatory)
-							return feature;
-
-						if (info.TriStateValue != BinaryFeatureValue.None)
-						{
-							return feature.Insert(1,
-								info.TriStateValue == BinaryFeatureValue.Plus ? "+" : "-");
-						}
-					}
+						return GetFormattedFeatureName(info, true);
 				}
 
 				return null;
@@ -546,47 +396,22 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the current feature masks. When the list is for binary features,
-		/// only the first mask of the two is relevant.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public FeatureMask CurrentMask
 		{
 			get {return m_currMask;}
 			set
 			{
-				m_backupCurrMask = m_currMask;
 				m_currMask = value;
 
 				// Loop through items in the feature list and set their state according to
 				// the specified mask.
-				foreach (var info in (from ListViewItem item in Items select item.Tag).OfType<FeatureItemInfo>())
-				{
-					if (m_featureType == App.FeatureType.Articulatory)
-						info.Checked = (m_currMask[info.Bit]);
-					else
-					{
-						if (m_currMask[info.PlusBit])
-							info.TriStateValue = BinaryFeatureValue.Plus;
-						else if (m_currMask[info.MinusBit])
-							info.TriStateValue = BinaryFeatureValue.Minus;
-						else
-							info.TriStateValue = BinaryFeatureValue.None;
-					}
-				}
+				foreach (var info in Items.Cast<ListViewItem>().Select(i => i.Tag).OfType<FeatureItemInfo>())
+					SetFeatureInfoStateFromMask(info, m_currMask);
 
 				Invalidate();
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void SetMaskFromPhoneInfo(IPhoneInfo phoneInfo)
-		{
-			CurrentMask = (m_featureType == App.FeatureType.Articulatory ?
-				phoneInfo.AMask : phoneInfo.BMask);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -601,19 +426,8 @@ namespace SIL.Pa.UI.Controls
 			get
 			{
 				var features = new StringBuilder();
-				foreach (ListViewItem item in Items)
-				{
-					var info = item.Tag as FeatureItemInfo;
-					if (info == null)
-						continue;
-					
-					if (m_featureType == App.FeatureType.Articulatory && item.Checked)
-						features.Append(info.Name);
-					else if (info.TriStateValue != BinaryFeatureValue.None)
-						features.Append((info.TriStateValue == BinaryFeatureValue.Plus ? "+" : "-") + info.Name);
-
-					features.Append(", ");
-				}
+				foreach (var info in GetItemsThatAreSet())
+					features.AppendFormat("{0}, ", GetFormattedFeatureName(info, false));
 
 				// Remove the last comma and space;
 				features.Length -= 2;
@@ -675,11 +489,9 @@ namespace SIL.Pa.UI.Controls
 			m_ignoreCheckChanges = true;
 			BeginUpdate();
 			Items.Clear();
-
-			if (m_featureType == App.FeatureType.Articulatory)
-				LoadAFeatures();
-			else
-				LoadBFeatures();
+			LoadFeatures();
+			CurrentMask = _emptyMask;
+			AdjustColumnWidth();
 
 			if (Items.Count >= 0)
 				SelectedIndices.Add(0);
@@ -689,53 +501,29 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Get all the feature information from the articulatory feature cache.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LoadAFeatures()
+		protected void LoadFeatures()
 		{
-			foreach (var feature in App.AFeatureCache.Values.OrderBy(x => x.Name))
+			foreach (var feature in GetFeaturesToLoad())
 			{
 				var info = new FeatureItemInfo();
 				info.Name = feature.Name;
-				info.FullName = feature.FullName;
-				info.Bit = feature.Bit;
+				info.FullName = feature.Name;
 				info.CacheEntry = feature;
-				var item = new ListViewItem(info.Name);
-				item.Tag = info;
-				Items.Add(item);
+				InitializeLoadedItem(feature, info);
+				Items.Add(new ListViewItem(info.Name)).Tag = info;
 			}
-
-			CurrentMask = App.AFeatureCache.GetEmptyMask();
-			AdjustColumnWidth();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Get all the feature information from the binary feature cache.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LoadBFeatures()
+		protected virtual IEnumerable<Feature> GetFeaturesToLoad()
 		{
-			foreach (Feature feature in App.BFeatureCache.PlusFeatures.OrderBy(x => x.Name))
-			{
-				var info = new FeatureItemInfo();
-				string name = feature.Name.Substring(1);
-				string fullname = feature.Name.Substring(1);
-				info.Name = name;
-				info.FullName = fullname;
-				info.PlusBit = feature.Bit;
-				info.MinusBit = App.BFeatureCache.GetOppositeFeature(feature).Bit;
-				info.IsBinary = true;
-				info.CacheEntry = feature;
-				var item = new ListViewItem(info.Name);
-				item.Tag = info;
-				Items.Add(item);
-			}
+			throw new NotImplementedException();
+		}
 
-			CurrentMask = App.BFeatureCache.GetEmptyMask();
-			AdjustColumnWidth();
+		/// ------------------------------------------------------------------------------------
+		protected virtual void InitializeLoadedItem(Feature feature, FeatureItemInfo itemInfo)
+		{
+			throw new NotImplementedException();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -775,25 +563,25 @@ namespace SIL.Pa.UI.Controls
 	/// relevant for the DefineBinaryFeatureDlg class.
 	/// </summary>
 	/// ------------------------------------------------------------------------------------
-	internal enum BinaryFeatureValue
+	public enum BinaryFeatureValue
 	{
-		Plus,
-		Minus,
-		None
+		Plus = (int)'+',
+		Minus = (int)'-',
+		None = 0
 	}
 
 	/// ------------------------------------------------------------------------------------
-	internal class FeatureItemInfo
+	public class FeatureItemInfo
 	{
-		internal string Name;
-		internal string FullName;
-		internal int Bit;
-		internal int PlusBit;
-		internal int MinusBit;
-		internal bool IsBinary;
-		internal bool Checked;
-		internal BinaryFeatureValue TriStateValue = BinaryFeatureValue.None;
-		internal object CacheEntry;
+		public string Name;
+		public string FullName;
+		public int Bit;
+		public int PlusBit;
+		public int MinusBit;
+		public bool IsBinary;
+		public bool Checked;
+		public BinaryFeatureValue TriStateValue = BinaryFeatureValue.None;
+		public object CacheEntry;
 	}
 
 	#endregion

@@ -53,8 +53,8 @@ namespace SIL.Pa.UI.Dialogs
 
 			IinitializeCharExplorer();
 
-			m_lvArticulatoryFeatures = InitializeFeatureList(App.FeatureType.Articulatory);
-			m_lvBinaryFeatures = InitializeFeatureList(App.FeatureType.Binary);
+			m_lvArticulatoryFeatures = InitializeFeatureList(new DescriptiveFeatureListView());
+			m_lvBinaryFeatures = InitializeFeatureList(new DistinctiveFeatureListView());
 
 			m_ctrls[SearchClassType.Phones] = charExplorer;
 			m_ctrls[SearchClassType.Articulatory] = splitOuter;
@@ -214,9 +214,8 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private FeatureListView InitializeFeatureList(App.FeatureType featureType)
+		private FeatureListView InitializeFeatureList(FeatureListView flv)
 		{
-			var flv = new FeatureListView(featureType);
 			flv.Load();
 			flv.Dock = DockStyle.Fill;
 			flv.Visible = true;

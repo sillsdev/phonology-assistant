@@ -314,6 +314,12 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\CVChart\CVChartRowGroup.cs" />
+    <Compile Include="UI\Controls\DescriptiveFeatureListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\DistinctiveFeatureListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\Controls\DistributionChartCellInfoPopup.cs">
       <SubType>UserControl</SubType>
     </Compile>

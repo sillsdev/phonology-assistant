@@ -9,7 +9,7 @@ namespace SIL.Pa.UI.Dialogs
 	{
 		/// ------------------------------------------------------------------------------------
 		public DescriptiveFeaturesDlg(FeaturesDlgViewModel viewModel)
-			: base(viewModel, new FeatureListView(App.FeatureType.Articulatory))
+			: base(viewModel, new DescriptiveFeatureListView())
 		{
 			InitializeComponent();
 		}

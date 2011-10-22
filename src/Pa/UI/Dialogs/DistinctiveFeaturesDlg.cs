@@ -9,7 +9,7 @@ namespace SIL.Pa.UI.Dialogs
 	{
 		/// ------------------------------------------------------------------------------------
 		public DistinctiveFeaturesDlg(FeaturesDlgViewModel viewModel)
-			: base(viewModel, new FeatureListView(App.FeatureType.Binary))
+			: base(viewModel, new DistinctiveFeatureListView())
 		{
 			InitializeComponent();
 		}

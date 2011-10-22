@@ -75,8 +75,8 @@ namespace SIL.Pa.UI.Controls
 			SetupVowConPickers(true);
 			SetupOtherPicker();
 
-			m_lvArticulatoryFeatures = InitializeFeatureList(App.FeatureType.Articulatory);
-			m_lvBinaryFeatures = InitializeFeatureList(App.FeatureType.Binary);
+			m_lvArticulatoryFeatures = InitializeFeatureList(new DescriptiveFeatureListView { CheckBoxes = false });
+			m_lvBinaryFeatures = InitializeFeatureList(new DistinctiveFeatureListView { CheckBoxes = true });
 			tpgAFeatures.Controls.Add(m_lvArticulatoryFeatures);
 			tpgBFeatures.Controls.Add(m_lvBinaryFeatures);
 
@@ -277,15 +277,13 @@ namespace SIL.Pa.UI.Controls
 		/// Creates and initializes a feature list resultView and returns it.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private FeatureListView InitializeFeatureList(App.FeatureType featureType)
+		private FeatureListView InitializeFeatureList(FeatureListView flv)
 		{
-			var flv = new FeatureListView(featureType);
 			flv.Load();
 			flv.Dock = DockStyle.Fill;
 			flv.LabelEdit = false;
 			flv.AllowDoubleClickToChangeCheckState = false;
 			flv.EmphasizeCheckedItems = false;
-			flv.CheckBoxes = (featureType == App.FeatureType.Binary);
 			flv.ItemDrag += FeatureListsItemDragHandler;
 			flv.KeyPress += FeatureListsKeyPressHandler;
 			flv.CustomDoubleClick += FeatureListDoubleClickHandler;

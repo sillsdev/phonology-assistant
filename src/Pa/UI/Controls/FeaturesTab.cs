@@ -65,7 +65,7 @@ namespace SIL.Pa.UI.Controls
 			if (App.DesignMode)
 				return;
 
-			m_lvAFeatures = new FeatureListView(App.FeatureType.Articulatory);
+			m_lvAFeatures = new DescriptiveFeatureListView();
 			m_lvAFeatures.Dock = DockStyle.Fill;
 			m_lvAFeatures.Load();
 			tpgAFeatures.Controls.Add(m_lvAFeatures);
@@ -73,7 +73,7 @@ namespace SIL.Pa.UI.Controls
 
 			m_lvAFeatures.FeatureChanged += HandleArticulatoryFeatureCheckChanged;
 
-			m_lvBFeatures = new FeatureListView(App.FeatureType.Binary);
+			m_lvBFeatures = new DistinctiveFeatureListView();
 			m_lvBFeatures.Dock = DockStyle.Fill;
 			m_lvBFeatures.Load();
 			tpgBFeatures.Controls.Add(m_lvBFeatures);
