@@ -293,14 +293,14 @@ namespace SIL.Pa.Model
 		public void ResetAFeatures()
 		{
 			if (HasAFeatureOverrides)
-				AMask = DefaultAMask;
+				AMask = DefaultAMask.Clone();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void ResetBFeatures()
 		{
 			if (HasBFeatureOverrides)
-				BMask = DefaultBMask;
+				BMask = DefaultBMask.Clone();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -342,7 +342,7 @@ namespace SIL.Pa.Model
 		[XmlArray("articulatoryFeatures"), XmlArrayItem("feature")]
 		public List<string> AFeatureNames
 		{
-			get { return App.AFeatureCache.GetFeatureList(_aMask); }
+			get { return App.AFeatureCache.GetFeatureList(_aMask).ToList(); }
 			set { SetAFeatures(value); }
 		}
 
@@ -355,7 +355,7 @@ namespace SIL.Pa.Model
 		[XmlArray("binaryFeatures"), XmlArrayItem("feature")]
 		public List<string> BFeatureNames
 		{
-			get { return App.BFeatureCache.GetFeatureList(_bMask); }
+			get { return App.BFeatureCache.GetFeatureList(_bMask).ToList(); }
 			set { SetBFeatures(value); }
 		}
 

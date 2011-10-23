@@ -209,13 +209,14 @@
 			// 
 			// _tableLayout
 			// 
-			this._tableLayout.BackColor = System.Drawing.SystemColors.Window;
+			this._tableLayout.BackColor = System.Drawing.Color.White;
 			this._tableLayout.ColumnCount = 1;
 			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayout.Controls.Add(this._panelFeaturesHeading, 0, 0);
 			this._tableLayout.Controls.Add(this._labelPhoneDescription, 0, 1);
 			this._tableLayout.Controls.Add(this._buttonReset, 0, 2);
 			this._tableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._tableLayout.ForeColor = System.Drawing.Color.Black;
 			this._tableLayout.Location = new System.Drawing.Point(0, 0);
 			this._tableLayout.Name = "_tableLayout";
 			this._tableLayout.RowCount = 3;

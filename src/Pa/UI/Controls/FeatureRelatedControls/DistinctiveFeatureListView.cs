@@ -89,7 +89,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 
 			// Draw a plus or minus in the empty check box.
-			using (Pen pen = new Pen(m_glyphColor, 1))
+			using (Pen pen = new Pen(_glyphColor, 1))
 			{
 				var ptCenter = new Point(rc.X + (rc.Width / 2), rc.Y + (rc.Height / 2));
 

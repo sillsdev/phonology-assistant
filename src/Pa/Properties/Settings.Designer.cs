@@ -3599,5 +3599,31 @@ namespace SIL.Pa.Properties {
                 this["DistinctiveFeaturesDlgSplitLoc"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("215, 57, 57")]
+        public global::System.Drawing.Color DefaultFeatureTextColor {
+            get {
+                return ((global::System.Drawing.Color)(this["DefaultFeatureTextColor"]));
+            }
+            set {
+                this["DefaultFeatureTextColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("215, 118, 0")]
+        public global::System.Drawing.Color OverridingFeatureTextColor {
+            get {
+                return ((global::System.Drawing.Color)(this["OverridingFeatureTextColor"]));
+            }
+            set {
+                this["OverridingFeatureTextColor"] = value;
+            }
+        }
     }
 }

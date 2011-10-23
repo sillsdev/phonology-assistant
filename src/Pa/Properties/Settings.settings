@@ -980,5 +980,11 @@
     <Setting Name="DistinctiveFeaturesDlgSplitLoc" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="DefaultFeatureTextColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">215, 57, 57</Value>
+    </Setting>
+    <Setting Name="OverridingFeatureTextColor" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">215, 118, 0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

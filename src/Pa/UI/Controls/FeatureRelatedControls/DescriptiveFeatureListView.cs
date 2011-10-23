@@ -27,10 +27,10 @@ namespace SIL.Pa.UI.Controls
 				return;
 
 			var renderer = new VisualStyleRenderer(VisualStyleElement.Button.CheckBox.UncheckedNormal);
-			m_glyphColor = renderer.GetColor(ColorProperty.BorderColor);
+			_glyphColor = renderer.GetColor(ColorProperty.BorderColor);
 
 			using (var g = CreateGraphics())
-				m_chkBoxSize = renderer.GetPartSize(g, ThemeSizeType.Draw);
+				_chkBoxSize = renderer.GetPartSize(g, ThemeSizeType.Draw);
 		}
 
 		/// ------------------------------------------------------------------------------------

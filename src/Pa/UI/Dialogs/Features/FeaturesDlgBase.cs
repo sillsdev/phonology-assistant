@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
+using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
 
@@ -61,6 +63,9 @@ namespace SIL.Pa.UI.Dialogs
 
 			_labelDistinctiveFeaturesSet.Text = GetDistinctiveFeaturesSetName();
 
+			_listView.BackColor = Color.White;
+			_listView.ForeColor = Color.Black;
+			_listView.SelectedItemBackColor = Color.FromArgb(171, 213, 255);
 			_listView.Dock = DockStyle.Fill;
 			_listView.Margin = new Padding(0);
 			_listView.BorderStyle = BorderStyle.None;
@@ -95,6 +100,8 @@ namespace SIL.Pa.UI.Dialogs
 			_gridPhones.Font = FontHelper.UIFont;
 			_gridPhones.VirtualMode = true;
 			_gridPhones.CellValueNeeded += HandlePhoneGridCellValueNeeded;
+			_gridPhones.BackgroundColor = Color.White;
+			_gridPhones.ForeColor = Color.Black;
 
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("phone");
 			col.ReadOnly = true;
@@ -123,7 +130,9 @@ namespace SIL.Pa.UI.Dialogs
 			_gridPhones.ColumnHeadersHeight += 8;
 			
 			_gridPhones.IsDirty = false;
-			App.SetGridSelectionColors(_gridPhones, false);
+
+			_gridPhones.DefaultCellStyle.SelectionBackColor = Color.FromArgb(171, 213, 255);
+			_gridPhones.DefaultCellStyle.SelectionForeColor = Color.Black;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -183,20 +192,11 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandlePhoneGridCellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
 		{
-			//if (e.ColumnIndex < 0 || e.RowIndex < 0)
-			//    return;
+			if (e.ColumnIndex < 0 || e.RowIndex < 0 || !GetDoesPhoneHaveOverrides(e.RowIndex))
+				return;
 
-			//if ((_featuresTab.IsAFeatureTabShowing && _phones[e.RowIndex].HasAFeatureOverrides) ||
-			//    (_featuresTab.IsBFeatureTabShowing && _phones[e.RowIndex].HasBFeatureOverrides))
-			//{
-			//    e.CellStyle.ForeColor = Color.Black;
-			//    e.CellStyle.SelectionForeColor = Color.White;
-				
-			//    e.CellStyle.BackColor = ColorHelper.CalculateColor(
-			//        Color.White, Color.BlueViolet, 220);
-
-			//    e.CellStyle.SelectionBackColor = Color.BlueViolet;
-			//}
+			e.CellStyle.ForeColor = Settings.Default.OverridingFeatureTextColor;
+			e.CellStyle.SelectionForeColor = Settings.Default.OverridingFeatureTextColor;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -306,10 +306,19 @@ namespace SIL.Pa.UI.Dialogs
 			if (DesignMode || !Visible)
 				return;
 
-			_labelPhoneDescription.Text = _viewModel.GetPhoneDescription(_gridPhones.CurrentCellAddress.Y);
-			_listView.SetMaskFromPhoneInfo(_viewModel.GetPhoneInfo(_gridPhones.CurrentCellAddress.Y));
+			int index = _gridPhones.CurrentCellAddress.Y;
+
+			_labelPhoneDescription.Text = _viewModel.GetPhoneDescription(index);
+			_listView.SetDefaultFeatures(GetListOfDefaultFeaturesForPhone(index));
+			_listView.SetMaskFromPhoneInfo(_viewModel.GetPhoneInfo(index));
 			_buttonReset.Enabled = GetDoesPhoneHaveOverrides();
-			_gridPhones.InvalidateCell(0, _gridPhones.CurrentCellAddress.Y);
+			_gridPhones.InvalidateCell(0, index);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual IEnumerable<string> GetListOfDefaultFeaturesForPhone(int index)
+		{
+			return _viewModel.GetListOfDefaultFeaturesForPhone(index);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -1,4 +1,6 @@
-﻿using SIL.Pa.Properties;
+﻿using System.Collections.Generic;
+using System.Linq;
+using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
 
@@ -36,6 +38,13 @@ namespace SIL.Pa.UI.Dialogs
 			Settings.Default.DistinctiveFeaturesDlgPhoneGrid = GridSettings.Create(_gridPhones);
 			Settings.Default.DistinctiveFeaturesDlgSplitLoc = _splitFeatures.SplitterDistance;
 			base.SaveSettings();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override IEnumerable<string> GetListOfDefaultFeaturesForPhone(int index)
+		{
+			return _viewModel.GetListOfDefaultFeaturesForPhone(index)
+				.Select(f => f.TrimStart('+', '-'));
 		}
 
 		/// ------------------------------------------------------------------------------------

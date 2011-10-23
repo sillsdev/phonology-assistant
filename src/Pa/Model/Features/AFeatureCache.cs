@@ -10,7 +10,7 @@ namespace SIL.Pa.Model
 		{
 			var root = XElement.Load(phoneticInventoryFilePath);
 			var cache = new AFeatureCache();
-			cache.LoadFromList(FeatureCacheBase.ReadFeaturesFromXElement(root, "descriptive"));
+			cache.LoadFromList(ReadFeaturesFromXElement(root, "descriptive"));
 			return cache;
 		}
 	}

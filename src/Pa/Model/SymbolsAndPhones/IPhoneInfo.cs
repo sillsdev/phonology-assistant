@@ -5,13 +5,8 @@ namespace SIL.Pa.Model
 	public interface IPhoneInfo
 	{
 		IPhoneInfo Clone();
-
 		bool HasAFeatureOverrides { get; }
 		bool HasBFeatureOverrides { get; }
-
-		//bool AFeaturesAreOverridden { get; set; }
-		//bool BFeaturesAreOverridden { get; set; }
-
 		string Phone { get; set; }
 		string Description { get; set; }
 		IPASymbolType CharType { get; set; }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using SIL.Pa.Model;
 
 namespace SIL.Pa.UI.Dialogs
@@ -9,11 +10,13 @@ namespace SIL.Pa.UI.Dialogs
 		public PaProject Project { get; private set; }
 		
 		private readonly PhoneInfo[] _phones;
+		private readonly App.FeatureType _featureType;
 
 		/// ------------------------------------------------------------------------------------
-		public FeaturesDlgViewModel(PaProject project)
+		public FeaturesDlgViewModel(PaProject project, App.FeatureType featureType)
 		{
 			Project = project;
+			_featureType = featureType;
 
 			_phones = (from p in project.PhoneCache.Values
 					   where p is PhoneInfo
@@ -52,6 +55,14 @@ namespace SIL.Pa.UI.Dialogs
 		public PhoneInfo GetPhoneInfo(int index)
 		{
 			return (index < 0 || index >= _phones.Length ? null : _phones[index]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<string> GetListOfDefaultFeaturesForPhone(int index)
+		{
+			return (_featureType == App.FeatureType.Articulatory ?
+				App.AFeatureCache.GetFeatureList(_phones[index].DefaultAMask) :
+				App.BFeatureCache.GetFeatureList(_phones[index].DefaultBMask));
 		}
 
 		/// ------------------------------------------------------------------------------------

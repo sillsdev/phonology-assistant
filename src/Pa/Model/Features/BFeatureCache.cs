@@ -95,19 +95,11 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the opposite feature.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public Feature GetOppositeFeature(Feature feature)
 		{
 			return (feature == null ? null : GetOppositeFeature(feature.Name));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the opposite feature.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public Feature GetOppositeFeature(string featName)
 		{
@@ -121,16 +113,16 @@ namespace SIL.Pa.Model
 
 		#region public, static methods
 		/// ------------------------------------------------------------------------------------
-		public static IEnumerable<string> GetFeatureSetFiles()
+		public static IEnumerable<string> GetAvailableFeatureSetFiles()
 		{
 			var folder = Path.GetDirectoryName(DefaultFeatureSetFile);
 			return (Directory.GetFiles(folder, "*.DistinctiveFeatures.xml"));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static IEnumerable<string> GetFeatureSetNames()
+		public static IEnumerable<string> GetAvailableFeatureSetNames()
 		{
-			return GetFeatureSetFiles()
+			return GetAvailableFeatureSetFiles()
 				.Select(f => Path.GetFileName(f).Replace(".DistinctiveFeatures.xml", string.Empty))
 				.Select(name => (name == DefaultFeatureSetName ? "(default)" : name));
 		}

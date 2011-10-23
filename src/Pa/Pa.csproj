@@ -628,23 +628,33 @@
     <Compile Include="UI\Dialogs\Options\OptionsDlg.WordListTab.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\ProjectSetup\Fw7DataSourcePropertiesDlg.cs" />
+    <Compile Include="UI\Dialogs\ProjectSetup\Fw7DataSourcePropertiesDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UI\Dialogs\ProjectSetup\Fw7DataSourcePropertiesDlg.designer.cs">
       <DependentUpon>Fw7DataSourcePropertiesDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialogs\ProjectSetup\FwDataSourcePropertiesDlg.cs" />
+    <Compile Include="UI\Dialogs\ProjectSetup\FwDataSourcePropertiesDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UI\Dialogs\ProjectSetup\FwDataSourcePropertiesDlg.designer.cs">
       <DependentUpon>FwDataSourcePropertiesDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialogs\ProjectSetup\FwProjectsDlg.cs" />
+    <Compile Include="UI\Dialogs\ProjectSetup\FwProjectsDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UI\Dialogs\ProjectSetup\FwProjectsDlg.designer.cs">
       <DependentUpon>FwProjectsDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialogs\ProjectSetup\ProjectSettingsDlg.cs" />
+    <Compile Include="UI\Dialogs\ProjectSetup\ProjectSettingsDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UI\Dialogs\ProjectSetup\ProjectSettingsDlg.designer.cs">
       <DependentUpon>ProjectSettingsDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialogs\ProjectSetup\SFDataSourcePropertiesDlg.cs" />
+    <Compile Include="UI\Dialogs\ProjectSetup\SFDataSourcePropertiesDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UI\Dialogs\ProjectSetup\SFDataSourcePropertiesDlg.designer.cs">
       <DependentUpon>SFDataSourcePropertiesDlg.cs</DependentUpon>
     </Compile>

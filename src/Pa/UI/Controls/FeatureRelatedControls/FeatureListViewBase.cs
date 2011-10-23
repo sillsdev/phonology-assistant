@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -21,13 +22,15 @@ namespace SIL.Pa.UI.Controls
 		public delegate void CustomDoubleClickHandler(object sender, string feature);
 		public event CustomDoubleClickHandler CustomDoubleClick;
 
-		private bool m_ignoreCheckChanges;
-		protected Size m_chkBoxSize = new Size(13, 13);
-		protected Color m_glyphColor = Color.Black;
+		protected Size _chkBoxSize = new Size(13, 13);
+		protected Color _glyphColor = Color.Black;
+
+		private bool _ignoreCheckChanges;
 		private FeatureMask m_currMask;
 		private readonly FeatureMask _emptyMask;
-		private readonly Font m_checkedItemFont;
-		private readonly ToolTip m_tooltip;
+		private readonly Font _checkedItemFont;
+		private readonly ToolTip _tooltip;
+		private HashSet<string> _defaultFeatures = new HashSet<string>();
 
 		/// ------------------------------------------------------------------------------------
 		public FeatureListViewBase(FeatureMask emptyMask)
@@ -35,14 +38,15 @@ namespace SIL.Pa.UI.Controls
 			_emptyMask = emptyMask;
 			AllowDoubleClickToChangeCheckState = true;
 			EmphasizeCheckedItems = true;
+			SelectedItemBackColor = ColorHelper.LightHighlight;
 
 			var colHdr = new ColumnHeader();
 			colHdr.Width = kMaxColWidth;
 
-			m_tooltip = new ToolTip();
+			_tooltip = new ToolTip();
 
 			base.Font = FontHelper.UIFont;
-			m_checkedItemFont = FontHelper.MakeFont(base.Font, FontStyle.Bold | FontStyle.Italic);
+			_checkedItemFont = FontHelper.MakeFont(base.Font, FontStyle.Bold | FontStyle.Italic);
 			CheckBoxes = true;
 			Columns.Add(colHdr);
 			HeaderStyle = ColumnHeaderStyle.None;
@@ -59,8 +63,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && m_checkedItemFont != null)
-				m_checkedItemFont.Dispose();
+			if (disposing && _checkedItemFont != null)
+				_checkedItemFont.Dispose();
 
 			base.Dispose(disposing);
 		}
@@ -68,9 +72,9 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleCreated(EventArgs e)
 		{
-			m_ignoreCheckChanges = true;
+			_ignoreCheckChanges = true;
 			base.OnHandleCreated(e);
-			m_ignoreCheckChanges = false;
+			_ignoreCheckChanges = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -83,7 +87,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnMouseMove(e);
 
-			if (m_tooltip == null)
+			if (_tooltip == null)
 				return;
 
 			var htinfo = HitTest(e.Location);
@@ -93,13 +97,13 @@ namespace SIL.Pa.UI.Controls
 				if (item != null && item.FullName != null &&
 					item.Name.ToLower() != item.FullName.ToLower())
 				{
-					if (htinfo.Item != m_tooltip.Tag)
+					if (htinfo.Item != _tooltip.Tag)
 					{
 						ErasePreviousUnderline();
 						Point pt = PointToClient(MousePosition);
 						pt.Y += (int)(Cursor.Current.Size.Height * 0.7);
-						m_tooltip.Tag = htinfo.Item;
-						m_tooltip.Show(item.FullName, this, pt);
+						_tooltip.Tag = htinfo.Item;
+						_tooltip.Show(item.FullName, this, pt);
 						Invalidate(GetItemRect(htinfo.Item.Index, ItemBoundsPortion.Label));
 					}
 
@@ -107,7 +111,7 @@ namespace SIL.Pa.UI.Controls
 				}
 			}
 
-			m_tooltip.Hide(this);
+			_tooltip.Hide(this);
 			ErasePreviousUnderline();
 		}
 
@@ -116,9 +120,9 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnMouseLeave(e);
 
-			if (m_tooltip != null)
+			if (_tooltip != null)
 			{
-				m_tooltip.Hide(this);
+				_tooltip.Hide(this);
 				ErasePreviousUnderline();
 			}
 		}
@@ -126,11 +130,11 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void ErasePreviousUnderline()
 		{
-			if (m_tooltip == null)
+			if (_tooltip == null)
 				return;
 
-			var item = m_tooltip.Tag as ListViewItem;
-			m_tooltip.Tag = null;
+			var item = _tooltip.Tag as ListViewItem;
+			_tooltip.Tag = null;
 
 			if (item != null)
 			{
@@ -217,7 +221,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			// If we're updating the check because the segment just changed
 			// then take the default behavior.
-			if (m_ignoreCheckChanges)
+			if (_ignoreCheckChanges)
 				return;
 
 			var info = Items[e.Index].Tag as FeatureItemInfo;
@@ -242,13 +246,13 @@ namespace SIL.Pa.UI.Controls
 			var info = e.Item.Tag as FeatureItemInfo;
 			DrawText(e, info);
 			var rc = e.Item.GetBounds(ItemBoundsPortion.Entire);
-			var rcChkBox = new Rectangle(new Point(rc.X + 3, rc.Y), m_chkBoxSize);
+			var rcChkBox = new Rectangle(new Point(rc.X + 3, rc.Y), _chkBoxSize);
 			rcChkBox.Y += ((rc.Height - rcChkBox.Height) / 2);
 
 			if (CheckBoxes)
 				DrawFeatureState(e.Graphics, info, rcChkBox);
 
-			if (m_tooltip == null || m_tooltip.Tag != e.Item)
+			if (_tooltip == null || _tooltip.Tag != e.Item)
 				return;
 			
 			// Draw underline if the current item has a tooltip showing the feature's full name.
@@ -270,34 +274,54 @@ namespace SIL.Pa.UI.Controls
 		{
 			bool selected = (SelectedItems.Count > 0 && e.Item == SelectedItems[0]);
 			var rc = e.Item.GetBounds(ItemBoundsPortion.Label);
+			rc.X += 2;
 
 			// Draw the text and its background.
 			var fnt = Font;
 
 			// Determine whether or not to use the emphasized font.
 			if (EmphasizeCheckedItems && GetIsItemSet(info))
-				fnt = m_checkedItemFont;
+				fnt = _checkedItemFont;
 
-			rc.Width = TextRenderer.MeasureText(e.Item.Text, fnt).Width + 3;
-			var clrText = SystemColors.WindowText;
+			rc.Width = TextRenderer.MeasureText(info.Name, fnt).Width + 3;
+			var clrText = GetTextColorForItem(info);
 
 			if (selected)
 			{
 				if (Focused)
 				{
-					clrText = SystemColors.HighlightText;
-					e.Graphics.FillRectangle(SystemBrushes.Highlight, rc);
-					ControlPaint.DrawFocusRectangle(e.Graphics, rc);
+					using (var br = new SolidBrush(SelectedItemBackColor))
+					{
+	//					clrText = SystemColors.HighlightText;
+	//					e.Graphics.FillRectangle(SystemBrushes.Highlight, rc);
+						e.Graphics.FillRectangle(br, rc);
+						ControlPaint.DrawFocusRectangle(e.Graphics, rc);
+					}
 				}
 				else
 				{
-					clrText = SystemColors.ControlText;
+//					clrText = SystemColors.ControlText;
 					e.Graphics.FillRectangle(SystemBrushes.Control, rc);
 				}
 			}
 
-			TextRenderer.DrawText(e.Graphics, e.Item.Text, fnt, rc, clrText,
+			TextRenderer.DrawText(e.Graphics, info.Name, fnt, rc, clrText,
 				TextFormatFlags.VerticalCenter | TextFormatFlags.PreserveGraphicsClipping);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private Color GetTextColorForItem(FeatureItemInfo info)
+		{
+			var isDefaultFeature = _defaultFeatures.Contains(info.Name);
+			var isItemSet = GetIsItemSet(info);
+
+			if (isDefaultFeature && !isItemSet)
+				return Settings.Default.DefaultFeatureTextColor;
+
+			if (!isDefaultFeature && isItemSet)
+				return Settings.Default.OverridingFeatureTextColor;
+		
+			return ForeColor;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -429,12 +453,12 @@ namespace SIL.Pa.UI.Controls
 				foreach (var info in GetItemsThatAreSet())
 					features.AppendFormat("{0}, ", GetFormattedFeatureName(info, false));
 
-				// Remove the last comma and space;
-				features.Length -= 2;
-
-				return (features.ToString());
+				return features.ToString().TrimEnd(',', ' ');
 			}
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public Color SelectedItemBackColor { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -476,6 +500,15 @@ namespace SIL.Pa.UI.Controls
 			IsDirty = false;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public void SetDefaultFeatures(IEnumerable<string> defaultFeatures)
+		{
+			if (defaultFeatures != null)
+				_defaultFeatures = new HashSet<string>(defaultFeatures);
+			else
+				_defaultFeatures.Clear();
+		}
+
 		#endregion
 
 		#region Loading
@@ -486,7 +519,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void Load()
 		{
-			m_ignoreCheckChanges = true;
+			_ignoreCheckChanges = true;
 			BeginUpdate();
 			Items.Clear();
 			LoadFeatures();
@@ -497,7 +530,7 @@ namespace SIL.Pa.UI.Controls
 				SelectedIndices.Add(0);
 
 			EndUpdate();
-			m_ignoreCheckChanges = false;
+			_ignoreCheckChanges = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -533,7 +566,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void AdjustColumnWidth()
 		{
-			var fnt = (EmphasizeCheckedItems ? m_checkedItemFont : FontHelper.UIFont);
+			var fnt = (EmphasizeCheckedItems ? _checkedItemFont : FontHelper.UIFont);
 			int width = 0;
 
 			for (int i = 0; i < Items.Count; i++)

@@ -56,7 +56,7 @@ namespace SIL.Pa.UI.Dialogs
 			tblLayoutButtons.Controls.Add(_chkMakeFolder, 0, 0);
 			_chkMakeFolder.Checked = Settings.Default.CreateProjectFolderForNewProject;
 
-			_comboDistinctiveFeaturesSet.Items.AddRange(BFeatureCache.GetFeatureSetNames().OrderBy(n => n).ToArray());
+			_comboDistinctiveFeaturesSet.Items.AddRange(BFeatureCache.GetAvailableFeatureSetNames().OrderBy(n => n).ToArray());
 		}
 
 		/// ------------------------------------------------------------------------------------

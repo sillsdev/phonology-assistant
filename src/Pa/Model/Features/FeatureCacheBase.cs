@@ -54,10 +54,6 @@ namespace SIL.Pa.Model
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the feature for the specified bit.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public Feature this[int bit]
 		{
 			get	{ return Values.FirstOrDefault(feature => feature.Bit == bit);	}
@@ -158,7 +154,7 @@ namespace SIL.Pa.Model
 		/// Gets an array of sorted feature names for the features in the specified masks.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public List<string> GetFeatureList(FeatureMask mask)
+		public IEnumerable<string> GetFeatureList(FeatureMask mask)
 		{
 			return GetFeatureList(mask, true);
 		}
@@ -168,7 +164,7 @@ namespace SIL.Pa.Model
 		/// Gets an array of feature names for the features in the specified masks.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public List<string> GetFeatureList(FeatureMask mask, bool sorted)
+		public IEnumerable<string> GetFeatureList(FeatureMask mask, bool sorted)
 		{
 			if (mask == null)
 				return new List<string>();
@@ -197,11 +193,7 @@ namespace SIL.Pa.Model
 			foreach (var feature in featureList)
 				bldrfeatures.AppendFormat("{0}, ", feature);
 
-			// Remove the last comma and space.
-			if (bldrfeatures.Length >= 2)
-				bldrfeatures.Length -= 2;
-
-			return (bldrfeatures.ToString());
+			return (bldrfeatures.ToString().TrimEnd(',', ' '));
 		}
 
 		/// ------------------------------------------------------------------------------------

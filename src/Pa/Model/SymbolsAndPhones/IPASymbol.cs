@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace SIL.Pa.Model
@@ -131,7 +132,7 @@ namespace SIL.Pa.Model
 			get
 			{
 				return (_aFeatures == null && _aMask != null && !_aMask.IsEmpty ?
-					App.AFeatureCache.GetFeatureList(_aMask) : _aFeatures);
+					App.AFeatureCache.GetFeatureList(_aMask) : _aFeatures).ToList();
 			}
 			set { _aFeatures = value; }
 		}

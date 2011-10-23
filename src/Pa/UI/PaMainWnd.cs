@@ -1097,7 +1097,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDescriptiveFeatures(object args)
 		{
-			var viewModel = new FeaturesDlgViewModel(_project);
+			var viewModel = new FeaturesDlgViewModel(_project, App.FeatureType.Articulatory);
 
 			using (var dlg = new DescriptiveFeaturesDlg(viewModel))
 				dlg.ShowDialog(this);
@@ -1115,7 +1115,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDistinctiveFeatures(object args)
 		{
-			var viewModel = new FeaturesDlgViewModel(_project);
+			var viewModel = new FeaturesDlgViewModel(_project, App.FeatureType.Binary);
 
 			using (var dlg = new DistinctiveFeaturesDlg(viewModel))
 				dlg.ShowDialog(this);
