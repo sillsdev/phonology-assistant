@@ -878,9 +878,9 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public void HandleFeatureListKeyPress(object sender, KeyPressEventArgs e)
 		{
-			if (e.KeyChar == (char)Keys.Enter && sender is FeatureListView)
+			if (e.KeyChar == (char)Keys.Enter && sender is FeatureListViewBase)
 			{	
-				string text = ((FeatureListView)sender).CurrentFormattedFeature;
+				string text = ((FeatureListViewBase)sender).CurrentFormattedFeature;
 				if (text != null)
 					ptrnTextBox.Insert(text);
 			}
@@ -963,8 +963,8 @@ namespace SIL.Pa.UI.Views
 				dragText = e.Item as string;
 			else if (e.Item is CharGridCell)
 				dragText = ((CharGridCell)e.Item).Phone;
-			else if (sender is FeatureListView)
-				dragText = ((FeatureListView)sender).CurrentFormattedFeature;
+			else if (sender is FeatureListViewBase)
+				dragText = ((FeatureListViewBase)sender).CurrentFormattedFeature;
 			else if (e.Item is ClassListViewItem)
 			{
 				var item = e.Item as ClassListViewItem;

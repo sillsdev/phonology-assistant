@@ -10,7 +10,7 @@ using SIL.Pa.Model;
 
 namespace SIL.Pa.UI.Controls
 {
-	public class DescriptiveFeatureListView : FeatureListView
+	public class DescriptiveFeatureListView : FeatureListViewBase
 	{
 		/// ------------------------------------------------------------------------------------
 		public DescriptiveFeatureListView() : base(App.AFeatureCache.GetEmptyMask())

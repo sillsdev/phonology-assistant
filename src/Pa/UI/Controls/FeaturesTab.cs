@@ -9,8 +9,8 @@ namespace SIL.Pa.UI.Controls
 {
 	public partial class FeaturesTab : UserControl
 	{
-		private FeatureListView m_lvAFeatures;
-		private FeatureListView m_lvBFeatures;
+		private FeatureListViewBase m_lvAFeatures;
+		private FeatureListViewBase m_lvBFeatures;
 
 		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]

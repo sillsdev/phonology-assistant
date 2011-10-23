@@ -19,13 +19,13 @@ namespace SIL.Pa.UI.Controls
 		public CharPicker.CharPickedHandler OtherCharPickedHandler;
 		public ItemDragEventHandler FeatureListsItemDragHandler;
 		public KeyPressEventHandler FeatureListsKeyPressHandler;
-		public FeatureListView.CustomDoubleClickHandler FeatureListDoubleClickHandler;
+		public FeatureListViewBase.CustomDoubleClickHandler FeatureListDoubleClickHandler;
 		public ItemDragEventHandler ClassListItemDragHandler;
 		public KeyPressEventHandler ClassListKeyPressHandler;
 		public MouseEventHandler ClassListDoubleClickHandler;
 
-		private FeatureListView m_lvArticulatoryFeatures;
-		private FeatureListView m_lvBinaryFeatures;
+		private FeatureListViewBase m_lvArticulatoryFeatures;
+		private FeatureListViewBase m_lvBinaryFeatures;
 		private CharPickerRows m_conPicker;
 		private CharPickerRows m_vowPicker;
 		private List<char> m_diacriticsInCache;
@@ -133,7 +133,7 @@ namespace SIL.Pa.UI.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FeatureListView ArticulatoryFeaturesList
+		public FeatureListViewBase ArticulatoryFeaturesList
 		{
 			get { return m_lvArticulatoryFeatures; }
 		}
@@ -143,7 +143,7 @@ namespace SIL.Pa.UI.Controls
 		/// 
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FeatureListView BinaryFeaturesList
+		public FeatureListViewBase BinaryFeaturesList
 		{
 			get { return m_lvBinaryFeatures; }
 		}
@@ -277,7 +277,7 @@ namespace SIL.Pa.UI.Controls
 		/// Creates and initializes a feature list resultView and returns it.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private FeatureListView InitializeFeatureList(FeatureListView flv)
+		private FeatureListViewBase InitializeFeatureList(FeatureListViewBase flv)
 		{
 			flv.Load();
 			flv.Dock = DockStyle.Fill;

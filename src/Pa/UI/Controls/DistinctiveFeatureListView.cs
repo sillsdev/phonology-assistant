@@ -9,7 +9,7 @@ using SIL.Pa.Model;
 
 namespace SIL.Pa.UI.Controls
 {
-	public class DistinctiveFeatureListView : FeatureListView
+	public class DistinctiveFeatureListView : FeatureListViewBase
 	{
 		/// ------------------------------------------------------------------------------------
 		public DistinctiveFeatureListView() : base(App.BFeatureCache.GetEmptyMask())

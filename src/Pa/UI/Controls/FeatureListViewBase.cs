@@ -11,7 +11,7 @@ using SilTools;
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	public class FeatureListView : ListView
+	public class FeatureListViewBase : ListView
 	{
 		private const int kMaxColWidth = 210;
 
@@ -30,7 +30,7 @@ namespace SIL.Pa.UI.Controls
 		private readonly ToolTip m_tooltip;
 
 		/// ------------------------------------------------------------------------------------
-		public FeatureListView(FeatureMask emptyMask)
+		public FeatureListViewBase(FeatureMask emptyMask)
 		{
 			_emptyMask = emptyMask;
 			AllowDoubleClickToChangeCheckState = true;

@@ -336,7 +336,7 @@
     <Compile Include="UI\Controls\ExplorerBarItem.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\FeatureListView.cs">
+    <Compile Include="UI\Controls\FeatureListViewBase.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\FeaturesTab.cs">

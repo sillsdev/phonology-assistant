@@ -14,7 +14,7 @@ namespace SIL.Pa.UI.Dialogs
 		protected ToolTip _phoneToolTip;
 		private readonly Timer _phoneToolTipTimer;
 		protected readonly FeaturesDlgViewModel _viewModel;
-		protected readonly FeatureListView _listView;
+		protected readonly FeatureListViewBase _listView;
 
 		/// ------------------------------------------------------------------------------------
 		public FeaturesDlgBase()
@@ -49,7 +49,7 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public FeaturesDlgBase(FeaturesDlgViewModel viewModel, FeatureListView listView) : this()
+		public FeaturesDlgBase(FeaturesDlgViewModel viewModel, FeatureListViewBase listView) : this()
 		{
 			_viewModel = viewModel;
 			_listView = listView;

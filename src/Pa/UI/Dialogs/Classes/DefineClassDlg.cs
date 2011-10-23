@@ -23,8 +23,8 @@ namespace SIL.Pa.UI.Dialogs
 		private readonly ClassesDlg m_classesDlg;
 		private readonly ClassListViewItem m_classInfo;
 		private readonly ClassListViewItem m_origClassInfo;
-		private readonly FeatureListView m_lvArticulatoryFeatures;
-		private readonly FeatureListView m_lvBinaryFeatures;
+		private readonly FeatureListViewBase m_lvArticulatoryFeatures;
+		private readonly FeatureListViewBase m_lvBinaryFeatures;
 		private readonly Dictionary<SearchClassType, Control> m_ctrls = new Dictionary<SearchClassType, Control>();
 
 		#region Construction and setup
@@ -214,7 +214,7 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private FeatureListView InitializeFeatureList(FeatureListView flv)
+		private FeatureListViewBase InitializeFeatureList(FeatureListViewBase flv)
 		{
 			flv.Load();
 			flv.Dock = DockStyle.Fill;
