@@ -309,16 +309,10 @@ namespace SIL.Pa.UI.Dialogs
 			int index = _gridPhones.CurrentCellAddress.Y;
 
 			_labelPhoneDescription.Text = _viewModel.GetPhoneDescription(index);
-			_listView.SetDefaultFeatures(GetListOfDefaultFeaturesForPhone(index));
+			_listView.SetDefaultFeatures(_viewModel.GetListOfDefaultFeaturesForPhone((index)));
 			_listView.SetMaskFromPhoneInfo(_viewModel.GetPhoneInfo(index));
 			_buttonReset.Enabled = GetDoesPhoneHaveOverrides();
-			_gridPhones.InvalidateCell(0, index);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected virtual IEnumerable<string> GetListOfDefaultFeaturesForPhone(int index)
-		{
-			return _viewModel.GetListOfDefaultFeaturesForPhone(index);
+			_gridPhones.InvalidateRow(index);
 		}
 
 		/// ------------------------------------------------------------------------------------

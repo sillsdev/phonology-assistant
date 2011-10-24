@@ -24,13 +24,13 @@ namespace SIL.Pa.UI.Controls
 
 		protected Size _chkBoxSize = new Size(13, 13);
 		protected Color _glyphColor = Color.Black;
+		protected HashSet<string> _defaultFeatures = new HashSet<string>();
 
 		private bool _ignoreCheckChanges;
 		private FeatureMask m_currMask;
 		private readonly FeatureMask _emptyMask;
 		private readonly Font _checkedItemFont;
 		private readonly ToolTip _tooltip;
-		private HashSet<string> _defaultFeatures = new HashSet<string>();
 
 		/// ------------------------------------------------------------------------------------
 		public FeatureListViewBase(FeatureMask emptyMask)
@@ -310,7 +310,7 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private Color GetTextColorForItem(FeatureItemInfo info)
+		protected virtual Color GetTextColorForItem(FeatureItemInfo info)
 		{
 			var isDefaultFeature = _defaultFeatures.Contains(info.Name);
 			var isItemSet = GetIsItemSet(info);

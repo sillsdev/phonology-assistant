@@ -41,13 +41,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override IEnumerable<string> GetListOfDefaultFeaturesForPhone(int index)
-		{
-			return _viewModel.GetListOfDefaultFeaturesForPhone(index)
-				.Select(f => f.TrimStart('+', '-'));
-		}
-
-		/// ------------------------------------------------------------------------------------
 		protected override string GetDistinctiveFeaturesSetName()
 		{
 			return _viewModel.Project.DistinctiveFeatureSet;
