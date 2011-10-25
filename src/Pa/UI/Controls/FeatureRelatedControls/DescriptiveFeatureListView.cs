@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SIL.Pa.Model;
+using SilTools;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -16,6 +17,7 @@ namespace SIL.Pa.UI.Controls
 		public DescriptiveFeatureListView() : base(App.AFeatureCache.GetEmptyMask())
 		{
 			Name = "lvFeatures-Descriptive";
+			_checkedItemFont = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
 		}
 
 		/// ------------------------------------------------------------------------------------

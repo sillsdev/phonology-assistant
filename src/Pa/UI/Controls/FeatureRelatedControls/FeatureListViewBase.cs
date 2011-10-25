@@ -29,7 +29,7 @@ namespace SIL.Pa.UI.Controls
 		private bool _ignoreCheckChanges;
 		private FeatureMask m_currMask;
 		private readonly FeatureMask _emptyMask;
-		private readonly Font _checkedItemFont;
+		protected Font _checkedItemFont;
 		private readonly ToolTip _tooltip;
 
 		/// ------------------------------------------------------------------------------------
@@ -45,8 +45,7 @@ namespace SIL.Pa.UI.Controls
 
 			_tooltip = new ToolTip();
 
-			base.Font = FontHelper.UIFont;
-			_checkedItemFont = FontHelper.MakeFont(base.Font, FontStyle.Bold | FontStyle.Italic);
+			base.Font = _checkedItemFont = FontHelper.UIFont;
 			CheckBoxes = true;
 			Columns.Add(colHdr);
 			HeaderStyle = ColumnHeaderStyle.None;
