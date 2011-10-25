@@ -171,16 +171,15 @@ namespace SIL.Pa.Model
 
 			if (phones == null)
 				return null;
+			
+			if (removeDuplicates)
+				phones = phones.Distinct(StringComparer.Ordinal).ToArray();
 
 			var commaDelimitedPhones = new StringBuilder();
-			foreach (string p in phones.Where(phone =>
-				!removeDuplicates || commaDelimitedPhones.ToString().IndexOf(phone) < 0))
-			{
-				commaDelimitedPhones.Append(p);
-				commaDelimitedPhones.Append(',');
-			}
+			foreach (var p in phones)
+				commaDelimitedPhones.AppendFormat("{0},", p);
 
-			return commaDelimitedPhones.ToString().TrimEnd((", ").ToCharArray());
+			return commaDelimitedPhones.ToString().TrimEnd(',');
 		}
 
 		/// ------------------------------------------------------------------------------------
