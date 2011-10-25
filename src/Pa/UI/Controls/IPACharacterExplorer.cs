@@ -41,9 +41,9 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void RefreshFont()
 		{
-			foreach (ExplorerBarItem item in Items)
+			foreach (var item in Items)
 			{
-				CharPicker picker = item.Control as CharPicker;
+				var picker = item.Control as CharPicker;
 				if (picker != null)
 				{
 					picker.RefreshFont();
@@ -137,7 +137,7 @@ namespace SIL.Pa.UI.Controls
 			Utils.SetWindowRedraw(this, false, false);
 
 			// Loop through the list of character types for which to build a chooser.
-			foreach (IPASymbolTypeInfo typeInfo in TypesToShow)
+			foreach (var typeInfo in TypesToShow)
 			{
 				switch (typeInfo.Type)
 				{
@@ -182,7 +182,7 @@ namespace SIL.Pa.UI.Controls
 
 			foreach (var item in Items)
 			{
-				CharPicker picker = item.Control as CharPicker;
+				var picker = item.Control as CharPicker;
 				if (picker != null && picker == item.Control)
 					item.SetHostedControlHeight(picker.PreferredHeight + 10);
 			}
@@ -401,10 +401,7 @@ namespace SIL.Pa.UI.Controls
 		public void LoadSettings(StringCollection settings)
 		{
 			for (int i = 0; i < Items.Length; i++)
-			{
-				Items[i].IsExpanded = (settings != null && settings.Count == Items.Length ?
-					bool.Parse(settings[i]) : true);
-			}
+				Items[i].IsExpanded = (!(settings != null && settings.Count == Items.Length) || bool.Parse(settings[i]));
 
 			AutoScrollPosition = new Point(0, 0);
 		}
