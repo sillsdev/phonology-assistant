@@ -22,8 +22,7 @@ namespace SIL.Pa.UI.Controls
 		public const string kFeatureBracketing = "[{0}]";
 		public const string kANDBracketing = "[{0}]";
 		public const string kORBracketing = "{{{0}}}";
-		public static string kClassBracketing = App.kOpenClassBracket + "{0}" +
-			App.kCloseClassBracket;
+		public static string kClassBracketing = App.kOpenClassBracket + "{0}" + App.kCloseClassBracket;
 
 		private SearchClassType m_classType = SearchClassType.Phones;
 		public bool AllowEdit = true;
@@ -38,7 +37,8 @@ namespace SIL.Pa.UI.Controls
 		/// Default constructor for a ClassListViewItem
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ClassListViewItem() : base(App.GetString("DefaultNewClassName", "New Class"))
+		public ClassListViewItem()
+			: base(App.GetString("MiscellaneousStrings.DefaultNewClassName", "New Class"))
 		{
 		}
 
@@ -182,16 +182,15 @@ namespace SIL.Pa.UI.Controls
 				switch (ClassType)
 				{
 					case SearchClassType.Phones:
-						return App.GetString("PhonesClassTypeLabel",
-							"Phones", "Label on the define classes dialog box indicating class type");
+						return App.GetString("MiscellaneousStrings.PhonesClassTypeLabel", "Phones");
 
 					case SearchClassType.Articulatory:
-						return App.GetString("ArticulatoryFeaturesClassTypeLabel",
-							"Articulatory features", "Articulatory features class type label.");
+						return App.GetString("MiscellaneousStrings.DescriptiveFeaturesClassTypeLabel",
+							"Descriptive features");
 
 					case SearchClassType.Binary:
-						return App.GetString("BinaryFeaturesClassTypeLabel",
-							"Binary features", "Binary features class type label.");
+						return App.GetString("MiscellaneousStrings.DistictiveFeaturesClassTypeLabel",
+							"Distinctive features");
 				
 					default:
 						return null;
