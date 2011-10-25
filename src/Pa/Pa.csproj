@@ -552,11 +552,35 @@
     <Compile Include="UI\Dialogs\Classes\ClassesDlg.designer.cs">
       <DependentUpon>ClassesDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialogs\Classes\DefineClassDlg.cs">
+    <Compile Include="UI\Dialogs\Classes\DefineClassDlgBase.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\Classes\DefineClassDlg.designer.cs">
-      <DependentUpon>DefineClassDlg.cs</DependentUpon>
+    <Compile Include="UI\Dialogs\Classes\DefineClassDlgBase.designer.cs">
+      <DependentUpon>DefineClassDlgBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\Classes\DefineDescriptiveFeatureClassDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\Classes\DefineDescriptiveFeatureClassDlg.designer.cs">
+      <DependentUpon>DefineDescriptiveFeatureClassDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\Classes\DefineDistinctiveFeatureClassDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\Classes\DefineDistinctiveFeatureClassDlg.designer.cs">
+      <DependentUpon>DefineDistinctiveFeatureClassDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\Classes\DefineFeatureClassDlgBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\Classes\DefineFeatureClassDlgBase.designer.cs">
+      <DependentUpon>DefineFeatureClassDlgBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\Classes\DefinePhoneClassDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\Classes\DefinePhoneClassDlg.designer.cs">
+      <DependentUpon>DefinePhoneClassDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\DownloadSaDlg.cs">
       <SubType>Form</SubType>
@@ -817,6 +841,21 @@
       <DependentUpon>AmbiguousSequencesDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\Classes\DefineClassDlgBase.resx">
+      <DependentUpon>DefineClassDlgBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\Classes\DefineDescriptiveFeatureClassDlg.resx">
+      <DependentUpon>DefineDescriptiveFeatureClassDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\Classes\DefineDistinctiveFeatureClassDlg.resx">
+      <DependentUpon>DefineDistinctiveFeatureClassDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\Classes\DefineFeatureClassDlgBase.resx">
+      <DependentUpon>DefineFeatureClassDlgBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\Classes\DefinePhoneClassDlg.resx">
+      <DependentUpon>DefinePhoneClassDlg.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\Features\DescriptiveFeaturesDlg.resx">
       <DependentUpon>DescriptiveFeaturesDlg.cs</DependentUpon>
     </EmbeddedResource>
@@ -1012,10 +1051,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\Classes\ClassesDlg.resx">
       <DependentUpon>ClassesDlg.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Dialogs\Classes\DefineClassDlg.resx">
-      <DependentUpon>DefineClassDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\DownloadSaDlg.resx">
