@@ -37,16 +37,14 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			s_loadAttempted = true;
 
-			const string filename = "NormalizationExceptions.xml";
-
 			try
 			{
-				FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, filename);
-			}
-			catch
-			{
+				var filename = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
+					"NormalizationExceptions.xml");
+
 				s_exceptionsList = XmlSerializationHelper.DeserializeFromFile<List<NormalizationException>>(filename);
 			}
+			catch {	}
 		}
 
 		/// ------------------------------------------------------------------------------------
