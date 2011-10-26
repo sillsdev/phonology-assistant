@@ -84,6 +84,14 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override bool GetIsItemNotInDefaultState(FeatureItemInfo itemInfo)
+		{
+			var isDefaultFeature = _defaultFeatures.Contains(itemInfo.Name);
+			var isItemSet = GetIsItemSet(itemInfo);
+			return (isDefaultFeature && !isItemSet) || (!isDefaultFeature && isItemSet);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override string GetFormattedFeatureName(FeatureItemInfo itemInfo, bool includeBrackets)
 		{
 			var fmt = (includeBrackets ? "[{0}]" : "{0}");

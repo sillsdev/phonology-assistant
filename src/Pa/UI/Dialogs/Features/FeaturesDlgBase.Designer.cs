@@ -178,7 +178,6 @@
 			this._gridPhones.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
 			this._gridPhones.WaterMark = "!";
 			this._gridPhones.CurrentRowChanged += new System.EventHandler(this.HandlePhoneGridCurrentRowChanged);
-			this._gridPhones.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.HandlePhoneGridCellFormatting);
 			this._gridPhones.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandlePhoneGridCellMouseEnter);
 			this._gridPhones.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandlePhoneGridCellMouseLeave);
 			this._gridPhones.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.HandlePhoneGridCellPainting);

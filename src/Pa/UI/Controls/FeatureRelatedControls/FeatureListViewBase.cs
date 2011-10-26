@@ -6,7 +6,6 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -38,7 +37,6 @@ namespace SIL.Pa.UI.Controls
 			_emptyMask = emptyMask;
 			AllowDoubleClickToChangeCheckState = true;
 			EmphasizeCheckedItems = true;
-			SelectedItemBackColor = ColorHelper.LightHighlight;
 
 			var colHdr = new ColumnHeader();
 			colHdr.Width = kMaxColWidth;
@@ -223,6 +221,9 @@ namespace SIL.Pa.UI.Controls
 			if (_ignoreCheckChanges)
 				return;
 
+			SelectedItems.Clear();
+			Items[e.Index].Selected = true;
+
 			var info = Items[e.Index].Tag as FeatureItemInfo;
 			if (info == null)
 				return;
@@ -257,7 +258,7 @@ namespace SIL.Pa.UI.Controls
 			// Draw underline if the current item has a tooltip showing the feature's full name.
 			int width = TextRenderer.MeasureText(e.Item.Text, FontHelper.UIFont).Width;
 			rc = e.Item.GetBounds(ItemBoundsPortion.Label);
-			using (Pen pen = (Pen)SystemPens.WindowText.Clone())
+			using (var pen = (Pen)SystemPens.WindowText.Clone())
 			{
 				pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
 				e.Graphics.DrawLine(pen, rc.X + 2, rc.Bottom - 2, rc.X + width, rc.Bottom - 2);
@@ -283,44 +284,28 @@ namespace SIL.Pa.UI.Controls
 				fnt = _checkedItemFont;
 
 			rc.Width = TextRenderer.MeasureText(info.Name, fnt).Width + 3;
-			var clrText = GetTextColorForItem(info);
+			var clrText = (selected ? SystemColors.HighlightText : ForeColor);
 
-			if (selected)
+			if (selected && !Focused)
 			{
-				if (Focused)
-				{
-					using (var br = new SolidBrush(SelectedItemBackColor))
-					{
-	//					clrText = SystemColors.HighlightText;
-	//					e.Graphics.FillRectangle(SystemBrushes.Highlight, rc);
-						e.Graphics.FillRectangle(br, rc);
-						ControlPaint.DrawFocusRectangle(e.Graphics, rc);
-					}
-				}
-				else
-				{
-//					clrText = SystemColors.ControlText;
-					e.Graphics.FillRectangle(SystemBrushes.Control, rc);
-				}
+				clrText = SystemColors.ControlText;
+				e.Graphics.FillRectangle(SystemBrushes.Control, rc);
 			}
+			else if (DrawItemBackgroundAndGetForeColor != null)
+			{
+				clrText = DrawItemBackgroundAndGetForeColor(e.Graphics,
+					rc, selected, GetIsItemNotInDefaultState(info));
+			}
+			else if (selected)
+			{
+				e.Graphics.FillRectangle(SystemBrushes.Highlight, rc);
+				ControlPaint.DrawFocusRectangle(e.Graphics, rc);
+			}
+
+			rc.Y--;
 
 			TextRenderer.DrawText(e.Graphics, info.Name, fnt, rc, clrText,
 				TextFormatFlags.VerticalCenter | TextFormatFlags.PreserveGraphicsClipping);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected virtual Color GetTextColorForItem(FeatureItemInfo info)
-		{
-			var isDefaultFeature = _defaultFeatures.Contains(info.Name);
-			var isItemSet = GetIsItemSet(info);
-
-			if (isDefaultFeature && !isItemSet)
-				return Settings.Default.DefaultFeatureTextColor;
-
-			if (!isDefaultFeature && isItemSet)
-				return Settings.Default.OverridingFeatureTextColor;
-		
-			return ForeColor;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -330,6 +315,12 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual bool GetIsItemNotInDefaultState(FeatureItemInfo info)
+		{
+			throw new NotImplementedException();
+		}
 
 		/// ------------------------------------------------------------------------------------
 		protected virtual string GetFormattedFeatureName(FeatureItemInfo itemInfo, bool includeBrackets)
@@ -374,6 +365,9 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		#region Properties
+		/// ------------------------------------------------------------------------------------
+		public Func<Graphics, Rectangle, bool, bool, Color> DrawItemBackgroundAndGetForeColor;
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets an array of formatted feature strings, one for each selected feature in the
@@ -455,9 +449,6 @@ namespace SIL.Pa.UI.Controls
 				return features.ToString().TrimEnd(',', ' ');
 			}
 		}
-
-		/// ------------------------------------------------------------------------------------
-		public Color SelectedItemBackColor { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

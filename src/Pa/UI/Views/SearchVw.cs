@@ -778,7 +778,7 @@ namespace SIL.Pa.UI.Views
 				clrBottom = Settings.Default.TextPanelGradientBottomColor;
 			}
 
-			PaintingHelper.DrawGradientBackground(e.Graphics, rc, clrTop, clrBottom, false);
+			PaintingHelper.DrawGradientBackground(e.Graphics, rc, clrTop, clrBottom);
 			e.Graphics.DrawLine(SystemPens.ControlDark, rc.X, rc.Bottom - 1,
 				rc.Right - 1, rc.Bottom - 1);
 		}

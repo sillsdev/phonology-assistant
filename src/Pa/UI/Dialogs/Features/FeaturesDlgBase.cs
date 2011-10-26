@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
@@ -18,6 +17,14 @@ namespace SIL.Pa.UI.Dialogs
 		protected readonly FeaturesDlgViewModel _viewModel;
 		protected readonly FeatureListViewBase _listView;
 
+		private readonly Color _overrideHighlightBorderColor;
+		private readonly Color _overrideHighlightBottomColor = Color.FromArgb(255, 255, 178);
+		private readonly Color _overrideHighlightTopColor = ColorHelper.CalculateColor(Color.White, Color.FromArgb(255, 255, 178), 150);
+
+		private readonly Color _selectedItemTopColor = Color.FromArgb(228, 237, 247);
+		private readonly Color _selectedItemBottomColor = Color.FromArgb(185, 209, 234);
+		private readonly Color _selectedItemBorderColor = Color.FromArgb(112, 127, 242);
+
 		/// ------------------------------------------------------------------------------------
 		public FeaturesDlgBase()
 		{
@@ -27,6 +34,8 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 
 			DoubleBuffered = true;
+
+			_overrideHighlightBorderColor = _gridPhones.GridColor;
 			
 			_panelPhoneListHeading.Font = FontHelper.UIFont;
 			_panelFeaturesHeading.Font = FontHelper.UIFont;
@@ -65,7 +74,6 @@ namespace SIL.Pa.UI.Dialogs
 
 			_listView.BackColor = Color.White;
 			_listView.ForeColor = Color.Black;
-			_listView.SelectedItemBackColor = Color.FromArgb(171, 213, 255);
 			_listView.Dock = DockStyle.Fill;
 			_listView.Margin = new Padding(0);
 			_listView.BorderStyle = BorderStyle.None;
@@ -73,6 +81,7 @@ namespace SIL.Pa.UI.Dialogs
 			_panelPhoneListHeading.ControlReceivingFocusOnMnemonic = _listView;
 			_listView.Load();
 			_listView.FeatureChanged += delegate { UpdateDisplay(); };
+			_listView.DrawItemBackgroundAndGetForeColor = ListViewItemBackgroundPainter;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -131,7 +140,6 @@ namespace SIL.Pa.UI.Dialogs
 			
 			_gridPhones.IsDirty = false;
 
-			_gridPhones.DefaultCellStyle.SelectionBackColor = Color.FromArgb(171, 213, 255);
 			_gridPhones.DefaultCellStyle.SelectionForeColor = Color.Black;
 		}
 
@@ -188,17 +196,34 @@ namespace SIL.Pa.UI.Dialogs
 			}
 		}
 
-		#region Grid event handlers
 		/// ------------------------------------------------------------------------------------
-		private void HandlePhoneGridCellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+		private Color ListViewItemBackgroundPainter(Graphics g, Rectangle rc, bool selected, bool itemNotInDefaultState)
 		{
-			if (e.ColumnIndex < 0 || e.RowIndex < 0 || !GetDoesPhoneHaveOverrides(e.RowIndex))
-				return;
+			if (selected || itemNotInDefaultState)
+			{
+				DrawHighlightedGridOrListViewItemBackground(g, rc, selected);
 
-			e.CellStyle.ForeColor = Settings.Default.OverridingFeatureTextColor;
-			e.CellStyle.SelectionForeColor = Settings.Default.OverridingFeatureTextColor;
+				var clrBorder = (selected ? _selectedItemBorderColor : _overrideHighlightBorderColor);
+				using (var pen = new Pen(clrBorder))
+				{
+					rc.Width--;
+					rc.Height--;
+					g.DrawRectangle(pen, rc);
+				}
+			}
+
+			return _listView.ForeColor;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		private void DrawHighlightedGridOrListViewItemBackground(Graphics g, Rectangle rc, bool selected)
+		{
+			var clrTop = (selected ? _selectedItemTopColor : _overrideHighlightTopColor);
+			var clrBottom = (selected ? _selectedItemBottomColor : _overrideHighlightBottomColor);
+			PaintingHelper.DrawGradientBackground(g, rc, clrTop, clrBottom);
+		}
+
+		#region Grid event handlers
 		/// ------------------------------------------------------------------------------------
 		void HandlePhoneGridCellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
 		{
@@ -259,20 +284,22 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandlePhoneGridCellPainting(object sender, DataGridViewCellPaintingEventArgs e)
 		{
-			if (e.ColumnIndex != 0 || e.RowIndex < 0 || !GetDoesPhoneHaveOverrides(e.RowIndex))
+			var selected = (e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected;
+			if (e.ColumnIndex < 0 || e.RowIndex < 0 || (!selected && !GetDoesPhoneHaveOverrides(e.RowIndex)))
 				return;
 
-			e.Paint(e.CellBounds, e.PaintParts);
+			var parts = e.PaintParts;
+			parts &= ~DataGridViewPaintParts.Background;
+			parts &= ~DataGridViewPaintParts.SelectionBackground;
+			e.Paint(e.CellBounds, parts);
 			e.Handled = true;
 
 			var rc = e.CellBounds;
+			rc.Width--;
+			rc.Height--;
+			DrawHighlightedGridOrListViewItemBackground(e.Graphics, rc, selected);
 
-			Point pt1 = new Point(rc.Right - 7, rc.Y - 1);
-			Point pt2 = new Point(rc.Right - 1, rc.Y + 6);
-			Point ptCorner = new Point(rc.Right - 1, rc.Top);
-
-			using (var br = new LinearGradientBrush(pt1, pt2, Color.LightBlue, Color.DarkBlue))
-				e.Graphics.FillPolygon(br, new[] { pt1, pt2, ptCorner });
+			e.PaintContent(e.CellBounds);
 		}
 
 		/// ------------------------------------------------------------------------------------

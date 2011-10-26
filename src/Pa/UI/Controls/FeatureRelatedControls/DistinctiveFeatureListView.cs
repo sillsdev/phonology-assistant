@@ -6,7 +6,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -104,23 +103,18 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override Color GetTextColorForItem(FeatureItemInfo itemInfo)
+		protected override bool GetIsItemSet(FeatureItemInfo itemInfo)
+		{
+			return (itemInfo != null && itemInfo.TriStateValue != BinaryFeatureValue.None);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override bool GetIsItemNotInDefaultState(FeatureItemInfo itemInfo)
 		{
 			var currentFeaturesName = GetFormattedFeatureName(itemInfo, false);
 			var defaultListContainsNameWithoutPrefix = _defaultFeatures.Any(n => n.Substring(1) == itemInfo.Name);
 			var isItemSet = GetIsItemSet(itemInfo);
-
-			if (_defaultFeatures.Contains(currentFeaturesName) || (!isItemSet && !defaultListContainsNameWithoutPrefix))
-				return ForeColor;
-
-			return (isItemSet ? Settings.Default.OverridingFeatureTextColor :
-				Settings.Default.DefaultFeatureTextColor);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override bool GetIsItemSet(FeatureItemInfo itemInfo)
-		{
-			return (itemInfo != null && itemInfo.TriStateValue != BinaryFeatureValue.None);
+			return !_defaultFeatures.Contains(currentFeaturesName) && (isItemSet || defaultListContainsNameWithoutPrefix);
 		}
 
 		/// ------------------------------------------------------------------------------------
