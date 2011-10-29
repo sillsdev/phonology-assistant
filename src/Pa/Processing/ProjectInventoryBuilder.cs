@@ -98,7 +98,8 @@ namespace SIL.Pa.Processing
 
 			// Some people were receiving the following exception:
 			// "The requested operation cannot be performed on a file with a user-mapped section open."
-			// This was happening on the doc.Save line. Therefore, give it 5 tries and then give up
+			// This was happening on the doc.Save line, I think becaue the user's anti-virus program
+			// had open the XML file just created). Therefore, give it 5 tries and then give up
 			// without complaint. The only reason we do this part anyway, is to make the output pretty,
 			// with proper indentation and line-breaking.
 			for (int i = 0; i < 5; i++)
@@ -161,7 +162,7 @@ namespace SIL.Pa.Processing
 
 		#endregion
 
-		#region Methods for writing inventory file to send through the xslt processing pipeline
+		#region Methods for writing temp. inventory file to send through the xslt processing pipeline
 		/// ------------------------------------------------------------------------------------
 		protected virtual object CreateInputToTransformPipeline()
 		{
@@ -231,10 +232,8 @@ namespace SIL.Pa.Processing
 		{
 			if (featureNames == null || featureNames.Count <= 0)
 				return;
-			
-			_writer.WriteStartElement("features");
-			_writer.WriteAttributeString("class", featureType);
-			_writer.WriteAttributeString("changed", "true");
+
+			ProcessHelper.WriteStartElementWithAttrib(_writer, "features", "class", featureType);
 
 			foreach (var name in featureNames)
 				_writer.WriteElementString("feature", name);
@@ -259,12 +258,12 @@ namespace SIL.Pa.Processing
 			{
 				IPhoneInfo iPhoneInfo;
 				if (_phoneCache.TryGetValue(segment.Attribute("literal").Value, out iPhoneInfo))
-					UpdatePhoneInfo(segment, iPhoneInfo as PhoneInfo);
+					UpdatePhoneInfoFromProjectInventory(segment, iPhoneInfo as PhoneInfo);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void UpdatePhoneInfo(XElement element, PhoneInfo phoneToUpdate)
+		public void UpdatePhoneInfoFromProjectInventory(XElement element, PhoneInfo phoneToUpdate)
 		{
 			if (!string.IsNullOrEmpty(element.Element("description").Value))
 				phoneToUpdate.Description = element.Element("description").Value;
