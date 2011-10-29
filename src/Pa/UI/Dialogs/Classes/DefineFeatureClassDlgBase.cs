@@ -3,8 +3,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
+using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
 {
@@ -14,12 +14,12 @@ namespace SIL.Pa.UI.Dialogs
 		protected readonly FeatureListViewBase _lvFeatures;
 		protected PhonesInFeatureViewer _conViewer;
 		protected PhonesInFeatureViewer _vowViewer;
-		protected PhonesInFeatureViewer _otherPhonesViewer;
+		protected SplitContainer _splitterOuter;
+		protected SplitContainer _splitterCV;
 		
+		private RadioButton _radioMatchAll;
+		private RadioButton _radioMatchAny;
 		private bool _splitterSettingsLoaded;
-		private SplitContainer _splitterOuter;
-		private SplitContainer _splitterCV;
-		private SplitContainer _splitterPhoneViewers;
 
 		#region Construction and setup
 		/// ------------------------------------------------------------------------------------
@@ -39,18 +39,45 @@ namespace SIL.Pa.UI.Dialogs
 			_lvFeatures.Visible = true;
 			_lvFeatures.LabelEdit = false;
 			_lvFeatures.FeatureChanged += HandleFeatureChanged;
-			_lvFeatures.TabIndex = txtClassName.TabIndex + 1;
+			_lvFeatures.TabIndex = _textBoxClassName.TabIndex + 1;
 			_lvFeatures.CurrentMask = (m_classInfo.Mask ?? emptyMask);
 			
 			SetupPhoneViewers();
 			SetupSplitters();
+			SetupRadioButtons();
 			UpdateCharacterViewers();
+		}
 
-			rbMatchAll.Visible = true;
-			rbMatchAny.Visible = true;
+		/// ------------------------------------------------------------------------------------
+		private void SetupRadioButtons()
+		{
+			// TODO: Internationalize these radio buttons.
+			
+			_radioMatchAll = new RadioButton();
+			_radioMatchAll.AutoSize = true;
+			_radioMatchAll.Font = FontHelper.UIFont;
+			_radioMatchAll.BackColor = Color.Transparent;
+			_radioMatchAll.Margin = new Padding(3, 6, 8, 3);
+			_radioMatchAll.TabIndex = _textBoxMembers.TabIndex + 1;
+			_radioMatchAll.TabStop = true;
+			_radioMatchAll.Text = "Match A&ll Selected Features";
+			_radioMatchAll.CheckedChanged += HandleScopeClick;
 
-			rbMatchAll.Checked = m_classInfo.ANDFeatures;
-			rbMatchAny.Checked = !rbMatchAll.Checked;
+			_radioMatchAny = new RadioButton();
+			_radioMatchAny.AutoSize = true;
+			_radioMatchAny.Font = FontHelper.UIFont;
+			_radioMatchAny.BackColor = Color.Transparent;
+			_radioMatchAny.Margin = new Padding(7, 6, 3, 3);
+			_radioMatchAny.TabIndex = _radioMatchAll.TabIndex + 1;
+			_radioMatchAny.TabStop = true;
+			_radioMatchAny.Text = "Match A&ny Selected Features";
+			_radioMatchAny.CheckedChanged += HandleScopeClick;
+
+			_tableLayout.Controls.Add(_radioMatchAll, 1, 3);
+			_tableLayout.Controls.Add(_radioMatchAny, 2, 3);
+
+			_radioMatchAll.Checked = m_classInfo.ANDFeatures;
+			_radioMatchAny.Checked = !_radioMatchAll.Checked;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -60,17 +87,13 @@ namespace SIL.Pa.UI.Dialogs
 			_splitterCV.Panel1.Controls.Add(_conViewer);
 			_splitterCV.Panel2.Controls.Add(_vowViewer);
 
-			_splitterPhoneViewers = GetSplitter(121, 0);
-			_splitterPhoneViewers.Panel1.Controls.Add(_splitterCV);
-			_splitterPhoneViewers.Panel2.Controls.Add(_otherPhonesViewer);
-			
 			_splitterOuter = GetSplitter(89, 1);
 			_splitterOuter.BackColor = SystemColors.Control;
 			_splitterOuter.Orientation = Orientation.Horizontal;
 			_splitterOuter.Panel2.Controls.Add(_lvFeatures);
-			_splitterOuter.Panel1.Controls.Add(_splitterPhoneViewers);
+			_splitterOuter.Panel1.Controls.Add(_splitterCV);
 			
-			pnlMemberPickingContainer.Controls.Add(_splitterOuter);
+			_panelMemberPickingContainer.Controls.Add(_splitterOuter);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -89,63 +112,31 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void SetupPhoneViewers()
 		{
-			_conViewer = new PhonesInFeatureViewer(m_classesDlg.Project, IPASymbolType.Consonant,
-				Settings.Default.DefineClassDlgShowAllConsonantsInViewer,
-				Settings.Default.DefineClassDlgUseCompactConsonantView,
-				showAll => Settings.Default.DefineClassDlgShowAllConsonantsInViewer = showAll,
-				compactVw => Settings.Default.DefineClassDlgUseCompactConsonantView = compactVw);
+			_conViewer = new PhonesInFeatureViewer(m_classesDlg.Project, IPASymbolType.consonant,
+				ShowAllConsonantsInViewer, UseCompactConsonantView,
+				showAll => ShowAllConsonantsInViewer = showAll,
+				compactVw => UseCompactConsonantView = compactVw);
 			
 			_conViewer.HeaderText = App.GetString("DefineClassDlg.ConsonantViewerHeaderText", "&Consonants");
 			_conViewer.Dock = DockStyle.Fill;
-			//_conViewer.BringToFront();
 
-			_vowViewer = new PhonesInFeatureViewer(m_classesDlg.Project, IPASymbolType.Vowel,
-				Settings.Default.DefineClassDlgShowAllVowelsInViewer,
-				Settings.Default.DefineClassDlgUseCompactVowelView,
-				showAll => Settings.Default.DefineClassDlgShowAllVowelsInViewer = showAll,
-				compactVw => Settings.Default.DefineClassDlgUseCompactVowelView = compactVw);
+			_vowViewer = new PhonesInFeatureViewer(m_classesDlg.Project, IPASymbolType.vowel,
+				ShowAllVowelsInViewer, UseCompactVowelView,
+				showAll => ShowAllVowelsInViewer = showAll,
+				compactVw => UseCompactVowelView = compactVw);
 
 			_vowViewer.HeaderText = App.GetString("DefineClassDlg.VowelViewerHeaderText", "&Vowels");
 			_vowViewer.Dock = DockStyle.Fill;
-			//_vowViewer.BringToFront();
-
-			_otherPhonesViewer = new PhonesInFeatureViewer(m_classesDlg.Project, IPASymbolType.Unknown,
-				Settings.Default.DefineClassDlgShowAllOthersInViewer,
-				Settings.Default.DefineClassDlgUseCompactOtherView,
-				showAll => Settings.Default.DefineClassDlgShowAllOthersInViewer = showAll,
-				compactVw => Settings.Default.DefineClassDlgUseCompactOtherView = compactVw);
-
-			_otherPhonesViewer.HeaderText = App.GetString("DefineClassDlg.OtherPhonesViewerHeaderText", "&Other Phones");
-			_otherPhonesViewer.CanViewExpandAndCompact = false;
-			_otherPhonesViewer.Dock = DockStyle.Fill;
-			//_otherPhonesViewer.BringToFront();
 		}
 
+		protected virtual bool ShowAllConsonantsInViewer { get; set; }
+		protected virtual bool ShowAllVowelsInViewer { get; set; }
+		protected virtual bool UseCompactConsonantView { get; set; }
+		protected virtual bool UseCompactVowelView { get; set; }
+
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Load the splitter locations from the settings file.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LoadSplitterSettings()
+		protected virtual void LoadSplitterSettings()
 		{
-			try
-			{
-				// These are in a try/catch because sometimes they might throw an exception
-				// in rare cases. The exception has to do with a condition in the underlying
-				// .Net framework that I haven't been able to make sense of. Anyway, if an
-				// exception is thrown, no big deal, the splitter distances will just be set
-				// to their default values.
-				if (Settings.Default.DefineClassDlgSplit3Loc > 0)
-					_splitterOuter.SplitterDistance = Settings.Default.DefineClassDlgSplit3Loc;
-
-				if (Settings.Default.DefineClassDlgSplit2Loc > 0)
-					_splitterPhoneViewers.SplitterDistance = Settings.Default.DefineClassDlgSplit2Loc;
-
-				if (Settings.Default.DefineClassDlgSplit1Loc > 0)
-					_splitterCV.SplitterDistance = Settings.Default.DefineClassDlgSplit1Loc;
-			}
-			catch { }
-
 			_splitterSettingsLoaded = true;
 		}
 
@@ -164,22 +155,13 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void SaveSettings()
-		{
-			Settings.Default.DefineClassDlgSplit1Loc = _splitterCV.SplitterDistance;
-			Settings.Default.DefineClassDlgSplit2Loc = _splitterPhoneViewers.SplitterDistance;
-			Settings.Default.DefineClassDlgSplit3Loc = _splitterOuter.SplitterDistance;
-			base.SaveSettings();
-		}
-
-		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the pattern that would be built from the contents of the members text box.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override string CurrentPattern
 		{
-			get { return txtMembers.Text.Trim(); }
+			get { return _textBoxMembers.Text.Trim(); }
 		}
 
 		#endregion
@@ -193,7 +175,7 @@ namespace SIL.Pa.UI.Dialogs
 		void HandleFeatureChanged(object sender, FeatureMask newMask)
 		{
 			m_classInfo.Mask = newMask;
-			txtMembers.Text = m_classInfo.FormattedMembersString;
+			_textBoxMembers.Text = m_classInfo.FormattedMembersString;
 			m_classInfo.IsDirty = true;
 			UpdateCharacterViewers();
 		}
@@ -203,10 +185,10 @@ namespace SIL.Pa.UI.Dialogs
 		/// Handle the user choosing one of the items in the tsbWhatToInclude drop-down.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override void HandleScopeClick(object sender, EventArgs e)
+		private void HandleScopeClick(object sender, EventArgs e)
 		{
-			m_classInfo.ANDFeatures = rbMatchAll.Checked;
-			txtMembers.Text = m_classInfo.FormattedMembersString;
+			m_classInfo.ANDFeatures = _radioMatchAll.Checked;
+			_textBoxMembers.Text = m_classInfo.FormattedMembersString;
 			m_classInfo.IsDirty = true;
 			UpdateCharacterViewers();
 		}
@@ -232,7 +214,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			if (e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete)
 			{
-				txtMembers.Text = string.Empty;
+				_textBoxMembers.Text = string.Empty;
 				m_classInfo.Mask.Clear();
 					
 				// Fix for PA-555
