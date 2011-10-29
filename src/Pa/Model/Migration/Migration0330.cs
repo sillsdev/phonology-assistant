@@ -9,20 +9,23 @@ namespace SIL.Pa.Model.Migration
 {
 	public class Migration0330 : MigrationBase
 	{
-		private string m_projectFilePath;
-		private string m_projectPathPrefix;
-
 		/// ------------------------------------------------------------------------------------
 		public static bool Migrate(string prjfilepath, Func<string, string, string> GetPrjPathPrefixAction)
 		{
-			var migrator = new Migration0330();
-			return migrator.InternalMigration(prjfilepath, GetPrjPathPrefixAction);
+			var migrator = new Migration0330(prjfilepath, GetPrjPathPrefixAction);
+			return migrator.InternalMigration();
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		private Migration0330(string prjfilepath, Func<string, string, string> GetPrjPathPrefixAction)
+			: base(prjfilepath, GetPrjPathPrefixAction)
+		{
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool InternalMigration(string prjfilepath, Func<string, string, string> GetPrjPathPrefixAction)
+		private bool InternalMigration()
 		{
-			var e = BackupProject(prjfilepath, "0301");
+			var e = BackupProject("0301");
 			if (e != null)
 			{
 				var msg = App.GetString("ProjectMigrationBackupErrorMsg",
@@ -31,9 +34,6 @@ namespace SIL.Pa.Model.Migration
 				Utils.MsgBox(string.Format(msg, Application.ProductName, e.Message));
 				return false;
 			}
-
-			m_projectFilePath = prjfilepath;
-			m_projectPathPrefix = GetPrjPathPrefixAction(prjfilepath, ProjectName);
 
 			MigrateAmbiguousSequences();
 			MigrateExperimentalTranscriptions();
@@ -52,7 +52,7 @@ namespace SIL.Pa.Model.Migration
 		/// ------------------------------------------------------------------------------------
 		private void MigrateAmbiguousSequences()
 		{
-			var filepath = AmbiguousSequences.GetFileForProject(m_projectPathPrefix);
+			var filepath = AmbiguousSequences.GetFileForProject(_projectPathPrefix);
 			if (!File.Exists(filepath))
 				return;
 
@@ -66,17 +66,16 @@ namespace SIL.Pa.Model.Migration
 				"have been backed up, the program will continue without ambiguous sequences for this project.");
 
 			Utils.MsgBox(string.Format(msg, errMsg));
-			return;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void MigrateExperimentalTranscriptions()
 		{
-			var oldfilepath = m_projectPathPrefix + "ExperimentalTranscriptions.xml";
+			var oldfilepath = _projectPathPrefix + "ExperimentalTranscriptions.xml";
 			if (!File.Exists(oldfilepath))
 				return;
 
-			var newfilepath = TranscriptionChanges.GetFileForProject(m_projectPathPrefix);
+			var newfilepath = TranscriptionChanges.GetFileForProject(_projectPathPrefix);
 
 			string errMsg;
 			if (TransformFile(oldfilepath, "SIL.Pa.Model.Migration.UpdateExperimentalTranscriptionFile.xslt", out errMsg))
@@ -107,7 +106,7 @@ namespace SIL.Pa.Model.Migration
 		/// ------------------------------------------------------------------------------------
 		private void MigrateFeatureOverrides()
 		{
-			var filepath = FeatureOverrides.GetFileForProject(m_projectPathPrefix);
+			var filepath = FeatureOverrides.GetFileForProject(_projectPathPrefix);
 			if (!File.Exists(filepath))
 				return;
 
@@ -129,7 +128,7 @@ namespace SIL.Pa.Model.Migration
 		{
 			string errMsg;
 
-			if (TransformFile(m_projectFilePath, "SIL.Pa.Model.Migration.UpdateProjectFile.xslt", out errMsg))
+			if (TransformFile(_projectFilePath, "SIL.Pa.Model.Migration.UpdateProjectFile.xslt", out errMsg))
 			{
 				UpdateFields();
 				return true;
@@ -140,14 +139,14 @@ namespace SIL.Pa.Model.Migration
 				"file: {0}\n\n{1}\n\n{2} will be unable to open this project unless this " +
 				"problem can be corrected.");
 
-			Utils.MsgBox(string.Format(msg, Path.GetFileName(m_projectFilePath), errMsg, Application.ProductName));
+			Utils.MsgBox(string.Format(msg, Path.GetFileName(_projectFilePath), errMsg, Application.ProductName));
 			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void UpdateFields()
 		{
-			var fldInfoFilePath = m_projectPathPrefix + "FieldInfo.xml";
+			var fldInfoFilePath = _projectPathPrefix + "FieldInfo.xml";
 			if (!File.Exists(fldInfoFilePath))
 				return;
 
@@ -183,7 +182,7 @@ namespace SIL.Pa.Model.Migration
 			UpdateProjectMappingsIsParsedValuesFromOldFieldInfo(xmlFieldInfo);
 			CreateFieldDisplayPropsFile(fldInfoFilePath);
 
-			var newFieldsFilePath = PaField.GetFileForProject(m_projectPathPrefix);
+			var newFieldsFilePath = PaField.GetFileForProject(_projectPathPrefix);
 			File.Move(fldInfoFilePath, newFieldsFilePath);
 			string errMsg;
 
@@ -200,7 +199,7 @@ namespace SIL.Pa.Model.Migration
 		/// ------------------------------------------------------------------------------------
 		private void UpdateProjectMappingsIsParsedValuesFromOldFieldInfo(XElement xmlFieldInfo)
 		{
-			var xmlProject = XElement.Load(m_projectFilePath);
+			var xmlProject = XElement.Load(_projectFilePath);
 
 			// Get all mapping nodes.
 			var mappings = (from e in xmlProject.Element("DataSources").Elements()
@@ -218,13 +217,13 @@ namespace SIL.Pa.Model.Migration
 			foreach (var element in mappings.Where(e => parsedFields.Contains((string)e.Element("paFieldName"))))
 				element.Add(new XElement("isParsed", "true"));
 		
-			xmlProject.Save(m_projectFilePath);
+			xmlProject.Save(_projectFilePath);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void CreateFieldDisplayPropsFile(string fldInfoFilePath)
 		{
-			var displayPropsFilePath = PaFieldDisplayProperties.GetFileForProject(m_projectPathPrefix);
+			var displayPropsFilePath = PaFieldDisplayProperties.GetFileForProject(_projectPathPrefix);
 			File.Copy(fldInfoFilePath, displayPropsFilePath);
 			string errMsg;
 			

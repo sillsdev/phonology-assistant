@@ -9,6 +9,20 @@ namespace SIL.Pa.Model.Migration
 {
 	public class MigrationBase
 	{
+		protected string _projectFilePath;
+		protected string _projectPathPrefix;
+
+		/// ------------------------------------------------------------------------------------
+		protected MigrationBase(string prjfilepath, Func<string, string, string> GetPrjPathPrefixAction)
+		{
+			_projectFilePath = prjfilepath;
+			
+			var xml = XElement.Load(prjfilepath);
+			ProjectName = (xml.Element("ProjectName") ?? xml.Element("name")).Value;
+			
+			_projectPathPrefix = GetPrjPathPrefixAction(prjfilepath, ProjectName);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public string ProjectName { get; private set; }
 
@@ -16,20 +30,11 @@ namespace SIL.Pa.Model.Migration
 		public string BackupFolder { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		protected void CalculateProjectName(string prjfilename)
-		{
-			var xml = XElement.Load(prjfilename);
-			ProjectName = (xml.Element("ProjectName") ?? xml.Element("name")).Value;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected Exception BackupProject(string prjfilepath, string oldversion)
+		protected Exception BackupProject(string oldversion)
 		{
 			try
 			{
-				CalculateProjectName(prjfilepath);
-
-				var path = Path.GetDirectoryName(prjfilepath);
+				var path = Path.GetDirectoryName(_projectFilePath);
 				string ver = oldversion;
 				char letter = 'a';
 
@@ -53,9 +58,9 @@ namespace SIL.Pa.Model.Migration
 
 				// This will make sure the project file (i.e. .pap) gets backed-up
 				// in case its file name is not the same as the project name.
-				var prjfilename = Path.GetFileName(prjfilepath);
+				var prjfilename = Path.GetFileName(_projectFilePath);
 				if (!File.Exists(Path.Combine(BackupFolder, prjfilename)))
-					File.Copy(prjfilepath, Path.Combine(BackupFolder, prjfilename));
+					File.Copy(_projectFilePath, Path.Combine(BackupFolder, prjfilename));
 
 				return null;
 			}
@@ -94,6 +99,14 @@ namespace SIL.Pa.Model.Migration
 			}
 
 			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected void UpdateProjectFileToLatestVersion()
+		{
+			var root = XElement.Load(_projectFilePath);
+			root.Attribute("version").SetValue(PaProject.kCurrVersion);
+			root.Save(_projectFilePath);
 		}
 
 		/// ------------------------------------------------------------------------------------

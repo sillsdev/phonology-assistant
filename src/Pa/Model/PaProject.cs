@@ -19,7 +19,7 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class PaProject : IDisposable
 	{
-		private const string kCurrVersion = "3.3.0";
+		public const string kCurrVersion = "3.3.3";
 
 		private Form m_appWindow;
 		private bool m_newProject;
@@ -71,50 +71,6 @@ namespace SIL.Pa.Model
 			m_newProject = true;
 			RecordCache = new RecordCache(this);
 			PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This method will make sure the list of mappings in all SFM and Toolbox data
-		/// sources doesn't contain a mapping for a field that was removed.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void CleanUpMappings()
-		{
-			//if (DataSources == null)
-			//    return;
-
-			//// Go through the list of data sources in the project and clean up the
-			//// mappings for projects of type SFM and Toolbox.
-			//foreach (PaDataSource source in DataSources)
-			//{
-			//    if (source.Type != DataSourceType.SFM &&
-			//        source.Type != DataSourceType.Toolbox)
-			//    {
-			//        continue;
-			//    }
-
-			//    // Go through the mappings in the data source and make sure the field
-			//    // for each mapping is still in the list of fields in the project.
-			//    for (int i = source.SFMappings.Count - 1; i >= 0; i--)
-			//    {
-			//        SFMarkerMapping mapping = source.SFMappings[i];
-
-			//        if (mapping.FieldName != PaDataSource.kRecordMarker)
-			//        {
-			//            PaFieldInfo fieldInfo = m_fieldInfoList[mapping.FieldName];
-
-			//            // If the mapped field no longer exists, then remove it from the data
-			//            // source's list of mappings. Otherwise, make sure that the mapping
-			//            // for the field doesn't think it is an interlinear field if it no
-			//            // longer is.
-			//            if (fieldInfo == null)
-			//                source.SFMappings.RemoveAt(i);
-			//            else if (!fieldInfo.CanBeInterlinear)
-			//                mapping.IsInterlinear = false;
-			//        }
-			//    }
-			//}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -174,8 +130,11 @@ namespace SIL.Pa.Model
 		{
 			var xml = XElement.Load(filename);
 			var ver = xml.Attribute("version");
-			if (ver != null && ver.Value == kCurrVersion)
+			if ((string)ver == kCurrVersion)
 				return true;
+
+			if ((string)ver == "3.3.0")
+				return Migration0333.Migrate(filename, GetProjectPathFilePrefix);
 
 			return Migration0330.Migrate(filename, GetProjectPathFilePrefix);
 		}

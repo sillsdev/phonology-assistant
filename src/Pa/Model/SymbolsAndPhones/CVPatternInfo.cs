@@ -8,20 +8,27 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class CVPatternInfo
 	{
-		private string m_phone;
+		/// ------------------------------------------------------------------------------------
+		public enum PatternType
+		{
+			Custom,
+			Suprasegmental
+		}
+
+		private string _phone;
 
 		/// ------------------------------------------------------------------------------------
 		public CVPatternInfo()
 		{
-			PatternType = IPASymbolIgnoreType.NotApplicable;
+			Type = PatternType.Suprasegmental;
 		}
 
 		#region static methods
 		/// ------------------------------------------------------------------------------------
-		public static CVPatternInfo Create(string phone, IPASymbolIgnoreType patternType)
+		public static CVPatternInfo Create(string phone, PatternType type)
 		{
 			return (string.IsNullOrEmpty(phone) ? null :
-				new CVPatternInfo { Phone = phone, PatternType = patternType });
+				new CVPatternInfo { Phone = phone, Type = type });
 		}
 
 		#endregion
@@ -30,13 +37,13 @@ namespace SIL.Pa.Model
 		[XmlAttribute]
 		public string Phone
 		{
-			get { return m_phone; }
+			get { return _phone; }
 			set
 			{
-				m_phone = FFNormalizer.Normalize(value);
+				_phone = FFNormalizer.Normalize(value);
 
 				// If the phone is also a base phonetic character, we're done now.
-				var charInfo = App.IPASymbolCache[m_phone];
+				var charInfo = App.IPASymbolCache[_phone];
 				if (charInfo != null && charInfo.IsBase)
 					return;
 
@@ -51,7 +58,7 @@ namespace SIL.Pa.Model
 				// the C or V. If there is a diacritic placeholder, then what precedes it are
 				// diacritics that will precede a C or V (e.g. prenasalization) and what
 				// follows it are diacritics that will follow the C or V.
-				foreach (char c in m_phone)
+				foreach (char c in _phone)
 				{
 					charInfo = App.IPASymbolCache[c];
 					if (charInfo != null && charInfo.IsBase)
@@ -73,12 +80,8 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets m_patternType.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlAttribute("Type")]
-		public IPASymbolIgnoreType PatternType { get; set; }
+		[XmlAttribute]
+		public PatternType Type { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
@@ -117,7 +120,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			return m_phone;
+			return _phone;
 		}
 	}
 

@@ -189,6 +189,7 @@
     <Compile Include="Model\Fields\PaField.cs" />
     <Compile Include="Model\Fields\PaFieldDisplayProperties.cs" />
     <Compile Include="Model\Fields\SortField.cs" />
+    <Compile Include="Model\Migration\Migration0333.cs" />
     <Compile Include="Model\Migration\MigrationBase.cs" />
     <Compile Include="Model\PaProject.cs" />
     <Compile Include="Model\RecordCache\RecordCache.cs" />
@@ -270,6 +271,12 @@
     <Compile Include="UIAdapter\HelperClasses.cs" />
     <Compile Include="UIAdapter\TMAdapter.cs" />
     <Compile Include="UIAdapter\TMInterface.cs" />
+    <Compile Include="UI\Controls\CharacterPickerControls\CVPatternDisplaySymbolsExplorer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\CharacterPickerControls\MultiSelectSymbolExplorer.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\Controls\CharPicker.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -625,32 +632,53 @@
     <Compile Include="UI\Dialogs\OKCancelDlgBase.Designer.cs">
       <DependentUpon>OKCancelDlgBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialogs\Options\OptionsDlg.cs">
-      <SubType>Form</SubType>
+    <Compile Include="UI\Dialogs\Options\FontsOptionsPage.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\Options\OptionsDlg.CvPatternsTab.cs">
+    <Compile Include="UI\Dialogs\Options\FontsOptionsPage.Designer.cs">
+      <DependentUpon>FontsOptionsPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\Options\OptionsDlg.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Dialogs\Options\OptionsDlg.designer.cs">
       <DependentUpon>OptionsDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialogs\Options\OptionsDlg.SearchTab.cs">
-      <SubType>Form</SubType>
+    <Compile Include="UI\Dialogs\Options\OptionsDlgPageBase.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\Options\OptionsDlg.FontsTab.cs">
-      <SubType>Form</SubType>
+    <Compile Include="UI\Dialogs\Options\OptionsDlgPageBase.Designer.cs">
+      <DependentUpon>OptionsDlgPageBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialogs\Options\OptionsDlg.RecViewTab.cs">
-      <SubType>Form</SubType>
+    <Compile Include="UI\Dialogs\Options\RecordViewOptionsPage.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\Options\OptionsDlg.SortingTab.cs">
-      <SubType>Form</SubType>
+    <Compile Include="UI\Dialogs\Options\RecordViewOptionsPage.Designer.cs">
+      <DependentUpon>RecordViewOptionsPage.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialogs\Options\OptionsDlg.UserInterfaceTab.cs">
-      <SubType>Form</SubType>
+    <Compile Include="UI\Dialogs\Options\CVPatternsOptionsPage.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\Options\OptionsDlg.WordListTab.cs">
-      <SubType>Form</SubType>
+    <Compile Include="UI\Dialogs\Options\CVPatternsOptionsPage.Designer.cs">
+      <DependentUpon>CVPatternsOptionsPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\Options\SortingOptionsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\Options\SortingOptionsPage.Designer.cs">
+      <DependentUpon>SortingOptionsPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\Options\UserInterfaceOptionsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\Options\UserInterfaceOptionsPage.Designer.cs">
+      <DependentUpon>UserInterfaceOptionsPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\Options\WordListsOptionsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\Options\WordListsOptionsPage.Designer.cs">
+      <DependentUpon>WordListsOptionsPage.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\ProjectSetup\Fw7DataSourcePropertiesDlg.cs">
       <SubType>Form</SubType>
@@ -872,6 +900,24 @@
     <EmbeddedResource Include="UI\Dialogs\OKCancelDlgBase.resx">
       <DependentUpon>OKCancelDlgBase.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\Options\CVPatternsOptionsPage.resx">
+      <DependentUpon>CVPatternsOptionsPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\Options\FontsOptionsPage.resx">
+      <DependentUpon>FontsOptionsPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\Options\RecordViewOptionsPage.resx">
+      <DependentUpon>RecordViewOptionsPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\Options\SortingOptionsPage.resx">
+      <DependentUpon>SortingOptionsPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\Options\UserInterfaceOptionsPage.resx">
+      <DependentUpon>UserInterfaceOptionsPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\Options\WordListsOptionsPage.resx">
+      <DependentUpon>WordListsOptionsPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\ProjectSetup\Fw7DataSourcePropertiesDlg.resx">
       <DependentUpon>Fw7DataSourcePropertiesDlg.cs</DependentUpon>
