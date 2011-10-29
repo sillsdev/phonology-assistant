@@ -298,13 +298,29 @@ namespace SIL.Pa.UI.Controls
 			e.Item.DisplayStyle = ToolStripItemDisplayStyle.Text;
 			e.Item.Margin = new Padding(kDefaultItemMargin);
 			e.Item.MouseMove += Item_MouseMove;
+			e.Item.MouseDown += HandleItemMouseDown;
+		}
 
+		/// ------------------------------------------------------------------------------------
+		private void HandleItemMouseDown(object sender, MouseEventArgs me)
+		{
 			// Save the point at which the mouse went down over the item.
-			e.Item.MouseDown += delegate(object sender, MouseEventArgs mea)
-			{
-				_itemMouseDownPoint =
-					(mea.Button == MouseButtons.Left ? mea.Location : Point.Empty);
-			};
+			_itemMouseDownPoint = (me.Button == MouseButtons.Left ? me.Location : Point.Empty);
+
+			if (me.Button == MouseButtons.Left)
+				return;
+
+			// Provide a context menu for the user to copy the character to the clipboard.
+			var itemText = (sender as ToolStripButton).Text;
+			var menuText = (itemText.Contains(App.kDottedCircle) ?
+				App.GetString("CommonControls.CharacterPicker.CopyToClipboardMenuText.WhenContainsDottedCircle", "Copy to Clipboard\n(removing diacritic placeholder)") :
+				App.GetString("CommonControls.CharacterPicker.CopyToClipboardMenuText.WhenDoesNotContainDottedCircle", "Copy to Clipboard"));
+
+			var cmenu = new ContextMenuStrip();
+			cmenu.Items.Add(new ToolStripMenuItem(menuText, null,
+				(s, e) => Clipboard.SetText(itemText.Replace(App.kDottedCircle, string.Empty), TextDataFormat.UnicodeText)));
+
+			cmenu.Show(MousePosition);
 		}
 
 		/// ------------------------------------------------------------------------------------
