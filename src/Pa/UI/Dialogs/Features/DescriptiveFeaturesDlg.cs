@@ -12,6 +12,7 @@ namespace SIL.Pa.UI.Dialogs
 			: base(viewModel, new DescriptiveFeatureListView())
 		{
 			InitializeComponent();
+			_listView.EmphasizeCheckedItems = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
