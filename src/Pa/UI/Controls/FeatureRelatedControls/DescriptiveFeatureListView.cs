@@ -17,7 +17,6 @@ namespace SIL.Pa.UI.Controls
 		public DescriptiveFeatureListView() : base(App.AFeatureCache.GetEmptyMask())
 		{
 			Name = "lvFeatures-Descriptive";
-			_checkedItemFont = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
 		}
 
 		/// ------------------------------------------------------------------------------------
