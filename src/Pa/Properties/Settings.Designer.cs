@@ -652,12 +652,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.FormSettings DefineClassDlg {
+        public global::SilTools.FormSettings DefinePhoneClassDlg {
             get {
-                return ((global::SilTools.FormSettings)(this["DefineClassDlg"]));
+                return ((global::SilTools.FormSettings)(this["DefinePhoneClassDlg"]));
             }
             set {
-                this["DefineClassDlg"] = value;
+                this["DefinePhoneClassDlg"] = value;
             }
         }
         
@@ -670,45 +670,6 @@ namespace SIL.Pa.Properties {
             }
             set {
                 this["ClassesDlg"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int DefineClassDlgSplit1Loc {
-            get {
-                return ((int)(this["DefineClassDlgSplit1Loc"]));
-            }
-            set {
-                this["DefineClassDlgSplit1Loc"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int DefineClassDlgSplit2Loc {
-            get {
-                return ((int)(this["DefineClassDlgSplit2Loc"]));
-            }
-            set {
-                this["DefineClassDlgSplit2Loc"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int DefineClassDlgSplit3Loc {
-            get {
-                return ((int)(this["DefineClassDlgSplit3Loc"]));
-            }
-            set {
-                this["DefineClassDlgSplit3Loc"] = value;
             }
         }
         
@@ -2740,12 +2701,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DefineClassDlgShowAllConsonantsInViewer {
+        public bool DefineDescriptiveFeatureClassDlgShowAllConsonantsInViewer {
             get {
-                return ((bool)(this["DefineClassDlgShowAllConsonantsInViewer"]));
+                return ((bool)(this["DefineDescriptiveFeatureClassDlgShowAllConsonantsInViewer"]));
             }
             set {
-                this["DefineClassDlgShowAllConsonantsInViewer"] = value;
+                this["DefineDescriptiveFeatureClassDlgShowAllConsonantsInViewer"] = value;
             }
         }
         
@@ -2753,12 +2714,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool DefineClassDlgUseCompactConsonantView {
+        public bool DefineDescriptiveFeatureClassDlgUseCompactConsonantView {
             get {
-                return ((bool)(this["DefineClassDlgUseCompactConsonantView"]));
+                return ((bool)(this["DefineDescriptiveFeatureClassDlgUseCompactConsonantView"]));
             }
             set {
-                this["DefineClassDlgUseCompactConsonantView"] = value;
+                this["DefineDescriptiveFeatureClassDlgUseCompactConsonantView"] = value;
             }
         }
         
@@ -2766,12 +2727,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DefineClassDlgShowAllVowelsInViewer {
+        public bool DefineDescriptiveFeatureClassDlgShowAllVowelsInViewer {
             get {
-                return ((bool)(this["DefineClassDlgShowAllVowelsInViewer"]));
+                return ((bool)(this["DefineDescriptiveFeatureClassDlgShowAllVowelsInViewer"]));
             }
             set {
-                this["DefineClassDlgShowAllVowelsInViewer"] = value;
+                this["DefineDescriptiveFeatureClassDlgShowAllVowelsInViewer"] = value;
             }
         }
         
@@ -2779,38 +2740,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool DefineClassDlgUseCompactVowelView {
+        public bool DefineDescriptiveFeatureClassDlgUseCompactVowelView {
             get {
-                return ((bool)(this["DefineClassDlgUseCompactVowelView"]));
+                return ((bool)(this["DefineDescriptiveFeatureClassDlgUseCompactVowelView"]));
             }
             set {
-                this["DefineClassDlgUseCompactVowelView"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DefineClassDlgShowAllOthersInViewer {
-            get {
-                return ((bool)(this["DefineClassDlgShowAllOthersInViewer"]));
-            }
-            set {
-                this["DefineClassDlgShowAllOthersInViewer"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool DefineClassDlgUseCompactOtherView {
-            get {
-                return ((bool)(this["DefineClassDlgUseCompactOtherView"]));
-            }
-            set {
-                this["DefineClassDlgUseCompactOtherView"] = value;
+                this["DefineDescriptiveFeatureClassDlgUseCompactVowelView"] = value;
             }
         }
         
@@ -3492,12 +3427,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection DefineClassDlgIPACharExplorerExpandedStates {
+        public global::System.Collections.Specialized.StringCollection DefinePhoneClassDlgIPACharExplorerExpandedStates {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["DefineClassDlgIPACharExplorerExpandedStates"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["DefinePhoneClassDlgIPACharExplorerExpandedStates"]));
             }
             set {
-                this["DefineClassDlgIPACharExplorerExpandedStates"] = value;
+                this["DefinePhoneClassDlgIPACharExplorerExpandedStates"] = value;
             }
         }
         
@@ -3603,26 +3538,124 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("215, 57, 57")]
-        public global::System.Drawing.Color DefaultFeatureTextColor {
+        public global::SilTools.FormSettings DefineDescriptiveFeatureClassDlg {
             get {
-                return ((global::System.Drawing.Color)(this["DefaultFeatureTextColor"]));
+                return ((global::SilTools.FormSettings)(this["DefineDescriptiveFeatureClassDlg"]));
             }
             set {
-                this["DefaultFeatureTextColor"] = value;
+                this["DefineDescriptiveFeatureClassDlg"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("215, 118, 0")]
-        public global::System.Drawing.Color OverridingFeatureTextColor {
+        public global::SilTools.FormSettings DefineDistinctiveFeatureClassDlg {
             get {
-                return ((global::System.Drawing.Color)(this["OverridingFeatureTextColor"]));
+                return ((global::SilTools.FormSettings)(this["DefineDistinctiveFeatureClassDlg"]));
             }
             set {
-                this["OverridingFeatureTextColor"] = value;
+                this["DefineDistinctiveFeatureClassDlg"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int DefineDescriptiveFeatureClassDlgSplit1Loc {
+            get {
+                return ((int)(this["DefineDescriptiveFeatureClassDlgSplit1Loc"]));
+            }
+            set {
+                this["DefineDescriptiveFeatureClassDlgSplit1Loc"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int DefineDescriptiveFeatureClassDlgSplit2Loc {
+            get {
+                return ((int)(this["DefineDescriptiveFeatureClassDlgSplit2Loc"]));
+            }
+            set {
+                this["DefineDescriptiveFeatureClassDlgSplit2Loc"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int DefineDistinctiveFeatureClassDlgSplit1Loc {
+            get {
+                return ((int)(this["DefineDistinctiveFeatureClassDlgSplit1Loc"]));
+            }
+            set {
+                this["DefineDistinctiveFeatureClassDlgSplit1Loc"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public int DefineDistinctiveFeatureClassDlgSplit2Loc {
+            get {
+                return ((int)(this["DefineDistinctiveFeatureClassDlgSplit2Loc"]));
+            }
+            set {
+                this["DefineDistinctiveFeatureClassDlgSplit2Loc"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DefineDistinctiveFeatureClassDlgShowAllConsonantsInViewer {
+            get {
+                return ((bool)(this["DefineDistinctiveFeatureClassDlgShowAllConsonantsInViewer"]));
+            }
+            set {
+                this["DefineDistinctiveFeatureClassDlgShowAllConsonantsInViewer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DefineDistinctiveFeatureClassDlgShowAllVowelsInViewer {
+            get {
+                return ((bool)(this["DefineDistinctiveFeatureClassDlgShowAllVowelsInViewer"]));
+            }
+            set {
+                this["DefineDistinctiveFeatureClassDlgShowAllVowelsInViewer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefineDistinctiveFeatureClassDlgUseCompactConsonantView {
+            get {
+                return ((bool)(this["DefineDistinctiveFeatureClassDlgUseCompactConsonantView"]));
+            }
+            set {
+                this["DefineDistinctiveFeatureClassDlgUseCompactConsonantView"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefineDistinctiveFeatureClassDlgUseCompactVowelView {
+            get {
+                return ((bool)(this["DefineDistinctiveFeatureClassDlgUseCompactVowelView"]));
+            }
+            set {
+                this["DefineDistinctiveFeatureClassDlgUseCompactVowelView"] = value;
             }
         }
     }
