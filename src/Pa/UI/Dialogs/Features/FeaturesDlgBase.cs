@@ -3,7 +3,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
-using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
 
@@ -18,8 +17,8 @@ namespace SIL.Pa.UI.Dialogs
 		protected readonly FeatureListViewBase _listView;
 
 		private readonly Color _overrideHighlightBorderColor;
-		private readonly Color _overrideHighlightBottomColor = Color.FromArgb(255, 255, 178);
-		private readonly Color _overrideHighlightTopColor = ColorHelper.CalculateColor(Color.White, Color.FromArgb(255, 255, 178), 150);
+		private readonly Color _overrideHighlightBottomColor = Color.FromArgb(255, 255, 150);
+		private readonly Color _overrideHighlightTopColor = ColorHelper.CalculateColor(Color.White, Color.FromArgb(255, 255, 150), 150);
 
 		private readonly Color _selectedItemTopColor = Color.FromArgb(228, 237, 247);
 		private readonly Color _selectedItemBottomColor = Color.FromArgb(185, 209, 234);
@@ -220,7 +219,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			var clrTop = (selected ? _selectedItemTopColor : _overrideHighlightTopColor);
 			var clrBottom = (selected ? _selectedItemBottomColor : _overrideHighlightBottomColor);
-			PaintingHelper.DrawGradientBackground(g, rc, clrTop, clrBottom);
+			PaintingHelper.DrawGradientBackground(g, rc, clrTop, clrBottom, true);
 		}
 
 		#region Grid event handlers
