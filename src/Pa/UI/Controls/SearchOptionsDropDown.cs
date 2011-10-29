@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
@@ -13,19 +14,11 @@ using SilTools;
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class SearchOptionsDropDown : UserControl
 	{
 		private SearchQuery m_query;
 		private bool m_showApplyToAll;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SearchOptionsDropDown()
 		{
@@ -34,53 +27,46 @@ namespace SIL.Pa.UI.Controls
 			if (App.DesignMode)
 				return;
 
-			lnkApplyToAll.Font = FontHelper.UIFont;
-			lnkHelp.Font = FontHelper.UIFont;
-			chkIgnoreDiacritics.Font = FontHelper.UIFont;
-			chkShowAllWords.Font = FontHelper.UIFont;
-			chkLength.Font = FontHelper.UIFont;
-			chkTone.Font = FontHelper.UIFont;
-			chkStress.Font = FontHelper.UIFont;
-			lblUncertainties.Font = FontHelper.UIFont;
+			_linkApplyToAll.Font = FontHelper.UIFont;
+			_linkHelp.Font = FontHelper.UIFont;
+			_chkIgnoreDiacritics.Font = FontHelper.UIFont;
+			_chkShowAllWords.Font = FontHelper.UIFont;
+			_chkLength.Font = FontHelper.UIFont;
+			_chkTone.Font = FontHelper.UIFont;
+			_chkStress.Font = FontHelper.UIFont;
+			_chkBoundary.Font = FontHelper.UIFont;
+			_groupUncertainties.Font = FontHelper.UIFont;
 			rbPrimaryOnly.Font = FontHelper.UIFont;
 			rbAllUncertainties.Font = FontHelper.UIFont;
 
 			int fontsize = Settings.Default.SearchOptionsDropDownPickerLabelFontSize;
 			if (fontsize > 0)
 			{
-				stressPicker.Font = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, fontsize);
-				tonePicker.Font = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, fontsize);
-				lengthPicker.Font = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, fontsize);
+				var fnt = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, fontsize);
+				_pickerStress.Font = fnt;
+				_pickerLength.Font = fnt;
+				_pickerBoundary.Font = fnt;
+				_pickerTone.Font = fnt;
 			}
 
-			chkStress.Tag = stressPicker;
-			chkTone.Tag = tonePicker;
-			chkLength.Tag = lengthPicker;
-			stressPicker.Tag = chkStress;
-			tonePicker.Tag = chkTone;
-			lengthPicker.Tag = chkLength;
+			_chkStress.Tag = _pickerStress;
+			_chkTone.Tag = _pickerTone;
+			_chkLength.Tag = _pickerLength;
+			_chkBoundary.Tag = _pickerBoundary;
+			_pickerStress.Tag = _chkStress;
+			_pickerTone.Tag = _chkTone;
+			_pickerLength.Tag = _chkLength;
+			_pickerBoundary.Tag = _chkBoundary;
 
-			stressPicker.LoadCharacterType(IPASymbolIgnoreType.StressSyllable);
-			tonePicker.LoadCharacterType(IPASymbolIgnoreType.Tone);
-			lengthPicker.LoadCharacterType(IPASymbolIgnoreType.Length);
-			LayoutDropDown();
+			_pickerStress.LoadCharacterType(IPASymbolSubType.stress);
+			_pickerTone.LoadCharacterType(IPASymbolSubType.tone);
+			_pickerBoundary.LoadCharacterType(IPASymbolSubType.boundary);
+			_pickerLength.LoadCharacterType(IPASymbolSubType.length);
 
 			ShowApplyToAll = false;
 			m_query = new SearchQuery();
-
-			// Center the apply to all and help labels vertically between the bottom of the
-			// drop-down and the bottom of the picker.
-			lnkApplyToAll.Top = ClientSize.Height -
-				((ClientSize.Height - grpUncertainties.Bottom) / 2) - (lnkApplyToAll.Height / 2);
-
-			lnkHelp.Top = lnkApplyToAll.Top;
-			lnkHelp.Left = ClientRectangle.Right - lnkHelp.Width - lnkApplyToAll.Left;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SearchOptionsDropDown(SearchQuery query) : this()
 		{
@@ -88,82 +74,31 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected void LayoutDropDown()
+		protected override void OnHandleCreated(EventArgs e)
 		{
-			Padding grpPadding = new Padding(7, 7, 7, 7);
-			grpStress.Padding = grpTone.Padding = grpLength.Padding = grpPadding;
+			_groupTone.Width = _pickerTone.GetPreferredWidth(8) + _groupTone.Padding.Left + _groupTone.Padding.Right;
+			_groupBoundary.Width = _groupTone.Width;
+			_groupLength.Width = _groupTone.Width;
+			_groupStress.Width = _groupTone.Width;
+			_groupUncertainties.Width = _groupTone.Width;
 
-			// Difference between the height of the picker controls
-			// and the group in which they are contained.
-			int dyGrpPickerDiff = stressPicker.Top + grpPadding.Bottom;
+			_groupStress.Height = _pickerStress.GetPreferredHeight() + _pickerStress.Top + _groupStress.Padding.Bottom;
+			_groupLength.Height = _pickerLength.GetPreferredHeight() + _pickerLength.Top + _groupLength.Padding.Bottom;
+			_groupBoundary.Height = _pickerBoundary.GetPreferredHeight() + _pickerBoundary.Top + _groupBoundary.Padding.Bottom;
+			_groupTone.Height = _pickerTone.GetPreferredHeight() + _pickerTone.Top + _groupTone.Padding.Bottom;
 
-			// Difference between the width of the picker controls
-			// and the group in which they are contained.
-			int dxGrpPickerDiff = grpPadding.Left + grpPadding.Right;
+			_panelStress.AutoSize = true;
+			_panelLength.AutoSize = true;
+			_panelTone.AutoSize = true;
+			_panelBoundary.AutoSize = true;
+			_tableLayout.AutoSize = true;
 
-			int extraWidth = Settings.Default.SearchOptionsDropDownExtraPickerLabelWidth;
-			int extraHeight = Settings.Default.SearchOptionsDropDownExtraPickerLabelHeight;
-
-			// Get the difference between a group's left edge and the
-			// left edge of the check box associated with that group.
-			int dxGrpChkDiff = chkTone.Left - grpTone.Left;
-
-			stressPicker.ItemSize = new Size(stressPicker.PreferredItemHeight + extraWidth,
-				stressPicker.PreferredItemHeight + extraHeight);
-
-			tonePicker.ItemSize = new Size(tonePicker.PreferredItemHeight + extraWidth,
-				tonePicker.PreferredItemHeight + extraHeight);
-
-			lengthPicker.ItemSize = new Size(lengthPicker.PreferredItemHeight + extraWidth,
-				lengthPicker.PreferredItemHeight + extraHeight);
-
-			// Set widths of groups.
-			int maxGrpsWidth = tonePicker.GetPreferredWidth(7) + dxGrpPickerDiff;
-			if (grpUncertainties.Visible)
-				maxGrpsWidth = Math.Max(maxGrpsWidth, grpUncertainties.Width);
-
-			grpStress.Width = grpTone.Width = maxGrpsWidth;
-			grpLength.Width = grpUncertainties.Width = maxGrpsWidth;
-
-			// Add 24 which is the sum of the group's left and right padding,
-			// plus a margin of 5 on either side of the group boxes.
-			Width = maxGrpsWidth + 24;
-
-			// Center the controls. (Subtract 1 to account for the border.
-			int newLeft = ((Width - maxGrpsWidth) / 2) - 1;
-			grpStress.Left = grpTone.Left = newLeft;
-			grpLength.Left = grpUncertainties.Left = newLeft;
-
-			// Align the checkboxes properly
-			newLeft = grpTone.Left + dxGrpChkDiff;
-			chkStress.Left = chkTone.Left = newLeft;
-			chkLength.Left = chkIgnoreDiacritics.Left = newLeft;
-
-			// Set heights of groups. For some reason, adding two
-			// is necessary when using Vista in 120dpi.
-			grpStress.Height = stressPicker.PreferredHeight + dyGrpPickerDiff + 2;
-			grpTone.Height = tonePicker.PreferredHeight + dyGrpPickerDiff + 2;
-			grpLength.Height = lengthPicker.PreferredHeight + dyGrpPickerDiff + 2;
-
-			// Set tops of groups.
-			grpTone.Top = grpStress.Bottom + 15;
-			grpLength.Top = grpTone.Bottom + 15;
-			grpUncertainties.Top = grpLength.Bottom + 15;
-			chkTone.Top = grpTone.Top - 3;
-			chkLength.Top = grpLength.Top - 3;
-			
-			Height = (grpUncertainties.Visible ? grpUncertainties.Bottom :
-				grpLength.Bottom) + lnkHelp.Height + 15;
+			// Add 2 to both dimensions because most of the time this is hosted on a drop-down
+			// and when that's the case, the drop-down adds a single-line border all around.
+			Size = new Size(_tableLayout.Width + (_tableLayout.Left * 2),
+				_tableLayout.Height + (_tableLayout.Top * 2));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnVisibleChanged(EventArgs e)
 		{
@@ -183,7 +118,7 @@ namespace SIL.Pa.UI.Controls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public LinkLabel ApplyToAllLinkLabel
 		{
-			get { return lnkApplyToAll; }
+			get { return _linkApplyToAll; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -198,7 +133,7 @@ namespace SIL.Pa.UI.Controls
 			set
 			{
 				m_showApplyToAll = value;
-				lnkApplyToAll.Visible = value;
+				_linkApplyToAll.Visible = value;
 				Invalidate();
 			}
 		}
@@ -214,30 +149,30 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				m_query.ShowAllOccurrences = chkShowAllWords.Checked;
-				m_query.IgnoreDiacritics = chkIgnoreDiacritics.Checked;
+				m_query.ShowAllOccurrences = _chkShowAllWords.Checked;
+				m_query.IgnoreDiacritics = _chkIgnoreDiacritics.Checked;
 				m_query.IncludeAllUncertainPossibilities = rbAllUncertainties.Checked;
-				m_query.IgnoredStressChars = GetIgnoredChars(stressPicker);
-				m_query.IgnoredToneChars = GetIgnoredChars(tonePicker);
-				m_query.IgnoredLengthChars = GetIgnoredChars(lengthPicker);
-
+				m_query.IgnoredCharacters = GetAllIgnoredCharacters();
 				return m_query;
 			}
 			set
 			{
 				m_query = value.Clone();
-				chkShowAllWords.Checked = m_query.ShowAllOccurrences;
-				chkIgnoreDiacritics.Checked = m_query.IgnoreDiacritics;
-				SetIgnoredChars(chkStress, stressPicker, m_query.IgnoredStressList);
-				SetIgnoredChars(chkTone, tonePicker, m_query.IgnoredToneList);
-				SetIgnoredChars(chkLength, lengthPicker, m_query.IgnoredLengthList);
+				_chkShowAllWords.Checked = m_query.ShowAllOccurrences;
+				_chkIgnoreDiacritics.Checked = m_query.IgnoreDiacritics;
+
+				var querysIgnoredCharacters = m_query.GetIgnoredCharacters().ToList();
+				SetIgnoredChars(_chkStress, _pickerStress, querysIgnoredCharacters);
+				SetIgnoredChars(_chkTone, _pickerTone, querysIgnoredCharacters);
+				SetIgnoredChars(_chkLength, _pickerLength, querysIgnoredCharacters);
+				SetIgnoredChars(_chkBoundary, _pickerBoundary, querysIgnoredCharacters);
 
 				rbAllUncertainties.Checked = m_query.IncludeAllUncertainPossibilities;
 				rbPrimaryOnly.Checked = !rbAllUncertainties.Checked;
 
-				chkShowAllWords.Tag = chkShowAllWords.Checked;
-				chkIgnoreDiacritics.Tag = chkIgnoreDiacritics.Checked;
-				grpUncertainties.Tag = rbAllUncertainties.Checked;
+				_chkShowAllWords.Tag = _chkShowAllWords.Checked;
+				_chkIgnoreDiacritics.Tag = _chkIgnoreDiacritics.Checked;
+				_groupUncertainties.Tag = rbAllUncertainties.Checked;
 			}
 		}
 
@@ -253,33 +188,38 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				if ((bool)chkShowAllWords.Tag != chkShowAllWords.Checked ||
-					(bool)chkIgnoreDiacritics.Tag != chkIgnoreDiacritics.Checked ||
-					(bool)grpUncertainties.Tag != rbAllUncertainties.Checked)
+				if ((bool)_chkShowAllWords.Tag != _chkShowAllWords.Checked ||
+					(bool)_chkIgnoreDiacritics.Tag != _chkIgnoreDiacritics.Checked ||
+					(bool)_groupUncertainties.Tag != rbAllUncertainties.Checked)
 				{
 					return true;
 				}
 
-				foreach (ToolStripButton item in stressPicker.Items)
-				{
-					if ((bool)item.Tag != item.Checked)
-						return true;
-				}
+				if (_pickerStress.Items.Cast<ToolStripButton>().Any(item => (bool)item.Tag != item.Checked))
+					return true;
 
-				foreach (ToolStripButton item in tonePicker.Items)
-				{
-					if ((bool)item.Tag != item.Checked)
-						return true;
-				}
+				if (_pickerTone.Items.Cast<ToolStripButton>().Any(item => (bool)item.Tag != item.Checked))
+					return true;
 
-				foreach (ToolStripButton item in lengthPicker.Items)
-				{
-					if ((bool)item.Tag != item.Checked)
-						return true;
-				}
+				if (_pickerBoundary.Items.Cast<ToolStripButton>().Any(item => (bool)item.Tag != item.Checked))
+					return true;
 
-				return false;
+				return _pickerLength.Items.Cast<ToolStripButton>().Any(item => (bool) item.Tag != item.Checked);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a string containing all the characters of the checked buttons in all the
+		/// choosers.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private string GetAllIgnoredCharacters()
+		{
+			return GetIgnoredChars(_pickerStress) +
+				GetIgnoredChars(_pickerLength) +
+				GetIgnoredChars(_pickerBoundary) +
+				GetIgnoredChars(_pickerTone).TrimEnd(',');
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -290,52 +230,35 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private static string GetIgnoredChars(CharPicker picker)
 		{
-			StringBuilder ignoreList = new StringBuilder();
-			foreach (ToolStripButton item in picker.Items)
-			{
-				if (item.Checked)
-				{
-					ignoreList.Append(item.Text.Replace(App.kDottedCircle, string.Empty));
-					ignoreList.Append(',');
-				}
-			}
+			var ignoreList = new StringBuilder();
+			foreach (var item in picker.Items.Cast<ToolStripButton>().Where(item => item.Checked))
+				ignoreList.AppendFormat("{0},", item.Text.Replace(App.kDottedCircle, string.Empty));
 
-			return (ignoreList.ToString());
+			return (ignoreList.Length == 0 ? string.Empty : ignoreList.ToString());
 		}
 
+
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static void SetIgnoredChars(CheckBox chk, CharPicker picker, List<string> ignoreList)
+		private static void SetIgnoredChars(CheckBox chk, CharPicker picker, IEnumerable<string> ignoredCharacters)
 		{
-			foreach (ToolStripButton item in picker.Items)
+			var ignoreList = ignoredCharacters.ToList();
+
+			foreach (var item in picker.GetItems())
 			{
 				// Remove the dotted circle (if there is one) from the button's text, then
 				// check the button's text to see if it's found in the ignore list.
-				string chr = item.Text.Replace(App.kDottedCircle, string.Empty);
-				item.Checked = (ignoreList != null && ignoreList.Contains(chr));
+				var chr = item.Text.Replace(App.kDottedCircle, string.Empty);
+				item.Checked = (ignoreList.Contains(chr));
 				item.Tag = item.Checked;
 			}
 
-			if (picker.CheckedItems == null)
-				chk.CheckState = CheckState.Unchecked;
-			else
-			{
-				chk.CheckState = (picker.Items.Count == picker.CheckedItems.Length ?
-					CheckState.Checked : CheckState.Indeterminate);
-			}
+			chk.CheckState = picker.GetRelevantCheckState();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void HandleIgnoreClick(object sender, EventArgs e)
 		{
-			CheckBox chk = sender as CheckBox;
+			var chk = sender as CheckBox;
 			if (chk == null)
 				return;
 
@@ -345,7 +268,7 @@ namespace SIL.Pa.UI.Controls
 				chk.Checked = false;
 			}
 
-			CharPicker picker = chk.Tag as CharPicker;
+			var picker = chk.Tag as CharPicker;
 			if (picker == null)
 				return;
 
@@ -354,39 +277,19 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void HandleCharChecked(CharPicker picker, ToolStripButton item)
 		{
-			CheckBox chk = picker.Tag as CheckBox;
-			if (chk == null)
-				return;
-
-			if (picker.CheckedItems == null)
-				chk.CheckState = CheckState.Unchecked;
-			else
-			{
-				chk.CheckState = (picker.CheckedItems.Length == picker.Items.Count ?
-					CheckState.Checked : CheckState.Indeterminate);
-			}
+			var chk = picker.Tag as CheckBox;
+			if (chk != null)
+				chk.CheckState = picker.GetRelevantCheckState();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Handles the help link label being clicked.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleHelpClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			Close();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Attempts to close the drop-down.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void Close()
 		{

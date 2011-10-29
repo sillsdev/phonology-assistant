@@ -163,7 +163,7 @@ namespace SIL.Pa.UI.Controls
 					m_searchOptionsDropDown = new SearchOptionsDropDown();
 					m_searchOptionsDropDown.ShowApplyToAll = true;
 					m_searchOptionsDropDown.ApplyToAllLinkLabel.Click += ApplyToAllLinkLabel_Click;
-					m_searchOptionsDropDown.lnkHelp.Click += SearchDropDownHelpLink_Click;
+					m_searchOptionsDropDown._linkHelp.Click += SearchDropDownHelpLink_Click;
 					m_searchOptionsDropDown.Disposed += m_searchOptionsDropDown_Disposed;
 				}
 				
@@ -182,7 +182,7 @@ namespace SIL.Pa.UI.Controls
 		private void m_searchOptionsDropDown_Disposed(object sender, EventArgs e)
 		{
 			m_searchOptionsDropDown.ApplyToAllLinkLabel.Click -= ApplyToAllLinkLabel_Click;
-			m_searchOptionsDropDown.lnkHelp.Click -= SearchDropDownHelpLink_Click;
+			m_searchOptionsDropDown._linkHelp.Click -= SearchDropDownHelpLink_Click;
 			m_searchOptionsDropDown.Disposed -= m_searchOptionsDropDown_Disposed;
 			m_searchOptionsDropDown = null;
 		}
