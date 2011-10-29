@@ -128,28 +128,33 @@ namespace SIL.Pa.Model
 					bldr.Append(phone);
 				else if (phoneInfo == null || phoneInfo.IsUndefined)
 				{
+
+// TODO: Check breaking!!!
+					
 					var charInfo = App.IPASymbolCache[phone];
 					if (charInfo != null)
 					{
-						if (charInfo.Type == IPASymbolType.Breaking)
+						//if (charInfo.Type == IPASymbolType.breaking)
+						if (charInfo.SubType == IPASymbolSubType.boundary)
 							bldr.Append(' ');
-						else if (charInfo.Type == IPASymbolType.Consonant)
+						else if (charInfo.Type == IPASymbolType.consonant)
 							bldr.Append(m_conSymbol);
-						else if (charInfo.Type == IPASymbolType.Vowel)
+						else if (charInfo.Type == IPASymbolType.vowel)
 							bldr.Append(m_vowSymbol);
 					}
 				}
-				else if (phoneInfo.CharType == IPASymbolType.Breaking)
-					bldr.Append(' ');
-				else if (phoneInfo.CharType == IPASymbolType.Consonant ||
-				   phoneInfo.CharType == IPASymbolType.Vowel)
+// TODO: Check breaking!!!
+				//else if (phoneInfo.CharType == IPASymbolType.breaking)
+				//    bldr.Append(' ');
+				else if (phoneInfo.CharType == IPASymbolType.consonant ||
+				   phoneInfo.CharType == IPASymbolType.vowel)
 				{
 					string diacriticsAfterBase = null;
 
 					if (phone.Length > 1)
 						diacriticsAfterBase = GetMatchingModifiers(phone, bldr);
 
-					bldr.Append(phoneInfo.CharType == IPASymbolType.Consonant ?
+					bldr.Append(phoneInfo.CharType == IPASymbolType.consonant ?
 						m_conSymbol : m_vowSymbol);
 
 					if (diacriticsAfterBase != null)
@@ -212,25 +217,25 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public string[] Consonants
 		{
-			get {return GetPhonesHavingType(IPASymbolType.Consonant);}
+			get {return GetPhonesHavingType(IPASymbolType.consonant);}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public string CommaDelimitedConsonants
 		{
-			get {return GetCommaDelimitedPhones(IPASymbolType.Consonant);}
+			get {return GetCommaDelimitedPhones(IPASymbolType.consonant);}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public string[] Vowels
 		{
-			get { return GetPhonesHavingType(IPASymbolType.Vowel); }
+			get { return GetPhonesHavingType(IPASymbolType.vowel); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public string CommaDelimitedVowels
 		{
-			get { return GetCommaDelimitedPhones(IPASymbolType.Vowel); }
+			get { return GetCommaDelimitedPhones(IPASymbolType.vowel); }
 		}
 
 		/// ------------------------------------------------------------------------------------

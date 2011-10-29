@@ -15,8 +15,8 @@ namespace SIL.Pa.Model
 	public class PhoneInfo : IPhoneInfo, IFeatureBearer
 	{
 		private PaProject _project;
-		private string _moaKey;
-		private string _poaKey;
+		private string _moaKey = "0";
+		private string _poaKey = "0";
 		private char _baseChar = '\0';
 		private FeatureMask _aMask;
 		private FeatureMask _bMask;
@@ -31,7 +31,7 @@ namespace SIL.Pa.Model
 		public PhoneInfo()
 		{
 			SiblingUncertainties = new List<string>();
-			CharType = IPASymbolType.Unknown;
+			CharType = IPASymbolType.notApplicable;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ namespace SIL.Pa.Model
 		{
 			_project = project;
 			SiblingUncertainties = new List<string>();
-			CharType = IPASymbolType.Unknown;
+			CharType = IPASymbolType.notApplicable;
 			Phone = phone;
 			IsUndefined = isUndefined;
 
@@ -75,9 +75,9 @@ namespace SIL.Pa.Model
 				var charInfo = InventoryHelper.IPASymbolCache[c];
 				if (charInfo != null && charInfo.IsBase)
 				{
-					if (charInfo.Type == IPASymbolType.Consonant)
+					if (charInfo.Type == IPASymbolType.consonant)
 						bldr.Append('c');
-					else if (charInfo.Type == IPASymbolType.Vowel)
+					else if (charInfo.Type == IPASymbolType.vowel)
 						bldr.Append('v');
 
 					if (firstChar == null)
@@ -89,7 +89,7 @@ namespace SIL.Pa.Model
 
 			if (bldr.Length == 0)
 			{
-				if (firstChar != null && CharType == IPASymbolType.Unknown)
+				if (firstChar != null && CharType == IPASymbolType.notApplicable)
 					CharType = firstChar.Type;
 
 				return;
@@ -100,14 +100,14 @@ namespace SIL.Pa.Model
 				// When the sequence of base char. symbols are all consonants,
 				// then use the last symbol as the base character.
 				_baseChar = lastChar.Literal[0];
-				CharType = IPASymbolType.Consonant;
+				CharType = IPASymbolType.consonant;
 			}
 			else
 			{
 				// The sequence of base char. symbols are not all consonants,
 				// so use the first symbol as the base character.
 				_baseChar = firstChar.Literal[0];
-				CharType = IPASymbolType.Vowel;
+				CharType = IPASymbolType.vowel;
 			}
 		}
 
@@ -379,22 +379,7 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public string MOAKey
 		{
-			get
-			{
-				if (IsUndefined)
-					return "000";
-
-				if (_moaKey == null)
-				{
-					// If we don't get a key back, then set the key to an empty string which
-					// will tell us in future references to this property that a failed attempt
-					// was already made to get the key. Therefore, the program will not keep
-					// trying and failing. Thus wasting processing time.
-					_moaKey = App.GetMOAKey(Phone) ?? string.Empty;
-				}
-
-				return (_moaKey == string.Empty ? null : _moaKey);
-			}
+			get { return (IsUndefined ? "000" : _moaKey); }
 			set { _moaKey = value; }
 		}
 
@@ -406,22 +391,7 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public string POAKey
 		{
-			get
-			{
-				if (IsUndefined)
-					return "000";
-
-				if (_poaKey == null)
-				{
-					// When we don't get a key back, then set the key to an empty string which
-					// will tell us in future references to this property that a failed attempt
-					// was already made to get the key. Therefore, the program will not keep
-					// trying and failing. Thus wasting processing time.
-					_poaKey = App.GetPOAKey(Phone) ?? string.Empty;
-				}
-
-				return (_poaKey == string.Empty ? null : _poaKey);
-			}
+			get { return (IsUndefined ? "000" : _poaKey); }
 			set { _poaKey = value; }
 		}
 

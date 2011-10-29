@@ -342,12 +342,12 @@ namespace SIL.Pa.PhoneticSearching
 			switch (m_type)
 			{
 				case MemberType.AnyConsonant:
-					if (phoneInfo.CharType == IPASymbolType.Consonant)
+					if (phoneInfo.CharType == IPASymbolType.consonant)
 						compareResult = CompareResultType.Match;
 					break;
 				
 				case MemberType.AnyVowel:
-					if (phoneInfo.CharType == IPASymbolType.Vowel)
+					if (phoneInfo.CharType == IPASymbolType.vowel)
 						compareResult = CompareResultType.Match;
 					break;
 			
@@ -521,7 +521,7 @@ namespace SIL.Pa.PhoneticSearching
 					if (patternDiacritics.IndexOf(phonesDiacritics[i]) < 0)
 					{
 						IPASymbol charInfo = App.IPASymbolCache[phonesDiacritics[i]];
-						if (charInfo != null && charInfo.Type == IPASymbolType.Diacritics)
+						if (charInfo != null && charInfo.Type == IPASymbolType.diacritic)
 							phonesDiacritics = phonesDiacritics.Replace(phonesDiacritics[i], App.kOrc);
 					}
 				}

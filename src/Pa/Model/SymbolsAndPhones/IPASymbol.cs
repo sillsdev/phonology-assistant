@@ -51,9 +51,6 @@ namespace SIL.Pa.Model
 		[XmlElement("subtype")]
 		public IPASymbolSubType SubType { get; set; }
 
-		[XmlElement("ignoreType")]
-		public IPASymbolIgnoreType IgnoreType { get; set; }
-
 		[XmlElement("isBase")]
 		public bool IsBase { get; set; }
 
@@ -63,11 +60,8 @@ namespace SIL.Pa.Model
 		[XmlElement("displayWithDottedCircle")]
 		public bool DisplayWithDottedCircle { get; set; }
 
-		[XmlElement("mannerOfArticulation")]
-		public int MOArticulation { get; set; }
-
-		[XmlElement("placeOfArticulation")]
-		public int POArticulation { get; set; }
+		[XmlIgnore]
+		public int DisplayOrder { get; set; }
 
 		[XmlElement("chartColumn")]
 		public int ChartColumn { get; set; }
@@ -75,7 +69,6 @@ namespace SIL.Pa.Model
 		[XmlElement("chartGroup")]
 		public int ChartGroup { get; set; }
 
-		private string _hexadecimal;
 		private List<string> _aFeatures = new List<string>(0);
 		private List<string> _bFeatures = new List<string>(0);
 		private FeatureMask _aMask = FeatureMask.Empty;
@@ -88,19 +81,17 @@ namespace SIL.Pa.Model
 			{
 				IsUndefined = IsUndefined,
 				Literal = Literal,
-				Hexadecimal = Hexadecimal,
+				HexCharCode = HexCharCode,
 				IPANumber = IPANumber,
 				Name = Name,
 				Usage = Usage,
 				Description = Description,
 				Type = Type,
 				SubType = SubType,
-				IgnoreType = IgnoreType,
 				IsBase = IsBase,
 				CanPrecedeBase = CanPrecedeBase,
 				DisplayWithDottedCircle = DisplayWithDottedCircle,
-				MOArticulation = MOArticulation,
-				POArticulation = POArticulation,
+				DisplayOrder = DisplayOrder,
 				AMask = AMask.Clone(),
 				BMask = BMask.Clone(),
 			};
@@ -108,16 +99,26 @@ namespace SIL.Pa.Model
 		
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("code")]
-		public string Hexadecimal
+		public string HexCharCode
 		{
-			get { return _hexadecimal; }
+			get { return Decimal.ToString("X8"); }
 			set
 			{
-				_hexadecimal = value;
-
 				int dec;
 				Decimal = (int.TryParse(value, System.Globalization.NumberStyles.HexNumber, null, out dec) ?
 					dec : invalidDecimalVal--);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[XmlElement("order")]
+		public string HexDisplayOrder
+		{
+			get { return DisplayOrder.ToString("X4"); }
+			set
+			{
+				int dec;
+				DisplayOrder = (int.TryParse(value, System.Globalization.NumberStyles.HexNumber, null, out dec) ? dec : 0);
 			}
 		}
 

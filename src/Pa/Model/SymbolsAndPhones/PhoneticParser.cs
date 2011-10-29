@@ -275,7 +275,7 @@ namespace SIL.Pa.Model
 				// If there's no information for a code point or there is but there isn't
 				// any for the previous character and the current character isn't a base
 				// character, then treat the character as it's own phone.
-				if (ciCurr == null || ciCurr.Type == IPASymbolType.Unknown)
+				if (ciCurr == null || ciCurr.Type == IPASymbolType.notApplicable)
 				{
 					if (i > phoneStart)
 						phones.Add(phonetic.Substring(phoneStart, i - phoneStart));
