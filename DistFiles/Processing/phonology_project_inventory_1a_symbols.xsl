@@ -1,6 +1,6 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_inventory_1a_symbols.xsl 2011-10-21 -->
+  <!-- phonology_project_inventory_1a_symbols.xsl 2011-10-26 -->
 	<!-- For each segment, copy information about its symbols from the program phonetic inventory. -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
@@ -32,13 +32,13 @@
 		<xsl:variable name="segments" select=".." />
 		<xsl:copy>
 			<xsl:apply-templates select="@*" />
+			<xsl:apply-templates />
 			<symbols>
 				<xsl:call-template name="symbols">
 					<xsl:with-param name="text" select="@literal" />
 					<xsl:with-param name="segments" select="$segments" />
 				</xsl:call-template>
 			</symbols>
-			<xsl:apply-templates />
 		</xsl:copy>
   </xsl:template>
 
