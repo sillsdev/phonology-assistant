@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -23,15 +22,16 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			InitializeComponent();
 			IinitializeCharExplorer();
-			txtMembers.ReadOnly = false;
-			txtMembers.Font = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, 16);
+			_textBoxMembers.ReadOnly = false;
+			_textBoxMembers.Font = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, 16);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void SetLocalizedTexts()
 		{
-			lblClassTypeValue.Text = App.GetString("DefineClassDlg.PhonesClassTypeLabel",
-				"Phones", "Phone class type label.");
+			_labelClassTypeValue.Text = App.GetString(
+				"DialogBoxes.DefineClassesDialogs.PhoneClassDlg.ClassTypeLabel",
+				"Phones");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -41,25 +41,15 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void IinitializeCharExplorer()
 		{
-			var typesToShow = new List<IPASymbolTypeInfo>();
-			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Consonant, IPASymbolSubType.Pulmonic));
-			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Consonant, IPASymbolSubType.NonPulmonic));
-			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Consonant, IPASymbolSubType.OtherSymbols));
-			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Vowel));
-			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Diacritics));
-			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Suprasegmentals, IPASymbolSubType.StressAndLength));
-			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Suprasegmentals, IPASymbolSubType.ToneAndAccents));
-
 			_charExplorer = new IPACharacterExplorer();
 			_charExplorer.AutoScroll = true;
 			_charExplorer.TabIndex = 2;
 			_charExplorer.CharPicked += HandleIPACharPicked;
-			_charExplorer.TypesToShow = typesToShow;
 			_charExplorer.Dock = DockStyle.Fill;
 			_charExplorer.BackColor = SystemColors.Window;
-			_charExplorer.Load();
+			_charExplorer.Load((int)IPASymbolType.All | (int)IPASymbolSubType.All);
 
-			pnlMemberPickingContainer.Controls.Add(_charExplorer);
+			_panelMemberPickingContainer.Controls.Add(_charExplorer);
 		}
 
 		#endregion
@@ -68,14 +58,14 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
-			_charExplorer.LoadSettings(Settings.Default.DefineClassDlgIPACharExplorerExpandedStates);
+			_charExplorer.LoadSettings(Settings.Default.DefinePhoneClassDlgIPACharExplorerExpandedStates);
 			base.OnShown(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			Settings.Default.DefineClassDlgIPACharExplorerExpandedStates = _charExplorer.GetExpandedStates();
+			Settings.Default.DefinePhoneClassDlgIPACharExplorerExpandedStates = _charExplorer.GetExpandedStates();
 			base.SaveSettings();
 		}
 
@@ -83,7 +73,7 @@ namespace SIL.Pa.UI.Dialogs
 		protected override bool SaveChanges()
 		{
 			// Check if any of the characters entered are invalid.
-			var undefinedChars = txtMembers.Text.Trim().Replace(",", string.Empty)
+			var undefinedChars = _textBoxMembers.Text.Trim().Replace(",", string.Empty)
 				.Where(c => App.IPASymbolCache[c] == null || App.IPASymbolCache[c].IsUndefined).ToArray();
 
 			if (undefinedChars.Length > 0)
@@ -104,7 +94,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			get
 			{
-				string phones = txtMembers.Text.Trim().Replace(",", string.Empty);
+				string phones = _textBoxMembers.Text.Trim().Replace(",", string.Empty);
 				phones = m_classesDlg.Project.PhoneticParser.PhoneticParser_CommaDelimited(phones, true, true);
 				return "{" + (phones ?? string.Empty) + "}";
 			}
@@ -135,22 +125,22 @@ namespace SIL.Pa.UI.Dialogs
 			var charInfo = App.IPASymbolCache[itemText];
 			bool isBase = (charInfo == null || charInfo.IsBase);
 
-			int selStart = txtMembers.SelectionStart;
-			int selLen = txtMembers.SelectionLength;
+			int selStart = _textBoxMembers.SelectionStart;
+			int selLen = _textBoxMembers.SelectionLength;
 
 			// First, if there is a selection, get rid of the selected text.
 			if (selLen > 0)
-				txtMembers.Text = txtMembers.Text.Remove(selStart, selLen);
+				_textBoxMembers.Text = _textBoxMembers.Text.Remove(selStart, selLen);
 
 			// Check if what's being inserted needs to be preceded by a comma.
-			if (selStart > 0 && txtMembers.Text[selStart - 1] != ',' && isBase)
+			if (selStart > 0 && _textBoxMembers.Text[selStart - 1] != ',' && isBase)
 			{
-				txtMembers.Text = txtMembers.Text.Insert(selStart, ",");
+				_textBoxMembers.Text = _textBoxMembers.Text.Insert(selStart, ",");
 				selStart++;
 			}
 
-			txtMembers.Text = txtMembers.Text.Insert(selStart, itemText);
-			txtMembers.SelectionStart = selStart + itemText.Length;
+			_textBoxMembers.Text = _textBoxMembers.Text.Insert(selStart, itemText);
+			_textBoxMembers.SelectionStart = selStart + itemText.Length;
 
 			m_classInfo.IsDirty = true;
 		}
