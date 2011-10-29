@@ -1,6 +1,6 @@
 using System;
+using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using SilTools;
@@ -17,72 +17,102 @@ namespace SIL.Pa.UI.Controls
 		public event EventHandler Collapsed;
 		public event EventHandler Expanded;
 
-		private int m_controlsExpandedHeight;
-		private bool m_drawHot;
-		private bool m_expanded = true;
-		private bool m_gradientButton = true;
-		private Color m_buttonBackColor = Color.Empty;
-		private readonly Button m_button;
-		private readonly Control m_control;
-		private readonly int m_glyphButtonWidth;
+		public delegate void ExplorerBarItemCheckBoxCheckedHandler(bool checkBoxCheckedd, Control hostedControl);
+		public event ExplorerBarItemCheckBoxCheckedHandler CheckBoxChecked;
+
+		private int _controlsExpandedHeight;
+		private int _buttonVerticalPadding = 8;
+		private bool _drawHot;
+		private bool _expanded = true;
+		private bool _gradientButton = true;
+		private bool _canCollapse = true;
+		private int _glyphButtonWidth;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Construct an SimpleExplorerBar  
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ExplorerBarItem(string text, Control hostedControl)
+		public ExplorerBarItem()
 		{
-			m_button = new Button();
-			m_button.Dock = DockStyle.Top;
-			m_button.Font = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
-			m_button.TextChanged += m_button_TextChanged;
-			m_button.Text = text;
+			ButtonBackColor = Color.Empty;
+			Button = new ExpBarButton();
+			Button.Dock = DockStyle.Top;
+			Button.Font = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
+			Button.TextChanged += HandleButtonTextChanged;
 			//m_button.Text = Utils.ConvertLiteralNewLines(text);
 			//string[] lines = m_button.Text.Split('\n');
 			//m_button.Height = 13 + (m_button.Font.Height * lines.Length);
-			m_button.Cursor = Cursors.Hand;
-			m_button.Click += m_button_Click;
-			m_button.Paint += m_button_Paint;
-			m_button.MouseEnter += m_button_MouseEnter;
-			m_button.MouseLeave += m_button_MouseLeave;
-			Controls.Add(m_button);
-
-			m_control = hostedControl;
-			SetHostedControlHeight(m_control.Height);
-			m_control.Dock = DockStyle.Fill;
-			Controls.Add(m_control);
-			m_control.BringToFront();
-
-			// Make the expand/collapse glyph width the height of
-			// one line of button text plus the fudge factor.
-			m_glyphButtonWidth = 13 + m_button.Font.Height;
+			Button.Cursor = Cursors.Hand;
+			Button.Click += HandleButtonClick;
+			Button.Paint += HandleButtonPaint;
+			Button.MouseEnter += delegate { _drawHot = true; Button.Invalidate(); };
+			Button.MouseLeave += delegate { _drawHot = false; Button.Invalidate(); };
+			Controls.Add(Button);
+			
+			CheckBox = new ExpBarCheckBox(Button) { Visible = false };
+			CheckBox.CheckedChanged += delegate
+			{
+				if (CheckBoxChecked != null)
+					CheckBoxChecked(CheckBox.Checked, Control);
+			};
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public ExplorerBarItem(string text, Control hostedControl) : this()
+		{
+			Button.Text = text;
+
+			Control = hostedControl;
+			SetHostedControlHeight(Control.Height);
+			Control.Dock = DockStyle.Fill;
+			Controls.Add(Control);
+			Control.BringToFront();
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && !m_button.IsDisposed)
+			if (disposing && !Button.IsDisposed)
 			{
-				m_button.Click -= m_button_Click;
-				m_button.Paint -= m_button_Paint;
-				m_button.MouseEnter -= m_button_MouseEnter;
-				m_button.MouseLeave -= m_button_MouseLeave;
-				m_button.TextChanged -= m_button_TextChanged;
-				m_button.Dispose();
+				Button.Dispose();
 			}
 
 			base.Dispose(disposing);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public void SetHostedControlHeight(int height)
+		{
+			_controlsExpandedHeight = height;
+
+			if (IsExpanded)
+				Height = Button.Height + height + Control.Margin.Top + Control.Margin.Bottom;
+		}
+
+		#region Properties
+		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
+		public Control Control { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
+		public ExpBarCheckBox CheckBox { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
+		public ExpBarButton Button { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		public Color ButtonBackColor { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		public bool ShowButtonFocusCues
+		{
+			get { return Button.GetShowFocusCues(); }
+			set
+			{
+				Button.SetShowFocusCues(value);
+				Button.Invalidate();
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public override Color BackColor
 		{
@@ -92,6 +122,8 @@ namespace SIL.Pa.UI.Controls
 				base.BackColor = value;
 				if (ButtonBackColor == Color.Empty)
 					ButtonBackColor = ColorHelper.CalculateColor(Color.Black, SystemColors.Window, 25);
+
+				Button.Invalidate();
 			}
 		}
 
@@ -102,11 +134,11 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public override string Text
 		{
-			get { return m_button.Text; }
+			get { return Button.Text; }
 			set
 			{
-				m_button.Text = value;
-				m_button.Invalidate();
+				Button.Text = value;
+				Button.Invalidate();
 			}
 		}
 
@@ -117,11 +149,27 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public override Font Font
 		{
-			get { return m_button.Font; }
+			get { return Button.Font; }
 			set
 			{
-				m_button.Font = value;
-				m_button.Invalidate();
+				Button.Font = value;
+				Button.Invalidate();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public CheckState CheckedBoxState
+		{
+			get { return CheckBox.CheckState; }
+			set
+			{
+				// Setting this value causes the check box's CheckedChanged to fire and
+				// we don't want that to be passed on to delegates. Therefore, unook
+				// delegates and rehook them after changing the state.
+				var savedCheckBoxCheckedDelegate = CheckBoxChecked;
+				CheckBoxChecked = null;
+				CheckBox.CheckState = value;
+				CheckBoxChecked = savedCheckBoxCheckedDelegate;
 			}
 		}
 
@@ -130,156 +178,183 @@ namespace SIL.Pa.UI.Controls
 		/// Gets or sets a value indicating whether or not the item is expanded.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
 		public bool IsExpanded
 		{
-			get {return m_expanded;}
+			get { return _expanded; }
 			set
 			{
-				if (m_expanded != value)
-					m_button_Click(null, null);
+				if (_expanded != value)
+					HandleButtonClick(null, null);
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the control portion of the ExplorerBarItem.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public Control Control
+		[DefaultValue(true)]
+		public bool CanCollapse
 		{
-			get {return m_control;}
+			get { return _canCollapse; }
+			set
+			{
+				if (!value && !_expanded)
+					Button.PerformClick();
+
+				_canCollapse = value;
+				Button.Cursor = (value ? Cursors.Hand : Cursors.Default);
+				Button.Invalidate();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the button portion of the ExplorerBarItem.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public Button Button
-		{
-			get {return m_button;}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public Color ButtonBackColor
-		{
-			get { return m_buttonBackColor; }
-			set { m_buttonBackColor = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
+		[DefaultValue(true)]
 		public bool GradientButton
 		{
-			get { return m_gradientButton; }
+			get { return _gradientButton; }
 			set
 			{
-				m_gradientButton = value;
-				m_button.Invalidate();
+				_gradientButton = value;
+				Button.Invalidate();
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		[DefaultValue(false)]
+		public bool ShowCheckBox
+		{
+			get { return CheckBox.Visible; }
+			set
+			{
+				CheckBox.Visible = value;
+				Button.Invalidate();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[DefaultValue(8)]
+		public int ButtonVerticalPadding
+		{
+			get { return _buttonVerticalPadding; }
+			set 
+			{
+				_buttonVerticalPadding = value;
+				HandleButtonTextChanged(null, null);
+			}
+		}
+
+		#endregion
+
+		#region Event handlers
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Handles the TextChanged event of the m_button control.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void m_button_TextChanged(object sender, EventArgs e)
+		void HandleButtonTextChanged(object sender, EventArgs e)
 		{
-			string[] lines = m_button.Text.Split('\n');
-			m_button.Height = 13 + (m_button.Font.Height * lines.Length);
+			if (App.DesignMode)
+				return;
 
-			if (m_control != null)
-				SetHostedControlHeight(m_control.Height);
+			// Make the expand/collapse glyph width the height of
+			// one line of button text plus the fudge factor.
+			_glyphButtonWidth = _buttonVerticalPadding + Button.Font.Height;
+
+			var lines = Button.Text.Split('\n');
+			Button.Height = _buttonVerticalPadding + (Button.Font.Height * lines.Length);
+			
+			if (Control != null)
+				SetHostedControlHeight(Control.Height);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Redraw button in normal state when mouse moves leaves it.
+		/// Toggle item's expanded state.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void m_button_MouseLeave(object sender, EventArgs e)
+		void HandleButtonClick(object sender, EventArgs e)
 		{
-			m_drawHot = false;
-			m_button.Invalidate();
+			if (App.DesignMode || !CanCollapse)
+				return;
+
+			_expanded = !_expanded;
+			Control.Visible = _expanded;
+			Height = Button.Height + (Control.Visible ? _controlsExpandedHeight : 0);
+
+			if (Control.Visible && Expanded != null)
+				Expanded(this, EventArgs.Empty);
+			else if (!Control.Visible && Collapsed != null)
+				Collapsed(this, EventArgs.Empty);
+
+			// Force the expand/collase glyph to be repainted.
+			var rc = Button.ClientRectangle;
+			rc.X = rc.Right - rc.Height + 2;
+			rc.Width = rc.Height + 2;
+			Button.Invalidate(rc);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Redraw button in hot state when mouse moves over it.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void m_button_MouseEnter(object sender, EventArgs e)
-		{
-			m_drawHot = true;
-			m_button.Invalidate();
-		}
+		#endregion
 
+		#region Painting methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// We don't want a typical looking button. Therefore, draw it ourselves.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void m_button_Paint(object sender, PaintEventArgs e)
+		void HandleButtonPaint(object sender, PaintEventArgs e)
 		{
 			DrawButtonBackground(e.Graphics);
 
-			// Draw the item's glyph.
-			DrawExpandCollapseGlyph(e.Graphics);
+			if (_canCollapse)
+				DrawExpandCollapseGlyph(e.Graphics);
 
-			Rectangle rc = m_button.ClientRectangle;
+			DrawButtonText(e.Graphics);
 
-			// Draw the item's text.
-			const TextFormatFlags kFlags = TextFormatFlags.VerticalCenter |
-				TextFormatFlags.EndEllipsis;
-
-			rc.Inflate(-2, 0);
-			TextRenderer.DrawText(e.Graphics, m_button.Text, m_button.Font,
-				rc, SystemColors.WindowText, kFlags);
-			rc.Inflate(2, 0);
-
-			// Draw a line separating the button area from what collapses and expands below it.
-			Color clr1 = ColorHelper.CalculateColor(Color.White, SystemColors.MenuHighlight, 90);
-			Point pt1 = new Point(rc.X + 1, rc.Bottom - 3);
-			Point pt2 = new Point(rc.Right, rc.Bottom - 3);
-			using (LinearGradientBrush br = new LinearGradientBrush(pt1, pt2,
-				clr1, SystemColors.Window))
-			{
-				e.Graphics.DrawLine(new Pen(br, 1), pt1, pt2);
-			}
+			var rc = Button.ClientRectangle;
+			
+			//// Draw a line separating the button area from what collapses and expands below it.
+			//var clr1 = ColorHelper.CalculateColor(Color.White, SystemColors.MenuHighlight, 90);
+			//var pt1 = new Point(rc.X + 1, rc.Bottom - 3);
+			//var pt2 = new Point(rc.Right, rc.Bottom - 3);
+			//using (var br = new LinearGradientBrush(pt1, pt2, clr1, SystemColors.Window))
+			//    e.Graphics.DrawLine(new Pen(br, 1), pt1, pt2);
 
 			rc.Inflate(-1, -1);
-			if (m_button.Focused)
+			if (Button.Focused && Button.GetShowFocusCues())
 				ControlPaint.DrawFocusRectangle(e.Graphics, rc);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Draws the background of the button.
-		/// </summary>
+		private void DrawButtonText(Graphics g)
+		{
+			var rc = Button.ClientRectangle;
+
+			if (!ShowCheckBox)
+				rc.Inflate(-2, 0);
+			else
+			{
+				rc.X = CheckBox.Right + 4;
+				rc.Width -= rc.X;
+			}
+			
+			TextRenderer.DrawText(g, Button.Text, Button.Font, rc, SystemColors.WindowText,
+				TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		private void DrawButtonBackground(Graphics g)
 		{
-			Rectangle rc = m_button.ClientRectangle;
-			Brush br;
+			var rc = Button.ClientRectangle;
 
-			if (!m_gradientButton || m_buttonBackColor == Color.Empty ||
-				m_buttonBackColor == Color.Transparent)
+			if (!_gradientButton || ButtonBackColor == Color.Empty || ButtonBackColor == Color.Transparent)
 			{
-				br = new SolidBrush(BackColor);
+				using (var br = new SolidBrush(BackColor))
+					g.FillRectangle(br, rc);
 			}
 			else
-				br = new LinearGradientBrush(rc, BackColor, m_buttonBackColor, 91f);
-
-			g.FillRectangle(br, rc);
-			br.Dispose();
+			{
+				PaintingHelper.DrawGradientBackground(g, rc);
+				//using (var br = new LinearGradientBrush(rc, BackColor, ButtonBackColor, 91f))
+				//    g.FillRectangle(br, rc);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -291,21 +366,21 @@ namespace SIL.Pa.UI.Controls
 		private void DrawExpandCollapseGlyph(Graphics g)
 		{
 			// Determine the rectangle in which the expanding/collapsing button will be drawn.
-			Rectangle rc = new Rectangle(0, 0, m_glyphButtonWidth, m_button.Height);
+			var rc = new Rectangle(0, 0, _glyphButtonWidth, Button.Height);
 			if (RightToLeft == RightToLeft.No)
-				rc.X = (m_button.ClientRectangle.Right - rc.Width);
+				rc.X = (Button.ClientRectangle.Right - rc.Width);
 
 			VisualStyleElement element;
 
-			if (m_drawHot)
+			if (_drawHot)
 			{
-				element = (m_control.Visible ?
+				element = (Control.Visible ?
 					VisualStyleElement.ExplorerBar.NormalGroupCollapse.Hot :
 					VisualStyleElement.ExplorerBar.NormalGroupExpand.Hot);
 			}
 			else
 			{
-				element = (m_control.Visible ?
+				element = (Control.Visible ?
 					VisualStyleElement.ExplorerBar.NormalGroupCollapse.Normal :
 					VisualStyleElement.ExplorerBar.NormalGroupExpand.Normal);
 			}
@@ -317,53 +392,74 @@ namespace SIL.Pa.UI.Controls
 			}
 			else
 			{
-				Image glyph = (m_expanded ? Properties.Resources.kimidExplorerBarCollapseGlyph :
+				var glyph = (_expanded ? Properties.Resources.kimidExplorerBarCollapseGlyph :
 					Properties.Resources.kimidExplorerBarEpandGlyph);
 
 				if (RightToLeft == RightToLeft.No)
 					rc.X = rc.Right - (glyph.Width + 1);
 
-				rc.Y += (m_button.Height - glyph.Height) / 2;
+				rc.Y += (Button.Height - glyph.Height) / 2;
 				rc.Width = glyph.Width;
 				rc.Height = glyph.Height;
 				g.DrawImage(glyph, rc);
 			}
 		}
 
+		#endregion
+
+		#region ExpBarCheckBox class
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Toggle item's expanded state.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void m_button_Click(object sender, EventArgs e)
+		public class ExpBarButton : Button
 		{
-			m_expanded = !m_expanded;
-			m_control.Visible = m_expanded;
-			Height = m_button.Height + (m_control.Visible ? m_controlsExpandedHeight : 0);
+			private bool _showFocusCues = true;
 
-			if (m_control.Visible && Expanded != null)
-				Expanded(this, EventArgs.Empty);
-			else if (!m_control.Visible && Collapsed != null)
-				Collapsed(this, EventArgs.Empty);
+			public void SetShowFocusCues(bool show)
+			{
+				_showFocusCues = show;
+			}
 
-			// Force the expand/collase glyph to be repainted.
-			Rectangle rc = m_button.ClientRectangle;
-			rc.X = rc.Right - rc.Height + 2;
-			rc.Width = rc.Height + 2;
-			m_button.Invalidate(rc);
+			public bool GetShowFocusCues()
+			{
+				return _showFocusCues;
+			}
+
+			protected override bool ShowFocusCues
+			{
+				get { return _showFocusCues; }
+			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void SetHostedControlHeight(int height)
-		{
-			m_controlsExpandedHeight = height;
+		#endregion
 
-			if (IsExpanded)
-				Height = m_button.Height + height +	m_control.Margin.Top + m_control.Margin.Bottom;
+		#region ExpBarCheckBox class
+		/// ------------------------------------------------------------------------------------
+		public class ExpBarCheckBox : CheckBox
+		{
+			public ExpBarCheckBox(Button button)
+			{
+				Anchor = AnchorStyles.Left;
+				BackColor = Color.Transparent;
+				CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+				AutoSize = true;
+				TabStop = false;
+				Cursor = Cursors.Default;
+
+				button.Controls.Add(this);
+				BringToFront();
+
+				button.SizeChanged += delegate
+				{
+					var dy = (int)Math.Round((button.Height - Height) / 2f, MidpointRounding.AwayFromZero);
+					Location = new Point(dy, dy);
+				};
+			}
+
+			protected override bool ShowFocusCues
+			{
+				get { return false; }
+			}
 		}
+
+		#endregion
 	}
 }

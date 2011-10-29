@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SilTools;
@@ -17,22 +17,8 @@ namespace SIL.Pa.UI.Controls
 		public event CharPicker.CharPickedHandler CharPicked;
 		public event ItemDragEventHandler ItemDrag;
 
-		private Func<IPASymbol, bool> ShouldLoadCharacterDelegate { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		public IPACharacterExplorer()
-		{
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Constructor allowing specific character types to be displayed.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public IPACharacterExplorer(List<IPASymbolTypeInfo> typesToShow)
-		{
-			TypesToShow = typesToShow;
-		}
+		protected Func<IPASymbol, bool> ShouldLoadCharacterDelegate { get; set; }
+		protected readonly List<CharPicker> _pickers = new List<CharPicker>();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -57,78 +43,121 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (disposing)
 			{
-				if (ConsonantChooser != null && !ConsonantChooser.IsDisposed)
+				foreach (var picker in _pickers.Where(picker => !picker.IsDisposed))
 				{
-					ConsonantChooser.CharPicked -= HandleCharPicked;
-					ConsonantChooser.ItemDrag -= HandleCharacterItemDrag;
-					ConsonantChooser.Dispose();
+					picker.CharPicked -= HandleCharPicked;
+					picker.ItemDrag -= HandleCharacterItemDrag;
+					picker.Dispose();
 				}
 
-				if (NonPulmonicsConsonantsChooser != null && !NonPulmonicsConsonantsChooser.IsDisposed)
-				{
-					NonPulmonicsConsonantsChooser.CharPicked -= HandleCharPicked;
-					NonPulmonicsConsonantsChooser.ItemDrag -= HandleCharacterItemDrag;
-					NonPulmonicsConsonantsChooser.Dispose();
-				}
-
-				if (OtherConsonantsChooser != null && !OtherConsonantsChooser.IsDisposed)
-				{
-					OtherConsonantsChooser.CharPicked -= HandleCharPicked;
-					OtherConsonantsChooser.ItemDrag -= HandleCharacterItemDrag;
-					OtherConsonantsChooser.Dispose();
-				}
-
-				if (VowelChooser != null && !VowelChooser.IsDisposed)
-				{
-					VowelChooser.CharPicked -= HandleCharPicked;
-					VowelChooser.ItemDrag -= HandleCharacterItemDrag;
-					VowelChooser.Dispose();
-				}
-
-				if (DiacriticChooser != null && !DiacriticChooser.IsDisposed)
-				{
-					DiacriticChooser.CharPicked -= HandleCharPicked;
-					DiacriticChooser.ItemDrag -= HandleCharacterItemDrag;
-					DiacriticChooser.Dispose();
-				}
-
-				if (SuprasegmentalChooser != null && !SuprasegmentalChooser.IsDisposed)
-				{
-					SuprasegmentalChooser.CharPicked -= HandleCharPicked;
-					SuprasegmentalChooser.ItemDrag -= HandleCharacterItemDrag;
-					SuprasegmentalChooser.Dispose();
-				}
-
-				if (ToneChooser != null && !ToneChooser.IsDisposed)
-				{
-					ToneChooser.CharPicked -= HandleCharPicked;
-					ToneChooser.ItemDrag -= HandleCharacterItemDrag;
-					ToneChooser.Dispose();
-				}
+				_pickers.Clear();
 			}
 			
 			base.Dispose(disposing);
 		}
 
-		#region Methods for loading IPA character choosers
+		#region Static methods to determine the types in a mask
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes the explorer bar with all the necessary IPA character choosers for
-		/// classes based on IPA characters.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Load()
+		protected static bool GetHasConsonantType(int types)
 		{
-			Load(null);
+			return ((types & (int)IPASymbolType.consonant) > 0);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes the explorer bar with all the necessary IPA character choosers for
-		/// classes based on IPA characters.
-		/// </summary>
+		protected static bool GetHasVowelType(int types)
+		{
+			return ((types & (int)IPASymbolType.vowel) > 0);
+		}
+
 		/// ------------------------------------------------------------------------------------
-		public void Load(Func<IPASymbol, bool> shouldLoadCharDelegate)
+		protected static bool GetHasDiacriticType(int types)
+		{
+			return ((types & (int)IPASymbolType.diacritic) > 0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected static bool GetHasStressType(int types)
+		{
+			return ((types & (int)IPASymbolSubType.stress) > 0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected static bool GetHasLengthType(int types)
+		{
+			return ((types & (int)IPASymbolSubType.length) > 0);
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		protected static bool GetHasBoundaryType(int types)
+		{
+			return ((types & (int)IPASymbolSubType.boundary) > 0);
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		protected static bool GetHasToneType(int types)
+		{
+			return ((types & (int)IPASymbolSubType.tone) > 0);
+		}
+
+		#endregion
+
+		#region Methods for loading pickers
+		/// ------------------------------------------------------------------------------------
+		private IEnumerable<CharPicker> GetListOfPickersToShow(int typesToShow)
+		{
+			if (GetHasConsonantType(typesToShow))
+				yield return CreatePicker((int)IPASymbolType.consonant, "chrPickerVowels", false);
+
+			if (GetHasVowelType(typesToShow))
+				yield return CreatePicker((int)IPASymbolType.vowel, "chrPickerVowels", false);
+
+			if (GetHasDiacriticType(typesToShow))
+				yield return CreatePicker((int)IPASymbolType.diacritic, "chrPickerDiacritics", true);
+
+			if (GetHasStressType(typesToShow))
+				yield return CreatePicker((int)IPASymbolSubType.stress, "chrPickerStress", true);
+
+			if (GetHasLengthType(typesToShow))
+				yield return CreatePicker((int)IPASymbolSubType.length, "chrPickerLength", true);
+
+			if (GetHasBoundaryType(typesToShow))
+				yield return CreatePicker((int)IPASymbolSubType.boundary, "chrPickerBoundaries", false);
+
+			if (GetHasToneType(typesToShow))
+				yield return CreatePicker((int)IPASymbolSubType.tone, "chrPickerTone", true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private CharPicker CreatePicker(int typeInfo, string name, bool makeBigFont)
+		{
+			var picker = new CharPicker();
+			picker.Name = name;
+			picker.CharPicked += HandleCharPicked;
+			picker.ItemDrag += HandleCharacterItemDrag;
+			picker.LoadCharacterType(typeInfo, ShouldLoadCharacterDelegate);
+			picker.CheckItemsOnClick = false;
+			picker.AutoSizeItems = true;
+
+			if (makeBigFont)
+			{
+				picker.Font = FontHelper.MakeFont(picker.Font, kBigFontSize);
+				picker.ItemSize = new Size(40, 46);
+			}
+
+			var item = Add(picker);
+			LocalizePickerButton(typeInfo, item.Button);
+
+			return picker;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void Load(int typesToLoad)
+		{
+			Load(typesToLoad, null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public virtual void Load(int typesToLoad, Func<IPASymbol, bool> shouldLoadCharDelegate)
 		{
 			if (App.DesignMode)
 				return;
@@ -136,42 +165,37 @@ namespace SIL.Pa.UI.Controls
 			ShouldLoadCharacterDelegate = shouldLoadCharDelegate;
 			Utils.SetWindowRedraw(this, false, false);
 
-			// Loop through the list of character types for which to build a chooser.
-			foreach (var typeInfo in TypesToShow)
-			{
-				switch (typeInfo.Type)
-				{
-					case IPASymbolType.Vowel:
-						LoadVowels(typeInfo);
-						break;
-
-					case IPASymbolType.Diacritics:
-						LoadDiacritics(typeInfo);
-						break;
-
-					case IPASymbolType.Consonant:
-						if (typeInfo.SubType == IPASymbolSubType.NonPulmonic)
-							LoadNonPulmonics(typeInfo);
-						else if (typeInfo.SubType == IPASymbolSubType.OtherSymbols)
-							LoadOthers(typeInfo);
-						else
-							LoadConsonants(typeInfo);
-
-						break;
-
-					case IPASymbolType.Suprasegmentals:
-						if (typeInfo.SubType == IPASymbolSubType.ToneAndAccents)
-							LoadTone(typeInfo);
-						else
-							LoadSSegs(typeInfo);
-
-						break;
-				}
-			}
+			_pickers.Clear();
+			_pickers.AddRange(GetListOfPickersToShow(typesToLoad));
 
 			Dock = DockStyle.Fill;
 			LayoutPickers(false);
 			Utils.SetWindowRedraw(this, true, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void LocalizePickerButton(int typeInfo, Button button)
+		{
+			if (GetHasConsonantType(typeInfo))
+				App.RegisterForLocalization(button, "CommonControls.CharacterPicker.ConsonantHeading", "Consonant");
+
+			if (GetHasVowelType(typeInfo))
+				App.RegisterForLocalization(button, "CommonControls.CharacterPicker.VowelHeading", "Vowel");
+
+			if (GetHasDiacriticType(typeInfo))
+				App.RegisterForLocalization(button, "CommonControls.CharacterPicker.DiacriticHeading", "Diacritic");
+
+			if (GetHasStressType(typeInfo))
+				App.RegisterForLocalization(button, "CommonControls.CharacterPicker.StressHeading", "Stress");
+
+			if (GetHasLengthType(typeInfo))
+				App.RegisterForLocalization(button, "CommonControls.CharacterPicker.LengthHeading", "Length");
+
+			if (GetHasBoundaryType(typeInfo))
+				App.RegisterForLocalization(button, "CommonControls.CharacterPicker.BoundaryHeading", "Boundary");
+
+			if (GetHasToneType(typeInfo))
+				App.RegisterForLocalization(button, "CommonControls.CharacterPicker.ToneHeading", "Tone");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -191,177 +215,9 @@ namespace SIL.Pa.UI.Controls
 				Utils.SetWindowRedraw(this, true, true);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Load the consonants character explorer.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LoadConsonants(IPASymbolTypeInfo typeInfo)
-		{
-			ConsonantChooser = new CharPicker();
-			ConsonantChooser.Name = "chrPickerConsonants";
-			ConsonantChooser.CharPicked += HandleCharPicked;
-			ConsonantChooser.ItemDrag += HandleCharacterItemDrag;
-			ConsonantChooser.LoadCharacterType(typeInfo, ShouldLoadCharacterDelegate);
-			ConsonantChooser.CheckItemsOnClick = false;
-			ConsonantChooser.AutoSizeItems = true;
-
-			var item = Add(ConsonantChooser);
-
-			App.RegisterForLocalization(item.Button, 
-				"IPACharacterExplorer.ConsonantChooserHeading", "Consonants", 
-				"Text on heading above list of consonants from which to choose in side bar of search and XY chart views.");
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Load the non pulmonic consonants character explorer.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LoadNonPulmonics(IPASymbolTypeInfo typeInfo)
-		{
-			NonPulmonicsConsonantsChooser = new CharPicker();
-			NonPulmonicsConsonantsChooser.Name = "chrPickerNonPulmonics";
-			NonPulmonicsConsonantsChooser.CharPicked += HandleCharPicked;
-			NonPulmonicsConsonantsChooser.ItemDrag += HandleCharacterItemDrag;
-			NonPulmonicsConsonantsChooser.LoadCharacterType(typeInfo, ShouldLoadCharacterDelegate);
-			NonPulmonicsConsonantsChooser.CheckItemsOnClick = false;
-			NonPulmonicsConsonantsChooser.AutoSizeItems = true;
-			
-			var item = Add(NonPulmonicsConsonantsChooser);
-
-			App.RegisterForLocalization(item.Button,
-				"IPACharacterExplorer.NonPulmonicChooserHeading", "Non Pulmonics", 
-				"Text on heading above list of non pulmonic consonants from which to choose in side bar of search and XY chart views.");
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Load the other consonant character explorer.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LoadOthers(IPASymbolTypeInfo typeInfo)
-		{
-			OtherConsonantsChooser = new CharPicker();
-			OtherConsonantsChooser.Name = "chrPickerOthers";
-			OtherConsonantsChooser.CharPicked += HandleCharPicked;
-			OtherConsonantsChooser.ItemDrag += HandleCharacterItemDrag;
-			OtherConsonantsChooser.LoadCharacterType(typeInfo, ShouldLoadCharacterDelegate);
-			OtherConsonantsChooser.CheckItemsOnClick = false;
-			OtherConsonantsChooser.AutoSizeItems = true;
-			
-			var item = Add(OtherConsonantsChooser);
-
-			App.RegisterForLocalization(item.Button,
-				"IPACharacterExplorer.OtherSymbolChooserHeading", "Other Symbols",
-				"Text on heading above list of other symbols from which to choose in side bar of search and XY chart views.");
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Load the vowel character explorer.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LoadVowels(IPASymbolTypeInfo typeInfo)
-		{
-			VowelChooser = new CharPicker();
-			VowelChooser.Name = "chrPickerVowels";
-			VowelChooser.CharPicked += HandleCharPicked;
-			VowelChooser.ItemDrag += HandleCharacterItemDrag;
-			VowelChooser.LoadCharacterType(typeInfo, ShouldLoadCharacterDelegate);
-			VowelChooser.CheckItemsOnClick = false;
-			VowelChooser.AutoSizeItems = true;
-
-			var item = Add(VowelChooser);
-
-			App.RegisterForLocalization(item.Button,
-				"IPACharacterExplorer.VowelChooserHeading", "Vowels",
-				"Text on heading above list of vowels from which to choose in side bar of search and XY chart views.");
-		}
-        
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Load the diacritics character explorer.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LoadDiacritics(IPASymbolTypeInfo typeInfo)
-		{
-			DiacriticChooser = new CharPicker();
-			DiacriticChooser.Name = "chrPickerDiacritics";
-			DiacriticChooser.CharPicked += HandleCharPicked;
-			DiacriticChooser.ItemDrag += HandleCharacterItemDrag;
-			DiacriticChooser.LoadCharacterType(typeInfo, ShouldLoadCharacterDelegate);
-			
-			DiacriticChooser.CheckItemsOnClick = false;
-			DiacriticChooser.AutoSizeItems = true;
-
-			var item = Add(DiacriticChooser);
-
-			App.RegisterForLocalization(item.Button,
-				"IPACharacterExplorer.DiacriticChooserHeading", "Diacritics",
-				"Text on heading above list of diacritics from which to choose in side bar of search and XY chart views.");
-
-			// Enlarge the font and cell size
-			DiacriticChooser.Font = FontHelper.MakeFont(DiacriticChooser.Font, kBigFontSize);
-			DiacriticChooser.ItemSize = new Size(40, 46);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Load the suprasegmental character explorer.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LoadSSegs(IPASymbolTypeInfo typeInfo)
-		{
-			SuprasegmentalChooser = new CharPicker();
-			SuprasegmentalChooser.Name = "chrPickerSSegs";
-			SuprasegmentalChooser.CharPicked += HandleCharPicked;
-			SuprasegmentalChooser.ItemDrag += HandleCharacterItemDrag;
-			SuprasegmentalChooser.LoadCharacterType(typeInfo, ShouldLoadCharacterDelegate);
-			
-			SuprasegmentalChooser.CheckItemsOnClick = false;
-			SuprasegmentalChooser.AutoSizeItems = true;
-	
-			var item = Add(SuprasegmentalChooser);
-
-			App.RegisterForLocalization(item.Button,
-				"IPACharacterExplorer.SSegChooserHeading", "Stress and Length\\n(Suprasegmentals)",
-				"Text on heading above list of suprasegmentals from which to choose in side bar of search and XY chart views.");
-
-			// Enlarge the font and cell size
-			SuprasegmentalChooser.Font = FontHelper.MakeFont(SuprasegmentalChooser.Font, kBigFontSize);
-			SuprasegmentalChooser.ItemSize = new Size(40, 46);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Load the tone character explorer.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LoadTone(IPASymbolTypeInfo typeInfo)
-		{
-			ToneChooser = new CharPicker();
-			ToneChooser.Name = "chrPickerTone";
-			ToneChooser.CharPicked += HandleCharPicked;
-			ToneChooser.ItemDrag += HandleCharacterItemDrag;
-			ToneChooser.LoadCharacterType(typeInfo, ShouldLoadCharacterDelegate);
-
-			ToneChooser.CheckItemsOnClick = false;
-			ToneChooser.AutoSizeItems = true;
-			
-			var item = Add(ToneChooser);
-
-			App.RegisterForLocalization(item.Button,
-				"IPACharacterExplorer.ToneChooserHeading", "Tone and Accents",
-				"Text on heading above list of tones and accents from which to choose in side bar of search and XY chart views.");
-
-			// Enlarge the font and cell size
-			ToneChooser.Font = FontHelper.MakeFont(ToneChooser.Font, kBigFontSize);
-			ToneChooser.ItemSize = new Size(40, 46);
-		}
-
 		#endregion
 
+		#region Event handlers
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Pass on item dragging events.
@@ -392,13 +248,15 @@ namespace SIL.Pa.UI.Controls
 			LayoutPickers(true);
 		}
 
+		#endregion
+
 		#region Loading/Restoring Settings
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Restores the expanded states from the query file.
+		/// Restores the expanded states.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void LoadSettings(StringCollection settings)
+		public virtual void LoadSettings(StringCollection settings)
 		{
 			for (int i = 0; i < Items.Length; i++)
 				Items[i].IsExpanded = (!(settings != null && settings.Count == Items.Length) || bool.Parse(settings[i]));
@@ -407,7 +265,7 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public StringCollection GetExpandedStates()
+		public virtual StringCollection GetExpandedStates()
 		{
 			var settings = new StringCollection();
 
@@ -416,73 +274,6 @@ namespace SIL.Pa.UI.Controls
 
 			return settings;
 		}
-
-		#endregion
-
-		#region Properties
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the list of character types/sub-types to display in the explorer.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
-		public List<IPASymbolTypeInfo> TypesToShow { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the internal consonant chooser control.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
-		public CharPicker ConsonantChooser { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the internal non pulmonic consonants chooser control.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
-		public CharPicker NonPulmonicsConsonantsChooser { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the internal other consonants chooser control.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
-		public CharPicker OtherConsonantsChooser { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the internal vowel chooser control.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
-		public CharPicker VowelChooser { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the internal suprasegmental chooser control.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
-		public CharPicker SuprasegmentalChooser { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the internal diacritic chooser control.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
-		public CharPicker DiacriticChooser { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the internal tone chooser control.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
-		public CharPicker ToneChooser { get; private set; }
 
 		#endregion
 	}
