@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 using Palaso.IO;
 
 namespace SIL.Pa.Model
@@ -125,6 +126,13 @@ namespace SIL.Pa.Model
 			return GetAvailableFeatureSetFiles()
 				.Select(f => Path.GetFileName(f).Replace(".DistinctiveFeatures.xml", string.Empty))
 				.Select(name => (name == DefaultFeatureSetName ? "(default)" : name));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static IEnumerable<Feature> GetFeaturesFromDefaultSet()
+		{
+			var root = XElement.Load(DefaultFeatureSetFile);
+			return ReadFeaturesFromXElement(root, "distinctive");
 		}
 
 		/// ------------------------------------------------------------------------------------
