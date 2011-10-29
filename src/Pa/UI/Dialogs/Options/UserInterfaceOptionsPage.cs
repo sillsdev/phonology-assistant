@@ -1,5 +1,5 @@
+﻿using System.Globalization;
 using System.Linq;
-using System.Globalization;
 using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
@@ -7,12 +7,14 @@ using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
 {
-	/// ----------------------------------------------------------------------------------------
-	public partial class OptionsDlg
+	public partial class UserInterfaceOptionsPage : OptionsDlgPageBase
 	{
 		/// ------------------------------------------------------------------------------------
-		private void InitializeUserInterfaceTab()
+		public UserInterfaceOptionsPage(PaProject project)
+			: base(project)
 		{
+			InitializeComponent();
+
 			lblUILanguage.Font = FontHelper.UIFont;
 			cboUILanguage.Font = FontHelper.UIFont;
 
@@ -29,24 +31,19 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Saves the values on the word list tab.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void SaveUserInterfaceTabChanges()
+		public override string TabPageText
 		{
-			if (!IsUserInterfaceTabDirty)
-				return;
-
-			var newLangId = ((CultureInfo)cboUILanguage.SelectedItem).Name;
-			Settings.Default.UserInterfaceLanguage = newLangId;
-			LocalizationManager.UILanguageId = newLangId;
-			PaFieldDisplayProperties.ResetDisplayNameCache();
-			App.MsgMediator.SendMessage("UserInterfaceLangaugeChanged", null);
+			get { return App.GetString("DialogBoxes.OptionsDlg.UserInterfaceTab.TabText", "User Interface"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool IsUserInterfaceTabDirty
+		public override string HelpId
+		{
+			get { return ""; }
+		}
+			
+		/// ------------------------------------------------------------------------------------
+		public override bool IsDirty
 		{
 			get
 			{
@@ -55,6 +52,16 @@ namespace SIL.Pa.UI.Dialogs
 
 				return (LocalizationManager.UILanguageId != ((CultureInfo)cboUILanguage.SelectedItem).Name);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public override void Save()
+		{
+			var newLangId = ((CultureInfo)cboUILanguage.SelectedItem).Name;
+			Settings.Default.UserInterfaceLanguage = newLangId;
+			LocalizationManager.UILanguageId = newLangId;
+			PaFieldDisplayProperties.ResetDisplayNameCache();
+			App.MsgMediator.SendMessage("UserInterfaceLangaugeChanged", null);
 		}
 	}
 }

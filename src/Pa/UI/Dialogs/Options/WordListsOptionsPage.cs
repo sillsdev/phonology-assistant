@@ -1,24 +1,17 @@
-using System;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
 {
-	/// ----------------------------------------------------------------------------------------
-	public partial class OptionsDlg
+	public partial class WordListsOptionsPage : OptionsDlgPageBase
 	{
 		/// ------------------------------------------------------------------------------------
-		private void InitializeWordListTab()
+		public WordListsOptionsPage(PaProject project) : base(project)
 		{
-			// This tab isn't valid if there is no project loaded.
-			if (m_project == null)
-			{
-				tabOptions.TabPages.Remove(tpgWordLists);
-				return;
-			}
+			InitializeComponent();
 
 			lblShowColumns.Font = FontHelper.UIFont;
 			lblExplanation.Font = FontHelper.UIFont;
@@ -35,15 +28,39 @@ namespace SIL.Pa.UI.Dialogs
 			chkAutoAdjustPhoneticCol.Font = FontHelper.UIFont;
 			nudMaxEticColWidth.Font = FontHelper.UIFont;
 
-			InitializeWordListValues();
+			fldSelGridWrdList.CurrentRowChanged += delegate { UpdateDisplay(); };
+			chkAutoAdjustPhoneticCol.CheckedChanged += delegate { UpdateDisplay(); };
+
+			btnMoveColDown.Click += delegate
+			{
+				fldSelGridWrdList.MoveSelectedItemDown();
+				UpdateDisplay();
+			};
+
+			btnMoveColUp.Click += delegate
+			{
+				fldSelGridWrdList.MoveSelectedItemUp();
+				UpdateDisplay();
+			};
+
+			if (!App.DesignMode)
+				InitializeFields();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Reset the tab page's controls from the project settings.
-		/// </summary>
+		public override string TabPageText
+		{
+			get { return App.GetString("DialogBoxes.OptionsDlg.WordListTab.TabText", "Word Lists"); }
+		}
+
 		/// ------------------------------------------------------------------------------------
-		private void InitializeWordListValues()
+		public override string HelpId
+		{
+			get { return "hidWordListOptions"; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void InitializeFields()
 		{
 			fldSelGridWrdList.Load(from field in m_project.GetMappedFields()
 								   orderby field.DisplayIndexInGrid
@@ -76,15 +93,15 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Saves the values on the word list tab.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void SaveWordListTabChanges()
+		protected override void OnHandleCreated(System.EventArgs e)
 		{
-			if (!IsWordListTabDirty)
-				return;
-
+			base.OnHandleCreated(e);
+			UpdateDisplay();
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		public override void Save()
+		{
 			m_project.GridLayoutInfo.SaveReorderedCols = chkSaveReorderedColumns.Checked;
 			m_project.GridLayoutInfo.SaveAdjustedColHeaderHeight = chkSaveColHdrHeight.Checked;
 			m_project.GridLayoutInfo.SaveAdjustedColWidths = chkSaveColWidths.Checked;
@@ -112,13 +129,10 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool IsWordListTabDirty
+		public override bool IsDirty
 		{
 			get
 			{
-				if (!tabOptions.TabPages.Contains(tpgWordLists))
-					return false;
-				
 				bool gridLinesChanged = ((rbGridLinesBoth.Checked &&
 					m_project.GridLayoutInfo.GridLines != DataGridViewCellBorderStyle.Single) ||
 					(rbGridLinesVertical.Checked &&
@@ -137,47 +151,17 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Update the enabled state of the max. automatic phonetic column width.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void chkAutoAdjustPhoneticCol_CheckedChanged(object sender, EventArgs e)
+		private void UpdateDisplay()
 		{
 			nudMaxEticColWidth.Enabled = chkAutoAdjustPhoneticCol.Checked;
-			m_dirty = true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Move a column up in the list.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void btnMoveColUp_Click(object sender, EventArgs e)
-		{
-			btnMoveColUp.Enabled = fldSelGridWrdList.MoveSelectedItemUp();
 			btnMoveColDown.Enabled = fldSelGridWrdList.CanMoveSelectedItemDown;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Move a column down in the list.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void btnMoveColDown_Click(object sender, EventArgs e)
-		{
-			btnMoveColDown.Enabled = fldSelGridWrdList.MoveSelectedItemDown();
 			btnMoveColUp.Enabled = fldSelGridWrdList.CanMoveSelectedItemUp;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Update the enabled state of the up and down buttons.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void fldSelGridWrdList_RowEnter(object sender, DataGridViewCellEventArgs e)
+		public IEnumerable<PaField> GetSelectedFields()
 		{
-			btnMoveColUp.Enabled = fldSelGridWrdList.CanMoveSelectedItemUp;
-			btnMoveColDown.Enabled = fldSelGridWrdList.CanMoveSelectedItemDown;
+			return fldSelGridWrdList.GetCheckedFields();
 		}
 	}
 }
