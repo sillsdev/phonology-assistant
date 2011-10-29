@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -29,7 +30,11 @@ namespace SIL.Pa.UI.Dialogs
 			lblExampleCV.Font = FontHelper.MakeRegularFontDerivative(cvFont, lblExampleCV.Font.Size);
 			lblExampleCVCV.Font = FontHelper.MakeRegularFontDerivative(cvFont, lblExampleCVCV.Font.Size);
 
-			SetCheckedSymbols();
+			// Check the appropriate symbols in the symbol explorer.
+			_cvPatternSymbolExplorer.SetCheckedItemsByText(m_project.CVPatternInfoList
+				.Where(c => c.Type == CVPatternInfo.PatternType.Suprasegmental)
+				.Select(c => c.Phone));
+			
 			LoadCustomType();
 		}
 
@@ -67,8 +72,14 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public override bool IsDirty
 		{
-			// TODO FIX.
-			get { return true; }
+			get
+			{
+				var originalList = m_project.CVPatternInfoList.Select(c => c.Phone).OrderBy(c => c).ToArray();
+				var newList = GetCurrentSymbolsToDisplayInPatterns().Select(c => c.Phone).OrderBy(c => c).ToArray();
+
+				return (originalList.Length != newList.Length) ||
+					newList.Where((t, i) => originalList[i] != t).Any();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -76,10 +87,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			txtCustomChars.TextChanged -= HandleCustomCharsTextChanged;
 
-			m_project.CVPatternInfoList = _cvPatternSymbolExplorer.GetTextsOfAllCheckedItems()
-				.Select(symbol => CVPatternInfo.Create(symbol, CVPatternInfo.PatternType.Suprasegmental)).ToList();
-
-			SaveCustomSegments();
+			m_project.CVPatternInfoList = GetCurrentSymbolsToDisplayInPatterns().ToList();
 
 			try
 			{
@@ -89,26 +97,26 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void SaveCustomSegments()
+		private IEnumerable<CVPatternInfo> GetCurrentSymbolsToDisplayInPatterns()
 		{
+			// First build a list of the checked symbols
+			var list = _cvPatternSymbolExplorer.GetTextsOfAllCheckedItems()
+				.Select(symbol => CVPatternInfo.Create(symbol, CVPatternInfo.PatternType.Suprasegmental)).ToList();
+
+			// Now add to the list of checked symbols, the list of custom segments entered.
 			var split = txtCustomChars.Text.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
 			foreach (var seg in split.Select(p => p.Replace(App.kDottedCircle, string.Empty))
-				.Where(s => s != string.Empty && !m_project.CVPatternInfoList.Any(c => c.Phone == s))
+				.Where(s => s != string.Empty && !list.Any(c => c.Phone == s))
 				.Distinct(StringComparer.Ordinal))
 			{
-				m_project.CVPatternInfoList.Add(CVPatternInfo.Create(seg, CVPatternInfo.PatternType.Custom));
+				list.Add(CVPatternInfo.Create(seg, CVPatternInfo.PatternType.Custom));
 			}
+
+			return list;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		private void SetCheckedSymbols()
-		{
-			_cvPatternSymbolExplorer.SetCheckedItemsByText(m_project.CVPatternInfoList
-				.Where(c => c.Type == CVPatternInfo.PatternType.Suprasegmental)
-				.Select(c => c.Phone));
-		}
-
+		#region Event handlers
 		/// ------------------------------------------------------------------------------------
 		private void HandleCustomCharsTextBoxKeyDown(object sender, KeyEventArgs e)
 		{
@@ -187,5 +195,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			m_handleTextChange = true;
 		}
+
+		#endregion
 	}
 }
