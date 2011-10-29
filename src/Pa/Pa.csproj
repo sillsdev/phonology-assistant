@@ -103,6 +103,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\LocalizationManager.dll</HintPath>
     </Reference>
+    <Reference Include="PaCompiledTransforms, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Output\Debug\PaCompiledTransforms.dll</HintPath>
+    </Reference>
     <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\Palaso.dll</HintPath>
@@ -1183,24 +1187,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>rem md "$(ProjectDir)$(OutDir)\Configuration"
-rem md "$(ProjectDir)$(OutDir)\Processing"
-rem md "$(ProjectDir)$(OutDir)\Training"
-rem copy "$(TargetDir)..\..\DistFiles\Configuration\*.*" "$(ProjectDir)$(OutDir)\Configuration"
-rem copy "$(TargetDir)..\..\DistFiles\Processing\*.*" "$(ProjectDir)$(OutDir)\Processing"
-rem copy "$(TargetDir)..\..\DistFiles\ICSharpCode.SharpZipLib.dll" "$(ProjectDir)$(OutDir)"
-rem copy "$(TargetDir)..\..\DistFiles\Phonology_Assistant_Help.chm" "$(ProjectDir)$(OutDir)"
-rem copy "$(TargetDir)..\..\DistFiles\PA Instructor Guide.doc" "$(ProjectDir)$(OutDir)\Training"
-rem copy "$(TargetDir)..\..\DistFiles\PA Student Manual.doc" "$(ProjectDir)$(OutDir)\Training"
-rem copy "$(TargetDir)..\..\DistFiles\PA Needs Assessment.doc" "$(ProjectDir)$(OutDir)\Training"
-rem copy "$(TargetDir)..\..\DistFiles\PA Student Evaluation.doc" "$(ProjectDir)$(OutDir)\Training"
-
-rem copy "$(TargetDir)..\..\DistFiles\PaTrainingProjects.zip" "$(ProjectDir)$(OutDir)\Training"
-rem copy "$(TargetDir)..\..\DistFiles\TrainingProjectsSetup.xml" "$(ProjectDir)$(OutDir)\Training"
-
-rem md "$(ProjectDir)$(OutDir)\Localizations"
-rem copy "$(TargetDir)..\..\DistFiles\Pa.??.tmx" "$(ProjectDir)$(OutDir)\Localizations"
-</PreBuildEvent>
+    <PreBuildEvent>"$(SolutionDir)lib\xsltc" /out:"$(TargetDir)PaCompiledTransforms.dll" @"$(SolutionDir)lib\xsltFilesToCompile.txt"</PreBuildEvent>
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>

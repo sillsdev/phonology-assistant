@@ -15,7 +15,8 @@ namespace SIL.Pa.Processing
 	public class Step
 	{
 		public string XsltFilePath { get; private set; }
-		private readonly XslCompiledTransform m_xslt;
+		
+		private readonly XslCompiledTransform _xslt;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -39,7 +40,14 @@ namespace SIL.Pa.Processing
 
 			var xsltFileName = documentNavigator.GetAttribute("href", string.Empty); // No namespace for attributes.
 			var xsltFilePath = Path.Combine(processingFolder, xsltFileName);
-			var xslt = new XslCompiledTransform(true);
+
+			return new Step(xsltFilePath);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private Step(string xsltFilePath)
+		{
+			XsltFilePath = xsltFilePath;
 
 			try
 			{
@@ -49,27 +57,23 @@ namespace SIL.Pa.Processing
 				var settings = new XsltSettings(true, false);
 				var resolver = new XmlUrlResolver();
 				resolver.Credentials = CredentialCache.DefaultCredentials;
-				xslt.Load(xsltFilePath, settings, resolver);
+
+				var compiledTransformType = Type.GetType(Path.GetFileNameWithoutExtension(XsltFilePath) +
+					", PaCompiledTransforms, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
+				
+				_xslt = new XslCompiledTransform(true);
+				
+				if (compiledTransformType != null)
+					_xslt.Load(compiledTransformType);
+				else			
+					_xslt.Load(XsltFilePath, settings, resolver);
 			}
 			catch (Exception e)
 			{
 				Exception exception = new Exception("Unable to build XSL Transformation filter.", e);
-				exception.Data.Add("XSL Transformation file path", xsltFilePath);
+				exception.Data.Add("XSL Transformation file path", XsltFilePath);
 				throw exception;
 			}
-
-			return new Step(xsltFilePath, xslt);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private Step (string xsltFilePath, XslCompiledTransform xslt)
-		{
-			XsltFilePath = xsltFilePath;
-			m_xslt = xslt;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -85,15 +89,16 @@ namespace SIL.Pa.Processing
 			var inputXML = XmlReader.Create(inputStream, readerSettings);
 
 			// OutputSettings corresponds to the xsl:output element of the style sheet.
-			var writerSettings = m_xslt.OutputSettings.Clone();
+			var writerSettings = _xslt.OutputSettings.Clone();
 			if (writerSettings.Indent) // Cause indent="true" to insert line breaks but not tabs.
 				writerSettings.IndentChars = string.Empty; // Even if the document element is html.
 
+			//var outputStream = new MemoryStream();
 			var outputStream = new MemoryStream();
 			var outputXML = XmlWriter.Create(outputStream, writerSettings);
 			try
 			{
-				m_xslt.Transform(inputXML, outputXML);
+				_xslt.Transform(inputXML, outputXML);
 			}
 			catch (Exception e)
 			{
@@ -111,10 +116,6 @@ namespace SIL.Pa.Processing
 			return outputStream;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
