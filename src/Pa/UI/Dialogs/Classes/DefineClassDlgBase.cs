@@ -22,14 +22,12 @@ namespace SIL.Pa.UI.Dialogs
 			Utils.WaitCursors(true);
 			InitializeComponent();
 
-			lblClassType.Font = FontHelper.UIFont;
-			lblClassTypeValue.Font = FontHelper.UIFont;
-			lblClassName.Font = FontHelper.UIFont;
-			txtClassName.Font = FontHelper.UIFont;
-			txtMembers.Font = FontHelper.UIFont;
-			lblMembers.Font = FontHelper.UIFont;
-			rbMatchAll.Font = FontHelper.UIFont;
-			rbMatchAny.Font = FontHelper.UIFont;
+			_labelClassType.Font = FontHelper.UIFont;
+			_labelClassTypeValue.Font = FontHelper.UIFont;
+			_labelClassName.Font = FontHelper.UIFont;
+			_textBoxClassName.Font = FontHelper.UIFont;
+			_textBoxMembers.Font = FontHelper.UIFont;
+			_labelMembers.Font = FontHelper.UIFont;
 
 			LocalizeItemDlg.StringsLocalized += SetLocalizedTexts;
 			SetLocalizedTexts();
@@ -43,9 +41,9 @@ namespace SIL.Pa.UI.Dialogs
 			m_classInfo = new ClassListViewItem(classInfo);
 			m_classInfo.IsDirty = false;
 
-			txtClassName.Text = m_classInfo.Text;
-			txtMembers.Text = m_classInfo.FormattedMembersString;
-			txtMembers.SelectionStart = txtMembers.Text.Length + 1;
+			_textBoxClassName.Text = m_classInfo.Text;
+			_textBoxMembers.Text = m_classInfo.FormattedMembersString;
+			_textBoxMembers.SelectionStart = _textBoxMembers.Text.Length + 1;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -71,7 +69,7 @@ namespace SIL.Pa.UI.Dialogs
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public TextBox TxtClassName
 		{
-			get { return txtClassName; }
+			get { return _textBoxClassName; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -116,10 +114,10 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool Verify()
 		{
-			txtClassName.Text = txtClassName.Text.Trim();
+			_textBoxClassName.Text = _textBoxClassName.Text.Trim();
 
 			// Ensure the new class doesn't have an empty class name
-			if (txtClassName.Text == string.Empty)
+			if (_textBoxClassName.Text == string.Empty)
 			{
 				Utils.MsgBox(App.GetString("DefineClassDlg.EmptyClassNameMsg", "Class name must not be empty."));
 				return false;
@@ -129,12 +127,12 @@ namespace SIL.Pa.UI.Dialogs
 				return true;
 
 			bool exists = m_classesDlg.ClassListView.DoesClassNameExist(
-				txtClassName.Text, m_origClassInfo, true);
+				_textBoxClassName.Text, m_origClassInfo, true);
 			
 			if (exists)
 			{
-				txtClassName.Focus();
-				txtClassName.SelectAll();
+				_textBoxClassName.Focus();
+				_textBoxClassName.SelectAll();
 			}
 
 			return !exists;
@@ -156,17 +154,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void txtClassName_TextChanged(object sender, EventArgs e)
 		{
-			m_classInfo.Text = txtClassName.Text.Trim();
+			m_classInfo.Text = _textBoxClassName.Text.Trim();
 			m_classInfo.IsDirty = true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Handle the user choosing one of the items in the tsbWhatToInclude drop-down.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected virtual void HandleScopeClick(object sender, EventArgs e)
-		{
 		}
 
 		/// ------------------------------------------------------------------------------------

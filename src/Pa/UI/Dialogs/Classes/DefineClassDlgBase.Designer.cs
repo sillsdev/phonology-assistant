@@ -31,195 +31,153 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this.pnlMemberPickingContainer = new System.Windows.Forms.Panel();
-			this.txtClassName = new System.Windows.Forms.TextBox();
-			this.lblClassName = new System.Windows.Forms.Label();
-			this.lblClassType = new System.Windows.Forms.Label();
-			this.txtMembers = new System.Windows.Forms.TextBox();
-			this.lblMembers = new System.Windows.Forms.Label();
-			this.rbMatchAny = new System.Windows.Forms.RadioButton();
-			this.rbMatchAll = new System.Windows.Forms.RadioButton();
-			this.lblClassTypeValue = new System.Windows.Forms.Label();
-			this.tblLayoutTop = new System.Windows.Forms.TableLayoutPanel();
+			this._panelMemberPickingContainer = new System.Windows.Forms.Panel();
+			this._textBoxClassName = new System.Windows.Forms.TextBox();
+			this._labelClassName = new System.Windows.Forms.Label();
+			this._labelClassType = new System.Windows.Forms.Label();
+			this._textBoxMembers = new System.Windows.Forms.TextBox();
+			this._labelMembers = new System.Windows.Forms.Label();
+			this._labelClassTypeValue = new System.Windows.Forms.Label();
+			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
-			this.tblLayoutTop.SuspendLayout();
+			this._tableLayout.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// pnlMemberPickingContainer
+			// _panelMemberPickingContainer
 			// 
-			this.pnlMemberPickingContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this._panelMemberPickingContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.pnlMemberPickingContainer.BackColor = System.Drawing.SystemColors.Window;
-			this.tblLayoutTop.SetColumnSpan(this.pnlMemberPickingContainer, 3);
-			this.pnlMemberPickingContainer.Location = new System.Drawing.Point(0, 126);
-			this.pnlMemberPickingContainer.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
-			this.pnlMemberPickingContainer.Name = "pnlMemberPickingContainer";
-			this.pnlMemberPickingContainer.Size = new System.Drawing.Size(405, 334);
-			this.pnlMemberPickingContainer.TabIndex = 8;
+			this._panelMemberPickingContainer.BackColor = System.Drawing.SystemColors.Window;
+			this._tableLayout.SetColumnSpan(this._panelMemberPickingContainer, 3);
+			this._panelMemberPickingContainer.Location = new System.Drawing.Point(0, 101);
+			this._panelMemberPickingContainer.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
+			this._panelMemberPickingContainer.Name = "_panelMemberPickingContainer";
+			this._panelMemberPickingContainer.Size = new System.Drawing.Size(405, 359);
+			this._panelMemberPickingContainer.TabIndex = 8;
 			// 
-			// txtClassName
+			// _textBoxClassName
 			// 
-			this.txtClassName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this._textBoxClassName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.tblLayoutTop.SetColumnSpan(this.txtClassName, 2);
-			this.locExtender.SetLocalizableToolTip(this.txtClassName, null);
-			this.locExtender.SetLocalizationComment(this.txtClassName, null);
-			this.locExtender.SetLocalizationPriority(this.txtClassName, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.txtClassName, "DefineClassDlg.txtClassName");
-			this.txtClassName.Location = new System.Drawing.Point(59, 37);
-			this.txtClassName.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
-			this.txtClassName.Name = "txtClassName";
-			this.txtClassName.Size = new System.Drawing.Size(346, 20);
-			this.txtClassName.TabIndex = 3;
-			this.txtClassName.TextChanged += new System.EventHandler(this.txtClassName_TextChanged);
+			this._tableLayout.SetColumnSpan(this._textBoxClassName, 2);
+			this.locExtender.SetLocalizableToolTip(this._textBoxClassName, null);
+			this.locExtender.SetLocalizationComment(this._textBoxClassName, null);
+			this.locExtender.SetLocalizationPriority(this._textBoxClassName, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._textBoxClassName, "DefineClassDlg.txtClassName");
+			this._textBoxClassName.Location = new System.Drawing.Point(59, 37);
+			this._textBoxClassName.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
+			this._textBoxClassName.Name = "_textBoxClassName";
+			this._textBoxClassName.Size = new System.Drawing.Size(346, 20);
+			this._textBoxClassName.TabIndex = 3;
+			this._textBoxClassName.TextChanged += new System.EventHandler(this.txtClassName_TextChanged);
 			// 
-			// lblClassName
+			// _labelClassName
 			// 
-			this.lblClassName.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.lblClassName.AutoSize = true;
-			this.lblClassName.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.locExtender.SetLocalizableToolTip(this.lblClassName, null);
-			this.locExtender.SetLocalizationComment(this.lblClassName, null);
-			this.locExtender.SetLocalizingId(this.lblClassName, "DefineClassDlg.lblClassName");
-			this.lblClassName.Location = new System.Drawing.Point(3, 40);
-			this.lblClassName.Margin = new System.Windows.Forms.Padding(3, 12, 3, 0);
-			this.lblClassName.Name = "lblClassName";
-			this.lblClassName.Size = new System.Drawing.Size(38, 13);
-			this.lblClassName.TabIndex = 2;
-			this.lblClassName.Text = "N&ame:";
+			this._labelClassName.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this._labelClassName.AutoSize = true;
+			this._labelClassName.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this._labelClassName, null);
+			this.locExtender.SetLocalizationComment(this._labelClassName, null);
+			this.locExtender.SetLocalizingId(this._labelClassName, "DefineClassDlg.lblClassName");
+			this._labelClassName.Location = new System.Drawing.Point(3, 40);
+			this._labelClassName.Margin = new System.Windows.Forms.Padding(3, 12, 3, 0);
+			this._labelClassName.Name = "_labelClassName";
+			this._labelClassName.Size = new System.Drawing.Size(38, 13);
+			this._labelClassName.TabIndex = 2;
+			this._labelClassName.Text = "N&ame:";
 			// 
-			// lblClassType
+			// _labelClassType
 			// 
-			this.lblClassType.AutoSize = true;
-			this.lblClassType.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.locExtender.SetLocalizableToolTip(this.lblClassType, null);
-			this.locExtender.SetLocalizationComment(this.lblClassType, null);
-			this.locExtender.SetLocalizingId(this.lblClassType, "DefineClassDlg.lblClassType");
-			this.lblClassType.Location = new System.Drawing.Point(3, 10);
-			this.lblClassType.Margin = new System.Windows.Forms.Padding(3, 10, 8, 2);
-			this.lblClassType.Name = "lblClassType";
-			this.lblClassType.Size = new System.Drawing.Size(34, 13);
-			this.lblClassType.TabIndex = 0;
-			this.lblClassType.Text = "Type:";
+			this._labelClassType.AutoSize = true;
+			this._labelClassType.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this._labelClassType, null);
+			this.locExtender.SetLocalizationComment(this._labelClassType, null);
+			this.locExtender.SetLocalizingId(this._labelClassType, "DefineClassDlg.lblClassType");
+			this._labelClassType.Location = new System.Drawing.Point(3, 10);
+			this._labelClassType.Margin = new System.Windows.Forms.Padding(3, 10, 8, 2);
+			this._labelClassType.Name = "_labelClassType";
+			this._labelClassType.Size = new System.Drawing.Size(34, 13);
+			this._labelClassType.TabIndex = 0;
+			this._labelClassType.Text = "Type:";
 			// 
-			// txtMembers
+			// _textBoxMembers
 			// 
-			this.txtMembers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this._textBoxMembers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.tblLayoutTop.SetColumnSpan(this.txtMembers, 2);
-			this.locExtender.SetLocalizableToolTip(this.txtMembers, null);
-			this.locExtender.SetLocalizationComment(this.txtMembers, null);
-			this.locExtender.SetLocalizationPriority(this.txtMembers, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.txtMembers, "DefineClassDlg.txtMembers");
-			this.txtMembers.Location = new System.Drawing.Point(59, 69);
-			this.txtMembers.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
-			this.txtMembers.Name = "txtMembers";
-			this.txtMembers.ReadOnly = true;
-			this.txtMembers.Size = new System.Drawing.Size(346, 20);
-			this.txtMembers.TabIndex = 5;
-			this.txtMembers.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleMembersTextBoxKeyDown);
+			this._tableLayout.SetColumnSpan(this._textBoxMembers, 2);
+			this.locExtender.SetLocalizableToolTip(this._textBoxMembers, null);
+			this.locExtender.SetLocalizationComment(this._textBoxMembers, null);
+			this.locExtender.SetLocalizationPriority(this._textBoxMembers, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._textBoxMembers, "DefineClassDlg.txtMembers");
+			this._textBoxMembers.Location = new System.Drawing.Point(59, 69);
+			this._textBoxMembers.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
+			this._textBoxMembers.Name = "_textBoxMembers";
+			this._textBoxMembers.ReadOnly = true;
+			this._textBoxMembers.Size = new System.Drawing.Size(346, 20);
+			this._textBoxMembers.TabIndex = 5;
+			this._textBoxMembers.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleMembersTextBoxKeyDown);
 			// 
-			// lblMembers
+			// _labelMembers
 			// 
-			this.lblMembers.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.lblMembers.AutoSize = true;
-			this.lblMembers.BackColor = System.Drawing.Color.Transparent;
-			this.lblMembers.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.locExtender.SetLocalizableToolTip(this.lblMembers, null);
-			this.locExtender.SetLocalizationComment(this.lblMembers, null);
-			this.locExtender.SetLocalizingId(this.lblMembers, "DefineClassDlg.lblMembers");
-			this.lblMembers.Location = new System.Drawing.Point(3, 72);
-			this.lblMembers.Margin = new System.Windows.Forms.Padding(3, 12, 3, 0);
-			this.lblMembers.Name = "lblMembers";
-			this.lblMembers.Size = new System.Drawing.Size(53, 13);
-			this.lblMembers.TabIndex = 4;
-			this.lblMembers.Text = "&Members:";
-			this.lblMembers.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this._labelMembers.Anchor = System.Windows.Forms.AnchorStyles.Left;
+			this._labelMembers.AutoSize = true;
+			this._labelMembers.BackColor = System.Drawing.Color.Transparent;
+			this._labelMembers.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this._labelMembers, null);
+			this.locExtender.SetLocalizationComment(this._labelMembers, null);
+			this.locExtender.SetLocalizingId(this._labelMembers, "DefineClassDlg.lblMembers");
+			this._labelMembers.Location = new System.Drawing.Point(3, 72);
+			this._labelMembers.Margin = new System.Windows.Forms.Padding(3, 12, 3, 0);
+			this._labelMembers.Name = "_labelMembers";
+			this._labelMembers.Size = new System.Drawing.Size(53, 13);
+			this._labelMembers.TabIndex = 4;
+			this._labelMembers.Text = "&Members:";
+			this._labelMembers.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// rbMatchAny
+			// _labelClassTypeValue
 			// 
-			this.rbMatchAny.AutoSize = true;
-			this.rbMatchAny.BackColor = System.Drawing.Color.Transparent;
-			this.rbMatchAny.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.locExtender.SetLocalizableToolTip(this.rbMatchAny, null);
-			this.locExtender.SetLocalizationComment(this.rbMatchAny, null);
-			this.locExtender.SetLocalizingId(this.rbMatchAny, "DefineClassDlg.rbMatchAny");
-			this.rbMatchAny.Location = new System.Drawing.Point(62, 94);
-			this.rbMatchAny.Margin = new System.Windows.Forms.Padding(3, 5, 8, 3);
-			this.rbMatchAny.Name = "rbMatchAny";
-			this.rbMatchAny.Size = new System.Drawing.Size(160, 17);
-			this.rbMatchAny.TabIndex = 6;
-			this.rbMatchAny.TabStop = true;
-			this.rbMatchAny.Text = "Match A&ny Selected Feature";
-			this.rbMatchAny.UseVisualStyleBackColor = false;
-			this.rbMatchAny.Visible = false;
-			this.rbMatchAny.CheckedChanged += new System.EventHandler(this.HandleScopeClick);
+			this._labelClassTypeValue.AutoSize = true;
+			this._tableLayout.SetColumnSpan(this._labelClassTypeValue, 2);
+			this.locExtender.SetLocalizableToolTip(this._labelClassTypeValue, null);
+			this.locExtender.SetLocalizationComment(this._labelClassTypeValue, null);
+			this.locExtender.SetLocalizationPriority(this._labelClassTypeValue, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._labelClassTypeValue, "DefineClassDlg.lblClassTypeValue");
+			this._labelClassTypeValue.Location = new System.Drawing.Point(62, 10);
+			this._labelClassTypeValue.Margin = new System.Windows.Forms.Padding(3, 10, 3, 2);
+			this._labelClassTypeValue.Name = "_labelClassTypeValue";
+			this._labelClassTypeValue.Size = new System.Drawing.Size(14, 13);
+			this._labelClassTypeValue.TabIndex = 1;
+			this._labelClassTypeValue.Text = "#";
 			// 
-			// rbMatchAll
+			// _tableLayout
 			// 
-			this.rbMatchAll.AutoSize = true;
-			this.rbMatchAll.BackColor = System.Drawing.Color.Transparent;
-			this.rbMatchAll.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.locExtender.SetLocalizableToolTip(this.rbMatchAll, null);
-			this.locExtender.SetLocalizationComment(this.rbMatchAll, null);
-			this.locExtender.SetLocalizingId(this.rbMatchAll, "DefineClassDlg.rbMatchAll");
-			this.rbMatchAll.Location = new System.Drawing.Point(237, 94);
-			this.rbMatchAll.Margin = new System.Windows.Forms.Padding(7, 5, 3, 3);
-			this.rbMatchAll.Name = "rbMatchAll";
-			this.rbMatchAll.Size = new System.Drawing.Size(158, 17);
-			this.rbMatchAll.TabIndex = 7;
-			this.rbMatchAll.TabStop = true;
-			this.rbMatchAll.Text = "Match A&ll Selected Features";
-			this.rbMatchAll.UseVisualStyleBackColor = false;
-			this.rbMatchAll.Visible = false;
-			this.rbMatchAll.CheckedChanged += new System.EventHandler(this.HandleScopeClick);
-			// 
-			// lblClassTypeValue
-			// 
-			this.lblClassTypeValue.AutoSize = true;
-			this.tblLayoutTop.SetColumnSpan(this.lblClassTypeValue, 2);
-			this.locExtender.SetLocalizableToolTip(this.lblClassTypeValue, null);
-			this.locExtender.SetLocalizationComment(this.lblClassTypeValue, null);
-			this.locExtender.SetLocalizationPriority(this.lblClassTypeValue, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.lblClassTypeValue, "DefineClassDlg.lblClassTypeValue");
-			this.lblClassTypeValue.Location = new System.Drawing.Point(62, 10);
-			this.lblClassTypeValue.Margin = new System.Windows.Forms.Padding(3, 10, 3, 2);
-			this.lblClassTypeValue.Name = "lblClassTypeValue";
-			this.lblClassTypeValue.Size = new System.Drawing.Size(14, 13);
-			this.lblClassTypeValue.TabIndex = 1;
-			this.lblClassTypeValue.Text = "#";
-			// 
-			// tblLayoutTop
-			// 
-			this.tblLayoutTop.AutoSize = true;
-			this.tblLayoutTop.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.tblLayoutTop.BackColor = System.Drawing.Color.Transparent;
-			this.tblLayoutTop.ColumnCount = 3;
-			this.tblLayoutTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tblLayoutTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tblLayoutTop.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tblLayoutTop.Controls.Add(this.pnlMemberPickingContainer, 0, 4);
-			this.tblLayoutTop.Controls.Add(this.lblMembers, 0, 2);
-			this.tblLayoutTop.Controls.Add(this.lblClassType, 0, 0);
-			this.tblLayoutTop.Controls.Add(this.rbMatchAll, 2, 3);
-			this.tblLayoutTop.Controls.Add(this.rbMatchAny, 1, 3);
-			this.tblLayoutTop.Controls.Add(this.lblClassTypeValue, 1, 0);
-			this.tblLayoutTop.Controls.Add(this.lblClassName, 0, 1);
-			this.tblLayoutTop.Controls.Add(this.txtMembers, 1, 2);
-			this.tblLayoutTop.Controls.Add(this.txtClassName, 1, 1);
-			this.tblLayoutTop.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tblLayoutTop.Location = new System.Drawing.Point(10, 0);
-			this.tblLayoutTop.Name = "tblLayoutTop";
-			this.tblLayoutTop.RowCount = 5;
-			this.tblLayoutTop.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tblLayoutTop.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tblLayoutTop.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tblLayoutTop.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tblLayoutTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tblLayoutTop.Size = new System.Drawing.Size(405, 460);
-			this.tblLayoutTop.TabIndex = 0;
+			this._tableLayout.AutoSize = true;
+			this._tableLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this._tableLayout.BackColor = System.Drawing.Color.Transparent;
+			this._tableLayout.ColumnCount = 3;
+			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this._tableLayout.Controls.Add(this._panelMemberPickingContainer, 0, 4);
+			this._tableLayout.Controls.Add(this._labelMembers, 0, 2);
+			this._tableLayout.Controls.Add(this._labelClassType, 0, 0);
+			this._tableLayout.Controls.Add(this._labelClassTypeValue, 1, 0);
+			this._tableLayout.Controls.Add(this._labelClassName, 0, 1);
+			this._tableLayout.Controls.Add(this._textBoxMembers, 1, 2);
+			this._tableLayout.Controls.Add(this._textBoxClassName, 1, 1);
+			this._tableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._tableLayout.Location = new System.Drawing.Point(10, 0);
+			this._tableLayout.Name = "_tableLayout";
+			this._tableLayout.RowCount = 5;
+			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this._tableLayout.Size = new System.Drawing.Size(405, 460);
+			this._tableLayout.TabIndex = 0;
 			// 
 			// locExtender
 			// 
@@ -231,7 +189,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(425, 500);
-			this.Controls.Add(this.tblLayoutTop);
+			this.Controls.Add(this._tableLayout);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
@@ -240,10 +198,10 @@ namespace SIL.Pa.UI.Dialogs
 			this.Name = "DefineClassBaseDlg";
 			this.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "{0} Class";
-			this.Controls.SetChildIndex(this.tblLayoutTop, 0);
-			this.tblLayoutTop.ResumeLayout(false);
-			this.tblLayoutTop.PerformLayout();
+			this.Text = "Override this form";
+			this.Controls.SetChildIndex(this._tableLayout, 0);
+			this._tableLayout.ResumeLayout(false);
+			this._tableLayout.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -252,16 +210,14 @@ namespace SIL.Pa.UI.Dialogs
 
 		#endregion
 
-		private System.Windows.Forms.Label lblClassName;
-		private System.Windows.Forms.Label lblClassType;
-		private System.Windows.Forms.Label lblMembers;
+		private System.Windows.Forms.Label _labelClassName;
+		private System.Windows.Forms.Label _labelClassType;
+		private System.Windows.Forms.Label _labelMembers;
 		private Localization.UI.LocalizationExtender locExtender;
-		protected System.Windows.Forms.TextBox txtClassName;
-		protected System.Windows.Forms.TextBox txtMembers;
-		protected System.Windows.Forms.Label lblClassTypeValue;
-		protected System.Windows.Forms.RadioButton rbMatchAll;
-		protected System.Windows.Forms.RadioButton rbMatchAny;
-		protected System.Windows.Forms.Panel pnlMemberPickingContainer;
-		protected System.Windows.Forms.TableLayoutPanel tblLayoutTop;
+		protected System.Windows.Forms.TextBox _textBoxClassName;
+		protected System.Windows.Forms.TextBox _textBoxMembers;
+		protected System.Windows.Forms.Label _labelClassTypeValue;
+		protected System.Windows.Forms.Panel _panelMemberPickingContainer;
+		protected System.Windows.Forms.TableLayoutPanel _tableLayout;
 	}
 }
