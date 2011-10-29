@@ -20,10 +20,10 @@ namespace SIL.Pa.UI.Controls
 		public event EventHandler PatternTextChanged;
 		public event EventHandler SearchOptionsChanged;
 
-		private readonly Label m_insertionLine;
-		private SearchQuery m_searchQuery;
-		private SearchOptionsDropDown m_searchOptionsDropDown;
 		private const char kEmptyPatternChar = '\u25CA';
+		private readonly Label _insertionLine;
+		private SearchQuery _searchQuery;
+		private SearchOptionsDropDown _searchOptionsDropDown;
 
 		/// ------------------------------------------------------------------------------------
 		public PatternTextBox()
@@ -41,14 +41,14 @@ namespace SIL.Pa.UI.Controls
 			KeyPress += HandlePatternTextBoxKeyPress;
 			
 			// Use a thin label as the insertion point when the text box does not have focus.
-			m_insertionLine = new Label();
-			m_insertionLine.AutoSize = false;
-			m_insertionLine.BackColor = SystemColors.GrayText;
-			m_insertionLine.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom);
-			m_insertionLine.Bounds = new Rectangle(0, 1, 1, ClientSize.Height - 4);
-			Controls.Add(m_insertionLine);
+			_insertionLine = new Label();
+			_insertionLine.AutoSize = false;
+			_insertionLine.BackColor = SystemColors.GrayText;
+			_insertionLine.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom);
+			_insertionLine.Bounds = new Rectangle(0, 1, 1, ClientSize.Height - 4);
+			Controls.Add(_insertionLine);
 
-			m_searchQuery = new SearchQuery();
+			_searchQuery = new SearchQuery();
 			App.AddMediatorColleague(this);
 		}
 
@@ -64,13 +64,13 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				if (m_searchOptionsDropDown == null)
+				if (_searchOptionsDropDown == null)
 				{
-					m_searchOptionsDropDown = new SearchOptionsDropDown();
-					m_searchOptionsDropDown.Disposed += HandleSearchOptionsDropDownDisposed;
+					_searchOptionsDropDown = new SearchOptionsDropDown();
+					_searchOptionsDropDown.Disposed += HandleSearchOptionsDropDownDisposed;
 				}
 				
-				return m_searchOptionsDropDown;
+				return _searchOptionsDropDown;
 			}
 		}
 
@@ -84,8 +84,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void HandleSearchOptionsDropDownDisposed(object sender, EventArgs e)
 		{
-			m_searchOptionsDropDown.Disposed -= HandleSearchOptionsDropDownDisposed;
-			m_searchOptionsDropDown = null;
+			_searchOptionsDropDown.Disposed -= HandleSearchOptionsDropDownDisposed;
+			_searchOptionsDropDown = null;
 		}
 	
 		/// ------------------------------------------------------------------------------------
@@ -97,7 +97,7 @@ namespace SIL.Pa.UI.Controls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public SearchQuery SearchQuery
 		{
-			get { return m_searchQuery; }
+			get { return _searchQuery; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -231,18 +231,18 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void LocateInsertionLine()
 		{
-			if (m_insertionLine == null)
+			if (_insertionLine == null)
 				return;
 
 			int selStart = SelectionStart;
 
 			if (Text == string.Empty || SelectionLength > 0)
 			{
-				m_insertionLine.Left = 1;
+				_insertionLine.Left = 1;
 			}
 			else
 			{
-				m_insertionLine.Left = ((selStart < Text.Length ?
+				_insertionLine.Left = ((selStart < Text.Length ?
 					GetPositionFromCharIndex(selStart) : EndOfTextLocation).X);
 			}
 		}
@@ -269,7 +269,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void SetSearchQuery(SearchQuery query, bool allowTextChangedEvent)
 		{
-			if (query == m_searchQuery || (query != null && query.IsPatternRegExpression))
+			if (query == _searchQuery || (query != null && query.IsPatternRegExpression))
 				return;
 
 			if (!allowTextChangedEvent)
@@ -280,7 +280,7 @@ namespace SIL.Pa.UI.Controls
 			else
 			{
 				Text = (string.IsNullOrEmpty(query.Pattern) ? EmptyPattern : query.Pattern);
-				m_searchQuery = query.Clone();
+				_searchQuery = query.Clone();
 			}
 
 			if (!allowTextChangedEvent)
@@ -301,7 +301,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			TextChanged -= HandlePatternTextBoxTextChanged;
 			Text = EmptyPattern;
-			m_searchQuery = new SearchQuery();
+			_searchQuery = new SearchQuery();
 			SearchQueryCategory = null;
 			TextChanged += HandlePatternTextBoxTextChanged;
 		}
@@ -537,20 +537,20 @@ namespace SIL.Pa.UI.Controls
 			if (!OwningView.ActiveView)
 				return false;
 
-			m_searchOptionsDropDown.SearchQuery = m_searchQuery;
+			_searchOptionsDropDown.SearchQuery = _searchQuery;
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownClosedSearchOptions(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || (itemProps.ParentControl != OwningView))
 				return false;
 
-			if (m_searchOptionsDropDown.OptionsChanged)
+			if (_searchOptionsDropDown.OptionsChanged)
 			{
-				m_searchQuery = m_searchOptionsDropDown.SearchQuery;
+				_searchQuery = _searchOptionsDropDown.SearchQuery;
 
 				if (SearchOptionsChanged != null)
 					SearchOptionsChanged(this, EventArgs.Empty);
@@ -768,7 +768,7 @@ namespace SIL.Pa.UI.Controls
 		protected override void OnEnter(EventArgs e)
 		{
 			base.OnEnter(e);
-			m_insertionLine.Visible = false;
+			_insertionLine.Visible = false;
 			LocateInsertionLine();
 		}
 
@@ -776,7 +776,7 @@ namespace SIL.Pa.UI.Controls
 		protected override void OnLeave(EventArgs e)
 		{
 			base.OnLeave(e);
-			m_insertionLine.Visible = true;
+			_insertionLine.Visible = true;
 			LocateInsertionLine();
 		}
 
@@ -860,9 +860,9 @@ namespace SIL.Pa.UI.Controls
 			//        txtPattern.SelectionStart = selstart;
 			//}
 
-			if (txt.m_searchQuery.Pattern != txt.Text)
+			if (txt._searchQuery.Pattern != txt.Text)
 			{
-				txt.m_searchQuery.Pattern = txt.Text;
+				txt._searchQuery.Pattern = txt.Text;
 				if (txt.PatternTextChanged != null)
 					txt.PatternTextChanged(txt, EventArgs.Empty);
 			}
