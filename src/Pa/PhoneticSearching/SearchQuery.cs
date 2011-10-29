@@ -8,7 +8,6 @@ using SIL.Pa.Model;
 
 namespace SIL.Pa.PhoneticSearching
 {
-	#region SearchQuery class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// Encapsulates a single saved search query
@@ -16,40 +15,20 @@ namespace SIL.Pa.PhoneticSearching
 	/// ----------------------------------------------------------------------------------------
 	public class SearchQuery
 	{
-		private const float kCurrVersion = 2.0f;
-
-		public static string s_defaultIgnoredStressChars;
-		public static string s_defaultIgnoredToneChars;
-		public static string s_defaultIgnoredLengthChars;
-
-		private string m_ignoredStressChars = DefaultIgnoredStressChars;
-		private string m_ignoredToneChars = DefaultIgnoredToneChars;
-		private string m_ignoredLengthChars = DefaultIgnoredLengthChars;
-		private List<string> m_ignoredStressList;
-		private List<string> m_ignoredToneList;
-		private List<string> m_ignoredLengthList;
+		public const float kCurrVersion = 3.0f;
 
 		private List<string> m_errors = new List<string>();
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public SearchQuery()
 		{
+			Reset();
 			ShowAllOccurrences = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public SearchQuery(string pattern)
+		public SearchQuery(string pattern) : this()
 		{
-			ShowAllOccurrences = true;
-			Reset();
 			Pattern = pattern;
 		}
 
@@ -65,9 +44,7 @@ namespace SIL.Pa.PhoneticSearching
 			Category = null;
 			ShowAllOccurrences = true;
 			IgnoreDiacritics = true;
-			m_ignoredStressChars = DefaultIgnoredStressChars;
-			m_ignoredToneChars = DefaultIgnoredToneChars;
-			m_ignoredLengthChars = DefaultIgnoredLengthChars;
+			IgnoredCharacters = GetDefaultIgnoredCharacters();
 			m_errors.Clear();
 		}
 
@@ -78,7 +55,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public SearchQuery Clone()
 		{
-			SearchQuery clone = new SearchQuery();
+			var clone = new SearchQuery();
 			clone.Name = Name;
 			clone.Pattern = Pattern;
 			clone.Id = Id;
@@ -86,9 +63,7 @@ namespace SIL.Pa.PhoneticSearching
 			clone.ShowAllOccurrences = ShowAllOccurrences;
 			clone.IncludeAllUncertainPossibilities = IncludeAllUncertainPossibilities;
 			clone.IgnoreDiacritics = IgnoreDiacritics;
-			clone.IgnoredStressChars = IgnoredStressChars;
-			clone.IgnoredToneChars = IgnoredToneChars;
-			clone.IgnoredLengthChars = IgnoredLengthChars;
+			clone.IgnoredCharacters = IgnoredCharacters;
 			clone.IsPatternRegExpression = IsPatternRegExpression;
 			clone.ErrorMessages.AddRange(ErrorMessages);
 
@@ -132,9 +107,12 @@ namespace SIL.Pa.PhoneticSearching
 				return false;
 			}
 
-			return (StringContentsEqual(IgnoredLengthList, query.IgnoredLengthList) &&
-				StringContentsEqual(IgnoredStressList, query.IgnoredStressList) &&
-				StringContentsEqual(IgnoredToneList, query.IgnoredToneList));
+			return (IgnoredCharacters.Equals(query.IgnoredCharacters, StringComparison.Ordinal));
+
+			//return (StringContentsEqual(IgnoredLengthList, query.IgnoredLengthList) &&
+			//    StringContentsEqual(IgnoredStressList, query.IgnoredStressList) &&
+			//    StringContentsEqual(IgnoredToneList, query.IgnoredToneList) &&
+			//    StringContentsEqual(IgnoredBoundaryList, query.IgnoredBoundaryList));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -195,17 +173,9 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the name of the query.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
 		public string Name { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the pattern of the query.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
 		public string Pattern { get; set; }
@@ -218,10 +188,6 @@ namespace SIL.Pa.PhoneticSearching
 		public bool IsPatternRegExpression { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public string PrecedingEnvironment
 		{
 			get
@@ -232,10 +198,6 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public string SearchItem
 		{
 			get
@@ -245,10 +207,6 @@ namespace SIL.Pa.PhoneticSearching
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public string FollowingEnvironment
 		{
@@ -268,247 +226,40 @@ namespace SIL.Pa.PhoneticSearching
 		public int Id { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the query's category.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public string Category { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public bool ShowAllOccurrences { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool IncludeAllUncertainPossibilities { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public bool IgnoreDiacritics { get; set; }
 
+		private string m_ignoredCharacters;
+
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the list of ignored stress characters in a comma-delimited string.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string IgnoredStressChars
+		[XmlElement("ignoredCharacters")]
+		public string IgnoredCharacters
 		{
-			get { return m_ignoredStressChars; }
-			set
-			{
-				m_ignoredStressChars = value;
-				m_ignoredStressList = null;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the list of ignored stress characters in a collection.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public List<string> IgnoredStressList
-		{
-			get
-			{
-				if (m_ignoredStressList == null)
-					ParseIgnoredChars(m_ignoredStressChars, out m_ignoredStressList);
-
-				return m_ignoredStressList;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the list of ignored tone characters in a comma-delimited string.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string IgnoredToneChars
-		{
-			get { return m_ignoredToneChars; }
-			set
-			{
-				m_ignoredToneChars = value;
-				m_ignoredToneList = null;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the list of ignored tone characters in a collection.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public List<string> IgnoredToneList
-		{
-			get
-			{
-				if (m_ignoredToneList == null)
-					ParseIgnoredChars(m_ignoredToneChars, out m_ignoredToneList);
-
-				return m_ignoredToneList;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the list of ignored length characters in a comma-delimited string.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string IgnoredLengthChars
-		{
-			get { return m_ignoredLengthChars; }
-			set
-			{
-				m_ignoredLengthChars = value;
-				m_ignoredLengthList = null;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the list of ignored length characters in a collection.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public List<string> IgnoredLengthList
-		{
-			get
-			{
-				if (m_ignoredLengthList == null)
-					ParseIgnoredChars(m_ignoredLengthChars, out m_ignoredLengthList);
-
-				return m_ignoredLengthList;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a single list containing all of the ingored tone, stress and length
-		/// characters.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public List<string> CompleteIgnoredList
-		{
-			get
-			{
-				List<string> allIgnored = new List<string>();
-				allIgnored.AddRange(IgnoredToneList);
-				allIgnored.AddRange(IgnoredStressList);
-				allIgnored.AddRange(IgnoredLengthList);
-				return allIgnored;
-			}
-		}
-
-		#endregion
-
-		#region Static properties
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the default list of stress and syllable characters to ignore when peforming
-		/// find phone searches.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string DefaultIgnoredStressChars
-		{
-			get
-			{
-				if (s_defaultIgnoredStressChars != null)
-					return s_defaultIgnoredStressChars;
-
-				if (App.IPASymbolCache == null)
-					return null;
-
-				StringBuilder ignoreList = new StringBuilder();
-				foreach (KeyValuePair<int, IPASymbol> info in App.IPASymbolCache)
-				{
-					if (info.Value.IgnoreType == IPASymbolIgnoreType.StressSyllable)
-					{
-						ignoreList.Append(info.Value.Literal);
-						ignoreList.Append(",");
-					}
-				}
-
-				return ignoreList.ToString();
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the default list of tone characters to ignore when peforming
-		/// find phone searches.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string DefaultIgnoredToneChars
-		{
-			get
-			{
-				if (s_defaultIgnoredToneChars != null)
-					return s_defaultIgnoredToneChars;
-
-				if (App.IPASymbolCache == null)
-					return null;
-
-				StringBuilder ignoreList = new StringBuilder();
-				foreach (KeyValuePair<int, IPASymbol> info in App.IPASymbolCache)
-				{
-					if (info.Value.IgnoreType == IPASymbolIgnoreType.Tone)
-					{
-						ignoreList.Append(info.Value.Literal);
-						ignoreList.Append(",");
-					}
-				}
-
-				return ignoreList.ToString();
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the default list of length characters to ignore when peforming
-		/// find phone searches.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string DefaultIgnoredLengthChars
-		{
-			get
-			{
-				if (s_defaultIgnoredLengthChars != null)
-					return s_defaultIgnoredLengthChars;
-
-				if (App.IPASymbolCache == null)
-					return null;
-				
-				StringBuilder ignoreList = new StringBuilder();
-				foreach (KeyValuePair<int, IPASymbol> info in App.IPASymbolCache)
-				{
-					if (info.Value.IgnoreType == IPASymbolIgnoreType.Length)
-					{
-						ignoreList.Append(info.Value.Literal);
-						ignoreList.Append(",");
-					}
-				}
-
-				return ignoreList.ToString();
-			}
+			get { return m_ignoredCharacters; }
+			set { m_ignoredCharacters = value; }
 		}
 
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public IEnumerable<string> GetIgnoredCharacters()
+		{
+			var list = (IgnoredCharacters == null ? new string[0] :
+				IgnoredCharacters.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+
+			// Now sort ignored characters by their length -- longest to shortest.
+			return list.OrderByDescending(ic => ic.Length);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public SearchEngine GetSearchEngine(out SearchQueryException e)
 		{
@@ -562,65 +313,23 @@ namespace SIL.Pa.PhoneticSearching
 			if (phonesInQuery == null)
 				return null;
 
-			var phonesNotInData = new List<string>();
-			foreach (string phone in phonesInQuery)
-			{
-				if (!App.Project.PhoneCache.ContainsKey(phone) && !phonesNotInData.Contains(phone))
-					phonesNotInData.Add(phone);
-			}
+			var phonesNotInData = phonesInQuery.Where(p => !App.Project.PhoneCache.ContainsKey(p))
+				.Distinct(StringComparer.Ordinal).ToArray();
 
-			return (phonesNotInData.Count == 0 ? null : phonesNotInData.ToArray());
+			return (phonesNotInData.Length == 0 ? null : phonesNotInData);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Parses a comma-delimited string into a collection of strings and returns the
-		/// collection sorted by the length of the strings in the collection with longer
-		/// strings coming before shorter.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static void ParseIgnoredChars(string ignoredChars, out List<string> ignoredList)
+		public static string GetDefaultIgnoredCharacters()
 		{
-			ignoredList = new List<string>();
-			if (string.IsNullOrEmpty(ignoredChars))
-				return;
+			if (App.IPASymbolCache == null)
+				return null;
 
-			// Parse the ignored character string into a collection of strings.
-			ignoredList.AddRange(ignoredChars.Split(",".ToCharArray(),
-				StringSplitOptions.RemoveEmptyEntries));
+			var ignoreList = new StringBuilder();
+			foreach (var info in App.IPASymbolCache.Where(i => i.Value.SubType != IPASymbolSubType.notApplicable))
+				ignoreList.AppendFormat("{0},", info.Value.Literal);
 
-			// Now sort the strings in the list by their length -- longest to shortest.
-			for (int i = ignoredList.Count - 1; i >= 0; i--)
-			{
-				if (ignoredList[i].Length > ignoredList[0].Length)
-				{
-					ignoredList.Insert(0, ignoredList[i]);
-					ignoredList.RemoveAt(i + 1);
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a value indicating whether or not the strings in one collection are all found
-		/// in another. For the contents to be equal, the collection lengths must be identical
-		/// but the order of the strings within the collections do not.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static bool StringContentsEqual(List<string> lst1, List<string> lst2)
-		{
-			if (lst1 == null && lst2 == null)
-				return true;
-
-			if (lst1 == null || lst2 == null)
-				return false;
-
-			if (lst1.Count != lst2.Count)
-				return false;
-
-			return lst1.All(lst2.Contains);
+			return (ignoreList.Length == 0 ? null : ignoreList.ToString().TrimEnd(','));
 		}
 	}
-
-	#endregion
 }
