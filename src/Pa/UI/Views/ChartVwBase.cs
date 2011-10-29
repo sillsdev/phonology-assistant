@@ -1059,7 +1059,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected virtual IPASymbolType CharacterType
 		{
-			get { return IPASymbolType.Unknown; }
+			get { return IPASymbolType.notApplicable; }
 		}
 
 		#region Update handlers for menus that shouldn't be enabled when this view is current

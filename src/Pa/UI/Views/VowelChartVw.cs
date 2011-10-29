@@ -53,7 +53,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override IPASymbolType CharacterType
 		{
-			get { return IPASymbolType.Vowel; }
+			get { return IPASymbolType.vowel; }
 		}
 
 		/// ------------------------------------------------------------------------------------
