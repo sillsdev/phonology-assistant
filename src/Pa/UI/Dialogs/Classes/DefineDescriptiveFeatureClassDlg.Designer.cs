@@ -31,22 +31,32 @@ namespace SIL.Pa.UI.Dialogs
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
-
 			// 
-			// DefineClassDlg
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = null;
+			this.locExtender.LocalizationManagerId = "Pa";
+			// 
+			// DefineDescriptiveFeatureClassDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(470, 500);
-			this.MinimumSize = new System.Drawing.Size(435, 530);
-			this.Name = "DefineDescriptiveFeaturesClassDlg";
-			this.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.DefineClassesDialogs.DescriptiveFeatureClassDlg.WindowTitle");
+			this.Name = "DefineDescriptiveFeatureClassDlg";
 			this.Text = "Descriptive Features Class";
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
+
 		}
+
+		private Localization.UI.LocalizationExtender locExtender;
 
 		#endregion
 	}
