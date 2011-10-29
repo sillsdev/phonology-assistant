@@ -315,7 +315,7 @@ namespace SIL.Pa.PhoneticSearching
 				// or complete phones (e.g. tone stick figures) to one collection and
 				// those that aren't to another. It's assumed that ignored items that
 				// are not base characters are only one codepoint in length.
-				foreach (string ignoredItem in value.CompleteIgnoredList)
+				foreach (string ignoredItem in value.GetIgnoredCharacters())
 				{
 					var charInfo = App.IPASymbolCache[ignoredItem];
 					if (charInfo != null)

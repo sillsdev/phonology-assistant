@@ -168,7 +168,7 @@ namespace SIL.Pa
 			if (string.IsNullOrEmpty(environment))
 				return null;
 
-			var ignoredList = cieOptions.SearchQuery.CompleteIgnoredList; 
+			var ignoredList = cieOptions.SearchQuery.GetIgnoredCharacters(); 
 			var bldrEnv = new StringBuilder(environment);
 
 			// Get rid of all explicitly ignored characters (as opposed to
@@ -200,16 +200,8 @@ namespace SIL.Pa
 
 	#region CIEOptions class
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class CIEOptions
 	{
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public enum IdenticalType
 		{
@@ -218,44 +210,28 @@ namespace SIL.Pa
 			Both
 		}
 
-		private SearchQuery m_query = new SearchQuery();
-		private IdenticalType m_identicalType = IdenticalType.Both;
-
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public CIEOptions()
+		{
+			SearchQuery = new SearchQuery();
+			Type = IdenticalType.Both;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public CIEOptions Clone()
 		{
 			CIEOptions options = new CIEOptions();
-			options.m_query = m_query.Clone();
-			options.m_identicalType = m_identicalType;
+			options.SearchQuery = SearchQuery.Clone();
+			options.Type = Type;
 			return options;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("IdenticalType")]
-		public IdenticalType Type
-		{
-			get { return m_identicalType; }
-			set { m_identicalType = value; }
-		}
-		
+		public IdenticalType Type { get; set; }
+
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public SearchQuery SearchQuery
-		{
-			get { return m_query; }
-			set { m_query = value; }
-		}
+		public SearchQuery SearchQuery { get; set; }
 	}
 
 	#endregion
