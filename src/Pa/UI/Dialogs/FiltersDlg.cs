@@ -742,7 +742,7 @@ namespace SIL.Pa.UI.Dialogs
 				m_queryOptionsDropDownHost = new CustomDropDown();
 				m_queryOptionsDropDownHost.Closed += m_queryDropDown_Closed;
 				m_queryOptionsDropDownHost.AddControl(m_queryOptionsDropDown);
-				Rectangle rc = m_gridExpressions.GetCellDisplayRectangle(2, e.RowIndex, false);
+				var rc = m_gridExpressions.GetCellDisplayRectangle(2, e.RowIndex, false);
 				rc.Y += rc.Height;
 				m_queryOptionsDropDownHost.Show(m_gridExpressions.PointToScreen(rc.Location));
 			}

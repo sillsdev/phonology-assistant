@@ -5,90 +5,102 @@ using SilTools;
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class CIEOptionsDropDown : SearchOptionsDropDown
 	{
-		private CIEOptions m_cieOptions;
-		private bool m_canceled = false;
+		private CIEOptions _cieOptions;
+		private RadioButton _radioBoth;
+		private RadioButton _radioAfter;
+		private RadioButton _radioBefore;
+		public LinkLabel _linkApply;
+		public LinkLabel _linkCancel;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public CIEOptionsDropDown()
 		{
+			Canceled = false;
 			InitializeComponent();
-			grpUncertainties.Visible = false;
-			LayoutDropDown();
-			CIEOptions = (App.Project != null ? App.Project.CIEOptions.Clone() : new CIEOptions());
+			_groupUncertainties.Visible = false;
 			
-			rbAfter.Font = FontHelper.UIFont;
-			rbBefore.Font = FontHelper.UIFont;
-			rbBoth.Font = FontHelper.UIFont;
-			lnkApply.Font = FontHelper.UIFont;
-
-			rbBoth.Left = rbAfter.Left = rbBefore.Left = chkTone.Left;
-
-			lnkApply.Top = ClientSize.Height -
-				((ClientSize.Height - grpLength.Bottom) / 2) - (lnkApply.Height / 2);
-
-			lnkHelp.Top = lnkCancel.Top = lnkApply.Top;
-
-			int rightMargin = ClientSize.Width - grpLength.Right;
-			lnkHelp.Left = ClientRectangle.Right - (lnkHelp.Width + rightMargin);
-			lnkCancel.Left = lnkHelp.Left - (lnkCancel.Width + 10);
-			lnkApply.Left = lnkCancel.Left - (lnkApply.Width + 10);
+			SetupControls();
+			CIEOptions = (App.Project != null ? App.Project.CIEOptions.Clone() : new CIEOptions());
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		private void SetupControls()
+		{
+			_radioBoth = new RadioButton { AutoSize = true, UseVisualStyleBackColor = true, Font = FontHelper.UIFont };
+			_radioBoth.TabIndex = 0;
+			_radioBoth.Text = "B&oth Environments Identical";
+			_radioBoth.Margin = new Padding(_chkIgnoreDiacritics.Margin.Left, 0, _chkIgnoreDiacritics.Margin.Right, 3);
+			_tableLayout.SetColumnSpan(_radioBoth, 4);
+			_tableLayout.Controls.Add(_radioBoth, 0, 0);
+
+			_radioBefore = new RadioButton { AutoSize = true, UseVisualStyleBackColor = true, Font = FontHelper.UIFont };
+			_radioBefore.TabIndex = 1;
+			_radioBefore.Text = "Identical &Preceding Environment";
+			_radioBefore.Margin = new Padding(_chkIgnoreDiacritics.Margin.Left, 3, _chkIgnoreDiacritics.Margin.Right, 3);
+			_tableLayout.SetColumnSpan(_radioBefore, 4);
+			_tableLayout.Controls.Add(_radioBefore, 0, 1);
+
+			_radioAfter = new RadioButton { AutoSize = true, UseVisualStyleBackColor = true, Font = FontHelper.UIFont };
+			_radioAfter.TabIndex = 2;
+			_radioAfter.Text = "Identical &Following Environment";
+			_radioAfter.Margin = new Padding(_chkIgnoreDiacritics.Margin.Left, 3, _chkIgnoreDiacritics.Margin.Right, 8);
+			_tableLayout.SetColumnSpan(_radioAfter, 4);
+			_tableLayout.Controls.Add(_radioAfter, 0, 2);
+
+			_linkApply = new LinkLabel { AutoSize = true, Font = FontHelper.UIFont };
+			_linkApply.TabIndex = 10;
+			_linkApply.Text = "Apply";
+			_linkApply.LinkClicked += delegate { Close(); };
+			_linkApply.Margin = new Padding(3, _linkHelp.Margin.Top, 3, _linkHelp.Margin.Bottom);
+			_tableLayout.Controls.Add(_linkApply, 1, 10);
+
+			_linkCancel = new LinkLabel { AutoSize = true, Font = FontHelper.UIFont };
+			_linkCancel.TabIndex = 11;
+			_linkCancel.Text = "Cancel";
+			_linkCancel.LinkClicked += delegate { Canceled = true; Close(); };
+			_linkCancel.Margin = new Padding(3, _linkHelp.Margin.Top, 3, _linkHelp.Margin.Bottom);
+			_tableLayout.Controls.Add(_linkCancel, 2, 10);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public CIEOptions CIEOptions
 		{
 			get
 			{
-				if (rbAfter.Checked)
-					m_cieOptions.Type = CIEOptions.IdenticalType.After;
-				else if (rbBefore.Checked)
-					m_cieOptions.Type = CIEOptions.IdenticalType.Before;
+				if (_radioAfter.Checked)
+					_cieOptions.Type = CIEOptions.IdenticalType.After;
+				else if (_radioBefore.Checked)
+					_cieOptions.Type = CIEOptions.IdenticalType.Before;
 				else
-					m_cieOptions.Type = CIEOptions.IdenticalType.Both;
+					_cieOptions.Type = CIEOptions.IdenticalType.Both;
 
-				m_cieOptions.SearchQuery = SearchQuery;
-				return m_cieOptions;
+				_cieOptions.SearchQuery = SearchQuery;
+				return _cieOptions;
 			}
 			set
 			{
-				m_cieOptions = value;
-				m_canceled = false;
+				_cieOptions = value;
+				Canceled = false;
 
-				if (m_cieOptions != null)
+				if (_cieOptions != null)
 				{
-					SearchQuery = m_cieOptions.SearchQuery;
-					rbAfter.Checked = false;
-					rbBefore.Checked = false;
-					rbBoth.Checked = false;
+					SearchQuery = _cieOptions.SearchQuery;
+					_radioAfter.Checked = false;
+					_radioBefore.Checked = false;
+					_radioBoth.Checked = false;
 
-					switch (m_cieOptions.Type)
+					switch (_cieOptions.Type)
 					{
-						case CIEOptions.IdenticalType.After: rbAfter.Checked = true; break;
-						case CIEOptions.IdenticalType.Before: rbBefore.Checked = true; break;
-						case CIEOptions.IdenticalType.Both: rbBoth.Checked = true; break;
+						case CIEOptions.IdenticalType.After: _radioAfter.Checked = true; break;
+						case CIEOptions.IdenticalType.Before: _radioBefore.Checked = true; break;
+						case CIEOptions.IdenticalType.Both: _radioBoth.Checked = true; break;
 					}
 				}
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -98,14 +110,14 @@ namespace SIL.Pa.UI.Controls
 			{
 				bool changed = false;
 
-				switch (m_cieOptions.Type)
+				switch (_cieOptions.Type)
 				{
-					case CIEOptions.IdenticalType.After: changed = !rbAfter.Checked; break;
-					case CIEOptions.IdenticalType.Before: changed = !rbBefore.Checked; break;
-					case CIEOptions.IdenticalType.Both: changed = !rbBoth.Checked; break;
+					case CIEOptions.IdenticalType.After: changed = !_radioAfter.Checked; break;
+					case CIEOptions.IdenticalType.Before: changed = !_radioBefore.Checked; break;
+					case CIEOptions.IdenticalType.Both: changed = !_radioBoth.Checked; break;
 				}
 
-				return (!m_canceled && (changed || base.OptionsChanged));
+				return (!Canceled && (changed || base.OptionsChanged));
 			}
 		}
 
@@ -114,41 +126,12 @@ namespace SIL.Pa.UI.Controls
 		/// Gets or sets a value indicating whether or not the cancel link was clicked.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool Canceled
-		{
-			get { return m_canceled; }
-			set { m_canceled = value; }
-		}
+		public bool Canceled { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Make sure the drop-down gets hidden.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void lnkApply_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			Close();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void lnkCancel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			m_canceled = true;
-			Close();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleHelpClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			m_canceled = true;
+			Canceled = true;
 			base.HandleHelpClicked(sender, e);
 			App.ShowHelpTopic("hidMinimalPairsOptions");
 		}
@@ -161,7 +144,7 @@ namespace SIL.Pa.UI.Controls
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
 			if (keyData == Keys.Escape)
-				m_canceled = true;
+				Canceled = true;
 
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
