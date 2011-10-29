@@ -5,7 +5,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Windows.Forms;
 using Localization;
 using Localization.UI;
@@ -1612,6 +1611,12 @@ namespace SIL.Pa
 
 		#region Search query methods
 		/// ------------------------------------------------------------------------------------
+		public static string GetPathToRecentlyUsedSearchQueriesFile()
+		{
+			return Path.Combine(ProjectFolder, "RecentlyUsedPatterns.xml");
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Creates and loads a result cache for the specified search query.
 		/// </summary>
@@ -1894,55 +1899,6 @@ namespace SIL.Pa
 				var msg = GetString("HelpFileMissingMsg", "The help file '{0}' cannot be found.");
 				Utils.MsgBox(string.Format(msg, Utils.PrepFilePathForMsgBox(s_helpFilePath)));
 			}
-		}
-
-		#endregion
-
-		#region MOA and POA key generating methods
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Builds a manner of articulation sort key for the specified phone.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string GetMOAKey(string phone)
-		{
-			// TODO: When chow characters are supported, figure out how to deal with them.
-
-			if (string.IsNullOrEmpty(phone))
-				return null;
-
-			var keybldr = new StringBuilder(6);
-			foreach (char c in phone)
-			{
-				var info = IPASymbolCache[c];
-				keybldr.Append(info == null ? "000" :
-					string.Format("{0:X3}", info.MOArticulation));
-			}
-
-			return keybldr.ToString();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Builds a place of articulation sort key for the specified phone.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string GetPOAKey(string phone)
-		{
-			// TODO: When chou characters are supported, figure out how to deal with them.
-
-			if (string.IsNullOrEmpty(phone))
-				return null;
-
-			var keybldr = new StringBuilder(6);
-			foreach (char c in phone)
-			{
-				var info = IPASymbolCache[c];
-				keybldr.Append(info == null ? "000" :
-					string.Format("{0:X3}", info.POArticulation));
-			}
-
-			return keybldr.ToString();
 		}
 
 		#endregion

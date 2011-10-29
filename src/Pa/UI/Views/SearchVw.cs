@@ -32,8 +32,6 @@ namespace SIL.Pa.UI.Views
 		//private string PaApp.kOpenClassBracket = "\u3018";
 		//private string PaApp.kCloseClassBracket = "\u3019";
 
-		private const string kRecentlyUsedPatternFile = "RecentlyUsedPatterns.xml";
-
 		private bool m_activeView;
 		private ITMAdapter m_tmAdapter;
 		private Point m_mouseDownLocationOnRecentlyUsedList = Point.Empty;
@@ -48,9 +46,6 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public SearchVw()
 		{
-			var msg = App.GetString("InitializingSearchViewMsg", "Initializing Search View...",
-				"Message displayed whenever the search view is being initialized.");
-
 			Utils.WaitCursors(true);
 			InitializeComponent();
 			Name = "SearchVw";
@@ -79,8 +74,7 @@ namespace SIL.Pa.UI.Views
 			ReflectionHelper.SetProperty(splitSideBarOuter, "DoubleBuffered", true);
 			ReflectionHelper.SetProperty(splitResults, "DoubleBuffered", true);
 
-			ptrnTextBox.SearchOptionsDropDown.lnkHelp.Click += HandleSearchDropDownHelpLinkClick;
-			Disposed += ViewDisposed;
+			ptrnTextBox.SearchOptionsDropDown._linkHelp.Click += HandleSearchDropDownHelpLinkClick;
 
 			var itemProps = m_tmAdapter.GetItemProperties("tbbSavePatternOnMenu");
 			if (itemProps != null)
@@ -114,29 +108,33 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void ViewDisposed(object sender, EventArgs e)
+		protected override void Dispose(bool disposing)
 		{
-			Disposed -= ViewDisposed;
-
-			if (ptrnBldrComponent != null && !ptrnBldrComponent.IsDisposed)
-				ptrnBldrComponent.Dispose();
-
-			if (ptrnTextBox != null && !ptrnTextBox.IsDisposed)
+			if (disposing && (components != null))
 			{
-				ptrnTextBox.SearchOptionsDropDown.lnkHelp.Click -= HandleSearchDropDownHelpLinkClick; 
-				ptrnTextBox.Dispose();
+				if (ptrnBldrComponent != null && !ptrnBldrComponent.IsDisposed)
+					ptrnBldrComponent.Dispose();
+
+				if (ptrnTextBox != null && !ptrnTextBox.IsDisposed)
+				{
+					ptrnTextBox.SearchOptionsDropDown._linkHelp.Click -= HandleSearchDropDownHelpLinkClick;
+					ptrnTextBox.Dispose();
+				}
+
+				if (tvSavedPatterns != null && !tvSavedPatterns.IsDisposed)
+					tvSavedPatterns.Dispose();
+
+				if (m_rsltVwMngr != null)
+					m_rsltVwMngr.Dispose();
+
+				if (splitOuter != null && !splitOuter.IsDisposed)
+					splitOuter.Dispose();
+				
+				components.Dispose();
 			}
-
-			if (tvSavedPatterns != null && !tvSavedPatterns.IsDisposed)
-				tvSavedPatterns.Dispose();
 			
-			if (m_rsltVwMngr != null)
-				m_rsltVwMngr.Dispose();
-
-			if (splitOuter != null && !splitOuter.IsDisposed)
-				splitOuter.Dispose();
+			base.Dispose(disposing);
 		}
-
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -369,8 +367,8 @@ namespace SIL.Pa.UI.Views
 			// Save the list of recently used queries.
 			var recentList = 
 				(from object rp in lstRecentPatterns.Items select rp as SearchQuery).ToList();
-			
-			string path = Path.Combine(App.ProjectFolder, kRecentlyUsedPatternFile);
+
+			var path = App.GetPathToRecentlyUsedSearchQueriesFile();
 			if (recentList.Count > 0)
 				XmlSerializationHelper.SerializeToFile(path, recentList);
 			else
@@ -503,7 +501,7 @@ namespace SIL.Pa.UI.Views
 
 			try
 			{
-				string path = Path.Combine(App.ProjectFolder, kRecentlyUsedPatternFile);
+				var path = App.GetPathToRecentlyUsedSearchQueriesFile();
 				var recentList = XmlSerializationHelper.DeserializeFromFile<List<SearchQuery>>(path);
 				if (recentList != null)
 					lstRecentPatterns.Items.AddRange(recentList.ToArray());
