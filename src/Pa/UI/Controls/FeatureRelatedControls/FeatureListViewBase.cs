@@ -24,11 +24,11 @@ namespace SIL.Pa.UI.Controls
 		protected Size _chkBoxSize = new Size(13, 13);
 		protected Color _glyphColor = Color.Black;
 		protected HashSet<string> _defaultFeatures = new HashSet<string>();
+		protected Font _emphasizedFont;
 
 		private bool _ignoreCheckChanges;
 		private FeatureMask m_currMask;
 		private readonly FeatureMask _emptyMask;
-		protected Font _checkedItemFont;
 		private readonly ToolTip _tooltip;
 
 		/// ------------------------------------------------------------------------------------
@@ -36,14 +36,15 @@ namespace SIL.Pa.UI.Controls
 		{
 			_emptyMask = emptyMask;
 			AllowDoubleClickToChangeCheckState = true;
-			EmphasizeCheckedItems = true;
 
 			var colHdr = new ColumnHeader();
 			colHdr.Width = kMaxColWidth;
 
 			_tooltip = new ToolTip();
 
-			base.Font = _checkedItemFont = FontHelper.UIFont;
+			base.Font = FontHelper.UIFont;
+			_emphasizedFont = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
+			
 			CheckBoxes = true;
 			Columns.Add(colHdr);
 			HeaderStyle = ColumnHeaderStyle.None;
@@ -60,8 +61,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && _checkedItemFont != null)
-				_checkedItemFont.Dispose();
+			if (disposing && _emphasizedFont != null)
+				_emphasizedFont.Dispose();
 
 			base.Dispose(disposing);
 		}
@@ -276,13 +277,10 @@ namespace SIL.Pa.UI.Controls
 			var rc = e.Item.GetBounds(ItemBoundsPortion.Label);
 			rc.X += 2;
 
-			// Draw the text and its background.
-			var fnt = Font;
-
 			// Determine whether or not to use the emphasized font.
-			if (EmphasizeCheckedItems && GetIsItemSet(info))
-				fnt = _checkedItemFont;
+			var fnt = (EmphasizeCheckedItems && GetIsItemSet(info) ? _emphasizedFont : Font);
 
+			// First, draw the text's background.
 			rc.Width = TextRenderer.MeasureText(info.Name, fnt).Width + 3;
 			var clrText = (selected ? SystemColors.HighlightText : ForeColor);
 
@@ -302,8 +300,8 @@ namespace SIL.Pa.UI.Controls
 				ControlPaint.DrawFocusRectangle(e.Graphics, rc);
 			}
 
+			// Now draw the text.
 			rc.Y--;
-
 			TextRenderer.DrawText(e.Graphics, info.Name, fnt, rc, clrText,
 				TextFormatFlags.VerticalCenter | TextFormatFlags.PreserveGraphicsClipping);
 		}
@@ -556,7 +554,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void AdjustColumnWidth()
 		{
-			var fnt = (EmphasizeCheckedItems ? _checkedItemFont : FontHelper.UIFont);
+			var fnt = (EmphasizeCheckedItems ? _emphasizedFont : FontHelper.UIFont);
 			int width = 0;
 
 			for (int i = 0; i < Items.Count; i++)
