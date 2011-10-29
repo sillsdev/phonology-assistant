@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SilTools;
@@ -199,7 +200,7 @@ namespace SIL.Pa.UI.Controls
 			m_conPicker = new CharPickerRows();
 			m_conPicker.Location = new Point(0, 0);
 			m_conPicker.BackColor = pnlConsonants.BackColor;
-			CharGridBuilder bldr = new CharGridBuilder(m_conPicker, IPASymbolType.Consonant);
+			CharGridBuilder bldr = new CharGridBuilder(m_conPicker, IPASymbolType.consonant);
 			bldr.Build();
 			pnlConsonants.Controls.Add(m_conPicker);
 
@@ -207,7 +208,7 @@ namespace SIL.Pa.UI.Controls
 			m_vowPicker = new CharPickerRows();
 			m_vowPicker.Location = new Point(0, 0);
 			m_vowPicker.BackColor = pnlVowels.BackColor;
-			bldr = new CharGridBuilder(m_vowPicker, IPASymbolType.Vowel);
+			bldr = new CharGridBuilder(m_vowPicker, IPASymbolType.vowel);
 			bldr.Build();
 			pnlVowels.Controls.Add(m_vowPicker);
 
@@ -230,36 +231,23 @@ namespace SIL.Pa.UI.Controls
 			// add the diacritics to a collection of diacritics.
 			foreach (var phoneInfo in App.Project.PhoneCache)
 			{
-				foreach (char c in phoneInfo.Key)
+				foreach (char c in from c in phoneInfo.Key
+								   let ci = App.IPASymbolCache[c]
+								   where ci != null && !ci.IsBase
+								   select c)
 				{
-					var charInfo = App.IPASymbolCache[c];
-					if (charInfo != null && !charInfo.IsBase)
-						m_diacriticsInCache.Add(c);
+					m_diacriticsInCache.Add(c);
 				}
 			}
 
-			var typesToShow = new List<IPASymbolTypeInfo>();
-
-			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Diacritics));
-
-			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Suprasegmentals,
-				IPASymbolSubType.StressAndLength));
-
-			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Suprasegmentals,
-				IPASymbolSubType.ToneAndAccents));
-
-			typesToShow.Add(new IPASymbolTypeInfo(IPASymbolType.Consonant,
-				IPASymbolSubType.OtherSymbols));
-
-			charExplorer.TypesToShow = typesToShow;
 			charExplorer.ItemDrag += OtherCharDragHandler;
 			charExplorer.CharPicked += OtherCharPickedHandler;
-			charExplorer.Load(ci =>
+			charExplorer.Load((int)IPASymbolType.diacritic | (int)IPASymbolSubType.All, ci =>
 			{
 				// TODO: Fix this when chao characters are supported.
 
 				// Always allow non consonants.
-				if (ci.Type != IPASymbolType.Consonant)
+				if (ci.Type != IPASymbolType.consonant)
 					return true;
 
 				char chr = ci.Literal[0];

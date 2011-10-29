@@ -23,7 +23,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public static bool Load(CharGridBuilder chrGridBldr, IPASymbolType chrType)
 		{
-			var filename = (chrType == IPASymbolType.Consonant ?
+			var filename = (chrType == IPASymbolType.consonant ?
 				FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultConsonantChartHeadings.xml") :
 				FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultVowelChartHeadings.xml"));
 

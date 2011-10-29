@@ -66,42 +66,42 @@ namespace SIL.Pa.UI.Controls
 		private void LoadPhonePickers()
 		{
 			m_conPicker.LoadCharacters(App.Project.PhoneCache.Values
-				.Where(p => p.CharType == IPASymbolType.Consonant).OrderBy(p => p.POAKey));
+				.Where(p => p.CharType == IPASymbolType.consonant).OrderBy(p => p.POAKey));
 
 			m_vowPicker.LoadCharacters(App.Project.PhoneCache.Values
-				.Where(p => p.CharType == IPASymbolType.Vowel).OrderBy(p => p.POAKey));
+				.Where(p => p.CharType == IPASymbolType.vowel).OrderBy(p => p.POAKey));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void LoadOtherPicker()
 		{
-			// Go through all the phones in the cache and strip off their diacritics. These
-			// will be used when determining which ones to display in the other picker.
-			var symbols = new List<IPASymbol>();
-			foreach (var pi in App.Project.PhoneCache.Values)
-				symbols.AddRange(pi.GetSymbols().Where(ci => ci != null && !ci.IsBase));
+			//// Go through all the phones in the cache and strip off their diacritics. These
+			//// will be used when determining which ones to display in the other picker.
+			//var symbols = new List<IPASymbol>();
+			//foreach (var pi in App.Project.PhoneCache.Values)
+			//    symbols.AddRange(pi.GetSymbols().Where(ci => ci != null && !ci.IsBase));
 
-			m_otherPicker.LoadCharacters(ci =>
-			{
-				switch (ci.Type)
-				{
-					case IPASymbolType.Diacritics:
-						return true;
-					case IPASymbolType.Suprasegmentals:
-						return (ci.SubType == IPASymbolSubType.StressAndLength || ci.SubType == IPASymbolSubType.ToneAndAccents);
-					case IPASymbolType.Consonant:
-						if (ci.SubType == IPASymbolSubType.OtherSymbols)
-						{
-							// The only consonants to allow are the tie bars.
-							return ((symbols.Contains(ci) || ci.Literal[0] == App.kTopTieBarC ||
-								ci.Literal[0] == App.kBottomTieBarC));
-						}
+			//m_otherPicker.LoadCharacters(ci =>
+			//{
+			//    switch (ci.Type)
+			//    {
+			//        case IPASymbolType.diacritic:
+			//            return true;
+			//        case IPASymbolType.suprasegmental:
+			//            return (ci.SubType == IPASymbolSubType.StressAndLength || ci.SubType == IPASymbolSubType.ToneAndAccents);
+			//        case IPASymbolType.consonant:
+			//            if (ci.SubType == IPASymbolSubType.OtherSymbols)
+			//            {
+			//                // The only consonants to allow are the tie bars.
+			//                return ((symbols.Contains(ci) || ci.Literal[0] == App.kTopTieBarC ||
+			//                    ci.Literal[0] == App.kBottomTieBarC));
+			//            }
 
-						break;
-				}
+			//            break;
+			//    }
 
-				return false;
-			});
+			//    return false;
+			//});
 		}
 
 		/// ------------------------------------------------------------------------------------

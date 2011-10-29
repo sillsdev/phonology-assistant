@@ -118,7 +118,7 @@ namespace SIL.Pa.UI.Controls
 
 			m_lableRows.Clear();
 
-			if (m_charType != IPASymbolType.Unknown)
+			if (m_charType != IPASymbolType.notApplicable)
 			{
 				// Load vowels or consonants from a builder so the phones can be layed out
 				// in POA and MOA order.
@@ -141,8 +141,8 @@ namespace SIL.Pa.UI.Controls
 					var iPhoneInfo = kvpPhoneInfo.Value;
 					var phoneInfo = iPhoneInfo as PhoneInfo;
 
-					if (iPhoneInfo.CharType != IPASymbolType.Consonant &&
-						iPhoneInfo.CharType != IPASymbolType.Vowel &&
+					if (iPhoneInfo.CharType != IPASymbolType.consonant &&
+						iPhoneInfo.CharType != IPASymbolType.vowel &&
 						(phoneInfo == null || !phoneInfo.IsUndefined))
 					{
 						Label lbl = CreateLabel(kvpPhoneInfo.Key, iPhoneInfo);

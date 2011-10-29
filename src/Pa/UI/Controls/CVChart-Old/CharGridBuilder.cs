@@ -76,7 +76,7 @@ namespace SIL.Pa.UI.Controls
 			get
 			{
 				return App.Project.ProjectPathFilePrefix +
-					(m_chrType == IPASymbolType.Consonant ? "Consonant" : "Vowel") +
+					(m_chrType == IPASymbolType.consonant ? "Consonant" : "Vowel") +
 					"Chart.xml";
 			}
 		}
@@ -301,7 +301,7 @@ namespace SIL.Pa.UI.Controls
 
 				if (info != null)
 				{
-					CharGridCell cgc = new CharGridCell(phone);
+					var cgc = new CharGridCell(phone);
 					cgc.DefaultColumn = info.ChartColumn;
 					cgc.DefaultGroup = info.ChartGroup;
 					cgc.TotalCount = phoneInfo.Value.TotalCount;
@@ -314,7 +314,7 @@ namespace SIL.Pa.UI.Controls
 							new List<string>(phoneInfo.Value.SiblingUncertainties);
 					}
 
-					tmpPhoneList[App.GetMOAKey(phone)] = cgc;
+					tmpPhoneList[phoneInfo.Value.MOAKey] = cgc;
 
 					maxPhoneWidth = Math.Max(maxPhoneWidth, TextRenderer.MeasureText(phone,
 						fnt, Size.Empty, flags).Width);

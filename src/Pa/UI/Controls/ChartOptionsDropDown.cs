@@ -28,8 +28,7 @@ namespace SIL.Pa.UI.Controls
 			pickerIgnore.ItemSize = new Size(pickerIgnore.PreferredItemHeight,
 				pickerIgnore.PreferredItemHeight);
 			
-			pickerIgnore.LoadCharacters(ci =>
-				!ci.IsBase && ci.IgnoreType != IPASymbolIgnoreType.NotApplicable);
+			pickerIgnore.LoadCharacters(ci => !ci.IsBase && ci.SubType != IPASymbolSubType.notApplicable);
 
 			SetIgnoredChars(ignoreList);
 
