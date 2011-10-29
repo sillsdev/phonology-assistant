@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Xml;
 using System.Xml.Xsl;
@@ -39,12 +40,14 @@ namespace SilTools
 		/// will move the file to the desired location.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string TransformFile(string inputFile, Stream xsltStream)
+		public static Exception TransformFile(string inputFile, Stream xsltStream, out string outputFile)
 		{
+			outputFile = null;
+
 			if (xsltStream == null || IsEmptyOrInvalid(inputFile))
 				return null;
 
-			var outputFile = Path.GetTempFileName();
+			outputFile = Path.GetTempFileName();
 
 			try
 			{
@@ -55,11 +58,16 @@ namespace SilTools
 					xslt.Transform(inputFile, outputFile);
 					reader.Close();
 					if (!IsEmptyOrInvalid(outputFile))
-						return outputFile;
+					{
+						var msg = string.Format(
+							"Xsl Transformation seemed successful, but its output file '{0}' cannot be found.", outputFile);
+						return new FileNotFoundException(msg);
+					}
 				}
 			}
-			catch
+			catch (Exception e)
 			{
+				return e;
 			}
 			finally
 			{

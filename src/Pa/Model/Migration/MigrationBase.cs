@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Windows.Forms;
 using System.Xml.Linq;
+using Palaso.Reporting;
 using SilTools;
 
 namespace SIL.Pa.Model.Migration
@@ -24,81 +24,49 @@ namespace SIL.Pa.Model.Migration
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string ProjectName { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		public string BackupFolder { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		protected Exception BackupProject(string oldversion)
+		protected Exception DoMigration()
 		{
-			try
-			{
-				var path = Path.GetDirectoryName(_projectFilePath);
-				string ver = oldversion;
-				char letter = 'a';
-
-				// Find an unused backup folder name.
-				do
-				{
-					BackupFolder = Path.Combine(path, string.Format("Backup-{0}-{1}", ProjectName, ver));
-					ver = oldversion + letter;
-					letter += (char)1;
-				}
-				while (Directory.Exists(BackupFolder));
-
-				Directory.CreateDirectory(BackupFolder);
-
-				// Copy the project files to the backup folder.
-				foreach (var filepath in Directory.GetFiles(path, ProjectName + ".*"))
-				{
-					var filename = Path.GetFileName(filepath);
-					File.Copy(filepath, Path.Combine(BackupFolder, filename));
-				}
-
-				// This will make sure the project file (i.e. .pap) gets backed-up
-				// in case its file name is not the same as the project name.
-				var prjfilename = Path.GetFileName(_projectFilePath);
-				if (!File.Exists(Path.Combine(BackupFolder, prjfilename)))
-					File.Copy(_projectFilePath, Path.Combine(BackupFolder, prjfilename));
-
-				return null;
-			}
-			catch (Exception e)
-			{
-				return e;
-			}
+			try { InternalMigration(); }
+			catch (Exception e) { return e; }
+			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected bool TransformFile(string filename, string transformNamespace, out string errMsg)
+		protected virtual void InternalMigration()
 		{
-			errMsg = null;
+			throw new NotImplementedException();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string ProjectName { get; private set; }
+
+		///// ------------------------------------------------------------------------------------
+		//public string BackupFolder { get; private set; }
+
+		/// ------------------------------------------------------------------------------------
+		protected Exception TransformFile(string filename, string transformNamespace)
+		{
 			var assembly = Assembly.GetExecutingAssembly();
 
 			using (var stream = assembly.GetManifestResourceStream(transformNamespace))
 			{
-				var updatedFile = XmlHelper.TransformFile(filename, stream);
-				if (updatedFile == null)
-				{
-					errMsg = App.GetString("ProjectMigrationTransformationFailureMsg",
-						"Migration transformation failed.");
-					return false;
-				}
+				string updatedFile;
+				var error = XmlHelper.TransformFile(filename, stream, out updatedFile);
+				if (error != null)
+					return error;
 
 				try
 				{
 					File.Delete(filename);
 					File.Move(updatedFile, filename);
-					return true;
 				}
 				catch (Exception e)
 				{
-					errMsg = e.Message;
+					return e;
 				}
 			}
 
-			return false;
+			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -110,12 +78,51 @@ namespace SIL.Pa.Model.Migration
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void ShowSuccessMsg()
+		public static string BackupProject(string projectFilePath, string projectName, string oldversion)
 		{
-			var msg = App.GetString("ProjectMigrationSuccessfulMsg",
-				"The '{0}' project has succssfully been upgraded to work with this version of {1}. A backup of your old project has been made in:\n\n{2}");
+			string backupFolder = null;
 
-			Utils.MsgBox(string.Format(msg, ProjectName, Application.ProductName, BackupFolder));
+			try
+			{
+				var path = Path.GetDirectoryName(projectFilePath);
+				string ver = oldversion;
+				char letter = 'a';
+
+				// Find an unused backup folder name.
+				do
+				{
+					backupFolder = Path.Combine(path, string.Format("Backup-{0}-{1}", projectName, ver));
+					ver = oldversion + letter;
+					letter += (char)1;
+				}
+				while (Directory.Exists(backupFolder));
+
+				Directory.CreateDirectory(backupFolder);
+
+				// Copy the project files to the backup folder.
+				foreach (var filepath in Directory.GetFiles(path, projectName + ".*"))
+				{
+					var filename = Path.GetFileName(filepath);
+					File.Copy(filepath, Path.Combine(backupFolder, filename));
+				}
+
+				// This will make sure the project file (i.e. .pap) gets backed-up
+				// in case its file name is not the same as the project name.
+				var prjfilename = Path.GetFileName(projectFilePath);
+				if (!File.Exists(Path.Combine(backupFolder, prjfilename)))
+					File.Copy(projectFilePath, Path.Combine(backupFolder, prjfilename));
+			}
+			catch (Exception e)
+			{
+				backupFolder = null;
+				var errMsg = App.GetString("ProjectMigrationBackupErrorMsg",
+					"An error occurred attempting to backup your project before updating it for the latest version of Phonology Assistant.\n\n" +
+					"Until the problem is resolved, this project cannot be opened using this version of Phonology Assistant.");
+
+				ErrorReport.NotifyUserOfProblem(e, errMsg);
+			}
+
+			return backupFolder;
 		}
 	}
 }

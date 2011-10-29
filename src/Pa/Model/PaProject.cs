@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using System.Xml.Linq;
 using Palaso.IO;
+using Palaso.Reporting;
 using SIL.Pa.DataSource;
 using SIL.Pa.Filters;
 using SIL.Pa.Model.Migration;
@@ -129,14 +130,42 @@ namespace SIL.Pa.Model
 		public static bool MigrateToLatestVersion(string filename)
 		{
 			var xml = XElement.Load(filename);
-			var ver = xml.Attribute("version");
-			if ((string)ver == kCurrVersion)
+			var prevVersion = (string)xml.Attribute("version") ?? "3.0.1";
+			if (prevVersion == kCurrVersion)
 				return true;
 
-			if ((string)ver == "3.3.0")
-				return Migration0333.Migrate(filename, GetProjectPathFilePrefix);
+			var projectName = Path.GetFileNameWithoutExtension(filename);
+			int i = projectName.IndexOf('.');
+			if (i >= 0)
+				projectName = projectName.Substring(0, i);
 
-			return Migration0330.Migrate(filename, GetProjectPathFilePrefix);
+			var backupFolder = MigrationBase.BackupProject(filename, projectName, prevVersion);
+			if (backupFolder == null)
+				return false;
+
+			Exception error = null;
+
+			if (prevVersion == "3.0.1")
+				error = Migration0330.Migrate(filename, GetProjectPathFilePrefix);
+
+			if (error == null && prevVersion == "3.3.0")
+				error = Migration0333.Migrate(filename, GetProjectPathFilePrefix);
+
+			if (error == null)
+			{
+				var msg = App.GetString("ProjectMigrationSuccessfulMsg",
+					"The '{0}' project has succssfully been upgraded to work with this version of Phonology Assistant. A backup of your old project has been made in:\n\n{1}");
+
+				Utils.MsgBox(string.Format(msg, projectName, backupFolder));
+				return true;
+			}
+
+			var errMsg = App.GetString("ProjectMigrationFailureMsg",
+				"There was an error upgradeding the '{0}' project to work with this version of Phonology Assistant.\n\n" +
+				"Until the problem is resolved, this project cannot be opened using this version of Phonology Assistant.");
+
+			ErrorReport.NotifyUserOfProblem(error, errMsg, projectName);
+			return false;
 		}
 
 		#endregion
@@ -466,16 +495,18 @@ namespace SIL.Pa.Model
 			var filePath = BFeatureCache.GetAvailableFeatureSetFiles()
 				.FirstOrDefault(f => Path.GetFileName(f).StartsWith(DistinctiveFeatureSet));
 
-			if (filePath == null)
+			if (filePath != null)
 			{
-				var msg = App.GetString("MiscellaneousMessages.LoadingDistinctiveFeatureSetFileErrorMsg",
-					"The file containing the '{0}' distinctive feature set is missing. The default set will be used instead.");
-				Palaso.Reporting.ErrorReport.NotifyUserOfProblem(msg, DistinctiveFeatureSet);
-				filePath = BFeatureCache.DefaultFeatureSetFile;
+				var root = XElement.Load(filePath);
+				BFeatureCache.LoadFromList(FeatureCacheBase.ReadFeaturesFromXElement(root, "distinctive"));
+				return;
 			}
 
-			var root = XElement.Load(filePath);
-			BFeatureCache.LoadFromList(FeatureCacheBase.ReadFeaturesFromXElement(root, "distinctive"));
+			var msg = App.GetString("MiscellaneousMessages.LoadingDistinctiveFeatureSetFileErrorMsg",
+				"The file containing the '{0}' distinctive feature set is missing. The default set will be used instead.");
+				
+			ErrorReport.NotifyUserOfProblem(msg, DistinctiveFeatureSet);
+			BFeatureCache.LoadFromList(BFeatureCache.GetFeaturesFromDefaultSet());
 		}
 
 		/// ------------------------------------------------------------------------------------

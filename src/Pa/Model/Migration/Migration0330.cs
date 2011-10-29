@@ -1,19 +1,17 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using System.Xml.Linq;
-using SilTools;
 
 namespace SIL.Pa.Model.Migration
 {
 	public class Migration0330 : MigrationBase
 	{
 		/// ------------------------------------------------------------------------------------
-		public static bool Migrate(string prjfilepath, Func<string, string, string> GetPrjPathPrefixAction)
+		public static Exception Migrate(string prjfilepath, Func<string, string, string> GetPrjPathPrefixAction)
 		{
 			var migrator = new Migration0330(prjfilepath, GetPrjPathPrefixAction);
-			return migrator.InternalMigration();
+			return migrator.DoMigration();
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -23,30 +21,12 @@ namespace SIL.Pa.Model.Migration
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool InternalMigration()
+		protected override void InternalMigration()
 		{
-			var e = BackupProject("0301");
-			if (e != null)
-			{
-				var msg = App.GetString("ProjectMigrationBackupErrorMsg",
-					"The following error occurred while attempting to backup your project before updating it for the latest version of {0}:\n\n{1}");
-
-				Utils.MsgBox(string.Format(msg, Application.ProductName, e.Message));
-				return false;
-			}
-
 			MigrateAmbiguousSequences();
 			MigrateExperimentalTranscriptions();
 			MigrateFeatureOverrides();
-
-			if (!MigrateProjectFile())
-			{
-				// TODO: Revert backed-up project.
-				return false;
-			}
-
-			ShowSuccessMsg();
-			return true;
+			MigrateProjectFile();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -56,16 +36,9 @@ namespace SIL.Pa.Model.Migration
 			if (!File.Exists(filepath))
 				return;
 
-			string errMsg;
-			if (TransformFile(filepath, "SIL.Pa.Model.Migration.UpdateAmbiguousSequenceFile.xslt", out errMsg))
-				return;
-
-			var msg = App.GetString("AmbiguousSeqMigrationErrorMsg",
-				"The following error occurred while attempting to update your project’s ambiguous " +
-				"sequences file:\n\n{0}\n\nIn order to continue working and because your project files " +
-				"have been backed up, the program will continue without ambiguous sequences for this project.");
-
-			Utils.MsgBox(string.Format(msg, errMsg));
+			var error = TransformFile(filepath, "SIL.Pa.Model.Migration.UpdateAmbiguousSequenceFile.xslt");
+			if (error != null)
+				throw error;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -77,8 +50,8 @@ namespace SIL.Pa.Model.Migration
 
 			var newfilepath = TranscriptionChanges.GetFileForProject(_projectPathPrefix);
 
-			string errMsg;
-			if (TransformFile(oldfilepath, "SIL.Pa.Model.Migration.UpdateExperimentalTranscriptionFile.xslt", out errMsg))
+			var error = TransformFile(oldfilepath, "SIL.Pa.Model.Migration.UpdateExperimentalTranscriptionFile.xslt");
+			if (error == null)
 			{
 				// The old file has been transformed, now give it a new name since
 				// experimental transcriptions are now called transcription changes.
@@ -88,19 +61,13 @@ namespace SIL.Pa.Model.Migration
 				return;
 			}
 
-			var msg = App.GetString("TranscriptionChangesMigrationErrorMsg",
-				"The following error occurred while attempting to update your project’s " +
-				"transcription changes file (formerly experimental transcriptions):\n\n{0}\n\n" +
-				"In order to continue working and because your project files have been backed up, " +
-				"the program will continue without transcription changes for this project.");
-
-			Utils.MsgBox(string.Format(msg, errMsg));
-
 			try
 			{
 				File.Delete(oldfilepath);
 			}
 			catch { }
+
+			throw error;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -110,37 +77,20 @@ namespace SIL.Pa.Model.Migration
 			if (!File.Exists(filepath))
 				return;
 
-			string errMsg;
-			if (TransformFile(filepath, "SIL.Pa.Model.Migration.UpdateFeatureOverridesFile.xslt", out errMsg))
-				return;
-			
-			var msg = App.GetString("FeatureOverridesMigrationErrorMsg",
-				"The following error occurred while attempting to update your project’s " +
-				"feature overrides file:\n\n{0}\n\nIn order to continue working and because " +
-				"your project files have been backed up, the program will continue without " +
-				"overriding any features for this project.");
-
-			Utils.MsgBox(string.Format(msg, errMsg));
+			var error = TransformFile(filepath, "SIL.Pa.Model.Migration.UpdateFeatureOverridesFile.xslt");
+			if (error != null)
+				throw error;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool MigrateProjectFile()
+		private void MigrateProjectFile()
 		{
-			string errMsg;
+			var error = TransformFile(_projectFilePath, "SIL.Pa.Model.Migration.UpdateProjectFile.xslt");
 
-			if (TransformFile(_projectFilePath, "SIL.Pa.Model.Migration.UpdateProjectFile.xslt", out errMsg))
-			{
-				UpdateFields();
-				return true;
-			}
+			if (error != null)
+				throw error;
 
-			var msg = App.GetString("ProjectFileMigrationErrorMsg",
-				"The following error occurred while attempting to update your project " +
-				"file: {0}\n\n{1}\n\n{2} will be unable to open this project unless this " +
-				"problem can be corrected.");
-
-			Utils.MsgBox(string.Format(msg, Path.GetFileName(_projectFilePath), errMsg, Application.ProductName));
-			return false;
+			UpdateFields();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -184,16 +134,16 @@ namespace SIL.Pa.Model.Migration
 
 			var newFieldsFilePath = PaField.GetFileForProject(_projectPathPrefix);
 			File.Move(fldInfoFilePath, newFieldsFilePath);
-			string errMsg;
 
-			if (!TransformFile(newFieldsFilePath, "SIL.Pa.Model.Migration.UpdateFieldInfo.xslt", out errMsg))
+			var error = TransformFile(newFieldsFilePath, "SIL.Pa.Model.Migration.UpdateFieldInfo.xslt");
+			if (error != null)
+				throw error;
+
+			try
 			{
-				try
-				{
-					File.Delete(newFieldsFilePath);
-				}
-				catch { }
+				File.Delete(newFieldsFilePath);
 			}
+			catch { }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -225,16 +175,16 @@ namespace SIL.Pa.Model.Migration
 		{
 			var displayPropsFilePath = PaFieldDisplayProperties.GetFileForProject(_projectPathPrefix);
 			File.Copy(fldInfoFilePath, displayPropsFilePath);
-			string errMsg;
-			
-			if (!TransformFile(displayPropsFilePath, "SIL.Pa.Model.Migration.CreateFieldDisplayProperties.xslt", out errMsg))
+
+			var error = TransformFile(displayPropsFilePath, "SIL.Pa.Model.Migration.CreateFieldDisplayProperties.xslt");
+			if (error != null)
+				throw error;
+
+			try
 			{
-				try
-				{
-					File.Delete(displayPropsFilePath);
-				}
-				catch { }
+				File.Delete(displayPropsFilePath);
 			}
+			catch { }
 		}
 	}
 }

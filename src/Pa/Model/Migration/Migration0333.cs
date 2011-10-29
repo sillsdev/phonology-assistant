@@ -1,20 +1,18 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using System.Xml.Linq;
 using SIL.Pa.PhoneticSearching;
-using SilTools;
 
 namespace SIL.Pa.Model.Migration
 {
 	public class Migration0333 : MigrationBase
 	{
 		/// ------------------------------------------------------------------------------------
-		public static bool Migrate(string prjfilepath, Func<string, string, string> GetPrjPathPrefixAction)
+		public static Exception Migrate(string prjfilepath, Func<string, string, string> GetPrjPathPrefixAction)
 		{
 			var migrator = new Migration0333(prjfilepath, GetPrjPathPrefixAction);
-			return migrator.InternalMigration();
+			return migrator.DoMigration();
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -24,33 +22,20 @@ namespace SIL.Pa.Model.Migration
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool InternalMigration()
+		protected override void InternalMigration()
 		{
-			var e = BackupProject("0332");
-			if (e != null)
-			{
-				var msg = App.GetString("ProjectMigrationBackupErrorMsg",
-					"The following error occurred while attempting to backup your project before updating it for the latest version of {0}:\n\n{1}");
-
-				Utils.MsgBox(string.Format(msg, Application.ProductName, e.Message));
-				return false;
-			}
-
 			var filepath = SearchQueryGroupList.GetSearchQueryFileForProject(_projectPathPrefix);
 			if (File.Exists(filepath))
 				MigrateSearchQueries(filepath);
 
 			if (File.Exists(App.GetPathToRecentlyUsedSearchQueriesFile()))
-			    MigrateRecentlyUsedSearchQueries(App.GetPathToRecentlyUsedSearchQueriesFile());
+				MigrateRecentlyUsedSearchQueries(App.GetPathToRecentlyUsedSearchQueriesFile());
 
 			if (File.Exists(_projectFilePath))
 			{
 				MigrateProjectFile();
 				UpdateProjectFileToLatestVersion();
 			}
-
-			ShowSuccessMsg();
-			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
