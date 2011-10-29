@@ -19,10 +19,10 @@ namespace SIL.Pa.UI.Controls
 
 		public event CharPickedHandler CharPicked;
 		public event ItemDragEventHandler ItemDrag;
-		private Size m_itemSize = new Size(30, 32);
-		private bool m_autoSizeItems;
-		private Point m_itemMouseDownPoint;
-		private float m_fontSize = 14;
+		private Size _itemSize = new Size(30, 32);
+		private bool _autoSizeItems;
+		private Point _itemMouseDownPoint;
+		private float _fontSize = 14;
 
 		/// ------------------------------------------------------------------------------------
 		public CharPicker()
@@ -47,9 +47,15 @@ namespace SIL.Pa.UI.Controls
 		/// specified type.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public CharPicker(IPASymbolTypeInfo typeInfo) : this()
+		public CharPicker(int typeInfo) : this()
 		{
 			LoadCharacterType(typeInfo, null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<ToolStripButton> GetItems()
+		{
+			return Items.Cast<ToolStripButton>();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -80,7 +86,20 @@ namespace SIL.Pa.UI.Controls
 		public int GetPreferredWidth(int numberOfColumns)
 		{
 			// Add two for the borders.
-			return (m_itemSize.Width + (kDefaultItemMargin * 2)) * numberOfColumns + 2;
+			return (_itemSize.Width + (kDefaultItemMargin * 2)) * numberOfColumns + 2;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public int GetPreferredHeight()
+		{
+			return GetPreferredHeight(NumberOfRows);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public int GetPreferredHeight(int numberOfRows)
+		{
+			// Add two for the borders.
+			return (_itemSize.Height + (kDefaultItemMargin * 2)) * numberOfRows + 2;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -88,18 +107,18 @@ namespace SIL.Pa.UI.Controls
 		{
 			// Whack off margins and borders.
 			width -= ((kDefaultItemMargin * 2) + 2);
-			return width / m_itemSize.Width;
+			return width / _itemSize.Width;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public float FontSize
 		{
-			get { return m_fontSize; }
+			get { return _fontSize; }
 			set
 			{
-				if (m_fontSize != value)
+				if (_fontSize.Equals(value))
 				{
-					m_fontSize = value;
+					_fontSize = value;
 					RefreshFont();
 				}
 			}
@@ -121,14 +140,14 @@ namespace SIL.Pa.UI.Controls
 					return;
 
 				base.Font = value;
-				m_fontSize = value.SizeInPoints;
-				m_itemSize = new Size(base.Font.Height, base.Font.Height + 2);
+				_fontSize = value.SizeInPoints;
+				_itemSize = new Size(base.Font.Height, base.Font.Height + 2);
 				
 				foreach (ToolStripItem item in Items)
 				{
 					item.Font = value;
 					if (!item.AutoSize)
-						item.Size = m_itemSize;
+						item.Size = _itemSize;
 				}
 			}
 		}
@@ -148,16 +167,16 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public Size ItemSize
 		{
-			get { return m_itemSize; }
+			get { return _itemSize; }
 			set
 			{
-				if (m_itemSize == value)
+				if (_itemSize == value)
 					return;
 
-				m_itemSize = value;
+				_itemSize = value;
 
 				for (int i = 0; i < Items.Count; i++)
-					Items[i].Size = m_itemSize;
+					Items[i].Size = _itemSize;
 			}
 		}
 
@@ -168,16 +187,16 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool AutoSizeItems
 		{
-			get { return m_autoSizeItems; }
+			get { return _autoSizeItems; }
 			set
 			{
-				if (m_autoSizeItems == value)
+				if (_autoSizeItems == value)
 					return;
 
-				m_autoSizeItems = value;
+				_autoSizeItems = value;
 
 				for (int i = 0; i < Items.Count; i++)
-					Items[i].AutoSize = m_autoSizeItems;
+					Items[i].AutoSize = _autoSizeItems;
 			}
 		}
 
@@ -198,7 +217,7 @@ namespace SIL.Pa.UI.Controls
 				if (Items.Count > 0)
 				{
 					int left = Items[0].Bounds.Left;
-					count = Items.Cast<ToolStripButton>().Count(item => item.Bounds.Left == left);
+					count = GetItems().Count(item => item.Bounds.Left == left);
 				}
 
 				return count;
@@ -216,8 +235,8 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				var checkedItems = Items.Cast<ToolStripButton>().Where(item => item.Checked).ToList();
-				return (checkedItems.Count == 0 ? null : checkedItems.ToArray());
+				var checkedItems = GetItems().Where(item => item.Checked).ToArray();
+				return (checkedItems.Length == 0 ? new ToolStripButton[0] : checkedItems);
 			}
 		}
 
@@ -239,12 +258,23 @@ namespace SIL.Pa.UI.Controls
 				{
 					int left = Items[0].Bounds.Left;
 
-					foreach (var item in Items.Cast<ToolStripButton>().Where(item => item.Bounds.Left == left))
+					foreach (var item in GetItems().Where(item => item.Bounds.Left == left))
 						height = item.Bounds.Bottom + 3 + item.Margin.Bottom;
 				}
 
 				return height;
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public CheckState GetRelevantCheckState()
+		{
+			var checkedItemCount = CheckedItems.Length;
+
+			if (checkedItemCount == Items.Count)
+				return CheckState.Checked;
+			
+			return  (checkedItemCount == 0 ? CheckState.Unchecked : CheckState.Indeterminate);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -262,8 +292,8 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnItemAdded(e);
 
-			e.Item.AutoSize = m_autoSizeItems;
-			e.Item.Size = m_itemSize;
+			e.Item.AutoSize = _autoSizeItems;
+			e.Item.Size = _itemSize;
 			e.Item.TextAlign = ContentAlignment.MiddleCenter;
 			e.Item.DisplayStyle = ToolStripItemDisplayStyle.Text;
 			e.Item.Margin = new Padding(kDefaultItemMargin);
@@ -272,7 +302,7 @@ namespace SIL.Pa.UI.Controls
 			// Save the point at which the mouse went down over the item.
 			e.Item.MouseDown += delegate(object sender, MouseEventArgs mea)
 			{
-				m_itemMouseDownPoint =
+				_itemMouseDownPoint =
 					(mea.Button == MouseButtons.Left ? mea.Location : Point.Empty);
 			};
 		}
@@ -284,15 +314,15 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void Item_MouseMove(object sender, MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left && m_itemMouseDownPoint != Point.Empty &&
+			if (e.Button == MouseButtons.Left && _itemMouseDownPoint != Point.Empty &&
 				ItemDrag != null)
 			{
 				var item = sender as ToolStripButton;
 
 				// Only fire the ItemDrag event when the mouse cursor has moved 4 or more
 				// pixels from where the mouse button went down.
-				int dx = Math.Abs(m_itemMouseDownPoint.X - e.X);
-				int dy = Math.Abs(m_itemMouseDownPoint.Y - e.Y);
+				int dx = Math.Abs(_itemMouseDownPoint.X - e.X);
+				int dy = Math.Abs(_itemMouseDownPoint.Y - e.Y);
 				
 				if (item != null && (dx >= 4 || dy >= 4))
 				{
@@ -318,28 +348,61 @@ namespace SIL.Pa.UI.Controls
 				CharPicked(this, item);
 		}
 
+		/// --------------------------------------------------------------------------------------------
+		public void CheckAllItems()
+		{
+			foreach (var item in GetItems())
+				item.Checked = true;
+		}
+
+		/// --------------------------------------------------------------------------------------------
+		public void UncheckAllItems()
+		{
+			foreach (var item in GetItems())
+				item.Checked = false;
+		}
+
+		/// --------------------------------------------------------------------------------------------
+		public void SetCheckedItemsByText(IEnumerable<string> textsOfItemsToCheck)
+		{
+			foreach (var text in textsOfItemsToCheck)
+			{
+				var item = GetItems().FirstOrDefault(i => i.Text.Replace(App.kDottedCircle, string.Empty) == text);
+				
+				if (item != null)
+				{
+					item.Checked = true;
+					item.Tag = true;
+				}
+			}
+		}
+
+		/// --------------------------------------------------------------------------------------------
+		public IEnumerable<string> GetTextsOfCheckedItems()
+		{
+			return CheckedItems.Select(i => i.Text.Replace(App.kDottedCircle, string.Empty));
+		}
+
 		#region Methods for Loading Characters
 		/// --------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Load the chooser with the specified character type.
 		/// </summary>
 		/// --------------------------------------------------------------------------------------------
-		public void LoadCharacterType(IPASymbolTypeInfo typeInfo, Func<IPASymbol, bool> getShouldLoad)
+		public void LoadCharacterType(int typeInfo, Func<IPASymbol, bool> getShouldLoad)
 		{
-			var list = App.IPASymbolCache.Values.Where(ci =>
-				ci.Type == typeInfo.Type && (ci.SubType == typeInfo.SubType || ci.SubType == IPASymbolSubType.Unknown));
-			
+			var list = App.IPASymbolCache.Values.Where(ci => (((int)ci.Type | (int)ci.SubType) & typeInfo) > 0);
 			LoadCharacters(list, getShouldLoad);
 		}
 
 		/// --------------------------------------------------------------------------------------------
 		/// <summary>
-		/// Load the chooser with the specified ignore character type.
+		/// Load the chooser with the specified symbol sub type.
 		/// </summary>
 		/// --------------------------------------------------------------------------------------------
-		public void LoadCharacterType(IPASymbolIgnoreType type)
+		public void LoadCharacterType(IPASymbolSubType type)
 		{
-			LoadCharacters(App.IPASymbolCache.Values.Where(ci => ci.IgnoreType == type));
+			LoadCharacters(App.IPASymbolCache.Values.Where(ci => ci.SubType == type));
 		}
 
 		/// --------------------------------------------------------------------------------------------
@@ -354,7 +417,7 @@ namespace SIL.Pa.UI.Controls
 
 		/// --------------------------------------------------------------------------------------------
 		/// <summary>
-		/// Load the chooser with characters checked by a loading delegate.
+		/// Load the chooser with the specified symbols.
 		/// </summary>
 		/// --------------------------------------------------------------------------------------------
 		public void LoadCharacters(IEnumerable<IPASymbol> symbols)
@@ -364,7 +427,7 @@ namespace SIL.Pa.UI.Controls
 
 		/// --------------------------------------------------------------------------------------------
 		/// <summary>
-		/// Load the chooser with characters checked by a loading delegate.
+		/// Load the chooser with phones.
 		/// </summary>
 		/// --------------------------------------------------------------------------------------------
 		public void LoadCharacters(IEnumerable<IPhoneInfo> phones)
@@ -379,8 +442,8 @@ namespace SIL.Pa.UI.Controls
 		/// --------------------------------------------------------------------------------------------
 		public void LoadCharacters(IEnumerable<IPASymbol> symbols, Func<IPASymbol, bool> getShouldLoad)
 		{
-			InternalLoad(symbols.OrderBy(ci => ci.POArticulation)
-				.Where(ci => (getShouldLoad == null ? true : getShouldLoad(ci))));
+			InternalLoad(symbols.OrderBy(ci => ci.DisplayOrder)
+				.Where(ci => (getShouldLoad == null || getShouldLoad(ci))));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -412,12 +475,12 @@ namespace SIL.Pa.UI.Controls
 
 			if (string.IsNullOrEmpty(charInfo.Description))
 			{
-				fmt = App.GetString("CharacterPickerShortToolTip", "{0}",
+				fmt = App.GetString("CommonControls.CharacterPicker.ShortToolTip", "{0}",
 					"Used to format the tooltip string for items in an IPA character picker control when the character has no description (argument is the character name).");
 			}
 			else
 			{
-				fmt = App.GetString("CharacterPickerLongToolTip", "{0},\n{1}",
+				fmt = App.GetString("CommonControls.CharacterPicker.LongToolTip", "{0},\n{1}",
 					"Used to format the tooltip string for items in an IPA character picker control (1st argument is the character name, and the 2rd argument is for the description)");
 			}
 			
