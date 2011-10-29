@@ -35,7 +35,7 @@ namespace SIL.Pa.Processing
 			}
 
 			App.MsgMediator.SendMessage("BeforeBuildProjectInventory", project);
-			
+
 			var bldr = new ProjectInventoryBuilder(project);
 			var buildResult = bldr.InternalProcess();
 			
@@ -88,12 +88,12 @@ namespace SIL.Pa.Processing
 
 			// Kick off the processing and then save the results to a file.
 			pipeline.BeforeStepProcessed += BeforePipelineStepProcessed;
-			
+
 			if (input is MemoryStream)
 				pipeline.Transform((MemoryStream)input, _outputFileName);
 			else if (input is string)
 				pipeline.Transform((string)input, _outputFileName);
-			
+
 			pipeline.BeforeStepProcessed -= BeforePipelineStepProcessed;
 
 			// Some people were receiving the following exception:
