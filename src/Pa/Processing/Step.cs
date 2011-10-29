@@ -58,10 +58,10 @@ namespace SIL.Pa.Processing
 				var resolver = new XmlUrlResolver();
 				resolver.Credentials = CredentialCache.DefaultCredentials;
 
+				_xslt = new XslCompiledTransform(true);
+				
 				var compiledTransformType = Type.GetType(Path.GetFileNameWithoutExtension(XsltFilePath) +
 					", PaCompiledTransforms, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
-				
-				_xslt = new XslCompiledTransform(true);
 				
 				if (compiledTransformType != null)
 					_xslt.Load(compiledTransformType);
