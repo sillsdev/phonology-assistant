@@ -17,7 +17,7 @@
 
 			<Directory Id="ProgramFilesFolder" Name="PFiles">
 				<!--<Directory Id="ProgramDir" Name="Phonology Assistant">-->
-				<Directory Id="APPLICATIONFOLDER" Name="Phonology Assistant 3.3.1">
+				<Directory Id="APPLICATIONFOLDER" Name="Phonology Assistant 3.x">
 					<Component Id="Pa.exe" Guid="{C1BD51CD-92F3-4f83-B5AD-0842C3063985}">
 						<File Id="Pa.exe" Name="Pa.exe"  Source="..\output\release\Pa.exe" />
 					</Component>
@@ -45,49 +45,26 @@
 					<Component Id="Pa.pdb" Guid="{8C44B41B-2937-4A69-99FC-602DC89949D8}">
 						<File Id="Pa.pdb" KeyPath="yes" Source="..\output\release\Pa.pdb" />
 					</Component>
-					<Component Id="PCIEditor.exe" Guid="{40801E28-D701-4857-873A-F045009DFBBC}">
+<!--
+          <Component Id="PCIEditor.exe" Guid="{40801E28-D701-4857-873A-F045009DFBBC}">
 						<File Id="PCIEditor.exe" KeyPath="yes" Source="..\output\release\PCIEditor.exe" />
 					</Component>
 					<Component Id="PCIEditor.pdb" Guid="{0FA906C6-B120-4295-9F43-9005B34AFC35}">
 						<File Id="PCIEditor.pdb" KeyPath="yes" Source="..\output\release\PCIEditor.pdb" />
 					</Component>
+-->
 					<Component Id="Phonology_Assistant_Help.chm" Guid="{06DFF774-C027-4CB5-8821-0B5F2C6FD88B}">
 						<File Id="Phonology_Assistant_Help.chm" KeyPath="yes" Source="..\distfiles\Phonology_Assistant_Help.chm" />
 					</Component>
-					<Component Id="SilTools.dll" Guid="{A130DD5C-A787-4085-B2B3-5C84E67A20B1}">
+          <Component Id="PaCompiledTransforms.dll" Guid="{92098C72-A32E-46E1-B95D-AE402120294C}">
+            <File Id="PaCompiledTransforms.dll" KeyPath="yes" Source="..\output\release\PaCompiledTransforms.dll" />
+          </Component>
+          <Component Id="SilTools.dll" Guid="{A130DD5C-A787-4085-B2B3-5C84E67A20B1}">
 						<File Id="SilTools.dll" KeyPath="yes" Source="..\output\release\SilTools.dll" />
 					</Component>
 					<Component Id="SilTools.pdb" Guid="{C85FA3F0-F525-4151-9D1A-396410501084}">
 						<File Id="SilTools.pdb" KeyPath="yes" Source="..\output\release\SilTools.pdb" />
 					</Component>
-					<!--<Component Id="SpeechToolsUtils.dll" Guid="{4B412B97-3D03-4E4A-839B-E27E4B4FCF92}">
-						<Class Id="{5A202747-6161-4C0C-B35E-EAB8E5562C5A}" Context="InprocServer32" Description="SIL.SpeechTools.Utils.SaAudioDocumentReader" ThreadingModel="both" ForeignServer="mscoree.dll">
-							<ProgId Id="SpeechToolsInterfaces.SaAudioDocumentReader" Description="SIL.SpeechTools.Utils.SaAudioDocumentReader" />
-						</Class>
-						<Class Id="{5F70259E-A867-470A-B114-6D516722CE39}" Context="InprocServer32" Description="SIL.SpeechTools.Utils.SaAudioDocumentWriter" ThreadingModel="both" ForeignServer="mscoree.dll">
-							<ProgId Id="SpeechToolsInterfaces.SaAudioDocumentWriter" Description="SIL.SpeechTools.Utils.SaAudioDocumentWriter" />
-						</Class>
-						<File Id="SpeechToolsUtils.dll" KeyPath="yes" Source="..\output\release\SpeechToolsUtils.dll" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5A202747-6161-4C0C-B35E-EAB8E5562C5A}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5A202747-6161-4C0C-B35E-EAB8E5562C5A}\InprocServer32\1.0.3911.28181" Name="Class" Value="SIL.SpeechTools.Utils.SaAudioDocumentReader" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5A202747-6161-4C0C-B35E-EAB8E5562C5A}\InprocServer32\1.0.3911.28181" Name="Assembly" Value="SpeechToolsUtils, Version=1.0.3911.28181, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5A202747-6161-4C0C-B35E-EAB8E5562C5A}\InprocServer32\1.0.3911.28181" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5A202747-6161-4C0C-B35E-EAB8E5562C5A}\InprocServer32\1.0.3911.28181" Name="CodeBase" Value="file:///[#SpeechToolsUtils.dll]" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5A202747-6161-4C0C-B35E-EAB8E5562C5A}\InprocServer32" Name="Class" Value="SIL.SpeechTools.Utils.SaAudioDocumentReader" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5A202747-6161-4C0C-B35E-EAB8E5562C5A}\InprocServer32" Name="Assembly" Value="SpeechToolsUtils, Version=1.0.3911.28181, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5A202747-6161-4C0C-B35E-EAB8E5562C5A}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5A202747-6161-4C0C-B35E-EAB8E5562C5A}\InprocServer32" Name="CodeBase" Value="file:///[#SpeechToolsUtils.dll]" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5F70259E-A867-470A-B114-6D516722CE39}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5F70259E-A867-470A-B114-6D516722CE39}\InprocServer32\1.0.3911.28181" Name="Class" Value="SIL.SpeechTools.Utils.SaAudioDocumentWriter" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5F70259E-A867-470A-B114-6D516722CE39}\InprocServer32\1.0.3911.28181" Name="Assembly" Value="SpeechToolsUtils, Version=1.0.3911.28181, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5F70259E-A867-470A-B114-6D516722CE39}\InprocServer32\1.0.3911.28181" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5F70259E-A867-470A-B114-6D516722CE39}\InprocServer32\1.0.3911.28181" Name="CodeBase" Value="file:///[#SpeechToolsUtils.dll]" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5F70259E-A867-470A-B114-6D516722CE39}\InprocServer32" Name="Class" Value="SIL.SpeechTools.Utils.SaAudioDocumentWriter" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5F70259E-A867-470A-B114-6D516722CE39}\InprocServer32" Name="Assembly" Value="SpeechToolsUtils, Version=1.0.3911.28181, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5F70259E-A867-470A-B114-6D516722CE39}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5F70259E-A867-470A-B114-6D516722CE39}\InprocServer32" Name="CodeBase" Value="file:///[#SpeechToolsUtils.dll]" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="Component Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Name="0" Value=".NET Category" Type="string" Action="write" />
-					</Component>-->
 				</Directory>
 			</Directory>
 		</Directory>

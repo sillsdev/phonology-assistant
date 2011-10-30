@@ -20,6 +20,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>..\Output\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <DefineConstants>Processing_Location=..\DistFiles\Processing;Configuration_Location=..\DistFiles\Configuration</DefineConstants>
   </PropertyGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--
@@ -48,6 +49,12 @@
     </WixExtension>
   </ItemGroup>
   <PropertyGroup>
-    <PreBuildEvent>$(ProjectDir)..\DistFiles\Zipper  -o:"$(ProjectDir)..\Output\Release\Training\PaTrainingProjects.zip" "$(ProjectDir)..\DistFiles\Training Projects"</PreBuildEvent>
+    <PreBuildEvent>rd /s /q "$(SolutionDir)Output\Release\Training"
+md "$(SolutionDir)Output\Release\Training"
+"$(SolutionDir)DistFiles\Zipper"  -o:"$(SolutionDir)Output\Release\Training\PaTrainingProjects.zip" "$(SolutionDir)DistFiles\Training Projects"
+
+REM === The next two lines require "heat" to be in your path. Heat is installed with the Windows Installer XML (WiX) toolset ===
+heat dir "$(SolutionDir)DistFiles\Processing" -cg ProcessingFiles -dr APPLICATIONFOLDER -gg -sfrag -suid -var var.Processing_Location -o $(ProjectDir)Files_Processing.wxs
+heat dir "$(SolutionDir)DistFiles\Configuration" -cg ConfigurationFiles -dr APPLICATIONFOLDER -gg -sfrag -suid -var var.Configuration_Location -o $(ProjectDir)Files_Configuration.wxs</PreBuildEvent>
   </PropertyGroup>
 </Project>
