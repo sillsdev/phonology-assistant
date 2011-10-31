@@ -26,12 +26,12 @@ namespace SIL.Pa.UI.Dialogs
 
 			BuildGrid();
 			
-			m_grid.Columns["seq"].DefaultCellStyle.Font = App.PhoneticFont;
-			m_grid.Columns["seq"].CellTemplate.Style.Font = App.PhoneticFont;
-			m_grid.Columns["base"].DefaultCellStyle.Font = App.PhoneticFont;
-			m_grid.Columns["base"].CellTemplate.Style.Font = App.PhoneticFont;
-			m_grid.Columns["cvpattern"].DefaultCellStyle.Font = App.PhoneticFont;
-			m_grid.Columns["cvpattern"].CellTemplate.Style.Font = App.PhoneticFont;
+			_grid.Columns["seq"].DefaultCellStyle.Font = App.PhoneticFont;
+			_grid.Columns["seq"].CellTemplate.Style.Font = App.PhoneticFont;
+			_grid.Columns["base"].DefaultCellStyle.Font = App.PhoneticFont;
+			_grid.Columns["base"].CellTemplate.Style.Font = App.PhoneticFont;
+			_grid.Columns["cvpattern"].DefaultCellStyle.Font = App.PhoneticFont;
+			_grid.Columns["cvpattern"].CellTemplate.Style.Font = App.PhoneticFont;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -41,21 +41,17 @@ namespace SIL.Pa.UI.Dialogs
 			m_project = project;
 			LoadGrid();
 
-			foreach (var row in m_grid.GetRows())
+			foreach (var row in _grid.GetRows())
 			{
 				row.Cells["seq"].Style.Font = App.PhoneticFont;
 				row.Cells["base"].Style.Font = App.PhoneticFont;
 				row.Cells["cvpattern"].Style.Font = App.PhoneticFont;
 			}
 
-			m_grid.AdjustGridRows(Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
+			_grid.AdjustGridRows(Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
 			App.AddMediatorColleague(this);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Clean up.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosed(FormClosedEventArgs e)
 		{
@@ -66,14 +62,14 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void BuildGrid()
 		{
-			m_grid.Name = Name + "AmbigGrid";
-			m_grid.AutoGenerateColumns = false;
-			m_grid.AllowUserToAddRows = true;
-			m_grid.AllowUserToDeleteRows = true;
-			m_grid.AllowUserToOrderColumns = false;
-			m_grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
-			m_grid.Font = FontHelper.UIFont;
-			App.SetGridSelectionColors(m_grid, true);
+			_grid.Name = Name + "AmbigGrid";
+			_grid.AutoGenerateColumns = false;
+			_grid.AllowUserToAddRows = true;
+			_grid.AllowUserToDeleteRows = true;
+			_grid.AllowUserToOrderColumns = false;
+			_grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+			_grid.Font = FontHelper.UIFont;
+			App.SetGridSelectionColors(_grid, true);
 
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("seq");
 			col.Width = 90;
@@ -83,7 +79,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.HeaderText = App.GetString("AmbiguousSequencesDlg.SeqColumnHdg",
 				"Sequence", "Column heading in ambiguous sequences dialog box.");
 			
-			m_grid.Columns.Add(col);
+			_grid.Columns.Add(col);
 
 			col = SilGrid.CreateCheckBoxColumn("convert");
 			col.Width = 75;
@@ -91,7 +87,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.HeaderText = App.GetString("AmbiguousSequencesDlg.ConvertColumnHdg",
 				"Treat as one unit?", "Column heading in ambiguous sequences dialog box.");
 
-			m_grid.Columns.Add(col);
+			_grid.Columns.Add(col);
 
 			col = SilGrid.CreateTextBoxColumn("base");
 			col.Width = 75;
@@ -101,7 +97,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.HeaderText = App.GetString("AmbiguousSequencesDlg.BaseCharColumnHdg",
 				"Base Character", "Column heading in ambiguous sequences dialog box.");
 			
-			m_grid.Columns.Add(col);
+			_grid.Columns.Add(col);
 
 			col = SilGrid.CreateTextBoxColumn("cvpattern");
 			col.ReadOnly = true;
@@ -112,11 +108,11 @@ namespace SIL.Pa.UI.Dialogs
 			col.HeaderText = App.GetString("AmbiguousSequencesDlg.AmbiguousCVPatternColumnHdg",
 				"CV Pattern", "Column heading in ambiguous sequences dialog box.");
 
-			m_grid.Columns.Add(col);
+			_grid.Columns.Add(col);
 
 			col = SilGrid.CreateCheckBoxColumn("generated");
 			col.Visible = false;
-			m_grid.Columns.Add(col);
+			_grid.Columns.Add(col);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -126,74 +122,108 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void LoadGrid()
 		{
-			int prevRow = m_grid.CurrentCellAddress.Y;
+			int prevRow = _grid.CurrentCellAddress.Y;
 
-			m_grid.Rows.Clear();
+			_grid.Rows.Clear();
 			var ambigSeqList = m_project.AmbiguousSequences;
 
 			if (ambigSeqList == null || ambigSeqList.Count == 0)
 			{
-				m_grid.IsDirty = false;
+				_grid.IsDirty = false;
 				return;
 			}
 
-			m_grid.Rows.Add(ambigSeqList.Count);
+			_grid.Rows.Add(ambigSeqList.Count);
 
 			for (int i = 0; i < ambigSeqList.Count; i++)
 			{
-				m_grid["seq", i].Value = ambigSeqList[i].Literal;
-				m_grid["convert", i].Value = ambigSeqList[i].Convert;
-				m_grid["base", i].Value = ambigSeqList[i].BaseChar;
-				m_grid["generated", i].Value = ambigSeqList[i].IsGenerated;
+				_grid["seq", i].Value = ambigSeqList[i].Literal;
+				_grid["convert", i].Value = ambigSeqList[i].Convert;
+				_grid["base", i].Value = ambigSeqList[i].BaseChar;
+				_grid["generated", i].Value = ambigSeqList[i].IsGenerated;
 
 				if (!string.IsNullOrEmpty(ambigSeqList[i].BaseChar))
 				{
-					m_grid["cvpattern", i].Value =
+					_grid["cvpattern", i].Value =
 						m_project.PhoneCache.GetCVPattern(ambigSeqList[i].BaseChar);
 				}
 
 				if (ambigSeqList[i].IsGenerated)
-				{
-					m_grid.Rows[i].Cells[0].ReadOnly = true;
-					if (!chkShowGenerated.Checked)
-						m_grid.Rows[i].Visible = false;
-				}
+					_grid.Rows[i].Cells[0].ReadOnly = true;
 			}
 
 			// Select a row if there isn't one currently selected.
-			if (m_grid.CurrentCellAddress.Y < 0 && m_grid.RowCountLessNewRow > 0 &&
-				m_grid.Rows.GetRowCount(DataGridViewElementStates.Visible) > 0)
+			if (_grid.CurrentCellAddress.Y < 0 && _grid.RowCountLessNewRow > 0 &&
+				_grid.Rows.GetRowCount(DataGridViewElementStates.Visible) > 0)
 			{
 				// Check if the previous row is a valid row.
-				if (prevRow < 0 || prevRow >= m_grid.RowCountLessNewRow ||
-					!m_grid.Rows[prevRow].Visible)
+				if (prevRow < 0 || prevRow >= _grid.RowCountLessNewRow ||
+					!_grid.Rows[prevRow].Visible)
 				{
-					prevRow = m_grid.FirstDisplayedScrollingRowIndex;
+					prevRow = _grid.FirstDisplayedScrollingRowIndex;
 				}
 
-				m_grid.CurrentCell = m_grid[0, prevRow];
+				_grid.CurrentCell = _grid[0, prevRow];
 			}
 
 			if (Settings.Default.AmbiguousSequencesDlgGrid != null)
-				Settings.Default.AmbiguousSequencesDlgGrid.InitializeGrid(m_grid);
+				Settings.Default.AmbiguousSequencesDlgGrid.InitializeGrid(_grid);
 
-			m_grid.AdjustGridRows(Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
-			m_grid.IsDirty = false;
-			chkShowGenerated.Visible = ambigSeqList.Any(x => x.IsGenerated);
+			_grid.AdjustGridRows(Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
+			_grid.IsDirty = false;
 		}
 
 		#region Overridden methods of base class
 		/// ------------------------------------------------------------------------------------
 		protected override bool IsDirty
 		{
-			get { return m_grid.IsDirty; }
+			get { return _grid.IsDirty; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			Settings.Default.AmbiguousSequencesDlgGrid = GridSettings.Create(m_grid);
+			Settings.Default.AmbiguousSequencesDlgGrid = GridSettings.Create(_grid);
 			base.SaveSettings();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override bool Verify()
+		{
+			if (!AmbiguousSequencesChanged)
+			{
+				_grid.IsDirty = false;
+				return true;
+			}
+			
+			foreach (var row in _grid.GetRows().Where(r => r.Index != _grid.NewRowIndex))
+			{
+				var phone = row.Cells["seq"].Value as string;
+				var basechar = row.Cells["base"].Value as string;
+				string msg = null;
+
+				if (phone == null || phone.Trim().Length == 0)
+				{
+					_grid.CurrentCell = _grid["seq", row.Index];
+					msg = App.GetString("DialogBoxes.AmbiguousSequencesDlg.MustSpecifySequenceMsg",
+						"You must specify a sequence.");
+				}
+				if (basechar == null || basechar.Trim().Length == 0)
+				{
+					_grid.CurrentCell = _grid["base", row.Index];
+					msg = App.GetString("DialogBoxes.AmbiguousSequencesDlg.MustSpecifyBaseCharacterMsg",
+						"You must specify a base character.");
+				}
+
+				if (msg != null)
+				{
+					App.NotifyUserOfProblem(msg);
+					_grid.BeginEdit(false);
+					return false;
+				}
+			}
+
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -201,13 +231,13 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			if (!AmbiguousSequencesChanged)
 			{
-				m_grid.IsDirty = false;
+				_grid.IsDirty = false;
 				return false;
 			}
 
 			var ambigSeqList = new AmbiguousSequences();
 
-			foreach (var row in m_grid.GetRows().Where(r => r.Index != m_grid.NewRowIndex))
+			foreach (var row in _grid.GetRows().Where(r => r.Index != _grid.NewRowIndex))
 			{
 				var phone = row.Cells["seq"].Value as string;
 				var basechar = row.Cells["base"].Value as string;
@@ -220,7 +250,6 @@ namespace SIL.Pa.UI.Dialogs
 					var seq = new AmbiguousSeq(phone.Trim());
 					seq.BaseChar = basechar.Trim();
 					seq.Convert = (row.Cells["convert"].Value != null && (bool)row.Cells["convert"].Value);
-
 					seq.IsGenerated = (bool)row.Cells["generated"].Value;
 					ambigSeqList.Add(seq);
 				}
@@ -247,17 +276,17 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				if (m_project.AmbiguousSequences == null)
 				{
-					if (m_grid.RowCountLessNewRow > 0)
+					if (_grid.RowCountLessNewRow > 0)
 						return true;
 				}
-				else if (m_project.AmbiguousSequences.Count != m_grid.RowCountLessNewRow)
+				else if (m_project.AmbiguousSequences.Count != _grid.RowCountLessNewRow)
 				{
 					return true;
 				}
 
 				// Go through the ambiguous sequences in the grid and check them against
 				// those found in the project's list of ambiguous sequences.
-				foreach (var row in m_grid.GetRows().Where(r => r.Index != m_grid.NewRowIndex))
+				foreach (var row in _grid.GetRows().Where(r => r.Index != _grid.NewRowIndex))
 				{
 					string seq = row.Cells["seq"].Value as string;
 					string baseChar = row.Cells["base"].Value as string;
@@ -278,9 +307,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// Make sure the new row has its height set correctly.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_grid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+		private void HandleGridRowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
 		{
-			m_grid.AdjustGridRows(Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
+			_grid.AdjustGridRows(Settings.Default.AmbiguousSequencesDlgGridExtraRowHeight);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -288,10 +317,11 @@ namespace SIL.Pa.UI.Dialogs
 		/// Make sure new rows get proper default values
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		void m_grid_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
+		void HandleGridDefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
 		{
 			e.Row.Cells["seq"].Value = string.Empty;
 			e.Row.Cells["convert"].Value = true;
+			e.Row.Cells["base"].Value = string.Empty;
 			e.Row.Cells["generated"].Value = false;
 		}
 
@@ -300,15 +330,31 @@ namespace SIL.Pa.UI.Dialogs
 		/// Validate the edited base character.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_grid_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+		private void HandleGridCellValidating(object sender, DataGridViewCellValidatingEventArgs e)
 		{
-			if (e.RowIndex == m_grid.NewRowIndex)
+			if (e.RowIndex == _grid.NewRowIndex)
 				return;
 
-			if (e.ColumnIndex == 0)
+			if (_grid.GetColumnName(e.ColumnIndex) == "seq")
 				e.Cancel = ValidateSequence(e.RowIndex, e.FormattedValue as string);
-			else if (e.ColumnIndex == 2)
-				e.Cancel = ValidateBaseCharacter(e.RowIndex, e.FormattedValue as string);
+			else if (_grid.GetColumnName(e.ColumnIndex) == "base")
+				e.Cancel = ValidateBaseCharacter(e.RowIndex, e.FormattedValue as string);	
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleGridCellContentClick(object sender, DataGridViewCellEventArgs e)
+		{
+			if (_grid.GetColumnName(e.ColumnIndex) == "convert" &&
+				(bool)_grid["generated", e.RowIndex].Value &&
+				!(bool)_grid["convert", e.RowIndex].EditedFormattedValue)
+			{
+				App.NotifyUserOfProblem(App.GetString("DialogBoxes.AmbiguousSequencesDlg.MustTreatGeneratedSequencesAsUnitMsg",
+					"This ambiguous sequence was automatically generated based on phonetic " +
+					"transcriptions found in one or more data sources. Automatically " +
+					"generated ambiguous sequences must be treated as one unit."));
+
+				_grid.CancelEdit();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -319,26 +365,26 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private bool ValidateSequence(int row, string newSeq)
 		{
-			for (int i = 0; i < m_grid.NewRowIndex; i++)
+			for (int i = 0; i < _grid.NewRowIndex; i++)
 			{
-				if (i != row && m_grid[0, i].Value as string == newSeq)
+				if (i != row && _grid[0, i].Value as string == newSeq)
 				{
 					string msg;
-					if ((bool)m_grid["generated", row].Value)
+					if ((bool)_grid["generated", row].Value)
 					{
-						msg = App.GetString("AmbiguousSequencesDlg.DuplicateSeqMsg1",
+						msg = App.GetString("DialogBoxes.AmbiguousSequencesDlg.DuplicateSeqMsg1",
 							"That sequence already exists.", "Message displayed in ambiguous sequences " +
 							"dialog box when identical sequences exist.");
 					}
 					else
 					{
-						msg = App.GetString("AmbiguousSequencesDlg.DuplicateSeqMsg2",
+						msg = App.GetString("DialogBoxes.AmbiguousSequencesDlg.DuplicateSeqMsg2",
 							"That sequence already exists as a generated sequence.", "Message displayed in " +
 							"ambiguous sequences dialog box when a user-added sequence is identical to a " +
 							"generated sequences.");
 					}
 
-					Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					App.NotifyUserOfProblem(msg);
 					return true;
 				}
 			}
@@ -355,11 +401,11 @@ namespace SIL.Pa.UI.Dialogs
 		private bool ValidateBaseCharacter(int row, string newBaseChar)
 		{
 
-			if (row < 0 || row >= m_grid.RowCount)
+			if (row < 0 || row >= _grid.RowCount)
 				return false;
 
 			string msg = null;
-			string phone = m_grid["seq", row].Value as string;
+			string phone = _grid["seq", row].Value as string;
 
 			// Check if a base character has been specified.
 			if (string.IsNullOrEmpty(newBaseChar))
@@ -369,7 +415,7 @@ namespace SIL.Pa.UI.Dialogs
 					return false;
 
 				// At this point, we know we have a sequence but no base character
-				msg = App.GetString("AmbiguousSequencesDlg.BaseCharMissingMsg",
+				msg = App.GetString("DialogBoxes.AmbiguousSequencesDlg.BaseCharMissingMsg",
 					"You must specify a base character.", "Message displayed when trying to " +
 					"save ambiguous sequences in the ambiguous sequences dialog box, when one " +
 					"or more sequence does not have a base character specified.");
@@ -380,7 +426,7 @@ namespace SIL.Pa.UI.Dialogs
 				// Make sure there is an ambiguous sequence before specifying a base character.
 				if (string.IsNullOrEmpty(phone))
 				{
-					msg = App.GetString("AmbiguousSequencesDlg.MissingSequenceMsg",
+					msg = App.GetString("DialogBoxes.AmbiguousSequencesDlg.MissingSequenceMsg",
 						"A base character may not be specified\nuntil you have specified an ambiguous sequence.",
 						"Message dislpayed in ambiguous sequences dialog box.");
 				}
@@ -389,14 +435,14 @@ namespace SIL.Pa.UI.Dialogs
 			// Make sure the new base character is part of the ambiguous sequence.
 			if (msg == null && phone != null && !phone.Contains(newBaseChar))
 			{
-				msg = App.GetString("AmbiguousSequencesDlg.BaseCharNotInSeqMsg",
+				msg = App.GetString("DialogBoxes.AmbiguousSequencesDlg.BaseCharNotInSeqMsg",
 					"Your base character must be contained\nwithin its associated ambiguous sequence.",
 					"Message dislpayed in ambiguous sequences dialog box.");
 			}
 
 			if (msg != null)
 			{
-				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				App.NotifyUserOfProblem(msg);
 				return true;
 			}
 
@@ -404,25 +450,17 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void m_grid_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+		private void HandleGridCellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
 		{
-			if (e.ColumnIndex == 1 && e.RowIndex == m_grid.NewRowIndex)
+			if (e.ColumnIndex == 1 && e.RowIndex == _grid.NewRowIndex)
 				e.Cancel = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void m_grid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+		private void HandleGridCellEndEdit(object sender, DataGridViewCellEventArgs e)
 		{
 			// Get the ambiguous sequence.
-			string phone = m_grid["seq", e.RowIndex].Value as string;
+			string phone = _grid["seq", e.RowIndex].Value as string;
 			if (phone != null)
 				phone = phone.Trim();
 
@@ -436,24 +474,24 @@ namespace SIL.Pa.UI.Dialogs
 			// the C or V type of the ambiguous sequence.
 			if (e.ColumnIndex == 2)
 			{
-				string newBaseChar = m_grid["base", e.RowIndex].Value as string;
-				m_grid["cvpattern", e.RowIndex].Value =
+				string newBaseChar = _grid["base", e.RowIndex].Value as string;
+				_grid["cvpattern", e.RowIndex].Value =
 					m_project.PhoneCache.GetCVPattern(newBaseChar);
 			}
 			else if (e.ColumnIndex == 0)
 			{
 				var phoneInfo = new PhoneInfo(m_project, phone);
-				var prevBaseChar = m_grid["base", e.RowIndex].Value as string;
+				var prevBaseChar = _grid["base", e.RowIndex].Value as string;
 				if (prevBaseChar == null || !phone.Contains(prevBaseChar))
 				{
 					string newBaseChar = phoneInfo.BaseCharacter.ToString();
-					m_grid["base", e.RowIndex].Value = newBaseChar;
-					m_grid["cvpattern", e.RowIndex].Value =
+					_grid["base", e.RowIndex].Value = newBaseChar;
+					_grid["cvpattern", e.RowIndex].Value =
 						m_project.PhoneCache.GetCVPattern(newBaseChar);
 				}
 			}
 
-			m_grid.IsDirty = AmbiguousSequencesChanged;
+			_grid.IsDirty = AmbiguousSequencesChanged;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -468,15 +506,15 @@ namespace SIL.Pa.UI.Dialogs
 			if (args is int)
 			{
 				int rowIndex = (int)args;
-				if (rowIndex >= 0 && rowIndex < m_grid.RowCountLessNewRow)
+				if (rowIndex >= 0 && rowIndex < _grid.RowCountLessNewRow)
 				{
-					m_grid.Rows.RemoveAt(rowIndex);
+					_grid.Rows.RemoveAt(rowIndex);
 
-					while (rowIndex >= 0 && rowIndex >= m_grid.RowCount)
+					while (rowIndex >= 0 && rowIndex >= _grid.RowCount)
 						rowIndex--;
 
-					if (rowIndex >= 0 && rowIndex < m_grid.RowCountLessNewRow)
-						m_grid.CurrentCell = m_grid["seq", rowIndex];
+					if (rowIndex >= 0 && rowIndex < _grid.RowCountLessNewRow)
+						_grid.CurrentCell = _grid["seq", rowIndex];
 				}
 			}
 
@@ -488,65 +526,27 @@ namespace SIL.Pa.UI.Dialogs
 		/// Don't allow deleting generated sequences.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void m_grid_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+		private void HandleGridUserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
 		{
 			if (e.Row == null)
 				return;
 
 			if (e.Row.Cells["generated"].Value != null && (bool)e.Row.Cells["generated"].Value)
 			{
-				var msg = App.GetString("AmbiguousSequencesDlg.CantDeleteGeneratedAmbiguousSeqMsg",
-					"This ambiguous sequence was automatically generated based\non phonetic " +
-					"transcriptions found in one or more data sources.\nAutomatically " +
-					"generated ambiguous sequences may not be\ndeleted. If you do not want " +
-					"Phonology Assistant to treat this\nsequence as a unit, clear the 'Treat " +
-					"as one Unit?’check box.", "Message displayed when trying to delete an " +
-					"automatically generated ambiguous sequence in the ambiguous sequence dialog box.");
+				var msg = App.GetString("DialogBoxes.AmbiguousSequencesDlg.CantDeleteGeneratedAmbiguousSeqMsg",
+					"This ambiguous sequence was automatically generated based on phonetic " +
+					"transcriptions found in one or more data sources. Automatically " +
+					"generated ambiguous sequences may not be deleted.",
+					"Message displayed when trying to delete an automatically generated ambiguous " +
+					"sequence in the ambiguous sequence dialog box.");
 				
-				Utils.MsgBox(msg);
+				App.NotifyUserOfProblem(msg);
 				e.Cancel = true;
 			}
 		}
 
 		#endregion
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Change the visible state of the generated ambiguous sequences.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void HandleShowGeneratedCheckedChanged(object sender, EventArgs e)
-		{
-			foreach (DataGridViewRow row in m_grid.Rows)
-			{
-				if (row.Index == m_grid.NewRowIndex)
-					continue;
-
-				if ((bool)row.Cells["generated"].Value)
-					row.Visible = chkShowGenerated.Checked;
-			}
-
-			if (chkShowGenerated.Checked)
-				return;
-
-			int currRow = m_grid.CurrentCellAddress.Y;
-			if (currRow < 0 || !m_grid.Rows[currRow].Visible)
-			{
-				foreach (DataGridViewRow row in m_grid.Rows)
-				{
-					if (row.Visible)
-					{
-						row.Selected = true;
-						return;
-					}
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleHelpClick(object sender, EventArgs e)
 		{
