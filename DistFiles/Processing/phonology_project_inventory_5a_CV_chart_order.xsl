@@ -1,6 +1,6 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_inventory_5a_CV_chart_order.xsl 2011-08-17 -->
+  <!-- phonology_project_inventory_5a_CV_chart_order.xsl 2011-10-28 -->
 	<!-- Add an order attribute to chart keys and subkeys. -->
 	<!-- At the end of the project inventory, order attributes were removed: -->
 	<!-- * To reduce the size of the project phonetic inventory file. -->
@@ -18,8 +18,8 @@
 	<!-- This pipeline assumes that segments have a column group, row group, and column key. -->
 	<xsl:template match="segment">
 		<xsl:if test="keys/chartKey[@class = 'colgroup'] and keys/chartKey[@class = 'rowgroup'] and keys/chartKey[@class = 'col']">
-			<!-- If any segments have tone accents, include only the unmarked segment. -->
-			<xsl:if test="not(@literalSegment) or @literal = @literalSegment">
+			<!-- Omit segments for which another segment represents it in the chart. -->
+			<xsl:if test="not(@literalInChart)">
 				<xsl:copy>
 					<xsl:apply-templates select="@*" />
 					<xsl:apply-templates select="features[@class = 'descriptive']" />
@@ -39,6 +39,9 @@
 			</xsl:if>
 			<xsl:if test="not(chartKey[@class = 'rowGeneral'])">
 				<chartKey class="rowGeneral" />
+			</xsl:if>
+			<xsl:if test="not(chartKey[@class = 'tone'])">
+				<chartKey class="tone" />
 			</xsl:if>
 		</xsl:copy>
 	</xsl:template>

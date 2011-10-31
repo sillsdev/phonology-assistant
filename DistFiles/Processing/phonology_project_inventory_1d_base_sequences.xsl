@@ -1,6 +1,6 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_inventory_1d_base_sequences.xsl 2011-09-21 -->
+  <!-- phonology_project_inventory_1d_base_sequences.xsl 2011-10-28 -->
   <!-- Merge descriptive features of base symbol sequences. -->
 	<!-- General rule: Keep features of the primary base symbol; omit features of non-primary base symbols. -->
 	<!-- Specific rules might do any of the following: -->
@@ -40,7 +40,7 @@
 	</xsl:template>
 
 	<!-- Merge descriptive features of symbols according to the first sequencePattern that matches the base symbols. -->
-	<xsl:template match="symbols">
+	<xsl:template match="segment/symbols">
 		<xsl:variable name="countBaseSymbolOfSegment" select="count(symbol[@base = 'true'])" />
 		<xsl:choose>
 			<xsl:when test="$countBaseSymbolOfSegment = 1">

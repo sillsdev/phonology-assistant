@@ -1,6 +1,6 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_inventory_1a_symbols.xsl 2011-10-26 -->
+  <!-- phonology_project_inventory_1a_symbols.xsl 2011-10-28 -->
 	<!-- For each segment, copy information about its symbols from the program phonetic inventory. -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
@@ -28,25 +28,76 @@
 		</xsl:copy>
 	</xsl:template>
 
-  <xsl:template match="segment[@literal]">
-		<xsl:variable name="segments" select=".." />
+	<xsl:template match="segments">
+		<xsl:variable name="segments" select="." />
+		<xsl:variable name="symbolsIgnored" select="../symbols[@class = 'ignoredInChart']" />
 		<xsl:copy>
 			<xsl:apply-templates select="@*" />
+			<xsl:apply-templates select="segment">
+				<xsl:with-param name="segments" select="$segments" />
+				<xsl:with-param name="symbolsIgnored" select="$symbolsIgnored" />
+			</xsl:apply-templates>
+		</xsl:copy>
+	</xsl:template>
+
+  <xsl:template match="segment[@literal]">
+		<xsl:param name="segments" />
+		<xsl:param name="symbolsIgnored" />
+		<xsl:variable name="literal" select="@literal" />
+		<xsl:variable name="literalInChart">
+			<xsl:choose>
+				<xsl:when test="$symbolsIgnored/@literals">
+					<xsl:value-of select="translate($literal, $symbolsIgnored/@literals, '')" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$literal" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<!-- If a segment contains symbols to ignore: -->
+		<!-- * If there is no segment without the symbols, add the symbol. -->
+		<!--   The next step will remove added segments which are duplicates. -->
+		<!-- * Add an attribute which refers to the segment without the symbols. -->
+		<!--   The charts will omit segments which have the attribute. -->
+		<xsl:if test="$literalInChart != $literal">
+			<xsl:if test="not($segments/segment[@literal = $literalInChart])">
+				<segment literal="{$literalInChart}" addedForChart="true">
+					<xsl:apply-templates>
+						<xsl:with-param name="symbolsIgnored" select="$symbolsIgnored" />
+						<xsl:with-param name="literal" select="$literal" />
+					</xsl:apply-templates>
+					<xsl:call-template name="symbols">
+						<xsl:with-param name="literal" select="$literalInChart" />
+						<xsl:with-param name="segments" select="$segments" />
+					</xsl:call-template>
+				</segment>
+			</xsl:if>
+		</xsl:if>
+		<xsl:copy>
+			<xsl:apply-templates select="@*" />
+			<xsl:if test="$literalInChart != $literal">
+				<xsl:attribute name="literalInChart">
+					<xsl:value-of select="$literalInChart" />
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:apply-templates />
-			<symbols>
-				<xsl:call-template name="symbols">
-					<xsl:with-param name="text" select="@literal" />
-					<xsl:with-param name="segments" select="$segments" />
-				</xsl:call-template>
-			</symbols>
+			<xsl:call-template name="symbols">
+				<xsl:with-param name="literal" select="$literal" />
+				<xsl:with-param name="segments" select="$segments" />
+			</xsl:call-template>
 		</xsl:copy>
   </xsl:template>
 
 	<!-- Segment has descriptive feature overrides. -->
 	<xsl:template match="features[@class = 'descriptive']">
+		<xsl:param name="symbolsIgnored" />
+		<xsl:param name="literal" />
 		<xsl:copy>
 			<xsl:apply-templates select="@*" />
-			<xsl:apply-templates select="feature" mode="descriptive" />
+			<xsl:apply-templates select="feature" mode="descriptive">
+				<xsl:with-param name="symbolsIgnored" select="$symbolsIgnored" />
+				<xsl:with-param name="literal" select="$literal" />
+			</xsl:apply-templates>
 		</xsl:copy>
 	</xsl:template>
 
@@ -69,6 +120,17 @@
 	</xsl:template>
 
 	<xsl:template name="symbols">
+		<xsl:param name="literal" />
+		<xsl:param name="segments" />
+		<symbols>
+			<xsl:call-template name="literal">
+				<xsl:with-param name="text" select="$literal" />
+				<xsl:with-param name="segments" select="$segments" />
+			</xsl:call-template>
+		</symbols>
+	</xsl:template>
+
+	<xsl:template name="literal">
     <xsl:param name="text" />
 		<xsl:param name="segments" />
     <xsl:if test="string-length($text) != 0">
@@ -76,7 +138,7 @@
       <xsl:apply-templates select="$symbolDefinitions/symbolDefinition[@literal = $char]" mode="symbolDefinition">
 				<xsl:with-param name="segments" select="$segments" />
 			</xsl:apply-templates>
-      <xsl:call-template name="symbols">
+      <xsl:call-template name="literal">
         <xsl:with-param name="text" select="substring($text, 2)" />
 				<xsl:with-param name="segments" select="$segments" />
 			</xsl:call-template>
@@ -90,7 +152,7 @@
 		<xsl:param name="segments" />
 		<xsl:choose>
 			<xsl:when test="usage/@replaceWith">
-				<xsl:call-template name="symbols">
+				<xsl:call-template name="literal">
 					<xsl:with-param name="text" select="usage/@replaceWith" />
 					<xsl:with-param name="segments" select="$segments" />
 				</xsl:call-template>
@@ -171,17 +233,24 @@
 	
 	<!-- Copy attributes from featureDefinition to feature. -->
 	<xsl:template match="feature" mode="descriptive">
+		<xsl:param name="symbolsIgnored" />
+		<xsl:param name="literal" />
 		<xsl:variable name="name" select="." />
-		<xsl:variable name="featureDefinition" select="$projectDescriptiveFeatures/featureDefinition[name = $name]" />
-		<xsl:copy>
-			<!-- Copy attributes from features definition: class, category, order. -->
-			<xsl:copy-of select="$featureDefinition/@class" />
-			<xsl:copy-of select="$featureDefinition/@category" />
-			<xsl:copy-of select="$featureDefinition/@order" />
-			<!-- Copy primary attribute from feature in symbol definition. -->
-			<xsl:copy-of select="@primary" />
-			<xsl:apply-templates />
-		</xsl:copy>
+		<xsl:choose>
+			<xsl:when test="$symbolsIgnored and $symbolsIgnored/symbol[features[@class = 'descriptive']/feature[. = $name]][contains($literal, @literal)]" />
+			<xsl:otherwise>
+				<xsl:variable name="featureDefinition" select="$projectDescriptiveFeatures/featureDefinition[name = $name]" />
+				<xsl:copy>
+					<!-- Copy attributes from features definition: class, category, order. -->
+					<xsl:copy-of select="$featureDefinition/@class" />
+					<xsl:copy-of select="$featureDefinition/@category" />
+					<xsl:copy-of select="$featureDefinition/@order" />
+					<!-- Copy primary attribute from feature in symbol definition. -->
+					<xsl:copy-of select="@primary" />
+					<xsl:apply-templates />
+				</xsl:copy>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 	
 </xsl:stylesheet>

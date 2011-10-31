@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_CV_chart_2a_features.xsl 2011-10-21 -->
+  <!-- phonology_export_view_CV_chart_2a_features.xsl 2011-10-28 -->
 	<!-- Export to XHTML, Interactive Web page, and at least one feature table. -->
   <!-- For each Phonetic data cell: -->
   <!-- * Wrap the literal segment in a span. -->
@@ -278,13 +278,6 @@ exclude-result-prefixes="xhtml"
 							<xsl:variable name="features" select="$segment/features[@class = 'descriptive']" />
 							<ul class="descriptive features" xmlns="http://www.w3.org/1999/xhtml">
 								<xsl:apply-templates select="$features/feature" mode="list" />
-								<!-- Additional suprasegmental features from related segments. -->
-								<xsl:for-each select="$segments/segment[@literalSegment = $literal]/features[@class = 'descriptive']/feature">
-									<xsl:variable name="feature" select="." />
-									<xsl:if test="not($features/feature[. = $feature])">
-										<xsl:apply-templates select="." mode="list" />
-									</xsl:if>
-								</xsl:for-each>
 							</ul>
 						</xsl:if>
 						<xsl:if test="$distinctiveFeatureTable = 'true'">

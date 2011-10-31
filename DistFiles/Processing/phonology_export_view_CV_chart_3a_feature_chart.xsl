@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-	<!-- phonology_export_view_CV_chart_3a_feature_chart.xsl 2011-10-21 -->
+	<!-- phonology_export_view_CV_chart_3a_feature_chart.xsl 2011-10-28 -->
   <!-- Following the section which contains a consonant chart or vowel chart, or both, -->
 	<!-- append sections which contain corresponding charts of distinctive features. -->
 
@@ -356,7 +356,7 @@ exclude-result-prefixes="xhtml"
 			<xsl:variable name="name" select="name" />
 			<xsl:if test="$segments/segment[keys/chartKey[@class = $classChartKey][. = $name]]">
 				<colgroup xmlns="http://www.w3.org/1999/xhtml">
-					<xsl:for-each select="$segments/segment[not(@literal != @literalSegment)][keys/chartKey[@class = $classChartKey][. = $name]]">
+					<xsl:for-each select="$segments/segment[not(@literalInChart)][keys/chartKey[@class = $classChartKey][. = $name]]">
 						<col />
 					</xsl:for-each>
 				</colgroup>
@@ -588,7 +588,7 @@ exclude-result-prefixes="xhtml"
 					</xsl:when>
 				</xsl:choose>
 			</th>
-			<xsl:for-each select="$segments/segment[not(@literal != @literalSegment)][features[@class = 'descriptive']/feature[. = $type]]">
+			<xsl:for-each select="$segments/segment[not(@literalInChart)][features[@class = 'descriptive']/feature[. = $type]]">
 				<xsl:sort select="keys/sortKey[@class = $classOfSortKey]" />
 				<xsl:call-template name="cell">
 					<xsl:with-param name="segment" select="." />
@@ -628,13 +628,13 @@ exclude-result-prefixes="xhtml"
 				<xsl:variable name="indistinguishableThisFromThat">
 					<xsl:call-template name="booleanOr">
 						<xsl:with-param name="booleanSequence">
-							<xsl:for-each select="$segment/preceding-sibling::segment[not(@literal != @literalSegment)][features[@class = 'descriptive']/feature[. = $type]]">
+							<xsl:for-each select="$segment/preceding-sibling::segment[not(@literalInChart)][features[@class = 'descriptive']/feature[. = $type]]">
 								<xsl:call-template name="indistinguishableThisFromThat">
 									<xsl:with-param name="segmentThis" select="$segment" />
 									<xsl:with-param name="segmentThat" select="." />
 								</xsl:call-template>
 							</xsl:for-each>
-							<xsl:for-each select="$segment/following-sibling::segment[not(@literal != @literalSegment)][features[@class = 'descriptive']/feature[. = $type]]">
+							<xsl:for-each select="$segment/following-sibling::segment[not(@literalInChart)][features[@class = 'descriptive']/feature[. = $type]]">
 								<xsl:call-template name="indistinguishableThisFromThat">
 									<xsl:with-param name="segmentThis" select="$segment" />
 									<xsl:with-param name="segmentThat" select="." />
@@ -646,13 +646,13 @@ exclude-result-prefixes="xhtml"
 				<xsl:variable name="indistinguishableThatFromThis">
 					<xsl:call-template name="booleanOr">
 						<xsl:with-param name="booleanSequence">
-							<xsl:for-each select="$segment/preceding-sibling::segment[not(@literal != @literalSegment)][features[@class = 'descriptive']/feature[. = $type]]">
+							<xsl:for-each select="$segment/preceding-sibling::segment[not(@literalInChart)][features[@class = 'descriptive']/feature[. = $type]]">
 								<xsl:call-template name="indistinguishableThisFromThat">
 									<xsl:with-param name="segmentThis" select="." />
 									<xsl:with-param name="segmentThat" select="$segment" />
 								</xsl:call-template>
 							</xsl:for-each>
-							<xsl:for-each select="$segment/following-sibling::segment[not(@literal != @literalSegment)][features[@class = 'descriptive']/feature[. = $type]]">
+							<xsl:for-each select="$segment/following-sibling::segment[not(@literalInChart)][features[@class = 'descriptive']/feature[. = $type]]">
 								<xsl:call-template name="indistinguishableThisFromThat">
 									<xsl:with-param name="segmentThis" select="." />
 									<xsl:with-param name="segmentThat" select="$segment" />

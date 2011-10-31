@@ -1,6 +1,6 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_chartKey_order_1.xsl 2011-10-06 -->
+  <!-- phonology_project_chartKey_order_1.xsl 2011-10-28 -->
   <!-- Add an order attribute to chartKey elements. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
@@ -29,6 +29,26 @@
 			<xsl:apply-templates select="@*" />
 			<xsl:if test="not(@order)">
 				<xsl:copy-of select="$projectDescriptiveFeatures/featureDefinition[name = $featureName]/@order" />
+			</xsl:if>
+			<xsl:apply-templates />
+		</xsl:copy>
+	</xsl:template>
+
+	<!-- Chart key is the order of the feature. -->
+	<xsl:template match="keys/chartKey[@class = 'tone']">
+		<xsl:copy>
+			<xsl:apply-templates select="@*" />
+			<xsl:if test="not(@order)">
+				<xsl:attribute name="order">
+					<xsl:choose>
+						<xsl:when test="feature">
+							<xsl:apply-templates select="feature[1]" mode="order" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$orderZero" />
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:attribute>
 			</xsl:if>
 			<xsl:apply-templates />
 		</xsl:copy>

@@ -1,6 +1,6 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_inventory_1b_ambiguous_sequences.xsl 2011-08-02 -->
+  <!-- phonology_project_inventory_1b_ambiguous_sequences.xsl 2011-10-28 -->
   <!-- In multiple base symbols, add primary attributes according to ambiguous sequences. -->
 	<!-- To diacritic symbols which precede the first base symbol, add a precedesBase attribute. -->
 	<!-- To repeated diacritic symbols, add an attribute and remove child elements. -->
@@ -15,6 +15,16 @@
       <xsl:apply-templates select="@* | node()" />
     </xsl:copy>
   </xsl:template>
+
+	<!-- Remove added segments which are duplicates. -->
+	<xsl:template match="segment[@addedForChart = 'true']">
+		<xsl:variable name="literal" select="@literal" />
+		<xsl:if test="not(preceding-sibling::segment[@literal = $literal])">
+			<xsl:copy>
+				<xsl:apply-templates select="@* | node()" />
+			</xsl:copy>
+		</xsl:if>
+	</xsl:template>
 
 	<!-- Add an attribute for base sequence patterns. -->
 	<xsl:template match="symbol[@base = 'true']">

@@ -1,6 +1,6 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <!-- phonology_project_inventory_2d_tone.xsl 2011-08-26 -->
+  <!-- phonology_project_inventory_2d_tone.xsl 2011-10-28 -->
   <!-- Secondary sort order for segments that differ only by tone. -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
@@ -12,12 +12,6 @@
       <xsl:apply-templates select="@* | node()" />
     </xsl:copy>
   </xsl:template>
-
-	<xsl:template match="@* | node()" mode="unmarked">
-		<xsl:copy>
-			<xsl:apply-templates select="@* | node()" mode="unmarked" />
-		</xsl:copy>
-	</xsl:template>
 
 	<!-- Remove chart key patterns from the project inventory file. -->
 	<xsl:template match="/inventory/chartKeyPatterns" />
@@ -36,46 +30,6 @@
 	<!-- The last processing step will: -->
 	<!-- * Remove order attributes from descriptive features and descendents of keys. -->
 	<!-- * Remove empty chartKey elements for rows. -->
-
-	<xsl:template match="segment[@literal][keys[chartKey[@class = 'tone'][feature]]]">
-		<xsl:variable name="literalSegment" select="translate(@literal, '̀́̂̄̋̌̏᷄᷅᷆᷇᷈᷉', '')" />
-		<xsl:variable name="segmentPreceding" select="preceding-sibling::segment[1]" />
-		<xsl:choose>
-			<xsl:when test="$segmentPreceding/@literal = $literalSegment" />
-			<xsl:when test="translate($segmentPreceding/@literal, '̀́̂̄̋̌̏᷄᷅᷆᷇᷈᷉', '') = $literalSegment" />
-			<!-- The first segment of a set with tone accents is not preceded by a corresponding unmarked segment. -->
-			<xsl:otherwise>
-				<xsl:copy>
-					<xsl:attribute name="literal">
-						<xsl:value-of select="$literalSegment" />
-					</xsl:attribute>
-					<xsl:attribute name="literalSegment">
-						<xsl:value-of select="$literalSegment" />
-					</xsl:attribute>
-					<xsl:apply-templates mode="unmarked" />
-				</xsl:copy>
-			</xsl:otherwise>
-		</xsl:choose>
-		<xsl:copy>
-			<xsl:apply-templates select="@*" />
-			<!-- Add attribute which consists of literal symbol without tone accent. -->
-			<xsl:attribute name="literalSegment">
-				<xsl:value-of select="$literalSegment" />
-			</xsl:attribute>
-			<xsl:apply-templates />
-		</xsl:copy>
-	</xsl:template>
-
-	<xsl:template match="features[@class = 'descriptive']/feature[@category = 'tone']" mode="unmarked" />
-
-	<xsl:template match="sortKey[@class = 'secondary']" mode="unmarked">
-		<xsl:copy>
-			<xsl:apply-templates select="@*" />
-			<xsl:value-of select="'0'" />
-		</xsl:copy>
-	</xsl:template>
-
-	<xsl:template match="chartKey[@class = 'tone']" mode="unmarked" />
 
 	<!-- Adjust sort keys for segments which have tone features. -->
 	<xsl:template match="keys[chartKey[@class = 'tone'][feature]]/sortKey">
@@ -138,8 +92,9 @@
 					<xsl:if test="$keys/chartKey[@class = 'col']/@order = $keysPreceding/chartKey[@class = 'col']/@order">
 						<xsl:if test="$keys/chartKey[@class = 'rowConditional']/@order = $keysPreceding/chartKey[@class = 'rowConditional']/@order">
 							<xsl:if test="$keys/chartKey[@class = 'rowGeneral']/@order = $keysPreceding/chartKey[@class = 'rowGeneral']/@order">
-								<!-- TO DO: tone? -->
-								<xsl:copy-of select="." />
+								<xsl:if test="$keys/chartKey[@class = 'tone']/@order = $keysPreceding/chartKey[@class = 'tone']/@order">
+									<xsl:copy-of select="." />
+								</xsl:if>
 							</xsl:if>
 						</xsl:if>
 					</xsl:if>

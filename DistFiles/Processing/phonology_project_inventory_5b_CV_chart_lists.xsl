@@ -9,7 +9,6 @@ exclude-result-prefixes="xhtml"
 
 	<xsl:param name="base-file-level" select="'0'" />
 
-	<xsl:variable name="titlePrefix" select="'Features of consonants and vowels'" />
 	<xsl:variable name="classPrefix" select="'CV chart'" />
 
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
@@ -87,7 +86,21 @@ exclude-result-prefixes="xhtml"
 			<head>
 				<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 				<title>
-					<xsl:value-of select="$titlePrefix" />
+					<xsl:choose>
+						<xsl:when test="@view = 'Consonant Chart'">
+							<xsl:value-of select="'Chart of consonants'" />
+						</xsl:when>
+						<xsl:when test="@view = 'Vowel Chart'">
+							<xsl:value-of select="'Chart of vowels'" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="'Charts of consonants and vowels'" />
+						</xsl:otherwise>
+					</xsl:choose>
+					<xsl:if test="@languageName and @languageName != 'Undetermined'">
+						<xsl:value-of select="' for '" />
+						<xsl:value-of select="@languageName" />
+					</xsl:if>
 				</title>
 			</head>
 			<body>
@@ -181,13 +194,17 @@ exclude-result-prefixes="xhtml"
 								<xsl:for-each select="$segments/segment[keys/chartKey[@class = 'rowgroup'] = $rowgroup]">
 									<xsl:sort select="keys/chartKey[@class = 'rowConditional']/@order" data-type="text" />
 									<xsl:sort select="keys/chartKey[@class = 'rowGeneral']/@order" data-type="text" />
+									<xsl:sort select="keys/chartKey[@class = 'tone']/@order" data-type="text" />
 									<xsl:variable name="rowConditionalOrder" select="keys/chartKey[@class = 'rowConditional']/@order" />
 									<xsl:variable name="rowGeneralOrder" select="keys/chartKey[@class = 'rowGeneral']/@order" />
-									<xsl:if test="not(preceding-sibling::segment[keys/chartKey[@class = 'rowgroup'] = $rowgroup][keys/chartKey[@class = 'rowConditional']/@order = $rowConditionalOrder and keys/chartKey[@class = 'rowGeneral']/@order = $rowGeneralOrder])">
+									<xsl:variable name="toneOrder" select="keys/chartKey[@class = 'tone']/@order" />
+									<xsl:if test="not(preceding-sibling::segment[keys/chartKey[@class = 'rowgroup'] = $rowgroup][keys/chartKey[@class = 'rowConditional']/@order = $rowConditionalOrder and keys/chartKey[@class = 'rowGeneral']/@order = $rowGeneralOrder and keys/chartKey[@class = 'tone']/@order = $toneOrder])">
 										<xsl:variable name="row">
 											<xsl:value-of select="$rowConditionalOrder" />
 											<xsl:value-of select="' '" />
 											<xsl:value-of select="$rowGeneralOrder" />
+											<xsl:value-of select="' '" />
+											<xsl:value-of select="$toneOrder" />
 										</xsl:variable>
 										<li>
 											<xsl:value-of select="$row" />
@@ -237,6 +254,8 @@ exclude-result-prefixes="xhtml"
 								<xsl:value-of select="$keys/chartKey[@class = 'rowConditional']/@order" />
 								<xsl:value-of select="' '" />
 								<xsl:value-of select="$keys/chartKey[@class = 'rowGeneral']/@order" />
+								<xsl:value-of select="' '" />
+								<xsl:value-of select="$keys/chartKey[@class = 'tone']/@order" />
 								<xsl:if test="$tiebreaker">
 									<xsl:value-of select="' '" />
 									<xsl:call-template name="tiebreaker">

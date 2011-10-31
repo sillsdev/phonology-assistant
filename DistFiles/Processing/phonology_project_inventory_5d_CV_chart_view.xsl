@@ -3,21 +3,31 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_project_inventory_5d_CV_chart_view.xsl 2011-08-17 -->
+  <!-- phonology_project_inventory_5d_CV_chart_view.xsl 2011-10-28 -->
 	<!-- Convert from exported XHTML format to XML format with zero-based indexes. -->
 	<!-- When Phonology Assistant can read the XHTML format directly, remove this step! -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
 
+	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
+	<xsl:template match="@* | node()">
+		<xsl:copy>
+			<xsl:apply-templates select="@* | node()" />
+		</xsl:copy>
+	</xsl:template>
+
 	<xsl:template match="/">
 		<!-- The attributes are not essential for the PhoneChart element. -->
 		<PhoneChart>
-			<!-- The previous step must make sure there is only one CV charts. -->
-			<xsl:apply-templates select="//xhtml:table[starts-with(@class, 'CV chart')]" />
+			<!-- The previous step must make sure there is only one CV chart. -->
+			<xsl:apply-templates select="//xhtml:table[starts-with(@class, 'CV chart')]" mode="PhoneChart" />
+			<xsl:apply-templates />
 		</PhoneChart>
 	</xsl:template>
 
-	<xsl:template match="xhtml:table[starts-with(@class, 'CV chart')]">
+	<xsl:template match="xhtml:div[@id = 'metadata']" />
+
+	<xsl:template match="xhtml:table[starts-with(@class, 'CV chart')]" mode="PhoneChart">
 		<ColHeadings>
 			<xsl:for-each select="xhtml:thead/xhtml:tr/xhtml:th[node()]">
 				<xsl:variable name="text">
