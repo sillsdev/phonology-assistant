@@ -265,8 +265,8 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		public void UpdatePhoneInfoFromProjectInventory(XElement element, PhoneInfo phoneToUpdate)
 		{
-			if (!string.IsNullOrEmpty(element.Element("description").Value))
-				phoneToUpdate.Description = element.Element("description").Value;
+			if (!string.IsNullOrEmpty((string)element.Element("description")))
+				phoneToUpdate.Description = (string)element.Element("description");
 
 			phoneToUpdate.SetAFeatures(GetFeatureNames(element, "descriptive"));
 			phoneToUpdate.SetBFeatures(GetFeatureNames(element, "distinctive"));
@@ -279,20 +279,28 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<string> GetFeatureNames(XElement element, string featureType)
 		{
-			var featureElements = element.Elements("features")
-				.FirstOrDefault(e => (string)e.Attribute("class") == featureType);
+			foreach (var featureElements in element.Elements("features")
+				.Where(e => (string)e.Attribute("class") == featureType))
+			{
+				return featureElements.Elements("feature").Select(e => e.Value);
+			}
 
-			return (featureElements == null ? new List<string>() :
-				featureElements.Elements("feature").Select(e => e.Value).ToList());
+			return new List<string>(0);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private string GetSortKeyFromSegmentXElement(XElement element, string sortType)
 		{
-			var stringSortValue = element.Element("keys").Elements("sortKey")
-				.FirstOrDefault(e => (string)e.Attribute("class") == sortType);
+			if (element.Element("keys") != null)
+			{
+				foreach (var sortKey in element.Element("keys").Elements("sortKey")
+					.Where(e => (string)e.Attribute("class") == sortType).Select(e => e.Value))
+				{
+					return sortKey;
+				}
+			}
 
-			return (stringSortValue != null ? stringSortValue.Value : null);
+			return ("0");
 		}
 
 		#endregion
