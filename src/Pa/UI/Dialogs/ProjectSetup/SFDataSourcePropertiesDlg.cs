@@ -4,7 +4,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Palaso.Reporting;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
@@ -521,7 +520,7 @@ namespace SIL.Pa.UI.Dialogs
 				var msg = App.GetString("SFDataSourcePropertiesDlg.ErrorReadingSourceFileMsg",
 					"The following error occurred trying to read the source file '{0}'.\n\n{1}");
 
-				ErrorReport.NotifyUserOfProblem(e, msg, m_filename);
+				App.NotifyUserOfProblem(e, msg, m_filename);
 			}
 		}
 

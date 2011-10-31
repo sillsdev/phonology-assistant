@@ -108,7 +108,7 @@ namespace SIL.Pa.Processing
 					var msg = App.GetString("MiscellaneousMessages.UpgradingProcessFileErrorMsg",
 						"There was an error copying the file '{0}' to '{1}'. Make sure the file is not in use by another program.");
 
-					Palaso.Reporting.ErrorReport.NotifyUserOfProblem(e, msg, filename, App.ProjectFolder);
+					App.NotifyUserOfProblem(e, msg, filename, App.ProjectFolder);
 				}
 			}
 		}

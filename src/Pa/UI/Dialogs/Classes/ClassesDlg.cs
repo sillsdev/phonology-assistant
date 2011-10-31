@@ -2,7 +2,6 @@ using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Palaso.Reporting;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.UI.Controls;
@@ -85,7 +84,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (ClassListView.Items.Cast<ListViewItem>().Any(item => item.Text == string.Empty))
 			{
 				var msg = App.GetString("ClassesDlg.EmptyClassNameMsg", "Class name must not be empty.");
-				ErrorReport.NotifyUserOfProblem(msg);
+				App.NotifyUserOfProblem(msg);
 				return false;
 			}
 
