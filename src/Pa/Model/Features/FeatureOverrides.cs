@@ -15,7 +15,7 @@ namespace SIL.Pa.Model
 		private const string kCurrVersion = "3.3.3";
 		public const string kFileName = "FeatureOverrides.xml";
 
-		private PaProject _project;
+		private readonly PaProject _project;
 
 		/// ------------------------------------------------------------------------------------
 		public FeatureOverrides(PaProject project)
@@ -113,7 +113,7 @@ namespace SIL.Pa.Model
 		public void Save(IEnumerable<PhoneInfo> phonesWithOverrides)
 		{
 			RebuildOverridesFromPhones(phonesWithOverrides);
-			var root = BuildXmlForOverrides();
+			var root = BuildXmlForOverrides(this, _project.DistinctiveFeatureSet);
 			MergeDistinctiveOverridesFromOtherSets(ref root);
 			root.Save(GetFileForProject(_project.ProjectPathFilePrefix));
 		}
@@ -138,7 +138,8 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private XElement BuildXmlForOverrides()
+		public static XElement BuildXmlForOverrides(IEnumerable<FeatureOverride> overrideList,
+			string distinctiveFeatureSetName)
 		{
 			var root = new XElement("featureOverrides", new XAttribute("version", kCurrVersion));
 			
@@ -147,9 +148,9 @@ namespace SIL.Pa.Model
 			
 			var distinctiveElement = new XElement("featureType",
 				new XAttribute("class", "distinctive"),
-				new XAttribute("set", _project.DistinctiveFeatureSet));
+				new XAttribute("set", distinctiveFeatureSetName));
 
-			foreach (var foverride in this)
+			foreach (var foverride in overrideList)
 			{
 				AddFeaturesForSegmentElement(descriptiveElement, foverride.Phone, foverride.AFeatureNames);
 				AddFeaturesForSegmentElement(distinctiveElement, foverride.Phone, foverride.BFeatureNames);
@@ -165,7 +166,7 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void AddFeaturesForSegmentElement(XElement featureTypeElement,
+		private static void AddFeaturesForSegmentElement(XElement featureTypeElement,
 			string phone, IEnumerable<string> featureNames)
 		{
 			var segmentElement = new XElement("featureOverride", new XAttribute("segment", phone));
@@ -190,8 +191,6 @@ namespace SIL.Pa.Model
 
 			if (distictiveOverrideElementsForOtherSets.Count() > 0)
 				newRoot.Add(distictiveOverrideElementsForOtherSets);
-
-			//foreach (var otherSets in distictiveOverrideElementsForOtherSets)
 		}
 	}
 

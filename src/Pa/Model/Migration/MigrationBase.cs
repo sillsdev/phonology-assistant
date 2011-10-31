@@ -2,7 +2,6 @@
 using System.IO;
 using System.Reflection;
 using System.Xml.Linq;
-using Palaso.Reporting;
 using SilTools;
 
 namespace SIL.Pa.Model.Migration
@@ -39,9 +38,6 @@ namespace SIL.Pa.Model.Migration
 
 		/// ------------------------------------------------------------------------------------
 		public string ProjectName { get; private set; }
-
-		///// ------------------------------------------------------------------------------------
-		//public string BackupFolder { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		protected Exception TransformFile(string filename, string transformNamespace)
@@ -115,11 +111,11 @@ namespace SIL.Pa.Model.Migration
 			catch (Exception e)
 			{
 				backupFolder = null;
-				var errMsg = App.GetString("ProjectMigrationBackupErrorMsg",
+				var errMsg = App.GetString("ProjectMigrationMessages.BackupOfOldProjectFilesFailureMsg",
 					"An error occurred attempting to backup your project before updating it for the latest version of Phonology Assistant.\n\n" +
 					"Until the problem is resolved, this project cannot be opened using this version of Phonology Assistant.");
 
-				ErrorReport.NotifyUserOfProblem(e, errMsg);
+				App.NotifyUserOfProblem(e, errMsg);
 			}
 
 			return backupFolder;

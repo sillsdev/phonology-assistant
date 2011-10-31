@@ -6,7 +6,6 @@ using System.Windows.Forms;
 using System.Xml.Serialization;
 using System.Xml.Linq;
 using Palaso.IO;
-using Palaso.Reporting;
 using SIL.Pa.DataSource;
 using SIL.Pa.Filters;
 using SIL.Pa.Model.Migration;
@@ -22,15 +21,15 @@ namespace SIL.Pa.Model
 	{
 		public const string kCurrVersion = "3.3.3";
 
-		private Form m_appWindow;
-		private bool m_newProject;
-		private bool m_reloadingProjectInProcess;
-		private string m_fileName;
-		private GridLayoutInfo m_gridLayoutInfo;
-		private SortOptions m_dataCorpusVwSortOptions;
-		private SortOptions m_searchVwSortOptions;
-		private SortOptions m_distChartVwSortOptions;
-		private string m_currentFilterName;
+		private Form _appWindow;
+		private bool _newProject;
+		private bool _reloadingProjectInProcess;
+		private string _fileName;
+		private GridLayoutInfo _gridLayoutInfo;
+		private SortOptions _dataCorpusVwSortOptions;
+		private SortOptions _searchVwSortOptions;
+		private SortOptions _distChartVwSortOptions;
+		private string _currentFilterName;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -69,52 +68,52 @@ namespace SIL.Pa.Model
 			CIEOptions = new CIEOptions();
 			LoadAmbiguousSequences();
 			LoadTranscriptionChanges();
-			m_newProject = true;
+			_newProject = true;
 			RecordCache = new RecordCache(this);
 			PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Makes sure that SFM and Toolbox data sources are informed that a field has
-		/// changed names. This is so the SF mappings in the data source can be updated.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void ProcessRenamedField(string origName, string newName)
-		{
-			foreach (var source in DataSources)
-				source.RenameField(origName, newName);
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Makes sure that SFM and Toolbox data sources are informed that a field has
+		///// changed names. This is so the SF mappings in the data source can be updated.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public void ProcessRenamedField(string origName, string newName)
+		//{
+		//    foreach (var source in DataSources)
+		//        source.RenameField(origName, newName);
 
-			ProcessRenamedFieldInSortInfo(origName, newName, m_dataCorpusVwSortOptions);
-			ProcessRenamedFieldInSortInfo(origName, newName, m_searchVwSortOptions);
-			ProcessRenamedFieldInSortInfo(origName, newName, m_distChartVwSortOptions);
-		}
+		//    ProcessRenamedFieldInSortInfo(origName, newName, _dataCorpusVwSortOptions);
+		//    ProcessRenamedFieldInSortInfo(origName, newName, _searchVwSortOptions);
+		//    ProcessRenamedFieldInSortInfo(origName, newName, _distChartVwSortOptions);
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Goes through the specified sort information list to make sure the specified field
-		/// name gets renamed therein.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static void ProcessRenamedFieldInSortInfo(string origName, string newName,
-			SortOptions sortOptions)
-		{
-			if (!string.IsNullOrEmpty(newName) && sortOptions != null &&
-				sortOptions.SortFields != null)
-			{
-				foreach (var si in sortOptions.SortFields.Where(si => si.Field.Name == origName))
-					si.Field.Name = newName;
-			}
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Goes through the specified sort information list to make sure the specified field
+		///// name gets renamed therein.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private static void ProcessRenamedFieldInSortInfo(string origName, string newName,
+		//    SortOptions sortOptions)
+		//{
+		//    if (!string.IsNullOrEmpty(newName) && sortOptions != null &&
+		//        sortOptions.SortFields != null)
+		//    {
+		//        foreach (var si in sortOptions.SortFields.Where(si => si.Field.Name == origName))
+		//            si.Field.Name = newName;
+		//    }
+		//}
 
 		#region IDisposable Members
 		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
-			if (m_appWindow != null)
+			if (_appWindow != null)
 			{
-				m_appWindow.Activated -= HandleApplicationWindowActivated;
-				m_appWindow = null;
+				_appWindow.Activated -= HandleApplicationWindowActivated;
+				_appWindow = null;
 			}
 
 			if (DataSources != null)
@@ -153,19 +152,25 @@ namespace SIL.Pa.Model
 
 			if (error == null)
 			{
-				var msg = App.GetString("ProjectMigrationSuccessfulMsg",
+				var msg = App.GetString("ProjectMigrationMessages.MigrationSuccessfulMsg",
 					"The '{0}' project has succssfully been upgraded to work with this version of Phonology Assistant. A backup of your old project has been made in:\n\n{1}");
 
 				Utils.MsgBox(string.Format(msg, projectName, backupFolder));
 				return true;
 			}
 
-			var errMsg = App.GetString("ProjectMigrationFailureMsg",
+			var errMsg = App.GetString("ProjectMigrationMessages.MigrationFailureMsg",
 				"There was an error upgradeding the '{0}' project to work with this version of Phonology Assistant.\n\n" +
 				"Until the problem is resolved, this project cannot be opened using this version of Phonology Assistant.");
 
-			ErrorReport.NotifyUserOfProblem(error, errMsg, projectName);
+			App.NotifyUserOfProblem(error, errMsg, projectName);
 			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void PerformPostProjectLoadMigration(PaProject project)
+		{
+			Migration0333.PostProjectLoadMigration(project);
 		}
 
 		#endregion
@@ -209,22 +214,25 @@ namespace SIL.Pa.Model
 				return null;
 			}
 
-			if (project.m_currentFilterName != null)
-				project.FilterHelper.SetCurrentFilter(project.m_currentFilterName, false);
+			if (project._currentFilterName != null)
+				project.FilterHelper.SetCurrentFilter(project._currentFilterName, false);
 			else
 				project.FilterHelper.TurnOffCurrentFilter(false);
 
 			project.LoadDataSources();
 
+			PerformPostProjectLoadMigration(project);
+
 			if (appWindow != null)
 			{
 				appWindow.Activated -= project.HandleApplicationWindowActivated;
 				appWindow.Activated += project.HandleApplicationWindowActivated;
-				project.m_appWindow = appWindow;
+				project._appWindow = appWindow;
 			}
 
 			return project;
 		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads only the project file for the specified file name.
@@ -279,7 +287,7 @@ namespace SIL.Pa.Model
 			if (string.IsNullOrEmpty(Version))
 				Version = kCurrVersion;
 
-			m_fileName = projFileName;
+			_fileName = projFileName;
 			Fields = PaField.GetProjectFields(this);
 			FilterHelper = new FilterHelper(this);
 			SearchClasses = SearchClassList.Load(this);
@@ -359,16 +367,16 @@ namespace SIL.Pa.Model
 		public PaProject ReLoadProjectFileOnly()
 		{
 			string errorMsg = null;
-			var project = LoadProjectFileOnly(m_fileName, true, ref errorMsg);
+			var project = LoadProjectFileOnly(_fileName, true, ref errorMsg);
 
 			if (project == null)
 				return null;
 
-			if (m_appWindow != null)
+			if (_appWindow != null)
 			{
-				m_appWindow.Activated -= HandleApplicationWindowActivated;
-				m_appWindow.Activated += project.HandleApplicationWindowActivated;
-				project.m_appWindow = m_appWindow;
+				_appWindow.Activated -= HandleApplicationWindowActivated;
+				_appWindow.Activated += project.HandleApplicationWindowActivated;
+				project._appWindow = _appWindow;
 			}
 
 			// Reloading a project resets all the data source's last modified
@@ -399,7 +407,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void CheckForModifiedDataSources()
 		{
-			if (m_reloadingProjectInProcess)
+			if (_reloadingProjectInProcess)
 				return;
 
 			// We don't want to bother updating just after a message box has been shown.
@@ -423,10 +431,10 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void ReloadDataSources()
 		{
-			m_reloadingProjectInProcess = true;
+			_reloadingProjectInProcess = true;
 			LoadDataSources();
 			App.MsgMediator.SendMessage("DataSourcesModified", this);
-			m_reloadingProjectInProcess = false;
+			_reloadingProjectInProcess = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -505,7 +513,7 @@ namespace SIL.Pa.Model
 			var msg = App.GetString("MiscellaneousMessages.LoadingDistinctiveFeatureSetFileErrorMsg",
 				"The file containing the '{0}' distinctive feature set is missing. The default set will be used instead.");
 				
-			ErrorReport.NotifyUserOfProblem(msg, DistinctiveFeatureSet);
+			App.NotifyUserOfProblem(msg, DistinctiveFeatureSet);
 			BFeatureCache.LoadFromList(BFeatureCache.GetFeaturesFromDefaultSet());
 		}
 
@@ -541,10 +549,10 @@ namespace SIL.Pa.Model
 			AmbiguousSequences.Save(ProjectPathFilePrefix);
 			TranscriptionChanges.Save(ProjectPathFilePrefix);
 
-			if (m_fileName != null)
-				XmlSerializationHelper.SerializeToFile(m_fileName, this);
+			if (_fileName != null)
+				XmlSerializationHelper.SerializeToFile(_fileName, this);
 
-			if (!m_newProject)
+			if (!_newProject)
 				return;
 			
 			// Copy the default dist. Chart definitions to the project's dist. Chart def. file.
@@ -556,7 +564,7 @@ namespace SIL.Pa.Model
 			}
 			catch { }
 
-			m_newProject = false;
+			_newProject = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -567,9 +575,9 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void EnsureSortOptionsSaved()
 		{
-			if ((m_dataCorpusVwSortOptions != null && m_dataCorpusVwSortOptions.SaveManuallySetSortOptions) ||
-				(m_searchVwSortOptions != null && m_searchVwSortOptions.SaveManuallySetSortOptions) ||
-				(m_distChartVwSortOptions != null && m_distChartVwSortOptions.SaveManuallySetSortOptions))
+			if ((_dataCorpusVwSortOptions != null && _dataCorpusVwSortOptions.SaveManuallySetSortOptions) ||
+				(_searchVwSortOptions != null && _searchVwSortOptions.SaveManuallySetSortOptions) ||
+				(_distChartVwSortOptions != null && _distChartVwSortOptions.SaveManuallySetSortOptions))
 			{
 				Save();
 			}
@@ -583,9 +591,9 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void EnsureSortOptionsValid()
 		{
-			EnsureSingleSortOptionValid(m_dataCorpusVwSortOptions);
-			EnsureSingleSortOptionValid(m_searchVwSortOptions);
-			EnsureSingleSortOptionValid(m_distChartVwSortOptions);
+			EnsureSingleSortOptionValid(_dataCorpusVwSortOptions);
+			EnsureSingleSortOptionValid(_searchVwSortOptions);
+			EnsureSingleSortOptionValid(_distChartVwSortOptions);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -708,7 +716,7 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public string Folder
 		{
-			get	{return Path.GetDirectoryName(m_fileName);}
+			get	{return Path.GetDirectoryName(_fileName);}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -721,7 +729,7 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public string ProjectPathFilePrefix
 		{
-			get { return GetProjectPathFilePrefix(m_fileName, Name); }
+			get { return GetProjectPathFilePrefix(_fileName, Name); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -739,13 +747,13 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public string FileName
 		{
-			get { return m_fileName; }
+			get { return _fileName; }
 			set
 			{
 				// Only allow this when there hasn't already been a file name specified.
 				// This should only be the case when creating new projects.
-				if (m_fileName == null)
-					m_fileName = value;
+				if (_fileName == null)
+					_fileName = value;
 			}
 		}
 
@@ -780,8 +788,8 @@ namespace SIL.Pa.Model
 		{
 			get
 			{
-				return (string.IsNullOrEmpty(m_fileName) ?
-					string.Empty : Path.GetFileNameWithoutExtension(m_fileName));
+				return (string.IsNullOrEmpty(_fileName) ?
+					string.Empty : Path.GetFileNameWithoutExtension(_fileName));
 			}
 		}
 
@@ -825,7 +833,7 @@ namespace SIL.Pa.Model
 		public string CurrentFilterName
 		{
 			get { return (CurrentFilter != null ? CurrentFilter.Name : null); }
-			set { m_currentFilterName = value; }
+			set { _currentFilterName = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -881,17 +889,17 @@ namespace SIL.Pa.Model
 		{
 			get
 			{
-				if (m_dataCorpusVwSortOptions == null)
+				if (_dataCorpusVwSortOptions == null)
 				{
-					m_dataCorpusVwSortOptions = new SortOptions(true, this);
-					m_dataCorpusVwSortOptions.AdvancedEnabled = false;
+					_dataCorpusVwSortOptions = new SortOptions(true, this);
+					_dataCorpusVwSortOptions.AdvancedEnabled = false;
 				}
 
-				return m_dataCorpusVwSortOptions;
+				return _dataCorpusVwSortOptions;
 			}
 			set
 			{
-				m_dataCorpusVwSortOptions = value;
+				_dataCorpusVwSortOptions = value;
 				if (value != null)
 					value.AdvancedEnabled = false;
 			}
@@ -906,18 +914,18 @@ namespace SIL.Pa.Model
 		{
 			get
 			{
-				if (m_searchVwSortOptions == null)
+				if (_searchVwSortOptions == null)
 				{
-					m_searchVwSortOptions = new SortOptions(true, this);
-					m_searchVwSortOptions.AdvancedEnabled = true;
+					_searchVwSortOptions = new SortOptions(true, this);
+					_searchVwSortOptions.AdvancedEnabled = true;
 				}
 
-				return m_searchVwSortOptions;
+				return _searchVwSortOptions;
 			}
 			
 			set 
 			{
-				m_searchVwSortOptions = value;
+				_searchVwSortOptions = value;
 				if (value != null)
 					value.AdvancedEnabled = true;
 			}
@@ -932,17 +940,17 @@ namespace SIL.Pa.Model
 		{
 			get
 			{
-				if (m_distChartVwSortOptions == null)
+				if (_distChartVwSortOptions == null)
 				{
-					m_distChartVwSortOptions = new SortOptions(true, this);
-					m_distChartVwSortOptions.AdvancedEnabled = true;
+					_distChartVwSortOptions = new SortOptions(true, this);
+					_distChartVwSortOptions.AdvancedEnabled = true;
 				}
 				
-				return m_distChartVwSortOptions;
+				return _distChartVwSortOptions;
 			}
 			set
 			{
-				m_distChartVwSortOptions = value;
+				_distChartVwSortOptions = value;
 				if (value != null)
 					value.AdvancedEnabled = true;
 			}
@@ -1040,11 +1048,11 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public GridLayoutInfo GridLayoutInfo
 		{
-			get	{return (m_gridLayoutInfo ?? new GridLayoutInfo(this));}
+			get	{return (_gridLayoutInfo ?? new GridLayoutInfo(this));}
 			set
 			{
-				m_gridLayoutInfo = (value ?? new GridLayoutInfo(this));
-				m_gridLayoutInfo.m_owningProject = this;
+				_gridLayoutInfo = (value ?? new GridLayoutInfo(this));
+				_gridLayoutInfo.m_owningProject = this;
 			}
 		}
 
