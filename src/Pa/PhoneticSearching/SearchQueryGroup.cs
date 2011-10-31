@@ -45,7 +45,7 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static string GetSearchQueryFileForProject(string projectPathFilePrefix)
+		public static string GetFileForProject(string projectPathFilePrefix)
 		{
 			return projectPathFilePrefix + kSearchQueriesFilePrefix;
 		}
@@ -58,7 +58,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public static SearchQueryGroupList Load(PaProject project)
 		{
-			return InternalLoad(project, GetSearchQueryFileForProject(project.ProjectPathFilePrefix));
+			return InternalLoad(project, GetFileForProject(project.ProjectPathFilePrefix));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -92,7 +92,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			var filename = GetSearchQueryFileForProject(m_project.ProjectPathFilePrefix);
+			var filename = GetFileForProject(m_project.ProjectPathFilePrefix);
 			XmlSerializationHelper.SerializeToFile(filename, this);
 		}
 
