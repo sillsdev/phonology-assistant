@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Xml;
@@ -17,6 +18,8 @@ namespace SIL.Pa.Processing
 		public string XsltFilePath { get; private set; }
 		
 		private readonly XslCompiledTransform _xslt;
+		private readonly Dictionary<string, XslCompiledTransform> _transformsCache =
+			new Dictionary<string, XslCompiledTransform>();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -51,22 +54,28 @@ namespace SIL.Pa.Processing
 
 			try
 			{
+				if (!File.Exists(xsltFilePath))
+				{
+					_xslt = new XslCompiledTransform(true);
+					var compiledTransformType = Type.GetType(Path.GetFileNameWithoutExtension(XsltFilePath) +
+						", PaCompiledTransforms, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
+					_xslt.Load(compiledTransformType);
+					return;
+				}
+
+				if (_transformsCache.TryGetValue(xsltFilePath, out _xslt))
+					return;
+
 				// TO DO: If you enable the document() function, restrict the resources that can be accessed
 				// by passing an XmlSecureResolver object to the Transform method.
 				// The XmlResolver used to resolve any style sheets referenced in XSLT import and include elements.
 				var settings = new XsltSettings(true, false);
 				var resolver = new XmlUrlResolver();
 				resolver.Credentials = CredentialCache.DefaultCredentials;
-
+				
 				_xslt = new XslCompiledTransform(true);
-				
-				var compiledTransformType = Type.GetType(Path.GetFileNameWithoutExtension(XsltFilePath) +
-					", PaCompiledTransforms, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
-				
-				if (compiledTransformType != null)
-					_xslt.Load(compiledTransformType);
-				else			
-					_xslt.Load(XsltFilePath, settings, resolver);
+				_xslt.Load(XsltFilePath, settings, resolver);
+				_transformsCache[xsltFilePath] = _xslt;
 			}
 			catch (Exception e)
 			{
