@@ -336,9 +336,9 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 
 			if (_grid.GetColumnName(e.ColumnIndex) == "seq")
-				e.Cancel = ValidateSequence(e.RowIndex, e.FormattedValue as string);
+				e.Cancel = !ValidateSequence(e.RowIndex, e.FormattedValue as string);
 			else if (_grid.GetColumnName(e.ColumnIndex) == "base")
-				e.Cancel = ValidateBaseCharacter(e.RowIndex, e.FormattedValue as string);	
+				e.Cancel = !ValidateBaseCharacter(e.RowIndex, e.FormattedValue as string);	
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -369,27 +369,14 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				if (i != row && _grid[0, i].Value as string == newSeq)
 				{
-					string msg;
-					if ((bool)_grid["generated", row].Value)
-					{
-						msg = App.GetString("DialogBoxes.AmbiguousSequencesDlg.DuplicateSeqMsg1",
-							"That sequence already exists.", "Message displayed in ambiguous sequences " +
-							"dialog box when identical sequences exist.");
-					}
-					else
-					{
-						msg = App.GetString("DialogBoxes.AmbiguousSequencesDlg.DuplicateSeqMsg2",
-							"That sequence already exists as a generated sequence.", "Message displayed in " +
-							"ambiguous sequences dialog box when a user-added sequence is identical to a " +
-							"generated sequences.");
-					}
-
-					App.NotifyUserOfProblem(msg);
-					return true;
+					App.NotifyUserOfProblem(App.GetString("DialogBoxes.AmbiguousSequencesDlg.DuplicateSeqMsg1",
+						"That sequence already exists.", "Message displayed in ambiguous sequences " +
+						"dialog box when identical sequences exist."));
+					return false;
 				}
 			}
 
-			return false;
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -402,7 +389,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 
 			if (row < 0 || row >= _grid.RowCount)
-				return false;
+				return true;
 
 			string msg = null;
 			string phone = _grid["seq", row].Value as string;
@@ -412,7 +399,7 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				// No base character is fine when there isn't a sequence specified.
 				if (string.IsNullOrEmpty(phone))
-					return false;
+					return true;
 
 				// At this point, we know we have a sequence but no base character
 				msg = App.GetString("DialogBoxes.AmbiguousSequencesDlg.BaseCharMissingMsg",
@@ -427,7 +414,7 @@ namespace SIL.Pa.UI.Dialogs
 				if (string.IsNullOrEmpty(phone))
 				{
 					msg = App.GetString("DialogBoxes.AmbiguousSequencesDlg.MissingSequenceMsg",
-						"A base character may not be specified\nuntil you have specified an ambiguous sequence.",
+						"A base character may not be specified until you have specified an ambiguous sequence.",
 						"Message dislpayed in ambiguous sequences dialog box.");
 				}
 			}
@@ -436,17 +423,17 @@ namespace SIL.Pa.UI.Dialogs
 			if (msg == null && phone != null && !phone.Contains(newBaseChar))
 			{
 				msg = App.GetString("DialogBoxes.AmbiguousSequencesDlg.BaseCharNotInSeqMsg",
-					"Your base character must be contained\nwithin its associated ambiguous sequence.",
+					"Your base character must be contained within its associated ambiguous sequence.",
 					"Message dislpayed in ambiguous sequences dialog box.");
 			}
 
 			if (msg != null)
 			{
 				App.NotifyUserOfProblem(msg);
-				return true;
+				return false;
 			}
 
-			return false;
+			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
