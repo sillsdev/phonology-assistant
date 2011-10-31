@@ -483,6 +483,23 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void UpdateAbiguousSequencesWithGeneratedOnes(IEnumerable<string> generatedSequences)
+		{
+			var list = AmbiguousSequences ?? new AmbiguousSequences();
+
+			foreach (var seq in generatedSequences)
+			{
+				var existingSeq = list.FirstOrDefault(s => s.Literal == seq);
+				if (existingSeq == null)
+					list.Add(new AmbiguousSeq(seq, true, true));
+				else
+					existingSeq.IsGenerated = true;
+			}
+
+			SaveAndLoadAmbiguousSequences(list);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void SaveAndLoadAmbiguousSequences(AmbiguousSequences ambigSeqList)
 		{
 			ambigSeqList.Save(ProjectPathFilePrefix);
