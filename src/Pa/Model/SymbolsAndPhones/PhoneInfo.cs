@@ -245,20 +245,14 @@ namespace SIL.Pa.Model
 		public void SetAFeatures(IEnumerable<string> featureNames)
 		{
 			Debug.Assert(featureNames != null);
-			var list = featureNames.ToList();
-			Debug.Assert(list.Count > 0);
-
-			_aMask = App.AFeatureCache.GetMask(list);
+			_aMask = App.AFeatureCache.GetMask(featureNames.ToList());
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void SetBFeatures(IEnumerable<string> featureNames)
 		{
 			Debug.Assert(featureNames != null);
-			var list = featureNames.ToList();
-			Debug.Assert(list.Count > 0);
-
-			_bMask = App.BFeatureCache.GetMask(list);
+			_bMask = App.BFeatureCache.GetMask(featureNames.ToList());
 		}
 
 		/// ------------------------------------------------------------------------------------
