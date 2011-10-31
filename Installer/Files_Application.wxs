@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
-		<Directory Id="TARGETDIR" Name="SourceDir">
+    <DirectoryRef Id="APPLICATIONFOLDER">
+      <Directory Id="Processing" Name="Processing">
+        <Component Id="CompiledTransforms.zip" Guid="{B05718B7-29EF-4F8A-A6E2-102CFDDCD6DE}">
+          <File Id="SilTools.pdb" KeyPath="yes" Source="..\output\release\CompiledTransforms.zip" />
+        </Component>
+      </Directory>
+    </DirectoryRef>
+		
+    <Directory Id="TARGETDIR" Name="SourceDir">
 			<!--<Directory Id="CommonAppDataFolder">
 				<Directory Id="PaCommonAppData" Name="Phonology Assistant">
 					<Directory Id="SampleDataDir" Name="Samples">
@@ -14,8 +22,8 @@
 					<File Id="DoulosSILR.ttf" Name="DoulosSILR.ttf" Source="..\DistFiles\DoulosSILR.ttf" TrueType="yes" KeyPath="yes" DiskId="1" />
 				</Component>
 			</Directory>
-
-			<Directory Id="ProgramFilesFolder" Name="PFiles">
+        
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
 				<!--<Directory Id="ProgramDir" Name="Phonology Assistant">-->
 				<Directory Id="APPLICATIONFOLDER" Name="Phonology Assistant 3.x">
 					<Component Id="Pa.exe" Guid="{C1BD51CD-92F3-4f83-B5AD-0842C3063985}">
@@ -65,7 +73,7 @@
 					<Component Id="SilTools.pdb" Guid="{C85FA3F0-F525-4151-9D1A-396410501084}">
 						<File Id="SilTools.pdb" KeyPath="yes" Source="..\output\release\SilTools.pdb" />
 					</Component>
-				</Directory>
+        </Directory>
 			</Directory>
 		</Directory>
 	</Fragment>
