@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
-    <DirectoryRef Id="APPLICATIONFOLDER">
-      <Directory Id="Processing" Name="Processing">
-        <Component Id="CompiledTransforms.zip" Guid="{B05718B7-29EF-4F8A-A6E2-102CFDDCD6DE}">
-          <File Id="SilTools.pdb" KeyPath="yes" Source="..\output\release\CompiledTransforms.zip" />
-        </Component>
-      </Directory>
-    </DirectoryRef>
-		
     <Directory Id="TARGETDIR" Name="SourceDir">
 			<!--<Directory Id="CommonAppDataFolder">
 				<Directory Id="PaCommonAppData" Name="Phonology Assistant">
