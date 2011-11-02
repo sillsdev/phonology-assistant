@@ -290,13 +290,8 @@ namespace SIL.Pa.Model
 			if (e == null)
 				return EnsureListContainsCalculatedFields(list).ToList();
 
-			var msg = App.GetString("ReadingFieldsFileErrorMsg",
-				"The following error occurred when reading the file\n\n'{0}'\n\n{1}");
-
-			while (e.InnerException != null)
-				e = e.InnerException;
-
-			Utils.MsgBox(string.Format(msg, path, e.Message));
+			App.NotifyUserOfProblem(e, App.GetString("MiscellaneousMessages.ReadingFieldsFileErrorMsg",
+				"There was an error reading field information from the file '{0}'."), path);
 
 			return null;
 		}
@@ -358,11 +353,10 @@ namespace SIL.Pa.Model
 		#endregion
 	}
 
+	#region FieldNameComparer class
 	/// ----------------------------------------------------------------------------------------
 	public class FieldNameComparer : IEqualityComparer<PaField>
 	{
-		#region IEqualityComparer<PaField> Members
-
 		/// ------------------------------------------------------------------------------------
 		public bool Equals(PaField x, PaField y)
 		{
@@ -372,7 +366,7 @@ namespace SIL.Pa.Model
 			if (x == null || y == null)
 				return false;
 
-			return (x.Name == y.Name);
+			return (x.Name.Equals(y.Name));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -380,7 +374,7 @@ namespace SIL.Pa.Model
 		{
 			return obj.Name.GetHashCode();
 		}
-
-		#endregion
 	}
+		
+	#endregion
 }

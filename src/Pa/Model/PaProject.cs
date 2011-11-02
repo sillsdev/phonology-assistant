@@ -60,7 +60,7 @@ namespace SIL.Pa.Model
 				return;
 
 			DistinctiveFeatureSet = BFeatureCache.DefaultFeatureSetName;
-			Fields = PaField.GetDefaultFields();
+			Fields = PaField.GetProjectFields(this);
 			DataSources = new List<PaDataSource>();
 			CVPatternInfoList = new List<CVPatternInfo>();
 			SearchClasses = SearchClassList.LoadDefaults(this);

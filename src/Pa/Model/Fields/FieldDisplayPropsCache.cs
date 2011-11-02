@@ -20,7 +20,6 @@ namespace SIL.Pa.Model
 	{
 		private static readonly List<Font> s_fontCache = new List<Font>();
 
-		#region static methods
 		/// ------------------------------------------------------------------------------------
 		public Exception SaveProjectFieldDisplayProps(PaProject project)
 		{
@@ -30,6 +29,7 @@ namespace SIL.Pa.Model
 			return e;
 		}
 
+		#region static methods
 		/// ------------------------------------------------------------------------------------
 		public static FieldDisplayPropsCache LoadProjectFieldDisplayProps(PaProject project)
 		{
