@@ -831,7 +831,7 @@ namespace SIL.Pa.UI.Views
 		protected bool OnExportAsXLingPaper(object args)
 		{
 			var fmt = App.GetString("DefaultDataCorpusXLingPaperExportFileAffix",
-				"{0}-DataCorpus-(XLingPap).xml", "Export");
+				"{0}-DataCorpus-(XLingPaper).xml", "Export");
 
 			return Export(fmt, App.kstidFileTypeXLingPaper, "xml",
 				Settings.Default.OpenXLingPaperDataCorpusAfterExport,
