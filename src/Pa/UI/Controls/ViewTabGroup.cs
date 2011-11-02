@@ -164,6 +164,7 @@ namespace SIL.Pa.UI.Controls
 			m_pnlCaption.MakeDark = true;
 			m_pnlCaption.Paint += m_pnlCaption_Paint;
 			m_pnlCaption.Font = FontHelper.MakeFont(SystemInformation.MenuFont, 11,	FontStyle.Bold);
+			m_pnlCaption.ForeColor = SystemColors.ActiveCaptionText;
 			Controls.Add(m_pnlCaption);
 
 			m_btnHelp = new XButton();
@@ -705,6 +706,7 @@ namespace SIL.Pa.UI.Controls
 			var rc = m_pnlCaption.ClientRectangle;
 			rc.X += 6;
 			rc.Width -= 6;
+			rc.Y--;
 
 			const TextFormatFlags kFlags = TextFormatFlags.VerticalCenter |
 				TextFormatFlags.SingleLine | TextFormatFlags.Left |
