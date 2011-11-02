@@ -11,7 +11,7 @@ xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"
 xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
-  <!-- PA_Export_View_to_Word_2003_XML.xsl 2010-05-24 -->
+  <!-- phonology_export_view_to_Word_2003_XML.xsl 2011-11-02 -->
 	
   <!-- TO DO: No w:r and w:t in empty paragraphs? -->
   <!-- TO DO: Convert spaces and hyphens to non-breaking? -->
@@ -138,10 +138,7 @@ exclude-result-prefixes="xhtml"
         <w:defaultTabStop w:val="720" />
       </w:docPr>
       <w:body>
-				<xsl:if test="$details">
-					<xsl:apply-templates select="xhtml:body/xhtml:div[@id = 'metadata']" />
-				</xsl:if>
-				<xsl:apply-templates select="xhtml:body/xhtml:table" />
+				<xsl:apply-templates select="xhtml:body/*" />
         <xsl:call-template name="pStyleText">
           <xsl:with-param name="pStyle" select="'SpaceSingle'" />
           <xsl:with-param name="text" select="''" />
@@ -151,7 +148,13 @@ exclude-result-prefixes="xhtml"
     </w:wordDocument>
   </xsl:template>
 
-  <xsl:template name="text">
+	<xsl:template match="xhtml:div">
+		<xsl:if test="not(@id = 'metadata')">
+			<xsl:apply-templates />
+		</xsl:if>
+	</xsl:template>
+
+	<xsl:template name="text">
     <xsl:variable name="text" select="." />
     <xsl:choose>
 
@@ -250,7 +253,9 @@ exclude-result-prefixes="xhtml"
       <w:pPr>
         <w:pStyle w:val="{$pStyle_val}" />
       </w:pPr>
-			<xsl:apply-templates />
+			<w:r>
+				<xsl:apply-templates select="node()" />
+			</w:r>
 		</w:p>
   </xsl:template>
 
@@ -400,11 +405,15 @@ exclude-result-prefixes="xhtml"
     <w:tbl>
       <w:tblPr>
         <xsl:choose>
-          <xsl:when test="@class = 'list'">
+					<xsl:when test="@class = 'details'">
+						<w:tblStyle w:val="TableDetails" />
+						<w:tblLook w:val="01E0" />
+					</xsl:when>
+					<xsl:when test="@class = 'list'">
             <w:tblStyle w:val="TableList" />
             <w:tblLook w:val="01E0" />
           </xsl:when>
-          <xsl:when test="@class = 'CV chart' or @class = 'distribution chart'">
+          <xsl:when test="starts-with(@class, 'CV chart') or @class = 'distribution chart'">
             <w:tblStyle w:val="TableChart" />
             <w:tblLook w:val="01E0" />
           </xsl:when>
@@ -499,7 +508,7 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
         </w:trPr>
       </xsl:if>
       <!-- Insert empty cell corresponding to rowspan. -->
-      <xsl:if test="not(xhtml:th) and ancestor::xhtml:tbody and ancestor::xhtml:table[@class = 'CV chart']">
+      <xsl:if test="not(xhtml:th) and ancestor::xhtml:tbody and ancestor::xhtml:table[starts-with(@class, 'CV chart')]">
         <w:tc>
           <w:tcPr>
             <w:tcW w:w="0" w:type="auto" />
@@ -606,11 +615,11 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
                 <xsl:value-of select="'TableDataRight'" />
               </xsl:when>
               <!-- To align the first column of a CV chart at the left, remove the following rule. -->
-              <xsl:when test="self::xhtml:th and ancestor::xhtml:tbody and ../../../@class = 'CV chart'">
+              <xsl:when test="self::xhtml:th and ancestor::xhtml:tbody and starts-with(../../../@class, 'CV chart')">
                 <xsl:value-of select="'TableDataRight'" />
               </xsl:when>
               <!-- Heading cells in CV charts are aligned at the right for clockwise text direction. -->
-              <xsl:when test="../../../@class = 'CV chart' and $tblHeader-textFlow = 'tb-rl' and ancestor::xhtml:thead">
+              <xsl:when test="starts-with(../../../@class, 'CV chart') and $tblHeader-textFlow = 'tb-rl' and ancestor::xhtml:thead">
                 <xsl:value-of select="'TableDataRight'" />
               </xsl:when>
               <xsl:when test="self::xhtml:th">
@@ -626,7 +635,7 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
         <w:r>
           <xsl:variable name="rStyle-val">
             <xsl:choose>
-							<xsl:when test="self::xhtml:th and ../../self::xhtml:tbody and ../../../@class = 'CV chart'">
+							<xsl:when test="self::xhtml:th and ../../self::xhtml:tbody and starts-with(../../../@class, 'CV chart')">
 								<xsl:value-of select="'Phonetic'" />
 							</xsl:when>
 							<xsl:when test="not(@class)">
@@ -684,6 +693,25 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
         <w:sz w:val="22" />
         <w:sz-cs w:val="24" />
         <w:lang w:val="EN-US" w:fareast="EN-US" w:bidi="AR-SA" />
+      </w:rPr>
+    </w:style>
+    <w:style w:type="paragraph" w:styleId="Heading3">
+      <w:name w:val="heading 3" />
+      <wx:uiName wx:val="Heading 3" />
+      <w:basedOn w:val="Normal" />
+      <w:next w:val="BodyText" />
+      <w:pPr>
+        <w:pStyle w:val="Heading3" />
+        <w:keepNext />
+        <w:keepLines />
+        <w:spacing w:before="240" w:after="120" />
+        <w:outlineLvl w:val="2" />
+      </w:pPr>
+      <w:rPr>
+        <w:b />
+        <w:b-cs />
+        <w:sz w:val="28" />
+        <w:sz-cs w:val="26" />
       </w:rPr>
     </w:style>
     <w:style w:type="paragraph" w:styleId="Heading4">
@@ -1012,221 +1040,6 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
       </w:style>
     </xsl:for-each>
   </xsl:template>
-
-	<!-- Table of details in Word documents is similar XHTML files. -->
-
-	<xsl:template match="xhtml:div[@id = 'metadata']">
-		<xsl:variable name="sorting" select="$metadata/xhtml:ul[@class = 'sorting']" />
-		<xsl:variable name="primarySortFieldName" select="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[1]/@title" />
-		<xsl:variable name="primarySortFieldDirection" select="$sorting/xhtml:li[@class = 'fieldOrder']/xhtml:ol/xhtml:li[1]" />
-		<xsl:variable name="phoneticSortOption" select="$sorting/xhtml:li[@class = 'phoneticSortOption']" />
-		<xsl:variable name="phoneticSortOptionName">
-			<xsl:choose>
-				<xsl:when test="$phoneticSortOption = 'placeOfArticulation'">
-					<xsl:value-of select="'place of articulation'" />
-				</xsl:when>
-				<xsl:when test="$phoneticSortOption = 'mannerOfArticulation'">
-					<xsl:value-of select="'manner of articulation'" />
-				</xsl:when>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:variable name="phoneticSearchSubfieldOrder" select="$sorting/xhtml:li[@class = 'phoneticSearchSubfieldOrder']/xhtml:ol" />
-		<xsl:variable name="view" select="$details//xhtml:li[@class = 'view']" />
-		<xsl:variable name="searchPattern" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'searchPattern']" />
-		<xsl:variable name="filter" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'filter']" />
-		<xsl:variable name="numberOfPhones" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'numberOfPhones']" />
-		<xsl:variable name="numberOfPhonemes" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'numberOfPhonemes']" />
-		<xsl:variable name="numberOfRecords" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'numberOfRecords']" />
-		<xsl:variable name="numberOfGroups" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'numberOfGroups']" />
-		<xsl:variable name="minimalPairs" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'minimalPairs']" />
-		<xsl:variable name="projectName" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'projectName']" />
-		<xsl:variable name="languageName" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'languageName']" />
-		<xsl:variable name="languageCode" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'languageCode']" />
-		<xsl:variable name="date" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'date']" />
-		<xsl:variable name="time" select="$metadata/xhtml:ul[@class = 'details']/xhtml:li[@class = 'time']" />
-		<xsl:call-template name="pStyleText">
-			<xsl:with-param name="pStyle" select="'Heading4'" />
-			<xsl:with-param name="text" select="/xhtml:html/xhtml:head/xhtml:title" />
-		</xsl:call-template>
-		<w:tbl>
-			<w:tblPr>
-				<w:tblStyle w:val="TableDetails" />
-				<w:tblW w:w="0" w:type="auto" />
-				<w:tblLook w:val="01E0" />
-			</w:tblPr>
-			<w:tblGrid>
-				<w:gridCol />
-				<w:gridCol />
-			</w:tblGrid>
-			<xsl:if test="$searchPattern">
-				<xsl:call-template name="detailsRow">
-					<xsl:with-param name="label" select="'Search pattern:'" />
-					<xsl:with-param name="text" select="$searchPattern" />
-					<xsl:with-param name="rStyle" select="'Phonetic'" />
-				</xsl:call-template>
-			</xsl:if>
-			<xsl:if test="$filter">
-				<xsl:call-template name="detailsRow">
-					<xsl:with-param name="label" select="'Filter:'" />
-					<xsl:with-param name="text" select="$filter" />
-					<xsl:with-param name="rStyle" select="'Strong'" />
-				</xsl:call-template>
-			</xsl:if>
-			<xsl:choose>
-				<xsl:when test="$numberOfPhones">
-					<xsl:call-template name="detailsRow">
-						<xsl:with-param name="label" select="'Number of phones:'" />
-						<xsl:with-param name="text" select="$numberOfPhones" />
-					</xsl:call-template>
-				</xsl:when>
-				<xsl:when test="$numberOfPhonemes">
-					<xsl:call-template name="detailsRow">
-						<xsl:with-param name="label" select="'Number of Phonemes:'" />
-						<xsl:with-param name="text" select="$numberOfPhonemes" />
-					</xsl:call-template>
-				</xsl:when>
-				<xsl:when test="$numberOfRecords">
-					<xsl:call-template name="detailsRow">
-						<xsl:with-param name="label" select="'Number of records:'" />
-						<xsl:with-param name="text" select="$numberOfRecords" />
-					</xsl:call-template>
-				</xsl:when>
-			</xsl:choose>
-			<xsl:if test="$numberOfGroups">
-				<xsl:call-template name="detailsRow">
-					<xsl:with-param name="label" select="'Number of groups:'" />
-					<xsl:with-param name="text" select="$numberOfGroups" />
-				</xsl:call-template>
-			</xsl:if>
-			<xsl:if test="$minimalPairs">
-				<xsl:call-template name="detailsRow">
-					<xsl:with-param name="label" select="'Minimal pairs:'" />
-					<xsl:with-param name="text">
-						<xsl:choose>
-							<xsl:when test="$minimalPairs = 'Before'">
-								<xsl:value-of select="'Identical preceding environment'" />
-							</xsl:when>
-							<xsl:when test="$minimalPairs = 'After'">
-								<xsl:value-of select="'Identical following environment'" />
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="'Both environments identical'" />
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:with-param>
-				</xsl:call-template>
-			</xsl:if>
-			<xsl:if test="$sorting">
-				<xsl:call-template name="detailsRow">
-					<xsl:with-param name="label" select="'Primary sort field:'" />
-					<xsl:with-param name="text">
-						<xsl:value-of select="$primarySortFieldName" />
-						<xsl:if test="$primarySortFieldName = 'Phonetic' and $phoneticSortOptionName">
-							<xsl:value-of select="concat(', ', $phoneticSortOptionName)" />
-						</xsl:if>
-						<xsl:if test="$primarySortFieldDirection = 'descending'">
-							<xsl:value-of select="concat(', ', $primarySortFieldDirection)" />
-						</xsl:if>
-					</xsl:with-param>
-				</xsl:call-template>
-				<xsl:if test="$view = 'Search' and $phoneticSearchSubfieldOrder">
-					<xsl:call-template name="detailsRow">
-						<xsl:with-param name="label" select="'Phonetic sort options:'" />
-						<xsl:with-param name="text">
-							<xsl:call-template name="phoneticSearchSubfieldOrder">
-								<xsl:with-param name="subfield" select="$phoneticSearchSubfieldOrder/xhtml:li[1]" />
-							</xsl:call-template>
-							<xsl:call-template name="phoneticSearchSubfieldOrder">
-								<xsl:with-param name="subfield" select="$phoneticSearchSubfieldOrder/xhtml:li[2]" />
-							</xsl:call-template>
-							<xsl:call-template name="phoneticSearchSubfieldOrder">
-								<xsl:with-param name="subfield" select="$phoneticSearchSubfieldOrder/xhtml:li[3]" />
-							</xsl:call-template>
-						</xsl:with-param>
-					</xsl:call-template>
-				</xsl:if>
-			</xsl:if>
-			<xsl:if test="$projectName != $languageName">
-				<xsl:call-template name="detailsRow">
-					<xsl:with-param name="label" select="'Project name:'" />
-					<xsl:with-param name="text" select="$projectName" />
-				</xsl:call-template>
-			</xsl:if>
-			<xsl:if test="$languageName">
-				<xsl:call-template name="detailsRow">
-					<xsl:with-param name="label" select="'Language name:'" />
-					<xsl:with-param name="text" select="$languageName" />
-				</xsl:call-template>
-			</xsl:if>
-			<xsl:if test="$languageCode">
-				<xsl:call-template name="detailsRow">
-					<xsl:with-param name="label" select="'ISO 639-3 code:'" />
-					<xsl:with-param name="text" select="$languageCode" />
-				</xsl:call-template>
-			</xsl:if>
-			<xsl:if test="$dateAndTime = 'true' and $date and $time">
-				<xsl:call-template name="detailsRow">
-					<xsl:with-param name="label" select="'Date and time:'" />
-					<xsl:with-param name="text" select="concat($date, ' at ', $time)" />
-				</xsl:call-template>
-			</xsl:if>
-		</w:tbl>
-		<xsl:call-template name="pStyleText">
-			<xsl:with-param name="pStyle" select="'SpaceSingle'" />
-			<xsl:with-param name="text" select="''" />
-		</xsl:call-template>
-	</xsl:template>
-
-	<xsl:template name="detailsRow">
-		<xsl:param name="label" />
-		<xsl:param name="text" />
-		<xsl:param name="rStyle" />
-		<w:tr>
-			<w:tc>
-				<w:tcPr>
-					<w:tcW w:w="0" w:type="auto" />
-				</w:tcPr>
-				<xsl:call-template name="pStyleText">
-					<xsl:with-param name="pStyle" select="'TableData'" />
-					<xsl:with-param name="text" select="$label" />
-				</xsl:call-template>
-			</w:tc>
-			<w:tc>
-				<w:tcPr>
-					<w:tcW w:w="0" w:type="auto" />
-				</w:tcPr>
-				<xsl:call-template name="pStyleText">
-					<xsl:with-param name="pStyle" select="'TableData'" />
-					<xsl:with-param name="rStyle" select="$rStyle" />
-					<xsl:with-param name="text" select="$text" />
-				</xsl:call-template>
-			</w:tc>
-		</w:tr>
-	</xsl:template>
-
-	<xsl:template name="phoneticSearchSubfieldOrder">
-		<xsl:param name="subfield" />
-		<xsl:if test="$subfield">
-			<xsl:variable name="class" select="$subfield/@class" />
-			<xsl:if test="$subfield/preceding-sibling::*">
-				<xsl:value-of select="', '" />
-			</xsl:if>
-			<xsl:choose>
-				<xsl:when test="contains($class, 'preceding')">
-					<xsl:value-of select="'Preceding'" />
-				</xsl:when>
-				<xsl:when test="contains($class, 'following')">
-					<xsl:value-of select="'Following'" />
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="'Item'" />
-				</xsl:otherwise>
-			</xsl:choose>
-			<xsl:if test="$subfield = 'rightToLeft'">
-				<xsl:value-of select="' r-to-l'" />
-			</xsl:if>
-		</xsl:if>
-	</xsl:template>
 
 	<!-- Section parameters -->
 

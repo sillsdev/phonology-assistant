@@ -69,10 +69,10 @@ exclude-result-prefixes="xhtml"
 				<xsl:variable name="title" select="/xhtml:html/xhtml:head/xhtml:title" />
 				<xsl:choose>
 					<xsl:when test="$title = 'Consonant Chart'">
-						<xsl:value-of select="'Consonant chart'" />
+						<xsl:value-of select="'Chart of consonants'" />
 					</xsl:when>
 					<xsl:when test="$title = 'Vowel Chart'">
-						<xsl:value-of select="'Vowel chart'" />
+						<xsl:value-of select="'Chart of vowels'" />
 					</xsl:when>
 					<xsl:when test="$title = 'Segment Charts' or $title = 'Features of consonants and vowels'">
 						<xsl:value-of select="'Charts of consonants and vowels'" />

@@ -307,27 +307,6 @@
 			</xslt>
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_export_view_CV_chart_1.xsl" />
-				</input>
-			</xslt>
-			<xslt>
-				<input port="stylesheet">
-					<document href="phonology_export_view_CV_chart_2a_features.xsl" />
-				</input>
-			</xslt>
-			<xslt>
-				<input port="stylesheet">
-					<document href="phonology_export_view_CV_chart_2b_features.xsl" />
-				</input>
-			</xslt>
-			<xslt>
-				<input port="stylesheet">
-					<document href="phonology_export_view_CV_chart_2c_features.xsl" />
-				</input>
-			</xslt>
-			<!-- End processing for CV chart that follows some distribution charts. -->
-			<xslt>
-				<input port="stylesheet">
 					<document href="phonology_export_view_distribution_chart_transpose.xsl" />
 				</input>
 			</xslt>
@@ -346,6 +325,11 @@
 		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
 			<xslt>
 				<input port="stylesheet">
+					<document href="phonology_export_view.xsl" />
+				</input>
+			</xslt>
+			<xslt>
+				<input port="stylesheet">
 					<document href="phonology_export_view_to_Word_2003_XML.xsl" />
 				</input>
 			</xslt>
@@ -353,6 +337,11 @@
 	</process>
 	<process type="export" format="XHTML">
 		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view.xsl" />
+				</input>
+			</xslt>
 			<xslt>
 				<input port="stylesheet">
 					<document href="phonology_export_view_to_XHTML.xsl" />
@@ -367,6 +356,11 @@
 	</process>
 	<process type="export" format="XHTML5">
 		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
+			<xslt>
+				<input port="stylesheet">
+					<document href="phonology_export_view.xsl" />
+				</input>
+			</xslt>
 			<xslt>
 				<input port="stylesheet">
 					<document href="phonology_export_view_to_XHTML.xsl" />
