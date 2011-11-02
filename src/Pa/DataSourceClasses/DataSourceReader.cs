@@ -259,23 +259,17 @@ namespace SIL.Pa.DataSource
 					else
 					{
 						worker.ReportProgress(-1);
-						fmt = App.GetString("DatasourceFileUnsuccessfullyReadMsg",
-							"Error processing data source file '{0}'.");
+						App.NotifyUserOfProblem(App.GetString("DatasourceFileUnsuccessfullyReadMsg",
+							"Error processing data source file '{0}'."), ds.SourceFile);
 
-						string msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(ds.SourceFile));
-						Utils.MsgBox(msg, MessageBoxIcon.Exclamation);
 						worker.ReportProgress(0, new object[] { "AfterReadingDataSourceFailure", ds });
 					}
 				}
 				catch (Exception ex)
 				{
 					worker.ReportProgress(-1);
-					fmt = App.GetString("DatasourceFileReadingErrorMsg",
-							"The following error occurred while reading data source file '{0}'.{1}",
-							"First parameter is data source file name; second parameter is error message.");
-		
-					string msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(ds.SourceFile), ex.Message);
-					Utils.MsgBox(msg, MessageBoxIcon.Exclamation);
+					App.NotifyUserOfProblem(ex, App.GetString("DatasourceFileReadingErrorMsg",
+							"An error occurred while reading data source file '{0}'.") , ds.SourceFile);
 				}
 			}
 		}
@@ -284,8 +278,7 @@ namespace SIL.Pa.DataSource
 		private string GetPhoneticMappingErrorMsg()
 		{
 			return App.GetString("DatasourcePhoneticMappingErrorMsg",
-				"A field mapping to the phonetic field could not be found for the data source '{0}'",
-				"First parameter is data source name.");
+				"A field mapping to the phonetic field could not be found for the data source '{0}'");
 		}
 
 		#region FieldWorks 6 (and older) data source reading
