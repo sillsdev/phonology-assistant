@@ -117,13 +117,10 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteMeatadataPhoneticSortOptions(PaWordListGrid grid)
 		{
-			if (grid.SortOptions.SortType != PhoneticSortType.Unicode)
-			{
-				ProcessHelper.WriteStartElementWithAttrib(m_writer, "li", "class", "phoneticSortOption");
-				m_writer.WriteString(grid.SortOptions.SortType == PhoneticSortType.MOA ?
-					"manner_or_height" : "place_or_backness");
-				m_writer.WriteEndElement();
-			}
+			ProcessHelper.WriteStartElementWithAttrib(m_writer, "li", "class", "phoneticSortOption");
+			m_writer.WriteString(grid.SortOptions.SortType == PhoneticSortType.MOA ?
+				"manner_or_height" : "place_or_backness");
+			m_writer.WriteEndElement();
 		}
 
 		/// ------------------------------------------------------------------------------------

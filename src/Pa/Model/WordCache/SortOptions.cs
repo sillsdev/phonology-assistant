@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace SIL.Pa.Model
 {
-	public enum PhoneticSortType { POA, MOA, Unicode };
+	public enum PhoneticSortType { POA, MOA };
 
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>

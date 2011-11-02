@@ -242,22 +242,14 @@ namespace SIL.Pa.Model
 			string beforeEnvX, searchItemX, afterEnvX;
 			string beforeEnvY, searchItemY, afterEnvY;
 
-			if (m_sortOptions.SortType == PhoneticSortType.Unicode)
-			{
-				ParsePhoneticForUnicodeCompare(x, out beforeEnvX, out searchItemX, out afterEnvX);
-				ParsePhoneticForUnicodeCompare(y, out beforeEnvY, out searchItemY, out afterEnvY);
-			}
-			else
-			{
-				List<string> xBefore, xItem, xAfter;
-				List<string> yBefore, yItem, yAfter;
-				GetMOAOrPOAKeysForPhoneticCompare(x, out xBefore, out xItem, out xAfter);
-				GetMOAOrPOAKeysForPhoneticCompare(y, out yBefore, out yItem, out yAfter);
+			List<string> xBefore, xItem, xAfter;
+			List<string> yBefore, yItem, yAfter;
+			GetMOAOrPOAKeysForPhoneticCompare(x, out xBefore, out xItem, out xAfter);
+			GetMOAOrPOAKeysForPhoneticCompare(y, out yBefore, out yItem, out yAfter);
 
-				ModifyAndCombineKeys(xBefore, yBefore, out beforeEnvX, out beforeEnvY);
-				ModifyAndCombineKeys(xItem, yItem, out searchItemX, out searchItemY);
-				ModifyAndCombineKeys(xAfter, yAfter, out afterEnvX, out afterEnvY);
-			}
+			ModifyAndCombineKeys(xBefore, yBefore, out beforeEnvX, out beforeEnvY);
+			ModifyAndCombineKeys(xItem, yItem, out searchItemX, out searchItemY);
+			ModifyAndCombineKeys(xAfter, yAfter, out afterEnvX, out afterEnvY);
 
 			for (int i = 0; i < 3; i++)
 			{
@@ -304,9 +296,6 @@ namespace SIL.Pa.Model
 
 			if (m_sortOptions.AdvancedEnabled)
 				return CompareAdvancedPhonetic(x, y);
-
-			if (m_sortOptions.SortType == PhoneticSortType.Unicode)
-				return string.CompareOrdinal(x.PhoneticValue, y.PhoneticValue);
 
 			// Compare POA or MOA keys.
 			return CompareMOAOrPOAKeys(x, y);
