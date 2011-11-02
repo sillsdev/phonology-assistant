@@ -45,13 +45,13 @@ namespace SIL.Pa.Processing
 			{
 				if (_chartType == CVChartType.Consonant)
 				{
-					return App.GetString("MiscellaneousMessages.ProcessingConsonantChartMsg",
-						"Separating Consonants...",
-						"Status bar message displayed when building list of consonants from phone list.");
+					return App.GetString("MiscellaneousMessages.BuildingConsonantChartMsg",
+						"Building Consonant Chart...",
+						"Status bar message displayed when building consonant chart.");
 				}
 
-				return App.GetString("MiscellaneousMessages.ProcessingVowelChartMsg", "Separating Vowels...",
-					"Status bar message displayed when building list of vowels from phone list.");
+				return App.GetString("MiscellaneousMessages.BuildingVowelChartMsg", "Building Vowel Chart...",
+					"Status bar message displayed when building building vowel chart.");
 			}
 		}
 
