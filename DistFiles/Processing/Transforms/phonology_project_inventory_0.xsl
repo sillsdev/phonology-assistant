@@ -1,6 +1,9 @@
-﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+xmlns:xhtml="http://www.w3.org/1999/xhtml"
+exclude-result-prefixes="xhtml"
+>
 
-  <!-- phonology_project_inventory_0.xsl 2011-10-28 -->
+  <!-- phonology_project_inventory_0.xsl 2011-11-02 -->
 	<!-- Make sure that a .tmp file for project phonetic inventory or CV chart contains -->
 	<!-- essential information from the program phonetic inventory and distinctive features files. -->
 
@@ -25,6 +28,28 @@
 		<xsl:variable name="programPhoneticInventoryXML" select="concat($programConfigurationFolder, $programPhoneticInventoryFile)" />
 		<xsl:copy>
 			<xsl:apply-templates select="@*" />
+			<xsl:if test="not(@languageIdentifier)">
+				<xsl:variable name="languageCode3" select="@languageCode" />
+				<xsl:variable name="languageCode1">
+					<xsl:if test="string-length($languageCode3) != 0">
+						<xsl:value-of select="document(concat($programConfigurationFolder, 'ISO_639.xml'))//xhtml:tr[xhtml:td[@class = 'ISO_639-3'] = $languageCode3]/xhtml:td[@class = 'ISO_639-1']" />
+					</xsl:if>
+				</xsl:variable>
+				<xsl:attribute name="languageIdentifier">
+					<xsl:choose>
+						<xsl:when test="string-length($languageCode1) = 2">
+							<xsl:value-of select="$languageCode1" />
+						</xsl:when>
+						<xsl:when test="string-length($languageCode3) = 3">
+							<xsl:value-of select="$languageCode3" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="'und'" />
+						</xsl:otherwise>
+					</xsl:choose>
+					<xsl:value-of select="'-fonipa'" />
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:apply-templates>
 				<xsl:with-param name="programPhoneticInventoryXML" select="$programPhoneticInventoryXML" />
 			</xsl:apply-templates>

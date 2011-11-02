@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_2a_sort.xsl 2011-10-21 -->
+  <!-- phonology_export_view_list_2a_sort.xsl 2011-11-02 -->
   <!-- Insert keys to sort by the Phonetic column. -->
 	
 	<!-- Differences between views in the Phonology Assistant program -->
@@ -34,31 +34,6 @@ exclude-result-prefixes="xhtml"
 		</xsl:if>
 	</xsl:variable>
 	<xsl:variable name="oneMinimalPairPerGroup" select="$options/xhtml:li[@class = 'oneMinimalPairPerGroup']" />
-
-	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
-	<xsl:variable name="languageCode3" select="$details/xhtml:li[@class = 'languageCode']" />
-	<xsl:variable name="languageCode1">
-		<xsl:if test="string-length($languageCode3) != 0">
-			<xsl:value-of select="document('ISO_639.xml')//xhtml:tr[xhtml:td[@class = 'ISO_639-3'] = $languageCode3]/xhtml:td[@class = 'ISO_639-1']" />
-		</xsl:if>
-	</xsl:variable>
-	<xsl:variable name="languageCode">
-		<xsl:choose>
-			<xsl:when test="string-length($languageCode1) = 2">
-				<xsl:value-of select="$languageCode1" />
-			</xsl:when>
-			<xsl:when test="string-length($languageCode3) != 0">
-				<xsl:value-of select="$languageCode3" />
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="'und'" />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
-	<xsl:variable name="langPhonetic">
-		<xsl:value-of select="$languageCode" />
-		<xsl:value-of select="'-fonipa'" />
-	</xsl:variable>
 	<xsl:variable name="tags" select="$metadata/xhtml:table[@class = 'language tags']" />
 
 	<!-- For all interactive Web pages, include sort order list in the Phonetic field. -->
@@ -92,6 +67,7 @@ exclude-result-prefixes="xhtml"
 	<xsl:variable name="projectFolder" select="$settings/xhtml:li[@class = 'projectFolder']" />
 	<xsl:variable name="projectPhoneticInventoryFile" select="$settings/xhtml:li[@class = 'projectPhoneticInventoryFile']" />
 	<xsl:variable name="projectPhoneticInventoryXML" select="concat($projectFolder, $projectPhoneticInventoryFile)" />
+	<xsl:variable name="languageIdentifier" select="document($projectPhoneticInventoryXML)/inventory/@languageIdentifier" />
 	<xsl:variable name="segments" select="document($projectPhoneticInventoryXML)/inventory/segments" />
 	
   <xsl:variable name="maxUnitLength">
@@ -224,13 +200,25 @@ exclude-result-prefixes="xhtml"
 		</xsl:call-template>
   </xsl:template>
 
+	<xsl:template match="xhtml:tbody/xhtml:tr/xhtml:th[starts-with(@class, 'Phonetic pair')]/xhtml:ul/xhtml:li">
+    <xsl:copy>
+      <xsl:apply-templates select="@*" />
+			<xsl:if test="not(@lang)">
+				<xsl:attribute name="lang">
+					<xsl:value-of select="$languageIdentifier" />
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:apply-templates />
+    </xsl:copy>
+	</xsl:template>
+
 	<!-- Phonetic in heading rows unless one minimal pair per group. -->
 	<xsl:template match="xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'heading']/xhtml:th[starts-with(@class, 'Phonetic') and not(starts-with(@class, 'Phonetic pair'))]">
 		<xsl:variable name="class" select="@class" />
 		<xsl:copy>
 			<xsl:apply-templates select="@*" />
 			<!-- Enclose the text in a span to separate it from the sort order list. -->
-			<span lang="{$langPhonetic}" xmlns="http://www.w3.org/1999/xhtml">
+			<span lang="{$languageIdentifier}" xmlns="http://www.w3.org/1999/xhtml">
 				<xsl:value-of select="text()" />
 			</span>
 			<xsl:call-template name="sortOrder">
@@ -290,7 +278,7 @@ exclude-result-prefixes="xhtml"
 		<xsl:copy>
 			<xsl:apply-templates select="@*" />
 			<!-- Enclose the text in a span to separate it from the sort order list. -->
-			<span lang="{$langPhonetic}" xmlns="http://www.w3.org/1999/xhtml">
+			<span lang="{$languageIdentifier}" xmlns="http://www.w3.org/1999/xhtml">
 				<xsl:value-of select="text()" />
 			</span>
 			<!-- Text is already in a span (for example, because there is a transcription list). -->

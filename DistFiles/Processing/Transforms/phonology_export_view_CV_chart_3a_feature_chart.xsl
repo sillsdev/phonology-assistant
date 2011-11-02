@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-	<!-- phonology_export_view_CV_chart_3a_feature_chart.xsl 2011-10-28 -->
+	<!-- phonology_export_view_CV_chart_3a_feature_chart.xsl 2011-11-02 -->
   <!-- Following the section which contains a consonant chart or vowel chart, or both, -->
 	<!-- append sections which contain corresponding charts of distinctive features. -->
 
@@ -16,34 +16,11 @@ exclude-result-prefixes="xhtml"
 	<xsl:variable name="options" select="$metadata/xhtml:ul[@class = 'options']" />
 	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
 
-	<xsl:variable name="languageCode3" select="$details/xhtml:li[@class = 'languageCode']" />
-	<xsl:variable name="languageCode1">
-		<xsl:if test="string-length($languageCode3) != 0">
-			<xsl:value-of select="document('ISO_639.xml')//xhtml:tr[xhtml:td[@class = 'ISO_639-3'] = $languageCode3]/xhtml:td[@class = 'ISO_639-1']" />
-		</xsl:if>
-	</xsl:variable>
-	<xsl:variable name="languageCode">
-		<xsl:choose>
-			<xsl:when test="string-length($languageCode1) = 2">
-				<xsl:value-of select="$languageCode1" />
-			</xsl:when>
-			<xsl:when test="string-length($languageCode3) != 0">
-				<xsl:value-of select="$languageCode3" />
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="'und'" />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
-	<xsl:variable name="langPhonetic">
-		<xsl:value-of select="$languageCode" />
-		<xsl:value-of select="'-fonipa'" />
-	</xsl:variable>
-
 	<!-- A project phonetic inventory file contains features of phonetic or phonological segments, or both. -->
 	<xsl:variable name="projectFolder" select="$settings/xhtml:li[@class = 'projectFolder']" />
 	<xsl:variable name="projectPhoneticInventoryFile" select="$settings/xhtml:li[@class = 'projectPhoneticInventoryFile']" />
 	<xsl:variable name="projectPhoneticInventoryXML" select="concat($projectFolder, $projectPhoneticInventoryFile)" />
+	<xsl:variable name="languageIdentifier" select="document($projectPhoneticInventoryXML)/inventory/@languageIdentifier" />
 	<xsl:variable name="segments" select="document($projectPhoneticInventoryXML)/inventory/segments" />
 
 	<!-- The program phonetic character inventory file contains the features, symbols, and so on. -->
@@ -675,7 +652,7 @@ exclude-result-prefixes="xhtml"
 				</xsl:variable>
 				<xsl:variable name="title" select="$segment/description" />
 				<th class="{$class}" scope="col" title="{$title}" xmlns="http://www.w3.org/1999/xhtml">
-					<span lang="{$langPhonetic}">
+					<span lang="{$languageIdentifier}">
 						<xsl:value-of select="$literal" />
 					</span>
 				</th>

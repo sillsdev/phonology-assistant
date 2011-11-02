@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_1c_minimal_pairs_similar.xsl 2011-10-21 -->
+  <!-- phonology_export_view_list_1c_minimal_pairs_similar.xsl 2011-11-02 -->
   <!-- If the project inventory contains lists of similar pairs, -->
   <!-- classify the list of minimal pairs as more-similar, less-similar, least-similar. -->
 	<!-- Append empty groups for any more-similar pairs for which there are no minimal pairs. -->
@@ -27,30 +27,6 @@ exclude-result-prefixes="xhtml"
 
 	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
 	<xsl:variable name="searchPattern" select="$details/xhtml:li[@class = 'searchPattern']" />
-
-	<xsl:variable name="languageCode3" select="$details/xhtml:li[@class = 'languageCode']" />
-	<xsl:variable name="languageCode1">
-		<xsl:if test="string-length($languageCode3) != 0">
-			<xsl:value-of select="document('ISO_639.xml')//xhtml:tr[xhtml:td[@class = 'ISO_639-3'] = $languageCode3]/xhtml:td[@class = 'ISO_639-1']" />
-		</xsl:if>
-	</xsl:variable>
-	<xsl:variable name="languageCode">
-		<xsl:choose>
-			<xsl:when test="string-length($languageCode1) = 2">
-				<xsl:value-of select="$languageCode1" />
-			</xsl:when>
-			<xsl:when test="string-length($languageCode3) != 0">
-				<xsl:value-of select="$languageCode3" />
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="'und'" />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
-	<xsl:variable name="langPhonetic">
-		<xsl:value-of select="$languageCode" />
-		<xsl:value-of select="'-fonipa'" />
-	</xsl:variable>
 
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
 	<xsl:template match="@* | node()">
@@ -104,10 +80,10 @@ exclude-result-prefixes="xhtml"
 										</th>
 										<th class="Phonetic pair more-similar">
 											<ul>
-												<li lang="{$langPhonetic}">
+												<li>
 													<xsl:value-of select="$literal1" />
 												</li>
-												<li lang="{$langPhonetic}">
+												<li>
 													<xsl:value-of select="$literal2" />
 												</li>
 											</ul>

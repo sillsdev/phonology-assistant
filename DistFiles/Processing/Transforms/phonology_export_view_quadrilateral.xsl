@@ -4,7 +4,7 @@ xmlns:svg="http://www.w3.org/2000/svg"
 exclude-result-prefixes="xhtml svg"
 >
 
-  <!-- phonology_export_view_quadrilateral.xsl 2011-10-21 -->
+  <!-- phonology_export_view_quadrilateral.xsl 2011-11-02 -->
 	<!-- Export to SVG or XHTML -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
@@ -29,34 +29,13 @@ exclude-result-prefixes="xhtml svg"
 	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
 	<xsl:variable name="languageName" select="$details/xhtml:li[@class = 'languageName']" />
 	<xsl:variable name="languageCode3" select="$details/xhtml:li[@class = 'languageCode']" />
-	<xsl:variable name="languageCode1">
-		<xsl:if test="string-length($languageCode3) != 0">
-			<xsl:value-of select="document('ISO_639.xml')//xhtml:tr[xhtml:td[@class = 'ISO_639-3'] = $languageCode3]/xhtml:td[@class = 'ISO_639-1']" />
-		</xsl:if>
-	</xsl:variable>
-	<xsl:variable name="languageCode">
-		<xsl:choose>
-			<xsl:when test="string-length($languageCode1) = 2">
-				<xsl:value-of select="$languageCode1" />
-			</xsl:when>
-			<xsl:when test="string-length($languageCode3) != 0">
-				<xsl:value-of select="$languageCode3" />
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="'und'" />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
-	<xsl:variable name="langPhonetic">
-		<xsl:value-of select="$languageCode" />
-		<xsl:value-of select="'-fonipa'" />
-	</xsl:variable>
 
-	<!-- A project phonetic inventory file contains features of phonetic or phonological units, or both. -->
+	<!-- A project phonetic inventory file contains features of segment. -->
 	<xsl:variable name="projectFolder" select="$settings/xhtml:li[@class = 'projectFolder']" />
 	<xsl:variable name="projectPhoneticInventoryFile" select="$settings/xhtml:li[@class = 'projectPhoneticInventoryFile']" />
 	<xsl:variable name="projectPhoneticInventoryXML" select="concat($projectFolder, $projectPhoneticInventoryFile)" />
-	<xsl:variable name="units" select="document($projectPhoneticInventoryXML)/inventory/units" />
+	<xsl:variable name="languageIdentifier" select="document($projectPhoneticInventoryXML)/inventory/@languageIdentifier" />
+	<xsl:variable name="segments" select="document($projectPhoneticInventoryXML)/inventory/segments" />
 
 	<xsl:variable name="upperAlpha" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'" />
 	<xsl:variable name="lowerAlpha" select="'abcdefghijklmnopqrstuvwxyz'" />
@@ -191,7 +170,7 @@ g.data g.handles line { stroke-opacity: 0.6; stroke: #dddddd; stroke-width: 10; 
 		</svg>
 	</xsl:template>
 
-	<!-- Export to XHTML: title attribute of phonetic cell contains description of unit. -->
+	<!-- Export to XHTML: title attribute of phonetic cell contains description of segment. -->
 	<xsl:template match="xhtml:table[@class = 'CV chart']//xhtml:td[@class = 'Phonetic'][node()]">
 		<xsl:param name="subtype" />
 		<xsl:variable name="literal">
@@ -204,20 +183,13 @@ g.data g.handles line { stroke-opacity: 0.6; stroke: #dddddd; stroke-width: 10; 
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:variable name="unit" select="$units/unit[@literal = $literal]" />
-		<xsl:variable name="description" select="$unit/description" />
-		<xsl:variable name="height" select="translate($unit/keys/chartKey[@class = 'rowgroup'], $upperAlpha, $lowerAlpha)" />
+		<xsl:variable name="segment" select="$segments/segment[@literal = $literal]" />
+		<xsl:variable name="description" select="$segment/description" />
+		<xsl:variable name="height" select="translate($segment/keys/chartKey[@class = 'rowgroup'], $upperAlpha, $lowerAlpha)" />
 		<xsl:variable name="backness">
-			<xsl:choose>
-				<xsl:when test="$unit/features[@class = 'descriptive']/feature[@category = 'backness']">
-					<xsl:value-of select="$unit/features[@class = 'descriptive']/feature[@category = 'backness']" />
-				</xsl:when>
-				<xsl:when test="$unit/articulatoryFeatures/feature[@subclass= 'backness']">
-					<xsl:value-of select="translate($unit/articulatoryFeatures/feature[@subclass= 'backness'], $upperAlpha, $lowerAlpha)" />
-				</xsl:when>
-			</xsl:choose>
+			<xsl:value-of select="$segment/features[@class = 'descriptive']/feature[@category = 'backness']" />
 		</xsl:variable>
-		<xsl:variable name="rounding" select="translate($unit/keys/chartKey[@class = 'col'], $upperAlpha, $lowerAlpha)" />
+		<xsl:variable name="rounding" select="translate($segment/keys/chartKey[@class = 'col'], $upperAlpha, $lowerAlpha)" />
 		<xsl:variable name="textClass">
 			<xsl:choose>
 				<xsl:when test="$rounding = 'unrounded'">
@@ -253,26 +225,26 @@ g.data g.handles line { stroke-opacity: 0.6; stroke: #dddddd; stroke-width: 10; 
 		<!-- TO DO for diphthongs: height, backness, and rounding features of second base symbol. -->
 		<xsl:variable name="height2">
 			<xsl:choose>
-				<xsl:when test="$unit/keys/chartKeySecondary/chartKey[@class = 'rowgroup']">
-					<xsl:value-of select="translate($unit/keys/chartKeySecondary/chartKey[@class = 'rowgroup'], $upperAlpha, $lowerAlpha)" />
+				<xsl:when test="$segment/keys/chartKeySecondary/chartKey[@class = 'rowgroup']">
+					<xsl:value-of select="translate($segment/keys/chartKeySecondary/chartKey[@class = 'rowgroup'], $upperAlpha, $lowerAlpha)" />
 				</xsl:when>
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="backness2">
 			<xsl:choose>
-				<xsl:when test="$unit/keys/chartKeySecondary/chartKey[@class = 'colgroup']">
-					<xsl:value-of select="translate($unit/keys/chartKeySecondary/chartKey[@class = 'colgroup'], $upperAlpha, $lowerAlpha)" />
+				<xsl:when test="$segment/keys/chartKeySecondary/chartKey[@class = 'colgroup']">
+					<xsl:value-of select="translate($segment/keys/chartKeySecondary/chartKey[@class = 'colgroup'], $upperAlpha, $lowerAlpha)" />
 				</xsl:when>
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="rounding2">
 			<xsl:choose>
-				<xsl:when test="$unit/keys/chartKeySecondary/chartKey[@class = 'col']">
-					<xsl:value-of select="translate($unit/keys/chartKeySecondary/chartKey[@class = 'col'], $upperAlpha, $lowerAlpha)" />
+				<xsl:when test="$segment/keys/chartKeySecondary/chartKey[@class = 'col']">
+					<xsl:value-of select="translate($segment/keys/chartKeySecondary/chartKey[@class = 'col'], $upperAlpha, $lowerAlpha)" />
 				</xsl:when>
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:if test="$unit/features[@class = 'descriptive']/feature[. = $subtype]">
+		<xsl:if test="$segment/features[@class = 'descriptive']/feature[. = $subtype]">
 			<g class="{$subtype}" xmlns="http://www.w3.org/2000/svg">
 				<title>
 					<xsl:value-of select="$description" />
@@ -293,7 +265,7 @@ g.data g.handles line { stroke-opacity: 0.6; stroke: #dddddd; stroke-width: 10; 
 					<line class="arrowhead filled" x1="{$xFormatted}" y1="{$y}" x2="{$x2Formatted}" y2="{$y2}" />
 				</xsl:if>
 				<circle class="filled" cx="{$xFormatted}" cy="{$y}" r="{$r}" xmlns:xlink="http://www.w3.org/1999/xlink" />
-				<text class="{$textClass}" x="{$xFormatted}" y="{$y}" transform="{$transform}" xml:lang="{$langPhonetic}">
+				<text class="{$textClass}" x="{$xFormatted}" y="{$y}" transform="{$transform}" xml:lang="{$languageIdentifier}">
 					<xsl:value-of select="$literal" />
 				</text>
 			</g>

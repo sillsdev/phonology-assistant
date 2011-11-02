@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_CV_chart_2a_features.xsl 2011-10-28 -->
+  <!-- phonology_export_view_CV_chart_2a_features.xsl 2011-11-02 -->
 	<!-- Export to XHTML, Interactive Web page, and at least one feature table. -->
   <!-- For each Phonetic data cell: -->
   <!-- * Wrap the literal segment in a span. -->
@@ -18,30 +18,6 @@ exclude-result-prefixes="xhtml"
 	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
 
 	<xsl:variable name="view" select="$details/xhtml:li[@class = 'view']" />
-
-	<xsl:variable name="languageCode3" select="$details/xhtml:li[@class = 'languageCode']" />
-	<xsl:variable name="languageCode1">
-		<xsl:if test="string-length($languageCode3) != 0">
-			<xsl:value-of select="document('ISO_639.xml')//xhtml:tr[xhtml:td[@class = 'ISO_639-3'] = $languageCode3]/xhtml:td[@class = 'ISO_639-1']" />
-		</xsl:if>
-	</xsl:variable>
-	<xsl:variable name="languageCode">
-		<xsl:choose>
-			<xsl:when test="string-length($languageCode1) = 2">
-				<xsl:value-of select="$languageCode1" />
-			</xsl:when>
-			<xsl:when test="string-length($languageCode3) != 0">
-				<xsl:value-of select="$languageCode3" />
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="'und'" />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
-	<xsl:variable name="langPhonetic">
-		<xsl:value-of select="$languageCode" />
-		<xsl:value-of select="'-fonipa'" />
-	</xsl:variable>
 
 	<!-- A project phonetic inventory file contains features of phonetic or phonological segments, or both. -->
 	<xsl:variable name="projectFolder" select="$settings/xhtml:li[@class = 'projectFolder']" />
@@ -257,40 +233,24 @@ exclude-result-prefixes="xhtml"
 	<xsl:template match="xhtml:table[starts-with(@class, 'CV chart')]//xhtml:td[@class = 'Phonetic'][node()]">
 		<xsl:copy>
 			<xsl:apply-templates select="@*" />
-			<xsl:choose>
-				<xsl:when test="$features = 'true'">
-					<xsl:variable name="literal">
-						<xsl:choose>
-							<xsl:when test="xhtml:span">
-								<xsl:value-of select="xhtml:span" />
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="." />
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:variable>
-					<xsl:variable name="segment" select="$segments/segment[@literal = $literal]" />
-					<span lang="{$langPhonetic}" xmlns="http://www.w3.org/1999/xhtml">
-						<xsl:value-of select="$literal" />
-					</span>
-					<xsl:if test="$segment">
-						<xsl:if test="$descriptiveFeatureTable = 'true'">
-							<xsl:variable name="features" select="$segment/features[@class = 'descriptive']" />
-							<ul class="descriptive features" xmlns="http://www.w3.org/1999/xhtml">
-								<xsl:apply-templates select="$features/feature" mode="list" />
-							</ul>
-						</xsl:if>
-						<xsl:if test="$distinctiveFeatureTable = 'true'">
-							<ul class="distinctive features" xmlns="http://www.w3.org/1999/xhtml">
-								<xsl:apply-templates select="$segment/features[@class = 'distinctive']/feature" mode="list" />
-							</ul>
-						</xsl:if>
+			<xsl:apply-templates />
+			<xsl:if test="$features = 'true'">
+				<xsl:variable name="literal" select="xhtml:span" />
+				<xsl:variable name="segment" select="$segments/segment[@literal = $literal]" />
+				<xsl:if test="$segment">
+					<xsl:if test="$descriptiveFeatureTable = 'true'">
+						<xsl:variable name="features" select="$segment/features[@class = 'descriptive']" />
+						<ul class="descriptive features" xmlns="http://www.w3.org/1999/xhtml">
+							<xsl:apply-templates select="$features/feature" mode="list" />
+						</ul>
 					</xsl:if>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:apply-templates />
-				</xsl:otherwise>
-			</xsl:choose>
+					<xsl:if test="$distinctiveFeatureTable = 'true'">
+						<ul class="distinctive features" xmlns="http://www.w3.org/1999/xhtml">
+							<xsl:apply-templates select="$segment/features[@class = 'distinctive']/feature" mode="list" />
+						</ul>
+					</xsl:if>
+				</xsl:if>
+			</xsl:if>
 		</xsl:copy>
 	</xsl:template>
 

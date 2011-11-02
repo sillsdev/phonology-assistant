@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_CV_chart_1.xsl 2011-10-06 -->
+  <!-- phonology_export_view_CV_chart_1.xsl 2011-11-02 -->
 	<!-- Export to XHTML: title attribute of phonetic cell contains description of segment. -->
   <!-- In several column heading cells, optionally insert line breaks. -->
 
@@ -25,6 +25,7 @@ exclude-result-prefixes="xhtml"
 	<xsl:variable name="projectFolder" select="$settings/xhtml:li[@class = 'projectFolder']" />
 	<xsl:variable name="projectPhoneticInventoryFile" select="$settings/xhtml:li[@class = 'projectPhoneticInventoryFile']" />
 	<xsl:variable name="projectPhoneticInventoryXML" select="concat($projectFolder, $projectPhoneticInventoryFile)" />
+	<xsl:variable name="languageIdentifier" select="document($projectPhoneticInventoryXML)/inventory/@languageIdentifier" />
 	<xsl:variable name="segments" select="document($projectPhoneticInventoryXML)/inventory/segments" />
 
 	<!-- The program phonetic character inventory file contains the features, symbols, and so on. -->
@@ -148,17 +149,17 @@ exclude-result-prefixes="xhtml"
 	<xsl:template match="xhtml:table[starts-with(@class, 'CV chart')]//xhtml:td[@class = 'Phonetic'][node()]">
 		<xsl:copy>
 			<xsl:apply-templates select="@*" />
+			<xsl:variable name="literal">
+				<xsl:choose>
+					<xsl:when test="xhtml:span">
+						<xsl:value-of select="xhtml:span" />
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="." />
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
 			<xsl:if test="$format = 'XHTML'">
-				<xsl:variable name="literal">
-					<xsl:choose>
-						<xsl:when test="xhtml:span">
-							<xsl:value-of select="xhtml:span" />
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="." />
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:variable>
 				<xsl:variable name="description" select="$segments/segment[@literal = $literal]/description" />
 				<xsl:if test="string-length($description) != 0">
 					<xsl:attribute name="title">
@@ -166,7 +167,14 @@ exclude-result-prefixes="xhtml"
 					</xsl:attribute>
 				</xsl:if>
 			</xsl:if>
-			<xsl:apply-templates />
+			<span xmlns="http://www.w3.org/1999/xhtml">
+				<xsl:if test="string-length($languageIdentifier) != 0">
+					<xsl:attribute name="lang">
+						<xsl:value-of select="$languageIdentifier" />
+					</xsl:attribute>
+				</xsl:if>
+				<xsl:value-of select="$literal" />
+			</span>
     </xsl:copy>
   </xsl:template>
 

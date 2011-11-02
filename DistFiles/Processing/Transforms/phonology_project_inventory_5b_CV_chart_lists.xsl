@@ -97,10 +97,6 @@ exclude-result-prefixes="xhtml"
 							<xsl:value-of select="'Charts of consonants and vowels'" />
 						</xsl:otherwise>
 					</xsl:choose>
-					<xsl:if test="@languageName and @languageName != 'Undetermined'">
-						<xsl:value-of select="' for '" />
-						<xsl:value-of select="@languageName" />
-					</xsl:if>
 				</title>
 			</head>
 			<body>
