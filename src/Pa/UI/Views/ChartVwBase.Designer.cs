@@ -30,7 +30,7 @@ namespace SIL.Pa.UI.Views
 		{
 			this.components = new System.ComponentModel.Container();
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
-			this.m_chrGrid = new SIL.Pa.UI.Controls.CharGrid();
+			this._chrGrid = new SIL.Pa.UI.Controls.CharGrid();
 			this.m_histogram = new SIL.Pa.UI.Controls.Histogram();
 			this.m_toopTip = new System.Windows.Forms.ToolTip(this.components);
 			this.splitOuter.Panel1.SuspendLayout();
@@ -47,7 +47,7 @@ namespace SIL.Pa.UI.Views
 			// 
 			// splitOuter.Panel1
 			// 
-			this.splitOuter.Panel1.Controls.Add(this.m_chrGrid);
+			this.splitOuter.Panel1.Controls.Add(this._chrGrid);
 			this.splitOuter.Panel1.Padding = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.splitOuter.Panel1.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			// 
@@ -61,16 +61,16 @@ namespace SIL.Pa.UI.Views
 			this.splitOuter.SplitterWidth = 8;
 			this.splitOuter.TabIndex = 4;
 			// 
-			// m_chrGrid
+			// _chrGrid
 			// 
-			this.m_chrGrid.CellWidth = 38;
-			this.m_chrGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.m_chrGrid.HeadersVisible = true;
-			this.m_chrGrid.Location = new System.Drawing.Point(10, 10);
-			this.m_chrGrid.Name = "m_chrGrid";
-			this.m_chrGrid.SearchWhenPhoneDoubleClicked = true;
-			this.m_chrGrid.Size = new System.Drawing.Size(610, 341);
-			this.m_chrGrid.TabIndex = 2;
+			this._chrGrid.CellWidth = 38;
+			this._chrGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._chrGrid.HeadersVisible = true;
+			this._chrGrid.Location = new System.Drawing.Point(10, 10);
+			this._chrGrid.Name = "_chrGrid";
+			this._chrGrid.SearchWhenPhoneDoubleClicked = true;
+			this._chrGrid.Size = new System.Drawing.Size(610, 341);
+			this._chrGrid.TabIndex = 2;
 			// 
 			// m_histogram
 			// 
@@ -98,7 +98,7 @@ namespace SIL.Pa.UI.Views
 		#endregion
 
 		private System.Windows.Forms.ToolTip m_toopTip;
-		protected SIL.Pa.UI.Controls.CharGrid m_chrGrid;
+		protected SIL.Pa.UI.Controls.CharGrid _chrGrid;
 		private System.Windows.Forms.SplitContainer splitOuter;
 		private SIL.Pa.UI.Controls.Histogram m_histogram;
 

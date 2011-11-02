@@ -32,6 +32,36 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public virtual void Load(string heading, IEnumerable<IPASymbol> symbolsToLoad)
+		{
+			if (App.DesignMode)
+				return;
+
+			Utils.SetWindowRedraw(this, false, false);
+
+			_pickers.Clear();
+
+			var picker = new CharPicker();
+			picker.Name = heading;
+			picker.CharPicked += HandleCharPicked;
+			picker.ItemDrag += HandleCharacterItemDrag;
+			picker.LoadCharacters(symbolsToLoad);
+			picker.CheckItemsOnClick = true;
+			picker.AutoSizeItems = true;
+			_pickers.Add(picker);
+			
+			var item = Add(picker);
+			item.Button.Text = heading;
+
+		//	App.RegisterForLocalization(item.Button, "CommonControls.CharacterPicker.ConsonantHeading", "Consonant");
+
+
+			Dock = DockStyle.Fill;
+			LayoutPickers(false);
+			Utils.SetWindowRedraw(this, true, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private static void HandleSymbolTypeHeadingCheckBoxChecked(bool checkBoxChecked, Control ctrl)
 		{
 			var picker = ctrl as CharPicker;

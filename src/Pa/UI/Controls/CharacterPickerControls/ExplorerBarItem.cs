@@ -58,12 +58,7 @@ namespace SIL.Pa.UI.Controls
 		public ExplorerBarItem(string text, Control hostedControl) : this()
 		{
 			Button.Text = text;
-
-			Control = hostedControl;
-			SetHostedControlHeight(Control.Height);
-			Control.Dock = DockStyle.Fill;
-			Controls.Add(Control);
-			Control.BringToFront();
+			SetHostedControl(hostedControl);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -75,6 +70,16 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			base.Dispose(disposing);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetHostedControl(Control hostedControl)
+		{
+			Control = hostedControl;
+			Control.Dock = DockStyle.Fill;
+			Controls.Add(Control);
+			Control.BringToFront();
+			SetHostedControlHeight(Control.Height);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -103,6 +108,15 @@ namespace SIL.Pa.UI.Controls
 		public Color ButtonBackColor { get; set; }
 
 		/// ------------------------------------------------------------------------------------
+		[DefaultValue(true)]
+		public bool CanButtonGetFocus
+		{
+			get { return Button.CanGetFocus; }
+			set { Button.CanGetFocus = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[DefaultValue(true)]
 		public bool ShowButtonFocusCues
 		{
 			get { return Button.GetShowFocusCues(); }
@@ -132,6 +146,7 @@ namespace SIL.Pa.UI.Controls
 		/// Gets or sets the item's text.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[Browsable(true)]
 		public override string Text
 		{
 			get { return Button.Text; }
@@ -158,6 +173,7 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		[Browsable(false)]
 		public CheckState CheckedBoxState
 		{
 			get { return CheckBox.CheckState; }
@@ -374,13 +390,13 @@ namespace SIL.Pa.UI.Controls
 
 			if (_drawHot)
 			{
-				element = (Control.Visible ?
+				element = (Control != null && Control.Visible ?
 					VisualStyleElement.ExplorerBar.NormalGroupCollapse.Hot :
 					VisualStyleElement.ExplorerBar.NormalGroupExpand.Hot);
 			}
 			else
 			{
-				element = (Control.Visible ?
+				element = (Control != null && Control.Visible ?
 					VisualStyleElement.ExplorerBar.NormalGroupCollapse.Normal :
 					VisualStyleElement.ExplorerBar.NormalGroupExpand.Normal);
 			}
@@ -412,6 +428,17 @@ namespace SIL.Pa.UI.Controls
 		public class ExpBarButton : Button
 		{
 			private bool _showFocusCues = true;
+			private bool _canGetFocus = true;
+
+			public bool CanGetFocus
+			{
+				get { return _canGetFocus; }
+				set
+				{
+					_canGetFocus = value;
+					SetStyle(ControlStyles.Selectable, _canGetFocus);
+				}
+			}
 
 			public void SetShowFocusCues(bool show)
 			{

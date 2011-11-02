@@ -780,6 +780,9 @@
     <Compile Include="UI\Views\SearchVw.Designer.cs">
       <DependentUpon>SearchVw.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Views\ViewBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="UI\Views\VowelChartVw.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -6,7 +6,6 @@ using System.Xml;
 using System.Xml.Linq;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
-using SIL.Pa.UI.Controls;
 using SilTools;
 
 namespace SIL.Pa.Processing
@@ -42,8 +41,8 @@ namespace SIL.Pa.Processing
 			App.MsgMediator.SendMessage("AfterBuildProjectInventory",
 				new object[] { project, buildResult });
 
-			CVChartBuilder.Process(project, CVChartType.Consonant);
-			CVChartBuilder.Process(project, CVChartType.Vowel);
+			//CVChartBuilder.Process(project, CVChartType.Consonant);
+			//CVChartBuilder.Process(project, CVChartType.Vowel);
 
 			return buildResult;
 		}
@@ -80,7 +79,7 @@ namespace SIL.Pa.Processing
 			// Create a processing pipeline for a series of xslt transforms to be applied to the stream.
 			var pipeline = ProcessHelper.CreatePipeline(ProcessType);
 
-			// REVIEW: Should we warn the user that this failed?
+			// REVIEW: Should we warn the user when this fails?
 			if (pipeline == null)
 				return false;
 
@@ -192,6 +191,15 @@ namespace SIL.Pa.Processing
 			
 			XmlSerializationHelper.SerializeDataAndWriteAsNode(_writer, _project.TranscriptionChanges);
 			XmlSerializationHelper.SerializeDataAndWriteAsNode(_writer, _project.AmbiguousSequences);
+
+			if (_project.IgnoredSymbolsInCVCharts.Count > 0)
+			{
+				ProcessHelper.WriteStartElementWithAttrib(_writer, "symbols", "class", "ignoredInChart");
+				foreach (var symbol in _project.IgnoredSymbolsInCVCharts)
+					ProcessHelper.WriteStartElementWithAttribAndEmptyValue(_writer, "symbol", "literal", symbol);
+
+				_writer.WriteEndElement();
+			}
 
 			_writer.WriteStartElement("segments");
 			WritePhones();

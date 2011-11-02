@@ -199,7 +199,7 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void LayoutPickers(bool suspendDraw)
+		protected void LayoutPickers(bool suspendDraw)
 		{
 			if (suspendDraw)
 				Utils.SetWindowRedraw(this, false, false);
@@ -223,14 +223,14 @@ namespace SIL.Pa.UI.Controls
 		/// Pass on item dragging events.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void HandleCharacterItemDrag(object sender, ItemDragEventArgs e)
+		protected virtual void HandleCharacterItemDrag(object sender, ItemDragEventArgs e)
 		{
 			if (ItemDrag != null)
 				ItemDrag(sender, e);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleCharPicked(CharPicker picker, ToolStripButton item)
+		protected virtual void HandleCharPicked(CharPicker picker, ToolStripButton item)
 		{
 			if (CharPicked != null)
 				CharPicked(picker, item);

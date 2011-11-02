@@ -41,6 +41,7 @@ namespace SIL.Pa.Model
 			Name = App.GetString("DefaultNewProjectName", "New Project");
 			ShowUndefinedCharsDlg = true;
 			IgnoreUndefinedCharsInSearches = true;
+			IgnoredSymbolsInCVCharts = new List<string>();
 			LastNewlyMappedFields = new List<string>(0);
 			Version = kCurrVersion;
 			DistinctiveFeatureSet = BFeatureCache.DefaultFeatureSetName;
@@ -160,7 +161,7 @@ namespace SIL.Pa.Model
 			}
 
 			var errMsg = App.GetString("ProjectMigrationMessages.MigrationFailureMsg",
-				"There was an error upgradeding the '{0}' project to work with this version of Phonology Assistant.\n\n" +
+				"There was an error upgrading the '{0}' project to work with this version of Phonology Assistant. " +
 				"Until the problem is resolved, this project cannot be opened using this version of Phonology Assistant.");
 
 			App.NotifyUserOfProblem(error, errMsg, projectName);
@@ -840,6 +841,10 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		public string DistinctiveFeatureSet { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		[XmlArray("ignoredSymbolsInCVCharts"), XmlArrayItem("symbol")]
+		public List<string> IgnoredSymbolsInCVCharts { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]

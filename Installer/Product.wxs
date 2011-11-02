@@ -72,7 +72,7 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 			<ComponentRef Id="SilTools.pdb" />
 			<ComponentRef Id="Phonology_Assistant_Help.chm" />
 			<ComponentRef Id="DoulosSILR.ttf" />
-      <ComponentRef Id="CompiledTransforms.zip"   />
+      <ComponentRef Id="Transforms.zip"   />
       <ComponentGroupRef Id="ConfigurationFiles" />
       <ComponentGroupRef Id="ProcessingFiles" />
     </Feature>
