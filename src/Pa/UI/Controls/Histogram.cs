@@ -14,34 +14,30 @@ namespace SIL.Pa.UI.Controls
 		//private const int kMagnifiedCharSize = 22;
 		private const int kPixelsFromTop = 10;
 
-		private bool m_ignoreFixedBorderResize;
-		private int m_maxTotalCount;
-		private int m_phoneHeight;
-		private int m_hashMarkIncrement;
-		private readonly int m_extraPhoneHeight;
-		private readonly int m_barWidth;
-		private readonly int m_phoneLabelWidth;
-		private readonly int m_hashMarkGap;
-		private readonly int m_phoneFontSize;
-		private readonly PhoneInfoPopup m_phoneInfoPopup;
+		private bool _ignoreFixedBorderResize;
+		private int _maxTotalCount;
+		private int _phoneHeight;
+		private int _hashMarkIncrement;
+		private readonly int _extraPhoneHeight;
+		private readonly int _barWidth;
+		private readonly int _phoneLabelWidth;
+		private readonly int _hashMarkGap;
+		private readonly int _phoneFontSize;
+		private readonly PhoneInfoPopup _phoneInfoPopup;
 
 		// Uncomment if the magnified tooltip of a histogram's phone is desired.
 		//private readonly ToolTip m_phoneToolTip;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public Histogram()
 		{
 			InitializeComponent();
 
-			m_hashMarkGap =	Settings.Default.HistogramHashMarkGap;
-			m_phoneLabelWidth = Settings.Default.HistogramPhoneLabelWidth;
-			m_extraPhoneHeight = Settings.Default.HistogramExtraPhoneLabelHeight;
-			m_barWidth = Settings.Default.HistogramBarWidth;
-			m_phoneFontSize = Settings.Default.HistogramPhoneLabelFontSize;
+			_hashMarkGap =	Settings.Default.HistogramHashMarkGap;
+			_phoneLabelWidth = Settings.Default.HistogramPhoneLabelWidth;
+			_extraPhoneHeight = Settings.Default.HistogramExtraPhoneLabelHeight;
+			_barWidth = Settings.Default.HistogramBarWidth;
+			_phoneFontSize = Settings.Default.HistogramPhoneLabelFontSize;
 
 			// Uncomment if the magnified tooltip of a histogram's phone is desired.
 			//m_phoneToolTip = new ToolTip();
@@ -58,19 +54,12 @@ namespace SIL.Pa.UI.Controls
 			pnlBars.BorderStyle = BorderStyle.None;
 			pnlYaxis.BorderStyle = BorderStyle.None;
 
-			m_phoneInfoPopup = new PhoneInfoPopup();
+			_phoneInfoPopup = new PhoneInfoPopup();
 		}
 
-		#region Loading query from query source
+		#region Loading
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Create the appropriate labels and bars for the phones based on their placement 
-		/// in the chart's grid.
-		/// </summary>
-		/// <param name="phoneList">List<string></param>
-		/// <returns>bool</returns>
-		/// ------------------------------------------------------------------------------------
-		public bool LoadPhones(List<CharGridCell> phoneList)
+		public bool LoadPhones(IEnumerable<string> phoneList)
 		{
 			pnlScroller.AutoScrollPosition = new Point(0, 0);
 			pnlBars.Left = 0;
@@ -80,29 +69,30 @@ namespace SIL.Pa.UI.Controls
 			pnlBars.Controls.Clear();
 
 			int xLocationOffset = 0;
-			m_maxTotalCount = 0;
-			m_phoneHeight = 0;
+			_maxTotalCount = 0;
+			_phoneHeight = 0;
+			var fnt = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, _phoneFontSize);
 
-			foreach (CharGridCell cgc in phoneList)
+			foreach (var phone in phoneList)
 			{
 				// Create phone labels that appear under the bar.
-				Label lblPhone = new Label();
-				lblPhone.Font = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, m_phoneFontSize);
-				lblPhone.Text = cgc.Phone;
+				var lblPhone = new Label();
+				lblPhone.Font = fnt;
+				lblPhone.Text = phone;
+				lblPhone.Location = new Point(xLocationOffset, 2);
+				lblPhone.AutoSize = false;
 				lblPhone.Paint += lbl_Paint;
 				lblPhone.MouseEnter += HandleMouseEnter;
 				lblPhone.MouseDoubleClick += HandleMouseDoubleClick;
-				lblPhone.Location = new Point(xLocationOffset, 2);
-				lblPhone.AutoSize = false;
 				pnlPhones.Controls.Add(lblPhone);
 
-				if (m_phoneHeight == 0)
+				if (_phoneHeight == 0)
 				{
-					m_phoneHeight = TextRenderer.MeasureText(cgc.Phone, lblPhone.Font).Height +
-						m_extraPhoneHeight;
+					_phoneHeight = TextRenderer.MeasureText(phone, lblPhone.Font).Height +
+						_extraPhoneHeight;
 				}
 				
-				lblPhone.Size = new Size(m_phoneLabelWidth, m_phoneHeight);
+				lblPhone.Size = new Size(_phoneLabelWidth, _phoneHeight);
 				lblPhone.BringToFront();
 
 				// Set the phone's magnified tooltip.
@@ -110,8 +100,7 @@ namespace SIL.Pa.UI.Controls
 				//m_phoneToolTip.SetToolTip(lblPhone, lblPhone.Text);
 
 				// Create the bars.
-				HistogramBar histBar = new HistogramBar();
-				histBar.InitializeBar(cgc);
+				var histBar = new HistogramBar(phone);
 				histBar.MouseEnter += HandleMouseEnter;
 				histBar.MouseDoubleClick += HandleMouseDoubleClick;
 				pnlBars.Controls.Add(histBar);
@@ -121,27 +110,27 @@ namespace SIL.Pa.UI.Controls
 				histBar.Tag = lblPhone;
 
 				// Determine the tallest bar
-				if (histBar.BarValue > m_maxTotalCount)
-					m_maxTotalCount = histBar.BarValue;
+				if (histBar.BarValue > _maxTotalCount)
+					_maxTotalCount = histBar.BarValue;
 
-				xLocationOffset += m_phoneLabelWidth; // pixels between the characters
+				xLocationOffset += _phoneLabelWidth; // pixels between the characters
 			}
 
-			pnlPhones.Width = (pnlPhones.Controls.Count * m_phoneLabelWidth);
+			pnlPhones.Width = (pnlPhones.Controls.Count * _phoneLabelWidth);
 
 			// Account for the fact that each phone's Y location is 2.
-			m_phoneHeight += 2;
+			_phoneHeight += 2;
 
 			// Make sure the labels have enough vertical space. This will increase
 			// room for the labels when the scroll bar appears underneath them and
 			// decrease room when the scroll bar disappears. In other words, this
 			// calculation will make sure there's only enough vertical space for
 			// the phone labels as is necessary so they won't get clipped.
-			if (m_phoneHeight != pnlScroller.ClientSize.Height)
-				pnlScroller.Height += (m_phoneHeight - pnlScroller.ClientSize.Height);
+			if (_phoneHeight != pnlScroller.ClientSize.Height)
+				pnlScroller.Height += (_phoneHeight - pnlScroller.ClientSize.Height);
 
 			// Add 5 additional pixels of space between the right-most bar and border
-			pnlBars.Width = (pnlPhones.Controls.Count * m_phoneLabelWidth) + 5;
+			pnlBars.Width = (pnlPhones.Controls.Count * _phoneLabelWidth) + 5;
 
 			// Force the bars to be resized.
 			pnlFixedBorder_Resize(null, null);
@@ -198,11 +187,11 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private static void HandleMouseDoubleClick(object sender, MouseEventArgs e)
 		{
-			HistogramBar bar = sender as HistogramBar;
-			Label lbl = sender as Label;
-			string srchPhone = (bar != null ? ((Label)bar.Tag).Text : lbl.Text);
+			var bar = sender as HistogramBar;
+			var lbl = sender as Label;
+			var srchPhone = (bar != null ? ((Label)bar.Tag).Text : lbl.Text);
 
-			SearchQuery query = new SearchQuery();
+			var query = new SearchQuery();
 			query.Pattern = srchPhone + "/*_*";
 			query.IgnoreDiacritics = false;
 			App.MsgMediator.SendMessage("ViewSearch", query);
@@ -215,9 +204,9 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void HandleMouseEnter(object sender, EventArgs e)
 		{
-			HistogramBar bar = sender as HistogramBar;
-			Label lbl = sender as Label;
-			bool useLabelForInfoPopup = (bar == null);
+			var bar = sender as HistogramBar;
+			var lbl = sender as Label;
+			var useLabelForInfoPopup = (bar == null);
 			
 			if (bar == null)
 			{
@@ -228,17 +217,13 @@ namespace SIL.Pa.UI.Controls
 				//m_phoneToolTip.Show(lbl.Text, this);
 			}
 
-			if (bar != null && m_phoneInfoPopup.Initialize(bar.CharGridCellPhoneInfo))
-				m_phoneInfoPopup.Show(useLabelForInfoPopup ? lbl : bar, bar);
+			if (bar != null && _phoneInfoPopup.Initialize(bar.Phone))
+				_phoneInfoPopup.Show(useLabelForInfoPopup ? lbl : bar, bar);
 		}
 
 		#endregion
 
 		#region Scrolling/Resizing events
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void RefreshLayout()
 		{
@@ -254,16 +239,10 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void pnlScroller_Scroll(object sender, ScrollEventArgs e)
 		{
-			if (pnlBars.Left != -e.NewValue)
-				pnlBars.Left = -e.NewValue;
-
+			pnlBars.Left = -e.NewValue;
 			pnlBars.Invalidate();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void ForceLayout()
 		{
@@ -281,7 +260,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void pnlFixedBorder_Resize(object sender, EventArgs e)
 		{
-			if (m_maxTotalCount == 0 || m_ignoreFixedBorderResize || App.DesignMode)
+			if (_maxTotalCount == 0 || _ignoreFixedBorderResize || App.DesignMode)
 				return;
 
 			// Make sure the labels have enough vertical space. This will increase
@@ -289,26 +268,26 @@ namespace SIL.Pa.UI.Controls
 			// decrease room when the scroll bar disappears. In other words, this
 			// calculation will make sure there's only enough vertical space for
 			// the phone labels as is necessary so they won't get clipped.
-			if (m_phoneHeight != pnlScroller.ClientSize.Height)
+			if (_phoneHeight != pnlScroller.ClientSize.Height)
 			{
-				m_ignoreFixedBorderResize = true;
-				pnlScroller.Height += (m_phoneHeight - pnlScroller.ClientSize.Height);
-				m_ignoreFixedBorderResize = false;
+				_ignoreFixedBorderResize = true;
+				pnlScroller.Height += (_phoneHeight - pnlScroller.ClientSize.Height);
+				_ignoreFixedBorderResize = false;
 			}
 
 			Utils.SetWindowRedraw(pnlBars, false, false);
 
 			int xLocationOffset = 0;
-			m_hashMarkIncrement = 0;
+			_hashMarkIncrement = 0;
 			decimal pixelsPerUnit = 0;
 
 			int numberHashMarks = (int)Math.Round(
-				decimal.Divide(pnlBars.ClientSize.Height - kPixelsFromTop, m_hashMarkGap));
+				decimal.Divide(pnlBars.ClientSize.Height - kPixelsFromTop, _hashMarkGap));
 
 			if (numberHashMarks > 0)
 			{
-				m_hashMarkIncrement = (int)Math.Ceiling(decimal.Divide(m_maxTotalCount, numberHashMarks));
-				pixelsPerUnit = decimal.Divide(m_hashMarkGap, m_hashMarkIncrement);
+				_hashMarkIncrement = (int)Math.Ceiling(decimal.Divide(_maxTotalCount, numberHashMarks));
+				pixelsPerUnit = decimal.Divide(_hashMarkGap, _hashMarkIncrement);
 			}
 
 			// Reposition and resize bars
@@ -319,8 +298,8 @@ namespace SIL.Pa.UI.Controls
 
 				// "5" is the column spacing on either side of a bar
 				Point newLoc = new Point((xLocationOffset + 5), pnlBars.Bottom - barHeight);
-				Size newSize = new Size(m_barWidth, barHeight);
-				xLocationOffset += m_phoneLabelWidth; // pixels between the characters
+				Size newSize = new Size(_barWidth, barHeight);
+				xLocationOffset += _phoneLabelWidth; // pixels between the characters
 
 				if (newSize != bar.Size)
 					bar.Size = newSize;
@@ -345,7 +324,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private static void lbl_Paint(object sender, PaintEventArgs e)
 		{
-			Label lbl = sender as Label;
+			var lbl = sender as Label;
 
 			if (lbl == null)
 				return;
@@ -404,7 +383,7 @@ namespace SIL.Pa.UI.Controls
 				e.Graphics.FillRectangle(br, pnlBars.ClientRectangle);
 				g.FillRectangle(br, pnlFixedBorder.ClientRectangle);
 
-				int yLocationOffset = pnlBars.ClientSize.Height - m_hashMarkGap;
+				int yLocationOffset = pnlBars.ClientSize.Height - _hashMarkGap;
 
 				while (yLocationOffset > 0)
 				{
@@ -413,7 +392,7 @@ namespace SIL.Pa.UI.Controls
 					Point pt2 = new Point(pnlBars.Width, yLocationOffset);
 
 					e.Graphics.DrawLine(pen, pt1, pt2);
-					yLocationOffset -= m_hashMarkGap;
+					yLocationOffset -= _hashMarkGap;
 
 					// Draw the line on the bar panel's owner in case the bar panel
 					// doesn't extend to its owner's right edge.
@@ -438,7 +417,7 @@ namespace SIL.Pa.UI.Controls
 			// Calculate (relative to pnlYaxis) where the bottom of the bar's panel is.
 			Point pt = pnlBars.PointToScreen(new Point(0, pnlBars.ClientSize.Height));
 			pt = pnlYaxis.PointToClient(pt);
-			int yLocationOffset = pt.Y - (int)(m_hashMarkGap * 1.5);
+			int yLocationOffset = pt.Y - (int)(_hashMarkGap * 1.5);
 
 			// Calculate (relative to pnlYaxis) where we should stop drawing numbers.
 			pt = pnlBars.PointToScreen(new Point(0, 0));
@@ -446,7 +425,7 @@ namespace SIL.Pa.UI.Controls
 			int minY = pt.Y;
 
 			Rectangle rc =
-				new Rectangle(0, yLocationOffset, pnlYaxis.ClientSize.Width - 4, m_hashMarkGap);
+				new Rectangle(0, yLocationOffset, pnlYaxis.ClientSize.Width - 4, _hashMarkGap);
 
 			using (StringFormat sf = Utils.GetStringFormat(true))
 			{
@@ -454,11 +433,11 @@ namespace SIL.Pa.UI.Controls
 
 				while ((rc.Top + (rc.Height / 2)) >= minY)
 				{
-					horzLineValue += m_hashMarkIncrement;
+					horzLineValue += _hashMarkIncrement;
 					e.Graphics.DrawString(horzLineValue.ToString(), FontHelper.UIFont,
 						SystemBrushes.ControlText, rc, sf);
 
-					rc.Y -= m_hashMarkGap;
+					rc.Y -= _hashMarkGap;
 				}
 			}
 		}
@@ -481,101 +460,48 @@ namespace SIL.Pa.UI.Controls
 
 	#region HistogramBar Class
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class HistogramBar : Label
 	{
-		private CharGridCell m_cgcPhoneInfo;
-
-		private readonly Color m_clrRight = ColorHelper.CalculateColor(Color.White,
+		private readonly Color _clrRight = ColorHelper.CalculateColor(Color.White,
 			SystemColors.GradientActiveCaption, 110);
 
-		private readonly Color m_clrLeft = ColorHelper.CalculateColor(Color.White,
+		private readonly Color _clrLeft = ColorHelper.CalculateColor(Color.White,
 			SystemColors.ActiveCaption, 70);
 
+		public string Phone { get; private set; }
+		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// HistogramBar constructor.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public HistogramBar()
+		public HistogramBar(string phone)
 		{
 			Size = new Size(30, 22);
+			Phone = phone;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void InitializeBar(CharGridCell cgc)
-		{
-			m_cgcPhoneInfo = cgc;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
 			base.OnPaintBackground(e);
 
 			// Fill in the bar.
-			using (LinearGradientBrush br =
-				new LinearGradientBrush(ClientRectangle, m_clrLeft, m_clrRight, 120))
-			{
+			using (var br = new LinearGradientBrush(ClientRectangle, _clrLeft, _clrRight, 120))
 				e.Graphics.FillRectangle(br, ClientRectangle);
-			}
 
 			// Draw a border along the left, top and right sides of the bar.
-			using (Pen pen = new Pen(SystemColors.ActiveCaption))
-			{
-				e.Graphics.DrawLines(pen, new[] {new Point(0, Height),
-					new Point(0, 0), new Point(Width - 1, 0), new Point(Width - 1, Height)});
-			}
+			e.Graphics.DrawLines(SystemPens.ActiveCaption, new[] {new Point(0, Height),
+				new Point(0, 0), new Point(Width - 1, 0), new Point(Width - 1, Height)});
 		}
 
-		#region Properties
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Get and set BarValue.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
+		/// -----------------------------------------------------------------------------------
 		public int BarValue
 		{
 			get
 			{
-				return m_cgcPhoneInfo.TotalCount +
-					m_cgcPhoneInfo.CountAsPrimaryUncertainty +
-					m_cgcPhoneInfo.CountAsNonPrimaryUncertainty;
+				var phoneInfo = App.Project.PhoneCache[Phone];
+				return (phoneInfo == null ? 0 :
+					phoneInfo.TotalCount + phoneInfo.CountAsPrimaryUncertainty +
+					phoneInfo.CountAsNonPrimaryUncertainty);
 			}
 		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the bar's associated phone.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string Phone
-		{
-			get { return m_cgcPhoneInfo.Phone; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public CharGridCell CharGridCellPhoneInfo
-		{
-			get { return m_cgcPhoneInfo; }
-		}
-
-		#endregion
 	}
 
 	#endregion

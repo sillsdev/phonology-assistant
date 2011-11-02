@@ -66,7 +66,7 @@ namespace SIL.Pa.UI.Views
 			_pnlGrid.Controls.Add(_htmlVw);
 			
 			_chrGrid.Visible = false;
-			splitOuter.Panel1.Controls.Add(_pnlGrid);
+			_splitOuter.Panel1.Controls.Add(_pnlGrid);
 			Utils.WaitCursors(false);
 		}
 
@@ -150,6 +150,8 @@ namespace SIL.Pa.UI.Views
 				_chartGrid.RowHeadersWidth = RowHeaderWidth;
 
 			_chartGrid.AdjustCellSizes();
+
+			_histogram.LoadPhones(cgp.Phones.Select(cell => cell.Phone));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -204,7 +206,7 @@ namespace SIL.Pa.UI.Views
 		protected bool OnLayoutHistogram(object args)
 		{
 			if (_histogramOn && (args as string) == Name)
-				m_histogram.ForceLayout();
+				_histogram.ForceLayout();
 
 			return false;
 		}
@@ -304,7 +306,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public void SaveSettings()
 		{
-			SplitterRatioSetting = splitOuter.SplitterDistance / (float)splitOuter.Height;
+			SplitterRatioSetting = _splitOuter.SplitterDistance / (float)_splitOuter.Height;
 			HistogramVisibleSetting = HistogramOn;
 			ShowHtmlChartWhenViewLoaded = _htmlVw.Visible;
 		}
@@ -348,7 +350,7 @@ namespace SIL.Pa.UI.Views
 					// .Net framework that I haven't been able to make sense of. Anyway, if an
 					// exception is thrown, no big deal, the splitter distances will just be set
 					// to their default values.
-					splitOuter.SplitterDistance = (int)(splitOuter.Height * SplitterRatioSetting);
+					_splitOuter.SplitterDistance = (int)(_splitOuter.Height * SplitterRatioSetting);
 				}
 				catch { }
 
@@ -368,7 +370,7 @@ namespace SIL.Pa.UI.Views
 					LoadToolbarAndContextMenus();
 				}
 
-				m_histogram.RefreshLayout();
+				_histogram.RefreshLayout();
 			}
 
 			return false;
@@ -385,14 +387,14 @@ namespace SIL.Pa.UI.Views
 				if (_histogramOn != value)
 				{
 					_histogramOn = value;
-					splitOuter.Panel2Collapsed = !value;
-					var padding = splitOuter.Panel1.Padding;
+					_splitOuter.Panel2Collapsed = !value;
+					var padding = _splitOuter.Panel1.Padding;
 					padding = new Padding(padding.Left, padding.Top, padding.Right,
-						(value ? 0 : splitOuter.Panel2.Padding.Bottom));
-					splitOuter.Panel1.Padding = padding;
+						(value ? 0 : _splitOuter.Panel2.Padding.Bottom));
+					_splitOuter.Panel1.Padding = padding;
 
 					if (value)
-						m_histogram.ForceLayout();
+						_histogram.ForceLayout();
 				}
 			}
 		}
@@ -781,7 +783,7 @@ namespace SIL.Pa.UI.Views
 			if (!_activeView || itemProps == null)
 				return false;
 
-			bool shouldBechecked = !splitOuter.Panel2Collapsed;
+			bool shouldBechecked = !_splitOuter.Panel2Collapsed;
 
 			if (itemProps.Checked != shouldBechecked)
 			{

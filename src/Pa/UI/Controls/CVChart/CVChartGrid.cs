@@ -1,19 +1,3 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2010, SIL International. All Rights Reserved.
-// <copyright from='2010' to='2010' company='SIL International'>
-//		Copyright (c) 2010, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
-// 
-// File: CVChartGrid.cs
-// Responsibility: Olson
-// 
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,7 +19,6 @@ namespace SIL.Pa.UI.Controls
 	public class CVChartGrid : SilGrid, IxCoreColleague
 	{
 		private readonly PhoneInfoPopup m_phoneInfoPopup;
-		//private DataGridViewCell m_cellShowingPopup;
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -59,8 +42,6 @@ namespace SIL.Pa.UI.Controls
 			RowGroups = new List<CVChartRowGroup>();
 
 			m_phoneInfoPopup = new PhoneInfoPopup(this);
-			//m_phoneInfoPopup.PopupOpened += HandlePhoneInfoPopupOpened;
-			//m_phoneInfoPopup.PopupClosed += HandlePhoneInfoPopupClosed;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -108,10 +89,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the current phone in the chart.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public string CurrentPhone
@@ -123,10 +100,6 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the collection of selected phones phone in the chart.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -186,7 +159,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				foreach (var row in GetRows())
 				{
-					foreach (DataGridViewColumn col in Columns)
+					foreach (var col in GetColumns())
 					{
 						var phone = row.Cells[col.Index].Value as string;
 						if (phone == null)
@@ -201,7 +174,7 @@ namespace SIL.Pa.UI.Controls
 				}
 			}
 
-			foreach (DataGridViewColumn col in Columns)
+			foreach (var col in GetColumns())
 				col.Width = width;
 
 			foreach (var row in GetRows())
@@ -231,76 +204,17 @@ namespace SIL.Pa.UI.Controls
 
 			var rc = GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
 			if (m_phoneInfoPopup.Initialize(this[e.ColumnIndex, e.RowIndex]))
-			{
-				//m_cellShowingPopup = this[e.ColumnIndex, e.RowIndex];
 				m_phoneInfoPopup.Show(rc);
-			}
 		}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// 
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//protected override void OnCellMouseLeave(DataGridViewCellEventArgs e)
-		//{
-		//    base.OnCellMouseLeave(e);
-		//    m_cellShowingPopup = null;
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// 
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//private void HandlePhoneInfoPopupOpened(object sender, EventArgs e)
-		//{
-		//    InvalidateCell(m_cellShowingPopup);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// 
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//private void HandlePhoneInfoPopupClosed(object sender, EventArgs e)
-		//{
-		//    var tmpCell = m_cellShowingPopup;
-		//    m_cellShowingPopup = null;
-		//    InvalidateCell(tmpCell);
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
 		{
 			if (e.ColumnIndex == -1 && e.RowIndex == -1)
 				PaintTopLeftCornerCell(e);
-			//else if (m_cellShowingPopup != null && e.ColumnIndex >= 0 && e.RowIndex >= 0 &&
-			//    m_cellShowingPopup == this[e.ColumnIndex, e.RowIndex])
-			//{
-			//    PaintCellShowingPhoneInfoPopup(e);
-			//}
 			else
 				base.OnCellPainting(e);
 		}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// 
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//private void PaintCellShowingPhoneInfoPopup(DataGridViewCellPaintingEventArgs e)
-		//{
-		//    var rc = e.CellBounds;
-		//    e.Paint(rc, e.PaintParts);
-
-		//    rc.Inflate(-2, -2);
-
-		//    using (Pen pen = new Pen(e.CellStyle.ForeColor))
-		//        e.Graphics.DrawEllipse(pen, rc);
-
-		//    e.Handled = true;
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		private void PaintTopLeftCornerCell(DataGridViewCellPaintingEventArgs e)
@@ -361,12 +275,9 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Select cells that are right-clicked on.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnCellMouseDown(DataGridViewCellMouseEventArgs e)
 		{
+			// Select cells that are right-clicked on.
 			if (e.Button == MouseButtons.Right && e.RowIndex >= 0 && e.ColumnIndex >= 0)
 				CurrentCell = this[e.ColumnIndex, e.RowIndex];
 			

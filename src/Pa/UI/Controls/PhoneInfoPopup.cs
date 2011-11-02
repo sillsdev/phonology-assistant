@@ -14,48 +14,38 @@ namespace SIL.Pa.UI.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class PhoneInfoPopup : SilPopup
 	{
-		private bool m_drawLeftArrow = true;
-		private bool m_drawArrow = true;
-		private bool m_showRelativeToScreen;
-		private Point m_popupLocation;
-		private Control m_ctrl;
-		private DataGridViewCell m_associatedCell;
-		private readonly DataGridView m_associatedGrid;
-		private readonly PhoneInfoPopupContent m_content;
-		private readonly Timer m_popupTimer;
+		private bool _showRelativeToScreen;
+		private Point _popupLocation;
+		private Control _ctrl;
+		private readonly PhoneInfoPopupContent _content;
+		private readonly Timer _popupTimer;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		internal bool DrawArrow { get; private set; }
+		internal bool DrawLeftArrow { get; private set; }
+		internal DataGridViewCell AssociatedCell { get; private set; }
+		internal DataGridView AssociatedGrid { get; private set; }
+
 		/// ------------------------------------------------------------------------------------
 		public PhoneInfoPopup()
 		{
+			DrawArrow = true;
+			DrawLeftArrow = true;
 			base.DoubleBuffered = true;
-			m_content = new PhoneInfoPopupContent(this);
-			Controls.Add(m_content);
+			_content = new PhoneInfoPopupContent(this);
+			Controls.Add(_content);
 
-			m_popupTimer = new Timer();
-			m_popupTimer.Interval = 700;
-			m_popupTimer.Tick += m_popupTimer_Tick;
-			m_popupTimer.Stop();
+			_popupTimer = new Timer();
+			_popupTimer.Interval = 700;
+			_popupTimer.Tick += m_popupTimer_Tick;
+			_popupTimer.Stop();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public PhoneInfoPopup(DataGridView associatedGrid) : this()
 		{
-			m_associatedGrid = associatedGrid;
+			AssociatedGrid = associatedGrid;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="associatedCell">Cell associated with the popup.</param>
 		/// ------------------------------------------------------------------------------------
 		public bool Initialize(DataGridViewCell associatedCell)
 		{
@@ -64,20 +54,12 @@ namespace SIL.Pa.UI.Controls
 
 			try
 			{
-				var cgc = associatedCell.Value as CharGridCell;
-				if (cgc != null)
-				{
-					Initialize(cgc);
-					m_associatedCell = associatedCell;
-					return true;
-				}
-
 				var phoneInfo = App.Project.PhoneCache[associatedCell.Value as string];
 				if (phoneInfo != null)
 				{
-					m_content.Initialize(phoneInfo);
+					_content.Initialize(phoneInfo);
 					InternalInitialize();
-					m_associatedCell = associatedCell;
+					AssociatedCell = associatedCell;
 					return true;
 				}
 			}
@@ -87,74 +69,22 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool Initialize(CharGridCell cgc)
+		public bool Initialize(string phone)
 		{
-			m_content.Initialize(cgc);
+			_content.Initialize(App.Project.PhoneCache[phone]);
 			InternalInitialize();
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void InternalInitialize()
 		{
-			Size = m_content.Size;
-			m_drawLeftArrow = true;
-			m_drawArrow = true;
-			m_showRelativeToScreen = false;
+			Size = _content.Size;
+			DrawLeftArrow = true;
+			DrawArrow = true;
+			_showRelativeToScreen = false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal bool DrawArrow
-		{
-			get { return m_drawArrow; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal bool DrawLeftArrow
-		{
-			get { return m_drawLeftArrow; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal DataGridViewCell AssociatedCell
-		{
-			get { return m_associatedCell; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal DataGridView AssociatedGrid
-		{
-			get { return m_associatedGrid; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnTimerTick()
 		{
@@ -171,8 +101,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private bool IsMouseOverCellOrPopup()
 		{
-			if (m_mouseOver || ((m_associatedCell == null || m_associatedGrid == null) &&
-				m_ctrl == null))
+			if (m_mouseOver || ((AssociatedCell == null || AssociatedGrid == null) &&
+				_ctrl == null))
 			{
 				return true;
 			}
@@ -182,18 +112,18 @@ namespace SIL.Pa.UI.Controls
 
 			try
 			{
-				if (m_associatedGrid == null)
+				if (AssociatedGrid == null)
 				{
-					rc = m_ctrl.ClientRectangle;
-					pt = m_ctrl.PointToClient(MousePosition);
+					rc = _ctrl.ClientRectangle;
+					pt = _ctrl.PointToClient(MousePosition);
 				}
 				else
 				{
 					// Get the rectangle for the associated cell.
-					rc = m_associatedGrid.GetCellDisplayRectangle(
-						m_associatedCell.ColumnIndex, m_associatedCell.RowIndex, false);
+					rc = AssociatedGrid.GetCellDisplayRectangle(
+						AssociatedCell.ColumnIndex, AssociatedCell.RowIndex, false);
 
-					pt = m_associatedGrid.PointToClient(MousePosition);
+					pt = AssociatedGrid.PointToClient(MousePosition);
 				}
 			}
 			catch
@@ -205,15 +135,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public bool ShouldShowPopup(Control ctrl)
 		{
 			if (ctrl == null)
 			{
-				Form frm = ctrl.FindForm();
+				var frm = ctrl.FindForm();
 				if (frm != null && !frm.ContainsFocus)
 					return false;
 			}
@@ -221,10 +147,6 @@ namespace SIL.Pa.UI.Controls
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Shows the popup with the specified owning control for the specified histogram bar.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void Show(Control ctrl, HistogramBar bar)
 		{
@@ -237,7 +159,7 @@ namespace SIL.Pa.UI.Controls
 			if (!ShouldShowPopup(ctrl))
 				return;
 
-			m_popupTimer.Start();
+			_popupTimer.Start();
 
 			// The desired bottom of the popup is 60 pixels down from the top of the bar.
 			// If that's below the bar's bottom, then set the bottom of the popup to 5
@@ -259,9 +181,9 @@ namespace SIL.Pa.UI.Controls
 			if (tooWide)
 				ptPopup = bar.PointToScreen(new Point((bar.Width / 4) - Width, popupTop));
 
-			m_showRelativeToScreen = true;
-			m_ctrl = ctrl;
-			m_popupLocation = ptPopup;
+			_showRelativeToScreen = true;
+			_ctrl = ctrl;
+			_popupLocation = ptPopup;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -275,69 +197,61 @@ namespace SIL.Pa.UI.Controls
 			if (!Enabled)
 				return;
 
-			Debug.Assert(m_associatedGrid != null);
+			Debug.Assert(AssociatedGrid != null);
 
-			if (!ShouldShowPopup(m_associatedGrid))
+			if (!ShouldShowPopup(AssociatedGrid))
 				return;
 
-			m_popupTimer.Start();
+			_popupTimer.Start();
 			
-			m_drawLeftArrow = true;
+			DrawLeftArrow = true;
 
 			// Get the desired point, relative to the screen, where to show the popup.
 			// The desired location is to the right of the associated cell.
-			Point ptCell = m_associatedGrid.PointToScreen(rcCell.Location);
-			Point ptPopup = new Point(ptCell.X + rcCell.Width, ptCell.Y);
+			var ptCell = AssociatedGrid.PointToScreen(rcCell.Location);
+			var ptPopup = new Point(ptCell.X + rcCell.Width, ptCell.Y);
 
 			bool tooWide;
 			bool tooTall;
 			CheckDesiredPopupLocation(ptPopup, out tooWide, out tooTall);
 
 			// Determine the popup's display rectangle based on it's desired location and size.
-			Rectangle rcPopup = new Rectangle(ptPopup, Size);
+			var rcPopup = new Rectangle(ptPopup, Size);
 
 			// If the popup is too wide to be shown at the desired location then adjust
 			// its X location to show it to the left of the cell.
 			if (tooWide)
 			{
 				ptPopup.X = ptCell.X - rcPopup.Width;
-				m_drawLeftArrow = false;
+				DrawLeftArrow = false;
 			}
 
 			// If the popup is too tall to be shown at the desired location, don't draw an
 			// arrow and don't make any coordinate adjustments since .Net will make the
 			// adjustment for us, automatically.
-			m_drawArrow = !tooTall;
+			DrawArrow = !tooTall;
 
-			m_ctrl = m_associatedGrid;
-			m_popupLocation = m_associatedGrid.PointToClient(ptPopup);
+			_ctrl = AssociatedGrid;
+			_popupLocation = AssociatedGrid.PointToClient(ptPopup);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public override void Hide()
 		{
 			base.Hide();
-			m_popupTimer.Stop();
+			_popupTimer.Stop();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		void m_popupTimer_Tick(object sender, EventArgs e)
 		{
-			if (Enabled)
-			{
-				if (IsMouseOverCellOrPopup())
-					base.Show(m_showRelativeToScreen ? null : m_ctrl, m_popupLocation);
+			if (!Enabled)
+				return;
+			
+			if (IsMouseOverCellOrPopup())
+				base.Show(_showRelativeToScreen ? null : _ctrl, _popupLocation);
 
-				m_popupTimer.Stop();
-			}
+			_popupTimer.Stop();
 		}
 	}
 }
