@@ -26,9 +26,9 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(System.EventArgs e)
 		{
-			Settings.Default.ConsonantChartColHdrHeight = m_chartGrid.ColumnHeadersHeight;
-			Settings.Default.ConsonantChartRowHdrWidth = m_chartGrid.RowHeadersWidth;
-			Settings.Default.HtmlConsonantChartVisible = m_htmlVw.Visible;
+			Settings.Default.ConsonantChartColHdrHeight = _chartGrid.ColumnHeadersHeight;
+			Settings.Default.ConsonantChartRowHdrWidth = _chartGrid.RowHeadersWidth;
+			Settings.Default.HtmlConsonantChartVisible = _htmlVw.Visible;
 			
 			base.OnHandleDestroyed(e);
 		}
@@ -129,7 +129,7 @@ namespace SIL.Pa.UI.Views
 		{
 			var outputFile = App.Project.ProjectPathFilePrefix + "HtmlVwConsonantChart.html";
 			return (CVChartExporter.ToHtml(App.Project, CVChartType.Consonant, outputFile,
-				m_chartGrid, false, false) ? outputFile : string.Empty);
+				_chartGrid, false, false) ? outputFile : string.Empty);
 		}
 	}
 }

@@ -26,9 +26,9 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(System.EventArgs e)
 		{
-			Settings.Default.VowelChartColHdrHeight = m_chartGrid.ColumnHeadersHeight;
-			Settings.Default.VowelChartRowHdrWidth = m_chartGrid.RowHeadersWidth;
-			Settings.Default.HtmlVowelChartVisible = m_htmlVw.Visible;
+			Settings.Default.VowelChartColHdrHeight = _chartGrid.ColumnHeadersHeight;
+			Settings.Default.VowelChartRowHdrWidth = _chartGrid.RowHeadersWidth;
+			Settings.Default.HtmlVowelChartVisible = _htmlVw.Visible;
 
 			base.OnHandleDestroyed(e);
 		}
@@ -129,7 +129,7 @@ namespace SIL.Pa.UI.Views
 		{
 			var outputFile = App.Project.ProjectPathFilePrefix + "HtmlVwVowelChart.html";
 			return (CVChartExporter.ToHtml(App.Project, CVChartType.Vowel, outputFile,
-				m_chartGrid, false, false) ? outputFile : string.Empty);
+				_chartGrid, false, false) ? outputFile : string.Empty);
 		}
 	}
 }
