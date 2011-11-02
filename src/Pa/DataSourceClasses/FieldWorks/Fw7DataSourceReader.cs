@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SIL.PaToFdoInterfaces;
 
 namespace SIL.Pa.DataSource.FieldWorks
@@ -237,7 +236,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 						break;
 					
 					case "Allomorphs":
-						value = lxEntry.Allomorphs.Select(a => a.GetString(wsId));
+						value = lxEntry.Allomorphs.Where(a => a != null).Select(a => a.GetString(wsId));
 						break;
 				}
 
@@ -320,7 +319,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 		/// ------------------------------------------------------------------------------------
 		private void ReadSinglePronunciation(IPaLexPronunciation pro, WordCacheEntry wentry)
 		{
-			var mapping = m_dataSource.FieldMappings.SingleOrDefault(m => m.NameInDataSource == "CV-Pattern-Flex");
+			var mapping = m_dataSource.FieldMappings.SingleOrDefault(m => m.NameInDataSource == "CV-Pattern-Source");
 			if (mapping != null)
 				wentry.SetValue(mapping.NameInDataSource, pro.CVPattern);
 
@@ -350,10 +349,12 @@ namespace SIL.Pa.DataSource.FieldWorks
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private string GetCommaDelimitedPossibilityList(IEnumerable<IPaCmPossibility> list,
+		private string GetCommaDelimitedPossibilityList(IEnumerable<IPaCmPossibility> cmPossibilities,
 			bool returnAbbreviation)
 		{
-			return (list.Count() == 0 ? null : GetCommaDelimitedList(list.Select(p =>
+			var list = cmPossibilities.ToArray();
+
+			return (list.Length == 0 ? null : GetCommaDelimitedList(list.Select(p =>
 				GetPossibilityValue(p, returnAbbreviation))));
 		}
 
