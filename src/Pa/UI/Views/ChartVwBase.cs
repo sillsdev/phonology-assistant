@@ -14,7 +14,6 @@ using SIL.Pa.Processing;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
-using SilTools.Controls;
 
 namespace SIL.Pa.UI.Views
 {
@@ -31,7 +30,6 @@ namespace SIL.Pa.UI.Views
 		protected ChartOptionsDropDown _ignoredSymbolsDropDown;
 
 		protected CVChartGrid _chartGrid;
-		protected SilPanel _pnlGrid;
 		protected WebBrowser _htmlVw;
 		
 		private bool _histogramOn = true;
@@ -50,13 +48,10 @@ namespace SIL.Pa.UI.Views
 			base.DoubleBuffered = true;
 
 			LoadToolbarAndContextMenus();
-			_chrGrid.OwningViewType = GetType();
 
 			_chartGrid = new CVChartGrid(_tmAdapter);
 			_chartGrid.Dock = DockStyle.Fill;
 			_chartGrid.GridColor = ChartGridColor;
-			_pnlGrid = new SilPanel();
-			_pnlGrid.Dock = DockStyle.Fill;
 			_pnlGrid.Controls.Add(_chartGrid);
 
 			_htmlVw = new WebBrowser();
@@ -65,7 +60,6 @@ namespace SIL.Pa.UI.Views
 			_htmlVw.AllowWebBrowserDrop = false;
 			_pnlGrid.Controls.Add(_htmlVw);
 			
-			_chrGrid.Visible = false;
 			_splitOuter.Panel1.Controls.Add(_pnlGrid);
 			Utils.WaitCursors(false);
 		}
@@ -183,9 +177,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void ShowHtmlChart(bool show)
 		{
-			_chrGrid.Visible = false;
 			_pnlGrid.Visible = true;
-
 			_htmlVw.Visible = show;
 			_chartGrid.Visible = !show;
 
