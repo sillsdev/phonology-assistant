@@ -38,7 +38,6 @@ namespace SIL.Pa.UI.Controls
 
 			m_sortOptions = new SortOptions(true, App.Project);
 
-			m_rbSort = new[] { rbPlaceArticulation, rbMannerArticulation };
 			m_rbAdvSort0 = new[] { rbBefore1st, rbItem1st, rbAfter1st };
 			m_rbAdvSort1 = new[] { rbBefore2nd, rbItem2nd, rbAfter2nd };
 			m_rbAdvSort2 = new[] { rbBefore3rd, rbItem3rd, rbAfter3rd };
