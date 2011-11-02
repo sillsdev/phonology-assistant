@@ -69,4 +69,24 @@
 			</Directory>
 		</Directory>
 	</Fragment>
+  <Fragment>
+    <ComponentGroup Id="ApplicationFiles">
+      <ComponentRef Id="AddShortcutDir"/>
+      <ComponentRef Id="Pa.exe" />
+      <ComponentRef Id="Pa.exe.config" />
+      <ComponentRef Id="Pa.pdb" />
+      <ComponentRef Id="DisablePASplashScreen.exe" />
+      <ComponentRef Id="DisablePASplashScreen.pdb" />
+      <ComponentRef Id="ICSharpCode.SharpZipLib.dll" />
+      <ComponentRef Id="LocalizationManager.dll" />
+      <ComponentRef Id="Palaso.dll" />
+      <ComponentRef Id="PaToFdoInterfaces.dll" />
+      <ComponentRef Id="PaCompiledTransforms.dll" />
+      <ComponentRef Id="SilTools.dll" />
+      <ComponentRef Id="SilTools.pdb" />
+      <ComponentRef Id="Phonology_Assistant_Help.chm" />
+      <ComponentRef Id="DoulosSILR.ttf" />
+      <ComponentRef Id="Transforms.zip"   />
+    </ComponentGroup>
+  </Fragment>
 </Wix>

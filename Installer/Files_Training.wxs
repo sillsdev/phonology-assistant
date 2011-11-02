@@ -24,4 +24,14 @@
 			</Directory>
 		</DirectoryRef>
 	</Fragment>
+  <Fragment>
+    <ComponentGroup Id="TrainingFiles">
+      <ComponentRef Id="PA_Instructor_Guide.doc" />
+      <ComponentRef Id="PA_Needs_Assessment.doc" />
+      <ComponentRef Id="PA_Student_Evaluation.doc" />
+      <ComponentRef Id="PA_Student_Manual.doc" />
+      <ComponentRef Id="TrainingProjectsSetup.xml" />
+      <ComponentRef Id="PaTrainingProjects.zip" />
+    </ComponentGroup>
+  </Fragment>
 </Wix>

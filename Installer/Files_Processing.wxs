@@ -6,9 +6,6 @@
                 <Component Id="Transforms.zip" Guid="{B05718B7-29EF-4F8A-A6E2-102CFDDCD6DE}">
                   <File Id="Transforms.zip" KeyPath="yes" Source="..\output\release\Transforms.zip" />
                 </Component>
-                <Component Id="ISO_639.xml" Guid="{AA04C969-0C9F-4B6F-A334-34999E8D7DC1}">
-                    <File Id="ISO_639.xml" KeyPath="yes" Source="$(var.Processing_Location)\ISO_639.xml" />
-                </Component>
                 <Component Id="jquery_ui.js" Guid="{99A593CD-1130-4EF3-AE45-577DF4008835}">
                     <File Id="jquery_ui.js" KeyPath="yes" Source="$(var.Processing_Location)\jquery-ui.js" />
                 </Component>
@@ -44,7 +41,6 @@
     </Fragment>
     <Fragment>
         <ComponentGroup Id="ProcessingFiles">
-            <ComponentRef Id="ISO_639.xml" />
             <ComponentRef Id="jquery_ui.js" />
             <ComponentRef Id="jquery.js" />
             <ComponentRef Id="phonology.css" />
