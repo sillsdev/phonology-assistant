@@ -8,6 +8,13 @@ namespace SIL.Pa.UI.Views
 		protected PaProject _project;
 
 		/// ------------------------------------------------------------------------------------
+		public ViewBase()
+		{
+			// TODO: Rework the code so project can be passed in constructor.
+			_project = App.Project;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected bool OnProjectLoaded(object args)
 		{
 			if (args is PaProject)

@@ -92,7 +92,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (m_viewsForm != null)
 					m_viewsForm.Activate();
-				else if ( View != null)
+				else if (View != null)
 					View.Visible = true;
 
 				return View;

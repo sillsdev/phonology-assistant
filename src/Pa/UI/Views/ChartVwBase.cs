@@ -589,9 +589,13 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownClosedIgnoredSymbols(object args)
 		{
-			_ignoredSymbolsDropDown.lnkRefresh.Click -= HandleRefreshChartClick;
-			_ignoredSymbolsDropDown.Dispose();
-			_ignoredSymbolsDropDown = null;
+			if (_ignoredSymbolsDropDown != null)
+			{
+				_ignoredSymbolsDropDown.lnkRefresh.Click -= HandleRefreshChartClick;
+				_ignoredSymbolsDropDown.Dispose();
+				_ignoredSymbolsDropDown = null;
+			}
+			
 			return true;
 		}
 
@@ -626,8 +630,15 @@ namespace SIL.Pa.UI.Views
 				_project.IgnoredSymbolsInCVCharts = newList;
 				_project.Save();
 				ProjectInventoryBuilder.Process(_project);
-				ReloadChart();
+				App.MsgMediator.SendMessage("RefreshCVChartAfterIgnoredSymbolsChanged", null);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnRefreshCVChartAfterIgnoredSymbolsChanged(object args)
+		{
+			ReloadChart();
+			return false;
 		}
 
 		#endregion
