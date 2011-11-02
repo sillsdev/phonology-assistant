@@ -248,6 +248,8 @@ namespace SIL.Pa.UI
 				OnFilterChanged(_project.CurrentFilter);
 				EnableOptionsMenus(true);
 				EnableUndockMenu(true);
+
+				App.MsgMediator.SendMessage("ProjectLoaded", project);
 			}
 
 			BackColor = vwTabGroup.BackColor;
@@ -255,10 +257,6 @@ namespace SIL.Pa.UI
 			Utils.WaitCursors(false);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Loads the view tabs.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void LoadViewTabs()
 		{
