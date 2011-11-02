@@ -213,6 +213,7 @@ namespace SIL.Pa
 			}
 
 			L10NMngr = LocalizationManager.Create("Pa", "Phonology Assistant", ProjectFolder);
+			
 			LocalizeItemDlg.SaveDialogSplitterPosition += (pos =>
 				Settings.Default.LocalizeDlgSplitterPos = pos);
 			

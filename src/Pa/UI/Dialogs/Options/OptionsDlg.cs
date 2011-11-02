@@ -61,7 +61,7 @@ namespace SIL.Pa.UI.Dialogs
 			yield return new SortingOptionsPage(m_project, GetSelectedWordListFields);
 			yield return new CVPatternsOptionsPage(m_project);
 			yield return new FontsOptionsPage(m_project);
-			yield return new UserInterfaceOptionsPage(m_project);
+			//yield return new UserInterfaceOptionsPage(m_project);
 		}
 
 		/// ------------------------------------------------------------------------------------
