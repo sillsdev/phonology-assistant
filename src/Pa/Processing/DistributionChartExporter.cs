@@ -7,7 +7,6 @@ using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
-using SilTools;
 
 namespace SIL.Pa.Processing
 {
@@ -91,7 +90,7 @@ namespace SIL.Pa.Processing
 			get
 			{
 				return (string.IsNullOrEmpty(((DistributionGrid)m_grid).ChartName) ?
-					"Distribution Chart" : ((DistributionGrid)m_grid).ChartName);
+					"Distribution" : ((DistributionGrid)m_grid).ChartName);
 			}
 		}
 
@@ -104,7 +103,7 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		protected override string View
 		{
-			get { return "Distribution Chart"; }
+			get { return "Distribution"; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -117,6 +116,12 @@ namespace SIL.Pa.Processing
 		protected override string NumberOfRecords
 		{
 			get { return m_project.WordCache.Count.ToString(); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override string GetMetadataDetailNameTag()
+		{
+			return "chart name";
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -134,10 +139,6 @@ namespace SIL.Pa.Processing
 				   select x;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override IEnumerable<DataGridViewColumn> GetGridColumns()
 		{
@@ -311,8 +312,7 @@ namespace SIL.Pa.Processing
 				m_writer.WriteAttributeString("class", "error");
 			else
 			{
-				var count = (value != null && value.GetType() == typeof(int) ?
-					((int)value).ToString() : value as string);
+				var count = (value != null && value is int ? ((int)value).ToString() : value as string);
 
 				if (!string.IsNullOrEmpty(count))
 				{

@@ -1064,10 +1064,6 @@ namespace SIL.Pa.Model
 
 		#region Grid and Record View layout properties
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public GridLayoutInfo GridLayoutInfo
 		{
 			get	{return (_gridLayoutInfo ?? new GridLayoutInfo(this));}
@@ -1078,6 +1074,23 @@ namespace SIL.Pa.Model
 			}
 		}
 
+		#endregion
+
+		#region Segment grid information
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string ConsonantChartLayoutFile
+		{
+			get { return ProjectPathFilePrefix + "ConsonantChart.xml"; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string VowelChartLayoutFile
+		{
+			get { return ProjectPathFilePrefix + "VowelChart.xml"; }
+		}
+		
 		#endregion
 	}
 

@@ -73,13 +73,13 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		protected override string Title
 		{
-			get { return "Data Corpus"; }
+			get { return "Data"; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string View
 		{
-			get { return "Data Corpus"; }
+			get { return Title; }
 		}
 
 		/// ------------------------------------------------------------------------------------

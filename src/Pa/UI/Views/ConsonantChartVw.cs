@@ -15,7 +15,7 @@ namespace SIL.Pa.UI.Views
 		{
 			try
 			{
-				File.Delete(App.Project.ProjectPathFilePrefix + "HtmlVwConsonantChart.html");
+				File.Delete(_project.ProjectPathFilePrefix + "HtmlVwConsonantChart.html");
 			}
 			catch { }
 			
@@ -91,7 +91,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override string LayoutFile
 		{
-			get { return App.Project.ProjectPathFilePrefix + "ConsonantChartBeta.xml"; }
+			get { return _project.ConsonantChartLayoutFile; }
 		}
 
 		/// --------------------------------------------------------------------------------------------
@@ -127,7 +127,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override string CreateHtmlViewFile()
 		{
-			var outputFile = App.Project.ProjectPathFilePrefix + "HtmlVwConsonantChart.html";
+			var outputFile = _project.ProjectPathFilePrefix + "HtmlVwConsonantChart.html";
 			return (CVChartExporter.ToHtml(App.Project, CVChartType.Consonant, outputFile,
 				_chartGrid, false, false) ? outputFile : string.Empty);
 		}

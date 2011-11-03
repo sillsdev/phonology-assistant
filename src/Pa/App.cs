@@ -1671,11 +1671,11 @@ namespace SIL.Pa
 			SearchEngine.IgnoreUndefinedCharacters = Project.IgnoreUndefinedCharsInSearches;
 			var engine = new SearchEngine(modifiedQuery, Project.PhoneCache);
 
-			string msg = engine.GetCombinedErrorMessages();
+			var msg = engine.GetCombinedErrorMessages();
 			if (!string.IsNullOrEmpty(msg))
 			{
 				if (showErrMsg)
-					Utils.MsgBox(msg);
+					ShowSearchError(msg);
 
 				query.ErrorMessages.AddRange(modifiedQuery.ErrorMessages);
 				resultCount = -1;
@@ -1811,8 +1811,8 @@ namespace SIL.Pa
 				{
 					// Extract the class name from the query's pattern and
 					// find the SearchClass object having that class name.
-					string className = modifiedQuery.Pattern.Substring(start, i - start + 1);
-					SearchClass srchClass = Project.SearchClasses.GetSearchClass(className, true);
+					var className = modifiedQuery.Pattern.Substring(start, i - start + 1);
+					var srchClass = Project.SearchClasses.GetSearchClass(className, true);
 					if (srchClass != null)
 						modifiedQuery.Pattern = modifiedQuery.Pattern.Replace(className, srchClass.Pattern);
 					else
@@ -1825,10 +1825,7 @@ namespace SIL.Pa
 						query.ErrorMessages.Add(errorMsg);
 
 						if (showMsgOnErr)
-						{
-							Utils.MsgBox(errorMsg, MessageBoxButtons.OK,
-								   MessageBoxIcon.Exclamation);
-						}
+							Utils.MsgBox(errorMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 						return false;
 					}
@@ -1860,9 +1857,23 @@ namespace SIL.Pa
 				msg = engine.GetCombinedErrorMessages();
 
 			if (msg != null && showErrMsg)
-				Utils.MsgBox(msg);
+				ShowSearchError(msg);
 
 			return (msg == null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void ShowSearchError(string msg)
+		{
+			Utils.WaitCursors(false);
+
+			if (!msg.StartsWith(SearchEngine.kBracketingError))
+				Utils.MsgBox(msg);
+			else
+			{
+				using (var dlg = new BracketedTextErrorMsgBox(msg.Split(':')[1]))
+					dlg.ShowDialog();
+			}
 		}
 
 		#endregion

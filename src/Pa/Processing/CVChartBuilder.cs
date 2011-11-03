@@ -34,7 +34,9 @@ namespace SIL.Pa.Processing
 		protected CVChartBuilder(PaProject project, CVChartType chartType) : base(project)
 		{
 			_chartType = chartType;
-			_outputFileName = _project.ProjectPathFilePrefix + chartType + "ChartBeta.xml";
+			
+			_outputFileName = (chartType == CVChartType.Consonant ?
+				_project.ConsonantChartLayoutFile : _project.VowelChartLayoutFile);
 		}
 
 		#region Properties

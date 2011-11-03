@@ -15,7 +15,7 @@ namespace SIL.Pa.UI.Views
 		{
 			try
 			{
-				File.Delete(App.Project.ProjectPathFilePrefix + "HtmlVwVowelChart.html");
+				File.Delete(_project.ProjectPathFilePrefix + "HtmlVwVowelChart.html");
 			}
 			catch { }
 
@@ -79,7 +79,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override string LayoutFile
 		{
-			get { return App.Project.ProjectPathFilePrefix + "VowelChartBeta.xml"; }
+			get { return _project.VowelChartLayoutFile; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -127,7 +127,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override string CreateHtmlViewFile()
 		{
-			var outputFile = App.Project.ProjectPathFilePrefix + "HtmlVwVowelChart.html";
+			var outputFile = _project.ProjectPathFilePrefix + "HtmlVwVowelChart.html";
 			return (CVChartExporter.ToHtml(App.Project, CVChartType.Vowel, outputFile,
 				_chartGrid, false, false) ? outputFile : string.Empty);
 		}
