@@ -11,7 +11,7 @@ xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"
 xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
-  <!-- phonology_export_view_to_Word_2003_XML.xsl 2011-11-02 -->
+  <!-- phonology_export_view_to_Word_2003_XML.xsl 2011-11-03 -->
 	
   <!-- TO DO: No w:r and w:t in empty paragraphs? -->
   <!-- TO DO: Convert spaces and hyphens to non-breaking? -->
@@ -373,7 +373,11 @@ exclude-result-prefixes="xhtml"
     <xsl:apply-templates />
   </xsl:template>
 
-  <xsl:template match="xhtml:strong">
+	<xsl:template match="xhtml:th/xhtml:span">
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="xhtml:strong">
     <w:r>
       <w:rPr>
         <w:rStyle w:val="Strong" />
@@ -661,9 +665,9 @@ $columnPercentage is xsl:value-of select="$columnPercentage" />
             </w:rPr>
           </xsl:if>
 					<xsl:choose>
-						<xsl:when test="@class = 'Phonetic pair'">
+						<xsl:when test="starts-with(@class, 'Phonetic pair')">
 							<w:t>
-								<xsl:value-of select="concat(xhtml:ul/xhtml:li[1]/xhtml:span, '&#xA0;', xhtml:ul/xhtml:li[2]/xhtml:span)" />
+								<xsl:value-of select="concat(xhtml:ul/xhtml:li[1], '&#xA0;', xhtml:ul/xhtml:li[2])" />
 							</w:t>
 						</xsl:when>
 						<xsl:when test="xhtml:strong">

@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_2a_sort.xsl 2011-11-02 -->
+  <!-- phonology_export_view_list_2a_sort.xsl 2011-11-03 -->
   <!-- Insert keys to sort by the Phonetic column. -->
 	
 	<!-- Differences between views in the Phonology Assistant program -->
@@ -63,7 +63,11 @@ exclude-result-prefixes="xhtml"
 		</xsl:choose>
 	</xsl:variable>
 
-  <!-- A project phonetic inventory file contains digits for sort keys. -->
+	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
+	<xsl:variable name="view" select="$details/xhtml:li[@class = 'view']" />
+	<xsl:variable name="pairs" select="$details/xhtml:li[@class = 'pairs' or @class = 'minimalPairs']" />
+
+	<!-- A project phonetic inventory file contains digits for sort keys. -->
 	<xsl:variable name="projectFolder" select="$settings/xhtml:li[@class = 'projectFolder']" />
 	<xsl:variable name="projectPhoneticInventoryFile" select="$settings/xhtml:li[@class = 'projectPhoneticInventoryFile']" />
 	<xsl:variable name="projectPhoneticInventoryXML" select="concat($projectFolder, $projectPhoneticInventoryFile)" />
@@ -84,12 +88,51 @@ exclude-result-prefixes="xhtml"
 	-->
 	<xsl:variable name="secondarySortKeyFormat" select="translate($segments/segment/keys/sortKey[@class = 'secondary'], '0123456789', '0000000000')" />
 
+	<!-- Simplify title and heading text if it is a two-word view in Phonology Assistant. -->
+	<xsl:variable name="heading">
+		<xsl:variable name="title" select="/xhtml:html/xhtml:head/xhtml:title" />
+		<xsl:choose>
+			<xsl:when test="$title = 'Data Corpus'">
+				<xsl:value-of select="'Data'" />
+			</xsl:when>
+			<xsl:when test="$view = 'Search'">
+				<xsl:choose>
+					<xsl:when test="$pairs">
+						<xsl:value-of select="'Minimal pairs'" />
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="'Search results'" />
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$title" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+
+	<xsl:variable name="subheading">
+		<xsl:if test="$view = 'Search'">
+			<xsl:if test="not($pairs)">
+				<xsl:value-of select="$details/xhtml:li[@class = 'pattern name' or @class = 'name']" />
+			</xsl:if>
+		</xsl:if>
+	</xsl:variable>
+
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
   <xsl:template match="@* | node()">
     <xsl:copy>
       <xsl:apply-templates select="@* | node()" />
     </xsl:copy>
   </xsl:template>
+
+	<!-- Replace obsolete title in metadata. -->
+	<xsl:template match="xhtml:div[@id = 'metadata']/xhtml:ul[@class = 'details']/xhtml:li[@class = 'view'][. = 'Data Corpus']">
+		<xsl:copy>
+			<xsl:apply-templates select="@*" />
+			<xsl:value-of select="'Data'" />
+		</xsl:copy>
+	</xsl:template>
 
   <!-- Insert two metadata settings for the rest of the transformations. -->
   <xsl:template match="xhtml:div[@id = 'metadata']/xhtml:ul[@class = 'sorting']">
@@ -108,8 +151,32 @@ exclude-result-prefixes="xhtml"
 		</xsl:copy>
   </xsl:template>
 
+	<!-- Append language name to title (but not heading). -->
+	<xsl:template match="/xhtml:html/xhtml:head/xhtml:title">
+		<xsl:variable name="languageName" select="$details/xhtml:li[@class = 'languageName']" />
+		<xsl:copy>
+			<xsl:apply-templates select="@*" />
+			<xsl:value-of select="$heading" />
+			<xsl:if test="string-length($languageName) != 0 and $languageName != 'Undetermined'">
+				<xsl:value-of select="' for '" />
+				<xsl:value-of select="$languageName" />
+			</xsl:if>
+			<xsl:if test="string-length($subheading) != 0">
+				<xsl:value-of select="': '" />
+				<xsl:value-of select="$subheading" />
+			</xsl:if>
+		</xsl:copy>
+	</xsl:template>
+	
   <!-- Apply or ignore transformations. -->
   <xsl:template match="xhtml:table">
+		<h3 xmlns="http://www.w3.org/1999/xhtml">
+			<xsl:value-of select="$heading" />
+			<xsl:if test="string-length($subheading) != 0">
+				<xsl:value-of select="': '" />
+				<xsl:value-of select="$subheading" />
+			</xsl:if>
+		</h3>
     <xsl:choose>
       <xsl:when test="contains(@class, 'list') and $phoneticSortOrder = 'true'">
         <xsl:copy>

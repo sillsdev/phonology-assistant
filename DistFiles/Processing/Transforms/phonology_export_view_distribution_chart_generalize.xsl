@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_distribution_chart_generalize.xsl 2010-05-07 -->
+  <!-- phonology_export_view_distribution_chart_generalize.xsl 2011-11-03 -->
 	<!-- Assuming that the researcher has manually generalized a distribution chart, -->
 	<!-- separate general and individual elements if either or both of the following are true: -->
 	<!-- * items: the chart name contains [gi], [giC], or [giV]. -->
@@ -20,12 +20,57 @@ exclude-result-prefixes="xhtml"
 
 	<xsl:variable name="format" select="$options/xhtml:li[@class = 'format']" />
 
-	<xsl:variable name="view" select="$details/xhtml:li[@class = 'view']" />
+	<xsl:variable name="view">
+		<xsl:choose>
+			<xsl:when test="$details/xhtml:li[@class = 'view'] = 'Distribution Chart'">
+				<xsl:value-of select="'Distribution'" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$details/xhtml:li[@class = 'view']" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+
 	<xsl:variable name="title" select="/xhtml:html/xhtml:head/xhtml:title" />
-	
+
+	<!-- Simplify title and heading text if it is a two-word view in Phonology Assistant. -->
+	<xsl:variable name="heading" select="'Distribution'" />
+
+	<xsl:variable name="subheading">
+		<xsl:if test="$view = 'Distribution'">
+			<xsl:variable name="name" select="$details/xhtml:li[@class = 'chart name' or @class = 'name']" />
+			<xsl:if test="$name">
+				<xsl:variable name="gi">
+					<xsl:choose>
+						<xsl:when test="contains($name, ' [gi')">
+							<xsl:value-of select="substring-before($name, ' [gi')" />
+						</xsl:when>
+						<xsl:when test="contains($name, '[gi')">
+							<xsl:value-of select="substring-before($name, '[gi')" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$name" />
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:choose>
+					<xsl:when test="contains($gi, ' [ge')">
+						<xsl:value-of select="substring-before($gi, ' [ge')" />
+					</xsl:when>
+					<xsl:when test="contains($gi, '[ge')">
+						<xsl:value-of select="substring-before($gi, '[ge')" />
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$gi" />
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:if>
+		</xsl:if>
+	</xsl:variable>
+
 	<xsl:variable name="generalizeEnvironments">
 		<xsl:choose>
-			<xsl:when test="$view = 'Distribution Chart' and contains($title, '[ge]')">
+			<xsl:when test="$view = 'Distribution' and contains($title, '[ge]')">
 				<xsl:value-of select="'true'" />
 			</xsl:when>
 			<xsl:otherwise>
@@ -35,7 +80,7 @@ exclude-result-prefixes="xhtml"
 	</xsl:variable>
 	<xsl:variable name="generalizeItems">
 		<xsl:choose>
-			<xsl:when test="$view = 'Distribution Chart' and contains($title, '[gi]') or contains($title, '[giC]') or contains($title, '[giV]')">
+			<xsl:when test="$view = 'Distribution' and contains($title, '[gi]') or contains($title, '[giC]') or contains($title, '[giV]')">
 				<xsl:value-of select="'true'" />
 			</xsl:when>
 			<xsl:otherwise>
@@ -80,7 +125,39 @@ exclude-result-prefixes="xhtml"
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="xhtml:table[@class = 'distribution chart']">
+	<!-- Replace obsolete title in metadata. -->
+	<xsl:template match="xhtml:div[@id = 'metadata']/xhtml:ul[@class = 'details']/xhtml:li[@class = 'view'][. = 'Distribution Chart']">
+		<xsl:copy>
+			<xsl:apply-templates select="@*" />
+			<xsl:value-of select="'Distribution'" />
+		</xsl:copy>
+	</xsl:template>
+
+	<!-- Append language name to title (but not heading). -->
+	<xsl:template match="/xhtml:html/xhtml:head/xhtml:title">
+		<xsl:variable name="languageName" select="$details/xhtml:li[@class = 'languageName']" />
+		<xsl:copy>
+			<xsl:apply-templates select="@*" />
+			<xsl:value-of select="$heading" />
+			<xsl:if test="string-length($languageName) != 0 and $languageName != 'Undetermined'">
+				<xsl:value-of select="' for '" />
+				<xsl:value-of select="$languageName" />
+			</xsl:if>
+			<xsl:if test="string-length($subheading) != 0">
+				<xsl:value-of select="': '" />
+				<xsl:value-of select="$subheading" />
+			</xsl:if>
+		</xsl:copy>
+	</xsl:template>
+
+	<xsl:template match="xhtml:table[@class = 'distribution chart']">
+		<h3 xmlns="http://www.w3.org/1999/xhtml">
+			<xsl:value-of select="$heading" />
+			<xsl:if test="string-length($subheading) != 0">
+				<xsl:value-of select="': '" />
+				<xsl:value-of select="$subheading" />
+			</xsl:if>
+		</h3>
 		<xsl:choose>
 			<xsl:when test="$format = 'XHTML' and ($generalEnvironments = 'true' or $generalItems = 'true')">
 				<xsl:copy>
@@ -383,39 +460,5 @@ exclude-result-prefixes="xhtml"
     </xsl:copy>
     <th xmlns="http://www.w3.org/1999/xhtml" />
   </xsl:template>
-
-	<!-- Remove any generalized options (without CV chart) from the title. -->
-	<xsl:template match="/xhtml:html/xhtml:head/xhtml:title">
-		<xsl:variable name="gi">
-			<xsl:choose>
-				<xsl:when test="contains(., ' [gi]')">
-					<xsl:value-of select="substring-before(., ' [gi]')" />
-				</xsl:when>
-				<xsl:when test="contains(., '[gi]')">
-					<xsl:value-of select="substring-before(., '[gi]')" />
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="." />
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:variable name="title">
-			<xsl:choose>
-				<xsl:when test="contains($gi, ' [ge]')">
-					<xsl:value-of select="substring-before($gi, ' [ge]')" />
-				</xsl:when>
-				<xsl:when test="contains($gi, '[ge]')">
-					<xsl:value-of select="substring-before($gi, '[ge]')" />
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="$gi" />
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:copy>
-			<xsl:apply-templates select="@*" />
-			<xsl:value-of select="$title" />
-		</xsl:copy>
-	</xsl:template>
 
 </xsl:stylesheet>

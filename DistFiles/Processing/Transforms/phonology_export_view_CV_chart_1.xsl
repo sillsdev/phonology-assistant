@@ -3,9 +3,16 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_CV_chart_1.xsl 2011-11-02 -->
-	<!-- Export to XHTML: title attribute of phonetic cell contains description of segment. -->
-  <!-- In several column heading cells, optionally insert line breaks. -->
+  <!-- phonology_export_view_CV_chart_1.xsl 2011-11-03 -->
+	<!-- Append language name to title. Add heading. Simplify title and heading text. -->
+	<!-- Append consonant or vowel to class attribute of CV chart table. -->
+	<!-- In several column heading cells, optionally insert line breaks. -->
+	<!-- For export to XHTML: -->
+	<!-- * Wrap CV chart tables in one or more divs. -->
+	<!-- * In table body rows, add a title attribute to the heading cell: -->
+	<!--   descriptive features of segments which are not headings. -->
+	<!-- * Add title attribute to phonetic cell: description of segment. -->
+	<!-- * Wrap text of phonetic cell in span with lang attribute: language identifier. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
@@ -34,6 +41,22 @@ exclude-result-prefixes="xhtml"
 	<xsl:variable name="programPhoneticInventoryXML" select="concat($programConfigurationFolder, $programPhoneticInventoryFile)" />
 	<xsl:variable name="programDescriptiveFeatures" select="document($programPhoneticInventoryXML)/inventory/featureDefinitions[@class = 'descriptive']" />
 
+	<!-- Simplify title and heading text if it is a two-word view in Phonology Assistant. -->
+	<xsl:variable name="heading">
+		<xsl:variable name="title" select="/xhtml:html/xhtml:head/xhtml:title" />
+		<xsl:choose>
+			<xsl:when test="$title = 'Consonant Chart'">
+				<xsl:value-of select="'Consonants'" />
+			</xsl:when>
+			<xsl:when test="$title = 'Vowel Chart'">
+				<xsl:value-of select="'Vowels'" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$title" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
   <xsl:template match="@* | node()">
     <xsl:copy>
@@ -41,46 +64,57 @@ exclude-result-prefixes="xhtml"
     </xsl:copy>
   </xsl:template>
 
+	<!-- Append language name to title (but not heading). -->
 	<xsl:template match="/xhtml:html/xhtml:head/xhtml:title">
+		<xsl:variable name="languageName" select="$details/xhtml:li[@class = 'language name' or @class = 'languageName']" />
 		<xsl:copy>
 			<xsl:apply-templates select="@*" />
-			<xsl:variable name="title" select="." />
+			<xsl:value-of select="$heading" />
+			<xsl:if test="string-length($languageName) != 0 and $languageName != 'Undetermined'">
+				<xsl:value-of select="' for '" />
+				<xsl:value-of select="$languageName" />
+			</xsl:if>
+		</xsl:copy>
+	</xsl:template>
+
+	<!-- Replace obsolete title in metadata. -->
+	<xsl:template match="xhtml:div[@id = 'metadata']/xhtml:ul[@class = 'details']/xhtml:li[@class = 'view']">
+		<xsl:copy>
+			<xsl:apply-templates select="@*" />
 			<xsl:choose>
-				<xsl:when test="$title = 'Consonant Chart'">
-					<xsl:value-of select="'Chart of consonants'" />
+				<xsl:when test=". = 'Consonant Chart'">
+					<xsl:value-of select="'Consonants'" />
 				</xsl:when>
-				<xsl:when test="$title = 'Vowel Chart'">
-					<xsl:value-of select="'Chart of vowels'" />
-				</xsl:when>
-				<xsl:when test="$title = 'Segment Charts'">
-					<xsl:value-of select="'Features of consonants and vowels'" />
+				<xsl:when test=". = 'Vowel Chart'">
+					<xsl:value-of select="'Vowels'" />
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="$title" />
+					<xsl:value-of select="." />
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:copy>
 	</xsl:template>
-	
-	<!-- Wrap ordinary CV chart in a div and insert a heading. -->
+
+	<!-- Replace obsolete class in metadata. -->
+	<xsl:template match="xhtml:div[@id = 'metadata']/xhtml:ul[@class = 'details'][xhtml:li[@class = 'view'][. = 'Consonant Chart']]/xhtml:li[@class = 'numberOfPhones']/@class">
+		<xsl:attribute name="class">
+			<xsl:value-of select="'number consonant'" />
+		</xsl:attribute>
+	</xsl:template>
+
+	<!-- Replace obsolete class in metadata. -->
+	<xsl:template match="xhtml:div[@id = 'metadata']/xhtml:ul[@class = 'details'][xhtml:li[@class = 'view'][. = 'Vowel Chart']]/xhtml:li[@class = 'numberOfPhones']/@class">
+		<xsl:attribute name="class">
+			<xsl:value-of select="'number vowel'" />
+		</xsl:attribute>
+	</xsl:template>
+
+	<!-- Add heading. -->
+	<!-- For export to XHTML: Wrap CV chart tables in one or more divs and insert a heading. -->
 	<xsl:template match="xhtml:table[starts-with(@class, 'CV chart')]">
 		<div xmlns="http://www.w3.org/1999/xhtml">
 			<h3>
-				<xsl:variable name="title" select="/xhtml:html/xhtml:head/xhtml:title" />
-				<xsl:choose>
-					<xsl:when test="$title = 'Consonant Chart'">
-						<xsl:value-of select="'Chart of consonants'" />
-					</xsl:when>
-					<xsl:when test="$title = 'Vowel Chart'">
-						<xsl:value-of select="'Chart of vowels'" />
-					</xsl:when>
-					<xsl:when test="$title = 'Segment Charts' or $title = 'Features of consonants and vowels'">
-						<xsl:value-of select="'Charts of consonants and vowels'" />
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="$title" />
-					</xsl:otherwise>
-				</xsl:choose>
+				<xsl:value-of select="$heading" />
 			</h3>
 			<xsl:variable name="following" select="following-sibling::*[1][self::xhtml:table][starts-with(@class, 'CV chart')][xhtml:tbody]" />
 			<xsl:choose>
@@ -107,13 +141,6 @@ exclude-result-prefixes="xhtml"
 
 	<!-- Previous rule encloses adjacent non-empty CV charts in divs. -->
 	<xsl:template match="xhtml:table[starts-with(@class, 'CV chart')][preceding-sibling::*[1][self::xhtml:table][starts-with(@class, 'CV chart')]]" />
-
-	<!-- But not if related to a distribution chart. -->
-	<xsl:template match="xhtml:div[@class = 'distribution_environments_CV']/xhtml:table[starts-with(@class, 'CV chart')]">
-		<xsl:copy>
-			<xsl:apply-templates select="@* | node()" />
-		</xsl:copy>
-	</xsl:template>
 
 	<!-- Remove an empty CV chart. -->
 	<xsl:template match="xhtml:table[starts-with(@class, 'CV chart')][not(xhtml:tbody)]" />
@@ -145,7 +172,9 @@ exclude-result-prefixes="xhtml"
 		</xsl:attribute>
 	</xsl:template>
 
-	<!-- Export to XHTML: title attribute of phonetic cell contains description of segment. -->
+	<!-- For export to XHTML: -->
+	<!-- * Add title attribute to phonetic cell: description of segment. -->
+	<!-- * Wrap text of phonetic cell in span with lang attribute: language identifier. -->
 	<xsl:template match="xhtml:table[starts-with(@class, 'CV chart')]//xhtml:td[@class = 'Phonetic'][node()]">
 		<xsl:copy>
 			<xsl:apply-templates select="@*" />
@@ -167,17 +196,27 @@ exclude-result-prefixes="xhtml"
 					</xsl:attribute>
 				</xsl:if>
 			</xsl:if>
-			<span xmlns="http://www.w3.org/1999/xhtml">
-				<xsl:if test="string-length($languageIdentifier) != 0">
-					<xsl:attribute name="lang">
-						<xsl:value-of select="$languageIdentifier" />
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:value-of select="$literal" />
-			</span>
-    </xsl:copy>
+			<xsl:choose>
+				<xsl:when test="xhtml:span[@lang]">
+					<xsl:apply-templates />
+				</xsl:when>
+				<xsl:otherwise>
+					<span xmlns="http://www.w3.org/1999/xhtml">
+						<xsl:if test="string-length($languageIdentifier) != 0">
+							<xsl:attribute name="lang">
+								<xsl:value-of select="$languageIdentifier" />
+							</xsl:attribute>
+						</xsl:if>
+						<xsl:value-of select="$literal" />
+					</span>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:copy>
   </xsl:template>
 
+	<!-- For export to XHTML: -->
+	<!-- In table body rows, add a title attribute to the heading cell: -->
+	<!-- descriptive features of segments which are not headings. -->
 	<xsl:template match="xhtml:table[starts-with(@class, 'CV chart')]/xhtml:tbody/xhtml:tr">
 		<xsl:variable name="td" select="xhtml:td[@class = 'Phonetic'][node()][1]" />
 		<xsl:variable name="span" select="$td/xhtml:span" />

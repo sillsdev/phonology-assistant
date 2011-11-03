@@ -88,8 +88,6 @@
 					<document href="phonology_project_inventory_4c_distinctive_features.xsl" />
 				</input>
 			</xslt>
-			<!--
-			-->
 			<xslt>
 				<input port="stylesheet">
 					<document href="phonology_project_inventory_6_similar_pairs.xsl" />
@@ -325,7 +323,7 @@
 		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_export_view.xsl" />
+					<document href="phonology_export_view_details.xsl" />
 				</input>
 			</xslt>
 			<xslt>
@@ -339,7 +337,7 @@
 		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_export_view.xsl" />
+					<document href="phonology_export_view_details.xsl" />
 				</input>
 			</xslt>
 			<xslt>
@@ -358,7 +356,7 @@
 		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
 			<xslt>
 				<input port="stylesheet">
-					<document href="phonology_export_view.xsl" />
+					<document href="phonology_export_view_details.xsl" />
 				</input>
 			</xslt>
 			<xslt>

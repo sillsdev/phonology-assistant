@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_project_inventory_5b_CV_chart_lists.xsl 2011-08-17 -->
+  <!-- phonology_project_inventory_5b_CV_chart_lists.xsl 2011-11-03 -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
@@ -27,6 +27,7 @@ exclude-result-prefixes="xhtml"
 
 	<!-- Add options and details within metadata. -->
 	<xsl:template match="div[@id = 'metadata']" mode="XHTML">
+		<xsl:variable name="segments" select="/inventory/segments" />
 		<xsl:element name="{name(.)}" namespace="http://www.w3.org/1999/xhtml">
 			<xsl:apply-templates select="@* | node()" mode="XHTML" />
 			<ul class="options" xmlns="http://www.w3.org/1999/xhtml">
@@ -41,17 +42,23 @@ exclude-result-prefixes="xhtml"
 				</li>
 			</ul>
 			<ul class="details" xmlns="http://www.w3.org/1999/xhtml">
-				<li class="view">Segment Charts</li>
-				<li class="numberOfPhones">
-					<xsl:value-of select="count(/inventory/segments/segment)" />
+				<li class="view">Segments</li>
+				<li class="number segment">
+					<xsl:value-of select="count($segments/segment[not(@literalInChart)][features[@class = 'descriptive'][feature[. = 'consonant' or . = 'vowel']]])" />
 				</li>
-				<li class="projectName">
+				<li class="number consonant">
+					<xsl:value-of select="count($segments/segment[not(@literalInChart)][features[@class = 'descriptive'][feature[. = 'consonant']]])" />
+				</li>
+				<li class="number vowel">
+					<xsl:value-of select="count($segments/segment[not(@literalInChart)][features[@class = 'descriptive'][feature[. = 'vowel']]])" />
+				</li>
+				<li class="project name">
 					<xsl:value-of select="/inventory/@projectName" />
 				</li>
-				<li class="languageName">
+				<li class="language name">
 					<xsl:value-of select="/inventory/@languageName" />
 				</li>
-				<li class="languageCode">
+				<li class="language code">
 					<xsl:value-of select="/inventory/@languageCode" />
 				</li>
 			</ul>

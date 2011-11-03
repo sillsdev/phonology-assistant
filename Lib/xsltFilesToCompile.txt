@@ -1,7 +1,7 @@
 /settings:document
 /class:phonology_export_view_XLingPaper ..\..\DistFiles\Processing\Transforms\phonology_export_view_XLingPaper.xsl
 /class:phonology_export_options ..\..\DistFiles\Processing\Transforms\phonology_export_options.xsl
-/class:phonology_export_view ..\..\DistFiles\Processing\Transforms\phonology_export_view.xsl
+/class:phonology_export_view_details ..\..\DistFiles\Processing\Transforms\phonology_export_view_details.xsl
 /class:phonology_export_view_CV_chart_1 ..\..\DistFiles\Processing\Transforms\phonology_export_view_CV_chart_1.xsl
 /class:phonology_export_view_CV_chart_2a_features ..\..\DistFiles\Processing\Transforms\phonology_export_view_CV_chart_2a_features.xsl
 /class:phonology_export_view_CV_chart_2b_features ..\..\DistFiles\Processing\Transforms\phonology_export_view_CV_chart_2b_features.xsl
