@@ -218,6 +218,12 @@
     <Compile Include="Model\WordCache\WordListCache.cs" />
     <Compile Include="Model\WordCache\WordListCacheEntry.cs" />
     <Compile Include="App.cs" />
+    <Compile Include="PhoneticSearching\BracketedTextErrorMsgBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PhoneticSearching\BracketedTextErrorMsgBox.Designer.cs">
+      <DependentUpon>BracketedTextErrorMsgBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="PhoneticSearching\FFNormalizer.cs" />
     <Compile Include="PhoneticSearching\PatternGroup.cs" />
@@ -802,6 +808,9 @@
     <EmbeddedResource Include="DataSourceClasses\MissingFWDatabaseMsgBox.resx">
       <DependentUpon>MissingFWDatabaseMsgBox.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PhoneticSearching\BracketedTextErrorMsgBox.resx">
+      <DependentUpon>BracketedTextErrorMsgBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>

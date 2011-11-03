@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using SIL.Pa.Model;
+using System.Text.RegularExpressions;
 
 namespace SIL.Pa.PhoneticSearching
 {
@@ -176,6 +176,9 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			m_errors = errors;
 
+			if (!VerifyBracketedText(pattern))
+				return false;
+
 			if (m_rootGroup != this)
 				m_type = (pattern[0] == '[' ? GroupType.And : GroupType.Or);
 			else
@@ -272,6 +275,31 @@ namespace SIL.Pa.PhoneticSearching
 
 			if (m_rootGroup == this && m_type == GroupType.Sequential)
 			    CollapsNestedSequentialGroups(this);
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private bool VerifyBracketedText(string pattern)
+		{
+			var regex = new Regex(@"\[(?<bracketedText>[^\[\]]+)\]");
+			var match = regex.Match(pattern);
+
+			while (match.Success)
+			{
+				var bracketedText = match.Result("${bracketedText}");
+				
+				if (!bracketedText.Contains(App.kDottedCircle) &&
+					bracketedText != "C" && bracketedText != "V" &&
+					!App.AFeatureCache.Keys.Any(f => f == bracketedText) &&
+					!App.BFeatureCache.Keys.Any(f => f == bracketedText))
+				{
+					m_errors.Add(SearchEngine.kBracketingError + ":" + bracketedText);
+					return false;
+				}
+				
+				match = match.NextMatch();
+			}
 
 			return true;
 		}
@@ -468,13 +496,13 @@ namespace SIL.Pa.PhoneticSearching
 			{
 				if (pgMember is PatternGroupMember)
 				{
-					PatternGroupMember member = pgMember as PatternGroupMember;
+					var member = pgMember as PatternGroupMember;
 					member.DiacriticPattern =
 						MergeDiacriticPatterns(member.DiacriticPattern, diacriticPattern);
 				}
 				else if (pgMember is PatternGroup)
 				{
-					PatternGroup member = pgMember as PatternGroup;
+					var member = pgMember as PatternGroup;
 					string mergedDiacriticPattern =
 						MergeDiacriticPatterns(member.DiacriticPattern, diacriticPattern);
 
@@ -483,10 +511,6 @@ namespace SIL.Pa.PhoneticSearching
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static string MergeDiacriticPatterns(string ptrn1, string ptrn2)
 		{
@@ -725,11 +749,11 @@ namespace SIL.Pa.PhoneticSearching
 			int bracketOpenCount = 0;
 			int bracketCloseCount = 0;
 
-			for (int i = 0; i < pattern.Length; i++)
+			foreach (char c in pattern)
 			{
-				if (pattern[i] == open)
+				if (c == open)
 					bracketOpenCount++;
-				if (pattern[i] == close)
+				if (c == close)
 					bracketCloseCount++;
 			}
 
@@ -1415,9 +1439,6 @@ namespace SIL.Pa.PhoneticSearching
 
 				case EnvironmentType.Item:
 					return SearchSequentiallyForSrchItem(phones, startIndex, ref results);
-			
-				default:
-					break;
 			}
 
 			return false;

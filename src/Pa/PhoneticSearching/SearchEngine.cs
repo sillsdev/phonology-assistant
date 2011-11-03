@@ -35,8 +35,9 @@ namespace SIL.Pa.PhoneticSearching
 			NotBeginningOfEnvBefore,
 			NotEndOfEnvAfter,
 		}
-		
+
 		public const string kIgnoredPhone = "\uFFFC";
+		public const string kBracketingError = "BRACKETING-ERROR";
 		private static SearchQuery s_currQuery = new SearchQuery();
 
 		private static bool s_ignoreUndefinedChars = true;
@@ -150,7 +151,7 @@ namespace SIL.Pa.PhoneticSearching
 			// that are replaced with the slashes and underscores after the pattern is split up.
 			try
 			{
-				StringBuilder bldr = new StringBuilder(pattern);
+				var bldr = new StringBuilder(pattern);
 				Stack<char> bracketBucket = new Stack<char>();
 				for (int i = 0; i < bldr.Length; i++)
 				{
@@ -200,16 +201,6 @@ namespace SIL.Pa.PhoneticSearching
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Contains a list of errors when there are any.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string[] ErrorMessages
-		{
-			get { return m_errors.ToArray(); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Combines the list of error messages into a single message.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -227,6 +218,10 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			if (m_errors == null || m_errors.Count == 0)
 				return null;
+
+			var bracketingError = m_errors.FirstOrDefault(msg => msg.StartsWith(kBracketingError));
+			if (bracketingError != null)
+				return bracketingError;
 
 			var errors = new StringBuilder();
 			foreach (var err in m_errors)
@@ -257,7 +252,9 @@ namespace SIL.Pa.PhoneticSearching
 				return;
 			}
 
-			if (!success)
+			// TODO: Some day handle errors so an error dialog can link
+			// to different help topics based on the error.
+			if (!success && !m_errors.Any(msg => msg.StartsWith(kBracketingError)))
 				m_errors.Add(string.Format(GetSyntaxErrorMsg(), envType));
 		}
 
