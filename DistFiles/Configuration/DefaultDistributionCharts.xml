@@ -1,1042 +1,209 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ArrayOfXYChart>
-  <XYChart Name="ExWord initial and final">
-    <SearchItems>
-      <string>[[C][Voiced]]</string>
-      <string>[V]</string>
-      <string>[Plosive]</string>
-      <string>[Nasal]</string>
-      <string>{[Trill],[Tap/Flap]}</string>
-      <string>[Fricative]</string>
-      <string>[Approximant]</string>
-      <string>[Close]</string>
-      <string>[Mid]</string>
-      <string>[Open]</string>
-    </SearchItems>
-    <SearchQueries>
-      <SearchQuery version="2" Pattern="#_*">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<distributionCharts>
+  <chart name="ExWord initial and final">
+    <searchItems>
+      <item>[[C][voiced]]</item>
+      <item>[V]</item>
+      <item>[plosive]</item>
+      <item>[nasal]</item>
+      <item>{[trill],[tap],[flap]}</item>
+      <item>[fricative]</item>
+      <item>[approximant]</item>
+      <item>[close]</item>
+      <item>[mid]</item>
+      <item>[open]</item>
+    </searchItems>
+    <searchQueries>
+      <query version="3" Pattern="#_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,-,</IgnoredStressChars>
-        <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
-        <CompleteIgnoredList>
-          <string>˦˥˦</string>
-          <string>˥˧</string>
-          <string>˧˩</string>
-          <string>˩˨</string>
-          <string>˦˥</string>
-          <string>˥˩</string>
-          <string>˩˥</string>
-          <string>²</string>
-          <string>³</string>
-          <string>¹</string>
-          <string>˥</string>
-          <string>˦</string>
-          <string>˧</string>
-          <string>˨</string>
-          <string>˩</string>
-          <string>̀</string>
-          <string>́</string>
-          <string>̂</string>
-          <string>̄</string>
-          <string>̋</string>
-          <string>̌</string>
-          <string>̏</string>
-          <string>᷄</string>
-          <string>᷅</string>
-          <string>᷈</string>
-          <string>⁴</string>
-          <string>⁵</string>
-          <string>⁶</string>
-          <string>⁷</string>
-          <string>⁸</string>
-          <string>⁹</string>
-          <string>↑</string>
-          <string>↓</string>
-          <string>↗</string>
-          <string>↘</string>
-          <string>'</string>
-          <string>.</string>
-          <string>|</string>
-          <string>ˈ</string>
-          <string>ˌ</string>
-          <string>‖</string>
-          <string>‿</string>
-          <string>ː</string>
-          <string>ˑ</string>
-          <string>̆</string>
-        </CompleteIgnoredList>
-      </SearchQuery>
-      <SearchQuery version="2" Pattern="*_#">
+        <ignoredCharacters>',.,|,ˈ,ˌ,‖,‿,-,˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ː,:,ˑ,̆,</ignoredCharacters>
+      </query>
+      <query version="3" Pattern="*_#">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,-,</IgnoredStressChars>
-        <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
-        <CompleteIgnoredList>
-          <string>˦˥˦</string>
-          <string>˥˧</string>
-          <string>˧˩</string>
-          <string>˩˨</string>
-          <string>˦˥</string>
-          <string>˥˩</string>
-          <string>˩˥</string>
-          <string>²</string>
-          <string>³</string>
-          <string>¹</string>
-          <string>˥</string>
-          <string>˦</string>
-          <string>˧</string>
-          <string>˨</string>
-          <string>˩</string>
-          <string>̀</string>
-          <string>́</string>
-          <string>̂</string>
-          <string>̄</string>
-          <string>̋</string>
-          <string>̌</string>
-          <string>̏</string>
-          <string>᷄</string>
-          <string>᷅</string>
-          <string>᷈</string>
-          <string>⁴</string>
-          <string>⁵</string>
-          <string>⁶</string>
-          <string>⁷</string>
-          <string>⁸</string>
-          <string>⁹</string>
-          <string>↑</string>
-          <string>↓</string>
-          <string>↗</string>
-          <string>↘</string>
-          <string>'</string>
-          <string>.</string>
-          <string>|</string>
-          <string>ˈ</string>
-          <string>ˌ</string>
-          <string>‖</string>
-          <string>‿</string>
-          <string>ː</string>
-          <string>ˑ</string>
-          <string>̆</string>
-        </CompleteIgnoredList>
-      </SearchQuery>
-    </SearchQueries>
-    <ColumnWidths>
-      <int>119</int>
-      <int>100</int>
-      <int>100</int>
-      <int>100</int>
-    </ColumnWidths>
-  </XYChart>
-  <XYChart Name="ExConsonants">
-    <SearchItems>
-      <string>[[C][Voiceless]]</string>
-      <string>[[C][Voiced]]</string>
-      <string>[[Plosive][Voiceless]]</string>
-      <string>[[Plosive][Voiced]]</string>
-      <string>[[C][Nasal]]</string>
-      <string>{[Trill],[Tap/Flap]}</string>
-      <string>[[Fricative][Voiceless]]</string>
-      <string>[[Fricative][Voiced]]</string>
-      <string>[Approximant]</string>
-      <string>[+strid]</string>
-      <string>[[C][◌ʰ]]</string>
-      <string>ʔ</string>
-      <string>n</string>
-    </SearchItems>
-    <SearchQueries>
-      <SearchQuery version="2" Pattern="#_*">
+        <ignoredCharacters>',.,|,ˈ,ˌ,‖,‿,-,˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ː,:,ˑ,̆,</ignoredCharacters>
+      </query>
+    </searchQueries>
+    <columnWidths>
+      <width>119</width>
+      <width>100</width>
+      <width>100</width>
+      <width>100</width>
+    </columnWidths>
+  </chart>
+  <chart name="ExConsonants">
+    <searchItems>
+      <item>[[C][voiceless]]</item>
+      <item>[[C][voiced]]</item>
+      <item>[[plosive][voiceless]]</item>
+      <item>[[plosive][voiced]]</item>
+      <item>[[C][nasal]]</item>
+      <item>{[trill],[tap],[flap]}</item>
+      <item>[[fricative][voiceless]]</item>
+      <item>[[fricative][voiced]]</item>
+      <item>[approximant]</item>
+      <item>[+strid]</item>
+      <item>[[C][◌ʰ]]</item>
+      <item>ʔ</item>
+      <item>n</item>
+    </searchItems>
+    <searchQueries>
+      <query version="3" Pattern="#_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,-,</IgnoredStressChars>
-        <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
-        <CompleteIgnoredList>
-          <string>˦˥˦</string>
-          <string>˥˧</string>
-          <string>˧˩</string>
-          <string>˩˨</string>
-          <string>˦˥</string>
-          <string>˥˩</string>
-          <string>˩˥</string>
-          <string>²</string>
-          <string>³</string>
-          <string>¹</string>
-          <string>˥</string>
-          <string>˦</string>
-          <string>˧</string>
-          <string>˨</string>
-          <string>˩</string>
-          <string>̀</string>
-          <string>́</string>
-          <string>̂</string>
-          <string>̄</string>
-          <string>̋</string>
-          <string>̌</string>
-          <string>̏</string>
-          <string>᷄</string>
-          <string>᷅</string>
-          <string>᷈</string>
-          <string>⁴</string>
-          <string>⁵</string>
-          <string>⁶</string>
-          <string>⁷</string>
-          <string>⁸</string>
-          <string>⁹</string>
-          <string>↑</string>
-          <string>↓</string>
-          <string>↗</string>
-          <string>↘</string>
-          <string>'</string>
-          <string>.</string>
-          <string>|</string>
-          <string>ˈ</string>
-          <string>ˌ</string>
-          <string>‖</string>
-          <string>‿</string>
-          <string>ː</string>
-          <string>ˑ</string>
-          <string>̆</string>
-        </CompleteIgnoredList>
-      </SearchQuery>
-      <SearchQuery version="2" Pattern="*_#">
+        <ignoredCharacters>',.,|,ˈ,ˌ,‖,‿,-,˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ː,:,ˑ,̆,</ignoredCharacters>
+      </query>
+      <query version="3" Pattern="*_#">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,-,</IgnoredStressChars>
-        <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
-        <CompleteIgnoredList>
-          <string>˦˥˦</string>
-          <string>˥˧</string>
-          <string>˧˩</string>
-          <string>˩˨</string>
-          <string>˦˥</string>
-          <string>˥˩</string>
-          <string>˩˥</string>
-          <string>²</string>
-          <string>³</string>
-          <string>¹</string>
-          <string>˥</string>
-          <string>˦</string>
-          <string>˧</string>
-          <string>˨</string>
-          <string>˩</string>
-          <string>̀</string>
-          <string>́</string>
-          <string>̂</string>
-          <string>̄</string>
-          <string>̋</string>
-          <string>̌</string>
-          <string>̏</string>
-          <string>᷄</string>
-          <string>᷅</string>
-          <string>᷈</string>
-          <string>⁴</string>
-          <string>⁵</string>
-          <string>⁶</string>
-          <string>⁷</string>
-          <string>⁸</string>
-          <string>⁹</string>
-          <string>↑</string>
-          <string>↓</string>
-          <string>↗</string>
-          <string>↘</string>
-          <string>'</string>
-          <string>.</string>
-          <string>|</string>
-          <string>ˈ</string>
-          <string>ˌ</string>
-          <string>‖</string>
-          <string>‿</string>
-          <string>ː</string>
-          <string>ˑ</string>
-          <string>̆</string>
-        </CompleteIgnoredList>
-      </SearchQuery>
-      <SearchQuery version="2" Pattern="*_[V]">
+        <ignoredCharacters>',.,|,ˈ,ˌ,‖,‿,-,˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ː,:,ˑ,̆,</ignoredCharacters>
+      </query>
+      <query version="3" Pattern="*_[V]">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars />
-        <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
-        <CompleteIgnoredList>
-          <string>˦˥˦</string>
-          <string>˥˧</string>
-          <string>˧˩</string>
-          <string>˩˨</string>
-          <string>˦˥</string>
-          <string>˥˩</string>
-          <string>˩˥</string>
-          <string>̋</string>
-          <string>́</string>
-          <string>̄</string>
-          <string>̀</string>
-          <string>̏</string>
-          <string>̌</string>
-          <string>̂</string>
-          <string>᷄</string>
-          <string>᷅</string>
-          <string>᷈</string>
-          <string>¹</string>
-          <string>²</string>
-          <string>³</string>
-          <string>⁴</string>
-          <string>⁵</string>
-          <string>⁶</string>
-          <string>⁷</string>
-          <string>⁸</string>
-          <string>⁹</string>
-          <string>˥</string>
-          <string>˦</string>
-          <string>˧</string>
-          <string>˨</string>
-          <string>˩</string>
-          <string>↓</string>
-          <string>↑</string>
-          <string>↗</string>
-          <string>↘</string>
-          <string>ː</string>
-          <string>ˑ</string>
-          <string>̆</string>
-        </CompleteIgnoredList>
-      </SearchQuery>
-      <SearchQuery version="2" Pattern="[V]_*">
+        <ignoredCharacters>,˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,ː,:,ˑ,̆,</ignoredCharacters>
+      </query>
+      <query version="3" Pattern="[V]_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars />
-        <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
-        <CompleteIgnoredList>
-          <string>˦˥˦</string>
-          <string>˥˧</string>
-          <string>˧˩</string>
-          <string>˩˨</string>
-          <string>˦˥</string>
-          <string>˥˩</string>
-          <string>˩˥</string>
-          <string>̋</string>
-          <string>́</string>
-          <string>̄</string>
-          <string>̀</string>
-          <string>̏</string>
-          <string>̌</string>
-          <string>̂</string>
-          <string>᷄</string>
-          <string>᷅</string>
-          <string>᷈</string>
-          <string>¹</string>
-          <string>²</string>
-          <string>³</string>
-          <string>⁴</string>
-          <string>⁵</string>
-          <string>⁶</string>
-          <string>⁷</string>
-          <string>⁸</string>
-          <string>⁹</string>
-          <string>˥</string>
-          <string>˦</string>
-          <string>˧</string>
-          <string>˨</string>
-          <string>˩</string>
-          <string>↓</string>
-          <string>↑</string>
-          <string>↗</string>
-          <string>↘</string>
-          <string>ː</string>
-          <string>ˑ</string>
-          <string>̆</string>
-        </CompleteIgnoredList>
-      </SearchQuery>
-      <SearchQuery version="2" Pattern="[V]_[V]">
+        <ignoredCharacters>,˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,ː,:,ˑ,̆,</ignoredCharacters>
+      </query>
+      <query version="3" Pattern="[V]_[V]">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars />
-        <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
-        <CompleteIgnoredList>
-          <string>˦˥˦</string>
-          <string>˥˧</string>
-          <string>˧˩</string>
-          <string>˩˨</string>
-          <string>˦˥</string>
-          <string>˥˩</string>
-          <string>˩˥</string>
-          <string>̋</string>
-          <string>́</string>
-          <string>̄</string>
-          <string>̀</string>
-          <string>̏</string>
-          <string>̌</string>
-          <string>̂</string>
-          <string>᷄</string>
-          <string>᷅</string>
-          <string>᷈</string>
-          <string>¹</string>
-          <string>²</string>
-          <string>³</string>
-          <string>⁴</string>
-          <string>⁵</string>
-          <string>⁶</string>
-          <string>⁷</string>
-          <string>⁸</string>
-          <string>⁹</string>
-          <string>˥</string>
-          <string>˦</string>
-          <string>˧</string>
-          <string>˨</string>
-          <string>˩</string>
-          <string>↓</string>
-          <string>↑</string>
-          <string>↗</string>
-          <string>↘</string>
-          <string>ː</string>
-          <string>ˑ</string>
-          <string>̆</string>
-        </CompleteIgnoredList>
-      </SearchQuery>
-      <SearchQuery version="2" Pattern="*_[C]">
+        <ignoredCharacters>,˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,ː,:,ˑ,̆,</ignoredCharacters>
+      </query>
+      <query version="3" Pattern="*_[C]">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars />
-        <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
-        <CompleteIgnoredList>
-          <string>˦˥˦</string>
-          <string>˥˧</string>
-          <string>˧˩</string>
-          <string>˩˨</string>
-          <string>˦˥</string>
-          <string>˥˩</string>
-          <string>˩˥</string>
-          <string>̋</string>
-          <string>́</string>
-          <string>̄</string>
-          <string>̀</string>
-          <string>̏</string>
-          <string>̌</string>
-          <string>̂</string>
-          <string>᷄</string>
-          <string>᷅</string>
-          <string>᷈</string>
-          <string>¹</string>
-          <string>²</string>
-          <string>³</string>
-          <string>⁴</string>
-          <string>⁵</string>
-          <string>⁶</string>
-          <string>⁷</string>
-          <string>⁸</string>
-          <string>⁹</string>
-          <string>˥</string>
-          <string>˦</string>
-          <string>˧</string>
-          <string>˨</string>
-          <string>˩</string>
-          <string>↓</string>
-          <string>↑</string>
-          <string>↗</string>
-          <string>↘</string>
-          <string>ː</string>
-          <string>ˑ</string>
-          <string>̆</string>
-        </CompleteIgnoredList>
-      </SearchQuery>
-      <SearchQuery version="2" Pattern="[C]_*">
+        <ignoredCharacters>,˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,ː,:,ˑ,̆,</ignoredCharacters>
+      </query>
+      <query version="3" Pattern="[C]_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars />
-        <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
-        <CompleteIgnoredList>
-          <string>˦˥˦</string>
-          <string>˥˧</string>
-          <string>˧˩</string>
-          <string>˩˨</string>
-          <string>˦˥</string>
-          <string>˥˩</string>
-          <string>˩˥</string>
-          <string>̋</string>
-          <string>́</string>
-          <string>̄</string>
-          <string>̀</string>
-          <string>̏</string>
-          <string>̌</string>
-          <string>̂</string>
-          <string>᷄</string>
-          <string>᷅</string>
-          <string>᷈</string>
-          <string>¹</string>
-          <string>²</string>
-          <string>³</string>
-          <string>⁴</string>
-          <string>⁵</string>
-          <string>⁶</string>
-          <string>⁷</string>
-          <string>⁸</string>
-          <string>⁹</string>
-          <string>˥</string>
-          <string>˦</string>
-          <string>˧</string>
-          <string>˨</string>
-          <string>˩</string>
-          <string>↓</string>
-          <string>↑</string>
-          <string>↗</string>
-          <string>↘</string>
-          <string>ː</string>
-          <string>ˑ</string>
-          <string>̆</string>
-        </CompleteIgnoredList>
-      </SearchQuery>
-      <SearchQuery version="2" Pattern="[C][V]_*">
+        <ignoredCharacters>,˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,ː,:,ˑ,̆,</ignoredCharacters>
+      </query>
+      <query version="3" Pattern="[C][V]_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars />
-        <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
-        <CompleteIgnoredList>
-          <string>˦˥˦</string>
-          <string>˥˧</string>
-          <string>˧˩</string>
-          <string>˩˨</string>
-          <string>˦˥</string>
-          <string>˥˩</string>
-          <string>˩˥</string>
-          <string>̋</string>
-          <string>́</string>
-          <string>̄</string>
-          <string>̀</string>
-          <string>̏</string>
-          <string>̌</string>
-          <string>̂</string>
-          <string>᷄</string>
-          <string>᷅</string>
-          <string>᷈</string>
-          <string>¹</string>
-          <string>²</string>
-          <string>³</string>
-          <string>⁴</string>
-          <string>⁵</string>
-          <string>⁶</string>
-          <string>⁷</string>
-          <string>⁸</string>
-          <string>⁹</string>
-          <string>˥</string>
-          <string>˦</string>
-          <string>˧</string>
-          <string>˨</string>
-          <string>˩</string>
-          <string>↓</string>
-          <string>↑</string>
-          <string>↗</string>
-          <string>↘</string>
-          <string>ː</string>
-          <string>ˑ</string>
-          <string>̆</string>
-        </CompleteIgnoredList>
-      </SearchQuery>
-      <SearchQuery version="2" Pattern="*_[V][C]">
+        <ignoredCharacters>,˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,ː,:,ˑ,̆,</ignoredCharacters>
+      </query>
+      <query version="3" Pattern="*_[V][C]">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars />
-        <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
-        <CompleteIgnoredList>
-          <string>˦˥˦</string>
-          <string>˥˧</string>
-          <string>˧˩</string>
-          <string>˩˨</string>
-          <string>˦˥</string>
-          <string>˥˩</string>
-          <string>˩˥</string>
-          <string>̋</string>
-          <string>́</string>
-          <string>̄</string>
-          <string>̀</string>
-          <string>̏</string>
-          <string>̌</string>
-          <string>̂</string>
-          <string>᷄</string>
-          <string>᷅</string>
-          <string>᷈</string>
-          <string>¹</string>
-          <string>²</string>
-          <string>³</string>
-          <string>⁴</string>
-          <string>⁵</string>
-          <string>⁶</string>
-          <string>⁷</string>
-          <string>⁸</string>
-          <string>⁹</string>
-          <string>˥</string>
-          <string>˦</string>
-          <string>˧</string>
-          <string>˨</string>
-          <string>˩</string>
-          <string>↓</string>
-          <string>↑</string>
-          <string>↗</string>
-          <string>↘</string>
-          <string>ː</string>
-          <string>ˑ</string>
-          <string>̆</string>
-        </CompleteIgnoredList>
-      </SearchQuery>
-    </SearchQueries>
-    <ColumnWidths>
-      <int>187</int>
-      <int>54</int>
-      <int>53</int>
-      <int>62</int>
-      <int>63</int>
-      <int>66</int>
-      <int>66</int>
-      <int>73</int>
-      <int>100</int>
-      <int>100</int>
-      <int>100</int>
-    </ColumnWidths>
-  </XYChart>
-  <XYChart Name="ExVowels">
-    <SearchItems>
-      <string>[V]</string>
-      <string>[[V][+high]]</string>
-      <string>[[V][-high][-low]]</string>
-      <string>[[V][+low]]</string>
-      <string>[[V][+rnd]]</string>
-      <string>[[V][-rnd]]</string>
-      <string>[[V][+front]]</string>
-      <string>[[V][-front][-back]]</string>
-      <string>[[V][+back]]</string>
-    </SearchItems>
-    <SearchQueries>
-      <SearchQuery version="2" Pattern="*_*">
+        <ignoredCharacters>,˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,̋,́,̄,̀,̏,̌,̂,᷄,᷅,᷈,¹,²,³,⁴,⁵,⁶,⁷,⁸,⁹,˥,˦,˧,˨,˩,↓,↑,↗,↘,ː,:,ˑ,̆,</ignoredCharacters>
+      </query>
+    </searchQueries>
+    <columnWidths>
+      <width>187</width>
+      <width>54</width>
+      <width>53</width>
+      <width>62</width>
+      <width>63</width>
+      <width>66</width>
+      <width>66</width>
+      <width>73</width>
+      <width>100</width>
+      <width>100</width>
+      <width>100</width>
+    </columnWidths>
+  </chart>
+  <chart name="ExVowels">
+    <searchItems>
+      <item>[V]</item>
+      <item>[[V][+high]]</item>
+      <item>[[V][-high][-low]]</item>
+      <item>[[V][+low]]</item>
+      <item>[[V][+rnd]]</item>
+      <item>[[V][-rnd]]</item>
+      <item>[[V][+front]]</item>
+      <item>[[V][-front][-back]]</item>
+      <item>[[V][+back]]</item>
+    </searchItems>
+    <searchQueries>
+      <query version="3" Pattern="*_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,-,</IgnoredStressChars>
-        <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
-        <CompleteIgnoredList>
-          <string>˦˥˦</string>
-          <string>˥˧</string>
-          <string>˧˩</string>
-          <string>˩˨</string>
-          <string>˦˥</string>
-          <string>˥˩</string>
-          <string>˩˥</string>
-          <string>²</string>
-          <string>³</string>
-          <string>¹</string>
-          <string>˥</string>
-          <string>˦</string>
-          <string>˧</string>
-          <string>˨</string>
-          <string>˩</string>
-          <string>̀</string>
-          <string>́</string>
-          <string>̂</string>
-          <string>̄</string>
-          <string>̋</string>
-          <string>̌</string>
-          <string>̏</string>
-          <string>᷄</string>
-          <string>᷅</string>
-          <string>᷈</string>
-          <string>⁴</string>
-          <string>⁵</string>
-          <string>⁶</string>
-          <string>⁷</string>
-          <string>⁸</string>
-          <string>⁹</string>
-          <string>↑</string>
-          <string>↓</string>
-          <string>↗</string>
-          <string>↘</string>
-          <string>'</string>
-          <string>.</string>
-          <string>|</string>
-          <string>ˈ</string>
-          <string>ˌ</string>
-          <string>‖</string>
-          <string>‿</string>
-          <string>ː</string>
-          <string>ˑ</string>
-          <string>̆</string>
-        </CompleteIgnoredList>
-      </SearchQuery>
-      <SearchQuery version="2" Pattern="[C]_#">
+        <ignoredCharacters>',.,|,ˈ,ˌ,‖,‿,-,˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ː,:,ˑ,̆,</ignoredCharacters>
+      </query>
+      <query version="3" Pattern="[C]_#">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,-,</IgnoredStressChars>
-        <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
-        <CompleteIgnoredList>
-          <string>˦˥˦</string>
-          <string>˥˧</string>
-          <string>˧˩</string>
-          <string>˩˨</string>
-          <string>˦˥</string>
-          <string>˥˩</string>
-          <string>˩˥</string>
-          <string>²</string>
-          <string>³</string>
-          <string>¹</string>
-          <string>˥</string>
-          <string>˦</string>
-          <string>˧</string>
-          <string>˨</string>
-          <string>˩</string>
-          <string>̀</string>
-          <string>́</string>
-          <string>̂</string>
-          <string>̄</string>
-          <string>̋</string>
-          <string>̌</string>
-          <string>̏</string>
-          <string>᷄</string>
-          <string>᷅</string>
-          <string>᷈</string>
-          <string>⁴</string>
-          <string>⁵</string>
-          <string>⁶</string>
-          <string>⁷</string>
-          <string>⁸</string>
-          <string>⁹</string>
-          <string>↑</string>
-          <string>↓</string>
-          <string>↗</string>
-          <string>↘</string>
-          <string>'</string>
-          <string>.</string>
-          <string>|</string>
-          <string>ˈ</string>
-          <string>ˌ</string>
-          <string>‖</string>
-          <string>‿</string>
-          <string>ː</string>
-          <string>ˑ</string>
-          <string>̆</string>
-        </CompleteIgnoredList>
-      </SearchQuery>
-      <SearchQuery version="2" Pattern="#_*">
+        <ignoredCharacters>',.,|,ˈ,ˌ,‖,‿,-,˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ː,:,ˑ,̆,</ignoredCharacters>
+      </query>
+      <query version="3" Pattern="#_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,-,</IgnoredStressChars>
-        <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
-        <CompleteIgnoredList>
-          <string>˦˥˦</string>
-          <string>˥˧</string>
-          <string>˧˩</string>
-          <string>˩˨</string>
-          <string>˦˥</string>
-          <string>˥˩</string>
-          <string>˩˥</string>
-          <string>²</string>
-          <string>³</string>
-          <string>¹</string>
-          <string>˥</string>
-          <string>˦</string>
-          <string>˧</string>
-          <string>˨</string>
-          <string>˩</string>
-          <string>̀</string>
-          <string>́</string>
-          <string>̂</string>
-          <string>̄</string>
-          <string>̋</string>
-          <string>̌</string>
-          <string>̏</string>
-          <string>᷄</string>
-          <string>᷅</string>
-          <string>᷈</string>
-          <string>⁴</string>
-          <string>⁵</string>
-          <string>⁶</string>
-          <string>⁷</string>
-          <string>⁸</string>
-          <string>⁹</string>
-          <string>↑</string>
-          <string>↓</string>
-          <string>↗</string>
-          <string>↘</string>
-          <string>'</string>
-          <string>.</string>
-          <string>|</string>
-          <string>ˈ</string>
-          <string>ˌ</string>
-          <string>‖</string>
-          <string>‿</string>
-          <string>ː</string>
-          <string>ˑ</string>
-          <string>̆</string>
-        </CompleteIgnoredList>
-      </SearchQuery>
-      <SearchQuery version="2" Pattern="[V]_*">
+        <ignoredCharacters>',.,|,ˈ,ˌ,‖,‿,-,˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ː,:,ˑ,̆,</ignoredCharacters>
+      </query>
+      <query version="3" Pattern="[V]_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,-,</IgnoredStressChars>
-        <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
-        <CompleteIgnoredList>
-          <string>˦˥˦</string>
-          <string>˥˧</string>
-          <string>˧˩</string>
-          <string>˩˨</string>
-          <string>˦˥</string>
-          <string>˥˩</string>
-          <string>˩˥</string>
-          <string>²</string>
-          <string>³</string>
-          <string>¹</string>
-          <string>˥</string>
-          <string>˦</string>
-          <string>˧</string>
-          <string>˨</string>
-          <string>˩</string>
-          <string>̀</string>
-          <string>́</string>
-          <string>̂</string>
-          <string>̄</string>
-          <string>̋</string>
-          <string>̌</string>
-          <string>̏</string>
-          <string>᷄</string>
-          <string>᷅</string>
-          <string>᷈</string>
-          <string>⁴</string>
-          <string>⁵</string>
-          <string>⁶</string>
-          <string>⁷</string>
-          <string>⁸</string>
-          <string>⁹</string>
-          <string>↑</string>
-          <string>↓</string>
-          <string>↗</string>
-          <string>↘</string>
-          <string>'</string>
-          <string>.</string>
-          <string>|</string>
-          <string>ˈ</string>
-          <string>ˌ</string>
-          <string>‖</string>
-          <string>‿</string>
-          <string>ː</string>
-          <string>ˑ</string>
-          <string>̆</string>
-        </CompleteIgnoredList>
-      </SearchQuery>
-      <SearchQuery version="2" Pattern="*_[V]">
+        <ignoredCharacters>',.,|,ˈ,ˌ,‖,‿,-,˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ː,:,ˑ,̆,</ignoredCharacters>
+      </query>
+      <query version="3" Pattern="*_[V]">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,-,</IgnoredStressChars>
-        <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
-        <CompleteIgnoredList>
-          <string>˦˥˦</string>
-          <string>˥˧</string>
-          <string>˧˩</string>
-          <string>˩˨</string>
-          <string>˦˥</string>
-          <string>˥˩</string>
-          <string>˩˥</string>
-          <string>²</string>
-          <string>³</string>
-          <string>¹</string>
-          <string>˥</string>
-          <string>˦</string>
-          <string>˧</string>
-          <string>˨</string>
-          <string>˩</string>
-          <string>̀</string>
-          <string>́</string>
-          <string>̂</string>
-          <string>̄</string>
-          <string>̋</string>
-          <string>̌</string>
-          <string>̏</string>
-          <string>᷄</string>
-          <string>᷅</string>
-          <string>᷈</string>
-          <string>⁴</string>
-          <string>⁵</string>
-          <string>⁶</string>
-          <string>⁷</string>
-          <string>⁸</string>
-          <string>⁹</string>
-          <string>↑</string>
-          <string>↓</string>
-          <string>↗</string>
-          <string>↘</string>
-          <string>'</string>
-          <string>.</string>
-          <string>|</string>
-          <string>ˈ</string>
-          <string>ˌ</string>
-          <string>‖</string>
-          <string>‿</string>
-          <string>ː</string>
-          <string>ˑ</string>
-          <string>̆</string>
-        </CompleteIgnoredList>
-      </SearchQuery>
-      <SearchQuery version="2" Pattern="*_[Approximant]">
+        <ignoredCharacters>',.,|,ˈ,ˌ,‖,‿,-,˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ː,:,ˑ,̆,</ignoredCharacters>
+      </query>
+      <query version="3" Pattern="*_[approximant]">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,-,</IgnoredStressChars>
-        <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
-        <CompleteIgnoredList>
-          <string>˦˥˦</string>
-          <string>˥˧</string>
-          <string>˧˩</string>
-          <string>˩˨</string>
-          <string>˦˥</string>
-          <string>˥˩</string>
-          <string>˩˥</string>
-          <string>²</string>
-          <string>³</string>
-          <string>¹</string>
-          <string>˥</string>
-          <string>˦</string>
-          <string>˧</string>
-          <string>˨</string>
-          <string>˩</string>
-          <string>̀</string>
-          <string>́</string>
-          <string>̂</string>
-          <string>̄</string>
-          <string>̋</string>
-          <string>̌</string>
-          <string>̏</string>
-          <string>᷄</string>
-          <string>᷅</string>
-          <string>᷈</string>
-          <string>⁴</string>
-          <string>⁵</string>
-          <string>⁶</string>
-          <string>⁷</string>
-          <string>⁸</string>
-          <string>⁹</string>
-          <string>↑</string>
-          <string>↓</string>
-          <string>↗</string>
-          <string>↘</string>
-          <string>'</string>
-          <string>.</string>
-          <string>|</string>
-          <string>ˈ</string>
-          <string>ˌ</string>
-          <string>‖</string>
-          <string>‿</string>
-          <string>ː</string>
-          <string>ˑ</string>
-          <string>̆</string>
-        </CompleteIgnoredList>
-      </SearchQuery>
-      <SearchQuery version="2" Pattern="[Approximant]_*">
+        <ignoredCharacters>',.,|,ˈ,ˌ,‖,‿,-,˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ː,:,ˑ,̆,</ignoredCharacters>
+      </query>
+      <query version="3" Pattern="[approximant]_*">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>false</IgnoreDiacritics>
-        <IgnoredStressChars>',.,|,ˈ,ˌ,‖,‿,-,</IgnoredStressChars>
-        <IgnoredToneChars>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,</IgnoredToneChars>
-        <IgnoredLengthChars>ː,:,ˑ,̆,</IgnoredLengthChars>
-        <CompleteIgnoredList>
-          <string>˦˥˦</string>
-          <string>˥˧</string>
-          <string>˧˩</string>
-          <string>˩˨</string>
-          <string>˦˥</string>
-          <string>˥˩</string>
-          <string>˩˥</string>
-          <string>²</string>
-          <string>³</string>
-          <string>¹</string>
-          <string>˥</string>
-          <string>˦</string>
-          <string>˧</string>
-          <string>˨</string>
-          <string>˩</string>
-          <string>̀</string>
-          <string>́</string>
-          <string>̂</string>
-          <string>̄</string>
-          <string>̋</string>
-          <string>̌</string>
-          <string>̏</string>
-          <string>᷄</string>
-          <string>᷅</string>
-          <string>᷈</string>
-          <string>⁴</string>
-          <string>⁵</string>
-          <string>⁶</string>
-          <string>⁷</string>
-          <string>⁸</string>
-          <string>⁹</string>
-          <string>↑</string>
-          <string>↓</string>
-          <string>↗</string>
-          <string>↘</string>
-          <string>'</string>
-          <string>.</string>
-          <string>|</string>
-          <string>ˈ</string>
-          <string>ˌ</string>
-          <string>‖</string>
-          <string>‿</string>
-          <string>ː</string>
-          <string>ˑ</string>
-          <string>̆</string>
-        </CompleteIgnoredList>
-      </SearchQuery>
-    </SearchQueries>
-    <ColumnWidths>
-      <int>134</int>
-      <int>100</int>
-      <int>100</int>
-      <int>100</int>
-      <int>100</int>
-      <int>100</int>
-      <int>129</int>
-      <int>119</int>
-      <int>100</int>
-    </ColumnWidths>
-  </XYChart>
-</ArrayOfXYChart>
+        <ignoredCharacters>',.,|,ˈ,ˌ,‖,‿,-,˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ː,:,ˑ,̆,</ignoredCharacters>
+      </query>
+    </searchQueries>
+    <columnWidths>
+      <width>134</width>
+      <width>100</width>
+      <width>100</width>
+      <width>100</width>
+      <width>100</width>
+      <width>100</width>
+      <width>129</width>
+      <width>119</width>
+      <width>100</width>
+    </columnWidths>
+  </chart>
+</distributionCharts>
