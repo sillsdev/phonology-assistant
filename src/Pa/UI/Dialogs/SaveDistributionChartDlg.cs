@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using SIL.Pa.PhoneticSearching;
 using SIL.Pa.UI.Controls;
 using SilTools;
 
@@ -11,8 +12,8 @@ namespace SIL.Pa.UI.Dialogs
 	public partial class SaveDistributionChartDlg : OKCancelDlgBase
 	{
 		private readonly DistributionGrid m_xyGrid;
-		private readonly List<DistributionChartLayout> m_savedCharts;
-		private DistributionChartLayout m_layoutToOverwrite;
+		private readonly List<DistributionChart> m_savedCharts;
+		private DistributionChart m_layoutToOverwrite;
 
 		/// ------------------------------------------------------------------------------------
 		public SaveDistributionChartDlg()
@@ -27,7 +28,7 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public SaveDistributionChartDlg(DistributionGrid xyGrid, List<DistributionChartLayout>savedCharts) : this()
+		public SaveDistributionChartDlg(DistributionGrid xyGrid, List<DistributionChart>savedCharts) : this()
 		{
 			m_xyGrid = xyGrid;
 			m_savedCharts = savedCharts;
@@ -99,7 +100,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// layouts is searched for the one having the specified name.</param>
 		/// <param name="nameToCheck">The name of the saved layout to search for.</param>
 		/// ------------------------------------------------------------------------------------
-		private DistributionChartLayout GetExistingLayoutByName(DistributionChartLayout chartToSkip, string nameToCheck)
+		private DistributionChart GetExistingLayoutByName(DistributionChart chartToSkip, string nameToCheck)
 		{
 			if (m_savedCharts != null)
 			{
@@ -121,7 +122,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// overwrite.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public DistributionChartLayout LayoutToOverwrite
+		public DistributionChart LayoutToOverwrite
 		{
 			get { return m_layoutToOverwrite; }
 		}

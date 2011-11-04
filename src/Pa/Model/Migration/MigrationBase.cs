@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.Xml.Linq;
+using SIL.Pa.PhoneticSearching;
 using SilTools;
 
 namespace SIL.Pa.Model.Migration
@@ -25,9 +26,24 @@ namespace SIL.Pa.Model.Migration
 		/// ------------------------------------------------------------------------------------
 		protected Exception DoMigration()
 		{
+			MigrateXYChartFile();
+
 			try { InternalMigration(); }
 			catch (Exception e) { return e; }
 			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void MigrateXYChartFile()
+		{
+			var filename = DistributionChart.GetFileForProject(_projectPathPrefix);
+			var oldFileName = _projectPathPrefix + "XYCharts.xml";
+
+			if (!File.Exists(oldFileName))
+				return;
+
+			try { File.Copy(oldFileName, filename); }
+			catch { return; }
 		}
 
 		/// ------------------------------------------------------------------------------------

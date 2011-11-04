@@ -224,6 +224,7 @@
     <Compile Include="PhoneticSearching\BracketedTextErrorMsgBox.Designer.cs">
       <DependentUpon>BracketedTextErrorMsgBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="PhoneticSearching\DistributionChart.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="PhoneticSearching\FFNormalizer.cs" />
     <Compile Include="PhoneticSearching\PatternGroup.cs" />
@@ -330,7 +331,6 @@
     <Compile Include="UI\Controls\DistributionChartCellInfoPopup.designer.cs">
       <DependentUpon>DistributionChartCellInfoPopup.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controls\DistributionChartLayout.cs" />
     <Compile Include="UI\Controls\DistributionGrid.cs">
       <SubType>Component</SubType>
     </Compile>

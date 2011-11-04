@@ -86,7 +86,7 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void LoadFromLayout(DistributionChartLayout layout)
+		public void LoadFromLayout(DistributionChart layout)
 		{
 			if (layout == null)
 				return;
@@ -138,7 +138,7 @@ namespace SIL.Pa.UI.Controls
 				ChartLayout.UpdateFromDistributionGrid(this);
 			else
 			{
-				ChartLayout = DistributionChartLayout.NewFromDistributionGrid(this);
+				ChartLayout = DistributionChart.NewFromDistributionGrid(this);
 				LoadedLayout = false;
 			}
 
@@ -215,7 +215,7 @@ namespace SIL.Pa.UI.Controls
 		/// Gets the chart layout that has been loaded in the grid.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public DistributionChartLayout ChartLayout { get; set; }
+		public DistributionChart ChartLayout { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -891,7 +891,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			e.Effect = DragDropEffects.None;
 
-			DistributionChartLayout data = e.Data.GetData(typeof(DistributionChartLayout)) as DistributionChartLayout;
+			DistributionChart data = e.Data.GetData(typeof(DistributionChart)) as DistributionChart;
 			if (data != null)
 				e.Effect = e.AllowedEffect;
 			else
@@ -920,7 +920,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnDragEnter(e);
 
-			DistributionChartLayout data = e.Data.GetData(typeof(DistributionChartLayout)) as DistributionChartLayout;
+			DistributionChart data = e.Data.GetData(typeof(DistributionChart)) as DistributionChart;
 			if (data == null)
 				return;
 
@@ -967,7 +967,7 @@ namespace SIL.Pa.UI.Controls
 			m_paintDropValidEffect = false;
 			Invalidate();
 
-			DistributionChartLayout data = e.Data.GetData(typeof(DistributionChartLayout)) as DistributionChartLayout;
+			DistributionChart data = e.Data.GetData(typeof(DistributionChart)) as DistributionChart;
 			if (data != null)
 				LoadFromLayout(data);
 			else

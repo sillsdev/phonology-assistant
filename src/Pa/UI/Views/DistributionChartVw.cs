@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
@@ -24,17 +23,16 @@ namespace SIL.Pa.UI.Views
 	/// ----------------------------------------------------------------------------------------
 	public partial class DistributionChartVw : UserControl, IxCoreColleague, ITabView, ISearchResultsViewHost
 	{
-
-		private bool m_initialDock = true;
-		private bool m_editingSavedChartName;
-		private SlidingPanel m_slidingPanel;
-		private List<DistributionChartLayout> m_savedCharts;
-		private ITMAdapter m_tmAdapter;
-		private readonly string m_openClass = App.kOpenClassBracket;
-		private readonly string m_closeClass = App.kCloseClassBracket;
-		private readonly SplitterPanel m_dockedSidePanel;
-		private readonly DistributionGrid m_grid;
-		private readonly Keys m_saveChartHotKey = Keys.None;
+		private bool _initialDock = true;
+		private bool _editingSavedChartName;
+		private SlidingPanel _slidingPanel;
+		private List<DistributionChart> _savedCharts;
+		private ITMAdapter _tmAdapter;
+		private readonly string _openClass = App.kOpenClassBracket;
+		private readonly string _closeClass = App.kCloseClassBracket;
+		private readonly SplitterPanel _dockedSidePanel;
+		private readonly DistributionGrid _grid;
+		private readonly Keys _saveChartHotKey = Keys.None;
 
 		/// ------------------------------------------------------------------------------------
 		public DistributionChartVw()
@@ -45,37 +43,37 @@ namespace SIL.Pa.UI.Views
 
 			hlblSavedCharts.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
 
-			m_grid = new DistributionGrid();
-			m_grid.OwningView = this;
-			m_grid.Dock = DockStyle.Fill;
-			m_grid.TabIndex = lblChartName.TabIndex + 1;
-			m_grid.KeyDown += HandleGridKeyDown;
-			m_grid.CellMouseDoubleClick += HandleGridCellMouseDoubleClick;
+			_grid = new DistributionGrid();
+			_grid.OwningView = this;
+			_grid.Dock = DockStyle.Fill;
+			_grid.TabIndex = lblChartName.TabIndex + 1;
+			_grid.KeyDown += HandleGridKeyDown;
+			_grid.CellMouseDoubleClick += HandleGridCellMouseDoubleClick;
 
 			LoadToolbarAndContextMenus();
-			m_grid.TMAdapter = m_tmAdapter;
-			m_grid.OwnersNameLabelControl = lblChartNameValue;
+			_grid.TMAdapter = _tmAdapter;
+			_grid.OwnersNameLabelControl = lblChartNameValue;
 
 			SetupSidePanelContents();
 			SetupSlidingPanel();
 			OnPaFontsChanged(null);
 
-			m_dockedSidePanel = (m_slidingPanel.SlideFromLeft ? splitOuter.Panel1 : splitOuter.Panel2);
+			_dockedSidePanel = (_slidingPanel.SlideFromLeft ? splitOuter.Panel1 : splitOuter.Panel2);
 			
 			LoadSettings();
-			m_grid.Reset();
-			splitChart.Panel1.Controls.Add(m_grid);
-			m_grid.BringToFront();
-			splitChart.Panel1MinSize = m_grid.Top + 10;
+			_grid.Reset();
+			splitChart.Panel1.Controls.Add(_grid);
+			_grid.BringToFront();
+			splitChart.Panel1MinSize = _grid.Top + 10;
 			splitChart.Panel2Collapsed = true;
 
 			UpdateButtons();
 
 			base.DoubleBuffered = true;
 
-			var itemProps = m_tmAdapter.GetItemProperties("tbbSaveChartOnMenu");
+			var itemProps = _tmAdapter.GetItemProperties("tbbSaveChartOnMenu");
 			if (itemProps != null)
-				m_saveChartHotKey = itemProps.ShortcutKey;
+				_saveChartHotKey = itemProps.ShortcutKey;
 
 			lblChartNameValue.Left = lblChartName.Right + 10;
 
@@ -87,8 +85,8 @@ namespace SIL.Pa.UI.Views
 		{
 			if (disposing && (components != null))
 			{
-				if (m_grid != null && !m_grid.IsDisposed)
-					m_grid.Dispose();
+				if (_grid != null && !_grid.IsDisposed)
+					_grid.Dispose();
 
 				if (ptrnBldrComponent != null && !ptrnBldrComponent.IsDisposed)
 					ptrnBldrComponent.Dispose();
@@ -108,35 +106,35 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void LoadToolbarAndContextMenus()
 		{
-			if (m_tmAdapter != null)
+			if (_tmAdapter != null)
 			{
-				App.UnPrepareAdapterForLocalizationSupport(m_tmAdapter);
-				m_tmAdapter.Dispose();
+				App.UnPrepareAdapterForLocalizationSupport(_tmAdapter);
+				_tmAdapter.Dispose();
 			}
 
-			m_tmAdapter = AdapterHelper.CreateTMAdapter();
+			_tmAdapter = AdapterHelper.CreateTMAdapter();
 
 			if (ResultViewManger != null)
-				ResultViewManger.TMAdapter = m_tmAdapter;
+				ResultViewManger.TMAdapter = _tmAdapter;
 			else
 			{
-				ResultViewManger = new SearchResultsViewManager(this, m_tmAdapter,
+				ResultViewManger = new SearchResultsViewManager(this, _tmAdapter,
 					splitResults, rtfRecVw, Settings.Default.DistChartVwPlaybackSpeed,
 					newSpeed => Settings.Default.DistChartVwPlaybackSpeed = newSpeed);
 			}
 
-			if (m_tmAdapter == null)
+			if (_tmAdapter == null)
 				return;
 
-			App.PrepareAdapterForLocalizationSupport(m_tmAdapter);
-			m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
+			App.PrepareAdapterForLocalizationSupport(_tmAdapter);
+			_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 
 			var defs = new[] { FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
-				"XYChartsTMDefinition.xml") };
+				"DistributionChartsTMDefinition.xml") };
 
-			m_tmAdapter.Initialize(this, App.MsgMediator, App.ApplicationRegKeyPath, defs);
-			m_tmAdapter.AllowUpdates = true;
-			m_tmAdapter.SetContextMenuForControl(m_grid, "cmnuXYChart");
+			_tmAdapter.Initialize(this, App.MsgMediator, App.ApplicationRegKeyPath, defs);
+			_tmAdapter.AllowUpdates = true;
+			_tmAdapter.SetContextMenuForControl(_grid, "cmnuXYChart");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -147,7 +145,7 @@ namespace SIL.Pa.UI.Views
 		private Control m_tmAdapter_LoadControlContainerItem(string name)
 		{
 			if (name == "tbbSearchOptionsDropDown")
-				return m_grid.SearchOptionsDropDown;
+				return _grid.SearchOptionsDropDown;
 
 			if (name == "tbbAdjustPlaybackSpeed")
 				return ResultViewManger.PlaybackSpeedAdjuster;
@@ -165,10 +163,10 @@ namespace SIL.Pa.UI.Views
 		{
 			// Make sure the user pressed the hotkey for saving a chart and
 			// that he isn't in the middle of editing a saved chart name.
-			if (msg.Msg == 0x100 && keyData == m_saveChartHotKey && !m_editingSavedChartName)
+			if (msg.Msg == 0x100 && keyData == _saveChartHotKey && !_editingSavedChartName)
 			{
 				// Make sure the button is enabled.
-				TMItemProperties itemProps = m_tmAdapter.GetItemProperties("tbbSaveChart");
+				TMItemProperties itemProps = _tmAdapter.GetItemProperties("tbbSaveChart");
 				if (itemProps != null && itemProps.Enabled)
 				{
 					App.MsgMediator.SendMessage("SaveChart", null);
@@ -201,30 +199,14 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void LoadSavedChartsList()
 		{
-			var filename = DistributionChartLayout.GetFileForProject(App.Project.ProjectPathFilePrefix);
-			var oldFileName = App.Project.ProjectPathFilePrefix + "XYCharts.xml";
-			
-			// Migrate the old file to the new one and rename the old one.
-			if (File.Exists(oldFileName))
-			{
-				try
-				{
-					File.Copy(oldFileName, filename);
-					File.Move(oldFileName, Path.ChangeExtension(oldFileName, "old"));
-				}
-				catch
-				{
-					return;
-				}
-			}
-
-			m_savedCharts = XmlSerializationHelper.DeserializeFromFile<List<DistributionChartLayout>>(
+			var filename = DistributionChart.GetFileForProject(App.Project.ProjectPathFilePrefix);
+			_savedCharts = XmlSerializationHelper.DeserializeFromFile<List<DistributionChart>>(
 				filename, "distributionCharts");
 			
-			if (m_savedCharts == null)
+			if (_savedCharts == null)
 				return;
 
-			foreach (var layout in m_savedCharts)
+			foreach (var layout in _savedCharts)
 			{
 				var item = new ListViewItem(layout.Name);
 				item.Tag = layout;
@@ -235,10 +217,10 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void SaveCharts()
 		{
-			if (m_savedCharts != null)
+			if (_savedCharts != null)
 			{
-				XmlSerializationHelper.SerializeToFile(DistributionChartLayout.GetFileForProject(
-					App.Project.ProjectPathFilePrefix), m_savedCharts);
+				XmlSerializationHelper.SerializeToFile(DistributionChart.GetFileForProject(
+					App.Project.ProjectPathFilePrefix), _savedCharts);
 			}
 		}
 
@@ -253,12 +235,12 @@ namespace SIL.Pa.UI.Views
 		/// <param name="showMsg">true to show a message box if the layout cannot be
 		/// found. Otherwise, false.</param>
 		/// ------------------------------------------------------------------------------------
-		private DistributionChartLayout GetExistingLayoutByName(DistributionChartLayout layoutToSkip,
+		private DistributionChart GetExistingLayoutByName(DistributionChart layoutToSkip,
 			string nameToCheck, bool showMsg)
 		{
 			// Check if chart name already exists. If it does,
 			// tell the user and don't cancel the current edit.
-			foreach (var savedLayout in m_savedCharts.Where(sl => sl != layoutToSkip && sl.Name == nameToCheck))
+			foreach (var savedLayout in _savedCharts.Where(sl => sl != layoutToSkip && sl.Name == nameToCheck))
 			{
 				if (showMsg)
 				{
@@ -309,15 +291,15 @@ namespace SIL.Pa.UI.Views
 			btnAutoHide.Top = ((pnlSideBarCaption.Height - btnAutoHide.Height) / 2) - 1;
 			btnDock.Top = btnAutoHide.Top;
 
-			m_slidingPanel = new SlidingPanel(this, splitSideBarOuter, pnlSliderPlaceholder,
+			_slidingPanel = new SlidingPanel(this, splitSideBarOuter, pnlSliderPlaceholder,
 				Settings.Default.DistChartVwSidePanelWidth,
 				newWidth => Settings.Default.DistChartVwSidePanelWidth = newWidth);
 
-			App.RegisterForLocalization(m_slidingPanel.Tab,
+			App.RegisterForLocalization(_slidingPanel.Tab,
 				"DistributionChartVw.UndockedSideBarTabText", "Charts & Chart Building",
 				"Text on vertical tab when the side bar is undocked in the distribution charts view.");
 
-			Controls.Add(m_slidingPanel);
+			Controls.Add(_slidingPanel);
 			splitOuter.BringToFront();
 		}
 
@@ -336,7 +318,7 @@ namespace SIL.Pa.UI.Views
 				btnAutoHide_Click(null, null);
 
 			OnViewDocked(this);
-			m_initialDock = true;
+			_initialDock = true;
 			ResultViewManger.RecordViewOn = Settings.Default.DistChartVwrRcordPaneVisible;
 
 			// Hide the record view pane until the first search, at which time the value of
@@ -375,7 +357,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public ITMAdapter TMAdapter
 		{
-			get { return m_tmAdapter; }
+			get { return _tmAdapter; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -390,7 +372,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public void SaveSettings()
 		{
-			Settings.Default.DistChartVwSidePanelDocked = m_slidingPanel.SlideFromLeft ?
+			Settings.Default.DistChartVwSidePanelDocked = _slidingPanel.SlideFromLeft ?
 				!splitOuter.Panel1Collapsed : !splitOuter.Panel2Collapsed;
 
 			ptrnBldrComponent.SaveSettings(Name, charExplorerStates =>
@@ -463,10 +445,10 @@ namespace SIL.Pa.UI.Views
 
 				// Don't need to load the tool bar or menus if this is the first time
 				// the view was docked since that all gets done during construction.
-				if (m_initialDock)
+				if (_initialDock)
 				{
-					m_initialDock = false;
-					m_grid.Focus();
+					_initialDock = false;
+					_grid.Focus();
 				}
 				else
 				{
@@ -506,13 +488,13 @@ namespace SIL.Pa.UI.Views
 			btnDock.Visible = false;
 
 			// Uncollapse the panel in which the side panel will be docked.
-			if (m_slidingPanel.SlideFromLeft)
+			if (_slidingPanel.SlideFromLeft)
 				splitOuter.Panel1Collapsed = false;
 			else
 				splitOuter.Panel2Collapsed = false;
 
 			// Let the sliding panel control handle the rest of the docking procedure.
-			m_slidingPanel.DockControl(m_dockedSidePanel);
+			_slidingPanel.DockControl(_dockedSidePanel);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -527,10 +509,10 @@ namespace SIL.Pa.UI.Views
 			btnDock.Visible = true;
 
 			// Let the sliding panel control handle most of the undocking/hiding procedure.
-			m_slidingPanel.UnDockControl(m_dockedSidePanel);
+			_slidingPanel.UnDockControl(_dockedSidePanel);
 
 			// Collapse the panel in which the side panel was docked.
-			if (m_slidingPanel.SlideFromLeft)
+			if (_slidingPanel.SlideFromLeft)
 				splitOuter.Panel1Collapsed = true;
 			else
 				splitOuter.Panel2Collapsed = true;
@@ -549,10 +531,10 @@ namespace SIL.Pa.UI.Views
 			int col = e.ColumnIndex;
 			int row = e.RowIndex;
 
-			if (m_grid.IsEmpty || col <= 0 || row <= 0 || m_grid[col, row].Value is SearchQueryException)
+			if (_grid.IsEmpty || col <= 0 || row <= 0 || _grid[col, row].Value is SearchQueryException)
 				return;
 
-			if (m_grid.IsCurrentCellValidForSearch)
+			if (_grid.IsCurrentCellValidForSearch)
 				Search(row, col, SearchResultLocation.CurrentTabGroup);
 			else
 				Utils.MsgBox(FillChartMessage);
@@ -565,17 +547,17 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		void HandleGridKeyDown(object sender, KeyEventArgs e)
 		{
-			Point pt = m_grid.CurrentCellAddress;
+			Point pt = _grid.CurrentCellAddress;
 
-			if (e.KeyCode != Keys.Enter || e.Modifiers != Keys.None || m_grid.IsEmpty ||
-				pt.X <= 0 || pt.Y <= 0 || pt.X == m_grid.Columns.Count - 1 ||
-				pt.Y == m_grid.NewRowIndex)
+			if (e.KeyCode != Keys.Enter || e.Modifiers != Keys.None || _grid.IsEmpty ||
+				pt.X <= 0 || pt.Y <= 0 || pt.X == _grid.Columns.Count - 1 ||
+				pt.Y == _grid.NewRowIndex)
 			{
 				return;
 			}
 
-			if (m_grid.IsCurrentCellValidForSearch)
-				Search(m_grid.CurrentCell, SearchResultLocation.CurrentTabGroup);
+			if (_grid.IsCurrentCellValidForSearch)
+				Search(_grid.CurrentCell, SearchResultLocation.CurrentTabGroup);
 			else
 				Utils.MsgBox(FillChartMessage);
 
@@ -588,7 +570,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void HandleFeatureListCustomDoubleClick(object sender, string feature)
 		{
-			m_grid.InsertTextInCell(feature);
+			_grid.InsertTextInCell(feature);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -601,7 +583,7 @@ namespace SIL.Pa.UI.Views
 			if (e.KeyChar == (char)Keys.Enter && sender is FeatureListViewBase)
 			{	
 			    string text = ((FeatureListViewBase)sender).CurrentFormattedFeature;
-				m_grid.InsertTextInCell(text);
+				_grid.InsertTextInCell(text);
 			}
 		}
 
@@ -613,7 +595,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void HandleCharExplorerCharPicked(CharPicker picker, ToolStripButton item)
 		{
-			m_grid.InsertTextInCell(item.Text.Replace(App.kDottedCircle, string.Empty));
+			_grid.InsertTextInCell(item.Text.Replace(App.kDottedCircle, string.Empty));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -624,7 +606,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void HandleVowConClicked(object sender, ToolStripItemClickedEventArgs e)
 		{
-			m_grid.InsertTextInCell(e.ClickedItem.Text);
+			_grid.InsertTextInCell(e.ClickedItem.Text);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -642,9 +624,9 @@ namespace SIL.Pa.UI.Views
 				var item = lv.SelectedItems[0] as ClassListViewItem;
 				if (item != null)
 				{
-					m_grid.InsertTextInCell((
+					_grid.InsertTextInCell((
 						item.Pattern == null || Settings.Default.ShowClassNamesInSearchPatterns ?
-						m_openClass + item.Text + m_closeClass : item.Pattern));
+						_openClass + item.Text + _closeClass : item.Pattern));
 				}
 			}
 		}
@@ -684,14 +666,14 @@ namespace SIL.Pa.UI.Views
 			{
 				var item = e.Item as ClassListViewItem;
 				dragText = (item.Pattern == null || Settings.Default.ShowClassNamesInSearchPatterns ?
-					m_openClass + item.Text + m_closeClass : item.Pattern);
+					_openClass + item.Text + _closeClass : item.Pattern);
 			}
 
 			// Any text we begin dragging.
 			if (dragText != null)
 			{
-				if (m_slidingPanel.Visible)
-					m_slidingPanel.Close(true);
+				if (_slidingPanel.Visible)
+					_slidingPanel.Close(true);
 	
 				DoDragDrop(dragText.Replace(App.kDottedCircle, string.Empty), DragDropEffects.Copy);
 			}
@@ -716,22 +698,22 @@ namespace SIL.Pa.UI.Views
 			if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
 				return;
 
-			var layout = lvSavedCharts.SelectedItems[0].Tag as DistributionChartLayout;
+			var layout = lvSavedCharts.SelectedItems[0].Tag as DistributionChart;
 
 			if (layout != null)
 			{
-				if (layout == m_grid.ChartLayout ||
-					(m_grid.ChartLayout != null && layout.Name == m_grid.ChartLayout.Name))
+				if (layout == _grid.ChartLayout ||
+					(_grid.ChartLayout != null && layout.Name == _grid.ChartLayout.Name))
 				{
 					// Don't delete the m_xyGrid.ChartLayout if the saved chart name is in edited mode
 					if (layout.Name != null)
 					{
-						m_grid.Reset();
-						m_grid.ChartLayout = null;
+						_grid.Reset();
+						_grid.ChartLayout = null;
 					}
 				}
 
-				m_savedCharts.Remove(layout);
+				_savedCharts.Remove(layout);
 				int index = lvSavedCharts.SelectedIndices[0];
 				lvSavedCharts.Items.Remove(lvSavedCharts.SelectedItems[0]);
 				if (index >= lvSavedCharts.Items.Count)
@@ -794,10 +776,10 @@ namespace SIL.Pa.UI.Views
 			if (item == null)
 				return;
 			
-			if (m_slidingPanel.Visible)
-				m_slidingPanel.Close(true);
+			if (_slidingPanel.Visible)
+				_slidingPanel.Close(true);
 
-			m_grid.LoadFromLayout(item.Tag as DistributionChartLayout);
+			_grid.LoadFromLayout(item.Tag as DistributionChart);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -807,7 +789,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void lvSavedCharts_BeforeLabelEdit(object sender, LabelEditEventArgs e)
 		{
-			m_editingSavedChartName = true;
+			_editingSavedChartName = true;
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -822,11 +804,11 @@ namespace SIL.Pa.UI.Views
 			if (string.IsNullOrEmpty(newName))
 				newName = null;
 
-			DistributionChartLayout layout = lvSavedCharts.Items[e.Item].Tag as DistributionChartLayout;
+			DistributionChart layout = lvSavedCharts.Items[e.Item].Tag as DistributionChart;
 			if (layout == null || layout.Name == newName || newName == null)
 			{
 				e.CancelEdit = true;
-				m_editingSavedChartName = false;
+				_editingSavedChartName = false;
 				return;
 			}
 
@@ -839,10 +821,10 @@ namespace SIL.Pa.UI.Views
 
 			// If the chart loaded in the grid is the one whose name was just edited,
 			// then update the loaded name and the label above the grid.
-			if (m_grid.ChartLayout != null &&
-				m_grid.ChartLayout.Name == lvSavedCharts.Items[e.Item].Text)
+			if (_grid.ChartLayout != null &&
+				_grid.ChartLayout.Name == lvSavedCharts.Items[e.Item].Text)
 			{
-				m_grid.ChartLayout.Name = newName;
+				_grid.ChartLayout.Name = newName;
 				lblChartNameValue.Text = newName;
 			}
 
@@ -852,7 +834,7 @@ namespace SIL.Pa.UI.Views
 
 			lvSavedCharts.Items[e.Item].Text = newName;
 			e.CancelEdit = true;
-			m_editingSavedChartName = false;
+			_editingSavedChartName = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -864,13 +846,13 @@ namespace SIL.Pa.UI.Views
 		{
 			ListViewItem item = e.Item as ListViewItem;
 			if (e.Button != MouseButtons.Left || item == null || item.Tag == null ||
-				!(item.Tag is DistributionChartLayout))
+				!(item.Tag is DistributionChart))
 				return;
 
-			if (m_slidingPanel.Visible)
-				m_slidingPanel.Close(true);
+			if (_slidingPanel.Visible)
+				_slidingPanel.Close(true);
 
-			DoDragDrop(item.Tag as DistributionChartLayout, DragDropEffects.Move);
+			DoDragDrop(item.Tag as DistributionChart, DragDropEffects.Move);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -956,12 +938,12 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void Search(int row, int col, SearchResultLocation resultLocation)
 		{
-			if (!m_grid.IsCellValidForSearch(row, col))
+			if (!_grid.IsCellValidForSearch(row, col))
 				return;
 
-			m_grid.RefreshCellValue(row, col);
+			_grid.RefreshCellValue(row, col);
 
-			SearchQuery query = m_grid.GetCellsFullSearchQuery(row, col);
+			SearchQuery query = _grid.GetCellsFullSearchQuery(row, col);
 			if (query != null)
 				ResultViewManger.PerformSearch(query, resultLocation);
 		}
@@ -1000,7 +982,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public bool ShouldMenuBeEnabled(string menuName)
 		{
-			return m_grid.IsCurrentCellValidForSearch;
+			return _grid.IsCurrentCellValidForSearch;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1010,7 +992,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public SearchQuery GetQueryForMenu(string menuName)
 		{
-			return m_grid.CurrentCellsFullSearchQuery;
+			return _grid.CurrentCellsFullSearchQuery;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1089,7 +1071,7 @@ namespace SIL.Pa.UI.Views
 
 			rtfRecVw.UpdateFonts();
 			ptrnBldrComponent.RefreshFonts();
-			m_slidingPanel.RefreshFonts();
+			_slidingPanel.RefreshFonts();
 
 			// Return false to allow other windows to update their fonts.
 			return false;
@@ -1112,7 +1094,7 @@ namespace SIL.Pa.UI.Views
 			if (!ActiveView)
 				return false;
 
-			m_grid.FillChart();
+			_grid.FillChart();
 			return true;
 		}
 
@@ -1127,10 +1109,10 @@ namespace SIL.Pa.UI.Views
 			if (itemProps == null || !ActiveView)
 				return false;
 
-			if (itemProps.Enabled == m_grid.IsEmpty)
+			if (itemProps.Enabled == _grid.IsEmpty)
 			{
 				itemProps.Visible = true;
-				itemProps.Enabled = !m_grid.IsEmpty;
+				itemProps.Enabled = !_grid.IsEmpty;
 				itemProps.Update = true;
 			}
 			
@@ -1144,14 +1126,14 @@ namespace SIL.Pa.UI.Views
 				return false;
 
 			// Commit changes and end the edit mode if necessary. Fixes PA-714
-			if (m_grid.IsCurrentCellInEditMode)
-				m_grid.EndEdit();
+			if (_grid.IsCurrentCellInEditMode)
+				_grid.EndEdit();
 
 			// If the name isn't specified, then use the save as dialog.
-			if (string.IsNullOrEmpty(m_grid.ChartName))
+			if (string.IsNullOrEmpty(_grid.ChartName))
 				return OnSaveChartAs(args);
 
-			SaveCurrentChart(m_grid.ChartLayout);
+			SaveCurrentChart(_grid.ChartLayout);
 			return true;
 		}
 
@@ -1162,10 +1144,10 @@ namespace SIL.Pa.UI.Views
 				return false;
 
 			// Commit changes and end the edit mode if necessary. Fixes PA-714
-			if (m_grid.IsCurrentCellInEditMode)
-				m_grid.EndEdit();
+			if (_grid.IsCurrentCellInEditMode)
+				_grid.EndEdit();
 
-			using (var dlg = new SaveDistributionChartDlg(m_grid, m_savedCharts))
+			using (var dlg = new SaveDistributionChartDlg(_grid, _savedCharts))
 			{
 				if (dlg.ShowDialog(FindForm()) == DialogResult.OK)
 					SaveCurrentChart(dlg.LayoutToOverwrite);
@@ -1181,7 +1163,7 @@ namespace SIL.Pa.UI.Views
 		/// <param name="layoutToOverwrite">The layout to overwrite when saving. This should
 		/// be null if the layout is to be added to the list of saved layouts.</param>
 		/// ------------------------------------------------------------------------------------
-		private void SaveCurrentChart(DistributionChartLayout layoutToOverwrite)
+		private void SaveCurrentChart(DistributionChart layoutToOverwrite)
 		{
 			ListViewItem item = null;
 
@@ -1191,7 +1173,7 @@ namespace SIL.Pa.UI.Views
 			{
 				foreach (ListViewItem lvi in lvSavedCharts.Items)
 				{
-					DistributionChartLayout tmpLayout = lvi.Tag as DistributionChartLayout;
+					DistributionChart tmpLayout = lvi.Tag as DistributionChart;
 					if (tmpLayout != null && tmpLayout.Name == layoutToOverwrite.Name)
 					{
 						item = lvi;
@@ -1200,30 +1182,30 @@ namespace SIL.Pa.UI.Views
 				}
 			}
 
-			if (m_savedCharts == null)
-				m_savedCharts = new List<DistributionChartLayout>();
+			if (_savedCharts == null)
+				_savedCharts = new List<DistributionChart>();
 			
-			DistributionChartLayout layoutCopy = m_grid.ChartLayout.Clone();
+			DistributionChart layoutCopy = _grid.ChartLayout.Clone();
 
 			if (item != null)
 			{
 				// Overwrite an existing layout.
-				int i = m_savedCharts.IndexOf(item.Tag as DistributionChartLayout);
-				m_savedCharts[i] = layoutCopy;
+				int i = _savedCharts.IndexOf(item.Tag as DistributionChart);
+				_savedCharts[i] = layoutCopy;
 				item.Tag = layoutCopy;
 				item.Text = layoutCopy.Name;
 			}
 			else
 			{
 				// Save a new layout.
-				m_savedCharts.Add(layoutCopy);
+				_savedCharts.Add(layoutCopy);
 				item = new ListViewItem(layoutCopy.Name);
 				item.Tag = layoutCopy;
 				lvSavedCharts.Items.Add(item);
 			}
 
 			SaveCharts();
-			m_grid.LoadFromLayout(layoutCopy);
+			_grid.LoadFromLayout(layoutCopy);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1237,10 +1219,10 @@ namespace SIL.Pa.UI.Views
 			if (itemProps == null || !ActiveView)
 				return false;
 
-			if (itemProps.Enabled != (m_grid.ChartLayout != null))
+			if (itemProps.Enabled != (_grid.ChartLayout != null))
 			{
 				itemProps.Visible = true;
-				itemProps.Enabled = (m_grid.ChartLayout != null);
+				itemProps.Enabled = (_grid.ChartLayout != null);
 				itemProps.Update = true;
 			}
 			
@@ -1261,7 +1243,7 @@ namespace SIL.Pa.UI.Views
 			if (itemProps != null && itemProps.Name.StartsWith("cmnu"))
 				return false;
 
-			Search(m_grid.CurrentCell, SearchResultLocation.CurrentTabGroup);
+			Search(_grid.CurrentCell, SearchResultLocation.CurrentTabGroup);
 			return true;
 		}
 
@@ -1278,10 +1260,10 @@ namespace SIL.Pa.UI.Views
 			TMItemProperties itemProps = args as TMItemProperties;
 			if (itemProps != null && !itemProps.Name.StartsWith("cmnu"))
 			{
-				if (itemProps.Enabled != m_grid.IsCurrentCellValidForSearch)
+				if (itemProps.Enabled != _grid.IsCurrentCellValidForSearch)
 				{
 					itemProps.Visible = true;
-					itemProps.Enabled = m_grid.IsCurrentCellValidForSearch;
+					itemProps.Enabled = _grid.IsCurrentCellValidForSearch;
 					itemProps.Update = true;
 				}
 				
@@ -1359,7 +1341,7 @@ namespace SIL.Pa.UI.Views
 				return (wordListExportAction != null);
 
 			var prefix = (App.Project.LanguageName ?? (App.Project.LanguageCode ?? App.Project.Name));
-			var defaultFileName = string.Format(fmtFileName, prefix, m_grid.ChartName).Replace(" ", string.Empty);
+			var defaultFileName = string.Format(fmtFileName, prefix, _grid.ChartName).Replace(" ", string.Empty);
 
 			string fileTypes = fileTypeFilter + "|" + App.kstidFileTypeAllFiles;
 
@@ -1370,7 +1352,7 @@ namespace SIL.Pa.UI.Views
 			if (string.IsNullOrEmpty(outputFileName))
 				return false;
 
-			exportAction(App.Project, outputFileName, m_grid, openAfterExport);
+			exportAction(App.Project, outputFileName, _grid, openAfterExport);
 			return true;
 		}
 
@@ -1439,7 +1421,7 @@ namespace SIL.Pa.UI.Views
 					return ResultViewManger.CurrentViewsGrid;
 
 				// Otherwise the grid does if it's not empty.
-				return (!m_grid.IsEmpty ? m_grid : null);
+				return (!_grid.IsEmpty ? _grid : null);
 			}
 		}
 

@@ -1,19 +1,19 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using SIL.Pa.PhoneticSearching;
+using SIL.Pa.UI.Controls;
 
-namespace SIL.Pa.UI.Controls
+namespace SIL.Pa.PhoneticSearching
 {
 	/// ----------------------------------------------------------------------------------------
 	[XmlType("chart")]
-	public class DistributionChartLayout
+	public class DistributionChart
 	{
 		public const string kFileName = "DistributionCharts.xml";
 
 		private string _name;
 		
 		/// ------------------------------------------------------------------------------------
-		public DistributionChartLayout()
+		public DistributionChart()
 		{
 			SearchItems = new List<string>();
 			SearchQueries = new List<SearchQuery>();
@@ -26,12 +26,12 @@ namespace SIL.Pa.UI.Controls
 		/// If the grid is null or empty, then null is returned.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static DistributionChartLayout NewFromDistributionGrid(DistributionGrid grid)
+		public static DistributionChart NewFromDistributionGrid(DistributionGrid grid)
 		{
 			if (grid == null || (grid.Rows.Count <= 1 && grid.Columns.Count <= 1))
 				return null;
 
-			var layout = new DistributionChartLayout();
+			var layout = new DistributionChart();
 			layout.UpdateFromDistributionGrid(grid);
 			return layout;
 		}
@@ -121,9 +121,9 @@ namespace SIL.Pa.UI.Controls
 		/// Returns a deep copy of the layout.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public DistributionChartLayout Clone()
+		public DistributionChart Clone()
 		{
-			var clone = new DistributionChartLayout();
+			var clone = new DistributionChart();
 
 			clone._name = _name;
 			

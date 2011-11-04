@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.UI.Controls;
@@ -12,6 +13,9 @@ namespace SIL.Pa.Model.Migration
 	public class Migration0333 : MigrationBase
 	{
 		private static bool s_performPostProjectLoadMigration;
+
+		private readonly List<Feature> _defaultDescriptiveFeatures;
+		private readonly List<Feature> _defaultDistinctiveFeatures;
 		
 		/// ------------------------------------------------------------------------------------
 		public static Exception Migrate(string prjfilepath, Func<string, string, string> GetPrjPathPrefixAction)
@@ -24,6 +28,8 @@ namespace SIL.Pa.Model.Migration
 		private Migration0333(string prjfilepath, Func<string, string, string> GetPrjPathPrefixAction)
 			: base(prjfilepath, GetPrjPathPrefixAction)
 		{
+			_defaultDescriptiveFeatures = App.AFeatureCache.Select(kvp => kvp.Value).ToList();
+			_defaultDistinctiveFeatures = BFeatureCache.GetFeaturesFromDefaultSet().ToList();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -37,7 +43,7 @@ namespace SIL.Pa.Model.Migration
 			if (File.Exists(filepath))
 				MigrateSearchQueries(filepath);
 
-			filepath = DistributionChartLayout.GetFileForProject(_projectPathPrefix);
+			filepath = DistributionChart.GetFileForProject(_projectPathPrefix);
 			if (File.Exists(filepath))
 				MigrateDistributionCharts(filepath);
 
@@ -77,9 +83,6 @@ namespace SIL.Pa.Model.Migration
 			if (!root.HasElements)
 				return;
 
-			var defaultDescriptiveFeatures = App.AFeatureCache.Select(kvp => kvp.Value).ToList();
-			var defaultDistinctiveFeatures = BFeatureCache.GetFeaturesFromDefaultSet().ToList();
-
 			var newOverrideList = new List<FeatureOverride>();
 
 			var phoneElements = from e in root.Elements("PhoneInfo")
@@ -94,13 +97,13 @@ namespace SIL.Pa.Model.Migration
 				if ((string)element.Attribute("articulatoryFeaturesChanged") == "true")
 				{
 					foverride.AFeatureNames = GetFeatureNamesForType(element,
-						"articulatoryFeatures", defaultDescriptiveFeatures);
+						"articulatoryFeatures", _defaultDescriptiveFeatures);
 				}
 
 				if ((string)element.Attribute("binaryFeaturesChanged") == "true")
 				{
 					foverride.BFeatureNames = GetFeatureNamesForType(element,
-						"binaryFeatures", defaultDistinctiveFeatures);
+						"binaryFeatures", _defaultDistinctiveFeatures);
 				}
 
 				if (foverride.AFeatureNames.Count() > 0 || foverride.BFeatureNames.Count() > 0)
@@ -192,6 +195,7 @@ namespace SIL.Pa.Model.Migration
 		private void MigrateSingleSearchQuery(XElement element)
 		{
 			element.Attribute("version").SetValue(SearchQuery.kCurrVersion);
+			element.Attribute("Pattern").SetValue(UpdateFeatureNamesInPattern((string)element.Attribute("Pattern")));
 
 			var completeIgnoredListNode = element.Element("CompleteIgnoredList");
 			if (completeIgnoredListNode != null)
@@ -222,6 +226,45 @@ namespace SIL.Pa.Model.Migration
 
 			if (ignoredCharacters.Trim(',').Length > 0)
 				element.Add(new XElement("ignoredCharacters", ignoredCharacters));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private string UpdateFeatureNamesInPattern(string pattern)
+		{
+			var regex = new Regex(@"\[(?<bracketedText>[^\[\]]+)\]");
+			var match = regex.Match(pattern);
+			var matches = new List<string>();
+
+			while (match.Success)
+			{
+				matches.Add(match.Result("${bracketedText}"));
+				match = match.NextMatch();
+			}
+
+			foreach (var text in matches)
+			{
+				if (_defaultDescriptiveFeatures.Any(f => f.Name == text.ToLowerInvariant()) ||
+					_defaultDistinctiveFeatures.Any(f => f.Name == text.ToLowerInvariant()))
+				{
+					pattern = pattern.Replace(text, text.ToLowerInvariant());
+				}
+				else if (text == "Tap/Flap")
+					pattern = pattern.Replace("Tap/Flap", "flap");
+				else
+				{
+					switch (text.Substring(1))
+					{
+						case "DORS": pattern = pattern.Replace("DORS", "dorsal"); break;
+						case "LAB": pattern = pattern.Replace("LAB", "labial"); break;
+						case "COR": pattern = pattern.Replace("COR", "coronal"); break;
+						case "delayed release": pattern = pattern.Replace("delayed release", "delayed"); break;
+						case "Labio-dental": pattern = pattern.Replace("Labio-dental", "labiodental"); break;
+						case "PHAR": pattern = pattern.Replace("PHAR", "radical"); break;
+					}
+				}
+			}
+
+			return pattern;
 		}
 
 		#endregion
@@ -268,7 +311,7 @@ namespace SIL.Pa.Model.Migration
 			var newSrchItemElement = new XElement("searchItems");
 
 			foreach (var itemElement in oldSrchItemsElement.Elements("string").Where(e => e.Value != string.Empty))
-				newSrchItemElement.Add(new XElement("item", itemElement.Value));
+				newSrchItemElement.Add(new XElement("item", UpdateFeatureNamesInPattern(itemElement.Value)));
 
 			return newSrchItemElement;
 		}

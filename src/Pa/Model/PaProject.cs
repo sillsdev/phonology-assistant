@@ -577,7 +577,7 @@ namespace SIL.Pa.Model
 			try
 			{
 				var srcPath = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultDistributionCharts.xml");
-				var destPath = DistributionChartLayout.GetFileForProject(ProjectPathFilePrefix);
+				var destPath = DistributionChart.GetFileForProject(ProjectPathFilePrefix);
 				File.Copy(srcPath, destPath);
 			}
 			catch { }
