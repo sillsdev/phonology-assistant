@@ -737,7 +737,7 @@ namespace SIL.Pa.UI.Controls
 							"Add a search environment\nin this cell", "Views");
 					}
 
-					Rectangle rc = GetCellDisplayRectangle(col, row, false);
+					var rc = GetCellDisplayRectangle(col, row, false);
 					rc.X = rc.Right - 7;
 					rc.Y = rc.Bottom - 7;
 					m_tooltip.Show(Utils.ConvertLiteralNewLines(text), this, rc.Location);
@@ -746,9 +746,9 @@ namespace SIL.Pa.UI.Controls
 				return;
 			}
 
-			SearchQuery query = GetCellsFullSearchQuery(row, col);
-			string pattern = (query == null ? "?" : query.Pattern);
-			SearchQueryException exception = this[col, row].Value as SearchQueryException;
+			var query = GetCellsFullSearchQuery(row, col);
+			var pattern = (query == null ? "?" : query.Pattern);
+			var exception = this[col, row].Value as SearchQueryException;
 
 			if (exception != null)
 			{
@@ -862,7 +862,7 @@ namespace SIL.Pa.UI.Controls
 
 			// Make cells with zero in them a different color from those
 			if (col > 0 && row > 0 && col < ColumnCount && row < RowCount &&
-				this[col, row].Value != null && this[col, row].Value.GetType() == typeof(int))
+				this[col, row].Value != null && this[col, row].Value is int)
 			{
 				int val = (int)this[col, row].Value;
 				if (val > -1)
@@ -1218,7 +1218,7 @@ namespace SIL.Pa.UI.Controls
 			App.InitializeProgressBar(App.kstidQuerySearchingMsg, progBarMax);
 			FixEnvironments();
 
-			foreach (DataGridViewRow row in Rows)
+			foreach (var row in GetRows())
 			{
 				if (row.Index == 0 || row.Index == NewRowIndex)
 					continue;
@@ -1468,7 +1468,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateClearChart(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !OwningView.ActiveView)
 				return false;
 
@@ -1481,11 +1481,11 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateInsertIntoChart(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !OwningView.ActiveView)
 				return false;
 
-			return (itemProps.Name.StartsWith("cmnu") ? true : UpdateInsertItem(itemProps));
+			return (itemProps.Name.StartsWith("cmnu") || UpdateInsertItem(itemProps));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1638,7 +1638,7 @@ namespace SIL.Pa.UI.Controls
 			if (itemProps == null || !OwningView.ActiveView)
 				return false;
 
-			Point pt = CurrentCellAddress;
+			var pt = CurrentCellAddress;
 			itemProps.Update = true;
 			itemProps.Visible = true;
 			itemProps.Enabled = ((pt.X == 0 || pt.Y == 0) && !m_mouseDownOnCornerCell);
@@ -1649,11 +1649,11 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateSearchOptions(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !OwningView.ActiveView)
 				return false;
 
-			Point pt = CurrentCellAddress;
+			var pt = CurrentCellAddress;
 			itemProps.Visible = true;
 			itemProps.Enabled = (GetColumnsSearchQuery(pt.X) != null && pt.X < Columns.Count - 1);
 			itemProps.Update = true;
@@ -1663,12 +1663,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownSearchOptions(object args)
 		{
-			ToolBarPopupInfo itemProps = args as ToolBarPopupInfo;
-			SearchQuery query = GetColumnsSearchQuery(CurrentCellAddress.X);
+			var itemProps = args as ToolBarPopupInfo;
+			var query = GetColumnsSearchQuery(CurrentCellAddress.X);
 			if (query == null || itemProps == null || !OwningView.ActiveView)
 				return false;
 
-			Point pt = CurrentCellAddress;
+			var pt = CurrentCellAddress;
 			m_searchOptionsDropDown.Enabled =
 				(GetColumnsSearchQuery(pt.X) != null && pt.X < Columns.Count - 1);
 
@@ -1690,10 +1690,10 @@ namespace SIL.Pa.UI.Controls
 
 			for (int i = 1; i < Columns.Count - 1; i++)
 			{
-				SearchQuery query = m_searchOptionsDropDown.SearchQuery.Clone();
+				var query = m_searchOptionsDropDown.SearchQuery.Clone();
 				
 				// Get the old query and keep it's pattern.
-				SearchQuery oldQuery = GetColumnsSearchQuery(i);
+				var oldQuery = GetColumnsSearchQuery(i);
 				if (oldQuery != null)
 					query.Pattern = oldQuery.Pattern;
 			
@@ -1713,7 +1713,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownClosedSearchOptions(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || (itemProps.ParentControl != OwningView))
 				return false;
 
@@ -1721,7 +1721,7 @@ namespace SIL.Pa.UI.Controls
 			if (!m_searchOptionsDropDown.Enabled || !m_searchOptionsDropDown.OptionsChanged)
 				return true;
 
-			Point pt = CurrentCellAddress;
+			var pt = CurrentCellAddress;
 			if (pt.X > 0 && pt.X < Columns.Count)
 				Columns[pt.X].Tag = m_searchOptionsDropDown.SearchQuery.Clone();
 

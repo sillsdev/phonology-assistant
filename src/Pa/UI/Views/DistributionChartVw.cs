@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using Palaso.IO;
@@ -23,7 +24,6 @@ namespace SIL.Pa.UI.Views
 	/// ----------------------------------------------------------------------------------------
 	public partial class DistributionChartVw : UserControl, IxCoreColleague, ITabView, ISearchResultsViewHost
 	{
-		public const string kSavedChartsFile = "DistributionCharts.xml";
 
 		private bool m_initialDock = true;
 		private bool m_editingSavedChartName;
@@ -72,7 +72,6 @@ namespace SIL.Pa.UI.Views
 			UpdateButtons();
 
 			base.DoubleBuffered = true;
-			Disposed += ViewDisposed;
 
 			var itemProps = m_tmAdapter.GetItemProperties("tbbSaveChartOnMenu");
 			if (itemProps != null)
@@ -84,21 +83,26 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void ViewDisposed(object sender, EventArgs e)
+		protected override void Dispose(bool disposing)
 		{
-			Disposed -= ViewDisposed;
+			if (disposing && (components != null))
+			{
+				if (m_grid != null && !m_grid.IsDisposed)
+					m_grid.Dispose();
 
-			if (m_grid != null && !m_grid.IsDisposed)
-				m_grid.Dispose();
+				if (ptrnBldrComponent != null && !ptrnBldrComponent.IsDisposed)
+					ptrnBldrComponent.Dispose();
 
-			if (ptrnBldrComponent != null && !ptrnBldrComponent.IsDisposed)
-				ptrnBldrComponent.Dispose();
+				if (ResultViewManger != null)
+					ResultViewManger.Dispose();
 
-			if (ResultViewManger != null)
-				ResultViewManger.Dispose();
+				if (splitOuter != null && !splitOuter.IsDisposed)
+					splitOuter.Dispose();
+				
+				components.Dispose();
+			}
 
-			if (splitOuter != null && !splitOuter.IsDisposed)
-				splitOuter.Dispose();
+			base.Dispose(disposing);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -197,7 +201,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void LoadSavedChartsList()
 		{
-			var filename = App.Project.ProjectPathFilePrefix + kSavedChartsFile;
+			var filename = DistributionChartLayout.GetFileForProject(App.Project.ProjectPathFilePrefix);
 			var oldFileName = App.Project.ProjectPathFilePrefix + "XYCharts.xml";
 			
 			// Migrate the old file to the new one and rename the old one.
@@ -214,13 +218,15 @@ namespace SIL.Pa.UI.Views
 				}
 			}
 
-			m_savedCharts = XmlSerializationHelper.DeserializeFromFile<List<DistributionChartLayout>>(filename);
+			m_savedCharts = XmlSerializationHelper.DeserializeFromFile<List<DistributionChartLayout>>(
+				filename, "distributionCharts");
+			
 			if (m_savedCharts == null)
 				return;
 
-			foreach (DistributionChartLayout layout in m_savedCharts)
+			foreach (var layout in m_savedCharts)
 			{
-				ListViewItem item = new ListViewItem(layout.Name);
+				var item = new ListViewItem(layout.Name);
 				item.Tag = layout;
 				lvSavedCharts.Items.Add(item);
 			}
@@ -231,8 +237,8 @@ namespace SIL.Pa.UI.Views
 		{
 			if (m_savedCharts != null)
 			{
-				var filename = App.Project.ProjectPathFilePrefix + kSavedChartsFile;
-				XmlSerializationHelper.SerializeToFile(filename, m_savedCharts);
+				XmlSerializationHelper.SerializeToFile(DistributionChartLayout.GetFileForProject(
+					App.Project.ProjectPathFilePrefix), m_savedCharts);
 			}
 		}
 
@@ -252,19 +258,16 @@ namespace SIL.Pa.UI.Views
 		{
 			// Check if chart name already exists. If it does,
 			// tell the user and don't cancel the current edit.
-			foreach (var savedLayout in m_savedCharts)
+			foreach (var savedLayout in m_savedCharts.Where(sl => sl != layoutToSkip && sl.Name == nameToCheck))
 			{
-				if (savedLayout != layoutToSkip && savedLayout.Name == nameToCheck)
+				if (showMsg)
 				{
-					if (showMsg)
-					{
-						var fmt = App.GetString("DistributionChartVw.SavedChartNameAlreadyExistsMsg",
-							"There is already a saved chart with the name '{0}'.");
-						Utils.MsgBox(string.Format(fmt, nameToCheck));
-					}
-					
-					return savedLayout;
+					var fmt = App.GetString("DistributionChartVw.SavedChartNameAlreadyExistsMsg",
+					                        "There is already a saved chart with the name '{0}'.");
+					Utils.MsgBox(string.Format(fmt, nameToCheck));
 				}
+					
+				return savedLayout;
 			}
 
 			return null;
