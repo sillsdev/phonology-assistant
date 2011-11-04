@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_distribution_chart_generalize.xsl 2011-11-03 -->
+  <!-- phonology_export_view_distribution_chart_generalize.xsl 2011-11-04 -->
 	<!-- Assuming that the researcher has manually generalized a distribution chart, -->
 	<!-- separate general and individual elements if either or both of the following are true: -->
 	<!-- * items: the chart name contains [gi], [giC], or [giV]. -->
@@ -20,36 +20,25 @@ exclude-result-prefixes="xhtml"
 
 	<xsl:variable name="format" select="$options/xhtml:li[@class = 'format']" />
 
-	<xsl:variable name="view">
-		<xsl:choose>
-			<xsl:when test="$details/xhtml:li[@class = 'view'] = 'Distribution Chart'">
-				<xsl:value-of select="'Distribution'" />
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="$details/xhtml:li[@class = 'view']" />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
-
-	<xsl:variable name="title" select="/xhtml:html/xhtml:head/xhtml:title" />
+	<xsl:variable name="view" select="$details/xhtml:li[@class = 'view']" />
+	<xsl:variable name="chartName" select="$details/xhtml:li[@class = 'chart name']" />
 
 	<!-- Simplify title and heading text if it is a two-word view in Phonology Assistant. -->
 	<xsl:variable name="heading" select="'Distribution'" />
 
 	<xsl:variable name="subheading">
 		<xsl:if test="$view = 'Distribution'">
-			<xsl:variable name="name" select="$details/xhtml:li[@class = 'chart name' or @class = 'name']" />
-			<xsl:if test="$name">
+			<xsl:if test="$chartName">
 				<xsl:variable name="gi">
 					<xsl:choose>
-						<xsl:when test="contains($name, ' [gi')">
-							<xsl:value-of select="substring-before($name, ' [gi')" />
+						<xsl:when test="contains($chartName, ' [gi')">
+							<xsl:value-of select="substring-before($chartName, ' [gi')" />
 						</xsl:when>
-						<xsl:when test="contains($name, '[gi')">
-							<xsl:value-of select="substring-before($name, '[gi')" />
+						<xsl:when test="contains($chartName, '[gi')">
+							<xsl:value-of select="substring-before($chartName, '[gi')" />
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:value-of select="$name" />
+							<xsl:value-of select="$chartName" />
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>
@@ -70,7 +59,7 @@ exclude-result-prefixes="xhtml"
 
 	<xsl:variable name="generalizeEnvironments">
 		<xsl:choose>
-			<xsl:when test="$view = 'Distribution' and contains($title, '[ge]')">
+			<xsl:when test="$view = 'Distribution' and contains($chartName, '[ge]')">
 				<xsl:value-of select="'true'" />
 			</xsl:when>
 			<xsl:otherwise>
@@ -80,7 +69,7 @@ exclude-result-prefixes="xhtml"
 	</xsl:variable>
 	<xsl:variable name="generalizeItems">
 		<xsl:choose>
-			<xsl:when test="$view = 'Distribution' and contains($title, '[gi]') or contains($title, '[giC]') or contains($title, '[giV]')">
+			<xsl:when test="$view = 'Distribution' and contains($chartName, '[gi')">
 				<xsl:value-of select="'true'" />
 			</xsl:when>
 			<xsl:otherwise>
@@ -125,17 +114,9 @@ exclude-result-prefixes="xhtml"
     </xsl:copy>
   </xsl:template>
 
-	<!-- Replace obsolete title in metadata. -->
-	<xsl:template match="xhtml:div[@id = 'metadata']/xhtml:ul[@class = 'details']/xhtml:li[@class = 'view'][. = 'Distribution Chart']">
-		<xsl:copy>
-			<xsl:apply-templates select="@*" />
-			<xsl:value-of select="'Distribution'" />
-		</xsl:copy>
-	</xsl:template>
-
 	<!-- Append language name to title (but not heading). -->
 	<xsl:template match="/xhtml:html/xhtml:head/xhtml:title">
-		<xsl:variable name="languageName" select="$details/xhtml:li[@class = 'languageName']" />
+		<xsl:variable name="languageName" select="$details/xhtml:li[@class = 'language name']" />
 		<xsl:copy>
 			<xsl:apply-templates select="@*" />
 			<xsl:value-of select="$heading" />

@@ -11,20 +11,6 @@ exclude-result-prefixes="xhtml"
 
 	<xsl:variable name="classPrefix" select="'CV chart'" />
 
-	<xsl:variable name="view">
-		<xsl:choose>
-			<xsl:when test="/inventory/@view = 'Consonants' or /inventory/@view = 'Consonant Chart'">
-				<xsl:value-of select="'Consonants'" />
-			</xsl:when>
-			<xsl:when test="/inventory/@view = 'Vowels' or /inventory/@view = 'Vowel Chart'">
-				<xsl:value-of select="'Vowels'" />
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="'Segments'" />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
-
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
 	<xsl:template match="@* | node()" mode="XHTML">
 		<xsl:copy>
@@ -39,51 +25,56 @@ exclude-result-prefixes="xhtml"
 		</xsl:element>
 	</xsl:template>
 
-	<!-- Add options and details within metadata. -->
+	<!-- Convert inventory metadata to XHTML namespace. -->
+	<!-- If the inventory has a view attribute, assume internal processing for Phonology Assistant view. -->
+	<!-- Otherwise, add options and details to metadata for external processing by Help Converter (FeaturePad). -->
 	<xsl:template match="div[@id = 'metadata']" mode="XHTML">
-		<xsl:variable name="segments" select="/inventory/segments" />
+		<xsl:param name="view" />
 		<xsl:element name="{name(.)}" namespace="http://www.w3.org/1999/xhtml">
 			<xsl:apply-templates select="@* | node()" mode="XHTML" />
-			<ul class="options" xmlns="http://www.w3.org/1999/xhtml">
-				<li class="format">XHTML</li>
-				<li class="genericRelativePath">
-					<xsl:if test="number($base-file-level) &gt; 0">
-						<xsl:call-template name="dup">
-							<xsl:with-param name="input" select="'../'" />
-							<xsl:with-param name="count" select="number($base-file-level) - 1" />
-						</xsl:call-template>
+			<xsl:if test="not(../@view)">
+				<xsl:variable name="segments" select="/inventory/segments" />
+				<ul class="options" xmlns="http://www.w3.org/1999/xhtml">
+					<li class="format">XHTML</li>
+					<li class="genericRelativePath">
+						<xsl:if test="number($base-file-level) &gt; 0">
+							<xsl:call-template name="dup">
+								<xsl:with-param name="input" select="'../'" />
+								<xsl:with-param name="count" select="number($base-file-level) - 1" />
+							</xsl:call-template>
+						</xsl:if>
+					</li>
+				</ul>
+				<ul class="details" xmlns="http://www.w3.org/1999/xhtml">
+					<li class="view">
+						<xsl:value-of select="$view" />
+					</li>
+					<xsl:if test="$view = 'Segments'">
+						<li class="number segment">
+							<xsl:value-of select="count($segments/segment[not(@literalInChart)][features[@class = 'descriptive'][feature[. = 'consonant' or . = 'vowel']]])" />
+						</li>
 					</xsl:if>
-				</li>
-			</ul>
-			<ul class="details" xmlns="http://www.w3.org/1999/xhtml">
-				<li class="view">
-					<xsl:value-of select="$view" />
-				</li>
-				<xsl:if test="$view = 'Segments'">
-					<li class="number segment">
-						<xsl:value-of select="count($segments/segment[not(@literalInChart)][features[@class = 'descriptive'][feature[. = 'consonant' or . = 'vowel']]])" />
+					<xsl:if test="$view != 'Vowels'">
+						<li class="number consonant">
+							<xsl:value-of select="count($segments/segment[not(@literalInChart)][features[@class = 'descriptive'][feature[. = 'consonant']]])" />
+						</li>
+					</xsl:if>
+					<xsl:if test="$view != 'Consonants'">
+						<li class="number vowel">
+							<xsl:value-of select="count($segments/segment[not(@literalInChart)][features[@class = 'descriptive'][feature[. = 'vowel']]])" />
+						</li>
+					</xsl:if>
+					<li class="project name">
+						<xsl:value-of select="/inventory/@projectName" />
 					</li>
-				</xsl:if>
-				<xsl:if test="$view != 'Vowels'">
-					<li class="number consonant">
-						<xsl:value-of select="count($segments/segment[not(@literalInChart)][features[@class = 'descriptive'][feature[. = 'consonant']]])" />
+					<li class="language name">
+						<xsl:value-of select="/inventory/@languageName" />
 					</li>
-				</xsl:if>
-				<xsl:if test="$view != 'Consonants'">
-					<li class="number vowel">
-						<xsl:value-of select="count($segments/segment[not(@literalInChart)][features[@class = 'descriptive'][feature[. = 'vowel']]])" />
+					<li class="language code">
+						<xsl:value-of select="/inventory/@languageCode" />
 					</li>
-				</xsl:if>
-				<li class="project name">
-					<xsl:value-of select="/inventory/@projectName" />
-				</li>
-				<li class="language name">
-					<xsl:value-of select="/inventory/@languageName" />
-				</li>
-				<li class="language code">
-					<xsl:value-of select="/inventory/@languageCode" />
-				</li>
-			</ul>
+				</ul>
+			</xsl:if>
 		</xsl:element>
 	</xsl:template>
 
@@ -111,6 +102,16 @@ exclude-result-prefixes="xhtml"
 	</xsl:template>
 
 	<xsl:template match="/inventory">
+	<xsl:variable name="view">
+		<xsl:choose>
+			<xsl:when test="@view">
+				<xsl:value-of select="@view" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="'Segments'" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
 		<html xmlns="http://www.w3.org/1999/xhtml">
 			<head>
 				<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -119,11 +120,13 @@ exclude-result-prefixes="xhtml"
 				</title>
 			</head>
 			<body>
-				<xsl:apply-templates select="div[@id = 'metadata']" mode="XHTML" />
+				<xsl:apply-templates select="div[@id = 'metadata']" mode="XHTML">
+					<xsl:with-param name="view" select="@view" />
+				</xsl:apply-templates>
 				<xsl:choose>
 					<xsl:when test="featureDefinitions[@class = 'descriptive']">
 						<xsl:call-template name="tablesCV">
-							<xsl:with-param name="view" select="@view" />
+							<xsl:with-param name="view" select="$view" />
 							<xsl:with-param name="featureDefinitionsDescriptive" select="featureDefinitions[@class = 'descriptive']" />
 						</xsl:call-template>
 					</xsl:when>
@@ -133,7 +136,7 @@ exclude-result-prefixes="xhtml"
 						<xsl:variable name="programPhoneticInventoryFile" select="$settings/li[@class = 'programPhoneticInventoryFile']" />
 						<xsl:variable name="programPhoneticInventoryXML" select="concat($programConfigurationFolder, $programPhoneticInventoryFile)" />
 						<xsl:call-template name="tablesCV">
-							<xsl:with-param name="view" select="@view" />
+							<xsl:with-param name="view" select="$view" />
 							<xsl:with-param name="featureDefinitionsDescriptive" select="document($programPhoneticInventoryXML)/inventory/featureDefinitions[@class = 'descriptive']" />
 						</xsl:call-template>
 					</xsl:otherwise>

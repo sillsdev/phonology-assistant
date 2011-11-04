@@ -4,7 +4,7 @@ xmlns:svg="http://www.w3.org/2000/svg"
 exclude-result-prefixes="xhtml svg"
 >
 
-  <!-- phonology_export_view_details.xsl 2011-11-03 -->
+  <!-- phonology_export_view_details.xsl 2011-11-04 -->
   <!-- Add table of details to exported view before conversion to XHTML or Word 2003 XML. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
@@ -26,12 +26,12 @@ exclude-result-prefixes="xhtml svg"
 		<xsl:variable name="options" select="$metadata/xhtml:ul[@class = 'options']" />
 		<xsl:if test="$options/xhtml:li[@class = 'tableOfDetails'] = 'true'">
 			<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
-			<xsl:variable name="projectName" select="$details/xhtml:li[@class = 'project name' or @class = 'projectName']" />
-			<xsl:variable name="languageName" select="$details/xhtml:li[@class = 'language name' or @class = 'languageName']" />
-			<xsl:variable name="languageCode" select="$details/xhtml:li[@class = 'language code' or @class = 'languageCode']" />
+			<xsl:variable name="projectName" select="$details/xhtml:li[@class = 'project name']" />
+			<xsl:variable name="languageName" select="$details/xhtml:li[@class = 'language name']" />
+			<xsl:variable name="languageCode" select="$details/xhtml:li[@class = 'language code']" />
 			<xsl:variable name="filter" select="$details/xhtml:li[@class = 'filter']" />
 			<xsl:variable name="view" select="$details/xhtml:li[@class = 'view']" />
-			<xsl:variable name="pairs" select="$details/xhtml:li[@class = 'pairs' or @class = 'minimalPairs']" />
+			<xsl:variable name="pairs" select="$details/xhtml:li[@class = 'pairs']" />
 			<xsl:variable name="sorting" select="$metadata/xhtml:ul[@class = 'sorting']" />
 			<table class="details" xmlns="http://www.w3.org/1999/xhtml">
 				<col />
@@ -71,7 +71,7 @@ exclude-result-prefixes="xhtml svg"
 					<xsl:call-template name="tr">
 						<xsl:with-param name="class" select="'search pattern'" />
 						<xsl:with-param name="heading" select="'Search pattern:'" />
-						<xsl:with-param name="value" select="$details/xhtml:li[@class = 'search pattern' or @class = 'searchPattern']" />
+						<xsl:with-param name="value" select="$details/xhtml:li[@class = 'search pattern']" />
 					</xsl:call-template>
 					<xsl:if test="$filter">
 						<tr class="filter">
@@ -89,7 +89,7 @@ exclude-result-prefixes="xhtml svg"
 						<xsl:when test="$view = 'Data' or $view = 'Search' or $view = 'Distribution'">
 							<xsl:call-template name="trNumber">
 								<xsl:with-param name="key" select="'record'" />
-								<xsl:with-param name="value" select="$details/xhtml:li[@class = 'number record' or @class = 'numberOfRecords']" />
+								<xsl:with-param name="value" select="$details/xhtml:li[@class = 'number record']" />
 							</xsl:call-template>
 						</xsl:when>
 						<xsl:otherwise>
@@ -123,7 +123,7 @@ exclude-result-prefixes="xhtml svg"
 					</xsl:choose>
 					<xsl:call-template name="trNumber">
 						<xsl:with-param name="key" select="'group'" />
-						<xsl:with-param name="value" select="$details/xhtml:li[@class = 'number group' or @class = 'numberOfGroups']" />
+						<xsl:with-param name="value" select="$details/xhtml:li[@class = 'number group']" />
 					</xsl:call-template>
 					<xsl:call-template name="trNumberPairs">
 						<xsl:with-param name="key" select="'more-similar'" />

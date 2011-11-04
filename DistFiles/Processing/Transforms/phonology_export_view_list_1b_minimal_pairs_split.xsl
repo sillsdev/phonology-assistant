@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_1b_minimal_pairs_split.xsl 2011-11-02 -->
+  <!-- phonology_export_view_list_1b_minimal_pairs_split.xsl 2011-11-04 -->
   <!-- If there are minimal pairs, optionally split groups into all combinations of pairs. -->
 
 	<!-- Important: If table is not Search view, copy it with no changes. -->
@@ -14,14 +14,6 @@ exclude-result-prefixes="xhtml"
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
-	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
-
-	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
-	<xsl:variable name="minimalPairs" select="$details/xhtml:li[@class = 'minimalPairs']" />
-
-	<xsl:variable name="options" select="$metadata/xhtml:ul[@class = 'options']" />
-	<xsl:variable name="oneMinimalPairPerGroup" select="$options/xhtml:li[@class = 'oneMinimalPairPerGroup']" />
-
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
   <xsl:template match="@* | node()">
     <xsl:copy>
@@ -31,8 +23,13 @@ exclude-result-prefixes="xhtml"
 
 	<!-- Apply or ignore transformations. -->
 	<xsl:template match="xhtml:table">
+		<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
+		<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
+		<xsl:variable name="pairs" select="$details/xhtml:li[@class = 'pairs']" />
+		<xsl:variable name="options" select="$metadata/xhtml:ul[@class = 'options']" />
+		<xsl:variable name="oneMinimalPairPerGroup" select="$options/xhtml:li[@class = 'oneMinimalPairPerGroup']" />
 		<xsl:choose>
-			<xsl:when test="contains(@class, 'list') and $minimalPairs and $oneMinimalPairPerGroup = 'true'">
+			<xsl:when test="contains(@class, 'list') and $pairs and $oneMinimalPairPerGroup = 'true'">
 				<xsl:copy>
 					<xsl:apply-templates select="@* | node()" />
 				</xsl:copy>

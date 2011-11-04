@@ -2,7 +2,7 @@
 xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
-	<!-- phonology_export_options.xsl 2011-08-15 -->
+	<!-- phonology_export_options.xsl 2011-11-04 -->
 	<!-- Insert options for other XSL Transformations in the pipeline. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="no" indent="no" />
@@ -57,7 +57,6 @@ exclude-result-prefixes="xhtml"
 					<li class="hyperlinkToEthnologue">true</li>
 					<li class="dateAndTime">false</li>
 					<li class="oneMinimalPairPerGroup">true</li>
-					<li class="similarPairs">true</li>
 					<!--
 					<li class="textFlowOfColumnHeadings">horizontal</li>
 					<li class="textFlowOfColumnHeadings">verticalCounterClockwise</li>

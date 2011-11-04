@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_3b_minimal_pairs_count.xsl 2011-09-28 -->
+  <!-- phonology_export_view_list_3b_minimal_pairs_count.xsl 2011-11-04 -->
   <!-- If there are minimal pairs, count the number of records and groups. -->
 
 	<!-- Important: In case Phonology Assistant exports collapsed in class attributes, test: -->
@@ -20,7 +20,7 @@ exclude-result-prefixes="xhtml"
   </xsl:template>
 
 	<!-- If there are minimal pairs, update the total number of records. -->
-	<xsl:template match="//xhtml:div[@id = 'metadata']/xhtml:ul[@class = 'details'][xhtml:li[@class = 'minimalPairs']]/xhtml:li[@class = 'numberOfRecords']">
+	<xsl:template match="//xhtml:div[@id = 'metadata']/xhtml:ul[@class = 'details'][xhtml:li[@class = 'pairs']]/xhtml:li[@class = 'number record']">
     <xsl:copy>
       <xsl:apply-templates select="@*" />
 			<xsl:value-of select="count(//xhtml:table[contains(@class, 'list')]/xhtml:tbody[contains(@class, 'group')]/xhtml:tr[@class = 'data'])" />
@@ -28,7 +28,7 @@ exclude-result-prefixes="xhtml"
   </xsl:template>
 
 	<!-- If there are minimal pairs, update the total number of groups. -->
-	<xsl:template match="//xhtml:div[@id = 'metadata']/xhtml:ul[@class = 'details'][xhtml:li[@class = 'minimalPairs']]/xhtml:li[@class = 'numberOfGroups']">
+	<xsl:template match="//xhtml:div[@id = 'metadata']/xhtml:ul[@class = 'details'][xhtml:li[@class = 'pairs']]/xhtml:li[@class = 'number group']">
     <xsl:copy>
       <xsl:apply-templates select="@*" />
 			<xsl:value-of select="count(//xhtml:table[contains(@class, 'list')]/xhtml:tbody[contains(@class, 'group')])" />

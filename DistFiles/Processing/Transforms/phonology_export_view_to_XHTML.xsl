@@ -4,7 +4,7 @@ xmlns:svg="http://www.w3.org/2000/svg"
 exclude-result-prefixes="xhtml svg"
 >
 
-  <!-- phonology_export_view_to_XHTML.xsl 2011-11-02 -->
+  <!-- phonology_export_view_to_XHTML.xsl 2011-11-04 -->
   <!-- Converts any exported view to XHTML. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="yes" />
@@ -22,8 +22,7 @@ exclude-result-prefixes="xhtml svg"
 	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
 	
 	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
-	<xsl:variable name="languageName" select="$details/xhtml:li[@class = 'languageName']" />
-	<xsl:variable name="minimalPairs" select="$details/xhtml:li[@class = 'minimalPairs']" />
+	<xsl:variable name="pairs" select="$details/xhtml:li[@class = 'pairs']" />
 	<xsl:variable name="researcher" select="$details/xhtml:li[@class = 'researcher']" />
 
 	<xsl:variable name="formatting" select="$metadata/xhtml:table[@class = 'formatting']" />
@@ -35,9 +34,6 @@ exclude-result-prefixes="xhtml svg"
 	<xsl:variable name="genericStylesheetForIE8" select="$options/xhtml:li[@class = 'genericStylesheetForIE8']" />
 	<xsl:variable name="genericStylesheetForIE7" select="$options/xhtml:li[@class = 'genericStylesheetForIE7']" />
 	<xsl:variable name="genericStylesheetForIE6" select="$options/xhtml:li[@class = 'genericStylesheetForIE6']" />
-	<xsl:variable name="tableOfDetails" select="$options/xhtml:li[@class = 'tableOfDetails']" />
-	<xsl:variable name="hyperlinkToEthnologue" select="$options/xhtml:li[@class = 'hyperlinkToEthnologue']" />
-	<xsl:variable name="dateAndTime" select="$options/xhtml:li[@class = 'dateAndTime']" />
 	<xsl:variable name="oneMinimalPairPerGroup" select="$options/xhtml:li[@class = 'oneMinimalPairPerGroup']" />
 	<xsl:variable name="genericRelativePath" select="$options/xhtml:li[@class = 'genericRelativePath']" />
 	<xsl:variable name="specificRelativePath" select="$options/xhtml:li[@class = 'specificRelativePath']" />
@@ -388,7 +384,7 @@ exclude-result-prefixes="xhtml svg"
 						</xsl:if>
 					</xsl:if>
 				</xsl:if>
-				<xsl:if test="$view = 'Data Corpus' or $view = 'Data' or $view = 'Search'">
+				<xsl:if test="$view = 'Data' or $view = 'Search'">
 					<xsl:choose>
 						<xsl:when test="string-length($specificStylesheetFile) != 0">
 							<link rel="stylesheet" type="text/css" href="{concat($specificRelativePath, $specificStylesheetFile)}" />
@@ -479,7 +475,7 @@ exclude-result-prefixes="xhtml svg"
 			</xsl:if>
 			<xsl:if test="$interactiveWebPage = 'true'">
 				<!-- Phonetic sort options for Phonetic, except when there is one minimal pair per group. -->
-				<xsl:if test="$fieldName = 'Phonetic' and not($minimalPairs and $oneMinimalPairPerGroup = 'true')">
+				<xsl:if test="$fieldName = 'Phonetic' and not($pairs and $oneMinimalPairPerGroup = 'true')">
 					<xsl:if test="$fieldName = $primarySortFieldName">
 						<xsl:value-of select="' '" />
 					</xsl:if>

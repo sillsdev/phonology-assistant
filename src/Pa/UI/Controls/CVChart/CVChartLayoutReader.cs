@@ -19,8 +19,8 @@ namespace SIL.Pa.UI.Controls
 			Phones = new Dictionary<string, Point>();
 			
 			var root = XElement.Load(filename);
-			ReadColumnHeadings(root.Element(GetTag("html")));
-			ReadRowsHeadings(root.Element(GetTag("html")));
+			ReadColumnHeadings(root);
+			ReadRowsHeadings(root);
 		}
 
 		/// ------------------------------------------------------------------------------------

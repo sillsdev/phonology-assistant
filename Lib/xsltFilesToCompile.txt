@@ -46,7 +46,6 @@
 /class:phonology_project_inventory_5a_CV_chart_order ..\..\DistFiles\Processing\Transforms\phonology_project_inventory_5a_CV_chart_order.xsl
 /class:phonology_project_inventory_5b_CV_chart_lists ..\..\DistFiles\Processing\Transforms\phonology_project_inventory_5b_CV_chart_lists.xsl
 /class:phonology_project_inventory_5c_CV_chart_table ..\..\DistFiles\Processing\Transforms\phonology_project_inventory_5c_CV_chart_table.xsl
-/class:phonology_project_inventory_5d_CV_chart_view ..\..\DistFiles\Processing\Transforms\phonology_project_inventory_5d_CV_chart_view.xsl
 /class:phonology_project_inventory_6_similar_pairs ..\..\DistFiles\Processing\Transforms\phonology_project_inventory_6_similar_pairs.xsl
 /class:phonology_project_inventory_7 ..\..\DistFiles\Processing\Transforms\phonology_project_inventory_7.xsl
 /class:phonology_project_inventory_boolean_conditions ..\..\DistFiles\Processing\Transforms\phonology_project_inventory_boolean_conditions.xsl

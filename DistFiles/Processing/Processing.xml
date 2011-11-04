@@ -136,11 +136,6 @@
 					<input port="parameters" />
 				</input>
 			</xslt>
-			<xslt>
-				<input port="stylesheet">
-					<document href="phonology_project_inventory_5d_CV_chart_view.xsl" />
-				</input>
-			</xslt>
 		</pipeline>
 	</process>
 	<process type="export" view="Data Corpus">

@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_list_1a_minimal_pairs_omit.xsl 2010-04-14 -->
+  <!-- phonology_export_view_list_1a_minimal_pairs_omit.xsl 2011-11-04 -->
   <!-- If there are minimal pairs, omit groups that do not contain contrasting phones. -->
 
 	<!-- Important: If table is not Search view, copy it with no changes. -->
@@ -14,10 +14,6 @@ exclude-result-prefixes="xhtml"
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
-	<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
-	<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
-	<xsl:variable name="minimalPairs" select="$details/xhtml:li[@class = 'minimalPairs']" />
-
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
   <xsl:template match="@* | node()">
     <xsl:copy>
@@ -27,8 +23,11 @@ exclude-result-prefixes="xhtml"
 
 	<!-- Apply or ignore transformations. -->
 	<xsl:template match="xhtml:table">
+		<xsl:variable name="metadata" select="//xhtml:div[@id = 'metadata']" />
+		<xsl:variable name="details" select="$metadata/xhtml:ul[@class = 'details']" />
+		<xsl:variable name="pairs" select="$details/xhtml:li[@class = 'pairs']" />
 		<xsl:choose>
-			<xsl:when test="contains(@class, 'list') and $minimalPairs">
+			<xsl:when test="contains(@class, 'list') and $pairs">
 				<xsl:copy>
 					<xsl:apply-templates select="@* | node()" />
 				</xsl:copy>
