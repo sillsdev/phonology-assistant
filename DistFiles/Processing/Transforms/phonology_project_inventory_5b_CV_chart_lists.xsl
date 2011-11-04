@@ -3,13 +3,27 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_project_inventory_5b_CV_chart_lists.xsl 2011-11-03 -->
+  <!-- phonology_project_inventory_5b_CV_chart_lists.xsl 2011-11-04 -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
 
 	<xsl:param name="base-file-level" select="'0'" />
 
 	<xsl:variable name="classPrefix" select="'CV chart'" />
+
+	<xsl:variable name="view">
+		<xsl:choose>
+			<xsl:when test="/inventory/@view = 'Consonants' or /inventory/@view = 'Consonant Chart'">
+				<xsl:value-of select="'Consonants'" />
+			</xsl:when>
+			<xsl:when test="/inventory/@view = 'Vowels' or /inventory/@view = 'Vowel Chart'">
+				<xsl:value-of select="'Vowels'" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="'Segments'" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
 
 	<!-- Copy all attributes and nodes, and then define more specific template rules. -->
 	<xsl:template match="@* | node()" mode="XHTML">
@@ -42,16 +56,24 @@ exclude-result-prefixes="xhtml"
 				</li>
 			</ul>
 			<ul class="details" xmlns="http://www.w3.org/1999/xhtml">
-				<li class="view">Segments</li>
-				<li class="number segment">
-					<xsl:value-of select="count($segments/segment[not(@literalInChart)][features[@class = 'descriptive'][feature[. = 'consonant' or . = 'vowel']]])" />
+				<li class="view">
+					<xsl:value-of select="$view" />
 				</li>
-				<li class="number consonant">
-					<xsl:value-of select="count($segments/segment[not(@literalInChart)][features[@class = 'descriptive'][feature[. = 'consonant']]])" />
-				</li>
-				<li class="number vowel">
-					<xsl:value-of select="count($segments/segment[not(@literalInChart)][features[@class = 'descriptive'][feature[. = 'vowel']]])" />
-				</li>
+				<xsl:if test="$view = 'Segments'">
+					<li class="number segment">
+						<xsl:value-of select="count($segments/segment[not(@literalInChart)][features[@class = 'descriptive'][feature[. = 'consonant' or . = 'vowel']]])" />
+					</li>
+				</xsl:if>
+				<xsl:if test="$view != 'Vowels'">
+					<li class="number consonant">
+						<xsl:value-of select="count($segments/segment[not(@literalInChart)][features[@class = 'descriptive'][feature[. = 'consonant']]])" />
+					</li>
+				</xsl:if>
+				<xsl:if test="$view != 'Consonants'">
+					<li class="number vowel">
+						<xsl:value-of select="count($segments/segment[not(@literalInChart)][features[@class = 'descriptive'][feature[. = 'vowel']]])" />
+					</li>
+				</xsl:if>
 				<li class="project name">
 					<xsl:value-of select="/inventory/@projectName" />
 				</li>
@@ -93,17 +115,7 @@ exclude-result-prefixes="xhtml"
 			<head>
 				<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 				<title>
-					<xsl:choose>
-						<xsl:when test="@view = 'Consonant Chart'">
-							<xsl:value-of select="'Chart of consonants'" />
-						</xsl:when>
-						<xsl:when test="@view = 'Vowel Chart'">
-							<xsl:value-of select="'Chart of vowels'" />
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="'Charts of consonants and vowels'" />
-						</xsl:otherwise>
-					</xsl:choose>
+					<xsl:value-of select="$view" />
 				</title>
 			</head>
 			<body>
