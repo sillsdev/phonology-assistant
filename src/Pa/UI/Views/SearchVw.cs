@@ -959,8 +959,6 @@ namespace SIL.Pa.UI.Views
 
 			if (e.Item is string)
 				dragText = e.Item as string;
-			else if (e.Item is CharGridCell)
-				dragText = ((CharGridCell)e.Item).Phone;
 			else if (sender is FeatureListViewBase)
 				dragText = ((FeatureListViewBase)sender).CurrentFormattedFeature;
 			else if (e.Item is ClassListViewItem)

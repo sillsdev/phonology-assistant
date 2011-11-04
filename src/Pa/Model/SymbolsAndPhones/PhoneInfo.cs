@@ -242,6 +242,10 @@ namespace SIL.Pa.Model
 		public IPASymbolType CharType { get; set; }
 
 		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string RowGroup { get; set; }
+
+		/// ------------------------------------------------------------------------------------
 		public void SetAFeatures(IEnumerable<string> featureNames)
 		{
 			Debug.Assert(featureNames != null);

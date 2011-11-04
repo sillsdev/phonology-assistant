@@ -282,6 +282,7 @@ namespace SIL.Pa.Processing
 			phoneToUpdate.SetDefaultBFeatures(GetFeatureNames(element, "distinctive default"));
 			phoneToUpdate.MOAKey = GetSortKeyFromSegmentXElement(element, "manner_or_height");
 			phoneToUpdate.POAKey = GetSortKeyFromSegmentXElement(element, "place_or_backness");
+			phoneToUpdate.RowGroup = GetRowGroupFromSegmentXElement(element);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -301,14 +302,25 @@ namespace SIL.Pa.Processing
 		{
 			if (element.Element("keys") != null)
 			{
-				foreach (var sortKey in element.Element("keys").Elements("sortKey")
-					.Where(e => (string)e.Attribute("class") == sortType).Select(e => e.Value))
-				{
-					return sortKey;
-				}
+				return element.Element("keys").Elements("sortKey")
+					.Where(e => (string)e.Attribute("class") == sortType)
+					.Select(e => e.Value).FirstOrDefault() ?? "0";
 			}
 
 			return ("0");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private string GetRowGroupFromSegmentXElement(XElement element)
+		{
+			if (element.Element("keys") != null)
+			{
+				return element.Element("keys").Elements("chartKey")
+					.Where(e => (string) e.Attribute("class") == "rowgroup")
+					.Select(e => e.Value).FirstOrDefault();
+			}
+
+			return null;
 		}
 
 		#endregion

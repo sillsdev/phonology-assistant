@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 
@@ -14,15 +12,17 @@ namespace SIL.Pa.UI.Controls
 	/// CharPicker classes to form several rows of characters from which to pick.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class CharPickerRows : UserControl, IPhoneListViewer
+	public partial class CharPickerRows : UserControl
 	{
-		private string m_supraSegsToIgnore = PhoneCache.kDefaultChartSupraSegsToIgnore;
+		private readonly Func<IEnumerable<PhoneInfo>> _phonesToLoadProvider;
+
 		public event ItemDragEventHandler ItemDrag;
 		public event ToolStripItemClickedEventHandler ItemClicked;
 
 		/// ------------------------------------------------------------------------------------
-		public CharPickerRows()
+		public CharPickerRows(Func<IEnumerable<PhoneInfo>> phonesToLoadProvider)
 		{
+			_phonesToLoadProvider = phonesToLoadProvider;
 			InitializeComponent();
 			Reset();
 		}
@@ -39,10 +39,12 @@ namespace SIL.Pa.UI.Controls
 		{
 			for (int i = Controls.Count - 1; i >= 0; i--)
 			{
-				Control ctrl = Controls[i];
+				var ctrl = Controls[i];
 				Controls.RemoveAt(i);
 				ctrl.Dispose();
 			}
+
+			LoadPhones();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -77,87 +79,39 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void LoadPhones(List<CharGridCell> phoneList)
+		private void LoadPhones()
 		{
-			if (phoneList == null)
-				return;
-
-			FixupUnspecifiedRows(phoneList);
-
-			CharPicker currRow;
-			SortedList<int, CharPicker> pickerRows = new SortedList<int, CharPicker>();
-
-			// Create a collection of pickers (each being a row) sorted by the
-			// phone rows.
-			foreach (CharGridCell cgc in phoneList)
-			{
-				if (cgc.Visible)
-				{
-					if (!pickerRows.TryGetValue(cgc.Row, out currRow))
-					{
-						currRow = CreateNewPickerRow();
-						pickerRows[cgc.Row] = currRow;
-					}
-
-					currRow.Items.Add(cgc.Phone);
-				}
-			}
-
-			// Now add each row to the controls collection.
 			SuspendLayout();
-			foreach (CharPicker pickerRow in pickerRows.Values)
+			PhoneInfo prevPhoneInfo = null;
+			CharPicker currRow = null;
+
+			foreach (var phoneInfo in _phonesToLoadProvider())
 			{
-				Controls.Add(pickerRow);
-				pickerRow.BringToFront();
+				if (prevPhoneInfo == null || prevPhoneInfo.RowGroup != phoneInfo.RowGroup)
+				{
+					Controls.Add((currRow = CreateNewPickerRow()));
+					currRow.BringToFront();
+				}
+
+				currRow.Items.Add(phoneInfo.Phone);
+				prevPhoneInfo = phoneInfo;
 			}
 
 			ResumeLayout(false);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Go through the phones in the list and for those whose row is not set, try as
-		/// intelligently as possible to figure out the best row in which the phone belongs.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void FixupUnspecifiedRows(List<CharGridCell> phoneList)
-		{
-			foreach (var cgc1 in phoneList)
-			{
-				if (!cgc1.Visible || cgc1.Row >= 0)
-					continue;
-
-				var phoneInfo = App.Project.PhoneCache[cgc1.Phone];
-				if (phoneInfo == null)
-					continue;
-
-				var charInfo = App.IPASymbolCache[phoneInfo.BaseCharacter];
-				if (charInfo == null)
-					continue;
-
-				cgc1.Group = charInfo.ChartGroup;
-				foreach (var cgc2 in phoneList.Where(cgc2 => cgc1.Group == cgc2.Group && cgc2.Row >= 0 && cgc2.Visible))
-				{
-					cgc1.Row = cgc2.Row;
-					break;
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Creates a new picker row and returns it.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public CharPicker CreateNewPickerRow()
 		{
-			CharPicker pickerRow = new CharPicker();
-			pickerRow.LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow;
-			pickerRow.CheckItemsOnClick = false;
-			pickerRow.AutoSize = true;
-			pickerRow.AutoSizeItems = true;
-			pickerRow.ShowItemToolTips = false;
-			pickerRow.Dock = DockStyle.Top;
+			var pickerRow = new CharPicker
+			{
+				LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow,
+				CheckItemsOnClick = false,
+				AutoSize = true,
+				AutoSizeItems = true,
+				ShowItemToolTips = false,
+				Dock = DockStyle.Top
+			};
 
 			pickerRow.ItemDrag += delegate(object sender, ItemDragEventArgs e)
 			{
@@ -172,19 +126,6 @@ namespace SIL.Pa.UI.Controls
 			};
 
 			return pickerRow;
-		}
-
-		/// --------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the list of suprasegmentals to ignore.
-		/// </summary>
-		/// --------------------------------------------------------------------------------------------
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public string SupraSegsToIgnore
-		{
-			get { return m_supraSegsToIgnore; }
-			set { m_supraSegsToIgnore = value; }
 		}
 	}
 }

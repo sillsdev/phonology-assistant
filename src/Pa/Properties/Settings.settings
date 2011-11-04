@@ -629,14 +629,8 @@
     <Setting Name="DistChartVwPlaybackSpeed" Provider="SilTools.PortableSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
-    <Setting Name="DefineDescriptiveFeatureClassDlgShowAllConsonantsInViewer" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
     <Setting Name="DefineDescriptiveFeatureClassDlgUseCompactConsonantView" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="DefineDescriptiveFeatureClassDlgShowAllVowelsInViewer" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="DefineDescriptiveFeatureClassDlgUseCompactVowelView" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -982,12 +976,6 @@
     </Setting>
     <Setting Name="DefineDistinctiveFeatureClassDlgSplit2Loc" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="DefineDistinctiveFeatureClassDlgShowAllConsonantsInViewer" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="DefineDistinctiveFeatureClassDlgShowAllVowelsInViewer" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="DefineDistinctiveFeatureClassDlgUseCompactConsonantView" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

@@ -318,24 +318,11 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\ClassListViewItem.cs" />
-    <Compile Include="UI\Controls\CVChart-Old\CharGrid.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Controls\CVChart-Old\CharGrid.designer.cs">
-      <DependentUpon>CharGrid.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Controls\CVChart-Old\CharGridBuilder.cs" />
-    <Compile Include="UI\Controls\CVChart-Old\CharGridHeader.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UI\Controls\CVChart-Old\CharGridHeaderCollectionPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UI\Controls\CVChart-Old\CharGridPersistence.cs" />
     <Compile Include="UI\Controls\CVChart\CVChartColumnGroup.cs" />
     <Compile Include="UI\Controls\CVChart\CVChartGrid.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\Controls\CVChart\CVChartLayoutReader.cs" />
     <Compile Include="UI\Controls\CVChart\CVChartRowGroup.cs" />
     <Compile Include="UI\Controls\DistributionChartCellInfoPopup.cs">
       <SubType>UserControl</SubType>
@@ -826,10 +813,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\CIEOptionsDropDown.resx">
       <DependentUpon>CIEOptionsDropDown.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Controls\CVChart-Old\CharGrid.resx">
-      <DependentUpon>CharGrid.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\FeatureRelatedControls\FeaturesTab.resx">

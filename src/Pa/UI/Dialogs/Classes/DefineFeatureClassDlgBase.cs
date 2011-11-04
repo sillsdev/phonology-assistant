@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
@@ -112,25 +113,21 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void SetupPhoneViewers()
 		{
-			_conViewer = new PhonesInFeatureViewer(m_classesDlg.Project, IPASymbolType.consonant,
-				ShowAllConsonantsInViewer, UseCompactConsonantView,
-				showAll => ShowAllConsonantsInViewer = showAll,
-				compactVw => UseCompactConsonantView = compactVw);
+			_conViewer = new PhonesInFeatureViewer(
+				m_classesDlg.Project.PhoneCache.Values.Where(p => p.CharType == IPASymbolType.consonant).Select(p => p as PhoneInfo).OrderBy(p => p.MOAKey),
+				UseCompactConsonantView, compactVw => UseCompactConsonantView = compactVw);
 			
 			_conViewer.HeaderText = App.GetString("DefineClassDlg.ConsonantViewerHeaderText", "&Consonants");
 			_conViewer.Dock = DockStyle.Fill;
 
-			_vowViewer = new PhonesInFeatureViewer(m_classesDlg.Project, IPASymbolType.vowel,
-				ShowAllVowelsInViewer, UseCompactVowelView,
-				showAll => ShowAllVowelsInViewer = showAll,
-				compactVw => UseCompactVowelView = compactVw);
+			_vowViewer = new PhonesInFeatureViewer(
+				m_classesDlg.Project.PhoneCache.Values.Where(p => p.CharType == IPASymbolType.vowel).Select(p => p as PhoneInfo).OrderBy(p => p.MOAKey),
+				UseCompactVowelView, compactVw => UseCompactVowelView = compactVw);
 
 			_vowViewer.HeaderText = App.GetString("DefineClassDlg.VowelViewerHeaderText", "&Vowels");
 			_vowViewer.Dock = DockStyle.Fill;
 		}
 
-		protected virtual bool ShowAllConsonantsInViewer { get; set; }
-		protected virtual bool ShowAllVowelsInViewer { get; set; }
 		protected virtual bool UseCompactConsonantView { get; set; }
 		protected virtual bool UseCompactVowelView { get; set; }
 

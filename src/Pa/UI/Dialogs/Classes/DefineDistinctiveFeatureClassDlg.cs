@@ -25,20 +25,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override bool ShowAllConsonantsInViewer
-		{
-			get { return Settings.Default.DefineDistinctiveFeatureClassDlgShowAllConsonantsInViewer; }
-			set { Settings.Default.DefineDistinctiveFeatureClassDlgShowAllConsonantsInViewer = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override bool ShowAllVowelsInViewer
-		{
-			get { return Settings.Default.DefineDistinctiveFeatureClassDlgShowAllVowelsInViewer; }
-			set { Settings.Default.DefineDistinctiveFeatureClassDlgShowAllVowelsInViewer = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
 		protected override bool UseCompactConsonantView
 		{
 			get { return Settings.Default.DefineDistinctiveFeatureClassDlgUseCompactConsonantView; }

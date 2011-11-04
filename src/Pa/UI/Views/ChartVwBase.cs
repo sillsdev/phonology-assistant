@@ -25,7 +25,6 @@ namespace SIL.Pa.UI.Views
 	/// ----------------------------------------------------------------------------------------
 	public partial class ChartVwBase : ViewBase, IxCoreColleague, ITabView
 	{
-		protected List<CharGridCell> _phoneList;
 		protected ITMAdapter _tmAdapter;
 		protected ChartOptionsDropDown _ignoredSymbolsDropDown;
 
@@ -124,16 +123,16 @@ namespace SIL.Pa.UI.Views
 		{
 			_chartGrid.ClearAll();
 
-			var cgp = XmlSerializationHelper.DeserializeFromFile<CharGridPersistence>(LayoutFile);
+			var cgp = new CVChartLayoutReader(LayoutFile);
 
-			foreach (var col in cgp.ColHeadings)
-				_chartGrid.AddColumnGroup(col.HeadingText);
+			foreach (var text in cgp.ColHeadings.Keys)
+				_chartGrid.AddColumnGroup(text);
 
 			foreach (var row in cgp.RowHeadings)
-				_chartGrid.AddRowGroup(row.HeadingText, row.SubHeadingCount);
+				_chartGrid.AddRowGroup(row.Key, row.Value);
 
 			foreach (var phone in cgp.Phones)
-				_chartGrid[phone.Column, phone.Row].Value = phone.Phone;
+				_chartGrid[phone.Value.X, phone.Value.Y].Value = phone.Key;
 
 			if (ColumnHeaderHeight > 0)
 				_chartGrid.ColumnHeadersHeight = ColumnHeaderHeight;
@@ -145,7 +144,7 @@ namespace SIL.Pa.UI.Views
 
 			_chartGrid.AdjustCellSizes();
 
-			_histogram.LoadPhones(cgp.Phones.Select(cell => cell.Phone));
+			_histogram.LoadPhones(cgp.Phones.Keys);
 		}
 
 		/// ------------------------------------------------------------------------------------

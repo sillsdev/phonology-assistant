@@ -71,6 +71,9 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool Initialize(string phone)
 		{
+			if (App.Project.PhoneCache[phone] == null)
+				return false;
+
 			_content.Initialize(App.Project.PhoneCache[phone]);
 			InternalInitialize();
 			return true;

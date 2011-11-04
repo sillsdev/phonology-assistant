@@ -25,11 +25,11 @@ namespace SIL.Pa.UI.Controls
 		public KeyPressEventHandler ClassListKeyPressHandler;
 		public MouseEventHandler ClassListDoubleClickHandler;
 
-		private FeatureListViewBase m_lvArticulatoryFeatures;
-		private FeatureListViewBase m_lvBinaryFeatures;
-		private CharPickerRows m_conPicker;
-		private CharPickerRows m_vowPicker;
-		private List<char> m_diacriticsInCache;
+		private FeatureListViewBase _lvArticulatoryFeatures;
+		private FeatureListViewBase _lvBinaryFeatures;
+		private CharPickerRows _conPicker;
+		private CharPickerRows _vowPicker;
+		private List<char> _diacriticsInCache;
 
 		/// ------------------------------------------------------------------------------------
 		public PatternBuilderComponents()
@@ -38,10 +38,6 @@ namespace SIL.Pa.UI.Controls
 			App.AddMediatorColleague(this);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Remove ourselves from the mediator list.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
@@ -76,10 +72,10 @@ namespace SIL.Pa.UI.Controls
 			SetupVowConPickers(true);
 			SetupOtherPicker();
 
-			m_lvArticulatoryFeatures = InitializeFeatureList(new DescriptiveFeatureListView { CheckBoxes = false });
-			m_lvBinaryFeatures = InitializeFeatureList(new DistinctiveFeatureListView { CheckBoxes = true });
-			tpgAFeatures.Controls.Add(m_lvArticulatoryFeatures);
-			tpgBFeatures.Controls.Add(m_lvBinaryFeatures);
+			_lvArticulatoryFeatures = InitializeFeatureList(new DescriptiveFeatureListView { CheckBoxes = false });
+			_lvBinaryFeatures = InitializeFeatureList(new DistinctiveFeatureListView { CheckBoxes = true });
+			tpgAFeatures.Controls.Add(_lvArticulatoryFeatures);
+			tpgBFeatures.Controls.Add(_lvBinaryFeatures);
 
 			tpgBFeatures.ResumeLayout(false);
 			tpgAFeatures.ResumeLayout(false);
@@ -88,10 +84,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Loads settings using the specified form name.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void LoadSettings(string frmName, StringCollection explorerSettings)
 		{
 			charExplorer.LoadSettings(explorerSettings);
@@ -99,20 +91,12 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Saves settings using the specified form name.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void SaveSettings(string frmName, Action<StringCollection> getCharExplorerStatesAction)
 		{
 			lvClasses.SaveSettings(frmName);
 			getCharExplorerStatesAction(charExplorer.GetExpandedStates());
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// The classes were updated in the class dialog, so rebuild the class list.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnSearchClassesChanged(object args)
 		{
@@ -123,8 +107,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDataSourcesModified(object args)
 		{
-			m_lvArticulatoryFeatures.Load();
-			m_lvBinaryFeatures.Load();
+			_lvArticulatoryFeatures.Load();
+			_lvBinaryFeatures.Load();
 			return false;
 		}
 
@@ -136,7 +120,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public FeatureListViewBase ArticulatoryFeaturesList
 		{
-			get { return m_lvArticulatoryFeatures; }
+			get { return _lvArticulatoryFeatures; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -146,7 +130,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public FeatureListViewBase BinaryFeaturesList
 		{
-			get { return m_lvBinaryFeatures; }
+			get { return _lvBinaryFeatures; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -156,7 +140,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public CharPickerRows ConsonantPicker
 		{
-			get { return m_conPicker; }
+			get { return _conPicker; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -166,7 +150,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public CharPickerRows VowelPicker
 		{
-			get { return m_vowPicker; }
+			get { return _vowPicker; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -186,36 +170,38 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (!firstTime)
 			{
-				m_conPicker.ItemDrag -= ConPickerDragHandler;
-				m_conPicker.ItemClicked -= ConPickerClickedHandler;
-				m_vowPicker.ItemDrag -= VowPickerDragHandler;
-				m_vowPicker.ItemClicked -= VowPickerClickedHandler;
+				_conPicker.ItemDrag -= ConPickerDragHandler;
+				_conPicker.ItemClicked -= ConPickerClickedHandler;
+				_vowPicker.ItemDrag -= VowPickerDragHandler;
+				_vowPicker.ItemClicked -= VowPickerClickedHandler;
 				pnlVowels.Controls.Clear();
 				pnlConsonants.Controls.Clear();
-				m_conPicker.Dispose();
-				m_vowPicker.Dispose();
+				_conPicker.Dispose();
+				_vowPicker.Dispose();
 			}
 
 			// Create the consonant picker on the con. tab.
-			m_conPicker = new CharPickerRows();
-			m_conPicker.Location = new Point(0, 0);
-			m_conPicker.BackColor = pnlConsonants.BackColor;
-			CharGridBuilder bldr = new CharGridBuilder(m_conPicker, IPASymbolType.consonant);
-			bldr.Build();
-			pnlConsonants.Controls.Add(m_conPicker);
+			_conPicker = new CharPickerRows(() => App.Project.PhoneCache.Values
+				.Where(p => p.CharType == IPASymbolType.consonant)
+				.OrderBy(p => p.MOAKey).Cast<PhoneInfo>());
+			
+			_conPicker.Location = new Point(0, 0);
+			_conPicker.BackColor = pnlConsonants.BackColor;
+			pnlConsonants.Controls.Add(_conPicker);
 
 			// Create the consonant picker on the vow. tab.
-			m_vowPicker = new CharPickerRows();
-			m_vowPicker.Location = new Point(0, 0);
-			m_vowPicker.BackColor = pnlVowels.BackColor;
-			bldr = new CharGridBuilder(m_vowPicker, IPASymbolType.vowel);
-			bldr.Build();
-			pnlVowels.Controls.Add(m_vowPicker);
+			_vowPicker = new CharPickerRows(() => App.Project.PhoneCache.Values
+				.Where(p => p.CharType == IPASymbolType.vowel)
+				.OrderBy(p => p.MOAKey).Cast<PhoneInfo>());
 
-			m_conPicker.ItemDrag += ConPickerDragHandler;
-			m_conPicker.ItemClicked += ConPickerClickedHandler;
-			m_vowPicker.ItemDrag += VowPickerDragHandler;
-			m_vowPicker.ItemClicked += VowPickerClickedHandler;
+			_vowPicker.Location = new Point(0, 0);
+			_vowPicker.BackColor = pnlVowels.BackColor;
+			pnlVowels.Controls.Add(_vowPicker);
+
+			_conPicker.ItemDrag += ConPickerDragHandler;
+			_conPicker.ItemClicked += ConPickerClickedHandler;
+			_vowPicker.ItemDrag += VowPickerDragHandler;
+			_vowPicker.ItemClicked += VowPickerClickedHandler;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -225,19 +211,16 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void SetupOtherPicker()
 		{
-			m_diacriticsInCache = new List<char>();
+			_diacriticsInCache = new List<char>();
 
 			// Go through all the phones in the cache and strip off their diacritics,
 			// add the diacritics to a collection of diacritics.
 			foreach (var phoneInfo in App.Project.PhoneCache)
 			{
-				foreach (char c in from c in phoneInfo.Key
-								   let ci = App.IPASymbolCache[c]
-								   where ci != null && !ci.IsBase
-								   select c)
-				{
-					m_diacriticsInCache.Add(c);
-				}
+				_diacriticsInCache.AddRange((from c in phoneInfo.Key
+											 let ci = App.IPASymbolCache[c]
+											 where ci != null && !ci.IsBase
+											 select c).ToArray());
 			}
 
 			charExplorer.ItemDrag += OtherCharDragHandler;
@@ -253,11 +236,11 @@ namespace SIL.Pa.UI.Controls
 				char chr = ci.Literal[0];
 
 				// The only consonants to allow are the tie bars.
-				return (m_diacriticsInCache.Contains(chr) ||
+				return (_diacriticsInCache.Contains(chr) ||
 					chr == App.kTopTieBarC || chr == App.kBottomTieBarC);
 			});
 
-			m_diacriticsInCache = null;
+			_diacriticsInCache = null;
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -292,19 +275,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Rebuilds the components when the project query changes.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void RefreshComponents()
 		{
 			SetupVowConPickers(false);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Reloads a chart.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnPhoneChartArrangementChanged(object args)
 		{
@@ -313,14 +288,10 @@ namespace SIL.Pa.UI.Controls
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Provides a way to force the components to update their fonts.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void RefreshFonts()
 		{
-			m_conPicker.RefreshFont();
-			m_vowPicker.RefreshFont();
+			_conPicker.RefreshFont();
+			_vowPicker.RefreshFont();
 			charExplorer.RefreshFont();
 		}
 

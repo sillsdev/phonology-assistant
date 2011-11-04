@@ -2700,19 +2700,6 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DefineDescriptiveFeatureClassDlgShowAllConsonantsInViewer {
-            get {
-                return ((bool)(this["DefineDescriptiveFeatureClassDlgShowAllConsonantsInViewer"]));
-            }
-            set {
-                this["DefineDescriptiveFeatureClassDlgShowAllConsonantsInViewer"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool DefineDescriptiveFeatureClassDlgUseCompactConsonantView {
             get {
@@ -2720,19 +2707,6 @@ namespace SIL.Pa.Properties {
             }
             set {
                 this["DefineDescriptiveFeatureClassDlgUseCompactConsonantView"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DefineDescriptiveFeatureClassDlgShowAllVowelsInViewer {
-            get {
-                return ((bool)(this["DefineDescriptiveFeatureClassDlgShowAllVowelsInViewer"]));
-            }
-            set {
-                this["DefineDescriptiveFeatureClassDlgShowAllVowelsInViewer"] = value;
             }
         }
         
@@ -3604,32 +3578,6 @@ namespace SIL.Pa.Properties {
             }
             set {
                 this["DefineDistinctiveFeatureClassDlgSplit2Loc"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DefineDistinctiveFeatureClassDlgShowAllConsonantsInViewer {
-            get {
-                return ((bool)(this["DefineDistinctiveFeatureClassDlgShowAllConsonantsInViewer"]));
-            }
-            set {
-                this["DefineDistinctiveFeatureClassDlgShowAllConsonantsInViewer"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DefineDistinctiveFeatureClassDlgShowAllVowelsInViewer {
-            get {
-                return ((bool)(this["DefineDistinctiveFeatureClassDlgShowAllVowelsInViewer"]));
-            }
-            set {
-                this["DefineDistinctiveFeatureClassDlgShowAllVowelsInViewer"] = value;
             }
         }
         
