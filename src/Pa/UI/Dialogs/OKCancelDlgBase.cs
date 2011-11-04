@@ -180,6 +180,17 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnFormClosed(FormClosedEventArgs e)
+		{
+			// For some reason, closing a dialog doesn't always return
+			// focus to its owner. Hopefully this will fix that.
+			if (Owner != null)
+				Owner.Activate();
+
+			base.OnFormClosed(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected void ReAddButtons(int startIndexInTablePanel)
 		{
 			tblLayoutButtons.Controls.Add(btnOK, startIndexInTablePanel, 0);
