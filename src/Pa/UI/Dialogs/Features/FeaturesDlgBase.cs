@@ -114,7 +114,8 @@ namespace SIL.Pa.UI.Dialogs
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("phone");
 			col.ReadOnly = true;
 			col.Width = 55;
-			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			col.DefaultCellStyle.Padding = new Padding(8, 0, 0, 0);
 			col.DefaultCellStyle.Font = App.PhoneticFont;
 			col.CellTemplate.Style.Font = App.PhoneticFont;
 			col.HeaderText = App.GetString("FeaturesDlg.PhoneListPhoneHeadingText", "Phone");
@@ -125,6 +126,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.Width = 55;
 			col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+			col.DefaultCellStyle.Padding = new Padding(0, 0, 5, 0);
 			col.HeaderText = App.GetString("FeaturesDlg.PhoneListCountHeadingText", "Count");
 			_gridPhones.Columns.Add(col);
 
