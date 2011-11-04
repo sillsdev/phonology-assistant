@@ -7,13 +7,9 @@ namespace SIL.Pa.DataSource
 {
 	public partial class MissingDataSourceMsgBox : Form
 	{
-		private bool m_buttonClicked = false;
+		private bool m_buttonClicked;
 		private string m_filename;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public MissingDataSourceMsgBox()
 		{
@@ -26,13 +22,9 @@ namespace SIL.Pa.DataSource
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static DialogResult ShowDialog(string dataSourceFileName)
 		{
-			using (MissingDataSourceMsgBox msgBox = new MissingDataSourceMsgBox())
+			using (var msgBox = new MissingDataSourceMsgBox())
 			{
 				msgBox.m_filename = dataSourceFileName;
 				App.CloseSplashScreen();

@@ -1530,7 +1530,7 @@ namespace SIL.Pa
 		public static string[] OpenFileDialog(string defaultFileType, string filter,
 			ref int filterIndex, string dlgTitle, bool multiSelect, string initialDirectory)
 		{
-			OpenFileDialog dlg = new OpenFileDialog();
+			var dlg = new OpenFileDialog();
 			dlg.CheckFileExists = true;
 			dlg.CheckPathExists = true;
 			dlg.DefaultExt = defaultFileType;
@@ -1582,7 +1582,7 @@ namespace SIL.Pa
 		public static string SaveFileDialog(string defaultFileType, string filter,
 			ref int filterIndex, string dlgTitle, string initialFileName, string initialDir)
 		{
-			SaveFileDialog dlg = new SaveFileDialog();
+			var dlg = new SaveFileDialog();
 			dlg.AddExtension = true;
 			dlg.DefaultExt = defaultFileType;
 			dlg.OverwritePrompt = true;
