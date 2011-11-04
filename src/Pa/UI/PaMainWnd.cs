@@ -803,7 +803,7 @@ namespace SIL.Pa.UI
 			dlg.Filter = string.Format(App.kstidFileTypePAXML, Application.ProductName) +
 				"|" + App.kstidFileTypeAllFiles;
 
-			if (dlg.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(dlg.FileName))
+			if (dlg.ShowDialog(this) == DialogResult.OK && !string.IsNullOrEmpty(dlg.FileName))
 				_project.RecordCache.Save(dlg.FileName);
 
 			return true;

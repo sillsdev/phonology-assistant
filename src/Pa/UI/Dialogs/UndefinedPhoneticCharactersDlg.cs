@@ -46,12 +46,9 @@ namespace SIL.Pa.UI.Dialogs
 			using (var dlg = new UndefinedPhoneticCharactersDlg(project, App.IPASymbolCache.UndefinedCharacters))
 			{
 				if (App.MainForm != null)
-					App.MainForm.AddOwnedForm(dlg);
-
-				dlg.ShowDialog();
-
-				if (App.MainForm != null)
-					App.MainForm.RemoveOwnedForm(dlg);
+					dlg.ShowDialog(App.MainForm);
+				else
+					dlg.ShowDialog();
 			}
 		}
 

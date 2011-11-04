@@ -1162,9 +1162,9 @@ namespace SIL.Pa.UI.Views
 			if (m_grid.IsCurrentCellInEditMode)
 				m_grid.EndEdit();
 
-			using (SaveDistributionChartDlg dlg = new SaveDistributionChartDlg(m_grid, m_savedCharts))
+			using (var dlg = new SaveDistributionChartDlg(m_grid, m_savedCharts))
 			{
-				if (dlg.ShowDialog() == DialogResult.OK)
+				if (dlg.ShowDialog(FindForm()) == DialogResult.OK)
 					SaveCurrentChart(dlg.LayoutToOverwrite);
 			}
 

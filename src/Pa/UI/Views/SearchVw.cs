@@ -730,12 +730,12 @@ namespace SIL.Pa.UI.Views
 				return false;
 			}
 
-			using (SaveSearchQueryDlg dlg = new SaveSearchQueryDlg(ptrnTextBox.SearchQuery,
+			using (var dlg = new SaveSearchQueryDlg(ptrnTextBox.SearchQuery,
 				tvSavedPatterns, canChangeQuerysCategory))
 			{
-				string saveName = ptrnTextBox.SearchQuery.Name;
+				var saveName = ptrnTextBox.SearchQuery.Name;
 
-				if (dlg.ShowDialog(ptrnTextBox.FindForm()) == DialogResult.Cancel)
+				if (dlg.ShowDialog(FindForm()) == DialogResult.Cancel)
 					ptrnTextBox.SearchQuery.Name = saveName;
 				else
 				{
