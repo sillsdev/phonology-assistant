@@ -145,14 +145,14 @@ exclude-result-prefixes="xhtml"
 	<xsl:template name="tablesCV">
 		<xsl:param name="view" />
 		<xsl:param name="featureDefinitionsDescriptive" />
-		<xsl:if test="not($view = 'Vowel Chart')">
+		<xsl:if test="not($view = 'Vowels')">
 			<xsl:call-template name="tableCV">
 				<xsl:with-param name="type" select="'consonant'" />
 				<xsl:with-param name="segments" select="segments" />
 				<xsl:with-param name="featureDefinitionsDescriptive" select="$featureDefinitionsDescriptive" />
 			</xsl:call-template>
 		</xsl:if>
-		<xsl:if test="not($view = 'Consonant Chart')">
+		<xsl:if test="not($view = 'Consonants')">
 			<xsl:call-template name="tableCV">
 				<xsl:with-param name="type" select="'vowel'" />
 				<xsl:with-param name="segments" select="segments" />
