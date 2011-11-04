@@ -11,7 +11,7 @@ using SIL.Pa.Filters;
 using SIL.Pa.Model.Migration;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
-using SIL.Pa.UI.Views;
+using SIL.Pa.UI.Controls;
 using SilTools;
 
 namespace SIL.Pa.Model
@@ -577,7 +577,7 @@ namespace SIL.Pa.Model
 			try
 			{
 				var srcPath = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultDistributionCharts.xml");
-				var destPath = ProjectPathFilePrefix + DistributionChartVw.kSavedChartsFile;
+				var destPath = DistributionChartLayout.GetFileForProject(ProjectPathFilePrefix);
 				File.Copy(srcPath, destPath);
 			}
 			catch { }

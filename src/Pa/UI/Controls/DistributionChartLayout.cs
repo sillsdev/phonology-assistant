@@ -5,16 +5,19 @@ using SIL.Pa.PhoneticSearching;
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	[XmlType("XYChart")]
+	[XmlType("chart")]
 	public class DistributionChartLayout
 	{
-		private string m_name;
+		public const string kFileName = "DistributionCharts.xml";
 
+		private string _name;
+		
+		/// ------------------------------------------------------------------------------------
 		public DistributionChartLayout()
 		{
-			ColumnWidths = new List<int>();
-			SearchQueries = new List<SearchQuery>();
 			SearchItems = new List<string>();
+			SearchQueries = new List<SearchQuery>();
+			ColumnWidths = new List<int>();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -28,11 +31,56 @@ namespace SIL.Pa.UI.Controls
 			if (grid == null || (grid.Rows.Count <= 1 && grid.Columns.Count <= 1))
 				return null;
 
-			DistributionChartLayout layout = new DistributionChartLayout();
+			var layout = new DistributionChartLayout();
 			layout.UpdateFromDistributionGrid(grid);
 			return layout;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public static string GetFileForProject(string projectPathPrefix)
+		{
+			return projectPathPrefix + kFileName;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the name of the layout if it's not empty or null or "(none)" if it is.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string NameOrNone
+		{
+			get
+			{
+				return (string.IsNullOrEmpty(Name) ?
+					App.GetString("Views.DistributionCharts.EmptyName", "(none)") : Name);
+			}
+		}
+
+		#region Properties
+		/// ------------------------------------------------------------------------------------
+		[XmlAttribute("name")]
+		public string Name
+		{
+			get { return (_name == null ? null : _name.Trim()); }
+			set { _name = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[XmlArray("searchItems"), XmlArrayItem("item")]
+		public List<string> SearchItems { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		[XmlArray("searchQueries"), XmlArrayItem("query")]
+		public List<SearchQuery> SearchQueries { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		[XmlArray("columnWidths"), XmlArrayItem("width")]
+		public List<int> ColumnWidths { get; set; }
+
+		#endregion
+
+		#region Misc. methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Updates the DistributionChartLayout with the information from the specified grid.
@@ -70,14 +118,14 @@ namespace SIL.Pa.UI.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Returns an exact copy of the layout.
+		/// Returns a deep copy of the layout.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public DistributionChartLayout Clone()
 		{
 			var clone = new DistributionChartLayout();
 
-			clone.m_name = m_name;
+			clone._name = _name;
 			
 			foreach (var srchItem in SearchItems)
 				clone.SearchItems.Add(srchItem);
@@ -90,56 +138,6 @@ namespace SIL.Pa.UI.Controls
 
 			return clone;
 		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the name of the layout if it's not empty or null or "(none)" if it is.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public string NameOrNone
-		{
-			get
-			{
-				return (string.IsNullOrEmpty(Name) ?
-					App.GetString("DistributionChartLayout.EmptyName", "(none)", "Views") : Name);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the name of the layout.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlAttribute]
-		public string Name
-		{
-			get { return (m_name == null ? null : m_name.Trim()); }
-			set { m_name = value; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public List<string> SearchItems { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		public List<SearchQuery> SearchQueries { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		[XmlIgnore]
-		public List<string> Environments
-		{
-			get
-			{
-				List<string> environments = new List<string>();
-				foreach (SearchQuery query in SearchQueries)
-					environments.Add(query.Pattern);
-
-				return environments;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public List<int> ColumnWidths { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -157,7 +155,9 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			return m_name;
+			return _name;
 		}
+
+		#endregion
 	}
 }
