@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using SIL.Pa.PhoneticSearching;
+using SIL.Pa.UI.Controls;
 using SilTools;
 
 namespace SIL.Pa.Model.Migration
@@ -28,16 +29,26 @@ namespace SIL.Pa.Model.Migration
 		/// ------------------------------------------------------------------------------------
 		protected override void InternalMigration()
 		{
-			var filepath = SearchQueryGroupList.GetFileForProject(_projectPathPrefix);
+			var filepath = FeatureOverrides.GetFileForProject(_projectPathPrefix);
+			if (File.Exists(filepath))
+				MigrateFeatureOverrides(filepath);
+
+			filepath = SearchQueryGroupList.GetFileForProject(_projectPathPrefix);
 			if (File.Exists(filepath))
 				MigrateSearchQueries(filepath);
+
+			filepath = DistributionChartLayout.GetFileForProject(_projectPathPrefix);
+			if (File.Exists(filepath))
+				MigrateDistributionCharts(filepath);
 
 			if (File.Exists(App.GetPathToRecentlyUsedSearchQueriesFile()))
 				MigrateRecentlyUsedSearchQueries(App.GetPathToRecentlyUsedSearchQueriesFile());
 
-			filepath = FeatureOverrides.GetFileForProject(_projectPathPrefix);
-			if (File.Exists(filepath))
-				MigrateFeatureOverrides(filepath);
+
+
+			//filepath = SearchClassList.GetFileForProject(_projectPathPrefix);
+			//if (File.Exists(filepath))
+			//    MigrateSearchClasses(filepath);
 
 			if (File.Exists(_projectFilePath))
 			{
@@ -57,33 +68,7 @@ namespace SIL.Pa.Model.Migration
 			Utils.MsgBox(string.Format(msg, ProjectName));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		private void MigrateSearchQueries(string filePath)
-		{
-			var root = XElement.Load(filePath);
-
-			foreach (var queryElement in root.Elements("QueryGroup")
-				.Select(grp => grp.Element("Queries"))
-				.Where(e => e != null)
-				.SelectMany(e => e.Elements("SearchQuery")))
-			{
-				MigrateSingleSearchQuery(queryElement);
-			}
-
-			root.Save(filePath);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void MigrateRecentlyUsedSearchQueries(string filePath)
-		{
-			var root = XElement.Load(filePath);
-
-			foreach (var queryElement in root.Elements("SearchQuery"))
-				MigrateSingleSearchQuery(queryElement);
-
-			root.Save(filePath);
-		}
-
+		#region Methods for migrating feature overrides file.
 		/// ------------------------------------------------------------------------------------
 		private void MigrateFeatureOverrides(string filePath)
 		{
@@ -131,7 +116,7 @@ namespace SIL.Pa.Model.Migration
 		{
 			foreach (var fname in element.Element(featureType).Elements("feature").Select(e => e.Value))
 			{
-				if (fname.Substring(1) == "ATR") 
+				if (fname.Substring(1) == "ATR")
 					yield return fname;
 				if (fname.Substring(1) == "DORS")
 					yield return fname.Replace("DORS", "dorsal");
@@ -151,6 +136,199 @@ namespace SIL.Pa.Model.Migration
 			}
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Because of a bug in version 3.3.0 to 3.3.2, the feature overrides file may contain
+		/// phones whose overridden features are the same as the phone's default features.
+		/// This method will clean out the feature overrides file of phones whose features
+		/// really aren't overridden.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static void RemoveFeatureOverridesThatAreNotOverridden(PaProject project)
+		{
+			var newOverrideList = new List<FeatureOverride>();
+
+			foreach (var phoneInfo in project.PhoneCache.Values)
+			{
+				var foverride = project.FeatureOverrides.GetOverridesForPhone(phoneInfo.Phone);
+				if (foverride == null)
+					continue;
+
+				if (!phoneInfo.HasAFeatureOverrides && foverride.AFeatureNames.Count() > 0)
+					foverride.AFeatureNames = new List<string>(0);
+
+				if (!phoneInfo.HasBFeatureOverrides && foverride.BFeatureNames.Count() > 0)
+					foverride.BFeatureNames = new List<string>(0);
+
+				if (foverride.AFeatureNames.Count() > 0 || foverride.BFeatureNames.Count() > 0)
+					newOverrideList.Add(foverride);
+			}
+
+			var filePath = FeatureOverrides.GetFileForProject(project.ProjectPathFilePrefix);
+			FeatureOverrides.BuildXmlForOverrides(newOverrideList, project.DistinctiveFeatureSet).Save(filePath);
+			project.LoadFeatureOverrides();
+		}
+
+		#endregion
+
+		#region Method to migrate search queries file
+		/// ------------------------------------------------------------------------------------
+		private void MigrateSearchQueries(string filePath)
+		{
+			var root = XElement.Load(filePath);
+
+			foreach (var queryElement in root.Elements("QueryGroup")
+				.Select(grp => grp.Element("Queries"))
+				.Where(e => e != null)
+				.SelectMany(e => e.Elements("SearchQuery")))
+			{
+				MigrateSingleSearchQuery(queryElement);
+			}
+
+			root.Save(filePath);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void MigrateSingleSearchQuery(XElement element)
+		{
+			element.Attribute("version").SetValue(SearchQuery.kCurrVersion);
+
+			var completeIgnoredListNode = element.Element("CompleteIgnoredList");
+			if (completeIgnoredListNode != null)
+				completeIgnoredListNode.Remove();
+
+			var ignoredCharacters = string.Empty;
+
+			var ignoredCharsElement = element.Element("IgnoredStressChars");
+			if (ignoredCharsElement != null)
+			{
+				ignoredCharacters = ignoredCharsElement.Value.Trim(',', ' ') + ",";
+				ignoredCharsElement.Remove();
+			}
+
+			ignoredCharsElement = element.Element("IgnoredToneChars");
+			if (ignoredCharsElement != null)
+			{
+				ignoredCharacters += ignoredCharsElement.Value.Trim(',', ' ') + ",";
+				ignoredCharsElement.Remove();
+			}
+
+			ignoredCharsElement = element.Element("IgnoredLengthChars");
+			if (ignoredCharsElement != null)
+			{
+				ignoredCharacters += ignoredCharsElement.Value.Trim(',', ' ') + ",";
+				ignoredCharsElement.Remove();
+			}
+
+			if (ignoredCharacters.Trim(',').Length > 0)
+				element.Add(new XElement("ignoredCharacters", ignoredCharacters));
+		}
+
+		#endregion
+
+		#region Method for migrating distribution charts
+		/// ------------------------------------------------------------------------------------
+		private void MigrateDistributionCharts(string filePath)
+		{
+			var oldRoot = XElement.Load(filePath);
+			var newRoot = new XElement("distributionCharts");
+
+			foreach (var oldChartElement in oldRoot.Elements("XYChart"))
+			{
+				var newChartElement = new XElement("chart",
+					new XAttribute("name", (string)oldChartElement.Attribute("Name")));
+
+				// Migrate the search items.
+				var newSrchItemElement = GetDistChartSearchItems(oldChartElement.Element("SearchItems"));
+				if (newSrchItemElement != null)
+					newChartElement.Add(newSrchItemElement);
+
+				// Migrate the search queries.
+				var newSrchQueriesElement = GetDistChartSearchQueries(oldChartElement.Element("SearchQueries"));
+				if (newSrchQueriesElement != null)
+					newChartElement.Add(newSrchQueriesElement);
+
+				// Migrate the column widths.
+				var newColWidthsElement = GetDistChartColWidths(oldChartElement.Element("ColumnWidths"));
+				if (newColWidthsElement != null)
+					newChartElement.Add(newColWidthsElement);
+
+				newRoot.Add(newChartElement);
+			}
+
+			newRoot.Save(filePath);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private XElement GetDistChartSearchItems(XElement oldSrchItemsElement)
+		{
+			if (oldSrchItemsElement == null)
+				return null;
+
+			var newSrchItemElement = new XElement("searchItems");
+
+			foreach (var itemElement in oldSrchItemsElement.Elements("string").Where(e => e.Value != string.Empty))
+				newSrchItemElement.Add(new XElement("item", itemElement.Value));
+
+			return newSrchItemElement;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private XElement GetDistChartSearchQueries(XElement oldSrchQueriesElement)
+		{
+			if (oldSrchQueriesElement == null)
+				return null;
+			
+			var newSrchQueriesElement = new XElement("searchQueries");
+
+			foreach (var oldSrchQueryElement in oldSrchQueriesElement.Elements("SearchQuery"))
+			{
+				MigrateSingleSearchQuery(oldSrchQueryElement);
+				newSrchQueriesElement.Add(new XElement("query",
+					oldSrchQueryElement.Attribute("version"),
+					oldSrchQueryElement.Attribute("Pattern"),
+					oldSrchQueryElement.Elements()));
+			}
+
+			return newSrchQueriesElement;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private XElement GetDistChartColWidths(XElement oldColWidthsElement)
+		{
+			if (oldColWidthsElement == null)
+				return null;
+
+			var newColWidthsElement = new XElement("columnWidths");
+
+			foreach (var widthElement in oldColWidthsElement.Elements("int").Where(e => e.Value != string.Empty))
+				newColWidthsElement.Add(new XElement("width", widthElement.Value));
+
+			return newColWidthsElement;
+		}
+
+		#endregion
+
+		#region Method to migrate recently used search query file
+		/// ------------------------------------------------------------------------------------
+		private void MigrateRecentlyUsedSearchQueries(string filePath)
+		{
+			var root = XElement.Load(filePath);
+
+			foreach (var queryElement in root.Elements("SearchQuery"))
+				MigrateSingleSearchQuery(queryElement);
+
+			root.Save(filePath);
+		}
+
+		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		private void MigrateSearchClasses(string filepath)
+		{
+		}
+
+		#region Method to migrate project file.
 		/// ------------------------------------------------------------------------------------
 		private void MigrateProjectFile()
 		{
@@ -189,42 +367,6 @@ namespace SIL.Pa.Model.Migration
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void MigrateSingleSearchQuery(XElement element)
-		{
-			element.Attribute("version").SetValue(SearchQuery.kCurrVersion);
-			
-			var completeIgnoredListNode = element.Element("CompleteIgnoredList");
-			if (completeIgnoredListNode != null)
-				completeIgnoredListNode.Remove();
-
-			var ignoredCharacters = string.Empty;
-
-			var ignoredCharsElement = element.Element("IgnoredStressChars");
-			if (ignoredCharsElement != null)
-			{
-				ignoredCharacters = ignoredCharsElement.Value.Trim(',', ' ') + ",";
-				ignoredCharsElement.Remove();
-			}
-
-			ignoredCharsElement = element.Element("IgnoredToneChars");
-			if (ignoredCharsElement != null)
-			{
-				ignoredCharacters += ignoredCharsElement.Value.Trim(',', ' ') + ",";
-				ignoredCharsElement.Remove();
-			}
-
-			ignoredCharsElement = element.Element("IgnoredLengthChars");
-			if (ignoredCharsElement != null)
-			{
-				ignoredCharacters += ignoredCharsElement.Value.Trim(',', ' ') + ",";
-				ignoredCharsElement.Remove();
-			}
-			
-			if (ignoredCharacters.Trim(',').Length > 0)
-				element.Add(new XElement("ignoredCharacters", ignoredCharacters));
-		}
-
-		/// ------------------------------------------------------------------------------------
 		public static void PostProjectLoadMigration(PaProject project)
 		{
 			if (s_performPostProjectLoadMigration)
@@ -233,37 +375,6 @@ namespace SIL.Pa.Model.Migration
 			s_performPostProjectLoadMigration = false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Because of a bug in version 3.3.0 to 3.3.2, the feature overrides file may contain
-		/// phones whose overridden features are the same as the phone's default features.
-		/// This method will clean out the feature overrides file of phones whose features
-		/// really aren't overridden.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static void RemoveFeatureOverridesThatAreNotOverridden(PaProject project)
-		{
-			var newOverrideList = new List<FeatureOverride>();
-			
-			foreach (var phoneInfo in project.PhoneCache.Values)
-			{
-				var foverride = project.FeatureOverrides.GetOverridesForPhone(phoneInfo.Phone);
-				if (foverride == null)
-					continue;
-
-				if (!phoneInfo.HasAFeatureOverrides && foverride.AFeatureNames.Count() > 0)
-					foverride.AFeatureNames = new List<string>(0);
-
-				if (!phoneInfo.HasBFeatureOverrides && foverride.BFeatureNames.Count() > 0)
-					foverride.BFeatureNames = new List<string>(0);
-
-				if (foverride.AFeatureNames.Count() > 0 || foverride.BFeatureNames.Count() > 0)
-					newOverrideList.Add(foverride);
-			}
-
-			var filePath = FeatureOverrides.GetFileForProject(project.ProjectPathFilePrefix);
-			FeatureOverrides.BuildXmlForOverrides(newOverrideList, project.DistinctiveFeatureSet).Save(filePath);
-			project.LoadFeatureOverrides();
-		}
+		#endregion
 	}
 }
