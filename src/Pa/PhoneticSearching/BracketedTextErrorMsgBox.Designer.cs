@@ -28,14 +28,17 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BracketedTextErrorMsgBox));
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._labelMessage = new System.Windows.Forms.Label();
 			this._pictureIcon = new System.Windows.Forms.PictureBox();
 			this._buttonOK = new System.Windows.Forms.Button();
 			this._linkHelp = new System.Windows.Forms.LinkLabel();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayout.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._pictureIcon)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// _tableLayout
@@ -63,6 +66,9 @@
 			this._labelMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this._labelMessage.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelMessage, null);
+			this.locExtender.SetLocalizationComment(this._labelMessage, null);
+			this.locExtender.SetLocalizingId(this._labelMessage, "BracketedTextErrorMsgBox._labelMessage");
 			this._labelMessage.Location = new System.Drawing.Point(108, 0);
 			this._labelMessage.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._labelMessage.Name = "_labelMessage";
@@ -72,6 +78,10 @@
 			// 
 			// _pictureIcon
 			// 
+			this.locExtender.SetLocalizableToolTip(this._pictureIcon, null);
+			this.locExtender.SetLocalizationComment(this._pictureIcon, null);
+			this.locExtender.SetLocalizationPriority(this._pictureIcon, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._pictureIcon, "BracketedTextErrorMsgBox._pictureIcon");
 			this._pictureIcon.Location = new System.Drawing.Point(0, 0);
 			this._pictureIcon.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
 			this._pictureIcon.Name = "_pictureIcon";
@@ -85,6 +95,9 @@
 			this._buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this._buttonOK.AutoSize = true;
 			this._buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this.locExtender.SetLocalizableToolTip(this._buttonOK, null);
+			this.locExtender.SetLocalizationComment(this._buttonOK, null);
+			this.locExtender.SetLocalizingId(this._buttonOK, "BracketedTextErrorMsgBox._buttonOK");
 			this._buttonOK.Location = new System.Drawing.Point(319, 98);
 			this._buttonOK.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this._buttonOK.MinimumSize = new System.Drawing.Size(75, 26);
@@ -97,6 +110,9 @@
 			// _linkHelp
 			// 
 			this._linkHelp.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._linkHelp, null);
+			this.locExtender.SetLocalizationComment(this._linkHelp, null);
+			this.locExtender.SetLocalizingId(this._linkHelp, "BracketedTextErrorMsgBox._linkHelp");
 			this._linkHelp.Location = new System.Drawing.Point(108, 75);
 			this._linkHelp.Margin = new System.Windows.Forms.Padding(3, 10, 0, 0);
 			this._linkHelp.Name = "_linkHelp";
@@ -106,6 +122,11 @@
 			this._linkHelp.Text = "See the help topics \'{0}\' and \'{1}\' for more information.";
 			this._linkHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleHelpLinkClicked);
 			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationGroup = null;
+			this.locExtender.LocalizationManagerId = "Pa";
+			// 
 			// BracketedTextErrorMsgBox
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -114,6 +135,9 @@
 			this.ClientSize = new System.Drawing.Size(424, 142);
 			this.Controls.Add(this._tableLayout);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizingId(this, "BracketedTextErrorMsgBox.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "BracketedTextErrorMsgBox";
@@ -125,6 +149,7 @@
 			this._tableLayout.ResumeLayout(false);
 			this._tableLayout.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this._pictureIcon)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -137,5 +162,6 @@
 		private System.Windows.Forms.Button _buttonOK;
 		private System.Windows.Forms.LinkLabel _linkHelp;
 		private System.Windows.Forms.Label _labelMessage;
+		private Localization.UI.LocalizationExtender locExtender;
 	}
 }
