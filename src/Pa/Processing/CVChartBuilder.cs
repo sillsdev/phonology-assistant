@@ -96,7 +96,7 @@ namespace SIL.Pa.Processing
 
 			// Add an attribute to the root node indicating the chart type.
 			var attrib = doc1.CreateAttribute("view");
-			attrib.Value = _chartType + " Chart";
+			attrib.Value = (_chartType == CVChartType.Consonant ? "Consonants" : "Vowels");
 			node.Attributes.Append(attrib);
 
 			// Save the temporary file.
