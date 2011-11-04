@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.ServiceProcess;
 using System.Windows.Forms;
+using Palaso.Reporting;
 using SIL.Pa.Properties;
 using SIL.PaToFdoInterfaces;
 using SilTools;
@@ -110,10 +111,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 			{
 				if (s_showErrorOnConnectionFailure)
 				{
-					var msg = App.GetString("GettingFwProjectErrorMsg",
-						"The following error occurred when trying to get a list of FieldWorks projects: \n\n{0}");
-
-					Utils.MsgBox(string.Format(msg, e.Message));
+					ErrorReport.NotifyUserOfProblem(e, App.GetString("GettingFwProjectErrorMsg",
+						"An error occurred while trying to get a list of FieldWorks projects."));
 				}
 
 				fwDBInfoList = null;
@@ -151,13 +150,11 @@ namespace SIL.Pa.DataSource.FieldWorks
 			}
 			catch (Exception e)
 			{
-				if (s_showErrorOnConnectionFailure)
+				if (!s_showErrorOnConnectionFailure)
 				{
-					var msg = App.GetString("SQLServerNotInstalledMsg",
-						"The following error occurred when trying to establish\na connection to the {0} database on the machine '{1}'.\n\n{2}");
-					
-					msg = string.Format(msg, dbName, machineName, e.Message);
-					Utils.MsgBox(msg);
+					ErrorReport.NotifyUserOfProblem(e, App.GetString("SQLServerNotInstalledMsg",
+						"An error occurred when trying to establish a connection to the '{0}' " +
+						"database on the machine '{1}'."), dbName, machineName);
 				}
 			}
 
@@ -172,10 +169,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 			if (showMsg)
 			{
-				var msg = App.GetString("SQLServerNotInstalledMsg",
-					"Access to FieldWorks projects requires SQL Server but it is not installed on this computer.");
-
-				Utils.MsgBox(msg);
+				ErrorReport.NotifyUserOfProblem(App.GetString("SQLServerNotInstalledMsg",
+					"Access to FieldWorks projects requires SQL Server but it is not installed on this computer."));
 			}
 
 			return false;
@@ -195,7 +190,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 				
 				try
 				{
-					using (ServiceController svcController = new ServiceController(FwDBAccessInfo.Service))
+					using (var svcController = new ServiceController(FwDBAccessInfo.Service))
 						return (svcController.Status == ServiceControllerStatus.Running);
 				}
 				catch { }
@@ -214,7 +209,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 			if (!IsSQLServerInstalled(showErrMessages))
 				return false;
 
-			string msg = null;
+			Exception error = null;
 
 			while (true)
 			{
@@ -251,35 +246,37 @@ namespace SIL.Pa.DataSource.FieldWorks
 				}
 				catch (Exception e)
 				{
-					msg = e.Message;
+					if (!showErrMessages)
+						continue;
+					
+					error = e;
 				}
 
-				if (showErrMessages)
+				if (!showErrMessages || error == null)
+					continue;
+
+				// Check if we've timed out.
+				if (error.Message.ToLower().IndexOf("time out") < 0)
 				{
-					// Check if we've timed out.
-					if (msg != null && msg.ToLower().IndexOf("time out") < 0)
-					{
-						var fmt = App.GetString("ErrorStartingSQLServer1",
-							"SQL Server cannot be started. It may not be installed.\nThe following error was " +
-							"reported:\n\n{0}\n\nMake sure FieldWorks Language Explorer has been installed." +
-							"\nOr, restart Phonology Assistant to try again.");
+					ErrorReport.NotifyUserOfProblem(error, App.GetString("ErrorStartingSQLServer1",
+						"SQL Server cannot be started. It may not be installed. Make sure " +
+						"FieldWorks Language Explorer has been installed or restart Phonology " +
+						"Assistant to try again."));
 
-						Utils.MsgBox(string.Format(fmt, msg));
-						return false;
-					}
+					return false;
+				}
 
-					msg = App.GetString("ErrorStartingSQLServer2",
+				var	msg = App.GetString("ErrorStartingSQLServer2",
 						"Phonology Assistant waited {0} seconds for SQL Server to fully start up." +
 						"\nEither that is not enough time for your computer or it may not be installed." +
 						"\nMake sure FieldWorks Language Explorer has been installed. Would you\nlike to try again?");
 						
-					msg = string.Format(msg, FwDBAccessInfo.SecsToWaitForDBEngineStartup);
+				msg = string.Format(msg, FwDBAccessInfo.SecsToWaitForDBEngineStartup);
 
-					if (Utils.MsgBox(msg, MessageBoxButtons.YesNo,
-						MessageBoxIcon.Question) != DialogResult.Yes)
-					{
-						return false;
-					}
+				if (Utils.MsgBox(msg, MessageBoxButtons.YesNo,
+					MessageBoxIcon.Question) != DialogResult.Yes)
+				{
+					return false;
 				}
 			}
 		}

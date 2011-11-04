@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
+using Palaso.Reporting;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.DataSource.Sa;
 using SIL.Pa.Model;
@@ -234,10 +235,9 @@ namespace SIL.Pa.DataSource
 			{
 				if (showMsgOnError)
 				{
-					var msg = App.GetString("ErrorReadingMarkersFromStandardFormatFileMsg",
-						"The following error occurred trying to read the source file '{0}'.\n\n{1}");
-
-					Utils.MsgBox(string.Format(msg, e.Message));
+					ErrorReport.NotifyUserOfProblem(e,
+						App.GetString("ErrorReadingMarkersFromStandardFormatFileMsg",
+						"An error occurred while trying to read the source file '{0}'."));
 				}
 			}
 

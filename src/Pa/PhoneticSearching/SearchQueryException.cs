@@ -26,8 +26,19 @@ namespace SIL.Pa.PhoneticSearching
 
 				var errors = new StringBuilder();
 				for (int i = 0; i < query.ErrorMessages.Count; i++)
-					errors.AppendFormat(fmt, i + 1, query.ErrorMessages[i]);
+				{
+					var errorMsg = query.ErrorMessages[i];
 
+					if (errorMsg.StartsWith(SearchEngine.kBracketingError))
+					{
+						int indexOfColon = errorMsg.IndexOf(":");
+						errorMsg = string.Format(App.GetString("SearchQuery.InvalidTextInBracketsPopupErrorMsg",
+							"Invalid text '{0}' between square brackets."), errorMsg.Substring(indexOfColon + 1));
+					}
+
+					errors.AppendFormat(fmt, i + 1, errorMsg);
+				}
+				
 				m_queryErrorMsg = errors.ToString();
 			}
 			else

@@ -1,5 +1,6 @@
 ﻿using System.Xml.Serialization;
 using Palaso.IO;
+using Palaso.Reporting;
 using SilTools;
 
 namespace SIL.Pa.DataSource.FieldWorks
@@ -58,14 +59,11 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 			if (s_dbAccessInfo == null && ShowMsgOnFileLoadFailure)
 			{
-				var filePath = Utils.PrepFilePathForMsgBox(s_accessInfoFile);
-
-				var msg = App.GetString("LoadingDBAccessInfoErorMsg",
-					"The file that contains information to access FieldWork databases\n\n'{0}'" +
-					"\n\nis either missing or corrupt. Until this problem is corrected, " +
-					"FieldWorks data sources cannot be accessed or added as data sources.");
-				
-				Utils.MsgBox(string.Format(msg, filePath));
+				ErrorReport.NotifyUserOfProblem(App.GetString("LoadingDBAccessInfoErorMsg",
+					"The file that contains information to access FieldWork databases " +
+					"older than version 7.x '{0}' is either missing or corrupt. Until " +
+					"this problem is corrected, FieldWorks data sources cannot be " +
+					"accessed or added as data sources."), s_accessInfoFile);
 			}
 		}
 
