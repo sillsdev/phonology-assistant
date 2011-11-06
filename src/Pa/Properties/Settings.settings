@@ -983,5 +983,14 @@
     <Setting Name="DefineDistinctiveFeatureClassDlgUseCompactVowelView" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="IncludeDataSourceFilesInPaBackups" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="IncludeAudioFilesInPaBackups" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="LastBackupFolder" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

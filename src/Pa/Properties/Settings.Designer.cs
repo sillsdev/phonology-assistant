@@ -3606,5 +3606,43 @@ namespace SIL.Pa.Properties {
                 this["DefineDistinctiveFeatureClassDlgUseCompactVowelView"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IncludeDataSourceFilesInPaBackups {
+            get {
+                return ((bool)(this["IncludeDataSourceFilesInPaBackups"]));
+            }
+            set {
+                this["IncludeDataSourceFilesInPaBackups"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IncludeAudioFilesInPaBackups {
+            get {
+                return ((bool)(this["IncludeAudioFilesInPaBackups"]));
+            }
+            set {
+                this["IncludeAudioFilesInPaBackups"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public string LastBackupFolder {
+            get {
+                return ((string)(this["LastBackupFolder"]));
+            }
+            set {
+                this["LastBackupFolder"] = value;
+            }
+        }
     }
 }

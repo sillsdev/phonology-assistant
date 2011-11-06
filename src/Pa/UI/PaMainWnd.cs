@@ -772,6 +772,29 @@ namespace SIL.Pa.UI
 			return true;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		protected bool OnBackupProject(object args)
+		{
+			using (var viewModel = new BackupDlgViewModel(_project))
+			using (var dlg = new BackupDlg(viewModel))
+				dlg.ShowDialog();
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateBackupProject(object args)
+		{
+			var itemProps = args as TMItemProperties;
+			if (itemProps == null)
+				return false;
+
+			itemProps.Visible = true;
+			itemProps.Enabled = (_project != null);
+			itemProps.Update = true;
+			return true;
+		}
+
 		///// ------------------------------------------------------------------------------------
 		///// <summary>
 		///// 

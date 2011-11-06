@@ -99,6 +99,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\..\DistFiles\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="LocalizationManager, Version=1.0.4104.25215, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\LocalizationManager.dll</HintPath>
@@ -535,6 +538,7 @@
     <Compile Include="UI\Dialogs\BackupRestore\BackupDlg.designer.cs">
       <DependentUpon>BackupDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Dialogs\BackupRestore\BackupDlgViewModel.cs" />
     <Compile Include="UI\Dialogs\BackupRestore\RestoreDlg.cs">
       <SubType>Form</SubType>
     </Compile>

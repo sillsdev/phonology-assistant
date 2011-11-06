@@ -125,8 +125,10 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdNew" message="NewProject" shortcutkey="Ctrl+N"/>
 		<command id="CmdOpen" message="OpenProject" shortcutkey="Ctrl+O"/>
 		<command id="CmdProjectSettings" message="ProjectSettings" shortcutkey="Ctrl+R"/>
-		<command id="CmdBackupRestore" message="BackupRestore"/>
-		<command id="CmdExport" message="FileExport"/>
+		<command id="CmdBackupRestore" />
+    <command id="CmdBackupProject" message="BackupProject" />
+    <command id="CmdRestoreProject" message="RestoreProject"/>
+    <command id="CmdExport" message="FileExport"/>
 		<command id="CmdExportAs" message="FileExportAs"/>
 		<command id="CmdExportAsPAXML" message="ExportAsPAXML"/>
 		<command id="CmdExportAsHTML" message="ExportAsHTML"/>
@@ -201,8 +203,11 @@ Item "displaytype" Values (applies to item types 0 - 3):
 			<item name="mnuFileNew" commandid="CmdNew"/>
 			<item name="mnuFileOpen" commandid="CmdOpen"/>
 			<item name="mnuProjectSettings" commandid="CmdProjectSettings" begingroup="true"/>
-			<!-- item name="mnuBackupRestore" commandid="CmdBackupRestore"/ -->
-			<item name="mnuFileExportAs" commandid="CmdExportAs">
+			<item name="mnuBackupRestore" commandid="CmdBackupRestore">
+        <item name="mnuFileBackup" commandid="CmdBackupProject"/>
+        <item name="mnuFileRestore" commandid="CmdRestoreProject"/>
+      </item>
+      <item name="mnuFileExportAs" commandid="CmdExportAs">
 				<item name="mnuFileExportHTML" commandid="CmdExportAsHTML"/>
 				<item name="mnuFileExportWordXml" commandid="CmdExportAsWordXml"/>
 				<item name="mnuFileExportRTF" commandid="CmdExportAsRTF"/>

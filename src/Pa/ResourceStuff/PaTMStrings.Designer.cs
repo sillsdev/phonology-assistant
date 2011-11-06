@@ -187,7 +187,16 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;Backup and Restore.
+        ///   Looks up a localized string similar to &amp;Backup....
+        /// </summary>
+        public static string kstidBackupProjectText {
+            get {
+                return ResourceManager.GetString("kstidBackupProjectText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Backup &amp;&amp; Restore.
         /// </summary>
         public static string kstidBackupRestoreText {
             get {
@@ -1794,6 +1803,15 @@ namespace SIL.Pa.ResourceStuff {
         public static string kstidRestoreDefaultsToolTip {
             get {
                 return ResourceManager.GetString("kstidRestoreDefaultsToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Restore....
+        /// </summary>
+        public static string kstidRestoreProjectText {
+            get {
+                return ResourceManager.GetString("kstidRestoreProjectText", resourceCulture);
             }
         }
         

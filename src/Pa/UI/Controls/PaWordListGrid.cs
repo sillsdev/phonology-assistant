@@ -7,7 +7,6 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using Microsoft.Win32;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
@@ -48,18 +47,15 @@ namespace SIL.Pa.UI.Controls
 		private bool m_ToggleGroupExpansion;
 
 		private LocalWindowsHook m_kbHook;
-		private readonly string m_fwRootDataDir;
 		private readonly bool m_drawFocusRectAroundCurrCell;
 		private readonly Keys m_stopPlaybackKey = Keys.None;
 		private readonly GridCellInfoPopup m_cellInfoPopup;
-		private readonly string m_audioFileFieldName;
 		private readonly Bitmap m_spkrImage;
 		private readonly int m_widthOfWrdBoundarySrchRsltMatch;
 
 		private Color m_uncertainPhoneForeColor;
 		private Color m_searchItemBackColor;
 		private Color m_searchItemForeColor;
-		
 		
 		//private Color m_selectedFocusedRowBackColor;
 		//private Color m_selectedFocusedRowForeColor;
@@ -100,12 +96,7 @@ namespace SIL.Pa.UI.Controls
 			: this()
 		{
 			Cache = cache;
-
 			OwningViewType = owningViewType;
-
-			var field = App.Project.GetAudioFileField();
-			m_audioFileFieldName = (field != null ? field.Name : null);
-
 			m_spkrImage = Properties.Resources.kimidSpeaker;
 			OnSortingOptionsChanged(performInitialSort);
 		}
@@ -147,7 +138,6 @@ namespace SIL.Pa.UI.Controls
 			m_cellInfoPopup.Paint += m_cellInfoPopup_Paint;
 			m_cellInfoPopup.CommandLink.Click += PopupsCommandLink_Click;
 
-			m_fwRootDataDir = GetFwRootDataDir();
 			m_drawFocusRectAroundCurrCell = Settings.Default.WordListDrawFocusRectangle;
 			m_widthOfWrdBoundarySrchRsltMatch = Settings.Default.WordListSrchResultWidthOnWordBoundaryMatch;
 
@@ -157,26 +147,6 @@ namespace SIL.Pa.UI.Controls
 				if (itemProps != null)
 					m_stopPlaybackKey = itemProps.ShortcutKey;
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Get the location where FW tucks away data.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static string GetFwRootDataDir()
-		{
-			string key = FwDBAccessInfo.FwRegKey;
-			if (string.IsNullOrEmpty(key))
-				return null;
-
-			using (var regKey = Registry.LocalMachine.OpenSubKey(key))
-			{
-				if (regKey != null)
-					return regKey.GetValue(FwDBAccessInfo.RootDataDirValue, null) as string;
-			}
-
-			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -429,100 +399,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private bool CanRowPlayAudio(int rowIndex)
 		{
-			if (string.IsNullOrEmpty(m_audioFileFieldName))
-				return false;
-
 			var wlentry = GetWordEntry(rowIndex);
 			if (wlentry == null)
 				return false;
 
-			var audioFilePath = wlentry[m_audioFileFieldName];
-			if (audioFilePath == null)
-				return false;
-
-			if (!File.Exists(audioFilePath))
-				return AttemptToFindMissingAudioFile(wlentry.WordCacheEntry, audioFilePath);
-
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This method will determine if the specified audio file path is relative or
-		/// absolute. If it's relative, then it is combined with several different absolute
-		/// paths in an attempt to find the audio file.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private bool AttemptToFindMissingAudioFile(WordCacheEntry entry, string audioFilePath)
-		{
-			// Check if we've already determined an absolute path based on a relative path.
-			string absolutePath = entry.AbsoluteAudioFilePath;
-			if (!string.IsNullOrEmpty(absolutePath) && File.Exists(absolutePath))
-				return true;
-
-			// In case the path is rooted with just a backslash (as opposed to a drive letter),
-			// strip off the backslash before trying to find the audio file by combining the
-			// result with various other rooted paths. I do this because combining a rooted
-			// path (using Path.Combine) with any other path just returns the rooted path so
-			// we're no better off than we were before the combine method was called.
-			if (Path.IsPathRooted(audioFilePath))
-				audioFilePath = audioFilePath.TrimStart("\\".ToCharArray());
-
-			entry.AbsoluteAudioFilePath = null;
-
-			if (entry.RecordEntry.DataSource.FwSourceDirectFromDB)
-			{
-				if (TryToFindAudioFile(entry, audioFilePath, m_fwRootDataDir))
-					return true;
-			}
-
-			// Check a path relative to the data source file's path.
-			if (TryToFindAudioFile(entry, audioFilePath, entry[PaField.kDataSourcePathFieldName]))
-				return true;
-
-			// Check a path relative to the project file's path
-			if (TryToFindAudioFile(entry, audioFilePath, App.Project.Folder))
-				return true;
-			
-			// Check a path relative to the application's startup path
-			if (TryToFindAudioFile(entry, audioFilePath, Application.StartupPath))
-				return true;
-
-			// Now try the alternate path location the user may have specified in
-			// the project's undocumented alternate audio file location field.
-			return TryToFindAudioFile(entry, audioFilePath,	App.Project.AlternateAudioFileFolder);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static bool TryToFindAudioFile(WordCacheEntry entry, string audioFilePath,
-			string rootPath)
-		{
-			if (string.IsNullOrEmpty(rootPath) || string.IsNullOrEmpty(audioFilePath))
-				return false;
-
-			// First, combine the audioFilePath and the specified rootPath.
-			string newPath = Path.Combine(rootPath, audioFilePath);
-			if (File.Exists(newPath))
-			{
-				entry.AbsoluteAudioFilePath = newPath;
-				return true;
-			}
-
-			// Now try removing just the filename from audioFilePath and
-			// combining that with the specified root path.
-			newPath = Path.GetFileName(audioFilePath);
-			newPath = Path.Combine(rootPath, newPath);
-			if (File.Exists(newPath))
-			{
-				entry.AbsoluteAudioFilePath = newPath;
-				return true;
-			}
-
-			return false;
+			var audioFilePath = wlentry.WordCacheEntry.GetAudioFileUsingFallBackIfNecessary();
+			return (audioFilePath != null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -776,7 +658,7 @@ namespace SIL.Pa.UI.Controls
 					// rows in collapsed groups from remaining invisible after the ungrouping
 					// process.
 					ToggleGroupExpansion(true);
-					m_groupByField = value;
+					m_groupByField = null;
 					WordListGroupingBuilder.UnGroup(this);
 					return;
 				}
@@ -1247,7 +1129,7 @@ namespace SIL.Pa.UI.Controls
 							entry.RecordEntry.DataSource.FwSourceDirectFromDB &&
 							!Path.IsPathRooted(audioFilePath))
 						{
-							audioFilePath =	Path.Combine(m_fwRootDataDir, audioFilePath);
+							audioFilePath =	Path.Combine(FwDBUtils.FwRootDataDir, audioFilePath);
 							Point pt = FindForm().PointToClient(MousePosition);
 							pt.Y += (int)(Cursor.Size.Height * 1.3);
 							m_audioFilePathToolTip = new ToolTip();
@@ -2740,7 +2622,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool OnSortingOptionsChanged(object args)
 		{
-			bool performSort = (args != null && args.GetType() == typeof(bool) && (bool)args);
+			bool performSort = (args != null && args is bool && (bool)args);
 
 			SortOptions sortOptions = null;
 
@@ -2979,17 +2861,13 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual bool OnEditSourceRecord(object args)
 		{
 			if (!Focused || !App.IsViewOrFormActive(OwningViewType, FindForm()))
 				return false;
 
 			int row = -1;
-			if (args != null && args.GetType() == typeof(int))
+			if (args != null && args is int)
 				row = (int)args;
 			else if (CurrentRow != null)
 				row = CurrentRow.Index;
@@ -3451,7 +3329,8 @@ namespace SIL.Pa.UI.Controls
 				SortedList<int, WordCacheEntry> selectedWords = GetAudioEntriesInSelectedRows();
 				if (selectedWords == null)
 					break;
-				foreach (KeyValuePair<int, WordCacheEntry> entry in selectedWords)
+				
+				foreach (var entry in selectedWords)
 				{
 					m_currPlaybackRow = entry.Key;
 					InvalidateRow(entry.Key);
@@ -3483,7 +3362,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			// Update these buttons since they won't get an update
 			// message until after playback is complete.
-			TMItemProperties itemProps = TMAdapter.GetItemProperties("tbbStopPlayback");
+			var itemProps = TMAdapter.GetItemProperties("tbbStopPlayback");
 			if (itemProps != null)
 			{
 				itemProps.Visible = true;
@@ -3536,14 +3415,13 @@ namespace SIL.Pa.UI.Controls
 
 			var offset = entry.AudioOffset;
 			var length = entry.AudioLength;
-			string audioFile = (string.IsNullOrEmpty(entry.AbsoluteAudioFilePath) ?
-				entry[m_audioFileFieldName] : entry.AbsoluteAudioFilePath);
+			string audioFile = entry.GetAudioFileUsingFallBackIfNecessary();
 
 			// Get the playback speed for the Control grid
 			m_playbackSpeed = App.GetPlaybackSpeedForVwType(OwningViewType);
 			
 			// If the speed is not 100% then use Speech Analyzer to playback the utterance.
-			if (m_playbackSpeed != 100f)
+			if (m_playbackSpeed != 100)
 			{
 				PlaybackEntryUsingSA(recEntry.DataSource.Type, audioFile, offset, length);
 				return;
@@ -3623,10 +3501,6 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		void m_kbHook_HookInvoked(object sender, HookEventArgs e)
 		{
