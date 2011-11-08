@@ -693,7 +693,7 @@ namespace SIL.Pa.UI
 				if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
 				{
 					LoadProject(dlg.Project.FileName);
-					UndefinedPhoneticCharactersDlg.Show(dlg.Project, true);
+					UndefinedPhoneticCharactersDlg.Show(_project, true);
 				}
 			}
 
@@ -784,6 +784,35 @@ namespace SIL.Pa.UI
 
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateBackupProject(object args)
+		{
+			var itemProps = args as TMItemProperties;
+			if (itemProps == null)
+				return false;
+
+			itemProps.Visible = true;
+			itemProps.Enabled = (_project != null);
+			itemProps.Update = true;
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnRestoreProject(object args)
+		{
+			using (var viewModel = new RestoreDlgViewModel(_project))
+			using (var dlg = new RestoreDlg(viewModel))
+			{
+				if (dlg.ShowDialog() == DialogResult.OK)
+				{
+					LoadProject(dlg.RestoredProjectFileName);
+					UndefinedPhoneticCharactersDlg.Show(_project, false);
+				}
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateRestoreProject(object args)
 		{
 			var itemProps = args as TMItemProperties;
 			if (itemProps == null)

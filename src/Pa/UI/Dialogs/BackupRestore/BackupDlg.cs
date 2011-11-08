@@ -34,7 +34,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			_viewModel = viewModel;
 			_labelProjectValue.Text = _viewModel.Project.Name;
-			_labelBackupFolderValue.Text = _viewModel.BackupFolder;
+			_labelBackupFolderValue.Text = _viewModel.TargetFolder;
 			_labelBackupFileValue.Text = _viewModel.BackupFile;
 
 			_viewModel.LogBox.Font = FontHelper.UIFont;
@@ -45,7 +45,15 @@ namespace SIL.Pa.UI.Dialogs
 			_tableLayoutPanel.SetColumnSpan(_viewModel.LogBox, 2);
 
 			_buttonClose.Click += delegate { Close(); };
-			_buttonCancel.Click += delegate { _viewModel.CancelBackup = true; };
+			_buttonCancel.Click += delegate { _viewModel.Cancel = true; };
+
+			if (_viewModel.GetAreAllDataSourcesFieldWorks())
+			{
+				_checkBoxIncludeDataSources.Enabled = false;
+				_checkBoxIncludeAudioFiles.Enabled = false;
+				_checkBoxIncludeDataSources.Checked = false;
+				_checkBoxIncludeAudioFiles.Checked = false;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -68,30 +76,27 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			Settings.Default.IncludeAudioFilesInPaBackups = _checkBoxIncludeAudioFiles.Checked;
-			Settings.Default.IncludeDataSourceFilesInPaBackups =_checkBoxIncludeDataSources.Checked;
-			Settings.Default.LastBackupFolder = _viewModel.BackupFolder;
+			Settings.Default.LastBackupFolder = _viewModel.TargetFolder;
+			
+			if (_checkBoxIncludeDataSources.Enabled)
+			{
+				Settings.Default.IncludeAudioFilesInPaBackups = _checkBoxIncludeAudioFiles.Checked;
+				Settings.Default.IncludeDataSourceFilesInPaBackups = _checkBoxIncludeDataSources.Checked;
+			}
+			
 			base.OnFormClosing(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleChangeFolderButtonClick(object sender, EventArgs e)
 		{
-			using (var dlg = new FolderBrowserDialog())
-			{
-				dlg.ShowNewFolderButton = true;
-				dlg.SelectedPath = _viewModel.BackupFolder;
-				dlg.Description = string.Format(App.GetString(
+			var description = string.Format(App.GetString(
 					"DialogBoxes.BackupDlg.ChangeFolderBrowserDlgDescription",
 					"Specify the folder where the backup file will be written for the '{0}' project."),
 					_viewModel.Project.Name);
 
-				if (dlg.ShowDialog(this) == DialogResult.OK)
-				{
-					_viewModel.BackupFolder = dlg.SelectedPath;
-					_labelBackupFolderValue.Text = dlg.SelectedPath;
-				}
-			}
+			if (_viewModel.SpecifyTargetFolder(this, description, null))
+				_labelBackupFolderValue.Text = _viewModel.TargetFolder;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -115,16 +120,16 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			_buttonCancel.Visible = false;
 			_buttonClose.Visible = true;
-			_progressBar.Visible = (!_viewModel.CancelBackup && _viewModel.BackupException == null);
+			_progressBar.Visible = (!_viewModel.Cancel && _viewModel.BackupRestoreException == null);
 
-			if (_viewModel.BackupException == null)
+			if (_viewModel.BackupRestoreException == null)
 				return;
 
 			_progressBar.Visible = false;
 			_buttonSeeErrorDetails.Visible = true;
 			_buttonSeeErrorDetails.Click += delegate
 			{
-				ErrorReport.ReportNonFatalExceptionWithMessage(_viewModel.BackupException,
+				ErrorReport.ReportNonFatalExceptionWithMessage(_viewModel.BackupRestoreException,
 					App.GetString("DialogBoxes.BackupDlg.BackupErrorMsg",
 					"There was an error while backing up the '{0}' project."),
 					_viewModel.Project.Name);

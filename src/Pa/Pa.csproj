@@ -95,10 +95,6 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.1.271, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DistFiles\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\DistFiles\Ionic.Zip.dll</HintPath>
     </Reference>
@@ -183,7 +179,6 @@
     <Compile Include="Miscellaneous\CIEBuilder.cs" />
     <Compile Include="Miscellaneous\PaSettingsHandler.cs" />
     <Compile Include="Miscellaneous\TrainingProjectsHelper.cs" />
-    <Compile Include="Miscellaneous\ZipUtils.cs" />
     <Compile Include="Model\Features\AFeatureCache.cs" />
     <Compile Include="Model\Features\BFeatureCache.cs" />
     <Compile Include="Model\Features\Feature.cs" />
@@ -539,18 +534,14 @@
       <DependentUpon>BackupDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\BackupRestore\BackupDlgViewModel.cs" />
+    <Compile Include="UI\Dialogs\BackupRestore\BackupRestoreDlgViewModelBase.cs" />
     <Compile Include="UI\Dialogs\BackupRestore\RestoreDlg.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Dialogs\BackupRestore\RestoreDlg.designer.cs">
       <DependentUpon>RestoreDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialogs\BackupRestore\RestoreProgressDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Dialogs\BackupRestore\RestoreProgressDlg.designer.cs">
-      <DependentUpon>RestoreProgressDlg.cs</DependentUpon>
-    </Compile>
+    <Compile Include="UI\Dialogs\BackupRestore\RestoreDlgViewModel.cs" />
     <Compile Include="UI\Dialogs\Classes\ClassesDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -877,6 +868,10 @@
       <DependentUpon>AmbiguousSequencesDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\BackupRestore\RestoreDlg.resx">
+      <DependentUpon>RestoreDlg.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\Classes\DefineClassDlgBase.resx">
       <DependentUpon>DefineClassDlgBase.cs</DependentUpon>
     </EmbeddedResource>
@@ -1083,14 +1078,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\BackupRestore\BackupDlg.resx">
       <DependentUpon>BackupDlg.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Dialogs\BackupRestore\RestoreDlg.resx">
-      <DependentUpon>RestoreDlg.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Dialogs\BackupRestore\RestoreProgressDlg.resx">
-      <DependentUpon>RestoreProgressDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\Classes\ClassesDlg.resx">

@@ -241,7 +241,6 @@ namespace SIL.Pa.Model
 				audioFilePath = audioFilePath.TrimStart('\\');
 
 			entry.AbsoluteAudioFilePath = null;
-
 			if (entry.RecordEntry.DataSource.FwSourceDirectFromDB &&
 				TryToFindAudioFile(entry, audioFilePath, FwDBUtils.FwRootDataDir))
 			{
@@ -253,7 +252,11 @@ namespace SIL.Pa.Model
 				return entry.AbsoluteAudioFilePath;
 
 			// Check a path relative to the project file's path
-			if (TryToFindAudioFile(entry, audioFilePath, App.Project.Folder))
+			if (TryToFindAudioFile(entry, audioFilePath, entry.Project.Folder))
+				return entry.AbsoluteAudioFilePath;
+
+			// Check an 'Audio' path relative to the project file's path
+			if (TryToFindAudioFile(entry, audioFilePath, Path.Combine(entry.Project.Folder, "Audio")))
 				return entry.AbsoluteAudioFilePath;
 
 			// Check a path relative to the application's startup path

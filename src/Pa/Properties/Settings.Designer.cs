@@ -3644,5 +3644,29 @@ namespace SIL.Pa.Properties {
                 this["LastBackupFolder"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public string LastOtherRestoreFolder {
+            get {
+                return ((string)(this["LastOtherRestoreFolder"]));
+            }
+            set {
+                this["LastOtherRestoreFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public bool RestoreToOtherFolder {
+            get {
+                return ((bool)(this["RestoreToOtherFolder"]));
+            }
+            set {
+                this["RestoreToOtherFolder"] = value;
+            }
+        }
     }
 }
