@@ -61,7 +61,7 @@ namespace SIL.Pa.UI.Dialogs
 			_radioDefaultFolder.CheckedChanged += delegate { UpdateDisplay(); };
 
 			var lastTargetRestoreFolder = Settings.Default.LastOtherRestoreFolder;
-			_viewModel.TargetFolder =
+			_viewModel.OtherDestFolder =
 				(lastTargetRestoreFolder != null && Directory.Exists(lastTargetRestoreFolder) ? lastTargetRestoreFolder : null);
 
 			LoadGrid();
@@ -88,9 +88,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			if (_viewModel.TargetFolder != null)
-				Settings.Default.LastOtherRestoreFolder = _viewModel.TargetFolder;
-	
+			Settings.Default.LastOtherRestoreFolder = _viewModel.OtherDestFolder;
 			Settings.Default.RestoreToOtherFolder = _radioOtherFolder.Checked;
 
 			base.OnFormClosing(e);
@@ -142,7 +140,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (_viewModel.SpecifyTargetFolder(this, description, folderContainsProjectMsg))
 			{
-				if (_viewModel.TargetFolder == _viewModel.SuggestedTargetFolder)
+				if (_viewModel.OtherDestFolder == _viewModel.SuggestedDestFolder)
 					TellUserHeSelectedTheDefaultFolder();
 				else
 					UpdateDisplay();
@@ -156,7 +154,7 @@ namespace SIL.Pa.UI.Dialogs
 				"DialogBoxes.RestoreDlg.OtherFolderLinkText.WhenEnabledAndIsSameAsDefaultFolder",
 				"(specified folder is the same as the default)");
 
-			_viewModel.TargetFolder = null;
+			_viewModel.OtherDestFolder = null;
 			_linkOtherFolderValue.Links.Clear();
 			_linkOtherFolderValue.Text = msg;
 			_linkOtherFolderValue.LinkColor = Color.Red;
@@ -199,28 +197,39 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void UpdateDisplay()
 		{
-			var unspecifiedOtherFolder = App.GetString(
-				"DialogBoxes.RestoreDlg.OtherFolderLinkText.WhenNotSpecifiedAndNotEnabled", "(not specified)");
-
-			var clickToSpecifyOtherFolder = App.GetString(
-				"DialogBoxes.RestoreDlg.OtherFolderLinkText.WhenNotSpecifiedAndEnabled", "(click to specify)");
-
-			_linkOtherFolderValue.Enabled = _radioOtherFolder.Checked;
 			_labelDefaultFolderValue.Enabled = _radioDefaultFolder.Checked;
-			_labelDefaultFolderValue.Text = _viewModel.SuggestedTargetFolder;
-			_linkOtherFolderValue.Links.Clear();
-			_linkOtherFolderValue.LinkColor = _linkViewExceptionDetails.LinkColor;
+			_labelDefaultFolderValue.Text = _viewModel.SuggestedDestFolder;
 
-			if (_viewModel.TargetFolder != null)
-				_linkOtherFolderValue.Text = _viewModel.TargetFolder;
-			else
-				_linkOtherFolderValue.Text = (_radioOtherFolder.Checked ? clickToSpecifyOtherFolder : unspecifiedOtherFolder);
+			UpdateOtherFolderValueLink();
 	
-			_linkOtherFolderValue.LinkArea = new LinkArea(0, _linkOtherFolderValue.Text.Length);
 			_buttonRestore.Enabled = (_viewModel.AvailableBackups.Count > 0 && (_radioDefaultFolder.Checked ||
 				(_radioOtherFolder.Checked && Directory.Exists(_linkOtherFolderValue.Text))));
 
 			_groupBoxDestinationFolder.Enabled = (_viewModel.AvailableBackups.Count > 0);
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		private void UpdateOtherFolderValueLink()
+		{
+			if (_viewModel.OtherDestFolder != null)
+				_linkOtherFolderValue.Text = _viewModel.OtherDestFolder;
+			else if (_radioOtherFolder.Checked)
+			{
+				_linkOtherFolderValue.Text = App.GetString(
+					"DialogBoxes.RestoreDlg.OtherFolderLinkText.WhenNotSpecifiedAndEnabled",
+					"(click to specify)");
+			}
+			else
+			{
+				_linkOtherFolderValue.Text = App.GetString(
+					"DialogBoxes.RestoreDlg.OtherFolderLinkText.WhenNotSpecifiedAndNotEnabled",
+					"(not specified)");
+			}
+
+			_linkOtherFolderValue.Enabled = _radioOtherFolder.Checked;
+			_linkOtherFolderValue.LinkColor = _linkViewExceptionDetails.LinkColor;
+			_linkOtherFolderValue.Links.Clear();
+			_linkOtherFolderValue.LinkArea = new LinkArea(0, _linkOtherFolderValue.Text.Length);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -265,8 +274,8 @@ namespace SIL.Pa.UI.Dialogs
 		private void HandleLoadProjectButtonClick(object sender, EventArgs e)
 		{
 			DialogResult = DialogResult.OK;
-			RestoredProjectFileName = Path.Combine(_viewModel.TargetFolder ??
-				_viewModel.SuggestedTargetFolder, _viewModel.CurrentProjectFileName);
+			RestoredProjectFileName = Path.Combine(_viewModel.OtherDestFolder ??
+				_viewModel.SuggestedDestFolder, _viewModel.CurrentProjectFileName);
 			
 			Close();
 		}

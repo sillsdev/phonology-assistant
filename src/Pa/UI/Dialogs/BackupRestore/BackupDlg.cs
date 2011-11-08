@@ -12,7 +12,7 @@ namespace SIL.Pa.UI.Dialogs
 	public partial class BackupDlg : Form
 	{
 		private readonly BackupDlgViewModel _viewModel;
-		private Font _boldFont;
+		private readonly Font _boldFont;
 
 		/// ------------------------------------------------------------------------------------
 		public BackupDlg()
@@ -70,7 +70,7 @@ namespace SIL.Pa.UI.Dialogs
 			_radioDefaultFolder.CheckedChanged += delegate { UpdateDisplay(); };
 
 			var lastTargetBackupFolder = Settings.Default.LastOtherBackupFolder;
-			_viewModel.TargetFolder =
+			_viewModel.OtherDestFolder =
 				(lastTargetBackupFolder != null && Directory.Exists(lastTargetBackupFolder) ? lastTargetBackupFolder : null);
 
 			if (_viewModel.GetAreAllDataSourcesFieldWorks())
@@ -106,12 +106,10 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			if (_viewModel.TargetFolder != null)
-				Settings.Default.LastOtherBackupFolder = _viewModel.TargetFolder;
-
+			Settings.Default.LastOtherBackupFolder = _viewModel.OtherDestFolder;
 			Settings.Default.BackupToOtherFolder = _radioOtherFolder.Checked;
 
-			if (_checkBoxIncludeDataSources.Enabled)
+			if (!_viewModel.GetAreAllDataSourcesFieldWorks())
 			{
 				Settings.Default.IncludeAudioFilesInPaBackups = _checkBoxIncludeAudioFiles.Checked;
 				Settings.Default.IncludeDataSourceFilesInPaBackups = _checkBoxIncludeDataSources.Checked;
@@ -137,7 +135,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (_viewModel.SpecifyTargetFolder(this, description, null))
 			{
-				if (_viewModel.TargetFolder == _viewModel.DefaultBackupFolder)
+				if (_viewModel.OtherDestFolder == _viewModel.DefaultBackupFolder)
 					TellUserHeSelectedTheDefaultFolder();
 				else
 					UpdateDisplay();
@@ -151,7 +149,7 @@ namespace SIL.Pa.UI.Dialogs
 				"DialogBoxes.BackupDlg.OtherFolderLinkText.WhenEnabledAndIsSameAsDefaultFolder",
 				"(specified folder is the same as the default)");
 
-			_viewModel.TargetFolder = null;
+			_viewModel.OtherDestFolder = null;
 			_linkOtherFolderValue.Links.Clear();
 			_linkOtherFolderValue.Text = msg;
 			_linkOtherFolderValue.LinkColor = Color.Red;
@@ -173,47 +171,69 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void UpdateDisplay()
 		{
-			var unspecifiedOtherFolder = App.GetString(
-				"DialogBoxes.BackupDlg.OtherFolderLinkText.WhenNotSpecifiedAndNotEnabled", "(not specified)");
-
-			var clickToSpecifyOtherFolder = App.GetString(
-				"DialogBoxes.BackupDlg.OtherFolderLinkText.WhenNotSpecifiedAndEnabled", "(click to specify)");
-
-			_linkOtherFolderValue.Enabled = _radioOtherFolder.Checked;
 			_labelDefaultFolderValue.Enabled = _radioDefaultFolder.Checked;
 			_labelDefaultFolderValue.Text = _viewModel.DefaultBackupFolder;
-			_linkOtherFolderValue.Links.Clear();
-			_linkOtherFolderValue.LinkColor = _linkViewExceptionDetails.LinkColor;
 
-			if (_viewModel.TargetFolder != null)
-				_linkOtherFolderValue.Text = _viewModel.TargetFolder;
-			else
-				_linkOtherFolderValue.Text = (_radioOtherFolder.Checked ? clickToSpecifyOtherFolder : unspecifiedOtherFolder);
+			UpdateOtherFolderValueLink();
+			UpdateBackupFileValueLabel();
 
-			_linkOtherFolderValue.LinkArea = new LinkArea(0, _linkOtherFolderValue.Text.Length);
+			_buttonBackup.Enabled = (_viewModel.GetIsBackupFileNameValid() && !_viewModel.GetDoesBackupAlreadyExist() &&
+				(_radioDefaultFolder.Checked || (_radioOtherFolder.Checked && Directory.Exists(_linkOtherFolderValue.Text))));
+		}
 
-			if (_viewModel.GetIsBackupFileNameValid())
+		/// ------------------------------------------------------------------------------------
+		private void UpdateOtherFolderValueLink()
+		{
+			if (_viewModel.OtherDestFolder != null)
+				_linkOtherFolderValue.Text = _viewModel.OtherDestFolder;
+			else if (_radioOtherFolder.Checked)
 			{
-				_labelBackupFileValue.Text = _viewModel.BackupFile;
-				_labelBackupFileValue.ForeColor = Color.DarkSlateGray;
+				_linkOtherFolderValue.Text = App.GetString(
+					"DialogBoxes.BackupDlg.OtherFolderLinkText.WhenNotSpecifiedAndEnabled",
+					"(click to specify)");
 			}
 			else
+			{
+				_linkOtherFolderValue.Text = App.GetString(
+					"DialogBoxes.BackupDlg.OtherFolderLinkText.WhenNotSpecifiedAndNotEnabled",
+					"(not specified)");
+			}
+
+			_linkOtherFolderValue.Enabled = _radioOtherFolder.Checked;
+			_linkOtherFolderValue.LinkColor = _linkViewExceptionDetails.LinkColor;
+			_linkOtherFolderValue.Links.Clear();
+			_linkOtherFolderValue.LinkArea = new LinkArea(0, _linkOtherFolderValue.Text.Length);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void UpdateBackupFileValueLabel()
+		{
+			if (!_viewModel.GetIsBackupFileNameValid())
 			{
 				_labelBackupFileValue.Text = App.GetString("DialogBoxes.BackupDlg.InvalidBackupFileNameMSg", "Invalid file name!");
 				_labelBackupFileValue.ForeColor = Color.Red;
 			}
-
-			_buttonBackup.Enabled = (_viewModel.GetIsBackupFileNameValid() &&
-				(_radioDefaultFolder.Checked || (_radioOtherFolder.Checked && Directory.Exists(_linkOtherFolderValue.Text))));
+			else if (_viewModel.GetDoesBackupAlreadyExist())
+			{
+				_labelBackupFileValue.Text = App.GetString("DialogBoxes.BackupDlg.BackupFileAlreadyExistsMsg", "File already exists!");
+				_labelBackupFileValue.ForeColor = Color.Red;
+			}
+			else
+			{
+				_labelBackupFileValue.Text = _viewModel.BackupFile;
+				_labelBackupFileValue.ForeColor = Color.DarkSlateGray;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleBackupButtonClick(object sender, EventArgs e)
 		{
-			_buttonBackup.Enabled = false;
-			//_buttonChangeFolder.Enabled = false;
-			_buttonCancel.Visible = true;
+			_textBoxBackupFile.Enabled = false;
+			_groupBoxDestinationFolder.Enabled = false;
+			_groupIncludeInBackup.Enabled = false;
+			_buttonBackup.Visible = false;
 			_buttonClose.Visible = false;
+			_buttonCancel.Visible = true;
 			_progressBar.Visible = true;
 			_progressBar.Maximum = _viewModel.GetNumberOfFilesToBackup(
 				_checkBoxIncludeDataSources.Checked, _checkBoxIncludeAudioFiles.Checked);

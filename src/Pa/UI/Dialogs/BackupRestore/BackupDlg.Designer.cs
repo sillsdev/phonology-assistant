@@ -57,7 +57,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this._buttonBackup, null);
 			this.locExtender.SetLocalizationComment(this._buttonBackup, null);
 			this.locExtender.SetLocalizingId(this._buttonBackup, "BackupDlg._buttonBackup");
-			this._buttonBackup.Location = new System.Drawing.Point(132, 10);
+			this._buttonBackup.Location = new System.Drawing.Point(123, 10);
 			this._buttonBackup.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this._buttonBackup.MinimumSize = new System.Drawing.Size(75, 26);
 			this._buttonBackup.Name = "_buttonBackup";
@@ -82,7 +82,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._checkBoxIncludeDataSources.Location = new System.Drawing.Point(2, 0);
 			this._checkBoxIncludeDataSources.Margin = new System.Windows.Forms.Padding(2, 0, 0, 8);
 			this._checkBoxIncludeDataSources.Name = "_checkBoxIncludeDataSources";
-			this._checkBoxIncludeDataSources.Size = new System.Drawing.Size(347, 17);
+			this._checkBoxIncludeDataSources.Size = new System.Drawing.Size(338, 17);
 			this._checkBoxIncludeDataSources.TabIndex = 0;
 			this._checkBoxIncludeDataSources.Text = "Include data source files in backup";
 			this._checkBoxIncludeDataSources.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -93,10 +93,10 @@ namespace SIL.Pa.UI.Dialogs
 			this._progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayoutPanel.SetColumnSpan(this._progressBar, 2);
-			this._progressBar.Location = new System.Drawing.Point(0, 361);
+			this._progressBar.Location = new System.Drawing.Point(0, 386);
 			this._progressBar.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this._progressBar.Name = "_progressBar";
-			this._progressBar.Size = new System.Drawing.Size(369, 18);
+			this._progressBar.Size = new System.Drawing.Size(360, 18);
 			this._progressBar.TabIndex = 8;
 			this._progressBar.Visible = false;
 			// 
@@ -107,7 +107,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
 			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
 			this.locExtender.SetLocalizingId(this._buttonCancel, "BackupDlg._buttonCancel");
-			this._buttonCancel.Location = new System.Drawing.Point(213, 10);
+			this._buttonCancel.Location = new System.Drawing.Point(204, 10);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(6, 10, 0, 0);
 			this._buttonCancel.MinimumSize = new System.Drawing.Size(75, 26);
 			this._buttonCancel.Name = "_buttonCancel";
@@ -126,7 +126,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this._buttonClose, null);
 			this.locExtender.SetLocalizationComment(this._buttonClose, null);
 			this.locExtender.SetLocalizingId(this._buttonClose, "BackupDlg._buttonClose");
-			this._buttonClose.Location = new System.Drawing.Point(294, 10);
+			this._buttonClose.Location = new System.Drawing.Point(285, 10);
 			this._buttonClose.Margin = new System.Windows.Forms.Padding(6, 10, 0, 0);
 			this._buttonClose.MinimumSize = new System.Drawing.Size(75, 26);
 			this._buttonClose.Name = "_buttonClose";
@@ -164,7 +164,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutPanel.Size = new System.Drawing.Size(369, 379);
+			this._tableLayoutPanel.Size = new System.Drawing.Size(360, 404);
 			this._tableLayoutPanel.TabIndex = 0;
 			// 
 			// _groupBoxDestinationFolder
@@ -180,14 +180,16 @@ namespace SIL.Pa.UI.Dialogs
 			this._groupBoxDestinationFolder.Location = new System.Drawing.Point(0, 67);
 			this._groupBoxDestinationFolder.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this._groupBoxDestinationFolder.Name = "_groupBoxDestinationFolder";
-			this._groupBoxDestinationFolder.Padding = new System.Windows.Forms.Padding(10, 8, 10, 10);
-			this._groupBoxDestinationFolder.Size = new System.Drawing.Size(369, 105);
+			this._groupBoxDestinationFolder.Padding = new System.Windows.Forms.Padding(10, 8, 10, 0);
+			this._groupBoxDestinationFolder.Size = new System.Drawing.Size(360, 107);
 			this._groupBoxDestinationFolder.TabIndex = 5;
 			this._groupBoxDestinationFolder.TabStop = false;
 			this._groupBoxDestinationFolder.Text = "Destination Folder";
 			// 
 			// _tableLayoutDestinationFolder
 			// 
+			this._tableLayoutDestinationFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayoutDestinationFolder.AutoSize = true;
 			this._tableLayoutDestinationFolder.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this._tableLayoutDestinationFolder.ColumnCount = 1;
@@ -196,8 +198,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._tableLayoutDestinationFolder.Controls.Add(this._radioDefaultFolder, 0, 0);
 			this._tableLayoutDestinationFolder.Controls.Add(this._linkOtherFolderValue, 0, 3);
 			this._tableLayoutDestinationFolder.Controls.Add(this._radioOtherFolder, 0, 2);
-			this._tableLayoutDestinationFolder.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._tableLayoutDestinationFolder.Location = new System.Drawing.Point(10, 21);
+			this._tableLayoutDestinationFolder.Location = new System.Drawing.Point(10, 20);
 			this._tableLayoutDestinationFolder.Margin = new System.Windows.Forms.Padding(0);
 			this._tableLayoutDestinationFolder.Name = "_tableLayoutDestinationFolder";
 			this._tableLayoutDestinationFolder.RowCount = 4;
@@ -205,7 +206,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._tableLayoutDestinationFolder.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutDestinationFolder.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutDestinationFolder.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutDestinationFolder.Size = new System.Drawing.Size(349, 74);
+			this._tableLayoutDestinationFolder.Size = new System.Drawing.Size(340, 74);
 			this._tableLayoutDestinationFolder.TabIndex = 0;
 			// 
 			// _labelDefaultFolderValue
@@ -222,7 +223,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._labelDefaultFolderValue.Location = new System.Drawing.Point(17, 20);
 			this._labelDefaultFolderValue.Margin = new System.Windows.Forms.Padding(17, 0, 0, 0);
 			this._labelDefaultFolderValue.Name = "_labelDefaultFolderValue";
-			this._labelDefaultFolderValue.Size = new System.Drawing.Size(332, 13);
+			this._labelDefaultFolderValue.Size = new System.Drawing.Size(323, 13);
 			this._labelDefaultFolderValue.TabIndex = 1;
 			this._labelDefaultFolderValue.Text = "#";
 			// 
@@ -238,7 +239,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._radioDefaultFolder.Location = new System.Drawing.Point(0, 0);
 			this._radioDefaultFolder.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
 			this._radioDefaultFolder.Name = "_radioDefaultFolder";
-			this._radioDefaultFolder.Size = new System.Drawing.Size(349, 17);
+			this._radioDefaultFolder.Size = new System.Drawing.Size(340, 17);
 			this._radioDefaultFolder.TabIndex = 0;
 			this._radioDefaultFolder.TabStop = true;
 			this._radioDefaultFolder.Text = "Backup to Default Folder";
@@ -257,7 +258,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._linkOtherFolderValue.Location = new System.Drawing.Point(17, 61);
 			this._linkOtherFolderValue.Margin = new System.Windows.Forms.Padding(17, 0, 0, 0);
 			this._linkOtherFolderValue.Name = "_linkOtherFolderValue";
-			this._linkOtherFolderValue.Size = new System.Drawing.Size(332, 13);
+			this._linkOtherFolderValue.Size = new System.Drawing.Size(323, 13);
 			this._linkOtherFolderValue.TabIndex = 3;
 			this._linkOtherFolderValue.TabStop = true;
 			this._linkOtherFolderValue.Text = "#";
@@ -275,7 +276,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._radioOtherFolder.Location = new System.Drawing.Point(0, 41);
 			this._radioOtherFolder.Margin = new System.Windows.Forms.Padding(0, 8, 0, 3);
 			this._radioOtherFolder.Name = "_radioOtherFolder";
-			this._radioOtherFolder.Size = new System.Drawing.Size(349, 17);
+			this._radioOtherFolder.Size = new System.Drawing.Size(340, 17);
 			this._radioOtherFolder.TabIndex = 2;
 			this._radioOtherFolder.TabStop = true;
 			this._radioOtherFolder.Text = "Backup to Other Folder";
@@ -291,31 +292,32 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this._groupIncludeInBackup, null);
 			this.locExtender.SetLocalizationComment(this._groupIncludeInBackup, null);
 			this.locExtender.SetLocalizingId(this._groupIncludeInBackup, "BackupDlg._groupIncludeInBackup");
-			this._groupIncludeInBackup.Location = new System.Drawing.Point(0, 182);
+			this._groupIncludeInBackup.Location = new System.Drawing.Point(0, 184);
 			this._groupIncludeInBackup.Margin = new System.Windows.Forms.Padding(0, 10, 0, 10);
 			this._groupIncludeInBackup.Name = "_groupIncludeInBackup";
-			this._groupIncludeInBackup.Padding = new System.Windows.Forms.Padding(10, 8, 10, 10);
-			this._groupIncludeInBackup.Size = new System.Drawing.Size(369, 73);
+			this._groupIncludeInBackup.Padding = new System.Windows.Forms.Padding(10, 8, 10, 0);
+			this._groupIncludeInBackup.Size = new System.Drawing.Size(360, 77);
 			this._groupIncludeInBackup.TabIndex = 6;
 			this._groupIncludeInBackup.TabStop = false;
 			this._groupIncludeInBackup.Text = "Include in Backup (for non FieldWorks data sources)";
 			// 
 			// _tableLayoutIncludeInBackup
 			// 
+			this._tableLayoutIncludeInBackup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayoutIncludeInBackup.AutoSize = true;
 			this._tableLayoutIncludeInBackup.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this._tableLayoutIncludeInBackup.ColumnCount = 1;
 			this._tableLayoutIncludeInBackup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutIncludeInBackup.Controls.Add(this._checkBoxIncludeDataSources, 0, 0);
 			this._tableLayoutIncludeInBackup.Controls.Add(this._checkBoxIncludeAudioFiles, 0, 1);
-			this._tableLayoutIncludeInBackup.Dock = System.Windows.Forms.DockStyle.Fill;
-			this._tableLayoutIncludeInBackup.Location = new System.Drawing.Point(10, 21);
+			this._tableLayoutIncludeInBackup.Location = new System.Drawing.Point(10, 22);
 			this._tableLayoutIncludeInBackup.Margin = new System.Windows.Forms.Padding(0);
 			this._tableLayoutIncludeInBackup.Name = "_tableLayoutIncludeInBackup";
 			this._tableLayoutIncludeInBackup.RowCount = 2;
 			this._tableLayoutIncludeInBackup.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutIncludeInBackup.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutIncludeInBackup.Size = new System.Drawing.Size(349, 42);
+			this._tableLayoutIncludeInBackup.Size = new System.Drawing.Size(340, 42);
 			this._tableLayoutIncludeInBackup.TabIndex = 0;
 			// 
 			// _checkBoxIncludeAudioFiles
@@ -333,7 +335,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._checkBoxIncludeAudioFiles.Location = new System.Drawing.Point(2, 25);
 			this._checkBoxIncludeAudioFiles.Margin = new System.Windows.Forms.Padding(2, 0, 0, 0);
 			this._checkBoxIncludeAudioFiles.Name = "_checkBoxIncludeAudioFiles";
-			this._checkBoxIncludeAudioFiles.Size = new System.Drawing.Size(347, 17);
+			this._checkBoxIncludeAudioFiles.Size = new System.Drawing.Size(338, 17);
 			this._checkBoxIncludeAudioFiles.TabIndex = 1;
 			this._checkBoxIncludeAudioFiles.Text = "Include audio files in backup";
 			this._checkBoxIncludeAudioFiles.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -348,10 +350,10 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizationComment(this._labelProjectValue, null);
 			this.locExtender.SetLocalizationPriority(this._labelProjectValue, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelProjectValue, "BackupDlg._labelProjectValue");
-			this._labelProjectValue.Location = new System.Drawing.Point(69, 0);
+			this._labelProjectValue.Location = new System.Drawing.Point(75, 0);
 			this._labelProjectValue.Margin = new System.Windows.Forms.Padding(3, 0, 0, 8);
 			this._labelProjectValue.Name = "_labelProjectValue";
-			this._labelProjectValue.Size = new System.Drawing.Size(300, 13);
+			this._labelProjectValue.Size = new System.Drawing.Size(285, 13);
 			this._labelProjectValue.TabIndex = 1;
 			this._labelProjectValue.Text = "#";
 			// 
@@ -361,8 +363,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this._labelProject, null);
 			this.locExtender.SetLocalizationComment(this._labelProject, null);
 			this.locExtender.SetLocalizingId(this._labelProject, "BackupDlg._labelProject");
-			this._labelProject.Location = new System.Drawing.Point(0, 0);
-			this._labelProject.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
+			this._labelProject.Location = new System.Drawing.Point(6, 0);
+			this._labelProject.Margin = new System.Windows.Forms.Padding(6, 0, 0, 8);
 			this._labelProject.Name = "_labelProject";
 			this._labelProject.Size = new System.Drawing.Size(43, 13);
 			this._labelProject.TabIndex = 0;
@@ -376,7 +378,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this._linkViewExceptionDetails, null);
 			this.locExtender.SetLocalizationComment(this._linkViewExceptionDetails, null);
 			this.locExtender.SetLocalizingId(this._linkViewExceptionDetails, "BackupDlg._linkViewExceptionDetails");
-			this._linkViewExceptionDetails.Location = new System.Drawing.Point(270, 335);
+			this._linkViewExceptionDetails.Location = new System.Drawing.Point(261, 360);
 			this._linkViewExceptionDetails.Margin = new System.Windows.Forms.Padding(0, 10, 0, 3);
 			this._linkViewExceptionDetails.Name = "_linkViewExceptionDetails";
 			this._linkViewExceptionDetails.Size = new System.Drawing.Size(99, 13);
@@ -393,8 +395,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this._labelBackupFile, null);
 			this.locExtender.SetLocalizationComment(this._labelBackupFile, null);
 			this.locExtender.SetLocalizingId(this._labelBackupFile, "BackupDlg._labelBackupFile");
-			this._labelBackupFile.Location = new System.Drawing.Point(0, 24);
-			this._labelBackupFile.Margin = new System.Windows.Forms.Padding(0);
+			this._labelBackupFile.Location = new System.Drawing.Point(6, 24);
+			this._labelBackupFile.Margin = new System.Windows.Forms.Padding(6, 0, 0, 0);
 			this._labelBackupFile.Name = "_labelBackupFile";
 			this._labelBackupFile.Size = new System.Drawing.Size(66, 13);
 			this._labelBackupFile.TabIndex = 2;
@@ -407,10 +409,10 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this._textBoxBackupFile, null);
 			this.locExtender.SetLocalizationComment(this._textBoxBackupFile, null);
 			this.locExtender.SetLocalizingId(this._textBoxBackupFile, "textBox1.textBox1");
-			this._textBoxBackupFile.Location = new System.Drawing.Point(69, 21);
+			this._textBoxBackupFile.Location = new System.Drawing.Point(75, 21);
 			this._textBoxBackupFile.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._textBoxBackupFile.Name = "_textBoxBackupFile";
-			this._textBoxBackupFile.Size = new System.Drawing.Size(300, 20);
+			this._textBoxBackupFile.Size = new System.Drawing.Size(285, 20);
 			this._textBoxBackupFile.TabIndex = 3;
 			this._textBoxBackupFile.TextChanged += new System.EventHandler(this.HandleFileNameTextChanged);
 			// 
@@ -424,10 +426,10 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizationComment(this._labelBackupFileValue, null);
 			this.locExtender.SetLocalizationPriority(this._labelBackupFileValue, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._labelBackupFileValue, "BackupDlg._labelBackupFileValue");
-			this._labelBackupFileValue.Location = new System.Drawing.Point(69, 44);
+			this._labelBackupFileValue.Location = new System.Drawing.Point(75, 44);
 			this._labelBackupFileValue.Margin = new System.Windows.Forms.Padding(3, 3, 0, 0);
 			this._labelBackupFileValue.Name = "_labelBackupFileValue";
-			this._labelBackupFileValue.Size = new System.Drawing.Size(300, 13);
+			this._labelBackupFileValue.Size = new System.Drawing.Size(285, 13);
 			this._labelBackupFileValue.TabIndex = 4;
 			this._labelBackupFileValue.Text = "#";
 			// 
@@ -444,11 +446,11 @@ namespace SIL.Pa.UI.Dialogs
 			this._tableLayoutButtons.Controls.Add(this._buttonCancel, 2, 0);
 			this._tableLayoutButtons.Controls.Add(this._buttonClose, 3, 0);
 			this._tableLayoutButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this._tableLayoutButtons.Location = new System.Drawing.Point(15, 394);
+			this._tableLayoutButtons.Location = new System.Drawing.Point(15, 419);
 			this._tableLayoutButtons.Name = "_tableLayoutButtons";
 			this._tableLayoutButtons.RowCount = 1;
 			this._tableLayoutButtons.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutButtons.Size = new System.Drawing.Size(369, 36);
+			this._tableLayoutButtons.Size = new System.Drawing.Size(360, 36);
 			this._tableLayoutButtons.TabIndex = 1;
 			// 
 			// locExtender
@@ -460,7 +462,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(399, 445);
+			this.ClientSize = new System.Drawing.Size(390, 470);
 			this.Controls.Add(this._tableLayoutPanel);
 			this.Controls.Add(this._tableLayoutButtons);
 			this.locExtender.SetLocalizableToolTip(this, null);
@@ -468,7 +470,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizingId(this, "BackupDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.MinimumSize = new System.Drawing.Size(345, 415);
+			this.MinimumSize = new System.Drawing.Size(400, 500);
 			this.Name = "BackupDlg";
 			this.Padding = new System.Windows.Forms.Padding(15);
 			this.ShowIcon = false;

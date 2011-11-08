@@ -18,7 +18,7 @@ namespace SIL.Pa.UI.Dialogs
 
 		public PaProject Project { get; protected set; }
 		public string BackupFile { get; protected set; }
-		public string TargetFolder { get; set; }
+		public string OtherDestFolder { get; set; }
 		public LogBox LogBox { get; protected set; }
 		public bool Cancel { get; set; }
 		public Exception BackupRestoreException { get; protected set; }
@@ -59,7 +59,7 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				dlg.ShowNewFolderButton = true;
 				dlg.Description = description;
-				dlg.SelectedPath = TargetFolder;
+				dlg.SelectedPath = OtherDestFolder;
 
 				while (dlg.ShowDialog(dialogBox) == DialogResult.OK)
 				{
@@ -67,7 +67,7 @@ namespace SIL.Pa.UI.Dialogs
 						ErrorReport.NotifyUserOfProblem(folderContainsProjectMsg);
 					else
 					{
-						TargetFolder = dlg.SelectedPath;
+						OtherDestFolder = dlg.SelectedPath;
 						return true;
 					}
 				}

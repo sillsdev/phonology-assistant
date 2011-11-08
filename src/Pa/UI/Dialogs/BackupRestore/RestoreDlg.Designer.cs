@@ -23,12 +23,14 @@
 			this._buttonClose = new System.Windows.Forms.Button();
 			this._tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			this._groupBoxDestinationFolder = new System.Windows.Forms.GroupBox();
-			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this._tableLayoutDestinationFolder = new System.Windows.Forms.TableLayoutPanel();
 			this._labelDefaultFolderValue = new System.Windows.Forms.Label();
 			this._radioDefaultFolder = new System.Windows.Forms.RadioButton();
 			this._linkOtherFolderValue = new System.Windows.Forms.LinkLabel();
 			this._radioOtherFolder = new System.Windows.Forms.RadioButton();
 			this._grid = new SilTools.SilGrid();
+			this._colProject = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this._colBackupFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._labelBackupFilesFound = new System.Windows.Forms.Label();
 			this._linkSelectOtherBackupFile = new System.Windows.Forms.LinkLabel();
 			this._linkViewExceptionDetails = new System.Windows.Forms.LinkLabel();
@@ -37,11 +39,9 @@
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this._colProject = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this._colBackupFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._tableLayoutPanel.SuspendLayout();
 			this._groupBoxDestinationFolder.SuspendLayout();
-			this.tableLayoutPanel1.SuspendLayout();
+			this._tableLayoutDestinationFolder.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
 			this._tableLayoutButtons.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -54,7 +54,7 @@
 			this.locExtender.SetLocalizableToolTip(this._buttonRestore, "Restore Selected Backup File");
 			this.locExtender.SetLocalizationComment(this._buttonRestore, null);
 			this.locExtender.SetLocalizingId(this._buttonRestore, "RestoreDlg._buttonRestore");
-			this._buttonRestore.Location = new System.Drawing.Point(153, 10);
+			this._buttonRestore.Location = new System.Drawing.Point(123, 10);
 			this._buttonRestore.Margin = new System.Windows.Forms.Padding(6, 10, 0, 0);
 			this._buttonRestore.MinimumSize = new System.Drawing.Size(75, 26);
 			this._buttonRestore.Name = "_buttonRestore";
@@ -69,10 +69,10 @@
 			this._progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayoutPanel.SetColumnSpan(this._progressBar, 2);
-			this._progressBar.Location = new System.Drawing.Point(0, 361);
+			this._progressBar.Location = new System.Drawing.Point(0, 386);
 			this._progressBar.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this._progressBar.Name = "_progressBar";
-			this._progressBar.Size = new System.Drawing.Size(390, 18);
+			this._progressBar.Size = new System.Drawing.Size(360, 18);
 			this._progressBar.TabIndex = 5;
 			this._progressBar.Visible = false;
 			// 
@@ -83,7 +83,7 @@
 			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
 			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
 			this.locExtender.SetLocalizingId(this._buttonCancel, "RestoreDlg._buttonCancel");
-			this._buttonCancel.Location = new System.Drawing.Point(234, 10);
+			this._buttonCancel.Location = new System.Drawing.Point(204, 10);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(6, 10, 0, 0);
 			this._buttonCancel.MinimumSize = new System.Drawing.Size(75, 26);
 			this._buttonCancel.Name = "_buttonCancel";
@@ -102,7 +102,7 @@
 			this.locExtender.SetLocalizableToolTip(this._buttonClose, null);
 			this.locExtender.SetLocalizationComment(this._buttonClose, null);
 			this.locExtender.SetLocalizingId(this._buttonClose, "RestoreDlg._buttonClose");
-			this._buttonClose.Location = new System.Drawing.Point(315, 10);
+			this._buttonClose.Location = new System.Drawing.Point(285, 10);
 			this._buttonClose.Margin = new System.Windows.Forms.Padding(6, 10, 0, 0);
 			this._buttonClose.MinimumSize = new System.Drawing.Size(75, 26);
 			this._buttonClose.Name = "_buttonClose";
@@ -134,7 +134,7 @@
 			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutPanel.Size = new System.Drawing.Size(390, 379);
+			this._tableLayoutPanel.Size = new System.Drawing.Size(360, 404);
 			this._tableLayoutPanel.TabIndex = 0;
 			// 
 			// _groupBoxDestinationFolder
@@ -143,40 +143,41 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this._groupBoxDestinationFolder.AutoSize = true;
 			this._tableLayoutPanel.SetColumnSpan(this._groupBoxDestinationFolder, 2);
-			this._groupBoxDestinationFolder.Controls.Add(this.tableLayoutPanel1);
+			this._groupBoxDestinationFolder.Controls.Add(this._tableLayoutDestinationFolder);
 			this.locExtender.SetLocalizableToolTip(this._groupBoxDestinationFolder, null);
 			this.locExtender.SetLocalizationComment(this._groupBoxDestinationFolder, null);
 			this.locExtender.SetLocalizingId(this._groupBoxDestinationFolder, "RestoreDlg._groupBoxDestinationFolder");
 			this._groupBoxDestinationFolder.Location = new System.Drawing.Point(0, 126);
 			this._groupBoxDestinationFolder.Margin = new System.Windows.Forms.Padding(0, 0, 0, 10);
 			this._groupBoxDestinationFolder.Name = "_groupBoxDestinationFolder";
-			this._groupBoxDestinationFolder.Padding = new System.Windows.Forms.Padding(10, 8, 10, 10);
-			this._groupBoxDestinationFolder.Size = new System.Drawing.Size(390, 105);
+			this._groupBoxDestinationFolder.Padding = new System.Windows.Forms.Padding(10, 8, 10, 0);
+			this._groupBoxDestinationFolder.Size = new System.Drawing.Size(360, 107);
 			this._groupBoxDestinationFolder.TabIndex = 3;
 			this._groupBoxDestinationFolder.TabStop = false;
 			this._groupBoxDestinationFolder.Text = "Destination Folder";
 			// 
-			// tableLayoutPanel1
+			// _tableLayoutDestinationFolder
 			// 
-			this.tableLayoutPanel1.AutoSize = true;
-			this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.tableLayoutPanel1.ColumnCount = 1;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Controls.Add(this._labelDefaultFolderValue, 0, 1);
-			this.tableLayoutPanel1.Controls.Add(this._radioDefaultFolder, 0, 0);
-			this.tableLayoutPanel1.Controls.Add(this._linkOtherFolderValue, 0, 3);
-			this.tableLayoutPanel1.Controls.Add(this._radioOtherFolder, 0, 2);
-			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(10, 21);
-			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.RowCount = 4;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(370, 74);
-			this.tableLayoutPanel1.TabIndex = 0;
+			this._tableLayoutDestinationFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this._tableLayoutDestinationFolder.AutoSize = true;
+			this._tableLayoutDestinationFolder.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this._tableLayoutDestinationFolder.ColumnCount = 1;
+			this._tableLayoutDestinationFolder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this._tableLayoutDestinationFolder.Controls.Add(this._labelDefaultFolderValue, 0, 1);
+			this._tableLayoutDestinationFolder.Controls.Add(this._radioDefaultFolder, 0, 0);
+			this._tableLayoutDestinationFolder.Controls.Add(this._linkOtherFolderValue, 0, 3);
+			this._tableLayoutDestinationFolder.Controls.Add(this._radioOtherFolder, 0, 2);
+			this._tableLayoutDestinationFolder.Location = new System.Drawing.Point(10, 20);
+			this._tableLayoutDestinationFolder.Margin = new System.Windows.Forms.Padding(0);
+			this._tableLayoutDestinationFolder.Name = "_tableLayoutDestinationFolder";
+			this._tableLayoutDestinationFolder.RowCount = 4;
+			this._tableLayoutDestinationFolder.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutDestinationFolder.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutDestinationFolder.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutDestinationFolder.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayoutDestinationFolder.Size = new System.Drawing.Size(340, 74);
+			this._tableLayoutDestinationFolder.TabIndex = 0;
 			// 
 			// _labelDefaultFolderValue
 			// 
@@ -192,7 +193,7 @@
 			this._labelDefaultFolderValue.Location = new System.Drawing.Point(17, 20);
 			this._labelDefaultFolderValue.Margin = new System.Windows.Forms.Padding(17, 0, 0, 0);
 			this._labelDefaultFolderValue.Name = "_labelDefaultFolderValue";
-			this._labelDefaultFolderValue.Size = new System.Drawing.Size(353, 13);
+			this._labelDefaultFolderValue.Size = new System.Drawing.Size(323, 13);
 			this._labelDefaultFolderValue.TabIndex = 1;
 			this._labelDefaultFolderValue.Text = "#";
 			// 
@@ -208,7 +209,7 @@
 			this._radioDefaultFolder.Location = new System.Drawing.Point(0, 0);
 			this._radioDefaultFolder.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
 			this._radioDefaultFolder.Name = "_radioDefaultFolder";
-			this._radioDefaultFolder.Size = new System.Drawing.Size(370, 17);
+			this._radioDefaultFolder.Size = new System.Drawing.Size(340, 17);
 			this._radioDefaultFolder.TabIndex = 0;
 			this._radioDefaultFolder.TabStop = true;
 			this._radioDefaultFolder.Text = "Restore to Default Folder";
@@ -227,7 +228,7 @@
 			this._linkOtherFolderValue.Location = new System.Drawing.Point(17, 61);
 			this._linkOtherFolderValue.Margin = new System.Windows.Forms.Padding(17, 0, 0, 0);
 			this._linkOtherFolderValue.Name = "_linkOtherFolderValue";
-			this._linkOtherFolderValue.Size = new System.Drawing.Size(353, 13);
+			this._linkOtherFolderValue.Size = new System.Drawing.Size(323, 13);
 			this._linkOtherFolderValue.TabIndex = 3;
 			this._linkOtherFolderValue.TabStop = true;
 			this._linkOtherFolderValue.Text = "#";
@@ -245,7 +246,7 @@
 			this._radioOtherFolder.Location = new System.Drawing.Point(0, 41);
 			this._radioOtherFolder.Margin = new System.Windows.Forms.Padding(0, 8, 0, 3);
 			this._radioOtherFolder.Name = "_radioOtherFolder";
-			this._radioOtherFolder.Size = new System.Drawing.Size(370, 17);
+			this._radioOtherFolder.Size = new System.Drawing.Size(340, 17);
 			this._radioOtherFolder.TabIndex = 2;
 			this._radioOtherFolder.TabStop = true;
 			this._radioOtherFolder.Text = "Restore to Other Folder";
@@ -300,12 +301,26 @@
 			this._grid.SelectedRowForeColor = System.Drawing.Color.Empty;
 			this._grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this._grid.ShowWaterMarkWhenDirty = false;
-			this._grid.Size = new System.Drawing.Size(390, 99);
+			this._grid.Size = new System.Drawing.Size(360, 99);
 			this._grid.TabIndex = 2;
 			this._grid.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
 			this._grid.WaterMark = "!";
 			this._grid.CurrentRowChanged += new System.EventHandler(this.HandleGridCurrentRowChanged);
 			this._grid.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleGridPainting);
+			// 
+			// _colProject
+			// 
+			this._colProject.HeaderText = "Project";
+			this._colProject.Name = "_colProject";
+			this._colProject.ReadOnly = true;
+			// 
+			// _colBackupFile
+			// 
+			this._colBackupFile.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this._colBackupFile.FillWeight = 80F;
+			this._colBackupFile.HeaderText = "Backup File";
+			this._colBackupFile.Name = "_colBackupFile";
+			this._colBackupFile.ReadOnly = true;
 			// 
 			// _labelBackupFilesFound
 			// 
@@ -328,7 +343,7 @@
 			this.locExtender.SetLocalizableToolTip(this._linkSelectOtherBackupFile, null);
 			this.locExtender.SetLocalizationComment(this._linkSelectOtherBackupFile, null);
 			this.locExtender.SetLocalizingId(this._linkSelectOtherBackupFile, "RestoreDlg._linkSelectOtherBackupFile");
-			this._linkSelectOtherBackupFile.Location = new System.Drawing.Point(256, 0);
+			this._linkSelectOtherBackupFile.Location = new System.Drawing.Point(226, 0);
 			this._linkSelectOtherBackupFile.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._linkSelectOtherBackupFile.Name = "_linkSelectOtherBackupFile";
 			this._linkSelectOtherBackupFile.Size = new System.Drawing.Size(134, 13);
@@ -345,7 +360,7 @@
 			this.locExtender.SetLocalizableToolTip(this._linkViewExceptionDetails, null);
 			this.locExtender.SetLocalizationComment(this._linkViewExceptionDetails, null);
 			this.locExtender.SetLocalizingId(this._linkViewExceptionDetails, "RestoreDlg._linkViewExceptionDetails");
-			this._linkViewExceptionDetails.Location = new System.Drawing.Point(291, 335);
+			this._linkViewExceptionDetails.Location = new System.Drawing.Point(261, 360);
 			this._linkViewExceptionDetails.Margin = new System.Windows.Forms.Padding(0, 10, 0, 3);
 			this._linkViewExceptionDetails.Name = "_linkViewExceptionDetails";
 			this._linkViewExceptionDetails.Size = new System.Drawing.Size(99, 13);
@@ -369,21 +384,21 @@
 			this._tableLayoutButtons.Controls.Add(this._buttonCancel, 2, 0);
 			this._tableLayoutButtons.Controls.Add(this._buttonClose, 3, 0);
 			this._tableLayoutButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this._tableLayoutButtons.Location = new System.Drawing.Point(15, 394);
+			this._tableLayoutButtons.Location = new System.Drawing.Point(15, 419);
 			this._tableLayoutButtons.Name = "_tableLayoutButtons";
 			this._tableLayoutButtons.RowCount = 1;
 			this._tableLayoutButtons.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutButtons.Size = new System.Drawing.Size(390, 36);
+			this._tableLayoutButtons.Size = new System.Drawing.Size(360, 36);
 			this._tableLayoutButtons.TabIndex = 1;
 			// 
 			// _buttonLoadProject
 			// 
 			this._buttonLoadProject.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this._buttonLoadProject.AutoSize = true;
-			this.locExtender.SetLocalizableToolTip(this._buttonLoadProject, "");
+			this.locExtender.SetLocalizableToolTip(this._buttonLoadProject, global::SIL.Pa.ResourceStuff.PaTMStrings.kstidDoNothingToolTip);
 			this.locExtender.SetLocalizationComment(this._buttonLoadProject, null);
 			this.locExtender.SetLocalizingId(this._buttonLoadProject, "RestoreDlg._buttonLoadProject");
-			this._buttonLoadProject.Location = new System.Drawing.Point(27, 10);
+			this._buttonLoadProject.Location = new System.Drawing.Point(0, 10);
 			this._buttonLoadProject.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this._buttonLoadProject.MinimumSize = new System.Drawing.Size(120, 26);
 			this._buttonLoadProject.Name = "_buttonLoadProject";
@@ -413,25 +428,11 @@
 			this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
 			this.dataGridViewTextBoxColumn2.ReadOnly = true;
 			// 
-			// _colProject
-			// 
-			this._colProject.HeaderText = "Project";
-			this._colProject.Name = "_colProject";
-			this._colProject.ReadOnly = true;
-			// 
-			// _colBackupFile
-			// 
-			this._colBackupFile.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this._colBackupFile.FillWeight = 80F;
-			this._colBackupFile.HeaderText = "Backup File";
-			this._colBackupFile.Name = "_colBackupFile";
-			this._colBackupFile.ReadOnly = true;
-			// 
 			// RestoreDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(420, 445);
+			this.ClientSize = new System.Drawing.Size(390, 470);
 			this.Controls.Add(this._tableLayoutPanel);
 			this.Controls.Add(this._tableLayoutButtons);
 			this.locExtender.SetLocalizableToolTip(this, null);
@@ -439,7 +440,7 @@
 			this.locExtender.SetLocalizingId(this, "RestoreDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.MinimumSize = new System.Drawing.Size(345, 415);
+			this.MinimumSize = new System.Drawing.Size(400, 500);
 			this.Name = "RestoreDlg";
 			this.Padding = new System.Windows.Forms.Padding(15);
 			this.ShowIcon = false;
@@ -450,8 +451,8 @@
 			this._tableLayoutPanel.PerformLayout();
 			this._groupBoxDestinationFolder.ResumeLayout(false);
 			this._groupBoxDestinationFolder.PerformLayout();
-			this.tableLayoutPanel1.ResumeLayout(false);
-			this.tableLayoutPanel1.PerformLayout();
+			this._tableLayoutDestinationFolder.ResumeLayout(false);
+			this._tableLayoutDestinationFolder.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this._grid)).EndInit();
 			this._tableLayoutButtons.ResumeLayout(false);
 			this._tableLayoutButtons.PerformLayout();
@@ -478,7 +479,7 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn _colBackupFile;
 		private System.Windows.Forms.LinkLabel _linkOtherFolderValue;
 		private System.Windows.Forms.GroupBox _groupBoxDestinationFolder;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+		private System.Windows.Forms.TableLayoutPanel _tableLayoutDestinationFolder;
 		private System.Windows.Forms.Label _labelDefaultFolderValue;
 		private System.Windows.Forms.RadioButton _radioDefaultFolder;
 		private System.Windows.Forms.RadioButton _radioOtherFolder;

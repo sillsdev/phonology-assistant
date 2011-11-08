@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using Ionic.Zip;
+using Palaso.Reporting;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
 
@@ -71,7 +72,7 @@ namespace SIL.Pa.UI.Dialogs
 			return (from wentry in Project.WordCache
 					let audioFile = wentry.GetAudioFileUsingFallBackIfNecessary()
 					where audioFile != null
-					select audioFile).Distinct(StringComparer.Ordinal);
+					select audioFile).Distinct(StringComparer.Ordinal).OrderBy(f => Path.GetFileNameWithoutExtension(f));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -109,6 +110,18 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public bool GetDoesBackupAlreadyExist()
+		{
+			return File.Exists(Path.Combine(GetBackupDestinationFolder(), BackupFile));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetBackupDestinationFolder()
+		{
+			return (OtherDestFolder ?? DefaultBackupFolder);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void Backup(bool includeDataSourceFiles, bool includeSoundFiles,
 			Action<int> reportProgressAction, Action finishedAction)
 		{
@@ -135,7 +148,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (_audioFiles.Count > 0)
 				zip.AddFiles(_audioFiles, "Audio");
 
-			zip.Save(Path.Combine(TargetFolder ?? DefaultBackupFolder, BackupFile));
+			zip.Save(Path.Combine(GetBackupDestinationFolder(), BackupFile));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -216,7 +229,7 @@ namespace SIL.Pa.UI.Dialogs
 			root.Add(new XElement("backupTimeUtc", DateTime.UtcNow.ToLongTimeString()));
 			root.Add(new XElement("culture", CultureInfo.CurrentCulture.ToString()));
             root.Add(new XElement("machineName", Environment.MachineName));
-            root.Add(new XElement("osVersion", Environment.OSVersion.VersionString));
+            root.Add(new XElement("osVersion", ErrorReport.GetOperatingSystemLabel()));
             root.Add(new XElement("userDomainName", Environment.UserDomainName));
             root.Add(new XElement("userName", Environment.UserName));
 

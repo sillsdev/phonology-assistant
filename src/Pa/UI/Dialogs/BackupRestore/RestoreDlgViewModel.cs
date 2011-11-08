@@ -15,8 +15,8 @@ namespace SIL.Pa.UI.Dialogs
 {
 	public class RestoreDlgViewModel : BackupRestoreDlgViewModelBase
 	{
+		public string SuggestedDestFolder { get; protected set; }
 		public string NameOfProjectToRestore { get; private set; }
-		public string SuggestedTargetFolder { get; private set; }
 		public string CurrentProjectFileName { get; private set; }
 		public List<KeyValuePair<string, string>> AvailableBackups { get; private set; }
 
@@ -91,7 +91,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			BackupFile = AvailableBackups[index].Value;
 			NameOfProjectToRestore = AvailableBackups[index].Key;
-			SuggestedTargetFolder = GetSuggestedTargetFolder(index);
+			SuggestedDestFolder = GetSuggestedTargetFolder(index);
 			ReadFilesFromBackupFile(BackupFile);
 		}
 
@@ -206,7 +206,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void PerformZipWork(ZipFile zip)
 		{
-			var restoreFolder = TargetFolder ?? SuggestedTargetFolder;
+			var restoreFolder = OtherDestFolder ?? SuggestedDestFolder;
 			_targetFolderPreexisted = Directory.Exists(restoreFolder);
 
 			zip.ExtractProgress += HandleZipExtractProgress;
