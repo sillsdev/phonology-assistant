@@ -57,8 +57,8 @@ namespace SIL.Pa.UI.Dialogs
 			_buttonClose.Click += delegate { Close(); };
 			_buttonCancel.Click += delegate { _viewModel.Cancel = true; };
 
-			_radioOtherFolder.CheckedChanged += HandleDestinationFolderRadioButtonCheckedChanged;
-			_radioDefaultFolder.CheckedChanged += HandleDestinationFolderRadioButtonCheckedChanged;
+			_radioOtherFolder.CheckedChanged += delegate { UpdateDisplay(); };
+			_radioDefaultFolder.CheckedChanged += delegate { UpdateDisplay(); };
 
 			var lastTargetRestoreFolder = Settings.Default.LastOtherRestoreFolder;
 			_viewModel.TargetFolder =
@@ -129,22 +129,16 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleDestinationFolderRadioButtonCheckedChanged(object sender, EventArgs e)
-		{
-			UpdateDisplay();
-		}
-
-		/// ------------------------------------------------------------------------------------
 		private void HandleOtherFolderValueLinkClick(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			var description = string.Format(App.GetString(
-					"DialogBoxes.RestoreDlg.ChangeFolderBrowserDlg.Description",
-					"Specify the folder where the '{0}' project will be restored."),
-					_grid.CurrentRow.Cells[0].Value as string);
+				"DialogBoxes.RestoreDlg.ChangeFolderBrowserDlg.Description",
+				"Specify the folder where the '{0}' project will be restored."),
+				_grid.CurrentRow.Cells[0].Value as string);
 
 			var folderContainsProjectMsg = App.GetString(
 				"DialogBoxes.RestoreDlg.ChangeFolderBrowserDlg.FolderAlreadyContainsProjectMsg",
-					"The folder you selected already contains a Phonology Assistant project. Please select a folder that does not contain a project.");
+				"The folder you selected already contains a Phonology Assistant project. Please select a folder that does not contain a project.");
 
 			if (_viewModel.SpecifyTargetFolder(this, description, folderContainsProjectMsg))
 			{

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using Palaso.Reporting;
 using SIL.Pa.Properties;
@@ -10,23 +12,42 @@ namespace SIL.Pa.UI.Dialogs
 	public partial class BackupDlg : Form
 	{
 		private readonly BackupDlgViewModel _viewModel;
+		private Font _boldFont;
 
 		/// ------------------------------------------------------------------------------------
 		public BackupDlg()
 		{
 			InitializeComponent();
 
+			_boldFont = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
 			_labelProject.Font = FontHelper.UIFont;
-			_labelProjectValue.Font = FontHelper.UIFont;
-			_labelBackupFolder.Font = FontHelper.UIFont;
+			_labelProjectValue.Font = _boldFont; 
 			_labelBackupFile.Font = FontHelper.UIFont;
 			_labelBackupFileValue.Font = FontHelper.UIFont;
-			_labelBackupFolderValue.Font = FontHelper.UIFont;
+			_textBoxBackupFile.Font = FontHelper.UIFont;
+
+			_groupBoxDestinationFolder.Font = FontHelper.UIFont;
+			_radioDefaultFolder.Font = FontHelper.UIFont;
+			_labelDefaultFolderValue.Font = FontHelper.UIFont;
+			_radioOtherFolder.Font = FontHelper.UIFont;
+			_linkOtherFolderValue.Font = FontHelper.UIFont;
+
+			_groupIncludeInBackup.Font = FontHelper.UIFont;
 			_checkBoxIncludeDataSources.Font = FontHelper.UIFont;
 			_checkBoxIncludeAudioFiles.Font = FontHelper.UIFont;
+			
+			_linkViewExceptionDetails.Font = FontHelper.UIFont;
 
 			_checkBoxIncludeAudioFiles.Checked = Settings.Default.IncludeAudioFilesInPaBackups;
 			_checkBoxIncludeDataSources.Checked = Settings.Default.IncludeDataSourceFilesInPaBackups;
+
+			_radioDefaultFolder.Checked = true;
+
+			if (Settings.Default.LastOtherBackupFolder != null &&
+				Directory.Exists(Settings.Default.LastOtherBackupFolder))
+			{
+				_radioOtherFolder.Checked = Settings.Default.BackupToOtherFolder;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -34,26 +55,32 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			_viewModel = viewModel;
 			_labelProjectValue.Text = _viewModel.Project.Name;
-			_labelBackupFolderValue.Text = _viewModel.TargetFolder;
-			_labelBackupFileValue.Text = _viewModel.BackupFile;
 
 			_viewModel.LogBox.Font = FontHelper.UIFont;
 			_viewModel.LogBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 			_viewModel.LogBox.Margin = new Padding(0);
 			_viewModel.LogBox.ReportErrorLinkClicked += delegate { Close(); };
-			_tableLayoutPanel.Controls.Add(_viewModel.LogBox, 0, 5);
+			_tableLayoutPanel.Controls.Add(_viewModel.LogBox, 0, 6);
 			_tableLayoutPanel.SetColumnSpan(_viewModel.LogBox, 2);
 
 			_buttonClose.Click += delegate { Close(); };
 			_buttonCancel.Click += delegate { _viewModel.Cancel = true; };
 
+			_radioOtherFolder.CheckedChanged += delegate { UpdateDisplay(); };
+			_radioDefaultFolder.CheckedChanged += delegate { UpdateDisplay(); };
+
+			var lastTargetBackupFolder = Settings.Default.LastOtherBackupFolder;
+			_viewModel.TargetFolder =
+				(lastTargetBackupFolder != null && Directory.Exists(lastTargetBackupFolder) ? lastTargetBackupFolder : null);
+
 			if (_viewModel.GetAreAllDataSourcesFieldWorks())
 			{
-				_checkBoxIncludeDataSources.Enabled = false;
-				_checkBoxIncludeAudioFiles.Enabled = false;
+				_groupIncludeInBackup.Enabled = false;
 				_checkBoxIncludeDataSources.Checked = false;
 				_checkBoxIncludeAudioFiles.Checked = false;
 			}
+
+			_textBoxBackupFile.Text = Path.GetFileNameWithoutExtension(_viewModel.BackupFile);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -61,6 +88,9 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			if (disposing && (components != null))
 			{
+				if (_boldFont != null)
+					_boldFont.Dispose();
+
 				components.Dispose();
 			}
 			base.Dispose(disposing);
@@ -76,8 +106,11 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			Settings.Default.LastBackupFolder = _viewModel.TargetFolder;
-			
+			if (_viewModel.TargetFolder != null)
+				Settings.Default.LastOtherBackupFolder = _viewModel.TargetFolder;
+
+			Settings.Default.BackupToOtherFolder = _radioOtherFolder.Checked;
+
 			if (_checkBoxIncludeDataSources.Enabled)
 			{
 				Settings.Default.IncludeAudioFilesInPaBackups = _checkBoxIncludeAudioFiles.Checked;
@@ -88,7 +121,14 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void HandleChangeFolderButtonClick(object sender, EventArgs e)
+		private void HandleFileNameTextChanged(object sender, EventArgs e)
+		{
+			_viewModel.SetBackupFile(_textBoxBackupFile.Text);
+			UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleOtherFolderValueLinkClick(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			var description = string.Format(App.GetString(
 					"DialogBoxes.BackupDlg.ChangeFolderBrowserDlgDescription",
@@ -96,14 +136,82 @@ namespace SIL.Pa.UI.Dialogs
 					_viewModel.Project.Name);
 
 			if (_viewModel.SpecifyTargetFolder(this, description, null))
-				_labelBackupFolderValue.Text = _viewModel.TargetFolder;
+			{
+				if (_viewModel.TargetFolder == _viewModel.DefaultBackupFolder)
+					TellUserHeSelectedTheDefaultFolder();
+				else
+					UpdateDisplay();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void TellUserHeSelectedTheDefaultFolder()
+		{
+			var msg = App.GetString(
+				"DialogBoxes.BackupDlg.OtherFolderLinkText.WhenEnabledAndIsSameAsDefaultFolder",
+				"(specified folder is the same as the default)");
+
+			_viewModel.TargetFolder = null;
+			_linkOtherFolderValue.Links.Clear();
+			_linkOtherFolderValue.Text = msg;
+			_linkOtherFolderValue.LinkColor = Color.Red;
+			_linkOtherFolderValue.LinkArea = new LinkArea(0, _linkOtherFolderValue.Text.Length);
+			_buttonBackup.Enabled = false;
+
+			var timer = new Timer();
+			timer.Interval = 3000;
+			timer.Tick += delegate
+			{
+				timer.Stop();
+				timer.Dispose();
+				UpdateDisplay();
+			};
+
+			timer.Start();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void UpdateDisplay()
+		{
+			var unspecifiedOtherFolder = App.GetString(
+				"DialogBoxes.BackupDlg.OtherFolderLinkText.WhenNotSpecifiedAndNotEnabled", "(not specified)");
+
+			var clickToSpecifyOtherFolder = App.GetString(
+				"DialogBoxes.BackupDlg.OtherFolderLinkText.WhenNotSpecifiedAndEnabled", "(click to specify)");
+
+			_linkOtherFolderValue.Enabled = _radioOtherFolder.Checked;
+			_labelDefaultFolderValue.Enabled = _radioDefaultFolder.Checked;
+			_labelDefaultFolderValue.Text = _viewModel.DefaultBackupFolder;
+			_linkOtherFolderValue.Links.Clear();
+			_linkOtherFolderValue.LinkColor = _linkViewExceptionDetails.LinkColor;
+
+			if (_viewModel.TargetFolder != null)
+				_linkOtherFolderValue.Text = _viewModel.TargetFolder;
+			else
+				_linkOtherFolderValue.Text = (_radioOtherFolder.Checked ? clickToSpecifyOtherFolder : unspecifiedOtherFolder);
+
+			_linkOtherFolderValue.LinkArea = new LinkArea(0, _linkOtherFolderValue.Text.Length);
+
+			if (_viewModel.GetIsBackupFileNameValid())
+			{
+				_labelBackupFileValue.Text = _viewModel.BackupFile;
+				_labelBackupFileValue.ForeColor = Color.DarkSlateGray;
+			}
+			else
+			{
+				_labelBackupFileValue.Text = App.GetString("DialogBoxes.BackupDlg.InvalidBackupFileNameMSg", "Invalid file name!");
+				_labelBackupFileValue.ForeColor = Color.Red;
+			}
+
+			_buttonBackup.Enabled = (_viewModel.GetIsBackupFileNameValid() &&
+				(_radioDefaultFolder.Checked || (_radioOtherFolder.Checked && Directory.Exists(_linkOtherFolderValue.Text))));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void HandleBackupButtonClick(object sender, EventArgs e)
 		{
 			_buttonBackup.Enabled = false;
-			_buttonChangeFolder.Enabled = false;
+			//_buttonChangeFolder.Enabled = false;
 			_buttonCancel.Visible = true;
 			_buttonClose.Visible = false;
 			_progressBar.Visible = true;
@@ -126,8 +234,8 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 
 			_progressBar.Visible = false;
-			_buttonSeeErrorDetails.Visible = true;
-			_buttonSeeErrorDetails.Click += delegate
+			_linkViewExceptionDetails.Visible = true;
+			_linkViewExceptionDetails.LinkClicked += delegate
 			{
 				ErrorReport.ReportNonFatalExceptionWithMessage(_viewModel.BackupRestoreException,
 					App.GetString("DialogBoxes.BackupDlg.BackupErrorMsg",

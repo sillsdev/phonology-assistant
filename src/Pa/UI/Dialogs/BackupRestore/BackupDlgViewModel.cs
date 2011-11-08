@@ -10,7 +10,6 @@ using System.Xml.Linq;
 using Ionic.Zip;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 
 namespace SIL.Pa.UI.Dialogs
 {
@@ -20,29 +19,16 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public BackupDlgViewModel(PaProject project) : base(project)
 		{
+			if (!Directory.Exists(DefaultBackupFolder))
+				Directory.CreateDirectory(DefaultBackupFolder);
+
 			var fmt = App.GetString("DialogBoxes.BackupDlg.BackupFileNameFormat", "{0}_({1}).pabackup");
 			BackupFile = string.Format(fmt, Project.Name, DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss"));
-			TargetFolder = GetTargetFolderAndCreatingDefaultIfNonExistant();
 
 			_infoFile = CreateBackupInfoFile();
 			_prjFiles = GetProjectFilesToBackup().ToList();
 			_dataSourceFiles = GetDataSourceFilesToBackup().ToList();
 			_audioFiles = GetAudioFilesToBackup().ToList();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private string GetTargetFolderAndCreatingDefaultIfNonExistant()
-		{
-			var folder = Settings.Default.LastBackupFolder;
-			
-			if (folder == null || !Directory.Exists(folder))
-			{
-				folder = DefaultBackupFolder;
-				if (!Directory.Exists(folder))
-					Directory.CreateDirectory(folder);
-			}
-
-			return folder;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -104,6 +90,18 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void SetBackupFile(string backupFileNameOnly)
+		{
+			BackupFile = backupFileNameOnly.Trim() + ".pabackup";
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsBackupFileNameValid()
+		{
+			return BackupFile.IndexOfAny(Path.GetInvalidFileNameChars()) < 0;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public bool GetAreAllDataSourcesFieldWorks()
 		{
 			return Project.DataSources.All(ds => ds.Type == DataSourceType.FW ||
@@ -137,7 +135,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (_audioFiles.Count > 0)
 				zip.AddFiles(_audioFiles, "Audio");
 
-			zip.Save(Path.Combine(TargetFolder, BackupFile));
+			zip.Save(Path.Combine(TargetFolder ?? DefaultBackupFolder, BackupFile));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -211,7 +209,9 @@ namespace SIL.Pa.UI.Dialogs
 			root.Add(new XElement("paProjectFolder", App.ProjectFolder));
 			root.Add(new XElement("paExeFolder", Path.GetDirectoryName(Application.StartupPath)));
 			root.Add(new XElement("paVersion", Assembly.GetEntryAssembly().GetName().Version.ToString()));
-			root.Add(new XElement("apparentBuildDate", File.GetLastWriteTimeUtc(Application.ExecutablePath).Date.ToString("yyyy-MMM-dd")));
+			root.Add(new XElement("apparentBuildDateUtc", File.GetLastWriteTimeUtc(Application.ExecutablePath).Date.ToString("yyyy-MMM-dd")));
+			root.Add(new XElement("backupDateUtc", DateTime.UtcNow.ToLongDateString()));
+			root.Add(new XElement("backupTimeUtc", DateTime.UtcNow.ToLongTimeString()));
 			root.Add(new XElement("culture", CultureInfo.CurrentCulture.ToString()));
             root.Add(new XElement("machineName", Environment.MachineName));
             root.Add(new XElement("osVersion", Environment.OSVersion.VersionString));

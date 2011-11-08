@@ -16,9 +16,9 @@ namespace SIL.Pa.UI.Dialogs
 	public class RestoreDlgViewModel : BackupRestoreDlgViewModelBase
 	{
 		public string NameOfProjectToRestore { get; private set; }
-		public List<KeyValuePair<string, string>> AvailableBackups { get; private set; }
 		public string SuggestedTargetFolder { get; private set; }
 		public string CurrentProjectFileName { get; private set; }
+		public List<KeyValuePair<string, string>> AvailableBackups { get; private set; }
 
 		private bool _targetFolderPreexisted;
 
@@ -36,7 +36,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<string> GetBackupFiles()
 		{
-			var folder = Settings.Default.LastBackupFolder;
+			var folder = Settings.Default.LastOtherBackupFolder;
 
 			if (folder != null && Directory.Exists(folder))
 			{
@@ -45,7 +45,7 @@ namespace SIL.Pa.UI.Dialogs
 			}
 
 			folder = Path.Combine(App.ProjectFolder, "Backups");
-			if (folder != Settings.Default.LastBackupFolder && Directory.Exists(folder))
+			if (folder != Settings.Default.LastOtherBackupFolder && Directory.Exists(folder))
 			{
 				foreach (var backupFile in Directory.GetFiles(folder, "*.pabackup"))
 					yield return backupFile;
@@ -53,7 +53,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			// Check the desktop
 			folder = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-			if (folder != Settings.Default.LastBackupFolder)
+			if (folder != Settings.Default.LastOtherBackupFolder)
 			{
 				foreach (var backupFile in Directory.GetFiles(folder, "*.pabackup"))
 					yield return backupFile;
@@ -61,7 +61,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			// Check the downloads folder
 			folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Downloads");
-			if (folder != Settings.Default.LastBackupFolder && Directory.Exists(folder))
+			if (folder != Settings.Default.LastOtherBackupFolder && Directory.Exists(folder))
 			{
 				foreach (var backupFile in Directory.GetFiles(folder, "*.pabackup"))
 					yield return backupFile;

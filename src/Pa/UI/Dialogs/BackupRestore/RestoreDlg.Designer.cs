@@ -29,8 +29,6 @@
 			this._linkOtherFolderValue = new System.Windows.Forms.LinkLabel();
 			this._radioOtherFolder = new System.Windows.Forms.RadioButton();
 			this._grid = new SilTools.SilGrid();
-			this._colProject = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this._colBackupFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._labelBackupFilesFound = new System.Windows.Forms.Label();
 			this._linkSelectOtherBackupFile = new System.Windows.Forms.LinkLabel();
 			this._linkViewExceptionDetails = new System.Windows.Forms.LinkLabel();
@@ -39,6 +37,8 @@
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this._colProject = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this._colBackupFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._tableLayoutPanel.SuspendLayout();
 			this._groupBoxDestinationFolder.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
@@ -59,7 +59,7 @@
 			this._buttonRestore.MinimumSize = new System.Drawing.Size(75, 26);
 			this._buttonRestore.Name = "_buttonRestore";
 			this._buttonRestore.Size = new System.Drawing.Size(75, 26);
-			this._buttonRestore.TabIndex = 0;
+			this._buttonRestore.TabIndex = 1;
 			this._buttonRestore.Text = "Restore";
 			this._buttonRestore.UseVisualStyleBackColor = true;
 			this._buttonRestore.Click += new System.EventHandler(this.HandleRestoreButtonClick);
@@ -73,7 +73,7 @@
 			this._progressBar.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this._progressBar.Name = "_progressBar";
 			this._progressBar.Size = new System.Drawing.Size(390, 18);
-			this._progressBar.TabIndex = 3;
+			this._progressBar.TabIndex = 5;
 			this._progressBar.Visible = false;
 			// 
 			// _buttonCancel
@@ -88,7 +88,7 @@
 			this._buttonCancel.MinimumSize = new System.Drawing.Size(75, 26);
 			this._buttonCancel.Name = "_buttonCancel";
 			this._buttonCancel.Size = new System.Drawing.Size(75, 26);
-			this._buttonCancel.TabIndex = 5;
+			this._buttonCancel.TabIndex = 2;
 			this._buttonCancel.Text = "Cancel";
 			this._buttonCancel.UseVisualStyleBackColor = true;
 			this._buttonCancel.Visible = false;
@@ -107,7 +107,7 @@
 			this._buttonClose.MinimumSize = new System.Drawing.Size(75, 26);
 			this._buttonClose.Name = "_buttonClose";
 			this._buttonClose.Size = new System.Drawing.Size(75, 26);
-			this._buttonClose.TabIndex = 6;
+			this._buttonClose.TabIndex = 3;
 			this._buttonClose.Text = "Close";
 			this._buttonClose.UseVisualStyleBackColor = true;
 			// 
@@ -135,7 +135,7 @@
 			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutPanel.Size = new System.Drawing.Size(390, 379);
-			this._tableLayoutPanel.TabIndex = 7;
+			this._tableLayoutPanel.TabIndex = 0;
 			// 
 			// _groupBoxDestinationFolder
 			// 
@@ -152,7 +152,7 @@
 			this._groupBoxDestinationFolder.Name = "_groupBoxDestinationFolder";
 			this._groupBoxDestinationFolder.Padding = new System.Windows.Forms.Padding(8, 8, 8, 0);
 			this._groupBoxDestinationFolder.Size = new System.Drawing.Size(390, 108);
-			this._groupBoxDestinationFolder.TabIndex = 9;
+			this._groupBoxDestinationFolder.TabIndex = 3;
 			this._groupBoxDestinationFolder.TabStop = false;
 			this._groupBoxDestinationFolder.Text = "Destination Folder";
 			// 
@@ -194,7 +194,7 @@
 			this._labelDefaultFolderValue.Margin = new System.Windows.Forms.Padding(17, 0, 0, 0);
 			this._labelDefaultFolderValue.Name = "_labelDefaultFolderValue";
 			this._labelDefaultFolderValue.Size = new System.Drawing.Size(350, 13);
-			this._labelDefaultFolderValue.TabIndex = 18;
+			this._labelDefaultFolderValue.TabIndex = 1;
 			this._labelDefaultFolderValue.Text = "#";
 			// 
 			// _radioDefaultFolder
@@ -223,12 +223,13 @@
 			this._linkOtherFolderValue.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._linkOtherFolderValue, "Click to select alternate destination folder");
 			this.locExtender.SetLocalizationComment(this._linkOtherFolderValue, null);
+			this.locExtender.SetLocalizationPriority(this._linkOtherFolderValue, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._linkOtherFolderValue, "RestoreDlg._linkOtherFolderValue");
 			this._linkOtherFolderValue.Location = new System.Drawing.Point(17, 61);
 			this._linkOtherFolderValue.Margin = new System.Windows.Forms.Padding(17, 0, 0, 0);
 			this._linkOtherFolderValue.Name = "_linkOtherFolderValue";
 			this._linkOtherFolderValue.Size = new System.Drawing.Size(350, 13);
-			this._linkOtherFolderValue.TabIndex = 17;
+			this._linkOtherFolderValue.TabIndex = 3;
 			this._linkOtherFolderValue.TabStop = true;
 			this._linkOtherFolderValue.Text = "#";
 			this._linkOtherFolderValue.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleOtherFolderValueLinkClick);
@@ -246,7 +247,7 @@
 			this._radioOtherFolder.Margin = new System.Windows.Forms.Padding(0, 8, 0, 3);
 			this._radioOtherFolder.Name = "_radioOtherFolder";
 			this._radioOtherFolder.Size = new System.Drawing.Size(367, 17);
-			this._radioOtherFolder.TabIndex = 1;
+			this._radioOtherFolder.TabIndex = 2;
 			this._radioOtherFolder.TabStop = true;
 			this._radioOtherFolder.Text = "Restore to Other Folder";
 			this._radioOtherFolder.UseVisualStyleBackColor = false;
@@ -301,25 +302,11 @@
 			this._grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this._grid.ShowWaterMarkWhenDirty = false;
 			this._grid.Size = new System.Drawing.Size(390, 99);
-			this._grid.TabIndex = 9;
+			this._grid.TabIndex = 2;
 			this._grid.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
 			this._grid.WaterMark = "!";
 			this._grid.CurrentRowChanged += new System.EventHandler(this.HandleGridCurrentRowChanged);
 			this._grid.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleGridPainting);
-			// 
-			// _colProject
-			// 
-			this._colProject.HeaderText = "Project";
-			this._colProject.Name = "_colProject";
-			this._colProject.ReadOnly = true;
-			// 
-			// _colBackupFile
-			// 
-			this._colBackupFile.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this._colBackupFile.FillWeight = 80F;
-			this._colBackupFile.HeaderText = "Backup File";
-			this._colBackupFile.Name = "_colBackupFile";
-			this._colBackupFile.ReadOnly = true;
 			// 
 			// _labelBackupFilesFound
 			// 
@@ -332,7 +319,7 @@
 			this._labelBackupFilesFound.Margin = new System.Windows.Forms.Padding(2, 0, 3, 0);
 			this._labelBackupFilesFound.Name = "_labelBackupFilesFound";
 			this._labelBackupFilesFound.Size = new System.Drawing.Size(101, 13);
-			this._labelBackupFilesFound.TabIndex = 10;
+			this._labelBackupFilesFound.TabIndex = 0;
 			this._labelBackupFilesFound.Text = "Backup Files Found";
 			// 
 			// _linkSelectOtherBackupFile
@@ -346,7 +333,7 @@
 			this._linkSelectOtherBackupFile.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._linkSelectOtherBackupFile.Name = "_linkSelectOtherBackupFile";
 			this._linkSelectOtherBackupFile.Size = new System.Drawing.Size(134, 13);
-			this._linkSelectOtherBackupFile.TabIndex = 17;
+			this._linkSelectOtherBackupFile.TabIndex = 1;
 			this._linkSelectOtherBackupFile.TabStop = true;
 			this._linkSelectOtherBackupFile.Text = "Select Other Backup File...";
 			this._linkSelectOtherBackupFile.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleSelectOtherBackupFileLinkClick);
@@ -359,13 +346,13 @@
 			this.locExtender.SetLocalizableToolTip(this._linkViewExceptionDetails, null);
 			this.locExtender.SetLocalizationComment(this._linkViewExceptionDetails, null);
 			this.locExtender.SetLocalizingId(this._linkViewExceptionDetails, "RestoreDlg._linkViewExceptionDetails");
-			this._linkViewExceptionDetails.Location = new System.Drawing.Point(266, 335);
+			this._linkViewExceptionDetails.Location = new System.Drawing.Point(291, 335);
 			this._linkViewExceptionDetails.Margin = new System.Windows.Forms.Padding(0, 10, 0, 3);
 			this._linkViewExceptionDetails.Name = "_linkViewExceptionDetails";
-			this._linkViewExceptionDetails.Size = new System.Drawing.Size(124, 13);
-			this._linkViewExceptionDetails.TabIndex = 12;
+			this._linkViewExceptionDetails.Size = new System.Drawing.Size(99, 13);
+			this._linkViewExceptionDetails.TabIndex = 4;
 			this._linkViewExceptionDetails.TabStop = true;
-			this._linkViewExceptionDetails.Text = "View Exception Details...";
+			this._linkViewExceptionDetails.Text = "View Error Details...";
 			this._linkViewExceptionDetails.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this._linkViewExceptionDetails.Visible = false;
 			// 
@@ -388,7 +375,7 @@
 			this._tableLayoutButtons.RowCount = 1;
 			this._tableLayoutButtons.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutButtons.Size = new System.Drawing.Size(390, 36);
-			this._tableLayoutButtons.TabIndex = 8;
+			this._tableLayoutButtons.TabIndex = 1;
 			// 
 			// _buttonLoadProject
 			// 
@@ -402,7 +389,7 @@
 			this._buttonLoadProject.MinimumSize = new System.Drawing.Size(120, 26);
 			this._buttonLoadProject.Name = "_buttonLoadProject";
 			this._buttonLoadProject.Size = new System.Drawing.Size(120, 26);
-			this._buttonLoadProject.TabIndex = 7;
+			this._buttonLoadProject.TabIndex = 0;
 			this._buttonLoadProject.Text = "Load Project && Close";
 			this._buttonLoadProject.UseVisualStyleBackColor = true;
 			this._buttonLoadProject.Visible = false;
@@ -426,6 +413,20 @@
 			this.dataGridViewTextBoxColumn2.HeaderText = "Backup File";
 			this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
 			this.dataGridViewTextBoxColumn2.ReadOnly = true;
+			// 
+			// _colProject
+			// 
+			this._colProject.HeaderText = "Project";
+			this._colProject.Name = "_colProject";
+			this._colProject.ReadOnly = true;
+			// 
+			// _colBackupFile
+			// 
+			this._colBackupFile.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this._colBackupFile.FillWeight = 80F;
+			this._colBackupFile.HeaderText = "Backup File";
+			this._colBackupFile.Name = "_colBackupFile";
+			this._colBackupFile.ReadOnly = true;
 			// 
 			// RestoreDlg
 			// 
