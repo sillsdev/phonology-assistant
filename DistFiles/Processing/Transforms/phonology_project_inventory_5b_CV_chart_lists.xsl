@@ -40,7 +40,7 @@ exclude-result-prefixes="xhtml"
 						<xsl:if test="number($base-file-level) &gt; 0">
 							<xsl:call-template name="dup">
 								<xsl:with-param name="input" select="'../'" />
-								<xsl:with-param name="count" select="number($base-file-level) - 1" />
+								<xsl:with-param name="count" select="number($base-file-level)" />
 							</xsl:call-template>
 						</xsl:if>
 					</li>
@@ -121,7 +121,7 @@ exclude-result-prefixes="xhtml"
 			</head>
 			<body>
 				<xsl:apply-templates select="div[@id = 'metadata']" mode="XHTML">
-					<xsl:with-param name="view" select="@view" />
+					<xsl:with-param name="view" select="$view" />
 				</xsl:apply-templates>
 				<xsl:choose>
 					<xsl:when test="featureDefinitions[@class = 'descriptive']">

@@ -4,7 +4,7 @@ xmlns:svg="http://www.w3.org/2000/svg"
 exclude-result-prefixes="xhtml svg"
 >
 
-  <!-- phonology_export_view_details.xsl 2011-11-04 -->
+  <!-- phonology_export_view_details.xsl 2011-11-07 -->
   <!-- Add table of details to exported view before conversion to XHTML or Word 2003 XML. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="no" />
@@ -89,53 +89,49 @@ exclude-result-prefixes="xhtml svg"
 						<xsl:when test="$view = 'Data' or $view = 'Search' or $view = 'Distribution'">
 							<xsl:call-template name="trNumber">
 								<xsl:with-param name="key" select="'record'" />
-								<xsl:with-param name="value" select="$details/xhtml:li[@class = 'number record']" />
+								<xsl:with-param name="details" select="$details" />
 							</xsl:call-template>
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:if test="$view = 'Segments'">
 								<xsl:call-template name="trNumber">
 									<xsl:with-param name="key" select="'segment'" />
-									<xsl:with-param name="value" select="$details/xhtml:li[@class = 'number segment']" />
+									<xsl:with-param name="details" select="$details" />
 								</xsl:call-template>
 							</xsl:if>
 							<xsl:call-template name="trNumber">
 								<xsl:with-param name="key" select="'consonant'" />
-								<xsl:with-param name="value" select="$details/xhtml:li[@class = 'number consonant']" />
+								<xsl:with-param name="details" select="$details" />
 							</xsl:call-template>
 							<xsl:call-template name="trNumber">
 								<xsl:with-param name="key" select="'vowel'" />
-								<xsl:with-param name="value" select="$details/xhtml:li[@class = 'number vowel']" />
+								<xsl:with-param name="details" select="$details" />
 							</xsl:call-template>
-							<!--
-			<xsl:variable name="numberOfMonophthongs" select="count(//xhtml:div[starts-with(@class, 'quadrilateral')]//svg:g[@class = 'data']/svg:g[@class = 'monophthong'])" />
-			<xsl:variable name="numberOfDiphthongs" select="count(//xhtml:div[starts-with(@class, 'quadrilateral')]//svg:g[@class = 'data']/svg:g[@class = 'diphthong'])" />
-							-->
 							<xsl:call-template name="trNumber">
 								<xsl:with-param name="key" select="'monophthong'" />
-								<xsl:with-param name="value" select="$details/xhtml:li[@class = 'number monophthong']" />
+								<xsl:with-param name="details" select="$details" />
 							</xsl:call-template>
 							<xsl:call-template name="trNumber">
 								<xsl:with-param name="key" select="'diphthong'" />
-								<xsl:with-param name="value" select="$details/xhtml:li[@class = 'number diphthong']" />
+								<xsl:with-param name="details" select="$details" />
 							</xsl:call-template>
 						</xsl:otherwise>
 					</xsl:choose>
 					<xsl:call-template name="trNumber">
 						<xsl:with-param name="key" select="'group'" />
-						<xsl:with-param name="value" select="$details/xhtml:li[@class = 'number group']" />
+						<xsl:with-param name="details" select="$details" />
 					</xsl:call-template>
 					<xsl:call-template name="trNumberPairs">
 						<xsl:with-param name="key" select="'more-similar'" />
-						<xsl:with-param name="value" select="$details/xhtml:li[@class = 'number pairs more-similar']" />
+						<xsl:with-param name="details" select="$details" />
 					</xsl:call-template>
 					<xsl:call-template name="trNumberPairs">
 						<xsl:with-param name="key" select="'less-similar'" />
-						<xsl:with-param name="value" select="$details/xhtml:li[@class = 'number pairs less-similar']" />
+						<xsl:with-param name="details" select="$details" />
 					</xsl:call-template>
 					<xsl:call-template name="trNumberPairs">
 						<xsl:with-param name="key" select="'least-similar'" />
-						<xsl:with-param name="value" select="$details/xhtml:li[@class = 'number pairs least-similar']" />
+						<xsl:with-param name="details" select="$details" />
 					</xsl:call-template>
 					<xsl:if test="$pairs">
 						<xsl:call-template name="tr">
@@ -254,11 +250,13 @@ exclude-result-prefixes="xhtml svg"
 
 	<xsl:template name="trNumber">
 		<xsl:param name="key" />
-		<xsl:param name="value" />
+		<xsl:param name="details" />
+		<xsl:variable name="class" select="concat('number ', $key)" />
+		<xsl:variable name="value" select="$details/xhtml:li[@class = $class]" />
 		<xsl:if test="$value">
-			<xsl:if test="$value != '0' or $value != 0">
+			<xsl:if test="$value != '0'">
 				<xsl:call-template name="tr">
-					<xsl:with-param name="class" select="concat('number ', $key)" />
+					<xsl:with-param name="class" select="$class" />
 					<xsl:with-param name="heading" select="concat('Number of ', $key, 's:')" />
 					<xsl:with-param name="value" select="$value" />
 				</xsl:call-template>
@@ -268,10 +266,12 @@ exclude-result-prefixes="xhtml svg"
 
 	<xsl:template name="trNumberPairs">
 		<xsl:param name="key" />
-		<xsl:param name="value" />
+		<xsl:param name="details" />
+		<xsl:variable name="class" select="concat('number pairs ', $key)" />
+		<xsl:variable name="value" select="$details/xhtml:li[@class = $class]" />
 		<xsl:if test="$value">
 			<xsl:if test="$value != '0'">
-				<tr class="{concat('number pairs ', $key)}" xmlns="http://www.w3.org/1999/xhtml">
+				<tr class="{$class}" xmlns="http://www.w3.org/1999/xhtml">
 					<th scope="row">
 						<xsl:value-of select="'Number of '" />
 						<span class="{$key}">
