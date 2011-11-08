@@ -1033,6 +1033,39 @@ namespace SilTools
 
 			base.OnCellFormatting(e);
 		}
+		
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Draws the specified text in the middle of the grid using 12 point/bold version
+		/// of the grid's font. The verticalOffset is how far below the middle of the grid's
+		/// client area the message is drawn.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void DrawMessageInCenterOfGrid(Graphics g, string message, int verticalOffset)
+		{
+			using (var fnt = new Font(Font.FontFamily, 12f, FontStyle.Regular))
+				DrawMessageInCenterOfGrid(g, message, fnt, verticalOffset);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Draws the specified text in the middle of the grid using the specified font. The
+		/// text will be drawn using the gray font. The verticalOffset is how far below the
+		/// middle of the grid's client area the message is drawn.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void DrawMessageInCenterOfGrid(Graphics g, string message, Font fnt, int verticalOffset)
+		{
+			var rc = ClientRectangle;
+			rc.Height -= (verticalOffset + ColumnHeadersHeight);
+			rc.Y += (verticalOffset + ColumnHeadersHeight);
+			if (HScrollBar != null && HScrollBar.Visible)
+				rc.Height -= HScrollBar.Height;
+	
+			TextRenderer.DrawText(g, message, fnt, rc, SystemColors.GrayText,
+				TextFormatFlags.EndEllipsis | TextFormatFlags.HorizontalCenter |
+				TextFormatFlags.VerticalCenter | TextFormatFlags.WordBreak);
+		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
