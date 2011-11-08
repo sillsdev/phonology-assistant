@@ -27,8 +27,8 @@
 					<Component Id="DisablePASplashScreen.pdb" Guid="{406FA8A0-43F4-4141-9DEA-AFE0E3DD170D}">
 						<File Id="DisablePASplashScreen.pdb" KeyPath="yes" Source="..\output\release\DisablePASplashScreen.pdb" />
 					</Component>
-					<Component Id="ICSharpCode.SharpZipLib.dll" Guid="{BE824166-9FDB-45F6-91EF-80A6C391EFEE}">
-						<File Id="ICSharpCode.SharpZipLib.dll" KeyPath="yes" Source="..\output\release\ICSharpCode.SharpZipLib.dll" />
+					<Component Id="Ionic.Zip.dll" Guid="{A2F9EA27-48AC-471C-8F1A-334F1908C72E}">
+						<File Id="Ionic.Zip.dll" KeyPath="yes" Source="..\output\release\Ionic.Zip.dll" />
 					</Component>
 					<Component Id="LocalizationManager.dll" Guid="{B537CFD9-D01A-40C4-A5B2-D0D65E12D765}">
 						<File Id="LocalizationManager.dll" KeyPath="yes" Source="..\output\release\LocalizationManager.dll" />
@@ -77,7 +77,7 @@
       <ComponentRef Id="Pa.pdb" />
       <ComponentRef Id="DisablePASplashScreen.exe" />
       <ComponentRef Id="DisablePASplashScreen.pdb" />
-      <ComponentRef Id="ICSharpCode.SharpZipLib.dll" />
+      <ComponentRef Id="Ionic.Zip.dll" />
       <ComponentRef Id="LocalizationManager.dll" />
       <ComponentRef Id="Palaso.dll" />
       <ComponentRef Id="PaToFdoInterfaces.dll" />
