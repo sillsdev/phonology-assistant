@@ -307,7 +307,12 @@ namespace SilTools
 			else if (propVal.Property.PropertyType == typeof(GridSettings))
 				SetGridSettings(propVal, propNode);
 			else
-				propNode.InnerText = propVal.SerializedValue.ToString();
+			{
+				if (propVal.SerializedValue != null)
+					propNode.InnerText = propVal.SerializedValue.ToString();
+				else
+					propNode.ParentNode.RemoveChild(propNode);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
