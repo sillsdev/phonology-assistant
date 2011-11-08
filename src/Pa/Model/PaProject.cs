@@ -11,7 +11,6 @@ using SIL.Pa.Filters;
 using SIL.Pa.Model.Migration;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
-using SIL.Pa.UI.Controls;
 using SilTools;
 
 namespace SIL.Pa.Model
