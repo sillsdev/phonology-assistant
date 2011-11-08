@@ -393,8 +393,7 @@ namespace SIL.Pa.UI.Dialogs
 			}
 
 			WaitCursor.Show();
-			//Cursor = Cursors.WaitCursor;
-			//Utils.WaitCursors(true);
+
 			Project.Name = txtProjName.Text.Trim();
 			Project.LanguageName = txtLanguageName.Text.Trim();
 			Project.LanguageCode = txtLanguageCode.Text.Trim();
@@ -435,8 +434,6 @@ namespace SIL.Pa.UI.Dialogs
 								 where !_originallyMappedFields.Contains(mapping.Field.Name)
 								 select mapping.Field.Name).ToList();
 
-			//Utils.WaitCursors(false);
-			//Cursor = Cursors.Default;
 			WaitCursor.Hide();
 			return true;
 		}
@@ -544,7 +541,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			int filterIndex = Settings.Default.OFD_LastFileTypeChosen_DataSource;
 
-			StringBuilder fileTypes = new StringBuilder();
+			var fileTypes = new StringBuilder();
 			fileTypes.Append(App.kstidFileTypeToolboxDB);
 			fileTypes.Append("|");
 			fileTypes.Append(App.kstidFileTypeToolboxITX);
