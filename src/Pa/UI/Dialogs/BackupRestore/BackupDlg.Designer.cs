@@ -82,7 +82,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._checkBoxIncludeDataSources.Location = new System.Drawing.Point(2, 0);
 			this._checkBoxIncludeDataSources.Margin = new System.Windows.Forms.Padding(2, 0, 0, 8);
 			this._checkBoxIncludeDataSources.Name = "_checkBoxIncludeDataSources";
-			this._checkBoxIncludeDataSources.Size = new System.Drawing.Size(344, 17);
+			this._checkBoxIncludeDataSources.Size = new System.Drawing.Size(347, 17);
 			this._checkBoxIncludeDataSources.TabIndex = 0;
 			this._checkBoxIncludeDataSources.Text = "Include data source files in backup";
 			this._checkBoxIncludeDataSources.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -180,16 +180,14 @@ namespace SIL.Pa.UI.Dialogs
 			this._groupBoxDestinationFolder.Location = new System.Drawing.Point(0, 67);
 			this._groupBoxDestinationFolder.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this._groupBoxDestinationFolder.Name = "_groupBoxDestinationFolder";
-			this._groupBoxDestinationFolder.Padding = new System.Windows.Forms.Padding(8, 8, 8, 0);
-			this._groupBoxDestinationFolder.Size = new System.Drawing.Size(369, 108);
+			this._groupBoxDestinationFolder.Padding = new System.Windows.Forms.Padding(10, 8, 10, 10);
+			this._groupBoxDestinationFolder.Size = new System.Drawing.Size(369, 105);
 			this._groupBoxDestinationFolder.TabIndex = 5;
 			this._groupBoxDestinationFolder.TabStop = false;
 			this._groupBoxDestinationFolder.Text = "Destination Folder";
 			// 
 			// _tableLayoutDestinationFolder
 			// 
-			this._tableLayoutDestinationFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayoutDestinationFolder.AutoSize = true;
 			this._tableLayoutDestinationFolder.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this._tableLayoutDestinationFolder.ColumnCount = 1;
@@ -198,7 +196,8 @@ namespace SIL.Pa.UI.Dialogs
 			this._tableLayoutDestinationFolder.Controls.Add(this._radioDefaultFolder, 0, 0);
 			this._tableLayoutDestinationFolder.Controls.Add(this._linkOtherFolderValue, 0, 3);
 			this._tableLayoutDestinationFolder.Controls.Add(this._radioOtherFolder, 0, 2);
-			this._tableLayoutDestinationFolder.Location = new System.Drawing.Point(11, 21);
+			this._tableLayoutDestinationFolder.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._tableLayoutDestinationFolder.Location = new System.Drawing.Point(10, 21);
 			this._tableLayoutDestinationFolder.Margin = new System.Windows.Forms.Padding(0);
 			this._tableLayoutDestinationFolder.Name = "_tableLayoutDestinationFolder";
 			this._tableLayoutDestinationFolder.RowCount = 4;
@@ -206,7 +205,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._tableLayoutDestinationFolder.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutDestinationFolder.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutDestinationFolder.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutDestinationFolder.Size = new System.Drawing.Size(346, 74);
+			this._tableLayoutDestinationFolder.Size = new System.Drawing.Size(349, 74);
 			this._tableLayoutDestinationFolder.TabIndex = 0;
 			// 
 			// _labelDefaultFolderValue
@@ -223,7 +222,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._labelDefaultFolderValue.Location = new System.Drawing.Point(17, 20);
 			this._labelDefaultFolderValue.Margin = new System.Windows.Forms.Padding(17, 0, 0, 0);
 			this._labelDefaultFolderValue.Name = "_labelDefaultFolderValue";
-			this._labelDefaultFolderValue.Size = new System.Drawing.Size(329, 13);
+			this._labelDefaultFolderValue.Size = new System.Drawing.Size(332, 13);
 			this._labelDefaultFolderValue.TabIndex = 1;
 			this._labelDefaultFolderValue.Text = "#";
 			// 
@@ -239,7 +238,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._radioDefaultFolder.Location = new System.Drawing.Point(0, 0);
 			this._radioDefaultFolder.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
 			this._radioDefaultFolder.Name = "_radioDefaultFolder";
-			this._radioDefaultFolder.Size = new System.Drawing.Size(346, 17);
+			this._radioDefaultFolder.Size = new System.Drawing.Size(349, 17);
 			this._radioDefaultFolder.TabIndex = 0;
 			this._radioDefaultFolder.TabStop = true;
 			this._radioDefaultFolder.Text = "Backup to Default Folder";
@@ -258,7 +257,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._linkOtherFolderValue.Location = new System.Drawing.Point(17, 61);
 			this._linkOtherFolderValue.Margin = new System.Windows.Forms.Padding(17, 0, 0, 0);
 			this._linkOtherFolderValue.Name = "_linkOtherFolderValue";
-			this._linkOtherFolderValue.Size = new System.Drawing.Size(329, 13);
+			this._linkOtherFolderValue.Size = new System.Drawing.Size(332, 13);
 			this._linkOtherFolderValue.TabIndex = 3;
 			this._linkOtherFolderValue.TabStop = true;
 			this._linkOtherFolderValue.Text = "#";
@@ -276,7 +275,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._radioOtherFolder.Location = new System.Drawing.Point(0, 41);
 			this._radioOtherFolder.Margin = new System.Windows.Forms.Padding(0, 8, 0, 3);
 			this._radioOtherFolder.Name = "_radioOtherFolder";
-			this._radioOtherFolder.Size = new System.Drawing.Size(346, 17);
+			this._radioOtherFolder.Size = new System.Drawing.Size(349, 17);
 			this._radioOtherFolder.TabIndex = 2;
 			this._radioOtherFolder.TabStop = true;
 			this._radioOtherFolder.Text = "Backup to Other Folder";
@@ -292,32 +291,31 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this._groupIncludeInBackup, null);
 			this.locExtender.SetLocalizationComment(this._groupIncludeInBackup, null);
 			this.locExtender.SetLocalizingId(this._groupIncludeInBackup, "BackupDlg._groupIncludeInBackup");
-			this._groupIncludeInBackup.Location = new System.Drawing.Point(0, 185);
+			this._groupIncludeInBackup.Location = new System.Drawing.Point(0, 182);
 			this._groupIncludeInBackup.Margin = new System.Windows.Forms.Padding(0, 10, 0, 10);
 			this._groupIncludeInBackup.Name = "_groupIncludeInBackup";
-			this._groupIncludeInBackup.Padding = new System.Windows.Forms.Padding(8, 8, 8, 0);
-			this._groupIncludeInBackup.Size = new System.Drawing.Size(369, 76);
+			this._groupIncludeInBackup.Padding = new System.Windows.Forms.Padding(10, 8, 10, 10);
+			this._groupIncludeInBackup.Size = new System.Drawing.Size(369, 73);
 			this._groupIncludeInBackup.TabIndex = 6;
 			this._groupIncludeInBackup.TabStop = false;
 			this._groupIncludeInBackup.Text = "Include in Backup (for non FieldWorks data sources)";
 			// 
 			// _tableLayoutIncludeInBackup
 			// 
-			this._tableLayoutIncludeInBackup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayoutIncludeInBackup.AutoSize = true;
 			this._tableLayoutIncludeInBackup.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this._tableLayoutIncludeInBackup.ColumnCount = 1;
 			this._tableLayoutIncludeInBackup.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutIncludeInBackup.Controls.Add(this._checkBoxIncludeDataSources, 0, 0);
 			this._tableLayoutIncludeInBackup.Controls.Add(this._checkBoxIncludeAudioFiles, 0, 1);
-			this._tableLayoutIncludeInBackup.Location = new System.Drawing.Point(11, 21);
+			this._tableLayoutIncludeInBackup.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._tableLayoutIncludeInBackup.Location = new System.Drawing.Point(10, 21);
 			this._tableLayoutIncludeInBackup.Margin = new System.Windows.Forms.Padding(0);
 			this._tableLayoutIncludeInBackup.Name = "_tableLayoutIncludeInBackup";
 			this._tableLayoutIncludeInBackup.RowCount = 2;
 			this._tableLayoutIncludeInBackup.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutIncludeInBackup.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutIncludeInBackup.Size = new System.Drawing.Size(346, 42);
+			this._tableLayoutIncludeInBackup.Size = new System.Drawing.Size(349, 42);
 			this._tableLayoutIncludeInBackup.TabIndex = 0;
 			// 
 			// _checkBoxIncludeAudioFiles
@@ -335,7 +333,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._checkBoxIncludeAudioFiles.Location = new System.Drawing.Point(2, 25);
 			this._checkBoxIncludeAudioFiles.Margin = new System.Windows.Forms.Padding(2, 0, 0, 0);
 			this._checkBoxIncludeAudioFiles.Name = "_checkBoxIncludeAudioFiles";
-			this._checkBoxIncludeAudioFiles.Size = new System.Drawing.Size(344, 17);
+			this._checkBoxIncludeAudioFiles.Size = new System.Drawing.Size(347, 17);
 			this._checkBoxIncludeAudioFiles.TabIndex = 1;
 			this._checkBoxIncludeAudioFiles.Text = "Include audio files in backup";
 			this._checkBoxIncludeAudioFiles.TextAlign = System.Drawing.ContentAlignment.TopLeft;

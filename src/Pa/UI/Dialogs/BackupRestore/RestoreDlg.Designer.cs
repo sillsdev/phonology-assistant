@@ -150,16 +150,14 @@
 			this._groupBoxDestinationFolder.Location = new System.Drawing.Point(0, 126);
 			this._groupBoxDestinationFolder.Margin = new System.Windows.Forms.Padding(0, 0, 0, 10);
 			this._groupBoxDestinationFolder.Name = "_groupBoxDestinationFolder";
-			this._groupBoxDestinationFolder.Padding = new System.Windows.Forms.Padding(8, 8, 8, 0);
-			this._groupBoxDestinationFolder.Size = new System.Drawing.Size(390, 108);
+			this._groupBoxDestinationFolder.Padding = new System.Windows.Forms.Padding(10, 8, 10, 10);
+			this._groupBoxDestinationFolder.Size = new System.Drawing.Size(390, 105);
 			this._groupBoxDestinationFolder.TabIndex = 3;
 			this._groupBoxDestinationFolder.TabStop = false;
 			this._groupBoxDestinationFolder.Text = "Destination Folder";
 			// 
 			// tableLayoutPanel1
 			// 
-			this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
 			this.tableLayoutPanel1.AutoSize = true;
 			this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.tableLayoutPanel1.ColumnCount = 1;
@@ -168,7 +166,8 @@
 			this.tableLayoutPanel1.Controls.Add(this._radioDefaultFolder, 0, 0);
 			this.tableLayoutPanel1.Controls.Add(this._linkOtherFolderValue, 0, 3);
 			this.tableLayoutPanel1.Controls.Add(this._radioOtherFolder, 0, 2);
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(11, 21);
+			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(10, 21);
 			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 4;
@@ -176,7 +175,7 @@
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(367, 74);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(370, 74);
 			this.tableLayoutPanel1.TabIndex = 0;
 			// 
 			// _labelDefaultFolderValue
@@ -193,7 +192,7 @@
 			this._labelDefaultFolderValue.Location = new System.Drawing.Point(17, 20);
 			this._labelDefaultFolderValue.Margin = new System.Windows.Forms.Padding(17, 0, 0, 0);
 			this._labelDefaultFolderValue.Name = "_labelDefaultFolderValue";
-			this._labelDefaultFolderValue.Size = new System.Drawing.Size(350, 13);
+			this._labelDefaultFolderValue.Size = new System.Drawing.Size(353, 13);
 			this._labelDefaultFolderValue.TabIndex = 1;
 			this._labelDefaultFolderValue.Text = "#";
 			// 
@@ -209,7 +208,7 @@
 			this._radioDefaultFolder.Location = new System.Drawing.Point(0, 0);
 			this._radioDefaultFolder.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
 			this._radioDefaultFolder.Name = "_radioDefaultFolder";
-			this._radioDefaultFolder.Size = new System.Drawing.Size(367, 17);
+			this._radioDefaultFolder.Size = new System.Drawing.Size(370, 17);
 			this._radioDefaultFolder.TabIndex = 0;
 			this._radioDefaultFolder.TabStop = true;
 			this._radioDefaultFolder.Text = "Restore to Default Folder";
@@ -228,7 +227,7 @@
 			this._linkOtherFolderValue.Location = new System.Drawing.Point(17, 61);
 			this._linkOtherFolderValue.Margin = new System.Windows.Forms.Padding(17, 0, 0, 0);
 			this._linkOtherFolderValue.Name = "_linkOtherFolderValue";
-			this._linkOtherFolderValue.Size = new System.Drawing.Size(350, 13);
+			this._linkOtherFolderValue.Size = new System.Drawing.Size(353, 13);
 			this._linkOtherFolderValue.TabIndex = 3;
 			this._linkOtherFolderValue.TabStop = true;
 			this._linkOtherFolderValue.Text = "#";
@@ -246,7 +245,7 @@
 			this._radioOtherFolder.Location = new System.Drawing.Point(0, 41);
 			this._radioOtherFolder.Margin = new System.Windows.Forms.Padding(0, 8, 0, 3);
 			this._radioOtherFolder.Name = "_radioOtherFolder";
-			this._radioOtherFolder.Size = new System.Drawing.Size(367, 17);
+			this._radioOtherFolder.Size = new System.Drawing.Size(370, 17);
 			this._radioOtherFolder.TabIndex = 2;
 			this._radioOtherFolder.TabStop = true;
 			this._radioOtherFolder.Text = "Restore to Other Folder";

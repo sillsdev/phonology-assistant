@@ -202,13 +202,15 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private string CreateBackupInfoFile()
 		{
+			var ver = Assembly.GetEntryAssembly().GetName().Version;
+
 			var root = new XElement("paBackupInfo");
 
 			root.Add(new XElement("project", Project.Name));
 			root.Add(new XElement("projectFolder", Project.Folder));
 			root.Add(new XElement("paProjectFolder", App.ProjectFolder));
 			root.Add(new XElement("paExeFolder", Path.GetDirectoryName(Application.StartupPath)));
-			root.Add(new XElement("paVersion", Assembly.GetEntryAssembly().GetName().Version.ToString()));
+			root.Add(new XElement("paVersion", string.Format("{0}.{1}.{2}", ver.Major, ver.Minor, ver.Build)));
 			root.Add(new XElement("apparentBuildDateUtc", File.GetLastWriteTimeUtc(Application.ExecutablePath).Date.ToString("yyyy-MMM-dd")));
 			root.Add(new XElement("backupDateUtc", DateTime.UtcNow.ToLongDateString()));
 			root.Add(new XElement("backupTimeUtc", DateTime.UtcNow.ToLongTimeString()));
