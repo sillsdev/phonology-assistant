@@ -82,9 +82,7 @@ namespace SIL.Pa.Tests
 
 			var query = new SearchQuery();
 			query.IgnoreDiacritics = false;
-			query.IgnoredLengthChars = null;
-			query.IgnoredStressChars = null;
-			query.IgnoredToneChars = null;
+			query.IgnoredCharacters = null;
 			query.Pattern = "[V]/*_*";
 			m_cache = App.Search(query);
 			m_cache.SearchQuery = query;
@@ -105,9 +103,7 @@ namespace SIL.Pa.Tests
 			CIEOptions options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.Both;
 			options.SearchQuery.IgnoreDiacritics = false;
-			options.SearchQuery.IgnoredLengthChars = null;
-			options.SearchQuery.IgnoredStressChars = null;
-			options.SearchQuery.IgnoredToneChars = null;
+			options.SearchQuery.IgnoredCharacters = null;
 			CIEBuilder builder = new CIEBuilder(m_cache, options);
 			var retCache = builder.FindMinimalPairs();
 
@@ -141,9 +137,7 @@ namespace SIL.Pa.Tests
 			CIEOptions options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.Before;
 			options.SearchQuery.IgnoreDiacritics = false;
-			options.SearchQuery.IgnoredLengthChars = null;
-			options.SearchQuery.IgnoredStressChars = null;
-			options.SearchQuery.IgnoredToneChars = null;
+			options.SearchQuery.IgnoredCharacters = null;
 			CIEBuilder builder = new CIEBuilder(m_cache, options);
 			WordListCache retCache = builder.FindMinimalPairs();
 
@@ -177,9 +171,7 @@ namespace SIL.Pa.Tests
 			CIEOptions options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.After;
 			options.SearchQuery.IgnoreDiacritics = false;
-			options.SearchQuery.IgnoredLengthChars = null;
-			options.SearchQuery.IgnoredStressChars = null;
-			options.SearchQuery.IgnoredToneChars = null;
+			options.SearchQuery.IgnoredCharacters = null;
 			CIEBuilder builder = new CIEBuilder(m_cache, options);
 			WordListCache retCache = builder.FindMinimalPairs();
 
@@ -213,9 +205,7 @@ namespace SIL.Pa.Tests
 			CIEOptions options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.Both;
 			options.SearchQuery.IgnoreDiacritics = false;
-			options.SearchQuery.IgnoredLengthChars = "\u0324,\u02B0";
-			options.SearchQuery.IgnoredStressChars = null;
-			options.SearchQuery.IgnoredToneChars = null;
+			options.SearchQuery.IgnoredCharacters = "\u0324,\u02B0";
 			CIEBuilder builder = new CIEBuilder(m_cache, options);
 			WordListCache retCache = builder.FindMinimalPairs();
 
@@ -245,9 +235,7 @@ namespace SIL.Pa.Tests
 			CIEOptions options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.Before;
 			options.SearchQuery.IgnoreDiacritics = false;
-			options.SearchQuery.IgnoredLengthChars = "\u0324,\u02B0";
-			options.SearchQuery.IgnoredStressChars = null;
-			options.SearchQuery.IgnoredToneChars = null;
+			options.SearchQuery.IgnoredCharacters = "\u0324,\u02B0";
 			CIEBuilder builder = new CIEBuilder(m_cache, options);
 			WordListCache retCache = builder.FindMinimalPairs();
 
@@ -277,9 +265,7 @@ namespace SIL.Pa.Tests
 			CIEOptions options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.After;
 			options.SearchQuery.IgnoreDiacritics = false;
-			options.SearchQuery.IgnoredLengthChars = "\u0324,\u02B0";
-			options.SearchQuery.IgnoredStressChars = null;
-			options.SearchQuery.IgnoredToneChars = null;
+			options.SearchQuery.IgnoredCharacters = "\u0324,\u02B0";
 			CIEBuilder builder = new CIEBuilder(m_cache, options);
 			WordListCache retCache = builder.FindMinimalPairs();
 
@@ -309,9 +295,7 @@ namespace SIL.Pa.Tests
 			CIEOptions options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.Both;
 			options.SearchQuery.IgnoreDiacritics = true;
-			options.SearchQuery.IgnoredLengthChars = null;
-			options.SearchQuery.IgnoredStressChars = null;
-			options.SearchQuery.IgnoredToneChars = null;
+			options.SearchQuery.IgnoredCharacters = null;
 			CIEBuilder builder = new CIEBuilder(m_cache, options);
 			WordListCache retCache = builder.FindMinimalPairs();
 
@@ -341,9 +325,7 @@ namespace SIL.Pa.Tests
 			CIEOptions options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.Before;
 			options.SearchQuery.IgnoreDiacritics = true;
-			options.SearchQuery.IgnoredLengthChars = null;
-			options.SearchQuery.IgnoredStressChars = null;
-			options.SearchQuery.IgnoredToneChars = null;
+			options.SearchQuery.IgnoredCharacters = null;
 			CIEBuilder builder = new CIEBuilder(m_cache, options);
 			WordListCache retCache = builder.FindMinimalPairs();
 
@@ -373,9 +355,7 @@ namespace SIL.Pa.Tests
 			CIEOptions options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.After;
 			options.SearchQuery.IgnoreDiacritics = true;
-			options.SearchQuery.IgnoredLengthChars = null;
-			options.SearchQuery.IgnoredStressChars = null;
-			options.SearchQuery.IgnoredToneChars = null;
+			options.SearchQuery.IgnoredCharacters = null;
 			CIEBuilder builder = new CIEBuilder(m_cache, options);
 			WordListCache retCache = builder.FindMinimalPairs();
 
@@ -405,9 +385,7 @@ namespace SIL.Pa.Tests
 			CIEOptions options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.Before;
 			options.SearchQuery.IgnoreDiacritics = true;
-			options.SearchQuery.IgnoredLengthChars = null;
-			options.SearchQuery.IgnoredStressChars = null;
-			options.SearchQuery.IgnoredToneChars = null;
+			options.SearchQuery.IgnoredCharacters = null;
 			CIEBuilder builder = new CIEBuilder(m_cache, options);
 			WordListCache retCache = builder.FindMinimalPairs();
 

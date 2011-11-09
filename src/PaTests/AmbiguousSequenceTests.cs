@@ -133,7 +133,7 @@ namespace SIL.Pa.Tests
 			m_ambigSeqList.Add("ab");
 
 			// This will influence the sorted list but we don't want it to.
-			SetField(App.IPASymbolCache, "m_toneLetters", null);
+			SetProperty(App.IPASymbolCache, "ToneLetters", null);
 
 			m_prj.AmbiguousSequences.AddRange(m_ambigSeqList);
 

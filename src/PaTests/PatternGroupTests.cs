@@ -7,10 +7,6 @@ using System.Collections.Generic;
 namespace SIL.Pa.Tests
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	[TestFixture]
 	public class PatternGroupTests : TestBase
 	{
@@ -31,52 +27,50 @@ namespace SIL.Pa.Tests
 		{
 			m_phoneCache = m_prj.PhoneCache;
 			m_query = new SearchQuery();
-			m_query.IgnoredLengthChars = string.Empty;
-			m_query.IgnoredStressChars = string.Empty;
-			m_query.IgnoredToneChars = string.Empty;
+			m_query.IgnoredCharacters = string.Empty;
 			m_query.IgnoreDiacritics = false;
 			SearchEngine.CurrentSearchQuery = m_query;
 
 			m_phoneCache["t"] = new PhoneInfo();
-			m_phoneCache["t"].CharType = IPASymbolType.Consonant;
+			m_phoneCache["t"].CharType = IPASymbolType.consonant;
 			m_phoneCache["p"] = new PhoneInfo();
-			m_phoneCache["p"].CharType = IPASymbolType.Consonant;
+			m_phoneCache["p"].CharType = IPASymbolType.consonant;
 			m_phoneCache["b"] = new PhoneInfo();
-			m_phoneCache["b"].CharType = IPASymbolType.Consonant;
+			m_phoneCache["b"].CharType = IPASymbolType.consonant;
 			m_phoneCache["d"] = new PhoneInfo();
-			m_phoneCache["d"].CharType = IPASymbolType.Consonant;
+			m_phoneCache["d"].CharType = IPASymbolType.consonant;
 			m_phoneCache["h"] = new PhoneInfo();
-			m_phoneCache["h"].CharType = IPASymbolType.Consonant;
+			m_phoneCache["h"].CharType = IPASymbolType.consonant;
 			m_phoneCache["s"] = new PhoneInfo();
-			m_phoneCache["s"].CharType = IPASymbolType.Consonant;
+			m_phoneCache["s"].CharType = IPASymbolType.consonant;
 			m_phoneCache["x"] = new PhoneInfo();
-			m_phoneCache["x"].CharType = IPASymbolType.Consonant;
+			m_phoneCache["x"].CharType = IPASymbolType.consonant;
 			m_phoneCache["g"] = new PhoneInfo();
-			m_phoneCache["g"].CharType = IPASymbolType.Consonant;
+			m_phoneCache["g"].CharType = IPASymbolType.consonant;
 			m_phoneCache["l"] = new PhoneInfo();
-			m_phoneCache["l"].CharType = IPASymbolType.Consonant;
+			m_phoneCache["l"].CharType = IPASymbolType.consonant;
 			m_phoneCache["k"] = new PhoneInfo();
-			m_phoneCache["k"].CharType = IPASymbolType.Consonant;
+			m_phoneCache["k"].CharType = IPASymbolType.consonant;
 			m_phoneCache["m"] = new PhoneInfo();
-			m_phoneCache["m"].CharType = IPASymbolType.Consonant;
+			m_phoneCache["m"].CharType = IPASymbolType.consonant;
 			m_phoneCache["n"] = new PhoneInfo();
-			m_phoneCache["n"].CharType = IPASymbolType.Consonant;
+			m_phoneCache["n"].CharType = IPASymbolType.consonant;
 
 			m_phoneCache["a"] = new PhoneInfo();
-			m_phoneCache["a"].CharType = IPASymbolType.Vowel;
+			m_phoneCache["a"].CharType = IPASymbolType.vowel;
 			m_phoneCache["e"] = new PhoneInfo();
-			m_phoneCache["e"].CharType = IPASymbolType.Vowel;
+			m_phoneCache["e"].CharType = IPASymbolType.vowel;
 			m_phoneCache["i"] = new PhoneInfo();
-			m_phoneCache["i"].CharType = IPASymbolType.Vowel;
+			m_phoneCache["i"].CharType = IPASymbolType.vowel;
 			m_phoneCache["o"] = new PhoneInfo();
-			m_phoneCache["o"].CharType = IPASymbolType.Vowel;
+			m_phoneCache["o"].CharType = IPASymbolType.vowel;
 			m_phoneCache["u"] = new PhoneInfo();
-			m_phoneCache["u"].CharType = IPASymbolType.Vowel;
+			m_phoneCache["u"].CharType = IPASymbolType.vowel;
 
 			m_phoneCache["."] = new PhoneInfo();
-			m_phoneCache["."].CharType = IPASymbolType.Suprasegmentals;
+			m_phoneCache["."].CharType = IPASymbolType.suprasegmental;
 			m_phoneCache["'"] = new PhoneInfo();
-			m_phoneCache["'"].CharType = IPASymbolType.Suprasegmentals;
+			m_phoneCache["'"].CharType = IPASymbolType.suprasegmental;
 
 			SearchEngine.PhoneCache = m_phoneCache;
 		}
@@ -111,8 +105,8 @@ namespace SIL.Pa.Tests
 		{
 			// Put mock data in the articulatory and binary features of the phone.
 			PhoneInfo phoneInfo = (PhoneInfo)SearchEngine.PhoneCache["d"];
-			phoneInfo.BFeatures = new List<string> { "+high", "-voice" };
-			phoneInfo.AFeatures = new List<string> { "nasal" };
+			phoneInfo.BFeatureNames = new List<string> { "+high", "-voice" };
+			phoneInfo.AFeatureNames = new List<string> { "nasal" };
 
 			object[] args = new object[] { new[] { "d" }, 0 };
 
@@ -156,10 +150,10 @@ namespace SIL.Pa.Tests
 		public void SearchNonSequentialGroupsTest_SrchItem()
 		{
 			// Put mock data in the articulatory and binary feature caches.
-			((PhoneInfo)m_phoneCache["b"]).BFeatures = new List<string>();
-			((PhoneInfo)m_phoneCache["a"]).BFeatures = new List<string>();
-			((PhoneInfo)m_phoneCache["d"]).BFeatures = new List<string> { "+high", "-voice" };
-			((PhoneInfo)m_phoneCache["d"]).AFeatures = new List<string> { "+dental" };
+			((PhoneInfo)m_phoneCache["b"]).BFeatureNames = new List<string>();
+			((PhoneInfo)m_phoneCache["a"]).BFeatureNames = new List<string>();
+			((PhoneInfo)m_phoneCache["d"]).BFeatureNames = new List<string> { "+high", "-voice" };
+			((PhoneInfo)m_phoneCache["d"]).AFeatureNames = new List<string> { "+dental" };
 
 			PatternGroup group = new PatternGroup(EnvironmentType.Item);
 			group.Parse("[{a,b,c,d}[+high]]");
@@ -226,8 +220,8 @@ namespace SIL.Pa.Tests
 		public void SearchSequentialGroupsTest_SrchItem()
 		{
 			// Put mock data in the articulatory and binary feature caches.
-			((PhoneInfo)m_phoneCache["d"]).BFeatures = new List<string> { "+high", "-voice" };
-			((PhoneInfo)m_phoneCache["a"]).AFeatures = new List<string> { "nasal" };
+			((PhoneInfo)m_phoneCache["d"]).BFeatureNames = new List<string> { "+high", "-voice" };
+			((PhoneInfo)m_phoneCache["a"]).AFeatureNames = new List<string> { "nasal" };
 
 			PatternGroup group = new PatternGroup(EnvironmentType.Item);
 			group.Parse("der[+high]");
@@ -270,7 +264,7 @@ namespace SIL.Pa.Tests
 		public void SearchSequentialGroupsTest_EnvBefore()
 		{
 			// Put mock data in the articulatory and binary feature caches.
-			((PhoneInfo)m_phoneCache["d"]).BFeatures = new List<string> { "+high", "-voice" };
+			((PhoneInfo)m_phoneCache["d"]).BFeatureNames = new List<string> { "+high", "-voice" };
 
 			PatternGroup group = new PatternGroup(EnvironmentType.Before);
 			group.Parse("der[+high]");
@@ -298,7 +292,7 @@ namespace SIL.Pa.Tests
 		public void SearchForWordInitial()
 		{
 			// Put mock data in the feature cache.
-			((PhoneInfo)m_phoneCache["b"]).BFeatures = new List<string> { "+high", "-voice" };
+			((PhoneInfo)m_phoneCache["b"]).BFeatureNames = new List<string> { "+high", "-voice" };
 
 			PatternGroup group = new PatternGroup(EnvironmentType.Before);
 			group.Parse("#{d,r}");
@@ -334,7 +328,7 @@ namespace SIL.Pa.Tests
 		public void SearchForWordFinal()
 		{
 			// Put mock data in the feature cache.
-			((PhoneInfo)m_phoneCache["h"]).BFeatures = new List<string> { "+high", "-voice" };
+			((PhoneInfo)m_phoneCache["h"]).BFeatureNames = new List<string> { "+high", "-voice" };
 
 			PatternGroup group = new PatternGroup(EnvironmentType.After);
 			group.Parse("{d,h}#");
@@ -362,10 +356,6 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void MatchesZeroOrMoreTest()
 		{
@@ -390,10 +380,6 @@ namespace SIL.Pa.Tests
 			Assert.IsTrue(group.Search("balderdash", 10));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void MatchesOneOrMoreTest()
@@ -516,7 +502,7 @@ namespace SIL.Pa.Tests
 			// as part of the pattern parsing process.)
 			AddMockDiacritics("23456789");
 			AddMockPhones(new[] {"a", "e", "c", "i", "o", "c2", "c23", "c234",
-				"c2345", "c2356", "c23456", "c234567"}, IPASymbolType.Consonant);
+				"c2345", "c2356", "c23456", "c234567"}, IPASymbolType.consonant);
 
 			TestDiacriticPattern("[[C][{0}*]]/*_*", "c", true);
 			TestDiacriticPattern("[[C][{0}23*]]/*_*", "c23", true);
@@ -541,7 +527,7 @@ namespace SIL.Pa.Tests
 			// as part of the pattern parsing process.)
 			AddMockDiacritics("23456789");
 			AddMockPhones(new[] {"a", "e", "c", "i", "o", "c2", "c23", "c32",
-				"c234",	"c2345", "c2356", "c23456", "c234567"}, IPASymbolType.Consonant);
+				"c234",	"c2345", "c2356", "c23456", "c234567"}, IPASymbolType.consonant);
 
 			//TestDiacriticPattern("[[C][{0}+]]/*_*", "c", false);
 			//TestDiacriticPattern("[[C][{0}+]]/*_*", "c2", true);
@@ -561,10 +547,6 @@ namespace SIL.Pa.Tests
 			TestDiacriticPattern("[[C][{0}2356+]]/*_*", "c23456", true);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void TestDiacriticPattern(string pattern, string phone, bool expectedResult)
 		{
@@ -673,18 +655,12 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SearchWithIgnoreWithNonIPAPattern()
 		{
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
-			query.IgnoredLengthChars = "b";
-			query.IgnoredStressChars = string.Empty;
-			query.IgnoredToneChars = string.Empty;
+			query.IgnoredCharacters = "b";
 			query.IgnoreDiacritics = false;
 			SearchEngine.CurrentSearchQuery = query;
 
@@ -707,9 +683,7 @@ namespace SIL.Pa.Tests
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
 			query.Pattern = "[V]/[C]_[C]";
-			query.IgnoredToneChars = string.Empty;
-			query.IgnoredStressChars = string.Empty;
-			query.IgnoredLengthChars = string.Empty;
+			query.IgnoredCharacters = string.Empty;
 			query.IgnoreDiacritics = false;
 
 			m_engine = new SearchEngine(query);
@@ -735,7 +709,7 @@ namespace SIL.Pa.Tests
 		{
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
-			query.IgnoredToneChars = ".";
+			query.IgnoredCharacters = ".";
 			query.IgnoreDiacritics = false;
 			SearchEngine.CurrentSearchQuery = query;
 
@@ -761,9 +735,7 @@ namespace SIL.Pa.Tests
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
 			query.Pattern = "[C]#/*_*";
-			query.IgnoredToneChars = string.Empty;
-			query.IgnoredStressChars = string.Empty;
-			query.IgnoredLengthChars = string.Empty;
+			query.IgnoredCharacters = string.Empty;
 			query.IgnoreDiacritics = false;
 
 			m_engine = new SearchEngine(query);
@@ -784,9 +756,7 @@ namespace SIL.Pa.Tests
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
 			query.Pattern = "[C]/#_*";
-			query.IgnoredToneChars = string.Empty;
-			query.IgnoredStressChars = string.Empty;
-			query.IgnoredLengthChars = string.Empty;
+			query.IgnoredCharacters = string.Empty;
 			query.IgnoreDiacritics = false;
 
 			string[] phones = Parse(" his bat", true);
@@ -801,19 +771,13 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SearchWithSpace3()
 		{
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
 			query.Pattern = "[C]/*_#";
-			query.IgnoredToneChars = string.Empty;
-			query.IgnoredStressChars = string.Empty;
-			query.IgnoredLengthChars = string.Empty;
+			query.IgnoredCharacters = string.Empty;
 			query.IgnoreDiacritics = false;
 
 			string[] phones = Parse("his bat ", true);
@@ -834,22 +798,15 @@ namespace SIL.Pa.Tests
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
 			query.Pattern = "[C]#[C]/*_*";
-			query.IgnoredToneChars = string.Empty;
-			query.IgnoredStressChars = string.Empty;
-			query.IgnoredLengthChars = string.Empty;
+			query.IgnoredCharacters = string.Empty;
 			query.IgnoreDiacritics = false;
 
 			m_engine = new SearchEngine(query);
-			Assert.IsTrue(
-				m_engine.SearchWord(Parse("his bat", true), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("his bat", true), out m_results));
 			Assert.AreEqual(2, m_results[0]);
 			Assert.AreEqual(3, m_results[1]);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SearchWithSpace5()
@@ -857,9 +814,7 @@ namespace SIL.Pa.Tests
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
 			query.Pattern = "[V]#[C]/*_*";
-			query.IgnoredToneChars = string.Empty;
-			query.IgnoredStressChars = string.Empty;
-			query.IgnoredLengthChars = string.Empty;
+			query.IgnoredCharacters = string.Empty;
 			query.IgnoreDiacritics = false;
 
 			string[] phones = Parse("bea ", true);
@@ -884,18 +839,12 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void PatternWithNoBeforeEnvironment()
 		{
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
-			query.IgnoredToneChars = string.Empty;
-			query.IgnoredStressChars = string.Empty;
-			query.IgnoredLengthChars = string.Empty;
+			query.IgnoredCharacters = string.Empty;
 			query.IgnoreDiacritics = false;
 
 			string[] phones = Parse("beat", true);
@@ -908,18 +857,12 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void PatternWithNoAfterEnvironment()
 		{
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
-			query.IgnoredToneChars = string.Empty;
-			query.IgnoredStressChars = string.Empty;
-			query.IgnoredLengthChars = string.Empty;
+			query.IgnoredCharacters = string.Empty;
 			query.IgnoreDiacritics = false;
 
 			string[] phones = Parse("beat", true);
@@ -932,18 +875,12 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void PatternWithNoEnvironment()
 		{
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
-			query.IgnoredToneChars = string.Empty;
-			query.IgnoredStressChars = string.Empty;
-			query.IgnoredLengthChars = string.Empty;
+			query.IgnoredCharacters = string.Empty;
 			query.IgnoreDiacritics = false;
 
 			string[] phones = Parse("beat", true);
@@ -968,19 +905,13 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SearchForVCWithVVCInWord()
 		{
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
 			query.Pattern = "[V][C]/*_*";
-			query.IgnoredToneChars = string.Empty;
-			query.IgnoredStressChars = string.Empty;
-			query.IgnoredLengthChars = string.Empty;
+			query.IgnoredCharacters = string.Empty;
 			query.IgnoreDiacritics = false;
 
 			m_engine = new SearchEngine(query);
@@ -990,19 +921,13 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SearchWithIgnoreFoundAtWordInitial1()
 		{
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
 			query.Pattern = "h[V]/#_*";
-			query.IgnoredToneChars = ".";
-			query.IgnoredStressChars = string.Empty;
-			query.IgnoredLengthChars = string.Empty;
+			query.IgnoredCharacters = ".";
 			query.IgnoreDiacritics = false;
 
 			m_engine = new SearchEngine(query);
@@ -1012,19 +937,13 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SearchWithIgnoreFoundAtWordInitialButInPattern()
 		{
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
 			query.Pattern = ".abc/*_*";
-			query.IgnoredToneChars = ".";
-			query.IgnoredStressChars = string.Empty;
-			query.IgnoredLengthChars = string.Empty;
+			query.IgnoredCharacters = ".";
 			query.IgnoreDiacritics = false;
 
 			m_engine = new SearchEngine(query);
@@ -1033,19 +952,13 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SearchWithIgnoreFoundAtWordFinalButInPattern()
 		{
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
 			query.Pattern = "ef./*_*";
-			query.IgnoredToneChars = ".";
-			query.IgnoredStressChars = string.Empty;
-			query.IgnoredLengthChars = string.Empty;
+			query.IgnoredCharacters = ".";
 			query.IgnoreDiacritics = false;
 
 			m_engine = new SearchEngine(query);
@@ -1054,19 +967,13 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SearchWithIgnoreFoundAtWordMedialButInPattern()
 		{
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
 			query.Pattern = "b.c/*_*";
-			query.IgnoredToneChars = ".";
-			query.IgnoredStressChars = string.Empty;
-			query.IgnoredLengthChars = string.Empty;
+			query.IgnoredCharacters = ".";
 			query.IgnoreDiacritics = false;
 
 			m_engine = new SearchEngine(query);
@@ -1075,19 +982,13 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SearchWithIgnoreFoundAtWordFinal()
 		{
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
 			query.Pattern = "t[V]/*_#";
-			query.IgnoredToneChars = ".";
-			query.IgnoredStressChars = string.Empty;
-			query.IgnoredLengthChars = string.Empty;
+			query.IgnoredCharacters = ".";
 			query.IgnoreDiacritics = false;
 
 			m_engine = new SearchEngine(query);
@@ -1097,19 +998,13 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SearchWithIgnorePhoneFoundAtWordInitial_OneOrMore()
 		{
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
 			query.Pattern = "h[V]/+_*";
-			query.IgnoredToneChars = ".";
-			query.IgnoredStressChars = string.Empty;
-			query.IgnoredLengthChars = string.Empty;
+			query.IgnoredCharacters = ".";
 			query.IgnoreDiacritics = false;
 
 			m_engine = new SearchEngine(query);
@@ -1119,19 +1014,13 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SearchWithIgnoredPhoneFoundAtWordFinal_OneOrMore()
 		{
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
 			query.Pattern = "t[V]/*_+";
-			query.IgnoredToneChars = ".";
-			query.IgnoredStressChars = string.Empty;
-			query.IgnoredLengthChars = string.Empty;
+			query.IgnoredCharacters = ".";
 			query.IgnoreDiacritics = false;
 
 			m_engine = new SearchEngine(query);
@@ -1142,10 +1031,6 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SearchWithIgnoringDiacritics()
 		{
@@ -1154,7 +1039,7 @@ namespace SIL.Pa.Tests
 			query.IgnoreDiacritics = true;
 			SearchEngine.CurrentSearchQuery = query;
 
-			PatternGroup group = new PatternGroup(EnvironmentType.Item);
+			var group = new PatternGroup(EnvironmentType.Item);
 
 			group.Parse("t");
 			Assert.IsTrue(group.Search("xat~ax", 0, out m_results));
@@ -1162,10 +1047,6 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(1, m_results[1]);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SearchWithoutIgnoringDiacritics()
@@ -1182,20 +1063,16 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SearchWithDiacriticsInIgnoreList()
 		{
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
-			query.IgnoredToneChars = "~";
+			query.IgnoredCharacters = "~";
 			query.IgnoreDiacritics = false;
 			SearchEngine.CurrentSearchQuery = query;
 
-			PatternGroup group = new PatternGroup(EnvironmentType.Item);
+			var group = new PatternGroup(EnvironmentType.Item);
 
 			group.Parse("t");
 			Assert.IsTrue(group.Search("xat~ax", 0, out m_results));
@@ -1396,7 +1273,7 @@ namespace SIL.Pa.Tests
 			if (App.IPASymbolCache['\''] == null)
 			{
 				IPASymbol charInfo = new IPASymbol();
-				charInfo.Type = IPASymbolType.Suprasegmentals;
+				charInfo.Type = IPASymbolType.suprasegmental;
 				charInfo.IsBase = true;
 				charInfo.Literal = "'";
 				App.IPASymbolCache.Add('\'', charInfo);
@@ -1404,19 +1281,13 @@ namespace SIL.Pa.Tests
 
 			SearchQuery query = new SearchQuery();
 			query.Pattern = "t/+_*";
-			query.IgnoredStressChars = "'";
-			query.IgnoredLengthChars = string.Empty;
-			query.IgnoredToneChars = string.Empty;
+			query.IgnoredCharacters = "'";
 			query.IgnoreDiacritics = false;
 
 			m_engine = new SearchEngine(query);
 			Assert.IsFalse(m_engine.SearchWord("'tub", out m_results));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SearchWithMatchOnlyWordInitial()
@@ -1429,10 +1300,6 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SearchWithMatchOnlyWordFinal()
 		{
@@ -1444,10 +1311,6 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SearchWithTieBarTest1()
 		{
@@ -1457,10 +1320,6 @@ namespace SIL.Pa.Tests
 			SearchForTieBarWithDiacriticsInDataTest("[[C][{0}{1}]]/*_*", App.kBottomTieBarC, false);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SearchWithTieBarTest2()
@@ -1474,10 +1333,6 @@ namespace SIL.Pa.Tests
 			SearchForTieBarWithDiacriticsInDataTest(patternFmt, App.kBottomTieBarC, false);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void SearchForTieBarWithDiacriticsInDataTest(string patternFmt, char tiebar,
 			bool ignoreDiacritics)
@@ -1525,7 +1380,7 @@ namespace SIL.Pa.Tests
 		public void SearchWhenDiacriticInPatternAndIgnoredTest()
 		{
 			MakeMockCacheEntries();
-			m_query.IgnoredToneChars = "^,~";
+			m_query.IgnoredCharacters = "^,~";
 
 			// Test when ignored diacritics in search item
 			m_query.Pattern = "o~^/*_*";
@@ -1583,9 +1438,7 @@ namespace SIL.Pa.Tests
 		{
 			MakeMockCacheEntries();
 			SearchQuery query = new SearchQuery();
-			query.IgnoredLengthChars = "b";
-			query.IgnoredStressChars = string.Empty;
-			query.IgnoredToneChars = string.Empty;
+			query.IgnoredCharacters = "b";
 			query.IgnoreDiacritics = false;
 			SearchEngine.CurrentSearchQuery = query;
 
@@ -1609,9 +1462,7 @@ namespace SIL.Pa.Tests
 			// Test when ignored diacritics in search item
 			m_query.Pattern = string.Format("[{{t,o}}[{0}~]]/*_*", App.kDottedCircleC);
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(
-				m_engine.SearchWord(Parse("ao~bct~de", false), out m_results));
-
+			Assert.IsTrue(m_engine.SearchWord(Parse("ao~bct~de", false), out m_results));
 			Assert.AreEqual(1, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
 		}
@@ -1720,8 +1571,8 @@ namespace SIL.Pa.Tests
 		{
 			MakeMockCacheEntries();
 
-			((PhoneInfo)m_phoneCache["a"]).AFeatures = new List<string> { "nasal" };
-			((PhoneInfo)m_phoneCache["o~"]).AFeatures = new List<string> { "nasal" };
+			((PhoneInfo)m_phoneCache["a"]).AFeatureNames = new List<string> { "nasal" };
+			((PhoneInfo)m_phoneCache["o~"]).AFeatureNames = new List<string> { "nasal" };
 	
 			// Test when ignored diacritics in search item
 			m_query.Pattern = string.Format("[nasal][{0}~]/*_*", App.kDottedCircleC);
@@ -1743,10 +1594,10 @@ namespace SIL.Pa.Tests
 		{
 			MakeMockCacheEntries();
 
-			((PhoneInfo)m_phoneCache["a"]).BFeatures = new List<string> { "+high" };
-			((PhoneInfo)m_phoneCache["a"]).AFeatures = new List<string> { "nasal" };
-			((PhoneInfo)m_phoneCache["o~"]).BFeatures = new List<string> { "+high" };
-			((PhoneInfo)m_phoneCache["o~"]).AFeatures = new List<string> { "nasal" };
+			((PhoneInfo)m_phoneCache["a"]).BFeatureNames = new List<string> { "+high" };
+			((PhoneInfo)m_phoneCache["a"]).AFeatureNames = new List<string> { "nasal" };
+			((PhoneInfo)m_phoneCache["o~"]).BFeatureNames = new List<string> { "+high" };
+			((PhoneInfo)m_phoneCache["o~"]).AFeatureNames = new List<string> { "nasal" };
 
 			// Test when ignored diacritics in search item
 			m_query.Pattern = string.Format("[[+high][nasal]][{0}~]/*_*", App.kDottedCircleC);
@@ -2044,7 +1895,7 @@ namespace SIL.Pa.Tests
 			m_engine = new SearchEngine(m_query);
 			Assert.IsFalse(m_engine.SearchWord(phones, out m_results));
 
-			m_query.IgnoredLengthChars = "x";
+			m_query.IgnoredCharacters = "x";
 			m_engine = new SearchEngine(m_query);
 			Assert.IsTrue(m_engine.SearchWord(phones, out m_results));
 			Assert.AreEqual(3, m_results[0]);
@@ -2076,7 +1927,7 @@ namespace SIL.Pa.Tests
 			m_engine = new SearchEngine(m_query);
 			Assert.IsFalse(m_engine.SearchWord(phones, out m_results));
 
-			m_query.IgnoredLengthChars = "x";
+			m_query.IgnoredCharacters = "x";
 			m_engine = new SearchEngine(m_query);
 			Assert.IsTrue(m_engine.SearchWord(phones, out m_results));
 			Assert.AreEqual(1, m_results[0]);
@@ -2209,7 +2060,7 @@ namespace SIL.Pa.Tests
 			MakeMockCacheEntries();
 
 			// Verify in search item.
-			m_query.IgnoredLengthChars = "x";
+			m_query.IgnoredCharacters = "x";
 			m_query.Pattern = "{(oc),(bc)}/*_*";
 			m_engine = new SearchEngine(m_query);
 			Assert.IsTrue(m_engine.SearchWord(
@@ -2246,7 +2097,7 @@ namespace SIL.Pa.Tests
 		public void SearchWhenIgnoringStressAndOrGroupInPrecedingEnv()
 		{
 			m_query.Pattern = "[C]/{[C],[V]}_+";
-			m_query.IgnoredStressChars = "'";
+			m_query.IgnoredCharacters = "'";
 			m_engine = new SearchEngine(m_query);
 			Assert.IsTrue(m_engine.SearchWord(
 				Parse("pau'pat", false), out m_results));
@@ -2264,7 +2115,7 @@ namespace SIL.Pa.Tests
 		public void SearchWhenIgnoringStressAndOrGroupInFollowingEnv()
 		{
 			m_query.Pattern = "[V]/+_{[C],[V]}";
-			m_query.IgnoredStressChars = "'";
+			m_query.IgnoredCharacters = "'";
 			m_engine = new SearchEngine(m_query);
 			Assert.IsTrue(m_engine.SearchWord(
 				Parse("phu'pat", false), out m_results));
@@ -2281,10 +2132,10 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void SearchWhenIgnoringStressAndAndGroupInPrecedingEnv()
 		{
-			((PhoneInfo)m_phoneCache["u"]).AFeatures = new List<string> { "close", "back" };
+			((PhoneInfo)m_phoneCache["u"]).AFeatureNames = new List<string> { "close", "back" };
 
 			m_query.Pattern = "[C]/[[close],[back]]_+";
-			m_query.IgnoredStressChars = "'";
+			m_query.IgnoredCharacters = "'";
 			m_engine = new SearchEngine(m_query);
 			Assert.IsTrue(m_engine.SearchWord(
 				Parse("pau'pat", false), out m_results));
@@ -2301,10 +2152,10 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void SearchWhenIgnoringStressAndAndGroupInFollowingEnv()
 		{
-			((PhoneInfo)m_phoneCache["p"]).AFeatures = new List<string> { "bilabial", "voiceless" };
+			((PhoneInfo)m_phoneCache["p"]).AFeatureNames = new List<string> { "bilabial", "voiceless" };
 
 			m_query.Pattern = "[V]/+_[[bilabial],[voiceless]]";
-			m_query.IgnoredStressChars = "'";
+			m_query.IgnoredCharacters = "'";
 			m_engine = new SearchEngine(m_query);
 			Assert.IsTrue(m_engine.SearchWord(
 				Parse("phu'pat", false), out m_results));
@@ -2341,23 +2192,19 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void MakeMockCacheEntries()
 		{
 			AddMockDiacritics("~^");
-			AddMockPhones(new[] { "t~", "t^", "t~^" }, IPASymbolType.Consonant);
-			AddMockPhones(new[] { "o~", "o^", "o~^" }, IPASymbolType.Vowel);
+			AddMockPhones(new[] { "t~", "t^", "t~^" }, IPASymbolType.consonant);
+			AddMockPhones(new[] { "o~", "o^", "o~^" }, IPASymbolType.vowel);
 
 			if (App.IPASymbolCache[' '] == null)
 			{
 				IPASymbol charInfo = new IPASymbol();
-				charInfo.Type = IPASymbolType.Breaking;
+				charInfo.SubType = IPASymbolSubType.boundary;
 				charInfo.IsBase = true;
 				charInfo.Literal = " ";
-				App.IPASymbolCache.Add((int)' ', charInfo);
+				App.IPASymbolCache.Add(' ', charInfo);
 			}
 		}
 
@@ -2375,7 +2222,7 @@ namespace SIL.Pa.Tests
 				{
 					// Setup a tilde in the cache to look like a diacritic
 					IPASymbol charInfo = new IPASymbol();
-					charInfo.Type = IPASymbolType.Diacritics;
+					charInfo.Type = IPASymbolType.diacritic;
 					charInfo.IsBase = false;
 					charInfo.Literal = c.ToString();
 					App.IPASymbolCache.Add(c, charInfo);

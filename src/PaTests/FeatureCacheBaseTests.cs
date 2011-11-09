@@ -15,6 +15,7 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using SIL.Pa.Model;
 using SIL.Pa.TestUtils;
@@ -201,8 +202,8 @@ namespace SIL.Pa.Tests
 			fmask[m_fNames.IndexOf("Ham")] = true;
 			fmask[m_fNames.IndexOf("Cheese")] = true;
 
-			List<string> list = m_cache.GetFeatureList(fmask);
-			Assert.AreEqual(3, list.Count);
+			var list = m_cache.GetFeatureList(fmask).ToArray();
+			Assert.AreEqual(3, list.Length);
 			Assert.AreEqual("Cheese", list[0]);
 			Assert.AreEqual("Ham", list[1]);
 			Assert.AreEqual("Onions", list[2]);

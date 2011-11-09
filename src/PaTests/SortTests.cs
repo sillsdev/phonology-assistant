@@ -76,118 +76,118 @@ namespace SIL.Pa.Tests
 		#endregion
 
 		#region Unicode Sort Tests
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tests ascending unicode sorting.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void CacheSortUnicodeAscTest()
-		{
-			AddWords("fib bit ebay bitter drillbit abdiging",
-				"cvc cvc vcvc cvccvc ccvcccvc vccvcvcc");
-			m_sortOptions.SortType = PhoneticSortType.Unicode;
-			m_sortOptions.SetPrimarySortField(m_phoneticField, false, kAscending);
-			m_cache.Sort(m_sortOptions);
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Tests ascending unicode sorting.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void CacheSortUnicodeAscTest()
+		//{
+		//    AddWords("fib bit ebay bitter drillbit abdiging",
+		//        "cvc cvc vcvc cvccvc ccvcccvc vccvcvcc");
+		//    m_sortOptions.SortType = PhoneticSortType.Unicode;
+		//    m_sortOptions.SetPrimarySortField(m_phoneticField, false, kAscending);
+		//    m_cache.Sort(m_sortOptions);
 
-			Assert.AreEqual(6, m_cache.Count);
-			string[] words = { "abdiging", "bit", "bitter", "drillbit", "ebay", "fib" }; // expected answer
-			for (int i = 0; i < m_cache.Count; i++)
-				Assert.AreEqual(words[i], m_cache[i].WordCacheEntry["Phonetic"]);
-		}
+		//    Assert.AreEqual(6, m_cache.Count);
+		//    string[] words = { "abdiging", "bit", "bitter", "drillbit", "ebay", "fib" }; // expected answer
+		//    for (int i = 0; i < m_cache.Count; i++)
+		//        Assert.AreEqual(words[i], m_cache[i].WordCacheEntry["Phonetic"]);
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tests decending unicode sorting.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void CacheSortUnicodeDescTest()
-		{
-			AddWords("fib bit ebay bitter drillbit abdiging", null);
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Tests decending unicode sorting.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void CacheSortUnicodeDescTest()
+		//{
+		//    AddWords("fib bit ebay bitter drillbit abdiging", null);
 			
-			m_sortOptions.SortType = PhoneticSortType.Unicode;
-			m_sortOptions.SetPrimarySortField(m_phoneticField, false, kDescending);
-			m_cache.Sort(m_sortOptions);
+		//    m_sortOptions.SortType = PhoneticSortType.Unicode;
+		//    m_sortOptions.SetPrimarySortField(m_phoneticField, false, kDescending);
+		//    m_cache.Sort(m_sortOptions);
 
-			Assert.AreEqual(6, m_cache.Count);
-			string[] words = { "fib", "ebay", "drillbit", "bitter", "bit", "abdiging" }; // expected answer
-			for (int i = 0; i < m_cache.Count; i++)
-				Assert.AreEqual(words[i], m_cache[i].WordCacheEntry["Phonetic"]);
-		}
+		//    Assert.AreEqual(6, m_cache.Count);
+		//    string[] words = { "fib", "ebay", "drillbit", "bitter", "bit", "abdiging" }; // expected answer
+		//    for (int i = 0; i < m_cache.Count; i++)
+		//        Assert.AreEqual(words[i], m_cache[i].WordCacheEntry["Phonetic"]);
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tests nested sort with ascending cvc and descending unicode.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void CacheSortCvcAscUnicodeDescTest()
-		{
-			AddWords("fib bit dig ebay bitter digger drillbit abdiging",
-				"cvc cvc cvc vcvc cvccvc cvccvc ccvcccvc vccvcvcc");
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Tests nested sort with ascending cvc and descending unicode.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void CacheSortCvcAscUnicodeDescTest()
+		//{
+		//    AddWords("fib bit dig ebay bitter digger drillbit abdiging",
+		//        "cvc cvc cvc vcvc cvccvc cvccvc ccvcccvc vccvcvcc");
 			
-			m_query.Pattern = "i/*_*";
-			WordListCache cache = App.Search(m_query);
-			m_sortOptions.SortType = PhoneticSortType.Unicode;
-			m_sortOptions.SetPrimarySortField(m_phoneticField, false, kDescending); // 2nd sort
-			m_sortOptions.SetPrimarySortField(m_cvField, false, kAscending); // 1st sort
-			cache.Sort(m_sortOptions);
+		//    m_query.Pattern = "i/*_*";
+		//    WordListCache cache = App.Search(m_query);
+		//    m_sortOptions.SortType = PhoneticSortType.Unicode;
+		//    m_sortOptions.SetPrimarySortField(m_phoneticField, false, kDescending); // 2nd sort
+		//    m_sortOptions.SetPrimarySortField(m_cvField, false, kAscending); // 1st sort
+		//    cache.Sort(m_sortOptions);
 
-			Assert.AreEqual(9, cache.Count);
-			string[] words =
-				{ "drillbit", "drillbit", "fib", "dig", "bit", "digger", "bitter", "abdiging", "abdiging" }; // expected answer
-			for (int i = 0; i < cache.Count; i++)
-				Assert.AreEqual(words[i], cache[i].WordCacheEntry["Phonetic"]);
-		}
+		//    Assert.AreEqual(9, cache.Count);
+		//    string[] words =
+		//        { "drillbit", "drillbit", "fib", "dig", "bit", "digger", "bitter", "abdiging", "abdiging" }; // expected answer
+		//    for (int i = 0; i < cache.Count; i++)
+		//        Assert.AreEqual(words[i], cache[i].WordCacheEntry["Phonetic"]);
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tests ascending unicode adv sorting with defaults.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void CacheAdvDefaultsSortUnicodeAscTest()
-		{
-			AddWords("fib bit dig ebay bitter digger drillbit abdiging",
-							"cvc cvc cvc vcvc cvccvc cvccvc ccvcccvc vccvcvcc");
-			m_query.Pattern = "b/*_*";
-			WordListCache cache = App.Search(m_query);
-			m_sortOptions.SortType = PhoneticSortType.Unicode;
-			m_sortOptions.AdvancedEnabled = true;
-			m_sortOptions.SetPrimarySortField(m_phoneticField, false, kAscending);
-			cache.Sort(m_sortOptions);
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Tests ascending unicode adv sorting with defaults.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void CacheAdvDefaultsSortUnicodeAscTest()
+		//{
+		//    AddWords("fib bit dig ebay bitter digger drillbit abdiging",
+		//                    "cvc cvc cvc vcvc cvccvc cvccvc ccvcccvc vccvcvcc");
+		//    m_query.Pattern = "b/*_*";
+		//    WordListCache cache = App.Search(m_query);
+		//    m_sortOptions.SortType = PhoneticSortType.Unicode;
+		//    m_sortOptions.AdvancedEnabled = true;
+		//    m_sortOptions.SetPrimarySortField(m_phoneticField, false, kAscending);
+		//    cache.Sort(m_sortOptions);
 
-			Assert.AreEqual(6, cache.Count);
-			string[] words = { "bit", "bitter", "abdiging", "ebay", "fib", "drillbit" }; // expected answer
-			for (int i = 0; i < cache.Count; i++)
-				Assert.AreEqual(words[i], cache[i].WordCacheEntry["Phonetic"]);
-		}
+		//    Assert.AreEqual(6, cache.Count);
+		//    string[] words = { "bit", "bitter", "abdiging", "ebay", "fib", "drillbit" }; // expected answer
+		//    for (int i = 0; i < cache.Count; i++)
+		//        Assert.AreEqual(words[i], cache[i].WordCacheEntry["Phonetic"]);
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tests ascending unicode adv sorting with modified sort order & Rl options.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void CacheAdvSortUnicodeAscTest()
-		{
-			AddWords("fib bit dig ebay bitter digger drillbit abdiging",
-							"cvc cvc cvc vcvc cvccvc cvccvc ccvcccvc vccvcvcc");
-			m_query.Pattern = "b/*_*";
-			WordListCache cache = App.Search(m_query);
-			m_sortOptions.SortType = PhoneticSortType.Unicode;
-			m_sortOptions.AdvancedEnabled = true;
-			m_sortOptions.AdvSortOrder = new[] { 2, 1, 0 };
-			m_sortOptions.AdvRlOptions = new[] { false, true, true };
-			m_sortOptions.SetPrimarySortField(m_phoneticField, false, kAscending);
-			cache.Sort(m_sortOptions);
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Tests ascending unicode adv sorting with modified sort order & Rl options.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void CacheAdvSortUnicodeAscTest()
+		//{
+		//    AddWords("fib bit dig ebay bitter digger drillbit abdiging",
+		//                    "cvc cvc cvc vcvc cvccvc cvccvc ccvcccvc vccvcvcc");
+		//    m_query.Pattern = "b/*_*";
+		//    WordListCache cache = App.Search(m_query);
+		//    m_sortOptions.SortType = PhoneticSortType.Unicode;
+		//    m_sortOptions.AdvancedEnabled = true;
+		//    m_sortOptions.AdvSortOrder = new[] { 2, 1, 0 };
+		//    m_sortOptions.AdvRlOptions = new[] { false, true, true };
+		//    m_sortOptions.SetPrimarySortField(m_phoneticField, false, kAscending);
+		//    cache.Sort(m_sortOptions);
 
-			Assert.AreEqual(6, cache.Count);
-			string[] words = { "fib", "abdiging", "bitter", "bit", "drillbit", "ebay" }; // expected answer
-			for (int i = 0; i < cache.Count; i++)
-				Assert.AreEqual(words[i], cache[i].WordCacheEntry["Phonetic"]);
-		}
+		//    Assert.AreEqual(6, cache.Count);
+		//    string[] words = { "fib", "abdiging", "bitter", "bit", "drillbit", "ebay" }; // expected answer
+		//    for (int i = 0; i < cache.Count; i++)
+		//        Assert.AreEqual(words[i], cache[i].WordCacheEntry["Phonetic"]);
+		//}
 		#endregion
 
 		#region POA Sort Tests

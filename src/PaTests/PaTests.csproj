@@ -101,7 +101,9 @@
     <Compile Include="TestBase.cs" />
     <Compile Include="TestSaDBMaker.cs" />
     <Compile Include="TestSFFileBuilder.cs" />
-    <Compile Include="WordCacheEntryTests.cs" />
+    <Compile Include="WordCacheEntryTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pa\Pa.csproj">

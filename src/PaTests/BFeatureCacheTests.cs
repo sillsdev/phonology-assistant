@@ -93,7 +93,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void GetPlusFeatures()
 		{
-			List<Feature> pfeatures = m_cache.PlusFeatures;
+			List<Feature> pfeatures = m_cache.PlusFeatures.ToList();
 			Assert.AreEqual(2, pfeatures.Count);
 			Assert.IsTrue(pfeatures.Exists(x => x.Name == "+blue"));
 			Assert.IsTrue(pfeatures.Exists(x => x.Name == "+red"));
@@ -107,7 +107,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void GetMinusFeatures()
 		{
-			List<Feature> mfeatures = m_cache.MinusFeatures;
+			List<Feature> mfeatures = m_cache.MinusFeatures.ToList();
 			Assert.AreEqual(2, mfeatures.Count);
 			Assert.IsTrue(mfeatures.Exists(x => x.Name == "-blue"));
 			Assert.IsTrue(mfeatures.Exists(x => x.Name == "-red"));

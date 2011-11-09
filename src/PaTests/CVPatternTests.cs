@@ -117,8 +117,8 @@ namespace SIL.Pa.Tests
 			m_cache.AddPhone("c");
 			m_cache.AddPhone("e");
 
-			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("c", IPASymbolIgnoreType.NotApplicable));
-			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("e", IPASymbolIgnoreType.NotApplicable));
+			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("c", CVPatternInfo.PatternType.Custom));
+			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("e", CVPatternInfo.PatternType.Custom));
 
 			Assert.AreEqual("VCec", m_cache.GetCVPattern("abec"));
 			Assert.AreEqual("CceV", m_cache.GetCVPattern("bcea"));
@@ -140,8 +140,8 @@ namespace SIL.Pa.Tests
 			m_cache.AddPhone("e");
 			m_cache.AddPhone("e\u0301");
 
-			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("a", IPASymbolIgnoreType.NotApplicable));
-			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("e\u0301", IPASymbolIgnoreType.NotApplicable));
+			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("a", CVPatternInfo.PatternType.Custom));
+			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("e\u0301", CVPatternInfo.PatternType.Custom));
 
 			Assert.AreEqual("aCe\u0301C", m_cache.GetCVPattern("abe\u0301c"));
 			Assert.AreEqual("CCVV", m_cache.GetCVPattern("bcea\u0303"));
@@ -163,12 +163,9 @@ namespace SIL.Pa.Tests
 			m_cache.AddPhone("e");
 			m_cache.AddPhone("e\u0301");
 
-			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("a",
-				IPASymbolIgnoreType.NotApplicable));
-			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("\u0301",
-				IPASymbolIgnoreType.Tone));
-			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create(App.kDottedCircle + "\u0303",
-				IPASymbolIgnoreType.NotApplicable));
+			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("a", CVPatternInfo.PatternType.Custom));
+			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("\u0301", CVPatternInfo.PatternType.Suprasegmental));
+			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create(App.kDottedCircle + "\u0303", CVPatternInfo.PatternType.Custom));
 
 			Assert.AreEqual("aCVC", m_cache.GetCVPattern("abec"));
 			Assert.AreEqual("CCV\u0301a", m_cache.GetCVPattern("bce\u0301a"));
@@ -192,8 +189,8 @@ namespace SIL.Pa.Tests
 			m_prj.AmbiguousSequences.Clear();
 			m_prj.AmbiguousSequences.Add("\u207Fb");
 
-			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("a", IPASymbolIgnoreType.NotApplicable));
-			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("\u207F" + App.kDottedCircle, IPASymbolIgnoreType.NotApplicable));
+			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("a", CVPatternInfo.PatternType.Custom));
+			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("\u207F" + App.kDottedCircle, CVPatternInfo.PatternType.Custom));
 
 			Assert.AreEqual("a\u207FCVC", m_cache.GetCVPattern("a\u207Fbec"));
 			Assert.AreEqual("\u207FCCVa", m_cache.GetCVPattern("\u207Fbcea"));
@@ -218,11 +215,8 @@ namespace SIL.Pa.Tests
 			m_prj.AmbiguousSequences.Clear();
 			m_prj.AmbiguousSequences.Add("\u207Fb");
 
-			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create(App.kDottedCircle + "\u0303",
-				IPASymbolIgnoreType.NotApplicable));
-
-			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("\u207F" + App.kDottedCircle,
-				IPASymbolIgnoreType.NotApplicable));
+			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create(App.kDottedCircle + "\u0303", CVPatternInfo.PatternType.Custom));
+			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("\u207F" + App.kDottedCircle, CVPatternInfo.PatternType.Custom));
 
 			Assert.AreEqual("VV\u0303\u207FCC", m_cache.GetCVPattern("ea\u0303\u207Fbc"));
 			Assert.AreEqual("\u207FCCVV", m_cache.GetCVPattern("\u207Fbcea"));

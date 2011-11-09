@@ -52,7 +52,7 @@ namespace SIL.Pa.Tests
 		[SetUp]
         public void TestSetup()
         {
-			m_entry = new WordCacheEntry();
+			m_entry = new WordCacheEntry(null, "Phonetic");
 		}
 
 		#endregion

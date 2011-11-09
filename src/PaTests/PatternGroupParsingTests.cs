@@ -321,7 +321,7 @@ namespace SIL.Pa.Tests
 		public void PatternGroupTest_Complex()
 		{
 			PatternGroup group = new PatternGroup(EnvironmentType.After);
-			group.Parse("[[{a,e}{[+high][DENTAL]}][-dOrS]]");
+			group.Parse("[[{a,e}{[+high][dental]}][-dorsal]]");
 
 			Assert.IsNotNull(group);
 			Assert.AreEqual(group.GroupType, GroupType.And);
@@ -331,8 +331,8 @@ namespace SIL.Pa.Tests
 			PatternGroupMember groupMember = group.Members[1] as PatternGroupMember;
 			Assert.IsNotNull(groupMember);
 			Assert.AreEqual(MemberType.Binary, groupMember.MemberType);
-			Assert.AreEqual("-dors", groupMember.Member);
-			FeatureMask mask = App.BFeatureCache.GetMask("-dors");
+			Assert.AreEqual("-dorsal", groupMember.Member);
+			FeatureMask mask = App.BFeatureCache.GetMask("-dorsal");
 			Assert.IsTrue(groupMember.BMask.ContainsOneOrMore(mask));
 
 			// Nested within the first group should be 2 other groups.
