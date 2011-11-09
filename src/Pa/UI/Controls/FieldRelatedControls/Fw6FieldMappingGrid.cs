@@ -76,8 +76,8 @@ namespace SIL.Pa.UI.Controls
 		{
 			var wslist = (field == null ? new List<string>(0) : GetWritingSystemsForField(field));
 
-			var currWs = m_writingSystems.SingleOrDefault(ws =>
-				ws.Id == m_mappings[CurrentCellAddress.Y].FwWsId);
+			var currWs = (m_mappings.Count == CurrentCellAddress.Y) ? null :
+				m_writingSystems.SingleOrDefault(ws => ws.Id == m_mappings[CurrentCellAddress.Y].FwWsId);
 
 			object currValue = 0;
 			if (currWs != null)
