@@ -215,7 +215,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 						break;
 		
 					case "VariantComments":
-						value = lxEntry.VariantOfInfo.Select(vi => vi.VariantComment.GetString(wsId));
+						value = lxEntry.VariantOfInfo.Where(vi => vi.VariantComment != null)
+							.Select(vi => GetMultiStringValue(vi.VariantComment, wsId));
 						break;
 					
 					case "ComplexForms":
@@ -232,7 +233,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 						break;
 					
 					case "ComplexFormComments":
-						value = lxEntry.ComplexFormInfo.Select(c => c.ComplexFormComment.GetString(wsId));
+						value = lxEntry.ComplexFormInfo.Where(c => c.ComplexFormComment != null)
+							.Select(c => GetMultiStringValue(c.ComplexFormComment, wsId));
 						break;
 					
 					case "Allomorphs":
