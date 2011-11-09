@@ -91,13 +91,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private Rectangle GetGroupRectangle()
 		{
-			var rc = m_grid.GetCellDisplayRectangle(-1, m_firstRowIndex, false);
-
-			var dy = (rc.Height == Rows[0].Height ?
-				rc.Y : m_grid.ColumnHeadersHeight - m_grid.VerticalScrollingOffset);
+			int top = m_grid.ColumnHeadersHeight - m_grid.VerticalScrollingOffset;
+			for (int i = 0; i < m_firstRowIndex; i++)
+				top += m_grid.Rows[i].Height;
 
 			return (m_grid == null ? Rectangle.Empty :
-				new Rectangle(0, dy, m_grid.RowHeadersWidth, Rows.Sum(x => x.Height)));
+				new Rectangle(0, top, m_grid.RowHeadersWidth, Rows.Sum(x => x.Height)));
 		}
 
 		/// ------------------------------------------------------------------------------------
