@@ -276,24 +276,20 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		#region Tab managment methods
+		///// ------------------------------------------------------------------------------------
+		//public ViewTab AddTab(string text, Image img, Type viewType, string helptopicid,
+		//    Func<string> getHelpToolTipAction)
 		/// ------------------------------------------------------------------------------------
-		public ViewTab AddTab(string text, Type viewType)
-		{
-			return AddTab(text, null, viewType, null, null);
-		}
-		
-		/// ------------------------------------------------------------------------------------
-		public ViewTab AddTab(string text, Image img, Type viewType, string helptopicid,
-			Func<string> getHelpToolTipAction)
+		public void AddTab(ViewTab tab)
 		{
 			if (m_pnlTabs.Left > 0)
 				m_pnlTabs.Left = 0; 
 			
-			var tab = new ViewTab(this, img, viewType);
-			tab.Text = Utils.RemoveAcceleratorPrefix(text);
-			tab.GetHelpToolTipAction = getHelpToolTipAction;
-			tab.HelpTopicId = helptopicid;
-			tab.Dock = DockStyle.Left;
+			//var tab = new ViewTab(this, img, viewType);
+			//tab.Text = Utils.RemoveAcceleratorPrefix(text);
+			//tab.GetHelpToolTipAction = getHelpToolTipAction;
+			//tab.HelpTopicId = helptopicid;
+			//tab.Dock = DockStyle.Left;
 			tab.Click += tab_Click;
 			SetTabsWidth(tab);
 
@@ -301,8 +297,6 @@ namespace SIL.Pa.UI.Controls
 			tab.BringToFront();
 			Tabs.Add(tab);
 			AdjustTabContainerWidth(true);
-
-			return tab;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -410,9 +404,7 @@ namespace SIL.Pa.UI.Controls
 			m_pnlCaption.Invalidate();
 			m_captionText = m_currTab.Text;
 
-			var tip = (m_currTab.GetHelpToolTipAction == null ? null :
-				m_currTab.GetHelpToolTipAction());
-
+			var tip = (m_currTab.HelpToolTipProvider == null ? null : m_currTab.HelpToolTipProvider());
 			m_tooltip.SetToolTip(m_btnHelp, tip);
 		}
 
@@ -539,7 +531,7 @@ namespace SIL.Pa.UI.Controls
 		public bool IsRightAdjacentTabSelected(ViewTab tab)
 		{
 			var adjacentTab = FindFirstVisibleTabToRight(tab);
-			return (adjacentTab == null ? false : adjacentTab.Selected);
+			return (adjacentTab != null && adjacentTab.Selected);
 		}
 
 		/// ------------------------------------------------------------------------------------

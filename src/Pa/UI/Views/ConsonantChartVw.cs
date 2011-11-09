@@ -11,11 +11,11 @@ namespace SIL.Pa.UI.Views
 	public partial class ConsonantChartVw : ChartVwBase
 	{
 		/// ------------------------------------------------------------------------------------
-		public ConsonantChartVw()
+		public ConsonantChartVw(PaProject project) : base(project)
 		{
 			try
 			{
-				File.Delete(_project.ProjectPathFilePrefix + "HtmlVwConsonantChart.html");
+				File.Delete(Project.ProjectPathFilePrefix + "HtmlVwConsonantChart.html");
 			}
 			catch { }
 			
@@ -91,7 +91,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override string LayoutFile
 		{
-			get { return _project.ConsonantChartLayoutFile; }
+			get { return Project.ConsonantChartLayoutFile; }
 		}
 
 		/// --------------------------------------------------------------------------------------------
@@ -127,8 +127,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override string CreateHtmlViewFile()
 		{
-			var outputFile = _project.ProjectPathFilePrefix + "HtmlVwConsonantChart.html";
-			return (CVChartExporter.ToHtml(App.Project, CVChartType.Consonant, outputFile,
+			var outputFile = Project.ProjectPathFilePrefix + "HtmlVwConsonantChart.html";
+			return (CVChartExporter.ToHtml(Project, CVChartType.Consonant, outputFile,
 				_chartGrid, false, false) ? outputFile : string.Empty);
 		}
 	}

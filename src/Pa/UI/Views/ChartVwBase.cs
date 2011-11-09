@@ -36,7 +36,7 @@ namespace SIL.Pa.UI.Views
 		private bool _activeView;
 
 		/// ------------------------------------------------------------------------------------
-		public ChartVwBase()
+		public ChartVwBase(PaProject project) : base(project)
 		{
 			InitializeComponent();
 
@@ -205,7 +205,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public void ReloadChart()
 		{
-			CVChartBuilder.Process(_project, ChartType);
+			CVChartBuilder.Process(Project, ChartType);
 			LoadChart();
 			LoadHtmlChart();
 		}
@@ -478,7 +478,7 @@ namespace SIL.Pa.UI.Views
 				// Check if the phone only exists as an uncertain phone. If so,
 				// then set the flag in the query to include searching words
 				// made using all uncertain uncertain derivations.
-				var phoneInfo = _project.PhoneCache[phone];
+				var phoneInfo = Project.PhoneCache[phone];
 				if (phoneInfo != null && phoneInfo.TotalCount == 0)
 					query.IncludeAllUncertainPossibilities = true;
 				
@@ -570,7 +570,7 @@ namespace SIL.Pa.UI.Views
 				return false;
 
 			itemProps.Control = _ignoredSymbolsDropDown = new ChartOptionsDropDown();
-			_ignoredSymbolsDropDown.SetIgnoredSymbols(_project.IgnoredSymbolsInCVCharts);
+			_ignoredSymbolsDropDown.SetIgnoredSymbols(Project.IgnoredSymbolsInCVCharts);
 			_ignoredSymbolsDropDown.lnkRefresh.Click += HandleRefreshChartClick;
 			 
 			// This is a kludge and I really don't like to do it. But I don't know how
@@ -600,7 +600,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void HandleRefreshChartClick(object sender, EventArgs e)
 		{
-			var oldList = _project.IgnoredSymbolsInCVCharts.OrderBy(s => s, StringComparer.Ordinal).ToList();
+			var oldList = Project.IgnoredSymbolsInCVCharts.OrderBy(s => s, StringComparer.Ordinal).ToList();
 			var newList = _ignoredSymbolsDropDown.GetIgnoredSymbols().OrderBy(s => s, StringComparer.Ordinal).ToList();
 
 			var listsAreDifferent = (oldList.Count != newList.Count);
@@ -620,9 +620,9 @@ namespace SIL.Pa.UI.Views
 			// Only refresh when the list changed.
 			if (listsAreDifferent)
 			{
-				_project.IgnoredSymbolsInCVCharts = newList;
-				_project.Save();
-				ProjectInventoryBuilder.Process(_project);
+				Project.IgnoredSymbolsInCVCharts = newList;
+				Project.Save();
+				ProjectInventoryBuilder.Process(Project);
 				App.MsgMediator.SendMessage("RefreshCVChartAfterIgnoredSymbolsChanged", null);
 			}
 		}
@@ -645,7 +645,7 @@ namespace SIL.Pa.UI.Views
 			if (string.IsNullOrEmpty(outputFileName))
 				return false;
 
-			CVChartExporter.ToHtml(_project, ChartType, outputFileName, _chartGrid,
+			CVChartExporter.ToHtml(Project, ChartType, outputFileName, _chartGrid,
 				Settings.Default.OpenHtmlCVChartAfterExport);
 
 			return true;
@@ -657,14 +657,14 @@ namespace SIL.Pa.UI.Views
 			if (!_activeView)
 				return null;
 
-			string defaultOutputFileName = string.Format(fmtFileName, _project.LanguageName);
+			string defaultOutputFileName = string.Format(fmtFileName, Project.LanguageName);
 
 			var fileTypes = fileTypeFilter + "|" + App.kstidFileTypeAllFiles;
 
 			int filterIndex = 0;
 
 			return App.SaveFileDialog(defaultFileType, fileTypes, ref filterIndex,
-				App.kstidSaveFileDialogGenericCaption, defaultOutputFileName, _project.Folder);
+				App.kstidSaveFileDialogGenericCaption, defaultOutputFileName, Project.Folder);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -676,7 +676,7 @@ namespace SIL.Pa.UI.Views
 			if (string.IsNullOrEmpty(outputFileName))
 				return false;
 
-			CVChartExporter.ToWordXml(_project, ChartType, outputFileName, _chartGrid,
+			CVChartExporter.ToWordXml(Project, ChartType, outputFileName, _chartGrid,
 				Settings.Default.OpenWordXmlCVChartAfterExport);
 
 			return true;
@@ -691,7 +691,7 @@ namespace SIL.Pa.UI.Views
 			if (string.IsNullOrEmpty(outputFileName))
 				return false;
 
-			CVChartExporter.ToXLingPaper(_project, ChartType, outputFileName, _chartGrid,
+			CVChartExporter.ToXLingPaper(Project, ChartType, outputFileName, _chartGrid,
 				Settings.Default.OpenXLingPaperCVChartAfterExport);
 
 			return true;

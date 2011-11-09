@@ -21,7 +21,7 @@ namespace SIL.Pa.UI.Views
 	/// Form in which search patterns are defined and used for searching.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class SearchVw : UserControl, IxCoreColleague, ITabView, ISearchResultsViewHost
+	public partial class SearchVw : ViewBase, IxCoreColleague, ITabView, ISearchResultsViewHost
 	{
 		//private string PaApp.kOpenClassBracket = "\u2039";
 		//private string PaApp.kCloseClassBracket = "\u203A";
@@ -42,9 +42,9 @@ namespace SIL.Pa.UI.Views
 		private readonly SplitterPanel m_dockedSidePanel;
 		private readonly Keys m_savePatternHotKey = Keys.None;
 
-		#region construction
+		#region Construction
 		/// ------------------------------------------------------------------------------------
-		public SearchVw()
+		public SearchVw(PaProject project) : base(project)
 		{
 			Utils.WaitCursors(true);
 			InitializeComponent();
@@ -687,7 +687,7 @@ namespace SIL.Pa.UI.Views
 			//// At this point, we know we're dealing with a previously saved query. Therefore,
 			//// we must determine whether or not to show the query save as dialog. Find the
 			//// original query so we can compare its pattern with the current pattern.
-			//SearchQuery origQuery = PaApp.Project.SearchQueryGroups.GetQueryForId(query.Id);
+			//SearchQuery origQuery = Project.SearchQueryGroups.GetQueryForId(query.Id);
 
 			//// Show the dialog when the original pattern is different from the current and
 			//// the query has never been assigned a name. Otherwise, just save without prompting.

@@ -271,41 +271,56 @@ namespace SIL.Pa.UI
 			var itemProps = _tmAdapter.GetItemProperties("mnuDataCorpus");
 			var img = (itemProps == null ? null : itemProps.Image);
 			var text = (itemProps == null ? "Error!" : itemProps.Text);
-			var tab = vwTabGroup.AddTab(text,img, typeof(DataCorpusVw), "hidDataCorpusView",
-				() => App.GetString("PaMainWnd.DataCorpusViewHelpButtonToolTip", "Data Corpus View Help"));
-			
+			var tab = new ViewTab(vwTabGroup, text, img, typeof(DataCorpusVw),
+				() => new DataCorpusVw(_project), "hidDataCorpusView",
+				() => App.GetString("PaMainWnd.DataCorpusViewHelpButtonToolTip",
+					"Data Corpus View Help"));
+				
+			vwTabGroup.AddTab(tab);
 			App.RegisterForLocalization(tab, "MenuItems.DataCorpus");
 
 			itemProps = _tmAdapter.GetItemProperties("mnuFindPhones");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tab = vwTabGroup.AddTab(text, img, typeof(SearchVw), "hidSearchView",
-				() => App.GetString("PaMainWnd.SearchViewHelpButtonToolTip", "Search View Help"));
-			
+			tab = new ViewTab(vwTabGroup, text, img, typeof(SearchVw),
+				() => new SearchVw(_project), "hidSearchView",
+				() => App.GetString("PaMainWnd.SearchViewHelpButtonToolTip",
+					"Search View Help"));
+
+			vwTabGroup.AddTab(tab);
 			App.RegisterForLocalization(tab, "MenuItems.FindPhones");
 
 			itemProps = _tmAdapter.GetItemProperties("mnuConsonantChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tab = vwTabGroup.AddTab(text, img, typeof(ConsonantChartVw), "hidConsonantChartView", 
-				() => App.GetString("PaMainWnd.ConsonantChartViewHelpButtonToolTip", "Consonant Chart View Help"));
+			tab = new ViewTab(vwTabGroup, text, img, typeof(ConsonantChartVw),
+				() => new ConsonantChartVw(_project), "hidConsonantChartView", 
+				() => App.GetString("PaMainWnd.ConsonantChartViewHelpButtonToolTip",
+					"Consonant Chart View Help"));
 
+			vwTabGroup.AddTab(tab);
 			App.RegisterForLocalization(tab, "MenuItems.ConsonantChart");
 
 			itemProps = _tmAdapter.GetItemProperties("mnuVowelChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tab = vwTabGroup.AddTab(text, img, typeof(VowelChartVw), "hidVowelChartView",
-				() => App.GetString("PaMainWnd.VowelChartViewHelpButtonToolTip", "Vowel Chart View Help"));
+			tab = new ViewTab(vwTabGroup, text, img, typeof(VowelChartVw),
+				() => new VowelChartVw(_project), "hidVowelChartView",
+				() => App.GetString("PaMainWnd.VowelChartViewHelpButtonToolTip",
+					"Vowel Chart View Help"));
 
+			vwTabGroup.AddTab(tab);
 			App.RegisterForLocalization(tab, "MenuItems.VowelChart");
 
 			itemProps = _tmAdapter.GetItemProperties("mnuXYChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tab = vwTabGroup.AddTab(text, img, typeof(DistributionChartVw), "hidXYChartsView",
-				() => App.GetString("PaMainWnd.DistributionChartViewHelpButtonToolTip", "Distribution Charts View Help"));
-			
+			tab = new ViewTab(vwTabGroup, text, img, typeof(DistributionChartVw),
+				() => new DistributionChartVw(_project), "hidXYChartsView",
+				() => App.GetString("PaMainWnd.DistributionChartViewHelpButtonToolTip",
+					"Distribution Charts View Help"));
+
+			vwTabGroup.AddTab(tab);
 			App.RegisterForLocalization(tab, "MenuItems.XYChart");
 			
 			vwTabGroup.Visible = true;

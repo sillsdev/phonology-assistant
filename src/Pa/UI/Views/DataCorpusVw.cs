@@ -14,7 +14,7 @@ using SIL.Pa.UI.Dialogs;
 namespace SIL.Pa.UI.Views
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class DataCorpusVw : UserControl, IxCoreColleague, ITabView
+	public partial class DataCorpusVw : ViewBase, IxCoreColleague, ITabView
 	{
 		private PaWordListGrid m_grid;
 		private WordListCache m_cache;
@@ -26,7 +26,7 @@ namespace SIL.Pa.UI.Views
 		private bool m_initialDock = true;
 
 		/// ------------------------------------------------------------------------------------
-		public DataCorpusVw()
+		public DataCorpusVw(PaProject project) : base(project)
 		{
 			InitializeComponent();
 			Name = "DataCorpusVw";
@@ -128,7 +128,7 @@ namespace SIL.Pa.UI.Views
 				m_grid.Visible = true;
 				m_grid.TabIndex = 0;
 				m_grid.Focus();
-				m_grid.SortOptions = App.Project.DataCorpusVwSortOptions;
+				m_grid.SortOptions = Project.DataCorpusVwSortOptions;
 				m_grid.IsCurrentPlaybackGrid = true;
 				m_grid.UseWaitCursor = false;
 				m_grid.Cursor = Cursors.Default;
@@ -148,7 +148,7 @@ namespace SIL.Pa.UI.Views
 		private void LoadWindow()
 		{
 			var cache = new WordListCache();
-			foreach (var entry in App.Project.WordCache)
+			foreach (var entry in Project.WordCache)
 				cache.Add(entry);
 
 			Initialize(cache);
@@ -337,7 +337,15 @@ namespace SIL.Pa.UI.Views
 			Application.DoEvents();
 			m_grid.Focus();
 		}
-		
+
+		/// ------------------------------------------------------------------------------------
+		protected override bool OnProjectLoaded(object args)
+		{
+			base.OnProjectLoaded(args);
+			m_grid.SortOptions = Project.DataCorpusVwSortOptions;
+			return false;
+		}
+	
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Updates the record pane with the raw record query for the current row.
@@ -845,18 +853,18 @@ namespace SIL.Pa.UI.Views
 			if (!m_activeView)
 				return false;
 
-			string defaultFileName = string.Format(fmtFileName, App.Project.LanguageName);
+			string defaultFileName = string.Format(fmtFileName, Project.LanguageName);
 
 			var fileTypes = fileTypeFilter + "|" + App.kstidFileTypeAllFiles;
 
 			int filterIndex = 0;
 			var outputFileName = App.SaveFileDialog(defaultFileType, fileTypes, ref filterIndex,
-				App.kstidSaveFileDialogGenericCaption, defaultFileName, App.Project.Folder);
+				App.kstidSaveFileDialogGenericCaption, defaultFileName, Project.Folder);
 
 			if (string.IsNullOrEmpty(outputFileName))
 				return false;
 
-			exportAction(App.Project, outputFileName, m_grid, openAfterExport);
+			exportAction(Project, outputFileName, m_grid, openAfterExport);
 			return true;
 		}
 

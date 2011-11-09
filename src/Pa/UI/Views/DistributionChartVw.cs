@@ -21,7 +21,7 @@ namespace SIL.Pa.UI.Views
 	/// Form in which search patterns are defined and used for searching.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class DistributionChartVw : UserControl, IxCoreColleague, ITabView, ISearchResultsViewHost
+	public partial class DistributionChartVw : ViewBase, IxCoreColleague, ITabView, ISearchResultsViewHost
 	{
 		private bool _initialDock = true;
 		private bool _editingSavedChartName;
@@ -35,7 +35,7 @@ namespace SIL.Pa.UI.Views
 		private readonly Keys _saveChartHotKey = Keys.None;
 
 		/// ------------------------------------------------------------------------------------
-		public DistributionChartVw()
+		public DistributionChartVw(PaProject project) : base(project)
 		{
 			Utils.WaitCursors(true);
 			InitializeComponent();
@@ -199,7 +199,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void LoadSavedChartsList()
 		{
-			var filename = DistributionChart.GetFileForProject(App.Project.ProjectPathFilePrefix);
+			var filename = DistributionChart.GetFileForProject(Project.ProjectPathFilePrefix);
 			_savedCharts = XmlSerializationHelper.DeserializeFromFile<List<DistributionChart>>(
 				filename, "distributionCharts");
 			
@@ -220,7 +220,7 @@ namespace SIL.Pa.UI.Views
 			if (_savedCharts != null)
 			{
 				XmlSerializationHelper.SerializeToFile(DistributionChart.GetFileForProject(
-					App.Project.ProjectPathFilePrefix), _savedCharts);
+					Project.ProjectPathFilePrefix), _savedCharts);
 			}
 		}
 
@@ -1340,19 +1340,19 @@ namespace SIL.Pa.UI.Views
 			if (!(objForExport is DistributionGrid))
 				return (wordListExportAction != null);
 
-			var prefix = (App.Project.LanguageName ?? (App.Project.LanguageCode ?? App.Project.Name));
+			var prefix = (Project.LanguageName ?? (Project.LanguageCode ?? Project.Name));
 			var defaultFileName = string.Format(fmtFileName, prefix, _grid.ChartName).Replace(" ", string.Empty);
 
 			string fileTypes = fileTypeFilter + "|" + App.kstidFileTypeAllFiles;
 
 			int filterIndex = 0;
 			var outputFileName = App.SaveFileDialog(defaultFileType, fileTypes, ref filterIndex,
-				App.kstidSaveFileDialogGenericCaption, defaultFileName, App.Project.Folder);
+				App.kstidSaveFileDialogGenericCaption, defaultFileName, Project.Folder);
 
 			if (string.IsNullOrEmpty(outputFileName))
 				return false;
 
-			exportAction(App.Project, outputFileName, _grid, openAfterExport);
+			exportAction(Project, outputFileName, _grid, openAfterExport);
 			return true;
 		}
 

@@ -5,20 +5,19 @@ namespace SIL.Pa.UI.Views
 {
 	public class ViewBase : UserControl
 	{
-		protected PaProject _project;
+		public PaProject Project { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public ViewBase()
+		public ViewBase(PaProject project)
 		{
-			// TODO: Rework the code so project can be passed in constructor.
-			_project = App.Project;
+			Project = project;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected bool OnProjectLoaded(object args)
+		protected virtual bool OnProjectLoaded(object args)
 		{
 			if (args is PaProject)
-				_project = args as PaProject;
+				Project = args as PaProject;
 
 			return false;
 		}

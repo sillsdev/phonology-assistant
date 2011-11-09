@@ -33,7 +33,8 @@ namespace SIL.Pa
 		void SetViewActive(bool makeActive, bool isDocked);
 		bool ActiveView { get; }
 		Form OwningForm { get;}
-		ITMAdapter TMAdapter { get;}
+		ITMAdapter TMAdapter { get; }
+		PaProject Project { get; }
 	}
 
 	#endregion
