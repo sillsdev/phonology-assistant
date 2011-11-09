@@ -174,7 +174,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public bool Parse(string pattern, List<string> errors)
 		{
-			m_errors = errors;
+			m_errors = errors ?? new List<string>();
 
 			if (!VerifyBracketedText(pattern))
 				return false;

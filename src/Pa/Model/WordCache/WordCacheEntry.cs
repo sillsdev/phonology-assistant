@@ -64,9 +64,12 @@ namespace SIL.Pa.Model
 			RecordEntry = recEntry;
 			WordIndex = wordIndex;
 
+			if (recEntry == null)
+				return;
+			
 			var mapping = recEntry.DataSource.FieldMappings
 				.SingleOrDefault(m => m.Field != null && m.Field.Type == FieldType.Phonetic);
-
+		
 			if (mapping != null)
 			{
 				_phoneticValue = new FieldValue(mapping.Field.Name);
@@ -265,7 +268,7 @@ namespace SIL.Pa.Model
 
 			// Now try the alternate path location the user may have specified in
 			// the project's undocumented alternate audio file location field.
-			return (TryToFindAudioFile(entry, audioFilePath, App.Project.AlternateAudioFileFolder) ?
+			return (TryToFindAudioFile(entry, audioFilePath, entry.Project.AlternateAudioFileFolder) ?
 				entry.AbsoluteAudioFilePath : null);
 		}
 
