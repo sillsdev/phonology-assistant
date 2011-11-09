@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Xml.Linq;
+using SilTools;
 
 namespace SIL.Pa.Model.Migration
 {
@@ -166,8 +169,64 @@ namespace SIL.Pa.Model.Migration
 			// the old field info. have their isParsed property set in the new mappings.
 			foreach (var element in mappings.Where(e => parsedFields.Contains((string)e.Element("paFieldName"))))
 				element.Add(new XElement("isParsed", "true"));
-		
+
+			// Throw away duplicate mappings, informing the user, of course.
+			// This is unusual, but it's happened, so we need to check for it.
+			foreach (var element in xmlProject.Element("DataSources").Elements("DataSource"))
+				RemoveDuplicateMappings((string)element.Element("DataSourceFile"), element.Element("FieldMappings"));
+
 			xmlProject.Save(_projectFilePath);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void RemoveDuplicateMappings(string dsFilePath, XElement mappingsElement)
+		{
+			var allNames = (from e in mappingsElement.Elements("mapping")
+							let n = (string)e.Attribute("nameInSource")
+							where n != null
+							select n).ToArray();
+
+			var newMappings = new List<XElement>();
+			var dupMappings = new Dictionary<string, List<XElement>>();
+
+			foreach (var mapping in mappingsElement.Elements("mapping"))
+			{
+				var currName = (string)mapping.Attribute("nameInSource");
+				if (allNames.Count(n => n == currName) <= 1)
+					newMappings.Add(mapping);
+				else
+				{
+					if (!dupMappings.ContainsKey(currName))
+						dupMappings[currName] = new List<XElement>();
+
+					dupMappings[currName].Add(mapping);
+				}
+			}
+
+			if (dupMappings.Count == 0)
+				return;
+
+			var fmt = App.GetString("ProjectMigrationMessages.DuplicateFieldMappingsErrorMsg",
+				"The following duplicate field mappings were found for the data source '{0}'.\n\n{1}" +
+				"\nDuplicate field mappings are invalid and only the first of the duplicates will be " +
+				"kept. To verify your mappings, go to the 'Project Settings' dialog box and select " +
+				"'Properties' for this data source.");
+
+			var bldr = new StringBuilder();
+			foreach (var kvp in dupMappings)
+			{
+				newMappings.Add(kvp.Value[0]);
+				bldr.AppendFormat("{0} -> ", kvp.Key);
+				foreach (var mapping in kvp.Value)
+					bldr.AppendFormat("{0}, ", (string)mapping.Element("paFieldName"));
+
+				bldr.Length -= 2;
+				bldr.Append('\n');
+			}
+
+			Utils.MsgBox(string.Format(fmt, Path.GetFileName(dsFilePath), bldr));
+
+			mappingsElement.ReplaceAll(newMappings);
 		}
 
 		/// ------------------------------------------------------------------------------------

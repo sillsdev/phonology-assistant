@@ -402,7 +402,7 @@ namespace SIL.Pa.UI.Dialogs
 			Project.SpeakerName = txtSpeaker.Text.Trim();
 			Project.Comments = txtComments.Text.Trim();
 			Project.DataSources = _dataSources;
-			Project.FixupFieldsAndMappings();
+			Project.SynchronizeProjectFieldMappingsWithDataSourceFieldMappings();
 
 			var bFeatureSet = _comboDistinctiveFeaturesSet.SelectedItem as string;
 			Project.DistinctiveFeatureSet = bFeatureSet.Trim('(', ')');
@@ -722,7 +722,7 @@ namespace SIL.Pa.UI.Dialogs
 				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChangesWereMade)
 				{
 					m_dirty = true;
-					Project.FixupFieldsAndMappings();
+					Project.SynchronizeProjectFieldMappingsWithDataSourceFieldMappings();
 				}
 			}
 		}
@@ -747,7 +747,7 @@ namespace SIL.Pa.UI.Dialogs
 				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChangesWereMade)
 				{
 					m_dirty = true;
-					Project.FixupFieldsAndMappings();
+					Project.SynchronizeProjectFieldMappingsWithDataSourceFieldMappings();
 				}
 			}
 		}
@@ -776,7 +776,7 @@ namespace SIL.Pa.UI.Dialogs
 				mapping.IsParsed = true;
 			}
 
-			Project.FixupFieldsAndMappings();
+			Project.SynchronizeProjectFieldMappingsWithDataSourceFieldMappings();
 			m_dirty = true;
 		}
 

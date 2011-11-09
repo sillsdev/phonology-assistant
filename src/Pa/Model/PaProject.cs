@@ -147,7 +147,7 @@ namespace SIL.Pa.Model
 			if (prevVersion == "3.0.1")
 				error = Migration0330.Migrate(filename, GetProjectPathFilePrefix);
 
-			if (error == null && prevVersion == "3.3.0")
+			if (error == null && prevVersion == "3.3.0" || prevVersion == "3.0.1")
 				error = Migration0333.Migrate(filename, GetProjectPathFilePrefix);
 
 			if (error == null)
@@ -299,7 +299,7 @@ namespace SIL.Pa.Model
 			DataCorpusVwSortOptions.PostDeserializeInitialization(this);
 			SearchVwSortOptions.PostDeserializeInitialization(this);
 			DistributionChartVwSortOptions.PostDeserializeInitialization(this);
-			FixupFieldsAndMappings();
+			SynchronizeProjectFieldMappingsWithDataSourceFieldMappings();
 			LoadDistinctiveFeatureSet();
 			LoadFeatureOverrides();
 
@@ -323,7 +323,7 @@ namespace SIL.Pa.Model
 		/// therein still exists in the project's field collection.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void FixupFieldsAndMappings()
+		public void SynchronizeProjectFieldMappingsWithDataSourceFieldMappings()
 		{
 			var fields = Fields.ToList();
 
@@ -335,11 +335,16 @@ namespace SIL.Pa.Model
 
 					// If field is null, it means the user has entered their own
 					// field name in one of the SFM/Toolbox data source mappings.
-					if (field == null)
-						fields.Add(mapping.Field);
-					else
+					if (field != null)
 						mapping.Field = field;
-					
+					else
+					{
+						if (mapping.Field == null)
+							mapping.Field = new PaField(mapping.PaFieldName);
+
+						fields.Add(mapping.Field);
+					}
+
 					mapping.PaFieldName = null;
 				}
 			}

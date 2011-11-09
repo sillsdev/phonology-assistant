@@ -42,7 +42,11 @@ namespace SIL.Pa.Model.Migration
 			if (!File.Exists(oldFileName))
 				return;
 
-			try { File.Copy(oldFileName, filename); }
+			try 
+			{
+				File.Copy(oldFileName, filename);
+				File.Delete(oldFileName);
+			}
 			catch { return; }
 		}
 

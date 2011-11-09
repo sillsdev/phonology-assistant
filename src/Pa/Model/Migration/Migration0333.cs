@@ -195,7 +195,9 @@ namespace SIL.Pa.Model.Migration
 		private void MigrateSingleSearchQuery(XElement element)
 		{
 			element.Attribute("version").SetValue(SearchQuery.kCurrVersion);
-			element.Attribute("Pattern").SetValue(UpdateFeatureNamesInPattern((string)element.Attribute("Pattern")));
+			
+			if ((string)element.Attribute("Pattern") != null)
+				element.Attribute("Pattern").SetValue(UpdateFeatureNamesInPattern((string)element.Attribute("Pattern")));
 
 			var completeIgnoredListNode = element.Element("CompleteIgnoredList");
 			if (completeIgnoredListNode != null)

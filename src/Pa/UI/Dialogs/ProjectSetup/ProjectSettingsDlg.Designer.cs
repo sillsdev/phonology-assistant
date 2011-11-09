@@ -47,9 +47,9 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlGrid = new SilTools.Controls.SilPanel();
 			this._chkMakeFolder = new System.Windows.Forms.CheckBox();
 			this.pnlGridHdg = new SilTools.Controls.SilGradientPanel();
-			this.tblLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._labelDistinctiveFeaturesSet = new System.Windows.Forms.Label();
 			this._comboDistinctiveFeaturesSet = new System.Windows.Forms.ComboBox();
+			this.tblLayout = new System.Windows.Forms.TableLayoutPanel();
 			this.mnuAdd.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_grid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -512,6 +512,37 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlGridHdg.TabIndex = 0;
 			this.pnlGridHdg.Text = "&Data Sources";
 			// 
+			// _labelDistinctiveFeaturesSet
+			// 
+			this._labelDistinctiveFeaturesSet.AutoSize = true;
+			this._labelDistinctiveFeaturesSet.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this._labelDistinctiveFeaturesSet, null);
+			this.locExtender.SetLocalizationComment(this._labelDistinctiveFeaturesSet, null);
+			this.locExtender.SetLocalizingId(this._labelDistinctiveFeaturesSet, "DialogBoxes.ProjectSettingsDlg.DistinctiveFeaturesSetLabel");
+			this._labelDistinctiveFeaturesSet.Location = new System.Drawing.Point(299, 115);
+			this._labelDistinctiveFeaturesSet.Margin = new System.Windows.Forms.Padding(8, 8, 3, 0);
+			this._labelDistinctiveFeaturesSet.Name = "_labelDistinctiveFeaturesSet";
+			this._labelDistinctiveFeaturesSet.Size = new System.Drawing.Size(117, 13);
+			this._labelDistinctiveFeaturesSet.TabIndex = 15;
+			this._labelDistinctiveFeaturesSet.Text = "&Distinctive Feature Set:";
+			// 
+			// _comboDistinctiveFeaturesSet
+			// 
+			this._comboDistinctiveFeaturesSet.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.tblLayout.SetColumnSpan(this._comboDistinctiveFeaturesSet, 2);
+			this._comboDistinctiveFeaturesSet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this._comboDistinctiveFeaturesSet.FormattingEnabled = true;
+			this.locExtender.SetLocalizableToolTip(this._comboDistinctiveFeaturesSet, null);
+			this.locExtender.SetLocalizationComment(this._comboDistinctiveFeaturesSet, null);
+			this.locExtender.SetLocalizationPriority(this._comboDistinctiveFeaturesSet, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._comboDistinctiveFeaturesSet, "DialogBoxes.ProjectSettingsDlg.DistinctiveFeaturesDropDown");
+			this._comboDistinctiveFeaturesSet.Location = new System.Drawing.Point(422, 112);
+			this._comboDistinctiveFeaturesSet.Margin = new System.Windows.Forms.Padding(3, 5, 0, 6);
+			this._comboDistinctiveFeaturesSet.Name = "_comboDistinctiveFeaturesSet";
+			this._comboDistinctiveFeaturesSet.Size = new System.Drawing.Size(222, 21);
+			this._comboDistinctiveFeaturesSet.TabIndex = 16;
+			// 
 			// tblLayout
 			// 
 			this.tblLayout.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -561,37 +592,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayout.Size = new System.Drawing.Size(644, 337);
 			this.tblLayout.TabIndex = 0;
 			// 
-			// _labelDistinctiveFeaturesSet
-			// 
-			this._labelDistinctiveFeaturesSet.AutoSize = true;
-			this._labelDistinctiveFeaturesSet.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.locExtender.SetLocalizableToolTip(this._labelDistinctiveFeaturesSet, null);
-			this.locExtender.SetLocalizationComment(this._labelDistinctiveFeaturesSet, null);
-			this.locExtender.SetLocalizingId(this._labelDistinctiveFeaturesSet, "DialogBoxes.ProjectSettingsDlg.DistinctiveFeaturesSetLabel");
-			this._labelDistinctiveFeaturesSet.Location = new System.Drawing.Point(299, 115);
-			this._labelDistinctiveFeaturesSet.Margin = new System.Windows.Forms.Padding(8, 8, 3, 0);
-			this._labelDistinctiveFeaturesSet.Name = "_labelDistinctiveFeaturesSet";
-			this._labelDistinctiveFeaturesSet.Size = new System.Drawing.Size(117, 13);
-			this._labelDistinctiveFeaturesSet.TabIndex = 15;
-			this._labelDistinctiveFeaturesSet.Text = "&Distinctive Feature Set:";
-			// 
-			// _comboDistinctiveFeaturesSet
-			// 
-			this._comboDistinctiveFeaturesSet.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.tblLayout.SetColumnSpan(this._comboDistinctiveFeaturesSet, 2);
-			this._comboDistinctiveFeaturesSet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this._comboDistinctiveFeaturesSet.FormattingEnabled = true;
-			this.locExtender.SetLocalizableToolTip(this._comboDistinctiveFeaturesSet, null);
-			this.locExtender.SetLocalizationComment(this._comboDistinctiveFeaturesSet, null);
-			this.locExtender.SetLocalizationPriority(this._comboDistinctiveFeaturesSet, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._comboDistinctiveFeaturesSet, "DialogBoxes.ProjectSettingsDlg.DistinctiveFeaturesDropDown");
-			this._comboDistinctiveFeaturesSet.Location = new System.Drawing.Point(422, 112);
-			this._comboDistinctiveFeaturesSet.Margin = new System.Windows.Forms.Padding(3, 5, 0, 6);
-			this._comboDistinctiveFeaturesSet.Name = "_comboDistinctiveFeaturesSet";
-			this._comboDistinctiveFeaturesSet.Size = new System.Drawing.Size(222, 21);
-			this._comboDistinctiveFeaturesSet.TabIndex = 16;
-			// 
 			// ProjectSettingsDlg
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -601,7 +601,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "ProjectSettingsDlg.WindowTitle");
-			this.MinimumSize = new System.Drawing.Size(580, 325);
+			this.MinimumSize = new System.Drawing.Size(580, 370);
 			this.Name = "ProjectSettingsDlg";
 			this.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
 			this.Text = "Project Settings";

@@ -58,11 +58,11 @@ namespace SilTools
 					xslt.Transform(inputFile, outputFile);
 					reader.Close();
 					if (!IsEmptyOrInvalid(outputFile))
-					{
-						var msg = string.Format(
-							"Xsl Transformation seemed successful, but its output file '{0}' cannot be found.", outputFile);
-						return new FileNotFoundException(msg);
-					}
+						return null;
+
+					var msg = string.Format(
+						"Xsl Transformation seemed successful, but its output file '{0}' cannot be found.", outputFile);
+					return new FileNotFoundException(msg);
 				}
 			}
 			catch (Exception e)
