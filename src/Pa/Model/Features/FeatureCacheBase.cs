@@ -26,7 +26,7 @@ namespace SIL.Pa.Model
 		/// Loads binary features from the specified list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		internal virtual void LoadFromList(IEnumerable<Feature> list)
+		public virtual void LoadFromList(IEnumerable<Feature> list)
 		{
 			Debug.Assert(list != null);
 			Clear();
@@ -46,7 +46,7 @@ namespace SIL.Pa.Model
 		/// Cleans up a feature name before adding it to the cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected virtual string CleanNameForLoad(string name)
+		public virtual string CleanNameForLoad(string name)
 		{
 			return (name == null ? null : name.Trim());
 		}

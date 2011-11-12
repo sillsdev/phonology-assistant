@@ -28,20 +28,21 @@ namespace SIL.Pa.Model
 		public const string kDefaultChartSupraSegsToIgnore = "\u0300\u0301\u0302\u0304" +
 			"\u0306\u030b\u030c\u030f\u1dc4\u1dc5\u1dc8\u203f";
 
-		protected readonly string m_conSymbol = "C";
-		protected readonly string m_vowSymbol = "V";
-		protected PaProject m_project;
+		protected readonly string _conSymbol = "C";
+		protected readonly string _vowSymbol = "V";
+
+		protected readonly PaProject _project;
 
 		/// ------------------------------------------------------------------------------------
-		public PhoneCache(PaProject project)
+		public PhoneCache(PaProject project) 
 		{
 			if (!string.IsNullOrEmpty(Settings.Default.ConsonantSymbol))
-				m_conSymbol = Settings.Default.ConsonantSymbol;
+				_conSymbol = Settings.Default.ConsonantSymbol;
 
 			if (!string.IsNullOrEmpty(Settings.Default.VowelSymbol))
-				m_vowSymbol = Settings.Default.VowelSymbol;
+				_vowSymbol = Settings.Default.VowelSymbol;
 
-			m_project = project;
+			_project = project;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -67,7 +68,7 @@ namespace SIL.Pa.Model
 		public void AddPhone(string phone)
 		{
 			if (!string.IsNullOrEmpty(phone))
-				this[phone] = new PhoneInfo(m_project, phone);
+				this[phone] = new PhoneInfo(_project.AmbiguousSequences, phone);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -75,7 +76,7 @@ namespace SIL.Pa.Model
 		{
 			IPhoneInfo phoneInfo;
 			if (!TryGetValue(phone, out phoneInfo))
-				this[phone] = new PhoneInfo(m_project, phone, true);
+				this[phone] = new PhoneInfo(_project.AmbiguousSequences, phone, true);
 			else
 			{
 				if (phoneInfo is PhoneInfo)
@@ -90,7 +91,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public string GetCVPattern(string phonetic)
 		{
-			return GetCVPattern(m_project.PhoneticParser.Parse(phonetic, true));
+			return GetCVPattern(_project.PhoneticParser.Parse(phonetic, true));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -101,10 +102,10 @@ namespace SIL.Pa.Model
 		public string GetCVPattern(string phonetic, bool convertExperimentalTranscriptions)
 		{
 			if (convertExperimentalTranscriptions)
-				return GetCVPattern(m_project.PhoneticParser.Parse(phonetic, true));
+				return GetCVPattern(_project.PhoneticParser.Parse(phonetic, true));
 
 			Dictionary<int, string[]> uncertainPhones;
-			var phones = m_project.PhoneticParser.Parse(phonetic, true, false, out uncertainPhones);
+			var phones = _project.PhoneticParser.Parse(phonetic, true, false, out uncertainPhones);
 			
 			return GetCVPattern(phones);
 		}
@@ -124,27 +125,22 @@ namespace SIL.Pa.Model
 			{
 				var phoneInfo = this[phone] as PhoneInfo;
 
-				if (m_project.CVPatternInfoList.Any(cvpi => cvpi.Phone == phone))
+				if (_project.CVPatternInfoList.Any(cvpi => cvpi.Phone == phone))
 					bldr.Append(phone);
 				else if (phoneInfo == null || phoneInfo.IsUndefined)
 				{
-
-// TODO: Check breaking!!!
-					
 					var charInfo = App.IPASymbolCache[phone];
 					if (charInfo != null)
 					{
-						//if (charInfo.Type == IPASymbolType.breaking)
-						if (charInfo.SubType == IPASymbolSubType.boundary)
-							bldr.Append(' ');
-						else if (charInfo.Type == IPASymbolType.consonant)
-							bldr.Append(m_conSymbol);
-						else if (charInfo.Type == IPASymbolType.vowel)
-							bldr.Append(m_vowSymbol);
+						switch (charInfo.Type)
+						{
+							case IPASymbolType.consonant: bldr.Append(_conSymbol); break;
+							case IPASymbolType.vowel: bldr.Append(_vowSymbol); break;
+							default: bldr.Append(charInfo.Literal); break;
+						}
 					}
 				}
-// TODO: Check breaking!!!
-				//else if (phoneInfo.CharType == IPASymbolType.breaking)
+				//else if (phoneInfo.CharType == IPASymbolType.boundary)
 				//    bldr.Append(' ');
 				else if (phoneInfo.CharType == IPASymbolType.consonant ||
 				   phoneInfo.CharType == IPASymbolType.vowel)
@@ -155,7 +151,7 @@ namespace SIL.Pa.Model
 						diacriticsAfterBase = GetMatchingModifiers(phone, bldr);
 
 					bldr.Append(phoneInfo.CharType == IPASymbolType.consonant ?
-						m_conSymbol : m_vowSymbol);
+						_conSymbol : _vowSymbol);
 
 					if (diacriticsAfterBase != null)
 						bldr.Append(diacriticsAfterBase);
@@ -173,7 +169,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		private string GetMatchingModifiers(string phone, StringBuilder bldr)
 		{
-			if (m_project.CVPatternInfoList == null)
+			if (_project.CVPatternInfoList == null)
 				return null;
 
 			// Find out which codepoint in the phone represents the base character. For
@@ -200,14 +196,14 @@ namespace SIL.Pa.Model
 
 			foreach (var diacritic in preBase)
 			{
-				if (m_project.CVPatternInfoList.Any(cvpi => cvpi.GetIsLeftSideDiacritic(diacritic)))
+				if (_project.CVPatternInfoList.Any(cvpi => cvpi.GetIsLeftSideDiacritic(diacritic)))
 					bldr.Append(diacritic);
 			}
 
 			var diacriticsAfterBase = new StringBuilder();
 			foreach (var diacritic in postBase)
 			{
-				if (m_project.CVPatternInfoList.Any(cvpi => cvpi.GetIsRightSideDiacritic(diacritic)))
+				if (_project.CVPatternInfoList.Any(cvpi => cvpi.GetIsRightSideDiacritic(diacritic)))
 					diacriticsAfterBase.Append(diacritic);
 			}
 
@@ -243,7 +239,7 @@ namespace SIL.Pa.Model
 		/// Gets a collection of phones in the cache of the specified type.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string[] GetPhonesHavingType(IPASymbolType type)
+		public string[] GetPhonesHavingType(IPASymbolType type)
 		{
 			return (from kvp in this
 					where kvp.Value.CharType == type
@@ -256,7 +252,7 @@ namespace SIL.Pa.Model
 		/// the cache and are of the specified type.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string GetCommaDelimitedPhones(IPASymbolType type)
+		public string GetCommaDelimitedPhones(IPASymbolType type)
 		{
 			string[] phones = GetPhonesHavingType(type);
 
@@ -273,51 +269,6 @@ namespace SIL.Pa.Model
 
 			return bldr.ToString();
 		}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Gets a collection of phones having the specified feature.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public string GetCommaDelimitedPhonesInFeature(string featureName)
-		//{
-		//    Debug.Assert(featureName != null);
-
-		//    featureName = featureName.Trim().ToLower();
-		//    featureName = featureName.Replace("[", string.Empty);
-		//    featureName = featureName.Replace("]", string.Empty);
-
-		//    if (featureName.Length == 0)
-		//        return string.Empty;
-
-		//    bool isBinary = (featureName.StartsWith("+") || featureName.StartsWith("-"));
-		//    var bldr = new StringBuilder();
-		//    int  bit = -1;
-		//    if (isBinary)
-		//    {
-		//        var bfeature = App.BFeatureCache[featureName];
-		//        if (bfeature != null)
-		//            bit = bfeature.Bit;
-		//    }
-		//    else
-		//    {
-		//        var afeature = App.AFeatureCache[featureName];
-		//        if (afeature != null)
-		//            bit = afeature.Bit;
-		//    }
-
-		//    foreach (var kvp in this.Where(kvp => (isBinary && kvp.Value.BMask[bit]) || (!isBinary && kvp.Value.AMask[bit])))
-		//    {
-		//        bldr.Append(kvp.Key);
-		//        bldr.Append(',');
-		//    }
-
-		//    // Get rid of the last comma.
-		//    if (bldr.Length > 0)
-		//        bldr.Length--;
-
-		//    return bldr.ToString();
-		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

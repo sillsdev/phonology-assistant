@@ -10,9 +10,7 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class WordListCache : List<WordListCacheEntry>
 	{
-		private bool m_isCIEList;
-		private SortedList<int, string> m_cieGroupTexts;
-		private SearchQuery m_searchQuery;
+		private bool _isCIEList;
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
@@ -21,11 +19,7 @@ namespace SIL.Pa.Model
 		/// the cache is not for search results, then this value is null.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SearchQuery SearchQuery
-		{
-			get { return m_searchQuery; }
-			set { m_searchQuery = value; }
-		}
+		public SearchQuery SearchQuery { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -35,12 +29,8 @@ namespace SIL.Pa.Model
 		/// group text, or heading, associated with the group id.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public SortedList<int, string> CIEGroupTexts
-		{
-			get { return m_cieGroupTexts; }
-			set { m_cieGroupTexts = value; }
-		}
-		
+		public SortedList<int, string> CIEGroupTexts { get; set; }
+
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
@@ -95,13 +85,13 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public bool IsCIEList
 		{
-			get { return m_isCIEList; }
+			get { return _isCIEList; }
 			set
 			{
-				m_isCIEList = value;
-				if (!m_isCIEList)
+				_isCIEList = value;
+				if (!_isCIEList)
 				{
-					foreach (WordListCacheEntry entry in this)
+					foreach (var entry in this)
 						entry.ShowInList = true;
 				}
 			}

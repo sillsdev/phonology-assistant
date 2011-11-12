@@ -14,14 +14,18 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class SortOptions
 	{
-		private PaProject m_project;
+		private PaProject _project;
 
-		#region Constructor and Loading
 		/// ------------------------------------------------------------------------------------
-		public SortOptions() : this(false, null)
+		/// <summary>
+		/// This constructor for serialization/deserialization.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public SortOptions()
 		{
 		}
 
+		#region Constructor and Loading
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// SortOptions constructor.
@@ -45,7 +49,7 @@ namespace SIL.Pa.Model
 			// Default sort is by point of articulation and phonetic field.
 			SortType = PhoneticSortType.POA;
 
-			m_project = project;
+			_project = project;
 
 			if (initializeWithPhonetic && project != null)
 				SetPrimarySortField(project.GetPhoneticField(), false, true);
@@ -60,7 +64,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public SortOptions Copy()
 		{
-			var copy = new SortOptions(false, m_project);
+			var copy = new SortOptions(false, _project);
 			copy.SortType = SortType;
 			copy.SaveManuallySetSortOptions = SaveManuallySetSortOptions;
 			copy.AdvancedEnabled = AdvancedEnabled;
@@ -130,7 +134,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void PostDeserializeInitialization(PaProject project)
 		{
-			m_project = project;
+			_project = project;
 
 			foreach (var sf in SortFields)
 			{
@@ -156,8 +160,8 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public bool SetPrimarySortField(string newPrimarySortField, bool changeDirection)
 		{
-			return (m_project == null ? false :
-				SetPrimarySortField(m_project.GetFieldForName(newPrimarySortField), changeDirection));
+			return (_project != null &&
+				SetPrimarySortField(_project.GetFieldForName(newPrimarySortField), changeDirection));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -187,7 +191,8 @@ namespace SIL.Pa.Model
 			// we need to remove it before reinserting it at the beginning of the list.
 			if (index > -1)
 			{
-				ascending = SortFields[index].Ascending;
+				if (changeDirection)
+					ascending = SortFields[index].Ascending;
 				SortFields.RemoveAt(index);
 			}
 

@@ -18,7 +18,7 @@ namespace SIL.Pa.Model
 		/// Loads binary features from the specified list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		internal override void LoadFromList(IEnumerable<Feature> list)
+		public override void LoadFromList(IEnumerable<Feature> list)
 		{
 			Debug.Assert(list != null);
 			Clear();
@@ -45,7 +45,7 @@ namespace SIL.Pa.Model
 		/// Cleans up a binary feature name before adding it to the cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override string CleanNameForLoad(string name)
+		public override string CleanNameForLoad(string name)
 		{
 			name = base.CleanNameForLoad(name);
 

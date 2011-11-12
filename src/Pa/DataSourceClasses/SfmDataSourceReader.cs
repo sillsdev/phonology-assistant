@@ -139,7 +139,7 @@ namespace SIL.Pa.DataSource
 		/// for playing, if any.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string GetAudioFileInfo(string fileName, out long startPoint, out long endPoint)
+		public string GetAudioFileInfo(string fileName, out long startPoint, out long endPoint)
 		{
 			startPoint = 0L;
 			endPoint = 0L;

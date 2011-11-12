@@ -42,9 +42,11 @@ namespace SIL.Pa.Model
 			IgnoreUndefinedCharsInSearches = true;
 			IgnoredSymbolsInCVCharts = new List<string>();
 			LastNewlyMappedFields = new List<string>(0);
+			DataSources = new List<PaDataSource>(0);
 			Version = kCurrVersion;
 			DistinctiveFeatureSet = BFeatureCache.DefaultFeatureSetName;
 			App.BFeatureCache = BFeatureCache = new BFeatureCache();
+			CVPatternInfoList = new List<CVPatternInfo>();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -61,7 +63,6 @@ namespace SIL.Pa.Model
 			DistinctiveFeatureSet = BFeatureCache.DefaultFeatureSetName;
 			Fields = PaField.GetProjectFields(this);
 			DataSources = new List<PaDataSource>();
-			CVPatternInfoList = new List<CVPatternInfo>();
 			SearchClasses = SearchClassList.LoadDefaults(this);
 			SearchQueryGroups = SearchQueryGroupList.LoadDefaults(this);
 			FilterHelper = new FilterHelper(this);
@@ -251,21 +252,25 @@ namespace SIL.Pa.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static PaProject LoadProjectFileOnly(string projFileName, bool showErrors,
-			ref string msg, out Exception exception)
+			ref string msg, out Exception error)
 		{
 			PaProject project = null;
-			exception = null;
+			error = null;
 
 			try
 			{
 				// Load the cache of IPA symbols, articulatory and binary features.
-				project = XmlSerializationHelper.DeserializeFromFile<PaProject>(projFileName);
-				project.PostDeserializeInitialization(projFileName);
+				project = XmlSerializationHelper.DeserializeFromFile<PaProject>(projFileName, out error);
+				if (error == null)
+					project.PostDeserializeInitialization(projFileName);
 			}
 			catch (Exception e)
 			{
-				exception = e;
+				error = e;
+			}
 
+			if (error != null)
+			{
 				msg = (project == null ? 
 					App.GetString("MiscellaneousMessages.InvalidProjectFileErrorMsg", "The project file '{0}' has an invalid format.") :
 					App.GetString("MiscellaneousMessages.LoadingProjectErrorMsg", "There was an error loading the project file '{0}'"));
@@ -273,7 +278,7 @@ namespace SIL.Pa.Model
 				msg = string.Format(msg, projFileName);
 
 				if (showErrors)
-					App.NotifyUserOfProblem(e, msg);
+					App.NotifyUserOfProblem(error, msg);
 
 				project = null;
 			}
@@ -694,6 +699,23 @@ namespace SIL.Pa.Model
 			var list = DataSources.SelectMany(ds => ds.FieldMappings).Select(m => m.Field).ToList();
 			list.AddRange(PaField.GetCalculatedFieldsFromList(Fields));
 			return list.Distinct(new FieldNameComparer());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void AddAmbiguousSequence(string sequence)
+		{
+			if (!AmbiguousSequences.Any(s => s.Literal == sequence))
+			{
+				AmbiguousSequences.Add(sequence);
+				PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void AddTranscriptionChange(TranscriptionChange transChange)
+		{
+			TranscriptionChanges.Add(transChange);
+			PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
 		}
 
 		#region Loading/Saving Caches

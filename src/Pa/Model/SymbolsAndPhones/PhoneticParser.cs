@@ -22,7 +22,6 @@ using SIL.Pa.PhoneticSearching;
 
 namespace SIL.Pa.Model
 {
-	#region IPASymbolCache class
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
 	/// An in-memory cache of the IPASymbol table.
@@ -31,18 +30,18 @@ namespace SIL.Pa.Model
 	public class PhoneticParser
 	{
 		private const char kParseTokenMarker = '\u0001';
-		private readonly string m_ambigTokenFmt = kParseTokenMarker + "{0}";
+		private readonly string _ambigTokenFmt = kParseTokenMarker + "{0}";
 
-		private AmbiguousSequences m_sortedAmbiguousSeqList;
-		private readonly AmbiguousSequences m_unsortedAmbiguousSeqList;
-		private readonly TranscriptionChanges m_transcriptionChanges;
+		private AmbiguousSequences _sortedAmbiguousSeqList;
+		private readonly AmbiguousSequences _unsortedAmbiguousSeqList;
+		private readonly TranscriptionChanges _transcriptionChanges;
 
 		/// ------------------------------------------------------------------------------------
 		public PhoneticParser(AmbiguousSequences ambigSeqs, TranscriptionChanges transChanges)
 		{
-			m_unsortedAmbiguousSeqList = ambigSeqs ?? new AmbiguousSequences();
+			_unsortedAmbiguousSeqList = ambigSeqs ?? new AmbiguousSequences();
 			BuildSortedAmbiguousSequencesList();
-			m_transcriptionChanges = transChanges;
+			_transcriptionChanges = transChanges;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -52,7 +51,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void ResetAmbiguousSequencesForTests()
 		{
-			m_sortedAmbiguousSeqList = null;
+			_sortedAmbiguousSeqList = null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -65,13 +64,13 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		private void BuildSortedAmbiguousSequencesList()
 		{
-			m_sortedAmbiguousSeqList = new AmbiguousSequences();
+			_sortedAmbiguousSeqList = new AmbiguousSequences();
 
 			// Copy the references from the specified list to our own.
-			if (m_unsortedAmbiguousSeqList != null)
+			if (_unsortedAmbiguousSeqList != null)
 			{
-				foreach (var seq in m_unsortedAmbiguousSeqList)
-					m_sortedAmbiguousSeqList.Add(seq);
+				foreach (var seq in _unsortedAmbiguousSeqList)
+					_sortedAmbiguousSeqList.Add(seq);
 			}
 
 			// Go through the tone letters collection and add them to the ambiguous list.
@@ -82,15 +81,15 @@ namespace SIL.Pa.Model
 			if (App.IPASymbolCache.ToneLetters != null)
 			{
 				foreach (var info in App.IPASymbolCache.ToneLetters.Values.Where(info =>
-					!m_sortedAmbiguousSeqList.ContainsSeq(info.Literal, true)))
+					!_sortedAmbiguousSeqList.ContainsSeq(info.Literal, true)))
 				{
-					m_sortedAmbiguousSeqList.Add(new AmbiguousSeq(info.Literal));
+					_sortedAmbiguousSeqList.Add(new AmbiguousSeq(info.Literal));
 				}
 			}
 
 			// Now order the items in the list based on the length
 			// of the ambiguous sequence -- longest to shortest.
-			m_sortedAmbiguousSeqList.SortByUnitLength();
+			_sortedAmbiguousSeqList.SortByUnitLength();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -101,8 +100,6 @@ namespace SIL.Pa.Model
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool LogUndefinedCharactersWhenParsing { get; set; }
-
-		#endregion
 
 		#region Ambiguous Sequence Finding
 		/// ------------------------------------------------------------------------------------
@@ -119,7 +116,7 @@ namespace SIL.Pa.Model
 				return null;
 
 			phonetic = FFNormalizer.Normalize(phonetic);
-			phonetic = m_transcriptionChanges.Convert(phonetic);
+			phonetic = _transcriptionChanges.Convert(phonetic);
 			string[] words = phonetic.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 			var bldr = new StringBuilder();
 			var ambigSeqs = new List<string>();
@@ -241,7 +238,7 @@ namespace SIL.Pa.Model
 			var origPhoneticRunBeingParsed = phonetic;
 
 			if (convertExperimentalTranscriptions)
-				phonetic = m_transcriptionChanges.Convert(phonetic);
+				phonetic = _transcriptionChanges.Convert(phonetic);
 	
 			phonetic = MarkAmbiguousSequences(phonetic);
 
@@ -259,8 +256,8 @@ namespace SIL.Pa.Model
 					if (i > phoneStart)
 						phones.Add(phonetic.Substring(phoneStart, i - phoneStart));
 
-					string ambigPhone =
-						m_sortedAmbiguousSeqList.GetAmbigSeqForToken(phonetic[++i]);
+					var ambigPhone =
+						_sortedAmbiguousSeqList.GetAmbigSeqForToken(phonetic[++i]);
 
 					if (!string.IsNullOrEmpty(ambigPhone))
 						phones.Add(ambigPhone);
@@ -377,15 +374,15 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		private string MarkAmbiguousSequences(string phonetic)
 		{
-			if (m_sortedAmbiguousSeqList == null && m_unsortedAmbiguousSeqList != null)
+			if (_sortedAmbiguousSeqList == null && _unsortedAmbiguousSeqList != null)
 				BuildSortedAmbiguousSequencesList();
 			
-			if (m_sortedAmbiguousSeqList != null)
+			if (_sortedAmbiguousSeqList != null)
 			{
-				foreach (var seq in m_sortedAmbiguousSeqList.Where(s => s.Convert))
+				foreach (var seq in _sortedAmbiguousSeqList.Where(s => s.Convert))
 				{
 					phonetic = phonetic.Replace(seq.Literal,
-						string.Format(m_ambigTokenFmt, seq.ParseToken));
+						string.Format(_ambigTokenFmt, seq.ParseToken));
 				}
 			}
 
@@ -444,11 +441,11 @@ namespace SIL.Pa.Model
 				// the slashes and the final close parenthesis should mark sequences that
 				// are to be kept together as phones. But, we have to check for them...
 				// just in case.
-				var ambigPhone = m_sortedAmbiguousSeqList.GetAmbigSeqForToken(phonetic[i + 1]);
+				var ambigPhone = _sortedAmbiguousSeqList.GetAmbigSeqForToken(phonetic[i + 1]);
 				if (!string.IsNullOrEmpty(ambigPhone))
 				{
 					// Replace the token marker and the token with the ambiguous sequence.
-					var dualCharMarker = string.Format(m_ambigTokenFmt, phonetic[i + 1]);
+					var dualCharMarker = string.Format(_ambigTokenFmt, phonetic[i + 1]);
 					phonetic = phonetic.Replace(dualCharMarker, ambigPhone);
 					bldrPhone.Append(phonetic[i]);
 				}

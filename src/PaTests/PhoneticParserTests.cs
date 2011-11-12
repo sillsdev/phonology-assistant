@@ -38,11 +38,11 @@ namespace SIL.Pa.Tests
 		public void TestSetup()
 		{
 			m_ambigSeqList = new AmbiguousSequences();
-			m_prj.AmbiguousSequences.Clear();
-			m_prj.TranscriptionChanges.Clear();
+			_prj.AmbiguousSequences.Clear();
+			_prj.TranscriptionChanges.Clear();
 			//App.IPASymbolCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
-			m_prj.PhoneticParser.LogUndefinedCharactersWhenParsing = true;
-			m_prj.PhoneticParser.ResetAmbiguousSequencesForTests();
+			_prj.PhoneticParser.LogUndefinedCharactersWhenParsing = true;
+			_prj.PhoneticParser.ResetAmbiguousSequencesForTests();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -449,7 +449,7 @@ namespace SIL.Pa.Tests
 		public void AmbiguousSeqTest_WordInitial()
 		{
 			m_ambigSeqList.Add("\u1D50b");
-			m_prj.AmbiguousSequences.AddRange(m_ambigSeqList);
+			_prj.AmbiguousSequences.AddRange(m_ambigSeqList);
 
 			string[] result = Parse("\u1D50bai", true, true, out uncertainties);
 			Assert.AreEqual(3, result.Length);
@@ -467,7 +467,7 @@ namespace SIL.Pa.Tests
 		{
 			m_ambigSeqList.Add("\u1D50b");
 			
-			m_prj.AmbiguousSequences.AddRange(m_ambigSeqList);
+			_prj.AmbiguousSequences.AddRange(m_ambigSeqList);
 
 			var result = Parse("a\u1D50bi", true, true, out uncertainties);
 			Assert.AreEqual(3, result.Length);
@@ -483,7 +483,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void AmbiguousSeqTest_WordFinal()
 		{
-			m_prj.AmbiguousSequences.Add("\u1D50b");
+			_prj.AmbiguousSequences.Add("\u1D50b");
 			var result = Parse("ai\u1D50b", true, true, out uncertainties);
 			Assert.AreEqual(3, result.Length);
 			Assert.AreEqual("\u1D50b", result[2]);
@@ -498,8 +498,8 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void AmbiguousSeqTest_MultipleSequences()
 		{
-			m_prj.AmbiguousSequences.Add("\u1D51g");
-			m_prj.AmbiguousSequences.Add("t\u0283");
+			_prj.AmbiguousSequences.Add("\u1D51g");
+			_prj.AmbiguousSequences.Add("t\u0283");
 
 			var result = Parse("ab\u1D51gct\u0283de", true, true, out uncertainties);
 			Assert.AreEqual(7, result.Length);
@@ -523,7 +523,7 @@ namespace SIL.Pa.Tests
 		{
 			m_ambigSeqList.Add("\u1D51g");
 			m_ambigSeqList.Add("t\u0283");
-			m_prj.AmbiguousSequences.AddRange(m_ambigSeqList);
+			_prj.AmbiguousSequences.AddRange(m_ambigSeqList);
 
 			// Test at the beginning of the uncertain group.
 			var result = Parse("ab(\u1D51g/i/a)de", true, true, out uncertainties);
@@ -560,7 +560,7 @@ namespace SIL.Pa.Tests
 		{
 			var ambigItem = new AmbiguousSeq("\u1D4Ab");
 			ambigItem.Convert = false;
-			m_prj.AmbiguousSequences.Add(ambigItem);
+			_prj.AmbiguousSequences.Add(ambigItem);
 
 			var result = Parse("d\u1D4Abai", true, true, out uncertainties);
 			Assert.AreEqual(4, result.Length);
@@ -586,7 +586,7 @@ namespace SIL.Pa.Tests
 		{
 			m_ambigSeqList.Add("sc");
 			m_ambigSeqList.Add("t\u0361s");
-			m_prj.AmbiguousSequences.AddRange(m_ambigSeqList);
+			_prj.AmbiguousSequences.AddRange(m_ambigSeqList);
 
 			var result = Parse("t\u0361sc", true, true, out uncertainties);
 			Assert.AreEqual("t\u0361s", result[0]);

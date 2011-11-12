@@ -24,10 +24,6 @@ using SilTools;
 namespace SIL.Pa.Tests
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	[TestFixture]
 	public class FeatureCacheBaseTests : TestBase
 	{
@@ -36,10 +32,6 @@ namespace SIL.Pa.Tests
 			new List<string> { "Bananas", "Cheese", "Ham", "Onions", "Peppers", "Pickles" };
 
 		#region Setup/Teardown
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void TestSetup()

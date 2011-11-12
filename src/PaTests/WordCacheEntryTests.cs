@@ -1,20 +1,5 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2005, SIL International. All Rights Reserved.
-// <copyright from='2005' to='2005' company='SIL International'>
-//		Copyright (c) 2005, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
-// 
-// File: MiscTests.cs
-// Responsibility: DavidO & ToddJ
-// 
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using NUnit.Framework;
+using SIL.Pa.DataSource;
 using SIL.Pa.Model;
 using SIL.Pa.TestUtils;
 
@@ -28,130 +13,96 @@ namespace SIL.Pa.Tests
     [TestFixture]
     public class WordCacheEntryTests : TestBase
 	{
-		string[][] m_results;
-		WordCacheEntry m_entry;
+		string[][] _results;
+		WordCacheEntry _entry;
 
 		#region Setup/Teardown
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Create temporary test records.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[TestFixtureSetUp]
-		public override void FixtureSetup()
-		{
-			base.FixtureSetup();
-			InventoryHelper.Load();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-        /// 
-        /// </summary>
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
         public void TestSetup()
         {
-			m_entry = new WordCacheEntry(null, "Phonetic");
+			_entry = new WordCacheEntry(
+				new RecordCacheEntry(_prj) { DataSource = new PaDataSource() } , "Phonetic");
 		}
 
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tests the GetAllPossibleUncertainWords property.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void PossibleWordsFromUncertainties_1x0()
 		{
-			m_entry["Phonetic"] = "(1/2)n";
-			m_results = m_entry.GetAllPossibleUncertainWords(false);
-			Assert.AreEqual(2, m_results.Length);
+			_entry["Phonetic"] = "(1/2)n";
+			_results = _entry.GetAllPossibleUncertainWords(false);
+			Assert.AreEqual(2, _results.Length);
 			
-			Assert.AreEqual("1", m_results[0][0]);
-			Assert.AreEqual("n", m_results[0][1]);
+			Assert.AreEqual("1", _results[0][0]);
+			Assert.AreEqual("n", _results[0][1]);
 			
-			Assert.AreEqual("2", m_results[1][0]);
-			Assert.AreEqual("n", m_results[1][1]);
+			Assert.AreEqual("2", _results[1][0]);
+			Assert.AreEqual("n", _results[1][1]);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tests the GetAllPossibleUncertainWords property.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void PossibleWordsFromUncertainties_3x2()
 		{
-			m_entry["Phonetic"] = "(1/2/3)x(4/5)";
-			m_results = m_entry.GetAllPossibleUncertainWords(true);
-			Assert.AreEqual(6, m_results.Length);
+			_entry["Phonetic"] = "(1/2/3)x(4/5)";
+			_results = _entry.GetAllPossibleUncertainWords(true);
+			Assert.AreEqual(6, _results.Length);
 			
-			Assert.AreEqual("|1", m_results[0][0]);
-			Assert.AreEqual("|4", m_results[0][2]);
+			Assert.AreEqual("|1", _results[0][0]);
+			Assert.AreEqual("|4", _results[0][2]);
 
-			Assert.AreEqual("|1", m_results[1][0]);
-			Assert.AreEqual("|5", m_results[1][2]);
+			Assert.AreEqual("|1", _results[1][0]);
+			Assert.AreEqual("|5", _results[1][2]);
 
-			Assert.AreEqual("|2", m_results[2][0]);
-			Assert.AreEqual("|4", m_results[2][2]);
+			Assert.AreEqual("|2", _results[2][0]);
+			Assert.AreEqual("|4", _results[2][2]);
 
-			Assert.AreEqual("|2", m_results[3][0]);
-			Assert.AreEqual("|5", m_results[3][2]);
+			Assert.AreEqual("|2", _results[3][0]);
+			Assert.AreEqual("|5", _results[3][2]);
 
-			Assert.AreEqual("|3", m_results[4][0]);
-			Assert.AreEqual("|4", m_results[4][2]);
+			Assert.AreEqual("|3", _results[4][0]);
+			Assert.AreEqual("|4", _results[4][2]);
 
-			Assert.AreEqual("|3", m_results[5][0]);
-			Assert.AreEqual("|5", m_results[5][2]);
+			Assert.AreEqual("|3", _results[5][0]);
+			Assert.AreEqual("|5", _results[5][2]);
 		}
 
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tests the GetAllPossibleUncertainWords property.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void PossibleWordsFromUncertainties_2x3()
 		{
-			m_entry["Phonetic"] = "(1/2)x(3/4/5)";
-			m_results = m_entry.GetAllPossibleUncertainWords(false);
-			Assert.AreEqual(6, m_results.Length);
+			_entry["Phonetic"] = "(1/2)x(3/4/5)";
+			_results = _entry.GetAllPossibleUncertainWords(false);
+			Assert.AreEqual(6, _results.Length);
 
-			Assert.AreEqual("1", m_results[0][0]);
-			Assert.AreEqual("3", m_results[0][2]);
+			Assert.AreEqual("1", _results[0][0]);
+			Assert.AreEqual("3", _results[0][2]);
 
-			Assert.AreEqual("1", m_results[1][0]);
-			Assert.AreEqual("4", m_results[1][2]);
+			Assert.AreEqual("1", _results[1][0]);
+			Assert.AreEqual("4", _results[1][2]);
 
-			Assert.AreEqual("1", m_results[2][0]);
-			Assert.AreEqual("5", m_results[2][2]);
+			Assert.AreEqual("1", _results[2][0]);
+			Assert.AreEqual("5", _results[2][2]);
 
-			Assert.AreEqual("2", m_results[3][0]);
-			Assert.AreEqual("3", m_results[3][2]);
+			Assert.AreEqual("2", _results[3][0]);
+			Assert.AreEqual("3", _results[3][2]);
 
-			Assert.AreEqual("2", m_results[4][0]);
-			Assert.AreEqual("4", m_results[4][2]);
+			Assert.AreEqual("2", _results[4][0]);
+			Assert.AreEqual("4", _results[4][2]);
 
-			Assert.AreEqual("2", m_results[5][0]);
-			Assert.AreEqual("5", m_results[5][2]);
+			Assert.AreEqual("2", _results[5][0]);
+			Assert.AreEqual("5", _results[5][2]);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tests the GetAllPossibleUncertainWords property.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void PossibleWordsFromUncertainties_2x2()
 		{
-			string[][] result;
-			var entry = new WordCacheEntry();
-
-			entry["Phonetic"] = "(1/2)x(3/4)";
-			result = entry.GetAllPossibleUncertainWords(true);
+			_entry["Phonetic"] = "(1/2)x(3/4)";
+			var result = _entry.GetAllPossibleUncertainWords(true);
 			Assert.AreEqual(4, result.Length);
 			
 			Assert.AreEqual("|1", result[0][0]);
@@ -168,34 +119,30 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tests the GetAllPossibleUncertainWords property.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void PossibleWordsFromUncertainties_EmptySet()
 		{
-			m_entry["Phonetic"] = "ols(o/e/0)n";
-			m_results = m_entry.GetAllPossibleUncertainWords(false);
-			Assert.AreEqual(3, m_results.Length);
+			_entry["Phonetic"] = "ols(o/e/0)n";
+			_results = _entry.GetAllPossibleUncertainWords(false);
+			Assert.AreEqual(3, _results.Length);
 			
-			Assert.AreEqual("o", m_results[0][0]);
-			Assert.AreEqual("l", m_results[0][1]);
-			Assert.AreEqual("s", m_results[0][2]);
-			Assert.AreEqual("o", m_results[0][3]);
-			Assert.AreEqual("n", m_results[0][4]);
+			Assert.AreEqual("o", _results[0][0]);
+			Assert.AreEqual("l", _results[0][1]);
+			Assert.AreEqual("s", _results[0][2]);
+			Assert.AreEqual("o", _results[0][3]);
+			Assert.AreEqual("n", _results[0][4]);
 
-			Assert.AreEqual("o", m_results[1][0]);
-			Assert.AreEqual("l", m_results[1][1]);
-			Assert.AreEqual("s", m_results[1][2]);
-			Assert.AreEqual("e", m_results[1][3]);
-			Assert.AreEqual("n", m_results[1][4]);
+			Assert.AreEqual("o", _results[1][0]);
+			Assert.AreEqual("l", _results[1][1]);
+			Assert.AreEqual("s", _results[1][2]);
+			Assert.AreEqual("e", _results[1][3]);
+			Assert.AreEqual("n", _results[1][4]);
 
-			Assert.AreEqual("o", m_results[2][0]);
-			Assert.AreEqual("l", m_results[2][1]);
-			Assert.AreEqual("s", m_results[2][2]);
-			Assert.AreEqual("", m_results[2][3]);
-			Assert.AreEqual("n", m_results[2][4]);
+			Assert.AreEqual("o", _results[2][0]);
+			Assert.AreEqual("l", _results[2][1]);
+			Assert.AreEqual("s", _results[2][2]);
+			Assert.AreEqual("", _results[2][3]);
+			Assert.AreEqual("n", _results[2][4]);
 		}
 	}
 }

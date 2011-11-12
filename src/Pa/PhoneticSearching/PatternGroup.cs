@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using SIL.Pa.Model;
 
 namespace SIL.Pa.PhoneticSearching
 {
@@ -50,26 +52,23 @@ namespace SIL.Pa.PhoneticSearching
 		private string m_diacriticPattern;
 		private readonly EnvironmentType m_envType = EnvironmentType.Item;
 		private readonly PatternGroup m_rootGroup;
-		private List<string> m_errors;
+		private List<string> m_errors = new List<string>();
+
+		private const char kMinToken = (char)(char.MaxValue - 256);
+		private char _token = kMinToken;
+		private readonly Dictionary<char, List<string>> _phoneGroups =
+			new Dictionary<char, List<string>>();
 
 		// m_members can contain both objects of type PatternGroup and PatternGroupMember.
 		private ArrayList m_members;
 
 		#region Constructors
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public PatternGroup(EnvironmentType envType) : this(envType, null)
 		{
 			m_rootGroup = this;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private PatternGroup(EnvironmentType envType,  PatternGroup rootGroup)
 		{
@@ -280,10 +279,22 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool VerifyBracketedText(string pattern)
+		private Match FindMatchesInBrackets(string pattern)
 		{
 			var regex = new Regex(@"\[(?<bracketedText>[^\[\]]+)\]");
-			var match = regex.Match(pattern);
+			return regex.Match(pattern);
+		}
+
+		private Match FindMatchesInBraces(string pattern)
+		{
+			var regex = new Regex(@"\{(?<bracketedText>[^\{\}]+)\}");
+			return regex.Match(pattern);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool VerifyBracketedText(string pattern)
+		{
+			var match = FindMatchesInBrackets(pattern);
 
 			while (match.Success)
 			{
@@ -303,6 +314,192 @@ namespace SIL.Pa.PhoneticSearching
 
 			return true;
 		}
+
+		/// ------------------------------------------------------------------------------------
+		public string Parse1(string pattern)
+		{
+			pattern = ReplaceBracketedTextWithPhoneGroups(pattern);
+			while (ParseTextInBrackets(ref pattern) == 1) { }
+			while (ParseTextInBraces(ref pattern) == 1) { }
+
+			var bldr = new StringBuilder();
+			
+			foreach (var chr in pattern)
+				bldr.Append(chr < kMinToken ? chr.ToString(): CreateOrGroupFromPhoneGroup(chr));
+
+			return bldr.ToString();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string CreateOrGroupFromPhoneGroup(char token)
+		{
+			var bldr = new StringBuilder("{");
+
+			foreach (var phone in _phoneGroups[token])
+				bldr.AppendFormat("{0},", phone);
+
+			bldr.Length--;
+			return (bldr.Length == 0 ? string.Empty : bldr + "}");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string ReplaceBracketedTextWithPhoneGroups(string pattern)
+		{
+			_phoneGroups.Clear();
+			var match = FindMatchesInBrackets(pattern);
+
+			while (match.Success)
+			{
+				var bracketedText = match.Result("${bracketedText}");
+
+				if (!bracketedText.Contains(App.kDottedCircle))
+				{
+					var token = string.Empty;
+
+					if (match.Value == "[C]")
+					{
+						token = CreatePhoneGroupForListOfPhones((from p in App.Project.PhoneCache.Values
+																 where p.CharType == IPASymbolType.consonant
+																 select p.Phone).ToList());
+					}
+					else if (match.Value == "[V]")
+					{
+						token = CreatePhoneGroupForListOfPhones((from p in App.Project.PhoneCache.Values
+																 where p.CharType == IPASymbolType.vowel
+																 select p.Phone).ToList());
+					}
+					else
+						token = CreatePhoneGroupFromFeatureName(bracketedText);
+
+					pattern = pattern.Replace(match.Value, token);
+				}
+				
+				match = match.NextMatch();
+			}
+
+			return pattern;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string CreatePhoneGroupFromFeatureName(string featureName)
+		{
+			var isAFeature = (!featureName.StartsWith("+") && !featureName.StartsWith("-"));
+
+			var mask = (isAFeature ? App.AFeatureCache.GetMask(featureName) : App.BFeatureCache.GetMask(featureName));
+
+			return CreatePhoneGroupForListOfPhones((from p in App.Project.PhoneCache.Values
+													where (isAFeature && !p.AMask.IsEmpty && p.AMask.ContainsOneOrMore(mask, false)) ||
+													   (!isAFeature && !p.BMask.IsEmpty && p.BMask.ContainsOneOrMore(mask, false))
+													select p.Phone).ToList());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string CreatePhoneGroupForListOfPhones(List<string> phoneList)
+		{
+			if (phoneList.Count == 0)
+				return string.Empty;
+
+			_phoneGroups[++_token] = phoneList;
+			return _token.ToString();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public int ParseTextInBrackets(ref string pattern)
+		{
+			var match = FindMatchesInBrackets(pattern);
+			if (!match.Success)
+				return 0;
+
+			var phonesList = new List<string>();
+
+			while (match.Success)
+			{
+				var bracketedText = match.Result("${bracketedText}");
+				while (ParseTextInBraces(ref bracketedText) == 1) { }
+
+				foreach (var chr in bracketedText)
+				{
+					if (chr <= kMinToken)
+					{
+						// Log error
+						return -1;
+					}
+
+					phonesList = AndTwoPhoneGroups(phonesList, _phoneGroups[chr]).ToList();
+					_phoneGroups.Remove(chr);
+				}
+				
+				_phoneGroups[++_token] = phonesList;
+				phonesList = new List<string>();
+				pattern = pattern.Replace(match.Value, _token.ToString());
+				match = match.NextMatch();
+			}
+
+			return 1;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public int ParseTextInBraces(ref string pattern)
+		{
+			var match = FindMatchesInBraces(pattern);
+			if (!match.Success)
+				return 0;
+
+			var orList = new List<string>();
+			
+			while (match.Success)
+			{
+				var bracketedText = match.Result("${bracketedText}");
+
+				var piecesBetweenBraces = bracketedText.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+				foreach (var piece in piecesBetweenBraces)
+				{
+					if (piece[0] < kMinToken)
+						orList.Add(piece);
+					else
+					{
+						orList = AndTwoPhoneGroups(orList, _phoneGroups[piece[0]]).ToList();
+						_phoneGroups.Remove(piece[0]);
+					}
+				}
+
+				_phoneGroups[++_token] = orList;
+				pattern = pattern.Replace(match.Value, _token.ToString());
+				match = match.NextMatch();
+			}
+
+			return 1;
+		}
+
+
+
+
+
+
+
+
+
+
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<string> AndTwoPhoneGroups(List<string> x, List<string> y)
+		{
+			if (x.Count == 0)
+				return y;
+
+			return (y.Count == 0 ? x : x.Intersect(y, StringComparer.Ordinal));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<string> OrTwoPhoneGroups(List<string> x, List<string> y)
+		{
+			if (x.Count == 0)
+				return y;
+			
+			return (y.Count == 0 ? x : x.Union(y, StringComparer.Ordinal));
+		}
+
+
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -390,10 +587,10 @@ namespace SIL.Pa.PhoneticSearching
 			// We've run into a group nested in the current group. Therefore,
 			// extract its pattern, creating a sub group for it and add it
 			// to our collection of members.
-			string subGroupPattern = ExtractSubGroup(pattern, ref i);
+			var subGroupPattern = ExtractSubGroup(pattern, ref i);
 			if (subGroupPattern != null)
 			{
-				PatternGroup subGroup = new PatternGroup(m_envType, m_rootGroup);
+				var subGroup = new PatternGroup(m_envType, m_rootGroup);
 				if (!subGroup.Parse(subGroupPattern))
 				{
 					// Should anything be done here?
@@ -1692,10 +1889,6 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private static bool CheckForOneOrMorePhonesBefore(int ip, string[] phones)
 		{
 			int count = 0;
@@ -1709,10 +1902,6 @@ namespace SIL.Pa.PhoneticSearching
 			return (count > 0);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static bool CheckForOneOrMorePhonesAfter(int ip, string[] phones)
 		{
@@ -1728,20 +1917,12 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private CompareResultType SearchGroup(string[] phones, ref int ip)
+		public CompareResultType SearchGroup(string[] phones, ref int ip)
 		{
 			int matchLength;
 			return SearchGroup(phones, ref ip, out matchLength);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private CompareResultType SearchGroup(string[] phones, ref int ip, out int matchLength)
 		{

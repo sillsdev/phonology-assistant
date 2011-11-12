@@ -14,7 +14,7 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class PhoneInfo : IPhoneInfo, IFeatureBearer
 	{
-		private PaProject _project;
+		private readonly AmbiguousSequences _ambiguousSequences;
 		private string _moaKey = "0";
 		private string _poaKey = "0";
 		private char _baseChar = '\0';
@@ -39,7 +39,8 @@ namespace SIL.Pa.Model
 		/// Constructs a new phone information object for the specified phone.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PhoneInfo(PaProject project, string phone) : this(project, phone, false)
+		public PhoneInfo(AmbiguousSequences ambiguousSequences, string phone)
+			: this(ambiguousSequences, phone, false)
 		{
 		}
 
@@ -48,9 +49,9 @@ namespace SIL.Pa.Model
 		/// Constructs a new phone information object for the specified phone.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PhoneInfo(PaProject project, string phone, bool isUndefined)
+		public PhoneInfo(AmbiguousSequences ambiguousSequences, string phone, bool isUndefined)
 		{
-			_project = project;
+			_ambiguousSequences = ambiguousSequences;
 			SiblingUncertainties = new List<string>();
 			CharType = IPASymbolType.notApplicable;
 			Phone = phone;
@@ -118,10 +119,10 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		private bool CheckIfAmbiguous(string phone)
 		{
-			if (_project.AmbiguousSequences == null)
+			if (_ambiguousSequences == null)
 				return false;
 
-			var ambigSeq = _project.AmbiguousSequences.GetAmbiguousSeq(phone, true);
+			var ambigSeq = _ambiguousSequences.GetAmbiguousSeq(phone, true);
 
 			if (ambigSeq != null)
 			{
@@ -144,8 +145,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public IPhoneInfo Clone()
 		{
-			var clone = new PhoneInfo(_project, Phone);
-			clone._project = _project;
+			var clone = new PhoneInfo(_ambiguousSequences, Phone);
 			clone.Description = Description;
 			clone.TotalCount = TotalCount;
 			clone.CountAsNonPrimaryUncertainty = CountAsNonPrimaryUncertainty;

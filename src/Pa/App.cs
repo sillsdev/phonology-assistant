@@ -1373,7 +1373,8 @@ namespace SIL.Pa
 			var bar = (udvwnd != null ? udvwnd.ProgressBar : s_progressBar);
 			var lbl = (udvwnd != null ? udvwnd.ProgressBarLabel : s_progressBarLabel);
 			var lblPct = (udvwnd != null ? udvwnd.ProgressPercentLabel : s_percentLabel);
-			lblPct.Tag = maxValue;
+			if (lblPct != null)
+				lblPct.Tag = maxValue;
 
 			if (bar != null)
 			{

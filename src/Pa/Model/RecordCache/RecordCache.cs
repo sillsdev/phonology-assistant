@@ -25,8 +25,8 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class RecordCache : List<RecordCacheEntry>, IDisposable
 	{
-		private string m_phoneticFieldName;
-		private PaProject m_project;
+		private string _phoneticFieldName;
+		private PaProject _project;
 
 		/// ------------------------------------------------------------------------------------
 		public RecordCache()
@@ -36,8 +36,8 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public RecordCache(PaProject project)
 		{
-			m_project = project;
-			m_phoneticFieldName = m_project.GetPhoneticField().Name;
+			_project = project;
+			_phoneticFieldName = _project.GetPhoneticField().Name;
 			PhoneCache = new PhoneCache(project);
 			RecordCacheEntry.ResetCounter();
 		}
@@ -103,8 +103,8 @@ namespace SIL.Pa.Model
 				if (cache == null)
 					return null;
 
-				cache.m_project = project;
-				cache.m_phoneticFieldName = project.GetPhoneticField().Name;
+				cache._project = project;
+				cache._phoneticFieldName = project.GetPhoneticField().Name;
 				string fwServer;
 				string fwDBName;
 				PaDataSource.GetPaXmlType(filename, out fwServer, out fwDBName);
@@ -171,7 +171,7 @@ namespace SIL.Pa.Model
 		{
 			FindWordInitialGeneratedAmbigousSequences();
 			var tmpWordCache = new WordCache();
-			var recEntryParser = new RecordEntryParser(m_phoneticFieldName, TempRecordCache.Add);
+			var recEntryParser = new RecordEntryParser(_phoneticFieldName, TempRecordCache.Add);
 
 			foreach (var entry in this)
 			{
@@ -215,21 +215,21 @@ namespace SIL.Pa.Model
 
 			foreach (var wentry in wordCache)
 			{
-				if (m_project.FilterHelper.EntryMatchesCurrentFilter(wentry))
+				if (_project.FilterHelper.EntryMatchesCurrentFilter(wentry))
 					WordCache.Add(wentry);
 				else
 					WordsNotInCurrentFilter.Add(wentry);
 			}
 
 			PhoneCache = GetPhonesFromWordCache(WordCache);
-			m_project.FilterHelper.PostCacheBuildingFinalize();
-			ProjectInventoryBuilder.Process(m_project);
+			_project.FilterHelper.PostCacheBuildingFinalize();
+			ProjectInventoryBuilder.Process(_project);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private PhoneCache GetPhonesFromWordCache(IEnumerable<WordCacheEntry> wordCache)
 		{
-			var phoneCache = new PhoneCache(m_project);
+			var phoneCache = new PhoneCache(_project);
 
 			foreach (var entry in wordCache)
 			{
@@ -375,9 +375,9 @@ namespace SIL.Pa.Model
 		private void FindWordInitialGeneratedAmbigousSequences()
 		{
 			var sequences = (from entry in this
-							select entry.GetValue(m_phoneticFieldName) into phonetic
+							select entry.GetValue(_phoneticFieldName) into phonetic
 							where phonetic != null
-							select m_project.PhoneticParser.FindAmbiguousSequences(phonetic) into seqs
+							select _project.PhoneticParser.FindAmbiguousSequences(phonetic) into seqs
 							where seqs != null
 							select seqs);
 			
@@ -386,7 +386,7 @@ namespace SIL.Pa.Model
 				generatedSeqs.AddRange(seqs);
 
 			if (generatedSeqs.Count > 0)
-				m_project.UpdateAbiguousSequencesWithGeneratedOnes(generatedSeqs.Distinct(StringComparer.Ordinal));
+				_project.UpdateAbiguousSequencesWithGeneratedOnes(generatedSeqs.Distinct(StringComparer.Ordinal));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -396,7 +396,7 @@ namespace SIL.Pa.Model
 				.Where(p => p.Contains(App.kBottomTieBar) || p.Contains(App.kTopTieBar)).ToArray();
 
 			if (generatedSeqs.Length > 0)
-				m_project.UpdateAbiguousSequencesWithGeneratedOnes(generatedSeqs.Distinct(StringComparer.Ordinal));
+				_project.UpdateAbiguousSequencesWithGeneratedOnes(generatedSeqs.Distinct(StringComparer.Ordinal));
 		}
 	}
 

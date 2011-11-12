@@ -618,10 +618,10 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			pattern = pattern.ToLower();
 
-			foreach (Feature feature in App.BFeatureCache.Values)
+			foreach (var feature in App.BFeatureCache.Values)
 			{
 				// Remove those whose short name was specified.
-				string ptrnFeature = string.Format("[{0}]", feature.Name.ToLower());
+				var ptrnFeature = string.Format("[{0}]", feature.Name.ToLower());
 				pattern = pattern.Replace(ptrnFeature, string.Empty);
 
 				// Remove those whose full name was specified.
@@ -658,13 +658,9 @@ namespace SIL.Pa.PhoneticSearching
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private static string GetPhonesFromMember(PatternGroup grp)
 		{
-			StringBuilder phones = new StringBuilder();
+			var phones = new StringBuilder();
 
 			if (grp == null)
 				return string.Empty;
@@ -675,7 +671,7 @@ namespace SIL.Pa.PhoneticSearching
 					phones.Append(GetPhonesFromMember(obj as PatternGroup));
 				else
 				{
-					PatternGroupMember member = obj as PatternGroupMember;
+					var member = obj as PatternGroupMember;
 					if (member != null && member.Member != null &&
 						member.Member.Trim() != string.Empty &&
 						member.MemberType == MemberType.SinglePhone)
@@ -698,13 +694,9 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private static List<char> GetInvalidCharsFromMember(PatternGroup grp)
 		{
-			List<char> undefinedChars = new List<char>();
+			var undefinedChars = new List<char>();
 
 			if (grp != null)
 			{
@@ -714,7 +706,7 @@ namespace SIL.Pa.PhoneticSearching
 						undefinedChars.AddRange(GetInvalidCharsFromMember(obj as PatternGroup));
 					else
 					{
-						PatternGroupMember member = obj as PatternGroupMember;
+						var member = obj as PatternGroupMember;
 						if (member != null)
 							undefinedChars.AddRange(member.UndefinedPhoneticChars);
 					}
@@ -742,9 +734,9 @@ namespace SIL.Pa.PhoneticSearching
 				return null;
 			}
 
-			StringBuilder sbBasePhone = new StringBuilder();
-			List<char> sbDiacritics = new List<char>(5);
-			List<char> undefinedChars = new List<char>();
+			var sbBasePhone = new StringBuilder();
+			var sbDiacritics = new List<char>(5);
+			var undefinedChars = new List<char>();
 			bool tiebarFound = false;
 
 			foreach (char c in phone)

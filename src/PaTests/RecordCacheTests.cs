@@ -1,19 +1,3 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2005, SIL International. All Rights Reserved.
-// <copyright from='2005' to='2005' company='SIL International'>
-//		Copyright (c) 2005, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
-// 
-// File: MiscTests.cs
-// Responsibility: DavidO & ToddJ
-// 
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System.Collections.Generic;
 using NUnit.Framework;
 using SIL.Pa.Model;
@@ -40,15 +24,9 @@ namespace SIL.Pa.Tests
 		[TestFixtureSetUp]
 		public override void FixtureSetup()
 		{
-			// TODO: Fix these tests.
-
-			m_cache = new RecordCache();
+			//m_cache = _prj.RecordCache;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-        /// 
-        /// </summary>
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
         public void TestSetup()

@@ -1,19 +1,3 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2009, SIL International. All Rights Reserved.
-// <copyright from='2009' to='2009' company='SIL International'>
-//		Copyright (c) 2009, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
-// 
-// File: CVPatternTests.cs
-// Responsibility: Olson
-// 
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System.Collections.Generic;
 using NUnit.Framework;
 using SIL.Pa.Model;
@@ -33,23 +17,12 @@ namespace SIL.Pa.Tests
 
 		#region Setup/Teardown
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Create temporary test records.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[TestFixtureSetUp]
-		public override void FixtureSetup()
-		{
-			base.FixtureSetup();
-			InventoryHelper.Load();
-		}
-
-		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void TestSetup()
 		{
-			m_cache = new PhoneCache(m_prj);
-			m_prj.CVPatternInfoList = new List<CVPatternInfo>();
+			m_cache = new PhoneCache(_prj);
+			_prj.CVPatternInfoList = new List<CVPatternInfo>();
+			_prj.AmbiguousSequences.Clear();
 		}
 
 		#endregion
@@ -117,8 +90,8 @@ namespace SIL.Pa.Tests
 			m_cache.AddPhone("c");
 			m_cache.AddPhone("e");
 
-			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("c", CVPatternInfo.PatternType.Custom));
-			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("e", CVPatternInfo.PatternType.Custom));
+			_prj.CVPatternInfoList.Add(CVPatternInfo.Create("e", CVPatternInfo.PatternType.Custom));
+			_prj.CVPatternInfoList.Add(CVPatternInfo.Create("c", CVPatternInfo.PatternType.Custom));
 
 			Assert.AreEqual("VCec", m_cache.GetCVPattern("abec"));
 			Assert.AreEqual("CceV", m_cache.GetCVPattern("bcea"));
@@ -140,8 +113,8 @@ namespace SIL.Pa.Tests
 			m_cache.AddPhone("e");
 			m_cache.AddPhone("e\u0301");
 
-			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("a", CVPatternInfo.PatternType.Custom));
-			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("e\u0301", CVPatternInfo.PatternType.Custom));
+			_prj.CVPatternInfoList.Add(CVPatternInfo.Create("e\u0301", CVPatternInfo.PatternType.Custom));
+			_prj.CVPatternInfoList.Add(CVPatternInfo.Create("a", CVPatternInfo.PatternType.Custom));
 
 			Assert.AreEqual("aCe\u0301C", m_cache.GetCVPattern("abe\u0301c"));
 			Assert.AreEqual("CCVV", m_cache.GetCVPattern("bcea\u0303"));
@@ -163,9 +136,9 @@ namespace SIL.Pa.Tests
 			m_cache.AddPhone("e");
 			m_cache.AddPhone("e\u0301");
 
-			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("a", CVPatternInfo.PatternType.Custom));
-			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("\u0301", CVPatternInfo.PatternType.Suprasegmental));
-			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create(App.kDottedCircle + "\u0303", CVPatternInfo.PatternType.Custom));
+			_prj.CVPatternInfoList.Add(CVPatternInfo.Create("\u0301", CVPatternInfo.PatternType.Suprasegmental));
+			_prj.CVPatternInfoList.Add(CVPatternInfo.Create("a", CVPatternInfo.PatternType.Custom));
+			_prj.CVPatternInfoList.Add(CVPatternInfo.Create(App.kDottedCircle + "\u0303", CVPatternInfo.PatternType.Custom));
 
 			Assert.AreEqual("aCVC", m_cache.GetCVPattern("abec"));
 			Assert.AreEqual("CCV\u0301a", m_cache.GetCVPattern("bce\u0301a"));
@@ -185,12 +158,11 @@ namespace SIL.Pa.Tests
 			m_cache.AddPhone("\u207Fb");
 			m_cache.AddPhone("c");
 			m_cache.AddPhone("e");
-			
-			m_prj.AmbiguousSequences.Clear();
-			m_prj.AmbiguousSequences.Add("\u207Fb");
 
-			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("a", CVPatternInfo.PatternType.Custom));
-			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("\u207F" + App.kDottedCircle, CVPatternInfo.PatternType.Custom));
+			_prj.AddAmbiguousSequence("\u207Fb");
+
+			_prj.CVPatternInfoList.Add(CVPatternInfo.Create("a", CVPatternInfo.PatternType.Custom));
+			_prj.CVPatternInfoList.Add(CVPatternInfo.Create("\u207F" + App.kDottedCircle, CVPatternInfo.PatternType.Custom));
 
 			Assert.AreEqual("a\u207FCVC", m_cache.GetCVPattern("a\u207Fbec"));
 			Assert.AreEqual("\u207FCCVa", m_cache.GetCVPattern("\u207Fbcea"));
@@ -212,11 +184,10 @@ namespace SIL.Pa.Tests
 			m_cache.AddPhone("c");
 			m_cache.AddPhone("e");
 
-			m_prj.AmbiguousSequences.Clear();
-			m_prj.AmbiguousSequences.Add("\u207Fb");
+			_prj.AddAmbiguousSequence("\u207Fb");
 
-			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create(App.kDottedCircle + "\u0303", CVPatternInfo.PatternType.Custom));
-			m_prj.CVPatternInfoList.Add(CVPatternInfo.Create("\u207F" + App.kDottedCircle, CVPatternInfo.PatternType.Custom));
+			_prj.CVPatternInfoList.Add(CVPatternInfo.Create(App.kDottedCircle + "\u0303", CVPatternInfo.PatternType.Custom));
+			_prj.CVPatternInfoList.Add(CVPatternInfo.Create("\u207F" + App.kDottedCircle, CVPatternInfo.PatternType.Custom));
 
 			Assert.AreEqual("VV\u0303\u207FCC", m_cache.GetCVPattern("ea\u0303\u207Fbc"));
 			Assert.AreEqual("\u207FCCVV", m_cache.GetCVPattern("\u207Fbcea"));
@@ -239,7 +210,7 @@ namespace SIL.Pa.Tests
 			trans.SetReplacementOptions(list);
 			trans.ReplaceWith = "y";
 
-			m_prj.TranscriptionChanges.Add(trans);
+			_prj.AddTranscriptionChange(trans);
 
 			m_cache.AddPhone("a");
 			m_cache.AddPhone("x");
@@ -264,7 +235,7 @@ namespace SIL.Pa.Tests
 			trans.SetReplacementOptions(replacementOptions);
 			trans.ReplaceWith = "y";
 
-			m_prj.TranscriptionChanges.Add(trans);
+			_prj.AddTranscriptionChange(trans);
 
 			m_cache.AddPhone("a");
 			m_cache.AddPhone("x");

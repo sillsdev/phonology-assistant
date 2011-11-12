@@ -6,41 +6,19 @@ using SIL.Pa.TestUtils;
 namespace SIL.Pa.Tests
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	[TestFixture]
 	public class FFSearchEngineTests : TestBase
 	{
-		#region Setup/Teardown
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Create temporary test records.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[TestFixtureSetUp]
-		public override void FixtureSetup()
-		{
-			base.FixtureSetup();
-			InventoryHelper.Load();
-		}
-
-		#endregion
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void PhonesInPatternTest()
+		public void GetPhonesInPatternTest()
 		{
-			SearchQuery query = new SearchQuery();
-			query.Pattern = "ab{o,e}/[C]_[+Rounded]xyz";
-			SearchEngine engine = new SearchEngine(query);
+			App.BFeatureCache.LoadFromList(new[] { new Feature { Name = "+rnd" }});
+			var query = new SearchQuery();
+			query.Pattern = "ab{o,e}/[C]_[+rnd]xyz";
+			var engine = new SearchEngine(query);
 
-			string[] phones = engine.GetPhonesInPattern();
+			var phones = engine.GetPhonesInPattern();
 			Assert.AreEqual(7, phones.Length);
 			Assert.AreEqual("a", phones[0]);
 			Assert.AreEqual("b", phones[1]);
@@ -51,10 +29,6 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual("z", phones[6]);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void ParsePhoneTest()

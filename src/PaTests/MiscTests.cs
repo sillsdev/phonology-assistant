@@ -1,48 +1,59 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2005, SIL International. All Rights Reserved.
-// <copyright from='2005' to='2005' company='SIL International'>
-//		Copyright (c) 2005, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
-// 
-// File: MiscTests.cs
-// Responsibility: DavidO & ToddJ
-// 
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using NUnit.Framework;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
 using SIL.Pa.TestUtils;
 
-
 namespace SIL.Pa.Tests
 {
-    /// --------------------------------------------------------------------------------
-    /// <summary>
-    /// Tests Misc. methods in DataUtils.
-    /// </summary>
     /// --------------------------------------------------------------------------------
     [TestFixture]
     public class MiscTests : TestBase
 	{
-		RecordCacheEntry m_recEntry;
-		WordCacheEntry m_entry;
+		private RecordCacheEntry m_recEntry;
+		private PaDataSource _dataSource;
 
 		#region Setup/Teardown
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Create temporary test records.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		[TestFixtureSetUp]
+		public override void FixtureSetup()
+		{
+			base.FixtureSetup();
+
+			_dataSource = new PaDataSource();
+			_dataSource.Type = DataSourceType.Toolbox;
+			_dataSource.FieldMappings = new System.Collections.Generic.List<FieldMapping>();
+			_dataSource.FieldMappings.Add(new FieldMapping("\\ph", _prj.GetPhoneticField(), true));
+		}
+
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
         public void TestSetup()
         {
-			m_recEntry = new RecordCacheEntry(m_prj);
+			App.IPASymbolCache.UndefinedCharacters.Clear();
+			_prj.PhoneticParser.LogUndefinedCharactersWhenParsing = true;
+			m_recEntry = new RecordCacheEntry(_prj);
 			m_recEntry.DataSource = new PaDataSource();
+			m_recEntry.NeedsParsing = true;
+			m_recEntry.DataSource = _dataSource;
+			_prj.RecordCache.PhoneCache.Clear();
+			_prj.RecordCache.Clear();
 		}
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		private PhoneCache AddWordsToRecEntry(string words)
+		{
+			m_recEntry.SetValue("Phonetic", words);
+			_prj.RecordCache.Add(m_recEntry);
+			_prj.RecordCache.BuildWordCache(null);
+
+			return _prj.RecordCache.PhoneCache;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -52,16 +63,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void BuildPhoneCacheTest1()
 		{
-			var wordCache = new WordCache();
-			m_entry = new WordCacheEntry(m_recEntry);
-			m_entry["Phonetic"] = "abc";
-			wordCache.Add(m_entry);
-			m_entry = new WordCacheEntry(m_recEntry);
-			m_entry["Phonetic"] = "xyz";
-			wordCache.Add(m_entry);
-			
-			var phoneCache = GetResult(typeof(RecordCache), "GetPhonesFromWordCache", wordCache) as PhoneCache;
-
+			var phoneCache = AddWordsToRecEntry("abc xyz");
 			Assert.AreEqual(6, phoneCache.Count);
 			Assert.IsNotNull(phoneCache["a"]);
 			Assert.IsNotNull(phoneCache["b"]);
@@ -79,17 +81,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void BuildPhoneCacheTest2()
 		{
-			var wordCache = new WordCache();
-			
-			m_entry = new WordCacheEntry(m_recEntry);
-			m_entry["Phonetic"] = "abc";
-			wordCache.Add(m_entry);
-			m_entry = new WordCacheEntry(m_recEntry);
-			m_entry["Phonetic"] = "axc";
-			wordCache.Add(m_entry);
-
-			var phoneCache = GetResult(typeof(RecordCache), "GetPhonesFromWordCache", wordCache) as PhoneCache;
-
+			var phoneCache = AddWordsToRecEntry("abc axc");
 			Assert.AreEqual(4, phoneCache.Count);
 			Assert.IsNotNull(phoneCache["a"]);
 			Assert.IsNotNull(phoneCache["b"]);
@@ -110,12 +102,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void BuildPhoneCacheWithWordBreaksInPhonetic()
 		{
-			m_entry = new WordCacheEntry(m_recEntry);
-			m_entry["Phonetic"] = "ab" + App.BreakChars[0] + "xy";
-			var wordCache = new WordCache();
-			wordCache.Add(m_entry);
-
-			var phoneCache = GetResult(typeof(RecordCache), "GetPhonesFromWordCache", wordCache) as PhoneCache;
+			var phoneCache = AddWordsToRecEntry("ab" + App.BreakChars[0] + "xy");
 
 			Assert.AreEqual(4,phoneCache.Count);
 			Assert.IsNotNull(phoneCache["a"]);
@@ -133,14 +120,8 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void BuildPhoneCacheWithUndefinedChars()
 		{
-			var wordCache = new WordCache();
-
-			m_prj.PhoneticParser.LogUndefinedCharactersWhenParsing = true;
-
-			m_entry = new WordCacheEntry(m_recEntry);
-			m_entry["Phonetic"] = "abXY";
-			wordCache.Add(m_entry);
-			var phoneCache = GetResult(typeof(RecordCache), "GetPhonesFromWordCache", wordCache) as PhoneCache;
+			_prj.PhoneticParser.LogUndefinedCharactersWhenParsing = true;
+			var phoneCache = AddWordsToRecEntry("abXY");
 
 			Assert.AreEqual(2, App.IPASymbolCache.UndefinedCharacters.Count);
 			Assert.AreEqual('X', App.IPASymbolCache.UndefinedCharacters[0].Character);
@@ -163,11 +144,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void BuildPhoneCacheWithUncertainties1()
 		{
-			m_entry = new WordCacheEntry(m_recEntry);
-			m_entry["Phonetic"] = "ab(t/d)c";
-			var wordCache = new WordCache();
-			wordCache.Add(m_entry);
-			var phoneCache = GetResult(typeof(RecordCache), "GetPhonesFromWordCache", wordCache) as PhoneCache;
+			var phoneCache = AddWordsToRecEntry("ab(t/d)c");
 
 			Assert.AreEqual(5, phoneCache.Count);
 			Assert.IsNotNull(phoneCache["t"]);
@@ -188,11 +165,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void BuildPhoneCacheWithUncertainties2()
 		{
-			m_entry = new WordCacheEntry(m_recEntry);
-			m_entry["Phonetic"] = "ab(t/d)c(e/i/o)";
-			var wordCache = new WordCache();
-			wordCache.Add(m_entry);
-			var phoneCache = GetResult(typeof(RecordCache), "GetPhonesFromWordCache", wordCache) as PhoneCache;
+			var phoneCache = AddWordsToRecEntry("ab(t/d)c(e/i/o)");
 
 			Assert.AreEqual(8, phoneCache.Count);
 			Assert.IsNotNull(phoneCache["t"]);
@@ -260,17 +233,9 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void VerifyUncertaintyGroup(string phontic)
 		{
-			m_entry = new WordCacheEntry(m_recEntry);
-			m_entry["Phonetic"] = phontic;
-			var wordCache = new WordCache();
-			wordCache.Add(m_entry);
-			var phoneCache = GetResult(typeof(RecordCache), "GetPhonesFromWordCache", wordCache) as PhoneCache;
+			var phoneCache = AddWordsToRecEntry(phontic);
 
 			Assert.AreEqual(4, phoneCache.Count);
 			Assert.IsNotNull(phoneCache["a"]);
@@ -295,11 +260,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void BuildPhoneCacheWithUncertaintiesWithMultiGroups1()
 		{
-			m_entry = new WordCacheEntry(m_recEntry);
-			m_entry["Phonetic"] = "ab(t/d)cxy(u/i)z";
-			var wordCache = new WordCache();
-			wordCache.Add(m_entry);
-			var phoneCache = GetResult(typeof(RecordCache), "GetPhonesFromWordCache", wordCache) as PhoneCache;
+			var phoneCache = AddWordsToRecEntry("ab(t/d)cxy(u/i)z");
 
 			Assert.AreEqual(10, phoneCache.Count);
 			Assert.IsNotNull(phoneCache["t"]);
@@ -325,11 +286,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void BuildPhoneCacheWithUncertaintiesWithMultiGroups2()
 		{
-			m_entry = new WordCacheEntry(m_recEntry);
-			m_entry["Phonetic"] = "ab(t/d)cxy(u/i)z(t/d)mn";
-			var wordCache = new WordCache();
-			wordCache.Add(m_entry);
-			var phoneCache = GetResult(typeof(RecordCache), "GetPhonesFromWordCache", wordCache) as PhoneCache;
+			var phoneCache = AddWordsToRecEntry("ab(t/d)cxy(u/i)z(t/d)mn");
 
 			Assert.AreEqual(12, phoneCache.Count);
 			Assert.IsNotNull(phoneCache["t"]);
@@ -344,44 +301,6 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(1, phoneCache["i"].CountAsNonPrimaryUncertainty);
 			Assert.AreEqual(0, phoneCache["u"].TotalCount);
 			Assert.AreEqual(0, phoneCache["i"].TotalCount);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tests the GetInterlinearColumnWidths method.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void DataSourceReader_ParseSoundFileName()
-		{
-			new DataSourceReader(new PaProject());
-
-			string filename = @"c:\junk1\junk2\junk3.wav";
-
-			object[] args = new object[] { filename, (long)-1, (long)-1 };
-			string result = GetStrResult(typeof(DataSourceReader), "ParseSoundFileName", args);
-			Assert.AreEqual(result, filename);
-			Assert.AreEqual(0, (long)args[1]);
-			Assert.AreEqual(0, (long)args[2]);
-
-			args = new object[] { filename + " 2.123", (long)-1, (long)-1 };
-			result = GetStrResult(typeof(DataSourceReader), "ParseSoundFileName", args);
-			Assert.AreEqual(result, filename);
-			Assert.AreEqual(2123, (long)args[1]);
-			Assert.AreEqual(0, (long)args[2]);
-
-			args = new object[] { filename + " 2.123 4.43265", (long)-1, (long)-1 };
-			result = GetStrResult(typeof(DataSourceReader), "ParseSoundFileName", args);
-			Assert.AreEqual(result, filename);
-			Assert.AreEqual(2123, (long)args[1]);
-			Assert.AreEqual(4433, (long)args[2]);
-
-			filename = @"c:\junk1\junk2\this is junk3.mp3";
-			args = new object[] { filename + " 2.123 4.43265", (long)-1, (long)-1 };
-			result = GetStrResult(typeof(DataSourceReader), "ParseSoundFileName", args);
-			Assert.AreEqual(result, filename);
-			Assert.AreEqual(2123, (long)args[1]);
-			Assert.AreEqual(4433, (long)args[2]);
 		}
 	}
 }

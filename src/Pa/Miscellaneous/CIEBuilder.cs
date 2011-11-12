@@ -9,34 +9,10 @@ namespace SIL.Pa
 {
 	#region CIEBuilder class
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class CIEBuilder
 	{
-		private readonly SortOptions m_sortOptions;
-		private CIEOptions m_cieOptions;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Constructs an object to find the list of minimal pairs within the specified cache.
-		/// (This overload uses default CIE options and sort options.)
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public CIEBuilder(WordListCache cache) : this(cache, new CIEOptions())
-		{
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Constructs an object to find the list of minimal pairs within the specified cache.
-		/// (This overload uses default sort options.)
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public CIEBuilder(WordListCache cache, CIEOptions cieOptions) : this(cache, null, cieOptions)
-		{
-		}
+		private readonly SortOptions _sortOptions;
+		private CIEOptions _cieOptions;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -49,8 +25,10 @@ namespace SIL.Pa
 				return;
 
 			Cache = cache;
-			m_sortOptions = (sortOptions ?? new SortOptions(true, App.Project));
 			CIEOptions = cieOptions;
+			_sortOptions = sortOptions.Copy();
+			_sortOptions.AdvSortOrder = (CIEOptions.Type == CIEOptions.IdenticalType.After ?
+				new[] { 2, 0, 1 } : new[] { 1, 0, 2 });
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -67,8 +45,8 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public CIEOptions CIEOptions
 		{
-			get { return m_cieOptions; }
-			set {m_cieOptions = (value ?? new CIEOptions());}
+			get { return _cieOptions; }
+			set {_cieOptions = (value ?? new CIEOptions());}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -93,7 +71,7 @@ namespace SIL.Pa
 
 			foreach (var entry in Cache)
 			{
-				string pattern = GetCIEPattern(entry, m_cieOptions);
+				string pattern = GetCIEPattern(entry, _cieOptions);
 
 				List<WordListCacheEntry> entryList;
 				if (!cieGroups.TryGetValue(pattern, out entryList))
@@ -105,15 +83,16 @@ namespace SIL.Pa
 				entryList.Add(entry);
 			}
 
+			// The groups are not guaranteed to be in any particular order, just the words within groups.
+			// TODO: Sort groups by POA, or MOA, based on what's specified in _sortOptions.
+
 			// Create a new cache which is the subset containing minimal pair entries.
 			int cieGroupId = 0;
 			var cieGroupTexts = new SortedList<int, string>();
 			var cieCache = new WordListCache();
-			foreach (KeyValuePair<string, List<WordListCacheEntry>> grp in cieGroups)
+			
+			foreach (var grp in cieGroups.Where(g => g.Value.Count >= 2))
 			{
-				if (grp.Value.Count < 2)
-					continue;
-
 				foreach (var entry in grp.Value)
 				{
 					entry.CIEGroupId = cieGroupId;
@@ -126,7 +105,7 @@ namespace SIL.Pa
 			cieCache.IsCIEList = true;
 			cieCache.CIEGroupTexts = cieGroupTexts;
 			cieCache.IsForSearchResults = true;
-			cieCache.Sort(m_sortOptions);
+			cieCache.Sort(_sortOptions);
 			cieCache.SearchQuery = Cache.SearchQuery.Clone();
 			return cieCache;
 		}
@@ -220,7 +199,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public CIEOptions Clone()
 		{
-			CIEOptions options = new CIEOptions();
+			var options = new CIEOptions();
 			options.SearchQuery = SearchQuery.Clone();
 			options.Type = Type;
 			return options;

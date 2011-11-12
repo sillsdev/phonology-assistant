@@ -1,19 +1,3 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2005, SIL International. All Rights Reserved.
-// <copyright from='2005' to='2005' company='SIL International'>
-//		Copyright (c) 2005, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
-// 
-// File: ExperimentalTranscriptionTests.cs
-// Responsibility: DavidO
-// 
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System.Collections.Generic;
 using NUnit.Framework;
 using SIL.Pa.Model;
@@ -33,32 +17,16 @@ namespace SIL.Pa.Tests
 
 		#region Setup/Teardown
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Create temporary test records.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[TestFixtureSetUp]
-		public override void FixtureSetup()
-		{
-			base.FixtureSetup();
-			InventoryHelper.Load();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-        /// 
-        /// </summary>
-		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void TestSetup()
 		{
 			m_exTransList = new TranscriptionChanges();
 
-			m_prj.TranscriptionChanges.Clear();
-			m_prj.TranscriptionChanges.AddRange(m_exTransList);
-			m_prj.AmbiguousSequences.Clear();
+			_prj.TranscriptionChanges.Clear();
+			_prj.TranscriptionChanges.AddRange(m_exTransList);
+			_prj.AmbiguousSequences.Clear();
 			//App.IPASymbolCache.UndefinedCharacters = new UndefinedPhoneticCharactersInfoList();
-			m_prj.PhoneticParser.LogUndefinedCharactersWhenParsing = false;
+			_prj.PhoneticParser.LogUndefinedCharactersWhenParsing = false;
 		}
 
 		#endregion

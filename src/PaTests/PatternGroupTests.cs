@@ -25,35 +25,35 @@ namespace SIL.Pa.Tests
 		[SetUp]
 		public void TestSetup()
 		{
-			m_phoneCache = m_prj.PhoneCache;
+			m_phoneCache = _prj.PhoneCache;
 			m_query = new SearchQuery();
 			m_query.IgnoredCharacters = string.Empty;
 			m_query.IgnoreDiacritics = false;
-			SearchEngine.CurrentSearchQuery = m_query;
+			m_engine = new SearchEngine(m_query);
 
-			m_phoneCache["t"] = new PhoneInfo();
+			m_phoneCache["t"] = new PhoneInfo { Phone = "t" };
 			m_phoneCache["t"].CharType = IPASymbolType.consonant;
-			m_phoneCache["p"] = new PhoneInfo();
+			m_phoneCache["p"] = new PhoneInfo { Phone = "p" };
 			m_phoneCache["p"].CharType = IPASymbolType.consonant;
-			m_phoneCache["b"] = new PhoneInfo();
+			m_phoneCache["b"] = new PhoneInfo { Phone = "b" };
 			m_phoneCache["b"].CharType = IPASymbolType.consonant;
-			m_phoneCache["d"] = new PhoneInfo();
+			m_phoneCache["d"] = new PhoneInfo { Phone = "d" };
 			m_phoneCache["d"].CharType = IPASymbolType.consonant;
-			m_phoneCache["h"] = new PhoneInfo();
+			m_phoneCache["h"] = new PhoneInfo { Phone = "h" };
 			m_phoneCache["h"].CharType = IPASymbolType.consonant;
-			m_phoneCache["s"] = new PhoneInfo();
+			m_phoneCache["s"] = new PhoneInfo { Phone = "s" };
 			m_phoneCache["s"].CharType = IPASymbolType.consonant;
-			m_phoneCache["x"] = new PhoneInfo();
+			m_phoneCache["x"] = new PhoneInfo { Phone = "x" };
 			m_phoneCache["x"].CharType = IPASymbolType.consonant;
-			m_phoneCache["g"] = new PhoneInfo();
+			m_phoneCache["g"] = new PhoneInfo { Phone = "g" };
 			m_phoneCache["g"].CharType = IPASymbolType.consonant;
-			m_phoneCache["l"] = new PhoneInfo();
+			m_phoneCache["l"] = new PhoneInfo { Phone = "l" };
 			m_phoneCache["l"].CharType = IPASymbolType.consonant;
-			m_phoneCache["k"] = new PhoneInfo();
+			m_phoneCache["k"] = new PhoneInfo { Phone = "k" };
 			m_phoneCache["k"].CharType = IPASymbolType.consonant;
-			m_phoneCache["m"] = new PhoneInfo();
+			m_phoneCache["m"] = new PhoneInfo { Phone = "m" };
 			m_phoneCache["m"].CharType = IPASymbolType.consonant;
-			m_phoneCache["n"] = new PhoneInfo();
+			m_phoneCache["n"] = new PhoneInfo { Phone = "n" };
 			m_phoneCache["n"].CharType = IPASymbolType.consonant;
 
 			m_phoneCache["a"] = new PhoneInfo();
@@ -73,9 +73,28 @@ namespace SIL.Pa.Tests
 			m_phoneCache["'"].CharType = IPASymbolType.suprasegmental;
 
 			SearchEngine.PhoneCache = m_phoneCache;
+
+			App.BFeatureCache.LoadFromList(new[]
+			{
+				new Feature { Name = "+high" },
+				new Feature { Name = "+voice" },
+			});
 		}
 
 		#endregion
+		[Test]
+		public void AAAAAAAA()
+		{
+			// Put mock data in the articulatory and binary features of the phone.
+			((PhoneInfo)m_phoneCache["d"]).BFeatureNames = new List<string> { "+high", "-voice" };
+			((PhoneInfo)m_phoneCache["d"]).AFeatureNames = new List<string> { "dental" };
+
+			var phones = new[] { "d" };
+			int ip = 0;
+
+			var group = new PatternGroup(EnvironmentType.After);
+			group.Parse("[{[+high],[-voice]}[C]]");
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -104,40 +123,40 @@ namespace SIL.Pa.Tests
 		public void SearchNonSequentialGroupsTest_1()
 		{
 			// Put mock data in the articulatory and binary features of the phone.
-			PhoneInfo phoneInfo = (PhoneInfo)SearchEngine.PhoneCache["d"];
-			phoneInfo.BFeatureNames = new List<string> { "+high", "-voice" };
-			phoneInfo.AFeatureNames = new List<string> { "nasal" };
+			((PhoneInfo)m_phoneCache["d"]).BFeatureNames = new List<string> { "+high", "-voice" };
+			((PhoneInfo)m_phoneCache["d"]).AFeatureNames = new List<string> { "dental" };
+			
+			var phones = new[] { "d" };
+			int ip = 0;
 
-			object[] args = new object[] { new[] { "d" }, 0 };
-
-			PatternGroup group = new PatternGroup(EnvironmentType.After);
+			var group = new PatternGroup(EnvironmentType.After);
 			group.Parse("[{[+high],[-voice]}[C]]");
-			Assert.AreEqual(CompareResultType.Match, GetResult(group, "SearchGroup", args));
+			Assert.AreEqual(CompareResultType.Match, group.SearchGroup(phones, ref ip));
 
 			group = new PatternGroup(EnvironmentType.After);
 			group.Parse("[{[-high],[+voice]}[C]]");
-			Assert.AreEqual(CompareResultType.NoMatch, GetResult(group, "SearchGroup", args));
-
-			group = new PatternGroup(EnvironmentType.After);
-			group.Parse("{[[+high][+voice]],[nasal]}");
-			Assert.AreEqual(CompareResultType.Match, GetResult(group, "SearchGroup", args));
+			Assert.AreEqual(CompareResultType.NoMatch, group.SearchGroup(phones, ref ip));
 
 			group = new PatternGroup(EnvironmentType.After);
 			group.Parse("{[[+high][+voice]],[dental]}");
-			Assert.AreEqual(CompareResultType.NoMatch, GetResult(group, "SearchGroup", args));
+			Assert.AreEqual(CompareResultType.Match, group.SearchGroup(phones, ref ip));
 
 			group = new PatternGroup(EnvironmentType.After);
-			group.Parse("[[[+high][+voice]][nasal]]");
-			Assert.AreEqual(CompareResultType.NoMatch, GetResult(group, "SearchGroup", args));
+			group.Parse("{[[+high][+voice]],[dental]}");
+			Assert.AreEqual(CompareResultType.NoMatch, group.SearchGroup(phones, ref ip));
 
 			group = new PatternGroup(EnvironmentType.After);
-			group.Parse("[[[+high][-voice]][nasal]]");
-			Assert.AreEqual(CompareResultType.Match, GetResult(group, "SearchGroup", args));
+			group.Parse("[[[+high][+voice]][dental]]");
+			Assert.AreEqual(CompareResultType.NoMatch, group.SearchGroup(phones, ref ip));
 
-			args[0] = new[] { "a" };
+			group = new PatternGroup(EnvironmentType.After);
+			group.Parse("[[[+high][-voice]][dental]]");
+			Assert.AreEqual(CompareResultType.Match, group.SearchGroup(phones, ref ip));
+
+			phones = new[] { "a" };
 			group = new PatternGroup(EnvironmentType.After);
 			group.Parse("{[V]}");
-			Assert.AreEqual(CompareResultType.Match, GetResult(group, "SearchGroup", args));
+			Assert.AreEqual(CompareResultType.Match, group.SearchGroup(phones, ref ip));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -659,12 +678,12 @@ namespace SIL.Pa.Tests
 		public void SearchWithIgnoreWithNonIPAPattern()
 		{
 			MakeMockCacheEntries();
-			SearchQuery query = new SearchQuery();
+			var query = new SearchQuery();
 			query.IgnoredCharacters = "b";
 			query.IgnoreDiacritics = false;
-			SearchEngine.CurrentSearchQuery = query;
+			m_engine = new SearchEngine(query);
 
-			PatternGroup group = new PatternGroup(EnvironmentType.Item);
+			var group = new PatternGroup(EnvironmentType.Item);
 
 			group.Parse("[V][V]");
 			Assert.IsTrue(group.Search("xabax", 0, out m_results));
@@ -708,12 +727,12 @@ namespace SIL.Pa.Tests
 		public void SearchWithBaseCharsInIgnoreList()
 		{
 			MakeMockCacheEntries();
-			SearchQuery query = new SearchQuery();
+			var query = new SearchQuery();
 			query.IgnoredCharacters = ".";
 			query.IgnoreDiacritics = false;
-			SearchEngine.CurrentSearchQuery = query;
+			m_engine = new SearchEngine(query);
 
-			PatternGroup group = new PatternGroup(EnvironmentType.Item);
+			var group = new PatternGroup(EnvironmentType.Item);
 
 			group.Parse("aa");
 			Assert.IsTrue(group.Search("xa.ax", 0, out m_results));
@@ -2176,16 +2195,14 @@ namespace SIL.Pa.Tests
 
 			m_query.Pattern = "(bct)/*_*";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(m_engine.SearchWord(
-				Parse("aobctde", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("aobctde", false), out m_results));
 
 			Assert.AreEqual(2, m_results[0]);
 			Assert.AreEqual(3, m_results[1]);
 
 			m_query.Pattern = "a(bcd)([C][V]){x,z}/*_*";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(m_engine.SearchWord(
-				Parse("omnabcdhizstu", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("omnabcdhizstu", false), out m_results));
 
 			Assert.AreEqual(3, m_results[0]);
 			Assert.AreEqual(7, m_results[1]);
@@ -2200,7 +2217,7 @@ namespace SIL.Pa.Tests
 
 			if (App.IPASymbolCache[' '] == null)
 			{
-				IPASymbol charInfo = new IPASymbol();
+				var charInfo = new IPASymbol();
 				charInfo.SubType = IPASymbolSubType.boundary;
 				charInfo.IsBase = true;
 				charInfo.Literal = " ";
