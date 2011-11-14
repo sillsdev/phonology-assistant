@@ -223,6 +223,7 @@
       <DependentUpon>BracketedTextErrorMsgBox.cs</DependentUpon>
     </Compile>
     <Compile Include="PhoneticSearching\DistributionChart.cs" />
+    <Compile Include="PhoneticSearching\PatternParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="PhoneticSearching\FFNormalizer.cs" />
     <Compile Include="PhoneticSearching\PatternGroup.cs" />

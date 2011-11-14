@@ -82,19 +82,6 @@ namespace SIL.Pa.Tests
 		}
 
 		#endregion
-		[Test]
-		public void AAAAAAAA()
-		{
-			// Put mock data in the articulatory and binary features of the phone.
-			((PhoneInfo)m_phoneCache["d"]).BFeatureNames = new List<string> { "+high", "-voice" };
-			((PhoneInfo)m_phoneCache["d"]).AFeatureNames = new List<string> { "dental" };
-
-			var phones = new[] { "d" };
-			int ip = 0;
-
-			var group = new PatternGroup(EnvironmentType.After);
-			group.Parse("[{[+high],[-voice]}[C]]");
-		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
