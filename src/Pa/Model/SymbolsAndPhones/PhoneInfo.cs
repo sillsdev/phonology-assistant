@@ -73,7 +73,7 @@ namespace SIL.Pa.Model
 
 			foreach (char c in phone)
 			{
-				var charInfo = InventoryHelper.IPASymbolCache[c];
+				var charInfo = App.IPASymbolCache[c];
 				if (charInfo != null && charInfo.IsBase)
 				{
 					if (charInfo.Type == IPASymbolType.consonant)
@@ -126,7 +126,7 @@ namespace SIL.Pa.Model
 
 			if (ambigSeq != null)
 			{
-				var charInfo = InventoryHelper.IPASymbolCache[ambigSeq.BaseChar];
+				var charInfo = App.IPASymbolCache[ambigSeq.BaseChar];
 				if (charInfo != null)
 				{
 					_baseChar = ambigSeq.BaseChar[0];
@@ -409,7 +409,13 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<IPASymbol> GetSymbols()
 		{
-			return Phone.Select(c => InventoryHelper.IPASymbolCache[c]);
+			return Phone.Select(c => App.IPASymbolCache[c]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public int GetCountOfNonBaseSymbolsInPhone()
+		{
+			return Phone.Count(s => App.IPASymbolCache[s] != null && !App.IPASymbolCache[s].IsBase);
 		}
 	}
 

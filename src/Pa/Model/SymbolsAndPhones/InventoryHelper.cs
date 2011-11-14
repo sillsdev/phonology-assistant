@@ -14,7 +14,7 @@ namespace SIL.Pa.Model
 	[XmlType("inventory")]
 	public class InventoryHelper
 	{
-		public static IPASymbolCache IPASymbolCache { get; set; }
+		public static IPASymbolCache IPASymbolCache { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
