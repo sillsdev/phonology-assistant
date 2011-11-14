@@ -198,7 +198,7 @@ namespace SIL.Pa.PhoneticSearching
 		public string Pattern
 		{
 			get { return _pattern; }
-			set	{_pattern = (value == null ? null : value.Replace("], [", "],["));}
+			set	{_pattern = (value == null ? null : value.Replace(" ", string.Empty));}
 		}
 
 		/// ------------------------------------------------------------------------------------
