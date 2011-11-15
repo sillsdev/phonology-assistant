@@ -18,6 +18,7 @@ namespace SIL.Pa.PhoneticSearching
 		public const float kCurrVersion = 3.0f;
 
 		private List<string> m_errors = new List<string>();
+		private string _pattern;
 
 		/// ------------------------------------------------------------------------------------
 		public SearchQuery()
@@ -55,18 +56,20 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public SearchQuery Clone()
 		{
-			var clone = new SearchQuery();
-			clone.Name = Name;
-			clone.Pattern = Pattern;
-			clone.Id = Id;
-			clone.Category = Category;
-			clone.ShowAllOccurrences = ShowAllOccurrences;
-			clone.IncludeAllUncertainPossibilities = IncludeAllUncertainPossibilities;
-			clone.IgnoreDiacritics = IgnoreDiacritics;
-			clone.IgnoredCharacters = IgnoredCharacters;
-			clone.IsPatternRegExpression = IsPatternRegExpression;
-			clone.ErrorMessages.AddRange(ErrorMessages);
+			var clone = new SearchQuery
+			{
+				Name = Name,
+				Pattern = Pattern,
+				Id = Id,
+				Category = Category,
+				ShowAllOccurrences = ShowAllOccurrences,
+				IncludeAllUncertainPossibilities = IncludeAllUncertainPossibilities,
+				IgnoreDiacritics = IgnoreDiacritics,
+				IgnoredCharacters = IgnoredCharacters,
+				IsPatternRegExpression = IsPatternRegExpression,
+			};
 
+			clone.ErrorMessages.AddRange(ErrorMessages);
 			return clone;
 		}
 
@@ -122,7 +125,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			if (!string.IsNullOrEmpty(Name))
+			if (!String.IsNullOrEmpty(Name))
 				return Name;
 
 			if (IsPatternRegExpression)
@@ -178,7 +181,15 @@ namespace SIL.Pa.PhoneticSearching
 
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
-		public string Pattern { get; set; }
+		public string Pattern
+		{
+			get { return _pattern; }
+			set
+			{
+				_pattern = (value == null ? null : value.Replace("/" + App.kSearchPatternDiamond, "*")
+					.Replace("_" + App.kSearchPatternDiamond, "*"));
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -192,8 +203,16 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			get
 			{
-				var pieces = SearchEngine.GetPatternPieces(Pattern);
-				return (pieces.Length == 3 ? pieces[1] : string.Empty);
+				var pieces = GetPatternPieces(Pattern);
+
+				if (pieces.Length < 2)
+					return string.Empty;
+
+				pieces[1] = pieces[1].Trim();
+				if (pieces[1].StartsWith("*") && pieces[1].Length > 1)
+					pieces[1] = pieces[1].TrimStart('*');
+
+				return pieces[1];
 			}
 		}
 
@@ -202,8 +221,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			get
 			{
-				var pieces = SearchEngine.GetPatternPieces(Pattern);
-				return (pieces.Length == 3 ? pieces[0] : string.Empty);
+				var pieces = GetPatternPieces(Pattern);
+				return (pieces.Length == 3 ? pieces[0] : String.Empty);
 			}
 		}
 
@@ -212,8 +231,16 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			get
 			{
-				var pieces = SearchEngine.GetPatternPieces(Pattern);
-				return (pieces.Length == 3 ? pieces[2] : string.Empty);
+				var pieces = GetPatternPieces(Pattern);
+
+				if (pieces.Length < 3)
+					return string.Empty;
+
+				pieces[2] = pieces[2].Trim();
+				if (pieces[2].EndsWith("*") && pieces[2].Length > 1)
+					pieces[2] = pieces[2].TrimEnd('*');
+
+				return pieces[2];
 			}
 		}
 
@@ -331,5 +358,61 @@ namespace SIL.Pa.PhoneticSearching
 
 			return (ignoreList.Length == 0 ? null : ignoreList.ToString().TrimEnd(','));
 		}
+
+		#region Static methods
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Parses the pattern into its search item pattern, its environment before pattern
+		/// and its environment after pattern. Before doing so, however, it checks for
+		/// slashes and underscores that may be part of feature names (e.g. Tap/Flap).
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static string[] GetPatternPieces(string pattern)
+		{
+			// Replace slashes and underscores that occur between square brackets with tokens
+			// that are replaced with the slashes and underscores after the pattern is split up.
+			try
+			{
+				var bldr = new StringBuilder(pattern);
+				var bracketBucket = new Stack<char>();
+				for (int i = 0; i < bldr.Length; i++)
+				{
+					switch (bldr[i])
+					{
+						case '[': bracketBucket.Push(bldr[i]); break;
+						case ']': bracketBucket.Pop(); break;
+						case '/':
+							// When slashes are found inside brackets, replace them with codepoint 1.
+							if (bracketBucket.Count > 0)
+								bldr[i] = (char)1;
+							break;
+
+						case '_':
+							// When underscores are found inside brackets, replace them with codepoint 2.
+							if (bracketBucket.Count > 0)
+								bldr[i] = (char)2;
+							break;
+					}
+				}
+
+				// Split up the pattern into it's pieces. Three pieces are expected.
+				string[] pieces = bldr.ToString().Split('/', '_');
+
+				// Now go through the pieces and put back any slashes
+				// or undersores that were replaced by tokens above.
+				for (int i = 0; i < pieces.Length; i++)
+				{
+					pieces[i] = pieces[i].Replace((char)1, '/');
+					pieces[i] = pieces[i].Replace((char)2, '_');
+				}
+
+				return pieces;
+			}
+			catch { }
+
+			return null;
+		}
+
+		#endregion
 	}
 }

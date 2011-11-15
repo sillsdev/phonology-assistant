@@ -16,6 +16,7 @@
 // ---------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SIL.Pa.Model
 {
@@ -219,8 +220,8 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the IPA character information for the specified IPA character (in string
-		/// form). If the string contains more than one codepoint, information for the
-		/// first codepoint is returned.
+		/// form). This is mainly for the Chao tone letters which should be the only symbols
+		/// that contain more than one codepoint.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public IPASymbol this[string ipaCharStr]
@@ -234,7 +235,7 @@ namespace SIL.Pa.Model
 				if (ToneLetters != null && ToneLetters.TryGetValue(ipaCharStr, out charInfo))
 					return charInfo;
 				
-				return this[ipaCharStr[0]];
+				return Values.FirstOrDefault(symbolInfo => symbolInfo.Literal == ipaCharStr);
 			}
 		}
 

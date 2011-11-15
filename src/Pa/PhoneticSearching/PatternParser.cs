@@ -38,7 +38,7 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string Parse(string pattern)
+		public string Parse(string pattern, bool ignoreDiacritics, IEnumerable<string> ignoredCharacters)
 		{
 			_errors.Clear();
 			_token = kMinToken;
@@ -52,14 +52,32 @@ namespace SIL.Pa.PhoneticSearching
 			while (ParseTextInBrackets(ref pattern) == 1) { }
 			while (ParseTextInBraces(ref pattern) == 1) { }
 
+			var ignoredCharList = (ignoredCharacters == null ? new List<string>(0) : ignoredCharacters.ToList());
 			var bldr = new StringBuilder();
 
-			foreach (var chr in pattern)
-				bldr.Append(chr < kMinToken ? chr.ToString() : CreateOrGroupFromPhoneGroup(chr));
+			for (int i = 0; i < pattern.Length; i++)
+			{
+				if (pattern[i] < kMinToken)
+					bldr.Append(pattern[i].ToString());
+				else
+				{
+					// Build a regular expression group containing possible phones.
+					var regExpression = CreateOrGroupFromPhoneGroup(pattern[i], ignoreDiacritics, ignoredCharList);
+					
+					// If this is not the last character in the pattern and there are some ignored, non
+					// base suprasegmentals, then make sure the regular expression indicates the non base
+					// suprasegmentals that can be ignored.
+					if (i < pattern.Length - 1 && ignoredCharList.Count > 0)
+						regExpression += GetRegExpressionForIngoredBaseSymbols(ignoredCharList);
+
+					bldr.Append(regExpression);
+				}
+			}
 
 			return bldr.ToString();
 		}
 
+		#region Methods for verifying pattern validity
 		/// ------------------------------------------------------------------------------------
 		public bool VerifyBracketedText(string pattern)
 		{
@@ -84,25 +102,9 @@ namespace SIL.Pa.PhoneticSearching
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public string CreateOrGroupFromPhoneGroup(char token)
-		{
-			var bldr = new StringBuilder("(");
+		#endregion
 
-			foreach (var phone in _phoneGroups[token])
-				bldr.AppendFormat("{0}|", phone);
-
-			bldr.Length--;
-			if (bldr.Length == 0)
-				return string.Empty;
-			
-			var regExpression = bldr + ")";
-			if (!regExpression.Contains("|"))
-				regExpression = regExpression.Trim('(', ')');
-
-			return regExpression;
-		}
-
+		#region Methods for parsing text between brackets and braces
 		/// ------------------------------------------------------------------------------------
 		public string ReplaceBracketedClassNamesWithPattern(string pattern)
 		{
@@ -224,6 +226,67 @@ namespace SIL.Pa.PhoneticSearching
 			return 1;
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public int ParseTextInBraces(ref string pattern)
+		{
+			var match = FindInnerMostBracesPair(pattern);
+			if (!match.Success)
+				return 0;
+
+			while (match.Success)
+			{
+				var orList = new List<string>();
+				var bracketedText = match.Result("${bracketedText}");
+				var piecesBetweenBraces = bracketedText.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+				
+				foreach (var piece in piecesBetweenBraces.Where(piece => GetIsOrGroupMemberValid(piece)))
+				{
+					if (piece[0] < kMinToken)
+						orList.Add(piece.Trim('(', ')'));
+					else
+					{
+						orList = OrTwoPhoneGroups(orList, _phoneGroups[piece[0]]).ToList();
+						_phoneGroups.Remove(piece[0]);
+					}
+				}
+
+				_phoneGroups[++_token] = orList;
+				pattern = pattern.Replace(match.Value, _token.ToString());
+				match = match.NextMatch();
+			}
+
+			return 1;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetIsOrGroupMemberValid(string orGroupMember)
+		{
+			if ("[]{}()+*_#<>".Contains(orGroupMember))
+			{
+				// Log error about invalid characters in a or group
+				return false;
+			}
+
+			if (orGroupMember.Length == 1)
+				return true;
+
+			if (orGroupMember.Contains(App.kDottedCircle))
+			{
+				// Log error about diacritic placeholders not being in or groups
+				return false;
+			}
+
+			if (!orGroupMember.StartsWith("(") && !orGroupMember.EndsWith(")"))
+			{
+				// log error about having sequences of phonoes between commas without grouping them with parenthese
+				return false;
+			}
+
+			return true;
+		}
+
+		#endregion
+
 		#region Methods for handling diacritic placeholders in the pattern
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -295,65 +358,7 @@ namespace SIL.Pa.PhoneticSearching
 
 		#endregion
 
-		/// ------------------------------------------------------------------------------------
-		public int ParseTextInBraces(ref string pattern)
-		{
-			var match = FindInnerMostBracesPair(pattern);
-			if (!match.Success)
-				return 0;
-
-			while (match.Success)
-			{
-				var orList = new List<string>();
-				var bracketedText = match.Result("${bracketedText}");
-				var piecesBetweenBraces = bracketedText.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-				
-				foreach (var piece in piecesBetweenBraces.Where(piece => GetIsOrGroupMemberValid(piece)))
-				{
-					if (piece[0] < kMinToken)
-						orList.Add(piece.Trim('(', ')'));
-					else
-					{
-						orList = OrTwoPhoneGroups(orList, _phoneGroups[piece[0]]).ToList();
-						_phoneGroups.Remove(piece[0]);
-					}
-				}
-
-				_phoneGroups[++_token] = orList;
-				pattern = pattern.Replace(match.Value, _token.ToString());
-				match = match.NextMatch();
-			}
-
-			return 1;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool GetIsOrGroupMemberValid(string orGroupMember)
-		{
-			if ("[]{}()+*_#<>".Contains(orGroupMember))
-			{
-				// Log error about invalid characters in a or group
-				return false;
-			}
-
-			if (orGroupMember.Length == 1)
-				return true;
-
-			if (orGroupMember.Contains(App.kDottedCircle))
-			{
-				// Log error about diacritic placeholders not being in or groups
-				return false;
-			}
-
-			if (!orGroupMember.StartsWith("(") && !orGroupMember.EndsWith(")"))
-			{
-				// log error about having sequences of phonoes between commas without grouping them with parenthese
-				return false;
-			}
-
-			return true;
-		}
-
+		#region Methods for combining groups of phones
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<string> AndTwoPhoneGroups(List<string> x, List<string> y)
 		{
@@ -379,6 +384,9 @@ namespace SIL.Pa.PhoneticSearching
 			return (y.Count == 0 ? x : x.Union(y, StringComparer.Ordinal));
 		}
 
+		#endregion
+
+		#region Methods returning reg. expression for parsing pattern
 		/// ------------------------------------------------------------------------------------
 		private Match FindInnerAngleBracketPairs(string pattern)
 		{
@@ -399,5 +407,101 @@ namespace SIL.Pa.PhoneticSearching
 			var regex = new Regex(@"\{(?<bracketedText>[^\{\}]+)\}");
 			return regex.Match(pattern);
 		}
+
+		#endregion
+
+		#region Methods for building regular expression used for phonetic searching
+		/// ------------------------------------------------------------------------------------
+		private string CreateOrGroupFromPhoneGroup(char token, bool ignoreDiacritics,
+			List<string> ignoredCharacters)
+		{
+			if (ignoreDiacritics)
+			{
+				_phoneGroups[token] = AddPhonesToGroupThatMatchIgnoriedNonBaseSymbols(_phoneGroups[token],
+					symbolInfo => symbolInfo.Type == IPASymbolType.diacritic);
+			}
+
+			if (ignoredCharacters.Count > 0)
+			{
+				_phoneGroups[token] = AddPhonesToGroupThatMatchIgnoriedNonBaseSymbols(_phoneGroups[token],
+					symbolInfo => symbolInfo.Type == IPASymbolType.suprasegmental &&
+						ignoredCharacters.Contains(symbolInfo.Literal));
+			}
+
+			var bldr = new StringBuilder("(");
+
+			foreach (var phone in _phoneGroups[token])
+				bldr.AppendFormat("{0}|", phone);
+
+			bldr.Length--;
+			if (bldr.Length == 0)
+				return string.Empty;
+
+			var regExpression = bldr + ")";
+			if (!regExpression.Contains("|"))
+				regExpression = regExpression.Trim('(', ')');
+
+			return regExpression;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This method will go through each non-base symbol in each phone and check whether
+		/// or not the symbols are ignored. For each symbol that's ignored, a version of the
+		/// phone without that ignored symbol is added to the phone group.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public List<string> AddPhonesToGroupThatMatchIgnoriedNonBaseSymbols(List<string> phoneGroup,
+			Func<IPASymbol, bool> symbolQualifiesProvider)
+		{
+			int initialNumberOfPhones = phoneGroup.Count;
+
+			for (int i = 0; i < initialNumberOfPhones; i++)
+			{
+				var nonBaseSymbolsInPhone = (from s in phoneGroup[i]
+											 let symbolInfo = App.IPASymbolCache[s]
+											 where symbolInfo != null && !symbolInfo.IsBase && symbolQualifiesProvider(symbolInfo)
+											 select s).ToArray();
+
+				if (nonBaseSymbolsInPhone.Length == 0)
+					continue;
+
+				var finalNewPhone = phoneGroup[i];
+
+				foreach (var symbol in nonBaseSymbolsInPhone)
+				{
+					finalNewPhone = finalNewPhone.Replace(symbol.ToString(), string.Empty);
+					var newPhone = phoneGroup[i].Replace(symbol.ToString(), string.Empty);
+					if (!phoneGroup.Contains(newPhone))
+						phoneGroup.Add(newPhone);
+				}
+
+				if (!phoneGroup.Contains(finalNewPhone))
+					phoneGroup.Add(finalNewPhone);
+			}
+
+			return phoneGroup;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetRegExpressionForIngoredBaseSymbols(List<string> ignoredCharacters)
+		{
+			var ignoredNonBaseSymbols = (from s in ignoredCharacters
+										 let symbolInfo = App.IPASymbolCache[s]
+										 where symbolInfo != null && symbolInfo.IsBase
+										 select s).ToArray();
+
+			if (ignoredNonBaseSymbols.Length == 0)
+				return string.Empty;
+
+			var bldr = new StringBuilder("(");
+			foreach (var sseg in ignoredNonBaseSymbols)
+				bldr.AppendFormat("{0}|", sseg);
+
+			bldr.Length--;
+			return bldr + ")?";
+		}
+
+		#endregion
 	}
 }

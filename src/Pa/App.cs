@@ -1662,6 +1662,23 @@ namespace SIL.Pa
 			bool returnCountOnly, bool showErrMsg, int incAmount, out int resultCount)
 		{
 			resultCount = 0;
+
+			var searcher = new PhoneticSearcher(Project, query);
+			if (!searcher.Parse())
+			{
+				// Do something with errors
+				return null;
+			}
+
+			if (!searcher.Search(returnCountOnly, showErrMsg, out resultCount))
+			{
+				// Do something with errors
+				return null;
+			}
+
+			return searcher.ResultCache;
+			
+			
 			bool patternContainsWordBoundaries = (query.Pattern.IndexOf('#') >= 0);
 			int incCounter = 0;
 
