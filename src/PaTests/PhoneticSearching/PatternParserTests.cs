@@ -228,8 +228,8 @@ namespace SIL.Pa.Tests
 			var list = new List<string>(new[] { "z", "a=", App.kDottedCircle + "=*", "b", "e~=" });
 			list = _parser.ModifyListIfContainsDiacriticPlaceholderCluster(list).ToList();
 			Assert.AreEqual(2, list.Count);
-			Assert.AreEqual("a=", list[0]);
-			Assert.AreEqual("e~=", list[1]);
+			Assert.AreEqual(">a=", list[0]);
+			Assert.AreEqual(">e~=", list[1]);
 		}
 
 		#endregion
@@ -282,42 +282,70 @@ namespace SIL.Pa.Tests
 		#region GetDoesPhoneMatchDiacriticPlaceholderCluster tests
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetDoesPhoneMatchDiacriticPlaceholderCluster_PassBaseSymbolOnly_ReturnsFalse()
+		public void GetDoesPhoneMatchDiacriticPlaceholderCluster_SendOneOrMoreSymbolOnly_ReturnsTrue()
+		{
+			Assert.IsTrue(_parser.GetDoesPhoneMatchDiacriticPlaceholderCluster("a~=", "+"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetDoesPhoneMatchDiacriticPlaceholderCluster_SendOneOrMoreSymbolOnlyAndBaseOnly_ReturnsFalse()
+		{
+			Assert.IsFalse(_parser.GetDoesPhoneMatchDiacriticPlaceholderCluster("a", "+"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetDoesPhoneMatchDiacriticPlaceholderCluster_SendZeroOrMoreSymbolOnlyAndBaseOnly_ReturnsTrue()
+		{
+			Assert.IsTrue(_parser.GetDoesPhoneMatchDiacriticPlaceholderCluster("a", "*"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetDoesPhoneMatchDiacriticPlaceholderCluster_SendZeroOrMoreSymbolOnly_ReturnsTrue()
+		{
+			Assert.IsTrue(_parser.GetDoesPhoneMatchDiacriticPlaceholderCluster("a~", "*"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetDoesPhoneMatchDiacriticPlaceholderCluster_SendBaseSymbolOnly_ReturnsFalse()
 		{
 			Assert.IsFalse(_parser.GetDoesPhoneMatchDiacriticPlaceholderCluster("a", "~="));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetDoesPhoneMatchDiacriticPlaceholderCluster_Pass1of2Diacritics_ReturnsFalse()
+		public void GetDoesPhoneMatchDiacriticPlaceholderCluster_Send1of2Diacritics_ReturnsFalse()
 		{
 			Assert.IsFalse(_parser.GetDoesPhoneMatchDiacriticPlaceholderCluster("a~", "~="));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetDoesPhoneMatchDiacriticPlaceholderCluster_Pass1Of2DiacriticsAndClusterHas0OrMoreSymbol_ReturnsTrue()
+		public void GetDoesPhoneMatchDiacriticPlaceholderCluster_Send1Of2DiacriticsAndClusterHas0OrMoreSymbol_ReturnsTrue()
 		{
 			Assert.IsTrue(_parser.GetDoesPhoneMatchDiacriticPlaceholderCluster("a~", "~*"));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetDoesPhoneMatchDiacriticPlaceholderCluster_Pass1Of2DiacriticsAndClusterHas1OrMoreSymbol_ReturnsFalse()
+		public void GetDoesPhoneMatchDiacriticPlaceholderCluster_Send1Of2DiacriticsAndClusterHas1OrMoreSymbol_ReturnsFalse()
 		{
 			Assert.IsFalse(_parser.GetDoesPhoneMatchDiacriticPlaceholderCluster("a~", "~+"));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetDoesPhoneMatchDiacriticPlaceholderCluster_Pass2Of2DiacriticsAndClusterHas1OrMoreSymbol_ReturnsTrue()
+		public void GetDoesPhoneMatchDiacriticPlaceholderCluster_Send2Of2DiacriticsAndClusterHas1OrMoreSymbol_ReturnsTrue()
 		{
 			Assert.IsTrue(_parser.GetDoesPhoneMatchDiacriticPlaceholderCluster("a~=", "~+"));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetDoesPhoneMatchDiacriticPlaceholderCluster_Pass2Of2Diacritics_ReturnsTrue()
+		public void GetDoesPhoneMatchDiacriticPlaceholderCluster_Send2Of2Diacritics_ReturnsTrue()
 		{
 			Assert.IsTrue(_parser.GetDoesPhoneMatchDiacriticPlaceholderCluster("a~=", "~="));
 		}
@@ -330,7 +358,7 @@ namespace SIL.Pa.Tests
 		public void AddPhonesToGroupThatMatchIgnoriedNonBaseSymbols_ListContainsAllBasePhones_ReturnsInputList()
 		{
 			var inputList = new List<string> { "t", "d" };
-			var outputList = _parser.AddPhonesToGroupThatMatchIgnoriedNonBaseSymbols(inputList,
+			var outputList = _parser.AddPhonesToGroupThatMatchIgnoredNonBaseSymbols(inputList,
 				si => { throw new Exception("Should never get here"); });
 			
 			Assert.AreEqual(2, outputList.Count);
@@ -342,7 +370,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void AddPhonesToGroupThatMatchIgnoriedNonBaseSymbols_PhonesWithSingleDiacritics_ReturnsExpandedList()
 		{
-			var outputList = _parser.AddPhonesToGroupThatMatchIgnoriedNonBaseSymbols(new List<string> { "a~", "e=" },
+			var outputList = _parser.AddPhonesToGroupThatMatchIgnoredNonBaseSymbols(new List<string> { "a~", "e=" },
 				si => si.Type == IPASymbolType.diacritic);
 			
 			Assert.AreEqual(4, outputList.Count);
@@ -356,7 +384,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void AddPhonesToGroupThatMatchIgnoriedNonBaseSymbols_PhonesWithMixedNumberDiacritics_ReturnsExpandedList()
 		{
-			var outputList = _parser.AddPhonesToGroupThatMatchIgnoriedNonBaseSymbols(new List<string> { "a~", "e~=" },
+			var outputList = _parser.AddPhonesToGroupThatMatchIgnoredNonBaseSymbols(new List<string> { "a~", "e~=" },
 				si => si.Type == IPASymbolType.diacritic);
 			
 			Assert.AreEqual(6, outputList.Count);
@@ -372,7 +400,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void AddPhonesToGroupThatMatchIgnoriedNonBaseSymbols_PhonesWithNonBaseNonDiacritics_ReturnsInputList()
 		{
-			var outputList = _parser.AddPhonesToGroupThatMatchIgnoriedNonBaseSymbols(new List<string> { "a;", "e`;" },
+			var outputList = _parser.AddPhonesToGroupThatMatchIgnoredNonBaseSymbols(new List<string> { "a;", "e`;" },
 				si => si.Type == IPASymbolType.diacritic);
 			
 			Assert.AreEqual(2, outputList.Count);
@@ -384,12 +412,25 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void AddPhonesToGroupThatMatchIgnoriedNonBaseSymbols_PhonesWithBaseSuprasegmentals_ReturnsInputList()
 		{
-			var outputList = _parser.AddPhonesToGroupThatMatchIgnoriedNonBaseSymbols(new List<string> { "X", "Z" },
+			var outputList = _parser.AddPhonesToGroupThatMatchIgnoredNonBaseSymbols(new List<string> { "X", "Z" },
 				si => { throw new Exception("Should never get here"); });
 			
 			Assert.AreEqual(2, outputList.Count);
 			Assert.AreEqual("X", outputList[0]);
 			Assert.AreEqual("Z", outputList[1]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void AddPhonesToGroupThatMatchIgnoriedNonBaseSymbols_PhoneHavePrefix_DoesNotExpandPrefixedPhone()
+		{
+			var outputList = _parser.AddPhonesToGroupThatMatchIgnoredNonBaseSymbols(new List<string> { "a~", ">e~=" },
+				si => si.Type == IPASymbolType.diacritic);
+
+			Assert.AreEqual(3, outputList.Count);
+			Assert.AreEqual("a~", outputList[0]);
+			Assert.AreEqual(">e~=", outputList[1]);
+			Assert.AreEqual("a", outputList[2]);
 		}
 
 		#endregion
@@ -650,6 +691,57 @@ namespace SIL.Pa.Tests
 			_phoneCache["OO"] = new PhoneInfo { Phone = "OO", CharType = IPASymbolType.suprasegmental };
 			_phoneCache["Z"] = new PhoneInfo { Phone = "Z", CharType = IPASymbolType.suprasegmental };
 			Assert.AreEqual("(a|e|i)(Z|OO)?(o|u)", _parser.Parse("[aei][ou]", true, new List<string> { "Z", ";", ",", "OO" }));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Parse_IgnoredDiacriticsWithDiacriticPlaceholderCluster1_ReturnsQualifiedPhones()
+		{
+			_phoneCache["a~="] = new PhoneInfo { Phone = "a~=", CharType = IPASymbolType.vowel };
+			_phoneCache["t="] = new PhoneInfo { Phone = "t=", CharType = IPASymbolType.consonant };
+			((PhoneInfo)_phoneCache["a~="]).AFeatureNames = new List<string> { "ae~=" };
+			Assert.AreEqual("(t=|a~=|t)", _parser.Parse("{t=,[[V][" + App.kDottedCircle + "+]]}", true, null));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Parse_PeriodIsIgnored_ReturnsQualifiedPhones()
+		{
+			Assert.AreEqual("(a|e|i)(\\.)?(o|u)", _parser.Parse("[+aei][ou]", false, new List<string> { "." }));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Parse_PeriodInPattern_ReturnsQualifiedPhones()
+		{
+			Assert.AreEqual("(o|u)\\.(b|d|t)", _parser.Parse("[ou].[tdb]", false, null));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Parse_IgnoredDiacriticsAndSymbolsWithDiacriticPlaceholderCluster_ReturnsQualifiedPhones()
+		{
+			_phoneCache["a~="] = new PhoneInfo { Phone = "a~=", CharType = IPASymbolType.vowel };
+			_phoneCache["e;"] = new PhoneInfo { Phone = "e;", CharType = IPASymbolType.vowel };
+			_phoneCache["i"] = new PhoneInfo { Phone = "u", CharType = IPASymbolType.consonant };
+			((PhoneInfo)_phoneCache["a~="]).AFeatureNames = new List<string> { "ae~=" };
+			((PhoneInfo)_phoneCache["e;"]).AFeatureNames = new List<string> { "ae~=" };
+			((PhoneInfo)_phoneCache["i"]).AFeatureNames = new List<string> { "ae~=" };
+			Assert.AreEqual("(a~=|e;)", _parser.Parse("[[ae~=][" + App.kDottedCircle + "+]]", true, new List<string> { ";" }));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Parse_PatternContainsWordBoundaryAtStart_ReturnsCorrectRegExpression()
+		{
+			Assert.AreEqual("^(a|e|i|o|u)", _parser.Parse("#[V]", false, null));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Parse_PatternContainsWordBoundaryAtEnd_ReturnsCorrectRegExpression()
+		{
+			Assert.AreEqual("(a|e|i|o|u)$", _parser.Parse("[V]#", false, null));
 		}
 
 		#endregion

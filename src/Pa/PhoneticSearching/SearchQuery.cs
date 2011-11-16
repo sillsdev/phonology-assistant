@@ -212,6 +212,9 @@ namespace SIL.Pa.PhoneticSearching
 				if (pieces[1].StartsWith("*") && pieces[1].Length > 1)
 					pieces[1] = pieces[1].TrimStart('*');
 
+				if (pieces[2].StartsWith("#*"))
+					pieces[2] = "#" + pieces[2].TrimStart('*', '#');
+
 				return pieces[1];
 			}
 		}
@@ -239,6 +242,9 @@ namespace SIL.Pa.PhoneticSearching
 				pieces[2] = pieces[2].Trim();
 				if (pieces[2].EndsWith("*") && pieces[2].Length > 1)
 					pieces[2] = pieces[2].TrimEnd('*');
+
+				if (pieces[2].EndsWith("*#"))
+					pieces[2] = pieces[2].TrimEnd('*', '#') + "#";
 
 				return pieces[2];
 			}

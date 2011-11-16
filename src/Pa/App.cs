@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Localization;
 using Localization.UI;
 using Palaso.IO;
+using Palaso.Progress;
 using Palaso.Reporting;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
@@ -1661,24 +1662,60 @@ namespace SIL.Pa
 		public static WordListCache Search(SearchQuery query, bool incProgressBar,
 			bool returnCountOnly, bool showErrMsg, int incAmount, out int resultCount)
 		{
+			return (Settings.Default.UseRegExpressionSearching ?
+				SearchUsingRegEx(query, returnCountOnly, showErrMsg, out resultCount) :
+				SearchUsingOldMethod(query, incProgressBar, returnCountOnly, showErrMsg, incAmount, out resultCount));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static WordListCache SearchUsingRegEx(SearchQuery query,
+			bool returnCountOnly, bool showErrMsg, out int resultCount)
+		{
+			WaitCursor.Show();
 			resultCount = 0;
 
+			query.ErrorMessages.Clear();
 			var searcher = new PhoneticSearcher(Project, query);
-			if (!searcher.Parse())
+
+			try
 			{
-				// Do something with errors
-				return null;
+				if (searcher.Parse() && searcher.Search(returnCountOnly, out resultCount))
+					return searcher.ResultCache;
+
+				var msg = searcher.GetCombinedErrorMessages(true);
+				if (!string.IsNullOrEmpty(msg))
+				{
+					if (showErrMsg)
+						ShowSearchError(msg);
+
+					query.ErrorMessages.AddRange(searcher.Errors);
+				}
+			}
+			catch (Exception e)
+			{
+				NotifyUserOfProblem(e, GetString("PhoneticSearchingMessages.SearchingThrewExceptionErrorMsg",
+					"There was an error performing a search for the pattern '{0}'."), query.Pattern);
+
+			}
+			finally
+			{
+				WaitCursor.Hide();
 			}
 
-			if (!searcher.Search(returnCountOnly, showErrMsg, out resultCount))
-			{
-				// Do something with errors
-				return null;
-			}
+			resultCount = -1;
+			return null;
+		}
 
-			return searcher.ResultCache;
-			
-			
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Creates and loads a result cache for the specified search query.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static WordListCache SearchUsingOldMethod(SearchQuery query, bool incProgressBar,
+			bool returnCountOnly, bool showErrMsg, int incAmount, out int resultCount)
+		{
+			resultCount = 0;
+
 			bool patternContainsWordBoundaries = (query.Pattern.IndexOf('#') >= 0);
 			int incCounter = 0;
 

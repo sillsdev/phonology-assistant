@@ -3680,5 +3680,18 @@ namespace SIL.Pa.Properties {
                 this["BackupToOtherFolder"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseRegExpressionSearching {
+            get {
+                return ((bool)(this["UseRegExpressionSearching"]));
+            }
+            set {
+                this["UseRegExpressionSearching"] = value;
+            }
+        }
     }
 }
