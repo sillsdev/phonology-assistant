@@ -1,10 +1,12 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
+using SIL.Pa.UI.Dialogs;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -762,6 +764,29 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnClick(e);
 			LocateInsertionLine();
+
+			if (!Settings.Default.UseRegExpressionSearching)
+				return;
+
+			if ((ModifierKeys & Keys.Control) != Keys.Control || (ModifierKeys & Keys.Alt) != Keys.Alt)
+				return;
+			
+			var dlg = Application.OpenForms.OfType<RegularExpressionSearchDebugDlg>().FirstOrDefault();
+
+			if (dlg == null)
+			{
+				dlg = new RegularExpressionSearchDebugDlg();
+				dlg.Show();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnTextChanged(EventArgs e)
+		{
+			base.OnTextChanged(e);
+
+			//if (!Focused)
+			//    LocateInsertionLine();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -1030,9 +1030,7 @@ namespace SIL.Pa.UI.Views
 			if (query == null || query.IsPatternRegExpression)
 				return;
 
-			// TODO: should we consider more than just the pattern (i.e. query options)?
-			// If the query is already in the list then remove it.
-			int i = lstRecentPatterns.FindStringExact(query.Pattern);
+			int i = lstRecentPatterns.FindStringExact(query.ToString());
 			if (i >= 0)
 				lstRecentPatterns.Items.RemoveAt(i);
 

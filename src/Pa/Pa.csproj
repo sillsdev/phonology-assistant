@@ -623,6 +623,12 @@
     <Compile Include="UI\Dialogs\OKCancelDlgBase.Designer.cs">
       <DependentUpon>OKCancelDlgBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Dialogs\Options\SearchingOptionsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\Options\SearchingOptionsPage.Designer.cs">
+      <DependentUpon>SearchingOptionsPage.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Dialogs\Options\FontsOptionsPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -700,6 +706,12 @@
     </Compile>
     <Compile Include="UI\Dialogs\ProjectSetup\SFDataSourcePropertiesDlg.designer.cs">
       <DependentUpon>SFDataSourcePropertiesDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\RegularExpressionSearchDebugDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\RegularExpressionSearchDebugDlg.Designer.cs">
+      <DependentUpon>RegularExpressionSearchDebugDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\RtfExportDlg.cs">
       <SubType>Form</SubType>
@@ -906,6 +918,9 @@
       <DependentUpon>OKCancelDlgBase.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\Options\SearchingOptionsPage.resx">
+      <DependentUpon>SearchingOptionsPage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\Options\CVPatternsOptionsPage.resx">
       <DependentUpon>CVPatternsOptionsPage.cs</DependentUpon>
     </EmbeddedResource>
@@ -938,6 +953,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\ProjectSetup\SFDataSourcePropertiesDlg.resx">
       <DependentUpon>SFDataSourcePropertiesDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\RegularExpressionSearchDebugDlg.resx">
+      <DependentUpon>RegularExpressionSearchDebugDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\RtfExportDlg.resx">
       <DependentUpon>RtfExportDlg.cs</DependentUpon>

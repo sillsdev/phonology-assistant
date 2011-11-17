@@ -1663,19 +1663,32 @@ namespace SIL.Pa
 			bool returnCountOnly, bool showErrMsg, int incAmount, out int resultCount)
 		{
 			return (Settings.Default.UseRegExpressionSearching ?
-				SearchUsingRegEx(query, returnCountOnly, showErrMsg, out resultCount) :
+				SearchUsingRegEx(query, incProgressBar,  returnCountOnly, showErrMsg, incAmount, out resultCount) :
 				SearchUsingOldMethod(query, incProgressBar, returnCountOnly, showErrMsg, incAmount, out resultCount));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static WordListCache SearchUsingRegEx(SearchQuery query,
-			bool returnCountOnly, bool showErrMsg, out int resultCount)
+		private static WordListCache SearchUsingRegEx(SearchQuery query, bool incProgressBar,
+			bool returnCountOnly, bool showErrMsg, int incAmount, out int resultCount)
 		{
 			WaitCursor.Show();
 			resultCount = 0;
+			int incCounter = 0;
 
 			query.ErrorMessages.Clear();
 			var searcher = new PhoneticSearcher(Project, query);
+
+			if (incProgressBar)
+			{
+				searcher.ReportProgressAction = () =>
+				{
+					if ((incCounter++) == incAmount)
+					{
+						IncProgressBar(incAmount);
+						incCounter = 0;
+					}
+				};
+			}
 
 			try
 			{
@@ -1694,7 +1707,7 @@ namespace SIL.Pa
 			catch (Exception e)
 			{
 				NotifyUserOfProblem(e, GetString("PhoneticSearchingMessages.SearchingThrewExceptionErrorMsg",
-					"There was an error performing a search for the pattern '{0}'."), query.Pattern);
+					"There was an error performing a search using the pattern '{0}'."), query.Pattern);
 
 			}
 			finally

@@ -554,6 +554,22 @@ namespace SIL.Pa.Tests
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+		public void Parse_ContainsZeroOrMoreSymbol_ReturnsExpressionWithoutSymbol()
+		{
+			Assert.AreEqual("abc", _parser.Parse("abc*", false, null));
+			Assert.AreEqual("abc", _parser.Parse("*abc", false, null));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Parse_ContainsOneOrMoreSymbol_ReturnsExpressionWithoutSymbol()
+		{
+			Assert.AreEqual("abc", _parser.Parse("abc+", false, null));
+			Assert.AreEqual("abc", _parser.Parse("+abc", false, null));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
 		public void Parse_SimplePatternContainsPhoneClass_ReturnsQualifiedPhones()
 		{
 			_prj.SearchClasses.Add(new SearchClass { Name = "nop", Type = SearchClassType.Phones, Pattern = "{n,o,p}" });
@@ -742,6 +758,42 @@ namespace SIL.Pa.Tests
 		public void Parse_PatternContainsWordBoundaryAtEnd_ReturnsCorrectRegExpression()
 		{
 			Assert.AreEqual("(a|e|i|o|u)$", _parser.Parse("[V]#", false, null));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Parse_IgnoredBaseSSegsAtBeginningWordBoundary_ReturnedInitialIgnoredSSegsPattern()
+		{
+			_phoneCache["X"] = new PhoneInfo { Phone = "X", CharType = IPASymbolType.suprasegmental };
+			_phoneCache["Z"] = new PhoneInfo { Phone = "Z", CharType = IPASymbolType.suprasegmental };
+			Assert.AreEqual("^(Z|X)?(a|e|i)", _parser.Parse("#[aei]", true, new List<string> { "Z", "X" }));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Parse_IgnoredBaseSSegsAtEndingWordBoundary_ReturnedFinalIgnoredSSegsPattern()
+		{
+			_phoneCache["X"] = new PhoneInfo { Phone = "X", CharType = IPASymbolType.suprasegmental };
+			_phoneCache["Z"] = new PhoneInfo { Phone = "Z", CharType = IPASymbolType.suprasegmental };
+			Assert.AreEqual("(a|e|i)(Z|X)?$", _parser.Parse("[aei]#", true, new List<string> { "Z", "X" }));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Parse_IgnoredBaseSSegsAtBeginningAndIntermediate_ReturnedTwoIgnoredSSegsPattern()
+		{
+			_phoneCache["X"] = new PhoneInfo { Phone = "X", CharType = IPASymbolType.suprasegmental };
+			_phoneCache["Z"] = new PhoneInfo { Phone = "Z", CharType = IPASymbolType.suprasegmental };
+			Assert.AreEqual("^(Z|X)?(a|e|i)(Z|X)?(o|u)", _parser.Parse("#[aei][ou]", true, new List<string> { "Z", "X" }));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void Parse_IgnoredBaseSSegsAtEndAndIntermediate_ReturnedTwoIgnoredSSegsPattern()
+		{
+			_phoneCache["X"] = new PhoneInfo { Phone = "X", CharType = IPASymbolType.suprasegmental };
+			_phoneCache["Z"] = new PhoneInfo { Phone = "Z", CharType = IPASymbolType.suprasegmental };
+			Assert.AreEqual("(a|e|i)(Z|X)?(o|u)(Z|X)?$", _parser.Parse("[aei][ou]#", true, new List<string> { "Z", "X" }));
 		}
 
 		#endregion

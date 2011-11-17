@@ -55,13 +55,18 @@ namespace SIL.Pa.PhoneticSearching
 			while (ParseTextInBrackets(ref pattern) == 1) { }
 			while (ParseTextInBraces(ref pattern) == 1) { }
 
+			pattern = pattern.Trim('+', '*');
+
 			var ignoredCharList = (ignoredCharacters == null ? new List<string>(0) : ignoredCharacters.ToList());
 			var bldr = new StringBuilder();
 
 			for (int i = 0; i < pattern.Length; i++)
 			{
 				if (pattern[i] < kMinToken)
-					bldr.Append(pattern[i].ToString());
+				{
+					if (pattern[i] != '+' && pattern[i] != '*')
+						bldr.Append(pattern[i].ToString());
+				}
 				else
 				{
 					// Build a regular expression group containing possible phones.
@@ -80,7 +85,7 @@ namespace SIL.Pa.PhoneticSearching
 			pattern = bldr.ToString();
 
 			if (pattern.StartsWith("#"))
-				pattern = "^" + pattern.TrimStart('#');
+				pattern = "^" + GetRegExpressionForIngoredBaseSymbols(ignoredCharList) + pattern.TrimStart('#');
 
 			if (pattern.EndsWith("#"))
 				pattern = pattern.TrimEnd('#') + "$";

@@ -3693,5 +3693,17 @@ namespace SIL.Pa.Properties {
                 this["UseRegExpressionSearching"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilTools.FormSettings RegularExpressionSearchDebugDlg {
+            get {
+                return ((global::SilTools.FormSettings)(this["RegularExpressionSearchDebugDlg"]));
+            }
+            set {
+                this["RegularExpressionSearchDebugDlg"] = value;
+            }
+        }
     }
 }
