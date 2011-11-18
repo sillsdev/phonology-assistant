@@ -28,68 +28,35 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this._tableLayoutOuter = new System.Windows.Forms.TableLayoutPanel();
-			this._radioUseRegExpSearching = new System.Windows.Forms.RadioButton();
-			this._radioUseOldSearching = new System.Windows.Forms.RadioButton();
-			this._tableLayoutOuter.SuspendLayout();
+			this._checkBoxSearchEngineSelction = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
-			// _tableLayoutOuter
+			// _checkBoxSearchEngineSelction
 			// 
-			this._tableLayoutOuter.BackColor = System.Drawing.Color.Transparent;
-			this._tableLayoutOuter.ColumnCount = 1;
-			this._tableLayoutOuter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this._tableLayoutOuter.Controls.Add(this._radioUseRegExpSearching, 0, 0);
-			this._tableLayoutOuter.Controls.Add(this._radioUseOldSearching, 0, 1);
-			this._tableLayoutOuter.Location = new System.Drawing.Point(0, 0);
-			this._tableLayoutOuter.Name = "_tableLayoutOuter";
-			this._tableLayoutOuter.RowCount = 2;
-			this._tableLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this._tableLayoutOuter.Size = new System.Drawing.Size(307, 107);
-			this._tableLayoutOuter.TabIndex = 4;
-			// 
-			// _radioUseRegExpSearching
-			// 
-			this._radioUseRegExpSearching.AutoSize = true;
-			this._radioUseRegExpSearching.Location = new System.Drawing.Point(3, 3);
-			this._radioUseRegExpSearching.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
-			this._radioUseRegExpSearching.Name = "_radioUseRegExpSearching";
-			this._radioUseRegExpSearching.Size = new System.Drawing.Size(216, 17);
-			this._radioUseRegExpSearching.TabIndex = 5;
-			this._radioUseRegExpSearching.TabStop = true;
-			this._radioUseRegExpSearching.Text = "Use regular expression searching engine";
-			this._radioUseRegExpSearching.UseVisualStyleBackColor = true;
-			// 
-			// _radioUseOldSearching
-			// 
-			this._radioUseOldSearching.AutoSize = true;
-			this._radioUseOldSearching.Location = new System.Drawing.Point(3, 28);
-			this._radioUseOldSearching.Name = "_radioUseOldSearching";
-			this._radioUseOldSearching.Size = new System.Drawing.Size(262, 17);
-			this._radioUseOldSearching.TabIndex = 6;
-			this._radioUseOldSearching.TabStop = true;
-			this._radioUseOldSearching.Text = "Use searching engine from version 3.3.2 and older";
-			this._radioUseOldSearching.UseVisualStyleBackColor = true;
+			this._checkBoxSearchEngineSelction.AutoSize = true;
+			this._checkBoxSearchEngineSelction.Location = new System.Drawing.Point(18, 17);
+			this._checkBoxSearchEngineSelction.Name = "_checkBoxSearchEngineSelction";
+			this._checkBoxSearchEngineSelction.Size = new System.Drawing.Size(206, 17);
+			this._checkBoxSearchEngineSelction.TabIndex = 5;
+			this._checkBoxSearchEngineSelction.Text = "Show search engine selection buttons";
+			this._checkBoxSearchEngineSelction.UseVisualStyleBackColor = true;
 			// 
 			// SearchingOptionsPage
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoScroll = true;
-			this.Controls.Add(this._tableLayoutOuter);
+			this.Controls.Add(this._checkBoxSearchEngineSelction);
 			this.Name = "SearchingOptionsPage";
-			this.Size = new System.Drawing.Size(310, 164);
-			this._tableLayoutOuter.ResumeLayout(false);
-			this._tableLayoutOuter.PerformLayout();
+			this.Size = new System.Drawing.Size(438, 238);
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.TableLayoutPanel _tableLayoutOuter;
-		private System.Windows.Forms.RadioButton _radioUseRegExpSearching;
-		private System.Windows.Forms.RadioButton _radioUseOldSearching;
+		private System.Windows.Forms.CheckBox _checkBoxSearchEngineSelction;
+
 	}
 }

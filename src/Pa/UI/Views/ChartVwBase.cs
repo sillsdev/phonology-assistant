@@ -23,7 +23,7 @@ namespace SIL.Pa.UI.Views
 	/// character charts.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class ChartVwBase : ViewBase, IxCoreColleague, ITabView
+	public partial class ChartVwBase : ViewBase, ITabView
 	{
 		protected ITMAdapter _tmAdapter;
 		protected ChartOptionsDropDown _ignoredSymbolsDropDown;
@@ -858,31 +858,6 @@ namespace SIL.Pa.UI.Views
 		protected bool OnUpdateShowRecordPane(object args)
 		{
 			return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
-		}
-
-		#endregion
-
-		#region IxCoreColleague Members
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Never used in PA.
-		/// </summary>
-		/// <param name="mediator"></param>
-		/// <param name="configurationParameters"></param>
-		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, XmlNode configurationParameters)
-		{
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the message target.
-		/// </summary>
-		/// <returns></returns>
-		/// ------------------------------------------------------------------------------------
-		public IxCoreColleague[] GetMessageTargets()
-		{
-			return new IxCoreColleague[] {this};
 		}
 
 		#endregion

@@ -7,16 +7,11 @@ namespace SIL.Pa.UI.Dialogs
 	public partial class SearchingOptionsPage : OptionsDlgPageBase
 	{
 		/// ------------------------------------------------------------------------------------
-		public SearchingOptionsPage(PaProject project)
-			: base(project)
+		public SearchingOptionsPage(PaProject project) : base(project)
 		{
 			InitializeComponent();
 
-			_radioUseOldSearching.Font = FontHelper.UIFont;
-			_radioUseRegExpSearching.Font = FontHelper.UIFont;
-
-			_radioUseOldSearching.Checked = !Settings.Default.UseRegExpressionSearching;
-			_radioUseRegExpSearching.Checked = Settings.Default.UseRegExpressionSearching;
+			_checkBoxSearchEngineSelction.Font = FontHelper.UIFont;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -35,13 +30,14 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public override bool IsDirty
 		{
-			get { return _radioUseRegExpSearching.Checked != Settings.Default.UseRegExpressionSearching; }
+			get { return _checkBoxSearchEngineSelction.Checked != Settings.Default.ShowSearchEngineChoiceButtons ; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public override void Save()
 		{
-			Settings.Default.UseRegExpressionSearching = _radioUseRegExpSearching.Checked;
+			Settings.Default.ShowSearchEngineChoiceButtons = _checkBoxSearchEngineSelction.Checked;
+			App.MsgMediator.SendMessage("ShowSearchSelectionButtonsChagned", null);
 		}
 	}
 }

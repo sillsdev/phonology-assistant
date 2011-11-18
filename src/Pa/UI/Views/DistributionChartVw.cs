@@ -21,7 +21,7 @@ namespace SIL.Pa.UI.Views
 	/// Form in which search patterns are defined and used for searching.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class DistributionChartVw : ViewBase, IxCoreColleague, ITabView, ISearchResultsViewHost
+	public partial class DistributionChartVw : ViewBase, ITabView, ISearchResultsViewHost
 	{
 		private bool _initialDock = true;
 		private bool _editingSavedChartName;
@@ -1426,31 +1426,5 @@ namespace SIL.Pa.UI.Views
 		}
 
 		#endregion
-
-		#region IxCoreColleague Members
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Never used in PA.
-		/// </summary>
-		/// <param name="mediator"></param>
-		/// <param name="configurationParameters"></param>
-		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, XmlNode configurationParameters)
-		{
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the message target.
-		/// </summary>
-		/// <returns></returns>
-		/// ------------------------------------------------------------------------------------
-		public IxCoreColleague[] GetMessageTargets()
-		{
-			return new IxCoreColleague[] { this };
-		}
-
-		#endregion
-
 	}
 }

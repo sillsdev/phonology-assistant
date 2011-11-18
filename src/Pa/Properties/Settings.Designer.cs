@@ -3705,5 +3705,17 @@ namespace SIL.Pa.Properties {
                 this["RegularExpressionSearchDebugDlg"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public bool ShowSearchEngineChoiceButtons {
+            get {
+                return ((bool)(this["ShowSearchEngineChoiceButtons"]));
+            }
+            set {
+                this["ShowSearchEngineChoiceButtons"] = value;
+            }
+        }
     }
 }

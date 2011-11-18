@@ -14,7 +14,7 @@ using SIL.Pa.UI.Dialogs;
 namespace SIL.Pa.UI.Views
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class DataCorpusVw : ViewBase, IxCoreColleague, ITabView
+	public partial class DataCorpusVw : ViewBase, ITabView
 	{
 		private PaWordListGrid m_grid;
 		private WordListCache m_cache;
@@ -964,29 +964,6 @@ namespace SIL.Pa.UI.Views
 			return true;
 		}
 		
-		#endregion
-
-		#region IxCoreColleague Members
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, XmlNode configurationParameters)
-		{
-			// Not used in PA.
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public IxCoreColleague[] GetMessageTargets()
-		{
-			return new IxCoreColleague[] {this};
-		}
-
 		#endregion
 	}
 }
