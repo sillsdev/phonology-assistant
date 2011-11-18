@@ -7,6 +7,15 @@ using SIL.Pa.Model;
 
 namespace SIL.Pa.PhoneticSearching
 {
+	/// ----------------------------------------------------------------------------------------
+	public enum PatternEnvironment
+	{
+		SearchItem,
+		Preceding,
+		Following
+	}
+
+	/// ----------------------------------------------------------------------------------------
 	public class PatternParser
 	{
 		private readonly List<string> _errors = new List<string>();
@@ -43,6 +52,13 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public string Parse(string pattern, bool ignoreDiacritics, IEnumerable<string> ignoredCharacters)
 		{
+			return Parse(pattern, PatternEnvironment.SearchItem, ignoreDiacritics, ignoredCharacters);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string Parse(string pattern, PatternEnvironment environment,
+			bool ignoreDiacritics, IEnumerable<string> ignoredCharacters)
+		{
 			_errors.Clear();
 			_token = kMinToken;
 			_phoneGroups.Clear();
@@ -57,7 +73,10 @@ namespace SIL.Pa.PhoneticSearching
 
 			pattern = pattern.Trim('+', '*');
 
-			var ignoredCharList = (ignoredCharacters == null ? new List<string>(0) : ignoredCharacters.ToList());
+			var ignoredCharList = (ignoredCharacters == null ? new List<string>(0) :
+				ignoredCharacters.OrderByDescending(c => c.Length).ToList());
+			
+			var ignoredCharactersRegexPattern = GetRegExpressionForIngoredBaseSymbols(ignoredCharList);
 			var bldr = new StringBuilder();
 
 			for (int i = 0; i < pattern.Length; i++)
@@ -76,21 +95,50 @@ namespace SIL.Pa.PhoneticSearching
 					// base suprasegmentals, then make sure the regular expression indicates the non base
 					// suprasegmentals that can be ignored.
 					if (i < pattern.Length - 1 && ignoredCharList.Count > 0)
-						regExpression += GetRegExpressionForIngoredBaseSymbols(ignoredCharList);
+						regExpression += ignoredCharactersRegexPattern;
 
 					bldr.Append(regExpression);
 				}
 			}
 
-			pattern = bldr.ToString();
+			return PerformFinalPatternCleanup(bldr.ToString(), environment, ignoredCharactersRegexPattern);
 
+			//if (pattern.StartsWith("#"))
+			//    pattern = "^" + GetRegExpressionForIngoredBaseSymbols(ignoredCharList) + pattern.TrimStart('#');
+
+			//if (pattern.EndsWith("#"))
+			//    pattern = pattern.TrimEnd('#') + "$";
+
+			//if (environment != PatternEnvironment.SearchItem && pattern != "#" && pattern != "+")
+			//{
+			//    if (environment == PatternEnvironment.Preceding)
+			//        pattern += GetRegExpressionForIngoredBaseSymbols(ignoredCharList);
+			//    else
+			//        pattern = GetRegExpressionForIngoredBaseSymbols(ignoredCharList) + pattern;
+			//}
+
+			//return FFNormalizer.Normalize(pattern.Replace(".", "\\."));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private string PerformFinalPatternCleanup(string pattern, PatternEnvironment environment,
+			string ignoredCharactersRegexPattern)
+		{
 			if (pattern.StartsWith("#"))
-				pattern = "^" + GetRegExpressionForIngoredBaseSymbols(ignoredCharList) + pattern.TrimStart('#');
+				pattern = "^" + ignoredCharactersRegexPattern + pattern.TrimStart('#');
 
 			if (pattern.EndsWith("#"))
 				pattern = pattern.TrimEnd('#') + "$";
 
-			return pattern.Replace(".", "\\.");
+			if (environment != PatternEnvironment.SearchItem && pattern != "#" && pattern != "+")
+			{
+				if (environment == PatternEnvironment.Preceding)
+					pattern += ignoredCharactersRegexPattern;
+				else
+					pattern = ignoredCharactersRegexPattern + pattern;
+			}
+
+			return FFNormalizer.Normalize(pattern.Replace(".", "\\."));
 		}
 
 		#region Methods for verifying pattern validity
@@ -479,7 +527,7 @@ namespace SIL.Pa.PhoneticSearching
 
 			var bldr = new StringBuilder("(");
 
-			foreach (var phone in _phoneGroups[token])
+			foreach (var phone in _phoneGroups[token].OrderByDescending(phone => phone.Length))
 				bldr.AppendFormat("{0}|", phone);
 
 			bldr.Length--;

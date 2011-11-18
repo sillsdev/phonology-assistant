@@ -101,7 +101,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (_query.PrecedingEnvironment.StartsWith("+"))
 				_precedingEnvHasOneOrMore = true;
 
-			return parser.Parse(_query.PrecedingEnvironment,
+			return parser.Parse(_query.PrecedingEnvironment, PatternEnvironment.Preceding,
 				_query.IgnoreDiacritics, _query.GetIgnoredCharacters());
 		}
 
@@ -117,7 +117,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (_query.FollowingEnvironment.EndsWith("+"))
 				_followingEnvHasOneOrMore = true;
 
-			return parser.Parse(_query.FollowingEnvironment,
+			return parser.Parse(_query.FollowingEnvironment, PatternEnvironment.Following,
 				_query.IgnoreDiacritics, _query.GetIgnoredCharacters());
 		}
 
