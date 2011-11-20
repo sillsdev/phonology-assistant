@@ -42,13 +42,13 @@ namespace SIL.Pa.UI.Views
 
 			var toolstrip = controls[0] as ToolStrip;
 
-			_regExpSrchEngButton = new ToolStripButton("RegEx", null, HandleSearchEngineItemClick);
-			_regExpSrchEngButton.ToolTipText = "Use regular expression search engine";
+			_regExpSrchEngButton = new ToolStripButton("New", null, HandleSearchEngineItemClick);
+			_regExpSrchEngButton.ToolTipText = "Use new search engine";
 			_regExpSrchEngButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
 			_regExpSrchEngButton.Margin = new Padding(10, _regExpSrchEngButton.Margin.Top,
 				_regExpSrchEngButton.Margin.Right, _regExpSrchEngButton.Margin.Bottom);
 
-			_otherSrchEngButton = new ToolStripButton("Other", null, HandleSearchEngineItemClick);
+			_otherSrchEngButton = new ToolStripButton("Old", null, HandleSearchEngineItemClick);
 			_otherSrchEngButton.ToolTipText = "Use searching engine from version 3.3.2 and older";
 			_otherSrchEngButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
 
@@ -64,7 +64,7 @@ namespace SIL.Pa.UI.Views
 		void HandleSearchEngineItemClick(object sender, System.EventArgs e)
 		{
 			var item = sender as ToolStripButton;
-			Settings.Default.UseRegExpressionSearching = (item.Text == "RegEx");
+			Settings.Default.UseRegExpressionSearching = (item == _regExpSrchEngButton);
 			_regExpSrchEngButton.Checked = Settings.Default.UseRegExpressionSearching;
 			_otherSrchEngButton.Checked = !Settings.Default.UseRegExpressionSearching;
 		}

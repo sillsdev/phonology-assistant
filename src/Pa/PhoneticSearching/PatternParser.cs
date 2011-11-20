@@ -1,42 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using SIL.Pa.Model;
 
 namespace SIL.Pa.PhoneticSearching
 {
 	/// ----------------------------------------------------------------------------------------
-	public enum PatternEnvironment
-	{
-		SearchItem,
-		Preceding,
-		Following
-	}
-
-	/// ----------------------------------------------------------------------------------------
 	public class PatternParser
 	{
 		private readonly List<string> _errors = new List<string>();
 		private readonly PaProject _project;
+		private readonly SearchQuery _query;
+
+		public PatternMember FollowingPatternMember { get; private set; }
+		public PatternMember PrecedingPatternMember { get; private set; }
+		public PatternMember SearchItemPatternMember { get; private set; }
 
 		private const char kMinToken = (char)(char.MaxValue - 256);
 		private char _token = kMinToken;
-		private readonly Dictionary<char, List<string>> _phoneGroups =
+		private readonly Dictionary<char, List<string>> _tokenGroups =
 			new Dictionary<char, List<string>>();
-
-		//private readonly Dictionary<char, List<string>> _phoneGroupsSubjectToDiacriticPlaceholderPattern =
-		//    new Dictionary<char, List<string>>();
 
 		// TODO: Check for empty pairs (i.e. <> {} []) and mismatched pairs.
 
 		/// ------------------------------------------------------------------------------------
-		public PatternParser(PaProject project)
+		public PatternParser(PaProject project, SearchQuery query)
 		{
 			_project = project;
+			_query = query;
 		}
 
+		#region Properties
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<string> Errors
 		{
@@ -49,124 +44,56 @@ namespace SIL.Pa.PhoneticSearching
 			get { return _errors.Count > 0; }
 		}
 
+		#endregion
+
 		/// ------------------------------------------------------------------------------------
-		public string Parse(string pattern, bool ignoreDiacritics, IEnumerable<string> ignoredCharacters)
+		public bool Parse()
 		{
-			return Parse(pattern, PatternEnvironment.SearchItem, ignoreDiacritics, ignoredCharacters);
+			var ignoredCharsList = _query.GetIgnoredCharacters().ToList();
+
+			var srchItemPattern = _query.SearchItem;
+			var precedingPattern = _query.PrecedingEnvironment;
+			var followingPattern = _query.FollowingEnvironment;
+
+			SearchItemPatternMember = new PatternMember(PatternPart.SearchItem, _query.IgnoreDiacritics, ignoredCharsList);
+			PrecedingPatternMember = new PatternMember(PatternPart.Preceding, _query.IgnoreDiacritics, ignoredCharsList);
+			FollowingPatternMember = new PatternMember(PatternPart.Following, _query.IgnoreDiacritics, ignoredCharsList);
+
+			InternalParse(srchItemPattern, SearchItemPatternMember);
+			InternalParse(precedingPattern, PrecedingPatternMember);
+			InternalParse(followingPattern, FollowingPatternMember);
+
+			return !HasErrors;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string Parse(string pattern, PatternEnvironment environment,
-			bool ignoreDiacritics, IEnumerable<string> ignoredCharacters)
+		public void InternalParse(string pattern, PatternMember patternMember)
 		{
 			_errors.Clear();
+			_tokenGroups.Clear();
 			_token = kMinToken;
-			_phoneGroups.Clear();
 
 			if (!VerifyBracketedText(pattern))
-				return pattern;
+				return;
 
+			var originalPattern = pattern;
 			pattern = ReplaceBracketedClassNamesWithPattern(pattern);
-			pattern = ReplaceBracketedTextWithPhoneGroups(pattern);
+			pattern = ReplaceBracketedTextWithTokens(pattern);
 			while (ParseTextInBrackets(ref pattern) == 1) { }
 			while (ParseTextInBraces(ref pattern) == 1) { }
 
 			pattern = pattern.Trim('+', '*');
 
-			var ignoredCharList = (ignoredCharacters == null ? new List<string>(0) :
-				ignoredCharacters.OrderByDescending(c => c.Length).ToList());
-			
-			var ignoredCharactersRegexPattern = GetRegExpressionForIngoredBaseSymbols(ignoredCharList);
-			var bldr = new StringBuilder();
-
-			for (int i = 0; i < pattern.Length; i++)
+			foreach (char chr in pattern)
 			{
-				if (pattern[i] < kMinToken)
-				{
-					if (pattern[i] != '+' && pattern[i] != '*')
-						bldr.Append(pattern[i].ToString());
-				}
+				if (chr < kMinToken)
+					patternMember.AddSymbol(chr);
 				else
-				{
-					// Build a regular expression group containing possible phones.
-					var regExpression = CreateRegExpressionOrGroupFromPhoneGroup(pattern[i], ignoreDiacritics, ignoredCharList);
-
-					// If this is not the last character in the pattern and there are some ignored, non
-					// base suprasegmentals, then make sure the regular expression indicates the non base
-					// suprasegmentals that can be ignored.
-					if (i < pattern.Length - 1 && ignoredCharList.Count > 0)
-						regExpression += ignoredCharactersRegexPattern;
-
-					bldr.Append(regExpression);
-				}
+					patternMember.AddPhoneGroup(_tokenGroups[chr]);
 			}
 
-			return PerformFinalPatternCleanup(bldr.ToString(), environment, ignoredCharactersRegexPattern);
-
-			//if (pattern.StartsWith("#"))
-			//    pattern = "^" + GetRegExpressionForIngoredBaseSymbols(ignoredCharList) + pattern.TrimStart('#');
-
-			//if (pattern.EndsWith("#"))
-			//    pattern = pattern.TrimEnd('#') + "$";
-
-			//if (environment != PatternEnvironment.SearchItem && pattern != "#" && pattern != "+")
-			//{
-			//    if (environment == PatternEnvironment.Preceding)
-			//        pattern += GetRegExpressionForIngoredBaseSymbols(ignoredCharList);
-			//    else
-			//        pattern = GetRegExpressionForIngoredBaseSymbols(ignoredCharList) + pattern;
-			//}
-
-			//return FFNormalizer.Normalize(pattern.Replace(".", "\\."));
+			patternMember.FinalizeParse(originalPattern, _project.PhoneticParser);
 		}
-
-		/// ------------------------------------------------------------------------------------
-		private string PerformFinalPatternCleanup(string pattern, PatternEnvironment environment,
-			string ignoredCharactersRegexPattern)
-		{
-			if (pattern.StartsWith("#"))
-				pattern = "^" + ignoredCharactersRegexPattern + pattern.TrimStart('#');
-
-			if (pattern.EndsWith("#"))
-				pattern = pattern.TrimEnd('#') + "$";
-
-			if (environment != PatternEnvironment.SearchItem && pattern != "#" && pattern != "+")
-			{
-				if (environment == PatternEnvironment.Preceding)
-					pattern += ignoredCharactersRegexPattern;
-				else
-					pattern = ignoredCharactersRegexPattern + pattern;
-			}
-
-			return FFNormalizer.Normalize(pattern.Replace(".", "\\."));
-		}
-
-		#region Methods for verifying pattern validity
-		/// ------------------------------------------------------------------------------------
-		public bool VerifyBracketedText(string pattern)
-		{
-			var match = FindInnerMostSquareBracketPairs(pattern);
-
-			while (match.Success)
-			{
-				var bracketedText = match.Result("${bracketedText}");
-
-				if (!bracketedText.Contains(App.kDottedCircle) &&
-					bracketedText != "C" && bracketedText != "V" &&
-					!App.AFeatureCache.Keys.Any(f => f == bracketedText) &&
-					!App.BFeatureCache.Keys.Any(f => f == bracketedText))
-				{
-					_errors.Add(SearchEngine.kBracketingError + ":" + bracketedText);
-					return false;
-				}
-
-				match = match.NextMatch();
-			}
-
-			return true;
-		}
-
-		#endregion
 
 		#region Methods for parsing text between brackets and braces
 		/// ------------------------------------------------------------------------------------
@@ -196,70 +123,81 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string ReplaceBracketedTextWithPhoneGroups(string pattern)
+		public string ReplaceBracketedTextWithTokens(string pattern)
 		{
-			_phoneGroups.Clear();
+			_tokenGroups.Clear();
 			var match = FindInnerMostSquareBracketPairs(pattern);
 
 			while (match.Success)
 			{
 				var bracketedText = match.Result("${bracketedText}");
 
-				var token = string.Empty;
-
 				if (bracketedText.Contains(App.kDottedCircle))
-					token = StoreDiacriticPlaceholderCluster(bracketedText);
-				else if (match.Value == "[C]")
-				{
-					token = CreatePhoneGroupForListOfPhones((from p in _project.PhoneCache.Values
-															 where p.CharType == IPASymbolType.consonant
-															 select p.Phone).ToList());
-				}
-				else if (match.Value == "[V]")
-				{
-					token = CreatePhoneGroupForListOfPhones((from p in _project.PhoneCache.Values
-															 where p.CharType == IPASymbolType.vowel
-															 select p.Phone).ToList());
-				}
+					_tokenGroups[++_token] = new List<string>(new[] { bracketedText });
+				else if (match.Value == "[C]" || match.Value == "[V]")
+					_tokenGroups[++_token] = new List<string> { match.Value };
 				else
-					token = CreatePhoneGroupFromFeatureName(bracketedText);
+					_tokenGroups[++_token] = new List<string> { "F:" + bracketedText };
 
-				pattern = pattern.Replace(match.Value, token);
+				pattern = pattern.Replace(match.Value, _token.ToString());
 				match = match.NextMatch();
+
+
+				//var token = string.Empty;
+
+				//if (bracketedText.Contains(App.kDottedCircle))
+				//    token = StoreDiacriticPlaceholderCluster(bracketedText);
+				//else if (match.Value == "[C]")
+				//{
+				//    token = CreatePhoneGroupForListOfPhones((from p in _project.PhoneCache.Values
+				//                                             where p.CharType == IPASymbolType.consonant
+				//                                             select p.Phone).ToList());
+				//}
+				//else if (match.Value == "[V]")
+				//{
+				//    token = CreatePhoneGroupForListOfPhones((from p in _project.PhoneCache.Values
+				//                                             where p.CharType == IPASymbolType.vowel
+				//                                             select p.Phone).ToList());
+				//}
+				//else
+				//    token = CreatePhoneGroupFromFeatureName(bracketedText);
+
+				//pattern = pattern.Replace(match.Value, token);
+				//match = match.NextMatch();
 			}
 
 			return pattern;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public string StoreDiacriticPlaceholderCluster(string placeholderCluster)
-		{
-			_phoneGroups[++_token] = new List<string>(new[] { (placeholderCluster) });
-			return _token.ToString();
-		}
+		///// ------------------------------------------------------------------------------------
+		//public string StoreDiacriticPlaceholderCluster(string placeholderCluster)
+		//{
+		//    _tokenGroups[++_token] = new List<string>(new[] { placeholderCluster });
+		//    return _token.ToString();
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		//public string CreatePhoneGroupFromFeatureName(string featureName)
+		//{
+		//    var isAFeature = (!featureName.StartsWith("+") && !featureName.StartsWith("-"));
+
+		//    var mask = (isAFeature ? App.AFeatureCache.GetMask(featureName) : App.BFeatureCache.GetMask(featureName));
+
+		//    return CreatePhoneGroupForListOfPhones((from p in _project.PhoneCache.Values
+		//                                            where (isAFeature && !p.AMask.IsEmpty && p.AMask.ContainsOneOrMore(mask, false)) ||
+		//                                               (!isAFeature && !p.BMask.IsEmpty && p.BMask.ContainsOneOrMore(mask, false))
+		//                                            select p.Phone).ToList());
+		//}
 
 		/// ------------------------------------------------------------------------------------
-		public string CreatePhoneGroupFromFeatureName(string featureName)
-		{
-			var isAFeature = (!featureName.StartsWith("+") && !featureName.StartsWith("-"));
+		//public string CreatePhoneGroupForListOfPhones(List<string> phoneList)
+		//{
+		//    if (phoneList.Count == 0)
+		//        return string.Empty;
 
-			var mask = (isAFeature ? App.AFeatureCache.GetMask(featureName) : App.BFeatureCache.GetMask(featureName));
-
-			return CreatePhoneGroupForListOfPhones((from p in _project.PhoneCache.Values
-													where (isAFeature && !p.AMask.IsEmpty && p.AMask.ContainsOneOrMore(mask, false)) ||
-													   (!isAFeature && !p.BMask.IsEmpty && p.BMask.ContainsOneOrMore(mask, false))
-													select p.Phone).ToList());
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public string CreatePhoneGroupForListOfPhones(List<string> phoneList)
-		{
-			if (phoneList.Count == 0)
-				return string.Empty;
-
-			_phoneGroups[++_token] = phoneList;
-			return _token.ToString();
-		}
+		//    _tokenGroups[++_token] = phoneList;
+		//    return _token.ToString();
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		public int ParseTextInBrackets(ref string pattern)
@@ -274,22 +212,41 @@ namespace SIL.Pa.PhoneticSearching
 				var bracketedText = match.Result("${bracketedText}");
 				while (ParseTextInBraces(ref bracketedText) == 1) { }
 
+				var symbolsInBracketedText = string.Empty;
+
 				foreach (var chr in bracketedText)
 				{
 					if (chr <= kMinToken)
+						symbolsInBracketedText += chr;
+					else
 					{
-						var msg = App.GetString("PhoneticSearchingMessages.InvalidCharacterInANDGroup",
-							"The symbol '{0}' is invalid in an AND group.");
-
-						_errors.Add(string.Format(msg, chr));
-						return -1;
+						andList = AndTwoTokenGroups(andList, _tokenGroups[chr]).ToList();
+						_tokenGroups.Remove(chr);
 					}
-
-					andList = AndTwoPhoneGroups(andList, _phoneGroups[chr]).ToList();
-					_phoneGroups.Remove(chr);
 				}
 
-				_phoneGroups[++_token] = ModifyListIfContainsDiacriticPlaceholderCluster(andList).ToList();
+				if (symbolsInBracketedText != string.Empty)
+				{
+					// If plain text (i.e. not features or classes) is found between the square brackets,
+					// then if it represents a single phone, that's fine. Otherwise, it's an error.
+					// This deals with patterns like "[b[0*]]" (where 0 is the diacritic placeholder).
+					var phonesInBrackets = _project.PhoneticParser.Parse(symbolsInBracketedText, true, false);
+					if (phonesInBrackets.Length == 1 && andList.Count == 1 && andList[0].Contains(App.kDottedCircle))
+						andList = OrTwoTokenGroups(andList, phonesInBrackets.ToList()).ToList();
+					else
+					{
+						var msg = App.GetString("PhoneticSearchingMessages.InvalidCharacterInANDGroup",
+							"The text '{0}' is invalid in an AND group.");
+
+						_errors.Add(string.Format(msg, symbolsInBracketedText));
+						return -1;
+					}
+				}
+
+				if (!VerifyDiacriticPlaceholderClusterIfPresent(andList))
+					return -1;
+
+				_tokenGroups[++_token] = andList;
 				pattern = pattern.Replace(match.Value, _token.ToString());
 				match = match.NextMatch();
 			}
@@ -316,12 +273,12 @@ namespace SIL.Pa.PhoneticSearching
 						orList.Add(piece.Trim('(', ')'));
 					else
 					{
-						orList = OrTwoPhoneGroups(orList, _phoneGroups[piece[0]]).ToList();
-						_phoneGroups.Remove(piece[0]);
+						orList = OrTwoTokenGroups(orList, _tokenGroups[piece[0]]).ToList();
+						_tokenGroups.Remove(piece[0]);
 					}
 				}
 
-				_phoneGroups[++_token] = orList;
+				_tokenGroups[++_token] = orList;
 				pattern = pattern.Replace(match.Value, _token.ToString());
 				match = match.NextMatch();
 			}
@@ -371,57 +328,23 @@ namespace SIL.Pa.PhoneticSearching
 			return true;
 		}
 
-		#endregion
-
-		#region Methods for handling diacritic placeholders in the pattern
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Searches the strings in the specified list of phones for a diacritic placeholder
-		/// cluster. If it finds one, it's removed from the list and then the rest of the
-		/// strings in the list are scanned to determine whether or not each meets the
-		/// criteria imposed by the cluster pattern. A list is returned that contains only
-		/// the phones that meet the cluster's critera. Each phone returned has a '>' prefix
-		/// to mark it for processing ignored diacritics later in the pattern parsing process.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public IEnumerable<string> ModifyListIfContainsDiacriticPlaceholderCluster(List<string> andList)
+		private bool VerifyDiacriticPlaceholderClusterIfPresent(IEnumerable<string> andList)
 		{
-			// Strip out the strings that are diacritic placeholder clusters.
-			var phoneList = andList.Where(s => !s.Contains(App.kDottedCircle));
-
 			// Gather the diacritic placeholder clusters in their own list, tossing out the dotted circle along the way.
-			var placeHolderClusters = (from cluster in andList
-									   where cluster.Contains(App.kDottedCircle)
-									   select cluster.Replace(App.kDottedCircle, string.Empty)).ToList();
+			var clusters = (from cluster in andList
+							where cluster.Contains(App.kDottedCircle)
+							select cluster.Replace(App.kDottedCircle, string.Empty)).ToList();
 
-			if (placeHolderClusters.Count > 1)
+			if (clusters.Count > 1)
 			{
 				_errors.Add(App.GetString("PhoneticSearchingMessages.TooManyDiacriticPlaceholderMsg",
 					"There were too many diacritic placeholders found in one of the AND groups."));
-				
-				return new List<string>(0);
+
+				return false;
 			}
 
-			if (placeHolderClusters.Count == 0)
-				return andList;
-
-			return from phone in phoneList
-				   where GetDoesPhoneMatchDiacriticPlaceholderCluster(phone, placeHolderClusters[0])
-				   select ">" + phone;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Determines whether or not the specified phone meets the criteria in the specified
-		/// diacritic placeholder cluster pattern.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool GetDoesPhoneMatchDiacriticPlaceholderCluster(string phone, string cluster)
-		{
-			var hasOneOrMore = (cluster.IndexOf('+') >= 0);
-			var hasZeroOrMore = (cluster.IndexOf('*') >= 0);
-
-			if (hasOneOrMore && hasZeroOrMore)
+			if (clusters[0].IndexOf('+') >= 0 && clusters[0].IndexOf('*') >= 0)
 			{
 				_errors.Add(App.GetString("PhoneticSearchingMessages.InvalidDiacriticPlaceholderSyntax",
 					"The symbols '*' and '+' may not appear between square brackets together " +
@@ -430,29 +353,41 @@ namespace SIL.Pa.PhoneticSearching
 				return false;
 			}
 
-			cluster = cluster.Replace("+", string.Empty).Replace("*", string.Empty);
+			return true;
+		}
 
-			// If the phone does not contain all the diacritics in the cluster, we're done.
-			if (!cluster.All(diacritic => phone.Contains(diacritic)))
-				return false;
+		#endregion
+		
+		#region Methods for verifying pattern validity
+		/// ------------------------------------------------------------------------------------
+		public bool VerifyBracketedText(string pattern)
+		{
+			var match = FindInnerMostSquareBracketPairs(pattern);
 
-			// At this point, we know the phone contains all the diacritics. If the zero
-			// or more symbol was found then the phone passes the test and we're done.
-			if (hasZeroOrMore)
-				return true;
+			while (match.Success)
+			{
+				var bracketedText = match.Result("${bracketedText}");
 
-			var phonesDiacriticCount = phone.Count(s =>
-				App.IPASymbolCache[s] != null && !App.IPASymbolCache[s].IsBase);
+				if (!bracketedText.Contains(App.kDottedCircle) &&
+					bracketedText != "C" && bracketedText != "V" &&
+					!App.AFeatureCache.Keys.Any(f => f == bracketedText) &&
+					!App.BFeatureCache.Keys.Any(f => f == bracketedText))
+				{
+					_errors.Add(SearchEngine.kBracketingError + ":" + bracketedText);
+					return false;
+				}
 
-			return (hasOneOrMore && phonesDiacriticCount > cluster.Length) ||
-				(!hasOneOrMore && phonesDiacriticCount == cluster.Length);
+				match = match.NextMatch();
+			}
+
+			return true;
 		}
 
 		#endregion
 
-		#region Methods for combining groups of phones
+		#region Methods for combining groups of toekns
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<string> AndTwoPhoneGroups(List<string> x, List<string> y)
+		public IEnumerable<string> AndTwoTokenGroups(List<string> x, List<string> y)
 		{
 			if (x.Count == 0)
 				return y;
@@ -468,7 +403,7 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public IEnumerable<string> OrTwoPhoneGroups(List<string> x, List<string> y)
+		public IEnumerable<string> OrTwoTokenGroups(List<string> x, List<string> y)
 		{
 			if (x.Count == 0)
 				return y;
@@ -478,7 +413,7 @@ namespace SIL.Pa.PhoneticSearching
 
 		#endregion
 
-		#region Methods returning reg. expression for parsing pattern
+		#region Methods returning reg. expression for parsing a pattern
 		/// ------------------------------------------------------------------------------------
 		private Match FindInnerAngleBracketPairs(string pattern)
 		{
@@ -498,114 +433,6 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			var regex = new Regex(@"\{(?<bracketedText>[^\{\}]+)\}");
 			return regex.Match(pattern);
-		}
-
-		#endregion
-
-		#region Methods for building regular expression used for phonetic searching
-		/// ------------------------------------------------------------------------------------
-		private string CreateRegExpressionOrGroupFromPhoneGroup(char token, bool ignoreDiacritics,
-			ICollection<string> ignoredCharacters)
-		{
-			if (ignoreDiacritics)
-			{
-				_phoneGroups[token] = AddPhonesToGroupThatMatchIgnoredNonBaseSymbols(_phoneGroups[token],
-					symbolInfo => symbolInfo.Type == IPASymbolType.diacritic);
-			}
-
-			if (ignoredCharacters.Count > 0)
-			{
-				_phoneGroups[token] = AddPhonesToGroupThatMatchIgnoredNonBaseSymbols(_phoneGroups[token],
-					symbolInfo => symbolInfo.Type == IPASymbolType.suprasegmental &&
-						ignoredCharacters.Contains(symbolInfo.Literal));
-			}
-
-			// Remove the prefix that tells the ignore diacritics and symbols
-			// processing to bypass the phone.
-			for (int i = 0; i < _phoneGroups[token].Count; i++)
-				_phoneGroups[token][i] =_phoneGroups[token][i].TrimStart('>');
-
-			var bldr = new StringBuilder("(");
-
-			foreach (var phone in _phoneGroups[token].OrderByDescending(phone => phone.Length))
-				bldr.AppendFormat("{0}|", phone);
-
-			bldr.Length--;
-			if (bldr.Length == 0)
-				return string.Empty;
-
-			var regExpression = bldr + ")";
-			if (!regExpression.Contains("|"))
-				regExpression = regExpression.Trim('(', ')');
-
-			return regExpression;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This method will go through each non-base symbol in each phone and check whether
-		/// or not the symbols are ignored based on the search query's ignored diacritics
-		/// flag value and ignored symbols collection. For each symbol that's ignored, a
-		/// version of the phone without that ignored symbol is added to the phone group.
-		/// When a phone in phoneGroup is found that has a '>' prefix it means that previously
-		/// in the pattern parsing process, the phone matched the the criteria imposed by a
-		/// diacritic placeholder cluster pattern. Those cases trump the query's ignore
-		/// diacritics value and ignored symbols collection.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public List<string> AddPhonesToGroupThatMatchIgnoredNonBaseSymbols(List<string> phoneGroup,
-			Func<IPASymbol, bool> symbolQualifiesProvider)
-		{
-			int initialNumberOfPhones = phoneGroup.Count;
-
-			for (int i = 0; i < initialNumberOfPhones; i++)
-			{
-				// If the phone has a '>' prefix then skip to the next phone.
-				if (phoneGroup[i].StartsWith(">"))
-					continue;
-
-				var nonBaseSymbolsInPhone = (from s in phoneGroup[i]
-											 let symbolInfo = App.IPASymbolCache[s]
-											 where symbolInfo != null && !symbolInfo.IsBase && symbolQualifiesProvider(symbolInfo)
-											 select s).ToArray();
-
-				if (nonBaseSymbolsInPhone.Length == 0)
-					continue;
-
-				var finalNewPhone = phoneGroup[i];
-
-				foreach (var symbol in nonBaseSymbolsInPhone)
-				{
-					finalNewPhone = finalNewPhone.Replace(symbol.ToString(), string.Empty);
-					var newPhone = phoneGroup[i].Replace(symbol.ToString(), string.Empty);
-					if (!phoneGroup.Contains(newPhone))
-						phoneGroup.Add(newPhone);
-				}
-
-				if (!phoneGroup.Contains(finalNewPhone))
-					phoneGroup.Add(finalNewPhone);
-			}
-
-			return phoneGroup;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public string GetRegExpressionForIngoredBaseSymbols(List<string> ignoredCharacters)
-		{
-			var ignoredNonBaseSymbols = (from s in ignoredCharacters
-										 let symbolInfo = App.IPASymbolCache[s]
-										 where symbolInfo != null && symbolInfo.IsBase
-										 select s).ToArray();
-
-			if (ignoredNonBaseSymbols.Length == 0)
-				return string.Empty;
-
-			var bldr = new StringBuilder("(");
-			foreach (var sseg in ignoredNonBaseSymbols)
-				bldr.AppendFormat("{0}|", sseg);
-
-			bldr.Length--;
-			return bldr + ")?";
 		}
 
 		#endregion

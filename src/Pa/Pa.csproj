@@ -223,7 +223,9 @@
       <DependentUpon>BracketedTextErrorMsgBox.cs</DependentUpon>
     </Compile>
     <Compile Include="PhoneticSearching\DistributionChart.cs" />
+    <Compile Include="PhoneticSearching\PatternMember.cs" />
     <Compile Include="PhoneticSearching\PatternParser.cs" />
+    <Compile Include="PhoneticSearching\PhoneGroup.cs" />
     <Compile Include="PhoneticSearching\PhoneticSearcher.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="PhoneticSearching\FFNormalizer.cs" />
@@ -707,12 +709,6 @@
     <Compile Include="UI\Dialogs\ProjectSetup\SFDataSourcePropertiesDlg.designer.cs">
       <DependentUpon>SFDataSourcePropertiesDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dialogs\RegularExpressionSearchDebugDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Dialogs\RegularExpressionSearchDebugDlg.Designer.cs">
-      <DependentUpon>RegularExpressionSearchDebugDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Dialogs\RtfExportDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -953,9 +949,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\ProjectSetup\SFDataSourcePropertiesDlg.resx">
       <DependentUpon>SFDataSourcePropertiesDlg.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Dialogs\RegularExpressionSearchDebugDlg.resx">
-      <DependentUpon>RegularExpressionSearchDebugDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\RtfExportDlg.resx">
       <DependentUpon>RtfExportDlg.cs</DependentUpon>

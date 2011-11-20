@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
 using SIL.Pa.Model;
-using SIL.Pa.UI.Dialogs;
 
 namespace SIL.Pa.PhoneticSearching
 {
@@ -16,16 +13,7 @@ namespace SIL.Pa.PhoneticSearching
 
 		private readonly PaProject _project;
 		private readonly SearchQuery _query;
-		private readonly bool _precedingEnvHasOnlyWordBoundary;
-		private readonly bool _followingEnvHasOnlyWordBoundary;
-		private bool _precedingEnvHasZeroOrMore;
-		private bool _followingEnvHasZeroOrMore;
-		private bool _precedingEnvHasOneOrMore;
-		private bool _followingEnvHasOneOrMore;
-		private Regex _regExpFollowingEnv;
-		private Regex _regExpPrecedingEnv;
-		private Regex _regExpSrchItem;
-		private RegularExpressionSearchDebugDlg _debugDlg;
+		private PatternParser _parser;
 
 		public WordListCache ResultCache { get; private set; }
 		public List<string> Errors { get; private set; }
@@ -36,8 +24,6 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			_project = project;
 			_query = query;
-			_precedingEnvHasOnlyWordBoundary = (_query.PrecedingEnvironment == "#");
-			_followingEnvHasOnlyWordBoundary = (_query.FollowingEnvironment == "#");
 			Errors = new List<string>();
 		}
 
@@ -48,77 +34,13 @@ namespace SIL.Pa.PhoneticSearching
 			if (!DoesPatternPassBasicChecks())
 				return false;
 
-			var parser = new PatternParser(_project);
-			var srchItemExpression = GetSearchItemExpression(parser);
-			var precedingEnvExpression = GetPrecedingEnvironmentExpression(parser);
-			var followingEnvExpression = GetFollowingEnvironmentExpression(parser);
+			_parser = new PatternParser(_project, _query);
 
-			if (Errors.Count > 0)
-				return false;
+			if (_parser.Parse())
+				return true;
 
-			if (parser.HasErrors)
-			{
-				Errors.AddRange(parser.Errors);
-				return false;
-			}
-
-			_regExpSrchItem = new Regex(srchItemExpression);
-			
-			if (!_precedingEnvHasZeroOrMore)
-				_regExpPrecedingEnv = new Regex(precedingEnvExpression);
-	
-			if (!_followingEnvHasZeroOrMore)
-				_regExpFollowingEnv = new Regex(followingEnvExpression);
-			
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public string GetSearchItemExpression(PatternParser parser)
-		{
-			var expression =  parser.Parse(_query.SearchItem,
-				_query.IgnoreDiacritics, _query.GetIgnoredCharacters());
-
-			if (expression.Count(c => "#*+".Contains(c)) > 0)
-			{
-				Errors.Add(App.GetString("PhoneticSearchingMessages.InvalidCharactersInSearchItem",
-					"The search item portion of the search pattern contains illegal symbols. " +
-					"The symbols '#', '+' and '*' are not valid."));
-			}
-
-			return expression;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public string GetPrecedingEnvironmentExpression(PatternParser parser)
-		{
-			if (_query.PrecedingEnvironment == "*")
-			{
-				_precedingEnvHasZeroOrMore = true;
-				return null;
-			}
-
-			if (_query.PrecedingEnvironment.StartsWith("+"))
-				_precedingEnvHasOneOrMore = true;
-
-			return parser.Parse(_query.PrecedingEnvironment, PatternEnvironment.Preceding,
-				_query.IgnoreDiacritics, _query.GetIgnoredCharacters());
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public string GetFollowingEnvironmentExpression(PatternParser parser)
-		{
-			if (_query.FollowingEnvironment == "*")
-			{
-				_followingEnvHasZeroOrMore = true;
-				return null;
-			}
-		
-			if (_query.FollowingEnvironment.EndsWith("+"))
-				_followingEnvHasOneOrMore = true;
-
-			return parser.Parse(_query.FollowingEnvironment, PatternEnvironment.Following,
-				_query.IgnoreDiacritics, _query.GetIgnoredCharacters());
+			Errors.AddRange(_parser.Errors);
+			return false;
 		}
 
 		#endregion
@@ -127,11 +49,6 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public bool Search(bool returnCountOnly, out int resultCount)
 		{
-			_debugDlg = Application.OpenForms.OfType<RegularExpressionSearchDebugDlg>().FirstOrDefault();
-
-			if (_debugDlg != null)
-				_debugDlg.LoadExpressions(_query, _regExpSrchItem, _regExpPrecedingEnv, _regExpFollowingEnv);
-
 			ResultCache = (returnCountOnly ? null : new WordListCache());
 			resultCount = 0;
 
@@ -162,121 +79,30 @@ namespace SIL.Pa.PhoneticSearching
 		public int SearchWord(string[] phonesInWord, bool returnCountOnly,
 			Action<int, int> addCacheEntryAction)
 		{
-			var phoneticWord = string.Join(string.Empty, phonesInWord);
 			int matchCount = 0;
 			int startIndex = 0;
 
 			while (true)
 			{
-				var match = _regExpSrchItem.Match(phoneticWord, startIndex);
-				if (!match.Success)
+				int matchIndex;
+				int numberOfPhonesInMatch;
+
+				if (!_parser.SearchItemPatternMember.GetSearchItemMatch(phonesInWord, startIndex,
+					out matchIndex, out numberOfPhonesInMatch))
+				{
 					return matchCount;
+				}
 
-				startIndex = match.Index + 1;
+				startIndex = matchIndex + 1;
 
-				// Get the index of the matched phone in the phone collection and then build
-				// a string that contains only the phones preceding the match. That will be
-				// scanned for a match against the preceding environment pattern.
-				int phoneIndex = TranslateMatchIndexToPhoneIndex(phonesInWord, match.Index);
-				var environment = string.Join(string.Empty, phonesInWord, 0, phoneIndex);
-				if (!GetDoesMatchPrecedingEnvironment(environment))
-					continue;
-
-				// Get the number of phones in the search item match and then build a string
-				// that contains only the phones following the match. That will be scanned
-				// for a match against the following environment pattern.
-				int numberOfPhonesInMatch = TranslateMatchLengthToNumberOfPhones(phonesInWord, phoneIndex, match.Length);
-				environment = (phoneIndex + numberOfPhonesInMatch == phonesInWord.Length ? string.Empty :
-					string.Join(string.Empty, phonesInWord, phoneIndex + numberOfPhonesInMatch,
-						phonesInWord.Length - (phoneIndex + numberOfPhonesInMatch)));
-
-				if (!GetDoesMatchFollowingEnvironment(environment))
-					continue;
-
-				matchCount++;
-				if (returnCountOnly)
-					continue;
-
-				addCacheEntryAction(phoneIndex, numberOfPhonesInMatch);
-
-				if (_debugDlg != null)
-					_debugDlg.LoadMatch(phoneticWord, match);
+				if (_parser.PrecedingPatternMember.GetEnvironmentMatch(phonesInWord.Take(matchIndex)) &&
+					_parser.FollowingPatternMember.GetEnvironmentMatch(phonesInWord.Skip(matchIndex + numberOfPhonesInMatch)))
+				{
+					matchCount++;
+					if (!returnCountOnly)
+						addCacheEntryAction(matchIndex, numberOfPhonesInMatch);
+				}
 			}
-		}
-
-		// ------------------------------------------------------------------------------------
-		private bool GetDoesMatchPrecedingEnvironment(string phonesPrecedingSrchItemMatch)
-		{
-			if (_precedingEnvHasZeroOrMore)
-				return true;
-
-			// If the preceding environment only contains the word boundary symbol, then
-			// we can handle that without using a regular expression match. The process
-			// is to strip out all the ignored characters and if there's nothing left
-			// then the preceding environment matches the query pattern.
-			if (_precedingEnvHasOnlyWordBoundary)
-				return GetIsAnythingLeftAfterRemovingIgnoredCharacters(phonesPrecedingSrchItemMatch);
-
-			return _regExpPrecedingEnv.Matches(phonesPrecedingSrchItemMatch).Cast<Match>()
-				.Any(m => m.Index + m.Length == phonesPrecedingSrchItemMatch.Length &&
-					(!_precedingEnvHasOneOrMore || m.Index > 0));
-		}
-
-		// ------------------------------------------------------------------------------------
-		private bool GetDoesMatchFollowingEnvironment(string phonesFollowingSrchItemMatch)
-		{
-			if (_followingEnvHasZeroOrMore)
-				return true;
-
-			// If the following environment only contains the word boundary symbol, then
-			// we can handle that without using a regular expression match. The process
-			// is to strip out all the ignored characters and if there's nothing left
-			// then the following environment matches the query pattern.
-			if (_followingEnvHasOnlyWordBoundary)
-				return GetIsAnythingLeftAfterRemovingIgnoredCharacters(phonesFollowingSrchItemMatch);
-
-			return _regExpFollowingEnv.Matches(phonesFollowingSrchItemMatch).Cast<Match>().Any(m => m.Index == 0 &&
-				(!_followingEnvHasOneOrMore || m.Index + m.Length < phonesFollowingSrchItemMatch.Length - 1));
-		}
-
-		// ------------------------------------------------------------------------------------
-		public bool GetIsAnythingLeftAfterRemovingIgnoredCharacters(string phones)
-		{
-			if (phones.Length == 0)
-				return true;
-
-			phones = _query.GetIgnoredCharacters()
-				.Aggregate(phones, (curr, ignoredSymbol) => curr.Replace(ignoredSymbol, string.Empty));
-
-			return (phones.Length == 0);
-		}
-
-		// ------------------------------------------------------------------------------------
-		public int TranslateMatchIndexToPhoneIndex(string[] phonesInWord, int matchIndex)
-		{
-			int phoneIndex = 0;
-			int accumulatedLength = 0;
-
-			for (; phoneIndex < phonesInWord.Length && accumulatedLength < matchIndex; phoneIndex++)
-				accumulatedLength += phonesInWord[phoneIndex].Length;
-
-			return phoneIndex;
-		}
-
-		// ------------------------------------------------------------------------------------
-		public int TranslateMatchLengthToNumberOfPhones(string[] phonesInWord, int phoneIndex,
-			int matchLength)
-		{
-			var numberOfPhonesInMatch = 0;
-			var accumulatedLength = 0;
-
-			for (int i = phoneIndex; i < phonesInWord.Length && accumulatedLength < matchLength; i++)
-			{
-				numberOfPhonesInMatch++;
-				accumulatedLength += phonesInWord[i].Length;
-			}
-
-			return numberOfPhonesInMatch;
 		}
 
 		#endregion
@@ -286,6 +112,13 @@ namespace SIL.Pa.PhoneticSearching
 		public bool DoesPatternPassBasicChecks()
 		{
 			var checksPassed = true;
+
+			if (_query.SearchItem.Count(c => "#*+".Contains(c)) > 0)
+			{
+				Errors.Add(App.GetString("PhoneticSearchingMessages.InvalidCharactersInSearchItem",
+					"The search item portion of the search pattern contain an illegal symbol. " +
+					"The symbols '#', '+' and '*' are not valid in the search item."));
+			}
 
 			if (_query.PrecedingEnvironment.Count(c => "#*+".Contains(c)) > 1)
 			{

@@ -764,29 +764,13 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnClick(e);
 			LocateInsertionLine();
-
-			if (!Settings.Default.UseRegExpressionSearching)
-				return;
-
-			if ((ModifierKeys & Keys.Control) != Keys.Control || (ModifierKeys & Keys.Alt) != Keys.Alt)
-				return;
-			
-			var dlg = Application.OpenForms.OfType<RegularExpressionSearchDebugDlg>().FirstOrDefault();
-
-			if (dlg == null)
-			{
-				dlg = new RegularExpressionSearchDebugDlg();
-				dlg.Show();
-			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnTextChanged(EventArgs e)
 		{
 			base.OnTextChanged(e);
-
-			//if (!Focused)
-			//    LocateInsertionLine();
+			LocateInsertionLine();
 		}
 
 		/// ------------------------------------------------------------------------------------
