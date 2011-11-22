@@ -1001,11 +1001,8 @@
     <Setting Name="BackupToOtherFolder" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="UseRegExpressionSearching" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
+    <Setting Name="UseNewSearchPatternParser" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="RegularExpressionSearchDebugDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
-      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ShowSearchEngineChoiceButtons" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

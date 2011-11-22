@@ -53,8 +53,8 @@ namespace SIL.Pa.UI.Views
 			_otherSrchEngButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
 
 			OnShowSearchSelectionButtonsChagned(null);
-			_regExpSrchEngButton.Checked = Settings.Default.UseRegExpressionSearching;
-			_otherSrchEngButton.Checked = !Settings.Default.UseRegExpressionSearching;
+			_regExpSrchEngButton.Checked = Settings.Default.UseNewSearchPatternParser;
+			_otherSrchEngButton.Checked = !Settings.Default.UseNewSearchPatternParser;
 
 			toolstrip.Items.Add(_regExpSrchEngButton);
 			toolstrip.Items.Add(_otherSrchEngButton);
@@ -64,17 +64,21 @@ namespace SIL.Pa.UI.Views
 		void HandleSearchEngineItemClick(object sender, System.EventArgs e)
 		{
 			var item = sender as ToolStripButton;
-			Settings.Default.UseRegExpressionSearching = (item == _regExpSrchEngButton);
-			_regExpSrchEngButton.Checked = Settings.Default.UseRegExpressionSearching;
-			_otherSrchEngButton.Checked = !Settings.Default.UseRegExpressionSearching;
+			Settings.Default.UseNewSearchPatternParser = (item == _regExpSrchEngButton);
+			_regExpSrchEngButton.Checked = Settings.Default.UseNewSearchPatternParser;
+			_otherSrchEngButton.Checked = !Settings.Default.UseNewSearchPatternParser;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected bool OnShowSearchSelectionButtonsChagned(object args)
 		{
-			_regExpSrchEngButton.Visible = Settings.Default.ShowSearchEngineChoiceButtons;
-			_otherSrchEngButton.Visible = Settings.Default.ShowSearchEngineChoiceButtons;
-			return true;
+			if (this is SearchVw || this is DistributionChartVw)
+			{
+				_regExpSrchEngButton.Visible = Settings.Default.ShowSearchEngineChoiceButtons;
+				_otherSrchEngButton.Visible = Settings.Default.ShowSearchEngineChoiceButtons;
+			}
+			
+			return false;
 		}
 
 		#region IxCoreColleague Members

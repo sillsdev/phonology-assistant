@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using SIL.Pa.Model;
 
 namespace SIL.Pa.PhoneticSearching
 {
@@ -47,62 +46,39 @@ namespace SIL.Pa.PhoneticSearching
 
 		private string m_cachedSearchWord;
 		private string[] m_cachedSearchChars;
-		private GroupType m_type = GroupType.And;
 		private PatternGroupMember m_currMember;
-		private string m_diacriticPattern;
-		private readonly EnvironmentType m_envType = EnvironmentType.Item;
-		private readonly PatternGroup m_rootGroup;
 		private List<string> m_errors = new List<string>();
 
 		// m_members can contain both objects of type PatternGroup and PatternGroupMember.
-		private ArrayList m_members;
 
 		#region Constructors
 		/// ------------------------------------------------------------------------------------
 		public PatternGroup(EnvironmentType envType) : this(envType, null)
 		{
-			m_rootGroup = this;
+			RootGroup = this;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private PatternGroup(EnvironmentType envType,  PatternGroup rootGroup)
 		{
-			m_envType = envType;
-			m_rootGroup = rootGroup;
+			GroupType = GroupType.And;
+			EnvironmentType = envType;
+			RootGroup = rootGroup;
+
+			Members = new ArrayList();
 		}
 
 		#endregion
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the collection of members in the pattern group.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ArrayList Members
-		{
-			get { return m_members; }
-		}
+		public ArrayList Members { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a value indicating what type of group this is: AND, OR or the root group.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public GroupType GroupType
-		{
-			get { return m_type; }
-		}
+		public GroupType GroupType { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the group's environment type.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public EnvironmentType EnvironmentType
-		{
-			get { return m_envType; }
-		}
+		public EnvironmentType EnvironmentType { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -111,23 +87,26 @@ namespace SIL.Pa.PhoneticSearching
 		/// diacritic pattern.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string DiacriticPattern
-		{
-			get {return m_diacriticPattern;}
-			internal set {m_diacriticPattern = value;}
-		}
+		public string DiacriticPattern { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the group that is the root of all other groups.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public PatternGroup RootGroup
-		{
-			get { return m_rootGroup; }
-		}
+		public PatternGroup RootGroup { get; private set; }
 
 		#endregion
+
+		/// ------------------------------------------------------------------------------------
+		public void AddMember(object member)
+		{
+			Members.Add(member);
+			PropogateGroupDiacriticPatternToMembers(this, DiacriticPattern);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetDiacriticPattern(string diacriticPattern)
+		{
+			DiacriticPattern = diacriticPattern.Replace(App.kDottedCircle, string.Empty);
+			PropogateGroupDiacriticPatternToMembers(this, DiacriticPattern);
+		}
 
 		#region Pattern Parsing Methods
 		/// ------------------------------------------------------------------------------------
@@ -142,9 +121,9 @@ namespace SIL.Pa.PhoneticSearching
 		/// 
 		/// The group and member hierarchy would be as follows:
 		/// 
-		/// Pattern Group (AND'd): [[{a,e}{[+high][[dental]}][-dorsal]]
+		/// Pattern Group (AND'd): [[{a,e}{[+high],[dental]}][-dorsal]]
 		///    |
-		///    +-- Pattern Group (AND'd): [{a,e}{[+high][[dental]}]
+		///    +-- Pattern Group (AND'd): [{a,e}{[+high],[dental]}]
 		///    |     |
 		///    |     +-- Pattern Group (OR'd): {a,e}
 		///    |     |     |
@@ -170,17 +149,17 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			m_errors = errors ?? new List<string>();
 
-			if (!VerifyBracketedText(pattern))
-				return false;
+			//if (!VerifyBracketedText(pattern))
+			//    return false;
 
-			if (m_rootGroup != this)
-				m_type = (pattern[0] == '[' ? GroupType.And : GroupType.Or);
+			if (RootGroup != this)
+				GroupType = (pattern[0] == '[' ? GroupType.And : GroupType.Or);
 			else
 			{
-				if (m_members != null)
-					m_members.Clear();
+				if (Members != null)
+					Members.Clear();
 
-				m_diacriticPattern = null;
+				DiacriticPattern = null;
 				s_currDiacriticPlaceholderMaker = kFirstDiacriticPlaceholderMaker;
 				s_diacriticPlaceholders.Clear();
 				if (!PreParseProcessing(ref pattern))
@@ -190,7 +169,7 @@ namespace SIL.Pa.PhoneticSearching
 			// As long as we're an AND or OR group, we'll need to know the
 			// closing bracket or brace to look for as we're parsing the pattern.
 			char closeBracket = char.MinValue;
-			if (m_type != GroupType.Sequential)
+			if (GroupType != GroupType.Sequential)
 			{
 				int i = pattern.Length - 1;
 				while (pattern[i] < 32)
@@ -202,12 +181,12 @@ namespace SIL.Pa.PhoneticSearching
 				pattern = pattern.Substring(1);
 			}
 
-			m_members = new ArrayList();
+			Members = new ArrayList();
 
 			for (int i = 0; i < pattern.Length; i++)
 			{
 				// If we've found our final close bracket, then we're done.
-				if (m_type != GroupType.Sequential && pattern[i] == closeBracket)
+				if (GroupType != GroupType.Sequential && pattern[i] == closeBracket)
 				{
 					if (i + 1 < pattern.Length && pattern[i + 1] < 32)
 					{
@@ -256,18 +235,18 @@ namespace SIL.Pa.PhoneticSearching
 			// for and added to the collection of members.
 			CloseCurrentMember();
 
-			if (m_members.Count == 0)
-				m_members = null;
-			else if (m_members.Count == 1)
+			if (Members.Count == 0)
+				Members = null;
+			else if (Members.Count == 1)
 			{
 				// Because of the way diacritic placeholders are represented in patterns,
 				// sometimes patterns that include them will be parsed so the group they're
 				// in may only contain one member but be considered an And or Or group when
 				// it should be a sequential group.
-				m_type = GroupType.Sequential;
+				GroupType = GroupType.Sequential;
 			}
 
-			if (m_rootGroup == this && m_type == GroupType.Sequential)
+			if (RootGroup == this && GroupType == GroupType.Sequential)
 			    CollapsNestedSequentialGroups(this);
 
 			return true;
@@ -347,7 +326,7 @@ namespace SIL.Pa.PhoneticSearching
 			PatternGroupMember[] members = m_currMember.CloseMember();
 
 			if (members == null)
-				m_members.Add(m_currMember);
+				Members.Add(m_currMember);
 			else
 			{
 				// At this point, we know we just closed a member that was a run of phonetic
@@ -364,7 +343,7 @@ namespace SIL.Pa.PhoneticSearching
 						return;
 					}
 
-					m_members.Add(member);
+					Members.Add(member);
 				}
 			}
 				
@@ -387,16 +366,16 @@ namespace SIL.Pa.PhoneticSearching
 			var subGroupPattern = ExtractSubGroup(pattern, ref i);
 			if (subGroupPattern != null)
 			{
-				var subGroup = new PatternGroup(m_envType, m_rootGroup);
+				var subGroup = new PatternGroup(EnvironmentType, RootGroup);
 				if (!subGroup.Parse(subGroupPattern))
 				{
 					// Should anything be done here?
 				}
 
 				if (subGroupPattern[0] == '(')
-					subGroup.m_type = GroupType.Sequential;
+					subGroup.GroupType = GroupType.Sequential;
 
-				m_members.Add(subGroup);
+				Members.Add(subGroup);
 			}
 		}
 
@@ -450,7 +429,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		private void AddDiacriticPatternToCurrentMember(int diacriticClusterKey)
 		{
-			if (m_members.Count == 0 && m_currMember == null)
+			if (Members.Count == 0 && m_currMember == null)
 			{
 				LogError(GetErrorMsg("IrregularDiacriticPlaceholderErrorMsg"));
 				return;
@@ -468,7 +447,7 @@ namespace SIL.Pa.PhoneticSearching
 				m_currMember.DiacriticPattern = diacriticPattern;
 			else
 			{
-				m_diacriticPattern = diacriticPattern;
+				DiacriticPattern = diacriticPattern;
 				PropogateGroupDiacriticPatternToMembers(this, diacriticPattern);
 			}
 		}
@@ -517,7 +496,7 @@ namespace SIL.Pa.PhoneticSearching
 			bool containsZorM = (ptrn1.IndexOf('*') >= 0) || (ptrn2.IndexOf('*') >= 0);
 			bool containsOorM = (ptrn1.IndexOf('+') >= 0) || (ptrn2.IndexOf('+') >= 0);
 
-			string newPattern = ptrn1 + ptrn2;
+			string newPattern = new string(ptrn1.Union(ptrn2).ToArray());
 			newPattern = "X" + newPattern.Replace("*", string.Empty);
 			newPattern = newPattern.Replace("+", string.Empty);
 			newPattern = newPattern.Normalize(NormalizationForm.FormD);
@@ -631,8 +610,8 @@ namespace SIL.Pa.PhoneticSearching
 			pattern = DelimitMembers(pattern);
 			pattern = pattern.Replace("#", " ");
 
-			if (m_rootGroup == this)
-				m_type = GetRootGroupType(pattern);
+			if (RootGroup == this)
+				GroupType = GetRootGroupType(pattern);
 			else
 			{
 				char closeBracket = pattern[pattern.Length - 1];
@@ -861,10 +840,6 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private bool VerifyZeroOneOrMorePlacement(ref string pattern)
 		{
 			// Remove any pluses that maybe attached to binary features so
@@ -898,7 +873,7 @@ namespace SIL.Pa.PhoneticSearching
 			}
 
 			// Niether one are valid in the search item.
-			if (m_envType == EnvironmentType.Item && (z >= 0 || o >= 0))
+			if (EnvironmentType == EnvironmentType.Item && (z >= 0 || o >= 0))
 			{
 				LogError(GetErrorMsg("ZeroOneOrMoreFoundInSrchItemErrorMsg"));
 				return false;
@@ -906,7 +881,7 @@ namespace SIL.Pa.PhoneticSearching
 
 			if (z >= 0)
 			{
-				if (m_envType == EnvironmentType.Before)
+				if (EnvironmentType == EnvironmentType.Before)
 				{
 					// Must be first item in pattern.
 					if (z != 0)
@@ -933,7 +908,7 @@ namespace SIL.Pa.PhoneticSearching
 
 			if (o >= 0)
 			{
-				if (m_envType == EnvironmentType.Before)
+				if (EnvironmentType == EnvironmentType.Before)
 				{
 					// Must be first item in pattern.
 					if (o != 0)
@@ -1020,7 +995,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			int i = 0;
 
-			while ((i = pattern.IndexOf(feature, i, System.StringComparison.Ordinal)) >= 0)
+			while ((i = pattern.IndexOf(feature, i, StringComparison.Ordinal)) >= 0)
 			{
 				int closeIndex = i;
 
@@ -1066,7 +1041,7 @@ namespace SIL.Pa.PhoneticSearching
 			int i = 0;
 			bool foundDiacriticPlaceholder = false;
 
-			while ((i = pattern.IndexOf(lookFor, i, System.StringComparison.Ordinal)) >= 0)
+			while ((i = pattern.IndexOf(lookFor, i, StringComparison.Ordinal)) >= 0)
 			{
 				int closeIndex = i;
 				
@@ -1241,15 +1216,15 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		private void LogError(string msg)
 		{
-			if (m_rootGroup == null || msg == null)
+			if (RootGroup == null || msg == null)
 				return;
 
-			var envType = SearchEngine.GetEnvironmentTypeString(m_rootGroup.m_envType);
+			var envType = SearchEngine.GetEnvironmentTypeString(RootGroup.EnvironmentType);
 
-			if (m_rootGroup.m_errors == null)
-				m_rootGroup.m_errors = new List<string>();
+			if (RootGroup.m_errors == null)
+				RootGroup.m_errors = new List<string>();
 
-			m_rootGroup.m_errors.Add(string.Format(msg, envType));
+			RootGroup.m_errors.Add(string.Format(msg, envType));
 		}
 
 		#endregion
@@ -1264,15 +1239,15 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			if (m_members == null)
+			if (Members == null)
 				return string.Empty;
 			
 			StringBuilder patternGroup = new StringBuilder();
 
-			foreach (object member in m_members)
+			foreach (object member in Members)
 			{
 				patternGroup.Append(member.ToString());
-				if (m_type == GroupType.Or)
+				if (GroupType == GroupType.Or)
 					patternGroup.Append(',');
 			}
 
@@ -1283,9 +1258,9 @@ namespace SIL.Pa.PhoneticSearching
 			string pattern = patternGroup.ToString();
 
 			// Surrounded with the appropriate bracketing if necessary.
-			if (m_type == GroupType.And)
+			if (GroupType == GroupType.And)
 				pattern = "[" + pattern + "]";
-			else if (m_type == GroupType.Or)
+			else if (GroupType == GroupType.Or)
 				pattern = "{" + pattern + "}";
 
 			return pattern.Replace(' ', '#');
@@ -1360,10 +1335,10 @@ namespace SIL.Pa.PhoneticSearching
 			// which is the zero or more phones symbol.
 			if (startIndex < 0 || startIndex >= phones.Length)
 			{
-				if (m_members != null && m_members.Count == 1 &&
-					(m_envType == EnvironmentType.Before || m_envType == EnvironmentType.After))
+				if (Members != null && Members.Count == 1 &&
+					(EnvironmentType == EnvironmentType.Before || EnvironmentType == EnvironmentType.After))
 				{
-					PatternGroupMember member = m_members[0] as PatternGroupMember;
+					PatternGroupMember member = Members[0] as PatternGroupMember;
 					if (member != null && member.Member == "*")
 						return true;
 				}
@@ -1374,10 +1349,10 @@ namespace SIL.Pa.PhoneticSearching
 
 			// When this group is sequential, it means it's made up of one
 			// or more other groups and/or IPA character runs.
-			if (m_type == GroupType.Sequential)
+			if (GroupType == GroupType.Sequential)
 				return SearchSequentially(phones, startIndex, ref results);
 
-			int inc = (m_envType == EnvironmentType.Before ? -1 : 1);
+			int inc = (EnvironmentType == EnvironmentType.Before ? -1 : 1);
 
 			// At this point, we know this group is either and And or Or group. Though
 			// it may contain decendent groups, it only contains one child group.
@@ -1407,7 +1382,7 @@ namespace SIL.Pa.PhoneticSearching
 				// If we didn't get a match on the character pointed to by startIndex and
 				// we're searching in the environment after or the environment before, it
 				// means we've failed so don't bother going on.
-				if (m_envType != EnvironmentType.Item)
+				if (EnvironmentType != EnvironmentType.Item)
 					return false;
 			}
 
@@ -1423,7 +1398,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		private bool SearchSequentially(string[] phones, int startIndex, ref int[] results)
 		{
-			switch (m_envType)
+			switch (EnvironmentType)
 			{
 				case EnvironmentType.Before:
 					return SearchSequentiallyForEnvBefore(phones, startIndex, ref results);
@@ -1452,9 +1427,9 @@ namespace SIL.Pa.PhoneticSearching
 			int ip = startIndex;				// Index into the collection of phones
 			int im = 0;							// Index into the collection of members
 
-			while (m_members != null && im < m_members.Count)
+			while (Members != null && im < Members.Count)
 			{
-				member = m_members[im] as PatternGroupMember;
+				member = Members[im] as PatternGroupMember;
 
 				// Break out of the loop if we've run out of phones.
 				if (ip == phones.Length)
@@ -1473,7 +1448,7 @@ namespace SIL.Pa.PhoneticSearching
 				// Check for a match. If member is null it means the current
 				// member is a PatternGroup, not a PatternGroupMember.
 				compareResult = (member != null ? member.ContainsMatch(phones[ip]) :
-					((PatternGroup)m_members[im]).SearchGroup(phones, ref ip));
+					((PatternGroup)Members[im]).SearchGroup(phones, ref ip));
 
 				switch (compareResult)
 				{
@@ -1508,9 +1483,9 @@ namespace SIL.Pa.PhoneticSearching
 				// search, but before getting to the end of the search pattern members
 				// and the last member in the pattern is not a word boundary, then we
 				// really don't have a match. Therefore, return false.
-				if (ip == phones.Length && im < m_members.Count)
+				if (ip == phones.Length && im < Members.Count)
 				{
-					if (member == null || member.Member != " " || im < m_members.Count - 1)
+					if (member == null || member.Member != " " || im < Members.Count - 1)
 					{
 						results[0] = results[1] = -1;
 						return false;
@@ -1537,11 +1512,11 @@ namespace SIL.Pa.PhoneticSearching
 			CompareResultType compareResult = CompareResultType.NoMatch;
 			PatternGroupMember member = null;
 			int ip = startIndex;				// Index into the collection of phones
-			int im = m_members.Count - 1;		// Index into the collection of members
+			int im = Members.Count - 1;		// Index into the collection of members
 
-			while (m_members != null && im >= 0)
+			while (Members != null && im >= 0)
 			{
-				member = m_members[im] as PatternGroupMember;
+				member = Members[im] as PatternGroupMember;
 
 				// Check if the current member is a zero/one or more member.
 				if (member != null)
@@ -1570,7 +1545,7 @@ namespace SIL.Pa.PhoneticSearching
 				// Check for a match. If member is null it means the current
 				// member is a PatternGroup, not a PatternGroupMember.
 				compareResult = (member != null ? member.ContainsMatch(phones[ip]) :
-					((PatternGroup)m_members[im]).SearchGroup(phones, ref ip));
+					((PatternGroup)Members[im]).SearchGroup(phones, ref ip));
 
 				switch (compareResult)
 				{
@@ -1619,9 +1594,9 @@ namespace SIL.Pa.PhoneticSearching
 			int ip = startIndex;				// Index into the collection of phones
 			int im = 0;							// Index into the collection of members
 
-			while (m_members != null && im < m_members.Count)
+			while (Members != null && im < Members.Count)
 			{
-				member = m_members[im] as PatternGroupMember;
+				member = Members[im] as PatternGroupMember;
 
 				// Check if the current member is a zero/one or more member.
 				if (member != null)
@@ -1650,7 +1625,7 @@ namespace SIL.Pa.PhoneticSearching
 				// Check for a match. If member is null it means the current
 				// member is a PatternGroup, not a PatternGroupMember.
 				compareResult = (member != null ? member.ContainsMatch(phones[ip]) :
-					((PatternGroup)m_members[im]).SearchGroup(phones, ref ip));
+					((PatternGroup)Members[im]).SearchGroup(phones, ref ip));
 
 				switch (compareResult)
 				{
@@ -1673,9 +1648,9 @@ namespace SIL.Pa.PhoneticSearching
 			// but before getting to the end of the list of search pattern members and the
 			// last member in the pattern is not a word boundary, then we really don't have
 			// a match. Therefore, return false.
-			if (ip == phones.Length && im < m_members.Count)
+			if (ip == phones.Length && im < Members.Count)
 			{
-				if (member == null || member.Member != " " || im < m_members.Count - 1)
+				if (member == null || member.Member != " " || im < Members.Count - 1)
 				{
 					results[0] = results[1] = -1;
 					return false;
@@ -1725,13 +1700,13 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			matchLength = -1;
 
-			if (m_members == null)
+			if (Members == null)
 				return CompareResultType.NoMatch;
 
 			int[] results = new[] { -1, -1 };
 			CompareResultType compareResult = CompareResultType.NoMatch;
 
-			foreach (object member in m_members)
+			foreach (object member in Members)
 			{
 				PatternGroup group = member as PatternGroup;
 
@@ -1748,7 +1723,7 @@ namespace SIL.Pa.PhoneticSearching
 					{
 						if (SearchEngine.IgnoredPhones.Contains(phones[ip]))
 						{
-							if (m_envType == EnvironmentType.Before && ip > 0)
+							if (EnvironmentType == EnvironmentType.Before && ip > 0)
 								ip--;
 							else if (ip < phones.Length - 1)
 								ip++;
@@ -1766,8 +1741,8 @@ namespace SIL.Pa.PhoneticSearching
 				}
 
 				if (compareResult == CompareResultType.Ignored ||
-					(compareResult == CompareResultType.Match && m_type != GroupType.And) ||
-					(compareResult == CompareResultType.NoMatch && m_type != GroupType.Or))
+					(compareResult == CompareResultType.Match && GroupType != GroupType.And) ||
+					(compareResult == CompareResultType.NoMatch && GroupType != GroupType.Or))
 				{
 					return compareResult;
 				}
@@ -1775,7 +1750,7 @@ namespace SIL.Pa.PhoneticSearching
 
 			// We should only get this far for two reasons. 1) we're an OR group and no
 			// match was found, or 2) we're an AND group and every member yielded a match.
-			return (m_type == GroupType.And ? CompareResultType.Match : CompareResultType.NoMatch);
+			return (GroupType == GroupType.And ? CompareResultType.Match : CompareResultType.NoMatch);
 		}
 
 		#endregion

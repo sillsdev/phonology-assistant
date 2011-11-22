@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 
 namespace SIL.Pa.PhoneticSearching
 {
@@ -42,9 +43,6 @@ namespace SIL.Pa.PhoneticSearching
 
 		private static bool s_ignoreUndefinedChars = true;
 
-		private readonly PatternGroup m_envBefore;
-		private readonly PatternGroup m_envAfter;
-		private readonly PatternGroup m_srchItem;
 		private readonly string m_envBeforeStr = string.Empty;
 		private readonly string m_envAfterStr = string.Empty;
 		private readonly string m_srchItemStr = string.Empty;
@@ -52,6 +50,10 @@ namespace SIL.Pa.PhoneticSearching
 		int m_matchIndex;
 
 		private readonly List<string> m_errors = new List<string>();
+
+		public PatternGroup EnvBeforePatternGroup { get; private set; }
+		public PatternGroup SrchItemPatternGroup { get; private set; }
+		public PatternGroup EnvAfterPatternGroup { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		static SearchEngine()
@@ -89,7 +91,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (pattern == null)
 				pattern = string.Empty;
 
-			string[] patterns = SearchQuery.GetPatternPieces(pattern);
+			var patterns = SearchQuery.GetPatternPieces(pattern);
 			if (patterns == null)
 			{
 				m_errors.Add(string.Format(GetSyntaxErrorMsg(), pattern));
@@ -120,13 +122,26 @@ namespace SIL.Pa.PhoneticSearching
 
 			try
 			{
-				m_srchItem = new PatternGroup(EnvironmentType.Item);
-				m_envBefore = new PatternGroup(EnvironmentType.Before);
-				m_envAfter = new PatternGroup(EnvironmentType.After);
+				if (Settings.Default.UseNewSearchPatternParser)
+				{
+					var parser = new PatternParser(App.Project);
+					SrchItemPatternGroup = parser.Parse(patterns[0], EnvironmentType.Item);
+					EnvBeforePatternGroup = parser.Parse(patterns[1], EnvironmentType.Before);
+					EnvAfterPatternGroup = parser.Parse(patterns[2], EnvironmentType.After);
 
-				Parse(m_srchItem, patterns[0]);
-				Parse(m_envBefore, patterns[1]);
-				Parse(m_envAfter, patterns[2]);
+					if (parser.HasErrors)
+						m_errors.AddRange(parser.Errors);
+				}
+				else
+				{
+					SrchItemPatternGroup = new PatternGroup(EnvironmentType.Item);
+					EnvBeforePatternGroup = new PatternGroup(EnvironmentType.Before);
+					EnvAfterPatternGroup = new PatternGroup(EnvironmentType.After);
+
+					Parse(SrchItemPatternGroup, patterns[0]);
+					Parse(EnvBeforePatternGroup, patterns[1]);
+					Parse(EnvAfterPatternGroup, patterns[2]);
+				}
 			}
 			catch
 			{
@@ -177,7 +192,7 @@ namespace SIL.Pa.PhoneticSearching
 				errors.Append(separateErrorsWithLineBreaks ? Environment.NewLine : " ");
 			}
 
-			var fmt = App.GetString("SearchEngine.PatternParsingErrorMsg",
+			var fmt = App.GetString("PhoneticSearchingMessages.GenericPatternParsingErrorMsg",
 				"The following error(s) occurred when parsing the search pattern:\n\n{0}",
 				"Search Query Messages");
 
@@ -192,8 +207,8 @@ namespace SIL.Pa.PhoneticSearching
 			
 			if (ptrnGrp.Members == null || ptrnGrp.Members.Count == 0)
 			{
-				var fmt = App.GetString("SearchEngine.ParsedToNothingErrorMsg",
-					"Error parsing the {0}.", "Search Query Messages");
+				var fmt = App.GetString("PhoneticSearchingMessages.ParsedToNothingErrorMsg",
+					"Parsing the pattern '{0}' resulted in nothing to search for.");
 
 				m_errors.Add(string.Format(fmt, envType));
 				return;
@@ -221,13 +236,13 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public static string GetSyntaxErrorMsg()
 		{
-			return App.GetString("SearchEngine.SyntaxErrorMsg", "Syntax error in {0}.");
+			return App.GetString("PhoneticSearchingMessages.SyntaxErrorMsg", "Syntax error in {0}.");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private static string GetPatternSyntaxErrorMsg()
 		{
-			return App.GetString("SearchEngine.PatternSyntaxErrorMsg",
+			return App.GetString("PhoneticSearchingMessages.PatternSyntaxErrorMsg",
 				"Syntax error. Pattern is not in the correct format: {0}");
 		}
 
@@ -285,7 +300,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			if (App.IPASymbolCache.UndefinedCharacters != null && IgnoredPhones != null)
 			{
-				foreach (var upci in App.IPASymbolCache.UndefinedCharacters.Where(upci => !IgnoredPhones.Contains(upci.Character.ToString())))
+				foreach (var upci in App.IPASymbolCache.UndefinedCharacters
+					.Where(upci => !IgnoredPhones.Contains(upci.Character.ToString())))
 				{
 					IgnoredPhones.Add(upci.Character.ToString());
 				}
@@ -301,10 +317,10 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			if (App.IPASymbolCache.UndefinedCharacters != null && IgnoredPhones != null)
 			{
-				foreach (var upci in App.IPASymbolCache.UndefinedCharacters)
+				foreach (var upci in App.IPASymbolCache.UndefinedCharacters
+					.Where(upci => IgnoredPhones.Contains(upci.Character.ToString())))
 				{
-					if (IgnoredPhones.Contains(upci.Character.ToString()))
-						IgnoredPhones.Remove(upci.Character.ToString());
+					IgnoredPhones.Remove(upci.Character.ToString());
 				}
 			}
 		}
@@ -343,36 +359,6 @@ namespace SIL.Pa.PhoneticSearching
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the environment before's pattern group
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public PatternGroup EnvBeforePatternGroup
-		{
-			get { return m_envBefore; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the search item's pattern group
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public PatternGroup SrchItemPatternGroup
-		{
-			get { return m_srchItem; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the environment after's pattern group
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public PatternGroup EnvAfterPatternGroup
-		{
-			get { return m_envAfter; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Gets a string of phones found in all the IPA character and IPA character run
 		/// members of all the pattern pieces (i.e. search item and before and after
 		/// environments).
@@ -381,9 +367,9 @@ namespace SIL.Pa.PhoneticSearching
 		public string[] GetPhonesInPattern()
 		{
 			var bldrPhones = new StringBuilder();
-			bldrPhones.Append(GetPhonesFromMember(m_srchItem));
-			bldrPhones.Append(GetPhonesFromMember(m_envBefore));
-			bldrPhones.Append(GetPhonesFromMember(m_envAfter));
+			bldrPhones.Append(GetPhonesFromMember(SrchItemPatternGroup));
+			bldrPhones.Append(GetPhonesFromMember(EnvBeforePatternGroup));
+			bldrPhones.Append(GetPhonesFromMember(EnvAfterPatternGroup));
 
 			return (bldrPhones.Length == 0 ? null :
 				App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true,
@@ -393,7 +379,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public string[] GetPhonesInSearchItem()
 		{
-			var bldrPhones = new StringBuilder(GetPhonesFromMember(m_srchItem));
+			var bldrPhones = new StringBuilder(GetPhonesFromMember(SrchItemPatternGroup));
 			return (bldrPhones.Length == 0 ? null :
 				App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true,
 				ConvertPatternWithTranscriptionChanges));
@@ -402,7 +388,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public string[] GetPhonesInPrecedingEnv()
 		{
-			var bldrPhones = new StringBuilder(GetPhonesFromMember(m_envBefore));
+			var bldrPhones = new StringBuilder(GetPhonesFromMember(EnvBeforePatternGroup));
 			return (bldrPhones.Length == 0 ? null :
 				App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true,
 				ConvertPatternWithTranscriptionChanges));
@@ -411,7 +397,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public string[] GetPhonesInFollowingEnv()
 		{
-			var bldrPhones = new StringBuilder(GetPhonesFromMember(m_envAfter));
+			var bldrPhones = new StringBuilder(GetPhonesFromMember(EnvAfterPatternGroup));
 			return (bldrPhones.Length == 0 ? null :
 				App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true,
 				ConvertPatternWithTranscriptionChanges));
@@ -434,33 +420,21 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public List<char> GetInvalidSymbolsInSearchItem()
 		{
-			return GetInvalidCharsFromMember(m_srchItem);
+			return GetInvalidCharsFromMember(SrchItemPatternGroup);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public List<char> GetInvalidSymbolsInPrecedingEnv()
 		{
-			return GetInvalidCharsFromMember(m_envBefore);
+			return GetInvalidCharsFromMember(EnvBeforePatternGroup);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public List<char> GetInvalidSymbolsInFollowingEnv()
 		{
-			return GetInvalidCharsFromMember(m_envAfter);
+			return GetInvalidCharsFromMember(EnvAfterPatternGroup);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -471,21 +445,14 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public WordBoundaryCondition GetWordBoundaryCondition()
 		{
-			string srchItemPattern = (m_srchItem == null ? string.Empty : m_srchItem.ToString());
+			string srchItemPattern = (SrchItemPatternGroup == null ? string.Empty : SrchItemPatternGroup.ToString());
 			if (srchItemPattern.StartsWith("#"))
 				return WordBoundaryCondition.BeginningOfSearchItem;
 
-			if (srchItemPattern.EndsWith("#"))
-				return WordBoundaryCondition.EndOfSearchItem;
-
-			return WordBoundaryCondition.NoCondition;
+			return srchItemPattern.EndsWith("#") ?
+				WordBoundaryCondition.EndOfSearchItem : WordBoundaryCondition.NoCondition;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a value indicating whether or not there is an invalid word boundary symbol
-		/// found in the search pattern, and where it is.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public ZeroOrMoreCondition GetZeroOrMoreCondition()
 		{
@@ -767,7 +734,7 @@ namespace SIL.Pa.PhoneticSearching
 				result = new[] { -1, -1 };
 
 				// First, look for the search item.
-				if (m_srchItem == null || !m_srchItem.Search(m_phones, m_matchIndex, out result))
+				if (SrchItemPatternGroup == null || !SrchItemPatternGroup.Search(m_phones, m_matchIndex, out result))
 					return false;
 
 				// Save where the match was found.
@@ -775,9 +742,9 @@ namespace SIL.Pa.PhoneticSearching
 
 				// Now search before the match and after the match to
 				// see if we match on the environment before and after.
-				if (m_envBefore.Search(m_phones, m_matchIndex - 1))
+				if (EnvBeforePatternGroup.Search(m_phones, m_matchIndex - 1))
 				{
-					if (m_envAfter.Search(m_phones, m_matchIndex + result[1]))
+					if (EnvAfterPatternGroup.Search(m_phones, m_matchIndex + result[1]))
 					{
 						m_matchIndex++;
 						return true;

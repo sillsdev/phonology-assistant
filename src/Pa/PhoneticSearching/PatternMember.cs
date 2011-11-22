@@ -74,7 +74,7 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void AddPhoneGroup(IEnumerable<string> phoneGroup)
+		public void AddGroup(IEnumerable<string> group)
 		{
 			if (_runOfSymbols != string.Empty)
 			{
@@ -82,7 +82,7 @@ namespace SIL.Pa.PhoneticSearching
 				_runOfSymbols = string.Empty;
 			}
 
-			_groups.Add(phoneGroup.ToList());
+			_groups.Add(group.ToList());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -103,7 +103,7 @@ namespace SIL.Pa.PhoneticSearching
 			for (int i = 0; i < _groups.Count; i++)
 			{
 				if (!(_groups[i] is string))
-					_groupsLinkedList.AddLast(new PhoneGroup(_groups[i] as List<string>));
+					_groupsLinkedList.AddLast(new PhoneGroup(_groups[i] as IEnumerable<string>));
 				else
 				{
 					var run = (string)_groups[i];

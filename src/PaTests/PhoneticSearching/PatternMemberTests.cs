@@ -27,7 +27,7 @@ namespace SIL.Pa.PhoneticSearching
 		private PatternMember CreateMember(PatternPart part, string wildcardSymbol)
 		{
 			var member = new PatternMember(part, false, new[] { "$", "%" });
-			member.AddPhoneGroup(new[] { "a", "e", "i", "o", "u" });
+			member.AddGroup(new[] { "a", "e", "i", "o", "u" });
 			member.FinalizeParse(wildcardSymbol ?? string.Empty, _prj.PhoneticParser);
 			return member;
 		}
@@ -167,8 +167,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			var member = CreateMember(PatternPart.Preceding, null);
 			member.Reset();
-			member.AddPhoneGroup(new[] { "x", "y", "z" });
-			member.AddPhoneGroup(new[] { "a", "b", "c" });
+			member.AddGroup(new[] { "x", "y", "z" });
+			member.AddGroup(new[] { "a", "b", "c" });
 			member.FinalizeParse("", _prj.PhoneticParser);
 			Assert.IsTrue(GetMatchInEnvironment(member, "lkjyb"));
 		}
@@ -179,8 +179,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			var member = CreateMember(PatternPart.Preceding, null);
 			member.Reset();
-			member.AddPhoneGroup(new[] { "x", "y", "z" });
-			member.AddPhoneGroup(new[] { "a", "b", "c" });
+			member.AddGroup(new[] { "x", "y", "z" });
+			member.AddGroup(new[] { "a", "b", "c" });
 			member.FinalizeParse("", _prj.PhoneticParser);
 			Assert.IsTrue(GetMatchInEnvironment(member, "lkjyb$%$"));
 			Assert.IsTrue(GetMatchInEnvironment(member, "yb$%$"));
@@ -192,8 +192,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			var member = CreateMember(PatternPart.Preceding, null);
 			member.Reset();
-			member.AddPhoneGroup(new[] { "x", "y", "z" });
-			member.AddPhoneGroup(new[] { "a", "b", "c" });
+			member.AddGroup(new[] { "x", "y", "z" });
+			member.AddGroup(new[] { "a", "b", "c" });
 			member.FinalizeParse("", _prj.PhoneticParser);
 			Assert.IsTrue(GetMatchInEnvironment(member, "lkjy$%$b"));
 			Assert.IsTrue(GetMatchInEnvironment(member, "y$b%"));
@@ -205,8 +205,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			var member = CreateMember(PatternPart.Preceding, null);
 			member.Reset();
-			member.AddPhoneGroup(new[] { "x", "y", "z" });
-			member.AddPhoneGroup(new[] { "a", "b", "c" });
+			member.AddGroup(new[] { "x", "y", "z" });
+			member.AddGroup(new[] { "a", "b", "c" });
 			member.FinalizeParse("+", _prj.PhoneticParser);
 			Assert.IsTrue(GetMatchInEnvironment(member, "lyb"));
 		}
@@ -217,8 +217,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			var member = CreateMember(PatternPart.Preceding, null);
 			member.Reset();
-			member.AddPhoneGroup(new[] { "x", "y", "z" });
-			member.AddPhoneGroup(new[] { "a", "b", "c" });
+			member.AddGroup(new[] { "x", "y", "z" });
+			member.AddGroup(new[] { "a", "b", "c" });
 			member.FinalizeParse("+", _prj.PhoneticParser);
 			Assert.IsFalse(GetMatchInEnvironment(member, "yb"));
 		}
@@ -229,8 +229,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			var member = CreateMember(PatternPart.Preceding, null);
 			member.Reset();
-			member.AddPhoneGroup(new[] { "x", "y", "z" });
-			member.AddPhoneGroup(new[] { "a", "b", "c" });
+			member.AddGroup(new[] { "x", "y", "z" });
+			member.AddGroup(new[] { "a", "b", "c" });
 			member.FinalizeParse("#", _prj.PhoneticParser);
 			Assert.IsFalse(GetMatchInEnvironment(member, "lyb"));
 		}
@@ -241,8 +241,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			var member = CreateMember(PatternPart.Preceding, null);
 			member.Reset();
-			member.AddPhoneGroup(new[] { "x", "y", "z" });
-			member.AddPhoneGroup(new[] { "a", "b", "c" });
+			member.AddGroup(new[] { "x", "y", "z" });
+			member.AddGroup(new[] { "a", "b", "c" });
 			member.FinalizeParse("#", _prj.PhoneticParser);
 			Assert.IsTrue(GetMatchInEnvironment(member, "yb"));
 		}
@@ -392,8 +392,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			var member = CreateMember(PatternPart.Following, null);
 			member.Reset();
-			member.AddPhoneGroup(new[] { "a", "b", "c" });
-			member.AddPhoneGroup(new[] { "x", "y", "z" });
+			member.AddGroup(new[] { "a", "b", "c" });
+			member.AddGroup(new[] { "x", "y", "z" });
 			member.FinalizeParse("", _prj.PhoneticParser);
 			Assert.IsTrue(GetMatchInEnvironment(member, "byjkl"));
 		}
@@ -404,8 +404,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			var member = CreateMember(PatternPart.Following, null);
 			member.Reset();
-			member.AddPhoneGroup(new[] { "a", "b", "c" });
-			member.AddPhoneGroup(new[] { "x", "y", "z" });
+			member.AddGroup(new[] { "a", "b", "c" });
+			member.AddGroup(new[] { "x", "y", "z" });
 			member.FinalizeParse("", _prj.PhoneticParser);
 			Assert.IsTrue(GetMatchInEnvironment(member, "$%$byjkl"));
 			Assert.IsTrue(GetMatchInEnvironment(member, "$%$by"));
@@ -417,8 +417,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			var member = CreateMember(PatternPart.Following, null);
 			member.Reset();
-			member.AddPhoneGroup(new[] { "a", "b", "c" });
-			member.AddPhoneGroup(new[] { "x", "y", "z" });
+			member.AddGroup(new[] { "a", "b", "c" });
+			member.AddGroup(new[] { "x", "y", "z" });
 			member.FinalizeParse("", _prj.PhoneticParser);
 			Assert.IsTrue(GetMatchInEnvironment(member, "b$%$yjkl"));
 			Assert.IsTrue(GetMatchInEnvironment(member, "%b$y"));
@@ -430,8 +430,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			var member = CreateMember(PatternPart.Following, null);
 			member.Reset();
-			member.AddPhoneGroup(new[] { "a", "b", "c" });
-			member.AddPhoneGroup(new[] { "x", "y", "z" });
+			member.AddGroup(new[] { "a", "b", "c" });
+			member.AddGroup(new[] { "x", "y", "z" });
 			member.FinalizeParse("+", _prj.PhoneticParser);
 			Assert.IsTrue(GetMatchInEnvironment(member, "byl"));
 		}
@@ -442,8 +442,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			var member = CreateMember(PatternPart.Following, null);
 			member.Reset();
-			member.AddPhoneGroup(new[] { "a", "b", "c" });
-			member.AddPhoneGroup(new[] { "x", "y", "z" });
+			member.AddGroup(new[] { "a", "b", "c" });
+			member.AddGroup(new[] { "x", "y", "z" });
 			member.FinalizeParse("+", _prj.PhoneticParser);
 			Assert.IsFalse(GetMatchInEnvironment(member, "by"));
 		}
@@ -454,8 +454,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			var member = CreateMember(PatternPart.Following, null);
 			member.Reset();
-			member.AddPhoneGroup(new[] { "a", "b", "c" });
-			member.AddPhoneGroup(new[] { "x", "y", "z" });
+			member.AddGroup(new[] { "a", "b", "c" });
+			member.AddGroup(new[] { "x", "y", "z" });
 			member.FinalizeParse("#", _prj.PhoneticParser);
 			Assert.IsFalse(GetMatchInEnvironment(member, "byl"));
 		}
@@ -466,8 +466,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			var member = CreateMember(PatternPart.Following, null);
 			member.Reset();
-			member.AddPhoneGroup(new[] { "a", "b", "c" });
-			member.AddPhoneGroup(new[] { "x", "y", "z" });
+			member.AddGroup(new[] { "a", "b", "c" });
+			member.AddGroup(new[] { "x", "y", "z" });
 			member.FinalizeParse("#", _prj.PhoneticParser);
 			Assert.IsTrue(GetMatchInEnvironment(member, "by"));
 		}

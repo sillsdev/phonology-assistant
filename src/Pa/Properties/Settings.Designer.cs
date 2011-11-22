@@ -3685,24 +3685,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool UseRegExpressionSearching {
+        public bool UseNewSearchPatternParser {
             get {
-                return ((bool)(this["UseRegExpressionSearching"]));
+                return ((bool)(this["UseNewSearchPatternParser"]));
             }
             set {
-                this["UseRegExpressionSearching"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::SilTools.FormSettings RegularExpressionSearchDebugDlg {
-            get {
-                return ((global::SilTools.FormSettings)(this["RegularExpressionSearchDebugDlg"]));
-            }
-            set {
-                this["RegularExpressionSearchDebugDlg"] = value;
+                this["UseNewSearchPatternParser"] = value;
             }
         }
         

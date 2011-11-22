@@ -1043,7 +1043,8 @@ namespace SIL.Pa
 		{
 			CloseSplashScreen();
 			Utils.WaitCursors(false);
-			ErrorReport.NotifyUserOfProblem(msg, args);
+			try { ErrorReport.NotifyUserOfProblem(msg, args); }
+			catch { }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1051,7 +1052,8 @@ namespace SIL.Pa
 		{
 			CloseSplashScreen();
 			Utils.WaitCursors(false);
-			ErrorReport.NotifyUserOfProblem(e, msg, args);
+			try { ErrorReport.NotifyUserOfProblem(e, msg, args); }
+			catch { }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1654,77 +1656,64 @@ namespace SIL.Pa
 				true, incAmount, out resultCount);
 		}
 
+		///// ------------------------------------------------------------------------------------
+		//private static WordListCache SearchUsingRegEx(SearchQuery query, bool incProgressBar,
+		//    bool returnCountOnly, bool showErrMsg, int incAmount, out int resultCount)
+		//{
+		//    WaitCursor.Show();
+		//    resultCount = 0;
+		//    int incCounter = 0;
+
+		//    query.ErrorMessages.Clear();
+		//    var searcher = new PhoneticSearcher(Project, query);
+
+		//    if (incProgressBar)
+		//    {
+		//        searcher.ReportProgressAction = () =>
+		//        {
+		//            if ((incCounter++) == incAmount)
+		//            {
+		//                IncProgressBar(incAmount);
+		//                incCounter = 0;
+		//            }
+		//        };
+		//    }
+
+		//    try
+		//    {
+		//        if (searcher.Parse() && searcher.Search(returnCountOnly, out resultCount))
+		//            return searcher.ResultCache;
+
+		//        var msg = searcher.GetCombinedErrorMessages(true);
+		//        if (!string.IsNullOrEmpty(msg))
+		//        {
+		//            if (showErrMsg)
+		//                ShowSearchError(msg);
+
+		//            query.ErrorMessages.AddRange(searcher.Errors);
+		//        }
+		//    }
+		//    catch (Exception e)
+		//    {
+		//        NotifyUserOfProblem(e, GetString("PhoneticSearchingMessages.SearchingThrewExceptionErrorMsg",
+		//            "There was an error performing a search using the pattern '{0}'."), query.Pattern);
+
+		//    }
+		//    finally
+		//    {
+		//        WaitCursor.Hide();
+		//    }
+
+		//    resultCount = -1;
+		//    return null;
+		//}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Creates and loads a result cache for the specified search query.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static WordListCache Search(SearchQuery query, bool incProgressBar,
-			bool returnCountOnly, bool showErrMsg, int incAmount, out int resultCount)
-		{
-			return (Settings.Default.UseRegExpressionSearching ?
-				SearchUsingRegEx(query, incProgressBar,  returnCountOnly, showErrMsg, incAmount, out resultCount) :
-				SearchUsingOldMethod(query, incProgressBar, returnCountOnly, showErrMsg, incAmount, out resultCount));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private static WordListCache SearchUsingRegEx(SearchQuery query, bool incProgressBar,
-			bool returnCountOnly, bool showErrMsg, int incAmount, out int resultCount)
-		{
-			WaitCursor.Show();
-			resultCount = 0;
-			int incCounter = 0;
-
-			query.ErrorMessages.Clear();
-			var searcher = new PhoneticSearcher(Project, query);
-
-			if (incProgressBar)
-			{
-				searcher.ReportProgressAction = () =>
-				{
-					if ((incCounter++) == incAmount)
-					{
-						IncProgressBar(incAmount);
-						incCounter = 0;
-					}
-				};
-			}
-
-			try
-			{
-				if (searcher.Parse() && searcher.Search(returnCountOnly, out resultCount))
-					return searcher.ResultCache;
-
-				var msg = searcher.GetCombinedErrorMessages(true);
-				if (!string.IsNullOrEmpty(msg))
-				{
-					if (showErrMsg)
-						ShowSearchError(msg);
-
-					query.ErrorMessages.AddRange(searcher.Errors);
-				}
-			}
-			catch (Exception e)
-			{
-				NotifyUserOfProblem(e, GetString("PhoneticSearchingMessages.SearchingThrewExceptionErrorMsg",
-					"There was an error performing a search using the pattern '{0}'."), query.Pattern);
-
-			}
-			finally
-			{
-				WaitCursor.Hide();
-			}
-
-			resultCount = -1;
-			return null;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Creates and loads a result cache for the specified search query.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static WordListCache SearchUsingOldMethod(SearchQuery query, bool incProgressBar,
 			bool returnCountOnly, bool showErrMsg, int incAmount, out int resultCount)
 		{
 			resultCount = 0;

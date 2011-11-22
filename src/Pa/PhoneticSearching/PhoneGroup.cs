@@ -7,25 +7,76 @@ namespace SIL.Pa.PhoneticSearching
 {
 	public class PhoneGroup
 	{
-		private readonly List<string> _phones;
-		private readonly string _diacriticCluster;
-		private readonly bool _diacritiClusterHasOneOrMore;
-		private readonly bool _diacritiClusterHasZeroOrMore;
+//		private readonly List<object> _groupItems;
+
+		private readonly List<string> _phoneItems;
+		
+		private readonly bool _consonantClassPresent;
+		private readonly bool _vowelClassPresent;
+
+		private FeatureMask _descriptiveFeatureMask = App.AFeatureCache.GetEmptyMask();
+		private FeatureMask _distinctiveFeatureMask = App.BFeatureCache.GetEmptyMask();
+		
+		private string _diacriticCluster;
+		private bool _diacritiClusterHasOneOrMore;
+		private bool _diacritiClusterHasZeroOrMore;
 
 		/// ---------------------------------------------------------------------------------
-		public PhoneGroup(IEnumerable<string> phoneList)
+		public PhoneGroup(IEnumerable<string> groupItems)
 		{
-			_phones = phoneList.ToList();
+	//		_groupItems = groupItems.ToList();
 
-			_diacriticCluster = _phones.FirstOrDefault(p => p.Contains(App.kDottedCircleC));
+			var items = groupItems.ToList();
+
+			if (items.Any(i => i == "[C]"))
+			{
+				_consonantClassPresent = true;
+				items.Remove("[C]");
+			}
+
+			if (items.Any(i => i == "[V]"))
+			{
+				_vowelClassPresent = true;
+				items.Remove("[V]");
+			}
+
+			CheckForDiacriticPlaceholderPattern(items);
+			GetFeatureMasksFromItems(items);
+			_phoneItems = items;
+		}
+
+		/// ---------------------------------------------------------------------------------
+		private void CheckForDiacriticPlaceholderPattern(ICollection<string> items)
+		{
+			_diacriticCluster = items.FirstOrDefault(p => p.Contains(App.kDottedCircleC));
 			if (_diacriticCluster == null)
 				return;
 
-			_phones.Remove(_diacriticCluster);
+			items.Remove(_diacriticCluster);
 			_diacriticCluster = _diacriticCluster.Replace(App.kDottedCircle, string.Empty);
 			_diacritiClusterHasOneOrMore = (_diacriticCluster.IndexOf('+') >= 0);
 			_diacritiClusterHasZeroOrMore = (_diacriticCluster.IndexOf('*') >= 0);
 			_diacriticCluster = _diacriticCluster.Replace("+", string.Empty).Replace("*", string.Empty);
+		}
+
+		/// ---------------------------------------------------------------------------------
+		private void GetFeatureMasksFromItems(List<string> items)
+		{
+			var distinctiveFeatureNames = (from fname in items.Where(i => i.StartsWith("F:"))
+										   where fname.StartsWith("+") || fname.StartsWith("-")
+										   select fname).ToList();
+
+			if (distinctiveFeatureNames.Count > 0)
+				_distinctiveFeatureMask = App.BFeatureCache.GetMask(distinctiveFeatureNames);
+
+			var descriptiveFeatureNames = (from fname in items.Where(i => i.StartsWith("F:"))
+										   where !fname.StartsWith("+") && !fname.StartsWith("-")
+										   select fname).ToList();
+			
+			if (descriptiveFeatureNames.Count > 0)
+				_descriptiveFeatureMask = App.BFeatureCache.GetMask(descriptiveFeatureNames);
+
+			items = items.Where(i => !i.StartsWith("F:")).ToList();
 		}
 
 		/// ---------------------------------------------------------------------------------
@@ -38,7 +89,8 @@ namespace SIL.Pa.PhoneticSearching
 		public bool Matches(string phone, bool ignoreDiacritics,
 			List<string> ignoredNonBaseSuprasegmentals)
 		{
-			if (_phones.Contains(phone))
+			//if (_groupItems.Contains(phone))
+			if (_phoneItems.Contains(phone))
 				return (!HasDiacriticPlaceholder || GetDoesPhoneMatchDiacriticPlaceholderCluster(phone));
 
 			if (ignoreDiacritics && GetDoesPhoneMatchWhenNonBaseSymbolsAreIgnored(phone, GetDiacriticsInPhone))
@@ -79,13 +131,13 @@ namespace SIL.Pa.PhoneticSearching
 		public bool GetDoesPhoneMatchWhenNonBaseSymbolsAreIgnored(string phone,
 			Func<string, IEnumerable<char>> nonBaseSymbolRemover)
 		{
-			foreach (var phoneInGroup in _phones)
+			foreach (var phoneItem in _phoneItems)
 			{
 				var testPhone = nonBaseSymbolRemover(phone)
-					.Where(chr => !phoneInGroup.Contains(chr))
+					.Where(chr => !phoneItem.Contains(chr))
 					.Aggregate(phone, (curr, chr) => curr.Replace(chr.ToString(), string.Empty));
 
-				if (testPhone == phoneInGroup)
+				if (testPhone == phoneItem)
 					return true;
 			}
 
@@ -117,20 +169,16 @@ namespace SIL.Pa.PhoneticSearching
 		/// or not the symbols are ignored based on the search query's ignored diacritics
 		/// flag value and ignored symbols collection. For each symbol that's ignored, a
 		/// version of the phone without that ignored symbol is added to the phone group.
-		/// When a phone in phoneGroup is found that has a '>' prefix it means that previously
-		/// in the pattern parsing process, the phone matched the the criteria imposed by a
-		/// diacritic placeholder cluster pattern. Those cases trump the query's ignore
-		/// diacritics value and ignored symbols collection.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<string> PhonesThatMatchIgnoredNonBaseSymbols(
 			Func<IPASymbol, bool> symbolQualifiesProvider)
 		{
-			int initialNumberOfPhones = _phones.Count;
+			int initialNumberOfPhones = _phoneItems.Count;
 
 			for (int i = 0; i < initialNumberOfPhones; i++)
 			{
-				var nonBaseSymbolsInPhone = (from s in _phones[i]
+				var nonBaseSymbolsInPhone = (from s in _phoneItems[i]
 											 let symbolInfo = App.IPASymbolCache[s]
 											 where symbolInfo != null && !symbolInfo.IsBase && symbolQualifiesProvider(symbolInfo)
 											 select s).ToArray();
@@ -138,17 +186,17 @@ namespace SIL.Pa.PhoneticSearching
 				if (nonBaseSymbolsInPhone.Length == 0)
 					continue;
 
-				var finalNewPhone = _phones[i];
+				var finalNewPhone = _phoneItems[i];
 
 				foreach (var symbol in nonBaseSymbolsInPhone)
 				{
 					finalNewPhone = finalNewPhone.Replace(symbol.ToString(), string.Empty);
-					var newPhone = _phones[i].Replace(symbol.ToString(), string.Empty);
-					if (!_phones.Contains(newPhone))
+					var newPhone = _phoneItems[i].Replace(symbol.ToString(), string.Empty);
+					if (!_phoneItems.Contains(newPhone))
 						yield return newPhone;
 				}
 
-				if (!_phones.Contains(finalNewPhone))
+				if (!_phoneItems.Contains(finalNewPhone))
 					yield return finalNewPhone;
 			}
 		}
