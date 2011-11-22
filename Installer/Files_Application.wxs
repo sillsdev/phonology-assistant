@@ -17,7 +17,7 @@
         
       <Directory Id="ProgramFilesFolder" Name="PFiles">
 				<!--<Directory Id="ProgramDir" Name="Phonology Assistant">-->
-				<Directory Id="APPLICATIONFOLDER" Name="Phonology Assistant 3.x">
+				<Directory Id="APPLICATIONFOLDER" Name="Phonology Assistant">
 					<Component Id="Pa.exe" Guid="{C1BD51CD-92F3-4f83-B5AD-0842C3063985}">
 						<File Id="Pa.exe" Name="Pa.exe"  Source="..\output\release\Pa.exe" />
 					</Component>
