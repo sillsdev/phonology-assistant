@@ -311,6 +311,16 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void PatternGroupTest_Complex()
 		{
+			App.BFeatureCache.Clear();
+			App.BFeatureCache.LoadFromList(new[]
+			{
+				new Feature { Name = "+high" },
+				new Feature { Name = "+dorsal" },
+			});
+
+			App.AFeatureCache.Clear();
+			App.AFeatureCache.LoadFromList(new[] { new Feature { Name = "dental" } });
+
 			PatternGroup group = new PatternGroup(EnvironmentType.After);
 			group.Parse("[[{a,e}{[+high],[dental]}][-dorsal]]");
 
@@ -381,7 +391,7 @@ namespace SIL.Pa.Tests
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void PatternGroupTest_FeaturesOnlyAND_1()
+		public void PatternGroupTest_FeaturesOnlyAND()
 		{
 			PatternGroup group = new PatternGroup(EnvironmentType.After);
 			group.Parse("[[+high][dental]]");
@@ -392,53 +402,17 @@ namespace SIL.Pa.Tests
 		/// <summary>
 		/// Tests the PatternGroup and PatternGroupMember classes (via the PatternParser class)
 		/// to make sure patterns are parsed and stored correctly. This test is a simple test
-		/// with only AND'd features.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void PatternGroupTest_FeaturesOnlyAND_2()
-		{
-			PatternGroup group = new PatternGroup(EnvironmentType.After);
-			// Include a comma between features. This should not be considered an OR
-			group.Parse("[[+high],[dental]]");
-			VerifyGroup_1(group, true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tests the PatternGroup and PatternGroupMember classes (via the PatternParser class)
-		/// to make sure patterns are parsed and stored correctly. This test is a simple test
 		/// with only OR'd features.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void PatternGroupTests_FeaturesOnlyOR_1()
+		public void PatternGroupTests_FeaturesOnlyOR()
 		{
 			PatternGroup group = new PatternGroup(EnvironmentType.After);
 			group.Parse("{[+high],[dental]}");
 			VerifyGroup_1(group, false);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tests the PatternGroup and PatternGroupMember classes (via the PatternParser class)
-		/// to make sure patterns are parsed and stored correctly. This test is a simple test
-		/// with only OR'd features.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void PatternGroupTests_FeaturesOnlyOR_2()
-		{
-			PatternGroup group = new PatternGroup(EnvironmentType.After);
-			// Don't include the comma between features. This should not be considered and AND.
-			group.Parse("{[+high][dental]}");
-			VerifyGroup_1(group, false);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static void VerifyGroup_1(PatternGroup group, bool andMembers)
 		{

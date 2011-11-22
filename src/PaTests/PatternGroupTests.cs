@@ -110,34 +110,30 @@ namespace SIL.Pa.Tests
 		public void SearchNonSequentialGroupsTest_1()
 		{
 			// Put mock data in the articulatory and binary features of the phone.
-			((PhoneInfo)m_phoneCache["d"]).BFeatureNames = new List<string> { "+high", "-voiced" };
+			((PhoneInfo)m_phoneCache["d"]).BFeatureNames = new List<string> { "+high", "-voice" };
 			((PhoneInfo)m_phoneCache["d"]).AFeatureNames = new List<string> { "dental" };
 			
 			var phones = new[] { "d" };
 			int ip = 0;
 
 			var group = new PatternGroup(EnvironmentType.After);
-			group.Parse("[{[+high],[-voiced]}[C]]");
+			group.Parse("[{[+high],[-voice]}[C]]");
 			Assert.AreEqual(CompareResultType.Match, group.SearchGroup(phones, ref ip));
 
 			group = new PatternGroup(EnvironmentType.After);
-			group.Parse("[{[-high],[+voiced]}[C]]");
+			group.Parse("[{[-high],[+voice]}[C]]");
 			Assert.AreEqual(CompareResultType.NoMatch, group.SearchGroup(phones, ref ip));
 
 			group = new PatternGroup(EnvironmentType.After);
-			group.Parse("{[[+high][+voiced]],[dental]}");
+			group.Parse("{[[+high][+voice]],[dental]}");
 			Assert.AreEqual(CompareResultType.Match, group.SearchGroup(phones, ref ip));
 
 			group = new PatternGroup(EnvironmentType.After);
-			group.Parse("{[[+high][+voiced]],[dental]}");
+			group.Parse("[[[+high][+voice]][dental]]");
 			Assert.AreEqual(CompareResultType.NoMatch, group.SearchGroup(phones, ref ip));
 
 			group = new PatternGroup(EnvironmentType.After);
-			group.Parse("[[[+high][+voiced]][dental]]");
-			Assert.AreEqual(CompareResultType.NoMatch, group.SearchGroup(phones, ref ip));
-
-			group = new PatternGroup(EnvironmentType.After);
-			group.Parse("[[[+high][-voiced]][dental]]");
+			group.Parse("[[[+high][-voice]][dental]]");
 			Assert.AreEqual(CompareResultType.Match, group.SearchGroup(phones, ref ip));
 
 			phones = new[] { "a" };
@@ -1460,27 +1456,6 @@ namespace SIL.Pa.Tests
 
 			Assert.AreEqual(2, m_results[0]);
 			Assert.AreEqual(2, m_results[1]);
-
-			m_query.Pattern = string.Format("{{(t[{0}~]),(bt)}}/*_*", App.kDottedCircleC);
-			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(m_engine.SearchWord(Parse("ao~bct~de", false), out m_results));
-
-			Assert.AreEqual(4, m_results[0]);
-			Assert.AreEqual(1, m_results[1]);
-
-			m_query.Pattern = string.Format("{{t[{0}~],(bt)}}/*_*", App.kDottedCircleC);
-			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(m_engine.SearchWord(Parse("ao~bct~de", false), out m_results));
-
-			Assert.AreEqual(4, m_results[0]);
-			Assert.AreEqual(1, m_results[1]);
-
-			m_query.Pattern = string.Format("{{[t[{0}~]],(bt)}}/*_*", App.kDottedCircleC);
-			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(m_engine.SearchWord(Parse("ao~bct~de", false), out m_results));
-
-			Assert.AreEqual(4, m_results[0]);
-			Assert.AreEqual(1, m_results[1]);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -2080,7 +2055,7 @@ namespace SIL.Pa.Tests
 		{
 			((PhoneInfo)m_phoneCache["u"]).AFeatureNames = new List<string> { "close", "back" };
 
-			m_query.Pattern = "[C]/[[close],[back]]_+";
+			m_query.Pattern = "[C]/[[close][back]]_+";
 			m_query.IgnoredCharacters = "'";
 			m_engine = new SearchEngine(m_query);
 			Assert.IsTrue(m_engine.SearchWord(Parse("pau'pat", false), out m_results));
@@ -2099,38 +2074,13 @@ namespace SIL.Pa.Tests
 		{
 			((PhoneInfo)m_phoneCache["p"]).AFeatureNames = new List<string> { "bilabial", "voiceless" };
 
-			m_query.Pattern = "[V]/+_[[bilabial],[voiceless]]";
+			m_query.Pattern = "[V]/+_[[bilabial][voiceless]]";
 			m_query.IgnoredCharacters = "'";
 			m_engine = new SearchEngine(m_query);
 			Assert.IsTrue(m_engine.SearchWord(Parse("phu'pat", false), out m_results));
 
 			Assert.AreEqual(2, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tests sequences of phones are surrounded by parentheses.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void ParentheticalSequencesTest1()
-		{
-			MakeMockCacheEntries();
-
-			m_query.Pattern = "(bct)/*_*";
-			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(m_engine.SearchWord(Parse("aobctde", false), out m_results));
-
-			Assert.AreEqual(2, m_results[0]);
-			Assert.AreEqual(3, m_results[1]);
-
-			m_query.Pattern = "a(bcd)([C][V]){x,z}/*_*";
-			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(m_engine.SearchWord(Parse("omnabcdhizstu", false), out m_results));
-
-			Assert.AreEqual(3, m_results[0]);
-			Assert.AreEqual(7, m_results[1]);
 		}
 
 		/// ------------------------------------------------------------------------------------

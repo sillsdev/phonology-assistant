@@ -186,8 +186,13 @@ namespace SIL.Pa.PhoneticSearching
 			get { return _pattern; }
 			set
 			{
-				_pattern = (value == null ? null : value.Replace("/" + App.kSearchPatternDiamond, "*")
-					.Replace("_" + App.kSearchPatternDiamond, "*"));
+				if (string.IsNullOrEmpty(value))
+					_pattern = App.kEmptyDiamondPattern;
+				else
+				{
+					_pattern = value;
+					_pattern = SearchItem + "/" + PrecedingEnvironment + "_" + FollowingEnvironment;
+				}
 			}
 		}
 
@@ -205,16 +210,16 @@ namespace SIL.Pa.PhoneticSearching
 			{
 				var pieces = GetPatternPieces(Pattern);
 
-				if (pieces.Length < 2)
-					return string.Empty;
+				if (pieces.Length < 2 || pieces[1] == string.Empty)
+					return "*";
 
 				pieces[1] = pieces[1].Replace(App.kSearchPatternDiamond, "*");
 				pieces[1] = pieces[1].Trim();
 				if (pieces[1].StartsWith("*") && pieces[1].Length > 1)
 					pieces[1] = pieces[1].TrimStart('*');
 
-				if (pieces[2].StartsWith("#*"))
-					pieces[2] = "#" + pieces[2].TrimStart('*', '#');
+				if (pieces[1].StartsWith("#*"))
+					pieces[1] = "#" + pieces[1].TrimStart('*', '#');
 
 				return pieces[1];
 			}
@@ -237,8 +242,8 @@ namespace SIL.Pa.PhoneticSearching
 			{
 				var pieces = GetPatternPieces(Pattern);
 
-				if (pieces.Length < 3)
-					return string.Empty;
+				if (pieces.Length < 3 || pieces[2] == string.Empty)
+					return "*";
 
 				pieces[2] = pieces[2].Replace(App.kSearchPatternDiamond, "*");
 				pieces[2] = pieces[2].Trim();

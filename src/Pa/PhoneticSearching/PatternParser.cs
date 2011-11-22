@@ -284,18 +284,10 @@ namespace SIL.Pa.PhoneticSearching
 					group.AddMember(_tokenGroups[piece[0]]);
 					_tokenGroups.Remove(piece[0]);
 				}
+				else if (piece.StartsWith("(") && piece.EndsWith(")"))
+					group.AddMember(ParseTextInParentheses(piece.Trim('(', ')')));
 				else
-				{
-					if (!piece.StartsWith("(") && !piece.EndsWith(")"))
-						group.AddMember(new PatternGroupMember(piece));
-					else
-					{
-						var subGroup = new PatternGroup(_currEnvType) {GroupType = GroupType.Sequential};
-						var member = new PatternGroupMember();
-						foreach (var runMember in member.AddRunAndClose(piece.Trim('(', ')')))
-							subGroup.AddMember(runMember);
-					}
-				}
+					group.AddMember(new PatternGroupMember(piece));
 			}
 
 			if (group.Members.Count == 1 && group.Members[0] is PatternGroup)
@@ -303,6 +295,25 @@ namespace SIL.Pa.PhoneticSearching
 
 			_tokenGroups[++_token] = group;
 			return ReplaceMatchedTextWithToken(pattern, match, _token);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private PatternGroup ParseTextInParentheses(string text)
+		{
+			var subGroup = new PatternGroup(_currEnvType) {GroupType = GroupType.Sequential};
+			
+			foreach (var phone in _project.PhoneticParser.Parse(text, true, false))
+			{
+				if (phone[0] < kMinToken)
+					subGroup.AddMember(new PatternGroupMember(phone));
+				else
+				{
+					subGroup.AddMember(_tokenGroups[phone[0]]);
+					_tokenGroups.Remove(phone[0]);
+				}
+			}
+
+			return subGroup;
 		}
 
 		/// ------------------------------------------------------------------------------------
