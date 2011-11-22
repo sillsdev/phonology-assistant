@@ -17,7 +17,7 @@ namespace SIL.Pa.PhoneticSearching
 	{
 		public const float kCurrVersion = 3.0f;
 
-		private List<string> m_errors = new List<string>();
+		private List<string> _errors = new List<string>();
 		private string _pattern;
 
 		/// ------------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ namespace SIL.Pa.PhoneticSearching
 			ShowAllOccurrences = true;
 			IgnoreDiacritics = true;
 			IgnoredCharacters = GetDefaultIgnoredCharacters();
-			m_errors.Clear();
+			_errors.Clear();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -150,7 +150,7 @@ namespace SIL.Pa.PhoneticSearching
 		[XmlIgnore]
 		public List<string> ErrorMessages
 		{
-			get { return (m_errors ?? (m_errors = new List<string>())); }
+			get { return (_errors ?? (_errors = new List<string>())); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -208,6 +208,7 @@ namespace SIL.Pa.PhoneticSearching
 				if (pieces.Length < 2)
 					return string.Empty;
 
+				pieces[1] = pieces[1].Replace(App.kSearchPatternDiamond, "*");
 				pieces[1] = pieces[1].Trim();
 				if (pieces[1].StartsWith("*") && pieces[1].Length > 1)
 					pieces[1] = pieces[1].TrimStart('*');
@@ -239,6 +240,7 @@ namespace SIL.Pa.PhoneticSearching
 				if (pieces.Length < 3)
 					return string.Empty;
 
+				pieces[2] = pieces[2].Replace(App.kSearchPatternDiamond, "*");
 				pieces[2] = pieces[2].Trim();
 				if (pieces[2].EndsWith("*") && pieces[2].Length > 1)
 					pieces[2] = pieces[2].TrimEnd('*');

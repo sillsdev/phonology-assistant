@@ -271,6 +271,12 @@ namespace SIL.Pa.PhoneticSearching
 			var bracketedText = match.Result("${bracketedText}");
 			var piecesBetweenBraces = bracketedText.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
 
+			if (piecesBetweenBraces.Length == 1)
+			{
+				_errors.Add(App.GetString("PhoneticSearchingMessages.OnlyOneItemInOrGroup",
+					"Only one item was found in an OR group. Verify that all items between braces {} are separated by commas."));
+			}
+
 			foreach (var piece in piecesBetweenBraces.Where(piece => GetIsOrGroupMemberValid(piece)))
 			{
 				if (piece[0] >= kMinToken)

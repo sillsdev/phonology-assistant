@@ -47,7 +47,7 @@ namespace SIL.Pa.PhoneticSearching
 				if (!App.ConvertClassesToPatterns(query, out modifiedQuery, false, out m_queryErrorMsg))
 					return;
 
-				var engine = new SearchEngine(modifiedQuery.Pattern);
+				var engine = new SearchEngine(modifiedQuery);
 
 				if (engine.GetWordBoundaryCondition() != SearchEngine.WordBoundaryCondition.NoCondition)
 					m_queryErrorMsg = WordBoundaryError;

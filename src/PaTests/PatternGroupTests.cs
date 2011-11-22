@@ -110,34 +110,34 @@ namespace SIL.Pa.Tests
 		public void SearchNonSequentialGroupsTest_1()
 		{
 			// Put mock data in the articulatory and binary features of the phone.
-			((PhoneInfo)m_phoneCache["d"]).BFeatureNames = new List<string> { "+high", "-voice" };
+			((PhoneInfo)m_phoneCache["d"]).BFeatureNames = new List<string> { "+high", "-voiced" };
 			((PhoneInfo)m_phoneCache["d"]).AFeatureNames = new List<string> { "dental" };
 			
 			var phones = new[] { "d" };
 			int ip = 0;
 
 			var group = new PatternGroup(EnvironmentType.After);
-			group.Parse("[{[+high],[-voice]}[C]]");
+			group.Parse("[{[+high],[-voiced]}[C]]");
 			Assert.AreEqual(CompareResultType.Match, group.SearchGroup(phones, ref ip));
 
 			group = new PatternGroup(EnvironmentType.After);
-			group.Parse("[{[-high],[+voice]}[C]]");
+			group.Parse("[{[-high],[+voiced]}[C]]");
 			Assert.AreEqual(CompareResultType.NoMatch, group.SearchGroup(phones, ref ip));
 
 			group = new PatternGroup(EnvironmentType.After);
-			group.Parse("{[[+high][+voice]],[dental]}");
+			group.Parse("{[[+high][+voiced]],[dental]}");
 			Assert.AreEqual(CompareResultType.Match, group.SearchGroup(phones, ref ip));
 
 			group = new PatternGroup(EnvironmentType.After);
-			group.Parse("{[[+high][+voice]],[dental]}");
+			group.Parse("{[[+high][+voiced]],[dental]}");
 			Assert.AreEqual(CompareResultType.NoMatch, group.SearchGroup(phones, ref ip));
 
 			group = new PatternGroup(EnvironmentType.After);
-			group.Parse("[[[+high][+voice]][dental]]");
+			group.Parse("[[[+high][+voiced]][dental]]");
 			Assert.AreEqual(CompareResultType.NoMatch, group.SearchGroup(phones, ref ip));
 
 			group = new PatternGroup(EnvironmentType.After);
-			group.Parse("[[[+high][-voice]][dental]]");
+			group.Parse("[[[+high][-voiced]][dental]]");
 			Assert.AreEqual(CompareResultType.Match, group.SearchGroup(phones, ref ip));
 
 			phones = new[] { "a" };
@@ -679,10 +679,6 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SearchForAnyVowConWithDiacriticsInData()
 		{
@@ -693,22 +689,16 @@ namespace SIL.Pa.Tests
 			query.IgnoreDiacritics = false;
 
 			m_engine = new SearchEngine(query);
-			Assert.IsTrue(
-				m_engine.SearchWord(Parse("t^at", true), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("t^at", true), out m_results));
 			Assert.AreEqual(1, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
 
 			m_engine = new SearchEngine(query);
-			Assert.IsTrue(
-				m_engine.SearchWord(Parse("ieout^o~t", true), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("ieout^o~t", true), out m_results));
 			Assert.AreEqual(5, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SearchWithBaseCharsInIgnoreList()
@@ -731,10 +721,6 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SearchWithSpace1()
 		{
@@ -751,10 +737,6 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(2, m_results[1]);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
 		public void SearchWithSpace2()
@@ -1201,23 +1183,19 @@ namespace SIL.Pa.Tests
 		{
 			m_query.Pattern = "t/+_+";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsFalse(
-				m_engine.SearchWord(Parse("taoub", false), out m_results));
+			Assert.IsFalse(m_engine.SearchWord(Parse("taoub", false), out m_results));
 
 			m_query.Pattern = "a/+t_+";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsFalse(
-				m_engine.SearchWord(Parse("taoub", false), out m_results));
+			Assert.IsFalse(m_engine.SearchWord(Parse("taoub", false), out m_results));
 
 			m_query.Pattern = "u/+_b+";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsFalse(
-				m_engine.SearchWord(Parse("taoub", false), out m_results));
+			Assert.IsFalse(m_engine.SearchWord(Parse("taoub", false), out m_results));
 
 			m_query.Pattern = "o/+ta_ub+";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsFalse(
-				m_engine.SearchWord(Parse("taoub", false), out m_results));
+			Assert.IsFalse(m_engine.SearchWord(Parse("taoub", false), out m_results));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1233,15 +1211,13 @@ namespace SIL.Pa.Tests
 			m_query.Pattern = "x/*_[V][V]";
 
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(
-				m_engine.SearchWord(Parse("abxio", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("abxio", false), out m_results));
 
 			Assert.AreEqual(2, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
 
 			m_engine = new SearchEngine(m_query);
-			Assert.IsFalse(
-				m_engine.SearchWord(Parse("abxi", false), out m_results));
+			Assert.IsFalse(m_engine.SearchWord(Parse("abxi", false), out m_results));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1257,15 +1233,13 @@ namespace SIL.Pa.Tests
 			m_query.Pattern = "x/[V][V]_*";
 
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(
-				m_engine.SearchWord(Parse("aixio", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("aixio", false), out m_results));
 
 			Assert.AreEqual(2, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
 
 			m_engine = new SearchEngine(m_query);
-			Assert.IsFalse(
-				m_engine.SearchWord(Parse("ixio", false), out m_results));
+			Assert.IsFalse(m_engine.SearchWord(Parse("ixio", false), out m_results));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1301,8 +1275,7 @@ namespace SIL.Pa.Tests
 			m_query.Pattern = "t/*_*";
 
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(
-				m_engine.SearchWord(Parse("teehee", true), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("teehee", true), out m_results));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1312,8 +1285,7 @@ namespace SIL.Pa.Tests
 			m_query.Pattern = "t/*_*";
 
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(
-				m_engine.SearchWord(Parse("heeheet", true), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("heeheet", true), out m_results));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1400,8 +1372,7 @@ namespace SIL.Pa.Tests
 			// Test when ignored diacritics in environment before
 			m_query.Pattern = "c/o~^_*";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(
-				m_engine.SearchWord(Parse("abo~^cd", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("abo~^cd", false), out m_results));
 
 			Assert.AreEqual(3, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
@@ -1409,8 +1380,7 @@ namespace SIL.Pa.Tests
 			// Test when ignored diacritics in environment after
 			m_query.Pattern = "b/*_o~^";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(
-				m_engine.SearchWord(Parse("abo~^cd", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("abo~^cd", false), out m_results));
 
 			Assert.AreEqual(1, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
@@ -1418,8 +1388,7 @@ namespace SIL.Pa.Tests
 			// Test when ignored diacritics in search item
 			m_query.Pattern = string.Format("[[V][{0}~^]]/*_*", App.kDottedCircle);
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(
-				m_engine.SearchWord(Parse("abo~^cd", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("abo~^cd", false), out m_results));
 
 			Assert.AreEqual(2, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
@@ -1427,8 +1396,7 @@ namespace SIL.Pa.Tests
 			// Test when ignored diacritics in search item
 			m_query.Pattern = "o~^/*_*";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsFalse(
-				m_engine.SearchWord(Parse("abo^cd", false), out m_results));
+			Assert.IsFalse(m_engine.SearchWord(Parse("abo^cd", false), out m_results));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1485,7 +1453,8 @@ namespace SIL.Pa.Tests
 			MakeMockCacheEntries();
 
 			// Test when ignored diacritics in search item
-			m_query.Pattern = string.Format("{{[t[{0}~]],(bc)}}/*_*", App.kDottedCircleC);
+			m_query.Pattern = "{[t[0~]],(bc)}/*_*";
+			m_query.Pattern = m_query.Pattern.Replace("0", App.kDottedCircle);
 			m_engine = new SearchEngine(m_query);
 			Assert.IsTrue(m_engine.SearchWord(Parse("ao~bct~de", false), out m_results));
 
@@ -1526,21 +1495,10 @@ namespace SIL.Pa.Tests
 			MakeMockCacheEntries();
 
 			// Test when ignored diacritics in search item
-			string pattern = "{t^,e}[0~]/*_*";
+			string pattern = "[{t^,e}[0~]]/*_*";
 			m_query.Pattern = pattern.Replace('0', App.kDottedCircleC);
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(
-				m_engine.SearchWord(Parse("ao~bct^~de", false), out m_results));
-
-			Assert.AreEqual(4, m_results[0]);
-			Assert.AreEqual(1, m_results[1]);
-
-			// Test when ignored diacritics in search item
-			pattern = "[{t^,e}[0~]]/*_*";
-			m_query.Pattern = pattern.Replace('0', App.kDottedCircleC);
-			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(
-				m_engine.SearchWord(Parse("ao~bct^~de", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("ao~bct^~de", false), out m_results));
 
 			Assert.AreEqual(4, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
@@ -1549,7 +1507,7 @@ namespace SIL.Pa.Tests
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Tests searching results when a diacritic place holder is AND'd with an OR group
-		/// containing phones with diacritics.
+		/// (with insane number of braces) containing phones with diacritics.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
@@ -1558,10 +1516,9 @@ namespace SIL.Pa.Tests
 			MakeMockCacheEntries();
 
 			// Test when ignored diacritics in search item
-			m_query.Pattern = string.Format("{{{{t^,e}}{{o,a}}}}[{0}~]/*_*", App.kDottedCircleC);
+			m_query.Pattern = string.Format("[{{{{t^,e}},{{o,a}}}}[{0}~]]/*_*", App.kDottedCircleC);
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(
-				m_engine.SearchWord(Parse("ao~bct^~de", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("ao~bct^~de", false), out m_results));
 
 			Assert.AreEqual(1, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
@@ -1581,10 +1538,9 @@ namespace SIL.Pa.Tests
 			((PhoneInfo)m_phoneCache["o~"]).AFeatureNames = new List<string> { "nasal" };
 	
 			// Test when ignored diacritics in search item
-			m_query.Pattern = string.Format("[nasal][{0}~]/*_*", App.kDottedCircleC);
+			m_query.Pattern = string.Format("[[nasal][{0}~]]/*_*", App.kDottedCircleC);
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(
-				m_engine.SearchWord(Parse("ao~bct^~de", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("ao~bct^~de", false), out m_results));
 
 			Assert.AreEqual(1, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
@@ -1606,10 +1562,9 @@ namespace SIL.Pa.Tests
 			((PhoneInfo)m_phoneCache["o~"]).AFeatureNames = new List<string> { "nasal" };
 
 			// Test when ignored diacritics in search item
-			m_query.Pattern = string.Format("[[+high][nasal]][{0}~]/*_*", App.kDottedCircleC);
+			m_query.Pattern = string.Format("[[[+high][nasal]][{0}~]]/*_*", App.kDottedCircleC);
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(
-				m_engine.SearchWord(Parse("ao~bct^~de", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("ao~bct^~de", false), out m_results));
 
 			Assert.AreEqual(1, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
@@ -1634,8 +1589,7 @@ namespace SIL.Pa.Tests
 
 			m_query.Pattern = "ab/#_*";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(
-				m_engine.SearchWord(Parse(" XYaZbeiou", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse(" XYaZbeiou", false), out m_results));
 
 			Assert.AreEqual(3, m_results[0]);
 			Assert.AreEqual(3, m_results[1]);
@@ -1663,13 +1617,11 @@ namespace SIL.Pa.Tests
 
 			m_query.Pattern = "ab/*_*";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsFalse(
-				m_engine.SearchWord(Parse("XYaZbeiou", false), out m_results));
+			Assert.IsFalse(m_engine.SearchWord(Parse("XYaZbeiou", false), out m_results));
 
 			m_query.Pattern = "aZb/*_*";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(
-				m_engine.SearchWord(Parse("XYaZbeiou", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("XYaZbeiou", false), out m_results));
 
 			Assert.AreEqual(2, m_results[0]);
 			Assert.AreEqual(3, m_results[1]);
@@ -1963,24 +1915,21 @@ namespace SIL.Pa.Tests
 
 			m_query.Pattern = "{m,(bc)}/*_*";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(m_engine.SearchWord(
-				Parse("aobctde", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("aobctde", false), out m_results));
 
 			Assert.AreEqual(2, m_results[0]);
 			Assert.AreEqual(2, m_results[1]);
 
 			m_query.Pattern = "{(bc),m}/*_*";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(m_engine.SearchWord(
-				Parse("aobctde", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("aobctde", false), out m_results));
 
 			Assert.AreEqual(2, m_results[0]);
 			Assert.AreEqual(2, m_results[1]);
 
 			m_query.Pattern = "{m,(klbc),(klop),(obct),(obop)}/*_*";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(m_engine.SearchWord(
-				Parse("aobctde", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("aobctde", false), out m_results));
 
 			Assert.AreEqual(1, m_results[0]);
 			Assert.AreEqual(4, m_results[1]);
@@ -1999,16 +1948,14 @@ namespace SIL.Pa.Tests
 
 			m_query.Pattern = "{([C][V]),[V]}/*_*";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(m_engine.SearchWord(
-				Parse("aobctde", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("aobctde", false), out m_results));
 
 			Assert.AreEqual(0, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
 
 			m_query.Pattern = "{([C][V]),m}/*_*";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(m_engine.SearchWord(
-				Parse("aobctde", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("aobctde", false), out m_results));
 
 			Assert.AreEqual(5, m_results[0]);
 			Assert.AreEqual(2, m_results[1]);
@@ -2027,8 +1974,7 @@ namespace SIL.Pa.Tests
 
 			m_query.Pattern = "t/{m,(obc),(ob)}_*";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(m_engine.SearchWord(
-				Parse("aobctde", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("aobctde", false), out m_results));
 
 			Assert.AreEqual(4, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
@@ -2047,8 +1993,7 @@ namespace SIL.Pa.Tests
 
 			m_query.Pattern = "b/*_{m,(tde),(ct)}";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(m_engine.SearchWord(
-				Parse("aobctde", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("aobctde", false), out m_results));
 
 			Assert.AreEqual(2, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
@@ -2069,8 +2014,7 @@ namespace SIL.Pa.Tests
 			m_query.IgnoredCharacters = "x";
 			m_query.Pattern = "{(oc),(bc)}/*_*";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(m_engine.SearchWord(
-				Parse("aobxctde", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("aobxctde", false), out m_results));
 
 			Assert.AreEqual(2, m_results[0]);
 			Assert.AreEqual(3, m_results[1]);
@@ -2078,8 +2022,7 @@ namespace SIL.Pa.Tests
 			// Verify in preceding environment
 			m_query.Pattern = "t/{(oc),(bc)}_*";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(m_engine.SearchWord(
-				Parse("aobxctde", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("aobxctde", false), out m_results));
 
 			Assert.AreEqual(5, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
@@ -2087,8 +2030,7 @@ namespace SIL.Pa.Tests
 			// Verify in following environment
 			m_query.Pattern = "o/*_{(oc),(bc)}";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(m_engine.SearchWord(
-				Parse("aobxctde", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("aobxctde", false), out m_results));
 
 			Assert.AreEqual(1, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
@@ -2105,8 +2047,7 @@ namespace SIL.Pa.Tests
 			m_query.Pattern = "[C]/{[C],[V]}_+";
 			m_query.IgnoredCharacters = "'";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(m_engine.SearchWord(
-				Parse("pau'pat", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("pau'pat", false), out m_results));
 
 			Assert.AreEqual(4, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
@@ -2123,8 +2064,7 @@ namespace SIL.Pa.Tests
 			m_query.Pattern = "[V]/+_{[C],[V]}";
 			m_query.IgnoredCharacters = "'";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(m_engine.SearchWord(
-				Parse("phu'pat", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("phu'pat", false), out m_results));
 
 			Assert.AreEqual(2, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
@@ -2143,8 +2083,7 @@ namespace SIL.Pa.Tests
 			m_query.Pattern = "[C]/[[close],[back]]_+";
 			m_query.IgnoredCharacters = "'";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(m_engine.SearchWord(
-				Parse("pau'pat", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("pau'pat", false), out m_results));
 
 			Assert.AreEqual(4, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
@@ -2163,8 +2102,7 @@ namespace SIL.Pa.Tests
 			m_query.Pattern = "[V]/+_[[bilabial],[voiceless]]";
 			m_query.IgnoredCharacters = "'";
 			m_engine = new SearchEngine(m_query);
-			Assert.IsTrue(m_engine.SearchWord(
-				Parse("phu'pat", false), out m_results));
+			Assert.IsTrue(m_engine.SearchWord(Parse("phu'pat", false), out m_results));
 
 			Assert.AreEqual(2, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);

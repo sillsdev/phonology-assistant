@@ -6,25 +6,16 @@ using SIL.Pa.TestUtils;
 namespace SIL.Pa.Tests
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	[TestFixture]
 	public class PatternGroupParsingTests : TestBase
 	{
 		#region Setup/Teardown
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Create temporary test records.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[TestFixtureSetUp]
-		public override void FixtureSetup()
-		{
-			base.FixtureSetup();
-			InventoryHelper.Load();
-		}
+		///// ------------------------------------------------------------------------------------
+		//[TestFixtureSetUp]
+		//public override void FixtureSetup()
+		//{
+		//    base.FixtureSetup();
+		//}
 
 		#endregion
 
@@ -115,7 +106,7 @@ namespace SIL.Pa.Tests
 			Assert.IsFalse(group.Parse(string.Empty));
 			Assert.IsFalse(group.Parse(null));
 			
-			SetField(group, "m_rootGroup", rootGroup);
+			SetProperty(group, "RootGroup", rootGroup);
 			Assert.IsFalse(GetBoolResult(group, "PreParseProcessing", "{[ab}]"));
 			Assert.IsFalse(GetBoolResult(group, "PreParseProcessing", "a[bc]"));
 			Assert.IsFalse(GetBoolResult(group, "PreParseProcessing", "{ab}c"));
@@ -321,7 +312,7 @@ namespace SIL.Pa.Tests
 		public void PatternGroupTest_Complex()
 		{
 			PatternGroup group = new PatternGroup(EnvironmentType.After);
-			group.Parse("[[{a,e}{[+high][dental]}][-dorsal]]");
+			group.Parse("[[{a,e}{[+high],[dental]}][-dorsal]]");
 
 			Assert.IsNotNull(group);
 			Assert.AreEqual(group.GroupType, GroupType.And);
@@ -393,7 +384,7 @@ namespace SIL.Pa.Tests
 		public void PatternGroupTest_FeaturesOnlyAND_1()
 		{
 			PatternGroup group = new PatternGroup(EnvironmentType.After);
-			group.Parse("[[+high][DENTAL]]");
+			group.Parse("[[+high][dental]]");
 			VerifyGroup_1(group, true);
 		}
 
@@ -409,7 +400,7 @@ namespace SIL.Pa.Tests
 		{
 			PatternGroup group = new PatternGroup(EnvironmentType.After);
 			// Include a comma between features. This should not be considered an OR
-			group.Parse("[[+high],[DENTAL]]");
+			group.Parse("[[+high],[dental]]");
 			VerifyGroup_1(group, true);
 		}
 
@@ -424,7 +415,7 @@ namespace SIL.Pa.Tests
 		public void PatternGroupTests_FeaturesOnlyOR_1()
 		{
 			PatternGroup group = new PatternGroup(EnvironmentType.After);
-			group.Parse("{[+high],[DENTAL]}");
+			group.Parse("{[+high],[dental]}");
 			VerifyGroup_1(group, false);
 		}
 
@@ -440,7 +431,7 @@ namespace SIL.Pa.Tests
 		{
 			PatternGroup group = new PatternGroup(EnvironmentType.After);
 			// Don't include the comma between features. This should not be considered and AND.
-			group.Parse("{[+high][DENTAL]}");
+			group.Parse("{[+high][dental]}");
 			VerifyGroup_1(group, false);
 		}
 

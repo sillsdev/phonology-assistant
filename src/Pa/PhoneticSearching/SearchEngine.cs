@@ -65,9 +65,8 @@ namespace SIL.Pa.PhoneticSearching
 
 		/// ------------------------------------------------------------------------------------
 		public SearchEngine(SearchQuery query, Dictionary<string, IPhoneInfo> phoneCache)
-			: this(query.Pattern)
+			: this(query)
 		{
-			CurrentSearchQuery = query;
 			PhoneCache = phoneCache;
 
 			if (m_errors != null && m_errors.Count > 0)
@@ -75,59 +74,49 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public SearchEngine(SearchQuery query) : this(query.Pattern)
+		public SearchEngine(SearchQuery query)
 		{
 			CurrentSearchQuery = query;
 
-			if (m_errors != null && m_errors.Count > 0)
-				query.ErrorMessages.AddRange(m_errors);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public SearchEngine(string pattern)
-		{
 			m_errors.Clear();
 
-			if (pattern == null)
-				pattern = string.Empty;
+			//var patterns = SearchQuery.GetPatternPieces(pattern);
+			//if (patterns == null)
+			//{
+			//    m_errors.Add(string.Format(GetSyntaxErrorMsg(), pattern));
+			//    return;
+			//}
 
-			var patterns = SearchQuery.GetPatternPieces(pattern);
-			if (patterns == null)
-			{
-				m_errors.Add(string.Format(GetSyntaxErrorMsg(), pattern));
-				return;
-			}
+			//if (patterns.Length == 0 || patterns.Length > 3 ||
+			//    string.IsNullOrEmpty(patterns[0]) ||
+			//    (pattern.IndexOf('_') >= 0 && pattern.IndexOf('/') < 0))
+			//{
+			//    m_errors.Add(string.Format(GetPatternSyntaxErrorMsg(), App.kEmptyDiamondPattern));
+			//    return;
+			//}
 
-			if (patterns.Length == 0 || patterns.Length > 3 ||
-				string.IsNullOrEmpty(patterns[0]) ||
-				(pattern.IndexOf('_') >= 0 && pattern.IndexOf('/') < 0))
-			{
-				m_errors.Add(string.Format(GetPatternSyntaxErrorMsg(), App.kEmptyDiamondPattern));
-				return;
-			}
+			//if (patterns.Length < 2)
+			//    patterns = new[] { patterns[0], "*", "*" };
+			//else if (patterns.Length < 3)
+			//    patterns = new[] { patterns[0], patterns[1], "*" };
 
-			if (patterns.Length < 2)
-				patterns = new[] { patterns[0], "*", "*" };
-			else if (patterns.Length < 3)
-				patterns = new[] { patterns[0], patterns[1], "*" };
-
-			if (string.IsNullOrEmpty(patterns[1]))
-				patterns[1] = "*";
+			//if (string.IsNullOrEmpty(patterns[1]))
+			//    patterns[1] = "*";
 			
-			if (string.IsNullOrEmpty(patterns[2]))
-				patterns[2] = "*";
+			//if (string.IsNullOrEmpty(patterns[2]))
+			//    patterns[2] = "*";
 
-			patterns[1] = patterns[1].Replace(App.kSearchPatternDiamond, "*");
-			patterns[2] = patterns[2].Replace(App.kSearchPatternDiamond, "*");
+			//patterns[1] = patterns[1].Replace(App.kSearchPatternDiamond, "*");
+			//patterns[2] = patterns[2].Replace(App.kSearchPatternDiamond, "*");
 
 			try
 			{
 				if (Settings.Default.UseNewSearchPatternParser)
 				{
 					var parser = new PatternParser(App.Project);
-					SrchItemPatternGroup = parser.Parse(patterns[0], EnvironmentType.Item);
-					EnvBeforePatternGroup = parser.Parse(patterns[1], EnvironmentType.Before);
-					EnvAfterPatternGroup = parser.Parse(patterns[2], EnvironmentType.After);
+					SrchItemPatternGroup = parser.Parse(query.SearchItem, EnvironmentType.Item);
+					EnvBeforePatternGroup = parser.Parse(query.PrecedingEnvironment, EnvironmentType.Before);
+					EnvAfterPatternGroup = parser.Parse(query.FollowingEnvironment, EnvironmentType.After);
 
 					if (parser.HasErrors)
 						m_errors.AddRange(parser.Errors);
@@ -138,9 +127,9 @@ namespace SIL.Pa.PhoneticSearching
 					EnvBeforePatternGroup = new PatternGroup(EnvironmentType.Before);
 					EnvAfterPatternGroup = new PatternGroup(EnvironmentType.After);
 
-					Parse(SrchItemPatternGroup, patterns[0]);
-					Parse(EnvBeforePatternGroup, patterns[1]);
-					Parse(EnvAfterPatternGroup, patterns[2]);
+					Parse(SrchItemPatternGroup, query.SearchItem);
+					Parse(EnvBeforePatternGroup, query.PrecedingEnvironment);
+					Parse(EnvAfterPatternGroup, query.FollowingEnvironment);
 				}
 			}
 			catch
@@ -148,9 +137,12 @@ namespace SIL.Pa.PhoneticSearching
 				m_errors.Add(string.Format(GetPatternSyntaxErrorMsg(), App.kEmptyDiamondPattern));
 			}
 
-			m_srchItemStr = patterns[0];
-			m_envBeforeStr = patterns[1];
-			m_envAfterStr = patterns[2];
+			m_srchItemStr = query.SearchItem;
+			m_envBeforeStr = query.PrecedingEnvironment;
+			m_envAfterStr = query.FollowingEnvironment;
+
+			if (m_errors != null && m_errors.Count > 0)
+				query.ErrorMessages.AddRange(m_errors);
 		}
 
 		/// ------------------------------------------------------------------------------------
