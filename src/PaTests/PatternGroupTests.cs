@@ -14,6 +14,7 @@ namespace SIL.Pa.Tests
 		private PhoneCache m_phoneCache;
 		private SearchEngine m_engine;
 		private int[] m_results;
+		private PatternParser _parser;
 
 		#region Setup/Teardown
 		/// ------------------------------------------------------------------------------------
@@ -25,6 +26,10 @@ namespace SIL.Pa.Tests
 		[SetUp]
 		public void TestSetup()
 		{
+			_parser = new PatternParser(_prj);
+			App.DottedCircle = "0";
+			App.DottedCircleC = '0';
+			App.DiacriticPlaceholder = "[0]";
 			m_phoneCache = _prj.PhoneCache;
 			m_query = new SearchQuery();
 			m_query.IgnoredCharacters = string.Empty;
@@ -98,48 +103,6 @@ namespace SIL.Pa.Tests
 			pattern = "[[+high][+con]{a,e}]";
 			result = (GroupType)GetResult(typeof(PatternGroup), "GetRootGroupType", pattern);
 			Assert.AreEqual(GroupType.And, result);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tests the SearchGroup method for AND and OR groups. This tests matches in members
-		/// of type AnyConsonant, AnyVowel, Binary feature, and Articulatory feature.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void SearchNonSequentialGroupsTest_1()
-		{
-			// Put mock data in the articulatory and binary features of the phone.
-			((PhoneInfo)m_phoneCache["d"]).BFeatureNames = new List<string> { "+high", "-voice" };
-			((PhoneInfo)m_phoneCache["d"]).AFeatureNames = new List<string> { "dental" };
-			
-			var phones = new[] { "d" };
-			int ip = 0;
-
-			var group = new PatternGroup(EnvironmentType.After);
-			group.Parse("[{[+high],[-voice]}[C]]");
-			Assert.AreEqual(CompareResultType.Match, group.SearchGroup(phones, ref ip));
-
-			group = new PatternGroup(EnvironmentType.After);
-			group.Parse("[{[-high],[+voice]}[C]]");
-			Assert.AreEqual(CompareResultType.NoMatch, group.SearchGroup(phones, ref ip));
-
-			group = new PatternGroup(EnvironmentType.After);
-			group.Parse("{[[+high][+voice]],[dental]}");
-			Assert.AreEqual(CompareResultType.Match, group.SearchGroup(phones, ref ip));
-
-			group = new PatternGroup(EnvironmentType.After);
-			group.Parse("[[[+high][+voice]][dental]]");
-			Assert.AreEqual(CompareResultType.NoMatch, group.SearchGroup(phones, ref ip));
-
-			group = new PatternGroup(EnvironmentType.After);
-			group.Parse("[[[+high][-voice]][dental]]");
-			Assert.AreEqual(CompareResultType.Match, group.SearchGroup(phones, ref ip));
-
-			phones = new[] { "a" };
-			group = new PatternGroup(EnvironmentType.After);
-			group.Parse("{[V]}");
-			Assert.AreEqual(CompareResultType.Match, group.SearchGroup(phones, ref ip));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -443,12 +406,12 @@ namespace SIL.Pa.Tests
 
 			PatternGroup group = new PatternGroup(EnvironmentType.Item);
 
-			group.Parse(string.Format("[[C][{0}~]]", App.kDottedCircle));
+			group.Parse(string.Format("[[C][{0}~]]", App.DottedCircle));
 			Assert.IsTrue(group.Search("ateit~ou", 0, out m_results));
 			Assert.AreEqual(4, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
 
-			group.Parse(string.Format("[[V][{0}~]]", App.kDottedCircle));
+			group.Parse(string.Format("[[V][{0}~]]", App.DottedCircle));
 			Assert.IsTrue(group.Search("anmo~xyz", 0, out m_results));
 			Assert.AreEqual(3, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
@@ -466,19 +429,19 @@ namespace SIL.Pa.Tests
 
 			PatternGroup group = new PatternGroup(EnvironmentType.Item);
 
-			group.Parse(string.Format("[[C][{0}~*]]", App.kDottedCircle));
+			group.Parse(string.Format("[[C][{0}~*]]", App.DottedCircle));
 			Assert.IsTrue(group.Search("ateit~^ou", 0, out m_results));
 			Assert.AreEqual(4, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
 
 			group = new PatternGroup(EnvironmentType.Item);
-			group.Parse(string.Format("[[C][{0}^*]]", App.kDottedCircle));
+			group.Parse(string.Format("[[C][{0}^*]]", App.DottedCircle));
 			Assert.IsTrue(group.Search("ateit~^ou", 0, out m_results));
 			Assert.AreEqual(4, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
 
 			group = new PatternGroup(EnvironmentType.Item);
-			group.Parse(string.Format("[[C][{0}*]]", App.kDottedCircle));
+			group.Parse(string.Format("[[C][{0}*]]", App.DottedCircle));
 			Assert.IsTrue(group.Search("ateit~^ou", 0, out m_results));
 			Assert.AreEqual(1, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
@@ -488,7 +451,7 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(1, m_results[1]);
 
 			group = new PatternGroup(EnvironmentType.Item);
-			group.Parse(string.Format("[[C][{0}'*]]", App.kDottedCircle));
+			group.Parse(string.Format("[[C][{0}'*]]", App.DottedCircle));
 			Assert.IsFalse(group.Search("ateit~^ou", 0, out m_results));
 		}
 
@@ -554,7 +517,7 @@ namespace SIL.Pa.Tests
 		{
 			m_query = new SearchQuery();
 			m_query.IgnoreDiacritics = true;
-			m_query.Pattern = string.Format(pattern, App.kDottedCircle);
+			m_query.Pattern = string.Format(pattern, App.DottedCircle);
 			m_engine = new SearchEngine(m_query);
 			string[] word = Parse("ae" + phone + "io", false);
 			Assert.AreEqual(expectedResult, m_engine.SearchWord(word, out m_results));
@@ -578,19 +541,19 @@ namespace SIL.Pa.Tests
 
 			PatternGroup group = new PatternGroup(EnvironmentType.Item);
 
-			group.Parse(string.Format("[[V][{0}~*]]", App.kDottedCircle));
+			group.Parse(string.Format("[[V][{0}~*]]", App.DottedCircle));
 			Assert.IsTrue(group.Search("amo~^xyz", 0, out m_results));
 			Assert.AreEqual(2, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
 
 			group = new PatternGroup(EnvironmentType.Item);
-			group.Parse(string.Format("[[V][{0}^*]]", App.kDottedCircle));
+			group.Parse(string.Format("[[V][{0}^*]]", App.DottedCircle));
 			Assert.IsTrue(group.Search("amo~^xyz", 0, out m_results));
 			Assert.AreEqual(2, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
 
 			group = new PatternGroup(EnvironmentType.Item);
-			group.Parse(string.Format("[[V][{0}*]]", App.kDottedCircle));
+			group.Parse(string.Format("[[V][{0}*]]", App.DottedCircle));
 			Assert.IsTrue(group.Search("amo~^xyz", 0, out m_results));
 			Assert.AreEqual(0, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
@@ -600,7 +563,7 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(1, m_results[1]);
 
 			group = new PatternGroup(EnvironmentType.Item);
-			group.Parse(string.Format("[[V][{0}'*]]", App.kDottedCircle));
+			group.Parse(string.Format("[[V][{0}'*]]", App.DottedCircle));
 			Assert.IsFalse(group.Search("amo~^xyz", 0, out m_results));
 		}
 
@@ -616,14 +579,14 @@ namespace SIL.Pa.Tests
 
 			PatternGroup group = new PatternGroup(EnvironmentType.Item);
 
-			group.Parse(string.Format("[[C][{0}~+]]", App.kDottedCircle));
+			group.Parse(string.Format("[[C][{0}~+]]", App.DottedCircle));
 			Assert.IsTrue(group.Search("ateit~^ou", 0, out m_results));
 			Assert.AreEqual(4, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
-			group.Parse(string.Format("[[C][{0}~+]]", App.kDottedCircle));
+			group.Parse(string.Format("[[C][{0}~+]]", App.DottedCircle));
 			Assert.IsFalse(group.Search("ateit~ou", 0, out m_results));
 
-			group.Parse(string.Format("[[C][{0}~+]]", App.kDottedCircle));
+			group.Parse(string.Format("[[C][{0}~+]]", App.DottedCircle));
 			Assert.IsTrue(group.Search("at~eit~^ou", 0, out m_results));
 			Assert.AreEqual(4, m_results[0]);
 			Assert.AreEqual(1, m_results[1]);
@@ -641,7 +604,7 @@ namespace SIL.Pa.Tests
 
 			PatternGroup group = new PatternGroup(EnvironmentType.Item);
 
-			string pattern = string.Format("t[{0}~+]", App.kDottedCircle);
+			string pattern = string.Format("t[{0}~+]", App.DottedCircle);
 
 			group.Parse(pattern);
 			Assert.IsTrue(group.Search("ateit~^ou", 0, out m_results));
@@ -845,11 +808,11 @@ namespace SIL.Pa.Tests
 		public void PatternWithNoAfterEnvironment()
 		{
 			MakeMockCacheEntries();
-			SearchQuery query = new SearchQuery();
+			var query = new SearchQuery();
 			query.IgnoredCharacters = string.Empty;
 			query.IgnoreDiacritics = false;
 
-			string[] phones = Parse("beat", true);
+			var phones = Parse("beat", true);
 
 			query.Pattern = "[V]/*_";
 			m_engine = new SearchEngine(query);
@@ -863,11 +826,11 @@ namespace SIL.Pa.Tests
 		public void PatternWithNoEnvironment()
 		{
 			MakeMockCacheEntries();
-			SearchQuery query = new SearchQuery();
+			var query = new SearchQuery();
 			query.IgnoredCharacters = string.Empty;
 			query.IgnoreDiacritics = false;
 
-			string[] phones = Parse("beat", true);
+			var phones = Parse("beat", true);
 
 			query.Pattern = "[V]/_";
 			m_engine = new SearchEngine(query);
@@ -1315,7 +1278,7 @@ namespace SIL.Pa.Tests
 			string dentalT = "t" + dental;
 			string dentalS = "s" + dental;
 
-			m_query.Pattern = string.Format(patternFmt, App.kDottedCircle, dental);
+			m_query.Pattern = string.Format(patternFmt, App.DottedCircle, dental);
 			m_query.IgnoreDiacritics = ignoreDiacritics;
 
 			m_engine = new SearchEngine(m_query);
@@ -1382,7 +1345,7 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(1, m_results[1]);
 
 			// Test when ignored diacritics in search item
-			m_query.Pattern = string.Format("[[V][{0}~^]]/*_*", App.kDottedCircle);
+			m_query.Pattern = string.Format("[[V][{0}~^]]/*_*", App.DottedCircle);
 			m_engine = new SearchEngine(m_query);
 			Assert.IsTrue(m_engine.SearchWord(Parse("abo~^cd", false), out m_results));
 
@@ -1430,7 +1393,7 @@ namespace SIL.Pa.Tests
 			MakeMockCacheEntries();
 
 			// Test when ignored diacritics in search item
-			m_query.Pattern = string.Format("[{{t,o}}[{0}~]]/*_*", App.kDottedCircleC);
+			m_query.Pattern = string.Format("[{{t,o}}[{0}~]]/*_*", App.DottedCircleC);
 			m_engine = new SearchEngine(m_query);
 			Assert.IsTrue(m_engine.SearchWord(Parse("ao~bct~de", false), out m_results));
 			Assert.AreEqual(1, m_results[0]);
@@ -1450,7 +1413,7 @@ namespace SIL.Pa.Tests
 
 			// Test when ignored diacritics in search item
 			m_query.Pattern = "{[t[0~]],(bc)}/*_*";
-			m_query.Pattern = m_query.Pattern.Replace("0", App.kDottedCircle);
+			m_query.Pattern = m_query.Pattern.Replace("0", App.DottedCircle);
 			m_engine = new SearchEngine(m_query);
 			Assert.IsTrue(m_engine.SearchWord(Parse("ao~bct~de", false), out m_results));
 
@@ -1471,7 +1434,7 @@ namespace SIL.Pa.Tests
 
 			// Test when ignored diacritics in search item
 			string pattern = "[{t^,e}[0~]]/*_*";
-			m_query.Pattern = pattern.Replace('0', App.kDottedCircleC);
+			m_query.Pattern = pattern.Replace('0', App.DottedCircleC);
 			m_engine = new SearchEngine(m_query);
 			Assert.IsTrue(m_engine.SearchWord(Parse("ao~bct^~de", false), out m_results));
 
@@ -1491,7 +1454,7 @@ namespace SIL.Pa.Tests
 			MakeMockCacheEntries();
 
 			// Test when ignored diacritics in search item
-			m_query.Pattern = string.Format("[{{{{t^,e}},{{o,a}}}}[{0}~]]/*_*", App.kDottedCircleC);
+			m_query.Pattern = string.Format("[{{{{t^,e}},{{o,a}}}}[{0}~]]/*_*", App.DottedCircleC);
 			m_engine = new SearchEngine(m_query);
 			Assert.IsTrue(m_engine.SearchWord(Parse("ao~bct^~de", false), out m_results));
 
@@ -1513,7 +1476,7 @@ namespace SIL.Pa.Tests
 			((PhoneInfo)m_phoneCache["o~"]).AFeatureNames = new List<string> { "nasal" };
 	
 			// Test when ignored diacritics in search item
-			m_query.Pattern = string.Format("[[nasal][{0}~]]/*_*", App.kDottedCircleC);
+			m_query.Pattern = string.Format("[[nasal][{0}~]]/*_*", App.DottedCircleC);
 			m_engine = new SearchEngine(m_query);
 			Assert.IsTrue(m_engine.SearchWord(Parse("ao~bct^~de", false), out m_results));
 
@@ -1537,7 +1500,7 @@ namespace SIL.Pa.Tests
 			((PhoneInfo)m_phoneCache["o~"]).AFeatureNames = new List<string> { "nasal" };
 
 			// Test when ignored diacritics in search item
-			m_query.Pattern = string.Format("[[[+high][nasal]][{0}~]]/*_*", App.kDottedCircleC);
+			m_query.Pattern = string.Format("[[[+high][nasal]][{0}~]]/*_*", App.DottedCircleC);
 			m_engine = new SearchEngine(m_query);
 			Assert.IsTrue(m_engine.SearchWord(Parse("ao~bct^~de", false), out m_results));
 

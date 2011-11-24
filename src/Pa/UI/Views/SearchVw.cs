@@ -871,8 +871,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void HandleCharExplorerCharPicked(CharPicker picker, ToolStripButton item)
 		{
-			if (!string.IsNullOrEmpty(item.Text.Replace(App.kDottedCircle, string.Empty)))
-				ptrnTextBox.Insert(item.Text.Replace(App.kDottedCircle, string.Empty));
+			if (!string.IsNullOrEmpty(item.Text.Replace(App.DottedCircle, string.Empty)))
+				ptrnTextBox.Insert(item.Text.Replace(App.DottedCircle, string.Empty));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -953,7 +953,7 @@ namespace SIL.Pa.UI.Views
 			if (dragText != null)
 			{
 				var query = new SearchQuery();
-				query.Pattern = dragText.Replace(App.kDottedCircle, string.Empty);
+				query.Pattern = dragText.Replace(App.DottedCircle, string.Empty);
 				query.PatternOnly = true;
 				DoDragDrop(query, DragDropEffects.Copy);
 			}

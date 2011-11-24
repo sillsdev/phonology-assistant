@@ -186,13 +186,8 @@ namespace SIL.Pa.PhoneticSearching
 			get { return _pattern; }
 			set
 			{
-				if (string.IsNullOrEmpty(value))
-					_pattern = App.kEmptyDiamondPattern;
-				else
-				{
-					_pattern = value;
-					_pattern = SearchItem + "/" + PrecedingEnvironment + "_" + FollowingEnvironment;
-				}
+				_pattern = (value == null ? null : value.Replace("/" + App.kSearchPatternDiamond, "*")
+					.Replace("_" + App.kSearchPatternDiamond, "*"));
 			}
 		}
 
@@ -278,15 +273,9 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public bool IgnoreDiacritics { get; set; }
 
-		private string m_ignoredCharacters;
-
 		/// ------------------------------------------------------------------------------------
 		[XmlElement("ignoredCharacters")]
-		public string IgnoredCharacters
-		{
-			get { return m_ignoredCharacters; }
-			set { m_ignoredCharacters = value; }
-		}
+		public string IgnoredCharacters { get; set; }
 
 		#endregion
 
@@ -370,6 +359,17 @@ namespace SIL.Pa.PhoneticSearching
 				ignoreList.AppendFormat("{0},", info.Value.Literal);
 
 			return (ignoreList.Length == 0 ? null : ignoreList.ToString().TrimEnd(','));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a pattern that infers the value of the environments when they are missing.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public string GetInferredPattern()
+		{
+			return (Pattern == App.kEmptyDiamondPattern ? Pattern :
+				SearchItem + "/" + PrecedingEnvironment + "_" + FollowingEnvironment);
 		}
 
 		#region Static methods

@@ -102,9 +102,16 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void AddRangeOfMembers(IEnumerable<object> members)
+		{
+			foreach (var member in members)
+				AddMember(member);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void SetDiacriticPattern(string diacriticPattern)
 		{
-			DiacriticPattern = diacriticPattern.Replace(App.kDottedCircle, string.Empty);
+			DiacriticPattern = diacriticPattern.Replace(App.DottedCircle, string.Empty);
 			PropogateGroupDiacriticPatternToMembers(this, DiacriticPattern);
 		}
 
@@ -262,7 +269,7 @@ namespace SIL.Pa.PhoneticSearching
 			{
 				var bracketedText = match.Result("${bracketedText}");
 
-				if (!bracketedText.Contains(App.kDottedCircle) &&
+				if (!bracketedText.Contains(App.DottedCircle) &&
 					bracketedText != "C" && bracketedText != "V" &&
 					!App.AFeatureCache.Keys.Any(f => f == bracketedText) &&
 					!App.BFeatureCache.Keys.Any(f => f == bracketedText))
@@ -771,7 +778,7 @@ namespace SIL.Pa.PhoneticSearching
 		private bool VerifyDiacriticPlaceholderCluster(ref string pattern)
 		{
 			int i = 0;
-			while ((i = pattern.IndexOf(App.kDottedCircleC, i)) >= 0)
+			while ((i = pattern.IndexOf(App.DottedCircleC, i)) >= 0)
 			{
 				// The dotted circle may not be at the extremes of the pattern and it
 				// must be preceeded by an open square bracket but must not be the only
@@ -813,7 +820,7 @@ namespace SIL.Pa.PhoneticSearching
 
 				string cluster = bldr.ToString();
 				cluster = cluster.Normalize(NormalizationForm.FormD);
-				cluster = cluster.Replace(App.kDottedCircle, string.Empty);
+				cluster = cluster.Replace(App.DottedCircle, string.Empty);
 
 				if (foundZeroOrMoreSymbol && foundOneOrMoreSymbol)
 					LogError(GetErrorMsg("ZeroAndOneOrMoreFoundErrorMsg"));
@@ -1050,7 +1057,7 @@ namespace SIL.Pa.PhoneticSearching
 				while (closeIndex < pattern.Length && pattern[closeIndex] != ']')
 				{
 					// Check if we've run into a diacritic pattern cluster along the way.
-					if (!foundDiacriticPlaceholder && pattern[closeIndex] == App.kDottedCircleC)
+					if (!foundDiacriticPlaceholder && pattern[closeIndex] == App.DottedCircleC)
 						foundDiacriticPlaceholder = true;
 
 					closeIndex++;

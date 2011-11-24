@@ -64,7 +64,7 @@ namespace SIL.Pa.Model
 					if (charInfo != null && charInfo.IsBase)
 						return;
 
-					if (c != App.kDottedCircleC)
+					if (c != App.DottedCircleC)
 						bldrDiacritics.Append(c);
 					else if (!foundDiacriticPlaceholder)
 					{

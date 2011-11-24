@@ -80,35 +80,6 @@ namespace SIL.Pa.PhoneticSearching
 
 			m_errors.Clear();
 
-			//var patterns = SearchQuery.GetPatternPieces(pattern);
-			//if (patterns == null)
-			//{
-			//    m_errors.Add(string.Format(GetSyntaxErrorMsg(), pattern));
-			//    return;
-			//}
-
-			//if (patterns.Length == 0 || patterns.Length > 3 ||
-			//    string.IsNullOrEmpty(patterns[0]) ||
-			//    (pattern.IndexOf('_') >= 0 && pattern.IndexOf('/') < 0))
-			//{
-			//    m_errors.Add(string.Format(GetPatternSyntaxErrorMsg(), App.kEmptyDiamondPattern));
-			//    return;
-			//}
-
-			//if (patterns.Length < 2)
-			//    patterns = new[] { patterns[0], "*", "*" };
-			//else if (patterns.Length < 3)
-			//    patterns = new[] { patterns[0], patterns[1], "*" };
-
-			//if (string.IsNullOrEmpty(patterns[1]))
-			//    patterns[1] = "*";
-			
-			//if (string.IsNullOrEmpty(patterns[2]))
-			//    patterns[2] = "*";
-
-			//patterns[1] = patterns[1].Replace(App.kSearchPatternDiamond, "*");
-			//patterns[2] = patterns[2].Replace(App.kSearchPatternDiamond, "*");
-
 			try
 			{
 				if (Settings.Default.UseNewSearchPatternParser)
@@ -145,13 +116,13 @@ namespace SIL.Pa.PhoneticSearching
 				query.ErrorMessages.AddRange(m_errors);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets a value indicating whether or not the phones in a the search pattern
-		/// should be run through the experimental transcription conversion process.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static bool ConvertPatternWithTranscriptionChanges { get; set; }
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets or sets a value indicating whether or not the phones in a the search pattern
+		///// should be run through the experimental transcription conversion process.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public static bool ConvertPatternWithTranscriptionChanges { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -364,36 +335,35 @@ namespace SIL.Pa.PhoneticSearching
 			bldrPhones.Append(GetPhonesFromMember(EnvAfterPatternGroup));
 
 			return (bldrPhones.Length == 0 ? null :
-				App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true,
-				ConvertPatternWithTranscriptionChanges));
+				App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true, false));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public string[] GetPhonesInSearchItem()
-		{
-			var bldrPhones = new StringBuilder(GetPhonesFromMember(SrchItemPatternGroup));
-			return (bldrPhones.Length == 0 ? null :
-				App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true,
-				ConvertPatternWithTranscriptionChanges));
-		}
+		///// ------------------------------------------------------------------------------------
+		//public string[] GetPhonesInSearchItem()
+		//{
+		//    var bldrPhones = new StringBuilder(GetPhonesFromMember(SrchItemPatternGroup));
+		//    return (bldrPhones.Length == 0 ? null :
+		//        App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true,
+		//        ConvertPatternWithTranscriptionChanges));
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		//public string[] GetPhonesInPrecedingEnv()
+		//{
+		//    var bldrPhones = new StringBuilder(GetPhonesFromMember(EnvBeforePatternGroup));
+		//    return (bldrPhones.Length == 0 ? null :
+		//        App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true,
+		//        ConvertPatternWithTranscriptionChanges));
+		//}
 
 		/// ------------------------------------------------------------------------------------
-		public string[] GetPhonesInPrecedingEnv()
-		{
-			var bldrPhones = new StringBuilder(GetPhonesFromMember(EnvBeforePatternGroup));
-			return (bldrPhones.Length == 0 ? null :
-				App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true,
-				ConvertPatternWithTranscriptionChanges));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public string[] GetPhonesInFollowingEnv()
-		{
-			var bldrPhones = new StringBuilder(GetPhonesFromMember(EnvAfterPatternGroup));
-			return (bldrPhones.Length == 0 ? null :
-				App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true,
-				ConvertPatternWithTranscriptionChanges));
-		}
+		//public string[] GetPhonesInFollowingEnv()
+		//{
+		//    var bldrPhones = new StringBuilder(GetPhonesFromMember(EnvAfterPatternGroup));
+		//    return (bldrPhones.Length == 0 ? null :
+		//        App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true,
+		//        ConvertPatternWithTranscriptionChanges));
+		//}
 		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -548,7 +518,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			int start = 0;
 
-			while ((start = pattern.IndexOf(App.kDottedCircleC, start)) >= 0)
+			while ((start = pattern.IndexOf(App.DottedCircleC, start)) >= 0)
 			{
 				int end = pattern.IndexOf(']', start);
 				if (end < start)

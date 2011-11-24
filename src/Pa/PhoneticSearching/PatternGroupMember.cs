@@ -262,7 +262,7 @@ namespace SIL.Pa.PhoneticSearching
 				return m_singlePhoneForToString;
 
 			string diacriticCluster = (DiacriticPattern == null ? string.Empty :
-				string.Format("[{0}{1}]", App.kDottedCircle, DiacriticPattern));
+				string.Format("[{0}{1}]", App.DottedCircle, DiacriticPattern));
 
 			if (MemberType == MemberType.Articulatory || MemberType == MemberType.Binary)
 			{

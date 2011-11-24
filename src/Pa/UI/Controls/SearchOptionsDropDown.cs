@@ -232,7 +232,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			var ignoreList = new StringBuilder();
 			foreach (var item in picker.Items.Cast<ToolStripButton>().Where(item => item.Checked))
-				ignoreList.AppendFormat("{0},", item.Text.Replace(App.kDottedCircle, string.Empty));
+				ignoreList.AppendFormat("{0},", item.Text.Replace(App.DottedCircle, string.Empty));
 
 			return (ignoreList.Length == 0 ? string.Empty : ignoreList.ToString());
 		}
@@ -247,7 +247,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				// Remove the dotted circle (if there is one) from the button's text, then
 				// check the button's text to see if it's found in the ignore list.
-				var chr = item.Text.Replace(App.kDottedCircle, string.Empty);
+				var chr = item.Text.Replace(App.DottedCircle, string.Empty);
 				item.Checked = (ignoreList.Contains(chr));
 				item.Tag = item.Checked;
 			}

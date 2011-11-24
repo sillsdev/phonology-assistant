@@ -68,10 +68,7 @@ namespace SIL.Pa
 		public const string kBottomTieBar = "\u035C";
 		public const char kTopTieBarC = '\u0361';
 		public const char kBottomTieBarC = '\u035C';
-		public const string kDottedCircle = "\u25CC";
-		public const char kDottedCircleC = '\u25CC';
 		public const char kOrc = '\uFFFC';
-		public const string kDiacriticPlaceholder = "[" + kDottedCircle + "]";
 		public const string kSearchPatternDiamond = "\u25CA";
 		public const string kEmptyDiamondPattern = kSearchPatternDiamond + "/" + kSearchPatternDiamond + "_" + kSearchPatternDiamond;
 
@@ -103,6 +100,10 @@ namespace SIL.Pa
 		/// --------------------------------------------------------------------------------
 		static App()
 		{
+			DottedCircleC = '\u25CC';
+			DottedCircle = "\u25CC";
+			DiacriticPlaceholder = "[" + DottedCircle + "]";
+
 			if (DesignMode)
 				return;
 
@@ -627,6 +628,16 @@ namespace SIL.Pa
 		#endregion
 
 		#region Misc. Properties
+		public static string DiacriticPlaceholder { get; set; }
+		public static string DottedCircle { get; set; }
+		public static char DottedCircleC { get; set; }
+		public static Font PhoneticFont { get; set; }
+		public static Mediator MsgMediator { get; internal set; }
+		public static Form MainForm { get; set; }
+		public static ITMAdapter TMAdapter { get; set; }
+		public static ITabView CurrentView { get; set; }
+		public static Type CurrentViewType { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// The normal DesignMode property doesn't work when derived classes are loaded in
@@ -639,9 +650,6 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static Font PhoneticFont { get; set; }
-
-		/// ------------------------------------------------------------------------------------
 		public static string BreakChars
 		{
 			get
@@ -650,13 +658,6 @@ namespace SIL.Pa
 					" " : Settings.Default.WordBreakCharacters);
 			}
 		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the XCore message mediator for the application.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Mediator MsgMediator { get; internal set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -771,13 +772,6 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static bool ProjectLoadInProcess { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the toolbar menu adapter PaMainWnd. This value should only be set
-		/// by the PaMainWnd class.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static ITMAdapter TMAdapter { get; set; }
 
 		/// --------------------------------------------------------------------------------
 		/// <summary>
@@ -788,28 +782,6 @@ namespace SIL.Pa
 		{
 			get { return null; }
 		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the application's main form.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Form MainForm { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the application's current view form. When the view is docked, then
-		/// this form will not be visible.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static ITabView CurrentView { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the application's current view type.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Type CurrentViewType { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

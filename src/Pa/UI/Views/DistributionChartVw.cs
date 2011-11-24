@@ -595,7 +595,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void HandleCharExplorerCharPicked(CharPicker picker, ToolStripButton item)
 		{
-			_grid.InsertTextInCell(item.Text.Replace(App.kDottedCircle, string.Empty));
+			_grid.InsertTextInCell(item.Text.Replace(App.DottedCircle, string.Empty));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -675,7 +675,7 @@ namespace SIL.Pa.UI.Views
 				if (_slidingPanel.Visible)
 					_slidingPanel.Close(true);
 	
-				DoDragDrop(dragText.Replace(App.kDottedCircle, string.Empty), DragDropEffects.Copy);
+				DoDragDrop(dragText.Replace(App.DottedCircle, string.Empty), DragDropEffects.Copy);
 			}
 		}
 

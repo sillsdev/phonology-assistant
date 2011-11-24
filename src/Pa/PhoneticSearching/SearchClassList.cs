@@ -189,7 +189,6 @@ namespace SIL.Pa.PhoneticSearching
 	{
 		private string _pattern;
 
-		#region Properties
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
 		public string Name { get; set; }
@@ -209,7 +208,11 @@ namespace SIL.Pa.PhoneticSearching
 		[XmlAttribute("SearchClassType")]
 		public SearchClassType Type { get; set; }
 
-		#endregion
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return (Name ?? base.ToString());
+		}
 	}
 
 	#endregion

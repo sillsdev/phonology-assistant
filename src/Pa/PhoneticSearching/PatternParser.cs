@@ -9,7 +9,6 @@ namespace SIL.Pa.PhoneticSearching
 	/// ----------------------------------------------------------------------------------------
 	public class PatternParser
 	{
-		private readonly List<string> _errors;
 		private readonly PaProject _project;
 		private readonly Dictionary<char, object> _tokenGroups;
 
@@ -18,46 +17,40 @@ namespace SIL.Pa.PhoneticSearching
 
 		private EnvironmentType _currEnvType;
 
+		public List<string> Errors { get; private set; }
+
 		// TODO: Check for empty pairs (i.e. <> {} []) and mismatched pairs.
 
 		/// ------------------------------------------------------------------------------------
 		public PatternParser(PaProject project)
 		{
 			_project = project;
-			_errors = new List<string>();
+			Errors = new List<string>();
 			_tokenGroups = new Dictionary<char, object>();
-		}
-
-		#region Properties
-		/// ------------------------------------------------------------------------------------
-		public IEnumerable<string> Errors
-		{
-			get { return _errors; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public bool HasErrors
 		{
-			get { return _errors.Count > 0; }
+			get { return Errors.Count > 0; }
 		}
-
-		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		public void ResetErrors()
 		{
-			_errors.Clear();
+			Errors.Clear();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public PatternGroup Parse(string pattern, EnvironmentType envType)
 		{
+			// By the time we get here, the pattern should have been validated already so
+			// certain assumptions are made that would throw exceptions were the pattern
+			// not valid.
+
 			_currEnvType = envType;
 			_tokenGroups.Clear();
 			_token = kMinToken;
-
-			if (!VerifyBracketedText(pattern))
-				return null;
 
 			pattern = ReplaceBracketedClassNamesWithPatterns(pattern);
 			pattern = ReplaceSquarBracketedTextWithTokens(pattern);
@@ -75,25 +68,31 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		private PatternGroup CreateOuterMostPatternGroup(string pattern)
 		{
+			//foreach (var grp in _tokenGroups.Values.OfType<PatternGroup>().Where(g => g.Members.Count == 1))
+			//    grp.GroupType = GroupType.Sequential;
+
 			var group = new PatternGroup(_currEnvType) { GroupType = GroupType.Sequential };
 			PatternGroupMember member = null;
 
 			foreach (char chr in pattern)
 			{
-				if (chr < kMinToken)
+				if (chr == '+')
 				{
-					if (member == null)
-						member = new PatternGroupMember();
-
-					member.AddToMember(chr);
+					if (member != null)
+					{
+						group.AddRangeOfMembers(member.CloseMember() ?? new[] { member });
+						member = null;
+					}
+					
+					group.AddMember(new PatternGroupMember("+"));
 				}
+				else if (chr < kMinToken)
+					(member ?? (member = new PatternGroupMember())).AddToMember(chr);
 				else
 				{
 					if (member != null)
 					{
-						foreach (var newMember in (member.CloseMember() ?? new[] { member }))
-							group.AddMember(newMember);
-
+						group.AddRangeOfMembers(member.CloseMember() ?? new[] { member });
 						member = null;
 					}
 
@@ -102,13 +101,13 @@ namespace SIL.Pa.PhoneticSearching
 			}
 
 			if (member != null)
-			{
-				foreach (var newMember in (member.CloseMember() ?? new[] { member }))
-					group.AddMember(newMember);
-			}
+				group.AddRangeOfMembers(member.CloseMember() ?? new[] { member });
 
 			if (group.Members.Count == 1 && group.Members[0] is PatternGroup)
 				group = (PatternGroup)group.Members[0];
+
+			//if (group.Members.Count == 1 && group.Members[0] is PatternGroupMember)
+			//    group.GroupType = GroupType.Sequential;
 
 			return group;
 		}
@@ -122,19 +121,7 @@ namespace SIL.Pa.PhoneticSearching
 			while (match.Success)
 			{
 				var bracketedText = match.Result("${bracketedText}");
-				var srchClass = _project.SearchClasses[bracketedText];
-				if (srchClass != null)
-					pattern = pattern.Replace(match.Value, srchClass.Pattern);
-				else
-				{
-					var msg = App.GetString("PhoneticSearchingMessages.SearchClassNotFound",
-						"The specified search class '{0}' does not exist. Verify the search " +
-						"class name by going to the Classes dialog box.");
-
-					_errors.Add(string.Format(msg, bracketedText));
-					pattern = string.Empty;
-				}
-
+				pattern = pattern.Replace(match.Value, _project.SearchClasses[bracketedText].Pattern);
 				match = match.NextMatch();
 			}
 
@@ -157,19 +144,10 @@ namespace SIL.Pa.PhoneticSearching
 			{
 				var bracketedText = match.Result("${bracketedText}");
 
-				if (!bracketedText.Contains(App.kDottedCircle))
+				if (!bracketedText.Contains(App.DottedCircle))
 					_tokenGroups[++_token] = new PatternGroupMember(bracketedText);
 				else
-				{
-					if (bracketedText.Contains("+") && bracketedText.Contains("*"))
-					{
-						_errors.Add(App.GetString("PhoneticSearchingMessages.InvalidDiacriticPlaceholderSyntax",
-							"The symbols '*' and '+' may not appear between square brackets together " +
-							"with a diacritic placeholder. One or the other is allowed, but not both."));
-					}
-
 					_tokenGroups[++_token] = bracketedText;
-				}
 
 				pattern = ReplaceMatchedTextWithToken(pattern, match, _token);
 				match = match.NextMatch();
@@ -207,7 +185,6 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		private string ParseTextInBrackets(string pattern, Match match)
 		{
-			int diacriticPlaceholderCount = 0;
 			var group = new PatternGroup(_currEnvType) {GroupType = GroupType.And};
 			var symbolsInBracketedText = string.Empty;
 			var bracketedText = ParseTextBetweenOpenAndCloseSymbols(match.Result("${bracketedText}"),
@@ -220,23 +197,14 @@ namespace SIL.Pa.PhoneticSearching
 				else if (_tokenGroups[chr] is string)
 				{
 					// The only time a token group is a string is when it contains a diacritic pattern cluster.
-					if (((string)_tokenGroups[chr]).Contains(App.kDottedCircle))
-					{
+					if (((string)_tokenGroups[chr]).Contains(App.DottedCircle))
 						group.SetDiacriticPattern((string)_tokenGroups[chr]);
-						diacriticPlaceholderCount++;
-					}
 				}
 				else
 				{
 					group.AddMember(_tokenGroups[chr]);
 					_tokenGroups.Remove(chr);
 				}
-			}
-
-			if (diacriticPlaceholderCount > 1)
-			{
-				_errors.Add(App.GetString("PhoneticSearchingMessages.TooManyDiacriticPlaceholderMsg",
-					"There were too many diacritic placeholders found in one of the AND groups."));
 			}
 
 			if (symbolsInBracketedText != string.Empty)
@@ -252,7 +220,7 @@ namespace SIL.Pa.PhoneticSearching
 					var msg = App.GetString("PhoneticSearchingMessages.InvalidCharacterInANDGroup",
 						"The text '{0}' is invalid in an AND group.");
 
-					_errors.Add(string.Format(msg, symbolsInBracketedText));
+					Errors.Add(string.Format(msg, symbolsInBracketedText));
 					return string.Empty;
 				}
 			}
@@ -273,7 +241,7 @@ namespace SIL.Pa.PhoneticSearching
 
 			if (piecesBetweenBraces.Length == 1)
 			{
-				_errors.Add(App.GetString("PhoneticSearchingMessages.OnlyOneItemInOrGroup",
+				Errors.Add(App.GetString("PhoneticSearchingMessages.OnlyOneItemInOrGroup",
 					"Only one item was found in an OR group. Verify that all items between braces {} are separated by commas."));
 			}
 
@@ -321,15 +289,15 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			if ("[]{}()+*_#<>".Contains(orGroupMember))
 			{
-				_errors.Add(App.GetString("PhoneticSearchingMessages.InvalidSymbolsInORGroup",
+				Errors.Add(App.GetString("PhoneticSearchingMessages.InvalidSymbolsInORGroup",
 					"The symbols '[]{}()<>+*_#' are not allowed in OR groups."));
 				
 				return false;
 			}
 
-			if (orGroupMember.Contains(App.kDottedCircle))
+			if (orGroupMember.Contains(App.DottedCircle))
 			{
-				_errors.Add(App.GetString("PhoneticSearchingMessages.InvalidDiacriticPlaceholderInORGroup",
+				Errors.Add(App.GetString("PhoneticSearchingMessages.InvalidDiacriticPlaceholderInORGroup",
 					"Diacritic placeholders are not valid in OR groups."));
 
 				return false;
@@ -341,7 +309,7 @@ namespace SIL.Pa.PhoneticSearching
 				var msg = App.GetString("PhoneticSearchingMessages.InvalidORGroupMember",
 					"The text '{0}' is not recognized as valid phonetic data.");
 
-				_errors.Add(string.Format(msg, orGroupMember));
+				Errors.Add(string.Format(msg, orGroupMember));
 				return false;
 			}
 
@@ -351,7 +319,7 @@ namespace SIL.Pa.PhoneticSearching
 					"The text '{0}' is in an OR group and must be surrounded in parentheses " +
 					"because it represents more than a single phone.");
 
-				_errors.Add(string.Format(msg, orGroupMember));
+				Errors.Add(string.Format(msg, orGroupMember));
 				return false;
 			}
 
@@ -380,52 +348,25 @@ namespace SIL.Pa.PhoneticSearching
 
 		#endregion
 		
-		#region Methods for verifying pattern validity
-		/// ------------------------------------------------------------------------------------
-		public bool VerifyBracketedText(string pattern)
-		{
-			var match = FindInnerMostSquareBracketPairs(pattern);
-
-			while (match.Success)
-			{
-				var bracketedText = match.Result("${bracketedText}");
-
-				if (!bracketedText.Contains(App.kDottedCircle) &&
-					bracketedText != "C" && bracketedText != "V" &&
-					!App.AFeatureCache.Keys.Any(f => f == bracketedText) &&
-					!App.BFeatureCache.Keys.Any(f => f == bracketedText))
-				{
-					_errors.Add(SearchEngine.kBracketingError + ":" + bracketedText);
-					return false;
-				}
-
-				match = match.NextMatch();
-			}
-
-			return true;
-		}
-
-		#endregion
-
 		#region Methods returning reg. expression for parsing a pattern
 		/// ------------------------------------------------------------------------------------
-		private Match FindInnerAngleBracketPairs(string pattern)
+		public static Match FindInnerAngleBracketPairs(string pattern)
 		{
-			var regex = new Regex(@"\<(?<bracketedText>[^<>]+)>");
+			var regex = new Regex(@"\<(?<bracketedText>[^<>]*)>");
 			return regex.Match(pattern);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private Match FindInnerMostSquareBracketPairs(string pattern)
+		public static Match FindInnerMostSquareBracketPairs(string pattern)
 		{
-			var regex = new Regex(@"\[(?<bracketedText>[^\[\]]+)\]");
+			var regex = new Regex(@"\[(?<bracketedText>[^\[\]]*)\]");
 			return regex.Match(pattern);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private Match FindInnerMostBracesPair(string pattern)
+		public static Match FindInnerMostBracesPair(string pattern)
 		{
-			var regex = new Regex(@"\{(?<bracketedText>[^\{\}]+)\}");
+			var regex = new Regex(@"\{(?<bracketedText>[^\{\}]*)\}");
 			return regex.Match(pattern);
 		}
 

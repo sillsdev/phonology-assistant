@@ -116,7 +116,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleIPACharPicked(CharPicker chooser, ToolStripButton item)
 		{
-			InsertText(item.Text.Replace(App.kDottedCircle, string.Empty));
+			InsertText(item.Text.Replace(App.DottedCircle, string.Empty));
 		}
 
 		/// ------------------------------------------------------------------------------------

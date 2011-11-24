@@ -106,7 +106,7 @@ namespace SIL.Pa.UI.Dialogs
 			// Now add to the list of checked symbols, the list of custom segments entered.
 			var split = txtCustomChars.Text.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-			foreach (var seg in split.Select(p => p.Replace(App.kDottedCircle, string.Empty))
+			foreach (var seg in split.Select(p => p.Replace(App.DottedCircle, string.Empty))
 				.Where(s => s != string.Empty && !list.Any(c => c.Phone == s))
 				.Distinct(StringComparer.Ordinal))
 			{
@@ -134,7 +134,7 @@ namespace SIL.Pa.UI.Dialogs
 				m_handleTextChange = true;
 			}
 
-			txtCustomChars.Text = txtCustomChars.Text.Insert(selStart, App.kDottedCircle);
+			txtCustomChars.Text = txtCustomChars.Text.Insert(selStart, App.DottedCircle);
 			txtCustomChars.SelectionStart = selStart + 1;
 			e.SuppressKeyPress = true;
 		}
@@ -161,9 +161,9 @@ namespace SIL.Pa.UI.Dialogs
 				for (int i = 0; i < txtCustomChars.TextLength; i++)
 				{
 					// Continue if it's the dotted circle
-					if (txtCustomChars.Text[i].ToString() == App.kDottedCircle)
+					if (txtCustomChars.Text[i].ToString() == App.DottedCircle)
 					{
-						verifiedText.Append(App.kDottedCircle);
+						verifiedText.Append(App.DottedCircle);
 						continue;
 					}
 
@@ -178,9 +178,9 @@ namespace SIL.Pa.UI.Dialogs
 						// a space and the character should be displayed with the dotted circle.
 						if (charInfo.DisplayWithDottedCircle &&
 							((i == 0 || txtCustomChars.Text[i - 1] == ' ')) &&
-							(i + 1 < txtCustomChars.Text.Length && txtCustomChars.Text[i + 1] != App.kDottedCircleC))
+							(i + 1 < txtCustomChars.Text.Length && txtCustomChars.Text[i + 1] != App.DottedCircleC))
 						{
-							verifiedText.Append(App.kDottedCircle);
+							verifiedText.Append(App.DottedCircle);
 							selStart++;
 						}
 

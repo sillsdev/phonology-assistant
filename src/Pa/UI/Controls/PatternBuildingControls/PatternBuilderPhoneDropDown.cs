@@ -138,7 +138,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void HandleItemClicked(object sender, ToolStripItemClickedEventArgs e)
 		{
-			m_itemSelectedHandler(e.ClickedItem.Text.Replace(App.kDottedCircle, string.Empty));
+			m_itemSelectedHandler(e.ClickedItem.Text.Replace(App.DottedCircle, string.Empty));
 		}
 	}
 }

@@ -371,13 +371,13 @@ namespace SIL.Pa.UI.Controls
 			// If the new text contains a dotted circle diacritic placeholder, then make
 			// sure it's not being inserted next to another and if not, make sure it is
 			// surrounded by square brackets.
-			if (text.IndexOf(App.kDottedCircleC) >= 0)
+			if (text.IndexOf(App.DottedCircleC) >= 0)
 				ProcessTextWithDottedCircle(newText, selstart, ref text);
 
 			newText = newText.Insert(selstart, text);
 			txt.Text = newText;
 			txt.SelectionStart = selstart + (text == "{}" || text == "[]"
-				|| text == App.kDiacriticPlaceholder ? text.Length - 1 : text.Length);
+				|| text == App.DiacriticPlaceholder ? text.Length - 1 : text.Length);
 
 			// Argh, I know.
 			Application.DoEvents();
@@ -393,7 +393,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			// Strip out the dotted circle and check if what's left is a single tie-bar-
 			// type character. If so, then just return the text without the dotted circle.
-			string nonDottedCirclePart = text.Replace(App.kDottedCircle, string.Empty);
+			string nonDottedCirclePart = text.Replace(App.DottedCircle, string.Empty);
 			if (nonDottedCirclePart.Length == 1)
 			{
 				var charInfo = App.IPASymbolCache[nonDottedCirclePart];
@@ -411,7 +411,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (i < newText.Length)
 				{
-					if (newText[i] == App.kDottedCircleC)
+					if (newText[i] == App.DottedCircleC)
 						dottedCircle = i;
 					else if (newText[i] == '[' || (newText[i] == ']' && i < selstart))
 						break;
@@ -421,7 +421,7 @@ namespace SIL.Pa.UI.Controls
 			// Go forward, looking for a dotted circle or open/close brackets.
 			for (int i = selstart; i < newText.Length && newText.Length > 0 && dottedCircle < 0; i++)
 			{
-				if (newText[i] == App.kDottedCircleC)
+				if (newText[i] == App.DottedCircleC)
 					dottedCircle = i;
 				else if (newText[i] == ']' || newText[i] == '[')
 					break;
@@ -432,7 +432,7 @@ namespace SIL.Pa.UI.Controls
 			if (dottedCircle >= 0)
 			{
 				// Remove the dotted circle.
-				int i = text.IndexOf(App.kDottedCircleC);
+				int i = text.IndexOf(App.DottedCircleC);
 				text = text.Substring(0, i) + text.Substring(i + 1);
 			}
 		}
@@ -496,7 +496,7 @@ namespace SIL.Pa.UI.Controls
 			if (!OwningView.ActiveView)
 				return false;
 
-			Insert(App.kDiacriticPlaceholder);
+			Insert(App.DiacriticPlaceholder);
 			return true;
 		}
 		
@@ -812,7 +812,7 @@ namespace SIL.Pa.UI.Controls
 			else if (keyCode == (int)Keys.OemMinus)
 				toInsert = "_";
 			else if (keyCode == (int)Keys.D0)
-				toInsert = App.kDiacriticPlaceholder;
+				toInsert = App.DiacriticPlaceholder;
 
 			if (toInsert != null)
 			{

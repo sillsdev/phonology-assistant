@@ -312,13 +312,13 @@ namespace SIL.Pa.UI.Controls
 
 			// Provide a context menu for the user to copy the character to the clipboard.
 			var itemText = (sender as ToolStripButton).Text;
-			var menuText = (itemText.Contains(App.kDottedCircle) ?
+			var menuText = (itemText.Contains(App.DottedCircle) ?
 				App.GetString("CommonControls.CharacterPicker.CopyToClipboardMenuText.WhenContainsDottedCircle", "Copy to Clipboard\n(removing diacritic placeholder)") :
 				App.GetString("CommonControls.CharacterPicker.CopyToClipboardMenuText.WhenDoesNotContainDottedCircle", "Copy to Clipboard"));
 
 			var cmenu = new ContextMenuStrip();
 			cmenu.Items.Add(new ToolStripMenuItem(menuText, null,
-				(s, e) => Clipboard.SetText(itemText.Replace(App.kDottedCircle, string.Empty), TextDataFormat.UnicodeText)));
+				(s, e) => Clipboard.SetText(itemText.Replace(App.DottedCircle, string.Empty), TextDataFormat.UnicodeText)));
 
 			cmenu.Show(MousePosition);
 		}
@@ -383,7 +383,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			foreach (var text in textsOfItemsToCheck)
 			{
-				var item = GetItems().FirstOrDefault(i => i.Text.Replace(App.kDottedCircle, string.Empty) == text);
+				var item = GetItems().FirstOrDefault(i => i.Text.Replace(App.DottedCircle, string.Empty) == text);
 				
 				if (item != null)
 				{
@@ -396,7 +396,7 @@ namespace SIL.Pa.UI.Controls
 		/// --------------------------------------------------------------------------------------------
 		public IEnumerable<string> GetTextsOfCheckedItems()
 		{
-			return CheckedItems.Select(i => i.Text.Replace(App.kDottedCircle, string.Empty));
+			return CheckedItems.Select(i => i.Text.Replace(App.DottedCircle, string.Empty));
 		}
 
 		#region Methods for Loading Characters
@@ -477,7 +477,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private static string GetDisplayableChar(IPASymbol ci)
 		{
-			return (ci.DisplayWithDottedCircle ? App.kDottedCircle : string.Empty) + ci.Literal;
+			return (ci.DisplayWithDottedCircle ? App.DottedCircle : string.Empty) + ci.Literal;
 		}
 
 		/// ------------------------------------------------------------------------------------

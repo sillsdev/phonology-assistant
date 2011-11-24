@@ -510,7 +510,7 @@ namespace SIL.Pa.UI.Controls
 					if ((ModifierKeys & Keys.Control) == Keys.Control &&
 						m.WParam.ToInt32() == (int)Keys.D0)
 					{
-						PatternTextBox.Insert(m_txtBox, App.kDiacriticPlaceholder);
+						PatternTextBox.Insert(m_txtBox, App.DiacriticPlaceholder);
 						return true;
 					}
 					
@@ -1574,7 +1574,7 @@ namespace SIL.Pa.UI.Controls
 			if (!OwningView.ActiveView)
 				return false;
 
-			InsertTextInCell(App.kDiacriticPlaceholder);
+			InsertTextInCell(App.DiacriticPlaceholder);
 			return true;
 		}
 
