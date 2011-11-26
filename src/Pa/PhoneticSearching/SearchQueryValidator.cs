@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using SIL.Pa.Model;
@@ -7,23 +6,11 @@ using SIL.Pa.Model;
 namespace SIL.Pa.PhoneticSearching
 {
 	/// ----------------------------------------------------------------------------------------
-	public class SearchQueryValidator
+	public class SearchQueryValidator : ValidatorBase
 	{
-		private readonly PaProject _project;
-
-		public Dictionary<string, string> Errors { get; private set; }
-
 		/// ------------------------------------------------------------------------------------
-		public SearchQueryValidator(PaProject project)
+		public SearchQueryValidator(PaProject project) : base(project)
 		{
-			_project = project;
-			Errors = new Dictionary<string, string>();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool HasErrors
-		{
-			get { return Errors.Count > 0; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -72,6 +59,8 @@ namespace SIL.Pa.PhoneticSearching
 				VerifyMatchingOpenAndCloseSymbols(item, '(', ')',
 					string.Format(App.GetString("PhoneticSearchingMessages.MismatchedNumberOfParenthesesMsg",
 						"In the pattern '{0}', the number of open parentheses does not match the number of closed."), item));
+
+				ValidateOrGroups(item);
 			}
 			
 			return false;
@@ -387,6 +376,25 @@ namespace SIL.Pa.PhoneticSearching
 								"diacritic placeholders.")] = null;
 						}
 					}
+				}
+
+				match = match.NextMatch();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void ValidateOrGroups(string item)
+		{
+			var orGroupValidator = new OrGroupValidator(_project);
+			var match = PatternParser.FindInnerMostBracesPair(item);
+
+			while (match.Success)
+			{
+				orGroupValidator.Verify(match.Value);
+				if (orGroupValidator.HasErrors)
+				{
+					foreach (var kvp in orGroupValidator.Errors)
+						Errors[kvp.Key] = kvp.Value;
 				}
 
 				match = match.NextMatch();

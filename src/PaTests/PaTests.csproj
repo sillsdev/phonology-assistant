@@ -92,6 +92,7 @@
     <Compile Include="PatternGroupTests.cs" />
     <Compile Include="PhoneCacheTests.cs" />
     <Compile Include="PhoneticParserTests.cs" />
+    <Compile Include="PhoneticSearching\OrGroupValidatorTests.cs" />
     <Compile Include="PhoneticSearching\PatternGroupTests.cs" />
     <Compile Include="PhoneticSearching\PatternGroupMemberTests.cs" />
     <Compile Include="PhoneticSearching\PatternParserTests.cs" />
