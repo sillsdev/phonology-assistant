@@ -60,7 +60,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCancel.AutoSize = true;
-			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnCancel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
 			this.locExtender.SetLocalizationComment(this.btnCancel, "Cancel button text on all OK/Cancel dialog boxes.");
@@ -123,7 +122,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.AcceptButton = this.btnOK;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.CancelButton = this.btnCancel;
 			this.ClientSize = new System.Drawing.Size(400, 271);
 			this.Controls.Add(this.tblLayoutButtons);
 			this.locExtender.SetLocalizableToolTip(this, null);
