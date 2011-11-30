@@ -613,7 +613,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateClearPattern(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !m_activeView)
 				return false;
 
@@ -625,9 +625,11 @@ namespace SIL.Pa.UI.Views
 				itemProps.Update = true;
 			}
 
+			var areResultsStale = (m_rsltVwMngr.CurrentViewsControl is IWaterMarkHost &&
+				((IWaterMarkHost)m_rsltVwMngr.CurrentViewsControl).AreResultsStale);
+
 			// Use this update opportunity to update the enabled state of the refresh button.
-			btnRefresh.Enabled = (m_rsltVwMngr.CurrentViewsGrid != null &&
-				m_rsltVwMngr.CurrentViewsGrid.AreResultsStale && ptrnTextBox.IsPatternFull);
+			btnRefresh.Enabled = (areResultsStale && ptrnTextBox.IsPatternFull);
 
 			return true;
 		}
@@ -783,8 +785,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void HandlePatternTextBoxPatternTextChanged(object sender, EventArgs e)
 		{
-			if (m_rsltVwMngr.CurrentViewsGrid != null && !ptrnTextBox.ClassDisplayBehaviorChanged)
-				m_rsltVwMngr.CurrentViewsGrid.AreResultsStale = true;
+			if (m_rsltVwMngr.CurrentViewsControl is IWaterMarkHost && !ptrnTextBox.ClassDisplayBehaviorChanged)
+				((IWaterMarkHost)m_rsltVwMngr.CurrentViewsControl).AreResultsStale = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -795,7 +797,7 @@ namespace SIL.Pa.UI.Views
 		private void HandleRefreshButtonClick(object sender, EventArgs e)
 		{
 			// This is just like clicking the "Show Results" button.
-			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("tbbShowResults");
+			var itemProps = m_tmAdapter.GetItemProperties("tbbShowResults");
 			App.MsgMediator.SendMessage("ShowResults", itemProps);
 		}
 
@@ -1271,7 +1273,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnCompareGrid(object args)
 		{
-			PaWordListGrid grid = args as PaWordListGrid;
+			var grid = args as PaWordListGrid;
 			return (grid != null && m_rsltVwMngr.CurrentViewsGrid == grid);
 		}
 
@@ -1471,7 +1473,7 @@ namespace SIL.Pa.UI.Views
 			if (!m_activeView)
 				return false;
 
-			RtfExportDlg rtfExp = new RtfExportDlg(m_rsltVwMngr.CurrentViewsGrid);
+			var rtfExp = new RtfExportDlg(m_rsltVwMngr.CurrentViewsGrid);
 			rtfExp.ShowDialog(this);
 			return true;
 		}

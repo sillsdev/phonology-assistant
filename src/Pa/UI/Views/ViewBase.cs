@@ -14,6 +14,11 @@ namespace SIL.Pa.UI.Views
 		private ToolStripButton _otherSrchEngButton;
 
 		/// ------------------------------------------------------------------------------------
+		public ViewBase()
+		{
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public ViewBase(PaProject project)
 		{
 			Project = project;
