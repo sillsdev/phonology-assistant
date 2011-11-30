@@ -1567,7 +1567,7 @@ namespace SIL.Pa.UI.Controls
 		void PopupsCommandLink_Click(object sender, EventArgs e)
 		{
 			if (m_cellInfoPopup.PurposeIndicator == GridCellInfoPopup.Purpose.ExperimentalTranscription)
-				App.MsgMediator.SendMessage("ViewPhoneInventory", null);
+				App.MsgMediator.SendMessage("ExperimentalTranscriptions", null);
 			else if (m_cellInfoPopup.AssociatedCell != null)
 			{
 				if (!Focused)
