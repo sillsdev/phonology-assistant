@@ -111,7 +111,7 @@ namespace SIL.Pa.Model
 
 			featureName = featureName.Replace("[", string.Empty);
 			featureName = featureName.Replace("]", string.Empty);
-			return featureName.Trim().ToLower();
+			return featureName.Trim();
 		}
 
 		/// ------------------------------------------------------------------------------------
