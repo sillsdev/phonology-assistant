@@ -119,11 +119,19 @@ namespace SIL.Pa.UI.Dialogs
 
 			var backupFile = App.OpenFileDialog("pabackup", filters, caption);
 
-			if (backupFile != null)
+			if (backupFile == null)
+				return;
+			
+			if (!_viewModel.GetIsValidBackupFile(backupFile))
 			{
-				_viewModel.AddBackupFileToListAndMakeCurrent(backupFile);
-				LoadGrid();
+				var msg = App.GetString("DialogBoxes.RestoreDlg.SelectOtherBackupFileDlg.BackupFileNotValid",
+				                        "The selected file '{0}' is not a valid Phonology Assistant backup file.");
+				ErrorReport.NotifyUserOfProblem(msg, backupFile);
+				return;
 			}
+
+			_viewModel.AddBackupFileToListAndMakeCurrent(backupFile);
+			LoadGrid();
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -175,8 +175,17 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public bool GetIsValidBackupFile(string backupFile)
+		{
+			return (GetProjectNameFromBackupFile(backupFile) != null);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public string GetProjectNameFromBackupFile(string backupFile)
 		{
+			if (!ZipFile.IsZipFile(backupFile, true))
+				return null;
+
 			using (var zip = new ZipFile(backupFile))
 			{
 				if (!zip.Any(ze => ze.FileName == kBackupInfoFileName))
