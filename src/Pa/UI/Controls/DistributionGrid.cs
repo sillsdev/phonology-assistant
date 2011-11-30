@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
@@ -25,6 +26,7 @@ namespace SIL.Pa.UI.Controls
 		//private readonly Image m_dirtyIndicator;
 		private readonly Bitmap m_errorInCell;
 		private readonly DistributionChartCellInfoPopup m_cellInfoPopup;
+		private readonly SearchQueryValidator _queryValidator;
 
 		/// ------------------------------------------------------------------------------------
 		public DistributionGrid()
@@ -53,6 +55,8 @@ namespace SIL.Pa.UI.Controls
 			Reset();
 			App.AddMediatorColleague(this);
 			m_cellInfoPopup = new DistributionChartCellInfoPopup(this);
+
+			_queryValidator = new SearchQueryValidator(App.Project);
 
 			SetToolTips();
 		}
@@ -713,48 +717,26 @@ namespace SIL.Pa.UI.Controls
 			if (col == 0 || row == 0)
 			{
 				if (this[col, row].Value == null)
-				{
-					string text;
-
-					if (col == 0)
-					{
-						m_tooltip.ToolTipTitle = App.GetString(
-							"DistributionGrid.AddSearchItemCellToolTipTitle",
-							"Search Item Column:", "Views");
-						
-						text = App.GetString(
-							"DistributionGrid.AddSearchItemCellToolTip",
-							"Add a search item in this cell", "Views");
-					}
-					else
-					{
-						m_tooltip.ToolTipTitle = App.GetString(
-							"DistributionGrid.AddEnvironmentCellToolTipTitle",
-							"Environment Row:", "Views");
-
-						text = App.GetString(
-							"DistributionGrid.AddEnvironmentCellToolTip",
-							"Add a search environment\nin this cell", "Views");
-					}
-
-					var rc = GetCellDisplayRectangle(col, row, false);
-					rc.X = rc.Right - 7;
-					rc.Y = rc.Bottom - 7;
-					m_tooltip.Show(Utils.ConvertLiteralNewLines(text), this, rc.Location);
-				}
-
+					ShowToolTipForEmptyCell(col, row);
+	
 				return;
 			}
 
 			var query = GetCellsFullSearchQuery(row, col);
 			var pattern = (query == null ? "?" : query.Pattern);
-			var exception = this[col, row].Value as SearchQueryException;
+			var errorList = this[col, row].Value as IEnumerable<SearchQueryValidationError>;
 
-			if (exception != null)
+			if (errorList != null)
 			{
 				// When the cell's value is an exception, it is because the
 				// query generated an error when searching took place.
-				m_cellInfoPopup.Initialize(pattern, this[col, row], exception.QueryErrorMessage);
+				
+				
+				
+			// TODO: SHOW ERROR LIST!!!!!!!!!
+				
+				
+				m_cellInfoPopup.Initialize(pattern, this[col, row]);
 				m_cellInfoPopup.Show();
 			}
 			else if (this[col, row].Tag is string[] || this[col, row].Tag is char[])
@@ -767,6 +749,32 @@ namespace SIL.Pa.UI.Controls
 				m_cellInfoPopup.Initialize(pattern, this[col, row]);
 				m_cellInfoPopup.Show();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ShowToolTipForEmptyCell(int col, int row)
+		{
+			string text;
+
+			if (col == 0)
+			{
+				m_tooltip.ToolTipTitle = App.GetString(
+					"Views.DistributionGrid.AddSearchItemCellToolTipTitle", "Search Item Column:");
+
+				text = App.GetString("Views.DistributionGrid.AddSearchItemCellToolTip", "Add a search item in this cell");
+			}
+			else
+			{
+				m_tooltip.ToolTipTitle = App.GetString(
+					"Views.DistributionGrid.AddEnvironmentCellToolTipTitle", "Environment Row:");
+
+				text = App.GetString("Views.DistributionGrid.AddEnvironmentCellToolTip", "Add a search environment\nin this cell");
+			}
+
+			var rc = GetCellDisplayRectangle(col, row, false);
+			rc.X = rc.Right - 7;
+			rc.Y = rc.Bottom - 7;
+			m_tooltip.Show(Utils.ConvertLiteralNewLines(text), this, rc.Location);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1054,9 +1062,9 @@ namespace SIL.Pa.UI.Controls
 		{
 			// First assume the cell being drawn is in the row of a search item cell or column
 			// of a environment cell that is the current cell.
-			Color clrBack = e.CellStyle.SelectionBackColor;
+			var clrBack = e.CellStyle.SelectionBackColor;
 
-			Point currCell = CurrentCellAddress;
+			var currCell = CurrentCellAddress;
 
 			if ((currCell.X > 0 && currCell.Y > 0) ||
 				(currCell.X != e.ColumnIndex && currCell.Y != e.RowIndex))
@@ -1066,16 +1074,16 @@ namespace SIL.Pa.UI.Controls
 					e.CellStyle.BackColor, 60));
 			}
 
-			using (SolidBrush br = new SolidBrush(clrBack))
+			using (var br = new SolidBrush(clrBack))
 				e.Graphics.FillRectangle(br, e.CellBounds);
 
 			e.Paint(e.CellBounds, DataGridViewPaintParts.Border);
 
-			if (!(e.Value is SearchQueryException))
+			if (!(e.Value is IList<SearchQueryValidationError>))
 				e.PaintContent(e.CellBounds);
 			else
 			{
-				Rectangle rc = new Rectangle(new Point(0, 0), m_errorInCell.Size);
+				var rc = new Rectangle(new Point(0, 0), m_errorInCell.Size);
 				rc.X = e.CellBounds.Left + ((e.CellBounds.Width - rc.Width) / 2);
 				rc.Y = e.CellBounds.Top + ((e.CellBounds.Height - rc.Height) / 2);
 				e.Graphics.DrawImageUnscaledAndClipped(m_errorInCell, rc);
@@ -1091,15 +1099,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private static void DrawInfoCornerGlyph(Graphics g, Rectangle rc)
 		{
-			Point pt1 = new Point(rc.Right - 7, rc.Y);
-			Point pt2 = new Point(rc.Right - 1, rc.Y + 6);
-			Point ptCorner = new Point(rc.Right - 1, rc.Top);
+			var pt1 = new Point(rc.Right - 7, rc.Y);
+			var pt2 = new Point(rc.Right - 1, rc.Y + 6);
+			var ptCorner = new Point(rc.Right - 1, rc.Top);
 
-			using (LinearGradientBrush br =
-				new LinearGradientBrush(pt1, pt2, Color.Red, Color.DarkRed))
-			{
+			using (var br = new LinearGradientBrush(pt1, pt2, Color.Red, Color.DarkRed))
 				g.FillPolygon(br, new[] { pt1, pt2, ptCorner });
-			}
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -1111,13 +1116,13 @@ namespace SIL.Pa.UI.Controls
 		private void DrawSearchItemOrEnvironmentCell(DataGridViewCellPaintingEventArgs e,
 			bool selected)
 		{
-			Rectangle rc = e.CellBounds;
-			Color clrBack = (!selected ? SystemColors.Control :
-							ColorHelper.CalculateColor(e.CellStyle.SelectionBackColor,
-							ColorHelper.LightLightHighlight, 60));
+			var rc = e.CellBounds;
+			var clrBack = (!selected ? SystemColors.Control :
+				ColorHelper.CalculateColor(e.CellStyle.SelectionBackColor,
+				ColorHelper.LightLightHighlight, 60));
 
-			using (SolidBrush br = new SolidBrush(clrBack))
-			using (Pen pen = new Pen(ColorHelper.LightHighlight))
+			using (var br = new SolidBrush(clrBack))
+			using (var pen = new Pen(ColorHelper.LightHighlight))
 			{
 				e.Graphics.FillRectangle(br, rc);
 				e.Graphics.DrawLine(pen, rc.Right - 1, rc.Top, rc.Right - 1, rc.Bottom - 1);
@@ -1328,8 +1333,7 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static void GetResultsForCell(DataGridViewCell cell, string srchItem,
-		    SearchQuery qryEnvironment)
+		private void GetResultsForCell(DataGridViewCell cell, string srchItem, SearchQuery qryEnvironment)
 		{
 			SearchQuery query = null;
 
@@ -1340,23 +1344,19 @@ namespace SIL.Pa.UI.Controls
 				// If there is an environment and a search item, then get search results.
 				if (!string.IsNullOrEmpty(qryEnvironment.Pattern) && !string.IsNullOrEmpty(srchItem))
 				{
-					int count;
 					query = qryEnvironment.Clone();
 					query.Pattern = srchItem + "/" + qryEnvironment.Pattern;
-					App.Search(query, false, true, false, 0, out count);
 
-					if (count < 0)
-						cell.Value = new SearchQueryException(query);
+					if (!_queryValidator.GetIsValid(query))
+						cell.Value = _queryValidator.Errors.ToArray();
 					else
-					{
-						cell.Value = count;
-						cell.Tag = (query.GetPhonesNotInCache() ?? query.GetSymbolsNotInInventory());
-					}
+						cell.Value = App.GetSearchResultCount(query);
 				}
 			}
 			catch (Exception e)
 			{
-				cell.Value = new SearchQueryException(e, query);
+				var error = SearchQueryValidationError.MakeErrorFromException(e, query.Pattern);
+				cell.Value = new List<SearchQueryValidationError> { error };
 			}
 		}
 

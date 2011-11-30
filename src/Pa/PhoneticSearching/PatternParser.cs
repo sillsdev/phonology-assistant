@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using SIL.Pa.Model;
 
@@ -17,28 +16,11 @@ namespace SIL.Pa.PhoneticSearching
 
 		private EnvironmentType _currEnvType;
 
-		public List<string> Errors { get; private set; }
-
-		// TODO: Check for empty pairs (i.e. <> {} []) and mismatched pairs.
-
 		/// ------------------------------------------------------------------------------------
 		public PatternParser(PaProject project)
 		{
 			_project = project;
-			Errors = new List<string>();
 			_tokenGroups = new Dictionary<char, object>();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool HasErrors
-		{
-			get { return Errors.Count > 0; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void ResetErrors()
-		{
-			Errors.Clear();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -61,8 +43,7 @@ namespace SIL.Pa.PhoneticSearching
 			pattern = ParseTextBetweenOpenAndCloseSymbols(pattern,
 				FindInnerMostBracesPair, ParseTextInBraces);
 
-			var group = CreateOuterMostPatternGroup(pattern);
-			return (HasErrors ? null : group);
+			return CreateOuterMostPatternGroup(pattern);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -212,17 +193,9 @@ namespace SIL.Pa.PhoneticSearching
 				// If plain text (i.e. not features or classes) is found between the square brackets,
 				// then if it represents a single phone, that's fine. Otherwise, it's an error.
 				// This deals with patterns like "[b[0*]]" (where 0 is the diacritic placeholder).
+				// By the time we get here, it's assumed the SearchQueryValidator has caught errors.
 				var phonesInBrackets = _project.PhoneticParser.Parse(symbolsInBracketedText, true, false);
-				if (phonesInBrackets.Length == 1)
-					group.AddMember(new PatternGroupMember(phonesInBrackets[0]));
-				else
-				{
-					var msg = App.GetString("PhoneticSearchingMessages.InvalidCharacterInANDGroup",
-						"The text '{0}' is invalid in an AND group.");
-
-					Errors.Add(string.Format(msg, symbolsInBracketedText));
-					return string.Empty;
-				}
+				group.AddMember(new PatternGroupMember(phonesInBrackets[0]));
 			}
 
 			if (group.Members.Count == 1 && group.Members[0] is PatternGroup)
@@ -239,13 +212,7 @@ namespace SIL.Pa.PhoneticSearching
 			var bracketedText = match.Result("${bracketedText}");
 			var piecesBetweenBraces = bracketedText.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
 
-			if (piecesBetweenBraces.Length == 1)
-			{
-				Errors.Add(App.GetString("PhoneticSearchingMessages.OnlyOneItemInOrGroup",
-					"Only one item was found in an OR group. Verify that all items between braces {} are separated by commas."));
-			}
-
-			foreach (var piece in piecesBetweenBraces.Where(piece => GetIsOrGroupMemberValid(piece)))
+			foreach (var piece in piecesBetweenBraces)
 			{
 				if (piece[0] >= kMinToken)
 				{
@@ -282,48 +249,6 @@ namespace SIL.Pa.PhoneticSearching
 			}
 
 			return subGroup;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public bool GetIsOrGroupMemberValid(string orGroupMember)
-		{
-			if ("[]{}()+*_#<>".Contains(orGroupMember))
-			{
-				Errors.Add(App.GetString("PhoneticSearchingMessages.InvalidSymbolsInORGroup",
-					"The symbols '[]{}()<>+*_#' are not allowed in OR groups."));
-				
-				return false;
-			}
-
-			if (orGroupMember.Contains(App.DottedCircle))
-			{
-				Errors.Add(App.GetString("PhoneticSearchingMessages.InvalidDiacriticPlaceholderInORGroup",
-					"Diacritic placeholders are not valid in OR groups."));
-
-				return false;
-			}
-
-			var phonesInMember = _project.PhoneticParser.Parse(orGroupMember, true, false);
-			if (phonesInMember == null)
-			{
-				var msg = App.GetString("PhoneticSearchingMessages.InvalidORGroupMember",
-					"The text '{0}' is not recognized as valid phonetic data.");
-
-				Errors.Add(string.Format(msg, orGroupMember));
-				return false;
-			}
-
-			if (phonesInMember.Length > 1 && !orGroupMember.StartsWith("(") && !orGroupMember.EndsWith(")"))
-			{
-				var msg = App.GetString("PhoneticSearchingMessages.UnparentheticalTextInORGroup",
-					"The text '{0}' is in an OR group and must be surrounded in parentheses " +
-					"because it represents more than a single phone.");
-
-				Errors.Add(string.Format(msg, orGroupMember));
-				return false;
-			}
-
-			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -216,16 +216,13 @@
     <Compile Include="Model\WordCache\WordListCache.cs" />
     <Compile Include="Model\WordCache\WordListCacheEntry.cs" />
     <Compile Include="App.cs" />
-    <Compile Include="PhoneticSearching\BracketedTextErrorMsgBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PhoneticSearching\BracketedTextErrorMsgBox.Designer.cs">
-      <DependentUpon>BracketedTextErrorMsgBox.cs</DependentUpon>
-    </Compile>
+    <Compile Include="PhoneticSearching\AndGroupValidator.cs" />
+    <Compile Include="PhoneticSearching\GroupValidatorBase.cs" />
     <Compile Include="PhoneticSearching\DistributionChart.cs" />
     <Compile Include="PhoneticSearching\OrGroupValidator.cs" />
     <Compile Include="PhoneticSearching\PatternParser.cs" />
     <Compile Include="PhoneticSearching\SearchQueryValidator.cs" />
+    <Compile Include="PhoneticSearching\SearchQueryValidatorError.cs" />
     <Compile Include="PhoneticSearching\ValidatorBase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="PhoneticSearching\FFNormalizer.cs" />
@@ -234,7 +231,6 @@
     <Compile Include="PhoneticSearching\SearchClassList.cs" />
     <Compile Include="PhoneticSearching\SearchEngine.cs" />
     <Compile Include="PhoneticSearching\SearchQuery.cs" />
-    <Compile Include="PhoneticSearching\SearchQueryException.cs" />
     <Compile Include="PhoneticSearching\SearchQueryGroup.cs" />
     <Compile Include="Processing\CVChartExporter.cs" />
     <Compile Include="Processing\CVChartBuilder.cs" />
@@ -462,6 +458,12 @@
     </Compile>
     <Compile Include="UI\Controls\SearchPatternTreeView.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\SearchResultControls\SearchQueryValidationErrorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\SearchResultControls\SearchQueryValidationErrorControl.Designer.cs">
+      <DependentUpon>SearchQueryValidationErrorControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Controls\SearchResultControls\SearchResultsViewManager.cs" />
     <Compile Include="UI\Controls\SearchResultControls\SearchResultTab.cs">
@@ -801,9 +803,6 @@
       <DependentUpon>MissingFWDatabaseMsgBox.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="PhoneticSearching\BracketedTextErrorMsgBox.resx">
-      <DependentUpon>BracketedTextErrorMsgBox.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
@@ -862,6 +861,9 @@
     <EmbeddedResource Include="UI\Controls\SearchOptionsDropDown.resx">
       <DependentUpon>SearchOptionsDropDown.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\SearchResultControls\SearchQueryValidationErrorControl.resx">
+      <DependentUpon>SearchQueryValidationErrorControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Controls\SearchResultControls\SearchResultTabGroupButtonPanel.resx">
       <DependentUpon>SearchResultTabGroupButtonPanel.cs</DependentUpon>

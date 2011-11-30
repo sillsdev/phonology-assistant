@@ -16,6 +16,12 @@ namespace SIL.Pa.PhoneticSearching
 			base.FixtureSetup();
 
 			App.IPASymbolCache.Add('^', new IPASymbol { Literal = "^", IsBase = false });
+			App.BFeatureCache.Clear();
+			App.BFeatureCache.LoadFromList(new[]
+			{
+				new Feature { Name = "+voice" },
+				new Feature { Name = "+con" }
+			});
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -122,6 +128,22 @@ namespace SIL.Pa.PhoneticSearching
 			Assert.IsTrue(_validator.HasErrors);
 		}
 
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void VerifySearchItem_ContainsPlusFeature_CausesNoErrors()
+		{
+			_validator.VerifySearchItem("abc[+con][+voice]");
+			Assert.IsFalse(_validator.HasErrors);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void VerifySearchItem_ContainsPlusFeatureAndOneOrMore_CausesErrors()
+		{
+			_validator.VerifySearchItem("abc[+con]+");
+			Assert.IsTrue(_validator.HasErrors);
+		}
+
 		#endregion
 
 		#region VerifyPrecedingEnvironment tests
@@ -195,6 +217,22 @@ namespace SIL.Pa.PhoneticSearching
 			Assert.IsTrue(_validator.HasErrors);
 		}
 
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void VerifyPrecedingEnvironment_ContainsPlusFeature_CausesNoErrors()
+		{
+			_validator.VerifyPrecedingEnvironment("abc[+con][+voice]");
+			Assert.IsFalse(_validator.HasErrors);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void VerifyPrecedingEnvironment_ContainsPlusFeatureAndOneOrMore_CausesErrors()
+		{
+			_validator.VerifyPrecedingEnvironment("abc[+con]+");
+			Assert.IsTrue(_validator.HasErrors);
+		}
+
 		#endregion
 
 		#region VerifyFollowingEnvironment tests
@@ -265,6 +303,22 @@ namespace SIL.Pa.PhoneticSearching
 		public void VerifyFollowingEnvironment_MisplacedOneOrMoreSymbol_CausesErrors()
 		{
 			_validator.VerifyFollowingEnvironment("+a");
+			Assert.IsTrue(_validator.HasErrors);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void VerifyFollowingEnvironment_ContainsPlusFeature_CausesNoErrors()
+		{
+			_validator.VerifyFollowingEnvironment("abc[+con][+voice]");
+			Assert.IsFalse(_validator.HasErrors);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void VerifyFollowingEnvironment_ContainsPlusFeatureAndOneOrMore_CausesErrors()
+		{
+			_validator.VerifyFollowingEnvironment("+abc[+con]");
 			Assert.IsTrue(_validator.HasErrors);
 		}
 

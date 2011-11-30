@@ -8,13 +8,13 @@ namespace SIL.Pa.PhoneticSearching
 	{
 		protected readonly PaProject _project;
 
-		public Dictionary<string, string> Errors { get; private set; }
+		public List<SearchQueryValidationError> Errors { get; private set; }
 		
 		/// ------------------------------------------------------------------------------------
 		public ValidatorBase(PaProject project)
 		{
 			_project = project;
-			Errors = new Dictionary<string, string>();
+			Errors = new List<SearchQueryValidationError>();
 		}
 
 		/// ------------------------------------------------------------------------------------

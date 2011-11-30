@@ -18,7 +18,13 @@ using SIL.Pa.UI.Dialogs;
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	public class PaWordListGrid : DataGridView, IxCoreColleague
+	public interface IWaterMarkHost
+	{
+		bool AreResultsStale { get; set; }
+	}
+
+	/// ----------------------------------------------------------------------------------------
+	public class PaWordListGrid : DataGridView, IxCoreColleague, IWaterMarkHost
 	{
 		private const int kPopupSidePadding = 30;
 
@@ -1601,7 +1607,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				Rectangle rc = ClientRectangle;
+				var rc = ClientRectangle;
 				rc.Width = (int)(rc.Width * 0.5f);
 				rc.Height = (int)(rc.Height * 0.5f);
 				rc.X = (ClientRectangle.Width - rc.Width) / 2;
@@ -1666,23 +1672,26 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnPaint(e);
 
-			if (!m_paintWaterMark)
-				return;
+			if (m_paintWaterMark)
+				DrawStaleResultsWaterMark(e.Graphics, WaterMarkRectangle, DefaultCellStyle.ForeColor);
+		}
 
-			Rectangle rc = WaterMarkRectangle;
-			GraphicsPath path = new GraphicsPath();
-			FontFamily family = FontFamily.GenericSerif;
+		/// ------------------------------------------------------------------------------------
+		public static void DrawStaleResultsWaterMark(Graphics g, Rectangle rc, Color clr)
+		{
+			var path = new GraphicsPath();
+			var family = FontFamily.GenericSerif;
 
 			// Find the first font size equal to or smaller than 256 that
 			// fits in the water mark rectangle.
 			for (int size = 256; size >= 0; size -= 2)
 			{
-				using (Font fnt = FontHelper.MakeFont(family.Name, size, FontStyle.Bold))
+				using (var fnt = FontHelper.MakeFont(family.Name, size, FontStyle.Bold))
 				{
 					int height = TextRenderer.MeasureText("!", fnt).Height;
 					if (height < rc.Height)
 					{
-						using (StringFormat sf = Utils.GetStringFormat(true))
+						using (var sf = Utils.GetStringFormat(true))
 							path.AddString("!", family, (int)FontStyle.Bold, size, rc, sf);
 
 						break;
@@ -1692,8 +1701,8 @@ namespace SIL.Pa.UI.Controls
 
 			path.AddEllipse(rc);
 
-			using (SolidBrush br = new SolidBrush(Color.FromArgb(35, DefaultCellStyle.ForeColor)))
-				e.Graphics.FillRegion(br, new Region(path));
+			using (var br = new SolidBrush(Color.FromArgb(35, clr)))
+				g.FillRegion(br, new Region(path));
 		}
 
 		#endregion

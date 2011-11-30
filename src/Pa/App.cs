@@ -9,7 +9,6 @@ using System.Windows.Forms;
 using Localization;
 using Localization.UI;
 using Palaso.IO;
-using Palaso.Progress;
 using Palaso.Reporting;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
@@ -1594,6 +1593,33 @@ namespace SIL.Pa
 			return Path.Combine(ProjectFolder, "RecentlyUsedPatterns.xml");
 		}
 
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Creates and loads a result cache for the specified search query.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public static WordListCache Search(SearchQuery query)
+		//{
+		//    int resultCount;
+		//    return Search(query, true, false, true, 1, out resultCount);
+		//}
+
+		/// ------------------------------------------------------------------------------------
+		public static int GetSearchResultCount(SearchQuery query)
+		{
+			try
+			{
+				int resultCount;
+				Search(query, true, true, false, 5, out resultCount);
+				return resultCount;
+			}
+			catch (Exception e)
+			{
+				query.Errors.Add(new SearchQueryValidationError(e));
+				return 0;
+			}
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Creates and loads a result cache for the specified search query.
@@ -1601,8 +1627,16 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static WordListCache Search(SearchQuery query)
 		{
-			int resultCount;
-			return Search(query, true, false, 1, out resultCount);
+			try
+			{
+				int resultCount;
+				return Search(query, true, false, true, 5, out resultCount);
+			}
+			catch (Exception e)
+			{
+				query.Errors.Add(new SearchQueryValidationError(e));
+				return new WordListCache();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1610,82 +1644,7 @@ namespace SIL.Pa
 		/// Creates and loads a result cache for the specified search query.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static WordListCache Search(SearchQuery query, int incAmount)
-		{
-			int resultCount;
-			return Search(query, true, false, incAmount, out resultCount);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Creates and loads a result cache for the specified search query.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static WordListCache Search(SearchQuery query, bool incProgressBar,
-			bool returnCountOnly, int incAmount, out int resultCount)
-		{
-			return Search(query, incProgressBar, returnCountOnly,
-				true, incAmount, out resultCount);
-		}
-
-		///// ------------------------------------------------------------------------------------
-		//private static WordListCache SearchUsingRegEx(SearchQuery query, bool incProgressBar,
-		//    bool returnCountOnly, bool showErrMsg, int incAmount, out int resultCount)
-		//{
-		//    WaitCursor.Show();
-		//    resultCount = 0;
-		//    int incCounter = 0;
-
-		//    query.ErrorMessages.Clear();
-		//    var searcher = new PhoneticSearcher(Project, query);
-
-		//    if (incProgressBar)
-		//    {
-		//        searcher.ReportProgressAction = () =>
-		//        {
-		//            if ((incCounter++) == incAmount)
-		//            {
-		//                IncProgressBar(incAmount);
-		//                incCounter = 0;
-		//            }
-		//        };
-		//    }
-
-		//    try
-		//    {
-		//        if (searcher.Parse() && searcher.Search(returnCountOnly, out resultCount))
-		//            return searcher.ResultCache;
-
-		//        var msg = searcher.GetCombinedErrorMessages(true);
-		//        if (!string.IsNullOrEmpty(msg))
-		//        {
-		//            if (showErrMsg)
-		//                ShowSearchError(msg);
-
-		//            query.ErrorMessages.AddRange(searcher.Errors);
-		//        }
-		//    }
-		//    catch (Exception e)
-		//    {
-		//        NotifyUserOfProblem(e, GetString("PhoneticSearchingMessages.SearchingThrewExceptionErrorMsg",
-		//            "There was an error performing a search using the pattern '{0}'."), query.Pattern);
-
-		//    }
-		//    finally
-		//    {
-		//        WaitCursor.Hide();
-		//    }
-
-		//    resultCount = -1;
-		//    return null;
-		//}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Creates and loads a result cache for the specified search query.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static WordListCache Search(SearchQuery query, bool incProgressBar,
+		private static WordListCache Search(SearchQuery query, bool incProgressBar,
 			bool returnCountOnly, bool showErrMsg, int incAmount, out int resultCount)
 		{
 			resultCount = 0;
@@ -1693,7 +1652,12 @@ namespace SIL.Pa
 			bool patternContainsWordBoundaries = (query.Pattern.IndexOf('#') >= 0);
 			int incCounter = 0;
 
-			query.ErrorMessages.Clear();
+			query.Errors.Clear();
+
+			var validator = new SearchQueryValidator(Project);
+			if (!validator.GetIsValid(query))
+				return new WordListCache { SearchQuery = query };
+
 			SearchQuery modifiedQuery;
 			if (!ConvertClassesToPatterns(query, out modifiedQuery, showErrMsg))
 				return null;
@@ -1701,20 +1665,20 @@ namespace SIL.Pa
 			SearchEngine.IgnoreUndefinedCharacters = Project.IgnoreUndefinedCharsInSearches;
 			var engine = new SearchEngine(modifiedQuery, Project.PhoneCache);
 
-			var msg = engine.GetCombinedErrorMessages();
-			if (!string.IsNullOrEmpty(msg))
-			{
-				if (showErrMsg)
-					ShowSearchError(msg);
+			//var msg = query.GetCombinedErrorMessages();
+			//if (!string.IsNullOrEmpty(msg))
+			//{
+			//    if (showErrMsg)
+			//        ShowSearchError(msg);
 
-				query.ErrorMessages.AddRange(modifiedQuery.ErrorMessages);
-				resultCount = -1;
-				return null;
-			}
+			//    query.Errors.AddRange(modifiedQuery.Errors);
+			//    resultCount = -1;
+			//    return null;
+			//}
 
-			if (!VerifyMiscPatternConditions(engine, showErrMsg))
+			if (!VerifyMiscPatternConditions(engine, query, showErrMsg))
 			{
-				query.ErrorMessages.AddRange(modifiedQuery.ErrorMessages);
+				query.Errors.AddRange(modifiedQuery.Errors);
 				resultCount = -1;
 				return null;
 			}
@@ -1851,8 +1815,9 @@ namespace SIL.Pa
 							"Message displayed when a search pattern contains a class that doesn't exist in the project.");
 						
 						errorMsg = string.Format(errorMsg, className);
-						modifiedQuery.ErrorMessages.Add(errorMsg);
-						query.ErrorMessages.Add(errorMsg);
+						var error = new SearchQueryValidationError(errorMsg);
+						modifiedQuery.Errors.Add(error);
+						query.Errors.Add(error);
 
 						if (showMsgOnErr)
 							Utils.MsgBox(errorMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -1869,7 +1834,7 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static bool VerifyMiscPatternConditions(SearchEngine engine, bool showErrMsg)
+		private static bool VerifyMiscPatternConditions(SearchEngine engine, SearchQuery query, bool showErrMsg)
 		{
 			if (engine == null)
 				return false;
@@ -1877,14 +1842,14 @@ namespace SIL.Pa
 			string msg = null;
 
 			if (engine.GetWordBoundaryCondition() != SearchEngine.WordBoundaryCondition.NoCondition)
-				msg = SearchQueryException.WordBoundaryError;
+				msg = "The space/word boundary symbol (#) may not be the first or last item in the search item portion (what precedes the slash) of the search pattern. Please correct this and try your search again.";
 			else if (engine.GetZeroOrMoreCondition() != SearchEngine.ZeroOrMoreCondition.NoCondition)
-				msg = SearchQueryException.ZeroOrMoreError;
+				msg = "The zero-or-more symbol (*) was found in an invalid location within the search pattern. The zero-or-more symbol may only be the first item in the preceding environment and/or the last item in the environment after. Please correct this and try your search again.";
 			else if (engine.GetOneOrMoreCondition() != SearchEngine.OneOrMoreCondition.NoCondition)
-				msg = SearchQueryException.OneOrMoreError;
+				msg = "The one-or-more symbol (+) was found in an invalid location within the search pattern. The one-or-more symbol may only be the first item in the preceding environment and/or the last item in the environment after. Please correct this and try your search again.";
 
-			if (msg == null)
-				msg = engine.GetCombinedErrorMessages();
+			//if (msg == null)
+			//    msg = query.GetCombinedErrorMessages();
 
 			if (msg != null && showErrMsg)
 				ShowSearchError(msg);
@@ -1896,14 +1861,7 @@ namespace SIL.Pa
 		private static void ShowSearchError(string msg)
 		{
 			Utils.WaitCursors(false);
-
-			if (!msg.StartsWith(SearchEngine.kBracketingError))
-				Utils.MsgBox(msg);
-			else
-			{
-				using (var dlg = new BracketedTextErrorMsgBox(msg.Split(':')[1]))
-					dlg.ShowDialog();
-			}
+			Utils.MsgBox(msg);
 		}
 
 		#endregion

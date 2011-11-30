@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
@@ -162,7 +161,7 @@ namespace SIL.Pa.Processing
 				if (envQuery != null && !string.IsNullOrEmpty(envQuery.Pattern))
 				{
 					var query = new SearchQuery("[V]/" + envQuery.Pattern);
-					m_colExceptions[col] = GetException(query);
+					m_colExceptions[col] = GetError(query);
 				}
 			}
 
@@ -172,52 +171,23 @@ namespace SIL.Pa.Processing
 				if (srchItem != null)
 				{
 					var query = new SearchQuery(srchItem + "/*_*");
-					m_rowExceptions[row] = GetException(query);
+					m_rowExceptions[row] = GetError(query);
 				}
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private DistributionChartExceptionInfo GetException(SearchQuery query)
+		private DistributionChartExceptionInfo GetError(SearchQuery query)
 		{
-			SearchQueryException e;
-			var engine = query.GetSearchEngine(out e);
-
-			if (e != null)
-				return new DistributionChartExceptionInfo { Class = "error", Message = e.QueryErrorMessage };
-
-			var msg = engine.GetCombinedErrorMessages(false);
-			if (msg != null)
-				return new DistributionChartExceptionInfo { Class = "error", Message = msg };
-
-			var invalidPhones = query.GetPhonesNotInCache() as string[];
-			if (invalidPhones != null)
+			var validator = new SearchQueryValidator(m_project);
+			if (validator.GetIsValid(query))
+				return null;
+			
+			return new DistributionChartExceptionInfo
 			{
-				msg = App.GetString("DistributionChartExporter.HtmlChartPopupInfoInvalidPhonesMsg",
-					"This pattern contains the following phone(s) not found in the data: ");
-
-				msg = invalidPhones.Aggregate(msg, (current, phone) => current + (phone + ", "));
-
-				return new DistributionChartExceptionInfo {Class = "caution", Message = msg.Trim().TrimEnd(',', ' ') };
-			}
-
-			var invalidSymbols = query.GetSymbolsNotInInventory() as char[];
-			if (invalidSymbols != null)
-			{
-				msg = App.GetString("DistributionChartExporter.HTMLChartPopupInfoUndefinedSymbolsMsg",
-					"This pattern contains the following undefined phonetic symbol(s): ");
-
-				var fmt = App.GetString(
-					"DistributionChartExporter.HtmlChartPopupUndefinedSymbolFormatMsg", "{0} (U+{1}), ");
-
-				var bldr = new StringBuilder(msg);
-				foreach (var c in invalidSymbols)
-					bldr.AppendFormat(fmt, c, ((int)c).ToString("X4"));
-
-				return  new DistributionChartExceptionInfo { Class = "caution", Message = bldr.ToString().Trim().TrimEnd(',', ' ') };
-			}
-
-			return null;
+				Class = "error",
+				Message = SearchQueryValidationError.GetSingleStringErrorMsgFromListOfErrors(query.Pattern, validator.Errors)
+			};
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -308,7 +278,7 @@ namespace SIL.Pa.Processing
 
 			var value = cell.Value;
 
-			if (value is SearchQueryException)
+			if (value is IList<SearchQueryValidationError>)
 				m_writer.WriteAttributeString("class", "error");
 			else
 			{

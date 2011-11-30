@@ -10,23 +10,21 @@ namespace SIL.Pa.UI.Controls
 {
 	public partial class SearchResultView : UserControl
 	{
-		private SearchQuery m_searchQuery;
-		private PaWordListGrid m_grid;
-		private ITMAdapter m_tmAdapter;
-		private readonly Type m_owningViewType;
+		private SearchQuery _query;
+		private PaWordListGrid _grid;
+		private ITMAdapter _tmAdapter;
+		private readonly Type _owningViewType;
+		private SearchQueryValidationErrorControl _errorControl;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SearchResultView(Type owningViewType, ITMAdapter tmAdapter)
 		{
 			InitializeComponent();
 			base.DoubleBuffered = true;
 			base.Dock = DockStyle.Fill;
-			m_owningViewType = owningViewType;
-			m_tmAdapter = tmAdapter;
+			_owningViewType = owningViewType;
+			_tmAdapter = tmAdapter;
+			Disposed += SearchResultView_Disposed;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -37,38 +35,41 @@ namespace SIL.Pa.UI.Controls
 		public void Initialize(WordListCache cache)
 		{
 			App.MsgMediator.SendMessage("BeforeSearchResultViewInitialized", this);
+			Controls.Clear();
 
-			m_searchQuery = (cache != null ? cache.SearchQuery : null);
+			_query = (cache != null ? cache.SearchQuery : null);
 
 			if (cache == null || cache.Count == 0)
 			{
-				if (m_grid != null)
+				if (_grid != null)
 				{
-					Controls.Remove(m_grid);
-					m_grid.Dispose();
-					m_grid = null;
+					_grid.Dispose();
+					_grid = null;
 				}
 
+				if (_query != null && _query.Errors.Count > 0)
+					SetupErrorDisplay(_query);
+				
 				return;
 			}
 
 			// Save the grid we're replacing.
-			PaWordListGrid tmpgrid = m_grid;
+			var tmpgrid = _grid;
 
-			m_grid = new PaWordListGrid(cache, m_owningViewType);
-			m_grid.OwningViewType = m_owningViewType;
-			m_grid.TMAdapter = m_tmAdapter;
+			_grid = new PaWordListGrid(cache, _owningViewType);
+			_grid.OwningViewType = _owningViewType;
+			_grid.TMAdapter = _tmAdapter;
 
 			// Even though the grid is docked, setting it's size here prevents the user from
 			// seeing it during that split second during which the grid goes from it's small,
 			// default size to its docked size.
-			m_grid.Size = Size;
+			_grid.Size = Size;
 
-			m_grid.Name = Name + "Grid";
-			m_grid.LoadSettings();
-			m_grid.Visible = false;
-			Controls.Add(m_grid);
-			m_grid.Visible = true;
+			_grid.Name = Name + "Grid";
+			_grid.LoadSettings();
+			_grid.Visible = false;
+			Controls.Add(_grid);
+			_grid.Visible = true;
 
 			// I wait until the new grid is all done building and loading before
 			// removing the old so the user cannot see the painting of the new one.
@@ -78,11 +79,21 @@ namespace SIL.Pa.UI.Controls
 				tmpgrid.Dispose();
 			}
 
-			Disposed += SearchResultView_Disposed;
-			m_grid.UseWaitCursor = false;
-			m_grid.Cursor = Cursors.Default;
+			_grid.UseWaitCursor = false;
+			_grid.Cursor = Cursors.Default;
 
 			App.MsgMediator.SendMessage("AfterSearchResultViewInitialized", this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void SetupErrorDisplay(SearchQuery query)
+		{
+			_errorControl = new SearchQueryValidationErrorControl(query.Pattern, query.Errors, false)
+			{
+				Dock = DockStyle.Fill,
+			};
+
+			Controls.Add(_errorControl);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -96,10 +107,16 @@ namespace SIL.Pa.UI.Controls
 		{
 			Disposed -= SearchResultView_Disposed;
 			
-			if (m_grid != null)
+			if (_grid != null)
 			{
-				m_grid.Dispose();
-				m_grid = null;
+				_grid.Dispose();
+				_grid = null;
+			}
+
+			if (_errorControl != null)
+			{
+				_errorControl.Dispose();
+				_errorControl = null;
 			}
 		}
 
@@ -117,30 +134,37 @@ namespace SIL.Pa.UI.Controls
 			SortOptions savSortOptions = null;
 			CIEOptions savCIEOptions = null;
 
-			if (m_grid != null)
+			if (_errorControl != null)
+			{
+				Controls.Remove(_errorControl);
+				_errorControl.Dispose();
+				_errorControl = null;
+			}
+
+			if (_grid != null)
 			{
 				// Save the index of the row and column that's current, the
 				// index of the first visible row, and the current sort options.
-				savCurrRowIndex = (m_grid.CurrentRow != null ? m_grid.CurrentRow.Index : 0);
-				savCurrColIndex = (m_grid.CurrentCell != null ? m_grid.CurrentCell.ColumnIndex : 0);
-				savFirstRowIndex = m_grid.FirstDisplayedScrollingRowIndex;
-				savSortOptions = m_grid.SortOptions;
-				savCIEOptions = m_grid.CIEOptions;
+				savCurrRowIndex = (_grid.CurrentRow != null ? _grid.CurrentRow.Index : 0);
+				savCurrColIndex = (_grid.CurrentCell != null ? _grid.CurrentCell.ColumnIndex : 0);
+				savFirstRowIndex = _grid.FirstDisplayedScrollingRowIndex;
+				savSortOptions = _grid.SortOptions;
+				savCIEOptions = _grid.CIEOptions;
 			}
 
 			App.InitializeProgressBar(App.kstidQuerySearchingMsg);
-			WordListCache resultCache = App.Search(m_searchQuery, 5);
+			var resultCache = App.Search(_query);
 			if (resultCache != null)
 			{
-				resultCache.SearchQuery = m_searchQuery;
+				resultCache.SearchQuery = _query;
 				Initialize(resultCache);
 			}
 			
 			// Restore the current row to what it was before
 			// rebuilding. Then make sure the row is visible.
-			if (m_grid != null)
+			if (_grid != null)
 			{
-				m_grid.PostDataSourceModifiedRestore(savCurrRowIndex,
+				_grid.PostDataSourceModifiedRestore(savCurrRowIndex,
 					savCurrColIndex, savFirstRowIndex, savSortOptions, savCIEOptions);
 			}
 
@@ -154,8 +178,8 @@ namespace SIL.Pa.UI.Controls
 
 			base.OnHandleDestroyed(e);
 
-			if (m_grid != null)
-				m_grid.SaveSettings();
+			if (_grid != null)
+				_grid.SaveSettings();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -167,7 +191,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnSizeChanged(e);
 
-			if (m_grid == null)
+			if (_grid == null)
 				Invalidate();
 		}
 
@@ -181,7 +205,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnPaint(e);
 
-			if (m_grid != null)
+			if (_grid != null || (_query != null && _query.Errors.Count > 0))
 				return;
 
 			const TextFormatFlags flags = TextFormatFlags.HorizontalCenter |
@@ -189,7 +213,7 @@ namespace SIL.Pa.UI.Controls
 				TextFormatFlags.WordBreak | TextFormatFlags.VerticalCenter |
 				TextFormatFlags.PreserveGraphicsClipping;
 
-			using (Font fnt = FontHelper.MakeFont(SystemInformation.MenuFont, 10, FontStyle.Bold))
+			using (var fnt = FontHelper.MakeFont(SystemInformation.MenuFont, 10, FontStyle.Bold))
 			{
 				var msg = App.GetString("SearchResultView.NoSearchResultsFoundMsg", "No Results Found.",
 					"Displayed in the search results area when no matches were found.");
@@ -202,49 +226,33 @@ namespace SIL.Pa.UI.Controls
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public ITMAdapter TMAdapter
 		{
-			get { return m_tmAdapter; }
+			get { return _tmAdapter; }
 			set
 			{
-				m_tmAdapter = value;
-				if (m_grid != null)
-					m_grid.TMAdapter = value;
+				_tmAdapter = value;
+				if (_grid != null)
+					_grid.TMAdapter = value;
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the result view's word list cache.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public WordListCache Cache
 		{
-			get { return (m_grid != null ? m_grid.Cache : null); }
+			get { return (_grid != null ? _grid.Cache : null); }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the result view's grid.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public PaWordListGrid Grid
 		{
-			get { return m_grid; }
+			get { return _grid; }
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the result view's search query.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public SearchQuery SearchQuery
 		{
-			get { return m_searchQuery; }
+			get { return _query; }
 		}
 		
 		#endregion

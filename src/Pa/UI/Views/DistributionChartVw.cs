@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using System.Xml;
 using Palaso.IO;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
@@ -166,7 +165,7 @@ namespace SIL.Pa.UI.Views
 			if (msg.Msg == 0x100 && keyData == _saveChartHotKey && !_editingSavedChartName)
 			{
 				// Make sure the button is enabled.
-				TMItemProperties itemProps = _tmAdapter.GetItemProperties("tbbSaveChart");
+				var itemProps = _tmAdapter.GetItemProperties("tbbSaveChart");
 				if (itemProps != null && itemProps.Enabled)
 				{
 					App.MsgMediator.SendMessage("SaveChart", null);
@@ -531,7 +530,7 @@ namespace SIL.Pa.UI.Views
 			int col = e.ColumnIndex;
 			int row = e.RowIndex;
 
-			if (_grid.IsEmpty || col <= 0 || row <= 0 || _grid[col, row].Value is SearchQueryException)
+			if (_grid.IsEmpty || col <= 0 || row <= 0 || _grid[col, row].Value is IList<SearchQueryValidationError>)
 				return;
 
 			if (_grid.IsCurrentCellValidForSearch)
@@ -547,7 +546,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		void HandleGridKeyDown(object sender, KeyEventArgs e)
 		{
-			Point pt = _grid.CurrentCellAddress;
+			var pt = _grid.CurrentCellAddress;
 
 			if (e.KeyCode != Keys.Enter || e.Modifiers != Keys.None || _grid.IsEmpty ||
 				pt.X <= 0 || pt.Y <= 0 || pt.X == _grid.Columns.Count - 1 ||

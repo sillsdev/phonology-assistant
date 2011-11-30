@@ -77,10 +77,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Clean up a little.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)
@@ -184,8 +180,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		void ContextMenuStrip_Opening(object sender, CancelEventArgs e)
 		{
-			ContextMenuStrip cms = sender as ContextMenuStrip;
-
+			var cms = sender as ContextMenuStrip;
 			if (cms == null)
 				return;
 

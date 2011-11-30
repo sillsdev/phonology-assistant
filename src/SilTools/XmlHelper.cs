@@ -6,10 +6,6 @@ using System.Xml.Xsl;
 namespace SilTools
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class XmlHelper
 	{
 		/// ------------------------------------------------------------------------------------
@@ -26,9 +22,7 @@ namespace SilTools
 				doc.Load(fileName);
 				return false;
 			}
-			catch
-			{
-			}
+			catch { }
 
 			return true;
 		}
@@ -72,15 +66,9 @@ namespace SilTools
 			finally
 			{
 				xsltStream.Close();
+				try { File.Delete(outputFile); }
+				catch { }
 			}
-
-			try
-			{
-				File.Delete(outputFile);
-			}
-			catch { }
-			
-			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -100,10 +88,6 @@ namespace SilTools
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static int GetIntFromAttribute(XmlNode node, string attribute, int defaultValue)
 		{
 			string val = GetAttributeValue(node, attribute);
@@ -111,10 +95,6 @@ namespace SilTools
 			return (int.TryParse(val, out retVal) ? retVal : defaultValue);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static float GetFloatFromAttribute(XmlNode node, string attribute, float defaultValue)
 		{
@@ -124,19 +104,11 @@ namespace SilTools
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static bool GetBoolFromAttribute(XmlNode node, string attribute)
 		{
 			return GetBoolFromAttribute(node, attribute, false);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static bool GetBoolFromAttribute(XmlNode node, string attribute, bool defaultValue)
 		{

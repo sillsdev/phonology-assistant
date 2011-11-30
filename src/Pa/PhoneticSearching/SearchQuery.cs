@@ -17,7 +17,7 @@ namespace SIL.Pa.PhoneticSearching
 	{
 		public const float kCurrVersion = 3.0f;
 
-		private List<string> _errors = new List<string>();
+		private List<SearchQueryValidationError> _errors = new List<SearchQueryValidationError>();
 		private string _pattern;
 
 		/// ------------------------------------------------------------------------------------
@@ -69,7 +69,9 @@ namespace SIL.Pa.PhoneticSearching
 				IsPatternRegExpression = IsPatternRegExpression,
 			};
 
-			clone.ErrorMessages.AddRange(ErrorMessages);
+			foreach (var error in Errors)
+				clone.Errors.Add(error.Copy());
+
 			return clone;
 		}
 
@@ -148,9 +150,9 @@ namespace SIL.Pa.PhoneticSearching
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
-		public List<string> ErrorMessages
+		public List<SearchQueryValidationError> Errors
 		{
-			get { return (_errors ?? (_errors = new List<string>())); }
+			get { return (_errors ?? (_errors = new List<SearchQueryValidationError>())); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -290,63 +292,63 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public SearchEngine GetSearchEngine(out SearchQueryException e)
+		public SearchEngine GetSearchEngine(out Exception e)
 		{
 			e = null;
-			ErrorMessages.Clear();
+			Errors.Clear();
 			SearchQuery modifiedQuery;
 
 			if (!App.ConvertClassesToPatterns(this, out modifiedQuery, false))
 			{
-				e = new SearchQueryException(this);
+				e = new Exception("There was an error converting classes to patterns in " + Pattern);
 				return null;
 			}
 
 			return new SearchEngine(modifiedQuery, App.Project.PhoneCache);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Checks each character in the query to see if they are in the phonetic character
-		/// inventory. If there are some that are invalid, then a list of them is returned.
-		///  If the pattern failed to parse, then a SearchQueryException is returned. 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public object GetSymbolsNotInInventory()
-		{
-			SearchQueryException e;
-			var engine = GetSearchEngine(out e);
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Checks each character in the query to see if they are in the phonetic character
+		///// inventory. If there are some that are invalid, then a list of them is returned.
+		/////  If the pattern failed to parse, then a SearchQueryException is returned. 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public object GetSymbolsNotInInventory()
+		//{
+		//    SearchQueryException e;
+		//    var engine = GetSearchEngine(out e);
 
-			if (e != null)
-				return e;
+		//    if (e != null)
+		//        return e;
 
-			return engine.GetInvalidSymbolsInPattern();
-		}
+		//    return engine.GetInvalidSymbolsInPattern();
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Checks each phone in the query to see if it's in the project's phone cache. A list
-		/// is made of all phones in the query that are not in the cache. If the pattern
-		/// failed to parse, then a SearchQueryException is returned. 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public object GetPhonesNotInCache()
-		{
-			SearchQueryException e;
-			var engine = GetSearchEngine(out e);
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Checks each phone in the query to see if it's in the project's phone cache. A list
+		///// is made of all phones in the query that are not in the cache. If the pattern
+		///// failed to parse, then a SearchQueryException is returned. 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public object GetPhonesNotInCache()
+		//{
+		//    SearchQueryException e;
+		//    var engine = GetSearchEngine(out e);
 
-			if (e != null)
-				return e;
+		//    if (e != null)
+		//        return e;
 
-			var phonesInQuery = engine.GetPhonesInPattern();
-			if (phonesInQuery == null)
-				return null;
+		//    var phonesInQuery = engine.GetPhonesInPattern();
+		//    if (phonesInQuery == null)
+		//        return null;
 
-			var phonesNotInData = phonesInQuery.Where(p => !App.Project.PhoneCache.ContainsKey(p))
-				.Distinct(StringComparer.Ordinal).ToArray();
+		//    var phonesNotInData = phonesInQuery.Where(p => !App.Project.PhoneCache.ContainsKey(p))
+		//        .Distinct(StringComparer.Ordinal).ToArray();
 
-			return (phonesNotInData.Length == 0 ? null : phonesNotInData);
-		}
+		//    return (phonesNotInData.Length == 0 ? null : phonesNotInData);
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		public static string GetDefaultIgnoredCharacters()
