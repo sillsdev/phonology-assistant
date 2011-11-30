@@ -310,7 +310,7 @@ namespace SilTools
 			{
 				if (propVal.SerializedValue != null)
 					propNode.InnerText = propVal.SerializedValue.ToString();
-				else
+				else if (propNode.ParentNode != null)
 					propNode.ParentNode.RemoveChild(propNode);
 			}
 		}
