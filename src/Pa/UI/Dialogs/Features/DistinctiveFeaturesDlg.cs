@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using SIL.Pa.Properties;
+﻿using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
 
@@ -14,6 +12,7 @@ namespace SIL.Pa.UI.Dialogs
 			: base(viewModel, new DistinctiveFeatureListView())
 		{
 			InitializeComponent();
+			_tableLayoutDistinctiveFeatureSet.Visible = true;
 		}
 
 		/// ------------------------------------------------------------------------------------

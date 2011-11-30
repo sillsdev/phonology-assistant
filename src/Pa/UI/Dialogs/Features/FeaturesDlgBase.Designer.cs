@@ -25,7 +25,9 @@
 			this._panelFeatures = new SilTools.Controls.SilPanel();
 			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			this._panelFeaturesHeading = new SilTools.Controls.SilGradientPanel();
+			this._tableLayoutDistinctiveFeatureSet = new System.Windows.Forms.TableLayoutPanel();
 			this._labelDistinctiveFeaturesSet = new System.Windows.Forms.Label();
+			this._labelDistinctiveFeaturesSetValue = new System.Windows.Forms.Label();
 			this._labelPhoneDescription = new System.Windows.Forms.Label();
 			this._buttonReset = new System.Windows.Forms.Button();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
@@ -38,6 +40,7 @@
 			this._panelFeatures.SuspendLayout();
 			this._tableLayout.SuspendLayout();
 			this._panelFeaturesHeading.SuspendLayout();
+			this._tableLayoutDistinctiveFeatureSet.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -238,7 +241,7 @@
 			this._panelFeaturesHeading.ColorBottom = System.Drawing.Color.Empty;
 			this._panelFeaturesHeading.ColorTop = System.Drawing.Color.Empty;
 			this._panelFeaturesHeading.ControlReceivingFocusOnMnemonic = null;
-			this._panelFeaturesHeading.Controls.Add(this._labelDistinctiveFeaturesSet);
+			this._panelFeaturesHeading.Controls.Add(this._tableLayoutDistinctiveFeatureSet);
 			this._panelFeaturesHeading.DoubleBuffered = true;
 			this._panelFeaturesHeading.DrawOnlyBottomBorder = true;
 			this._panelFeaturesHeading.DrawOnlyTopBorder = false;
@@ -257,20 +260,55 @@
 			this._panelFeaturesHeading.TabIndex = 1;
 			this._panelFeaturesHeading.Text = "&Features";
 			// 
+			// _tableLayoutDistinctiveFeatureSet
+			// 
+			this._tableLayoutDistinctiveFeatureSet.AutoSize = true;
+			this._tableLayoutDistinctiveFeatureSet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this._tableLayoutDistinctiveFeatureSet.BackColor = System.Drawing.Color.Transparent;
+			this._tableLayoutDistinctiveFeatureSet.ColumnCount = 2;
+			this._tableLayoutDistinctiveFeatureSet.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this._tableLayoutDistinctiveFeatureSet.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this._tableLayoutDistinctiveFeatureSet.Controls.Add(this._labelDistinctiveFeaturesSet, 0, 0);
+			this._tableLayoutDistinctiveFeatureSet.Controls.Add(this._labelDistinctiveFeaturesSetValue, 1, 0);
+			this._tableLayoutDistinctiveFeatureSet.Dock = System.Windows.Forms.DockStyle.Right;
+			this._tableLayoutDistinctiveFeatureSet.Location = new System.Drawing.Point(347, 0);
+			this._tableLayoutDistinctiveFeatureSet.Name = "_tableLayoutDistinctiveFeatureSet";
+			this._tableLayoutDistinctiveFeatureSet.RowCount = 1;
+			this._tableLayoutDistinctiveFeatureSet.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this._tableLayoutDistinctiveFeatureSet.Size = new System.Drawing.Size(95, 21);
+			this._tableLayoutDistinctiveFeatureSet.TabIndex = 1;
+			this._tableLayoutDistinctiveFeatureSet.Visible = false;
+			// 
 			// _labelDistinctiveFeaturesSet
 			// 
-			this._labelDistinctiveFeaturesSet.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this._labelDistinctiveFeaturesSet.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this._labelDistinctiveFeaturesSet.AutoSize = true;
 			this._labelDistinctiveFeaturesSet.BackColor = System.Drawing.Color.Transparent;
-			this.locExtender.SetLocalizableToolTip(this._labelDistinctiveFeaturesSet, null);
+			this.locExtender.SetLocalizableToolTip(this._labelDistinctiveFeaturesSet, "See project settings to modify feature set");
 			this.locExtender.SetLocalizationComment(this._labelDistinctiveFeaturesSet, null);
-			this.locExtender.SetLocalizationPriority(this._labelDistinctiveFeaturesSet, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._labelDistinctiveFeaturesSet, "label1.label1");
-			this._labelDistinctiveFeaturesSet.Location = new System.Drawing.Point(401, 3);
+			this.locExtender.SetLocalizingId(this._labelDistinctiveFeaturesSet, "FeaturesDlgBase._labelDistinctiveFeaturesSet");
+			this._labelDistinctiveFeaturesSet.Location = new System.Drawing.Point(5, 3);
+			this._labelDistinctiveFeaturesSet.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
 			this._labelDistinctiveFeaturesSet.Name = "_labelDistinctiveFeaturesSet";
-			this._labelDistinctiveFeaturesSet.Size = new System.Drawing.Size(38, 15);
-			this._labelDistinctiveFeaturesSet.TabIndex = 0;
-			this._labelDistinctiveFeaturesSet.Text = "label1";
+			this._labelDistinctiveFeaturesSet.Size = new System.Drawing.Size(68, 15);
+			this._labelDistinctiveFeaturesSet.TabIndex = 1;
+			this._labelDistinctiveFeaturesSet.Text = "Feature Set:";
+			// 
+			// _labelDistinctiveFeaturesSetValue
+			// 
+			this._labelDistinctiveFeaturesSetValue.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this._labelDistinctiveFeaturesSetValue.AutoSize = true;
+			this._labelDistinctiveFeaturesSetValue.BackColor = System.Drawing.Color.Transparent;
+			this.locExtender.SetLocalizableToolTip(this._labelDistinctiveFeaturesSetValue, null);
+			this.locExtender.SetLocalizationComment(this._labelDistinctiveFeaturesSetValue, null);
+			this.locExtender.SetLocalizationPriority(this._labelDistinctiveFeaturesSetValue, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._labelDistinctiveFeaturesSetValue, "label1.label1");
+			this._labelDistinctiveFeaturesSetValue.Location = new System.Drawing.Point(73, 3);
+			this._labelDistinctiveFeaturesSetValue.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
+			this._labelDistinctiveFeaturesSetValue.Name = "_labelDistinctiveFeaturesSetValue";
+			this._labelDistinctiveFeaturesSetValue.Size = new System.Drawing.Size(14, 15);
+			this._labelDistinctiveFeaturesSetValue.TabIndex = 0;
+			this._labelDistinctiveFeaturesSetValue.Text = "#";
 			// 
 			// _labelPhoneDescription
 			// 
@@ -336,6 +374,8 @@
 			this._tableLayout.PerformLayout();
 			this._panelFeaturesHeading.ResumeLayout(false);
 			this._panelFeaturesHeading.PerformLayout();
+			this._tableLayoutDistinctiveFeatureSet.ResumeLayout(false);
+			this._tableLayoutDistinctiveFeatureSet.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
@@ -351,9 +391,11 @@
 		private System.Windows.Forms.Label _labelPhoneDescription;
 		private SilTools.Controls.SilGradientPanel _panelFeaturesHeading;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-		private System.Windows.Forms.Label _labelDistinctiveFeaturesSet;
+		private System.Windows.Forms.Label _labelDistinctiveFeaturesSetValue;
 		private Localization.UI.LocalizationExtender locExtender;
 		protected SilTools.SilGrid _gridPhones;
 		protected System.Windows.Forms.SplitContainer _splitFeatures;
+		private System.Windows.Forms.Label _labelDistinctiveFeaturesSet;
+		protected System.Windows.Forms.TableLayoutPanel _tableLayoutDistinctiveFeatureSet;
 	}
 }

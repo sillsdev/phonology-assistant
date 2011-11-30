@@ -39,6 +39,7 @@ namespace SIL.Pa.UI.Dialogs
 			_panelPhoneListHeading.Font = FontHelper.UIFont;
 			_panelFeaturesHeading.Font = FontHelper.UIFont;
 			_labelDistinctiveFeaturesSet.Font = FontHelper.UIFont;
+			_labelDistinctiveFeaturesSetValue.Font = FontHelper.UIFont;
 			_labelPhoneDescription.Font = new Font(FontHelper.UIFont, FontStyle.Bold);
 
 			_phoneToolTip = new ToolTip();
@@ -69,7 +70,7 @@ namespace SIL.Pa.UI.Dialogs
 			_buttonReset.Margin = new Padding(0, btnOK.Margin.Top, 0, btnOK.Margin.Bottom);
 			tblLayoutButtons.Controls.Add(_buttonReset, 0, 0);
 
-			_labelDistinctiveFeaturesSet.Text = GetDistinctiveFeaturesSetName();
+			_labelDistinctiveFeaturesSetValue.Text = GetDistinctiveFeaturesSetName();
 
 			_listView.BackColor = Color.White;
 			_listView.ForeColor = Color.Black;
@@ -147,11 +148,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
-			_labelDistinctiveFeaturesSet.Left = _panelFeaturesHeading.ClientSize.Width -
-				_labelDistinctiveFeaturesSet.Width - 8;
-
 			base.OnShown(e);
-
 			UpdateDisplay();
 		}
 
