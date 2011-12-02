@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PaProject version="3.3.0">
+<PaProject version="3.3.3">
   <name>Sekpele 2</name>
   <languageName>Sekpele</languageName>
-  <languageCode />
-  <Researcher />
   <Transcriber>Rod Casali with modifications for training purposes.</Transcriber>
   <SpeakerName />
   <Comments>Data source: Somevi Cyprian Kudjo, Sekpele speaker from eastern Ghana. This data was collected in 2005. This data has been modified for training purposes (for example, uncertain phone groups have been added and tone has been removed).</Comments>
@@ -24,8 +22,8 @@
           <isParsed>false</isParsed>
           <isInterlinear>false</isInterlinear>
         </mapping>
-        <mapping nameInSource="\gn">
-          <paFieldName>Gloss-Secondary</paFieldName>
+        <mapping nameInSource="\ps">
+          <paFieldName>PartOfSpeech</paFieldName>
           <isParsed>false</isParsed>
           <isInterlinear>false</isInterlinear>
         </mapping>
@@ -39,13 +37,13 @@
           <isParsed>false</isParsed>
           <isInterlinear>false</isInterlinear>
         </mapping>
-        <mapping nameInSource="\ps">
-          <paFieldName>PartOfSpeech</paFieldName>
+        <mapping nameInSource="\ref">
+          <paFieldName>Reference</paFieldName>
           <isParsed>false</isParsed>
           <isInterlinear>false</isInterlinear>
         </mapping>
-        <mapping nameInSource="\ref">
-          <paFieldName>Reference</paFieldName>
+        <mapping nameInSource="\gn">
+          <paFieldName>Gloss-Secondary</paFieldName>
           <isParsed>false</isParsed>
           <isInterlinear>false</isInterlinear>
         </mapping>
@@ -105,19 +103,19 @@
     </sortFields>
   </DistributionChartVwSortOptions>
   <CVPatternInfoList>
-    <CVPatternInfo Phone="'" Type="StressSyllable" />
-    <CVPatternInfo Phone="ˈ" Type="StressSyllable" />
-    <CVPatternInfo Phone="ˌ" Type="StressSyllable" />
-    <CVPatternInfo Phone="|" Type="StressSyllable" />
-    <CVPatternInfo Phone="‖" Type="StressSyllable" />
-    <CVPatternInfo Phone="." Type="StressSyllable" />
-    <CVPatternInfo Phone="-" Type="StressSyllable" />
-    <CVPatternInfo Phone="‿" Type="StressSyllable" />
-    <CVPatternInfo Phone="ː" Type="Length" />
-    <CVPatternInfo Phone="ˑ" Type="Length" />
-    <CVPatternInfo Phone="̆" Type="Length" />
-    <CVPatternInfo Phone="̃" Type="NotApplicable" />
-    <CVPatternInfo Phone="ʔ" Type="NotApplicable" />
+    <CVPatternInfo Phone="'" Type="Suprasegmental" />
+    <CVPatternInfo Phone="ˈ" Type="Suprasegmental" />
+    <CVPatternInfo Phone="ˌ" Type="Suprasegmental" />
+    <CVPatternInfo Phone="|" Type="Suprasegmental" />
+    <CVPatternInfo Phone="‖" Type="Suprasegmental" />
+    <CVPatternInfo Phone="." Type="Suprasegmental" />
+    <CVPatternInfo Phone="-" Type="Suprasegmental" />
+    <CVPatternInfo Phone="‿" Type="Suprasegmental" />
+    <CVPatternInfo Phone="ː" Type="Suprasegmental" />
+    <CVPatternInfo Phone="ˑ" Type="Suprasegmental" />
+    <CVPatternInfo Phone="̆" Type="Suprasegmental" />
+    <CVPatternInfo Phone="̃" Type="Custom" />
+    <CVPatternInfo Phone="ʔ" Type="Custom" />
   </CVPatternInfoList>
   <GridLayoutInfo>
     <GridLines>Single</GridLines>

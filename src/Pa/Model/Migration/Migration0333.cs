@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using SIL.Pa.PhoneticSearching;
-using SIL.Pa.UI.Controls;
 using SilTools;
 
 namespace SIL.Pa.Model.Migration
@@ -50,11 +49,9 @@ namespace SIL.Pa.Model.Migration
 			if (File.Exists(App.GetPathToRecentlyUsedSearchQueriesFile()))
 				MigrateRecentlyUsedSearchQueries(App.GetPathToRecentlyUsedSearchQueriesFile());
 
-
-
-			//filepath = SearchClassList.GetFileForProject(_projectPathPrefix);
-			//if (File.Exists(filepath))
-			//    MigrateSearchClasses(filepath);
+			filepath = SearchClassList.GetFileForProject(_projectPathPrefix);
+			if (File.Exists(filepath))
+				MigrateSearchClasses(filepath);
 
 			if (File.Exists(_projectFilePath))
 			{
@@ -65,11 +62,13 @@ namespace SIL.Pa.Model.Migration
 			s_performPostProjectLoadMigration = true;
 
 			var msg = App.GetString("ProjectMigrationMessages.VerifyUpdatedFeatureOverridesMsg",
-				"Important Note: Some features in Phonology Assistant have changed and the feature overrides " +
-				"for the '{0}' project have been updated to work with this version of the program. From the " +
-				"Tools menu, please go to the 'Descriptive Features' and 'Distinctive Features' dialog boxes " +
-				"and verify the accuracy of overridden features. Overridden phones and features will be " +
-				"highlighted in yellow.");
+				"Important Note: Some features in Phonology Assistant have changed and this has implications " +
+				"for the feature overrides, search queries and classes for the '{0}' project. These have " +
+				"been updated accordingly. However, you may want to verify the accuracy of the results, " +
+				"especially if you have overridden some features for this project. To check the feature overrides, " +
+				"from the Tools menu, go to 'Descriptive Features' (formerly called articulatory features) and " +
+				"'Distinctive Features' (formerly called binary features) and verify the accuracy of overridden " +
+				"features. Overridden phones and features will be highlighted in yellow.");
 
 			Utils.MsgBox(string.Format(msg, ProjectName));
 		}
@@ -233,6 +232,11 @@ namespace SIL.Pa.Model.Migration
 		/// ------------------------------------------------------------------------------------
 		private string UpdateFeatureNamesInPattern(string pattern)
 		{
+			// For some reason, one of the former factory queries had a word boundary
+			// symbol in brackets. If we find that one, then just send back the fix.
+			if (pattern == "[C]/*_[#]")
+				return "[C]/*_#";
+
 			var regex = new Regex(@"\[(?<bracketedText>[^\[\]]+)\]");
 			var match = regex.Match(pattern);
 			var matches = new List<string>();
@@ -368,10 +372,23 @@ namespace SIL.Pa.Model.Migration
 
 		#endregion
 
+		#region Method for migrating search classes file
 		/// ------------------------------------------------------------------------------------
-		private void MigrateSearchClasses(string filepath)
+		private void MigrateSearchClasses(string filePath)
 		{
+			var root = XElement.Load(filePath);
+
+			foreach (var patternElement in root.Elements("SearchClass")
+				.Where(e => e != null && "ArticulatoryBinary".Contains((string)e.Attribute("SearchClassType")))
+				.Select(e => e.Element("Pattern")))
+			{
+				patternElement.SetValue(UpdateFeatureNamesInPattern(patternElement.Value));
+			}
+
+			root.Save(filePath);
 		}
+
+		#endregion
 
 		#region Method to migrate project file.
 		/// ------------------------------------------------------------------------------------

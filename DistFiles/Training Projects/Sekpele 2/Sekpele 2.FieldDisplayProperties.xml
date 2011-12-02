@@ -75,7 +75,7 @@
   <PaFieldDisplayProperties name="CVPattern">
     <font Name="Doulos SIL" Size="13" Bold="false" Italic="false" />
     <rightToLeft>false</rightToLeft>
-    <visibleInGrid>false</visibleInGrid>
+    <visibleInGrid>true</visibleInGrid>
     <visibleInRecView>true</visibleInRecView>
     <displayIndexInGrid>8</displayIndexInGrid>
     <displayIndexInRecView>8</displayIndexInRecView>
@@ -264,8 +264,8 @@
   <PaFieldDisplayProperties name="PluralForm">
     <font Name="Doulos SIL" Size="13" Bold="false" Italic="false" />
     <rightToLeft>false</rightToLeft>
-    <visibleInGrid>false</visibleInGrid>
-    <visibleInRecView>false</visibleInRecView>
+    <visibleInGrid>true</visibleInGrid>
+    <visibleInRecView>true</visibleInRecView>
     <displayIndexInGrid>26</displayIndexInGrid>
     <displayIndexInRecView>26</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
