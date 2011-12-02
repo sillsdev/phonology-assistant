@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 using Ionic.Zip;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Dialogs;
@@ -64,6 +65,8 @@ namespace SIL.Pa
 	{
 		public string TrainingProjectsZipFile;
 		public string TrainingProjectFolder;
+
+		[XmlArray("PapModifications"), XmlArrayItem("PapModification")]
 		public List<RestoredPapDataSourceUpdater> PapModifications;
 
 		/// ------------------------------------------------------------------------------------

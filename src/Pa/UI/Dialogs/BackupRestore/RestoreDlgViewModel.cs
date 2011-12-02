@@ -346,7 +346,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public void Modify(string path, string dataSourcePath, bool addToRecentlyUsedProjectsList)
 		{
-			string papFilePath = Path.Combine(path, PapFile);
+			var papFilePath = Path.Combine(path, PapFile);
 			if (!File.Exists(papFilePath))
 				return;
 
