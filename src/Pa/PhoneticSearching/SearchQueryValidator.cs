@@ -124,11 +124,11 @@ namespace SIL.Pa.PhoneticSearching
 				Errors.Add(error);
 			}
 
-			if (StripOutDistinctivePlusFeatures(srchItemPattern).Count(c => "#*+".Contains(c)) > 0)
+			if (StripOutStuffWithValidPlusSymbols(srchItemPattern).Count(c => "#*+".Contains(c)) > 0)
 			{
 				var error = new SearchQueryValidationError(
 					App.GetString("PhoneticSearchingMessages.InvalidCharactersInSearchItemMsg",
-						"The search item portion of the search pattern contain an illegal symbol. " +
+						"The search item portion of the search pattern contains an illegal symbol. " +
 						"The symbols '#', '+' and '*' are not valid in the search item."));
 
 				error.HelpLinks.AddRange(new[] { "hidSearchPatternsZeroOrMore", "hidSearchPatternsOneOrMore",
@@ -141,9 +141,9 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public void VerifyPrecedingEnvironment(string precedingEnv)
 		{
-			var envWithoutBinaryFeatures = StripOutDistinctivePlusFeatures(precedingEnv);
+			var envWithoutPlusSymbols = StripOutStuffWithValidPlusSymbols(precedingEnv);
 
-			if (envWithoutBinaryFeatures.Count(c => "#*+".Contains(c)) > 1)
+			if (envWithoutPlusSymbols.Count(c => "#*+".Contains(c)) > 1)
 			{
 				var error = new SearchQueryValidationError(
 					App.GetString("PhoneticSearchingMessages.InvalidCharactersInPrecedingEnvironmentMsg",
@@ -202,7 +202,7 @@ namespace SIL.Pa.PhoneticSearching
 				Errors.Add(error);
 			}
 
-			count = envWithoutBinaryFeatures.Count(c => c == '+');
+			count = envWithoutPlusSymbols.Count(c => c == '+');
 			if (count > 1)
 			{
 				var error = new SearchQueryValidationError(
@@ -229,9 +229,9 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public void VerifyFollowingEnvironment(string followingEnv)
 		{
-			var envWithoutBinaryFeatures = StripOutDistinctivePlusFeatures(followingEnv);
+			var envWithoutPlusSymbols = StripOutStuffWithValidPlusSymbols(followingEnv);
 
-			if (envWithoutBinaryFeatures.Count(c => "#*+".Contains(c)) > 1)
+			if (envWithoutPlusSymbols.Count(c => "#*+".Contains(c)) > 1)
 			{
 				var error = new SearchQueryValidationError(
 					App.GetString("PhoneticSearchingMessages.InvalidCharactersInFollowingEnvironmentMsg",
@@ -289,7 +289,7 @@ namespace SIL.Pa.PhoneticSearching
 				Errors.Add(error);
 			}
 
-			count = envWithoutBinaryFeatures.Count(c => c == '+');
+			count = envWithoutPlusSymbols.Count(c => c == '+');
 			if (count > 1)
 			{
 				var error = new SearchQueryValidationError(
@@ -314,10 +314,19 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string StripOutDistinctivePlusFeatures(string pattern)
+		public string StripOutStuffWithValidPlusSymbols(string pattern)
 		{
-			return App.BFeatureCache.Keys.Where(n => n.StartsWith("+"))
-				.Aggregate(pattern, (curr, fname) => curr.Replace("[" + fname + "]", string.Empty));
+			var match = PatternParser.FindInnerMostSquareBracketPairs(pattern);
+						
+			while (match.Success)
+			{
+				if (match.Value.Contains('+'))
+					pattern = pattern.Replace(match.Value, new string('$', match.Value.Length));
+				
+				match = match.NextMatch();
+			}
+
+			return pattern.Replace("$", string.Empty);
 		}
 
 		/// ------------------------------------------------------------------------------------

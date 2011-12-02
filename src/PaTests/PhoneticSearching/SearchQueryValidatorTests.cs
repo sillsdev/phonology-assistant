@@ -35,6 +35,48 @@ namespace SIL.Pa.PhoneticSearching
 			_validator = new SearchQueryValidator(_prj);
 		}
 
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void StripOutStuffWithValidPlusSymbols_PatternHasPlusBinaryFeature_RemovesIt()
+		{
+			Assert.AreEqual("[C]<classname>", _validator.StripOutStuffWithValidPlusSymbols("[C][+voice]<classname>"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void StripOutStuffWithValidPlusSymbols_PatternHasMinusBinaryFeature_ReturnsInput()
+		{
+			Assert.AreEqual("[C][-voice]<classname>", _validator.StripOutStuffWithValidPlusSymbols("[C][-voice]<classname>"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void StripOutStuffWithValidPlusSymbols_HasDiacriticPlaceholderWithPlus_RemovesIt()
+		{
+			Assert.AreEqual("[C][[V]]<classname>", _validator.StripOutStuffWithValidPlusSymbols("[C][[V][0+]]<classname>"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void StripOutStuffWithValidPlusSymbols_HasDiacriticPlaceholderWithPlusAndPlusBinaryFeature_RemovesThem()
+		{
+			Assert.AreEqual("[C][[V]]<classname>", _validator.StripOutStuffWithValidPlusSymbols("[C][[V][0+][+con]]<classname>"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void StripOutStuffWithValidPlusSymbols_HasPlusOutsideSquareBrackets_ReturnsInput()
+		{
+			Assert.AreEqual("[C]abc+<classname>+", _validator.StripOutStuffWithValidPlusSymbols("[C]abc+<classname>+"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void StripOutStuffWithValidPlusSymbols_HasPlusInsideAndOutsideSquareBrackets_ReturnsInsideOnesRemoved()
+		{
+			Assert.AreEqual("[C][[V]]abc+<classname>+", _validator.StripOutStuffWithValidPlusSymbols("[C][[V][0+][+con]]abc+<classname>+"));
+		}
+
 		#region VerifyGeneralPatternStructure tests
 		/// ------------------------------------------------------------------------------------
 		[Test]
