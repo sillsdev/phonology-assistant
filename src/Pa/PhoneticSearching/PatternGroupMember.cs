@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
@@ -306,12 +307,6 @@ namespace SIL.Pa.PhoneticSearching
 			if (SearchEngine.IgnoredPhones.Contains(phone))
 				return CompareResultType.Ignored;
 
-			if (phone.IndexOf(App.kTopTieBarC) >= 0 ||
-				phone.IndexOf(App.kBottomTieBarC) >= 0)
-			{
-				return CheckPhoneContainingTieBar(phone);
-			}
-
 			if (phone == " ")
 				return CompareResultType.NoMatch;
 
@@ -320,7 +315,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (!phoneCache.TryGetValue(phone, out phoneInfo))
 				return CompareResultType.Error;
 
-			CompareResultType compareResult = CompareResultType.NoMatch;
+			var compareResult = CompareResultType.NoMatch;
 
 			switch (MemberType)
 			{
@@ -355,30 +350,21 @@ namespace SIL.Pa.PhoneticSearching
 				return compareResult;
 			}
 
+			if (phone.IndexOf(App.kTopTieBarC) >= 0 || phone.IndexOf(App.kBottomTieBarC) >= 0)
+				return CheckDiacriticsInTieBarPhone(phone);
+	
 			return (CompareDiacritics(DiacriticPattern, phone) ?
 			    CompareResultType.Match : CompareResultType.NoMatch);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public CompareResultType CheckPhoneContainingTieBar(string phone)
+		public CompareResultType CheckDiacriticsInTieBarPhone(string phone)
 		{
-			var tmpPhoneCache = new PhoneCache(App.Project);
-
-			// Split the phone where the tie-bar is and send each remaining piece to
-			// ContainMatch as though each piece were a separate phone.
-			foreach (var phonePart in phone.Split(App.kTieBars, StringSplitOptions.RemoveEmptyEntries))
-			{
-				tmpPhoneCache.AddPhone(phonePart);
-				
-				var compareResult = ContainsMatch(phonePart, tmpPhoneCache);
-				if (compareResult == CompareResultType.Error)
-					return CompareResultType.Error;
-
-				if (compareResult == CompareResultType.Match)
-					return CompareResultType.Match;
-			}
-
-			return CompareResultType.NoMatch;
+			// Split the phone where the tie-bar is and send each remaining piece under
+			// (or over) a tie-bar to comparer that checks matches on diacritics.
+			return (phone.Split(App.kTieBars, StringSplitOptions.RemoveEmptyEntries)
+				.Any(p => !CompareDiacritics(DiacriticPattern, p)) ?
+					CompareResultType.NoMatch : CompareResultType.NoMatch);
 		}
 
 		/// ------------------------------------------------------------------------------------
