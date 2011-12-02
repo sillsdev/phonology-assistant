@@ -62,11 +62,13 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
       <ComponentGroupRef Id="ProcessingFiles" />
     </Feature>
 
-    <Feature Id="TrainingFiles" Level="1" Absent="allow" AllowAdvertise="yes" Title="Training Material">
-      <ComponentGroupRef Id="TrainingFiles" />
-    </Feature>
+    <?if $(var.IncludeTrainingMaterial) = true ?>
+      <Feature Id="TrainingFiles" Level="1" Absent="allow" AllowAdvertise="yes" Title="Training Material">
+        <ComponentGroupRef Id="TrainingFiles" />
+      </Feature>
+    <?endif?>
 
-		<Media Id="1" Cabinet="pa.cab" EmbedCab="yes" CompressionLevel="high" />
+    <Media Id="1" Cabinet="pa.cab" EmbedCab="yes" CompressionLevel="high" />
 		<Icon Id="Pa.exe" SourceFile ="..\output\release\Pa.exe" />
 		<Property Id="ARPPRODUCTICON" Value="Pa.exe" />
 		<WixVariable Id="WixUILicenseRtf" Value="License.rtf" />

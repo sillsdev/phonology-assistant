@@ -4,9 +4,9 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>3.0</ProductVersion>
-    <ProjectGuid>{b7e79978-c573-4f3f-9ecd-f38f65f515db}</ProjectGuid>
+    <ProjectGuid>{50f62de8-5f1f-46c2-9a03-582f4ff79897}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>Pa-Setup</OutputName>
+    <OutputName>Pa-SetupWOTrainingMaterial</OutputName>
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
@@ -20,7 +20,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>..\Output\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Processing_Location=..\DistFiles\Processing;Configuration_Location=..\DistFiles\Configuration;IncludeTrainingMaterial=true</DefineConstants>
+    <DefineConstants>Processing_Location=..\DistFiles\Processing;Configuration_Location=..\DistFiles\Configuration;IncludeTrainingMaterial=false</DefineConstants>
     <WixVariables>
     </WixVariables>
   </PropertyGroup>
@@ -51,13 +51,7 @@
     </WixExtension>
   </ItemGroup>
   <PropertyGroup>
-    <PreBuildEvent>rd /s /q "$(SolutionDir)Output\Release\Training"
-md "$(SolutionDir)Output\Release\Training"
-del "$(SolutionDir)Output\Release\Transforms.zip"
-"$(SolutionDir)Lib\Zipper"  -o:"$(SolutionDir)Output\Release\Training\PaTrainingProjects.zip" "$(SolutionDir)DistFiles\Training Projects"
-"$(SolutionDir)Lib\Zipper"  -o:"$(SolutionDir)Output\Release\Transforms.zip" "$(SolutionDir)DistFiles\Processing\Transforms"
-
-REM === The next two lines require "heat" to be in your path. Heat is installed with the Windows Installer XML (WiX) toolset ===
+    <PreBuildEvent>REM === The next two lines require "heat" to be in your path. Heat is installed with the Windows Installer XML (WiX) toolset ===
 rem heat dir "$(SolutionDir)DistFiles\Processing" -cg ProcessingFiles -dr APPLICATIONFOLDER -gg -sfrag -suid -var var.Processing_Location -o $(ProjectDir)Files_Processing.wxs
 heat dir "$(SolutionDir)DistFiles\Configuration" -cg ConfigurationFiles -dr APPLICATIONFOLDER -gg -sfrag -suid -var var.Configuration_Location -o $(ProjectDir)Files_Configuration.wxs</PreBuildEvent>
   </PropertyGroup>

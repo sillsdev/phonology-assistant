@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaToFdoBrowser", "src\PaToF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaTests", "src\PaTests\PaTests.csproj", "{B73CA343-F420-404F-A124-42AFF4BF38C6}"
 EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "InstallerWithoutTrainingMaterial", "Installer\InstallerWithoutTrainingMaterial.wixproj", "{50F62DE8-5F1F-46C2-9A03-582F4FF79897}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -191,6 +193,25 @@ Global
 		{B73CA343-F420-404F-A124-42AFF4BF38C6}.ReleaseMono|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B73CA343-F420-404F-A124-42AFF4BF38C6}.ReleaseMono|Mixed Platforms.Build.0 = Release|Any CPU
 		{B73CA343-F420-404F-A124-42AFF4BF38C6}.ReleaseMono|x86.ActiveCfg = Release|Any CPU
+		{50F62DE8-5F1F-46C2-9A03-582F4FF79897}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{50F62DE8-5F1F-46C2-9A03-582F4FF79897}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{50F62DE8-5F1F-46C2-9A03-582F4FF79897}.Debug|x86.ActiveCfg = Debug|x86
+		{50F62DE8-5F1F-46C2-9A03-582F4FF79897}.Debug|x86.Build.0 = Debug|x86
+		{50F62DE8-5F1F-46C2-9A03-582F4FF79897}.DebugMono|Any CPU.ActiveCfg = Debug|x86
+		{50F62DE8-5F1F-46C2-9A03-582F4FF79897}.DebugMono|Mixed Platforms.ActiveCfg = Debug|x86
+		{50F62DE8-5F1F-46C2-9A03-582F4FF79897}.DebugMono|Mixed Platforms.Build.0 = Debug|x86
+		{50F62DE8-5F1F-46C2-9A03-582F4FF79897}.DebugMono|x86.ActiveCfg = Debug|x86
+		{50F62DE8-5F1F-46C2-9A03-582F4FF79897}.DebugMono|x86.Build.0 = Debug|x86
+		{50F62DE8-5F1F-46C2-9A03-582F4FF79897}.Release|Any CPU.ActiveCfg = Release|x86
+		{50F62DE8-5F1F-46C2-9A03-582F4FF79897}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{50F62DE8-5F1F-46C2-9A03-582F4FF79897}.Release|Mixed Platforms.Build.0 = Release|x86
+		{50F62DE8-5F1F-46C2-9A03-582F4FF79897}.Release|x86.ActiveCfg = Release|x86
+		{50F62DE8-5F1F-46C2-9A03-582F4FF79897}.Release|x86.Build.0 = Release|x86
+		{50F62DE8-5F1F-46C2-9A03-582F4FF79897}.ReleaseMono|Any CPU.ActiveCfg = Release|x86
+		{50F62DE8-5F1F-46C2-9A03-582F4FF79897}.ReleaseMono|Mixed Platforms.ActiveCfg = Release|x86
+		{50F62DE8-5F1F-46C2-9A03-582F4FF79897}.ReleaseMono|Mixed Platforms.Build.0 = Release|x86
+		{50F62DE8-5F1F-46C2-9A03-582F4FF79897}.ReleaseMono|x86.ActiveCfg = Release|x86
+		{50F62DE8-5F1F-46C2-9A03-582F4FF79897}.ReleaseMono|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
