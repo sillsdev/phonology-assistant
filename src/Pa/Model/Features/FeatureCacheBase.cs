@@ -100,11 +100,7 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected static string CleanUpFeatureName(string featureName)
+		public static string CleanUpFeatureName(string featureName)
 		{
 			if (featureName == null)
 				return string.Empty;
@@ -133,7 +129,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public bool FeatureExits(string featureName, bool showMsgWhenExists)
 		{
-			string key = (featureName == null ? null : featureName.ToLower());
+			string key = (featureName == null ? null : CleanUpFeatureName(featureName));
 
 			if (key == null || !ContainsKey(key))
 				return false;

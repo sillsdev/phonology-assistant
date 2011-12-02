@@ -155,17 +155,17 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			// Verify an OR group
 			var group = new PatternGroup(EnvironmentType.After);
-			group.Parse("{[+high],[DENTAL]}");
+			group.Parse("{[+high],[dental]}");
 			Assert.AreEqual("{[+high],[dental]}", group.ToString());
 
 			// Verify an AND group
 			group = new PatternGroup(EnvironmentType.After);
-			group.Parse("[[{a,e}{[+high][DENTAL]}][-dOrS]]");
+			group.Parse("[[{a,e}{[+high][dental]}][-dors]]");
 			Assert.AreEqual("[[{a,e}{[+high],[dental]}][-dors]]", group.ToString());
 
 			// Verify a sequential group
 			group = new PatternGroup(EnvironmentType.After);
-			group.Parse("{a,e}pple{[+high][DENTAL]}");
+			group.Parse("{a,e}pple{[+high][dental]}");
 			Assert.AreEqual("{a,e}pple{[+high],[dental]}", group.ToString());
 
 			// Verify a pattern with [C] and [V]

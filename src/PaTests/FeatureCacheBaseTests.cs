@@ -37,16 +37,17 @@ namespace SIL.Pa.Tests
 		public void TestSetup()
 		{
 			m_cache = new FeatureCacheBase();
-			
-			// Create a bunch of features and add them to the feature cache.
-			int bit = 0;
-			foreach (string name in m_fNames)
-			{
-				var feat = new Feature { Name = name };
-				ReflectionHelper.SetProperty(feat, "Bit", bit++);
-				string cleanName = ReflectionHelper.GetStrResult(m_cache.GetType(), "CleanUpFeatureName", name);
-				m_cache.Add(cleanName, feat);
-			}
+			m_cache.LoadFromList(m_fNames.Select(n => new Feature { Name = n }));
+
+			//// Create a bunch of features and add them to the feature cache.
+			//int bit = 0;
+			//foreach (string name in m_fNames)
+			//{
+			//    var feat = new Feature { Name = name };
+			//    ReflectionHelper.SetProperty(feat, "Bit", bit++);
+			//    string cleanName = ReflectionHelper.GetStrResult(m_cache.GetType(), "CleanUpFeatureName", name);
+			//    m_cache.Add(cleanName, feat);
+			//}
 		}
 
 		#endregion
@@ -153,32 +154,54 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Test the CleanUpFeatureName method.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void CleanUpFeatureName()
+		public void CleanUpFeatureName_SendBracketedName_RemovesBrackets()
 		{
-			const string fname = "[UGLY FEATURE]";
-			string cleanName = ReflectionHelper.GetStrResult(m_cache.GetType(), "CleanUpFeatureName", fname);
-			Assert.AreEqual("ugly feature", cleanName);
+			Assert.AreEqual("UGLY FEATURE", FeatureCacheBase.CleanUpFeatureName("[UGLY FEATURE]"));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tests that FeatureExists method.
-		/// </summary>
+		[Test]
+		public void CleanUpFeatureName_SendUntrimmedName_TrimsName()
+		{
+			Assert.AreEqual("UGLY FEATURE", FeatureCacheBase.CleanUpFeatureName("[ UGLY FEATURE ]"));
+		}
+
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void FeatureExists()
+		public void CleanUpFeatureName_SendCleanName_ReturnsInput()
+		{
+			Assert.AreEqual("UGLY FEATURE", FeatureCacheBase.CleanUpFeatureName("UGLY FEATURE"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void FeatureExists_SendNonExistentFeature_ReturnFalse()
 		{
 			Assert.IsFalse(m_cache.FeatureExits("Beef", false));
 			Assert.IsFalse(m_cache.FeatureExits("Chicken", false));
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void FeatureExists_SendNull_ReturnFalse()
+		{
 			Assert.IsFalse(m_cache.FeatureExits(null, false));
+		}
 
-			for (int i = 0; i < m_fNames.Count; i++)
-				Assert.IsTrue(m_cache.FeatureExits(m_fNames[i], false));
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void FeatureExists_SendExistingFeatures_ReturnTrue()
+		{
+			foreach (var name in m_fNames)
+				Assert.IsTrue(m_cache.FeatureExits(name, false));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void FeatureExists_SendNameThatNeedsCleaning_ReturnTrue()
+		{
+			Assert.IsTrue(m_cache.FeatureExits("[  " + m_fNames[2] + " ]", false));
 		}
 
 		/// ------------------------------------------------------------------------------------

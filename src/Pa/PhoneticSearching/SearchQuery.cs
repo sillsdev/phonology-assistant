@@ -127,18 +127,18 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
-			if (!String.IsNullOrEmpty(Name))
+			if (!string.IsNullOrEmpty(Name))
 				return Name;
 
-			if (IsPatternRegExpression)
-			{
-				string[] patternParts = Pattern.Split(App.kOrc);
+			//if (IsPatternRegExpression)
+			//{
+			//    string[] patternParts = Pattern.Split(App.kOrc);
 
-				if (patternParts.Length == 3)
-					return patternParts[0] + "/" + patternParts[1] + "_" + patternParts[2];
-			}
+			//    if (patternParts.Length == 3)
+			//        return patternParts[0] + "/" + patternParts[1] + "_" + patternParts[2];
+			//}
 
-			return Pattern;
+			return SearchItem + "/" + PrecedingEnvironment + "_" + FollowingEnvironment;
 		}
 
 		#endregion

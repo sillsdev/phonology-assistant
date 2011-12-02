@@ -21,7 +21,8 @@ namespace SIL.Pa.PhoneticSearching
 			{
 				Errors.Clear();
 
-				if (!VerifyGeneralPatternStructure(query.Pattern))
+				var pattern = query.SearchItem + "/" + query.PrecedingEnvironment + "_" + query.FollowingEnvironment;
+				if (!VerifyGeneralPatternStructure(pattern))
 				{
 					var error = new SearchQueryValidationError(GetPatternSyntaxErrorMsg());
 					Errors.Add(error);

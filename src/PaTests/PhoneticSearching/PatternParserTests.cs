@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.TestUtils;
@@ -143,11 +144,11 @@ namespace SIL.Pa.Tests
 		#region ReplaceBracketedClassNamesWithPattern tests
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void ReplaceBracketedClassNamesWithPattern_ClassDoesNotExist_ReturnsEmptyString()
+		public void ReplaceBracketedClassNamesWithPattern_ClassDoesNotExist_ThrowsException()
 		{
 			_prj.SearchClasses.Add(new SearchClass { Name = "dummy1", Type = SearchClassType.Phones });
 			_prj.SearchClasses.Add(new SearchClass { Name = "dummy2", Type = SearchClassType.Phones });
-			Assert.AreEqual(string.Empty, _parser.ReplaceBracketedClassNamesWithPatterns("<not there>"));
+			Assert.Throws<NullReferenceException>(() => _parser.ReplaceBracketedClassNamesWithPatterns("<not there>"));
 		}
 
 		/// ------------------------------------------------------------------------------------
