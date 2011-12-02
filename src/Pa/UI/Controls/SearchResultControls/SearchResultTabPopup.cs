@@ -42,7 +42,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				lblRecordCount.Visible = false;
 				lblRecordsValue.Text = App.GetString("SearchResultTabPopup.PatternContainsErrorsMsg",
-					"Search pattern contains errors.");
+					"Search pattern contains errors");
 			}
 			else
 			{
@@ -54,7 +54,7 @@ namespace SIL.Pa.UI.Controls
 
 			bool queryHasName = !string.IsNullOrEmpty(tab.ResultView.SearchQuery.Name);
 
-			if (queryHasName && tab.TabTextClipped)
+			if (queryHasName && tab.TabTextClipped && tab.ResultView.SearchQuery.Errors.Count == 0)
 			{
 				lblName.Visible = lblNameValue.Visible = true;
 				lblNameValue.Text = tab.ResultView.SearchQuery.Name;
@@ -65,7 +65,7 @@ namespace SIL.Pa.UI.Controls
 				lblNameValue.Visible = false;
 			}
 
-			if (queryHasName || tab.TabTextClipped)
+			if ((queryHasName || tab.TabTextClipped) && tab.ResultView.SearchQuery.Errors.Count == 0)
 			{
 				lblPattern.Visible = true;
 				lblPatternValue.Visible = true;
