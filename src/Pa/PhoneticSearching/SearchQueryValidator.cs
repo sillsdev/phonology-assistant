@@ -88,8 +88,9 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public static string GetPatternSyntaxErrorMsg()
 		{
-			return App.GetString("PhoneticSearchingMessages.PatternSyntaxErrorMsg",
-				"The pattern contains a syntax error. The correct format for the pattern is '{0}'");
+			return string.Format(App.GetString("PhoneticSearchingMessages.PatternSyntaxErrorMsg",
+				"The pattern contains a syntax error. The correct format for the pattern is '{0}'"),
+				App.kEmptyDiamondPattern);
 		}
 
 		/// ------------------------------------------------------------------------------------
