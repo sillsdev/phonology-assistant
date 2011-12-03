@@ -143,12 +143,25 @@ namespace SIL.Pa.UI
 
 			// If there's a project specified on the command line, then load that.
 			// Otherwise, load the last loaded project whose name is in the settings file.
-			string projArg = (from arg in Environment.GetCommandLineArgs()
-							  where arg.ToLower().EndsWith(".pap") && File.Exists(arg)
-							  select arg).FirstOrDefault();
+			var commandLineProjFileArg = (from arg in Environment.GetCommandLineArgs()
+										  where arg.ToLower().EndsWith(".pap") && File.Exists(arg)
+										  select arg).FirstOrDefault();
 
-			if (projArg != null)
-				LoadProject(projArg);
+			// If there's a project specified on the command line, then load that.
+			// Otherwise, load the last loaded project whose name is in the settings file.
+			var commandLineBackupFileArg = (from arg in Environment.GetCommandLineArgs()
+											where arg.ToLower().EndsWith(".pabackup") && File.Exists(arg)
+											select arg).FirstOrDefault();
+
+			if (commandLineProjFileArg != null)
+				LoadProject(commandLineProjFileArg);
+			else if (commandLineBackupFileArg != null)
+			{
+				App.CloseSplashScreen();
+				OnRestoreProject(commandLineBackupFileArg);
+				App.MsgMediator.SendMessage("MainViewOpened", this);
+				return;
+			}
 			else if (!_doNotLoadLastProject)
 				LoadProject(Settings.Default.LastProjectLoaded);
 
@@ -813,7 +826,10 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnRestoreProject(object args)
 		{
-			using (var viewModel = new RestoreDlgViewModel(_project))
+			var viewModel = RestoreDlgViewModel.Create(args as string);
+			if (viewModel == null)
+				return true;
+
 			using (var dlg = new RestoreDlg(viewModel))
 			{
 				if (dlg.ShowDialog() == DialogResult.OK)
@@ -821,6 +837,8 @@ namespace SIL.Pa.UI
 					LoadProject(dlg.RestoredProjectFileName);
 					UndefinedPhoneticCharactersDlg.Show(_project, false);
 				}
+
+				viewModel.Dispose();
 			}
 
 			return true;
@@ -834,7 +852,7 @@ namespace SIL.Pa.UI
 				return false;
 
 			itemProps.Visible = true;
-			itemProps.Enabled = (_project != null);
+			itemProps.Enabled = true;
 			itemProps.Update = true;
 			return true;
 		}

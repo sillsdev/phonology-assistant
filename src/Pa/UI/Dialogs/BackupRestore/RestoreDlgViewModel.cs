@@ -23,6 +23,32 @@ namespace SIL.Pa.UI.Dialogs
 		private bool _targetFolderPreexisted;
 
 		/// ------------------------------------------------------------------------------------
+		public static RestoreDlgViewModel Create(string backupFile)
+		{
+			if (backupFile == null)
+				return new RestoreDlgViewModel(null as PaProject);
+
+			if (!File.Exists(backupFile))
+			{
+				var msg = App.GetString("DialogBoxes.RestoreDlg.SpecifiedBackupFileDoesNotExistMsg",
+					"The backup file '{0}' does not exist.");
+				App.NotifyUserOfProblem(msg, backupFile);
+				return null;
+			}
+
+			return !GetIsValidBackupFile(backupFile, true) ?
+				null : new RestoreDlgViewModel(backupFile);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public RestoreDlgViewModel(string backupFile) : base(null)
+		{
+			var prjName = GetProjectNameFromBackupFile(backupFile);
+			AvailableBackups = new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>(prjName, backupFile) };
+			SetCurrentBackupFile(0);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public RestoreDlgViewModel(PaProject project) : base(project)
 		{
 			AvailableBackups = (from backupFile in GetBackupFiles()
@@ -175,13 +201,23 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool GetIsValidBackupFile(string backupFile)
+		public static bool GetIsValidBackupFile(string backupFile, bool showMessageIfInvalid)
 		{
-			return (GetProjectNameFromBackupFile(backupFile) != null);
+			if (GetProjectNameFromBackupFile(backupFile) != null)
+				return true;
+
+			if (showMessageIfInvalid)
+			{
+				var msg = App.GetString("DialogBoxes.RestoreDlg.SelectOtherBackupFileDlg.BackupFileNotValid",
+							"The selected file '{0}' is not a valid Phonology Assistant backup file.");
+				App.NotifyUserOfProblem(msg, backupFile);
+			}
+
+			return false;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string GetProjectNameFromBackupFile(string backupFile)
+		public static string GetProjectNameFromBackupFile(string backupFile)
 		{
 			if (!ZipFile.IsZipFile(backupFile, true))
 				return null;
@@ -194,8 +230,10 @@ namespace SIL.Pa.UI.Dialogs
 				zip.ExtractSelectedEntries(kBackupInfoFileName, string.Empty,
 					Path.GetTempPath(), ExtractExistingFileAction.OverwriteSilently);
 				
-				_infoFile = Path.Combine(Path.GetTempPath(), kBackupInfoFileName);
-				var root = XElement.Load(_infoFile);
+				var infoFile = Path.Combine(Path.GetTempPath(), kBackupInfoFileName);
+				var root = XElement.Load(infoFile);
+				try { File.Delete(infoFile); }
+				catch { }
 				return (string)root.Element("project");
 			}
 		}

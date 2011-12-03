@@ -83,6 +83,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			Settings.Default.RestoreDlg = App.InitializeForm(this, Settings.Default.RestoreDlg);
 			base.OnLoad(e);
+			BringToFront();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -119,16 +120,8 @@ namespace SIL.Pa.UI.Dialogs
 
 			var backupFile = App.OpenFileDialog("pabackup", filters, caption);
 
-			if (backupFile == null)
+			if (backupFile == null || !RestoreDlgViewModel.GetIsValidBackupFile(backupFile, true))
 				return;
-			
-			if (!_viewModel.GetIsValidBackupFile(backupFile))
-			{
-				var msg = App.GetString("DialogBoxes.RestoreDlg.SelectOtherBackupFileDlg.BackupFileNotValid",
-				                        "The selected file '{0}' is not a valid Phonology Assistant backup file.");
-				ErrorReport.NotifyUserOfProblem(msg, backupFile);
-				return;
-			}
 
 			_viewModel.AddBackupFileToListAndMakeCurrent(backupFile);
 			LoadGrid();
