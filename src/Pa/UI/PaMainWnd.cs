@@ -142,13 +142,12 @@ namespace SIL.Pa.UI
 			base.OnShown(e);
 
 			// If there's a project specified on the command line, then load that.
-			// Otherwise, load the last loaded project whose name is in the settings file.
 			var commandLineProjFileArg = (from arg in Environment.GetCommandLineArgs()
 										  where arg.ToLower().EndsWith(".pap") && File.Exists(arg)
 										  select arg).FirstOrDefault();
 
-			// If there's a project specified on the command line, then load that.
-			// Otherwise, load the last loaded project whose name is in the settings file.
+			// If there's a backup file specified on the command line, then load that into
+			// the restore dialog box and allow the user to restore it.
 			var commandLineBackupFileArg = (from arg in Environment.GetCommandLineArgs()
 											where arg.ToLower().EndsWith(".pabackup") && File.Exists(arg)
 											select arg).FirstOrDefault();
