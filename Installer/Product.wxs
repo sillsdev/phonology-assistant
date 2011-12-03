@@ -74,8 +74,8 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 		<WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
 		<Property Id="WIXUI_INSTALLDIR" Value="APPLICATIONFOLDER" />
 		<UIRef Id="WixUI_InstallDir" />
-
-		<InstallExecuteSequence>
+    
+    <InstallExecuteSequence>
 			<RemoveExistingProducts After="InstallInitialize" />
 			<RegisterFonts />
 			<!--We need the condition here so that we only launch the executable when we make an installation but not when we remove the product-->

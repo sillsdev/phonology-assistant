@@ -20,7 +20,17 @@
 				<Directory Id="APPLICATIONFOLDER" Name="Phonology Assistant">
 					<Component Id="Pa.exe" Guid="{C1BD51CD-92F3-4f83-B5AD-0842C3063985}">
 						<File Id="Pa.exe" Name="Pa.exe"  Source="..\output\release\Pa.exe" />
-					</Component>
+            <ProgId Id='Pa.Document' Description='Phonology Assistant project file' Icon='Pa.exe' IconIndex='0'>
+              <Extension Id='pap' ContentType='application/pap'>
+                <Verb Id='open' Command='Open' TargetFile='Pa.exe' Argument='"%1"' />
+              </Extension>
+            </ProgId>
+            <ProgId Id='Pa.Backup' Description='Phonology Assistant backup file' Icon='Pa.exe' IconIndex='0'>
+              <Extension Id='pabackup' ContentType='application/pabackup'>
+                <Verb Id='open' Command='Open' TargetFile='Pa.exe' Argument='"%1"' />
+              </Extension>
+            </ProgId>
+          </Component>
 					<Component Id="DisablePASplashScreen.exe" Guid="{0EE47CCE-87AA-44CE-BBB2-1840A5B4ACCF}">
 						<File Id="DisablePASplashScreen.exe" KeyPath="yes" Source="..\output\release\DisablePASplashScreen.exe" />
 					</Component>
