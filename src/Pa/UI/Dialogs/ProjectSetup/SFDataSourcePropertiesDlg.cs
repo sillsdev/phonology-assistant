@@ -124,6 +124,7 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				lblToolboxSortField.Visible = false;
 				cboToolboxSortField.Visible = false;
+				txtEditor.Text = m_datasource.Editor;
 
 				// Things line up better if I first set the height to 0.
 				tblLayoutEditor.Visible = true;
@@ -403,7 +404,7 @@ namespace SIL.Pa.UI.Dialogs
 				return (m_fieldsGrid.IsDirty || CurrentParseType != m_datasource.ParseType ||
 					FirstInterlinearField != m_datasource.FirstInterlinearField ||
 					ToolBoxSortField != m_datasource.ToolboxSortField ||
-					txtEditor.Text != m_datasource.Editor);
+					(m_datasource.Type != DataSourceType.Toolbox && txtEditor.Text != m_datasource.Editor));
 			}
 		}
 
