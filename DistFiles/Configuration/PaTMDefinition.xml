@@ -283,4 +283,11 @@ Item "displaytype" Values (applies to item types 0 - 3):
 			<item name="mnuFilters" commandid="CmdFilters" begingroup="true"/>
 		</item>
 	</menus>
+  <contextmenus>
+    <contextmenu name="cmnuWordListGrid" showcheckmargin="false" showimagemargin="true" showitemtooltips="false">
+      <item name="cmnuPlayback" commandid="CmdPlayback"/>
+      <item name="cmnuStopPlayback" commandid="CmdStopPlayback"/>
+      <item name="cmnuEditSourceRecord" commandid="CmdEditSourceRecord" begingroup="true"/>
+    </contextmenu>
+  </contextmenus>
 </TMDef>

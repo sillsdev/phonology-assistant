@@ -152,6 +152,8 @@ namespace SIL.Pa.UI.Controls
 				var itemProps = App.TMAdapter.GetItemProperties("mnuStopPlayback");
 				if (itemProps != null)
 					m_stopPlaybackKey = itemProps.ShortcutKey;
+
+				App.TMAdapter.SetContextMenuForControl(this, "cmnuWordListGrid");
 			}
 		}
 
@@ -735,6 +737,9 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (e.RowIndex == -1 ||	(e.ColumnIndex == -1 && Cursor == Cursors.SizeNS))
 				DoubleBuffered = false;
+
+			if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && e.Button == MouseButtons.Right)
+				CurrentCell = this[e.ColumnIndex, e.RowIndex];
 
 			base.OnCellMouseDown(e);
 		}
