@@ -123,6 +123,7 @@
 			this._grid.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.HandleGridCellValueNeeded);
 			this._grid.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleGridPainting);
 			this._grid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleGridKeyDown);
+			this._grid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.HandleGridKeyPress);
 			// 
 			// _labelProjectFilesFound
 			// 

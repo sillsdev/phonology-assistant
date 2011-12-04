@@ -115,11 +115,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void ResetFoldersToScan()
 		{
-			if (Settings.Default.NonDefaultFoldersToScanForProjectFiles.Count == 0)
-				return;
-
-			Settings.Default.NonDefaultFoldersToScanForProjectFiles.Clear();
-			LoadGrid();
+			if (_viewModel.ResetFoldersToScan())
+				LoadGrid();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -174,8 +171,22 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private void HandleGridKeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (_grid.RowCount == 0)
+				return;
+
+			var index = _viewModel.FindNextProjectStartingWithLetter(_grid.CurrentCellAddress.Y, e.KeyChar);
+			if (index > -1)
+				_grid.CurrentCell = _grid[0, index];
+		}
+
+		/// ------------------------------------------------------------------------------------
 		private void HandleGridKeyDown(object sender, KeyEventArgs e)
 		{
+			if (_grid.RowCount == 0)
+				return;
+
 			if (e.KeyCode == Keys.Enter)
 			{
 				e.Handled = true;

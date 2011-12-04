@@ -62,7 +62,6 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			// Make sure the project file is not an old one contained in one of the backup
 			// folders created when migrating a project from an older version of the program.
-			var prjName = Path.GetFileNameWithoutExtension(prjFilePath);
 			var prjFolder = Path.GetDirectoryName(prjFilePath);
 			return !Path.GetFileName(prjFolder).StartsWith("Backup-");
 		}
@@ -121,6 +120,19 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public bool ResetFoldersToScan()
+		{
+			int savePrjCount = GetProjectFileCount();
+
+			if (Settings.Default.NonDefaultFoldersToScanForProjectFiles.Count == 0)
+				return false;
+
+			Settings.Default.NonDefaultFoldersToScanForProjectFiles.Clear();
+			RefreshAvailableProjectsList();
+			return (savePrjCount != GetProjectFileCount());
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public bool LetUserAddAdditionalFolderToScan(Form parent)
 		{
 			try
@@ -151,6 +163,25 @@ namespace SIL.Pa.UI.Dialogs
 			}
 
 			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public int FindNextProjectStartingWithLetter(int startIndex, char letter)
+		{
+			int index = (startIndex < _availableProjects.Count - 1 ? startIndex + 1 : 0);
+
+			while (index != startIndex)
+			{
+				var name = _availableProjects[index].Name;
+				if (name != null && name.StartsWith(letter.ToString(), StringComparison.CurrentCultureIgnoreCase))
+					return index;
+
+				index++;
+				if (index == _availableProjects.Count)
+					index = 0;
+			}
+
+			return -1;
 		}
 	}
 }
