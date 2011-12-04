@@ -607,7 +607,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnRecentlyUsedProjectChosen(object args)
 		{
-			string filename = args as string;
+			var filename = args as string;
 
 			if (!File.Exists(filename))
 			{
@@ -730,25 +730,51 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnOpenProject(object args)
 		{
-			int filterindex = 0;
-
-			string filter = string.Format(App.kstidFileTypePAProject,
-				Application.ProductName) + "|" + App.kstidFileTypeAllFiles;
-
-			var fmt = App.GetString("ProjectOpenFileDialogText", "Open {0} Project File");
-			
-			var initialDir = (Settings.Default.LastFolderForOpenProjectDlg ?? string.Empty);
-			if (!Directory.Exists(initialDir))
-				initialDir = App.ProjectFolder;
-
-			string[] filenames = App.OpenFileDialog("pap", filter, ref filterindex,
-				string.Format(fmt, Application.ProductName), false, initialDir);
-
-			if (filenames.Length > 0 && File.Exists(filenames[0]))
+			var viewModel = new OpenProjectDlgViewModel();
+			using (var dlg = new OpenProjectDlg(viewModel))
 			{
-				Settings.Default.LastFolderForOpenProjectDlg = Path.GetDirectoryName(filenames[0]);
-				LoadProject(filenames[0]);
+				if (dlg.ShowDialog() != DialogResult.OK)
+					return true;
+
+				if (_project != null &&
+					_project.FileName.Equals(viewModel.SelectedProject.FilePath, StringComparison.Ordinal))
+				{
+					return true;
+				}
+
+				if (!Settings.Default.OpenProjectsInNewWindowCheckedValue)
+					LoadProject(viewModel.SelectedProject.FilePath);
+				else
+				{
+					using (var prs = new Process())
+					{
+						prs.StartInfo.Arguments = "\"" + viewModel.SelectedProject.FilePath + "\"";
+						prs.StartInfo.UseShellExecute = true;
+						prs.StartInfo.FileName = Application.ExecutablePath;
+						prs.Start();
+					}
+				}
 			}
+
+			//int filterindex = 0;
+
+			//string filter = string.Format(App.kstidFileTypePAProject,
+			//    Application.ProductName) + "|" + App.kstidFileTypeAllFiles;
+
+			//var fmt = App.GetString("ProjectOpenFileDialogText", "Open {0} Project File");
+			
+			//var initialDir = (Settings.Default.LastFolderForOpenProjectDlg ?? string.Empty);
+			//if (!Directory.Exists(initialDir))
+			//    initialDir = App.ProjectFolder;
+
+			//string[] filenames = App.OpenFileDialog("pap", filter, ref filterindex,
+			//    string.Format(fmt, Application.ProductName), false, initialDir);
+
+			//if (filenames.Length > 0 && File.Exists(filenames[0]))
+			//{
+			//    Settings.Default.LastFolderForOpenProjectDlg = Path.GetDirectoryName(filenames[0]);
+			//    LoadProject(filenames[0]);
+			//}
 
 			return true;
 		}

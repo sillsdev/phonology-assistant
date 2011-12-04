@@ -3006,10 +3006,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnGridLinesNone(object args)
 		{
 			if (!Focused || !App.IsViewOrFormActive(OwningViewType, FindForm()))
@@ -3019,10 +3015,6 @@ namespace SIL.Pa.UI.Controls
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnGridLinesBoth(object args)
 		{
@@ -3034,10 +3026,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnGridLinesHorizontal(object args)
 		{
 			if (!Focused || !App.IsViewOrFormActive(OwningViewType, FindForm()))
@@ -3047,10 +3035,6 @@ namespace SIL.Pa.UI.Controls
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnGridLinesVertical(object args)
 		{

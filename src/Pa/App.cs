@@ -1107,8 +1107,12 @@ namespace SIL.Pa
 				
 				adapter.Initialize(menuContainer, MsgMediator, ApplicationRegKeyPath, defs);
 				adapter.AllowUpdates = true;
-				adapter.RecentFilesList = (MruFiles.Paths ?? new string[] { });
-				adapter.RecentlyUsedItemChosen += (filename => MsgMediator.SendMessage("RecentlyUsedProjectChosen", filename));
+				adapter.RecentlyUsedItemChosen += (ruItem => MsgMediator.SendMessage("RecentlyUsedProjectChosen", ruItem));
+				adapter.SetRecentFilesList(MruFiles.Paths ?? new string[0], prjPath =>
+				{
+					var prjInfo = PaProjectLite.Create(prjPath);
+					return (prjInfo == null ? prjPath : prjInfo.Name);
+				});
 			}
 
 			if (s_defaultMenuAdapters == null)
@@ -1152,8 +1156,14 @@ namespace SIL.Pa
 
 			if (s_defaultMenuAdapters != null)
 			{
-				foreach (ITMAdapter adapter in s_defaultMenuAdapters)
-					adapter.RecentFilesList = (MruFiles.Paths ?? new string[] { });
+				foreach (var adapter in s_defaultMenuAdapters)
+				{
+					adapter.SetRecentFilesList(MruFiles.Paths ?? new string[0], prjPath =>
+					{
+						var prjInfo = PaProjectLite.Create(prjPath);
+						return (prjInfo == null ? null : prjInfo.Name);
+					});
+				}
 			}
 		}
 

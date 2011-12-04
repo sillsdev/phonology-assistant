@@ -3705,5 +3705,67 @@ namespace SIL.Pa.Properties {
                 this["ShowSearchEngineChoiceButtons"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilTools.FormSettings OpenProjectDlg {
+            get {
+                return ((global::SilTools.FormSettings)(this["OpenProjectDlg"]));
+            }
+            set {
+                this["OpenProjectDlg"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection NonDefaultFoldersToScanForProjectFiles {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["NonDefaultFoldersToScanForProjectFiles"]));
+            }
+            set {
+                this["NonDefaultFoldersToScanForProjectFiles"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::SilTools.GridSettings OpenProjectDlgGrid {
+            get {
+                return ((global::SilTools.GridSettings)(this["OpenProjectDlgGrid"]));
+            }
+            set {
+                this["OpenProjectDlgGrid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool OpenProjectsInNewWindowCheckedValue {
+            get {
+                return ((bool)(this["OpenProjectsInNewWindowCheckedValue"]));
+            }
+            set {
+                this["OpenProjectsInNewWindowCheckedValue"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AutoCreateProjectFilesAndFolderOnProjectCreation {
+            get {
+                return ((bool)(this["AutoCreateProjectFilesAndFolderOnProjectCreation"]));
+            }
+            set {
+                this["AutoCreateProjectFilesAndFolderOnProjectCreation"] = value;
+            }
+        }
     }
 }

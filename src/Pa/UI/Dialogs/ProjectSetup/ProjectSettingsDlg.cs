@@ -54,7 +54,6 @@ namespace SIL.Pa.UI.Dialogs
 
 			_chkMakeFolder.Parent.Controls.Remove(_chkMakeFolder);
 			tblLayoutButtons.Controls.Add(_chkMakeFolder, 0, 0);
-			_chkMakeFolder.Checked = Settings.Default.CreateProjectFolderForNewProject;
 
 			_comboDistinctiveFeaturesSet.Items.AddRange(BFeatureCache.GetAvailableFeatureSetNames().OrderBy(n => n).ToArray());
 		}
@@ -65,7 +64,8 @@ namespace SIL.Pa.UI.Dialogs
 			Application.DoEvents();
 
 			_isProjectNew = (project == null);
-			_chkMakeFolder.Visible = _isProjectNew;
+			_chkMakeFolder.Visible = (_isProjectNew && !Settings.Default.AutoCreateProjectFilesAndFolderOnProjectCreation);
+			_chkMakeFolder.Checked = (Settings.Default.CreateProjectFolderForNewProject || !_chkMakeFolder.Visible);
 
 			BuildGrid();
 			pnlGridHdg.ControlReceivingFocusOnMnemonic = m_grid;
@@ -259,7 +259,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			Settings.Default.CreateProjectFolderForNewProject = _chkMakeFolder.Checked;
+			if (_chkMakeFolder.Visible)
+				Settings.Default.CreateProjectFolderForNewProject = _chkMakeFolder.Checked;
+	
 			Settings.Default.ProjectSettingsDlgGrid = GridSettings.Create(m_grid);
 			base.SaveSettings();
 		}
@@ -451,15 +453,28 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
+		private string GetProjectFileName()
+		{
+			if (!Settings.Default.AutoCreateProjectFilesAndFolderOnProjectCreation)
+				return GetProjectFileNameFromUser();
+
+			string prjFileName;
+			string prjFolder;
+			GetProjectFolderAndCreateIfNecessary(out prjFileName, out prjFolder);
+			prjFileName = Path.ChangeExtension(prjFileName, "pap");
+			return Path.Combine(prjFolder, prjFileName);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Opens the save file dialog, asking the user what file name to give his new project.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private string GetProjectFileName()
+		private string GetProjectFileNameFromUser()
 		{
-			string prjName;
+			string prjFileName;
 			string prjFolder;
-			var prjFolderCreated = GetProjectFolderAndCreateIfNecessary(out prjName, out prjFolder);
+			var prjFolderCreated = GetProjectFolderAndCreateIfNecessary(out prjFileName, out prjFolder);
 
 			using (var dlg = new SaveFileDialog())
 			{
@@ -470,7 +485,7 @@ namespace SIL.Pa.UI.Dialogs
 				dlg.ShowHelp = false;
 				dlg.DefaultExt = "pap";
 				dlg.RestoreDirectory = false;
-				dlg.FileName = Path.ChangeExtension(prjName, "pap");
+				dlg.FileName = Path.ChangeExtension(prjFileName, "pap");
 				dlg.InitialDirectory = prjFolder;
 				dlg.FilterIndex = 0;
 
@@ -500,9 +515,9 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private bool GetProjectFolderAndCreateIfNecessary(out string prjName, out string prjFolder)
+		private bool GetProjectFolderAndCreateIfNecessary(out string prjFileName, out string prjFolder)
 		{
-			prjName = (txtProjName.Text.Trim() == string.Empty ? Project.Name : txtProjName.Text.Trim());
+			prjFileName = (txtProjName.Text.Trim() == string.Empty ? Project.Name : txtProjName.Text.Trim());
 
 			if (!_chkMakeFolder.Checked)
 			{
@@ -513,16 +528,20 @@ namespace SIL.Pa.UI.Dialogs
 				return false;
 			}
 
-			prjFolder = Path.Combine(App.ProjectFolder, prjName);
+			var preferredProjectFileName = prjFileName;
+			prjFolder = Path.Combine(App.ProjectFolder, prjFileName);
 
 			if (Directory.Exists(prjFolder))
 			{
-				if (Directory.GetFiles(prjFolder).Count() == 0)
+				if (Directory.GetFiles(prjFolder, "*.pap").Count() == 0)
 					return false;
-	
+
 				int i = 2;
 				while (Directory.Exists(prjFolder))
-					prjFolder = Path.Combine(App.ProjectFolder, string.Format("{0} ({1})", prjName, i++));
+				{
+					prjFileName = string.Format("{0} ({1})", preferredProjectFileName, i++);
+					prjFolder = Path.Combine(App.ProjectFolder, prjFileName);
+				}
 			}
 
 			Directory.CreateDirectory(prjFolder);
