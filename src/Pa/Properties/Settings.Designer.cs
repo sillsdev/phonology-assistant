@@ -3721,12 +3721,12 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection NonDefaultFoldersToScanForProjectFiles {
+        public global::System.Collections.Specialized.StringCollection ProjectsNotInDefaultFolderToShowInOpenDlg {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["NonDefaultFoldersToScanForProjectFiles"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["ProjectsNotInDefaultFolderToShowInOpenDlg"]));
             }
             set {
-                this["NonDefaultFoldersToScanForProjectFiles"] = value;
+                this["ProjectsNotInDefaultFolderToShowInOpenDlg"] = value;
             }
         }
         
@@ -3765,6 +3765,18 @@ namespace SIL.Pa.Properties {
             }
             set {
                 this["AutoCreateProjectFilesAndFolderOnProjectCreation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public bool ShowFullProjectFilePathsInOpenDlg {
+            get {
+                return ((bool)(this["ShowFullProjectFilePathsInOpenDlg"]));
+            }
+            set {
+                this["ShowFullProjectFilePathsInOpenDlg"] = value;
             }
         }
     }

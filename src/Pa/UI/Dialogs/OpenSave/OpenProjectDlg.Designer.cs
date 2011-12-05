@@ -17,10 +17,11 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OpenProjectDlg));
 			this._tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-			this._grid = new SilTools.SilGrid();
+			this._tableLayoutInner = new System.Windows.Forms.TableLayoutPanel();
 			this._labelProjectFilesFound = new System.Windows.Forms.Label();
+			this._checkBoxShowFullProjectPaths = new System.Windows.Forms.CheckBox();
+			this._grid = new SilTools.SilGrid();
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._buttonOpen = new System.Windows.Forms.Button();
 			this._checkBoxOpenInNewWindow = new System.Windows.Forms.CheckBox();
@@ -33,6 +34,7 @@
 			this._colFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._colProjectType = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._tableLayoutPanel.SuspendLayout();
+			this._tableLayoutInner.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
@@ -43,8 +45,8 @@
 			this._tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this._tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this._tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this._tableLayoutPanel.Controls.Add(this._tableLayoutInner, 0, 0);
 			this._tableLayoutPanel.Controls.Add(this._grid, 0, 1);
-			this._tableLayoutPanel.Controls.Add(this._labelProjectFilesFound, 0, 0);
 			this._tableLayoutPanel.Controls.Add(this._buttonCancel, 2, 3);
 			this._tableLayoutPanel.Controls.Add(this._buttonOpen, 1, 3);
 			this._tableLayoutPanel.Controls.Add(this._checkBoxOpenInNewWindow, 0, 3);
@@ -60,6 +62,56 @@
 			this._tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this._tableLayoutPanel.Size = new System.Drawing.Size(398, 275);
 			this._tableLayoutPanel.TabIndex = 0;
+			// 
+			// _tableLayoutInner
+			// 
+			this._tableLayoutInner.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._tableLayoutInner.AutoSize = true;
+			this._tableLayoutInner.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this._tableLayoutInner.ColumnCount = 2;
+			this._tableLayoutPanel.SetColumnSpan(this._tableLayoutInner, 3);
+			this._tableLayoutInner.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this._tableLayoutInner.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this._tableLayoutInner.Controls.Add(this._labelProjectFilesFound, 0, 0);
+			this._tableLayoutInner.Controls.Add(this._checkBoxShowFullProjectPaths, 1, 0);
+			this._tableLayoutInner.Location = new System.Drawing.Point(0, 0);
+			this._tableLayoutInner.Margin = new System.Windows.Forms.Padding(0);
+			this._tableLayoutInner.Name = "_tableLayoutInner";
+			this._tableLayoutInner.RowCount = 1;
+			this._tableLayoutInner.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this._tableLayoutInner.Size = new System.Drawing.Size(398, 17);
+			this._tableLayoutInner.TabIndex = 5;
+			// 
+			// _labelProjectFilesFound
+			// 
+			this._labelProjectFilesFound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this._labelProjectFilesFound.AutoEllipsis = true;
+			this._labelProjectFilesFound.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this._labelProjectFilesFound, null);
+			this.locExtender.SetLocalizationComment(this._labelProjectFilesFound, null);
+			this.locExtender.SetLocalizingId(this._labelProjectFilesFound, "OpenProjectDlg._labelProjectFilesFound");
+			this._labelProjectFilesFound.Location = new System.Drawing.Point(0, 2);
+			this._labelProjectFilesFound.Margin = new System.Windows.Forms.Padding(0);
+			this._labelProjectFilesFound.Name = "_labelProjectFilesFound";
+			this._labelProjectFilesFound.Size = new System.Drawing.Size(236, 13);
+			this._labelProjectFilesFound.TabIndex = 0;
+			this._labelProjectFilesFound.Text = "Projects Found: {0}";
+			// 
+			// _checkBoxShowFullProjectPaths
+			// 
+			this._checkBoxShowFullProjectPaths.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this._checkBoxShowFullProjectPaths.AutoSize = true;
+			this._checkBoxShowFullProjectPaths.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+			this.locExtender.SetLocalizableToolTip(this._checkBoxShowFullProjectPaths, null);
+			this.locExtender.SetLocalizationComment(this._checkBoxShowFullProjectPaths, null);
+			this.locExtender.SetLocalizingId(this._checkBoxShowFullProjectPaths, "OpenProjectDlg._checkBoxShowFullProjectPaths");
+			this._checkBoxShowFullProjectPaths.Location = new System.Drawing.Point(241, 0);
+			this._checkBoxShowFullProjectPaths.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
+			this._checkBoxShowFullProjectPaths.Name = "_checkBoxShowFullProjectPaths";
+			this._checkBoxShowFullProjectPaths.Size = new System.Drawing.Size(157, 17);
+			this._checkBoxShowFullProjectPaths.TabIndex = 1;
+			this._checkBoxShowFullProjectPaths.Text = "&Show Full Project File Paths";
+			this._checkBoxShowFullProjectPaths.UseVisualStyleBackColor = true;
 			// 
 			// _grid
 			// 
@@ -97,7 +149,7 @@
 			this.locExtender.SetLocalizableToolTip(this._grid, null);
 			this.locExtender.SetLocalizationComment(this._grid, null);
 			this.locExtender.SetLocalizingId(this._grid, "OpenProjectDlg._grid");
-			this._grid.Location = new System.Drawing.Point(0, 19);
+			this._grid.Location = new System.Drawing.Point(0, 23);
 			this._grid.Margin = new System.Windows.Forms.Padding(0, 6, 0, 5);
 			this._grid.MultiSelect = false;
 			this._grid.Name = "_grid";
@@ -111,37 +163,25 @@
 			this._grid.SelectedRowForeColor = System.Drawing.Color.Empty;
 			this._grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this._grid.ShowWaterMarkWhenDirty = false;
-			this._grid.Size = new System.Drawing.Size(398, 147);
-			this._grid.TabIndex = 1;
+			this._grid.Size = new System.Drawing.Size(398, 182);
+			this._grid.StandardTab = true;
+			this._grid.TabIndex = 0;
 			this._grid.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
 			this._grid.VirtualMode = true;
 			this._grid.WaterMark = "!";
 			this._grid.CurrentRowChanged += new System.EventHandler(this.HandleGridCurrentRowChanged);
 			this._grid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.HandleGridCellDoubleClicked);
 			this._grid.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.HandleGridCellFormatting);
+			this._grid.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.HandleGridCellPainting);
 			this._grid.CellToolTipTextNeeded += new System.Windows.Forms.DataGridViewCellToolTipTextNeededEventHandler(this.HandleGridCellToolTipTextNeeded);
 			this._grid.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.HandleGridCellValueNeeded);
 			this._grid.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleGridPainting);
 			this._grid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleGridKeyDown);
 			this._grid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.HandleGridKeyPress);
 			// 
-			// _labelProjectFilesFound
-			// 
-			this._labelProjectFilesFound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this._labelProjectFilesFound.AutoSize = true;
-			this._tableLayoutPanel.SetColumnSpan(this._labelProjectFilesFound, 3);
-			this.locExtender.SetLocalizableToolTip(this._labelProjectFilesFound, null);
-			this.locExtender.SetLocalizationComment(this._labelProjectFilesFound, null);
-			this.locExtender.SetLocalizingId(this._labelProjectFilesFound, "OpenProjectDlg._labelProjectFilesFound");
-			this._labelProjectFilesFound.Location = new System.Drawing.Point(2, 0);
-			this._labelProjectFilesFound.Margin = new System.Windows.Forms.Padding(2, 0, 3, 0);
-			this._labelProjectFilesFound.Name = "_labelProjectFilesFound";
-			this._labelProjectFilesFound.Size = new System.Drawing.Size(393, 13);
-			this._labelProjectFilesFound.TabIndex = 0;
-			this._labelProjectFilesFound.Text = "Projects Found: {0}";
-			// 
 			// _buttonCancel
 			// 
+			this._buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
 			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
@@ -150,13 +190,13 @@
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._buttonCancel.Name = "_buttonCancel";
 			this._buttonCancel.Size = new System.Drawing.Size(75, 26);
-			this._buttonCancel.TabIndex = 5;
+			this._buttonCancel.TabIndex = 4;
 			this._buttonCancel.Text = "Cancel";
 			this._buttonCancel.UseVisualStyleBackColor = true;
 			// 
 			// _buttonOpen
 			// 
-			this._buttonOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this._buttonOpen.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this._buttonOpen.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.locExtender.SetLocalizableToolTip(this._buttonOpen, null);
 			this.locExtender.SetLocalizationComment(this._buttonOpen, null);
@@ -165,7 +205,7 @@
 			this._buttonOpen.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this._buttonOpen.Name = "_buttonOpen";
 			this._buttonOpen.Size = new System.Drawing.Size(75, 26);
-			this._buttonOpen.TabIndex = 4;
+			this._buttonOpen.TabIndex = 3;
 			this._buttonOpen.Text = "Open";
 			this._buttonOpen.UseVisualStyleBackColor = true;
 			// 
@@ -181,7 +221,7 @@
 			this._checkBoxOpenInNewWindow.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this._checkBoxOpenInNewWindow.Name = "_checkBoxOpenInNewWindow";
 			this._checkBoxOpenInNewWindow.Size = new System.Drawing.Size(130, 17);
-			this._checkBoxOpenInNewWindow.TabIndex = 3;
+			this._checkBoxOpenInNewWindow.TabIndex = 2;
 			this._checkBoxOpenInNewWindow.Text = "&Open in New Window";
 			this._checkBoxOpenInNewWindow.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			this._checkBoxOpenInNewWindow.UseVisualStyleBackColor = false;
@@ -195,13 +235,14 @@
 			this._linkSelectAdditionalFolderToScan.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
 			this.locExtender.SetLocalizableToolTip(this._linkSelectAdditionalFolderToScan, null);
 			this.locExtender.SetLocalizationComment(this._linkSelectAdditionalFolderToScan, null);
-			this.locExtender.SetLocalizingId(this._linkSelectAdditionalFolderToScan, "OpenProjectDlg._linkSelectAdditionalFolderToScan.FullText");
-			this._linkSelectAdditionalFolderToScan.Location = new System.Drawing.Point(0, 176);
+			this.locExtender.SetLocalizingId(this._linkSelectAdditionalFolderToScan, "OpenProjectDlg.linkSelectSpecificProject.FullText");
+			this._linkSelectAdditionalFolderToScan.Location = new System.Drawing.Point(0, 215);
 			this._linkSelectAdditionalFolderToScan.Margin = new System.Windows.Forms.Padding(0, 5, 0, 8);
 			this._linkSelectAdditionalFolderToScan.Name = "_linkSelectAdditionalFolderToScan";
-			this._linkSelectAdditionalFolderToScan.Size = new System.Drawing.Size(398, 65);
-			this._linkSelectAdditionalFolderToScan.TabIndex = 2;
-			this._linkSelectAdditionalFolderToScan.Text = resources.GetString("_linkSelectAdditionalFolderToScan.Text");
+			this._linkSelectAdditionalFolderToScan.Size = new System.Drawing.Size(398, 26);
+			this._linkSelectAdditionalFolderToScan.TabIndex = 1;
+			this._linkSelectAdditionalFolderToScan.Text = "If this list does not contain the project you want to open, you may select a spec" +
+    "ific project file.";
 			this._linkSelectAdditionalFolderToScan.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleLinkClick);
 			// 
 			// locExtender
@@ -214,6 +255,7 @@
 			this.dataGridViewTextBoxColumn1.HeaderText = "Project";
 			this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
 			this.dataGridViewTextBoxColumn1.ReadOnly = true;
+			this.dataGridViewTextBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			this.dataGridViewTextBoxColumn1.Width = 150;
 			// 
 			// dataGridViewTextBoxColumn2
@@ -223,6 +265,7 @@
 			this.dataGridViewTextBoxColumn2.HeaderText = "Backup File";
 			this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
 			this.dataGridViewTextBoxColumn2.ReadOnly = true;
+			this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
 			// dataGridViewTextBoxColumn3
 			// 
@@ -230,13 +273,15 @@
 			this.dataGridViewTextBoxColumn3.HeaderText = "Type";
 			this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
 			this.dataGridViewTextBoxColumn3.ReadOnly = true;
-			this.dataGridViewTextBoxColumn3.Width = 56;
+			this.dataGridViewTextBoxColumn3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			this.dataGridViewTextBoxColumn3.Width = 37;
 			// 
 			// _colProject
 			// 
 			this._colProject.HeaderText = "Project";
 			this._colProject.Name = "_colProject";
 			this._colProject.ReadOnly = true;
+			this._colProject.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			this._colProject.Width = 150;
 			// 
 			// _colFile
@@ -246,6 +291,7 @@
 			this._colFile.HeaderText = "Project File";
 			this._colFile.Name = "_colFile";
 			this._colFile.ReadOnly = true;
+			this._colFile.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
 			// _colProjectType
 			// 
@@ -253,7 +299,8 @@
 			this._colProjectType.HeaderText = "Type";
 			this._colProjectType.Name = "_colProjectType";
 			this._colProjectType.ReadOnly = true;
-			this._colProjectType.Width = 56;
+			this._colProjectType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			this._colProjectType.Width = 37;
 			// 
 			// OpenProjectDlg
 			// 
@@ -275,6 +322,8 @@
 			this.Text = "Open Project";
 			this._tableLayoutPanel.ResumeLayout(false);
 			this._tableLayoutPanel.PerformLayout();
+			this._tableLayoutInner.ResumeLayout(false);
+			this._tableLayoutInner.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this._grid)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
@@ -291,11 +340,13 @@
 		private System.Windows.Forms.LinkLabel _linkSelectAdditionalFolderToScan;
 		private System.Windows.Forms.CheckBox _checkBoxOpenInNewWindow;
 		private SilTools.SilGrid _grid;
-		private System.Windows.Forms.DataGridViewTextBoxColumn _colProject;
-		private System.Windows.Forms.DataGridViewTextBoxColumn _colFile;
-		private System.Windows.Forms.DataGridViewTextBoxColumn _colProjectType;
 		private System.Windows.Forms.Button _buttonCancel;
 		private System.Windows.Forms.Button _buttonOpen;
 		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+		private System.Windows.Forms.CheckBox _checkBoxShowFullProjectPaths;
+		private System.Windows.Forms.DataGridViewTextBoxColumn _colProject;
+		private System.Windows.Forms.DataGridViewTextBoxColumn _colFile;
+		private System.Windows.Forms.DataGridViewTextBoxColumn _colProjectType;
+		private System.Windows.Forms.TableLayoutPanel _tableLayoutInner;
 	}
 }

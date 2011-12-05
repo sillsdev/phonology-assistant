@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 using SIL.Pa.Properties;
 using SilTools;
@@ -24,6 +23,7 @@ namespace SIL.Pa.UI.Dialogs
 			_labelProjectFilesFound.Font = FontHelper.UIFont;
 			_linkSelectAdditionalFolderToScan.Font = FontHelper.UIFont;
 			_checkBoxOpenInNewWindow.Font = FontHelper.UIFont;
+			_checkBoxShowFullProjectPaths.Font = FontHelper.UIFont;
 
 			_grid.AutoResizeColumnHeadersHeight();
 			_grid.ColumnHeadersHeight += 4;
@@ -34,21 +34,15 @@ namespace SIL.Pa.UI.Dialogs
 
 			_italicFont = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Italic);
 		
-			var linkText = App.GetString("DialogBoxes.OpenProjectDlg.linkSelectAdditionalFolderToScan.SelectAnotherFolderLinkText",
-				"select another folder");
+			var linkText = App.GetString("DialogBoxes.OpenProjectDlg.linkSelectSpecificProject.LinkText",
+				"select a specific project file");
 
 			_linkSelectAdditionalFolderToScan.Links.Add(
 				_linkSelectAdditionalFolderToScan.Text.IndexOf(linkText, StringComparison.Ordinal),
-				linkText.Length, (Action)LetUserSelectAdditionalFolderToScan);
-
-			linkText = App.GetString("DialogBoxes.OpenProjectDlg.linkSelectAdditionalFolderToScan.ResetScannedFoldersLinkText",
-				"reset the list of scanned folders");
-
-			_linkSelectAdditionalFolderToScan.Links.Add(
-				_linkSelectAdditionalFolderToScan.Text.IndexOf(linkText, StringComparison.Ordinal),
-				linkText.Length, (Action)ResetFoldersToScan);
+				linkText.Length);
 
 			_checkBoxOpenInNewWindow.Checked = Settings.Default.OpenProjectsInNewWindowCheckedValue;
+			_checkBoxShowFullProjectPaths.Checked = Settings.Default.ShowFullProjectFilePathsInOpenDlg;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -56,6 +50,12 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			_viewModel = viewModel;
 			LoadGrid();
+
+			_checkBoxShowFullProjectPaths.CheckedChanged += delegate
+			{
+				Settings.Default.ShowFullProjectFilePathsInOpenDlg = _checkBoxShowFullProjectPaths.Checked;
+				_grid.InvalidateColumn(1);
+			};
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -102,21 +102,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleLinkClick(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			((Action)e.Link.LinkData)();
-		}
-		
-		/// ------------------------------------------------------------------------------------
-		private void LetUserSelectAdditionalFolderToScan()
-		{
-			if (_viewModel.LetUserAddAdditionalFolderToScan(this))
-				LoadGrid();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void ResetFoldersToScan()
-		{
-			if (_viewModel.ResetFoldersToScan())
-				LoadGrid();
+			if (_viewModel.LetUserSelectSpecificProjectFile(this))
+				_buttonOpen.PerformClick();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -151,8 +138,11 @@ namespace SIL.Pa.UI.Dialogs
 			switch (e.ColumnIndex)
 			{
 				case 0: e.Value = _viewModel.GetProjectNameForIndex(e.RowIndex); break;
-				case 1: e.Value = _viewModel.GetProjectFileNameForIndex(e.RowIndex); break;
 				case 2: e.Value = _viewModel.GetProjectDataSourceTypesForIndex(e.RowIndex); break;
+				case 1: e.Value = (Settings.Default.ShowFullProjectFilePathsInOpenDlg ?
+					_viewModel.GetProjectFilePathForIndex(e.RowIndex) :
+					_viewModel.GetProjectFileNameForIndex(e.RowIndex));
+					break;
 			}
 		}
 
@@ -166,8 +156,11 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleGridCellDoubleClicked(object sender, DataGridViewCellEventArgs e)
 		{
-			DialogResult = DialogResult.OK;
-			Close();
+			if (e.RowIndex >= 0)
+			{
+				DialogResult = DialogResult.OK;
+				Close();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -193,6 +186,25 @@ namespace SIL.Pa.UI.Dialogs
 				DialogResult = DialogResult.OK;
 				Close();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleGridCellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+		{
+			if (e.ColumnIndex != 1 || !Settings.Default.ShowFullProjectFilePathsInOpenDlg)
+				return;
+
+			e.Handled = true;
+			var rc = e.CellBounds;
+			var parts = DataGridViewPaintParts.All;
+			parts &= ~DataGridViewPaintParts.ContentForeground;
+			e.Paint(rc, parts);
+
+			var foreColor = ((e.State & DataGridViewElementStates.Selected) == DataGridViewElementStates.Selected ?
+				e.CellStyle.SelectionForeColor : e.CellStyle.ForeColor);
+
+			TextRenderer.DrawText(e.Graphics, e.Value as string, e.CellStyle.Font, rc,
+				foreColor, TextFormatFlags.VerticalCenter | TextFormatFlags.PathEllipsis);
 		}
 	}
 }

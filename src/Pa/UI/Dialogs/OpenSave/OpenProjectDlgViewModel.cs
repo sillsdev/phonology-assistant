@@ -46,12 +46,11 @@ namespace SIL.Pa.UI.Dialogs
 				}
 			}
 
-			if (Settings.Default.NonDefaultFoldersToScanForProjectFiles == null)
-				Settings.Default.NonDefaultFoldersToScanForProjectFiles = new StringCollection();
+			if (Settings.Default.ProjectsNotInDefaultFolderToShowInOpenDlg == null)
+				Settings.Default.ProjectsNotInDefaultFolderToShowInOpenDlg = new StringCollection();
 
-			foreach (var prjFile in Settings.Default.NonDefaultFoldersToScanForProjectFiles.Cast<string>()
-				.SelectMany(fldr => Directory.GetFiles(fldr, "*.pap", SearchOption.AllDirectories))
-				.Where(ShouldAddProjectFileToAvailableList))
+			foreach (var prjFile in Settings.Default.ProjectsNotInDefaultFolderToShowInOpenDlg.Cast<string>()
+				.Where(f => File.Exists(f) && ShouldAddProjectFileToAvailableList(f)))
 			{
 				yield return prjFile;
 			}
@@ -124,37 +123,53 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			int savePrjCount = GetProjectFileCount();
 
-			if (Settings.Default.NonDefaultFoldersToScanForProjectFiles.Count == 0)
+			if (Settings.Default.ProjectsNotInDefaultFolderToShowInOpenDlg.Count == 0)
 				return false;
 
-			Settings.Default.NonDefaultFoldersToScanForProjectFiles.Clear();
+			Settings.Default.ProjectsNotInDefaultFolderToShowInOpenDlg.Clear();
 			RefreshAvailableProjectsList();
 			return (savePrjCount != GetProjectFileCount());
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public bool LetUserAddAdditionalFolderToScan(Form parent)
+		public bool LetUserSelectSpecificProjectFile(Form parent)
 		{
 			try
 			{
-				var description = App.GetString("DialogBoxes.OpenProjectDlg.ChangeFolderBrowserDlg.Description",
-					"Specify a folder to scan for Phonology Assistant project files.");
-				
-				using (var dlg = new FolderBrowserDialog())
+				int filterindex = 0;
+
+				string filter = string.Format(App.kstidFileTypePAProject,
+					Application.ProductName) + "|" + App.kstidFileTypeAllFiles;
+
+				var fmt = App.GetString("DialogBoxes.OpenProjectDlg.SelectSpecificProjectOpenFileDialogText", "Open Project File");
+
+				var initialDir = (Settings.Default.LastFolderForOpenProjectDlg ?? string.Empty);
+				if (!Directory.Exists(initialDir))
+					initialDir = App.ProjectFolder;
+
+				var filenames = App.OpenFileDialog("pap", filter, ref filterindex,
+					string.Format(fmt, Application.ProductName), false, initialDir);
+
+				if (filenames.Length > 0 && File.Exists(filenames[0]))
 				{
-					dlg.ShowNewFolderButton = false;
-					dlg.Description = description;
-
-					if (dlg.ShowDialog(parent) != DialogResult.OK)
-						return false;
-
-					if (!dlg.SelectedPath.Equals(App.ProjectFolder, StringComparison.Ordinal) &&
-						!Settings.Default.NonDefaultFoldersToScanForProjectFiles.Contains(dlg.SelectedPath))
+					var path = Path.GetDirectoryName(filenames[0]);
+					if (!path.Equals(App.ProjectFolder, StringComparison.Ordinal) &&
+						!Settings.Default.ProjectsNotInDefaultFolderToShowInOpenDlg.Contains(filenames[0]))
 					{
-						Settings.Default.NonDefaultFoldersToScanForProjectFiles.Add(dlg.SelectedPath);
-						RefreshAvailableProjectsList();
+						Settings.Default.ProjectsNotInDefaultFolderToShowInOpenDlg.Add(filenames[0]);
+					}
+
+					var prjInfo = PaProjectLite.Create(filenames[0]);
+
+					if (prjInfo != null)
+					{
+						Settings.Default.LastFolderForOpenProjectDlg = path;
+						SelectedProject = prjInfo;
 						return true;
 					}
+
+					App.NotifyUserOfProblem(App.GetString("DialogBoxes.OpenProjectDlg.InvalidProjectFileSelectedMsg",
+						"The file '{0}' is not a valid project file."), filenames[0]);
 				}
 			}
 			catch (Exception e)

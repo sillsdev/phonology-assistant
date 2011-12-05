@@ -1010,7 +1010,7 @@
     <Setting Name="OpenProjectDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="NonDefaultFoldersToScanForProjectFiles" Provider="SilTools.PortableSettingsProvider" Type="System.Collections.Specialized.StringCollection" Scope="User">
+    <Setting Name="ProjectsNotInDefaultFolderToShowInOpenDlg" Provider="SilTools.PortableSettingsProvider" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="OpenProjectDlgGrid" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.GridSettings" Scope="User">
@@ -1021,6 +1021,9 @@
     </Setting>
     <Setting Name="AutoCreateProjectFilesAndFolderOnProjectCreation" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ShowFullProjectFilePathsInOpenDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>
