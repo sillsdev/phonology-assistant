@@ -123,7 +123,7 @@
         <IgnoreDiacritics>false</IgnoreDiacritics>
         <ignoredCharacters>',-,.,|,ˈ,ˌ,‖,‿,-,˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,²,³,¹,˥,˦,˧,˨,˩,̀,́,̂,̄,̋,̌,̏,᷄,᷅,᷈,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ː,:,ˑ,̆,</ignoredCharacters>
       </SearchQuery>
-      <SearchQuery version="3" Name="ExEnvrnmt=WordFinal" Pattern="[C]/*_[#]">
+      <SearchQuery version="3" Name="ExEnvrnmt=WordFinal" Pattern="[C]/*_#">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
