@@ -1,12 +1,10 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
-using SIL.Pa.UI.Dialogs;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -24,7 +22,6 @@ namespace SIL.Pa.UI.Controls
 
 		private const char kEmptyPatternChar = '\u25CA';
 		private readonly Label _insertionLine;
-		private SearchQuery _searchQuery;
 		private SearchOptionsDropDown _searchOptionsDropDown;
 
 		/// ------------------------------------------------------------------------------------
@@ -50,7 +47,7 @@ namespace SIL.Pa.UI.Controls
 			_insertionLine.Bounds = new Rectangle(0, 1, 1, ClientSize.Height - 4);
 			Controls.Add(_insertionLine);
 
-			_searchQuery = new SearchQuery();
+			SearchQuery = new SearchQuery();
 			App.AddMediatorColleague(this);
 		}
 
@@ -89,18 +86,14 @@ namespace SIL.Pa.UI.Controls
 			_searchOptionsDropDown.Disposed -= HandleSearchOptionsDropDownDisposed;
 			_searchOptionsDropDown = null;
 		}
-	
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the current search query. Use SetSearchQuery to set the current search query.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public SearchQuery SearchQuery
-		{
-			get { return _searchQuery; }
-		}
+		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public SearchQuery SearchQuery { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -271,7 +264,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void SetSearchQuery(SearchQuery query, bool allowTextChangedEvent)
 		{
-			if (query == _searchQuery || (query != null && query.IsPatternRegExpression))
+			if (query == SearchQuery || (query != null && query.IsPatternRegExpression))
 				return;
 
 			if (!allowTextChangedEvent)
@@ -282,7 +275,7 @@ namespace SIL.Pa.UI.Controls
 			else
 			{
 				Text = (string.IsNullOrEmpty(query.Pattern) ? EmptyPattern : query.Pattern);
-				_searchQuery = query.Clone();
+				SearchQuery = query.Clone();
 			}
 
 			if (!allowTextChangedEvent)
@@ -303,7 +296,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			TextChanged -= HandlePatternTextBoxTextChanged;
 			Text = EmptyPattern;
-			_searchQuery = new SearchQuery();
+			SearchQuery = new SearchQuery();
 			SearchQueryCategory = null;
 			TextChanged += HandlePatternTextBoxTextChanged;
 		}
@@ -539,7 +532,7 @@ namespace SIL.Pa.UI.Controls
 			if (!OwningView.ActiveView)
 				return false;
 
-			_searchOptionsDropDown.SearchQuery = _searchQuery;
+			_searchOptionsDropDown.SearchQuery = SearchQuery;
 			return true;
 		}
 
@@ -552,7 +545,7 @@ namespace SIL.Pa.UI.Controls
 
 			if (_searchOptionsDropDown.OptionsChanged)
 			{
-				_searchQuery = _searchOptionsDropDown.SearchQuery;
+				SearchQuery = _searchOptionsDropDown.SearchQuery;
 
 				if (SearchOptionsChanged != null)
 					SearchOptionsChanged(this, EventArgs.Empty);
@@ -869,9 +862,9 @@ namespace SIL.Pa.UI.Controls
 			//        txtPattern.SelectionStart = selstart;
 			//}
 
-			if (txt._searchQuery.Pattern != txt.Text)
+			if (txt.SearchQuery.Pattern != txt.Text)
 			{
-				txt._searchQuery.Pattern = txt.Text;
+				txt.SearchQuery.Pattern = txt.Text;
 				if (txt.PatternTextChanged != null)
 					txt.PatternTextChanged(txt, EventArgs.Empty);
 			}

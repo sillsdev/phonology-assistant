@@ -975,6 +975,7 @@ namespace SIL.Pa.UI.Controls
 			if (query == null)
 				return null;
 
+			query = CheckQuery(query);
 			m_srchRsltVwHost.BeforeSearchPerformed(query, null);
 			App.InitializeProgressBar(App.kstidQuerySearchingMsg);
 			var resultCache = App.Search(query);
@@ -988,6 +989,31 @@ namespace SIL.Pa.UI.Controls
 			
 			App.UninitializeProgressBar();
 			return resultCache;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This method will check if the query's name is the same as one of the saved queries
+		/// but it's pattern is different. If so, the assumption is the user edited the pattern
+		/// after having viewed the results for a saved pattern. Editing a pattern in that
+		/// case makes the pattern a different one from the saved one so we need to force
+		/// that here. (cf. PA-1130)
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private SearchQuery CheckQuery(SearchQuery query)
+		{
+			if (!string.IsNullOrEmpty(query.Name) && App.Project.SearchQueryGroups
+				.SelectMany(grp => grp.Queries)
+				.Any(q => q.Name.Equals(query.Name, StringComparison.Ordinal) &&
+					!q.Pattern.Equals(query.Pattern, StringComparison.Ordinal)))
+			{
+				var newQuery = query.Clone();
+				newQuery.Name = null;
+				newQuery.Pattern = query.Pattern;
+				return newQuery;
+			}
+
+			return query;
 		}
 
 		/// ------------------------------------------------------------------------------------

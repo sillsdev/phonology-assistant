@@ -635,10 +635,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnSavePattern(object args)
 		{
 			if (!m_activeView)
@@ -659,8 +655,7 @@ namespace SIL.Pa.UI.Views
 					m_rsltVwMngr.CurrentTabGroup.CurrentTab.Clear();
 
 				ptrnTextBox.SetSearchQuery(tvSavedPatterns.CurrentQuery);
-				m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery,
-					SearchResultLocation.CurrentTabGroup);
+				m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery, SearchResultLocation.CurrentTabGroup);
 
 				return true;
 			}
@@ -978,8 +973,7 @@ namespace SIL.Pa.UI.Views
 					m_slidingPanel.Close(true);
 
 				ptrnTextBox.SetSearchQuery(tvSavedPatterns.CurrentQuery);
-				m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery,
-					SearchResultLocation.CurrentTabGroup);
+				m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery, SearchResultLocation.CurrentTabGroup);
 			}
 		}
 
@@ -1090,12 +1084,11 @@ namespace SIL.Pa.UI.Views
 			if (m_slidingPanel.Visible)
 				m_slidingPanel.Close(true);
 
-			SearchQuery query = lstRecentPatterns.SelectedItem as SearchQuery;
+			var query = lstRecentPatterns.SelectedItem as SearchQuery;
 			if (query != null)
 			{
 				ptrnTextBox.SetSearchQuery(query);
-				m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery,
-					SearchResultLocation.CurrentTabGroup);
+				m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery, SearchResultLocation.CurrentTabGroup);
 			}
 		}
 
@@ -1321,21 +1314,16 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Occurs when a search query is dragged and dropped on one of the tab groups
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnPatternDroppedOnTabGroup(object args)
 		{
-			SearchQuery query = args as SearchQuery;
+			var query = args as SearchQuery;
 			if (query != null)
 			{
 				if (m_slidingPanel.Visible)
 					m_slidingPanel.Close(true);
 
 				ptrnTextBox.SetSearchQuery(query);
-				m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery,
-					SearchResultLocation.CurrentTabGroup);
+				m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery, SearchResultLocation.CurrentTabGroup);
 			}
 
 			return true;
@@ -1348,7 +1336,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public bool OnCopyToCurrentPattern(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !m_activeView)
 				return false;
 
@@ -1367,7 +1355,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public bool OnUpdateCopyToCurrentPattern(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !m_activeView)
 				return false;
 
@@ -1384,7 +1372,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnRemovePattern(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !m_activeView || !itemProps.Name.EndsWith("-FromRecentList"))
 				return false;
 
@@ -1395,7 +1383,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnClearRecentPatternList(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !m_activeView || !itemProps.Name.EndsWith("-FromRecentList"))
 				return false;
 
@@ -1406,7 +1394,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateRemovePattern(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !m_activeView)
 				return false;
 
