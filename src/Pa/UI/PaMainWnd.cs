@@ -272,8 +272,9 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		private void LoadViewTabs()
 		{
-			if (vwTabGroup.Visible)
+			if (vwTabGroup.Tabs.Count > 0)
 			{
+				vwTabGroup.Visible = true;
 				if (vwTabGroup.CurrentTab != null)
 					vwTabGroup.CurrentTab.RefreshView();
 
@@ -728,6 +729,36 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected bool OnCloseProject(object args)
+		{
+			if (_project == null)
+				return true;
+
+			_project.EnsureSortOptionsSaved();
+			_project.Save();
+			vwTabGroup.CloseAllViews();
+			vwTabGroup.Visible = false;
+			_project.Dispose();
+
+			App.Project = _project = null;
+			Settings.Default.LastProjectLoaded = null;
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateCloseProject(object args)
+		{
+			var itemProps = args as TMItemProperties;
+			if (itemProps == null)
+				return false;
+
+			itemProps.Visible = true;
+			itemProps.Enabled = (_project != null);
+			itemProps.Update = true;
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected bool OnOpenProject(object args)
 		{
 			var viewModel = new OpenProjectDlgViewModel();
@@ -755,26 +786,6 @@ namespace SIL.Pa.UI
 					}
 				}
 			}
-
-			//int filterindex = 0;
-
-			//string filter = string.Format(App.kstidFileTypePAProject,
-			//    Application.ProductName) + "|" + App.kstidFileTypeAllFiles;
-
-			//var fmt = App.GetString("ProjectOpenFileDialogText", "Open {0} Project File");
-			
-			//var initialDir = (Settings.Default.LastFolderForOpenProjectDlg ?? string.Empty);
-			//if (!Directory.Exists(initialDir))
-			//    initialDir = App.ProjectFolder;
-
-			//string[] filenames = App.OpenFileDialog("pap", filter, ref filterindex,
-			//    string.Format(fmt, Application.ProductName), false, initialDir);
-
-			//if (filenames.Length > 0 && File.Exists(filenames[0]))
-			//{
-			//    Settings.Default.LastFolderForOpenProjectDlg = Path.GetDirectoryName(filenames[0]);
-			//    LoadProject(filenames[0]);
-			//}
 
 			return true;
 		}

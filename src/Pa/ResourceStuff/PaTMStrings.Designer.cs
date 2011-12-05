@@ -466,6 +466,15 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &amp;Close Project.
+        /// </summary>
+        public static string kstidCloseText {
+            get {
+                return ResourceManager.GetString("kstidCloseText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to C&amp;ollapse All Groups.
         /// </summary>
         public static string kstidCollapseAllGroupsText {

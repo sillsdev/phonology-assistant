@@ -123,7 +123,8 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdRecentlyUsedList"/>
 		<command id="CmdExit" message="FileExit"/>
 		<command id="CmdNew" message="NewProject" shortcutkey="Ctrl+N"/>
-		<command id="CmdOpen" message="OpenProject" shortcutkey="Ctrl+O"/>
+    <command id="CmdOpen" message="OpenProject" shortcutkey="Ctrl+O"/>
+    <command id="CmdClose" message="CloseProject" />
 		<command id="CmdProjectSettings" message="ProjectSettings" shortcutkey="Ctrl+R"/>
 		<command id="CmdBackupRestore" />
     <command id="CmdBackupProject" message="BackupProject" />
@@ -201,7 +202,8 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<!-- *************** -->
 		<item name="mnuFile" commandid="CmdFile">
 			<item name="mnuFileNew" commandid="CmdNew"/>
-			<item name="mnuFileOpen" commandid="CmdOpen"/>
+      <item name="mnuFileOpen" commandid="CmdOpen"/>
+      <item name="mnuFileClose" commandid="CmdClose"/>
 			<item name="mnuProjectSettings" commandid="CmdProjectSettings" begingroup="true"/>
 			<item name="mnuBackupRestore" commandid="CmdBackupRestore">
         <item name="mnuFileBackup" commandid="CmdBackupProject"/>

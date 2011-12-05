@@ -953,4 +953,7 @@
   <data name="kstidRestoreProjectText" xml:space="preserve">
     <value>&amp;Restore...</value>
   </data>
+  <data name="kstidCloseText" xml:space="preserve">
+    <value>&amp;Close Project</value>
+  </data>
 </root>
