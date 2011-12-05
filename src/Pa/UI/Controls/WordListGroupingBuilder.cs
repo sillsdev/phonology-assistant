@@ -471,9 +471,9 @@ namespace SIL.Pa.UI.Controls
 			// Insert the first group heading row and insert a hierarchical column for the
 			// + and - glpyhs.
 			AddGroupHeadingRow(0, grpsLastChild, fmtHeading, heading, m_headingFont);
-			m_grid.m_suspendSavingColumnChanges = true;
+			m_grid._suspendSavingColumnChanges = true;
 			m_grid.Columns.Insert(0, new SilHierarchicalGridColumn());
-			m_grid.m_suspendSavingColumnChanges = false;
+			m_grid._suspendSavingColumnChanges = false;
 
 			// If all the groups were not collapsed, force the row to be expanded.
 			// Otherwise the expanded state for rows formly collapsed will be all

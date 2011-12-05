@@ -1298,8 +1298,9 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected bool OnDataSourcesModified(object args)
+		protected override bool OnDataSourcesModified(object args)
 		{
+			base.OnDataSourcesModified(args);
 			ptrnBldrComponent.RefreshComponents();
 			return false;
 		}

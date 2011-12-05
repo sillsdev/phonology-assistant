@@ -32,6 +32,15 @@ namespace SIL.Pa.UI.Views
 
 			return false;
 		}
+		
+		/// ------------------------------------------------------------------------------------
+		protected virtual bool OnDataSourcesModified(object args)
+		{
+			if (args is PaProject)
+				Project = args as PaProject;
+
+			return false;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(System.EventArgs e)
