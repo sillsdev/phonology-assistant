@@ -89,7 +89,12 @@ namespace SIL.Pa.Model.Migration
 		protected void UpdateProjectFileToLatestVersion()
 		{
 			var root = XElement.Load(_projectFilePath);
-			root.Attribute("version").SetValue(PaProject.kCurrVersion);
+
+			if (root.Attribute("version") == null)
+				root.Add(new XAttribute("version", PaProject.kCurrVersion));
+			else
+				root.Attribute("version").SetValue(PaProject.kCurrVersion);
+			
 			root.Save(_projectFilePath);
 		}
 
