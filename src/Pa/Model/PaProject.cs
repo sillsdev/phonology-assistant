@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using System.Xml.Linq;
@@ -48,6 +47,7 @@ namespace SIL.Pa.Model
 			DistinctiveFeatureSet = BFeatureCache.DefaultFeatureSetName;
 			App.BFeatureCache = BFeatureCache = new BFeatureCache();
 			CVPatternInfoList = new List<CVPatternInfo>();
+			GridLayoutInfo = new GridLayoutInfo(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1087,19 +1087,9 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public IEnumerable<string> LastNewlyMappedFields { get; set; }
 
-		#endregion
-
-		#region Grid and Record View layout properties
 		/// ------------------------------------------------------------------------------------
-		public GridLayoutInfo GridLayoutInfo
-		{
-			get	{return (_gridLayoutInfo ?? new GridLayoutInfo(this));}
-			set
-			{
-				_gridLayoutInfo = (value ?? new GridLayoutInfo(this));
-				_gridLayoutInfo.m_owningProject = this;
-			}
-		}
+		[XmlIgnore]
+		public GridLayoutInfo GridLayoutInfo { get; private set; }
 
 		#endregion
 
@@ -1120,193 +1110,4 @@ namespace SIL.Pa.Model
 		
 		#endregion
 	}
-
-	#region GridLayoutInfo Class
-	/// ----------------------------------------------------------------------------------------
-	public class GridLayoutInfo
-	{
-		public DataGridViewCellBorderStyle GridLines = DataGridViewCellBorderStyle.Single;
-		public int ColHeaderHeight = -1;
-		public bool SaveReorderedCols = true;
-		public bool SaveAdjustedColHeaderHeight = true;
-		public bool SaveAdjustedColWidths = true;
-		public bool AutoAdjustPhoneticCol = true;
-		public int AutoAjustedMaxWidth = 200;
-		internal PaProject m_owningProject;
-
-		/// ------------------------------------------------------------------------------------
-		public GridLayoutInfo()
-		{
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public GridLayoutInfo(PaProject owningProj)
-		{
-			m_owningProject = owningProj;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes the specified grid with values from the save layout information.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Load(DataGridView grid)
-		{
-			if (grid == null || grid.Columns.Count == 0 || m_owningProject == null)
-				return;
-
-			SilHierarchicalGridColumn.ShowHierarchicalColumns(grid, false, true, false);
-			grid.CellBorderStyle = GridLines;
-			
-			// Set the column properties to the saved values.
-			foreach (var col in grid.Columns.Cast<DataGridViewColumn>())
-			{
-				var field = m_owningProject.GetFieldForName(col.Name);
-				if (field == null)
-					continue;
-
-				if (field.DisplayIndexInGrid < 0)
-					col.Visible = false;
-				else
-				{
-					col.Visible = field.VisibleInGrid;
-					col.DisplayIndex =
-						(field.DisplayIndexInGrid < grid.Columns.Count ?
-						field.DisplayIndexInGrid : grid.Columns.Count - 1);
-				}
-			}
-
-			SilHierarchicalGridColumn.ShowHierarchicalColumns(grid, true, false, true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Saves some of the specified grid's properties.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Save(DataGridView grid)
-		{
-			if (grid == null || grid.Columns.Count == 0)
-				return;
-
-			GridLines = grid.CellBorderStyle;
-
-			if (SaveAdjustedColHeaderHeight)
-				ColHeaderHeight = grid.ColumnHeadersHeight;
-
-			// Save the list of columns sorted by display index.
-			var displayIndexes = new SortedList<int, PaField>();
-
-			// Save the specified grid's column properties.
-			foreach (var col in grid.Columns.Cast<DataGridViewColumn>())
-			{
-				var field = m_owningProject.GetFieldForName(col.Name);
-				if (field != null)
-				{
-					if (SaveAdjustedColWidths)
-						field.WidthInGrid = col.Width;
-
-					if (SaveReorderedCols)
-						displayIndexes[col.DisplayIndex] = field;
-				}
-			}
-
-			if (displayIndexes.Count == 0)
-				return;
-
-			// The display index order saved with the fields should begin with zero, but
-			// since the grid may have some SilHerarchicalColumns showing, the first field's
-			// display index may be greater than 1. Therefore, we adjust for that by setting
-			// the display indexes in sequence beginning from zero.
-			int i = 0;
-			foreach (var field in displayIndexes.Values)
-				field.DisplayIndexInGrid = i++;
-		}
-	}
-
-	#endregion
-
-	#region PaProjectLite class
-	/// ----------------------------------------------------------------------------------------
-	public class PaProjectLite
-	{
-		public string Name { get; private set; }
-		public string FilePath { get; private set; }
-		public string Version { get; private set; }
-		public string DataSourceTypes { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		public static PaProjectLite Create(string prjFile)
-		{
-			try
-			{
-				var root = XElement.Load(prjFile);
-				if (root.Name.LocalName != "PaProject")
-					return null;
-
-				var prjInfo = new PaProjectLite
-				{
-					FilePath = prjFile, 
-					Version = (root.Attribute("version") == null ? "3.0.1" : root.Attribute("version").Value),
-				};
-
-				prjInfo.Name = GetProjectName(root);
-				if (prjInfo.Name == null)
-					return null;
-
-				prjInfo.DataSourceTypes = GetDataSourceTypes(root);
-				return prjInfo;
-			}
-			catch
-			{
-				return null;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private static string GetProjectName(XElement root)
-		{
-			if (root.Element("name") != null)
-				return root.Element("name").Value;
-
-			return (root.Element("ProjectName") != null ?
-				root.Element("ProjectName").Value : null);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private static string GetDataSourceTypes(XElement root)
-		{
-			var dsTypes = root.Element("DataSources").Elements("DataSource")
-				.Where(e => e.Element("Type") != null)
-				.Select(e => e.Element("Type").Value)
-				.Distinct(StringComparer.Ordinal).ToArray();
-
-			if (dsTypes.Length == 0)
-			{
-				dsTypes = root.Element("DataSources").Elements("DataSource")
-					.Where(e => e.Element("DataSourceType") != null)
-					.Select(e => e.Element("DataSourceType").Value)
-					.Distinct(StringComparer.Ordinal).ToArray();
-			}
-
-			if (dsTypes.Length == 0)
-				return DataSourceType.Unknown.ToString();
-
-			var bldr = new StringBuilder();
-
-			foreach (var type in dsTypes)
-				bldr.AppendFormat("{0}, ", type);
-
-			bldr.Length -= 2;
-			return bldr.ToString();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public override string ToString()
-		{
-			return Name;
-		}
-	}
-
-	#endregion
 }

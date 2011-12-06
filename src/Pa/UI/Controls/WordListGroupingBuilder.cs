@@ -1,5 +1,7 @@
 using System;
 using System.Drawing;
+using System.Linq;
+using System.Text;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
@@ -17,10 +19,6 @@ namespace SIL.Pa.UI.Controls
 		private readonly PaWordListGrid m_grid;
 		private readonly WordListCache m_cache;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public WordListGroupingBuilder(PaWordListGrid grid)
 		{
@@ -41,7 +39,7 @@ namespace SIL.Pa.UI.Controls
 			if (grid != null)
 			{
 				Utils.SetWindowRedraw(grid, false, false);
-				WordListGroupingBuilder builder = new WordListGroupingBuilder(grid);
+				var builder = new WordListGroupingBuilder(grid);
 				builder.InternalGroup();
 				Utils.SetWindowRedraw(grid, true, true);
 				grid.Invalidate();
@@ -84,7 +82,7 @@ namespace SIL.Pa.UI.Controls
 					((PaCacheGridRow)m_grid.Rows[i]).ParentRow = null;
 				else if (m_grid.Rows[i] is SilHierarchicalGridRow)
 				{
-					SilHierarchicalGridRow row = m_grid.Rows[i] as SilHierarchicalGridRow;
+					var row = m_grid.Rows[i] as SilHierarchicalGridRow;
 					m_grid.Rows.RemoveAt(i);
 					row.Dispose();
 				}
@@ -95,8 +93,8 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (m_grid.Columns[i] is SilHierarchicalGridColumn)
 				{
-					SilHierarchicalGridColumn col = m_grid.Columns[i] as SilHierarchicalGridColumn;
-					m_grid.Columns.RemoveAt(i);
+					var col = m_grid.Columns[i] as SilHierarchicalGridColumn;
+					m_grid.Columns.Remove(col);
 					col.Dispose();
 				}
 			}
@@ -108,10 +106,6 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void InternalGroup()
 		{
@@ -205,14 +199,14 @@ namespace SIL.Pa.UI.Controls
 			if (string.IsNullOrEmpty(fieldName))
 				return;
 
-			string fmtHeading = GetHeadingFormatForGroupingByPhonetic();
+			var fmtHeading = GetHeadingFormatForGroupingByPhonetic();
 			int lastChild = m_cache.Count - 1;
-			string prevFldValue = (part == 0 ? m_cache[lastChild].EnvironmentBefore :
+			var prevFldValue = (part == 0 ? m_cache[lastChild].EnvironmentBefore :
 				part == 1 ? m_cache[lastChild].SearchItem : m_cache[lastChild].EnvironmentAfter);
 
 			for (int i = m_cache.Count - 1; i >= 0; i--)
 			{
-				string currFldValue = (part == 0 ? m_cache[i].EnvironmentBefore :
+				var currFldValue = (part == 0 ? m_cache[i].EnvironmentBefore :
 					part == 1 ? m_cache[i].SearchItem : m_cache[i].EnvironmentAfter);
 
 				if (prevFldValue != currFldValue)
@@ -246,7 +240,7 @@ namespace SIL.Pa.UI.Controls
 			string fmtHeading = GetHeadingFormatForGroupingByPhonetic();
 			
 			int lastChild = m_cache.Count - 1;
-			WordListCacheEntry prevEntry = m_cache[lastChild];
+			var prevEntry = m_cache[lastChild];
 			string heading;
 
 			for (int i = m_cache.Count - 1; i >= 0; i--)
@@ -269,10 +263,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private static string CompareEnvironments(WordListCacheEntry prevEntry,
 			WordListCacheEntry currEntry, bool matchBefore, bool rightToLeft,
 			int numberPhonesToMatch)
@@ -280,8 +270,8 @@ namespace SIL.Pa.UI.Controls
 			int x, y;
 			int endP, endC;
 			int inc = (rightToLeft ? -1 : 1);
-			string[] phonesP = prevEntry.Phones;
-			string[] phonesC = currEntry.Phones;
+			var phonesP = prevEntry.Phones;
+			var phonesC = currEntry.Phones;
 
 			if (matchBefore)
 			{
@@ -353,8 +343,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private string GetHeadingFormatForGroupingByPhonetic()
 		{
-			string fmtHeading = "{0}";
-			string pattern = m_cache.SearchQuery.Pattern;
+			var fmtHeading = "{0}";
+			var pattern = m_cache.SearchQuery.Pattern;
 			pattern = pattern.Replace("{", "{{");
 			pattern = pattern.Replace("}", "}}");
 
@@ -365,7 +355,7 @@ namespace SIL.Pa.UI.Controls
 			}
 			else
 			{
-				string[] ptrnParts = pattern.Split("/_".ToCharArray(), 3);
+				var ptrnParts = pattern.Split(new[] {'/', '_' }, 3);
 				if (ptrnParts.Length == 3)
 				{
 					fmtHeading = ptrnParts[0] + "/" + (m_grid.SortOptions.AdvSortOrder[0] == 0 ?
@@ -376,10 +366,6 @@ namespace SIL.Pa.UI.Controls
 			return fmtHeading;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static string GetHeadingTextFromEntry(WordListCacheEntry entry, bool matchBefore,
 			bool rightToLeft, int numberPhonesToMatch)
@@ -413,7 +399,7 @@ namespace SIL.Pa.UI.Controls
 					entry.SearchItemOffset + entry.SearchItemLength);
 			}
 
-			System.Text.StringBuilder heading = new System.Text.StringBuilder();
+			var heading = new StringBuilder();
 
 			for (int i = start; phonesToInclude > 0; i++, phonesToInclude--)
 				heading.Append(entry.Phones[i]);
@@ -436,25 +422,21 @@ namespace SIL.Pa.UI.Controls
 
 			for (int i = m_cache.Count - 1; i >= 0; i--)
 			{
-				if (prevGroup != m_cache[i].CIEGroupId)
-				{
-					string cieGroupText = null;
-					if (m_cache.CIEGroupTexts != null)
-						m_cache.CIEGroupTexts.TryGetValue(m_cache[i + 1].CIEGroupId, out cieGroupText);
+				if (prevGroup == m_cache[i].CIEGroupId)
+					continue;
+				
+				string cieGroupText = null;
+				if (m_cache.CIEGroupTexts != null)
+					m_cache.CIEGroupTexts.TryGetValue(m_cache[i + 1].CIEGroupId, out cieGroupText);
 
-					AddGroupHeadingRow(i + 1, lastChild, null, cieGroupText, m_headingFont);
-					prevGroup = m_cache[i].CIEGroupId;
-					lastChild = i;
-				}
+				AddGroupHeadingRow(i + 1, lastChild, null, cieGroupText, m_headingFont);
+				prevGroup = m_cache[i].CIEGroupId;
+				lastChild = i;
 			}
 
 			FinishGrouping(CIEBuilder.GetCIEPattern(m_cache[0], m_grid.CIEOptions), lastChild);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void FinishGrouping(string heading, int grpsLastChild)
 		{
@@ -462,48 +444,34 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void FinishGrouping(string fmtHeading, string heading, int grpsLastChild)
 		{
 			// Insert the first group heading row and insert a hierarchical column for the
 			// + and - glpyhs.
 			AddGroupHeadingRow(0, grpsLastChild, fmtHeading, heading, m_headingFont);
-			m_grid._suspendSavingColumnChanges = true;
 			m_grid.Columns.Insert(0, new SilHierarchicalGridColumn());
-			m_grid._suspendSavingColumnChanges = false;
 
 			// If all the groups were not collapsed, force the row to be expanded.
 			// Otherwise the expanded state for rows formly collapsed will be all
 			// messed up.
 			bool expandGroups = !m_grid.AllGroupsCollapsed;
 			
-			foreach (System.Windows.Forms.DataGridViewRow row in m_grid.Rows)
+			foreach (var shgrow in m_grid.Rows.OfType<SilHierarchicalGridRow>())
 			{
-				SilHierarchicalGridRow shgrow = row as SilHierarchicalGridRow;
-				if (shgrow != null)
-				{
-					// For some reason, on a Windows Vista machine, this should be called
-					// for each hierarchical row *after* all hierarchical rows are added
-					// to a grid, rather than as the rows are being added. That means this
-					// should not be called in the row's constructor or clone event. When
-					// it is, sometimes (and it appears to be random) the a hand-full of
-					// hierarchical rows never get the grid's RowPostPaint event. This
-					// fixes PA-584.
-					shgrow.SubscribeToOwningGridEvents();
+				// For some reason, on a Windows Vista machine, this should be called
+				// for each hierarchical row *after* all hierarchical rows are added
+				// to a grid, rather than as the rows are being added. That means this
+				// should not be called in the row's constructor or clone event. When
+				// it is, sometimes (and it appears to be random) a hand-full of
+				// hierarchical rows never get the grid's RowPostPaint event. This
+				// fixes PA-584.
+				shgrow.SubscribeToOwningGridEvents();
 					
-					if (expandGroups)
-						shgrow.SetExpandedState(true, true, false);
-				}
+				if (expandGroups)
+					shgrow.SetExpandedState(true, true, false);
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void AddGroupHeadingRow(int insertIndex, int lastChildInGroup,
 			string fmtHeading, string heading, Font fntHeading)
@@ -520,7 +488,7 @@ namespace SIL.Pa.UI.Controls
 					lastChildInGroup));
 			}
 
-			SilHierarchicalGridRow shgrow = m_grid.Rows[insertIndex] as SilHierarchicalGridRow;
+			var shgrow = m_grid.Rows[insertIndex] as SilHierarchicalGridRow;
 			shgrow.ExpandedStateChanged += m_grid.GroupExpandedChangedHandler;
 
 			if (m_grid.AllGroupsCollapsed)

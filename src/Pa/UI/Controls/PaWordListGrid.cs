@@ -37,7 +37,6 @@ namespace SIL.Pa.UI.Controls
 		private string _audioFileColName;
 		private WordCacheEntry _currPaintingCellEntry;
 		private bool _currPaintingCellSelected;
-		internal bool _suspendSavingColumnChanges;
 		private int _defaultRowHeight;
 		private Dictionary<int, int> _customRowHeights;
 		private bool _paintWaterMark;
@@ -149,11 +148,10 @@ namespace SIL.Pa.UI.Controls
 
 			if (App.TMAdapter != null)
 			{
+				App.TMAdapter.SetContextMenuForControl(this, "cmnuWordListGrid");
 				var itemProps = App.TMAdapter.GetItemProperties("mnuStopPlayback");
 				if (itemProps != null)
 					_stopPlaybackKey = itemProps.ShortcutKey;
-
-				App.TMAdapter.SetContextMenuForControl(this, "cmnuWordListGrid");
 			}
 		}
 
@@ -165,13 +163,10 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected virtual void BuildColumns()
 		{
-			_suspendSavingColumnChanges = true;
-
 			foreach (var field in App.Project.GetMappedFields().Where(f => f.DisplayIndexInGrid >= 0))
 				AddNewColumn(field);
 
 			RefreshColumnFonts(false);
-			_suspendSavingColumnChanges = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -258,6 +253,12 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (disposing)
 			{
+				try
+				{
+					App.Project.GridLayoutInfo.Save(this);
+				}
+				catch { }
+
 				if (GroupHeadingFont != null)
 					GroupHeadingFont.Dispose();
 
@@ -285,14 +286,10 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void LoadSettings()
 		{
-			_suspendSavingColumnChanges = true;
-
 			if (App.Project.GridLayoutInfo.ColHeaderHeight < 10)
 				AutoResizeColumnHeadersHeight();
 			else
 				ColumnHeadersHeight = App.Project.GridLayoutInfo.ColHeaderHeight;
-
-			_suspendSavingColumnChanges = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -302,16 +299,6 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void SaveSettings()
 		{
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void SaveGridChange()
-		{
-			if (!_suspendSavingColumnChanges)
-			{
-				App.Project.GridLayoutInfo.Save(this);
-				App.Project.Save();
-			}
 		}
 
 		#endregion
@@ -460,7 +447,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnGroupByField(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !Focused ||
 				!App.IsViewOrFormActive(OwningViewType, FindForm()))
 			{
@@ -1018,10 +1005,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Shows the phonetic sort popup at the bottom left of the phonetic column header.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual void ShowPhoneticSortOptionsPopup()
 		{
 			if (!Focused)
@@ -1037,38 +1020,12 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnColumnDisplayIndexChanged(DataGridViewColumnEventArgs e)
 		{
 			base.OnColumnDisplayIndexChanged(e);
-			SaveGridChange();
+
 			// Force users to restart Find when moving column positions
 			FindInfo.CanFindAgain = false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnColumnWidthChanged(DataGridViewColumnEventArgs e)
-		{
-			base.OnColumnWidthChanged(e);
-			SaveGridChange();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnColumnHeadersHeightChanged(EventArgs e)
-		{
-			base.OnColumnHeadersHeightChanged(e);
-			SaveGridChange();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1441,10 +1398,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		void m_cellInfoPopup_Paint(object sender, PaintEventArgs e)
 		{
 			if (_cellInfoPopup.CacheEntry == null)
@@ -1550,10 +1503,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void ClearIndicatorHotspot(int row, int col)
 		{
 			if (s_showTopRightHotState || s_showBottomRightHotState)
@@ -1564,10 +1513,6 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		void PopupsCommandLink_Click(object sender, EventArgs e)
 		{
@@ -2147,17 +2092,14 @@ namespace SIL.Pa.UI.Controls
 			Point pt2 = new Point(rc.Right - 1, rc.Y + 6);
 			Point ptCorner = new Point(rc.Right - 1, rc.Top);
 
-			using (LinearGradientBrush br =
-				new LinearGradientBrush(pt1, pt2, Color.Red, Color.DarkRed))
-			{
+			using (var br = new LinearGradientBrush(pt1, pt2, Color.Red, Color.DarkRed))
 				g.FillPolygon(br, new[] { pt1, pt2, ptCorner });
-			}
 
 			if (s_showTopRightHotState)
 			{
 				pt2.Y += 9;
 				pt1.X -= 10;
-				using (SolidBrush sbr = new SolidBrush(Color.FromArgb(100, Color.DarkRed)))
+				using (var sbr = new SolidBrush(Color.FromArgb(100, Color.DarkRed)))
 					g.FillPolygon(sbr, new[] { pt1, pt2, ptCorner });
 			}
 		}
@@ -2169,17 +2111,14 @@ namespace SIL.Pa.UI.Controls
 			Point pt2 = new Point(rc.Right - 1, rc.Bottom - 8);
 			Point ptCorner = new Point(rc.Right - 1, rc.Bottom - 1);
 
-			using (LinearGradientBrush br =
-				new LinearGradientBrush(pt1, pt2, Color.LightGreen, Color.DarkGreen))
-			{
+			using (var br = new LinearGradientBrush(pt1, pt2, Color.LightGreen, Color.DarkGreen))
 				g.FillPolygon(br, new[] { pt1, pt2, ptCorner });
-			}
 
 			if (s_showBottomRightHotState)
 			{
 				pt2.Y -= 10;
 				pt1.X -= 10;
-				using (SolidBrush sbr = new SolidBrush(Color.FromArgb(100, Color.DarkGreen)))
+				using (var sbr = new SolidBrush(Color.FromArgb(100, Color.DarkGreen)))
 					g.FillPolygon(sbr, new[] { pt1, pt2, ptCorner });
 			}
 		}
@@ -2292,14 +2231,11 @@ namespace SIL.Pa.UI.Controls
 				_backupCache = null;
 				_cache.Sort(_sortOptions);
 				RefreshRows(true);
+				CIEOptions = null;
 				App.MsgMediator.SendMessage("AfterWordListUnGroupingByCIE", this);
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void ManageNoCIEResultsMessage(bool show)
 		{
@@ -2676,8 +2612,6 @@ namespace SIL.Pa.UI.Controls
 			var project = args as PaProject;
 			var mappedFields = project.GetMappedFields().ToList();
 
-			_suspendSavingColumnChanges = true;
-
 			// Hide the first column (collapse/expand group) so it won't mess up
 			// the calculations for the other columns
 			if (IsGroupedByField)
@@ -2754,8 +2688,6 @@ namespace SIL.Pa.UI.Controls
 				Columns[0].Visible = true;
 			}
 
-			_suspendSavingColumnChanges = false;
-
 			if (CurrentRow != null)
 				InvalidateRow(CurrentRow.Index);
 
@@ -2792,14 +2724,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool OnWordListOptionsChanged(object args)
 		{
-			// Calling Load on the GridLayoutInfo will fire multiple calls to
-			// OnColumnDisplayIndexChanged since the load updates all the column display
-			// indexes. That should be prevented here since it will cause the field settings
-			// to get saved each time. Therefore, we set a flag here to prevent the saving
-			// of field settings each time the OnColumnDisplayIndexChanged event is fired.
-			_suspendSavingColumnChanges = true;
-			App.Project.GridLayoutInfo.Load(this);
-			_suspendSavingColumnChanges = false;
+			App.Project.GridLayoutInfo.InitializeGrid(this);
 
 			// Force users to restart Find when adding or removing columns
 			FindInfo.CanFindAgain = false;

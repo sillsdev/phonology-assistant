@@ -191,9 +191,11 @@
     <Compile Include="Model\Fields\PaField.cs" />
     <Compile Include="Model\Fields\PaFieldDisplayProperties.cs" />
     <Compile Include="Model\Fields\SortField.cs" />
+    <Compile Include="Model\GridLayoutInfo.cs" />
     <Compile Include="Model\Migration\Migration0333.cs" />
     <Compile Include="Model\Migration\MigrationBase.cs" />
     <Compile Include="Model\PaProject.cs" />
+    <Compile Include="Model\PaProjectLite.cs" />
     <Compile Include="Model\RecordCache\RecordCache.cs" />
     <Compile Include="Model\RecordCache\RecordCacheEntry.cs" />
     <Compile Include="Model\RecordCache\RecordEntryParser.cs" />
