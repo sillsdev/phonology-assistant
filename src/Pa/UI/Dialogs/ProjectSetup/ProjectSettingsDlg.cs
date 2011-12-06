@@ -518,6 +518,7 @@ namespace SIL.Pa.UI.Dialogs
 		private bool GetProjectFolderAndCreateIfNecessary(out string prjFileName, out string prjFolder)
 		{
 			prjFileName = (txtProjName.Text.Trim() == string.Empty ? Project.Name : txtProjName.Text.Trim());
+			prjFileName = PaProject.GetCleanNameForFileName(prjFileName);
 
 			if (!_chkMakeFolder.Checked)
 			{
