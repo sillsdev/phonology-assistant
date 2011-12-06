@@ -26,9 +26,9 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public GridLayoutInfo(PaProject owningProj)
+		public GridLayoutInfo(PaProject project)
 		{
-			_project = owningProj;
+			_project = project;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -124,6 +124,7 @@ namespace SIL.Pa.Model
 
 			var filename = _project.ProjectPathFilePrefix + kFiltersFilePrefix;
 			XmlSerializationHelper.SerializeToFile(filename, this);
+			PaField.SaveProjectFields(_project);
 		}
 	}
 }

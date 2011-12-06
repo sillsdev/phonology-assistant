@@ -24,7 +24,6 @@ namespace SIL.Pa.Model
 		private bool _newProject;
 		private bool _reloadingProjectInProcess;
 		private string _fileName;
-		private GridLayoutInfo _gridLayoutInfo;
 		private SortOptions _dataCorpusVwSortOptions;
 		private SortOptions _searchVwSortOptions;
 		private SortOptions _distChartVwSortOptions;
@@ -308,6 +307,7 @@ namespace SIL.Pa.Model
 			SynchronizeProjectFieldMappingsWithDataSourceFieldMappings();
 			LoadDistinctiveFeatureSet();
 			LoadFeatureOverrides();
+			GridLayoutInfo = GridLayoutInfo.Load(this);
 
 			if (CIEOptions == null)
 				CIEOptions = new CIEOptions();
@@ -774,7 +774,14 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public string ProjectPathFilePrefix
 		{
-			get { return GetProjectPathFilePrefix(_fileName, Name); }
+			get { return GetProjectPathFilePrefix(_fileName, GetCleanNameForFileName(Name)); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string GetCleanNameForFileName(string name)
+		{
+			return Path.GetInvalidFileNameChars()
+				.Aggregate(name, (curr, illegalChar) => curr.Replace(illegalChar, '_'));
 		}
 
 		/// ------------------------------------------------------------------------------------
