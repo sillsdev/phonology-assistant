@@ -742,6 +742,7 @@ namespace SIL.Pa.UI
 
 			App.Project = _project = null;
 			Settings.Default.LastProjectLoaded = null;
+			SetWindowText(null);
 			return true;
 		}
 
@@ -919,7 +920,7 @@ namespace SIL.Pa.UI
 
 			var fmt = App.GetString("PaXmlExportSaveFileDialogText", "Export to {0} XML");
 			dlg.Title = string.Format(fmt, Application.ProductName);
-			dlg.FileName = _project.Name + ".paxml";
+			dlg.FileName = _project.GetCleanNameForFileName() + ".paxml";
 			dlg.FilterIndex = 0;
 			dlg.Filter = string.Format(App.kstidFileTypePAXML, Application.ProductName) +
 				"|" + App.kstidFileTypeAllFiles;

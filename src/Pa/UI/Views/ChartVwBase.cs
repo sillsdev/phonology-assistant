@@ -657,7 +657,8 @@ namespace SIL.Pa.UI.Views
 			if (!_activeView)
 				return null;
 
-			string defaultOutputFileName = string.Format(fmtFileName, Project.LanguageName);
+			var defaultOutputFileName = string.Format(fmtFileName,
+				PaProject.GetCleanNameForFileName(Project.LanguageName));
 
 			var fileTypes = fileTypeFilter + "|" + App.kstidFileTypeAllFiles;
 

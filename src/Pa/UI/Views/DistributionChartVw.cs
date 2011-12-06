@@ -1334,13 +1334,15 @@ namespace SIL.Pa.UI.Views
 			if (!ActiveView)
 				return false;
 
-			object objForExport = ObjectForExport;
+			var objForExport = ObjectForExport;
 
 			// Determine whether to export the XY Chart or a search result word list.
 			if (!(objForExport is DistributionGrid))
 				return (wordListExportAction != null);
 
-			var prefix = (Project.LanguageName ?? (Project.LanguageCode ?? Project.Name));
+			var prefix = (PaProject.GetCleanNameForFileName(Project.LanguageName) ??
+				(Project.LanguageCode ?? Project.GetCleanNameForFileName()));
+			
 			var defaultFileName = string.Format(fmtFileName, prefix, _grid.ChartName).Replace(" ", string.Empty);
 
 			string fileTypes = fileTypeFilter + "|" + App.kstidFileTypeAllFiles;

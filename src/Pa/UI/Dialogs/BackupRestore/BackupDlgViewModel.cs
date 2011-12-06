@@ -24,7 +24,8 @@ namespace SIL.Pa.UI.Dialogs
 				Directory.CreateDirectory(DefaultBackupFolder);
 
 			var fmt = App.GetString("DialogBoxes.BackupDlg.BackupFileNameFormat", "{0}_({1}).pabackup");
-			BackupFile = string.Format(fmt, Project.Name, DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss"));
+			BackupFile = string.Format(fmt, Project.GetCleanNameForFileName(),
+				DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss"));
 
 			_infoFile = CreateBackupInfoFile();
 			_prjFiles = GetProjectFilesToBackup().ToList();
@@ -37,7 +38,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			yield return Project.FileName;
 
-			foreach (var file in Directory.GetFiles(Project.Folder, Project.Name + ".*.xml"))
+			foreach (var file in Directory.GetFiles(Project.Folder, Project.GetCleanNameForFileName() + ".*.xml"))
 			{
 				if (file != Project.ConsonantChartLayoutFile &&
 					file != Project.VowelChartLayoutFile &&

@@ -774,7 +774,13 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public string ProjectPathFilePrefix
 		{
-			get { return GetProjectPathFilePrefix(_fileName, GetCleanNameForFileName(Name)); }
+			get { return GetProjectPathFilePrefix(_fileName, GetCleanNameForFileName()); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetCleanNameForFileName()
+		{
+			return GetCleanNameForFileName(Name);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -816,7 +822,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public string CssFileName
 		{
-			get { return Path.Combine(Folder, Name.Replace(' ', '_') + ".css"); }
+			get { return Path.Combine(Folder, GetCleanNameForFileName().Replace(' ', '_') + ".css"); }
 		}
 
 		/// ------------------------------------------------------------------------------------

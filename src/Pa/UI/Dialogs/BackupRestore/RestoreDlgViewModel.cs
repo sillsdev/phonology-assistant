@@ -124,7 +124,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private string GetSuggestedTargetFolder(int index)
 		{
-			var prjName = AvailableBackups[index].Key;
+			var prjName = PaProject.GetCleanNameForFileName(AvailableBackups[index].Key);
 			var backupFile = AvailableBackups[index].Value;
 
 			var folder = Path.Combine(App.ProjectFolder, prjName);
