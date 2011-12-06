@@ -42,7 +42,7 @@ namespace SIL.Pa.UI.Views
 
 			hlblSavedCharts.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
 
-			_grid = new DistributionGrid();
+			_grid = new DistributionGrid(Project);
 			_grid.OwningView = this;
 			_grid.Dock = DockStyle.Fill;
 			_grid.TabIndex = lblChartName.TabIndex + 1;
