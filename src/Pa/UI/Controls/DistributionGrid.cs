@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
 using SilTools;
@@ -26,11 +28,13 @@ namespace SIL.Pa.UI.Controls
 		//private readonly Image m_dirtyIndicator;
 		private readonly Bitmap m_errorInCell;
 		private readonly DistributionChartCellInfoPopup m_cellInfoPopup;
-		private readonly SearchQueryValidator _queryValidator;
+		private SearchQueryValidator _queryValidator;
+		private PaProject _project;
 
 		/// ------------------------------------------------------------------------------------
-		public DistributionGrid()
+		public DistributionGrid(PaProject project)
 		{
+			_project = project;
 			OnPaFontsChanged(null);
 
 			//m_dirtyIndicator = Properties.Resources.kimidXYChartDirtyIndicator;
@@ -55,8 +59,6 @@ namespace SIL.Pa.UI.Controls
 			Reset();
 			App.AddMediatorColleague(this);
 			m_cellInfoPopup = new DistributionChartCellInfoPopup(this);
-
-			_queryValidator = new SearchQueryValidator(App.Project);
 
 			SetToolTips();
 		}
@@ -1222,17 +1224,15 @@ namespace SIL.Pa.UI.Controls
 			int progBarMax = (RowCount - 2) * (ColumnCount - 2);
 			App.InitializeProgressBar(App.kstidQuerySearchingMsg, progBarMax);
 			FixEnvironments();
+			_queryValidator = new SearchQueryValidator(_project);
 
-			foreach (var row in GetRows())
+			foreach (var row in GetRows().Where(row => row.Index != 0 && row.Index != NewRowIndex))
 			{
-				if (row.Index == 0 || row.Index == NewRowIndex)
-					continue;
-
 				for (int i = 1; i < Columns.Count; i++)
 				{
 					App.IncProgressBar();
 					GetResultsForCell(row.Cells[i],
-						row.Cells[0].Value as string, Columns[i].Tag as SearchQuery);
+					                  row.Cells[0].Value as string, Columns[i].Tag as SearchQuery);
 				}
 			}
 
@@ -1390,6 +1390,9 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDataSourcesModified(object args)
 		{
+			if (args is PaProject)
+				_project = (PaProject)args;
+
 			if (!IsEmpty)
 			{
 				//bool wasDirty = IsDirty;
