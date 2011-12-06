@@ -43,7 +43,6 @@ namespace SIL.Pa.UI.Views
 			this.splitResults = new System.Windows.Forms.SplitContainer();
 			this.pnlRecView = new SilTools.Controls.SilPanel();
 			this.rtfRecVw = new SIL.Pa.UI.Controls.RtfRecordView();
-			this.m_tooltip = new System.Windows.Forms.ToolTip(this.components);
 			this.btnRefresh = new System.Windows.Forms.Button();
 			this.pnlSliderPlaceholder = new System.Windows.Forms.Panel();
 			this.lblCurrPattern = new System.Windows.Forms.Label();
@@ -503,7 +502,7 @@ namespace SIL.Pa.UI.Views
 			this.splitResults.Panel1.AllowDrop = true;
 			this.splitResults.Panel1.BackColor = System.Drawing.SystemColors.Control;
 			this.splitResults.Panel1.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-			this.splitResults.Panel1.Tag = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidExportAsToolTip;
+			this.splitResults.Panel1.Tag = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidDoNothingToolTip;
 			this.splitResults.Panel1.SizeChanged += new System.EventHandler(this.HandleSplitResultsPanel1SizeChanged);
 			this.splitResults.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleSplitResultsPanel1Paint);
 			// 
@@ -637,8 +636,8 @@ namespace SIL.Pa.UI.Views
 			this.ptrnTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.ptrnTextBox.ClassDisplayBehaviorChanged = false;
 			this.ptrnTextBox.HideSelection = false;
-			this.locExtender.SetLocalizableToolTip(this.ptrnTextBox, "Enter search pattern in the form\\nSearch Item/Preceding Environment_Following Env" +
-        "ironment");
+			this.locExtender.SetLocalizableToolTip(this.ptrnTextBox, "Enter search pattern in the form\\nSearch Item/Preceding Environment__Following En" +
+        "vironment");
 			this.locExtender.SetLocalizationComment(this.ptrnTextBox, null);
 			this.locExtender.SetLocalizingId(this.ptrnTextBox, "SearchVw.ptrnTextBox");
 			this.ptrnTextBox.Location = new System.Drawing.Point(152, 9);
@@ -711,7 +710,6 @@ namespace SIL.Pa.UI.Views
 
 		#endregion
 
-		private System.Windows.Forms.ToolTip m_tooltip;
 		private SearchPatternTreeView tvSavedPatterns;
 		private System.Windows.Forms.SplitContainer splitSideBarOuter;
 		private System.Windows.Forms.SplitContainer splitOuter;

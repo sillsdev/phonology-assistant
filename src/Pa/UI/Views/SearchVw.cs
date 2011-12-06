@@ -58,7 +58,7 @@ namespace SIL.Pa.UI.Views
 
 			lblCurrPattern.Text = Utils.ConvertLiteralNewLines(lblCurrPattern.Text);
 
-			SetToolTips();
+			App.RefreshToolTipsOnLocalizationManager();
 			SetupSidePanelContents();
 			SetupSlidingPanel();
 			OnPaFontsChanged(null);
@@ -419,7 +419,7 @@ namespace SIL.Pa.UI.Views
 					// form that owns the controls the tooltip is extending. When that form
 					// gets pulled out from under the tooltips, sometimes the program will crash.
 					LoadToolbarAndContextMenus();
-					SetToolTips();
+					App.RefreshToolTipsOnLocalizationManager();
 				}
 
 				if (m_rsltVwMngr.CurrentViewsGrid != null)
@@ -433,21 +433,9 @@ namespace SIL.Pa.UI.Views
 		protected bool OnViewUndocked(object args)
 		{
 			if (args == this)
-				SetToolTips();
+				App.RefreshToolTipsOnLocalizationManager();
 
 			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void SetToolTips()
-		{
-			var msg = App.GetString("SearchVw.SearchPatternTooltip",
-				"Enter search pattern in the form:\n[Search Item]/[Preceding Environment]__[Following Environment]",
-				"Tooltip for search pattern text box in the find phone window.");
-
-			m_tooltip = new ToolTip(components);
-			m_tooltip.SetToolTip(ptrnTextBox, Utils.ConvertLiteralNewLines(msg));
-			App.RefreshToolTipsOnLocalizationManager();
 		}
 
 		/// ------------------------------------------------------------------------------------
