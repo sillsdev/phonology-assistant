@@ -224,7 +224,7 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void LocateInsertionLine()
+		private void SetInsertionLinePosition()
 		{
 			if (_insertionLine == null)
 				return;
@@ -284,7 +284,7 @@ namespace SIL.Pa.UI.Controls
 			if (SearchQueryChanged != null)
 				SearchQueryChanged(this, EventArgs.Empty);
 
-			LocateInsertionLine();
+			SetInsertionLinePosition();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -578,7 +578,7 @@ namespace SIL.Pa.UI.Controls
 		protected bool OnPaFontsChanged(object args)
 		{
 			Font = App.PhoneticFont;
-			LocateInsertionLine();
+			SetInsertionLinePosition();
 
 			// Return false to allow other windows to update their fonts.
 			return false;
@@ -683,7 +683,7 @@ namespace SIL.Pa.UI.Controls
 		protected override void OnKeyUp(KeyEventArgs e)
 		{
 			base.OnKeyUp(e);
-			LocateInsertionLine();
+			SetInsertionLinePosition();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -717,7 +717,7 @@ namespace SIL.Pa.UI.Controls
 					Text.Length : GetCharIndexFromPosition(pt));
 			}
 
-			LocateInsertionLine();
+			SetInsertionLinePosition();
 
 			e.Effect = DragDropEffects.Copy;
 		}
@@ -749,21 +749,28 @@ namespace SIL.Pa.UI.Controls
 				}
 			}
 
-			LocateInsertionLine();
+			SetInsertionLinePosition();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnClick(EventArgs e)
 		{
 			base.OnClick(e);
-			LocateInsertionLine();
+			SetInsertionLinePosition();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnTextChanged(EventArgs e)
 		{
 			base.OnTextChanged(e);
-			LocateInsertionLine();
+			SetInsertionLinePosition();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnSizeChanged(EventArgs e)
+		{
+			base.OnSizeChanged(e);
+			SetInsertionLinePosition();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -771,7 +778,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnEnter(e);
 			_insertionLine.Visible = false;
-			LocateInsertionLine();
+			SetInsertionLinePosition();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -779,7 +786,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnLeave(e);
 			_insertionLine.Visible = true;
-			LocateInsertionLine();
+			SetInsertionLinePosition();
 		}
 
 		/// ------------------------------------------------------------------------------------
