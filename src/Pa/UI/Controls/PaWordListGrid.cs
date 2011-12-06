@@ -286,10 +286,13 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void LoadSettings()
 		{
-			if (App.Project.GridLayoutInfo.ColHeaderHeight < 10)
-				AutoResizeColumnHeadersHeight();
-			else
+			if (App.Project.GridLayoutInfo.ColHeaderHeight >= 10)
 				ColumnHeadersHeight = App.Project.GridLayoutInfo.ColHeaderHeight;
+			else
+			{
+				AutoResizeColumnHeadersHeight();
+				ColumnHeadersHeight += 6;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
