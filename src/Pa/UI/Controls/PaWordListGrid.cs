@@ -722,8 +722,11 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellMouseDown(DataGridViewCellMouseEventArgs e)
 		{
-			if (e.RowIndex == -1 ||	(e.ColumnIndex == -1 && Cursor == Cursors.SizeNS))
+			if (e.RowIndex == -1 || (e.ColumnIndex == -1 && Cursor == Cursors.SizeNS) ||
+				(e.RowIndex == 0 && Cursor == Cursors.SizeNS))
+			{
 				DoubleBuffered = false;
+			}
 
 			if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && e.Button == MouseButtons.Right)
 				CurrentCell = this[e.ColumnIndex, e.RowIndex];
@@ -878,7 +881,7 @@ namespace SIL.Pa.UI.Controls
 
 			try
 			{
-				WordListCacheEntry entry = GetWordEntry(e.RowIndex);
+				var entry = GetWordEntry(e.RowIndex);
 
 				if (entry == null)
 				{
@@ -886,7 +889,7 @@ namespace SIL.Pa.UI.Controls
 					return;
 				}
 				
-				string fieldName = Columns[e.ColumnIndex].DataPropertyName;
+				var fieldName = Columns[e.ColumnIndex].DataPropertyName;
 
 				// When the entry is from a data source that was parsed using the one-to-one
 				// option and the field is a parsed field, then handle that case specially.
@@ -2789,13 +2792,10 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			// There isn't a column left on which to sort, so pick the first visible column.
-			foreach (DataGridViewColumn col in Columns)
+			foreach (var col in Columns.Cast<DataGridViewColumn>().Where(c => c.Visible))
 			{
-				if (col.Visible)
-				{
-					Sort(col.Name, false);
-					return;
-				}
+				Sort(col.Name, false);
+				return;
 			}
 		}
 
