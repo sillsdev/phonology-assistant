@@ -125,7 +125,7 @@ namespace SIL.Pa.PhoneticSearching
 				Errors.Add(error);
 			}
 
-			if (StripOutStuffWithValidPlusSymbols(srchItemPattern).Count(c => "#*+".Contains(c)) > 0)
+			if (StripOutStuffWithValidPlusAndStarSymbols(srchItemPattern).Count(c => "#*+".Contains(c)) > 0)
 			{
 				var error = new SearchQueryValidationError(
 					App.GetString("PhoneticSearchingMessages.InvalidCharactersInSearchItemMsg",
@@ -142,7 +142,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public void VerifyPrecedingEnvironment(string precedingEnv)
 		{
-			var envWithoutPlusSymbols = StripOutStuffWithValidPlusSymbols(precedingEnv);
+			var envWithoutPlusSymbols = StripOutStuffWithValidPlusAndStarSymbols(precedingEnv);
 
 			if (envWithoutPlusSymbols.Count(c => "#*+".Contains(c)) > 1)
 			{
@@ -230,7 +230,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public void VerifyFollowingEnvironment(string followingEnv)
 		{
-			var envWithoutPlusSymbols = StripOutStuffWithValidPlusSymbols(followingEnv);
+			var envWithoutPlusSymbols = StripOutStuffWithValidPlusAndStarSymbols(followingEnv);
 
 			if (envWithoutPlusSymbols.Count(c => "#*+".Contains(c)) > 1)
 			{
@@ -315,13 +315,13 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public string StripOutStuffWithValidPlusSymbols(string pattern)
+		public string StripOutStuffWithValidPlusAndStarSymbols(string pattern)
 		{
 			var match = PatternParser.FindInnerMostSquareBracketPairs(pattern);
 						
 			while (match.Success)
 			{
-				if (match.Value.Contains('+'))
+				if (match.Value.Contains('+') || match.Value.Contains('*'))
 					pattern = pattern.Replace(match.Value, new string('$', match.Value.Length));
 				
 				match = match.NextMatch();
