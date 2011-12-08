@@ -37,44 +37,65 @@ namespace SIL.Pa.PhoneticSearching
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void StripOutStuffWithValidPlusSymbols_PatternHasPlusBinaryFeature_RemovesIt()
+		public void StripOutStuffWithValidPlusAndStarSymbols_PatternHasPlusBinaryFeature_RemovesIt()
 		{
-			Assert.AreEqual("[C]<classname>", _validator.StripOutStuffWithValidPlusSymbols("[C][+voice]<classname>"));
+			Assert.AreEqual("[C]<classname>", _validator.StripOutStuffWithValidPlusAndStarSymbols("[C][+voice]<classname>"));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void StripOutStuffWithValidPlusSymbols_PatternHasMinusBinaryFeature_ReturnsInput()
+		public void StripOutStuffWithValidPlusAndStarSymbols_PatternHasMinusBinaryFeature_ReturnsInput()
 		{
-			Assert.AreEqual("[C][-voice]<classname>", _validator.StripOutStuffWithValidPlusSymbols("[C][-voice]<classname>"));
+			Assert.AreEqual("[C][-voice]<classname>", _validator.StripOutStuffWithValidPlusAndStarSymbols("[C][-voice]<classname>"));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void StripOutStuffWithValidPlusSymbols_HasDiacriticPlaceholderWithPlus_RemovesIt()
+		public void StripOutStuffWithValidPlusAndStarSymbols_HasDiacriticPlaceholderWithPlus_RemovesIt()
 		{
-			Assert.AreEqual("[C][[V]]<classname>", _validator.StripOutStuffWithValidPlusSymbols("[C][[V][0+]]<classname>"));
+			Assert.AreEqual("[C][[V]]<classname>", _validator.StripOutStuffWithValidPlusAndStarSymbols("[C][[V][0+]]<classname>"));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void StripOutStuffWithValidPlusSymbols_HasDiacriticPlaceholderWithPlusAndPlusBinaryFeature_RemovesThem()
+		public void StripOutStuffWithValidPlusAndStarSymbols_HasDiacriticPlaceholderWithPlusAndPlusBinaryFeature_RemovesThem()
 		{
-			Assert.AreEqual("[C][[V]]<classname>", _validator.StripOutStuffWithValidPlusSymbols("[C][[V][0+][+con]]<classname>"));
+			Assert.AreEqual("[C][[V]]<classname>", _validator.StripOutStuffWithValidPlusAndStarSymbols("[C][[V][0+][+con]]<classname>"));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void StripOutStuffWithValidPlusSymbols_HasPlusOutsideSquareBrackets_ReturnsInput()
+		public void StripOutStuffWithValidPlusAndStarSymbols_HasPlusOutsideSquareBrackets_ReturnsInput()
 		{
-			Assert.AreEqual("[C]abc+<classname>+", _validator.StripOutStuffWithValidPlusSymbols("[C]abc+<classname>+"));
+			Assert.AreEqual("[C]abc+<classname>+", _validator.StripOutStuffWithValidPlusAndStarSymbols("[C]abc+<classname>+"));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void StripOutStuffWithValidPlusSymbols_HasPlusInsideAndOutsideSquareBrackets_ReturnsInsideOnesRemoved()
+		public void StripOutStuffWithValidPlusAndStarSymbols_HasPlusInsideAndOutsideSquareBrackets_ReturnsInsideOnesRemoved()
 		{
-			Assert.AreEqual("[C][[V]]abc+<classname>+", _validator.StripOutStuffWithValidPlusSymbols("[C][[V][0+][+con]]abc+<classname>+"));
+			Assert.AreEqual("[C][[V]]abc+<classname>+", _validator.StripOutStuffWithValidPlusAndStarSymbols("[C][[V][0+][+con]]abc+<classname>+"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void StripOutStuffWithValidPlusAndStarSymbols_HasStarOutsideSquareBrackets_ReturnsInput()
+		{
+			Assert.AreEqual("[C]abc*<classname>*", _validator.StripOutStuffWithValidPlusAndStarSymbols("[C]abc*<classname>*"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void StripOutStuffWithValidPlusAndStarSymbols_HasDiacriticPlaceholderWithStarAndPlusBinaryFeature_RemovesThem()
+		{
+			Assert.AreEqual("[C][[V]]<classname>", _validator.StripOutStuffWithValidPlusAndStarSymbols("[C][[V][0*][+con]]<classname>"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void StripOutStuffWithValidPlusAndStarSymbols_HasStarInsideAndOutsideSquareBrackets_ReturnsInsideOnesRemoved()
+		{
+			Assert.AreEqual("[C][[V]]abc*<classname>*", _validator.StripOutStuffWithValidPlusAndStarSymbols("[C][[V][0*][+con]]abc*<classname>*"));
 		}
 
 		#region VerifyGeneralPatternStructure tests
