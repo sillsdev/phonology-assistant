@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Palaso.Progress;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 
@@ -23,6 +24,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public void RefreshAvailableProjectsList()
 		{
+			WaitCursor.Show();
+
 			_availableProjects = (from prjFile in GetProjectFiles()
 								  let prjInfo = PaProjectLite.Create(prjFile)
 								  where prjInfo != null
@@ -30,6 +33,8 @@ namespace SIL.Pa.UI.Dialogs
 								  select prjInfo).ToList();
 
 			SetCurrentBackupFile(0);
+
+			WaitCursor.Hide();
 		}
 
 		/// ------------------------------------------------------------------------------------

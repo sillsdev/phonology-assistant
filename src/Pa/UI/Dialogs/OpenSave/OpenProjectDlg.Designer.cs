@@ -16,12 +16,15 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this._tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			this._tableLayoutInner = new System.Windows.Forms.TableLayoutPanel();
 			this._labelProjectFilesFound = new System.Windows.Forms.Label();
 			this._checkBoxShowFullProjectPaths = new System.Windows.Forms.CheckBox();
 			this._grid = new SilTools.SilGrid();
+			this._colProject = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this._colFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this._colProjectType = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._buttonCancel = new System.Windows.Forms.Button();
 			this._buttonOpen = new System.Windows.Forms.Button();
 			this._checkBoxOpenInNewWindow = new System.Windows.Forms.CheckBox();
@@ -30,9 +33,6 @@
 			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this._colProject = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this._colFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this._colProjectType = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._tableLayoutPanel.SuspendLayout();
 			this._tableLayoutInner.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
@@ -127,14 +127,14 @@
 			this._grid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this._grid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleVertical;
 			this._grid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F);
-			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this._grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F);
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this._grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			this._grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this._grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this._colProject,
@@ -178,6 +178,32 @@
 			this._grid.Paint += new System.Windows.Forms.PaintEventHandler(this.HandleGridPainting);
 			this._grid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleGridKeyDown);
 			this._grid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.HandleGridKeyPress);
+			// 
+			// _colProject
+			// 
+			this._colProject.HeaderText = "Project";
+			this._colProject.Name = "_colProject";
+			this._colProject.ReadOnly = true;
+			this._colProject.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			this._colProject.Width = 150;
+			// 
+			// _colFile
+			// 
+			this._colFile.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this._colFile.FillWeight = 80F;
+			this._colFile.HeaderText = "Project File";
+			this._colFile.Name = "_colFile";
+			this._colFile.ReadOnly = true;
+			this._colFile.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
+			// _colProjectType
+			// 
+			this._colProjectType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+			this._colProjectType.HeaderText = "Type";
+			this._colProjectType.Name = "_colProjectType";
+			this._colProjectType.ReadOnly = true;
+			this._colProjectType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			this._colProjectType.Width = 37;
 			// 
 			// _buttonCancel
 			// 
@@ -241,8 +267,8 @@
 			this._linkSelectAdditionalFolderToScan.Name = "_linkSelectAdditionalFolderToScan";
 			this._linkSelectAdditionalFolderToScan.Size = new System.Drawing.Size(398, 26);
 			this._linkSelectAdditionalFolderToScan.TabIndex = 1;
-			this._linkSelectAdditionalFolderToScan.Text = "If this list does not contain the project you want to open, you may select a spec" +
-    "ific project file.";
+			this._linkSelectAdditionalFolderToScan.Text = "If this list does not show the project you would like to open, you may select a s" +
+    "pecific project file.";
 			this._linkSelectAdditionalFolderToScan.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleLinkClick);
 			// 
 			// locExtender
@@ -274,33 +300,6 @@
 			this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
 			this.dataGridViewTextBoxColumn3.ReadOnly = true;
 			this.dataGridViewTextBoxColumn3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this.dataGridViewTextBoxColumn3.Width = 37;
-			// 
-			// _colProject
-			// 
-			this._colProject.HeaderText = "Project";
-			this._colProject.Name = "_colProject";
-			this._colProject.ReadOnly = true;
-			this._colProject.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this._colProject.Width = 150;
-			// 
-			// _colFile
-			// 
-			this._colFile.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this._colFile.FillWeight = 80F;
-			this._colFile.HeaderText = "Project File";
-			this._colFile.Name = "_colFile";
-			this._colFile.ReadOnly = true;
-			this._colFile.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			// 
-			// _colProjectType
-			// 
-			this._colProjectType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this._colProjectType.HeaderText = "Type";
-			this._colProjectType.Name = "_colProjectType";
-			this._colProjectType.ReadOnly = true;
-			this._colProjectType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this._colProjectType.Width = 37;
 			// 
 			// OpenProjectDlg
 			// 
