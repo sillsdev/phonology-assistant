@@ -275,16 +275,18 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 			var pro = (lxEntry.Pronunciations.Count() == 0 ? null : lxEntry.Pronunciations.ElementAt(0));
 
-			if (m_fwDsInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.PronunciationField &&
-				pro == null)
-			{
-				return false;
-			}
-
 			string eticValue = null;
 
-			eticValue = m_fwDsInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.LexemeForm ?
-				lxEntry.LexemeForm.GetString(m_phoneticWsId) : pro.Form.GetString(m_phoneticWsId);
+			if (m_fwDsInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.LexemeForm)
+			{
+				if (lxEntry.LexemeForm != null)
+					eticValue = lxEntry.LexemeForm.GetString(m_phoneticWsId);
+			}
+			else
+			{
+				if (pro != null && pro.Form != null)
+					eticValue = pro.Form.GetString(m_phoneticWsId);
+			}
 
 			if (eticValue == null)
 				return false;
