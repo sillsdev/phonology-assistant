@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using SIL.Pa.DataSource;
@@ -10,7 +9,7 @@ namespace SIL.Pa.UI.Controls
 {
 	public class Fw7FieldMappingGrid : Fw6FieldMappingGrid
 	{
-		private string _tgtFieldColName;
+		private string m_tgtFieldColName;
 
 		/// ------------------------------------------------------------------------------------
 		public Fw7FieldMappingGrid(PaDataSource ds, IEnumerable<PaField> potentialFields) : base(ds)
@@ -34,14 +33,14 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void AddFieldColumn(string colName)
 		{
-			_tgtFieldColName = colName;
+			m_tgtFieldColName = colName;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void CustomizeGrid()
 		{
 			// Create the target field combo box column.
-			DataGridViewColumn col = CreateDropDownListComboBoxColumn(_tgtFieldColName,
+			DataGridViewColumn col = CreateDropDownListComboBoxColumn(m_tgtFieldColName,
 				m_potentialFields.Select(f => f.DisplayName));
 
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -143,26 +142,6 @@ namespace SIL.Pa.UI.Controls
 		public override IEnumerable<FieldMapping> Mappings
 		{
 			get { return m_mappings.Where(m => m.Field != null); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
-		{
-			base.OnCellPainting(e);
-
-			if (e.RowIndex != NewRowIndex || GetColumnName(e.ColumnIndex) != _tgtFieldColName)
-				return;
-
-			e.Handled = true;
-			e.Paint(e.CellBounds, e.PaintParts);
-
-			var hint = App.GetString("Fw7FieldMappingGrid.NewFieldClickHint", "Click here to choose a field");
-			
-			using (var fnt = new Font(Font, FontStyle.Italic))
-			{
-				TextRenderer.DrawText(e.Graphics, hint, fnt, e.CellBounds, SystemColors.GrayText,
-					TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis | TextFormatFlags.SingleLine);
-			}
 		}
 	}
 }

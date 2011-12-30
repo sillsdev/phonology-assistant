@@ -7,7 +7,7 @@ namespace SIL.Pa.UI.Dialogs
 		//private void InitializeFindPhonesTab()
 		//{
 		//    // This tab isn't valid if there is no project loaded.
-		//    if (m_project == null)
+		//    if (App.Project == null)
 		//    {
 		//        tabOptions.TabPages.Remove(tpgFindPhones);
 		//        return;
@@ -32,10 +32,10 @@ namespace SIL.Pa.UI.Dialogs
 
 		//    rdoClassName.Top = lblClassDisplayBehavior.Bottom + 6;
 		//    rdoClassMembers.Top = rdoClassName.Bottom + 4;
-		//    rdoClassName.Checked = m_project.ShowClassNamesInSearchPatterns;
+		//    rdoClassName.Checked = App.Project.ShowClassNamesInSearchPatterns;
 		//    rdoClassMembers.Checked = !rdoClassName.Checked;
 
-		//    chkShowDiamondPattern.Checked = m_project.ShowDiamondsInEmptySearchPattern;
+		//    chkShowDiamondPattern.Checked = App.Project.ShowDiamondsInEmptySearchPattern;
 		//}
 
 		///// ------------------------------------------------------------------------------------
@@ -47,8 +47,8 @@ namespace SIL.Pa.UI.Dialogs
 		//{
 		//    get
 		//    {
-		//        return rdoClassName.Checked != m_project.ShowClassNamesInSearchPatterns ||
-		//          chkShowDiamondPattern.Checked != m_project.ShowDiamondsInEmptySearchPattern;
+		//        return rdoClassName.Checked != App.Project.ShowClassNamesInSearchPatterns ||
+		//          chkShowDiamondPattern.Checked != App.Project.ShowDiamondsInEmptySearchPattern;
 		//    }
 		//}
 
@@ -62,13 +62,13 @@ namespace SIL.Pa.UI.Dialogs
 		//    if (!IsFindPhoneTabDirty)
 		//        return;
 
-		//    if (rdoClassName.Checked != m_project.ShowClassNamesInSearchPatterns)
+		//    if (rdoClassName.Checked != App.Project.ShowClassNamesInSearchPatterns)
 		//    {
-		//        m_project.ShowClassNamesInSearchPatterns = rdoClassName.Checked;
+		//        App.Project.ShowClassNamesInSearchPatterns = rdoClassName.Checked;
 		//        App.MsgMediator.SendMessage("ClassDisplayBehaviorChanged", null);
 		//    }
 
-		//    m_project.ShowDiamondsInEmptySearchPattern = chkShowDiamondPattern.Checked;
+		//    App.Project.ShowDiamondsInEmptySearchPattern = chkShowDiamondPattern.Checked;
 		//    App.MsgMediator.SendMessage("FindPhonesSettingsChanged", null);
 		//}
 	}

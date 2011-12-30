@@ -194,7 +194,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnClassDisplayBehaviorChanged(object args)
 		{
-			foreach (var tab in Tabs)
+			foreach (SearchResultTab tab in Tabs)
 			{
 				if (tab.SearchQuery.Pattern == null)
 					continue;
@@ -202,7 +202,7 @@ namespace SIL.Pa.UI.Controls
 				// PaApp.ShowClassNames has not been set yet to the new value
 				// in OptionsDialog.FindPhonesTab>>SaveFindPhonesTabSettings()
 
-				var replacedText = m_rsltVwMngr.Project.SearchClasses.ModifyPatternText(tab.Text);
+				string replacedText = App.Project.SearchClasses.ModifyPatternText(tab.Text);
 				if (replacedText != string.Empty)
 				{
 					UpdateTabsText(tab, replacedText);
@@ -1010,13 +1010,17 @@ namespace SIL.Pa.UI.Controls
 
 		#region Minimal pair (i.e. CIE) options drop-down handling methods
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		internal void ShowCIEOptions(Control ctrl)
 		{
 			if (CurrentTab == null || CurrentTab.ResultView == null || CurrentTab.ResultView.Grid == null)
 				return;
 
 			if (CurrentTab.CieOptionsDropDown == null)
-				CurrentTab.CieOptionsDropDown = new CIEOptionsDropDown(m_rsltVwMngr.Project);
+				CurrentTab.CieOptionsDropDown = new CIEOptionsDropDown();
 
 			if (CurrentTab.CieOptionsDropDownContainer == null)
 			{
@@ -1039,7 +1043,7 @@ namespace SIL.Pa.UI.Controls
 			if (CurrentTab.CieOptionsDropDown.OptionsChanged)
 			{
 				// Save the options as the new defaults for the project.
-				m_rsltVwMngr.Project.SaveCIEOptions(CurrentTab.CieOptionsDropDown.CIEOptions);
+				App.Project.SaveCIEOptions(CurrentTab.CieOptionsDropDown.CIEOptions);
 				CurrentTab.ResultView.Grid.CIEOptions = CurrentTab.CieOptionsDropDown.CIEOptions;
 				CurrentTab.CIEViewRefresh();
 			}

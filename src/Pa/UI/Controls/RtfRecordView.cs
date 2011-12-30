@@ -99,9 +99,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public PaProject Project { get; set; }
-
-		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets or sets the Rtf contents of the text box. When setting the value to null or
 		/// an empty string, a "no data" message is displayed.
@@ -155,17 +152,17 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_uiFontSize = (int)FontHelper.UIFont.SizeInPoints * 2;
 
-			if (Project == null)
+			if (App.Project == null)
 				return;
 
 			m_fontSizes = new Dictionary<string, int>();
-			foreach (var field in Project.Fields.Where(f => f.Font != null))
+			foreach (var field in App.Project.Fields.Where(f => f.Font != null))
 			{
 				m_fontSizes[field.Name] = (int)(field.Font.SizeInPoints * 2);
 				m_fonts[field.Name] = field.Font;
 			}
 
-			m_rtf = khdr + RtfHelper.FontTable(Project.Fields, m_fontNumbers, ref m_uiFontNumber);
+			m_rtf = khdr + RtfHelper.FontTable(m_fontNumbers, ref m_uiFontNumber);
 
 			if (updateRecord)
 				UpdateRecord(m_recEntry, true);
@@ -191,7 +188,7 @@ namespace SIL.Pa.UI.Controls
 			if (entry == m_recEntry && !forceUpdate)
 				return;
 
-			if (m_fontSizes.Count != Project.Fields.Count())
+			if (m_fontSizes.Count != App.Project.Fields.Count())
 				UpdateFonts(false);
 
 			m_recEntry = entry;
@@ -354,7 +351,7 @@ namespace SIL.Pa.UI.Controls
 
 			foreach (var fldInfo in m_rtfFields)
 			{
-				var field = Project.GetFieldForName(fldInfo.field);
+				var field = App.Project.GetFieldForName(fldInfo.field);
 
 				if (field != null && maxFontHeight < field.Font.GetHeight(dpiY))
 				{
@@ -455,7 +452,7 @@ namespace SIL.Pa.UI.Controls
 				// from the record cache entry. Don't bother with fields whose value is null,
 				// those that aren't supposed to be visible in the record view, and those
 				// that are interlinear (interlinear fields are handled above).
-				foreach (var field in Project.Fields)
+				foreach (var field in App.Project.Fields)
 				{
 					string fieldValue = m_recEntry[field.Name];
 					if (!field.VisibleInRecView || field.DisplayIndexInRecView < 0 ||
@@ -506,7 +503,7 @@ namespace SIL.Pa.UI.Controls
 
 			foreach (var fieldName in m_recEntry.InterlinearFields)
 			{
-				var field = Project.GetFieldForName(fieldName);
+				var field = App.Project.GetFieldForName(fieldName);
 				string[] colValues = m_recEntry.GetParsedFieldValues(field, true);
 				if (field == null || !field.VisibleInRecView ||
 					field.DisplayIndexInRecView < 0 || colValues == null)
@@ -719,7 +716,7 @@ namespace SIL.Pa.UI.Controls
 			RTFFieldInfo secondField;
 			GetFirstAndSecondInterlinearFields(out firstField, out secondField);
 
-			var firstLineFont = Project.GetFieldForName(firstField.field).Font;
+			var firstLineFont = App.Project.GetFieldForName(firstField.field).Font;
 			int numInterlinearColumns = firstField.columnValues.Length;
 
 			using (var g = CreateGraphics())
@@ -815,7 +812,7 @@ namespace SIL.Pa.UI.Controls
 					continue;
 				}
 
-				var field = Project.GetFieldForName(m_rtfFields[row].field);
+				var field = App.Project.GetFieldForName(m_rtfFields[row].field);
 				int width = TextRenderer.MeasureText(g, m_rtfFields[row].parsedColValues[col][subcol],
 					field.Font, Size.Empty, kTxtFmtFlags).Width;
 

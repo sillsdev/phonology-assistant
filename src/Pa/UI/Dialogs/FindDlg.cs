@@ -43,7 +43,7 @@ namespace SIL.Pa.UI.Dialogs
 			Settings.Default.FindDlg = App.InitializeForm(this, Settings.Default.FindDlg);
 			SetUiFonts();
 
-			var fieldsInList = from field in m_grid.Project.Fields
+			var fieldsInList = from field in App.Project.Fields
 							   where field.VisibleInGrid && field.DisplayIndexInGrid >= 0 && m_grid.Columns[field.Name] != null
 							   orderby field.DisplayIndexInGrid
 							   select field;

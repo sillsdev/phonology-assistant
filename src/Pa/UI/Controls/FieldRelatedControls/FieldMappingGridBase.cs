@@ -25,7 +25,7 @@ namespace SIL.Pa.UI.Controls
 			Font = FontHelper.UIFont;
 			RowHeadersVisible = false;
 			BorderStyle = BorderStyle.None;
-			AppColor.SetGridSelectionColors(this, true);
+			App.SetGridSelectionColors(this, true);
 			
 			Fonts = new Dictionary<string, Font>();
 			m_cellDropDown = new CellCustomDropDownList();
@@ -90,7 +90,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<FieldMapping> Mappings
 		{
-			get { return m_mappings.Where(m => m.Field != null && m.Field.Name != null); }
+			get { return m_mappings.Where(m => m.Field != null); }
 		}
 
 		/// ------------------------------------------------------------------------------------

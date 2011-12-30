@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SilTools;
 using SilTools.Controls;
@@ -79,9 +78,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public PaProject Project { get; set; }
-
-		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Saves the expanded states of the categories.
 		/// </summary>
@@ -92,17 +88,17 @@ namespace SIL.Pa.UI.Controls
 
 			foreach (TreeNode node in Nodes)
 			{
-				if (i < Project.SearchQueryGroups.Count)
+				if (i < App.Project.SearchQueryGroups.Count)
 				{
 
 					if (m_isForToolbarPopup)
-						Project.SearchQueryGroups[i++].ExpandedInPopup = node.IsExpanded;
+						App.Project.SearchQueryGroups[i++].ExpandedInPopup = node.IsExpanded;
 					else
-						Project.SearchQueryGroups[i++].Expanded = node.IsExpanded;
+						App.Project.SearchQueryGroups[i++].Expanded = node.IsExpanded;
 				}
 			}
 
-			Project.SearchQueryGroups.Save();
+			App.Project.SearchQueryGroups.Save();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -115,19 +111,19 @@ namespace SIL.Pa.UI.Controls
 		{
 			Nodes.Clear();
 
-			foreach (var group in Project.SearchQueryGroups)
+			foreach (SearchQueryGroup group in App.Project.SearchQueryGroups)
 			{
-				var categoryNode = new TreeNode(group.Name);
+				TreeNode categoryNode = new TreeNode(group.Name);
 				categoryNode.Tag = group;
 				Nodes.Add(categoryNode);
 
 				if (group.Queries == null)
 					continue;
 
-				foreach (var grpQuery in group.Queries)
+				foreach (SearchQuery grpQuery in group.Queries)
 				{
 					// Create a query node.
-					var node = new TreeNode();
+					TreeNode node = new TreeNode();
 					node.ImageIndex = node.SelectedImageIndex = 2;
 					node.Text = grpQuery.ToString();
 					node.Tag = grpQuery;
@@ -290,7 +286,7 @@ namespace SIL.Pa.UI.Controls
 					return nodes[0];
 			}
 
-			var group = Project.SearchQueryGroups.GetGroupFromQueryId(query.Id);
+			SearchQueryGroup group = App.Project.SearchQueryGroups.GetGroupFromQueryId(query.Id);
 			return GetPatternsNode(group != null ? group.Name : query.Category, query.ToString());
 		}
 
@@ -302,12 +298,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void SavePattern(SearchQuery query)
 		{
-			var patternNode = GetPatternsNode(query);
+			TreeNode patternNode = GetPatternsNode(query);
 			if (patternNode != null)
 			{
 				patternNode.Text = query.ToString();
 				patternNode.Tag = query.Clone();
-				Project.SearchQueryGroups.UpdateQuery(patternNode.Tag as SearchQuery);
+				App.Project.SearchQueryGroups.UpdateQuery(patternNode.Tag as SearchQuery);
 			}
 		}
 
@@ -523,7 +519,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			((SearchQueryGroup)editedNode.Tag).Name = newName;
 			UpdateEachPatternsCategory();
-			Project.SearchQueryGroups.Save();
+			App.Project.SearchQueryGroups.Save();
 
 			// Remove the node whose label just changed and give the system a moment to
 			// process the message before moving on to re-add the node in alphabetical
@@ -558,7 +554,7 @@ namespace SIL.Pa.UI.Controls
 		private void AfterQueryNameEdited(SearchQuery query, string newName)
 		{
 			query.Name = newName;
-			Project.SearchQueryGroups.Save();
+			App.Project.SearchQueryGroups.Save();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -821,8 +817,8 @@ namespace SIL.Pa.UI.Controls
 				return;
 
 			// Remove group from cache.
-			Project.SearchQueryGroups.Remove(group);
-			Project.SearchQueryGroups.Save();
+			App.Project.SearchQueryGroups.Remove(group);
+			App.Project.SearchQueryGroups.Save();
 
 			// Remove group from tree.
 			TreeNode newNode = GetNewSelectedNodeIfDeleted(node);
@@ -855,8 +851,8 @@ namespace SIL.Pa.UI.Controls
 					return;
 			}
 
-			Project.SearchQueryGroups[node.Parent.Index].Queries.RemoveAt(node.Index);
-			Project.SearchQueryGroups.Save();
+			App.Project.SearchQueryGroups[node.Parent.Index].Queries.RemoveAt(node.Index);
+			App.Project.SearchQueryGroups.Save();
 			TreeNode newNode = GetNewSelectedNodeIfDeleted(node);
 			Nodes.Remove(node);
 			SelectedNode = newNode;
@@ -917,10 +913,10 @@ namespace SIL.Pa.UI.Controls
 
 			newCategoryName = newName;
 			
-			var group = new SearchQueryGroup();
+			SearchQueryGroup group = new SearchQueryGroup();
 			group.Name = newCategoryName;
-			Project.SearchQueryGroups.Add(group);
-			Project.SearchQueryGroups.Save();
+			App.Project.SearchQueryGroups.Add(group);
+			App.Project.SearchQueryGroups.Save();
 
 			// Hide the label that tells the user there are no saved patterns
 			// because we know there is at least one category now.
@@ -1015,18 +1011,18 @@ namespace SIL.Pa.UI.Controls
 					newquery.Name = newName;
 			}
 
-			var group = Project.SearchQueryGroups[categoryNode.Index];
+			SearchQueryGroup group = App.Project.SearchQueryGroups[categoryNode.Index];
 
 			// Make sure we have a list to add to.
 			if (group.Queries == null)
 				group.Queries = new List<SearchQuery>();
 
-			newquery.Id = Project.SearchQueryGroups.NextAvailableId;
+			newquery.Id = App.Project.SearchQueryGroups.NextAvailableId;
 			group.Queries.Add(newquery);
-			Project.SearchQueryGroups.Save();
+			App.Project.SearchQueryGroups.Save();
 
 			// Now create a new tree node for it.
-			var node = new TreeNode();
+			TreeNode node = new TreeNode();
 			node.Text = newquery.ToString();
 			node.Tag = newquery;
 			node.Name = newquery.Id.ToString();
