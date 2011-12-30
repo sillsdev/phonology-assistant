@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using SIL.Pa.Model;
@@ -495,7 +496,7 @@ namespace SIL.Pa.PhoneticSearching
 					}
 				}
 
-				phonesDiacritics = phonesDiacritics.Replace(App.kOrc.ToString(), string.Empty);
+				phonesDiacritics = phonesDiacritics.Replace(App.kOrc.ToString(CultureInfo.InvariantCulture), string.Empty);
 			}
 
 			// Now remove all ignored, non base char. suprasegmentals

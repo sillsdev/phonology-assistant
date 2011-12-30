@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using Localization;
 using Palaso.Email;
 using Palaso.Reporting;
 using SIL.Pa.PhoneticSearching;
@@ -82,7 +83,7 @@ namespace SIL.Pa.UI.Controls
 			// control I'll put it back.
 			//tableLayoutErrors.Paint += HandleWatermarkPaint;
 
-			var numberFormat = App.GetString("PhoneticSearchingMessages.SearchPatternErrorNumberFormat", "{0})");
+			var numberFormat = LocalizationManager.GetString("PhoneticSearchingMessages.SearchPatternErrorNumberFormat", "{0})");
 
 			int row = 0;
 			for (int i = 0; i < _errors.Count; i++)
@@ -151,7 +152,7 @@ namespace SIL.Pa.UI.Controls
 			if (error.Exception != null)
 				return null;
 
-			var text = App.GetString("PhoneticSearchingMessages.ErrorsSuggestedHelpLinksMsg",
+			var text = LocalizationManager.GetString("PhoneticSearchingMessages.ErrorsSuggestedHelpLinksMsg",
 				"Suggested help topics to review: {0}");
 
 			var topics = error.HelpLinks.Aggregate(string.Empty, (current, id) => current + (_helpTopicIds[id] + ", "));
@@ -176,11 +177,11 @@ namespace SIL.Pa.UI.Controls
 			linkLabel.Links.Clear();
 
 			foreach (var id in error.HelpLinks)
-				linkLabel.Links.Add(text.IndexOf(_helpTopicIds[id]), _helpTopicIds[id].Length, id);
+				linkLabel.Links.Add(text.IndexOf(_helpTopicIds[id], StringComparison.Ordinal), _helpTopicIds[id].Length, id);
 
 			if (!error.HelpLinks.Contains("hidSearchPatternsTroubleshooting"))
 			{
-				linkLabel.Links.Add(text.IndexOf(_helpTopicIds["hidSearchPatternsTroubleshooting"]),
+				linkLabel.Links.Add(text.IndexOf(_helpTopicIds["hidSearchPatternsTroubleshooting"], StringComparison.Ordinal),
 					_helpTopicIds["hidSearchPatternsTroubleshooting"].Length, "hidSearchPatternsTroubleshooting");
 			}
 		
@@ -196,10 +197,10 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private Control GetExceptionLink(SearchQueryValidationError error)
 		{
-			var text = App.GetString("PhoneticSearchingMessages.ExceptionLinkText.FullMsg",
+			var text = LocalizationManager.GetString("PhoneticSearchingMessages.ExceptionLinkText.FullMsg",
 				"Unhandled Exception encountered. Click here for details.");
 
-			var linkText = App.GetString("PhoneticSearchingMessages.ExceptionLinkText.LinkText",
+			var linkText = LocalizationManager.GetString("PhoneticSearchingMessages.ExceptionLinkText.LinkText",
 				"Click here");
 
 			var linkLabel = new LinkLabel
@@ -215,7 +216,7 @@ namespace SIL.Pa.UI.Controls
 
 			linkLabel.LinkClicked += HandleExceptionLinkClicked;
 			linkLabel.Links.Clear();
-			linkLabel.Links.Add(text.IndexOf(linkText), linkText.Length, error.Exception);
+			linkLabel.Links.Add(text.IndexOf(linkText, StringComparison.Ordinal), linkText.Length, error.Exception);
 			return linkLabel;
 		}
 
@@ -311,7 +312,7 @@ namespace SIL.Pa.UI.Controls
 				else
 				{
 					PutOnClipboard();
-					emailMessage.Body = App.GetString("PhoneticSearchingMessages.SendEmailPasteFromClipboardPromptMsg",
+					emailMessage.Body = LocalizationManager.GetString("PhoneticSearchingMessages.SendEmailPasteFromClipboardPromptMsg",
 						"<Details of search errror have been copied to the clipboard. Please paste them here>");
 				}
 
@@ -320,7 +321,7 @@ namespace SIL.Pa.UI.Controls
 			catch (Exception error)
 			{
 				PutOnClipboard();
-				var text = App.GetString("PhoneticSearchingMessages.SendEmailFailureMsg",
+				var text = LocalizationManager.GetString("PhoneticSearchingMessages.SendEmailFailureMsg",
 					"This program was not able to get your email program, if you have one, to send the " +
 					"error message. The contents of the error message has been placed on your Clipboard.");
 

@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
-using System.Windows.Forms;
+using Localization;
 using Palaso.Reporting;
-using SilTools;
 
 namespace SIL.Pa.DataSource.FieldWorks
 {
@@ -17,7 +16,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 		/// ------------------------------------------------------------------------------------
 		public static IEnumerable<FwWritingSysInfo> GetWritingSystems(FwDataSourceInfo fwDsInfo)
 		{
-			var msg = App.GetString("RetrievingFieldWorks6WritingSystemsErrorMsg",
+			var msg = LocalizationManager.GetString(
+				"Miscellaneous.Messages.DataSourceReading.RetrievingFieldWorks6WritingSystemsErrorMsg",
 				"There was an error retrieving writing systems from the '{0}' project. It's possible the file '{1}' is either missing or corrupt.",
 				"Displayed when there is and error retrieving writing systems from a FieldWorks database, version 6.0 or earlier.");
 

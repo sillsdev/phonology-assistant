@@ -49,8 +49,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.cboCategories, "Enter a category in which to save the\\npattern or choose one from the list");
 			this.locExtender.SetLocalizationComment(this.cboCategories, "Drop-down list of search pattern categories on the dialog box for saving search p" +
 					"atterns in search  view.");
-			this.locExtender.SetLocalizationPriority(this.cboCategories, Localization.LocalizationPriority.MediumHigh);
-			this.locExtender.SetLocalizingId(this.cboCategories, "SaveSearchQueryDlg.cboCategories");
+			this.locExtender.SetLocalizationPriority(this.cboCategories, Localization.LocalizationPriority.High);
+			this.locExtender.SetLocalizingId(this.cboCategories, "DialogBoxes.SaveSearchQueryDlg.cboCategories");
 			this.cboCategories.Location = new System.Drawing.Point(137, 100);
 			this.cboCategories.Margin = new System.Windows.Forms.Padding(0);
 			this.cboCategories.Name = "cboCategories";
@@ -67,7 +67,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizationComment(this.txtName, "Search pattern name text box on the dialog box for saving search patterns in sear" +
 					"ch  view.");
 			this.locExtender.SetLocalizationPriority(this.txtName, Localization.LocalizationPriority.MediumHigh);
-			this.locExtender.SetLocalizingId(this.txtName, "SaveSearchQueryDlg.txtName");
+			this.locExtender.SetLocalizingId(this.txtName, "DialogBoxes.SaveSearchQueryDlg.txtName");
 			this.txtName.Location = new System.Drawing.Point(137, 54);
 			this.txtName.Margin = new System.Windows.Forms.Padding(0);
 			this.txtName.Name = "txtName";
@@ -98,7 +98,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblName.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblName, null);
 			this.locExtender.SetLocalizationComment(this.lblName, "Label on dialog box for saving search patterns in search view.");
-			this.locExtender.SetLocalizingId(this.lblName, "SaveSearchQueryDlg.lblName");
+			this.locExtender.SetLocalizingId(this.lblName, "DialogBoxes.SaveSearchQueryDlg.NameLabel");
 			this.lblName.Location = new System.Drawing.Point(13, 49);
 			this.lblName.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
 			this.lblName.Name = "lblName";
@@ -114,7 +114,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblCategories.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblCategories, null);
 			this.locExtender.SetLocalizationComment(this.lblCategories, "Label on dialog box for saving search patterns in search view.");
-			this.locExtender.SetLocalizingId(this.lblCategories, "SaveSearchQueryDlg.lblCategories");
+			this.locExtender.SetLocalizingId(this.lblCategories, "DialogBoxes.SaveSearchQueryDlg.CategoriesLabel");
 			this.lblCategories.Location = new System.Drawing.Point(13, 127);
 			this.lblCategories.Margin = new System.Windows.Forms.Padding(3, 10, 3, 10);
 			this.lblCategories.Name = "lblCategories";
@@ -130,7 +130,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblPatternLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblPatternLabel, null);
 			this.locExtender.SetLocalizationComment(this.lblPatternLabel, "Label on dialog box for saving search patterns in search view.");
-			this.locExtender.SetLocalizingId(this.lblPatternLabel, "SaveSearchQueryDlg.lblPatternLabel");
+			this.locExtender.SetLocalizingId(this.lblPatternLabel, "DialogBoxes.SaveSearchQueryDlg.PatternLabel");
 			this.lblPatternLabel.Location = new System.Drawing.Point(13, 13);
 			this.lblPatternLabel.Name = "lblPatternLabel";
 			this.lblPatternLabel.Size = new System.Drawing.Size(49, 15);
@@ -139,7 +139,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// SaveSearchQueryDlg
@@ -158,7 +157,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "SaveSearchQueryDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.SaveSearchQueryDlg.WindowTitle");
 			this.Name = "SaveSearchQueryDlg";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Save Search Pattern";

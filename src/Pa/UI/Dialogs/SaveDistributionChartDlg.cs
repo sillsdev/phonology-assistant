@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.UI.Controls;
 using SilTools;
@@ -54,17 +56,16 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override bool Verify()
 		{
 			string text = txtName.Text.Trim();
 
 			if (string.IsNullOrEmpty(text))
 			{
-				Utils.MsgBox(App.GetString("NoSavedChartNameMsg", "You must specify a name for your XY chart."));
+				Utils.MsgBox(LocalizationManager.GetString(
+					"DialogBoxes.SaveDistributionChartDlg.NoSavedChartNameMsg",
+					"You must specify a name for your distribution chart."));
+				
 				txtName.SelectAll();
 				txtName.Focus();
 				return false;
@@ -73,8 +74,10 @@ namespace SIL.Pa.UI.Dialogs
 			var existingLayout = GetExistingLayoutByName(m_xyGrid.ChartLayout, text);
 			if (existingLayout != null)
 			{
-				var msg = App.GetString("SaveDistributionChartDlg.OverwriteSavedChartNameMsg",
+				var msg = LocalizationManager.GetString(
+					"DialogBoxes.SaveDistributionChartDlg.OverwriteSavedChartNameMsg",
 					"There is already a saved chart with the name '{0}'.\nDo you want it overwritten?");
+				
 				msg = string.Format(msg, text);
 				
 				if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -102,18 +105,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private DistributionChart GetExistingLayoutByName(DistributionChart chartToSkip, string nameToCheck)
 		{
-			if (m_savedCharts != null)
-			{
-				// Check if chart name already exists. If it does,
-				// tell the user and don't cancel the current edit.
-				foreach (var savedChart in m_savedCharts)
-				{
-					if (savedChart != chartToSkip && savedChart.Name == nameToCheck)
-						return savedChart;
-				}
-			}
-
-			return null;
+			return (m_savedCharts != null ?
+				m_savedCharts.FirstOrDefault(savedChart => savedChart != chartToSkip && savedChart.Name == nameToCheck) :
+				null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -136,10 +130,10 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			base.OnPaint(e);
 
-			Point pt1 = new Point(tblLayoutButtons.Left, tblLayoutButtons.Top - 2);
-			Point pt2 = new Point(tblLayoutButtons.Right - 1, tblLayoutButtons.Top - 2);
+			var pt1 = new Point(tblLayoutButtons.Left, tblLayoutButtons.Top - 2);
+			var pt2 = new Point(tblLayoutButtons.Right - 1, tblLayoutButtons.Top - 2);
 
-			using (Pen pen = new Pen(SystemColors.ControlDark))
+			using (var pen = new Pen(SystemColors.ControlDark))
 			{
 				e.Graphics.DrawLine(pen, pt1, pt2);
 				pt1.Y++;
@@ -149,10 +143,6 @@ namespace SIL.Pa.UI.Dialogs
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandleTextChanged(object sender, EventArgs e)
 		{

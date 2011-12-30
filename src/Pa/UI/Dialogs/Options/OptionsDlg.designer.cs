@@ -76,7 +76,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblSaveInfo.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblSaveInfo, null);
 			this.locExtender.SetLocalizationComment(this.lblSaveInfo, "Label next to OK/Cancel/Help buttons on options dialog box.");
-			this.locExtender.SetLocalizingId(this.lblSaveInfo, "OptionsDlg.lblSaveInfo");
+			this.locExtender.SetLocalizingId(this.lblSaveInfo, "DialogBoxes.OptionsDlg.SaveInfoLabel");
 			this.lblSaveInfo.Location = new System.Drawing.Point(34, 5);
 			this.lblSaveInfo.Name = "lblSaveInfo";
 			this.lblSaveInfo.Size = new System.Drawing.Size(245, 33);
@@ -86,7 +86,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// tpgColors
@@ -94,7 +93,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.tpgColors, null);
 			this.locExtender.SetLocalizationComment(this.tpgColors, "Text on tab in options dialog box.");
 			this.locExtender.SetLocalizationPriority(this.tpgColors, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.tpgColors, "OptionsDlg.tpgColors");
+			this.locExtender.SetLocalizingId(this.tpgColors, "DialogBoxes.OptionsDlg.ColorsTabText");
 			this.tpgColors.Location = new System.Drawing.Point(4, 22);
 			this.tpgColors.Name = "tpgColors";
 			this.tpgColors.Size = new System.Drawing.Size(588, 364);
@@ -109,7 +108,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.tpgFindPhones.Controls.Add(this.grpClassSettings);
 			this.locExtender.SetLocalizableToolTip(this.tpgFindPhones, null);
 			this.locExtender.SetLocalizationComment(this.tpgFindPhones, "Text on tab in options dialog box.");
-			this.locExtender.SetLocalizingId(this.tpgFindPhones, "OptionsDlg.SearchPatternsTab.Text");
+			this.locExtender.SetLocalizationPriority(this.tpgFindPhones, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.tpgFindPhones, "DialogBoxes.OptionsDlg.SearchPatternsTabText");
 			this.tpgFindPhones.Location = new System.Drawing.Point(4, 22);
 			this.tpgFindPhones.Name = "tpgFindPhones";
 			this.tpgFindPhones.Size = new System.Drawing.Size(589, 439);
@@ -122,7 +122,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblShowDiamondPattern.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblShowDiamondPattern, null);
 			this.locExtender.SetLocalizationComment(this.lblShowDiamondPattern, "Label text on search patterns tab of options dialog box.");
-			this.locExtender.SetLocalizingId(this.lblShowDiamondPattern, "OptionsDlg.SearchPatternsTab.lblShowDiamondPattern");
+			this.locExtender.SetLocalizationPriority(this.lblShowDiamondPattern, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.lblShowDiamondPattern, "DialogBoxes.OptionsDlg.SearchPatternsTab.ShowDiamondPattern");
 			this.lblShowDiamondPattern.Location = new System.Drawing.Point(45, 189);
 			this.lblShowDiamondPattern.Name = "lblShowDiamondPattern";
 			this.lblShowDiamondPattern.Size = new System.Drawing.Size(261, 177);
@@ -138,6 +139,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.chkShowDiamondPattern.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.chkShowDiamondPattern, null);
 			this.locExtender.SetLocalizationComment(this.chkShowDiamondPattern, "Check box text on search patterns tab of options dialog box.");
+			this.locExtender.SetLocalizationPriority(this.chkShowDiamondPattern, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.chkShowDiamondPattern, "OptionsDlg.SearchPatternsTab.chkShowDiamondPattern");
 			this.chkShowDiamondPattern.Location = new System.Drawing.Point(29, 170);
 			this.chkShowDiamondPattern.Name = "chkShowDiamondPattern";
@@ -155,6 +157,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.grpClassSettings.Controls.Add(this.lblClassDisplayBehavior);
 			this.locExtender.SetLocalizableToolTip(this.grpClassSettings, null);
 			this.locExtender.SetLocalizationComment(this.grpClassSettings, "Frame text on search pattern tab of options dialog box.");
+			this.locExtender.SetLocalizationPriority(this.grpClassSettings, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.grpClassSettings, "OptionsDlg.SearchPatternsTab.grpClassSettings");
 			this.grpClassSettings.Location = new System.Drawing.Point(17, 13);
 			this.grpClassSettings.Name = "grpClassSettings";
@@ -169,6 +172,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.rdoClassMembers.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.rdoClassMembers, null);
 			this.locExtender.SetLocalizationComment(this.rdoClassMembers, "Radio button text on search patterns tab of options dialog box.");
+			this.locExtender.SetLocalizationPriority(this.rdoClassMembers, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.rdoClassMembers, "OptionsDlg.SearchPatternsTab.rdoClassMembers");
 			this.rdoClassMembers.Location = new System.Drawing.Point(12, 98);
 			this.rdoClassMembers.Name = "rdoClassMembers";
@@ -184,6 +188,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.rdoClassName.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.rdoClassName, null);
 			this.locExtender.SetLocalizationComment(this.rdoClassName, "Radio button text on search patterns tab of options dialog box.");
+			this.locExtender.SetLocalizationPriority(this.rdoClassName, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.rdoClassName, "OptionsDlg.SearchPatternsTab.rdoClassName");
 			this.rdoClassName.Location = new System.Drawing.Point(12, 75);
 			this.rdoClassName.Name = "rdoClassName";
@@ -198,6 +203,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblClassDisplayBehavior.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblClassDisplayBehavior, null);
 			this.locExtender.SetLocalizationComment(this.lblClassDisplayBehavior, "Label text on search patterns tab of options dialog box.");
+			this.locExtender.SetLocalizationPriority(this.lblClassDisplayBehavior, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblClassDisplayBehavior, "OptionsDlg.SearchPatternsTab.lblClassDisplayBehavior");
 			this.lblClassDisplayBehavior.Location = new System.Drawing.Point(9, 20);
 			this.lblClassDisplayBehavior.Name = "lblClassDisplayBehavior";
@@ -227,7 +233,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.tabOptions);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, "Title of options dialog box.");
-			this.locExtender.SetLocalizingId(this, "OptionsDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.OptionsDlg.WindowTitle");
 			this.Name = "OptionsDlg";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Options";

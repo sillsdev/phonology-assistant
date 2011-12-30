@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 using SilTools;
 
@@ -60,7 +61,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public override string TabPageText
 		{
-			get { return App.GetString("DialogBoxes.OptionsDlg.CVPatternsTab.TabText", "CV Patterns"); }
+			get { return LocalizationManager.GetString("DialogBoxes.OptionsDlg.CVPatternsTab.TabText", "CV Patterns"); }
 		}
 
 		/// ------------------------------------------------------------------------------------

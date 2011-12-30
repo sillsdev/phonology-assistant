@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using Localization;
 using SIL.Pa.Properties;
 using SilTools;
 
@@ -43,7 +44,8 @@ namespace SIL.Pa.Model
 			if (e == null)
 				return cache;
 
-			var msg = App.GetString("ReadingFieldDisplayPropertiesFileErrorMsg",
+			var msg = LocalizationManager.GetString(
+				"ProjectFields.ErrorReadingFieldDisplayPropertiesFileMsg",
 				"The following error occurred when reading the file\n\n'{0}'\n\n{1}");
 
 			while (e.InnerException != null)

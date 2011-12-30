@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+using Localization;
 using Palaso.IO;
 using Palaso.Reporting;
 using SilTools;
@@ -59,7 +60,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 			if (s_dbAccessInfo == null && ShowMsgOnFileLoadFailure)
 			{
-				ErrorReport.NotifyUserOfProblem(App.GetString("LoadingDBAccessInfoErorMsg",
+				ErrorReport.NotifyUserOfProblem(LocalizationManager.GetString(
+					"Miscellaneous.Messages.DataSourceReading.LoadingDBAccessInfoErorMsg",
 					"The file that contains information to access FieldWork databases " +
 					"older than version 7.x '{0}' is either missing or corrupt. Until " +
 					"this problem is corrected, FieldWorks data sources cannot be " +

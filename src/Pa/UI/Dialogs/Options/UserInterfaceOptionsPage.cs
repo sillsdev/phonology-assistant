@@ -33,7 +33,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public override string TabPageText
 		{
-			get { return App.GetString("DialogBoxes.OptionsDlg.UserInterfaceTab.TabText", "User Interface"); }
+			get { return LocalizationManager.GetString("DialogBoxes.OptionsDlg.UserInterfaceTab.TabText", "User Interface"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			var newLangId = ((CultureInfo)cboUILanguage.SelectedItem).Name;
 			Settings.Default.UserInterfaceLanguage = newLangId;
-			LocalizationManager.UILanguageId = newLangId;
+			LocalizationManager.SetUILanguage(newLangId, true);
 			PaFieldDisplayProperties.ResetDisplayNameCache();
 			App.MsgMediator.SendMessage("UserInterfaceLangaugeChanged", null);
 		}

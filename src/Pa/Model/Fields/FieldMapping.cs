@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+using Localization;
 using SIL.Pa.DataSource.FieldWorks;
 
 namespace SIL.Pa.Model
@@ -159,7 +160,8 @@ namespace SIL.Pa.Model
 		{
 			if (mappings == null)
 			{
-				App.NotifyUserOfProblem(App.GetString("MiscellaneousMessage.NoFieldMappingsMsg",
+				App.NotifyUserOfProblem(LocalizationManager.GetString(
+					"ProjectFields.NoFieldMappingsMsg",
 					"You must specify field mappings."));
 				return false;
 			}
@@ -168,7 +170,8 @@ namespace SIL.Pa.Model
 
 			if (!mapped && showIfNotMapped)
 			{
-				App.NotifyUserOfProblem(App.GetString("NoPhoneticMappingsMsg",
+				App.NotifyUserOfProblem(LocalizationManager.GetString(
+					"ProjectFields.NoPhoneticMappingsMsg",
 					"You must specify a mapping for the phonetic field."));
 			}
 

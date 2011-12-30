@@ -3563,6 +3563,24 @@
 			<displayWithDottedCircle>true</displayWithDottedCircle>
 			<order>3F00</order>
 		</symbolDefinition>
+		<symbolDefinition code="03B1" literal="α">
+			<name>Alpha</name>
+			<usage>Reference Phonetic Symbol Guide (2nd edition, pg. 8)</usage>
+			<description>open central unrounded vowel</description>
+			<type>vowel</type>
+			<isBase>true</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>false</displayWithDottedCircle>
+			<features class="descriptive">
+				<feature>vowel</feature>
+				<feature>monophthong</feature>
+				<feature>voiced</feature>
+				<feature>open</feature>
+				<feature>central</feature>
+				<feature>unrounded</feature>
+			</features>
+			<order>2610</order>
+		</symbolDefinition>
 		<symbolDefinition code="03B2" literal="β" IPA="127">
 			<name>Beta</name>
 			<description>voiced bilabial fricative</description>
@@ -3624,7 +3642,7 @@
 				<feature>central</feature>
 				<feature>unrounded</feature>
 			</features>
-			<order>2610</order>
+			<order>2611</order>
 		</symbolDefinition>
 		<symbolDefinition code="1D07" literal="ᴇ">
 			<name>Small capital E</name>

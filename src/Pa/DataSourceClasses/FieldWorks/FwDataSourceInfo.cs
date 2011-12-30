@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using Localization;
 using Palaso.Reporting;
 using SilTools;
 
@@ -209,7 +210,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 		{
 			if (IsMissing)
 			{
-				ErrorReport.NotifyUserOfProblem(App.GetString("FieldWorksProjectMissingMsg",
+				ErrorReport.NotifyUserOfProblem(LocalizationManager.GetString(
+					"Miscellaneous.Messages.DataSourceReading.FieldWorksProjectMissingMsg",
 					"FieldWorks project '{0}' is missing."), Name);
 			}
 		}
@@ -229,7 +231,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 			if (!includeServerName || Server.ToLower() == Environment.MachineName.ToLower())
 				return ProjectName;
 
-			var fmt = App.GetString("FieldWorksProjectAndServerDisplayFormat", "{0} on '{1}'",
+			var fmt = LocalizationManager.GetString(
+				"Miscellaneous.Messages.DataSourceReading.FieldWorksProjectAndServerDisplayFormat", "{0} on '{1}'",
 				"This is used to display the project name and server for an FW data source. The project name is the first parameter.");
 
 			return string.Format(fmt, ProjectName, Server);

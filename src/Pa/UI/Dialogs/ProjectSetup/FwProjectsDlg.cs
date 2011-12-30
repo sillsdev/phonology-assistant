@@ -1,9 +1,8 @@
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.DataSource.FieldWorks;
-using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
@@ -21,12 +20,6 @@ namespace SIL.Pa.UI.Dialogs
 		public FwProjectsDlg()
 		{
 			InitializeComponent();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public FwProjectsDlg(PaProject project) : this()
-		{
-			Debug.Assert(project != null);
 
 			lblMsg.Font = FontHelper.UIFont;
 			lstFwProjects.Font = FontHelper.UIFont;
@@ -106,23 +99,23 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (!string.IsNullOrEmpty(node.MachineName))
 			{
-				txtMsg.Text = App.GetString("FwProjectsDlg.SearchingForFwDatabasesMsg", "Searching...");
+				txtMsg.Text = LocalizationManager.GetString("DialogBoxes.Fw6ProjectsDlg.SearchingForFwDatabasesMsg", "Searching...");
 				txtMsg.Visible = true;
 				Application.DoEvents();
 
 				lstFwProjects.Items.Clear();
 				
-				var dsInfo = FwDBUtils.GetFwDataSourceInfoList(node.MachineName, true);
-				if (dsInfo != null && dsInfo.Count() > 0)
+				var dsInfo = FwDBUtils.GetFwDataSourceInfoList(node.MachineName, true).ToArray();
+				if (dsInfo.Length > 0)
 				{
-					lstFwProjects.Items.AddRange(dsInfo.ToArray());
+					lstFwProjects.Items.AddRange(dsInfo);
 					lstFwProjects.SelectedIndex = 0;
 					lstFwProjects.Visible = true;
 					txtMsg.Visible = false;
 				}
 				else
 				{
-					var fmt = App.GetString("FwProjectsDlg.NoFwProjectsFoundMsg", "No projects found on '{0}'.");
+					var fmt = LocalizationManager.GetString("DialogBoxes.Fw6ProjectsDlg.NoFwProjectsFoundMsg", "No projects found on '{0}'.");
 					txtMsg.Text = string.Format(fmt, node.MachineName);
 				}
 			}

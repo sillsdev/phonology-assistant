@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.UI.Controls;
@@ -117,14 +118,14 @@ namespace SIL.Pa.UI.Dialogs
 				m_classesDlg.Project.PhoneCache.Values.Where(p => p.CharType == IPASymbolType.consonant).Select(p => p as PhoneInfo).OrderBy(p => p.MOAKey),
 				UseCompactConsonantView, compactVw => UseCompactConsonantView = compactVw);
 			
-			_conViewer.HeaderText = App.GetString("DefineClassDlg.ConsonantViewerHeaderText", "&Consonants");
+			_conViewer.HeaderText = LocalizationManager.GetString("DialogBoxes.DefineFeatureClassDlgBase.ConsonantViewerHeaderText", "&Consonants");
 			_conViewer.Dock = DockStyle.Fill;
 
 			_vowViewer = new PhonesInFeatureViewer(
 				m_classesDlg.Project.PhoneCache.Values.Where(p => p.CharType == IPASymbolType.vowel).Select(p => p as PhoneInfo).OrderBy(p => p.MOAKey),
 				UseCompactVowelView, compactVw => UseCompactVowelView = compactVw);
 
-			_vowViewer.HeaderText = App.GetString("DefineClassDlg.VowelViewerHeaderText", "&Vowels");
+			_vowViewer.HeaderText = LocalizationManager.GetString("DialogBoxes.DefineFeatureClassDlgBase.VowelViewerHeaderText", "&Vowels");
 			_vowViewer.Dock = DockStyle.Fill;
 		}
 

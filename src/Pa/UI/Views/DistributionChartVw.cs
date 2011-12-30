@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using Palaso.IO;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
@@ -106,10 +107,7 @@ namespace SIL.Pa.UI.Views
 		private void LoadToolbarAndContextMenus()
 		{
 			if (_tmAdapter != null)
-			{
-				App.UnPrepareAdapterForLocalizationSupport(_tmAdapter);
 				_tmAdapter.Dispose();
-			}
 
 			_tmAdapter = AdapterHelper.CreateTMAdapter();
 
@@ -125,7 +123,6 @@ namespace SIL.Pa.UI.Views
 			if (_tmAdapter == null)
 				return;
 
-			App.PrepareAdapterForLocalizationSupport(_tmAdapter);
 			_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 
 			var defs = new[] { FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
@@ -188,9 +185,8 @@ namespace SIL.Pa.UI.Views
 		{
 			get
 			{
-				return App.GetString("DistributionChartVw.FillChartMsg",
-					"You must first choose 'Fill Chart' before seeing search results.",
-					"Views");
+				return LocalizationManager.GetString("Views.DistributionChart.FillChartMsg",
+					"You must first choose 'Fill Chart' before seeing search results.");
 			}
 		}
 
@@ -243,9 +239,10 @@ namespace SIL.Pa.UI.Views
 			{
 				if (showMsg)
 				{
-					var fmt = App.GetString("DistributionChartVw.SavedChartNameAlreadyExistsMsg",
-					                        "There is already a saved chart with the name '{0}'.");
-					Utils.MsgBox(string.Format(fmt, nameToCheck));
+					var fmt = LocalizationManager.GetString(
+						"Views.DistributionChart.SavedChartNameAlreadyExistsMsg",
+                        "There is already a saved chart with the name '{0}'.");
+					App.NotifyUserOfProblem(fmt, nameToCheck);
 				}
 					
 				return savedLayout;
@@ -294,9 +291,8 @@ namespace SIL.Pa.UI.Views
 				Settings.Default.DistChartVwSidePanelWidth,
 				newWidth => Settings.Default.DistChartVwSidePanelWidth = newWidth);
 
-			App.RegisterForLocalization(_slidingPanel.Tab,
-				"DistributionChartVw.UndockedSideBarTabText", "Charts & Chart Building",
-				"Text on vertical tab when the side bar is undocked in the distribution charts view.");
+			LocalizationManager.GetString("Views.DistributionChartVw.UndockedSideBarTabText",
+				"Charts & Chart Building", null, _slidingPanel.Tab);
 
 			Controls.Add(_slidingPanel);
 			splitOuter.BringToFront();
@@ -691,7 +687,7 @@ namespace SIL.Pa.UI.Views
 			if (lvSavedCharts.SelectedItems.Count == 0)
 				return;
 
-			var msg = App.GetString("DistributionChartVw.ConfirmSavedChartRemoveMsg",
+			var msg = LocalizationManager.GetString("Views.DistributionChart.ConfirmSavedChartRemoveMsg",
 				"Are you sure you want to remove the saved chart?");
 			
 			if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
@@ -951,18 +947,10 @@ namespace SIL.Pa.UI.Views
 
 		#region ISearchResultsViewHost Members
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void BeforeSearchPerformed(SearchQuery query, WordListCache resultCache)
 		{
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void AfterSearchPerformed(SearchQuery query, WordListCache resultCache)
 		{
@@ -975,19 +963,11 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public bool ShouldMenuBeEnabled(string menuName)
 		{
 			return _grid.IsCurrentCellValidForSearch;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SearchQuery GetQueryForMenu(string menuName)
 		{
@@ -1105,7 +1085,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateFillInChart(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !ActiveView)
 				return false;
 
@@ -1185,7 +1165,7 @@ namespace SIL.Pa.UI.Views
 			if (_savedCharts == null)
 				_savedCharts = new List<DistributionChart>();
 			
-			DistributionChart layoutCopy = _grid.ChartLayout.Clone();
+			var layoutCopy = _grid.ChartLayout.Clone();
 
 			if (item != null)
 			{
@@ -1209,13 +1189,9 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateSaveChart(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !ActiveView)
 				return false;
 
@@ -1239,7 +1215,7 @@ namespace SIL.Pa.UI.Views
 			if (!ActiveView)
 				return false;
 
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps != null && itemProps.Name.StartsWith("cmnu"))
 				return false;
 
@@ -1248,16 +1224,12 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateBeginSearch(object args)
 		{
 			if (!ActiveView)
 				return false;
 
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps != null && !itemProps.Name.StartsWith("cmnu"))
 			{
 				if (itemProps.Enabled != _grid.IsCurrentCellValidForSearch)
@@ -1274,28 +1246,20 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Display the RtfExportDlg form.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsRTF(object args)
 		{
 			if (!ActiveView)
 				return false;
 
-			RtfExportDlg rtfExp = new RtfExportDlg(ResultViewManger.CurrentViewsGrid);
+			var rtfExp = new RtfExportDlg(ResultViewManger.CurrentViewsGrid);
 			rtfExp.ShowDialog(this);
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExportAsRTF(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !ActiveView)
 				return false;
 
@@ -1315,17 +1279,13 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsHTML(object args)
 		{
-			var fmt = App.GetString("DefaultDistributionChartHtmlExportFileAffix",
-				"{0}-{1}DistributionChart.html", "Export");
+			var fmt = LocalizationManager.GetString("Views.DistributionChart.DefaultHtmlExportFileAffix",
+				"{0}-{1}DistributionChart.html");
 
 			return Export(ResultViewManger.HTMLExport, fmt, App.kstidFileTypeHTML, "html",
 				Settings.Default.OpenHtmlDistChartAfterExport, DistributionChartExporter.ToHtml);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool Export(Func<string> wordListExportAction, string fmtFileName,
 			string fileTypeFilter, string defaultFileType, bool openAfterExport,
@@ -1361,8 +1321,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsWordXml(object args)
 		{
-			var fmt = App.GetString("DefaultDistributionChartWordXmlExportFileAffix",
-				"{0}-{1}DistributionChart-(Word).xml", "Export");
+			var fmt = LocalizationManager.GetString("Views.DistributionChart.DefaultWordXmlExportFileAffix",
+				"{0}-{1}DistributionChart-(Word).xml");
 
 			return Export(ResultViewManger.WordXmlExport, fmt, App.kstidFileTypeWordXml, "xml",
 				Settings.Default.OpenWordXmlDistChartAfterExport, DistributionChartExporter.ToWordXml);
@@ -1371,8 +1331,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsXLingPaper(object args)
 		{
-			var fmt = App.GetString("DefaultDistributionChartXLingPaperExportFileAffix",
-				"{0}-{1}DistributionChart-(XLingPaper).xml", "Export");
+			var fmt = LocalizationManager.GetString("Views.DistributionChart.DefaultXLingPaperExportFileAffix",
+				"{0}-{1}DistributionChart-(XLingPaper).xml");
 
 			return Export(ResultViewManger.XLingPaperExport, fmt, App.kstidFileTypeXLingPaper, "xml",
 				Settings.Default.OpenXLingPaperDistChartAfterExport, DistributionChartExporter.ToXLingPaper);
@@ -1381,7 +1341,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExportAsHTML(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !ActiveView)
 				return false;
 
@@ -1392,10 +1352,6 @@ namespace SIL.Pa.UI.Views
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExportAsWordXml(object args)
 		{

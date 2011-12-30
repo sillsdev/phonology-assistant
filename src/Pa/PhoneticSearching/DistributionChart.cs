@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using Localization;
 using SIL.Pa.UI.Controls;
 
 namespace SIL.Pa.PhoneticSearching
@@ -50,11 +51,13 @@ namespace SIL.Pa.PhoneticSearching
 		[XmlIgnore]
 		public string NameOrNone
 		{
-			get
-			{
-				return (string.IsNullOrEmpty(Name) ?
-					App.GetString("Views.DistributionCharts.EmptyName", "(none)") : Name);
-			}
+			get { return (string.IsNullOrEmpty(Name) ? TextForNamelessChart : Name); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string TextForNamelessChart
+		{
+			get { return LocalizationManager.GetString("Views.DistributionChart.EmptyName", "(none)"); }
 		}
 
 		#region Properties

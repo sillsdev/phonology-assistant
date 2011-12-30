@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.ServiceProcess;
 using System.Windows.Forms;
+using Localization;
 using Microsoft.Win32;
 using Palaso.Reporting;
 using SIL.Pa.Properties;
@@ -111,8 +112,11 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 			SmallFadingWnd msgWnd = null;
 			if (ShowMsgWhenGatheringFWInfo)
-				msgWnd = new SmallFadingWnd(App.GetString("GatheringFw6ProjectInfoMsg", "Gathering FieldWorks Project Information..."));
-
+			{
+				msgWnd = new SmallFadingWnd(LocalizationManager.GetString(
+					"Miscellaneous.Messages.DataSourceReading.GatheringFw6ProjectInfoMsg",
+					"Gathering FieldWorks Project Information..."));
+			}
 			try
 			{
 				// Read all the SQL databases from the server's master table.
@@ -139,7 +143,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 			{
 				if (s_showErrorOnConnectionFailure)
 				{
-					ErrorReport.NotifyUserOfProblem(e, App.GetString("GettingFwProjectErrorMsg",
+					ErrorReport.NotifyUserOfProblem(e, LocalizationManager.GetString(
+						"Miscellaneous.Messages.DataSourceReading.ErrorGettingFwProjectMsg",
 						"An error occurred while trying to get a list of FieldWorks projects."));
 				}
 
@@ -180,7 +185,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 			{
 				if (!s_showErrorOnConnectionFailure)
 				{
-					ErrorReport.NotifyUserOfProblem(e, App.GetString("SQLServerNotInstalledMsg",
+					ErrorReport.NotifyUserOfProblem(e, LocalizationManager.GetString(
+						"Miscellaneous.Messages.DataSourceReading.ErrorEstablishingSQLServerConnectionMsg",
 						"An error occurred when trying to establish a connection to the '{0}' " +
 						"database on the machine '{1}'."), dbName, machineName);
 				}
@@ -197,7 +203,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 			if (showMsg)
 			{
-				ErrorReport.NotifyUserOfProblem(App.GetString("SQLServerNotInstalledMsg",
+				ErrorReport.NotifyUserOfProblem(LocalizationManager.GetString(
+					"Miscellaneous.Messages.DataSourceReading.SQLServerNotInstalledMsg",
 					"Access to FieldWorks projects requires SQL Server but it is not installed on this computer."));
 			}
 
@@ -249,7 +256,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 						if (svcController.Status == ServiceControllerStatus.Running)
 							return true;
 
-						var startingSQLMsg = App.GetString("StartingSQLServerMsg", "Starting SQL Server...");
+						var startingSQLMsg = LocalizationManager.GetString(
+							"Miscellaneous.Messages.DataSourceReading.StartingSQLServerMsg", "Starting SQL Server...");
 
 						using (var msgWnd = new SmallFadingWnd(startingSQLMsg))
 						{
@@ -286,7 +294,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 				// Check if we've timed out.
 				if (error.Message.ToLower().IndexOf("time out") < 0)
 				{
-					ErrorReport.NotifyUserOfProblem(error, App.GetString("ErrorStartingSQLServer1",
+					ErrorReport.NotifyUserOfProblem(error, LocalizationManager.GetString(
+						"Miscellaneous.Messages.DataSourceReading.ErrorStartingSQLServer1",
 						"SQL Server cannot be started. It may not be installed. Make sure " +
 						"FieldWorks Language Explorer has been installed or restart Phonology " +
 						"Assistant to try again."));
@@ -294,7 +303,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 					return false;
 				}
 
-				var	msg = App.GetString("ErrorStartingSQLServer2",
+				var msg = LocalizationManager.GetString("Miscellaneous.Messages.DataSourceReading.ErrorStartingSQLServer2",
 						"Phonology Assistant waited {0} seconds for SQL Server to fully start up." +
 						"\nEither that is not enough time for your computer or it may not be installed." +
 						"\nMake sure FieldWorks Language Explorer has been installed. Would you\nlike to try again?");

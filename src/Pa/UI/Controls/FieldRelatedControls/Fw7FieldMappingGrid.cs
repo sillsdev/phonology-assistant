@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
@@ -44,18 +45,20 @@ namespace SIL.Pa.UI.Controls
 				m_potentialFields.Select(f => f.DisplayName));
 
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
-			col.HeaderText = GetFieldColumnHeadingText();
+			col.HeaderText = "_L10N_:DialogBoxes.Fw7DataSourceProperties.FieldMappingGrid.ColumnHeadings.Field!Field";
 			Columns.Insert(0, col);
 
 			AddRemoveRowColumn(Properties.Resources.RemoveGridRowNormal, Properties.Resources.RemoveGridRowHot,
-				() => App.GetString("Fw7FieldMappingGrid.RemoveFieldToolTip", "Remove Field"),
-				rowIndex => m_mappings.RemoveAt(rowIndex));
+				() => LocalizationManager.GetString(
+					"DialogBoxes.Fw7DataSourceProperties.FieldMappingGrid.RemoveFieldToolTip", "Remove Field"),
+						rowIndex => m_mappings.RemoveAt(rowIndex));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string GetNoWritingSystemText()
 		{
-			return App.GetString("Fw7FieldMappingGrid.WritingSystemNotApplicableText", "(n/a)");
+			return LocalizationManager.GetString(
+				"DialogBoxes.Fw7DataSourceProperties.FieldMappingGrid.WritingSystemNotApplicableText", "(n/a)");
 		}
 
 		/// ------------------------------------------------------------------------------------

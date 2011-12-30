@@ -7,6 +7,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using Localization.UI;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.DataSource;
@@ -117,7 +118,7 @@ namespace SIL.Pa.UI
 			var tph = new TrainingProjectsHelper();
 			tph.Setup();
 
-			LocalizeItemDlg.StringsLocalized += delegate { SetWindowText(_project); };
+			LocalizeItemDlg.StringsLocalized += () => SetWindowText(_project);
 			SetWindowText(_project);
 		}
 
@@ -125,10 +126,10 @@ namespace SIL.Pa.UI
 		private void SetWindowText(PaProject project)
 		{
 			if (project == null || string.IsNullOrEmpty(project.Name))
-				Text = App.GetStringForObject(this, Text);
+				Text = LocalizationManager.GetStringForObject(this, null);
 			else
 			{
-				var fmt = App.GetString("PaMainWnd.WindowTitleWithProject","{0} - Phonology Assistant");
+				var fmt = LocalizationManager.GetString("MainWindow.WindowTitle.WithProject","{0} - Phonology Assistant");
 				Text = string.Format(fmt, project.Name);
 			}
 		}
@@ -283,58 +284,63 @@ namespace SIL.Pa.UI
 
 			var itemProps = _tmAdapter.GetItemProperties("mnuDataCorpus");
 			var img = (itemProps == null ? null : itemProps.Image);
-			var text = (itemProps == null ? "Error!" : itemProps.Text);
-			var tab = new ViewTab(vwTabGroup, text, img, typeof(DataCorpusVw),
+			var tab = new ViewTab(vwTabGroup, img, typeof(DataCorpusVw),
 				() => new DataCorpusVw(_project), "hidDataCorpusView",
-				() => App.GetString("PaMainWnd.DataCorpusViewHelpButtonToolTip",
+				() => LocalizationManager.GetString("MainWindow.ViewTabs.DataCorpusHelpButtonToolTip",
 					"Data Corpus View Help"));
-				
+
+			tab.Text = LocalizationManager.GetString("MainWindow.ViewTabs.DataCorpusTab",
+				"Data Corpus", null, "Data Corpus View (Ctrl+Alt+D)", null, tab);
+
 			vwTabGroup.AddTab(tab);
-			App.RegisterForLocalization(tab, "MenuItems.DataCorpus");
 
 			itemProps = _tmAdapter.GetItemProperties("mnuFindPhones");
 			img = (itemProps == null ? null : itemProps.Image);
-			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tab = new ViewTab(vwTabGroup, text, img, typeof(SearchVw),
+			tab = new ViewTab(vwTabGroup, img, typeof(SearchVw),
 				() => new SearchVw(_project), "hidSearchView",
-				() => App.GetString("PaMainWnd.SearchViewHelpButtonToolTip",
+				() => LocalizationManager.GetString("MainWindow.ViewTabs.SearchTabHelpButtonToolTip",
 					"Search View Help"));
 
+			tab.Text = LocalizationManager.GetString("MainWindow.ViewTabs.SearchTab",
+				"Search", null, "Search View (Ctrl+Alt+S)", null, tab);
+
 			vwTabGroup.AddTab(tab);
-			App.RegisterForLocalization(tab, "MenuItems.FindPhones");
 
 			itemProps = _tmAdapter.GetItemProperties("mnuConsonantChart");
 			img = (itemProps == null ? null : itemProps.Image);
-			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tab = new ViewTab(vwTabGroup, text, img, typeof(ConsonantChartVw),
-				() => new ConsonantChartVw(_project), "hidConsonantChartView", 
-				() => App.GetString("PaMainWnd.ConsonantChartViewHelpButtonToolTip",
+			tab = new ViewTab(vwTabGroup, img, typeof(ConsonantChartVw),
+				() => new ConsonantChartVw(_project), "hidConsonantChartView",
+				() => LocalizationManager.GetString("MainWindow.ViewTabs.ConsonantChartHelpButtonToolTip",
 					"Consonant Chart View Help"));
 
+			tab.Text = LocalizationManager.GetString("MainWindow.ViewTabs.ConsonantChartTab",
+				"Consonant Chart", null, "Consonant Chart View (Ctrl+Alt+C)", null, tab);
+
 			vwTabGroup.AddTab(tab);
-			App.RegisterForLocalization(tab, "MenuItems.ConsonantChart");
 
 			itemProps = _tmAdapter.GetItemProperties("mnuVowelChart");
 			img = (itemProps == null ? null : itemProps.Image);
-			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tab = new ViewTab(vwTabGroup, text, img, typeof(VowelChartVw),
+			tab = new ViewTab(vwTabGroup, img, typeof(VowelChartVw),
 				() => new VowelChartVw(_project), "hidVowelChartView",
-				() => App.GetString("PaMainWnd.VowelChartViewHelpButtonToolTip",
+				() => LocalizationManager.GetString("MainWindow.ViewTabs.VowelChartHelpButtonToolTip",
 					"Vowel Chart View Help"));
 
+			tab.Text = LocalizationManager.GetString("MainWindow.ViewTabs.VowelChartTab",
+				"Vowel Chart", null, "Vowel Chart View (Ctrl+Alt+V)", null, tab);
+
 			vwTabGroup.AddTab(tab);
-			App.RegisterForLocalization(tab, "MenuItems.VowelChart");
 
 			itemProps = _tmAdapter.GetItemProperties("mnuXYChart");
 			img = (itemProps == null ? null : itemProps.Image);
-			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tab = new ViewTab(vwTabGroup, text, img, typeof(DistributionChartVw),
+			tab = new ViewTab(vwTabGroup, img, typeof(DistributionChartVw),
 				() => new DistributionChartVw(_project), "hidXYChartsView",
-				() => App.GetString("PaMainWnd.DistributionChartViewHelpButtonToolTip",
+				() => LocalizationManager.GetString("MainWindow.ViewTabs.DistributionChartHelpButtonToolTip",
 					"Distribution Charts View Help"));
 
+			tab.Text = LocalizationManager.GetString("MainWindow.ViewTabs.DistributionChartTab",
+				"Distribution Chart", null, "Distribution Chart View (Ctrl+Alt+X)", null, tab);
+
 			vwTabGroup.AddTab(tab);
-			App.RegisterForLocalization(tab, "MenuItems.XYChart");
 			
 			vwTabGroup.Visible = true;
 		}
@@ -402,8 +408,6 @@ namespace SIL.Pa.UI
 			}
 
 			App.MsgMediator.SendMessage("StopAllPlayback", null);
-
-			App.SaveOnTheFlyLocalizations();
 
 			if (_project != null)
 				_project.EnsureSortOptionsSaved();
@@ -597,13 +601,13 @@ namespace SIL.Pa.UI
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		protected bool OnUserInterfaceLangaugeChanged(object args)
-		{
-			App.ReapplyLocalizationsToAllObjects();
-			OnStringsLocalized(null);
-			return false;
-		}
+		///// ------------------------------------------------------------------------------------
+		//protected bool OnUserInterfaceLangaugeChanged(object args)
+		//{
+		//    App.ReapplyLocalizationsToAllObjects();
+		//    OnStringsLocalized(null);
+		//    return false;
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		protected bool OnRecentlyUsedProjectChosen(object args)
@@ -612,7 +616,7 @@ namespace SIL.Pa.UI
 
 			if (!File.Exists(filename))
 			{
-				var fmt = App.GetString("RecentlyOpenedProjectMissingMsg",
+				var fmt = LocalizationManager.GetString("Miscellaneous.Messages.RecentlyOpenedProjectIsMissingMsg",
 					"The project file '{0}' is missing.");
 
 				Utils.MsgBox(string.Format(fmt, filename), MessageBoxIcon.Exclamation);
@@ -685,7 +689,7 @@ namespace SIL.Pa.UI
 
 			if (!File.Exists(path))
 			{
-				var fmt = App.GetString("TrainingFileMissingMsg",
+				var fmt = LocalizationManager.GetString("Miscellaneous.Messages.TrainingFileIsMissingMsg",
 					"The training file '{0}' is missing.");
 
 				var msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(path));
@@ -713,7 +717,7 @@ namespace SIL.Pa.UI
 
 			if (dlg.ShowDialog(this) == DialogResult.OK && dlg.Project != null)
 			{
-				var fmt = App.GetString("LoadNewlyCreatedProjectQuestion",
+				var fmt = LocalizationManager.GetString("Miscellaneous.Messages.LoadNewlyCreatedProjectQuestion",
 					"Would you like to load the '{0}' project?");
 
 				var msg = string.Format(fmt, dlg.Project.Name);
@@ -908,25 +912,25 @@ namespace SIL.Pa.UI
 		///----------------------------------------------------------------------------------
 		protected bool OnExportAsPAXML(object args)
 		{
-			var dlg = new SaveFileDialog();
-			dlg.OverwritePrompt = true;
-			dlg.CheckFileExists = false;
-			dlg.CheckPathExists = true;
-			dlg.AddExtension = true;
-			dlg.ShowHelp = false;
-			dlg.RestoreDirectory = false;
-			dlg.InitialDirectory = Environment.CurrentDirectory;
-			dlg.DefaultExt = "paxml";
+			//var dlg = new SaveFileDialog();
+			//dlg.OverwritePrompt = true;
+			//dlg.CheckFileExists = false;
+			//dlg.CheckPathExists = true;
+			//dlg.AddExtension = true;
+			//dlg.ShowHelp = false;
+			//dlg.RestoreDirectory = false;
+			//dlg.InitialDirectory = Environment.CurrentDirectory;
+			//dlg.DefaultExt = "paxml";
 
-			var fmt = App.GetString("PaXmlExportSaveFileDialogText", "Export to {0} XML");
-			dlg.Title = string.Format(fmt, Application.ProductName);
-			dlg.FileName = _project.GetCleanNameForFileName() + ".paxml";
-			dlg.FilterIndex = 0;
-			dlg.Filter = string.Format(App.kstidFileTypePAXML, Application.ProductName) +
-				"|" + App.kstidFileTypeAllFiles;
+			//var fmt = LocalizationManager.GetString("PaXmlExportSaveFileDialogText", "Export to {0} XML");
+			//dlg.Title = string.Format(fmt, Application.ProductName);
+			//dlg.FileName = _project.GetCleanNameForFileName() + ".paxml";
+			//dlg.FilterIndex = 0;
+			//dlg.Filter = string.Format(App.kstidFileTypePAXML, Application.ProductName) +
+			//    "|" + App.kstidFileTypeAllFiles;
 
-			if (dlg.ShowDialog(this) == DialogResult.OK && !string.IsNullOrEmpty(dlg.FileName))
-				_project.RecordCache.Save(dlg.FileName);
+			//if (dlg.ShowDialog(this) == DialogResult.OK && !string.IsNullOrEmpty(dlg.FileName))
+			//    _project.RecordCache.Save(dlg.FileName);
 
 			return true;
 		}

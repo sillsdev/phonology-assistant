@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Localization;
 using SIL.Pa.Model;
 
 namespace SIL.Pa.PhoneticSearching
@@ -67,7 +68,7 @@ namespace SIL.Pa.PhoneticSearching
 				}
 			}
 
-			var fmt = App.GetString("PhoneticSearchingMessages.DiacriticPlaceholderNotInAndGroupMsg",
+			var fmt = LocalizationManager.GetString("PhoneticSearchingMessages.DiacriticPlaceholderNotInAndGroupMsg",
 			    "The diacritic placeholder pattern '{0}' is not inside an AND group. Diacritic placeholder " +
 			    "patterns must be placed inside AND groups.");
 
@@ -102,7 +103,7 @@ namespace SIL.Pa.PhoneticSearching
 			// At this point any commas found are invalid.
 			if (andGroupPattern.Contains(','))
 			{
-				var msg = string.Format(App.GetString("PhoneticSearchingMessages.AndGroupContainsCommaMsg",
+				var msg = string.Format(LocalizationManager.GetString("PhoneticSearchingMessages.AndGroupContainsCommaMsg",
 					"The AND group '{0}' contains a comma. Commas are only valid in OR groups."),
 					TranslateTokenizedTextToReadableText(origAndGroupPattern));
 
@@ -123,7 +124,7 @@ namespace SIL.Pa.PhoneticSearching
 			var phones = _project.PhoneticParser.Parse(text, true, false);
 			if (phones.Length > 1)
 			{
-				var msg = string.Format(App.GetString("PhoneticSearchingMessages.AndGroupContainsPhoneRunMsg",
+				var msg = string.Format(LocalizationManager.GetString("PhoneticSearchingMessages.AndGroupContainsPhoneRunMsg",
 					"The AND group '{0}' contains more than one literal phone, which is invalid and does " +
 					"not make sense in an AND group. Only single phones are allowed in AND groups."),
 					TranslateTokenizedTextToReadableText(origAndGroupPattern));

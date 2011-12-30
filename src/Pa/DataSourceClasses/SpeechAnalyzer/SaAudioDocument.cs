@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using Localization;
 using SilTools;
 
 namespace SIL.Pa.DataSource.Sa
@@ -191,7 +192,7 @@ namespace SIL.Pa.DataSource.Sa
 				var audioFileNameOnly = Path.GetFileName(audioFile);
 				var transFileNameOnly = Path.ChangeExtension(audioFileNameOnly, ".saxml");
 
-				var msg = App.GetString("ReadOnlyFolderMsg",
+				var msg = LocalizationManager.GetString("Miscellaneous.Messages.DataSourceReading.ReadOnlyFolderMsg",
 					"You are attempting to save the transcriptions for {0} in a location for which you do not have write access. Please specify another location in which to make a copy of {1} along with its transcription file ({2}).");
 				
 				msg = string.Format(msg, audioFileNameOnly, audioFileNameOnly, transFileNameOnly);

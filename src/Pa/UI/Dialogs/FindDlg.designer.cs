@@ -101,7 +101,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.fldSelGridSrchCols.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.fldSelGridSrchCols, null);
 			this.locExtender.SetLocalizationComment(this.fldSelGridSrchCols, null);
-			this.locExtender.SetLocalizingId(this.fldSelGridSrchCols, "FindDlg.fldSelGridSrchCols");
+			this.locExtender.SetLocalizationPriority(this.fldSelGridSrchCols, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.fldSelGridSrchCols, "DialogBoxes.FindDlg.fldSelGridSrchCols");
 			this.fldSelGridSrchCols.Location = new System.Drawing.Point(0, 76);
 			this.fldSelGridSrchCols.Margin = new System.Windows.Forms.Padding(0, 5, 0, 2);
 			this.fldSelGridSrchCols.MultiSelect = false;
@@ -131,7 +132,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.gbOptions.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.gbOptions, null);
 			this.locExtender.SetLocalizationComment(this.gbOptions, "Text in frame around check boxes in find dialog box.");
-			this.locExtender.SetLocalizingId(this.gbOptions, "FindDlg.gbOptions");
+			this.locExtender.SetLocalizingId(this.gbOptions, "DialogBoxes.FindDlg.OptionsGroupBox");
 			this.gbOptions.Location = new System.Drawing.Point(199, 54);
 			this.gbOptions.Margin = new System.Windows.Forms.Padding(8, 3, 0, 0);
 			this.gbOptions.Name = "gbOptions";
@@ -185,7 +186,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.chkReverseSearch.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.chkReverseSearch, null);
 			this.locExtender.SetLocalizationComment(this.chkReverseSearch, "Check box option on find dialog box.");
-			this.locExtender.SetLocalizingId(this.chkReverseSearch, "FindDlg.chkReverseSearch");
+			this.locExtender.SetLocalizingId(this.chkReverseSearch, "DialogBoxes.FindDlg.ReverseSearchCheckbox");
 			this.chkReverseSearch.Location = new System.Drawing.Point(10, 97);
 			this.chkReverseSearch.Margin = new System.Windows.Forms.Padding(10, 10, 3, 0);
 			this.chkReverseSearch.Name = "chkReverseSearch";
@@ -204,7 +205,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.chkMatchEntireWord.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.chkMatchEntireWord, null);
 			this.locExtender.SetLocalizationComment(this.chkMatchEntireWord, "Check box option on find dialog box.");
-			this.locExtender.SetLocalizingId(this.chkMatchEntireWord, "FindDlg.chkMatchEntireWord");
+			this.locExtender.SetLocalizingId(this.chkMatchEntireWord, "DialogBoxes.FindDlg.MatchEntireWordCheckbox");
 			this.chkMatchEntireWord.Location = new System.Drawing.Point(10, 68);
 			this.chkMatchEntireWord.Margin = new System.Windows.Forms.Padding(10, 10, 3, 0);
 			this.chkMatchEntireWord.Name = "chkMatchEntireWord";
@@ -224,7 +225,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.chkRegEx.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.chkRegEx, null);
 			this.locExtender.SetLocalizationComment(this.chkRegEx, "Check box option on find dialog box.");
-			this.locExtender.SetLocalizingId(this.chkRegEx, "FindDlg.chkRegEx");
+			this.locExtender.SetLocalizingId(this.chkRegEx, "DialogBoxes.FindDlg.RegularExpressionCheckbox");
 			this.chkRegEx.Location = new System.Drawing.Point(10, 155);
 			this.chkRegEx.Margin = new System.Windows.Forms.Padding(10, 10, 3, 0);
 			this.chkRegEx.Name = "chkRegEx";
@@ -243,7 +244,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.chkSrchCollapsedGrps.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.chkSrchCollapsedGrps, null);
 			this.locExtender.SetLocalizationComment(this.chkSrchCollapsedGrps, "Check box option on find dialog box.");
-			this.locExtender.SetLocalizingId(this.chkSrchCollapsedGrps, "FindDlg.chkSrchCollapsedGrps");
+			this.locExtender.SetLocalizingId(this.chkSrchCollapsedGrps, "DialogBoxes.FindDlg.SearchCollapsedGroupsCheckbox");
 			this.chkSrchCollapsedGrps.Location = new System.Drawing.Point(10, 126);
 			this.chkSrchCollapsedGrps.Margin = new System.Windows.Forms.Padding(10, 10, 3, 0);
 			this.chkSrchCollapsedGrps.Name = "chkSrchCollapsedGrps";
@@ -261,7 +262,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.chkStartsWith.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.chkStartsWith, null);
 			this.locExtender.SetLocalizationComment(this.chkStartsWith, "Check box option on find dialog box.");
-			this.locExtender.SetLocalizingId(this.chkStartsWith, "FindDlg.chkStartsWith");
+			this.locExtender.SetLocalizingId(this.chkStartsWith, "DialogBoxes.FindDlg.StartsWithCheckbox");
 			this.chkStartsWith.Location = new System.Drawing.Point(10, 39);
 			this.chkStartsWith.Margin = new System.Windows.Forms.Padding(10, 10, 3, 0);
 			this.chkStartsWith.Name = "chkStartsWith";
@@ -280,7 +281,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.chkMatchCase.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.chkMatchCase, null);
 			this.locExtender.SetLocalizationComment(this.chkMatchCase, "Check box option on find dialog box.");
-			this.locExtender.SetLocalizingId(this.chkMatchCase, "FindDlg.chkMatchCase");
+			this.locExtender.SetLocalizingId(this.chkMatchCase, "DialogBoxes.FindDlg.MatchCaseCheckbox");
 			this.chkMatchCase.Location = new System.Drawing.Point(10, 10);
 			this.chkMatchCase.Margin = new System.Windows.Forms.Padding(10, 10, 3, 0);
 			this.chkMatchCase.Name = "chkMatchCase";
@@ -298,7 +299,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblFindWhat.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblFindWhat, null);
 			this.locExtender.SetLocalizationComment(this.lblFindWhat, "Label above drop-down box of items to find in find dialog box.");
-			this.locExtender.SetLocalizingId(this.lblFindWhat, "FindDlg.lblFindWhat");
+			this.locExtender.SetLocalizingId(this.lblFindWhat, "DialogBoxes.FindDlg.FindWhatLabel");
 			this.lblFindWhat.Location = new System.Drawing.Point(3, 7);
 			this.lblFindWhat.Margin = new System.Windows.Forms.Padding(3, 7, 3, 0);
 			this.lblFindWhat.Name = "lblFindWhat";
@@ -313,7 +314,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnCancel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
 			this.locExtender.SetLocalizationComment(this.btnCancel, "Text on button on find dialog box.");
-			this.locExtender.SetLocalizingId(this.btnCancel, "FindDlg.btnCancel");
+			this.locExtender.SetLocalizingId(this.btnCancel, "DialogBoxes.FindDlg.CancelButton");
 			this.btnCancel.Location = new System.Drawing.Point(280, 7);
 			this.btnCancel.Margin = new System.Windows.Forms.Padding(5, 7, 0, 7);
 			this.btnCancel.MinimumSize = new System.Drawing.Size(80, 26);
@@ -332,8 +333,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnFind.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnFind, null);
 			this.locExtender.SetLocalizationComment(this.btnFind, "Text on button on find dialog box.");
-			this.locExtender.SetLocalizationPriority(this.btnFind, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.btnFind, "FindDlg.btnFind");
+			this.locExtender.SetLocalizingId(this.btnFind, "DialogBoxes.FindDlg.FindButton");
 			this.btnFind.Location = new System.Drawing.Point(195, 7);
 			this.btnFind.Margin = new System.Windows.Forms.Padding(5, 7, 0, 7);
 			this.btnFind.MinimumSize = new System.Drawing.Size(80, 26);
@@ -352,7 +352,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.cboFindWhat, null);
 			this.locExtender.SetLocalizationComment(this.cboFindWhat, null);
 			this.locExtender.SetLocalizationPriority(this.cboFindWhat, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.cboFindWhat, "FindDlg.cboFindWhat");
+			this.locExtender.SetLocalizingId(this.cboFindWhat, "DialogBoxes.FindDlg.FindWhatComboBox");
 			this.cboFindWhat.Location = new System.Drawing.Point(0, 27);
 			this.cboFindWhat.Margin = new System.Windows.Forms.Padding(0, 5, 0, 3);
 			this.cboFindWhat.MaxDropDownItems = 5;
@@ -366,7 +366,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnHelp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
 			this.locExtender.SetLocalizationComment(this.btnHelp, "Text on button on find dialog box.");
-			this.locExtender.SetLocalizingId(this.btnHelp, "FindDlg.btnHelp");
+			this.locExtender.SetLocalizingId(this.btnHelp, "DialogBoxes.FindDlg.HelpButton");
 			this.btnHelp.Location = new System.Drawing.Point(365, 7);
 			this.btnHelp.Margin = new System.Windows.Forms.Padding(5, 7, 0, 7);
 			this.btnHelp.MinimumSize = new System.Drawing.Size(80, 26);
@@ -407,7 +407,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblSearchColumns.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblSearchColumns, null);
 			this.locExtender.SetLocalizationComment(this.lblSearchColumns, "Label above column list in find dialog box.");
-			this.locExtender.SetLocalizingId(this.lblSearchColumns, "FindDlg.lblSearchColumns");
+			this.locExtender.SetLocalizingId(this.lblSearchColumns, "DialogBoxes.FindDlg.SearchColumnsLabel");
 			this.lblSearchColumns.Location = new System.Drawing.Point(3, 56);
 			this.lblSearchColumns.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
 			this.lblSearchColumns.Name = "lblSearchColumns";
@@ -437,7 +437,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// FindDlg
@@ -451,7 +450,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.tblLayoutButtons);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "FindDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.FindDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(375, 250);

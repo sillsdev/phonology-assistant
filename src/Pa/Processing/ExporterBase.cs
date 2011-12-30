@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
@@ -125,8 +126,8 @@ namespace SIL.Pa.Processing
 			// Create a stream of xml data containing the phones in the project.
 			var inputStream = CreateInputFileToTransformPipeline(keepIntermediateFile);
 
-			var msg = App.GetString("ExportProgressMsg", "Exporting (Step {0})...",
-				"Message displayed when exporting lists and charts.");
+			var msg = LocalizationManager.GetString("Miscellaneous.Messages.ExportProgressStatusMsg",
+				"Exporting (Step {0})...", "Message displayed when exporting lists and charts.");
 
 			MemoryStream outputStream = null;
 			int processingStep = 0;

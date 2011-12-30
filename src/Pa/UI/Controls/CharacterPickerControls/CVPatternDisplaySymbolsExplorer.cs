@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 
 namespace SIL.Pa.UI.Controls
@@ -15,16 +16,28 @@ namespace SIL.Pa.UI.Controls
 		protected override void LocalizePickerButton(int typeInfo, Button button)
 		{
 			if (GetHasStressType(typeInfo))
-				App.RegisterForLocalization(button, "DialogBoxes.OptionsDlg.CVPatternsTab.CharacterPicker.StressHeading", "Display Stress");
+			{
+				LocalizationManager.GetString("DialogBoxes.OptionsDlg.CVPatternsTab.CharacterPicker.StressHeading",
+					"Display Stress", null, button);
+			}
 
 			if (GetHasLengthType(typeInfo))
-				App.RegisterForLocalization(button, "DialogBoxes.OptionsDlg.CVPatternsTab.CharacterPicker.LengthHeading", "Display Length");
+			{
+				LocalizationManager.GetString("DialogBoxes.OptionsDlg.CVPatternsTab.CharacterPicker.LengthHeading",
+					"Display Length", null, button);
+			}
 
 			if (GetHasBoundaryType(typeInfo))
-				App.RegisterForLocalization(button, "DialogBoxes.OptionsDlg.CVPatternsTab.CharacterPicker.BoundaryHeading", "Display Boundary");
+			{
+				LocalizationManager.GetString("DialogBoxes.OptionsDlg.CVPatternsTab.CharacterPicker.BoundaryHeading",
+					"Display Boundary", null, button);
+			}
 
 			if (GetHasToneType(typeInfo))
-				App.RegisterForLocalization(button, "DialogBoxes.OptionsDlg.CVPatternsTab.CharacterPicker.ToneHeading", "Display Tone");
+			{
+				LocalizationManager.GetString("DialogBoxes.OptionsDlg.CVPatternsTab.CharacterPicker.ToneHeading",
+					"Display Tone", null, button);
+			}
 		}
 	}
 }

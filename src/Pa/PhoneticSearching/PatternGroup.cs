@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Localization;
 
 namespace SIL.Pa.PhoneticSearching
 {
@@ -557,14 +558,14 @@ namespace SIL.Pa.PhoneticSearching
 			pattern = pattern.Replace("[v]", "[V]");
 
 			// Check for too many zero-or-more symbols
-			if (pattern.IndexOf("**") >= 0)
+			if (pattern.IndexOf("**", StringComparison.Ordinal) >= 0)
 			{
 				LogError(GetErrorMsg("TooManyZeroOrMoreErrorMsg"));
 				return false;
 			}
 
 			// Check for too many one-or-more symbols
-			if (pattern.IndexOf("++") >= 0)
+			if (pattern.IndexOf("++", StringComparison.Ordinal) >= 0)
 			{
 				LogError(GetErrorMsg("TooManyOneOrMoreErrorMsg"));
 				return false;
@@ -1162,53 +1163,70 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			switch (id)
 			{
-				case "TooManyOneOrMoreErrorMsg" :
-					return App.GetString("TooManyOneOrMoreErrorMsg", "Too many one-or-more symbols (+) found in the {0}. Only one is allowed.");
+				case "TooManyOneOrMoreErrorMsg": return "Too many one-or-more symbols (+) found in the {0}. Only one is allowed.";
+				case "PatternContainsSpacesErrorMsg": return "There were spaces found in the {0}. Use '#' instead.";
+				case "PatternEmptyErrorMsg": return "The {0} is empty.";
+				case "MisplacedDiacriticErrorMsg": return "Misplaced diacritic in the {0}.";
+				case "IrregularDiacriticPlaceholderErrorMsg": return "Irregular diacritic placeholder syntax in {0}.";
+				case "TooManyZeroOrMoreErrorMsg": return "Too many zero-or-more symbols (*) found in the {0}. Only one is allowed.";
+				case "MismatchedBracketsErrorMsg": return "Mismatched brackets found in the {0}.";
+				case "MismatchedBracesErrorMsg": return "Mismatched braces found in the {0}.";
+				case "MismatchedBracketsOrBracesErrorMsg": return "Mismatched brackets or braces found in the {0}.";
+				case "ZeroAndOneOrMoreFoundErrorMsg": return "The zero-or-more symbol (*) cannot be in the {0} with the one-or-more symbol (+).";
+				case "TooManyDiacriticPlaceholdersErrorMsg": return "There are too many diacritic placeholders between a single set of brackets in the {0}.";
+				case "ZeroOneOrMoreFoundInSrchItemErrorMsg": return "The zero-or-more (*) and one-or-more (+) symbols are not allowed in the search item.";
+				case "ZeroOrMoreBeginningErrorMsg": return "When the zero-or-more symbol (*) is present in the preceding environment, it must be at the beginning.";
+				case "ZeroOrMoreEndingErrorMsg": return "When the zero-or-more symbol (*) is present in the following environment, it must be at the end.";
+				case "OneOrMoreBeginningErrorMsg": return "When the one-or-more symbol (+) is present in the preceding environment, it must be  at the beginning.";
+				case "OneOrMoreEndingErrorMsg": return "When the one-or-more symbol (+) is present in the following environment, it must be  at the end.";
+
+				//case "TooManyOneOrMoreErrorMsg" :
+				//    return LocalizationManager.GetString("TooManyOneOrMoreErrorMsg", "Too many one-or-more symbols (+) found in the {0}. Only one is allowed.");
 				
-				case "PatternContainsSpacesErrorMsg" :
-					return App.GetString("PatternContainsSpacesErrorMsg", "There were spaces found in the {0}. Use '#' instead.");
+				//case "PatternContainsSpacesErrorMsg" :
+				//    return LocalizationManager.GetString("PatternContainsSpacesErrorMsg", "There were spaces found in the {0}. Use '#' instead.");
 				
-				case "PatternEmptyErrorMsg" :
-					return App.GetString("PatternEmptyErrorMsg", "The {0} is empty.");
+				//case "PatternEmptyErrorMsg" :
+				//    return LocalizationManager.GetString("PatternEmptyErrorMsg", "The {0} is empty.");
 				
-				case "MisplacedDiacriticErrorMsg" :
-					return App.GetString("MisplacedDiacriticErrorMsg", "Misplaced diacritic in the {0}.");
+				//case "MisplacedDiacriticErrorMsg" :
+				//    return LocalizationManager.GetString("MisplacedDiacriticErrorMsg", "Misplaced diacritic in the {0}.");
 				
-				case "IrregularDiacriticPlaceholderErrorMsg" :
-					return App.GetString("IrregularDiacriticPlaceholderErrorMsg", "Irregular diacritic placeholder syntax in {0}.");
+				//case "IrregularDiacriticPlaceholderErrorMsg" :
+				//    return LocalizationManager.GetString("IrregularDiacriticPlaceholderErrorMsg", "Irregular diacritic placeholder syntax in {0}.");
 
-				case "TooManyZeroOrMoreErrorMsg":
-					return App.GetString("TooManyZeroOrMoreErrorMsg", "Too many zero-or-more symbols (*) found in the {0}. Only one is allowed.");
+				//case "TooManyZeroOrMoreErrorMsg":
+				//    return LocalizationManager.GetString("TooManyZeroOrMoreErrorMsg", "Too many zero-or-more symbols (*) found in the {0}. Only one is allowed.");
 
-				case "MismatchedBracketsErrorMsg":
-					return App.GetString("MismatchedBracketsErrorMsg", "Mismatched brackets found in the {0}.");
+				//case "MismatchedBracketsErrorMsg":
+				//    return LocalizationManager.GetString("MismatchedBracketsErrorMsg", "Mismatched brackets found in the {0}.");
 
-				case "MismatchedBracesErrorMsg":
-					return App.GetString("MismatchedBracesErrorMsg", "Mismatched braces found in the {0}.");
+				//case "MismatchedBracesErrorMsg":
+				//    return LocalizationManager.GetString("MismatchedBracesErrorMsg", "Mismatched braces found in the {0}.");
 
-				case "MismatchedBracketsOrBracesErrorMsg":
-					return App.GetString("MismatchedBracketsOrBracesErrorMsg", "Mismatched brackets or braces found in the {0}.");
+				//case "MismatchedBracketsOrBracesErrorMsg":
+				//    return LocalizationManager.GetString("MismatchedBracketsOrBracesErrorMsg", "Mismatched brackets or braces found in the {0}.");
 
-				case "ZeroAndOneOrMoreFoundErrorMsg":
-					return App.GetString("ZeroAndOneOrMoreFoundErrorMsg", "The zero-or-more symbol (*) cannot be in the {0} with the one-or-more symbol (+).");
+				//case "ZeroAndOneOrMoreFoundErrorMsg":
+				//    return LocalizationManager.GetString("ZeroAndOneOrMoreFoundErrorMsg", "The zero-or-more symbol (*) cannot be in the {0} with the one-or-more symbol (+).");
 
-				case "TooManyDiacriticPlaceholdersErrorMsg":
-					return App.GetString("TooManyDiacriticPlaceholdersErrorMsg", "There are too many diacritic placeholders between a single set of brackets in the {0}.");
+				//case "TooManyDiacriticPlaceholdersErrorMsg":
+				//    return LocalizationManager.GetString("TooManyDiacriticPlaceholdersErrorMsg", "There are too many diacritic placeholders between a single set of brackets in the {0}.");
 
-				case "ZeroOneOrMoreFoundInSrchItemErrorMsg":
-					return App.GetString("ZeroOneOrMoreFoundInSrchItemErrorMsg", "The zero-or-more (*) and one-or-more (+) symbols are not allowed in the search item.");
+				//case "ZeroOneOrMoreFoundInSrchItemErrorMsg":
+				//    return LocalizationManager.GetString("ZeroOneOrMoreFoundInSrchItemErrorMsg", "The zero-or-more (*) and one-or-more (+) symbols are not allowed in the search item.");
 
-				case "ZeroOrMoreBeginningErrorMsg":
-					return App.GetString("ZeroOrMoreBeginningErrorMsg", "When the zero-or-more symbol (*) is present in the preceding environment, it must be at the beginning.");
+				//case "ZeroOrMoreBeginningErrorMsg":
+				//    return LocalizationManager.GetString("ZeroOrMoreBeginningErrorMsg", "When the zero-or-more symbol (*) is present in the preceding environment, it must be at the beginning.");
 
-				case "ZeroOrMoreEndingErrorMsg":
-					return App.GetString("ZeroOrMoreEndingErrorMsg", "When the zero-or-more symbol (*) is present in the following environment, it must be at the end.");
+				//case "ZeroOrMoreEndingErrorMsg":
+				//    return LocalizationManager.GetString("ZeroOrMoreEndingErrorMsg", "When the zero-or-more symbol (*) is present in the following environment, it must be at the end.");
 
-				case "OneOrMoreBeginningErrorMsg":
-					return App.GetString("OneOrMoreBeginningErrorMsg", "When the one-or-more symbol (+) is present in the preceding environment, it must be  at the beginning.");
+				//case "OneOrMoreBeginningErrorMsg":
+				//    return LocalizationManager.GetString("OneOrMoreBeginningErrorMsg", "When the one-or-more symbol (+) is present in the preceding environment, it must be  at the beginning.");
 
-				case "OneOrMoreEndingErrorMsg":
-					return App.GetString("OneOrMoreEndingErrorMsg", "When the one-or-more symbol (+) is present in the following environment, it must be  at the end.");
+				//case "OneOrMoreEndingErrorMsg":
+				//    return LocalizationManager.GetString("OneOrMoreEndingErrorMsg", "When the one-or-more symbol (+) is present in the following environment, it must be  at the end.");
 			}
 
 			return null;

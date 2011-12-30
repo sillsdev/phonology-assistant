@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Localization;
 using Palaso.Progress;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
@@ -126,7 +127,7 @@ namespace SIL.Pa.UI.Dialogs
 				base.OnStringsLocalized();
 			else
 			{
-				Text = App.GetString("ProjectSettingsDlg.WindowTitleWhenProjectIsNew",
+				Text = LocalizationManager.GetString("DialogBoxes.ProjectSettingsDlg.WindowTitle.WhenProjectIsNew",
 					"New Project Settings", "Caption for project settings dialog when project is new.");
 			}
 		}
@@ -143,43 +144,35 @@ namespace SIL.Pa.UI.Dialogs
 			App.SetGridSelectionColors(m_grid, false);
 
 			m_grid.Columns.Add(SilGrid.CreateCheckBoxColumn("skip"));
-			App.RegisterForLocalization(m_grid.Columns["skip"],
-				"ProjectSettingsDlg.LoadDataSourceColumnHdg", "Load",
-				"Column heading in data source list in project settings dialog box.");
+			m_grid.Columns["skip"].HeaderText = "_L10N_:DialogBoxes.ProjectSettingsDlg.DataSourceGrid.ColumnHeadings.Load!Load";
 
 		    DataGridViewColumn col = SilGrid.CreateTextBoxColumn("sourcefiles");
 		    col.ReadOnly = true;
 		    col.Width = 250;
+			col.HeaderText = "_L10N_:DialogBoxes.ProjectSettingsDlg.DataSourceGrid.ColumnHeadings.Source!Source";
 			m_grid.Columns.Add(col);
-			App.RegisterForLocalization(m_grid.Columns["sourceFiles"],
-				"ProjectSettingsDlg.DataSourceNameColumnHdg", "Source",
-				"Column heading in data source list in project settings dialog box.");
 
 			col = SilGrid.CreateTextBoxColumn("type");
 		    col.ReadOnly = true;
 			col.Width = 75;
+			col.HeaderText = "_L10N_:DialogBoxes.ProjectSettingsDlg.DataSourceGrid.ColumnHeadings.Type!Type";
 		    m_grid.Columns.Add(col);
-			App.RegisterForLocalization(m_grid.Columns["type"],
-				"ProjectSettingsDlg.DataSourceTypeColumnHdg", "Type",
-				"Column heading in data source list in project settings dialog box.");
 
 		    col = SilGrid.CreateSilButtonColumn("xslt");
 		    col.ReadOnly = true;
 		    col.Width = 170;
+			col.HeaderText = "_L10N_:DialogBoxes.ProjectSettingsDlg.DataSourceGrid.ColumnHeadings.XSLT!XSLT";
 			((SilButtonColumn)col).ButtonWidth = 20;
 			((SilButtonColumn)col).DrawTextWithEllipsisPath = true;
 			((SilButtonColumn)col).ButtonClicked += HandleSpecifyXSLTClick;
-			
-			((SilButtonColumn)col).ButtonText = App.GetString("ProjectSettingsDlg.XsltColButtonText",
+
+			((SilButtonColumn)col).ButtonText = LocalizationManager.GetString("DialogBoxes.ProjectSettingsDlg.XsltColButtonText",
 				"...", "Text on the button in the XSLT column in the project settings dialog");
 
-			((SilButtonColumn)col).ButtonToolTip = App.GetString("ProjectSettingsDlg.XsltColButtonToolTip",
+			((SilButtonColumn)col).ButtonToolTip = LocalizationManager.GetString("DialogBoxes.ProjectSettingsDlg.XsltColButtonToolTip",
 				"Specify XSLT", "Tooltip for the button in the XSLTe column in the project settings dialog");
 			
 			m_grid.Columns.Add(col);
-			App.RegisterForLocalization(m_grid.Columns["xslt"],
-				"ProjectSettingsDlg.DataSourceFileXSLTColumnHdg", "XSLT",
-				"Column heading in data source list in project settings dialog box.");
 
 			m_grid.AutoResizeColumn(0, DataGridViewAutoSizeColumnMode.ColumnHeader);
 
@@ -295,7 +288,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (txtProjName.Text.Trim() == string.Empty)
 			{
 				// A project name was not specified.
-				msg = App.GetString("ProjectSettingsDlg.MissingProjectNameMsg",
+				msg = LocalizationManager.GetString("DialogBoxes.ProjectSettingsDlg.MissingProjectNameMsg",
 					"You must specify a project name.");
 
 				offendingCtrl = txtProjName;
@@ -303,7 +296,7 @@ namespace SIL.Pa.UI.Dialogs
 			else if (txtLanguageName.Text.Trim() == string.Empty)
 			{
 				// A language name was not specified.
-				msg = App.GetString("ProjectSettingsDlg.MissingLanguageNameMsg",
+				msg = LocalizationManager.GetString("DialogBoxes.ProjectSettingsDlg.MissingLanguageNameMsg",
 					"You must specify a language name.");
 	
 				offendingCtrl = txtLanguageName;
@@ -320,8 +313,8 @@ namespace SIL.Pa.UI.Dialogs
 					{
 						// No XSLT file was specified
 						offendingIndex = i;
-						
-						msg = App.GetString("ProjectSettingsDlg.MissingXSLTMsg",
+
+						msg = LocalizationManager.GetString("DialogBoxes.ProjectSettingsDlg.MissingXSLTMsg",
 							"You must specify an XSLT file for '{0}'");
 
 						msg = string.Format(msg, Utils.PrepFilePathForMsgBox(_dataSources[i].SourceFile));
@@ -383,7 +376,7 @@ namespace SIL.Pa.UI.Dialogs
 				if ((_dataSources[i].Type == DataSourceType.SFM || _dataSources[i].Type == DataSourceType.Toolbox) &&
 					string.IsNullOrEmpty(_dataSources[i].SfmRecordMarker))
 				{
-					var msg = App.GetString("ProjectSettingsDlg.NoSfmRecordMarkerSpecifiedErrorMsg",
+					var msg = LocalizationManager.GetString("DialogBoxes.ProjectSettingsDlg.NoSfmRecordMarkerSpecifiedErrorMsg",
 						"A record marker must be specified for '{0}'.");
 						
 					msg = string.Format(msg, Path.GetFileName(_dataSources[i].SourceFile));
@@ -492,9 +485,9 @@ namespace SIL.Pa.UI.Dialogs
 				dlg.Filter = string.Format(App.kstidFileTypePAProject,
 					Application.ProductName) + "|" + App.kstidFileTypeAllFiles;
 
-				dlg.Title = string.Format(App.GetString("ProjectSettingsDlg.ProjectSaveDialogText", "Save {0} Project File",
-					"Caption for the save PA project dialog. The parameter is for the application name."),
-					Application.ProductName);
+				dlg.Title = LocalizationManager.GetString(
+					"DialogBoxes.ProjectSettingsDlg.ProjectSaveFileDialogBoxCaption", "Save Phonology Assistant Project File",
+					"Caption for the save project dialog. The parameter is for the application name.");
 
 				var result = dlg.ShowDialog(this);
 
@@ -576,7 +569,7 @@ namespace SIL.Pa.UI.Dialogs
 			fileTypes.Append("|");
 			fileTypes.Append(App.kstidFileTypeAllFiles);
 
-			var caption = App.GetString("ProjectSettingsDlg.DataSourceOpenFileDialogText",
+			var caption = LocalizationManager.GetString("DialogBoxes.ProjectSettingsDlg.DataSourceOpenFileDialogCaption",
 				"Choose Data Source File(s)", "Open file dialog caption when choosing data source files");
 
 			string[] filenames = App.OpenFileDialog("db", fileTypes.ToString(),
@@ -616,7 +609,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (!FwDBUtils.IsSQLServerStarted && !FwDBUtils.StartSQLServer(true))
 				return;
 
-			using (var dlg = new FwProjectsDlg(Project))
+			using (var dlg = new FwProjectsDlg())
 			{
 				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChosenDatabase != null)
 				{
@@ -667,7 +660,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			get
 			{
-				return App.GetString("ProjectSettingsDlg.DuplicateDataSourceQuestion",
+				return LocalizationManager.GetString("DialogBoxes.ProjectSettingsDlg.DuplicateDataSourceQuestion",
 					"The data source '{0}' is already in your list of data sources.\n\nDo you want to add another copy?");
 			}
 		}
@@ -682,7 +675,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleRemoveButtonClick(object sender, EventArgs e)
 		{
-			var msg = App.GetString("ProjectSettingsDlg.DeleteDataSourceConfirmationMsg",
+			var msg = LocalizationManager.GetString(
+				"DialogBoxes.ProjectSettingsDlg.DeleteDataSourceConfirmationMsg",
 				"Are you sure you want to delete the selected data source(s)?");
 
 			if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) != DialogResult.Yes)
@@ -729,7 +723,7 @@ namespace SIL.Pa.UI.Dialogs
 			// Make sure the file exists before going to the mappings dialog.
 			if (!File.Exists(ds.SourceFile))
 			{
-				var msg = App.GetString("ProjectSettingsDlg.DataSourceFileMissingMsg",
+				var msg = LocalizationManager.GetString("DialogBoxes.ProjectSettingsDlg.DataSourceFileMissingMsg",
 					"The data source file '{0}' is missing.");
 
 				msg = string.Format(msg, Utils.PrepFilePathForMsgBox(ds.SourceFile));
@@ -807,7 +801,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			var filter = App.kstidFileTypeXSLT + "|" + App.kstidFileTypeAllFiles;
 			var filename = App.OpenFileDialog("xslt", filter, ref filterIndex,
-				App.GetString("ProjectSettingsDlg.XsltDataSourceOpenFileDialogText",
+				LocalizationManager.GetString("DialogBoxes.ProjectSettingsDlg.XsltDataSourceOpenFileDialogCaption",
 					"Choose XSLT to Transform Data Source",
 					"Open file dialog caption when choosing an XSLT file"));
 

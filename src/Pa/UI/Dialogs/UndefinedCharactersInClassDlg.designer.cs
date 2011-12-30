@@ -59,7 +59,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
 			this.locExtender.SetLocalizationComment(this.btnHelp, "Button on dialog box displaying a list of undefined characters that are found in " +
 					"a phone class.");
-			this.locExtender.SetLocalizingId(this.btnHelp, "UndefinedCharactersInClassDlg.btnHelp");
+			this.locExtender.SetLocalizingId(this.btnHelp, "DialogBoxes.UndefinedCharactersInClassDlg.HelpButton");
 			this.btnHelp.Location = new System.Drawing.Point(162, 9);
 			this.btnHelp.Name = "btnHelp";
 			this.btnHelp.Size = new System.Drawing.Size(80, 26);
@@ -76,7 +76,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
 			this.locExtender.SetLocalizationComment(this.btnOK, "Button on dialog box displaying a list of undefined characters that are found in " +
 					"a phone class.");
-			this.locExtender.SetLocalizingId(this.btnOK, "UndefinedCharactersInClassDlg.btnOK");
+			this.locExtender.SetLocalizingId(this.btnOK, "DialogBoxes.UndefinedCharactersInClassDlg.OKButton");
 			this.btnOK.Location = new System.Drawing.Point(76, 9);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(80, 26);
@@ -91,7 +91,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.lblInfo, null);
 			this.locExtender.SetLocalizationComment(this.lblInfo, "Information text on dialog box displaying a list of undefined characters that are" +
 					" found in a phone class.");
-			this.locExtender.SetLocalizingId(this.lblInfo, "UndefinedCharactersInClassDlg.lblInfo");
+			this.locExtender.SetLocalizingId(this.lblInfo, "DialogBoxes.UndefinedCharactersInClassDlg.InfoLabel");
 			this.lblInfo.Location = new System.Drawing.Point(0, 0);
 			this.lblInfo.Margin = new System.Windows.Forms.Padding(0, 0, 0, 7);
 			this.lblInfo.Name = "lblInfo";
@@ -137,7 +137,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// UndefinedCharactersInClassDlg
@@ -152,7 +151,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "UndefinedCharactersInClassDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.UndefinedCharactersInClassDlg.WindowTitle");
 			this.Name = "UndefinedCharactersInClassDlg";
 			this.Padding = new System.Windows.Forms.Padding(10, 10, 10, 0);
 			this.ShowIcon = false;

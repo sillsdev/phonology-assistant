@@ -79,6 +79,7 @@
 			this._panelPhones.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this._panelPhones, null);
 			this.locExtender.SetLocalizationComment(this._panelPhones, null);
+			this.locExtender.SetLocalizationPriority(this._panelPhones, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._panelPhones, "FeaturesDlg.pnlPhones");
 			this._panelPhones.Location = new System.Drawing.Point(0, 0);
 			this._panelPhones.MnemonicGeneratesClick = false;
@@ -121,7 +122,7 @@
 			this._panelPhoneListHeading.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this._panelPhoneListHeading, null);
 			this.locExtender.SetLocalizationComment(this._panelPhoneListHeading, null);
-			this.locExtender.SetLocalizingId(this._panelPhoneListHeading, "DialogBoxes.FeaturesDlg.CommonStrings.PhoneListHeading");
+			this.locExtender.SetLocalizingId(this._panelPhoneListHeading, "DialogBoxes.FeaturesDlgBase.PhoneListHeading");
 			this._panelPhoneListHeading.Location = new System.Drawing.Point(0, 0);
 			this._panelPhoneListHeading.MakeDark = false;
 			this._panelPhoneListHeading.Margin = new System.Windows.Forms.Padding(0);
@@ -160,6 +161,7 @@
 			this._gridPhones.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this._gridPhones, null);
 			this.locExtender.SetLocalizationComment(this._gridPhones, null);
+			this.locExtender.SetLocalizationPriority(this._gridPhones, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._gridPhones, "FeaturesDlg.gridPhones");
 			this._gridPhones.Location = new System.Drawing.Point(0, 23);
 			this._gridPhones.Margin = new System.Windows.Forms.Padding(0);
@@ -249,7 +251,7 @@
 			this._panelFeaturesHeading.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this._panelFeaturesHeading, null);
 			this.locExtender.SetLocalizationComment(this._panelFeaturesHeading, null);
-			this.locExtender.SetLocalizingId(this._panelFeaturesHeading, "DialogBoxes.FeaturesDlg.CommonStrings.FeaturesListHeading");
+			this.locExtender.SetLocalizingId(this._panelFeaturesHeading, "DialogBoxes.FeaturesDlgBase.FeaturesListHeading");
 			this._panelFeaturesHeading.Location = new System.Drawing.Point(0, 0);
 			this._panelFeaturesHeading.MakeDark = false;
 			this._panelFeaturesHeading.Margin = new System.Windows.Forms.Padding(0);
@@ -286,7 +288,7 @@
 			this._labelDistinctiveFeaturesSet.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._labelDistinctiveFeaturesSet, "See project settings to modify feature set");
 			this.locExtender.SetLocalizationComment(this._labelDistinctiveFeaturesSet, null);
-			this.locExtender.SetLocalizingId(this._labelDistinctiveFeaturesSet, "FeaturesDlgBase._labelDistinctiveFeaturesSet");
+			this.locExtender.SetLocalizingId(this._labelDistinctiveFeaturesSet, "DialogBoxes.FeaturesDlgBase.DistinctiveFeaturesSetLabel");
 			this._labelDistinctiveFeaturesSet.Location = new System.Drawing.Point(5, 3);
 			this._labelDistinctiveFeaturesSet.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
 			this._labelDistinctiveFeaturesSet.Name = "_labelDistinctiveFeaturesSet";
@@ -333,7 +335,7 @@
 			this._buttonReset.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._buttonReset, "Reset Features of Selected Phone");
 			this.locExtender.SetLocalizationComment(this._buttonReset, null);
-			this.locExtender.SetLocalizingId(this._buttonReset, "DialogBoxes.FeaturesDlg.CommonStrings.ResetButton");
+			this.locExtender.SetLocalizingId(this._buttonReset, "DialogBoxes.FeaturesDlgBase.ResetButton");
 			this._buttonReset.Location = new System.Drawing.Point(0, 218);
 			this._buttonReset.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
 			this._buttonReset.MinimumSize = new System.Drawing.Size(80, 26);
@@ -346,7 +348,6 @@
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// FeaturesDlgBase

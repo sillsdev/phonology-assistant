@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Properties;
 using SilTools;
 
@@ -34,7 +35,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			_italicFont = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Italic);
 		
-			var linkText = App.GetString("DialogBoxes.OpenProjectDlg.linkSelectSpecificProject.LinkText",
+			var linkText = LocalizationManager.GetString("DialogBoxes.OpenProjectDlg.linkSelectSpecificProject.LinkText",
 				"select a specific project file");
 
 			_linkSelectAdditionalFolderToScan.Links.Add(
@@ -118,7 +119,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (_grid.RowCount > 0)
 				return;
 
-			var msg = App.GetString("DialogBoxes.OpenProjectDlg.SelectProjectFilesPromptInEmptyList",
+			var msg = LocalizationManager.GetString("DialogBoxes.OpenProjectDlg.SelectProjectFilesPromptInEmptyList",
 				"No project files were found.\nClick the link below to scan another folder\n" +
 				"or close this dialog box and create a new project.");
 

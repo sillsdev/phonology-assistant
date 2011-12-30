@@ -1,4 +1,5 @@
 using System;
+using Localization;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
@@ -19,7 +20,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SetLocalizedTexts()
 		{
-			_labelClassTypeValue.Text = App.GetString(
+			_labelClassTypeValue.Text = LocalizationManager.GetString(
 				"DialogBoxes.DefineClassesDialogs.DistinctiveFeatureClassDlg.ClassTypeLabel",
 				"Distinctive features");
 		}

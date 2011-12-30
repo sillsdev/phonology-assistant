@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
@@ -44,15 +45,14 @@ namespace SIL.Pa.UI.Controls
 			// Create FW writing system column.
 			var col = CreateDropDownListComboBoxColumn("fwws", wslist);
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
-			int i = FontColumnIndex;
-			Columns.Insert(i, col);
-			App.RegisterForLocalization(Columns[i], "Fw6FieldMappingGrid.WritingSystemColumnHeadingText", "Writing System");
+			col.HeaderText = "_L10N_:DialogBoxes.Fw6DataSourcePropertiesDlg.FieldMappingGrid.ColumnHeadings.WritingSystem!Writing System";
+			Columns.Insert(FontColumnIndex, col);
 		}
 		
 		/// ------------------------------------------------------------------------------------
 		protected virtual string GetNoWritingSystemText()
 		{
-			return App.GetString("Fw6FieldMappingGrid.NoWritingSystemText", "(none)");
+			return LocalizationManager.GetString("DialogBoxes.Fw6DataSourcePropertiesDlg.FieldMappingGrid.NoWritingSystemText", "(none)");
 		}
 
 		/// ------------------------------------------------------------------------------------

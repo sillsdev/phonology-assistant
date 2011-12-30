@@ -177,7 +177,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblEditor.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblEditor, null);
 			this.locExtender.SetLocalizationComment(this.lblEditor, "Label in standard format data source properties dialog box.");
-			this.locExtender.SetLocalizingId(this.lblEditor, "SFDataSourcePropertiesDlg.lblEditor");
+			this.locExtender.SetLocalizingId(this.lblEditor, "DialogBoxes.SFDataSourcePropertiesDlg.EditorLabel");
 			this.lblEditor.Location = new System.Drawing.Point(3, 29);
 			this.lblEditor.Name = "lblEditor";
 			this.lblEditor.Size = new System.Drawing.Size(42, 15);
@@ -190,7 +190,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.txtEditor, "This is the application used to edit the data source file.");
 			this.locExtender.SetLocalizationComment(this.txtEditor, "Text box in which to specify the editor for the data source in the standard forma" +
 					"t data source properties dialog box.");
-			this.locExtender.SetLocalizingId(this.txtEditor, "SFDataSourcePropertiesDlg.txtEditor");
+			this.locExtender.SetLocalizingId(this.txtEditor, "DialogBoxes.SFDataSourcePropertiesDlg.EditorTextBox");
 			this.txtEditor.Location = new System.Drawing.Point(51, 26);
 			this.txtEditor.Margin = new System.Windows.Forms.Padding(3, 3, 6, 3);
 			this.txtEditor.Name = "txtEditor";
@@ -203,8 +203,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnBrowse.AutoSize = true;
 			this.btnBrowse.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnBrowse, null);
-			this.locExtender.SetLocalizationComment(this.btnBrowse, "Button for browsing to an SFM editor in the standard format data source propertie" +
-					"s dialog box.");
+			this.locExtender.SetLocalizationComment(this.btnBrowse, null);
 			this.locExtender.SetLocalizationPriority(this.btnBrowse, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnBrowse, "Localized in base class");
 			this.btnBrowse.Location = new System.Drawing.Point(100, 23);
@@ -276,7 +275,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblInformation.Image = null;
 			this.locExtender.SetLocalizableToolTip(this.lblInformation, null);
 			this.locExtender.SetLocalizationComment(this.lblInformation, null);
-			this.locExtender.SetLocalizingId(this.lblInformation, "SFDataSourcePropertiesDlg.lblInformation");
+			this.locExtender.SetLocalizingId(this.lblInformation, "DialogBoxes.SFDataSourcePropertiesDlg.InformationLabel");
 			this.lblInformation.Location = new System.Drawing.Point(3, 5);
 			this.lblInformation.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.lblInformation.Name = "lblInformation";
@@ -291,8 +290,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.cboToolboxSortField.FormattingEnabled = true;
 			this.locExtender.SetLocalizableToolTip(this.cboToolboxSortField, "Used for jumping to the appropriate Toolbox record.");
 			this.locExtender.SetLocalizationComment(this.cboToolboxSortField, null);
-			this.locExtender.SetLocalizationPriority(this.cboToolboxSortField, Localization.LocalizationPriority.MediumHigh);
-			this.locExtender.SetLocalizingId(this.cboToolboxSortField, "SFDataSourcePropertiesDlg.cboToolboxSortField");
+			this.locExtender.SetLocalizingId(this.cboToolboxSortField, "DialogBoxes.SFDataSourcePropertiesDlg.ToolboxSortFieldList");
 			this.cboToolboxSortField.Location = new System.Drawing.Point(144, 98);
 			this.cboToolboxSortField.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
 			this.cboToolboxSortField.Name = "cboToolboxSortField";
@@ -307,7 +305,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.cboRecordMarkers.FormattingEnabled = true;
 			this.locExtender.SetLocalizableToolTip(this.cboRecordMarkers, "Select the marker that marks\\nthe beginning of each record.");
 			this.locExtender.SetLocalizationComment(this.cboRecordMarkers, null);
-			this.locExtender.SetLocalizingId(this.cboRecordMarkers, "SFDataSourcePropertiesDlg.cboRecordMarkers");
+			this.locExtender.SetLocalizingId(this.cboRecordMarkers, "DialogBoxes.SFDataSourcePropertiesDlg.RecordMarkersList");
 			this.cboRecordMarkers.Location = new System.Drawing.Point(144, 69);
 			this.cboRecordMarkers.Margin = new System.Windows.Forms.Padding(3, 7, 3, 3);
 			this.cboRecordMarkers.Name = "cboRecordMarkers";
@@ -323,7 +321,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblToolboxSortField.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblToolboxSortField, null);
 			this.locExtender.SetLocalizationComment(this.lblToolboxSortField, "Label in standard format data source properties dialog box.");
-			this.locExtender.SetLocalizingId(this.lblToolboxSortField, "SFDataSourcePropertiesDlg.lblToolboxSortField");
+			this.locExtender.SetLocalizingId(this.lblToolboxSortField, "DialogBoxes.SFDataSourcePropertiesDlg.ToolboxSortFieldLabel");
 			this.lblToolboxSortField.Location = new System.Drawing.Point(3, 101);
 			this.lblToolboxSortField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 0);
 			this.lblToolboxSortField.Name = "lblToolboxSortField";
@@ -338,7 +336,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblRecordMarker.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblRecordMarker, null);
 			this.locExtender.SetLocalizationComment(this.lblRecordMarker, null);
-			this.locExtender.SetLocalizingId(this.lblRecordMarker, "SFDataSourcePropertiesDlg.lblRecordMarker");
+			this.locExtender.SetLocalizingId(this.lblRecordMarker, "DialogBoxes.SFDataSourcePropertiesDlg.RecordMarkerLabel");
 			this.lblRecordMarker.Location = new System.Drawing.Point(3, 73);
 			this.lblRecordMarker.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
 			this.lblRecordMarker.Name = "lblRecordMarker";
@@ -363,7 +361,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.pnlMappingsHdg, null);
 			this.locExtender.SetLocalizationComment(this.pnlMappingsHdg, "Heading above the field mappings list in the standard format data source properti" +
 					"es dialog box.");
-			this.locExtender.SetLocalizingId(this.pnlMappingsHdg, "SFDataSourcePropertiesDlg.pnlMappingsHdg");
+			this.locExtender.SetLocalizingId(this.pnlMappingsHdg, "DialogBoxes.SFDataSourcePropertiesDlg.MappingsHeadingText");
 			this.pnlMappingsHdg.Location = new System.Drawing.Point(0, 0);
 			this.pnlMappingsHdg.MakeDark = false;
 			this.pnlMappingsHdg.MnemonicGeneratesClick = false;
@@ -386,7 +384,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnInformation.Image = ((System.Drawing.Image)(resources.GetObject("btnInformation.Image")));
 			this.locExtender.SetLocalizableToolTip(this.btnInformation, "Display field mapping information.");
 			this.locExtender.SetLocalizationComment(this.btnInformation, null);
-			this.locExtender.SetLocalizingId(this.btnInformation, "SFDataSourcePropertiesDlg.btnInformation");
+			this.locExtender.SetLocalizingId(this.btnInformation, "DialogBoxes.SFDataSourcePropertiesDlg.InformationButton");
 			this.btnInformation.Location = new System.Drawing.Point(242, 1);
 			this.btnInformation.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.btnInformation.Name = "btnInformation";
@@ -453,7 +451,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.pnlSrcFileHdg, null);
 			this.locExtender.SetLocalizationComment(this.pnlSrcFileHdg, "Heading above the contents of the data source file in the standard format data so" +
 					"urce properties dialog box.");
-			this.locExtender.SetLocalizingId(this.pnlSrcFileHdg, "SFDataSourcePropertiesDlg.pnlSrcFileHdg");
+			this.locExtender.SetLocalizingId(this.pnlSrcFileHdg, "DialogBoxes.SFDataSourcePropertiesDlg.SourceFileHeadingText");
 			this.pnlSrcFileHdg.Location = new System.Drawing.Point(0, 0);
 			this.pnlSrcFileHdg.MakeDark = false;
 			this.pnlSrcFileHdg.MnemonicGeneratesClick = false;
@@ -555,7 +553,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblParseType.Image = null;
 			this.locExtender.SetLocalizableToolTip(this.lblParseType, null);
 			this.locExtender.SetLocalizationComment(this.lblParseType, "Label in standard format data source properties dialog box.");
-			this.locExtender.SetLocalizingId(this.lblParseType, "SFDataSourcePropertiesDlg.lblParseType");
+			this.locExtender.SetLocalizingId(this.lblParseType, "DialogBoxes.SFDataSourcePropertiesDlg.ParseTypeLabel");
 			this.lblParseType.Location = new System.Drawing.Point(8, 8);
 			this.lblParseType.Margin = new System.Windows.Forms.Padding(8, 8, 5, 12);
 			this.lblParseType.Name = "lblParseType";
@@ -574,7 +572,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.rbInterlinearize, null);
 			this.locExtender.SetLocalizationComment(this.rbInterlinearize, "Parsing option radio button in standard format data source properties dialog box." +
 					"");
-			this.locExtender.SetLocalizingId(this.rbInterlinearize, "SFDataSourcePropertiesDlg.rbInterlinearize");
+			this.locExtender.SetLocalizingId(this.rbInterlinearize, "DialogBoxes.SFDataSourcePropertiesDlg.InterlinearizeRadioButton");
 			this.rbInterlinearize.Location = new System.Drawing.Point(10, 65);
 			this.rbInterlinearize.Margin = new System.Windows.Forms.Padding(10, 0, 5, 0);
 			this.rbInterlinearize.Name = "rbInterlinearize";
@@ -596,7 +594,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.rbParseOneToOne, null);
 			this.locExtender.SetLocalizationComment(this.rbParseOneToOne, "Parsing option radio button in standard format data source properties dialog box." +
 					"");
-			this.locExtender.SetLocalizingId(this.rbParseOneToOne, "SFDataSourcePropertiesDlg.rbParseOneToOne");
+			this.locExtender.SetLocalizingId(this.rbParseOneToOne, "DialogBoxes.SFDataSourcePropertiesDlg.ParseOneToOneRadioButton");
 			this.rbParseOneToOne.Location = new System.Drawing.Point(10, 60);
 			this.rbParseOneToOne.Margin = new System.Windows.Forms.Padding(10, 0, 5, 5);
 			this.rbParseOneToOne.Name = "rbParseOneToOne";
@@ -615,7 +613,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblSampleOutput.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblSampleOutput, null);
 			this.locExtender.SetLocalizationComment(this.lblSampleOutput, "Label in standard format data source properties dialog box.");
-			this.locExtender.SetLocalizingId(this.lblSampleOutput, "SFDataSourcePropertiesDlg.lblSampleOutput");
+			this.locExtender.SetLocalizingId(this.lblSampleOutput, "DialogBoxes.SFDataSourcePropertiesDlg.SampleOutputLabel");
 			this.lblSampleOutput.Location = new System.Drawing.Point(8, 192);
 			this.lblSampleOutput.Margin = new System.Windows.Forms.Padding(8, 5, 3, 0);
 			this.lblSampleOutput.Name = "lblSampleOutput";
@@ -633,7 +631,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbParseOnlyPhonetic.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.rbParseOnlyPhonetic, null);
 			this.locExtender.SetLocalizationComment(this.rbParseOnlyPhonetic, null);
-			this.locExtender.SetLocalizingId(this.rbParseOnlyPhonetic, "SFDataSourcePropertiesDlg.rbParseOnlyPhonetic");
+			this.locExtender.SetLocalizingId(this.rbParseOnlyPhonetic, "DialogBoxes.SFDataSourcePropertiesDlg.ParseOnlyPhoneticRadioButton");
 			this.rbParseOnlyPhonetic.Location = new System.Drawing.Point(10, 55);
 			this.rbParseOnlyPhonetic.Margin = new System.Windows.Forms.Padding(10, 0, 5, 5);
 			this.rbParseOnlyPhonetic.Name = "rbParseOnlyPhonetic";
@@ -653,7 +651,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbNoParse.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.locExtender.SetLocalizableToolTip(this.rbNoParse, null);
 			this.locExtender.SetLocalizationComment(this.rbNoParse, null);
-			this.locExtender.SetLocalizingId(this.rbNoParse, "SFDataSourcePropertiesDlg.rbNoParse");
+			this.locExtender.SetLocalizingId(this.rbNoParse, "DialogBoxes.SFDataSourcePropertiesDlg.NoParseRadioButton");
 			this.rbNoParse.Location = new System.Drawing.Point(10, 50);
 			this.rbNoParse.Margin = new System.Windows.Forms.Padding(10, 0, 5, 5);
 			this.rbNoParse.Name = "rbNoParse";
@@ -711,7 +709,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.cboFirstInterlinear.FormattingEnabled = true;
 			this.locExtender.SetLocalizableToolTip(this.cboFirstInterlinear, "Select the marker of the first\\ninterlinear field in each record.");
 			this.locExtender.SetLocalizationComment(this.cboFirstInterlinear, null);
-			this.locExtender.SetLocalizingId(this.cboFirstInterlinear, "SFDataSourcePropertiesDlg.cboFirstInterlinear");
+			this.locExtender.SetLocalizingId(this.cboFirstInterlinear, "DialogBoxes.SFDataSourcePropertiesDlg.FirstInterlinearList");
 			this.cboFirstInterlinear.Location = new System.Drawing.Point(26, 85);
 			this.cboFirstInterlinear.Margin = new System.Windows.Forms.Padding(26, 3, 5, 3);
 			this.cboFirstInterlinear.MaxDropDownItems = 12;
@@ -728,7 +726,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblSampleInput.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblSampleInput, null);
 			this.locExtender.SetLocalizationComment(this.lblSampleInput, "Label in standard format data source properties dialog box.");
-			this.locExtender.SetLocalizingId(this.lblSampleInput, "SFDataSourcePropertiesDlg.lblSampleInput");
+			this.locExtender.SetLocalizingId(this.lblSampleInput, "DialogBoxes.SFDataSourcePropertiesDlg.SampleInputLabel");
 			this.lblSampleInput.Location = new System.Drawing.Point(8, 116);
 			this.lblSampleInput.Margin = new System.Windows.Forms.Padding(8, 5, 3, 0);
 			this.lblSampleInput.Name = "lblSampleInput";
@@ -745,7 +743,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblFirstInterlinear.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblFirstInterlinear, null);
 			this.locExtender.SetLocalizationComment(this.lblFirstInterlinear, "Label in standard format data source properties dialog box.");
-			this.locExtender.SetLocalizingId(this.lblFirstInterlinear, "SFDataSourcePropertiesDlg.lblFirstInterlinear");
+			this.locExtender.SetLocalizingId(this.lblFirstInterlinear, "DialogBoxes.SFDataSourcePropertiesDlg.FirstInterlinearLabel");
 			this.lblFirstInterlinear.Location = new System.Drawing.Point(26, 65);
 			this.lblFirstInterlinear.Margin = new System.Windows.Forms.Padding(26, 0, 5, 2);
 			this.lblFirstInterlinear.Name = "lblFirstInterlinear";
@@ -819,8 +817,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.gridSampleOutput.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
 			this.gridSampleOutput.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.gridSampleOutput, null);
-			this.locExtender.SetLocalizationComment(this.gridSampleOutput, "Grid showing sample output in the standard format data source properties dialog b" +
-					"ox.");
+			this.locExtender.SetLocalizationComment(this.gridSampleOutput, null);
+			this.locExtender.SetLocalizationPriority(this.gridSampleOutput, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.gridSampleOutput, "SFDataSourcePropertiesDlg.gridSampleOutput");
 			this.gridSampleOutput.Location = new System.Drawing.Point(0, 0);
 			this.gridSampleOutput.MultiSelect = false;
@@ -843,7 +841,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// SampleOutputPhoneticColumn
 			// 
-			this.SampleOutputPhoneticColumn.HeaderText = "Phonetic";
+			this.SampleOutputPhoneticColumn.HeaderText = "_L10N_:DialogBoxes.SFDataSourcePropertiesDlg.SampleOutputGrid.ColumnHeadings.Phonetic!Phonetic";
 			this.SampleOutputPhoneticColumn.Name = "SampleOutputPhoneticColumn";
 			this.SampleOutputPhoneticColumn.ReadOnly = true;
 			this.SampleOutputPhoneticColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -851,7 +849,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// SampleOutputGlossColumn
 			// 
-			this.SampleOutputGlossColumn.HeaderText = "Gloss";
+			this.SampleOutputGlossColumn.HeaderText = "_L10N_:DialogBoxes.SFDataSourcePropertiesDlg.SampleOutputGrid.ColumnHeadings.Gloss!Gloss";
 			this.SampleOutputGlossColumn.Name = "SampleOutputGlossColumn";
 			this.SampleOutputGlossColumn.ReadOnly = true;
 			this.SampleOutputGlossColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -860,7 +858,7 @@ namespace SIL.Pa.UI.Dialogs
 			// SampleOutputPartOfSpeechColumn
 			// 
 			this.SampleOutputPartOfSpeechColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.SampleOutputPartOfSpeechColumn.HeaderText = "Part of Speech";
+			this.SampleOutputPartOfSpeechColumn.HeaderText = "_L10N_:DialogBoxes.SFDataSourcePropertiesDlg.SampleOutputGrid.ColumnHeadings.PartOfSpeech!Part of Speech";
 			this.SampleOutputPartOfSpeechColumn.Name = "SampleOutputPartOfSpeechColumn";
 			this.SampleOutputPartOfSpeechColumn.ReadOnly = true;
 			this.SampleOutputPartOfSpeechColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -882,7 +880,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.pnlParseHdg, null);
 			this.locExtender.SetLocalizationComment(this.pnlParseHdg, "Heading above the parsing options in the standard format data source properties d" +
 					"ialog box.");
-			this.locExtender.SetLocalizingId(this.pnlParseHdg, "SFDataSourcePropertiesDlg.pnlParseHdg");
+			this.locExtender.SetLocalizingId(this.pnlParseHdg, "DialogBoxes.SFDataSourcePropertiesDlg.ParseHeadingText");
 			this.pnlParseHdg.Location = new System.Drawing.Point(0, 0);
 			this.pnlParseHdg.MakeDark = false;
 			this.pnlParseHdg.MnemonicGeneratesClick = false;
@@ -894,7 +892,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// SFDataSourcePropertiesDlg
@@ -904,7 +901,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.splitOuter);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "SFDataSourcePropertiesDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.SFDataSourcePropertiesDlg.WindowTitle");
 			this.MinimumSize = new System.Drawing.Size(675, 540);
 			this.Name = "SFDataSourcePropertiesDlg";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.UI.Controls;
 using SilTools;
 
@@ -119,7 +120,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.DefaultCellStyle.Padding = new Padding(8, 0, 0, 0);
 			col.DefaultCellStyle.Font = App.PhoneticFont;
 			col.CellTemplate.Style.Font = App.PhoneticFont;
-			col.HeaderText = App.GetString("FeaturesDlg.PhoneListPhoneHeadingText", "Phone");
+			col.HeaderText = "_L10N_:DialogBoxes.FeaturesDlgBase.PhoneListGrid.ColumnHeadings.Phone!Phone";
 			_gridPhones.Columns.Add(col);
 
 			col = SilGrid.CreateTextBoxColumn("count");
@@ -128,7 +129,7 @@ namespace SIL.Pa.UI.Dialogs
 			col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 			col.DefaultCellStyle.Padding = new Padding(0, 0, 5, 0);
-			col.HeaderText = App.GetString("FeaturesDlg.PhoneListCountHeadingText", "Count");
+			col.HeaderText = "_L10N_:DialogBoxes.FeaturesDlgBase.PhoneListGrid.ColumnHeadings.Count!Count";
 			_gridPhones.Columns.Add(col);
 
 			_gridPhones.Rows.Clear();
@@ -248,7 +249,7 @@ namespace SIL.Pa.UI.Dialogs
 					bldr.AppendFormat("U+{0:X4}, ", (int)c);
 
 				bldr.Length -= 2;
-				var fmt = App.GetString("DialogBoxes.FeaturesDlg.CommonStrings.PhoneGridInfoToolTipFormat", "Unicode Values:\n{0}");
+				var fmt = LocalizationManager.GetString("DialogBoxes.FeaturesDlgBase.PhoneGridInfoToolTipFormat", "Unicode Values:\n{0}");
 				var tip = Utils.ConvertLiteralNewLines(string.Format(fmt, bldr));
 
 				var rc = _gridPhones.GetCellDisplayRectangle(0, e.RowIndex, true);

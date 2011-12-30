@@ -62,7 +62,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblProjName.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this.lblProjName, null);
 			this.locExtender.SetLocalizationComment(this.lblProjName, null);
-			this.locExtender.SetLocalizingId(this.lblProjName, "ProjectSettingsDlg.lblProjName");
+			this.locExtender.SetLocalizingId(this.lblProjName, "DialogBoxes.ProjectSettingsDlg.ProjectNameLabel");
 			this.lblProjName.Location = new System.Drawing.Point(3, 3);
 			this.lblProjName.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
 			this.lblProjName.Name = "lblProjName";
@@ -76,7 +76,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblTranscriber.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblTranscriber, null);
 			this.locExtender.SetLocalizationComment(this.lblTranscriber, null);
-			this.locExtender.SetLocalizingId(this.lblTranscriber, "ProjectSettingsDlg.lblTranscriber");
+			this.locExtender.SetLocalizingId(this.lblTranscriber, "DialogBoxes.ProjectSettingsDlg.TranscriberLabel");
 			this.lblTranscriber.Location = new System.Drawing.Point(3, 115);
 			this.lblTranscriber.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
 			this.lblTranscriber.Name = "lblTranscriber";
@@ -90,7 +90,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblSpeaker.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblSpeaker, null);
 			this.locExtender.SetLocalizationComment(this.lblSpeaker, null);
-			this.locExtender.SetLocalizingId(this.lblSpeaker, "ProjectSettingsDlg.lblSpeaker");
+			this.locExtender.SetLocalizingId(this.lblSpeaker, "DialogBoxes.ProjectSettingsDlg.SpeakerLabel");
 			this.lblSpeaker.Location = new System.Drawing.Point(299, 3);
 			this.lblSpeaker.Margin = new System.Windows.Forms.Padding(8, 3, 3, 0);
 			this.lblSpeaker.Name = "lblSpeaker";
@@ -104,7 +104,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblComments.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblComments, null);
 			this.locExtender.SetLocalizationComment(this.lblComments, null);
-			this.locExtender.SetLocalizingId(this.lblComments, "ProjectSettingsDlg.lblComments");
+			this.locExtender.SetLocalizingId(this.lblComments, "DialogBoxes.ProjectSettingsDlg.CommentsLabel");
 			this.lblComments.Location = new System.Drawing.Point(299, 31);
 			this.lblComments.Margin = new System.Windows.Forms.Padding(8, 8, 3, 0);
 			this.lblComments.Name = "lblComments";
@@ -119,6 +119,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayout.SetColumnSpan(this.txtProjName, 2);
 			this.locExtender.SetLocalizableToolTip(this.txtProjName, null);
 			this.locExtender.SetLocalizationComment(this.txtProjName, null);
+			this.locExtender.SetLocalizationPriority(this.txtProjName, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtProjName, "ProjectSettingsDlg.txtProjName");
 			this.txtProjName.Location = new System.Drawing.Point(98, 0);
 			this.txtProjName.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
@@ -133,6 +134,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayout.SetColumnSpan(this.txtTranscriber, 2);
 			this.locExtender.SetLocalizableToolTip(this.txtTranscriber, null);
 			this.locExtender.SetLocalizationComment(this.txtTranscriber, null);
+			this.locExtender.SetLocalizationPriority(this.txtTranscriber, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtTranscriber, "ProjectSettingsDlg.txtTranscriber");
 			this.txtTranscriber.Location = new System.Drawing.Point(98, 112);
 			this.txtTranscriber.Margin = new System.Windows.Forms.Padding(3, 5, 3, 6);
@@ -147,6 +149,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayout.SetColumnSpan(this.txtSpeaker, 2);
 			this.locExtender.SetLocalizableToolTip(this.txtSpeaker, null);
 			this.locExtender.SetLocalizationComment(this.txtSpeaker, null);
+			this.locExtender.SetLocalizationPriority(this.txtSpeaker, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtSpeaker, "ProjectSettingsDlg.txtSpeaker");
 			this.txtSpeaker.Location = new System.Drawing.Point(422, 0);
 			this.txtSpeaker.Margin = new System.Windows.Forms.Padding(3, 0, 0, 3);
@@ -162,6 +165,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayout.SetColumnSpan(this.txtComments, 2);
 			this.locExtender.SetLocalizableToolTip(this.txtComments, null);
 			this.locExtender.SetLocalizationComment(this.txtComments, null);
+			this.locExtender.SetLocalizationPriority(this.txtComments, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtComments, "ProjectSettingsDlg.txtComments");
 			this.txtComments.Location = new System.Drawing.Point(422, 28);
 			this.txtComments.Margin = new System.Windows.Forms.Padding(3, 5, 0, 3);
@@ -181,7 +185,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnAdd.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnAdd, null);
 			this.locExtender.SetLocalizationComment(this.btnAdd, null);
-			this.locExtender.SetLocalizingId(this.btnAdd, "ProjectSettingsDlg.btnAdd");
+			this.locExtender.SetLocalizingId(this.btnAdd, "DialogBoxes.ProjectSettingsDlg.AddDataSourceButton");
 			this.btnAdd.Location = new System.Drawing.Point(549, 139);
 			this.btnAdd.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
 			this.btnAdd.MinimumSize = new System.Drawing.Size(95, 26);
@@ -199,7 +203,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnRemove.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this.btnRemove, null);
 			this.locExtender.SetLocalizationComment(this.btnRemove, null);
-			this.locExtender.SetLocalizingId(this.btnRemove, "ProjectSettingsDlg.btnRemove");
+			this.locExtender.SetLocalizingId(this.btnRemove, "DialogBoxes.ProjectSettingsDlg.RemoveDataSourceButton");
 			this.btnRemove.Location = new System.Drawing.Point(549, 170);
 			this.btnRemove.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
 			this.btnRemove.MinimumSize = new System.Drawing.Size(95, 26);
@@ -217,7 +221,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnProperties.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnProperties, null);
 			this.locExtender.SetLocalizationComment(this.btnProperties, null);
-			this.locExtender.SetLocalizingId(this.btnProperties, "ProjectSettingsDlg.btnProperties");
+			this.locExtender.SetLocalizingId(this.btnProperties, "DialogBoxes.ProjectSettingsDlg.DataSourcePropertiesButton");
 			this.btnProperties.Location = new System.Drawing.Point(549, 201);
 			this.btnProperties.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
 			this.btnProperties.MinimumSize = new System.Drawing.Size(95, 26);
@@ -235,6 +239,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayout.SetColumnSpan(this.txtLanguageName, 2);
 			this.locExtender.SetLocalizableToolTip(this.txtLanguageName, null);
 			this.locExtender.SetLocalizationComment(this.txtLanguageName, null);
+			this.locExtender.SetLocalizationPriority(this.txtLanguageName, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtLanguageName, "ProjectSettingsDlg.txtLanguageName");
 			this.txtLanguageName.Location = new System.Drawing.Point(98, 28);
 			this.txtLanguageName.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
@@ -249,7 +254,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblLanguageName.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblLanguageName, null);
 			this.locExtender.SetLocalizationComment(this.lblLanguageName, null);
-			this.locExtender.SetLocalizingId(this.lblLanguageName, "ProjectSettingsDlg.lblLanguageName");
+			this.locExtender.SetLocalizingId(this.lblLanguageName, "DialogBoxes.ProjectSettingsDlg.LanguageNameLabel");
 			this.lblLanguageName.Location = new System.Drawing.Point(3, 31);
 			this.lblLanguageName.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
 			this.lblLanguageName.Name = "lblLanguageName";
@@ -265,7 +270,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.mnuAdd, null);
 			this.locExtender.SetLocalizationComment(this.mnuAdd, null);
 			this.locExtender.SetLocalizationPriority(this.mnuAdd, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.mnuAdd, "ProjectSettingsDlg.mnuAdd");
+			this.locExtender.SetLocalizingId(this.mnuAdd, "ProjectSettingsDlg.AddMenu");
 			this.mnuAdd.Name = "cmnuAdd";
 			this.mnuAdd.ShowImageMargin = false;
 			this.mnuAdd.Size = new System.Drawing.Size(209, 48);
@@ -274,7 +279,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.mnuAddOtherDataSource, null);
 			this.locExtender.SetLocalizationComment(this.mnuAddOtherDataSource, null);
-			this.locExtender.SetLocalizingId(this.mnuAddOtherDataSource, "ProjectSettingsDlg.mnuAddOtherDataSource");
+			this.locExtender.SetLocalizingId(this.mnuAddOtherDataSource, "DialogBoxes.ProjectSettingsDlg.AddOtherDataSourceMenu");
 			this.mnuAddOtherDataSource.Name = "mnuAddOtherDataSource";
 			this.mnuAddOtherDataSource.Size = new System.Drawing.Size(208, 22);
 			this.mnuAddOtherDataSource.Text = "&Non FieldWorks Data Source...";
@@ -287,7 +292,7 @@ namespace SIL.Pa.UI.Dialogs
             this.mnuAddFw6DataSource});
 			this.locExtender.SetLocalizableToolTip(this.mnuAddFwDataSource, null);
 			this.locExtender.SetLocalizationComment(this.mnuAddFwDataSource, null);
-			this.locExtender.SetLocalizingId(this.mnuAddFwDataSource, "ProjectSettingsDlg.mnuAddFwDataSource");
+			this.locExtender.SetLocalizingId(this.mnuAddFwDataSource, "DialogBoxes.ProjectSettingsDlg.AddFwDataSourceMenu");
 			this.mnuAddFwDataSource.Name = "mnuAddFwDataSource";
 			this.mnuAddFwDataSource.Size = new System.Drawing.Size(208, 22);
 			this.mnuAddFwDataSource.Text = "&FieldWorks Data Source";
@@ -296,7 +301,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.mnuAddFw7DataSource, null);
 			this.locExtender.SetLocalizationComment(this.mnuAddFw7DataSource, null);
-			this.locExtender.SetLocalizingId(this.mnuAddFw7DataSource, "ProjectSettingsDlg.mnuAddFw7DataSource");
+			this.locExtender.SetLocalizingId(this.mnuAddFw7DataSource, "DialogBoxes.ProjectSettingsDlg.AddFw7DataSourceMenu");
 			this.mnuAddFw7DataSource.Name = "mnuAddFw7DataSource";
 			this.mnuAddFw7DataSource.Size = new System.Drawing.Size(153, 22);
 			this.mnuAddFw7DataSource.Text = "&7.0 or Later...";
@@ -306,7 +311,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.mnuAddFw6DataSource, null);
 			this.locExtender.SetLocalizationComment(this.mnuAddFw6DataSource, null);
-			this.locExtender.SetLocalizingId(this.mnuAddFw6DataSource, "ProjectSettingsDlg.mnuAddFw6DataSource");
+			this.locExtender.SetLocalizingId(this.mnuAddFw6DataSource, "DialogBoxes.ProjectSettingsDlg.AddFw6DataSourceMenu");
 			this.mnuAddFw6DataSource.Name = "mnuAddFw6DataSource";
 			this.mnuAddFw6DataSource.Size = new System.Drawing.Size(153, 22);
 			this.mnuAddFw6DataSource.Text = "&6.0.6 or Older...";
@@ -339,6 +344,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_grid.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this.m_grid, null);
 			this.locExtender.SetLocalizationComment(this.m_grid, null);
+			this.locExtender.SetLocalizationPriority(this.m_grid, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.m_grid, "ProjectSettingsDlg.m_grid");
 			this.m_grid.Location = new System.Drawing.Point(0, 25);
 			this.m_grid.MultiSelect = false;
@@ -367,7 +373,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// lblLanguageCode
@@ -376,7 +381,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblLanguageCode.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblLanguageCode, null);
 			this.locExtender.SetLocalizationComment(this.lblLanguageCode, null);
-			this.locExtender.SetLocalizingId(this.lblLanguageCode, "ProjectSettingsDlg.lblLanguageCode");
+			this.locExtender.SetLocalizingId(this.lblLanguageCode, "DialogBoxes.ProjectSettingsDlg.LanguageCodeLabel");
 			this.lblLanguageCode.Location = new System.Drawing.Point(3, 59);
 			this.lblLanguageCode.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
 			this.lblLanguageCode.Name = "lblLanguageCode";
@@ -390,6 +395,7 @@ namespace SIL.Pa.UI.Dialogs
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.locExtender.SetLocalizableToolTip(this.txtLanguageCode, null);
 			this.locExtender.SetLocalizationComment(this.txtLanguageCode, null);
+			this.locExtender.SetLocalizationPriority(this.txtLanguageCode, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtLanguageCode, "ProjectSettingsDlg.txtLanguageCode");
 			this.txtLanguageCode.Location = new System.Drawing.Point(98, 56);
 			this.txtLanguageCode.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
@@ -403,7 +409,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lnkEthnologue.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this.lnkEthnologue, null);
 			this.locExtender.SetLocalizationComment(this.lnkEthnologue, null);
-			this.locExtender.SetLocalizingId(this.lnkEthnologue, "ProjectSettingsDlg.lnkEthnologue");
+			this.locExtender.SetLocalizingId(this.lnkEthnologue, "DialogBoxes.ProjectSettingsDlg.EthnologueLink");
 			this.lnkEthnologue.Location = new System.Drawing.Point(227, 59);
 			this.lnkEthnologue.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
 			this.lnkEthnologue.Name = "lnkEthnologue";
@@ -421,6 +427,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayout.SetColumnSpan(this.txtResearcher, 2);
 			this.locExtender.SetLocalizableToolTip(this.txtResearcher, null);
 			this.locExtender.SetLocalizationComment(this.txtResearcher, null);
+			this.locExtender.SetLocalizationPriority(this.txtResearcher, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.txtResearcher, "ProjectSettingsDlg.txtResearcher");
 			this.txtResearcher.Location = new System.Drawing.Point(98, 84);
 			this.txtResearcher.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
@@ -434,7 +441,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblResearcher.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblResearcher, null);
 			this.locExtender.SetLocalizationComment(this.lblResearcher, null);
-			this.locExtender.SetLocalizingId(this.lblResearcher, "ProjectSettingsDlg.lblResearcher");
+			this.locExtender.SetLocalizingId(this.lblResearcher, "DialogBoxes.ProjectSettingsDlg.ResearcherLabel");
 			this.lblResearcher.Location = new System.Drawing.Point(3, 87);
 			this.lblResearcher.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
 			this.lblResearcher.Name = "lblResearcher";
@@ -460,6 +467,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlGrid.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlGrid, null);
 			this.locExtender.SetLocalizationComment(this.pnlGrid, null);
+			this.locExtender.SetLocalizationPriority(this.pnlGrid, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.pnlGrid, "ProjectSettingsDlg.pnlGrid");
 			this.pnlGrid.Location = new System.Drawing.Point(0, 139);
 			this.pnlGrid.Margin = new System.Windows.Forms.Padding(0, 0, 5, 0);
@@ -478,7 +486,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._chkMakeFolder.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.locExtender.SetLocalizableToolTip(this._chkMakeFolder, null);
 			this.locExtender.SetLocalizationComment(this._chkMakeFolder, null);
-			this.locExtender.SetLocalizingId(this._chkMakeFolder, "ProjectSettingsDlg.CreateProjectFolderLabel");
+			this.locExtender.SetLocalizingId(this._chkMakeFolder, "DialogBoxes.ProjectSettingsDlg.CreateProjectFolderCheckbox");
 			this._chkMakeFolder.Location = new System.Drawing.Point(83, 104);
 			this._chkMakeFolder.Name = "_chkMakeFolder";
 			this._chkMakeFolder.Size = new System.Drawing.Size(201, 19);
@@ -502,7 +510,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlGridHdg.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlGridHdg, null);
 			this.locExtender.SetLocalizationComment(this.pnlGridHdg, null);
-			this.locExtender.SetLocalizingId(this.pnlGridHdg, "ProjectSettingsDlg.pnlGridHdg");
+			this.locExtender.SetLocalizingId(this.pnlGridHdg, "DialogBoxes.ProjectSettingsDlg.DataSourceListHeadingText");
 			this.pnlGridHdg.Location = new System.Drawing.Point(0, 0);
 			this.pnlGridHdg.MakeDark = false;
 			this.pnlGridHdg.MnemonicGeneratesClick = false;
@@ -600,7 +608,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.tblLayout);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "ProjectSettingsDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.ProjectSettingsDlg.WindowTitle.WhenProjectIsNotNew");
 			this.MinimumSize = new System.Drawing.Size(580, 370);
 			this.Name = "ProjectSettingsDlg";
 			this.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);

@@ -25,7 +25,7 @@ namespace System.Drawing.Html
         {
             tag = tag.Substring(1, tag.Length - 2);
 
-            int spaceIndex = tag.IndexOf(" ");
+            int spaceIndex = tag.IndexOf(" ", StringComparison.Ordinal);
 
             //Extract tag name
             if (spaceIndex < 0)

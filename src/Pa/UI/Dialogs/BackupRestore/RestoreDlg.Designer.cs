@@ -37,8 +37,6 @@
 			this._tableLayoutButtons = new System.Windows.Forms.TableLayoutPanel();
 			this._buttonLoadProject = new System.Windows.Forms.Button();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
-			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._tableLayoutPanel.SuspendLayout();
 			this._groupBoxDestinationFolder.SuspendLayout();
 			this._tableLayoutDestinationFolder.SuspendLayout();
@@ -53,7 +51,7 @@
 			this._buttonRestore.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._buttonRestore, "Restore Selected Backup File");
 			this.locExtender.SetLocalizationComment(this._buttonRestore, null);
-			this.locExtender.SetLocalizingId(this._buttonRestore, "RestoreDlg._buttonRestore");
+			this.locExtender.SetLocalizingId(this._buttonRestore, "DialogBoxes.RestoreDlg.RestoreButton");
 			this._buttonRestore.Location = new System.Drawing.Point(123, 10);
 			this._buttonRestore.Margin = new System.Windows.Forms.Padding(6, 10, 0, 0);
 			this._buttonRestore.MinimumSize = new System.Drawing.Size(75, 26);
@@ -82,7 +80,7 @@
 			this._buttonCancel.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
 			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
-			this.locExtender.SetLocalizingId(this._buttonCancel, "RestoreDlg._buttonCancel");
+			this.locExtender.SetLocalizingId(this._buttonCancel, "DialogBoxes.RestoreDlg.CancelButton");
 			this._buttonCancel.Location = new System.Drawing.Point(204, 10);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(6, 10, 0, 0);
 			this._buttonCancel.MinimumSize = new System.Drawing.Size(75, 26);
@@ -101,7 +99,7 @@
 			this._buttonClose.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this._buttonClose, null);
 			this.locExtender.SetLocalizationComment(this._buttonClose, null);
-			this.locExtender.SetLocalizingId(this._buttonClose, "RestoreDlg._buttonClose");
+			this.locExtender.SetLocalizingId(this._buttonClose, "DialogBoxes.RestoreDlg.CloseButton");
 			this._buttonClose.Location = new System.Drawing.Point(285, 10);
 			this._buttonClose.Margin = new System.Windows.Forms.Padding(6, 10, 0, 0);
 			this._buttonClose.MinimumSize = new System.Drawing.Size(75, 26);
@@ -146,7 +144,7 @@
 			this._groupBoxDestinationFolder.Controls.Add(this._tableLayoutDestinationFolder);
 			this.locExtender.SetLocalizableToolTip(this._groupBoxDestinationFolder, null);
 			this.locExtender.SetLocalizationComment(this._groupBoxDestinationFolder, null);
-			this.locExtender.SetLocalizingId(this._groupBoxDestinationFolder, "RestoreDlg._groupBoxDestinationFolder");
+			this.locExtender.SetLocalizingId(this._groupBoxDestinationFolder, "DialogBoxes.RestoreDlg.DestinationFolderGroupBox");
 			this._groupBoxDestinationFolder.Location = new System.Drawing.Point(0, 126);
 			this._groupBoxDestinationFolder.Margin = new System.Windows.Forms.Padding(0, 0, 0, 10);
 			this._groupBoxDestinationFolder.Name = "_groupBoxDestinationFolder";
@@ -189,7 +187,7 @@
 			this.locExtender.SetLocalizableToolTip(this._labelDefaultFolderValue, null);
 			this.locExtender.SetLocalizationComment(this._labelDefaultFolderValue, null);
 			this.locExtender.SetLocalizationPriority(this._labelDefaultFolderValue, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._labelDefaultFolderValue, "RestoreDlg._labelRestoreFolderValue");
+			this.locExtender.SetLocalizingId(this._labelDefaultFolderValue, "DialogBoxes.RestoreDlg.RestoreFolderValueLabel");
 			this._labelDefaultFolderValue.Location = new System.Drawing.Point(17, 20);
 			this._labelDefaultFolderValue.Margin = new System.Windows.Forms.Padding(17, 0, 0, 0);
 			this._labelDefaultFolderValue.Name = "_labelDefaultFolderValue";
@@ -205,7 +203,7 @@
 			this._radioDefaultFolder.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._radioDefaultFolder, null);
 			this.locExtender.SetLocalizationComment(this._radioDefaultFolder, null);
-			this.locExtender.SetLocalizingId(this._radioDefaultFolder, "RestoreDlg._radioDefaultFolder");
+			this.locExtender.SetLocalizingId(this._radioDefaultFolder, "DialogBoxes.RestoreDlg.DefaultFolderRadioButton");
 			this._radioDefaultFolder.Location = new System.Drawing.Point(0, 0);
 			this._radioDefaultFolder.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
 			this._radioDefaultFolder.Name = "_radioDefaultFolder";
@@ -224,7 +222,7 @@
 			this.locExtender.SetLocalizableToolTip(this._linkOtherFolderValue, "Click to select alternate destination folder");
 			this.locExtender.SetLocalizationComment(this._linkOtherFolderValue, null);
 			this.locExtender.SetLocalizationPriority(this._linkOtherFolderValue, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._linkOtherFolderValue, "RestoreDlg._linkOtherFolderValue");
+			this.locExtender.SetLocalizingId(this._linkOtherFolderValue, "DialogBoxes.RestoreDlg.OtherFolderValueLink");
 			this._linkOtherFolderValue.Location = new System.Drawing.Point(17, 61);
 			this._linkOtherFolderValue.Margin = new System.Windows.Forms.Padding(17, 0, 0, 0);
 			this._linkOtherFolderValue.Name = "_linkOtherFolderValue";
@@ -242,7 +240,7 @@
 			this._radioOtherFolder.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._radioOtherFolder, null);
 			this.locExtender.SetLocalizationComment(this._radioOtherFolder, null);
-			this.locExtender.SetLocalizingId(this._radioOtherFolder, "RestoreDlg._radioOtherFolder");
+			this.locExtender.SetLocalizingId(this._radioOtherFolder, "DialogBoxes.RestoreDlg.OtherFolderRadioButton");
 			this._radioOtherFolder.Location = new System.Drawing.Point(0, 41);
 			this._radioOtherFolder.Margin = new System.Windows.Forms.Padding(0, 8, 0, 3);
 			this._radioOtherFolder.Name = "_radioOtherFolder";
@@ -310,7 +308,7 @@
 			// 
 			// _colProject
 			// 
-			this._colProject.HeaderText = "Project";
+			this._colProject.HeaderText = "_L10N_:DialogBoxes.RestoreDlg.ColumnHeadings.Project!Project";
 			this._colProject.Name = "_colProject";
 			this._colProject.ReadOnly = true;
 			// 
@@ -318,7 +316,7 @@
 			// 
 			this._colBackupFile.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
 			this._colBackupFile.FillWeight = 80F;
-			this._colBackupFile.HeaderText = "Backup File";
+			this._colBackupFile.HeaderText = "_L10N_:DialogBoxes.RestoreDlg.ColumnHeadings.BackupFile!Backup File";
 			this._colBackupFile.Name = "_colBackupFile";
 			this._colBackupFile.ReadOnly = true;
 			// 
@@ -328,7 +326,7 @@
 			this._labelBackupFilesFound.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelBackupFilesFound, null);
 			this.locExtender.SetLocalizationComment(this._labelBackupFilesFound, null);
-			this.locExtender.SetLocalizingId(this._labelBackupFilesFound, "RestoreDlg._labelBackupFilesFound");
+			this.locExtender.SetLocalizingId(this._labelBackupFilesFound, "DialogBoxes.RestoreDlg.BackupFilesFoundLabel");
 			this._labelBackupFilesFound.Location = new System.Drawing.Point(2, 0);
 			this._labelBackupFilesFound.Margin = new System.Windows.Forms.Padding(2, 0, 3, 0);
 			this._labelBackupFilesFound.Name = "_labelBackupFilesFound";
@@ -342,7 +340,7 @@
 			this._linkSelectOtherBackupFile.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._linkSelectOtherBackupFile, null);
 			this.locExtender.SetLocalizationComment(this._linkSelectOtherBackupFile, null);
-			this.locExtender.SetLocalizingId(this._linkSelectOtherBackupFile, "RestoreDlg._linkSelectOtherBackupFile");
+			this.locExtender.SetLocalizingId(this._linkSelectOtherBackupFile, "DialogBoxes.RestoreDlg.SelectOtherBackupFileLink");
 			this._linkSelectOtherBackupFile.Location = new System.Drawing.Point(226, 0);
 			this._linkSelectOtherBackupFile.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._linkSelectOtherBackupFile.Name = "_linkSelectOtherBackupFile";
@@ -359,7 +357,7 @@
 			this._linkViewExceptionDetails.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.locExtender.SetLocalizableToolTip(this._linkViewExceptionDetails, null);
 			this.locExtender.SetLocalizationComment(this._linkViewExceptionDetails, null);
-			this.locExtender.SetLocalizingId(this._linkViewExceptionDetails, "RestoreDlg._linkViewExceptionDetails");
+			this.locExtender.SetLocalizingId(this._linkViewExceptionDetails, "DialogBoxes.RestoreDlg.ViewExceptionDetailsLink");
 			this._linkViewExceptionDetails.Location = new System.Drawing.Point(261, 360);
 			this._linkViewExceptionDetails.Margin = new System.Windows.Forms.Padding(0, 10, 0, 3);
 			this._linkViewExceptionDetails.Name = "_linkViewExceptionDetails";
@@ -397,7 +395,7 @@
 			this._buttonLoadProject.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._buttonLoadProject, global::SIL.Pa.ResourceStuff.PaTMStrings.kstidDoNothingToolTip);
 			this.locExtender.SetLocalizationComment(this._buttonLoadProject, null);
-			this.locExtender.SetLocalizingId(this._buttonLoadProject, "RestoreDlg._buttonLoadProject");
+			this.locExtender.SetLocalizingId(this._buttonLoadProject, "DialogBoxes.RestoreDlg.LoadProjectButton");
 			this._buttonLoadProject.Location = new System.Drawing.Point(0, 10);
 			this._buttonLoadProject.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this._buttonLoadProject.MinimumSize = new System.Drawing.Size(120, 26);
@@ -411,22 +409,7 @@
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
-			// 
-			// dataGridViewTextBoxColumn1
-			// 
-			this.dataGridViewTextBoxColumn1.HeaderText = "Project";
-			this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-			this.dataGridViewTextBoxColumn1.ReadOnly = true;
-			// 
-			// dataGridViewTextBoxColumn2
-			// 
-			this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.dataGridViewTextBoxColumn2.FillWeight = 80F;
-			this.dataGridViewTextBoxColumn2.HeaderText = "Backup File";
-			this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-			this.dataGridViewTextBoxColumn2.ReadOnly = true;
 			// 
 			// RestoreDlg
 			// 
@@ -437,7 +420,7 @@
 			this.Controls.Add(this._tableLayoutButtons);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "RestoreDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.RestoreDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(400, 500);
@@ -473,8 +456,6 @@
 		protected Localization.UI.LocalizationExtender locExtender;
 		private SilTools.SilGrid _grid;
 		private System.Windows.Forms.Label _labelBackupFilesFound;
-		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
 		private System.Windows.Forms.DataGridViewTextBoxColumn _colProject;
 		private System.Windows.Forms.DataGridViewTextBoxColumn _colBackupFile;
 		private System.Windows.Forms.LinkLabel _linkOtherFolderValue;

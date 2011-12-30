@@ -6,6 +6,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Ionic.Zip;
+using Localization;
 using Palaso.Progress;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
@@ -30,7 +31,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (!File.Exists(backupFile))
 			{
-				var msg = App.GetString("DialogBoxes.RestoreDlg.SpecifiedBackupFileDoesNotExistMsg",
+				var msg = LocalizationManager.GetString("DialogBoxes.RestoreDlg.SpecifiedBackupFileDoesNotExistMsg",
 					"The backup file '{0}' does not exist.");
 				App.NotifyUserOfProblem(msg, backupFile);
 				return null;
@@ -169,15 +170,15 @@ namespace SIL.Pa.UI.Dialogs
 				}
 			}
 
-			WriteLogMessagesForFileType(App.GetString("DialogBoxes.RestoreDlg.ProjectFilesFoundInBackupMsg",
+			WriteLogMessagesForFileType(LocalizationManager.GetString("DialogBoxes.RestoreDlg.ProjectFilesFoundInBackupMsg",
 				"Project Files Found In Backup File...") , _prjFiles);
 
 			WriteLogMessagesForFileType(Environment.NewLine + 
-				App.GetString("DialogBoxes.RestoreDlg.DataSourceFilesFoundInBackupMsg",
+				LocalizationManager.GetString("DialogBoxes.RestoreDlg.DataSourceFilesFoundInBackupMsg",
 				"Data Source Files Found In Backup File..."), _dataSourceFiles);
 
 			WriteLogMessagesForFileType(Environment.NewLine + 
-				App.GetString("DialogBoxes.RestoreDlg.AudioFilesFoundInBackupMsg",
+				LocalizationManager.GetString("DialogBoxes.RestoreDlg.AudioFilesFoundInBackupMsg",
 				"Aduio Files Found In Backup File..."), _audioFiles);
 
 			LogBox.ScrollToTop();
@@ -208,7 +209,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (showMessageIfInvalid)
 			{
-				var msg = App.GetString("DialogBoxes.RestoreDlg.SelectOtherBackupFileDlg.BackupFileNotValid",
+				var msg = LocalizationManager.GetString("DialogBoxes.RestoreDlg.SelectOtherBackupFileDlg.BackupFileNotValid",
 							"The selected file '{0}' is not a valid Phonology Assistant backup file.");
 				App.NotifyUserOfProblem(msg, backupFile);
 			}
@@ -258,20 +259,20 @@ namespace SIL.Pa.UI.Dialogs
 
 			zip.ExtractProgress += HandleZipExtractProgress;
 
-			var text = App.GetString("DialogBoxes.RestoreDlg.RestoringProjectFilesMsg", "Restoring Project Files...");
+			var text = LocalizationManager.GetString("DialogBoxes.RestoreDlg.RestoringProjectFilesMsg", "Restoring Project Files...");
 			LogBox.Invoke((Action)(() => LogBox.WriteMessageWithFontStyle(FontStyle.Bold | FontStyle.Underline, text)));
 			zip.ExtractSelectedEntries("*", string.Empty, restoreFolder, ExtractExistingFileAction.OverwriteSilently);
 
 			if (_dataSourceFiles.Count > 0)
 			{
-				text = App.GetString("DialogBoxes.RestoreDlg.RestoringDataSourceFilesMsg", "Restoring Data Source Files...");
+				text = LocalizationManager.GetString("DialogBoxes.RestoreDlg.RestoringDataSourceFilesMsg", "Restoring Data Source Files...");
 				LogBox.Invoke((Action)(() => LogBox.WriteMessageWithFontStyle(FontStyle.Bold | FontStyle.Underline, Environment.NewLine + text)));
 				zip.ExtractSelectedEntries("*.*", "Data", restoreFolder, ExtractExistingFileAction.OverwriteSilently);
 			}
 
 			if (_audioFiles.Count > 0)
 			{
-				text = App.GetString("DialogBoxes.RestoreDlg.RestoringAudioFilesMsg", "Restoring Audio Files...");
+				text = LocalizationManager.GetString("DialogBoxes.RestoreDlg.RestoringAudioFilesMsg", "Restoring Audio Files...");
 				LogBox.Invoke((Action)(() => LogBox.WriteMessageWithFontStyle(FontStyle.Bold | FontStyle.Underline, Environment.NewLine + text)));
 				zip.ExtractSelectedEntries("*.*", "Audio", restoreFolder, ExtractExistingFileAction.OverwriteSilently);
 			}
@@ -345,13 +346,13 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override string GetCompleteMessage()
 		{
-			return App.GetString("DialogBoxes.RestoreDlg.RestoringCompleteMsg", "Restore Complete!");
+			return LocalizationManager.GetString("DialogBoxes.RestoreDlg.RestoringCompleteMsg", "Restore Complete!");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string GetCancelledMessage()
 		{
-			return App.GetString("DialogBoxes.RestoreDlg.RestoringCancelledMsg", "Restore Cancelled");
+			return LocalizationManager.GetString("DialogBoxes.RestoreDlg.RestoringCancelledMsg", "Restore Cancelled");
 		}
 	}
 

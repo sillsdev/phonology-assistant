@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Localization;
 using Palaso.Reporting;
 
 namespace SIL.Pa.PhoneticSearching
@@ -58,7 +59,9 @@ namespace SIL.Pa.PhoneticSearching
 				return null;
 
 			var bldr = new StringBuilder();
-			var fmt = App.GetString("PhoneticSearchingMessages.UndefinedSymbolFormatMsg", "{0} (U+{1:X4}), ");
+			var fmt = LocalizationManager.GetString(
+				"PhoneticSearchingMessages.UndefinedSymbolsFormatMsg", "{0} (U+{1:X4}), ",
+				"'{1:X4}' displays the second paramter as a four digit hexadecimal number.");
 
 			foreach (var symbol in SymbolsNotInInventory)
 				bldr.AppendFormat(fmt, symbol, (int)symbol);
@@ -92,10 +95,11 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			var error = new SearchQueryValidationError(e);
 
-			var msg = App.GetString("PhoneticSearchingMessages.UnhandledExceptionWhileValidatingMsg",
-			                        "Validating the pattern '{0}' caused the following exception:");
+			var msg = LocalizationManager.GetString(
+				"PhoneticSearchingMessages.UnhandledExceptionWhileValidatingMsg",
+				"Validating the pattern '{0}' caused the following exception:");
 
-			error.Message = String.Format(msg, pattern);
+			error.Message = string.Format(msg, pattern);
 			return error;
 		}
 
@@ -120,7 +124,7 @@ namespace SIL.Pa.PhoneticSearching
 			{
 				bldr.AppendLine();
 				bldr.AppendLine(
-					App.GetString("PhoneticSearchingMessages.SearchPatternUnhandledExceptionsSummaryHeading",
+					LocalizationManager.GetString("PhoneticSearchingMessages.SearchPatternUnhandledExceptionsSummaryHeading",
 						"=============== Exceptions ==============="));
 				bldr.AppendLine();
 			}
@@ -142,11 +146,13 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			if (pattern != null)
 			{
-				return String.Format(App.GetString("PhoneticSearchingMessages.SearchPatternErrorSummaryHeading.WithPattern",
+				return String.Format(LocalizationManager.GetString(
+					"PhoneticSearchingMessages.SearchPatternErrorSummaryHeading.WithPattern",
 					"The search pattern '{0}' contains the following error(s):"), pattern);
 			}
 
-			return App.GetString("PhoneticSearchingMessages.SearchPatternErrorSummaryHeading.WithoutPattern",
+			return LocalizationManager.GetString(
+				"PhoneticSearchingMessages.SearchPatternErrorSummaryHeading.WithoutPattern",
 				"The search pattern contains the following error(s):");
 		}
 	}

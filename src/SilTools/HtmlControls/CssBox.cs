@@ -1065,9 +1065,9 @@ namespace System.Drawing.Html
                     string fontSize = mustBe;
                     string lineHeight = string.Empty;
 
-                    if (mustBe.Contains("/") && mustBe.Length > mustBe.IndexOf("/") + 1)
+                    if (mustBe.Contains("/") && mustBe.Length > mustBe.IndexOf("/", StringComparison.Ordinal) + 1)
                     {
-                        int slashPos = mustBe.IndexOf("/");
+                        int slashPos = mustBe.IndexOf("/", StringComparison.Ordinal);
                         fontSize = mustBe.Substring(0, slashPos);
                         lineHeight = mustBe.Substring(slashPos + 1);
                     }

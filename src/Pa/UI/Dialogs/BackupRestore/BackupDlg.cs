@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Localization;
 using Palaso.Reporting;
 using SIL.Pa.Properties;
 using SilTools;
@@ -128,7 +129,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleOtherFolderValueLinkClick(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			var description = string.Format(App.GetString(
+			var description = string.Format(LocalizationManager.GetString(
 					"DialogBoxes.BackupDlg.ChangeFolderBrowserDlgDescription",
 					"Specify the folder where the backup file will be written for the '{0}' project."),
 					_viewModel.Project.Name);
@@ -145,7 +146,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void TellUserHeSelectedTheDefaultFolder()
 		{
-			var msg = App.GetString(
+			var msg = LocalizationManager.GetString(
 				"DialogBoxes.BackupDlg.OtherFolderLinkText.WhenEnabledAndIsSameAsDefaultFolder",
 				"(specified folder is the same as the default)");
 
@@ -188,13 +189,13 @@ namespace SIL.Pa.UI.Dialogs
 				_linkOtherFolderValue.Text = _viewModel.OtherDestFolder;
 			else if (_radioOtherFolder.Checked)
 			{
-				_linkOtherFolderValue.Text = App.GetString(
+				_linkOtherFolderValue.Text = LocalizationManager.GetString(
 					"DialogBoxes.BackupDlg.OtherFolderLinkText.WhenNotSpecifiedAndEnabled",
 					"(click to specify)");
 			}
 			else
 			{
-				_linkOtherFolderValue.Text = App.GetString(
+				_linkOtherFolderValue.Text = LocalizationManager.GetString(
 					"DialogBoxes.BackupDlg.OtherFolderLinkText.WhenNotSpecifiedAndNotEnabled",
 					"(not specified)");
 			}
@@ -210,12 +211,12 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			if (!_viewModel.GetIsBackupFileNameValid())
 			{
-				_labelBackupFileValue.Text = App.GetString("DialogBoxes.BackupDlg.InvalidBackupFileNameMSg", "Invalid file name!");
+				_labelBackupFileValue.Text = LocalizationManager.GetString("DialogBoxes.BackupDlg.InvalidBackupFileNameMSg", "Invalid file name!");
 				_labelBackupFileValue.ForeColor = Color.Red;
 			}
 			else if (_viewModel.GetDoesBackupAlreadyExist())
 			{
-				_labelBackupFileValue.Text = App.GetString("DialogBoxes.BackupDlg.BackupFileAlreadyExistsMsg", "File already exists!");
+				_labelBackupFileValue.Text = LocalizationManager.GetString("DialogBoxes.BackupDlg.BackupFileAlreadyExistsMsg", "File already exists!");
 				_labelBackupFileValue.ForeColor = Color.Red;
 			}
 			else
@@ -258,7 +259,7 @@ namespace SIL.Pa.UI.Dialogs
 			_linkViewExceptionDetails.LinkClicked += delegate
 			{
 				ErrorReport.ReportNonFatalExceptionWithMessage(_viewModel.BackupRestoreException,
-					App.GetString("DialogBoxes.BackupDlg.BackupErrorMsg",
+					LocalizationManager.GetString("DialogBoxes.BackupDlg.BackupErrorMsg",
 					"There was an error while backing up the '{0}' project."),
 					_viewModel.Project.Name);
 			};

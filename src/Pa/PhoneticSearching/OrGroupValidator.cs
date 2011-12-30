@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Localization;
 using SIL.Pa.Model;
 
 namespace SIL.Pa.PhoneticSearching
@@ -28,7 +29,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (HasErrors || orItems.Length > 1)
 				return;
 
-			var msg = App.GetString("PhoneticSearchingMessages.OrGroupContainsOnlyOneItemMsg",
+			var msg = LocalizationManager.GetString("PhoneticSearchingMessages.OrGroupContainsOnlyOneItemMsg",
 				"The OR group '{0}' only contains one item. OR groups should contain multiple items " +
 				"separated by commas.");
 
@@ -53,7 +54,7 @@ namespace SIL.Pa.PhoneticSearching
 				text = phones.Aggregate(text, (curr, phone) => curr + phone);
 				text = TranslateTokenizedTextToReadableText(text);
 
-				var msg = App.GetString("PhoneticSearchingMessages.OrGroupContainsPhoneRunMsg",
+				var msg = LocalizationManager.GetString("PhoneticSearchingMessages.OrGroupContainsPhoneRunMsg",
 					"A match on the pattern '{0}' will include more than one phone. This text was " +
 					"found in an OR group and as such, it is invalid. OR groups should contain " +
 					"multiple items separated by commas and each item may represent a match on only " +
@@ -72,7 +73,7 @@ namespace SIL.Pa.PhoneticSearching
 			if ("[]{}()+*_#<>".Contains(orItem))
 			{
 				var error = new SearchQueryValidationError(
-					App.GetString("PhoneticSearchingMessages.InvalidSymbolsInORGroup",
+					LocalizationManager.GetString("PhoneticSearchingMessages.InvalidSymbolsInORGroup",
 						"The symbols '[]{}()<>+*_#' are not allowed in OR groups."));
 
 				error.HelpLinks.AddRange(new[] { "hidSearchPatternsOrGroups", "hidSearchPatternsExamples" });
@@ -82,7 +83,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (orItem.Contains(App.DottedCircle))
 			{
 				var error = new SearchQueryValidationError(
-					App.GetString("PhoneticSearchingMessages.InvalidDiacriticPlaceholderInORGroup",
+					LocalizationManager.GetString("PhoneticSearchingMessages.InvalidDiacriticPlaceholderInORGroup",
 						"Diacritic placeholders are not valid in OR groups."));
 
 				error.HelpLinks.AddRange(new[] { "hidSearchPatternsOrGroups", "hidSearchPatternsDiacriticPlaceholders", "hidSearchPatternsExamples" });
@@ -92,7 +93,7 @@ namespace SIL.Pa.PhoneticSearching
 			var phonesInMember = _project.PhoneticParser.Parse(orItem, true, false);
 			if (phonesInMember == null)
 			{
-				var msg = App.GetString("PhoneticSearchingMessages.InvalidORGroupMember",
+				var msg = LocalizationManager.GetString("PhoneticSearchingMessages.InvalidORGroupMember",
 					"The text '{0}' is not recognized as valid phonetic data.");
 
 				var error = new SearchQueryValidationError(string.Format(msg, orItem));

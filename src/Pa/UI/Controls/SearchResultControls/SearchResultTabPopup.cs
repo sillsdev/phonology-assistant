@@ -1,5 +1,6 @@
 using System.Drawing;
 using System.Windows.Forms;
+using Localization;
 using SilTools;
 using SilTools.Controls;
 
@@ -41,7 +42,8 @@ namespace SIL.Pa.UI.Controls
 			if (tab.ResultView.SearchQuery.Errors.Count > 0)
 			{
 				lblRecordCount.Visible = false;
-				lblRecordsValue.Text = App.GetString("SearchResultTabPopup.PatternContainsErrorsMsg",
+				lblRecordsValue.Text = LocalizationManager.GetString(
+					"Views.WordLists.SearchResults.TabPopup.PatternContainsErrorsMsg",
 					"Search pattern contains errors");
 			}
 			else

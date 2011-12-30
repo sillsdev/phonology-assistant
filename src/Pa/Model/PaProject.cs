@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using System.Xml.Linq;
+using Localization;
 using Palaso.IO;
 using SIL.Pa.DataSource;
 using SIL.Pa.Filters;
@@ -36,7 +37,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public PaProject()
 		{
-			Name = App.GetString("DefaultNewProjectName", "New Project");
+			Name = LocalizationManager.GetString("ProjectMessages.Creating.DefaultNewProjectName", "New Project");
 			ShowUndefinedCharsDlg = true;
 			IgnoreUndefinedCharsInSearches = true;
 			IgnoredSymbolsInCVCharts = new List<string>();
@@ -153,14 +154,14 @@ namespace SIL.Pa.Model
 
 			if (error == null)
 			{
-				var msg = App.GetString("ProjectMigrationMessages.MigrationSuccessfulMsg",
+				var msg = LocalizationManager.GetString("ProjectMessages.Migrating.MigrationSuccessfulMsg",
 					"The '{0}' project has succssfully been upgraded to work with this version of Phonology Assistant. A backup of your old project has been made in:\n\n{1}");
 
 				Utils.MsgBox(string.Format(msg, projectName, backupFolder));
 				return true;
 			}
 
-			var errMsg = App.GetString("ProjectMigrationMessages.MigrationFailureMsg",
+			var errMsg = LocalizationManager.GetString("ProjectMessages.Migrating.MigrationFailureMsg",
 				"There was an error upgrading the '{0}' project to work with this version of Phonology Assistant. " +
 				"Until the problem is resolved, this project cannot be opened using this version of Phonology Assistant.");
 
@@ -197,7 +198,7 @@ namespace SIL.Pa.Model
 
 			if (!File.Exists(prjFilePath))
 			{
-				msg = App.GetString("MiscellaneousMessages.ProjectFileMissingMsg", "The project file '{0}' is missing.",
+				msg = LocalizationManager.GetString("ProjectMessages.Loading.ProjectFileMissingMsg", "The project file '{0}' is missing.",
 					"Message displayed when an attempt is made to open a non existant project file. The parameter is the project file name.");
 
 				App.NotifyUserOfProblem(msg, prjFilePath);
@@ -271,9 +272,9 @@ namespace SIL.Pa.Model
 
 			if (error != null)
 			{
-				msg = (project == null ? 
-					App.GetString("MiscellaneousMessages.InvalidProjectFileErrorMsg", "The project file '{0}' has an invalid format.") :
-					App.GetString("MiscellaneousMessages.LoadingProjectErrorMsg", "There was an error loading the project file '{0}'"));
+				msg = (project == null ?
+					LocalizationManager.GetString("ProjectMessages.Loading.InvalidProjectFileErrorMsg", "The project file '{0}' has an invalid format.") :
+					LocalizationManager.GetString("ProjectMessages.Loading.LoadingProjectErrorMsg", "There was an error loading the project file '{0}'"));
 
 				msg = string.Format(msg, projFileName);
 
@@ -459,7 +460,7 @@ namespace SIL.Pa.Model
 			var reader = new DataSourceReader(this);
 			RecordCache = reader.Read();
 
-			var msg = App.GetString("ParsingDataMsg", "Parsing Data...",
+			var msg = LocalizationManager.GetString("ProjectMessages.Loading.ParsingDataMsg", "Parsing Data...",
 				"Progress message after data source is read and the data is being parsed.");
 
 			App.InitializeProgressBar(msg, RecordCache.Count);
@@ -538,7 +539,7 @@ namespace SIL.Pa.Model
 				return;
 			}
 
-			var msg = App.GetString("MiscellaneousMessages.LoadingDistinctiveFeatureSetFileErrorMsg",
+			var msg = LocalizationManager.GetString("ProjectMessages.Loading.LoadingDistinctiveFeatureSetFileErrorMsg",
 				"The file containing the '{0}' distinctive feature set is missing. The default set will be used instead.");
 				
 			App.NotifyUserOfProblem(msg, DistinctiveFeatureSet);

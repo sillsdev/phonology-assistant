@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 using SilTools;
 
@@ -50,7 +51,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public override string TabPageText
 		{
-			get { return App.GetString("DialogBoxes.OptionsDlg.WordListTab.TabText", "Word Lists"); }
+			get { return LocalizationManager.GetString("DialogBoxes.OptionsDlg.WordListTab.TabText", "Word Lists"); }
 		}
 
 		/// ------------------------------------------------------------------------------------

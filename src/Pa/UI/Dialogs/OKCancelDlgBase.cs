@@ -126,7 +126,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected virtual void OnStringsLocalized()
 		{
-			Text = App.GetStringForObject(this, Text);
+			//Text = App.GetStringForObject(this, Text);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -381,10 +381,6 @@ namespace SIL.Pa.UI.Dialogs
 
 	#region DlgSendMessageInfo class
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public class DlgSendMessageInfo
 	{
 		public Form Dialog;
@@ -405,18 +401,10 @@ namespace SIL.Pa.UI.Dialogs
 		public object ObjToReturn;
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public DlgSendMessageInfo(Form dialog) : this(dialog, false)
 		{
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public DlgSendMessageInfo(Form dialog, bool isDirty)
 		{

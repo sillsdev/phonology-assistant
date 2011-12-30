@@ -4,6 +4,8 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Xml.Serialization;
+using Localization;
 using Palaso.Progress;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
@@ -13,6 +15,8 @@ namespace SIL.Pa.UI.Dialogs
 	public class OpenProjectDlgViewModel
 	{
 		private List<PaProjectLite> _availableProjects;
+		
+		[XmlIgnore]
 		public PaProjectLite SelectedProject { get; protected set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -83,7 +87,7 @@ namespace SIL.Pa.UI.Dialogs
 				return null;
 
 			return (GetDoesProjectHaveName(index) ? _availableProjects[index].Name :
-				App.GetString("DialogBoxes.OpenProjectDlg.DisplayedTextWhenProjectNameMissing",
+				LocalizationManager.GetString("DialogBoxes.OpenProjectDlg.DisplayedTextWhenProjectNameMissing",
 					"(no project name specified)"));
 			}
 
@@ -146,7 +150,7 @@ namespace SIL.Pa.UI.Dialogs
 				string filter = string.Format(App.kstidFileTypePAProject,
 					Application.ProductName) + "|" + App.kstidFileTypeAllFiles;
 
-				var fmt = App.GetString("DialogBoxes.OpenProjectDlg.SelectSpecificProjectOpenFileDialogText", "Open Project File");
+				var fmt = LocalizationManager.GetString("DialogBoxes.OpenProjectDlg.SelectSpecificProjectOpenFileDialogText", "Open Project File");
 
 				var initialDir = (Settings.Default.LastFolderForOpenProjectDlg ?? string.Empty);
 				if (!Directory.Exists(initialDir))
@@ -173,7 +177,7 @@ namespace SIL.Pa.UI.Dialogs
 						return true;
 					}
 
-					App.NotifyUserOfProblem(App.GetString("DialogBoxes.OpenProjectDlg.InvalidProjectFileSelectedMsg",
+					App.NotifyUserOfProblem(LocalizationManager.GetString("DialogBoxes.OpenProjectDlg.InvalidProjectFileSelectedMsg",
 						"The file '{0}' is not a valid project file."), filenames[0]);
 				}
 			}

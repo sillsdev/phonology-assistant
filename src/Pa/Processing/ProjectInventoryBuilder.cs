@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
@@ -131,7 +132,7 @@ namespace SIL.Pa.Processing
 		{
 			get
 			{
-				return App.GetString("ProcessingPhoneInventoryMsg", 
+				return LocalizationManager.GetString("ProjectMessages.Loading.ProcessingPhoneInventoryMsg", 
 					"Building Phone Inventory...",
 					"Message displayed whenever the phone inventory is built or updated.");
 			}

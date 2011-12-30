@@ -1,5 +1,6 @@
 using System.Drawing;
 using System.IO;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Processing;
 using SIL.Pa.Properties;
@@ -97,31 +98,19 @@ namespace SIL.Pa.UI.Views
 		/// --------------------------------------------------------------------------------------------
 		protected override string DefaultHTMLOutputFile
 		{
-			get
-			{
-				return App.GetString("DefaultConsonantChartHtmlExportFileAffix",
-					"{0}-ConsonantChart.html", "Export");
-			}
+			get { return LocalizationManager.GetString("Views.ConsonantChart.DefaultHtmlExportFileAffix", "{0}-ConsonantChart.html"); }
 		}
 
 		/// --------------------------------------------------------------------------------------------
 		protected override string DefaultWordXmlOutputFile
 		{
-			get
-			{
-				return App.GetString("DefaultConsonantChartWordXmlExportFileAffix",
-					"{0}-ConsonantChart-(Word).xml", "Export");
-			}
+			get { return LocalizationManager.GetString("Views.ConsonantChart.DefaultWordXmlExportFileAffix", "{0}-ConsonantChart-(Word).xml"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string DefaultXLingPaperOutputFile
 		{
-			get
-			{
-				return App.GetString("DefaultConsonantChartXLingPaperExportFileAffix",
-					"{0}-ConsonantChart-(XLingPaper).xml", "Export");
-			}
+			get { return LocalizationManager.GetString("Views.ConsonantChart.DefaultXLingPaperExportFileAffix", "{0}-ConsonantChart-(XLingPaper).xml"); }
 		}
 
 		/// ------------------------------------------------------------------------------------

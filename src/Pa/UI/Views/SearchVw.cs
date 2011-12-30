@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using Palaso.IO;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
@@ -188,10 +189,7 @@ namespace SIL.Pa.UI.Views
 		private void LoadToolbarAndContextMenus()
 		{
 			if (m_tmAdapter != null)
-			{
-				App.UnPrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.Dispose();
-			}
 
 			m_tmAdapter = AdapterHelper.CreateTMAdapter();
 
@@ -206,7 +204,6 @@ namespace SIL.Pa.UI.Views
 
 			if (m_tmAdapter != null)
 			{
-				App.PrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 
 				var defs = new[] { FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
@@ -268,8 +265,8 @@ namespace SIL.Pa.UI.Views
 				Settings.Default.SearchVwSidePanelWidth,
 				newWidth => Settings.Default.SearchVwSidePanelWidth = newWidth);
 			
-			App.RegisterForLocalization(m_slidingPanel.Tab, "SearchVw.UndockedSideBarTabText",
-				"Patterns & Pattern Building", "Views");
+			LocalizationManager.GetString("Views.SearchVw.UndockedSideBarTabText",
+				"Patterns & Pattern Building", null, m_slidingPanel.Tab);
 
 			SuspendLayout();
 			Controls.Add(m_slidingPanel);
@@ -628,7 +625,7 @@ namespace SIL.Pa.UI.Views
 			if (!m_activeView)
 				return false;
 
-			SearchQuery query = ptrnTextBox.SearchQuery;
+			var query = ptrnTextBox.SearchQuery;
 
 			// When Id is zero it means the query has never been saved before.
 			// Therefore, just show the save as dialog.
@@ -667,10 +664,6 @@ namespace SIL.Pa.UI.Views
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnSavePatternAs(object args)
 		{
@@ -785,10 +778,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public WordListCache PerformSearch(SearchQuery query, SearchResultLocation resultLocation)
 		{
 			return m_rsltVwMngr.PerformSearch(query, resultLocation);
@@ -822,10 +811,6 @@ namespace SIL.Pa.UI.Views
 		#endregion
 
 		#region Non DragDrop keyboard and mouse events for controls supplying items to the search pattern
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandleFeatureListCustomDoubleClick(object sender, string feature)
 		{
@@ -984,10 +969,6 @@ namespace SIL.Pa.UI.Views
 
 		#region Methods for working with the recently used queries list
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void AddQueryToRecentlyUsedList(SearchQuery query)
 		{
 			if (query == null || query.IsPatternRegExpression)
@@ -1023,10 +1004,6 @@ namespace SIL.Pa.UI.Views
 				lstRecentPatterns.SelectedIndex = 0;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void lstRecentPatterns_KeyDown(object sender, KeyEventArgs e)
 		{
@@ -1152,7 +1129,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void HandleSplitResultsPanel1DragDrop(object sender, DragEventArgs e)
 		{
-			SearchQuery query = e.Data.GetData(typeof(SearchQuery)) as SearchQuery;
+			var query = e.Data.GetData(typeof(SearchQuery)) as SearchQuery;
 			if (query != null)
 				m_rsltVwMngr.PerformSearch(query, SearchResultLocation.CurrentTabGroup);
 		}

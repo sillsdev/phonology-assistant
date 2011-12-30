@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using Localization;
 using SIL.Pa.DataSource;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Processing;
@@ -124,14 +125,11 @@ namespace SIL.Pa.Model
 			}
 			catch (Exception e)
 			{
-				var msg = App.GetString("LoadingRecordCacheErrorMsg",
-					"The following error occurred while loading '{0}':\n{1}",
-					"Message displayed when failing to load a PaXml file. Parameter 0 is filename, and parameter 1 is the error message.");
+				var msg = LocalizationManager.GetString("Miscellaneous.Messages.DataSourceReading.LoadingRecordCacheErrorMsg",
+					"The following error occurred while loading '{0}'",
+					"Message displayed when failing to load a PaXml file.");
 
-				filename = Utils.PrepFilePathForMsgBox(filename);
-				Utils.MsgBox(string.Format(msg, filename, e.Message), MessageBoxButtons.OK,
-					MessageBoxIcon.Exclamation);
-				
+				App.NotifyUserOfProblem(e, msg, filename);
 				return null;
 			}
 		}
@@ -143,27 +141,27 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void Save(string filename)
 		{
-			try
-			{
-				var paxmlcontent = new PaXMLContent();
-				paxmlcontent.Cache = this;
+			//try
+			//{
+			//    var paxmlcontent = new PaXMLContent();
+			//    paxmlcontent.Cache = this;
 
-				//paxmlcontent.CustomFields = new PaFieldInfoList();
+			//    //paxmlcontent.CustomFields = new PaFieldInfoList();
 
-				//foreach (var field in m_project.Fiel.Where(fi => fi.IsCustom))
-				//    paxmlcontent.CustomFields.Add(fieldInfo);
+			//    //foreach (var field in m_project.Fiel.Where(fi => fi.IsCustom))
+			//    //    paxmlcontent.CustomFields.Add(fieldInfo);
 
-				//if (paxmlcontent.CustomFields.Count == 0)
-				//    paxmlcontent.CustomFields = null;
+			//    //if (paxmlcontent.CustomFields.Count == 0)
+			//    //    paxmlcontent.CustomFields = null;
 
-				XmlSerializationHelper.SerializeToFile(filename, paxmlcontent);
-			}
-			catch (Exception e)
-			{
-				var msg = App.GetString("SavingRecordCacheErrorMsg", "Error saving records: {0}",
-					"Message displayed if there was an error saving the records to an XML file.");
-				Utils.MsgBox(string.Format(msg, e.Message));
-			}
+			//    XmlSerializationHelper.SerializeToFile(filename, paxmlcontent);
+			//}
+			//catch (Exception e)
+			//{
+			//    var msg = LocalizationManager.GetString("SavingRecordCacheErrorMsg", "Error saving records: {0}",
+			//        "Message displayed if there was an error saving the records to an XML file.");
+			//    Utils.MsgBox(string.Format(msg, e.Message));
+			//}
 		}
 
 		/// ------------------------------------------------------------------------------------

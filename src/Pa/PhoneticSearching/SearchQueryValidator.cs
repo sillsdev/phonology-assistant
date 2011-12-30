@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Localization;
 using SIL.Pa.Model;
 
 namespace SIL.Pa.PhoneticSearching
@@ -41,31 +42,31 @@ namespace SIL.Pa.PhoneticSearching
 					VerifyOneDiacriticPlaceholderPerANDGroup(item);
 
 					VerifyNoEmptyTextBetweenOpenAndCloseSymbols(item, PatternParser.FindInnerMostSquareBracketPairs,
-						string.Format(App.GetString("PhoneticSearchingMessages.EmptySquareBracketsMsg",
+						string.Format(LocalizationManager.GetString("PhoneticSearchingMessages.EmptySquareBracketsMsg",
 							"The pattern '{0}' contains at least one set of empty square brackets."), item));
 
 					VerifyNoEmptyTextBetweenOpenAndCloseSymbols(item, PatternParser.FindInnerMostBracesPair,
-						string.Format(App.GetString("PhoneticSearchingMessages.EmptyBracesMsg",
+						string.Format(LocalizationManager.GetString("PhoneticSearchingMessages.EmptyBracesMsg",
 							"The pattern '{0}' contains at least one set of empty braces."), item));
 
 					VerifyNoEmptyTextBetweenOpenAndCloseSymbols(item, PatternParser.FindInnerAngleBracketPairs,
-						string.Format(App.GetString("PhoneticSearchingMessages.EmptyAngleBracketsMsg",
+						string.Format(LocalizationManager.GetString("PhoneticSearchingMessages.EmptyAngleBracketsMsg",
 							"The pattern '{0}' contains at least one set of empty angle brackets."), item));
 
 					VerifyMatchingOpenAndCloseSymbols(item, '[', ']',
-						string.Format(App.GetString("PhoneticSearchingMessages.MismatchedNumberOfBracketsMsg",
+						string.Format(LocalizationManager.GetString("PhoneticSearchingMessages.MismatchedNumberOfBracketsMsg",
 							"In the pattern '{0}', the number of open square brackets does not match the number of closed."), item));
 
 					VerifyMatchingOpenAndCloseSymbols(item, '{', '}',
-						string.Format(App.GetString("PhoneticSearchingMessages.MismatchedNumberOfBracesMsg",
+						string.Format(LocalizationManager.GetString("PhoneticSearchingMessages.MismatchedNumberOfBracesMsg",
 							"In the pattern '{0}', the number of open braces does not match the number of closed."), item));
 
 					VerifyMatchingOpenAndCloseSymbols(item, '<', '>',
-						string.Format(App.GetString("PhoneticSearchingMessages.MismatchedNumberOfAngleBracketsMsg",
+						string.Format(LocalizationManager.GetString("PhoneticSearchingMessages.MismatchedNumberOfAngleBracketsMsg",
 							"In the pattern '{0}', the number of open angle brackets does not match the number of closed."), item));
 
 					VerifyMatchingOpenAndCloseSymbols(item, '(', ')',
-						string.Format(App.GetString("PhoneticSearchingMessages.MismatchedNumberOfParenthesesMsg",
+						string.Format(LocalizationManager.GetString("PhoneticSearchingMessages.MismatchedNumberOfParenthesesMsg",
 							"In the pattern '{0}', the number of open parentheses does not match the number of closed."), item));
 
 					ValidateOrGroups(item);
@@ -88,7 +89,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public static string GetPatternSyntaxErrorMsg()
 		{
-			return string.Format(App.GetString("PhoneticSearchingMessages.PatternSyntaxErrorMsg",
+			return string.Format(LocalizationManager.GetString("PhoneticSearchingMessages.PatternSyntaxErrorMsg",
 				"The pattern contains a syntax error. The correct format for the pattern is '{0}'"),
 				App.kEmptyDiamondPattern);
 		}
@@ -119,7 +120,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (string.IsNullOrEmpty(srchItemPattern))
 			{
 				var error = new SearchQueryValidationError(
-					App.GetString("PhoneticSearchingMessages.SearchItemMissingMsg", "You must specify a search item."));
+					LocalizationManager.GetString("PhoneticSearchingMessages.SearchItemMissingMsg", "You must specify a search item."));
 
 				error.HelpLinks.AddRange(new[] { "hidSearchPatternsOverview" });
 				Errors.Add(error);
@@ -128,7 +129,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (StripOutStuffWithValidPlusAndStarSymbols(srchItemPattern).Count(c => "#*+".Contains(c)) > 0)
 			{
 				var error = new SearchQueryValidationError(
-					App.GetString("PhoneticSearchingMessages.InvalidCharactersInSearchItemMsg",
+					LocalizationManager.GetString("PhoneticSearchingMessages.InvalidCharactersInSearchItemMsg",
 						"The search item portion of the search pattern contains an illegal symbol. " +
 						"The symbols '#', '+' and '*' are not valid in the search item."));
 
@@ -147,7 +148,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (envWithoutPlusSymbols.Count(c => "#*+".Contains(c)) > 1)
 			{
 				var error = new SearchQueryValidationError(
-					App.GetString("PhoneticSearchingMessages.InvalidCharactersInPrecedingEnvironmentMsg",
+					LocalizationManager.GetString("PhoneticSearchingMessages.InvalidCharactersInPrecedingEnvironmentMsg",
 						"The preceding environment portion of the search pattern contains an illegal combination of characters. " +
 						"The symbols '#', '+' or '*' are not allowed together in the preceding environment."));
 
@@ -161,7 +162,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (count > 1)
 			{
 				var error = new SearchQueryValidationError(
-					App.GetString("PhoneticSearchingMessages.TooManyWordBoundarySymbolsInPrecedingEnvironmentMsg",
+					LocalizationManager.GetString("PhoneticSearchingMessages.TooManyWordBoundarySymbolsInPrecedingEnvironmentMsg",
 						"The preceding environment portion of the search pattern contains too many word boundary symbols (#). " +
 						"Only one is allowed and it must be at the beginning."));
 
@@ -172,7 +173,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (count == 1 && !precedingEnv.StartsWith("#"))
 			{
 				var error = new SearchQueryValidationError(
-					App.GetString("PhoneticSearchingMessages.MisplacedWordBoundarySymbolInPrecedingEnvironmentMsg",
+					LocalizationManager.GetString("PhoneticSearchingMessages.MisplacedWordBoundarySymbolInPrecedingEnvironmentMsg",
 						"The preceding environment portion of the search pattern contains a misplaced word boundary symbol (#). " +
 						"It must be at the beginning."));
 
@@ -184,7 +185,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (count > 1)
 			{
 				var error = new SearchQueryValidationError(
-					App.GetString("PhoneticSearchingMessages.TooManyZeroOrMoreSymbolsInPrecedingEnvironmentMsg",
+					LocalizationManager.GetString("PhoneticSearchingMessages.TooManyZeroOrMoreSymbolsInPrecedingEnvironmentMsg",
 						"The preceding environment portion of the search pattern contains too many 'zero or more' symbols (*). " +
 						"Only one is allowed and it must be at the beginning."));
 
@@ -195,7 +196,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (count == 1 && !precedingEnv.StartsWith("*"))
 			{
 				var error = new SearchQueryValidationError(
-					App.GetString("PhoneticSearchingMessages.MisplacedZeroOrMoreSymbolInPrecedingEnvironmentMsg",
+					LocalizationManager.GetString("PhoneticSearchingMessages.MisplacedZeroOrMoreSymbolInPrecedingEnvironmentMsg",
 						"The preceding environment portion of the search pattern contains a misplaced 'zero or more' symbol (*). " +
 						"It must be at the beginning."));
 
@@ -207,7 +208,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (count > 1)
 			{
 				var error = new SearchQueryValidationError(
-					App.GetString("PhoneticSearchingMessages.TooManyOneOrMoreSymbolsInPrecedingEnvironmentMsg",
+					LocalizationManager.GetString("PhoneticSearchingMessages.TooManyOneOrMoreSymbolsInPrecedingEnvironmentMsg",
 						"The preceding environment portion of the search pattern contains too many 'one or more' symbols (+). " +
 						"Only one is allowed and it must be at the beginning."));
 
@@ -218,7 +219,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (count == 1 && !precedingEnv.StartsWith("+"))
 			{
 				var error = new SearchQueryValidationError(
-					App.GetString("PhoneticSearchingMessages.MisplacedOneOrMoreSymbolInPrecedingEnvironmentMsg",
+					LocalizationManager.GetString("PhoneticSearchingMessages.MisplacedOneOrMoreSymbolInPrecedingEnvironmentMsg",
 						"The preceding environment portion of the search pattern contains a misplaced 'one or more' symbol (+). " +
 						"It must be at the beginning."));
 
@@ -235,7 +236,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (envWithoutPlusSymbols.Count(c => "#*+".Contains(c)) > 1)
 			{
 				var error = new SearchQueryValidationError(
-					App.GetString("PhoneticSearchingMessages.InvalidCharactersInFollowingEnvironmentMsg",
+					LocalizationManager.GetString("PhoneticSearchingMessages.InvalidCharactersInFollowingEnvironmentMsg",
 						"The following environment portion of the search pattern contains an illegal combination of characters. " +
 						"The symbols '#', '+' or '*' are not allowed together in the following environment."));
 
@@ -249,7 +250,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (count > 1)
 			{
 				var error = new SearchQueryValidationError(
-					App.GetString("PhoneticSearchingMessages.TooManyWordBoundarySymbolsInFollowingEnvironmentMsg",
+					LocalizationManager.GetString("PhoneticSearchingMessages.TooManyWordBoundarySymbolsInFollowingEnvironmentMsg",
 						"The following environment portion of the search pattern contains too many word boundary symbols (#). " +
 						"Only one is allowed and it must be at the end."));
 
@@ -260,7 +261,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (count == 1 && !followingEnv.EndsWith("#"))
 			{
 				var error = new SearchQueryValidationError(
-					App.GetString("PhoneticSearchingMessages.MisplacedWordBoundarySymbolInFollowingEnvironmentMsg",
+					LocalizationManager.GetString("PhoneticSearchingMessages.MisplacedWordBoundarySymbolInFollowingEnvironmentMsg",
 						"The following environment portion of the search pattern contains a misplaced word boundary symbol (#). " +
 						"It must be at the end."));
 
@@ -271,7 +272,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (count > 1)
 			{
 				var error = new SearchQueryValidationError(
-					App.GetString("PhoneticSearchingMessages.TooManyZeroOrMoreSymbolsInFollowingEnvironmentMsg",
+					LocalizationManager.GetString("PhoneticSearchingMessages.TooManyZeroOrMoreSymbolsInFollowingEnvironmentMsg",
 						"The following environment portion of the search pattern contains too many zero or more' symbols (*). " +
 						"Only one is allowed and it must be at the end."));
 
@@ -282,7 +283,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (count == 1 && !followingEnv.EndsWith("*"))
 			{
 				var error = new SearchQueryValidationError(
-					App.GetString("PhoneticSearchingMessages.MisplacedZeroOrMoreSymbolInFollowingEnvironmentMsg",
+					LocalizationManager.GetString("PhoneticSearchingMessages.MisplacedZeroOrMoreSymbolInFollowingEnvironmentMsg",
 						"The following environment portion of the search pattern contains a misplaced 'zero or more' symbol (*). " +
 						"It must be at the end."));
 
@@ -294,7 +295,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (count > 1)
 			{
 				var error = new SearchQueryValidationError(
-					App.GetString("PhoneticSearchingMessages.TooManyOneOrMoreSymbolsInFollowingEnvironmentMsg",
+					LocalizationManager.GetString("PhoneticSearchingMessages.TooManyOneOrMoreSymbolsInFollowingEnvironmentMsg",
 						"The following environment portion of the search pattern contains too many 'one or more' symbols (+). " +
 						"Only one is allowed and it must be at the end."));
 
@@ -305,7 +306,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (count == 1 && !followingEnv.EndsWith("+"))
 			{
 				var error = new SearchQueryValidationError(
-					App.GetString("PhoneticSearchingMessages.MisplacedOneOrMoreSymbolInFollowingEnvironmentMsg",
+					LocalizationManager.GetString("PhoneticSearchingMessages.MisplacedOneOrMoreSymbolInFollowingEnvironmentMsg",
 						"The following environment portion of the search pattern contains a misplaced 'one or more' symbol (+). " +
 						"It must be at the end."));
 
@@ -337,7 +338,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (phonesNotInCache.Length > 0)
 			{
 				var error = new SearchQueryValidationError(
-					App.GetString("PhoneticSearchingMessages.PatternPhonesNotInDataMsg",
+					LocalizationManager.GetString("PhoneticSearchingMessages.PatternPhonesNotInDataMsg",
 						"The following phone(s) are not found in the data:"));
 
 				foreach (var phone in phonesNotInCache)
@@ -350,7 +351,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (symbolsNotInCache.Length > 0)
 			{
 				var error = new SearchQueryValidationError(
-					App.GetString("PhoneticSearchingMessages.UnknownSymbolsFoundInPatternMsg",
+					LocalizationManager.GetString("PhoneticSearchingMessages.UnknownSymbolsFoundInPatternMsg",
 						"The following undefined phonetic symbol(s) were found:"));
 
 				foreach (var symbol in symbolsNotInCache)
@@ -410,7 +411,7 @@ namespace SIL.Pa.PhoneticSearching
 					!App.AFeatureCache.Keys.Any(f => f == bracketedText) &&
 					!App.BFeatureCache.Keys.Any(f => f == bracketedText))
 				{
-					var msg = App.GetString("PhoneticSearchingMessages.InvalidTextInSquareBracketsMsg",
+					var msg = LocalizationManager.GetString("PhoneticSearchingMessages.InvalidTextInSquareBracketsMsg",
 						"The text '{0}' in square brackets is invalid. Other than surrounding " +
 						"'AND' groups, square brackets are only used to surround descriptive or " +
 						"distinctive features, the designators for consonant or vowel classes " +
@@ -436,7 +437,7 @@ namespace SIL.Pa.PhoneticSearching
 
 				if (!_project.SearchClasses.Any(c => c.Name == bracketedText))
 				{
-					var msg = App.GetString("PhoneticSearchingMessages.InvalidTextInAngleBracketsMsg",
+					var msg = LocalizationManager.GetString("PhoneticSearchingMessages.InvalidTextInAngleBracketsMsg",
 						"The text '{0}' in angled brackets is not a valid class name.");
 
 					var error = new SearchQueryValidationError(string.Format(msg, bracketedText));
@@ -474,7 +475,7 @@ namespace SIL.Pa.PhoneticSearching
 			{
 				if (match.Value.Count(c => c == '$') > 1)
 				{
-					var msg = App.GetString("PhoneticSearchingMessages.TooManyDiacriticPlaceholderMsg",
+					var msg = LocalizationManager.GetString("PhoneticSearchingMessages.TooManyDiacriticPlaceholderMsg",
 						"The pattern '{0}' contains too many diacritic placeholders in one of the AND groups. " +
 						"Only one diacritic placeholder is allowed per AND group.");
 
@@ -502,7 +503,7 @@ namespace SIL.Pa.PhoneticSearching
 					if (bracketedText.Contains("+") && bracketedText.Contains("*"))
 					{
 						var error = new SearchQueryValidationError(
-							App.GetString("PhoneticSearchingMessages.InvalidDiacriticPlaceholderSyntaxMsg",
+							LocalizationManager.GetString("PhoneticSearchingMessages.InvalidDiacriticPlaceholderSyntaxMsg",
 								"The symbols '*' and '+' may not appear between square brackets together " +
 								"with a diacritic placeholder. One or the other is allowed, but not both."));
 
@@ -513,7 +514,7 @@ namespace SIL.Pa.PhoneticSearching
 					if (bracketedText.Count(s => s == '+') > 1)
 					{
 						var error = new SearchQueryValidationError(
-							App.GetString("PhoneticSearchingMessages.TooManyOneOrMoreSymbolsInDiacriticPlaceholderMsg",
+							LocalizationManager.GetString("PhoneticSearchingMessages.TooManyOneOrMoreSymbolsInDiacriticPlaceholderMsg",
 								"The One-Or-More-Diacritics symbol (+) appears too many times with a diacritic " +
 								"placeholder. Only one is allowed."));
 
@@ -524,7 +525,7 @@ namespace SIL.Pa.PhoneticSearching
 					if (bracketedText.Count(s => s == '*') > 1)
 					{
 						var error = new SearchQueryValidationError(
-							App.GetString("PhoneticSearchingMessages.TooManyZeroOrMoreSymbolsInDiacriticPlaceholderMsg",
+							LocalizationManager.GetString("PhoneticSearchingMessages.TooManyZeroOrMoreSymbolsInDiacriticPlaceholderMsg",
 								"The Zero-Or-More-Diacritics symbol (*) appears too many times with a " +
 								"diacritic placeholder. Only one is allowed."));
 
@@ -535,7 +536,7 @@ namespace SIL.Pa.PhoneticSearching
 					foreach (var symbolInfo in bracketedText.Where(s => s != '+' && s != '*')
 						.Select(s => App.IPASymbolCache[s]).Where(s => s != null && s.IsBase))
 					{
-						var msg = App.GetString("PhoneticSearchingMessages.InvalidSymbolInDiacriticPlaceholderMsg",
+						var msg = LocalizationManager.GetString("PhoneticSearchingMessages.InvalidSymbolInDiacriticPlaceholderMsg",
 								"The symbol '{0}' is a base character and was found between square brackets " +
 								"together with a diacritic placeholder. Base characters are not allowed with " +
 								"diacritic placeholders.");

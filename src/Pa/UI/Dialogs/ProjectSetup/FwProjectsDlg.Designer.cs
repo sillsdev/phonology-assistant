@@ -49,7 +49,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblMsg.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.lblMsg, null);
 			this.locExtender.SetLocalizationComment(this.lblMsg, null);
-			this.locExtender.SetLocalizingId(this.lblMsg, "FwProjectsDlg.lblMsg");
+			this.locExtender.SetLocalizingId(this.lblMsg, "DialogBoxes.Fw6ProjectsDlg.PromptLabel");
 			this.lblMsg.Location = new System.Drawing.Point(11, 10);
 			this.lblMsg.Name = "lblMsg";
 			this.lblMsg.Size = new System.Drawing.Size(305, 15);
@@ -110,7 +110,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblNetwork.Dock = System.Windows.Forms.DockStyle.Top;
 			this.locExtender.SetLocalizableToolTip(this.lblNetwork, null);
 			this.locExtender.SetLocalizationComment(this.lblNetwork, "Label above the list of networks on the FieldWorks Projects dialog box.");
-			this.locExtender.SetLocalizingId(this.lblNetwork, "FwProjectsDlg.lblNetwork");
+			this.locExtender.SetLocalizingId(this.lblNetwork, "DialogBoxes.Fw6ProjectsDlg.NetworkLabel");
 			this.lblNetwork.Location = new System.Drawing.Point(0, 0);
 			this.lblNetwork.Name = "lblNetwork";
 			this.lblNetwork.Size = new System.Drawing.Size(234, 23);
@@ -140,7 +140,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.lblProjects, null);
 			this.locExtender.SetLocalizationComment(this.lblProjects, "Label above the list  of FieldWorks projects on the FieldWorks Projects dialog bo" +
 					"x.");
-			this.locExtender.SetLocalizingId(this.lblProjects, "FwProjectsDlg.lblProjects");
+			this.locExtender.SetLocalizingId(this.lblProjects, "DialogBoxes.Fw6ProjectsDlg.ProjectsLabel");
 			this.lblProjects.Location = new System.Drawing.Point(0, 0);
 			this.lblProjects.Name = "lblProjects";
 			this.lblProjects.Size = new System.Drawing.Size(211, 23);
@@ -150,7 +150,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// FwProjectsDlg
@@ -161,8 +160,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.splitContainer1);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this, "FwProjectsDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.Fw6ProjectsDlg.WindowTitle");
 			this.MinimumSize = new System.Drawing.Size(375, 230);
 			this.Name = "FwProjectsDlg";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultLocation;

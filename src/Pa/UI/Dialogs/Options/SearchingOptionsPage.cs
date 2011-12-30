@@ -18,7 +18,7 @@ namespace SIL.Pa.UI.Dialogs
 		public override string TabPageText
 		{
 			get { return "Searching"; }
-			//get { return App.GetString("DialogBoxes.OptionsDlg.UserInterfaceTab.TabText", "User Interface"); }
+			//get { return LocalizationManager.GetString("DialogBoxes.OptionsDlg.UserInterfaceTab.TabText", "User Interface"); }
 		}
 
 		/// ------------------------------------------------------------------------------------

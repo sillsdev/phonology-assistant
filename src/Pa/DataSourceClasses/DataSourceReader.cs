@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.DataSource.Sa;
 using SIL.Pa.Model;
@@ -49,7 +50,8 @@ namespace SIL.Pa.DataSource
 			{
 				if (!FwDBUtils.IsFw7Installed)
 				{
-					App.NotifyUserOfProblem(App.GetString("FieldWorks7NotInstalledMsg",
+					App.NotifyUserOfProblem(LocalizationManager.GetString(
+						"Miscellaneous.Messages.DataSourceReading.FieldWorks7NotInstalledMsg",
 						"FieldWorks 7.0 (or later) is not installed. It must be installed in order for Phonology Assistant to read the data source '{0}'. This data source will be skipped."),
 						ds.SourceFile);
 					
@@ -78,7 +80,8 @@ namespace SIL.Pa.DataSource
 
 			if (!ds.VerifyMappings())
 			{
-				App.NotifyUserOfProblem(App.GetString("MarkersMissingFromDataSourceMsg",
+				App.NotifyUserOfProblem(LocalizationManager.GetString(
+					"Miscellaneous.Messages.DataSourceReading.MarkersMissingFromDataSourceMsg",
 					"The data source file '{0}' is missing some standard format markers that were " +
 					"assigned to Phonology Assistant fields. Those assignments have been removed. To verify the " +
 					"assignment of markers to fields, go to the project settings dialog box, select " +
@@ -153,7 +156,8 @@ namespace SIL.Pa.DataSource
 			dlg.Filter = App.kstidFileTypeAllFiles;
 			dlg.ShowReadOnly = false;
 			dlg.InitialDirectory = Path.GetFullPath(dataSourceFile);
-			dlg.Title = App.GetString("SpecifyNewLocationForDatasourceOpenFileDlgCaption",
+			dlg.Title = LocalizationManager.GetString(
+				"Miscellaneous.Messages.DataSourceReading.SpecifyNewLocationForDatasourceOpenFileDlgCaption",
 				"Choose New Data Source Location");
 			
 			while (dlg.ShowDialog() == DialogResult.Cancel)
@@ -188,7 +192,10 @@ namespace SIL.Pa.DataSource
 		{
 			if (e.UserState is string)
 			{
-				var msg = App.GetString("ReadingDataSourceProgressMsg", "Reading {0}...");
+				var msg = LocalizationManager.GetString(
+					"Miscellaneous.Messages.DataSourceReading.ReadingDataSourceProgressMsg",
+					"Reading {0}...");
+				
 				msg = string.Format(msg, e.UserState);
 				App.InitializeProgressBar(msg, e.ProgressPercentage);
 			}
@@ -254,8 +261,10 @@ namespace SIL.Pa.DataSource
 					else
 					{
 						worker.ReportProgress(-1);
-						App.NotifyUserOfProblem(App.GetString("DatasourceFileUnsuccessfullyReadMsg",
-							"Error processing data source file '{0}'."), ds.SourceFile);
+						var msg = LocalizationManager.GetString(
+							"Miscellaneous.Messages.DataSourceReading.DataSourceFileUnsuccessfullyReadMsg",
+							"Error processing data source file '{0}'.");
+						App.NotifyUserOfProblem(msg, ds.SourceFile);
 
 						worker.ReportProgress(0, new object[] { "AfterReadingDataSourceFailure", ds });
 					}
@@ -263,8 +272,10 @@ namespace SIL.Pa.DataSource
 				catch (Exception ex)
 				{
 					worker.ReportProgress(-1);
-					App.NotifyUserOfProblem(ex, App.GetString("DatasourceFileReadingErrorMsg",
-						"An error occurred while reading data source file '{0}'.") , ds.SourceFile);
+					var msg = LocalizationManager.GetString(
+						"Miscellaneous.Messages.DataSourceReading.DatasourceFileReadingErrorMsg",
+						"An error occurred while reading data source file '{0}'.");
+					App.NotifyUserOfProblem(ex, msg, ds.SourceFile);
 				}
 			}
 		}
@@ -272,7 +283,7 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private string GetPhoneticMappingErrorMsg()
 		{
-			return App.GetString("DatasourcePhoneticMappingErrorMsg",
+			return LocalizationManager.GetString("Miscellaneous.Messages.DataSourceReading.DataSourcePhoneticMappingErrorMsg",
 				"A field mapping to the phonetic field could not be found for the data source '{0}'");
 		}
 

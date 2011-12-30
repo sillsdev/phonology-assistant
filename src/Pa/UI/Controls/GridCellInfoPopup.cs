@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 using SilTools;
 using SilTools.Controls;
@@ -166,18 +167,22 @@ namespace SIL.Pa.UI.Controls
 
 				if (value == Purpose.UncertainPossibilities)
 				{
-					lnkCommand.Text = App.GetString("UncertainPhonesCellInfoLinkText", "Edit",
+					lnkCommand.Text = LocalizationManager.GetString(
+						"Views.WordLists.CellInfoPopup.UncertainPhones.EditLink.Text", "Edit",
 						"Text for command link on the uncertainty possibilities cell popup");
-					
-					m_toolTip.SetToolTip(lnkCommand, App.GetString("UncertainPhonesCellInfoLinkToolTip",
+
+					m_toolTip.SetToolTip(lnkCommand, LocalizationManager.GetString(
+						"Views.WordLists.CellInfoPopup.UncertainPhones.EditLink.ToolTip",
 						"Edit source record"));
 				}
 				else
 				{
-					lnkCommand.Text = App.GetString("TranscriptionChangesCellInfoLinkText", "Settings",
+					lnkCommand.Text = LocalizationManager.GetString(
+						"Views.WordLists.CellInfoPopup.TranscriptionChanges.SettingsLink.Text", "Settings",
 						"Text for command link on the experimental transcription items cell popup");
-					
-					m_toolTip.SetToolTip(lnkCommand, App.GetString("TranscriptionChangesCellInfoLinkToolTip",
+
+					m_toolTip.SetToolTip(lnkCommand, LocalizationManager.GetString(
+						"Views.WordLists.CellInfoPopup.TranscriptionChanges.SettingsLink.ToolTip",
 						"Transcription Changes"));
 				}
 			}

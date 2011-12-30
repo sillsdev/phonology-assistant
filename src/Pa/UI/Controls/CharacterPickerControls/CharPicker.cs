@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 using SilTools;
 
@@ -313,8 +314,8 @@ namespace SIL.Pa.UI.Controls
 			// Provide a context menu for the user to copy the character to the clipboard.
 			var itemText = (sender as ToolStripButton).Text;
 			var menuText = (itemText.Contains(App.DottedCircle) ?
-				App.GetString("CommonControls.CharacterPicker.CopyToClipboardMenuText.WhenContainsDottedCircle", "Copy to Clipboard\n(removing diacritic placeholder)") :
-				App.GetString("CommonControls.CharacterPicker.CopyToClipboardMenuText.WhenDoesNotContainDottedCircle", "Copy to Clipboard"));
+				LocalizationManager.GetString("Views.CommonToMultipleViews.CharacterPicker.CopyToClipboardMenuText.WhenContainsDottedCircle", "Copy to Clipboard\n(removing diacritic placeholder)") :
+				LocalizationManager.GetString("Views.CommonToMultipleViews.CharacterPicker.CopyToClipboardMenuText.WhenDoesNotContainDottedCircle", "Copy to Clipboard"));
 
 			var cmenu = new ContextMenuStrip();
 			cmenu.Items.Add(new ToolStripMenuItem(menuText, null,
@@ -491,12 +492,12 @@ namespace SIL.Pa.UI.Controls
 
 			if (string.IsNullOrEmpty(charInfo.Description))
 			{
-				fmt = App.GetString("CommonControls.CharacterPicker.ShortToolTip", "{0}",
+				fmt = LocalizationManager.GetString("Views.CommonToMultipleViews.CharacterPicker.ShortToolTip", "{0}",
 					"Used to format the tooltip string for items in an IPA character picker control when the character has no description (argument is the character name).");
 			}
 			else
 			{
-				fmt = App.GetString("CommonControls.CharacterPicker.LongToolTip", "{0},\n{1}",
+				fmt = LocalizationManager.GetString("Views.CommonToMultipleViews.CharacterPicker.LongToolTip", "{0},\n{1}",
 					"Used to format the tooltip string for items in an IPA character picker control (1st argument is the character name, and the 2rd argument is for the description)");
 			}
 			

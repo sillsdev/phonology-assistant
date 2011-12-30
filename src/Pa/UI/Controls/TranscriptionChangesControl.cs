@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
@@ -66,11 +67,11 @@ namespace SIL.Pa.UI.Controls
 			lblSourceHdg.Top = lblTargetHdg.Top = (m_header.Height - lblSourceHdg.Height) / 2;
 
 			// Set the heading text.
-			App.RegisterForLocalization(lblSourceHdg, "TranscriptionChangesControl.Heading1",
-				"Transcribed in source as:", "Heading in transcription changes control.");
+			LocalizationManager.GetString("DialogBoxes.TranscriptionChangesDlg.SourceHeadingLabel",
+				"Transcribed in source as:", "Heading in transcription changes control.", lblSourceHdg);
 
-			App.RegisterForLocalization(lblTargetHdg, "TranscriptionChangesControl.Heading2",
-				"Replace with one of these options:", "Heading in transcription changes control.");
+			LocalizationManager.GetString("DialogBoxes.TranscriptionChangesDlg.TargetHeadingLabel",
+				"Replace with one of these options:", "Heading in transcription changes control.", lblTargetHdg);
 
 			BuildGrid();
 			LoadGrid();
@@ -273,8 +274,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private bool GetRowsConvertValue(int rowIndex)
 		{
-			RadioButtonCell cell = m_grid[kCnvrtCol, rowIndex] as RadioButtonCell;
-			return (cell == null ? false : !cell.Checked);
+			var cell = m_grid[kCnvrtCol, rowIndex] as RadioButtonCell;
+			return (cell != null && !cell.Checked);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -434,7 +435,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnRemoveRow(object args)
 		{
-			if (args.GetType() == typeof(int))
+			if (args is int)
 			{
 				m_grid.Rows.RemoveAt((int)args);
 				RemoveEmptyCellGaps((int)args);
@@ -619,20 +620,18 @@ namespace SIL.Pa.UI.Controls
 				if (col < 0)
 					return false;
 
-				foreach (var row in m_grid.GetRows().Where(r => r.Index >= 0 && r.Index != m_grid.NewRowIndex))
+				if (m_grid.GetRows()
+					.Where(r => r.Index >= 0 && r.Index != m_grid.NewRowIndex)
+					.Any(row => !string.IsNullOrEmpty(row.Cells[col].Value as string)))
 				{
-					if (!string.IsNullOrEmpty(row.Cells[col].Value as string))
-						return false;
+					return false;
 				}
 
 				col = m_grid.Columns.Count - 1;
-				foreach (var row in m_grid.GetRows().Where(r => r.Index >= 0 && r.Index != m_grid.NewRowIndex))
-				{
-					if (!string.IsNullOrEmpty(row.Cells[col].Value as string))
-						return false;
-				}
-
-				return true;
+				
+				return m_grid.GetRows()
+					.Where(r => r.Index >= 0 && r.Index != m_grid.NewRowIndex)
+					.All(row => string.IsNullOrEmpty(row.Cells[col].Value as string));
 			}
 		}
 
@@ -810,7 +809,7 @@ namespace SIL.Pa.UI.Controls
 			if (cvField != null)
 				m_fntCV = cvField.Font;
 
-			m_noneText = App.GetString("TranscriptionChangesControl.DontConvertText", "None",
+			m_noneText = LocalizationManager.GetString("DialogBoxes.TranscriptionChangesDlg.DontConvertText", "None",
 				"Text in the experimental transcription list of experimental transcription dialog box.");
 		}
 
@@ -931,7 +930,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public override bool KeyEntersEditMode(KeyEventArgs e)
 		{
-			return (e.KeyCode == Keys.Space ? false : base.KeyEntersEditMode(e));
+			return (e.KeyCode != Keys.Space && base.KeyEntersEditMode(e));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1169,7 +1168,7 @@ namespace SIL.Pa.UI.Controls
 				var cell = row.Cells[ColumnIndex] as RadioButtonCell;
 				if (cell != null)
 				{
-					Size sz = TextRenderer.MeasureText(g, cell.CVPattern,
+					var sz = TextRenderer.MeasureText(g, cell.CVPattern,
 						m_fntCV, Size.Empty, kCellFmtFlags);
 
 					maxWidth = Math.Max(maxWidth, sz.Width);

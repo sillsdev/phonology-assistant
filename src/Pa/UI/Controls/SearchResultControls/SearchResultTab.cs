@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
@@ -237,7 +238,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public static string EmptyTabText
 		{
-			get { return App.GetString("SearchResultTab.EmptySearchResultTabText", "(empty tab)"); }
+			get { return LocalizationManager.GetString("Views.WordLists.SearchResults.EmptyTabText", "(empty tab)"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -912,7 +913,7 @@ namespace SIL.Pa.UI.Controls
 			Point pt = PointToClient(MousePosition);
 			pt.Y += (Cursor.Size.Height - (int)(Cursor.Size.Height * 0.3));
 
-			var text = App.GetString("SearchResultTab.MinimalPairsButtonToolTipText",
+			var text = LocalizationManager.GetString("Views.WordLists.SearchResults.MinimalPairsButtonToolTipText",
 				"Minimal Pairs Options (Ctrl+Alt+M)");
 			
 			m_CIEButtonToolTip.Show(text, this, pt);

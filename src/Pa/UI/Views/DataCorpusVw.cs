@@ -1,7 +1,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Xml;
+using Localization;
 using Palaso.IO;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
@@ -16,7 +16,6 @@ namespace SIL.Pa.UI.Views
 	/// ----------------------------------------------------------------------------------------
 	public partial class DataCorpusVw : ViewBase, ITabView
 	{
-		private PaWordListGrid m_grid;
 		private WordListCache m_cache;
 		private ITMAdapter m_tmAdapter;
 		private SortOptionsDropDown m_phoneticSortOptionsDropDown;
@@ -45,19 +44,15 @@ namespace SIL.Pa.UI.Views
 		private void LoadToolbar()
 		{
 			if (m_tmAdapter != null)
-			{
-				App.UnPrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.Dispose();
-			}
 
 			m_tmAdapter = AdapterHelper.CreateTMAdapter();
 
-			if (m_grid != null)
-				m_grid.TMAdapter = m_tmAdapter;
+			if (WordListGrid != null)
+				WordListGrid.TMAdapter = m_tmAdapter;
 
 			if (m_tmAdapter != null)
 			{
-				App.PrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 				var defs = new[] { FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
 					"DataCorpusTMDefinition.xml") };
@@ -106,36 +101,36 @@ namespace SIL.Pa.UI.Views
 		{
 			m_cache = cache;
 
-			if (m_grid != null)
-				m_grid.Cache = m_cache;
+			if (WordListGrid != null)
+				WordListGrid.Cache = m_cache;
 			else
 			{
-				m_grid = new PaWordListGrid(cache, GetType(), false);
-				m_grid.BorderStyle = BorderStyle.None;
-				m_grid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-				m_grid.TMAdapter = m_tmAdapter;
+				WordListGrid = new PaWordListGrid(cache, GetType(), false);
+				WordListGrid.BorderStyle = BorderStyle.None;
+				WordListGrid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+				WordListGrid.TMAdapter = m_tmAdapter;
 
 				// Even thought the grid is docked, setting it's size here prevents the user
 				// from seeing that split second during which time the grid goes from it's
 				// small, default size to its docked size.
-				m_grid.Size = new Size(splitOuter.Panel1.Width, splitOuter.Panel1.Height);
+				WordListGrid.Size = new Size(splitOuter.Panel1.Width, splitOuter.Panel1.Height);
 
-				m_grid.Name = Name + "Grid";
-				m_grid.LoadSettings();
-				m_grid.RowEnter += m_grid_RowEnter;
-				m_grid.Visible = false;
-				pnlGrid.Controls.Add(m_grid);
-				m_grid.Visible = true;
-				m_grid.TabIndex = 0;
-				m_grid.Focus();
-				m_grid.SortOptions = Project.DataCorpusVwSortOptions;
-				m_grid.IsCurrentPlaybackGrid = true;
-				m_grid.UseWaitCursor = false;
-				m_grid.Cursor = Cursors.Default;
+				WordListGrid.Name = Name + "Grid";
+				WordListGrid.LoadSettings();
+				WordListGrid.RowEnter += m_grid_RowEnter;
+				WordListGrid.Visible = false;
+				pnlGrid.Controls.Add(WordListGrid);
+				WordListGrid.Visible = true;
+				WordListGrid.TabIndex = 0;
+				WordListGrid.Focus();
+				WordListGrid.SortOptions = Project.DataCorpusVwSortOptions;
+				WordListGrid.IsCurrentPlaybackGrid = true;
+				WordListGrid.UseWaitCursor = false;
+				WordListGrid.Cursor = Cursors.Default;
 			}
 
 			// This will enforce an update of the record pane.
-			rtfRecVw.UpdateRecord(m_grid.GetRecord(), true);
+			rtfRecVw.UpdateRecord(WordListGrid.GetRecord(), true);
 		}
 
 		#region Method for loading
@@ -158,19 +153,11 @@ namespace SIL.Pa.UI.Views
 
 		#region ITabView Members
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public bool ActiveView
 		{
 			get { return m_activeView; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void SetViewActive(bool makeActive, bool isDocked)
 		{
@@ -178,30 +165,22 @@ namespace SIL.Pa.UI.Views
 
 			if (makeActive)
 			{
-				FindInfo.Grid = m_grid;
+				FindInfo.Grid = WordListGrid;
 
-				if (isDocked && m_grid != null)
+				if (isDocked && WordListGrid != null)
 				{
-					m_grid.SetStatusBarText();
-					m_grid.Focus();
+					WordListGrid.SetStatusBarText();
+					WordListGrid.Focus();
 				}
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public Form OwningForm
 		{
 			get { return FindForm(); }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnBeginViewUnDocking(object args)
 		{
@@ -212,13 +191,9 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Saves some misc. settings.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void SaveSettings()
 		{
-			m_grid.SaveSettings();
+			WordListGrid.SaveSettings();
 			Settings.Default.DataCorpusVwSplitRatio = splitOuter.SplitterDistance / (float)splitOuter.Height;
 			Settings.Default.DataCorpusVwRecordPaneVisible = RawRecViewOn;
 		}
@@ -272,8 +247,8 @@ namespace SIL.Pa.UI.Views
 					LoadToolbar();
 				}
 
-				if (m_grid != null)
-					m_grid.SetStatusBarText();
+				if (WordListGrid != null)
+					WordListGrid.SetStatusBarText();
 			}
 
 			return false;
@@ -293,21 +268,17 @@ namespace SIL.Pa.UI.Views
 
 		#region Playback related methods
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void HandlePlaybackSpeedAdjusterPlayClick(object sender, EventArgs e)
 		{
 			m_tmAdapter.HideBarItemsPopup("tbbAdjustPlaybackSpeedParent");
 			m_tmAdapter.HideBarItemsPopup("tbbPlayback");
-			m_grid.OnPlayback(null);
+			WordListGrid.OnPlayback(null);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownAdjustPlaybackSpeed(object args)
 		{
-			if (!m_activeView || m_grid == null || m_grid.Cache == null)
+			if (!m_activeView || WordListGrid == null || WordListGrid.Cache == null)
 				return false;
 
 			m_playbackSpeedAdjuster.PlaybackSpeed = Settings.Default.DataCorpusVwPlaybackSpeed;
@@ -335,14 +306,14 @@ namespace SIL.Pa.UI.Views
 			OnViewDocked(this);
 			m_initialDock = true;
 			Application.DoEvents();
-			m_grid.Focus();
+			WordListGrid.Focus();
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override bool OnProjectLoaded(object args)
 		{
 			base.OnProjectLoaded(args);
-			m_grid.SortOptions = Project.DataCorpusVwSortOptions;
+			WordListGrid.SortOptions = Project.DataCorpusVwSortOptions;
 			return false;
 		}
 	
@@ -353,7 +324,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		void m_grid_RowEnter(object sender, DataGridViewCellEventArgs e)
 		{
-			rtfRecVw.UpdateRecord(m_grid.GetRecord(e.RowIndex));
+			rtfRecVw.UpdateRecord(WordListGrid.GetRecord(e.RowIndex));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -365,28 +336,18 @@ namespace SIL.Pa.UI.Views
 		protected bool OnWordListGridSorted(object args)
 		{
 			PaWordListGrid grid = args as PaWordListGrid;
-			if (grid != m_grid)
+			if (grid != WordListGrid)
 				return false;
 
-			rtfRecVw.UpdateRecord(m_grid.GetRecord(m_grid.CurrentCellAddress.Y));
+			rtfRecVw.UpdateRecord(WordListGrid.GetRecord(WordListGrid.CurrentCellAddress.Y));
 			return true;
 		}
 
 		#region Properties
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public PaWordListGrid WordListGrid
-		{
-			get { return m_grid; }
-		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		public PaWordListGrid WordListGrid { get; private set; }
+
 		/// ------------------------------------------------------------------------------------
 		public bool RawRecViewOn
 		{
@@ -409,70 +370,54 @@ namespace SIL.Pa.UI.Views
 
 		#region Message Handlers
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnViewUndocked(object args)
 		{
 			if (args == this)
-				m_grid.SetStatusBarText();
+				WordListGrid.SetStatusBarText();
 
 			return false;
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownGroupByFieldParent(object args)
 		{
-			ToolBarPopupInfo itemProps = args as ToolBarPopupInfo;
+			var itemProps = args as ToolBarPopupInfo;
 			if (itemProps == null || !m_activeView)
 				return false;
 
-			m_grid.BuildGroupByMenu(itemProps.Name, m_tmAdapter);
+			WordListGrid.BuildGroupByMenu(itemProps.Name, m_tmAdapter);
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateGroupByFieldParent(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (!m_activeView || itemProps == null || itemProps.Name.StartsWith("tbb"))
 				return false;
 
-			m_grid.BuildGroupByMenu(itemProps.Name, App.TMAdapter);
+			WordListGrid.BuildGroupByMenu(itemProps.Name, App.TMAdapter);
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnGroupBySortedField(object args)
 		{
 			if (!m_activeView)
 				return false;
 
-			if (m_grid.IsGroupedByField)
-				m_grid.GroupByField = null;
-			else if (m_grid.SortOptions.SortFields != null &&
-				m_grid.SortOptions.SortFields.Count > 0)
+			if (WordListGrid.IsGroupedByField)
+				WordListGrid.GroupByField = null;
+			else if (WordListGrid.SortOptions.SortFields != null &&
+				WordListGrid.SortOptions.SortFields.Count > 0)
 			{
-				m_grid.GroupByField = m_grid.SortOptions.SortFields[0].Field;
+				WordListGrid.GroupByField = WordListGrid.SortOptions.SortFields[0].Field;
 				if (Settings.Default.CollapseWordListsOnGrouping)
-					m_grid.ToggleGroupExpansion(false);
+					WordListGrid.ToggleGroupExpansion(false);
 			}
 
-			if (!m_grid.CurrentCell.Displayed && m_grid.CurrentCell != null)
-				m_grid.ScrollRowToMiddleOfGrid(m_grid.CurrentCell.RowIndex);
+			if (!WordListGrid.CurrentCell.Displayed && WordListGrid.CurrentCell != null)
+				WordListGrid.ScrollRowToMiddleOfGrid(WordListGrid.CurrentCell.RowIndex);
 
 			FindInfo.ResetStartSearchCell(true);
 			FindInfo.CanFindAgain = true;
@@ -480,19 +425,15 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateGroupBySortedField(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (!m_activeView || itemProps == null)
 				return false;
 
-			bool enable = (m_grid != null && m_grid.Cache != null && m_grid.RowCount > 1);
+			bool enable = (WordListGrid != null && WordListGrid.Cache != null && WordListGrid.RowCount > 1);
 			
-			if (m_grid.RowCount == 0)
+			if (WordListGrid.RowCount == 0)
 			{
 				if (itemProps.Enabled)
 				{
@@ -502,11 +443,11 @@ namespace SIL.Pa.UI.Views
 					itemProps.Update = true;
 				}
 			}
-			else if (itemProps.Checked != m_grid.IsGroupedByField || enable != itemProps.Enabled)
+			else if (itemProps.Checked != WordListGrid.IsGroupedByField || enable != itemProps.Enabled)
 			{
 				itemProps.Visible = true;
 				itemProps.Enabled = enable;
-				itemProps.Checked = m_grid.IsGroupedByField;
+				itemProps.Checked = WordListGrid.IsGroupedByField;
 				itemProps.Update = true;
 			}
 
@@ -544,8 +485,8 @@ namespace SIL.Pa.UI.Views
 			if (!m_activeView || itemProps == null)
 				return false;
 
-			bool enable = (enableAllow && m_grid != null &&
-				m_grid.Cache != null && m_grid.RowCount > 0);
+			bool enable = (enableAllow && WordListGrid != null &&
+				WordListGrid.Cache != null && WordListGrid.RowCount > 0);
 
 			if (itemProps.Enabled != enable)
 			{
@@ -558,19 +499,11 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Handle OnUpdateEditFind.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateEditFind(object args)
 		{
 			return HandleFindItemUpdate(args as TMItemProperties, true);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Handle OnUpdateEditFindNext.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateEditFindNext(object args)
 		{
@@ -578,44 +511,32 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Handle OnUpdateEditFindPrevious.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateEditFindPrevious(object args)
 		{
 			return HandleFindItemUpdate(args as TMItemProperties, FindInfo.CanFindAgain);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnExpandAllGroups(object args)
 		{
 			if (!m_activeView)
 				return false;
 
-			m_grid.ToggleGroupExpansion(true);
+			WordListGrid.ToggleGroupExpansion(true);
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExpandAllGroups(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (!m_activeView || itemProps == null)
 				return false;
 
-			if (itemProps.Enabled != (m_grid.IsGroupedByField && !m_grid.AllGroupsExpanded))
+			if (itemProps.Enabled != (WordListGrid.IsGroupedByField && !WordListGrid.AllGroupsExpanded))
 			{
 				itemProps.Visible = true;
-				itemProps.Enabled = (m_grid.IsGroupedByField && !m_grid.AllGroupsExpanded);
+				itemProps.Enabled = (WordListGrid.IsGroupedByField && !WordListGrid.AllGroupsExpanded);
 				itemProps.Update = true;
 			}
 
@@ -623,34 +544,26 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnCollapseAllGroups(object args)
 		{
 			if (!m_activeView)
 				return false;
 
-			m_grid.ToggleGroupExpansion(false);
+			WordListGrid.ToggleGroupExpansion(false);
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateCollapseAllGroups(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (!m_activeView || itemProps == null)
 				return false;
 
-			if (itemProps.Enabled != (m_grid.IsGroupedByField && !m_grid.AllGroupsCollapsed))
+			if (itemProps.Enabled != (WordListGrid.IsGroupedByField && !WordListGrid.AllGroupsCollapsed))
 			{
 				itemProps.Visible = true;
-				itemProps.Enabled = (m_grid.IsGroupedByField && !m_grid.AllGroupsCollapsed);
+				itemProps.Enabled = (WordListGrid.IsGroupedByField && !WordListGrid.AllGroupsCollapsed);
 				itemProps.Update = true;
 			}
 
@@ -678,11 +591,11 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateShowRecordPane(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (!m_activeView || itemProps == null)
 				return false;
 
-			bool enable = (m_grid != null);
+			bool enable = (WordListGrid != null);
 
 			if (itemProps.Checked != m_rawRecViewOn || enable != itemProps.Enabled)
 			{
@@ -712,7 +625,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnRecordViewOptionsChanged(object args)
 		{
-			rtfRecVw.UpdateRecord(m_grid.GetRecord(), true);
+			rtfRecVw.UpdateRecord(WordListGrid.GetRecord(), true);
 			return false;
 		}
 
@@ -726,15 +639,15 @@ namespace SIL.Pa.UI.Views
 			int savFirstRowIndex = 0;
 			SortOptions savSortOptions = null;
 
-			if (m_grid != null)
+			if (WordListGrid != null)
 			{
 				// Save the index of the row that's current and the index of the first visible row.
-				savCurrRowIndex = (m_grid.CurrentRow != null ? m_grid.CurrentRow.Index : 0);
-				savCurrColIndex = (m_grid.CurrentCell != null ? m_grid.CurrentCell.ColumnIndex : 0);
-				savFirstRowIndex = m_grid.FirstDisplayedScrollingRowIndex;
+				savCurrRowIndex = (WordListGrid.CurrentRow != null ? WordListGrid.CurrentRow.Index : 0);
+				savCurrColIndex = (WordListGrid.CurrentCell != null ? WordListGrid.CurrentCell.ColumnIndex : 0);
+				savFirstRowIndex = WordListGrid.FirstDisplayedScrollingRowIndex;
 				
 				// Save the current sort options
-				savSortOptions = m_grid.SortOptions;
+				savSortOptions = WordListGrid.SortOptions;
 			}
 
 			// Update the fonts in case a custom field's name
@@ -749,9 +662,9 @@ namespace SIL.Pa.UI.Views
 
 			// Restore the current row to what it was before rebuilding.
 			// Then make sure the row is visible.
-			if (m_grid != null)
+			if (WordListGrid != null)
 			{
-				m_grid.PostDataSourceModifiedRestore(
+				WordListGrid.PostDataSourceModifiedRestore(
 					savCurrRowIndex, savCurrColIndex, savFirstRowIndex, savSortOptions);
 			}
 
@@ -778,8 +691,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnCompareGrid(object args)
 		{
-			PaWordListGrid grid = args as PaWordListGrid;
-			return (grid != null && m_grid == grid);
+			var grid = args as PaWordListGrid;
+			return (grid != null && WordListGrid == grid);
 		}
 
 		#endregion
@@ -797,7 +710,7 @@ namespace SIL.Pa.UI.Views
 			if (!m_activeView)
 				return false;
 
-			RtfExportDlg rtfExp = new RtfExportDlg(m_grid);
+			var rtfExp = new RtfExportDlg(WordListGrid);
 			rtfExp.ShowDialog(this);
 			return true;
 		}
@@ -805,7 +718,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExportAsRTF(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (!m_activeView || itemProps == null)
 				return false;
 
@@ -818,8 +731,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsHTML(object args)
 		{
-			var fmt = App.GetString("DefaultDataCorpusHTMLExportFileAffix",
-				"{0}-DataCorpus.html", "Export");
+			var fmt = LocalizationManager.GetString("Views.DataCorpus.DefaultHTMLExportFileAffix", "{0}-DataCorpus.html");
 
 			return Export(fmt, App.kstidFileTypeHTML, "html",
 				Settings.Default.OpenHtmlDataCorpusAfterExport,
@@ -829,8 +741,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsWordXml(object args)
 		{
-			var fmt = App.GetString("DefaultDataCorpusWordXmlExportFileAffix",
-				"{0}-DataCorpus-(Word).xml", "Export");
+			var fmt = LocalizationManager.GetString("Views.DataCorpus.DefaultWordXmlExportFileAffix", "{0}-DataCorpus-(Word).xml");
 
 			return Export(fmt, App.kstidFileTypeWordXml, "xml",
 				Settings.Default.OpenWordXmlDataCorpusAfterExport,
@@ -840,8 +751,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsXLingPaper(object args)
 		{
-			var fmt = App.GetString("DefaultDataCorpusXLingPaperExportFileAffix",
-				"{0}-DataCorpus-(XLingPaper).xml", "Export");
+			var fmt = LocalizationManager.GetString("Views.DataCorpus.DefaultXLingPaperExportFileAffix", "{0}-DataCorpus-(XLingPaper).xml");
 
 			return Export(fmt, App.kstidFileTypeXLingPaper, "xml",
 				Settings.Default.OpenXLingPaperDataCorpusAfterExport,
@@ -867,14 +777,14 @@ namespace SIL.Pa.UI.Views
 			if (string.IsNullOrEmpty(outputFileName))
 				return false;
 
-			exportAction(Project, outputFileName, m_grid, openAfterExport);
+			exportAction(Project, outputFileName, WordListGrid, openAfterExport);
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExportAsHTML(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (!m_activeView || itemProps == null)
 				return false;
 
@@ -909,12 +819,12 @@ namespace SIL.Pa.UI.Views
 			if (!m_activeView)
 				return false;
 
-			ToolBarPopupInfo itemProps = args as ToolBarPopupInfo;
+			var itemProps = args as ToolBarPopupInfo;
 			if (itemProps == null)
 				return false;
 
 			m_phoneticSortOptionsDropDown =
-				new SortOptionsDropDown(m_grid.SortOptions, false);
+				new SortOptionsDropDown(WordListGrid.SortOptions, false);
 
 			m_phoneticSortOptionsDropDown.SortOptionsChanged += HandlePhoneticSortOptionsChanged;
 			itemProps.Control = m_phoneticSortOptionsDropDown;
@@ -928,14 +838,10 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void HandlePhoneticSortOptionsChanged(SortOptions sortOptions)
 		{
-			m_grid.SortOptions = sortOptions;
-			rtfRecVw.UpdateRecord(m_grid.GetRecord());
+			WordListGrid.SortOptions = sortOptions;
+			rtfRecVw.UpdateRecord(WordListGrid.GetRecord());
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownClosedDataCorpusPhoneticSort(object args)
 		{
@@ -947,13 +853,9 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateDataCorpusPhoneticSort(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (!m_activeView || itemProps == null)
 				return false;
 

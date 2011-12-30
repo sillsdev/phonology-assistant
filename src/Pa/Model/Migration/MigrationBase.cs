@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.Xml.Linq;
+using Localization;
 using SIL.Pa.PhoneticSearching;
 using SilTools;
 
@@ -136,7 +137,7 @@ namespace SIL.Pa.Model.Migration
 			catch (Exception e)
 			{
 				backupFolder = null;
-				var errMsg = App.GetString("ProjectMigrationMessages.BackupOfOldProjectFilesFailureMsg",
+				var errMsg = LocalizationManager.GetString("ProjectMessages.Migrating.BackupOfOldProjectFilesFailureMsg",
 					"An error occurred attempting to backup your project before updating it for the latest version of Phonology Assistant.\n\n" +
 					"Until the problem is resolved, this project cannot be opened using this version of Phonology Assistant.");
 

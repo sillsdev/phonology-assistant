@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Localization;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
@@ -760,17 +761,19 @@ namespace SIL.Pa.UI.Controls
 
 			if (col == 0)
 			{
-				m_tooltip.ToolTipTitle = App.GetString(
-					"Views.DistributionGrid.AddSearchItemCellToolTipTitle", "Search Item Column:");
+				m_tooltip.ToolTipTitle = LocalizationManager.GetString(
+					"Views.DistributionChart.AddSearchItemCellToolTipTitle", "Search Item Column:");
 
-				text = App.GetString("Views.DistributionGrid.AddSearchItemCellToolTip", "Add a search item in this cell");
+				text = LocalizationManager.GetString("Views.DistributionChart.AddSearchItemCellToolTip",
+					"Add a search item in this cell");
 			}
 			else
 			{
-				m_tooltip.ToolTipTitle = App.GetString(
-					"Views.DistributionGrid.AddEnvironmentCellToolTipTitle", "Environment Row:");
+				m_tooltip.ToolTipTitle = LocalizationManager.GetString(
+					"Views.DistributionChart.AddEnvironmentCellToolTipTitle", "Environment Row:");
 
-				text = App.GetString("Views.DistributionGrid.AddEnvironmentCellToolTip", "Add a search environment\nin this cell");
+				text = LocalizationManager.GetString("Views.DistributionChart.AddEnvironmentCellToolTip",
+					"Add a search environment\nin this cell");
 			}
 
 			var rc = GetCellDisplayRectangle(col, row, false);
@@ -1184,7 +1187,7 @@ namespace SIL.Pa.UI.Controls
 		public void Reset()
 		{
 			if (m_lblName != null)
-				m_lblName.Text = App.GetString("DistributionGrid.EmptyName", "(none)", "Views");
+				m_lblName.Text = DistributionChart.TextForNamelessChart;
 
 			Rows.Clear();
 			Columns.Clear();
@@ -1248,9 +1251,8 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				return App.GetString("ChartPopupInfoSyntaxErrorsMsg",
-					"This search pattern contains the following error(s):",
-					"Views.Distribution Charts");
+				return LocalizationManager.GetString("Views.DistributionChart.PopupInfoSyntaxErrorsMsg",
+					"This search pattern contains the following error(s):");
 			}
 		}
 
@@ -1259,9 +1261,8 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				return App.GetString("ChartPopupInfoUndefinedSymbolsMsg",
-					"This search pattern contains the following undefined phonetic symbol(s).",
-					"Views.Distribution Charts");
+				return LocalizationManager.GetString("Views.DistributionChart.PopupInfoUndefinedSymbolsMsg",
+					"This search pattern contains the following undefined phonetic symbol(s).");
 			}
 		}
 
@@ -1270,9 +1271,8 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				return App.GetString("ChartPopupInfoInvalidPhonesMsg",
-					"This search pattern contains the following phone(s) not found in the data.",
-					"Views.Distribution Charts");
+				return LocalizationManager.GetString("Views.DistributionChart.PopupInfoInvalidPhonesMsg",
+					"This search pattern contains the following phone(s) not found in the data.");
 			}
 		}
 

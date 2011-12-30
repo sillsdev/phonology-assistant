@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using Ionic.Zip;
+using Localization;
 using Palaso.Reporting;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
@@ -23,7 +24,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (!Directory.Exists(DefaultBackupFolder))
 				Directory.CreateDirectory(DefaultBackupFolder);
 
-			var fmt = App.GetString("DialogBoxes.BackupDlg.BackupFileNameFormat", "{0}_({1}).pabackup");
+			var fmt = LocalizationManager.GetString("DialogBoxes.BackupDlg.BackupFileNameFormat", "{0}_({1}).pabackup");
 			BackupFile = string.Format(fmt, Project.GetCleanNameForFileName(),
 				DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss"));
 
@@ -180,21 +181,21 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			if (Path.GetFileName(_prjFiles[0]) == filename)
 			{
-				var text = App.GetString("DialogBoxes.BackupDlg.BackingUpProjectFilesMsg", "Backing Up Project Files...");
+				var text = LocalizationManager.GetString("DialogBoxes.BackupDlg.BackingUpProjectFilesMsg", "Backing Up Project Files...");
 				LogBox.WriteMessageWithFontStyle(FontStyle.Bold | FontStyle.Underline, text);
 			}
 
 			if (_dataSourceFiles.Count > 0 &&
 				Path.GetFileName(_dataSourceFiles[0]) == filename)
 			{
-				var text = App.GetString("DialogBoxes.BackupDlg.BackingUpDataSourceFilesMsg", "Backing Up Data Source Files...");
+				var text = LocalizationManager.GetString("DialogBoxes.BackupDlg.BackingUpDataSourceFilesMsg", "Backing Up Data Source Files...");
 				LogBox.WriteMessageWithFontStyle(FontStyle.Bold | FontStyle.Underline, Environment.NewLine + text);
 			}
 
 			if (_audioFiles.Count > 0 &&
 				Path.GetFileName(_audioFiles[0]) == filename)
 			{
-				var text = App.GetString("DialogBoxes.BackupDlg.BackingUpAudioFilesMsg", "Backing Up Audio Files...");
+				var text = LocalizationManager.GetString("DialogBoxes.BackupDlg.BackingUpAudioFilesMsg", "Backing Up Audio Files...");
 				LogBox.WriteMessageWithFontStyle(FontStyle.Bold | FontStyle.Underline, Environment.NewLine + text);
 			}
 
@@ -204,13 +205,13 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override string GetCompleteMessage()
 		{
-			return App.GetString("DialogBoxes.BackupDlg.BackingUpCompleteMsg", "Backup Complete!");
+			return LocalizationManager.GetString("DialogBoxes.BackupDlg.BackingUpCompleteMsg", "Backup Complete!");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string GetCancelledMessage()
 		{
-			return App.GetString("DialogBoxes.BackupDlg.BackingCancelledMsg", "Backup Cancelled");
+			return LocalizationManager.GetString("DialogBoxes.BackupDlg.BackingCancelledMsg", "Backup Cancelled");
 		}
 
 		/// ------------------------------------------------------------------------------------

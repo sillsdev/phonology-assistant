@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using Localization;
 using Palaso.Reporting;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
@@ -76,7 +77,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 			if (m_dataSource.FieldMappings == null || m_dataSource.FieldMappings.Count == 0)
 			{
-				ErrorReport.NotifyUserOfProblem(App.GetString("MissingFieldWorks6WritingSystemsMsg",
+				ErrorReport.NotifyUserOfProblem(LocalizationManager.GetString(
+					"Miscellaneous.Messages.DataSourceReading.MissingFieldWorks6WritingSystemsMsg",
 					"There are no writing systems for the '{0}' project. Therefore, no data " +
 					"from it can be displayed. To fix this problem, modify the FieldWorks data " +
 					"source properties for this project by selecting 'Project Settings' from " +
@@ -110,7 +112,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 			}
 			catch (Exception e)
 			{
-				ErrorReport.NotifyUserOfProblem(e, App.GetString("ErrorRetrievingFieldWorks6DataMsg",
+				ErrorReport.NotifyUserOfProblem(e, LocalizationManager.GetString(
+					"Miscellaneous.Messages.DataSourceReading.ErrorRetrievingFieldWorks6DataMsg",
 					"There was an error retrieving the data from the {0} database. It's " +
 					"possible the file '{1}' is either missing or corrupt. Reading this " +
 					"data will be skipped."), m_fwDsInfo.Name, Path.GetFileName(m_fwDsInfo.Queries.QueryFile));

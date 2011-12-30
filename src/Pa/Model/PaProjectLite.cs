@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 using SIL.Pa.DataSource;
 
 namespace SIL.Pa.Model
@@ -9,9 +10,13 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class PaProjectLite
 	{
+		[XmlIgnore]
 		public string Name { get; private set; }
+		[XmlIgnore]
 		public string FilePath { get; private set; }
+		[XmlIgnore]
 		public string Version { get; private set; }
+		[XmlIgnore]
 		public string DataSourceTypes { get; private set; }
 
 		/// ------------------------------------------------------------------------------------

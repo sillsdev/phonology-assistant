@@ -84,7 +84,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.chkIgnoreInSearches, null);
 			this.locExtender.SetLocalizationComment(this.chkIgnoreInSearches, "Check box options on the dialog displaying undefined characters that were found w" +
         "hen reading data sources.");
-			this.locExtender.SetLocalizingId(this.chkIgnoreInSearches, "UndefinedPhoneticCharactersDlg.chkIgnoreInSearches");
+			this.locExtender.SetLocalizingId(this.chkIgnoreInSearches, "DialogBoxes.UndefinedPhoneticCharactersDlg.IgnoreInSearchesCheckbox");
 			this.chkIgnoreInSearches.Location = new System.Drawing.Point(0, 32);
 			this.chkIgnoreInSearches.Name = "chkIgnoreInSearches";
 			this.chkIgnoreInSearches.Size = new System.Drawing.Size(465, 38);
@@ -104,7 +104,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.chkShowUndefinedCharDlg, null);
 			this.locExtender.SetLocalizationComment(this.chkShowUndefinedCharDlg, "Check box options on the dialog displaying undefined characters that were found w" +
         "hen reading data sources.");
-			this.locExtender.SetLocalizingId(this.chkShowUndefinedCharDlg, "UndefinedPhoneticCharactersDlg.chkShowUndefinedCharDlg");
+			this.locExtender.SetLocalizingId(this.chkShowUndefinedCharDlg, "DialogBoxes.UndefinedPhoneticCharactersDlg.ShowUndefinedCharDlgCheckbox");
 			this.chkShowUndefinedCharDlg.Location = new System.Drawing.Point(0, 7);
 			this.chkShowUndefinedCharDlg.Name = "chkShowUndefinedCharDlg";
 			this.chkShowUndefinedCharDlg.Size = new System.Drawing.Size(261, 17);
@@ -120,7 +120,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
 			this.locExtender.SetLocalizationComment(this.btnHelp, "Button on the dialog displaying undefined characters that were found when reading" +
         " data sources.");
-			this.locExtender.SetLocalizingId(this.btnHelp, "UndefinedPhoneticCharactersDlg.btnHelp");
+			this.locExtender.SetLocalizingId(this.btnHelp, "DialogBoxes.UndefinedPhoneticCharactersDlg.HelpButton");
 			this.btnHelp.Location = new System.Drawing.Point(557, 41);
 			this.btnHelp.Name = "btnHelp";
 			this.btnHelp.Size = new System.Drawing.Size(80, 26);
@@ -137,7 +137,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
 			this.locExtender.SetLocalizationComment(this.btnOK, "Button on the dialog displaying undefined characters that were found when reading" +
         " data sources.");
-			this.locExtender.SetLocalizingId(this.btnOK, "UndefinedPhoneticCharactersDlg.btnOK");
+			this.locExtender.SetLocalizingId(this.btnOK, "DialogBoxes.UndefinedPhoneticCharactersDlg.OKButton");
 			this.btnOK.Location = new System.Drawing.Point(471, 41);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(80, 26);
@@ -153,7 +153,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.lblInfo, null);
 			this.locExtender.SetLocalizationComment(this.lblInfo, "Information label on the dialog displaying undefined characters that were found w" +
         "hen reading data sources.");
-			this.locExtender.SetLocalizingId(this.lblInfo, "UndefinedPhoneticCharactersDlg.lblInfo");
+			this.locExtender.SetLocalizingId(this.lblInfo, "DialogBoxes.UndefinedPhoneticCharactersDlg.InformationLabel");
 			this.lblInfo.Location = new System.Drawing.Point(10, 10);
 			this.lblInfo.Name = "lblInfo";
 			this.lblInfo.Size = new System.Drawing.Size(637, 83);
@@ -197,7 +197,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.pnlSummary, null);
 			this.locExtender.SetLocalizationComment(this.pnlSummary, null);
 			this.locExtender.SetLocalizationPriority(this.pnlSummary, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.pnlSummary, "UndefinedPhoneticCharactersDlg.pnlSummary");
+			this.locExtender.SetLocalizingId(this.pnlSummary, "UndefinedPhoneticCharactersDlg.SummaryPanel");
 			this.pnlSummary.Location = new System.Drawing.Point(0, 0);
 			this.pnlSummary.MnemonicGeneratesClick = false;
 			this.pnlSummary.Name = "pnlSummary";
@@ -282,7 +282,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.pgpChars, null);
 			this.locExtender.SetLocalizationComment(this.pgpChars, "Heading over the list of undefined characters found. This is in the dialog displa" +
         "ying undefined characters that were found when reading data sources.");
-			this.locExtender.SetLocalizingId(this.pgpChars, "UndefinedPhoneticCharactersDlg.pgpChars");
+			this.locExtender.SetLocalizingId(this.pgpChars, "DialogBoxes.UndefinedPhoneticCharactersDlg.CharactersHeadingLabel");
 			this.pgpChars.Location = new System.Drawing.Point(0, 0);
 			this.pgpChars.MakeDark = false;
 			this.pgpChars.MnemonicGeneratesClick = false;
@@ -395,7 +395,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.pgpWhere, null);
 			this.locExtender.SetLocalizationComment(this.pgpWhere, "Heading over the list of undefined characters in context. This is in the dialog d" +
         "isplaying undefined characters that were found when reading data sources.");
-			this.locExtender.SetLocalizingId(this.pgpWhere, "UndefinedPhoneticCharactersDlg.pgpWhere");
+			this.locExtender.SetLocalizingId(this.pgpWhere, "DialogBoxes.UndefinedPhoneticCharactersDlg.WhereHeadingLabel");
 			this.pgpWhere.Location = new System.Drawing.Point(0, 0);
 			this.pgpWhere.MakeDark = false;
 			this.pgpWhere.MnemonicGeneratesClick = false;
@@ -407,7 +407,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// UndefinedPhoneticCharactersDlg
@@ -422,7 +421,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.lblInfo);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "UndefinedPhoneticCharactersDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.UndefinedPhoneticCharactersDlg.WindowTitle");
 			this.MinimumSize = new System.Drawing.Size(435, 300);
 			this.Name = "UndefinedPhoneticCharactersDlg";
 			this.Padding = new System.Windows.Forms.Padding(10, 10, 10, 0);

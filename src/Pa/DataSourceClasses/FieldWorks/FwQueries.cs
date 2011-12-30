@@ -1,6 +1,7 @@
 ﻿using System.Data.SqlClient;
 using System.IO;
 using System.Xml.Serialization;
+using Localization;
 using Palaso.IO;
 using SilTools;
 
@@ -103,7 +104,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 				var path = Utils.PrepFilePathForMsgBox(Path.GetDirectoryName(queryFile));
 				var args = new[] { dbName, machineName, filename, path, filename };
 
-				var msg = App.GetString("ShortNameFileMissingMsg",
+				var msg = LocalizationManager.GetString("Miscellaneous.Messages.DataSourceReading.ShortNameFileMissingMsg",
 					"FieldWorks Project: {0}\nServer: {1}\n\nThe version of this FieldWorks project " +
 					"indicates it is too\nrecent to be read by Phonology Assistant. You must\ndownload " + 
 					"the file '{2}' from\nthe Phonology Assistant website and copy it to the\nfollowing " +
@@ -131,7 +132,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 			{
 				string filePath = Utils.PrepFilePathForMsgBox(queryFile);
 
-				var msg = App.GetString("LoadingSQLQueriesErrorMsg",
+				var msg = LocalizationManager.GetString("Miscellaneous.Messages.DataSourceReading.LoadingSQLQueriesErrorMsg",
 					"The file that contains FieldWorks queries '{0}' is either missing or corrupt. " +
 					"Until this problem is corrected, FieldWorks data sources cannot be accessed or " +
 					"added as data sources.");

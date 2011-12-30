@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WordListsOptionsPage));
 			this.grpColSettings = new System.Windows.Forms.GroupBox();
@@ -51,6 +52,7 @@
 			this.rbGridLinesHorizontal = new System.Windows.Forms.RadioButton();
 			this.rbGridLinesVertical = new System.Windows.Forms.RadioButton();
 			this._tableLayoutOuter = new System.Windows.Forms.TableLayoutPanel();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.grpColSettings.SuspendLayout();
 			this._tableLayoutColDisplayOrder.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.fldSelGridWrdList)).BeginInit();
@@ -60,6 +62,7 @@
 			this.grpGridLines.SuspendLayout();
 			this._tableLayoutGridLines.SuspendLayout();
 			this._tableLayoutOuter.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// grpColSettings
@@ -68,6 +71,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.grpColSettings.Controls.Add(this._tableLayoutColDisplayOrder);
+			this.locExtender.SetLocalizableToolTip(this.grpColSettings, null);
+			this.locExtender.SetLocalizationComment(this.grpColSettings, null);
+			this.locExtender.SetLocalizingId(this.grpColSettings, "DialogBoxes.OptionsDlg.WordListTab.ColSettingsGroupBox");
 			this.grpColSettings.Location = new System.Drawing.Point(0, 0);
 			this.grpColSettings.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
 			this.grpColSettings.Name = "grpColSettings";
@@ -105,6 +111,9 @@
 			this.lblShowColumns.AutoSize = true;
 			this._tableLayoutColDisplayOrder.SetColumnSpan(this.lblShowColumns, 2);
 			this.lblShowColumns.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.lblShowColumns, null);
+			this.locExtender.SetLocalizationComment(this.lblShowColumns, null);
+			this.locExtender.SetLocalizingId(this.lblShowColumns, "DialogBoxes.OptionsDlg.WordListTab.ShowColumnsLabel");
 			this.lblShowColumns.Location = new System.Drawing.Point(0, 0);
 			this.lblShowColumns.Margin = new System.Windows.Forms.Padding(0);
 			this.lblShowColumns.Name = "lblShowColumns";
@@ -117,6 +126,9 @@
 			// 
 			this.btnMoveColDown.Image = global::SIL.Pa.Properties.Resources.kimidMoveDown;
 			this.btnMoveColDown.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.btnMoveColDown, "Move selected column down");
+			this.locExtender.SetLocalizationComment(this.btnMoveColDown, null);
+			this.locExtender.SetLocalizingId(this.btnMoveColDown, "DialogBoxes.OptionsDlg.WordListTab.MoveColDownButton");
 			this.btnMoveColDown.Location = new System.Drawing.Point(200, 48);
 			this.btnMoveColDown.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this.btnMoveColDown.Name = "btnMoveColDown";
@@ -128,6 +140,9 @@
 			// 
 			this.btnMoveColUp.Image = global::SIL.Pa.Properties.Resources.kimidMoveUp;
 			this.btnMoveColUp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.btnMoveColUp, "Move selected column up");
+			this.locExtender.SetLocalizationComment(this.btnMoveColUp, null);
+			this.locExtender.SetLocalizingId(this.btnMoveColUp, "DialogBoxes.OptionsDlg.WordListTab.MoveColUpButton");
 			this.btnMoveColUp.Location = new System.Drawing.Point(200, 18);
 			this.btnMoveColUp.Margin = new System.Windows.Forms.Padding(5, 5, 0, 3);
 			this.btnMoveColUp.Name = "btnMoveColUp";
@@ -164,6 +179,10 @@
 			this.fldSelGridWrdList.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
 			this.fldSelGridWrdList.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.fldSelGridWrdList.IsDirty = false;
+			this.locExtender.SetLocalizableToolTip(this.fldSelGridWrdList, null);
+			this.locExtender.SetLocalizationComment(this.fldSelGridWrdList, null);
+			this.locExtender.SetLocalizationPriority(this.fldSelGridWrdList, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.fldSelGridWrdList, "WordListsOptionsPage.fldSelGridWrdList");
 			this.fldSelGridWrdList.Location = new System.Drawing.Point(0, 18);
 			this.fldSelGridWrdList.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
 			this.fldSelGridWrdList.MultiSelect = false;
@@ -192,6 +211,9 @@
 			this.grpColChanges.AutoSize = true;
 			this._tableLayoutOuter.SetColumnSpan(this.grpColChanges, 2);
 			this.grpColChanges.Controls.Add(this._tableLayoutColChanges);
+			this.locExtender.SetLocalizableToolTip(this.grpColChanges, null);
+			this.locExtender.SetLocalizationComment(this.grpColChanges, null);
+			this.locExtender.SetLocalizingId(this.grpColChanges, "DialogBoxes.OptionsDlg.WordListTab.ColChangesGroupBox");
 			this.grpColChanges.Location = new System.Drawing.Point(248, 0);
 			this.grpColChanges.Margin = new System.Windows.Forms.Padding(0);
 			this.grpColChanges.Name = "grpColChanges";
@@ -228,6 +250,9 @@
 			this.chkSaveColHdrHeight.AutoSize = true;
 			this.chkSaveColHdrHeight.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.chkSaveColHdrHeight.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.chkSaveColHdrHeight, null);
+			this.locExtender.SetLocalizationComment(this.chkSaveColHdrHeight, null);
+			this.locExtender.SetLocalizingId(this.chkSaveColHdrHeight, "DialogBoxes.OptionsDlg.WordListTab.SaveColHdrHeightCheckbox");
 			this.chkSaveColHdrHeight.Location = new System.Drawing.Point(8, 118);
 			this.chkSaveColHdrHeight.Margin = new System.Windows.Forms.Padding(8, 7, 0, 0);
 			this.chkSaveColHdrHeight.Name = "chkSaveColHdrHeight";
@@ -244,6 +269,9 @@
 			this.chkSaveReorderedColumns.AutoSize = true;
 			this.chkSaveReorderedColumns.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.chkSaveReorderedColumns.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.chkSaveReorderedColumns, null);
+			this.locExtender.SetLocalizationComment(this.chkSaveReorderedColumns, null);
+			this.locExtender.SetLocalizingId(this.chkSaveReorderedColumns, "DialogBoxes.OptionsDlg.WordListTab.SaveReorderedColumnsCheckbox");
 			this.chkSaveReorderedColumns.Location = new System.Drawing.Point(8, 44);
 			this.chkSaveReorderedColumns.Margin = new System.Windows.Forms.Padding(8, 5, 0, 0);
 			this.chkSaveReorderedColumns.Name = "chkSaveReorderedColumns";
@@ -260,6 +288,9 @@
 			this.chkSaveColWidths.AutoSize = true;
 			this.chkSaveColWidths.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.chkSaveColWidths.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.chkSaveColWidths, null);
+			this.locExtender.SetLocalizationComment(this.chkSaveColWidths, null);
+			this.locExtender.SetLocalizingId(this.chkSaveColWidths, "DialogBoxes.OptionsDlg.WordListTab.chkSaveColWidthsCheckbox");
 			this.chkSaveColWidths.Location = new System.Drawing.Point(8, 81);
 			this.chkSaveColWidths.Margin = new System.Windows.Forms.Padding(8, 7, 0, 0);
 			this.chkSaveColWidths.Name = "chkSaveColWidths";
@@ -276,6 +307,9 @@
 			this.lblExplanation.AutoEllipsis = true;
 			this.lblExplanation.AutoSize = true;
 			this.lblExplanation.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.lblExplanation, null);
+			this.locExtender.SetLocalizationComment(this.lblExplanation, null);
+			this.locExtender.SetLocalizingId(this.lblExplanation, "DialogBoxes.OptionsDlg.WordListTab.ExplanationLabel");
 			this.lblExplanation.Location = new System.Drawing.Point(0, 0);
 			this.lblExplanation.Margin = new System.Windows.Forms.Padding(0);
 			this.lblExplanation.Name = "lblExplanation";
@@ -286,6 +320,10 @@
 			// 
 			// nudMaxEticColWidth
 			// 
+			this.locExtender.SetLocalizableToolTip(this.nudMaxEticColWidth, null);
+			this.locExtender.SetLocalizationComment(this.nudMaxEticColWidth, null);
+			this.locExtender.SetLocalizationPriority(this.nudMaxEticColWidth, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.nudMaxEticColWidth, "WordListsOptionsPage.nudMaxEticColWidth");
 			this.nudMaxEticColWidth.Location = new System.Drawing.Point(417, 268);
 			this.nudMaxEticColWidth.Margin = new System.Windows.Forms.Padding(3, 5, 0, 0);
 			this.nudMaxEticColWidth.Maximum = new decimal(new int[] {
@@ -304,6 +342,9 @@
 			this.chkAutoAdjustPhoneticCol.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this._tableLayoutOuter.SetColumnSpan(this.chkAutoAdjustPhoneticCol, 2);
 			this.chkAutoAdjustPhoneticCol.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.chkAutoAdjustPhoneticCol, null);
+			this.locExtender.SetLocalizationComment(this.chkAutoAdjustPhoneticCol, null);
+			this.locExtender.SetLocalizingId(this.chkAutoAdjustPhoneticCol, "DialogBoxes.OptionsDlg.WordListTab.AutoAdjustPhoneticColCheckbox");
 			this.chkAutoAdjustPhoneticCol.Location = new System.Drawing.Point(8, 268);
 			this.chkAutoAdjustPhoneticCol.Margin = new System.Windows.Forms.Padding(8, 5, 3, 0);
 			this.chkAutoAdjustPhoneticCol.Name = "chkAutoAdjustPhoneticCol";
@@ -320,6 +361,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this._tableLayoutOuter.SetColumnSpan(this.grpGridLines, 2);
 			this.grpGridLines.Controls.Add(this._tableLayoutGridLines);
+			this.locExtender.SetLocalizableToolTip(this.grpGridLines, null);
+			this.locExtender.SetLocalizationComment(this.grpGridLines, null);
+			this.locExtender.SetLocalizingId(this.grpGridLines, "DialogBoxes.OptionsDlg.WordListTab.GridLinesGroupbox");
 			this.grpGridLines.Location = new System.Drawing.Point(248, 159);
 			this.grpGridLines.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
 			this.grpGridLines.Name = "grpGridLines";
@@ -356,6 +400,9 @@
 			this.rbGridLinesNone.Image = global::SIL.Pa.Properties.Resources.kimidNoGridLines;
 			this.rbGridLinesNone.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.rbGridLinesNone.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.rbGridLinesNone, null);
+			this.locExtender.SetLocalizationComment(this.rbGridLinesNone, null);
+			this.locExtender.SetLocalizingId(this.rbGridLinesNone, "DialogBoxes.OptionsDlg.WordListTab.GridLinesNoneRadioButton");
 			this.rbGridLinesNone.Location = new System.Drawing.Point(109, 39);
 			this.rbGridLinesNone.Name = "rbGridLinesNone";
 			this.rbGridLinesNone.Size = new System.Drawing.Size(100, 31);
@@ -374,6 +421,9 @@
 			this.rbGridLinesBoth.Image = global::SIL.Pa.Properties.Resources.kimidBothGridLines;
 			this.rbGridLinesBoth.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.rbGridLinesBoth.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.rbGridLinesBoth, null);
+			this.locExtender.SetLocalizationComment(this.rbGridLinesBoth, null);
+			this.locExtender.SetLocalizingId(this.rbGridLinesBoth, "DialogBoxes.OptionsDlg.WordListTab.GridLinesBothRadioButton");
 			this.rbGridLinesBoth.Location = new System.Drawing.Point(109, 3);
 			this.rbGridLinesBoth.Name = "rbGridLinesBoth";
 			this.rbGridLinesBoth.Size = new System.Drawing.Size(100, 30);
@@ -391,6 +441,9 @@
 			this.rbGridLinesHorizontal.Image = global::SIL.Pa.Properties.Resources.kimidHorizontalGridLines;
 			this.rbGridLinesHorizontal.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.rbGridLinesHorizontal.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.rbGridLinesHorizontal, null);
+			this.locExtender.SetLocalizationComment(this.rbGridLinesHorizontal, null);
+			this.locExtender.SetLocalizingId(this.rbGridLinesHorizontal, "DialogBoxes.OptionsDlg.WordListTab.GridLinesHorizontalRadioButton");
 			this.rbGridLinesHorizontal.Location = new System.Drawing.Point(3, 39);
 			this.rbGridLinesHorizontal.Name = "rbGridLinesHorizontal";
 			this.rbGridLinesHorizontal.Size = new System.Drawing.Size(100, 31);
@@ -408,6 +461,9 @@
 			this.rbGridLinesVertical.Image = global::SIL.Pa.Properties.Resources.kimidVerticalGridLines;
 			this.rbGridLinesVertical.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.rbGridLinesVertical.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.rbGridLinesVertical, null);
+			this.locExtender.SetLocalizationComment(this.rbGridLinesVertical, null);
+			this.locExtender.SetLocalizingId(this.rbGridLinesVertical, "DialogBoxes.OptionsDlg.WordListTab.GridLinesVerticalRadioButton");
 			this.rbGridLinesVertical.Location = new System.Drawing.Point(3, 3);
 			this.rbGridLinesVertical.Name = "rbGridLinesVertical";
 			this.rbGridLinesVertical.Size = new System.Drawing.Size(100, 30);
@@ -440,12 +496,20 @@
 			this._tableLayoutOuter.Size = new System.Drawing.Size(476, 311);
 			this._tableLayoutOuter.TabIndex = 10;
 			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationManagerId = "Pa";
+			// 
 			// WordListsOptionsPage
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoScroll = true;
 			this.Controls.Add(this._tableLayoutOuter);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this, "WordListsOptionsPage.WordListsOptionsPage");
 			this.Name = "WordListsOptionsPage";
 			this.Size = new System.Drawing.Size(476, 378);
 			this.grpColSettings.ResumeLayout(false);
@@ -461,6 +525,7 @@
 			this._tableLayoutGridLines.ResumeLayout(false);
 			this._tableLayoutOuter.ResumeLayout(false);
 			this._tableLayoutOuter.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -489,5 +554,6 @@
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutColDisplayOrder;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutGridLines;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutOuter;
+		protected Localization.UI.LocalizationExtender locExtender;
 	}
 }

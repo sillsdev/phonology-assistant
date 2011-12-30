@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SilTools;
@@ -420,7 +421,7 @@ namespace SIL.Pa.UI.Controls
 				{
 					if (ShowMessages)
 					{
-						var msg = App.GetString("FindInfo.FindDataNotFound",
+						var msg = LocalizationManager.GetString("DialogBoxes.FindDlg.FindDataNotFound",
 							"The following specified text was not found:\n\n{0}",
 							"Message shown when all data has been searched without one match.");
 						
@@ -610,9 +611,9 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private static string GetDoneSearchingMsg()
 		{
-			return App.GetString("FindInfo.FindDoneSearching",
-							"Find has finished searching.",
-							"Popup message when all records have been searched with the FindDlg");
+			return LocalizationManager.GetString("DialogBoxes.FindDlg.FindDoneSearching",
+				"Find has finished searching.",
+				"Popup message when all records have been searched with the FindDlg");
 		}
 
 		/// ------------------------------------------------------------------------------------

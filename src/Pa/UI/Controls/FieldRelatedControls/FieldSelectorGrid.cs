@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 using SilTools;
 
@@ -82,8 +83,8 @@ namespace SIL.Pa.UI.Controls
 
 			// Add the select all item, make it a tri-state cell and
 			// set its order so it always sorts to the top of the list.
-			Rows.Insert(0, new object[] { false,
-				App.GetString("FieldSelectorGrid.FieldChooserGridSelectAllText", "Select All"), -100 });
+			Rows.Insert(0, new object[] { false, LocalizationManager.GetString(
+				"DialogBoxes.DataSourcePropertiesDialogs.FieldSelectorGrid.SelectAllText", "Select All"), -100 });
 
 			((DataGridViewCheckBoxCell)Rows[0].Cells[kCheckCol]).ThreeState = true;
 			((DataGridViewCheckBoxCell)Rows[0].Cells[kCheckCol]).IndeterminateValue = kIndeterminate;

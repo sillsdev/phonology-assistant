@@ -20,6 +20,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using Localization;
 using Palaso.IO;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
@@ -105,7 +106,7 @@ namespace SIL.Pa.Processing
 				}
 				catch (Exception e)
 				{
-					var msg = App.GetString("MiscellaneousMessages.UpgradingProcessFileErrorMsg",
+					var msg = LocalizationManager.GetString("Miscellaneous.Messages.UpgradingProcessFileErrorMsg",
 						"There was an error copying the file '{0}' to '{1}'. Make sure the file is not in use by another program.");
 
 					App.NotifyUserOfProblem(e, msg, filename, App.ProjectFolder);

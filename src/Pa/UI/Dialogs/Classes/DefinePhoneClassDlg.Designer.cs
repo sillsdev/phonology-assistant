@@ -37,7 +37,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// DefinePhoneClassDlg
@@ -48,7 +47,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.Cursor = System.Windows.Forms.Cursors.Default;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "DialogBoxes.DefineClassesDialogs.PhoneClassDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.DefinePhoneClassDlg.WindowTitle");
 			this.Name = "DefinePhoneClassDlg";
 			this.Text = "Define Phones Class";
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();

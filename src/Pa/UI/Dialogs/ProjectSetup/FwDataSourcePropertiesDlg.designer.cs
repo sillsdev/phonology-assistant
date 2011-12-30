@@ -55,7 +55,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.lblProjectValue, null);
 			this.locExtender.SetLocalizationComment(this.lblProjectValue, null);
 			this.locExtender.SetLocalizationPriority(this.lblProjectValue, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.lblProjectValue, "FwDataSourcePropertiesDlg.lblProjectValue");
+			this.locExtender.SetLocalizingId(this.lblProjectValue, "DialogBoxes.Fw6DataSourcePropertiesDlg.ProjectValueLabel");
 			this.lblProjectValue.Location = new System.Drawing.Point(60, 3);
 			this.lblProjectValue.Margin = new System.Windows.Forms.Padding(0, 3, 0, 0);
 			this.lblProjectValue.Name = "lblProjectValue";
@@ -70,7 +70,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblProject.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.lblProject, null);
 			this.locExtender.SetLocalizationComment(this.lblProject, "Label at top of FieldWorks data source properties dialog box.");
-			this.locExtender.SetLocalizingId(this.lblProject, "FwDataSourcePropertiesDlg.lblProject");
+			this.locExtender.SetLocalizingId(this.lblProject, "DialogBoxes.Fw6DataSourcePropertiesDlg.ProjectLabel");
 			this.lblProject.Location = new System.Drawing.Point(7, 3);
 			this.lblProject.Margin = new System.Windows.Forms.Padding(7, 3, 5, 0);
 			this.lblProject.Name = "lblProject";
@@ -89,7 +89,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.grpPhoneticDataStoreType, null);
 			this.locExtender.SetLocalizationComment(this.grpPhoneticDataStoreType, "Text of frame around radio buttons on FieldWorks data source properties dialog bo" +
 					"x.");
-			this.locExtender.SetLocalizingId(this.grpPhoneticDataStoreType, "FwDataSourcePropertiesDlg.grpPhoneticDataStoreType");
+			this.locExtender.SetLocalizingId(this.grpPhoneticDataStoreType, "DialogBoxes.Fw6DataSourcePropertiesDlg.PhoneticDataStoreTypeGroupBox");
 			this.grpPhoneticDataStoreType.Location = new System.Drawing.Point(0, 30);
 			this.grpPhoneticDataStoreType.Margin = new System.Windows.Forms.Padding(0, 12, 0, 5);
 			this.grpPhoneticDataStoreType.Name = "grpPhoneticDataStoreType";
@@ -122,7 +122,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbPronunField.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.rbPronunField, null);
 			this.locExtender.SetLocalizationComment(this.rbPronunField, "Radio button text on FieldWorks data source properties dialog box.");
-			this.locExtender.SetLocalizingId(this.rbPronunField, "FwDataSourcePropertiesDlg.rbPronunField");
+			this.locExtender.SetLocalizingId(this.rbPronunField, "DialogBoxes.Fw6DataSourcePropertiesDlg.PronunciationFieldRadioButton");
 			this.rbPronunField.Location = new System.Drawing.Point(12, 34);
 			this.rbPronunField.Margin = new System.Windows.Forms.Padding(12, 5, 5, 10);
 			this.rbPronunField.Name = "rbPronunField";
@@ -139,7 +139,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbLexForm.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.rbLexForm, null);
 			this.locExtender.SetLocalizationComment(this.rbLexForm, "Radiobutton text on FieldWorks data source properties dialog box.");
-			this.locExtender.SetLocalizingId(this.rbLexForm, "FwDataSourcePropertiesDlg.rbLexForm");
+			this.locExtender.SetLocalizingId(this.rbLexForm, "DialogBoxes.Fw6DataSourcePropertiesDlg.LexemeFormRadioButton");
 			this.rbLexForm.Location = new System.Drawing.Point(12, 5);
 			this.rbLexForm.Margin = new System.Windows.Forms.Padding(12, 5, 5, 5);
 			this.rbLexForm.Name = "rbLexForm";
@@ -161,7 +161,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.grpWritingSystems, null);
 			this.locExtender.SetLocalizationComment(this.grpWritingSystems, "Text of frame around the list of writing systems on FieldWorks data source proper" +
 					"ties dialog box.");
-			this.locExtender.SetLocalizingId(this.grpWritingSystems, "FwDataSourcePropertiesDlg.grpWritingSystems");
+			this.locExtender.SetLocalizingId(this.grpWritingSystems, "DialogBoxes.Fw6DataSourcePropertiesDlg.WritingSystemsGroupBox");
 			this.grpWritingSystems.Location = new System.Drawing.Point(0, 122);
 			this.grpWritingSystems.Margin = new System.Windows.Forms.Padding(0, 3, 0, 0);
 			this.grpWritingSystems.Name = "grpWritingSystems";
@@ -173,7 +173,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// m_tableLayout
@@ -225,7 +224,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.m_tableLayout);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "FwDataSourcePropertiesDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.Fw6DataSourcePropertiesDlg.WindowTitle");
 			this.MinimumSize = new System.Drawing.Size(300, 375);
 			this.Name = "FwDataSourcePropertiesDlg";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Auto;

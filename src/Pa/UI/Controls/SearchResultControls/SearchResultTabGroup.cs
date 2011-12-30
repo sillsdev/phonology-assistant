@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
@@ -274,7 +275,7 @@ namespace SIL.Pa.UI.Controls
 
 			using (var fnt = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold))
 			{
-				var text = App.GetString("SearchResultTabGroup.EmptyTabInfoText",
+				var text = LocalizationManager.GetString("Views.WordLists.SearchResults.EmptyTabInfoText",
 					"Define a search pattern above and click Show Results.");
 				
 				TextRenderer.DrawText(e.Graphics, text, fnt, rc, clr, kFlags);

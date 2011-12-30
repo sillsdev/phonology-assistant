@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
@@ -112,7 +113,7 @@ namespace SIL.Pa.UI.Controls
 
 				if (string.IsNullOrEmpty(value))
 				{
-					Text = App.GetString("RtfRecordView.EmtpyView", "(no data)",
+					Text = LocalizationManager.GetString("Views.WordLists.RtfRecordView.EmtpyView", "(no data)",
 						"What's displayed in the record view when there is no data.");
 				}
 				else
@@ -768,7 +769,7 @@ namespace SIL.Pa.UI.Controls
 			firstField = null;
 			secondField = null;
 			
-			foreach (RTFFieldInfo rtfField in m_rtfFields)
+			foreach (var rtfField in m_rtfFields)
 			{
 				//if (rtfField.isFirstLine)
 				if (rtfField.isInterlinearField)

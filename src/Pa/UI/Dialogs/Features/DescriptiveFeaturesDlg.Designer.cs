@@ -35,7 +35,6 @@
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// DescriptiveFeaturesDlg
@@ -45,7 +44,7 @@
 			this.DoubleBuffered = true;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "DialogBoxes.FeaturesDlg.DescriptiveFeatures.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.DescriptiveFeaturesDlg.WindowTitle");
 			this.Location = new System.Drawing.Point(0, 0);
 			this.Name = "DescriptiveFeaturesDlg";
 			this.Opacity = 1D;

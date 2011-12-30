@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 
@@ -151,7 +152,7 @@ namespace SIL.Pa.PhoneticSearching
 		//        errors.Append(separateErrorsWithLineBreaks ? Environment.NewLine : " ");
 		//    }
 
-		//    var fmt = App.GetString("PhoneticSearchingMessages.GenericPatternParsingErrorMsg",
+		//    var fmt = LocalizationManager.GetString("PhoneticSearchingMessages.GenericPatternParsingErrorMsg",
 		//        "The following error(s) occurred when parsing the search pattern:\n\n{0}",
 		//        "Search Query Messages");
 
@@ -171,7 +172,7 @@ namespace SIL.Pa.PhoneticSearching
 
 			if (ptrnGrp.Members == null || ptrnGrp.Members.Count == 0)
 			{
-				var fmt = App.GetString("PhoneticSearchingMessages.ParsedToNothingErrorMsg",
+				var fmt = LocalizationManager.GetString("PhoneticSearchingMessages.ParsedToNothingErrorMsg",
 					"Parsing the pattern '{0}' resulted in nothing to search for.");
 
 				_errors.Add(new SearchQueryValidationError(string.Format(fmt, envType)));
@@ -189,9 +190,9 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			switch (type)
 			{
-				case EnvironmentType.Before: return App.GetString("SearchEngine.EnvironmentBefore", "preceding environment");
-				case EnvironmentType.After: return App.GetString("SearchEngine.EnvironmentAfter", "following environment");
-				case EnvironmentType.Item: return App.GetString("SearchEngine.SearchItem", "search item");
+				case EnvironmentType.Before: return LocalizationManager.GetString("PhoneticSearchingMessages.EnvironmentBefore", "preceding environment");
+				case EnvironmentType.After: return LocalizationManager.GetString("PhoneticSearchingMessages.EnvironmentAfter", "following environment");
+				case EnvironmentType.Item: return LocalizationManager.GetString("PhoneticSearchingMessages.SearchItem", "search item");
 			}
 
 			return null;
@@ -200,13 +201,13 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public static string GetSyntaxErrorMsg()
 		{
-			return App.GetString("PhoneticSearchingMessages.SyntaxErrorMsg", "Syntax error in {0}.");
+			return LocalizationManager.GetString("PhoneticSearchingMessages.SyntaxErrorMsg", "Syntax error in {0}.");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private static string GetPatternSyntaxErrorMsg()
 		{
-			return App.GetString("PhoneticSearchingMessages.PatternSyntaxErrorMsg",
+			return LocalizationManager.GetString("PhoneticSearchingMessages.PatternSyntaxErrorMsg",
 				"Syntax error. Pattern is not in the correct format: {0}");
 		}
 

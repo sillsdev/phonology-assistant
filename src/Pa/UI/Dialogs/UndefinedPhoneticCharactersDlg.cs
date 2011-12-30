@@ -2,16 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
 {
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public partial class UndefinedPhoneticCharactersDlg : Form
 	{
@@ -20,9 +17,8 @@ namespace SIL.Pa.UI.Dialogs
 		private readonly Dictionary<char, UndefinedPhoneticCharactersInfoList> m_udpciList;
 		private readonly string m_infoFmt;
 		private readonly string m_codepointColFmt =
-			App.GetString("UndefinedPhoneticCharactersDlg.CharacterColumnHeadingFormat", "U+{0:X4}",
-			"Format string for buiding the group heading text for the grid in the undefined phonetic characters dialog. The first parameter is the character and the second is the unicode value.");
-
+			LocalizationManager.GetString("DialogBoxes.UndefinedPhoneticCharactersDlg.CharacterColumnHeadingFormat", "U+{0:X4}");
+		
 		private readonly string m_codepointHdgFmt;
 		private readonly Color m_defaultSelectedRowForeColor;
 		private readonly Color m_defaultSelectedRowBackColor;
@@ -116,29 +112,23 @@ namespace SIL.Pa.UI.Dialogs
 			// Add the Unicode number column.
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("codepoint");
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
+			col.HeaderText = "_L10N_:DialogBoxes.UndefinedPhoneticCharactersDlg.SymbolsGrid.ColumnHeadings.UnicodeNumber!Unicode\nNumber";
 			m_gridChars.Columns.Add(col);
-			App.RegisterForLocalization(m_gridChars.Columns["codepoint"],
-				"UndefinedPhoneticCharacterDlg.UnicodeNumberColumnHeadingText",
-				"Unicode\nNumber", "Heading for column in undefined phonetic chars. dialog");
 
 			// Add the sample column.
 			col = SilGrid.CreateTextBoxColumn("char");
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = App.PhoneticFont;
 			col.CellTemplate.Style.Font = App.PhoneticFont;
+			col.HeaderText = "_L10N_:DialogBoxes.UndefinedPhoneticCharactersDlg.SymbolsGrid.ColumnHeadings.Character!Character";
 			m_gridChars.Columns.Add(col);
-			App.RegisterForLocalization(m_gridChars.Columns["char"],
-				"UndefinedPhoneticCharacterDlg.CharacterColumnHeadingText",
-				"Character", "Heading for column in undefined phonetic chars. dialog");
 
 			// Add the count number column.
 			col = SilGrid.CreateTextBoxColumn("count");
 			col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+			col.HeaderText = "_L10N_:DialogBoxes.UndefinedPhoneticCharactersDlg.SymbolsGrid.ColumnHeadings.Count!Count";
 			m_gridChars.Columns.Add(col);
-			App.RegisterForLocalization(m_gridChars.Columns["count"],
-				"UndefinedPhoneticCharacterDlg.CountColumnHeadingText",
-				"Count", "Heading for column in undefined phonetic chars. dialog");
 
 			m_gridChars.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 			m_gridChars.AutoResizeColumnHeadersHeight();
@@ -158,24 +148,18 @@ namespace SIL.Pa.UI.Dialogs
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("word");
 			col.DefaultCellStyle.Font = App.PhoneticFont;
 			col.CellTemplate.Style.Font = App.PhoneticFont;
+			col.HeaderText = "_L10N_:DialogBoxes.UndefinedPhoneticCharactersDlg.WhereFoundGrid.ColumnHeadings.Transcription!Transcription";
 			m_gridWhere.Columns.Add(col);
-			App.RegisterForLocalization(m_gridWhere.Columns["word"],
-				"UndefinedPhoneticCharacterDlg.WordColumnHeadingText", "Transcription",
-				"Heading for column in undefined phonetic chars. dialog");
 
 			// Add the reference column.
 			col = SilGrid.CreateTextBoxColumn("reference");
+			col.HeaderText = "_L10N_:DialogBoxes.UndefinedPhoneticCharactersDlg.WhereFoundGrid.ColumnHeadings.Reference!Reference";
 			m_gridWhere.Columns.Add(col);
-			App.RegisterForLocalization(m_gridWhere.Columns["reference"],
-				"UndefinedPhoneticCharacterDlg.ReferenceColumnHeadingText", "Reference",
-				"Heading for column in undefined phonetic chars. dialog");
 
 			// Add the data source column.
 			col = SilGrid.CreateTextBoxColumn("datasource");
+			col.HeaderText = "_L10N_:DialogBoxes.UndefinedPhoneticCharactersDlg.WhereFoundGrid.ColumnHeadings.DataSource!Data Source";
 			m_gridWhere.Columns.Add(col);
-			App.RegisterForLocalization(m_gridWhere.Columns["datasource"],
-				"UndefinedPhoneticCharacterDlg.DataSourceColumnHeadingText", "Data Source",
-				"Heading for column in undefined phonetic chars. dialog");
 
 			m_gridWhere.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 			m_gridWhere.AutoResizeColumnHeadersHeight();
@@ -412,7 +396,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleGridEnter(object sender, EventArgs e)
 		{
-			DataGridView grid = sender as DataGridView;
+			var grid = sender as DataGridView;
 			if (grid != null)
 			{
 				grid.RowsDefaultCellStyle.SelectionForeColor = m_defaultSelectedRowForeColor;

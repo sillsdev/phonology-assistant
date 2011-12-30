@@ -45,7 +45,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this.lblProjectValue, null);
 			this.locExtender.SetLocalizationComment(this.lblProjectValue, null);
 			this.locExtender.SetLocalizationPriority(this.lblProjectValue, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.lblProjectValue, "FwDataSourcePropertiesDlg.lblProjectValue");
+			this.locExtender.SetLocalizingId(this.lblProjectValue, "DialogBoxes.Fw7DataSourcePropertiesDlg.ProjectValueLabel");
 			this.lblProjectValue.Location = new System.Drawing.Point(60, 3);
 			this.lblProjectValue.Margin = new System.Windows.Forms.Padding(0, 3, 0, 0);
 			this.lblProjectValue.Name = "lblProjectValue";
@@ -60,7 +60,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblProject.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.lblProject, null);
 			this.locExtender.SetLocalizationComment(this.lblProject, "Label at top of FieldWorks data source properties dialog box.");
-			this.locExtender.SetLocalizingId(this.lblProject, "Fw7DataSourcePropertiesDlg.lblProject");
+			this.locExtender.SetLocalizingId(this.lblProject, "DialogBoxes.Fw7DataSourcePropertiesDlg.ProjectLabel");
 			this.lblProject.Location = new System.Drawing.Point(7, 3);
 			this.lblProject.Margin = new System.Windows.Forms.Padding(7, 3, 5, 0);
 			this.lblProject.Name = "lblProject";
@@ -70,8 +70,8 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// grpPhoneticField
 			// 
-			this.grpPhoneticField.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.grpPhoneticField.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.grpPhoneticField.AutoSize = true;
 			this.grpPhoneticField.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.tblLayoutOuter.SetColumnSpan(this.grpPhoneticField, 2);
@@ -79,7 +79,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.grpPhoneticField.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.grpPhoneticField, null);
 			this.locExtender.SetLocalizationComment(this.grpPhoneticField, global::SIL.Pa.ResourceStuff.PaTMStrings.kstidDoNothingToolTip);
-			this.locExtender.SetLocalizingId(this.grpPhoneticField, "Fw7DataSourcePropertiesDlg.grpPhoneticField");
+			this.locExtender.SetLocalizingId(this.grpPhoneticField, "DialogBoxes.Fw7DataSourcePropertiesDlg.PhoneticFieldGroupBox");
 			this.grpPhoneticField.Location = new System.Drawing.Point(0, 30);
 			this.grpPhoneticField.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
 			this.grpPhoneticField.Name = "grpPhoneticField";
@@ -122,7 +122,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblPronunciationOptions.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblPronunciationOptions, null);
 			this.locExtender.SetLocalizationComment(this.lblPronunciationOptions, null);
-			this.locExtender.SetLocalizingId(this.lblPronunciationOptions, "Fw7DataSourcePropertiesDlg.lblPronunciationOptions");
+			this.locExtender.SetLocalizingId(this.lblPronunciationOptions, "DialogBoxes.Fw7DataSourcePropertiesDlg.PronunciationOptionsLabel");
 			this.lblPronunciationOptions.Location = new System.Drawing.Point(65, 61);
 			this.lblPronunciationOptions.Margin = new System.Windows.Forms.Padding(28, 5, 0, 0);
 			this.lblPronunciationOptions.Name = "lblPronunciationOptions";
@@ -136,7 +136,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblPhoneticWritingSystem.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblPhoneticWritingSystem, null);
 			this.locExtender.SetLocalizationComment(this.lblPhoneticWritingSystem, null);
-			this.locExtender.SetLocalizingId(this.lblPhoneticWritingSystem, "Fw7DataSourcePropertiesDlg.lblPhoneticWritingSystem");
+			this.locExtender.SetLocalizingId(this.lblPhoneticWritingSystem, "DialogBoxes.Fw7DataSourcePropertiesDlg.PhoneticWritingSystemLabel");
 			this.lblPhoneticWritingSystem.Location = new System.Drawing.Point(12, 101);
 			this.lblPhoneticWritingSystem.Margin = new System.Windows.Forms.Padding(12, 5, 5, 0);
 			this.lblPhoneticWritingSystem.Name = "lblPhoneticWritingSystem";
@@ -146,8 +146,8 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// cboPhoneticWritingSystem
 			// 
-			this.cboPhoneticWritingSystem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.cboPhoneticWritingSystem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.cboPhoneticWritingSystem.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboPhoneticWritingSystem.FormattingEnabled = true;
 			this.locExtender.SetLocalizableToolTip(this.cboPhoneticWritingSystem, null);
@@ -167,7 +167,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbPronunField.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.rbPronunField, null);
 			this.locExtender.SetLocalizationComment(this.rbPronunField, global::SIL.Pa.ResourceStuff.PaTMStrings.kstidDoNothingToolTip);
-			this.locExtender.SetLocalizingId(this.rbPronunField, "Fw7DataSourcePropertiesDlg.rbPronunField");
+			this.locExtender.SetLocalizingId(this.rbPronunField, "DialogBoxes.Fw7DataSourcePropertiesDlg.PronunciationFieldRadioButton");
 			this.rbPronunField.Location = new System.Drawing.Point(12, 34);
 			this.rbPronunField.Margin = new System.Windows.Forms.Padding(12, 5, 0, 3);
 			this.rbPronunField.Name = "rbPronunField";
@@ -184,8 +184,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbLexForm.BackColor = System.Drawing.Color.Transparent;
 			this.rbLexForm.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.rbLexForm, null);
-			this.locExtender.SetLocalizationComment(this.rbLexForm, global::SIL.Pa.ResourceStuff.PaTMStrings.kstidDoNothingToolTip);
-			this.locExtender.SetLocalizingId(this.rbLexForm, "Fw7DataSourcePropertiesDlg.rbLexForm");
+			this.locExtender.SetLocalizationComment(this.rbLexForm, null);
+			this.locExtender.SetLocalizingId(this.rbLexForm, "DialogBoxes.Fw7DataSourcePropertiesDlg.LexemeFormRadioButton");
 			this.rbLexForm.Location = new System.Drawing.Point(12, 5);
 			this.rbLexForm.Margin = new System.Windows.Forms.Padding(12, 5, 5, 5);
 			this.rbLexForm.Name = "rbLexForm";
@@ -198,8 +198,8 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// cboPronunciationOptions
 			// 
-			this.cboPronunciationOptions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.cboPronunciationOptions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.cboPronunciationOptions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboPronunciationOptions.FormattingEnabled = true;
 			this.locExtender.SetLocalizableToolTip(this.cboPronunciationOptions, null);
@@ -214,15 +214,15 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// grpFields
 			// 
-			this.grpFields.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.grpFields.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.tblLayoutOuter.SetColumnSpan(this.grpFields, 2);
 			this.grpFields.Controls.Add(this.pnlGrid);
 			this.grpFields.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.grpFields, null);
 			this.locExtender.SetLocalizationComment(this.grpFields, global::SIL.Pa.ResourceStuff.PaTMStrings.kstidDoNothingToolTip);
-			this.locExtender.SetLocalizingId(this.grpFields, "Fw7DataSourcePropertiesDlg.grpFields");
+			this.locExtender.SetLocalizingId(this.grpFields, "DialogBoxes.Fw7DataSourcePropertiesDlg.FieldsGroupBox");
 			this.grpFields.Location = new System.Drawing.Point(0, 188);
 			this.grpFields.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this.grpFields.Name = "grpFields";
@@ -241,6 +241,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlGrid.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlGrid.DoubleBuffered = true;
 			this.pnlGrid.DrawOnlyBottomBorder = false;
+			this.pnlGrid.DrawOnlyTopBorder = false;
 			this.pnlGrid.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlGrid.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlGrid, null);
@@ -256,7 +257,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// tblLayoutOuter
@@ -286,7 +286,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.tblLayoutOuter);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "FwDataSourcePropertiesDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.Fw7DataSourcePropertiesDlg.WindowTitle");
 			this.MinimumSize = new System.Drawing.Size(300, 375);
 			this.Name = "Fw7DataSourcePropertiesDlg";
 			this.Text = "FieldWorks Data Source Properties";

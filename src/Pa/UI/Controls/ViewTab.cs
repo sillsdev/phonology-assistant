@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using Localization;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -30,12 +31,11 @@ namespace SIL.Pa.UI.Controls
 		private static bool s_undockingInProgress;
 
 		public Func<string> HelpToolTipProvider { get; private set; }
-		private readonly Func<Control> _viewTabProvider;
+		private readonly Func<Control> _viewProvider;
 
 		/// ------------------------------------------------------------------------------------
-		public ViewTab(ViewTabGroup owningTabControl, string text, Image img,
-			Type viewType, Func<Control> viewTabProvider,
-			string helptopicid, Func<string> helpToolTipProvider)
+		public ViewTab(ViewTabGroup owningTabControl, Image img, Type viewType,
+			Func<Control> viewProvider, string helptopicid, Func<string> helpToolTipProvider)
 		{
 			base.DoubleBuffered = true;
 			base.AutoSize = false;
@@ -45,9 +45,9 @@ namespace SIL.Pa.UI.Controls
 
 			OwningTabGroup = owningTabControl;
 			TabImage = img;
-			Text = Utils.RemoveAcceleratorPrefix(text);
+			//Text = Utils.RemoveAcceleratorPrefix(text);
 			ViewType = viewType;
-			_viewTabProvider = viewTabProvider;
+			_viewProvider = viewProvider;
 			HelpToolTipProvider = helpToolTipProvider;
 			HelpTopicId = helptopicid;
 
@@ -91,7 +91,7 @@ namespace SIL.Pa.UI.Controls
 				return View;
 			}
 
-			View = _viewTabProvider();
+			View = _viewProvider();
 			App.MsgMediator.SendMessage("BeginViewOpen", View);
 			View.Dock = DockStyle.Fill;
 
@@ -205,7 +205,7 @@ namespace SIL.Pa.UI.Controls
 			// Strip out accelerator key prefixes but keep ampersands that should be kept.
 			var prjName = ((ITabView)View).Project.Name;
 			var caption = Utils.RemoveAcceleratorPrefix(Text);
-			var fmt = App.GetString("UndockedViewCaptionFormat", "{0} ({1}) - {2}",
+			var fmt = LocalizationManager.GetString("Views.UndockedViewCaptionFormat", "{0} ({1}) - {2}",
 				"Parameter one is the project name; parameter 2 is the view name; parameter 3 is the application name.");
 			_viewsForm.Text = string.Format(fmt, prjName, caption, Application.ProductName);
 			

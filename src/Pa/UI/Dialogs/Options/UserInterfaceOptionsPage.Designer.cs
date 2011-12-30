@@ -28,10 +28,13 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.cboUILanguage = new System.Windows.Forms.ComboBox();
 			this.lblUILanguage = new System.Windows.Forms.Label();
 			this._tableLayoutOuter = new System.Windows.Forms.TableLayoutPanel();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this._tableLayoutOuter.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// cboUILanguage
@@ -41,6 +44,10 @@
 			this.cboUILanguage.DropDownHeight = 200;
 			this.cboUILanguage.FormattingEnabled = true;
 			this.cboUILanguage.IntegralHeight = false;
+			this.locExtender.SetLocalizableToolTip(this.cboUILanguage, null);
+			this.locExtender.SetLocalizationComment(this.cboUILanguage, null);
+			this.locExtender.SetLocalizationPriority(this.cboUILanguage, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.cboUILanguage, "UserInterfaceOptionsPage.cboUILanguage");
 			this.cboUILanguage.Location = new System.Drawing.Point(0, 18);
 			this.cboUILanguage.Margin = new System.Windows.Forms.Padding(0);
 			this.cboUILanguage.Name = "cboUILanguage";
@@ -52,6 +59,9 @@
 			this.lblUILanguage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblUILanguage.AutoSize = true;
+			this.locExtender.SetLocalizableToolTip(this.lblUILanguage, null);
+			this.locExtender.SetLocalizationComment(this.lblUILanguage, null);
+			this.locExtender.SetLocalizingId(this.lblUILanguage, "DialogBoxes.OptionsDlg.UserInterfaceTab.UILanguageLabel");
 			this.lblUILanguage.Location = new System.Drawing.Point(0, 0);
 			this.lblUILanguage.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
 			this.lblUILanguage.Name = "lblUILanguage";
@@ -74,16 +84,25 @@
 			this._tableLayoutOuter.Size = new System.Drawing.Size(200, 68);
 			this._tableLayoutOuter.TabIndex = 4;
 			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationManagerId = "Pa";
+			// 
 			// UserInterfaceOptionsPage
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoScroll = true;
 			this.Controls.Add(this._tableLayoutOuter);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this, "UserInterfaceOptionsPage.UserInterfaceOptionsPage");
 			this.Name = "UserInterfaceOptionsPage";
 			this.Size = new System.Drawing.Size(274, 164);
 			this._tableLayoutOuter.ResumeLayout(false);
 			this._tableLayoutOuter.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -93,5 +112,6 @@
 		private System.Windows.Forms.ComboBox cboUILanguage;
 		private System.Windows.Forms.Label lblUILanguage;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutOuter;
+		protected Localization.UI.LocalizationExtender locExtender;
 	}
 }

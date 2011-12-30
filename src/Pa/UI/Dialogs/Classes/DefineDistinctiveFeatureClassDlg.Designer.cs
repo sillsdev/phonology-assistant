@@ -37,7 +37,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// DefineDistinctiveFeatureClassDlgBase
@@ -47,7 +46,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.ClientSize = new System.Drawing.Size(470, 500);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "DialogBoxes.DefineClassesDialogs.DistinctiveFeatureClassDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.DistinctiveFeatureClassDlg.WindowTitle");
 			this.Name = "DefineDistinctiveFeatureClassDlgBase";
 			this.Text = "Distinctive Features Class";
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();

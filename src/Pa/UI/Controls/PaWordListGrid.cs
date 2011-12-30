@@ -7,6 +7,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using Localization;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
@@ -419,7 +420,7 @@ namespace SIL.Pa.UI.Controls
 			// Add the "None" item first.
 			var itemProps = new TMItemProperties();
 			itemProps.CommandId = "CmdGroupByField";
-			itemProps.Text = App.GetString("GroupByNoneFieldName", "None",
+			itemProps.Text = LocalizationManager.GetString("Views.WordLists.GroupByNoneFieldName", "None",
 				"The item in the group by fields menu (and toolbar menu) indicating no field is being grouped on.");
 			
 			itemProps.Name = null;
@@ -842,7 +843,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				var row = Rows[rowIndex] as PaCacheGridRow;
 				sblbl.Text = (row == null ? string.Empty :
-					string.Format(App.GetString("WordListStatusBarText", "Record {0} of {1}"),
+					string.Format(LocalizationManager.GetString("Views.WordLists.StatusBarText", "Record {0} of {1}"),
 					row.CacheEntryIndex + 1, _cache.Count));
 			}
 		}
@@ -915,7 +916,7 @@ namespace SIL.Pa.UI.Controls
 			}
 			catch
 			{
-				e.Value = App.GetString("WordListCellValueErrorMsg", "Error getting data!",
+				e.Value = LocalizationManager.GetString("Views.WordLists.CellValueErrorMsg", "Error getting data!",
 					"Displayed in a word list cell when there was an error retrieving data for the cell. This should never be used, but just in case...");
 			}
 		}
@@ -1349,7 +1350,8 @@ namespace SIL.Pa.UI.Controls
 			int widestExperimentalTrans = GetWidestExperimentalTrancription(experimentalTrans);
 
 			int hdgWidth;
-			string hdgText = App.GetString("CellInfoExperimentalTransHdgText",
+			string hdgText = LocalizationManager.GetString(
+				"Views.WordLists.CellInfoPopup.TranscriptionChanges.HeadingText",
 				"Transcription changes\nmade in this entry:",
 				"Heading text on transcription changes popup in word lists.");
 			
@@ -2193,7 +2195,7 @@ namespace SIL.Pa.UI.Controls
 			// This should never happen.
 			if (cieCache == null)
 			{
-				Utils.MsgBox(App.GetString("NoMinimalPairsPopupMsg", "No minimal pairs to display."));
+				Utils.MsgBox(LocalizationManager.GetString("Views.WordLists.NoMinimalPairsPopupMsg", "No minimal pairs to display."));
 				return false;
 			}
 
@@ -2273,7 +2275,7 @@ namespace SIL.Pa.UI.Controls
 				_noCIEResultsMsg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 				_noCIEResultsMsg.BackColor = Color.Transparent;
 				_noCIEResultsMsg.MouseDown += delegate { Focus(); };
-				_noCIEResultsMsg.Text = Utils.ConvertLiteralNewLines(App.GetString("NoMinimalPairsMsg",
+				_noCIEResultsMsg.Text = Utils.ConvertLiteralNewLines(LocalizationManager.GetString("Views.WordLists.NoMinimalPairsMsg",
 					"No minimal pairs to display.\nChange the minimal pairs options and try again.",
 					"Shows in place of a word list grid when the user has turned on minimal pairs and there aren't any to show."));
 
@@ -2414,8 +2416,8 @@ namespace SIL.Pa.UI.Controls
 			AllGroupsExpanded = expand;
 
 			App.InitializeProgressBar(expand ?
-				App.GetString("ExpandingGroupsProgressMsg", "Expanding groups...") :
-				App.GetString("CollapsingGroupsProgressMsg", "Collapsing groups..."), RowCount);
+				LocalizationManager.GetString("Views.WordLists.ExpandingGroupsProgressStatusMsg", "Expanding groups...") :
+				LocalizationManager.GetString("Views.WordLists.CollapsingGroupsProgressStatusMsg", "Collapsing groups..."), RowCount);
 
 			foreach (var row in Rows.Cast<DataGridViewRow>().Where(r => r is SilHierarchicalGridRow))
 			{

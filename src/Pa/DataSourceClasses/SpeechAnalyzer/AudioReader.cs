@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace SIL.Pa.DataSource.Sa
 {
@@ -122,6 +123,7 @@ namespace SIL.Pa.DataSource.Sa
 		/// Gets the full file name and path to the audio file.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
 		public string AudioFile { get; private set; }
 
 		/// ------------------------------------------------------------------------------------

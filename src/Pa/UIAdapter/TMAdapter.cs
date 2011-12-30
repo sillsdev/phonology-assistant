@@ -9,6 +9,7 @@ using System.Resources;
 using System.Windows.Forms;
 using System.Xml;
 using Microsoft.Win32;
+using SIL.Pa;
 using SilTools;
 using SilTools.Controls;
 
@@ -160,13 +161,13 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// ------------------------------------------------------------------------------------
 		public event RecentlyUsedItemChosenHandler RecentlyUsedItemChosen;
 		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Event fired when the adapter offers the toolbar/menu item to the application for
-		/// localization.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public event LocalizeItemHandler LocalizeItem;
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Event fired when the adapter offers the toolbar/menu item to the application for
+		///// localization.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public event LocalizeItemHandler LocalizeItem;
 	
 		#endregion
 
@@ -1860,7 +1861,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			itemProps.Update = true;
 			SetItemProps(item, itemProps);
 
-			if (LocalizeItem != null && !cmdInfo.IsEmpty)
+			if (!cmdInfo.IsEmpty)
 			{
 				//string id = item.Name; // commandid;
 
@@ -1873,7 +1874,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					item.Text = string.Empty;
 				}
 
-				LocalizeItem(item, BuildLocalizationId(item), itemProps);
+				//LocalizeItem(item, BuildLocalizationId(item), itemProps);
+				LocalizeAdapterItems.LocalizeItem(item, BuildLocalizationId(item), itemProps);
 			}
 
 			m_items[name] = item;

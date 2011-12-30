@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Windows.Forms;
 using SilTools;
 
@@ -6,10 +7,6 @@ namespace SIL.Pa.UI.Dialogs
 {
 	public partial class UndefinedCharactersInClassDlg : Form
 	{
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public UndefinedCharactersInClassDlg()
 		{
@@ -31,24 +28,16 @@ namespace SIL.Pa.UI.Dialogs
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public UndefinedCharactersInClassDlg(char[] undefinedChars) : this()
 		{
 			for (int i = 0; i < undefinedChars.Length; i++)
 			{
-				txtChars.Text += undefinedChars[i].ToString();
+				txtChars.Text += undefinedChars[i].ToString(CultureInfo.InvariantCulture);
 				if (i < undefinedChars.Length - 1)
 					txtChars.Text += ", ";
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleCreated(EventArgs e)
 		{
@@ -56,10 +45,6 @@ namespace SIL.Pa.UI.Dialogs
 			App.MsgMediator.SendMessage(Name + "HandleCreated", this);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void btnOK_Click(object sender, EventArgs e)
 		{

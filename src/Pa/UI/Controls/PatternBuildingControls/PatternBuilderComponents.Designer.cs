@@ -61,7 +61,7 @@ namespace SIL.Pa.UI.Controls
 			this.tpgCons.Controls.Add(this.pnlConsonants);
 			this.locExtender.SetLocalizableToolTip(this.tpgCons, null);
 			this.locExtender.SetLocalizationComment(this.tpgCons, "Text for consonant tab on side panel in search and XY chart views.");
-			this.locExtender.SetLocalizingId(this.tpgCons, "PatternBuilderComponents.tpgCons");
+			this.locExtender.SetLocalizingId(this.tpgCons, "CommonControls.PatternBuilderComponents.ConsonantTabText");
 			this.tpgCons.Location = new System.Drawing.Point(4, 22);
 			this.tpgCons.Name = "tpgCons";
 			this.tpgCons.Padding = new System.Windows.Forms.Padding(5);
@@ -100,8 +100,8 @@ namespace SIL.Pa.UI.Controls
 			// 
 			this.tpgVows.Controls.Add(this.pnlVowels);
 			this.locExtender.SetLocalizableToolTip(this.tpgVows, null);
-			this.locExtender.SetLocalizationComment(this.tpgVows, "Text for vowel tab on side panel in search and XY chart views.");
-			this.locExtender.SetLocalizingId(this.tpgVows, "PatternBuilderComponents.tpgVows");
+			this.locExtender.SetLocalizationComment(this.tpgVows, "Text for vowel tab on side panel in search and distribution chart views.");
+			this.locExtender.SetLocalizingId(this.tpgVows, "CommonControls.PatternBuilderComponents.VowelTabText");
 			this.tpgVows.Location = new System.Drawing.Point(4, 22);
 			this.tpgVows.Name = "tpgVows";
 			this.tpgVows.Padding = new System.Windows.Forms.Padding(3);
@@ -140,8 +140,8 @@ namespace SIL.Pa.UI.Controls
 			// 
 			this.tpgOther.Controls.Add(this.charExplorer);
 			this.locExtender.SetLocalizableToolTip(this.tpgOther, null);
-			this.locExtender.SetLocalizationComment(this.tpgOther, "Text for other tab on side panel in search and XY chart views.");
-			this.locExtender.SetLocalizingId(this.tpgOther, "PatternBuilderComponents.tpgOther");
+			this.locExtender.SetLocalizationComment(this.tpgOther, "Text for other tab on side panel in search and distribution chart views.");
+			this.locExtender.SetLocalizingId(this.tpgOther, "CommonControls.PatternBuilderComponents.OtherSymbolsTabText");
 			this.tpgOther.Location = new System.Drawing.Point(4, 22);
 			this.tpgOther.Name = "tpgOther";
 			this.tpgOther.Padding = new System.Windows.Forms.Padding(3);
@@ -180,8 +180,8 @@ namespace SIL.Pa.UI.Controls
 			// 
 			this.tpgClasses.Controls.Add(this.lvClasses);
 			this.locExtender.SetLocalizableToolTip(this.tpgClasses, null);
-			this.locExtender.SetLocalizationComment(this.tpgClasses, "Text for classes tab on side panel in search and XY chart views.");
-			this.locExtender.SetLocalizingId(this.tpgClasses, "PatternBuilderComponents.tpgClasses");
+			this.locExtender.SetLocalizationComment(this.tpgClasses, "Text for classes tab on side panel in search and distribution chart views.");
+			this.locExtender.SetLocalizingId(this.tpgClasses, "CommonControls.PatternBuilderComponents.ClassesTabText");
 			this.tpgClasses.Location = new System.Drawing.Point(4, 22);
 			this.tpgClasses.Name = "tpgClasses";
 			this.tpgClasses.Padding = new System.Windows.Forms.Padding(5);
@@ -214,34 +214,33 @@ namespace SIL.Pa.UI.Controls
 			// tpgAFeatures
 			// 
 			this.locExtender.SetLocalizableToolTip(this.tpgAFeatures, null);
-			this.locExtender.SetLocalizationComment(this.tpgAFeatures, "");
-			this.locExtender.SetLocalizingId(this.tpgAFeatures, "PatternBuilderComponents.tpgAFeatures");
+			this.locExtender.SetLocalizationComment(this.tpgAFeatures, null);
+			this.locExtender.SetLocalizingId(this.tpgAFeatures, "CommonControls.PatternBuilderComponents.DescriptiveFeaturesTabText");
 			this.tpgAFeatures.Location = new System.Drawing.Point(4, 22);
 			this.tpgAFeatures.Name = "tpgAFeatures";
 			this.tpgAFeatures.Padding = new System.Windows.Forms.Padding(5);
 			this.tpgAFeatures.Size = new System.Drawing.Size(383, 188);
 			this.tpgAFeatures.TabIndex = 2;
 			this.tpgAFeatures.Text = "Descriptive Features";
-			this.tpgAFeatures.ToolTipText = "Articulatory Features";
+			this.tpgAFeatures.ToolTipText = "Descriptive Features";
 			this.tpgAFeatures.UseVisualStyleBackColor = true;
 			// 
 			// tpgBFeatures
 			// 
 			this.locExtender.SetLocalizableToolTip(this.tpgBFeatures, null);
 			this.locExtender.SetLocalizationComment(this.tpgBFeatures, "");
-			this.locExtender.SetLocalizingId(this.tpgBFeatures, "PatternBuilderComponents.tpgBFeatures");
+			this.locExtender.SetLocalizingId(this.tpgBFeatures, "CommonControls.PatternBuilderComponents.DistinctiveFeaturesTabText");
 			this.tpgBFeatures.Location = new System.Drawing.Point(4, 22);
 			this.tpgBFeatures.Name = "tpgBFeatures";
 			this.tpgBFeatures.Padding = new System.Windows.Forms.Padding(5);
 			this.tpgBFeatures.Size = new System.Drawing.Size(383, 188);
 			this.tpgBFeatures.TabIndex = 3;
 			this.tpgBFeatures.Text = "Distinctive Features";
-			this.tpgBFeatures.ToolTipText = "Binary Features";
+			this.tpgBFeatures.ToolTipText = "Distinctive Features";
 			this.tpgBFeatures.UseVisualStyleBackColor = true;
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// PatternBuilderComponents

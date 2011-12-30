@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
 using SilTools;
@@ -150,23 +151,23 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (m_item.ClassType == SearchClassType.Phones)
 			{
-				return App.GetString("ClassListPhoneMembersToolTipHdg", "Members:",
+				return LocalizationManager.GetString("CommonControls.ClassesList.PhoneMembersToolTipHdg", "Members:",
 					"Heading for the tooltip used to display the members of a class of phones in a class list view.");
 			}
 
 			if (m_tipText.IndexOf(Environment.NewLine) < 0)
 			{
-				return App.GetString("ClassListSingleMemberToolTipHdg", "Member:",
+				return LocalizationManager.GetString("CommonControls.ClassesList.SingleMemberToolTipHdg", "Member:",
 					"Heading for the tooltip used to display the member of a class containing a single feature.");
 			}
 
 			if (m_item.ANDFeatures)
 			{
-				return App.GetString("ClassListMembersToolTipMatchAllHdg", "Members (Match All):",
+				return LocalizationManager.GetString("CommonControls.ClassesList.MembersToolTipMatchAllHdg", "Members (Match All):",
 					"Heading for the tooltip used to display the members of a class of features in a class list view.");
 			}
 
-			return App.GetString("ClassListMembersToolTipOrHdg", "Members (Match Any):",
+			return LocalizationManager.GetString("CommonControls.ClassesList.MembersToolTipOrHdg", "Members (Match Any):",
 				"Heading for the tooltip used to display the members of a class of features in a class list view.");
 		}
 
@@ -276,8 +277,8 @@ namespace SIL.Pa.UI.Controls
 			var hdr = new ColumnHeader();
 			hdr.Name = "hdr" + ClassListViewItem.kClassNameSubitem;
 			hdr.Width = 180;
+			hdr.Text = "_L10N_:CommonControls.ClassListView.ColumnHeadings.Name!Name";
 			Columns.Add(hdr);
-			App.RegisterForLocalization(hdr, "ClassListView.NameColumnHdg", "Name", "Name column heading for list of classes");
 
 			if (!m_showMembersAndClassTypeColumns)
 				return;
@@ -295,17 +296,15 @@ namespace SIL.Pa.UI.Controls
 			hdr = new ColumnHeader();
 			hdr.Name = "hdr" + kMemberSubitem;
 			hdr.Width = 205;
+			hdr.Text = "_L10N_:CommonControls.ClassListView.ColumnHeadings.Members!Members";
 			Columns.Add(hdr);
-			App.RegisterForLocalization(hdr, "ClassListView.MembersColumnHdg",
-				"Members", "Members column heading for list of classes");
 
 			// Add a column for the text showing what the class is based on.
 			hdr = new ColumnHeader();
 			hdr.Name = "hdr" + kBasedOnSubitem;
 			hdr.Width = 175;
+			hdr.Text = "_L10N_:CommonControls.ClassListView.ColumnHeadings.Type!Type";
 			Columns.Add(hdr);
-			App.RegisterForLocalization(hdr, "ClassListView.TypeColumnHdg",
-				"Type", "Type column heading for list of classes");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -593,12 +592,11 @@ namespace SIL.Pa.UI.Controls
 				{
 					if (showMsg)
 					{
-						var msg = App.GetString("DefineClassDupClassName",
+						var msg = LocalizationManager.GetString("CommonControls.ClassesList.DuplicateClassNameErrorMsg",
 							"Class '{0}' already exists. Choose a different name.",
 							"Error message when attempting to create class with duplicate name.");
 
-						Utils.MsgBox(string.Format(msg, className), MessageBoxButtons.OK,
-							MessageBoxIcon.Exclamation);
+						App.NotifyUserOfProblem(msg, className);
 					}
 					
 					return true;

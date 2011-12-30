@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 using SilTools;
 
@@ -177,25 +178,40 @@ namespace SIL.Pa.UI.Controls
 		protected virtual void LocalizePickerButton(int typeInfo, Button button)
 		{
 			if (GetHasConsonantType(typeInfo))
-				App.RegisterForLocalization(button, "CommonControls.CharacterPicker.ConsonantHeading", "Consonant");
-
+			{
+				LocalizationManager.GetString("CommonControls.CharacterPicker.ConsonantHeading",
+					"Consonant", null, button);
+			}
 			if (GetHasVowelType(typeInfo))
-				App.RegisterForLocalization(button, "CommonControls.CharacterPicker.VowelHeading", "Vowel");
-
+			{
+				LocalizationManager.GetString("CommonControls.CharacterPicker.VowelHeading",
+					"Vowel", null, button);
+			}
 			if (GetHasDiacriticType(typeInfo))
-				App.RegisterForLocalization(button, "CommonControls.CharacterPicker.DiacriticHeading", "Diacritic");
-
+			{
+				LocalizationManager.GetString("CommonControls.CharacterPicker.DiacriticHeading",
+					"Diacritic", null, button);
+			}
 			if (GetHasStressType(typeInfo))
-				App.RegisterForLocalization(button, "CommonControls.CharacterPicker.StressHeading", "Stress");
-
+			{
+				LocalizationManager.GetString("CommonControls.CharacterPicker.StressHeading",
+					"Stress", null, button);
+			}
 			if (GetHasLengthType(typeInfo))
-				App.RegisterForLocalization(button, "CommonControls.CharacterPicker.LengthHeading", "Length");
-
+			{
+				LocalizationManager.GetString("CommonControls.CharacterPicker.LengthHeading",
+					"Length", null, button);
+			}
 			if (GetHasBoundaryType(typeInfo))
-				App.RegisterForLocalization(button, "CommonControls.CharacterPicker.BoundaryHeading", "Boundary");
-
+			{
+				LocalizationManager.GetString("CommonControls.CharacterPicker.BoundaryHeading",
+					"Boundary", null, button);
+			}
 			if (GetHasToneType(typeInfo))
-				App.RegisterForLocalization(button, "CommonControls.CharacterPicker.ToneHeading", "Tone");
+			{
+				LocalizationManager.GetString("CommonControls.CharacterPicker.ToneHeading",
+					"Tone", null, button);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using Localization;
 using Localization.UI;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
@@ -126,10 +127,10 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<string> GetPronunciationFieldOptions()
 		{
-			yield return App.GetString("Fw7DataSourcePropertiesDlg.PronunciationOptionFirst",
+			yield return LocalizationManager.GetString("DialogBoxes.Fw7DataSourcePropertiesDlg.PronunciationOptionFirstOnly",
 				"first pronunciation only");
 
-			yield return App.GetString("Fw7DataSourcePropertiesDlg.PronunciationOptionEach",
+			yield return LocalizationManager.GetString("DialogBoxes.Fw7DataSourcePropertiesDlg.PronunciationOptionEach",
 				"each pronunciation");
 		}
 

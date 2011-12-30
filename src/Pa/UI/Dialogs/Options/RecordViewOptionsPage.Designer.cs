@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.grpFieldSettings = new System.Windows.Forms.GroupBox();
 			this._tableLayoutColDisplayOrder = new System.Windows.Forms.TableLayoutPanel();
@@ -35,15 +36,20 @@
 			this.lblShowFields = new System.Windows.Forms.Label();
 			this._buttonMoveDown = new System.Windows.Forms.Button();
 			this._buttonMoveUp = new System.Windows.Forms.Button();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.grpFieldSettings.SuspendLayout();
 			this._tableLayoutColDisplayOrder.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.fldSelGridRecView)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// grpFieldSettings
 			// 
 			this.grpFieldSettings.Controls.Add(this._tableLayoutColDisplayOrder);
 			this.grpFieldSettings.Dock = System.Windows.Forms.DockStyle.Left;
+			this.locExtender.SetLocalizableToolTip(this.grpFieldSettings, null);
+			this.locExtender.SetLocalizationComment(this.grpFieldSettings, null);
+			this.locExtender.SetLocalizingId(this.grpFieldSettings, "DialogBoxes.OptionsDlg.RecordViewTab.FieldSettingsGroupBox");
 			this.grpFieldSettings.Location = new System.Drawing.Point(0, 0);
 			this.grpFieldSettings.Name = "grpFieldSettings";
 			this.grpFieldSettings.Padding = new System.Windows.Forms.Padding(8, 10, 8, 8);
@@ -102,6 +108,10 @@
 			this.fldSelGridRecView.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
 			this.fldSelGridRecView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.fldSelGridRecView.IsDirty = false;
+			this.locExtender.SetLocalizableToolTip(this.fldSelGridRecView, null);
+			this.locExtender.SetLocalizationComment(this.fldSelGridRecView, null);
+			this.locExtender.SetLocalizationPriority(this.fldSelGridRecView, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.fldSelGridRecView, "RecordViewOptionsPage.fldSelGridRecView");
 			this.fldSelGridRecView.Location = new System.Drawing.Point(0, 35);
 			this.fldSelGridRecView.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
 			this.fldSelGridRecView.MultiSelect = false;
@@ -131,6 +141,9 @@
 			this._tableLayoutColDisplayOrder.SetColumnSpan(this.lblShowFields, 2);
 			this.lblShowFields.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.lblShowFields.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.lblShowFields, null);
+			this.locExtender.SetLocalizationComment(this.lblShowFields, null);
+			this.locExtender.SetLocalizingId(this.lblShowFields, "DialogBoxes.OptionsDlg.RecordViewTab.ShowFieldsLabel");
 			this.lblShowFields.Location = new System.Drawing.Point(0, 0);
 			this.lblShowFields.Margin = new System.Windows.Forms.Padding(0);
 			this.lblShowFields.Name = "lblShowFields";
@@ -143,6 +156,9 @@
 			// 
 			this._buttonMoveDown.Image = global::SIL.Pa.Properties.Resources.kimidMoveDown;
 			this._buttonMoveDown.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this._buttonMoveDown, "Move selected field down");
+			this.locExtender.SetLocalizationComment(this._buttonMoveDown, null);
+			this.locExtender.SetLocalizingId(this._buttonMoveDown, "DialogBoxes.OptionsDlg.RecordViewTab.MoveDownButton");
 			this._buttonMoveDown.Location = new System.Drawing.Point(200, 65);
 			this._buttonMoveDown.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this._buttonMoveDown.Name = "_buttonMoveDown";
@@ -154,6 +170,9 @@
 			// 
 			this._buttonMoveUp.Image = global::SIL.Pa.Properties.Resources.kimidMoveUp;
 			this._buttonMoveUp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this._buttonMoveUp, "Move selected field up");
+			this.locExtender.SetLocalizationComment(this._buttonMoveUp, null);
+			this.locExtender.SetLocalizingId(this._buttonMoveUp, "DialogBoxes.OptionsDlg.RecordViewTab.MoveUpButton");
 			this._buttonMoveUp.Location = new System.Drawing.Point(200, 35);
 			this._buttonMoveUp.Margin = new System.Windows.Forms.Padding(5, 5, 0, 3);
 			this._buttonMoveUp.Name = "_buttonMoveUp";
@@ -161,18 +180,27 @@
 			this._buttonMoveUp.TabIndex = 2;
 			this._buttonMoveUp.UseVisualStyleBackColor = true;
 			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationManagerId = "Pa";
+			// 
 			// RecordViewOptionsPage
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoScroll = true;
 			this.Controls.Add(this.grpFieldSettings);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this, "RecordViewOptionsPage.RecordViewOptionsPage");
 			this.Name = "RecordViewOptionsPage";
 			this.Size = new System.Drawing.Size(355, 263);
 			this.grpFieldSettings.ResumeLayout(false);
 			this._tableLayoutColDisplayOrder.ResumeLayout(false);
 			this._tableLayoutColDisplayOrder.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.fldSelGridRecView)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -185,5 +213,6 @@
 		private System.Windows.Forms.Button _buttonMoveDown;
 		private System.Windows.Forms.Button _buttonMoveUp;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutColDisplayOrder;
+		protected Localization.UI.LocalizationExtender locExtender;
 	}
 }

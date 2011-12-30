@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Linq;
+using Localization;
 using SilTools;
 
 namespace SIL.Pa.Model
@@ -136,7 +137,8 @@ namespace SIL.Pa.Model
 
 			if (showMsgWhenExists)
 			{
-				var msg = App.GetString("FeatureExistsMsg", "Feature '{0}' already exists.",
+				var msg = LocalizationManager.GetString("DialogBoxes.FeaturesDlgBase.FeatureExistsMsg",
+					"Feature '{0}' already exists.",
 					"Message displayed when user is trying to add a new feature that already exists.");
 				
 				Utils.MsgBox(string.Format(msg, featureName));

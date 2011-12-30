@@ -1,5 +1,6 @@
 using System.IO;
 using System.Xml;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
@@ -47,13 +48,12 @@ namespace SIL.Pa.Processing
 			{
 				if (_chartType == CVChartType.Consonant)
 				{
-					return App.GetString("MiscellaneousMessages.BuildingConsonantChartMsg",
-						"Building Consonant Chart...",
-						"Status bar message displayed when building consonant chart.");
+					return LocalizationManager.GetString("Views.ConsonantChart.BuildingConsonantChartStatusMsg",
+						"Building Consonant Chart...", "Status bar message displayed when building consonant chart.");
 				}
 
-				return App.GetString("MiscellaneousMessages.BuildingVowelChartMsg", "Building Vowel Chart...",
-					"Status bar message displayed when building building vowel chart.");
+				return LocalizationManager.GetString("Views.VowelChart.BuildingVowelChartStatusMsg",
+					"Building Vowel Chart...", "Status bar message displayed when building building vowel chart.");
 			}
 		}
 

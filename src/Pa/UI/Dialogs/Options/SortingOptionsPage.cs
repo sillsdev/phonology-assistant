@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 using SilTools;
 
@@ -17,6 +18,16 @@ namespace SIL.Pa.UI.Dialogs
 			Func<IEnumerable<PaField>> selectedWordListFieldsProvider) : base(project)
 		{
 			InitializeComponent();
+
+			cboListType.Items.Add(LocalizationManager.GetString(
+				"DialogBoxes.OptionsDlg.SortingTab.ListTypes.DataCorpus", "Data Corpus"));
+
+			cboListType.Items.Add(LocalizationManager.GetString(
+				"DialogBoxes.OptionsDlg.SortingTab.ListTypes.SearchResults", "Search Results"));
+
+			cboListType.Items.Add(LocalizationManager.GetString(
+				"DialogBoxes.OptionsDlg.SortingTab.ListTypes.DistributionChartSearchResults",
+				"Distribution Chart Search Results"));
 
 			_selectedWordListFieldsProvider = selectedWordListFieldsProvider;
 
@@ -65,21 +76,19 @@ namespace SIL.Pa.UI.Dialogs
 			// Create the column for the column name.
 			col = SilGrid.CreateTextBoxColumn("column");
 			col.ReadOnly = true;
+			col.HeaderText = "_L10N_:DialogBoxes.OptionsDlg.SortingTab.SortOrderGrid.ColumnHeadings.Column!Column";
 			m_sortingGrid.Columns.Add(col);
-			App.RegisterForLocalization(m_sortingGrid.Columns["column"],
-				"OptionsDlg.SortingTab.SortOrderColumnColumnHeadingText", "Column");
 
 			// Create the column for the ascending check box.
 			col = SilGrid.CreateCheckBoxColumn("direction");
+			col.HeaderText = "_L10N_:DialogBoxes.OptionsDlg.SortingTab.SortOrderGrid.ColumnHeadings.Direction!Ascending?";
 			m_sortingGrid.Columns.Add(col);
-			App.RegisterForLocalization(m_sortingGrid.Columns["direction"],
-				"OptionsDlg.SortingTab.SortOrderDirectionColumnHeadingText", "Ascending?");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public override string TabPageText
 		{
-			get { return App.GetString("DialogBoxes.OptionsDlg.SortingTab.TabText", "Sorting"); }
+			get { return LocalizationManager.GetString("DialogBoxes.OptionsDlg.SortingTab.TabText", "Sorting"); }
 		}
 
 		/// ------------------------------------------------------------------------------------

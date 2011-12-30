@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using Localization;
 using SilTools;
 
 namespace SIL.Pa.Model.Migration
@@ -206,7 +207,7 @@ namespace SIL.Pa.Model.Migration
 			if (dupMappings.Count == 0)
 				return;
 
-			var fmt = App.GetString("ProjectMigrationMessages.DuplicateFieldMappingsErrorMsg",
+			var fmt = LocalizationManager.GetString("ProjectMessages.Migrating.DuplicateFieldMappingsErrorMsg",
 				"The following duplicate field mappings were found for the data source '{0}'.\n\n{1}" +
 				"\nDuplicate field mappings are invalid and only the first of the duplicates will be " +
 				"kept. To verify your mappings, go to the 'Project Settings' dialog box and select " +

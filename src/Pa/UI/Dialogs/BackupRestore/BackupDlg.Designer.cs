@@ -56,7 +56,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._buttonBackup.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._buttonBackup, null);
 			this.locExtender.SetLocalizationComment(this._buttonBackup, null);
-			this.locExtender.SetLocalizingId(this._buttonBackup, "BackupDlg._buttonBackup");
+			this.locExtender.SetLocalizingId(this._buttonBackup, "DialogBoxes.BackupDlg.BackupButton");
 			this._buttonBackup.Location = new System.Drawing.Point(123, 10);
 			this._buttonBackup.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this._buttonBackup.MinimumSize = new System.Drawing.Size(75, 26);
@@ -78,7 +78,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._checkBoxIncludeDataSources.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.locExtender.SetLocalizableToolTip(this._checkBoxIncludeDataSources, null);
 			this.locExtender.SetLocalizationComment(this._checkBoxIncludeDataSources, null);
-			this.locExtender.SetLocalizingId(this._checkBoxIncludeDataSources, "BackupDlg._checkBoxIncludeDataSources");
+			this.locExtender.SetLocalizingId(this._checkBoxIncludeDataSources, "DialogBoxes.BackupDlg.IncludeDataSourcesCheckbox");
 			this._checkBoxIncludeDataSources.Location = new System.Drawing.Point(2, 0);
 			this._checkBoxIncludeDataSources.Margin = new System.Windows.Forms.Padding(2, 0, 0, 8);
 			this._checkBoxIncludeDataSources.Name = "_checkBoxIncludeDataSources";
@@ -106,7 +106,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._buttonCancel.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
 			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
-			this.locExtender.SetLocalizingId(this._buttonCancel, "BackupDlg._buttonCancel");
+			this.locExtender.SetLocalizingId(this._buttonCancel, "DialogBoxes.BackupDlg.CancelButton");
 			this._buttonCancel.Location = new System.Drawing.Point(204, 10);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(6, 10, 0, 0);
 			this._buttonCancel.MinimumSize = new System.Drawing.Size(75, 26);
@@ -125,7 +125,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._buttonClose.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this._buttonClose, null);
 			this.locExtender.SetLocalizationComment(this._buttonClose, null);
-			this.locExtender.SetLocalizingId(this._buttonClose, "BackupDlg._buttonClose");
+			this.locExtender.SetLocalizingId(this._buttonClose, "DialogBoxes.BackupDlg.CloseButton");
 			this._buttonClose.Location = new System.Drawing.Point(285, 10);
 			this._buttonClose.Margin = new System.Windows.Forms.Padding(6, 10, 0, 0);
 			this._buttonClose.MinimumSize = new System.Drawing.Size(75, 26);
@@ -176,7 +176,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._groupBoxDestinationFolder.Controls.Add(this._tableLayoutDestinationFolder);
 			this.locExtender.SetLocalizableToolTip(this._groupBoxDestinationFolder, null);
 			this.locExtender.SetLocalizationComment(this._groupBoxDestinationFolder, null);
-			this.locExtender.SetLocalizingId(this._groupBoxDestinationFolder, "BackupDlg._groupBoxDestinationFolder");
+			this.locExtender.SetLocalizingId(this._groupBoxDestinationFolder, "DialogBoxes.BackupDlg._DestinationFolderGroupBox");
 			this._groupBoxDestinationFolder.Location = new System.Drawing.Point(0, 67);
 			this._groupBoxDestinationFolder.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
 			this._groupBoxDestinationFolder.Name = "_groupBoxDestinationFolder";
@@ -219,7 +219,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this._labelDefaultFolderValue, null);
 			this.locExtender.SetLocalizationComment(this._labelDefaultFolderValue, null);
 			this.locExtender.SetLocalizationPriority(this._labelDefaultFolderValue, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._labelDefaultFolderValue, "BackupDlg._labelDefaultFolderValue");
+			this.locExtender.SetLocalizingId(this._labelDefaultFolderValue, "DialogBoxes.BackupDlg.DefaultFolderValueLabel");
 			this._labelDefaultFolderValue.Location = new System.Drawing.Point(17, 20);
 			this._labelDefaultFolderValue.Margin = new System.Windows.Forms.Padding(17, 0, 0, 0);
 			this._labelDefaultFolderValue.Name = "_labelDefaultFolderValue";
@@ -235,7 +235,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._radioDefaultFolder.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._radioDefaultFolder, null);
 			this.locExtender.SetLocalizationComment(this._radioDefaultFolder, null);
-			this.locExtender.SetLocalizingId(this._radioDefaultFolder, "BackupDlg._radioDefaultFolder");
+			this.locExtender.SetLocalizingId(this._radioDefaultFolder, "DialogBoxes.BackupDlg.DefaultFolderRadioButton");
 			this._radioDefaultFolder.Location = new System.Drawing.Point(0, 0);
 			this._radioDefaultFolder.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
 			this._radioDefaultFolder.Name = "_radioDefaultFolder";
@@ -254,7 +254,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this._linkOtherFolderValue, "Click to select alternate destination folder");
 			this.locExtender.SetLocalizationComment(this._linkOtherFolderValue, null);
 			this.locExtender.SetLocalizationPriority(this._linkOtherFolderValue, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._linkOtherFolderValue, "BackupDlg._linkOtherFolderValue");
+			this.locExtender.SetLocalizingId(this._linkOtherFolderValue, "DialogBoxes.BackupDlg.OtherFolderValueLink");
 			this._linkOtherFolderValue.Location = new System.Drawing.Point(17, 61);
 			this._linkOtherFolderValue.Margin = new System.Windows.Forms.Padding(17, 0, 0, 0);
 			this._linkOtherFolderValue.Name = "_linkOtherFolderValue";
@@ -272,7 +272,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._radioOtherFolder.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._radioOtherFolder, null);
 			this.locExtender.SetLocalizationComment(this._radioOtherFolder, null);
-			this.locExtender.SetLocalizingId(this._radioOtherFolder, "BackupDlg._radioOtherFolder");
+			this.locExtender.SetLocalizingId(this._radioOtherFolder, "DialogBoxes.BackupDlg.OtherFolderRadioButton");
 			this._radioOtherFolder.Location = new System.Drawing.Point(0, 41);
 			this._radioOtherFolder.Margin = new System.Windows.Forms.Padding(0, 8, 0, 3);
 			this._radioOtherFolder.Name = "_radioOtherFolder";
@@ -291,7 +291,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._groupIncludeInBackup.Controls.Add(this._tableLayoutIncludeInBackup);
 			this.locExtender.SetLocalizableToolTip(this._groupIncludeInBackup, null);
 			this.locExtender.SetLocalizationComment(this._groupIncludeInBackup, null);
-			this.locExtender.SetLocalizingId(this._groupIncludeInBackup, "BackupDlg._groupIncludeInBackup");
+			this.locExtender.SetLocalizingId(this._groupIncludeInBackup, "DialogBoxes.BackupDlg.IncludeInBackupGroupBox");
 			this._groupIncludeInBackup.Location = new System.Drawing.Point(0, 184);
 			this._groupIncludeInBackup.Margin = new System.Windows.Forms.Padding(0, 10, 0, 10);
 			this._groupIncludeInBackup.Name = "_groupIncludeInBackup";
@@ -331,7 +331,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._checkBoxIncludeAudioFiles.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.locExtender.SetLocalizableToolTip(this._checkBoxIncludeAudioFiles, null);
 			this.locExtender.SetLocalizationComment(this._checkBoxIncludeAudioFiles, null);
-			this.locExtender.SetLocalizingId(this._checkBoxIncludeAudioFiles, "BackupDlg._checkBoxIncludeAudioFiles");
+			this.locExtender.SetLocalizingId(this._checkBoxIncludeAudioFiles, "DialogBoxes.BackupDlg.IncludeAudioFilesCheckbox");
 			this._checkBoxIncludeAudioFiles.Location = new System.Drawing.Point(2, 25);
 			this._checkBoxIncludeAudioFiles.Margin = new System.Windows.Forms.Padding(2, 0, 0, 0);
 			this._checkBoxIncludeAudioFiles.Name = "_checkBoxIncludeAudioFiles";
@@ -349,7 +349,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this._labelProjectValue, null);
 			this.locExtender.SetLocalizationComment(this._labelProjectValue, null);
 			this.locExtender.SetLocalizationPriority(this._labelProjectValue, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._labelProjectValue, "BackupDlg._labelProjectValue");
+			this.locExtender.SetLocalizingId(this._labelProjectValue, "DialogBoxes.BackupDlg.ProjectValueLabel");
 			this._labelProjectValue.Location = new System.Drawing.Point(75, 0);
 			this._labelProjectValue.Margin = new System.Windows.Forms.Padding(3, 0, 0, 8);
 			this._labelProjectValue.Name = "_labelProjectValue";
@@ -362,7 +362,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._labelProject.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelProject, null);
 			this.locExtender.SetLocalizationComment(this._labelProject, null);
-			this.locExtender.SetLocalizingId(this._labelProject, "BackupDlg._labelProject");
+			this.locExtender.SetLocalizingId(this._labelProject, "DialogBoxes.BackupDlg.ProjectLabel");
 			this._labelProject.Location = new System.Drawing.Point(6, 0);
 			this._labelProject.Margin = new System.Windows.Forms.Padding(6, 0, 0, 8);
 			this._labelProject.Name = "_labelProject";
@@ -377,7 +377,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._linkViewExceptionDetails.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.locExtender.SetLocalizableToolTip(this._linkViewExceptionDetails, null);
 			this.locExtender.SetLocalizationComment(this._linkViewExceptionDetails, null);
-			this.locExtender.SetLocalizingId(this._linkViewExceptionDetails, "BackupDlg._linkViewExceptionDetails");
+			this.locExtender.SetLocalizingId(this._linkViewExceptionDetails, "DialogBoxes.BackupDlg.ViewExceptionDetailsLink");
 			this._linkViewExceptionDetails.Location = new System.Drawing.Point(261, 360);
 			this._linkViewExceptionDetails.Margin = new System.Windows.Forms.Padding(0, 10, 0, 3);
 			this._linkViewExceptionDetails.Name = "_linkViewExceptionDetails";
@@ -394,7 +394,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._labelBackupFile.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelBackupFile, null);
 			this.locExtender.SetLocalizationComment(this._labelBackupFile, null);
-			this.locExtender.SetLocalizingId(this._labelBackupFile, "BackupDlg._labelBackupFile");
+			this.locExtender.SetLocalizingId(this._labelBackupFile, "DialogBoxes.BackupDlg.BackupFileLabel");
 			this._labelBackupFile.Location = new System.Drawing.Point(6, 24);
 			this._labelBackupFile.Margin = new System.Windows.Forms.Padding(6, 0, 0, 0);
 			this._labelBackupFile.Name = "_labelBackupFile";
@@ -408,6 +408,7 @@ namespace SIL.Pa.UI.Dialogs
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.locExtender.SetLocalizableToolTip(this._textBoxBackupFile, null);
 			this.locExtender.SetLocalizationComment(this._textBoxBackupFile, null);
+			this.locExtender.SetLocalizationPriority(this._textBoxBackupFile, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._textBoxBackupFile, "textBox1.textBox1");
 			this._textBoxBackupFile.Location = new System.Drawing.Point(75, 21);
 			this._textBoxBackupFile.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -455,7 +456,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// BackupDlg
@@ -467,7 +467,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this._tableLayoutButtons);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "BackupDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.BackupDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(400, 500);

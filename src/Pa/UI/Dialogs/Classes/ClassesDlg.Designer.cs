@@ -122,6 +122,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.ClassListView.HideSelection = false;
 			this.locExtender.SetLocalizableToolTip(this.ClassListView, null);
 			this.locExtender.SetLocalizationComment(this.ClassListView, null);
+			this.locExtender.SetLocalizationPriority(this.ClassListView, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.ClassListView, "ClassesDlg.lvClasses");
 			this.ClassListView.Location = new System.Drawing.Point(10, 10);
 			this.ClassListView.MultiSelect = false;
@@ -153,7 +154,7 @@ namespace SIL.Pa.UI.Dialogs
 			// cmnuAddCharClass
 			// 
 			this.locExtender.SetLocalizableToolTip(this.cmnuAddCharClass, null);
-			this.locExtender.SetLocalizingId(this.cmnuAddCharClass, "DialogBoxes.ClassesDlg.AddPhonesClass");
+			this.locExtender.SetLocalizingId(this.cmnuAddCharClass, "DialogBoxes.ClassesDlg.AddPhonesClassMenu");
 			this.cmnuAddCharClass.Name = "cmnuAddCharClass";
 			this.cmnuAddCharClass.Size = new System.Drawing.Size(197, 22);
 			this.cmnuAddCharClass.Text = "&Phones Class...";
@@ -176,7 +177,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// ClassesDlg

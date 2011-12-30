@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
@@ -41,7 +42,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public override string TabPageText
 		{
-			get { return App.GetString("DialogBoxes.OptionsDlg.FontsTab.TabText", "Fonts"); }
+			get { return LocalizationManager.GetString("DialogBoxes.OptionsDlg.FontsTab.TabText", "Fonts"); }
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
@@ -29,7 +30,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void SetLocalizedTexts()
 		{
-			_labelClassTypeValue.Text = App.GetString(
+			_labelClassTypeValue.Text = LocalizationManager.GetString(
 				"DialogBoxes.DefineClassesDialogs.PhoneClassDlg.ClassTypeLabel",
 				"Phones");
 		}

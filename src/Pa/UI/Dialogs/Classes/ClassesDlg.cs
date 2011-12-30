@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.UI.Controls;
@@ -83,7 +84,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			if (ClassListView.Items.Cast<ListViewItem>().Any(item => item.Text == string.Empty))
 			{
-				var msg = App.GetString("ClassesDlg.EmptyClassNameMsg", "Class name must not be empty.");
+				var msg = LocalizationManager.GetString("DialogBoxes.ClassesDlg.EmptyClassNameMsg", "Class name must not be empty.");
 				App.NotifyUserOfProblem(msg);
 				return false;
 			}
@@ -226,13 +227,13 @@ namespace SIL.Pa.UI.Dialogs
 			if (item == null)
 				return;
 
-			var fmt = App.GetString("ClassesDlg.CopyClassPrefix", "Copy of {0}",
+			var fmt = LocalizationManager.GetString("DialogBoxes.ClassesDlg.CopyClassPrefix", "Copy of {0}",
 				"Prefix for names of copied items");
 
 			string baseName = string.Format(fmt, item.Text);
 			string newName = baseName;
 
-			fmt = App.GetString("ClassesDlg.CopyClassNameFormat", "{0} ({1:D2})",
+			fmt = LocalizationManager.GetString("DialogBoxes.ClassesDlg.CopyClassNameFormat", "{0} ({1:D2})",
 				"Format for name of copied class. First parameter is the copied class name and second is a two digit number to make the name unique.");
 
 			int i = 1;

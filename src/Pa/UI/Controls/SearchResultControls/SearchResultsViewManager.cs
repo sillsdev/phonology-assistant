@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
@@ -1476,8 +1477,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public string HTMLExport()
 		{
-			var fmt = App.GetString("DefaultSearchResultHtmlExportFileAffix",
-				"{0}-{1}SearchResults.html", "Export");
+			var fmt = LocalizationManager.GetString("Views.WordLists.SearchResults.Export.DefaultHtmlExportFileAffix",
+				"{0}-{1}SearchResults.html");
 
 			return Export(fmt, App.kstidFileTypeHTML, "html",
 				Settings.Default.OpenHtmlSearchResultAfterExport, SearchResultExporter.ToHtml);
@@ -1491,8 +1492,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public string WordXmlExport()
 		{
-			var fmt = App.GetString("DefaultSearchResultWordXmlExportFileAffix",
-				"{0}-{1}SearchResults-(Word).xml", "Export");
+			var fmt = LocalizationManager.GetString("Views.WordLists.SearchResults.Export.DefaultWordXmlExportFileAffix",
+				"{0}-{1}SearchResults-(Word).xml");
 
 			return Export(fmt, App.kstidFileTypeWordXml, "xml",
 				Settings.Default.OpenWordXmlSearchResultAfterExport, SearchResultExporter.ToWordXml);
@@ -1506,8 +1507,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public string XLingPaperExport()
 		{
-			var fmt = App.GetString("DefaultSearchResultXLingPaperExportFileAffix",
-				"{0}-{1}SearchResults-(XLingPaper).xml", "Export");
+			var fmt = LocalizationManager.GetString("Views.WordLists.SearchResults.Export.DefaultXLingPaperExportFileAffix",
+				"{0}-{1}SearchResults-(XLingPaper).xml");
 
 			return Export(fmt, App.kstidFileTypeXLingPaper, "xml",
 				Settings.Default.OpenXLingPaperSearchResultAfterExport,

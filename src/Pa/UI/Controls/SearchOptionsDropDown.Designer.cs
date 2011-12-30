@@ -76,7 +76,7 @@ namespace SIL.Pa.UI.Controls
 			this._chkIgnoreDiacritics.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this._chkIgnoreDiacritics, null);
 			this.locExtender.SetLocalizationComment(this._chkIgnoreDiacritics, null);
-			this.locExtender.SetLocalizingId(this._chkIgnoreDiacritics, "SearchOptionsDropDown.chkIgnoreDiacritics");
+			this.locExtender.SetLocalizingId(this._chkIgnoreDiacritics, "Views.WordLists.SearchResults.SearchOptionsPopup.IgnoreDiacriticsCheckbox");
 			this._chkIgnoreDiacritics.Location = new System.Drawing.Point(10, 27);
 			this._chkIgnoreDiacritics.Margin = new System.Windows.Forms.Padding(10, 5, 3, 3);
 			this._chkIgnoreDiacritics.Name = "_chkIgnoreDiacritics";
@@ -97,7 +97,7 @@ namespace SIL.Pa.UI.Controls
 			this._chkShowAllWords.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this._chkShowAllWords, null);
 			this.locExtender.SetLocalizationComment(this._chkShowAllWords, null);
-			this.locExtender.SetLocalizingId(this._chkShowAllWords, "SearchOptionsDropDown.chkShowAllWords");
+			this.locExtender.SetLocalizingId(this._chkShowAllWords, "Views.WordLists.SearchResults.SearchOptionsPopup.ShowAllWordsCheckbox");
 			this._chkShowAllWords.Location = new System.Drawing.Point(10, 0);
 			this._chkShowAllWords.Margin = new System.Windows.Forms.Padding(10, 0, 3, 3);
 			this._chkShowAllWords.Name = "_chkShowAllWords";
@@ -117,7 +117,7 @@ namespace SIL.Pa.UI.Controls
 			this._chkStress.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this._chkStress, null);
 			this.locExtender.SetLocalizationComment(this._chkStress, null);
-			this.locExtender.SetLocalizingId(this._chkStress, "SearchOptionsDropDown.chkStress");
+			this.locExtender.SetLocalizingId(this._chkStress, "Views.WordLists.SearchResults.SearchOptionsPopup.StressCheckbox");
 			this._chkStress.Location = new System.Drawing.Point(10, 0);
 			this._chkStress.Name = "_chkStress";
 			this._chkStress.Size = new System.Drawing.Size(98, 19);
@@ -152,7 +152,7 @@ namespace SIL.Pa.UI.Controls
 			this._chkTone.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this._chkTone, null);
 			this.locExtender.SetLocalizationComment(this._chkTone, null);
-			this.locExtender.SetLocalizingId(this._chkTone, "CommonControls.SearchOptions.ToneCheckBox");
+			this.locExtender.SetLocalizingId(this._chkTone, "Views.WordLists.SearchResults.SearchOptionsPopup.ToneCheckbox");
 			this._chkTone.Location = new System.Drawing.Point(10, 0);
 			this._chkTone.Name = "_chkTone";
 			this._chkTone.Size = new System.Drawing.Size(92, 19);
@@ -187,7 +187,7 @@ namespace SIL.Pa.UI.Controls
 			this._chkLength.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this._chkLength, null);
 			this.locExtender.SetLocalizationComment(this._chkLength, null);
-			this.locExtender.SetLocalizingId(this._chkLength, "SearchOptionsDropDown.chkLength");
+			this.locExtender.SetLocalizingId(this._chkLength, "Views.WordLists.SearchResults.SearchOptionsPopup.LengthCheckbox");
 			this._chkLength.Location = new System.Drawing.Point(10, 0);
 			this._chkLength.Name = "_chkLength";
 			this._chkLength.Size = new System.Drawing.Size(102, 19);
@@ -221,7 +221,7 @@ namespace SIL.Pa.UI.Controls
 			this._linkApplyToAll.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this._linkApplyToAll, null);
 			this.locExtender.SetLocalizationComment(this._linkApplyToAll, null);
-			this.locExtender.SetLocalizingId(this._linkApplyToAll, "SearchOptionsDropDown.lnkApplyToAll");
+			this.locExtender.SetLocalizingId(this._linkApplyToAll, "Views.WordLists.SearchResults.SearchOptionsPopup.ApplyToAllLink");
 			this._linkApplyToAll.Location = new System.Drawing.Point(0, 409);
 			this._linkApplyToAll.Margin = new System.Windows.Forms.Padding(0, 4, 3, 0);
 			this._linkApplyToAll.Name = "_linkApplyToAll";
@@ -238,7 +238,7 @@ namespace SIL.Pa.UI.Controls
 			this._linkHelp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this._linkHelp, null);
 			this.locExtender.SetLocalizationComment(this._linkHelp, null);
-			this.locExtender.SetLocalizingId(this._linkHelp, "SearchOptionsDropDown.lnkHelp");
+			this.locExtender.SetLocalizingId(this._linkHelp, "Views.WordLists.SearchResults.SearchOptionsPopup.HelpLink");
 			this._linkHelp.Location = new System.Drawing.Point(239, 409);
 			this._linkHelp.Margin = new System.Windows.Forms.Padding(3, 4, 0, 0);
 			this._linkHelp.Name = "_linkHelp";
@@ -257,7 +257,7 @@ namespace SIL.Pa.UI.Controls
 			this._groupUncertainties.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this._groupUncertainties, null);
 			this.locExtender.SetLocalizationComment(this._groupUncertainties, null);
-			this.locExtender.SetLocalizingId(this._groupUncertainties, "SearchOptionsDropDown.grpUncertainties");
+			this.locExtender.SetLocalizingId(this._groupUncertainties, "Views.WordLists.SearchResults.SearchOptionsPopup.UncertaintiesGroupBox");
 			this._groupUncertainties.Location = new System.Drawing.Point(0, 277);
 			this._groupUncertainties.Margin = new System.Windows.Forms.Padding(0, 6, 0, 3);
 			this._groupUncertainties.Name = "_groupUncertainties";
@@ -278,7 +278,7 @@ namespace SIL.Pa.UI.Controls
 			this.rbAllUncertainties.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.rbAllUncertainties, null);
 			this.locExtender.SetLocalizationComment(this.rbAllUncertainties, null);
-			this.locExtender.SetLocalizingId(this.rbAllUncertainties, "SearchOptionsDropDown.rbAllUncertainties");
+			this.locExtender.SetLocalizingId(this.rbAllUncertainties, "Views.WordLists.SearchResults.SearchOptionsPopup.AllUncertaintiesRadioButton");
 			this.rbAllUncertainties.Location = new System.Drawing.Point(10, 59);
 			this.rbAllUncertainties.Name = "rbAllUncertainties";
 			this.rbAllUncertainties.Size = new System.Drawing.Size(233, 52);
@@ -298,7 +298,7 @@ namespace SIL.Pa.UI.Controls
 			this.rbPrimaryOnly.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.rbPrimaryOnly, null);
 			this.locExtender.SetLocalizationComment(this.rbPrimaryOnly, null);
-			this.locExtender.SetLocalizingId(this.rbPrimaryOnly, "SearchOptionsDropDown.rbPrimaryOnly");
+			this.locExtender.SetLocalizingId(this.rbPrimaryOnly, "Views.WordLists.SearchResults.SearchOptionsPopup.PrimaryOnlyRadioButton");
 			this.rbPrimaryOnly.Location = new System.Drawing.Point(10, 21);
 			this.rbPrimaryOnly.Name = "rbPrimaryOnly";
 			this.rbPrimaryOnly.Size = new System.Drawing.Size(233, 39);
@@ -310,7 +310,6 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// _chkBoundary
@@ -322,7 +321,7 @@ namespace SIL.Pa.UI.Controls
 			this._chkBoundary.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this._chkBoundary, null);
 			this.locExtender.SetLocalizationComment(this._chkBoundary, null);
-			this.locExtender.SetLocalizingId(this._chkBoundary, "CommonControls.SearchOptions.BoundaryCheckBox");
+			this.locExtender.SetLocalizingId(this._chkBoundary, "Views.WordLists.SearchResults.SearchOptionsPopup.BoundaryCheckbox");
 			this._chkBoundary.Location = new System.Drawing.Point(10, 0);
 			this._chkBoundary.Name = "_chkBoundary";
 			this._chkBoundary.Size = new System.Drawing.Size(116, 19);
@@ -438,6 +437,7 @@ namespace SIL.Pa.UI.Controls
 			this._pickerStress.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
 			this.locExtender.SetLocalizableToolTip(this._pickerStress, null);
 			this.locExtender.SetLocalizationComment(this._pickerStress, null);
+			this.locExtender.SetLocalizationPriority(this._pickerStress, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._pickerStress, "SearchOptionsDropDown.stressPicker");
 			this._pickerStress.Location = new System.Drawing.Point(7, 20);
 			this._pickerStress.Name = "_pickerStress";

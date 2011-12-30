@@ -55,7 +55,7 @@
 			this.locExtender.SetLocalizableToolTip(this.m_toolstrip, null);
 			this.locExtender.SetLocalizationComment(this.m_toolstrip, null);
 			this.locExtender.SetLocalizationPriority(this.m_toolstrip, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.m_toolstrip, "SearchResultTabGroupButtonPanel.m_toolstrip");
+			this.locExtender.SetLocalizingId(this.m_toolstrip, "CommonControls.SearchResultTabGroupButtonPanel.m_toolstrip");
 			this.m_toolstrip.Location = new System.Drawing.Point(0, 10);
 			this.m_toolstrip.Name = "m_toolstrip";
 			this.m_toolstrip.Size = new System.Drawing.Size(194, 25);
@@ -71,8 +71,8 @@
 			this.m_btnAddTab.Image = global::SIL.Pa.Properties.Resources.NewTabNormal;
 			this.m_btnAddTab.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
 			this.locExtender.SetLocalizableToolTip(this.m_btnAddTab, "Add Tab");
-			this.locExtender.SetLocalizationComment(this.m_btnAddTab, null);
-			this.locExtender.SetLocalizingId(this.m_btnAddTab, "SearchResultTabGroupButtonPanel.btnAddTab");
+			this.locExtender.SetLocalizationComment(this.m_btnAddTab, "The text for this is ignored. The button only displays an image.");
+			this.locExtender.SetLocalizingId(this.m_btnAddTab, "Views.WordLists.SearchResults.TabPopup.AddTabButton");
 			this.m_btnAddTab.Margin = new System.Windows.Forms.Padding(3, 0, 0, 1);
 			this.m_btnAddTab.Name = "m_btnAddTab";
 			this.m_btnAddTab.Size = new System.Drawing.Size(32, 24);
@@ -82,7 +82,7 @@
 			this.m_mnuAddInSideBySideGroup.Image = global::SIL.Pa.Properties.Resources.AddSideBySideTabGroup;
 			this.locExtender.SetLocalizableToolTip(this.m_mnuAddInSideBySideGroup, null);
 			this.locExtender.SetLocalizationComment(this.m_mnuAddInSideBySideGroup, null);
-			this.locExtender.SetLocalizingId(this.m_mnuAddInSideBySideGroup, "SearchResultTabGroupButtonPanel.mnuAddInSideBySideGroup");
+			this.locExtender.SetLocalizingId(this.m_mnuAddInSideBySideGroup, "Views.WordLists.SearchResults.TabPopup.AddInSideBySideMenu");
 			this.m_mnuAddInSideBySideGroup.Name = "m_mnuAddInSideBySideGroup";
 			this.m_mnuAddInSideBySideGroup.Size = new System.Drawing.Size(288, 22);
 			this.m_mnuAddInSideBySideGroup.Text = "Add Tab in New Si&de-by-Side Tab Group";
@@ -92,7 +92,7 @@
 			this.m_mnuAddInStackedGroup.Image = global::SIL.Pa.Properties.Resources.AddStackedTabGroup;
 			this.locExtender.SetLocalizableToolTip(this.m_mnuAddInStackedGroup, null);
 			this.locExtender.SetLocalizationComment(this.m_mnuAddInStackedGroup, null);
-			this.locExtender.SetLocalizingId(this.m_mnuAddInStackedGroup, "SearchResultTabGroupButtonPanel.mnuAddInStackedGroup");
+			this.locExtender.SetLocalizingId(this.m_mnuAddInStackedGroup, "Views.WordLists.SearchResults.TabPopup.AddInStackedMenu");
 			this.m_mnuAddInStackedGroup.Name = "m_mnuAddInStackedGroup";
 			this.m_mnuAddInStackedGroup.Size = new System.Drawing.Size(288, 22);
 			this.m_mnuAddInStackedGroup.Text = "Add Tab in New St&acked Tab Group";
@@ -103,8 +103,8 @@
 			this.m_btnScrollRight.AutoSize = false;
 			this.m_btnScrollRight.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.locExtender.SetLocalizableToolTip(this.m_btnScrollRight, "Scroll Right");
-			this.locExtender.SetLocalizationComment(this.m_btnScrollRight, null);
-			this.locExtender.SetLocalizingId(this.m_btnScrollRight, "SearchResultTabGroupButtonPanel.btnRight");
+			this.locExtender.SetLocalizationComment(this.m_btnScrollRight, "The English text '4' is the right arrow in the Marlett font, which is the font used for the control.");
+			this.locExtender.SetLocalizingId(this.m_btnScrollRight, "Views.WordLists.SearchResults.TabPopup.RightButton");
 			this.m_btnScrollRight.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
 			this.m_btnScrollRight.Name = "m_btnScrollRight";
 			this.m_btnScrollRight.Size = new System.Drawing.Size(13, 23);
@@ -116,8 +116,8 @@
 			this.m_btnScrollLeft.AutoSize = false;
 			this.m_btnScrollLeft.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.locExtender.SetLocalizableToolTip(this.m_btnScrollLeft, "Scroll Left");
-			this.locExtender.SetLocalizationComment(this.m_btnScrollLeft, null);
-			this.locExtender.SetLocalizingId(this.m_btnScrollLeft, "SearchResultTabGroupButtonPanel.btnLeft");
+			this.locExtender.SetLocalizationComment(this.m_btnScrollLeft, "The English text '3' is the left arrow in the Marlett font, which is the font used for the control.");
+			this.locExtender.SetLocalizingId(this.m_btnScrollLeft, "Views.WordLists.SearchResults.TabPopup.LeftButton");
 			this.m_btnScrollLeft.Margin = new System.Windows.Forms.Padding(5, 0, 0, 1);
 			this.m_btnScrollLeft.Name = "m_btnScrollLeft";
 			this.m_btnScrollLeft.Size = new System.Drawing.Size(13, 23);
@@ -125,7 +125,6 @@
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// SearchResultTabGroupButtonPanel

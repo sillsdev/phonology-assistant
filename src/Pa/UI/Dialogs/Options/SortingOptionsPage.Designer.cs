@@ -28,7 +28,8 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			this.components = new System.ComponentModel.Container();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.lblSaveManual = new System.Windows.Forms.Label();
 			this.grpColSortOptions = new System.Windows.Forms.GroupBox();
 			this._tableLayoutColSortOptions = new System.Windows.Forms.TableLayoutPanel();
@@ -44,12 +45,14 @@
 			this.cboListType = new System.Windows.Forms.ComboBox();
 			this._tableLayoutOuter = new System.Windows.Forms.TableLayoutPanel();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
 			this.grpColSortOptions.SuspendLayout();
 			this._tableLayoutColSortOptions.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.m_sortingGrid)).BeginInit();
 			this.grpPhoneticSortOptions.SuspendLayout();
 			this._tableLayoutOuter.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// lblSaveManual
@@ -60,6 +63,9 @@
 			this._tableLayoutOuter.SetColumnSpan(this.lblSaveManual, 2);
 			this.lblSaveManual.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.lblSaveManual.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.lblSaveManual, null);
+			this.locExtender.SetLocalizationComment(this.lblSaveManual, null);
+			this.locExtender.SetLocalizingId(this.lblSaveManual, "DialogBoxes.OptionsDlg.SortingTab.SaveManualLabel");
 			this.lblSaveManual.Location = new System.Drawing.Point(23, 442);
 			this.lblSaveManual.Margin = new System.Windows.Forms.Padding(23, 0, 3, 0);
 			this.lblSaveManual.Name = "lblSaveManual";
@@ -73,6 +79,9 @@
 			this.grpColSortOptions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.grpColSortOptions.Controls.Add(this._tableLayoutColSortOptions);
+			this.locExtender.SetLocalizableToolTip(this.grpColSortOptions, null);
+			this.locExtender.SetLocalizationComment(this.grpColSortOptions, null);
+			this.locExtender.SetLocalizingId(this.grpColSortOptions, "DialogBoxes.OptionsDlg.SortingTab.ColSortOptionsGroupBox");
 			this.grpColSortOptions.Location = new System.Drawing.Point(0, 79);
 			this.grpColSortOptions.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
 			this.grpColSortOptions.Name = "grpColSortOptions";
@@ -105,6 +114,9 @@
 			// 
 			this.btnMoveSortFieldDown.Image = global::SIL.Pa.Properties.Resources.kimidMoveDown;
 			this.btnMoveSortFieldDown.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.btnMoveSortFieldDown, "Move selected column down");
+			this.locExtender.SetLocalizationComment(this.btnMoveSortFieldDown, null);
+			this.locExtender.SetLocalizingId(this.btnMoveSortFieldDown, "DialogBoxes.OptionsDlg.SortingTab.MoveSortFieldDownButton");
 			this.btnMoveSortFieldDown.Location = new System.Drawing.Point(194, 62);
 			this.btnMoveSortFieldDown.Margin = new System.Windows.Forms.Padding(5, 3, 0, 3);
 			this.btnMoveSortFieldDown.Name = "btnMoveSortFieldDown";
@@ -117,6 +129,9 @@
 			// 
 			this.btnMoveSortFieldUp.Image = global::SIL.Pa.Properties.Resources.kimidMoveUp;
 			this.btnMoveSortFieldUp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.btnMoveSortFieldUp, "Move selected column up");
+			this.locExtender.SetLocalizationComment(this.btnMoveSortFieldUp, null);
+			this.locExtender.SetLocalizingId(this.btnMoveSortFieldUp, "DialogBoxes.OptionsDlg.SortingTab.MoveSortFieldUpButton");
 			this.btnMoveSortFieldUp.Location = new System.Drawing.Point(194, 31);
 			this.btnMoveSortFieldUp.Margin = new System.Windows.Forms.Padding(5, 5, 0, 3);
 			this.btnMoveSortFieldUp.Name = "btnMoveSortFieldUp";
@@ -140,20 +155,24 @@
 			this.m_sortingGrid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.m_sortingGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
 			this.m_sortingGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.m_sortingGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.m_sortingGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			this.m_sortingGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.m_sortingGrid.DrawTextBoxEditControlBorder = false;
 			this.m_sortingGrid.Font = new System.Drawing.Font("Segoe UI", 9F);
 			this.m_sortingGrid.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
 			this.m_sortingGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.m_sortingGrid.IsDirty = false;
+			this.locExtender.SetLocalizableToolTip(this.m_sortingGrid, null);
+			this.locExtender.SetLocalizationComment(this.m_sortingGrid, null);
+			this.locExtender.SetLocalizationPriority(this.m_sortingGrid, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.m_sortingGrid, "SortingOptionsPage.m_sortingGrid");
 			this.m_sortingGrid.Location = new System.Drawing.Point(0, 31);
 			this.m_sortingGrid.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
 			this.m_sortingGrid.MultiSelect = false;
@@ -183,6 +202,9 @@
 			this.lblSortFldsHdr.AutoSize = true;
 			this._tableLayoutColSortOptions.SetColumnSpan(this.lblSortFldsHdr, 2);
 			this.lblSortFldsHdr.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.lblSortFldsHdr, null);
+			this.locExtender.SetLocalizationComment(this.lblSortFldsHdr, null);
+			this.locExtender.SetLocalizingId(this.lblSortFldsHdr, "DialogBoxes.OptionsDlg.SortingTab.SortFldsHdrLabel");
 			this.lblSortFldsHdr.Location = new System.Drawing.Point(0, 0);
 			this.lblSortFldsHdr.Margin = new System.Windows.Forms.Padding(0);
 			this.lblSortFldsHdr.Name = "lblSortFldsHdr";
@@ -200,6 +222,9 @@
 			this._tableLayoutOuter.SetColumnSpan(this.chkSaveManual, 2);
 			this.chkSaveManual.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.chkSaveManual.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.chkSaveManual, null);
+			this.locExtender.SetLocalizationComment(this.chkSaveManual, null);
+			this.locExtender.SetLocalizingId(this.chkSaveManual, "DialogBoxes.OptionsDlg.SortingTab.SaveManualCheckbox");
 			this.chkSaveManual.Location = new System.Drawing.Point(8, 418);
 			this.chkSaveManual.Margin = new System.Windows.Forms.Padding(8, 5, 3, 5);
 			this.chkSaveManual.Name = "chkSaveManual";
@@ -217,6 +242,9 @@
 			this.lblSortInfo.AutoSize = true;
 			this._tableLayoutOuter.SetColumnSpan(this.lblSortInfo, 2);
 			this.lblSortInfo.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.lblSortInfo, null);
+			this.locExtender.SetLocalizationComment(this.lblSortInfo, null);
+			this.locExtender.SetLocalizingId(this.lblSortInfo, "DialogBoxes.OptionsDlg.SortingTab.SortInfoLabel");
 			this.lblSortInfo.Location = new System.Drawing.Point(0, 0);
 			this.lblSortInfo.Margin = new System.Windows.Forms.Padding(0, 0, 0, 15);
 			this.lblSortInfo.Name = "lblSortInfo";
@@ -230,6 +258,9 @@
 			this.grpPhoneticSortOptions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.grpPhoneticSortOptions.Controls.Add(this.phoneticSortOptions);
+			this.locExtender.SetLocalizableToolTip(this.grpPhoneticSortOptions, null);
+			this.locExtender.SetLocalizationComment(this.grpPhoneticSortOptions, null);
+			this.locExtender.SetLocalizingId(this.grpPhoneticSortOptions, "DialogBoxes.OptionsDlg.SortingTab.PhoneticSortOptionsGroupBox");
 			this.grpPhoneticSortOptions.Location = new System.Drawing.Point(242, 79);
 			this.grpPhoneticSortOptions.Margin = new System.Windows.Forms.Padding(0);
 			this.grpPhoneticSortOptions.Name = "grpPhoneticSortOptions";
@@ -247,13 +278,17 @@
 			this.phoneticSortOptions.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.phoneticSortOptions.BackColor = System.Drawing.Color.Transparent;
 			this.phoneticSortOptions.DrawWithGradientBackground = false;
+			this.locExtender.SetLocalizableToolTip(this.phoneticSortOptions, null);
+			this.locExtender.SetLocalizationComment(this.phoneticSortOptions, null);
+			this.locExtender.SetLocalizationPriority(this.phoneticSortOptions, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.phoneticSortOptions, "SortingOptionsPage.SortOptionsDropDown");
 			this.phoneticSortOptions.Location = new System.Drawing.Point(11, 18);
 			this.phoneticSortOptions.MakePhoneticPrimarySortFieldWhenOptionsChange = true;
 			this.phoneticSortOptions.Margin = new System.Windows.Forms.Padding(2);
 			this.phoneticSortOptions.Name = "phoneticSortOptions";
 			this.phoneticSortOptions.ShowAdvancedOptions = true;
 			this.phoneticSortOptions.ShowButtons = false;
-			this.phoneticSortOptions.Size = new System.Drawing.Size(214, 196);
+			this.phoneticSortOptions.Size = new System.Drawing.Size(214, 172);
 			this.phoneticSortOptions.TabIndex = 0;
 			this.phoneticSortOptions.SortOptionsChanged += new SIL.Pa.UI.Controls.SortOptionsDropDown.SortOptionsChangedHandler(this.HandlePhoneticSortOptionsChanged);
 			// 
@@ -262,6 +297,9 @@
 			this.lblListType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblListType.AutoSize = true;
 			this.lblListType.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.locExtender.SetLocalizableToolTip(this.lblListType, null);
+			this.locExtender.SetLocalizationComment(this.lblListType, null);
+			this.locExtender.SetLocalizingId(this.lblListType, "DialogBoxes.OptionsDlg.SortingTab.ListTypeLabel");
 			this.lblListType.Location = new System.Drawing.Point(35, 5);
 			this.lblListType.Margin = new System.Windows.Forms.Padding(35, 0, 10, 0);
 			this.lblListType.Name = "lblListType";
@@ -274,10 +312,10 @@
 			this.cboListType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboListType.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.cboListType.FormattingEnabled = true;
-			this.cboListType.Items.AddRange(new object[] {
-            "Data Corpus",
-            "Search Results",
-            "Distribution Chart Search Results"});
+			this.locExtender.SetLocalizableToolTip(this.cboListType, null);
+			this.locExtender.SetLocalizationComment(this.cboListType, null);
+			this.locExtender.SetLocalizationPriority(this.cboListType, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this.cboListType, "DialogBoxes.OptionsDlg.SortingTab.cboListType");
 			this.cboListType.Location = new System.Drawing.Point(127, 0);
 			this.cboListType.Margin = new System.Windows.Forms.Padding(0);
 			this.cboListType.Name = "cboListType";
@@ -329,12 +367,20 @@
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(499, 23);
 			this.tableLayoutPanel1.TabIndex = 15;
 			// 
+			// locExtender
+			// 
+			this.locExtender.LocalizationManagerId = "Pa";
+			// 
 			// SortingOptionsPage
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoScroll = true;
 			this.Controls.Add(this._tableLayoutOuter);
+			this.locExtender.SetLocalizableToolTip(this, null);
+			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this, "SortingOptionsPage.SortingOptionsPage");
 			this.Name = "SortingOptionsPage";
 			this.Size = new System.Drawing.Size(499, 472);
 			this.grpColSortOptions.ResumeLayout(false);
@@ -347,6 +393,7 @@
 			this._tableLayoutOuter.PerformLayout();
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -368,5 +415,6 @@
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutOuter;
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutColSortOptions;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+		protected Localization.UI.LocalizationExtender locExtender;
 	}
 }

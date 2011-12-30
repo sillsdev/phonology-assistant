@@ -65,7 +65,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.locExtender.SetLocalizableToolTip(this._textBoxClassName, null);
 			this.locExtender.SetLocalizationComment(this._textBoxClassName, null);
 			this.locExtender.SetLocalizationPriority(this._textBoxClassName, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this._textBoxClassName, "DefineClassDlg.txtClassName");
+			this.locExtender.SetLocalizingId(this._textBoxClassName, "DialogBoxes.DefineClassDlgBase.txtClassName");
 			this._textBoxClassName.Location = new System.Drawing.Point(59, 37);
 			this._textBoxClassName.Margin = new System.Windows.Forms.Padding(0, 12, 0, 0);
 			this._textBoxClassName.Name = "_textBoxClassName";
@@ -80,7 +80,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._labelClassName.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this._labelClassName, null);
 			this.locExtender.SetLocalizationComment(this._labelClassName, null);
-			this.locExtender.SetLocalizingId(this._labelClassName, "DefineClassDlg.lblClassName");
+			this.locExtender.SetLocalizingId(this._labelClassName, "DialogBoxes.DefineClassDlgBase.ClassNameLabel");
 			this._labelClassName.Location = new System.Drawing.Point(3, 40);
 			this._labelClassName.Margin = new System.Windows.Forms.Padding(3, 12, 3, 0);
 			this._labelClassName.Name = "_labelClassName";
@@ -94,7 +94,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._labelClassType.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this._labelClassType, null);
 			this.locExtender.SetLocalizationComment(this._labelClassType, null);
-			this.locExtender.SetLocalizingId(this._labelClassType, "DefineClassDlg.lblClassType");
+			this.locExtender.SetLocalizingId(this._labelClassType, "DialogBoxes.DefineClassDlgBase.ClassTypeLabel");
 			this._labelClassType.Location = new System.Drawing.Point(3, 10);
 			this._labelClassType.Margin = new System.Windows.Forms.Padding(3, 10, 8, 2);
 			this._labelClassType.Name = "_labelClassType";
@@ -127,7 +127,7 @@ namespace SIL.Pa.UI.Dialogs
 			this._labelMembers.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this._labelMembers, null);
 			this.locExtender.SetLocalizationComment(this._labelMembers, null);
-			this.locExtender.SetLocalizingId(this._labelMembers, "DefineClassDlg.lblMembers");
+			this.locExtender.SetLocalizingId(this._labelMembers, "DialogBoxes.DefineClassDlgBase.MembersLabel");
 			this._labelMembers.Location = new System.Drawing.Point(3, 72);
 			this._labelMembers.Margin = new System.Windows.Forms.Padding(3, 12, 3, 0);
 			this._labelMembers.Name = "_labelMembers";
@@ -181,7 +181,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// DefineClassBaseDlg

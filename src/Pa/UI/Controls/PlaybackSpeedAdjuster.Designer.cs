@@ -73,7 +73,7 @@ namespace SIL.Pa.UI.Controls
 			this.lnkPlay.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.lnkPlay, null);
 			this.locExtender.SetLocalizationComment(this.lnkPlay, null);
-			this.locExtender.SetLocalizingId(this.lnkPlay, "PlaybackSpeedAdjuster.lnkPlay");
+			this.locExtender.SetLocalizingId(this.lnkPlay, "CommonControls.PlaybackSpeedAdjuster.PlayLink");
 			this.lnkPlay.Location = new System.Drawing.Point(0, 269);
 			this.lnkPlay.Name = "lnkPlay";
 			this.lnkPlay.Size = new System.Drawing.Size(73, 23);
@@ -89,7 +89,7 @@ namespace SIL.Pa.UI.Controls
 			this.lblValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.lblValue, null);
 			this.locExtender.SetLocalizationComment(this.lblValue, null);
-			this.locExtender.SetLocalizingId(this.lblValue, "PlaybackSpeedAdjuster.lblValue");
+			this.locExtender.SetLocalizingId(this.lblValue, "CommonControls.PlaybackSpeedAdjuster.ValueLabel");
 			this.lblValue.Location = new System.Drawing.Point(0, 3);
 			this.lblValue.Name = "lblValue";
 			this.lblValue.Size = new System.Drawing.Size(73, 21);
@@ -102,7 +102,7 @@ namespace SIL.Pa.UI.Controls
 			this.lbl100.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lbl100, null);
 			this.locExtender.SetLocalizationComment(this.lbl100, null);
-			this.locExtender.SetLocalizingId(this.lbl100, "PlaybackSpeedAdjuster.lbl100");
+			this.locExtender.SetLocalizingId(this.lbl100, "CommonControls.PlaybackSpeedAdjuster.100PercentLabel");
 			this.lbl100.Location = new System.Drawing.Point(0, 141);
 			this.lbl100.Name = "lbl100";
 			this.lbl100.Size = new System.Drawing.Size(35, 15);
@@ -116,7 +116,7 @@ namespace SIL.Pa.UI.Controls
 			this.lbl50.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lbl50, null);
 			this.locExtender.SetLocalizationComment(this.lbl50, null);
-			this.locExtender.SetLocalizingId(this.lbl50, "PlaybackSpeedAdjuster.lbl50");
+			this.locExtender.SetLocalizingId(this.lbl50, "CommonControls.PlaybackSpeedAdjuster.50PercentLabel");
 			this.lbl50.Location = new System.Drawing.Point(0, 197);
 			this.lbl50.Name = "lbl50";
 			this.lbl50.Size = new System.Drawing.Size(35, 15);
@@ -130,7 +130,7 @@ namespace SIL.Pa.UI.Controls
 			this.lbl75.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lbl75, null);
 			this.locExtender.SetLocalizationComment(this.lbl75, null);
-			this.locExtender.SetLocalizingId(this.lbl75, "PlaybackSpeedAdjuster.lbl75");
+			this.locExtender.SetLocalizingId(this.lbl75, "CommonControls.PlaybackSpeedAdjuster.75PercentLabel");
 			this.lbl75.Location = new System.Drawing.Point(0, 169);
 			this.lbl75.Name = "lbl75";
 			this.lbl75.Size = new System.Drawing.Size(35, 15);
@@ -144,7 +144,7 @@ namespace SIL.Pa.UI.Controls
 			this.lbl25.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lbl25, null);
 			this.locExtender.SetLocalizationComment(this.lbl25, null);
-			this.locExtender.SetLocalizingId(this.lbl25, "PlaybackSpeedAdjuster.lbl25");
+			this.locExtender.SetLocalizingId(this.lbl25, "CommonControls.PlaybackSpeedAdjuster.25PercentLabel");
 			this.lbl25.Location = new System.Drawing.Point(0, 225);
 			this.lbl25.Name = "lbl25";
 			this.lbl25.Size = new System.Drawing.Size(35, 15);
@@ -158,7 +158,7 @@ namespace SIL.Pa.UI.Controls
 			this.lbl125.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lbl125, null);
 			this.locExtender.SetLocalizationComment(this.lbl125, null);
-			this.locExtender.SetLocalizingId(this.lbl125, "PlaybackSpeedAdjuster.lbl125");
+			this.locExtender.SetLocalizingId(this.lbl125, "CommonControls.PlaybackSpeedAdjuster.125PercentLabel");
 			this.lbl125.Location = new System.Drawing.Point(0, 114);
 			this.lbl125.Name = "lbl125";
 			this.lbl125.Size = new System.Drawing.Size(35, 15);
@@ -172,7 +172,7 @@ namespace SIL.Pa.UI.Controls
 			this.lbl150.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lbl150, null);
 			this.locExtender.SetLocalizationComment(this.lbl150, null);
-			this.locExtender.SetLocalizingId(this.lbl150, "PlaybackSpeedAdjuster.lbl150");
+			this.locExtender.SetLocalizingId(this.lbl150, "CommonControls.PlaybackSpeedAdjuster.150PercentLabel");
 			this.lbl150.Location = new System.Drawing.Point(0, 86);
 			this.lbl150.Name = "lbl150";
 			this.lbl150.Size = new System.Drawing.Size(35, 15);
@@ -186,7 +186,7 @@ namespace SIL.Pa.UI.Controls
 			this.lbl175.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lbl175, null);
 			this.locExtender.SetLocalizationComment(this.lbl175, null);
-			this.locExtender.SetLocalizingId(this.lbl175, "PlaybackSpeedAdjuster.lbl175");
+			this.locExtender.SetLocalizingId(this.lbl175, "CommonControls.PlaybackSpeedAdjuster.175PercentLabel");
 			this.lbl175.Location = new System.Drawing.Point(0, 58);
 			this.lbl175.Name = "lbl175";
 			this.lbl175.Size = new System.Drawing.Size(35, 15);
@@ -200,7 +200,7 @@ namespace SIL.Pa.UI.Controls
 			this.lbl200.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lbl200, null);
 			this.locExtender.SetLocalizationComment(this.lbl200, null);
-			this.locExtender.SetLocalizingId(this.lbl200, "PlaybackSpeedAdjuster.lbl200");
+			this.locExtender.SetLocalizingId(this.lbl200, "CommonControls.PlaybackSpeedAdjuster.200PercentLabel");
 			this.lbl200.Location = new System.Drawing.Point(0, 30);
 			this.lbl200.Name = "lbl200";
 			this.lbl200.Size = new System.Drawing.Size(35, 15);
@@ -214,7 +214,7 @@ namespace SIL.Pa.UI.Controls
 			this.lblZero.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblZero, null);
 			this.locExtender.SetLocalizationComment(this.lblZero, null);
-			this.locExtender.SetLocalizingId(this.lblZero, "PlaybackSpeedAdjuster.lblZero");
+			this.locExtender.SetLocalizingId(this.lblZero, "CommonControls.PlaybackSpeedAdjuster.ZeroPercentLabel");
 			this.lblZero.Location = new System.Drawing.Point(0, 252);
 			this.lblZero.Name = "lblZero";
 			this.lblZero.Size = new System.Drawing.Size(35, 15);
@@ -225,7 +225,6 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// PlaybackSpeedAdjuster

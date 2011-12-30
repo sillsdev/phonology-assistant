@@ -47,7 +47,7 @@ namespace SIL.Pa.UI.Controls
 			this.lnkRefresh.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this.lnkRefresh, null);
 			this.locExtender.SetLocalizationComment(this.lnkRefresh, null);
-			this.locExtender.SetLocalizingId(this.lnkRefresh, "ChartOptionsDropDown.lnkRefresh");
+			this.locExtender.SetLocalizingId(this.lnkRefresh, "CommonControls.ChartOptionsPopup.RefreshLink");
 			this.lnkRefresh.Location = new System.Drawing.Point(3, 144);
 			this.lnkRefresh.Margin = new System.Windows.Forms.Padding(3, 0, 0, 5);
 			this.lnkRefresh.Name = "lnkRefresh";
@@ -62,7 +62,7 @@ namespace SIL.Pa.UI.Controls
 			this.lnkHelp.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this.lnkHelp, null);
 			this.locExtender.SetLocalizationComment(this.lnkHelp, null);
-			this.locExtender.SetLocalizingId(this.lnkHelp, "ChartOptionsDropDown.lnkHelp");
+			this.locExtender.SetLocalizingId(this.lnkHelp, "CommonControls.ChartOptionsPopup.HelpLink");
 			this.lnkHelp.Location = new System.Drawing.Point(393, 144);
 			this.lnkHelp.Margin = new System.Windows.Forms.Padding(0, 0, 3, 5);
 			this.lnkHelp.Name = "lnkHelp";
@@ -74,7 +74,6 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// _charPicker
@@ -109,7 +108,7 @@ namespace SIL.Pa.UI.Controls
 			this._explorerBar.IsExpanded = true;
 			this.locExtender.SetLocalizableToolTip(this._explorerBar, null);
 			this.locExtender.SetLocalizationComment(this._explorerBar, null);
-			this.locExtender.SetLocalizingId(this._explorerBar, "explorerBarItem1.explorerBarItem1");
+			this.locExtender.SetLocalizingId(this._explorerBar, "CommonControls.ChartOptionsPopup.IgnoredSuprasegmentalsHeadingPanel");
 			this._explorerBar.Location = new System.Drawing.Point(0, 0);
 			this._explorerBar.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
 			this._explorerBar.Name = "_explorerBar";
@@ -170,6 +169,7 @@ namespace SIL.Pa.UI.Controls
 			this.Controls.Add(this._panelOuter);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "ChartOptionsDropDown.ChartOptionsDropDown");
 			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "ChartOptionsDropDown";

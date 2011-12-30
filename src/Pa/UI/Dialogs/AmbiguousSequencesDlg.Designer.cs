@@ -120,7 +120,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// AmbiguousSequencesDlg
@@ -131,7 +130,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.pnlGrid);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "AmbiguousSequencesDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.AmbiguousSequencesDlg.WindowTitle");
 			this.MinimumSize = new System.Drawing.Size(455, 225);
 			this.Name = "AmbiguousSequencesDlg";
 			this.Text = "Ambiguous Sequences";

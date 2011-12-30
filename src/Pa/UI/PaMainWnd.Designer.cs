@@ -158,7 +158,6 @@ namespace SIL.Pa.UI
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// vwTabGroup
@@ -187,7 +186,7 @@ namespace SIL.Pa.UI
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "PaMainWnd.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "MainWindow.WindowTitle.WithOutProject");
 			this.Name = "PaMainWnd";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "Phonology Assistant";

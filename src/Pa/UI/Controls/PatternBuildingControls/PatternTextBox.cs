@@ -838,11 +838,11 @@ namespace SIL.Pa.UI.Controls
 			int sellen = txt.SelectionLength;
 
 			// Force all consonant class to be uppercase.
-			if (txt.Text.IndexOf("[c]") >= 0)
+			if (txt.Text.IndexOf("[c]", StringComparison.Ordinal) >= 0)
 				txt.Text = txt.Text.Replace("[c]", "[C]");
 
 			// Force all vowel class to be uppercase.
-			if (txt.Text.IndexOf("[v]") >= 0)
+			if (txt.Text.IndexOf("[v]", StringComparison.Ordinal) >= 0)
 				txt.Text = txt.Text.Replace("[v]", "[V]");
 
 			txt.SelectionStart = selstart;

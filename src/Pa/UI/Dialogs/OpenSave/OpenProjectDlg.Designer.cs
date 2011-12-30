@@ -30,9 +30,6 @@
 			this._checkBoxOpenInNewWindow = new System.Windows.Forms.CheckBox();
 			this._linkSelectAdditionalFolderToScan = new System.Windows.Forms.LinkLabel();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
-			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this._tableLayoutPanel.SuspendLayout();
 			this._tableLayoutInner.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this._grid)).BeginInit();
@@ -89,7 +86,7 @@
 			this._labelProjectFilesFound.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this._labelProjectFilesFound, null);
 			this.locExtender.SetLocalizationComment(this._labelProjectFilesFound, null);
-			this.locExtender.SetLocalizingId(this._labelProjectFilesFound, "OpenProjectDlg._labelProjectFilesFound");
+			this.locExtender.SetLocalizingId(this._labelProjectFilesFound, "DialogBoxes.OpenProjectDlg.ProjectFilesFoundLabel");
 			this._labelProjectFilesFound.Location = new System.Drawing.Point(0, 2);
 			this._labelProjectFilesFound.Margin = new System.Windows.Forms.Padding(0);
 			this._labelProjectFilesFound.Name = "_labelProjectFilesFound";
@@ -104,7 +101,7 @@
 			this._checkBoxShowFullProjectPaths.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.locExtender.SetLocalizableToolTip(this._checkBoxShowFullProjectPaths, null);
 			this.locExtender.SetLocalizationComment(this._checkBoxShowFullProjectPaths, null);
-			this.locExtender.SetLocalizingId(this._checkBoxShowFullProjectPaths, "OpenProjectDlg._checkBoxShowFullProjectPaths");
+			this.locExtender.SetLocalizingId(this._checkBoxShowFullProjectPaths, "DialogBoxes.OpenProjectDlg.ShowFullProjectPathsCheckbox");
 			this._checkBoxShowFullProjectPaths.Location = new System.Drawing.Point(241, 0);
 			this._checkBoxShowFullProjectPaths.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
 			this._checkBoxShowFullProjectPaths.Name = "_checkBoxShowFullProjectPaths";
@@ -148,6 +145,7 @@
 			this._grid.IsDirty = false;
 			this.locExtender.SetLocalizableToolTip(this._grid, null);
 			this.locExtender.SetLocalizationComment(this._grid, null);
+			this.locExtender.SetLocalizationPriority(this._grid, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this._grid, "OpenProjectDlg._grid");
 			this._grid.Location = new System.Drawing.Point(0, 23);
 			this._grid.Margin = new System.Windows.Forms.Padding(0, 6, 0, 5);
@@ -181,7 +179,7 @@
 			// 
 			// _colProject
 			// 
-			this._colProject.HeaderText = "Project";
+			this._colProject.HeaderText = "_L10N_:DialogBoxes.OpenProjectDlg.ProjectInfoGrid.Project!Project";
 			this._colProject.Name = "_colProject";
 			this._colProject.ReadOnly = true;
 			this._colProject.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -191,7 +189,7 @@
 			// 
 			this._colFile.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
 			this._colFile.FillWeight = 80F;
-			this._colFile.HeaderText = "Project File";
+			this._colFile.HeaderText = "_L10N_:DialogBoxes.OpenProjectDlg.ProjectInfoGrid.File!Project File";
 			this._colFile.Name = "_colFile";
 			this._colFile.ReadOnly = true;
 			this._colFile.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -199,7 +197,7 @@
 			// _colProjectType
 			// 
 			this._colProjectType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this._colProjectType.HeaderText = "Type";
+			this._colProjectType.HeaderText = "_L10N_:DialogBoxes.OpenProjectDlg.ProjectInfoGrid.Type!Type";
 			this._colProjectType.Name = "_colProjectType";
 			this._colProjectType.ReadOnly = true;
 			this._colProjectType.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -211,7 +209,7 @@
 			this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.locExtender.SetLocalizableToolTip(this._buttonCancel, null);
 			this.locExtender.SetLocalizationComment(this._buttonCancel, null);
-			this.locExtender.SetLocalizingId(this._buttonCancel, "OpenProjectDlg._buttonCancel");
+			this.locExtender.SetLocalizingId(this._buttonCancel, "DialogBoxes.OpenProjectDlg.CancelButton");
 			this._buttonCancel.Location = new System.Drawing.Point(323, 249);
 			this._buttonCancel.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this._buttonCancel.Name = "_buttonCancel";
@@ -226,7 +224,7 @@
 			this._buttonOpen.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.locExtender.SetLocalizableToolTip(this._buttonOpen, null);
 			this.locExtender.SetLocalizationComment(this._buttonOpen, null);
-			this.locExtender.SetLocalizingId(this._buttonOpen, "OpenProjectDlg._buttonOpen");
+			this.locExtender.SetLocalizingId(this._buttonOpen, "DialogBoxes.OpenProjectDlg.OpenButton");
 			this._buttonOpen.Location = new System.Drawing.Point(242, 249);
 			this._buttonOpen.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this._buttonOpen.Name = "_buttonOpen";
@@ -242,7 +240,7 @@
 			this._checkBoxOpenInNewWindow.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this._checkBoxOpenInNewWindow, null);
 			this.locExtender.SetLocalizationComment(this._checkBoxOpenInNewWindow, null);
-			this.locExtender.SetLocalizingId(this._checkBoxOpenInNewWindow, "OpenProjectDlg._checkBoxOpenInNewWindow");
+			this.locExtender.SetLocalizingId(this._checkBoxOpenInNewWindow, "DialogBoxes.OpenProjectDlg.OpenInNewWindowCheckbox");
 			this._checkBoxOpenInNewWindow.Location = new System.Drawing.Point(3, 253);
 			this._checkBoxOpenInNewWindow.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this._checkBoxOpenInNewWindow.Name = "_checkBoxOpenInNewWindow";
@@ -261,7 +259,7 @@
 			this._linkSelectAdditionalFolderToScan.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
 			this.locExtender.SetLocalizableToolTip(this._linkSelectAdditionalFolderToScan, null);
 			this.locExtender.SetLocalizationComment(this._linkSelectAdditionalFolderToScan, null);
-			this.locExtender.SetLocalizingId(this._linkSelectAdditionalFolderToScan, "OpenProjectDlg.linkSelectSpecificProject.FullText");
+			this.locExtender.SetLocalizingId(this._linkSelectAdditionalFolderToScan, "DialogBoxes.OpenProjectDlg.SelectSpecificProjectLink.FullText");
 			this._linkSelectAdditionalFolderToScan.Location = new System.Drawing.Point(0, 215);
 			this._linkSelectAdditionalFolderToScan.Margin = new System.Windows.Forms.Padding(0, 5, 0, 8);
 			this._linkSelectAdditionalFolderToScan.Name = "_linkSelectAdditionalFolderToScan";
@@ -273,33 +271,7 @@
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
-			// 
-			// dataGridViewTextBoxColumn1
-			// 
-			this.dataGridViewTextBoxColumn1.HeaderText = "Project";
-			this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-			this.dataGridViewTextBoxColumn1.ReadOnly = true;
-			this.dataGridViewTextBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this.dataGridViewTextBoxColumn1.Width = 150;
-			// 
-			// dataGridViewTextBoxColumn2
-			// 
-			this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.dataGridViewTextBoxColumn2.FillWeight = 80F;
-			this.dataGridViewTextBoxColumn2.HeaderText = "Backup File";
-			this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-			this.dataGridViewTextBoxColumn2.ReadOnly = true;
-			this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			// 
-			// dataGridViewTextBoxColumn3
-			// 
-			this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.dataGridViewTextBoxColumn3.HeaderText = "Type";
-			this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-			this.dataGridViewTextBoxColumn3.ReadOnly = true;
-			this.dataGridViewTextBoxColumn3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
 			// OpenProjectDlg
 			// 
@@ -309,7 +281,7 @@
 			this.Controls.Add(this._tableLayoutPanel);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "OpenProjectDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.OpenProjectDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(365, 320);
@@ -334,14 +306,11 @@
 		private System.Windows.Forms.TableLayoutPanel _tableLayoutPanel;
 		protected Localization.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.Label _labelProjectFilesFound;
-		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
 		private System.Windows.Forms.LinkLabel _linkSelectAdditionalFolderToScan;
 		private System.Windows.Forms.CheckBox _checkBoxOpenInNewWindow;
 		private SilTools.SilGrid _grid;
 		private System.Windows.Forms.Button _buttonCancel;
 		private System.Windows.Forms.Button _buttonOpen;
-		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
 		private System.Windows.Forms.CheckBox _checkBoxShowFullProjectPaths;
 		private System.Windows.Forms.DataGridViewTextBoxColumn _colProject;
 		private System.Windows.Forms.DataGridViewTextBoxColumn _colFile;

@@ -47,7 +47,7 @@ namespace SIL.Pa.UI.Controls
 			this.lblRecordCount.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblRecordCount, null);
 			this.locExtender.SetLocalizationComment(this.lblRecordCount, null);
-			this.locExtender.SetLocalizingId(this.lblRecordCount, "SearchResultTabPopup.lblRecordCount");
+			this.locExtender.SetLocalizingId(this.lblRecordCount, "Views.WordLists.SearchResults.TabPopup.RecordCountLabel");
 			this.lblRecordCount.Location = new System.Drawing.Point(0, 0);
 			this.lblRecordCount.Margin = new System.Windows.Forms.Padding(0);
 			this.lblRecordCount.Name = "lblRecordCount";
@@ -62,7 +62,7 @@ namespace SIL.Pa.UI.Controls
 			this.lblPattern.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblPattern, null);
 			this.locExtender.SetLocalizationComment(this.lblPattern, null);
-			this.locExtender.SetLocalizingId(this.lblPattern, "SearchResultTabPopup.lblPattern");
+			this.locExtender.SetLocalizingId(this.lblPattern, "Views.WordLists.SearchResults.TabPopup.PatternLabel");
 			this.lblPattern.Location = new System.Drawing.Point(0, 26);
 			this.lblPattern.Margin = new System.Windows.Forms.Padding(0);
 			this.lblPattern.Name = "lblPattern";
@@ -129,7 +129,7 @@ namespace SIL.Pa.UI.Controls
 			this.lblName.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblName, null);
 			this.locExtender.SetLocalizationComment(this.lblName, null);
-			this.locExtender.SetLocalizingId(this.lblName, "SearchResultTabPopup.lblName");
+			this.locExtender.SetLocalizingId(this.lblName, "Views.WordLists.SearchResults.TabPopup.NameLabel");
 			this.lblName.Location = new System.Drawing.Point(0, 13);
 			this.lblName.Margin = new System.Windows.Forms.Padding(0);
 			this.lblName.Name = "lblName";
@@ -143,6 +143,7 @@ namespace SIL.Pa.UI.Controls
 			this.lblRecordsValue.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblRecordsValue, null);
 			this.locExtender.SetLocalizationComment(this.lblRecordsValue, null);
+			this.locExtender.SetLocalizationPriority(this.lblRecordsValue, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.lblRecordsValue, "SearchResultTabPopup.lblRecordsValue");
 			this.lblRecordsValue.Location = new System.Drawing.Point(53, 0);
 			this.lblRecordsValue.Name = "lblRecordsValue";
@@ -152,7 +153,6 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// SearchResultTabPopup

@@ -175,6 +175,7 @@
     <Compile Include="Filters\FilterExpression.cs" />
     <Compile Include="Filters\FilterHelper.cs" />
     <Compile Include="Filters\Filters.cs" />
+    <Compile Include="UIAdapter\LocalizeAdapterItems.cs" />
     <Compile Include="Miscellaneous\AudioPlayer.cs" />
     <Compile Include="Miscellaneous\CIEBuilder.cs" />
     <Compile Include="Miscellaneous\PaSettingsHandler.cs" />

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Localization;
 using SIL.Pa.Model;
 
 namespace SIL.Pa.UI.Dialogs
@@ -47,7 +48,7 @@ namespace SIL.Pa.UI.Dialogs
 		public string GetPhoneDescription(int index)
 		{
 			return (index < 0 || index >= _phones.Length || string.IsNullOrEmpty(_phones[index].Description) ?
-				App.GetString("DialogBoxes.FeaturesDlg.CommonStrings.NoPhoneDescriptionAvailableText", "(no phone description available)") :
+				LocalizationManager.GetString("DialogBoxes.FeaturesDlg.CommonStrings.NoPhoneDescriptionAvailableText", "(no phone description available)") :
 				_phones[index].Description);
 		}
 

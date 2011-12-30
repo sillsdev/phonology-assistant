@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SilTools;
@@ -38,7 +39,7 @@ namespace SIL.Pa.UI.Controls
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public ClassListViewItem()
-			: base(App.GetString("MiscellaneousStrings.DefaultNewClassName", "New Class"))
+			: base(LocalizationManager.GetString("CommonControls.ClassesList.DefaultNewClassName", "New Class"))
 		{
 		}
 
@@ -182,14 +183,14 @@ namespace SIL.Pa.UI.Controls
 				switch (ClassType)
 				{
 					case SearchClassType.Phones:
-						return App.GetString("MiscellaneousStrings.PhonesClassTypeLabel", "Phones");
+						return LocalizationManager.GetString("CommonControls.ClassesList.PhonesClassTypeLabel", "Phones");
 
 					case SearchClassType.Articulatory:
-						return App.GetString("MiscellaneousStrings.DescriptiveFeaturesClassTypeLabel",
+						return LocalizationManager.GetString("CommonControls.ClassesList.DescriptiveFeaturesClassTypeLabel",
 							"Descriptive features");
 
 					case SearchClassType.Binary:
-						return App.GetString("MiscellaneousStrings.DistictiveFeaturesClassTypeLabel",
+						return LocalizationManager.GetString("CommonControls.ClassesList.DistictiveFeaturesClassTypeLabel",
 							"Distinctive features");
 				
 					default:

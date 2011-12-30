@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Localization;
 using Palaso.Reporting;
 using SIL.Pa.Properties;
 using SilTools;
@@ -110,10 +111,10 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleSelectOtherBackupFileLinkClick(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			var caption = App.GetString(
+			var caption = LocalizationManager.GetString(
 				"DialogBoxes.RestoreDlg.SelectOtherBackupFileDlg.Caption", "Spelect Backup File");
 
-			var paBackupfilterString = App.GetString(
+			var paBackupfilterString = LocalizationManager.GetString(
 				"DialogBoxes.RestoreDlg.SelectOtherBackupFileDlg.BackupFileTypeText", "Phonology Assistant Backup");
 
 			var filters = paBackupfilterString + " (*.pabackup)|*.pabackup|" + App.kstidFileTypeAllFiles;
@@ -130,12 +131,12 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleOtherFolderValueLinkClick(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			var description = string.Format(App.GetString(
+			var description = string.Format(LocalizationManager.GetString(
 				"DialogBoxes.RestoreDlg.ChangeFolderBrowserDlg.Description",
 				"Specify the folder where the '{0}' project will be restored."),
 				_grid.CurrentRow.Cells[0].Value as string);
 
-			var folderContainsProjectMsg = App.GetString(
+			var folderContainsProjectMsg = LocalizationManager.GetString(
 				"DialogBoxes.RestoreDlg.ChangeFolderBrowserDlg.FolderAlreadyContainsProjectMsg",
 				"The folder you selected already contains a Phonology Assistant project. Please select a folder that does not contain a project.");
 
@@ -151,7 +152,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void TellUserHeSelectedTheDefaultFolder()
 		{
-			var msg = App.GetString(
+			var msg = LocalizationManager.GetString(
 				"DialogBoxes.RestoreDlg.OtherFolderLinkText.WhenEnabledAndIsSameAsDefaultFolder",
 				"(specified folder is the same as the default)");
 
@@ -187,7 +188,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (_grid.RowCount > 0)
 				return;
 
-			var msg = App.GetString("DialogBoxes.RestoreDlg.SelectBackupFilesPromptInEmptyList",
+			var msg = LocalizationManager.GetString("DialogBoxes.RestoreDlg.SelectBackupFilesPromptInEmptyList",
 				"No backup files were found.\nClick '{0}'\nto specify a backup file.");
 
 			_grid.DrawMessageInCenterOfGrid(e.Graphics,
@@ -216,13 +217,13 @@ namespace SIL.Pa.UI.Dialogs
 				_linkOtherFolderValue.Text = _viewModel.OtherDestFolder;
 			else if (_radioOtherFolder.Checked)
 			{
-				_linkOtherFolderValue.Text = App.GetString(
+				_linkOtherFolderValue.Text = LocalizationManager.GetString(
 					"DialogBoxes.RestoreDlg.OtherFolderLinkText.WhenNotSpecifiedAndEnabled",
 					"(click to specify)");
 			}
 			else
 			{
-				_linkOtherFolderValue.Text = App.GetString(
+				_linkOtherFolderValue.Text = LocalizationManager.GetString(
 					"DialogBoxes.RestoreDlg.OtherFolderLinkText.WhenNotSpecifiedAndNotEnabled",
 					"(not specified)");
 			}
@@ -265,7 +266,7 @@ namespace SIL.Pa.UI.Dialogs
 			_linkViewExceptionDetails.LinkClicked += delegate
 			{
 				ErrorReport.ReportNonFatalExceptionWithMessage(_viewModel.BackupRestoreException,
-					App.GetString("DialogBoxes.RestoreDlg.RestoreErrorMsg",
+					LocalizationManager.GetString("DialogBoxes.RestoreDlg.RestoreErrorMsg",
 					"There was an error while restoring the '{0}' project."),
 					_viewModel.NameOfProjectToRestore);
 			};

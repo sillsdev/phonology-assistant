@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using Localization;
 using SIL.Pa.PhoneticSearching;
 using SilTools;
 
@@ -61,7 +62,7 @@ namespace SIL.Pa.Model.Migration
 
 			s_performPostProjectLoadMigration = true;
 
-			var msg = App.GetString("ProjectMigrationMessages.VerifyUpdatedFeatureOverridesMsg",
+			var msg = LocalizationManager.GetString("ProjectMessages.Migrating.VerifyUpdatedFeatureOverridesMsg",
 				"Important Note: Some features in Phonology Assistant have changed and this has implications " +
 				"for the feature overrides, search queries and classes for the '{0}' project. These have " +
 				"been updated accordingly. However, you may want to verify the accuracy of the results, " +

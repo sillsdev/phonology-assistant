@@ -217,16 +217,12 @@ namespace SIL.Pa.UI.Views
 				return;
 
 			if (_tmAdapter != null)
-			{
-				App.UnPrepareAdapterForLocalizationSupport(_tmAdapter);
 				_tmAdapter.Dispose();
-			}
 
 			_tmAdapter = AdapterHelper.CreateTMAdapter();
 
 			if (_tmAdapter != null)
 			{
-				App.PrepareAdapterForLocalizationSupport(_tmAdapter);
 				var defs = new[] { FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
 					"CVChartsTMDefinition.xml") };
 

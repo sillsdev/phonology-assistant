@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Localization;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
@@ -215,8 +216,8 @@ namespace SIL.Pa.UI.Controls
 
 			using (var fnt = FontHelper.MakeFont(SystemInformation.MenuFont, 10, FontStyle.Bold))
 			{
-				var msg = App.GetString("SearchResultView.NoSearchResultsFoundMsg", "No Results Found.",
-					"Displayed in the search results area when no matches were found.");
+				var msg = LocalizationManager.GetString("Views.WordLists.SearchResults.NoSearchResultsFoundMsg",
+					"No Results Found.", "Displayed in the search results area when no matches were found.");
 				
 				TextRenderer.DrawText(e.Graphics, msg, fnt, ClientRectangle, ForeColor, flags);
 			}

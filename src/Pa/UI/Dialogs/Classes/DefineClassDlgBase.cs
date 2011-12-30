@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Windows.Forms;
+using Localization;
 using Localization.UI;
 using SIL.Pa.UI.Controls;
 using SilTools;
@@ -119,7 +120,7 @@ namespace SIL.Pa.UI.Dialogs
 			// Ensure the new class doesn't have an empty class name
 			if (_textBoxClassName.Text == string.Empty)
 			{
-				Utils.MsgBox(App.GetString("DefineClassDlg.EmptyClassNameMsg", "Class name must not be empty."));
+				Utils.MsgBox(LocalizationManager.GetString("DialogBoxes.DefineClassDlg.EmptyClassNameMsg", "Class name must not be empty."));
 				return false;
 			}
 
