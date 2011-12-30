@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using Palaso.Reporting;
 using SilTools;
 
 namespace SIL.Pa.DataSource.FieldWorks
@@ -208,8 +209,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 		{
 			if (IsMissing)
 			{
-				var fmt = App.GetString("FieldWorksProjectMissingMsg", "FieldWorks project '{0}' is missing.");
-				Utils.MsgBox(string.Format(fmt, Name));
+				ErrorReport.NotifyUserOfProblem(App.GetString("FieldWorksProjectMissingMsg",
+					"FieldWorks project '{0}' is missing."), Name);
 			}
 		}
 

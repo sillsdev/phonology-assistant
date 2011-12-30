@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using System.Linq;
-using SIL.Pa.Model;
+using Ionic.Zip;
 using SIL.Pa.Properties;
+using SIL.Pa.UI.Dialogs;
 using SilTools;
 
 namespace SIL.Pa
@@ -43,7 +43,8 @@ namespace SIL.Pa
 				if (!Directory.Exists(destFolder))
 					Directory.CreateDirectory(destFolder);
 
-				ZipHelper.UncompressFilesInZip(zipFile, destFolder);
+				using (var zip = new ZipFile(zipFile))
+					zip.ExtractAll(destFolder, ExtractExistingFileAction.OverwriteSilently);
 
 				// Save a value to the settings so training projects won't be unpacked
 				// again. I could write this to the settings file but I don't want to
@@ -64,7 +65,9 @@ namespace SIL.Pa
 	{
 		public string TrainingProjectsZipFile;
 		public string TrainingProjectFolder;
-		public List<PapModification> PapModifications;
+
+		[XmlArray("PapModifications"), XmlArrayItem("PapModification")]
+		public List<RestoredPapDataSourceUpdater> PapModifications;
 
 		/// ------------------------------------------------------------------------------------
 		internal static TrainingProjectSetupInfo Load()
@@ -79,42 +82,6 @@ namespace SIL.Pa
 			catch { }
 
 			return null;
-		}
-	}
-
-	/// ----------------------------------------------------------------------------------------
-	public class PapModification
-	{
-		[XmlAttribute("papFile")]
-		public string PapFile;
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Combines the specified path with the PapFile path to point to a pap file. That
-		/// pap file is deserialized and each data source path in the pap file is modified
-		/// to use that combined path. Then the pap file is rewritten and added to the
-		/// program's list of recent projects.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Modify(string path)
-		{
-			string papFilePath = Path.Combine(path, PapFile);
-			if (!File.Exists(papFilePath))
-				return;
-
-			var prj = XmlSerializationHelper.DeserializeFromFile<PaProject>(papFilePath);
-			if (prj == null)
-				return;
-
-			foreach (var dataSource in prj.DataSources.Where(ds => ds.SourceFile != null))
-			{
-				string newPath = Path.GetDirectoryName(papFilePath);
-				string filename = Path.GetFileName(dataSource.SourceFile);
-				dataSource.SourceFile = Path.Combine(newPath, filename);
-			}
-
-			XmlSerializationHelper.SerializeToFile(papFilePath, prj);
-			App.AddProjectToRecentlyUsedProjectsList(papFilePath, true);
 		}
 	}
 }

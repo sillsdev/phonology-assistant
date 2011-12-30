@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
+using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
 using SilTools;
@@ -25,10 +28,13 @@ namespace SIL.Pa.UI.Controls
 		//private readonly Image m_dirtyIndicator;
 		private readonly Bitmap m_errorInCell;
 		private readonly DistributionChartCellInfoPopup m_cellInfoPopup;
+		private SearchQueryValidator _queryValidator;
+		private PaProject _project;
 
 		/// ------------------------------------------------------------------------------------
-		public DistributionGrid()
+		public DistributionGrid(PaProject project)
 		{
+			_project = project;
 			OnPaFontsChanged(null);
 
 			//m_dirtyIndicator = Properties.Resources.kimidXYChartDirtyIndicator;
@@ -86,7 +92,7 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void LoadFromLayout(DistributionChartLayout layout)
+		public void LoadFromLayout(DistributionChart layout)
 		{
 			if (layout == null)
 				return;
@@ -138,7 +144,7 @@ namespace SIL.Pa.UI.Controls
 				ChartLayout.UpdateFromDistributionGrid(this);
 			else
 			{
-				ChartLayout = DistributionChartLayout.NewFromDistributionGrid(this);
+				ChartLayout = DistributionChart.NewFromDistributionGrid(this);
 				LoadedLayout = false;
 			}
 
@@ -163,7 +169,7 @@ namespace SIL.Pa.UI.Controls
 					m_searchOptionsDropDown = new SearchOptionsDropDown();
 					m_searchOptionsDropDown.ShowApplyToAll = true;
 					m_searchOptionsDropDown.ApplyToAllLinkLabel.Click += ApplyToAllLinkLabel_Click;
-					m_searchOptionsDropDown.lnkHelp.Click += SearchDropDownHelpLink_Click;
+					m_searchOptionsDropDown._linkHelp.Click += SearchDropDownHelpLink_Click;
 					m_searchOptionsDropDown.Disposed += m_searchOptionsDropDown_Disposed;
 				}
 				
@@ -182,7 +188,7 @@ namespace SIL.Pa.UI.Controls
 		private void m_searchOptionsDropDown_Disposed(object sender, EventArgs e)
 		{
 			m_searchOptionsDropDown.ApplyToAllLinkLabel.Click -= ApplyToAllLinkLabel_Click;
-			m_searchOptionsDropDown.lnkHelp.Click -= SearchDropDownHelpLink_Click;
+			m_searchOptionsDropDown._linkHelp.Click -= SearchDropDownHelpLink_Click;
 			m_searchOptionsDropDown.Disposed -= m_searchOptionsDropDown_Disposed;
 			m_searchOptionsDropDown = null;
 		}
@@ -215,7 +221,7 @@ namespace SIL.Pa.UI.Controls
 		/// Gets the chart layout that has been loaded in the grid.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public DistributionChartLayout ChartLayout { get; set; }
+		public DistributionChart ChartLayout { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -510,7 +516,7 @@ namespace SIL.Pa.UI.Controls
 					if ((ModifierKeys & Keys.Control) == Keys.Control &&
 						m.WParam.ToInt32() == (int)Keys.D0)
 					{
-						PatternTextBox.Insert(m_txtBox, App.kDiacriticPlaceholder);
+						PatternTextBox.Insert(m_txtBox, App.DiacriticPlaceholder);
 						return true;
 					}
 					
@@ -713,48 +719,26 @@ namespace SIL.Pa.UI.Controls
 			if (col == 0 || row == 0)
 			{
 				if (this[col, row].Value == null)
-				{
-					string text;
-
-					if (col == 0)
-					{
-						m_tooltip.ToolTipTitle = App.GetString(
-							"DistributionGrid.AddSearchItemCellToolTipTitle",
-							"Search Item Column:", "Views");
-						
-						text = App.GetString(
-							"DistributionGrid.AddSearchItemCellToolTip",
-							"Add a search item in this cell", "Views");
-					}
-					else
-					{
-						m_tooltip.ToolTipTitle = App.GetString(
-							"DistributionGrid.AddEnvironmentCellToolTipTitle",
-							"Environment Row:", "Views");
-
-						text = App.GetString(
-							"DistributionGrid.AddEnvironmentCellToolTip",
-							"Add a search environment\nin this cell", "Views");
-					}
-
-					Rectangle rc = GetCellDisplayRectangle(col, row, false);
-					rc.X = rc.Right - 7;
-					rc.Y = rc.Bottom - 7;
-					m_tooltip.Show(Utils.ConvertLiteralNewLines(text), this, rc.Location);
-				}
-
+					ShowToolTipForEmptyCell(col, row);
+	
 				return;
 			}
 
-			SearchQuery query = GetCellsFullSearchQuery(row, col);
-			string pattern = (query == null ? "?" : query.Pattern);
-			SearchQueryException exception = this[col, row].Value as SearchQueryException;
+			var query = GetCellsFullSearchQuery(row, col);
+			var pattern = (query == null ? "?" : query.Pattern);
+			var errorList = this[col, row].Value as IEnumerable<SearchQueryValidationError>;
 
-			if (exception != null)
+			if (errorList != null)
 			{
 				// When the cell's value is an exception, it is because the
 				// query generated an error when searching took place.
-				m_cellInfoPopup.Initialize(pattern, this[col, row], exception.QueryErrorMessage);
+				
+				
+				
+			// TODO: SHOW ERROR LIST!!!!!!!!!
+				
+				
+				m_cellInfoPopup.Initialize(pattern, this[col, row]);
 				m_cellInfoPopup.Show();
 			}
 			else if (this[col, row].Tag is string[] || this[col, row].Tag is char[])
@@ -767,6 +751,32 @@ namespace SIL.Pa.UI.Controls
 				m_cellInfoPopup.Initialize(pattern, this[col, row]);
 				m_cellInfoPopup.Show();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ShowToolTipForEmptyCell(int col, int row)
+		{
+			string text;
+
+			if (col == 0)
+			{
+				m_tooltip.ToolTipTitle = App.GetString(
+					"Views.DistributionGrid.AddSearchItemCellToolTipTitle", "Search Item Column:");
+
+				text = App.GetString("Views.DistributionGrid.AddSearchItemCellToolTip", "Add a search item in this cell");
+			}
+			else
+			{
+				m_tooltip.ToolTipTitle = App.GetString(
+					"Views.DistributionGrid.AddEnvironmentCellToolTipTitle", "Environment Row:");
+
+				text = App.GetString("Views.DistributionGrid.AddEnvironmentCellToolTip", "Add a search environment\nin this cell");
+			}
+
+			var rc = GetCellDisplayRectangle(col, row, false);
+			rc.X = rc.Right - 7;
+			rc.Y = rc.Bottom - 7;
+			m_tooltip.Show(Utils.ConvertLiteralNewLines(text), this, rc.Location);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -862,7 +872,7 @@ namespace SIL.Pa.UI.Controls
 
 			// Make cells with zero in them a different color from those
 			if (col > 0 && row > 0 && col < ColumnCount && row < RowCount &&
-				this[col, row].Value != null && this[col, row].Value.GetType() == typeof(int))
+				this[col, row].Value != null && this[col, row].Value is int)
 			{
 				int val = (int)this[col, row].Value;
 				if (val > -1)
@@ -891,7 +901,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			e.Effect = DragDropEffects.None;
 
-			DistributionChartLayout data = e.Data.GetData(typeof(DistributionChartLayout)) as DistributionChartLayout;
+			DistributionChart data = e.Data.GetData(typeof(DistributionChart)) as DistributionChart;
 			if (data != null)
 				e.Effect = e.AllowedEffect;
 			else
@@ -920,7 +930,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnDragEnter(e);
 
-			DistributionChartLayout data = e.Data.GetData(typeof(DistributionChartLayout)) as DistributionChartLayout;
+			DistributionChart data = e.Data.GetData(typeof(DistributionChart)) as DistributionChart;
 			if (data == null)
 				return;
 
@@ -967,7 +977,7 @@ namespace SIL.Pa.UI.Controls
 			m_paintDropValidEffect = false;
 			Invalidate();
 
-			DistributionChartLayout data = e.Data.GetData(typeof(DistributionChartLayout)) as DistributionChartLayout;
+			DistributionChart data = e.Data.GetData(typeof(DistributionChart)) as DistributionChart;
 			if (data != null)
 				LoadFromLayout(data);
 			else
@@ -1054,9 +1064,9 @@ namespace SIL.Pa.UI.Controls
 		{
 			// First assume the cell being drawn is in the row of a search item cell or column
 			// of a environment cell that is the current cell.
-			Color clrBack = e.CellStyle.SelectionBackColor;
+			var clrBack = e.CellStyle.SelectionBackColor;
 
-			Point currCell = CurrentCellAddress;
+			var currCell = CurrentCellAddress;
 
 			if ((currCell.X > 0 && currCell.Y > 0) ||
 				(currCell.X != e.ColumnIndex && currCell.Y != e.RowIndex))
@@ -1066,16 +1076,16 @@ namespace SIL.Pa.UI.Controls
 					e.CellStyle.BackColor, 60));
 			}
 
-			using (SolidBrush br = new SolidBrush(clrBack))
+			using (var br = new SolidBrush(clrBack))
 				e.Graphics.FillRectangle(br, e.CellBounds);
 
 			e.Paint(e.CellBounds, DataGridViewPaintParts.Border);
 
-			if (!(e.Value is SearchQueryException))
+			if (!(e.Value is IList<SearchQueryValidationError>))
 				e.PaintContent(e.CellBounds);
 			else
 			{
-				Rectangle rc = new Rectangle(new Point(0, 0), m_errorInCell.Size);
+				var rc = new Rectangle(new Point(0, 0), m_errorInCell.Size);
 				rc.X = e.CellBounds.Left + ((e.CellBounds.Width - rc.Width) / 2);
 				rc.Y = e.CellBounds.Top + ((e.CellBounds.Height - rc.Height) / 2);
 				e.Graphics.DrawImageUnscaledAndClipped(m_errorInCell, rc);
@@ -1091,15 +1101,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private static void DrawInfoCornerGlyph(Graphics g, Rectangle rc)
 		{
-			Point pt1 = new Point(rc.Right - 7, rc.Y);
-			Point pt2 = new Point(rc.Right - 1, rc.Y + 6);
-			Point ptCorner = new Point(rc.Right - 1, rc.Top);
+			var pt1 = new Point(rc.Right - 7, rc.Y);
+			var pt2 = new Point(rc.Right - 1, rc.Y + 6);
+			var ptCorner = new Point(rc.Right - 1, rc.Top);
 
-			using (LinearGradientBrush br =
-				new LinearGradientBrush(pt1, pt2, Color.Red, Color.DarkRed))
-			{
+			using (var br = new LinearGradientBrush(pt1, pt2, Color.Red, Color.DarkRed))
 				g.FillPolygon(br, new[] { pt1, pt2, ptCorner });
-			}
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -1111,13 +1118,13 @@ namespace SIL.Pa.UI.Controls
 		private void DrawSearchItemOrEnvironmentCell(DataGridViewCellPaintingEventArgs e,
 			bool selected)
 		{
-			Rectangle rc = e.CellBounds;
-			Color clrBack = (!selected ? SystemColors.Control :
-							ColorHelper.CalculateColor(e.CellStyle.SelectionBackColor,
-							ColorHelper.LightLightHighlight, 60));
+			var rc = e.CellBounds;
+			var clrBack = (!selected ? SystemColors.Control :
+				ColorHelper.CalculateColor(e.CellStyle.SelectionBackColor,
+				ColorHelper.LightLightHighlight, 60));
 
-			using (SolidBrush br = new SolidBrush(clrBack))
-			using (Pen pen = new Pen(ColorHelper.LightHighlight))
+			using (var br = new SolidBrush(clrBack))
+			using (var pen = new Pen(ColorHelper.LightHighlight))
 			{
 				e.Graphics.FillRectangle(br, rc);
 				e.Graphics.DrawLine(pen, rc.Right - 1, rc.Top, rc.Right - 1, rc.Bottom - 1);
@@ -1217,17 +1224,15 @@ namespace SIL.Pa.UI.Controls
 			int progBarMax = (RowCount - 2) * (ColumnCount - 2);
 			App.InitializeProgressBar(App.kstidQuerySearchingMsg, progBarMax);
 			FixEnvironments();
+			_queryValidator = new SearchQueryValidator(_project);
 
-			foreach (DataGridViewRow row in Rows)
+			foreach (var row in GetRows().Where(row => row.Index != 0 && row.Index != NewRowIndex))
 			{
-				if (row.Index == 0 || row.Index == NewRowIndex)
-					continue;
-
 				for (int i = 1; i < Columns.Count; i++)
 				{
 					App.IncProgressBar();
 					GetResultsForCell(row.Cells[i],
-						row.Cells[0].Value as string, Columns[i].Tag as SearchQuery);
+					                  row.Cells[0].Value as string, Columns[i].Tag as SearchQuery);
 				}
 			}
 
@@ -1328,8 +1333,7 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static void GetResultsForCell(DataGridViewCell cell, string srchItem,
-		    SearchQuery qryEnvironment)
+		private void GetResultsForCell(DataGridViewCell cell, string srchItem, SearchQuery qryEnvironment)
 		{
 			SearchQuery query = null;
 
@@ -1340,23 +1344,19 @@ namespace SIL.Pa.UI.Controls
 				// If there is an environment and a search item, then get search results.
 				if (!string.IsNullOrEmpty(qryEnvironment.Pattern) && !string.IsNullOrEmpty(srchItem))
 				{
-					int count;
 					query = qryEnvironment.Clone();
 					query.Pattern = srchItem + "/" + qryEnvironment.Pattern;
-					App.Search(query, false, true, false, 0, out count);
 
-					if (count < 0)
-						cell.Value = new SearchQueryException(query);
+					if (!_queryValidator.GetIsValid(query))
+						cell.Value = _queryValidator.Errors.ToArray();
 					else
-					{
-						cell.Value = count;
-						cell.Tag = (query.GetPhonesNotInCache() ?? query.GetSymbolsNotInInventory());
-					}
+						cell.Value = App.GetSearchResultCount(query);
 				}
 			}
 			catch (Exception e)
 			{
-				cell.Value = new SearchQueryException(e, query);
+				var error = SearchQueryValidationError.MakeErrorFromException(e, query.Pattern);
+				cell.Value = new List<SearchQueryValidationError> { error };
 			}
 		}
 
@@ -1390,6 +1390,9 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDataSourcesModified(object args)
 		{
+			if (args is PaProject)
+				_project = (PaProject)args;
+
 			if (!IsEmpty)
 			{
 				//bool wasDirty = IsDirty;
@@ -1468,7 +1471,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateClearChart(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !OwningView.ActiveView)
 				return false;
 
@@ -1481,11 +1484,11 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateInsertIntoChart(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !OwningView.ActiveView)
 				return false;
 
-			return (itemProps.Name.StartsWith("cmnu") ? true : UpdateInsertItem(itemProps));
+			return (itemProps.Name.StartsWith("cmnu") || UpdateInsertItem(itemProps));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1574,7 +1577,7 @@ namespace SIL.Pa.UI.Controls
 			if (!OwningView.ActiveView)
 				return false;
 
-			InsertTextInCell(App.kDiacriticPlaceholder);
+			InsertTextInCell(App.DiacriticPlaceholder);
 			return true;
 		}
 
@@ -1638,7 +1641,7 @@ namespace SIL.Pa.UI.Controls
 			if (itemProps == null || !OwningView.ActiveView)
 				return false;
 
-			Point pt = CurrentCellAddress;
+			var pt = CurrentCellAddress;
 			itemProps.Update = true;
 			itemProps.Visible = true;
 			itemProps.Enabled = ((pt.X == 0 || pt.Y == 0) && !m_mouseDownOnCornerCell);
@@ -1649,11 +1652,11 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateSearchOptions(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !OwningView.ActiveView)
 				return false;
 
-			Point pt = CurrentCellAddress;
+			var pt = CurrentCellAddress;
 			itemProps.Visible = true;
 			itemProps.Enabled = (GetColumnsSearchQuery(pt.X) != null && pt.X < Columns.Count - 1);
 			itemProps.Update = true;
@@ -1663,12 +1666,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownSearchOptions(object args)
 		{
-			ToolBarPopupInfo itemProps = args as ToolBarPopupInfo;
-			SearchQuery query = GetColumnsSearchQuery(CurrentCellAddress.X);
+			var itemProps = args as ToolBarPopupInfo;
+			var query = GetColumnsSearchQuery(CurrentCellAddress.X);
 			if (query == null || itemProps == null || !OwningView.ActiveView)
 				return false;
 
-			Point pt = CurrentCellAddress;
+			var pt = CurrentCellAddress;
 			m_searchOptionsDropDown.Enabled =
 				(GetColumnsSearchQuery(pt.X) != null && pt.X < Columns.Count - 1);
 
@@ -1690,10 +1693,10 @@ namespace SIL.Pa.UI.Controls
 
 			for (int i = 1; i < Columns.Count - 1; i++)
 			{
-				SearchQuery query = m_searchOptionsDropDown.SearchQuery.Clone();
+				var query = m_searchOptionsDropDown.SearchQuery.Clone();
 				
 				// Get the old query and keep it's pattern.
-				SearchQuery oldQuery = GetColumnsSearchQuery(i);
+				var oldQuery = GetColumnsSearchQuery(i);
 				if (oldQuery != null)
 					query.Pattern = oldQuery.Pattern;
 			
@@ -1713,7 +1716,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownClosedSearchOptions(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || (itemProps.ParentControl != OwningView))
 				return false;
 
@@ -1721,7 +1724,7 @@ namespace SIL.Pa.UI.Controls
 			if (!m_searchOptionsDropDown.Enabled || !m_searchOptionsDropDown.OptionsChanged)
 				return true;
 
-			Point pt = CurrentCellAddress;
+			var pt = CurrentCellAddress;
 			if (pt.X > 0 && pt.X < Columns.Count)
 				Columns[pt.X].Tag = m_searchOptionsDropDown.SearchQuery.Clone();
 

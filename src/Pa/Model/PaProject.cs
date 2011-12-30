@@ -11,7 +11,6 @@ using SIL.Pa.Filters;
 using SIL.Pa.Model.Migration;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
-using SIL.Pa.UI.Views;
 using SilTools;
 
 namespace SIL.Pa.Model
@@ -19,17 +18,16 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class PaProject : IDisposable
 	{
-		private const string kCurrVersion = "3.3.0";
+		public const string kCurrVersion = "3.3.3";
 
-		private Form m_appWindow;
-		private bool m_newProject;
-		private bool m_reloadingProjectInProcess;
-		private string m_fileName;
-		private GridLayoutInfo m_gridLayoutInfo;
-		private SortOptions m_dataCorpusVwSortOptions;
-		private SortOptions m_searchVwSortOptions;
-		private SortOptions m_distChartVwSortOptions;
-		private string m_currentFilterName;
+		private Form _appWindow;
+		private bool _newProject;
+		private bool _reloadingProjectInProcess;
+		private string _fileName;
+		private SortOptions _dataCorpusVwSortOptions;
+		private SortOptions _searchVwSortOptions;
+		private SortOptions _distChartVwSortOptions;
+		private string _currentFilterName;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -41,8 +39,14 @@ namespace SIL.Pa.Model
 			Name = App.GetString("DefaultNewProjectName", "New Project");
 			ShowUndefinedCharsDlg = true;
 			IgnoreUndefinedCharsInSearches = true;
+			IgnoredSymbolsInCVCharts = new List<string>();
 			LastNewlyMappedFields = new List<string>(0);
+			DataSources = new List<PaDataSource>(0);
 			Version = kCurrVersion;
+			DistinctiveFeatureSet = BFeatureCache.DefaultFeatureSetName;
+			App.BFeatureCache = BFeatureCache = new BFeatureCache();
+			CVPatternInfoList = new List<CVPatternInfo>();
+			GridLayoutInfo = new GridLayoutInfo(this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -53,108 +57,64 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public PaProject(bool newProject) : this()
 		{
-			if (newProject)
-			{
-				Fields = PaField.GetDefaultFields();
-				DataSources = new List<PaDataSource>();
-				CVPatternInfoList = new List<CVPatternInfo>();
-				SearchClasses = SearchClassList.LoadDefaults(this);
-				SearchQueryGroups = SearchQueryGroupList.LoadDefaults(this);
-				FilterHelper = new FilterHelper(this);
-				CIEOptions = new CIEOptions();
-				LoadAmbiguousSequences();
-				LoadTranscriptionChanges();
-				m_newProject = true;
-				RecordCache = new RecordCache(this);
-				PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
-			}
+			if (!newProject)
+				return;
+
+			DistinctiveFeatureSet = BFeatureCache.DefaultFeatureSetName;
+			Fields = PaField.GetProjectFields(this);
+			DataSources = new List<PaDataSource>();
+			SearchClasses = SearchClassList.LoadDefaults(this);
+			SearchQueryGroups = SearchQueryGroupList.LoadDefaults(this);
+			FilterHelper = new FilterHelper(this);
+			CIEOptions = new CIEOptions();
+			LoadAmbiguousSequences();
+			LoadTranscriptionChanges();
+			_newProject = true;
+			RecordCache = new RecordCache(this);
+			PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// This method will make sure the list of mappings in all SFM and Toolbox data
-		/// sources doesn't contain a mapping for a field that was removed.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void CleanUpMappings()
-		{
-			//if (DataSources == null)
-			//    return;
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Makes sure that SFM and Toolbox data sources are informed that a field has
+		///// changed names. This is so the SF mappings in the data source can be updated.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public void ProcessRenamedField(string origName, string newName)
+		//{
+		//    foreach (var source in DataSources)
+		//        source.RenameField(origName, newName);
 
-			//// Go through the list of data sources in the project and clean up the
-			//// mappings for projects of type SFM and Toolbox.
-			//foreach (PaDataSource source in DataSources)
-			//{
-			//    if (source.Type != DataSourceType.SFM &&
-			//        source.Type != DataSourceType.Toolbox)
-			//    {
-			//        continue;
-			//    }
+		//    ProcessRenamedFieldInSortInfo(origName, newName, _dataCorpusVwSortOptions);
+		//    ProcessRenamedFieldInSortInfo(origName, newName, _searchVwSortOptions);
+		//    ProcessRenamedFieldInSortInfo(origName, newName, _distChartVwSortOptions);
+		//}
 
-			//    // Go through the mappings in the data source and make sure the field
-			//    // for each mapping is still in the list of fields in the project.
-			//    for (int i = source.SFMappings.Count - 1; i >= 0; i--)
-			//    {
-			//        SFMarkerMapping mapping = source.SFMappings[i];
-
-			//        if (mapping.FieldName != PaDataSource.kRecordMarker)
-			//        {
-			//            PaFieldInfo fieldInfo = m_fieldInfoList[mapping.FieldName];
-
-			//            // If the mapped field no longer exists, then remove it from the data
-			//            // source's list of mappings. Otherwise, make sure that the mapping
-			//            // for the field doesn't think it is an interlinear field if it no
-			//            // longer is.
-			//            if (fieldInfo == null)
-			//                source.SFMappings.RemoveAt(i);
-			//            else if (!fieldInfo.CanBeInterlinear)
-			//                mapping.IsInterlinear = false;
-			//        }
-			//    }
-			//}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Makes sure that SFM and Toolbox data sources are informed that a field has
-		/// changed names. This is so the SF mappings in the data source can be updated.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void ProcessRenamedField(string origName, string newName)
-		{
-			foreach (var source in DataSources)
-				source.RenameField(origName, newName);
-
-			ProcessRenamedFieldInSortInfo(origName, newName, m_dataCorpusVwSortOptions);
-			ProcessRenamedFieldInSortInfo(origName, newName, m_searchVwSortOptions);
-			ProcessRenamedFieldInSortInfo(origName, newName, m_distChartVwSortOptions);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Goes through the specified sort information list to make sure the specified field
-		/// name gets renamed therein.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static void ProcessRenamedFieldInSortInfo(string origName, string newName,
-			SortOptions sortOptions)
-		{
-			if (!string.IsNullOrEmpty(newName) && sortOptions != null &&
-				sortOptions.SortFields != null)
-			{
-				foreach (var si in sortOptions.SortFields.Where(si => si.Field.Name == origName))
-					si.Field.Name = newName;
-			}
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Goes through the specified sort information list to make sure the specified field
+		///// name gets renamed therein.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//private static void ProcessRenamedFieldInSortInfo(string origName, string newName,
+		//    SortOptions sortOptions)
+		//{
+		//    if (!string.IsNullOrEmpty(newName) && sortOptions != null &&
+		//        sortOptions.SortFields != null)
+		//    {
+		//        foreach (var si in sortOptions.SortFields.Where(si => si.Field.Name == origName))
+		//            si.Field.Name = newName;
+		//    }
+		//}
 
 		#region IDisposable Members
 		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
-			if (m_appWindow != null)
+			if (_appWindow != null)
 			{
-				m_appWindow.Activated -= HandleApplicationWindowActivated;
-				m_appWindow = null;
+				_appWindow.Activated -= HandleApplicationWindowActivated;
+				_appWindow = null;
 			}
 
 			if (DataSources != null)
@@ -170,11 +130,48 @@ namespace SIL.Pa.Model
 		public static bool MigrateToLatestVersion(string filename)
 		{
 			var xml = XElement.Load(filename);
-			var ver = xml.Attribute("version");
-			if (ver != null && ver.Value == kCurrVersion)
+			var prevVersion = (string)xml.Attribute("version") ?? "3.0.1";
+			if (prevVersion == kCurrVersion)
 				return true;
 
-			return Migration0330.Migrate(filename, GetProjectPathFilePrefix);
+			var projectName = Path.GetFileNameWithoutExtension(filename);
+			int i = projectName.IndexOf('.');
+			if (i >= 0)
+				projectName = projectName.Substring(0, i);
+
+			var backupFolder = MigrationBase.BackupProject(filename, projectName, prevVersion);
+			if (backupFolder == null)
+				return false;
+
+			Exception error = null;
+
+			if (prevVersion == "3.0.1")
+				error = Migration0330.Migrate(filename, GetProjectPathFilePrefix);
+
+			if (error == null && prevVersion == "3.3.0" || prevVersion == "3.0.1")
+				error = Migration0333.Migrate(filename, GetProjectPathFilePrefix);
+
+			if (error == null)
+			{
+				var msg = App.GetString("ProjectMigrationMessages.MigrationSuccessfulMsg",
+					"The '{0}' project has succssfully been upgraded to work with this version of Phonology Assistant. A backup of your old project has been made in:\n\n{1}");
+
+				Utils.MsgBox(string.Format(msg, projectName, backupFolder));
+				return true;
+			}
+
+			var errMsg = App.GetString("ProjectMigrationMessages.MigrationFailureMsg",
+				"There was an error upgrading the '{0}' project to work with this version of Phonology Assistant. " +
+				"Until the problem is resolved, this project cannot be opened using this version of Phonology Assistant.");
+
+			App.NotifyUserOfProblem(error, errMsg, projectName);
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void PerformPostProjectLoadMigration(PaProject project)
+		{
+			Migration0333.PostProjectLoadMigration(project);
 		}
 
 		#endregion
@@ -195,40 +192,43 @@ namespace SIL.Pa.Model
 		public static PaProject Load(string prjFilePath, Form appWindow)
 		{
 			string msg = null;
+			Exception e;
 			PaProject project = null;
 
 			if (!File.Exists(prjFilePath))
 			{
-				msg = App.GetString("ProjectFileMissingMsg", "Project file '{0}' does not exist.",
+				msg = App.GetString("MiscellaneousMessages.ProjectFileMissingMsg", "The project file '{0}' is missing.",
 					"Message displayed when an attempt is made to open a non existant project file. The parameter is the project file name.");
 
-				Utils.MsgBox(string.Format(msg, Utils.PrepFilePathForMsgBox(prjFilePath)));
+				App.NotifyUserOfProblem(msg, prjFilePath);
 				return null;
 			}
 
 			if (!MigrateToLatestVersion(prjFilePath))
 				return null;
 
-			project = LoadProjectFileOnly(prjFilePath, false, ref msg);
+			project = LoadProjectFileOnly(prjFilePath, false, ref msg, out e);
 
-			if (msg != null)
+			if (msg != null || e != null)
 			{
-				Utils.MsgBox(msg);
+				App.NotifyUserOfProblem(e, msg);
 				return null;
 			}
 
-			if (project.m_currentFilterName != null)
-				project.FilterHelper.SetCurrentFilter(project.m_currentFilterName, false);
+			if (project._currentFilterName != null)
+				project.FilterHelper.SetCurrentFilter(project._currentFilterName, false);
 			else
 				project.FilterHelper.TurnOffCurrentFilter(false);
 
 			project.LoadDataSources();
 
+			PerformPostProjectLoadMigration(project);
+
 			if (appWindow != null)
 			{
 				appWindow.Activated -= project.HandleApplicationWindowActivated;
 				appWindow.Activated += project.HandleApplicationWindowActivated;
-				project.m_appWindow = appWindow;
+				project._appWindow = appWindow;
 			}
 
 			return project;
@@ -242,33 +242,43 @@ namespace SIL.Pa.Model
 		public static PaProject LoadProjectFileOnly(string projFileName, bool showErrors,
 			ref string msg)
 		{
+			Exception e;
+			return LoadProjectFileOnly(projFileName, showErrors, ref msg, out e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Loads only the project file for the specified file name.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static PaProject LoadProjectFileOnly(string projFileName, bool showErrors,
+			ref string msg, out Exception error)
+		{
 			PaProject project = null;
+			error = null;
 
 			try
 			{
 				// Load the cache of IPA symbols, articulatory and binary features.
-				project = XmlSerializationHelper.DeserializeFromFile<PaProject>(projFileName);
-				project.PostDeserializeInitialization(projFileName);
+				project = XmlSerializationHelper.DeserializeFromFile<PaProject>(projFileName, out error);
+				if (error == null)
+					project.PostDeserializeInitialization(projFileName);
 			}
 			catch (Exception e)
 			{
-				if (project == null)
-				{
-					msg = string.Format(App.GetString("InvalidProjectFileFormatMsg",
-						"Project File '{0}' has an Invalid Format."),
-		
-						Utils.PrepFilePathForMsgBox(projFileName));	
-				}
-				else
-				{
-					msg = string.Format(App.GetString("ErrorLoadingProjectMsg",
-						"The followng error occurred loading project '{0}'.\n\n{1}"),
+				error = e;
+			}
 
-					Utils.PrepFilePathForMsgBox(projFileName), e.Message);	
-				}
+			if (error != null)
+			{
+				msg = (project == null ? 
+					App.GetString("MiscellaneousMessages.InvalidProjectFileErrorMsg", "The project file '{0}' has an invalid format.") :
+					App.GetString("MiscellaneousMessages.LoadingProjectErrorMsg", "There was an error loading the project file '{0}'"));
+
+				msg = string.Format(msg, projFileName);
 
 				if (showErrors)
-					Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					App.NotifyUserOfProblem(error, msg);
 
 				project = null;
 			}
@@ -282,7 +292,7 @@ namespace SIL.Pa.Model
 			if (string.IsNullOrEmpty(Version))
 				Version = kCurrVersion;
 
-			m_fileName = projFileName;
+			_fileName = projFileName;
 			Fields = PaField.GetProjectFields(this);
 			FilterHelper = new FilterHelper(this);
 			SearchClasses = SearchClassList.Load(this);
@@ -294,7 +304,10 @@ namespace SIL.Pa.Model
 			DataCorpusVwSortOptions.PostDeserializeInitialization(this);
 			SearchVwSortOptions.PostDeserializeInitialization(this);
 			DistributionChartVwSortOptions.PostDeserializeInitialization(this);
-			FixupFieldsAndMappings();
+			SynchronizeProjectFieldMappingsWithDataSourceFieldMappings();
+			LoadDistinctiveFeatureSet();
+			LoadFeatureOverrides();
+			GridLayoutInfo = GridLayoutInfo.Load(this);
 
 			if (CIEOptions == null)
 				CIEOptions = new CIEOptions();
@@ -316,7 +329,7 @@ namespace SIL.Pa.Model
 		/// therein still exists in the project's field collection.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void FixupFieldsAndMappings()
+		public void SynchronizeProjectFieldMappingsWithDataSourceFieldMappings()
 		{
 			var fields = Fields.ToList();
 
@@ -328,18 +341,23 @@ namespace SIL.Pa.Model
 
 					// If field is null, it means the user has entered their own
 					// field name in one of the SFM/Toolbox data source mappings.
-					if (field == null)
-						fields.Add(mapping.Field);
-					else
+					if (field != null)
 						mapping.Field = field;
-					
+					else
+					{
+						if (mapping.Field == null)
+							mapping.Field = new PaField(mapping.PaFieldName);
+
+						fields.Add(mapping.Field);
+					}
+
 					mapping.PaFieldName = null;
 				}
 			}
 
 			// Now remove any fields that no longer have a mapping and are not in the default set (i.e. custom).
-			var mappedFieldNames = DataSources.SelectMany(d => d.FieldMappings).Select(m => m.PaFieldName);
-			var defaultFieldNames = PaField.GetDefaultFields().Select(f => f.Name);
+			var mappedFieldNames = DataSources.SelectMany(d => d.FieldMappings).Select(m => m.PaFieldName).ToList();
+			var defaultFieldNames = PaField.GetDefaultFields().Select(f => f.Name).ToList();
 
 			for (int i = fields.Count - 1; i >= 0; i--)
 			{
@@ -360,16 +378,16 @@ namespace SIL.Pa.Model
 		public PaProject ReLoadProjectFileOnly()
 		{
 			string errorMsg = null;
-			var project = LoadProjectFileOnly(m_fileName, true, ref errorMsg);
+			var project = LoadProjectFileOnly(_fileName, true, ref errorMsg);
 
 			if (project == null)
 				return null;
 
-			if (m_appWindow != null)
+			if (_appWindow != null)
 			{
-				m_appWindow.Activated -= HandleApplicationWindowActivated;
-				m_appWindow.Activated += project.HandleApplicationWindowActivated;
-				project.m_appWindow = m_appWindow;
+				_appWindow.Activated -= HandleApplicationWindowActivated;
+				_appWindow.Activated += project.HandleApplicationWindowActivated;
+				project._appWindow = _appWindow;
 			}
 
 			// Reloading a project resets all the data source's last modified
@@ -400,7 +418,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void CheckForModifiedDataSources()
 		{
-			if (m_reloadingProjectInProcess)
+			if (_reloadingProjectInProcess)
 				return;
 
 			// We don't want to bother updating just after a message box has been shown.
@@ -424,10 +442,10 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void ReloadDataSources()
 		{
-			m_reloadingProjectInProcess = true;
+			_reloadingProjectInProcess = true;
 			LoadDataSources();
 			App.MsgMediator.SendMessage("DataSourcesModified", this);
-			m_reloadingProjectInProcess = false;
+			_reloadingProjectInProcess = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -435,7 +453,6 @@ namespace SIL.Pa.Model
 		{
 			LoadAmbiguousSequences();
 			LoadTranscriptionChanges();
-			FeatureOverrides = FeatureOverrides.Load(this);
 			PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
 
 			App.MsgMediator.SendMessage("BeforeLoadingDataSources", this);
@@ -477,6 +494,23 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void UpdateAbiguousSequencesWithGeneratedOnes(IEnumerable<string> generatedSequences)
+		{
+			var list = AmbiguousSequences ?? new AmbiguousSequences();
+
+			foreach (var seq in generatedSequences)
+			{
+				var existingSeq = list.FirstOrDefault(s => s.Literal == seq);
+				if (existingSeq == null)
+					list.Add(new AmbiguousSeq(seq, true, true));
+				else
+					existingSeq.IsGenerated = true;
+			}
+
+			SaveAndLoadAmbiguousSequences(list);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void SaveAndLoadAmbiguousSequences(AmbiguousSequences ambigSeqList)
 		{
 			ambigSeqList.Save(ProjectPathFilePrefix);
@@ -489,6 +523,44 @@ namespace SIL.Pa.Model
 		{
 			CIEOptions = newOptions;
 			Save();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void LoadDistinctiveFeatureSet()
+		{
+			var filePath = BFeatureCache.GetAvailableFeatureSetFiles()
+				.FirstOrDefault(f => Path.GetFileName(f).StartsWith(DistinctiveFeatureSet));
+
+			if (filePath != null)
+			{
+				var root = XElement.Load(filePath);
+				BFeatureCache.LoadFromList(FeatureCacheBase.ReadFeaturesFromXElement(root, "distinctive"));
+				return;
+			}
+
+			var msg = App.GetString("MiscellaneousMessages.LoadingDistinctiveFeatureSetFileErrorMsg",
+				"The file containing the '{0}' distinctive feature set is missing. The default set will be used instead.");
+				
+			App.NotifyUserOfProblem(msg, DistinctiveFeatureSet);
+			BFeatureCache.LoadFromList(BFeatureCache.GetFeaturesFromDefaultSet());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void LoadFeatureOverrides()
+		{
+			FeatureOverrides = FeatureOverrides.Load(this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void UpdateFeatureOverrides(IEnumerable<PhoneInfo> phonesWithOverrides)
+		{
+			App.MsgMediator.SendMessage("BeforePhoneFeatureOverridesSaved",
+				new object[] { this, phonesWithOverrides });
+
+			FeatureOverrides.Save(phonesWithOverrides);
+			
+			App.MsgMediator.SendMessage("AfterPhoneFeatureOverridesSaved",
+				new object[] { this, phonesWithOverrides });
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -505,22 +577,22 @@ namespace SIL.Pa.Model
 			AmbiguousSequences.Save(ProjectPathFilePrefix);
 			TranscriptionChanges.Save(ProjectPathFilePrefix);
 
-			if (m_fileName != null)
-				XmlSerializationHelper.SerializeToFile(m_fileName, this);
+			if (_fileName != null)
+				XmlSerializationHelper.SerializeToFile(_fileName, this);
 
-			if (!m_newProject)
+			if (!_newProject)
 				return;
 			
 			// Copy the default dist. Chart definitions to the project's dist. Chart def. file.
 			try
 			{
 				var srcPath = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultDistributionCharts.xml");
-				var destPath = ProjectPathFilePrefix + DistributionChartVw.kSavedChartsFile;
+				var destPath = DistributionChart.GetFileForProject(ProjectPathFilePrefix);
 				File.Copy(srcPath, destPath);
 			}
 			catch { }
 
-			m_newProject = false;
+			_newProject = false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -531,9 +603,9 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void EnsureSortOptionsSaved()
 		{
-			if ((m_dataCorpusVwSortOptions != null && m_dataCorpusVwSortOptions.SaveManuallySetSortOptions) ||
-				(m_searchVwSortOptions != null && m_searchVwSortOptions.SaveManuallySetSortOptions) ||
-				(m_distChartVwSortOptions != null && m_distChartVwSortOptions.SaveManuallySetSortOptions))
+			if ((_dataCorpusVwSortOptions != null && _dataCorpusVwSortOptions.SaveManuallySetSortOptions) ||
+				(_searchVwSortOptions != null && _searchVwSortOptions.SaveManuallySetSortOptions) ||
+				(_distChartVwSortOptions != null && _distChartVwSortOptions.SaveManuallySetSortOptions))
 			{
 				Save();
 			}
@@ -547,9 +619,9 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void EnsureSortOptionsValid()
 		{
-			EnsureSingleSortOptionValid(m_dataCorpusVwSortOptions);
-			EnsureSingleSortOptionValid(m_searchVwSortOptions);
-			EnsureSingleSortOptionValid(m_distChartVwSortOptions);
+			EnsureSingleSortOptionValid(_dataCorpusVwSortOptions);
+			EnsureSingleSortOptionValid(_searchVwSortOptions);
+			EnsureSingleSortOptionValid(_distChartVwSortOptions);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -630,6 +702,23 @@ namespace SIL.Pa.Model
 			return list.Distinct(new FieldNameComparer());
 		}
 
+		/// ------------------------------------------------------------------------------------
+		public void AddAmbiguousSequence(string sequence)
+		{
+			if (!AmbiguousSequences.Any(s => s.Literal == sequence))
+			{
+				AmbiguousSequences.Add(sequence);
+				PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void AddTranscriptionChange(TranscriptionChange transChange)
+		{
+			TranscriptionChanges.Add(transChange);
+			PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
+		}
+
 		#region Loading/Saving Caches
 		///// ------------------------------------------------------------------------------------
 		///// <summary>
@@ -672,7 +761,7 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public string Folder
 		{
-			get	{return Path.GetDirectoryName(m_fileName);}
+			get	{return Path.GetDirectoryName(_fileName);}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -685,7 +774,20 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public string ProjectPathFilePrefix
 		{
-			get { return GetProjectPathFilePrefix(m_fileName, Name); }
+			get { return GetProjectPathFilePrefix(_fileName, GetCleanNameForFileName()); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string GetCleanNameForFileName()
+		{
+			return GetCleanNameForFileName(Name);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string GetCleanNameForFileName(string name)
+		{
+			return Path.GetInvalidFileNameChars()
+				.Aggregate(name, (curr, illegalChar) => curr.Replace(illegalChar, '_'));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -703,13 +805,13 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public string FileName
 		{
-			get { return m_fileName; }
+			get { return _fileName; }
 			set
 			{
 				// Only allow this when there hasn't already been a file name specified.
 				// This should only be the case when creating new projects.
-				if (m_fileName == null)
-					m_fileName = value;
+				if (_fileName == null)
+					_fileName = value;
 			}
 		}
 
@@ -720,7 +822,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public string CssFileName
 		{
-			get { return Path.Combine(Folder, Name.Replace(' ', '_') + ".css"); }
+			get { return Path.Combine(Folder, GetCleanNameForFileName().Replace(' ', '_') + ".css"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -744,8 +846,8 @@ namespace SIL.Pa.Model
 		{
 			get
 			{
-				return (string.IsNullOrEmpty(m_fileName) ?
-					string.Empty : Path.GetFileNameWithoutExtension(m_fileName));
+				return (string.IsNullOrEmpty(_fileName) ?
+					string.Empty : Path.GetFileNameWithoutExtension(_fileName));
 			}
 		}
 
@@ -778,11 +880,22 @@ namespace SIL.Pa.Model
 		public string Comments { get; set; }
 
 		/// ------------------------------------------------------------------------------------
+		public string DistinctiveFeatureSet { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		[XmlArray("ignoredSymbolsInCVCharts"), XmlArrayItem("symbol")]
+		public List<string> IgnoredSymbolsInCVCharts { get; set; }
+
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public BFeatureCache BFeatureCache { get; set; }
+
+		/// ------------------------------------------------------------------------------------
 		[XmlElement("currentFilter")]
 		public string CurrentFilterName
 		{
 			get { return (CurrentFilter != null ? CurrentFilter.Name : null); }
-			set { m_currentFilterName = value; }
+			set { _currentFilterName = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -838,17 +951,17 @@ namespace SIL.Pa.Model
 		{
 			get
 			{
-				if (m_dataCorpusVwSortOptions == null)
+				if (_dataCorpusVwSortOptions == null)
 				{
-					m_dataCorpusVwSortOptions = new SortOptions(true, this);
-					m_dataCorpusVwSortOptions.AdvancedEnabled = false;
+					_dataCorpusVwSortOptions = new SortOptions(true, this);
+					_dataCorpusVwSortOptions.AdvancedEnabled = false;
 				}
 
-				return m_dataCorpusVwSortOptions;
+				return _dataCorpusVwSortOptions;
 			}
 			set
 			{
-				m_dataCorpusVwSortOptions = value;
+				_dataCorpusVwSortOptions = value;
 				if (value != null)
 					value.AdvancedEnabled = false;
 			}
@@ -863,18 +976,18 @@ namespace SIL.Pa.Model
 		{
 			get
 			{
-				if (m_searchVwSortOptions == null)
+				if (_searchVwSortOptions == null)
 				{
-					m_searchVwSortOptions = new SortOptions(true, this);
-					m_searchVwSortOptions.AdvancedEnabled = true;
+					_searchVwSortOptions = new SortOptions(true, this);
+					_searchVwSortOptions.AdvancedEnabled = true;
 				}
 
-				return m_searchVwSortOptions;
+				return _searchVwSortOptions;
 			}
 			
 			set 
 			{
-				m_searchVwSortOptions = value;
+				_searchVwSortOptions = value;
 				if (value != null)
 					value.AdvancedEnabled = true;
 			}
@@ -889,17 +1002,17 @@ namespace SIL.Pa.Model
 		{
 			get
 			{
-				if (m_distChartVwSortOptions == null)
+				if (_distChartVwSortOptions == null)
 				{
-					m_distChartVwSortOptions = new SortOptions(true, this);
-					m_distChartVwSortOptions.AdvancedEnabled = true;
+					_distChartVwSortOptions = new SortOptions(true, this);
+					_distChartVwSortOptions.AdvancedEnabled = true;
 				}
 				
-				return m_distChartVwSortOptions;
+				return _distChartVwSortOptions;
 			}
 			set
 			{
-				m_distChartVwSortOptions = value;
+				_distChartVwSortOptions = value;
 				if (value != null)
 					value.AdvancedEnabled = true;
 			}
@@ -971,14 +1084,6 @@ namespace SIL.Pa.Model
 		[XmlArray("CVPatternInfoList"), XmlArrayItem("CVPatternInfo")]
 		public List<CVPatternInfo> CVPatternInfoList { get; set; }
 
-		/// --------------------------------------------------------------------------------------------
-		[XmlElement("ConsonantChartSuprasegmentalsToIgnore")]
-		public string ConChartSupraSegsToIgnore { get; set; }
-
-		/// --------------------------------------------------------------------------------------------
-		[XmlElement("VowelChartSuprasegmentalsToIgnore")]
-		public string VowChartSupraSegsToIgnore { get; set; }
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the list of phones whose features should be overridden.
@@ -995,125 +1100,27 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public IEnumerable<string> LastNewlyMappedFields { get; set; }
 
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public GridLayoutInfo GridLayoutInfo { get; private set; }
+
 		#endregion
 
-		#region Grid and Record View layout properties
+		#region Segment grid information
 		/// ------------------------------------------------------------------------------------
-		public GridLayoutInfo GridLayoutInfo
+		[XmlIgnore]
+		public string ConsonantChartLayoutFile
 		{
-			get	{return (m_gridLayoutInfo ?? new GridLayoutInfo(this));}
-			set
-			{
-				m_gridLayoutInfo = (value ?? new GridLayoutInfo(this));
-				m_gridLayoutInfo.m_owningProject = this;
-			}
+			get { return ProjectPathFilePrefix + "ConsonantChart.xml"; }
 		}
 
+		/// ------------------------------------------------------------------------------------
+		[XmlIgnore]
+		public string VowelChartLayoutFile
+		{
+			get { return ProjectPathFilePrefix + "VowelChart.xml"; }
+		}
+		
 		#endregion
 	}
-
-	#region GridLayoutInfo Class
-	/// ----------------------------------------------------------------------------------------
-	public class GridLayoutInfo
-	{
-		public DataGridViewCellBorderStyle GridLines = DataGridViewCellBorderStyle.Single;
-		public int ColHeaderHeight = -1;
-		public bool SaveReorderedCols = true;
-		public bool SaveAdjustedColHeaderHeight = true;
-		public bool SaveAdjustedColWidths = true;
-		public bool AutoAdjustPhoneticCol = true;
-		public int AutoAjustedMaxWidth = 200;
-		internal PaProject m_owningProject;
-
-		/// ------------------------------------------------------------------------------------
-		public GridLayoutInfo()
-		{
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public GridLayoutInfo(PaProject owningProj)
-		{
-			m_owningProject = owningProj;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes the specified grid with values from the save layout information.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Load(DataGridView grid)
-		{
-			if (grid == null || grid.Columns.Count == 0 || m_owningProject == null)
-				return;
-
-			SilHierarchicalGridColumn.ShowHierarchicalColumns(grid, false, true, false);
-			grid.CellBorderStyle = GridLines;
-			
-			// Set the column properties to the saved values.
-			foreach (var col in grid.Columns.Cast<DataGridViewColumn>())
-			{
-				var field = m_owningProject.GetFieldForName(col.Name);
-				if (field == null)
-					continue;
-
-				if (field.DisplayIndexInGrid < 0)
-					col.Visible = false;
-				else
-				{
-					col.Visible = field.VisibleInGrid;
-					col.DisplayIndex =
-						(field.DisplayIndexInGrid < grid.Columns.Count ?
-						field.DisplayIndexInGrid : grid.Columns.Count - 1);
-				}
-			}
-
-			SilHierarchicalGridColumn.ShowHierarchicalColumns(grid, true, false, true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Saves some of the specified grid's properties.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Save(DataGridView grid)
-		{
-			if (grid == null || grid.Columns.Count == 0)
-				return;
-
-			GridLines = grid.CellBorderStyle;
-
-			if (SaveAdjustedColHeaderHeight)
-				ColHeaderHeight = grid.ColumnHeadersHeight;
-
-			// Save the list of columns sorted by display index.
-			var displayIndexes = new SortedList<int, PaField>();
-
-			// Save the specified grid's column properties.
-			foreach (var col in grid.Columns.Cast<DataGridViewColumn>())
-			{
-				var field = m_owningProject.GetFieldForName(col.Name);
-				if (field != null)
-				{
-					if (SaveAdjustedColWidths)
-						field.WidthInGrid = col.Width;
-
-					if (SaveReorderedCols)
-						displayIndexes[col.DisplayIndex] = field;
-				}
-			}
-
-			if (displayIndexes.Count == 0)
-				return;
-
-			// The display index order saved with the fields should begin with zero, but
-			// since the grid may have some SilHerarchicalColumns showing, the first field's
-			// display index may be greater than 1. Therefore, we adjust for that by setting
-			// the display indexes in sequence beginning from zero.
-			int i = 0;
-			foreach (var field in displayIndexes.Values)
-				field.DisplayIndexInGrid = i++;
-		}
-	}
-
-	#endregion
 }

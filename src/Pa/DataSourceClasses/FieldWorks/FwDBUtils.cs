@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.ServiceProcess;
 using System.Windows.Forms;
+using Microsoft.Win32;
 using Palaso.Reporting;
 using SIL.Pa.Properties;
 using SIL.PaToFdoInterfaces;
@@ -43,6 +44,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 		#endregion
 
+		private static string s_fwRootDataDir;
 		private static bool s_showErrorOnConnectionFailure = true;
 		public static bool ShowMsgWhenGatheringFWInfo { get; set; }
 
@@ -53,6 +55,32 @@ namespace SIL.Pa.DataSource.FieldWorks
 			str = str.Replace('\n', ' ');
 			str = str.Replace('\t', ' ');
 			return str.Trim();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string FwRootDataDir
+		{
+			get { return s_fwRootDataDir ?? (s_fwRootDataDir = GetFwRootDataDir()); }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Get the location where FW tucks away data.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static string GetFwRootDataDir()
+		{
+			string key = FwDBAccessInfo.FwRegKey;
+			if (String.IsNullOrEmpty(key))
+				return null;
+
+			using (var regKey = Registry.LocalMachine.OpenSubKey(key))
+			{
+				if (regKey != null)
+					return regKey.GetValue(FwDBAccessInfo.RootDataDirValue, null) as string;
+			}
+
+			return null;
 		}
 
 		#region Methods for FW6 and older database formats.
@@ -97,7 +125,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 						// Get all the database names.
 						using (var reader = command.ExecuteReader(CommandBehavior.SingleResult))
 						{
-							while (reader.Read() && !string.IsNullOrEmpty(reader[0] as string))
+							while (reader.Read() && !String.IsNullOrEmpty(reader[0] as string))
 								fwDBInfoList.Add(new FwDataSourceInfo(reader[0] as string, server, DataSourceType.FW));
 
 							reader.Close();
@@ -111,10 +139,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 			{
 				if (s_showErrorOnConnectionFailure)
 				{
-					var msg = App.GetString("GettingFwProjectErrorMsg",
-						"An error occurred when trying to get a list of FieldWorks projects.");
-
-					ErrorReport.NotifyUserOfProblem(e, msg);
+					ErrorReport.NotifyUserOfProblem(e, App.GetString("GettingFwProjectErrorMsg",
+						"An error occurred while trying to get a list of FieldWorks projects."));
 				}
 
 				fwDBInfoList = null;
@@ -139,10 +165,10 @@ namespace SIL.Pa.DataSource.FieldWorks
 		{
 			try
 			{
-				if (!string.IsNullOrEmpty(machineName) && StartSQLServer(true))
+				if (!String.IsNullOrEmpty(machineName) && StartSQLServer(true))
 				{
 					string server = FwDBAccessInfo.GetServer(machineName);
-					string connectionStr = string.Format(FwDBAccessInfo.ConnectionString,
+					string connectionStr = String.Format(FwDBAccessInfo.ConnectionString,
 						new[] { server, dbName, "FWDeveloper", "careful" });
 
 					var connection = new SqlConnection(connectionStr);
@@ -152,12 +178,11 @@ namespace SIL.Pa.DataSource.FieldWorks
 			}
 			catch (Exception e)
 			{
-				if (s_showErrorOnConnectionFailure)
+				if (!s_showErrorOnConnectionFailure)
 				{
-					var msg = App.GetString("SQLServerNotInstalledMsg",
-						"An error occurred when trying to establish\na connection to the {0} database on the machine '{1}'.");
-
-					ErrorReport.NotifyUserOfProblem(e, msg, dbName, machineName);
+					ErrorReport.NotifyUserOfProblem(e, App.GetString("SQLServerNotInstalledMsg",
+						"An error occurred when trying to establish a connection to the '{0}' " +
+						"database on the machine '{1}'."), dbName, machineName);
 				}
 			}
 
@@ -172,10 +197,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 			if (showMsg)
 			{
-				var msg = App.GetString("SQLServerNotInstalledMsg",
-					"Access to FieldWorks projects requires SQL Server but it is not installed on this computer.");
-
-				Utils.MsgBox(msg);
+				ErrorReport.NotifyUserOfProblem(App.GetString("SQLServerNotInstalledMsg",
+					"Access to FieldWorks projects requires SQL Server but it is not installed on this computer."));
 			}
 
 			return false;
@@ -195,7 +218,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 				
 				try
 				{
-					using (ServiceController svcController = new ServiceController(FwDBAccessInfo.Service))
+					using (var svcController = new ServiceController(FwDBAccessInfo.Service))
 						return (svcController.Status == ServiceControllerStatus.Running);
 				}
 				catch { }
@@ -214,7 +237,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 			if (!IsSQLServerInstalled(showErrMessages))
 				return false;
 
-			string msg = null;
+			Exception error = null;
 
 			while (true)
 			{
@@ -251,35 +274,37 @@ namespace SIL.Pa.DataSource.FieldWorks
 				}
 				catch (Exception e)
 				{
-					msg = e.Message;
+					if (!showErrMessages)
+						continue;
+					
+					error = e;
 				}
 
-				if (showErrMessages)
+				if (!showErrMessages || error == null)
+					continue;
+
+				// Check if we've timed out.
+				if (error.Message.ToLower().IndexOf("time out") < 0)
 				{
-					// Check if we've timed out.
-					if (msg != null && msg.ToLower().IndexOf("time out") < 0)
-					{
-						var fmt = App.GetString("ErrorStartingSQLServer1",
-							"SQL Server cannot be started. It may not be installed.\nThe following error was " +
-							"reported:\n\n{0}\n\nMake sure FieldWorks Language Explorer has been installed." +
-							"\nOr, restart Phonology Assistant to try again.");
+					ErrorReport.NotifyUserOfProblem(error, App.GetString("ErrorStartingSQLServer1",
+						"SQL Server cannot be started. It may not be installed. Make sure " +
+						"FieldWorks Language Explorer has been installed or restart Phonology " +
+						"Assistant to try again."));
 
-						Utils.MsgBox(string.Format(fmt, msg));
-						return false;
-					}
+					return false;
+				}
 
-					msg = App.GetString("ErrorStartingSQLServer2",
+				var	msg = App.GetString("ErrorStartingSQLServer2",
 						"Phonology Assistant waited {0} seconds for SQL Server to fully start up." +
 						"\nEither that is not enough time for your computer or it may not be installed." +
 						"\nMake sure FieldWorks Language Explorer has been installed. Would you\nlike to try again?");
 						
-					msg = string.Format(msg, FwDBAccessInfo.SecsToWaitForDBEngineStartup);
+				msg = String.Format(msg, FwDBAccessInfo.SecsToWaitForDBEngineStartup);
 
-					if (Utils.MsgBox(msg, MessageBoxButtons.YesNo,
-						MessageBoxIcon.Question) != DialogResult.Yes)
-					{
-						return false;
-					}
+				if (Utils.MsgBox(msg, MessageBoxButtons.YesNo,
+					MessageBoxIcon.Question) != DialogResult.Yes)
+				{
+					return false;
 				}
 			}
 		}
@@ -358,19 +383,18 @@ namespace SIL.Pa.DataSource.FieldWorks
 		/// ------------------------------------------------------------------------------------
 		public static FwWritingSysInfo GetDefaultPhoneticWritingSystem(IEnumerable<FwWritingSysInfo> writingSystems)
 		{
-			var ws = writingSystems.Where(w => w.Type == FwWritingSystemType.Vernacular)
-				.SingleOrDefault(w => w.Name.ToLower().Contains("ipa"));
+			var wsList = writingSystems.ToArray();
+
+			var ws = wsList.Where(w => w.Type == FwWritingSystemType.Vernacular)
+				.FirstOrDefault(w => w.Name.ToLower().Contains("ipa"));
 
 			if (ws != null)
 				return ws;
 
-			ws = writingSystems.Where(w => w.Type == FwWritingSystemType.Vernacular)
-				.SingleOrDefault(w => w.Name.ToLower().Contains("phonetic"));
+			ws = wsList.Where(w => w.Type == FwWritingSystemType.Vernacular)
+				.FirstOrDefault(w => w.Name.ToLower().Contains("phonetic"));
 
-			if (ws != null)
-				return ws;
-
-			return writingSystems.Single(w => w.IsDefaultVernacular);
+			return (ws ?? wsList.Single(w => w.IsDefaultVernacular));
 		}
 
 		/// ------------------------------------------------------------------------------------

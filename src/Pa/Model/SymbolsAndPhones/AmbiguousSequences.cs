@@ -88,10 +88,6 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public new void AddRange(IEnumerable<AmbiguousSeq> collection)
 		{
 			if (collection != null)
@@ -110,10 +106,6 @@ namespace SIL.Pa.Model
 				Add(new AmbiguousSeq(unit));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public new void Insert(int index, AmbiguousSeq seq)
 		{
@@ -161,7 +153,7 @@ namespace SIL.Pa.Model
 			if (seq == null)
 				return false;
 
-			return (convert ? seq.Convert : true);
+			return (!convert || seq.Convert);
 		}
 
 		/// ------------------------------------------------------------------------------------

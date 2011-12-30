@@ -243,7 +243,6 @@ namespace SIL.Pa.UI.Controls
 			this.lblMonogram.TabIndex = 0;
 			this.lblMonogram.Text = "X";
 			this.lblMonogram.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.lblMonogram.Paint += new System.Windows.Forms.PaintEventHandler(this.lblPhone_Paint);
 			// 
 			// pnlInfo
 			// 

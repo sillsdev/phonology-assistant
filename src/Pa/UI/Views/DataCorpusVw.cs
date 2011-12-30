@@ -14,7 +14,7 @@ using SIL.Pa.UI.Dialogs;
 namespace SIL.Pa.UI.Views
 {
 	/// ----------------------------------------------------------------------------------------
-	public partial class DataCorpusVw : UserControl, IxCoreColleague, ITabView
+	public partial class DataCorpusVw : ViewBase, ITabView
 	{
 		private PaWordListGrid m_grid;
 		private WordListCache m_cache;
@@ -24,15 +24,12 @@ namespace SIL.Pa.UI.Views
 		private bool m_activeView;
 		private PlaybackSpeedAdjuster m_playbackSpeedAdjuster;
 		private bool m_initialDock = true;
-		private PaProject _project;
 
 		/// ------------------------------------------------------------------------------------
-		public DataCorpusVw(PaProject project)
+		public DataCorpusVw(PaProject project) : base(project)
 		{
-			_project = project;
 			InitializeComponent();
 			Name = "DataCorpusVw";
-			rtfRecVw.Project = project;
 
 			if (App.DesignMode)
 				return;
@@ -113,7 +110,7 @@ namespace SIL.Pa.UI.Views
 				m_grid.Cache = m_cache;
 			else
 			{
-				m_grid = new PaWordListGrid(_project, cache, GetType(), false);
+				m_grid = new PaWordListGrid(cache, GetType(), false);
 				m_grid.BorderStyle = BorderStyle.None;
 				m_grid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
 				m_grid.TMAdapter = m_tmAdapter;
@@ -131,7 +128,7 @@ namespace SIL.Pa.UI.Views
 				m_grid.Visible = true;
 				m_grid.TabIndex = 0;
 				m_grid.Focus();
-				m_grid.SortOptions = _project.DataCorpusVwSortOptions;
+				m_grid.SortOptions = Project.DataCorpusVwSortOptions;
 				m_grid.IsCurrentPlaybackGrid = true;
 				m_grid.UseWaitCursor = false;
 				m_grid.Cursor = Cursors.Default;
@@ -151,7 +148,7 @@ namespace SIL.Pa.UI.Views
 		private void LoadWindow()
 		{
 			var cache = new WordListCache();
-			foreach (var entry in _project.WordCache)
+			foreach (var entry in Project.WordCache)
 				cache.Add(entry);
 
 			Initialize(cache);
@@ -340,7 +337,15 @@ namespace SIL.Pa.UI.Views
 			Application.DoEvents();
 			m_grid.Focus();
 		}
-		
+
+		/// ------------------------------------------------------------------------------------
+		protected override bool OnProjectLoaded(object args)
+		{
+			base.OnProjectLoaded(args);
+			m_grid.SortOptions = Project.DataCorpusVwSortOptions;
+			return false;
+		}
+	
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Updates the record pane with the raw record query for the current row.
@@ -712,9 +717,9 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected bool OnDataSourcesModified(object args)
+		protected override bool OnDataSourcesModified(object args)
 		{
-			rtfRecVw.Project = _project = args as PaProject;
+			base.OnDataSourcesModified(args);
 
 			int savCurrRowIndex = 0;
 			int savCurrColIndex = 0;
@@ -836,7 +841,7 @@ namespace SIL.Pa.UI.Views
 		protected bool OnExportAsXLingPaper(object args)
 		{
 			var fmt = App.GetString("DefaultDataCorpusXLingPaperExportFileAffix",
-				"{0}-DataCorpus-(XLingPap).xml", "Export");
+				"{0}-DataCorpus-(XLingPaper).xml", "Export");
 
 			return Export(fmt, App.kstidFileTypeXLingPaper, "xml",
 				Settings.Default.OpenXLingPaperDataCorpusAfterExport,
@@ -850,18 +855,19 @@ namespace SIL.Pa.UI.Views
 			if (!m_activeView)
 				return false;
 
-			string defaultFileName = string.Format(fmtFileName, _project.LanguageName);
+			var defaultFileName = string.Format(fmtFileName,
+				PaProject.GetCleanNameForFileName(Project.LanguageName));
 
 			var fileTypes = fileTypeFilter + "|" + App.kstidFileTypeAllFiles;
 
 			int filterIndex = 0;
 			var outputFileName = App.SaveFileDialog(defaultFileType, fileTypes, ref filterIndex,
-				App.kstidSaveFileDialogGenericCaption, defaultFileName, _project.Folder);
+				App.kstidSaveFileDialogGenericCaption, defaultFileName, Project.Folder);
 
 			if (string.IsNullOrEmpty(outputFileName))
 				return false;
 
-			exportAction(_project, outputFileName, m_grid, openAfterExport);
+			exportAction(Project, outputFileName, m_grid, openAfterExport);
 			return true;
 		}
 
@@ -908,7 +914,7 @@ namespace SIL.Pa.UI.Views
 				return false;
 
 			m_phoneticSortOptionsDropDown =
-				new SortOptionsDropDown(_project, m_grid.SortOptions, false);
+				new SortOptionsDropDown(m_grid.SortOptions, false);
 
 			m_phoneticSortOptionsDropDown.SortOptionsChanged += HandlePhoneticSortOptionsChanged;
 			itemProps.Control = m_phoneticSortOptionsDropDown;
@@ -961,29 +967,6 @@ namespace SIL.Pa.UI.Views
 			return true;
 		}
 		
-		#endregion
-
-		#region IxCoreColleague Members
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, XmlNode configurationParameters)
-		{
-			// Not used in PA.
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public IxCoreColleague[] GetMessageTargets()
-		{
-			return new IxCoreColleague[] {this};
-		}
-
 		#endregion
 	}
 }

@@ -45,6 +45,8 @@ namespace SilTools.Controls
 		private bool m_drawOnlyBottomBorder;
 		private bool m_drawOnlyTopBorder;
 		protected Color m_borderColor;
+		private bool _autoHeight = false;
+		private int _autoHeightPadding = 4;
 
 		/// ------------------------------------------------------------------------------------
 		public SilPanel()
@@ -68,6 +70,15 @@ namespace SilTools.Controls
 		{
 			get { return base.DoubleBuffered; }
 			set { base.DoubleBuffered = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+
+			m_borderColor = (PaintingHelper.CanPaintVisualStyle() ?
+				VisualStyleInformation.TextControlBorder : SystemColors.ControlDark);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -272,6 +283,22 @@ namespace SilTools.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		[DefaultValue(4)]
+		public int AutoHeightPadding
+		{
+			get { return _autoHeightPadding; }
+			set { _autoHeightPadding = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[DefaultValue(false)]
+		public bool AutoHeight
+		{
+			get { return _autoHeight; }
+			set { _autoHeight = value; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Calculates the rectangle of the text when there are child controls. This method
 		/// assumes that controls to the right of the text should clip the text. However, if
@@ -301,6 +328,19 @@ namespace SilTools.Controls
 
 			Invalidate();
 		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
+		{
+			if (AutoHeight && (specified & BoundsSpecified.Height) == BoundsSpecified.Height)
+			{
+				using (var g = CreateGraphics())
+					height = TextRenderer.MeasureText(g, "X", Font).Height + _autoHeightPadding;
+			}
+			
+			base.SetBoundsCore(x, y, width, height, specified);
+		}
+
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnControlAdded(ControlEventArgs e)

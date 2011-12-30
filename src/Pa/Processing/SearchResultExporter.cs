@@ -66,10 +66,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		///
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private SearchResultExporter(PaProject project, string outputFileName,
 			OutputFormat outputFormat, DataGridView dgrid)
 			: base(project, outputFileName, outputFormat, dgrid)
@@ -95,10 +91,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override string Title
 		{
 			get
@@ -109,19 +101,11 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override string Name
 		{
 			get { return ((PaWordListGrid)m_grid).Cache.SearchQuery.Name; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override string View
 		{
@@ -129,19 +113,11 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override string SearchPattern
 		{
 			get { return (((PaWordListGrid)m_grid).Cache.SearchQuery.Pattern); }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override string CIEOption
 		{
@@ -153,9 +129,11 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		protected override string GetMetadataDetailNameTag()
+		{
+			return "pattern name";
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected override void WriteMeatadataPhoneticSortOptions(PaWordListGrid grid)
 		{
@@ -190,10 +168,6 @@ namespace SIL.Pa.Processing
 			m_writer.WriteEndElement();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void WriteTableHeadingColumnGroups()
 		{
@@ -235,10 +209,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void WriteTableHeadingContentForColumn(DataGridViewColumn col)
 		{
 			if (col != ((PaWordListGrid)m_grid).PhoneticColumn)
@@ -252,10 +222,6 @@ namespace SIL.Pa.Processing
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void WriteTableRowCell(DataGridViewRow row, DataGridViewColumn col)
 		{

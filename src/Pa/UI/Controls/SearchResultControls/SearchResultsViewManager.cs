@@ -29,10 +29,6 @@ namespace SIL.Pa.UI.Controls
 
 	#region ISearchResultsViewHost
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public interface ISearchResultsViewHost
 	{
 		void BeforeSearchPerformed(SearchQuery query, WordListCache resultCache);
@@ -71,11 +67,10 @@ namespace SIL.Pa.UI.Controls
 		private int m_playbackSpeed;
 
 		/// ------------------------------------------------------------------------------------
-		public SearchResultsViewManager(PaProject project, ITabView view, ITMAdapter tmAdapter,
+		public SearchResultsViewManager(ITabView view, ITMAdapter tmAdapter,
 			SplitContainer splitResults, IRecordView recView, int playbackSpeed,
 			Action<int> savePlaybackSpeed)
 		{
-			Project = project;
 			m_view = view;
 			m_srchRsltVwHost = view as ISearchResultsViewHost;
 			Debug.Assert(m_srchRsltVwHost != null);
@@ -113,9 +108,6 @@ namespace SIL.Pa.UI.Controls
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
-		public PaProject Project { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
 		public IRecordView RecordView { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -141,18 +133,31 @@ namespace SIL.Pa.UI.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the grid of the current result view tab on the current result view tab group.
+		/// Gets the control hosted in the current result view tab on the current result
+		/// view tab group. This should only be a word list grid or a
+		/// SearchQueryValidationErrorControl.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public PaWordListGrid CurrentViewsGrid
+		public Control CurrentViewsControl
 		{
 			get
 			{
 				return (CurrentTabGroup == null ||
 					CurrentTabGroup.CurrentTab == null ||
-					CurrentTabGroup.CurrentTab.ResultView == null ? null :
-					CurrentTabGroup.CurrentTab.ResultView.Grid);
+					CurrentTabGroup.CurrentTab.ResultView == null ||
+					CurrentTabGroup.CurrentTab.ResultView.Controls.Count == 0 ? null :
+					CurrentTabGroup.CurrentTab.ResultView.Controls[0]);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the grid of the current result view tab on the current result view tab group.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public PaWordListGrid CurrentViewsGrid
+		{
+			get { return (CurrentViewsControl as PaWordListGrid); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -192,12 +197,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private bool HandleFindItemUpdate(TMItemProperties itemProps, bool enableAllow)
 		{
-			var grid = CurrentViewsGrid;
+			PaWordListGrid grid = CurrentViewsGrid;
 			
 			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
-			bool enable = (enableAllow && Project != null &&
+			bool enable = (enableAllow && App.Project != null &&
 				grid != null && grid.RowCount > 0);
 
 			if (itemProps.Enabled != enable)
@@ -441,9 +446,13 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateShowRecordPane(object args)
 		{
-			var itemProps = args as TMItemProperties;
+			TMItemProperties itemProps = args as TMItemProperties;
 			if (itemProps == null || !m_view.ActiveView)
 				return false;
 
@@ -497,12 +506,16 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		private bool MoveTabToNewTabGroup(SearchResultTab tab, SearchResultLocation resultLocation)
 		{
 			if (tab == null)
 				return false;
 
-			var tabGroup = tab.OwningTabGroup;
+			SearchResultTabGroup tabGroup = tab.OwningTabGroup;
 
 			if (tabGroup != null)
 				tabGroup.RemoveTab(tab, false);
@@ -827,8 +840,8 @@ namespace SIL.Pa.UI.Controls
 			if (m_ignoreTabGroupRemoval)
 				return;
 
-			SearchResultTabGroup tabGroup = e.Control as SearchResultTabGroup;
-			SplitterPanel owningPanel = sender as SplitterPanel;
+			var tabGroup = e.Control as SearchResultTabGroup;
+			var owningPanel = sender as SplitterPanel;
 			if (tabGroup == null || owningPanel == null)
 				return;
 
@@ -837,7 +850,7 @@ namespace SIL.Pa.UI.Controls
 			Control siblingPaneToRelocate = null;
 
 			// Get the splitter that owns the panel from which a tab group was just removed.
-			SplitContainer owningSplitContainer = owningPanel.GetContainerControl() as SplitContainer;
+			var owningSplitContainer = owningPanel.GetContainerControl() as SplitContainer;
 
 			// Determine whether or not the tab group was removed from the first or second panel.
 			int paneOfRemovedGroup = (int)owningPanel.Tag;
@@ -857,7 +870,7 @@ namespace SIL.Pa.UI.Controls
 				// split container that used to own the removed tab group. Then add to that
 				// panel the removed tab group's sibling.
 				m_ignoreTabGroupRemoval = true;
-				SplitterPanel newOwningPanel = owningSplitContainer.Parent as SplitterPanel;
+				var newOwningPanel = owningSplitContainer.Parent as SplitterPanel;
 				if (newOwningPanel != null)
 				{
 					newOwningPanel.Controls.Remove(owningSplitContainer);
@@ -887,7 +900,7 @@ namespace SIL.Pa.UI.Controls
 			{
 				// When the removed tab group is the current one,
 				// make sure a remaining group is made current.
-				SearchResultTabGroup newTabGroup = FindNewCurrentTabGroup(siblingPaneToRelocate);
+				var newTabGroup = FindNewCurrentTabGroup(siblingPaneToRelocate);
 				SearchResultTabGroupChanged(newTabGroup);
 				App.MsgMediator.SendMessage("SearchResultTabGroupChanged", newTabGroup);
 			}
@@ -913,20 +926,13 @@ namespace SIL.Pa.UI.Controls
 			
 			if (relocatedControl != null)
 			{
-				SplitContainer tmpSplit = relocatedControl as SplitContainer;
+				var tmpSplit = relocatedControl as SplitContainer;
 				if (tmpSplit != null && tmpSplit.Panel2.Controls.Count > 0)
 					return tmpSplit.Panel2.Controls[0] as SearchResultTabGroup;
 			}
 
 			// We should never get this far.
 			return null;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected bool OnDataSourcesModified(object args)
-		{
-			Project = args as PaProject;
-			return false;
 		}
 
 		#region Methods for performing searches
@@ -969,15 +975,10 @@ namespace SIL.Pa.UI.Controls
 			if (query == null)
 				return null;
 
-			// TODO: check error conditions returned from creating an engine
-			//if (engine.Error != null)
-			//{
-			//	Do something
-			//}
-
+			query = CheckQuery(query);
 			m_srchRsltVwHost.BeforeSearchPerformed(query, null);
 			App.InitializeProgressBar(App.kstidQuerySearchingMsg);
-			var resultCache = App.Search(query, 5);
+			var resultCache = App.Search(query);
 
 			if (resultCache != null)
 			{
@@ -988,6 +989,31 @@ namespace SIL.Pa.UI.Controls
 			
 			App.UninitializeProgressBar();
 			return resultCache;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This method will check if the query's name is the same as one of the saved queries
+		/// but it's pattern is different. If so, the assumption is the user edited the pattern
+		/// after having viewed the results for a saved pattern. Editing a pattern in that
+		/// case makes the pattern a different one from the saved one so we need to force
+		/// that here. (cf. PA-1130)
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private SearchQuery CheckQuery(SearchQuery query)
+		{
+			if (!string.IsNullOrEmpty(query.Name) && App.Project.SearchQueryGroups
+				.SelectMany(grp => grp.Queries)
+				.Any(q => q.Name.Equals(query.Name, StringComparison.Ordinal) &&
+					!q.Pattern.Equals(query.Pattern, StringComparison.Ordinal)))
+			{
+				var newQuery = query.Clone();
+				newQuery.Name = null;
+				newQuery.Pattern = query.Pattern;
+				return newQuery;
+			}
+
+			return query;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1011,7 +1037,7 @@ namespace SIL.Pa.UI.Controls
 			if (resultLocation == SearchResultLocation.CurrentTab && ReuseExistingTab(resultCache))
 				return;
 
-			var resultView = new SearchResultView(Project, m_view.GetType(), m_tmAdapter);
+			var resultView = new SearchResultView(m_view.GetType(), m_tmAdapter);
 			resultView.Initialize(resultCache);
 			CreateTab(resultLocation, resultView);
 			m_searchResultViews.Add(resultView);
@@ -1231,12 +1257,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		void tab_MouseEnter(object sender, EventArgs e)
 		{
-			SearchResultTab tab = sender as SearchResultTab;
+			var tab = sender as SearchResultTab;
 
 			if (tab == null)
 				return;
 
-			Form frm = tab.FindForm();
+			var frm = tab.FindForm();
 			if (frm != null && !frm.ContainsFocus)
 				return;
 			
@@ -1246,10 +1272,6 @@ namespace SIL.Pa.UI.Controls
 			m_srchResultTabPopup.Show(tab);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		void tab_MouseLeave(object sender, EventArgs e)
 		{
@@ -1268,7 +1290,7 @@ namespace SIL.Pa.UI.Controls
 				return false;
 
 			m_phoneticSortOptionsDropDown =
-				new SortOptionsDropDown(Project, CurrentViewsGrid.SortOptions, true);
+				new SortOptionsDropDown(CurrentViewsGrid.SortOptions, true);
 
 			m_phoneticSortOptionsDropDown.SortOptionsChanged += HandlePhoneticSortOptionsChanged;
 			itemProps.Control = m_phoneticSortOptionsDropDown;
@@ -1334,10 +1356,6 @@ namespace SIL.Pa.UI.Controls
 
 		#region Playback related methods
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public PlaybackSpeedAdjuster PlaybackSpeedAdjuster
 		{
 			get
@@ -1369,10 +1387,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void HandlePlaybackSpeedAdjusterPlayClick(object sender, EventArgs e)
 		{
 			m_tmAdapter.HideBarItemsPopup("tbbAdjustPlaybackSpeedParent");
@@ -1380,10 +1394,6 @@ namespace SIL.Pa.UI.Controls
 			CurrentViewsGrid.OnPlayback(null);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnDropDownAdjustPlaybackSpeed(object args)
 		{
@@ -1513,7 +1523,7 @@ namespace SIL.Pa.UI.Controls
 			if (grid == null)
 				return null;
 
-			string queryName = (string.IsNullOrEmpty(grid.Cache.SearchQuery.Name) ?
+			var queryName = (string.IsNullOrEmpty(grid.Cache.SearchQuery.Name) ?
 				string.Empty : grid.Cache.SearchQuery.Name);
 
 			// The query name may just be the pattern and in that case, we won't use it as
@@ -1522,29 +1532,24 @@ namespace SIL.Pa.UI.Controls
 			if (Path.GetInvalidFileNameChars().Any(invalidChar => queryName.Contains(invalidChar.ToString())))
 				queryName = string.Empty;
 
-			var defaultFileName = string.Format(fmtFileName, Project.LanguageName, queryName);
+			var defaultFileName = string.Format(fmtFileName, App.Project.LanguageName, queryName);
 
 			var fileTypes = fileTypeFilter + "|" + App.kstidFileTypeAllFiles;
 
 			int filterIndex = 0;
 			var outputFileName = App.SaveFileDialog(defaultFileType, fileTypes, ref filterIndex,
-				App.kstidSaveFileDialogGenericCaption, defaultFileName, Project.Folder);
+				App.kstidSaveFileDialogGenericCaption, defaultFileName, App.Project.Folder);
 
 			if (string.IsNullOrEmpty(outputFileName))
 				return null;
 
-			exportAction(Project, outputFileName, grid, openAfterExport);
+			exportAction(App.Project, outputFileName, grid, openAfterExport);
 			return outputFileName;
 		}
 
 		#endregion
 
 		#region IxCoreColleague Members
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the message target.
-		/// </summary>
-		/// <returns></returns>
 		/// ------------------------------------------------------------------------------------
 		public IxCoreColleague[] GetMessageTargets()
 		{
@@ -1554,10 +1559,6 @@ namespace SIL.Pa.UI.Controls
 		#endregion
 
 		#region IMessageFilter Members
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool PreFilterMessage(ref Message m)
 		{

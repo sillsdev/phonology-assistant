@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Linq;
 using SilTools;
 
 namespace SIL.Pa.Model
@@ -9,13 +10,23 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class FeatureCacheBase : Dictionary<string, Feature>
 	{
+		/// ------------------------------------------------------------------------------------
+		public static IEnumerable<Feature> ReadFeaturesFromXElement(XElement root, string featureType)
+		{
+			var featureDefs = root.Elements("featureDefinitions")
+				.FirstOrDefault(e => (string)e.Attribute("class") == featureType);
+
+			return (featureDefs == null ? new List<Feature>(0) :
+				featureDefs.Elements("featureDefinition").Select(e => Feature.FromXElement(e)));
+		}
+
 		#region Methods for loading and saving
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads binary features from the specified list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		internal virtual void LoadFromList(List<Feature> list)
+		public virtual void LoadFromList(IEnumerable<Feature> list)
 		{
 			Debug.Assert(list != null);
 			Clear();
@@ -35,17 +46,13 @@ namespace SIL.Pa.Model
 		/// Cleans up a feature name before adding it to the cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected virtual string CleanNameForLoad(string name)
+		public virtual string CleanNameForLoad(string name)
 		{
 			return (name == null ? null : name.Trim());
 		}
 	
 		#endregion
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the feature for the specified bit.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public Feature this[int bit]
 		{
@@ -93,18 +100,14 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected static string CleanUpFeatureName(string featureName)
+		public static string CleanUpFeatureName(string featureName)
 		{
 			if (featureName == null)
 				return string.Empty;
 
 			featureName = featureName.Replace("[", string.Empty);
 			featureName = featureName.Replace("]", string.Empty);
-			return featureName.Trim().ToLower();
+			return featureName.Trim();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -126,7 +129,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public bool FeatureExits(string featureName, bool showMsgWhenExists)
 		{
-			string key = (featureName == null ? null : featureName.ToLower());
+			string key = (featureName == null ? null : CleanUpFeatureName(featureName));
 
 			if (key == null || !ContainsKey(key))
 				return false;
@@ -147,7 +150,7 @@ namespace SIL.Pa.Model
 		/// Gets an array of sorted feature names for the features in the specified masks.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public List<string> GetFeatureList(FeatureMask mask)
+		public IEnumerable<string> GetFeatureList(FeatureMask mask)
 		{
 			return GetFeatureList(mask, true);
 		}
@@ -157,7 +160,7 @@ namespace SIL.Pa.Model
 		/// Gets an array of feature names for the features in the specified masks.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public List<string> GetFeatureList(FeatureMask mask, bool sorted)
+		public IEnumerable<string> GetFeatureList(FeatureMask mask, bool sorted)
 		{
 			if (mask == null)
 				return new List<string>();
@@ -186,11 +189,7 @@ namespace SIL.Pa.Model
 			foreach (var feature in featureList)
 				bldrfeatures.AppendFormat("{0}, ", feature);
 
-			// Remove the last comma and space.
-			if (bldrfeatures.Length >= 2)
-				bldrfeatures.Length -= 2;
-
-			return (bldrfeatures.ToString());
+			return (bldrfeatures.ToString().TrimEnd(',', ' '));
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -1,13 +1,50 @@
-﻿/* phonology_print.css 2010-04-06 */
+﻿/* phonology_print.css 2011-10-15 */
 /* Print formatting for XHTML files exported from Phonology Assistant. */
 
 /* Typography =============================================================== */
 
+div.quadralaterals,
+object.quadralateral
+{
+font-size: 0.8cm; /* 1 unit is 2.5em, therefore 1 unit is 2cm */
+}
+
+table.details a
+{
+text-decoration: none;
+}
+
 /* Layout =================================================================== */
 
+body
+{
+padding-bottom: 0;
+}
+
+table.chart th.value div.value,
+div.quadralaterals div.button,
+.quadrilateral.interactive g .pliant, /* SVG */
+div.quadrilateral + div.form,
+.nav
+{
+display: none;
+}
+
+div.quadralaterals object.quadralateral
+{
+position: static;
+}
+
+h1,
+h2,
+h3,
+h4
+{
+page-break-after: avoid;
+}
+
 table.CV,
-table.features,
-table.feature
+table.features
 {
 page-break-inside: avoid;
 }
@@ -20,10 +57,36 @@ page-break-inside: avoid;
 /* #000000    0   0   0    0°   0%   0%  black                text            */
 /* #ffffff  255 255 255    0°   0% 100%  white                background      */
 
-body,
-ul.environments.interactive li.Phonetic.selected,
-table.distribution td,
-table.distribution.nonZero .zero
+body .quadrilateral.interactive g text, /* SVG */
+body .quadrilateral li span,
+table.details a
 {
-background-color: #ffffff; /* background */
+color: #000000; /* text */
+}
+
+body
+{
+background-color: #ffffff; /* background print */
+}
+
+h1.interactive,
+h2.interactive,
+h3.interactive,
+h4.interactive,
+table.list.interactive th.group,
+table.list.interactive th.count,
+table.list.interactive th.sortable,
+table.CV.interactive td.Phonetic,
+table.features.interactive th.selected,
+table.features.interactive td.interactive,
+table.distinctive.changeable th.changed,
+table.distinctive.changeable td.change,
+table.values thead.interactive th[scope],
+table.values tfoot.interactive th[scope],
+table.values tbody.interactive th[scope],
+table.distribution.interactive th.interactive,
+table.distribution.interactive th.Phonetic,
+table.distribution.interactive tr.individual th.Phonetic
+{
+background-color: transparent;
 }

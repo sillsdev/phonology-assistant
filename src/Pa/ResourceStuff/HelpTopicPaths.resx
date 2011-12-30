@@ -297,4 +297,43 @@
     <value>User_Interface/Views/Phone_Inventory/Ambiguous_Sequences.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
+  <data name="hidSearchPatternsAndGroups" xml:space="preserve">
+    <value>Search_Patterns/AND_groups.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSearchPatternsDiacriticPlaceholders" xml:space="preserve">
+    <value>Search_Patterns/Diacritic_placeholders.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSearchPatternsExamples" xml:space="preserve">
+    <value>Search_Patterns/Examples_of_search_pattern_elements.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSearchPatternsOneOrMore" xml:space="preserve">
+    <value>Search_Patterns/One_or_more_phones_or_diacritics.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSearchPatternsOrGroups" xml:space="preserve">
+    <value>Search_Patterns/OR_groups.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSearchPatternsOverview" xml:space="preserve">
+    <value>Search_Patterns/Search_Patterns_overview.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSearchPatternsSpaceOrWrdBoundary" xml:space="preserve">
+    <value>Search_Patterns/Space_or_word_boundary.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSearchPatternsTroubleshooting" xml:space="preserve">
+    <value>Search_Patterns/Troubleshooting_incorrect_search_results.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSearchPatternsZeroOrMore" xml:space="preserve">
+    <value>Search_Patterns/Zero_or_more_phones_or_diacritics.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidTroubleshootingUndefinedPhoneticCharacters" xml:space="preserve">
+    <value>Phonetic_Transcriptions/Troubleshooting_undefined_phonetic_characters.htm</value>
+  </data>
 </root>

@@ -55,6 +55,7 @@ namespace SIL.Pa.DataSource
 			ParseType = DataSourceParseType.PhoneticOnly;
 			TotalLinesInFile = 1;
 			SkipLoading = false;
+			FieldMappings = new List<FieldMapping>(0);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -148,19 +149,20 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private IEnumerable<FieldMapping> CreateDefaultFw7Mappings(IEnumerable<PaField> projectFields)
 		{
-			var writingSystems = FwDataSourceInfo.GetWritingSystems();
+			var prjFields = projectFields.ToArray();
+			var writingSystems = FwDataSourceInfo.GetWritingSystems().ToArray();
 			var defaultFieldNames = Settings.Default.DefaultMappedFw7Fields.Cast<string>()
 				.Where(n => n != PaField.kAudioFileFieldName && n != PaField.kPhoneticFieldName).ToList();
 
 			// Add a mapping for the phonetic field.
-			yield return new FieldMapping(projectFields.Single(f => f.Type == FieldType.Phonetic), true)
+			yield return new FieldMapping(prjFields.Single(f => f.Type == FieldType.Phonetic), true)
 				{ FwWsId = FwDBUtils.GetDefaultPhoneticWritingSystem(writingSystems).Id };
 
 			// Add a mapping for the audio file field.
-			yield return new FieldMapping(projectFields.Single(f => f.Type == FieldType.AudioFilePath), false);
+			yield return new FieldMapping(prjFields.Single(f => f.Type == FieldType.AudioFilePath), false);
 
 			// Add mappings for all the other fields.
-			foreach (var mapping in projectFields.Where(f => defaultFieldNames.Contains(f.Name))
+			foreach (var mapping in prjFields.Where(f => defaultFieldNames.Contains(f.Name))
 				.Select(field => new FieldMapping(field, Settings.Default.ParsedFw7Fields.Cast<string>())))
 			{
 				FieldMapping.CheckMappingsFw7WritingSystem(mapping, writingSystems);
@@ -235,10 +237,9 @@ namespace SIL.Pa.DataSource
 			{
 				if (showMsgOnError)
 				{
-					var msg = App.GetString("ErrorReadingMarkersFromStandardFormatFileMsg",
-						"An error occurred trying to read the source file '{0}'.");
-
-					ErrorReport.NotifyUserOfProblem(e, msg, m_dataSourceFile);
+					ErrorReport.NotifyUserOfProblem(e,
+						App.GetString("ErrorReadingMarkersFromStandardFormatFileMsg",
+						"An error occurred while trying to read the source file '{0}'."));
 				}
 			}
 
@@ -258,7 +259,7 @@ namespace SIL.Pa.DataSource
 
 			m_markersInFile = null;
 			var badMappingFound = false;
-			var markers = GetSfMarkers(false);
+			var markers = GetSfMarkers(false).ToArray();
 
 			for (int i = FieldMappings.Count - 1; i >= 0; i--)
 			{

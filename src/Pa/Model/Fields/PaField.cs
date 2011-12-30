@@ -5,7 +5,6 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Linq;
 using Palaso.IO;
-using Palaso.Reporting;
 using SIL.Pa.DataSource.FieldWorks;
 using SilTools;
 
@@ -291,10 +290,9 @@ namespace SIL.Pa.Model
 			if (e == null)
 				return EnsureListContainsCalculatedFields(list).ToList();
 
-			var msg = App.GetString("ReadingFieldsFileErrorMsg",
-				"An error occurred reading the file\n\n'{0}'.");
+			App.NotifyUserOfProblem(e, App.GetString("MiscellaneousMessages.ReadingFieldsFileErrorMsg",
+				"There was an error reading field information from the file '{0}'."), path);
 
-			ErrorReport.NotifyUserOfProblem(e, msg, path);
 			return null;
 		}
 
@@ -331,13 +329,13 @@ namespace SIL.Pa.Model
 		public static IEnumerable<KeyValuePair<FieldType, string>> GetDisplayableFieldTypes()
 		{
 			yield return new KeyValuePair<FieldType, string>(FieldType.GeneralText,
-				App.GetString("DisplayableFieldTypeNames.GeneralText", "Text"));
+				App.GetString("DisplayableFieldTypeNames.GeneralText", "General Text"));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.GeneralNumeric,
-				App.GetString("DisplayableFieldTypeNames.GeneralNumeric", "Numeric"));
+				App.GetString("DisplayableFieldTypeNames.GeneralNumeric", "General Numeric"));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.GeneralFilePath,
-				App.GetString("DisplayableFieldTypeNames.GeneralFilePath", "File Path"));
+				App.GetString("DisplayableFieldTypeNames.GeneralFilePath", "General File Path"));
 
 			yield return new KeyValuePair<FieldType, string>(FieldType.Date,
 				App.GetString("DisplayableFieldTypeNames.Date", "Date/Time"));
@@ -355,11 +353,10 @@ namespace SIL.Pa.Model
 		#endregion
 	}
 
+	#region FieldNameComparer class
 	/// ----------------------------------------------------------------------------------------
 	public class FieldNameComparer : IEqualityComparer<PaField>
 	{
-		#region IEqualityComparer<PaField> Members
-
 		/// ------------------------------------------------------------------------------------
 		public bool Equals(PaField x, PaField y)
 		{
@@ -369,7 +366,7 @@ namespace SIL.Pa.Model
 			if (x == null || y == null)
 				return false;
 
-			return (x.Name == y.Name);
+			return (x.Name.Equals(y.Name));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -377,7 +374,7 @@ namespace SIL.Pa.Model
 		{
 			return obj.Name.GetHashCode();
 		}
-
-		#endregion
 	}
+		
+	#endregion
 }

@@ -623,9 +623,9 @@ namespace SilTools
 				if (float.TryParse(input, out output))
 					return true;
 
-				// The first attempt failed so now try parsing with a culture whose
-				//number system decimal separator is known to be a period.
-				ci = CultureInfo.GetCultureInfo("en-US");
+				// The first attempt failed so now try parsing with a culture whose number
+				// system decimal separator is known to be a period.
+				ci = CultureInfo.InvariantCulture;
 			}
 
 			return float.TryParse(input, NumberStyles.Number, ci.NumberFormat, out output);

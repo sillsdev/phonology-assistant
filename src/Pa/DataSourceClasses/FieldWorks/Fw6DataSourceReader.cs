@@ -7,7 +7,6 @@ using System.Linq;
 using Palaso.Reporting;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
-using SilTools;
 
 namespace SIL.Pa.DataSource.FieldWorks
 {
@@ -77,10 +76,12 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 			if (m_dataSource.FieldMappings == null || m_dataSource.FieldMappings.Count == 0)
 			{
-				var noWsMsg = App.GetString("MissingFieldWorks6WritingSystemsMsg",
-					"There are no writing systems for the '{0}'\n project. Therefore, no data from it can be displayed.\n\nTo fix this problem, modify the FieldWorks data source\nproperties for this project by selecting 'Project Settings'\nfrom the File menu. Then select the project in the data\nsources list and click the 'Properties' button.");
-
-				Utils.MsgBox(string.Format(noWsMsg, m_fwDsInfo.ProjectName));
+				ErrorReport.NotifyUserOfProblem(App.GetString("MissingFieldWorks6WritingSystemsMsg",
+					"There are no writing systems for the '{0}' project. Therefore, no data " +
+					"from it can be displayed. To fix this problem, modify the FieldWorks data " +
+					"source properties for this project by selecting 'Project Settings' from " +
+					"the File menu. Then select the project in the data sources list and click " +
+					"the 'Properties' button."), m_fwDsInfo.ProjectName);
 				return true;
 			}
 
@@ -109,11 +110,10 @@ namespace SIL.Pa.DataSource.FieldWorks
 			}
 			catch (Exception e)
 			{
-				var msg = App.GetString("ErrorRetrievingFieldWorks6DataMsg",
-					"There was an error retrieving the data from the {0} database.\nIt's possible the file {1} is either missing or\ncorrupt. Reading this data will be skipped.");
-
-				ErrorReport.NotifyUserOfProblem(e, msg, m_fwDsInfo.Name,
-					Path.GetFileName(m_fwDsInfo.Queries.QueryFile));
+				ErrorReport.NotifyUserOfProblem(e, App.GetString("ErrorRetrievingFieldWorks6DataMsg",
+					"There was an error retrieving the data from the {0} database. It's " +
+					"possible the file '{1}' is either missing or corrupt. Reading this " +
+					"data will be skipped."), m_fwDsInfo.Name, Path.GetFileName(m_fwDsInfo.Queries.QueryFile));
 
 			    return false;
 			}

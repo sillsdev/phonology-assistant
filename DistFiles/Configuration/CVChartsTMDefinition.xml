@@ -105,13 +105,20 @@ Item "displaytype" Values (applies to item types 0 - 3):
 	</resources>
 
 	<commands>
-		<command id="CmdChartPhoneSearch" message="ChartPhoneSearch"/>
+    <command id="CmdDoNothing"/>
+    <command id="CmdChartPhoneSearch" message="ChartPhoneSearch"/>
 		<command id="CmdChartPhoneSearchAnywhere" message="ChartPhoneSearchAnywhere"/>
 		<command id="CmdChartPhoneSearchInitial" message="ChartPhoneSearchInitial"/>
 		<command id="CmdChartPhoneSearchMedial" message="ChartPhoneSearchMedial"/>
 		<command id="CmdChartPhoneSearchFinal" message="ChartPhoneSearchFinal"/>
 		<command id="CmdChartPhoneSearchAlone" message="ChartPhoneSearchAlone"/>
-		<command id="CmdChartTBRemove" message="RemoveCVChartRowsColsParent"/>
+    <command id="CmdCharChartSearchContextMenu" message="CharChartSearchContextMenu"/>
+    <command id="CmdIgnoredSymbols" message="IgnoredSymbols"/>
+    <command id="CmdShowHistogram" message="ShowHistogram"/>
+    <command id="CmdShowHtmlChart" message="ShowHtmlChart"/>
+
+
+    <command id="CmdChartTBRemove" message="RemoveCVChartRowsColsParent"/>
 		<command id="CmdChartTBMenuRemoveRow" message="RemoveChartRowTBMenu"/>
 		<command id="CmdChartTBMenuRemoveCol" message="RemoveChartColTBMenu"/>
 		<command id="CmdChartTBMenuRemoveRowHeading" message="RemoveChartRowHeadingTBMenu"/>
@@ -131,7 +138,6 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdCharChartRemoveCol" message="RemoveCharChartCol"/>
 		<command id="CmdCharChartRemoveRowHeading" message="RemoveCharChartRowHeading"/>
 		<command id="CmdCharChartRemoveColHeading" message="RemoveCharChartColHeading"/>
-		<command id="CmdCharChartSearchContextMenu" message="CharChartSearchContextMenu"/>
 		<command id="CmdCharChartMoveColLeft" message="MoveCharChartColLeft"/>
 		<command id="CmdCharChartMoveColRight" message="MoveCharChartColRight"/>
 		<command id="CmdMoveCharChartRowDown" message="MoveCharChartRowDown"/>
@@ -149,11 +155,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdChartTBMenuShowRowSubHeadings" message="ShowChartRowSubHeadingsTBMenu"/>
 		<command id="CmdChartTBMenuShowColSubHeadings" message="ShowChartColSubHeadingsTBMenu"/>
 		<command id="CmdChartTBMenuIgnoredCharsParent" message="ChartTBMenuIgnoredCharsParent"/>
-		<command id="CmdChartTBMenuIgnoredChars" message="ChooseIgnoredCharactersTBMenu"/>
-		<command id="CmdChartTBMenuRestoreDefault" message="RestoreDefaultLayoutTBMenu"/>
-		<command id="CmdShowHistogram" message="ShowHistogram"/>
-		<command id="CmdShowHtmlChart" message="ShowHtmlChart"/>
-		
+		<command id="CmdChartTBMenuRestoreDefault" message="RestoreDefaultLayoutTBMenu"/>		
 	</commands>
 
 	<toolbars settingFilesPrefix="PA.Charts.TBDef">
@@ -165,6 +167,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				<item name="tbbChartPhoneSearchFinal" commandid="CmdChartPhoneSearchFinal" type="0" displaytype="2"/>
 				<item name="tbbChartPhoneSearchAlone" commandid="CmdChartPhoneSearchAlone" type="0" displaytype="2"/>
 			</item>
+      <!--
 			<item name="tbbAdd" commandid="CmdChartTBAdd" type="2" displaytype="2" split="false" begingroup="true">
 				<item name="tbbAddChartRowBefore" commandid="CmdChartTBMenuAddRowBefore" type="0" displaytype="2"/>
 				<item name="tbbAddChartRowAfter" commandid="CmdChartTBMenuAddRowAfter" type="0" displaytype="2"/>
@@ -186,16 +189,22 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				<item name="tbbShowRowSubHeadings" commandid="CmdChartTBMenuShowRowSubHeadings" type="0" displaytype="2"/>
 				<item name="tbbShowColSubHeadings" commandid="CmdChartTBMenuShowColSubHeadings" type="0" displaytype="2"/>
 				<item name="tbbShowHistogramOnMenu" commandid="CmdShowHistogram" type="0" displaytype="2" begingroup="true"/>
-				<item name="tbbIgnoredCharsParent" commandid="CmdChartTBMenuIgnoredCharsParent" type="0" displaytype="2" begingroup="true">
+        <item name="tbbIgnoredCharsParent" commandid="CmdChartTBMenuIgnoredCharsParent" type="0" displaytype="2" begingroup="true">
 					<item name="tbbIgnoredChars" commandid="CmdChartTBMenuIgnoredChars" type="5" autoclose="false"/>
 				</item>
 				<item name="tbbChartTBMenuRestoreDefault" commandid="CmdChartTBMenuRestoreDefault" type="0" displaytype="2" begingroup="true"/>
 			</item>
-			<item name="tbbShowHistogram" commandid="CmdShowHistogram" type="0" begingroup="true"/>
+      <item name="tbbIgnoreSymbols" commandid="CmdIgnoredSymbols" type="3" displaytype="2" split="false" begingroup="true" />
+-->
+      <item name="tbbIgnoredSymbols" commandid="CmdIgnoredSymbols" type="3" displaytype="2" split="false" begingroup="true">
+        <item name="tbbIgnoreSymbolsDropDown" commandid="CmdDoNothing" type="5" autoclose="true"/>
+      </item>
+      <item name="tbbShowHistogram" commandid="CmdShowHistogram" type="0" />
 			<item name="tbbShowHtmlChart" commandid="CmdShowHtmlChart" type="0" leftmargin="3"/>
 		</toolbar>
 	</toolbars>
 	<contextmenus>
+ <!--
 		<contextmenu name="cmnuCharChartColHeader" showcheckmargin="false" showimagemargin="true" showitemtooltips="false">
 			<item name="cmnuAddCharChartColHeadingBefore" commandid="CmdCharChartAddColHeadingBefore"/>
 			<item name="cmnuAddCharChartColHeadingAfter" commandid="CmdCharChartAddColHeadingAfter"/>
@@ -210,6 +219,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 			<item name="cmnuRemoveCharChartRowHeading" commandid="CmdCharChartRemoveRowHeading" begingroup="true"/>
 			<item name="cmnuEditCharChartLabel" commandid="CmdCharChartEditLabel" begingroup="true"/>
 		</contextmenu>
+ -->
 		<contextmenu name="cmnuCharChartGrid" showcheckmargin="false" showimagemargin="true" showitemtooltips="false">
 			<item name="cmnuCharChartSearchContextMenu" commandid="CmdCharChartSearchContextMenu">
 				<item name="cmnuChartPhoneSearchAnywhere" commandid="CmdChartPhoneSearchAnywhere"/>
@@ -218,12 +228,14 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				<item name="cmnuChartPhoneSearchFinal" commandid="CmdChartPhoneSearchFinal"/>
 				<item name="cmnuChartPhoneSearchAlone" commandid="CmdChartPhoneSearchAlone"/>
 			</item>
+ <!--
 			<item name="cmnuAddCharChartRowBefore" commandid="CmdCharChartAddRowBefore" begingroup="true"/>
 			<item name="cmnuAddCharChartRowAfter" commandid="CmdCharChartAddRowAfter"/>
 			<item name="cmnuAddCharChartColBefore" commandid="CmdCharChartAddColBefore" begingroup="true"/>
 			<item name="cmnuAddCharChartColAfter" commandid="CmdCharChartAddColAfter"/>
 			<item name="cmnuRemoveCharChartRow" commandid="CmdCharChartRemoveRow" begingroup="true"/>
 			<item name="cmnuRemoveCharChartCol" commandid="CmdCharChartRemoveCol"/>
-		</contextmenu>
+-->
+    </contextmenu>
 	</contextmenus>
 </TMDef>

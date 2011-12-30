@@ -1,28 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Threading;
 using System.Xml;
-using System.Xml.Serialization;
+using System.Xml.Linq;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
-using SIL.Pa.UI.Controls;
 using SilTools;
 
 namespace SIL.Pa.Processing
 {
 	/// ----------------------------------------------------------------------------------------
-	[XmlType("inventory")]
 	public class ProjectInventoryBuilder
 	{
-		public const string kVersion = "3.5";
+		public const string kVersion = "3.7";
 
-		protected readonly PaProject m_project;
-		protected readonly PhoneCache m_phoneCache;
-		protected string m_outputFileName;
-		protected XmlWriter m_writer;
-
-		[XmlArray("units"), XmlArrayItem("unit")]
-		public List<TempPhoneInfo> Phones { get; set; }
+		protected readonly PaProject _project;
+		protected readonly PhoneCache _phoneCache;
+		protected string _outputFileName;
+		protected XmlWriter _writer;
 
 		// I'm not thrilled about this approach for causing processing to be skipped when
 		// tests are run, but it will work for now.
@@ -38,26 +34,17 @@ namespace SIL.Pa.Processing
 			}
 
 			App.MsgMediator.SendMessage("BeforeBuildProjectInventory", project);
-			
+
 			var bldr = new ProjectInventoryBuilder(project);
 			var buildResult = bldr.InternalProcess();
 			
 			App.MsgMediator.SendMessage("AfterBuildProjectInventory",
 				new object[] { project, buildResult });
 
-			CVChartBuilder.Process(project, CVChartType.Consonant);
-			CVChartBuilder.Process(project, CVChartType.Vowel);
+			//CVChartBuilder.Process(project, CVChartType.Consonant);
+			//CVChartBuilder.Process(project, CVChartType.Vowel);
 
 			return buildResult;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// For serialization/deserialization
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public ProjectInventoryBuilder()
-		{
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -67,9 +54,9 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		protected ProjectInventoryBuilder(PaProject project)
 		{
-			m_project = project;
-			m_phoneCache = project.PhoneCache;
-			m_outputFileName = m_project.ProjectInventoryFileName;
+			_project = project;
+			_phoneCache = project.PhoneCache;
+			_outputFileName = _project.ProjectInventoryFileName;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -92,7 +79,7 @@ namespace SIL.Pa.Processing
 			// Create a processing pipeline for a series of xslt transforms to be applied to the stream.
 			var pipeline = ProcessHelper.CreatePipeline(ProcessType);
 
-			// REVIEW: Should we warn the user that this failed?
+			// REVIEW: Should we warn the user when this fails?
 			if (pipeline == null)
 				return false;
 
@@ -100,18 +87,34 @@ namespace SIL.Pa.Processing
 
 			// Kick off the processing and then save the results to a file.
 			pipeline.BeforeStepProcessed += BeforePipelineStepProcessed;
-			
+
 			if (input is MemoryStream)
-				pipeline.Transform((MemoryStream)input, m_outputFileName);
+				pipeline.Transform((MemoryStream)input, _outputFileName);
 			else if (input is string)
-				pipeline.Transform((string)input, m_outputFileName);
-			
+				pipeline.Transform((string)input, _outputFileName);
+
 			pipeline.BeforeStepProcessed -= BeforePipelineStepProcessed;
 
-			// This makes it all pretty, with proper indentation and line-breaking.
-			var doc = new XmlDocument();
-			doc.Load(m_outputFileName);
-			doc.Save(m_outputFileName);
+			// Some people were receiving the following exception:
+			// "The requested operation cannot be performed on a file with a user-mapped section open."
+			// This was happening on the doc.Save line, I think becaue the user's anti-virus program
+			// had open the XML file just created). Therefore, give it 5 tries and then give up
+			// without complaint. The only reason we do this part anyway, is to make the output pretty,
+			// with proper indentation and line-breaking.
+			for (int i = 0; i < 5; i++)
+			{
+				try
+				{
+					var doc = new XmlDocument();
+					doc.Load(_outputFileName);
+					doc.Save(_outputFileName);
+					break;
+				}
+				catch
+				{
+					Thread.Sleep(500);
+				}
+			}
 
 			return true;
 		}
@@ -128,7 +131,7 @@ namespace SIL.Pa.Processing
 		{
 			get
 			{
-				return App.GetString("ProcessingPhoneInventoryMsg",
+				return App.GetString("ProcessingPhoneInventoryMsg", 
 					"Building Phone Inventory...",
 					"Message displayed whenever the phone inventory is built or updated.");
 			}
@@ -139,8 +142,8 @@ namespace SIL.Pa.Processing
 		{
 			get
 			{
-				return ProcessHelper.MakeTempFilePath(m_project,
-					m_project.ProjectPathFilePrefix + "PhoneticInventory.tmp");
+				return ProcessHelper.MakeTempFilePath(_project,
+					_project.ProjectPathFilePrefix + "PhoneticInventory.tmp");
 			}
 		}
 
@@ -158,18 +161,18 @@ namespace SIL.Pa.Processing
 
 		#endregion
 
-		#region Methods for writing inventory file to send through the xslt processing
+		#region Methods for writing temp. inventory file to send through the xslt processing pipeline
 		/// ------------------------------------------------------------------------------------
 		protected virtual object CreateInputToTransformPipeline()
 		{
 			var memStream = new MemoryStream();
 			
-			using (m_writer = XmlWriter.Create(memStream))
+			using (_writer = XmlWriter.Create(memStream))
 			{
-				m_writer.WriteStartDocument();
+				_writer.WriteStartDocument();
 				WriteRoot();
-				m_writer.Flush();
-				m_writer.Close();
+				_writer.Flush();
+				_writer.Close();
 			}
 
 			if (KeepTempFile)
@@ -181,64 +184,74 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		private void WriteRoot()
 		{
-			ProcessHelper.WriteStartElementWithAttrib(m_writer, "inventory", "version", kVersion);
+			ProcessHelper.WriteStartElementWithAttrib(_writer, "inventory", "version", kVersion);
 			WriteRootAttributes();
 
-			ProcessHelper.WriteMetadata(m_writer, m_project, true);
+			ProcessHelper.WriteMetadata(_writer, _project, true);
 			
-			XmlSerializationHelper.SerializeDataAndWriteAsNode(m_writer, m_project.TranscriptionChanges);
-			XmlSerializationHelper.SerializeDataAndWriteAsNode(m_writer, m_project.AmbiguousSequences);
+			XmlSerializationHelper.SerializeDataAndWriteAsNode(_writer, _project.TranscriptionChanges);
+			XmlSerializationHelper.SerializeDataAndWriteAsNode(_writer, _project.AmbiguousSequences);
 
-			ProcessHelper.WriteStartElementWithAttrib(m_writer, "units", "type", "phonetic");
+			if (_project.IgnoredSymbolsInCVCharts.Count > 0)
+			{
+				ProcessHelper.WriteStartElementWithAttrib(_writer, "symbols", "class", "ignoredInChart");
+				foreach (var symbol in _project.IgnoredSymbolsInCVCharts)
+					ProcessHelper.WriteStartElementWithAttribAndEmptyValue(_writer, "symbol", "literal", symbol);
+
+				_writer.WriteEndElement();
+			}
+
+			_writer.WriteStartElement("segments");
 			WritePhones();
+			_writer.WriteEndElement();
 			
-			// Close units
-			m_writer.WriteEndElement();
-
 			// Close inventory
-			m_writer.WriteEndElement();
+			_writer.WriteEndElement();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteRootAttributes()
 		{
-			m_writer.WriteAttributeString("projectName", m_project.Name);
-			m_writer.WriteAttributeString("languageName", m_project.LanguageName);
-			m_writer.WriteAttributeString("languageCode", m_project.LanguageCode);
+			_writer.WriteAttributeString("projectName", _project.Name);
+			_writer.WriteAttributeString("languageName", _project.LanguageName);
+			_writer.WriteAttributeString("languageCode", _project.LanguageCode);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void WritePhones()
 		{
-			foreach (var phone in m_phoneCache)
+			foreach (var phone in _phoneCache.Keys)
 			{
-				ProcessHelper.WriteStartElementWithAttrib(m_writer, "unit", "literal", phone.Key);
+				ProcessHelper.WriteStartElementWithAttrib(_writer, "segment", "literal", phone);
 
-				if (phone.Value.AFeaturesAreOverridden)
+				var phoneOverrides = _project.FeatureOverrides.GetOverridesForPhone(phone);
+				if (phoneOverrides != null)
 				{
-					ProcessHelper.WriteStartElementWithAttrib(m_writer,
-						"articulatoryFeatures", "changed", "true");
-
-					foreach (var feature in ((PhoneInfo)phone.Value).AFeatures)
-						m_writer.WriteElementString("feature", feature);
-
-					m_writer.WriteEndElement();
+					WritePhoneFeatureOverrides(phoneOverrides.AFeatureNames.ToArray(), "descriptive");
+					WritePhoneFeatureOverrides(phoneOverrides.BFeatureNames.ToArray(), "distinctive");
 				}
 				
-				m_writer.WriteEndElement();
+				_writer.WriteEndElement();
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void WritePhoneFeatureOverrides(ICollection<string> featureNames, string featureType)
+		{
+			if (featureNames == null || featureNames.Count <= 0)
+				return;
+
+			ProcessHelper.WriteStartElementWithAttrib(_writer, "features", "class", featureType);
+
+			foreach (var name in featureNames)
+				_writer.WriteElementString("feature", name);
+
+			_writer.WriteEndElement();
 		}
 
 		#endregion
 
+		#region Methods for updating phone cache after a project inventory is created
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Update each phone in the phone cache with information created in the process of
@@ -247,69 +260,67 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		protected virtual void PostBuildProcess()
 		{
-			var prjInventory = XmlSerializationHelper.DeserializeFromFile<ProjectInventoryBuilder>(m_outputFileName);
-			if (prjInventory == null)
-				return;
+			var root = XElement.Load(_outputFileName);
 
-			foreach (var phone in prjInventory.Phones)
+			foreach (var segment in root.Elements("segments").Elements("segment"))
 			{
 				IPhoneInfo iPhoneInfo;
-				if (m_phoneCache.TryGetValue(phone.Literal, out iPhoneInfo))
-				{
-					var phoneInfo = iPhoneInfo as PhoneInfo;
-					if (phoneInfo != null)
-					{
-						if (phone.AFeatures.Count > 0)
-							phoneInfo.SetAFeatures(phone.AFeatures);
-
-						if (phone.BFeatures.Count > 0)
-							phoneInfo.SetBFeatures(phone.BFeatures);
-
-						if (!string.IsNullOrEmpty(phone.Description))
-							phoneInfo.Description = phone.Description;
-	
-						phoneInfo.MOAKey = phone.GetSortKey("mannerOfArticulation", phoneInfo.MOAKey);
-						phoneInfo.POAKey = phone.GetSortKey("placeOfArticulation", phoneInfo.POAKey);
-					}
-				}
+				if (_phoneCache.TryGetValue(segment.Attribute("literal").Value, out iPhoneInfo))
+					UpdatePhoneInfoFromProjectInventory(segment, iPhoneInfo as PhoneInfo);
 			}
 		}
 
-		#region TempPhoneInfo and TempPhoneSortKey classes
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public class TempPhoneInfo : IPASymbol
+		public void UpdatePhoneInfoFromProjectInventory(XElement element, PhoneInfo phoneToUpdate)
 		{
-			[XmlArray("keys"), XmlArrayItem("sortKey")]
-			public List<TempPhoneSortKey> SortKeys { get; set; }
+			if (!string.IsNullOrEmpty((string)element.Element("description")))
+				phoneToUpdate.Description = (string)element.Element("description");
 
-			/// --------------------------------------------------------------------------------
-			/// <summary>
-			/// 
-			/// </summary>
-			/// --------------------------------------------------------------------------------
-			public string GetSortKey(string sortType, string origKey)
+			phoneToUpdate.SetAFeatures(GetFeatureNames(element, "descriptive"));
+			phoneToUpdate.SetBFeatures(GetFeatureNames(element, "distinctive"));
+			phoneToUpdate.SetDefaultAFeatures(GetFeatureNames(element, "descriptive default"));
+			phoneToUpdate.SetDefaultBFeatures(GetFeatureNames(element, "distinctive default"));
+			phoneToUpdate.MOAKey = GetSortKeyFromSegmentXElement(element, "manner_or_height");
+			phoneToUpdate.POAKey = GetSortKeyFromSegmentXElement(element, "place_or_backness");
+			phoneToUpdate.RowGroup = GetRowGroupFromSegmentXElement(element);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private IEnumerable<string> GetFeatureNames(XElement element, string featureType)
+		{
+			foreach (var featureElements in element.Elements("features")
+				.Where(e => (string)e.Attribute("class") == featureType))
 			{
-				var newKey = SortKeys.FirstOrDefault(x => x.SortType == sortType);
-				return (newKey != null ? newKey.Key : origKey);
+				return featureElements.Elements("feature").Select(e => e.Value);
 			}
+
+			return new List<string>(0);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public class TempPhoneSortKey
+		private string GetSortKeyFromSegmentXElement(XElement element, string sortType)
 		{
-			[XmlAttribute("class")]
-			public string SortType { get; set; }
+			if (element.Element("keys") != null)
+			{
+				return element.Element("keys").Elements("sortKey")
+					.Where(e => (string)e.Attribute("class") == sortType)
+					.Select(e => e.Value).FirstOrDefault() ?? "0";
+			}
 
-			[XmlText]
-			public string Key { get; set; }
+			return ("0");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private string GetRowGroupFromSegmentXElement(XElement element)
+		{
+			if (element.Element("keys") != null)
+			{
+				return element.Element("keys").Elements("chartKey")
+					.Where(e => (string) e.Attribute("class") == "rowgroup")
+					.Select(e => e.Value).FirstOrDefault();
+			}
+
+			return null;
 		}
 
 		#endregion

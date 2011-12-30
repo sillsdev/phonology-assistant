@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel;
+using System.ComponentModel.Design;
 using System.Drawing;
 using System.Windows.Forms;
 using SIL.Pa.Properties;
@@ -35,22 +37,22 @@ namespace SIL.Pa.UI.Dialogs
 			get { return true; }
 		}
 
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Gets a value indicating whether or not the control is currently in design mode.
-		///// I have had some problems with the base class' DesignMode property being true
-		///// when in design mode. I'm not sure why, but adding a couple more checks fixes the
-		///// problem.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//protected new bool DesignMode
-		//{
-		//    get
-		//    {
-		//        return (base.DesignMode || GetService(typeof(IDesignerHost)) != null) ||
-		//            (LicenseManager.UsageMode == LicenseUsageMode.Designtime);
-		//    }
-		//}
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets a value indicating whether or not the control is currently in design mode.
+		/// I have had some problems with the base class' DesignMode property being true
+		/// when in design mode. I'm not sure why, but adding a couple more checks fixes the
+		/// problem.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		protected new bool DesignMode
+		{
+			get
+			{
+				return (base.DesignMode || GetService(typeof(IDesignerHost)) != null) ||
+					(LicenseManager.UsageMode == LicenseUsageMode.Designtime);
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
@@ -175,6 +177,17 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (!(m_changesWereMade = InternalSaveChanges()))
 		        e.Cancel = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void OnFormClosed(FormClosedEventArgs e)
+		{
+			// For some reason, closing a dialog doesn't always return
+			// focus to its owner. Hopefully this will fix that.
+			if (Owner != null)
+				Owner.Activate();
+
+			base.OnFormClosed(e);
 		}
 
 		/// ------------------------------------------------------------------------------------

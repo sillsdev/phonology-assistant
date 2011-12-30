@@ -58,7 +58,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public ExplorerBarItem Add(Control control)
 		{
-			ExplorerBarItem item = new ExplorerBarItem(null, control);
+			var item = new ExplorerBarItem(null, control);
 			Add(item);
 			return item;
 		}

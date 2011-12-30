@@ -43,7 +43,13 @@ namespace SIL.Pa.PhoneticSearching
 			return InternalLoad(project,
 				FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultSearchQueries.xml"));
 		}
-		
+
+		/// ------------------------------------------------------------------------------------
+		public static string GetFileForProject(string projectPathFilePrefix)
+		{
+			return projectPathFilePrefix + kSearchQueriesFilePrefix;
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads the list of search queries for the specified project. If project is null
@@ -52,7 +58,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public static SearchQueryGroupList Load(PaProject project)
 		{
-			return InternalLoad(project, project.ProjectPathFilePrefix + kSearchQueriesFilePrefix);
+			return InternalLoad(project, GetFileForProject(project.ProjectPathFilePrefix));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -86,7 +92,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			var filename = m_project.ProjectPathFilePrefix + kSearchQueriesFilePrefix;
+			var filename = GetFileForProject(m_project.ProjectPathFilePrefix);
 			XmlSerializationHelper.SerializeToFile(filename, this);
 		}
 

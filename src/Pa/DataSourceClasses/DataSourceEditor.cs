@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
+using Palaso.Reporting;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
@@ -96,10 +97,8 @@ namespace SIL.Pa.DataSource
 				case DataSourceType.FW7: EditRecordInFieldWorks(wcentry.RecordEntry); break;
 				case DataSourceType.SA: EditRecordInSA(wcentry, callingApp); break;
 				default:
-					var msg = App.GetString("UnableToEditSourceRecordMsg",
-						"There is no source record editor associated with this record.");
-
-					Utils.MsgBox(msg);
+					ErrorReport.NotifyUserOfProblem(App.GetString("UnableToEditSourceRecordMsg",
+						"There is no source record editor associated with this record."));
 					break;
 			}
 		}
@@ -125,29 +124,28 @@ namespace SIL.Pa.DataSource
 				return;
 
 			string msg = null;
+			string arg = null;
 
 			// Make sure an editor has been specified.
 			if (string.IsNullOrEmpty(recEntry.DataSource.Editor))
 			{
+				arg = recEntry.DataSource.SourceFile;
 				msg = App.GetString("NoDataSourceEditorSpecifiedMsg",
-					"No editor has been specified in the project settings for the following data source:\n\n{0}\n\nSee the help file for more information.",
+					"No editor has been specified in the project settings for the following data source: '{0}'. See the help file for more information.",
 					"Displayed when no editor has been specified and the user chooses 'Edit Source Record' from the edit menu.");
-
-				msg = string.Format(msg, Utils.PrepFilePathForMsgBox(recEntry.DataSource.SourceFile));
 			}
 
 			// Make sure editor exists.
 			if (msg == null && !File.Exists(recEntry.DataSource.Editor))
 			{
+				arg = recEntry.DataSource.Editor;
 				msg = App.GetString("DataSourceEditorMissingMsg", "The editor '{0}' cannot be found.",
 					"Displayed when specified editor cannot be found when the user chooses 'Edit Source Record' from the edit menu.");
-
-				msg = string.Format(msg, Utils.PrepFilePathForMsgBox(recEntry.DataSource.Editor));
 			}
 
 			if (msg != null)
 			{
-				Utils.MsgBox(msg);
+				ErrorReport.NotifyUserOfProblem(msg, arg);
 				return;
 			}
 
@@ -180,10 +178,10 @@ namespace SIL.Pa.DataSource
 			if (string.IsNullOrEmpty(sortFieldName))
 			{
 				var msg = App.GetString("NoToolboxSortFieldSpecified",
-					"The first Toolbox sort field for this record's data source has not\nbeen specified. " +
-					"To specify the first Toolbox sort field, go to the\ndata source's properties from " +
+					"The first Toolbox sort field for this record's data source has not been specified. " +
+					"To specify the first Toolbox sort field, go to the data source's properties from " +
 					"the project properties dialog.");
-				Utils.MsgBox(msg);
+				ErrorReport.NotifyUserOfProblem(msg);
 				return;
 			}
 
@@ -192,7 +190,7 @@ namespace SIL.Pa.DataSource
 			if (field == null)
 			{
 				var msg = App.GetString("InvalidToolboxSortField", "The field '{0}' is invalid.");
-				Utils.MsgBox(string.Format(msg, sortFieldName));
+				ErrorReport.NotifyUserOfProblem(msg, sortFieldName);
 				return;
 			}
 
@@ -290,7 +288,7 @@ namespace SIL.Pa.DataSource
 			var field = wcentry.Project.GetAudioFileField();
 			if (field == null)
 			{
-				Utils.MsgBox(App.GetString("NoAudioFileFieldMissingMsg",
+				ErrorReport.NotifyUserOfProblem(App.GetString("NoAudioFileFieldMissingMsg",
 					"This project doesn't contain a field definition for an audio file path."));
 				
 				return;
@@ -300,8 +298,8 @@ namespace SIL.Pa.DataSource
 			var audioFile = wcentry[field.Name];
 			if (string.IsNullOrEmpty(audioFile) || !File.Exists(audioFile))
 			{
-				var msg = App.GetString("AudioFileMissingMsg", "The audio file '{0}' is cannot be found.");
-				Utils.MsgBox(string.Format(msg, audioFile));
+				ErrorReport.NotifyUserOfProblem(App.GetString("AudioFileMissingMsg",
+					"The audio file '{0}' is cannot be found."), audioFile);
 				return;
 			}
 

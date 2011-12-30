@@ -6,7 +6,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.Model;
 using SilTools;
 using SilTools.Controls;
 
@@ -47,7 +46,7 @@ namespace SIL.Pa.UI.Controls
 			Visible = true;
 			base.DoubleBuffered = true;
 			base.AllowDrop = true;
-
+			base.BackColor = SystemColors.Control;
 			s_tabFont = FontHelper.MakeFont(SystemInformation.MenuFont, 9);
 			m_tooltip = new ToolTip();
 
@@ -121,11 +120,10 @@ namespace SIL.Pa.UI.Controls
 		{
 			m_pnlHdrBand = new Panel();
 			m_pnlHdrBand.Dock = DockStyle.Top;
-			m_pnlHdrBand.BackColor = AppColor.ViewTabGroupBackground;
 			m_pnlHdrBand.Padding = new Padding(0, 0, 0, 5);
 			m_pnlHdrBand.Paint += m_pnlHdrBand_Paint;
 			m_pnlHdrBand.Resize += m_pnlHdrBand_Resize;
-			using (var g = CreateGraphics())
+			using (Graphics g = CreateGraphics())
 			{
 				m_pnlHdrBand.Height = TextRenderer.MeasureText(g, "X",
 					s_tabFont, Size.Empty, kTxtFmtFlags).Height + 24;
@@ -145,7 +143,6 @@ namespace SIL.Pa.UI.Controls
 			m_pnlTabs = new Panel();
 			m_pnlTabs.Visible = true;
 			m_pnlTabs.Paint += HandleLinePaint;
-			m_pnlTabs.BackColor = AppColor.ViewTabGroupBackground;
 			m_pnlTabs.Anchor = AnchorStyles.Top | AnchorStyles.Left;
 			m_pnlTabs.Padding = new Padding(3, 3, 0, 0);
 			m_pnlTabs.Location = new Point(0, 0);
@@ -165,12 +162,11 @@ namespace SIL.Pa.UI.Controls
 			m_pnlCaption.Height = 28;
 			m_pnlCaption.Dock = DockStyle.Top;
 			m_pnlCaption.MakeDark = true;
-			m_pnlCaption.ColorTop = AppColor.PrimaryHeaderTop;
-			m_pnlCaption.ColorBottom = AppColor.PrimaryHeaderBottom;
 			m_pnlCaption.Paint += m_pnlCaption_Paint;
 			m_pnlCaption.Font = FontHelper.MakeFont(SystemInformation.MenuFont, 11,	FontStyle.Bold);
+			m_pnlCaption.ForeColor = SystemColors.ActiveCaptionText;
 			Controls.Add(m_pnlCaption);
-			
+
 			m_btnHelp = new XButton();
 			m_btnHelp.Size = new Size(20, 20);
 			m_btnHelp.Anchor = AnchorStyles.Right;
@@ -210,7 +206,6 @@ namespace SIL.Pa.UI.Controls
 			m_pnlScroll.Width = 40;
 			m_pnlScroll.Visible = true;
 			m_pnlScroll.Dock = DockStyle.Right;
-			m_pnlScroll.BackColor = m_pnlHdrBand.BackColor;
 			m_pnlScroll.Paint += HandleLinePaint;
 			m_pnlHdrBand.Controls.Add(m_pnlScroll);
 			m_pnlScroll.Visible = false;
@@ -241,13 +236,6 @@ namespace SIL.Pa.UI.Controls
 				m_tooltip.SetToolTip(m_btnLeft, App.GetString("ViewTabsScrollLeftToolTipText", "Scroll Left"));
 				m_tooltip.SetToolTip(m_btnRight, App.GetString("ViewTabsScrollRightToolTipText", "Scroll Right"));
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void OnHandleCreated(EventArgs e)
-		{
-			base.OnHandleCreated(e);
-			BackColor = AppColor.ViewBackground;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -289,23 +277,19 @@ namespace SIL.Pa.UI.Controls
 
 		#region Tab managment methods
 		///// ------------------------------------------------------------------------------------
-		//public ViewTab AddTab(string text, Type viewType)
-		//{
-		//    return AddTab(text, null, viewType, null, null);
-		//}
-		
+		//public ViewTab AddTab(string text, Image img, Type viewType, string helptopicid,
+		//    Func<string> getHelpToolTipAction)
 		/// ------------------------------------------------------------------------------------
-		public ViewTab AddTab(PaProject project, string text, Image img, Type viewType,
-			string helptopicid, Func<string> getHelpToolTipAction)
+		public void AddTab(ViewTab tab)
 		{
 			if (m_pnlTabs.Left > 0)
 				m_pnlTabs.Left = 0; 
 			
-			var tab = new ViewTab(project, this, img, viewType);
-			tab.Text = Utils.RemoveAcceleratorPrefix(text);
-			tab.GetHelpToolTipAction = getHelpToolTipAction;
-			tab.HelpTopicId = helptopicid;
-			tab.Dock = DockStyle.Left;
+			//var tab = new ViewTab(this, img, viewType);
+			//tab.Text = Utils.RemoveAcceleratorPrefix(text);
+			//tab.GetHelpToolTipAction = getHelpToolTipAction;
+			//tab.HelpTopicId = helptopicid;
+			//tab.Dock = DockStyle.Left;
 			tab.Click += tab_Click;
 			SetTabsWidth(tab);
 
@@ -313,8 +297,6 @@ namespace SIL.Pa.UI.Controls
 			tab.BringToFront();
 			Tabs.Add(tab);
 			AdjustTabContainerWidth(true);
-
-			return tab;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -422,9 +404,7 @@ namespace SIL.Pa.UI.Controls
 			m_pnlCaption.Invalidate();
 			m_captionText = m_currTab.Text;
 
-			var tip = (m_currTab.GetHelpToolTipAction == null ? null :
-				m_currTab.GetHelpToolTipAction());
-
+			var tip = (m_currTab.HelpToolTipProvider == null ? null : m_currTab.HelpToolTipProvider());
 			m_tooltip.SetToolTip(m_btnHelp, tip);
 		}
 
@@ -551,7 +531,7 @@ namespace SIL.Pa.UI.Controls
 		public bool IsRightAdjacentTabSelected(ViewTab tab)
 		{
 			var adjacentTab = FindFirstVisibleTabToRight(tab);
-			return (adjacentTab == null ? false : adjacentTab.Selected);
+			return (adjacentTab != null && adjacentTab.Selected);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -718,6 +698,7 @@ namespace SIL.Pa.UI.Controls
 			var rc = m_pnlCaption.ClientRectangle;
 			rc.X += 6;
 			rc.Width -= 6;
+			rc.Y--;
 
 			const TextFormatFlags kFlags = TextFormatFlags.VerticalCenter |
 				TextFormatFlags.SingleLine | TextFormatFlags.Left |
@@ -725,7 +706,7 @@ namespace SIL.Pa.UI.Controls
 				TextFormatFlags.PreserveGraphicsClipping;
 
 			TextRenderer.DrawText(e.Graphics, m_captionText, m_pnlCaption.Font,
-				rc, AppColor.PrimaryHeaderForeground, kFlags);
+				rc, m_pnlCaption.ForeColor, kFlags);
 		}
 
 		/// ------------------------------------------------------------------------------------

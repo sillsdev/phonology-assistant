@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
@@ -25,48 +26,37 @@ namespace SIL.Pa.PhoneticSearching
 	/// ----------------------------------------------------------------------------------------
 	public class PatternGroupMember
 	{
-		private MemberType m_type;
-		private string m_member;
-		private string m_diacriticPattern;
-		private List<char> m_undefinedPhoneticChars = new List<char>();
-
 		private StringBuilder m_memberBuilder;
-		private FeatureMask m_aMask;
-		private FeatureMask m_bMask;
 
 		// This variable is only set when the member's type is SinglePhone or IPACharacterRun
-		// and is only used to the ToString() method can properly display the member as it
+		// and is only used so the ToString() method can properly display the member as it
 		// was before the phone was stripped of it's diacritics.
 		private string m_singlePhoneForToString;
 
 		/// ------------------------------------------------------------------------------------
 		public PatternGroupMember()
 		{
+			UndefinedPhoneticChars = new List<char>(0);
 			m_memberBuilder = new StringBuilder();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public PatternGroupMember(string memberValue) : this()
+		{
+			m_memberBuilder.Append(memberValue);
+			CloseMember();
 		}
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the pattern member's type.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public MemberType MemberType
-		{
-			get {return m_type;}
-			internal set {m_type = value;}
-		}
+		public MemberType MemberType { get; internal set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the pattern member (e.g. feature name or IPA characters).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string Member
-		{
-			get {return m_member;}
-			internal set {m_member = value;}
-		}
+		public string Member { get; internal set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -74,11 +64,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// Diacritic clusters should not exists for IPA character or class members.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string DiacriticPattern
-		{
-			get {return m_diacriticPattern;}
-			set {m_diacriticPattern = value;}
-		}
+		public string DiacriticPattern { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -86,10 +72,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// Articulatory feature, then this property is irrelevant.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FeatureMask AMask
-		{
-			get { return m_aMask; }
-		}
+		public FeatureMask AMask { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -97,52 +80,53 @@ namespace SIL.Pa.PhoneticSearching
 		/// Binary feature, then this property is irrelevant.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public FeatureMask BMask
-		{
-			get { return m_bMask; }
-		}
+		public FeatureMask BMask { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets a list of undefined phonetic characters found in the member.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public List<char> UndefinedPhoneticChars
-		{
-			get { return m_undefinedPhoneticChars; }
-		}
+		public List<char> UndefinedPhoneticChars { get; private set; }
 
 		#endregion
 
 		/// ------------------------------------------------------------------------------------
 		public void AddToMember(char c)
 		{
-			m_memberBuilder.Append(c);
+			m_memberBuilder.Append(c == '#' ? ' ' : c);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public IEnumerable<PatternGroupMember> AddRunAndClose(string run)
+		{
+			Member = run;
+			return ClosePhoneRunMember();
 		}
 
 		#region Methods for closing a member
 		/// ------------------------------------------------------------------------------------
 		public PatternGroupMember[] CloseMember()
 		{
-			m_member = m_memberBuilder.ToString();
+			Member = m_memberBuilder.ToString();
 			m_memberBuilder = null;
 
-			if (m_member == "C" || m_member == "V")
+			if (Member == "C" || Member == "V")
 			{
-				m_type = (m_member[0] == 'C' ? MemberType.AnyConsonant : MemberType.AnyVowel);
+				MemberType = (Member[0] == 'C' ? MemberType.AnyConsonant : MemberType.AnyVowel);
 				
 				// Stip off the C or V from the member's text.
-				m_member = m_member.Substring(1);
+				Member = Member.Substring(1);
 				return null;
 			}
 
-			if (m_member == "*")
-				m_type = MemberType.ZeroOrMore;
-			else if (m_member == "+")
-				m_type = MemberType.OneOrMore;
-			else if (m_member.StartsWith("+") || m_member.StartsWith("-"))
+			if (Member == "*")
+				MemberType = MemberType.ZeroOrMore;
+			else if (Member == "+")
+				MemberType = MemberType.OneOrMore;
+			else if (Member.StartsWith("+") || Member.StartsWith("-"))
 				CloseBinaryFeatureMember();
-			else if (m_member.StartsWith("<") && m_member.EndsWith(">"))
+			else if (Member.StartsWith("<") && Member.EndsWith(">"))
 				CloseClassMember();
 			else
 			{
@@ -160,9 +144,9 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		private void CloseBinaryFeatureMember()
 		{
-			m_type = MemberType.Binary;
-			m_member = m_member.ToLower();
-			m_bMask = App.BFeatureCache.GetMask(m_member);
+			MemberType = MemberType.Binary;
+			Member = Member.ToLower();
+			BMask = App.BFeatureCache.GetMask(Member);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -172,14 +156,14 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		private bool CloseArticulatoryFeatureMember()
 		{
-			m_member = m_member.Replace('\u00AB', '(');
-			m_member = m_member.Replace('\u00BB', ')');
+			Member = Member.Replace('\u00AB', '(');
+			Member = Member.Replace('\u00BB', ')');
 
-			if (App.AFeatureCache.FeatureExits(m_member))
+			if (App.AFeatureCache.FeatureExits(Member))
 			{
-				m_type = MemberType.Articulatory;
-				m_member = m_member.ToLower();
-				m_aMask = App.AFeatureCache.GetMask(m_member);
+				MemberType = MemberType.Articulatory;
+				Member = Member.ToLower();
+				AMask = App.AFeatureCache.GetMask(Member);
 				return true;
 			}
 
@@ -193,7 +177,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		private void CloseClassMember()
 		{
-			m_type = MemberType.Class;
+			MemberType = MemberType.Class;
 			// TODO: get the classes pattern and process it.
 		}
 
@@ -211,10 +195,10 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		private PatternGroupMember[] ClosePhoneRunMember()
 		{
-			m_type = MemberType.SinglePhone;
+			MemberType = MemberType.SinglePhone;
 			var memberPhones = new List<PatternGroupMember>();
 
-			var phones = App.Project.PhoneticParser.Parse(m_member, true,
+			var phones = App.Project.PhoneticParser.Parse(Member, true,
 				Settings.Default.ConvertPatternsWithTranscriptionChanges);
 
 			if (phones == null || phones.Length == 0)
@@ -249,20 +233,20 @@ namespace SIL.Pa.PhoneticSearching
 			string diacritics;
 			
 			// Don't want a null list, even if it's empty.
-			m_undefinedPhoneticChars =
-				SearchEngine.ParsePhone(phone, out basePhone, out diacritics) ?? new List<char>();
+			UndefinedPhoneticChars =
+				SearchEngine.ParsePhone(phone, out basePhone, out diacritics) ?? new List<char>(0);
 
 			// Save the phone with all its diacritics stripped off.
-			m_member = basePhone;
-			m_type = MemberType.SinglePhone;
+			Member = basePhone;
+			MemberType = MemberType.SinglePhone;
 			
 			if (string.IsNullOrEmpty(diacritics))
 				return;
 
-			if (m_diacriticPattern == null)
-				m_diacriticPattern = string.Empty;
+			if (DiacriticPattern == null)
+				DiacriticPattern = string.Empty;
 
-			m_diacriticPattern += diacritics;
+			DiacriticPattern += diacritics;
 		}
 
 		#endregion
@@ -278,22 +262,22 @@ namespace SIL.Pa.PhoneticSearching
 			if (m_singlePhoneForToString != null)
 				return m_singlePhoneForToString;
 
-			string diacriticCluster = (m_diacriticPattern == null ? string.Empty :
-				string.Format("[{0}{1}]", App.kDottedCircle, m_diacriticPattern));
+			string diacriticCluster = (DiacriticPattern == null ? string.Empty :
+				string.Format("[{0}{1}]", App.DottedCircle, DiacriticPattern));
 
-			if (m_type == MemberType.Articulatory || m_type == MemberType.Binary)
+			if (MemberType == MemberType.Articulatory || MemberType == MemberType.Binary)
 			{
-				string tmpMember = "[" + m_member + "]";
-				return (m_diacriticPattern == null ? tmpMember : "[" + tmpMember + diacriticCluster + "]");
+				string tmpMember = "[" + Member + "]";
+				return (DiacriticPattern == null ? tmpMember : "[" + tmpMember + diacriticCluster + "]");
 			}
 
-			if (m_type == MemberType.AnyConsonant || m_type == MemberType.AnyVowel)
+			if (MemberType == MemberType.AnyConsonant || MemberType == MemberType.AnyVowel)
 			{
-				string tmpMember = (m_type == MemberType.AnyConsonant ? "[C]" : "[V]");
-				return (m_diacriticPattern == null ? tmpMember : "[" + tmpMember + diacriticCluster + "]");
+				string tmpMember = (MemberType == MemberType.AnyConsonant ? "[C]" : "[V]");
+				return (DiacriticPattern == null ? tmpMember : "[" + tmpMember + diacriticCluster + "]");
 			}
 
-			return m_member;
+			return Member;
 		}
 
 		#endregion
@@ -317,17 +301,11 @@ namespace SIL.Pa.PhoneticSearching
 		private CompareResultType ContainsMatch(string phone,
 			IDictionary<string, IPhoneInfo> phoneCache)
 		{
-			if (m_type == MemberType.SinglePhone)
-				return ComparePhones(m_member, phone);
+			if (MemberType == MemberType.SinglePhone)
+				return ComparePhones(Member, phone);
 
 			if (SearchEngine.IgnoredPhones.Contains(phone))
 				return CompareResultType.Ignored;
-
-			if (phone.IndexOf(App.kTopTieBarC) >= 0 ||
-				phone.IndexOf(App.kBottomTieBarC) >= 0)
-			{
-				return CheckPhoneContainingTieBar(phone);
-			}
 
 			if (phone == " ")
 				return CompareResultType.NoMatch;
@@ -337,27 +315,27 @@ namespace SIL.Pa.PhoneticSearching
 			if (!phoneCache.TryGetValue(phone, out phoneInfo))
 				return CompareResultType.Error;
 
-			CompareResultType compareResult = CompareResultType.NoMatch;
+			var compareResult = CompareResultType.NoMatch;
 
-			switch (m_type)
+			switch (MemberType)
 			{
 				case MemberType.AnyConsonant:
-					if (phoneInfo.CharType == IPASymbolType.Consonant)
+					if (phoneInfo.CharType == IPASymbolType.consonant)
 						compareResult = CompareResultType.Match;
 					break;
 				
 				case MemberType.AnyVowel:
-					if (phoneInfo.CharType == IPASymbolType.Vowel)
+					if (phoneInfo.CharType == IPASymbolType.vowel)
 						compareResult = CompareResultType.Match;
 					break;
 			
 				case MemberType.Articulatory:
-					if (phoneInfo.AMask.ContainsOneOrMore(m_aMask))
+					if (phoneInfo.AMask.ContainsOneOrMore(AMask))
 						compareResult = CompareResultType.Match;
 					break;
 				
 				case MemberType.Binary:
-					if (phoneInfo.BMask.ContainsOneOrMore(m_bMask))
+					if (phoneInfo.BMask.ContainsOneOrMore(BMask))
 						compareResult = CompareResultType.Match;
 					break;
 			}
@@ -365,37 +343,28 @@ namespace SIL.Pa.PhoneticSearching
 			if (compareResult == CompareResultType.NoMatch)
 				return compareResult;
 
-			if ((m_type == MemberType.AnyConsonant || m_type == MemberType.AnyVowel ||
-				m_type == MemberType.Articulatory || m_type == MemberType.Binary) &&
-				string.IsNullOrEmpty(m_diacriticPattern))
+			if ((MemberType == MemberType.AnyConsonant || MemberType == MemberType.AnyVowel ||
+				MemberType == MemberType.Articulatory || MemberType == MemberType.Binary) &&
+				string.IsNullOrEmpty(DiacriticPattern))
 			{
 				return compareResult;
 			}
 
-			return (CompareDiacritics(m_diacriticPattern, phone) ?
+			if (phone.IndexOf(App.kTopTieBarC) >= 0 || phone.IndexOf(App.kBottomTieBarC) >= 0)
+				return CheckDiacriticsInTieBarPhone(phone);
+	
+			return (CompareDiacritics(DiacriticPattern, phone) ?
 			    CompareResultType.Match : CompareResultType.NoMatch);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public CompareResultType CheckPhoneContainingTieBar(string phone)
+		public CompareResultType CheckDiacriticsInTieBarPhone(string phone)
 		{
-			var tmpPhoneCache = new PhoneCache(App.Project);
-
-			// Split the phone where the tie-bar is and send each remaining piece to
-			// ContainMatch as though each piece were a separate phone.
-			foreach (var phonePart in phone.Split(App.kTieBars, StringSplitOptions.RemoveEmptyEntries))
-			{
-				tmpPhoneCache.AddPhone(phonePart);
-				
-				var compareResult = ContainsMatch(phonePart, tmpPhoneCache);
-				if (compareResult == CompareResultType.Error)
-					return CompareResultType.Error;
-
-				if (compareResult == CompareResultType.Match)
-					return CompareResultType.Match;
-			}
-
-			return CompareResultType.NoMatch;
+			// Split the phone where the tie-bar is and send each remaining piece under
+			// (or over) a tie-bar to comparer that checks matches on diacritics.
+			return (phone.Split(App.kTieBars, StringSplitOptions.RemoveEmptyEntries)
+				.Any(p => !CompareDiacritics(DiacriticPattern, p)) ?
+					CompareResultType.NoMatch : CompareResultType.NoMatch);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -413,7 +382,7 @@ namespace SIL.Pa.PhoneticSearching
 			// the ignored list. If the current member is in the ignored list, then
 			// don't ignore it because it has been explicitly included in the pattern.
 			if (SearchEngine.IgnoredPhones.Contains(phone) &&
-				!SearchEngine.IgnoredPhones.Contains(m_member))
+				!SearchEngine.IgnoredPhones.Contains(Member))
 				return CompareResultType.Ignored;
 
 			// Take the phone from the word we're searching and
@@ -426,7 +395,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (patternPhone != basePhone)
 				return CompareResultType.NoMatch;
 
-			bool match = CompareDiacritics(m_diacriticPattern, phonesDiacritics, false);
+			bool match = CompareDiacritics(DiacriticPattern, phonesDiacritics, false);
 			return (match ? CompareResultType.Match : CompareResultType.NoMatch);
 		}
 
@@ -521,7 +490,7 @@ namespace SIL.Pa.PhoneticSearching
 					if (patternDiacritics.IndexOf(phonesDiacritics[i]) < 0)
 					{
 						IPASymbol charInfo = App.IPASymbolCache[phonesDiacritics[i]];
-						if (charInfo != null && charInfo.Type == IPASymbolType.Diacritics)
+						if (charInfo != null && charInfo.Type == IPASymbolType.diacritic)
 							phonesDiacritics = phonesDiacritics.Replace(phonesDiacritics[i], App.kOrc);
 					}
 				}

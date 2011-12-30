@@ -16,6 +16,7 @@
 // ---------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SIL.Pa.Model
 {
@@ -34,7 +35,7 @@ namespace SIL.Pa.Model
 		public IPASymbolTypeInfo(IPASymbolType type)
 		{
 			Type = type;
-			SubType = IPASymbolSubType.Unknown;
+			SubType = IPASymbolSubType.notApplicable;
 		}
 
 		public IPASymbolTypeInfo(IPASymbolType type, IPASymbolSubType subType)
@@ -55,12 +56,14 @@ namespace SIL.Pa.Model
 	[Flags]
 	public enum IPASymbolType
 	{
-		Unknown = 0,
-		Consonant = 1,
-		Vowel = 2,
-		Suprasegmentals = 4,
-		Diacritics = 8,
-		Breaking = 16,
+		notApplicable = 0,
+		data = 1,
+		pattern = 2,
+		consonant = 4,
+		vowel = 8,
+		diacritic = 16,
+		suprasegmental = 32,
+		All = consonant | vowel | diacritic | suprasegmental,
 	}
 
 	/// ----------------------------------------------------------------------------------------
@@ -71,26 +74,26 @@ namespace SIL.Pa.Model
 	[Flags]
 	public enum IPASymbolSubType
 	{
-		Unknown = 0,
-		Pulmonic = 32,
-		NonPulmonic = 64,
-		OtherSymbols = 128,
-		StressAndLength = 256,
-		ToneAndAccents = 512,
+		notApplicable = 0,
+		stress = 64,
+		length = 128,
+		boundary = 256,
+		tone = 512,
+		All = stress | length | boundary | tone,
 	}
 
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// Types used for grouping characters to ignore in find phone searching.
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	public enum IPASymbolIgnoreType
-	{
-		NotApplicable = 0,
-		StressSyllable = 1,
-		Tone = 2,
-		Length = 3
-	}
+	///// ----------------------------------------------------------------------------------------
+	///// <summary>
+	///// Types used for grouping characters to ignore in find phone searching.
+	///// </summary>
+	///// ----------------------------------------------------------------------------------------
+	//public enum IPASymbolIgnoreType
+	//{
+	//    NotApplicable = 0,
+	//    StressSyllable = 1,
+	//    Tone = 2,
+	//    Length = 3
+	//}
 	
 	#endregion
 
@@ -171,10 +174,9 @@ namespace SIL.Pa.Model
 			{
 				var charInfo = new IPASymbol();
 				charInfo.Literal = c.ToString();
-				charInfo.Decimal = c;
-				charInfo.Hexadecimal = charInfo.Decimal.ToString("X4");
-				charInfo.Type = IPASymbolType.Unknown;
-				charInfo.SubType = IPASymbolSubType.Unknown;
+				charInfo.HexCharCode = charInfo.Decimal.ToString("X4");
+				charInfo.Type = IPASymbolType.notApplicable;
+				charInfo.SubType = IPASymbolSubType.notApplicable;
 				charInfo.IsBase = true;
 				charInfo.IsUndefined = true;
 				this[(int)c] = charInfo;
@@ -218,8 +220,8 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the IPA character information for the specified IPA character (in string
-		/// form). If the string contains more than one codepoint, information for the
-		/// first codepoint is returned.
+		/// form). This is mainly for the Chao tone letters which should be the only symbols
+		/// that contain more than one codepoint.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public IPASymbol this[string ipaCharStr]
@@ -233,7 +235,7 @@ namespace SIL.Pa.Model
 				if (ToneLetters != null && ToneLetters.TryGetValue(ipaCharStr, out charInfo))
 					return charInfo;
 				
-				return this[ipaCharStr[0]];
+				return Values.FirstOrDefault(symbolInfo => symbolInfo.Literal == ipaCharStr);
 			}
 		}
 

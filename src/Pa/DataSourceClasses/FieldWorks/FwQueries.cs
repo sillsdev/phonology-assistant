@@ -132,11 +132,11 @@ namespace SIL.Pa.DataSource.FieldWorks
 				string filePath = Utils.PrepFilePathForMsgBox(queryFile);
 
 				var msg = App.GetString("LoadingSQLQueriesErrorMsg",
-					"The file that contains FieldWorks queries\n\n'{0}'\n\nis either missing or corrupt. " +
+					"The file that contains FieldWorks queries '{0}' is either missing or corrupt. " +
 					"Until this problem is corrected, FieldWorks data sources cannot be accessed or " +
 					"added as data sources.");
 
-				Utils.MsgBox(string.Format(msg, filePath));
+				App.NotifyUserOfProblem(msg, filePath);
 				fwqueries = new FwQueries(true);
 			}
 

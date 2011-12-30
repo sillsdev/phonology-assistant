@@ -60,7 +60,7 @@ namespace SIL.Pa.UI.Controls
 			SetupCloseButton();
 
 			// Prepare the tab's minimal pair options button.
-			var img = Properties.Resources.kimidMinimalPairsOptionsDropDown;
+			Image img = Properties.Resources.kimidMinimalPairsOptionsDropDown;
 			CIEOptionsButton = new XButton();
 			CIEOptionsButton.Image = img;
 			CIEOptionsButton.Size = new Size(img.Width + 4, img.Height + 4);
@@ -76,10 +76,6 @@ namespace SIL.Pa.UI.Controls
 			Text = EmptyTabText;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Clean up a little.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
@@ -184,8 +180,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		void ContextMenuStrip_Opening(object sender, CancelEventArgs e)
 		{
-			ContextMenuStrip cms = sender as ContextMenuStrip;
-
+			var cms = sender as ContextMenuStrip;
 			if (cms == null)
 				return;
 
@@ -462,7 +457,7 @@ namespace SIL.Pa.UI.Controls
 				if (OwningTabGroup != null && OwningTabGroup.RecordView != null)
 					OwningTabGroup.RecordView.UpdateFonts();
 
-				m_resultView.RefreshResults(args as PaProject);
+				m_resultView.RefreshResults();
 				SubscribeToGridEvents();
 				UpdateRecordView();
 			}

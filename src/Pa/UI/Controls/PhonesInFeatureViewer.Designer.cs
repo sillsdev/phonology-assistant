@@ -32,12 +32,11 @@ namespace SIL.Pa.UI.Controls
 		{
 			this.components = new System.ComponentModel.Container();
 			this.cmnuViewOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.mnuShowAll = new System.Windows.Forms.ToolStripMenuItem();
-			this.mnuSep = new System.Windows.Forms.ToolStripSeparator();
 			this.mnuCompact = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuExpanded = new System.Windows.Forms.ToolStripMenuItem();
 			this.pnlOuter = new SilTools.Controls.SilPanel();
-			this.pnlExpandedView = new System.Windows.Forms.Panel();
+			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
+			this._flowLayout = new System.Windows.Forms.FlowLayoutPanel();
 			this.header = new SilTools.Controls.HeaderLabel();
 			this.btnDropDownArrow = new SilTools.Controls.XButton();
 			this.cmnuViewOptions.SuspendLayout();
@@ -49,30 +48,15 @@ namespace SIL.Pa.UI.Controls
 			// 
 			this.cmnuViewOptions.AutoSize = false;
 			this.cmnuViewOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuShowAll,
-            this.mnuSep,
             this.mnuCompact,
             this.mnuExpanded});
 			this.cmnuViewOptions.Name = "contextMenuStrip1";
 			this.cmnuViewOptions.Size = new System.Drawing.Size(167, 98);
 			// 
-			// mnuShowAll
-			// 
-			this.mnuShowAll.Name = "mnuShowAll";
-			this.mnuShowAll.Size = new System.Drawing.Size(160, 22);
-			this.mnuShowAll.Text = "&Show All Phones";
-			this.mnuShowAll.ToolTipText = "Show phones, even when they don\'t occur in the selected feature(s)";
-			this.mnuShowAll.Click += new System.EventHandler(this.mnuShowAll_Click);
-			// 
-			// mnuSep
-			// 
-			this.mnuSep.Name = "mnuSep";
-			this.mnuSep.Size = new System.Drawing.Size(163, 6);
-			// 
 			// mnuCompact
 			// 
 			this.mnuCompact.Name = "mnuCompact";
-			this.mnuCompact.Size = new System.Drawing.Size(160, 22);
+			this.mnuCompact.Size = new System.Drawing.Size(153, 22);
 			this.mnuCompact.Text = "&Compact View";
 			this.mnuCompact.ToolTipText = "Arranges without new rows for each manner of articulation";
 			this.mnuCompact.Click += new System.EventHandler(this.mnuCompact_Click);
@@ -80,7 +64,7 @@ namespace SIL.Pa.UI.Controls
 			// mnuExpanded
 			// 
 			this.mnuExpanded.Name = "mnuExpanded";
-			this.mnuExpanded.Size = new System.Drawing.Size(160, 22);
+			this.mnuExpanded.Size = new System.Drawing.Size(153, 22);
 			this.mnuExpanded.Text = "&Expanded View";
 			this.mnuExpanded.ToolTipText = "Arranges with new rows for each manner of articulation";
 			this.mnuExpanded.Click += new System.EventHandler(this.mnuExpanded_Click);
@@ -92,27 +76,45 @@ namespace SIL.Pa.UI.Controls
 			this.pnlOuter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlOuter.ClipTextForChildControls = true;
 			this.pnlOuter.ControlReceivingFocusOnMnemonic = null;
-			this.pnlOuter.Controls.Add(this.pnlExpandedView);
+			this.pnlOuter.Controls.Add(this._tableLayout);
+			this.pnlOuter.Controls.Add(this._flowLayout);
 			this.pnlOuter.Controls.Add(this.header);
 			this.pnlOuter.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlOuter.DoubleBuffered = true;
 			this.pnlOuter.DrawOnlyBottomBorder = false;
+			this.pnlOuter.DrawOnlyTopBorder = false;
 			this.pnlOuter.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlOuter.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.pnlOuter.Location = new System.Drawing.Point(0, 0);
 			this.pnlOuter.MnemonicGeneratesClick = false;
 			this.pnlOuter.Name = "pnlOuter";
 			this.pnlOuter.PaintExplorerBarBackground = false;
-			this.pnlOuter.Size = new System.Drawing.Size(150, 150);
+			this.pnlOuter.Size = new System.Drawing.Size(245, 231);
 			this.pnlOuter.TabIndex = 10;
 			// 
-			// pnlExpandedView
+			// _tableLayout
 			// 
-			this.pnlExpandedView.AutoScroll = true;
-			this.pnlExpandedView.Location = new System.Drawing.Point(23, 30);
-			this.pnlExpandedView.Name = "pnlExpandedView";
-			this.pnlExpandedView.Size = new System.Drawing.Size(96, 41);
-			this.pnlExpandedView.TabIndex = 0;
+			this._tableLayout.AutoScroll = true;
+			this._tableLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this._tableLayout.ColumnCount = 2;
+			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this._tableLayout.Location = new System.Drawing.Point(47, 43);
+			this._tableLayout.Name = "_tableLayout";
+			this._tableLayout.RowCount = 2;
+			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this._tableLayout.Size = new System.Drawing.Size(141, 88);
+			this._tableLayout.TabIndex = 14;
+			// 
+			// _flowLayout
+			// 
+			this._flowLayout.AutoScroll = true;
+			this._flowLayout.BackColor = System.Drawing.Color.Transparent;
+			this._flowLayout.Location = new System.Drawing.Point(24, 151);
+			this._flowLayout.Name = "_flowLayout";
+			this._flowLayout.Size = new System.Drawing.Size(138, 66);
+			this._flowLayout.TabIndex = 13;
 			// 
 			// header
 			// 
@@ -123,6 +125,7 @@ namespace SIL.Pa.UI.Controls
 			this.header.Dock = System.Windows.Forms.DockStyle.Top;
 			this.header.DoubleBuffered = true;
 			this.header.DrawOnlyBottomBorder = false;
+			this.header.DrawOnlyTopBorder = false;
 			this.header.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.header.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.header.Location = new System.Drawing.Point(0, 0);
@@ -130,7 +133,7 @@ namespace SIL.Pa.UI.Controls
 			this.header.Name = "header";
 			this.header.PaintExplorerBarBackground = false;
 			this.header.ShowWindowBackgroudOnTopAndRightEdge = true;
-			this.header.Size = new System.Drawing.Size(148, 24);
+			this.header.Size = new System.Drawing.Size(243, 24);
 			this.header.TabIndex = 12;
 			this.header.Text = "#";
 			this.header.Click += new System.EventHandler(this.header_Click);
@@ -146,7 +149,7 @@ namespace SIL.Pa.UI.Controls
 			this.btnDropDownArrow.DrawRightArrowButton = false;
 			this.btnDropDownArrow.Font = new System.Drawing.Font("Marlett", 9F);
 			this.btnDropDownArrow.Image = null;
-			this.btnDropDownArrow.Location = new System.Drawing.Point(128, 4);
+			this.btnDropDownArrow.Location = new System.Drawing.Point(223, 4);
 			this.btnDropDownArrow.Name = "btnDropDownArrow";
 			this.btnDropDownArrow.Size = new System.Drawing.Size(16, 16);
 			this.btnDropDownArrow.TabIndex = 1;
@@ -160,6 +163,7 @@ namespace SIL.Pa.UI.Controls
 			this.Controls.Add(this.pnlOuter);
 			this.DoubleBuffered = true;
 			this.Name = "PhonesInFeatureViewer";
+			this.Size = new System.Drawing.Size(245, 231);
 			this.cmnuViewOptions.ResumeLayout(false);
 			this.pnlOuter.ResumeLayout(false);
 			this.header.ResumeLayout(false);
@@ -173,10 +177,9 @@ namespace SIL.Pa.UI.Controls
 		private HeaderLabel header;
 		private XButton btnDropDownArrow;
 		private System.Windows.Forms.ContextMenuStrip cmnuViewOptions;
-		private System.Windows.Forms.ToolStripMenuItem mnuShowAll;
-		private System.Windows.Forms.ToolStripSeparator mnuSep;
 		private System.Windows.Forms.ToolStripMenuItem mnuCompact;
 		private System.Windows.Forms.ToolStripMenuItem mnuExpanded;
-		private System.Windows.Forms.Panel pnlExpandedView;
+		private System.Windows.Forms.FlowLayoutPanel _flowLayout;
+		private System.Windows.Forms.TableLayoutPanel _tableLayout;
 	}
 }

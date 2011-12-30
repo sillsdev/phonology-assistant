@@ -37,23 +37,21 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			s_loadAttempted = true;
 
-			const string filename = "PhoneticInventory.xml";
-
 			try
 			{
-				FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, filename);
-			}
-			catch
-			{
+				var filename = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
+					"NormalizationExceptions.xml");
+
 				s_exceptionsList = XmlSerializationHelper.DeserializeFromFile<List<NormalizationException>>(filename);
 			}
+			catch {	}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public static string Normalize(string toConvert)
 		{
 			if (toConvert == null)
-				return toConvert;
+				return null;
 
 			// First normalize and decompose the string.
 			toConvert = toConvert.Normalize(NormalizationForm.FormD);

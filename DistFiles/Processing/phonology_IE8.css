@@ -1,0 +1,10 @@
+﻿/* phonology_IE8.css 2011-07-04 */
+/* Generic formatting for XHTML files exported from Phonology Assistant. */
+/* Here are the exceptions for Internet Explorer 8 or earlier. */
+
+/* Rotate labels of heading cells clockwise 90 degrees ---------------------- */
+
+th.rotate span
+{
+writing-mode: tb-rl; /* IE 5 or later */
+}

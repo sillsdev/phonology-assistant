@@ -46,12 +46,9 @@ namespace SIL.Pa.UI.Dialogs
 			using (var dlg = new UndefinedPhoneticCharactersDlg(project, App.IPASymbolCache.UndefinedCharacters))
 			{
 				if (App.MainForm != null)
-					App.MainForm.AddOwnedForm(dlg);
-
-				dlg.ShowDialog();
-
-				if (App.MainForm != null)
-					App.MainForm.RemoveOwnedForm(dlg);
+					dlg.ShowDialog(App.MainForm);
+				else
+					dlg.ShowDialog();
 			}
 		}
 
@@ -104,6 +101,9 @@ namespace SIL.Pa.UI.Dialogs
 			var projectName = (project == null ? string.Empty : project.Name);
 			lblInfo.Text = string.Format(m_infoFmt, projectName, Application.ProductName);
 			LoadCharGrid(list);
+
+			m_gridWhere.Tag = null;
+			HandleCharGridRowChanged(null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -143,7 +143,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_gridChars.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 			m_gridChars.AutoResizeColumnHeadersHeight();
 			m_gridChars.Name = Name + "CharsGrid";
-			AppColor.SetGridSelectionColors(m_gridChars, false);
+			App.SetGridSelectionColors(m_gridChars, false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -181,7 +181,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_gridWhere.AutoResizeColumnHeadersHeight();
 			m_gridWhere.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
 			m_gridWhere.Name = Name + "WhereGrid";
-			AppColor.SetGridSelectionColors(m_gridWhere, false);
+			App.SetGridSelectionColors(m_gridWhere, false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -276,6 +276,12 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (Settings.Default.UndefinedPhoneticCharactersDlgWhereGrid != null)
 				Settings.Default.UndefinedPhoneticCharactersDlgWhereGrid.InitializeGrid(m_gridWhere);
+
+			m_gridChars.AutoResizeColumnHeadersHeight();
+			m_gridChars.ColumnHeadersHeight += 4;
+
+			m_gridWhere.AutoResizeColumnHeadersHeight();
+			m_gridWhere.ColumnHeadersHeight += 4;
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -314,14 +320,15 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void m_gridChars_RowEnter(object sender, DataGridViewCellEventArgs e)
+		private void HandleCharGridRowChanged(object sender, EventArgs e)
 		{
-			if (e.RowIndex < 0)
+			var rowIndex = m_gridChars.CurrentCellAddress.Y;
+			if (rowIndex < 0)
 				return;
 
 			char currChar;
-			if (m_gridChars["char", e.RowIndex].Value is char)
-				currChar = (char)m_gridChars["char", e.RowIndex].Value;
+			if (m_gridChars["char", rowIndex].Value is char)
+				currChar = (char)m_gridChars["char", rowIndex].Value;
 			else
 			{
 				m_gridWhere.Rows.Clear();
@@ -339,7 +346,7 @@ namespace SIL.Pa.UI.Dialogs
 				pgpWhere.Text = string.Format(m_codepointHdgFmt, (int)currChar);
 				m_currUdpcil = m_udpciList[currChar];
 				m_gridWhere.RowCount = m_udpciList[currChar].Count;
-				
+
 				if (m_gridWhere.RowCount > 0)
 					m_gridWhere.CurrentCell = m_gridWhere[0, 0];
 			}

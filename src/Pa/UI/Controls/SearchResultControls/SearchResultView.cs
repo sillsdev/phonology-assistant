@@ -10,21 +10,21 @@ namespace SIL.Pa.UI.Controls
 {
 	public partial class SearchResultView : UserControl
 	{
-		private SearchQuery _searchQuery;
+		private SearchQuery _query;
 		private PaWordListGrid _grid;
 		private ITMAdapter _tmAdapter;
 		private readonly Type _owningViewType;
-		private PaProject _project;
+		private SearchQueryValidationErrorControl _errorControl;
 
 		/// ------------------------------------------------------------------------------------
-		public SearchResultView(PaProject project, Type owningViewType, ITMAdapter tmAdapter)
+		public SearchResultView(Type owningViewType, ITMAdapter tmAdapter)
 		{
 			InitializeComponent();
 			base.DoubleBuffered = true;
 			base.Dock = DockStyle.Fill;
-			_project = project;
 			_owningViewType = owningViewType;
 			_tmAdapter = tmAdapter;
+			Disposed += SearchResultView_Disposed;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -35,25 +35,28 @@ namespace SIL.Pa.UI.Controls
 		public void Initialize(WordListCache cache)
 		{
 			App.MsgMediator.SendMessage("BeforeSearchResultViewInitialized", this);
+			Controls.Clear();
 
-			_searchQuery = (cache != null ? cache.SearchQuery : null);
+			_query = (cache != null ? cache.SearchQuery : null);
 
 			if (cache == null || cache.Count == 0)
 			{
 				if (_grid != null)
 				{
-					Controls.Remove(_grid);
 					_grid.Dispose();
 					_grid = null;
 				}
 
+				if (_query != null && _query.Errors.Count > 0)
+					SetupErrorDisplay(_query);
+				
 				return;
 			}
 
 			// Save the grid we're replacing.
 			var tmpgrid = _grid;
 
-			_grid = new PaWordListGrid(_project, cache, _owningViewType);
+			_grid = new PaWordListGrid(cache, _owningViewType);
 			_grid.OwningViewType = _owningViewType;
 			_grid.TMAdapter = _tmAdapter;
 
@@ -76,11 +79,21 @@ namespace SIL.Pa.UI.Controls
 				tmpgrid.Dispose();
 			}
 
-			Disposed += SearchResultView_Disposed;
 			_grid.UseWaitCursor = false;
 			_grid.Cursor = Cursors.Default;
 
 			App.MsgMediator.SendMessage("AfterSearchResultViewInitialized", this);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void SetupErrorDisplay(SearchQuery query)
+		{
+			_errorControl = new SearchQueryValidationErrorControl(query.Pattern, query.Errors, false)
+			{
+				Dock = DockStyle.Fill,
+			};
+
+			Controls.Add(_errorControl);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -99,6 +112,12 @@ namespace SIL.Pa.UI.Controls
 				_grid.Dispose();
 				_grid = null;
 			}
+
+			if (_errorControl != null)
+			{
+				_errorControl.Dispose();
+				_errorControl = null;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -107,14 +126,20 @@ namespace SIL.Pa.UI.Controls
 		/// grid contents.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public void RefreshResults(PaProject project)
+		public void RefreshResults()
 		{
 			int savCurrRowIndex = 0;
 			int savCurrColIndex = 0;
 			int savFirstRowIndex = 0;
 			SortOptions savSortOptions = null;
 			CIEOptions savCIEOptions = null;
-			_project = project;
+
+			if (_errorControl != null)
+			{
+				Controls.Remove(_errorControl);
+				_errorControl.Dispose();
+				_errorControl = null;
+			}
 
 			if (_grid != null)
 			{
@@ -128,10 +153,10 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			App.InitializeProgressBar(App.kstidQuerySearchingMsg);
-			var resultCache = App.Search(_searchQuery, 5);
+			var resultCache = App.Search(_query);
 			if (resultCache != null)
 			{
-				resultCache.SearchQuery = _searchQuery;
+				resultCache.SearchQuery = _query;
 				Initialize(resultCache);
 			}
 			
@@ -180,7 +205,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnPaint(e);
 
-			if (_grid != null)
+			if (_grid != null || (_query != null && _query.Errors.Count > 0))
 				return;
 
 			const TextFormatFlags flags = TextFormatFlags.HorizontalCenter |
@@ -188,7 +213,7 @@ namespace SIL.Pa.UI.Controls
 				TextFormatFlags.WordBreak | TextFormatFlags.VerticalCenter |
 				TextFormatFlags.PreserveGraphicsClipping;
 
-			using (Font fnt = FontHelper.MakeFont(SystemInformation.MenuFont, 10, FontStyle.Bold))
+			using (var fnt = FontHelper.MakeFont(SystemInformation.MenuFont, 10, FontStyle.Bold))
 			{
 				var msg = App.GetString("SearchResultView.NoSearchResultsFoundMsg", "No Results Found.",
 					"Displayed in the search results area when no matches were found.");
@@ -200,10 +225,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		#region Properties
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public ITMAdapter TMAdapter
 		{
@@ -217,19 +238,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the result view's word list cache.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public WordListCache Cache
 		{
 			get { return (_grid != null ? _grid.Cache : null); }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the result view's grid.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public PaWordListGrid Grid
 		{
@@ -237,13 +250,9 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the result view's search query.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public SearchQuery SearchQuery
 		{
-			get { return _searchQuery; }
+			get { return _query; }
 		}
 		
 		#endregion

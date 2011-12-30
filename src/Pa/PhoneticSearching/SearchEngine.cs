@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SIL.Pa.Model;
+using SIL.Pa.Properties;
 
 namespace SIL.Pa.PhoneticSearching
 {
@@ -35,22 +35,25 @@ namespace SIL.Pa.PhoneticSearching
 			NotBeginningOfEnvBefore,
 			NotEndOfEnvAfter,
 		}
-		
+
 		public const string kIgnoredPhone = "\uFFFC";
+		public const string kBracketingError = "BRACKETING-ERROR";
 		private static SearchQuery s_currQuery = new SearchQuery();
 
 		private static bool s_ignoreUndefinedChars = true;
 
-		private readonly PatternGroup m_envBefore;
-		private readonly PatternGroup m_envAfter;
-		private readonly PatternGroup m_srchItem;
 		private readonly string m_envBeforeStr = string.Empty;
 		private readonly string m_envAfterStr = string.Empty;
 		private readonly string m_srchItemStr = string.Empty;
 		private string[] m_phones;
 		int m_matchIndex;
 
-		private readonly List<string> m_errors = new List<string>();
+		private readonly List<SearchQueryValidationError> _errors =
+			new List<SearchQueryValidationError>();
+
+		public PatternGroup EnvBeforePatternGroup { get; private set; }
+		public PatternGroup SrchItemPatternGroup { get; private set; }
+		public PatternGroup EnvAfterPatternGroup { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		static SearchEngine()
@@ -62,203 +65,123 @@ namespace SIL.Pa.PhoneticSearching
 
 		/// ------------------------------------------------------------------------------------
 		public SearchEngine(SearchQuery query, Dictionary<string, IPhoneInfo> phoneCache)
-			: this(query.Pattern)
+			: this(query)
 		{
-			CurrentSearchQuery = query;
 			PhoneCache = phoneCache;
 
-			if (m_errors != null && m_errors.Count > 0)
-				query.ErrorMessages.AddRange(m_errors);
+			if (_errors != null && _errors.Count > 0)
+				query.Errors.AddRange(_errors);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public SearchEngine(SearchQuery query) : this(query.Pattern)
+		public SearchEngine(SearchQuery query)
 		{
 			CurrentSearchQuery = query;
 
-			if (m_errors != null && m_errors.Count > 0)
-				query.ErrorMessages.AddRange(m_errors);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public SearchEngine(string pattern)
-		{
-			m_errors.Clear();
-
-			if (pattern == null)
-				pattern = string.Empty;
-
-			string[] patterns = GetPatternPieces(pattern);
-			if (patterns == null)
-			{
-				m_errors.Add(string.Format(GetSyntaxErrorMsg(), pattern));
-				return;
-			}
-
-			if (patterns.Length == 0 || patterns.Length > 3 ||
-				string.IsNullOrEmpty(patterns[0]) ||
-				(pattern.IndexOf('_') >= 0 && pattern.IndexOf('/') < 0))
-			{
-				m_errors.Add(string.Format(GetPatternSyntaxErrorMsg(), App.kEmptyDiamondPattern));
-				return;
-			}
-
-			if (patterns.Length < 2)
-				patterns = new[] { patterns[0], "*", "*" };
-			else if (patterns.Length < 3)
-				patterns = new[] { patterns[0], patterns[1], "*" };
-
-			if (string.IsNullOrEmpty(patterns[1]))
-				patterns[1] = "*";
-			
-			if (string.IsNullOrEmpty(patterns[2]))
-				patterns[2] = "*";
-
-			patterns[1] = patterns[1].Replace(App.kSearchPatternDiamond, "*");
-			patterns[2] = patterns[2].Replace(App.kSearchPatternDiamond, "*");
+			_errors.Clear();
 
 			try
 			{
-				m_srchItem = new PatternGroup(EnvironmentType.Item);
-				m_envBefore = new PatternGroup(EnvironmentType.Before);
-				m_envAfter = new PatternGroup(EnvironmentType.After);
+				if (Settings.Default.UseNewSearchPatternParser)
+				{
+					var parser = new PatternParser(App.Project);
+					SrchItemPatternGroup = parser.Parse(query.SearchItem, EnvironmentType.Item);
+					EnvBeforePatternGroup = parser.Parse(query.PrecedingEnvironment, EnvironmentType.Before);
+					EnvAfterPatternGroup = parser.Parse(query.FollowingEnvironment, EnvironmentType.After);
+				}
+				else
+				{
+					SrchItemPatternGroup = new PatternGroup(EnvironmentType.Item);
+					EnvBeforePatternGroup = new PatternGroup(EnvironmentType.Before);
+					EnvAfterPatternGroup = new PatternGroup(EnvironmentType.After);
 
-				Parse(m_srchItem, patterns[0]);
-				Parse(m_envBefore, patterns[1]);
-				Parse(m_envAfter, patterns[2]);
+					Parse(SrchItemPatternGroup, query.SearchItem);
+					Parse(EnvBeforePatternGroup, query.PrecedingEnvironment);
+					Parse(EnvAfterPatternGroup, query.FollowingEnvironment);
+				}
 			}
 			catch
 			{
-				m_errors.Add(string.Format(GetPatternSyntaxErrorMsg(), App.kEmptyDiamondPattern));
+				var error = new SearchQueryValidationError(
+					string.Format(GetPatternSyntaxErrorMsg(), App.kEmptyDiamondPattern));
+				
+				_errors.Add(error);
 			}
 
-			m_srchItemStr = patterns[0];
-			m_envBeforeStr = patterns[1];
-			m_envAfterStr = patterns[2];
+			m_srchItemStr = query.SearchItem;
+			m_envBeforeStr = query.PrecedingEnvironment;
+			m_envAfterStr = query.FollowingEnvironment;
+
+			if (_errors != null && _errors.Count > 0)
+				query.Errors.AddRange(_errors);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Parses the pattern into its search item pattern, its environment before pattern
-		/// and its environment after pattern. Before doing so, however, it checks for
-		/// slashes and underscores that may be part of feature names (e.g. Tap/Flap).
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string[] GetPatternPieces(string pattern)
-		{
-			// Replace slashes and underscores that occur between square brackets with tokens
-			// that are replaced with the slashes and underscores after the pattern is split up.
-			try
-			{
-				StringBuilder bldr = new StringBuilder(pattern);
-				Stack<char> bracketBucket = new Stack<char>();
-				for (int i = 0; i < bldr.Length; i++)
-				{
-					switch (bldr[i])
-					{
-						case '[': bracketBucket.Push(bldr[i]); break;
-						case ']': bracketBucket.Pop(); break;
-						case '/':
-							// When slashes are found inside brackets, replace them with codepoint 1.
-							if (bracketBucket.Count > 0)
-								bldr[i] = (char)1;
-							break;
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets or sets a value indicating whether or not the phones in a the search pattern
+		///// should be run through the experimental transcription conversion process.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public static bool ConvertPatternWithTranscriptionChanges { get; set; }
 
-						case '_':
-							// When underscores are found inside brackets, replace them with codepoint 2.
-							if (bracketBucket.Count > 0)
-								bldr[i] = (char)2;
-							break;
-					}
-				}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Combines the list of error messages into a single message.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public string GetCombinedErrorMessages()
+		//{
+		//    return GetCombinedErrorMessages(true);
+		//}
 
-				// Split up the pattern into it's pieces. Three pieces are expected.
-				string[] pieces = bldr.ToString().Split('/', '_');
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Combines the list of error messages into a single message.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public string GetCombinedErrorMessages(bool separateErrorsWithLineBreaks)
+		//{
+		//    if (_errors == null || _errors.Count == 0)
+		//        return null;
 
-				// Now go through the pieces and put back any slashes
-				// or undersores that were replace by tokens above.
-				for (int i = 0; i < pieces.Length; i++)
-				{
-					pieces[i] = pieces[i].Replace((char)1, '/');
-					pieces[i] = pieces[i].Replace((char)2, '_');
-				}
+		//    var errors = new StringBuilder();
+		//    foreach (var err in _errors)
+		//    {
+		//        errors.Append(err);
+		//        errors.Append(separateErrorsWithLineBreaks ? Environment.NewLine : " ");
+		//    }
 
-				return pieces;
-			}
-			catch { }
+		//    var fmt = App.GetString("PhoneticSearchingMessages.GenericPatternParsingErrorMsg",
+		//        "The following error(s) occurred when parsing the search pattern:\n\n{0}",
+		//        "Search Query Messages");
 
-			return null;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets a value indicating whether or not the phones in a the search pattern
-		/// should be run through the experimental transcription conversion process.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static bool ConvertPatternWithTranscriptionChanges { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Contains a list of errors when there are any.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string[] ErrorMessages
-		{
-			get { return m_errors.ToArray(); }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Combines the list of error messages into a single message.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string GetCombinedErrorMessages()
-		{
-			return GetCombinedErrorMessages(true);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Combines the list of error messages into a single message.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string GetCombinedErrorMessages(bool separateErrorsWithLineBreaks)
-		{
-			if (m_errors == null || m_errors.Count == 0)
-				return null;
-
-			var errors = new StringBuilder();
-			foreach (var err in m_errors)
-			{
-				errors.Append(err);
-				errors.Append(separateErrorsWithLineBreaks ? Environment.NewLine : " ");
-			}
-
-			var fmt = App.GetString("SearchEngine.PatternParsingErrorMsg",
-				"The following error(s) occurred when parsing the search pattern:\n\n{0}",
-				"Search Query Messages");
-
-			return string.Format(fmt, errors.ToString().Trim());
-		}
+		//    return string.Format(fmt, errors.ToString().Trim());
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		private void Parse(PatternGroup ptrnGrp, string pattern)
 		{
-			var success = ptrnGrp.Parse(pattern, m_errors);
+			var errList = new List<string>();
+
+			var success = ptrnGrp.Parse(pattern, errList);
 			var envType = GetEnvironmentTypeString(ptrnGrp.EnvironmentType);
-			
+
+			if (errList.Count > 0)
+				_errors.AddRange(errList.Select(e => new SearchQueryValidationError(e)).ToList());
+
 			if (ptrnGrp.Members == null || ptrnGrp.Members.Count == 0)
 			{
-				var fmt = App.GetString("SearchEngine.ParsedToNothingErrorMsg",
-					"Error parsing the {0}.", "Search Query Messages");
+				var fmt = App.GetString("PhoneticSearchingMessages.ParsedToNothingErrorMsg",
+					"Parsing the pattern '{0}' resulted in nothing to search for.");
 
-				m_errors.Add(string.Format(fmt, envType));
+				_errors.Add(new SearchQueryValidationError(string.Format(fmt, envType)));
 				return;
 			}
 
-			if (!success)
-				m_errors.Add(string.Format(GetSyntaxErrorMsg(), envType));
+			//// TODO: Some day handle errors so an error dialog can link
+			//// to different help topics based on the error.
+			//if (!success && !_errors.Any(msg => msg.StartsWith(kBracketingError)))
+			//    _errors.Add(string.Format(GetSyntaxErrorMsg(), envType));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -277,13 +200,13 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public static string GetSyntaxErrorMsg()
 		{
-			return App.GetString("SearchEngine.SyntaxErrorMsg", "Syntax error in {0}.");
+			return App.GetString("PhoneticSearchingMessages.SyntaxErrorMsg", "Syntax error in {0}.");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private static string GetPatternSyntaxErrorMsg()
 		{
-			return App.GetString("SearchEngine.PatternSyntaxErrorMsg",
+			return App.GetString("PhoneticSearchingMessages.PatternSyntaxErrorMsg",
 				"Syntax error. Pattern is not in the correct format: {0}");
 		}
 
@@ -315,7 +238,7 @@ namespace SIL.Pa.PhoneticSearching
 				// or complete phones (e.g. tone stick figures) to one collection and
 				// those that aren't to another. It's assumed that ignored items that
 				// are not base characters are only one codepoint in length.
-				foreach (string ignoredItem in value.CompleteIgnoredList)
+				foreach (string ignoredItem in value.GetIgnoredCharacters())
 				{
 					var charInfo = App.IPASymbolCache[ignoredItem];
 					if (charInfo != null)
@@ -341,7 +264,8 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			if (App.IPASymbolCache.UndefinedCharacters != null && IgnoredPhones != null)
 			{
-				foreach (var upci in App.IPASymbolCache.UndefinedCharacters.Where(upci => !IgnoredPhones.Contains(upci.Character.ToString())))
+				foreach (var upci in App.IPASymbolCache.UndefinedCharacters
+					.Where(upci => !IgnoredPhones.Contains(upci.Character.ToString())))
 				{
 					IgnoredPhones.Add(upci.Character.ToString());
 				}
@@ -357,10 +281,10 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			if (App.IPASymbolCache.UndefinedCharacters != null && IgnoredPhones != null)
 			{
-				foreach (var upci in App.IPASymbolCache.UndefinedCharacters)
+				foreach (var upci in App.IPASymbolCache.UndefinedCharacters
+					.Where(upci => IgnoredPhones.Contains(upci.Character.ToString())))
 				{
-					if (IgnoredPhones.Contains(upci.Character.ToString()))
-						IgnoredPhones.Remove(upci.Character.ToString());
+					IgnoredPhones.Remove(upci.Character.ToString());
 				}
 			}
 		}
@@ -397,127 +321,84 @@ namespace SIL.Pa.PhoneticSearching
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the environment before's pattern group
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public PatternGroup EnvBeforePatternGroup
-		{
-			get { return m_envBefore; }
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets a string of phones found in all the IPA character and IPA character run
+		///// members of all the pattern pieces (i.e. search item and before and after
+		///// environments).
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public string[] GetPhonesInPattern()
+		//{
+		//    var bldrPhones = new StringBuilder();
+		//    bldrPhones.Append(GetPhonesFromMember(SrchItemPatternGroup));
+		//    bldrPhones.Append(GetPhonesFromMember(EnvBeforePatternGroup));
+		//    bldrPhones.Append(GetPhonesFromMember(EnvAfterPatternGroup));
+
+		//    return (bldrPhones.Length == 0 ? null :
+		//        App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true, false));
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		//public string[] GetPhonesInSearchItem()
+		//{
+		//    var bldrPhones = new StringBuilder(GetPhonesFromMember(SrchItemPatternGroup));
+		//    return (bldrPhones.Length == 0 ? null :
+		//        App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true,
+		//        ConvertPatternWithTranscriptionChanges));
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		//public string[] GetPhonesInPrecedingEnv()
+		//{
+		//    var bldrPhones = new StringBuilder(GetPhonesFromMember(EnvBeforePatternGroup));
+		//    return (bldrPhones.Length == 0 ? null :
+		//        App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true,
+		//        ConvertPatternWithTranscriptionChanges));
+		//}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the search item's pattern group
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public PatternGroup SrchItemPatternGroup
-		{
-			get { return m_srchItem; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the environment after's pattern group
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public PatternGroup EnvAfterPatternGroup
-		{
-			get { return m_envAfter; }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a string of phones found in all the IPA character and IPA character run
-		/// members of all the pattern pieces (i.e. search item and before and after
-		/// environments).
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string[] GetPhonesInPattern()
-		{
-			var bldrPhones = new StringBuilder();
-			bldrPhones.Append(GetPhonesFromMember(m_srchItem));
-			bldrPhones.Append(GetPhonesFromMember(m_envBefore));
-			bldrPhones.Append(GetPhonesFromMember(m_envAfter));
-
-			return (bldrPhones.Length == 0 ? null :
-				App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true,
-				ConvertPatternWithTranscriptionChanges));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public string[] GetPhonesInSearchItem()
-		{
-			var bldrPhones = new StringBuilder(GetPhonesFromMember(m_srchItem));
-			return (bldrPhones.Length == 0 ? null :
-				App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true,
-				ConvertPatternWithTranscriptionChanges));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public string[] GetPhonesInPrecedingEnv()
-		{
-			var bldrPhones = new StringBuilder(GetPhonesFromMember(m_envBefore));
-			return (bldrPhones.Length == 0 ? null :
-				App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true,
-				ConvertPatternWithTranscriptionChanges));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public string[] GetPhonesInFollowingEnv()
-		{
-			var bldrPhones = new StringBuilder(GetPhonesFromMember(m_envAfter));
-			return (bldrPhones.Length == 0 ? null :
-				App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true,
-				ConvertPatternWithTranscriptionChanges));
-		}
+		//public string[] GetPhonesInFollowingEnv()
+		//{
+		//    var bldrPhones = new StringBuilder(GetPhonesFromMember(EnvAfterPatternGroup));
+		//    return (bldrPhones.Length == 0 ? null :
+		//        App.Project.PhoneticParser.Parse(bldrPhones.ToString(), true,
+		//        ConvertPatternWithTranscriptionChanges));
+		//}
 		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets an array of undefined phonetic characters found in all the IPA character and
-		/// IPA character run members of all the pattern pieces (i.e. search item and before
-		/// and after environments). 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public char[] GetInvalidSymbolsInPattern()
-		{
-			var undefinedChars = new List<char>();
-			undefinedChars.AddRange(GetInvalidSymbolsInSearchItem());
-			undefinedChars.AddRange(GetInvalidSymbolsInPrecedingEnv());
-			undefinedChars.AddRange(GetInvalidSymbolsInFollowingEnv());
-			return (undefinedChars.Count == 0 ? null : undefinedChars.ToArray());
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets an array of undefined phonetic characters found in all the IPA character and
+		///// IPA character run members of all the pattern pieces (i.e. search item and before
+		///// and after environments). 
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public char[] GetInvalidSymbolsInPattern()
+		//{
+		//    var undefinedChars = new List<char>();
+		//    undefinedChars.AddRange(GetInvalidSymbolsInSearchItem());
+		//    undefinedChars.AddRange(GetInvalidSymbolsInPrecedingEnv());
+		//    undefinedChars.AddRange(GetInvalidSymbolsInFollowingEnv());
+		//    return (undefinedChars.Count == 0 ? null : undefinedChars.ToArray());
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public List<char> GetInvalidSymbolsInSearchItem()
-		{
-			return GetInvalidCharsFromMember(m_srchItem);
-		}
+		///// ------------------------------------------------------------------------------------
+		//public List<char> GetInvalidSymbolsInSearchItem()
+		//{
+		//    return GetInvalidCharsFromMember(SrchItemPatternGroup);
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public List<char> GetInvalidSymbolsInPrecedingEnv()
-		{
-			return GetInvalidCharsFromMember(m_envBefore);
-		}
+		///// ------------------------------------------------------------------------------------
+		//public List<char> GetInvalidSymbolsInPrecedingEnv()
+		//{
+		//    return GetInvalidCharsFromMember(EnvBeforePatternGroup);
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public List<char> GetInvalidSymbolsInFollowingEnv()
-		{
-			return GetInvalidCharsFromMember(m_envAfter);
-		}
+		///// ------------------------------------------------------------------------------------
+		//public List<char> GetInvalidSymbolsInFollowingEnv()
+		//{
+		//    return GetInvalidCharsFromMember(EnvAfterPatternGroup);
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -527,21 +408,14 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public WordBoundaryCondition GetWordBoundaryCondition()
 		{
-			string srchItemPattern = (m_srchItem == null ? string.Empty : m_srchItem.ToString());
+			string srchItemPattern = (SrchItemPatternGroup == null ? string.Empty : SrchItemPatternGroup.ToString());
 			if (srchItemPattern.StartsWith("#"))
 				return WordBoundaryCondition.BeginningOfSearchItem;
 
-			if (srchItemPattern.EndsWith("#"))
-				return WordBoundaryCondition.EndOfSearchItem;
-
-			return WordBoundaryCondition.NoCondition;
+			return srchItemPattern.EndsWith("#") ?
+				WordBoundaryCondition.EndOfSearchItem : WordBoundaryCondition.NoCondition;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a value indicating whether or not there is an invalid word boundary symbol
-		/// found in the search pattern, and where it is.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public ZeroOrMoreCondition GetZeroOrMoreCondition()
 		{
@@ -621,10 +495,10 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			pattern = pattern.ToLower();
 
-			foreach (Feature feature in App.BFeatureCache.Values)
+			foreach (var feature in App.BFeatureCache.Values)
 			{
 				// Remove those whose short name was specified.
-				string ptrnFeature = string.Format("[{0}]", feature.Name.ToLower());
+				var ptrnFeature = string.Format("[{0}]", feature.Name.ToLower());
 				pattern = pattern.Replace(ptrnFeature, string.Empty);
 
 				// Remove those whose full name was specified.
@@ -645,7 +519,7 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			int start = 0;
 
-			while ((start = pattern.IndexOf(App.kDottedCircleC, start)) >= 0)
+			while ((start = pattern.IndexOf(App.DottedCircleC, start)) >= 0)
 			{
 				int end = pattern.IndexOf(']', start);
 				if (end < start)
@@ -660,73 +534,65 @@ namespace SIL.Pa.PhoneticSearching
 
 		#endregion
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static string GetPhonesFromMember(PatternGroup grp)
-		{
-			StringBuilder phones = new StringBuilder();
+		///// ------------------------------------------------------------------------------------
+		//private static string GetPhonesFromMember(PatternGroup grp)
+		//{
+		//    var phones = new StringBuilder();
 
-			if (grp == null)
-				return string.Empty;
+		//    if (grp == null)
+		//        return string.Empty;
 
-			foreach (object obj in grp.Members)
-			{
-				if (obj is PatternGroup)
-					phones.Append(GetPhonesFromMember(obj as PatternGroup));
-				else
-				{
-					PatternGroupMember member = obj as PatternGroupMember;
-					if (member != null && member.Member != null &&
-						member.Member.Trim() != string.Empty &&
-						member.MemberType == MemberType.SinglePhone)
-					{
-						phones.Append(member.Member.Trim());
-					}
+		//    foreach (object obj in grp.Members)
+		//    {
+		//        if (obj is PatternGroup)
+		//            phones.Append(GetPhonesFromMember(obj as PatternGroup));
+		//        else
+		//        {
+		//            var member = obj as PatternGroupMember;
+		//            if (member != null && member.Member != null &&
+		//                member.Member.Trim() != string.Empty &&
+		//                member.MemberType == MemberType.SinglePhone)
+		//            {
+		//                phones.Append(member.Member.Trim());
+		//            }
 
-					//PatternGroupMember member = obj as PatternGroupMember;
-					//if (member != null && member.Member != null &&
-					//    member.Member.Trim() != string.Empty &&
-					//    (member.MemberType == MemberType.SinglePhone ||
-					//    member.MemberType == MemberType.IPACharacterRun))
-					//{
-					//    phones.Append(member.Member.Trim());
-					//}
-				}
-			}
+		//            //PatternGroupMember member = obj as PatternGroupMember;
+		//            //if (member != null && member.Member != null &&
+		//            //    member.Member.Trim() != string.Empty &&
+		//            //    (member.MemberType == MemberType.SinglePhone ||
+		//            //    member.MemberType == MemberType.IPACharacterRun))
+		//            //{
+		//            //    phones.Append(member.Member.Trim());
+		//            //}
+		//        }
+		//    }
 
-			return phones.ToString();
-		}
+		//    return phones.ToString();
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private static List<char> GetInvalidCharsFromMember(PatternGroup grp)
-		{
-			List<char> undefinedChars = new List<char>();
+		///// ------------------------------------------------------------------------------------
+		//private static List<char> GetInvalidCharsFromMember(PatternGroup grp)
+		//{
+		//    var undefinedChars = new List<char>();
 
-			if (grp != null)
-			{
-				foreach (object obj in grp.Members)
-				{
-					if (obj is PatternGroup)
-						undefinedChars.AddRange(GetInvalidCharsFromMember(obj as PatternGroup));
-					else
-					{
-						PatternGroupMember member = obj as PatternGroupMember;
-						if (member != null)
-							undefinedChars.AddRange(member.UndefinedPhoneticChars);
-					}
-				}
+		//    if (grp != null)
+		//    {
+		//        foreach (object obj in grp.Members)
+		//        {
+		//            if (obj is PatternGroup)
+		//                undefinedChars.AddRange(GetInvalidCharsFromMember(obj as PatternGroup));
+		//            else
+		//            {
+		//                var member = obj as PatternGroupMember;
+		//                if (member != null)
+		//                    undefinedChars.AddRange(member.UndefinedPhoneticChars);
+		//            }
+		//        }
 
-			}
+		//    }
 		
-			return undefinedChars;
-		}
+		//    return undefinedChars;
+		//}
 
 		#region Diacritic Pattern comparer used by pattern group members and pattern groups.
 		/// ------------------------------------------------------------------------------------
@@ -745,9 +611,9 @@ namespace SIL.Pa.PhoneticSearching
 				return null;
 			}
 
-			StringBuilder sbBasePhone = new StringBuilder();
-			List<char> sbDiacritics = new List<char>(5);
-			List<char> undefinedChars = new List<char>();
+			var sbBasePhone = new StringBuilder();
+			var sbDiacritics = new List<char>(5);
+			var undefinedChars = new List<char>();
 			bool tiebarFound = false;
 
 			foreach (char c in phone)
@@ -831,7 +697,7 @@ namespace SIL.Pa.PhoneticSearching
 				result = new[] { -1, -1 };
 
 				// First, look for the search item.
-				if (m_srchItem == null || !m_srchItem.Search(m_phones, m_matchIndex, out result))
+				if (SrchItemPatternGroup == null || !SrchItemPatternGroup.Search(m_phones, m_matchIndex, out result))
 					return false;
 
 				// Save where the match was found.
@@ -839,9 +705,9 @@ namespace SIL.Pa.PhoneticSearching
 
 				// Now search before the match and after the match to
 				// see if we match on the environment before and after.
-				if (m_envBefore.Search(m_phones, m_matchIndex - 1))
+				if (EnvBeforePatternGroup.Search(m_phones, m_matchIndex - 1))
 				{
-					if (m_envAfter.Search(m_phones, m_matchIndex + result[1]))
+					if (EnvAfterPatternGroup.Search(m_phones, m_matchIndex + result[1]))
 					{
 						m_matchIndex++;
 						return true;

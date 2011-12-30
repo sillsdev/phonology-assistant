@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text;
+using System.Linq;
 using NUnit.Framework;
+using Palaso.Reporting;
 using SIL.Pa.Model;
 using SIL.Pa.Processing;
 
@@ -16,9 +19,9 @@ namespace SIL.Pa.TestUtils
 	/// ----------------------------------------------------------------------------------------
 	public class TestBase
 	{
-		protected PaProject m_prj;
-		protected string m_inventoryFile;
-		protected string m_settingsFolder;
+		protected PaProject _prj;
+		protected string _inventoryFile;
+		protected string _settingsFolder;
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -28,16 +31,17 @@ namespace SIL.Pa.TestUtils
 		[TestFixtureSetUp]
 		public virtual void FixtureSetup()
 		{
+			ErrorReport.IsOkToInteractWithUser = false;
 			InventoryHelper.Load();
 			App.IPASymbolCache.ClearUndefinedCharacterCollection();
-			//ProjectInventoryBuilder.SkipProcessingForTests = true;
+			ProjectInventoryBuilder.SkipProcessingForTests = true;
 			//m_inventoryFile = Path.GetTempFileName();
 			//File.WriteAllText(m_inventoryFile, Properties.Resources.kfilPhoneticCharacterInventory);
 
-			m_prj = new PaProject(true);
-			m_prj.LanguageName = "dummy";
-			m_prj.Name = "dummy";
-			App.Project = m_prj;
+			_prj = new PaProject(true);
+			_prj.LanguageName = "dummy";
+			_prj.Name = "dummy";
+			App.Project = _prj;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -48,20 +52,49 @@ namespace SIL.Pa.TestUtils
 		[TestFixtureTearDown]
 		public virtual void FixtureTearDown()
 		{
-			if (File.Exists(m_inventoryFile))
-				File.Delete(m_inventoryFile);
+			if (File.Exists(_inventoryFile))
+				File.Delete(_inventoryFile);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected string[] Parse(string text, bool normalize)
 		{
-			return m_prj.PhoneticParser.Parse(text, normalize);
+			return _prj.PhoneticParser.Parse(text, normalize);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected string[] Parse(string text, bool normalize, bool cvtExpTrans, out Dictionary<int, string[]> uncertainties)
 		{
-			return m_prj.PhoneticParser.Parse(text, normalize, cvtExpTrans, out uncertainties);
+			return _prj.PhoneticParser.Parse(text, normalize, cvtExpTrans, out uncertainties);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected void BuildPhoneSortKeysForTests()
+		{
+			foreach (var phoneInfo in _prj.PhoneCache.Values)
+			{
+				var poaBldr = new StringBuilder();
+				var moaBldr = new StringBuilder();
+
+				for (int i = 0; i < 5; i++)
+				{
+					if (i >= phoneInfo.Phone.Length)
+					{
+						poaBldr.Append("00000000");
+						moaBldr.Append("00000000");
+					}
+					else
+					{
+						var poa = App.IPASymbolCache[phoneInfo.Phone[i]].DisplayOrder.ToString("X8");
+						var moa = (~App.IPASymbolCache[phoneInfo.Phone[i]].DisplayOrder).ToString("X8");
+						poaBldr.Append(poa);
+						moaBldr.Append(moa);
+					}
+				}
+
+				phoneInfo.POAKey = poaBldr.ToString();
+				phoneInfo.MOAKey = moaBldr.ToString();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------

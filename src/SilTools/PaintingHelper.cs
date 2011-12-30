@@ -1,7 +1,6 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
@@ -131,39 +130,6 @@ namespace SilTools
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Returns a darkened version of the specified image.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Image MakeHotImage(Image img)
-		{
-			if (img == null)
-				return null;
-
-			float[][] colorMatrixElements =
-				{
-					new[] {0.6f, 0, 0, 0, 0},
-					new[] {0, 0.6f, 0, 0, 0},
-					new[] {0, 0, 0.6f, 0, 0},
-					new[] {0, 0, 0, 1f, 0},
-					new[] {0.1f, 0.1f, 0.1f, 0, 1}
-				};
-
-			img = img.Clone() as Image;
-
-			using (var imgattr = new ImageAttributes())
-			using (var g = Graphics.FromImage(img))
-			{
-				var cm = new ColorMatrix(colorMatrixElements);
-				var rc = new Rectangle(0, 0, img.Width, img.Height);
-				imgattr.SetColorMatrix(cm);
-				g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-				g.DrawImage(img, rc, 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, imgattr);
-				return img;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Returns a value indicating whether or not visual style rendering is supported
 		/// in the application and if the specified element can be rendered.
 		/// </summary>
@@ -250,7 +216,7 @@ namespace SilTools
 					SystemColors.GradientActiveCaption, 50);
 			}
 
-			DrawGradientBackground(g, rc, clrTop, clrBottom, makeDark);
+			DrawGradientBackground(g, rc, clrTop, clrBottom);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -259,18 +225,61 @@ namespace SilTools
 		/// colors.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void DrawGradientBackground(Graphics g, Rectangle rc,
-			Color clrTop, Color clrBottom, bool makeDark)
+		public static void DrawGradientBackground(Graphics g, Rectangle rc, Color clrTop, Color clrBottom)
  		{
 			try
 			{
 				if (rc.Width > 0 && rc.Height > 0)
 				{
-					using (var br = new LinearGradientBrush(rc, clrTop, clrBottom, 90))
+					// Use 89 degrees here instead of 90 because otherwise I noticed sometimes
+					// the first row of pixels at the top of the rectangle would be painted with
+					// the gradient's bottom color. This was noticed when painting in a
+					// DataGridView and I think the problem only manifested itself when the
+					// height of the rectangle exceeded a certain amount (which I did not
+					// determine).
+					using (var br = new LinearGradientBrush(rc, clrTop, clrBottom, 89))
 						g.FillRectangle(br, rc);
 				}
 			}
 			catch { }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void DrawGradientBackground(Graphics g, Rectangle rc, Color clrTop,
+			Color clrBottom, bool useDefaultBlend)
+ 		{
+			if (rc.Width <= 0 || rc.Height <= 0)
+				return;
+
+			if (!useDefaultBlend)
+				DrawGradientBackground(g, rc, clrTop, clrBottom);
+			else
+			{
+				var blend = new Blend();
+				blend.Positions = new[] { 0.0f, 0.25f, 1.0f };
+				blend.Factors = new[] { 0.3f, 0.1f, 1.0f };
+				DrawGradientBackground(g, rc, clrTop, clrBottom, blend);
+			}
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		public static void DrawGradientBackground(Graphics g, Rectangle rc, Color clrTop,
+			Color clrBottom, Blend blend)
+ 		{
+			if (rc.Width <= 0 || rc.Height <= 0)
+				return;
+
+			// Use 89 degrees here instead of 90 because otherwise I noticed sometimes
+			// the first row of pixels at the top of the rectangle would be painted with
+			// the gradient's bottom color. This was noticed when painting in a
+			// DataGridView and I think the problem only manifested itself when the
+			// height of the rectangle exceeded a certain amount (which I did not
+			// determine).
+			using (var br = new LinearGradientBrush(rc, clrTop, clrBottom, 89))
+			{
+				br.Blend = blend;
+				g.FillRectangle(br, rc);
+			}
 		}
 	}
 

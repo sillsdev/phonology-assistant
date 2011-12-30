@@ -31,50 +31,6 @@ namespace SIL.Pa.Model
 
 		#region Methods for parsing phonetic for advanced phonetic sorting
 		/// ------------------------------------------------------------------------------------
-		private void ParsePhoneticForUnicodeCompare(WordListCacheEntry cacheEntry,
-			out string before, out string item, out string after)
-		{
-			var bldrBefore = new StringBuilder();
-			var bldrItem = new StringBuilder();
-			var bldrAfter = new StringBuilder();
-
-			if (cacheEntry.Phones != null)
-			{
-				int firstAfterPhone = cacheEntry.SearchItemOffset +
-					cacheEntry.SearchItemLength;
-
-				for (int i = 0; i < cacheEntry.Phones.Length; i++)
-				{
-					if (i < cacheEntry.SearchItemOffset)
-					{
-						if (m_sortOptions.AdvRlOptions[0])
-							bldrBefore.Insert(0, cacheEntry.Phones[i]);
-						else
-							bldrBefore.Append(cacheEntry.Phones[i]);
-					}
-					else if (i >= firstAfterPhone)
-					{
-						if (m_sortOptions.AdvRlOptions[2])
-							bldrAfter.Insert(0, cacheEntry.Phones[i]);
-						else
-							bldrAfter.Append(cacheEntry.Phones[i]);
-					}
-					else
-					{
-						if (m_sortOptions.AdvRlOptions[1])
-							bldrItem.Insert(0, cacheEntry.Phones[i]);
-						else
-							bldrItem.Append(cacheEntry.Phones[i]);
-					}
-				}
-			}
-
-			before = (bldrBefore.Length == 0 ? null : bldrBefore.ToString());
-			item = (bldrItem.Length == 0 ? null : bldrItem.ToString());
-			after = (bldrAfter.Length == 0 ? null : bldrAfter.ToString());
-		}
-
-		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the MOA or POA key for the phones in the specified entry. This method builds
 		/// the MOA or POA key for non-advanced phonetic searches.
@@ -93,10 +49,6 @@ namespace SIL.Pa.Model
 			
 			var bldrXKey = new StringBuilder();
 			var bldrYKey = new StringBuilder();
-				
-			IPhoneInfo phoneInfo;
-			string xkey;
-			string ykey;
 
 			int xPhoneCount = (x.Phones != null ? x.Phones.Length : 0);
 			int yPhoneCount = (y.Phones != null ? y.Phones.Length : 0);
@@ -104,10 +56,11 @@ namespace SIL.Pa.Model
 			// Loop through the phones in each entry and assemble a hex key for them.
 			for (int i = 0; i < xPhoneCount || i < yPhoneCount; i++)
 			{
-				xkey = string.Empty;
-				ykey = string.Empty;
+				var xkey = string.Empty;
+				var ykey = string.Empty;
 
 				// Build the key for the current phone in the 'x' entry.
+				IPhoneInfo phoneInfo;
 				if (i < xPhoneCount)
 				{
 					phoneInfo = x.WordCacheEntry.Project.PhoneCache[x.Phones[i]];
@@ -186,14 +139,13 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the POA or MOA hex keys for the pieces (i.e. before, item and after) of a 
+		/// Gets the POA or MOA keys for the pieces (i.e. before, item and after) of a 
 		/// phonetic value generated from a search pattern.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void GetMOAOrPOAKeysForPhoneticCompare(WordListCacheEntry cacheEntry,
 			out List<string> before, out List<string> item, out List<string> after)
 		{
-			IPhoneInfo phoneInfo;
 			before = new List<string>();
 			item = new List<string>();
 			after = new List<string>();
@@ -205,11 +157,11 @@ namespace SIL.Pa.Model
 			// according to the current sort options (i.e. MOA or POA, R/L or L/R).
 			for (int i = 0; i < cacheEntry.Phones.Length; i++)
 			{
-				phoneInfo = cacheEntry.WordCacheEntry.Project.PhoneCache[cacheEntry.Phones[i]];
+				var phoneInfo = cacheEntry.WordCacheEntry.Project.PhoneCache[cacheEntry.Phones[i]];
 				if (phoneInfo == null)
 					continue;
 
-				string phoneKey = (m_sortOptions.SortType == PhoneticSortType.MOA ?
+				var phoneKey = (m_sortOptions.SortType == PhoneticSortType.MOA ?
 					phoneInfo.MOAKey : phoneInfo.POAKey);
 
 				// Determine in what environment the current phone is found.
@@ -242,22 +194,14 @@ namespace SIL.Pa.Model
 			string beforeEnvX, searchItemX, afterEnvX;
 			string beforeEnvY, searchItemY, afterEnvY;
 
-			if (m_sortOptions.SortType == PhoneticSortType.Unicode)
-			{
-				ParsePhoneticForUnicodeCompare(x, out beforeEnvX, out searchItemX, out afterEnvX);
-				ParsePhoneticForUnicodeCompare(y, out beforeEnvY, out searchItemY, out afterEnvY);
-			}
-			else
-			{
-				List<string> xBefore, xItem, xAfter;
-				List<string> yBefore, yItem, yAfter;
-				GetMOAOrPOAKeysForPhoneticCompare(x, out xBefore, out xItem, out xAfter);
-				GetMOAOrPOAKeysForPhoneticCompare(y, out yBefore, out yItem, out yAfter);
+			List<string> xBefore, xItem, xAfter;
+			List<string> yBefore, yItem, yAfter;
+			GetMOAOrPOAKeysForPhoneticCompare(x, out xBefore, out xItem, out xAfter);
+			GetMOAOrPOAKeysForPhoneticCompare(y, out yBefore, out yItem, out yAfter);
 
-				ModifyAndCombineKeys(xBefore, yBefore, out beforeEnvX, out beforeEnvY);
-				ModifyAndCombineKeys(xItem, yItem, out searchItemX, out searchItemY);
-				ModifyAndCombineKeys(xAfter, yAfter, out afterEnvX, out afterEnvY);
-			}
+			ModifyAndCombineKeys(xBefore, yBefore, out beforeEnvX, out beforeEnvY);
+			ModifyAndCombineKeys(xItem, yItem, out searchItemX, out searchItemY);
+			ModifyAndCombineKeys(xAfter, yAfter, out afterEnvX, out afterEnvY);
 
 			for (int i = 0; i < 3; i++)
 			{
@@ -304,9 +248,6 @@ namespace SIL.Pa.Model
 
 			if (m_sortOptions.AdvancedEnabled)
 				return CompareAdvancedPhonetic(x, y);
-
-			if (m_sortOptions.SortType == PhoneticSortType.Unicode)
-				return string.CompareOrdinal(x.PhoneticValue, y.PhoneticValue);
 
 			// Compare POA or MOA keys.
 			return CompareMOAOrPOAKeys(x, y);
@@ -403,7 +344,7 @@ namespace SIL.Pa.Model
 			if (x == null && y == null)
 				return 0;
 
-			bool ascending = (m_sortInfoList.Count > 0 ? m_sortInfoList[0].Ascending : true);
+			bool ascending = (m_sortInfoList.Count <= 0 || m_sortInfoList[0].Ascending);
 
 			if (x == null)
 				return (ascending ? -1 : 1);

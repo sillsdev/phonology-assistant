@@ -10,19 +10,6 @@ namespace SIL.Pa.UI.Views
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && (components != null))
-			{
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
-
 		#region Windows Form Designer generated code
 
 		/// <summary>
@@ -56,7 +43,6 @@ namespace SIL.Pa.UI.Views
 			this.splitResults = new System.Windows.Forms.SplitContainer();
 			this.pnlRecView = new SilTools.Controls.SilPanel();
 			this.rtfRecVw = new SIL.Pa.UI.Controls.RtfRecordView();
-			this.m_tooltip = new System.Windows.Forms.ToolTip(this.components);
 			this.btnRefresh = new System.Windows.Forms.Button();
 			this.pnlSliderPlaceholder = new System.Windows.Forms.Panel();
 			this.lblCurrPattern = new System.Windows.Forms.Label();
@@ -163,6 +149,7 @@ namespace SIL.Pa.UI.Views
 			this.pnlSideBarCaption.Dock = System.Windows.Forms.DockStyle.Top;
 			this.pnlSideBarCaption.DoubleBuffered = false;
 			this.pnlSideBarCaption.DrawOnlyBottomBorder = false;
+			this.pnlSideBarCaption.DrawOnlyTopBorder = false;
 			this.pnlSideBarCaption.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlSideBarCaption.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlSideBarCaption, null);
@@ -189,7 +176,7 @@ namespace SIL.Pa.UI.Views
 			this.btnDock.Font = new System.Drawing.Font("Marlett", 9F);
 			this.btnDock.Image = ((System.Drawing.Image)(resources.GetObject("btnDock.Image")));
 			this.btnDock.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.locExtender.SetLocalizableToolTip(this.btnDock, null);
+			this.locExtender.SetLocalizableToolTip(this.btnDock, "Dock");
 			this.locExtender.SetLocalizationComment(this.btnDock, null);
 			this.locExtender.SetLocalizingId(this.btnDock, "SearchVw.btnDock");
 			this.btnDock.Location = new System.Drawing.Point(198, 2);
@@ -210,7 +197,7 @@ namespace SIL.Pa.UI.Views
 			this.btnAutoHide.Font = new System.Drawing.Font("Marlett", 9F);
 			this.btnAutoHide.Image = ((System.Drawing.Image)(resources.GetObject("btnAutoHide.Image")));
 			this.btnAutoHide.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.locExtender.SetLocalizableToolTip(this.btnAutoHide, null);
+			this.locExtender.SetLocalizableToolTip(this.btnAutoHide, "Automatically Hide");
 			this.locExtender.SetLocalizationComment(this.btnAutoHide, null);
 			this.locExtender.SetLocalizingId(this.btnAutoHide, "SearchVw.btnAutoHide");
 			this.btnAutoHide.Location = new System.Drawing.Point(154, 2);
@@ -250,6 +237,7 @@ namespace SIL.Pa.UI.Views
 			this.pnlRecentPatterns.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlRecentPatterns.DoubleBuffered = false;
 			this.pnlRecentPatterns.DrawOnlyBottomBorder = false;
+			this.pnlRecentPatterns.DrawOnlyTopBorder = false;
 			this.pnlRecentPatterns.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlRecentPatterns.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlRecentPatterns, null);
@@ -290,6 +278,7 @@ namespace SIL.Pa.UI.Views
 			this.hlblRecentPatterns.Dock = System.Windows.Forms.DockStyle.Top;
 			this.hlblRecentPatterns.DoubleBuffered = true;
 			this.hlblRecentPatterns.DrawOnlyBottomBorder = false;
+			this.hlblRecentPatterns.DrawOnlyTopBorder = false;
 			this.hlblRecentPatterns.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
 			this.hlblRecentPatterns.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.hlblRecentPatterns, null);
@@ -316,7 +305,7 @@ namespace SIL.Pa.UI.Views
 			this.btnClearRecentList.Font = new System.Drawing.Font("Marlett", 9F);
 			this.btnClearRecentList.Image = global::SIL.Pa.Properties.Resources.kimidClearList;
 			this.btnClearRecentList.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.locExtender.SetLocalizableToolTip(this.btnClearRecentList, null);
+			this.locExtender.SetLocalizableToolTip(this.btnClearRecentList, "Clear List");
 			this.locExtender.SetLocalizationComment(this.btnClearRecentList, null);
 			this.locExtender.SetLocalizingId(this.btnClearRecentList, "SearchVw.btnClearRecentList");
 			this.btnClearRecentList.Location = new System.Drawing.Point(197, 2);
@@ -337,7 +326,7 @@ namespace SIL.Pa.UI.Views
 			this.btnRemoveFromRecentList.Font = new System.Drawing.Font("Marlett", 9F);
 			this.btnRemoveFromRecentList.Image = global::SIL.Pa.Properties.Resources.kimidDelete;
 			this.btnRemoveFromRecentList.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.locExtender.SetLocalizableToolTip(this.btnRemoveFromRecentList, null);
+			this.locExtender.SetLocalizableToolTip(this.btnRemoveFromRecentList, "Remove selected pattern");
 			this.locExtender.SetLocalizationComment(this.btnRemoveFromRecentList, null);
 			this.locExtender.SetLocalizingId(this.btnRemoveFromRecentList, "SearchVw.btnRemoveFromRecentList");
 			this.btnRemoveFromRecentList.Location = new System.Drawing.Point(173, 2);
@@ -357,6 +346,7 @@ namespace SIL.Pa.UI.Views
 			this.pnlSavedPatterns.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlSavedPatterns.DoubleBuffered = false;
 			this.pnlSavedPatterns.DrawOnlyBottomBorder = false;
+			this.pnlSavedPatterns.DrawOnlyTopBorder = false;
 			this.pnlSavedPatterns.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlSavedPatterns.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlSavedPatterns, null);
@@ -401,6 +391,7 @@ namespace SIL.Pa.UI.Views
 			this.hlblSavedPatterns.Dock = System.Windows.Forms.DockStyle.Top;
 			this.hlblSavedPatterns.DoubleBuffered = true;
 			this.hlblSavedPatterns.DrawOnlyBottomBorder = false;
+			this.hlblSavedPatterns.DrawOnlyTopBorder = false;
 			this.hlblSavedPatterns.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.hlblSavedPatterns.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.hlblSavedPatterns, null);
@@ -427,7 +418,7 @@ namespace SIL.Pa.UI.Views
 			this.btnCategoryNew.Font = new System.Drawing.Font("Marlett", 9F);
 			this.btnCategoryNew.Image = global::SIL.Pa.Properties.Resources.kimidNewPatternCategory;
 			this.btnCategoryNew.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.locExtender.SetLocalizableToolTip(this.btnCategoryNew, null);
+			this.locExtender.SetLocalizableToolTip(this.btnCategoryNew, "Create new saved pattern category");
 			this.locExtender.SetLocalizationComment(this.btnCategoryNew, null);
 			this.locExtender.SetLocalizingId(this.btnCategoryNew, "SearchVw.btnCategoryNew");
 			this.btnCategoryNew.Location = new System.Drawing.Point(197, 2);
@@ -448,7 +439,7 @@ namespace SIL.Pa.UI.Views
 			this.btnCategoryCut.Font = new System.Drawing.Font("Marlett", 9F);
 			this.btnCategoryCut.Image = global::SIL.Pa.Properties.Resources.kimidCut;
 			this.btnCategoryCut.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.locExtender.SetLocalizableToolTip(this.btnCategoryCut, null);
+			this.locExtender.SetLocalizableToolTip(this.btnCategoryCut, "Cut saved pattern");
 			this.locExtender.SetLocalizationComment(this.btnCategoryCut, null);
 			this.locExtender.SetLocalizingId(this.btnCategoryCut, "SearchVw.btnCategoryCut");
 			this.btnCategoryCut.Location = new System.Drawing.Point(125, 2);
@@ -469,7 +460,7 @@ namespace SIL.Pa.UI.Views
 			this.btnCategoryPaste.Font = new System.Drawing.Font("Marlett", 9F);
 			this.btnCategoryPaste.Image = global::SIL.Pa.Properties.Resources.kimidPaste;
 			this.btnCategoryPaste.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.locExtender.SetLocalizableToolTip(this.btnCategoryPaste, null);
+			this.locExtender.SetLocalizableToolTip(this.btnCategoryPaste, "Paste saved pattern");
 			this.locExtender.SetLocalizationComment(this.btnCategoryPaste, null);
 			this.locExtender.SetLocalizingId(this.btnCategoryPaste, "SearchVw.btnCategoryPaste");
 			this.btnCategoryPaste.Location = new System.Drawing.Point(173, 2);
@@ -490,7 +481,7 @@ namespace SIL.Pa.UI.Views
 			this.btnCategoryCopy.Font = new System.Drawing.Font("Marlett", 9F);
 			this.btnCategoryCopy.Image = global::SIL.Pa.Properties.Resources.kimidCopy;
 			this.btnCategoryCopy.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.locExtender.SetLocalizableToolTip(this.btnCategoryCopy, null);
+			this.locExtender.SetLocalizableToolTip(this.btnCategoryCopy, "Copy saved pattern");
 			this.locExtender.SetLocalizationComment(this.btnCategoryCopy, null);
 			this.locExtender.SetLocalizingId(this.btnCategoryCopy, "SearchVw.btnCategoryCopy");
 			this.btnCategoryCopy.Location = new System.Drawing.Point(149, 2);
@@ -534,6 +525,7 @@ namespace SIL.Pa.UI.Views
 			this.pnlRecView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlRecView.DoubleBuffered = false;
 			this.pnlRecView.DrawOnlyBottomBorder = false;
+			this.pnlRecView.DrawOnlyTopBorder = false;
 			this.pnlRecView.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlRecView.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlRecView, null);
@@ -569,7 +561,7 @@ namespace SIL.Pa.UI.Views
 			this.btnRefresh.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.btnRefresh.Image = global::SIL.Pa.Properties.Resources.kimidRefresh;
 			this.btnRefresh.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.locExtender.SetLocalizableToolTip(this.btnRefresh, null);
+			this.locExtender.SetLocalizableToolTip(this.btnRefresh, "Refresh results");
 			this.locExtender.SetLocalizationComment(this.btnRefresh, null);
 			this.locExtender.SetLocalizingId(this.btnRefresh, "SearchVw.btnRefresh");
 			this.btnRefresh.Location = new System.Drawing.Point(547, 6);
@@ -644,7 +636,8 @@ namespace SIL.Pa.UI.Views
 			this.ptrnTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.ptrnTextBox.ClassDisplayBehaviorChanged = false;
 			this.ptrnTextBox.HideSelection = false;
-			this.locExtender.SetLocalizableToolTip(this.ptrnTextBox, null);
+			this.locExtender.SetLocalizableToolTip(this.ptrnTextBox, "Enter search pattern in the form\\nSearch Item/Preceding Environment__Following En" +
+        "vironment");
 			this.locExtender.SetLocalizationComment(this.ptrnTextBox, null);
 			this.locExtender.SetLocalizingId(this.ptrnTextBox, "SearchVw.ptrnTextBox");
 			this.ptrnTextBox.Location = new System.Drawing.Point(152, 9);
@@ -717,7 +710,6 @@ namespace SIL.Pa.UI.Views
 
 		#endregion
 
-		private System.Windows.Forms.ToolTip m_tooltip;
 		private SearchPatternTreeView tvSavedPatterns;
 		private System.Windows.Forms.SplitContainer splitSideBarOuter;
 		private System.Windows.Forms.SplitContainer splitOuter;

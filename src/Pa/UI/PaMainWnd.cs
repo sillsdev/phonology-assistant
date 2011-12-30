@@ -32,16 +32,15 @@ namespace SIL.Pa.UI
 	/// ----------------------------------------------------------------------------------------
 	public partial class PaMainWnd : Form, IxCoreColleague
 	{
-		private ITMAdapter m_tmAdapter;
-		private readonly bool m_doNotLoadLastProject;
-
-		private PaProject m_project;
+		private readonly bool _doNotLoadLastProject;
+		private ITMAdapter _tmAdapter;
+		private PaProject _project;
 
 		#region Construction and Setup
 		/// ------------------------------------------------------------------------------------
 		public PaMainWnd()
 		{
-			m_doNotLoadLastProject = ((ModifierKeys & Keys.Shift) == Keys.Shift);
+			_doNotLoadLastProject = ((ModifierKeys & Keys.Shift) == Keys.Shift);
 			
 			App.InitializeSettingsFileLocation();
 			
@@ -51,7 +50,7 @@ namespace SIL.Pa.UI
 				FontHelper.UIFont = Settings.Default.UIFont;
 			if (Settings.Default.PhoneticFont != null)
 				App.PhoneticFont = Settings.Default.PhoneticFont;
-			
+
 			App.InitializeLocalization();
 			App.MinimumViewWindowSize = Settings.Default.MinimumViewWindowSize;
 			FwDBUtils.ShowMsgWhenGatheringFWInfo = Settings.Default.ShowMsgWhenGatheringFwInfo;
@@ -71,7 +70,7 @@ namespace SIL.Pa.UI
 			Settings.Default.MainWindow = App.InitializeForm(this, Settings.Default.MainWindow);
 			InventoryHelper.Load();
 			Settings.Default.MRUList = MruFiles.Initialize(Settings.Default.MRUList);
-			ProcessHelper.CopyFilesForPrettyHTMLExports();
+			ProcessHelper.CopyFilesThatMakePrettyHTMLExports();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -118,8 +117,8 @@ namespace SIL.Pa.UI
 			var tph = new TrainingProjectsHelper();
 			tph.Setup();
 
-			LocalizeItemDlg.StringsLocalized += delegate { SetWindowText(m_project); };
-			SetWindowText(m_project);
+			LocalizeItemDlg.StringsLocalized += delegate { SetWindowText(_project); };
+			SetWindowText(_project);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -143,22 +142,34 @@ namespace SIL.Pa.UI
 			base.OnShown(e);
 
 			// If there's a project specified on the command line, then load that.
-			// Otherwise, load the last loaded project whose name is in the settings file.
-			string projArg = (from arg in Environment.GetCommandLineArgs()
-							  where arg.ToLower().EndsWith(".pap") && File.Exists(arg)
-							  select arg).FirstOrDefault();
+			var commandLineProjFileArg = (from arg in Environment.GetCommandLineArgs()
+										  where arg.ToLower().EndsWith(".pap") && File.Exists(arg)
+										  select arg).FirstOrDefault();
 
-			if (projArg != null)
-				LoadProject(projArg);
-			else if (!m_doNotLoadLastProject)
+			// If there's a backup file specified on the command line, then load that into
+			// the restore dialog box and allow the user to restore it.
+			var commandLineBackupFileArg = (from arg in Environment.GetCommandLineArgs()
+											where arg.ToLower().EndsWith(".pabackup") && File.Exists(arg)
+											select arg).FirstOrDefault();
+
+			if (commandLineProjFileArg != null)
+				LoadProject(commandLineProjFileArg);
+			else if (commandLineBackupFileArg != null)
+			{
+				App.CloseSplashScreen();
+				OnRestoreProject(commandLineBackupFileArg);
+				App.MsgMediator.SendMessage("MainViewOpened", this);
+				return;
+			}
+			else if (!_doNotLoadLastProject)
 				LoadProject(Settings.Default.LastProjectLoaded);
 
 			App.CloseSplashScreen();
 
-			if (m_project != null)
+			if (_project != null)
 			{
-				OnDataSourcesModified(m_project);
-				OnFilterChanged(m_project.CurrentFilter);
+				OnDataSourcesModified(_project);
+				OnFilterChanged(_project.CurrentFilter);
 			}
 
 			App.MsgMediator.SendMessage("MainViewOpened", this);
@@ -171,13 +182,13 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		private void EnableOptionsMenus(bool enable)
 		{
-			var itemProps = m_tmAdapter.GetItemProperties("mnuOptionsMain");
+			var itemProps = _tmAdapter.GetItemProperties("mnuOptionsMain");
 			if (itemProps != null)
 			{
 				itemProps.Visible = true;
 				itemProps.Enabled = enable;
 				itemProps.Update = true;
-				m_tmAdapter.SetItemProperties("mnuOptionsMain", itemProps);
+				_tmAdapter.SetItemProperties("mnuOptionsMain", itemProps);
 			}
 		}
 
@@ -188,13 +199,13 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		public void EnableUndockMenu(bool enable)
 		{
-			var itemProps = m_tmAdapter.GetItemProperties("mnuUnDockView");
+			var itemProps = _tmAdapter.GetItemProperties("mnuUnDockView");
 			if (itemProps != null)
 			{
 				itemProps.Visible = true;
 				itemProps.Enabled = enable;
 				itemProps.Update = true;
-				m_tmAdapter.SetItemProperties("mnuUnDockView", itemProps);
+				_tmAdapter.SetItemProperties("mnuUnDockView", itemProps);
 			}
 		}
 
@@ -204,10 +215,10 @@ namespace SIL.Pa.UI
 			if (string.IsNullOrEmpty(projectFileName))
 				return;
 
-			if (m_project != null)
+			if (_project != null)
 			{
-				m_project.EnsureSortOptionsSaved();
-				m_project.Save();
+				_project.EnsureSortOptionsSaved();
+				_project.Save();
 			}
 
 			App.ProjectLoadInProcess = true;
@@ -218,10 +229,10 @@ namespace SIL.Pa.UI
 			{
 				vwTabGroup.CloseAllViews();
 
-				if (m_project != null)
-					m_project.Dispose();
+				if (_project != null)
+					_project.Dispose();
 
-				App.Project = m_project = project;
+				App.Project = _project = project;
 				Settings.Default.LastProjectLoaded = projectFileName;
 
 				SetWindowText(project);
@@ -232,7 +243,7 @@ namespace SIL.Pa.UI
 				if (vwTabGroup.CurrentTab != null)
 					Settings.Default.LastViewShowing = vwTabGroup.CurrentTab.ViewType.ToString();
 
-				LoadViewTabs(project);
+				LoadViewTabs();
 
 				// Make the last tab that was current the current one now.
 				var type = Type.GetType(typeof(DataCorpusVw).FullName);
@@ -246,9 +257,11 @@ namespace SIL.Pa.UI
 
 				App.AddProjectToRecentlyUsedProjectsList(projectFileName);
 
-				OnFilterChanged(m_project.CurrentFilter);
+				OnFilterChanged(_project.CurrentFilter);
 				EnableOptionsMenus(true);
 				EnableUndockMenu(true);
+
+				App.MsgMediator.SendMessage("ProjectLoaded", project);
 			}
 
 			BackColor = vwTabGroup.BackColor;
@@ -257,58 +270,70 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Loads the view tabs.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LoadViewTabs(PaProject project)
+		private void LoadViewTabs()
 		{
-			if (vwTabGroup.Visible)
+			if (vwTabGroup.Tabs.Count > 0)
 			{
+				vwTabGroup.Visible = true;
 				if (vwTabGroup.CurrentTab != null)
-					vwTabGroup.CurrentTab.RefreshView(project);
+					vwTabGroup.CurrentTab.RefreshView();
 
 				return;
 			}
 
-			var itemProps = m_tmAdapter.GetItemProperties("mnuDataCorpus");
+			var itemProps = _tmAdapter.GetItemProperties("mnuDataCorpus");
 			var img = (itemProps == null ? null : itemProps.Image);
 			var text = (itemProps == null ? "Error!" : itemProps.Text);
-			var tab = vwTabGroup.AddTab(project, text, img, typeof(DataCorpusVw), "hidDataCorpusView",
-				() => App.GetString("PaMainWnd.DataCorpusViewHelpButtonToolTip", "Data Corpus View Help"));
-			
+			var tab = new ViewTab(vwTabGroup, text, img, typeof(DataCorpusVw),
+				() => new DataCorpusVw(_project), "hidDataCorpusView",
+				() => App.GetString("PaMainWnd.DataCorpusViewHelpButtonToolTip",
+					"Data Corpus View Help"));
+				
+			vwTabGroup.AddTab(tab);
 			App.RegisterForLocalization(tab, "MenuItems.DataCorpus");
 
-			itemProps = m_tmAdapter.GetItemProperties("mnuFindPhones");
+			itemProps = _tmAdapter.GetItemProperties("mnuFindPhones");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tab = vwTabGroup.AddTab(project, text, img, typeof(SearchVw), "hidSearchView",
-				() => App.GetString("PaMainWnd.SearchViewHelpButtonToolTip", "Search View Help"));
-			
+			tab = new ViewTab(vwTabGroup, text, img, typeof(SearchVw),
+				() => new SearchVw(_project), "hidSearchView",
+				() => App.GetString("PaMainWnd.SearchViewHelpButtonToolTip",
+					"Search View Help"));
+
+			vwTabGroup.AddTab(tab);
 			App.RegisterForLocalization(tab, "MenuItems.FindPhones");
 
-			itemProps = m_tmAdapter.GetItemProperties("mnuConsonantChart");
+			itemProps = _tmAdapter.GetItemProperties("mnuConsonantChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tab = vwTabGroup.AddTab(project, text, img, typeof(ConsonantChartVw), "hidConsonantChartView", 
-				() => App.GetString("PaMainWnd.ConsonantChartViewHelpButtonToolTip", "Consonant Chart View Help"));
+			tab = new ViewTab(vwTabGroup, text, img, typeof(ConsonantChartVw),
+				() => new ConsonantChartVw(_project), "hidConsonantChartView", 
+				() => App.GetString("PaMainWnd.ConsonantChartViewHelpButtonToolTip",
+					"Consonant Chart View Help"));
 
+			vwTabGroup.AddTab(tab);
 			App.RegisterForLocalization(tab, "MenuItems.ConsonantChart");
 
-			itemProps = m_tmAdapter.GetItemProperties("mnuVowelChart");
+			itemProps = _tmAdapter.GetItemProperties("mnuVowelChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tab = vwTabGroup.AddTab(project, text, img, typeof(VowelChartVw), "hidVowelChartView",
-				() => App.GetString("PaMainWnd.VowelChartViewHelpButtonToolTip", "Vowel Chart View Help"));
+			tab = new ViewTab(vwTabGroup, text, img, typeof(VowelChartVw),
+				() => new VowelChartVw(_project), "hidVowelChartView",
+				() => App.GetString("PaMainWnd.VowelChartViewHelpButtonToolTip",
+					"Vowel Chart View Help"));
 
+			vwTabGroup.AddTab(tab);
 			App.RegisterForLocalization(tab, "MenuItems.VowelChart");
 
-			itemProps = m_tmAdapter.GetItemProperties("mnuXYChart");
+			itemProps = _tmAdapter.GetItemProperties("mnuXYChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			text = (itemProps == null ? "Error!" : itemProps.Text);
-			tab = vwTabGroup.AddTab(project, text, img, typeof(DistributionChartVw), "hidXYChartsView",
-				() => App.GetString("PaMainWnd.DistributionChartViewHelpButtonToolTip", "Distribution Charts View Help"));
-			
+			tab = new ViewTab(vwTabGroup, text, img, typeof(DistributionChartVw),
+				() => new DistributionChartVw(_project), "hidXYChartsView",
+				() => App.GetString("PaMainWnd.DistributionChartViewHelpButtonToolTip",
+					"Distribution Charts View Help"));
+
+			vwTabGroup.AddTab(tab);
 			App.RegisterForLocalization(tab, "MenuItems.XYChart");
 			
 			vwTabGroup.Visible = true;
@@ -317,25 +342,25 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		private void LoadToolbarsAndMenus()
 		{
-			m_tmAdapter = App.LoadDefaultMenu(this);
-			App.TMAdapter = m_tmAdapter;
+			_tmAdapter = App.LoadDefaultMenu(this);
+			App.TMAdapter = _tmAdapter;
 
 			// This item is only visible for the main PA window (i.e. this one).
-			var itemProps = m_tmAdapter.GetItemProperties("mnuUnDockView");
+			var itemProps = _tmAdapter.GetItemProperties("mnuUnDockView");
 			if (itemProps != null)
 			{
 				itemProps.Visible = true;
 				itemProps.Update = true;
-				m_tmAdapter.SetItemProperties("mnuUnDockView", itemProps);
+				_tmAdapter.SetItemProperties("mnuUnDockView", itemProps);
 			}
 
 			// This item is only visible for undocked views, but not this window.
-			itemProps = m_tmAdapter.GetItemProperties("mnuDockView");
+			itemProps = _tmAdapter.GetItemProperties("mnuDockView");
 			if (itemProps != null)
 			{
 				itemProps.Visible = false;
 				itemProps.Update = true;
-				m_tmAdapter.SetItemProperties("mnuDockView", itemProps);
+				_tmAdapter.SetItemProperties("mnuDockView", itemProps);
 			}
 		}
 
@@ -380,8 +405,8 @@ namespace SIL.Pa.UI
 
 			App.SaveOnTheFlyLocalizations();
 
-			if (m_project != null)
-				m_project.EnsureSortOptionsSaved();
+			if (_project != null)
+				_project.EnsureSortOptionsSaved();
 
 			if (vwTabGroup.CurrentTab != null)
 				Settings.Default.LastViewShowing = vwTabGroup.CurrentTab.ViewType.ToString();
@@ -408,7 +433,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
-			if (m_project != null)
+			if (_project != null)
 			{
 				base.OnPaintBackground(e);
 				return;
@@ -441,7 +466,7 @@ namespace SIL.Pa.UI
 		{
 			base.OnResize(e);
 
-			if (m_project == null)
+			if (_project == null)
 				Invalidate();
 		}
 
@@ -468,10 +493,10 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		private void HandleFilterStatusStripLabelPaint(object sender, PaintEventArgs e)
 		{
-			if (m_project != null && m_project.CurrentFilter != null)
+			if (_project != null && _project.CurrentFilter != null)
 			{
 				PaintFilterStatusStripLabel(sender as ToolStripStatusLabel,
-					m_project.CurrentFilter.Name, e);
+					_project.CurrentFilter.Name, e);
 			}
 		}
 
@@ -529,13 +554,13 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnPlaybackBeginning(object args)
 		{
-			var itemProps = m_tmAdapter.GetItemProperties("mnuStopPlayback");
+			var itemProps = _tmAdapter.GetItemProperties("mnuStopPlayback");
 			if (itemProps != null)
 			{
 				itemProps.Visible = true;
 				itemProps.Enabled = true;
 				itemProps.Update = true;
-				m_tmAdapter.SetItemProperties("mnuStopPlayback", itemProps);
+				_tmAdapter.SetItemProperties("mnuStopPlayback", itemProps);
 			}
 
 			return false;
@@ -551,13 +576,13 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnPlaybackEnded(object args)
 		{
-			var itemProps = m_tmAdapter.GetItemProperties("mnuStopPlayback");
+			var itemProps = _tmAdapter.GetItemProperties("mnuStopPlayback");
 			if (itemProps != null)
 			{
 				itemProps.Visible = true;
 				itemProps.Enabled = false;
 				itemProps.Update = true;
-				m_tmAdapter.SetItemProperties("mnuStopPlayback", itemProps);
+				_tmAdapter.SetItemProperties("mnuStopPlayback", itemProps);
 			}
 
 			return false;
@@ -583,7 +608,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnRecentlyUsedProjectChosen(object args)
 		{
-			string filename = args as string;
+			var filename = args as string;
 
 			if (!File.Exists(filename))
 			{
@@ -592,10 +617,10 @@ namespace SIL.Pa.UI
 
 				Utils.MsgBox(string.Format(fmt, filename), MessageBoxIcon.Exclamation);
 			}
-			else if (m_project == null || m_project.FileName != filename)
+			else if (_project == null || _project.FileName != filename)
 			{
 				LoadProject(filename);
-				UndefinedPhoneticCharactersDlg.Show(m_project);
+				UndefinedPhoneticCharactersDlg.Show(_project);
 			}
 
 			return true;
@@ -696,7 +721,7 @@ namespace SIL.Pa.UI
 				if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
 				{
 					LoadProject(dlg.Project.FileName);
-					UndefinedPhoneticCharactersDlg.Show(dlg.Project, true);
+					UndefinedPhoneticCharactersDlg.Show(_project, true);
 				}
 			}
 
@@ -704,23 +729,63 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected bool OnCloseProject(object args)
+		{
+			if (_project == null)
+				return true;
+
+			_project.EnsureSortOptionsSaved();
+			_project.Save();
+			vwTabGroup.CloseAllViews();
+			vwTabGroup.Visible = false;
+			_project.Dispose();
+
+			App.Project = _project = null;
+			Settings.Default.LastProjectLoaded = null;
+			SetWindowText(null);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateCloseProject(object args)
+		{
+			var itemProps = args as TMItemProperties;
+			if (itemProps == null)
+				return false;
+
+			itemProps.Visible = true;
+			itemProps.Enabled = (_project != null);
+			itemProps.Update = true;
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected bool OnOpenProject(object args)
 		{
-			int filterindex = 0;
-
-			string filter = string.Format(App.kstidFileTypePAProject,
-				Application.ProductName) + "|" + App.kstidFileTypeAllFiles;
-
-			var fmt = App.GetString("ProjectOpenFileDialogText", "Open {0} Project File");
-			string initialDir = (Settings.Default.LastFolderForOpenProjectDlg ?? App.ProjectFolder);
-
-			string[] filenames = App.OpenFileDialog("pap", filter, ref filterindex,
-				string.Format(fmt, Application.ProductName), false, initialDir);
-
-			if (filenames.Length > 0 && File.Exists(filenames[0]))
+			var viewModel = new OpenProjectDlgViewModel();
+			using (var dlg = new OpenProjectDlg(viewModel))
 			{
-				Settings.Default.LastFolderForOpenProjectDlg = Path.GetDirectoryName(filenames[0]);
-				LoadProject(filenames[0]);
+				if (dlg.ShowDialog() != DialogResult.OK)
+					return true;
+
+				if (_project != null &&
+					_project.FileName.Equals(viewModel.SelectedProject.FilePath, StringComparison.Ordinal))
+				{
+					return true;
+				}
+
+				if (!Settings.Default.OpenProjectsInNewWindowCheckedValue)
+					LoadProject(viewModel.SelectedProject.FilePath);
+				else
+				{
+					using (var prs = new Process())
+					{
+						prs.StartInfo.Arguments = "\"" + viewModel.SelectedProject.FilePath + "\"";
+						prs.StartInfo.UseShellExecute = true;
+						prs.StartInfo.FileName = Application.ExecutablePath;
+						prs.Start();
+					}
+				}
 			}
 
 			return true;
@@ -729,7 +794,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnProjectSettings(object args)
 		{
-			using (var dlg = new ProjectSettingsDlg(m_project))
+			using (var dlg = new ProjectSettingsDlg(_project))
 			{
 				if (dlg.ShowDialog(this) != DialogResult.OK || !dlg.ChangesWereMade)
 					return true;
@@ -737,19 +802,19 @@ namespace SIL.Pa.UI
 				Utils.WaitCursors(false);
 
 				// Fully reload the project and blow away the previous project instance.
-				var project = PaProject.Load(m_project.FileName, this);
+				var project = PaProject.Load(_project.FileName, this);
 				if (project != null)
 				{
 					// If there was a project loaded before this,
 					// then get rid of it to make way for the new one.
-					if (m_project != null)
+					if (_project != null)
 					{
-						m_project.Dispose();
-						m_project = null;
+						_project.Dispose();
+						_project = null;
 					}
 
 					project.LastNewlyMappedFields = dlg.NewlyMappedFields;
-					App.Project = m_project = project;
+					App.Project = _project = project;
 					App.MsgMediator.SendMessage("DataSourcesModified", project);
 				}
 
@@ -767,7 +832,64 @@ namespace SIL.Pa.UI
 				return false;
 
 			itemProps.Visible = true;
-			itemProps.Enabled = (m_project != null);
+			itemProps.Enabled = (_project != null);
+			itemProps.Update = true;
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnBackupProject(object args)
+		{
+			using (var viewModel = new BackupDlgViewModel(_project))
+			using (var dlg = new BackupDlg(viewModel))
+				dlg.ShowDialog();
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateBackupProject(object args)
+		{
+			var itemProps = args as TMItemProperties;
+			if (itemProps == null)
+				return false;
+
+			itemProps.Visible = true;
+			itemProps.Enabled = (_project != null);
+			itemProps.Update = true;
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnRestoreProject(object args)
+		{
+			var viewModel = RestoreDlgViewModel.Create(args as string);
+			if (viewModel == null)
+				return true;
+
+			using (var dlg = new RestoreDlg(viewModel))
+			{
+				if (dlg.ShowDialog() == DialogResult.OK)
+				{
+					LoadProject(dlg.RestoredProjectFileName);
+					UndefinedPhoneticCharactersDlg.Show(_project, false);
+				}
+
+				viewModel.Dispose();
+			}
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateRestoreProject(object args)
+		{
+			var itemProps = args as TMItemProperties;
+			if (itemProps == null)
+				return false;
+
+			itemProps.Visible = true;
+			itemProps.Enabled = true;
 			itemProps.Update = true;
 			return true;
 		}
@@ -798,13 +920,13 @@ namespace SIL.Pa.UI
 
 			var fmt = App.GetString("PaXmlExportSaveFileDialogText", "Export to {0} XML");
 			dlg.Title = string.Format(fmt, Application.ProductName);
-			dlg.FileName = m_project.Name + ".paxml";
+			dlg.FileName = _project.GetCleanNameForFileName() + ".paxml";
 			dlg.FilterIndex = 0;
 			dlg.Filter = string.Format(App.kstidFileTypePAXML, Application.ProductName) +
 				"|" + App.kstidFileTypeAllFiles;
 
-			if (dlg.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(dlg.FileName))
-				m_project.RecordCache.Save(dlg.FileName);
+			if (dlg.ShowDialog(this) == DialogResult.OK && !string.IsNullOrEmpty(dlg.FileName))
+				_project.RecordCache.Save(dlg.FileName);
 
 			return true;
 		}
@@ -829,7 +951,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnToolsOptions(object args)
 		{
-			using (var optionsDlg = new OptionsDlg(m_project))
+			using (var optionsDlg = new OptionsDlg(_project))
 			{
 				// TODO: Send a message indicating the options were changed.
 				if (optionsDlg.ShowDialog(this) == DialogResult.OK)
@@ -849,14 +971,14 @@ namespace SIL.Pa.UI
 
 			itemProps.Update = true;
 			itemProps.Visible = true;
-			itemProps.Enabled = (m_project != null);
+			itemProps.Enabled = (_project != null);
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUndefinedCharacters(object args)
 		{
-			UndefinedPhoneticCharactersDlg.Show(m_project, true);
+			UndefinedPhoneticCharactersDlg.Show(_project, true);
 			return true;
 		}
 
@@ -869,7 +991,7 @@ namespace SIL.Pa.UI
 
 			itemProps.Visible = true;
 			itemProps.Update = true;
-			itemProps.Enabled = (m_project != null &&
+			itemProps.Enabled = (_project != null &&
 				App.IPASymbolCache.UndefinedCharacters != null &&
 				App.IPASymbolCache.UndefinedCharacters.Count > 0);
 
@@ -879,7 +1001,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnReloadProject(object args)
 		{
-			m_project.ReloadDataSources();
+			_project.ReloadDataSources();
 			return true;
 		}
 
@@ -892,7 +1014,7 @@ namespace SIL.Pa.UI
 
 			itemProps.Visible = true;
 			itemProps.Enabled =
-				(m_project != null && m_project.DataSources != null && m_project.DataSources.Count > 0);
+				(_project != null && _project.DataSources != null && _project.DataSources.Count > 0);
 			itemProps.Update = true;
 			return true;
 		}
@@ -948,7 +1070,7 @@ namespace SIL.Pa.UI
 
 			itemProps.Visible = true;
 			itemProps.Update = true;
-			itemProps.Enabled = (m_project != null && grid != null && enabled && m_project.WordCache.Count != 0);
+			itemProps.Enabled = (_project != null && grid != null && enabled && _project.WordCache.Count != 0);
 			return true;
 		}
 
@@ -979,14 +1101,14 @@ namespace SIL.Pa.UI
 		protected bool OnDropDownFiltersParent(object args)
 		{
 			var tbpi = args as ToolBarPopupInfo;
-			if (tbpi == null || m_project == null)
+			if (tbpi == null || _project == null)
 				return false;
 
 			const string cmdId = "CmdExecuteFilter";
 			tbpi.Adapter.AddCommandItem(cmdId, "EnableFilter");
 
 			bool firstItem = true;
-			foreach (var filter in m_project.FilterHelper.Filters.Where(f => f.ShowInToolbarList).OrderBy(f => f.Name))
+			foreach (var filter in _project.FilterHelper.Filters.Where(f => f.ShowInToolbarList).OrderBy(f => f.Name))
 			{
 				var props = new TMItemProperties();
 				props.BeginGroup = firstItem;
@@ -994,7 +1116,7 @@ namespace SIL.Pa.UI
 				props.CommandId = cmdId;
 				props.Name = "FILTER:" + filter.Name;
 				props.Tag = filter;
-				props.Checked = (m_project.FilterHelper.CurrentFilter == filter);
+				props.Checked = (_project.FilterHelper.CurrentFilter == filter);
 				props.Visible = true;
 				props.Update = true;
 				tbpi.Adapter.AddMenuItem(props, "mnuFiltersMain", "mnuFilterPlaceholder");
@@ -1012,10 +1134,10 @@ namespace SIL.Pa.UI
 		protected bool OnDropDownClosedFiltersParent(object args)
 		{
 			var itemProps = args as TMItemProperties;
-			if (itemProps == null || m_project == null)
+			if (itemProps == null || _project == null)
 				return false;
 
-			foreach (var filter in m_project.FilterHelper.Filters.Where(f => f.ShowInToolbarList))
+			foreach (var filter in _project.FilterHelper.Filters.Where(f => f.ShowInToolbarList))
 				itemProps.Adapter.RemoveItem("FILTER:" + filter.Name);
 
 			return true;
@@ -1028,14 +1150,14 @@ namespace SIL.Pa.UI
 			if (itemProps == null)
 				return false;
 
-			m_project.FilterHelper.ApplyFilter(itemProps.Tag as Filter);
+			_project.FilterHelper.ApplyFilter(itemProps.Tag as Filter);
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected bool OnFilters(object args)
 		{
-			using (var dlg = new FiltersDlg(m_project))
+			using (var dlg = new FiltersDlg(_project))
 				dlg.ShowDialog(this);
 
 			return true;
@@ -1052,7 +1174,7 @@ namespace SIL.Pa.UI
 		protected bool OnNoFilter(object args)
 		{
 			OnFilterTurnedOff(null);
-			m_project.FilterHelper.TurnOffCurrentFilter();
+			_project.FilterHelper.TurnOffCurrentFilter();
 			return true;
 		}
 
@@ -1063,7 +1185,7 @@ namespace SIL.Pa.UI
 			if (itemProps == null)
 				return false;
 
-			itemProps.Enabled = (m_project != null && m_project.FilterHelper.CurrentFilter != null);
+			itemProps.Enabled = (_project != null && _project.FilterHelper.CurrentFilter != null);
 			itemProps.Visible = true;
 			itemProps.Update = true;
 			return true;
@@ -1093,16 +1215,36 @@ namespace SIL.Pa.UI
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected bool OnFeatures(object args)
+		protected bool OnDescriptiveFeatures(object args)
 		{
-			using (var dlg = new FeaturesDlg(m_project))
+			var viewModel = new FeaturesDlgViewModel(_project, App.FeatureType.Articulatory);
+
+			using (var dlg = new DescriptiveFeaturesDlg(viewModel))
 				dlg.ShowDialog(this);
 
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected bool OnUpdateFeatures(object args)
+		protected bool OnUpdateDescriptiveFeatures(object args)
+		{
+			App.EnableWhenProjectOpen(args as TMItemProperties);
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnDistinctiveFeatures(object args)
+		{
+			var viewModel = new FeaturesDlgViewModel(_project, App.FeatureType.Binary);
+
+			using (var dlg = new DistinctiveFeaturesDlg(viewModel))
+				dlg.ShowDialog(this);
+
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateDistinctiveFeatures(object args)
 		{
 			App.EnableWhenProjectOpen(args as TMItemProperties);
 			return true;
@@ -1111,7 +1253,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnAmbiguousSequences(object args)
 		{
-			using (var dlg = new AmbiguousSequencesDlg(m_project))
+			using (var dlg = new AmbiguousSequencesDlg(_project))
 				dlg.ShowDialog(this);
 
 			return true;
@@ -1127,7 +1269,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExperimentalTranscriptions(object args)
 		{
-			using (var dlg = new TranscriptionChangesDlg(m_project))
+			using (var dlg = new TranscriptionChangesDlg())
 				dlg.ShowDialog(this);
 
 			return true;
@@ -1143,7 +1285,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnClasses(object args)
 		{
-			using (var dlg = new ClassesDlg(m_project))
+			using (var dlg = new ClassesDlg(_project))
 				dlg.ShowDialog(this);
 
 			return true;

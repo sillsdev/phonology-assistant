@@ -1,3 +1,4 @@
+using System;
 using System.Windows.Forms;
 using SilTools;
 
@@ -326,11 +327,14 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// Gets or sets the list of files to show on the recent files list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		string[] RecentFilesList
-		{
-			get;
-			set;
-		}
+		string[] GetRecentFilesList();
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets or sets the list of files to show on the recent files list.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void SetRecentFilesList(string[] list, Func<string, string> displayNameProvider);
 
 		#endregion
 	}

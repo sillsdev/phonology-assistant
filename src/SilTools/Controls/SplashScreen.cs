@@ -251,13 +251,24 @@ namespace SilTools
 
 			lock (m_splashScreen)
 			{
-				m_splashScreen.Invoke(new MethodInvoker(m_splashScreen.RealClose));
+				try
+				{
+					if (!m_splashScreen.IsDisposed)
+						m_splashScreen.Invoke(new MethodInvoker(m_splashScreen.RealClose));
+				}
+				catch { }
 			}
-			m_thread.Join();
-			lock (m_splashScreen)
+
+			try
 			{
-				m_splashScreen.Dispose();
+				m_thread.Join();
+				lock (m_splashScreen)
+				{
+					m_splashScreen.Dispose();
+				}
 			}
+			catch { }
+
 			m_splashScreen = null;
 			m_thread = null;
 		}
@@ -306,15 +317,11 @@ namespace SilTools
 		{
 			set
 			{
-				try
+				Debug.Assert(m_splashScreen != null);
+				lock (m_splashScreen)
 				{
-					Debug.Assert(m_splashScreen != null);
-					lock (m_splashScreen)
-					{
-						m_splashScreen.Invoke(new MethodWithStringDelegate(m_splashScreen.SetMessage), value);
-					}
+					m_splashScreen.Invoke(new MethodWithStringDelegate(m_splashScreen.SetMessage), value);
 				}
-				catch { }
 			}
 		}
 
@@ -334,15 +341,11 @@ namespace SilTools
 		{
 			set
 			{
-				try
+				Debug.Assert(m_splashScreen != null);
+				lock (m_splashScreen)
 				{
-					Debug.Assert(m_splashScreen != null);
-					lock (m_splashScreen)
-					{
-						m_splashScreen.Invoke(new MethodWithStringDelegate(m_splashScreen.SetProdVersion), value);
-					}
+					m_splashScreen.Invoke(new MethodWithStringDelegate(m_splashScreen.SetProdVersion), value);
 				}
-				catch { }
 			}
 		}
 
@@ -359,15 +362,11 @@ namespace SilTools
 		{
 			set
 			{
-				try
+				Debug.Assert(m_splashScreen != null);
+				lock (m_splashScreen)
 				{
-					Debug.Assert(m_splashScreen != null);
-					lock (m_splashScreen)
-					{
-						m_splashScreen.Invoke(new MethodWithStringDelegate(m_splashScreen.SetCopyright), value);
-					}
+					m_splashScreen.Invoke(new MethodWithStringDelegate(m_splashScreen.SetCopyright), value);
 				}
-				catch { }
 			}
 		}
 

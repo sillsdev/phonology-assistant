@@ -1,6 +1,5 @@
 using System;
 using System.Windows.Forms;
-using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
@@ -14,33 +13,26 @@ namespace SIL.Pa.UI.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class TranscriptionChangesDlg : OKCancelDlgBase, IxCoreColleague
 	{
-		private readonly TranscriptionChangesControl _transChangeCtrl;
-		private readonly PaProject _project;
+		private readonly TranscriptionChangesControl m_transChangeCtrl;
 
 		/// ------------------------------------------------------------------------------------
 		public TranscriptionChangesDlg()
 		{
 			InitializeComponent();
-		}
-	
-		/// ------------------------------------------------------------------------------------
-		public TranscriptionChangesDlg(PaProject project) : this()
-		{
-			_project = project;
 
 			if (!PaintingHelper.CanPaintVisualStyle())
 				pnlGrid.BorderStyle = BorderStyle.Fixed3D;
 
-			_transChangeCtrl = new TranscriptionChangesControl();
-			_transChangeCtrl.BorderStyle = BorderStyle.None;
-			_transChangeCtrl.Dock = DockStyle.Fill;
-			_transChangeCtrl.TabIndex = 0;
-			_transChangeCtrl.Grid.RowsAdded += HandleExperimentalTransCtrlRowsAdded;
-			pnlGrid.Controls.Add(_transChangeCtrl);
+			m_transChangeCtrl = new TranscriptionChangesControl();
+			m_transChangeCtrl.BorderStyle = BorderStyle.None;
+			m_transChangeCtrl.Dock = DockStyle.Fill;
+			m_transChangeCtrl.TabIndex = 0;
+			m_transChangeCtrl.Grid.RowsAdded += HandleExperimentalTransCtrlRowsAdded;
+			pnlGrid.Controls.Add(m_transChangeCtrl);
 			
-			FeaturesDlg.AdjustGridRows(_transChangeCtrl.Grid,
+			m_transChangeCtrl.Grid.AdjustGridRows(
 				Settings.Default.TranscriptionChangesDlgGridExtraRowHeight);
-			
+	
 			App.AddMediatorColleague(this);
 		}
 
@@ -48,7 +40,7 @@ namespace SIL.Pa.UI.Dialogs
 		protected override void OnShown(EventArgs e)
 		{
 			base.OnShown(e);
-			_transChangeCtrl.RefreshHeader();
+			m_transChangeCtrl.RefreshHeader();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -60,23 +52,35 @@ namespace SIL.Pa.UI.Dialogs
 
 		#region Overridden methods of base class
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected override bool IsDirty
 		{
-			get { return _transChangeCtrl.Grid.IsDirty; }
+			get { return m_transChangeCtrl.Grid.IsDirty; }
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
-			if (_transChangeCtrl.Grid.IsDirty)
+			if (m_transChangeCtrl.Grid.IsDirty)
 			{
-				_transChangeCtrl.SaveChanges();
-				_project.ReloadDataSources();
+				m_transChangeCtrl.SaveChanges();
+				App.Project.ReloadDataSources();
 			}
 
 			return true;
@@ -92,7 +96,7 @@ namespace SIL.Pa.UI.Dialogs
 		private void HandleExperimentalTransCtrlRowsAdded(object sender,
 			DataGridViewRowsAddedEventArgs e)
 		{
-			FeaturesDlg.AdjustGridRows(_transChangeCtrl.Grid,
+			m_transChangeCtrl.Grid.AdjustGridRows(
 				Settings.Default.TranscriptionChangesDlgGridExtraRowHeight);
 		}
 

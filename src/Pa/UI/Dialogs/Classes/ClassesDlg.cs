@@ -13,6 +13,7 @@ namespace SIL.Pa.UI.Dialogs
 	public partial class ClassesDlg : OKCancelDlgBase
 	{
 		public PaProject Project { get; private set; }
+		public ClassListView ClassListView { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public ClassesDlg()
@@ -38,16 +39,19 @@ namespace SIL.Pa.UI.Dialogs
 			tblLayoutButtons.Controls.Add(btnCopy, 2, 0);
 			tblLayoutButtons.Controls.Add(btnDelete, 3, 0);
 			ReAddButtons(5);
+
+			cmnuAddCharClass.Click += delegate { AddClass(SearchClassType.Phones); };
+			cmnuAddArtFeatureClass.Click += delegate { AddClass(SearchClassType.Articulatory); };
+			cmnuAddBinFeatureClass.Click += delegate { AddClass(SearchClassType.Binary); };
 		}
 	
 		/// ------------------------------------------------------------------------------------
 		public ClassesDlg(PaProject project) : this()
 		{
 			Project = project;
-
-			lvClasses.Load();
-			lvClasses_SelectedIndexChanged(null, null);
-			lvClasses.Font = FontHelper.UIFont;
+			ClassListView.Load();
+			HandleClassesListViewSelectedIndexChanged(null, null);
+			ClassListView.Font = FontHelper.UIFont;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -55,10 +59,8 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			base.OnLoad(e);
 			
-			if (App.DesignMode)
-				return;
-			
-			lvClasses.LoadSettings(Name);
+			if (!App.DesignMode)
+				ClassListView.LoadSettings(Name);
 		}
 
 		/// --------------------------------------------------------------------------------------------
@@ -68,7 +70,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// --------------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			lvClasses.SaveSettings(Name);
+			ClassListView.SaveSettings(Name);
 			base.SaveSettings();
 		}
 
@@ -79,16 +81,14 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
-			if (lvClasses.Items.Cast<ListViewItem>().Any(item => item.Text == string.Empty))
+			if (ClassListView.Items.Cast<ListViewItem>().Any(item => item.Text == string.Empty))
 			{
-				var msg = App.GetString("ClassesDlg.EmptyClassNameMsg",
-					"Class name must not be empty.");
-				
-				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				var msg = App.GetString("ClassesDlg.EmptyClassNameMsg", "Class name must not be empty.");
+				App.NotifyUserOfProblem(msg);
 				return false;
 			}
 
-			lvClasses.SaveChanges();
+			ClassListView.SaveChanges();
 			App.MsgMediator.SendMessage("SearchClassesChanged", null);
 			return true;
 		}
@@ -96,13 +96,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool IsDirty
 		{
-			get	{return (lvClasses.IsDirty || base.IsDirty);}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public ClassListView ClassListView
-		{
-			get { return lvClasses; }
+			get	{return (ClassListView.IsDirty || base.IsDirty);}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -110,12 +104,12 @@ namespace SIL.Pa.UI.Dialogs
 		/// Set the state of the buttons according to the item selected.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void lvClasses_SelectedIndexChanged(object sender, EventArgs e)
+		private void HandleClassesListViewSelectedIndexChanged(object sender, EventArgs e)
 		{
-			var item = (lvClasses.SelectedItems.Count > 0 ?
-				lvClasses.SelectedItems[0] as ClassListViewItem : null);
+			var item = (ClassListView.SelectedItems.Count > 0 ?
+				ClassListView.SelectedItems[0] as ClassListViewItem : null);
 
-			lvClasses.LabelEdit = (item != null && item.AllowEdit);
+			ClassListView.LabelEdit = (item != null && item.AllowEdit);
 			btnModify.Enabled = (item != null && item.AllowEdit);
 			btnDelete.Enabled = (item != null && item.AllowEdit);
 			btnCopy.Enabled = (item != null);
@@ -126,10 +120,10 @@ namespace SIL.Pa.UI.Dialogs
 		/// Treat a double-click like clicking the modify button.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void lvClasses_DoubleClick(object sender, EventArgs e)
+		private void HandleClassesListViewDoubleClick(object sender, EventArgs e)
 		{
-			var item = (lvClasses.SelectedItems.Count > 0 ?
-				lvClasses.SelectedItems[0] as ClassListViewItem : null);
+			var item = (ClassListView.SelectedItems.Count > 0 ?
+				ClassListView.SelectedItems[0] as ClassListViewItem : null);
 
 			if (item != null && item.AllowEdit)
 				btnModify.PerformClick();
@@ -141,14 +135,14 @@ namespace SIL.Pa.UI.Dialogs
 		/// delete key like clicking on the delete button.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void lvClasses_KeyDown(object sender, KeyEventArgs e)
+		private void HandleClassesListViewKeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Return && btnModify.Enabled)
 				btnModify.PerformClick();
 			else if (e.KeyCode == Keys.Delete && btnDelete.Enabled)
 				btnDelete.PerformClick();
-			else if (e.KeyCode == Keys.F2 && btnModify.Enabled && lvClasses.SelectedItems.Count > 0)
-				lvClasses.SelectedItems[0].BeginEdit();
+			else if (e.KeyCode == Keys.F2 && btnModify.Enabled && ClassListView.SelectedItems.Count > 0)
+				ClassListView.SelectedItems[0].BeginEdit();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -156,17 +150,16 @@ namespace SIL.Pa.UI.Dialogs
 		/// Modify the currently selected class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void btnModify_Click(object sender, EventArgs e)
+		private void HandleModifyButtonClick(object sender, EventArgs e)
 		{
-			if (lvClasses.SelectedItems.Count == 0)
+			if (ClassListView.SelectedItems.Count == 0)
 				return;
 
-			var item = lvClasses.SelectedItems[0] as ClassListViewItem;
-
+			var item = ClassListView.SelectedItems[0] as ClassListViewItem;
 			if (item == null)
 				return;
 
-			using (var dlg = new DefineClassDlg(item, this))
+			using (var dlg = GetDefineClassDialogForItem(item.ClassType, item))
 			{
 				//dlg.TxtClassName.Enabled = false;
 				var result = dlg.ShowDialog(this);
@@ -174,8 +167,20 @@ namespace SIL.Pa.UI.Dialogs
 				{
 					item.Copy(dlg.ClassInfo);
 					item.IsDirty = true;
-					lvClasses.Focus();
+					ClassListView.Focus();
 				}
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private DefineClassBaseDlg GetDefineClassDialogForItem(SearchClassType type, ClassListViewItem item)
+		{
+			switch (type)
+			{
+				case SearchClassType.Phones: return new DefinePhoneClassDlg(item, this);
+				case SearchClassType.Articulatory: return new DefineDescriptiveFeatureClassDlg(item, this);
+				case SearchClassType.Binary: return new DefineDistinctiveFeatureClassDlgBase(item, this);
+				default: return null;
 			}
 		}
 
@@ -184,34 +189,16 @@ namespace SIL.Pa.UI.Dialogs
 		/// Add a new (user-defined) class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void btnAdd_Click(object sender, EventArgs e)
+		private void HandleAddButtonClick(object sender, EventArgs e)
 		{
 			Point pt = btnAdd.PointToScreen(new Point(0, btnAdd.Height));
 			cmnuAdd.Show(pt);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void cmnuAddCharClass_Click(object sender, EventArgs e)
-		{
-			AddClass(SearchClassType.Phones);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void cmnuAddArtFeatureClass_Click(object sender, EventArgs e)
-		{
-			AddClass(SearchClassType.Articulatory);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void cmnuAddBinFeatureClass_Click(object sender, EventArgs e)
-		{
-			AddClass(SearchClassType.Binary);
-		}
-		
-		/// ------------------------------------------------------------------------------------
 		private void AddClass(SearchClassType type)
 		{
-			using (var dlg = new DefineClassDlg(type, this))
+			using (var dlg = GetDefineClassDialogForItem(type, null))
 			{
 				var result = dlg.ShowDialog(this);
 				if (result == DialogResult.Yes || result == DialogResult.OK)
@@ -220,7 +207,7 @@ namespace SIL.Pa.UI.Dialogs
 					item.SubItems.Add(new ListViewItem.ListViewSubItem());
 					item.SubItems.Add(new ListViewItem.ListViewSubItem());
 					CopyAndInsertItem(item, null);
-					lvClasses.Focus();
+					ClassListView.Focus();
 				}
 			}
 		}
@@ -230,12 +217,12 @@ namespace SIL.Pa.UI.Dialogs
 		/// Make a copy of the currently selected class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void btnCopy_Click(object sender, EventArgs e)
+		private void HandleCopyButtonClick(object sender, EventArgs e)
 		{
-			if (lvClasses.SelectedItems.Count <= 0)
+			if (ClassListView.SelectedItems.Count <= 0)
 				return;
 
-			var item = lvClasses.SelectedItems[0] as ClassListViewItem;
+			var item = ClassListView.SelectedItems[0] as ClassListViewItem;
 			if (item == null)
 				return;
 
@@ -249,11 +236,11 @@ namespace SIL.Pa.UI.Dialogs
 				"Format for name of copied class. First parameter is the copied class name and second is a two digit number to make the name unique.");
 
 			int i = 1;
-			while (lvClasses.DoesClassNameExist(newName, null, false))
+			while (ClassListView.DoesClassNameExist(newName, null, false))
 				newName = string.Format(fmt, baseName, i++);
 
 			item = CopyAndInsertItem(item, newName);
-			lvClasses.LabelEdit = true;
+			ClassListView.LabelEdit = true;
 			item.BeginEdit();
 		}
 
@@ -262,12 +249,12 @@ namespace SIL.Pa.UI.Dialogs
 		/// Delete the currently selected class.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void btnDelete_Click(object sender, EventArgs e)
+		private void HandleDeleteButtonClick(object sender, EventArgs e)
 		{
-			if (lvClasses.SelectedItems.Count > 0)
-				lvClasses.DeleteItem(lvClasses.SelectedItems[0] as ClassListViewItem);
+			if (ClassListView.SelectedItems.Count > 0)
+				ClassListView.DeleteItem(ClassListView.SelectedItems[0] as ClassListViewItem);
 
-			lvClasses.Focus();
+			ClassListView.Focus();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -281,13 +268,11 @@ namespace SIL.Pa.UI.Dialogs
 				return null;
 
 			var newItem = new ClassListViewItem(item);
-			//newItem.Id = 0;
 			
 			if (className != null)
 				newItem.Text = className;
 
-			//newItem.Group = lvClasses.Groups[(int)ClassGroup.UserDefined];
-			lvClasses.Items.Add(newItem);
+			ClassListView.Items.Add(newItem);
 			newItem.Selected = true;
 			newItem.IsDirty = true;
 			return newItem;

@@ -30,7 +30,6 @@ namespace SIL.Pa.UI.Controls
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SortOptionsDropDown));
-			this.rbUnicodeOrder = new System.Windows.Forms.RadioButton();
 			this.rbPlaceArticulation = new System.Windows.Forms.RadioButton();
 			this.rbMannerArticulation = new System.Windows.Forms.RadioButton();
 			this.tblAdvSorting = new System.Windows.Forms.TableLayoutPanel();
@@ -72,23 +71,6 @@ namespace SIL.Pa.UI.Controls
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// rbUnicodeOrder
-			// 
-			this.rbUnicodeOrder.AutoSize = true;
-			this.rbUnicodeOrder.BackColor = System.Drawing.Color.Transparent;
-			this.locExtender.SetLocalizableToolTip(this.rbUnicodeOrder, null);
-			this.locExtender.SetLocalizationComment(this.rbUnicodeOrder, null);
-			this.locExtender.SetLocalizingId(this.rbUnicodeOrder, "SortOptionsDropDown.rbUnicodeOrder");
-			this.rbUnicodeOrder.Location = new System.Drawing.Point(12, 49);
-			this.rbUnicodeOrder.Margin = new System.Windows.Forms.Padding(12, 0, 2, 0);
-			this.rbUnicodeOrder.Name = "rbUnicodeOrder";
-			this.rbUnicodeOrder.Size = new System.Drawing.Size(94, 17);
-			this.rbUnicodeOrder.TabIndex = 2;
-			this.rbUnicodeOrder.TabStop = true;
-			this.rbUnicodeOrder.Text = "&Unicode Order";
-			this.rbUnicodeOrder.UseVisualStyleBackColor = false;
-			this.rbUnicodeOrder.Click += new System.EventHandler(this.HandleSortTypeChecked);
-			// 
 			// rbPlaceArticulation
 			// 
 			this.rbPlaceArticulation.AutoSize = true;
@@ -99,10 +81,10 @@ namespace SIL.Pa.UI.Controls
 			this.rbPlaceArticulation.Location = new System.Drawing.Point(12, 5);
 			this.rbPlaceArticulation.Margin = new System.Windows.Forms.Padding(12, 5, 2, 5);
 			this.rbPlaceArticulation.Name = "rbPlaceArticulation";
-			this.rbPlaceArticulation.Size = new System.Drawing.Size(119, 17);
+			this.rbPlaceArticulation.Size = new System.Drawing.Size(114, 17);
 			this.rbPlaceArticulation.TabIndex = 0;
 			this.rbPlaceArticulation.TabStop = true;
-			this.rbPlaceArticulation.Text = "&Place of Articulation";
+			this.rbPlaceArticulation.Text = "&Place or Backness";
 			this.rbPlaceArticulation.UseVisualStyleBackColor = false;
 			this.rbPlaceArticulation.Click += new System.EventHandler(this.HandleSortTypeChecked);
 			// 
@@ -114,12 +96,12 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizationComment(this.rbMannerArticulation, null);
 			this.locExtender.SetLocalizingId(this.rbMannerArticulation, "SortOptionsDropDown.rbMannerArticulation");
 			this.rbMannerArticulation.Location = new System.Drawing.Point(12, 27);
-			this.rbMannerArticulation.Margin = new System.Windows.Forms.Padding(12, 0, 2, 5);
+			this.rbMannerArticulation.Margin = new System.Windows.Forms.Padding(12, 0, 2, 0);
 			this.rbMannerArticulation.Name = "rbMannerArticulation";
-			this.rbMannerArticulation.Size = new System.Drawing.Size(128, 17);
+			this.rbMannerArticulation.Size = new System.Drawing.Size(107, 17);
 			this.rbMannerArticulation.TabIndex = 1;
 			this.rbMannerArticulation.TabStop = true;
-			this.rbMannerArticulation.Text = "&Manner of Articulation";
+			this.rbMannerArticulation.Text = "&Manner or Height";
 			this.rbMannerArticulation.UseVisualStyleBackColor = false;
 			this.rbMannerArticulation.Click += new System.EventHandler(this.HandleSortTypeChecked);
 			// 
@@ -159,9 +141,9 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// pnlAdvSort2
 			// 
-			this.pnlAdvSort2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pnlAdvSort2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.pnlAdvSort2.Controls.Add(this.rbItem3rd);
 			this.pnlAdvSort2.Controls.Add(this.rbBefore3rd);
 			this.pnlAdvSort2.Controls.Add(this.rbAfter3rd);
@@ -226,9 +208,9 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// pnlAdvSort0
 			// 
-			this.pnlAdvSort0.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pnlAdvSort0.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.pnlAdvSort0.Controls.Add(this.rbItem1st);
 			this.pnlAdvSort0.Controls.Add(this.rbBefore1st);
 			this.pnlAdvSort0.Controls.Add(this.rbAfter1st);
@@ -294,9 +276,9 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// pnlAdvSort1
 			// 
-			this.pnlAdvSort1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pnlAdvSort1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.pnlAdvSort1.Controls.Add(this.rbAfter2nd);
 			this.pnlAdvSort1.Controls.Add(this.rbBefore2nd);
 			this.pnlAdvSort1.Controls.Add(this.rbItem2nd);
@@ -540,7 +522,6 @@ namespace SIL.Pa.UI.Controls
 			this.tblLayoutOuter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tblLayoutOuter.Controls.Add(this.pnlAdvOptions, 0, 3);
 			this.tblLayoutOuter.Controls.Add(this.rbMannerArticulation, 0, 1);
-			this.tblLayoutOuter.Controls.Add(this.rbUnicodeOrder, 0, 2);
 			this.tblLayoutOuter.Controls.Add(this.rbPlaceArticulation, 0, 1);
 			this.tblLayoutOuter.Controls.Add(this.flowPanelButtons, 0, 4);
 			this.tblLayoutOuter.Location = new System.Drawing.Point(0, 0);
@@ -552,7 +533,7 @@ namespace SIL.Pa.UI.Controls
 			this.tblLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tblLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tblLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tblLayoutOuter.Size = new System.Drawing.Size(211, 203);
+			this.tblLayoutOuter.Size = new System.Drawing.Size(211, 181);
 			this.tblLayoutOuter.TabIndex = 0;
 			this.tblLayoutOuter.SizeChanged += new System.EventHandler(this.HandleOuterTableLayoutSizeChanged);
 			// 
@@ -573,7 +554,7 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this.pnlAdvOptions, null);
 			this.locExtender.SetLocalizationComment(this.pnlAdvOptions, null);
 			this.locExtender.SetLocalizingId(this.pnlAdvOptions, "SortOptionsDropDown.pnlAdvOptions");
-			this.pnlAdvOptions.Location = new System.Drawing.Point(8, 73);
+			this.pnlAdvOptions.Location = new System.Drawing.Point(8, 51);
 			this.pnlAdvOptions.Margin = new System.Windows.Forms.Padding(8, 7, 8, 0);
 			this.pnlAdvOptions.MnemonicGeneratesClick = false;
 			this.pnlAdvOptions.Name = "pnlAdvOptions";
@@ -583,14 +564,14 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// flowPanelButtons
 			// 
-			this.flowPanelButtons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.flowPanelButtons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.flowPanelButtons.AutoSize = true;
 			this.flowPanelButtons.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.flowPanelButtons.Controls.Add(this.btnClose);
 			this.flowPanelButtons.Controls.Add(this.btnHelp);
 			this.flowPanelButtons.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-			this.flowPanelButtons.Location = new System.Drawing.Point(0, 180);
+			this.flowPanelButtons.Location = new System.Drawing.Point(0, 158);
 			this.flowPanelButtons.Margin = new System.Windows.Forms.Padding(0, 7, 7, 7);
 			this.flowPanelButtons.Name = "flowPanelButtons";
 			this.flowPanelButtons.Size = new System.Drawing.Size(204, 16);
@@ -674,7 +655,6 @@ namespace SIL.Pa.UI.Controls
 
 		#endregion
 
-		private System.Windows.Forms.RadioButton rbUnicodeOrder;
 		private System.Windows.Forms.RadioButton rbPlaceArticulation;
 		private System.Windows.Forms.RadioButton rbMannerArticulation;
 		private System.Windows.Forms.CheckBox chkAfterRL;

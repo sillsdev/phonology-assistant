@@ -29,30 +29,17 @@ namespace SIL.Pa.UI.Controls
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			this.lblSSegsToIgnore = new System.Windows.Forms.Label();
 			this.lnkRefresh = new System.Windows.Forms.LinkLabel();
 			this.lnkHelp = new System.Windows.Forms.LinkLabel();
-			this.pnlPicker = new System.Windows.Forms.Panel();
-			this.pickerIgnore = new SIL.Pa.UI.Controls.CharPicker();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
-			this.pnlPicker.SuspendLayout();
+			this._charPicker = new SIL.Pa.UI.Controls.CharPicker();
+			this._explorerBar = new SIL.Pa.UI.Controls.ExplorerBarItem();
+			this._panelOuter = new SilTools.Controls.SilPanel();
+			this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
+			this._panelOuter.SuspendLayout();
+			this._tableLayout.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// lblSSegsToIgnore
-			// 
-			this.lblSSegsToIgnore.AutoEllipsis = true;
-			this.lblSSegsToIgnore.Dock = System.Windows.Forms.DockStyle.Top;
-			this.lblSSegsToIgnore.Font = new System.Drawing.Font("Lucida Sans Unicode", 9F);
-			this.locExtender.SetLocalizableToolTip(this.lblSSegsToIgnore, null);
-			this.locExtender.SetLocalizationComment(this.lblSSegsToIgnore, null);
-			this.locExtender.SetLocalizingId(this.lblSSegsToIgnore, "ChartOptionsDropDown.lblSSegsToIgnore");
-			this.lblSSegsToIgnore.Location = new System.Drawing.Point(0, 0);
-			this.lblSSegsToIgnore.Name = "lblSSegsToIgnore";
-			this.lblSSegsToIgnore.Size = new System.Drawing.Size(161, 28);
-			this.lblSSegsToIgnore.TabIndex = 1;
-			this.lblSSegsToIgnore.Text = "Ignored Suprasegmentals";
-			this.lblSSegsToIgnore.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// lnkRefresh
 			// 
@@ -61,10 +48,11 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this.lnkRefresh, null);
 			this.locExtender.SetLocalizationComment(this.lnkRefresh, null);
 			this.locExtender.SetLocalizingId(this.lnkRefresh, "ChartOptionsDropDown.lnkRefresh");
-			this.lnkRefresh.Location = new System.Drawing.Point(10, 80);
+			this.lnkRefresh.Location = new System.Drawing.Point(3, 144);
+			this.lnkRefresh.Margin = new System.Windows.Forms.Padding(3, 0, 0, 5);
 			this.lnkRefresh.Name = "lnkRefresh";
-			this.lnkRefresh.Size = new System.Drawing.Size(72, 13);
-			this.lnkRefresh.TabIndex = 3;
+			this.lnkRefresh.Size = new System.Drawing.Size(78, 15);
+			this.lnkRefresh.TabIndex = 1;
 			this.lnkRefresh.TabStop = true;
 			this.lnkRefresh.Text = "Refresh Chart";
 			// 
@@ -75,81 +63,133 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this.lnkHelp, null);
 			this.locExtender.SetLocalizationComment(this.lnkHelp, null);
 			this.locExtender.SetLocalizingId(this.lnkHelp, "ChartOptionsDropDown.lnkHelp");
-			this.lnkHelp.Location = new System.Drawing.Point(126, 80);
+			this.lnkHelp.Location = new System.Drawing.Point(393, 144);
+			this.lnkHelp.Margin = new System.Windows.Forms.Padding(0, 0, 3, 5);
 			this.lnkHelp.Name = "lnkHelp";
-			this.lnkHelp.Size = new System.Drawing.Size(29, 13);
-			this.lnkHelp.TabIndex = 4;
+			this.lnkHelp.Size = new System.Drawing.Size(32, 15);
+			this.lnkHelp.TabIndex = 2;
 			this.lnkHelp.TabStop = true;
 			this.lnkHelp.Text = "Help";
 			this.lnkHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkHelp_LinkClicked);
-			// 
-			// pnlPicker
-			// 
-			this.pnlPicker.Controls.Add(this.pickerIgnore);
-			this.pnlPicker.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pnlPicker.Location = new System.Drawing.Point(0, 28);
-			this.pnlPicker.Name = "pnlPicker";
-			this.pnlPicker.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-			this.pnlPicker.Size = new System.Drawing.Size(161, 40);
-			this.pnlPicker.TabIndex = 5;
-			// 
-			// pickerIgnore
-			// 
-			this.pickerIgnore.AutoSize = false;
-			this.pickerIgnore.AutoSizeItems = false;
-			this.pickerIgnore.BackColor = System.Drawing.Color.Transparent;
-			this.pickerIgnore.CheckItemsOnClick = true;
-			this.pickerIgnore.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pickerIgnore.FontSize = 14F;
-			this.pickerIgnore.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-			this.pickerIgnore.ItemSize = new System.Drawing.Size(30, 30);
-			this.pickerIgnore.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-			this.locExtender.SetLocalizableToolTip(this.pickerIgnore, null);
-			this.locExtender.SetLocalizationComment(this.pickerIgnore, null);
-			this.locExtender.SetLocalizationPriority(this.pickerIgnore, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.pickerIgnore, "ChartOptionsDropDown.pickerIgnore");
-			this.pickerIgnore.Location = new System.Drawing.Point(10, 0);
-			this.pickerIgnore.Name = "pickerIgnore";
-			this.pickerIgnore.Padding = new System.Windows.Forms.Padding(0);
-			this.pickerIgnore.Size = new System.Drawing.Size(141, 40);
-			this.pickerIgnore.TabIndex = 2;
-			this.pickerIgnore.Text = "charPicker1";
 			// 
 			// locExtender
 			// 
 			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
+			// _charPicker
+			// 
+			this._charPicker.AutoSize = false;
+			this._charPicker.AutoSizeItems = false;
+			this._charPicker.BackColor = System.Drawing.Color.Orange;
+			this._charPicker.CheckItemsOnClick = true;
+			this._charPicker.Dock = System.Windows.Forms.DockStyle.None;
+			this._charPicker.FontSize = 14F;
+			this._charPicker.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this._charPicker.ItemSize = new System.Drawing.Size(30, 32);
+			this._charPicker.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+			this.locExtender.SetLocalizableToolTip(this._charPicker, null);
+			this.locExtender.SetLocalizationComment(this._charPicker, null);
+			this.locExtender.SetLocalizationPriority(this._charPicker, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._charPicker, "charPicker1.charPicker1");
+			this._charPicker.Location = new System.Drawing.Point(66, 194);
+			this._charPicker.Name = "_charPicker";
+			this._charPicker.Padding = new System.Windows.Forms.Padding(0);
+			this._charPicker.Size = new System.Drawing.Size(100, 25);
+			this._charPicker.TabIndex = 0;
+			this._charPicker.Text = "charPicker1";
+			// 
+			// _explorerBar
+			// 
+			this._explorerBar.ButtonBackColor = System.Drawing.Color.CadetBlue;
+			this._explorerBar.CanButtonGetFocus = false;
+			this._explorerBar.CanCollapse = false;
+			this._explorerBar.CheckedBoxState = System.Windows.Forms.CheckState.Unchecked;
+			this._tableLayout.SetColumnSpan(this._explorerBar, 2);
+			this._explorerBar.IsExpanded = true;
+			this.locExtender.SetLocalizableToolTip(this._explorerBar, null);
+			this.locExtender.SetLocalizationComment(this._explorerBar, null);
+			this.locExtender.SetLocalizingId(this._explorerBar, "explorerBarItem1.explorerBarItem1");
+			this._explorerBar.Location = new System.Drawing.Point(0, 0);
+			this._explorerBar.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
+			this._explorerBar.Name = "_explorerBar";
+			this._explorerBar.Size = new System.Drawing.Size(139, 104);
+			this._explorerBar.TabIndex = 0;
+			this._explorerBar.Text = "Ignored Suprasegmentals";
+			// 
+			// _panelOuter
+			// 
+			this._panelOuter.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+			this._panelOuter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this._panelOuter.ClipTextForChildControls = true;
+			this._panelOuter.ControlReceivingFocusOnMnemonic = null;
+			this._panelOuter.Controls.Add(this._charPicker);
+			this._panelOuter.Controls.Add(this._tableLayout);
+			this._panelOuter.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._panelOuter.DoubleBuffered = true;
+			this._panelOuter.DrawOnlyBottomBorder = false;
+			this._panelOuter.DrawOnlyTopBorder = false;
+			this._panelOuter.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this._panelOuter.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.locExtender.SetLocalizableToolTip(this._panelOuter, null);
+			this.locExtender.SetLocalizationComment(this._panelOuter, null);
+			this.locExtender.SetLocalizationPriority(this._panelOuter, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._panelOuter, "silPanel1.silPanel1");
+			this._panelOuter.Location = new System.Drawing.Point(0, 0);
+			this._panelOuter.MnemonicGeneratesClick = false;
+			this._panelOuter.Name = "_panelOuter";
+			this._panelOuter.PaintExplorerBarBackground = false;
+			this._panelOuter.Size = new System.Drawing.Size(444, 243);
+			this._panelOuter.TabIndex = 0;
+			// 
+			// _tableLayout
+			// 
+			this._tableLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this._tableLayout.BackColor = System.Drawing.Color.Transparent;
+			this._tableLayout.ColumnCount = 2;
+			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this._tableLayout.Controls.Add(this._explorerBar, 0, 0);
+			this._tableLayout.Controls.Add(this.lnkRefresh, 0, 1);
+			this._tableLayout.Controls.Add(this.lnkHelp, 1, 1);
+			this._tableLayout.Location = new System.Drawing.Point(0, 0);
+			this._tableLayout.Margin = new System.Windows.Forms.Padding(0);
+			this._tableLayout.Name = "_tableLayout";
+			this._tableLayout.RowCount = 2;
+			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this._tableLayout.Size = new System.Drawing.Size(428, 164);
+			this._tableLayout.TabIndex = 6;
+			// 
 			// ChartOptionsDropDown
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.BackColor = System.Drawing.Color.White;
-			this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.Controls.Add(this.pnlPicker);
-			this.Controls.Add(this.lnkHelp);
-			this.Controls.Add(this.lnkRefresh);
-			this.Controls.Add(this.lblSSegsToIgnore);
+			this.Controls.Add(this._panelOuter);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "ChartOptionsDropDown.ChartOptionsDropDown");
+			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "ChartOptionsDropDown";
-			this.Padding = new System.Windows.Forms.Padding(0, 0, 0, 30);
-			this.Size = new System.Drawing.Size(161, 98);
-			this.pnlPicker.ResumeLayout(false);
+			this.Size = new System.Drawing.Size(444, 243);
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).EndInit();
+			this._panelOuter.ResumeLayout(false);
+			this._tableLayout.ResumeLayout(false);
+			this._tableLayout.PerformLayout();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.Label lblSSegsToIgnore;
-		private CharPicker pickerIgnore;
 		public System.Windows.Forms.LinkLabel lnkRefresh;
 		public System.Windows.Forms.LinkLabel lnkHelp;
-		private System.Windows.Forms.Panel pnlPicker;
 		private Localization.UI.LocalizationExtender locExtender;
+		private System.Windows.Forms.TableLayoutPanel _tableLayout;
+		private ExplorerBarItem _explorerBar;
+		private CharPicker _charPicker;
+		private SilTools.Controls.SilPanel _panelOuter;
 	}
 }

@@ -30,10 +30,6 @@ namespace SIL.Pa.UI.Views
 		{
 			this.SuspendLayout();
 			// 
-			// m_chrGrid
-			// 
-			this._oldChrGrid.Size = new System.Drawing.Size(478, 266);
-			// 
 			// ConsonantChartVw
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);

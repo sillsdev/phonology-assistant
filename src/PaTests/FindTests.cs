@@ -52,13 +52,15 @@ namespace SIL.Pa.Tests
 		public override void FixtureSetup()
 		{
 			base.FixtureSetup();
-			ProjectInventoryBuilder.SkipProcessingForTests = true;
 
 			m_dataSource = new PaDataSource();
 			m_dataSource.Type = DataSourceType.Toolbox;
 			m_dataSource.ParseType = DataSourceParseType.Interlinear;
 			m_dataSource.FieldMappings = new List<FieldMapping>();
-			m_dataSource.FieldMappings.Add(new FieldMapping("\\ph", m_prj.GetPhoneticField(), true));
+			m_dataSource.FieldMappings.Add(new FieldMapping("\\ph", _prj.GetPhoneticField(), true));
+			m_dataSource.FieldMappings.Add(new FieldMapping("\\cv", _prj.Fields.Single(f => f.Name == "CVPattern"), true));
+			m_dataSource.FieldMappings.Add(new FieldMapping("\\gl", _prj.Fields.Single(f => f.Name == "Gloss"), true));
+			_prj.DataSources = new List<PaDataSource>(new[] { m_dataSource });
 
 			FindInfo.ShowMessages = false;
 			FwDBAccessInfo.ShowMsgOnFileLoadFailure = false;
@@ -106,13 +108,13 @@ namespace SIL.Pa.Tests
 		/// ------------------------------------------------------------------------------------
 		private void Initialize(string eticWrds, string cvWrds, string glossWrds)
 		{
-			m_recCache = m_prj.RecordCache;
+			m_recCache = _prj.RecordCache;
 			m_cache = new WordListCache();
 
 			AddWords(eticWrds, cvWrds, glossWrds);
 
 			// Create grid
-			m_grid = new PaWordListGrid(m_prj, m_cache, GetType(), false);
+			m_grid = new PaWordListGrid(m_cache, GetType(), false);
 			SetField(m_grid, "m_suspendSavingColumnChanges", true);
 
 			// Make all the grid's rows & columns visible and thus searchable
@@ -123,26 +125,28 @@ namespace SIL.Pa.Tests
 					m_grid.Columns[col].Visible = true;
 			}
 
+			// Get rid of columns we don't care about for the tests.
+			for (int i = m_grid.ColumnCount - 1; i >= 0; i--)
+			{
+				if (!"Phonetic CVPattern Gloss".Contains(m_grid.Columns[i].Name))
+					m_grid.Columns.Remove(m_grid.Columns[i]);
+			}
+
 			// Set the CVPattern & Gloss column Display Indexes to the correct order
 			// based on the columnsToSearch below.
-			m_grid.Columns[8].DisplayIndex = 1;
-			m_grid.Columns[3].DisplayIndex = 2;
-			m_grid.Columns[1].DisplayIndex = 3;
-			m_grid.Columns[2].DisplayIndex = 4;
-			m_grid.Columns[4].DisplayIndex = 5;
-			m_grid.Columns[5].DisplayIndex = 6;
-			m_grid.Columns[6].DisplayIndex = 7;
-			m_grid.Columns[7].DisplayIndex = 8;
+			m_grid.Columns["Phonetic"].DisplayIndex = 0;
+			m_grid.Columns["CVPattern"].DisplayIndex = 1;
+			m_grid.Columns["Gloss"].DisplayIndex = 2;
 
 			SetField(typeof(FindInfo), "s_reverseFind", false);
 			SetField(m_grid, "m_suspendSavingColumnChanges", false);
 			FindInfo.Grid = m_grid;
 
 			// Add columns to search
-			List<FindDlgColItem> columnsToSearch = new List<FindDlgColItem>();
-			columnsToSearch.Add(new FindDlgColItem(0, 0, "Phonetic", "Phonetic"));
-			columnsToSearch.Add(new FindDlgColItem(8, 1, "CV Pattern", "CVPattern"));
-			columnsToSearch.Add(new FindDlgColItem(3, 2, "Gloss", "Gloss"));
+			var columnsToSearch = new List<FindDlgColItem>();
+			columnsToSearch.Add(new FindDlgColItem(m_grid.Columns["Phonetic"].Index, 0, "Phonetic", "Phonetic"));
+			columnsToSearch.Add(new FindDlgColItem(m_grid.Columns["CVPattern"].Index, 1, "CV Pattern", "CVPattern"));
+			columnsToSearch.Add(new FindDlgColItem(m_grid.Columns["Gloss"].Index, 2, "Gloss", "Gloss"));
 			FindInfo.ColumnsToSearch = columnsToSearch.ToArray();
 
 			m_findDlg = new FindDlg(m_grid);
@@ -157,7 +161,7 @@ namespace SIL.Pa.Tests
 		private void AddWords(string words, string pattern, string gloss)
 		{
 			m_recCache.Clear();
-			RecordCacheEntry entry = new RecordCacheEntry(m_prj);
+			var entry = new RecordCacheEntry(_prj);
 			entry.SetValue(kPhonetic, words);
 			entry.SetValue(kCVPattern, pattern);
 			entry.SetValue(kGloss, gloss);
@@ -185,7 +189,6 @@ namespace SIL.Pa.Tests
 		#endregion
 
 		#region Debugging / Testing
-
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Tests Current Cell's Location.
@@ -233,14 +236,13 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void FindForBackTest()
 		{
-			//InspectGrid();
 			SetSearchString("ebay");
 			Assert.AreEqual(true, FindInfo.FindFirst(false)); // Forward find
-			Assert.AreEqual(true, IsCurrCellLocation(2,0));
+			Assert.AreEqual(true, IsCurrCellLocation(2, 0));
 
 			SetSearchString("glbitter");
 			Assert.AreEqual(true, FindInfo.FindFirst(true)); // Reverse find
-			Assert.AreEqual(true, IsCurrCellLocation(1,3));
+			Assert.AreEqual(true, IsCurrCellLocation(1, 2));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -253,11 +255,11 @@ namespace SIL.Pa.Tests
 		{
 			SetSearchString("ebay");
 			Assert.AreEqual(true, FindInfo.FindFirst(true)); // Forward find
-			Assert.AreEqual(true, IsCurrCellLocation(2,3)); // finds "glebay"
+			Assert.AreEqual(true, IsCurrCellLocation(2,2)); // finds "glebay"
 
 			SetSearchString("glbitter");
 			Assert.AreEqual(true, FindInfo.FindFirst(false)); // Reverse find
-			Assert.AreEqual(true, IsCurrCellLocation(3,3));
+			Assert.AreEqual(true, IsCurrCellLocation(3,2));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -286,10 +288,10 @@ namespace SIL.Pa.Tests
 			SetSearchString("drillbit");
 
 			Assert.AreEqual(true, FindInfo.FindFirst(false));
-			Assert.AreEqual(true, IsCurrCellLocation(4,0));
+			Assert.AreEqual(true, IsCurrCellLocation(4, 0));
 
 			Assert.AreEqual(true, FindInfo.Find(false));
-			Assert.AreEqual(true, IsCurrCellLocation(4, 3));
+			Assert.AreEqual(true, IsCurrCellLocation(4, 2));
 		}
 
 
@@ -304,7 +306,7 @@ namespace SIL.Pa.Tests
 			SetSearchString("drillbit");
 
 			Assert.AreEqual(true, FindInfo.FindFirst(true));
-			Assert.AreEqual(true, IsCurrCellLocation(4, 3));
+			Assert.AreEqual(true, IsCurrCellLocation(4, 2));
 
 			Assert.AreEqual(true, FindInfo.Find(true));
 			Assert.AreEqual(true, IsCurrCellLocation(4, 0));
@@ -323,11 +325,11 @@ namespace SIL.Pa.Tests
 			SetSearchString("glbitter");
 
 			Assert.IsTrue(FindInfo.FindFirst(false), "Did not find first forward"); // Forward find
-			Assert.IsTrue(IsCurrCellLocation(1, 3), "Curr. Cell Location is not 1,3");
+			Assert.IsTrue(IsCurrCellLocation(1, 2), "Curr. Cell Location is not 1,3");
 			Assert.IsTrue(FindInfo.Find(false), "Did not find next forward"); // Forward find
-			Assert.IsTrue(IsCurrCellLocation(3, 3), "Curr. Cell Location is not 3,3");
+			Assert.IsTrue(IsCurrCellLocation(3, 2), "Curr. Cell Location is not 3,3");
 			Assert.IsTrue(FindInfo.Find(true), "Did not find backward"); // Backward find
-			Assert.IsTrue(IsCurrCellLocation(1, 3), "Curr. Cell Location is not 1,3");
+			Assert.IsTrue(IsCurrCellLocation(1, 2), "Curr. Cell Location is not 1,3");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -364,11 +366,11 @@ namespace SIL.Pa.Tests
 			SetSearchString("glebay");
 
 			Assert.AreEqual(true, FindInfo.FindFirst(false));
-			Assert.AreEqual(true, IsCurrCellLocation(2,3)); // glebay
+			Assert.AreEqual(true, IsCurrCellLocation(2, 2)); // glebay
 			Assert.AreEqual(true, FindInfo.Find(false));
-			Assert.AreEqual(true, IsCurrCellLocation(2, 3)); // glebay
+			Assert.AreEqual(true, IsCurrCellLocation(2, 2)); // glebay
 			Assert.AreEqual(true, FindInfo.Find(true));
-			Assert.AreEqual(true, IsCurrCellLocation(2,3)); // glebay
+			Assert.AreEqual(true, IsCurrCellLocation(2, 2)); // glebay
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -384,11 +386,11 @@ namespace SIL.Pa.Tests
 			SetSearchString("glebay");
 
 			Assert.AreEqual(true, FindInfo.FindFirst(true));
-			Assert.AreEqual(true, IsCurrCellLocation(2, 3)); // glebay
+			Assert.AreEqual(true, IsCurrCellLocation(2, 2)); // glebay
 			Assert.AreEqual(true, FindInfo.Find(true));
-			Assert.AreEqual(true, IsCurrCellLocation(2, 3)); // glebay
+			Assert.AreEqual(true, IsCurrCellLocation(2, 2)); // glebay
 			Assert.AreEqual(true, FindInfo.Find(false));
-			Assert.AreEqual(true, IsCurrCellLocation(2, 3)); // glebay
+			Assert.AreEqual(true, IsCurrCellLocation(2, 2)); // glebay
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -402,7 +404,7 @@ namespace SIL.Pa.Tests
 			SetSearchString("glfib");
 			m_findDlg.MatchCase = false;
 			Assert.IsTrue(FindInfo.Find(false));
-			Assert.IsTrue(IsCurrCellLocation(0, 3));
+			Assert.IsTrue(IsCurrCellLocation(0, 2));
 
 			m_findDlg.MatchCase = true;
 
@@ -411,7 +413,7 @@ namespace SIL.Pa.Tests
 
 			SetSearchString("GLFIB");
 			Assert.IsTrue(FindInfo.Find(false));
-			Assert.IsTrue(IsCurrCellLocation(0, 3));
+			Assert.IsTrue(IsCurrCellLocation(0, 2));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -426,17 +428,17 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(true, FindInfo.FindFirst(false));
 			Assert.AreEqual(true, IsCurrCellLocation(1, 0));
 			Assert.AreEqual(true, FindInfo.Find(false));
-			Assert.AreEqual(true, IsCurrCellLocation(1, 3));
+			Assert.AreEqual(true, IsCurrCellLocation(1, 2));
 			Assert.AreEqual(true, FindInfo.Find(false));
 			Assert.AreEqual(true, IsCurrCellLocation(3, 0));
 			Assert.AreEqual(true, FindInfo.Find(false));
-			Assert.AreEqual(true, IsCurrCellLocation(3, 3));
+			Assert.AreEqual(true, IsCurrCellLocation(3, 2));
 			Assert.AreEqual(true, FindInfo.Find(false));
 			Assert.AreEqual(true, IsCurrCellLocation(4, 0));	// drillbit
 			Assert.AreEqual(true, FindInfo.Find(false));
-			Assert.AreEqual(true, IsCurrCellLocation(4, 3));	// drillbit
+			Assert.AreEqual(true, IsCurrCellLocation(4, 2));	// drillbit
 			Assert.AreEqual(true, FindInfo.Find(false));
-			Assert.AreEqual(true, IsCurrCellLocation(5, 3));	// glabitging
+			Assert.AreEqual(true, IsCurrCellLocation(5, 2));	// glabitging
 			
 			// Looping back to the top so use FindFirst()
 			Assert.AreEqual(true, FindInfo.FindFirst(false));
@@ -467,34 +469,34 @@ namespace SIL.Pa.Tests
 		{
 			SetSearchString("cvc");
 			Assert.AreEqual(true, FindInfo.FindFirst(false));
-			Assert.AreEqual(true, IsCurrCellLocation(0,8));
+			Assert.AreEqual(true, IsCurrCellLocation(0, 1));
 			Assert.AreEqual(true, FindInfo.Find(false));
-			Assert.AreEqual(true, IsCurrCellLocation(1, 8));
+			Assert.AreEqual(true, IsCurrCellLocation(1, 1));
 			Assert.AreEqual(true, FindInfo.FindFirst(false));
-			Assert.AreEqual(true, IsCurrCellLocation(3, 8));
+			Assert.AreEqual(true, IsCurrCellLocation(3, 1));
 			Assert.AreEqual(true, FindInfo.Find(false));
-			Assert.AreEqual(true, IsCurrCellLocation(4, 8));
+			Assert.AreEqual(true, IsCurrCellLocation(4, 1));
 			Assert.AreEqual(true, FindInfo.Find(false));
-			Assert.AreEqual(true, IsCurrCellLocation(5, 8));
+			Assert.AreEqual(true, IsCurrCellLocation(5, 1));
 			
 			// Looping back to the top so use FindFirst()
 			Assert.AreEqual(true, FindInfo.FindFirst(false));
-			Assert.AreEqual(true, IsCurrCellLocation(0, 8));
+			Assert.AreEqual(true, IsCurrCellLocation(0, 1));
 
 			m_findDlg.StartsWith = true;
 
 			ResetStartCell();
 			SetSearchString("cvc");
 			Assert.AreEqual(true, FindInfo.FindFirst(false));
-			Assert.AreEqual(true, IsCurrCellLocation(0, 8));
+			Assert.AreEqual(true, IsCurrCellLocation(0, 1));
 			Assert.AreEqual(true, FindInfo.Find(false));
-			Assert.AreEqual(true, IsCurrCellLocation(1, 8));
+			Assert.AreEqual(true, IsCurrCellLocation(1, 1));
 			Assert.AreEqual(true, FindInfo.FindFirst(false));
-			Assert.AreEqual(true, IsCurrCellLocation(3, 8));
+			Assert.AreEqual(true, IsCurrCellLocation(3, 1));
 			
 			// Looping back to the top so use FindFirst()
 			Assert.AreEqual(true, FindInfo.FindFirst(false));
-			Assert.AreEqual(true, IsCurrCellLocation(0, 8));
+			Assert.AreEqual(true, IsCurrCellLocation(0, 1));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -509,13 +511,13 @@ namespace SIL.Pa.Tests
 			m_findDlg.StartsWith = true;
 			SetSearchString("GL");
 			Assert.AreEqual(true, FindInfo.FindFirst(false));
-			Assert.AreEqual(true, IsCurrCellLocation(0, 3));
+			Assert.AreEqual(true, IsCurrCellLocation(0, 2));
 
 			ResetStartCell();
 			m_findDlg.IsRegularExpression = true;
 			SetSearchString("(?-i)^GL.*$");
 			Assert.AreEqual(true, FindInfo.FindFirst(false));
-			Assert.AreEqual(true, IsCurrCellLocation(0, 3));
+			Assert.AreEqual(true, IsCurrCellLocation(0, 2));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -531,14 +533,14 @@ namespace SIL.Pa.Tests
 			SetSearchString("cvc");
 			m_findDlg.MatchEntireWord = true;
 			Assert.AreEqual(true, FindInfo.FindFirst(false));
-			Assert.AreEqual(true, IsCurrCellLocation(0, 8)); // cvc
+			Assert.AreEqual(true, IsCurrCellLocation(0, 1)); // cvc
 			Assert.AreEqual(true, FindInfo.Find(false));
-			Assert.AreEqual(true, IsCurrCellLocation(1, 8)); // cvc
+			Assert.AreEqual(true, IsCurrCellLocation(1, 1)); // cvc
 
 			m_grid.Sort("Gloss", false);
 
 			// Adds 5 new SilHierarchicalGridRow's & 1 new column
-			m_grid.GroupByField = m_prj.Fields.Single(f => f.Name == "Gloss");
+			m_grid.GroupByField = _prj.Fields.Single(f => f.Name == "Gloss");
 
 			ResetStartCell();
 			// WordListGroupingBuilder>GroupByField() inserted a hierarchical column for 
@@ -549,9 +551,9 @@ namespace SIL.Pa.Tests
 			SetSearchString("cvc");
 			m_findDlg.MatchEntireWord = true;
 			Assert.AreEqual(true, FindInfo.FindFirst(false));
-			Assert.AreEqual(true, IsCurrCellLocation(1, 9)); // cvc
+			Assert.AreEqual(true, IsCurrCellLocation(1, 2)); // cvc
 			Assert.AreEqual(true, FindInfo.Find(false));
-			Assert.AreEqual(true, IsCurrCellLocation(5, 9)); // cvc
+			Assert.AreEqual(true, IsCurrCellLocation(6, 2)); // cvc
 			Assert.AreEqual(true, FindInfo.Find(false));
 
 			// ------------------------------------------------------------------------------------
@@ -568,9 +570,9 @@ namespace SIL.Pa.Tests
 
 			m_grid.ToggleGroupExpansion(true); // expand all groups
 			Assert.AreEqual(true, FindInfo.FindFirst(false));
-			Assert.AreEqual(true, IsCurrCellLocation(1, 9)); // cvc
+			Assert.AreEqual(true, IsCurrCellLocation(1, 2)); // cvc
 			Assert.AreEqual(true, FindInfo.Find(false));
-			Assert.AreEqual(true, IsCurrCellLocation(5, 9)); // cvc
+			Assert.AreEqual(true, IsCurrCellLocation(6, 2)); // cvc
 			Assert.AreEqual(true, FindInfo.Find(false));
 
 			// ------------------------------------------------------------------------------------
@@ -582,9 +584,9 @@ namespace SIL.Pa.Tests
 
 			ResetStartCell();
 			Assert.AreEqual(true, FindInfo.FindFirst(false));
-			Assert.AreEqual(true, IsCurrCellLocation(1, 9));
+			Assert.AreEqual(true, IsCurrCellLocation(1, 2));
 			Assert.AreEqual(true, FindInfo.Find(false));
-			Assert.AreEqual(true, IsCurrCellLocation(1, 9));
+			Assert.AreEqual(true, IsCurrCellLocation(1, 2));
 
 			// ------------------------------------------------------------------------------------
 			// Searching for "cvc" in 2 groups after collapsing one of them, but
@@ -594,10 +596,11 @@ namespace SIL.Pa.Tests
 
 			ResetStartCell();
 			Assert.AreEqual(true, FindInfo.FindFirst(false));
-			Assert.AreEqual(true, IsCurrCellLocation(1, 9));
+			Assert.AreEqual(true, IsCurrCellLocation(1, 2));
 			Assert.AreEqual(true, FindInfo.Find(false));
-			Assert.AreEqual(true, IsCurrCellLocation(5, 9));
+			Assert.AreEqual(true, IsCurrCellLocation(6, 2));
 		}
+
 		#endregion
 	}
 }
