@@ -48,7 +48,9 @@ namespace SIL.Pa.PhoneticSearching
 			if (PhonesNotInCache.Count == 0)
 				return null;
 
-			var text = PhonesNotInCache.Aggregate(String.Empty, (curr, p) => curr + (p + ", "));
+			var text = PhonesNotInCache
+				.Aggregate(string.Empty, (curr, p) => curr + (p == " " ? "(space)" : p + ", "));
+			
 			return text.TrimEnd(',', ' ');
 		}
 

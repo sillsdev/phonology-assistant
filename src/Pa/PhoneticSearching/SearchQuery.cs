@@ -207,7 +207,7 @@ namespace SIL.Pa.PhoneticSearching
 			{
 				var pieces = GetPatternPieces(Pattern);
 
-				if (pieces.Length < 2 || pieces[1] == string.Empty)
+				if (pieces == null || pieces.Length < 2 || pieces[1] == string.Empty)
 					return "*";
 
 				pieces[1] = pieces[1].Replace(App.kSearchPatternDiamond, "*");
@@ -228,7 +228,7 @@ namespace SIL.Pa.PhoneticSearching
 			get
 			{
 				var pieces = GetPatternPieces(Pattern);
-				return (pieces.Length == 3 ? pieces[0] : String.Empty);
+				return (pieces != null && pieces.Length == 3 ? pieces[0] : String.Empty);
 			}
 		}
 
@@ -239,7 +239,7 @@ namespace SIL.Pa.PhoneticSearching
 			{
 				var pieces = GetPatternPieces(Pattern);
 
-				if (pieces.Length < 3 || pieces[2] == string.Empty)
+				if (pieces == null || pieces.Length < 3 || pieces[2] == string.Empty)
 					return "*";
 
 				pieces[2] = pieces[2].Replace(App.kSearchPatternDiamond, "*");

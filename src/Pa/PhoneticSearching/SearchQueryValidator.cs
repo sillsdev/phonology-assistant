@@ -22,6 +22,8 @@ namespace SIL.Pa.PhoneticSearching
 			{
 				Errors.Clear();
 
+				VerifyMatchingSymbolPairs(query.Pattern);
+
 				var pattern = query.SearchItem + "/" + query.PrecedingEnvironment + "_" + query.FollowingEnvironment;
 				if (!VerifyGeneralPatternStructure(pattern))
 				{
@@ -53,22 +55,7 @@ namespace SIL.Pa.PhoneticSearching
 						string.Format(LocalizationManager.GetString("PhoneticSearchingMessages.EmptyAngleBracketsMsg",
 							"The pattern '{0}' contains at least one set of empty angle brackets."), item));
 
-					VerifyMatchingOpenAndCloseSymbols(item, '[', ']',
-						string.Format(LocalizationManager.GetString("PhoneticSearchingMessages.MismatchedNumberOfBracketsMsg",
-							"In the pattern '{0}', the number of open square brackets does not match the number of closed."), item));
-
-					VerifyMatchingOpenAndCloseSymbols(item, '{', '}',
-						string.Format(LocalizationManager.GetString("PhoneticSearchingMessages.MismatchedNumberOfBracesMsg",
-							"In the pattern '{0}', the number of open braces does not match the number of closed."), item));
-
-					VerifyMatchingOpenAndCloseSymbols(item, '<', '>',
-						string.Format(LocalizationManager.GetString("PhoneticSearchingMessages.MismatchedNumberOfAngleBracketsMsg",
-							"In the pattern '{0}', the number of open angle brackets does not match the number of closed."), item));
-
-					VerifyMatchingOpenAndCloseSymbols(item, '(', ')',
-						string.Format(LocalizationManager.GetString("PhoneticSearchingMessages.MismatchedNumberOfParenthesesMsg",
-							"In the pattern '{0}', the number of open parentheses does not match the number of closed."), item));
-
+					VerifyMatchingSymbolPairs(item);
 					ValidateOrGroups(item);
 
 					var andGroupValidator = new AndGroupValidator(_project);
@@ -84,6 +71,26 @@ namespace SIL.Pa.PhoneticSearching
 			
 			query.Errors.AddRange(Errors);
 			return !HasErrors;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void VerifyMatchingSymbolPairs(string item)
+		{
+			VerifyMatchingOpenAndCloseSymbols(item, '[', ']',
+				string.Format(LocalizationManager.GetString("PhoneticSearchingMessages.MismatchedNumberOfBracketsMsg",
+				"In the pattern '{0}', the number of open square brackets does not match the number of closed."), item));
+
+			VerifyMatchingOpenAndCloseSymbols(item, '{', '}',
+				string.Format(LocalizationManager.GetString("PhoneticSearchingMessages.MismatchedNumberOfBracesMsg",
+				"In the pattern '{0}', the number of open braces does not match the number of closed."), item));
+
+			VerifyMatchingOpenAndCloseSymbols(item, '<', '>',
+				string.Format(LocalizationManager.GetString("PhoneticSearchingMessages.MismatchedNumberOfAngleBracketsMsg",
+				"In the pattern '{0}', the number of open angle brackets does not match the number of closed."), item));
+
+			VerifyMatchingOpenAndCloseSymbols(item, '(', ')',
+				string.Format(LocalizationManager.GetString("PhoneticSearchingMessages.MismatchedNumberOfParenthesesMsg",
+				"In the pattern '{0}', the number of open parentheses does not match the number of closed."), item));
 		}
 
 		/// ------------------------------------------------------------------------------------
