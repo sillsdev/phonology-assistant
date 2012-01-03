@@ -215,7 +215,7 @@ namespace SIL.Pa.UI.Views
 			if (_savedCharts != null)
 			{
 				XmlSerializationHelper.SerializeToFile(DistributionChart.GetFileForProject(
-					Project.ProjectPathFilePrefix), _savedCharts);
+					Project.ProjectPathFilePrefix), _savedCharts, "distributionCharts");
 			}
 		}
 
