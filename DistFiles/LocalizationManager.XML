@@ -317,6 +317,24 @@
             </summary>
             ------------------------------------------------------------------------------------
         </member>
+        <member name="M:Localization.TransUnitUpdater.#ctor(Localization.TMXUtils.TMXDocument)">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.TransUnitUpdater.Update(Localization.TMXUtils.TMXDocument,Localization.LocalizingInfo)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Updates the localized info. in the cache with the info. from the specified
+            LocalizedObjectInfo.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.TransUnitUpdater.UpdateValue(Localization.TMXUtils.TransUnit,System.String,Localization.LocalizingInfo,System.String)">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Updates the value for the specified translation unit with the specified new value.
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
         <member name="T:Localization.UI.LocalizationExtender">
             ----------------------------------------------------------------------------------------
         </member>
@@ -376,6 +394,12 @@
             is done means that ids for column headings must be inferred from the column
             name and cannot be specified in the designer.
             </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.UI.LocalizationExtender.HandleGridColumnAdded(System.Object,System.Windows.Forms.DataGridViewColumnEventArgs)">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.UI.LocalizationExtender.HandleGridDisposed(System.Object,System.EventArgs)">
             ------------------------------------------------------------------------------------
         </member>
         <member name="M:Localization.UI.LocalizationExtender.GetLocalizingId(System.Object)">
@@ -1455,6 +1479,35 @@
             </summary>
             ------------------------------------------------------------------------------------
         </member>
+        <member name="T:Localization.UI.ProgressDlg">
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="F:Localization.UI.ProgressDlg.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Localization.UI.ProgressDlg.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Localization.UI.ProgressDlg.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Localization.UI.ProgressDlg.#ctor(System.String,System.String[])">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.UI.ProgressDlg.OnShown(System.EventArgs)">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.UI.ProgressDlg.HandleApplicationIdle(System.Object,System.EventArgs)">
+            ------------------------------------------------------------------------------------
+        </member>
         <member name="T:Localization.LocalizationPriority">
             ----------------------------------------------------------------------------------------
         </member>
@@ -2394,6 +2447,30 @@
             ------------------------------------------------------------------------------------
         </member>
         <member name="M:Localization.BingTranslatorService.LanguageServiceClient.Translate(System.String,System.String,System.String,System.String)">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="T:Localization.CodeReader.ILInstruction">
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.CodeReader.ILInstruction.#ctor(System.Reflection.Emit.OpCode,System.Object)">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="T:Localization.CodeReader.ILReader">
+            ----------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.CodeReader.ILReader.#cctor">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.CodeReader.ILReader.#ctor(System.Reflection.MethodBase)">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.CodeReader.ILReader.GetEnumerator">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.CodeReader.ILReader.System#Collections#IEnumerable#GetEnumerator">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.CodeReader.ILReader.Next">
             ------------------------------------------------------------------------------------
         </member>
         <member name="M:Localization.TMXUtils.XmlSerializationHelper.SerializeToString``1(``0)">
@@ -4073,6 +4150,52 @@
             </summary>
             ------------------------------------------------------------------------------------
         </member>
+        <member name="T:Localization.CodeReader.StringExtractor">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.CodeReader.StringExtractor.ExtractFromNamespaces(System.Action{System.Int32},System.String[])">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.CodeReader.StringExtractor.DoExtractingWork(System.Object,System.ComponentModel.DoWorkEventArgs)">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.CodeReader.StringExtractor.GetTypesToScan(System.Collections.Generic.ICollection{System.String})">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.CodeReader.StringExtractor.GetAllAssemblies">
+            ------------------------------------------------------------------------------------
+            <summary>
+            Gets a list of all assemblies referenced by the entry assembly
+            </summary>
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.CodeReader.StringExtractor.FindLocalizedStringsInType(System.Type)">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.CodeReader.StringExtractor.FindGetStringCalls(System.Reflection.MethodBase,System.Reflection.MethodInfo)">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.CodeReader.StringExtractor.GetInfoForCallToLocalizationMethod(System.Reflection.Module,System.Int32,System.Int32)">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.CodeReader.StringExtractor.FindExtenderCalls(System.Reflection.MethodBase)">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.CodeReader.StringExtractor.GetFieldName(System.Reflection.Module,Localization.CodeReader.ILInstruction)">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.CodeReader.StringExtractor.GetLocInfoForField(System.String,System.String)">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="T:Localization.CodeReader.StringExtractor.LocInfoDistinctComparer">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.CodeReader.StringExtractor.LocInfoDistinctComparer.Equals(Localization.LocalizingInfo,Localization.LocalizingInfo)">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.CodeReader.StringExtractor.LocInfoDistinctComparer.GetHashCode(Localization.LocalizingInfo)">
+            ------------------------------------------------------------------------------------
+        </member>
         <member name="T:Localization.Translators.GoogleTranslator">
             ----------------------------------------------------------------------------------------
             <summary>
@@ -4290,123 +4413,6 @@
             ------------------------------------------------------------------------------------
             <summary>
             Returns a very lightened up version of the system's hightlight color.
-            </summary>
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="T:Localization.CodeReader.ILInstruction">
-            ----------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.CodeReader.ILInstruction.#ctor(System.Reflection.Emit.OpCode,System.Object)">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="T:Localization.CodeReader.ILReader">
-            ----------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.CodeReader.ILReader.#cctor">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.CodeReader.ILReader.#ctor(System.Reflection.MethodBase)">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.CodeReader.ILReader.GetEnumerator">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.CodeReader.ILReader.System#Collections#IEnumerable#GetEnumerator">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.CodeReader.ILReader.Next">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="T:Localization.CodeReader.StringExtractor">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.CodeReader.StringExtractor.ExtractFromNamespaces(System.Action{System.Int32},System.String[])">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.CodeReader.StringExtractor.DoExtractingWork(System.Object,System.ComponentModel.DoWorkEventArgs)">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.CodeReader.StringExtractor.GetTypesToScan(System.Collections.Generic.ICollection{System.String})">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.CodeReader.StringExtractor.GetAllAssemblies">
-            ------------------------------------------------------------------------------------
-            <summary>
-            Gets a list of all assemblies referenced by the entry assembly
-            </summary>
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.CodeReader.StringExtractor.FindLocalizedStringsInType(System.Type)">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.CodeReader.StringExtractor.FindGetStringCalls(System.Reflection.MethodBase,System.Reflection.MethodInfo)">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.CodeReader.StringExtractor.GetInfoForCallToLocalizationMethod(System.Reflection.Module,System.Int32,System.Int32)">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.CodeReader.StringExtractor.FindExtenderCalls(System.Reflection.MethodBase)">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.CodeReader.StringExtractor.GetFieldName(System.Reflection.Module,Localization.CodeReader.ILInstruction)">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.CodeReader.StringExtractor.GetLocInfoForField(System.String,System.String)">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="T:Localization.CodeReader.StringExtractor.LocInfoDistinctComparer">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.CodeReader.StringExtractor.LocInfoDistinctComparer.Equals(Localization.LocalizingInfo,Localization.LocalizingInfo)">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.CodeReader.StringExtractor.LocInfoDistinctComparer.GetHashCode(Localization.LocalizingInfo)">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="T:Localization.UI.ProgressDlg">
-            ----------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.UI.ProgressDlg.#ctor(System.String,System.String[])">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.UI.ProgressDlg.OnShown(System.EventArgs)">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.UI.ProgressDlg.HandleApplicationIdle(System.Object,System.EventArgs)">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="F:Localization.UI.ProgressDlg.components">
-            <summary>
-            Required designer variable.
-            </summary>
-        </member>
-        <member name="M:Localization.UI.ProgressDlg.Dispose(System.Boolean)">
-            <summary>
-            Clean up any resources being used.
-            </summary>
-            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        </member>
-        <member name="M:Localization.UI.ProgressDlg.InitializeComponent">
-            <summary>
-            Required method for Designer support - do not modify
-            the contents of this method with the code editor.
-            </summary>
-        </member>
-        <member name="M:Localization.TransUnitUpdater.#ctor(Localization.TMXUtils.TMXDocument)">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.TransUnitUpdater.Update(Localization.TMXUtils.TMXDocument,Localization.LocalizingInfo)">
-            ------------------------------------------------------------------------------------
-            <summary>
-            Updates the localized info. in the cache with the info. from the specified
-            LocalizedObjectInfo.
-            </summary>
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.TransUnitUpdater.UpdateValue(Localization.TMXUtils.TransUnit,System.String,Localization.LocalizingInfo,System.String)">
-            ------------------------------------------------------------------------------------
-            <summary>
-            Updates the value for the specified translation unit with the specified new value.
             </summary>
             ------------------------------------------------------------------------------------
         </member>
