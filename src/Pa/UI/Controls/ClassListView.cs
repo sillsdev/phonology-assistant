@@ -27,10 +27,6 @@ namespace SIL.Pa.UI.Controls
 		private ClassListViewItem m_prevItem;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public ClassListViewToolTip(Control ctrl)
 		{
 			m_ctrl = ctrl;
@@ -39,10 +35,6 @@ namespace SIL.Pa.UI.Controls
 			Draw += HandleDraw;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
@@ -53,19 +45,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public ClassListViewItem ClassListViewItem
 		{
 			get { return m_item; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void Show(ClassListViewItem item)
 		{
@@ -94,10 +78,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void Hide()
 		{
 			ErasePrevItemDottedLine(null);
@@ -108,10 +88,6 @@ namespace SIL.Pa.UI.Controls
 			m_item = null;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void ErasePrevItemDottedLine(ClassListViewItem item)
 		{
@@ -124,10 +100,6 @@ namespace SIL.Pa.UI.Controls
 			m_prevItem = item;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void HandlePopup(object sender, PopupEventArgs e)
 		{
@@ -155,7 +127,7 @@ namespace SIL.Pa.UI.Controls
 					"Heading for the tooltip used to display the members of a class of phones in a class list view.");
 			}
 
-			if (m_tipText.IndexOf(Environment.NewLine) < 0)
+			if (m_tipText.IndexOf(Environment.NewLine, StringComparison.Ordinal) < 0)
 			{
 				return LocalizationManager.GetString("CommonControls.ClassesList.SingleMemberToolTipHdg", "Member:",
 					"Heading for the tooltip used to display the member of a class containing a single feature.");
@@ -237,8 +209,6 @@ namespace SIL.Pa.UI.Controls
 			// This will ensure the row height will accomodate the tallest font.
 			base.Font = FontHelper.UIFont;
 
-			//AddGroups();
-
 			m_tooltip = new ClassListViewToolTip(this);
 		}
 
@@ -277,8 +247,8 @@ namespace SIL.Pa.UI.Controls
 			var hdr = new ColumnHeader();
 			hdr.Name = "hdr" + ClassListViewItem.kClassNameSubitem;
 			hdr.Width = 180;
-			hdr.Text = "_L10N_:CommonControls.ClassListView.ColumnHeadings.Name!Name";
 			Columns.Add(hdr);
+			hdr.Text = LocalizationManager.GetString("CommonControls.ClassListView.ColumnHeadings.Name", "Name", null, hdr);
 
 			if (!m_showMembersAndClassTypeColumns)
 				return;
@@ -296,15 +266,15 @@ namespace SIL.Pa.UI.Controls
 			hdr = new ColumnHeader();
 			hdr.Name = "hdr" + kMemberSubitem;
 			hdr.Width = 205;
-			hdr.Text = "_L10N_:CommonControls.ClassListView.ColumnHeadings.Members!Members";
 			Columns.Add(hdr);
+			hdr.Text = LocalizationManager.GetString("CommonControls.ClassListView.ColumnHeadings.Members", "Members", null, hdr);
 
 			// Add a column for the text showing what the class is based on.
 			hdr = new ColumnHeader();
 			hdr.Name = "hdr" + kBasedOnSubitem;
 			hdr.Width = 175;
-			hdr.Text = "_L10N_:CommonControls.ClassListView.ColumnHeadings.Type!Type";
 			Columns.Add(hdr);
+			hdr.Text = LocalizationManager.GetString("CommonControls.ClassListView.ColumnHeadings.Type", "Type", null, hdr);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -435,12 +405,9 @@ namespace SIL.Pa.UI.Controls
 		public void SaveChanges()
 		{
 			m_deletedClass = false;
-			SearchClassList list = App.Project.SearchClasses;
+			var list = App.Project.SearchClasses;
 			list.Clear();
-
-			foreach (ClassListViewItem item in Items)
-				list.Add(item.SearchClass);
-
+			list.AddRange(from ClassListViewItem item in Items select item.SearchClass);
 			list.Save();
 		}		
 
@@ -449,7 +416,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected override void OnBeforeLabelEdit(LabelEditEventArgs e)
 		{
-			ClassListViewItem item = Items[e.Item] as ClassListViewItem;
+			var item = Items[e.Item] as ClassListViewItem;
 			if (item != null)
 			{
 				item.InEditMode = true;
@@ -569,10 +536,7 @@ namespace SIL.Pa.UI.Controls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool IsDirty
 		{
-			get
-			{
-				return (m_deletedClass || Items.Cast<ClassListViewItem>().Any(item => item.IsDirty));
-			}
+			get { return (m_deletedClass || Items.Cast<ClassListViewItem>().Any(item => item.IsDirty)); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -586,21 +550,19 @@ namespace SIL.Pa.UI.Controls
 				className = className.Trim();
 
 			// Ensure the new class doesn't have a duplicate class name
-			foreach (ClassListViewItem item in Items)
+			if (Items.Cast<ClassListViewItem>()
+				.Any(item => item.Text.Trim().ToLower() == className.ToLower() && item != origClassInfo))
 			{
-				if (item.Text.Trim().ToLower() == className.ToLower() && item != origClassInfo)
+				if (showMsg)
 				{
-					if (showMsg)
-					{
-						var msg = LocalizationManager.GetString("CommonControls.ClassesList.DuplicateClassNameErrorMsg",
-							"Class '{0}' already exists. Choose a different name.",
-							"Error message when attempting to create class with duplicate name.");
+					var msg = LocalizationManager.GetString("CommonControls.ClassesList.DuplicateClassNameErrorMsg",
+					    "Class '{0}' already exists. Choose a different name.",
+					    "Error message when attempting to create class with duplicate name.");
 
-						App.NotifyUserOfProblem(msg, className);
-					}
-					
-					return true;
+					App.NotifyUserOfProblem(msg, className);
 				}
+					
+				return true;
 			}
 
 			return false;
@@ -620,13 +582,13 @@ namespace SIL.Pa.UI.Controls
 			if (m_tooltip == null)
 				return;
 
-			ListViewHitTestInfo htinfo = HitTest(e.Location);
+			var htinfo = HitTest(e.Location);
 			if (htinfo.Item != null)
 			{
-				ClassListViewItem item = htinfo.Item as ClassListViewItem;
+				var item = htinfo.Item as ClassListViewItem;
 				if (item != null)
 				{
-					Rectangle rc = GetItemRect(item.Index, ItemBoundsPortion.Label);
+					var rc = GetItemRect(item.Index, ItemBoundsPortion.Label);
 					if (rc.Contains(e.Location))
 					{
 						if (item != m_tooltip.ClassListViewItem)
@@ -643,10 +605,6 @@ namespace SIL.Pa.UI.Controls
 			m_tooltip.Hide();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnMouseLeave(EventArgs e)
 		{
@@ -674,7 +632,7 @@ namespace SIL.Pa.UI.Controls
 			if (!e.DrawDefault)
 				return;
 
-			ClassListViewItem item = e.Item as ClassListViewItem;
+			var item = e.Item as ClassListViewItem;
 			if (item == null)
 				return;
 			
@@ -684,8 +642,8 @@ namespace SIL.Pa.UI.Controls
 			if (m_tooltip != null && m_tooltip.ClassListViewItem == item)
 			{
 				int width = TextRenderer.MeasureText(item.Text, FontHelper.UIFont).Width;
-				Rectangle rc = item.GetBounds(ItemBoundsPortion.Label);
-				using (Pen pen = (Pen)SystemPens.WindowText.Clone())
+				var rc = item.GetBounds(ItemBoundsPortion.Label);
+				using (var pen = (Pen)SystemPens.WindowText.Clone())
 				{
 					pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
 					int dy = rc.Bottom - (m_showMembersAndClassTypeColumns ? 3 : 2);
@@ -733,8 +691,8 @@ namespace SIL.Pa.UI.Controls
 				inc = -1;
 			}
 
-			Point pt1 = new Point(e.Bounds.Right - 20, start);
-			Point pt2 = new Point(pt1.X + 8, start);
+			var pt1 = new Point(e.Bounds.Right - 20, start);
+			var pt2 = new Point(pt1.X + 8, start);
 
 			// Draw four lines, each successive line being two pixels shorter
 			// than the previous and one line up or down from the previous.
@@ -769,10 +727,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void SortList(int col)
 		{
 			if (col == 1)
@@ -785,7 +739,7 @@ namespace SIL.Pa.UI.Controls
 					SortOrder.Descending : SortOrder.Ascending);
 			}
 
-			ListViewItem item = (SelectedItems.Count > 0 ? SelectedItems[0] : null);
+			var item = (SelectedItems.Count > 0 ? SelectedItems[0] : null);
 			ListViewItemSorter = new ClassListComparer(m_sortOrder, m_sortColumn);
 			ListViewItemSorter = null;
 			Invalidate(new Rectangle(0, 0, Width, ColumnHeaderHeight), true);
@@ -794,19 +748,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		class ClassListComparer : System.Collections.IComparer
 		{
 			private readonly SortOrder m_sortOrder;
 			private readonly int m_sortColumn;
 
-			/// --------------------------------------------------------------------------------
-			/// <summary>
-			/// 
-			/// </summary>
 			/// --------------------------------------------------------------------------------
 			internal ClassListComparer(SortOrder order, int sortColumn)
 			{
@@ -815,17 +761,13 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			/// --------------------------------------------------------------------------------
-			/// <summary>
-			/// 
-			/// </summary>
-			/// --------------------------------------------------------------------------------
 			public int Compare(object ox, object oy)
 			{
 				if (m_sortOrder == SortOrder.None)
 					return 0;
 
-				ListViewItem x = ox as ListViewItem;
-				ListViewItem y = oy as ListViewItem;
+				var x = ox as ListViewItem;
+				var y = oy as ListViewItem;
 
 				int result = 0;
 

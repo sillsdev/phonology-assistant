@@ -17,17 +17,14 @@ namespace SIL.Pa.UI.Dialogs
 
 			lblUILanguage.Font = FontHelper.UIFont;
 			cboUILanguage.Font = FontHelper.UIFont;
+			cboUILanguage.SelectedItem = CultureInfo.GetCultureInfo(LocalizationManager.UILanguageId);
+			_linkShowLocalizationDialogBox.Font = FontHelper.UIFont;
 
-			var allowedUILangs = from ci in CultureInfo.GetCultures(CultureTypes.AllCultures)
-								 where ci.Name.Length == 2
-								 orderby ci.DisplayName
-								 select ci;
-
-			foreach (var ci in allowedUILangs)
-				cboUILanguage.Items.Add(ci);
-
-			var currCulture = CultureInfo.GetCultureInfo(LocalizationManager.UILanguageId);
-			cboUILanguage.SelectedItem = currCulture;
+			_linkShowLocalizationDialogBox.LinkClicked += delegate
+			{
+				LocalizationManager.ShowLocalizationDialogBox();
+				cboUILanguage.RefreshList();
+			};
 		}
 
 		/// ------------------------------------------------------------------------------------

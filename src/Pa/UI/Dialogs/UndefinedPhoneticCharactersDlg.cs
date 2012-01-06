@@ -103,32 +103,34 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Add columns to fonts grid
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void AddColumnsToCharsGrid()
 		{
 			// Add the Unicode number column.
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("codepoint");
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
-			col.HeaderText = "_L10N_:DialogBoxes.UndefinedPhoneticCharactersDlg.SymbolsGrid.ColumnHeadings.UnicodeNumber!Unicode\nNumber";
 			m_gridChars.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.UndefinedPhoneticCharactersDlg.SymbolsGrid.ColumnHeadings.UnicodeNumber",
+				"Unicode\nNumber", null, col);
 
 			// Add the sample column.
 			col = SilGrid.CreateTextBoxColumn("char");
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = App.PhoneticFont;
 			col.CellTemplate.Style.Font = App.PhoneticFont;
-			col.HeaderText = "_L10N_:DialogBoxes.UndefinedPhoneticCharactersDlg.SymbolsGrid.ColumnHeadings.Character!Character";
 			m_gridChars.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.UndefinedPhoneticCharactersDlg.SymbolsGrid.ColumnHeadings.Character",
+				"Character", null, col);
 
 			// Add the count number column.
 			col = SilGrid.CreateTextBoxColumn("count");
 			col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-			col.HeaderText = "_L10N_:DialogBoxes.UndefinedPhoneticCharactersDlg.SymbolsGrid.ColumnHeadings.Count!Count";
 			m_gridChars.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.UndefinedPhoneticCharactersDlg.SymbolsGrid.ColumnHeadings.Count",
+				"Count", null, col);
 
 			m_gridChars.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 			m_gridChars.AutoResizeColumnHeadersHeight();
@@ -137,10 +139,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Add columns to fonts grid
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void AddColumnsToWhereGrid()
 		{
 			m_gridWhere.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
@@ -148,18 +146,24 @@ namespace SIL.Pa.UI.Dialogs
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("word");
 			col.DefaultCellStyle.Font = App.PhoneticFont;
 			col.CellTemplate.Style.Font = App.PhoneticFont;
-			col.HeaderText = "_L10N_:DialogBoxes.UndefinedPhoneticCharactersDlg.WhereFoundGrid.ColumnHeadings.Transcription!Transcription";
 			m_gridWhere.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.UndefinedPhoneticCharactersDlg.WhereFoundGrid.ColumnHeadings.Transcription",
+				"Transcription", null, col);
 
 			// Add the reference column.
 			col = SilGrid.CreateTextBoxColumn("reference");
-			col.HeaderText = "_L10N_:DialogBoxes.UndefinedPhoneticCharactersDlg.WhereFoundGrid.ColumnHeadings.Reference!Reference";
 			m_gridWhere.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.UndefinedPhoneticCharactersDlg.WhereFoundGrid.ColumnHeadings.Reference",
+				"Reference", null, col);
 
 			// Add the data source column.
 			col = SilGrid.CreateTextBoxColumn("datasource");
-			col.HeaderText = "_L10N_:DialogBoxes.UndefinedPhoneticCharactersDlg.WhereFoundGrid.ColumnHeadings.DataSource!Data Source";
 			m_gridWhere.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.UndefinedPhoneticCharactersDlg.WhereFoundGrid.ColumnHeadings.DataSource",
+				"Data Source", null, col);
 
 			m_gridWhere.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 			m_gridWhere.AutoResizeColumnHeadersHeight();

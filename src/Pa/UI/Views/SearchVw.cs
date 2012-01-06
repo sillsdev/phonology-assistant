@@ -265,7 +265,7 @@ namespace SIL.Pa.UI.Views
 				Settings.Default.SearchVwSidePanelWidth,
 				newWidth => Settings.Default.SearchVwSidePanelWidth = newWidth);
 			
-			LocalizationManager.GetString("Views.SearchVw.UndockedSideBarTabText",
+			LocalizationManager.GetString("Views.Search.UndockedSideBarTabText",
 				"Patterns & Pattern Building", null, m_slidingPanel.Tab);
 
 			SuspendLayout();

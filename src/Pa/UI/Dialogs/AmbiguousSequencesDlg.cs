@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
@@ -77,22 +78,25 @@ namespace SIL.Pa.UI.Dialogs
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = App.PhoneticFont;
 			col.CellTemplate.Style.Font = App.PhoneticFont;
-			col.HeaderText = "_L10N_:DialogBoxes.AmbiguousSequencesDlg.SequenceColumnHeading!Sequence";		
 			_grid.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.AmbiguousSequencesDlg.ColumnHeadings.Sequence", "Sequence", null, col);
 
 			col = SilGrid.CreateCheckBoxColumn("convert");
 			col.Width = 75;
 			col.CellTemplate.ValueType = typeof(bool);
-			col.HeaderText = "_L10N_:DialogBoxes.AmbiguousSequencesDlg.ConvertColumnHeading!Treat as one unit?";
 			_grid.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.AmbiguousSequencesDlg.ColumnHeadings.TreatAsUnit", "Treat as one unit?", null, col);
 
 			col = SilGrid.CreateTextBoxColumn("base");
 			col.Width = 75;
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = App.PhoneticFont;
 			col.CellTemplate.Style.Font = App.PhoneticFont;
-			col.HeaderText = "_L10N_:DialogBoxes.AmbiguousSequencesDlg.BaseCharColumnHeading!Base Character";
 			_grid.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.AmbiguousSequencesDlg.ColumnHeadings.BaseChar", "Base Character", null, col);
 
 			col = SilGrid.CreateTextBoxColumn("cvpattern");
 			col.ReadOnly = true;
@@ -100,8 +104,9 @@ namespace SIL.Pa.UI.Dialogs
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 			col.DefaultCellStyle.Font = App.PhoneticFont;
 			col.CellTemplate.Style.Font = App.PhoneticFont;
-			col.HeaderText = "_L10N_:DialogBoxes.AmbiguousSequencesDlg.CVPatternColumnHeading!CV Pattern";
 			_grid.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.AmbiguousSequencesDlg.ColumnHeadings.CVPattern", "CV Pattern", null, col);
 
 			col = SilGrid.CreateCheckBoxColumn("generated");
 			col.Visible = false;
@@ -366,7 +371,7 @@ namespace SIL.Pa.UI.Dialogs
 				if (i != row && _grid[0, i].Value as string == newSeq)
 				{
 					App.NotifyUserOfProblem(LocalizationManager.GetString(
-						"DialogBoxes.AmbiguousSequencesDlg.DuplicateSeqMsg1",
+						"DialogBoxes.AmbiguousSequencesDlg.DuplicateSequenceMsg",
 						"That sequence already exists.", "Message displayed in ambiguous sequences " +
 						"dialog box when identical sequences exist."));
 					return false;
@@ -466,7 +471,7 @@ namespace SIL.Pa.UI.Dialogs
 				var prevBaseChar = _grid["base", e.RowIndex].Value as string;
 				if (prevBaseChar == null || !phone.Contains(prevBaseChar))
 				{
-					string newBaseChar = phoneInfo.BaseCharacter.ToString();
+					string newBaseChar = phoneInfo.BaseCharacter.ToString(CultureInfo.InvariantCulture);
 					_grid["base", e.RowIndex].Value = newBaseChar;
 					_grid["cvpattern", e.RowIndex].Value =
 						_project.PhoneCache.GetCVPattern(newBaseChar);

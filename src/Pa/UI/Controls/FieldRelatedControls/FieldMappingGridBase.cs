@@ -55,8 +55,9 @@ namespace SIL.Pa.UI.Controls
 			((SilButtonColumn)col).ButtonClicked += OnFieldColumnButtonClicked;
 			((SilButtonColumn)col).DrawDefaultComboButtonWidth = false;
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
-			col.HeaderText = "_L10N_:DialogBoxes.DataSourcePropertiesDialogs.FieldMappingGrid.ColumnHeadings.Field!Field";
 			Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.DataSourcePropertiesDialogs.FieldMappingGrid.ColumnHeadings.Field", "Field", null, col);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -72,8 +73,9 @@ namespace SIL.Pa.UI.Controls
 			((SilButtonColumn)col).DrawDefaultComboButtonWidth = false;
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			col.Visible = false;
-			col.HeaderText = "_L10N_:DialogBoxes.DataSourcePropertiesDialogs.FieldMappingGrid.ColumnHeadings.Font!Font";
 			Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.DataSourcePropertiesDialogs.FieldMappingGrid.ColumnHeadings.Font", "Font", null, col);
 		}
 
 		/// ------------------------------------------------------------------------------------

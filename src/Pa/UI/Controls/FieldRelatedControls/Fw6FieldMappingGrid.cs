@@ -45,14 +45,17 @@ namespace SIL.Pa.UI.Controls
 			// Create FW writing system column.
 			var col = CreateDropDownListComboBoxColumn("fwws", wslist);
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
-			col.HeaderText = "_L10N_:DialogBoxes.Fw6DataSourcePropertiesDlg.FieldMappingGrid.ColumnHeadings.WritingSystem!Writing System";
 			Columns.Insert(FontColumnIndex, col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.Fw6DataSourcePropertiesDlg.FieldMappingGrid.ColumnHeadings.WritingSystem",
+				"Writing System", null, col);
 		}
 		
 		/// ------------------------------------------------------------------------------------
 		protected virtual string GetNoWritingSystemText()
 		{
-			return LocalizationManager.GetString("DialogBoxes.Fw6DataSourcePropertiesDlg.FieldMappingGrid.NoWritingSystemText", "(none)");
+			return LocalizationManager.GetString(
+				"DialogBoxes.Fw6DataSourcePropertiesDlg.FieldMappingGrid.NoWritingSystemText", "(none)");
 		}
 
 		/// ------------------------------------------------------------------------------------

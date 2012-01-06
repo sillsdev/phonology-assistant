@@ -120,8 +120,9 @@ namespace SIL.Pa.UI.Dialogs
 			col.DefaultCellStyle.Padding = new Padding(8, 0, 0, 0);
 			col.DefaultCellStyle.Font = App.PhoneticFont;
 			col.CellTemplate.Style.Font = App.PhoneticFont;
-			col.HeaderText = "_L10N_:DialogBoxes.FeaturesDlgBase.PhoneListGrid.ColumnHeadings.Phone!Phone";
 			_gridPhones.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.FeaturesDlgBase.PhoneListGrid.ColumnHeadings.Phone", "Phone", null, col);
 
 			col = SilGrid.CreateTextBoxColumn("count");
 			col.ReadOnly = true;
@@ -129,8 +130,9 @@ namespace SIL.Pa.UI.Dialogs
 			col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 			col.DefaultCellStyle.Padding = new Padding(0, 0, 5, 0);
-			col.HeaderText = "_L10N_:DialogBoxes.FeaturesDlgBase.PhoneListGrid.ColumnHeadings.Count!Count";
 			_gridPhones.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.FeaturesDlgBase.PhoneListGrid.ColumnHeadings.Count", "Count", null, col);
 
 			_gridPhones.Rows.Clear();
 			_gridPhones.RowCount = _viewModel.PhoneCount;

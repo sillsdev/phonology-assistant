@@ -98,7 +98,7 @@
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\DistFiles\Ionic.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="LocalizationManager, Version=1.0.4386.41308, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="LocalizationManager, Version=1.0.4388.21853, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\LocalizationManager.dll</HintPath>
     </Reference>

@@ -840,15 +840,13 @@ namespace SIL.Pa.Tests
 
 			query.Pattern = "[V]/";
 			m_engine = new SearchEngine(query);
-			Assert.IsTrue(m_engine.SearchWord(phones, out m_results));
-			Assert.AreEqual(1, m_results[0]);
-			Assert.AreEqual(1, m_results[1]);
+			Assert.IsFalse(m_engine.SearchWord(phones, out m_results));
 
 			query.Pattern = "[V]";
 			m_engine = new SearchEngine(query);
-			Assert.IsTrue(m_engine.SearchWord(phones, out m_results));
-			Assert.AreEqual(1, m_results[0]);
-			Assert.AreEqual(1, m_results[1]);
+			Assert.IsFalse(m_engine.SearchWord(phones, out m_results));
+			//Assert.AreEqual(1, m_results[0]);
+			//Assert.AreEqual(1, m_results[1]);
 		}
 
 		/// ------------------------------------------------------------------------------------

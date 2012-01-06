@@ -48,7 +48,7 @@ namespace SIL.Pa.UI.Dialogs
 		public string GetPhoneDescription(int index)
 		{
 			return (index < 0 || index >= _phones.Length || string.IsNullOrEmpty(_phones[index].Description) ?
-				LocalizationManager.GetString("DialogBoxes.FeaturesDlg.CommonStrings.NoPhoneDescriptionAvailableText", "(no phone description available)") :
+				LocalizationManager.GetString("DialogBoxes.FeaturesDlgBase.NoPhoneDescriptionAvailableMsg", "(no phone description available)") :
 				_phones[index].Description);
 		}
 

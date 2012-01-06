@@ -52,6 +52,7 @@ namespace SIL.Pa.UI
 			if (Settings.Default.PhoneticFont != null)
 				App.PhoneticFont = Settings.Default.PhoneticFont;
 
+			LocalizeItemDlg.DefaultDisplayFont = FontHelper.UIFont;
 			App.InitializeLocalization();
 			App.MinimumViewWindowSize = Settings.Default.MinimumViewWindowSize;
 			FwDBUtils.ShowMsgWhenGatheringFWInfo = Settings.Default.ShowMsgWhenGatheringFwInfo;

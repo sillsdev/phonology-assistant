@@ -56,7 +56,8 @@ namespace SIL.Pa.UI.Dialogs
 			_chkMakeFolder.Parent.Controls.Remove(_chkMakeFolder);
 			tblLayoutButtons.Controls.Add(_chkMakeFolder, 0, 0);
 
-			_comboDistinctiveFeaturesSet.Items.AddRange(BFeatureCache.GetAvailableFeatureSetNames().OrderBy(n => n).ToArray());
+			_comboDistinctiveFeaturesSet.Items.AddRange(
+				BFeatureCache.GetAvailableFeatureSetNames().OrderBy(n => n).Cast<object>().ToArray());
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -143,29 +144,31 @@ namespace SIL.Pa.UI.Dialogs
 			m_grid.CurrentRowChanged += HandleCurrentRowChanged;
 			App.SetGridSelectionColors(m_grid, false);
 
-			m_grid.Columns.Add(SilGrid.CreateCheckBoxColumn("skip"));
-			m_grid.Columns["skip"].HeaderText = "_L10N_:DialogBoxes.ProjectSettingsDlg.DataSourceGrid.ColumnHeadings.Load!Load";
+			DataGridViewColumn col = SilGrid.CreateCheckBoxColumn("skip");
+			m_grid.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.ProjectSettingsDlg.DataSourceGrid.ColumnHeadings.Load", "Load", null, col);
 
-		    DataGridViewColumn col = SilGrid.CreateTextBoxColumn("sourcefiles");
+		    col = SilGrid.CreateTextBoxColumn("sourcefiles");
 		    col.ReadOnly = true;
 		    col.Width = 250;
-			col.HeaderText = "_L10N_:DialogBoxes.ProjectSettingsDlg.DataSourceGrid.ColumnHeadings.Source!Source";
 			m_grid.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.ProjectSettingsDlg.DataSourceGrid.ColumnHeadings.Source", "Source", null, col);
 
 			col = SilGrid.CreateTextBoxColumn("type");
 		    col.ReadOnly = true;
 			col.Width = 75;
-			col.HeaderText = "_L10N_:DialogBoxes.ProjectSettingsDlg.DataSourceGrid.ColumnHeadings.Type!Type";
 		    m_grid.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.ProjectSettingsDlg.DataSourceGrid.ColumnHeadings.Type", "Type", null, col);
 
 		    col = SilGrid.CreateSilButtonColumn("xslt");
 		    col.ReadOnly = true;
 		    col.Width = 170;
-			col.HeaderText = "_L10N_:DialogBoxes.ProjectSettingsDlg.DataSourceGrid.ColumnHeadings.XSLT!XSLT";
 			((SilButtonColumn)col).ButtonWidth = 20;
 			((SilButtonColumn)col).DrawTextWithEllipsisPath = true;
 			((SilButtonColumn)col).ButtonClicked += HandleSpecifyXSLTClick;
-
 			((SilButtonColumn)col).ButtonText = LocalizationManager.GetString("DialogBoxes.ProjectSettingsDlg.XsltColButtonText",
 				"...", "Text on the button in the XSLT column in the project settings dialog");
 
@@ -173,6 +176,8 @@ namespace SIL.Pa.UI.Dialogs
 				"Specify XSLT", "Tooltip for the button in the XSLTe column in the project settings dialog");
 			
 			m_grid.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.ProjectSettingsDlg.DataSourceGrid.ColumnHeadings.XSLT", "XSLT", null, col);
 
 			m_grid.AutoResizeColumn(0, DataGridViewAutoSizeColumnMode.ColumnHeader);
 
@@ -527,7 +532,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (Directory.Exists(prjFolder))
 			{
-				if (Directory.GetFiles(prjFolder, "*.pap").Count() == 0)
+				if (!Directory.GetFiles(prjFolder, "*.pap").Any())
 					return false;
 
 				int i = 2;

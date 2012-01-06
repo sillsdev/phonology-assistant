@@ -45,12 +45,13 @@ namespace SIL.Pa.UI.Controls
 				m_potentialFields.Select(f => f.DisplayName));
 
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
-			col.HeaderText = "_L10N_:DialogBoxes.Fw7DataSourceProperties.FieldMappingGrid.ColumnHeadings.Field!Field";
 			Columns.Insert(0, col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.Fw7DataSourcePropertiesDlg.FieldMappingGrid.ColumnHeadings.Field", "Field", null, col);
 
 			AddRemoveRowColumn(Properties.Resources.RemoveGridRowNormal, Properties.Resources.RemoveGridRowHot,
 				() => LocalizationManager.GetString(
-					"DialogBoxes.Fw7DataSourceProperties.FieldMappingGrid.RemoveFieldToolTip", "Remove Field"),
+					"DialogBoxes.Fw7DataSourcePropertiesDlg.FieldMappingGrid.RemoveFieldToolTip", "Remove Field"),
 						rowIndex => m_mappings.RemoveAt(rowIndex));
 		}
 
@@ -58,7 +59,7 @@ namespace SIL.Pa.UI.Controls
 		protected override string GetNoWritingSystemText()
 		{
 			return LocalizationManager.GetString(
-				"DialogBoxes.Fw7DataSourceProperties.FieldMappingGrid.WritingSystemNotApplicableText", "(n/a)");
+				"DialogBoxes.Fw7DataSourcePropertiesDlg.FieldMappingGrid.WritingSystemNotApplicableText", "(n/a)");
 		}
 
 		/// ------------------------------------------------------------------------------------

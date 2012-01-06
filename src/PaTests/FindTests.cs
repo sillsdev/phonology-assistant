@@ -115,7 +115,6 @@ namespace SIL.Pa.Tests
 
 			// Create grid
 			m_grid = new PaWordListGrid(m_cache, GetType(), false);
-			SetField(m_grid, "m_suspendSavingColumnChanges", true);
 
 			// Make all the grid's rows & columns visible and thus searchable
 			for (int row = 0; row < m_grid.Rows.Count; row++)
@@ -139,7 +138,6 @@ namespace SIL.Pa.Tests
 			m_grid.Columns["Gloss"].DisplayIndex = 2;
 
 			SetField(typeof(FindInfo), "s_reverseFind", false);
-			SetField(m_grid, "m_suspendSavingColumnChanges", false);
 			FindInfo.Grid = m_grid;
 
 			// Add columns to search

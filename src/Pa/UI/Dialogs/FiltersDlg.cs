@@ -320,14 +320,18 @@ namespace SIL.Pa.UI.Dialogs
 			col.ReadOnly = false;
 			col.Width = 170;
 			col.MinimumWidth = 50;
-			col.HeaderText = "_L10N_:DialogBoxes.FiltersDlg.FiltersListFilterNameColumnHeadingText!Available Filters"; 
 			m_gridFilters.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.FiltersDlg.FiltersListFilterNameColumnHeadingText",
+				"Available Filters", null, col);
 
 			col = SilGrid.CreateCheckBoxColumn("showInList");
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			col.Resizable = DataGridViewTriState.False;
-			col.HeaderText = "_L10N:DialogBoxes.FiltersDlg.FiltersListVisibleInFilterMenuNameColumnHeadingText!Visible";
 			m_gridFilters.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.FiltersDlg.FiltersListVisibleInFilterMenuNameColumnHeadingText",
+				"Visible", null, col);
 
 			m_gridFilters.AutoResizeColumn(1, DataGridViewAutoSizeColumnMode.ColumnHeader);
 			m_gridFilters.AutoResizeColumnHeadersHeight();
@@ -389,15 +393,19 @@ namespace SIL.Pa.UI.Dialogs
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			((DataGridViewComboBoxColumn)col).DropDownWidth = 135;
 			((DataGridViewComboBoxColumn)col).MaxDropDownItems = 15;
-			col.HeaderText = "_L10N_:DialogBoxes.FiltersDlg.ExpressionsGrid.ColumnHeadings.Field!Field";
 			m_gridExpressions.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.FiltersDlg.ExpressionsGrid.ColumnHeadings.Field",
+				"Field", null, col);
 
 			col = SilGrid.CreateDropDownListComboBoxColumn("expOperator", new List<string>(m_operatorToText.Values));
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			((DataGridViewComboBoxColumn)col).DropDownWidth = 150;
 			((DataGridViewComboBoxColumn)col).MaxDropDownItems = 15;
-			col.HeaderText = "_L10N_:DialogBoxes.FiltersDlg.ExpressionsGrid.ColumnHeadings.Operator!Operator";
 			m_gridExpressions.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.FiltersDlg.ExpressionsGrid.ColumnHeadings.Operator",
+				"Operator", null, col);
 
 			col = new SilButtonColumn("expValue");
 			((SilButtonColumn)col).ButtonStyle = SilButtonColumn.ButtonType.MinimalistCombo;
@@ -405,15 +413,19 @@ namespace SIL.Pa.UI.Dialogs
 			((SilButtonColumn)col).DrawDefaultComboButtonWidth = false;
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			col.DefaultCellStyle.Font = App.PhoneticFont;
-			col.HeaderText = "_L10N_:DialogBoxes.FiltersDlg.ExpressionsGrid.ColumnHeadings.Value!Value";
 			m_gridExpressions.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.FiltersDlg.ExpressionsGrid.ColumnHeadings.Value",
+				"Value", null, col);
 
 			col = SilGrid.CreateDropDownListComboBoxColumn("expType", new List<string>(m_expTypeToText.Values));
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			((DataGridViewComboBoxColumn)col).DropDownWidth = 150;
 			((DataGridViewComboBoxColumn)col).MaxDropDownItems = 15;
-			col.HeaderText = "_L10N_:DialogBoxes.FiltersDlg.ExpressionsGrid.ColumnHeadings.Type!Type";
 			m_gridExpressions.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.FiltersDlg.ExpressionsGrid.ColumnHeadings.Type",
+				"Type", null, col);
 
 			col = SilGrid.CreateImageColumn("deleteExp");
 			col.HeaderText = string.Empty;

@@ -154,7 +154,7 @@ namespace SIL.Pa.UI.Views
 			this.pnlSideBarCaption.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlSideBarCaption, null);
 			this.locExtender.SetLocalizationComment(this.pnlSideBarCaption, null);
-			this.locExtender.SetLocalizingId(this.pnlSideBarCaption, "Views.SearchVw.SideBarCaptionLabel");
+			this.locExtender.SetLocalizingId(this.pnlSideBarCaption, "Views.Search.SideBarCaptionLabel");
 			this.pnlSideBarCaption.Location = new System.Drawing.Point(0, 0);
 			this.pnlSideBarCaption.MakeDark = false;
 			this.pnlSideBarCaption.MnemonicGeneratesClick = false;
@@ -178,7 +178,7 @@ namespace SIL.Pa.UI.Views
 			this.btnDock.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnDock, "Dock");
 			this.locExtender.SetLocalizationComment(this.btnDock, null);
-			this.locExtender.SetLocalizingId(this.btnDock, "Views.SearchVw.DockButton");
+			this.locExtender.SetLocalizingId(this.btnDock, "Views.Search.DockButton");
 			this.btnDock.Location = new System.Drawing.Point(198, 2);
 			this.btnDock.Name = "btnDock";
 			this.btnDock.Size = new System.Drawing.Size(16, 16);
@@ -199,7 +199,7 @@ namespace SIL.Pa.UI.Views
 			this.btnAutoHide.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnAutoHide, "Automatically Hide");
 			this.locExtender.SetLocalizationComment(this.btnAutoHide, null);
-			this.locExtender.SetLocalizingId(this.btnAutoHide, "Views.SearchVw.AutoHideButton");
+			this.locExtender.SetLocalizingId(this.btnAutoHide, "Views.Search.AutoHideButton");
 			this.btnAutoHide.Location = new System.Drawing.Point(154, 2);
 			this.btnAutoHide.Name = "btnAutoHide";
 			this.btnAutoHide.Size = new System.Drawing.Size(16, 16);
@@ -284,7 +284,7 @@ namespace SIL.Pa.UI.Views
 			this.hlblRecentPatterns.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.hlblRecentPatterns, null);
 			this.locExtender.SetLocalizationComment(this.hlblRecentPatterns, null);
-			this.locExtender.SetLocalizingId(this.hlblRecentPatterns, "Views.SearchVw.RecentPatternsHeadingLabel");
+			this.locExtender.SetLocalizingId(this.hlblRecentPatterns, "Views.Search.RecentPatternsHeadingLabel");
 			this.hlblRecentPatterns.Location = new System.Drawing.Point(0, 0);
 			this.hlblRecentPatterns.MnemonicGeneratesClick = false;
 			this.hlblRecentPatterns.Name = "hlblRecentPatterns";
@@ -308,7 +308,7 @@ namespace SIL.Pa.UI.Views
 			this.btnClearRecentList.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnClearRecentList, "Clear List");
 			this.locExtender.SetLocalizationComment(this.btnClearRecentList, null);
-			this.locExtender.SetLocalizingId(this.btnClearRecentList, "Views.SearchVw.ClearRecentListButton");
+			this.locExtender.SetLocalizingId(this.btnClearRecentList, "Views.Search.ClearRecentListButton");
 			this.btnClearRecentList.Location = new System.Drawing.Point(197, 2);
 			this.btnClearRecentList.Name = "btnClearRecentList";
 			this.btnClearRecentList.Size = new System.Drawing.Size(20, 20);
@@ -329,7 +329,7 @@ namespace SIL.Pa.UI.Views
 			this.btnRemoveFromRecentList.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnRemoveFromRecentList, "Remove selected pattern");
 			this.locExtender.SetLocalizationComment(this.btnRemoveFromRecentList, null);
-			this.locExtender.SetLocalizingId(this.btnRemoveFromRecentList, "Views.SearchVw.RemoveFromRecentListButton");
+			this.locExtender.SetLocalizingId(this.btnRemoveFromRecentList, "Views.Search.RemoveFromRecentListButton");
 			this.btnRemoveFromRecentList.Location = new System.Drawing.Point(173, 2);
 			this.btnRemoveFromRecentList.Name = "btnRemoveFromRecentList";
 			this.btnRemoveFromRecentList.Size = new System.Drawing.Size(20, 20);
@@ -399,7 +399,7 @@ namespace SIL.Pa.UI.Views
 			this.hlblSavedPatterns.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.hlblSavedPatterns, null);
 			this.locExtender.SetLocalizationComment(this.hlblSavedPatterns, null);
-			this.locExtender.SetLocalizingId(this.hlblSavedPatterns, "Views.SearchVw.SavedPatternsHeadingLabel");
+			this.locExtender.SetLocalizingId(this.hlblSavedPatterns, "Views.Search.SavedPatternsHeadingLabel");
 			this.hlblSavedPatterns.Location = new System.Drawing.Point(0, 0);
 			this.hlblSavedPatterns.MnemonicGeneratesClick = false;
 			this.hlblSavedPatterns.Name = "hlblSavedPatterns";
@@ -423,7 +423,7 @@ namespace SIL.Pa.UI.Views
 			this.btnCategoryNew.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnCategoryNew, "Create new saved pattern category");
 			this.locExtender.SetLocalizationComment(this.btnCategoryNew, null);
-			this.locExtender.SetLocalizingId(this.btnCategoryNew, "Views.SearchVw.CategoryNewButton");
+			this.locExtender.SetLocalizingId(this.btnCategoryNew, "Views.Search.CategoryNewButton");
 			this.btnCategoryNew.Location = new System.Drawing.Point(197, 2);
 			this.btnCategoryNew.Name = "btnCategoryNew";
 			this.btnCategoryNew.Size = new System.Drawing.Size(20, 20);
@@ -444,7 +444,7 @@ namespace SIL.Pa.UI.Views
 			this.btnCategoryCut.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnCategoryCut, "Cut saved pattern");
 			this.locExtender.SetLocalizationComment(this.btnCategoryCut, null);
-			this.locExtender.SetLocalizingId(this.btnCategoryCut, "Views.SearchVw.CategoryCutButton");
+			this.locExtender.SetLocalizingId(this.btnCategoryCut, "Views.Search.CategoryCutButton");
 			this.btnCategoryCut.Location = new System.Drawing.Point(125, 2);
 			this.btnCategoryCut.Name = "btnCategoryCut";
 			this.btnCategoryCut.Size = new System.Drawing.Size(20, 20);
@@ -465,7 +465,7 @@ namespace SIL.Pa.UI.Views
 			this.btnCategoryPaste.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnCategoryPaste, "Paste saved pattern");
 			this.locExtender.SetLocalizationComment(this.btnCategoryPaste, null);
-			this.locExtender.SetLocalizingId(this.btnCategoryPaste, "Views.SearchVw.CategoryPasteButton");
+			this.locExtender.SetLocalizingId(this.btnCategoryPaste, "Views.Search.CategoryPasteButton");
 			this.btnCategoryPaste.Location = new System.Drawing.Point(173, 2);
 			this.btnCategoryPaste.Name = "btnCategoryPaste";
 			this.btnCategoryPaste.Size = new System.Drawing.Size(20, 20);
@@ -486,7 +486,7 @@ namespace SIL.Pa.UI.Views
 			this.btnCategoryCopy.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnCategoryCopy, "Copy saved pattern");
 			this.locExtender.SetLocalizationComment(this.btnCategoryCopy, null);
-			this.locExtender.SetLocalizingId(this.btnCategoryCopy, "Views.SearchVw.CategoryCopyButton");
+			this.locExtender.SetLocalizingId(this.btnCategoryCopy, "Views.Search.CategoryCopyButton");
 			this.btnCategoryCopy.Location = new System.Drawing.Point(149, 2);
 			this.btnCategoryCopy.Name = "btnCategoryCopy";
 			this.btnCategoryCopy.Size = new System.Drawing.Size(20, 20);
@@ -568,7 +568,7 @@ namespace SIL.Pa.UI.Views
 			this.btnRefresh.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnRefresh, "Refresh results");
 			this.locExtender.SetLocalizationComment(this.btnRefresh, null);
-			this.locExtender.SetLocalizingId(this.btnRefresh, "Views.SearchVw.RefreshButton");
+			this.locExtender.SetLocalizingId(this.btnRefresh, "Views.Search.RefreshButton");
 			this.btnRefresh.Location = new System.Drawing.Point(547, 6);
 			this.btnRefresh.Margin = new System.Windows.Forms.Padding(4, 6, 8, 6);
 			this.btnRefresh.Name = "btnRefresh";
@@ -594,7 +594,7 @@ namespace SIL.Pa.UI.Views
 			this.lblCurrPattern.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblCurrPattern, null);
 			this.locExtender.SetLocalizationComment(this.lblCurrPattern, null);
-			this.locExtender.SetLocalizingId(this.lblCurrPattern, "Views.SearchVw.CurrPatternButton");
+			this.locExtender.SetLocalizingId(this.lblCurrPattern, "Views.Search.CurrPatternButton");
 			this.lblCurrPattern.Location = new System.Drawing.Point(8, 11);
 			this.lblCurrPattern.Margin = new System.Windows.Forms.Padding(8, 6, 3, 6);
 			this.lblCurrPattern.Name = "lblCurrPattern";
@@ -644,7 +644,7 @@ namespace SIL.Pa.UI.Views
 			this.locExtender.SetLocalizableToolTip(this.ptrnTextBox, "Enter search pattern in the form\\nSearch Item/Preceding Environment__Following En" +
         "vironment");
 			this.locExtender.SetLocalizationComment(this.ptrnTextBox, null);
-			this.locExtender.SetLocalizingId(this.ptrnTextBox, "Views.SearchVw.PatternTextBox");
+			this.locExtender.SetLocalizingId(this.ptrnTextBox, "Views.Search.PatternTextBox");
 			this.ptrnTextBox.Location = new System.Drawing.Point(152, 9);
 			this.ptrnTextBox.Margin = new System.Windows.Forms.Padding(0, 6, 0, 6);
 			this.ptrnTextBox.Name = "ptrnTextBox";

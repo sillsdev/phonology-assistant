@@ -76,13 +76,17 @@ namespace SIL.Pa.UI.Dialogs
 			// Create the column for the column name.
 			col = SilGrid.CreateTextBoxColumn("column");
 			col.ReadOnly = true;
-			col.HeaderText = "_L10N_:DialogBoxes.OptionsDlg.SortingTab.SortOrderGrid.ColumnHeadings.Column!Column";
 			m_sortingGrid.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.OptionsDlg.SortingTab.SortOrderGrid.ColumnHeadings.Column",
+				"Column", null, col);
 
 			// Create the column for the ascending check box.
 			col = SilGrid.CreateCheckBoxColumn("direction");
-			col.HeaderText = "_L10N_:DialogBoxes.OptionsDlg.SortingTab.SortOrderGrid.ColumnHeadings.Direction!Ascending?";
 			m_sortingGrid.Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.OptionsDlg.SortingTab.SortOrderGrid.ColumnHeadings.Direction",
+				"Ascending?", null, col);
 		}
 
 		/// ------------------------------------------------------------------------------------
