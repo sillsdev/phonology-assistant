@@ -9,6 +9,7 @@ using System.Resources;
 using System.Windows.Forms;
 using System.Xml;
 using Microsoft.Win32;
+using SIL.Pa;
 using SilTools;
 using SilTools.Controls;
 
@@ -74,6 +75,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		protected ToolStripPanel m_tspRight;
 
 		protected MenuStrip m_menuBar;
+		protected Dictionary<ToolStripItem, string> m_recentlyUsedItems = new Dictionary<ToolStripItem, string>();
 		protected Dictionary<string, ToolStrip> m_bars = new Dictionary<string, ToolStrip>();
 		protected Dictionary<string, ToolStripItem> m_items = new Dictionary<string, ToolStripItem>();
 		protected Dictionary<string, ContextMenuStrip> m_cmenus = new Dictionary<string, ContextMenuStrip>();
@@ -159,13 +161,13 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// ------------------------------------------------------------------------------------
 		public event RecentlyUsedItemChosenHandler RecentlyUsedItemChosen;
 		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Event fired when the adapter offers the toolbar/menu item to the application for
-		/// localization.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public event LocalizeItemHandler LocalizeItem;
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Event fired when the adapter offers the toolbar/menu item to the application for
+		///// localization.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public event LocalizeItemHandler LocalizeItem;
 	
 		#endregion
 
@@ -568,16 +570,12 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private class ToolBarNameSorter : IComparer  
 		{
 			int IComparer.Compare(object x, object y)  
 			{
-				string item1 = ((TMBarProperties)x).Text;
-				string item2 = ((TMBarProperties)y).Text;
+				var item1 = ((TMBarProperties)x).Text;
+				var item2 = ((TMBarProperties)y).Text;
 				return((new CaseInsensitiveComparer()).Compare(item1, item2));
 			}
 		}
@@ -587,66 +585,68 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// Gets or sets the list of files to show on the recent files list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public string[] RecentFilesList
+		public string[] GetRecentFilesList()
 		{
-			get
+			int rufIndex;
+			var parentItem = GetRecentlyUsedMarkerItemsParent(out rufIndex);
+			if (parentItem == null || rufIndex < 0)
+				return null;
+
+			var recentItems = new List<string>();
+			for (int i = rufIndex + 1; i < parentItem.DropDownItems.Count; i++)
 			{
-				int rufIndex;
-				ToolStripMenuItem parentItem = GetRecentlyUsedMarkerItemsParent(out rufIndex);
-				if (parentItem == null || rufIndex < 0)
-					return null;
+				var item = parentItem.DropDownItems[i] as ToolStripMenuItem;
+				if (item == null)
+					continue;
 
-				List<string> recentItems = new List<string>();
-				for (int i = rufIndex + 1; i < parentItem.DropDownItems.Count; i++)
-				{
-					ToolStripMenuItem item = parentItem.DropDownItems[i] as ToolStripMenuItem;
-					if (item == null)
-						continue;
-
-					// If the item is a recently used file, then strip off the ampersand/digit
-					// mnumonic and the space following it and save it in the list.
-					if (!item.Name.StartsWith(kRufMenuItemNamePrefix))
-						break;
-
-					recentItems.Add(item.Text.Substring(3));
-				}
-
-				return (recentItems.Count == 0 ? null : recentItems.ToArray());
+				string ruItem;
+				if (m_recentlyUsedItems.TryGetValue(item, out ruItem))
+					recentItems.Add(ruItem);
 			}
-			set
+
+			return (recentItems.Count == 0 ? null : recentItems.ToArray());
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void SetRecentFilesList(string[] list, Func<string, string> displayNameProvider)
+		{
+			int rufIndex;
+			var parentItem = GetRecentlyUsedMarkerItemsParent(out rufIndex);
+			if (parentItem == null || rufIndex < 0)
+				return;
+
+			// First, clear any old items from the recently used list.
+			int indexToRemove = rufIndex + 1;
+			while (indexToRemove < parentItem.DropDownItems.Count)
 			{
-				int rufIndex;
-				ToolStripMenuItem parentItem = GetRecentlyUsedMarkerItemsParent(out rufIndex);
-				if (parentItem == null || rufIndex < 0)
-					return;
+				var item = parentItem.DropDownItems[indexToRemove];
+				if (!item.Name.StartsWith(kRufMenuItemNamePrefix))
+					break;
 
-				// First, clear any old items from the recently used list.
-				int indexToRemove = rufIndex + 1;
-				while (indexToRemove < parentItem.DropDownItems.Count)
-				{
-					ToolStripItem item = parentItem.DropDownItems[indexToRemove];
-					if (!item.Name.StartsWith(kRufMenuItemNamePrefix))
-						break;
+				item.Click -= HandleRecentlyUsedItemClick;
+				parentItem.DropDownItems.Remove(item);
+				item.Dispose();
+			}
 
-					item.Click -= HandleRecentlyUsedItemClick;
-					parentItem.DropDownItems.Remove(item);
-					item.Dispose();
-				}
+			m_recentlyUsedItems.Clear();
 
-				// Now add the list of new items.
-				if (value == null || value.Length == 0)
-					return;
+			// Now add the list of new items.
+			if (list == null || list.Length == 0)
+				return;
 
-				for (int i = 1; i <= value.Length; i++)
-				{
-					// Only add the accelerator for files 1 - 9.
-					string fmt = (i > 9 ? string.Empty : "&") + "{0} {1}";
-					string text = string.Format(fmt, i, value[i - 1]);
-					ToolStripMenuItem item = new ToolStripMenuItem(text);
-					item.Name = kRufMenuItemNamePrefix + i;
-					item.Click += HandleRecentlyUsedItemClick;
-					parentItem.DropDownItems.Insert(rufIndex + i, item);
-				}
+			for (int i = 1; i <= list.Length; i++)
+			{
+				// Only add the accelerator for files 1 - 9.
+				var fmt = (i > 9 ? string.Empty : "&") + "{0}) {1}";
+
+				var text = (displayNameProvider == null ? list[i - 1] : displayNameProvider(list[i - 1]));
+				text = string.Format(fmt, i, text);
+				var item = new ToolStripMenuItem(text);
+				m_recentlyUsedItems[item] = list[i - 1];
+				item.Name = kRufMenuItemNamePrefix + i;
+				item.ToolTipText = list[i - 1];
+				item.Click += HandleRecentlyUsedItemClick;
+				parentItem.DropDownItems.Insert(rufIndex + i, item);
 			}
 		}
 
@@ -657,10 +657,14 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// ------------------------------------------------------------------------------------
 		private void HandleRecentlyUsedItemClick(object sender, EventArgs e)
 		{
-			ToolStripMenuItem item = sender as ToolStripMenuItem;
+			var item = sender as ToolStripMenuItem;
 
 			if (item != null && RecentlyUsedItemChosen != null)
-				RecentlyUsedItemChosen(item.Text.Substring(3));
+			{
+				string ruItem;
+				RecentlyUsedItemChosen(m_recentlyUsedItems.TryGetValue(item, out ruItem) ?
+					ruItem : item.Text.Substring(3));
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1857,7 +1861,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			itemProps.Update = true;
 			SetItemProps(item, itemProps);
 
-			if (LocalizeItem != null && !cmdInfo.IsEmpty)
+			if (!cmdInfo.IsEmpty)
 			{
 				//string id = item.Name; // commandid;
 
@@ -1870,7 +1874,8 @@ namespace SIL.FieldWorks.Common.UIAdapters
 					item.Text = string.Empty;
 				}
 
-				LocalizeItem(item, BuildLocalizationId(item), itemProps);
+				//LocalizeItem(item, BuildLocalizationId(item), itemProps);
+				LocalizeAdapterItems.LocalizeItem(item, BuildLocalizationId(item), itemProps);
 			}
 
 			m_items[name] = item;
@@ -2127,7 +2132,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				// there are no items in the recenlty used files list, hide the item.
 				if (subItem == m_rufMarkerSeparator)
 				{
-					subItem.Visible = (RecentFilesList != null);
+					subItem.Visible = (GetRecentFilesList() != null);
 					continue;
 				}
 
@@ -2468,17 +2473,11 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 		#region Misc. Helper Methods and Property
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="item"></param>
-		/// <returns></returns>
-		/// ------------------------------------------------------------------------------------
 		internal CommandInfo GetCommandInfo(ToolStripItem item)
 		{
 			if (item != null)
 			{
-				string commandId = item.Tag as string;
+				var commandId = item.Tag as string;
 				if (commandId != null)
 					return m_commands[commandId];
 			}
@@ -2490,8 +2489,6 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// <summary>
 		/// Gets an item's command handling message from the appropriate hash table entry.
 		/// </summary>
-		/// <param name="item"></param>
-		/// <returns></returns>
 		/// ------------------------------------------------------------------------------------
 		protected string GetItemsCommandMessage(ToolStripItem item)
 		{

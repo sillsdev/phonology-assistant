@@ -1,67 +1,100 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
+using System.Drawing;
 using System.IO;
-using SIL.Pa.DataSource;
-using ICSharpCode.SharpZipLib.Zip;
+using System.Windows.Forms;
+using Localization;
+using Palaso.Reporting;
 using SIL.Pa.Properties;
+using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class BackupDlg : Form
 	{
-		//private string m_fmtInfo;
-		private readonly string m_fmtProgress;
-		private readonly string m_backupFile;
-		private readonly List<string> m_prjFiles;
-		private readonly List<string> m_dsFiles = new List<string>();
-		private BRProgressDlg m_progressDlg;
-
-		/// ------------------------------------------------------------------------------------
-		public static void Backup()
-		{
-			using (BackupDlg dlg = new BackupDlg())
-			{
-				try
-				{
-					if (!string.IsNullOrEmpty(dlg.m_backupFile))
-						dlg.ShowDialog(App.MainForm);
-				}
-				catch { }
-			}
-		}
+		private readonly BackupDlgViewModel _viewModel;
+		private readonly Font _boldFont;
 
 		/// ------------------------------------------------------------------------------------
 		public BackupDlg()
 		{
-			m_backupFile = GetBackupZipFile();
-			if (string.IsNullOrEmpty(m_backupFile))
-				return;
-
 			InitializeComponent();
 
-			btnClose.Location = btnCancel.Location;
+			_boldFont = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
+			_labelProject.Font = FontHelper.UIFont;
+			_labelProjectValue.Font = _boldFont; 
+			_labelBackupFile.Font = FontHelper.UIFont;
+			_labelBackupFileValue.Font = FontHelper.UIFont;
+			_textBoxBackupFile.Font = FontHelper.UIFont;
 
-			//m_fmtInfo = lblInfo.Text;
-			m_fmtProgress = lblProgress.Text;
+			_groupBoxDestinationFolder.Font = FontHelper.UIFont;
+			_radioDefaultFolder.Font = FontHelper.UIFont;
+			_labelDefaultFolderValue.Font = FontHelper.UIFont;
+			_radioOtherFolder.Font = FontHelper.UIFont;
+			_linkOtherFolderValue.Font = FontHelper.UIFont;
 
-			try
+			_groupIncludeInBackup.Font = FontHelper.UIFont;
+			_checkBoxIncludeDataSources.Font = FontHelper.UIFont;
+			_checkBoxIncludeAudioFiles.Font = FontHelper.UIFont;
+			
+			_linkViewExceptionDetails.Font = FontHelper.UIFont;
+
+			_checkBoxIncludeAudioFiles.Checked = Settings.Default.IncludeAudioFilesInPaBackups;
+			_checkBoxIncludeDataSources.Checked = Settings.Default.IncludeDataSourceFilesInPaBackups;
+
+			_radioDefaultFolder.Checked = true;
+
+			if (Settings.Default.LastOtherBackupFolder != null &&
+				Directory.Exists(Settings.Default.LastOtherBackupFolder))
 			{
-				// Get all the project's files.
-				m_prjFiles = new List<string>
-					(Directory.GetFiles(App.Project.Folder, App.Project.Name + ".*"));
-
-				GetDataSourceFiles();
-				lblInfo.Text = string.Format(lblInfo.Text, App.Project.Name, m_backupFile);
-				chkIncludeDataSources.Checked = (m_dsFiles.Count > 0);
-				chkIncludeDataSources.Enabled = (m_dsFiles.Count > 0);
+				_radioOtherFolder.Checked = Settings.Default.BackupToOtherFolder;
 			}
-			catch { }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public BackupDlg(BackupDlgViewModel viewModel) : this()
+		{
+			_viewModel = viewModel;
+			_labelProjectValue.Text = _viewModel.Project.Name;
+
+			_viewModel.LogBox.Font = FontHelper.UIFont;
+			_viewModel.LogBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+			_viewModel.LogBox.Margin = new Padding(0);
+			_viewModel.LogBox.ReportErrorLinkClicked += delegate { Close(); };
+			_tableLayoutPanel.Controls.Add(_viewModel.LogBox, 0, 6);
+			_tableLayoutPanel.SetColumnSpan(_viewModel.LogBox, 2);
+
+			_buttonClose.Click += delegate { Close(); };
+			_buttonCancel.Click += delegate { _viewModel.Cancel = true; };
+
+			_radioOtherFolder.CheckedChanged += delegate { UpdateDisplay(); };
+			_radioDefaultFolder.CheckedChanged += delegate { UpdateDisplay(); };
+
+			var lastTargetBackupFolder = Settings.Default.LastOtherBackupFolder;
+			_viewModel.OtherDestFolder =
+				(lastTargetBackupFolder != null && Directory.Exists(lastTargetBackupFolder) ? lastTargetBackupFolder : null);
+
+			if (_viewModel.GetAreAllDataSourcesFieldWorks())
+			{
+				_groupIncludeInBackup.Enabled = false;
+				_checkBoxIncludeDataSources.Checked = false;
+				_checkBoxIncludeAudioFiles.Checked = false;
+			}
+
+			_textBoxBackupFile.Text = Path.GetFileNameWithoutExtension(_viewModel.BackupFile);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				if (_boldFont != null)
+					_boldFont.Dispose();
+
+				components.Dispose();
+			}
+			base.Dispose(disposing);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -72,124 +105,164 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void GetDataSourceFiles()
+		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			if (App.Project.DataSources == null)
+			Settings.Default.LastOtherBackupFolder = _viewModel.OtherDestFolder;
+			Settings.Default.BackupToOtherFolder = _radioOtherFolder.Checked;
+
+			if (!_viewModel.GetAreAllDataSourcesFieldWorks())
+			{
+				Settings.Default.IncludeAudioFilesInPaBackups = _checkBoxIncludeAudioFiles.Checked;
+				Settings.Default.IncludeDataSourceFilesInPaBackups = _checkBoxIncludeDataSources.Checked;
+			}
+			
+			base.OnFormClosing(e);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleFileNameTextChanged(object sender, EventArgs e)
+		{
+			_viewModel.SetBackupFile(_textBoxBackupFile.Text);
+			UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleOtherFolderValueLinkClick(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			var description = string.Format(LocalizationManager.GetString(
+					"DialogBoxes.BackupDlg.ChangeFolderBrowserDlgDescription",
+					"Specify the folder where the backup file will be written for the '{0}' project."),
+					_viewModel.Project.Name);
+
+			if (_viewModel.SpecifyTargetFolder(this, description, null))
+			{
+				if (_viewModel.OtherDestFolder == _viewModel.DefaultBackupFolder)
+					TellUserHeSelectedTheDefaultFolder();
+				else
+					UpdateDisplay();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void TellUserHeSelectedTheDefaultFolder()
+		{
+			var msg = LocalizationManager.GetString(
+				"DialogBoxes.BackupDlg.OtherFolderLinkText.WhenEnabledAndIsSameAsDefaultFolder",
+				"(specified folder is the same as the default)");
+
+			_viewModel.OtherDestFolder = null;
+			_linkOtherFolderValue.Links.Clear();
+			_linkOtherFolderValue.Text = msg;
+			_linkOtherFolderValue.LinkColor = Color.Red;
+			_linkOtherFolderValue.LinkArea = new LinkArea(0, _linkOtherFolderValue.Text.Length);
+			_buttonBackup.Enabled = false;
+
+			var timer = new Timer();
+			timer.Interval = 3000;
+			timer.Tick += delegate
+			{
+				timer.Stop();
+				timer.Dispose();
+				UpdateDisplay();
+			};
+
+			timer.Start();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void UpdateDisplay()
+		{
+			_labelDefaultFolderValue.Enabled = _radioDefaultFolder.Checked;
+			_labelDefaultFolderValue.Text = _viewModel.DefaultBackupFolder;
+
+			UpdateOtherFolderValueLink();
+			UpdateBackupFileValueLabel();
+
+			_buttonBackup.Enabled = (_viewModel.GetIsBackupFileNameValid() && !_viewModel.GetDoesBackupAlreadyExist() &&
+				(_radioDefaultFolder.Checked || (_radioOtherFolder.Checked && Directory.Exists(_linkOtherFolderValue.Text))));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void UpdateOtherFolderValueLink()
+		{
+			if (_viewModel.OtherDestFolder != null)
+				_linkOtherFolderValue.Text = _viewModel.OtherDestFolder;
+			else if (_radioOtherFolder.Checked)
+			{
+				_linkOtherFolderValue.Text = LocalizationManager.GetString(
+					"DialogBoxes.BackupDlg.OtherFolderLinkText.WhenNotSpecifiedAndEnabled",
+					"(click to specify)");
+			}
+			else
+			{
+				_linkOtherFolderValue.Text = LocalizationManager.GetString(
+					"DialogBoxes.BackupDlg.OtherFolderLinkText.WhenNotSpecifiedAndNotEnabled",
+					"(not specified)");
+			}
+
+			_linkOtherFolderValue.Enabled = _radioOtherFolder.Checked;
+			_linkOtherFolderValue.LinkColor = _linkViewExceptionDetails.LinkColor;
+			_linkOtherFolderValue.Links.Clear();
+			_linkOtherFolderValue.LinkArea = new LinkArea(0, _linkOtherFolderValue.Text.Length);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void UpdateBackupFileValueLabel()
+		{
+			if (!_viewModel.GetIsBackupFileNameValid())
+			{
+				_labelBackupFileValue.Text = LocalizationManager.GetString("DialogBoxes.BackupDlg.InvalidBackupFileNameMSg", "Invalid file name!");
+				_labelBackupFileValue.ForeColor = Color.Red;
+			}
+			else if (_viewModel.GetDoesBackupAlreadyExist())
+			{
+				_labelBackupFileValue.Text = LocalizationManager.GetString("DialogBoxes.BackupDlg.BackupFileAlreadyExistsMsg", "File already exists!");
+				_labelBackupFileValue.ForeColor = Color.Red;
+			}
+			else
+			{
+				_labelBackupFileValue.Text = _viewModel.BackupFile;
+				_labelBackupFileValue.ForeColor = Color.DarkSlateGray;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleBackupButtonClick(object sender, EventArgs e)
+		{
+			_textBoxBackupFile.Enabled = false;
+			_groupBoxDestinationFolder.Enabled = false;
+			_groupIncludeInBackup.Enabled = false;
+			_buttonBackup.Visible = false;
+			_buttonClose.Visible = false;
+			_buttonCancel.Visible = true;
+			_progressBar.Visible = true;
+			_progressBar.Maximum = _viewModel.GetNumberOfFilesToBackup(
+				_checkBoxIncludeDataSources.Checked, _checkBoxIncludeAudioFiles.Checked);
+
+			_viewModel.Backup(_checkBoxIncludeDataSources.Checked,
+				_checkBoxIncludeAudioFiles.Checked,
+				pct => Invoke((Action)(() => _progressBar.Value = pct)), HandleBackupComplete);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleBackupComplete()
+		{
+			_buttonCancel.Visible = false;
+			_buttonClose.Visible = true;
+			_progressBar.Visible = (!_viewModel.Cancel && _viewModel.BackupRestoreException == null);
+
+			if (_viewModel.BackupRestoreException == null)
 				return;
 
-			foreach (PaDataSource dataSource in App.Project.DataSources)
+			_progressBar.Visible = false;
+			_linkViewExceptionDetails.Visible = true;
+			_linkViewExceptionDetails.LinkClicked += delegate
 			{
-				if (dataSource.SourceFile != null)
-				{
-					m_dsFiles.Add(dataSource.SourceFile);
-
-					// If the data source is an SA data source, then make sure the file
-					// containing the transcriptions is also included in the back up.
-					if (dataSource.Type == DataSourceType.SA)
-						m_dsFiles.Add(Path.ChangeExtension(dataSource.SourceFile, "saxml"));
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private string GetBackupZipFile()
-		{
-			var fmt = App.GetString("BackupDlg.BackupFilenameFmt", "{0} Backup ({1}).zip");
-			var fileName = string.Format(fmt, App.Project.Name, DateTime.Now.ToShortDateString());
-
-			// Slashes are invalid in a file name.
-			fileName = fileName.Replace("/", "-");
-
-			var caption = App.GetString("BackupDlg.BackupOFDCaption", "Backup File to Create");
-			int filterIndex = 0;
-
-			return App.SaveFileDialog("zip", App.kstidFileTypeZip + "|" + App.kstidFileTypeAllFiles,
-				ref filterIndex, caption, fileName, App.Project.Folder);
-		}	
-
-		/// ------------------------------------------------------------------------------------
-		private void btnBkup_Click(object sender, EventArgs e)
-		{
-			// I'm not sure what I was doing with all these changes. This version of the click
-			// event is very different from version 1.0.0 of the release version of this DLL.
-			// Apparently, I started working on some changes and stopped before they were
-			// finished, and upon returning to the code, I don't recall what I was doing. I
-			// will have to get into the code later to see if I can figure it all out.
-
-			m_progressDlg = new BRProgressDlg();
-			m_progressDlg.lblMsg.Text = string.Empty;
-			m_progressDlg.prgressBar.Maximum = m_prjFiles.Count + m_dsFiles.Count;
-			m_progressDlg.CenterInParent(this);
-			m_progressDlg.Show();
-			Hide();
-			Application.DoEvents();
-			//RestoreProjectFiles();
-			//RestoreDataSources();
-			//m_progressDlg.prgressBar.Value = m_progressDlg.prgressBar.Maximum;
-			//ModifyDataSourcePathsInRestoredProject();
-			m_progressDlg.Hide();
-			//LoadRestoredProject();
-
-			if (!chkIncludeDataSources.Checked)
-				m_dsFiles.Clear();
-
-			// Fix the following lines, since we don't want to use GetLocalPath anymore.
-			//m_dsFiles.Add(Utils.GetLocalPath(InventoryHelper.kDefaultInventoryFileName, true));
-
-			//var normalizationExceptionFile =
-			//	Utils.GetLocalPath(FFNormalizer.kstidNormalizationExceptionsFile, true);
-			
-			//if (File.Exists(normalizationExceptionFile))
-			//	m_dsFiles.Add(normalizationExceptionFile);
-
-			lblInfo.Visible = false;
-			chkIncludeDataSources.Visible = false;
-			btnBkup.Visible = false;
-			btnCancel.Enabled = false;
-
-			lblProgress.Text = string.Empty;
-			lblProgress.Visible = true;
-			//prgBar.Maximum = m_prjFiles.Count + m_dsFiles.Count;
-			//prgBar.Visible = true;
-		
-			ZipFile zip = ZipFile.Create(m_backupFile);
-			BackupFileList(zip, m_prjFiles);
-			BackupFileList(zip, m_dsFiles);
-			prgBar.Value = m_prjFiles.Count + m_dsFiles.Count;
-			Application.DoEvents();
-			zip.Close();
-
-			btnCancel.Visible = false;
-			btnClose.Visible = true;
-			
-			//prgBar.Visible = false;
-			//lblProgress.Visible = false;
-			//lblInfo.Text = Properties.Resources.kstidBackupCompleteMsg;
-			//lblInfo.Visible = true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void BackupFileList(ZipFile zip, IEnumerable<string> list)
-		{
-			foreach (string filename in list)
-			{
-				if (File.Exists(filename))
-				{
-					//lblProgress.Text = string.Format(m_fmtProgress, Path.GetFileName(filename));
-					m_progressDlg.lblMsg.Text = string.Format(m_fmtProgress, Path.GetFileName(filename));
-					Application.DoEvents();
-					zip.BeginUpdate();
-					zip.Add(filename);
-					zip.CommitUpdate();
-				}
-
-				m_progressDlg.prgressBar.Value++;
-				//prgBar.Value++;
-			}
+				ErrorReport.ReportNonFatalExceptionWithMessage(_viewModel.BackupRestoreException,
+					LocalizationManager.GetString("DialogBoxes.BackupDlg.BackupErrorMsg",
+					"There was an error while backing up the '{0}' project."),
+					_viewModel.Project.Name);
+			};
 		}
 	}
 }

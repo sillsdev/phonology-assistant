@@ -1,5 +1,6 @@
 using System.Drawing;
 using System.Windows.Forms;
+using Localization;
 using SilTools;
 using SilTools.Controls;
 
@@ -9,10 +10,6 @@ namespace SIL.Pa.UI.Controls
 	{
 		private readonly SilPopup m_popup;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public SearchResultTabPopup()
 		{
@@ -42,13 +39,24 @@ namespace SIL.Pa.UI.Controls
 			if (tab == null || tab.ResultView == null)
 				return;
 
-			lblPatternValue.Text = tab.ResultView.SearchQuery.Pattern;
-			lblRecordsValue.Text = (tab.ResultView.Cache == null ?
-				"0" : tab.ResultView.Cache.Count.ToString("#,###,##0"));
+			if (tab.ResultView.SearchQuery.Errors.Count > 0)
+			{
+				lblRecordCount.Visible = false;
+				lblRecordsValue.Text = LocalizationManager.GetString(
+					"Views.WordLists.SearchResults.TabPopup.PatternContainsErrorsMsg",
+					"Search pattern contains errors");
+			}
+			else
+			{
+				lblRecordCount.Visible = true;
+				lblPatternValue.Text = tab.ResultView.SearchQuery.Pattern;
+				lblRecordsValue.Text = (tab.ResultView.Cache == null ?
+					"0" : tab.ResultView.Cache.Count.ToString("#,###,##0"));
+			}
 
 			bool queryHasName = !string.IsNullOrEmpty(tab.ResultView.SearchQuery.Name);
 
-			if (queryHasName && tab.TabTextClipped)
+			if (queryHasName && tab.TabTextClipped && tab.ResultView.SearchQuery.Errors.Count == 0)
 			{
 				lblName.Visible = lblNameValue.Visible = true;
 				lblNameValue.Text = tab.ResultView.SearchQuery.Name;
@@ -59,7 +67,7 @@ namespace SIL.Pa.UI.Controls
 				lblNameValue.Visible = false;
 			}
 
-			if (queryHasName || tab.TabTextClipped)
+			if ((queryHasName || tab.TabTextClipped) && tab.ResultView.SearchQuery.Errors.Count == 0)
 			{
 				lblPattern.Visible = true;
 				lblPatternValue.Visible = true;

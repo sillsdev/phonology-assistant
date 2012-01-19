@@ -7,7 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
-using Palaso.Reporting;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
@@ -41,25 +41,24 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		public static bool CallAppToExportedFile(string application, string outputFileName)
 		{
-			if (!File.Exists(outputFileName))
-				return false;
-
-			try
-			{
-				Process.Start(application, string.Format("\"{0}\"", outputFileName));
-				return true;
-			}
-			catch
+			if (File.Exists(outputFileName))
 			{
 				try
 				{
-					Process.Start(outputFileName);
+					Process.Start(application, string.Format("\"{0}\"", outputFileName));
 					return true;
 				}
-				catch (Exception e)
+				catch
 				{
-					var msg = "Error running the program {0} for the file '{1}'.";
-					ErrorReport.NotifyUserOfProblem(e, msg, application, outputFileName);
+					try
+					{
+						Process.Start(outputFileName);
+						return true;
+					}
+					catch (Exception e)
+					{
+						Utils.MsgBox(e.Message);
+					}
 				}
 			}
 				
@@ -127,8 +126,8 @@ namespace SIL.Pa.Processing
 			// Create a stream of xml data containing the phones in the project.
 			var inputStream = CreateInputFileToTransformPipeline(keepIntermediateFile);
 
-			var msg = App.GetString("ExportProgressMsg", "Exporting (Step {0})...",
-				"Message displayed when exporting lists and charts.");
+			var msg = LocalizationManager.GetString("Miscellaneous.Messages.ExportProgressStatusMsg",
+				"Exporting (Step {0})...", "Message displayed when exporting lists and charts.");
 
 			MemoryStream outputStream = null;
 			int processingStep = 0;
@@ -418,47 +417,47 @@ namespace SIL.Pa.Processing
 			if (!string.IsNullOrEmpty(Name))
 			{
 				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
-					"li", "class", "name", Name);
+					"li", "class", GetMetadataDetailNameTag(), Name);
 			}
 
 			if (!string.IsNullOrEmpty(SearchPattern))
 			{
 				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
-					"li", "class", "searchPattern", SearchPattern);
+					"li", "class", "search pattern", SearchPattern);
 			}
 
 			if (!string.IsNullOrEmpty(NumberOfPhones))
 			{
 				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
-					"li", "class", "numberOfPhones", NumberOfPhones);
+					"li", "class", GetMetadataDetailNumberPhonesTag(), NumberOfPhones);
 			}
 
 			if (!string.IsNullOrEmpty(NumberOfRecords))
 			{
 				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
-					"li", "class", "numberOfRecords", NumberOfRecords);
+					"li", "class", "number record", NumberOfRecords);
 			}
 
 			if (!string.IsNullOrEmpty(NumberOfGroups))
 			{
 				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
-					"li", "class", "numberOfGroups", NumberOfGroups);
+					"li", "class", "number group", NumberOfGroups);
 			}
 
 			if (CIEOption != null)
 			{
 				ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
-					"li", "class", "minimalPairs", CIEOption);
+					"li", "class", "pairs", CIEOption);
 			}
 
 			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
-				"li", "class", "projectName", m_project.Name);
+				"li", "class", "project name", m_project.Name);
 
 			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
-				"li", "class", "languageName", m_project.LanguageName);
+				"li", "class", "language name", m_project.LanguageName);
 
 			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
-				"li", "class", "languageCode", m_project.LanguageCode);
+				"li", "class", "language code", m_project.LanguageCode);
 
 			if (!string.IsNullOrEmpty(m_project.Researcher))
 			{
@@ -474,6 +473,18 @@ namespace SIL.Pa.Processing
 
 			// Close ul
 			m_writer.WriteEndElement();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual string GetMetadataDetailNameTag()
+		{
+			throw new NotImplementedException();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual string GetMetadataDetailNumberPhonesTag()
+		{
+			throw new NotImplementedException();
 		}
 
 		/// ------------------------------------------------------------------------------------

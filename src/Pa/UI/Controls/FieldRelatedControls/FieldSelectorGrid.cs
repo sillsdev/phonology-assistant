@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 using SilTools;
 
@@ -38,7 +39,7 @@ namespace SIL.Pa.UI.Controls
 			AllowUserToOrderColumns = false;
 			AllowUserToResizeColumns = false;
 			CellBorderStyle = DataGridViewCellBorderStyle.None;
-			AppColor.SetGridSelectionColors(this, false);
+			App.SetGridSelectionColors(this, false);
 
 			if (App.DesignMode)
 				return;
@@ -61,7 +62,7 @@ namespace SIL.Pa.UI.Controls
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			Columns.Add(col);
 
-			AppColor.SetGridSelectionColors(this, false);
+			App.SetGridSelectionColors(this, false);
 		}
 
 		/// ------------------------------------------------------------------------------------

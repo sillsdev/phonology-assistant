@@ -74,7 +74,7 @@
 			this.lnkSaDownload.LinkArea = new System.Windows.Forms.LinkArea(58, 13);
 			this.locExtender.SetLocalizableToolTip(this.lnkSaDownload, null);
 			this.locExtender.SetLocalizationComment(this.lnkSaDownload, null);
-			this.locExtender.SetLocalizingId(this.lnkSaDownload, "DownloadSaDlg.lnkSaDownload");
+			this.locExtender.SetLocalizingId(this.lnkSaDownload, "DialogBoxes.DownloadSaDlg.SaDownloadLink");
 			this.lnkSaDownload.Location = new System.Drawing.Point(71, 76);
 			this.lnkSaDownload.Margin = new System.Windows.Forms.Padding(10, 15, 10, 15);
 			this.lnkSaDownload.Name = "lnkSaDownload";
@@ -91,7 +91,7 @@
 			this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
 			this.locExtender.SetLocalizationComment(this.btnOK, null);
-			this.locExtender.SetLocalizingId(this.btnOK, "DownloadSaDlg.btnOK");
+			this.locExtender.SetLocalizingId(this.btnOK, "DialogBoxes.DownloadSaDlg.OKButton");
 			this.btnOK.Location = new System.Drawing.Point(339, 187);
 			this.btnOK.Margin = new System.Windows.Forms.Padding(3, 10, 10, 10);
 			this.btnOK.Name = "btnOK";
@@ -109,7 +109,7 @@
 			this.lnkSaWebsite.LinkArea = new System.Windows.Forms.LinkArea(0, 0);
 			this.locExtender.SetLocalizableToolTip(this.lnkSaWebsite, null);
 			this.locExtender.SetLocalizationComment(this.lnkSaWebsite, null);
-			this.locExtender.SetLocalizingId(this.lnkSaWebsite, "DownloadSaDlg.lnkSaWebsite");
+			this.locExtender.SetLocalizingId(this.lnkSaWebsite, "DialogBoxes.DownloadSaDlg.SaWebsiteLink");
 			this.lnkSaWebsite.Location = new System.Drawing.Point(71, 136);
 			this.lnkSaWebsite.Margin = new System.Windows.Forms.Padding(10, 15, 10, 15);
 			this.lnkSaWebsite.Name = "lnkSaWebsite";
@@ -143,7 +143,7 @@
 			this.locExtender.SetLocalizableToolTip(this.lblMessage, null);
 			this.locExtender.SetLocalizationComment(this.lblMessage, null);
 			this.locExtender.SetLocalizationPriority(this.lblMessage, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.lblMessage, "DownloadSaDlg.lblMessage");
+			this.locExtender.SetLocalizingId(this.lblMessage, "DownloadSaDlg.MessageLabel");
 			this.lblMessage.Location = new System.Drawing.Point(71, 15);
 			this.lblMessage.Margin = new System.Windows.Forms.Padding(10, 15, 10, 15);
 			this.lblMessage.Name = "lblMessage";
@@ -153,7 +153,6 @@
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// DownloadSaDlg
@@ -168,7 +167,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "DownloadSaDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.DownloadSaDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "DownloadSaDlg";

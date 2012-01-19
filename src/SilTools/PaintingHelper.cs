@@ -245,7 +245,7 @@ namespace SilTools
 					SystemColors.GradientActiveCaption, 50);
 			}
 
-			DrawGradientBackground(g, rc, clrTop, clrBottom, makeDark);
+			DrawGradientBackground(g, rc, clrTop, clrBottom);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -254,18 +254,61 @@ namespace SilTools
 		/// colors.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void DrawGradientBackground(Graphics g, Rectangle rc,
-			Color clrTop, Color clrBottom, bool makeDark)
+		public static void DrawGradientBackground(Graphics g, Rectangle rc, Color clrTop, Color clrBottom)
  		{
 			try
 			{
 				if (rc.Width > 0 && rc.Height > 0)
 				{
-					using (var br = new LinearGradientBrush(rc, clrTop, clrBottom, 90))
+					// Use 89 degrees here instead of 90 because otherwise I noticed sometimes
+					// the first row of pixels at the top of the rectangle would be painted with
+					// the gradient's bottom color. This was noticed when painting in a
+					// DataGridView and I think the problem only manifested itself when the
+					// height of the rectangle exceeded a certain amount (which I did not
+					// determine).
+					using (var br = new LinearGradientBrush(rc, clrTop, clrBottom, 89))
 						g.FillRectangle(br, rc);
 				}
 			}
 			catch { }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void DrawGradientBackground(Graphics g, Rectangle rc, Color clrTop,
+			Color clrBottom, bool useDefaultBlend)
+ 		{
+			if (rc.Width <= 0 || rc.Height <= 0)
+				return;
+
+			if (!useDefaultBlend)
+				DrawGradientBackground(g, rc, clrTop, clrBottom);
+			else
+			{
+				var blend = new Blend();
+				blend.Positions = new[] { 0.0f, 0.25f, 1.0f };
+				blend.Factors = new[] { 0.3f, 0.1f, 1.0f };
+				DrawGradientBackground(g, rc, clrTop, clrBottom, blend);
+			}
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		public static void DrawGradientBackground(Graphics g, Rectangle rc, Color clrTop,
+			Color clrBottom, Blend blend)
+ 		{
+			if (rc.Width <= 0 || rc.Height <= 0)
+				return;
+
+			// Use 89 degrees here instead of 90 because otherwise I noticed sometimes
+			// the first row of pixels at the top of the rectangle would be painted with
+			// the gradient's bottom color. This was noticed when painting in a
+			// DataGridView and I think the problem only manifested itself when the
+			// height of the rectangle exceeded a certain amount (which I did not
+			// determine).
+			using (var br = new LinearGradientBrush(rc, clrTop, clrBottom, 89))
+			{
+				br.Blend = blend;
+				g.FillRectangle(br, rc);
+			}
 		}
 	}
 

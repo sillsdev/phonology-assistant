@@ -1,588 +1,285 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Windows.Forms;
 using System.IO;
-using SIL.Pa.DataSource;
-using ICSharpCode.SharpZipLib.Zip;
-using SIL.Pa.Model;
+using System.Windows.Forms;
+using Localization;
+using Palaso.Reporting;
 using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class RestoreDlg : Form
 	{
-		private const string kTmpRstFolder = "~PaRestore";
+		private readonly RestoreDlgViewModel _viewModel;
 
-		private string m_lastFolderPicked = App.ProjectFolder;
-		private string m_prjName;
-		private string m_tmpFolder;
-		private string m_papPath;
-		private BRProgressDlg m_progressDlg;
-		private readonly string m_restoreRoot;
-		private readonly string m_fmtProjMsg;
-		private readonly string m_zipPath;
-		private readonly List<string> m_origPaths = new List<string>();
+		public string RestoredProjectFileName { get; private set; }
 
-		/// ------------------------------------------------------------------------------------
-		public static void Restore()
-		{
-			var caption = App.GetString("RestoreDlg.OFDCaption", "File to Restore");
-
-			string zipFile = App.OpenFileDialog("zip",
-				App.kstidFileTypeZip + "|" + App.kstidFileTypeAllFiles, caption);
-
-			if (string.IsNullOrEmpty(zipFile) || !File.Exists(zipFile))
-				return;
-
-			try
-			{
-				using (var dlg = new RestoreDlg(zipFile))
-					dlg.ShowDialog(App.MainForm);
-			}
-			catch { }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public RestoreDlg()
 		{
 			InitializeComponent();
 
-			m_restoreRoot = Path.GetPathRoot(Application.StartupPath);
-			m_fmtProjMsg = lblProject.Text;
-			lblProject.Text = string.Format(m_fmtProjMsg, string.Empty);
-			grid.Name = Name + "Grid";
+			DialogResult = DialogResult.None;
+
+			_labelBackupFilesFound.Font = FontHelper.UIFont;
+			_linkSelectOtherBackupFile.Font = FontHelper.UIFont;
+			_radioDefaultFolder.Font = FontHelper.UIFont;
+			_radioOtherFolder.Font = FontHelper.UIFont;
+			_linkOtherFolderValue.Font = FontHelper.UIFont;
+			_labelDefaultFolderValue.Font = FontHelper.UIFont;
+			_linkViewExceptionDetails.Font = FontHelper.UIFont;
+			_groupBoxDestinationFolder.Font = FontHelper.UIFont;
+
+			_grid.AutoResizeColumnHeadersHeight();
+			_grid.ColumnHeadersHeight += 4;
+
+			_radioDefaultFolder.Checked = true;
+
+			if (Settings.Default.LastOtherRestoreFolder != null &&
+				Directory.Exists(Settings.Default.LastOtherRestoreFolder))
+			{
+				_radioOtherFolder.Checked = Settings.Default.RestoreToOtherFolder;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public RestoreDlg(string zipPath) : this()
+		public RestoreDlg(RestoreDlgViewModel viewModel) : this()
 		{
-			m_zipPath = zipPath;
+			_viewModel = viewModel;
+			_viewModel.LogBox.Font = FontHelper.UIFont;
+			_viewModel.LogBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+			_viewModel.LogBox.Margin = new Padding(0);
+			_viewModel.LogBox.ReportErrorLinkClicked += delegate { Close(); };
+			_tableLayoutPanel.Controls.Add(_viewModel.LogBox, 0, 3);
+			_tableLayoutPanel.SetColumnSpan(_viewModel.LogBox, 2);
+
+			_buttonClose.Click += delegate { Close(); };
+			_buttonCancel.Click += delegate { _viewModel.Cancel = true; };
+
+			_radioOtherFolder.CheckedChanged += delegate { UpdateDisplay(); };
+			_radioDefaultFolder.CheckedChanged += delegate { UpdateDisplay(); };
+
+			var lastTargetRestoreFolder = Settings.Default.LastOtherRestoreFolder;
+			_viewModel.OtherDestFolder =
+				(lastTargetRestoreFolder != null && Directory.Exists(lastTargetRestoreFolder) ? lastTargetRestoreFolder : null);
+
+			LoadGrid();
+			HandleGridCurrentRowChanged(null, null);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+			base.Dispose(disposing);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(EventArgs e)
 		{
 			Settings.Default.RestoreDlg = App.InitializeForm(this, Settings.Default.RestoreDlg);
-			
-			if (Settings.Default.RestoreDlgGrid != null)
-				Settings.Default.RestoreDlgGrid.InitializeGrid(grid);
-			
 			base.OnLoad(e);
+			BringToFront();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override void OnClosing(CancelEventArgs e)
+		protected override void OnFormClosing(FormClosingEventArgs e)
 		{
-			Settings.Default.RestoreDlgGrid = GridSettings.Create(grid);
+			Settings.Default.LastOtherRestoreFolder = _viewModel.OtherDestFolder;
+			Settings.Default.RestoreToOtherFolder = _radioOtherFolder.Checked;
 
-			base.OnClosing(e);
-
-			// Clean up the files in the temp. folder.
-			if (m_tmpFolder != null && Directory.Exists(m_tmpFolder))
-				Directory.Delete(m_tmpFolder, true);
+			base.OnFormClosing(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected override void OnShown(EventArgs e)
+		private void LoadGrid()
 		{
-			base.OnShown(e);
-			Application.DoEvents();
+			_grid.Rows.Clear();
 
-			m_progressDlg = new BRProgressDlg();
-			m_progressDlg.lblMsg.Text = App.GetString("RestoreDlg.ReadingBackupFileMsg", "Reading backup file...");
-			m_progressDlg.CenterInParent(this);
-			m_progressDlg.Show();
-			Application.DoEvents();
-
-			UnpackToTempFolder();
-
-			if (m_origPaths.Count == 0 || string.IsNullOrEmpty(m_papPath) || !File.Exists(m_papPath))
+			foreach (var backupInfo in _viewModel.AvailableBackups)
 			{
-				m_progressDlg.Close();
-				m_progressDlg.Dispose();
-				m_progressDlg = null;
-				Hide();
-
-				Utils.MsgBox(App.GetString("RestoreDlg.NoPrjInZipFileMsg",
-					"The specified zip file does not appear to contain a Phonology Assistant project."));
-
-				Close();
-				return;
-			}
-
-			GetDataSourcePathsFromPap();
-			lblProject.Text = string.Format(m_fmtProjMsg, m_prjName);
-
-			m_progressDlg.Hide();
-			m_progressDlg.prgressBar.Value = 0;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void UnpackToTempFolder()
-		{
-			FileStream stream = null;
-			ZipInputStream zipStream = null;
-
-			try
-			{
-				// Create a temporary folder in which to unzip the files.
-				m_tmpFolder = Path.Combine(Path.GetTempPath(), kTmpRstFolder);
-				if (Directory.Exists(m_tmpFolder))
-					Directory.Delete(m_tmpFolder, true);
-				Directory.CreateDirectory(m_tmpFolder);
-
-				m_progressDlg.prgressBar.Value = 0;
-				ZipFile zipFile = new ZipFile(m_zipPath);
-				m_progressDlg.prgressBar.Maximum = (int)zipFile.Count;
-				zipFile.Close();
-
-				// Unpack the files to the temp. folder we just created.
-				stream = new FileStream(m_zipPath, FileMode.Open);
-				zipStream = new ZipInputStream(stream);
-				ZipEntry zipEntry;
-				while ((zipEntry = zipStream.GetNextEntry()) != null)
-				{
-					m_progressDlg.prgressBar.Value++;
-					UnpackEntry(zipStream, zipEntry, m_tmpFolder);
-				}
-
-				m_progressDlg.prgressBar.Value = m_progressDlg.prgressBar.Maximum;
-			}
-			finally
-			{
-				if (zipStream != null)
-					zipStream.Close();
-
-				if (stream != null)
-					stream.Close();
-
-				zipStream = null;
-				stream = null;
+				int rowIndex = _grid.Rows.Add(backupInfo.Key, Path.GetFileName(backupInfo.Value));
+				_grid[1, rowIndex].ToolTipText = backupInfo.Value;
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Unpack the file specified by the zip entry to the specified path.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void UnpackEntry(ZipInputStream zipStream, ZipEntry zipEntry, string path)
+		private void HandleSelectOtherBackupFileLinkClick(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			string filePath = Path.Combine(path, Path.GetFileName(zipEntry.Name));
-			string entryName = zipEntry.Name;
-			entryName = entryName.Replace('/', '\\');
-			m_origPaths.Add(entryName);
+			var caption = LocalizationManager.GetString(
+				"DialogBoxes.RestoreDlg.SelectOtherBackupFileDlg.Caption", "Spelect Backup File");
 
-			if (Path.GetExtension(filePath).ToLower() == ".pap")
-			{
-				txtPrjLocation.Text = Path.Combine(m_restoreRoot, Path.GetDirectoryName(entryName));
-				m_papPath = filePath;
-			}
+			var paBackupfilterString = LocalizationManager.GetString(
+				"DialogBoxes.RestoreDlg.SelectOtherBackupFileDlg.BackupFileTypeText", "Phonology Assistant Backup");
 
-			FileInfo fi = new FileInfo(filePath);
-			FileStream outStream = null;
-			try
-			{
-				outStream = fi.Create();
-				int size = 2048;
-				byte[] data = new byte[size];
-				while (true)
-				{
-					if ((size = zipStream.Read(data, 0, data.Length)) == 0)
-						break;
+			var filters = paBackupfilterString + " (*.pabackup)|*.pabackup|" + App.kstidFileTypeAllFiles;
 
-					outStream.Write(data, 0, size);
-				}
-			}
-			finally
-			{
-				if (outStream != null)
-					outStream.Close();
-				outStream = null;
-			}
-		}
+			var backupFile = App.OpenFileDialog("pabackup", filters, caption);
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Read the data sources from the restored project file.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void GetDataSourcePathsFromPap()
-		{
-			string dummy = string.Empty;
-			var prj = PaProject.LoadProjectFileOnly(m_papPath, true, ref dummy); 
-
-			if (prj == null || prj.DataSources == null || prj.DataSources.Count == 0)
-			{
-				Utils.MsgBox(App.GetString("RestoreDlg.PrjIsEmptyMsg", "There are no data sources in the project."));
-				return;
-			}
-
-			m_progressDlg.prgressBar.Value = 0;
-			m_progressDlg.prgressBar.Maximum = prj.DataSources.Count;
-
-			foreach (var dataSource in prj.DataSources)
-			{
-				m_progressDlg.prgressBar.Value++;
-
-				// Skip FieldWorks data source since we don't backup those.
-				if (dataSource.Type != DataSourceType.FW)
-				{
-					int i = ProcessDataSourceFromPap(dataSource);
-					dataSource.SourceFile = (i < 0 ? "X" : i.ToString());
-				}
-			}
-
-			// This should never happen, but just in case, remove all data
-			// sources whose file couldn't be found for some reason.
-			for (int i = prj.DataSources.Count - 1; i >= 0; i--)
-			{
-				if (prj.DataSources[i].SourceFile == "X")
-					prj.DataSources.RemoveAt(i);
-			}
-
-			m_progressDlg.prgressBar.Value = m_progressDlg.prgressBar.Maximum;
-			m_prjName = prj.Name;
-			XmlSerializationHelper.SerializeToFile(m_papPath, prj);
-			prj.Dispose();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private int ProcessDataSourceFromPap(PaDataSource dataSource)
-		{
-			string fileOnly = Path.GetFileName(dataSource.SourceFile);
-			string pathInPap = Path.GetDirectoryName(dataSource.SourceFile);
-			string pathInZip = pathInPap;
-
-			// Strip off the root portion of the path (e.g. c:\)
-			if (Path.IsPathRooted(pathInZip))
-			{
-				string root = Path.GetPathRoot(pathInZip);
-				pathInZip = pathInZip.Substring(root.Length);
-			}
-
-			// Make sure the data source file can be found among those whose
-			// entries were found in the backup file. If not (which should
-			// never happen), skip the data source and go to the next one.
-			int i = m_origPaths.IndexOf(Path.Combine(pathInZip, fileOnly));
-			if (i < 0)
-				return -1;
-
-			// Remove the path and file name from the list found in the zip file.
-			m_origPaths.RemoveAt(i);
-
-			// Make sure the file was extracted from the zip file.
-			if (!File.Exists(Path.Combine(m_tmpFolder, fileOnly)))
-				return -1;
-
-			// Add a row in the data source grid containing the data source file name
-			// and the propsed location where the data source file will be restored
-			// (i.e. the path specified in the pap file).
-			string path = Path.Combine(m_restoreRoot, pathInPap);
-			grid.Rows.Add(new[] { fileOnly, path, path, string.Empty });
-			DataGridViewRow row = grid.Rows[grid.RowCount - 1];
-
-			// If the data source is an SA audio file, then make sure to include
-			// the audio file's companion transcriptions file.
-			if (dataSource.Type == DataSourceType.SA)
-			{
-				string saxmlFile = Path.ChangeExtension(fileOnly, "saxml");
-				if (File.Exists(Path.Combine(m_tmpFolder, saxmlFile)))
-				{
-					row.Cells[3].Value = saxmlFile;
-					m_origPaths.Remove(Path.Combine(pathInZip, saxmlFile));
-				}
-			}
-
-			return row.Index;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void btnRestore_Click(object sender, EventArgs e)
-		{
-			if (!CheckIfPapAlreadyExists())
+			if (backupFile == null || !RestoreDlgViewModel.GetIsValidBackupFile(backupFile, true))
 				return;
 
-			var msg = App.GetString("RestoreDlg.RestoringMsg", "Restoring {0}...");
+			_viewModel.AddBackupFileToListAndMakeCurrent(backupFile);
+			LoadGrid();
+		}
 
-			m_progressDlg.lblMsg.Text = string.Format(msg, m_prjName);
-			m_progressDlg.prgressBar.Maximum = m_origPaths.Count + grid.RowCount;
-			m_progressDlg.CenterInParent(this);
-			m_progressDlg.Show();
-			Hide();
-			Application.DoEvents();
-			RestoreProjectFiles();
-			RestoreDataSources();
-			m_progressDlg.prgressBar.Value = m_progressDlg.prgressBar.Maximum;
-			ModifyDataSourcePathsInRestoredProject();
-			m_progressDlg.Hide();
-			LoadRestoredProject();
+		/// ------------------------------------------------------------------------------------
+		private void HandleOtherFolderValueLinkClick(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			var description = string.Format(LocalizationManager.GetString(
+				"DialogBoxes.RestoreDlg.ChangeFolderBrowserDlg.Description",
+				"Specify the folder where the '{0}' project will be restored."),
+				_grid.CurrentRow.Cells[0].Value as string);
+
+			var folderContainsProjectMsg = LocalizationManager.GetString(
+				"DialogBoxes.RestoreDlg.ChangeFolderBrowserDlg.FolderAlreadyContainsProjectMsg",
+				"The folder you selected already contains a Phonology Assistant project. Please select a folder that does not contain a project.");
+
+			if (_viewModel.SpecifyTargetFolder(this, description, folderContainsProjectMsg))
+			{
+				if (_viewModel.OtherDestFolder == _viewModel.SuggestedDestFolder)
+					TellUserHeSelectedTheDefaultFolder();
+				else
+					UpdateDisplay();
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void TellUserHeSelectedTheDefaultFolder()
+		{
+			var msg = LocalizationManager.GetString(
+				"DialogBoxes.RestoreDlg.OtherFolderLinkText.WhenEnabledAndIsSameAsDefaultFolder",
+				"(specified folder is the same as the default)");
+
+			_viewModel.OtherDestFolder = null;
+			_linkOtherFolderValue.Links.Clear();
+			_linkOtherFolderValue.Text = msg;
+			_linkOtherFolderValue.LinkColor = Color.Red;
+			_linkOtherFolderValue.LinkArea = new LinkArea(0, _linkOtherFolderValue.Text.Length);
+			_buttonRestore.Enabled = false;
+
+			var timer = new Timer();
+			timer.Interval = 3000;
+			timer.Tick += delegate
+			{
+				timer.Stop();
+				timer.Dispose();
+				UpdateDisplay();
+			};
+
+			timer.Start();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleGridCurrentRowChanged(object sender, EventArgs e)
+		{
+			_viewModel.SetCurrentBackupFile(_grid.CurrentCellAddress.Y);
+			UpdateDisplay();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleGridPainting(object sender, PaintEventArgs e)
+		{
+			if (_grid.RowCount > 0)
+				return;
+
+			var msg = LocalizationManager.GetString("DialogBoxes.RestoreDlg.SelectBackupFilesPromptInEmptyList",
+				"No backup files were found.\nClick '{0}'\nto specify a backup file.");
+
+			_grid.DrawMessageInCenterOfGrid(e.Graphics,
+				string.Format(msg, _linkSelectOtherBackupFile.Text.TrimEnd('.')),
+				FontHelper.UIFont, 0);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void UpdateDisplay()
+		{
+			_labelDefaultFolderValue.Enabled = _radioDefaultFolder.Checked;
+			_labelDefaultFolderValue.Text = _viewModel.SuggestedDestFolder;
+
+			UpdateOtherFolderValueLink();
+	
+			_buttonRestore.Enabled = (_viewModel.AvailableBackups.Count > 0 && (_radioDefaultFolder.Checked ||
+				(_radioOtherFolder.Checked && Directory.Exists(_linkOtherFolderValue.Text))));
+
+			_groupBoxDestinationFolder.Enabled = (_viewModel.AvailableBackups.Count > 0);
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		private void UpdateOtherFolderValueLink()
+		{
+			if (_viewModel.OtherDestFolder != null)
+				_linkOtherFolderValue.Text = _viewModel.OtherDestFolder;
+			else if (_radioOtherFolder.Checked)
+			{
+				_linkOtherFolderValue.Text = LocalizationManager.GetString(
+					"DialogBoxes.RestoreDlg.OtherFolderLinkText.WhenNotSpecifiedAndEnabled",
+					"(click to specify)");
+			}
+			else
+			{
+				_linkOtherFolderValue.Text = LocalizationManager.GetString(
+					"DialogBoxes.RestoreDlg.OtherFolderLinkText.WhenNotSpecifiedAndNotEnabled",
+					"(not specified)");
+			}
+
+			_linkOtherFolderValue.Enabled = _radioOtherFolder.Checked;
+			_linkOtherFolderValue.LinkColor = _linkViewExceptionDetails.LinkColor;
+			_linkOtherFolderValue.Links.Clear();
+			_linkOtherFolderValue.LinkArea = new LinkArea(0, _linkOtherFolderValue.Text.Length);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleRestoreButtonClick(object sender, EventArgs e)
+		{
+			_linkSelectOtherBackupFile.Enabled = false;
+			_grid.Enabled = false;
+			_groupBoxDestinationFolder.Enabled = false;
+			_buttonRestore.Visible = false;
+			_buttonClose.Visible = false;
+			_buttonCancel.Visible = true;
+			_progressBar.Visible = true;
+			_progressBar.Maximum = _viewModel.GetNumberOfFilesToRestore();
+
+			_viewModel.Restore(pct => Invoke((Action)(() => _progressBar.Increment(1))),
+				HandleRestoreComplete);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleRestoreComplete()
+		{
+			_buttonCancel.Visible = false;
+			_buttonClose.Visible = true;
+			_buttonLoadProject.Visible = (!_viewModel.Cancel && _viewModel.BackupRestoreException == null);
+			_progressBar.Visible = (!_viewModel.Cancel && _viewModel.BackupRestoreException == null);
+
+			if (_viewModel.BackupRestoreException == null)
+				return;
+
+			_progressBar.Visible = false;
+			_linkViewExceptionDetails.Visible = true;
+			_linkViewExceptionDetails.LinkClicked += delegate
+			{
+				ErrorReport.ReportNonFatalExceptionWithMessage(_viewModel.BackupRestoreException,
+					LocalizationManager.GetString("DialogBoxes.RestoreDlg.RestoreErrorMsg",
+					"There was an error while restoring the '{0}' project."),
+					_viewModel.NameOfProjectToRestore);
+			};
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleLoadProjectButtonClick(object sender, EventArgs e)
+		{
+			DialogResult = DialogResult.OK;
+			RestoredProjectFileName = Path.Combine(_viewModel.OtherDestFolder ??
+				_viewModel.SuggestedDestFolder, _viewModel.CurrentProjectFileName);
 			
 			Close();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private bool CheckIfPapAlreadyExists()
-		{
-			string papFile = Path.GetFileName(m_papPath);
-
-			if (!File.Exists(Path.Combine(txtPrjLocation.Text, papFile)))
-				return true;
-
-			var msg = App.GetString("RestoreDlg.ProjectAlreadyInFolderMsg",
-				"There is already a project file by the name of '{0}' in the specified restore\nfolder. Do you want to overwrite the existing project files? If you answer 'Yes'\nthen data source files that may already exist will also be overwritten.");
-
-			msg = string.Format(msg, papFile);
-			
-			return (Utils.MsgBox(msg, MessageBoxButtons.YesNo,
-				MessageBoxIcon.Warning) == DialogResult.Yes);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void RestoreProjectFiles()
-		{
-			// Move the project files to the user-specified restore folder.
-			foreach (string file in m_origPaths)
-			{
-				m_progressDlg.prgressBar.Value++;
-				string filename = Path.GetFileName(file);
-				string dst = Path.Combine(txtPrjLocation.Text, filename);
-				if (File.Exists(dst))
-					File.Delete(dst);
-
-				File.Move(Path.Combine(m_tmpFolder, filename), dst);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void RestoreDataSources()
-		{
-			// Move the data source files to the user-specified restore folder.
-			foreach (DataGridViewRow row in grid.Rows)
-			{
-				string dstPath = row.Cells[1].Value as string;
-				if (!Directory.Exists(dstPath))
-					continue;
-
-				m_progressDlg.prgressBar.Value++;
-				string filename = row.Cells[0].Value as string;
-				string dst = Path.Combine(dstPath, filename);
-				if (File.Exists(dst))
-					File.Delete(dst);
-
-				File.Move(Path.Combine(m_tmpFolder, filename), dst);
-
-				// Check if this row has an saxml file associated. If so, then move it too.
-				string saxmlFile = row.Cells[3].Value as string;
-				if (!string.IsNullOrEmpty(saxmlFile))
-				{
-					dst = Path.Combine(dstPath, saxmlFile);
-					if (File.Exists(dst))
-						File.Delete(dst);
-
-					File.Move(Path.Combine(m_tmpFolder, saxmlFile), dst);
-				}
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Goes through the data sources in the project just restored and changes the data
-		/// source file paths to the path where the data sources were restored.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void ModifyDataSourcePathsInRestoredProject()
-		{
-			m_papPath = Path.Combine(txtPrjLocation.Text, Path.GetFileName(m_papPath));
-			var prj = XmlSerializationHelper.DeserializeFromFile<PaProject>(m_papPath);
-			if (prj == null)
-				return;
-
-			foreach (var dataSource in prj.DataSources)
-			{
-				int i;
-				if (int.TryParse(dataSource.SourceFile, out i))
-				{
-					string path = grid[1, i].Value as string;
-					string file = grid[0, i].Value as string;
-					dataSource.SourceFile = Path.Combine(path, file);
-				}
-			}
-
-			XmlSerializationHelper.SerializeToFile(m_papPath, prj);
-			prj.Dispose();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Ask the user if he would like to load the project just restored. If yes, then
-		/// load it.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void LoadRestoredProject()
-		{
-			if (!File.Exists(m_papPath))
-				return;
-
-			var msg = App.GetString("RestoreDlg.LoadPrjMsg",
-				"Restore is complete. Would you\nlike to open the restored project?");
-
-			if (Utils.MsgBox(msg, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-			{
-				PaMainWnd mainWnd = App.MainForm as PaMainWnd;
-				if (mainWnd != null)
-					ReflectionHelper.CallMethod(mainWnd, "LoadProject", m_papPath);
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void btnChgPrjLocation_Click(object sender, EventArgs e)
-		{
-			var msg = App.GetString("RestoreDlg.BrowseForPrjFolderDesc",
-				"Specify folder in which to restore {0} project files.");
-
-			fldrBrowser.Description = string.Format(msg, m_prjName);
-			fldrBrowser.SelectedPath = m_lastFolderPicked;
-
-			if (fldrBrowser.ShowDialog(this) == DialogResult.OK)
-				txtPrjLocation.Text = m_lastFolderPicked = fldrBrowser.SelectedPath;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void btnChgDSLocation_Click(object sender, EventArgs e)
-		{
-			var msg = App.GetString("RestoreDlg.BrowseForDataSourceFolderDesc",
-				"Specify folder in which to restore {0} data source file(s).");
-
-			fldrBrowser.SelectedPath = m_lastFolderPicked;
-			fldrBrowser.Description = string.Format(msg, m_prjName);
-
-			if (fldrBrowser.ShowDialog(this) == DialogResult.OK)
-			{
-				m_lastFolderPicked = fldrBrowser.SelectedPath;
-				SetDataSourceRestoreLocation(m_lastFolderPicked);
-				foreach (DataGridViewRow row in grid.Rows)
-					row.Cells[2].Value = m_lastFolderPicked;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void chkUseSame_CheckedChanged(object sender, EventArgs e)
-		{
-			btnChgDSLocation.Enabled = !chkUseSame.Checked;
-
-			if (chkUseSame.Checked)
-				SetDataSourceRestoreLocation(txtPrjLocation.Text);
-			else
-			{
-				foreach (DataGridViewRow row in grid.Rows)
-					row.Cells[1].Value = row.Cells[2].Value;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Sets the location for all the data sources to the specified path.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void SetDataSourceRestoreLocation(string path)
-		{
-			foreach (DataGridViewRow row in grid.Rows)
-				row.Cells[1].Value = path;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Paint cells without the focus rectangle and for the data source restore folder
-		/// cells, paint the folder using path ellipsis.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void grid_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-		{
-			if (e.ColumnIndex < 0 || e.ColumnIndex > 1 ||  e.RowIndex < 0)
-				return;
-
-			if (e.ColumnIndex == 0)
-			{
-				// Draw default everything but focus rectangle.
-				DataGridViewPaintParts paintParts = DataGridViewPaintParts.All;
-				paintParts &= ~DataGridViewPaintParts.Focus;
-				e.Paint(e.ClipBounds, paintParts);
-			}
-			else
-			{
-				// Draw default everything but text and focus rectangle.
-				DataGridViewPaintParts paintParts = DataGridViewPaintParts.All;
-				paintParts &= ~DataGridViewPaintParts.ContentForeground;
-				paintParts &= ~DataGridViewPaintParts.Focus;
-				e.Paint(e.ClipBounds, paintParts);
-
-				string path = e.Value as string;
-				if (string.IsNullOrEmpty(path))
-					return;
-
-				Color clr = (grid.Rows[e.RowIndex].Selected ?
-					grid.DefaultCellStyle.SelectionForeColor : grid.DefaultCellStyle.ForeColor);
-
-				TextFormatFlags flags = TextFormatFlags.VerticalCenter |
-					TextFormatFlags.SingleLine | TextFormatFlags.PathEllipsis |
-					TextFormatFlags.PreserveGraphicsClipping;
-
-				if (grid.RightToLeft == RightToLeft.Yes)
-					flags |= TextFormatFlags.RightToLeft;
-
-				TextRenderer.DrawText(e.Graphics, path, grid.Font, e.CellBounds, clr, flags);
-			}
-			
-			e.Handled = true;
 		}
 	}
 }

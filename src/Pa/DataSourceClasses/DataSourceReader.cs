@@ -4,11 +4,10 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Palaso.Reporting;
+using Localization;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.DataSource.Sa;
 using SIL.Pa.Model;
-using SilTools;
 
 namespace SIL.Pa.DataSource
 {
@@ -47,6 +46,19 @@ namespace SIL.Pa.DataSource
 			{
 				CheckExistenceOfFwDatabase(ds);
 			}
+			else if (ds.Type == DataSourceType.FW7)
+			{
+				if (!FwDBUtils.IsFw7Installed)
+				{
+					App.NotifyUserOfProblem(LocalizationManager.GetString(
+						"Miscellaneous.Messages.DataSourceReading.FieldWorks7NotInstalledMsg",
+						"FieldWorks 7.0 (or later) is not installed. It must be installed in order for Phonology Assistant to read the data source '{0}'. This data source will be skipped."),
+						ds.SourceFile);
+					
+					ds.SkipLoadingBecauseOfProblem = true;
+					return;
+				}
+			}
 			else if (!File.Exists(ds.SourceFile))
 			{
 				string newPath = GetMissingDataSourceAction(ds.SourceFile);
@@ -63,28 +75,17 @@ namespace SIL.Pa.DataSource
 			if (ds.SkipLoadingBecauseOfProblem)
 				return;
 
-			if (ds.Type == DataSourceType.FW7 && !FwDBUtils.IsFw7Installed)
-			{
-				var msg = App.GetString("FieldWorks7NotInstalledMsg",
-				    "FieldWorks 7.0 (or later) is not installed. It must be installed\nin order for {0} to read the data source\n\n'{1}'.\n\nThis data source will be skipped.");
-
-				Utils.MsgBox(string.Format(msg, Application.ProductName, ds.SourceFile));
-				ds.SkipLoadingBecauseOfProblem = true;
-				return;
-			}
-
 			if (ds.Type != DataSourceType.XML && ds.Type != DataSourceType.Unknown)
 				m_dataSources.Add(ds);
 
 			if (!ds.VerifyMappings())
 			{
-				var msg = App.GetString("MarkersMissingFromDataSourceMsg",
+				App.NotifyUserOfProblem(LocalizationManager.GetString(
+					"Miscellaneous.Messages.DataSourceReading.MarkersMissingFromDataSourceMsg",
 					"The data source file '{0}' is missing some standard format markers that were " +
-					"assigned to {1} fields. Those assignments have been removed. To verify the " +
+					"assigned to Phonology Assistant fields. Those assignments have been removed. To verify the " +
 					"assignment of markers to fields, go to the project settings dialog box, select " +
-					"the data source and click 'Properties'.");
-
-				Utils.MsgBox(string.Format(msg, ds.SourceFile, Application.ProductName));
+					"the data source and click 'Properties'."), ds.SourceFile);
 			}
 		}
 
@@ -155,7 +156,8 @@ namespace SIL.Pa.DataSource
 			dlg.Filter = App.kstidFileTypeAllFiles;
 			dlg.ShowReadOnly = false;
 			dlg.InitialDirectory = Path.GetFullPath(dataSourceFile);
-			dlg.Title = App.GetString("SpecifyNewLocationForDatasourceOpenFileDlgCaption",
+			dlg.Title = LocalizationManager.GetString(
+				"Miscellaneous.Messages.DataSourceReading.SpecifyNewLocationForDatasourceOpenFileDlgCaption",
 				"Choose New Data Source Location");
 			
 			while (dlg.ShowDialog() == DialogResult.Cancel)
@@ -190,7 +192,10 @@ namespace SIL.Pa.DataSource
 		{
 			if (e.UserState is string)
 			{
-				var msg = App.GetString("ReadingDataSourceProgressMsg", "Reading {0}...");
+				var msg = LocalizationManager.GetString(
+					"Miscellaneous.Messages.DataSourceReading.ReadingDataSourceProgressMsg",
+					"Reading {0}...");
+				
 				msg = string.Format(msg, e.UserState);
 				App.InitializeProgressBar(msg, e.ProgressPercentage);
 			}
@@ -226,8 +231,6 @@ namespace SIL.Pa.DataSource
 				m_project.PhoneticParser.LogUndefinedCharactersWhenParsing = true;
 				worker.ReportProgress(ds.TotalLinesInFile, ds.DisplayTextWhenReading);
 				
-				string fmt;
-
 				try
 				{
 					worker.ReportProgress(0, new object[] { "BeforeReadingDataSource", ds });
@@ -258,22 +261,21 @@ namespace SIL.Pa.DataSource
 					else
 					{
 						worker.ReportProgress(-1);
-						fmt = App.GetString("DatasourceFileUnsuccessfullyReadMsg",
+						var msg = LocalizationManager.GetString(
+							"Miscellaneous.Messages.DataSourceReading.DataSourceFileUnsuccessfullyReadMsg",
 							"Error processing data source file '{0}'.");
+						App.NotifyUserOfProblem(msg, ds.SourceFile);
 
-						string msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(ds.SourceFile));
-						Utils.MsgBox(msg, MessageBoxIcon.Exclamation);
 						worker.ReportProgress(0, new object[] { "AfterReadingDataSourceFailure", ds });
 					}
 				}
 				catch (Exception ex)
 				{
 					worker.ReportProgress(-1);
-					fmt = App.GetString("DatasourceFileReadingErrorMsg",
-							"An error occurred while reading data source file '{0}'",
-							"Parameter is data source file name.");
-		
-					ErrorReport.NotifyUserOfProblem(ex, fmt, Utils.PrepFilePathForMsgBox(ds.SourceFile));
+					var msg = LocalizationManager.GetString(
+						"Miscellaneous.Messages.DataSourceReading.DatasourceFileReadingErrorMsg",
+						"An error occurred while reading data source file '{0}'.");
+					App.NotifyUserOfProblem(ex, msg, ds.SourceFile);
 				}
 			}
 		}
@@ -281,9 +283,8 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		private string GetPhoneticMappingErrorMsg()
 		{
-			return App.GetString("DatasourcePhoneticMappingErrorMsg",
-				"A field mapping to the phonetic field could not be found for the data source '{0}'",
-				"Parameter is data source name.");
+			return LocalizationManager.GetString("Miscellaneous.Messages.DataSourceReading.DataSourcePhoneticMappingErrorMsg",
+				"A field mapping to the phonetic field could not be found for the data source '{0}'");
 		}
 
 		#region FieldWorks 6 (and older) data source reading
@@ -293,7 +294,7 @@ namespace SIL.Pa.DataSource
 			var reader = Fw6DataSourceReader.Create(worker, m_project, ds);
 
 			if (reader == null)
-				Utils.MsgBox(string.Format(GetPhoneticMappingErrorMsg(), ds.FwPrjName));
+				App.NotifyUserOfProblem(GetPhoneticMappingErrorMsg(), ds.FwPrjName);
 			else
 			{
 				reader.Read(m_recCache);
@@ -310,7 +311,7 @@ namespace SIL.Pa.DataSource
 			var reader = Fw7DataSourceReader.Create(worker, m_project, ds);
 
 			if (reader == null)
-				Utils.MsgBox(string.Format(GetPhoneticMappingErrorMsg(), ds.FwPrjName));
+				App.NotifyUserOfProblem(GetPhoneticMappingErrorMsg(), ds.FwPrjName);
 			else
 			{
 				reader.Read(m_recCache);
@@ -391,7 +392,7 @@ namespace SIL.Pa.DataSource
 
 			if (reader == null)
 			{
-				Utils.MsgBox(string.Format(GetPhoneticMappingErrorMsg(), ds.SourceFile));
+				App.NotifyUserOfProblem(GetPhoneticMappingErrorMsg(), ds.SourceFile);
 				return false;
 			}
 
@@ -415,7 +416,7 @@ namespace SIL.Pa.DataSource
 
 			if (reader == null)
 			{
-				Utils.MsgBox(string.Format(GetPhoneticMappingErrorMsg(), ds.FwPrjName));
+				App.NotifyUserOfProblem(GetPhoneticMappingErrorMsg(), ds.FwPrjName);
 				return false;
 			}
 

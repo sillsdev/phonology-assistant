@@ -34,7 +34,7 @@ namespace SIL.Pa.PhoneticSearching
 	[XmlType("SearchClasses")]
 	public class SearchClassList : List<SearchClass>
 	{
-		public const string kSearchClassesFilePrefix = "SearchClasses.xml";
+		public const string kFileName = "SearchClasses.xml";
 
 		private PaProject m_project;
 
@@ -51,6 +51,12 @@ namespace SIL.Pa.PhoneticSearching
 		public SearchClassList(PaProject project)
 		{
 			m_project = project;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string GetFileForProject(string projectPathPrefix)
+		{
+			return projectPathPrefix + kFileName;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -72,7 +78,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public static SearchClassList Load(PaProject project)
 		{
-			return InternalLoad(project, project.ProjectPathFilePrefix + kSearchClassesFilePrefix);
+			return InternalLoad(project, GetFileForProject(project.ProjectPathFilePrefix));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -111,8 +117,8 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public void Save()
 		{
-			var filename = m_project.ProjectPathFilePrefix + kSearchClassesFilePrefix;
-			XmlSerializationHelper.SerializeToFile(filename, this);
+			XmlSerializationHelper.SerializeToFile(
+				GetFileForProject(m_project.ProjectPathFilePrefix), this);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -181,9 +187,8 @@ namespace SIL.Pa.PhoneticSearching
 	/// ----------------------------------------------------------------------------------------
 	public class SearchClass
 	{
-		private string m_pattern;
+		private string _pattern;
 
-		#region Properties
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute]
 		public string Name { get; set; }
@@ -191,8 +196,8 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public string Pattern
 		{
-			get { return m_pattern; }
-			set	{m_pattern = (value == null ? value : value.Replace("], [", "],["));}
+			get { return _pattern; }
+			set	{_pattern = (value == null ? null : value.Replace(" ", string.Empty));}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -203,7 +208,11 @@ namespace SIL.Pa.PhoneticSearching
 		[XmlAttribute("SearchClassType")]
 		public SearchClassType Type { get; set; }
 
-		#endregion
+		/// ------------------------------------------------------------------------------------
+		public override string ToString()
+		{
+			return (Name ?? base.ToString());
+		}
 	}
 
 	#endregion

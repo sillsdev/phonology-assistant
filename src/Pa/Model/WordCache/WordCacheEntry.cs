@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 using SIL.Pa.DataSource;
+using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.PhoneticSearching;
 
 namespace SIL.Pa.Model
@@ -24,15 +26,15 @@ namespace SIL.Pa.Model
 	[XmlType("ParsedFieldGroup")]
 	public class WordCacheEntry
 	{
-		private Dictionary<string, FieldValue> m_fieldValues = new Dictionary<string,FieldValue>();
-		private Dictionary<string, IEnumerable<string>> m_collectionValues;
-		private FieldValue m_phoneticValue;
-		private string m_origPhoneticValue;
-		private Dictionary<int, string[]> m_uncertainPhones;
-		private string[] m_phones;
-		private Guid m_guid;
-		private long m_audioOffset = -999;
-		private long m_audioLength = -999;
+		private Dictionary<string, FieldValue> _fieldValues = new Dictionary<string,FieldValue>();
+		private Dictionary<string, IEnumerable<string>> _collectionValues;
+		private FieldValue _phoneticValue;
+		private string _origPhoneticValue;
+		private Dictionary<int, string[]> _uncertainPhones;
+		private string[] _phones;
+		private Guid _guid;
+		private long _audioOffset = -999;
+		private long _audioLength = -999;
 
 		// This is only used for deserialization
 		private List<FieldValue> m_fieldValuesList;
@@ -62,13 +64,16 @@ namespace SIL.Pa.Model
 			RecordEntry = recEntry;
 			WordIndex = wordIndex;
 
+			if (recEntry == null)
+				return;
+			
 			var mapping = recEntry.DataSource.FieldMappings
 				.SingleOrDefault(m => m.Field != null && m.Field.Type == FieldType.Phonetic);
-
+		
 			if (mapping != null)
 			{
-				m_phoneticValue = new FieldValue(mapping.Field.Name);
-				m_fieldValues[mapping.Field.Name] = m_phoneticValue;
+				_phoneticValue = new FieldValue(mapping.Field.Name);
+				_fieldValues[mapping.Field.Name] = _phoneticValue;
 			}
 		}
 
@@ -77,8 +82,8 @@ namespace SIL.Pa.Model
 		{
 			RecordEntry = recEntry;
 			WordIndex = 0;
-			m_phoneticValue = new FieldValue(phoneticFieldName);
-			m_fieldValues[phoneticFieldName] = m_phoneticValue;
+			_phoneticValue = new FieldValue(phoneticFieldName);
+			_fieldValues[phoneticFieldName] = _phoneticValue;
 		}
 
 		#endregion
@@ -102,14 +107,14 @@ namespace SIL.Pa.Model
 				return;
 
 			FieldValue fieldValue;
-			if (!m_fieldValues.TryGetValue(field, out fieldValue))
+			if (!_fieldValues.TryGetValue(field, out fieldValue))
 			{
 				fieldValue = new FieldValue(field);
-				m_fieldValues[field] = fieldValue;
+				_fieldValues[field] = fieldValue;
 			}
 
 			// Are we setting the phonetic value?
-			if (fieldValue != m_phoneticValue)
+			if (fieldValue != _phoneticValue)
 				fieldValue.Value = value;
 			else
 			{
@@ -121,23 +126,25 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void SetCollection(string field, IEnumerable<string> collection)
 		{
-			if (string.IsNullOrEmpty(field) || collection == null || collection.Count() == 0)
+			var stringCollection = collection.ToArray();
+
+			if (string.IsNullOrEmpty(field) || collection == null || stringCollection.Length == 0)
 				return;
 
-			if (m_collectionValues == null)
-				m_collectionValues = new Dictionary<string, IEnumerable<string>>();
+			if (_collectionValues == null)
+				_collectionValues = new Dictionary<string, IEnumerable<string>>();
 
-			m_collectionValues[field] = collection;
+			_collectionValues[field] = stringCollection;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public IEnumerable<string> GetCollection(string field)
 		{
-			if (string.IsNullOrEmpty(field) || m_collectionValues == null || m_collectionValues.Count() == 0)
+			if (string.IsNullOrEmpty(field) || _collectionValues == null || _collectionValues.Count() == 0)
 				return null;
 
 			IEnumerable<string> collection;
-			return (m_collectionValues.TryGetValue(field, out collection) ?
+			return (_collectionValues.TryGetValue(field, out collection) ?
 				collection : RecordEntry.GetCollection(field));
 		}
 
@@ -154,7 +161,7 @@ namespace SIL.Pa.Model
 				return null;
 
 			FieldValue fieldValue;
-			if (m_fieldValues.TryGetValue(field, out fieldValue) && fieldValue.Value != null)
+			if (_fieldValues.TryGetValue(field, out fieldValue) && fieldValue.Value != null)
 				return fieldValue.Value;
 
 			// At this point, we know we don't have a value for the specified field or we
@@ -168,8 +175,8 @@ namespace SIL.Pa.Model
 					return recEntryVal;
 
 				// Build the CV pattern since it didn't come from the data source.
-				return (m_phones == null || Project.PhoneCache == null ?
-					null : Project.PhoneCache.GetCVPattern(m_phones));
+				return (_phones == null || Project.PhoneCache == null ?
+					null : Project.PhoneCache.GetCVPattern(_phones));
 			}
 			
 			// If deferToParentRecEntryWhenMissingValue is true then the value returned
@@ -187,7 +194,7 @@ namespace SIL.Pa.Model
 		public void SetFieldAsFirstLineInterlinear(string field)
 		{
 			FieldValue fieldValue;
-			if (m_fieldValues.TryGetValue(field, out fieldValue))
+			if (_fieldValues.TryGetValue(field, out fieldValue))
 				fieldValue.IsFirstLineInterlinearField = true;
 		}
 
@@ -199,8 +206,98 @@ namespace SIL.Pa.Model
 		public void SetFieldAsSubordinateInterlinear(string field)
 		{
 			FieldValue fieldValue;
-			if (m_fieldValues.TryGetValue(field, out fieldValue))
+			if (_fieldValues.TryGetValue(field, out fieldValue))
 				fieldValue.IsSubordinateInterlinearField = true;
+		}
+
+		#endregion
+
+		#region Methods for getting entry's audio file path
+		/// ------------------------------------------------------------------------------------
+		public string GetAudioFileUsingFallBackIfNecessary()
+		{
+			var audioFilePath = this[PaField.kAudioFileFieldName];
+			if (audioFilePath == null || File.Exists(audioFilePath))
+				return audioFilePath;
+
+			if (!string.IsNullOrEmpty(AbsoluteAudioFilePath) && File.Exists(AbsoluteAudioFilePath))
+				return AbsoluteAudioFilePath;
+
+			return AttemptToFindMissingAudioFile(this, audioFilePath);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// This method will determine if the specified audio file path is relative or
+		/// absolute. If it's relative, then it is combined with several different absolute
+		/// paths in an attempt to find the audio file.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private static string AttemptToFindMissingAudioFile(WordCacheEntry entry, string audioFilePath)
+		{
+			// In case the path is rooted with just a backslash (as opposed to a drive letter),
+			// strip off the backslash before trying to find the audio file by combining the
+			// result with various other rooted paths. I do this because combining a rooted
+			// path (using Path.Combine) with any other path just returns the rooted path so
+			// we're no better off than we were before the combine method was called.
+			if (Path.IsPathRooted(audioFilePath))
+				audioFilePath = audioFilePath.TrimStart('\\');
+
+			entry.AbsoluteAudioFilePath = null;
+			if (entry.RecordEntry.DataSource.FwSourceDirectFromDB &&
+				TryToFindAudioFile(entry, audioFilePath, FwDBUtils.FwRootDataDir))
+			{
+				return entry.AbsoluteAudioFilePath;
+			}
+
+			// Check a path relative to the data source file's path.
+			if (TryToFindAudioFile(entry, audioFilePath, entry[PaField.kDataSourcePathFieldName]))
+				return entry.AbsoluteAudioFilePath;
+
+			// Check a path relative to the project file's path
+			if (TryToFindAudioFile(entry, audioFilePath, entry.Project.Folder))
+				return entry.AbsoluteAudioFilePath;
+
+			// Check an 'Audio' path relative to the project file's path
+			if (TryToFindAudioFile(entry, audioFilePath, Path.Combine(entry.Project.Folder, "Audio")))
+				return entry.AbsoluteAudioFilePath;
+
+			// Check a path relative to the application's startup path
+			if (TryToFindAudioFile(entry, audioFilePath, Application.StartupPath))
+				return entry.AbsoluteAudioFilePath;
+
+			// Now try the alternate path location the user may have specified in
+			// the project's undocumented alternate audio file location field.
+			return (TryToFindAudioFile(entry, audioFilePath, entry.Project.AlternateAudioFileFolder) ?
+				entry.AbsoluteAudioFilePath : null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static bool TryToFindAudioFile(WordCacheEntry entry, string audioFilePath,
+			string rootPath)
+		{
+			if (string.IsNullOrEmpty(rootPath) || string.IsNullOrEmpty(audioFilePath))
+				return false;
+
+			// First, combine the audioFilePath and the specified rootPath.
+			string newPath = Path.Combine(rootPath, audioFilePath);
+			if (File.Exists(newPath))
+			{
+				entry.AbsoluteAudioFilePath = newPath;
+				return true;
+			}
+
+			// Now try removing just the filename from audioFilePath and
+			// combining that with the specified root path.
+			newPath = Path.GetFileName(audioFilePath);
+			newPath = Path.Combine(rootPath, newPath);
+			if (File.Exists(newPath))
+			{
+				entry.AbsoluteAudioFilePath = newPath;
+				return true;
+			}
+
+			return false;
 		}
 
 		#endregion
@@ -216,8 +313,8 @@ namespace SIL.Pa.Model
 		{
 			get
 			{
-				if (m_fieldValues != null)
-					m_fieldValuesList = m_fieldValues.Values.ToList();
+				if (_fieldValues != null)
+					m_fieldValuesList = _fieldValues.Values.ToList();
 
 				return m_fieldValuesList;
 			}
@@ -232,7 +329,7 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public string PhoneticValue
 		{
-			get { return m_phoneticValue == null ? null : m_phoneticValue.Value; }
+			get { return _phoneticValue == null ? null : _phoneticValue.Value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -244,7 +341,7 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public string OriginalPhoneticValue
 		{
-			get { return m_origPhoneticValue ?? PhoneticValue; }
+			get { return _origPhoneticValue ?? PhoneticValue; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -257,16 +354,16 @@ namespace SIL.Pa.Model
 		{
 			get
 			{
-				if (ContiansUncertainties && m_phones != null)
+				if (ContiansUncertainties && _phones != null)
 				{
 					var bldr = new StringBuilder();
-					foreach (var phone in m_phones)
+					foreach (var phone in _phones)
 						bldr.Append(phone);
 
 					return bldr.ToString();
 				}
 
-				return m_phoneticValue == null ? null : m_phoneticValue.Value;
+				return _phoneticValue == null ? null : _phoneticValue.Value;
 			}
 		}
 
@@ -279,7 +376,7 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public bool ContiansUncertainties
 		{
-			get { return m_uncertainPhones != null; }
+			get { return _uncertainPhones != null; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -290,7 +387,7 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public Dictionary<int, string[]> UncertainPhones
 		{
-			get { return m_uncertainPhones; }
+			get { return _uncertainPhones; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -328,13 +425,13 @@ namespace SIL.Pa.Model
 		{
 			get
 			{
-				if (m_phones == null)
+				if (_phones == null)
 					ParsePhoneticValue();
 
-				return m_phones;
+				return _phones;
 			}
 			
-			internal set { m_phones = value; }
+			internal set { _phones = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -362,24 +459,24 @@ namespace SIL.Pa.Model
 		[XmlIgnore]
 		public long AudioOffset
 		{
-			get { return (m_audioOffset == -999 ? RecordEntry.AudioOffset : m_audioOffset); } 
-			set { m_audioOffset = value; }
+			get { return (_audioOffset == -999 ? RecordEntry.AudioOffset : _audioOffset); } 
+			set { _audioOffset = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public long AudioLength
 		{
-			get { return (m_audioLength == -999 ? RecordEntry.AudioLength : m_audioLength); }
-			set { m_audioLength = value; }
+			get { return (_audioLength == -999 ? RecordEntry.AudioLength : _audioLength); }
+			set { _audioLength = value; }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[XmlIgnore]
 		public Guid Guid
 		{
-			get { return (m_guid == Guid.Empty ? RecordEntry.Guid : m_guid); }
-			set { m_guid = value; }
+			get { return (_guid == Guid.Empty ? RecordEntry.Guid : _guid); }
+			set { _guid = value; }
 		}
 
 		#endregion
@@ -397,18 +494,18 @@ namespace SIL.Pa.Model
 			if (m_fieldValuesList == null || m_fieldValuesList.Count == 0)
 				return;
 
-			m_fieldValues = new Dictionary<string, FieldValue>();
+			_fieldValues = new Dictionary<string, FieldValue>();
 			
 			foreach (var fieldValue in m_fieldValuesList)
 			{
-				m_fieldValues[fieldValue.Name] = fieldValue;
+				_fieldValues[fieldValue.Name] = fieldValue;
 
-				if (m_phoneticValue == null)
+				if (_phoneticValue == null)
 				{
 					var field = Project.GetFieldForName(fieldValue.Name);
 					if (field.Type == FieldType.Phonetic)
 					{
-						m_phoneticValue = fieldValue;
+						_phoneticValue = fieldValue;
 						SetPhoneticValue(fieldValue.Value);
 						ParsePhoneticValue();
 					}
@@ -436,11 +533,11 @@ namespace SIL.Pa.Model
 
 					// Save this for displaying in the record view.
 					if (origPhonetic != phonetic)
-						m_origPhoneticValue = origPhonetic;
+						_origPhoneticValue = origPhonetic;
 				}
 			}
 
-			m_phoneticValue.Value = phonetic;
+			_phoneticValue.Value = phonetic;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -451,7 +548,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		private void ParsePhoneticValue()
 		{
-			if (m_phoneticValue.Value == null)
+			if (_phoneticValue.Value == null)
 				return;
 
 			if (App.IPASymbolCache.UndefinedCharacters != null)
@@ -467,13 +564,13 @@ namespace SIL.Pa.Model
 					Path.GetFileName(RecordEntry.DataSource.SourceFile));
 			}
 
-			m_phones = Project.PhoneticParser.Parse(m_phoneticValue.Value,
-				false, false, out m_uncertainPhones);
+			_phones = Project.PhoneticParser.Parse(_phoneticValue.Value,
+				false, false, out _uncertainPhones);
 			
-			if (m_phones != null && m_phones.Length == 0)
+			if (_phones != null && _phones.Length == 0)
 			{
-				m_phones = null;
-				m_uncertainPhones = null;
+				_phones = null;
+				_uncertainPhones = null;
 			}
 		}
 
@@ -487,13 +584,13 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public string[][] GetAllPossibleUncertainWords(bool includeFormattingMarker)
 		{
-			if (m_uncertainPhones == null)
+			if (_uncertainPhones == null)
 				return null;
 
 			string formattingMarker = (includeFormattingMarker ? "|" : string.Empty);
 
 			// Determine how many words will be returned.
-			int totalWords = m_uncertainPhones.Values
+			int totalWords = _uncertainPhones.Values
 				.Aggregate(1, (current, uncertainties) => current * uncertainties.Length);
 
 			// Preallocate the a copy of all the words that will be returned. For now, each
@@ -503,16 +600,16 @@ namespace SIL.Pa.Model
 			var unsortedInfo = new List<string[]>(totalWords);
 			for (int w = 0; w < totalWords; w++)
 			{
-				unsortedInfo.Add(new string[m_phones.Length]);
-				for (int i = 0; i < m_phones.Length; i++)
-					unsortedInfo[w][i] = m_phones[i];
+				unsortedInfo.Add(new string[_phones.Length]);
+				for (int i = 0; i < _phones.Length; i++)
+					unsortedInfo[w][i] = _phones[i];
 			}
 
 			int dividend = totalWords;
 
 			// Go through all the uncertain phones, stuffing them in the proper
 			// locations in each of the words that will be returned.
-			foreach (KeyValuePair<int, string[]> uncertainties in m_uncertainPhones)
+			foreach (KeyValuePair<int, string[]> uncertainties in _uncertainPhones)
 			{
 				// Number of consecutive words each phone in the current uncertainty group
 				// is inserted into before moving to the next uncertain phone in the group.

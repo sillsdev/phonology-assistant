@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
@@ -170,7 +171,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.grpTarget.Controls.Add(this.rbToFile);
 			this.locExtender.SetLocalizableToolTip(this.grpTarget, null);
 			this.locExtender.SetLocalizationComment(this.grpTarget, "Frame around export destination options in RTF export dialog box.");
-			this.locExtender.SetLocalizingId(this.grpTarget, "RtfExportDlg.grpTarget");
+			this.locExtender.SetLocalizingId(this.grpTarget, "DialogBoxes.RtfExportDlg.TargetGroupBox");
 			this.grpTarget.Location = new System.Drawing.Point(10, 10);
 			this.grpTarget.Name = "grpTarget";
 			this.grpTarget.Size = new System.Drawing.Size(236, 90);
@@ -184,7 +185,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbToClipboard.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.locExtender.SetLocalizableToolTip(this.rbToClipboard, null);
 			this.locExtender.SetLocalizationComment(this.rbToClipboard, "Export destination options on RTF export dialog box.");
-			this.locExtender.SetLocalizingId(this.rbToClipboard, "RtfExportDlg.rbToClipboard");
+			this.locExtender.SetLocalizingId(this.rbToClipboard, "DialogBoxes.RtfExportDlg.ToClipboardRadioBox");
 			this.rbToClipboard.Location = new System.Drawing.Point(12, 60);
 			this.rbToClipboard.Name = "rbToClipboard";
 			this.rbToClipboard.Size = new System.Drawing.Size(69, 17);
@@ -199,7 +200,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbToFileOpen.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.locExtender.SetLocalizableToolTip(this.rbToFileOpen, null);
 			this.locExtender.SetLocalizationComment(this.rbToFileOpen, "Export destination options on RTF export dialog box.");
-			this.locExtender.SetLocalizingId(this.rbToFileOpen, "RtfExportDlg.rbToFileOpen");
+			this.locExtender.SetLocalizingId(this.rbToFileOpen, "DialogBoxes.RtfExportDlg.ToFileOpenRadioBox");
 			this.rbToFileOpen.Location = new System.Drawing.Point(12, 40);
 			this.rbToFileOpen.Name = "rbToFileOpen";
 			this.rbToFileOpen.Size = new System.Drawing.Size(164, 17);
@@ -214,7 +215,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbToFile.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.locExtender.SetLocalizableToolTip(this.rbToFile, null);
 			this.locExtender.SetLocalizationComment(this.rbToFile, "Export destination options on RTF export dialog box.");
-			this.locExtender.SetLocalizingId(this.rbToFile, "RtfExportDlg.rbToFile");
+			this.locExtender.SetLocalizingId(this.rbToFile, "DialogBoxes.RtfExportDlg.ToFileRadioBoxes");
 			this.rbToFile.Location = new System.Drawing.Point(12, 20);
 			this.rbToFile.Name = "rbToFile";
 			this.rbToFile.Size = new System.Drawing.Size(41, 17);
@@ -231,7 +232,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.grpFormat.Controls.Add(this.rbFmtTable);
 			this.locExtender.SetLocalizableToolTip(this.grpFormat, null);
 			this.locExtender.SetLocalizationComment(this.grpFormat, "Frame around export format options in RTF export dialog box.");
-			this.locExtender.SetLocalizingId(this.grpFormat, "RtfExportDlg.grpFormat");
+			this.locExtender.SetLocalizingId(this.grpFormat, "DialogBoxes.RtfExportDlg.FormatGroupBox");
 			this.grpFormat.Location = new System.Drawing.Point(254, 10);
 			this.grpFormat.Name = "grpFormat";
 			this.grpFormat.Size = new System.Drawing.Size(130, 90);
@@ -245,7 +246,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbFmtTabDelim.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.locExtender.SetLocalizableToolTip(this.rbFmtTabDelim, null);
 			this.locExtender.SetLocalizationComment(this.rbFmtTabDelim, "Export format options on RTF export dialog box.");
-			this.locExtender.SetLocalizingId(this.rbFmtTabDelim, "RtfExportDlg.rbFmtTabDelim");
+			this.locExtender.SetLocalizingId(this.rbFmtTabDelim, "DialogBoxes.RtfExportDlg.FormatTabDelimitedRadioButton");
 			this.rbFmtTabDelim.Location = new System.Drawing.Point(12, 40);
 			this.rbFmtTabDelim.Name = "rbFmtTabDelim";
 			this.rbFmtTabDelim.Size = new System.Drawing.Size(90, 17);
@@ -260,7 +261,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbFmtTable.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.locExtender.SetLocalizableToolTip(this.rbFmtTable, null);
 			this.locExtender.SetLocalizationComment(this.rbFmtTable, "Export format options on RTF export dialog box.");
-			this.locExtender.SetLocalizingId(this.rbFmtTable, "RtfExportDlg.rbFmtTable");
+			this.locExtender.SetLocalizingId(this.rbFmtTable, "DialogBoxes.RtfExportDlg.FmtTableRadioButton");
 			this.rbFmtTable.Location = new System.Drawing.Point(12, 20);
 			this.rbFmtTable.Name = "rbFmtTable";
 			this.rbFmtTable.Size = new System.Drawing.Size(52, 17);
@@ -274,7 +275,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.locExtender.SetLocalizableToolTip(this.btnExport, null);
 			this.locExtender.SetLocalizationComment(this.btnExport, "Button on RTF export dialog box.");
-			this.locExtender.SetLocalizingId(this.btnExport, "RtfExportDlg.btnExport");
+			this.locExtender.SetLocalizingId(this.btnExport, "DialogBoxes.RtfExportDlg.ExportButton");
 			this.btnExport.Location = new System.Drawing.Point(123, 7);
 			this.btnExport.Name = "btnExport";
 			this.btnExport.Size = new System.Drawing.Size(80, 26);
@@ -288,7 +289,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
 			this.locExtender.SetLocalizationComment(this.btnCancel, "Button on RTF export dialog box.");
-			this.locExtender.SetLocalizingId(this.btnCancel, "RtfExportDlg.btnCancel");
+			this.locExtender.SetLocalizingId(this.btnCancel, "DialogBoxes.RtfExportDlg.CancelButton");
 			this.btnCancel.Location = new System.Drawing.Point(209, 7);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(80, 26);
@@ -299,7 +300,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.locExtender.SetLocalizableToolTip(this.btnSetEditor, null);
 			this.locExtender.SetLocalizationComment(this.btnSetEditor, "Button on RTF export dialog box.");
-			this.locExtender.SetLocalizingId(this.btnSetEditor, "RtfExportDlg.btnSetEditor");
+			this.locExtender.SetLocalizingId(this.btnSetEditor, "DialogBoxes.RtfExportDlg.SetEditorButton");
 			this.btnSetEditor.Location = new System.Drawing.Point(0, 7);
 			this.btnSetEditor.Name = "btnSetEditor";
 			this.btnSetEditor.Size = new System.Drawing.Size(80, 26);
@@ -313,7 +314,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnHelp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
 			this.locExtender.SetLocalizationComment(this.btnHelp, "Button on RTF export dialog box.");
-			this.locExtender.SetLocalizingId(this.btnHelp, "RtfExportDlg.btnHelp");
+			this.locExtender.SetLocalizingId(this.btnHelp, "DialogBoxes.RtfExportDlg.HelpButton");
 			this.btnHelp.Location = new System.Drawing.Point(295, 7);
 			this.btnHelp.Name = "btnHelp";
 			this.btnHelp.Size = new System.Drawing.Size(80, 26);
@@ -335,7 +336,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// RtfExportDlg
@@ -350,7 +350,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "RtfExportDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.RtfExportDlg.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "RtfExportDlg";
@@ -372,10 +372,6 @@ namespace SIL.Pa.UI.Dialogs
 
 		#region Events
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Handle the ExportType selected event.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void HandleExportTargetSelected(object sender, EventArgs e)
 		{
 			RadioButton rb = sender as RadioButton;
@@ -384,21 +380,13 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Handle the ExportFormat selected event.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void HandleExportFormatSelected(object sender, EventArgs e)
 		{
-			RadioButton rb = sender as RadioButton;
+			var rb = sender as RadioButton;
 			if (rb != null)
 				m_exportFormat = (RtfCreator.ExportFormat)rb.Tag;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Export the PaWordListGrid query in Rtf format.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void btnExport_Click(object sender, EventArgs e)
 		{
@@ -408,14 +396,12 @@ namespace SIL.Pa.UI.Dialogs
 			//    return;
 			//}
 
-			new RtfCreator(m_grid, m_exportTarget, m_exportFormat, m_rtfEditor);
+			new RtfCreator(App.Project, m_exportTarget, m_exportFormat,
+				m_grid, m_grid.Cache, m_rtfEditor);
+			
 			Close();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Select the Rtf editor.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void btnSetEditor_Click(object sender, EventArgs e)
 		{
@@ -423,10 +409,10 @@ namespace SIL.Pa.UI.Dialogs
 			var dlg = new OpenFileDialog();
 			dlg.CheckFileExists = true;
 			dlg.CheckPathExists = true;
-			dlg.Title = App.GetString("RtfExportDlg.SetRTFEditorOpenFileDialogText",
+			dlg.Title = LocalizationManager.GetString("DialogBoxes.RtfExportDlg.SetRTFEditorOpenFileDialogText",
 				"Set RTF Editor...", "Caption on the open file dialog used to let the user browse the file system for the RTF editor they want PA to use when opening RTF files.");
 
-			dlg.Filter = App.GetString("RtfExportDlg.SetRTFEditorOpenFileDialogFilter",
+			dlg.Filter = LocalizationManager.GetString("DialogBoxes.RtfExportDlg.SetRTFEditorOpenFileDialogFilter",
 				"All Executables (*.exe;*.com;*.pif;*.bat;*.cmd)|*.exe;*.com;*.pif;*.bat;*.cmd|All Files (*.*)|*.*");
 
 			// Default the initial directory to "C:\Program Files"
@@ -434,8 +420,8 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (!string.IsNullOrEmpty(m_rtfEditor))
 			{
-				string filename = Path.GetFileName(m_rtfEditor);
-				string path = Path.GetDirectoryName(m_rtfEditor);
+				var filename = Path.GetFileName(m_rtfEditor);
+				var path = Path.GetDirectoryName(m_rtfEditor);
 				if (!string.IsNullOrEmpty(path))
 				{
 					dlg.InitialDirectory = path;
@@ -455,10 +441,6 @@ namespace SIL.Pa.UI.Dialogs
 				m_rtfEditor = dlg.FileName;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void btnHelp_Click(object sender, EventArgs e)
 		{

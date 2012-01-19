@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.UI.Dialogs;
 using SilTools;
 
@@ -72,7 +73,10 @@ namespace SIL.Pa.DataSource.Sa
 		/// ------------------------------------------------------------------------------------
 		public static void ShowWaveFileNotFoundMsg(string path)
 		{
-			var msg = App.GetString("WaveFileNotFoundMsg", "{0} cannot be found.");
+			var msg = LocalizationManager.GetString(
+				"Miscellaneous.Messages.DataSourceReading.WaveFileNotFoundMsg",
+				"The wave  file '{0}' cannot be found.");
+			
 			Utils.MsgBox(string.Format(msg, Utils.PrepFilePathForMsgBox(path)));
 		}
 
@@ -104,7 +108,9 @@ namespace SIL.Pa.DataSource.Sa
 
 					if ((result == AudioReader.InitResult.InvalidFormat))
 					{
-						var msg = App.GetString("InvalidWaveFileMsg", "{1} is not a valid wave file.");
+						var msg = LocalizationManager.GetString("Miscellaneous.Messages.DataSourceReading.InvalidWaveFileMsg",
+							"The file '{0}' is not a valid wave file.");
+						
 						Utils.MsgBox(string.Format(msg, Utils.PrepFilePathForMsgBox(audioFilePath)));
 						return false;
 					}
@@ -115,10 +121,11 @@ namespace SIL.Pa.DataSource.Sa
 						if (m_worker != null)
 							m_worker.ReportProgress(-1);
 
-						var msg = App.GetString("AudioFileNeedsConversionMsg", "It appears the audio file '{0}' may " +
-							"have been created using an old version of Speech Analyzer. In order for {1} " +
-							"to read data associated with this audio file it must first be converted using " +
-							"Speech Analyzer 3.0.1.");
+						var msg = LocalizationManager.GetString(
+							"Miscellaneous.Messages.DataSourceReading.AudioFileNeedsConversionMsg",
+							"It appears the audio file '{0}' may have been created using an old version " + 
+							"of Speech Analyzer. In order for {1} to read data associated with this audio " + 
+							"file it must first be converted using Speech Analyzer 3.0.1.");
 
 						msg = string.Format(msg, audioFilePath, Application.ProductName);
 						using (var dlg = new DownloadSaDlg(msg))
@@ -134,7 +141,10 @@ namespace SIL.Pa.DataSource.Sa
 			}
 			catch (Exception e)
 			{
-				var msg = App.GetString("ErrorInitializingDocReaderMsg", "Error initializing SA Document reader.");
+				var msg = LocalizationManager.GetString(
+					"Miscellaneous.Messages.DataSourceReading.ErrorInitializingSaDocumentReaderMsg",
+					"Error initializing SA Document reader.");
+				
 				Palaso.Reporting.ErrorReport.ReportNonFatalExceptionWithMessage(e, msg);
 				return false;
 			}

@@ -1,8 +1,10 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SilTools;
@@ -21,8 +23,7 @@ namespace SIL.Pa.UI.Controls
 		public const string kFeatureBracketing = "[{0}]";
 		public const string kANDBracketing = "[{0}]";
 		public const string kORBracketing = "{{{0}}}";
-		public static string kClassBracketing = App.kOpenClassBracket + "{0}" +
-			App.kCloseClassBracket;
+		public static string kClassBracketing = App.kOpenClassBracket + "{0}" + App.kCloseClassBracket;
 
 		private SearchClassType m_classType = SearchClassType.Phones;
 		public bool AllowEdit = true;
@@ -37,7 +38,8 @@ namespace SIL.Pa.UI.Controls
 		/// Default constructor for a ClassListViewItem
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public ClassListViewItem() : base(App.GetString("DefaultNewClassName", "New Class"))
+		public ClassListViewItem()
+			: base(LocalizationManager.GetString("CommonControls.ClassesList.DefaultNewClassName", "New Class"))
 		{
 		}
 
@@ -181,16 +183,15 @@ namespace SIL.Pa.UI.Controls
 				switch (ClassType)
 				{
 					case SearchClassType.Phones:
-						return App.GetString("PhonesClassTypeLabel",
-							"Phones", "Label on the define classes dialog box indicating class type");
+						return LocalizationManager.GetString("CommonControls.ClassesList.PhonesClassTypeLabel", "Phones");
 
 					case SearchClassType.Articulatory:
-						return App.GetString("ArticulatoryFeaturesClassTypeLabel",
-							"Articulatory features", "Articulatory features class type label.");
+						return LocalizationManager.GetString("CommonControls.ClassesList.DescriptiveFeaturesClassTypeLabel",
+							"Descriptive features");
 
 					case SearchClassType.Binary:
-						return App.GetString("BinaryFeaturesClassTypeLabel",
-							"Binary features", "Binary features class type label.");
+						return LocalizationManager.GetString("CommonControls.ClassesList.DistictiveFeaturesClassTypeLabel",
+							"Distinctive features");
 				
 					default:
 						return null;

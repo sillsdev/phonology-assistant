@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using Palaso.Reporting;
+using Localization;
 using SIL.Pa.Properties;
 using SilTools;
 
@@ -21,7 +21,6 @@ namespace SIL.Pa.Model
 	{
 		private static readonly List<Font> s_fontCache = new List<Font>();
 
-		#region static methods
 		/// ------------------------------------------------------------------------------------
 		public Exception SaveProjectFieldDisplayProps(PaProject project)
 		{
@@ -31,6 +30,7 @@ namespace SIL.Pa.Model
 			return e;
 		}
 
+		#region static methods
 		/// ------------------------------------------------------------------------------------
 		public static FieldDisplayPropsCache LoadProjectFieldDisplayProps(PaProject project)
 		{
@@ -44,10 +44,15 @@ namespace SIL.Pa.Model
 			if (e == null)
 				return cache;
 
-			var msg = App.GetString("ReadingFieldDisplayPropertiesFileErrorMsg",
-				"An error occurred reading the file\n\n'{0}'.");
+			var msg = LocalizationManager.GetString(
+				"ProjectFields.ErrorReadingFieldDisplayPropertiesFileMsg",
+				"The following error occurred when reading the file\n\n'{0}'\n\n{1}");
 
-			ErrorReport.NotifyUserOfProblem(e, msg, path);
+			while (e.InnerException != null)
+				e = e.InnerException;
+
+			Utils.MsgBox(string.Format(msg, path, e.Message));
+
 			return null;
 		}
 

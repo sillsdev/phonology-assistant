@@ -292,15 +292,21 @@
   <data name="kstidChartTBViewToolTip" xml:space="preserve">
     <value>View</value>
   </data>
+  <data name="kstidIgnoredSymbolsText" xml:space="preserve">
+    <value>Ignore</value>
+  </data>
+  <data name="kstidIgnoredSymbolsToolTip" xml:space="preserve">
+    <value>Select Ignored Symbols</value>
+  </data>
   <data name="kstidShowHistogramText" xml:space="preserve">
     <value>&amp;Histogram</value>
     <comment>Menu item text</comment>
   </data>
   <data name="kstidShowHistogramToolTip" xml:space="preserve">
-    <value>Histogram</value>
+    <value>Show Histogram</value>
   </data>
   <data name="kstidShowHtmlChartText" xml:space="preserve">
-    <value>Show HTML Chart</value>
+    <value>HTML Chart</value>
   </data>
   <data name="kstidShowHtmlChartToolTip" xml:space="preserve">
     <value>Show HTML Chart</value>

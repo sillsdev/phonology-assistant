@@ -9,19 +9,6 @@ namespace SIL.Pa.UI.Views
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && (components != null))
-			{
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
-
 		#region Windows Form Designer generated code
 
 		/// <summary>
@@ -213,7 +200,7 @@ namespace SIL.Pa.UI.Views
 			this.pnlSideBarCaption.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlSideBarCaption, null);
 			this.locExtender.SetLocalizationComment(this.pnlSideBarCaption, "Caption at the top of the side bar in the distribution Charts view.");
-			this.locExtender.SetLocalizingId(this.pnlSideBarCaption, "DistributionChartVw.pnlSideBarCaption");
+			this.locExtender.SetLocalizingId(this.pnlSideBarCaption, "Views.DistributionChart.SideBarCaptionLabel");
 			this.pnlSideBarCaption.Location = new System.Drawing.Point(0, 0);
 			this.pnlSideBarCaption.MakeDark = false;
 			this.pnlSideBarCaption.MnemonicGeneratesClick = false;
@@ -237,8 +224,8 @@ namespace SIL.Pa.UI.Views
 			this.btnDock.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnDock, "Dock");
 			this.locExtender.SetLocalizationComment(this.btnDock, null);
-			this.locExtender.SetLocalizationPriority(this.btnDock, Localization.LocalizationPriority.MediumHigh);
-			this.locExtender.SetLocalizingId(this.btnDock, "DistributionChartVw.btnDock");
+			this.locExtender.SetLocalizationPriority(this.btnDock, Localization.LocalizationPriority.High);
+			this.locExtender.SetLocalizingId(this.btnDock, "Views.DistributionChart.DockButton");
 			this.btnDock.Location = new System.Drawing.Point(153, 2);
 			this.btnDock.Name = "btnDock";
 			this.btnDock.Size = new System.Drawing.Size(16, 16);
@@ -259,8 +246,8 @@ namespace SIL.Pa.UI.Views
 			this.btnAutoHide.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnAutoHide, "Automatically Hide");
 			this.locExtender.SetLocalizationComment(this.btnAutoHide, null);
-			this.locExtender.SetLocalizationPriority(this.btnAutoHide, Localization.LocalizationPriority.MediumHigh);
-			this.locExtender.SetLocalizingId(this.btnAutoHide, "DistributionChartVw.btnAutoHide");
+			this.locExtender.SetLocalizationPriority(this.btnAutoHide, Localization.LocalizationPriority.High);
+			this.locExtender.SetLocalizingId(this.btnAutoHide, "Views.DistributionChart.AutoHideButton");
 			this.btnAutoHide.Location = new System.Drawing.Point(134, 2);
 			this.btnAutoHide.Name = "btnAutoHide";
 			this.btnAutoHide.Size = new System.Drawing.Size(16, 16);
@@ -333,7 +320,7 @@ namespace SIL.Pa.UI.Views
 			this.hlblSavedCharts.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.hlblSavedCharts, null);
 			this.locExtender.SetLocalizationComment(this.hlblSavedCharts, null);
-			this.locExtender.SetLocalizingId(this.hlblSavedCharts, "DistributionChartVw.hlblSavedCharts");
+			this.locExtender.SetLocalizingId(this.hlblSavedCharts, "Views.DistributionChart.SavedChartsHeadingLabel");
 			this.hlblSavedCharts.Location = new System.Drawing.Point(0, 0);
 			this.hlblSavedCharts.MnemonicGeneratesClick = false;
 			this.hlblSavedCharts.Name = "hlblSavedCharts";
@@ -358,7 +345,7 @@ namespace SIL.Pa.UI.Views
 			this.locExtender.SetLocalizationComment(this.btnRemoveSavedChart, "Button to delete saved charts on the distribution charts view. The button is on t" +
 					"he right side of the heading over the saved charts list.");
 			this.locExtender.SetLocalizationPriority(this.btnRemoveSavedChart, Localization.LocalizationPriority.MediumHigh);
-			this.locExtender.SetLocalizingId(this.btnRemoveSavedChart, "DistributionChartVw.btnRemoveSavedChart");
+			this.locExtender.SetLocalizingId(this.btnRemoveSavedChart, "Views.DistributionChart.RemoveSavedChartButton");
 			this.btnRemoveSavedChart.Location = new System.Drawing.Point(148, 2);
 			this.btnRemoveSavedChart.Name = "btnRemoveSavedChart";
 			this.btnRemoveSavedChart.Size = new System.Drawing.Size(20, 20);
@@ -393,7 +380,7 @@ namespace SIL.Pa.UI.Views
 			this.lblChartName.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblChartName, null);
 			this.locExtender.SetLocalizationComment(this.lblChartName, null);
-			this.locExtender.SetLocalizingId(this.lblChartName, "DistributionChartVw.lblChartName");
+			this.locExtender.SetLocalizingId(this.lblChartName, "Views.DistributionChart.ChartNameLabel");
 			this.lblChartName.Location = new System.Drawing.Point(3, 5);
 			this.lblChartName.Name = "lblChartName";
 			this.lblChartName.Size = new System.Drawing.Size(80, 18);
@@ -409,7 +396,7 @@ namespace SIL.Pa.UI.Views
 			this.locExtender.SetLocalizableToolTip(this.lblChartNameValue, null);
 			this.locExtender.SetLocalizationComment(this.lblChartNameValue, null);
 			this.locExtender.SetLocalizationPriority(this.lblChartNameValue, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.lblChartNameValue, "DistributionChartVw.lblChartNameValue");
+			this.locExtender.SetLocalizingId(this.lblChartNameValue, "DistributionChart.ChartNameValueLabel");
 			this.lblChartNameValue.Location = new System.Drawing.Point(89, 426);
 			this.lblChartNameValue.Name = "lblChartNameValue";
 			this.lblChartNameValue.Size = new System.Drawing.Size(18, 20);
@@ -437,7 +424,6 @@ namespace SIL.Pa.UI.Views
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// DistributionChartVw

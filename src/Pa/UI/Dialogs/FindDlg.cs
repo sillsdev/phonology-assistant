@@ -29,10 +29,6 @@ namespace SIL.Pa.UI.Dialogs
 
 		#region Constructor & Closing
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// FindDlg constructor.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public FindDlg(PaWordListGrid grid)
 		{
 			Debug.Assert(grid != null);
@@ -43,7 +39,7 @@ namespace SIL.Pa.UI.Dialogs
 			Settings.Default.FindDlg = App.InitializeForm(this, Settings.Default.FindDlg);
 			SetUiFonts();
 
-			var fieldsInList = from field in m_grid.Project.Fields
+			var fieldsInList = from field in App.Project.Fields
 							   where field.VisibleInGrid && field.DisplayIndexInGrid >= 0 && m_grid.Columns[field.Name] != null
 							   orderby field.DisplayIndexInGrid
 							   select field;
@@ -67,10 +63,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Set UI Fonts.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void SetUiFonts()
 		{
 			chkRegEx.Font = FontHelper.UIFont;
@@ -87,10 +79,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Load saved settings
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void LoadSettings()
 		{
 			cboFindWhat.Text = (Settings.Default.FindDlgFindWhat ?? string.Empty);
@@ -102,10 +90,6 @@ namespace SIL.Pa.UI.Dialogs
 			chkSrchCollapsedGrps.Checked = Settings.Default.FindDlgSearchCollapsedGroups;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// FindDlg Closing.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void OnClosing(CancelEventArgs e)
 		{
@@ -121,10 +105,6 @@ namespace SIL.Pa.UI.Dialogs
 			base.OnClosing(e);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Save settings.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void SaveSettings()
 		{
@@ -219,10 +199,6 @@ namespace SIL.Pa.UI.Dialogs
 
 		#region Event Handlers
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Handle the Cancel button click.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void btnCancel_Click(object sender, EventArgs e)
 		{
 			m_cancel = true;
@@ -251,10 +227,6 @@ namespace SIL.Pa.UI.Dialogs
 			btnFind.Enabled = (fldSelGridSrchCols.CheckedItemCount > 0); 
 		}
 		
-		/// ----------------------------------------------------------------------------------------
-		/// <summary>
-		/// Disable options when chkRegEx is checked.
-		/// </summary>
 		/// ----------------------------------------------------------------------------------------
 		private void cbRegEx_CheckedChanged(object sender, EventArgs e)
 		{
@@ -318,20 +290,12 @@ namespace SIL.Pa.UI.Dialogs
 
 		#region Check the find options
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Check or uncheck the MatchCase checkbox.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public bool MatchCase
 		{
 			get { return chkMatchCase.Checked; }
 			set { chkMatchCase.Checked = value; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Check or uncheck the MatchEntireWord checkbox.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool MatchEntireWord
 		{
@@ -340,20 +304,12 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Check or uncheck the StartsWith checkbox.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public bool StartsWith
 		{
 			get { return chkStartsWith.Checked; }
 			set { chkStartsWith.Checked = value; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Check or uncheck the Regular Expression checkbox.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool IsRegularExpression
 		{

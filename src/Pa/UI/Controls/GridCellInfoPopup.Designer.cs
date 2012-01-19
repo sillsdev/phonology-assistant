@@ -51,10 +51,11 @@ namespace SIL.Pa.UI.Controls
 			// 
 			this.lnkHelp.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.lnkHelp.AutoSize = true;
+			this.lnkHelp.BackColor = System.Drawing.Color.Transparent;
 			this.lnkHelp.Enabled = false;
 			this.locExtender.SetLocalizableToolTip(this.lnkHelp, null);
 			this.locExtender.SetLocalizationComment(this.lnkHelp, null);
-			this.locExtender.SetLocalizingId(this.lnkHelp, "GridCellInfoPopup.lnkHelp");
+			this.locExtender.SetLocalizingId(this.lnkHelp, "Views.WordLists.CellInfoPopup.HelpLink");
 			this.lnkHelp.Location = new System.Drawing.Point(64, 186);
 			this.lnkHelp.Name = "lnkHelp";
 			this.lnkHelp.Size = new System.Drawing.Size(29, 13);
@@ -67,6 +68,7 @@ namespace SIL.Pa.UI.Controls
 			// 
 			this.lnkCommand.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.lnkCommand.AutoSize = true;
+			this.lnkCommand.BackColor = System.Drawing.Color.Transparent;
 			this.lnkCommand.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lnkCommand, null);
 			this.locExtender.SetLocalizationComment(this.lnkCommand, null);
@@ -82,7 +84,6 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// GridCellInfoPopup

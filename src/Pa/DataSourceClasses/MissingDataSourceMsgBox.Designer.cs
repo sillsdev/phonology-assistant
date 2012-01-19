@@ -50,7 +50,7 @@ namespace SIL.Pa.DataSource
 			this.lblMsg.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.lblMsg, null);
 			this.locExtender.SetLocalizationComment(this.lblMsg, null);
-			this.locExtender.SetLocalizingId(this.lblMsg, "MissingDataSourceMsgBox.lblMsg");
+			this.locExtender.SetLocalizingId(this.lblMsg, "DialogBoxes.MissingDataSourceMsgBox.MessageLabel");
 			this.lblMsg.Location = new System.Drawing.Point(76, 20);
 			this.lblMsg.Name = "lblMsg";
 			this.lblMsg.Size = new System.Drawing.Size(371, 39);
@@ -75,7 +75,7 @@ namespace SIL.Pa.DataSource
 			this.btnNewLoc.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.locExtender.SetLocalizableToolTip(this.btnNewLoc, null);
 			this.locExtender.SetLocalizationComment(this.btnNewLoc, null);
-			this.locExtender.SetLocalizingId(this.btnNewLoc, "MissingDataSourceMsgBox.btnNewLoc");
+			this.locExtender.SetLocalizingId(this.btnNewLoc, "DialogBoxes.MissingDataSourceMsgBox.NewLocationButton");
 			this.btnNewLoc.Location = new System.Drawing.Point(46, 116);
 			this.btnNewLoc.Name = "btnNewLoc";
 			this.btnNewLoc.Size = new System.Drawing.Size(139, 26);
@@ -91,7 +91,7 @@ namespace SIL.Pa.DataSource
 			this.btnSkip.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnSkip, null);
 			this.locExtender.SetLocalizationComment(this.btnSkip, null);
-			this.locExtender.SetLocalizingId(this.btnSkip, "MissingDataSourceMsgBox.btnSkip");
+			this.locExtender.SetLocalizingId(this.btnSkip, "DialogBoxes.MissingDataSourceMsgBox.SkipButton");
 			this.btnSkip.Location = new System.Drawing.Point(191, 116);
 			this.btnSkip.Name = "btnSkip";
 			this.btnSkip.Size = new System.Drawing.Size(139, 26);
@@ -108,7 +108,7 @@ namespace SIL.Pa.DataSource
 			this.locExtender.SetLocalizableToolTip(this.lblFileName, null);
 			this.locExtender.SetLocalizationComment(this.lblFileName, null);
 			this.locExtender.SetLocalizationPriority(this.lblFileName, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.lblFileName, "MissingDataSourceMsgBox.lblFileName");
+			this.locExtender.SetLocalizingId(this.lblFileName, "MissingDataSourceMsgBox.FileNameLabel");
 			this.lblFileName.Location = new System.Drawing.Point(76, 68);
 			this.lblFileName.Name = "lblFileName";
 			this.lblFileName.Size = new System.Drawing.Size(371, 25);
@@ -122,7 +122,7 @@ namespace SIL.Pa.DataSource
 			this.btnHelp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
 			this.locExtender.SetLocalizationComment(this.btnHelp, null);
-			this.locExtender.SetLocalizingId(this.btnHelp, "MissingDataSourceMsgBox.btnHelp");
+			this.locExtender.SetLocalizingId(this.btnHelp, "DialogBoxes.MissingDataSourceMsgBox.HelpButton");
 			this.btnHelp.Location = new System.Drawing.Point(336, 116);
 			this.btnHelp.Name = "btnHelp";
 			this.btnHelp.Size = new System.Drawing.Size(87, 26);
@@ -133,7 +133,6 @@ namespace SIL.Pa.DataSource
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// MissingDataSourceMsgBox
@@ -152,7 +151,7 @@ namespace SIL.Pa.DataSource
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "MissingDataSourceMsgBox.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.MissingDataSourceMsgBox.WindowTitle");
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "MissingDataSourceMsgBox";

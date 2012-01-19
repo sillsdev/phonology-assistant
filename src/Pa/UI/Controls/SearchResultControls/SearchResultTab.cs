@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
@@ -60,7 +61,7 @@ namespace SIL.Pa.UI.Controls
 			SetupCloseButton();
 
 			// Prepare the tab's minimal pair options button.
-			var img = Properties.Resources.kimidMinimalPairsOptionsDropDown;
+			Image img = Properties.Resources.kimidMinimalPairsOptionsDropDown;
 			CIEOptionsButton = new XButton();
 			CIEOptionsButton.Image = img;
 			CIEOptionsButton.Size = new Size(img.Width + 4, img.Height + 4);
@@ -76,10 +77,6 @@ namespace SIL.Pa.UI.Controls
 			Text = EmptyTabText;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Clean up a little.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
@@ -184,8 +181,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		void ContextMenuStrip_Opening(object sender, CancelEventArgs e)
 		{
-			ContextMenuStrip cms = sender as ContextMenuStrip;
-
+			var cms = sender as ContextMenuStrip;
 			if (cms == null)
 				return;
 
@@ -242,7 +238,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public static string EmptyTabText
 		{
-			get { return App.GetString("SearchResultTab.EmptySearchResultTabText", "(empty tab)"); }
+			get { return LocalizationManager.GetString("Views.WordLists.SearchResults.EmptyTabText", "(empty tab)"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -462,7 +458,7 @@ namespace SIL.Pa.UI.Controls
 				if (OwningTabGroup != null && OwningTabGroup.RecordView != null)
 					OwningTabGroup.RecordView.UpdateFonts();
 
-				m_resultView.RefreshResults(args as PaProject);
+				m_resultView.RefreshResults();
 				SubscribeToGridEvents();
 				UpdateRecordView();
 			}
@@ -917,7 +913,7 @@ namespace SIL.Pa.UI.Controls
 			Point pt = PointToClient(MousePosition);
 			pt.Y += (Cursor.Size.Height - (int)(Cursor.Size.Height * 0.3));
 
-			var text = App.GetString("SearchResultTab.MinimalPairsButtonToolTipText",
+			var text = LocalizationManager.GetString("Views.WordLists.SearchResults.MinimalPairsButtonToolTipText",
 				"Minimal Pairs Options (Ctrl+Alt+M)");
 			
 			m_CIEButtonToolTip.Show(text, this, pt);

@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Palaso.Reporting;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
@@ -87,7 +87,7 @@ namespace SIL.Pa.UI.Controls
 		private readonly string m_rtfEditor = string.Empty;
 		private readonly StringBuilder m_rtfBldr;
 		private readonly WordListCache m_cache;
-		private readonly PaWordListGrid m_grid;
+		private readonly DataGridView m_grid;
 		private readonly Graphics m_graphics;
 		private readonly int m_searchItemColorRefNumber;
 		private readonly StringBuilder m_cellFormatBldr = new StringBuilder();
@@ -100,17 +100,13 @@ namespace SIL.Pa.UI.Controls
 		/// RtfCreator constructor.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public RtfCreator(PaWordListGrid grid, ExportTarget target,
-			ExportFormat format, string rtfEditor)
+		public RtfCreator(PaProject project, ExportTarget target, ExportFormat format,
+			DataGridView grid, WordListCache cache, string rtfEditor)
 		{
-			m_grid = grid;
+			m_project = project;
 			m_exportTarget = target;
 			m_exportFormat = format;
-			m_project = m_grid.Project;
-			m_cache = m_grid.Cache;
-			m_rtfEditor = rtfEditor;
-			m_createSearchItemTabs = CreateSearchItemTabs.FirstTab;
-			m_rtfBldr = new StringBuilder();
+			m_grid = grid;
 
 			if (m_grid != null)
 			{
@@ -120,6 +116,10 @@ namespace SIL.Pa.UI.Controls
 				m_pixelsPerInch = m_graphics.DpiX;
 			}
 
+			m_cache = cache;
+			m_rtfEditor = rtfEditor;
+			m_createSearchItemTabs = CreateSearchItemTabs.FirstTab;
+			m_rtfBldr = new StringBuilder();
 
 			// Default value is 1/8" gap between columns.
 			m_colRightPadding = Settings.Default.RTFExportGapBetweenColumns;
@@ -383,7 +383,7 @@ namespace SIL.Pa.UI.Controls
 		private void OutputRTFHeadingStuff()
 		{
 			m_rtfBldr.AppendLine(khdr);
-			m_rtfBldr.AppendLine(RtfHelper.FontTable(m_project.Fields, m_fontNumbers, ref m_uiFontNumber));
+			m_rtfBldr.AppendLine(RtfHelper.FontTable(m_fontNumbers, ref m_uiFontNumber));
 
 			// Add color support
 			if (m_cache.IsForSearchResults)
@@ -416,34 +416,34 @@ namespace SIL.Pa.UI.Controls
 			if (m_cache.IsForSearchResults && m_cache.SearchQuery != null)
 			{
 				string fmt = (m_cache.IsCIEList ?
-					App.GetString("RtfExportGridHeaderSearchPatternForMinPairs", "Search Pattern:{0}{1}  (Minimal Pairs)", "The heading output for  the Search Query when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern.") :
-					App.GetString("RtfExportGridHeaderSearchPattern", "Search Pattern:{0}{1}", "The heading output for  the Search Query when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern."));
+					LocalizationManager.GetString("Views.WordLists.RtfExport.HeadingInfo.SearchPatternForMinPairs", "Search Pattern:{0}{1}  (Minimal Pairs)", "The heading output for the Search Query when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern.") :
+					LocalizationManager.GetString("Views.WordLists.RtfExport.HeadingInfo.SearchPatternNormal", "Search Pattern:{0}{1}", "The heading output for  the Search Query when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern."));
 				
 				m_rtfBldr.AppendFormat(fmt,	ktab, m_cache.SearchQuery.Pattern);
 			}
 			else
 			{
-				m_rtfBldr.AppendFormat(App.GetString("RtfExportGridHeaderWordListName", "Word List:{0}{1}", "The heading output for Word List name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the Word List name."),
-					ktab, App.GetString("RtfGridAllWordsLabel", "All Words", "The value for the 'Word List' label when the exported list is not filtered or the result of a  search query."));
+				m_rtfBldr.AppendFormat(LocalizationManager.GetString("Views.WordLists.RtfExport.HeadingInfo.WordListName", "Word List:{0}{1}", "The heading output for Word List name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the Word List name."),
+					ktab, LocalizationManager.GetString("Views.WordLists.RtfExport.HeadingInfo.AllWordsLabel", "All Words", "The value for the 'Word List' label when the exported list is not filtered or the result of a  search query."));
 			}
 			
 			m_rtfBldr.AppendLine(kline);
-			m_rtfBldr.AppendFormat(App.GetString("RtfExportGridHeaderNbrOfRecords", "Number of Records:{0}{1}", "The heading output for Number of Records when exporting word lists &amp; find phone results to rtf. 1st param is a rtf tab; 2nd param is the number or records."), ktab, m_numberOfRecords);
+			m_rtfBldr.AppendFormat(LocalizationManager.GetString("Views.WordLists.RtfExport.HeadingInfo.NumberOfRecords", "Number of Records:{0}{1}", "The heading output for Number of Records when exporting word lists &amp; find phone results to rtf. 1st param is a rtf tab; 2nd param is the number or records."), ktab, m_numberOfRecords);
 
 			// Add the field the word list is grouped on if it is grouped.
-			if (m_grid.GroupByField != null)
+			if (m_grid is PaWordListGrid && ((PaWordListGrid)m_grid).GroupByField != null)
 			{
 				m_rtfBldr.AppendLine(kline);
-				m_rtfBldr.AppendFormat(App.GetString("RtfExportGridHeaderGroupField", "Grouped By:{0}{1}", "The heading output for the grouped on field when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern."),
-					ktab, m_grid.GroupByField.DisplayName);
+				m_rtfBldr.AppendFormat(LocalizationManager.GetString("Views.WordLists.RtfExport.HeadingInfo.GroupByField", "Grouped By:{0}{1}", "The heading output for the grouped on field when exporting find phone results to rtf. 1st param is a rtf tab; 2nd param is the search pattern."),
+					ktab, ((PaWordListGrid)m_grid).GroupByField.DisplayName);
 			}
 			
 			m_rtfBldr.AppendLine(kline);
-			m_rtfBldr.AppendFormat(App.GetString("RtfExportGridHeaderProjectName", "Project:{0}{1}", "The heading output for Project name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the project name."), ktab, m_project.Name);
+			m_rtfBldr.AppendFormat(LocalizationManager.GetString("Views.WordLists.RtfExport.HeadingInfo.ProjectName", "Project:{0}{1}", "The heading output for Project name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the project name."), ktab, App.Project.Name);
 			m_rtfBldr.AppendLine(kline);
-			m_rtfBldr.AppendFormat(App.GetString("RtfExportGridHeaderLanguageName", "Language:{0}{1}", "The heading output for Language name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the language name."), ktab, m_project.LanguageName);
+			m_rtfBldr.AppendFormat(LocalizationManager.GetString("Views.WordLists.RtfExport.HeadingInfo.LanguageName", "Language:{0}{1}", "The heading output for Language name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the language name."), ktab, App.Project.LanguageName);
 			m_rtfBldr.AppendLine(kline);
-			m_rtfBldr.AppendFormat(App.GetString("RtfExportGridHeaderDateTimeName", "Date/Time:{0}{1}", "The heading output for Date/Time name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the Date/Time name."), ktab, DateTime.Now);
+			m_rtfBldr.AppendFormat(LocalizationManager.GetString("Views.WordLists.RtfExport.HeadingInfo.DateTime", "Date/Time:{0}{1}", "The heading output for Date/Time name when exporting word lists to rtf. 1st param is a rtf tab; 2nd param is the Date/Time name."), ktab, DateTime.Now);
 			
 			m_rtfBldr.Append("}");
 			m_rtfBldr.AppendLine(@"\par\par\pard");
@@ -745,9 +745,10 @@ namespace SIL.Pa.UI.Controls
 
 			// Get the font number and size for the group heading text.
 			string groupFieldName = null;
+			var grid = m_grid as PaWordListGrid;
 
-			if (m_grid != null && m_grid.GroupByField != null)
-				groupFieldName = m_grid.GroupByField.Name;
+			if (grid != null && grid.GroupByField != null)
+				groupFieldName = grid.GroupByField.Name;
 			else if (m_cache.IsCIEList)
 				groupFieldName = m_project.GetPhoneticField().Name;
 			
@@ -826,7 +827,7 @@ namespace SIL.Pa.UI.Controls
 
 			int filterIndex = 0;
 
-			var caption = App.GetString("RTFExportSaveFileDialogText", "Save RTF File",
+			var caption = LocalizationManager.GetString("Views.WordLists.RtfExport.SaveFileDialogText", "Save RTF File",
 				"Save file dialog caption for specifying the rtf file exported to under RTF export");
 			
 			var filename = App.SaveFileDialog("rtf", filter, ref filterIndex, caption, string.Empty);
@@ -839,8 +840,7 @@ namespace SIL.Pa.UI.Controls
 				}
 				catch (Exception ex)
 				{
-					var msg = App.GetString("RTFExportWritingToFileErrorMsg", "Error writing RTF file.");
-					ErrorReport.NotifyUserOfProblem(ex, msg);
+					Utils.MsgBox(ex.Message);
 					return;
 				}
 			}
@@ -850,6 +850,10 @@ namespace SIL.Pa.UI.Controls
 				OpenInEditor(filename);
 		}
 
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void OpenInEditor(string filename)
 		{
@@ -873,18 +877,20 @@ namespace SIL.Pa.UI.Controls
 
 				if (string.IsNullOrEmpty(m_rtfEditor))
 				{
-					msg = string.Format(App.GetString("RtfOpenErrorMsg1",
-						"An error occurred trying to open the RTF file: '{0}'"),
+					msg = string.Format(LocalizationManager.GetString("Views.WordLists.RtfExport.OpenErrorMsg1",
+						"An error occurred trying to open the RTF file.\n\n{0}\n\n{1}",
+						"First argument is rtf file; second argument is error message."),
 						filename, ex.Message);
 				}
 				else
 				{
-					msg = string.Format(App.GetString("RtfOpenErrorMsg2",
-						"An error occurred trying to open the RTF file\n\nFile: {0}\nEditor: {1}"),
+					msg = string.Format(LocalizationManager.GetString("Views.WordLists.RtfExport.OpenErrorMsg2",
+						"An error occurred trying to open the RTF file.\n\nFile: {0}\nEditor: {1}\n\n{2}",
+						"First argument is rtf file; second argument is the editor; third argument is error message."),
 						filename, m_rtfEditor, ex.Message);
 				}
-
-				ErrorReport.NotifyUserOfProblem(ex, msg);
+				
+				Utils.MsgBox(msg);
 			}
 		}
 

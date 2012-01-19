@@ -20,6 +20,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using Localization;
 using Palaso.IO;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
@@ -73,22 +74,43 @@ namespace SIL.Pa.Processing
 		/// default user folder (i.e. the folder PA suggests as the parent for projects).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static void CopyFilesForPrettyHTMLExports()
+		public static void CopyFilesThatMakePrettyHTMLExports()
 		{
-			var processingFolder = FileLocator.GetDirectoryDistributedWithApplication(App.ProcessingFolderName);
+			IfNecessaryUpgradeFilesThatMakePrettyHTMLExports("*.css");
+			IfNecessaryUpgradeFilesThatMakePrettyHTMLExports("*.js");
+		}
 
-			foreach (var filename in Directory.GetFiles(processingFolder, "*.css"))
-			{
-				var dst = Path.Combine(App.ProjectFolder, Path.GetFileName(filename));
-				if (!File.Exists(dst))
-					File.Copy(filename, dst);
-			}
+		/// ------------------------------------------------------------------------------------
+		private static void IfNecessaryUpgradeFilesThatMakePrettyHTMLExports(string fileTypeExtension)
+		{
+			var processingFolder =
+				FileLocator.GetDirectoryDistributedWithApplication(App.ProcessingFolderName);
 
-			foreach (var filename in Directory.GetFiles(processingFolder, "*.js"))
+			foreach (var filename in Directory.GetFiles(processingFolder, fileTypeExtension))
 			{
-				var dst = Path.Combine(App.ProjectFolder, Path.GetFileName(filename));
-				if (!File.Exists(dst))
-					File.Copy(filename, dst);
+				try
+				{
+					var dst = Path.Combine(App.ProjectFolder, Path.GetFileName(filename));
+
+					if (File.Exists(dst))
+					{
+						var srcfi = new FileInfo(filename);
+						var dstfi = new FileInfo(dst);
+
+						if (srcfi.LastWriteTime != dstfi.LastWriteTime || srcfi.Length != dstfi.Length)
+							File.Delete(dst);
+					}
+
+					if (!File.Exists(dst))
+						File.Copy(filename, dst);
+				}
+				catch (Exception e)
+				{
+					var msg = LocalizationManager.GetString("Miscellaneous.Messages.UpgradingProcessFileErrorMsg",
+						"There was an error copying the file '{0}' to '{1}'. Make sure the file is not in use by another program.");
+
+					App.NotifyUserOfProblem(e, msg, filename, App.ProjectFolder);
+				}
 			}
 		}
 
@@ -103,19 +125,11 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static bool WriteStreamToFile(MemoryStream stream, string outputFileName, bool tidy)
 		{
 			return WriteStreamToFile(stream, outputFileName, false, tidy);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static bool WriteStreamToFile(MemoryStream stream, string outputFileName,
 			bool showExceptions, bool tidy)
@@ -155,10 +169,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static void WriteMetadata(XmlWriter writer, PaProject project, bool closeDiv)
 		{
 			writer.WriteStartElement("div");
@@ -177,7 +187,12 @@ namespace SIL.Pa.Processing
 
 			writer.WriteStartElement("li");
 			writer.WriteAttributeString("class", "programPhoneticInventoryFile");
-			writer.WriteString(InventoryHelper.kDefaultInventoryFileName);
+			writer.WriteString(App.kDefaultInventoryFileName);
+			writer.WriteEndElement();
+
+			writer.WriteStartElement("li");
+			writer.WriteAttributeString("class", "programDistinctiveFeaturesName");
+			writer.WriteString(project.DistinctiveFeatureSet);
 			writer.WriteEndElement();
 
 			writer.WriteStartElement("li");
@@ -203,10 +218,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static void WriteFieldFormattingInfo(XmlWriter writer, string fieldName, Font fnt)
 		{
 			// Open table row
@@ -231,10 +242,6 @@ namespace SIL.Pa.Processing
 			writer.WriteEndElement();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static void WriteColumnGroup(XmlWriter writer, int colsInGroup)
 		{

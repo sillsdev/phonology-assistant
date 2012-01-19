@@ -4,15 +4,15 @@
     <Pattern>{t,d,n,r,tʰ}</Pattern>
   </SearchClass>
   <SearchClass Name="ExArtFtrsClass_VclssPlosives" SearchClassType="Articulatory">
-    <Pattern>[[Plosive][Voiceless]]</Pattern>
+    <Pattern>[[plosive][voiceless]]</Pattern>
   </SearchClass>
   <SearchClass Name="ExArtFtrsClass_BilabORLabDent" SearchClassType="Articulatory">
-    <Pattern>{[Bilabial], [Labiodental]}</Pattern>
+    <Pattern>{[bilabial],[labiodental]}</Pattern>
   </SearchClass>
   <SearchClass Name="ExBinFtrsClass+high+syll" SearchClassType="Binary">
     <Pattern>[[+high][+syll]]</Pattern>
   </SearchClass>
   <SearchClass Name="ExBinFtrsClass+antOR+LAB" SearchClassType="Binary">
-    <Pattern>{[+ant], [+LAB]}</Pattern>
+    <Pattern>{[+ant],[+labial]}</Pattern>
   </SearchClass>
 </SearchClasses>

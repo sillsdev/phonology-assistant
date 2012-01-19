@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.IO;
-using ICSharpCode.SharpZipLib.Zip;
-using ICSharpCode.SharpZipLib.Core;
 
 namespace SIL.Pa
 {

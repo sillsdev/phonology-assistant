@@ -1,4 +1,6 @@
 using System.Drawing;
+using System.IO;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Processing;
 using SIL.Pa.Properties;
@@ -12,9 +14,12 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public ConsonantChartVw(PaProject project) : base(project)
 		{
-			DeleteHtmlChartFile("HtmlVwConsonantChart");
-			_newChartGrid.SupraSegsToIgnore = project.ConChartSupraSegsToIgnore;
-
+			try
+			{
+				File.Delete(Project.ProjectPathFilePrefix + "HtmlVwConsonantChart.html");
+			}
+			catch { }
+			
 			InitializeComponent();
 			Name = "ConsonantChartVw";
 		}
@@ -22,19 +27,11 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(System.EventArgs e)
 		{
-			Settings.Default.ConsonantChartColHdrHeight = _newChartGrid.ColumnHeadersHeight;
-			Settings.Default.ConsonantChartRowHdrWidth = _newChartGrid.RowHeadersWidth;
+			Settings.Default.ConsonantChartColHdrHeight = _chartGrid.ColumnHeadersHeight;
+			Settings.Default.ConsonantChartRowHdrWidth = _chartGrid.RowHeadersWidth;
 			Settings.Default.HtmlConsonantChartVisible = _htmlVw != null ? _htmlVw.Visible : false;
 			
 			base.OnHandleDestroyed(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void SaveIgnoredSuprasegmentals(string ignoredSegments)
-		{
-			_project.ConChartSupraSegsToIgnore = ignoredSegments;
-			DeleteHtmlChartFile("HtmlVwConsonantChart");
-			CVChartBuilder.Process(_project, CVChartType.Consonant);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -57,7 +54,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override IPASymbolType CharacterType
 		{
-			get { return IPASymbolType.Consonant; }
+			get { return IPASymbolType.consonant; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -95,45 +92,33 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override string LayoutFile
 		{
-			get { return _project.ProjectPathFilePrefix + "ConsonantChartBeta.xml"; }
+			get { return Project.ConsonantChartLayoutFile; }
 		}
 
 		/// --------------------------------------------------------------------------------------------
 		protected override string DefaultHTMLOutputFile
 		{
-			get
-			{
-				return App.GetString("DefaultConsonantChartHtmlExportFileAffix",
-					"{0}-ConsonantChart.html", "Export");
-			}
+			get { return LocalizationManager.GetString("Views.ConsonantChart.DefaultHtmlExportFileAffix", "{0}-ConsonantChart.html"); }
 		}
 
 		/// --------------------------------------------------------------------------------------------
 		protected override string DefaultWordXmlOutputFile
 		{
-			get
-			{
-				return App.GetString("DefaultConsonantChartWordXmlExportFileAffix",
-					"{0}-ConsonantChart-(Word).xml", "Export");
-			}
+			get { return LocalizationManager.GetString("Views.ConsonantChart.DefaultWordXmlExportFileAffix", "{0}-ConsonantChart-(Word).xml"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string DefaultXLingPaperOutputFile
 		{
-			get
-			{
-				return App.GetString("DefaultConsonantChartXLingPaperExportFileAffix",
-					"{0}-ConsonantChart-(XLingPaper).xml", "Export");
-			}
+			get { return LocalizationManager.GetString("Views.ConsonantChart.DefaultXLingPaperExportFileAffix", "{0}-ConsonantChart-(XLingPaper).xml"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string CreateHtmlViewFile()
 		{
-			var outputFile = _project.ProjectPathFilePrefix + "HtmlVwConsonantChart.html";
-			return (CVChartExporter.ToHtml(_project, CVChartType.Consonant, outputFile,
-				_newChartGrid, false, false) ? outputFile : string.Empty);
+			var outputFile = Project.ProjectPathFilePrefix + "HtmlVwConsonantChart.html";
+			return (CVChartExporter.ToHtml(Project, CVChartType.Consonant, outputFile,
+				_chartGrid, false, false) ? outputFile : string.Empty);
 		}
 	}
 }

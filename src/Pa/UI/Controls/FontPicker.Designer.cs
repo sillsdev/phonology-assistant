@@ -48,6 +48,7 @@ namespace SIL.Pa.UI.Controls
 			this.pnlOuter.Controls.Add(this.tblLayout);
 			this.pnlOuter.DoubleBuffered = true;
 			this.pnlOuter.DrawOnlyBottomBorder = false;
+			this.pnlOuter.DrawOnlyTopBorder = false;
 			this.pnlOuter.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlOuter.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlOuter, null);
@@ -90,8 +91,8 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// flowPanelButtons
 			// 
-			this.flowPanelButtons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.flowPanelButtons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.flowPanelButtons.AutoSize = true;
 			this.flowPanelButtons.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.tblLayout.SetColumnSpan(this.flowPanelButtons, 4);
@@ -118,7 +119,7 @@ namespace SIL.Pa.UI.Controls
 			this.btnCancel.ImageNormal = ((System.Drawing.Image)(resources.GetObject("btnCancel.ImageNormal")));
 			this.locExtender.SetLocalizableToolTip(this.btnCancel, "Cancel");
 			this.locExtender.SetLocalizationComment(this.btnCancel, null);
-			this.locExtender.SetLocalizingId(this.btnCancel, "FontPicker.btnCancel");
+			this.locExtender.SetLocalizingId(this.btnCancel, "CommonControls.FontPickerPopup.CancelButton");
 			this.btnCancel.Location = new System.Drawing.Point(182, 0);
 			this.btnCancel.Margin = new System.Windows.Forms.Padding(7, 0, 0, 0);
 			this.btnCancel.Name = "btnCancel";
@@ -141,7 +142,7 @@ namespace SIL.Pa.UI.Controls
 			this.btnOK.ImageNormal = ((System.Drawing.Image)(resources.GetObject("btnOK.ImageNormal")));
 			this.locExtender.SetLocalizableToolTip(this.btnOK, "OK");
 			this.locExtender.SetLocalizationComment(this.btnOK, null);
-			this.locExtender.SetLocalizingId(this.btnOK, "FontPicker.btnOK");
+			this.locExtender.SetLocalizingId(this.btnOK, "CommonControls.FontPickerPopup.OKButton");
 			this.btnOK.Location = new System.Drawing.Point(159, 0);
 			this.btnOK.Margin = new System.Windows.Forms.Padding(7, 0, 0, 0);
 			this.btnOK.Name = "btnOK";
@@ -152,8 +153,8 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// pnlSample
 			// 
-			this.pnlSample.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pnlSample.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.pnlSample.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this.pnlSample.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlSample.ClipTextForChildControls = true;
@@ -161,11 +162,12 @@ namespace SIL.Pa.UI.Controls
 			this.pnlSample.ControlReceivingFocusOnMnemonic = null;
 			this.pnlSample.DoubleBuffered = true;
 			this.pnlSample.DrawOnlyBottomBorder = false;
+			this.pnlSample.DrawOnlyTopBorder = false;
 			this.pnlSample.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlSample.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlSample, null);
 			this.locExtender.SetLocalizationComment(this.pnlSample, null);
-			this.locExtender.SetLocalizingId(this.pnlSample, "FontPicker.pnlSample");
+			this.locExtender.SetLocalizingId(this.pnlSample, "CommonControls.FontPickerPopup.SampleText");
 			this.pnlSample.Location = new System.Drawing.Point(0, 56);
 			this.pnlSample.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
 			this.pnlSample.MnemonicGeneratesClick = false;
@@ -181,7 +183,7 @@ namespace SIL.Pa.UI.Controls
 			this.chkBold.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this.chkBold, null);
 			this.locExtender.SetLocalizationComment(this.chkBold, null);
-			this.locExtender.SetLocalizingId(this.chkBold, "FontPicker.chkBold");
+			this.locExtender.SetLocalizingId(this.chkBold, "CommonControls.FontPickerPopup.BoldCheckbox");
 			this.chkBold.Location = new System.Drawing.Point(0, 32);
 			this.chkBold.Margin = new System.Windows.Forms.Padding(0, 0, 6, 0);
 			this.chkBold.Name = "chkBold";
@@ -197,7 +199,7 @@ namespace SIL.Pa.UI.Controls
 			this.chkItalic.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this.chkItalic, null);
 			this.locExtender.SetLocalizationComment(this.chkItalic, null);
-			this.locExtender.SetLocalizingId(this.chkItalic, "FontPicker.chkItalic");
+			this.locExtender.SetLocalizingId(this.chkItalic, "CommonControls.FontPickerPopup.ItalicCheckbox");
 			this.chkItalic.Location = new System.Drawing.Point(56, 32);
 			this.chkItalic.Margin = new System.Windows.Forms.Padding(0, 0, 6, 0);
 			this.chkItalic.Name = "chkItalic";
@@ -209,8 +211,8 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// cboFontFamily
 			// 
-			this.cboFontFamily.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.cboFontFamily.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.tblLayout.SetColumnSpan(this.cboFontFamily, 4);
 			this.cboFontFamily.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboFontFamily.FormattingEnabled = true;
@@ -231,7 +233,7 @@ namespace SIL.Pa.UI.Controls
 			this.lblSize.AutoSize = true;
 			this.locExtender.SetLocalizableToolTip(this.lblSize, null);
 			this.locExtender.SetLocalizationComment(this.lblSize, null);
-			this.locExtender.SetLocalizingId(this.lblSize, "FontPicker.lblSize");
+			this.locExtender.SetLocalizingId(this.lblSize, "CommonControls.FontPickerPopup.SizeLabel");
 			this.lblSize.Location = new System.Drawing.Point(118, 33);
 			this.lblSize.Margin = new System.Windows.Forms.Padding(5, 0, 0, 3);
 			this.lblSize.Name = "lblSize";
@@ -241,11 +243,12 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// cboSize
 			// 
-			this.cboSize.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.cboSize.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.cboSize.FormattingEnabled = true;
 			this.locExtender.SetLocalizableToolTip(this.cboSize, null);
 			this.locExtender.SetLocalizationComment(this.cboSize, null);
+			this.locExtender.SetLocalizationPriority(this.cboSize, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.cboSize, "FontPicker.cboSize");
 			this.cboSize.Location = new System.Drawing.Point(150, 28);
 			this.cboSize.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
@@ -258,7 +261,6 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// FontPicker
@@ -268,7 +270,8 @@ namespace SIL.Pa.UI.Controls
 			this.Controls.Add(this.pnlOuter);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "FontPicker.FontPicker");
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this, "CommonControls.FontPickerPopup.FontPicker");
 			this.Name = "FontPicker";
 			this.Size = new System.Drawing.Size(300, 191);
 			this.pnlOuter.ResumeLayout(false);

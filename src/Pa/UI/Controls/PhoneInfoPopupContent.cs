@@ -12,38 +12,21 @@ using SilTools.Controls;
 namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
 	public partial class PhoneInfoPopupContent : UserControl
 	{
 		private readonly int m_extraMonogramHeight;
 		private readonly int m_extraUncertainListHeight;
-		//private readonly int m_origWidth1;
-		//private readonly int m_origWidth2;
-		//private readonly int m_origWidth3;
-		//private readonly int m_origLeft;
 		private readonly int m_origUncertaintyHeadingHeight;
 		private readonly int m_countPanelOrigHeight;
 		private readonly PhoneInfoPopup m_hostingPopup;
 		private bool m_siblingUncertaintiesExist;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public PhoneInfoPopupContent()
 		{
 			InitializeComponent();
 			base.DoubleBuffered = true;
 
-			//m_origWidth1 = lblMonogram.Width;
-			//m_origWidth2 = pnlMonogram.Width;
-			//m_origWidth3 = lblCountHeading.Width;
-			//m_origLeft = lblCountHeading.Left;
-		
 			m_origUncertaintyHeadingHeight = lblUncertaintyHeading.Height;
 			m_countPanelOrigHeight = pnlCounts.Height;
 			m_extraMonogramHeight = Settings.Default.CVChartExtraPopupMonogramHeight;
@@ -51,34 +34,11 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public PhoneInfoPopupContent(PhoneInfoPopup hostingPopup) : this()
 		{
 			m_hostingPopup = hostingPopup;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		internal void Initialize(CharGridCell cgc)
-		{
-			lblMonogram.Text = cgc.Phone;
-			lblNormallyCount.Text = cgc.TotalCount.ToString();
-			lblPrimaryCount.Text = cgc.CountAsPrimaryUncertainty.ToString();
-			lblNonPrimaryCount.Text = cgc.CountAsNonPrimaryUncertainty.ToString();
-			RefreshFonts();
-			m_siblingUncertaintiesExist = SetSiblingUncertainties(cgc.SiblingUncertainties);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		internal void Initialize(IPhoneInfo phoneInfo)
 		{
@@ -91,20 +51,8 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public void RefreshFonts()
 		{
-			// Reset the with of labels that make up the black box with a white border as
-			// well as the heading to it's right. Also reset the left location of the
-			// heading label.
-			//lblMonogram.Width = m_origWidth1;
-			//pnlMonogram.Width = m_origWidth2; 
-			//lblCountHeading.Width = m_origWidth3; 
-			//lblCountHeading.Left = m_origLeft;
-			
 			// Make the phone monogram label 15 point, regardless of the user's setting.
 			lblMonogram.Font = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, 15);
 
@@ -122,7 +70,7 @@ namespace SIL.Pa.UI.Controls
 					TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine |
 					TextFormatFlags.NoClipping;
 
-				Size sz = TextRenderer.MeasureText(g, lblMonogram.Text,
+				var sz = TextRenderer.MeasureText(g, lblMonogram.Text,
 					lblMonogram.Font, new Size(int.MaxValue, int.MaxValue) , flags);
 
 				// Set the height of the monogram label by setting the height of the
@@ -146,10 +94,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public bool SetSiblingUncertainties(List<string> siblingUncertainties)
 		{
 			lblSiblingPhones.Text = string.Empty;
@@ -171,11 +115,11 @@ namespace SIL.Pa.UI.Controls
 			var tmpSiblings = siblingUncertainties.Distinct().ToList();
 
 			// Now build the display string.
-			StringBuilder bldr = new StringBuilder();
-			foreach (string sibling in tmpSiblings)
+			var bldr = new StringBuilder();
+			foreach (var sibling in tmpSiblings)
 				bldr.AppendFormat("{0}, ", sibling);
 
-			lblSiblingPhones.Text = bldr.ToString().TrimEnd(", ".ToCharArray());
+			lblSiblingPhones.Text = bldr.ToString().TrimEnd(',', ' ');
 
 			// Set the desired height of the sibling phones list so all the phones are visible.
 			const TextFormatFlags flags = TextFormatFlags.HorizontalCenter |
@@ -200,7 +144,7 @@ namespace SIL.Pa.UI.Controls
 			if (m_hostingPopup == null)
 				return;
 
-			Rectangle rc = pnlHeading.ClientRectangle;
+			var rc = pnlHeading.ClientRectangle;
 
 			// Draw the color shading in the heading
 			m_hostingPopup.PaintHeadingBackground(e.Graphics, rc);
@@ -239,30 +183,19 @@ namespace SIL.Pa.UI.Controls
 			if (!m_siblingUncertaintiesExist)
 				return;
 
-			Rectangle rc = pnlCounts.ClientRectangle;
+			var rc = pnlCounts.ClientRectangle;
 			int dy = rc.Height - 2;
 
-			Point pt1 = new Point(rc.Width / 2, dy);
-			Point pt2 = new Point(10, dy);
-			using (LinearGradientBrush br = new LinearGradientBrush(pt1, pt2,
-				SilPopup.kHeadDarkColor, SilPopup.kBodyDarkColor))
-			{
+			var pt1 = new Point(rc.Width / 2, dy);
+			var pt2 = new Point(10, dy);
+			using (var br = new LinearGradientBrush(pt1, pt2, SilPopup.kHeadDarkColor, SilPopup.kBodyDarkColor))
 				e.Graphics.DrawLine(new Pen(br, 1), pt1, pt2);
-			}
 
 			pt2 = new Point(rc.Width - 11, dy);
-			using (LinearGradientBrush br = new LinearGradientBrush(pt1, pt2,
-				SilPopup.kHeadDarkColor, SilPopup.kBodyDarkColor))
-			{
+			using (var br = new LinearGradientBrush(pt1, pt2, SilPopup.kHeadDarkColor, SilPopup.kBodyDarkColor))
 				e.Graphics.DrawLine(new Pen(br, 1), pt1, pt2);
-			}
 		}
 
 		#endregion
-
-		private void lblPhone_Paint(object sender, PaintEventArgs e)
-		{
-
-		}
 	}
 }

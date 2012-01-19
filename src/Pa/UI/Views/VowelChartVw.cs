@@ -1,4 +1,6 @@
 using System.Drawing;
+using System.IO;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Processing;
 using SIL.Pa.Properties;
@@ -12,9 +14,12 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public VowelChartVw(PaProject project) : base(project)
 		{
-			DeleteHtmlChartFile("HtmlVwVowelChart");
-			_newChartGrid.SupraSegsToIgnore = project.VowChartSupraSegsToIgnore;
-			
+			try
+			{
+				File.Delete(Project.ProjectPathFilePrefix + "HtmlVwVowelChart.html");
+			}
+			catch { }
+
 			InitializeComponent();
 			Name = "VowelChartVw";
 		}
@@ -22,19 +27,11 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleDestroyed(System.EventArgs e)
 		{
-			Settings.Default.VowelChartColHdrHeight = _newChartGrid.ColumnHeadersHeight;
-			Settings.Default.VowelChartRowHdrWidth = _newChartGrid.RowHeadersWidth;
+			Settings.Default.VowelChartColHdrHeight = _chartGrid.ColumnHeadersHeight;
+			Settings.Default.VowelChartRowHdrWidth = _chartGrid.RowHeadersWidth;
 			Settings.Default.HtmlVowelChartVisible = _htmlVw != null ? _htmlVw.Visible : false;
 
 			base.OnHandleDestroyed(e);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected override void SaveIgnoredSuprasegmentals(string ignoredSegments)
-		{
-			_project.VowChartSupraSegsToIgnore = ignoredSegments;
-			DeleteHtmlChartFile("HtmlVwVowelChart");
-			CVChartBuilder.Process(_project, CVChartType.Vowel);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -57,7 +54,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override IPASymbolType CharacterType
 		{
-			get { return IPASymbolType.Vowel; }
+			get { return IPASymbolType.vowel; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -83,7 +80,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected override string LayoutFile
 		{
-			get { return _project.ProjectPathFilePrefix + "VowelChartBeta.xml"; }
+			get { return Project.VowelChartLayoutFile; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -101,39 +98,27 @@ namespace SIL.Pa.UI.Views
 		/// --------------------------------------------------------------------------------------------
 		protected override string DefaultHTMLOutputFile
 		{
-			get
-			{
-				return App.GetString("DefaultVowelChartHtmlExportFileAffix",
-					"{0}-VowelChart.html", "Export");
-			}
+			get { return LocalizationManager.GetString("Views.VowelChart.DefaultHtmlExportFileAffix", "{0}-VowelChart.html"); }
 		}
 
 		/// --------------------------------------------------------------------------------------------
 		protected override string DefaultWordXmlOutputFile
 		{
-			get
-			{
-				return App.GetString("DefaultVowelChartWordXmlExportFileAffix",
-					"{0}-VowelChart-(Word).xml", "Export");
-			}
+			get { return LocalizationManager.GetString("Views.VowelChart.DefaultWordXmlExportFileAffix", "{0}-VowelChart-(Word).xml"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string DefaultXLingPaperOutputFile
 		{
-			get
-			{
-				return App.GetString("DefaultVowelChartXLingPaperExportFileAffix",
-					"{0}-VowelChart-(XLingPaper).xml", "Export");
-			}
+			get { return LocalizationManager.GetString("Views.VowelChart.DefaultXLingPaperExportFileAffix", "{0}-VowelChart-(XLingPaper).xml"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override string CreateHtmlViewFile()
 		{
-			var outputFile = _project.ProjectPathFilePrefix + "HtmlVwVowelChart.html";
-			return (CVChartExporter.ToHtml(_project, CVChartType.Vowel, outputFile,
-				_newChartGrid, false, false) ? outputFile : string.Empty);
+			var outputFile = Project.ProjectPathFilePrefix + "HtmlVwVowelChart.html";
+			return (CVChartExporter.ToHtml(Project, CVChartType.Vowel, outputFile,
+				_chartGrid, false, false) ? outputFile : string.Empty);
 		}
 	}
 }

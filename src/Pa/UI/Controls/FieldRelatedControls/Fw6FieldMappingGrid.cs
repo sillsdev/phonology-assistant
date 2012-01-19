@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
@@ -44,15 +45,17 @@ namespace SIL.Pa.UI.Controls
 			// Create FW writing system column.
 			var col = CreateDropDownListComboBoxColumn("fwws", wslist);
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
-			int i = FontColumnIndex;
-			Columns.Insert(i, col);
-			App.RegisterForLocalization(Columns[i], "Fw6FieldMappingGrid.WritingSystemColumnHeadingText", "Writing System");
+			Columns.Insert(FontColumnIndex, col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.Fw6DataSourcePropertiesDlg.FieldMappingGrid.ColumnHeadings.WritingSystem",
+				"Writing System", null, col);
 		}
 		
 		/// ------------------------------------------------------------------------------------
 		protected virtual string GetNoWritingSystemText()
 		{
-			return App.GetString("Fw6FieldMappingGrid.NoWritingSystemText", "(none)");
+			return LocalizationManager.GetString(
+				"DialogBoxes.Fw6DataSourcePropertiesDlg.FieldMappingGrid.NoWritingSystemText", "(none)");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -76,8 +79,8 @@ namespace SIL.Pa.UI.Controls
 		{
 			var wslist = (field == null ? new List<string>(0) : GetWritingSystemsForField(field));
 
-			var currWs = m_writingSystems.SingleOrDefault(ws =>
-				ws.Id == m_mappings[CurrentCellAddress.Y].FwWsId);
+			var currWs = (m_mappings.Count == CurrentCellAddress.Y) ? null :
+				m_writingSystems.SingleOrDefault(ws => ws.Id == m_mappings[CurrentCellAddress.Y].FwWsId);
 
 			object currValue = 0;
 			if (currWs != null)

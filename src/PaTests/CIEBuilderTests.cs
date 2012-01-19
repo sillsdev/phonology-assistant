@@ -1,19 +1,3 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2005, SIL International. All Rights Reserved.
-// <copyright from='2005' to='2005' company='SIL International'>
-//		Copyright (c) 2005, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
-// 
-// File: MiscTests.cs
-// Responsibility: DavidO & ToddJ
-// 
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using NUnit.Framework;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
@@ -31,10 +15,9 @@ namespace SIL.Pa.Tests
     [TestFixture]
     public class CIEBuilderTests : TestBase
 	{
-		private RecordCache m_recCache;
-		private WordListCache m_cache;
-		private PaDataSource m_dataSource;
-		private SortOptions m_sortOptions;
+		private RecordCache _recCache;
+		private WordListCache _cache;
+		private PaDataSource _dataSource;
 
 		#region Setup/Teardown
 		/// ------------------------------------------------------------------------------------
@@ -47,25 +30,19 @@ namespace SIL.Pa.Tests
 		{
 			base.FixtureSetup();
 
-			ProjectInventoryBuilder.SkipProcessingForTests = true;
-			m_dataSource = new PaDataSource();
-			m_dataSource.Type = DataSourceType.Toolbox;
-			m_dataSource.FieldMappings = new System.Collections.Generic.List<FieldMapping>();
-			m_dataSource.FieldMappings.Add(new FieldMapping("\\ph", m_prj.GetPhoneticField(), true));
+			_dataSource = new PaDataSource();
+			_dataSource.Type = DataSourceType.Toolbox;
+			_dataSource.FieldMappings = new System.Collections.Generic.List<FieldMapping>();
+			_dataSource.FieldMappings.Add(new FieldMapping("\\ph", _prj.GetPhoneticField(), true));
 		}
 
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
         public void TestSetup()
         {
-			m_recCache = m_prj.RecordCache;
-
-			m_sortOptions = new SortOptions();
-			m_sortOptions.AdvancedEnabled = true;
-			m_sortOptions.AdvRlOptions = new[] { false, false, false };
-			m_sortOptions.SetPrimarySortField("Phonetic", false);
-			m_sortOptions.SortType = PhoneticSortType.POA;
-			m_sortOptions.AdvSortOrder = new[] { 0, 2, 1 };
+			_prj.PhoneCache.Clear();
+			_prj.RecordCache.Clear();
+			_recCache = _prj.RecordCache;
 		}
 
 		#endregion
@@ -73,22 +50,39 @@ namespace SIL.Pa.Tests
 		/// ------------------------------------------------------------------------------------
 		private void AddWords(string words)
 		{
-			var entry = new RecordCacheEntry(m_prj);
+			var entry = new RecordCacheEntry(_prj);
 			entry.SetValue("Phonetic", words);
 			entry.NeedsParsing = true;
-			entry.DataSource = m_dataSource;
-			m_recCache.Add(entry);
-			m_recCache.BuildWordCache(null);
+			entry.DataSource = _dataSource;
+			_recCache.Add(entry);
+			_recCache.BuildWordCache(null);
+			BuildPhoneSortKeysForTests();
 
 			var query = new SearchQuery();
 			query.IgnoreDiacritics = false;
-			query.IgnoredLengthChars = null;
-			query.IgnoredStressChars = null;
-			query.IgnoredToneChars = null;
+			query.IgnoredCharacters = null;
 			query.Pattern = "[V]/*_*";
-			m_cache = App.Search(query);
-			m_cache.SearchQuery = query;
-			m_cache.Sort(m_sortOptions);
+			_cache = App.Search(query);
+			_cache.SearchQuery = query;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private WordListCache GetCIEResults(CIEOptions options)
+		{
+			var sortOptions = new SortOptions(true, _prj) { AdvancedEnabled = true };
+			
+			if (options.Type != CIEOptions.IdenticalType.After)
+				sortOptions.AdvSortOrder = new[] { 0, 1, 2 };
+			else
+			{
+				sortOptions.AdvSortOrder = new[] { 2, 1, 0 };
+				sortOptions.AdvRlOptions[2] = true;
+			}
+			
+			_cache.Sort(sortOptions);
+
+			sortOptions = new SortOptions(true, _prj) { AdvancedEnabled = true };
+			return new CIEBuilder(_cache, sortOptions, options).FindMinimalPairs();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -105,11 +99,8 @@ namespace SIL.Pa.Tests
 			var options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.Both;
 			options.SearchQuery.IgnoreDiacritics = false;
-			options.SearchQuery.IgnoredLengthChars = null;
-			options.SearchQuery.IgnoredStressChars = null;
-			options.SearchQuery.IgnoredToneChars = null;
-			var builder = new CIEBuilder(m_prj, m_cache, null, options);
-			var retCache = builder.FindMinimalPairs();
+			options.SearchQuery.IgnoredCharacters = null;
+			var retCache = GetCIEResults(options);
 
 			Assert.AreEqual(6, retCache.Count);
 
@@ -120,11 +111,11 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(retCache[4].CIEGroupId, retCache[5].CIEGroupId);
 
 			Assert.AreEqual("bit", retCache[0].PhoneticValue);
-			Assert.AreEqual("bat", retCache[1].PhoneticValue);
-			Assert.AreEqual("bot", retCache[2].PhoneticValue);
+			Assert.AreEqual("bot", retCache[1].PhoneticValue);
+			Assert.AreEqual("bat", retCache[2].PhoneticValue);
 			Assert.AreEqual("dig", retCache[3].PhoneticValue);
-			Assert.AreEqual("dag", retCache[4].PhoneticValue);
-			Assert.AreEqual("dog", retCache[5].PhoneticValue);
+			Assert.AreEqual("dog", retCache[4].PhoneticValue);
+			Assert.AreEqual("dag", retCache[5].PhoneticValue);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -138,14 +129,11 @@ namespace SIL.Pa.Tests
 		{
 			AddWords("pnm bim dig bab daw bot dok mnp pig");
 
-			CIEOptions options = new CIEOptions();
+			var options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.Before;
 			options.SearchQuery.IgnoreDiacritics = false;
-			options.SearchQuery.IgnoredLengthChars = null;
-			options.SearchQuery.IgnoredStressChars = null;
-			options.SearchQuery.IgnoredToneChars = null;
-			var builder = new CIEBuilder(m_prj, m_cache, null, options);
-			WordListCache retCache = builder.FindMinimalPairs();
+			options.SearchQuery.IgnoredCharacters = null;
+			var retCache = GetCIEResults(options);
 
 			Assert.AreEqual(6, retCache.Count);
 
@@ -156,11 +144,11 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(retCache[4].CIEGroupId, retCache[5].CIEGroupId);
 
 			Assert.AreEqual("bim", retCache[0].PhoneticValue);
-			Assert.AreEqual("bab", retCache[1].PhoneticValue);
-			Assert.AreEqual("bot", retCache[2].PhoneticValue);
+			Assert.AreEqual("bot", retCache[1].PhoneticValue);
+			Assert.AreEqual("bab", retCache[2].PhoneticValue);
 			Assert.AreEqual("dig", retCache[3].PhoneticValue);
-			Assert.AreEqual("daw", retCache[4].PhoneticValue);
-			Assert.AreEqual("dok", retCache[5].PhoneticValue);
+			Assert.AreEqual("dok", retCache[4].PhoneticValue);
+			Assert.AreEqual("daw", retCache[5].PhoneticValue);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -174,14 +162,11 @@ namespace SIL.Pa.Tests
 		{
 			AddWords("pnm mib gid bab wad tob kod mnp pig");
 
-			CIEOptions options = new CIEOptions();
+			var options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.After;
 			options.SearchQuery.IgnoreDiacritics = false;
-			options.SearchQuery.IgnoredLengthChars = null;
-			options.SearchQuery.IgnoredStressChars = null;
-			options.SearchQuery.IgnoredToneChars = null;
-			var builder = new CIEBuilder(m_prj, m_cache, null, options);
-			WordListCache retCache = builder.FindMinimalPairs();
+			options.SearchQuery.IgnoredCharacters = null;
+			var retCache = GetCIEResults(options);
 
 			Assert.AreEqual(6, retCache.Count);
 
@@ -191,11 +176,11 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(retCache[3].CIEGroupId, retCache[4].CIEGroupId);
 			Assert.AreEqual(retCache[4].CIEGroupId, retCache[5].CIEGroupId);
 
-			Assert.AreEqual("bab", retCache[0].PhoneticValue);
-			Assert.AreEqual("mib", retCache[1].PhoneticValue);
-			Assert.AreEqual("tob", retCache[2].PhoneticValue);
-			Assert.AreEqual("kod", retCache[3].PhoneticValue);
-			Assert.AreEqual("gid", retCache[4].PhoneticValue);
+			Assert.AreEqual("mib", retCache[0].PhoneticValue);
+			Assert.AreEqual("tob", retCache[1].PhoneticValue);
+			Assert.AreEqual("bab", retCache[2].PhoneticValue);
+			Assert.AreEqual("gid", retCache[3].PhoneticValue);
+			Assert.AreEqual("kod", retCache[4].PhoneticValue);
 			Assert.AreEqual("wad", retCache[5].PhoneticValue);
 		}
 
@@ -210,14 +195,11 @@ namespace SIL.Pa.Tests
 		{
 			AddWords("b\u0324it bat dig\u02B0 dog");
 
-			CIEOptions options = new CIEOptions();
+			var options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.Both;
 			options.SearchQuery.IgnoreDiacritics = false;
-			options.SearchQuery.IgnoredLengthChars = "\u0324,\u02B0";
-			options.SearchQuery.IgnoredStressChars = null;
-			options.SearchQuery.IgnoredToneChars = null;
-			var builder = new CIEBuilder(m_prj, m_cache, null, options);
-			WordListCache retCache = builder.FindMinimalPairs();
+			options.SearchQuery.IgnoredCharacters = "\u0324,\u02B0";
+			var retCache = GetCIEResults(options);
 
 			Assert.AreEqual(4, retCache.Count);
 
@@ -225,8 +207,8 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(retCache[2].CIEGroupId, retCache[3].CIEGroupId);
 			Assert.AreNotEqual(retCache[1].CIEGroupId, retCache[2].CIEGroupId);
 
-			Assert.AreEqual("bat", retCache[0].PhoneticValue);
-			Assert.AreEqual("b\u0324it", retCache[1].PhoneticValue);
+			Assert.AreEqual("b\u0324it",retCache[0].PhoneticValue);
+			Assert.AreEqual("bat", retCache[1].PhoneticValue);
 			Assert.AreEqual("dig\u02B0", retCache[2].PhoneticValue);
 			Assert.AreEqual("dog", retCache[3].PhoneticValue);
 		}
@@ -242,14 +224,11 @@ namespace SIL.Pa.Tests
 		{
 			AddWords("b\u0324it bag dig\u02B0 don");
 
-			CIEOptions options = new CIEOptions();
+			var options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.Before;
 			options.SearchQuery.IgnoreDiacritics = false;
-			options.SearchQuery.IgnoredLengthChars = "\u0324,\u02B0";
-			options.SearchQuery.IgnoredStressChars = null;
-			options.SearchQuery.IgnoredToneChars = null;
-			var builder = new CIEBuilder(m_prj, m_cache, null, options);
-			WordListCache retCache = builder.FindMinimalPairs();
+			options.SearchQuery.IgnoredCharacters = "\u0324,\u02B0";
+			var retCache = GetCIEResults(options);
 
 			Assert.AreEqual(4, retCache.Count);
 
@@ -257,8 +236,8 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(retCache[2].CIEGroupId, retCache[3].CIEGroupId);
 			Assert.AreNotEqual(retCache[1].CIEGroupId, retCache[2].CIEGroupId);
 
-			Assert.AreEqual("bag", retCache[0].PhoneticValue);
-			Assert.AreEqual("b\u0324it", retCache[1].PhoneticValue);
+			Assert.AreEqual("b\u0324it", retCache[0].PhoneticValue);
+			Assert.AreEqual("bag", retCache[1].PhoneticValue);
 			Assert.AreEqual("dig\u02B0", retCache[2].PhoneticValue);
 			Assert.AreEqual("don", retCache[3].PhoneticValue);
 		}
@@ -274,14 +253,11 @@ namespace SIL.Pa.Tests
 		{
 			AddWords("tib\u0324 gab g\u02B0id nod");
 
-			CIEOptions options = new CIEOptions();
+			var options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.After;
 			options.SearchQuery.IgnoreDiacritics = false;
-			options.SearchQuery.IgnoredLengthChars = "\u0324,\u02B0";
-			options.SearchQuery.IgnoredStressChars = null;
-			options.SearchQuery.IgnoredToneChars = null;
-			var builder = new CIEBuilder(m_prj, m_cache, null, options);
-			WordListCache retCache = builder.FindMinimalPairs();
+			options.SearchQuery.IgnoredCharacters = "\u0324,\u02B0";
+			var retCache = GetCIEResults(options);
 
 			Assert.AreEqual(4, retCache.Count);
 
@@ -291,8 +267,8 @@ namespace SIL.Pa.Tests
 
 			Assert.AreEqual("tib\u0324", retCache[0].PhoneticValue);
 			Assert.AreEqual("gab", retCache[1].PhoneticValue);
-			Assert.AreEqual("nod", retCache[2].PhoneticValue);
-			Assert.AreEqual("g\u02B0id", retCache[3].PhoneticValue);
+			Assert.AreEqual("g\u02B0id", retCache[2].PhoneticValue);
+			Assert.AreEqual("nod", retCache[3].PhoneticValue);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -306,14 +282,11 @@ namespace SIL.Pa.Tests
 		{
 			AddWords("b\u0324it bat dig\u02B0 dog");
 
-			CIEOptions options = new CIEOptions();
+			var options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.Both;
 			options.SearchQuery.IgnoreDiacritics = true;
-			options.SearchQuery.IgnoredLengthChars = null;
-			options.SearchQuery.IgnoredStressChars = null;
-			options.SearchQuery.IgnoredToneChars = null;
-			var builder = new CIEBuilder(m_prj, m_cache, null, options);
-			WordListCache retCache = builder.FindMinimalPairs();
+			options.SearchQuery.IgnoredCharacters = null;
+			var retCache = GetCIEResults(options);
 
 			Assert.AreEqual(4, retCache.Count);
 
@@ -321,8 +294,8 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(retCache[2].CIEGroupId, retCache[3].CIEGroupId);
 			Assert.AreNotEqual(retCache[1].CIEGroupId, retCache[2].CIEGroupId);
 
-			Assert.AreEqual("bat", retCache[0].PhoneticValue);
-			Assert.AreEqual("b\u0324it", retCache[1].PhoneticValue);
+			Assert.AreEqual("b\u0324it", retCache[0].PhoneticValue);
+			Assert.AreEqual("bat", retCache[1].PhoneticValue);
 			Assert.AreEqual("dig\u02B0", retCache[2].PhoneticValue);
 			Assert.AreEqual("dog", retCache[3].PhoneticValue);
 		}
@@ -341,11 +314,8 @@ namespace SIL.Pa.Tests
 			var options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.Before;
 			options.SearchQuery.IgnoreDiacritics = true;
-			options.SearchQuery.IgnoredLengthChars = null;
-			options.SearchQuery.IgnoredStressChars = null;
-			options.SearchQuery.IgnoredToneChars = null;
-			var builder = new CIEBuilder(m_prj, m_cache, null, options);
-			var retCache = builder.FindMinimalPairs();
+			options.SearchQuery.IgnoredCharacters = null;
+			var retCache = GetCIEResults(options);
 
 			Assert.AreEqual(4, retCache.Count);
 
@@ -353,8 +323,8 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(retCache[2].CIEGroupId, retCache[3].CIEGroupId);
 			Assert.AreNotEqual(retCache[1].CIEGroupId, retCache[2].CIEGroupId);
 
-			Assert.AreEqual("bag", retCache[0].PhoneticValue);
-			Assert.AreEqual("b\u0324it", retCache[1].PhoneticValue);
+			Assert.AreEqual("b\u0324it", retCache[0].PhoneticValue);
+			Assert.AreEqual("bag", retCache[1].PhoneticValue);
 			Assert.AreEqual("dig\u02B0", retCache[2].PhoneticValue);
 			Assert.AreEqual("don", retCache[3].PhoneticValue);
 		}
@@ -373,11 +343,8 @@ namespace SIL.Pa.Tests
 			var options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.After;
 			options.SearchQuery.IgnoreDiacritics = true;
-			options.SearchQuery.IgnoredLengthChars = null;
-			options.SearchQuery.IgnoredStressChars = null;
-			options.SearchQuery.IgnoredToneChars = null;
-			var builder = new CIEBuilder(m_prj, m_cache, null, options);
-			var retCache = builder.FindMinimalPairs();
+			options.SearchQuery.IgnoredCharacters = null;
+			var retCache = GetCIEResults(options);
 
 			Assert.AreEqual(4, retCache.Count);
 
@@ -387,8 +354,8 @@ namespace SIL.Pa.Tests
 
 			Assert.AreEqual("tib\u0324", retCache[0].PhoneticValue);
 			Assert.AreEqual("gab", retCache[1].PhoneticValue);
-			Assert.AreEqual("nod", retCache[2].PhoneticValue);
-			Assert.AreEqual("g\u02B0id", retCache[3].PhoneticValue);
+			Assert.AreEqual("g\u02B0id", retCache[2].PhoneticValue);
+			Assert.AreEqual("nod", retCache[3].PhoneticValue);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -405,20 +372,16 @@ namespace SIL.Pa.Tests
 			var options = new CIEOptions();
 			options.Type = CIEOptions.IdenticalType.Before;
 			options.SearchQuery.IgnoreDiacritics = true;
-			options.SearchQuery.IgnoredLengthChars = null;
-			options.SearchQuery.IgnoredStressChars = null;
-			options.SearchQuery.IgnoredToneChars = null;
-			var builder = new CIEBuilder(m_prj, m_cache, null, options);
-			var retCache = builder.FindMinimalPairs();
+			options.SearchQuery.IgnoredCharacters = null;
+			var retCache = GetCIEResults(options);
 
 			Assert.AreEqual(3, retCache.Count);
-
-			Assert.AreEqual("pat", retCache[0].PhoneticValue);
-			Assert.AreEqual("p\u02B0it", retCache[1].PhoneticValue);
-			Assert.AreEqual("p\u02B0ot", retCache[2].PhoneticValue);
-
 			Assert.AreEqual(retCache[0].CIEGroupId, retCache[1].CIEGroupId);
 			Assert.AreEqual(retCache[1].CIEGroupId, retCache[2].CIEGroupId);
+
+			Assert.AreEqual("p\u02B0it", retCache[0].PhoneticValue);
+			Assert.AreEqual("p\u02B0ot", retCache[1].PhoneticValue);
+			Assert.AreEqual("pat", retCache[2].PhoneticValue);
 		}
 	}
 }

@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
-using System.Windows.Forms;
+using Localization;
 using Palaso.Reporting;
-using SilTools;
 
 namespace SIL.Pa.DataSource.FieldWorks
 {
@@ -17,11 +16,10 @@ namespace SIL.Pa.DataSource.FieldWorks
 		/// ------------------------------------------------------------------------------------
 		public static IEnumerable<FwWritingSysInfo> GetWritingSystems(FwDataSourceInfo fwDsInfo)
 		{
-			var msg = App.GetString("RetrievingFieldWorks6WritingSystemsErrorMsg",
-				"There was an error retrieving writing systems from the {0}\nproject. It's possible the file {1} is either missing or corrupt.",
+			var msg = LocalizationManager.GetString(
+				"Miscellaneous.Messages.DataSourceReading.RetrievingFieldWorks6WritingSystemsErrorMsg",
+				"There was an error retrieving writing systems from the '{0}' project. It's possible the file '{1}' is either missing or corrupt.",
 				"Displayed when there is and error retrieving writing systems from a FieldWorks database, version 6.0 or earlier.");
-
-			msg = string.Format(msg, fwDsInfo.Name, Path.GetFileName(fwDsInfo.Queries.QueryFile));
 
 			foreach (var ws in GetWritingSystemsUsingQuery(fwDsInfo.Queries.AnalysisWs, fwDsInfo, msg))
 			{
@@ -68,16 +66,12 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 				// There should be at least one writing system defined.
 				if (wsCollection.Count == 0)
-				{
-					Utils.MsgBox(string.Format(errMsg, fwDsInfo.Name,
-						Path.GetFileName(fwDsInfo.Queries.QueryFile), string.Empty),
-						MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-				}
+					ErrorReport.NotifyUserOfProblem(errMsg, fwDsInfo.Name, Path.GetFileName(fwDsInfo.Queries.QueryFile));
 			}
 			catch (Exception e)
 			{
 				ErrorReport.NotifyUserOfProblem(e, errMsg, fwDsInfo.Name,
-					Path.GetFileName(fwDsInfo.Queries.QueryFile), string.Empty);
+					Path.GetFileName(fwDsInfo.Queries.QueryFile));
 			}
 
 			return wsCollection;

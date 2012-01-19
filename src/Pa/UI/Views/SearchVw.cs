@@ -4,7 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using System.Xml;
+using Localization;
 using Palaso.IO;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
@@ -21,7 +21,7 @@ namespace SIL.Pa.UI.Views
 	/// Form in which search patterns are defined and used for searching.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class SearchVw : UserControl, IxCoreColleague, ITabView, ISearchResultsViewHost
+	public partial class SearchVw : ViewBase, ITabView, ISearchResultsViewHost
 	{
 		//private string PaApp.kOpenClassBracket = "\u2039";
 		//private string PaApp.kCloseClassBracket = "\u203A";
@@ -32,8 +32,6 @@ namespace SIL.Pa.UI.Views
 		//private string PaApp.kOpenClassBracket = "\u3018";
 		//private string PaApp.kCloseClassBracket = "\u3019";
 
-		private const string kRecentlyUsedPatternFile = "RecentlyUsedPatterns.xml";
-
 		private bool m_activeView;
 		private ITMAdapter m_tmAdapter;
 		private Point m_mouseDownLocationOnRecentlyUsedList = Point.Empty;
@@ -43,22 +41,17 @@ namespace SIL.Pa.UI.Views
 		private SearchResultsViewManager m_rsltVwMngr;
 		private readonly SplitterPanel m_dockedSidePanel;
 		private readonly Keys m_savePatternHotKey = Keys.None;
-		private PaProject _project;
 
 		#region Construction
 		/// ------------------------------------------------------------------------------------
-		public SearchVw(PaProject project)
+		public SearchVw(PaProject project) : base(project)
 		{
 			Utils.WaitCursors(true);
-			_project = project;
 			InitializeComponent();
 			Name = "SearchVw";
 
 			hlblRecentPatterns.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
 			hlblSavedPatterns.TextFormatFlags &= ~TextFormatFlags.HidePrefix;
-
-			tvSavedPatterns.Project = project;
-			rtfRecVw.Project = project;
 
 			tvSavedPatterns.SetCutCopyPasteButtons(btnCategoryCut, btnCategoryCopy, btnCategoryPaste);
 			ptrnTextBox.OwningView = this;
@@ -66,7 +59,7 @@ namespace SIL.Pa.UI.Views
 
 			lblCurrPattern.Text = Utils.ConvertLiteralNewLines(lblCurrPattern.Text);
 
-			SetToolTips();
+			App.RefreshToolTipsOnLocalizationManager();
 			SetupSidePanelContents();
 			SetupSlidingPanel();
 			OnPaFontsChanged(null);
@@ -81,8 +74,7 @@ namespace SIL.Pa.UI.Views
 			ReflectionHelper.SetProperty(splitSideBarOuter, "DoubleBuffered", true);
 			ReflectionHelper.SetProperty(splitResults, "DoubleBuffered", true);
 
-			ptrnTextBox.SearchOptionsDropDown.lnkHelp.Click += HandleSearchDropDownHelpLinkClick;
-			Disposed += ViewDisposed;
+			ptrnTextBox.SearchOptionsDropDown._linkHelp.Click += HandleSearchDropDownHelpLinkClick;
 
 			var itemProps = m_tmAdapter.GetItemProperties("tbbSavePatternOnMenu");
 			if (itemProps != null)
@@ -116,29 +108,33 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void ViewDisposed(object sender, EventArgs e)
+		protected override void Dispose(bool disposing)
 		{
-			Disposed -= ViewDisposed;
-
-			if (ptrnBldrComponent != null && !ptrnBldrComponent.IsDisposed)
-				ptrnBldrComponent.Dispose();
-
-			if (ptrnTextBox != null && !ptrnTextBox.IsDisposed)
+			if (disposing && (components != null))
 			{
-				ptrnTextBox.SearchOptionsDropDown.lnkHelp.Click -= HandleSearchDropDownHelpLinkClick; 
-				ptrnTextBox.Dispose();
+				if (ptrnBldrComponent != null && !ptrnBldrComponent.IsDisposed)
+					ptrnBldrComponent.Dispose();
+
+				if (ptrnTextBox != null && !ptrnTextBox.IsDisposed)
+				{
+					ptrnTextBox.SearchOptionsDropDown._linkHelp.Click -= HandleSearchDropDownHelpLinkClick;
+					ptrnTextBox.Dispose();
+				}
+
+				if (tvSavedPatterns != null && !tvSavedPatterns.IsDisposed)
+					tvSavedPatterns.Dispose();
+
+				if (m_rsltVwMngr != null)
+					m_rsltVwMngr.Dispose();
+
+				if (splitOuter != null && !splitOuter.IsDisposed)
+					splitOuter.Dispose();
+				
+				components.Dispose();
 			}
-
-			if (tvSavedPatterns != null && !tvSavedPatterns.IsDisposed)
-				tvSavedPatterns.Dispose();
 			
-			if (m_rsltVwMngr != null)
-				m_rsltVwMngr.Dispose();
-
-			if (splitOuter != null && !splitOuter.IsDisposed)
-				splitOuter.Dispose();
+			base.Dispose(disposing);
 		}
-
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -193,10 +189,7 @@ namespace SIL.Pa.UI.Views
 		private void LoadToolbarAndContextMenus()
 		{
 			if (m_tmAdapter != null)
-			{
-				App.UnPrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.Dispose();
-			}
 
 			m_tmAdapter = AdapterHelper.CreateTMAdapter();
 
@@ -204,14 +197,13 @@ namespace SIL.Pa.UI.Views
 				m_rsltVwMngr.TMAdapter = m_tmAdapter;
 			else
 			{
-				m_rsltVwMngr = new SearchResultsViewManager(_project, this, m_tmAdapter,
+				m_rsltVwMngr = new SearchResultsViewManager(this, m_tmAdapter,
 					splitResults, rtfRecVw, Settings.Default.SearchVwPlaybackSpeed,
 					newSpeed => Settings.Default.SearchVwPlaybackSpeed = newSpeed);
 			}
 
 			if (m_tmAdapter != null)
 			{
-				App.PrepareAdapterForLocalizationSupport(m_tmAdapter);
 				m_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 
 				var defs = new[] { FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
@@ -265,9 +257,6 @@ namespace SIL.Pa.UI.Views
 		{
 			pnlSideBarCaption.Height = FontHelper.UIFont.Height + 7;
 			pnlSideBarCaption.Font = FontHelper.UIFont;
-			pnlSideBarCaption.ColorTop = AppColor.SecondaryHeaderTop;
-			pnlSideBarCaption.ColorBottom = AppColor.SecondaryHeaderBottom;
-			pnlSideBarCaption.ForeColor = AppColor.SecondaryHeaderForeground;
 
 			btnAutoHide.Top = ((pnlSideBarCaption.Height - btnAutoHide.Height) / 2) - 1;
 			btnDock.Top = btnAutoHide.Top;
@@ -276,8 +265,8 @@ namespace SIL.Pa.UI.Views
 				Settings.Default.SearchVwSidePanelWidth,
 				newWidth => Settings.Default.SearchVwSidePanelWidth = newWidth);
 			
-			App.RegisterForLocalization(m_slidingPanel.Tab, "SearchVw.UndockedSideBarTabText",
-				"Patterns & Pattern Building", "Views");
+			LocalizationManager.GetString("Views.Search.UndockedSideBarTabText",
+				"Patterns & Pattern Building", null, m_slidingPanel.Tab);
 
 			SuspendLayout();
 			Controls.Add(m_slidingPanel);
@@ -302,19 +291,11 @@ namespace SIL.Pa.UI.Views
 
 		#region ITabView Members
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public bool ActiveView
 		{
 			get { return m_activeView; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void SetViewActive(bool makeActive, bool isDocked)
 		{
@@ -328,19 +309,11 @@ namespace SIL.Pa.UI.Views
 		}
 		
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public Form OwningForm
 		{
 			get { return FindForm(); }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnBeginViewClosing(object args)
 		{
@@ -350,10 +323,6 @@ namespace SIL.Pa.UI.Views
 			return false;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnBeginViewUnDocking(object args)
 		{
@@ -374,8 +343,8 @@ namespace SIL.Pa.UI.Views
 			// Save the list of recently used queries.
 			var recentList = 
 				(from object rp in lstRecentPatterns.Items select rp as SearchQuery).ToList();
-			
-			string path = Path.Combine(App.ProjectFolder, kRecentlyUsedPatternFile);
+
+			var path = App.GetPathToRecentlyUsedSearchQueriesFile();
 			if (recentList.Count > 0)
 				XmlSerializationHelper.SerializeToFile(path, recentList);
 			else
@@ -447,7 +416,7 @@ namespace SIL.Pa.UI.Views
 					// form that owns the controls the tooltip is extending. When that form
 					// gets pulled out from under the tooltips, sometimes the program will crash.
 					LoadToolbarAndContextMenus();
-					SetToolTips();
+					App.RefreshToolTipsOnLocalizationManager();
 				}
 
 				if (m_rsltVwMngr.CurrentViewsGrid != null)
@@ -461,21 +430,9 @@ namespace SIL.Pa.UI.Views
 		protected bool OnViewUndocked(object args)
 		{
 			if (args == this)
-				SetToolTips();
+				App.RefreshToolTipsOnLocalizationManager();
 
 			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void SetToolTips()
-		{
-			var msg = App.GetString("SearchVw.SearchPatternTooltip",
-				"Enter search pattern in the form:\n[Search Item]/[Preceding Environment]__[Following Environment]",
-				"Tooltip for search pattern text box in the find phone window.");
-
-			m_tooltip = new ToolTip(components);
-			m_tooltip.SetToolTip(ptrnTextBox, Utils.ConvertLiteralNewLines(msg));
-			App.RefreshToolTipsOnLocalizationManager();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -508,7 +465,7 @@ namespace SIL.Pa.UI.Views
 
 			try
 			{
-				string path = Path.Combine(App.ProjectFolder, kRecentlyUsedPatternFile);
+				var path = App.GetPathToRecentlyUsedSearchQueriesFile();
 				var recentList = XmlSerializationHelper.DeserializeFromFile<List<SearchQuery>>(path);
 				if (recentList != null)
 					lstRecentPatterns.Items.AddRange(recentList.ToArray());
@@ -641,7 +598,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateClearPattern(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !m_activeView)
 				return false;
 
@@ -653,24 +610,22 @@ namespace SIL.Pa.UI.Views
 				itemProps.Update = true;
 			}
 
+			var areResultsStale = (m_rsltVwMngr.CurrentViewsControl is IWaterMarkHost &&
+				((IWaterMarkHost)m_rsltVwMngr.CurrentViewsControl).AreResultsStale);
+
 			// Use this update opportunity to update the enabled state of the refresh button.
-			btnRefresh.Enabled = (m_rsltVwMngr.CurrentViewsGrid != null &&
-				m_rsltVwMngr.CurrentViewsGrid.AreResultsStale && ptrnTextBox.IsPatternFull);
+			btnRefresh.Enabled = (areResultsStale && ptrnTextBox.IsPatternFull);
 
 			return true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnSavePattern(object args)
 		{
 			if (!m_activeView)
 				return false;
 
-			SearchQuery query = ptrnTextBox.SearchQuery;
+			var query = ptrnTextBox.SearchQuery;
 
 			// When Id is zero it means the query has never been saved before.
 			// Therefore, just show the save as dialog.
@@ -685,8 +640,7 @@ namespace SIL.Pa.UI.Views
 					m_rsltVwMngr.CurrentTabGroup.CurrentTab.Clear();
 
 				ptrnTextBox.SetSearchQuery(tvSavedPatterns.CurrentQuery);
-				m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery,
-					SearchResultLocation.CurrentTabGroup);
+				m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery, SearchResultLocation.CurrentTabGroup);
 
 				return true;
 			}
@@ -694,7 +648,7 @@ namespace SIL.Pa.UI.Views
 			//// At this point, we know we're dealing with a previously saved query. Therefore,
 			//// we must determine whether or not to show the query save as dialog. Find the
 			//// original query so we can compare its pattern with the current pattern.
-			//SearchQuery origQuery = _project.SearchQueryGroups.GetQueryForId(query.Id);
+			//SearchQuery origQuery = Project.SearchQueryGroups.GetQueryForId(query.Id);
 
 			//// Show the dialog when the original pattern is different from the current and
 			//// the query has never been assigned a name. Otherwise, just save without prompting.
@@ -736,9 +690,9 @@ namespace SIL.Pa.UI.Views
 			using (var dlg = new SaveSearchQueryDlg(ptrnTextBox.SearchQuery,
 				tvSavedPatterns, canChangeQuerysCategory))
 			{
-				string saveName = ptrnTextBox.SearchQuery.Name;
+				var saveName = ptrnTextBox.SearchQuery.Name;
 
-				if (dlg.ShowDialog(ptrnTextBox.FindForm()) == DialogResult.Cancel)
+				if (dlg.ShowDialog(FindForm()) == DialogResult.Cancel)
 					ptrnTextBox.SearchQuery.Name = saveName;
 				else
 				{
@@ -779,7 +733,7 @@ namespace SIL.Pa.UI.Views
 				clrBottom = Settings.Default.TextPanelGradientBottomColor;
 			}
 
-			PaintingHelper.DrawGradientBackground(e.Graphics, rc, clrTop, clrBottom, false);
+			PaintingHelper.DrawGradientBackground(e.Graphics, rc, clrTop, clrBottom);
 			e.Graphics.DrawLine(SystemPens.ControlDark, rc.X, rc.Bottom - 1,
 				rc.Right - 1, rc.Bottom - 1);
 		}
@@ -807,8 +761,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void HandlePatternTextBoxPatternTextChanged(object sender, EventArgs e)
 		{
-			if (m_rsltVwMngr.CurrentViewsGrid != null && !ptrnTextBox.ClassDisplayBehaviorChanged)
-				m_rsltVwMngr.CurrentViewsGrid.AreResultsStale = true;
+			if (m_rsltVwMngr.CurrentViewsControl is IWaterMarkHost && !ptrnTextBox.ClassDisplayBehaviorChanged)
+				((IWaterMarkHost)m_rsltVwMngr.CurrentViewsControl).AreResultsStale = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -819,14 +773,10 @@ namespace SIL.Pa.UI.Views
 		private void HandleRefreshButtonClick(object sender, EventArgs e)
 		{
 			// This is just like clicking the "Show Results" button.
-			TMItemProperties itemProps = m_tmAdapter.GetItemProperties("tbbShowResults");
+			var itemProps = m_tmAdapter.GetItemProperties("tbbShowResults");
 			App.MsgMediator.SendMessage("ShowResults", itemProps);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public WordListCache PerformSearch(SearchQuery query, SearchResultLocation resultLocation)
 		{
@@ -862,10 +812,6 @@ namespace SIL.Pa.UI.Views
 
 		#region Non DragDrop keyboard and mouse events for controls supplying items to the search pattern
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void HandleFeatureListCustomDoubleClick(object sender, string feature)
 		{
 			if (!string.IsNullOrEmpty(feature))
@@ -879,9 +825,9 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public void HandleFeatureListKeyPress(object sender, KeyPressEventArgs e)
 		{
-			if (e.KeyChar == (char)Keys.Enter && sender is FeatureListView)
+			if (e.KeyChar == (char)Keys.Enter && sender is FeatureListViewBase)
 			{	
-				string text = ((FeatureListView)sender).CurrentFormattedFeature;
+				string text = ((FeatureListViewBase)sender).CurrentFormattedFeature;
 				if (text != null)
 					ptrnTextBox.Insert(text);
 			}
@@ -895,8 +841,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void HandleCharExplorerCharPicked(CharPicker picker, ToolStripButton item)
 		{
-			if (!string.IsNullOrEmpty(item.Text.Replace(App.kDottedCircle, string.Empty)))
-				ptrnTextBox.Insert(item.Text.Replace(App.kDottedCircle, string.Empty));
+			if (!string.IsNullOrEmpty(item.Text.Replace(App.DottedCircle, string.Empty)))
+				ptrnTextBox.Insert(item.Text.Replace(App.DottedCircle, string.Empty));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -962,10 +908,8 @@ namespace SIL.Pa.UI.Views
 
 			if (e.Item is string)
 				dragText = e.Item as string;
-			else if (e.Item is CharGridCell)
-				dragText = ((CharGridCell)e.Item).Phone;
-			else if (sender is FeatureListView)
-				dragText = ((FeatureListView)sender).CurrentFormattedFeature;
+			else if (sender is FeatureListViewBase)
+				dragText = ((FeatureListViewBase)sender).CurrentFormattedFeature;
 			else if (e.Item is ClassListViewItem)
 			{
 				var item = e.Item as ClassListViewItem;
@@ -979,7 +923,7 @@ namespace SIL.Pa.UI.Views
 			if (dragText != null)
 			{
 				var query = new SearchQuery();
-				query.Pattern = dragText.Replace(App.kDottedCircle, string.Empty);
+				query.Pattern = dragText.Replace(App.DottedCircle, string.Empty);
 				query.PatternOnly = true;
 				DoDragDrop(query, DragDropEffects.Copy);
 			}
@@ -1002,8 +946,7 @@ namespace SIL.Pa.UI.Views
 					m_slidingPanel.Close(true);
 
 				ptrnTextBox.SetSearchQuery(tvSavedPatterns.CurrentQuery);
-				m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery,
-					SearchResultLocation.CurrentTabGroup);
+				m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery, SearchResultLocation.CurrentTabGroup);
 			}
 		}
 
@@ -1026,18 +969,12 @@ namespace SIL.Pa.UI.Views
 
 		#region Methods for working with the recently used queries list
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void AddQueryToRecentlyUsedList(SearchQuery query)
 		{
 			if (query == null || query.IsPatternRegExpression)
 				return;
 
-			// TODO: should we consider more than just the pattern (i.e. query options)?
-			// If the query is already in the list then remove it.
-			int i = lstRecentPatterns.FindStringExact(query.Pattern);
+			int i = lstRecentPatterns.FindStringExact(query.ToString());
 			if (i >= 0)
 				lstRecentPatterns.Items.RemoveAt(i);
 
@@ -1067,10 +1004,6 @@ namespace SIL.Pa.UI.Views
 				lstRecentPatterns.SelectedIndex = 0;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void lstRecentPatterns_KeyDown(object sender, KeyEventArgs e)
 		{
@@ -1116,12 +1049,11 @@ namespace SIL.Pa.UI.Views
 			if (m_slidingPanel.Visible)
 				m_slidingPanel.Close(true);
 
-			SearchQuery query = lstRecentPatterns.SelectedItem as SearchQuery;
+			var query = lstRecentPatterns.SelectedItem as SearchQuery;
 			if (query != null)
 			{
 				ptrnTextBox.SetSearchQuery(query);
-				m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery,
-					SearchResultLocation.CurrentTabGroup);
+				m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery, SearchResultLocation.CurrentTabGroup);
 			}
 		}
 
@@ -1197,7 +1129,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void HandleSplitResultsPanel1DragDrop(object sender, DragEventArgs e)
 		{
-			SearchQuery query = e.Data.GetData(typeof(SearchQuery)) as SearchQuery;
+			var query = e.Data.GetData(typeof(SearchQuery)) as SearchQuery;
 			if (query != null)
 				m_rsltVwMngr.PerformSearch(query, SearchResultLocation.CurrentTabGroup);
 		}
@@ -1299,7 +1231,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnCompareGrid(object args)
 		{
-			PaWordListGrid grid = args as PaWordListGrid;
+			var grid = args as PaWordListGrid;
 			return (grid != null && m_rsltVwMngr.CurrentViewsGrid == grid);
 		}
 
@@ -1331,10 +1263,9 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected bool OnDataSourcesModified(object args)
+		protected override bool OnDataSourcesModified(object args)
 		{
-			rtfRecVw.Project = _project = args as PaProject;
-			rtfRecVw.UpdateRecord(null);
+			base.OnDataSourcesModified(args);
 			ptrnBldrComponent.RefreshComponents();
 			return false;
 		}
@@ -1349,21 +1280,16 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Occurs when a search query is dragged and dropped on one of the tab groups
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnPatternDroppedOnTabGroup(object args)
 		{
-			SearchQuery query = args as SearchQuery;
+			var query = args as SearchQuery;
 			if (query != null)
 			{
 				if (m_slidingPanel.Visible)
 					m_slidingPanel.Close(true);
 
 				ptrnTextBox.SetSearchQuery(query);
-				m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery,
-					SearchResultLocation.CurrentTabGroup);
+				m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery, SearchResultLocation.CurrentTabGroup);
 			}
 
 			return true;
@@ -1376,7 +1302,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public bool OnCopyToCurrentPattern(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !m_activeView)
 				return false;
 
@@ -1395,7 +1321,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public bool OnUpdateCopyToCurrentPattern(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !m_activeView)
 				return false;
 
@@ -1412,7 +1338,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnRemovePattern(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !m_activeView || !itemProps.Name.EndsWith("-FromRecentList"))
 				return false;
 
@@ -1423,7 +1349,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnClearRecentPatternList(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !m_activeView || !itemProps.Name.EndsWith("-FromRecentList"))
 				return false;
 
@@ -1434,7 +1360,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateRemovePattern(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !m_activeView)
 				return false;
 
@@ -1501,7 +1427,7 @@ namespace SIL.Pa.UI.Views
 			if (!m_activeView)
 				return false;
 
-			RtfExportDlg rtfExp = new RtfExportDlg(m_rsltVwMngr.CurrentViewsGrid);
+			var rtfExp = new RtfExportDlg(m_rsltVwMngr.CurrentViewsGrid);
 			rtfExp.ShowDialog(this);
 			return true;
 		}
@@ -1567,30 +1493,5 @@ namespace SIL.Pa.UI.Views
 
 			return true;
 		}
-
-		#region IxCoreColleague Members
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Never used in PA.
-		/// </summary>
-		/// <param name="mediator"></param>
-		/// <param name="configurationParameters"></param>
-		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, XmlNode configurationParameters)
-		{
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the message target.
-		/// </summary>
-		/// <returns></returns>
-		/// ------------------------------------------------------------------------------------
-		public IxCoreColleague[] GetMessageTargets()
-		{
-			return new IxCoreColleague[] { this };
-		}
-
-		#endregion
 	}
 }

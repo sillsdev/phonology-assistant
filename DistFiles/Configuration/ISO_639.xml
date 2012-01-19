@@ -1,0 +1,939 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Relationship between ISO 639-3 and ISO 639-1 codes for the representation of names of languages</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<table>
+<thead>
+<tr>
+<th>ISO 639-3</th>
+<th>ISO 639-1</th>
+<th>Language name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="ISO_639-3">aar</td>
+<td class="ISO_639-1">aa</td>
+<td class="name">Afar</td>
+</tr>
+<tr>
+<td class="ISO_639-3">abk</td>
+<td class="ISO_639-1">ab</td>
+<td class="name">Abkhazian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">afr</td>
+<td class="ISO_639-1">af</td>
+<td class="name">Afrikaans</td>
+</tr>
+<tr>
+<td class="ISO_639-3">aka</td>
+<td class="ISO_639-1">ak</td>
+<td class="name">Akan</td>
+</tr>
+<tr>
+<td class="ISO_639-3">amh</td>
+<td class="ISO_639-1">am</td>
+<td class="name">Amharic</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ara</td>
+<td class="ISO_639-1">ar</td>
+<td class="name">Arabic</td>
+</tr>
+<tr>
+<td class="ISO_639-3">arg</td>
+<td class="ISO_639-1">an</td>
+<td class="name">Aragonese</td>
+</tr>
+<tr>
+<td class="ISO_639-3">asm</td>
+<td class="ISO_639-1">as</td>
+<td class="name">Assamese</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ava</td>
+<td class="ISO_639-1">av</td>
+<td class="name">Avaric</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ave</td>
+<td class="ISO_639-1">ae</td>
+<td class="name">Avestan</td>
+</tr>
+<tr>
+<td class="ISO_639-3">aym</td>
+<td class="ISO_639-1">ay</td>
+<td class="name">Aymara</td>
+</tr>
+<tr>
+<td class="ISO_639-3">aze</td>
+<td class="ISO_639-1">az</td>
+<td class="name">Azerbaijani</td>
+</tr>
+<tr>
+<td class="ISO_639-3">bak</td>
+<td class="ISO_639-1">ba</td>
+<td class="name">Bashkir</td>
+</tr>
+<tr>
+<td class="ISO_639-3">bam</td>
+<td class="ISO_639-1">bm</td>
+<td class="name">Bambara</td>
+</tr>
+<tr>
+<td class="ISO_639-3">bel</td>
+<td class="ISO_639-1">be</td>
+<td class="name">Belarusian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ben</td>
+<td class="ISO_639-1">bn</td>
+<td class="name">Bengali</td>
+</tr>
+<tr>
+<td class="ISO_639-3">bis</td>
+<td class="ISO_639-1">bi</td>
+<td class="name">Bislama</td>
+</tr>
+<tr>
+<td class="ISO_639-3">bod</td>
+<td class="ISO_639-1">bo</td>
+<td class="name">Tibetan</td>
+</tr>
+<tr>
+<td class="ISO_639-3">bos</td>
+<td class="ISO_639-1">bs</td>
+<td class="name">Bosnian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">bre</td>
+<td class="ISO_639-1">br</td>
+<td class="name">Breton</td>
+</tr>
+<tr>
+<td class="ISO_639-3">bul</td>
+<td class="ISO_639-1">bg</td>
+<td class="name">Bulgarian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">cat</td>
+<td class="ISO_639-1">ca</td>
+<td class="name">Catalan</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ces</td>
+<td class="ISO_639-1">cs</td>
+<td class="name">Czech</td>
+</tr>
+<tr>
+<td class="ISO_639-3">cha</td>
+<td class="ISO_639-1">ch</td>
+<td class="name">Chamorro</td>
+</tr>
+<tr>
+<td class="ISO_639-3">che</td>
+<td class="ISO_639-1">ce</td>
+<td class="name">Chechen</td>
+</tr>
+<tr>
+<td class="ISO_639-3">chu</td>
+<td class="ISO_639-1">cu</td>
+<td class="name">Church Slavic</td>
+</tr>
+<tr>
+<td class="ISO_639-3">chv</td>
+<td class="ISO_639-1">cv</td>
+<td class="name">Chuvash</td>
+</tr>
+<tr>
+<td class="ISO_639-3">cor</td>
+<td class="ISO_639-1">kw</td>
+<td class="name">Cornish</td>
+</tr>
+<tr>
+<td class="ISO_639-3">cos</td>
+<td class="ISO_639-1">co</td>
+<td class="name">Corsican</td>
+</tr>
+<tr>
+<td class="ISO_639-3">cre</td>
+<td class="ISO_639-1">cr</td>
+<td class="name">Cree</td>
+</tr>
+<tr>
+<td class="ISO_639-3">cym</td>
+<td class="ISO_639-1">cy</td>
+<td class="name">Welsh</td>
+</tr>
+<tr>
+<td class="ISO_639-3">dan</td>
+<td class="ISO_639-1">da</td>
+<td class="name">Danish</td>
+</tr>
+<tr>
+<td class="ISO_639-3">deu</td>
+<td class="ISO_639-1">de</td>
+<td class="name">German</td>
+</tr>
+<tr>
+<td class="ISO_639-3">div</td>
+<td class="ISO_639-1">dv</td>
+<td class="name">Dhivehi</td>
+</tr>
+<tr>
+<td class="ISO_639-3">dzo</td>
+<td class="ISO_639-1">dz</td>
+<td class="name">Dzongkha</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ell</td>
+<td class="ISO_639-1">el</td>
+<td class="name">Modern Greek (1453-)</td>
+</tr>
+<tr>
+<td class="ISO_639-3">eng</td>
+<td class="ISO_639-1">en</td>
+<td class="name">English</td>
+</tr>
+<tr>
+<td class="ISO_639-3">epo</td>
+<td class="ISO_639-1">eo</td>
+<td class="name">Esperanto</td>
+</tr>
+<tr>
+<td class="ISO_639-3">est</td>
+<td class="ISO_639-1">et</td>
+<td class="name">Estonian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">eus</td>
+<td class="ISO_639-1">eu</td>
+<td class="name">Basque</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ewe</td>
+<td class="ISO_639-1">ee</td>
+<td class="name">Ewe</td>
+</tr>
+<tr>
+<td class="ISO_639-3">fao</td>
+<td class="ISO_639-1">fo</td>
+<td class="name">Faroese</td>
+</tr>
+<tr>
+<td class="ISO_639-3">fas</td>
+<td class="ISO_639-1">fa</td>
+<td class="name">Persian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">fij</td>
+<td class="ISO_639-1">fj</td>
+<td class="name">Fijian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">fin</td>
+<td class="ISO_639-1">fi</td>
+<td class="name">Finnish</td>
+</tr>
+<tr>
+<td class="ISO_639-3">fra</td>
+<td class="ISO_639-1">fr</td>
+<td class="name">French</td>
+</tr>
+<tr>
+<td class="ISO_639-3">fry</td>
+<td class="ISO_639-1">fy</td>
+<td class="name">Western Frisian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ful</td>
+<td class="ISO_639-1">ff</td>
+<td class="name">Fulah</td>
+</tr>
+<tr>
+<td class="ISO_639-3">gla</td>
+<td class="ISO_639-1">gd</td>
+<td class="name">Scottish Gaelic</td>
+</tr>
+<tr>
+<td class="ISO_639-3">gle</td>
+<td class="ISO_639-1">ga</td>
+<td class="name">Irish</td>
+</tr>
+<tr>
+<td class="ISO_639-3">glg</td>
+<td class="ISO_639-1">gl</td>
+<td class="name">Galician</td>
+</tr>
+<tr>
+<td class="ISO_639-3">glv</td>
+<td class="ISO_639-1">gv</td>
+<td class="name">Manx</td>
+</tr>
+<tr>
+<td class="ISO_639-3">grn</td>
+<td class="ISO_639-1">gn</td>
+<td class="name">Guarani</td>
+</tr>
+<tr>
+<td class="ISO_639-3">guj</td>
+<td class="ISO_639-1">gu</td>
+<td class="name">Gujarati</td>
+</tr>
+<tr>
+<td class="ISO_639-3">hat</td>
+<td class="ISO_639-1">ht</td>
+<td class="name">Haitian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">hau</td>
+<td class="ISO_639-1">ha</td>
+<td class="name">Hausa</td>
+</tr>
+<tr>
+<td class="ISO_639-3">hbs</td>
+<td class="ISO_639-1">sh</td>
+<td class="name">Serbo-Croatian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">heb</td>
+<td class="ISO_639-1">he</td>
+<td class="name">Hebrew</td>
+</tr>
+<tr>
+<td class="ISO_639-3">her</td>
+<td class="ISO_639-1">hz</td>
+<td class="name">Herero</td>
+</tr>
+<tr>
+<td class="ISO_639-3">hin</td>
+<td class="ISO_639-1">hi</td>
+<td class="name">Hindi</td>
+</tr>
+<tr>
+<td class="ISO_639-3">hmo</td>
+<td class="ISO_639-1">ho</td>
+<td class="name">Hiri Motu</td>
+</tr>
+<tr>
+<td class="ISO_639-3">hrv</td>
+<td class="ISO_639-1">hr</td>
+<td class="name">Croatian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">hun</td>
+<td class="ISO_639-1">hu</td>
+<td class="name">Hungarian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">hye</td>
+<td class="ISO_639-1">hy</td>
+<td class="name">Armenian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ibo</td>
+<td class="ISO_639-1">ig</td>
+<td class="name">Igbo</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ido</td>
+<td class="ISO_639-1">io</td>
+<td class="name">Ido</td>
+</tr>
+<tr>
+<td class="ISO_639-3">iii</td>
+<td class="ISO_639-1">ii</td>
+<td class="name">Sichuan Yi</td>
+</tr>
+<tr>
+<td class="ISO_639-3">iku</td>
+<td class="ISO_639-1">iu</td>
+<td class="name">Inuktitut</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ile</td>
+<td class="ISO_639-1">ie</td>
+<td class="name">Interlingue</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ina</td>
+<td class="ISO_639-1">ia</td>
+<td class="name">Interlingua (International Auxiliary Language Association)</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ind</td>
+<td class="ISO_639-1">id</td>
+<td class="name">Indonesian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ipk</td>
+<td class="ISO_639-1">ik</td>
+<td class="name">Inupiaq</td>
+</tr>
+<tr>
+<td class="ISO_639-3">isl</td>
+<td class="ISO_639-1">is</td>
+<td class="name">Icelandic</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ita</td>
+<td class="ISO_639-1">it</td>
+<td class="name">Italian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">jav</td>
+<td class="ISO_639-1">jv</td>
+<td class="name">Javanese</td>
+</tr>
+<tr>
+<td class="ISO_639-3">jpn</td>
+<td class="ISO_639-1">ja</td>
+<td class="name">Japanese</td>
+</tr>
+<tr>
+<td class="ISO_639-3">kal</td>
+<td class="ISO_639-1">kl</td>
+<td class="name">Kalaallisut</td>
+</tr>
+<tr>
+<td class="ISO_639-3">kan</td>
+<td class="ISO_639-1">kn</td>
+<td class="name">Kannada</td>
+</tr>
+<tr>
+<td class="ISO_639-3">kas</td>
+<td class="ISO_639-1">ks</td>
+<td class="name">Kashmiri</td>
+</tr>
+<tr>
+<td class="ISO_639-3">kat</td>
+<td class="ISO_639-1">ka</td>
+<td class="name">Georgian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">kau</td>
+<td class="ISO_639-1">kr</td>
+<td class="name">Kanuri</td>
+</tr>
+<tr>
+<td class="ISO_639-3">kaz</td>
+<td class="ISO_639-1">kk</td>
+<td class="name">Kazakh</td>
+</tr>
+<tr>
+<td class="ISO_639-3">khm</td>
+<td class="ISO_639-1">km</td>
+<td class="name">Central Khmer</td>
+</tr>
+<tr>
+<td class="ISO_639-3">kik</td>
+<td class="ISO_639-1">ki</td>
+<td class="name">Kikuyu</td>
+</tr>
+<tr>
+<td class="ISO_639-3">kin</td>
+<td class="ISO_639-1">rw</td>
+<td class="name">Kinyarwanda</td>
+</tr>
+<tr>
+<td class="ISO_639-3">kir</td>
+<td class="ISO_639-1">ky</td>
+<td class="name">Kirghiz</td>
+</tr>
+<tr>
+<td class="ISO_639-3">kom</td>
+<td class="ISO_639-1">kv</td>
+<td class="name">Komi</td>
+</tr>
+<tr>
+<td class="ISO_639-3">kon</td>
+<td class="ISO_639-1">kg</td>
+<td class="name">Kongo</td>
+</tr>
+<tr>
+<td class="ISO_639-3">kor</td>
+<td class="ISO_639-1">ko</td>
+<td class="name">Korean</td>
+</tr>
+<tr>
+<td class="ISO_639-3">kua</td>
+<td class="ISO_639-1">kj</td>
+<td class="name">Kuanyama</td>
+</tr>
+<tr>
+<td class="ISO_639-3">kur</td>
+<td class="ISO_639-1">ku</td>
+<td class="name">Kurdish</td>
+</tr>
+<tr>
+<td class="ISO_639-3">lao</td>
+<td class="ISO_639-1">lo</td>
+<td class="name">Lao</td>
+</tr>
+<tr>
+<td class="ISO_639-3">lat</td>
+<td class="ISO_639-1">la</td>
+<td class="name">Latin</td>
+</tr>
+<tr>
+<td class="ISO_639-3">lav</td>
+<td class="ISO_639-1">lv</td>
+<td class="name">Latvian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">lim</td>
+<td class="ISO_639-1">li</td>
+<td class="name">Limburgan</td>
+</tr>
+<tr>
+<td class="ISO_639-3">lin</td>
+<td class="ISO_639-1">ln</td>
+<td class="name">Lingala</td>
+</tr>
+<tr>
+<td class="ISO_639-3">lit</td>
+<td class="ISO_639-1">lt</td>
+<td class="name">Lithuanian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ltz</td>
+<td class="ISO_639-1">lb</td>
+<td class="name">Luxembourgish</td>
+</tr>
+<tr>
+<td class="ISO_639-3">lub</td>
+<td class="ISO_639-1">lu</td>
+<td class="name">Luba-Katanga</td>
+</tr>
+<tr>
+<td class="ISO_639-3">lug</td>
+<td class="ISO_639-1">lg</td>
+<td class="name">Ganda</td>
+</tr>
+<tr>
+<td class="ISO_639-3">mah</td>
+<td class="ISO_639-1">mh</td>
+<td class="name">Marshallese</td>
+</tr>
+<tr>
+<td class="ISO_639-3">mal</td>
+<td class="ISO_639-1">ml</td>
+<td class="name">Malayalam</td>
+</tr>
+<tr>
+<td class="ISO_639-3">mar</td>
+<td class="ISO_639-1">mr</td>
+<td class="name">Marathi</td>
+</tr>
+<tr>
+<td class="ISO_639-3">mkd</td>
+<td class="ISO_639-1">mk</td>
+<td class="name">Macedonian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">mlg</td>
+<td class="ISO_639-1">mg</td>
+<td class="name">Malagasy</td>
+</tr>
+<tr>
+<td class="ISO_639-3">mlt</td>
+<td class="ISO_639-1">mt</td>
+<td class="name">Maltese</td>
+</tr>
+<tr>
+<td class="ISO_639-3">mon</td>
+<td class="ISO_639-1">mn</td>
+<td class="name">Mongolian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">mri</td>
+<td class="ISO_639-1">mi</td>
+<td class="name">Maori</td>
+</tr>
+<tr>
+<td class="ISO_639-3">msa</td>
+<td class="ISO_639-1">ms</td>
+<td class="name">Malay (macrolanguage)</td>
+</tr>
+<tr>
+<td class="ISO_639-3">mya</td>
+<td class="ISO_639-1">my</td>
+<td class="name">Burmese</td>
+</tr>
+<tr>
+<td class="ISO_639-3">nau</td>
+<td class="ISO_639-1">na</td>
+<td class="name">Nauru</td>
+</tr>
+<tr>
+<td class="ISO_639-3">nav</td>
+<td class="ISO_639-1">nv</td>
+<td class="name">Navajo</td>
+</tr>
+<tr>
+<td class="ISO_639-3">nbl</td>
+<td class="ISO_639-1">nr</td>
+<td class="name">South Ndebele</td>
+</tr>
+<tr>
+<td class="ISO_639-3">nde</td>
+<td class="ISO_639-1">nd</td>
+<td class="name">North Ndebele</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ndo</td>
+<td class="ISO_639-1">ng</td>
+<td class="name">Ndonga</td>
+</tr>
+<tr>
+<td class="ISO_639-3">nep</td>
+<td class="ISO_639-1">ne</td>
+<td class="name">Nepali</td>
+</tr>
+<tr>
+<td class="ISO_639-3">nld</td>
+<td class="ISO_639-1">nl</td>
+<td class="name">Dutch</td>
+</tr>
+<tr>
+<td class="ISO_639-3">nno</td>
+<td class="ISO_639-1">nn</td>
+<td class="name">Norwegian Nynorsk</td>
+</tr>
+<tr>
+<td class="ISO_639-3">nob</td>
+<td class="ISO_639-1">nb</td>
+<td class="name">Norwegian Bokmål</td>
+</tr>
+<tr>
+<td class="ISO_639-3">nor</td>
+<td class="ISO_639-1">no</td>
+<td class="name">Norwegian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">nya</td>
+<td class="ISO_639-1">ny</td>
+<td class="name">Nyanja</td>
+</tr>
+<tr>
+<td class="ISO_639-3">oci</td>
+<td class="ISO_639-1">oc</td>
+<td class="name">Occitan (post 1500)</td>
+</tr>
+<tr>
+<td class="ISO_639-3">oji</td>
+<td class="ISO_639-1">oj</td>
+<td class="name">Ojibwa</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ori</td>
+<td class="ISO_639-1">or</td>
+<td class="name">Oriya</td>
+</tr>
+<tr>
+<td class="ISO_639-3">orm</td>
+<td class="ISO_639-1">om</td>
+<td class="name">Oromo</td>
+</tr>
+<tr>
+<td class="ISO_639-3">oss</td>
+<td class="ISO_639-1">os</td>
+<td class="name">Ossetian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">pan</td>
+<td class="ISO_639-1">pa</td>
+<td class="name">Panjabi</td>
+</tr>
+<tr>
+<td class="ISO_639-3">pli</td>
+<td class="ISO_639-1">pi</td>
+<td class="name">Pali</td>
+</tr>
+<tr>
+<td class="ISO_639-3">pol</td>
+<td class="ISO_639-1">pl</td>
+<td class="name">Polish</td>
+</tr>
+<tr>
+<td class="ISO_639-3">por</td>
+<td class="ISO_639-1">pt</td>
+<td class="name">Portuguese</td>
+</tr>
+<tr>
+<td class="ISO_639-3">pus</td>
+<td class="ISO_639-1">ps</td>
+<td class="name">Pushto</td>
+</tr>
+<tr>
+<td class="ISO_639-3">que</td>
+<td class="ISO_639-1">qu</td>
+<td class="name">Quechua</td>
+</tr>
+<tr>
+<td class="ISO_639-3">roh</td>
+<td class="ISO_639-1">rm</td>
+<td class="name">Romansh</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ron</td>
+<td class="ISO_639-1">ro</td>
+<td class="name">Romanian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">run</td>
+<td class="ISO_639-1">rn</td>
+<td class="name">Rundi</td>
+</tr>
+<tr>
+<td class="ISO_639-3">rus</td>
+<td class="ISO_639-1">ru</td>
+<td class="name">Russian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">sag</td>
+<td class="ISO_639-1">sg</td>
+<td class="name">Sango</td>
+</tr>
+<tr>
+<td class="ISO_639-3">san</td>
+<td class="ISO_639-1">sa</td>
+<td class="name">Sanskrit</td>
+</tr>
+<tr>
+<td class="ISO_639-3">sin</td>
+<td class="ISO_639-1">si</td>
+<td class="name">Sinhala</td>
+</tr>
+<tr>
+<td class="ISO_639-3">slk</td>
+<td class="ISO_639-1">sk</td>
+<td class="name">Slovak</td>
+</tr>
+<tr>
+<td class="ISO_639-3">slv</td>
+<td class="ISO_639-1">sl</td>
+<td class="name">Slovenian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">sme</td>
+<td class="ISO_639-1">se</td>
+<td class="name">Northern Sami</td>
+</tr>
+<tr>
+<td class="ISO_639-3">smo</td>
+<td class="ISO_639-1">sm</td>
+<td class="name">Samoan</td>
+</tr>
+<tr>
+<td class="ISO_639-3">sna</td>
+<td class="ISO_639-1">sn</td>
+<td class="name">Shona</td>
+</tr>
+<tr>
+<td class="ISO_639-3">snd</td>
+<td class="ISO_639-1">sd</td>
+<td class="name">Sindhi</td>
+</tr>
+<tr>
+<td class="ISO_639-3">som</td>
+<td class="ISO_639-1">so</td>
+<td class="name">Somali</td>
+</tr>
+<tr>
+<td class="ISO_639-3">sot</td>
+<td class="ISO_639-1">st</td>
+<td class="name">Southern Sotho</td>
+</tr>
+<tr>
+<td class="ISO_639-3">spa</td>
+<td class="ISO_639-1">es</td>
+<td class="name">Spanish</td>
+</tr>
+<tr>
+<td class="ISO_639-3">sqi</td>
+<td class="ISO_639-1">sq</td>
+<td class="name">Albanian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">srd</td>
+<td class="ISO_639-1">sc</td>
+<td class="name">Sardinian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">srp</td>
+<td class="ISO_639-1">sr</td>
+<td class="name">Serbian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ssw</td>
+<td class="ISO_639-1">ss</td>
+<td class="name">Swati</td>
+</tr>
+<tr>
+<td class="ISO_639-3">sun</td>
+<td class="ISO_639-1">su</td>
+<td class="name">Sundanese</td>
+</tr>
+<tr>
+<td class="ISO_639-3">swa</td>
+<td class="ISO_639-1">sw</td>
+<td class="name">Swahili (macrolanguage)</td>
+</tr>
+<tr>
+<td class="ISO_639-3">swe</td>
+<td class="ISO_639-1">sv</td>
+<td class="name">Swedish</td>
+</tr>
+<tr>
+<td class="ISO_639-3">tah</td>
+<td class="ISO_639-1">ty</td>
+<td class="name">Tahitian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">tam</td>
+<td class="ISO_639-1">ta</td>
+<td class="name">Tamil</td>
+</tr>
+<tr>
+<td class="ISO_639-3">tat</td>
+<td class="ISO_639-1">tt</td>
+<td class="name">Tatar</td>
+</tr>
+<tr>
+<td class="ISO_639-3">tel</td>
+<td class="ISO_639-1">te</td>
+<td class="name">Telugu</td>
+</tr>
+<tr>
+<td class="ISO_639-3">tgk</td>
+<td class="ISO_639-1">tg</td>
+<td class="name">Tajik</td>
+</tr>
+<tr>
+<td class="ISO_639-3">tgl</td>
+<td class="ISO_639-1">tl</td>
+<td class="name">Tagalog</td>
+</tr>
+<tr>
+<td class="ISO_639-3">tha</td>
+<td class="ISO_639-1">th</td>
+<td class="name">Thai</td>
+</tr>
+<tr>
+<td class="ISO_639-3">tir</td>
+<td class="ISO_639-1">ti</td>
+<td class="name">Tigrinya</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ton</td>
+<td class="ISO_639-1">to</td>
+<td class="name">Tonga (Tonga Islands)</td>
+</tr>
+<tr>
+<td class="ISO_639-3">tsn</td>
+<td class="ISO_639-1">tn</td>
+<td class="name">Tswana</td>
+</tr>
+<tr>
+<td class="ISO_639-3">tso</td>
+<td class="ISO_639-1">ts</td>
+<td class="name">Tsonga</td>
+</tr>
+<tr>
+<td class="ISO_639-3">tuk</td>
+<td class="ISO_639-1">tk</td>
+<td class="name">Turkmen</td>
+</tr>
+<tr>
+<td class="ISO_639-3">tur</td>
+<td class="ISO_639-1">tr</td>
+<td class="name">Turkish</td>
+</tr>
+<tr>
+<td class="ISO_639-3">twi</td>
+<td class="ISO_639-1">tw</td>
+<td class="name">Twi</td>
+</tr>
+<tr>
+<td class="ISO_639-3">uig</td>
+<td class="ISO_639-1">ug</td>
+<td class="name">Uighur</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ukr</td>
+<td class="ISO_639-1">uk</td>
+<td class="name">Ukrainian</td>
+</tr>
+<tr>
+<td class="ISO_639-3">urd</td>
+<td class="ISO_639-1">ur</td>
+<td class="name">Urdu</td>
+</tr>
+<tr>
+<td class="ISO_639-3">uzb</td>
+<td class="ISO_639-1">uz</td>
+<td class="name">Uzbek</td>
+</tr>
+<tr>
+<td class="ISO_639-3">ven</td>
+<td class="ISO_639-1">ve</td>
+<td class="name">Venda</td>
+</tr>
+<tr>
+<td class="ISO_639-3">vie</td>
+<td class="ISO_639-1">vi</td>
+<td class="name">Vietnamese</td>
+</tr>
+<tr>
+<td class="ISO_639-3">vol</td>
+<td class="ISO_639-1">vo</td>
+<td class="name">Volapük</td>
+</tr>
+<tr>
+<td class="ISO_639-3">wln</td>
+<td class="ISO_639-1">wa</td>
+<td class="name">Walloon</td>
+</tr>
+<tr>
+<td class="ISO_639-3">wol</td>
+<td class="ISO_639-1">wo</td>
+<td class="name">Wolof</td>
+</tr>
+<tr>
+<td class="ISO_639-3">xho</td>
+<td class="ISO_639-1">xh</td>
+<td class="name">Xhosa</td>
+</tr>
+<tr>
+<td class="ISO_639-3">yid</td>
+<td class="ISO_639-1">yi</td>
+<td class="name">Yiddish</td>
+</tr>
+<tr>
+<td class="ISO_639-3">yor</td>
+<td class="ISO_639-1">yo</td>
+<td class="name">Yoruba</td>
+</tr>
+<tr>
+<td class="ISO_639-3">zha</td>
+<td class="ISO_639-1">za</td>
+<td class="name">Zhuang</td>
+</tr>
+<tr>
+<td class="ISO_639-3">zho</td>
+<td class="ISO_639-1">zh</td>
+<td class="name">Chinese</td>
+</tr>
+<tr>
+<td class="ISO_639-3">zul</td>
+<td class="ISO_639-1">zu</td>
+<td class="name">Zulu</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

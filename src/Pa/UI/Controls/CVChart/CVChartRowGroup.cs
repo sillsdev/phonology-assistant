@@ -25,7 +25,7 @@ namespace SIL.Pa.UI.Controls
 {
 	/// ----------------------------------------------------------------------------------------
 	/// <summary>
-	/// Manages painting one or more DataGridView row headings so they look like a single
+	/// Manages painting one or more DataGridView row headings to they look like a single
 	/// heading. Part of that involves drawing the group's heading text.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
@@ -91,15 +91,14 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private Rectangle GetGroupRectangle()
 		{
-			// Don't use -1 for columnIndex, below; see
+			// Don't call GetCellDisplayRectangle(-1,...) below; see
 			// http://bugzilla.xamarin.com/show_bug.cgi?id=341
-			var rc = m_grid.GetCellDisplayRectangle(0, m_firstRowIndex, false);
-
-			var dy = (rc.Height == Rows[0].Height ?
-				rc.Y : m_grid.ColumnHeadersHeight - m_grid.VerticalScrollingOffset);
+			int top = m_grid.ColumnHeadersHeight - m_grid.VerticalScrollingOffset;
+			for (int i = 0; i < m_firstRowIndex; i++)
+				top += m_grid.Rows[i].Height;
 
 			return (m_grid == null ? Rectangle.Empty :
-				new Rectangle(0, dy, m_grid.RowHeadersWidth, Rows.Sum(x => x.Height)));
+				new Rectangle(0, top, m_grid.RowHeadersWidth, Rows.Sum(x => x.Height)));
 		}
 
 		/// ------------------------------------------------------------------------------------

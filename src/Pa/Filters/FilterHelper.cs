@@ -55,7 +55,7 @@ namespace SIL.Pa.Filters
 		{
 			var filename = m_project.ProjectPathFilePrefix + kFiltersFilePrefix;
 
-			if (filename != null && File.Exists(filename))
+			if (File.Exists(filename))
 				Filters = XmlSerializationHelper.DeserializeFromFile<List<Filter>>(filename, "filters");
 
 			if (Filters == null)
@@ -144,34 +144,41 @@ namespace SIL.Pa.Filters
 		/// ------------------------------------------------------------------------------------
 		public SearchEngine CheckSearchQuery(SearchQuery query, bool showErrMsg)
 		{
-			query.ErrorMessages.Clear();
-			SearchQuery modifiedQuery;
-			if (!App.ConvertClassesToPatterns(query, out modifiedQuery, showErrMsg))
+			var validator = new SearchQueryValidator(m_project);
+			if (!validator.GetIsValid(query) && showErrMsg)
+			{
+				Utils.MsgBox(SearchQueryValidationError.GetSingleStringErrorMsgFromListOfErrors(query.Pattern, validator.Errors));
 				return null;
+			}
 
 			SearchEngine.IgnoreUndefinedCharacters = m_project.IgnoreUndefinedCharsInSearches;
-			var engine = new SearchEngine(modifiedQuery, m_project.PhoneCache ?? SearchEngine.PhoneCache);
+			return new SearchEngine(query, m_project.PhoneCache ?? SearchEngine.PhoneCache);
 
-			string[] errors = modifiedQuery.ErrorMessages.ToArray();
-			string msg = ReflectionHelper.GetStrResult(typeof(App), "CombineErrorMessages", errors);
+			//SearchQuery modifiedQuery;
+			//if (!App.ConvertClassesToPatterns(query, out modifiedQuery, showErrMsg))
+			//    return null;
 
-			if (!string.IsNullOrEmpty(msg))
-			{
-				if (showErrMsg)
-					Utils.MsgBox(msg);
+			//SearchEngine.IgnoreUndefinedCharacters = m_project.IgnoreUndefinedCharsInSearches;
+			//var engine = new SearchEngine(modifiedQuery, m_project.PhoneCache ?? SearchEngine.PhoneCache);
+			//var msg = modifiedQuery.GetCombinedErrorMessages();
 
-				query.ErrorMessages.AddRange(modifiedQuery.ErrorMessages);
-				return null;
-			}
+			//if (!string.IsNullOrEmpty(msg))
+			//{
+			//    if (showErrMsg)
+			//        Utils.MsgBox(msg);
 
-			if (!ReflectionHelper.GetBoolResult(typeof(App),
-				"VerifyMiscPatternConditions", new object[] { engine, showErrMsg }))
-			{
-				query.ErrorMessages.AddRange(modifiedQuery.ErrorMessages);
-				return null;
-			}
+			//    query.Errors.AddRange(modifiedQuery.Errors);
+			//    return null;
+			//}
 
-			return engine;
+			//if (!ReflectionHelper.GetBoolResult(typeof(App),
+			//    "VerifyMiscPatternConditions", new object[] { engine, showErrMsg }))
+			//{
+			//    query.Errors.AddRange(modifiedQuery.Errors);
+			//    return null;
+			//}
+
+			//return engine;
 		}
 
 		/// ------------------------------------------------------------------------------------

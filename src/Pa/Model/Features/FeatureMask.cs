@@ -1,19 +1,3 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2009, SIL International. All Rights Reserved.
-// <copyright from='2009' to='2009' company='SIL International'>
-//		Copyright (c) 2009, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
-// 
-// File: FeatureMask.cs
-// Responsibility: D. Olson
-// 
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System;
 using System.Linq;
 using System.Text;
@@ -172,6 +156,7 @@ namespace SIL.Pa.Model
 			return true;
 		}
 
+		
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Returns a value indicating whether or not one or more features in the specified
@@ -180,10 +165,21 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public bool ContainsOneOrMore(FeatureMask mask)
 		{
-			if (m_maskCount != mask.m_maskCount)
+			return ContainsOneOrMore(mask, true);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Returns a value indicating whether or not one or more features in the specified
+		/// mask are contained within this mask instance.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public bool ContainsOneOrMore(FeatureMask mask, bool throwWhenBitCountMismatch)
+		{
+			if (m_maskCount != mask.m_maskCount && throwWhenBitCountMismatch)
 				throw new ArgumentException(kBitSizeMismatchMsg);
 
-			for (int i = 0; i < m_maskCount; i++)
+			for (int i = 0; i < Math.Min(m_maskCount, mask.m_maskCount); i++)
 			{
 				if ((m_masks[i] & mask.m_masks[i]) > 0)
 					return true;

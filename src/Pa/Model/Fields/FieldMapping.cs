@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+using Localization;
 using SIL.Pa.DataSource.FieldWorks;
-using SilTools;
 
 namespace SIL.Pa.Model
 {
@@ -109,18 +109,19 @@ namespace SIL.Pa.Model
 		public static string GetDefaultFw6WsIdForField(PaField field,
 			IEnumerable<FwWritingSysInfo> writingSystems)
 		{
+			var wsList = writingSystems.ToArray();
 			FwWritingSysInfo ws;
 
 			if (field.FwWsType == FwDBUtils.FwWritingSystemType.Vernacular)
 			{
-				ws = writingSystems.SingleOrDefault(w => w.IsDefaultVernacular);
+				ws = wsList.SingleOrDefault(w => w.IsDefaultVernacular);
 				return (ws != null ? ws.Id :
-					writingSystems.First(w => w.Type == FwDBUtils.FwWritingSystemType.Vernacular).Id);
+					wsList.First(w => w.Type == FwDBUtils.FwWritingSystemType.Vernacular).Id);
 			}
 
-			ws = writingSystems.SingleOrDefault(w => w.IsDefaultAnalysis);
+			ws = wsList.SingleOrDefault(w => w.IsDefaultAnalysis);
 			return (ws != null ? ws.Id :
-				writingSystems.First(w => w.Type == FwDBUtils.FwWritingSystemType.Analysis).Id);
+				wsList.First(w => w.Type == FwDBUtils.FwWritingSystemType.Analysis).Id);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -133,16 +134,23 @@ namespace SIL.Pa.Model
 		public static void CheckMappingsFw7WritingSystem(FieldMapping mapping,
 			IEnumerable<FwWritingSysInfo> writingSystems)
 		{
-			var ws = writingSystems.SingleOrDefault(w => w.Id == mapping.FwWsId);
+			var wsList = writingSystems.ToArray();
+
+			var ws = wsList.SingleOrDefault(w => w.Id == mapping.FwWsId);
 			if (ws != null && mapping.Field.FwWsType == ws.Type)
 				return;
 
 			ws = null;
 
-			if (mapping.Field.FwWsType == FwDBUtils.FwWritingSystemType.Analysis)
-				ws = writingSystems.SingleOrDefault(w => w.IsDefaultAnalysis);
-			else if (mapping.Field.FwWsType == FwDBUtils.FwWritingSystemType.Vernacular)
-				ws = writingSystems.SingleOrDefault(w => w.IsDefaultVernacular);
+			switch (mapping.Field.FwWsType)
+			{
+				case FwDBUtils.FwWritingSystemType.Analysis:
+					ws = wsList.SingleOrDefault(w => w.IsDefaultAnalysis);
+					break;
+				case FwDBUtils.FwWritingSystemType.Vernacular:
+					ws = wsList.SingleOrDefault(w => w.IsDefaultVernacular);
+					break;
+			}
 
 			mapping.FwWsId = (ws != null ? ws.Id : null);
 		}
@@ -150,10 +158,22 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public static bool IsPhoneticMapped(IEnumerable<FieldMapping> mappings, bool showIfNotMapped)
 		{
+			if (mappings == null)
+			{
+				App.NotifyUserOfProblem(LocalizationManager.GetString(
+					"ProjectFields.NoFieldMappingsMsg",
+					"You must specify field mappings."));
+				return false;
+			}
+
 			var mapped = mappings.Any(m => m.Field != null && m.Field.Type == FieldType.Phonetic);
 
 			if (!mapped && showIfNotMapped)
-				Utils.MsgBox(App.GetString("NoPhoneticMappingsMsg", "You must specify a mapping for the phonetic field."));
+			{
+				App.NotifyUserOfProblem(LocalizationManager.GetString(
+					"ProjectFields.NoPhoneticMappingsMsg",
+					"You must specify a mapping for the phonetic field."));
+			}
 
 			return mapped;
 		}

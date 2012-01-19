@@ -30,7 +30,6 @@ namespace SIL.Pa.UI.Controls
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SortOptionsDropDown));
-			this.rbUnicodeOrder = new System.Windows.Forms.RadioButton();
 			this.rbPlaceArticulation = new System.Windows.Forms.RadioButton();
 			this.rbMannerArticulation = new System.Windows.Forms.RadioButton();
 			this.tblAdvSorting = new System.Windows.Forms.TableLayoutPanel();
@@ -72,37 +71,20 @@ namespace SIL.Pa.UI.Controls
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// rbUnicodeOrder
-			// 
-			this.rbUnicodeOrder.AutoSize = true;
-			this.rbUnicodeOrder.BackColor = System.Drawing.Color.Transparent;
-			this.locExtender.SetLocalizableToolTip(this.rbUnicodeOrder, null);
-			this.locExtender.SetLocalizationComment(this.rbUnicodeOrder, null);
-			this.locExtender.SetLocalizingId(this.rbUnicodeOrder, "SortOptionsDropDown.rbUnicodeOrder");
-			this.rbUnicodeOrder.Location = new System.Drawing.Point(12, 49);
-			this.rbUnicodeOrder.Margin = new System.Windows.Forms.Padding(12, 0, 2, 0);
-			this.rbUnicodeOrder.Name = "rbUnicodeOrder";
-			this.rbUnicodeOrder.Size = new System.Drawing.Size(94, 17);
-			this.rbUnicodeOrder.TabIndex = 2;
-			this.rbUnicodeOrder.TabStop = true;
-			this.rbUnicodeOrder.Text = "&Unicode Order";
-			this.rbUnicodeOrder.UseVisualStyleBackColor = false;
-			this.rbUnicodeOrder.Click += new System.EventHandler(this.HandleSortTypeChecked);
-			// 
 			// rbPlaceArticulation
 			// 
 			this.rbPlaceArticulation.AutoSize = true;
 			this.rbPlaceArticulation.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.rbPlaceArticulation, null);
 			this.locExtender.SetLocalizationComment(this.rbPlaceArticulation, null);
-			this.locExtender.SetLocalizingId(this.rbPlaceArticulation, "SortOptionsDropDown.rbPlaceArticulation");
+			this.locExtender.SetLocalizingId(this.rbPlaceArticulation, "Views.WordLists.SearchResults.SortOptionsPopup.PlaceOrBacknessRadioButton");
 			this.rbPlaceArticulation.Location = new System.Drawing.Point(12, 5);
 			this.rbPlaceArticulation.Margin = new System.Windows.Forms.Padding(12, 5, 2, 5);
 			this.rbPlaceArticulation.Name = "rbPlaceArticulation";
-			this.rbPlaceArticulation.Size = new System.Drawing.Size(119, 17);
+			this.rbPlaceArticulation.Size = new System.Drawing.Size(114, 17);
 			this.rbPlaceArticulation.TabIndex = 0;
 			this.rbPlaceArticulation.TabStop = true;
-			this.rbPlaceArticulation.Text = "&Place of Articulation";
+			this.rbPlaceArticulation.Text = "&Place or Backness";
 			this.rbPlaceArticulation.UseVisualStyleBackColor = false;
 			this.rbPlaceArticulation.Click += new System.EventHandler(this.HandleSortTypeChecked);
 			// 
@@ -112,14 +94,14 @@ namespace SIL.Pa.UI.Controls
 			this.rbMannerArticulation.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.rbMannerArticulation, null);
 			this.locExtender.SetLocalizationComment(this.rbMannerArticulation, null);
-			this.locExtender.SetLocalizingId(this.rbMannerArticulation, "SortOptionsDropDown.rbMannerArticulation");
+			this.locExtender.SetLocalizingId(this.rbMannerArticulation, "Views.WordLists.SearchResults.SortOptionsPopup.MannerOrHeightRadioButton");
 			this.rbMannerArticulation.Location = new System.Drawing.Point(12, 27);
-			this.rbMannerArticulation.Margin = new System.Windows.Forms.Padding(12, 0, 2, 5);
+			this.rbMannerArticulation.Margin = new System.Windows.Forms.Padding(12, 0, 2, 0);
 			this.rbMannerArticulation.Name = "rbMannerArticulation";
-			this.rbMannerArticulation.Size = new System.Drawing.Size(128, 17);
+			this.rbMannerArticulation.Size = new System.Drawing.Size(107, 17);
 			this.rbMannerArticulation.TabIndex = 1;
 			this.rbMannerArticulation.TabStop = true;
-			this.rbMannerArticulation.Text = "&Manner of Articulation";
+			this.rbMannerArticulation.Text = "&Manner or Height";
 			this.rbMannerArticulation.UseVisualStyleBackColor = false;
 			this.rbMannerArticulation.Click += new System.EventHandler(this.HandleSortTypeChecked);
 			// 
@@ -159,9 +141,9 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// pnlAdvSort2
 			// 
-			this.pnlAdvSort2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pnlAdvSort2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.pnlAdvSort2.Controls.Add(this.rbItem3rd);
 			this.pnlAdvSort2.Controls.Add(this.rbBefore3rd);
 			this.pnlAdvSort2.Controls.Add(this.rbAfter3rd);
@@ -226,9 +208,9 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// pnlAdvSort0
 			// 
-			this.pnlAdvSort0.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pnlAdvSort0.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.pnlAdvSort0.Controls.Add(this.rbItem1st);
 			this.pnlAdvSort0.Controls.Add(this.rbBefore1st);
 			this.pnlAdvSort0.Controls.Add(this.rbAfter1st);
@@ -294,9 +276,9 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// pnlAdvSort1
 			// 
-			this.pnlAdvSort1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pnlAdvSort1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.pnlAdvSort1.Controls.Add(this.rbAfter2nd);
 			this.pnlAdvSort1.Controls.Add(this.rbBefore2nd);
 			this.pnlAdvSort1.Controls.Add(this.rbItem2nd);
@@ -418,7 +400,7 @@ namespace SIL.Pa.UI.Controls
 			this.lblBefore.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblBefore, null);
 			this.locExtender.SetLocalizationComment(this.lblBefore, null);
-			this.locExtender.SetLocalizingId(this.lblBefore, "SortOptionsDropDown.lblBefore");
+			this.locExtender.SetLocalizingId(this.lblBefore, "Views.WordLists.SearchResults.SortOptionsPopup.BeforeLabel");
 			this.lblBefore.Location = new System.Drawing.Point(2, 28);
 			this.lblBefore.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.lblBefore.Name = "lblBefore";
@@ -435,7 +417,7 @@ namespace SIL.Pa.UI.Controls
 			this.lblThird.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblThird, null);
 			this.locExtender.SetLocalizationComment(this.lblThird, null);
-			this.locExtender.SetLocalizingId(this.lblThird, "SortOptionsDropDown.lblThird");
+			this.locExtender.SetLocalizingId(this.lblThird, "Views.WordLists.SearchResults.SortOptionsPopup.ThirdLabel");
 			this.lblThird.Location = new System.Drawing.Point(131, 9);
 			this.lblThird.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.lblThird.MinimumSize = new System.Drawing.Size(27, 0);
@@ -453,7 +435,7 @@ namespace SIL.Pa.UI.Controls
 			this.lblAfter.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblAfter, null);
 			this.locExtender.SetLocalizationComment(this.lblAfter, null);
-			this.locExtender.SetLocalizingId(this.lblAfter, "SortOptionsDropDown.lblAfter");
+			this.locExtender.SetLocalizingId(this.lblAfter, "Views.WordLists.SearchResults.SortOptionsPopup.AfterLabel");
 			this.lblAfter.Location = new System.Drawing.Point(2, 76);
 			this.lblAfter.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.lblAfter.Name = "lblAfter";
@@ -469,7 +451,7 @@ namespace SIL.Pa.UI.Controls
 			this.lblItem.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblItem, null);
 			this.locExtender.SetLocalizationComment(this.lblItem, null);
-			this.locExtender.SetLocalizingId(this.lblItem, "SortOptionsDropDown.lblItem");
+			this.locExtender.SetLocalizingId(this.lblItem, "Views.WordLists.SearchResults.SortOptionsPopup.ItemLabel");
 			this.lblItem.Location = new System.Drawing.Point(2, 52);
 			this.lblItem.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.lblItem.Name = "lblItem";
@@ -486,7 +468,7 @@ namespace SIL.Pa.UI.Controls
 			this.lblFirst.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblFirst, null);
 			this.locExtender.SetLocalizationComment(this.lblFirst, null);
-			this.locExtender.SetLocalizingId(this.lblFirst, "SortOptionsDropDown.lblFirst");
+			this.locExtender.SetLocalizingId(this.lblFirst, "Views.WordLists.SearchResults.SortOptionsPopup.FirstLabel");
 			this.lblFirst.Location = new System.Drawing.Point(69, 9);
 			this.lblFirst.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.lblFirst.MinimumSize = new System.Drawing.Size(27, 0);
@@ -504,7 +486,7 @@ namespace SIL.Pa.UI.Controls
 			this.lblRL.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblRL, "Right-to-Left");
 			this.locExtender.SetLocalizationComment(this.lblRL, null);
-			this.locExtender.SetLocalizingId(this.lblRL, "SortOptionsDropDown.lblRL");
+			this.locExtender.SetLocalizingId(this.lblRL, "Views.WordLists.SearchResults.SortOptionsPopup.RightToLeftLabel");
 			this.lblRL.Location = new System.Drawing.Point(162, 9);
 			this.lblRL.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.lblRL.MinimumSize = new System.Drawing.Size(27, 0);
@@ -522,7 +504,7 @@ namespace SIL.Pa.UI.Controls
 			this.lblSecond.BackColor = System.Drawing.Color.Transparent;
 			this.locExtender.SetLocalizableToolTip(this.lblSecond, null);
 			this.locExtender.SetLocalizationComment(this.lblSecond, null);
-			this.locExtender.SetLocalizingId(this.lblSecond, "SortOptionsDropDown.lblSecond");
+			this.locExtender.SetLocalizingId(this.lblSecond, "Views.WordLists.SearchResults.SortOptionsPopup.SecondLabel");
 			this.lblSecond.Location = new System.Drawing.Point(100, 9);
 			this.lblSecond.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.lblSecond.MinimumSize = new System.Drawing.Size(27, 0);
@@ -540,7 +522,6 @@ namespace SIL.Pa.UI.Controls
 			this.tblLayoutOuter.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tblLayoutOuter.Controls.Add(this.pnlAdvOptions, 0, 3);
 			this.tblLayoutOuter.Controls.Add(this.rbMannerArticulation, 0, 1);
-			this.tblLayoutOuter.Controls.Add(this.rbUnicodeOrder, 0, 2);
 			this.tblLayoutOuter.Controls.Add(this.rbPlaceArticulation, 0, 1);
 			this.tblLayoutOuter.Controls.Add(this.flowPanelButtons, 0, 4);
 			this.tblLayoutOuter.Location = new System.Drawing.Point(0, 0);
@@ -552,7 +533,7 @@ namespace SIL.Pa.UI.Controls
 			this.tblLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tblLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tblLayoutOuter.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tblLayoutOuter.Size = new System.Drawing.Size(211, 203);
+			this.tblLayoutOuter.Size = new System.Drawing.Size(211, 181);
 			this.tblLayoutOuter.TabIndex = 0;
 			this.tblLayoutOuter.SizeChanged += new System.EventHandler(this.HandleOuterTableLayoutSizeChanged);
 			// 
@@ -573,7 +554,7 @@ namespace SIL.Pa.UI.Controls
 			this.locExtender.SetLocalizableToolTip(this.pnlAdvOptions, null);
 			this.locExtender.SetLocalizationComment(this.pnlAdvOptions, null);
 			this.locExtender.SetLocalizingId(this.pnlAdvOptions, "SortOptionsDropDown.pnlAdvOptions");
-			this.pnlAdvOptions.Location = new System.Drawing.Point(8, 73);
+			this.pnlAdvOptions.Location = new System.Drawing.Point(8, 51);
 			this.pnlAdvOptions.Margin = new System.Windows.Forms.Padding(8, 7, 8, 0);
 			this.pnlAdvOptions.MnemonicGeneratesClick = false;
 			this.pnlAdvOptions.Name = "pnlAdvOptions";
@@ -583,14 +564,14 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// flowPanelButtons
 			// 
-			this.flowPanelButtons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.flowPanelButtons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.flowPanelButtons.AutoSize = true;
 			this.flowPanelButtons.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.flowPanelButtons.Controls.Add(this.btnClose);
 			this.flowPanelButtons.Controls.Add(this.btnHelp);
 			this.flowPanelButtons.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-			this.flowPanelButtons.Location = new System.Drawing.Point(0, 180);
+			this.flowPanelButtons.Location = new System.Drawing.Point(0, 158);
 			this.flowPanelButtons.Margin = new System.Windows.Forms.Padding(0, 7, 7, 7);
 			this.flowPanelButtons.Name = "flowPanelButtons";
 			this.flowPanelButtons.Size = new System.Drawing.Size(204, 16);
@@ -608,7 +589,7 @@ namespace SIL.Pa.UI.Controls
 			this.btnClose.ImageNormal = ((System.Drawing.Image)(resources.GetObject("btnClose.ImageNormal")));
 			this.locExtender.SetLocalizableToolTip(this.btnClose, "Close");
 			this.locExtender.SetLocalizationComment(this.btnClose, null);
-			this.locExtender.SetLocalizingId(this.btnClose, "SortOptionsDropDown.btnClose");
+			this.locExtender.SetLocalizingId(this.btnClose, "Views.WordLists.SearchResults.SortOptionsPopup.CloseButton");
 			this.btnClose.Location = new System.Drawing.Point(188, 0);
 			this.btnClose.Margin = new System.Windows.Forms.Padding(10, 0, 0, 0);
 			this.btnClose.Name = "btnClose";
@@ -630,7 +611,7 @@ namespace SIL.Pa.UI.Controls
 			this.btnHelp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnHelp, "Help");
 			this.locExtender.SetLocalizationComment(this.btnHelp, null);
-			this.locExtender.SetLocalizingId(this.btnHelp, "SortOptionsDropDown.btnHelp");
+			this.locExtender.SetLocalizingId(this.btnHelp, "Views.WordLists.SearchResults.SortOptionsPopup.HelpButton");
 			this.btnHelp.Location = new System.Drawing.Point(162, 0);
 			this.btnHelp.Margin = new System.Windows.Forms.Padding(7, 0, 0, 0);
 			this.btnHelp.Name = "btnHelp";
@@ -641,7 +622,6 @@ namespace SIL.Pa.UI.Controls
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// SortOptionsDropDown
@@ -652,6 +632,7 @@ namespace SIL.Pa.UI.Controls
 			this.Controls.Add(this.tblLayoutOuter);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
+			this.locExtender.SetLocalizationPriority(this, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this, "SortOptionsDropDown.SortOptionsDropDown");
 			this.Margin = new System.Windows.Forms.Padding(5);
 			this.Name = "SortOptionsDropDown";
@@ -674,7 +655,6 @@ namespace SIL.Pa.UI.Controls
 
 		#endregion
 
-		private System.Windows.Forms.RadioButton rbUnicodeOrder;
 		private System.Windows.Forms.RadioButton rbPlaceArticulation;
 		private System.Windows.Forms.RadioButton rbMannerArticulation;
 		private System.Windows.Forms.CheckBox chkAfterRL;

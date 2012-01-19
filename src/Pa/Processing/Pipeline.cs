@@ -45,10 +45,6 @@ namespace SIL.Pa.Processing
 		private static XmlNamespaceManager s_namespaceManager;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static Pipeline Create(ProcessType prsType, string processFileName,
 			string processingFolder)
 		{
@@ -81,10 +77,6 @@ namespace SIL.Pa.Processing
 			return (stepList.Count == 0 ? null : new Pipeline(stepList));
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private static string GetProcessXPath(ProcessType prsType)
 		{

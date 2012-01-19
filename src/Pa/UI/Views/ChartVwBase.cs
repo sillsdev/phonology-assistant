@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using Palaso.IO;
@@ -13,7 +14,6 @@ using SIL.Pa.Processing;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
 using SilTools;
-using SilTools.Controls;
 
 namespace SIL.Pa.UI.Views
 {
@@ -23,26 +23,21 @@ namespace SIL.Pa.UI.Views
 	/// character charts.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	public partial class ChartVwBase : UserControl, IxCoreColleague, ITabView
+	public partial class ChartVwBase : ViewBase, ITabView
 	{
-		protected List<CharGridCell> _phoneList;
 		protected ITMAdapter _tmAdapter;
-		protected ChartOptionsDropDown _chartOptionsDropDown;
+		protected ChartOptionsDropDown _ignoredSymbolsDropDown;
 
-		protected CVChartGrid _newChartGrid;
-		protected SilPanel _pnlGrid;
+		protected CVChartGrid _chartGrid;
 		protected WebBrowser _htmlVw;
-		protected PaProject _project;
-
-		private string _persistedInfoFilename;
+		
 		private bool _histogramOn = true;
 		private bool _initialDock = true;
 		private bool _activeView;
 
 		/// ------------------------------------------------------------------------------------
-		public ChartVwBase(PaProject project)
+		public ChartVwBase(PaProject project) : base(project)
 		{
-			_project = project;
 			InitializeComponent();
 
 			if (LicenseManager.UsageMode == LicenseUsageMode.Designtime)
@@ -50,16 +45,13 @@ namespace SIL.Pa.UI.Views
 
 			Utils.WaitCursors(true);
 			base.DoubleBuffered = true;
-			
-			LoadToolbarAndContextMenus();
-			_oldChrGrid.OwningViewType = GetType();
 
-			_newChartGrid = new CVChartGrid(_tmAdapter);
-			_newChartGrid.Dock = DockStyle.Fill;
-			_newChartGrid.GridColor = ChartGridColor;
-			_pnlGrid = new SilPanel();
-			_pnlGrid.Dock = DockStyle.Fill;
-			_pnlGrid.Controls.Add(_newChartGrid);
+			LoadToolbarAndContextMenus();
+
+			_chartGrid = new CVChartGrid(_tmAdapter);
+			_chartGrid.Dock = DockStyle.Fill;
+			_chartGrid.GridColor = ChartGridColor;
+			_pnlGrid.Controls.Add(_chartGrid);
 
 			if (Type.GetType("Mono.Runtime") != null) // running Mono (any platform)
 			{
@@ -67,14 +59,13 @@ namespace SIL.Pa.UI.Views
 			}
 			else // .NET
 			{
-				_htmlVw = new WebBrowser();
-				_htmlVw.Dock = DockStyle.Fill;
-				_htmlVw.Visible = false;
-				_htmlVw.AllowWebBrowserDrop = false;
-				_pnlGrid.Controls.Add(_htmlVw);
+			_htmlVw = new WebBrowser();
+			_htmlVw.Dock = DockStyle.Fill;
+			_htmlVw.Visible = false;
+			_htmlVw.AllowWebBrowserDrop = false;
+			_pnlGrid.Controls.Add(_htmlVw);
 			}
-
-			_oldChrGrid.Visible = false;
+			
 			_splitOuter.Panel1.Controls.Add(_pnlGrid);
 			Utils.WaitCursors(false);
 		}
@@ -88,7 +79,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected virtual Color ChartGridColor
 		{
-			get { return _newChartGrid.GridColor; }
+			get { return _chartGrid.GridColor; }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -128,45 +119,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected void DeleteHtmlChartFile(string chartAffix)
-		{
-			try
-			{
-				File.Delete(_project.ProjectPathFilePrefix + chartAffix + ".html");
-			}
-			catch { }
-		}
-
-		/// ------------------------------------------------------------------------------------
-		private void LoadOldChart()
-		{
-			var bldr = new CharGridBuilder(_oldChrGrid, CharacterType);
-			_phoneList = bldr.Build();
-			_persistedInfoFilename = bldr.PersistedInfoFilename;
-
-			// This should only be null when something has gone wrong...
-			// which should never happen. :o)
-			if (_phoneList == null)
-				return;
-
-			// Create a list of phones for a histogram based on the order of the
-			// phones as they appear in the grid (from left to right, top to bottom).
-			List<CharGridCell> histogramPhones = new List<CharGridCell>();
-			for (int iCol = 0; iCol < _oldChrGrid.Grid.Columns.Count; iCol++)
-			{
-				for (int iRow = 0; iRow < _oldChrGrid.Grid.Rows.Count; iRow++)
-				{
-					var cgc = _oldChrGrid.Grid[iCol, iRow].Value as CharGridCell;
-					if (cgc != null)
-						histogramPhones.Add(cgc);
-				}
-			}
-
-			_histogram.LoadPhones(histogramPhones);
-			App.MsgMediator.PostMessage("LayoutHistogram", Name);
-		}
-
-		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Loads the newer version of the C or V chart (i.e. the one built purely from phone
 		/// features and which cannot be customized except by changing phone features).
@@ -176,33 +128,30 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected virtual void LoadChart()
 		{
-			_newChartGrid.ClearAll();
+			_chartGrid.ClearAll();
 
-			var cgp = XmlSerializationHelper.DeserializeFromFile<CharGridPersistence>(LayoutFile);
+			var cgp = new CVChartLayoutReader(LayoutFile);
 
-			foreach (var col in cgp.ColHeadings)
-				_newChartGrid.AddColumnGroup(col.HeadingText);
+			foreach (var text in cgp.ColHeadings.Keys)
+				_chartGrid.AddColumnGroup(text);
 
 			foreach (var row in cgp.RowHeadings)
-				_newChartGrid.AddRowGroup(row.HeadingText, row.SubHeadingCount);
+				_chartGrid.AddRowGroup(row.Key, row.Value);
 
 			foreach (var phone in cgp.Phones)
-				_newChartGrid[phone.Column, phone.Row].Value = phone.Phone;
+				_chartGrid[phone.Value.X, phone.Value.Y].Value = phone.Key;
 
 			if (ColumnHeaderHeight > 0)
-				_newChartGrid.ColumnHeadersHeight = ColumnHeaderHeight;
+				_chartGrid.ColumnHeadersHeight = ColumnHeaderHeight;
 			else
-				_newChartGrid.AdjustColumnHeaderHeight();
+				_chartGrid.AdjustColumnHeaderHeight();
 
 			if (RowHeaderWidth > 0)
-				_newChartGrid.RowHeadersWidth = RowHeaderWidth;
+				_chartGrid.RowHeadersWidth = RowHeaderWidth;
 
-			_newChartGrid.AdjustCellSizes();
+			_chartGrid.AdjustCellSizes();
 
-			// Do this to make sure the message mediator is hooked up for
-			// the toolbar/menu items.
-			if (!_oldChrGrid.IsHandleCreated)
-				_oldChrGrid.CreateControl();
+			_histogram.LoadPhones(cgp.Phones.Keys);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -215,29 +164,6 @@ namespace SIL.Pa.UI.Views
 			}
 		}
 		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Flip between the old chart and the new using Ctrl+Alt+Left or Ctrl+Alt+Right.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected override bool ProcessDialogKey(Keys keyData)
-		{
-			if ((keyData & Keys.Alt) == Keys.Alt && (keyData & Keys.Control) == Keys.Control &&
-				(keyData & Keys.Left) == Keys.Left || (keyData & Keys.Right) == Keys.Right)
-			{
-				_pnlGrid.Visible = !_pnlGrid.Visible;
-				_oldChrGrid.Visible = !_oldChrGrid.Visible;
-
-				if (_oldChrGrid.Visible)
-					_oldChrGrid.Focus();
-				else
-					_newChartGrid.Focus();
-				return true;
-			}
-
-			return base.ProcessDialogKey(keyData);
-		}
-
 		/// ------------------------------------------------------------------------------------
 		protected virtual bool ShowHtmlChartWhenViewLoaded
 		{
@@ -260,23 +186,22 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void ShowHtmlChart(bool show)
 		{
-			_oldChrGrid.Visible = false;
 			_pnlGrid.Visible = true;
 
 			if(_htmlVw != null)
 			{
-				_htmlVw.Visible = show;
-				_newChartGrid.Visible = !show;
+			_htmlVw.Visible = show;
+			_chartGrid.Visible = !show;
 			}
 			else
 			{
-				_newChartGrid.Visible = true;
+				_chartGrid.Visible = true;
 			}
 
 			if (_htmlVw != null && _htmlVw.Visible)
 				_htmlVw.Focus();
 			else
-				_newChartGrid.Focus();
+				_chartGrid.Focus();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -296,46 +221,11 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Reloads a chart.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		protected bool OnChartPhoneMoved(object args)
+		public void ReloadChart()
 		{
-			try
-			{
-				var argArray = args as object[];
-				if (argArray[0] == _oldChrGrid)
-				{
-					CharGridPersistence.Save(_oldChrGrid, _phoneList, _persistedInfoFilename);
-					App.MsgMediator.SendMessage("PhoneChartArrangementChanged", CharacterType);
-				}
-			}
-			catch { }
-
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Reloads a chart.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void ReloadChart(bool restoreDefault)
-		{
+			CVChartBuilder.Process(Project, ChartType);
 			LoadChart();
 			LoadHtmlChart();
-
-			if (restoreDefault)
-				File.Delete(_persistedInfoFilename);
-			else
-				CharGridPersistence.Save(_oldChrGrid, _phoneList, _persistedInfoFilename);
-			
-			_oldChrGrid.Reset();
-			LoadOldChart();
-			_oldChrGrid.ForceCurrentCellUpdate();
-			CharGridPersistence.Save(_oldChrGrid, _phoneList, _persistedInfoFilename);
-			App.MsgMediator.SendMessage("PhoneChartArrangementChanged", CharacterType);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -345,18 +235,12 @@ namespace SIL.Pa.UI.Views
 				return;
 
 			if (_tmAdapter != null)
-			{
-				App.UnPrepareAdapterForLocalizationSupport(_tmAdapter);
 				_tmAdapter.Dispose();
-			}
 
 			_tmAdapter = AdapterHelper.CreateTMAdapter();
-			_oldChrGrid.TMAdapter = _tmAdapter;
 
 			if (_tmAdapter != null)
 			{
-				App.PrepareAdapterForLocalizationSupport(_tmAdapter);
-				_tmAdapter.LoadControlContainerItem += m_tmAdapter_LoadControlContainerItem;
 				var defs = new[] { FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
 					"CVChartsTMDefinition.xml") };
 
@@ -377,20 +261,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Give the adapter the chars. to ignore drop-down control. We know that's the only
-		/// control the adapter will request for this form. So there's no need to check the
-		/// name passed to us.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private Control m_tmAdapter_LoadControlContainerItem(string name)
-		{
-			_chartOptionsDropDown = new ChartOptionsDropDown(_oldChrGrid.SupraSegsToIgnore);
-			_chartOptionsDropDown.lnkRefresh.Click += HandleRefreshChartClick;
-			return _chartOptionsDropDown;
-		}
-
-		/// ------------------------------------------------------------------------------------
 		protected virtual void BuildDefaultChart()
 		{
 			throw new NotImplementedException("The method must be overridden in derived class.");
@@ -408,13 +278,8 @@ namespace SIL.Pa.UI.Views
 		{
 			_activeView = makeActive;
 
-			if (_activeView && isDocked && _oldChrGrid != null && _oldChrGrid.Grid != null)
-			{
-				if (_oldChrGrid.Visible)
-					_oldChrGrid.Grid.Focus();
-				else
-					_newChartGrid.Focus();
-			}
+			if (_activeView && isDocked && _chartGrid != null)
+				_chartGrid.Focus();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -423,10 +288,6 @@ namespace SIL.Pa.UI.Views
 			get { return FindForm(); }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the view's toolbar/menu adapter.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public ITMAdapter TMAdapter
 		{
@@ -450,7 +311,6 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public void SaveSettings()
 		{
-			CharGridPersistence.Save(_oldChrGrid, _phoneList, _persistedInfoFilename);
 			SplitterRatioSetting = _splitOuter.SplitterDistance / (float)_splitOuter.Height;
 			HistogramVisibleSetting = HistogramOn;
 			ShowHtmlChartWhenViewLoaded = _htmlVw != null ? _htmlVw.Visible : false;
@@ -469,19 +329,7 @@ namespace SIL.Pa.UI.Views
 		protected bool OnBeginViewUnDocking(object args)
 		{
 			if (args == this)
-			{
-				_oldChrGrid.Grid.SetDoubleBuffering(false);
 				SaveSettings();
-			}
-
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected bool OnViewUndocked(object args)
-		{
-			if (args == this)
-				_oldChrGrid.Grid.SetDoubleBuffering(true);
 
 			return false;
 		}
@@ -490,10 +338,7 @@ namespace SIL.Pa.UI.Views
 		protected bool OnBeginViewDocking(object args)
 		{
 			if (args == this && IsHandleCreated)
-			{
 				SaveSettings();
-				_oldChrGrid.Grid.SetDoubleBuffering(false);
-			}
 
 			return false;
 		}
@@ -514,7 +359,7 @@ namespace SIL.Pa.UI.Views
 				}
 				catch { }
 
-				_oldChrGrid.Grid.SetDoubleBuffering(true);
+				//_chrGrid.Grid.SetDoubleBuffering(true);
 
 				// Don't need to load the tool bar or menus if this is the first time
 				// the view was docked since that all gets done during construction.
@@ -560,10 +405,6 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Load the form's settings.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
@@ -572,10 +413,7 @@ namespace SIL.Pa.UI.Views
 				return;
 
 			HistogramOn = HistogramVisibleSetting;
-			_oldChrGrid.Reset();
-			LoadOldChart();
-			LoadChart();
-			LoadHtmlChart();
+			ReloadChart();
 
 			OnViewDocked(this);
 			_initialDock = true;
@@ -584,26 +422,6 @@ namespace SIL.Pa.UI.Views
 			if (ShowHtmlChartWhenViewLoaded)
 				ShowHtmlChart(true);
 		}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Handle Moving a row up.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//private void btnMoveRowUp_Click(object sender, EventArgs e)
-		//{
-		//    PaApp.MsgMediator.SendMessage("MoveCharChartRowUp", null);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Handle moving a row down.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//private void btnMoveRowDown_Click(object sender, EventArgs e)
-		//{
-		//    PaApp.MsgMediator.SendMessage("MoveCharChartRowDown", null);
-		//}
 
 		#region Phone searching methods and searching command message/update handlers
 		/// ------------------------------------------------------------------------------------
@@ -659,14 +477,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void PerformSearch(string environment, string toolbarItemName)
 		{
-			string[] srchPhones = (_oldChrGrid == null || !_oldChrGrid.Visible ?
-				null : _oldChrGrid.SelectedPhones);
-
-			if (srchPhones == null)
-			{
-				srchPhones = (_pnlGrid == null || !_pnlGrid.Visible ?
-					null : _newChartGrid.SelectedPhones);
-			}
+			var srchPhones = _chartGrid.SelectedPhones;
 
 			if (srchPhones == null)
 				return;
@@ -681,7 +492,7 @@ namespace SIL.Pa.UI.Views
 				// Check if the phone only exists as an uncertain phone. If so,
 				// then set the flag in the query to include searching words
 				// made using all uncertain uncertain derivations.
-				var phoneInfo = _project.PhoneCache[phone];
+				var phoneInfo = Project.PhoneCache[phone];
 				if (phoneInfo != null && phoneInfo.TotalCount == 0)
 					query.IncludeAllUncertainPossibilities = true;
 				
@@ -692,8 +503,8 @@ namespace SIL.Pa.UI.Views
 
 			// Now set the image of the search button to the image associated
 			// with the last search environment chosen by the user.
-			TMItemProperties childItemProps = _tmAdapter.GetItemProperties(toolbarItemName);
-			TMItemProperties parentItemProps = _tmAdapter.GetItemProperties("tbbChartPhoneSearch");
+			var childItemProps = _tmAdapter.GetItemProperties(toolbarItemName);
+			var parentItemProps = _tmAdapter.GetItemProperties("tbbChartPhoneSearch");
 			if (parentItemProps != null && childItemProps != null)
 			{
 				parentItemProps.Image = childItemProps.Image;
@@ -707,7 +518,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnChartPhoneSearch(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !_activeView)
 				return false;
 
@@ -727,15 +538,11 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateChartPhoneSearch(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (itemProps == null || !_activeView)
 				return false;
 
-			bool enable = false;
-
-			enable = ((_oldChrGrid != null && _oldChrGrid.Visible && _oldChrGrid.SelectedPhones != null) ||
-				(_pnlGrid.Visible && _newChartGrid != null && _newChartGrid.Visible &&
-				_newChartGrid.SelectedPhones != null));
+			var enable = (_chartGrid != null && _chartGrid.Visible && _chartGrid.SelectedPhones != null);
 
 			if (itemProps.Enabled != enable)
 			{
@@ -755,37 +562,47 @@ namespace SIL.Pa.UI.Views
 
 		#endregion
 
-		#region Messages for ignore characters drop down
-		///// ------------------------------------------------------------------------------------
-		//protected bool OnUpdateChartTBMenuIgnoredCharsParent(object args)
-		//{
-		//    var itemProps = args as TMItemProperties;
-		//    if (itemProps == null || !m_activeView)
-		//        return false;
+		#region Messages for ignore symbols drop down
+		/// ------------------------------------------------------------------------------------
+		protected bool OnUpdateChooseIgnoredSymbols(object args)
+		{
+		    var itemProps = args as TMItemProperties;
+		    if (itemProps == null || !_activeView)
+		        return false;
 
-		//    // TODO: Get ignored suprasegmentals working in new CV grid.
-		//    itemProps.Update = true;
-		//    itemProps.Visible = true;
-		//    itemProps.Enabled = true;
-		//    return true;
-		//}
+		    itemProps.Update = true;
+		    itemProps.Visible = true;
+		    itemProps.Enabled = true;
+		    return true;
+		}
 		
 		/// ------------------------------------------------------------------------------------
-		protected bool OnDropDownChooseIgnoredCharactersTBMenu(object args)
+		protected bool OnDropDownIgnoredSymbols(object args)
 		{
-			var itemProps = args as TMItemProperties;
+			var itemProps = args as ToolBarPopupInfo;
 			if (itemProps == null || !_activeView)
 				return false;
 
-			if (itemProps.Control != null && itemProps.Control == _chartOptionsDropDown)
-			{
-				_chartOptionsDropDown.SetIgnoredChars(_oldChrGrid.SupraSegsToIgnore);
-				_chartOptionsDropDown.SetIgnoredChars(_newChartGrid.SupraSegsToIgnore);
-			}
-
+			itemProps.Control = _ignoredSymbolsDropDown = new ChartOptionsDropDown();
+			_ignoredSymbolsDropDown.SetIgnoredSymbols(Project.IgnoredSymbolsInCVCharts);
+			_ignoredSymbolsDropDown.lnkRefresh.Click += HandleRefreshChartClick;
+			 
 			// This is a kludge and I really don't like to do it. But I don't know how
 			// else to automatically get the custom drop-down to act like it has "focus".
-			SendKeys.Send("{RIGHT}");
+			SendKeys.Send("{DOWN}");
+			return true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected bool OnDropDownClosedIgnoredSymbols(object args)
+		{
+			if (_ignoredSymbolsDropDown != null)
+			{
+				_ignoredSymbolsDropDown.lnkRefresh.Click -= HandleRefreshChartClick;
+				_ignoredSymbolsDropDown.Dispose();
+				_ignoredSymbolsDropDown = null;
+			}
+			
 			return true;
 		}
 
@@ -797,28 +614,38 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void HandleRefreshChartClick(object sender, EventArgs e)
 		{
-			_tmAdapter.HideBarItemsPopup("tbbView");
-			Application.DoEvents();
-			
-			var ignoredSegments = _chartOptionsDropDown.GetIgnoredChars();
+			var oldList = Project.IgnoredSymbolsInCVCharts.OrderBy(s => s, StringComparer.Ordinal).ToList();
+			var newList = _ignoredSymbolsDropDown.GetIgnoredSymbols().OrderBy(s => s, StringComparer.Ordinal).ToList();
 
-			// Only refresh when the list changed.
-			if (_oldChrGrid.SupraSegsToIgnore != ignoredSegments)
-				_oldChrGrid.SupraSegsToIgnore = _chartOptionsDropDown.GetIgnoredChars();
-
-			if (_newChartGrid.SupraSegsToIgnore != ignoredSegments)
+			var listsAreDifferent = (oldList.Count != newList.Count);
+			if (!listsAreDifferent)
 			{
-				SaveIgnoredSuprasegmentals(ignoredSegments);
-				_project.Save();
+				for (int i = 0; i < oldList.Count; i++)
+				{
+					listsAreDifferent = (oldList[i] != newList[i]);
+					if (listsAreDifferent)
+						break;
+				}
 			}
 
-			ReloadChart(false);
+			_tmAdapter.HideBarItemsPopup("tbbIgnoredSymbols");
+			Application.DoEvents();
+
+			// Only refresh when the list changed.
+			if (listsAreDifferent)
+			{
+				Project.IgnoredSymbolsInCVCharts = newList;
+				Project.Save();
+				ProjectInventoryBuilder.Process(Project);
+				App.MsgMediator.SendMessage("RefreshCVChartAfterIgnoredSymbolsChanged", null);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected virtual void SaveIgnoredSuprasegmentals(string ignoredSegments)
+		protected bool OnRefreshCVChartAfterIgnoredSymbolsChanged(object args)
 		{
-			throw new NotImplementedException();
+			ReloadChart();
+			return false;
 		}
 
 		#endregion
@@ -831,8 +658,8 @@ namespace SIL.Pa.UI.Views
 				
 			if (string.IsNullOrEmpty(outputFileName))
 				return false;
-			
-			CVChartExporter.ToHtml(_project, ChartType, outputFileName, _newChartGrid,
+
+			CVChartExporter.ToHtml(Project, ChartType, outputFileName, _chartGrid,
 				Settings.Default.OpenHtmlCVChartAfterExport);
 
 			return true;
@@ -844,14 +671,15 @@ namespace SIL.Pa.UI.Views
 			if (!_activeView)
 				return null;
 
-			string defaultOutputFileName = string.Format(fmtFileName, _project.LanguageName);
+			var defaultOutputFileName = string.Format(fmtFileName,
+				PaProject.GetCleanNameForFileName(Project.LanguageName));
 
 			var fileTypes = fileTypeFilter + "|" + App.kstidFileTypeAllFiles;
 
 			int filterIndex = 0;
 
 			return App.SaveFileDialog(defaultFileType, fileTypes, ref filterIndex,
-				App.kstidSaveFileDialogGenericCaption, defaultOutputFileName, _project.Folder);
+				App.kstidSaveFileDialogGenericCaption, defaultOutputFileName, Project.Folder);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -863,7 +691,7 @@ namespace SIL.Pa.UI.Views
 			if (string.IsNullOrEmpty(outputFileName))
 				return false;
 
-			CVChartExporter.ToWordXml(_project, ChartType, outputFileName, _newChartGrid,
+			CVChartExporter.ToWordXml(Project, ChartType, outputFileName, _chartGrid,
 				Settings.Default.OpenWordXmlCVChartAfterExport);
 
 			return true;
@@ -878,7 +706,7 @@ namespace SIL.Pa.UI.Views
 			if (string.IsNullOrEmpty(outputFileName))
 				return false;
 
-			CVChartExporter.ToXLingPaper(_project, ChartType, outputFileName, _newChartGrid,
+			CVChartExporter.ToXLingPaper(Project, ChartType, outputFileName, _chartGrid,
 				Settings.Default.OpenXLingPaperCVChartAfterExport);
 
 			return true;
@@ -893,7 +721,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExportAsHTML(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (!_activeView || itemProps == null)
 				return false;
 
@@ -913,30 +741,6 @@ namespace SIL.Pa.UI.Views
 		protected bool OnUpdateExportAsXLingPaper(object args)
 		{
 			return OnUpdateExportAsHTML(args);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected bool OnRestoreDefaultLayoutTBMenu(object args)
-		{
-			if (!_activeView)
-				return false;
-
-			ReloadChart(true);
-			return true;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected bool OnUpdateRestoreDefaultLayoutTBMenu(object args)
-		{
-			TMItemProperties itemProps = args as TMItemProperties;
-			if (!_activeView || itemProps == null)
-				return false;
-
-			itemProps.Visible = true;
-			itemProps.Enabled = _oldChrGrid.Visible;
-			itemProps.Update = true;
-
-			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -963,7 +767,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateShowHtmlChart(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (!_activeView || itemProps == null)
 				return false;
 
@@ -982,7 +786,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateShowHistogram(object args)
 		{
-			TMItemProperties itemProps = args as TMItemProperties;
+			var itemProps = args as TMItemProperties;
 			if (!_activeView || itemProps == null)
 				return false;
 
@@ -999,40 +803,12 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected bool OnDataSourcesModified(object args)
+		protected override bool OnDataSourcesModified(object args)
 		{
-			_project = args as PaProject;
-			ReloadChart(false);
+			base.OnDataSourcesModified(args);
+			ReloadChart();
 			return false;
 		}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Update enabled state of the move row up button.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//protected bool OnUpdateMoveCharChartRowUp(object args)
-		//{
-		//    if (!m_activeView || args.GetType() != typeof(bool))
-		//        return false;
-
-		//    btnMoveRowUp.Enabled = (bool)args;
-		//    return true;
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Update enabled state of the move row down button.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//protected bool OnUpdateMoveCharChartRowDown(object args)
-		//{
-		//    if (!m_activeView || args.GetType() != typeof(bool))
-		//        return false;
-
-		//    btnMoveRowDown.Enabled = (bool)args;
-		//    return true;
-		//}
 
 		#endregion
 
@@ -1043,14 +819,10 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected virtual IPASymbolType CharacterType
 		{
-			get { return IPASymbolType.Unknown; }
+			get { throw new NotImplementedException(); }
 		}
 
 		#region Update handlers for menus that shouldn't be enabled when this view is current
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdatePlayback(object args)
 		{
@@ -1058,19 +830,11 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdatePlaybackRepeatedly(object args)
 		{
 			return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateStopPlayback(object args)
 		{
@@ -1078,19 +842,11 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateEditSourceRecord(object args)
 		{
 			return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateShowCIEResults(object args)
 		{
@@ -1098,19 +854,11 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateGroupBySortedField(object args)
 		{
 			return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateExpandAllGroups(object args)
 		{
@@ -1118,48 +866,15 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateCollapseAllGroups(object args)
 		{
 			return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateShowRecordPane(object args)
 		{
 			return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
-		}
-
-		#endregion
-
-		#region IxCoreColleague Members
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Never used in PA.
-		/// </summary>
-		/// <param name="mediator"></param>
-		/// <param name="configurationParameters"></param>
-		/// ------------------------------------------------------------------------------------
-		public void Init(Mediator mediator, XmlNode configurationParameters)
-		{
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the message target.
-		/// </summary>
-		/// <returns></returns>
-		/// ------------------------------------------------------------------------------------
-		public IxCoreColleague[] GetMessageTargets()
-		{
-			return new IxCoreColleague[] {this};
 		}
 
 		#endregion

@@ -75,16 +75,16 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// chkIgnoreInSearches
 			// 
-			this.chkIgnoreInSearches.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.chkIgnoreInSearches.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.chkIgnoreInSearches.AutoEllipsis = true;
 			this.chkIgnoreInSearches.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.chkIgnoreInSearches.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.chkIgnoreInSearches, null);
 			this.locExtender.SetLocalizationComment(this.chkIgnoreInSearches, "Check box options on the dialog displaying undefined characters that were found w" +
-					"hen reading data sources.");
-			this.locExtender.SetLocalizingId(this.chkIgnoreInSearches, "UndefinedPhoneticCharactersDlg.chkIgnoreInSearches");
+        "hen reading data sources.");
+			this.locExtender.SetLocalizingId(this.chkIgnoreInSearches, "DialogBoxes.UndefinedPhoneticCharactersDlg.IgnoreInSearchesCheckbox");
 			this.chkIgnoreInSearches.Location = new System.Drawing.Point(0, 32);
 			this.chkIgnoreInSearches.Name = "chkIgnoreInSearches";
 			this.chkIgnoreInSearches.Size = new System.Drawing.Size(465, 38);
@@ -95,16 +95,16 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// chkShowUndefinedCharDlg
 			// 
-			this.chkShowUndefinedCharDlg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.chkShowUndefinedCharDlg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.chkShowUndefinedCharDlg.AutoSize = true;
 			this.chkShowUndefinedCharDlg.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.chkShowUndefinedCharDlg.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.chkShowUndefinedCharDlg, null);
 			this.locExtender.SetLocalizationComment(this.chkShowUndefinedCharDlg, "Check box options on the dialog displaying undefined characters that were found w" +
-					"hen reading data sources.");
-			this.locExtender.SetLocalizingId(this.chkShowUndefinedCharDlg, "UndefinedPhoneticCharactersDlg.chkShowUndefinedCharDlg");
+        "hen reading data sources.");
+			this.locExtender.SetLocalizingId(this.chkShowUndefinedCharDlg, "DialogBoxes.UndefinedPhoneticCharactersDlg.ShowUndefinedCharDlgCheckbox");
 			this.chkShowUndefinedCharDlg.Location = new System.Drawing.Point(0, 7);
 			this.chkShowUndefinedCharDlg.Name = "chkShowUndefinedCharDlg";
 			this.chkShowUndefinedCharDlg.Size = new System.Drawing.Size(261, 17);
@@ -119,8 +119,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnHelp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
 			this.locExtender.SetLocalizationComment(this.btnHelp, "Button on the dialog displaying undefined characters that were found when reading" +
-					" data sources.");
-			this.locExtender.SetLocalizingId(this.btnHelp, "UndefinedPhoneticCharactersDlg.btnHelp");
+        " data sources.");
+			this.locExtender.SetLocalizingId(this.btnHelp, "DialogBoxes.UndefinedPhoneticCharactersDlg.HelpButton");
 			this.btnHelp.Location = new System.Drawing.Point(557, 41);
 			this.btnHelp.Name = "btnHelp";
 			this.btnHelp.Size = new System.Drawing.Size(80, 26);
@@ -136,8 +136,8 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnOK.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
 			this.locExtender.SetLocalizationComment(this.btnOK, "Button on the dialog displaying undefined characters that were found when reading" +
-					" data sources.");
-			this.locExtender.SetLocalizingId(this.btnOK, "UndefinedPhoneticCharactersDlg.btnOK");
+        " data sources.");
+			this.locExtender.SetLocalizingId(this.btnOK, "DialogBoxes.UndefinedPhoneticCharactersDlg.OKButton");
 			this.btnOK.Location = new System.Drawing.Point(471, 41);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(80, 26);
@@ -152,15 +152,15 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblInfo.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblInfo, null);
 			this.locExtender.SetLocalizationComment(this.lblInfo, "Information label on the dialog displaying undefined characters that were found w" +
-					"hen reading data sources.");
-			this.locExtender.SetLocalizingId(this.lblInfo, "UndefinedPhoneticCharactersDlg.lblInfo");
+        "hen reading data sources.");
+			this.locExtender.SetLocalizingId(this.lblInfo, "DialogBoxes.UndefinedPhoneticCharactersDlg.InformationLabel");
 			this.lblInfo.Location = new System.Drawing.Point(10, 10);
 			this.lblInfo.Name = "lblInfo";
 			this.lblInfo.Size = new System.Drawing.Size(637, 83);
 			this.lblInfo.TabIndex = 0;
 			this.lblInfo.Text = "The following Unicode characters were found in data sources specified in the {0} " +
-				"project, but they are not found in Phonology Assistant\'s phonetic character inve" +
-				"ntory. See Help for more information.";
+    "project, but they are not found in Phonology Assistant\'s phonetic character inve" +
+    "ntory. See Help for more information.";
 			// 
 			// splitContainer1
 			// 
@@ -182,7 +182,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// pnlSummary
 			// 
-			this.pnlSummary.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
+			this.pnlSummary.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this.pnlSummary.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlSummary.ClipTextForChildControls = true;
 			this.pnlSummary.ControlReceivingFocusOnMnemonic = null;
@@ -191,12 +191,13 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlSummary.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlSummary.DoubleBuffered = true;
 			this.pnlSummary.DrawOnlyBottomBorder = false;
+			this.pnlSummary.DrawOnlyTopBorder = false;
 			this.pnlSummary.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlSummary.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlSummary, null);
 			this.locExtender.SetLocalizationComment(this.pnlSummary, null);
 			this.locExtender.SetLocalizationPriority(this.pnlSummary, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.pnlSummary, "UndefinedPhoneticCharactersDlg.pnlSummary");
+			this.locExtender.SetLocalizingId(this.pnlSummary, "UndefinedPhoneticCharactersDlg.SummaryPanel");
 			this.pnlSummary.Location = new System.Drawing.Point(0, 0);
 			this.pnlSummary.MnemonicGeneratesClick = false;
 			this.pnlSummary.Name = "pnlSummary";
@@ -211,7 +212,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_gridChars.AllowUserToDeleteRows = false;
 			this.m_gridChars.AllowUserToOrderColumns = true;
 			this.m_gridChars.AllowUserToResizeRows = false;
-			this.m_gridChars.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+			this.m_gridChars.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 			this.m_gridChars.BackgroundColor = System.Drawing.SystemColors.Window;
 			this.m_gridChars.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.m_gridChars.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
@@ -260,13 +261,13 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_gridChars.TabIndex = 1;
 			this.m_gridChars.TextBoxEditControlBorderColor = System.Drawing.Color.Silver;
 			this.m_gridChars.WaterMark = "!";
-			this.m_gridChars.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_gridChars_RowEnter);
+			this.m_gridChars.CurrentRowChanged += new System.EventHandler(this.HandleCharGridRowChanged);
 			this.m_gridChars.Enter += new System.EventHandler(this.HandleGridEnter);
 			this.m_gridChars.Leave += new System.EventHandler(this.HandleGridLeave);
 			// 
 			// pgpChars
 			// 
-			this.pgpChars.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
+			this.pgpChars.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this.pgpChars.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pgpChars.ClipTextForChildControls = false;
 			this.pgpChars.ColorBottom = System.Drawing.Color.Empty;
@@ -275,12 +276,13 @@ namespace SIL.Pa.UI.Dialogs
 			this.pgpChars.Dock = System.Windows.Forms.DockStyle.Top;
 			this.pgpChars.DoubleBuffered = true;
 			this.pgpChars.DrawOnlyBottomBorder = false;
+			this.pgpChars.DrawOnlyTopBorder = false;
 			this.pgpChars.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pgpChars.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pgpChars, null);
 			this.locExtender.SetLocalizationComment(this.pgpChars, "Heading over the list of undefined characters found. This is in the dialog displa" +
-					"ying undefined characters that were found when reading data sources.");
-			this.locExtender.SetLocalizingId(this.pgpChars, "UndefinedPhoneticCharactersDlg.pgpChars");
+        "ying undefined characters that were found when reading data sources.");
+			this.locExtender.SetLocalizingId(this.pgpChars, "DialogBoxes.UndefinedPhoneticCharactersDlg.CharactersHeadingLabel");
 			this.pgpChars.Location = new System.Drawing.Point(0, 0);
 			this.pgpChars.MakeDark = false;
 			this.pgpChars.MnemonicGeneratesClick = false;
@@ -292,7 +294,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// pnlDetails
 			// 
-			this.pnlDetails.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
+			this.pnlDetails.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this.pnlDetails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlDetails.ClipTextForChildControls = true;
 			this.pnlDetails.ControlReceivingFocusOnMnemonic = null;
@@ -301,6 +303,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlDetails.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlDetails.DoubleBuffered = true;
 			this.pnlDetails.DrawOnlyBottomBorder = false;
+			this.pnlDetails.DrawOnlyTopBorder = false;
 			this.pnlDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlDetails.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlDetails, null);
@@ -377,7 +380,7 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// pgpWhere
 			// 
-			this.pgpWhere.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(185)))), ((int)(((byte)(127)))));
+			this.pgpWhere.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this.pgpWhere.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pgpWhere.ClipTextForChildControls = false;
 			this.pgpWhere.ColorBottom = System.Drawing.Color.Empty;
@@ -386,12 +389,13 @@ namespace SIL.Pa.UI.Dialogs
 			this.pgpWhere.Dock = System.Windows.Forms.DockStyle.Top;
 			this.pgpWhere.DoubleBuffered = true;
 			this.pgpWhere.DrawOnlyBottomBorder = false;
+			this.pgpWhere.DrawOnlyTopBorder = false;
 			this.pgpWhere.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pgpWhere.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pgpWhere, null);
 			this.locExtender.SetLocalizationComment(this.pgpWhere, "Heading over the list of undefined characters in context. This is in the dialog d" +
-					"isplaying undefined characters that were found when reading data sources.");
-			this.locExtender.SetLocalizingId(this.pgpWhere, "UndefinedPhoneticCharactersDlg.pgpWhere");
+        "isplaying undefined characters that were found when reading data sources.");
+			this.locExtender.SetLocalizingId(this.pgpWhere, "DialogBoxes.UndefinedPhoneticCharactersDlg.WhereHeadingLabel");
 			this.pgpWhere.Location = new System.Drawing.Point(0, 0);
 			this.pgpWhere.MakeDark = false;
 			this.pgpWhere.MnemonicGeneratesClick = false;
@@ -403,7 +407,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// UndefinedPhoneticCharactersDlg
@@ -418,7 +421,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.lblInfo);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "UndefinedPhoneticCharactersDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.UndefinedPhoneticCharactersDlg.WindowTitle");
 			this.MinimumSize = new System.Drawing.Size(435, 300);
 			this.Name = "UndefinedPhoneticCharactersDlg";
 			this.Padding = new System.Windows.Forms.Padding(10, 10, 10, 0);

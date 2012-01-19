@@ -62,7 +62,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.lblName.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblName, null);
 			this.locExtender.SetLocalizationComment(this.lblName, "Label on dialog box for saving distribution charts in distribution chart view.");
-			this.locExtender.SetLocalizingId(this.lblName, "SaveDistributionChartDlg.lblName");
+			this.locExtender.SetLocalizingId(this.lblName, "DialogBoxes.SaveDistributionChartDlg.NameLabel");
 			this.lblName.Location = new System.Drawing.Point(0, 0);
 			this.lblName.Margin = new System.Windows.Forms.Padding(0, 0, 4, 5);
 			this.lblName.Name = "lblName";
@@ -89,7 +89,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// SaveDistributionChartDlg
@@ -103,7 +102,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "SaveDistributionChartDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.SaveDistributionChartDlg.WindowTitle");
 			this.Name = "SaveDistributionChartDlg";
 			this.Padding = new System.Windows.Forms.Padding(10, 13, 10, 0);
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

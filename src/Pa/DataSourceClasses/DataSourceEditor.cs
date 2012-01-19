@@ -5,7 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using Localization;
 using Microsoft.Win32;
+using Palaso.Reporting;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
@@ -112,10 +114,9 @@ namespace SIL.Pa.DataSource
 				case DataSourceType.FW7: EditRecordInFieldWorks(wcentry.RecordEntry); break;
 				case DataSourceType.SA: EditRecordInSA(wcentry, callingApp); break;
 				default:
-					var msg = App.GetString("UnableToEditSourceRecordMsg",
-						"There is no source record editor associated with this record.");
-
-					Utils.MsgBox(msg);
+					ErrorReport.NotifyUserOfProblem(LocalizationManager.GetString(
+						"Miscellaneous.Messages.DataSourceEditing.UnableToEditSourceRecordMsg",
+						"There is no source record editor associated with this record."));
 					break;
 			}
 		}
@@ -141,29 +142,28 @@ namespace SIL.Pa.DataSource
 				return;
 
 			string msg = null;
+			string arg = null;
 
 			// Make sure an editor has been specified.
 			if (string.IsNullOrEmpty(recEntry.DataSource.Editor))
 			{
-				msg = App.GetString("NoDataSourceEditorSpecifiedMsg",
-					"No editor has been specified in the project settings for the following data source:\n\n{0}\n\nSee the help file for more information.",
+				arg = recEntry.DataSource.SourceFile;
+				msg = LocalizationManager.GetString("Miscellaneous.Messages.DataSourceEditing.NoDataSourceEditorSpecifiedMsg",
+					"No editor has been specified in the project settings for the following data source: '{0}'. See the help file for more information.",
 					"Displayed when no editor has been specified and the user chooses 'Edit Source Record' from the edit menu.");
-
-				msg = string.Format(msg, Utils.PrepFilePathForMsgBox(recEntry.DataSource.SourceFile));
 			}
 
 			// Make sure editor exists.
 			if (msg == null && !File.Exists(recEntry.DataSource.Editor))
 			{
-				msg = App.GetString("DataSourceEditorMissingMsg", "The editor '{0}' cannot be found.",
+				arg = recEntry.DataSource.Editor;
+				msg = LocalizationManager.GetString("Miscellaneous.Messages.DataSourceEditing.DataSourceEditorMissingMsg", "The editor '{0}' cannot be found.",
 					"Displayed when specified editor cannot be found when the user chooses 'Edit Source Record' from the edit menu.");
-
-				msg = string.Format(msg, Utils.PrepFilePathForMsgBox(recEntry.DataSource.Editor));
 			}
 
 			if (msg != null)
 			{
-				Utils.MsgBox(msg);
+				ErrorReport.NotifyUserOfProblem(msg, arg);
 				return;
 			}
 
@@ -184,7 +184,7 @@ namespace SIL.Pa.DataSource
 		{
 			if (!IsToolboxRunning)
 			{
-				var msg = App.GetString("ToolboxNotRunningMsg",
+				var msg = LocalizationManager.GetString("Miscellaneous.Messages.DataSourceEditing.ToolboxNotRunningMsg",
 					"For this feature to work, you must have Toolbox running with the following database opened:\n\n {0}\n\nSee the help file for more information.");
 				Utils.MsgBox(string.Format(msg, Utils.PrepFilePathForMsgBox(recEntry.DataSource.SourceFile)));
 			    return;
@@ -195,11 +195,11 @@ namespace SIL.Pa.DataSource
 			// Get the record field whose value will tell us what record to jump to.
 			if (string.IsNullOrEmpty(sortFieldName))
 			{
-				var msg = App.GetString("NoToolboxSortFieldSpecified",
-					"The first Toolbox sort field for this record's data source has not\nbeen specified. " +
-					"To specify the first Toolbox sort field, go to the\ndata source's properties from " +
+				var msg = LocalizationManager.GetString("Miscellaneous.Messages.DataSourceEditing.NoToolboxSortFieldSpecified",
+					"The first Toolbox sort field for this record's data source has not been specified. " +
+					"To specify the first Toolbox sort field, go to the data source's properties from " +
 					"the project properties dialog.");
-				Utils.MsgBox(msg);
+				ErrorReport.NotifyUserOfProblem(msg);
 				return;
 			}
 
@@ -207,8 +207,11 @@ namespace SIL.Pa.DataSource
 			var field = recEntry.Project.GetFieldForName(sortFieldName);
 			if (field == null)
 			{
-				var msg = App.GetString("InvalidToolboxSortField", "The field '{0}' is invalid.");
-				Utils.MsgBox(string.Format(msg, sortFieldName));
+				var msg = LocalizationManager.GetString(
+					"Miscellaneous.Messages.DataSourceEditing.InvalidToolboxSortField",
+					"The field '{0}' is invalid.");
+				
+				ErrorReport.NotifyUserOfProblem(msg, sortFieldName);
 				return;
 			}
 
@@ -306,7 +309,8 @@ namespace SIL.Pa.DataSource
 			var field = wcentry.Project.GetAudioFileField();
 			if (field == null)
 			{
-				Utils.MsgBox(App.GetString("NoAudioFileFieldMissingMsg",
+				ErrorReport.NotifyUserOfProblem(LocalizationManager.GetString(
+					"Miscellaneous.Messages.DataSourceEditing.NoAudioFileFieldMissingMsg",
 					"This project doesn't contain a field definition for an audio file path."));
 				
 				return;
@@ -316,8 +320,9 @@ namespace SIL.Pa.DataSource
 			var audioFile = wcentry[field.Name];
 			if (string.IsNullOrEmpty(audioFile) || !File.Exists(audioFile))
 			{
-				var msg = App.GetString("AudioFileMissingMsg", "The audio file '{0}' is cannot be found.");
-				Utils.MsgBox(string.Format(msg, audioFile));
+				ErrorReport.NotifyUserOfProblem(LocalizationManager.GetString(
+					"Miscellaneous.Messages.DataSourceEditing.AudioFileMissingMsg",
+					"The audio file '{0}' is cannot be found."), audioFile);
 				return;
 			}
 
@@ -325,7 +330,7 @@ namespace SIL.Pa.DataSource
 			var saPath = AudioPlayer.GetSaPath();
 			if (saPath == null || !File.Exists(saPath))
 			{
-				var msg = App.GetString("AudioEditProblemMsg",
+				var msg = LocalizationManager.GetString("Miscellaneous.Messages.DataSourceEditing.AudioEditProblemMsg",
 					"Speech Analyzer 3.0.1 is required to edit audio data sources, but it " +
 					"is not installed. Please install Speech Analyzer 3.0.1 and try again.",
 					"Message displayed when SA 3.0.1 is not installed and the user is attempting to edit an audio file.");

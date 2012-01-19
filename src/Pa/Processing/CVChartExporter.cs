@@ -93,11 +93,7 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		protected override string Title
 		{
-			get
-			{
-				return (m_chartType == CVChartType.Consonant ?
-					"Consonant Chart" : "Vowel Chart");
-			}
+			get { return (m_chartType == CVChartType.Consonant ? "Consonants" : "Vowels"); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -130,6 +126,12 @@ namespace SIL.Pa.Processing
 				
 				return (count > 0 ? count.ToString() : null);
 			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override string GetMetadataDetailNumberPhonesTag()
+		{
+			return "number " + (m_chartType == CVChartType.Consonant ? "consonant" : "vowel");
 		}
 
 		/// ------------------------------------------------------------------------------------

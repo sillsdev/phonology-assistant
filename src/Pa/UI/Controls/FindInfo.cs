@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Palaso.Reporting;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SilTools;
@@ -421,7 +421,7 @@ namespace SIL.Pa.UI.Controls
 				{
 					if (ShowMessages)
 					{
-						var msg = App.GetString("FindInfo.FindDataNotFound",
+						var msg = LocalizationManager.GetString("DialogBoxes.FindDlg.FindDataNotFound",
 							"The following specified text was not found:\n\n{0}",
 							"Message shown when all data has been searched without one match.");
 						
@@ -431,7 +431,6 @@ namespace SIL.Pa.UI.Controls
 					return true;
 				}
 			}
-
 			s_firstLoop = false;
 			return false;
 		}
@@ -505,7 +504,8 @@ namespace SIL.Pa.UI.Controls
 			if (cellValue == null)
 				return false;
 
-			var field = s_grid.Project.GetFieldForName(s_grid.Columns[cell.ColumnIndex].Name);
+			var field =
+				App.Project.GetFieldForName(s_grid.Columns[cell.ColumnIndex].Name);
 
 			if (field.Type != FieldType.Phonetic)
 				cellValue = FFNormalizer.Normalize(cellValue);
@@ -547,7 +547,8 @@ namespace SIL.Pa.UI.Controls
 			}
 			catch (Exception ex)
 			{
-				ErrorReport.NotifyUserOfProblem(ex, "An error occurred searching.");
+				if (ShowMessages)
+					Utils.MsgBox(ex.Message);
 			}
 
 			// Done searching
@@ -610,9 +611,9 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private static string GetDoneSearchingMsg()
 		{
-			return App.GetString("FindInfo.FindDoneSearching",
-							"Find has finished searching.",
-							"Popup message when all records have been searched with the FindDlg");
+			return LocalizationManager.GetString("DialogBoxes.FindDlg.FindDoneSearching",
+				"Find has finished searching.",
+				"Popup message when all records have been searched with the FindDlg");
 		}
 
 		/// ------------------------------------------------------------------------------------

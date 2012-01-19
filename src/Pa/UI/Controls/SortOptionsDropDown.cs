@@ -19,7 +19,6 @@ namespace SIL.Pa.UI.Controls
 		private bool m_showAdvancedOptions;
 		private SortOptions m_sortOptions;
 		private readonly int[] m_checkedIndexes;
-		private readonly RadioButton[] m_rbSort;
 		private readonly RadioButton[] m_rbAdvSort0;
 		private readonly RadioButton[] m_rbAdvSort1;
 		private readonly RadioButton[] m_rbAdvSort2;
@@ -37,9 +36,8 @@ namespace SIL.Pa.UI.Controls
 
 			SetUiFonts();
 
-			m_sortOptions = new SortOptions(true, Project);
+			m_sortOptions = new SortOptions(true, App.Project);
 
-			m_rbSort = new[] { rbPlaceArticulation, rbMannerArticulation, rbUnicodeOrder };
 			m_rbAdvSort0 = new[] { rbBefore1st, rbItem1st, rbAfter1st };
 			m_rbAdvSort1 = new[] { rbBefore2nd, rbItem2nd, rbAfter2nd };
 			m_rbAdvSort2 = new[] { rbBefore3rd, rbItem3rd, rbAfter3rd };
@@ -58,27 +56,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// SortOptions constructor.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public SortOptionsDropDown(PaProject project, SortOptions sortOptions,
-			bool showAdvancedOptions) : this()
-		{
-			if (App.DesignMode)
-				return;
-
-			Project = project;
-
-			// Reset the SortOptions object
-			SortOptions = sortOptions;
-			ShowAdvancedOptions = showAdvancedOptions;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public PaProject Project { get; set; }
-
-		/// ------------------------------------------------------------------------------------
 		private static void SetupStaticEventSubscriptions(IEnumerable<Control> ctrlArray)
 		{
 			foreach (var ctrl in ctrlArray)
@@ -91,12 +68,26 @@ namespace SIL.Pa.UI.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// SortOptions constructor.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public SortOptionsDropDown(SortOptions sortOptions,	bool showAdvancedOptions) : this()
+		{
+			if (App.DesignMode)
+				return;
+
+			// Reset the SortOptions object
+			SortOptions = sortOptions;
+			ShowAdvancedOptions = showAdvancedOptions;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Set UI Fonts.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void SetUiFonts()
 		{
-			rbUnicodeOrder.Font = FontHelper.UIFont;
 			rbMannerArticulation.Font = FontHelper.UIFont;
 			rbPlaceArticulation.Font = FontHelper.UIFont;
 			lblBefore.Font = FontHelper.UIFont;
@@ -110,10 +101,6 @@ namespace SIL.Pa.UI.Controls
 
 		#region Properties
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Get SortInformationList.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public SortOptions SortOptions
@@ -121,14 +108,12 @@ namespace SIL.Pa.UI.Controls
 			get { return m_sortOptions; }
 			set 
 			{
-				m_sortOptions = (value ?? new SortOptions(true, Project));
+				m_sortOptions = (value ?? new SortOptions(true, App.Project));
 
-				m_rbSort[(int)PhoneticSortType.Unicode].Checked =
-					(m_sortOptions.SortType == PhoneticSortType.Unicode);
-				m_rbSort[(int)PhoneticSortType.MOA].Checked =
-					(m_sortOptions.SortType == PhoneticSortType.MOA);
-				m_rbSort[(int)PhoneticSortType.POA].Checked =
-					(m_sortOptions.SortType == PhoneticSortType.POA);
+				if (m_sortOptions.SortType == PhoneticSortType.MOA)
+					rbMannerArticulation.Checked = true;
+				else
+					rbPlaceArticulation.Checked = true;
 
 				UpdateCheckedIndexes();
 
@@ -153,11 +138,6 @@ namespace SIL.Pa.UI.Controls
 		public bool DrawWithGradientBackground { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets a value indicating whether or not to show the advanced sorting
-		/// options.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public bool ShowAdvancedOptions
 		{
 			get { return m_showAdvancedOptions; }
@@ -170,11 +150,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets a value indicating whether or not to show the help link at the
-		/// bottom of the control.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public bool ShowButtons
 		{
 			get { return m_showButtons; }
@@ -186,11 +161,6 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets a value indicating whether or not to enable the advanced sorting
-		/// options.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public bool AdvancedOptionsEnabled
 		{
@@ -242,25 +212,17 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Send the changed message.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void SendChangedEvent()
 		{
 			if (SortOptionsChanged == null)
 				return;
 			
 			if (MakePhoneticPrimarySortFieldWhenOptionsChange)
-				m_sortOptions.SetPrimarySortField(Project.GetPhoneticField(), false);
+				m_sortOptions.SetPrimarySortField(App.Project.GetPhoneticField(), false);
 
 			SortOptionsChanged(m_sortOptions);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Update the checked indexes array.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void UpdateCheckedIndexes()
 		{
@@ -274,10 +236,6 @@ namespace SIL.Pa.UI.Controls
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Update the advance sort order array.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void UpdateAdvSortOrder()
 		{
@@ -298,20 +256,14 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void HandleSortTypeChecked(object sender, EventArgs e)
 		{
-			int clickIndex = 0;
-			for (int i = 0; i < 3; i++)
+			if (rbMannerArticulation.Checked && m_sortOptions.SortType != PhoneticSortType.MOA)
 			{
-				if (m_rbSort[i].Checked)
-				{
-					clickIndex = i;
-					break;
-				}
+				m_sortOptions.SortType = PhoneticSortType.MOA;
+				SendChangedEvent();
 			}
-
-			// Check if sort type was already selected
-			if (m_sortOptions.SortType != (PhoneticSortType)clickIndex)
+			else if (rbPlaceArticulation.Checked && m_sortOptions.SortType != PhoneticSortType.POA)
 			{
-				m_sortOptions.SortType = (PhoneticSortType)clickIndex;
+				m_sortOptions.SortType = PhoneticSortType.POA;
 				SendChangedEvent();
 			}
 		}

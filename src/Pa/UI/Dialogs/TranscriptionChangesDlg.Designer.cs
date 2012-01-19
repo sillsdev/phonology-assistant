@@ -60,7 +60,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// TranscriptionChangesDlg
@@ -71,7 +70,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.pnlGrid);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
-			this.locExtender.SetLocalizingId(this, "TranscriptionChangesDlg.WindowTitle");
+			this.locExtender.SetLocalizingId(this, "DialogBoxes.TranscriptionChangesDlg.WindowTitle");
 			this.Name = "TranscriptionChangesDlg";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Transcription Changes";

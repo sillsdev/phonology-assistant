@@ -1,108 +1,150 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Windows.Forms;
 using System.Xml.Linq;
+using Localization;
+using SIL.Pa.PhoneticSearching;
 using SilTools;
 
 namespace SIL.Pa.Model.Migration
 {
 	public class MigrationBase
 	{
+		protected string _projectFilePath;
+		protected string _projectPathPrefix;
+
+		/// ------------------------------------------------------------------------------------
+		protected MigrationBase(string prjfilepath, Func<string, string, string> GetPrjPathPrefixAction)
+		{
+			_projectFilePath = prjfilepath;
+			
+			var xml = XElement.Load(prjfilepath);
+			ProjectName = (xml.Element("ProjectName") ?? xml.Element("name")).Value;
+			
+			_projectPathPrefix = GetPrjPathPrefixAction(prjfilepath, ProjectName);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected Exception DoMigration()
+		{
+			MigrateXYChartFile();
+
+			try { InternalMigration(); }
+			catch (Exception e) { return e; }
+			return null;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void MigrateXYChartFile()
+		{
+			var filename = DistributionChart.GetFileForProject(_projectPathPrefix);
+			var oldFileName = _projectPathPrefix + "XYCharts.xml";
+
+			if (!File.Exists(oldFileName))
+				return;
+
+			try 
+			{
+				File.Copy(oldFileName, filename);
+				File.Delete(oldFileName);
+			}
+			catch { return; }
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected virtual void InternalMigration()
+		{
+			throw new NotImplementedException();
+		}
+
 		/// ------------------------------------------------------------------------------------
 		public string ProjectName { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public string BackupFolder { get; private set; }
-
-		/// ------------------------------------------------------------------------------------
-		protected void CalculateProjectName(string prjfilename)
+		protected Exception TransformFile(string filename, string transformNamespace)
 		{
-			var xml = XElement.Load(prjfilename);
-			ProjectName = (xml.Element("ProjectName") ?? xml.Element("name")).Value;
+			var assembly = Assembly.GetExecutingAssembly();
+
+			using (var stream = assembly.GetManifestResourceStream(transformNamespace))
+			{
+				string updatedFile;
+				var error = XmlHelper.TransformFile(filename, stream, out updatedFile);
+				if (error != null)
+					return error;
+
+				try
+				{
+					File.Delete(filename);
+					File.Move(updatedFile, filename);
+				}
+				catch (Exception e)
+				{
+					return e;
+				}
+			}
+
+			return null;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		protected Exception BackupProject(string prjfilepath, string oldversion)
+		protected void UpdateProjectFileToLatestVersion()
 		{
+			var root = XElement.Load(_projectFilePath);
+
+			if (root.Attribute("version") == null)
+				root.Add(new XAttribute("version", PaProject.kCurrVersion));
+			else
+				root.Attribute("version").SetValue(PaProject.kCurrVersion);
+			
+			root.Save(_projectFilePath);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string BackupProject(string projectFilePath, string projectName, string oldversion)
+		{
+			string backupFolder = null;
+
 			try
 			{
-				CalculateProjectName(prjfilepath);
-
-				var path = Path.GetDirectoryName(prjfilepath);
+				var path = Path.GetDirectoryName(projectFilePath);
 				string ver = oldversion;
 				char letter = 'a';
 
 				// Find an unused backup folder name.
 				do
 				{
-					BackupFolder = Path.Combine(path, string.Format("Backup-{0}-{1}", ProjectName, ver));
+					backupFolder = Path.Combine(path, string.Format("Backup-{0}-{1}", projectName, ver));
 					ver = oldversion + letter;
 					letter += (char)1;
 				}
-				while (Directory.Exists(BackupFolder));
+				while (Directory.Exists(backupFolder));
 
-				Directory.CreateDirectory(BackupFolder);
+				Directory.CreateDirectory(backupFolder);
 
 				// Copy the project files to the backup folder.
-				foreach (var filepath in Directory.GetFiles(path, ProjectName + ".*"))
+				foreach (var filepath in Directory.GetFiles(path, projectName + ".*"))
 				{
 					var filename = Path.GetFileName(filepath);
-					File.Copy(filepath, Path.Combine(BackupFolder, filename));
+					File.Copy(filepath, Path.Combine(backupFolder, filename));
 				}
 
 				// This will make sure the project file (i.e. .pap) gets backed-up
 				// in case its file name is not the same as the project name.
-				var prjfilename = Path.GetFileName(prjfilepath);
-				if (!File.Exists(Path.Combine(BackupFolder, prjfilename)))
-					File.Copy(prjfilepath, Path.Combine(BackupFolder, prjfilename));
-
-				return null;
+				var prjfilename = Path.GetFileName(projectFilePath);
+				if (!File.Exists(Path.Combine(backupFolder, prjfilename)))
+					File.Copy(projectFilePath, Path.Combine(backupFolder, prjfilename));
 			}
 			catch (Exception e)
 			{
-				return e;
-			}
-		}
+				backupFolder = null;
+				var errMsg = LocalizationManager.GetString("ProjectMessages.Migrating.BackupOfOldProjectFilesFailureMsg",
+					"An error occurred attempting to backup your project before updating it for the latest version of Phonology Assistant.\n\n" +
+					"Until the problem is resolved, this project cannot be opened using this version of Phonology Assistant.");
 
-		/// ------------------------------------------------------------------------------------
-		protected bool TransformFile(string filename, string transformNamespace, out string errMsg)
-		{
-			errMsg = null;
-			var assembly = Assembly.GetExecutingAssembly();
-
-			using (var stream = assembly.GetManifestResourceStream(transformNamespace))
-			{
-				var updatedFile = XmlHelper.TransformFile(filename, stream);
-				if (updatedFile == null)
-				{
-					errMsg = App.GetString("ProjectMigrationTransformationFailureMsg",
-						"Migration transformation failed.");
-					return false;
-				}
-
-				try
-				{
-					File.Delete(filename);
-					File.Move(updatedFile, filename);
-					return true;
-				}
-				catch (Exception e)
-				{
-					errMsg = e.Message;
-				}
+				App.NotifyUserOfProblem(e, errMsg);
 			}
 
-			return false;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected void ShowSuccessMsg()
-		{
-			var msg = App.GetString("ProjectMigrationSuccessfulMsg",
-				"The '{0}' project has succssfully been upgraded to work with this version of {1}. A backup of your old project has been made in:\n\n{2}");
-
-			Utils.MsgBox(string.Format(msg, ProjectName, Application.ProductName, BackupFolder));
+			return backupFolder;
 		}
 	}
 }

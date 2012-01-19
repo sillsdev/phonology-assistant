@@ -2,7 +2,7 @@
 <!-- These variables define the Windows Installer product version, product code and upgrade code. They   -->
 <!-- will be used later on in this file.                                                                 -->
 <!--<?define Property_ProductVersion = "BUILD_SCRIPT_MUST_REPLACE_AT_RUNTIME" ?> -->
-<?define Property_ProductVersion = "3.3.1" ?>
+<?define Property_ProductVersion = "3.3.4" ?>
 <!--this is replaced at build time by the msbuild 'package' target -->
 <?define Property_ProductCode = "*" ?>
 <!-- auto-generate a new guid each time -->
@@ -18,7 +18,7 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 			   Version="$(var.Property_ProductVersion)" Manufacturer="SIL"
 			   UpgradeCode="$(var.Property_UpgradeCode)">-->
 
-	<Product Id="$(var.Property_ProductCode)" Name="Phonology Assistant 3.3.1 (Test Version)" Language="1033"
+	<Product Id="$(var.Property_ProductCode)" Name="Phonology Assistant 3.3.4" Language="1033"
 			   Version="$(var.Property_ProductVersion)" Manufacturer="SIL"
 			   UpgradeCode="$(var.Property_UpgradeCode)">
 
@@ -57,123 +57,25 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 		</DirectoryRef>
 
 		<Feature Id="ProgramFiles" Level="1" Absent="disallow" Title="Program Files">
-			<ComponentRef Id="AddShortcutDir"/>
-			<ComponentRef Id="Pa.exe" />
-			<ComponentRef Id="Pa.exe.config" />
-			<ComponentRef Id="Pa.pdb" />
-			<ComponentRef Id="PCIEditor.exe" />
-			<ComponentRef Id="PCIEditor.pdb" />
-			<ComponentRef Id="DisablePASplashScreen.exe" />
-			<ComponentRef Id="DisablePASplashScreen.pdb" />
-			<ComponentRef Id="ICSharpCode.SharpZipLib.dll" />
-			<ComponentRef Id="LocalizationManager.dll" />
-			<ComponentRef Id="Palaso.dll" />
-			<ComponentRef Id="PaToFdoInterfaces.dll" />
-			<ComponentRef Id="SilTools.dll" />
-			<ComponentRef Id="SilTools.pdb" />
-			<ComponentRef Id="Phonology_Assistant_Help.chm" />
-			<ComponentRef Id="Pa.tmx" />
-			<ComponentRef Id="PaTMDefinition.xml" />
-			<ComponentRef Id="DataCorpusTMDefinition.xml" />
-			<ComponentRef Id="SearchTMDefinition.xml" />
-			<ComponentRef Id="CVChartsTMDefinition.xml" />
-			<ComponentRef Id="XYChartsTMDefinition.xml" />
-			<ComponentRef Id="FwDBAccessInfo.xml" />
-			<ComponentRef Id="FwSQLQueries.xml" />
-			<ComponentRef Id="FwSQLQueriesShortNames.xml" />
-			<ComponentRef Id="NormalizationExceptions.xml" />
-			<ComponentRef Id="PhoneticInventory.xml" />
-			<ComponentRef Id="DefaultAFeatures.xml" />
-			<ComponentRef Id="DefaultBFeatures.xml" />
-			<ComponentRef Id="DefaultConsonantChartHeadings.xml" />
-			<ComponentRef Id="DefaultVowelChartHeadings.xml" />
-			<ComponentRef Id="DefaultFields.xml" />
-			<ComponentRef Id="DefaultSearchClasses.xml" />
-			<ComponentRef Id="DefaultSearchQueries.xml" />
-			<ComponentRef Id="DefaultDistributionCharts.xml" />
-			<ComponentRef Id="XYChartXml2Xhtml.xsl" />
-			<ComponentRef Id="CVChartXml2Xhtml.xsl" />
-			<ComponentRef Id="GridXml2Xhtml.xsl" />
-			<ComponentRef Id="jquery.js" />
-			<ComponentRef Id="phonology.css" />
-			<ComponentRef Id="phonology.js" />
-			<ComponentRef Id="phonology_CSS3.css" />
-			<ComponentRef Id="phonology_export_options.xsl" />
-			<ComponentRef Id="phonology_export_view_CV_chart_0a_from_distribution_chart.xsl" />
-			<ComponentRef Id="phonology_export_view_CV_chart_0b_from_distribution_chart.xsl" />
-			<ComponentRef Id="phonology_export_view_CV_chart_0c_from_distribution_chart.xsl" />
-			<ComponentRef Id="phonology_export_view_CV_chart_1.xsl" />
-			<ComponentRef Id="phonology_export_view_CV_chart_2a_features.xsl" />
-			<ComponentRef Id="phonology_export_view_CV_chart_2b_features.xsl" />
-			<ComponentRef Id="phonology_export_view_CV_chart_2c_features.xsl" />
-			<ComponentRef Id="phonology_export_view_CV_chart_3a_feature_chart.xsl" />
-			<ComponentRef Id="phonology_export_view_CV_chart_3b_feature_chart.xsl" />
-			<ComponentRef Id="phonology_export_view_distribution_chart_generalize.xsl" />
-			<ComponentRef Id="phonology_export_view_distribution_chart_transpose.xsl" />
-			<ComponentRef Id="phonology_export_view_list_1a_minimal_pairs_omit.xsl" />
-			<ComponentRef Id="phonology_export_view_list_1b_minimal_pairs_split.xsl" />
-			<ComponentRef Id="phonology_export_view_list_1c_minimal_pairs_similar.xsl" />
-			<ComponentRef Id="phonology_export_view_list_2a_sort.xsl" />
-			<ComponentRef Id="phonology_export_view_list_2b_sort_manner.xsl" />
-			<ComponentRef Id="phonology_export_view_list_2c_sort_place.xsl" />
-			<ComponentRef Id="phonology_export_view_list_2d_sort.xsl" />
-			<ComponentRef Id="phonology_export_view_list_3a_minimal_pairs_merge.xsl" />
-			<ComponentRef Id="phonology_export_view_list_3b_minimal_pairs_differences.xsl" />
-			<ComponentRef Id="phonology_export_view_list_3c_minimal_pairs.xsl" />
-			<ComponentRef Id="phonology_export_view_to_CSS.xsl" />
-			<ComponentRef Id="phonology_export_view_to_Word_2003_XML.xsl" />
-			<ComponentRef Id="phonology_export_view_XLingPaper.xsl" />
-			<ComponentRef Id="phonology_export_view_to_XHTML.xsl" />
-			<ComponentRef Id="phonology_IE6.css" />
-			<ComponentRef Id="phonology_IE7.css" />
-			<ComponentRef Id="phonology_print.css" />
-			<ComponentRef Id="phonology_project_inventory_1a.xsl" />
-			<ComponentRef Id="phonology_project_inventory_1b_ambiguous_sequences.xsl" />
-			<ComponentRef Id="phonology_project_inventory_2a_diacritics.xsl" />
-			<ComponentRef Id="phonology_project_inventory_2b_base_sequences.xsl" />
-			<ComponentRef Id="phonology_project_inventory_2c_feature_overrides.xsl" />
-			<ComponentRef Id="phonology_project_inventory_2d_feature_rules.xsl" />
-			<ComponentRef Id="phonology_project_inventory_2e_feature_rules.xsl" />
-			<ComponentRef Id="phonology_project_inventory_2f_feature_rules.xsl" />
-			<ComponentRef Id="phonology_project_inventory_3a_feature_order.xsl" />
-			<ComponentRef Id="phonology_project_inventory_3b_feature_changes.xsl" />
-			<ComponentRef Id="phonology_project_inventory_4a_phonetic_sort_order.xsl" />
-			<ComponentRef Id="phonology_project_inventory_4b_place_of_articulation.xsl" />
-			<ComponentRef Id="phonology_project_inventory_4c_manner_of_articulation.xsl" />
-			<ComponentRef Id="phonology_project_inventory_5a_description.xsl" />
-			<ComponentRef Id="phonology_project_inventory_5b_description.xsl" />
-			<ComponentRef Id="phonology_project_inventory_6a_similar_phone_pairs.xsl" />
-			<ComponentRef Id="phonology_project_inventory_6b_similar_phone_pairs.xsl" />
-			<ComponentRef Id="phonology_project_inventory_6c_similar_phone_pairs.xsl" />
-			<ComponentRef Id="phonology_project_inventory_7.xsl" />
-			<ComponentRef Id="phonology_project_inventory_articulatory_features.xsl" />
-			<ComponentRef Id="phonology_project_inventory_binary_features.xsl" />
-			<ComponentRef Id="phonology_project_inventory_boolean_conditions.xsl" />
-			<ComponentRef Id="phonology_project_to_CV_chart_1a.xsl" />
-			<ComponentRef Id="phonology_project_to_CV_chart_1b.xsl" />
-			<ComponentRef Id="phonology_project_to_CV_chart_2.xsl" />
-			<ComponentRef Id="Processing.xml" />
-			<ComponentRef Id="similarPhonePatterns.xml" />
-			<ComponentRef Id="DoulosSILR.ttf" />
-		</Feature>
+      <ComponentGroupRef Id="ApplicationFiles" />
+      <ComponentGroupRef Id="ConfigurationFiles" />
+      <ComponentGroupRef Id="ProcessingFiles" />
+    </Feature>
 
-		<Feature Id="TrainingFiles" Level="1" Absent="allow" AllowAdvertise="yes" Title="Training Material">
-			<ComponentRef Id="PA_Instructor_Guide.doc" />
-			<ComponentRef Id="PA_Needs_Assessment.doc" />
-			<ComponentRef Id="PA_Student_Evaluation.doc" />
-			<ComponentRef Id="PA_Student_Manual.doc" />
-			<ComponentRef Id="TrainingProjectsSetup.xml" />
-			<ComponentRef Id="PaTrainingProjects.zip" />
-		</Feature>
+    <?if $(var.IncludeTrainingMaterial) = true ?>
+      <Feature Id="TrainingFiles" Level="1" Absent="allow" AllowAdvertise="yes" Title="Training Material">
+        <ComponentGroupRef Id="TrainingFiles" />
+      </Feature>
+    <?endif?>
 
-		<Media Id="1" Cabinet="pa.cab" EmbedCab="yes" CompressionLevel="high" />
+    <Media Id="1" Cabinet="pa.cab" EmbedCab="yes" CompressionLevel="high" />
 		<Icon Id="Pa.exe" SourceFile ="..\output\release\Pa.exe" />
 		<Property Id="ARPPRODUCTICON" Value="Pa.exe" />
 		<WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
 		<Property Id="WIXUI_INSTALLDIR" Value="APPLICATIONFOLDER" />
 		<UIRef Id="WixUI_InstallDir" />
-
-		<InstallExecuteSequence>
+    
+    <InstallExecuteSequence>
 			<RemoveExistingProducts After="InstallInitialize" />
 			<RegisterFonts />
 			<!--We need the condition here so that we only launch the executable when we make an installation but not when we remove the product-->

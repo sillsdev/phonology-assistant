@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
-		<Directory Id="TARGETDIR" Name="SourceDir">
+    <Directory Id="TARGETDIR" Name="SourceDir">
 			<!--<Directory Id="CommonAppDataFolder">
 				<Directory Id="PaCommonAppData" Name="Phonology Assistant">
 					<Directory Id="SampleDataDir" Name="Samples">
@@ -14,21 +14,31 @@
 					<File Id="DoulosSILR.ttf" Name="DoulosSILR.ttf" Source="..\DistFiles\DoulosSILR.ttf" TrueType="yes" KeyPath="yes" DiskId="1" />
 				</Component>
 			</Directory>
-
-			<Directory Id="ProgramFilesFolder" Name="PFiles">
+        
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
 				<!--<Directory Id="ProgramDir" Name="Phonology Assistant">-->
-				<Directory Id="APPLICATIONFOLDER" Name="Phonology Assistant 3.3.1">
+				<Directory Id="APPLICATIONFOLDER" Name="Phonology Assistant">
 					<Component Id="Pa.exe" Guid="{C1BD51CD-92F3-4f83-B5AD-0842C3063985}">
 						<File Id="Pa.exe" Name="Pa.exe"  Source="..\output\release\Pa.exe" />
-					</Component>
+            <ProgId Id='Pa.Document' Description='Phonology Assistant project file' Icon='Pa.exe' IconIndex='0'>
+              <Extension Id='pap' ContentType='application/pap'>
+                <Verb Id='open' Command='Open' TargetFile='Pa.exe' Argument='"%1"' />
+              </Extension>
+            </ProgId>
+            <ProgId Id='Pa.Backup' Description='Phonology Assistant backup file' Icon='Pa.exe' IconIndex='0'>
+              <Extension Id='pabackup' ContentType='application/pabackup'>
+                <Verb Id='open' Command='Open' TargetFile='Pa.exe' Argument='"%1"' />
+              </Extension>
+            </ProgId>
+          </Component>
 					<Component Id="DisablePASplashScreen.exe" Guid="{0EE47CCE-87AA-44CE-BBB2-1840A5B4ACCF}">
 						<File Id="DisablePASplashScreen.exe" KeyPath="yes" Source="..\output\release\DisablePASplashScreen.exe" />
 					</Component>
 					<Component Id="DisablePASplashScreen.pdb" Guid="{406FA8A0-43F4-4141-9DEA-AFE0E3DD170D}">
 						<File Id="DisablePASplashScreen.pdb" KeyPath="yes" Source="..\output\release\DisablePASplashScreen.pdb" />
 					</Component>
-					<Component Id="ICSharpCode.SharpZipLib.dll" Guid="{BE824166-9FDB-45F6-91EF-80A6C391EFEE}">
-						<File Id="ICSharpCode.SharpZipLib.dll" KeyPath="yes" Source="..\output\release\ICSharpCode.SharpZipLib.dll" />
+					<Component Id="Ionic.Zip.dll" Guid="{A2F9EA27-48AC-471C-8F1A-334F1908C72E}">
+						<File Id="Ionic.Zip.dll" KeyPath="yes" Source="..\output\release\Ionic.Zip.dll" />
 					</Component>
 					<Component Id="LocalizationManager.dll" Guid="{B537CFD9-D01A-40C4-A5B2-D0D65E12D765}">
 						<File Id="LocalizationManager.dll" KeyPath="yes" Source="..\output\release\LocalizationManager.dll" />
@@ -45,51 +55,48 @@
 					<Component Id="Pa.pdb" Guid="{8C44B41B-2937-4A69-99FC-602DC89949D8}">
 						<File Id="Pa.pdb" KeyPath="yes" Source="..\output\release\Pa.pdb" />
 					</Component>
-					<Component Id="PCIEditor.exe" Guid="{40801E28-D701-4857-873A-F045009DFBBC}">
+<!--
+          <Component Id="PCIEditor.exe" Guid="{40801E28-D701-4857-873A-F045009DFBBC}">
 						<File Id="PCIEditor.exe" KeyPath="yes" Source="..\output\release\PCIEditor.exe" />
 					</Component>
 					<Component Id="PCIEditor.pdb" Guid="{0FA906C6-B120-4295-9F43-9005B34AFC35}">
 						<File Id="PCIEditor.pdb" KeyPath="yes" Source="..\output\release\PCIEditor.pdb" />
 					</Component>
+-->
 					<Component Id="Phonology_Assistant_Help.chm" Guid="{06DFF774-C027-4CB5-8821-0B5F2C6FD88B}">
 						<File Id="Phonology_Assistant_Help.chm" KeyPath="yes" Source="..\distfiles\Phonology_Assistant_Help.chm" />
 					</Component>
-					<Component Id="SilTools.dll" Guid="{A130DD5C-A787-4085-B2B3-5C84E67A20B1}">
+          <Component Id="PaCompiledTransforms.dll" Guid="{92098C72-A32E-46E1-B95D-AE402120294C}">
+            <File Id="PaCompiledTransforms.dll" KeyPath="yes" Source="..\output\release\PaCompiledTransforms.dll" />
+          </Component>
+          <Component Id="SilTools.dll" Guid="{A130DD5C-A787-4085-B2B3-5C84E67A20B1}">
 						<File Id="SilTools.dll" KeyPath="yes" Source="..\output\release\SilTools.dll" />
 					</Component>
 					<Component Id="SilTools.pdb" Guid="{C85FA3F0-F525-4151-9D1A-396410501084}">
 						<File Id="SilTools.pdb" KeyPath="yes" Source="..\output\release\SilTools.pdb" />
 					</Component>
-					<!--<Component Id="SpeechToolsUtils.dll" Guid="{4B412B97-3D03-4E4A-839B-E27E4B4FCF92}">
-						<Class Id="{5A202747-6161-4C0C-B35E-EAB8E5562C5A}" Context="InprocServer32" Description="SIL.SpeechTools.Utils.SaAudioDocumentReader" ThreadingModel="both" ForeignServer="mscoree.dll">
-							<ProgId Id="SpeechToolsInterfaces.SaAudioDocumentReader" Description="SIL.SpeechTools.Utils.SaAudioDocumentReader" />
-						</Class>
-						<Class Id="{5F70259E-A867-470A-B114-6D516722CE39}" Context="InprocServer32" Description="SIL.SpeechTools.Utils.SaAudioDocumentWriter" ThreadingModel="both" ForeignServer="mscoree.dll">
-							<ProgId Id="SpeechToolsInterfaces.SaAudioDocumentWriter" Description="SIL.SpeechTools.Utils.SaAudioDocumentWriter" />
-						</Class>
-						<File Id="SpeechToolsUtils.dll" KeyPath="yes" Source="..\output\release\SpeechToolsUtils.dll" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5A202747-6161-4C0C-B35E-EAB8E5562C5A}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5A202747-6161-4C0C-B35E-EAB8E5562C5A}\InprocServer32\1.0.3911.28181" Name="Class" Value="SIL.SpeechTools.Utils.SaAudioDocumentReader" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5A202747-6161-4C0C-B35E-EAB8E5562C5A}\InprocServer32\1.0.3911.28181" Name="Assembly" Value="SpeechToolsUtils, Version=1.0.3911.28181, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5A202747-6161-4C0C-B35E-EAB8E5562C5A}\InprocServer32\1.0.3911.28181" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5A202747-6161-4C0C-B35E-EAB8E5562C5A}\InprocServer32\1.0.3911.28181" Name="CodeBase" Value="file:///[#SpeechToolsUtils.dll]" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5A202747-6161-4C0C-B35E-EAB8E5562C5A}\InprocServer32" Name="Class" Value="SIL.SpeechTools.Utils.SaAudioDocumentReader" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5A202747-6161-4C0C-B35E-EAB8E5562C5A}\InprocServer32" Name="Assembly" Value="SpeechToolsUtils, Version=1.0.3911.28181, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5A202747-6161-4C0C-B35E-EAB8E5562C5A}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5A202747-6161-4C0C-B35E-EAB8E5562C5A}\InprocServer32" Name="CodeBase" Value="file:///[#SpeechToolsUtils.dll]" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5F70259E-A867-470A-B114-6D516722CE39}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5F70259E-A867-470A-B114-6D516722CE39}\InprocServer32\1.0.3911.28181" Name="Class" Value="SIL.SpeechTools.Utils.SaAudioDocumentWriter" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5F70259E-A867-470A-B114-6D516722CE39}\InprocServer32\1.0.3911.28181" Name="Assembly" Value="SpeechToolsUtils, Version=1.0.3911.28181, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5F70259E-A867-470A-B114-6D516722CE39}\InprocServer32\1.0.3911.28181" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5F70259E-A867-470A-B114-6D516722CE39}\InprocServer32\1.0.3911.28181" Name="CodeBase" Value="file:///[#SpeechToolsUtils.dll]" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5F70259E-A867-470A-B114-6D516722CE39}\InprocServer32" Name="Class" Value="SIL.SpeechTools.Utils.SaAudioDocumentWriter" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5F70259E-A867-470A-B114-6D516722CE39}\InprocServer32" Name="Assembly" Value="SpeechToolsUtils, Version=1.0.3911.28181, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5F70259E-A867-470A-B114-6D516722CE39}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="CLSID\{5F70259E-A867-470A-B114-6D516722CE39}\InprocServer32" Name="CodeBase" Value="file:///[#SpeechToolsUtils.dll]" Type="string" Action="write" />
-						<RegistryValue Root="HKCR" Key="Component Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Name="0" Value=".NET Category" Type="string" Action="write" />
-					</Component>-->
-				</Directory>
+        </Directory>
 			</Directory>
 		</Directory>
 	</Fragment>
+  <Fragment>
+    <ComponentGroup Id="ApplicationFiles">
+      <ComponentRef Id="AddShortcutDir"/>
+      <ComponentRef Id="Pa.exe" />
+      <ComponentRef Id="Pa.exe.config" />
+      <ComponentRef Id="Pa.pdb" />
+      <ComponentRef Id="DisablePASplashScreen.exe" />
+      <ComponentRef Id="DisablePASplashScreen.pdb" />
+      <ComponentRef Id="Ionic.Zip.dll" />
+      <ComponentRef Id="LocalizationManager.dll" />
+      <ComponentRef Id="Palaso.dll" />
+      <ComponentRef Id="PaToFdoInterfaces.dll" />
+      <ComponentRef Id="PaCompiledTransforms.dll" />
+      <ComponentRef Id="SilTools.dll" />
+      <ComponentRef Id="SilTools.pdb" />
+      <ComponentRef Id="Phonology_Assistant_Help.chm" />
+      <ComponentRef Id="DoulosSILR.ttf" />
+      <ComponentRef Id="Transforms.zip"   />
+    </ComponentGroup>
+  </Fragment>
 </Wix>

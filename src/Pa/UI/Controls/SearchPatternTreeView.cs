@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
+using Localization;
 using SIL.FieldWorks.Common.UIAdapters;
-using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SilTools;
 using SilTools.Controls;
@@ -63,8 +63,8 @@ namespace SIL.Pa.UI.Controls
 			m_lblNoPatternsMsg.TextAlign = ContentAlignment.MiddleCenter;
 			m_lblNoPatternsMsg.Visible = false;
 
-			m_lblNoPatternsMsg.Text = App.GetString(
-				"SearchPatternTreeView.NoSavedSearchPatternsMsg",
+			m_lblNoPatternsMsg.Text = LocalizationManager.GetString(
+				"Views.Search.SavedSearchPatterns.NoSavedSearchPatternsMsg",
 				"No Saved Search Patterns",
 				"Message shown in the saved search pattern list when there are on saved patterns.");
 
@@ -79,9 +79,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public PaProject Project { get; set; }
-
-		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Saves the expanded states of the categories.
 		/// </summary>
@@ -92,17 +89,17 @@ namespace SIL.Pa.UI.Controls
 
 			foreach (TreeNode node in Nodes)
 			{
-				if (i < Project.SearchQueryGroups.Count)
+				if (i < App.Project.SearchQueryGroups.Count)
 				{
 
 					if (m_isForToolbarPopup)
-						Project.SearchQueryGroups[i++].ExpandedInPopup = node.IsExpanded;
+						App.Project.SearchQueryGroups[i++].ExpandedInPopup = node.IsExpanded;
 					else
-						Project.SearchQueryGroups[i++].Expanded = node.IsExpanded;
+						App.Project.SearchQueryGroups[i++].Expanded = node.IsExpanded;
 				}
 			}
 
-			Project.SearchQueryGroups.Save();
+			App.Project.SearchQueryGroups.Save();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -115,19 +112,19 @@ namespace SIL.Pa.UI.Controls
 		{
 			Nodes.Clear();
 
-			foreach (var group in Project.SearchQueryGroups)
+			foreach (SearchQueryGroup group in App.Project.SearchQueryGroups)
 			{
-				var categoryNode = new TreeNode(group.Name);
+				TreeNode categoryNode = new TreeNode(group.Name);
 				categoryNode.Tag = group;
 				Nodes.Add(categoryNode);
 
 				if (group.Queries == null)
 					continue;
 
-				foreach (var grpQuery in group.Queries)
+				foreach (SearchQuery grpQuery in group.Queries)
 				{
 					// Create a query node.
-					var node = new TreeNode();
+					TreeNode node = new TreeNode();
 					node.ImageIndex = node.SelectedImageIndex = 2;
 					node.Text = grpQuery.ToString();
 					node.Tag = grpQuery;
@@ -290,7 +287,7 @@ namespace SIL.Pa.UI.Controls
 					return nodes[0];
 			}
 
-			var group = Project.SearchQueryGroups.GetGroupFromQueryId(query.Id);
+			SearchQueryGroup group = App.Project.SearchQueryGroups.GetGroupFromQueryId(query.Id);
 			return GetPatternsNode(group != null ? group.Name : query.Category, query.ToString());
 		}
 
@@ -302,12 +299,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void SavePattern(SearchQuery query)
 		{
-			var patternNode = GetPatternsNode(query);
+			TreeNode patternNode = GetPatternsNode(query);
 			if (patternNode != null)
 			{
 				patternNode.Text = query.ToString();
 				patternNode.Tag = query.Clone();
-				Project.SearchQueryGroups.UpdateQuery(patternNode.Tag as SearchQuery);
+				App.Project.SearchQueryGroups.UpdateQuery(patternNode.Tag as SearchQuery);
 			}
 		}
 
@@ -465,8 +462,8 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (node.Tag is SearchQueryGroup && node != renamedNode && node.Text == newName)
 				{
-					var msg = App.GetString(
-						"SearchPatternTreeView.DuplicateSearchCategoryMsg",
+					var msg = LocalizationManager.GetString(
+						"Views.Search.SavedSearchPatterns.DuplicateSearchCategoryMsg",
 						"There is already a category named '{0}'.");
 
 					Utils.MsgBox(string.Format(msg, newName), MessageBoxButtons.OK,
@@ -500,8 +497,8 @@ namespace SIL.Pa.UI.Controls
 			{
 				if (node.Tag is SearchQuery && node != renamedNode && node.Text == newName)
 				{
-					var msg = App.GetString(
-						"SearchPatternTreeView.DuplicateSearchQueryMsg",
+					var msg = LocalizationManager.GetString(
+						"Views.Search.SavedSearchPatterns.DuplicateSearchQueryMsg",
 						"There is already a saved search pattern named '{0}' in the same category.");
 
 					Utils.MsgBox(string.Format(msg, newName), MessageBoxButtons.OK,
@@ -523,7 +520,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			((SearchQueryGroup)editedNode.Tag).Name = newName;
 			UpdateEachPatternsCategory();
-			Project.SearchQueryGroups.Save();
+			App.Project.SearchQueryGroups.Save();
 
 			// Remove the node whose label just changed and give the system a moment to
 			// process the message before moving on to re-add the node in alphabetical
@@ -558,7 +555,7 @@ namespace SIL.Pa.UI.Controls
 		private void AfterQueryNameEdited(SearchQuery query, string newName)
 		{
 			query.Name = newName;
-			Project.SearchQueryGroups.Save();
+			App.Project.SearchQueryGroups.Save();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -813,16 +810,16 @@ namespace SIL.Pa.UI.Controls
 			if (group == null)
 				return;
 
-			var msg = App.GetString(
-				"SearchPatternTreeView.DeleteSearchPatternCategoryConfirmationMsg",
+			var msg = LocalizationManager.GetString(
+				"Views.Search.SavedSearchPatterns.DeleteSearchPatternCategoryConfirmationMsg",
 				"Are you sure you want to remove the search category '{0}'?");
 
 			if (Utils.MsgBox(string.Format(msg, node.Text), MessageBoxButtons.YesNo) == DialogResult.No)
 				return;
 
 			// Remove group from cache.
-			Project.SearchQueryGroups.Remove(group);
-			Project.SearchQueryGroups.Save();
+			App.Project.SearchQueryGroups.Remove(group);
+			App.Project.SearchQueryGroups.Save();
 
 			// Remove group from tree.
 			TreeNode newNode = GetNewSelectedNodeIfDeleted(node);
@@ -847,16 +844,16 @@ namespace SIL.Pa.UI.Controls
 
 			if (showQuestion)
 			{
-				var msg = App.GetString(
-					"SearchPatternTreeView.DeleteSearchPatternConfirmationMsg",
+				var msg = LocalizationManager.GetString(
+					"Views.Search.SavedSearchPatterns.DeleteSearchPatternConfirmationMsg",
 					"Are you sure you want to remove the search pattern '{0}'?");
 
 				if (Utils.MsgBox(string.Format(msg, node.Text), MessageBoxButtons.YesNo) == DialogResult.No)
 					return;
 			}
 
-			Project.SearchQueryGroups[node.Parent.Index].Queries.RemoveAt(node.Index);
-			Project.SearchQueryGroups.Save();
+			App.Project.SearchQueryGroups[node.Parent.Index].Queries.RemoveAt(node.Index);
+			App.Project.SearchQueryGroups.Save();
 			TreeNode newNode = GetNewSelectedNodeIfDeleted(node);
 			Nodes.Remove(node);
 			SelectedNode = newNode;
@@ -892,8 +889,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void AddCategory(SlidingPanel slidingPanel, bool beginEditAfterAdding)
 		{
-			var msg = App.GetString(
-				"SearchPatternTreeView.NewSavedPatternCategoryName",
+			var msg = LocalizationManager.GetString(
+				"Views.Search.SavedSearchPatterns.NewSavedPatternCategoryName",
 				"New Category",
 				"This is the default name given to new categories in the saved search pattern tree in search view.");
 
@@ -917,10 +914,10 @@ namespace SIL.Pa.UI.Controls
 
 			newCategoryName = newName;
 			
-			var group = new SearchQueryGroup();
+			SearchQueryGroup group = new SearchQueryGroup();
 			group.Name = newCategoryName;
-			Project.SearchQueryGroups.Add(group);
-			Project.SearchQueryGroups.Save();
+			App.Project.SearchQueryGroups.Add(group);
+			App.Project.SearchQueryGroups.Save();
 
 			// Hide the label that tells the user there are no saved patterns
 			// because we know there is at least one category now.
@@ -966,7 +963,7 @@ namespace SIL.Pa.UI.Controls
 			else if (PatternExists(category, query.ToString()))
 			{
 				// Pattern exisits so ask user if he wants to overwrite.
-				var msg = App.GetString("SearchPatternTreeView.DuplicateSearchQueryQuestion",
+				var msg = LocalizationManager.GetString("Views.Search.SavedSearchPatterns.DuplicateSearchQueryQuestion",
 					"There is already a saved search pattern named '{0}' in the same category. Would you like it overwritten?");
 
 				if (Utils.MsgBox(string.Format(msg, query), MessageBoxButtons.YesNo) == DialogResult.No)
@@ -988,7 +985,7 @@ namespace SIL.Pa.UI.Controls
 
 			if (Nodes.Count == 0)
 			{
-				var msg = App.GetString("SearchPatternTreeView.AddSearchCategoryBeforeSaveMsg",
+				var msg = LocalizationManager.GetString("Views.Search.SavedSearchPatterns.AddSearchCategoryBeforeSaveMsg",
 					"Before saving a search pattern, you must first add a category to the saved pattern list.");
 				
 				Utils.MsgBox(msg);
@@ -1015,18 +1012,18 @@ namespace SIL.Pa.UI.Controls
 					newquery.Name = newName;
 			}
 
-			var group = Project.SearchQueryGroups[categoryNode.Index];
+			SearchQueryGroup group = App.Project.SearchQueryGroups[categoryNode.Index];
 
 			// Make sure we have a list to add to.
 			if (group.Queries == null)
 				group.Queries = new List<SearchQuery>();
 
-			newquery.Id = Project.SearchQueryGroups.NextAvailableId;
+			newquery.Id = App.Project.SearchQueryGroups.NextAvailableId;
 			group.Queries.Add(newquery);
-			Project.SearchQueryGroups.Save();
+			App.Project.SearchQueryGroups.Save();
 
 			// Now create a new tree node for it.
-			var node = new TreeNode();
+			TreeNode node = new TreeNode();
 			node.Text = newquery.ToString();
 			node.Tag = newquery;
 			node.Name = newquery.Id.ToString();

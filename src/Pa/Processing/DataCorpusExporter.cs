@@ -73,23 +73,15 @@ namespace SIL.Pa.Processing
 		/// ------------------------------------------------------------------------------------
 		protected override string Title
 		{
-			get { return "Data Corpus"; }
+			get { return "Data"; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override string View
 		{
-			get { return "Data Corpus"; }
+			get { return Title; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override string TableClass
 		{
@@ -97,19 +89,11 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override string NumberOfRecords
 		{
 			get { return ((PaWordListGrid)m_grid).Cache.Count.ToString(); }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override string NumberOfGroups
 		{
@@ -121,10 +105,6 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void WriteMeatadataSortInformation()
 		{
 			var grid = m_grid as PaWordListGrid;
@@ -135,25 +115,14 @@ namespace SIL.Pa.Processing
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected virtual void WriteMeatadataPhoneticSortOptions(PaWordListGrid grid)
 		{
-			if (grid.SortOptions.SortType != Model.PhoneticSortType.Unicode)
-			{
-				ProcessHelper.WriteStartElementWithAttrib(m_writer, "li", "class", "phoneticSortOption");
-				m_writer.WriteString(grid.SortOptions.SortType == Model.PhoneticSortType.MOA ?
-					"mannerOfArticulation" : "placeOfArticulation");
-				m_writer.WriteEndElement();
-			}
+			ProcessHelper.WriteStartElementWithAttrib(m_writer, "li", "class", "phoneticSortOption");
+			m_writer.WriteString(grid.SortOptions.SortType == PhoneticSortType.MOA ?
+				"manner_or_height" : "place_or_backness");
+			m_writer.WriteEndElement();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void WriteFieldSortOrder(PaWordListGrid grid)
 		{
@@ -182,10 +151,6 @@ namespace SIL.Pa.Processing
 			m_writer.WriteEndElement();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		protected override string GetTableRowCellValue(DataGridViewRow row, DataGridViewColumn col)
 		{

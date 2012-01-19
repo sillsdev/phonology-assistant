@@ -1,19 +1,3 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2011, SIL International. All Rights Reserved.   
-// <copyright from='2005' to='2011' company='SIL International'>
-//		Copyright (c) 2011, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
-// 
-// File: App.cs
-// Responsibility: David O
-// 
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,7 +5,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Windows.Forms;
 using Localization;
 using Localization.UI;
@@ -34,7 +17,6 @@ using SIL.Pa.Properties;
 using SIL.Pa.ResourceStuff;
 using SIL.Pa.UI.Views;
 using SilTools;
-using ShortcutKeysEditor=SilTools.Controls.ShortcutKeysEditor;
 using Utils=SilTools.Utils;
 
 namespace SIL.Pa
@@ -50,7 +32,8 @@ namespace SIL.Pa
 		void SetViewActive(bool makeActive, bool isDocked);
 		bool ActiveView { get; }
 		Form OwningForm { get;}
-		ITMAdapter TMAdapter { get;}
+		ITMAdapter TMAdapter { get; }
+		PaProject Project { get; }
 	}
 
 	#endregion
@@ -83,10 +66,7 @@ namespace SIL.Pa
 		public const string kBottomTieBar = "\u035C";
 		public const char kTopTieBarC = '\u0361';
 		public const char kBottomTieBarC = '\u035C';
-		public const string kDottedCircle = "\u25CC";
-		public const char kDottedCircleC = '\u25CC';
 		public const char kOrc = '\uFFFC';
-		public const string kDiacriticPlaceholder = "[" + kDottedCircle + "]";
 		public const string kSearchPatternDiamond = "\u25CA";
 		public const string kEmptyDiamondPattern = kSearchPatternDiamond + "/" + kSearchPatternDiamond + "_" + kSearchPatternDiamond;
 
@@ -95,6 +75,7 @@ namespace SIL.Pa
 		public const string kTrainingSubFolder = "Training";
 		public const string kPaRegKeyName = @"Software\SIL\Phonology Assistant";
 		public const string kAppSettingsName = "application";
+		public const string kDefaultInventoryFileName = "PhoneticInventory.xml";
 
 		#endregion
 
@@ -111,11 +92,16 @@ namespace SIL.Pa
 		private static List<ITMAdapter> s_defaultMenuAdapters;
 		private static readonly Dictionary<Type, Form> s_openForms = new Dictionary<Type, Form>();
 		private static readonly List<IxCoreColleague> s_colleagueList = new List<IxCoreColleague>();
+		private static AFeatureCache s_aFeatureCache;
 
 		#region Construction and startup methods
 		/// --------------------------------------------------------------------------------
 		static App()
 		{
+			DottedCircleC = '\u25CC';
+			DottedCircle = "\u25CC";
+			DiacriticPlaceholder = "[" + DottedCircle + "]";
+
 			if (DesignMode)
 				return;
 
@@ -131,8 +117,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private static void InitializeProjectFolder()
 		{
-			// Specifying the UI language on the command-line trumps the one in
-			// the settings file (i.e. the one set in the options dialog box).
+			// Specifying the project folder on the command-line trumps the default location.
 			foreach (var arg in Environment.GetCommandLineArgs()
 				.Where(arg => arg.ToLower().StartsWith("/pf:") || arg.ToLower().StartsWith("-pf:")))
 			{
@@ -190,8 +175,8 @@ namespace SIL.Pa
 
 			try
 			{
-				// Specifying the UI language on the command-line trumps the one in
-				// the settings file (i.e. the one set in the options dialog box).
+				// Specifying the settings file on the command-line trumps the one
+				// at the default location, if there is one at the default location.
 				foreach (var arg in Environment.GetCommandLineArgs()
 					.Where(arg => arg.ToLower().StartsWith("/sf:") || arg.ToLower().StartsWith("-sf:")))
 				{
@@ -201,14 +186,25 @@ namespace SIL.Pa
 					return;
 				}
 			}
-			catch (Exception e)
+			catch
 			{
-				ErrorReport.NotifyUserOfProblem(e, "There was an error retrieving the settings file " +
-					"'{0}'. The default settings file will be used instead.", path);
+				var msg = string.Format("There was an error retrieving the settings file\n\n" +
+					"'{0}'\n\nThe default settings file will be used instead.", path);
+
+				Utils.MsgBox(msg);
 			}
 
 			if (ProjectFolder == null)
 				InitializeProjectFolder();
+
+			//// Upgrade the settings if we're running a newer version of the program.
+			//if (Settings.Default.SettingsVersion != Application.ProductVersion)
+			//{
+			//    //see http://stackoverflow.com/questions/3498561/net-applicationsettingsbase-should-i-call-upgrade-every-time-i-load
+			//    Settings.Default.Upgrade();
+			//    Settings.Default.SettingsVersion = Application.ProductVersion;
+			//    Settings.Default.Save();
+			//}
 
 			PortableSettingsProvider.SettingsFileFolder = ProjectFolder;
 			PortableSettingsProvider.SettingsFileName = "Pa.settings";
@@ -217,33 +213,13 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static void InitializeLocalization()
 		{
-			SetUILanguage();
+			var installedStringFileFolder = FileLocator.GetDirectoryDistributedWithApplication(ConfigFolderName);
+			var localizedStringFilesFolder = Path.Combine(ProjectFolder, "Localizations");
 
-			// Copy the localization file to where the settings file is located.
-			var localizationFilePath = Path.Combine(PortableSettingsProvider.SettingsFileFolder, "Pa.tmx");
-			if (!File.Exists(localizationFilePath))
-			{
-				var srcLocalizationFilePath =
-					FileLocator.GetFileDistributedWithApplication(ConfigFolderName, "Pa.tmx");
+			L10NMngr = LocalizationManager.Create(GetUILanguage(), "Pa", "Phonology Assistant",
+				Application.ProductVersion, installedStringFileFolder, localizedStringFilesFolder, "SIL.Pa");
 
-				File.Copy(srcLocalizationFilePath, localizationFilePath);
-			}
-
-			L10NMngr = LocalizationManager.Create("Pa", "Phonology Assistant", ProjectFolder);
-			LocalizeItemDlg.SaveDialogSplitterPosition += (pos =>
-				Settings.Default.LocalizeDlgSplitterPos = pos);
-			
-			LocalizeItemDlg.SetDialogSplitterPosition += (currPos =>
-				(Settings.Default.LocalizeDlgSplitterPos > 0 ? Settings.Default.LocalizeDlgSplitterPos : currPos));
-			
-			LocalizeItemDlg.SaveDialogBounds += (dlg =>
-				Settings.Default.LocalizeDlgBounds = dlg.Bounds);
-			
-			LocalizeItemDlg.SetDialogBounds += (dlg =>
-			{
-				if (!Settings.Default.LocalizeDlgBounds.IsEmpty)
-					dlg.Bounds = Settings.Default.LocalizeDlgBounds;
-			});
+			Settings.Default.UserInterfaceLanguage = LocalizationManager.UILanguageId;
 
 			LocalizeItemDlg.StringsLocalized += (() =>
 			{
@@ -274,7 +250,7 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static void SetUILanguage()
+		private static string GetUILanguage()
 		{
 			string langId = Settings.Default.UserInterfaceLanguage;
 
@@ -287,8 +263,7 @@ namespace SIL.Pa
 				break;
 			}
 
-			LocalizationManager.UILanguageId = (string.IsNullOrEmpty(langId) ?
-				LocalizationManager.kDefaultLang : langId);
+			return (string.IsNullOrEmpty(langId) ? LocalizationManager.kDefaultLang : langId);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -358,7 +333,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return GetString("OpenClassSymbol", "<",
+				return LocalizationManager.GetString("Miscellaneous.OpenClassSymbol", "<",
 					"Character used to delineate the opening of a phonetic search class.");
 			}
 		}
@@ -368,7 +343,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return GetString("CloseClassSymbol", ">",
+				return LocalizationManager.GetString("Miscellaneous.CloseClassSymbol", ">",
 					"Character used to delineate the closing of a phonetic search class.");
 			}
 		}
@@ -378,7 +353,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return GetString("FileTypes.ExecutableFileTypes",
+				return LocalizationManager.GetString("Miscellaneous.FileTypes.ExecutableFileTypes",
 					"All Executables (*.exe;*.com;*.pif;*.bat;*.cmd)|*.exe;*.com;*.pif;*.bat;*.cmd",
 					"File types for executable files.");
 			}
@@ -389,7 +364,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return GetString("FileTypes.AllFileTypes",
+				return LocalizationManager.GetString("Miscellaneous.FileTypes.AllFileTypes",
 					"All Files (*.*)|*.*", "Used in open/save file dialogs as the type for all files.");
 			}
 		}
@@ -399,7 +374,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return GetString("FileTypes.HTMLFileType", "HTML Files (*.html)|*.html");
+				return LocalizationManager.GetString("Miscellaneous.FileTypes.HTMLFileType",
+					"HTML Files (*.html)|*.html");
 			}
 		}
 
@@ -408,7 +384,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return GetString("FileTypes.Word2003XmlFileType", "Word 2003 XML Files (*.xml)|*.xml");
+				return LocalizationManager.GetString("Miscellaneous.FileTypes.Word2003XmlFileType",
+					"Word 2003 XML Files (*.xml)|*.xml");
 			}
 		}
 
@@ -417,7 +394,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return GetString("FileTypes.XLingPaperFileType", "XLingPaper Files (*.xml)|*.xml");
+				return LocalizationManager.GetString("Miscellaneous.FileTypes.XLingPaperFileType",
+					"XLingPaper Files (*.xml)|*.xml");
 			}
 		}
 
@@ -426,7 +404,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return GetString("FileTypes.PaXMLFileType",
+				return LocalizationManager.GetString("Miscellaneous.FileTypes.PaXMLFileType",
 					"{0} XML Files (*.paxml)|*.paxml", "Parameter is the application name.");
 			}
 		}
@@ -436,7 +414,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return GetString("FileTypes.PaProjectFileType", "{0} Projects (*.pap)|*.pap",
+				return LocalizationManager.GetString("Miscellaneous.FileTypes.PaProjectFileType",
+					"{0} Projects (*.pap)|*.pap",
 					"File type for Phonology Assistant projects. The parameter is the application name.");
 			}
 		}
@@ -446,7 +425,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return GetString("FileTypes.RTFFileType", "Rich Text Format (*.rtf)|*.rtf",
+				return LocalizationManager.GetString("Miscellaneous.FileTypes.RTFFileType",
+					"Rich Text Format (*.rtf)|*.rtf",
 					"File type for rich text format output.");
 			}
 		}
@@ -456,7 +436,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return GetString("FileTypes.Mp3FileType", "Speech Analyzer MP3 Files (*.mp3)|*.mp3");
+				return LocalizationManager.GetString("Miscellaneous.FileTypes.Mp3FileType",
+					"Speech Analyzer MP3 Files (*.mp3)|*.mp3");
 			}
 		}
 
@@ -465,7 +446,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return GetString("FileTypes.WaveFileType", "Speech Analyzer Wave Files (*.wav)|*.wav");
+				return LocalizationManager.GetString("Miscellaneous.FileTypes.WaveFileType",
+					"Speech Analyzer Wave Files (*.wav)|*.wav");
 			}
 		}
 
@@ -474,7 +456,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return GetString("FileTypes.WindowsMediaAudioFileType", "Speech Analyzer WMA Files (*.wma)|*.wma");
+				return LocalizationManager.GetString("Miscellaneous.FileTypes.WindowsMediaAudioFileType",
+					"Speech Analyzer WMA Files (*.wma)|*.wma");
 			}
 		}
 
@@ -483,7 +466,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return GetString("FileTypes.ToolboxFileType", "Toolbox Files (*.db)|*.db");
+				return LocalizationManager.GetString("Miscellaneous.FileTypes.ToolboxFileType",
+					"Toolbox Files (*.db)|*.db");
 			}
 		}
 
@@ -492,7 +476,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return GetString("FileTypes.ToolboxInterlinearFileType", "Interlinear Toolbox Files (*.itx)|*.itx");
+				return LocalizationManager.GetString("Miscellaneous.FileTypes.ToolboxInterlinearFileType",
+					"Interlinear Toolbox Files (*.itx)|*.itx");
 			}
 		}
 
@@ -501,7 +486,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return GetString("FileTypes.XmlFileType", "XML Files (*.xml)|*.xml");
+				return LocalizationManager.GetString("Miscellaneous.FileTypes.XmlFileType",
+					"XML Files (*.xml)|*.xml");
 			}
 		}
 
@@ -510,7 +496,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return GetString("FileTypes.XsltTFileType", "XSLT Files (*.xslt)|*.xslt");
+				return LocalizationManager.GetString("Miscellaneous.FileTypes.XsltTFileType",
+					"XSLT Files (*.xslt)|*.xslt");
 			}
 		}
 
@@ -519,7 +506,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return GetString("FileTypes.ZipFileType", "Zip Files (*.zip)|*.zip");
+				return LocalizationManager.GetString("Miscellaneous.FileTypes.ZipFileType",
+					"Zip Files (*.zip)|*.zip");
 			}
 		}
 
@@ -528,7 +516,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return GetString("PhoneticSearchingInProgressMessage", "Searching...",
+				return LocalizationManager.GetString("PhoneticSearchingMessages.SearchingInProgressMessage",
+					"Searching...",
 					"Message displayed in status bar next to the progress bar when doing a query searches.");
 			}
 		}
@@ -538,7 +527,8 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return GetString("GenericSaveChangesQuestion", "Would you like to save your changes?");
+				return LocalizationManager.GetString("Miscellaneous.Messages.GenericSaveChangesQuestion",
+					"Would you like to save your changes?");
 			}
 		}
 
@@ -547,7 +537,7 @@ namespace SIL.Pa
 		{
 			get
 			{
-				return GetString("GenericSaveFileDialogCaption", "Save File");
+				return LocalizationManager.GetString("DialogBoxes.GenericSaveFileDialogCaption", "Save File");
 			}
 		}
 
@@ -580,7 +570,8 @@ namespace SIL.Pa
 			{
 				SplashScreen = new SplashScreen(true, VersionType.Alpha);
 				SplashScreen.Show();
-				SplashScreen.Message = GetString("SplashScreenLoadingMsg", "Loading...");
+				SplashScreen.Message = LocalizationManager.GetString(
+					"Miscellaneous.Messages.SplashScreenLoadingMsg", "Loading...");
 			}
 		}
 
@@ -623,10 +614,6 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static void RemoveMediatorColleague(IxCoreColleague colleague)
 		{
 			if (colleague != null && !DesignMode)
@@ -645,6 +632,16 @@ namespace SIL.Pa
 		#endregion
 
 		#region Misc. Properties
+		public static string DiacriticPlaceholder { get; set; }
+		public static string DottedCircle { get; set; }
+		public static char DottedCircleC { get; set; }
+		public static Font PhoneticFont { get; set; }
+		public static Mediator MsgMediator { get; internal set; }
+		public static Form MainForm { get; set; }
+		public static ITMAdapter TMAdapter { get; set; }
+		public static ITabView CurrentView { get; set; }
+		public static Type CurrentViewType { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// The normal DesignMode property doesn't work when derived classes are loaded in
@@ -657,9 +654,6 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public static Font PhoneticFont { get; set; }
-
-		/// ------------------------------------------------------------------------------------
 		public static string BreakChars
 		{
 			get
@@ -668,13 +662,6 @@ namespace SIL.Pa
 					" " : Settings.Default.WordBreakCharacters);
 			}
 		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the XCore message mediator for the application.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Mediator MsgMediator { get; internal set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -748,30 +735,33 @@ namespace SIL.Pa
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public static string PhoneticInventoryFilePath
+		{
+			get
+			{
+				return FileLocator.GetFileDistributedWithApplication(
+					ConfigFolderName, kDefaultInventoryFileName);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public static IPASymbolCache IPASymbolCache
 		{
 			get { return InventoryHelper.IPASymbolCache; }
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the cache of articulatory features.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static AFeatureCache AFeatureCache
 		{
-			get { return InventoryHelper.AFeatureCache; }
+			get 
+			{
+				return s_aFeatureCache ??
+					(s_aFeatureCache = AFeatureCache.Load(PhoneticInventoryFilePath));
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the cache of binary features.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static BFeatureCache BFeatureCache
-		{
-			get { return InventoryHelper.BFeatureCache; }
-		}
+		public static BFeatureCache BFeatureCache { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -787,13 +777,6 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static bool ProjectLoadInProcess { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the toolbar menu adapter PaMainWnd. This value should only be set
-		/// by the PaMainWnd class.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static ITMAdapter TMAdapter { get; set; }
 
 		/// --------------------------------------------------------------------------------
 		/// <summary>
@@ -804,28 +787,6 @@ namespace SIL.Pa
 		{
 			get { return null; }
 		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the application's main form.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Form MainForm { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the application's current view form. When the view is docked, then
-		/// this form will not be visible.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static ITabView CurrentView { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the application's current view type.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static Type CurrentViewType { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -843,24 +804,154 @@ namespace SIL.Pa
 
 		#endregion
 
+		#region Grid color methods and properties
+		/// ------------------------------------------------------------------------------------
+		public static void SetCellColors(DataGridView grid, DataGridViewCellFormattingEventArgs e)
+		{
+			if (grid.CurrentRow == null || grid.CurrentRow.Index != e.RowIndex)
+				return;
+
+			if (!grid.Focused)
+			{
+				e.CellStyle.SelectionBackColor = GridRowUnfocusedSelectionBackColor;
+				e.CellStyle.SelectionForeColor = GridRowUnfocusedSelectionForeColor;
+				return;
+			}
+
+			if (grid.CurrentCell != null && grid.CurrentCell.ColumnIndex == e.ColumnIndex)
+			{
+				// Set the selected cell's background color to be
+				// distinct from the rest of the current row.
+				e.CellStyle.SelectionBackColor = GridCellFocusedBackColor;
+				e.CellStyle.SelectionForeColor = GridCellFocusedForeColor;
+			}
+			else
+			{
+				// Set the selected row's background color.
+				e.CellStyle.SelectionBackColor = GridRowFocusedBackColor;
+				e.CellStyle.SelectionForeColor = GridRowFocusedForeColor;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static void SetGridSelectionColors(SilGrid grid, bool makeSelectedCellsDifferent)
+		{
+			grid.SelectedRowBackColor = GridRowFocusedBackColor;
+			grid.SelectedRowForeColor = GridRowFocusedForeColor;
+
+			grid.SelectedCellBackColor = (makeSelectedCellsDifferent ?
+				GridCellFocusedBackColor : GridRowFocusedBackColor);
+
+			grid.SelectedCellForeColor = (makeSelectedCellsDifferent ?
+				GridCellFocusedForeColor : GridRowFocusedForeColor);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Color GridColor
+		{
+			get
+			{
+				var clr = Settings.Default.WordListGridColor;
+				return (clr != Color.Transparent && clr != Color.Empty ? clr :
+					ColorHelper.CalculateColor(SystemColors.WindowText, SystemColors.Window, 25));
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Color GridRowFocusedForeColor
+		{
+			get
+			{
+				return (Settings.Default.UseSystemColors ? SystemColors.WindowText :
+					Settings.Default.GridRowSelectionForeColor);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Color GridRowFocusedBackColor
+		{
+			get
+			{
+				return (Settings.Default.UseSystemColors ? ColorHelper.LightHighlight :
+					Settings.Default.GridRowSelectionBackColor);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Color GridCellFocusedForeColor
+		{
+			get
+			{
+				return (Settings.Default.UseSystemColors ? SystemColors.WindowText :
+					Settings.Default.GridCellSelectionForeColor);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Color GridCellFocusedBackColor
+		{
+			get
+			{
+				return (Settings.Default.UseSystemColors ? ColorHelper.LightLightHighlight :
+					Settings.Default.GridCellSelectionBackColor);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Color GridRowUnfocusedSelectionBackColor
+		{
+			get
+			{
+				return (Settings.Default.UseSystemColors ? SystemColors.Control :
+					Settings.Default.GridRowUnfocusedSelectionBackColor);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Color GridRowUnfocusedSelectionForeColor
+		{
+			get
+			{
+				if (!Settings.Default.UseSystemColors)
+					return Settings.Default.GridRowUnfocusedSelectionForeColor;
+
+				// It turns out the control color for the silver Windows XP theme is very close
+				// to the default color calculated for selected rows in PA word lists. Therefore,
+				// when a word list grid looses focus and a selected row's background color gets
+				// changed to the control color, it's very hard to tell the difference between a
+				// selected row in a focused grid from that of a non focused grid. So, when the
+				// theme is the silver (i.e. Metallic) then also make the text gray for selected
+				// rows in non focused grid's.
+				if (PaintingHelper.CanPaintVisualStyle() &&
+					System.Windows.Forms.VisualStyles.VisualStyleInformation.DisplayName == "Windows XP style" &&
+					System.Windows.Forms.VisualStyles.VisualStyleInformation.ColorScheme == "Metallic")
+				{
+					return SystemColors.GrayText;
+				}
+					
+				return SystemColors.ControlText;
+			}
+		}
+
+		#endregion
 
 		#region Localization Manager Access methods
 		/// ------------------------------------------------------------------------------------
 		private static LocalizationManager L10NMngr { get; set; }
 
-		/// ------------------------------------------------------------------------------------
-		internal static void SaveOnTheFlyLocalizations()
-		{
-			if (L10NMngr != null)
-				L10NMngr.SaveOnTheFlyLocalizations();
-		}
+		///// ------------------------------------------------------------------------------------
+		//internal static void SaveOnTheFlyLocalizations()
+		//{
+		//    if (L10NMngr != null)
+		//        L10NMngr.SaveOnTheFlyLocalizations();
+		//}
 
-		/// ------------------------------------------------------------------------------------
-		internal static void ReapplyLocalizationsToAllObjects()
-		{
-			if (L10NMngr != null)
-				L10NMngr.ReapplyLocalizationsToAllObjects();
-		}
+		///// ------------------------------------------------------------------------------------
+		//internal static void ReapplyLocalizationsToAllObjects()
+		//{
+		//    if (L10NMngr != null)
+		//        L10NMngr.ReapplyLocalizationsToAllObjects();
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		internal static void RefreshToolTipsOnLocalizationManager()
@@ -875,90 +966,57 @@ namespace SIL.Pa
 			return LocalizationManager.UILanguageId;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		internal static string GetString(string id, string defaultText)
-		{
-			return (L10NMngr == null ? defaultText : L10NMngr.LocalizeString(id, defaultText));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static string GetString(string id, string defaultText, string comment)
-		{
-			return (L10NMngr == null ? defaultText : L10NMngr.LocalizeString(id, defaultText, comment, null));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static string GetStringForObject(object obj, string defaultText)
-		{
-		    return (L10NMngr == null ? defaultText : (L10NMngr.GetString(obj) ?? defaultText));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static void RegisterForLocalization(object obj, string id)
-		{
-			if (L10NMngr != null)
-				L10NMngr.LocalizeObject(obj, id);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static void RegisterForLocalization(object obj, string id, string defaultText)
-		{
-			if (L10NMngr == null)
-				return;
-			
-			L10NMngr.LocalizeString(id, defaultText);
-			L10NMngr.LocalizeObject(obj, id);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		internal static void RegisterForLocalization(object obj, string id,
-			string defaultText, string comment)
-		{
-			if (L10NMngr == null)
-				return;
-
-			L10NMngr.LocalizeObject(obj, id, defaultText, null, comment);
-			L10NMngr.LocalizeObject(obj, id);
-		}
-
 		#endregion
 
 		#region Misc. methods
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Prepares the adapter for localization support.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void PrepareAdapterForLocalizationSupport(ITMAdapter adapter)
+		public static void NotifyUserOfProblem(string msg, params object[] args)
 		{
-			adapter.LocalizeItem += HandleLocalizingTMItem;
+			CloseSplashScreen();
+			Utils.WaitCursors(false);
+			try { ErrorReport.NotifyUserOfProblem(msg, args); }
+			catch { }
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Reverses what the method PrepareAdapterForLocalizationSupport does to prepare
-		/// the specified adapter for localization.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static void UnPrepareAdapterForLocalizationSupport(ITMAdapter adapter)
+		public static void NotifyUserOfProblem(Exception e, string msg, params object[] args)
 		{
-			adapter.LocalizeItem -= HandleLocalizingTMItem;
+			CloseSplashScreen();
+			Utils.WaitCursors(false);
+			try { ErrorReport.NotifyUserOfProblem(e, msg, args); }
+			catch { }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Handles localizing a toolbar/menu item.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		static void HandleLocalizingTMItem(object item, string id, TMItemProperties itemProps)
-		{
-			if (L10NMngr != null)
-			{
-				L10NMngr.LocalizeObject(item, id, itemProps.Text, itemProps.Tooltip,
-					ShortcutKeysEditor.KeysToString(itemProps.ShortcutKey),
-					"Menu or Toolbar item", "UI.Menus and Toolbars");
-			}
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Prepares the adapter for localization support.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public static void PrepareAdapterForLocalizationSupport(ITMAdapter adapter)
+		//{
+		//    adapter.LocalizeItem += HandleLocalizingTMItem;
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Reverses what the method PrepareAdapterForLocalizationSupport does to prepare
+		///// the specified adapter for localization.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//public static void UnPrepareAdapterForLocalizationSupport(ITMAdapter adapter)
+		//{
+		//    adapter.LocalizeItem -= HandleLocalizingTMItem;
+		//}
+
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Handles localizing a toolbar/menu item.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//static void HandleLocalizingTMItem(object item, string id, TMItemProperties itemProps)
+		//{
+		//    LocalizeAdapterItems.LocalizeItem(item, id, itemProps);
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		public static int GetPlaybackSpeedForVwType(Type vwType)
@@ -997,15 +1055,19 @@ namespace SIL.Pa
 
 			if (adapter != null)
 			{
-				PrepareAdapterForLocalizationSupport(adapter);
+				//PrepareAdapterForLocalizationSupport(adapter);
 
 				var defs = new[] { FileLocator.GetFileDistributedWithApplication(ConfigFolderName,
 					"PaTMDefinition.xml") };
 				
 				adapter.Initialize(menuContainer, MsgMediator, ApplicationRegKeyPath, defs);
 				adapter.AllowUpdates = true;
-				adapter.RecentFilesList = (MruFiles.Paths ?? new string[] { });
-				adapter.RecentlyUsedItemChosen += (filename => MsgMediator.SendMessage("RecentlyUsedProjectChosen", filename));
+				adapter.RecentlyUsedItemChosen += (ruItem => MsgMediator.SendMessage("RecentlyUsedProjectChosen", ruItem));
+				adapter.SetRecentFilesList(MruFiles.Paths ?? new string[0], prjPath =>
+				{
+					var prjInfo = PaProjectLite.Create(prjPath);
+					return (prjInfo == null ? prjPath : prjInfo.Name);
+				});
 			}
 
 			if (s_defaultMenuAdapters == null)
@@ -1049,8 +1111,14 @@ namespace SIL.Pa
 
 			if (s_defaultMenuAdapters != null)
 			{
-				foreach (ITMAdapter adapter in s_defaultMenuAdapters)
-					adapter.RecentFilesList = (MruFiles.Paths ?? new string[] { });
+				foreach (var adapter in s_defaultMenuAdapters)
+				{
+					adapter.SetRecentFilesList(MruFiles.Paths ?? new string[0], prjPath =>
+					{
+						var prjInfo = PaProjectLite.Create(prjPath);
+						return (prjInfo == null ? null : prjInfo.Name);
+					});
+				}
 			}
 		}
 
@@ -1235,7 +1303,7 @@ namespace SIL.Pa
 		public static ToolStripProgressBar InitializeProgressBar(string text, int maxValue)
 		{
 			s_splashScreenLoadingMessageFormat =
-				GetString("SplashScreenProgressMessageFormat", "{0}  {1}",
+				LocalizationManager.GetString("Miscellaneous.Messages.SplashScreenProgressStatusMessageFormat", "{0}  {1}",
 				"Format for message displayed in the splash screen when loading a project. First parameter is the message; second is the percentage value.");
 
 			var udvwnd = (CurrentView != null && CurrentView.ActiveView ?
@@ -1244,11 +1312,12 @@ namespace SIL.Pa
 			var bar = (udvwnd != null ? udvwnd.ProgressBar : s_progressBar);
 			var lbl = (udvwnd != null ? udvwnd.ProgressBarLabel : s_progressBarLabel);
 			var lblPct = (udvwnd != null ? udvwnd.ProgressPercentLabel : s_percentLabel);
-			lblPct.Tag = maxValue;
+			if (lblPct != null)
+				lblPct.Tag = maxValue;
 
 			if (bar != null)
 			{
-				s_progressPercentFormat = GetString("ProgressPercentageFormat", "{0}%");
+				s_progressPercentFormat = LocalizationManager.GetString("PhoneticSearchingMessages.ProgressPercentageStatusBarFormat", "{0}%");
 				bar.Maximum = maxValue;
 				bar.Value = 0;
 				bar.Visible = Settings.Default.UseProgressBarInMainWindow;
@@ -1402,7 +1471,7 @@ namespace SIL.Pa
 		public static string[] OpenFileDialog(string defaultFileType, string filter,
 			ref int filterIndex, string dlgTitle, bool multiSelect, string initialDirectory)
 		{
-			OpenFileDialog dlg = new OpenFileDialog();
+			var dlg = new OpenFileDialog();
 			dlg.CheckFileExists = true;
 			dlg.CheckPathExists = true;
 			dlg.DefaultExt = defaultFileType;
@@ -1454,7 +1523,7 @@ namespace SIL.Pa
 		public static string SaveFileDialog(string defaultFileType, string filter,
 			ref int filterIndex, string dlgTitle, string initialFileName, string initialDir)
 		{
-			SaveFileDialog dlg = new SaveFileDialog();
+			var dlg = new SaveFileDialog();
 			dlg.AddExtension = true;
 			dlg.DefaultExt = defaultFileType;
 			dlg.OverwritePrompt = true;
@@ -1484,14 +1553,44 @@ namespace SIL.Pa
 
 		#region Search query methods
 		/// ------------------------------------------------------------------------------------
+		public static string GetPathToRecentlyUsedSearchQueriesFile()
+		{
+			return Path.Combine(ProjectFolder, "RecentlyUsedPatterns.xml");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static int GetSearchResultCount(SearchQuery query)
+		{
+			try
+			{
+				int resultCount;
+				Search(query, true, true, false, 5, out resultCount);
+				return resultCount;
+			}
+			catch (Exception e)
+			{
+				query.Errors.Add(new SearchQueryValidationError(e));
+				return 0;
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Creates and loads a result cache for the specified search query.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public static WordListCache Search(SearchQuery query)
 		{
-			int resultCount;
-			return Search(query, true, false, 1, out resultCount);
+			try
+			{
+				int resultCount;
+				return Search(query, true, false, true, 5, out resultCount);
+			}
+			catch (Exception e)
+			{
+				query.Errors.Add(new SearchQueryValidationError(e));
+				return new WordListCache();
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1499,37 +1598,20 @@ namespace SIL.Pa
 		/// Creates and loads a result cache for the specified search query.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static WordListCache Search(SearchQuery query, int incAmount)
-		{
-			int resultCount;
-			return Search(query, true, false, incAmount, out resultCount);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Creates and loads a result cache for the specified search query.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static WordListCache Search(SearchQuery query, bool incProgressBar,
-			bool returnCountOnly, int incAmount, out int resultCount)
-		{
-			return Search(query, incProgressBar, returnCountOnly,
-				true, incAmount, out resultCount);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Creates and loads a result cache for the specified search query.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static WordListCache Search(SearchQuery query, bool incProgressBar,
+		private static WordListCache Search(SearchQuery query, bool incProgressBar,
 			bool returnCountOnly, bool showErrMsg, int incAmount, out int resultCount)
 		{
 			resultCount = 0;
+
 			bool patternContainsWordBoundaries = (query.Pattern.IndexOf('#') >= 0);
 			int incCounter = 0;
 
-			query.ErrorMessages.Clear();
+			query.Errors.Clear();
+
+			var validator = new SearchQueryValidator(Project);
+			if (!validator.GetIsValid(query))
+				return new WordListCache { SearchQuery = query };
+
 			SearchQuery modifiedQuery;
 			if (!ConvertClassesToPatterns(query, out modifiedQuery, showErrMsg))
 				return null;
@@ -1537,20 +1619,20 @@ namespace SIL.Pa
 			SearchEngine.IgnoreUndefinedCharacters = Project.IgnoreUndefinedCharsInSearches;
 			var engine = new SearchEngine(modifiedQuery, Project.PhoneCache);
 
-			string msg = engine.GetCombinedErrorMessages();
-			if (!string.IsNullOrEmpty(msg))
-			{
-				if (showErrMsg)
-					Utils.MsgBox(msg);
+			//var msg = query.GetCombinedErrorMessages();
+			//if (!string.IsNullOrEmpty(msg))
+			//{
+			//    if (showErrMsg)
+			//        ShowSearchError(msg);
 
-				query.ErrorMessages.AddRange(modifiedQuery.ErrorMessages);
-				resultCount = -1;
-				return null;
-			}
+			//    query.Errors.AddRange(modifiedQuery.Errors);
+			//    resultCount = -1;
+			//    return null;
+			//}
 
-			if (!VerifyMiscPatternConditions(engine, showErrMsg))
+			if (!VerifyMiscPatternConditions(engine, query, showErrMsg))
 			{
-				query.ErrorMessages.AddRange(modifiedQuery.ErrorMessages);
+				query.Errors.AddRange(modifiedQuery.Errors);
 				resultCount = -1;
 				return null;
 			}
@@ -1662,7 +1744,7 @@ namespace SIL.Pa
 			modifiedQuery = query.Clone();
 
 			// Get the index of the first opening bracket and check if we need go further.
-			int i = query.Pattern.IndexOf(kOpenClassBracket);
+			int i = query.Pattern.IndexOf(kOpenClassBracket, StringComparison.Ordinal);
 			if (Project == null || Project.SearchClasses.Count == 0 || i < 0)
 				return true;
 
@@ -1671,24 +1753,25 @@ namespace SIL.Pa
 				// Save the offset of the open bracket and find
 				// its corresponding closing bracket.
 				int start = i;
-				i = modifiedQuery.Pattern.IndexOf(kCloseClassBracket, i);
+				i = modifiedQuery.Pattern.IndexOf(kCloseClassBracket, i, StringComparison.Ordinal);
 
 				if (i > start)
 				{
 					// Extract the class name from the query's pattern and
 					// find the SearchClass object having that class name.
-					string className = modifiedQuery.Pattern.Substring(start, i - start + 1);
-					SearchClass srchClass = Project.SearchClasses.GetSearchClass(className, true);
+					var className = modifiedQuery.Pattern.Substring(start, i - start + 1);
+					var srchClass = Project.SearchClasses.GetSearchClass(className, true);
 					if (srchClass != null)
 						modifiedQuery.Pattern = modifiedQuery.Pattern.Replace(className, srchClass.Pattern);
 					else
 					{
-						errorMsg = GetString("ClassMissingMsg", "The class '{0}' is not in this project. It may have been deleted.",
+						errorMsg = LocalizationManager.GetString("PhoneticSearchingMessages.ClassMissingMsg", "The class '{0}' is not in this project. It may have been deleted.",
 							"Message displayed when a search pattern contains a class that doesn't exist in the project.");
 						
 						errorMsg = string.Format(errorMsg, className);
-						modifiedQuery.ErrorMessages.Add(errorMsg);
-						query.ErrorMessages.Add(errorMsg);
+						var error = new SearchQueryValidationError(errorMsg);
+						modifiedQuery.Errors.Add(error);
+						query.Errors.Add(error);
 
 						if (showMsgOnErr)
 							Utils.MsgBox(errorMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -1698,14 +1781,14 @@ namespace SIL.Pa
 				}
 
 				// Get the next open class bracket.
-				i = modifiedQuery.Pattern.IndexOf(kOpenClassBracket);
+				i = modifiedQuery.Pattern.IndexOf(kOpenClassBracket, StringComparison.Ordinal);
 			}
 
 			return true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private static bool VerifyMiscPatternConditions(SearchEngine engine, bool showErrMsg)
+		private static bool VerifyMiscPatternConditions(SearchEngine engine, SearchQuery query, bool showErrMsg)
 		{
 			if (engine == null)
 				return false;
@@ -1713,19 +1796,26 @@ namespace SIL.Pa
 			string msg = null;
 
 			if (engine.GetWordBoundaryCondition() != SearchEngine.WordBoundaryCondition.NoCondition)
-				msg = SearchQueryException.WordBoundaryError;
+				msg = "The space/word boundary symbol (#) may not be the first or last item in the search item portion (what precedes the slash) of the search pattern. Please correct this and try your search again.";
 			else if (engine.GetZeroOrMoreCondition() != SearchEngine.ZeroOrMoreCondition.NoCondition)
-				msg = SearchQueryException.ZeroOrMoreError;
+				msg = "The zero-or-more symbol (*) was found in an invalid location within the search pattern. The zero-or-more symbol may only be the first item in the preceding environment and/or the last item in the environment after. Please correct this and try your search again.";
 			else if (engine.GetOneOrMoreCondition() != SearchEngine.OneOrMoreCondition.NoCondition)
-				msg = SearchQueryException.OneOrMoreError;
+				msg = "The one-or-more symbol (+) was found in an invalid location within the search pattern. The one-or-more symbol may only be the first item in the preceding environment and/or the last item in the environment after. Please correct this and try your search again.";
 
-			if (msg == null)
-				msg = engine.GetCombinedErrorMessages();
+			//if (msg == null)
+			//    msg = query.GetCombinedErrorMessages();
 
 			if (msg != null && showErrMsg)
-				Utils.MsgBox(msg);
+				ShowSearchError(msg);
 
 			return (msg == null);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private static void ShowSearchError(string msg)
+		{
+			Utils.WaitCursors(false);
+			Utils.MsgBox(msg);
 		}
 
 		#endregion
@@ -1760,58 +1850,11 @@ namespace SIL.Pa
 				Help.ShowHelp(new Label(), HelpFilePath, HelpTopicPaths.ResourceManager.GetString(hid));
 			else
 			{
-				var msg = GetString("HelpFileMissingMsg", "The help file '{0}' cannot be found.");
-				Utils.MsgBox(string.Format(msg, Utils.PrepFilePathForMsgBox(s_helpFilePath)));
+				var msg = LocalizationManager.GetString("Miscellaneous.Messages.HelpFileMissingMsg",
+					"The help file '{0}' cannot be found.");
+
+				NotifyUserOfProblem(msg, s_helpFilePath);
 			}
-		}
-
-		#endregion
-
-		#region MOA and POA key generating methods
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Builds a manner of articulation sort key for the specified phone.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string GetMOAKey(string phone)
-		{
-			// TODO: When chow characters are supported, figure out how to deal with them.
-
-			if (string.IsNullOrEmpty(phone))
-				return null;
-
-			var keybldr = new StringBuilder(6);
-			foreach (char c in phone)
-			{
-				var info = IPASymbolCache[c];
-				keybldr.Append(info == null ? "000" :
-					string.Format("{0:X3}", info.MOArticulation));
-			}
-
-			return keybldr.ToString();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Builds a place of articulation sort key for the specified phone.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public static string GetPOAKey(string phone)
-		{
-			// TODO: When chou characters are supported, figure out how to deal with them.
-
-			if (string.IsNullOrEmpty(phone))
-				return null;
-
-			var keybldr = new StringBuilder(6);
-			foreach (char c in phone)
-			{
-				var info = IPASymbolCache[c];
-				keybldr.Append(info == null ? "000" :
-					string.Format("{0:X3}", info.POArticulation));
-			}
-
-			return keybldr.ToString();
 		}
 
 		#endregion

@@ -172,6 +172,37 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Grid\SilHierarchicalGridParts.cs" />
+    <Compile Include="HtmlControls\CssAnonymousBlockBox.cs" />
+    <Compile Include="HtmlControls\CssAnonymousBox.cs" />
+    <Compile Include="HtmlControls\CssBlock.cs" />
+    <Compile Include="HtmlControls\CssBox.cs" />
+    <Compile Include="HtmlControls\CssBoxWord.cs" />
+    <Compile Include="HtmlControls\CssBoxWordSplitter.cs" />
+    <Compile Include="HtmlControls\CssConstants.cs" />
+    <Compile Include="HtmlControls\CssDefaults.cs" />
+    <Compile Include="HtmlControls\CssDrawingHelper.cs" />
+    <Compile Include="HtmlControls\CssLayoutEngine.cs" />
+    <Compile Include="HtmlControls\CssLength.cs" />
+    <Compile Include="HtmlControls\CssLineBox.cs" />
+    <Compile Include="HtmlControls\CssPropertyAttribute.cs" />
+    <Compile Include="HtmlControls\CssPropertyInheritedAttribute.cs" />
+    <Compile Include="HtmlControls\CssRectangle.cs" />
+    <Compile Include="HtmlControls\CssTable.cs" />
+    <Compile Include="HtmlControls\CssValue.cs" />
+    <Compile Include="HtmlControls\HtmlConstants.cs" />
+    <Compile Include="HtmlControls\HtmlLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HtmlControls\HtmlPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HtmlControls\HtmlRenderer.cs" />
+    <Compile Include="HtmlControls\HtmlTag.cs" />
+    <Compile Include="HtmlControls\HtmlToolTip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HtmlControls\InitialContainer.cs" />
+    <Compile Include="HtmlControls\Parser.cs" />
     <Compile Include="Mediator.cs" />
     <Compile Include="MessageDispatcher.cs" />
     <Compile Include="PaintingHelper.cs" />

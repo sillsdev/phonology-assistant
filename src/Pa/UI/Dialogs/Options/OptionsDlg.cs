@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
@@ -10,7 +11,6 @@ namespace SIL.Pa.UI.Dialogs
 	/// ----------------------------------------------------------------------------------------
 	public partial class OptionsDlg : OKCancelDlgBase
 	{
-		private readonly Dictionary<TabPage, string> m_tabPageHelpTopicIds;
 		private readonly PaProject m_project;
 
 		/// ------------------------------------------------------------------------------------
@@ -37,29 +37,50 @@ namespace SIL.Pa.UI.Dialogs
 		public OptionsDlg(PaProject project) : this()
 		{
 			m_project = project;
-			phoneticSortOptions.Project = m_project;
 
-			InitializeFontTab();
-			//InitializeFindPhonesTab();
-			InitializeWordListTab();
-			InitializeRecViewTab();
-			InitializeCVPatternsTab();
-			InitializeSortingTab();
-			InitializeUserInterfaceTab();
+			foreach (var pageContent in GetNewTabPageContents())
+			{
+				var page = new TabPage(pageContent.TabPageText) { Padding = new Padding(12), UseVisualStyleBackColor = true };
+				page.Controls.Add(pageContent);
+				tabOptions.TabPages.Add(page);
+			}
 
 			tabOptions.Font = FontHelper.UIFont;
 			lblSaveInfo.Font = FontHelper.UIFont;
 			lblSaveInfo.Top = (tblLayoutButtons.Height - lblSaveInfo.Height) / 2;
 			picSaveInfo.Top = lblSaveInfo.Top;
 
-			m_tabPageHelpTopicIds = new Dictionary<TabPage, string>();
-			m_tabPageHelpTopicIds[tpgWordLists] = "hidWordListOptions";
-			m_tabPageHelpTopicIds[tpgRecView] = "hidRecordViewOptions";
-			m_tabPageHelpTopicIds[tpgCVPatterns] = "hidCVPatternsOptions";
-			m_tabPageHelpTopicIds[tpgSorting] = "hidSortingOptions";
-			m_tabPageHelpTopicIds[tpgFonts] = "hidFontsOptions";
-
 			m_dirty = false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private IEnumerable<OptionsDlgPageBase> GetNewTabPageContents()
+		{
+			yield return new WordListsOptionsPage(m_project);
+			yield return new RecordViewOptionsPage(m_project);
+			yield return new SortingOptionsPage(m_project, GetSelectedWordListFields);
+			yield return new CVPatternsOptionsPage(m_project);
+			yield return new FontsOptionsPage(m_project);
+			yield return new UserInterfaceOptionsPage(m_project);
+
+			if ((ModifierKeys & Keys.Control) == Keys.Control && (ModifierKeys & Keys.Alt) == Keys.Alt)
+				yield return new SearchingOptionsPage(m_project);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private IEnumerable<IOptionsDlgPage> GetTabPageContents()
+		{
+			return (from page in tabOptions.TabPages.Cast<TabPage>()
+					where page.Controls.Count > 0
+					select page.Controls[0]).OfType<IOptionsDlgPage>();
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private IEnumerable<PaField> GetSelectedWordListFields()
+		{
+			var wrdListOptionsPage = GetTabPageContents().FirstOrDefault(pc => pc is WordListsOptionsPage);
+			return (wrdListOptionsPage != null ?
+				((WordListsOptionsPage)wrdListOptionsPage).GetSelectedFields() : new PaField[0]);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -72,35 +93,24 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool IsDirty
 		{
-			get
-			{
-				return (m_dirty || IsFontsTabDirty || /*IsFindPhoneTabDirty || */
-					IsSortOrderTabDirty || IsRecViewTabDirty || IsWordListTabDirty ||
-					IsUserInterfaceTabDirty);
-			}
+			get { return GetTabPageContents().Any(pc => pc.IsDirty); }
 		}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
-			SaveFontTabSettings();
+			foreach (var pageContent in GetTabPageContents())
+				pageContent.SaveSettings();
+
+			Settings.Default.Save();
 			base.SaveSettings();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Save any changes.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
-			SaveFontTabChanges();
-			//SaveFindPhonesTabSettings();
-			SaveWordListTabChanges();
-			SaveRecViewTabChanges();
-			SaveSortingTabChanges();
-			SaveCvPatternsTabChanges();
-			SaveUserInterfaceTabChanges();
+			foreach (var pageContent in GetTabPageContents())
+				pageContent.Save();
 
 			m_project.Save();
 			Settings.Default.Save();
@@ -110,8 +120,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleHelpClick(object sender, EventArgs e)
 		{
-			if (m_tabPageHelpTopicIds.ContainsKey(tabOptions.SelectedTab))
-				App.ShowHelpTopic(m_tabPageHelpTopicIds[tabOptions.SelectedTab]);
+			if (tabOptions.SelectedTab.Controls.Count > 0 && tabOptions.SelectedTab.Controls[0] is IOptionsDlgPage)
+				App.ShowHelpTopic(((IOptionsDlgPage)tabOptions.SelectedTab.Controls[0]).HelpId);
 		}
 	}
 }

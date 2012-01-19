@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.UI.Controls;
 using SilTools;
@@ -107,7 +108,10 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			if (txtName.Text.Trim() == string.Empty)
 			{
-				Utils.MsgBox(App.GetString("SaveSearchQueryDlg.NoSavedPatternNameMsg", "You must specify a name for your saved pattern."));
+				Utils.MsgBox(LocalizationManager.GetString(
+					"DialogBoxes.SaveSearchQueryDlg.NoSavedPatternNameMsg",
+					"You must specify a name for your saved pattern."));
+				
 				txtName.SelectAll();
 				txtName.Focus();
 				return false;
@@ -115,7 +119,10 @@ namespace SIL.Pa.UI.Dialogs
 			
 			if (cboCategories.Text.Trim() == string.Empty)
 			{
-				Utils.MsgBox(App.GetString("SaveSearchQueryDlg.NoSavedPatternCategoryMsg", "You must specify a category for your saved pattern."));
+				Utils.MsgBox(LocalizationManager.GetString(
+					"DialogBoxes.SaveSearchQueryDlg.NoSavedPatternCategoryMsg",
+					"You must specify a category for your saved pattern."));
+				
 				cboCategories.SelectAll();
 				cboCategories.Focus();
 				return false;
@@ -136,7 +143,7 @@ namespace SIL.Pa.UI.Dialogs
 			var pt1 = new Point(tblLayoutButtons.Left, tblLayoutButtons.Top - 2);
 			var pt2 = new Point(tblLayoutButtons.Right - 1, tblLayoutButtons.Top - 2);
 
-			using (Pen pen = new Pen(SystemColors.ControlDark))
+			using (var pen = new Pen(SystemColors.ControlDark))
 			{
 				e.Graphics.DrawLine(pen, pt1, pt2);
 				pt1.Y++;

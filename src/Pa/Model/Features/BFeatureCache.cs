@@ -1,7 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
+using Palaso.IO;
 
 namespace SIL.Pa.Model
 {
@@ -14,7 +18,7 @@ namespace SIL.Pa.Model
 		/// Loads binary features from the specified list.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		internal override void LoadFromList(List<Feature> list)
+		public override void LoadFromList(IEnumerable<Feature> list)
 		{
 			Debug.Assert(list != null);
 			Clear();
@@ -23,10 +27,9 @@ namespace SIL.Pa.Model
 			base.LoadFromList(list);
 
 			// Now add the minus features.
-			int bit = list.Count;
-			foreach (var plusFeature in list.Where(f => f.Name != null))
+			int bit = Values.Count;
+			foreach (var minusFeature in Values.Where(f => f.Name != null).Select(plusFeature => plusFeature.Clone()).ToArray())
 			{
-				var minusFeature = plusFeature.Clone();
 				minusFeature.Bit = bit++;
 				minusFeature.Name = "-" + minusFeature.Name.Substring(1);
 				var fullName = minusFeature.GetBaseFullName();
@@ -42,7 +45,7 @@ namespace SIL.Pa.Model
 		/// Cleans up a binary feature name before adding it to the cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		protected override string CleanNameForLoad(string name)
+		public override string CleanNameForLoad(string name)
 		{
 			name = base.CleanNameForLoad(name);
 
@@ -67,13 +70,13 @@ namespace SIL.Pa.Model
 		/// Gets a collection of the plus features.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public List<Feature> PlusFeatures
+		public IEnumerable<Feature> PlusFeatures
 		{
 			get
 			{
-				return (from feat in Values
-						where feat.Name.StartsWith("+")
-						select feat).ToList();
+				return from feat in Values
+					   where feat.Name.StartsWith("+")
+					   select feat;
 			}
 		}
 
@@ -82,20 +85,16 @@ namespace SIL.Pa.Model
 		/// Gets a collection of the minus features.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public List<Feature> MinusFeatures
+		public IEnumerable<Feature> MinusFeatures
 		{
 			get
 			{
-				return (from feat in Values
-						where feat.Name.StartsWith("-")
-						select feat).ToList();
+				return from feat in Values
+					   where feat.Name.StartsWith("-")
+					   select feat;
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the opposite feature.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public Feature GetOppositeFeature(Feature feature)
 		{
@@ -103,18 +102,55 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the opposite feature.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public Feature GetOppositeFeature(string featName)
 		{
-			if (string.IsNullOrEmpty(featName))
+			if (String.IsNullOrEmpty(featName))
 				return null;
 
 			var name = new StringBuilder(featName);
 			name[0] = (name[0] == '+' ? '-' : '+');
 			return this[name.ToString()];
 		}
+
+		#region public, static methods
+		/// ------------------------------------------------------------------------------------
+		public static IEnumerable<string> GetAvailableFeatureSetFiles()
+		{
+			var folder = Path.GetDirectoryName(DefaultFeatureSetFile);
+			return (Directory.GetFiles(folder, "*.DistinctiveFeatures.xml"));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static IEnumerable<string> GetAvailableFeatureSetNames()
+		{
+			return GetAvailableFeatureSetFiles()
+				.Select(f => Path.GetFileName(f).Replace(".DistinctiveFeatures.xml", string.Empty))
+				.Select(name => (name == DefaultFeatureSetName ? "(default)" : name));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static IEnumerable<Feature> GetFeaturesFromDefaultSet()
+		{
+			var root = XElement.Load(DefaultFeatureSetFile);
+			return ReadFeaturesFromXElement(root, "distinctive");
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string DefaultFeatureSetFile
+		{
+			get
+			{
+				return FileLocator.GetFileDistributedWithApplication(
+					App.ConfigFolderName, "default.DistinctiveFeatures.xml");
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static string DefaultFeatureSetName
+		{
+			get { return "default"; }
+		}
+
+		#endregion
 	}
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using SIL.Pa.Model;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -17,8 +16,7 @@ namespace SIL.Pa.UI.Controls
 		/// numbers is returned.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public static string FontTable(IEnumerable<PaField> fields,
-			Dictionary<string, int> fontNumbers, ref int uiFontNumber)
+		public static string FontTable(Dictionary<string, int> fontNumbers, ref int uiFontNumber)
 		{
 			if (fontNumbers == null)
 				fontNumbers = new Dictionary<string, int>();
@@ -31,7 +29,7 @@ namespace SIL.Pa.UI.Controls
 			var bldr = new StringBuilder();
 			int i = 0;
 			bldr.AppendLine("{\\fonttbl");
-			foreach (var field in fields.Where(f => f.Font != null))
+			foreach (var field in App.Project.Fields.Where(f => f.Font != null))
 			{
 				bldr.AppendLine(string.Format(fontFmt, i, field.Font.Name));
 				fontNumbers[field.Name] = i++;
@@ -53,7 +51,7 @@ namespace SIL.Pa.UI.Controls
 			const string fontFmt = "{{\\f{0}\\fnil {1};}}";
 
 			// Save the font information that will be written to the RTF.
-			var bldr = new StringBuilder();
+			StringBuilder bldr = new StringBuilder();
 			bldr.AppendLine("{\\fonttbl");
 			for (int i = 0; i < fonts.Length; i++)
 				bldr.AppendLine(string.Format(fontFmt, i, fonts[i].Name));

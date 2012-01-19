@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Linq;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SIL.Pa.Properties;
@@ -9,266 +10,144 @@ using SilTools;
 
 namespace SIL.Pa.UI.Controls
 {
-	public partial class PhonesInFeatureViewer : UserControl, IPhoneListViewer
+	public partial class PhonesInFeatureViewer : UserControl
 	{
-		private bool m_showAll;
-		private bool m_compactView;
-		private bool m_canViewExpandAndCompact = true;
-		private bool m_allFeaturesMustMatch;
-		private FeatureMask m_aMask = App.AFeatureCache.GetEmptyMask();
-		private FeatureMask m_bMask = App.BFeatureCache.GetEmptyMask();
-		private Control m_pnlView;
-		private SearchClassType m_srchClassType;
-		private int m_lblHeight;
-		private readonly int m_extraPhoneHeight;
-		private readonly IPASymbolType m_charType;
-		private readonly SortedList<int, List<Label>> m_lableRows;
-		private readonly CompactViewerPanel pnlCompactView;
-		private readonly PaProject m_project;
-
-		private readonly Action<bool> m_saveShowAllAction;
-		private readonly Action<bool> m_saveCompactViewAction;
+		private bool _compactView;
+		private bool _allFeaturesMustMatch;
+		private FeatureMask _aMask = App.AFeatureCache.GetEmptyMask();
+		private FeatureMask _bMask = App.BFeatureCache.GetEmptyMask();
+		private SearchClassType _srchClassType;
+		private readonly int _extraPhoneHeight;
+		private readonly PhoneInfo[] _phonesToLoad;
+		private readonly Action<bool> _saveCompactViewAction;
 		
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public PhonesInFeatureViewer()
 		{
 			InitializeComponent();
 
-			pnlCompactView = new CompactViewerPanel();
-			pnlOuter.Controls.Add(pnlCompactView);
-			pnlCompactView.BringToFront();
-
 			base.DoubleBuffered = true;
 			base.BackColor = Color.Transparent;
-			m_lableRows = new SortedList<int, List<Label>>();
 			header.Font = FontHelper.UIFont;
 
 			if (!App.DesignMode)
 				base.Font = FontHelper.MakeRegularFontDerivative(App.PhoneticFont, 14);
 
-			m_extraPhoneHeight += Settings.Default.PhonesInFeaturesListExtraPhoneHeight;
+			_extraPhoneHeight += Settings.Default.PhonesInFeaturesListExtraPhoneHeight;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public PhonesInFeatureViewer(PaProject project, IPASymbolType charType,
-			bool initiallyShowAll, bool initiallyShowCompactView,
-			Action<bool> saveShowAllAction, Action<bool> saveCompactViewAction) : this()
+		public PhonesInFeatureViewer(IEnumerable<PhoneInfo> phonesToLoad,
+			bool initiallyShowCompactView, Action<bool> saveCompactViewAction) : this()
 		{
-			m_project = project;
-			m_showAll = initiallyShowAll;
-			m_compactView = initiallyShowCompactView;
-			m_saveShowAllAction = saveShowAllAction;
-			m_saveCompactViewAction = saveCompactViewAction;
+			_phonesToLoad = phonesToLoad.ToArray();
+			_compactView = initiallyShowCompactView;
+			_saveCompactViewAction = saveCompactViewAction;
 
-			pnlCompactView.Dock = DockStyle.Fill;
-			pnlExpandedView.Dock = DockStyle.Fill;
+			_flowLayout.Dock = DockStyle.Fill;
+			_tableLayout.Dock = DockStyle.Fill;
 
-			m_charType = charType;
-			RefreshLayout();
-			Disposed += PhonesInFeatureViewer_Disposed;
+			LoadPhones();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Save the show all setting.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void PhonesInFeatureViewer_Disposed(object sender, EventArgs e)
+		protected override void OnHandleDestroyed(EventArgs e)
 		{
-			Disposed -= PhonesInFeatureViewer_Disposed;
-
-			if (m_saveShowAllAction != null)
-				m_saveShowAllAction(m_showAll);
-
-			if (m_saveCompactViewAction != null)
-				m_saveCompactViewAction(m_compactView);
+			if (_saveCompactViewAction != null)
+				_saveCompactViewAction(_compactView);
+			
+			base.OnHandleDestroyed(e);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void Reset()
+		private void RefreshEnabledPhones()
 		{
-			// The panel that hosts all the labels will be different depending upon whether
-			// we're showing the compact view or not. When showing the compact view, a flow
-			// layout panel is used. Otherwise a normal panel is used.
-			if (m_compactView && (m_pnlView != pnlCompactView || !pnlCompactView.Visible))
+			var ctrlCollection = (_compactView ? _flowLayout.Controls : _tableLayout.Controls);
+
+			foreach (Label lbl in ctrlCollection)
+				lbl.Enabled = GetIsPhoneEnabled(lbl.Tag as PhoneInfo);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public void LoadPhones()
+		{
+			Utils.SetWindowRedraw(this, false);
+			
+			_flowLayout.Visible = false;
+			_tableLayout.Visible = false;
+			_tableLayout.Controls.Clear();
+			_flowLayout.Controls.Clear();
+
+			if (_phonesToLoad.Length == 0)
 			{
-				pnlExpandedView.Visible = false;
-				pnlCompactView.Visible = true;
-				m_pnlView = pnlCompactView;
-			}
-			else if (!m_compactView && (m_pnlView != pnlExpandedView || !pnlExpandedView.Visible))
-			{
-				pnlExpandedView.Visible = true;
-				pnlCompactView.Visible = false;
-				m_pnlView = pnlExpandedView;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void RefreshLayout()
-		{
-			Reset();
-
-			if (m_pnlView != null)
-				m_pnlView.Controls.Clear();
-
-			m_lableRows.Clear();
-
-			if (m_charType != IPASymbolType.Unknown)
-			{
-				// Load vowels or consonants from a builder so the phones can be layed out
-				// in POA and MOA order.
-				CharGridBuilder bldr = new CharGridBuilder(this, m_charType);
-				bldr.Build();
-			}
-			else
-			{
-				// We should never need this key, but just in case a phone's first character
-				// cannot be found in the IPA character cache, we'll use this as the key
-				// to store the phone in the sorted list of labels.
-				int key = 1000;
-
-				var labels = new SortedList<string, Label>();
-
-				// Load all non consonant/vowel phones by first adding them to a list
-				// in POA order.
-				foreach (var kvpPhoneInfo in m_project.PhoneCache)
-				{
-					var iPhoneInfo = kvpPhoneInfo.Value;
-					var phoneInfo = iPhoneInfo as PhoneInfo;
-
-					if (iPhoneInfo.CharType != IPASymbolType.Consonant &&
-						iPhoneInfo.CharType != IPASymbolType.Vowel &&
-						(phoneInfo == null || !phoneInfo.IsUndefined))
-					{
-						Label lbl = CreateLabel(kvpPhoneInfo.Key, iPhoneInfo);
-						if (!labels.ContainsKey(iPhoneInfo.POAKey))
-							labels[iPhoneInfo.POAKey] = lbl;
-						else
-						{
-							labels[key.ToString()] = lbl;
-							key++;
-						}
-					}
-				}
-
-				// Now move the labels into the list that LoadLayout uses to add the
-				// labels to the appropriate panel control.
-				if (labels.Count > 0)
-				{
-					m_lableRows[0] = new List<Label>();
-					foreach (Label lbl in labels.Values)
-						m_lableRows[0].Add(lbl);
-				}
-
-				LayoutPhones();
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void LoadPhones(List<CharGridCell> phoneList)
-		{
-			if (phoneList == null)
+				Utils.SetWindowRedraw(this, true);
 				return;
-
-			int prevRow = -1;
-
-			// Create a collection of rows of phones. Each row is
-			// a collection of those labels that go on that row.
-			foreach (var cgc in phoneList)
-			{
-				Label lblPhone = CreateLabel(cgc.Phone);
-
-				if (prevRow == -1)
-					prevRow = cgc.Row;
-
-				if (prevRow != cgc.Row)
-					prevRow = cgc.Row;
-
-				if (!m_lableRows.ContainsKey(cgc.Row))
-					m_lableRows[cgc.Row] = new List<Label>();
-
-				m_lableRows[cgc.Row].Add(lblPhone);
 			}
 
-			LayoutPhones();
+			if (_compactView)
+				LoadCompactView();
+			else
+				LoadExpandedView();
+
+			Utils.SetWindowRedraw(this, true);
+			RefreshEnabledPhones();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private Label CreateLabel(string phone)
+		private void LoadCompactView()
 		{
-			IPhoneInfo phoneInfo = m_project.PhoneCache[phone];
-			return CreateLabel(phone, phoneInfo);
+			_flowLayout.Controls.AddRange(_phonesToLoad.Select(p => CreateLabel(p)).ToArray());
+			_flowLayout.Visible = true;
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private Label CreateLabel(string phone, IPhoneInfo phoneInfo)
+		private void LoadExpandedView()
 		{
-			Label lbl = new Label();
-			lbl.Font = Font;
-			lbl.Text = phone;
-			lbl.Size = lbl.PreferredSize;
-			lbl.Height += m_extraPhoneHeight;
-			lbl.BackColor = Color.Transparent;
-			lbl.Visible = false;
-			lbl.Tag = phoneInfo;
+			_tableLayout.RowCount = 0;
+			_tableLayout.ColumnCount = 0;
+			_tableLayout.RowStyles.Clear();
+			_tableLayout.ColumnStyles.Clear();
+			int row = 0;
+			int col = 0;
+			PhoneInfo prevPhoneInfo = null;
 
-			if (m_lblHeight == 0)
-				m_lblHeight = lbl.Height;
-
-			return lbl;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Lays out all the phone labels in the proper order and within the proper rows.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void LayoutPhones()
-		{
-			Reset();
-
-			bool addPhonesToViewPanel = (m_pnlView.Controls.Count == 0);
-			m_pnlView.SuspendLayout();
-			int dy = 0;
-
-			// Add the labels to the control collection.
-			foreach (List<Label> row in m_lableRows.Values)
+			foreach (var phoneInfo in _phonesToLoad)
 			{
-				int dx = 0;
+				var lbl = CreateLabel(phoneInfo);
 
-				foreach (Label lbl in row)
+				if (prevPhoneInfo == null || prevPhoneInfo.RowGroup == phoneInfo.RowGroup)
 				{
-					if (addPhonesToViewPanel)
-						m_pnlView.Controls.Add(lbl);
-
-					lbl.Enabled = GetPhonesEnabledState(lbl.Tag as IPhoneInfo);
-					if (!lbl.Enabled && !m_showAll)
-						lbl.Visible = false;
-					else
-					{
-						if (m_pnlView is Panel)
-						{
-							lbl.Location = new Point(dx, dy);
-							dx += lbl.Width;
-						}
-
-						lbl.Visible = true;
-					}
+					_tableLayout.ColumnCount++;
+					_tableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+				}
+				else
+				{
+					row++;
+					col = 0;
+					_tableLayout.RowCount++;
+					_tableLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
 				}
 
-				dy += m_lblHeight;
+				_tableLayout.Controls.Add(lbl, col++, row);
+				prevPhoneInfo = phoneInfo;
 			}
-	
-			m_pnlView.ResumeLayout(true);
+
+			_tableLayout.Visible = true;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private Label CreateLabel(IPhoneInfo phoneInfo)
+		{
+			var lbl = new Label();
+			lbl.Font = Font;
+			lbl.Text = phoneInfo.Phone;
+			lbl.BackColor = Color.Transparent;
+			lbl.AutoSize = false;
+			lbl.Size = lbl.PreferredSize;
+			lbl.Height += _extraPhoneHeight;
+			lbl.Margin = new Padding(0);
+			lbl.Tag = phoneInfo;
+			return lbl;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -277,21 +156,18 @@ namespace SIL.Pa.UI.Controls
 		/// current mask(s).
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private bool GetPhonesEnabledState(IPhoneInfo phoneInfo)
+		private bool GetIsPhoneEnabled(IPhoneInfo phoneInfo)
 		{
 			if (phoneInfo == null)
 				return false;
 
-			FeatureMask mask1 =
-				(m_srchClassType == SearchClassType.Articulatory ? m_aMask : m_bMask);
-
-			FeatureMask mask2 = (m_srchClassType == SearchClassType.Articulatory ?
-				phoneInfo.AMask : phoneInfo.BMask);
+			var mask1 = (_srchClassType == SearchClassType.Articulatory ? _aMask : _bMask);
+			var mask2 = (_srchClassType == SearchClassType.Articulatory ? phoneInfo.AMask : phoneInfo.BMask);
 
 			if (mask1.IsEmpty)
 				return false;
 
-			return (m_allFeaturesMustMatch ? mask2.ContainsAll(mask1) : mask2.ContainsOneOrMore(mask1));
+			return (_allFeaturesMustMatch ? mask2.ContainsAll(mask1) : mask2.ContainsOneOrMore(mask1));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -302,10 +178,10 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void SetAMasks(FeatureMask mask, bool allFeaturesMustMatch)
 		{
-			m_aMask = mask;
-			m_allFeaturesMustMatch = allFeaturesMustMatch;
-			m_srchClassType = SearchClassType.Articulatory;
-			LayoutPhones();
+			_aMask = mask;
+			_allFeaturesMustMatch = allFeaturesMustMatch;
+			_srchClassType = SearchClassType.Articulatory;
+			RefreshEnabledPhones();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -316,10 +192,10 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void SetBMask(FeatureMask mask, bool allFeaturesMustMatch)
 		{
-			m_bMask = mask;
-			m_allFeaturesMustMatch = allFeaturesMustMatch;
-			m_srchClassType = SearchClassType.Binary;
-			LayoutPhones();
+			_bMask = mask;
+			_allFeaturesMustMatch = allFeaturesMustMatch;
+			_srchClassType = SearchClassType.Binary;
+			RefreshEnabledPhones();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -344,44 +220,16 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public SearchClassType SearchClassType
 		{
-			get { return m_srchClassType; }
+			get { return _srchClassType; }
 			set
 			{
-				m_srchClassType = value;
-				LayoutPhones();
+				_srchClassType = value;
+				RefreshEnabledPhones();
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets a value indicating whether or not the expanded and compacted views
-		/// are available. When this value is false, the view is automatically in a compact
-		/// view.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool CanViewExpandAndCompact
-		{
-			get { return m_canViewExpandAndCompact; }
-			set
-			{
-				m_canViewExpandAndCompact = value;
-				mnuCompact.Visible = value;
-				mnuExpanded.Visible = value;
-				mnuSep.Visible = value;
-				m_compactView = true;
-			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void header_Click(object sender, EventArgs e)
 		{
@@ -389,15 +237,10 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void btnDropDownArrow_Click(object sender, EventArgs e)
 		{
-			mnuShowAll.Checked = m_showAll;
-			mnuCompact.Checked = m_compactView;
-			mnuExpanded.Checked = !m_compactView;
+			mnuCompact.Checked = _compactView;
+			mnuExpanded.Checked = !_compactView;
 
 			int width = Math.Max(header.Width, cmnuViewOptions.PreferredSize.Width);
 			cmnuViewOptions.Size = new Size(width, cmnuViewOptions.PreferredSize.Height);
@@ -405,58 +248,23 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private void mnuShowAll_Click(object sender, EventArgs e)
-		{
-			m_showAll = !m_showAll;
-			LayoutPhones();
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void mnuCompact_Click(object sender, EventArgs e)
 		{
-			if (!m_compactView)
+			if (!_compactView)
 			{
-				m_compactView = true;
-				LayoutPhones();
+				_compactView = true;
+				LoadPhones();
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void mnuExpanded_Click(object sender, EventArgs e)
 		{
-			if (m_compactView)
+			if (_compactView)
 			{
-				m_compactView = false;
-				LayoutPhones();
+				_compactView = false;
+				LoadPhones();
 			}
-		}
-	}
-
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
-	/// ----------------------------------------------------------------------------------------
-	internal class CompactViewerPanel : FlowLayoutPanel
-	{
-		internal CompactViewerPanel()
-		{
-			base.AutoScroll = true;
-			base.Dock = DockStyle.Fill;
-			base.BackColor = Color.Transparent;
-			base.DoubleBuffered = true;
 		}
 	}
 }

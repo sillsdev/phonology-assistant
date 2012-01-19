@@ -105,7 +105,7 @@ namespace SIL.Pa
 			{
 				// Make sure the phonetic inventory file exists.
 				inventoryPath = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
-					InventoryHelper.kDefaultInventoryFileName);
+					App.kDefaultInventoryFileName);
 			}
 			catch
 			{
@@ -601,8 +601,8 @@ namespace SIL.Pa
 				case kIsBase: e.Value = charInfo.IsBase; break;
 				case kCanPrecedeBase: e.Value = charInfo.CanPrecedeBase; break;
 				case kDisplayWithDottedCircle: e.Value = charInfo.DisplayWithDottedCircle; break;
-				case kAFeatures: e.Value = InventoryHelper.AFeatureCache.GetFeaturesText(charInfo.AMask); break;
-				case kBFeatures: e.Value = InventoryHelper.BFeatureCache.GetFeaturesText(charInfo.BMask); break;
+				case kAFeatures: e.Value = App.AFeatureCache.GetFeaturesText(charInfo.AMask); break;
+				case kBFeatures: e.Value = App.BFeatureCache.GetFeaturesText(charInfo.BMask); break;
 			}
 		}
 
@@ -929,14 +929,14 @@ namespace SIL.Pa
 
 				case kAFeatures:
 					m_symbols = (m_sortDirection == SortOrder.Ascending ?
-						m_symbols.OrderBy(x => InventoryHelper.AFeatureCache.GetFeaturesText(x.AMask)) :
-						m_symbols.OrderByDescending(x => InventoryHelper.AFeatureCache.GetFeaturesText(x.AMask))).ToList();
+						m_symbols.OrderBy(x => App.AFeatureCache.GetFeaturesText(x.AMask)) :
+						m_symbols.OrderByDescending(x => App.AFeatureCache.GetFeaturesText(x.AMask))).ToList();
 					break;
 
 				case kBFeatures:
 					m_symbols = (m_sortDirection == SortOrder.Ascending ?
-						m_symbols.OrderBy(x => InventoryHelper.BFeatureCache.GetFeaturesText(x.BMask)) :
-						m_symbols.OrderByDescending(x => InventoryHelper.BFeatureCache.GetFeaturesText(x.BMask))).ToList();
+						m_symbols.OrderBy(x => App.BFeatureCache.GetFeaturesText(x.BMask)) :
+						m_symbols.OrderByDescending(x => App.BFeatureCache.GetFeaturesText(x.BMask))).ToList();
 					break;
 			}
 

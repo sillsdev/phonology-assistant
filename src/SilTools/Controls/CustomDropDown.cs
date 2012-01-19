@@ -7,11 +7,12 @@ namespace SilTools.Controls
 	/// ----------------------------------------------------------------------------------------
 	public class CustomDropDown : ToolStripDropDown
 	{
-		private Timer m_tmrMouseMonitor;
-		private Timer m_tmrVisibilityTimeout;
-		private bool m_mouseOver;
-		private bool m_autoCloseWhenMouseLeaves = true;
-		private Control m_hostedControl;
+		private Timer _timerMouseMonitor;
+		private Timer _timerVisibilityTimeout;
+		private bool _mouseOver;
+		private bool _autoCloseWhenMouseLeaves = true;
+		private Control _hostedControl;
+		//private ToolStripControlHost _controlHost;
 
 		/// ------------------------------------------------------------------------------------
 		public CustomDropDown()
@@ -24,14 +25,10 @@ namespace SilTools.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Clean up
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
-			if (m_hostedControl != null)
-				m_hostedControl.Resize -= HandleHostedControlResize;
+			if (_hostedControl != null)
+				_hostedControl.Resize -= HandleHostedControlResize;
 
 			base.Dispose(disposing);
 		}
@@ -44,49 +41,17 @@ namespace SilTools.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool AutoCloseWhenMouseLeaves
 		{
-			get { return m_autoCloseWhenMouseLeaves; }
+			get { return _autoCloseWhenMouseLeaves; }
 			set
 			{
-				m_autoCloseWhenMouseLeaves = value;
-				if (!value && m_tmrMouseMonitor != null)
+				_autoCloseWhenMouseLeaves = value;
+				if (!value && _timerMouseMonitor != null)
 				{
-					m_tmrMouseMonitor.Stop();
-					m_tmrMouseMonitor.Dispose();
-					m_tmrMouseMonitor = null;
+					_timerMouseMonitor.Stop();
+					_timerMouseMonitor.Dispose();
+					_timerMouseMonitor = null;
 				}
 			}
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Adds a host to the drop-down.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public void AddHost(ToolStripControlHost host)
-		{
-			m_hostedControl = host.Control;
-			Size = m_hostedControl.Size;
-			m_hostedControl.Dock = DockStyle.Fill;
-
-			host.AutoSize = false;
-			host.Dock = DockStyle.Fill;
-			host.Padding = Padding.Empty;
-			host.Margin = Padding.Empty;
-			host.Size = m_hostedControl.Size;
-			Items.Add(host);
-
-			m_hostedControl.Resize += HandleHostedControlResize;
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Adjust the size of the popup as the size of the hosted control changes. This
-		/// is necessary in case the hosted control can be resized by the user at runtime.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		void HandleHostedControlResize(object sender, EventArgs e)
-		{
-			Size = m_hostedControl.Size;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -101,6 +66,38 @@ namespace SilTools.Controls
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
+		/// Adds a host to the drop-down.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public void AddHost(ToolStripControlHost host)
+		{
+			_hostedControl = host.Control;
+			Size = _hostedControl.Size;
+			_hostedControl.Dock = DockStyle.Fill;
+
+			host.AutoSize = false;
+			host.Dock = DockStyle.Fill;
+			host.Padding = Padding.Empty;
+			host.Margin = Padding.Empty;
+			host.Size = _hostedControl.Size;
+			Items.Add(host);
+
+			_hostedControl.Resize += HandleHostedControlResize;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// Adjust the size of the popup as the size of the hosted control changes. This
+		/// is necessary in case the hosted control can be resized by the user at runtime.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		void HandleHostedControlResize(object sender, EventArgs e)
+		{
+			Size = _hostedControl.Size;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		/// <summary>
 		/// Start and stop the timer when the owning drop-down's visibility changes.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
@@ -108,63 +105,63 @@ namespace SilTools.Controls
 		{
 			base.OnVisibleChanged(e);
 
-			if (Visible && m_autoCloseWhenMouseLeaves && m_hostedControl != null)
+			if (Visible && _autoCloseWhenMouseLeaves && _hostedControl != null)
 			{
-				m_hostedControl.Invalidate();
+				_hostedControl.Invalidate();
 				InitializeMouseMonitorTimer();
 			}
-			else if (!Visible && m_tmrMouseMonitor != null)
+			else if (!Visible && _timerMouseMonitor != null)
 			{
-				m_tmrMouseMonitor.Stop();
-				m_tmrMouseMonitor.Dispose();
-				m_tmrMouseMonitor = null;
+				_timerMouseMonitor.Stop();
+				_timerMouseMonitor.Dispose();
+				_timerMouseMonitor = null;
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void InitializeMouseMonitorTimer()
 		{
-			m_tmrMouseMonitor = new Timer();
-			m_tmrMouseMonitor.Interval = 1;
-			m_tmrMouseMonitor.Tick += m_tmrMouseMonitor_Tick;
-			m_tmrMouseMonitor.Start();
+			_timerMouseMonitor = new Timer();
+			_timerMouseMonitor.Interval = 1;
+			_timerMouseMonitor.Tick += HandleMouseMonitorTimerTick;
+			_timerMouseMonitor.Start();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void m_tmrMouseMonitor_Tick(object sender, EventArgs e)
+		private void HandleMouseMonitorTimerTick(object sender, EventArgs e)
 		{
-			bool prevMouseOverValue = m_mouseOver;
-			Point pt = m_hostedControl.PointToClient(MousePosition);
-			m_mouseOver = m_hostedControl.ClientRectangle.Contains(pt);
+			bool prevMouseOverValue = _mouseOver;
+			Point pt = _hostedControl.PointToClient(MousePosition);
+			_mouseOver = _hostedControl.ClientRectangle.Contains(pt);
 
-			if (!m_mouseOver && prevMouseOverValue)
+			if (!_mouseOver && prevMouseOverValue)
 			{
 				// The mouse has left the popup so setup a timer to make it disappear
 				// in 2 seconds if the mouse doesn't come back over it sooner.
 				InitializeVisibilityTimeoutTimer();
 			}
-			else if (m_mouseOver && !prevMouseOverValue && m_tmrVisibilityTimeout != null)
+			else if (_mouseOver && !prevMouseOverValue && _timerVisibilityTimeout != null)
 			{
 				// The mouse has come back over the popup so
 				// terminate the visibility timeout timer.
-				m_tmrVisibilityTimeout.Stop();
-				m_tmrVisibilityTimeout = null;
+				_timerVisibilityTimeout.Stop();
+				_timerVisibilityTimeout = null;
 			}
 		}
 
 		/// ------------------------------------------------------------------------------------
 		private void InitializeVisibilityTimeoutTimer()
 		{
-			m_tmrVisibilityTimeout = new Timer();
-			m_tmrVisibilityTimeout.Interval = 2000;
-			m_tmrVisibilityTimeout.Tick += m_tmrVisibilityTimeout_Tick;
-			m_tmrVisibilityTimeout.Start();
+			_timerVisibilityTimeout = new Timer();
+			_timerVisibilityTimeout.Interval = 2000;
+			_timerVisibilityTimeout.Tick += HandleVisibilityTimeoutTimerTick;
+			_timerVisibilityTimeout.Start();
 		}
 
 		/// ------------------------------------------------------------------------------------
-		void m_tmrVisibilityTimeout_Tick(object sender, EventArgs e)
+		void HandleVisibilityTimeoutTimerTick(object sender, EventArgs e)
 		{
-			m_tmrVisibilityTimeout.Stop();
+			_timerVisibilityTimeout.Stop();
 			Hide();
 		}
 
@@ -172,7 +169,6 @@ namespace SilTools.Controls
 		protected override void OnOpening(System.ComponentModel.CancelEventArgs e)
 		{
 			Opacity = 0;
-			
 			base.OnOpening(e);
 
 			if (e.Cancel)
@@ -183,7 +179,7 @@ namespace SilTools.Controls
 			timer.Tick += delegate
 			{
 				Opacity += 0.1;
-				if (Opacity == 1f)
+				if (Opacity.Equals(1f))
 					timer.Stop();
 			};
 

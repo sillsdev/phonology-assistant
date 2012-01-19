@@ -1,20 +1,5 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2009, SIL International. All Rights Reserved.
-// <copyright from='2009' to='2009' company='SIL International'>
-//		Copyright (c) 2009, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
-// 
-// File: IPACharInfo.cs
-// Responsibility: D. Olson
-// 
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace SIL.Pa.Model
@@ -34,22 +19,21 @@ namespace SIL.Pa.Model
 	/// Stores information about IPA characters.
 	/// </summary>
 	/// ----------------------------------------------------------------------------------------
-	[XmlType("symbol")]
+	[XmlType("symbolDefinition")]
 	public class IPASymbol : IFeatureBearer
 	{
+		private static int invalidDecimalVal = -1;
+
 		[XmlIgnore]
 		public bool IsUndefined { get; set; }
 
-		[XmlAttribute("decimal")]
-		public int Decimal { get; set; }
+		[XmlIgnore]
+		public int Decimal { get; private set; }
 		
 		[XmlAttribute("literal")]
 		public string Literal { get; set; }
 
-		[XmlAttribute("hexadecimal")]
-		public string Hexadecimal { get; set; }
-
-		[XmlAttribute("IPANumber")]
+		[XmlAttribute("IPA")]
 		public string IPANumber { get; set; }
 
 		[XmlElement("name")]
@@ -67,9 +51,6 @@ namespace SIL.Pa.Model
 		[XmlElement("subtype")]
 		public IPASymbolSubType SubType { get; set; }
 
-		[XmlElement("ignoreType")]
-		public IPASymbolIgnoreType IgnoreType { get; set; }
-
 		[XmlElement("isBase")]
 		public bool IsBase { get; set; }
 
@@ -79,11 +60,8 @@ namespace SIL.Pa.Model
 		[XmlElement("displayWithDottedCircle")]
 		public bool DisplayWithDottedCircle { get; set; }
 
-		[XmlElement("mannerOfArticulation")]
-		public int MOArticulation { get; set; }
-
-		[XmlElement("placeOfArticulation")]
-		public int POArticulation { get; set; }
+		[XmlIgnore]
+		public int DisplayOrder { get; set; }
 
 		[XmlElement("chartColumn")]
 		public int ChartColumn { get; set; }
@@ -91,35 +69,57 @@ namespace SIL.Pa.Model
 		[XmlElement("chartGroup")]
 		public int ChartGroup { get; set; }
 
-		private List<string> m_aFeatures;
-		private List<string> m_bFeatures;
-		private FeatureMask m_aMask;
-		private FeatureMask m_bMask;
-
+		private List<string> _aFeatures = new List<string>(0);
+		private List<string> _bFeatures = new List<string>(0);
+		private FeatureMask _aMask = FeatureMask.Empty;
+		private FeatureMask _bMask = FeatureMask.Empty;
+		
 		/// ------------------------------------------------------------------------------------
 		public IPASymbol Copy()
 		{
 			return new IPASymbol
 			{
 				IsUndefined = IsUndefined,
-				Decimal = Decimal,
 				Literal = Literal,
-				Hexadecimal = Hexadecimal,
+				HexCharCode = HexCharCode,
 				IPANumber = IPANumber,
 				Name = Name,
 				Usage = Usage,
 				Description = Description,
 				Type = Type,
 				SubType = SubType,
-				IgnoreType = IgnoreType,
 				IsBase = IsBase,
 				CanPrecedeBase = CanPrecedeBase,
 				DisplayWithDottedCircle = DisplayWithDottedCircle,
-				MOArticulation = MOArticulation,
-				POArticulation = POArticulation,
+				DisplayOrder = DisplayOrder,
 				AMask = AMask.Clone(),
 				BMask = BMask.Clone(),
 			};
+		}
+		
+		/// ------------------------------------------------------------------------------------
+		[XmlAttribute("code")]
+		public string HexCharCode
+		{
+			get { return Decimal.ToString("X8"); }
+			set
+			{
+				int dec;
+				Decimal = (int.TryParse(value, System.Globalization.NumberStyles.HexNumber, null, out dec) ?
+					dec : invalidDecimalVal--);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		[XmlElement("order")]
+		public string HexDisplayOrder
+		{
+			get { return DisplayOrder.ToString("X4"); }
+			set
+			{
+				int dec;
+				DisplayOrder = (int.TryParse(value, System.Globalization.NumberStyles.HexNumber, null, out dec) ? dec : 0);
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -127,32 +127,32 @@ namespace SIL.Pa.Model
 		/// Gets or sets the list of articulatory features.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		[XmlArray("articulatoryFeatures"), XmlArrayItem("feature")]
+		[XmlArray("features"), XmlArrayItem("feature")]
 		public List<string> AFeatures
 		{
 			get
 			{
-				return (m_aFeatures == null && m_aMask != null && !m_aMask.IsEmpty ?
-					InventoryHelper.AFeatureCache.GetFeatureList(m_aMask) : m_aFeatures);
+				return (_aFeatures == null && _aMask != null && !_aMask.IsEmpty ?
+					App.AFeatureCache.GetFeatureList(_aMask) : _aFeatures).ToList();
 			}
-			set { m_aFeatures = value; }
+			set { _aFeatures = value; }
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets or sets the list of binary features.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[XmlArray("binaryFeatures"), XmlArrayItem("feature")]
-		public List<string> BFeatures
-		{
-			get
-			{
-				return (m_bFeatures == null && m_bMask != null && !m_bMask.IsEmpty ?
-					InventoryHelper.BFeatureCache.GetFeatureList(m_bMask) : m_bFeatures);
-			}
-			set { m_bFeatures = value; }
-		}
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Gets or sets the list of binary features.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//[XmlArray("binaryFeatures"), XmlArrayItem("feature")]
+		//public List<string> BFeatures
+		//{
+		//    get
+		//    {
+		//        return (m_bFeatures == null && m_bMask != null && !m_bMask.IsEmpty ?
+		//            App.BFeatureCache.GetFeatureList(m_bMask) : m_bFeatures);
+		//    }
+		//    set { m_bFeatures = value; }
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -164,16 +164,16 @@ namespace SIL.Pa.Model
 		{
 			get
 			{
-				if (m_aMask == null || m_aMask.IsEmpty)
+				if (_aMask == null || _aMask.IsEmpty)
 				{
-					m_aMask = InventoryHelper.AFeatureCache.GetMask(m_aFeatures);
-					if (m_aFeatures != null && m_aFeatures.Count > 0)
-						m_aFeatures = null;
+					_aMask = App.AFeatureCache.GetMask(_aFeatures);
+					if (_aFeatures != null && _aFeatures.Count > 0)
+						_aFeatures = null;
 				}
 
-				return m_aMask;
+				return _aMask;
 			}
-			set { m_aMask = (value ?? InventoryHelper.AFeatureCache.GetEmptyMask()); }
+			set { _aMask = (value ?? App.AFeatureCache.GetEmptyMask()); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -186,16 +186,16 @@ namespace SIL.Pa.Model
 		{
 			get
 			{
-				if (m_bMask == null || m_bMask.IsEmpty)
+				if (_bMask == null || _bMask.IsEmpty)
 				{
-					m_bMask = InventoryHelper.BFeatureCache.GetMask(m_bFeatures);
-					if (m_bFeatures != null && m_bFeatures.Count > 0)
-						m_bFeatures = null;
+					_bMask = App.BFeatureCache.GetMask(_bFeatures);
+					if (_bFeatures != null && _bFeatures.Count > 0)
+						_bFeatures = null;
 				}
 
-				return m_bMask;
+				return _bMask;
 			}
-			set { m_bMask = (value ?? InventoryHelper.BFeatureCache.GetEmptyMask()); }
+			set { _bMask = (value ?? App.BFeatureCache.GetEmptyMask()); }
 		}
 
 		/// ------------------------------------------------------------------------------------

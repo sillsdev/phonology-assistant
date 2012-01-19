@@ -285,38 +285,36 @@ namespace SilTools.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public void PaintBodyBackground(Graphics g)
 		{
-			// Wrap in Try/Catch because in some really rare cases, the client rect. has a
-			// height or width of zero and it's not worth finding that obscure case (PA-965).
-			try
+			using (SolidBrush brWhite = new SolidBrush(kBodyLightColor))
+			using (LinearGradientBrush br = new LinearGradientBrush(ClientRectangle,
+				kBodyLightColor, kBodyDarkColor, 45f))
 			{
-				using (var brWhite = new SolidBrush(kBodyLightColor))
-				using (var br = new LinearGradientBrush(ClientRectangle,
-					kBodyLightColor, kBodyDarkColor, 45f))
-				{
-					g.FillRectangle(brWhite, ClientRectangle);
-					g.FillRectangle(br, ClientRectangle);
-				}
+				g.FillRectangle(brWhite, ClientRectangle);
+				g.FillRectangle(br, ClientRectangle);
 			}
-			catch { }
 		}
 
 		/// ------------------------------------------------------------------------------------
+		/// <summary>
+		/// 
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
 		public void PaintHeadingBackground(Graphics g, Rectangle rcHead)
 		{
-			try
+			using (LinearGradientBrush br = new LinearGradientBrush(rcHead,
+				kHeadDarkColor, kHeadLightColor, 0.0f))
 			{
-				using (var br = new LinearGradientBrush(rcHead,
-					kHeadDarkColor, kHeadLightColor, 0.0f))
-				{
-					g.FillRectangle(br, rcHead);
-				}
-
-				using (var pen = new Pen(kHeadSeparatingLineColor))
-					g.DrawLine(pen, rcHead.Left, rcHead.Bottom - 1, rcHead.Right, rcHead.Bottom - 1);
+				g.FillRectangle(br, rcHead);
 			}
-			catch { }
+
+			using (var pen = new Pen(kHeadSeparatingLineColor))
+				g.DrawLine(pen, rcHead.Left, rcHead.Bottom - 1, rcHead.Right, rcHead.Bottom - 1);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -1,19 +1,3 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2005, SIL International. All Rights Reserved.
-// <copyright from='2005' to='2005' company='SIL International'>
-//		Copyright (c) 2005, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
-// 
-// File: PhoneCacheTests.cs
-// Responsibility: DavidO
-// 
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System.Collections.Generic;
 using NUnit.Framework;
 using SIL.Pa.Model;
@@ -49,8 +33,8 @@ namespace SIL.Pa.Tests
 		[SetUp]
 		public void TestSetup()
 		{
-			m_cache = new PhoneCache(m_prj);
-			m_prj.CVPatternInfoList = new List<CVPatternInfo>();
+			m_cache = new PhoneCache(_prj);
+			_prj.CVPatternInfoList = new List<CVPatternInfo>();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -99,12 +83,8 @@ namespace SIL.Pa.Tests
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tests the GetTypeOfPhones method.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetTypeOfPhones_ConsVows()
+		public void GetPhonesHavingType_AskForConsonants_ReturnsOnlyConsonants()
 		{
 			m_cache.AddPhone("a");
 			m_cache.AddPhone("e");
@@ -113,20 +93,28 @@ namespace SIL.Pa.Tests
 			m_cache.AddPhone("z");
 			Assert.AreEqual(5, m_cache.Count);
 
-			var cons = (string[])ReflectionHelper.GetResult(
-				m_cache, "GetTypeOfPhones", IPASymbolType.Consonant);
-			
-			Assert.AreEqual(2, cons.Length);
-			Assert.AreEqual("d", cons[0]);
-			Assert.AreEqual("z", cons[1]);
+			var phones = m_cache.GetPhonesHavingType(IPASymbolType.consonant);
+			Assert.AreEqual(2, phones.Length);
+			Assert.AreEqual("d", phones[0]);
+			Assert.AreEqual("z", phones[1]);
+		}
 
-			var vows = (string[])ReflectionHelper.GetResult(
-				m_cache, "GetTypeOfPhones", IPASymbolType.Vowel);
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetPhonesHavingType_AskForVowels_ReturnsOnlyVowels()
+		{
+			m_cache.AddPhone("a");
+			m_cache.AddPhone("e");
+			m_cache.AddPhone("i");
+			m_cache.AddPhone("d");
+			m_cache.AddPhone("z");
+			Assert.AreEqual(5, m_cache.Count);
 
-			Assert.AreEqual(3, vows.Length);
-			Assert.AreEqual("a", vows[0]);
-			Assert.AreEqual("e", vows[1]);
-			Assert.AreEqual("i", vows[2]);		
+			var phones = m_cache.GetPhonesHavingType(IPASymbolType.vowel);
+			Assert.AreEqual(3, phones.Length);
+			Assert.AreEqual("a", phones[0]);
+			Assert.AreEqual("e", phones[1]);
+			Assert.AreEqual("i", phones[2]);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -135,7 +123,7 @@ namespace SIL.Pa.Tests
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetTypeOfPhones_SSeg()
+		public void GetPhonesHavingType_AskForSsegs_ReturnsOnlySsegs()
 		{
 			m_cache.AddPhone("a");
 			m_cache.AddPhone("d");
@@ -143,20 +131,15 @@ namespace SIL.Pa.Tests
 			m_cache.AddPhone("\u02E6");
 			Assert.AreEqual(4, m_cache.Count);
 
-			var ssegs = (string[])ReflectionHelper.GetResult(
-				m_cache, "GetTypeOfPhones", IPASymbolType.Suprasegmentals);
+			var phones = m_cache.GetPhonesHavingType(IPASymbolType.suprasegmental);
 
-			Assert.AreEqual(1, ssegs.Length);
-			Assert.AreEqual("\u02E6", ssegs[0]);
+			Assert.AreEqual(1, phones.Length);
+			Assert.AreEqual("\u02E6", phones[0]);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tests the GetCommaDelimitedPhones method
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetCommaDelimitedPhones()
+		public void GetCommaDelimitedPhones_AskForConsonants_ReturnsStringOfAskForConsonants()
 		{
 			m_cache.AddPhone("a");
 			m_cache.AddPhone("e");
@@ -164,18 +147,20 @@ namespace SIL.Pa.Tests
 			m_cache.AddPhone("d");
 			m_cache.AddPhone("z");
 			Assert.AreEqual(5, m_cache.Count);
-
-			var cons = (string)ReflectionHelper.GetResult(
-				m_cache, "GetCommaDelimitedPhones", IPASymbolType.Consonant);
-
-			Assert.AreEqual("d,z", cons);
-
-			var vows = (string)ReflectionHelper.GetResult(
-				m_cache, "GetCommaDelimitedPhones", IPASymbolType.Vowel);
-
-			Assert.AreEqual("a,e,i", vows);
+			Assert.AreEqual("d,z", m_cache.GetCommaDelimitedPhones(IPASymbolType.consonant));
 		}
-
-
+		
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void GetCommaDelimitedPhones_AskForVowels_ReturnsStringOfVowels()
+		{
+			m_cache.AddPhone("a");
+			m_cache.AddPhone("e");
+			m_cache.AddPhone("i");
+			m_cache.AddPhone("d");
+			m_cache.AddPhone("z");
+			Assert.AreEqual(5, m_cache.Count);
+			Assert.AreEqual("a,e,i", m_cache.GetCommaDelimitedPhones(IPASymbolType.vowel));
+		}
 	}
 }

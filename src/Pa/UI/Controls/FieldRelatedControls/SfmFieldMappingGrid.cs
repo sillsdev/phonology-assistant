@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 
@@ -37,14 +38,17 @@ namespace SIL.Pa.UI.Controls
 			// Create source field column.
 			DataGridViewColumn col = CreateTextBoxColumn("srcfield");
 			col.ReadOnly = true;
-			var text = (m_sourceFieldColumnHeadingTextHandler != null ?
-				m_sourceFieldColumnHeadingTextHandler() : null);
-
-			if (string.IsNullOrEmpty(text))
-				text = App.GetString("SfmFieldMappingGrid.DefaultSourceFieldColumnHeadingText", "Field in Source Data");
-	
-			col.HeaderText = text;
 			Columns.Add(col);
+
+			if (m_sourceFieldColumnHeadingTextHandler != null)
+				col.HeaderText = m_sourceFieldColumnHeadingTextHandler();
+
+			if (m_sourceFieldColumnHeadingTextHandler == null || string.IsNullOrEmpty(col.HeaderText))
+			{
+				col.HeaderText = LocalizationManager.GetString(
+					"DialogBoxes.SfmDataSourcePropertiesDlg.FieldMappingGrid.ColumnHeadings.Field",
+					"Field in Source Data", null, col);
+			}
 
 			// Create the column for the arrow.
 			col = CreateImageColumn("arrow");
@@ -60,18 +64,24 @@ namespace SIL.Pa.UI.Controls
 			// Create field type column.
 			col = CreateDropDownListComboBoxColumn("fieldtype", m_displayableFieldTypes.Values);
 			int i = FontColumnIndex;
-			Columns.Insert(i, col);
-			App.RegisterForLocalization(Columns[i], "SfmFieldMappingGrid.FieldTypeColumnHeadingText", "Type");
+			Columns.Insert(FontColumnIndex, col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.SfmDataSourcePropertiesDlg.FieldMappingGrid.ColumnHeadings.Type",
+				"Type", null, col);
 
 			// Create the parsed column.
 			col = CreateCheckBoxColumn("parsed");
 			Columns.Insert(i, col);
-			App.RegisterForLocalization(Columns[i], "SfmFieldMappingGrid.FieldIsParsedColumnHeadingText", "Is Parsed?");
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.SfmDataSourcePropertiesDlg.FieldMappingGrid.ColumnHeadings.IsParsed",
+				"Is Parsed?", null, col);
 
 			// Create the interlinear column.
 			col = CreateCheckBoxColumn("interlinear");
 			Columns.Insert(i, col);
-			App.RegisterForLocalization(Columns[i], "SfmFieldMappingGrid.FieldCanBeInterlinearColumnHeadingText", "Is Interlinear?");
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.SfmDataSourcePropertiesDlg.FieldMappingGrid.ColumnHeadings.CanBeInterlinear",
+				"Is Interlinear?", null, col);
 		}
 
 		/// ------------------------------------------------------------------------------------

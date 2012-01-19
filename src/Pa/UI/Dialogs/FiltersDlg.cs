@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Filters;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
@@ -53,8 +54,7 @@ namespace SIL.Pa.UI.Dialogs
 			splitFilters.Panel2MinSize = splitFilters.Panel2.Bounds.Width;
 
 			InitializeExpressionTypeStrings();
-			m_operatorToText = GetOperatorStrings().ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-			m_textToOperator = GetOperatorStrings().ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
+			InitializeOperatorStrings();
 
 			m_gridExpressions.Font = FontHelper.UIFont;
 			m_gridFilters.Font = FontHelper.UIFont;
@@ -68,12 +68,6 @@ namespace SIL.Pa.UI.Dialogs
 			pnlExpressionMatch.BorderStyle = BorderStyle.None;
 			pnlExpressionMatch.DrawOnlyTopBorder = true;
 			pnlExpressionMatch.DrawOnlyBottomBorder = false;
-			pnlExpressionMatch.ColorTop = AppColor.SecondaryHeaderTop;
-			pnlExpressionMatch.ColorBottom = AppColor.SecondaryHeaderBottom;
-
-			lblExpressionMatchMsgPart.ForeColor = AppColor.SecondaryHeaderForeground;
-			rbAllExpressions.ForeColor = AppColor.SecondaryHeaderForeground;
-			rbAnyExpression.ForeColor = AppColor.SecondaryHeaderForeground;
 
 			// Get rid of these three lines when there is a help topic for this dialog box.
 			btnHelp.Visible = false;
@@ -113,15 +107,15 @@ namespace SIL.Pa.UI.Dialogs
 			m_expTypeToText = new Dictionary<Filter.ExpressionType, string>();
 			m_textToExpType = new Dictionary<string, Filter.ExpressionType>();
 
-			var text = App.GetString("FiltersDlg.FilterExpressionTypes.Normal", "Normal");
+			var text = LocalizationManager.GetString("DialogBoxes.FiltersDlg.FilterExpressionTypes.Normal", "Normal");
 			m_expTypeToText[Filter.ExpressionType.Normal] = text;
 			m_textToExpType[text] = Filter.ExpressionType.Normal;
 
-			text = App.GetString("FiltersDlg.FilterExpressionTypes.PhoneticSearchPattern", "Phonetic Search Pattern");
+			text = LocalizationManager.GetString("DialogBoxes.FiltersDlg.FilterExpressionTypes.PhoneticSearchPattern", "Phonetic Search Pattern");
 			m_expTypeToText[Filter.ExpressionType.PhoneticSrchPtrn] = text;
 			m_textToExpType[text] = Filter.ExpressionType.PhoneticSrchPtrn;
 
-			text = App.GetString("FiltersDlg.FilterExpressionTypes.RegularExpression", "Regular Expression");
+			text = LocalizationManager.GetString("DialogBoxes.FiltersDlg.FilterExpressionTypes.RegularExpression", "Regular Expression");
 			m_expTypeToText[Filter.ExpressionType.RegExp] = text;
 			m_textToExpType[text] = Filter.ExpressionType.RegExp;
 
@@ -129,52 +123,76 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private IEnumerable<KeyValuePair<Filter.Operator, string>> GetOperatorStrings()
+		/// <summary>
+		/// Create lists that map the Filter.Operator enumeration to it's string equivalent
+		/// and back.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		private void InitializeOperatorStrings()
 		{
-			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.Equals,
-				App.GetString("FiltersDlg.FilterExpressionOperators.Equals", "equals"));
+			// Create lists that map the FilterOperator enumeration to it's string equivalent and back
+			m_operatorToText = new Dictionary<Filter.Operator, string>();
+			m_textToOperator = new Dictionary<string, Filter.Operator>();
 
-			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.NotEquals,
-				App.GetString("FiltersDlg.FilterExpressionOperators.NoteEqualTo", "not equal to"));
+			var text = LocalizationManager.GetString("DialogBoxes.FiltersDlg.FilterExpressionOperators.BeginsWith", "Begins with");
+			m_operatorToText[Filter.Operator.BeginsWith] = text;
+			m_textToOperator[text] = Filter.Operator.BeginsWith;
 
-			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.Matches,
-				App.GetString("FiltersDlg.FilterExpressionOperators.Matches", "matches"));
+			text = LocalizationManager.GetString("DialogBoxes.FiltersDlg.FilterExpressionOperators.Contains", "Contains");
+			m_operatorToText[Filter.Operator.Contains] = text;
+			m_textToOperator[text] = Filter.Operator.Contains;
 
-			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.Contains,
-				App.GetString("FiltersDlg.FilterExpressionOperators.Contains", "contains"));
+			text = LocalizationManager.GetString("DialogBoxes.FiltersDlg.FilterExpressionOperators.DoesNotBeginWith", "Does not begin with");
+			m_operatorToText[Filter.Operator.DoesNotBeginsWith] = text;
+			m_textToOperator[text] = Filter.Operator.DoesNotBeginsWith;
 
-			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.DoesNotContain,
-				App.GetString("FiltersDlg.FilterExpressionOperators.DoesNotContain", "does not contain"));
+			text = LocalizationManager.GetString("DialogBoxes.FiltersDlg.FilterExpressionOperators.DoesNotContain", "Does not contain");
+			m_operatorToText[Filter.Operator.DoesNotContain] = text;
+			m_textToOperator[text] = Filter.Operator.DoesNotContain;
 
-			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.BeginsWith,
-				App.GetString("FiltersDlg.FilterExpressionOperators.BeginsWith", "begins with"));
+			text = LocalizationManager.GetString("DialogBoxes.FiltersDlg.FilterExpressionOperators.DoesNotEndWith", "Does not end with");
+			m_operatorToText[Filter.Operator.DoesNotEndsWith] = text;
+			m_textToOperator[text] = Filter.Operator.DoesNotEndsWith;
 
-			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.DoesNotBeginsWith,
-				App.GetString("FiltersDlg.FilterExpressionOperators.DoesNotBeginWith", "does not begin with"));
+			text = LocalizationManager.GetString("DialogBoxes.FiltersDlg.FilterExpressionOperators.EndsWith", "Ends with");
+			m_operatorToText[Filter.Operator.EndsWith] = text;
+			m_textToOperator[text] = Filter.Operator.EndsWith;
 
-			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.EndsWith,
-				App.GetString("FiltersDlg.FilterExpressionOperators.EndsWith", "ends with"));
+			text = LocalizationManager.GetString("DialogBoxes.FiltersDlg.FilterExpressionOperators.Equals", "Equals");
+			m_operatorToText[Filter.Operator.Equals] = text;
+			m_textToOperator[text] = Filter.Operator.Equals;
 
-			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.DoesNotEndsWith,
-				App.GetString("FiltersDlg.FilterExpressionOperators.DoesNotEndWith", "does not end with"));
+			text = LocalizationManager.GetString("DialogBoxes.FiltersDlg.FilterExpressionOperators.GreaterThan", "Greater than");
+			m_operatorToText[Filter.Operator.GreaterThan] = text;
+			m_textToOperator[text] = Filter.Operator.GreaterThan;
 
-			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.GreaterThan,
-				App.GetString("FiltersDlg.FilterExpressionOperators.GreaterThan", "greater than"));
+			text = LocalizationManager.GetString("DialogBoxes.FiltersDlg.FilterExpressionOperators.GreaterThanOrEqual", "Greater than or equal");
+			m_operatorToText[Filter.Operator.GreaterThanOrEqual] = text;
+			m_textToOperator[text] = Filter.Operator.GreaterThanOrEqual;
 
-			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.GreaterThanOrEqual,
-				App.GetString("FiltersDlg.FilterExpressionOperators.GreaterThanOrEqual", "greater than or equal to"));
+			text = LocalizationManager.GetString("DialogBoxes.FiltersDlg.FilterExpressionOperators.LessThan", "Less than");
+			m_operatorToText[Filter.Operator.LessThan] = text;
+			m_textToOperator[text] = Filter.Operator.LessThan;
 
-			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.LessThan,
-				App.GetString("FiltersDlg.FilterExpressionOperators.LessThan", "less than"));
+			text = LocalizationManager.GetString("DialogBoxes.FiltersDlg.FilterExpressionOperators.LessThanOrEqual", "Less than or equal");
+			m_operatorToText[Filter.Operator.LessThanOrEqual] = text;
+			m_textToOperator[text] = Filter.Operator.LessThanOrEqual;
 
-			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.LessThanOrEqual,
-				App.GetString("FiltersDlg.FilterExpressionOperators.LessThanOrEqual", "less than or equal to"));
+			text = LocalizationManager.GetString("DialogBoxes.FiltersDlg.FilterExpressionOperators.Matches", "Matches");
+			m_operatorToText[Filter.Operator.Matches] = text;
+			m_textToOperator[text] = Filter.Operator.Matches;
 
-			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.PathExists,
-				App.GetString("FiltersDlg.FilterExpressionOperators.PathExists", "file exists"));
+			text = LocalizationManager.GetString("DialogBoxes.FiltersDlg.FilterExpressionOperators.NoteEqualTo", "Not equal to");
+			m_operatorToText[Filter.Operator.NotEquals] = text;
+			m_textToOperator[text] = Filter.Operator.NotEquals;
 
-			yield return new KeyValuePair<Filter.Operator, string>(Filter.Operator.PathDoesNotExist,
-				App.GetString("FiltersDlg.FilterExpressionOperators.PathDoesNotExist", "file does not exist"));
+			text = LocalizationManager.GetString("DialogBoxes.FiltersDlg.FilterExpressionOperators.PathDoesNotExist", "Path does not exist");
+			m_operatorToText[Filter.Operator.PathDoesNotExist] = text;
+			m_textToOperator[text] = Filter.Operator.PathDoesNotExist;
+
+			text = LocalizationManager.GetString("DialogBoxes.FiltersDlg.FilterExpressionOperators.PathExists", "Path exists");
+			m_operatorToText[Filter.Operator.PathExists] = text;
+			m_textToOperator[text] = Filter.Operator.PathExists;
 		}
 
 		#endregion
@@ -294,7 +312,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_gridFilters.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 			m_gridFilters.CellBorderStyle = DataGridViewCellBorderStyle.None;
 			m_gridFilters.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-			AppColor.SetGridSelectionColors(m_gridFilters, false);
+			App.SetGridSelectionColors(m_gridFilters, false);
 
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("filterName");
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -303,15 +321,17 @@ namespace SIL.Pa.UI.Dialogs
 			col.Width = 170;
 			col.MinimumWidth = 50;
 			m_gridFilters.Columns.Add(col);
-			App.RegisterForLocalization(m_gridFilters.Columns["filterName"],
-				"FiltersDlg.FiltersListFilterNameColumnHeadingText", "Available Filters");
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.FiltersDlg.FiltersListFilterNameColumnHeadingText",
+				"Available Filters", null, col);
 
 			col = SilGrid.CreateCheckBoxColumn("showInList");
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			col.Resizable = DataGridViewTriState.False;
 			m_gridFilters.Columns.Add(col);
-			App.RegisterForLocalization(m_gridFilters.Columns["showInList"],
-				"FiltersDlg.FiltersListVisibleInFilterMenuNameColumnHeadingText", "Visible");
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.FiltersDlg.FiltersListVisibleInFilterMenuNameColumnHeadingText",
+				"Visible", null, col);
 
 			m_gridFilters.AutoResizeColumn(1, DataGridViewAutoSizeColumnMode.ColumnHeader);
 			m_gridFilters.AutoResizeColumnHeadersHeight();
@@ -360,7 +380,7 @@ namespace SIL.Pa.UI.Dialogs
 			m_gridExpressions.AllowUserToOrderColumns = false;
 			m_gridExpressions.AllowUserToResizeColumns = true;
 			m_gridExpressions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-			AppColor.SetGridSelectionColors(m_gridExpressions, true);
+			App.SetGridSelectionColors(m_gridExpressions, true);
 
 			var fieldNames = (from field in m_project.GetMappedFields()
 							  orderby field.DisplayName
@@ -374,16 +394,18 @@ namespace SIL.Pa.UI.Dialogs
 			((DataGridViewComboBoxColumn)col).DropDownWidth = 135;
 			((DataGridViewComboBoxColumn)col).MaxDropDownItems = 15;
 			m_gridExpressions.Columns.Add(col);
-			App.RegisterForLocalization(m_gridExpressions.Columns["expField"],
-				"FiltersDlg.ExpressionsGridFieldColumnHeadingText", "Field");
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.FiltersDlg.ExpressionsGrid.ColumnHeadings.Field",
+				"Field", null, col);
 
 			col = SilGrid.CreateDropDownListComboBoxColumn("expOperator", new List<string>(m_operatorToText.Values));
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			((DataGridViewComboBoxColumn)col).DropDownWidth = 150;
 			((DataGridViewComboBoxColumn)col).MaxDropDownItems = 15;
 			m_gridExpressions.Columns.Add(col);
-			App.RegisterForLocalization(m_gridExpressions.Columns["expOperator"],
-				"FiltersDlg.ExpressionsGridOperatorColumnHeadingText", "Operator");
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.FiltersDlg.ExpressionsGrid.ColumnHeadings.Operator",
+				"Operator", null, col);
 
 			col = new SilButtonColumn("expValue");
 			((SilButtonColumn)col).ButtonStyle = SilButtonColumn.ButtonType.MinimalistCombo;
@@ -392,16 +414,18 @@ namespace SIL.Pa.UI.Dialogs
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			col.DefaultCellStyle.Font = App.PhoneticFont;
 			m_gridExpressions.Columns.Add(col);
-			App.RegisterForLocalization(m_gridExpressions.Columns["expValue"],
-				"FiltersDlg.ExpressionsGridValueColumnHeadingText", "Value");
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.FiltersDlg.ExpressionsGrid.ColumnHeadings.Value",
+				"Value", null, col);
 
 			col = SilGrid.CreateDropDownListComboBoxColumn("expType", new List<string>(m_expTypeToText.Values));
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			((DataGridViewComboBoxColumn)col).DropDownWidth = 150;
 			((DataGridViewComboBoxColumn)col).MaxDropDownItems = 15;
 			m_gridExpressions.Columns.Add(col);
-			App.RegisterForLocalization(m_gridExpressions.Columns["expType"],
-				"FiltersDlg.ExpressionsGridTypeColumnHeadingText", "Type");
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.FiltersDlg.ExpressionsGrid.ColumnHeadings.Type",
+				"Type", null, col);
 
 			col = SilGrid.CreateImageColumn("deleteExp");
 			col.HeaderText = string.Empty;
@@ -547,10 +571,11 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (FilterNameExists(newName))
 			{
-				var msg = App.GetString("FiltersDlg.FilterNameExistsMsg", "The filter '{0}' already exists.",
+				var msg = LocalizationManager.GetString("DialogBoxes.FiltersDlg.FilterNameExistsMsg",
+					"The filter '{0}' already exists.",
 					"Message displayed when adding a filter in the define filters dialog if the filter name already exists.");
 
-				Utils.MsgBox(string.Format(msg, newName));
+				App.NotifyUserOfProblem(msg, newName);
 				e.Cancel = true;
 			}
 		}
@@ -650,8 +675,8 @@ namespace SIL.Pa.UI.Dialogs
 
 			m_gridExpressions[e.ColumnIndex, e.RowIndex].Value = Properties.Resources.RemoveGridRowHot;
 
-			var toolTip = App.GetString("FiltersDlg.DeleteFilterExpressionToolTip",
-				"Delete Expression");
+			var toolTip = LocalizationManager.GetString(
+				"DialogBoxes.FiltersDlg.DeleteFilterExpressionToolTip", "Delete Expression");
 
 			var pt = PointToClient(MousePosition);
 			pt.Offset(0, Cursor.Size.Height + 20);
@@ -705,7 +730,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleExpressionsGridValueColumnButtonClicked(object sender, DataGridViewCellMouseEventArgs e)
 		{
-			string expType = m_gridExpressions[kTypeCol, e.RowIndex].Value as string;
+			var expType = m_gridExpressions[kTypeCol, e.RowIndex].Value as string;
 
 			if (string.IsNullOrEmpty(expType))
 				return;
@@ -720,12 +745,12 @@ namespace SIL.Pa.UI.Dialogs
 			}
 			else if (expType == m_expTypeToText[Filter.ExpressionType.PhoneticSrchPtrn])
 			{
-				SearchQuery query = m_gridExpressions[kTypeCol, e.RowIndex].Tag as SearchQuery;
+				var query = m_gridExpressions[kTypeCol, e.RowIndex].Tag as SearchQuery;
 				m_queryOptionsDropDown.SearchQuery = query ?? new SearchQuery();
 				m_queryOptionsDropDownHost = new CustomDropDown();
 				m_queryOptionsDropDownHost.Closed += m_queryDropDown_Closed;
 				m_queryOptionsDropDownHost.AddControl(m_queryOptionsDropDown);
-				Rectangle rc = m_gridExpressions.GetCellDisplayRectangle(2, e.RowIndex, false);
+				var rc = m_gridExpressions.GetCellDisplayRectangle(2, e.RowIndex, false);
 				rc.Y += rc.Height;
 				m_queryOptionsDropDownHost.Show(m_gridExpressions.PointToScreen(rc.Location));
 			}
@@ -753,7 +778,7 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				// Save all the expressions for the current filter.
 				filter.Expressions.Clear();
-				foreach (DataGridViewRow row in m_gridExpressions.Rows.Cast<DataGridViewRow>()
+				foreach (var row in m_gridExpressions.Rows.Cast<DataGridViewRow>()
 					.Where(row => row.Index != m_gridExpressions.NewRowIndex))
 				{
 					filter.Expressions.Add(GetExpressionFromRow(row));
@@ -793,7 +818,7 @@ namespace SIL.Pa.UI.Dialogs
 			}
 
 			// Get the expression type from the type column.
-			string expType = m_gridExpressions[kTypeCol, row].Value as string;
+			var expType = m_gridExpressions[kTypeCol, row].Value as string;
 			if (string.IsNullOrEmpty(expType) || col != 3)
 				return;
 
@@ -881,7 +906,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (m_gridFilters.CurrentRow == null)
 				return;
 
-			var msg = App.GetString("FiltersDlg.RemoveFilterConfirmationMsg",
+			var msg = LocalizationManager.GetString("DialogBoxes.FiltersDlg.RemoveFilterConfirmationMsg",
 				"The filter '{0}' will be deleted.");
 
 			msg = string.Format(msg, CurrentFilter.Name);
@@ -981,7 +1006,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (nameToCopy != null)
 			{
-				fmt = App.GetString("FiltersDlg.CopiedFilterNamePrefixFormat", "Copy of {0}",
+				fmt = LocalizationManager.GetString("DialogBoxes.FiltersDlg.CopiedFilterNamePrefixFormat", "Copy of {0}",
 					"The parameter is the name of the filter to copy in the define filterrs dialog.");
 
 				while (FilterNameExists(nameToCopy))
@@ -990,10 +1015,10 @@ namespace SIL.Pa.UI.Dialogs
 				return nameToCopy;
 			}
 
-			fmt = App.GetString("FiltersDlg.NewFilterNameFormat", "New Filter {0}",
+			fmt = LocalizationManager.GetString("DialogBoxes.FiltersDlg.NewFilterNameFormat", "New Filter {0}",
 				"The parameter is a number. Used as default filter name when adding filters in the define filters dialog.");
 			
-			string newName = string.Format(fmt, string.Empty).Trim();
+			var newName = string.Format(fmt, string.Empty).Trim();
 			int i = 1;
 			while (FilterNameExists(newName))
 				newName = string.Format(fmt, i++);
@@ -1053,9 +1078,10 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			if (e.RowIndex < 0 || e.ColumnIndex != kShowInListCol)
 				return;
-			
-			var tooltip = App.GetString("FiltersDlg.FiltersListVisibleInFilterMenuColumnToolTip",
-			"Select to make '{0}' visible\nin the main window's drop-down filter list.");
+
+			var tooltip = LocalizationManager.GetString(
+				"DialogBoxes.FiltersDlg.FiltersListVisibleInFilterMenuColumnToolTip",
+				"Select to make '{0}' visible\nin the main window's drop-down filter list.");
 
 			e.ToolTipText = string.Format(tooltip, m_filterList[e.RowIndex].Name);
 		}

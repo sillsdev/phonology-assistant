@@ -206,10 +206,7 @@ namespace SilTools
 			moQuery = string.Format(moQuery, drive.Replace("\\", string.Empty));
 			ManagementObjectSearcher searcher = new ManagementObjectSearcher(moQuery);
 			ManagementObjectCollection moc = searcher.Get();
-			foreach (ManagementObject mo in moc)
-				return (ulong)mo.Properties["FreeSpace"].Value;
-
-			return 0;
+			return (from ManagementObject mo in moc select (ulong)mo.Properties["FreeSpace"].Value).FirstOrDefault();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -225,7 +222,7 @@ namespace SilTools
 			if (!Path.IsPathRooted(relPath))
 				throw new ArgumentException("Relative path is not rooted.", "relPath");
 
-			if (relPath.IndexOf(fixedPath) != 0)
+			if (relPath.IndexOf(fixedPath, StringComparison.Ordinal) != 0)
 				return relPath;
 
 			relPath = relPath.Remove(0, fixedPath.Length);
@@ -243,10 +240,10 @@ namespace SilTools
 		public static string MakeSafeFileName(string fileName, char replacementChar)
 		{
 			string replacement = (replacementChar == '\0' ?
-				string.Empty : replacementChar.ToString());
+				string.Empty : replacementChar.ToString(CultureInfo.InvariantCulture));
 
-			foreach (char c in Path.GetInvalidFileNameChars())
-				fileName = fileName.Replace(c.ToString(), replacement);
+			fileName = Path.GetInvalidFileNameChars()
+				.Aggregate(fileName, (curr, c) => curr.Replace(c.ToString(CultureInfo.InvariantCulture), replacement));
 
 			return fileName.Trim();
 		}
@@ -261,8 +258,11 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		public static string PrepFilePathForMsgBox(string filepath)
 		{
-			return (filepath == null ? string.Empty :
-				filepath.Replace("\\n", kObjReplacementChar.ToString()));
+			if (filepath == null)
+				return string.Empty;
+
+			filepath = filepath.Replace(Environment.NewLine, kObjReplacementChar.ToString(CultureInfo.InvariantCulture));
+			return filepath.Replace("\\n", kObjReplacementChar.ToString(CultureInfo.InvariantCulture));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -321,7 +321,7 @@ namespace SilTools
 
 			s_msgBoxJustShown = true;
 			msg = ConvertLiteralNewLines(msg);
-			msg = msg.Replace(kObjReplacementChar.ToString(), "\\n");
+			msg = msg.Replace(kObjReplacementChar.ToString(CultureInfo.InvariantCulture), Environment.NewLine);
 			return MessageBox.Show(msg, Application.ProductName, buttons, icon);
 		}
 
@@ -344,9 +344,9 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		public static string RemoveAcceleratorPrefix(string text)
 		{
-			text = text.Replace("&&", kObjReplacementChar.ToString());
+			text = text.Replace("&&", kObjReplacementChar.ToString(CultureInfo.InvariantCulture));
 			text = text.Replace("&", string.Empty);
-			return text.Replace(kObjReplacementChar.ToString(), "&");
+			return text.Replace(kObjReplacementChar.ToString(CultureInfo.InvariantCulture), "&");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -559,7 +559,7 @@ namespace SilTools
 			{
 				System.Diagnostics.Debug.Fail(e.Message);
 			}
-
+			
 			return null;
 		}
 
@@ -624,7 +624,6 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		public static T DeserializeFromString<T>(string input, out Exception e) where T : class
 		{
-			T data = null;
 			e = null;
 
 			try
@@ -647,7 +646,7 @@ namespace SilTools
 				e = outEx;
 			}
 
-			return data;
+			return null;
 		}
 
 		#endregion
@@ -682,9 +681,9 @@ namespace SilTools
 				if (float.TryParse(input, out output))
 					return true;
 
-				// The first attempt failed so now try parsing with a culture whose
-				//number system decimal separator is known to be a period.
-				ci = CultureInfo.GetCultureInfo("en-US");
+				// The first attempt failed so now try parsing with a culture whose number
+				// system decimal separator is known to be a period.
+				ci = CultureInfo.InvariantCulture;
 			}
 
 			return float.TryParse(input, NumberStyles.Number, ci.NumberFormat, out output);

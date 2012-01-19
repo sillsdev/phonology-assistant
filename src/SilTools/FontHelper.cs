@@ -94,7 +94,7 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		public static void ResetFonts()
 		{
-			UIFont = (Font)SystemInformation.MenuFont.Clone();
+			UIFont = (Font)SystemFonts.MenuFont.Clone();
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -262,7 +262,7 @@ namespace SilTools
 		public static bool GetSupportsStyle(string fontName, FontStyle style)
 		{
 			var family = FontFamily.Families.SingleOrDefault(f => f.Name == fontName);
-			return (family == null ? false : family.IsStyleAvailable(style));
+			return (family != null && family.IsStyleAvailable(style));
 		}
 
 		/// --------------------------------------------------------------------------------
@@ -275,7 +275,7 @@ namespace SilTools
 			if (x == null || y == null)
 				return false;
 
-			return (x.Name == y.Name && x.Size == y.Size && x.Style == y.Style);
+			return (x.Name == y.Name && x.Size.Equals(y.Size) && x.Style == y.Style);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<PaProject version="3.3.0">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PaProject version="3.3.3">
   <name>Sekpele 3</name>
   <languageName>Sekpele</languageName>
   <Transcriber>Rod Casali with modifications for training purposes.</Transcriber>
@@ -150,19 +150,19 @@
     </sortFields>
   </DistributionChartVwSortOptions>
   <CVPatternInfoList>
-    <CVPatternInfo Phone="'" Type="StressSyllable" />
-    <CVPatternInfo Phone="ˈ" Type="StressSyllable" />
-    <CVPatternInfo Phone="ˌ" Type="StressSyllable" />
-    <CVPatternInfo Phone="|" Type="StressSyllable" />
-    <CVPatternInfo Phone="‖" Type="StressSyllable" />
-    <CVPatternInfo Phone="." Type="StressSyllable" />
-    <CVPatternInfo Phone="-" Type="StressSyllable" />
-    <CVPatternInfo Phone="‿" Type="StressSyllable" />
-    <CVPatternInfo Phone="ː" Type="Length" />
-    <CVPatternInfo Phone="ˑ" Type="Length" />
-    <CVPatternInfo Phone="̆" Type="Length" />
-    <CVPatternInfo Phone="̃" Type="NotApplicable" />
-    <CVPatternInfo Phone="ʔ" Type="NotApplicable" />
+    <CVPatternInfo Phone="'" Type="Suprasegmental" />
+    <CVPatternInfo Phone="ˈ" Type="Suprasegmental" />
+    <CVPatternInfo Phone="ˌ" Type="Suprasegmental" />
+    <CVPatternInfo Phone="|" Type="Suprasegmental" />
+    <CVPatternInfo Phone="‖" Type="Suprasegmental" />
+    <CVPatternInfo Phone="." Type="Suprasegmental" />
+    <CVPatternInfo Phone="-" Type="Suprasegmental" />
+    <CVPatternInfo Phone="‿" Type="Suprasegmental" />
+    <CVPatternInfo Phone="ː" Type="Suprasegmental" />
+    <CVPatternInfo Phone="ˑ" Type="Suprasegmental" />
+    <CVPatternInfo Phone="̆" Type="Suprasegmental" />
+    <CVPatternInfo Phone="̃" Type="Custom" />
+    <CVPatternInfo Phone="ʔ" Type="Custom" />
   </CVPatternInfoList>
   <GridLayoutInfo>
     <GridLines>Single</GridLines>

@@ -1,13 +1,36 @@
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace SIL.Pa.Model
 {
 	#region Feature
 	/// ----------------------------------------------------------------------------------------
-	[XmlType("feature")]
+	[XmlType("featureDefinition")]
 	public class Feature
 	{
 		protected string m_fullname;
+
+		/// ------------------------------------------------------------------------------------
+		public static Feature FromXElement(XElement element)
+		{
+			var feature = new Feature();
+
+			feature.Name = element.Element("name").Value;
+			
+			if (element.Element("fullname") != null)
+				feature.FullName = element.Element("fullname").Value;
+
+			if (element.Attribute("class") != null)
+				feature.Class = element.Attribute("class").Value;
+
+			if (element.Attribute("category") != null)
+				feature.Category = element.Attribute("category").Value;
+
+			if (element.Attribute("type") != null)
+				feature.FeatureType = element.Attribute("type").Value;
+
+			return feature;
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -21,9 +44,8 @@ namespace SIL.Pa.Model
 			clone.Name = Name;
 			clone.m_fullname = m_fullname;
 			clone.Class = Class;
-			clone.SubClass = SubClass;
+			clone.Category = Category;
 			clone.FeatureType = FeatureType;
-			clone.Clements = Clements;
 			return clone;
 		}
 
@@ -49,16 +71,12 @@ namespace SIL.Pa.Model
 		public string Class { get; set; }
 
 		/// ------------------------------------------------------------------------------------
-		[XmlAttribute("subclass")]
-		public string SubClass { get; set; }
+		[XmlAttribute("category")]
+		public string Category { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		[XmlAttribute("type")]
 		public string FeatureType { get; set; }
-
-		/// ------------------------------------------------------------------------------------
-		[XmlAttribute("clements")]
-		public string Clements { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		[XmlElement("name")]

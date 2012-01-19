@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 using SIL.PaToFdoInterfaces;
 
 namespace SIL.Pa.DataSource.FieldWorks
@@ -216,7 +215,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 						break;
 		
 					case "VariantComments":
-						value = lxEntry.VariantOfInfo.Select(vi => vi.VariantComment.GetString(wsId));
+						value = lxEntry.VariantOfInfo.Where(vi => vi.VariantComment != null)
+							.Select(vi => GetMultiStringValue(vi.VariantComment, wsId));
 						break;
 					
 					case "ComplexForms":
@@ -233,11 +233,12 @@ namespace SIL.Pa.DataSource.FieldWorks
 						break;
 					
 					case "ComplexFormComments":
-						value = lxEntry.ComplexFormInfo.Select(c => c.ComplexFormComment.GetString(wsId));
+						value = lxEntry.ComplexFormInfo.Where(c => c.ComplexFormComment != null)
+							.Select(c => GetMultiStringValue(c.ComplexFormComment, wsId));
 						break;
 					
 					case "Allomorphs":
-						value = lxEntry.Allomorphs.Select(a => a.GetString(wsId));
+						value = lxEntry.Allomorphs.Where(a => a != null).Select(a => a.GetString(wsId));
 						break;
 				}
 
@@ -274,16 +275,18 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 			var pro = (lxEntry.Pronunciations.Count() == 0 ? null : lxEntry.Pronunciations.ElementAt(0));
 
-			if (m_fwDsInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.PronunciationField &&
-				pro == null)
-			{
-				return false;
-			}
-
 			string eticValue = null;
 
-			eticValue = m_fwDsInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.LexemeForm ?
-				lxEntry.LexemeForm.GetString(m_phoneticWsId) : pro.Form.GetString(m_phoneticWsId);
+			if (m_fwDsInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.LexemeForm)
+			{
+				if (lxEntry.LexemeForm != null)
+					eticValue = lxEntry.LexemeForm.GetString(m_phoneticWsId);
+			}
+			else
+			{
+				if (pro != null && pro.Form != null)
+					eticValue = pro.Form.GetString(m_phoneticWsId);
+			}
 
 			if (eticValue == null)
 				return false;
@@ -301,7 +304,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 		/// ------------------------------------------------------------------------------------
 		private bool CreateWordEntriesFromPronunciations(IPaLexEntry lxEntry, RecordCacheEntry recCacheEntry)
 		{
-			foreach (var pro in lxEntry.Pronunciations)
+			foreach (var pro in lxEntry.Pronunciations.Where(p => p.Form != null))
 			{
 				var eticValue = pro.Form.GetString(m_phoneticWsId);
 				if (eticValue != null)
@@ -320,7 +323,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 		/// ------------------------------------------------------------------------------------
 		private void ReadSinglePronunciation(IPaLexPronunciation pro, WordCacheEntry wentry)
 		{
-			var mapping = m_dataSource.FieldMappings.SingleOrDefault(m => m.NameInDataSource == "CV-Pattern-Flex");
+			var mapping = m_dataSource.FieldMappings.SingleOrDefault(m => m.NameInDataSource == "CV-Pattern-Source");
 			if (mapping != null)
 				wentry.SetValue(mapping.NameInDataSource, pro.CVPattern);
 
@@ -350,10 +353,12 @@ namespace SIL.Pa.DataSource.FieldWorks
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private string GetCommaDelimitedPossibilityList(IEnumerable<IPaCmPossibility> list,
+		private string GetCommaDelimitedPossibilityList(IEnumerable<IPaCmPossibility> cmPossibilities,
 			bool returnAbbreviation)
 		{
-			return (list.Count() == 0 ? null : GetCommaDelimitedList(list.Select(p =>
+			var list = cmPossibilities.ToArray();
+
+			return (list.Length == 0 ? null : GetCommaDelimitedList(list.Select(p =>
 				GetPossibilityValue(p, returnAbbreviation))));
 		}
 

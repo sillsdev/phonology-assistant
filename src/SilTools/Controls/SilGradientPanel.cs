@@ -106,7 +106,7 @@ namespace SilTools.Controls
 			else
 			{
 				PaintingHelper.DrawGradientBackground(e.Graphics, ClientRectangle,
-					m_colorTop, m_colorBottom, false);
+					m_colorTop, m_colorBottom);
 			}
 
 			DrawBottomBorder(e);

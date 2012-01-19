@@ -45,7 +45,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnHelp.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnHelp, null);
 			this.locExtender.SetLocalizationComment(this.btnHelp, "Help button text on all OK/Cancel dialog boxes.");
-			this.locExtender.SetLocalizingId(this.btnHelp, "OKCancelDlgBase.btnHelp");
+			this.locExtender.SetLocalizingId(this.btnHelp, "DialogBoxes.OKCancelDlgBase.HelpButton");
 			this.btnHelp.Location = new System.Drawing.Point(300, 7);
 			this.btnHelp.Margin = new System.Windows.Forms.Padding(5, 7, 0, 7);
 			this.btnHelp.MinimumSize = new System.Drawing.Size(80, 26);
@@ -63,7 +63,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnCancel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnCancel, null);
 			this.locExtender.SetLocalizationComment(this.btnCancel, "Cancel button text on all OK/Cancel dialog boxes.");
-			this.locExtender.SetLocalizingId(this.btnCancel, "OKCancelDlgBase.btnCancel");
+			this.locExtender.SetLocalizingId(this.btnCancel, "DialogBoxes.OKCancelDlgBase.CancelButton");
 			this.btnCancel.Location = new System.Drawing.Point(215, 7);
 			this.btnCancel.Margin = new System.Windows.Forms.Padding(5, 7, 0, 7);
 			this.btnCancel.MinimumSize = new System.Drawing.Size(80, 26);
@@ -82,7 +82,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnOK.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnOK, null);
 			this.locExtender.SetLocalizationComment(this.btnOK, "OK button text on all OK/Cancel dialog boxes.");
-			this.locExtender.SetLocalizingId(this.btnOK, "OKCancelDlgBase.btnOK");
+			this.locExtender.SetLocalizingId(this.btnOK, "DialogBoxes.OKCancelDlgBase.OKButton");
 			this.btnOK.Location = new System.Drawing.Point(130, 7);
 			this.btnOK.Margin = new System.Windows.Forms.Padding(5, 7, 0, 7);
 			this.btnOK.MinimumSize = new System.Drawing.Size(80, 26);
@@ -95,7 +95,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// locExtender
 			// 
-			this.locExtender.LocalizationGroup = null;
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
 			// tblLayoutButtons

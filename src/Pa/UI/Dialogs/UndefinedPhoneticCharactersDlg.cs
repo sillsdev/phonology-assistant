@@ -2,16 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
 
 namespace SIL.Pa.UI.Dialogs
 {
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	public partial class UndefinedPhoneticCharactersDlg : Form
 	{
@@ -20,9 +17,8 @@ namespace SIL.Pa.UI.Dialogs
 		private readonly Dictionary<char, UndefinedPhoneticCharactersInfoList> m_udpciList;
 		private readonly string m_infoFmt;
 		private readonly string m_codepointColFmt =
-			App.GetString("UndefinedPhoneticCharactersDlg.CharacterColumnHeadingFormat", "U+{0:X4}",
-			"Format string for buiding the group heading text for the grid in the undefined phonetic characters dialog. The first parameter is the character and the second is the unicode value.");
-
+			LocalizationManager.GetString("DialogBoxes.UndefinedPhoneticCharactersDlg.CharacterColumnHeadingFormat", "U+{0:X4}");
+		
 		private readonly string m_codepointHdgFmt;
 		private readonly Color m_defaultSelectedRowForeColor;
 		private readonly Color m_defaultSelectedRowBackColor;
@@ -46,12 +42,9 @@ namespace SIL.Pa.UI.Dialogs
 			using (var dlg = new UndefinedPhoneticCharactersDlg(project, App.IPASymbolCache.UndefinedCharacters))
 			{
 				if (App.MainForm != null)
-					App.MainForm.AddOwnedForm(dlg);
-
-				dlg.ShowDialog();
-
-				if (App.MainForm != null)
-					App.MainForm.RemoveOwnedForm(dlg);
+					dlg.ShowDialog(App.MainForm);
+				else
+					dlg.ShowDialog();
 			}
 		}
 
@@ -104,12 +97,11 @@ namespace SIL.Pa.UI.Dialogs
 			var projectName = (project == null ? string.Empty : project.Name);
 			lblInfo.Text = string.Format(m_infoFmt, projectName, Application.ProductName);
 			LoadCharGrid(list);
+
+			m_gridWhere.Tag = null;
+			HandleCharGridRowChanged(null, null);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Add columns to fonts grid
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void AddColumnsToCharsGrid()
 		{
@@ -117,9 +109,9 @@ namespace SIL.Pa.UI.Dialogs
 			DataGridViewColumn col = SilGrid.CreateTextBoxColumn("codepoint");
 			col.SortMode = DataGridViewColumnSortMode.Automatic;
 			m_gridChars.Columns.Add(col);
-			App.RegisterForLocalization(m_gridChars.Columns["codepoint"],
-				"UndefinedPhoneticCharacterDlg.UnicodeNumberColumnHeadingText",
-				"Unicode\nNumber", "Heading for column in undefined phonetic chars. dialog");
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.UndefinedPhoneticCharactersDlg.SymbolsGrid.ColumnHeadings.UnicodeNumber",
+				"Unicode\nNumber", null, col);
 
 			// Add the sample column.
 			col = SilGrid.CreateTextBoxColumn("char");
@@ -127,29 +119,25 @@ namespace SIL.Pa.UI.Dialogs
 			col.DefaultCellStyle.Font = App.PhoneticFont;
 			col.CellTemplate.Style.Font = App.PhoneticFont;
 			m_gridChars.Columns.Add(col);
-			App.RegisterForLocalization(m_gridChars.Columns["char"],
-				"UndefinedPhoneticCharacterDlg.CharacterColumnHeadingText",
-				"Character", "Heading for column in undefined phonetic chars. dialog");
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.UndefinedPhoneticCharactersDlg.SymbolsGrid.ColumnHeadings.Character",
+				"Character", null, col);
 
 			// Add the count number column.
 			col = SilGrid.CreateTextBoxColumn("count");
 			col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
 			col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 			m_gridChars.Columns.Add(col);
-			App.RegisterForLocalization(m_gridChars.Columns["count"],
-				"UndefinedPhoneticCharacterDlg.CountColumnHeadingText",
-				"Count", "Heading for column in undefined phonetic chars. dialog");
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.UndefinedPhoneticCharactersDlg.SymbolsGrid.ColumnHeadings.Count",
+				"Count", null, col);
 
 			m_gridChars.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
 			m_gridChars.AutoResizeColumnHeadersHeight();
 			m_gridChars.Name = Name + "CharsGrid";
-			AppColor.SetGridSelectionColors(m_gridChars, false);
+			App.SetGridSelectionColors(m_gridChars, false);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Add columns to fonts grid
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void AddColumnsToWhereGrid()
 		{
@@ -159,29 +147,29 @@ namespace SIL.Pa.UI.Dialogs
 			col.DefaultCellStyle.Font = App.PhoneticFont;
 			col.CellTemplate.Style.Font = App.PhoneticFont;
 			m_gridWhere.Columns.Add(col);
-			App.RegisterForLocalization(m_gridWhere.Columns["word"],
-				"UndefinedPhoneticCharacterDlg.WordColumnHeadingText", "Transcription",
-				"Heading for column in undefined phonetic chars. dialog");
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.UndefinedPhoneticCharactersDlg.WhereFoundGrid.ColumnHeadings.Transcription",
+				"Transcription", null, col);
 
 			// Add the reference column.
 			col = SilGrid.CreateTextBoxColumn("reference");
 			m_gridWhere.Columns.Add(col);
-			App.RegisterForLocalization(m_gridWhere.Columns["reference"],
-				"UndefinedPhoneticCharacterDlg.ReferenceColumnHeadingText", "Reference",
-				"Heading for column in undefined phonetic chars. dialog");
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.UndefinedPhoneticCharactersDlg.WhereFoundGrid.ColumnHeadings.Reference",
+				"Reference", null, col);
 
 			// Add the data source column.
 			col = SilGrid.CreateTextBoxColumn("datasource");
 			m_gridWhere.Columns.Add(col);
-			App.RegisterForLocalization(m_gridWhere.Columns["datasource"],
-				"UndefinedPhoneticCharacterDlg.DataSourceColumnHeadingText", "Data Source",
-				"Heading for column in undefined phonetic chars. dialog");
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.UndefinedPhoneticCharactersDlg.WhereFoundGrid.ColumnHeadings.DataSource",
+				"Data Source", null, col);
 
 			m_gridWhere.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 			m_gridWhere.AutoResizeColumnHeadersHeight();
 			m_gridWhere.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
 			m_gridWhere.Name = Name + "WhereGrid";
-			AppColor.SetGridSelectionColors(m_gridWhere, false);
+			App.SetGridSelectionColors(m_gridWhere, false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -276,6 +264,12 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (Settings.Default.UndefinedPhoneticCharactersDlgWhereGrid != null)
 				Settings.Default.UndefinedPhoneticCharactersDlgWhereGrid.InitializeGrid(m_gridWhere);
+
+			m_gridChars.AutoResizeColumnHeadersHeight();
+			m_gridChars.ColumnHeadersHeight += 4;
+
+			m_gridWhere.AutoResizeColumnHeadersHeight();
+			m_gridWhere.ColumnHeadersHeight += 4;
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -314,14 +308,15 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void m_gridChars_RowEnter(object sender, DataGridViewCellEventArgs e)
+		private void HandleCharGridRowChanged(object sender, EventArgs e)
 		{
-			if (e.RowIndex < 0)
+			var rowIndex = m_gridChars.CurrentCellAddress.Y;
+			if (rowIndex < 0)
 				return;
 
 			char currChar;
-			if (m_gridChars["char", e.RowIndex].Value is char)
-				currChar = (char)m_gridChars["char", e.RowIndex].Value;
+			if (m_gridChars["char", rowIndex].Value is char)
+				currChar = (char)m_gridChars["char", rowIndex].Value;
 			else
 			{
 				m_gridWhere.Rows.Clear();
@@ -339,7 +334,7 @@ namespace SIL.Pa.UI.Dialogs
 				pgpWhere.Text = string.Format(m_codepointHdgFmt, (int)currChar);
 				m_currUdpcil = m_udpciList[currChar];
 				m_gridWhere.RowCount = m_udpciList[currChar].Count;
-				
+
 				if (m_gridWhere.RowCount > 0)
 					m_gridWhere.CurrentCell = m_gridWhere[0, 0];
 			}
@@ -405,7 +400,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void HandleGridEnter(object sender, EventArgs e)
 		{
-			DataGridView grid = sender as DataGridView;
+			var grid = sender as DataGridView;
 			if (grid != null)
 			{
 				grid.RowsDefaultCellStyle.SelectionForeColor = m_defaultSelectedRowForeColor;

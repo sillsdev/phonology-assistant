@@ -22,7 +22,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			var link = Properties.Settings.Default.SaWebsiteLink;
 			lnkSaWebsite.Text = string.Format(lnkSaWebsite.Text, link);
-			lnkSaWebsite.Links.Add(lnkSaWebsite.Text.IndexOf(link), link.Length);
+			lnkSaWebsite.Links.Add(lnkSaWebsite.Text.IndexOf(link, System.StringComparison.Ordinal), link.Length);
 
 			_appWaitCursorOn = Application.UseWaitCursor;
 			Utils.WaitCursors(false);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SIL.Pa.Model;
 using SilTools;
 
@@ -25,7 +26,7 @@ namespace SIL.Pa.UI.Controls
 			Font = FontHelper.UIFont;
 			RowHeadersVisible = false;
 			BorderStyle = BorderStyle.None;
-			AppColor.SetGridSelectionColors(this, true);
+			App.SetGridSelectionColors(this, true);
 			
 			Fonts = new Dictionary<string, Font>();
 			m_cellDropDown = new CellCustomDropDownList();
@@ -54,8 +55,9 @@ namespace SIL.Pa.UI.Controls
 			((SilButtonColumn)col).ButtonClicked += OnFieldColumnButtonClicked;
 			((SilButtonColumn)col).DrawDefaultComboButtonWidth = false;
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
-			col.HeaderText = GetFieldColumnHeadingText();
 			Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.DataSourcePropertiesDialogs.FieldMappingGrid.ColumnHeadings.Field", "Field", null, col);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -71,26 +73,15 @@ namespace SIL.Pa.UI.Controls
 			((SilButtonColumn)col).DrawDefaultComboButtonWidth = false;
 			col.SortMode = DataGridViewColumnSortMode.NotSortable;
 			col.Visible = false;
-			int i = Columns.Add(col);
-			App.RegisterForLocalization(Columns[i], "FieldMappingGridBase.FontColumnHeadingText", "Font");
-		}
-
-		/// ------------------------------------------------------------------------------------
-		protected virtual string GetFieldColumnHeadingText()
-		{
-			var text = (m_targetFieldColumnHeadingTextHandler != null ?
-				m_targetFieldColumnHeadingTextHandler() : null);
-
-			if (string.IsNullOrEmpty(text))
-				text = App.GetString("FieldMappingGridBase.TargetFieldColumnHeadingText", "Field");
-
-			return text;
+			Columns.Add(col);
+			col.HeaderText = LocalizationManager.GetString(
+				"DialogBoxes.DataSourcePropertiesDialogs.FieldMappingGrid.ColumnHeadings.Font", "Font", null, col);
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public virtual IEnumerable<FieldMapping> Mappings
 		{
-			get { return m_mappings.Where(m => m.Field != null && m.Field.Name != null); }
+			get { return m_mappings.Where(m => m.Field != null); }
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -156,7 +147,9 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected virtual string GetNoMappingText()
 		{
-			return App.GetString("FieldMappingGridBase.NoMappingText", "(no mapping)");
+			return LocalizationManager.GetString(
+				"DialogBoxes.DataSourcePropertiesDialogs.FieldMappingGrid.NoMappingText",
+				"(no mapping)");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -229,13 +222,13 @@ namespace SIL.Pa.UI.Controls
 			string fmt;
 
 			if (fnt.Bold && fnt.Italic)
-				fmt = App.GetString("FieldMappingGridBase.FontDisplayFormatAll", "{0}, {1}pt, Bold, Italic");
+				fmt = LocalizationManager.GetString("DialogBoxes.DataSourcePropertiesDialogs.FieldMappingGrid.FontDisplayFormat.All", "{0}, {1}pt, Bold, Italic");
 			else if (fnt.Bold)
-				fmt = App.GetString("FieldMappingGridBase.FontDisplayFormatBold", "{0}, {1}pt, Bold");
+				fmt = LocalizationManager.GetString("DialogBoxes.DataSourcePropertiesDialogs.FieldMappingGrid.FontDisplayFormat.Bold", "{0}, {1}pt, Bold");
 			else if (fnt.Italic)
-				fmt = App.GetString("FieldMappingGridBase.FontDisplayFormatItalic", "{0}, {1}pt, Italic");
+				fmt = LocalizationManager.GetString("DialogBoxes.DataSourcePropertiesDialogs.FieldMappingGrid.FontDisplayFormat.Italic", "{0}, {1}pt, Italic");
 			else
-				fmt = App.GetString("FieldMappingGridBase.FontDisplayFormat", "{0}, {1}pt");
+				fmt = LocalizationManager.GetString("DialogBoxes.DataSourcePropertiesDialogs.FieldMappingGrid.FontDisplayFormat.Size", "{0}, {1}pt");
 
 			return string.Format(fmt, fnt.FontFamily.Name, (int)fnt.SizeInPoints);
 		}

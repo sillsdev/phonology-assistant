@@ -1,41 +1,16 @@
-// ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2009, SIL International. All Rights Reserved.
-// <copyright from='2009' to='2009' company='SIL International'>
-//		Copyright (c) 2009, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
-// 
-// File: FeatureBaseTests.cs
-// Responsibility: D. Olson
-// 
-// <remarks>
-// </remarks>
-// ---------------------------------------------------------------------------------------------
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using SIL.Pa.Model;
-using SilTools;
 
 namespace SIL.Pa.Tests
 {
-	/// ----------------------------------------------------------------------------------------
-	/// <summary>
-	/// 
-	/// </summary>
 	/// ----------------------------------------------------------------------------------------
 	[TestFixture]
 	public class BFeatureCacheTests
 	{
 		private BFeatureCache m_cache;
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Setup for tests.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[SetUp]
 		public void TestSetup()
@@ -45,8 +20,7 @@ namespace SIL.Pa.Tests
 			var list = new List<Feature>();
 			list.Add(new Feature { Name = "red" });
 			list.Add(new Feature { Name = "blue" });
-
-			ReflectionHelper.CallMethod(m_cache, "LoadFromList", list);
+			m_cache.LoadFromList(list);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -63,7 +37,7 @@ namespace SIL.Pa.Tests
 			var list = new List<Feature>(2);
 			list.Add(new Feature { Name = " -lion" });
 			list.Add(new Feature { Name = " +bear " });
-			ReflectionHelper.CallMethod(m_cache, "LoadFromList", list);
+			m_cache.LoadFromList(list);
 
 			Assert.AreEqual(4, m_cache.Count);
 			Assert.AreEqual("+lion", m_cache[0].Name);
@@ -80,9 +54,9 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void CleanNameForLoad()
 		{
-			Assert.IsNull(ReflectionHelper.GetStrResult(m_cache, "CleanNameForLoad", null));
-			Assert.AreEqual("+dog", ReflectionHelper.GetStrResult(m_cache, "CleanNameForLoad", "   +dog "));
-			Assert.AreEqual("+cat", ReflectionHelper.GetStrResult(m_cache, "CleanNameForLoad", "-cat "));
+			Assert.IsNull(m_cache.CleanNameForLoad(null));
+			Assert.AreEqual("+dog", m_cache.CleanNameForLoad("   +dog "));
+			Assert.AreEqual("+cat", m_cache.CleanNameForLoad("-cat "));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -93,7 +67,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void GetPlusFeatures()
 		{
-			List<Feature> pfeatures = m_cache.PlusFeatures;
+			var pfeatures = m_cache.PlusFeatures.ToList();
 			Assert.AreEqual(2, pfeatures.Count);
 			Assert.IsTrue(pfeatures.Exists(x => x.Name == "+blue"));
 			Assert.IsTrue(pfeatures.Exists(x => x.Name == "+red"));
@@ -107,7 +81,7 @@ namespace SIL.Pa.Tests
 		[Test]
 		public void GetMinusFeatures()
 		{
-			List<Feature> mfeatures = m_cache.MinusFeatures;
+			var mfeatures = m_cache.MinusFeatures.ToList();
 			Assert.AreEqual(2, mfeatures.Count);
 			Assert.IsTrue(mfeatures.Exists(x => x.Name == "-blue"));
 			Assert.IsTrue(mfeatures.Exists(x => x.Name == "-red"));

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Xml;
@@ -15,7 +16,10 @@ namespace SIL.Pa.Processing
 	public class Step
 	{
 		public string XsltFilePath { get; private set; }
-		private readonly XslCompiledTransform m_xslt;
+		
+		private readonly XslCompiledTransform _xslt;
+		private readonly Dictionary<string, XslCompiledTransform> _transformsCache =
+			new Dictionary<string, XslCompiledTransform>();
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -39,37 +43,46 @@ namespace SIL.Pa.Processing
 
 			var xsltFileName = documentNavigator.GetAttribute("href", string.Empty); // No namespace for attributes.
 			var xsltFilePath = Path.Combine(processingFolder, xsltFileName);
-			var xslt = new XslCompiledTransform(true);
+
+			return new Step(xsltFilePath);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private Step(string xsltFilePath)
+		{
+			XsltFilePath = xsltFilePath;
 
 			try
 			{
+				if (!File.Exists(xsltFilePath))
+				{
+					_xslt = new XslCompiledTransform(true);
+					var compiledTransformType = Type.GetType(Path.GetFileNameWithoutExtension(XsltFilePath) +
+						", PaCompiledTransforms, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
+					_xslt.Load(compiledTransformType);
+					return;
+				}
+
+				if (_transformsCache.TryGetValue(xsltFilePath, out _xslt))
+					return;
+
 				// TO DO: If you enable the document() function, restrict the resources that can be accessed
 				// by passing an XmlSecureResolver object to the Transform method.
 				// The XmlResolver used to resolve any style sheets referenced in XSLT import and include elements.
 				var settings = new XsltSettings(true, false);
 				var resolver = new XmlUrlResolver();
 				resolver.Credentials = CredentialCache.DefaultCredentials;
-				xslt.Load(xsltFilePath, settings, resolver);
+				
+				_xslt = new XslCompiledTransform(true);
+				_xslt.Load(XsltFilePath, settings, resolver);
+				_transformsCache[xsltFilePath] = _xslt;
 			}
 			catch (Exception e)
 			{
 				Exception exception = new Exception("Unable to build XSL Transformation filter.", e);
-				exception.Data.Add("XSL Transformation file path", xsltFilePath);
+				exception.Data.Add("XSL Transformation file path", XsltFilePath);
 				throw exception;
 			}
-
-			return new Step(xsltFilePath, xslt);
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		private Step (string xsltFilePath, XslCompiledTransform xslt)
-		{
-			XsltFilePath = xsltFilePath;
-			m_xslt = xslt;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -85,15 +98,16 @@ namespace SIL.Pa.Processing
 			var inputXML = XmlReader.Create(inputStream, readerSettings);
 
 			// OutputSettings corresponds to the xsl:output element of the style sheet.
-			var writerSettings = m_xslt.OutputSettings.Clone();
+			var writerSettings = _xslt.OutputSettings.Clone();
 			if (writerSettings.Indent) // Cause indent="true" to insert line breaks but not tabs.
 				writerSettings.IndentChars = string.Empty; // Even if the document element is html.
 
+			//var outputStream = new MemoryStream();
 			var outputStream = new MemoryStream();
 			var outputXML = XmlWriter.Create(outputStream, writerSettings);
 			try
 			{
-				m_xslt.Transform(inputXML, outputXML);
+				_xslt.Transform(inputXML, outputXML);
 			}
 			catch (Exception e)
 			{
@@ -111,10 +125,6 @@ namespace SIL.Pa.Processing
 			return outputStream;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{
