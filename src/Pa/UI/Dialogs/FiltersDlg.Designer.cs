@@ -99,7 +99,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlFilters.DoubleBuffered = true;
 			this.pnlFilters.DrawOnlyBottomBorder = false;
 			this.pnlFilters.DrawOnlyTopBorder = false;
-			this.pnlFilters.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlFilters.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlFilters, null);
 			this.locExtender.SetLocalizationComment(this.pnlFilters, null);
@@ -312,7 +311,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.m_gridExpressions.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
 			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
 			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;

@@ -157,7 +157,6 @@
 			this.m_sortingGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
 			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
 			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -165,7 +164,6 @@
 			this.m_sortingGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			this.m_sortingGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.m_sortingGrid.DrawTextBoxEditControlBorder = false;
-			this.m_sortingGrid.Font = new System.Drawing.Font("Segoe UI", 9F);
 			this.m_sortingGrid.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
 			this.m_sortingGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.m_sortingGrid.IsDirty = false;

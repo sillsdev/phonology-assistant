@@ -78,7 +78,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.fldSelGridSrchCols.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
 			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
 			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -88,14 +87,12 @@ namespace SIL.Pa.UI.Dialogs
 			this.fldSelGridSrchCols.ColumnHeadersVisible = false;
 			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
 			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
 			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
 			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
 			this.fldSelGridSrchCols.DefaultCellStyle = dataGridViewCellStyle2;
 			this.fldSelGridSrchCols.DrawTextBoxEditControlBorder = false;
-			this.fldSelGridSrchCols.Font = new System.Drawing.Font("Segoe UI", 9F);
 			this.fldSelGridSrchCols.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
 			this.fldSelGridSrchCols.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.fldSelGridSrchCols.IsDirty = false;
@@ -129,7 +126,6 @@ namespace SIL.Pa.UI.Dialogs
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.gbOptions.Controls.Add(this.panel1);
-			this.gbOptions.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.locExtender.SetLocalizableToolTip(this.gbOptions, null);
 			this.locExtender.SetLocalizationComment(this.gbOptions, "Text in frame around check boxes in find dialog box.");
 			this.locExtender.SetLocalizingId(this.gbOptions, "DialogBoxes.FindDlg.OptionsGroupBox");
@@ -295,7 +291,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.lblFindWhat.AutoSize = true;
 			this.tblLayoutFindWhat.SetColumnSpan(this.lblFindWhat, 2);
-			this.lblFindWhat.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.lblFindWhat.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblFindWhat, null);
 			this.locExtender.SetLocalizationComment(this.lblFindWhat, "Label above drop-down box of items to find in find dialog box.");
@@ -403,7 +398,6 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			this.lblSearchColumns.AutoSize = true;
 			this.lblSearchColumns.BackColor = System.Drawing.Color.Transparent;
-			this.lblSearchColumns.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.lblSearchColumns.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblSearchColumns, null);
 			this.locExtender.SetLocalizationComment(this.lblSearchColumns, "Label above column list in find dialog box.");
