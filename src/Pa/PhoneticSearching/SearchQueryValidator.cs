@@ -34,7 +34,7 @@ namespace SIL.Pa.PhoneticSearching
 				VerifySearchItem(query.SearchItem);
 				VerifyPrecedingEnvironment(query.PrecedingEnvironment);
 				VerifyFollowingEnvironment(query.FollowingEnvironment);
-				VerifyPhonesAndSymbols(query.Pattern);
+				VerifyPhonesAndSymbols(query);
 
 				foreach (var item in new[] { query.SearchItem, query.PrecedingEnvironment, query.FollowingEnvironment })
 				{
@@ -339,9 +339,9 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void VerifyPhonesAndSymbols(string pattern)
+		public void VerifyPhonesAndSymbols(SearchQuery query)
 		{
-			var phonesNotInCache = GetPhonesNotInCache(pattern).ToArray();
+			var phonesNotInCache = GetPhonesNotInCache(query).ToArray();
 			if (phonesNotInCache.Length > 0)
 			{
 				var error = new SearchQueryValidationError(
@@ -354,7 +354,7 @@ namespace SIL.Pa.PhoneticSearching
 				Errors.Add(error);
 			}
 
-			var symbolsNotInCache = GetSymbolsNotInInventory(pattern).ToArray();
+			var symbolsNotInCache = GetSymbolsNotInInventory(query.Pattern).ToArray();
 			if (symbolsNotInCache.Length > 0)
 			{
 				var error = new SearchQueryValidationError(
@@ -595,11 +595,16 @@ namespace SIL.Pa.PhoneticSearching
 		///  A list is made of all phones in the pattern that are not in the cache.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private IEnumerable<string> GetPhonesNotInCache(string pattern)
+		private IEnumerable<string> GetPhonesNotInCache(SearchQuery query)
 		{
-			return GetPhonesInPattern(pattern)
-				.Where(p => !App.Project.PhoneCache.ContainsKey(p) && App.IPASymbolCache.ContainsKey(p[0]))
-				.Distinct(StringComparer.Ordinal);
+			return GetPhonesInPattern(query.Pattern)
+				.Where(p => App.IPASymbolCache.ContainsKey(p[0]) &&
+					!App.Project.PhoneCache.GetDoesContainPhone(p, query.IgnoredCharacters, query.IgnoreDiacritics))
+					.Distinct(StringComparer.Ordinal);
+
+			//return GetPhonesInPattern(pattern)
+			//    .Where(p => !App.Project.PhoneCache.ContainsKey(p) && App.IPASymbolCache.ContainsKey(p[0]))
+			//    .Distinct(StringComparer.Ordinal);
 		}
 
 		/// ------------------------------------------------------------------------------------

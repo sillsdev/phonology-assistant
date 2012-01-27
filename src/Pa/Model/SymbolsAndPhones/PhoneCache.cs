@@ -1,12 +1,4 @@
 // ---------------------------------------------------------------------------------------------
-#region // Copyright (c) 2009, SIL International. All Rights Reserved.
-// <copyright from='2009' to='2009' company='SIL International'>
-//		Copyright (c) 2009, SIL International. All Rights Reserved.   
-//    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
-// </copyright> 
-#endregion
 // 
 // File: PhoneCache.cs
 // Responsibility: D. Olson
@@ -15,6 +7,7 @@
 // </remarks>
 // ---------------------------------------------------------------------------------------------
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using SIL.Pa.Properties;
@@ -254,7 +247,7 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public string GetCommaDelimitedPhones(IPASymbolType type)
 		{
-			string[] phones = GetPhonesHavingType(type);
+			var phones = GetPhonesHavingType(type);
 
 			var bldr = new StringBuilder();
 			foreach (var phone in phones)
@@ -284,6 +277,32 @@ namespace SIL.Pa.Model
 		
 			var phoneInfo = this[phone];
 			return (phoneInfo == null ? null : App.IPASymbolCache[phoneInfo.BaseCharacter]);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public bool GetDoesContainPhone(string phone, string ignoredChars, bool ignoreDiacritics)
+		{
+			if (ContainsKey(phone))
+				return true;
+
+			ignoredChars = ignoredChars ?? string.Empty;
+			if (ignoredChars.Length == 0 && !ignoreDiacritics)
+				return false;
+
+			var ph = PhoneWithoutIgnoredStuff(phone, ignoredChars, ignoreDiacritics);
+
+			return Values.Select(phoneInfo => phoneInfo.Phone)
+				.Any(p => ph == PhoneWithoutIgnoredStuff(p, ignoredChars, ignoreDiacritics));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public string PhoneWithoutIgnoredStuff(string phone, string ignoredChars, bool ignoreDiacritics)
+		{
+			var ph = ignoredChars.Aggregate(phone, (curr, ignoredChr) =>
+				curr.Replace(ignoredChr.ToString(CultureInfo.InvariantCulture), string.Empty));
+
+			return App.IPASymbolCache.Values.Where(s => s.Type == IPASymbolType.diacritic)
+				.Select(s => s.Literal).Aggregate(ph, (curr, diacritic) => curr.Replace(diacritic, string.Empty));
 		}
 	}
 
