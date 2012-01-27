@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Media;
 using System.Windows.Forms;
 using Localization;
@@ -114,17 +115,17 @@ namespace SIL.Pa.UI.Controls
 
 			foreach (SearchQueryGroup group in App.Project.SearchQueryGroups)
 			{
-				TreeNode categoryNode = new TreeNode(group.Name);
+				var categoryNode = new TreeNode(group.Name);
 				categoryNode.Tag = group;
 				Nodes.Add(categoryNode);
 
 				if (group.Queries == null)
 					continue;
 
-				foreach (SearchQuery grpQuery in group.Queries)
+				foreach (var grpQuery in group.Queries)
 				{
 					// Create a query node.
-					TreeNode node = new TreeNode();
+					var node = new TreeNode();
 					node.ImageIndex = node.SelectedImageIndex = 2;
 					node.Text = grpQuery.ToString();
 					node.Tag = grpQuery;
@@ -190,15 +191,12 @@ namespace SIL.Pa.UI.Controls
 			// Go through the category nodes.
 			foreach (TreeNode categoryNode in Nodes)
 			{
-				if (categoryNode.Nodes != null)
+				// Go through the category's child nodes (i.e. pattern nodes).
+				foreach (TreeNode patternNode in categoryNode.Nodes)
 				{
-					// Go through the category's child nodes (i.e. pattern nodes).
-					foreach (TreeNode patternNode in categoryNode.Nodes)
-					{
-						var query = patternNode.Tag as SearchQuery;
-						if (query != null)
-							query.Category = categoryNode.Text;
-					}
+					var query = patternNode.Tag as SearchQuery;
+					if (query != null)
+						query.Category = categoryNode.Text;
 				}
 			}
 		}
@@ -210,13 +208,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public bool CategoryExists(string categoryName)
 		{
-			foreach (TreeNode node in Nodes)
-			{
-				if (node.Tag is SearchQueryGroup && node.Text == categoryName)
-					return true;
-			}
-
-			return false;
+			return Nodes.Cast<TreeNode>().Any(n => n.Tag is SearchQueryGroup && n.Text == categoryName);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -250,20 +242,17 @@ namespace SIL.Pa.UI.Controls
 			if (string.IsNullOrEmpty(categoryName) || string.IsNullOrEmpty(queryName))
 				return null;
 
-			foreach (TreeNode categoryNode in Nodes)
+			foreach (TreeNode categoryNode in Nodes.Cast<TreeNode>()
+				.Where(n => n.Text == categoryName))
 			{
-				// First find the category.
-				if (categoryNode.Text == categoryName)
-				{
-					if (categoryNode.Nodes.Count == 0)
-						return null;
+				if (categoryNode.Nodes.Count == 0)
+					return null;
 
-					// Next, find the query name.
-					foreach (TreeNode patternNode in categoryNode.Nodes)
-					{
-						if (patternNode.Text == queryName)
-							return patternNode;
-					}
+				// Next, find the query name.
+				foreach (TreeNode patternNode in categoryNode.Nodes.Cast<TreeNode>()
+				.Where(patternNode => patternNode.Text == queryName))
+				{
+					return patternNode;
 				}
 			}
 
@@ -287,7 +276,7 @@ namespace SIL.Pa.UI.Controls
 					return nodes[0];
 			}
 
-			SearchQueryGroup group = App.Project.SearchQueryGroups.GetGroupFromQueryId(query.Id);
+			var group = App.Project.SearchQueryGroups.GetGroupFromQueryId(query.Id);
 			return GetPatternsNode(group != null ? group.Name : query.Category, query.ToString());
 		}
 
@@ -299,7 +288,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void SavePattern(SearchQuery query)
 		{
-			TreeNode patternNode = GetPatternsNode(query);
+			var patternNode = GetPatternsNode(query);
 			if (patternNode != null)
 			{
 				patternNode.Text = query.ToString();
@@ -664,7 +653,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (e.Button == MouseButtons.Right)
 			{
-				TreeViewHitTestInfo htInfo = HitTest(e.Location);
+				var htInfo = HitTest(e.Location);
 				if (htInfo.Node != null)
 					SelectedNode = htInfo.Node;
 			}
@@ -742,10 +731,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
 			base.OnKeyDown(e);
@@ -773,10 +758,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		protected override void OnItemDrag(ItemDragEventArgs e)
 		{
 			if (IsForToolbarPopup)
@@ -795,10 +776,6 @@ namespace SIL.Pa.UI.Controls
 		#endregion
 
 		#region Methods for deleting Nodes
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Deletes the specified category node.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void DeleteCategory(TreeNode node)
 		{
@@ -831,10 +808,6 @@ namespace SIL.Pa.UI.Controls
 				m_lblNoPatternsMsg.Visible = true;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Deletes the specified pattern node.
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void DeletePattern(TreeNode node, bool showQuestion)
 		{
@@ -908,13 +881,13 @@ namespace SIL.Pa.UI.Controls
 		{
 			// Make sure the category name is unique.
 			int i = 0;
-			string newName = newCategoryName;
+			var newName = newCategoryName;
 			while (CategoryExists(newName))
 				newName = string.Format("{0} ({1})", newCategoryName, ++i);
 
 			newCategoryName = newName;
 			
-			SearchQueryGroup group = new SearchQueryGroup();
+			var group = new SearchQueryGroup();
 			group.Name = newCategoryName;
 			App.Project.SearchQueryGroups.Add(group);
 			App.Project.SearchQueryGroups.Save();
@@ -924,7 +897,7 @@ namespace SIL.Pa.UI.Controls
 			m_lblNoPatternsMsg.Visible = false;
 
 			// Now add the category to the tree, select it and put user in edit mode.
-			TreeNode node = Nodes.Add(newCategoryName);
+			var node = Nodes.Add(newCategoryName);
 			node.Tag = group;
 			SelectedNode = node;
 
@@ -993,10 +966,10 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			// Create a new query object.
-			SearchQuery newquery = query.Clone();
+			var newquery = query.Clone();
 
 			// Make sure we're adding the new node to the correct parent.
-			TreeNode categoryNode = (SelectedNode.Level == 0 ? SelectedNode : SelectedNode.Parent);
+			var categoryNode = (SelectedNode.Level == 0 ? SelectedNode : SelectedNode.Parent);
 			newquery.Category = categoryNode.Text;
 
 			if (forceUniqueName)
@@ -1012,7 +985,7 @@ namespace SIL.Pa.UI.Controls
 					newquery.Name = newName;
 			}
 
-			SearchQueryGroup group = App.Project.SearchQueryGroups[categoryNode.Index];
+			var group = App.Project.SearchQueryGroups[categoryNode.Index];
 
 			// Make sure we have a list to add to.
 			if (group.Queries == null)
@@ -1023,7 +996,7 @@ namespace SIL.Pa.UI.Controls
 			App.Project.SearchQueryGroups.Save();
 
 			// Now create a new tree node for it.
-			TreeNode node = new TreeNode();
+			var node = new TreeNode();
 			node.Text = newquery.ToString();
 			node.Tag = newquery;
 			node.Name = newquery.Id.ToString();
