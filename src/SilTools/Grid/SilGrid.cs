@@ -999,7 +999,13 @@ namespace SilTools
 				InvalidateRowInFullRowSelectMode(_prevRowIndex);
 				InvalidateRowInFullRowSelectMode(CurrentCellAddress.Y);
 				_prevRowIndex = CurrentCellAddress.Y;
-				OnCurrentRowChanged(EventArgs.Empty);
+
+				// REVIEW: So far, it seems to work that OnCurrentRowChanged is not
+				// invoked unless the handle is created. It's possible that somewhere
+				// down the road, a client will need it to be invoked before the handle
+				// is created. But I hope not.
+				if (IsHandleCreated && !Disposing)
+					BeginInvoke((Action<EventArgs>)OnCurrentRowChanged, EventArgs.Empty);
 			}
 		}
 
@@ -1105,7 +1111,7 @@ namespace SilTools
 				OnDrawExtendedColumnHeaderRow(e);
 			}
 
-			if (!e.Handled && Focused & PaintFullRowFocusRectangle &&
+			if (!e.Handled && Focused && PaintFullRowFocusRectangle &&
 				SelectionMode == DataGridViewSelectionMode.FullRowSelect)
 			{
 				OnDrawFocusRectangle(e);
@@ -1153,6 +1159,18 @@ namespace SilTools
 		/// --------------------------------------------------------------------------------------------
 		protected virtual void OnDrawFocusRectangle(DataGridViewCellPaintingEventArgs e)
 		{
+			DrawFocusRectangleIfFocused(e);
+
+			if (Focused && DrawFocusRectangle != null)
+				DrawFocusRectangle(this, e);
+		}
+
+		/// --------------------------------------------------------------------------------------------
+		public void DrawFocusRectangleIfFocused(DataGridViewCellPaintingEventArgs e)
+		{
+			if (!Focused)
+				return;
+
 			e.Handled = true;
 			var paintParts = e.PaintParts;
 			var rc = e.CellBounds;
@@ -1190,8 +1208,6 @@ namespace SilTools
 					e.Graphics.DrawLine(pen, rc.Right - 1, rc.Y, rc.Right - 1, rc.Bottom - 1);
 			}
 
-			if (DrawFocusRectangle != null)
-				DrawFocusRectangle(this, e);
 		}
 
 		/// ------------------------------------------------------------------------------------
