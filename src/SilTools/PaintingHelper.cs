@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
@@ -39,6 +40,38 @@ namespace SilTools
 		#endregion
 
 		public static int WM_NCPAINT = 0x85;
+		/// ------------------------------------------------------------------------------------
+ 		/// <summary>
+		/// Returns a darkened version of the specified image.
+		/// </summary>
+		/// ------------------------------------------------------------------------------------
+		public static Image MakeHotImage(Image img)
+		{
+			if (img == null)
+				return null;
+
+			float[][] colorMatrixElements =
+			{
+				new[] {0.6f, 0, 0, 0, 0},
+				new[] {0, 0.6f, 0, 0, 0},
+				new[] {0, 0, 0.6f, 0, 0},
+				new[] {0, 0, 0, 1f, 0},
+				new[] {0.1f, 0.1f, 0.1f, 0, 1}
+			};
+
+			img = img.Clone() as Image;
+
+			using (var imgattr = new ImageAttributes())
+			using (var g = Graphics.FromImage(img))
+			{
+				var cm = new ColorMatrix(colorMatrixElements);
+				var rc = new Rectangle(0, 0, img.Width, img.Height);
+				imgattr.SetColorMatrix(cm);
+				g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+				g.DrawImage(img, rc, 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, imgattr);
+				return img;
+			}
+		}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
