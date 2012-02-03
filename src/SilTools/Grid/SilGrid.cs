@@ -1159,9 +1159,17 @@ namespace SilTools
 		/// --------------------------------------------------------------------------------------------
 		protected virtual void OnDrawFocusRectangle(DataGridViewCellPaintingEventArgs e)
 		{
+			if (!Focused)
+				return;
+			
+			e.Handled = true;
+			var paintParts = e.PaintParts;
+			paintParts &= ~DataGridViewPaintParts.Focus;
+			e.Paint(e.CellBounds, paintParts);
+
 			DrawFocusRectangleIfFocused(e);
 
-			if (Focused && DrawFocusRectangle != null)
+			if (DrawFocusRectangle != null)
 				DrawFocusRectangle(this, e);
 		}
 
@@ -1171,12 +1179,7 @@ namespace SilTools
 			if (!Focused)
 				return;
 
-			e.Handled = true;
-			var paintParts = e.PaintParts;
 			var rc = e.CellBounds;
-
-			paintParts &= ~DataGridViewPaintParts.Focus;
-			e.Paint(rc, paintParts);
 
 			int rowAboveCurrent = (CurrentCellAddress.Y == FirstDisplayedScrollingRowIndex ?
 				-1 : CurrentCellAddress.Y - 1);
