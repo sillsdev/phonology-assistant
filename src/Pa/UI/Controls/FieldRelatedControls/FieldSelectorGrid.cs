@@ -76,8 +76,8 @@ namespace SIL.Pa.UI.Controls
 			// set its order so it always sorts to the top of the list.
 			// Note for Mono Linux, this must preceed the foreach() loop because 
 			// Rows.Insert() has a bug--http://bugzilla.xamarin.com/show_bug.cgi?id=821
-			Rows.Add(new object[] { false,
-				App.GetString("FieldSelectorGrid.FieldChooserGridSelectAllText", "Select All"), -100 });
+			Rows.Add(new object[] { false, LocalizationManager.GetString(
+				"DialogBoxes.DataSourcePropertiesDialogs.FieldSelectorGrid.SelectAllText", "Select All"), -100 });
 
 			foreach (var rowData in fieldsInList)
 			{
