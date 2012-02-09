@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using SilTools;
@@ -31,12 +32,12 @@ namespace SIL.Pa.UI.Controls
 			bldr.AppendLine("{\\fonttbl");
 			foreach (var field in App.Project.Fields.Where(f => f.Font != null))
 			{
-				bldr.AppendLine(string.Format(fontFmt, i, field.Font.Name));
+				bldr.AppendLine(string.Format(fontFmt, i, field.Font.Name.ToString(CultureInfo.InvariantCulture)));
 				fontNumbers[field.Name] = i++;
 			}
 
 			// Now write the UI font to the font table.
-			bldr.AppendFormat(fontFmt, i, FontHelper.UIFont.Name);
+			bldr.AppendFormat(fontFmt, i, FontHelper.UIFont.Name.ToString(CultureInfo.InvariantCulture));
 
 			return bldr.Append("}").ToString();
 		}
@@ -51,10 +52,10 @@ namespace SIL.Pa.UI.Controls
 			const string fontFmt = "{{\\f{0}\\fnil {1};}}";
 
 			// Save the font information that will be written to the RTF.
-			StringBuilder bldr = new StringBuilder();
+			var bldr = new StringBuilder();
 			bldr.AppendLine("{\\fonttbl");
 			for (int i = 0; i < fonts.Length; i++)
-				bldr.AppendLine(string.Format(fontFmt, i, fonts[i].Name));
+				bldr.AppendLine(string.Format(fontFmt, i, fonts[i].Name.ToString(CultureInfo.InvariantCulture)));
 
 			return bldr.Append("}").ToString();
 		}
@@ -86,7 +87,7 @@ namespace SIL.Pa.UI.Controls
 				return string.Empty;
 
 			colorReferences = new Dictionary<int,int>();
-			StringBuilder bldr = new StringBuilder("{\\colortbl ;");
+			var bldr = new StringBuilder("{\\colortbl ;");
 			
 			for (int i = 0; i < colors.Count; i++)
 			{

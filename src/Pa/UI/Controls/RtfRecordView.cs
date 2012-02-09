@@ -122,6 +122,15 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override void OnKeyDown(KeyEventArgs e)
+		{
+			base.OnKeyDown(e);
+
+			if (e.Shift && e.Control && e.KeyCode == Keys.C)
+				Clipboard.SetData(DataFormats.Text, Rtf);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Store the dots per inch value;
 		/// </summary>
@@ -130,14 +139,10 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnHandleCreated(e);
 
-			using (Graphics g = CreateGraphics())
+			using (var g = CreateGraphics())
 				m_pixelsPerInch = g.DpiX;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		public void UpdateFonts()
 		{
@@ -180,7 +185,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (entry == null)
 			{
-				m_recEntry = entry;
+				m_recEntry = null;
 				Rtf = string.Empty;
 				return;
 			}
@@ -711,7 +716,6 @@ namespace SIL.Pa.UI.Controls
 			// The key to this dictionary is the column number 
 			subColWidths = new Dictionary<int, List<int>>();
 			firstLineWidths = new List<int>();
-			List<int> maxSubColWidths;
 
 			RTFFieldInfo firstField;
 			RTFFieldInfo secondField;
@@ -725,14 +729,12 @@ namespace SIL.Pa.UI.Controls
 				// Iterate through the interlinear columns.
 				for (int col = 0; col < numInterlinearColumns; col++)
 				{
-					maxSubColWidths = new List<int>();
+					var maxSubColWidths = new List<int>();
 					int totalColWidth = 0;
-					int numSubColumnsInCurrCol;
+					
 					// Test to see if there is only 1 interlinear field
-					if (secondField == null || secondField.parsedColValues == null)
-						numSubColumnsInCurrCol = 0;
-					else
-						numSubColumnsInCurrCol = secondField.parsedColValues[col].Length;
+					var numSubColumnsInCurrCol = (secondField == null || secondField.parsedColValues == null ?
+						0 : secondField.parsedColValues[col].Length);
 
 					int firstLineColWidth = TextRenderer.MeasureText(g,
 						firstField.columnValues[col], firstLineFont, Size.Empty,
@@ -910,13 +912,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="fieldContent"></param>
-		/// <param name="startIndex"></param>
-		/// <returns></returns>
-		/// ------------------------------------------------------------------------------------
 		private static int FindPotentialSubColEnd(string fieldContent, int startIndex)
 		{
 			if (startIndex == fieldContent.Length)
@@ -956,9 +951,7 @@ namespace SIL.Pa.UI.Controls
 
 			// When indexes are not all the same then find the index
 			// with the smallest value and set all of them to that value.
-			int minIndex = int.MaxValue;
-			for (int i = 0; i < indexes.Length; i++)
-				minIndex = Math.Min(minIndex, indexes[i]);
+			int minIndex = indexes.Concat(new[] { int.MaxValue }).Min();
 
 			for (int i = 0; i < indexes.Length; i++)
 				indexes[i] = minIndex;
