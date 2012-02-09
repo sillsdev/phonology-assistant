@@ -126,7 +126,6 @@ namespace SIL.Pa.UI.Controls
 			this.header.DoubleBuffered = true;
 			this.header.DrawOnlyBottomBorder = false;
 			this.header.DrawOnlyTopBorder = false;
-			this.header.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.header.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.header.Location = new System.Drawing.Point(0, 0);
 			this.header.MnemonicGeneratesClick = true;

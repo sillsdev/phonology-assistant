@@ -514,7 +514,7 @@ namespace SIL.Pa.UI.Controls
 			CurrentMask = _emptyMask;
 			AdjustColumnWidth();
 
-			if (Items.Count >= 0)
+			if (Items.Count > 0)
 				SelectedIndices.Add(0);
 
 			EndUpdate();

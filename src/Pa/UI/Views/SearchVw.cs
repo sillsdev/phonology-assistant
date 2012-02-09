@@ -148,7 +148,7 @@ namespace SIL.Pa.UI.Views
 			if (msg.Msg == 0x100 && keyData == m_savePatternHotKey)
 			{
 				// Make sure the button is enabled.
-				TMItemProperties itemProps = m_tmAdapter.GetItemProperties("tbbSavePattern");
+				var itemProps = m_tmAdapter.GetItemProperties("tbbSavePattern");
 				if (itemProps != null && itemProps.Enabled)
 				{
 					// Make sure the user isn't in the middle of editing a saved pattern's name.

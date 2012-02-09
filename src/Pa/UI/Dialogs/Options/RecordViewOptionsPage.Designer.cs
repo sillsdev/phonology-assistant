@@ -95,7 +95,6 @@
 			this.fldSelGridRecView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
 			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
 			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -104,7 +103,6 @@
 			this.fldSelGridRecView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.fldSelGridRecView.ColumnHeadersVisible = false;
 			this.fldSelGridRecView.DrawTextBoxEditControlBorder = false;
-			this.fldSelGridRecView.Font = new System.Drawing.Font("Segoe UI", 9F);
 			this.fldSelGridRecView.FullRowFocusRectangleColor = System.Drawing.SystemColors.ControlDark;
 			this.fldSelGridRecView.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(174)))));
 			this.fldSelGridRecView.IsDirty = false;
@@ -139,7 +137,6 @@
 			this.lblShowFields.AutoEllipsis = true;
 			this.lblShowFields.AutoSize = true;
 			this._tableLayoutColDisplayOrder.SetColumnSpan(this.lblShowFields, 2);
-			this.lblShowFields.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.lblShowFields.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.lblShowFields, null);
 			this.locExtender.SetLocalizationComment(this.lblShowFields, null);

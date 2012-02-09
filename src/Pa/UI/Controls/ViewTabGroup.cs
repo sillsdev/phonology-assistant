@@ -405,11 +405,26 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void RefreshCaption()
 		{
-			m_pnlCaption.Invalidate();
-			m_captionText = m_currTab.Text;
+			// These try/catches were added because when someone was localizing into Chinese,
+			// the line where m_captionText is being set was throwing an exception right
+			// after returning from the localizing dialog. The error message was in Chinese
+			// (bad Chinese, so I'm told) and wasn't really clear about the problem. I assume
+			// m_currTab was null, but in looking through this class, I can't see how that
+			// could ever be. After the exception and PA is restarted, everything works
+			// fine, so I'm really not sure what's happening or how to fix it.
+			try
+			{
+				m_pnlCaption.Invalidate();
+				m_captionText = m_currTab.Text;
+			}
+			catch { }
 
-			var tip = (m_currTab.HelpToolTipProvider == null ? null : m_currTab.HelpToolTipProvider());
-			m_tooltip.SetToolTip(m_btnHelp, tip);
+			try
+			{
+				var tip = (m_currTab.HelpToolTipProvider == null ? null : m_currTab.HelpToolTipProvider());
+				m_tooltip.SetToolTip(m_btnHelp, tip);
+			}
+			catch { }
 		}
 
 		/// ------------------------------------------------------------------------------------

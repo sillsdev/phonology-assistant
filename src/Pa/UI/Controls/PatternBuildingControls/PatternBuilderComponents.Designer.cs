@@ -194,7 +194,6 @@ namespace SIL.Pa.UI.Controls
 			// 
 			this.lvClasses.AppliesTo = SIL.Pa.UI.Controls.ClassListView.ListApplicationType.SearchViewWnd;
 			this.lvClasses.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lvClasses.Font = new System.Drawing.Font("Lucida Sans", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.lvClasses.FullRowSelect = true;
 			this.lvClasses.HideSelection = false;
 			this.locExtender.SetLocalizableToolTip(this.lvClasses, null);
