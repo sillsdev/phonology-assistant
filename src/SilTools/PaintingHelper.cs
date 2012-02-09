@@ -26,15 +26,39 @@ namespace SilTools
 	/// ----------------------------------------------------------------------------------------
 	public class PaintingHelper
 	{
-		#region Windows API imported methods
+		#region OS-specific stuff
+#if !__MonoCS__
 		[DllImport("User32.dll")]
 		extern static public IntPtr GetWindowDC(IntPtr hwnd);
+#else
+		static public IntPtr GetWindowDC(IntPtr hwnd)
+		{
+			Console.WriteLine("Warning--using unimplemented method GetWindowDC"); // FIXME Linux
+			return(IntPtr.Zero);
+		}
+#endif
 
+#if !__MonoCS__
 		[DllImport("User32.dll")]
 		extern static public int ReleaseDC(IntPtr hwnd, IntPtr hdc);
+#else
+		static public int ReleaseDC(IntPtr hwnd, IntPtr hdc)
+		{
+			Console.WriteLine("Warning--using unimplemented method ReleaseDC"); // FIXME Linux
+			return(-1);
+		}
+#endif
 
+#if !__MonoCS__
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern IntPtr GetParent(IntPtr hWnd);
+#else
+		public static IntPtr GetParent(IntPtr hWnd)
+		{
+			Console.WriteLine("Warning--using unimplemented method GetParent"); // FIXME Linux
+			return(IntPtr.Zero);
+		}
+#endif
 
 		#endregion
 
@@ -59,15 +83,20 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		public static void DrawCustomBorder(Control ctrl, Color clrBorder)
 		{
-			IntPtr hdc = GetWindowDC(ctrl.Handle);
-
-			using (Graphics g = Graphics.FromHdc(hdc))
-			{
-				Rectangle rc = new Rectangle(0, 0, ctrl.Width, ctrl.Height);
-				ControlPaint.DrawBorder(g, rc, clrBorder, ButtonBorderStyle.Solid);
+			if (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX) {
+				// FIXME Linux - is custom border needed on Linux?
+			} else { // Windows
+				IntPtr hdc = GetWindowDC(ctrl.Handle);
+	
+				if (hdc != IntPtr.Zero) {
+					using (Graphics g = Graphics.FromHdc(hdc))
+					{
+						Rectangle rc = new Rectangle(0, 0, ctrl.Width, ctrl.Height);
+						ControlPaint.DrawBorder(g, rc, clrBorder, ButtonBorderStyle.Solid);
+					}
+					ReleaseDC(ctrl.Handle, hdc);
+				}
 			}
-
-			ReleaseDC(ctrl.Handle, hdc);
 		}
 
 		/// ------------------------------------------------------------------------------------

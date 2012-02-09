@@ -209,6 +209,7 @@ namespace SIL.Pa.UI.Dialogs
 		protected virtual void HandleCancelClick(object sender, EventArgs e)
 		{
 			m_cancelButtonPressed = true;
+			Close(); // explicidly close since we don't set btnCancel.DialogResult = DialogResult.Cancel
 		}
 
 		/// ------------------------------------------------------------------------------------

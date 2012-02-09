@@ -184,16 +184,43 @@ namespace SIL.Pa.UI.Controls
 		#endregion
 
 		#region Imported functions
+#if !__MonoCS__
 		[DllImport("Mpr.dll", EntryPoint = "WNetOpenEnumA", CallingConvention = CallingConvention.Winapi)]
 		private static extern ErrorCodes WNetOpenEnum(ResourceScope dwScope, ResourceType dwType,
 			ResourceUsage dwUsage, NETRESOURCE p, out IntPtr lphEnum);
-
+#else
+		private static ErrorCodes WNetOpenEnum(ResourceScope dwScope, ResourceType dwType,
+			ResourceUsage dwUsage, NETRESOURCE p, out IntPtr lphEnum)
+		{
+			Console.WriteLine("Warning--using unimplemented method WNetOpenEnum"); // FIXME Linux
+			lphEnum = IntPtr.Zero;
+			return(ErrorCodes.NO_ERROR);
+		}
+#endif
+		
+#if !__MonoCS__
 		[DllImport("Mpr.dll", EntryPoint = "WNetCloseEnum", CallingConvention = CallingConvention.Winapi)]
 		private static extern ErrorCodes WNetCloseEnum(IntPtr hEnum);
+#else
+		private static ErrorCodes WNetCloseEnum(IntPtr hEnum)
+		{
+			Console.WriteLine("Warning--using unimplemented method WNetCloseEnum"); // FIXME Linux
+			return(ErrorCodes.NO_ERROR);
+		}
+#endif
 
+#if !__MonoCS__
 		[DllImport("Mpr.dll", EntryPoint = "WNetEnumResourceA", CallingConvention = CallingConvention.Winapi)]
 		private static extern ErrorCodes WNetEnumResource(IntPtr hEnum, ref uint lpcCount,
 			IntPtr buffer, ref uint lpBufferSize);
+#else
+		private static ErrorCodes WNetEnumResource(IntPtr hEnum, ref uint lpcCount,
+			IntPtr buffer, ref uint lpBufferSize)
+		{
+			Console.WriteLine("Warning--using unimplemented method WNetEnumResource"); // FIXME Linux
+			return(ErrorCodes.NO_ERROR);
+		}
+#endif
 
 		#endregion
 

@@ -33,8 +33,9 @@ namespace SIL.Pa.TestUtils
 			Stream stream = assembly.GetManifestResourceStream(
 				"SIL.SpeechTools.TestUtils.EmptyTestSaDB.mdb");
 
-			// CodeBase prepends "file:/", which must be removed.
-			m_dbDir = Path.GetDirectoryName(assembly.CodeBase).Substring(6);
+			// CodeBase prepends "file:/" (Win) or "file:" (Linux), which must be removed.
+			int prefixLen = (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX) ? 5 : 6;
+			m_dbDir = Path.GetDirectoryName(assembly.CodeBase).Substring(prefixLen);
 			m_dbPath = Path.Combine(m_dbDir, "!emptytestsadb-" + DateTime.Now.Millisecond.ToString("X5") + ".mdb");
 			DeleteDB();
 

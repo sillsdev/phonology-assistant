@@ -234,8 +234,11 @@ namespace SIL.Pa.UI.Controls
 
 			if (!DesignMode)
 			{
+// FIXME Linux - make this work in Linux too
+#if !__MonoCS__
 				m_tooltip.SetToolTip(m_btnLeft, LocalizationManager.GetString("Views.ScrollTabsLeftToolTipText", "Scroll Left"));
 				m_tooltip.SetToolTip(m_btnRight, LocalizationManager.GetString("Views.ScrollTabsRightToolTipText", "Scroll Right"));
+#endif
 			}
 		}
 

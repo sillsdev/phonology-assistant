@@ -1,7 +1,7 @@
 C:\Phonology Assistant\src\PaFWDataSourceAddOn\obj\Debug\ResolveAssemblyReference.cache
 C:\Phonology Assistant\src\PaFWDataSourceAddOn\obj\Release\ResolveAssemblyReference.cache
-C:\Phonology Assistant\Output\Debug\AddOns\PaFWDataSourceAddOn.dll
-C:\Phonology Assistant\Output\Debug\AddOns\PaFWDataSourceAddOn.pdb
+C:\Phonology Assistant\Output\Debug-Windows\AddOns\PaFWDataSourceAddOn.dll
+C:\Phonology Assistant\Output\Debug-Windows\AddOns\PaFWDataSourceAddOn.pdb
 C:\Phonology Assistant\src\PaFWDataSourceAddOn\obj\Debug\PaFWDataSourceAddOn.dll
 C:\Phonology Assistant\src\PaFWDataSourceAddOn\obj\Debug\PaFWDataSourceAddOn.pdb
 C:\Phonology Assistant\Output\Release\AddOns\PaFWDataSourceAddOn.dll

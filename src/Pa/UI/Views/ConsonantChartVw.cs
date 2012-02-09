@@ -29,7 +29,7 @@ namespace SIL.Pa.UI.Views
 		{
 			Settings.Default.ConsonantChartColHdrHeight = _chartGrid.ColumnHeadersHeight;
 			Settings.Default.ConsonantChartRowHdrWidth = _chartGrid.RowHeadersWidth;
-			Settings.Default.HtmlConsonantChartVisible = _htmlVw.Visible;
+			Settings.Default.HtmlConsonantChartVisible = _htmlVw != null ? _htmlVw.Visible : false;
 			
 			base.OnHandleDestroyed(e);
 		}

@@ -343,7 +343,17 @@ namespace SIL.Pa.UI
 
 			vwTabGroup.AddTab(tab);
 			
-			vwTabGroup.Visible = true;
+			if (Type.GetType("Mono.Runtime") != null) // running Mono (any platform)
+			{
+				this.Controls.Remove(vwTabGroup); // work-around for bug in Mono--POSSIBLY https://bugzilla.novell.com/show_bug.cgi?id=597582
+				vwTabGroup.Visible = true;
+				this.Controls.Add(vwTabGroup);
+
+			}
+			else // running .NET
+			{
+				vwTabGroup.Visible = true;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -381,7 +391,9 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected override void OnActivated(EventArgs e)
 		{
-			Utils.UpdateWindow(Handle);
+			if (Environment.OSVersion.Platform != PlatformID.Unix && Environment.OSVersion.Platform != PlatformID.MacOSX) {
+				Utils.UpdateWindow(Handle);
+			}
 			base.OnActivated(e);
 		}
 
