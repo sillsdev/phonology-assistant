@@ -31,9 +31,10 @@ namespace SIL.Pa.UI.Views
 		private void InitializeComponent()
 		{
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
-			this.paPanel1 = new SilTools.Controls.SilPanel();
-			this.rtfRecVw = new SIL.Pa.UI.Controls.RtfRecordView();
 			this.pnlGrid = new SilTools.Controls.SilPanel();
+			this.paPanel1 = new SilTools.Controls.SilPanel();
+			this._htmlRecView = new SIL.Pa.UI.Controls.HtmlRecordView();
+			this._rtfRecVw = new SIL.Pa.UI.Controls.RtfRecordView();
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
@@ -64,6 +65,25 @@ namespace SIL.Pa.UI.Views
 			this.splitOuter.TabIndex = 0;
 			this.splitOuter.TabStop = false;
 			// 
+			// pnlGrid
+			// 
+			this.pnlGrid.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+			this.pnlGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlGrid.ClipTextForChildControls = true;
+			this.pnlGrid.ControlReceivingFocusOnMnemonic = null;
+			this.pnlGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pnlGrid.DoubleBuffered = true;
+			this.pnlGrid.DrawOnlyBottomBorder = false;
+			this.pnlGrid.DrawOnlyTopBorder = false;
+			this.pnlGrid.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this.pnlGrid.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.pnlGrid.Location = new System.Drawing.Point(10, 10);
+			this.pnlGrid.MnemonicGeneratesClick = false;
+			this.pnlGrid.Name = "pnlGrid";
+			this.pnlGrid.PaintExplorerBarBackground = false;
+			this.pnlGrid.Size = new System.Drawing.Size(656, 361);
+			this.pnlGrid.TabIndex = 0;
+			// 
 			// paPanel1
 			// 
 			this.paPanel1.BackColor = System.Drawing.SystemColors.Window;
@@ -71,10 +91,12 @@ namespace SIL.Pa.UI.Views
 			this.paPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.paPanel1.ClipTextForChildControls = true;
 			this.paPanel1.ControlReceivingFocusOnMnemonic = null;
-			this.paPanel1.Controls.Add(this.rtfRecVw);
+			this.paPanel1.Controls.Add(this._htmlRecView);
+			this.paPanel1.Controls.Add(this._rtfRecVw);
 			this.paPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.paPanel1.DoubleBuffered = false;
 			this.paPanel1.DrawOnlyBottomBorder = false;
+			this.paPanel1.DrawOnlyTopBorder = false;
 			this.paPanel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.paPanel1.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.paPanel1.Location = new System.Drawing.Point(10, 0);
@@ -85,37 +107,27 @@ namespace SIL.Pa.UI.Views
 			this.paPanel1.Size = new System.Drawing.Size(656, 79);
 			this.paPanel1.TabIndex = 0;
 			// 
-			// rtfRecVw
+			// _htmlRecView
 			// 
-			this.rtfRecVw.BackColor = System.Drawing.SystemColors.Window;
-			this.rtfRecVw.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.rtfRecVw.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.rtfRecVw.Location = new System.Drawing.Point(4, 4);
-			this.rtfRecVw.Name = "rtfRecVw";
-			this.rtfRecVw.ReadOnly = true;
-			this.rtfRecVw.Size = new System.Drawing.Size(650, 73);
-			this.rtfRecVw.TabIndex = 0;
-			this.rtfRecVw.TabStop = false;
-			this.rtfRecVw.Text = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidExportAsToolTip;
-			this.rtfRecVw.WordWrap = false;
+			this._htmlRecView.AllowWebBrowserDrop = false;
+			this._htmlRecView.Location = new System.Drawing.Point(322, 7);
+			this._htmlRecView.MinimumSize = new System.Drawing.Size(20, 20);
+			this._htmlRecView.Name = "_htmlRecView";
+			this._htmlRecView.Size = new System.Drawing.Size(329, 67);
+			this._htmlRecView.TabIndex = 1;
 			// 
-			// pnlGrid
+			// _rtfRecVw
 			// 
-			this.pnlGrid.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
-			this.pnlGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pnlGrid.ClipTextForChildControls = true;
-			this.pnlGrid.ControlReceivingFocusOnMnemonic = null;
-			this.pnlGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pnlGrid.DoubleBuffered = true;
-			this.pnlGrid.DrawOnlyBottomBorder = false;
-			this.pnlGrid.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			this.pnlGrid.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.pnlGrid.Location = new System.Drawing.Point(10, 10);
-			this.pnlGrid.MnemonicGeneratesClick = false;
-			this.pnlGrid.Name = "pnlGrid";
-			this.pnlGrid.PaintExplorerBarBackground = false;
-			this.pnlGrid.Size = new System.Drawing.Size(656, 361);
-			this.pnlGrid.TabIndex = 0;
+			this._rtfRecVw.BackColor = System.Drawing.SystemColors.Window;
+			this._rtfRecVw.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this._rtfRecVw.Location = new System.Drawing.Point(4, 4);
+			this._rtfRecVw.Name = "_rtfRecVw";
+			this._rtfRecVw.ReadOnly = true;
+			this._rtfRecVw.Size = new System.Drawing.Size(260, 73);
+			this._rtfRecVw.TabIndex = 0;
+			this._rtfRecVw.TabStop = false;
+			this._rtfRecVw.Text = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidExportAsToolTip;
+			this._rtfRecVw.WordWrap = false;
 			// 
 			// DataCorpusVw
 			// 
@@ -136,7 +148,8 @@ namespace SIL.Pa.UI.Views
 
 		private System.Windows.Forms.SplitContainer splitOuter;
 		private SilPanel paPanel1;
-		private SIL.Pa.UI.Controls.RtfRecordView rtfRecVw;
+		private SIL.Pa.UI.Controls.RtfRecordView _rtfRecVw;
 		private SilPanel pnlGrid;
+		private Controls.HtmlRecordView _htmlRecView;
 	}
 }

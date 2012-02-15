@@ -396,6 +396,9 @@
     <Compile Include="UI\Controls\Histogram.Designer.cs">
       <DependentUpon>Histogram.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Controls\HtmlRecordView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\Controls\LocalWindowsHook.cs" />
     <Compile Include="UI\Controls\NetworkTreeView.cs">
       <SubType>Component</SubType>
