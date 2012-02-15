@@ -76,7 +76,7 @@ namespace SIL.Pa.Processing
 				}
 				else
 				{
-#if !__MonoCS__ // Mono seems to not support pre-compiled XSLT
+#if !__MonoCS__ // MS didn't publish API for pre-compiled XSLT - http://tinyurl.com/mono-compiled-xslt and http://www.mono-project.com/XML#System.Xml.XPath_and_System.Xml.Xsl_2.0
 					_xslt = new XslCompiledTransform(true);
 					var compiledTransformType = Type.GetType(Path.GetFileNameWithoutExtension(XsltFilePath) +
 						", PaCompiledTransforms, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
