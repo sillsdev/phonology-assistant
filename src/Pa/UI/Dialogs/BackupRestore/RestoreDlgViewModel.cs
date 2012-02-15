@@ -385,7 +385,8 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public void Modify(string path, string dataSourcePath, bool addToRecentlyUsedProjectsList)
 		{
-			var papFilePath = Path.Combine(path, PapFile);
+			// .xml file set up with Windows-style paths so replace with appropriate separator
+			var papFilePath = Path.Combine(path, PapFile.Replace('\\',Path.DirectorySeparatorChar));
 			if (!File.Exists(papFilePath))
 				return;
 
@@ -396,7 +397,12 @@ namespace SIL.Pa.UI.Dialogs
 			foreach (var dataSource in prj.DataSources.Where(ds => ds.SourceFile != null))
 			{
 				var newPath = dataSourcePath ?? Path.GetDirectoryName(papFilePath);
-				var filename = Path.GetFileName(dataSource.SourceFile);
+				var filename = dataSource.SourceFile;
+				// like Path.GetFileName(), keep only filename portion but
+				// using Windows separator, even on Linux
+				var lastSlash = filename.LastIndexOf('\\');
+				if (lastSlash >= 0)
+					filename = filename.Substring(lastSlash + 1);
 				dataSource.SourceFile = Path.Combine(newPath, filename);
 			}
 
