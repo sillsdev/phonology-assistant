@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Localization;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -55,13 +56,17 @@ namespace SIL.Pa.UI.Controls
 			RightColumn = grid.Columns[i] as DataGridViewTextBoxColumn;
 
 			grid.CellPainting += HandleCellPainting;
+			grid.CellMouseClick += HandleGridCellMouseClick;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
 			if (m_grid != null)
+			{
 				m_grid.CellPainting -= HandleCellPainting;
+				m_grid.CellMouseClick -= HandleGridCellMouseClick;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -122,6 +127,16 @@ namespace SIL.Pa.UI.Controls
 				int colIndex = m_grid.CurrentCellAddress.X;
 				return (colIndex == LeftColumn.Index || colIndex == RightColumn.Index ?
 					ColorHelper.LightLightHighlight : m_grid.BackgroundColor);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleGridCellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+		{
+			if (e.RowIndex < 0 && Control.ModifierKeys == (Keys.Control | Keys.Shift) &&
+				(LeftColumn.Index == e.ColumnIndex || RightColumn.Index == e.ColumnIndex))
+			{
+				LocalizationManager.ShowLocalizationDialogBox();
 			}
 		}
 

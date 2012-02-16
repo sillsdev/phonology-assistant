@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Localization;
 using SilTools;
 
 namespace SIL.Pa.UI.Controls
@@ -63,13 +64,17 @@ namespace SIL.Pa.UI.Controls
 					select x).ToList();
 
 			m_grid.CellPainting += HandleCellPainting;
+			m_grid.CellMouseClick += HandleGridCellMouseClick;
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void Dispose()
 		{
 			if (m_grid != null)
+			{
 				m_grid.CellPainting -= HandleCellPainting;
+				m_grid.CellMouseClick -= HandleGridCellMouseClick;
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -107,6 +112,16 @@ namespace SIL.Pa.UI.Controls
 				int rowIndex = m_grid.CurrentCellAddress.Y;
 				return (rowIndex >= m_firstRowIndex && rowIndex <= m_lastRowIndex ?
 					ColorHelper.LightLightHighlight : m_grid.BackgroundColor);
+			}
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void HandleGridCellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+		{
+			if (e.ColumnIndex < 0 && Control.ModifierKeys == (Keys.Control | Keys.Shift) &&
+				e.RowIndex >= m_firstRowIndex && e.RowIndex <= m_lastRowIndex)
+			{
+				LocalizationManager.ShowLocalizationDialogBox();
 			}
 		}
 
