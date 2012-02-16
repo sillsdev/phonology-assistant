@@ -84,6 +84,10 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public static string LocalizeCVChartLabel(string enLabel)
 		{
+			// The text for chart labels originates 
+			if (LocalizationManager.UILanguageId == LocalizationManager.kDefaultLang)
+				return enLabel;
+
 			switch (enLabel)
 			{
 				case "bilabial": return LocalizationManager.GetString("Views.ConsonantChart.Labels.bilabial", "bilabial");
