@@ -493,8 +493,8 @@ namespace SIL.Pa.UI.Dialogs
 			_labelAppVersion.Text = string.Format(_labelAppVersion.Text, version,
 				"(Debug version)", (_isBetaVersion ? "Beta" : string.Empty));
 #else
-			lblAppVersion.Text = string.Format(m_sAppVersionFmt, version,
-				string.Empty, (m_isBetaVersion ? "Beta" : string.Empty));
+			_labelAppVersion.Text = string.Format(_labelAppVersion.Text, version,
+				string.Empty, (_isBetaVersion ? "Beta" : string.Empty));
 #endif
 		}
 
