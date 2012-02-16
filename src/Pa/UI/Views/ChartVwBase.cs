@@ -5,7 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using System.Xml;
+using Localization.UI;
 using Palaso.IO;
 using SIL.FieldWorks.Common.UIAdapters;
 using SIL.Pa.Model;
@@ -61,6 +61,8 @@ namespace SIL.Pa.UI.Views
 			
 			_splitOuter.Panel1.Controls.Add(_pnlGrid);
 			Utils.WaitCursors(false);
+
+			LocalizeItemDlg.StringsLocalized += delegate { ReloadChart(); };
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -126,10 +128,10 @@ namespace SIL.Pa.UI.Views
 			var cgp = new CVChartLayoutReader(LayoutFile);
 
 			foreach (var text in cgp.ColHeadings.Keys)
-				_chartGrid.AddColumnGroup(text);
+				_chartGrid.AddColumnGroup(CVChartLayoutReader.LocalizeCVChartLabel(text));
 
 			foreach (var row in cgp.RowHeadings)
-				_chartGrid.AddRowGroup(row.Key, row.Value);
+				_chartGrid.AddRowGroup(CVChartLayoutReader.LocalizeCVChartLabel(row.Key), row.Value);
 
 			foreach (var phone in cgp.Phones)
 				_chartGrid[phone.Value.X, phone.Value.Y].Value = phone.Key;
@@ -787,6 +789,14 @@ namespace SIL.Pa.UI.Views
 		protected override bool OnDataSourcesModified(object args)
 		{
 			base.OnDataSourcesModified(args);
+			ReloadChart();
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
+		protected override bool OnUserInterfaceLangaugeChanged(object args)
+		{
+			base.OnUserInterfaceLangaugeChanged(args);
 			ReloadChart();
 			return false;
 		}

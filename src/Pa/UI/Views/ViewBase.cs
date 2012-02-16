@@ -43,6 +43,12 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected virtual bool OnUserInterfaceLangaugeChanged(object args)
+		{
+			return false;
+		}
+
+		/// ------------------------------------------------------------------------------------
 		protected override void OnLoad(System.EventArgs e)
 		{
 			base.OnLoad(e);
