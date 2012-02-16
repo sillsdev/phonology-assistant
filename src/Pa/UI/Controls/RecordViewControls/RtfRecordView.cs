@@ -372,10 +372,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void FormatInterlinearForRTF(RTFFieldInfo rtfField, StringBuilder bldr,
 			string firstLineTabStopsString, string subordinateTabStopsString)
 		{

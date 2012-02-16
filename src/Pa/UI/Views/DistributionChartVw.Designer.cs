@@ -20,8 +20,6 @@ namespace SIL.Pa.UI.Views
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DistributionChartVw));
 			this.splitResults = new System.Windows.Forms.SplitContainer();
-			this.pnlRecView = new SilTools.Controls.SilPanel();
-			this.rtfRecVw = new SIL.Pa.UI.Controls.RtfRecordView();
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
 			this.splitSideBarOuter = new System.Windows.Forms.SplitContainer();
 			this.pnlTabClassDef = new System.Windows.Forms.Panel();
@@ -31,7 +29,7 @@ namespace SIL.Pa.UI.Views
 			this.btnAutoHide = new SIL.Pa.UI.Controls.AutoHideDockButton();
 			this.pnlSavedCharts = new SilTools.Controls.SilPanel();
 			this.lvSavedCharts = new System.Windows.Forms.ListView();
-			this.hdrSavedCharts = new System.Windows.Forms.ColumnHeader();
+			this.hdrSavedCharts = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.hlblSavedCharts = new SilTools.Controls.HeaderLabel();
 			this.btnRemoveSavedChart = new SilTools.Controls.XButton();
 			this.splitChart = new System.Windows.Forms.SplitContainer();
@@ -40,9 +38,9 @@ namespace SIL.Pa.UI.Views
 			this.pnlSliderPlaceholder = new System.Windows.Forms.Panel();
 			this.pnlOuter = new System.Windows.Forms.Panel();
 			this.locExtender = new Localization.UI.LocalizationExtender(this.components);
+			this._recView = new SIL.Pa.UI.Controls.RecordViewControls.RecordViewPanel();
 			this.splitResults.Panel2.SuspendLayout();
 			this.splitResults.SuspendLayout();
-			this.pnlRecView.SuspendLayout();
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
@@ -75,52 +73,11 @@ namespace SIL.Pa.UI.Views
 			// 
 			// splitResults.Panel2
 			// 
-			this.splitResults.Panel2.Controls.Add(this.pnlRecView);
+			this.splitResults.Panel2.Controls.Add(this._recView);
 			this.splitResults.Size = new System.Drawing.Size(431, 275);
 			this.splitResults.SplitterDistance = 148;
 			this.splitResults.SplitterWidth = 8;
 			this.splitResults.TabIndex = 0;
-			// 
-			// pnlRecView
-			// 
-			this.pnlRecView.BackColor = System.Drawing.SystemColors.Window;
-			this.pnlRecView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pnlRecView.ClipTextForChildControls = true;
-			this.pnlRecView.ControlReceivingFocusOnMnemonic = null;
-			this.pnlRecView.Controls.Add(this.rtfRecVw);
-			this.pnlRecView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pnlRecView.DoubleBuffered = false;
-			this.pnlRecView.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			this.pnlRecView.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.locExtender.SetLocalizableToolTip(this.pnlRecView, null);
-			this.locExtender.SetLocalizationComment(this.pnlRecView, null);
-			this.locExtender.SetLocalizationPriority(this.pnlRecView, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.pnlRecView, "DistributionChartVw.pnlRecView");
-			this.pnlRecView.Location = new System.Drawing.Point(0, 0);
-			this.pnlRecView.MnemonicGeneratesClick = false;
-			this.pnlRecView.Name = "pnlRecView";
-			this.pnlRecView.Padding = new System.Windows.Forms.Padding(4, 4, 0, 0);
-			this.pnlRecView.PaintExplorerBarBackground = false;
-			this.pnlRecView.Size = new System.Drawing.Size(431, 119);
-			this.pnlRecView.TabIndex = 0;
-			// 
-			// rtfRecVw
-			// 
-			this.rtfRecVw.BackColor = System.Drawing.SystemColors.Window;
-			this.rtfRecVw.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.rtfRecVw.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.locExtender.SetLocalizableToolTip(this.rtfRecVw, null);
-			this.locExtender.SetLocalizationComment(this.rtfRecVw, null);
-			this.locExtender.SetLocalizationPriority(this.rtfRecVw, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.rtfRecVw, "DistributionChartVw.rtfRecVw");
-			this.rtfRecVw.Location = new System.Drawing.Point(4, 4);
-			this.rtfRecVw.Name = "rtfRecVw";
-			this.rtfRecVw.ReadOnly = true;
-			this.rtfRecVw.Size = new System.Drawing.Size(425, 113);
-			this.rtfRecVw.TabIndex = 0;
-			this.rtfRecVw.TabStop = false;
-			this.rtfRecVw.Text = " ";
-			this.rtfRecVw.WordWrap = false;
 			// 
 			// splitOuter
 			// 
@@ -187,6 +144,7 @@ namespace SIL.Pa.UI.Views
 			// 
 			// pnlSideBarCaption
 			// 
+			this.pnlSideBarCaption.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this.pnlSideBarCaption.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlSideBarCaption.ClipTextForChildControls = true;
 			this.pnlSideBarCaption.ColorBottom = System.Drawing.Color.Empty;
@@ -196,6 +154,8 @@ namespace SIL.Pa.UI.Views
 			this.pnlSideBarCaption.Controls.Add(this.btnAutoHide);
 			this.pnlSideBarCaption.Dock = System.Windows.Forms.DockStyle.Top;
 			this.pnlSideBarCaption.DoubleBuffered = false;
+			this.pnlSideBarCaption.DrawOnlyBottomBorder = false;
+			this.pnlSideBarCaption.DrawOnlyTopBorder = false;
 			this.pnlSideBarCaption.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlSideBarCaption.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlSideBarCaption, null);
@@ -224,7 +184,6 @@ namespace SIL.Pa.UI.Views
 			this.btnDock.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnDock, "Dock");
 			this.locExtender.SetLocalizationComment(this.btnDock, null);
-			this.locExtender.SetLocalizationPriority(this.btnDock, Localization.LocalizationPriority.High);
 			this.locExtender.SetLocalizingId(this.btnDock, "Views.DistributionChart.DockButton");
 			this.btnDock.Location = new System.Drawing.Point(153, 2);
 			this.btnDock.Name = "btnDock";
@@ -246,7 +205,6 @@ namespace SIL.Pa.UI.Views
 			this.btnAutoHide.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnAutoHide, "Automatically Hide");
 			this.locExtender.SetLocalizationComment(this.btnAutoHide, null);
-			this.locExtender.SetLocalizationPriority(this.btnAutoHide, Localization.LocalizationPriority.High);
 			this.locExtender.SetLocalizingId(this.btnAutoHide, "Views.DistributionChart.AutoHideButton");
 			this.btnAutoHide.Location = new System.Drawing.Point(134, 2);
 			this.btnAutoHide.Name = "btnAutoHide";
@@ -256,6 +214,7 @@ namespace SIL.Pa.UI.Views
 			// 
 			// pnlSavedCharts
 			// 
+			this.pnlSavedCharts.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this.pnlSavedCharts.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlSavedCharts.ClipTextForChildControls = true;
 			this.pnlSavedCharts.ControlReceivingFocusOnMnemonic = null;
@@ -263,6 +222,8 @@ namespace SIL.Pa.UI.Views
 			this.pnlSavedCharts.Controls.Add(this.hlblSavedCharts);
 			this.pnlSavedCharts.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlSavedCharts.DoubleBuffered = false;
+			this.pnlSavedCharts.DrawOnlyBottomBorder = false;
+			this.pnlSavedCharts.DrawOnlyTopBorder = false;
 			this.pnlSavedCharts.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlSavedCharts.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlSavedCharts, null);
@@ -295,13 +256,13 @@ namespace SIL.Pa.UI.Views
 			this.lvSavedCharts.TabIndex = 1;
 			this.lvSavedCharts.UseCompatibleStateImageBehavior = false;
 			this.lvSavedCharts.View = System.Windows.Forms.View.Details;
-			this.lvSavedCharts.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lvSavedCharts_MouseDoubleClick);
 			this.lvSavedCharts.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.lvSavedCharts_AfterLabelEdit);
-			this.lvSavedCharts.Enter += new System.EventHandler(this.lvSavedCharts_Enter);
-			this.lvSavedCharts.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvSavedCharts_ItemSelectionChanged);
 			this.lvSavedCharts.BeforeLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.lvSavedCharts_BeforeLabelEdit);
-			this.lvSavedCharts.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvSavedCharts_KeyDown);
 			this.lvSavedCharts.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.lvSavedCharts_ItemDrag);
+			this.lvSavedCharts.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvSavedCharts_ItemSelectionChanged);
+			this.lvSavedCharts.Enter += new System.EventHandler(this.lvSavedCharts_Enter);
+			this.lvSavedCharts.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lvSavedCharts_KeyDown);
+			this.lvSavedCharts.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lvSavedCharts_MouseDoubleClick);
 			// 
 			// hdrSavedCharts
 			// 
@@ -312,10 +273,14 @@ namespace SIL.Pa.UI.Views
 			// 
 			// hlblSavedCharts
 			// 
+			this.hlblSavedCharts.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this.hlblSavedCharts.ClipTextForChildControls = true;
 			this.hlblSavedCharts.ControlReceivingFocusOnMnemonic = null;
 			this.hlblSavedCharts.Controls.Add(this.btnRemoveSavedChart);
 			this.hlblSavedCharts.Dock = System.Windows.Forms.DockStyle.Top;
+			this.hlblSavedCharts.DoubleBuffered = true;
+			this.hlblSavedCharts.DrawOnlyBottomBorder = false;
+			this.hlblSavedCharts.DrawOnlyTopBorder = false;
 			this.hlblSavedCharts.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.hlblSavedCharts.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.hlblSavedCharts, null);
@@ -324,6 +289,7 @@ namespace SIL.Pa.UI.Views
 			this.hlblSavedCharts.Location = new System.Drawing.Point(0, 0);
 			this.hlblSavedCharts.MnemonicGeneratesClick = false;
 			this.hlblSavedCharts.Name = "hlblSavedCharts";
+			this.hlblSavedCharts.PaintExplorerBarBackground = false;
 			this.hlblSavedCharts.ShowWindowBackgroudOnTopAndRightEdge = true;
 			this.hlblSavedCharts.Size = new System.Drawing.Size(175, 24);
 			this.hlblSavedCharts.TabIndex = 0;
@@ -343,7 +309,7 @@ namespace SIL.Pa.UI.Views
 			this.btnRemoveSavedChart.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnRemoveSavedChart, "Remove Saved Chart");
 			this.locExtender.SetLocalizationComment(this.btnRemoveSavedChart, "Button to delete saved charts on the distribution charts view. The button is on t" +
-					"he right side of the heading over the saved charts list.");
+        "he right side of the heading over the saved charts list.");
 			this.locExtender.SetLocalizationPriority(this.btnRemoveSavedChart, Localization.LocalizationPriority.MediumHigh);
 			this.locExtender.SetLocalizingId(this.btnRemoveSavedChart, "Views.DistributionChart.RemoveSavedChartButton");
 			this.btnRemoveSavedChart.Location = new System.Drawing.Point(148, 2);
@@ -426,6 +392,31 @@ namespace SIL.Pa.UI.Views
 			// 
 			this.locExtender.LocalizationManagerId = "Pa";
 			// 
+			// _recView
+			// 
+			this._recView.BackColor = System.Drawing.SystemColors.Window;
+			this._recView.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+			this._recView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this._recView.ClipTextForChildControls = true;
+			this._recView.ControlReceivingFocusOnMnemonic = null;
+			this._recView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._recView.DoubleBuffered = true;
+			this._recView.DrawOnlyBottomBorder = false;
+			this._recView.DrawOnlyTopBorder = false;
+			this._recView.Font = new System.Drawing.Font("Segoe UI", 9F);
+			this._recView.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.locExtender.SetLocalizableToolTip(this._recView, null);
+			this.locExtender.SetLocalizationComment(this._recView, null);
+			this.locExtender.SetLocalizationPriority(this._recView, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._recView, "recordViewPanel1.recordViewPanel1");
+			this._recView.Location = new System.Drawing.Point(0, 0);
+			this._recView.MnemonicGeneratesClick = false;
+			this._recView.Name = "_recView";
+			this._recView.Padding = new System.Windows.Forms.Padding(4, 4, 0, 0);
+			this._recView.PaintExplorerBarBackground = false;
+			this._recView.Size = new System.Drawing.Size(431, 119);
+			this._recView.TabIndex = 0;
+			// 
 			// DistributionChartVw
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -440,7 +431,6 @@ namespace SIL.Pa.UI.Views
 			this.Size = new System.Drawing.Size(664, 531);
 			this.splitResults.Panel2.ResumeLayout(false);
 			this.splitResults.ResumeLayout(false);
-			this.pnlRecView.ResumeLayout(false);
 			this.splitOuter.Panel1.ResumeLayout(false);
 			this.splitOuter.Panel2.ResumeLayout(false);
 			this.splitOuter.ResumeLayout(false);
@@ -466,8 +456,6 @@ namespace SIL.Pa.UI.Views
 		private System.Windows.Forms.SplitContainer splitSideBarOuter;
 		private System.Windows.Forms.SplitContainer splitOuter;
 		private System.Windows.Forms.SplitContainer splitResults;
-		private SilPanel pnlRecView;
-		private SIL.Pa.UI.Controls.RtfRecordView rtfRecVw;
 		private System.Windows.Forms.Panel pnlSliderPlaceholder;
 		private SilGradientPanel pnlSideBarCaption;
 		private System.Windows.Forms.Panel pnlTabClassDef;
@@ -484,5 +472,6 @@ namespace SIL.Pa.UI.Views
 		private System.Windows.Forms.Label lblChartName;
 		private System.Windows.Forms.Label lblChartNameValue;
 		private Localization.UI.LocalizationExtender locExtender;
+		private Controls.RecordViewControls.RecordViewPanel _recView;
 	}
 }

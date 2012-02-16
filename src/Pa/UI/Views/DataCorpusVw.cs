@@ -130,7 +130,7 @@ namespace SIL.Pa.UI.Views
 			}
 
 			// This will enforce an update of the record pane.
-			_rtfRecVw.UpdateRecord(WordListGrid.GetRecord(), true);
+			_recView.UpdateRecord(WordListGrid.GetRecord(), true);
 		}
 
 		#region Method for loading
@@ -324,8 +324,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		void m_grid_RowEnter(object sender, DataGridViewCellEventArgs e)
 		{
-			_rtfRecVw.UpdateRecord(WordListGrid.GetRecord(e.RowIndex));
-			_htmlRecView.UpdateRecord(WordListGrid.GetRecord(e.RowIndex));
+			_recView.UpdateRecord(WordListGrid.GetRecord(e.RowIndex));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -340,7 +339,7 @@ namespace SIL.Pa.UI.Views
 			if (grid != WordListGrid)
 				return false;
 
-			_rtfRecVw.UpdateRecord(WordListGrid.GetRecord(WordListGrid.CurrentCellAddress.Y));
+			_recView.UpdateRecord(WordListGrid.GetRecord(WordListGrid.CurrentCellAddress.Y));
 			return true;
 		}
 
@@ -626,7 +625,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnRecordViewOptionsChanged(object args)
 		{
-			_rtfRecVw.UpdateRecord(WordListGrid.GetRecord(), true);
+			_recView.UpdateRecord(WordListGrid.GetRecord(), true);
 			return false;
 		}
 
@@ -653,10 +652,10 @@ namespace SIL.Pa.UI.Views
 
 			// Update the fonts in case a custom field's name
 			// has changed (since each field has it's own font).
-			_rtfRecVw.UpdateFonts();
+			_recView.UpdateFonts();
 
 			// Update the record in case we're pointing to a new record or it's data changed.
-			_rtfRecVw.UpdateRecord(null);
+			_recView.UpdateRecord(null);
 
 			// Rebuild the contents of the window.
 			LoadWindow();
@@ -679,7 +678,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnPaFontsChanged(object args)
 		{
-			_rtfRecVw.UpdateFonts();
+			_recView.UpdateFonts();
 
 			// Return false to allow other windows to update their fonts.
 			return false;
@@ -840,7 +839,7 @@ namespace SIL.Pa.UI.Views
 		private void HandlePhoneticSortOptionsChanged(SortOptions sortOptions)
 		{
 			WordListGrid.SortOptions = sortOptions;
-			_rtfRecVw.UpdateRecord(WordListGrid.GetRecord());
+			_recView.UpdateRecord(WordListGrid.GetRecord());
 		}
 
 		/// ------------------------------------------------------------------------------------

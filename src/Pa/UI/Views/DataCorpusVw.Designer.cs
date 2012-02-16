@@ -32,13 +32,10 @@ namespace SIL.Pa.UI.Views
 		{
 			this.splitOuter = new System.Windows.Forms.SplitContainer();
 			this.pnlGrid = new SilTools.Controls.SilPanel();
-			this.paPanel1 = new SilTools.Controls.SilPanel();
-			this._htmlRecView = new SIL.Pa.UI.Controls.HtmlRecordView();
-			this._rtfRecVw = new SIL.Pa.UI.Controls.RtfRecordView();
+			this._recView = new SIL.Pa.UI.Controls.RecordViewControls.RecordViewPanel();
 			this.splitOuter.Panel1.SuspendLayout();
 			this.splitOuter.Panel2.SuspendLayout();
 			this.splitOuter.SuspendLayout();
-			this.paPanel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// splitOuter
@@ -56,7 +53,7 @@ namespace SIL.Pa.UI.Views
 			// 
 			// splitOuter.Panel2
 			// 
-			this.splitOuter.Panel2.Controls.Add(this.paPanel1);
+			this.splitOuter.Panel2.Controls.Add(this._recView);
 			this.splitOuter.Panel2.Padding = new System.Windows.Forms.Padding(10, 0, 10, 10);
 			this.splitOuter.Panel2MinSize = 0;
 			this.splitOuter.Size = new System.Drawing.Size(676, 468);
@@ -84,50 +81,26 @@ namespace SIL.Pa.UI.Views
 			this.pnlGrid.Size = new System.Drawing.Size(656, 361);
 			this.pnlGrid.TabIndex = 0;
 			// 
-			// paPanel1
+			// _recView
 			// 
-			this.paPanel1.BackColor = System.Drawing.SystemColors.Window;
-			this.paPanel1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
-			this.paPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.paPanel1.ClipTextForChildControls = true;
-			this.paPanel1.ControlReceivingFocusOnMnemonic = null;
-			this.paPanel1.Controls.Add(this._htmlRecView);
-			this.paPanel1.Controls.Add(this._rtfRecVw);
-			this.paPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.paPanel1.DoubleBuffered = false;
-			this.paPanel1.DrawOnlyBottomBorder = false;
-			this.paPanel1.DrawOnlyTopBorder = false;
-			this.paPanel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			this.paPanel1.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.paPanel1.Location = new System.Drawing.Point(10, 0);
-			this.paPanel1.MnemonicGeneratesClick = false;
-			this.paPanel1.Name = "paPanel1";
-			this.paPanel1.Padding = new System.Windows.Forms.Padding(4, 4, 0, 0);
-			this.paPanel1.PaintExplorerBarBackground = false;
-			this.paPanel1.Size = new System.Drawing.Size(656, 79);
-			this.paPanel1.TabIndex = 0;
-			// 
-			// _htmlRecView
-			// 
-			this._htmlRecView.AllowWebBrowserDrop = false;
-			this._htmlRecView.Location = new System.Drawing.Point(322, 7);
-			this._htmlRecView.MinimumSize = new System.Drawing.Size(20, 20);
-			this._htmlRecView.Name = "_htmlRecView";
-			this._htmlRecView.Size = new System.Drawing.Size(329, 67);
-			this._htmlRecView.TabIndex = 1;
-			// 
-			// _rtfRecVw
-			// 
-			this._rtfRecVw.BackColor = System.Drawing.SystemColors.Window;
-			this._rtfRecVw.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this._rtfRecVw.Location = new System.Drawing.Point(4, 4);
-			this._rtfRecVw.Name = "_rtfRecVw";
-			this._rtfRecVw.ReadOnly = true;
-			this._rtfRecVw.Size = new System.Drawing.Size(260, 73);
-			this._rtfRecVw.TabIndex = 0;
-			this._rtfRecVw.TabStop = false;
-			this._rtfRecVw.Text = global::SIL.Pa.ResourceStuff.PaTMStrings.kstidExportAsToolTip;
-			this._rtfRecVw.WordWrap = false;
+			this._recView.BackColor = System.Drawing.SystemColors.Window;
+			this._recView.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+			this._recView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this._recView.ClipTextForChildControls = true;
+			this._recView.ControlReceivingFocusOnMnemonic = null;
+			this._recView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._recView.DoubleBuffered = true;
+			this._recView.DrawOnlyBottomBorder = false;
+			this._recView.DrawOnlyTopBorder = false;
+			this._recView.Font = new System.Drawing.Font("Segoe UI", 9F);
+			this._recView.ForeColor = System.Drawing.SystemColors.ControlText;
+			this._recView.Location = new System.Drawing.Point(10, 0);
+			this._recView.MnemonicGeneratesClick = false;
+			this._recView.Name = "_recView";
+			this._recView.Padding = new System.Windows.Forms.Padding(4, 4, 0, 0);
+			this._recView.PaintExplorerBarBackground = false;
+			this._recView.Size = new System.Drawing.Size(656, 79);
+			this._recView.TabIndex = 0;
 			// 
 			// DataCorpusVw
 			// 
@@ -139,7 +112,6 @@ namespace SIL.Pa.UI.Views
 			this.splitOuter.Panel1.ResumeLayout(false);
 			this.splitOuter.Panel2.ResumeLayout(false);
 			this.splitOuter.ResumeLayout(false);
-			this.paPanel1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -147,9 +119,7 @@ namespace SIL.Pa.UI.Views
 		#endregion
 
 		private System.Windows.Forms.SplitContainer splitOuter;
-		private SilPanel paPanel1;
-		private SIL.Pa.UI.Controls.RtfRecordView _rtfRecVw;
 		private SilPanel pnlGrid;
-		private Controls.HtmlRecordView _htmlRecView;
+		private Controls.RecordViewControls.RecordViewPanel _recView;
 	}
 }

@@ -116,7 +116,7 @@ namespace SIL.Pa.UI.Views
 			else
 			{
 				ResultViewManger = new SearchResultsViewManager(this, _tmAdapter,
-					splitResults, rtfRecVw, Settings.Default.DistChartVwPlaybackSpeed,
+					splitResults, _recView, Settings.Default.DistChartVwPlaybackSpeed,
 					newSpeed => Settings.Default.DistChartVwPlaybackSpeed = newSpeed);
 			}
 
@@ -1048,7 +1048,7 @@ namespace SIL.Pa.UI.Views
 			lblChartNameValue.Top =
 				(int)Math.Ceiling((padding - lblChartNameValue.Height) / 2f);
 
-			rtfRecVw.UpdateFonts();
+			_recView.UpdateFonts();
 			ptrnBldrComponent.RefreshFonts();
 			_slidingPanel.RefreshFonts();
 

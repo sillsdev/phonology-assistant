@@ -41,8 +41,7 @@ namespace SIL.Pa.UI.Views
 			this.btnCategoryPaste = new SilTools.Controls.XButton();
 			this.btnCategoryCopy = new SilTools.Controls.XButton();
 			this.splitResults = new System.Windows.Forms.SplitContainer();
-			this.pnlRecView = new SilTools.Controls.SilPanel();
-			this.rtfRecVw = new SIL.Pa.UI.Controls.RtfRecordView();
+			this._recView = new SIL.Pa.UI.Controls.RecordViewControls.RecordViewPanel();
 			this.btnRefresh = new System.Windows.Forms.Button();
 			this.pnlSliderPlaceholder = new System.Windows.Forms.Panel();
 			this.lblCurrPattern = new System.Windows.Forms.Label();
@@ -68,7 +67,6 @@ namespace SIL.Pa.UI.Views
 			this.hlblSavedPatterns.SuspendLayout();
 			this.splitResults.Panel2.SuspendLayout();
 			this.splitResults.SuspendLayout();
-			this.pnlRecView.SuspendLayout();
 			this.pnlOuter.SuspendLayout();
 			this.m_patternTableLayoutPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
@@ -511,55 +509,36 @@ namespace SIL.Pa.UI.Views
 			// 
 			// splitResults.Panel2
 			// 
-			this.splitResults.Panel2.Controls.Add(this.pnlRecView);
+			this.splitResults.Panel2.Controls.Add(this._recView);
 			this.splitResults.Size = new System.Drawing.Size(303, 454);
 			this.splitResults.SplitterDistance = 325;
 			this.splitResults.SplitterWidth = 8;
 			this.splitResults.TabIndex = 0;
 			// 
-			// pnlRecView
+			// _recView
 			// 
-			this.pnlRecView.BackColor = System.Drawing.SystemColors.Window;
-			this.pnlRecView.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
-			this.pnlRecView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pnlRecView.ClipTextForChildControls = true;
-			this.pnlRecView.ControlReceivingFocusOnMnemonic = null;
-			this.pnlRecView.Controls.Add(this.rtfRecVw);
-			this.pnlRecView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pnlRecView.DoubleBuffered = false;
-			this.pnlRecView.DrawOnlyBottomBorder = false;
-			this.pnlRecView.DrawOnlyTopBorder = false;
-			this.pnlRecView.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			this.pnlRecView.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.locExtender.SetLocalizableToolTip(this.pnlRecView, null);
-			this.locExtender.SetLocalizationComment(this.pnlRecView, null);
-			this.locExtender.SetLocalizationPriority(this.pnlRecView, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.pnlRecView, "SearchVw.pnlRecView");
-			this.pnlRecView.Location = new System.Drawing.Point(0, 0);
-			this.pnlRecView.MnemonicGeneratesClick = false;
-			this.pnlRecView.Name = "pnlRecView";
-			this.pnlRecView.Padding = new System.Windows.Forms.Padding(4, 4, 0, 0);
-			this.pnlRecView.PaintExplorerBarBackground = false;
-			this.pnlRecView.Size = new System.Drawing.Size(303, 121);
-			this.pnlRecView.TabIndex = 0;
-			// 
-			// rtfRecVw
-			// 
-			this.rtfRecVw.BackColor = System.Drawing.SystemColors.Window;
-			this.rtfRecVw.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.rtfRecVw.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.locExtender.SetLocalizableToolTip(this.rtfRecVw, null);
-			this.locExtender.SetLocalizationComment(this.rtfRecVw, null);
-			this.locExtender.SetLocalizationPriority(this.rtfRecVw, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.rtfRecVw, "SearchVw.rtfRecVw");
-			this.rtfRecVw.Location = new System.Drawing.Point(4, 4);
-			this.rtfRecVw.Name = "rtfRecVw";
-			this.rtfRecVw.ReadOnly = true;
-			this.rtfRecVw.Size = new System.Drawing.Size(297, 115);
-			this.rtfRecVw.TabIndex = 0;
-			this.rtfRecVw.TabStop = false;
-			this.rtfRecVw.Text = " ";
-			this.rtfRecVw.WordWrap = false;
+			this._recView.BackColor = System.Drawing.SystemColors.Window;
+			this._recView.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
+			this._recView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this._recView.ClipTextForChildControls = true;
+			this._recView.ControlReceivingFocusOnMnemonic = null;
+			this._recView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._recView.DoubleBuffered = true;
+			this._recView.DrawOnlyBottomBorder = false;
+			this._recView.DrawOnlyTopBorder = false;
+			this._recView.Font = new System.Drawing.Font("Segoe UI", 9F);
+			this._recView.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.locExtender.SetLocalizableToolTip(this._recView, null);
+			this.locExtender.SetLocalizationComment(this._recView, null);
+			this.locExtender.SetLocalizationPriority(this._recView, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._recView, "recordViewPanel1.recordViewPanel1");
+			this._recView.Location = new System.Drawing.Point(0, 0);
+			this._recView.MnemonicGeneratesClick = false;
+			this._recView.Name = "_recView";
+			this._recView.Padding = new System.Windows.Forms.Padding(4, 4, 0, 0);
+			this._recView.PaintExplorerBarBackground = false;
+			this._recView.Size = new System.Drawing.Size(303, 121);
+			this._recView.TabIndex = 0;
 			// 
 			// btnRefresh
 			// 
@@ -704,7 +683,6 @@ namespace SIL.Pa.UI.Views
 			this.hlblSavedPatterns.ResumeLayout(false);
 			this.splitResults.Panel2.ResumeLayout(false);
 			this.splitResults.ResumeLayout(false);
-			this.pnlRecView.ResumeLayout(false);
 			this.pnlOuter.ResumeLayout(false);
 			this.m_patternTableLayoutPanel.ResumeLayout(false);
 			this.m_patternTableLayoutPanel.PerformLayout();
@@ -724,8 +702,6 @@ namespace SIL.Pa.UI.Views
 		private SilPanel pnlRecentPatterns;
 		private SilPanel pnlSavedPatterns;
 		private System.Windows.Forms.SplitContainer splitResults;
-		private SilPanel pnlRecView;
-		private RtfRecordView rtfRecVw;
 		private System.Windows.Forms.Panel pnlSliderPlaceholder;
 		private SilGradientPanel pnlSideBarCaption;
 		private XButton btnCategoryNew;
@@ -747,5 +723,6 @@ namespace SIL.Pa.UI.Views
 		private Localization.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.TableLayoutPanel m_patternTableLayoutPanel;
 		private PatternBuilderBar m_patternBuilderBar;
+		private Controls.RecordViewControls.RecordViewPanel _recView;
 	}
 }

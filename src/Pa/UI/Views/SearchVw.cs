@@ -198,7 +198,7 @@ namespace SIL.Pa.UI.Views
 			else
 			{
 				m_rsltVwMngr = new SearchResultsViewManager(this, m_tmAdapter,
-					splitResults, rtfRecVw, Settings.Default.SearchVwPlaybackSpeed,
+					splitResults, _recView, Settings.Default.SearchVwPlaybackSpeed,
 					newSpeed => Settings.Default.SearchVwPlaybackSpeed = newSpeed);
 			}
 
@@ -1242,7 +1242,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnPaFontsChanged(object args)
 		{
-			rtfRecVw.UpdateFonts();
+			_recView.UpdateFonts();
 			ptrnBldrComponent.RefreshFonts();
 			lblCurrPattern.Font = FontHelper.UIFont;
 			ptrnTextBox.Font = App.PhoneticFont;

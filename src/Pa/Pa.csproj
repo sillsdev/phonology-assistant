@@ -396,9 +396,6 @@
     <Compile Include="UI\Controls\Histogram.Designer.cs">
       <DependentUpon>Histogram.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controls\HtmlRecordView.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="UI\Controls\LocalWindowsHook.cs" />
     <Compile Include="UI\Controls\NetworkTreeView.cs">
       <SubType>Component</SubType>
@@ -451,11 +448,17 @@
     <Compile Include="UI\Controls\PopupDialogButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Controls\RtfCreator.cs" />
-    <Compile Include="UI\Controls\RtfHelper.cs" />
-    <Compile Include="UI\Controls\RtfRecordView.cs">
+    <Compile Include="UI\Controls\RecordViewControls\HtmlRecordView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\Controls\RecordViewControls\RecordViewPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\RecordViewControls\RtfRecordView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\RtfCreator.cs" />
+    <Compile Include="UI\Controls\RtfHelper.cs" />
     <Compile Include="UI\Controls\SearchOptionsDropDown.cs">
       <SubType>UserControl</SubType>
     </Compile>

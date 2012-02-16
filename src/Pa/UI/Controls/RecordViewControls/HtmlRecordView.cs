@@ -10,8 +10,11 @@ using SilTools;
 
 namespace SIL.Pa.UI.Controls
 {
-	public class HtmlRecordView : WebBrowser, IRecordView
+	/// ----------------------------------------------------------------------------------------
+	public class HtmlRecordView : WebBrowser
 	{
+		private RecordCacheEntry _recEntry;
+
 		/// ------------------------------------------------------------------------------------
 		public HtmlRecordView()
 		{
@@ -21,20 +24,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void Clear()
 		{
-			DocumentText = new XElement("html").ToString();
-
-			//Url = new Uri("about:blank");
 		}
 
 		/// ------------------------------------------------------------------------------------
 		public void UpdateFonts()
 		{
-		}
-
-		/// ------------------------------------------------------------------------------------
-		public void UpdateRecord(RecordCacheEntry entry)
-		{
-			UpdateRecord(entry, false);
+			UpdateRecord(_recEntry, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -46,6 +41,11 @@ namespace SIL.Pa.UI.Controls
 				return;
 			}
 
+			// Don't bother rebuilding the RTF if the record hasn't changed.
+			if (entry == _recEntry && !forceUpdate)
+				return;
+
+			_recEntry = entry;
 			var fieldsAndValues = GetFieldsAndValuesToDisplay(entry);
 			var bodyElement = CreateBodyElement(fieldsAndValues);
 			var stylesheet = GetStyleSheet(fieldsAndValues.Keys);
@@ -157,7 +157,7 @@ namespace SIL.Pa.UI.Controls
 
 			foreach (var field in fieldsToDisplay)
 			{
-				bldr.AppendFormat(".{0} {{ font-size: {1}pt; font-family: '{2}'; padding-right: 10px; }}",
+				bldr.AppendFormat(".{0} {{ font-size: {1}pt; font-family: '{2}'; padding-right: 13px; }}",
 					field.Name, (int)field.Font.SizeInPoints, field.Font.Name);
 			}
 
