@@ -22,6 +22,7 @@ using SIL.Pa.UI.Controls;
 using SIL.Pa.UI.Dialogs;
 using SIL.Pa.UI.Views;
 using SilTools;
+using AboutDlg = SIL.Pa.UI.Dialogs.AboutDlg;
 using Utils=SilTools.Utils;
 
 namespace SIL.Pa.UI
@@ -655,7 +656,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnHelpAbout(object args)
 		{
-			using (var dlg = new AboutDlg(true, false))
+			using (var dlg = new AboutDlg(false))
 				dlg.ShowDialog(this);
 
 			return true;

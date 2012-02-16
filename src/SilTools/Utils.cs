@@ -119,10 +119,6 @@ namespace SilTools
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public static void CenterFormInScreen(Form frm)
 		{
 			Rectangle rc = Screen.GetWorkingArea(frm);
@@ -136,6 +132,12 @@ namespace SilTools
 				frm.Height = rc.Height;
 
 			frm.Location = new Point((rc.Width - frm.Width) / 2, (rc.Height - frm.Height) / 2);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Image GetSilLogo()
+		{
+			return Properties.Resources.kimidSilLogo;
 		}
 
 		/// ------------------------------------------------------------------------------------

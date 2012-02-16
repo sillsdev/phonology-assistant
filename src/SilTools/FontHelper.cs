@@ -2,7 +2,6 @@ using System;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
-using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace SilTools
@@ -123,7 +122,7 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		public static Font MakeRegularFontDerivative(Font fnt, float size)
 		{
-			return MakeFont((fnt ?? SystemInformation.MenuFont).FontFamily.Name, size, FontStyle.Regular);
+			return MakeFont((fnt ?? UIFont).FontFamily.Name, size, FontStyle.Regular);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -236,8 +235,8 @@ namespace SilTools
 				}
 			}
 			catch { }
-		
-			return (Font)SystemFonts.IconTitleFont.Clone();
+
+			return (Font)UIFont.Clone();
 		}
 
 		/// --------------------------------------------------------------------------------
