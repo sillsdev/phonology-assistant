@@ -45,7 +45,8 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public CVChartGrid(ITMAdapter tmAdapter) : this()
+		public CVChartGrid(ITMAdapter tmAdapter)
+			: this()
 		{
 			if (tmAdapter != null)
 			{
@@ -136,15 +137,15 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void AddColumnGroup(string text)
+		public void AddColumnGroup(string text, string textsLocalizationId)
 		{
-			ColumnGroups.Add(CVChartColumnGroup.Create(text, this));
+			ColumnGroups.Add(CVChartColumnGroup.Create(text, this, textsLocalizationId));
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void AddRowGroup(string text, int rowCount)
+		public void AddRowGroup(string text, int rowCount, string textsLocalizationId)
 		{
-			var grp = CVChartRowGroup.Create(text, rowCount, this);
+			var grp = CVChartRowGroup.Create(text, rowCount, this, textsLocalizationId);
 			RowHeadersWidth = Math.Max(RowHeadersWidth, grp.PreferredWidth);
 			RowGroups.Add(grp);
 		}

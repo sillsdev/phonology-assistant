@@ -40,21 +40,25 @@ namespace SIL.Pa.UI.Controls
 		private readonly CVChartGrid m_grid;
 		private readonly int m_firstRowIndex;
 		private readonly int m_lastRowIndex;
+		private readonly string _textsLocalizationId;
 
 		public List<DataGridViewRow> Rows { get; private set; }
 		public string Text { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public static CVChartRowGroup Create(string headerText, int rowCount, CVChartGrid grid)
+		public static CVChartRowGroup Create(string headerText, int rowCount, CVChartGrid grid,
+			string headerTextsLocalizationId)
 		{
-			return new CVChartRowGroup(headerText, rowCount, grid);
+			return new CVChartRowGroup(headerText, rowCount, grid, headerTextsLocalizationId);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private CVChartRowGroup(string headerText, int rowCount, CVChartGrid grid)
+		private CVChartRowGroup(string headerText, int rowCount, CVChartGrid grid,
+			string headerTextsLocalizationId)
 		{
 			m_grid = grid;
 			Text = headerText;
+			_textsLocalizationId = headerTextsLocalizationId;
 
 			m_lastRowIndex = grid.Rows.Add(rowCount);
 			m_firstRowIndex = m_lastRowIndex - rowCount + 1;
@@ -82,9 +86,16 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				// Adding 4 accounts for the double line along the group's right edge.
-				using (var g = m_grid.CreateGraphics())
-					return TextRenderer.MeasureText(g, Text, FontHelper.UIFont).Width + 4;
+				try
+				{
+					// Adding 4 accounts for the double line along the group's right edge.
+					using (var g = m_grid.CreateGraphics())
+						return TextRenderer.MeasureText(g, Text, FontHelper.UIFont).Width + 4;
+				}
+				catch
+				{
+					return TextRenderer.MeasureText(Text, FontHelper.UIFont).Width + 4;
+				}
 			}
 		}
 
@@ -121,7 +132,7 @@ namespace SIL.Pa.UI.Controls
 			if (e.ColumnIndex < 0 && Control.ModifierKeys == (Keys.Control | Keys.Shift) &&
 				e.RowIndex >= m_firstRowIndex && e.RowIndex <= m_lastRowIndex)
 			{
-				LocalizationManager.ShowLocalizationDialogBox();
+				LocalizationManager.ShowLocalizationDialogBox(_textsLocalizationId);
 			}
 		}
 

@@ -35,6 +35,12 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public override string LocalizationStringIdPrefix
+		{
+			get { return "Views.VowelChart.Labels."; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override CVChartType ChartType
 		{
 			get { return CVChartType.Vowel; }

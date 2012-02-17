@@ -21,21 +21,25 @@ namespace SIL.Pa.UI.Controls
 		
 		private readonly CVChartGrid m_grid;
 		private readonly string m_headerText;
+		private readonly string _textsLocalizationId;
 
 		public DataGridViewTextBoxColumn LeftColumn { get; private set; }
 		public DataGridViewTextBoxColumn RightColumn { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
-		public static CVChartColumnGroup Create(string headerText, CVChartGrid grid)
+		public static CVChartColumnGroup Create(string headerText, CVChartGrid grid,
+			string headerTextsLocalizationId)
 		{
-			return new CVChartColumnGroup(headerText, grid);
+			return new CVChartColumnGroup(headerText, grid, headerTextsLocalizationId);
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private CVChartColumnGroup(string headerText, CVChartGrid grid)
+		private CVChartColumnGroup(string headerText, CVChartGrid grid,
+			string headerTextsLocalizationId)
 		{
 			m_grid = grid;
 			m_headerText = headerText;
+			_textsLocalizationId = headerTextsLocalizationId;
 
 			LeftColumn = new DataGridViewTextBoxColumn();
 			LeftColumn.Name = headerText + "(A)";
@@ -107,15 +111,27 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public int GetPreferredHeaderHeight()
 		{
-			if (m_grid == null || !m_grid.IsHandleCreated)
+			if (m_grid == null || !m_grid.IsHandleCreated || m_grid.IsDisposed)
 				return 0;
 
-			using (var g = m_grid.CreateGraphics())
-			{
-				var sz = new Size(LeftColumn.Width + RightColumn.Width, 0);
+			var sz = new Size(LeftColumn.Width + RightColumn.Width, 0);
 
-				return TextRenderer.MeasureText(g, Text, FontHelper.UIFont,
-					sz, kHdrTextRenderingFlags).Height + 5;
+			try
+			{
+				// Someone running Chinese Windows was having a problem with accessing
+				// the released object (presumably the graphics object). I'm not sure
+				// what that was all about or how it could happen, but that's why the
+				// try catch.
+				using (var g = m_grid.CreateGraphics())
+				{
+					return TextRenderer.MeasureText(g, Text, FontHelper.UIFont,
+						sz, kHdrTextRenderingFlags).Height + 5;
+				}
+			}
+			catch
+			{
+			    return TextRenderer.MeasureText(Text, FontHelper.UIFont,
+			        sz, kHdrTextRenderingFlags).Height + 5;
 			}
 		}
 
@@ -136,7 +152,7 @@ namespace SIL.Pa.UI.Controls
 			if (e.RowIndex < 0 && Control.ModifierKeys == (Keys.Control | Keys.Shift) &&
 				(LeftColumn.Index == e.ColumnIndex || RightColumn.Index == e.ColumnIndex))
 			{
-				LocalizationManager.ShowLocalizationDialogBox();
+				LocalizationManager.ShowLocalizationDialogBox(_textsLocalizationId);
 			}
 		}
 

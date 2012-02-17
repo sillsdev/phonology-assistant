@@ -66,6 +66,12 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public virtual string LocalizationStringIdPrefix
+		{
+			get { throw new NotImplementedException("The property must be overridden in derived class."); }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public virtual CVChartType ChartType
 		{
 			get { throw new NotImplementedException("The property must be overridden in derived class."); }
@@ -128,10 +134,16 @@ namespace SIL.Pa.UI.Views
 			var cgp = new CVChartLayoutReader(LayoutFile);
 
 			foreach (var text in cgp.ColHeadings.Keys)
-				_chartGrid.AddColumnGroup(CVChartLayoutReader.LocalizeCVChartLabel(text));
+			{
+				_chartGrid.AddColumnGroup(CVChartLayoutReader.LocalizeCVChartLabel(text),
+					LocalizationStringIdPrefix + text);
+			}
 
 			foreach (var row in cgp.RowHeadings)
-				_chartGrid.AddRowGroup(CVChartLayoutReader.LocalizeCVChartLabel(row.Key), row.Value);
+			{
+				_chartGrid.AddRowGroup(CVChartLayoutReader.LocalizeCVChartLabel(row.Key),
+					row.Value, LocalizationStringIdPrefix + row.Key);
+			}
 
 			foreach (var phone in cgp.Phones)
 				_chartGrid[phone.Value.X, phone.Value.Y].Value = phone.Key;

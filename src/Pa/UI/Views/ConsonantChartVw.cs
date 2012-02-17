@@ -35,6 +35,12 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public override string LocalizationStringIdPrefix
+		{
+			get { return "Views.ConsonantChart.Labels."; }
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public override CVChartType ChartType
 		{
 			get { return CVChartType.Consonant; }
