@@ -2774,12 +2774,6 @@
         <member name="T:Localization.UI.Utils">
             ----------------------------------------------------------------------------------------
         </member>
-        <member name="F:Localization.UI.Utils.WM_SETREDRAW">
-            ------------------------------------------------------------------------------------
-        </member>
-        <member name="M:Localization.UI.Utils.SendMessage(System.IntPtr,System.Int32,System.Int32,System.Int32)">
-            ------------------------------------------------------------------------------------
-        </member>
         <member name="M:Localization.UI.Utils.SetWindowRedraw(System.Windows.Forms.Control,System.Boolean)">
             ------------------------------------------------------------------------------------
             <summary>
@@ -3285,15 +3279,14 @@
         </member>
         <member name="M:Localization.UI.LocalizeItemDlg.ShowDialog(Localization.LocalizationManager,System.Object,System.Boolean)">
             ------------------------------------------------------------------------------------
-            <summary>
-            Shows the localize items dialog box.
-            </summary>
+        </member>
+        <member name="M:Localization.UI.LocalizeItemDlg.ShowDialog(Localization.LocalizationManager,System.String,System.Boolean)">
             ------------------------------------------------------------------------------------
         </member>
         <member name="M:Localization.UI.LocalizeItemDlg.#ctor">
             ------------------------------------------------------------------------------------
         </member>
-        <member name="M:Localization.UI.LocalizeItemDlg.#ctor(Localization.UI.LocalizeItemDlgViewModel,Localization.LocalizationManager,System.Object)">
+        <member name="M:Localization.UI.LocalizeItemDlg.#ctor(Localization.UI.LocalizeItemDlgViewModel,System.String)">
             ------------------------------------------------------------------------------------
         </member>
         <member name="M:Localization.UI.LocalizeItemDlg.Initialize">
@@ -3684,6 +3677,9 @@
             ------------------------------------------------------------------------------------
         </member>
         <member name="M:Localization.LocalizationManager.ShowLocalizationDialogBox(System.Object)">
+            ------------------------------------------------------------------------------------
+        </member>
+        <member name="M:Localization.LocalizationManager.ShowLocalizationDialogBox(System.String)">
             ------------------------------------------------------------------------------------
         </member>
         <member name="M:Localization.LocalizationManager.RegisterObjectForLocalizing(System.Object,System.String,System.String,System.String,System.String,System.String)">
