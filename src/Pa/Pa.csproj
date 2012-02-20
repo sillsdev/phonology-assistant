@@ -93,7 +93,7 @@
     <Optimize>false</Optimize>
     <EnvironmentVariables>
       <EnvironmentVariables>
-        <Variable name="DISPLAY" value=":2" />
+        <Variable name="DISPLAY" value=":0" />
       </EnvironmentVariables>
     </EnvironmentVariables>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
