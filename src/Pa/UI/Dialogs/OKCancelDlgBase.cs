@@ -117,9 +117,14 @@ namespace SIL.Pa.UI.Dialogs
 			// ugliness that happens on dialogs with lots of panels and splitters, etc.
 			Opacity = 1;
 
-			// This is needed because some dialogs have PaPanels whose borders
+			// Invalidate() is needed because some dialogs have PaPanels whose borders
 			// don't get fully painted properly when the opacity goes to full.
-			Invalidate(true);
+			//
+			// On Linux, Invalidate() somehow cancels setting the opacity to 1,
+			// at least for the OptionsDlg subclass.  Alternatively, we could call 
+			// Application.DoEvents() here and then the Invalidate().
+			if (Type.GetType("Mono.Runtime") == null) // running .NET (not Mono Windows, not Mono Linux)
+				Invalidate(true);
 			Utils.UpdateWindow(Handle);
 		}
 

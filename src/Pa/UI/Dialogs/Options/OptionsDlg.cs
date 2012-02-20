@@ -86,7 +86,9 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
-			Utils.WaitCursors(false);
+			// calling Utils.WaitCursors() here on Mono causes the dialog to never be displayed
+			if (Type.GetType("Mono.Runtime") == null) // running .NET (not Mono Windows, not Mono Linux)
+				Utils.WaitCursors(false);
 			base.OnShown(e);
 		}
 
