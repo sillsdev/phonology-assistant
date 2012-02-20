@@ -331,10 +331,10 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void UpdateDisplay()
 		{
-			if (DesignMode || !Visible)
-				return;
-
 			int index = _gridPhones.CurrentCellAddress.Y;
+			
+			if (DesignMode || !Visible || index < 0)
+				return;
 
 			_labelPhoneDescription.Text = _viewModel.GetPhoneDescription(index);
 			_listView.SetDefaultFeatures(_viewModel.GetListOfDefaultFeaturesForPhone((index)));
