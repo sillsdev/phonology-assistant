@@ -731,7 +731,8 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsHTML(object args)
 		{
-			var fmt = LocalizationManager.GetString("Views.DataCorpus.DefaultHTMLExportFileAffix", "{0}-DataCorpus.html");
+			var fmt = LocalizationManager.GetString(
+				"Views.DataCorpus.DefaultHTMLExportFileAffix", "{0}-DataCorpus.html");
 
 			return Export(fmt, App.kstidFileTypeHTML, "html",
 				Settings.Default.OpenHtmlDataCorpusAfterExport,
@@ -741,7 +742,9 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsWordXml(object args)
 		{
-			var fmt = LocalizationManager.GetString("Views.DataCorpus.DefaultWordXmlExportFileAffix", "{0}-DataCorpus-(Word).xml");
+			var fmt = LocalizationManager.GetString(
+				"Views.DataCorpus.DefaultWordXmlExportFileAffix",
+				"{0}-DataCorpus-(Word).xml");
 
 			return Export(fmt, App.kstidFileTypeWordXml, "xml",
 				Settings.Default.OpenWordXmlDataCorpusAfterExport,
@@ -751,7 +754,9 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		protected bool OnExportAsXLingPaper(object args)
 		{
-			var fmt = LocalizationManager.GetString("Views.DataCorpus.DefaultXLingPaperExportFileAffix", "{0}-DataCorpus-(XLingPaper).xml");
+			var fmt = LocalizationManager.GetString(
+				"Views.DataCorpus.DefaultXLingPaperExportFileAffix",
+				"{0}-DataCorpus-(XLingPaper).xml");
 
 			return Export(fmt, App.kstidFileTypeXLingPaper, "xml",
 				Settings.Default.OpenXLingPaperDataCorpusAfterExport,

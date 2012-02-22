@@ -291,8 +291,13 @@ namespace SIL.Pa.UI.Views
 				Settings.Default.DistChartVwSidePanelWidth,
 				newWidth => Settings.Default.DistChartVwSidePanelWidth = newWidth);
 
+			// For the code scanner to work, the control (parameter 4 in GetString) cannot
+			// refer to a property, it has to refer to the actual object. Therefore, create
+			// a reference to the actual object (the button, in this case) and pass that
+			// to GetString.
+			var button = _slidingPanel.Tab;
 			LocalizationManager.GetString("Views.DistributionChartVw.UndockedSideBarTabText",
-				"Charts & Chart Building", null, _slidingPanel.Tab);
+				"Charts & Chart Building", null, button);
 
 			Controls.Add(_slidingPanel);
 			splitOuter.BringToFront();

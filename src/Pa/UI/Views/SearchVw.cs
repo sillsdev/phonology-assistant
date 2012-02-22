@@ -264,9 +264,14 @@ namespace SIL.Pa.UI.Views
 			m_slidingPanel = new SlidingPanel(this, splitSideBarOuter, pnlSliderPlaceholder,
 				Settings.Default.SearchVwSidePanelWidth,
 				newWidth => Settings.Default.SearchVwSidePanelWidth = newWidth);
-			
+
+			// For the code scanner to work, the control (parameter 4 in GetString) cannot
+			// refer to a property, it has to refer to the actual object. Therefore, create
+			// a reference to the actual object (the button, in this case) and pass that
+			// to GetString.
+			var button = m_slidingPanel.Tab;
 			LocalizationManager.GetString("Views.Search.UndockedSideBarTabText",
-				"Patterns & Pattern Building", null, m_slidingPanel.Tab);
+				"Patterns & Pattern Building", null, button);
 
 			SuspendLayout();
 			Controls.Add(m_slidingPanel);

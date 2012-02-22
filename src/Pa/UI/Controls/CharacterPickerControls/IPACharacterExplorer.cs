@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
@@ -286,7 +287,7 @@ namespace SIL.Pa.UI.Controls
 			var settings = new StringCollection();
 
 			foreach (var item in Items)
-				settings.Add(item.IsExpanded.ToString());
+				settings.Add(item.IsExpanded.ToString(CultureInfo.InvariantCulture));
 
 			return settings;
 		}
