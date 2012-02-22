@@ -3160,6 +3160,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
+		[global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
@@ -3176,6 +3177,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
+		[global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
@@ -3357,6 +3359,7 @@ namespace SIL.Pa.Properties {
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
+		[global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
