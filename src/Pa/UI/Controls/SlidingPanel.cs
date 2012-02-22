@@ -36,10 +36,6 @@ namespace SIL.Pa.UI.Controls
 		private readonly Action<int> m_saveWidthAction;
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		public SlidingPanel(Control owningContainer, Control control, Panel pnlPlaceHolder,
 			int initialPanelWidth, Action<int> saveWidthAction)
 		{
@@ -69,12 +65,10 @@ namespace SIL.Pa.UI.Controls
 			m_hostedControl.ResumeLayout(false);
 			m_owningContainer.ResumeLayout(false);
 			ResumeLayout(false);
+
+			Localization.UI.LocalizeItemDlg.StringsLocalized += ResizeTab;
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		private void SetupPanels()
 		{
@@ -124,10 +118,6 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
 		private void SetupTimers()
 		{
 			m_tmrMouseLocationMonitor = new System.Windows.Forms.Timer();
@@ -155,24 +145,27 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void m_pnlPlaceholder_SizeChanged(object sender, EventArgs e)
 		{
+			ResizeTab();
+			m_pnlContainer.Height = Height;
+			m_pnlContainer.Location = new Point(m_leftEdgeWhenClosed, Top);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void ResizeTab()
+		{
 			const TextFormatFlags kFlags = TextFormatFlags.SingleLine |
 				TextFormatFlags.VerticalCenter | TextFormatFlags.LeftAndRightPadding |
 				TextFormatFlags.HorizontalCenter | TextFormatFlags.NoPrefix;
 
-			Size sz;
-			using (Graphics g = CreateGraphics())
+			using (var g = CreateGraphics())
 			{
-				sz = TextRenderer.MeasureText(g, m_lblTab.Text, FontHelper.UIFont, Size.Empty, kFlags);
+				var sz = TextRenderer.MeasureText(g, m_lblTab.Text, FontHelper.UIFont, Size.Empty, kFlags);
 				sz.Height += 15;
+				m_pnlPlaceholder.Width = sz.Height + 7;
+				Size = new Size(sz.Height + 7, m_pnlPlaceholder.Height);
+				Location = m_pnlPlaceholder.Location;
+				m_lblTab.Size = new Size(sz.Height, sz.Width);
 			}
-
-			m_pnlPlaceholder.Width = sz.Height + 7;
-			Size = new Size(sz.Height + 7, m_pnlPlaceholder.Height);
-			Location = m_pnlPlaceholder.Location;
-			m_lblTab.Size = new Size(sz.Height, sz.Width);
-
-			m_pnlContainer.Height = Height;
-			m_pnlContainer.Location = new Point(m_leftEdgeWhenClosed, Top);
 		}
 
 		/// ------------------------------------------------------------------------------------
