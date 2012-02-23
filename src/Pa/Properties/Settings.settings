@@ -689,31 +689,31 @@
     <Setting Name="ShowLoadColumnInProjectSettingsDlg" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="SFMNoParseOptionSampleOutput" Type="System.String" Scope="Application">
+    <Setting Name="SFMNoParseOptionSampleOutput" Provider="SilTools.PortableSettingsProvider" Type="System.String" Scope="Application">
       <Value Profile="(Default)">hi ni nini/this what</Value>
     </Setting>
-    <Setting Name="SFMOneToOneParseOptionSampleOutput" Type="System.String" Scope="Application">
+    <Setting Name="SFMOneToOneParseOptionSampleOutput" Provider="SilTools.PortableSettingsProvider" Type="System.String" Scope="Application">
       <Value Profile="(Default)">hi/this#ni/what#nini/</Value>
     </Setting>
-    <Setting Name="SFMPhoneticParseOptionSampleOutput" Type="System.String" Scope="Application">
+    <Setting Name="SFMPhoneticParseOptionSampleOutput" Provider="SilTools.PortableSettingsProvider" Type="System.String" Scope="Application">
       <Value Profile="(Default)">hi/this what#ni/this what#nini/this what</Value>
     </Setting>
-    <Setting Name="SFMInterlinearParseOptionSampleOutput" Type="System.String" Scope="Application">
+    <Setting Name="SFMInterlinearParseOptionSampleOutput" Provider="SilTools.PortableSettingsProvider" Type="System.String" Scope="Application">
       <Value Profile="(Default)">mimi/1S/pro#napenda/PRES- like/TEMP- v#watoto./P HUM-  child/prf-   n</Value>
     </Setting>
-    <Setting Name="SFMInterlinearParseOptionSampleInput" Type="System.String" Scope="Application">
+    <Setting Name="SFMInterlinearParseOptionSampleInput" Provider="SilTools.PortableSettingsProvider" Type="System.String" Scope="Application">
       <Value Profile="(Default)">{\rtf1\ansi{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
 \uc1\pard\tx360\tx900\tx1260\tx1440\tx1800\f0\fs16\\ph\tab mimi\tab napenda\tab watoto.\par
 \pard\tx360\tx900\tx1440\tx1800\tx2520\\gl\tab 1S\tab PRES-\tab like\tab P HUM-\tab child\par
 \\ps\tab pro\tab TEMP-\tab v\tab prf-\tab n\par}</Value>
     </Setting>
-    <Setting Name="SFMBasicParseOptionSampleInput" Type="System.String" Scope="Application">
+    <Setting Name="SFMBasicParseOptionSampleInput" Provider="SilTools.PortableSettingsProvider" Type="System.String" Scope="Application">
       <Value Profile="(Default)">{\rtf1\ansi{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}\uc1\pard\tx360\tx1625\tx3145\tx4920\f0\fs16\\ph\tab hi ni nini\par\\gl\tab this what\par}</Value>
     </Setting>
-    <Setting Name="DefaultParsedSaFields" Type="System.String" Scope="Application">
+    <Setting Name="DefaultParsedSaFields" Provider="SilTools.PortableSettingsProvider" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Phonetic;Phonemic;Tone;Gloss;Orthographic;Reference</Value>
     </Setting>
-    <Setting Name="DefaultParsedSfmFields" Type="System.String" Scope="Application">
+    <Setting Name="DefaultParsedSfmFields" Provider="SilTools.PortableSettingsProvider" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Phonetic;Phonemic;Gloss;Gloss-Secondary;Gloss-Other;PartOfSpeech;Tone;Orthographic</Value>
     </Setting>
     <Setting Name="ShowSFMappingsInformation" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
@@ -731,7 +731,7 @@
     <Setting Name="PhoneticFont" Provider="SilTools.PortableSettingsProvider" Type="System.Drawing.Font" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="DefaultMappedFw7Fields" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+    <Setting Name="DefaultMappedFw7Fields" Provider="SilTools.PortableSettingsProvider" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
   &lt;string&gt;Gloss&lt;/string&gt;
@@ -746,7 +746,7 @@
     <Setting Name="Fw7DataSourcePropertiesDlg" Provider="SilTools.PortableSettingsProvider" GenerateDefaultValueInCode="false" Type="SilTools.FormSettings" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="ParsedFw7Fields" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+    <Setting Name="ParsedFw7Fields" Provider="SilTools.PortableSettingsProvider" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
   &lt;string&gt;Phonetic&lt;/string&gt;
@@ -757,10 +757,10 @@
   &lt;string&gt;AudioFileLabel&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
-    <Setting Name="DefaultSfmRecordMarker" Type="System.String" Scope="Application">
+    <Setting Name="DefaultSfmRecordMarker" Provider="SilTools.PortableSettingsProvider" Type="System.String" Scope="Application">
       <Value Profile="(Default)">\ref</Value>
     </Setting>
-    <Setting Name="DefaultVisibleFields" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+    <Setting Name="DefaultVisibleFields" Provider="SilTools.PortableSettingsProvider" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
   &lt;string&gt;Phonetic&lt;/string&gt;
@@ -770,7 +770,7 @@
   &lt;string&gt;Reference&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
-    <Setting Name="DefaultSaFields" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+    <Setting Name="DefaultSaFields" Provider="SilTools.PortableSettingsProvider" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
   &lt;string&gt;Phonetic&lt;/string&gt;
@@ -794,7 +794,7 @@
   &lt;string&gt;SADescription&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
-    <Setting Name="DefaultSfmFields" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+    <Setting Name="DefaultSfmFields" Provider="SilTools.PortableSettingsProvider" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
   &lt;string&gt;Reference&lt;/string&gt;
@@ -808,7 +808,7 @@
   &lt;string&gt;AudioFile&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
-    <Setting Name="DefaultFw7Fields" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+    <Setting Name="DefaultFw7Fields" Provider="SilTools.PortableSettingsProvider" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
   &lt;string&gt;CitationForm&lt;/string&gt;
@@ -860,10 +860,10 @@
   &lt;string&gt;ImportResidue-Sense&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
-    <Setting Name="DefaultFw7InferredFontSizeAndStyle" Type="System.String" Scope="Application">
+    <Setting Name="DefaultFw7InferredFontSizeAndStyle" Provider="SilTools.PortableSettingsProvider" Type="System.String" Scope="Application">
       <Value Profile="(Default)">{0}, 11, Regular</Value>
     </Setting>
-    <Setting Name="AllPossibleFw6Fields" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+    <Setting Name="AllPossibleFw6Fields" Provider="SilTools.PortableSettingsProvider" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
   &lt;string&gt;Phonetic&lt;/string&gt;
@@ -880,7 +880,7 @@
   &lt;string&gt;DateModified&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
-    <Setting Name="DefaultMappedFw6Fields" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+    <Setting Name="DefaultMappedFw6Fields" Provider="SilTools.PortableSettingsProvider" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
   &lt;string&gt;Phonetic&lt;/string&gt;
@@ -893,7 +893,7 @@
   &lt;string&gt;Reference&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
-    <Setting Name="Fw6FieldsMappableInPropsDlg" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+    <Setting Name="Fw6FieldsMappableInPropsDlg" Provider="SilTools.PortableSettingsProvider" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
   &lt;string&gt;Phonetic&lt;/string&gt;
@@ -905,16 +905,16 @@
   &lt;string&gt;PartOfSpeech&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
-    <Setting Name="Fw7JumpUrlFormat" Type="System.String" Scope="Application">
+    <Setting Name="Fw7JumpUrlFormat" Provider="SilTools.PortableSettingsProvider" Type="System.String" Scope="Application">
       <Value Profile="(Default)">silfw://localhost/link?app%3dflex%26database%3d{0}%26server%3d{1}%26tool%3dlexiconEdit%26guid%3d{2}%26tag%3d</Value>
     </Setting>
     <Setting Name="UseProgressBarInMainWindow" Provider="SilTools.PortableSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="DefaultProjectFolderName" Type="System.String" Scope="Application">
+    <Setting Name="DefaultProjectFolderName" Provider="SilTools.PortableSettingsProvider" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Phonology Assistant</Value>
     </Setting>
-    <Setting Name="DefaultVisibleFieldsForNewProject" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+    <Setting Name="DefaultVisibleFieldsForNewProject" Provider="SilTools.PortableSettingsProvider" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
   &lt;string&gt;Phonetic&lt;/string&gt;
