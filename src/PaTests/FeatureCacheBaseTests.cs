@@ -224,21 +224,21 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual("Onions", list[2]);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tests the GetFeatureText method.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[Test]
-		public void GetFeatureText()
-		{
-			var fmask = new FeatureMask(m_cache.Count);
-			fmask[m_fNames.IndexOf("Onions")] = true;
-			fmask[m_fNames.IndexOf("Ham")] = true;
-			fmask[m_fNames.IndexOf("Cheese")] = true;
+		///// ------------------------------------------------------------------------------------
+		///// <summary>
+		///// Tests the GetFeatureText method.
+		///// </summary>
+		///// ------------------------------------------------------------------------------------
+		//[Test]
+		//public void GetFeatureText()
+		//{
+		//    var fmask = new FeatureMask(m_cache.Count);
+		//    fmask[m_fNames.IndexOf("Onions")] = true;
+		//    fmask[m_fNames.IndexOf("Ham")] = true;
+		//    fmask[m_fNames.IndexOf("Cheese")] = true;
 
-			Assert.AreEqual("Cheese, Ham, Onions", m_cache.GetFeaturesText(fmask));
-		}
+		//    Assert.AreEqual("Cheese, Ham, Onions", m_cache.GetFeaturesText(fmask));
+		//}
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

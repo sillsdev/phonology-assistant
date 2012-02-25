@@ -618,6 +618,14 @@ namespace SIL.Pa.PhoneticSearching
 		{
 			while (true)
 			{
+				var match = PatternParser.FindInnerMostParenthesePair(pattern);
+				if (!match.Success)
+					break;
+				pattern = pattern.Replace(match.Value, string.Empty);
+			}
+
+			while (true)
+			{
 				var match = PatternParser.FindInnerMostSquareBracketPairs(pattern);
 				if (!match.Success)
 					break;

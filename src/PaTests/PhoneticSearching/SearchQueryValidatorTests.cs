@@ -207,6 +207,15 @@ namespace SIL.Pa.PhoneticSearching
 			Assert.IsTrue(_validator.HasErrors);
 		}
 
+		/// ------------------------------------------------------------------------------------
+		[Test]
+		public void VerifyPhonesAndSymbols_ContainsValidParentheticalPhoneGroup_CausesNoErrors()
+		{
+			var query = new SearchQuery("{(ab),(cd)}/*_*");
+			_validator.VerifyPhonesAndSymbols(query);
+			Assert.IsFalse(_validator.HasErrors);
+		}
+
 		#endregion
 
 		#region VerifyPrecedingEnvironment tests

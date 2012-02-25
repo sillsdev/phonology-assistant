@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using SIL.Pa.Model;
 
@@ -262,7 +263,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		private string ReplaceMatchedTextWithToken(string pattern, Match match, char token)
 		{
-			var newPattern = pattern.Substring(0, match.Index) + token.ToString();
+			var newPattern = pattern.Substring(0, match.Index) + token.ToString(CultureInfo.InvariantCulture);
 			newPattern += new string('$', match.Length - 1);
 
 			if (match.Index + match.Length < pattern.Length)
@@ -292,6 +293,13 @@ namespace SIL.Pa.PhoneticSearching
 		public static Match FindInnerMostBracesPair(string pattern)
 		{
 			var regex = new Regex(@"\{(?<bracketedText>[^\{\}]*)\}");
+			return regex.Match(pattern);
+		}
+
+		/// ------------------------------------------------------------------------------------
+		public static Match FindInnerMostParenthesePair(string pattern)
+		{
+			var regex = new Regex(@"\((?<bracketedText>[^\(\)]*)\)");
 			return regex.Match(pattern);
 		}
 
