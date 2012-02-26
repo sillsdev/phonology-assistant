@@ -180,9 +180,8 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				<item name="tbbSaveChartOnMenu" commandid="CmdSaveChartOnMenu" type="0" displaytype="2"/>
 				<item name="tbbSaveChartAs" commandid="CmdSaveChartAs" type="0" displaytype="2"/>
 			</item>
-			<item name="tbbClearChart" commandid="CmdClearChart" type="0" displaytype="2"/>
 			<item name="tbbShowCIEResults" commandid="CmdShowCIEResults" type="0" begingroup="true"/>
-			<item name="tbbGroupBySortedField" commandid="CmdGroupBySortedField" type="0" begingroup="true"/>
+			<item name="tbbGroupBySortedField" commandid="CmdGroupBySortedField" type="0" />
 			<item name="tbbCollapseAllGroups" commandid="CmdCollapseAllGroups" type="0"/>
 			<item name="tbbExpandAllGroups" commandid="CmdExpandAllGroups" type="0"/>
 			<item name="tbbShowRecordPane" commandid="CmdShowRecordPane" type="0" begingroup="true"/>
@@ -197,6 +196,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 					<item name="tbbAdjustPlaybackSpeed" commandid="CmdAdjustPlaybackSpeed" type="5" autoclose="false"/>
 				</item>
 			</item>
+			<item name="tbbClearChart" commandid="CmdClearChart" type="0" displaytype="2" begingroup="true"/>
 			<item name="tbbPhoneticSort" commandid="CmdPhoneticSort" type="3" split="false" rightaligned="true" rightmargin="10"/>
 		</toolbar>
 	</toolbars>

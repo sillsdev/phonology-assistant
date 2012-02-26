@@ -183,15 +183,12 @@ Item "displaytype" Values (applies to item types 0 - 3):
 			<item name="tbbSearchOptions" commandid="CmdSearchOptions" type="3" split="false">
 				<item name="tbbSearchOptionsDropDown" commandid="CmdDoNothing" type="5" autoclose="true"/>
 			</item>
-
-			<!-- item name="tbbVerifyPattern" commandid="CmdVerifyPattern" type="0" displaytype="2" begingroup="true"/ -->
 			<item name="tbbSavePattern" commandid="CmdSavePattern" type="2" split="true" begingroup="true">
 				<item name="tbbSavePatternOnMenu" commandid="CmdSavePatternOnMenu" type="0" displaytype="2"/>
 				<item name="tbbSavePatternAs" commandid="CmdSavePatternAs" type="0" displaytype="2"/>
 			</item>
-			<item name="tbbClearPattern" commandid="CmdClearPattern" type="0" displaytype="2"/>
 			<item name="tbbShowCIEResults" commandid="CmdShowCIEResults" type="0" begingroup="true"/>
-			<item name="tbbGroupBySortedField" commandid="CmdGroupBySortedField" type="0" begingroup="true"/>
+			<item name="tbbGroupBySortedField" commandid="CmdGroupBySortedField" type="0" />
 			<item name="tbbCollapseAllGroups" commandid="CmdCollapseAllGroups" type="0"/>
 			<item name="tbbExpandAllGroups" commandid="CmdExpandAllGroups" type="0"/>
 			<item name="tbbShowRecordPane" commandid="CmdShowRecordPane" type="0" begingroup="true"/>
@@ -206,6 +203,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
  					<item name="tbbAdjustPlaybackSpeed" commandid="CmdAdjustPlaybackSpeed" type="5" autoclose="false"/>
 				</item>
 			</item>
+			<item name="tbbClearPattern" commandid="CmdClearPattern" type="0" displaytype="2" begingroup="true"/>
 			<item name="tbbPhoneticSort" commandid="CmdPhoneticSort" type="3" split="false" rightaligned="true" rightmargin="10"/>
 		</toolbar>
 	</toolbars>
