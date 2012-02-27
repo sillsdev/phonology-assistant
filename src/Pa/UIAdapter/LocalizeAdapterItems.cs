@@ -55,7 +55,7 @@ namespace SIL.Pa
 					break;
 
 				case "MenuItems.FileBackup":
-					LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.BackupRestore",
+					LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Backup",
 						"&Backup...", null, null, null, item);
 					break;
 
