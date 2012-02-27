@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using Localization;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SilTools;
@@ -24,6 +25,11 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void Clear()
 		{
+			var bodyElement = new XElement("p", new XAttribute("class", "field"),
+				LocalizationManager.GetString("Views.WordLists.RtfRecordView.EmtpyView", "(no data)",
+					"What's displayed in the record view when there is no data."));
+
+			SetDocumentText(new PaField[0], bodyElement);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -47,8 +53,13 @@ namespace SIL.Pa.UI.Controls
 
 			_recEntry = entry;
 			var fieldsAndValues = GetFieldsAndValuesToDisplay(entry);
-			var bodyElement = CreateBodyElement(fieldsAndValues);
-			var stylesheet = GetStyleSheet(fieldsAndValues.Keys);
+			SetDocumentText(fieldsAndValues.Keys, CreateBodyElement(fieldsAndValues));
+		}
+
+		/// ------------------------------------------------------------------------------------
+		private void SetDocumentText(IEnumerable<PaField> fields, XElement bodyElement)
+		{
+			var stylesheet = GetStyleSheet(fields);
 
 			XNamespace ns = "http://www.w3.org/1999/xhtml";
 			var root = new XElement(ns + "html", new XAttribute("lang", "en"),
