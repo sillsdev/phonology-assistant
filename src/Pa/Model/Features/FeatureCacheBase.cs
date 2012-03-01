@@ -179,23 +179,6 @@ namespace SIL.Pa.Model
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets a string representing all the features in the specified mask. The feature
-		/// names are joined and delimited by a comma and space.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public string GetFeaturesText(FeatureMask mask)
-		{
-			var featureList = GetFeatureList(mask);
-			var bldrfeatures = new StringBuilder();
-
-			foreach (var feature in featureList)
-				bldrfeatures.AppendFormat("{0}, ", feature);
-
-			return (bldrfeatures.ToString().TrimEnd(',', ' '));
-		}
-
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
 		/// Gets a mask initialized with as many bits as there are cache items.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
