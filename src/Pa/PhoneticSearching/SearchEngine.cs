@@ -1,9 +1,9 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Localization;
 using SIL.Pa.Model;
-using SIL.Pa.Properties;
 
 namespace SIL.Pa.PhoneticSearching
 {
@@ -83,23 +83,10 @@ namespace SIL.Pa.PhoneticSearching
 
 			try
 			{
-				if (Settings.Default.UseNewSearchPatternParser)
-				{
-					var parser = new PatternParser(App.Project);
-					SrchItemPatternGroup = parser.Parse(query.SearchItem, EnvironmentType.Item);
-					EnvBeforePatternGroup = parser.Parse(query.PrecedingEnvironment, EnvironmentType.Before);
-					EnvAfterPatternGroup = parser.Parse(query.FollowingEnvironment, EnvironmentType.After);
-				}
-				else
-				{
-					SrchItemPatternGroup = new PatternGroup(EnvironmentType.Item);
-					EnvBeforePatternGroup = new PatternGroup(EnvironmentType.Before);
-					EnvAfterPatternGroup = new PatternGroup(EnvironmentType.After);
-
-					Parse(SrchItemPatternGroup, query.SearchItem);
-					Parse(EnvBeforePatternGroup, query.PrecedingEnvironment);
-					Parse(EnvAfterPatternGroup, query.FollowingEnvironment);
-				}
+				var parser = new PatternParser(App.Project);
+				SrchItemPatternGroup = parser.Parse(query.SearchItem, EnvironmentType.Item);
+				EnvBeforePatternGroup = parser.Parse(query.PrecedingEnvironment, EnvironmentType.Before);
+				EnvAfterPatternGroup = parser.Parse(query.FollowingEnvironment, EnvironmentType.After);
 			}
 			catch
 			{
@@ -115,74 +102,6 @@ namespace SIL.Pa.PhoneticSearching
 
 			if (_errors != null && _errors.Count > 0)
 				query.Errors.AddRange(_errors);
-		}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Gets or sets a value indicating whether or not the phones in a the search pattern
-		///// should be run through the experimental transcription conversion process.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public static bool ConvertPatternWithTranscriptionChanges { get; set; }
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Combines the list of error messages into a single message.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public string GetCombinedErrorMessages()
-		//{
-		//    return GetCombinedErrorMessages(true);
-		//}
-
-		///// ------------------------------------------------------------------------------------
-		///// <summary>
-		///// Combines the list of error messages into a single message.
-		///// </summary>
-		///// ------------------------------------------------------------------------------------
-		//public string GetCombinedErrorMessages(bool separateErrorsWithLineBreaks)
-		//{
-		//    if (_errors == null || _errors.Count == 0)
-		//        return null;
-
-		//    var errors = new StringBuilder();
-		//    foreach (var err in _errors)
-		//    {
-		//        errors.Append(err);
-		//        errors.Append(separateErrorsWithLineBreaks ? Environment.NewLine : " ");
-		//    }
-
-		//    var fmt = LocalizationManager.GetString("PhoneticSearchingMessages.GenericPatternParsingErrorMsg",
-		//        "The following error(s) occurred when parsing the search pattern:\n\n{0}",
-		//        "Search Query Messages");
-
-		//    return string.Format(fmt, errors.ToString().Trim());
-		//}
-
-		/// ------------------------------------------------------------------------------------
-		private void Parse(PatternGroup ptrnGrp, string pattern)
-		{
-			var errList = new List<string>();
-
-			var success = ptrnGrp.Parse(pattern, errList);
-			var envType = GetEnvironmentTypeString(ptrnGrp.EnvironmentType);
-
-			if (errList.Count > 0)
-				_errors.AddRange(errList.Select(e => new SearchQueryValidationError(e)).ToList());
-
-			if (ptrnGrp.Members == null || ptrnGrp.Members.Count == 0)
-			{
-				var fmt = LocalizationManager.GetString("PhoneticSearchingMessages.ParsedToNothingErrorMsg",
-					"Parsing the pattern '{0}' resulted in nothing to search for.");
-
-				_errors.Add(new SearchQueryValidationError(string.Format(fmt, envType)));
-				return;
-			}
-
-			//// TODO: Some day handle errors so an error dialog can link
-			//// to different help topics based on the error.
-			//if (!success && !_errors.Any(msg => msg.StartsWith(kBracketingError)))
-			//    _errors.Add(string.Format(GetSyntaxErrorMsg(), envType));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -266,9 +185,9 @@ namespace SIL.Pa.PhoneticSearching
 			if (App.IPASymbolCache.UndefinedCharacters != null && IgnoredPhones != null)
 			{
 				foreach (var upci in App.IPASymbolCache.UndefinedCharacters
-					.Where(upci => !IgnoredPhones.Contains(upci.Character.ToString())))
+					.Where(upci => !IgnoredPhones.Contains(upci.Character.ToString(CultureInfo.InvariantCulture))))
 				{
-					IgnoredPhones.Add(upci.Character.ToString());
+					IgnoredPhones.Add(upci.Character.ToString(CultureInfo.InvariantCulture));
 				}
 			}
 		}
@@ -283,9 +202,9 @@ namespace SIL.Pa.PhoneticSearching
 			if (App.IPASymbolCache.UndefinedCharacters != null && IgnoredPhones != null)
 			{
 				foreach (var upci in App.IPASymbolCache.UndefinedCharacters
-					.Where(upci => IgnoredPhones.Contains(upci.Character.ToString())))
+					.Where(upci => IgnoredPhones.Contains(upci.Character.ToString(CultureInfo.InvariantCulture))))
 				{
-					IgnoredPhones.Remove(upci.Character.ToString());
+					IgnoredPhones.Remove(upci.Character.ToString(CultureInfo.InvariantCulture));
 				}
 			}
 		}
