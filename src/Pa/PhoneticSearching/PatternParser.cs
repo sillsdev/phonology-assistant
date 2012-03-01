@@ -181,6 +181,7 @@ namespace SIL.Pa.PhoneticSearching
 					// The only time a token group is a string is when it contains a diacritic pattern cluster.
 					if (((string)_tokenGroups[chr]).Contains(App.DottedCircle))
 						group.SetDiacriticPattern((string)_tokenGroups[chr]);
+					_tokenGroups.Remove(chr);
 				}
 				else
 				{
@@ -200,7 +201,7 @@ namespace SIL.Pa.PhoneticSearching
 			}
 
 			if (group.Members.Count == 1 && group.Members[0] is PatternGroup)
-				group = (PatternGroup) group.Members[0];
+				group = (PatternGroup)group.Members[0];
 
 			_tokenGroups[++_token] = group;
 			return ReplaceMatchedTextWithToken(pattern, match, _token);
