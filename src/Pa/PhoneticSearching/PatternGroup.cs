@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Localization;
 
 namespace SIL.Pa.PhoneticSearching
 {
@@ -1387,9 +1386,9 @@ namespace SIL.Pa.PhoneticSearching
 					continue;
 
 				int matchLength;
-				CompareResultType compareResult = SearchGroup(phones, ref i, out matchLength);
+				var compareResult = SearchGroup(phones, ref i, out matchLength);
 				
-				if (compareResult == CompareResultType.Ignored)
+				if (compareResult == CompareResultType.Ignored || compareResult == CompareResultType.Error)
 					continue;
 
 				if (compareResult != CompareResultType.NoMatch)
@@ -1447,7 +1446,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		private bool SearchSequentiallyForSrchItem(string[] phones, int startIndex, ref int[] results)
 		{
-			CompareResultType compareResult = CompareResultType.NoMatch;
+			var compareResult = CompareResultType.NoMatch;
 			PatternGroupMember member = null;
 			int ip = startIndex;				// Index into the collection of phones
 			int im = 0;							// Index into the collection of members
@@ -1534,7 +1533,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		private bool SearchSequentiallyForEnvBefore(string[] phones, int startIndex, ref int[] results)
 		{
-			CompareResultType compareResult = CompareResultType.NoMatch;
+			var compareResult = CompareResultType.NoMatch;
 			PatternGroupMember member = null;
 			int ip = startIndex;				// Index into the collection of phones
 			int im = Members.Count - 1;		// Index into the collection of members
@@ -1614,7 +1613,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		private bool SearchSequentiallyForEnvAfter(string[] phones, int startIndex, ref int[] results)
 		{
-			CompareResultType compareResult = CompareResultType.NoMatch;
+			var compareResult = CompareResultType.NoMatch;
 			PatternGroupMember member = null;
 			int ip = startIndex;				// Index into the collection of phones
 			int im = 0;							// Index into the collection of members
@@ -1729,11 +1728,11 @@ namespace SIL.Pa.PhoneticSearching
 				return CompareResultType.NoMatch;
 
 			int[] results = new[] { -1, -1 };
-			CompareResultType compareResult = CompareResultType.NoMatch;
+			var compareResult = CompareResultType.NoMatch;
 
 			foreach (object member in Members)
 			{
-				PatternGroup group = member as PatternGroup;
+				var group = member as PatternGroup;
 
 				if (group == null)
 				{
@@ -1765,7 +1764,7 @@ namespace SIL.Pa.PhoneticSearching
 					}
 				}
 
-				if (compareResult == CompareResultType.Ignored ||
+				if (compareResult == CompareResultType.Ignored || compareResult == CompareResultType.Error ||
 					(compareResult == CompareResultType.Match && GroupType != GroupType.And) ||
 					(compareResult == CompareResultType.NoMatch && GroupType != GroupType.Or))
 				{

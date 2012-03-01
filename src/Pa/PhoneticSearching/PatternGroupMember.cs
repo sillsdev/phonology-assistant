@@ -364,8 +364,8 @@ namespace SIL.Pa.PhoneticSearching
 			// Split the phone where the tie-bar is and send each remaining piece under
 			// (or over) a tie-bar to comparer that checks matches on diacritics.
 			return (phone.Split(App.kTieBars, StringSplitOptions.RemoveEmptyEntries)
-				.Any(p => !CompareDiacritics(DiacriticPattern, p)) ?
-					CompareResultType.NoMatch : CompareResultType.NoMatch);
+				.Any(p => CompareDiacritics(DiacriticPattern, p)) ?
+					CompareResultType.Match : CompareResultType.NoMatch);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -504,7 +504,7 @@ namespace SIL.Pa.PhoneticSearching
 			foreach (char sseg in SearchEngine.IgnoredChars)
 			{
 				if (patternDiacritics.IndexOf(sseg) < 0)
-					phonesDiacritics = phonesDiacritics.Replace(sseg.ToString(), string.Empty);
+					phonesDiacritics = phonesDiacritics.Replace(sseg.ToString(CultureInfo.InvariantCulture), string.Empty);
 
 				if (phonesDiacritics.Length == 0)
 					break;
