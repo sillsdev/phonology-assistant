@@ -42,11 +42,12 @@ namespace SIL.Pa.Processing
 				return null;
 
 			var xsltFileName = documentNavigator.GetAttribute("href", string.Empty); // No namespace for attributes.
-#if !__MonoCS__ // Mono build just use .xsl files in "Transforms" subfolder
-			var xsltFilePath = Path.Combine(processingFolder, xsltFileName);
-#else
-			var xsltFilePath = Path.Combine(Path.Combine(processingFolder, "Transforms"), xsltFileName);
-#endif
+			string xsltFilePath;
+			// if Mono run-time, just use .xsl files in "Transforms" subfolder
+			if (Type.GetType("Mono.Runtime") == null) // running .NET (not Mono Windows, not Mono Linux)
+				xsltFilePath = Path.Combine(processingFolder, xsltFileName);
+			else
+				xsltFilePath = Path.Combine(Path.Combine(processingFolder, "Transforms"), xsltFileName);
 
 			return new Step(xsltFilePath);
 		}
@@ -76,15 +77,17 @@ namespace SIL.Pa.Processing
 				}
 				else
 				{
-#if !__MonoCS__ // MS didn't publish API for pre-compiled XSLT - http://tinyurl.com/mono-compiled-xslt and http://www.mono-project.com/XML#System.Xml.XPath_and_System.Xml.Xsl_2.0
-					_xslt = new XslCompiledTransform(true);
-					var compiledTransformType = Type.GetType(Path.GetFileNameWithoutExtension(XsltFilePath) +
-						", PaCompiledTransforms, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
-					_xslt.Load(compiledTransformType);
-					return;
-#else
-					throw new Exception("File Not Found");
-#endif
+					// MS didn't publish API for pre-compiled XSLT - http://tinyurl.com/mono-compiled-xslt and http://www.mono-project.com/XML#System.Xml.XPath_and_System.Xml.Xsl_2.0
+					if (Type.GetType("Mono.Runtime") == null) // running .NET (not Mono Windows, not Mono Linux)
+					{
+						_xslt = new XslCompiledTransform(true);
+						LoadPrecompiled ();
+						return;
+					}
+					else
+					{
+						throw new Exception("File Not Found");
+					}
 				}
 			}
 			catch (Exception e)
@@ -93,6 +96,22 @@ namespace SIL.Pa.Processing
 				exception.Data.Add("XSL Transformation file path", XsltFilePath);
 				throw exception;
 			}
+		}
+
+		internal void LoadPrecompiled()
+		{
+			// This overload of XslCompiledTransform.Load() won't even build on Mono; see
+			// http://lists.ximian.com/pipermail/mono-list/2009-September/043464.html
+			// The consequence is that Mono builds won't run on .NET, but at least I can test Visual Studio
+			// builds on Mono Windows.
+			// Also, the Visual Studio build on Mono Windows throws the excpetion:
+			//     Method not found: 'System.Xml.Xsl.XslCompiledTransform.Load'
+			// on the code below _unless_ it is in a separate method which is never called on Mono.
+			#if !__MonoCS__
+			var compiledTransformType = Type.GetType(Path.GetFileNameWithoutExtension(XsltFilePath) +
+				", PaCompiledTransforms, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
+			_xslt.Load(compiledTransformType);
+			#endif
 		}
 
 		/// ------------------------------------------------------------------------------------
