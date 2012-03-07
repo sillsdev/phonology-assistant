@@ -177,7 +177,9 @@ namespace SIL.Pa.UI
 			// 
 			// PaMainWnd
 			// 
-			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+			// AutoScaling causes problems on other fonts, makes Linux version get wider each run;
+			// see http://www.mono-project.com/FAQ%3a_Winforms#My_forms_are_sized_improperly
+			//this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
 			this.BackColor = System.Drawing.SystemColors.AppWorkspace;
 			this.ClientSize = new System.Drawing.Size(794, 538);
 			this.Controls.Add(this.vwTabGroup);
