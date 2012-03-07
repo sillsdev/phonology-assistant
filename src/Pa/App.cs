@@ -548,13 +548,16 @@ namespace SIL.Pa
 		public static bool ShouldShowSplashScreen
 		{
 			get {
-				// FIXME - splash screen makes PA not open in Mono Windows; ok in Mono Linux and .NET Windows
-				bool UnixLike = (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX);
-				if (Type.GetType("Mono.Runtime") != null && !UnixLike) // running Mono Windows (you may ask, "Why would someone do that?")
-					return false;
-				else
+				// FIXME - on Mono Linux, splash screen is too transparent (does not fade in) and
+				// also hangs unless mouse pointer is wiggled in front of splash screen;
+				// on Mono Windows, splash screen freezes entire application;
+				// perhaps related to https://bugzilla.novell.com/show_bug.cgi?id=690400
+				//bool UnixLike = (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX);
+				if (Type.GetType("Mono.Runtime") == null) // running .NET (not Mono Windows, not Mono Linux)
 					return (Settings.Default.ShowSplashScreen &&
 						(Control.ModifierKeys & Keys.Control) != Keys.Control);
+				else
+					return false;
 			}
 			set
 			{
