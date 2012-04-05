@@ -57,24 +57,30 @@ namespace SIL.Pa.UI.Dialogs
 			
 			_radioMatchAll = new RadioButton();
 			_radioMatchAll.AutoSize = true;
+			_radioMatchAll.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 			_radioMatchAll.Font = FontHelper.UIFont;
 			_radioMatchAll.BackColor = Color.Transparent;
 			_radioMatchAll.Margin = new Padding(3, 6, 8, 3);
 			_radioMatchAll.TabIndex = _textBoxMembers.TabIndex + 1;
 			_radioMatchAll.TabStop = true;
-			_radioMatchAll.Text = "Match A&ll Selected Features";
 			_radioMatchAll.CheckedChanged += HandleScopeClick;
+			_radioMatchAll.Text = LocalizationManager.GetString(
+				"DialogBoxes.DefineClassDlgBase.MatchAllSelectedFeaturesRadioButton",
+				"Match A&ll Selected Features", null, _radioMatchAll);
 
 			_radioMatchAny = new RadioButton();
 			_radioMatchAny.AutoSize = true;
+			_radioMatchAny.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 			_radioMatchAny.Font = FontHelper.UIFont;
 			_radioMatchAny.BackColor = Color.Transparent;
 			_radioMatchAny.Margin = new Padding(7, 6, 3, 3);
 			_radioMatchAny.TabIndex = _radioMatchAll.TabIndex + 1;
 			_radioMatchAny.TabStop = true;
-			_radioMatchAny.Text = "Match A&ny Selected Features";
 			_radioMatchAny.CheckedChanged += HandleScopeClick;
-
+			_radioMatchAny.Text = LocalizationManager.GetString(
+				"DialogBoxes.DefineClassDlgBase.MatchAnySelectedFeaturesRadioButton",
+				"Match A&ny Selected Features", null, _radioMatchAny);
+				
 			_tableLayout.Controls.Add(_radioMatchAll, 1, 3);
 			_tableLayout.Controls.Add(_radioMatchAny, 2, 3);
 

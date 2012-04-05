@@ -138,6 +138,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlMappings.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlMappings.DoubleBuffered = false;
 			this.pnlMappings.DrawOnlyBottomBorder = false;
+			this.pnlMappings.DrawOnlyTopBorder = false;
 			this.pnlMappings.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlMappings.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlMappings, null);
@@ -189,7 +190,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.txtEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.locExtender.SetLocalizableToolTip(this.txtEditor, "This is the application used to edit the data source file.");
 			this.locExtender.SetLocalizationComment(this.txtEditor, "Text box in which to specify the editor for the data source in the standard forma" +
-					"t data source properties dialog box.");
+        "t data source properties dialog box.");
 			this.locExtender.SetLocalizingId(this.txtEditor, "DialogBoxes.SFDataSourcePropertiesDlg.EditorTextBox");
 			this.txtEditor.Location = new System.Drawing.Point(51, 26);
 			this.txtEditor.Margin = new System.Windows.Forms.Padding(3, 3, 6, 3);
@@ -204,8 +205,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnBrowse.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnBrowse, null);
 			this.locExtender.SetLocalizationComment(this.btnBrowse, null);
-			this.locExtender.SetLocalizationPriority(this.btnBrowse, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.btnBrowse, "Localized in base class");
+			this.locExtender.SetLocalizingId(this.btnBrowse, "DialogBoxes.SFDataSourcePropertiesDlg.BrowseButton");
 			this.btnBrowse.Location = new System.Drawing.Point(100, 23);
 			this.btnBrowse.Margin = new System.Windows.Forms.Padding(3, 3, 20, 3);
 			this.btnBrowse.MinimumSize = new System.Drawing.Size(80, 26);
@@ -228,6 +228,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlMappingsInner.Dock = System.Windows.Forms.DockStyle.Top;
 			this.pnlMappingsInner.DoubleBuffered = true;
 			this.pnlMappingsInner.DrawOnlyBottomBorder = true;
+			this.pnlMappingsInner.DrawOnlyTopBorder = false;
 			this.pnlMappingsInner.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlMappingsInner.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlMappingsInner, null);
@@ -267,8 +268,8 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// lblInformation
 			// 
-			this.lblInformation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.lblInformation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblInformation.AutoEllipsis = true;
 			this.lblInformation.BackColor = System.Drawing.Color.Transparent;
 			this.tblLayoutToolBoxSortField.SetColumnSpan(this.lblInformation, 2);
@@ -356,11 +357,12 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlMappingsHdg.Dock = System.Windows.Forms.DockStyle.Top;
 			this.pnlMappingsHdg.DoubleBuffered = true;
 			this.pnlMappingsHdg.DrawOnlyBottomBorder = true;
+			this.pnlMappingsHdg.DrawOnlyTopBorder = false;
 			this.pnlMappingsHdg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlMappingsHdg.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlMappingsHdg, null);
 			this.locExtender.SetLocalizationComment(this.pnlMappingsHdg, "Heading above the field mappings list in the standard format data source properti" +
-					"es dialog box.");
+        "es dialog box.");
 			this.locExtender.SetLocalizingId(this.pnlMappingsHdg, "DialogBoxes.SFDataSourcePropertiesDlg.MappingsHeadingText");
 			this.pnlMappingsHdg.Location = new System.Drawing.Point(0, 0);
 			this.pnlMappingsHdg.MakeDark = false;
@@ -403,6 +405,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlSrcFile.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlSrcFile.DoubleBuffered = false;
 			this.pnlSrcFile.DrawOnlyBottomBorder = false;
+			this.pnlSrcFile.DrawOnlyTopBorder = false;
 			this.pnlSrcFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlSrcFile.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlSrcFile, null);
@@ -446,11 +449,12 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlSrcFileHdg.Dock = System.Windows.Forms.DockStyle.Top;
 			this.pnlSrcFileHdg.DoubleBuffered = true;
 			this.pnlSrcFileHdg.DrawOnlyBottomBorder = true;
+			this.pnlSrcFileHdg.DrawOnlyTopBorder = false;
 			this.pnlSrcFileHdg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlSrcFileHdg.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlSrcFileHdg, null);
 			this.locExtender.SetLocalizationComment(this.pnlSrcFileHdg, "Heading above the contents of the data source file in the standard format data so" +
-					"urce properties dialog box.");
+        "urce properties dialog box.");
 			this.locExtender.SetLocalizingId(this.pnlSrcFileHdg, "DialogBoxes.SFDataSourcePropertiesDlg.SourceFileHeadingText");
 			this.pnlSrcFileHdg.Location = new System.Drawing.Point(0, 0);
 			this.pnlSrcFileHdg.MakeDark = false;
@@ -496,6 +500,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlParseType.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlParseType.DoubleBuffered = true;
 			this.pnlParseType.DrawOnlyBottomBorder = false;
+			this.pnlParseType.DrawOnlyTopBorder = false;
 			this.pnlParseType.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlParseType.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlParseType, null);
@@ -545,8 +550,8 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// lblParseType
 			// 
-			this.lblParseType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.lblParseType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblParseType.AutoEllipsis = true;
 			this.lblParseType.AutoSize = true;
 			this.lblParseType.BackColor = System.Drawing.Color.Transparent;
@@ -563,15 +568,15 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// rbInterlinearize
 			// 
-			this.rbInterlinearize.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.rbInterlinearize.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.rbInterlinearize.AutoEllipsis = true;
 			this.rbInterlinearize.BackColor = System.Drawing.Color.Transparent;
 			this.rbInterlinearize.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.rbInterlinearize.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.rbInterlinearize, null);
 			this.locExtender.SetLocalizationComment(this.rbInterlinearize, "Parsing option radio button in standard format data source properties dialog box." +
-					"");
+        "");
 			this.locExtender.SetLocalizingId(this.rbInterlinearize, "DialogBoxes.SFDataSourcePropertiesDlg.InterlinearizeRadioButton");
 			this.rbInterlinearize.Location = new System.Drawing.Point(10, 65);
 			this.rbInterlinearize.Margin = new System.Windows.Forms.Padding(10, 0, 5, 0);
@@ -585,15 +590,15 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// rbParseOneToOne
 			// 
-			this.rbParseOneToOne.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.rbParseOneToOne.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.rbParseOneToOne.AutoEllipsis = true;
 			this.rbParseOneToOne.BackColor = System.Drawing.Color.Transparent;
 			this.rbParseOneToOne.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.rbParseOneToOne.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.rbParseOneToOne, null);
 			this.locExtender.SetLocalizationComment(this.rbParseOneToOne, "Parsing option radio button in standard format data source properties dialog box." +
-					"");
+        "");
 			this.locExtender.SetLocalizingId(this.rbParseOneToOne, "DialogBoxes.SFDataSourcePropertiesDlg.ParseOneToOneRadioButton");
 			this.rbParseOneToOne.Location = new System.Drawing.Point(10, 60);
 			this.rbParseOneToOne.Margin = new System.Windows.Forms.Padding(10, 0, 5, 5);
@@ -623,8 +628,8 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// rbParseOnlyPhonetic
 			// 
-			this.rbParseOnlyPhonetic.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.rbParseOnlyPhonetic.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.rbParseOnlyPhonetic.AutoEllipsis = true;
 			this.rbParseOnlyPhonetic.BackColor = System.Drawing.Color.Transparent;
 			this.rbParseOnlyPhonetic.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -644,8 +649,8 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// rbNoParse
 			// 
-			this.rbNoParse.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.rbNoParse.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.rbNoParse.AutoEllipsis = true;
 			this.rbNoParse.BackColor = System.Drawing.Color.Transparent;
 			this.rbNoParse.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -664,8 +669,8 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// pnlSampleInput
 			// 
-			this.pnlSampleInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pnlSampleInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.pnlSampleInput.BackColor = System.Drawing.SystemColors.Window;
 			this.pnlSampleInput.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this.pnlSampleInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -674,6 +679,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlSampleInput.Controls.Add(this.rtfSampleInput);
 			this.pnlSampleInput.DoubleBuffered = false;
 			this.pnlSampleInput.DrawOnlyBottomBorder = false;
+			this.pnlSampleInput.DrawOnlyTopBorder = false;
 			this.pnlSampleInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlSampleInput.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlSampleInput, null);
@@ -702,8 +708,8 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// cboFirstInterlinear
 			// 
-			this.cboFirstInterlinear.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.cboFirstInterlinear.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.cboFirstInterlinear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cboFirstInterlinear.Enabled = false;
 			this.cboFirstInterlinear.FormattingEnabled = true;
@@ -753,8 +759,8 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// pnlSampeOutput
 			// 
-			this.pnlSampeOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.pnlSampeOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.pnlSampeOutput.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(171)))), ((int)(((byte)(173)))), ((int)(((byte)(179)))));
 			this.pnlSampeOutput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlSampeOutput.ClipTextForChildControls = true;
@@ -762,6 +768,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlSampeOutput.Controls.Add(this.gridSampleOutput);
 			this.pnlSampeOutput.DoubleBuffered = true;
 			this.pnlSampeOutput.DrawOnlyBottomBorder = false;
+			this.pnlSampeOutput.DrawOnlyTopBorder = false;
 			this.pnlSampeOutput.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlSampeOutput.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlSampeOutput, null);
@@ -841,28 +848,31 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// SampleOutputPhoneticColumn
 			// 
-			this.SampleOutputPhoneticColumn.HeaderText = "_L10N_:DialogBoxes.SFDataSourcePropertiesDlg.SampleOutputGrid.ColumnHeadings.Phonetic!Phonetic";
+			this.SampleOutputPhoneticColumn.HeaderText = "_L10N_:DialogBoxes.SFDataSourcePropertiesDlg.SampleOutputGrid.ColumnHeadings.Phon" +
+    "etic!Phonetic";
 			this.SampleOutputPhoneticColumn.Name = "SampleOutputPhoneticColumn";
 			this.SampleOutputPhoneticColumn.ReadOnly = true;
 			this.SampleOutputPhoneticColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this.SampleOutputPhoneticColumn.Width = 60;
+			this.SampleOutputPhoneticColumn.Width = 561;
 			// 
 			// SampleOutputGlossColumn
 			// 
-			this.SampleOutputGlossColumn.HeaderText = "_L10N_:DialogBoxes.SFDataSourcePropertiesDlg.SampleOutputGrid.ColumnHeadings.Gloss!Gloss";
+			this.SampleOutputGlossColumn.HeaderText = "_L10N_:DialogBoxes.SFDataSourcePropertiesDlg.SampleOutputGrid.ColumnHeadings.Glos" +
+    "s!Gloss";
 			this.SampleOutputGlossColumn.Name = "SampleOutputGlossColumn";
 			this.SampleOutputGlossColumn.ReadOnly = true;
 			this.SampleOutputGlossColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this.SampleOutputGlossColumn.Width = 41;
+			this.SampleOutputGlossColumn.Width = 523;
 			// 
 			// SampleOutputPartOfSpeechColumn
 			// 
 			this.SampleOutputPartOfSpeechColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-			this.SampleOutputPartOfSpeechColumn.HeaderText = "_L10N_:DialogBoxes.SFDataSourcePropertiesDlg.SampleOutputGrid.ColumnHeadings.PartOfSpeech!Part of Speech";
+			this.SampleOutputPartOfSpeechColumn.HeaderText = "_L10N_:DialogBoxes.SFDataSourcePropertiesDlg.SampleOutputGrid.ColumnHeadings.Part" +
+    "OfSpeech!Part of Speech";
 			this.SampleOutputPartOfSpeechColumn.Name = "SampleOutputPartOfSpeechColumn";
 			this.SampleOutputPartOfSpeechColumn.ReadOnly = true;
 			this.SampleOutputPartOfSpeechColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this.SampleOutputPartOfSpeechColumn.Width = 89;
+			this.SampleOutputPartOfSpeechColumn.Width = 615;
 			// 
 			// pnlParseHdg
 			// 
@@ -875,11 +885,12 @@ namespace SIL.Pa.UI.Dialogs
 			this.pnlParseHdg.Dock = System.Windows.Forms.DockStyle.Top;
 			this.pnlParseHdg.DoubleBuffered = true;
 			this.pnlParseHdg.DrawOnlyBottomBorder = true;
+			this.pnlParseHdg.DrawOnlyTopBorder = false;
 			this.pnlParseHdg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
 			this.pnlParseHdg.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.locExtender.SetLocalizableToolTip(this.pnlParseHdg, null);
 			this.locExtender.SetLocalizationComment(this.pnlParseHdg, "Heading above the parsing options in the standard format data source properties d" +
-					"ialog box.");
+        "ialog box.");
 			this.locExtender.SetLocalizingId(this.pnlParseHdg, "DialogBoxes.SFDataSourcePropertiesDlg.ParseHeadingText");
 			this.pnlParseHdg.Location = new System.Drawing.Point(0, 0);
 			this.pnlParseHdg.MakeDark = false;

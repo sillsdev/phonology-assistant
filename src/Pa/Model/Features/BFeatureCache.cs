@@ -124,8 +124,8 @@ namespace SIL.Pa.Model
 		public static IEnumerable<string> GetAvailableFeatureSetNames()
 		{
 			return GetAvailableFeatureSetFiles()
-				.Select(f => Path.GetFileName(f).Replace(".DistinctiveFeatures.xml", string.Empty))
-				.Select(name => (name == DefaultFeatureSetName ? "(default)" : name));
+				.Select(f => Path.GetFileName(f).Replace(".DistinctiveFeatures.xml", string.Empty));
+				//.Select(name => (name == DefaultFeatureSetName ? "(default)" : name));
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -56,8 +56,16 @@ namespace SIL.Pa.UI.Dialogs
 			_chkMakeFolder.Parent.Controls.Remove(_chkMakeFolder);
 			tblLayoutButtons.Controls.Add(_chkMakeFolder, 0, 0);
 
-			_comboDistinctiveFeaturesSet.Items.AddRange(
-				BFeatureCache.GetAvailableFeatureSetNames().OrderBy(n => n).Cast<object>().ToArray());
+			foreach (var featureSetName in BFeatureCache.GetAvailableFeatureSetNames().OrderBy(n => n))
+			{
+				if (featureSetName != BFeatureCache.DefaultFeatureSetName)
+					_comboDistinctiveFeaturesSet.Items.Add(featureSetName);
+				else
+				{
+					_comboDistinctiveFeaturesSet.Items.Insert(0, LocalizationManager.GetString(
+						"DialogBoxes.ProjectSettingsDlg.DefaultFeatureSetName", "(default)"));
+				}
+			}
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -92,9 +100,10 @@ namespace SIL.Pa.UI.Dialogs
 
 			WaitCursor.Show();
 
-			_comboDistinctiveFeaturesSet.SelectedItem =
-				(Project.DistinctiveFeatureSet == BFeatureCache.DefaultFeatureSetName ?
-					string.Format("({0})", BFeatureCache.DefaultFeatureSetName) : Project.DistinctiveFeatureSet);
+			if (Project.DistinctiveFeatureSet == BFeatureCache.DefaultFeatureSetName)
+				_comboDistinctiveFeaturesSet.SelectedIndex = 0;
+			else
+				_comboDistinctiveFeaturesSet.SelectedItem = Project.DistinctiveFeatureSet;
 
 			if (_dataSources.Any(ds => ds.Type == DataSourceType.FW))
 				FwDBUtils.StartSQLServer(true);
@@ -272,14 +281,21 @@ namespace SIL.Pa.UI.Dialogs
 				if (m_grid.IsDirty || _isProjectNew)
 					return true;
 
+				if (_comboDistinctiveFeaturesSet.SelectedIndex == 0)
+				{
+					if (Project.DistinctiveFeatureSet != BFeatureCache.DefaultFeatureSetName)
+						return true;
+				}
+				else if (_comboDistinctiveFeaturesSet.SelectedItem as string != Project.DistinctiveFeatureSet)
+					return true;
+
 				return (txtProjName.Text.Trim() != Project.Name ||
 					txtLanguageName.Text.Trim() != Project.LanguageName ||
 					txtLanguageCode.Text.Trim() != Project.LanguageCode ||
 					txtResearcher.Text.Trim() != Project.Researcher ||
 					txtTranscriber.Text.Trim() != Project.Transcriber ||
 					txtSpeaker.Text.Trim() != Project.SpeakerName ||
-					txtComments.Text.Trim() != Project.Comments ||
-					_comboDistinctiveFeaturesSet.SelectedItem as string != Project.DistinctiveFeatureSet);
+					txtComments.Text.Trim() != Project.Comments);
 			}
 		}
 
@@ -404,8 +420,9 @@ namespace SIL.Pa.UI.Dialogs
 			Project.DataSources = _dataSources;
 			Project.SynchronizeProjectFieldMappingsWithDataSourceFieldMappings();
 
-			var bFeatureSet = _comboDistinctiveFeaturesSet.SelectedItem as string;
-			Project.DistinctiveFeatureSet = bFeatureSet.Trim('(', ')');
+			Project.DistinctiveFeatureSet = (_comboDistinctiveFeaturesSet.SelectedIndex == 0 ?
+				BFeatureCache.DefaultFeatureSetName : _comboDistinctiveFeaturesSet.SelectedItem as string);
+
 			Project.LoadFeatureOverrides();
 
 			if (_isProjectNew)
