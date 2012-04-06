@@ -35,7 +35,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnCopy = new System.Windows.Forms.Button();
 			this.btnAdd = new System.Windows.Forms.Button();
 			this.btnModify = new System.Windows.Forms.Button();
-			this.ClassListView = new SIL.Pa.UI.Controls.ClassListView();
+			this._classListView = new SIL.Pa.UI.Controls.ClassListView();
 			this.cmnuAdd = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.cmnuAddCharClass = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmnuAddArtFeatureClass = new System.Windows.Forms.ToolStripMenuItem();
@@ -86,7 +86,6 @@ namespace SIL.Pa.UI.Dialogs
 			this.btnAdd.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.locExtender.SetLocalizableToolTip(this.btnAdd, null);
 			this.locExtender.SetLocalizationComment(this.btnAdd, "Text on add button drop-down on classes dialog box.");
-			this.locExtender.SetLocalizationPriority(this.btnAdd, Localization.LocalizationPriority.NotLocalizable);
 			this.locExtender.SetLocalizingId(this.btnAdd, "DialogBoxes.ClassesDlg.AddButton");
 			this.btnAdd.Location = new System.Drawing.Point(135, 181);
 			this.btnAdd.MinimumSize = new System.Drawing.Size(80, 26);
@@ -115,27 +114,27 @@ namespace SIL.Pa.UI.Dialogs
 			// 
 			// lvClasses
 			// 
-			this.ClassListView.AppliesTo = SIL.Pa.UI.Controls.ClassListView.ListApplicationType.ClassesDialog;
-			this.ClassListView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.ClassListView.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
-			this.ClassListView.FullRowSelect = true;
-			this.ClassListView.HideSelection = false;
-			this.locExtender.SetLocalizableToolTip(this.ClassListView, null);
-			this.locExtender.SetLocalizationComment(this.ClassListView, null);
-			this.locExtender.SetLocalizationPriority(this.ClassListView, Localization.LocalizationPriority.NotLocalizable);
-			this.locExtender.SetLocalizingId(this.ClassListView, "ClassesDlg.lvClasses");
-			this.ClassListView.Location = new System.Drawing.Point(10, 10);
-			this.ClassListView.MultiSelect = false;
-			this.ClassListView.Name = "ClassListView";
-			this.ClassListView.OwnerDraw = true;
-			this.ClassListView.ShowMembersAndTypeColumns = true;
-			this.ClassListView.Size = new System.Drawing.Size(617, 402);
-			this.ClassListView.TabIndex = 0;
-			this.ClassListView.UseCompatibleStateImageBehavior = false;
-			this.ClassListView.View = System.Windows.Forms.View.Details;
-			this.ClassListView.SelectedIndexChanged += new System.EventHandler(this.HandleClassesListViewSelectedIndexChanged);
-			this.ClassListView.DoubleClick += new System.EventHandler(this.HandleClassesListViewDoubleClick);
-			this.ClassListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleClassesListViewKeyDown);
+			this._classListView.AppliesTo = SIL.Pa.UI.Controls.ClassListView.ListApplicationType.ClassesDialog;
+			this._classListView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this._classListView.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.World);
+			this._classListView.FullRowSelect = true;
+			this._classListView.HideSelection = false;
+			this.locExtender.SetLocalizableToolTip(this._classListView, null);
+			this.locExtender.SetLocalizationComment(this._classListView, null);
+			this.locExtender.SetLocalizationPriority(this._classListView, Localization.LocalizationPriority.NotLocalizable);
+			this.locExtender.SetLocalizingId(this._classListView, "ClassesDlg.lvClasses");
+			this._classListView.Location = new System.Drawing.Point(10, 10);
+			this._classListView.MultiSelect = false;
+			this._classListView.Name = "ClassListView";
+			this._classListView.OwnerDraw = true;
+			this._classListView.ShowMembersAndTypeColumns = true;
+			this._classListView.Size = new System.Drawing.Size(617, 402);
+			this._classListView.TabIndex = 0;
+			this._classListView.UseCompatibleStateImageBehavior = false;
+			this._classListView.View = System.Windows.Forms.View.Details;
+			this._classListView.SelectedIndexChanged += new System.EventHandler(this.HandleClassesListViewSelectedIndexChanged);
+			this._classListView.DoubleClick += new System.EventHandler(this.HandleClassesListViewDoubleClick);
+			this._classListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HandleClassesListViewKeyDown);
 			// 
 			// cmnuAdd
 			// 
@@ -189,7 +188,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.Controls.Add(this.btnAdd);
 			this.Controls.Add(this.btnCopy);
 			this.Controls.Add(this.btnDelete);
-			this.Controls.Add(this.ClassListView);
+			this.Controls.Add(this._classListView);
 			this.locExtender.SetLocalizableToolTip(this, null);
 			this.locExtender.SetLocalizationComment(this, null);
 			this.locExtender.SetLocalizingId(this, "DialogBoxes.ClassesDlg.WindowTitle");
@@ -197,7 +196,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.Name = "ClassesDlg";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Classes";
-			this.Controls.SetChildIndex(this.ClassListView, 0);
+			this.Controls.SetChildIndex(this._classListView, 0);
 			this.Controls.SetChildIndex(this.btnDelete, 0);
 			this.Controls.SetChildIndex(this.btnCopy, 0);
 			this.Controls.SetChildIndex(this.btnAdd, 0);
@@ -220,5 +219,7 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddArtFeatureClass;
 		private System.Windows.Forms.ToolStripMenuItem cmnuAddBinFeatureClass;
 		private Localization.UI.LocalizationExtender locExtender;
+		private SIL.Pa.UI.Controls.ClassListView _classListView;
+
 	}
 }

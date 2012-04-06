@@ -14,7 +14,6 @@ namespace SIL.Pa.UI.Dialogs
 	public partial class ClassesDlg : OKCancelDlgBase
 	{
 		public PaProject Project { get; private set; }
-		public ClassListView ClassListView { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		public ClassesDlg()
@@ -65,9 +64,11 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// --------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Save the form's state.
-		/// </summary>
+		public ClassListView ClassListView
+		{
+			get { return _classListView; }
+		}
+
 		/// --------------------------------------------------------------------------------------------
 		protected override void SaveSettings()
 		{
