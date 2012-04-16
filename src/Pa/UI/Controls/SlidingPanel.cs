@@ -13,22 +13,18 @@ namespace SIL.Pa.UI.Controls
 	{
 		private const int kContainerPadding = 5;
 
-		private bool m_slideFromLeft = true;
 		private bool m_sliderOpen;
 		private bool m_resizeInProcess;
-		private bool m_freeze;
 		private int m_leftEdgeWhenClosed;
 		private int m_leftEdgeWhenOpened;
 		private int m_slidingIncrement;
 		private Rectangle m_sizingRectangle;
 		private SizingLine m_sizingLine;
-		private Label m_lblTab;
 		private SilPanel m_pnlContainer;
 		private System.Windows.Forms.Timer m_tmrMouseLocationMonitor;
 		private System.Windows.Forms.Timer m_tmrCloser;
 		private System.Windows.Forms.Timer m_tmrOpener;
 		private readonly Panel m_pnlPlaceholder;
-		private readonly Control m_hostedControl;
 		private readonly Control m_owningContainer;
 		//private readonly string m_tabText;
 		//private readonly bool m_opening;
@@ -39,6 +35,7 @@ namespace SIL.Pa.UI.Controls
 		public SlidingPanel(Control owningContainer, Control control, Panel pnlPlaceHolder,
 			int initialPanelWidth, Action<int> saveWidthAction)
 		{
+			SlideFromLeft = true;
 			SuspendLayout();
 			base.DoubleBuffered = true;
 			base.Cursor = Cursors.Default;
@@ -46,10 +43,10 @@ namespace SIL.Pa.UI.Controls
 
 			//m_tabText = tabText;
 			m_owningContainer = owningContainer;
-			m_hostedControl = control;
+			HostedControl = control;
 			m_owningContainer.SuspendLayout();
-			m_hostedControl.SuspendLayout();
-			m_hostedControl.Dock = DockStyle.Fill;
+			HostedControl.SuspendLayout();
+			HostedControl.Dock = DockStyle.Fill;
 			m_pnlPlaceholder = pnlPlaceHolder;
 			m_initialPanelWidth = initialPanelWidth;
 			m_saveWidthAction = saveWidthAction;
@@ -62,7 +59,7 @@ namespace SIL.Pa.UI.Controls
 			m_owningContainer.Resize += HandleOwningContainerResize;
 			m_owningContainer.ParentChanged += m_owningContainer_ParentChanged;
 
-			m_hostedControl.ResumeLayout(false);
+			HostedControl.ResumeLayout(false);
 			m_owningContainer.ResumeLayout(false);
 			ResumeLayout(false);
 
@@ -72,13 +69,13 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void SetupPanels()
 		{
-			m_lblTab = new Label();
-			m_lblTab.BackColor = Color.Transparent;
-			m_lblTab.MouseLeave += m_lblTab_MouseLeave;
-			m_lblTab.MouseEnter += m_lblTab_MouseEnter;
-			m_lblTab.Paint += m_lblTab_Paint;
-			m_lblTab.Click += m_pnlTab_Click;
-			Controls.Add(m_lblTab);
+			Tab = new Label();
+			Tab.BackColor = Color.Transparent;
+			Tab.MouseLeave += m_lblTab_MouseLeave;
+			Tab.MouseEnter += m_lblTab_MouseEnter;
+			Tab.Paint += m_lblTab_Paint;
+			Tab.Click += m_pnlTab_Click;
+			Controls.Add(Tab);
 
 			m_pnlContainer = new SilPanel();
 			m_pnlContainer.Padding = new Padding(kContainerPadding);
@@ -92,12 +89,12 @@ namespace SIL.Pa.UI.Controls
 			m_pnlPlaceholder_SizeChanged(null, null);
 			m_slidingIncrement = m_pnlContainer.Width / 5;
 
-			if (m_slideFromLeft)
+			if (SlideFromLeft)
 			{
 				// When on left side.
 				Anchor |= AnchorStyles.Left;
 				m_pnlContainer.Anchor |= AnchorStyles.Left;
-				m_lblTab.Location = new Point(0, 3);
+				Tab.Location = new Point(0, 3);
 				m_leftEdgeWhenClosed = Right - m_pnlContainer.Width;
 				m_leftEdgeWhenOpened = Right;
 				m_sizingRectangle = new Rectangle(m_pnlContainer.Width - kContainerPadding,
@@ -108,7 +105,7 @@ namespace SIL.Pa.UI.Controls
 				// When on right side.
 				Anchor |= AnchorStyles.Right;
 				m_pnlContainer.Anchor |= AnchorStyles.Right;
-				m_lblTab.Location = new Point(7, 3);
+				Tab.Location = new Point(7, 3);
 				m_leftEdgeWhenClosed = Left;
 				m_leftEdgeWhenOpened = Left - m_pnlContainer.Width;
 				m_sizingRectangle = new Rectangle(0, 0, kContainerPadding, m_pnlContainer.Height);
@@ -159,12 +156,12 @@ namespace SIL.Pa.UI.Controls
 
 			using (var g = CreateGraphics())
 			{
-				var sz = TextRenderer.MeasureText(g, m_lblTab.Text, FontHelper.UIFont, Size.Empty, kFlags);
+				var sz = TextRenderer.MeasureText(g, Tab.Text, FontHelper.UIFont, Size.Empty, kFlags);
 				sz.Height += 15;
 				m_pnlPlaceholder.Width = sz.Height + 7;
 				Size = new Size(sz.Height + 7, m_pnlPlaceholder.Height);
 				Location = m_pnlPlaceholder.Location;
-				m_lblTab.Size = new Size(sz.Height, sz.Width);
+				Tab.Size = new Size(sz.Height, sz.Width);
 			}
 		}
 
@@ -179,25 +176,16 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		#region Properties
+
 		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public Control HostedControl
-		{
-			get { return m_hostedControl; }
-		}
+		public Control HostedControl { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the tab label control that's visible when the control is undocked.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public Label Tab
-		{
-			get { return m_lblTab; }
-		}
+		public Label Tab { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -205,11 +193,7 @@ namespace SIL.Pa.UI.Controls
 		/// even when the mouse is not over it.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool Freeze
-		{
-			get { return m_freeze; }
-			set { m_freeze = value; }
-		}
+		public bool Freeze { get; set; }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -217,11 +201,7 @@ namespace SIL.Pa.UI.Controls
 		/// the left side. If false, then the panel slides from the right.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		public bool SlideFromLeft
-		{
-			get { return m_slideFromLeft; }
-			set { m_slideFromLeft = value; }
-		}
+		public bool SlideFromLeft { get; set; }
 
 		#endregion
 
@@ -244,7 +224,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void HandleOwningContainerResize(object sender, EventArgs e)
 		{
-			if (m_slideFromLeft)
+			if (SlideFromLeft)
 			{
 				m_leftEdgeWhenClosed = Right - m_pnlContainer.Width;
 				m_leftEdgeWhenOpened = Right;
@@ -291,7 +271,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		void m_tmrMouseLocationMonitor_Tick(object sender, EventArgs e)
 		{
-			if (!m_pnlContainer.Visible || m_resizeInProcess || m_freeze)
+			if (!m_pnlContainer.Visible || m_resizeInProcess || Freeze)
 				return;
 
 			Point pt = MousePosition;
@@ -351,12 +331,16 @@ namespace SIL.Pa.UI.Controls
 
 			if (!immediate)
 			{
-				if (m_slideFromLeft)
+				if (SlideFromLeft)
 				{
-					while (m_pnlContainer.Left + m_slidingIncrement < m_leftEdgeWhenOpened)
+					int delay = 50;
+
+					while (m_pnlContainer.Left < m_leftEdgeWhenOpened)
 					{
-						m_pnlContainer.Left += m_slidingIncrement;
-						Thread.Sleep(40);
+						var newLeft = m_pnlContainer.Left + (m_pnlContainer.Width / 2);
+						m_pnlContainer.Left = Math.Min(newLeft, m_leftEdgeWhenOpened);
+						Thread.Sleep(delay);
+						delay = Math.Max(0, delay - 5);
 					}
 				}
 				else
@@ -391,12 +375,15 @@ namespace SIL.Pa.UI.Controls
 
 			if (!immediate)
 			{
-				if (m_slideFromLeft)
+				if (SlideFromLeft)
 				{
-					while (m_pnlContainer.Left - m_slidingIncrement > m_leftEdgeWhenClosed)
+					int delay = 50;
+					while (m_pnlContainer.Left > m_leftEdgeWhenClosed)
 					{
-						m_pnlContainer.Left -= m_slidingIncrement;
-						Thread.Sleep(40);
+						var newLeft = m_pnlContainer.Left - (m_pnlContainer.Width / 2);
+						m_pnlContainer.Left = Math.Max(newLeft, m_leftEdgeWhenClosed);
+						Thread.Sleep(delay);
+						delay = Math.Max(0, delay - 5);
 					}
 				}
 				else
@@ -416,10 +403,6 @@ namespace SIL.Pa.UI.Controls
 			App.MsgMediator.SendMessage("SlidingPanelClosed", this);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// 
-		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		void m_pnlTab_Click(object sender, EventArgs e)
 		{
@@ -459,7 +442,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void ProcessUndockedContainerSizeChanged()
 		{
-			if (m_slideFromLeft)
+			if (SlideFromLeft)
 			{
 				if (m_sizingLine != null)
 					m_pnlContainer.Width = ((m_sizingLine.Left + 2) - m_pnlContainer.Left);
@@ -539,8 +522,8 @@ namespace SIL.Pa.UI.Controls
 			m_pnlContainer.SuspendLayout();
 			
 			m_pnlContainer.Visible = false;
-			m_pnlContainer.Controls.Remove(m_hostedControl);
-			dockingTarget.Controls.Add(m_hostedControl);
+			m_pnlContainer.Controls.Remove(HostedControl);
+			dockingTarget.Controls.Add(HostedControl);
 			m_pnlPlaceholder.Visible = false;
 			Visible = false;
 
@@ -557,12 +540,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void UnDockControl(Control dockingHost)
 		{
-			m_pnlContainer.Width = m_hostedControl.Width + (kContainerPadding * 2) + 2;
+			m_pnlContainer.Width = HostedControl.Width + (kContainerPadding * 2) + 2;
 			m_slidingIncrement = m_pnlContainer.Width / 4;
-			m_leftEdgeWhenOpened = (m_slideFromLeft ? Right : Left - m_pnlContainer.Width);
+			m_leftEdgeWhenOpened = (SlideFromLeft ? Right : Left - m_pnlContainer.Width);
 			m_pnlContainer.Left = m_leftEdgeWhenOpened;
 
-			if (m_slideFromLeft)
+			if (SlideFromLeft)
 			{
 				m_sizingRectangle = new Rectangle(m_pnlContainer.Width - kContainerPadding,
 					0, kContainerPadding, m_pnlContainer.Height);
@@ -572,9 +555,9 @@ namespace SIL.Pa.UI.Controls
 			m_owningContainer.SuspendLayout();
 			m_pnlContainer.SuspendLayout();
 
-			dockingHost.Controls.Remove(m_hostedControl);
+			dockingHost.Controls.Remove(HostedControl);
 			m_owningContainer.Controls.Remove(m_sizingLine);
-			m_pnlContainer.Controls.Add(m_hostedControl);
+			m_pnlContainer.Controls.Add(HostedControl);
 			m_pnlPlaceholder.Visible = true;
 			Visible = true;
 			m_sliderOpen = false;
@@ -611,7 +594,7 @@ namespace SIL.Pa.UI.Controls
 
 			if (!m_sliderOpen)
 			{
-				if (m_slideFromLeft)
+				if (SlideFromLeft)
 					e.Graphics.DrawLine(SystemPens.ControlDark, rc.Right - 4, 0, rc.Right - 4, rc.Bottom);
 				else
 					e.Graphics.DrawLine(SystemPens.ControlDark, 3, 0, 3, rc.Bottom);
@@ -625,10 +608,10 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		void m_lblTab_Paint(object sender, PaintEventArgs e)
 		{
-			Rectangle rc = m_lblTab.ClientRectangle;
+			Rectangle rc = Tab.ClientRectangle;
 
 			Point[] pts;
-			if (m_slideFromLeft)
+			if (SlideFromLeft)
 			{
 				// When on left side.
 				pts = new[] {new Point(0, 0), new Point(rc.Right - 3, 0),
@@ -648,7 +631,7 @@ namespace SIL.Pa.UI.Controls
 
 			// Paint over the fourth side (i.e. the one against the edge
 			// of the window) that got painted when DrawPolygon was called.
-			if (m_slideFromLeft)
+			if (SlideFromLeft)
 				e.Graphics.DrawLine(SystemPens.ControlLight, 0, 1, 0, rc.Bottom - 2);
 			else
 				e.Graphics.DrawLine(SystemPens.ControlLight, rc.Right - 1, 1, rc.Right - 1, rc.Bottom - 2);
@@ -660,7 +643,7 @@ namespace SIL.Pa.UI.Controls
 				e.Graphics.TextRenderingHint = TextRenderingHint.SystemDefault;
 				sf.FormatFlags |= StringFormatFlags.DirectionVertical;
 				sf.HotkeyPrefix = HotkeyPrefix.None;
-				e.Graphics.DrawString(m_lblTab.Text, FontHelper.UIFont, br, rc, sf);
+				e.Graphics.DrawString(Tab.Text, FontHelper.UIFont, br, rc, sf);
 			}
 		}
 
