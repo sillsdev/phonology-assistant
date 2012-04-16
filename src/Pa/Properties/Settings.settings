@@ -836,6 +836,8 @@
   &lt;string&gt;Location&lt;/string&gt;
   &lt;string&gt;AudioFileLabel&lt;/string&gt;
   &lt;string&gt;Gloss&lt;/string&gt;
+  &lt;string&gt;Gloss-Secondary&lt;/string&gt;
+  &lt;string&gt;Gloss-Other&lt;/string&gt;
   &lt;string&gt;Definition&lt;/string&gt;
   &lt;string&gt;PartOfSpeech&lt;/string&gt;
   &lt;string&gt;AnthropologyNote&lt;/string&gt;

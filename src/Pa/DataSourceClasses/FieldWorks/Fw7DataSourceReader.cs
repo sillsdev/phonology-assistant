@@ -93,6 +93,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 					case "DateModified": value = lxEntry.DateModified.ToString(); break;
 					case "ImportResidue": value = lxEntry.ImportResidue; break;
 
+					case "Gloss-Secondary":
+					case "Gloss-Other":
 					case "Gloss":
 						value = lxEntry.Senses.Where(s => s.Gloss != null)
 							.Select(s => GetMultiStringValue(s.Gloss, wsId));
@@ -154,7 +156,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 						break;
 
 					case "ReversalEntries":
-						value = lxEntry.Senses.Where(s => s.ReversalEntries.Count() > 0)
+						value = lxEntry.Senses.Where(s => s.ReversalEntries.Any())
 							.Select(s => GetCommaDelimitedList(s.ReversalEntries.Select(r => r.GetString(wsId))));
 						break;
 
@@ -186,22 +188,22 @@ namespace SIL.Pa.DataSource.FieldWorks
 						break;
 
 					case "AnthroCodes":
-					    value = lxEntry.Senses.Where(s => s.AnthroCodes != null && s.AnthroCodes.Count() > 0)
+					    value = lxEntry.Senses.Where(s => s.AnthroCodes != null && s.AnthroCodes.Any())
 							.Select(s => GetCommaDelimitedPossibilityList(s.AnthroCodes, false));
 					    break;
 
 					case "DomainTypes":
-						value = lxEntry.Senses.Where(s => s.DomainTypes != null && s.DomainTypes.Count() > 0)
+						value = lxEntry.Senses.Where(s => s.DomainTypes != null && s.DomainTypes.Any())
 							.Select(s => GetCommaDelimitedPossibilityList(s.DomainTypes, false));
 						break;
 
 					case "SemanticDomains":
-						value = lxEntry.Senses.Where(s => s.SemanticDomains != null && s.SemanticDomains.Count() > 0)
+						value = lxEntry.Senses.Where(s => s.SemanticDomains != null && s.SemanticDomains.Any())
 							.Select(s => GetCommaDelimitedPossibilityList(s.SemanticDomains, false));
 						break;
 
 					case "Usages":
-						value = lxEntry.Senses.Where(s => s.Usages != null && s.Usages.Count() > 0)
+						value = lxEntry.Senses.Where(s => s.Usages != null && s.Usages.Any())
 							.Select(s => GetCommaDelimitedPossibilityList(s.Usages, false));
 						break;
 					
@@ -273,7 +275,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 			recCacheEntry.Guid = new Guid(lxEntry.Guid.ToString());
 
-			var pro = (lxEntry.Pronunciations.Count() == 0 ? null : lxEntry.Pronunciations.ElementAt(0));
+			var pro = (!lxEntry.Pronunciations.Any() ? null : lxEntry.Pronunciations.ElementAt(0));
 
 			string eticValue = null;
 
@@ -338,7 +340,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 					GetPossibilityValue(pro.Location, false));
 			}
 
-			if (pro.MediaFiles.Count() == 0)
+			if (!pro.MediaFiles.Any())
 				return;
 
 			// TODO: Verify that the media file is audio.

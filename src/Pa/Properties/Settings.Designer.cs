@@ -3254,16 +3254,17 @@ namespace SIL.Pa.Properties {
             "g>ComplexTypes</string>\r\n  <string>ComplexFormComments</string>\r\n  <string>Allom" +
             "orphs</string>\r\n  <string>Tone</string>\r\n  <string>CV-Pattern-Source</string>\r\n " +
             " <string>Location</string>\r\n  <string>AudioFileLabel</string>\r\n  <string>Gloss</" +
-            "string>\r\n  <string>Definition</string>\r\n  <string>PartOfSpeech</string>\r\n  <stri" +
-            "ng>AnthropologyNote</string>\r\n  <string>Bibliography-Sense</string>\r\n  <string>D" +
-            "iscourseNote</string>\r\n  <string>EncyclopedicInfo</string>\r\n  <string>GeneralNot" +
-            "e</string>\r\n  <string>GrammarNote</string>\r\n  <string>PhonologyNote</string>\r\n  " +
-            "<string>Restrictions-Sense</string>\r\n  <string>SemanticsNote</string>\r\n  <string" +
-            ">SociolinguisticsNote</string>\r\n  <string>SenseType</string>\r\n  <string>Status</" +
-            "string>\r\n  <string>AnthroCodes</string>\r\n  <string>DomainTypes</string>\r\n  <stri" +
-            "ng>SemanticDomains</string>\r\n  <string>Usages</string>\r\n  <string>ReversalEntrie" +
-            "s</string>\r\n  <string>ScientificName</string>\r\n  <string>Source</string>\r\n  <str" +
-            "ing>ImportResidue-Sense</string>\r\n</ArrayOfString>")]
+            "string>\r\n  <string>Gloss-Secondary</string>\r\n  <string>Gloss-Other</string>\r\n  <" +
+            "string>Definition</string>\r\n  <string>PartOfSpeech</string>\r\n  <string>Anthropol" +
+            "ogyNote</string>\r\n  <string>Bibliography-Sense</string>\r\n  <string>DiscourseNote" +
+            "</string>\r\n  <string>EncyclopedicInfo</string>\r\n  <string>GeneralNote</string>\r\n" +
+            "  <string>GrammarNote</string>\r\n  <string>PhonologyNote</string>\r\n  <string>Rest" +
+            "rictions-Sense</string>\r\n  <string>SemanticsNote</string>\r\n  <string>Sociolingui" +
+            "sticsNote</string>\r\n  <string>SenseType</string>\r\n  <string>Status</string>\r\n  <" +
+            "string>AnthroCodes</string>\r\n  <string>DomainTypes</string>\r\n  <string>SemanticD" +
+            "omains</string>\r\n  <string>Usages</string>\r\n  <string>ReversalEntries</string>\r\n" +
+            "  <string>ScientificName</string>\r\n  <string>Source</string>\r\n  <string>ImportRe" +
+            "sidue-Sense</string>\r\n</ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection DefaultFw7Fields {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["DefaultFw7Fields"]));
