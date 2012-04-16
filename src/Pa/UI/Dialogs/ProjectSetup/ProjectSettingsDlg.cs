@@ -278,7 +278,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			get
 			{
-				if (m_grid.IsDirty || _isProjectNew)
+				if (m_grid.IsDirty || _isProjectNew || m_dirty)
 					return true;
 
 				if (_comboDistinctiveFeaturesSet.SelectedIndex == 0)
