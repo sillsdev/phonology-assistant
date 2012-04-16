@@ -52,6 +52,12 @@ namespace SIL.Pa.UI.Controls.RecordViewControls
 		}
 
 		/// ------------------------------------------------------------------------------------
+		public void ForceUpdate()
+		{
+			UpdateFonts();
+		}
+
+		/// ------------------------------------------------------------------------------------
 		public void UpdateRecord(Model.RecordCacheEntry entry)
 		{
 			UpdateRecord(entry, false);

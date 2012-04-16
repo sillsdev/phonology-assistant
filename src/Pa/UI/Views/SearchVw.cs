@@ -1241,6 +1241,13 @@ namespace SIL.Pa.UI.Views
 		}
 
 		/// ------------------------------------------------------------------------------------
+		protected override bool OnUserInterfaceLangaugeChanged(object args)
+		{
+			_recView.ForceUpdate();
+			return base.OnUserInterfaceLangaugeChanged(args);
+		}
+
+		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// This method gets called when the font(s) get changed in the options dialog.
 		/// </summary>

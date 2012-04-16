@@ -617,7 +617,14 @@ namespace SIL.Pa.UI.Views
 		{
 			return OnRecordViewOptionsChanged(args);
 		}
-		
+
+		/// ------------------------------------------------------------------------------------
+		protected override bool OnUserInterfaceLangaugeChanged(object args)
+		{
+			_recView.ForceUpdate();
+			return base.OnUserInterfaceLangaugeChanged(args);
+		}
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Update the record view when the user changed the order or visibility of fields.
