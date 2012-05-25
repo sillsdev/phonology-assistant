@@ -123,17 +123,9 @@
       <HintPath>..\..\DistFiles\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="System.Configuration" />
-    <Reference Include="LocalizationManager, Version=1.0.4420.21081, Culture=neutral, PublicKeyToken=null" Condition="'$(Configuration)'=='Debug-Linux'">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DistFiles\Linux\LocalizationManager.dll</HintPath>
-    </Reference>
     <Reference Include="LocalizationManager, Version=1.0.4420.21081, Culture=neutral, PublicKeyToken=null" Condition="'$(Configuration)'=='Debug-Windows'">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\Windows\LocalizationManager.dll</HintPath>
-    </Reference>
-    <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Condition="'$(Configuration)'=='Debug-Linux'">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DistFiles\Linux\Palaso.dll</HintPath>
     </Reference>
     <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Condition="'$(Configuration)'=='Debug-Windows'">
       <SpecificVersion>False</SpecificVersion>
@@ -1209,13 +1201,13 @@
     <None Include="Resources\Automatically_hide.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SilTools\SilTools.csproj">
-      <Project>{87F94FCC-BC32-4203-A919-115F4FF43FF0}</Project>
-      <Name>SilTools</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PaToFdoInterfaces\PaToFdoInterfaces.csproj">
       <Project>{5540C524-713E-4842-BD59-35D5EA6A60C6}</Project>
       <Name>PaToFdoInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SilTools\SilTools.csproj">
+      <Project>{87F94FCC-BC32-4203-A919-115F4FF43FF0}</Project>
+      <Name>SilTools</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

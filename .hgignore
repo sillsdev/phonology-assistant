@@ -5,3 +5,10 @@ glob:bin
 glob:obj
 glob:*.pidb
 glob:Output
+syntax: glob
+_ReSharper.pa/*
+PA 3.5 Stuff/*
+Changes for 3.3.5/*
+src/Pa/*.orig
+Samples SA Data (old wav files)/*
+PA Logo & Colors/*
