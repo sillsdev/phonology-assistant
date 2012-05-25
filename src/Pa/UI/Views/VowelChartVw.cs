@@ -29,7 +29,7 @@ namespace SIL.Pa.UI.Views
 		{
 			Settings.Default.VowelChartColHdrHeight = _chartGrid.ColumnHeadersHeight;
 			Settings.Default.VowelChartRowHdrWidth = _chartGrid.RowHeadersWidth;
-			Settings.Default.HtmlVowelChartVisible = _htmlVw.Visible;
+			Settings.Default.HtmlVowelChartVisible = (_htmlVw != null && _htmlVw.Visible);
 
 			base.OnHandleDestroyed(e);
 		}

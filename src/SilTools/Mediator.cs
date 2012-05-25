@@ -185,8 +185,16 @@ namespace SilTools
 		/// <summary>This is the message value that is used to communicate the need to process the defered mediator queue</summary>
 		public const int WM_BROADCAST_ITEM_INQUEUE = 0x8000+0x77;	// wm_app + 0x77
 		/// <summary>Included here so as to not add another common utils dependancy</summary>
+#if !__MonoCS__
 		[DllImport("User32.dll", CharSet=CharSet.Auto)]
 		public static extern bool PostMessage(IntPtr hWnd, int Msg, uint wParam, uint lParam);
+#else
+		public static bool PostMessage(IntPtr hWnd, int Msg, uint wParam, uint lParam)
+		{
+			Console.WriteLine("Warning--using unimplemented method PostMessage"); // FIXME Linux
+			return(false);
+		}
+#endif
 		private Queue<QueueItem> m_jobs = new Queue<QueueItem>();	// queue to contain the defered broadcasts
 		private Queue<QueueItem> m_pendingjobs = new Queue<QueueItem>(); // queue to contain the broadcasts until we have a main window
 		private int m_queueLastProcessed;	// size of queue the last time it was processed

@@ -23,7 +23,7 @@ namespace SIL.Pa.DataSource
 	/// ----------------------------------------------------------------------------------------
 	public class DataSourceEditor
 	{
-		#region Windows API stuff
+		#region OS-specific stuff
 		private struct POINTAPI
 		{
 			public int x;
@@ -51,12 +51,28 @@ namespace SIL.Pa.DataSource
 		private const int RestoreToMaximized = 2;
 		private const int Minimized = 2;
 
+#if !__MonoCS__
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		private static extern int ShowWindow(IntPtr hwnd, int nCmdShow);
-
+#else
+		private static int ShowWindow(IntPtr hwnd, int nCmdShow)
+		{
+			Console.WriteLine("Warning--using unimplemented method ShowWindow"); // FIXME Linux
+			return(0);
+		}
+#endif
+		
+#if !__MonoCS__
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		private static extern bool GetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
+#else
+		private static bool GetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl)
+		{
+			Console.WriteLine("Warning--using unimplemented method GetWindowPlacement"); // FIXME Linux
+			return(false);
+		}
+#endif
 
 		#endregion
 

@@ -830,9 +830,9 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// ------------------------------------------------------------------------------------
 		protected static Assembly GetAssembly(string assemblyName)
 		{
-			string baseDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
-			// Note: CodeBase prepends "file:/", which must be removed.
-			string assemblyPath = Path.Combine(baseDir.Substring(6), assemblyName);
+			// CodeBase prepends "file:/" (Win) or "file:" (Linux), which must be removed.
+			int prefixLen = (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX) ? 5 : 6;
+			string assemblyPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase).Substring(prefixLen), assemblyName);
 
 			Assembly assembly;
 			

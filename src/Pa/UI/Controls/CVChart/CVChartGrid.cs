@@ -206,7 +206,7 @@ namespace SIL.Pa.UI.Controls
 			var rc = GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
 			if (m_phoneInfoPopup.Initialize(this[e.ColumnIndex, e.RowIndex]))
 				m_phoneInfoPopup.Show(rc);
-		}
+			}
 
 		/// ------------------------------------------------------------------------------------
 		protected override void OnCellPainting(DataGridViewCellPaintingEventArgs e)
@@ -296,6 +296,9 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		private void RefreshRowHeaderPainting()
 		{
+			// This used to base its calculations on GetCellDisplayRectangle(-1, -1, false) 
+			// which throws ArgumentOutOfRangeException on Mono; see 
+			// http://bugzilla.xamarin.com/show_bug.cgi?id=341
 			var rc = ClientRectangle;
 			rc.Width = RowHeadersWidth;
 			Invalidate(rc);

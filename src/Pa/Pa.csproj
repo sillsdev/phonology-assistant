@@ -5,14 +5,12 @@
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C4347409-EFA4-47A0-AEF9-B6BB2378B1E5}</ProjectGuid>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug-Windows</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>pa.ico</ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
     <AssemblyName>Pa</AssemblyName>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
     <DefaultClientScript>JScript</DefaultClientScript>
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
@@ -43,11 +41,9 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>..\..\Output\Debug\</OutputPath>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-Windows|AnyCPU' ">
+    <OutputPath>..\..\Output\Debug-Windows\</OutputPath>
     <BaseAddress>285212672</BaseAddress>
-    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -55,13 +51,9 @@
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
-    <NoStdLib>false</NoStdLib>
-    <NoWarn>
-    </NoWarn>
     <Optimize>false</Optimize>
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningLevel>4</WarningLevel>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
@@ -69,11 +61,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-Windows|AnyCPU' ">
     <OutputPath>..\..\Output\Release\</OutputPath>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
-    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
     <DefineConstants>TRACE</DefineConstants>
@@ -81,45 +71,38 @@
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
-    <NoStdLib>false</NoStdLib>
-    <NoWarn>
-    </NoWarn>
     <Optimize>true</Optimize>
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningLevel>4</WarningLevel>
     <DebugType>pdbonly</DebugType>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-Linux|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug-Linux\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <FileAlignment>4096</FileAlignment>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
+    <EnvironmentVariables>
+      <EnvironmentVariables>
+        <Variable name="DISPLAY" value=":2" />
+      </EnvironmentVariables>
+    </EnvironmentVariables>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ionic.Zip">
-      <HintPath>..\..\DistFiles\Ionic.Zip.dll</HintPath>
-    </Reference>
-    <Reference Include="LocalizationManager, Version=1.0.4498.18995, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DistFiles\LocalizationManager.dll</HintPath>
-    </Reference>
-    <Reference Include="PaCompiledTransforms, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Output\Debug\PaCompiledTransforms.dll</HintPath>
-    </Reference>
-    <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DistFiles\Palaso.dll</HintPath>
-    </Reference>
-    <Reference Include="PaToFdoInterfaces, Version=1.0.4049.26971, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DistFiles\PaToFdoInterfaces.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data">
       <Name>System.Data</Name>
@@ -136,15 +119,32 @@
       <Name>System.XML</Name>
     </Reference>
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="Ionic.Zip, Version=1.9.1.5, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c">
+      <HintPath>..\..\DistFiles\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
+    <Reference Include="LocalizationManager, Version=1.0.4420.21081, Culture=neutral, PublicKeyToken=null" Condition="'$(Configuration)'=='Debug-Linux'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DistFiles\Linux\LocalizationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="LocalizationManager, Version=1.0.4420.21081, Culture=neutral, PublicKeyToken=null" Condition="'$(Configuration)'=='Debug-Windows'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DistFiles\Windows\LocalizationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Condition="'$(Configuration)'=='Debug-Linux'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DistFiles\Linux\Palaso.dll</HintPath>
+    </Reference>
+    <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Condition="'$(Configuration)'=='Debug-Windows'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DistFiles\Windows\Palaso.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataSourceClasses\DataSourceEditor.cs" />
     <Compile Include="DataSourceClasses\DataSourceReader.cs" />
     <Compile Include="DataSourceClasses\FieldWorks\EditFwUrlDlg.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DataSourceClasses\FieldWorks\EditFwUrlDlg.designer.cs">
-      <DependentUpon>EditFwUrlDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="DataSourceClasses\FieldWorks\Fw6DataSourceReader.cs" />
     <Compile Include="DataSourceClasses\FieldWorks\Fw6WritingSystemReader.cs" />
@@ -156,9 +156,6 @@
     <Compile Include="DataSourceClasses\FieldWorks\FwWritingSysInfo.cs" />
     <Compile Include="DataSourceClasses\MissingDataSourceMsgBox.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DataSourceClasses\MissingDataSourceMsgBox.designer.cs">
-      <DependentUpon>MissingDataSourceMsgBox.cs</DependentUpon>
     </Compile>
     <Compile Include="DataSourceClasses\MissingFWDatabaseMsgBox.cs">
       <SubType>Form</SubType>
@@ -289,9 +286,6 @@
     <Compile Include="UI\Controls\CharacterPickerControls\CharPickerRows.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Controls\CharacterPickerControls\CharPickerRows.designer.cs">
-      <DependentUpon>CharPickerRows.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Controls\CharacterPickerControls\CVPatternDisplaySymbolsExplorer.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -329,9 +323,6 @@
     <Compile Include="UI\Controls\DistributionChartCellInfoPopup.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Controls\DistributionChartCellInfoPopup.designer.cs">
-      <DependentUpon>DistributionChartCellInfoPopup.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Controls\DistributionGrid.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -349,9 +340,6 @@
     </Compile>
     <Compile Include="UI\Controls\FeatureRelatedControls\FeaturesTab.cs">
       <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Controls\FeatureRelatedControls\FeaturesTab.designer.cs">
-      <DependentUpon>FeaturesTab.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Controls\FieldRelatedControls\Fw6FieldMappingGrid.cs">
       <SubType>Component</SubType>
@@ -403,20 +391,11 @@
     <Compile Include="UI\Controls\PatternBuildingControls\PatternBuilderBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Controls\PatternBuildingControls\PatternBuilderBar.designer.cs">
-      <DependentUpon>PatternBuilderBar.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Controls\PatternBuildingControls\PatternBuilderComponents.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Controls\PatternBuildingControls\PatternBuilderComponents.designer.cs">
-      <DependentUpon>PatternBuilderComponents.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Controls\PatternBuildingControls\PatternBuilderPhoneDropDown.cs">
       <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Controls\PatternBuildingControls\PatternBuilderPhoneDropDown.designer.cs">
-      <DependentUpon>PatternBuilderPhoneDropDown.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Controls\PatternBuildingControls\PatternTextBox.cs">
       <SubType>Component</SubType>
@@ -490,14 +469,8 @@
     <Compile Include="UI\Controls\SearchResultControls\SearchResultTabPopup.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Controls\SearchResultControls\SearchResultTabPopup.designer.cs">
-      <DependentUpon>SearchResultTabPopup.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Controls\SearchResultControls\SearchResultView.cs">
       <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Controls\SearchResultControls\SearchResultView.designer.cs">
-      <DependentUpon>SearchResultView.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Controls\SearchResultControls\TabDropIndicator.cs">
       <SubType>Form</SubType>
@@ -548,53 +521,29 @@
     <Compile Include="UI\Dialogs\BackupRestore\BackupDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\BackupRestore\BackupDlg.designer.cs">
-      <DependentUpon>BackupDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Dialogs\BackupRestore\BackupDlgViewModel.cs" />
     <Compile Include="UI\Dialogs\BackupRestore\BackupRestoreDlgViewModelBase.cs" />
     <Compile Include="UI\Dialogs\BackupRestore\RestoreDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\BackupRestore\RestoreDlg.designer.cs">
-      <DependentUpon>RestoreDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Dialogs\BackupRestore\RestoreDlgViewModel.cs" />
     <Compile Include="UI\Dialogs\Classes\ClassesDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\Classes\ClassesDlg.designer.cs">
-      <DependentUpon>ClassesDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Dialogs\Classes\DefineClassDlgBase.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Dialogs\Classes\DefineClassDlgBase.designer.cs">
-      <DependentUpon>DefineClassDlgBase.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\Classes\DefineDescriptiveFeatureClassDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\Classes\DefineDescriptiveFeatureClassDlg.designer.cs">
-      <DependentUpon>DefineDescriptiveFeatureClassDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Dialogs\Classes\DefineDistinctiveFeatureClassDlg.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Dialogs\Classes\DefineDistinctiveFeatureClassDlg.designer.cs">
-      <DependentUpon>DefineDistinctiveFeatureClassDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\Classes\DefineFeatureClassDlgBase.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\Classes\DefineFeatureClassDlgBase.designer.cs">
-      <DependentUpon>DefineFeatureClassDlgBase.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Dialogs\Classes\DefinePhoneClassDlg.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Dialogs\Classes\DefinePhoneClassDlg.designer.cs">
-      <DependentUpon>DefinePhoneClassDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\DownloadSaDlg.cs">
       <SubType>Form</SubType>
@@ -605,27 +554,15 @@
     <Compile Include="UI\Dialogs\Features\DescriptiveFeaturesDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\Features\DescriptiveFeaturesDlg.designer.cs">
-      <DependentUpon>DescriptiveFeaturesDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Dialogs\Features\DistinctiveFeaturesDlg.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Dialogs\Features\DistinctiveFeaturesDlg.designer.cs">
-      <DependentUpon>DistinctiveFeaturesDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\Features\FeaturesDlgBase.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\Features\FeaturesDlgBase.designer.cs">
-      <DependentUpon>FeaturesDlgBase.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Dialogs\Features\FeaturesDlgViewModel.cs" />
     <Compile Include="UI\Dialogs\FiltersDlg.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Dialogs\FiltersDlg.designer.cs">
-      <DependentUpon>FiltersDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\FindDlg.cs">
       <SubType>Form</SubType>
@@ -703,9 +640,6 @@
     <Compile Include="UI\Dialogs\ProjectSetup\Fw7DataSourcePropertiesDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\ProjectSetup\Fw7DataSourcePropertiesDlg.designer.cs">
-      <DependentUpon>Fw7DataSourcePropertiesDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Dialogs\ProjectSetup\FwDataSourcePropertiesDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -715,20 +649,11 @@
     <Compile Include="UI\Dialogs\ProjectSetup\FwProjectsDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\ProjectSetup\FwProjectsDlg.designer.cs">
-      <DependentUpon>FwProjectsDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Dialogs\ProjectSetup\ProjectSettingsDlg.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Dialogs\ProjectSetup\ProjectSettingsDlg.designer.cs">
-      <DependentUpon>ProjectSettingsDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Dialogs\ProjectSetup\SFDataSourcePropertiesDlg.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Dialogs\ProjectSetup\SFDataSourcePropertiesDlg.designer.cs">
-      <DependentUpon>SFDataSourcePropertiesDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\RtfExportDlg.cs">
       <SubType>Form</SubType>
@@ -747,9 +672,6 @@
     </Compile>
     <Compile Include="UI\Dialogs\TranscriptionChangesDlg.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Dialogs\TranscriptionChangesDlg.designer.cs">
-      <DependentUpon>TranscriptionChangesDlg.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Dialogs\UndefinedCharactersInClassDlg.cs">
       <SubType>Form</SubType>
@@ -790,9 +712,6 @@
     <Compile Include="UI\Views\DistributionChartVw.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Views\DistributionChartVw.designer.cs">
-      <DependentUpon>DistributionChartVw.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Views\SearchVw.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -807,6 +726,90 @@
     </Compile>
     <Compile Include="UI\Views\VowelChartVw.Designer.cs">
       <DependentUpon>VowelChartVw.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataSourceClasses\FieldWorks\EditFwUrlDlg.Designer.cs">
+      <DependentUpon>EditFwUrlDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataSourceClasses\MissingDataSourceMsgBox.Designer.cs">
+      <DependentUpon>MissingDataSourceMsgBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\CharacterPickerControls\CharPickerRows.Designer.cs">
+      <DependentUpon>CharPickerRows.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\DistributionChartCellInfoPopup.Designer.cs">
+      <DependentUpon>DistributionChartCellInfoPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\FeatureRelatedControls\FeaturesTab.Designer.cs">
+      <DependentUpon>FeaturesTab.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\PatternBuildingControls\PatternBuilderBar.Designer.cs">
+      <DependentUpon>PatternBuilderBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\PatternBuildingControls\PatternBuilderComponents.Designer.cs">
+      <DependentUpon>PatternBuilderComponents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\PatternBuildingControls\PatternBuilderPhoneDropDown.Designer.cs">
+      <DependentUpon>PatternBuilderPhoneDropDown.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\SearchResultControls\SearchResultTabPopup.Designer.cs">
+      <DependentUpon>SearchResultTabPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\SearchResultControls\SearchResultView.Designer.cs">
+      <DependentUpon>SearchResultView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\BackupRestore\BackupDlg.Designer.cs">
+      <DependentUpon>BackupDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\BackupRestore\RestoreDlg.Designer.cs">
+      <DependentUpon>RestoreDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\Classes\ClassesDlg.Designer.cs">
+      <DependentUpon>ClassesDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\Classes\DefineClassDlgBase.Designer.cs">
+      <DependentUpon>DefineClassDlgBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\Classes\DefineDescriptiveFeatureClassDlg.Designer.cs">
+      <DependentUpon>DefineDescriptiveFeatureClassDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\Classes\DefineDistinctiveFeatureClassDlg.Designer.cs">
+      <DependentUpon>DefineDistinctiveFeatureClassDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\Classes\DefineFeatureClassDlgBase.Designer.cs">
+      <DependentUpon>DefineFeatureClassDlgBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\Classes\DefinePhoneClassDlg.Designer.cs">
+      <DependentUpon>DefinePhoneClassDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\Features\DescriptiveFeaturesDlg.Designer.cs">
+      <DependentUpon>DescriptiveFeaturesDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\Features\DistinctiveFeaturesDlg.Designer.cs">
+      <DependentUpon>DistinctiveFeaturesDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\Features\FeaturesDlgBase.Designer.cs">
+      <DependentUpon>FeaturesDlgBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\FiltersDlg.Designer.cs">
+      <DependentUpon>FiltersDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\ProjectSetup\Fw7DataSourcePropertiesDlg.Designer.cs">
+      <DependentUpon>Fw7DataSourcePropertiesDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\ProjectSetup\FwProjectsDlg.Designer.cs">
+      <DependentUpon>FwProjectsDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\ProjectSetup\ProjectSettingsDlg.Designer.cs">
+      <DependentUpon>ProjectSettingsDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\ProjectSetup\SFDataSourcePropertiesDlg.Designer.cs">
+      <DependentUpon>SFDataSourcePropertiesDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\TranscriptionChangesDlg.Designer.cs">
+      <DependentUpon>TranscriptionChangesDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Views\DistributionChartVw.Designer.cs">
+      <DependentUpon>DistributionChartVw.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -1209,6 +1212,10 @@
     <ProjectReference Include="..\SilTools\SilTools.csproj">
       <Project>{87F94FCC-BC32-4203-A919-115F4FF43FF0}</Project>
       <Name>SilTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PaToFdoInterfaces\PaToFdoInterfaces.csproj">
+      <Project>{5540C524-713E-4842-BD59-35D5EA6A60C6}</Project>
+      <Name>PaToFdoInterfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

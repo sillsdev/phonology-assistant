@@ -53,11 +53,18 @@ namespace SIL.Pa.UI.Views
 			_chartGrid.GridColor = ChartGridColor;
 			_pnlGrid.Controls.Add(_chartGrid);
 
+			if (Type.GetType("Mono.Runtime") != null) // running Mono (any platform)
+			{
+				_htmlVw = null; // FIXME: Linux - Internet Explorer not available; maybe use geckofx
+			}
+			else // .NET
+			{
 			_htmlVw = new WebBrowser();
 			_htmlVw.Dock = DockStyle.Fill;
 			_htmlVw.Visible = false;
 			_htmlVw.AllowWebBrowserDrop = false;
 			_pnlGrid.Controls.Add(_htmlVw);
+			}
 			
 			_splitOuter.Panel1.Controls.Add(_pnlGrid);
 			Utils.WaitCursors(false);
@@ -164,8 +171,11 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		private void LoadHtmlChart()
 		{
-			var outputFile = CreateHtmlViewFile();
-			_htmlVw.Url = new Uri(File.Exists(outputFile) ? outputFile : "about:blank");
+			if(_htmlVw != null)
+			{
+				var outputFile = CreateHtmlViewFile();
+				_htmlVw.Url = new Uri(File.Exists(outputFile) ? outputFile : "about:blank");
+			}
 		}
 		
 		/// ------------------------------------------------------------------------------------
@@ -191,10 +201,18 @@ namespace SIL.Pa.UI.Views
 		private void ShowHtmlChart(bool show)
 		{
 			_pnlGrid.Visible = true;
+
+			if(_htmlVw != null)
+			{
 			_htmlVw.Visible = show;
 			_chartGrid.Visible = !show;
+			}
+			else
+			{
+				_chartGrid.Visible = true;
+			}
 
-			if (_htmlVw.Visible)
+			if (_htmlVw != null && _htmlVw.Visible)
 				_htmlVw.Focus();
 			else
 				_chartGrid.Focus();
@@ -309,7 +327,7 @@ namespace SIL.Pa.UI.Views
 		{
 			SplitterRatioSetting = _splitOuter.SplitterDistance / (float)_splitOuter.Height;
 			HistogramVisibleSetting = HistogramOn;
-			ShowHtmlChartWhenViewLoaded = _htmlVw.Visible;
+			ShowHtmlChartWhenViewLoaded = _htmlVw != null ? _htmlVw.Visible : false;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -755,7 +773,8 @@ namespace SIL.Pa.UI.Views
 			if (!_activeView)
 				return false;
 
-			ShowHtmlChart(!_htmlVw.Visible);
+			if (_htmlVw != null)
+				ShowHtmlChart(!_htmlVw.Visible);
 			return true;
 		}
 
@@ -766,7 +785,7 @@ namespace SIL.Pa.UI.Views
 			if (!_activeView || itemProps == null)
 				return false;
 
-			bool shouldBechecked = _htmlVw.Visible;
+			bool shouldBechecked = _htmlVw != null ? _htmlVw.Visible : false;
 
 			if (itemProps.Checked != shouldBechecked)
 			{

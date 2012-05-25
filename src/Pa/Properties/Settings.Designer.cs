@@ -3393,6 +3393,7 @@ namespace SIL.Pa.Properties {
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection DefaultVisibleFieldsForNewProject {
             get {
+				// FIXME: Linux - throws "System.ArgumentException: Key duplication when adding: OFD_LastFileTypeChosen_DataSourceXslt" if bad Pa.exe.config exists; see notes on 2011-07-13
                 return ((global::System.Collections.Specialized.StringCollection)(this["DefaultVisibleFieldsForNewProject"]));
             }
         }

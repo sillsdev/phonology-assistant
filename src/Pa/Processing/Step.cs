@@ -42,7 +42,11 @@ namespace SIL.Pa.Processing
 				return null;
 
 			var xsltFileName = documentNavigator.GetAttribute("href", string.Empty); // No namespace for attributes.
+#if !__MonoCS__ // Mono build just use .xsl files in "Transforms" subfolder
 			var xsltFilePath = Path.Combine(processingFolder, xsltFileName);
+#else
+			var xsltFilePath = Path.Combine(Path.Combine(processingFolder, "Transforms"), xsltFileName);
+#endif
 
 			return new Step(xsltFilePath);
 		}
@@ -54,28 +58,34 @@ namespace SIL.Pa.Processing
 
 			try
 			{
-				if (!File.Exists(xsltFilePath))
+				if (File.Exists(xsltFilePath)) // 'manual' override by putting .xsl file in Processing folder
 				{
+					if (_transformsCache.TryGetValue(xsltFilePath, out _xslt))
+						return;
+	
+					// TO DO: If you enable the document() function, restrict the resources that can be accessed
+					// by passing an XmlSecureResolver object to the Transform method.
+					// The XmlResolver used to resolve any style sheets referenced in XSLT import and include elements.
+					var settings = new XsltSettings(true, false);
+					var resolver = new XmlUrlResolver();
+					resolver.Credentials = CredentialCache.DefaultCredentials;
+					
+					_xslt = new XslCompiledTransform(true);
+					_xslt.Load(XsltFilePath, settings, resolver);
+					_transformsCache[xsltFilePath] = _xslt;
+				}
+				else
+				{
+#if !__MonoCS__ // Mono seems to not support pre-compiled XSLT
 					_xslt = new XslCompiledTransform(true);
 					var compiledTransformType = Type.GetType(Path.GetFileNameWithoutExtension(XsltFilePath) +
 						", PaCompiledTransforms, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
 					_xslt.Load(compiledTransformType);
 					return;
+#else
+					throw new Exception("File Not Found");
+#endif
 				}
-
-				if (_transformsCache.TryGetValue(xsltFilePath, out _xslt))
-					return;
-
-				// TO DO: If you enable the document() function, restrict the resources that can be accessed
-				// by passing an XmlSecureResolver object to the Transform method.
-				// The XmlResolver used to resolve any style sheets referenced in XSLT import and include elements.
-				var settings = new XsltSettings(true, false);
-				var resolver = new XmlUrlResolver();
-				resolver.Credentials = CredentialCache.DefaultCredentials;
-				
-				_xslt = new XslCompiledTransform(true);
-				_xslt.Load(XsltFilePath, settings, resolver);
-				_transformsCache[xsltFilePath] = _xslt;
 			}
 			catch (Exception e)
 			{

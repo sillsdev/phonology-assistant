@@ -1,0 +1,7 @@
+glob:*.resources
+glob:*.suo
+glob:*.userprefs
+glob:bin
+glob:obj
+glob:*.pidb
+glob:Output
