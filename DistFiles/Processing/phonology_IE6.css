@@ -1,4 +1,4 @@
-﻿/* phonology_IE6.css 2011-07-01 */
+﻿/* phonology_IE6.css 2012-03-14 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 /* Here are the exceptions for Internet Explorer 6 and earlier. */
 
@@ -47,9 +47,7 @@ color: #000000; /* text normal */
 
 /* Do not display elements that people cannot interact with. */
 
-div.distribution_environments_CV ul.environments, /* list of tabs for distribution and CV chart */
-div.distribution_environments_CV table.CV, /* CV chart for distribution chart */
-table.features /* features table at the right of CV chart */
+table.side_by_side table.features /* features table at the right of CV chart */
 {
 display: none;
 }

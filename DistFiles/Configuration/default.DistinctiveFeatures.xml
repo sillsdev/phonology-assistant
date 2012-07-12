@@ -1382,124 +1382,132 @@
 			<feature>+constr</feature>
 		</featureContradiction>
 	</featureContradictions>
-	<pairSimilarity>
-		<pairDifferences type="consonant">
-			<pairDifference primary="false" count="1">
-				<name>cont</name>
-			</pairDifference>
-			<pairDifference primary="false" count="1">
-				<name>lat</name>
-			</pairDifference>
-			<pairDifference primary="false" count="1">
-				<name>nas</name>
-			</pairDifference>
-			<pairDifference primary="true" count="1">
-				<name>labial</name>
-			</pairDifference>
-			<pairDifference primary="false" count="1">
-				<name>rnd</name>
-				<forAnyOf segments="both">
-					<feature>+labial</feature>
-				</forAnyOf>
-			</pairDifference>
-			<pairDifference primary="true" count="1">
-				<name>coronal</name>
-				<forAnyOf segments="either">
-					<notAnyOf>
-						<features>
-							<feature>+son</feature>
-							<feature>-approx</feature>
-						</features>
-					</notAnyOf>
-				</forAnyOf>
-			</pairDifference>
-			<pairDifference primary="false" count="2">
-				<name>strid</name>
-				<forAnyOf segments="both">
-					<feature>+coronal</feature>
-				</forAnyOf>
-			</pairDifference>
-			<pairDifference primary="true" count="1">
-				<name>dorsal</name>
-			</pairDifference>
-			<pairDifference primary="false" count="1">
-				<name>high</name>
-				<forAnyOf segments="both">
-					<feature>+dorsal</feature>
-					<feature>-cons</feature>
-				</forAnyOf>
-			</pairDifference>
-			<pairDifference primary="false" count="1">
-				<name>low</name>
-				<forAnyOf segments="both">
-					<feature>+dorsal</feature>
-					<feature>-cons</feature>
-				</forAnyOf>
-			</pairDifference>
-			<pairDifference primary="false" count="1">
-				<name>front</name>
-				<forAnyOf segments="both">
-					<features>
-						<feature>+dorsal</feature>
-						<feature>-cons</feature>
-					</features>
-				</forAnyOf>
-			</pairDifference>
-			<pairDifference primary="false" count="1">
-				<name>back</name>
-				<forAnyOf segments="both">
-					<features>
-						<feature>+dorsal</feature>
-						<feature>-cons</feature>
-					</features>
-				</forAnyOf>
-			</pairDifference>
-			<pairDifference primary="true" count="1">
-				<name>radical</name>
-			</pairDifference>
-			<pairDifference primary="false" count="1">
-				<name>voice</name>
-			</pairDifference>
-			<pairDifference primary="false" count="1">
-				<name>long</name>
-			</pairDifference>
-		</pairDifferences>
-		<pairDifferences type="vowel">
-			<pairDifference primary="false" count="1">
-				<name>nas</name>
-			</pairDifference>
-			<pairDifference primary="true" count="1">
-				<name>labial</name>
-			</pairDifference>
-			<pairDifference primary="false" count="1">
-				<name>coronal</name>
-			</pairDifference>
-			<pairDifference primary="true" count="1">
-				<name>dorsal</name>
-			</pairDifference>
-			<pairDifference primary="false" count="1">
-				<name>high</name>
-			</pairDifference>
-			<pairDifference primary="false" count="1">
-				<name>low</name>
-			</pairDifference>
-			<pairDifference primary="false" count="1">
-				<name>front</name>
-			</pairDifference>
-			<pairDifference primary="false" count="1">
-				<name>back</name>
-			</pairDifference>
-			<pairDifference primary="false" count="1">
-				<name>radical</name>
-			</pairDifference>
-			<pairDifference primary="false" count="1">
-				<name>voice</name>
-			</pairDifference>
-			<pairDifference primary="false" count="1">
-				<name>long</name>
-			</pairDifference>
-		</pairDifferences>
-	</pairSimilarity>
+	<similarityMetric>
+    <featureMetric articulator="false" value="1">
+      <name>cons</name>
+    </featureMetric>
+    <featureMetric articulator="false" value="1">
+      <name>cont</name>
+    </featureMetric>
+    <featureMetric articulator="false" value="1">
+      <name>nas</name>
+      <forAnyOf segments="either">
+        <notAnyOf>
+          <features>
+            <feature>+dorsal</feature>
+            <feature>-cons</feature>
+          </features>
+        </notAnyOf>
+      </forAnyOf>
+    </featureMetric>
+    <featureMetric articulator="true" value="1">
+      <name>labial</name>
+    </featureMetric>
+    <featureMetric articulator="true" value="1">
+      <name>coronal</name>
+      <forAnyOf segments="either">
+        <notAnyOf>
+          <features>
+            <feature>+son</feature>
+            <feature>-approx</feature>
+          </features>
+        </notAnyOf>
+      </forAnyOf>
+    </featureMetric>
+    <featureMetric articulator="false" value="2">
+      <name>strid</name>
+      <forAnyOf segments="both">
+        <features>
+          <feature>+coronal</feature>
+        </features>
+      </forAnyOf>
+    </featureMetric>
+    <featureMetric articulator="true" value="1">
+      <name>dorsal</name>
+    </featureMetric>
+    <featureMetric articulator="false" value="0.5">
+      <name>high</name>
+      <forAnyOf segments="both">
+        <features>
+          <feature>+dorsal</feature>
+        </features>
+      </forAnyOf>
+    </featureMetric>
+    <featureMetric articulator="false" value="0.5">
+      <name>high</name>
+      <forAnyOf segments="both">
+        <features>
+          <feature>+dorsal</feature>
+          <feature>-cons</feature>
+        </features>
+      </forAnyOf>
+    </featureMetric>
+    <featureMetric articulator="false" value="0.5">
+      <name>low</name>
+      <forAnyOf segments="both">
+        <features>
+          <feature>+dorsal</feature>
+        </features>
+      </forAnyOf>
+    </featureMetric>
+    <featureMetric articulator="false" value="0.5">
+      <name>low</name>
+      <forAnyOf segments="both">
+        <features>
+          <feature>+dorsal</feature>
+          <feature>-cons</feature>
+        </features>
+      </forAnyOf>
+    </featureMetric>
+    <featureMetric articulator="false" value="0.5">
+      <name>front</name>
+      <forAnyOf segments="both">
+        <features>
+          <feature>+dorsal</feature>
+        </features>
+      </forAnyOf>
+    </featureMetric>
+    <featureMetric articulator="false" value="0.5">
+      <name>front</name>
+      <forAnyOf segments="both">
+        <features>
+          <feature>+dorsal</feature>
+          <feature>-cons</feature>
+        </features>
+      </forAnyOf>
+    </featureMetric>
+    <featureMetric articulator="false" value="0.5">
+      <name>back</name>
+      <forAnyOf segments="both">
+        <features>
+          <feature>+dorsal</feature>
+        </features>
+      </forAnyOf>
+    </featureMetric>
+    <featureMetric articulator="false" value="0.5">
+      <name>back</name>
+      <forAnyOf segments="both">
+        <features>
+          <feature>+dorsal</feature>
+          <feature>-cons</feature>
+        </features>
+      </forAnyOf>
+    </featureMetric>
+    <featureMetric articulator="true" value="1">
+      <name>radical</name>
+    </featureMetric>
+    <featureMetric articulator="false" value="1">
+      <name>voice</name>
+      <forAnyOf segments="either">
+        <notAnyOf>
+          <features>
+            <feature>+dorsal</feature>
+            <feature>-cons</feature>
+          </features>
+        </notAnyOf>
+      </forAnyOf>
+    </featureMetric>
+  </similarityMetric>
 	<form class="distinctive">
 		<div>
 			<fieldset>

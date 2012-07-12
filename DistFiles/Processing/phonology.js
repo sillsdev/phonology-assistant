@@ -1,12 +1,13 @@
-﻿// phonology.js 2011-10-18
+﻿// phonology.js 2012-05-24
 // Interactive behavior for XHTML files exported from Phonology Assistant.
-// http://www.sil.org/computing/pa/index.htm
+// http://phonologyassistant.sil.org/
 
-// Requires jQuery 1.4 or later. http://jquery.com/
+// Requires jQuery 1.7 or later: .on, .Callbacks. http://jquery.com/
 // Requires jQuery UI widget base class. http://jqueryui.com
-
-// JSLint defines a professional subset of JavaScript. http://jslint.com
-/*global jQuery: false */
+// Requires phonquery.js for:
+// * consonant or vowel charts <table class="CV chart ...">
+//   with tables of descriptive or distincitve features <table class="... features">
+// * values charts <table class="... values chart">
 
 // Here is the convention for quote marks enclosing Javascript strings in this file:
 // single quotes: all selectors, because they sometimes include quoted attribute values
@@ -42,41 +43,75 @@
 //       * In modern browsers which follow the standard, including IE9, the text is the line break.
 //       * In IE6, IE7, IE8, the text is empty string.
 
-// For more information, see page 137-139 of JavaScript Patterns.
-// The following function is defined in ECMAScript 5
-// and implemented in Firefox 4.
-if (typeof Function.prototype.bind === "undefined") {
-	Function.prototype.bind = function (thisArg) {
-		"use strict"; // Firefox 4
-		var fn = this,
-			slice = Array.prototype.slice,
-			args = slice.call(arguments, 1);
-
-		return function () {
-			return fn.apply(thisArg, args.concat(slice.call(arguments)));
-		};
-	};
-}
-
 // Execute when the DOM is fully loaded.
 // The following is related to $(document).ready(...) but even better because:
 // * It avoids an explicit global reference to document.
 // * It ensures that $(...) is a shortcut for jQuery(...) within the function.
 
+/*global jQuery: false, phonQuery: false */ // for JSLint or JSHint
+
 jQuery(function ($) {
-	"use strict"; // Firefox 4
-	/*jslint browser: true */ // setTimeout
-	/*jslint nomen: true */ // jQuery UI: preceding underscore for private methods
-	/*jslint devel: false */ // console
+	"use strict"; // Firefox 4 or later
 
-	// Utility methods ---------------------------------------------------------
+	// http://jslint.com defines a professional subset of JavaScript.
+	/*jslint browser: true */ // for example, document, setTimeout
+	/*jslint devel: false */ // console, alert
+	/*jslint nomen: true */ // do not warn about preceding underscore for private methods in jQuery UI
+	/*jslint indent: 4 */ // consider a tab equivalent to 4 spaces
 
-	var browserIE7 = function () {
-			// Return whether the browser version is IE7, because of its limitations in CSS:
-			// * lack of :before and content for transcriptions
-			// * limited support for collapsing rowgroups and colgroups for distribution charts
+	// http://jshint.com is a tool to detect errors and potential problems in JavaScript code.
+	/*jshint browser: true */ // for example, document, setTimeout
+	/*jshint devel: false */ // console, alert
+	/*jshint trailing: true */ // warn about trailing white space
+	/*jshint nomen: false */ // do not warn about preceding underscore for private methods in jQuery UI
+	/*jshint onevar: true */ // only one var statement per function
+	/*jshint white: false */ // do not warn about indentation
+
+	// Utility functions -------------------------------------------------------
+
+	var slice = Array.prototype.slice,
+
+		// Return a new function that, when called, itself calls f
+		// * in the context of thisArg
+		// * with a given sequence of arguments
+		//   preceding any provided when the new function was called
+		// See pages 137-139 in JavaScript Patterns.
+		// Instead of extending Function.prototype, define bind as a variable:
+		// either the ECMAScript 5 function or a substitute.
+		bind = Function.prototype.bind || function (thisArg) {
+			var f = this,
+				args = slice.call(arguments, 1);
+
+			return function () {
+				return f.apply(thisArg, args.concat(slice.call(arguments)));
+			};
+		},
+
+		// ECMAScript 5 function or an alternate.
+		forEach = Array.forEach || function (collection, callback, context) {
+			var i, length;
+
+			for (i = 0, length = collection.length; i < length; i += 1) {
+				callback.call(context, collection[i], i, collection);
+			}
+		},
+
+		// Append a (shallow) copy of items in arrayFrom to arrayTo.
+		// That is, at the end of arrayTo, push each item in arrayFrom.
+		append = function (arrayTo, arrayFrom) {
+			var i, length;
+
+			for (i = 0, length = arrayFrom.length; i < length; i += 1) {
+				arrayTo.push(arrayFrom[i]);
+			}
+		},
+
+		// Return whether the browser version is IE7, because of its limitations in CSS:
+		// * lack of :before and content for transcriptions
+		// * limited support for collapsing rowgroups and colgroups for distribution charts
+		browser = function (browserClass) {
 			// The link element has a class attribute and is in a conditional comment.
-			return !!$('html head link.IE7[rel="stylesheet"]').length;
+			return $('html head link[rel="stylesheet"]').filter("." + browserClass).length !== 0;
 		},
 
 		// Return the text of a list item (DOM).
@@ -90,93 +125,66 @@ jQuery(function ($) {
 			return $(cell).text();
 		},
 
-		// Return whether all values in the subset (array) are in any of the sets (arrays).
-		isSubsetOf = function (subset) {
-			var length = subset.length,
-				lengthArguments = arguments.length,
-				i,
-				iSet;
+		// From the class attribute of an element, return a space-separated value.
+		splitClass = function ($element, i) {
+			var classes = ($element.attr("class") || "").split(" ");
 
-			for (i = 0; i < length; i += 1) {
-				// Skip the subset argument.
-				for (iSet = 1; iSet < lengthArguments; iSet += 1) {
-					if ($.inArray(subset[i], arguments[iSet]) !== -1) {
-						break;
+			return arguments.length === 1 ? classes : (i < classes.length ? classes[i] : "");
+		},
+
+		// Store data for this element which represents a segment.
+		// For example, interactive cells in a CV chart: $tableCV.find('td.Phonetic').each(dataSegment);
+		dataSegment = function () {
+			var $element = $(this),
+				$uls = $element.children('ul.features'),
+				featureQuery = phonQuery.featureQuery,
+				data = $element.data(); // The first call to the data method
+				// automatically converts any HTML5 data attributes of the element
+				// to properties of the data object:
+				// http://api.jquery.com/data/#data-html5
+				// Important: A call to the data function $.data(element) does not convert attributes.
+
+			data.symbols = $element.children('span').text();
+			data.description = $element.attr("title");
+			forEach(featureQuery.featureClasses, function (featureClass) {
+				var features = data[featureClass],
+					$ul;
+
+				if (features && $.isArray(features)) {
+					// If jQuery parsed an HTML5 data attribute for the feature class as an array,
+					// then replace the data property with the corresponding features object.
+					// <... data-descriptive='["consonant", "voiceless", "bilabial", "plosive"]' ...>
+					// <... data-distinctive='["-syll", "+cons", "-son", "-approx", ...]' ...>
+					// Important: As in JSON, double quotes must enclose the strings.
+					features = data[featureClass] = featureQuery(featureClass, features);
+				} else {
+					$ul = $uls.filter('.' + featureClass);
+					if ($ul.length === 1) {
+						// If this element has a features list for the feature class,
+						// then set the data property to the corresponding features object.
+						// <ul class="descriptive features"><li>consonant</li>...</ul>
+						// <ul class="distinctive features"><li>-syll</li>...</ul>
+						// Tip: Requires display: none in CSS, but is more usable outside a browser.
+						// For example, much easier for XSLT to input and output lists of features.
+						features = data[featureClass] = featureQuery(featureClass);
+						$ul.children().each(function () {
+							features.add(textFromListItem(this));
+						});
 					}
 				}
-				if (iSet >= lengthArguments) {
-					return false;
-				}
-			}
-			return true;
-		},
-
-		// Ignoring one value identified by its index in the subset,
-		// return whether all the other values in the subset (array) are in the set (array).
-		isSubsetOfIgnoring1 = function (subset, set, index) {
-			var length = subset.length,
-				i;
-
-			for (i = 0; i < length; i += 1) {
-				if (i !== index) {
-					if ($.inArray(subset[i], set) === -1) {
-						return false;
-					}
-				}
-			}
-			return true;
-		},
-
-		// Append the items in one or more arrays to the first array argument.
-		// Unlike array.push which updates array, but appends entire arrays as items.
-		// Unlike array.concat which appends items of arrays, but returns a new array.
-		append = function (array0) {
-			// Skip the array0 argument.
-			$.each(Array.prototype.slice.call(arguments, 1), function () {
-				var array = this,
-					length = array.length,
-					i;
-
-				for (i = 0; i < length; i += 1) {
-					array0.push(array[i]);
-				}
 			});
-			return array0;
-		},
-
-		// Delete properties of object.
-		emptyObject = function (object) {
-			$.each(object, function (key) {
-				delete object[key];
-			});
-			return object;
 		};
 
 	// Section of a phonology report ===========================================
-	//	
+	//
 	// Each section consists of a heading (which is the first child),
 	// one or more tables, optional paragraphs, and optional child sections.
 	// HTML5: section element
 	// HTML4: div element whose class attribute contains section
 
-	$.widget("phonology.section", {
-		_create: function () {
-			var eventNamespace = "." + this.widgetName,
-				self = this;
-
-			// Bind event handler.
-			this.element.children(':first-child:header')
-				.bind("click" + eventNamespace, function (event) {
-					self._click(event);
-				})
-				.addClass("interactive");
-		},
-
-		// To collapse/expand a division, click its heading.
-		_click: function () {
-			this.element.toggleClass("collapsed");
-		}
-	});
+	$('div.section').children(':header:first-child').on("click.section", function () {
+		$(this).parent().toggleClass("collapsed");
+	}).addClass("interactive");
 
 	// Data or Search view =====================================================
 	//
@@ -187,6 +195,11 @@ jQuery(function ($) {
 		_create: function () {
 			var $element = this.element,
 				$ulTranscriptions = $element.find('td > ul.transcription'),
+				// Can sort by any column which contains data,
+				// except when there is one minimal pair per group
+				// because it might contain both subheading and data rows.
+				sortable = $element.has('thead th.sorting_field').length !== 0 &&
+					$element.has('tbody.group th.pair').length === 0,
 				eventNamespace = "." + this.widgetName,
 				self = this;
 
@@ -194,20 +207,17 @@ jQuery(function ($) {
 				this._createTranscriptions($ulTranscriptions);
 			}
 
-			// You can sort any column which contains data,
-			// except when there is one minimal pair per group
-			// because it might contain both subheading and data rows.
-			if (!$element.has('tbody.group th.pair').length) {
+			if (sortable) {
 				this._createSorting();
 			}
 
-			// Bind event handler for the table.
-			// It has sortable columns or groups, or both.
-			$element
-				.bind("click" + eventNamespace, function (event) {
+			// If there are sortable columns or collapsible groups, or both,
+			// attach event handler for the table, and then add interactive class.
+			if (sortable || $element.has('tbody.group') !== 0) {
+				$element.on("click" + eventNamespace, function (event) {
 					self._click(event);
-				})
-				.addClass("interactive");
+				}).addClass("interactive");
+			}
 		},
 
 		// Insert non-semantic markup and content which is intentionally omitted from XHTML files.
@@ -217,10 +227,10 @@ jQuery(function ($) {
 			// because the data cell itself cannot have relative position.
 			$ulTranscriptions.parent().wrapInner('<div class="transcription"></div>');
 
-			if (browserIE7()) {
+			if (browser("IE7")) {
 				// Because IE 7 does not support the :before pseudo-element,
-				// insert content to separate del and ins elements.
-				$ulTranscriptions.find('li.change del + ins').before(' \u25B8 '); // black right-pointing small triangle
+				// between del and ins elements, insert black right-pointing small triangle.
+				$ulTranscriptions.find('li.change del + ins').before(' \u25B8 ');
 			}
 		},
 
@@ -239,11 +249,12 @@ jQuery(function ($) {
 				eventNamespace = "." + this.widgetName,
 				self = this;
 
-			this.$sortingDetails = $element.parent().find('table.details tr.sorting_field td');
-			this.$thsSortable = $element.find('thead th:not(.group)').each(function () {
+			this.$details = $element.siblings('table.details').find('tr.sorting_field td');
+			this.$thsSortable = $element.find('thead th').not('.group').each(function () {
 				var $th = $(this),
 					$span = $th.find('span'),
 					fieldName = $span.length ? $span.text() : $th.text(),
+					classes = ($th.attr("class") || "").split(" "),
 					data = {
 						// The HTML and CSS class for a field consists of alphanumeric characters only.
 						// For example, omit space and period.
@@ -253,19 +264,23 @@ jQuery(function ($) {
 						sortingSelector: '.' + fieldName.replace(/[\W_]/g, ""),
 
 						// Is this the field by which the list is grouped?
-						groupField: $th.hasClass("sorting_field") && !!$th.siblings('th.group').length,
+						groupField: $.inArray("sorting_field", classes) !== -1 &&
+							$th.siblings('th.group').length !== 0,
 
-						// Is this the Phonetic or (someday) Phonemic field in Search view?
+						// Is this the Phonetic field in Search view?
 						searchField: $th.attr("colspan") === "3"
 					},
 					$ins = $th.find('ins'),
-					hasSortingOptions = $th.hasClass("sorting_options");
+					hasSortingOptions = $.inArray("sorting_options", classes) !== -1;
 
 				if (data.searchField) {
 					data.sortingSelector += '.item';
 				}
 				if ($ins.length) {
-					self._indicator(data, $ins.text()); // initialize descending and sortingOption
+					self._sortingIndicator(data, $ins.text()); // initialize descending and sortingOption
+					$th.contents().filter(function (i) {
+						return this.nodeType === 3 && i !== 0; // text node not at beginning
+					}).remove(); // remove any white space between <span>...</span> and <ins>...</ins>
 				} else {
 					// The first time you sort by any column other than the primary sort field,
 					// assume that the direction is ascending and insert the visual indicator.
@@ -273,31 +288,37 @@ jQuery(function ($) {
 					if (hasSortingOptions) {
 						data.sortingOption = self.sortingOptions[0]; // assume as the default
 					}
-					if (!$span.length) {
+					if ($span.length === 0) {
 						$th.wrapInner('<span></span>');
 					}
-					$th.append(' <ins></ins>').find('ins').text(self._indicator(data));
+					$('<ins></ins>').text(self._sortingIndicator(data)).appendTo($th);
+				}
+				if ($th.has('div.indicator').length === 0) {
+					$th.wrapInner('<div class="indicator"></div>');
 				}
 				if (hasSortingOptions) {
 					data.sortingSelector += (' > ul.sorting_order > li');
 
 					// TO DO: encapsulate
-					data.hasIndex = !!$element.find(data.sortingSelector).each(function () {
+					data.hasIndex = $element.find(data.sortingSelector).each(function () {
 						var $li = $(this);
 
 						$li.data("sortingIndex", parseInt($li.text(), 10) - 1); // TO DO: descending?
-					}).length;
+					}).length !== 0;
 
 					// To make IE 7 display the drop-down menu on the next line,
 					// wrap the contents in an explicit block element.
 					// Must have inserted <span>...</span><ins>...</ins> before this!
-					$th.wrapInner('<div></div>').append(self._$ulSortOptions())
+					if (browser("IE7")) {
+						$th.wrapInner('<div></div>');
+					}
+					$th.append(self._$ulSortingOptions())
 						// Bind event handlers for sorting options.
-						.bind("mouseenter" + eventNamespace, function (event) {
-							self._mouseenterSortOptions(event);
+						.on("mouseenter" + eventNamespace, function (event) {
+							self._mouseenterSortingOptions(event);
 						})
-						.bind("mouseleave" + eventNamespace, function (event) {
-							self._mouseleaveSortOptions(event);
+						.on("mouseleave" + eventNamespace, function (event) {
+							self._mouseleaveSortingOptions(event);
 						});
 				}
 
@@ -308,66 +329,101 @@ jQuery(function ($) {
 
 		// event handlers ------------------------------------------------------
 
-		// Click in a list.
+		// When the mouse pointer moves over a Phonetic heading cell,
+		// a drop-down menu of sorting options appears.
+		_mouseenterSortingOptions: function (event) {
+			this._addSortingOptionClasses($(event.currentTarget));
+		},
+
+		// When the mouse pointer moves out of the heading cell,
+		// sorting options disappear.
+		_mouseleaveSortingOptions: function (event) {
+			this._removeSortingOptionClasses($(event.currentTarget));
+		},
+
+		// Click in a sortable or collapsible list.
 		_click: function (event) {
 			var $target = $(event.target),
-				$cell = $target.closest('th, td');
+				$cell = $target.closest('th, td'),
+				classes;
 
 			if ($cell.is('th')) {
-				if ($cell.hasClass("group")) {
+				classes = ($cell.attr("class") || "").split(" ");
+				if ($.inArray("group", classes) !== -1) {
 					// To collapse/expand all groups, click at the upper left.
-					this.element.toggleClass("collapsed");
-				} else if ($cell.hasClass("count")) {
+					this.element.toggleClass("collapsed"); // table
+				} else if ($.inArray("count", classes) !== -1) {
 					// To collapse/expand a group, click at the left of its heading row.
-					$cell.closest('tbody').toggleClass("collapsed");
-				} else if ($cell.hasClass("sortable")) {
+					$cell.parent().parent().toggleClass("collapsed"); // tbody
+				} else if ($.inArray("sortable", classes) !== -1) {
 					// To sort by a column, click its heading cell or a phonetic option.
 					this._clickSortableHeading($target);
 				}
 			}
 		},
 
-		// When the mouse pointer moves over a Phonetic or (someday) Phonemic heading cell,
-		// a drop-down menu of sorting options appears.
-		_mouseenterSortOptions: function (event) {
-			this._addSortingOptionClasses($(event.currentTarget));
-		},
-
-		// When the mouse pointer moves out of the heading cell,
-		// sorting options disappear.
-		_mouseleaveSortOptions: function (event) {
-			this._removeSortingOptionClasses($(event.currentTarget));
-		},
-
-		// private implementation ----------------------------------------------
+		// private implementation for event handlers ---------------------------
 
 		_addSortingOptionClasses: function ($th) {
 			var sortingOption = $th.data("sorting").sortingOption;
 
 			$th.addClass("active").find('li').filter(function () {
-				return $(this).data("sorting").sortingOption === sortingOption;
+				return $.data(this, "sorting").sortingOption === sortingOption;
 			}).addClass("initial");
 		},
 
 		_removeSortingOptionClasses: function ($th) {
-			$th.removeClass("active").find('li').removeClass("initial");
+			$th.removeClass("active").find('li.initial').removeClass("initial");
 		},
 
-		// Return a list for a drop-down menu of sorting options.
-		_$ulSortOptions: function () {
-			var $ul = $('<ul></ul>'),
-				sortingOption_label = this.sortingOption_label,
-				sortingOptions = this.sortingOptions,
-				length = sortingOptions.length,
-				i,
-				sortingOption;
+		// To sort by a column, click its heading cell or a sort option.
+		_clickSortableHeading: function ($target) {
+			var $th = $target.closest('th'),
+				data = $th.data("sorting"),
+				classes = ($th.attr("class") || "").split(" "),
+				sortingField = $.inArray("sorting_field", classes) !== -1, // click the active column heading
+				reverse = sortingField,
+				sortingOptionSelected;
 
-			for (i = 0; i < length; i += 1) {
-				sortingOption = sortingOptions[i];
-				$ul.append($('<li>' + sortingOption_label[sortingOption] + '</li>').data("sorting", {sortingOption: sortingOption}));
+			// Phonetic sort option.
+			if ($target.is('li')) {
+				sortingOptionSelected = $target.data("sorting").sortingOption;
+				if (sortingField) {
+					// Only if this is the active sorting field:
+					// * Reverse the direction if the sort option remains the same.
+					// * Keep the direction the same if the sorting option changes.
+					reverse = (data.sortingOption === sortingOptionSelected);
+				}
+				data.sortingOption = sortingOptionSelected;
 			}
-			return $ul;
+			// The following condition is independent of the previous condition,
+			// because you might click the heading instead of the list.
+			if ($.inArray("sorting_options", classes) !== -1) {
+				this._removeSortingOptionClasses($th);
+			}
+
+			// Important: Must resort in the opposite direction;
+			// cannot just call the reverse() method,
+			// because it does not preserve stable order of records
+			// with identical values of the sort field.
+			if (reverse) {
+				data.descending = !data.descending;
+			}
+
+			this._sort(data);
+
+			if (!sortingField) {
+				this.$thsSortable.removeClass("sorting_field");
+				$th.addClass("sorting_field");
+			}
+			$th.find('ins').text(this._sortingIndicator(data));
+
+			if (this.$details.length) {
+				this._details($th);
+			}
 		},
+
+		// private implementation for user interface ---------------------------
 
 		sortingOptions: ["place_or_backness", "manner_or_height"],
 		sortingOption_label: {
@@ -375,7 +431,25 @@ jQuery(function ($) {
 			"manner_or_height": "manner or height"
 		},
 
-		sortIndicators: {
+		// Return a list for a drop-down menu of sorting options.
+		_$ulSortingOptions: function () {
+			var $ul = $('<ul></ul>'),
+				sortingOptions = this.sortingOptions,
+				sortingOption_label = this.sortingOption_label,
+				length = sortingOptions.length,
+				i,
+				sortingOption;
+
+			for (i = 0; i < length; i += 1) {
+				sortingOption = sortingOptions[i];
+				$('<li></li>').text(sortingOption_label[sortingOption])
+					.data("sorting", {sortingOption: sortingOption})
+					.appendTo($ul);
+			}
+			return $ul;
+		},
+
+		sortingIndicators: {
 			"\u25B2": { // black up-pointing triangle
 				sortingOption: "manner_or_height",
 				descending: false
@@ -400,31 +474,51 @@ jQuery(function ($) {
 			}
 		},
 
-		_indicator: function (data, sortIndicator) {
-			var object;
+		_sortingIndicator: function (data, text) {
+			var sortingOption,
+				descending,
+				value;
 
-			if (typeof sortIndicator === "string") {
-				// Initialize data for the column heading of the sort field
-				// from a character in the ins element exported by Phonology Assistant.
-				object = this.sortIndicators[sortIndicator];
-				if (object) {
-					data.descending = object.descending;
-					if (object.sortingOption) {
-						data.sortingOption = object.sortingOption;
-					}
-				}
-			} else {
-				// Return a character for the ins element in the heading of the sort field.
-				sortIndicator = undefined;
-				$.each(this.sortIndicators, function (key, value) {
-					if (value.sortingOption === data.sortingOption && value.descending === data.descending) {
-						sortIndicator = key;
-						return false;
+			if (arguments.length === 1) {
+				// Return a character for the ins element in the column heading.
+				sortingOption = data.sortingOption;
+				descending = data.descending;
+				$.each(this.sortingIndicators, function (key, value) {
+					if (value.sortingOption === sortingOption && value.descending === descending) {
+						text = key;
+						return false; // break;
 					}
 				});
-				return sortIndicator;
+				return text;
+			}
+
+			// Initialize data for the column heading of the sort field
+			// from a character in the ins element exported by Phonology Assistant.
+			value = this.sortingIndicators[text];
+			if (value) {
+				data.descending = value.descending;
+				if (value.sortingOption) {
+					data.sortingOption = value.sortingOption;
+				}
 			}
 		},
+
+		// Update a row in the table of details.
+		_details: function ($th) {
+			var text = $th.find('span').text(), // name of sorting field
+				data = $th.data("sorting"),
+				label = this.sortingOption_label[data.sortingOption];
+
+			if (typeof label === "string") {
+				text += (", " + label);
+			}
+			if (data.descending) {
+				text += ", descending";
+			}
+			this.$details.text(text);
+		},
+
+		// private implementation for sorting ----------------------------------
 
 		// To compare field values, change some occurrences of white space.
 		emptyValues: ["\n", "\r", "\r\n", "\u00A0"], // newline, return, return-newline, no-break space
@@ -460,7 +554,8 @@ jQuery(function ($) {
 		},
 
 		_setIndex: function (elements, sortingSelector, method, descending) {
-			/*jslint plusplus: true */
+			/*jslint plusplus: true */ // allow ++ and --
+			/*jshint plusplus: false */ // allow ++ and --
 			var length = elements.length,
 				index = descending ? length : 0,
 				i;
@@ -534,165 +629,115 @@ jQuery(function ($) {
 					!data.sortingOption, hasIndex, descending);
 			}
 			data.hasIndex = true;
-		},
-
-		// To sort by a column, click its heading cell or a sort option.
-		_clickSortableHeading: function ($target) {
-			var $th = $target.closest('th'),
-				data = $th.data("sorting"),
-				sortField = $th.hasClass("sorting_field"), // click the active column heading
-				reverse = sortField,
-				sortingOptionSelected;
-
-			// Phonetic sort option.
-			if ($target.is('li')) {
-				sortingOptionSelected = $target.data("sorting").sortingOption;
-				if (reverse) {
-					// Only if this is the active sort field:
-					// * Reverse the direction if the sort option remains the same.
-					// * Keep the direction the same if the sort option changes.
-					reverse = (data.sortingOption === sortingOptionSelected);
-				}
-				data.sortingOption = sortingOptionSelected;
-			}
-			// The following condition is independent of the previous condition,
-			// because you might click the heading instead of the list.
-			if ($th.hasClass("sorting_options")) {
-				this._removeSortingOptionClasses($th);
-			}
-
-			// Important: Must resort in the opposite direction;
-			// cannot just call the reverse() method,
-			// because it does not preserve stable order of records
-			// with identical values of the sort field.
-			if (reverse) {
-				data.descending = !data.descending;
-			}
-
-			this._sort(data);
-
-			if (!sortField) {
-				this.$thsSortable.removeClass("sorting_field");
-				$th.addClass("sorting_field");
-			}
-			$th.find('ins').text(this._indicator(data));
-
-			if (this.$sortingDetails.length) {
-				this._updateDetails($th);
-			}
-		},
-
-		// Update a row in the table of details.		
-		_updateDetails: function ($th) {
-			var details = $th.find('span').text(), // name of sort field
-				data = $th.data("sorting"),
-				label = this.sortingOption_label[data.sortingOption];
-
-			if (typeof label === "string") {
-				details += (", " + label);
-			}
-			if (data.descending) {
-				details += ", descending";
-			}
-			this.$sortingDetails.text(details);
 		}
 	});
 
-	// Consonant Chart or Vowel Chart view =====================================
-	//
-	// Display units which have sets of features.
-	// Display features for units or pairs of units.
+	// mediator ================================================================
 
-	// =========================================================================
-
-	// Division which contains CV charts and tables of features.
-	$.widget("phonology.divFeaturesCV", {
+	// Common ancestor of widgets which use callbacks to publish or subscribe, or both.
+	// Mediator provides loose coupling between charts, tables, diagrams, forms.
+	// See pages 273-282 in Design Patterns, 167-171 in JavaScript Patterns.
+	$.widget("phonology.mediator", {
 		_create: function () {
-			var $element = this.element;
+			var callbacksObject = {},
+				self = this;
 
-			this.tableSelected = undefined;
-			this.tdSelected = undefined;
-			this.$tablesFeaturesShared = $element.has('div.CV2').children('table.features');
-
-			this.$tableFeaturesDistinctive = $element.children('table.features.distinctive');
-			this.key_segments = {};
-
-			$element.find('table.features').tableFeatures();
+			// Proxy functions control access to the corresponding objects.
+			// See pages 207-217 in Design Patterns, 159-167 in JavaScript Patterns.
+			// The jQuery UI widget factory makes a deep copy of the options object
+			// and its object values, but a shallow copy of its function values.
+			this.callbacksProxy = function (channel) {
+				return self._callbacks(callbacksObject, channel);
+			};
 		},
 
 		// private implementation ----------------------------------------------
 
-		_matchFeaturesShared: function (dataActive, dataSelected) {
-			this.$tablesFeaturesShared.tableFeatures("toggleClassFeatures", dataActive, dataSelected);
-		},
+		// Return the callbacks object for a channel, also known as a subject.
+		// For information about publish-subscribe, also known as observer, see:
+		// pages 293-303 in Design Patterns
+		// pages 171-178 in JavaScript Patterns
+		// http://api.jquery.com/jQuery.Callbacks/#pubsub
+		_callbacks: function (callbacksObject, channel) {
+			var callbacks = callbacksObject[channel];
 
-		// public interface ----------------------------------------------------
-
-		// The mouse pointer moves into or out of a segment in a CV chart.
-		mediateSegmentActive: function (tableCV, td) {
-			var tableSelected = this.tableSelected,
-				dataSelected = tableSelected && $.data(this.tdSelected),
-				dataActive = td && $.data(td);
-
-			if (td) {
-				this._matchFeaturesShared(dataActive, dataSelected);
-				tableCV.matchFeatures(dataActive, dataSelected);
-				if (tableSelected && tableSelected !== tableCV) {
-					tableSelected.matchFeatures(dataActive, dataSelected);
-				}
-			} else {
-				this._matchFeaturesShared(dataSelected);
-				if (tableSelected && tableSelected !== tableCV) {
-					tableCV.matchFeatures();
-					tableSelected.matchFeatures(dataSelected);
-				} else {
-					tableCV.matchFeatures(dataSelected);
-				}
+			if (!callbacks) {
+				callbacks = callbacksObject[channel] = $.Callbacks();
 			}
-		},
-
-		// Select or clear a segment in a CV chart.
-		mediateSegmentSelected: function (tableCV, td) {
-			var tableSelectedPrev = this.tableSelected,
-				dataSelected = td && $.data(td);
-
-			this._matchFeaturesShared(dataSelected);
-			tableCV.matchFeatures(dataSelected);
-			if (tableSelectedPrev && tableSelectedPrev !== tableCV) {
-				tableSelectedPrev.matchFeatures();
-				tableSelectedPrev.clearSegmentSelected();
-			}
-			this.tableSelected = td && tableCV;
-			this.tdSelected = td;
-		},
-
-		hasSegmentSelected: function () {
-			return !!this.tdSelected;
-		},
-
-		getSegments: function (key) {
-			return this.key_segments[key];
-		},
-
-		pushSegment: function (segment) {
-			var features = $.data(segment, "distinctive"),
-				key = $.isArray(features) && this.$tableFeaturesDistinctive.tableFeatures("keyFeaturesChanges", features),
-				key_segments = this.key_segments,
-				value = key && key_segments[key];
-
-			if (value) {
-				value.push(segment);
-			} else {
-				key_segments[key] = [segment];
-			}
+			return callbacks;
 		}
 	});
 
-	// =========================================================================
+	// mediatee ----------------------------------------------------------------
 
-	// Base class for widgets which are in a counteractive relationship.
-	// This widget is active (enabled), they are inactive (disabled), and vice versa.
-	$.widget("phonology.counteractive", {
+	// Base class for widgets which use callbacks to publish or subscribe, or both.
+	// For loose coupling, create mediator and mediatee widgets independently.
+	// Make sure to create a mediator widget before its mediatee descendants.
+	$.widget("phonology.mediatee", {
+		// Return the callbacks object:
+		// * for a channel, also known as a subject
+		// * provided by which ancestor mediators:
+		//   * "closest" (the default)
+		//   * "farthest"
+		//   * "all"
+		_callbacksProxy: function (channel, which) {
+			var $mediators = this.element.parents('.mediator'),
+				length = $mediators.length,
+				first,
+				last,
+				callbacksArray,
+				i;
+
+			if (length > 0) {
+				if (which === "closest" || typeof which === "undefined") {
+					first = 0;
+					last = 1;
+				} else if (which === "farthest") {
+					first = length - 1;
+					last = length;
+				} else if (which === "all") {
+					first = 0;
+					last = length;
+				} else {
+					length = 0;
+				}
+			}
+			if (length > 0) {
+				callbacksArray = $mediators.map(function (index) {
+					var mediator;
+
+					if (first <= index && index < last) {
+						mediator = $.data(this, "mediator");
+						return mediator && mediator.callbacksProxy(channel);
+					}
+				});
+				length = callbacksArray.length;
+			}
+			return length === 1 ? callbacksArray[0] :
+					// Return a composite callbacks object if "all" is more than one.
+					// Important: Its only methods are add and fire.
+					{
+						add: function () {
+							for (i = 0; i < length; i += 1) {
+								callbacksArray[i].add.apply(null, arguments);
+							}
+							return this; // chaining pattern
+						},
+						fire: function () {
+							for (i = 0; i < length; i += 1) {
+								callbacksArray[i].fire.apply(null, arguments);
+							}
+							return this; // chaining pattern
+						}
+					};
+		}
+	});
+
+	// counteractivepart =======================================================
+
+	// Base class for widget which is a counterpart in interactive behavior to others:
+	// if this widget is active (enabled), they are inactive (disabled), and vice versa.
+	$.widget("phonology.counteractivepart", $.phonology.mediatee, {
 		// Override method in $.ui.widget base class called by enable and disable methods.
 		_setOption: function (key, value) {
 			if (key === "disabled") {
@@ -709,47 +754,61 @@ jQuery(function ($) {
 		// protected interface -------------------------------------------------
 
 		// Derived widget must call this function at the end of its _create method.
-		_initCounteractive: function ($widgetsCounteractive, eventMap, $descendants) {
+		// * channels to publish when the mouse pointer enters or leaves this
+		// * channels to subscribe when the mouse pointer enters or leaves a counterpart
+		// * event handlers for descendants to call only when this element is active (enabled)
+		_counteractivepart: function (publishObject, subscribeObject, eventMap, $descendants) {
 			var eventNamespace = "." + this.widgetName, // of derived class
-				self = this;
+				self = this,
+				subscribe = function (publisher, disable) {
+					if (publisher !== self) {
+						self.option("disabled", disable);
+					}
+				},
+				publishArray = [],
+				length = 0,
+				publish = function (disable) {
+					var i;
 
-			this.$widgetsCounteractive = $widgetsCounteractive;
+					for (i = 0; i < length; i += 1) {
+						publishArray[i](self, disable);
+					}
+				};
+
+			$.each(subscribeObject, function (channel, which) {
+				self._callbacksProxy(channel, which).add(subscribe);
+			});
+			$.each(publishObject, function (channel, which) {
+				publishArray.push(self._callbacksProxy(channel, which).fire);
+				length += 1;
+			});
 
 			// Bind event handlers to widget.
+			// Encapsulate the if (!self.options.disabled) statement,
+			// so event handlers can assume the widget is active (enabled).
 			this.element
-				// Triggered events call methods in $.ui.widget base class.
-				.bind("disable" + eventNamespace, function () {
-					self.disable();
-				})
-				.bind("enable" + eventNamespace, function () {
-					self.enable();
-				})
-
-				// For information about how the following base event handlers
-				// are template methods, see pages 325-330 in Design Patterns.
-				// Because they encapsulate the if (!self.options.disabled) statement,
-				// derived event handlers can assume the widget is active (enabled).
-
 				// Trigger events instead of call methods directly
 				// to allow multiple derived classes (for example, tableFeatures, tableCV).
-				.bind("mouseenter" + eventNamespace, function () {
+				.on("mouseenter" + eventNamespace, function () {
 					// When the mouse pointer moves into a widget,
-					// unless it is disabled, disable counteractive widgets.
+					// unless it is disabled, disable counteractivepart widgets.
 					if (!self.options.disabled) {
-						self.$widgetsCounteractive.trigger("disable");
+						publish(true);
 					}
 				})
-				.bind("mouseleave" + eventNamespace, function () {
+				.on("mouseleave" + eventNamespace, function () {
 					// When the mouse pointer moves out of a widget,
 					// unless it is disabled or it is still active,
-					// enable counteractive widgets.
-					// Assumes a _stillActive method is defined in derived widget.
-					if (!self.options.disabled && !self._stillActive()) {
-						self.$widgetsCounteractive.trigger("enable");
+					// enable counteractivepart widgets.
+					// Assumes a _counteractive method is defined in derived widget.
+					if (!self.options.disabled && !self._counteractive()) {
+						publish(false);
 					}
 				})
 
-				.bind("click" + eventNamespace, function (event) {
+				// For information about how the following base event handler
+				// is a template method, see pages 325-330 in Design Patterns.
+				.on("click" + eventNamespace, function (event) {
 					// When there is a click in a widget,
 					// unless it is disabled, call _click method in derived widget.
 					if (!self.options.disabled) {
@@ -760,7 +819,7 @@ jQuery(function ($) {
 			// Bind event handlers to interactive descendants of widget.
 			if (eventMap && $descendants) {
 				$.each(eventMap, function (eventType, eventFunction) {
-					$descendants.bind(eventType + eventNamespace, function (event) {
+					$descendants.on(eventType + eventNamespace, function (event) {
 						if (!self.options.disabled) {
 							eventFunction.call(self, event);
 						}
@@ -772,199 +831,172 @@ jQuery(function ($) {
 		}
 	});
 
+	// Consonant Chart or Vowel Chart view =====================================
+	//
+	// Display segments which have sets of features or changes.
+	// Display features for segments or pairs of segmentss.
+
 	// =========================================================================
 
 	// Tables of descriptive or distinctive features at the right of CV charts.
-	$.widget("phonology.tableFeatures", $.phonology.counteractive, {
+	$.widget("phonology.tableFeatures", $.phonology.counteractivepart, {
 		_create: function () {
 			var $element = this.element,
-				$divFeaturesCV = $element.parentsUntil('body', 'div.CV_features').last(),
-				$tablesCV = this.$tablesCV = $element.closest('div.CV_features').find('table.CV'),
-				$ulsDistinctive = $element.nextUntil('table.features', 'ul.distinctive'),
-				className = this.className = $element.attr('class').split(' ')[0],
-				distinctive = this.distinctive = className === "distinctive",
-				selectorNames = this.selectorNames = distinctive ? 'td.name' : 'td',
+				$thFeatures = this.$thFeatures = $element.find('thead th'),
+				featureClass = this.featureClass = splitClass($element, 0),
+				distinctive = this.distinctive = featureClass === "distinctive",
 				selectorFeatures = this.selectorFeatures = distinctive ? 'td:not(.name)' : 'td',
+				featureQuery = this.featureQuery = phonQuery.featureQuery,
 				clickFeature = this._clickFeature,
-				self = this,
-				$tdsFeatures = this.$tdsFeatures = $element.find(selectorFeatures)
-					.filter(function () {
-						// Important: initializes data as a side-effect if function returns true.
-						return self._initData($(this), clickFeature);
-					});
+				$tdsFeatures,
+				self = this;
 
-			this.$thFeatures = $element.children('thead').find('th');
-			this.divFeaturesCV = $divFeaturesCV.data("divFeaturesCV");
-			this.featureNames = $.map($element.find(selectorNames), textFromCell);
-			this.selectedFeatures = [];
-			this.potentiallyRedundantVacuous = [];
-			this.potentiallyRedundant = [];
-			this.hasChanges = false;
+			this.selectorNames = 'td.name'; // for _initData, _createDistinctive, and so on
+			this.featuresSelected = featureQuery(featureClass);
+			this.featuresMatched = featureQuery(featureClass); // selected or active
+
+			// If no segment is selected in a related CV chart,
+			// use false as the falsy value instead of undefined or null.
+			this.featuresSelectedSegment = false;
 
 			// Initialize data for main heading cell.
-			this._initHeading($element.find('th'), this._clickMainHeading);
+			$thFeatures.data(this.widgetName, {click: this._clickMainHeading});
+
+			// Initialize data for interactive data cells.
+			// Must follow featuresSelected and precede _createDistinctive.
+			$tdsFeatures = this.$tdsFeatures = $element.find(selectorFeatures)
+				.filter(function () {
+					// Important: initializes data as a side-effect if function returns true.
+					return self._initData(this, clickFeature);
+				});
 
 			if (distinctive) {
-				this._createContradictions($ulsDistinctive.filter('ul.contradictions'));
-				// _createDependencies must follow featureNames
-				this._createDependencies($ulsDistinctive.filter('ul.dependencies'));
-				// _createDependencies must precede _createChanges
-				if ($element.hasClass("changes")) {
-					this.hasChanges = true; // table has a colgroup of changes
-					this._createChanges();
-				}
+				this._createDistinctive();
 			}
-			this.callbackFeatures = this.selectedChanges ?
-					this._callbackFeaturesChanges.bind(this) :
-					this._callbackFeatures.bind(this);
 
-			// This table is counteractive with related CV charts and their tables of features.
+			this.visitorMatched = bind.call(this._visitorMatched, this); // for publishFeatures
+			this.publishFeatures = this._callbacksProxy("features").fire;
+			this._callbacksProxy("segment").add(bind.call(this._subscribeSegment, this));
+
+			// This features table is a counterpart in interactive behavior
+			// to related features tables and CV charts.
 			// When it is active (enabled), they are inactive (disabled), and vice versa.
-			this._initCounteractive($divFeaturesCV.find('table.features').not(this.element).add($tablesCV),
+			this._counteractivepart({"features_active": "farthest"},
+				{"features_active": "farthest", "segment_active": "farthest"},
 				// Bind event handlers to interactive descendants:
 				{
-					"mouseenter": this._mouseenterFeature,
-					"mouseleave": this._mouseleaveFeature
+					"mouseenter": this._mouseFeature,
+					"mouseleave": this._mouseFeature
 				},
 				$tdsFeatures.addClass("interactive"));
 		},
 
-		// Map a list of lists of features to an array of arrays of features,
-		// each of which contains a contradictory set of feature values.
-		// For example, [-son, +approx].
-		_createContradictions: function ($ulContradictions) {
-			var contradictions = this.contradictions = [];
+		_createDistinctive: function () {
+			var $element = this.element,
+				$ulsDistinctive = $element.nextUntil('table.features', 'ul.distinctive'),
+				hasChanges = this.hasChanges = $element.hasClass("changes"),
+				namesArray = this.namesArray = $.map($element.find(this.selectorNames), textFromCell),
+				namesObject = this.namesObject = {},
+				i,
+				length;
 
-			$ulContradictions.children('li').each(function () {
-				var contradiction = $.map($(this).children('ul').children('li'), textFromListItem);
-
-				contradictions.push({
-					features: contradiction,
-					title: ["contradiction:"].concat(contradiction).join(" ")
-				});
-			});
+			for (i = 0, length = namesArray.length; i < length; i += 1) {
+				namesObject[namesArray[i]] = true;
+			}
+			this._createContradictions($ulsDistinctive.filter('.contradictions'));
+			this._createDependencies($ulsDistinctive.filter('.dependencies'));
+			// _createDependencies must precede _createChanges
+			this.featuresRedundant = this.featureQuery(this.featureClass);
+			if (hasChanges) {
+				this._createChanges(); // add a colgroup of changes
+				this.visitorChanged = bind.call(this._visitorChanged, this); // for publishFeatures
+			}
 		},
 
-		// Map a list of pairs of lists of features to an array of objects,
-		// each of which contains if and then properties whose values are arrays of features.
-		// For example, {if: [-son, +cont], then: [+delayed]}.
-		_createDependencies: function ($ulDependencies) {
-			var dependencies = this.dependencies = [];
-
-			$ulDependencies.children('li').each(function () {
-				var $li = $(this),
-					dependencyIf = $.map($li.children('ul.if').children('li'), textFromListItem),
-					dependencyThen = $.map($li.children('ul.then').children('li'), textFromListItem);
-
-				dependencies.push({
-					// "if" must be in quote marks because is is a reserved word in JavaScript
-					"if": dependencyIf,
-					then: dependencyThen,
-					title: ["dependency:"].concat(dependencyIf, [">"], dependencyThen).join(" ")
-				});
-			});
-
-			this.featureName_td0 = {};
-			this._createUnspecifieds(dependencies, "then");
-			this._createUnspecifieds(dependencies, "if"); // if must follow then
-		},
-
-		_createUnspecifieds: function (dependencies, key) {
-			var featureNames = this.featureNames,
-				featureName_td0 = this.featureName_td0;
-
-			$.each(dependencies, function (i, dependency) {
-				$.each(dependency[key], function (j, feature) {
-					var featureName = feature.slice(1);
-
-					if (feature.charAt(0) === '0' && $.inArray(featureName, featureNames) !== -1) {
-						featureName_td0[featureName] = key;
-					}
-				});
-			});
-		},
-
-		// Add a colgroup of changes at the right of a distinctive features table.
+		// Add a colgroup of changes at the right of a table of distinctive features.
 		_createChanges: function () {
 			var $element = this.element,
-				eventNamespace = "." + this.widgetName,
+				widgetName = this.widgetName,
+				eventNamespace = "." + widgetName,
+				featureClass = this.featureClass,
+				featureQuery = this.featureQuery,
 				$thead = $element.children('thead'),
 				$th = $thead.find('th'),
 				$thChanges = this.$thChanges = $th.clone(),
+				$tfoot = this.$tfoot = $('<tfoot><tr><td><div><span></span></div></td></tr></tfoot>'),
 				selectorNames = this.selectorNames,
-				featureName_td0 = this.featureName_td0,
-				col0 = !$.isEmptyObject(featureName_td0),
+				feature_td0 = this.feature_td0,
+				col0 = !($.isEmptyObject(feature_td0)),
 				colspan = col0 ? 3 : 2,
 				td0 = col0 ? document.createElement('td') : null,
 				selectorFeatures = this.selectorFeatures,
 				clickChange = this._clickChange,
 				tdsChanges = [],
 				tdsChanges0 = [],
-				$tfoot = this.$tfoot = $('<tfoot><tr><td><div><span></span></div></td></tr></tfoot>'),
 				self = this;
 
+			this.changesSelected = featureQuery(featureClass);
+			this.changesSelectedOrDependent = featureQuery(featureClass);
+			this.featuresVacuous = featureQuery(featureClass);
+			this.dependentFeaturesIf = {};
+			this.dependentChangesIf = {};
+			this.dependentChangesThen = {};
+
 			$thead.before('<colgroup><col /><col />' + (col0 ? '<col />' : '') + '</colgroup>');
-			this._initHeading($thChanges, this._clickChangesHeading);
-			$thChanges.attr("colspan", colspan).find('span').text("changes").wrap('<div></div>');
+			$thChanges.data(widgetName, {click: this._clickChangesHeading})
+				.attr("colspan", colspan)
+				.find('span').text("changes").wrap('<div></div>');
 			$th.after($thChanges);
-			$element.children('tbody').children('tr').each(function () {
+			$element.find('tbody tr').each(function () {
 				var $tr = $(this),
 					$tds = $tr.children(selectorFeatures).clone(),
-					featureName,
+					feature,
 					td,
 					key;
 
 				$tr.append($tds);
 				$tds.each(function () {
 					// Important: initializes data as a side-effect if function returns true.
-					if (self._initData($(this), clickChange)) {
+					if (self._initData(this, clickChange)) {
 						tdsChanges.push(this);
 					}
 				});
 				if (col0) {
 					td = td0.cloneNode(false);
 					$tr.append(td);
-					featureName = $tr.children(selectorNames).text();
-					key = featureName_td0[featureName];
+					feature = "0" + $tr.children(selectorNames).text();
+					key = feature_td0[feature]; // "if", "then", or undefined
 					if (key) {
+						feature_td0[feature] = td;
 						td.appendChild(document.createTextNode("0"));
 						tdsChanges0.push(td);
 						if (key === "if") {
 							// Important: cloned cells for changes must already be in the row.
 							// Important: initializes data as a side-effect if function returns true.
-							if (self._initData($(td), clickChange)) {
+							if (self._initData(td, clickChange)) {
 								tdsChanges.push(td);
 							}
 						}
-						featureName_td0[featureName] = td;
 					}
 				}
 			});
-			this.$tdsChanges = $(tdsChanges).bind("mouseleave" + eventNamespace, function (event) {
-				self._mouseleaveChange(event);
-			}).addClass("change");
-			this.$tdsChanges0 = $(tdsChanges0);
-			this.selectedChanges = [];
-			this.dependentFeaturesIf = {};
-			this.dependentChangesIf = {};
-			this.dependentChangesThen = {};
-			this.objectChanges = {};
-			this.segmentsMatched = [];
-			this.segmentsChangedFrom = {};
-			this.segmentsChangedTo = {};
-			this.callbackChanged = this._callbackChanged.bind(this);
-			this.callbackChangedAlone = this._callbackChangedAlone.bind(this);
-			this.callbackUnchanged = this._callbackUnchanged.bind(this);
 			this.$spanChanges = $tfoot.find('td').attr("colspan", 3 + colspan).find('span');
 			$element.append($tfoot);
+			this.$tdsChanges0 = $(tdsChanges0);
+			this.$tdsChanges = $(tdsChanges).on("mouseleave" + eventNamespace, function (event) {
+				self._mouseleaveChange(event);
+			}).addClass("change");
+
+			this.objectSegmentChanges = {};
+			this._callbacksProxy("segment_changes").add(bind.call(this._subscribeSegmentChanges, this));
 		},
 
 		// protected interface -------------------------------------------------
 
-		// When the mouse pointer moves out of this table, 
-		// the counteractive base class needs to know whether a feature is still selected.
-		_stillActive: function () {
-			return !!this.selectedFeatures.length;
+		// When the mouse pointer moves out of this table,
+		// the counteractivepart base class needs to know whether a feature is still selected.
+		_counteractive: function () {
+			return this.featuresSelected.has();
 		},
 
 		// event handlers ------------------------------------------------------
@@ -972,96 +1004,111 @@ jQuery(function ($) {
 		// Click in a table of features.
 		_click: function (event) {
 			var $cell = $(event.target).closest('th, td'),
-				data = this._data($cell);
+				data = $cell.data(this.widgetName),
+				distinctive;
 
 			// If the target is (in) an interactive feature cell.
 			if (data) {
-				data.clickFunction.call(this, $cell);
-				this._iterateSegmentsCV(true);
+				data.click.call(this, $cell);
+				distinctive = this.distinctive;
+				if (distinctive) {
+					this._feedbackDistinctiveInit();
+				}
+				this._publishFeatures();
+				if (distinctive) {
+					this._feedbackDistinctive();
+				}
 			}
 		},
 
-		// When the mouse pointer moves into an interactive feature cell,
-		// match segments which have all selected and active features.
-		_mouseenterFeature: function (event) {
-			var $td = $(event.target);
+		// Unless an interactive feature cell is already selected:
+		// * When the mouse pointer moves in,
+		//   match segments which have all selected and active features.
+		// * When the mouse pointer moves out of a feature cell,
+		//   match segments which have all selected features.
+		_mouseFeature: function (event) {
+			var enter = event.type === "mouseenter",
+				td = event.currentTarget,
+				$td = $(td);
 
-			if (!$td.hasClass("selected")) {
-				// If the cell is not already selected,
-				// highlight segments which have active and selected features.
-				this._iterateSegmentsCV(false, this._feature($td));
+			if (!enter) {
+				$td.removeClass("click");
 			}
-		},
-
-		// When the mouse pointer moves out of a feature cell,
-		// match segments which have all selected features.
-		_mouseleaveFeature: function (event) {
-			var $td = $(event.target);
-
-			$td.removeClass("click");
-			if (!$td.hasClass("selected")) {
-				// If the cell is not already selected,
-				// highlight segments which have active and selected features.
-				this._iterateSegmentsCV(false);
+			if (!($td.hasClass("selected"))) {
+				this.featuresMatched.toggle($.data(td, this.widgetName).feature, enter);
+				this._publishFeatures();
 			}
 		},
 
 		// When the mouse pointer moves out of a change cell,
 		// remove class which indicates whether it was clicked.
 		_mouseleaveChange: function (event) {
-			$(event.target).removeClass("click");
+			$(event.currentTarget).removeClass("click");
 		},
 
-		// private implementation called by event handlers ---------------------
+		// private implementation for event handlers ---------------------------
 
 		// Click to select or clear a feature.
 		_clickFeature: function ($td) {
 			var $element = this.element,
-				selected;
+				widgetName = this.widgetName,
+				feature = $td.data(this.widgetName).feature,
+				featuresSelected = this.featuresSelected,
+				featuresMatched = this.featuresMatched,
+				anySelected;
 
-			$td.addClass("click");
-			$td.toggleClass("selected");
-			this._toggleFeature(this._feature($td));
-			selected = !!this.selectedFeatures.length;
-			this.$thFeatures.toggleClass("selected", selected);
+			// If contour values are unavailable, before this feature becomes selected,
+			// if the opposite value was selected, clear it.
+			if (!this.contour && !($td.hasClass("selected"))) {
+				$td.siblings('.selected:not(.change)').each(function () {
+					var feature = $(this).removeClass("selected").data(widgetName).feature;
+
+					featuresSelected.remove(feature);
+					featuresMatched.remove(feature);
+				});
+			}
+			$td.addClass("click").toggleClass("selected");
+			anySelected = featuresSelected.toggle(feature).has();
+			// Even if you click to clear a feature, it remains active
+			// until the mouse moves out of the cell.
+			featuresMatched.add(feature);
+			this.$thFeatures.toggleClass("selected", anySelected);
 			if (this.hasChanges) {
-				if (selected) {
-					// While distinctive feature values are selected, changes are active.
-					$element.addClass("changeable");
-				} else {
-					// When the last selected value is cleared, clear any selected changes.
+				// While distinctive feature values are selected, changes are active.
+				$element.toggleClass("changeable", anySelected);
+				// When the last selected value is cleared, clear any selected changes.
+				if (!anySelected) {
 					this._clickChangesHeading();
-					$element.removeClass("changeable");
 				}
 				this._dependentChanges();
-				this._displayChanges();
 			}
 		},
 
 		// Click to select or clear a change.
 		_clickChange: function ($td) {
-			var $tdCounterpart; // adjacent cell which contains opposite value
+			var changesSelected = this.changesSelected,
+				widgetName = this.widgetName,
+				anySelected;
 
 			// While distinctive feature values are selected at the left of the table,
-			// changes at the right are active.
-			if (this.selectedFeatures.length && !$td.hasClass("then") && !$td.siblings('.then').length) {
-				// Before this change becomes selected,
+			// changes at the right are active (except changes implied by dependencies).
+			if (this.featuresSelected.has() &&
+					!($td.hasClass("then")) && $td.siblings('.then').length === 0) {
+				// If contour values are unavailable, before this change becomes selected,
 				// if the opposite value was selected, clear it.
-				if (!$td.hasClass("selected")) {
-					$tdCounterpart = $td.siblings('.change.selected');
-					if ($tdCounterpart.length) {
-						$tdCounterpart.removeClass("selected");
-						this._toggleChange(this._feature($tdCounterpart));
-					}
+				if (!this.contour && !($td.hasClass("selected"))) {
+					$td.siblings('.selected.change').each(function () {
+						var feature = $(this).removeClass("selected").data(widgetName).feature;
+
+						changesSelected.remove(feature);
+					});
 				}
 
-				$td.addClass("click");
-				$td.toggleClass("selected");
-				this._toggleChange(this._feature($td));
-				this.$thChanges.toggleClass("changed", !!this.selectedChanges.length);
-				this.$tfoot.toggleClass("changed", !!this.selectedChanges.length);
+				$td.addClass("click").toggleClass("selected");
+				anySelected = changesSelected.toggle($td.data(widgetName).feature).has();
+				this.$thChanges.toggleClass("changed", anySelected);
+				this.$tfoot.toggleClass("changed", anySelected);
 				this._dependentChanges();
-				this._displayChanges();
 			}
 		},
 
@@ -1070,381 +1117,451 @@ jQuery(function ($) {
 			this.$tdsChanges.removeClass("selected");
 			this.$thChanges.removeClass("changed");
 			this.$tfoot.removeClass("changed");
-			this._clearChanges();
-			this._displayChanges();
+			this.changesSelected.remove();
+			this.changesSelectedOrDependent.remove();
+			this._emptyObject(this.dependentFeaturesIf);
+			this._emptyObject(this.dependentChangesIf);
+			this._emptyObject(this.dependentChangesThen);
 		},
 
 		// To clear all selected features and changes in the table, click at the left of its heading.
 		_clickMainHeading: function () {
 			this.$tdsFeatures.removeClass("selected");
 			this.$thFeatures.removeClass("selected");
-			this._clearFeatures();
+			this.featuresSelected.remove();
+			this.featuresMatched.remove();
 			if (this.hasChanges) {
 				this.element.removeClass("changeable");
 				this._clickChangesHeading();
 			}
 		},
 
-		// For any click to select or clear a feature or a change
-		// while any changes are selected, evaluate dependent changes.
-		_dependentChanges: function () {
-			var selectedFeatures = this.selectedFeatures,
-				selectedChanges = this.selectedChanges,
-				dependentFeaturesIf = this.dependentFeaturesIf,
-				dependentChangesIf = this.dependentChangesIf,
-				dependentChangesThen = this.dependentChangesThen,
-				dependentChangesThenArray = [],
-				self = this;
-
-			emptyObject(dependentFeaturesIf);
-			emptyObject(dependentChangesIf);
-			emptyObject(dependentChangesThen);
-			$.each(this.dependencies, function () {
-				var dependency = this,
-					dependencyIf = dependency["if"],
-					dependencyTitle = dependency.title,
-					nIfChanges = 0,
-					nIfFeatures = 0;
-
-				$.each(dependencyIf, function (i, feature) {
-					if ($.inArray(feature, selectedChanges) !== -1) {
-						nIfChanges += 1;
-					} else if ($.inArray(feature, selectedFeatures) !== -1) {
-						nIfFeatures += 1;
-					} else {
-						return false; // break
-					}
-				});
-				if (nIfChanges && (nIfChanges + nIfFeatures === dependencyIf.length)) {
-					$.each(dependencyIf, function (i, feature) {
-						if ($.inArray(feature, selectedChanges) !== -1) {
-							dependentChangesIf[feature] = dependencyTitle;
-						} else {
-							dependentFeaturesIf[feature] = dependencyTitle;
-						}
-					});
-					$.each(dependency.then, function (i, feature) {
-						dependentChangesThen[feature] = dependencyTitle;
-						dependentChangesThenArray.push(feature);
-					});
-					// Important: _giveFeedback must remove selected changes implied by dependencies.
-				}
-			});
-			this._objectFeatures(this.objectChanges, this.selectedChanges, dependentChangesThenArray);
-		},
-
-		// Display the selected features and changes as a rule which people can copy from the page.
-		_displayChanges: function () {
-			var selectedFeatures = this.selectedFeatures,
-				objectChanges = this.objectChanges;
-
-			this.$spanChanges.text(selectedFeatures.length && !$.isEmptyObject(objectChanges) ?
-					"[" + selectedFeatures.join(", ") + "] \u2192 [" + $.map(this.featureNames, function (featureName) {
-						var value = objectChanges[featureName];
-
-						return value ? value + featureName : null;
-					}).join(", ") + "]" : "");
-		},
+		// publish features ----------------------------------------------------
 
 		// In related CV charts, highlight segments:
 		// * which have all selected and active features
 		// * which have the selected changes, if any
 		// * for which no corresponding segments in the language have the selected changes
-		_iterateSegmentsCV: function (click, feature) {
-			if (this.hasChanges) {
-				this.segmentsMatched.length = 0;
-				emptyObject(this.segmentsChangedFrom);
-				emptyObject(this.segmentsChangedTo);
-				if (click) {
-					this._potentiallyRedundant(true);
+		_publishFeatures: function () {
+			this.publishFeatures(this.featuresMatched.has() && this.visitorMatched,
+				this.hasChanges && this.changesSelected.has() && this.visitorChanged);
+		},
+
+		// A visitor represents an operation to be performed on the elements
+		// of an object structure (in this case, segments in CV charts).
+		// See pages 331-344 in Design Patterns.
+		// The actual visitor functions bind the following private implementations to this.
+
+		// Return whether features of a segment match selected and active features.
+		// Determine whether any selected features are redundant.
+		_visitorMatched: function (segment) {
+			// Accumulate state for feedback about redundant features.
+			if (this.distinctive && this.featuresSelected.has()) {
+				this._segmentRedundant(segment);
+			}
+
+			return $.data(segment, this.featureClass).has(this.featuresMatched);
+		},
+
+		// Return a key for a segment from the values of its distinctive features,
+		// with changes (representing a segment which it changes to).
+		_visitorChanged: function (segment) {
+			return this.objectSegmentChanges[this._keyFeaturesChanges(segment, this.changesSelectedOrDependent)];
+		},
+
+		// dependencies --------------------------------------------------------
+
+		// Map a list of pairs of lists of features to an array of objects,
+		// each of which contains if and then properties whose values are features objects.
+		// {"if": {"son": "-", "cont": "+"}, then: {"delayed": "+"}, "title": "-son +cont > +delayed"}.
+		// {"if": {"son": "+"}, "then": {"delayed": "0"}, "title": "+son > 0delayed"}
+		_createDependencies: function ($ulDependencies) {
+			var featureClass = this.featureClass,
+				featureQuery = this.featureQuery,
+				namesObject = this.namesObject,
+				namesArray = this.namesArray,
+				dependencies = this.dependencies = [];
+
+			$ulDependencies.children().each(function () {
+				var $li = $(this),
+					dependencyIf = featureQuery(featureClass),
+					dependencyThen = featureQuery(featureClass);
+
+				$li.children('ul.if').children().each(function () {
+					dependencyIf.add(textFromListItem(this));
+				});
+				$li.children('ul.then').children().each(function () {
+					dependencyThen.add(textFromListItem(this));
+				});
+				if (dependencyIf.relevantFor(namesObject) && dependencyThen.relevantFor(namesObject)) {
+					dependencies.push({
+						"if": dependencyIf, // if is a reserved word in JavaScript
+						then: dependencyThen,
+						title: "dependency: " + dependencyIf.join(" ", namesArray) + " > " +
+							dependencyThen.join(" ", namesArray)
+					});
 				}
-			}
-			if (feature || this.selectedFeatures.length) {
-				this.activeFeature = feature;
-				this.$tablesCV.tableCV("toggleClassSegments", "matched", this.callbackFeatures, this.className);
-			} else {
-				this.$tablesCV.tableCV("toggleClassSegments", "matched");
-			}
-			if (this.hasChanges) {
-				if (this.selectedChanges.length) {
-					this.$tablesCV.tableCV("toggleClassSegments", "changed", this.callbackChanged);
-					this.$tablesCV.tableCV("toggleClassSegments", "alone", this.callbackChangedAlone);
-					this.$tablesCV.tableCV("toggleClassSegments", "unchanged", this.callbackUnchanged);
-					this.$tablesCV.tableCV("toggleChangesSegments", this.segmentsChangedTo);
-				} else {
-					this.$tablesCV.tableCV("toggleClassSegments", "changed alone unchanged");
-					this.$tablesCV.tableCV("toggleChangesSegments");
-				}
-				if (click) {
-					this._giveFeedback();
-				}
-			}
-		},
-
-		// callbacks which this._iterateSegmentsCV provides to tableCV.toggleClassSegments
-
-		// Return whether features (of a segment) match the selected and active features.
-		_callbackFeatures: function (segment, features) {
-			var selectedFeatures = this.selectedFeatures,
-				activeFeature = this.activeFeature,
-				potentiallyRedundantVacuous = this.potentiallyRedundantVacuous,
-				lengthVacuous = potentiallyRedundantVacuous.length,
-				potentiallyRedundant = this.potentiallyRedundant,
-				length = potentiallyRedundant.length,
-				i;
-
-			for (i = 0; i < lengthVacuous; i += 1) {
-				if (potentiallyRedundantVacuous[i] && isSubsetOfIgnoring1(selectedFeatures, features, i)) {
-					if ($.inArray(selectedFeatures[i], features) === -1 && $.inArray(potentiallyRedundantVacuous[i], features) === -1) {
-						potentiallyRedundantVacuous[i] = undefined;
-					}
-				}
-			}
-			for (i = 0; i < length; i += 1) {
-				if (potentiallyRedundant[i] && isSubsetOfIgnoring1(selectedFeatures, features, i)) {
-					potentiallyRedundant[i] = $.inArray(selectedFeatures[i], features) !== -1;
-				}
-			}
-
-			if (activeFeature && $.inArray(activeFeature, features) === -1) {
-				return false;
-			}
-			return isSubsetOf(selectedFeatures, features);
-		},
-
-		// Return whether features (of a segment) match the active and selected features and
-		// if there are selected changes, determine the change-from and change-to segments.
-		_callbackFeaturesChanges: function (segment, features) {
-			var segments,
-				literal,
-				value,
-				segmentsChangedFrom,
-				segmentsChangedTo;
-
-			if (this._callbackFeatures(segment, features)) {
-				this.segmentsMatched.push(segment);
-				if (this.selectedChanges.length) {
-					segments = this.divFeaturesCV.getSegments(this.keyFeaturesChanges(features, this.objectChanges));
-					if (segments) {
-						segmentsChangedFrom = this.segmentsChangedFrom;
-						literal = $.data(segment, "literal");
-						value = segmentsChangedFrom[literal];
-						if (!value) {
-							value = segmentsChangedFrom[literal] = [];
-						}
-						append(value, segments);
-
-						segmentsChangedTo = this.segmentsChangedTo;
-						$.each(segments, function (i, segmentChangedTo) {
-							var literalChangedTo = $.data(segmentChangedTo, "literal");
-
-							value = segmentsChangedTo[literalChangedTo];
-							if (!value) {
-								value = segmentsChangedTo[literalChangedTo] = [];
-							}
-							value.push(segment);
-						});
-					}
-				}
-				return true;
-			}
-			return false;
-		},
-
-		_callbackChanged: function (segment) {
-			return !!this.segmentsChangedTo[$.data(segment, "literal")];
-		},
-
-		_callbackChangedAlone: function (segment) {
-			var value = this.segmentsChangedTo[$.data(segment, "literal")];
-
-			return !!value && value.length === 1 && value[0] === segment;
-		},
-
-		_callbackUnchanged: function (segment) {
-			return $.inArray(segment, this.segmentsMatched) !== -1 && !this.segmentsChangedFrom[$.data(segment, "literal")];
-		},
-
-		// data methods --------------------------------------------------------
-
-		_toggleFeature: function (feature) {
-			var selectedFeatures = this.selectedFeatures,
-				index = $.inArray(feature, selectedFeatures);
-
-			if (index !== -1) {
-				selectedFeatures.splice(index, 1); // remove
-			} else {
-				selectedFeatures.push(feature); // add at the end
-			}
-		},
-
-		_clearFeatures: function () {
-			this.selectedFeatures.length = 0;
-		},
-
-		_toggleChange: function (feature) {
-			var selectedChanges = this.selectedChanges,
-				index = $.inArray(feature, selectedChanges);
-
-			if (index !== -1) {
-				selectedChanges.splice(index, 1); // remove
-			} else {
-				selectedChanges.push(feature); // add at the end
-			}
-		},
-
-		_clearChanges: function () {
-			this.selectedChanges.length = 0;
-			emptyObject(this.dependentFeaturesIf);
-			emptyObject(this.dependentChangesIf);
-			emptyObject(this.dependentChangesThen);
-			emptyObject(this.objectChanges);
-		},
-
-		// private implementation of feedback ----------------------------------
-
-		_potentiallyRedundant: function () {
-			var potentiallyRedundantVacuous = this.potentiallyRedundantVacuous,
-				value_opposite = this.value_opposite,
-				objectChanges = this.objectChanges,
-				potentiallyRedundant = this.potentiallyRedundant,
-				selectedFeatures = this.selectedFeatures,
-				length = selectedFeatures.length,
-				i;
-
-			potentiallyRedundantVacuous.length = 0;
-			$.each(selectedFeatures, function (i, feature) {
-				var featureValue = feature.charAt(0),
-					featureValueOpposite = value_opposite[featureValue],
-					featureName = feature.slice(1),
-					changeValue = objectChanges[featureName];
-
-				potentiallyRedundantVacuous.push(changeValue && changeValue === featureValueOpposite ? featureValueOpposite + featureName : undefined);
 			});
 
-			potentiallyRedundant.length = 0;
-			if (length > 1) {
-				for (i = 0; i < length; i += 1) {
-					potentiallyRedundant.push(true);
-				}
-			}
+			this.feature_td0 = {};
+			this._createUnspecifieds(dependencies, "then");
+			this._createUnspecifieds(dependencies, "if"); // if must follow then
 		},
 
-		_giveFeedback: function () {
-			var selectedFeatures = this.selectedFeatures,
-				selectedChanges = this.selectedChanges,
-				dependentFeaturesIf = this.dependentFeaturesIf,
-				dependentChangesIf = this.dependentChangesIf,
-				dependentChangesThen = this.dependentChangesThen,
-				activeContradictions = {},
-				potentiallyRedundantVacuous = this.potentiallyRedundantVacuous,
-				potentiallyRedundant = this.potentiallyRedundant,
-				activeRedundancies = {},
-				self = this;
+		// Cache dependency features which have unspecified "0" values.
+		// Must precede _createChanges, which replaces the key values
+		// with table data elements under changes.
+		_createUnspecifieds: function (dependencies, which) {
+			var namesArray = this.namesArray,
+				feature_td0 = this.feature_td0;
 
-			if (selectedFeatures.length) {
-				$.each(this.contradictions, function () {
-					var features = this.features,
-						title = this.title;
-
-					if (isSubsetOf(features, selectedFeatures)) { // , selectedChanges, this.dependentChangesThen
-						$.each(features, function (i, feature) {
-							activeContradictions[feature] = title;
-						});
+			$.each(dependencies, function () {
+				this[which].each(function (feature, name, value) {
+					if (value === "0" && $.inArray(name, namesArray) !== -1) {
+						feature_td0[feature] = which;
 					}
 				});
-			}
+			});
+		},
 
-			// 
-			$.each(selectedFeatures, function (i, feature) {
-				if (potentiallyRedundantVacuous[i]) {
-					activeRedundancies[feature] = "considered redundant by the principle of vacuous application";
-				} else if (potentiallyRedundant[i]) {
-					activeRedundancies[feature] = "redundant because every segment which has all the other selected values also has this value";
+		// For any click to select or clear a feature or a change
+		// while any changes are selected, evaluate dependent changes.
+		_dependentChanges: function () {
+			var featuresSelected = this.featuresSelected,
+				changesSelected = this.changesSelected,
+				changesSelectedOrDependent = this.changesSelectedOrDependent,
+				dependentFeaturesIf = this.dependentFeaturesIf,
+				dependentChangesIf = this.dependentChangesIf,
+				dependentChangesThen = this.dependentChangesThen;
+
+			changesSelectedOrDependent.remove().add(changesSelected);
+			this._emptyObject(dependentFeaturesIf);
+			this._emptyObject(dependentChangesIf);
+			this._emptyObject(dependentChangesThen);
+			$.each(this.dependencies, function () {
+				var dependency = this,
+					dependencyIf = dependency["if"], // if is a reserved word in JavaScript
+					dependencyThen = dependency.then,
+					dependencyTitle = dependency.title,
+					boolIf = false,
+					boolIfChanges = false;
+
+				dependencyIf.each(function (feature) {
+					if (changesSelected.has(feature)) {
+						boolIf = boolIfChanges = true;
+					} else {
+						boolIf = featuresSelected.has(feature);
+					}
+					return boolIf; // break if false
+				});
+
+				if (boolIf && boolIfChanges) {
+					dependencyIf.each(function (feature) {
+						if (changesSelected.has(feature)) {
+							dependentChangesIf[feature] = dependencyTitle;
+						} else {
+							dependentFeaturesIf[feature] = dependencyTitle;
+						}
+					});
+					dependencyThen.each(function (feature) {
+						dependentChangesThen[feature] = dependencyTitle;
+					});
+					changesSelectedOrDependent.add(dependencyThen);
+					// Important: _feedbackChanges must remove selected changes implied by dependencies.
 				}
 			});
+		},
+
+		// Display the selected features and changes as a rule
+		// which people can copy from the page.
+		_displayChanges: function () {
+			var featuresSelected = this.featuresSelected,
+				namesArray = this.namesArray;
+
+			this.$spanChanges.text(featuresSelected.has() &&
+				this.changesSelected.has() ?
+						"[" + featuresSelected.join(", ", namesArray) + "] \u2192 [" +
+						this.changesSelectedOrDependent.join(", ", namesArray) + "]" : "");
+		},
+
+		// callback handlers ---------------------------------------------------
+
+		// Initialize object which refers by key to each segment in related charts.
+		_subscribeSegmentChanges: function (td) {
+			var key = this.keyFeatures(td),
+				value = this.objectSegmentChanges[key];
+
+			if (value) {
+				value.push(td); // append to existing list
+			} else {
+				this.objectSegmentChanges[key] = [td];
+			}
+		},
+
+		_subscribeSegment: function (tdActive, tdSelected) {
+			var featureClass = this.featureClass;
+
+			this._toggleClass(tdActive && $.data(tdActive, featureClass),
+				tdSelected && tdSelected !== tdActive && $.data(tdSelected, featureClass));
+		},
+
+		// Toggle classes for interactive feature cells.
+		_toggleClass: function (featuresActiveSegment, featuresSelectedSegment) {
+			var compareSelected = featuresSelectedSegment &&
+					featuresSelectedSegment !== featuresActiveSegment,
+				widgetName = this.widgetName;
+
+			this.$tdsFeatures.each(function () {
+				var matched = false,
+					active = false,
+					selected = false,
+					feature,
+					isActive,
+					isSelected;
+
+				if (featuresActiveSegment) {
+					feature = $.data(this, widgetName).feature;
+					isActive = featuresActiveSegment.has(feature);
+					if (compareSelected) {
+						isSelected = featuresSelectedSegment.has(feature);
+						matched = isActive && isSelected;
+						if (!matched) {
+							active = isActive;
+							selected = isSelected;
+						}
+					} else {
+						matched = isActive;
+					}
+				}
+				$(this).toggleClass("matched", matched)
+					.toggleClass("active", active)
+					.toggleClass("selected", selected);
+			});
+		},
+
+		// feedback ------------------------------------------------------------
+
+		// When you click in the table of distinctive features,
+		// it might highlight values to give feedback.
+		// If you point at such a highlighted value,
+		// a brief explanation appears in a screen tip.
+		_feedbackDistinctive: function () {
+			var dependentFeaturesIf = this.dependentFeaturesIf,
+				feedbackContradictions = this._feedbackContradictions(),
+				feedbackRedundant = this._feedbackRedundant(),
+				widgetName = this.widgetName;
 
 			// Update feedback classes of interactive cells for features.
 			this.$tdsFeatures.each(function () {
 				var $td = $(this),
 					selected = $td.hasClass("selected"),
-					feature = self._feature($td),
-					titleIf = dependentFeaturesIf[feature],
-					titleContradiction = activeContradictions[feature],
-					titleRedundancy = activeRedundancies[feature],
-					title;
+					feature = $td.data(widgetName).feature,
+					titleIf = dependentFeaturesIf && dependentFeaturesIf[feature], // hasChanges
+					titleContradiction = feedbackContradictions[feature],
+					titleRedundant = feedbackRedundant[feature];
 
-				$td.toggleClass("if", typeof titleIf === "string");
-				$td.toggleClass("contradiction", typeof titleContradiction === "string" && selected);
-				$td.toggleClass("redundancy", typeof titleRedundancy === "string" && selected);
-
-				if (typeof titleIf === "string") {
-					title = titleIf;
-				} else if (typeof titleContradiction === "string" && selected) {
-					title = titleContradiction;
-				} else if (typeof titleRedundancy === "string" && selected) {
-					title = titleRedundancy;
-				}
-				if (title) {
-					$td.attr("title", title);
-				} else {
-					$td.removeAttr("title");
-				}
+				$td.attr("title", titleIf ||
+						(selected && (titleContradiction || titleRedundant)) ||
+						null)
+					.toggleClass("if", !!titleIf)
+					.toggleClass("contradiction", selected && !!titleContradiction)
+					.toggleClass("redundancy", selected && !!titleRedundant);
 			});
+
+			if (this.hasChanges) {
+				this._feedbackChanges();
+			}
+		},
+
+		_feedbackChanges: function () {
+			var dependentChangesIf = this.dependentChangesIf,
+				dependentChangesThen = this.dependentChangesThen,
+				changesSelected = this.changesSelected,
+				feedbackContradictions = this._feedbackContradictions(),
+				feedbackRedundant = this._feedbackRedundant(),
+				widgetName = this.widgetName;
 
 			// Update feedback classes of interactive cells for changes.
 			this.$tdsChanges.each(function () {
 				var $td = $(this),
 					selected = $td.hasClass("selected"),
-					feature = self._feature($td),
+					feature = $td.data(widgetName).feature,
 					titleIf = dependentChangesIf[feature],
 					titleThen = dependentChangesThen[feature],
-					titleContradiction = activeContradictions[feature],
-					titleRedundancy = activeRedundancies[feature],
-					title;
+					titleContradiction = feedbackContradictions[feature],
+					titleRedundant = feedbackRedundant[feature];
 
 				// Important: remove selected changes implied by dependencies.
-				if (selected && typeof titleThen === "string") {
+				if (selected && !!titleThen) {
 					selected = false;
-					selectedChanges.splice($.inArray(feature, selectedChanges), 1); // remove
+					changesSelected.remove(feature);
 					$td.removeClass("selected");
 				}
 
-				$td.toggleClass("if", typeof titleIf === "string");
-				$td.toggleClass("then", typeof titleThen === "string");
-				$td.toggleClass("contradiction", typeof titleContradiction === "string" && selected);
-				$td.toggleClass("redundancy", typeof titleRedundancy === "string" && selected);
-
-				if (typeof titleIf === "string") {
-					title = titleIf;
-				} else if (typeof titleThen === "string") {
-					title = titleThen;
-				} else if (typeof titleContradiction === "string" && selected) {
-					title = titleContradiction;
-				} else if (typeof titleRedundancy === "string" && selected) {
-					title = titleRedundancy;
-				}
-				if (title) {
-					$td.attr("title", title);
-				} else {
-					$td.removeAttr("title");
-				}
+				$td.attr("title", titleIf ||
+						titleThen ||
+						(selected && (titleContradiction || titleRedundant)) ||
+						null)
+					.toggleClass("if", !!titleIf)
+					.toggleClass("then", !!titleThen)
+					.toggleClass("contradiction", selected && !!titleContradiction)
+					.toggleClass("redundancy", selected && !!titleRedundant);
 			});
 
 			// Update feedback class of non-interactive cells
 			// for dependent unspecified (zero) values.
-			$.each(this.featureName_td0, function (featureName, td0) {
-				var $td = $(td0),
-					title = dependentChangesThen["0" + featureName];
+			$.each(this.feature_td0, function (feature, td0) {
+				var titleThen = dependentChangesThen[feature] || null;
 
-				$td.toggleClass("then", typeof title === "string");
+				$(td0).attr("title", titleThen).toggleClass("then", !!titleThen);
+			});
 
-				if (title) {
-					$td.attr("title", title);
-				} else {
-					$td.removeAttr("title");
+			this._displayChanges();
+		},
+
+		// feedback contradictions ---------------------------------------------
+
+		// Map a list of lists of distinctive features to an array of objects,
+		// each of which contains a contradictory set of feature values.
+		// For example, [-son, +approx].
+		_createContradictions: function ($ulContradictions) {
+			var featureClass = this.featureClass,
+				featureQuery = this.featureQuery,
+				namesObject = this.namesObject,
+				namesArray = this.namesArray,
+				contradictions = this.contradictions = [];
+
+			$ulContradictions.children().each(function () {
+				var features = featureQuery(featureClass);
+
+				$(this).children().children().each(function () {
+					features.add(textFromListItem(this));
+				});
+				if (features.relevantFor(namesObject)) {
+					contradictions.push({
+						features: features,
+						title: "contradiction: " + features.join(" ", namesArray)
+					});
 				}
 			});
+		},
+
+		// Return an object whose keys are features and values are titles
+		// which describe the corresponding contradictions, if any.
+		_feedbackContradictions: function () {
+			var featuresSelected = this.featuresSelected,
+				hasChanges = this.hasChanges,
+				changesSelectedOrDependent = this.changesSelectedOrDependent,
+				feedbackContradictions = {};
+
+			if (featuresSelected.length) {
+				$.each(this.contradictions, function () {
+					var features = this.features,
+						title;
+
+					if (features.every(function (feature) {
+							return featuresSelected.has(feature) ||
+								(hasChanges && changesSelectedOrDependent.has(feature));
+						})) {
+						// The contradictory set of features are a subset of
+						// the selected features, selected changes, and dependent changes?
+						title = this.title;
+						features.each(function (feature) {
+							feedbackContradictions[feature] = title;
+						});
+					}
+				});
+			}
+			return feedbackContradictions;
+		},
+
+		// feedback redundant --------------------------------------------------
+
+		// When there is a click in a table of features, initialize before publishing.
+		// Array indexes for vacuous or redundant features correspond to selected features.
+		_feedbackDistinctiveInit: function () {
+			var featuresRedundant = this.featuresRedundant,
+				featuresSelected = this.featuresSelected;
+
+			featuresRedundant.remove();
+			if (featuresSelected.length() > 1) {
+				featuresRedundant.add(featuresSelected);
+			}
+
+			if (this.hasChanges) {
+				this._initRedundantChanges();
+			}
+		},
+
+		// When there is a click in a table of features, initialize before publishing.
+		// Array indexes for vacuous or redundant features correspond to selected features.
+		_initRedundantChanges: function () {
+			var featuresVacuous = this.featuresVacuous,
+				featuresSelected = this.featuresSelected,
+				changesSelectedOrDependent = this.changesSelectedOrDependent;
+
+			// If a selected feature and a selected change have opposite values,
+			// it is usually considered redundant by the principle of vacuous application.
+			featuresVacuous.remove();
+			featuresSelected.each(function (feature, name, char) {
+				if (changesSelectedOrDependent.charInternalOpposite(name) === char) {
+					featuresVacuous.add(feature);
+				}
+			});
+		},
+
+		// Accumulate state for feedback about redundant features during publishing.
+		_segmentRedundant: function (segment) {
+			var features = $.data(segment, this.featureClass),
+				featuresVacuous = this.featuresVacuous,
+				featuresRedundant = this.featuresRedundant,
+				self = this;
+
+			// A selected feature value is redundant
+			// if every segment which has all the other selected values also has it.
+			featuresRedundant.each(function (feature) {
+				if (self._hasSelectedFeaturesIgnoring1(features, feature) &&
+						!features.has(feature)) {
+					featuresRedundant.remove(feature);
+				}
+			});
+
+			if (this.hasChanges) {
+				// If a selected feature and a selected change have opposite values,
+				// it is not considered redundant if the feature is unspecified for some segments.
+				featuresVacuous.each(function (feature, name) {
+					if (self._hasSelectedFeaturesIgnoring1(features, feature) &&
+							!features.definedFor(name)) {
+						featuresVacuous.remove(feature);
+					}
+				});
+			}
+		},
+
+		// Ignoring one selected feature identified by its index in the subset,
+		// return whether all the others are a subset of the features (of a segment).
+		_hasSelectedFeaturesIgnoring1: function (features, featureIgnoring) {
+			return this.featuresSelected.every(function (feature) {
+				return feature === featureIgnoring || features.has(feature);
+			});
+		},
+
+		// Return an object whose keys are features and values are titles
+		// which describe the corresponding redundancy, if any.
+		_feedbackRedundant: function () {
+			var hasChanges = this.hasChanges,
+				featuresVacuous = this.featuresVacuous,
+				featuresRedundant = this.featuresRedundant,
+				feedbackRedundant = {};
+
+			this.featuresSelected.each(function (feature) {
+				if (hasChanges && featuresVacuous.has(feature)) {
+					feedbackRedundant[feature] = "considered redundant by the principle of vacuous application";
+				} else if (featuresRedundant.has(feature)) {
+					feedbackRedundant[feature] = "redundant because every segment which has all the other selected values also has this value";
+				}
+			});
+			return feedbackRedundant;
 		},
 
 		// private implementation ----------------------------------------------
@@ -1457,15 +1574,12 @@ jQuery(function ($) {
 			"\u2013": "-", // en dash: hyphen-minus
 			"0": "0" // digit zero: digit zero
 		},
-		value_opposite: {
-			"+": "-", // plus sign: hyphen-minus
-			"-": "+" // hyphen-minus: plus sign
-		},
 
 		// Initialize the data object for an interactive data cell.
 		// Return false to filter out non-interactive empty cells.
-		_initData: function ($td, clickFunction) {
-			var text = $td.text(),
+		_initData: function (td, click) {
+			var $td = $(td),
+				text = $td.text(),
 				value,
 				feature;
 
@@ -1473,282 +1587,561 @@ jQuery(function ($) {
 				value = this.value_td_li[text];
 				if (value) {
 					// Important: cloned cells for changes must already be in the row.
-					feature = value + $td.siblings(this.selectorNames).text();
+					feature = this.featuresSelected.s_feature($td.siblings(this.selectorNames).text(), value);
 				} else {
 					return false;
 				}
 			} else {
 				feature = text;
 			}
-			$td.data("cellFeatures", {feature: feature, clickFunction: clickFunction});
+			$td.data(this.widgetName, {feature: feature, click: click});
 			return true;
 		},
 
-		// Initialize the data object for an interactive heading cell.
-		_initHeading: function ($th, clickFunction) {
-			$th.data("cellFeatures", {clickFunction: clickFunction}); // no feature
-		},
-
-		// Return the data object for an interactive cell.
-		_data: function ($cell) {
-			return $cell.data("cellFeatures");
-		},
-
-		// Return the feature for an interactive data cell.
-		_feature: function ($td) {
-			return this._data($td).feature;
-		},
-
-		// If the cell is interactive, return its click function.
-		_clickFunction: function ($cell) {
-			var data = this._data($cell);
-
-			if (data) {
-				return data.clickFunction;
-			}
-		},
-
-		// Return an object whose properties have been set
-		// according to one or more arrays of binary features.
-		_objectFeatures: function (object) {
-			emptyObject(object);
-
-			// Skip the first argument
-			$.each(Array.prototype.slice.call(arguments, 1), function () {
-				var features = this,
-					length = features.length,
-					i,
-					feature;
-
-				for (i = 0; i < length; i += 1) {
-					feature = features[i];
-					object[feature.slice(1)] = feature.charAt(0);
-				}
+		// Delete properties of object.
+		_emptyObject: function (object) {
+			$.each(object, function (key) {
+				delete object[key];
 			});
 			return object;
 		},
 
-		// public interface ----------------------------------------------------
-
-		// Return a key for distinctive features of a segment.
-		keyFeaturesChanges: function (features, objectChanges) {
-			var object = this._objectFeatures({}, features);
-
-			return $.map(this.featureNames, function (featureName) {
-				return (objectChanges && objectChanges[featureName]) || object[featureName] || "0";
-			}).join(" ");
+		// Return a key for a segment from the values of its distinctive features,
+		// optionally with changes (representing a segment which it changes to).
+		_keyFeaturesChanges: function (segment, changes) {
+			return $.data(segment, this.featureClass).key(this.namesArray, changes);
 		},
 
-		// Match the features of the active segment and optional selected segment.
-		toggleClassFeatures: function (dataActive, dataSelected) {
-			var $tdsFeatures = this.$tdsFeatures,
-				className = this.className,
-				featuresActive = dataActive && dataActive[className],
-				featuresSelected = dataSelected && dataSelected[className],
-				self = this;
+		// public interface ----------------------------------------------------
 
-			if (featuresActive) {
-				$tdsFeatures.each(function () {
-					var $td = $(this),
-						feature = self._feature($td),
-						isActive = $.inArray(feature, featuresActive) !== -1,
-						isSelected;
-
-					if (featuresSelected) {
-						isSelected = $.inArray(feature, featuresSelected) !== -1;
-						if (isActive && isSelected) {
-							$td.addClass("matched").removeClass("active selected");
-						} else if (isActive) {
-							$td.addClass("active").removeClass("matched selected");
-						} else if (isSelected) {
-							$td.addClass("selected").removeClass("matched active");
-						} else {
-							$td.removeClass("matched active selected");
-						}
-					} else {
-						$td.toggleClass("matched", isActive).removeClass("active selected");
-					}
-				});
-			} else {
-				$tdsFeatures.removeClass("matched active selected");
-			}
+		// Return a key for a segment from the values of its distinctive features.
+		keyFeatures: function (segment) {
+			return this._keyFeaturesChanges(segment);
 		}
 	});
 
 	// =========================================================================
 
 	// CV chart is a table of consonant or vowel segments.
-	$.widget("phonology.tableCV", $.phonology.counteractive, {
+	$.widget("phonology.tableCV", $.phonology.counteractivepart, {
 		_create: function () {
 			var $element = this.element,
-				$divFeaturesCV = $element.parentsUntil('body', 'div.CV_features').last(),
-				divFeaturesCV = $divFeaturesCV.data("divFeaturesCV"),
-				$tdsSegment;
+				$tdsSegment = this.$tdsSegment = $element.find('td.Phonetic'),
+				nDistinctive = 0,
+				callbacksSegment = this._callbacksProxy("segment", "all"),
+				publishSegmentChanges = this._callbacksProxy("segment_changes", "all").fire;
 
-			if (divFeaturesCV) {
-				$tdsSegment = this.$tdsSegment = $element.find('td.Phonetic');
-				this.divFeaturesCV = divFeaturesCV; // mediator widget
-				this.$tablesFeatures = $element.siblings('table.features'); // own tables of featurs
-				this.tdSelected = undefined; // DOM element selected in this chart, if any
+			// If no segment is selected in this or any related chart,
+			// use false as the falsy value instead of undefined or null.
+			this.tdSelected = false;
 
-				// Store features arrays as data for interactive table cells.
-				$tdsSegment.each(function () {
-					var td = this,
-						$td = $(td);
+			// Display the total number of segments in the upper left heading cell.
+			// Also display the number matched when there are active or selected features.
+			this.$spanMatched = $element.find('thead th:first-child').addClass("value")
+				.append($('<div><div><span></span><span></span></div></div>'))
+				.find('span').eq(1).text($tdsSegment.length)
+				.end().eq(0);
 
-					$td.children('ul.features').each(function () {
-						var $ul = $(this);
+			$tdsSegment.each(function () {
+				dataSegment.call(this); // store features of segments as data
+				publishSegmentChanges(this); // must follow the preceding
+			});
 
-						$td.data($ul.attr("class").split(" ")[0], $.map($ul.children('li'), textFromListItem));
-					});
-					$td.data("literal", $td.find('span').text());
-					divFeaturesCV.pushSegment(td); // requires the data for distinctive features
-				});
+			// If all segments have distinctive features, then add callback
+			// to indicate which segments are similar to the active segment.
+			$tdsSegment.each(function () { // must follow the preceding
+				if ($.data(this, "distinctive")) {
+					nDistinctive += 1;
+				}
+			});
+			if ($tdsSegment.length === nDistinctive) {
+				callbacksSegment.add(bind.call(this._subscribeSegment, this));
+				//$tdsSegment.each(function (i) {
+				//	var dataA = $.data(this),
+				//		distinctiveA = dataA.distinctive,
+				//		symbolsA = dataA.symbols;
 
-				// This CV chart is counteractive with directly or indirectly related tables of features.
-				// When it is active (enabled), they are inactive (disabled), and vice versa.
-				this._initCounteractive(divFeaturesCV.widget().find('table.features'),
-					// Bind event handlers to interactive descendants:
-					{
-						"mouseenter": this._mouseenterSegment,
-						"mouseleave": this._mouseleaveSegment
-					},
-					$tdsSegment);
+				//	$tdsSegment.slice(i + 1).each(function () {
+				//		var dataB = $.data(this),
+				//			similarity = distinctiveA.similarity(dataB.distinctive);
+
+				//		if (similarity !== "least") {
+				//			console.log(symbolsA, dataB.symbols, similarity);
+				//		}
+				//	});
+				//});
 			}
+
+			this.publishSegment = callbacksSegment.fire;
+			this.publishSegmentSelected = this._callbacksProxy("segment_selected", "farthest")
+				.add(bind.call(this._subscribeSegmentSelected, this)).fire;
+			this._callbacksProxy("features", "all").add(bind.call(this._subscribeFeatures, this));
+
+			// This CV chart is a counterpart in interactive behavior to related features tables.
+			// When it is active (enabled), they are inactive (disabled), and vice versa.
+			this._counteractivepart({"segment_active": "farthest"}, {"features_active": "farthest"},
+				{
+					"mouseenter": this._mouseenterSegment,
+					"mouseleave": this._mouseleaveSegment
+				},
+				$tdsSegment); // attach event handlers to these interactive descendants
 		},
 
 		// protected interface -------------------------------------------------
 
-		// When the mouse pointer moves out of this chart, 
-		// the counteractive base class needs to know whether a segment is still selected.
-		_stillActive: function () {
-			return this.divFeaturesCV.hasSegmentSelected();
+		// When the mouse pointer moves out of this chart,
+		// the counteractivepart base class needs to know whether a segment is still selected.
+		_counteractive: function () {
+			return !!this.tdSelected;
 		},
 
 		// event handlers ------------------------------------------------------
 
 		// Click in a CV chart.
 		// If you click a segment which is not already selected, select it.
-		// Any other click in a CV chart clears the selection, if any.
+		// Any other click in a related chart clears the selection.
+		// Use false as the falsy value instead of undefined or null.
 		_click: function (event) {
-			var $cell = $(event.target).closest('th, td').filter('td.Phonetic:not(.selected)'),
-				td = $cell.length ? $cell.get(0) : undefined,
-				tdSelectedPrev = this.tdSelected;
+			var $td = $(event.target).closest('th, td').filter('td.Phonetic'),
+				td = $td.get(0) || false,
+				tdSelected = this.tdSelected;
 
-			this.divFeaturesCV.mediateSegmentSelected(this, td);
-			if (tdSelectedPrev) {
-				$(tdSelectedPrev).removeClass("selected");
+			if (tdSelected) {
+				$(tdSelected).removeClass("selected"); // even if it is in a related chart
 			}
-			if (td) {
-				$cell.addClass("selected");
+			tdSelected = this.tdSelected = tdSelected !== td && td;
+			if (tdSelected) {
+				$td.addClass("selected");
 			}
-			this.tdSelected = td;
+			this.publishSegmentSelected(tdSelected); // must precede the following
+
+			// If you click the selected segment to clear it,
+			// it remains active until the mouse pointer moves out of the cell.
+			this.publishSegment(td);
 		},
 
 		// When the mouse pointer moves into a segment cell,
 		// highlight the features of the active segment and optional selected segment.
 		_mouseenterSegment: function (event) {
-			this.divFeaturesCV.mediateSegmentActive(this, $(event.target).closest('td').get(0));
+			this.publishSegment($(event.target).closest('td').get(0), this.tdSelected);
 		},
 
 		// When the mouse point moves out of a segment cell,
 		// highlight the features of the optional selected segment.
 		_mouseleaveSegment: function () {
-			this.divFeaturesCV.mediateSegmentActive(this);
+			this.publishSegment(this.tdSelected);
+		},
+
+		// callback handlers ---------------------------------------------------
+
+		// Callback for related charts to know when the segment changes.
+		_subscribeSegment: function (tdActive) {
+			var tdSelected = this.tdSelected;
+
+			this._toggleSimilar(tdActive, tdActive &&
+				(tdActive === tdSelected || !tdSelected) &&
+				$.data(tdActive, "distinctive"));
+		},
+
+		// Callback for related charts to know when the selection changes.
+		_subscribeSegmentSelected: function (tdSelected) {
+			if (this.tdSelected !== tdSelected) {
+				// Either no segment selected
+				// or a segment is selected in a related chart.
+				this.tdSelected = tdSelected;
+				this.publishSegment(false);
+			}
+		},
+
+		// Callback for active, selected, or changed features.
+		_subscribeFeatures: function (visitorMatched, visitorChanged) {
+			var segmentsMatched = visitorChanged && {};
+
+			this._toggleMatched(visitorMatched, segmentsMatched);
+			if (visitorChanged || this.toggleChangedPrev) {
+				this._toggleChanged(visitorChanged, segmentsMatched);
+				this.toggleChangedPrev = !!visitorChanged;
+			}
+		},
+
+		// private implementation for callback handlers ------------------------
+
+		similarity_classes: {
+			"more": "more-similar",
+			"less": "less-similar"
+		},
+
+		// Toggle classes to indicate which segments are similar to the active segment.
+		_toggleSimilar: function (tdActive, featuresActive) {
+			var similarity_classes = this.similarity_classes;
+
+			this.$tdsSegment.each(function () {
+				var $td = $(this),
+					similarity = featuresActive && tdActive !== this &&
+						$.data(this, "distinctive").similarity(featuresActive);
+
+				$.each(similarity_classes, function (key, value) {
+					$td.toggleClass(value, key === similarity);
+				});
+			});
+		},
+
+		// Highlight segments which match all active or selected features.
+		_toggleMatched: function (visitorMatched, segmentsMatched) {
+			var nMatched = 0;
+
+			this.$tdsSegment.each(function () {
+				var isMatched = visitorMatched && visitorMatched(this);
+
+				$(this).toggleClass("matched", isMatched);
+				if (isMatched) {
+					nMatched += 1;
+					if (segmentsMatched) {
+						segmentsMatched[$.data(this, "symbols")] = this;
+					}
+				}
+			});
+			this.$spanMatched.text(visitorMatched ? nMatched + " / " : "");
+		},
+
+		// Highlight and display segments which correspond to changed features.
+		_toggleChanged: function (visitorChanged, segmentsMatched) {
+			var segmentsChangedFrom = {},
+				segmentsChangedTo = {},
+				self = this;
+
+			if (visitorChanged) {
+				$.each(segmentsMatched, function (symbols, segment) {
+					var segments = visitorChanged(segment);
+
+					// Given a matched segment and any segments changed from its features:
+					// * Cache any segments changed from it.
+					// * Cache it for any segments changed to it.
+					if (segments) {
+						// For the active segment, cache any segments (possibly including itself)
+						// which are changed from it.
+						append(self._arrayChanged(segmentsChangedFrom, symbols), segments);
+
+						// Cache the active segment for any segments (possible including itself)
+						// which are changed to it.
+						$.each(segments, function () {
+							self._arrayChanged(segmentsChangedTo, $.data(this, "symbols")).push(segment);
+						});
+					}
+				});
+			}
+
+			this.$tdsSegment.each(function () {
+				var $td = $(this),
+					$div = $td.children('div.changes'),
+					$ul = $div.children('ul'),
+					symbols = $.data(this, "symbols"),
+					segments = visitorChanged && segmentsChangedTo[symbols],
+					isChanged = !!segments;
+
+				// If you point at a segment, segments which change to it appear at its left.
+				if (isChanged) {
+					if ($div.length === 0) {
+						$div = $('<div class="changes"></div>').prependTo(this);
+					}
+					if ($ul.length === 0) {
+						$ul = $('<ul></ul>').appendTo($div);
+					} else {
+						$ul.children().remove();
+					}
+					$.each(segments, function () {
+						$('<li></li>').attr("title", $(this).attr("title"))
+							.text($.data(this, "symbols")).appendTo($ul);
+					});
+					$('<li></li>').text("\u2192").appendTo($ul); // rightwards arrow
+				} else {
+					$ul.remove();
+				}
+
+				// Highlight segments which are affected by changed features.
+				if (visitorChanged) {
+					$td.toggleClass("changed", isChanged)
+						.toggleClass("alone", isChanged &&
+							segments.length === 1 && segments[0] === this)
+						.toggleClass("unchanged", !!segmentsMatched[symbols] &&
+							!segmentsChangedFrom[symbols]);
+				} else {
+					$td.removeClass("changed alone unchanged");
+				}
+			});
+		},
+
+		_arrayChanged: function (object, key) {
+			var value = object[key];
+
+			if (!value) {
+				value = object[key] = [];
+			}
+			return value;
+		}
+	});
+
+	// diagram for articulatory phonetics ======================================
+
+	$.widget("phonology.diagram", $.phonology.mediatee, {
+		_create: function () {
+			var $element = this.element;
+
+			// A face diagram is also known as a sagittal section of the vocal tract.
+			this.$switches = this._$switchesFeatures($element.find('.sagittal'));
+			this._createSegments($element);
+			this._callbacksProxy("segment").add(bind.call(this._subscribeSegment, this));
+		},
+
+		// A diagram can identify a segment and an optional compared segment. See displayData.
+		_createSegments: function ($element) {
+			var $segments = $element.children('p.segment'),
+				$segmentA = this.$segmentA = $segments.not('.compared'),
+				$segmentB = $segments.filter('.compared');
+
+			this.$symbolsA = $segmentA.find('.Phonetic');
+			this.$descriptionA = $segmentA.find('.description');
+			this.$symbolsB = $segmentB.find('.Phonetic');
+			this.$descriptionB = $segmentB.find('.description');
+		},
+
+		featureClass: "descriptive",
+
+		// Return the conditional graphical elements of a diagram. See displayFeatures.
+		// In JavaScript, a switch statement consists of cases.
+		// In the markup for a diagram, svg.switch elements contain g elements.
+		// <svg class="switch">
+		// <text><tspan>palatal</tspan></text>
+		// <g><path class="less" d="M ..."><desc>tongue blade lower</desc></path></g>
+		// <g class="break"><text><tspan>approximant</tspan></text><path ...></g>
+		// <g><text><tspan>affricate</tspan></text><text><tspan>fricative</tspan></text><path ...></g>
+		// <g>...<text class="contour"><tspan>affricate></tspan></text>...<path ...></g>
+		// </svg>
+		_$switchesFeatures: function ($element) {
+			var featureQueryClass = bind.call(phonQuery.featureQuery, null, this.featureClass),
+				self = this;
+
+			// Use attribute instead of class selector because, at least through jQuery 1.7,
+			// neither the class selector nor the hasClass method work for SVG elements.
+			return $element.find('svg[class~="switch"]').each(function () {
+				$.data(this, "featuresArray", self._featuresArray(this, featureQueryClass));
+				$.data(this, "$cases", $(this).children('g').each(function () {
+					$.data(this, "featuresArray", self._featuresArray(this, featureQueryClass));
+					// Similar to JavaScript, a case element "falls through" to the following
+					// unless its class attribute indicates a break.
+					// <g><path class="less" d="M ..."><desc>tongue blade lower</desc></path></g>
+					// <g class="break"><text><tspan>approximant</tspan></text><path ...></g>
+					// Important: displayFeatures will replace the class attribute.
+					$.data(this, "fallThrough", !($(this).is('[class~="break"]')));
+				}));
+			});
+		},
+
+		// Return an array of features objects for a switch or case element. See _featuresMatched.
+		_featuresArray: function (element, featureQueryClass) {
+			var featuresElement = this._featuresElement, // method does not depend on this
+				featuresArray = [];
+
+			// Each text element corresponds to an alternative.
+			// <g><text><tspan>affricate</tspan></text><text><tspan>fricative</tspan></text><path ...></g>
+			$(element).children('text').each(function () {
+				featuresArray.push(featuresElement(this, featureQueryClass));
+			});
+
+			// If there are no text elements, then any segment matches an "empty" features object.
+			// <g><path class="less" d="M ..."><desc>tongue blade lower</desc></path></g>
+			if (featuresArray.length === 0) {
+				featuresArray.push(featuresElement(null, featureQueryClass));
+			}
+
+			return featuresArray;
+		},
+
+		// Return a features object for a child text element of a switch or case element.
+		_featuresElement: function (element, featureQueryClass) {
+			var $element = $(element),
+				diagramClass = $element.attr("class"),
+				features = featureQueryClass();
+
+			// Each tspan element corresponds to a feature.
+			// <text><tspan>lateral</tspan><tspan>approximant</tspan></text>
+			$element.children('tspan').each(function () {
+				features.add($(this).text());
+			});
+
+			// If the text element has a class attribute, then when its features object is matched,
+			// add its class to the class attribute of its parent case element. See _caseClasses.
+			// This reduces repetition of graphical elements. For example, an affricate has the same path
+			// as other stops, but the contour class indicates a visual distinction: dashed line.
+			// <g>...<text class="contour"><tspan>affricate></tspan></text>...<path ...></g>
+			if (diagramClass) {
+				features.diagramClass = diagramClass; // see _diagramClass
+			}
+
+			return features;
+		},
+
+		// private implementation ----------------------------------------------
+
+		// Return as a booly value whether a segment matches a switch or case element:
+		// * the first object in the array for which the segment has its features;
+		// * otherwise undefined.
+		_featuresMatched: function (featuresSegment, featuresArray) {
+			var i, length;
+
+			for (i = 0, length = featuresArray.length; i < length; i += 1) {
+				if (featuresSegment.has(featuresArray[i])) {
+					return featuresArray[i];
+				}
+			}
+		},
+
+		// Return the required and optional classes for a case element.
+		_caseClasses: function (caseA, caseB, comparing) {
+			var requiredClass, optionalClass, optionalClassA, optionalClassB;
+
+			if (caseA) {
+				if (caseB) {
+					requiredClass = "matched";
+					optionalClassA = this._diagramClass(caseA);
+					optionalClassB = this._diagramClass(caseB);
+					if (optionalClassA === optionalClassB) { // only if both have the same class
+						optionalClass = optionalClassA; // for example, prenasalized
+					}
+				} else {
+					requiredClass = comparing ? "comparedA" : "matched";
+					optionalClass = this._diagramClass(caseA);
+				}
+			} else if (caseB) {
+				requiredClass = "comparedB";
+				optionalClass = this._diagramClass(caseB);
+			} else {
+				return null; // attr("class", null) means removeAttr("class")
+			}
+
+			if (optionalClass && typeof optionalClass === "string") {
+				return requiredClass + " " + optionalClass;
+			}
+
+			return requiredClass;
+		},
+
+		_diagramClass: function (features) {
+			if (features && typeof features === "object") {
+				return features.diagramClass;
+			}
+		},
+
+		// Replace the text of the element with the property of the data object;
+		// otherwise the empty string.
+		_text: function ($element, data, key) {
+			$element.text((data && data[key]) || "");
+		},
+
+		// callback handlers ---------------------------------------------------
+
+		// For loose coupling between a diagram and one or more widgets that publish segments:
+		// Display the diagram for the active segment, selected versus active segments, or neither.
+		_subscribeSegment: function (segmentActive, segmentSelected) {
+			if (segmentSelected && segmentSelected !== segmentActive && segmentActive) {
+				this.displaySegment(segmentSelected, segmentActive);
+			} else {
+				this.displaySegment(segmentActive);
+			}
 		},
 
 		// public interface ----------------------------------------------------
 
-		// If the active or selected segment is or was in this chart,
-		// then the mediator widget calls this function.
-		matchFeatures: function (dataActive, dataSelected) {
-			this.$tablesFeatures.tableFeatures("toggleClassFeatures", dataActive, dataSelected);
+		// Display the diagram for segmentA, with optional compared segmentB, or neither.
+		// A segment is a DOM element (for example, a table cell) that has associated data.
+		displaySegment: function (segmentA, segmentB) {
+			this.displayData(segmentA && $.data(segmentA),
+				segmentB && segmentB !== segmentA && segmentA && $.data(segmentB));
 		},
 
-		// If a segment is selected in this chart,
-		// when a segment is selected or cleared in a related chart,
-		// then the mediator widget calls this function.
-		clearSegmentSelected: function () {
-			$(this.tdSelected).removeClass("selected");
-			this.tdSelected = undefined;
+		// Display the diagram for dataA, with optional compared dataB, or neither.
+		displayData: function (dataA, dataB) {
+			var comparing = !!dataB && dataB !== dataA && !!dataA, // boolean for toggleClass
+				featureClass = this.featureClass;
+
+			this.displayFeatures(dataA && dataA[featureClass], comparing && dataB[featureClass]);
+			this.$segmentA.toggleClass("comparedA", comparing);
+			this._text(this.$symbolsA, dataA, "symbols");
+			this._text(this.$descriptionA, dataA, "description");
+			this._text(this.$symbolsB, dataB, "symbols");
+			this._text(this.$descriptionB, dataB, "description");
 		},
 
-		// For each segment, toggle (add or remove) the class
-		// according to the result of the callback function
-		// optionally given the data value of the segment for the key.
-		// Important: The callback function arguments and return value differ from jQuery.
-		// The tableFeatures widgets call this function.
-		toggleClassSegments: function (className, callback, key) {
-			var $tdsSegment = this.$tdsSegment;
+		// Display the diagram for featuresA, with optional compared featuresB, or neither.
+		displayFeatures: function (featuresA, featuresB) {
+			var comparing = featuresB && featuresB !== featuresA && featuresA,
+				self = this;
 
-			if (typeof callback === "function") {
-				$tdsSegment.each(function () {
-					var $td = $(this),
-						toggle = callback(this, typeof key === "string" ? $td.data(key) : undefined);
+			// Update the class attribute for each case of each switch.
+			this.$switches.each(function () {
+				var featuresArray = featuresA && $.data(this, "featuresArray"),
+					switchA = featuresA && self._featuresMatched(featuresA, featuresArray),
+					switchB = comparing && self._featuresMatched(featuresB, featuresArray);
 
-					if (typeof toggle === "boolean") {
-						$td.toggleClass(className, toggle);
+				// In parallel for featuresA and featuresB:
+				// * If all cases have a break, display at most one.
+				// * If any cases fall through, possibly display more than one.
+				$.data(this, "$cases").each(function () {
+					var reached = switchA || switchB,
+						fallThrough = reached && $.data(this, "fallThrough"),
+						featuresArray = reached && $.data(this, "featuresArray"),
+						caseA = switchA && self._featuresMatched(featuresA, featuresArray),
+						caseB = switchB && self._featuresMatched(featuresB, featuresArray);
+
+					// Replace or remove the class attribute because, at least through jQuery 1.7,
+					// none of the following work for SVG elements: addClass, removeClass, toggleClass.
+					$(this).attr("class", self._caseClasses(caseA, caseB, comparing));
+
+					if (caseA) { // if reached this case for featuresA,
+						switchA = fallThrough; // then unless break, fall though to the next
+					}
+					if (caseB) { // if reached this case for featuresB,
+						switchB = fallThrough; // then unless break, fall though to the next
 					}
 				});
-			} else {
-				$tdsSegment.removeClass(className);
-			}
-		},
-
-		// 
-		toggleChangesSegments: function (segmentsChanged) {
-			this.$tdsSegment.each(function () {
-				var $td = $(this),
-					literal = $td.data("literal"),
-					value = segmentsChanged && segmentsChanged[literal],
-					$div = $td.children('div.changes'),
-					$ul;
-
-				if (value) {
-					if ($div.length === 0) {
-						//$div = $td.children('span').wrap('<div class="changes"></div>').parent();
-						$div = $td.children('span').before('<div class="changes"></div>').prev();
-					}
-					$ul = $div.children('ul');
-					if ($ul.length) {
-						$ul.children().remove();
-					} else {
-						$ul = $('<ul></ul>').appendTo($div);
-					}
-					$.each(value, function () {
-						var $td = $(this);
-
-						$('<li></li>').attr("title", $td.attr("title")).text($td.data("literal")).appendTo($ul);
-					});
-					$('<li>\u2192</li>').appendTo($ul); // rightwards arrow
-				} else {
-					$div.children('ul').remove();
-				}
 			});
 		}
 	});
 
-	// Charts of distinctive feature values for segments =======================
+	// charts of distinctive feature values ====================================
 
-	// One or two charts can optionally follow a CV chart and feature tables.
-	// Each chart is in a separate section (div).
-	// * features-segments: distinctive features in rows and segments in columns
-	//   default orientation for typical inventories of consonants and vowels
-	// * segments-features: segments in rows and distinctive features in columns
-	//   optional transposed orientation for large numbers of segments
+	// Several charts can optionally follow a CV chart and feature tables.
+	// * distinctive-segment: features in rows and segments in columns
+	//   consonants by place of articulation
+	//   vowels by backness
+	// * segment-distinctive: segments in rows and features in columns
+	//   consonants by manner of articulation
+	//   vowels by height
+	//   transposed orientation when there are too many segments for distinctive-segment
+	//
+	// * descriptive-distinctive
+	// * distinctive-descriptive
+	// * height-backness
+	// * dorsal-backness
 
-	$.widget("phonology.rowgroupsValues", {
+	$.widget("phonology.rowgroupsValues", $.phonology.mediatee, {
 		_create: function () {
-			var $element = this.element,
-				$table = $element.parent(),
-				isDistinctive = $element.is('.segment-distinctive thead, .descriptive-distinctive thead, .height-backness tfoot, .analogous thead'),
-				selector = "tbody" + ($table.is(".height-backness, .analogous") ? "." + $element.attr("class") : ""),
-				$tbodys = $table.children(selector),
-				$rowgroupsDistinctive = this.$rowgroupsDistinctive = isDistinctive ? $element : $tbodys,
-				$rowgroupsCounterpart = this.$rowgroupsCounterpart = isDistinctive ? $tbodys : $element,
-				$thsCounterpart = $rowgroupsCounterpart.find('th[scope]').not('[scope="rowgroup"]'),
-				$tdsInCounterpartRows = [],
-				selectorValues = 'td:not(.Phonetic)',
+			var $element = this.element, // thead or tfoot
+				rowgroupClasses = splitClass($element),
+				tableClasses = splitClass($element.parent()),
+				dual = $.inArray("dual", tableClasses) !== -1,
+				distinctiveCols = (dual ? rowgroupClasses[1] : tableClasses[0].split("-")[1]) === "distinctive",
+				$tbodys = $element.siblings('tbody' + (dual ? '.' + rowgroupClasses[0] : '')),
+				$rowgroupsDistinctive = this.$rowgroupsDistinctive = distinctiveCols ? $element : $tbodys,
+				$rowgroupsCounterpart = this.$rowgroupsCounterpart = distinctiveCols ? $tbodys : $element,
+				$thsCounterpart = this.$thsCounterpart = $rowgroupsCounterpart.find('th[scope]').not('[scope="rowgroup"]'),
+				valueQuery = phonQuery.valueQuery,
+				value = this.value = valueQuery("+", "+-0"),
+				regexpUnspecified = /[\s\u00B7\u2022]/, // explicitly unspecified: white space, middle dot, bullet
+				addClassDistinctive = this.addClassDistinctive = [],
+				tdsCounterpartRows = [],
+				selectorData = 'td:not(.Phonetic)',
+				nDescriptive = 0,
 				eventNamespace = "." + this.widgetName,
 				self = this;
 
@@ -1758,66 +2151,77 @@ jQuery(function ($) {
 				return;
 			}
 
-			if (isDistinctive) {
+			this.addClassCounterpartData = [];
+			this.addClassCounterpartHeading = [];
+
+			// Attach event handlers for distinctive feature heading cells.
+			if (distinctiveCols) {
 				$rowgroupsCounterpart.children('tr').each(function () {
-					$tdsInCounterpartRows.push($(this).children(selectorValues));
+					tdsCounterpartRows.push($(this).children(selectorData).get());
 				});
 			}
+			this.$thsDistinctive = $rowgroupsDistinctive.find('th[scope]').not('[scope="colgroup"]').each(function (i) {
+				var $th = $(this),
+					$tds = distinctiveCols ? $($.map(tdsCounterpartRows, function (tds) {
+						return tds[i];
+					})) : $th.siblings(selectorData);
 
-			// Bind event handlers for distinctive feature heading cells.
-			this.$thsDistinctive = $rowgroupsDistinctive.find('th[scope]').not('[scope="colgroup"]')
-				.each(function (i) {
-					var $th = $(this),
-						$tds = isDistinctive ?
-								$($.map($tdsInCounterpartRows, function ($tdsInCounterpartRow) {
-									return $tdsInCounterpartRow.get(i);
-								})) :
-								$th.siblings(selectorValues);
+				// Initialize values of data cells.
+				$tds.each(function () {
+					var text = $(this).text();
 
-					// Initialize values of feature value data cells.
-					$tds.each(function () {
-						var $td = $(this);
+					// Unspecified is explicit for data cells in values charts.
+					$.data(this, "values", valueQuery(text ? text.replace(regexpUnspecified, "0") : "0"));
+				});
+				$.data(this, "$tds", $tds);
 
-						$td.data("values", self._valuesInText($td.text()));
-					});
-					$th.data("$tds", $tds);
-					if ($th.parent().hasClass("redundant")) {
-						$th.addClass("redundant"); // for JavaScript and CSS
-					}
-				})
-				.bind("mouseenter" + eventNamespace, function (event) {
-					self._mouseenterDistinctive(event);
-				})
-				.bind("mouseleave" + eventNamespace, function (event) {
-					self._mouseleaveDistinctive(event);
-				})
-				.addClass("interactive");
+				addClassDistinctive[i] = [];
 
-			// Bind event handlers for segment or descriptive feature heading cells.
-			this.$thsCounterpart = $thsCounterpart
-				.bind("mouseenter" + eventNamespace, function (event) {
-					self._mouseenterCounterpart(event);
-				}).bind("mouseleave" + eventNamespace, function (event) {
-					self._mouseleaveCounterpart(event);
-				})
-				.addClass("interactive");
+				if (!distinctiveCols && $th.parent().hasClass("redundant")) {
+					$th.addClass("redundant"); // for JavaScript and CSS
+				} else if (!($th.hasClass("redundant"))) {
+					$th.addClass("interactive");
+				}
+			}).on("mouseenter" + eventNamespace, function (event) {
+				self._mouseenterDistinctive(event);
+			}).on("mouseleave" + eventNamespace, function (event) {
+				self._mouseleaveDistinctive(event);
+			});
+
+			// TO DO: If there is a mediator for segment publishers and subscribers:
+			$thsCounterpart.each(dataSegment); // store features of segments as data
+			$thsCounterpart.each(function () { // must follow the preceding
+				if ($.data(this, "descriptive")) {
+					nDescriptive += 1;
+				}
+			});
+			// If all segments have descriptive features, then add callback
+			// to display the active segment in a diagram for articulatory phonetics.
+			if ($thsCounterpart.length === nDescriptive) {
+				this._publishSegment = this._callbacksProxy("segment", "all").fire;
+			} else {
+				this._publishSegment = $.noop; // empty function
+			}
+
+			// Attach event handlers for segment or descriptive feature heading cells.
+			$thsCounterpart.on("mouseenter" + eventNamespace, function (event) {
+				self._mouseenterCounterpart(event);
+			}).on("mouseleave" + eventNamespace, function (event) {
+				self._mouseleaveCounterpart(event);
+			}).addClass("interactive");
 
 			// To select which value to highlight when a feature is active,
-			// click at the lower-right of the upper-left cell.
-			$element.find('th:not([scope])')
-				.addClass("value")
+			// click a small box in a corner of the chart.
+			$element.find('th:not([scope])').addClass("value")
 				.append('<div><div class="value"></div></div>')
-
-				.find('div.value')
-				.bind("click" + eventNamespace, function (event) {
+				.find('div.value').on("click" + eventNamespace, function (event) {
 					self._clickValue(event);
-				})
-				.trigger("click"); // initialize text of div.value
+				}).attr("title", value.title()).text(value.charExternal());
 
 			$rowgroupsDistinctive.addClass("interactive");
 			$rowgroupsCounterpart.addClass("interactive");
 			setTimeout(function () {
-				self._createIndistinguishables($table.hasClass("distinctive-segment") || $table.hasClass("segment-distinctive"));
+				self._createIndistinguishableHeadings(tableClasses[0].indexOf("segment") !== -1);
 			}, 50);
 		},
 
@@ -1828,245 +2232,181 @@ jQuery(function ($) {
 		// * For segment heading cells in possibly larger charts exported by Phonology Assistant,
 		//   this function assumes that the cells already have classes in the XHTML file,
 		//   but it must determine which of these cells are related to each other.
-		_createIndistinguishables: function (segment) {
+		_createIndistinguishableHeadings: function (segment) {
 			var $thsCounterpart = this.$thsCounterpart,
-				$thsThatFromThis = segment ? $thsCounterpart.filter('.indistinguishable.that_from_this') : undefined,
-				$thsThisFromThat = segment ? $thsCounterpart.filter('.indistinguishable.this_from_that') : undefined,
+				$thsIndistinguishable = segment && $thsCounterpart.filter('.indistinguishable'),
+				$thsThatFromThis = segment && $thsIndistinguishable.filter('.that_from_this'),
+				$thsThisFromThat = segment && $thsIndistinguishable.filter('.this_from_that'),
 				$thsDistinctive = this.$thsDistinctive,
 				self = this;
 
 			$thsCounterpart.each(function (index) {
-				var $th,
-					$thsIndistinguishable;
+				var $ths = segment && $thsThatFromThis.index(this) === -1 ? $() :
+						$thsCounterpart.filter(function (i) {
+							var distinguishable;
 
-				if (segment && $thsThatFromThis.index(this) === -1) {
-					return;
-				}
-
-				$th = $(this);
-				$thsIndistinguishable = $thsCounterpart.filter(function (i) {
-					var distinguishable;
-
-					if (i === index) {
-						return false;
-					} else if (segment && $thsThisFromThat.index(this) === -1) {
-						return false;
-					}
-
-					$thsDistinctive.each(function () {
-						var $tds = $(this).data("$tds");
-
-						distinguishable = self._distinguishable($tds.eq(i).data("values"), $tds.eq(index).data("values"));
-						return !distinguishable; // break if distinguishable
-					});
-					return !distinguishable;
-				});
-				if ($thsIndistinguishable.length) {
-					$th.data("$thsIndistinguishable", $thsIndistinguishable);
-					if (!segment) {
-						if (!$th.has("span").length) {
-							$th.wrapInner("<span></span>"); // for CSS
-						}
-						$th.addClass("indistinguishable that_from_this");
-
-						$thsIndistinguishable.each(function () {
-							var $thIndistinguishable = $(this);
-
-							if (!$thIndistinguishable.has("span").length) {
-								$thIndistinguishable.wrapInner("<span></span>"); // for CSS
+							if (i === index) {
+								return false;
 							}
-						}).addClass("indistinguishable this_from_that");
-					}
+							if (segment && $thsThisFromThat.index(this) === -1) {
+								return false;
+							}
+							$thsDistinctive.each(function () {
+								var $tds = $.data(this, "$tds");
+
+								distinguishable = $.data($tds.get(i), "values")
+									.distinguishableFrom($.data($tds.get(index), "values"));
+								return !distinguishable; // break if distinguishable
+							});
+							return !distinguishable;
+						});
+
+				$.data(this, "$thsIndistinguishable", $ths);
+
+				if ($ths.length && !segment) {
+					self._createIndistinguishableHeading(this, "indistinguishable that_from_this");
+					$ths.each(function () {
+						self._createIndistinguishableHeading(this, "indistinguishable this_from_that");
+					});
 				}
 			});
+		},
+
+		_createIndistinguishableHeading: function (th, className) {
+			var $th = $(th).addClass(className);
+
+			if ($th.has("span").length === 0) {
+				$th.wrapInner("<span></span>"); // for CSS
+			}
 		},
 
 		// event handlers ------------------------------------------------------
 
-		// When the mouse pointer moves into a segment heading cell,
-		// mark all data cells whose values differ from its values.
-		// Indicate any other segments which are indistinguishable.
+		// When the mouse pointer moves into a counterpart heading cell,
+		// distinctive heading cells become inactive.
 		_mouseenterCounterpart: function (event) {
-			var th = event.currentTarget,
-				$th = $(th),
-				$thsIndistinguishable = $th.data("$thsIndistinguishable"),
-				$thsCounterpart = this.$thsCounterpart,
-				length = $thsCounterpart.length,
-				index = $thsCounterpart.index(th),
-				tdsClass = [],
-				distinguishables = [], // numbers distinguishable feature values for segments
-				n = 0, // number of segments which are indistinguishable from the active segment
-				i,
-				self = this;
-
 			this.$rowgroupsDistinctive.removeClass("interactive");
-
-			// Cache data cells with added classes for _mouseleaveCounterpart.
-			for (i = 0; i < length; i += 1) {
-				distinguishables[i] = 0;
-			}
-			this.$thsDistinctive.each(function () {
-				var $tds = $(this).data("$tds"),
-					valuesActive = $tds.eq(index).data("values");
-
-				$tds.filter(function (i) {
-					if (self._distinguishable($(this).data("values"), valuesActive)) {
-						tdsClass.push(this);
-						distinguishables[i] += 1;
-						return true;
-					}
-				}).addClass("mark");
-			});
-			this.$tdsClass = $(tdsClass);
-			for (i = 0; i < length; i += 1) {
-				if (i !== index && distinguishables[i] === 0) {
-					n += 1;
-				}
-			}
-
-			// Cache segment heading cells with added classes for _mouseleaveCounterpart.
-			//this.$thsClass = $thsCounterpart.filter(function (i) {
-			//	if (distinguishables[i] === 0 && n !== 0) {
-			//		return true;
-			//	}
-			//}).addClass("indistinguishable");
-			if ($thsIndistinguishable) {
-				$thsIndistinguishable.addClass("active");
-			}
+			this._addClassCounterpart(event.currentTarget);
+			this._publishSegment(event.currentTarget);
 		},
 
-		// When the mouse pointer moves out of a segment heading cell,
-		// remove classes from data cells and segment heading cells.
+		// When the mouse pointer moves out of a counterpart heading cell,
+		// distinctive heading cells become interactive.
 		_mouseleaveCounterpart: function (event) {
-			var $th = $(event.currentTarget),
-				$thsIndistinguishable = $th.data("$thsIndistinguishable");
-
 			this.$rowgroupsDistinctive.addClass("interactive");
-			this.$tdsClass.removeClass("mark");
-			//this.$thsClass.removeClass("indistinguishable");
-			if ($thsIndistinguishable) {
-				$thsIndistinguishable.removeClass("active");
-			}
+			this._removeClassCounterpart(event.currentTarget);
+			this._publishSegment(false);
 		},
 
-		// When the mouse pointer moves into a feature heading cell,
-		// mark its data cells which have the specified value
-		// and the corresponding segment heading cells.
-		// Indicate any other segments for which the value is unspecified.
+		// When the mouse pointer moves into a distinctive heading cell,
+		// counterpart heading cells become inactive.
 		_mouseenterDistinctive: function (event) {
-			var $thDistinctive = $(event.currentTarget),
-				$tds = $thDistinctive.data("$tds"),
-				value = this.value,
-				mark = [], // array of indexes of marked cells
-				m = 0,
-				length,
-				self = this;
+			var th = event.currentTarget;
 
 			this.$rowgroupsCounterpart.removeClass("interactive");
-			if ($thDistinctive.hasClass("redundant")) {
-				return;
+			if (!($(th).hasClass("redundant"))) {
+				this._addClassDistinctive(th);
 			}
+		},
 
-			// Cache data cells with added classes for _mouseleaveDistinctive.
-			this.$tdsClass = $tds.filter(function (i) {
-				if (self._match($(this).data("values"), value)) {
-					mark.push(i);
-					return true;
+		// When the mouse pointer moves out of a distinctive heading cell,
+		// counterpart heading cells become interactive.
+		_mouseleaveDistinctive: function (event) {
+			var th = event.currentTarget;
+
+			this.$rowgroupsCounterpart.addClass("interactive");
+			if (!($(th).hasClass("redundant"))) {
+				this._removeClassDistinctive(th);
+			}
+		},
+
+		// To specify which value to highlight, click a small box in a corner of the chart.
+		// Each click selects the next value: plus, minus, unspecified, plus, and so on.
+		_clickValue: function (event) {
+			var value = this.value = this.value.next();
+
+			$(event.currentTarget).attr("title", value.title()).text(value.charExternal());
+		},
+
+		// private implementation for event handlers ---------------------------
+
+		// Add class to other data cells and counterpart heading cells.
+		_addClassCounterpart: function (th) {
+			var addClassDistinctive = this.addClassDistinctive,
+				index = this.$thsCounterpart.index(th);
+
+			// Mark all other data cells whose values differ from its values.
+			this.$thsDistinctive.each(function (i) {
+				var addClassCounterpart = addClassDistinctive[i],
+					$tds = $.data(this, "$tds"),
+					values = $.data($tds.get(index), "values");
+
+				$tds.each(function (j) {
+					if (j !== index && $.data(this, "values").distinguishableFrom(values)) {
+						addClassCounterpart[j] = true;
+						$(this).addClass("mark");
+					}
+				});
+			});
+
+			// Add class to other counterpart heading cells which are indistinguishable.
+			$.data(th, "$thsIndistinguishable").addClass("active");
+		},
+
+		// Remove class from other data cells and counterpart heading cells.
+		_removeClassCounterpart: function (th) {
+			var addClassDistinctive = this.addClassDistinctive,
+				self = this;
+
+			this.$thsDistinctive.each(function (i) {
+				self._removeClass("mark", $.data(this, "$tds"), addClassDistinctive[i]);
+			});
+			$.data(th, "$thsIndistinguishable").removeClass("active");
+		},
+
+		// Add class to corresponding data cells and counterpart heading cells.
+		_addClassDistinctive: function (th) {
+			var value = this.value,
+				addClassCounterpartData = this.addClassCounterpartData,
+				addClassCounterpartHeading = this.addClassCounterpartHeading,
+				$thsCounterpart = this.$thsCounterpart;
+
+			$.data(th, "$tds").each(function (i) {
+				var values = $.data(this, "values"),
+					thClass;
+
+				if (values.has(value)) {
+					// Mark corresponding data cells which have the specified value.
+					// and their counterpart heading cells.
+					addClassCounterpartData[i] = true;
+					$(this).addClass(thClass = "mark");
+				} else if (values.has("0")) {
+					// Add class to any other counterpart heading cells
+					// for which the value is unspecified.
+					thClass = "unspecified";
 				}
-			}).addClass("mark");
-			length = mark.length;
-
-			// Cache segment heading cells with added classes for _mouseleaveDistinctive.
-			this.$thsClass = this.$thsCounterpart.filter(function (i) {
-				var $thCounterpart = $(this);
-
-				if (m < length && i === mark[m]) {
-					$thCounterpart.addClass("mark");
-					m += 1;
-					return true;
-				} else if (self._match($tds.eq(i).data("values"), "unspecified")) {
-					$thCounterpart.addClass("unspecified");
-					return true;
+				if (thClass) {
+					addClassCounterpartHeading[i] = true;
+					$thsCounterpart.eq(i).addClass(thClass);
 				}
 			});
 		},
 
-		// When the mouse pointer moves out of a feature heading cell,
-		// remove classes from data cells and segment heading cells.
-		_mouseleaveDistinctive: function (event) {
-			var $thDistinctive = $(event.currentTarget);
-
-			this.$rowgroupsCounterpart.addClass("interactive");
-			if ($thDistinctive.hasClass("redundant")) {
-				return;
-			}
-
-			this.$tdsClass.removeClass("mark");
-			this.$thsClass.removeClass("mark unspecified");
+		// Remove class from corresponding data cells and counterpart heading cells.
+		_removeClassDistinctive: function (th) {
+			this._removeClass("mark", $.data(th, "$tds"), this.addClassCounterpartData);
+			this._removeClass("mark unspecified", this.$thsCounterpart, this.addClassCounterpartHeading);
 		},
 
-		// To specify which feature value to highlight, click at the upper left.
-		// Each click selects the next value: plus, minus, unspecified, plus, and so on.
-		_clickValue: function (event) {
-			var values = this.valueKeys,
-				value = values[($.inArray(this.value, values) + 1) % values.length];
-
-			this.value = value;
-			$(event.currentTarget).attr("title", value).text(this.valueKeys_symbols[value][0]);
-		},
-
-		// private implementation ----------------------------------------------
-
-		valueKeys: ["plus", "minus", "unspecified"], // array determines the order
-		valueKeys_symbols: {
-			"plus": ["+", "\u00B1"], // plus sign, plus-minus sign
-			"minus": ["\u2013", "-", "\u00B1"], // en dash, hyphen-minus, plus-minus sign
-			"unspecified": ["0", "\u00B7", "\u2022"] // digit zero, middle dot, bullet
-		},
-		// return references to one set of objects instead of creating many
-		i_values: [
-			{unspecified: true, minus: false, plus: false},	// 0 -> 4 unspecified if neither plus nor minus
-			{unspecified: false, minus: false, plus: true},	// 1 = 0 + 0 + 1
-			{unspecified: false, minus: true, plus: false},	// 2 = 0 + 2 + 0
-			{unspecified: false, minus: true, plus: true},	// 3 = 0 + 2 + 1
-			{unspecified: true, minus: false, plus: false},	// 4 = 4 + 0 + 0
-			{unspecified: true, minus: false, plus: true},	// 5 = 4 + 0 + 1
-			{unspecified: true, minus: true, plus: false},	// 6 = 4 + 2 + 0
-			{unspecified: true, minus: true, plus: true}	// 7 = 4 + 2 + 1
-		],
-
-		// Return whether any of the symbols for the value occur in the text.
-		_matchValueInText: function (value, text) {
-			var symbols = this.valueKeys_symbols[value],
-				length = symbols.length,
-				i;
-
-			for (i = 0; i < length; i += 1) {
-				if (text.indexOf(symbols[i]) !== -1) {
-					return true;
+		// Remove class from an element if the corresponding array value is true.
+		// Set true values to false.
+		_removeClass: function (className, $elements, array) {
+			$elements.each(function (i) {
+				if (array[i]) {
+					array[i] = false;
+					$(this).removeClass(className);
 				}
-			}
-			return false;
-		},
-
-		// Return an object representing the values which occur in the text.
-		_valuesInText: function (text) {
-			var i = (this._matchValueInText("unspecified", text) ? 4 : 0) +
-				(this._matchValueInText("minus", text) ? 2 : 0) +
-				(this._matchValueInText("plus", text) ? 1 : 0);
-
-			return this.i_values[i];
-		},
-
-		// Return whether the values of the feature match the specified value.
-		_match: function (values, value) {
-			return values[value];
-		},
-
-		// Return whether the values of a feature for a segment are distinguishable
-		// from the values of the feature for the other segment.
-		_distinguishable: function (valuesThis, valuesThat) {
-			return (valuesThis.plus && !valuesThat.plus) || (valuesThis.minus && !valuesThat.minus);
+			});
 		}
 	});
 
@@ -2083,7 +2423,7 @@ jQuery(function ($) {
 					$quadrilaterals.filter('.left').length === 1 &&
 					$quadrilaterals.filter('.right').length === 1) {
 				$quadrilaterals.append('<span class="button" title="merge quadrilaterals"></span>').find('.button')
-					.bind("click." + this.widgetName, function (event) {
+					.on("click." + this.widgetName, function (event) {
 						self._click(event);
 					});
 			}
@@ -2118,273 +2458,314 @@ jQuery(function ($) {
 		}
 	});
 
-	// Distribution Chart view =================================================
+	// distribution ============================================================
 	//
-	// In a generalized chart, collapse/expand individual rows or columns.
-	// * To collapse a column group, click left-pointing triangle.
-	// * To expand a column group, click right-pointing triangle.
-	// * To collapse a row group, click up-pointing triangle.
-	// * To expand a row group, click down-pointing triangle.
-	// In any distribution chart, reduce/restore phonetic heading cells.
-	// * To reduce a search element, click it. An ellipsis appears.
-	// * To restore a search element, click it. The text appears again.
+	// A distribution chart displays numbers of occurrences of segments in environments.
+	// Each data cell displays the result of a search pattern. Example: [C]/_[V]
+	// Unless a chart has been transposed:
+	// * A row represents a search item which matches segments in data records (tokens).
+	//   Example: [C] matches consonants.
+	// * A column represents a search environment in which segments (might) occur.
+	//   Example: _[V] means preceding a vowel (also known as followed by a vowel).
+	//
+	// To exchange the background colors which distinguish zero from non-zero data cells,
+	// click the lower-right corner of the upper-left heading cell.
+	//
+	// In a generalized chart, click to collapse or expand individual rows or columns.
+	// * General row group: click the heading cell in the general row.
+	//   Example: If a general search item is [C],
+	//            individual items for a particular project might be p, b, m, and so on.
+	// * General column group: click the heading cell in the general column.
+	//   Example: If a general search environment is _[V],
+	//            individual environments for a particular project might be _i, _u, _a.
+	// * All general groups: click the upper-left heading cell (not at its lower-right corner).
+	// If for a particular project a general group has no individual (row or column) children,
+	// then the group is not collapsible.
+	//
+	// A widget creator can provide classUncollapsible in the options to indicate
+	// uncollapsible rows or columns in (potentially) collapsible row or column groups.
+	// * The value is "general" for distribution charts from Phonology Assistant.
+	// * The value is "uncollapsible" by default if the option is undefined.
+	// Ponder the distinction in meaning between uncollapsible and not collapsible:
+	// * If a group does not contain an uncollapsible child, it is not collapsible.
+	// * If a table does not contain any collapsible groups, it is not collapsible.
+	// The widget provides additional flexibility not used for Phonology Assistant:
+	// * An uncollapsible child can occur in any position (not necessarily first).
+	// * A group can have more than one uncollapsible child.
 
-	$.widget("phonology.tableDistribution", {
+	$.widget("phonology.distribution", {
 		_create: function () {
+			var $thUpperLeft = this.element.find('thead th:first-child'),
+				widgetName = this.widgetName,
+				eventNamespace = "." + widgetName;
+
+			this._createZero($thUpperLeft, eventNamespace);
+			if (!browser("IE7")) {
+				this._createCollapsible($thUpperLeft, widgetName, eventNamespace);
+			}
+		},
+
+		// If any data cells contain zero:
+		// * Insert divs at the lower-right corner of the upper-left heading cell.
+		// * Attach event handler: click.
+		_createZero: function ($thUpperLeft, eventNamespace) {
+			if (this.element.has('tbody td.zero').length) {
+				$thUpperLeft.addClass("value")
+					.append('<div><div class="value">0</div></div>')
+					.find('div.value').on("click" + eventNamespace, bind.call(this._clickZero, this));
+			}
+		},
+
+		// If there are any general row or column groups which are collapsible:
+		// * Add classes for CSS: collapsible, uncollapsible, interactive.
+		// * Store data: jQuery object to toggle collapsed classes.
+		// * Attach event handler: click.
+		_createCollapsible: function ($thUpperLeft, widgetName, eventNamespace) {
 			var $element = this.element,
-				eventNamespace = "." + this.widgetName,
+				selector = "." + (this.options.classUncollapsible || "uncollapsible"),
+				hasCollapsibleRowgroup = this._createCollapsibleRowgroups(selector, widgetName),
+				hasCollapsibleColgroup = this._createCollapsibleColgroups(selector, widgetName),
 				self = this;
 
-			// To reverse the background color of zero/non-zero cells,
-			// click at the lower-right of the upper-left cell.
-			if ($element.has('td.zero').length) {
-				$element.find('thead tr:first-child th:first-child').addClass("value").append('<div><div class="value">0</div></div>');
+			if (hasCollapsibleRowgroup || hasCollapsibleColgroup) {
+				$thUpperLeft.addClass("interactive").data(widgetName, {
+					"rowgroup": hasCollapsibleRowgroup,
+					"colgroup": hasCollapsibleColgroup,
+					"$collapsible": $element
+				});
+
+				// Event handler: click an interactive heading cell.
+				$element.addClass("collapsible")
+					.on("click" + eventNamespace, 'th.interactive', function () {
+						self._clickCollapsible(this); // delegate to th.interactive
+					});
 			}
+		},
 
-			// To reduce or restore a heading, click the cell.
-			$element.find('th.Phonetic')
-				.wrapInner('<span></span>') // wrap heading text in span,
-				.append('<abbr>\u2026</abbr>'); // insert horizontal ellipsis in abbr
+		// General row groups: <tbody><tr class="general"><th class="Phonetic" ...
+		_createCollapsibleRowgroups: function (selectorUncollapsible, widgetName) {
+			var hasCollapsibleRowgroup = false;
 
-			// To collapse or expand a general row or column,
-			// click the individual cell corresponding to the row or column group heading.
-			if ($element.has('tr.general').length) {
-				// Display of interactive colgroups is unreliable in IE 7.
-				if (!browserIE7()) {
-					this._initializeGeneralizedDistribution();
+			this.element.children('tbody').each(function () {
+				var $tbody = $(this),
+					$trs = $tbody.children(),
+					$trsUncollapsible = $trs.filter(selectorUncollapsible).has('th'),
+					lengthUncollapsible = $trsUncollapsible.length;
+
+				// If a general row group has at least one individual row,
+				// the heading cell in the general row is interactive.
+				if (lengthUncollapsible !== 0 && $trs.length > lengthUncollapsible) {
+					hasCollapsibleRowgroup = true;
+					$tbody.addClass("collapsible");
+					$trsUncollapsible.addClass("uncollapsible")
+						.children('th').addClass("interactive").data(widgetName, {
+							"rowgroup": true,
+							"colgroup": false,
+							"$collapsible": $tbody
+						});
 				}
+			});
+
+			return hasCollapsibleRowgroup;
+		},
+
+		// General column groups: <colgroup><col class="general" />...</colgroup>
+		_createCollapsibleColgroups: function (selectorUncollapsible, widgetName) {
+			var $element = this.element,
+				$colgroups = $element.children('colgroup'),
+				$ths = $element.find('thead th'),
+				widthColgroups = 0,
+				iStart = 0,
+				hasCollapsibleColgroup = false,
+				isIE8orEarlier;
+
+			if ($colgroups.children().length === $ths.length) {
+				isIE8orEarlier = browser("IE8");
+				$colgroups.each(function () {
+					var $colgroup = $(this),
+						$cols = $colgroup.children(),
+						length = $cols.length,
+						$colsUncollapsible = $cols.filter(selectorUncollapsible),
+						lengthUncollapsible = $colsUncollapsible.length;
+
+					// If a general column group has at least one individual column,
+					// the heading cell in the general column is interactive.
+					if (lengthUncollapsible !== 0 && length > lengthUncollapsible) {
+						hasCollapsibleColgroup = true;
+						$colgroup.addClass("collapsible");
+						$colsUncollapsible.addClass("uncollapsible").each(function () {
+							// Add class and store data: the heading cell for the column.
+							$ths.eq(iStart + $cols.index(this)).addClass("interactive")
+								.data(widgetName, {
+									"rowgroup": false,
+									"colgroup": true,
+									// IE8 or earlier: Must add the class to col elements
+									// because adding the class to the colgroup element
+									// does not cause the CSS rule to take effect.
+									"$collapsible": isIE8orEarlier ?
+											$cols.not($colsUncollapsible) :
+											$colgroup
+								});
+						});
+					}
+					widthColgroups += this.offsetWidth;
+					iStart += length;
+				});
 			}
 
-			// Bind event handler.
-			$element
-				.bind("click" + eventNamespace, function (event) {
-					self._click(event);
-				})
-				.addClass("interactive");
+			if (hasCollapsibleColgroup) {
+				this.classColgroup = "collapsed_by_visibility";
+				this.detectColgroup = {
+					"widthColgroupsOriginal": widthColgroups,
+					"widthTableOriginal": $element.get(0).offsetWidth,
+					"$colgroups": $colgroups,
+					"$ths": $ths
+				}; // see _clickCollapsible, _detectColgroup, _updateColgroups
+			}
+
+			return hasCollapsibleColgroup;
 		},
 
 		// event handlers ------------------------------------------------------
 
-		_click: function (event) {
-			var $target = $(event.target),
-				$cell;
+		// Click the div at the lower-right corner of the upper-left heading cell.
+		_clickZero: function (event) {
+			this.element.toggleClass("nonzero");
+			event.stopPropagation(); // do not call _clickCollapsible
+		},
 
-			if ($target.is('div.value')) {
-				// To reverse the background color of zero/non-zero cells,
-				// click at the lower-right of the upper-left cell.
-				this.element.toggleClass("nonzero");
-			} else {
-				$cell = $target.closest('th, td');
-				if ($cell.is('th')) {
-					if ($cell.hasClass("Phonetic")) {
-						$cell.toggleClass("reduced");
-					} else if ($cell.hasClass("interactive")) {
-						if ($cell.parent().parent().is('tbody')) {
-							this._clickCollapsibleRowHeading($cell);
-						} else if ($cell.is('thead tr:first-child th:first-child')) {
-							this._clickUpperLeft($cell);
-						} else {
-							this._clickCollapsibleColumnHeading($cell);
-						}
-					}
-				}
+		// Click an interactive heading cell in a collapsible chart.
+		_clickCollapsible: function (th) {
+			var data = $.data(th, this.widgetName),
+				classes = [],
+				detectColgroup;
+
+			if (data.rowgroup) {
+				classes.push("collapsed");
+			}
+			if (data.colgroup) {
+				classes.push(this.classColgroup);
+				detectColgroup = this.detectColgroup;
+			}
+			data.$collapsible.toggleClass(classes.join(" "));
+
+			// For information about lazy loading,
+			// see pages 154-155 in High Performance JavaScript.
+			if (detectColgroup) {
+				this._detectColgroup(detectColgroup, data);
+				delete this.detectColgroup;
 			}
 		},
 
-		// private implementation ----------------------------------------------
+		// private implementation for feature detection ------------------------
 
-		// Add data, class attributes, text to elements.
-		_initializeGeneralizedDistribution: function () {
-			var $element = this.element,
-				$colgroups = $element.find('colgroup'),
-				chartHasGeneralColumns = ($element.has('thead tr.general').length !== 0),
-				$thCols = $element.find('thead tr.individual th'),
-				$thCollapsibles,
-				start = 0;
+		// After the first time to collapse at least one column group,
+		// detect whether the browser implements visibility: collapse rules in CSS.
+		_detectColgroup: function (detectColgroup, data) {
+			var widthColgroupsOriginal = detectColgroup.widthColgroupsOriginal,
+				widthColgroups = 0,
+				update;
 
-			$element.addClass('generalized');
+			if (widthColgroupsOriginal !== 0) {
+				detectColgroup.$colgroups.each(function () {
+					widthColgroups += this.offsetWidth;
+				});
+				// Sum of widths of column groups:
+				// * It changes in Opera 10.5 or later.
+				// * It remains the same in Firefox 9. That is,
+				//   cells collapse (see below) but colgroup borders do not.
+				//   http://www.w3.org/TR/CSS21/tables.html#dynamic-effects
+				//   "The suppression of the row or column, however,
+				//   does not otherwise affect the layout of the table."
+				//   Does the standard allow browsers not to update borders?!
+				update = widthColgroups === widthColgroupsOriginal;
+			} else {
+				// If widths of column groups are 0, test width of the table instead:
+				// * It changes in IE8 or later.
+				//   By the way, it also changes in Firefox 9, Opera 10.5 or later.
+				// * It remains the same in Chrome 16, Safari 5.1.2.
+				update = this.element.get(0).offsetWidth === detectColgroup.widthTableOriginal;
+			}
 
-			// Add data to colgroup elements and class attributes to col elements.
-			$colgroups.each(function (colgroup) {
+			if (update) {
+				data.$collapsible.removeClass(this.classColgroup);
+				this._updateColgroups(detectColgroup); // changes the $collapsible property!
+				data.$collapsible.addClass(this.classColgroup = "collapsed_by_display");
+			}
+		},
+
+		// Update column groups to collapse by display: none rules in CSS.
+		_updateColgroups: function (detectColgroup) {
+			var $ths = detectColgroup.$ths,
+				$cellsArray = [],
+				widgetName = this.widgetName,
+				iStart = 0,
+				self = this;
+
+			this.element.find('tbody tr').each(function () {
+				$cellsArray.push($(this).children());
+			});
+			detectColgroup.$colgroups.each(function () {
 				var $colgroup = $(this),
-					$cols = $colgroup.find('col'),
-					colspan = $cols.length;
+					$cols = $colgroup.children(),
+					iEnd = iStart + $cols.length;
 
-				$colgroup.data("distribution", {colspan: colspan});
-				if (colgroup === 0) { // Row headings at the left of the data.
-					if (colspan === 2) { // If there are general rows:
-						$cols.eq(0).addClass("general");
-						$cols.eq(1).addClass("individual");
-					}
-				} else if (chartHasGeneralColumns) {
-					$cols.eq(0).addClass("general"); // First column.
-					$cols.slice(1).addClass("individual"); // Any other columns.
+				if ($colgroup.hasClass("collapsible")) {
+					self._updateColgroup($cols, iStart, iEnd, $ths, $cellsArray, widgetName);
 				}
+				iStart = iEnd;
 			});
+		},
 
-			// Add class attribute and data to upper-left cell.
-			$element.find('thead tr:first-child th:first-child')
-				.addClass("interactive") // Used by CSS, not JavaScript.			
-				.data("distribution", {
-					colspan: $element.find('tbody:first tr:first-child th').length,
-					rowspan: $element.find('thead tr').length
-				});
+		// Update heading and data cells in collapsible column group.
+		_updateColgroup: function ($cols, iStart, iEnd, $ths, $cellsArray, widgetName) {
+			var updateCells = this._updateCells, // method does not depend on this
+				colsCollapsible = [],
+				indexesUncollapsible = [], // sparse array, initialized as side effect
+				$colsUncollapsible = $cols.filter('.uncollapsible').each(function () {
+					indexesUncollapsible[$cols.index(this)] = true;
+				}),
+				length = $cellsArray.length,
+				i;
 
-			// Add class attribute and data to general column group headings, if any.
-			$element.find('thead tr.general th.Phonetic').each(function (i) {
-				var $thColgroup = $(this),
-					colgroup = i + 1, // Adjust index to account for the upper-left cell.
-					colspan = $colgroups.eq(colgroup).find('col').length,
-					end = start + colspan;
-
-				$thColgroup.data("distribution", {colgroup: colgroup, colspan: colspan});
-
-				// Column headings for the group in the individual heading row.
-				// Empty heading cell corresponding to the column group.
-				if (colspan > 1) { // If there are any individual columns:
-					$thCols.eq(start)
-						.addClass("interactive")  // Used by CSS, not JavaScript.
-						.data("distribution", {colgroup: colgroup, start: start, end: end});
-				}
-
-				// Add class to individual heading cells.
-				$thCols.slice(start + 1, end).addClass('individual');
-
-				start += colspan;
-			});
-
-			if (chartHasGeneralColumns) {
-				// Add class to individual data cells.		
-				$thCollapsibles = $element.find('thead tr.individual th.interactive');
-				$element.find('tbody tr').each(function () {
-					var $tds = $(this).find('td');
-
-					$thCollapsibles.each(function () {
-						var data = $(this).data("distribution");
-						$tds.slice(data.start + 1, data.end).addClass("individual");
-					});
-				});
+			// Add collapsible class to cells in the column group,
+			// except one or more in each row which are uncollapsible.
+			updateCells($ths.slice(iStart, iEnd), indexesUncollapsible, colsCollapsible);
+			for (i = 0; i < length; i += 1) {
+				updateCells($cellsArray[i].slice(iStart, iEnd), indexesUncollapsible, colsCollapsible);
 			}
 
-			// General row groups, if any.
-			// Empty heading cells corresponding to row groups.
-			$element.find('tbody tr.general').each(function () {
-				var $tr = $(this),
-					rowspan = $tr.parent().find('tr').length,
-					$th = $tr.find('th:not(.Phonetic)');
+			// Update data for interactive heading cells, which correspond to uncollapsible columns.
+			$colsUncollapsible.each(function () {
+				var data = $ths.eq(iStart + $cols.index(this)).data(widgetName);
 
-				$th.addClass("individual");
-				if (rowspan !== 1) {
-					$th.addClass("interactive"); // Used by CSS, not JavaScript.
-				}
-				$tr.find('th.Phonetic').data("distribution", {rowspan: rowspan});
+				data.$collapsible = data.$collapsible.add(colsCollapsible);
 			});
 		},
 
-		// Temporarily collapse/expand all individual rows and columns in generalized charts.
-		_clickUpperLeft: function ($thUpperLeft) {
-			var $element = this.element,
-				collapsed,
-				data,
-				colspan,
-				rowspan,
-				$colgroups = $element.find('colgroup');
-
-			// 1. Toggle collapsed class of table.
-			$element.toggleClass("collapsed");
-			collapsed = $element.hasClass("collapsed");
-
-			// 2a. Adjust colspan and rowspan of upper-left cell.
-			if (collapsed) {
-				colspan = 1;
-				rowspan = 1;
-			} else {
-				data = $thUpperLeft.data("distribution");
-				colspan = data.colspan;
-				rowspan = data.rowspan;
-			}
-			$thUpperLeft.attr("colspan", colspan).attr("rowspan", rowspan);
-
-			// 2b. Adjust colspan of general column headings, if any.
-			$element.find('thead tr.general th.Phonetic').each(function () {
-				var $thPhonetic = $(this),
-					data;
-
-				if (collapsed) {
-					colspan = 1;
-				} else {
-					data = $thPhonetic.data("distribution");
-					if ($colgroups.eq(data.colgroup).hasClass("collapsed")) {
-						colspan = 1;
-					} else {
-						colspan = data.colspan;
-					}
+		// Except for uncollapsible cells, add class and append to list.
+		_updateCells: function ($cells, indexesUncollapsible, colsCollapsible) {
+			$cells.each(function (i) {
+				if (!indexesUncollapsible[i]) {
+					$(this).addClass("collapsible");
+					colsCollapsible.push(this); // cell DOM element
 				}
-				$thPhonetic.attr("colspan", colspan);
 			});
-
-			// 2c. Adjust rowspan of general row headings, if any.
-			$element.find('tbody tr.general th.Phonetic').each(function () {
-				var $thPhonetic = $(this);
-
-				if (collapsed) {
-					rowspan = 1;
-				} else if ($thPhonetic.closest('tbody').hasClass("collapsed")) {
-					rowspan = 1;
-				} else {
-					rowspan = $thPhonetic.data("distribution").rowspan;
-				}
-				$thPhonetic.attr("rowspan", rowspan);
-			});
-		},
-
-		// Collapse/expand all the individual columns in a general column group.
-		_clickCollapsibleColumnHeading: function ($thCollapsible) {
-			var $element = this.element,
-				data = $thCollapsible.data("distribution"),
-				colgroup = data.colgroup,
-				$colgroup = $element.find('colgroup').eq(colgroup),
-				$thColgroup = $element.find('thead tr.general th').eq(colgroup),
-				start = data.start + 1, // The first column is general.,
-				end = data.end; // Up to, but not including, end.;
-
-			// 1. Toggle collapsed class of individual heading cell and colgroup.
-			$thCollapsible.toggleClass("collapsed");
-			$colgroup.toggleClass("collapsed");
-
-			// 2. Adjust colspan of general heading cell.
-			$thColgroup.attr("colspan", $colgroup.hasClass("collapsed") ? 1 : $thColgroup.data("distribution").colspan);
-
-			// 3. Toggle collapsed class for cells in individual columns.
-			$element.find('thead tr.individual')
-				.children('th').slice(start, end).toggleClass("collapsed");
-			$element.find('tbody tr').each(function () {
-				$(this).children('td').slice(start, end).toggleClass("collapsed");
-			});
-		},
-
-		// Collapse/expand all the individual rows in a general row group.
-		_clickCollapsibleRowHeading: function ($thCollapsible) {
-			var $tr = $thCollapsible.parent(),
-				$thPhonetic = $tr.find('th.Phonetic'),
-				$tbody = $tr.parent();
-
-			// 1. Toggle collapsed class of tbody.
-			$tbody.toggleClass("collapsed");
-
-			// 2. Adjust rowspan of general row.
-			$thPhonetic.attr("rowspan", $tbody.hasClass("collapsed") ? 1 : $thPhonetic.data("distribution").rowspan);
 		}
 	});
 
-	$('div.section').section();
+	// create widgets ==========================================================
+
 	$('.quadrilaterals').quadrilaterals();
 	setTimeout(function () {
-		$('table.distribution').tableDistribution();
-		$('table.list').not('.contradictions, .dependencies').tableList();
-		$('div.CV_features').not('div.CV_features div.CV_features').has('table.features').has('table.CV').divFeaturesCV();
-		// tableCV widgets must follow tablesFeatures widgets (which are created by divFeaturesCV widgets)
-		$('table.CV').tableCV();
-		$('table.values thead, table.height-backness tfoot, table.analogous tfoot').rowgroupsValues();
+		var $mediator = $('div.mediator');
+
+		$('table.distribution').distribution({"classUncollapsible": "general"});
+		$('table.list').tableList();
+		$mediator.mediator(); // create mediator before any of the following:
+		$mediator.find('div.diagram').diagram();
+		$mediator.find('table.features').tableFeatures(); // create tableFeatures before tableCV
+		$mediator.find('table.CV').tableCV();
+		$('table.values > thead').siblings('table.dual > tfoot').andSelf().rowgroupsValues();
 	}, 50);
 });

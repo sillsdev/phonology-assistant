@@ -1,4 +1,4 @@
-﻿/* phonology.css 2011-10-18 */
+﻿/* phonology.css 2012-04-06 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 
 /* Reset default values of Web browsers. ------------------------------------ */
@@ -139,7 +139,6 @@ th
 font-weight: normal;
 }
 
-table.list thead tr th.sorting_field,
 table.list tbody tr .item /* Matched items in search result lists. */
 {
 font-weight: bold;
@@ -158,28 +157,6 @@ table.chart th.Phonetic,
 table.chart td.Phonetic
 {
 font-size: 112.5%; /* 18px */
-}
-
-/* Collapse/expand ---------------------------------------------------------- */
-
-table.distribution tbody tr.general th.interactive:after
-{
-content: "▴"; /* up-pointing */
-}
-
-table.distribution tbody.collapsed tr.general th.interactive:after
-{
-content: "▾"; /* down-pointing */
-}
-
-table.distribution thead tr.individual th.interactive:after
-{
-content: "◂"; /* left-pointing */
-}
-
-table.distribution thead tr.individual th.interactive.collapsed:after
-{
-content: "▸"; /* right-pointing */
 }
 
 /* Layout =================================================================== */
@@ -251,7 +228,7 @@ table
 margin-bottom: 0.5625em; /* 9px */
 }
 
-div.CV2 div.CV_features:first-child table.CV,
+div.stacked table.CV,
 table.distinctive
 {
 margin-bottom: 1em; /* 16px */
@@ -262,20 +239,25 @@ table.features
 margin-left: 1.333em; /* 1em / font-size */
 }
 
-div.CV_features,
-div.CV2,
-table.CV,
-table.features
+div.side_by_side div.stacked + table.features /* IE7 or later */
+{
+/* Wider margin distinguish a table for both charts from the tables for each chart. */
+margin-left: 2.667em; /* 2em / font-size */
+}
+
+div.side_by_side div.stacked,
+div.side_by_side div.diagram,
+div.side_by_side table
 {
 float: left;
 }
 
-div.CV_features
+div.side_by_side
 {
 clear: left;
 }
 
-div.CV2 table.CV tbody th,
+div.stacked table.CV tbody th,
 table.values tbody th
 {
 min-width: 7em; /* width of Approximant to the nearest em, to align borders of CV charts */
@@ -325,16 +307,6 @@ table.CV td.Phonetic
 {
 padding-right: 0.25em;
 padding-left: 0.25em;
-}
-
-table.distribution tbody tr.individual th.Phonetic
-{
-padding-left: 0.25em;
-}
-
-table.distribution tbody tr.general th.Phonetic
-{
-padding-right: 0.25em;
 }
 
 th.rotate
@@ -404,8 +376,6 @@ white-space: nowrap;
 /* Horizontal alignment ----------------------------------------------------- */
 
 table.values tbody th.Phonetic,
-table.distribution thead tr.general th.Phonetic,
-table.distribution tbody tr.general th.Phonetic,
 th
 {
 text-align: left;
@@ -617,26 +587,6 @@ table.diacritics tbody th
 border-right-style: none;
 }
 
-table.distribution thead tr.general th
-{
-border-bottom-style: none;
-}
-
-table.distribution.collapsed thead tr.general th /* exception to preceding exception */
-{
-border-bottom-style: solid;
-}
-
-table.distribution tbody tr.general th.Phonetic
-{
-border-right-style: none;
-}
-
-table.distribution.collapsed tbody tr.general th.Phonetic /* exception to preceding exception */
-{
-border-right-style: solid;
-}
-
 table.height-backness colgroup.backness
 {
 border-right-style: none;
@@ -690,15 +640,43 @@ display: none;
 
 /* Interactive sorting in lists --------------------------------------------- */
 
-table.list th ins
+/* The ins element indicates which column is sorted and the direction. */
+/* To keep columns from shifting when the sorted column changes: */
+/* * use interactive adjacent background-color instead of bold font-weight */
+/* * wrap text in span followed by ins, both wrapped in div, via JavaScript */
+/*   instead of :before or :after content in CSS. */
+
+th.sortable div.indicator /* script inserts this wrapper */
 {
-display: none;
-text-decoration: none;
+position: relative;
+display: inline;
+padding-right: 0.75em; /* for small triangles */
 }
 
-table.list.interactive th.sorting_field ins
+th.sorting_options div.indicator /* this rule must follow the preceding */
 {
-display: inline; /* Direction: up-pointing or down-pointing triangle. */
+padding-right: 1em; /* for larger triangles */
+}
+
+th.sortable div.indicator ins /* indicator of sorting direction */
+{
+position: absolute;
+right: 0;
+}
+
+th.sortable ins
+{
+visibility: hidden;
+}
+
+th.sorting_field ins /* this rule must follow the preceding */
+{
+visibility: visible;
+}
+
+table.list thead th ins /* might not be sortable: minimal pairs */
+{
+text-decoration: none; /* here instead of typography for modularity */
 }
 
 table.list th.sorting_options ul,
@@ -767,6 +745,40 @@ table.CV td.Phonetic div.changes ul li
 display: inline;
 margin-left: 0;
 padding-left: 0.25em; /* same as td */
+}
+
+/* Interactive segment features in value charts ----------------------------- */
+
+.distinctive-segment thead th ul.features,
+.segment-distinctive tbody th ul.features
+{
+display: none;
+}
+
+/* diagrams for articulatory phonetics -------------------------------------- */
+
+div.diagram
+{
+float: left;
+margin-left: 1em;
+margin-bottom: 2em; /* for segment paragraph(s) */
+}
+
+div.diagram p.segment
+{
+margin-top: 0.1875em; /* same as td */
+}
+
+div.diagram p.segment span.Phonetic
+{
+font-size: 112.5%; /* same as table.chart .Phonetic */
+margin-right: 0.5em; /* same as td */
+}
+
+div.diagram div.sagittal
+{
+width: 250px;
+height: 375px;
 }
 
 /* Vowel quadrilaterals ----------------------------------------------------- */
@@ -1112,14 +1124,14 @@ cursor: default;
 .quadrilateral.interactive g.active circle.interactive, /* SVG */
 .quadrilateral.interactive li.active span
 {
-color: #a3cca3; /* active */
+color: #7acc7a; /* active */
 }
 
 .quadrilateral li:hover img.beginning,
 .quadrilateral li:hover img.end,
 .quadrilateral li:hover img.dot /* but not ellipse */
 {
-background-color: #a3cca3; /* active */
+background-color: #7acc7a; /* active */
 }
 
 .quadrilateral.interactive g.selected text, /* SVG */
@@ -1127,14 +1139,14 @@ background-color: #a3cca3; /* active */
 .quadrilateral.interactive g.selected g.handles ellipse, /* SVG */
 .quadrilateral li.selected span
 {
-color: #7db27d; /* selected */
+color: #5c995c; /* selected */
 }
 
 .quadrilateral li.selected img.beginning,
 .quadrilateral li.selected img.end,
 .quadrilateral li.selected img.dot /* but not ellipse */
 {
-background-color: #7db27d; /* selected */
+background-color: #5c995c; /* selected */
 }
 
 .quadrilateral .grid g /* SVG */
@@ -1167,7 +1179,7 @@ color: #808080; /* darker border */
 
 .quadrilateral .crosshairs line /* SVG */
 {
-color: #a3cca3; /* active */
+color: #7acc7a; /* active */
 }
 
 .quadrilateral g.active .crosshairs,
@@ -1274,7 +1286,7 @@ ul.coordinates input.active,
 ul.text input:focus,
 ul.text input.active
 {
-background-color: #a3cca3; /* active */
+background-color: #7acc7a; /* active */
 }
 
 ul.coordinates input[disabled], /* IE7 or later */
@@ -1380,21 +1392,21 @@ fieldset.buttons button
 {
 padding: 0.25em 1.5em; /* horizontal padding is same as basic indent */
 margin-left: -1px; /* negative of border */
-background-color: #cfe6cf; /* interactive */
 border-style: solid;
 border-width: 1px;
-border-color: #a3cca3; /* active */
+background-color: transparent;
+border-color: #999999; /* border */
 }
 
 fieldset.buttons button:hover
 {
-background-color: #a3cca3; /* active */
+background-color: #7acc7a; /* active */
 }
 
-fieldset.buttons button[disabled]
+fieldset.buttons button:enabled /* IE9 or later */ /* button[disabled] */
 {
-background-color: transparent;
-border-color: #999999; /* border */
+background-color: #cfe6cf; /* interactive */
+border-color: #7acc7a; /* active */
 }
 
 fieldset.buttons p
@@ -1472,14 +1484,14 @@ table.properties tbody th
 background-color: #cfe6cf; /* interactive */
 }
 
-table.properties tbody th:hover
+table.properties tbody tr.active th
 {
-background-color: #a3cca3; /* active */
+background-color: #7acc7a; /* active */
 }
 
 table.properties tbody tr.selected th
 {
-background-color: #7db27d; /* selected */
+background-color: #5c995c; /* selected */
 }
 
 table.properties tbody th.changed
@@ -1517,27 +1529,62 @@ table.properties thead tr.parts th
 border-bottom-style: none;
 }
 
-/* Interactive columns in distribution charts ------------------------------- */
+/* Collapsible row groups --------------------------------------------------- */
 
-table.distribution colgroup.collapsed col.individual,
-table.distribution.collapsed colgroup col.individual,
-table.distribution abbr,
-table.distribution th.reduced > span,
-table.distribution.reduced th > span,
-table.distribution tbody.collapsed tr.individual,
-table.distribution thead tr.individual th.Phonetic.collapsed,
-table.distribution tbody tr td.collapsed,
-table.distribution.collapsed tr.individual,
-table.distribution.collapsed tr th.individual,
-table.distribution.collapsed tr td.individual
+table.collapsed tbody.collapsible tr,
+table.collapsible tbody.collapsed tr
 {
 display: none;
 }
 
-table.distribution th.reduced > abbr,
-table.distribution.reduced th > abbr
+table.collapsed tbody.collapsible tr.uncollapsible,
+table.collapsible tbody.collapsed tr.uncollapsible
 {
-display: inline;
+display: table-row;
+}
+
+/* Collapsible column groups ------------------------------------------------ */
+
+/* IE8 or later, Opera 10.5 or later */
+
+table.collapsed_by_visibility colgroup.collapsible col,
+table.collapsible colgroup.collapsed_by_visibility col /* see phonology_IE8.css */
+{
+visibility: collapse;
+}
+
+table.collapsed_by_visibility colgroup.collapsible col.uncollapsible,
+table.collapsible colgroup.collapsed_by_visibility col.uncollapsible
+{
+visibility: visible;
+}
+
+/* Alternate display: none rules if JavaScript detects that the browser */
+/* does not support the preceding collapse: visibility rules. */
+
+/* Still needed for Chrome 16, Firefox 9, Safari 5.1.2 */
+
+table.collapsed_by_display colgroup.collapsible col,
+table.collapsible colgroup.collapsed_by_display col,
+table.collapsed_by_display thead th.collapsible,
+table.collapsible thead th.collapsed_by_display,
+table.collapsed_by_display tbody td.collapsible,
+table.collapsible tbody td.collapsed_by_display
+{
+display: none;
+}
+
+table.collapsed_by_display colgroup.collapsible col.uncollapsible,
+table.collapsible colgroup.collapsed_by_display col.uncollapsible
+{
+display: table-column;
+}
+
+/* The following rule helps Firefox 9 display border-right */
+/* when the last colgroup is collapsed. */
+table.collapsible
+{
+border-right-style: solid; /* IE 8 or later; not Opera 10 or earlier */
 }
 
 /* Specify value in chart --------------------------------------------------- */
@@ -1574,12 +1621,16 @@ table.chart th.value div
 position: relative;
 }
 
-table.chart th.value div.value
+table.chart th.value div div.value
 {
-position: absolute;
 border-style: solid;
 border-width: 1px;
 /* For rounded border properties, see the phonology_CSS3.css file. */
+}
+
+table.chart th.value div div
+{
+position: absolute;
 /* Assume th already has font-size: 75% */
 padding-top: 0.1875em; /* Same as ordinary th, but less than this th. */
 padding-bottom: 0.1875em; /* Same as th. */
@@ -1587,7 +1638,7 @@ padding-left: 0.5em; /* Same as th. */
 padding-right: 0.5em;
 }
 
-table.distribution th.value div.value
+table.distribution th.value div div
 {
 font-size: 75%;
 padding-top: 0.25em; /* corresponds to 0.1875em at 100% */
@@ -1596,22 +1647,22 @@ padding-left: 0.6667em; /* corresponds to 0.5em at 100% */
 padding-right: 0.6667em;
 }
 
-table.chart thead th.value div.value
+table.chart thead th.value div div
 {
 bottom: -1px; /* negative of border-width */
 }
 
-table.chart tfoot th.value div.value
+table.chart tfoot th.value div div
 {
 top: -1px; /* negative of border-width */
 }
 
-table.chart th.value div.value /* default is at the left of th[scope] cells */
+table.chart th.value div div /* default is at the left of th[scope] cells */
 {
 right: -1px; /* negative of border-width */
 }
 
-table.chart th[scope] + th.value div.value /* IE7 or later */
+table.chart th[scope] + th.value div div /* IE7 or later */
 {
 left: -1px; /* negative of border-width */
 right: auto;
@@ -1624,6 +1675,11 @@ th.rotate
 padding-top: 0.5em; /* same as default padding-left */
 padding-bottom: 0.5em; /* same as default padding-right */
 height: 8em; /* default is height of postalveolar or approximant to the nearest em */
+}
+
+table.distribution th.rotate
+{
+height: auto; /* at least one cell must have a style="height: Xem" attribute */
 }
 
 table.distinctive-descriptive.place th.rotate
@@ -1721,7 +1777,7 @@ text-align: left;
 /* #808000  128 128   0   60° 100%  50%  dark olive             dependent if  */
 /* #bfbf00  191 191   0   60° 100%  75%  light olive            dependent then */
 
-/* #ffcd66  255 230 102   40°  60% 100%  orange                 darker caution */
+/* #ffcd66  255 205 102   40°  60% 100%  orange                 darker caution */
 /* #ffe6b2  255 230 178   40°  30% 100%  desaturated orange     lighter caution */
 
 /* #ff0000  255   0   0    0° 100% 100%  red                    error text    */
@@ -1734,8 +1790,8 @@ text-align: left;
 /* #f8fff8  248 255 248  120°   3% 100%  desaturated green      interactive contrast */
 /* #cfe6cf  207 230 207  120°  10%  90%  lightest green         interactive   */
 /* #b8d9b8  184 217 184  120°  15%  85%  lighter green          interactive adjacent */
-/* #a3cca3  163 204 163  120°  20%  80%  green                  active        */
-/* #7db27d  125 178 125  120°  30%  70%  dark green             selected      */
+/* #7acc7a  122 204 122  120°  40%  80%  green                  active        */
+/* #5c995c   92 153  92  120°  40%  60%  dark green             selected      */
 
 /*                                       transparent            inactive      */
 
@@ -1779,6 +1835,16 @@ span.if
 color: #f8fff8; /* interactive contrast */
 }
 
+div.diagram p.comparedA
+{
+color: #5c995c; /* selected */
+}
+
+div.diagram p.compared
+{
+color: #7acc7a; /* active */
+}
+
 table.features.interactive td.contradiction:hover
 {
 color: #ffe6b2; /* lighter caution */
@@ -1816,17 +1882,16 @@ table.distinctive.changeable td.change,
 table.values thead.interactive th.interactive,
 table.values tfoot.interactive th.interactive,
 table.values tbody.interactive th.interactive,
-table.distribution.interactive th.interactive,
-table.distribution.interactive th.Phonetic,
+table.distribution th.interactive,
 span.interactive
 {
 background-color: #cfe6cf; /* interactive */
 }
 
+table.list.interactive th.sorting_field, /* must follow the preceding */
 table.values thead.interactive th.that_from_this,
 table.values tbody.interactive th.that_from_this,
-span.that_from_this,
-table.distribution.interactive tr.individual th.Phonetic
+span.that_from_this
 {
 background-color: #b8d9b8; /* interactive adjacent */
 }
@@ -1837,7 +1902,7 @@ table.features.interactive td.selected:hover,
 table.features td.selected,
 span.selected
 {
-background-color: #7db27d; /* selected */
+background-color: #5c995c; /* selected */
 }
 
 /* Pseudo-class :hover in tables: IE 7 or later. */
@@ -1862,12 +1927,10 @@ table.features td.active,
 table.values thead.interactive th.interactive:hover,
 table.values tfoot.interactive th.interactive:hover,
 table.values tbody.interactive th.interactive:hover,
-table.distribution.interactive th.interactive:hover,
-table.distribution.interactive th.Phonetic:hover,
-table.distribution.interactive tr.individual th.Phonetic:hover,
+table.distribution th.interactive:hover,
 span.active
 {
-background-color: #a3cca3; /* active */
+background-color: #7acc7a; /* active */
 }
 
 table.distinctive.changeable td.if,
@@ -1908,6 +1971,7 @@ background-color: #f8fff8; /* interactive contrast */
 
 table.CV td.changed div.changes ul,
 table.CV td.changed span,
+table.CV.interactive td.Phonetic.more-similar,
 table.values .changed, /* more specificity than phonology_print.css */
 table.list tbody.group tr.heading th.more-similar,
 span.more-similar,
@@ -1923,6 +1987,7 @@ span.alone
 background-color: #c3d4e6; /* changed alone */
 }
 
+table.CV.interactive td.Phonetic.less-similar,
 table.values .shared, /* more specificity than phonology_print.css */
 table.list tbody.group tr.heading th.less-similar,
 span.less-similar,
@@ -2028,8 +2093,8 @@ border-color: #999999; /* border */
 
 table.chart div.value,
 table.height-backness th,
-table.analogous th,
-table, colgroup, thead, tfoot, tbody /* row and column groups in CV or distribution charts */
+table.dorsal-backness th,
+table, colgroup, col, thead, tfoot, tbody /* row and column groups in CV or distribution charts */
 {
 border-color: #dddddd; /* lighter border */
 }
@@ -2037,5 +2102,5 @@ border-color: #dddddd; /* lighter border */
 table.list.interactive ul.transcription:hover,
 table.list.interactive ul.transcription li:first-child
 {
-border-color: #a3cca3; /* active */
+border-color: #7acc7a; /* active */
 }

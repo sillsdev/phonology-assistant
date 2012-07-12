@@ -1,4 +1,4 @@
-﻿/* phonology_CSS3.css 2011-07-04 */
+﻿/* phonology_CSS3.css 2012-03-17 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 /* Properties from CSS level 3 and corresponding proprietary extensions. */
 
@@ -11,8 +11,8 @@
 /* Opera 10.5 or later */
 /* Safari 5 or later */
 
-/* -webkit- extension: Safari 3 or later; Chrome 3 or earlier. */
-/* -moz- extension: Firefox 1 or later. */
+/* -webkit- extension: Safari 3.x or 4.x; Chrome 3 or earlier. */
+/* -moz- extension: Firefox 3.x or earlier. */
 
 ul.environments.interactive li
 {

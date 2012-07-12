@@ -61,6 +61,15 @@ exclude-result-prefixes="xhtml svg"
 		</xsl:copy>
 	</xsl:template>
 
+	<xsl:template match="//xhtml:div[@id = 'metadata']/xhtml:ul[@class = 'details']/xhtml:li[@class = 'number vowel']">
+		<li class="number monophthong" xmlns="http://www.w3.org/1999/xhtml">
+			<xsl:value-of select="count($segments/segment[features[@class = 'descriptive']/feature[. = 'monophthong']])" />
+		</li>
+		<li class="number diphthong" xmlns="http://www.w3.org/1999/xhtml">
+			<xsl:value-of select="count($segments/segment[features[@class = 'descriptive']/feature[. = 'diphthong']])" />
+		</li>
+	</xsl:template>
+
 	<xsl:template match="xhtml:table[@class = 'CV chart']">
 		<xsl:if test="xhtml:tbody/xhtml:tr/xhtml:td[@class = 'Phonetic'][node()]">
 			<div class="quadrilaterals" xmlns="http://www.w3.org/1999/xhtml">

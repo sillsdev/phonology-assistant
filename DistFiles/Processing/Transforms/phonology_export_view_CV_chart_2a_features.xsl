@@ -1,9 +1,10 @@
 ﻿<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 xmlns:xhtml="http://www.w3.org/1999/xhtml"
-exclude-result-prefixes="xhtml"
+xmlns:svg="http://www.w3.org/2000/svg"
+exclude-result-prefixes="xhtml svg"
 >
 
-  <!-- phonology_export_view_CV_chart_2a_features.xsl 2011-11-02 -->
+  <!-- phonology_export_view_CV_chart_2a_features.xsl 2012-03-14 -->
 	<!-- Export to XHTML, Interactive Web page, and at least one feature table. -->
   <!-- For each Phonetic data cell: -->
   <!-- * Wrap the literal segment in a span. -->
@@ -37,9 +38,11 @@ exclude-result-prefixes="xhtml"
 	<xsl:variable name="programFeatureDependencies" select="document($programDistinctiveFeaturesXML)/inventory/featureDependencies[@class = 'distinctive']" />
 	<xsl:variable name="programFeatureContradictions" select="document($programDistinctiveFeaturesXML)/inventory/featureContradictions[@class = 'distinctive']" />
 
-	<xsl:variable name="format" select="$options/xhtml:li[@class = 'format']" />
+  <xsl:variable name="programDefaultDiagramSagittalFile" select="'default.DiagramSagittal.svg'" />
+
+  <xsl:variable name="format" select="$options/xhtml:li[@class = 'format']" />
 	<xsl:variable name="interactiveWebPage">
-		<xsl:if test="$format = 'XHTML' and $view != 'Distribution Chart'">
+		<xsl:if test="$format = 'XHTML'">
 			<xsl:value-of select="$options/xhtml:li[@class = 'interactiveWebPage']" />
 		</xsl:if>
 	</xsl:variable>
@@ -58,8 +61,13 @@ exclude-result-prefixes="xhtml"
 			<xsl:value-of select="$options/xhtml:li[@class = 'distinctiveFeatureChanges']" />
 		</xsl:if>
 	</xsl:variable>
-	<xsl:variable name="features">
-		<xsl:if test="$descriptiveFeatureTable = 'true' or $distinctiveFeatureTable = 'true'">
+  <xsl:variable name="diagram">
+    <xsl:if test="$interactiveWebPage = 'true'">
+      <xsl:value-of select="$options/xhtml:li[@class = 'diagram']" />
+    </xsl:if>
+  </xsl:variable>
+  <xsl:variable name="features">
+		<xsl:if test="$descriptiveFeatureTable = 'true' or $distinctiveFeatureTable = 'true' or $diagram = 'true'">
 			<xsl:value-of select="'true'" />
 		</xsl:if>
 	</xsl:variable>
@@ -72,22 +80,43 @@ exclude-result-prefixes="xhtml"
       <xsl:apply-templates select="@* | node()" />
     </xsl:copy>
   </xsl:template>
-
-	<xsl:template match="xhtml:div[@class = 'CV_features'][xhtml:div[@class = 'CV2']//xhtml:table[starts-with(@class, 'CV chart')]]">
+  
+	<xsl:template match="xhtml:div[@class = 'side_by_side'][xhtml:div[@class = 'stacked']//xhtml:table[starts-with(@class, 'CV chart')]]">
 		<xsl:copy>
 			<xsl:apply-templates select="@* | node()" />
 			<xsl:call-template name="distinctiveFeatureTable">
-				<xsl:with-param name="br" select="count(xhtml:div[@class = 'CV2']//xhtml:table[starts-with(@class, 'CV chart')][1]/xhtml:thead/xhtml:tr/xhtml:th/xhtml:br)" />
+				<xsl:with-param name="br" select="count(xhtml:div[@class = 'stacked']//xhtml:table[starts-with(@class, 'CV chart')][1]/xhtml:thead/xhtml:tr/xhtml:th/xhtml:br)" />
 			</xsl:call-template>
-		</xsl:copy>
+      <xsl:call-template name="diagram" />
+    </xsl:copy>
 	</xsl:template>
-	
-	<xsl:template match="xhtml:table[starts-with(@class, 'CV chart')]">
+
+  <xsl:template match="xhtml:div[@class = 'side_by_side'][xhtml:div[@class = 'stacked']//xhtml:table[starts-with(@class, 'CV chart')]]/@class">
+    <xsl:choose>
+      <xsl:when test="$features = 'true'">
+        <xsl:attribute name="class">
+          <xsl:value-of select="." />
+          <xsl:value-of select="' mediator'"/>
+        </xsl:attribute>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:copy-of select="." />
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="xhtml:table[starts-with(@class, 'CV chart')]">
 		<xsl:choose>
-			<xsl:when test="$descriptiveFeatureTable = 'true' or $distinctiveFeatureTable = 'true'">
+			<xsl:when test="$features = 'true'">
 				<xsl:variable name="type" select="substring-after(@class, 'CV chart ')" />
 				<!-- Wrap in a div. -->
-				<div class="CV_features" xmlns="http://www.w3.org/1999/xhtml">
+				<div class="side_by_side" xmlns="http://www.w3.org/1999/xhtml">
+          <xsl:attribute name="class">
+            <xsl:value-of select="'side_by_side'" />
+            <xsl:if test="not(ancestor::xhtml:div[@class = 'stacked'])">
+              <xsl:value-of select="' mediator'" />
+            </xsl:if>
+          </xsl:attribute>
 					<xsl:copy>
 						<xsl:apply-templates select="@* | node()" />
 					</xsl:copy>
@@ -135,11 +164,12 @@ exclude-result-prefixes="xhtml"
 							</tbody>
 						</table>
 					</xsl:if>
-					<xsl:if test="not(ancestor::xhtml:div[@class = 'CV2'])">
+					<xsl:if test="not(ancestor::xhtml:div[@class = 'stacked'])">
 						<xsl:call-template name="distinctiveFeatureTable">
 							<xsl:with-param name="br" select="$br" />
 							<xsl:with-param name="type" select="$type" />
 						</xsl:call-template>
+            <xsl:call-template name="diagram" />
 					</xsl:if>
 				</div>
 			</xsl:when>
@@ -229,6 +259,25 @@ exclude-result-prefixes="xhtml"
 			</xsl:if>
 		</xsl:if>
 	</xsl:template>
+
+  <xsl:template name="diagram">
+    <xsl:if test="$diagram = 'true'">
+      <xsl:variable name="diagramSVG" select="concat($programConfigurationFolder, $programDefaultDiagramSagittalFile)" />
+      <div class="diagram" xmlns="http://www.w3.org/1999/xhtml">
+        <div class="sagittal">
+          <xsl:copy-of select="document($diagramSVG)/svg:svg" />
+          <p>
+            <span class="Phonetic">
+              <xsl:value-of select="'&#xA;'" />
+            </span>
+            <span class="description">
+              <xsl:value-of select="'&#xA;'" />
+            </span>
+          </p>
+        </div>
+      </div>
+    </xsl:if>
+  </xsl:template>
 
 	<xsl:template match="xhtml:table[starts-with(@class, 'CV chart')]//xhtml:td[@class = 'Phonetic'][node()]">
 		<xsl:copy>

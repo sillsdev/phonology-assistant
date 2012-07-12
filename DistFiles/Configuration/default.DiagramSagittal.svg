@@ -1,0 +1,1785 @@
+﻿<svg version="1.1" class="sagittal" viewBox="0 0 1000 1500" preserveAspectRatio="xMinYMin meet" xml:lang="en" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <desc>sagittal view of the vocal tract, also known as a face diagram</desc>
+  <style type="text/css"><![CDATA[
+/* "typography" for paths =================================================== */
+
+svg.sagittal path
+{
+stroke-width: 4; /* in an area with width 1000 by height 1500 */
+}
+
+svg.sagittal svg[width="80"] path, /* tone */
+svg.sagittal svg[width="160"] path /* voiceless, laryngeal setting */
+{
+stroke-width: 1.5; /* 1.5 = 4 * (30 / 80) = 4 * (60 / 160) */
+}
+
+svg.sagittal svg[width="160"][height="160"][viewBox="0 -500 1600 1000"] path /* voiced */
+{
+stroke-width: 32.5; /* 32.5 = 4 * ((1600 + 1000) / 2) / 160) */
+}
+
+/* Articulators which have variety in shape: */
+/* tongue body of vowel or diphthong */
+/* tongue blade of alveolar sibilant fricative */
+svg.sagittal path.indeterminate
+{
+stroke-dasharray: 4 8; /* dotted line */
+}
+
+/* Contour segments have multiple (sequential) articulations: */
+/* affricate */
+/* prenasalized */
+/* diphthong (in theory, however, the tongue body is indeterminate, see above) */
+svg.sagittal g.contour path,
+svg.sagittal path.contour
+{
+stroke-dasharray: 12 12; /* dashed line */
+}
+
+/* layout =================================================================== */
+
+svg.sagittal .switch text, /* criteria for switch or case */
+svg.sagittal .switch g /* case */
+{
+display: none;
+}
+
+svg.sagittal .switch g.comparedA,
+svg.sagittal .switch g.comparedB,
+svg.sagittal .switch g.matched
+{
+display: block; /* case for which the criteria match the segment */
+}
+
+/* color ==================================================================== */
+
+/*     Hex    R   G   B    H    S    V   Description            Meaning       */
+/* #000000    0   0   0    0°   0%   0%  black                  text normal   */
+/* #999999  153 153 153    0°   0%  60%  gray-40%               border        */
+/* #dddddd  221 221 221    0°   0%  87%  lighter gray           lighter border */
+/* #5c995c   92 153  92  120°  40%  60%  dark green             selected      */
+/* #7acc7a  122 204 122  120°  40%  80%  green                  active        */
+
+svg.sagittal .matched path
+{
+stroke: currentColor; /* default is black for an active articulator */
+}
+
+svg.sagittal path, /* standard part of a diagram */
+svg.sagittal path.less /* articulator which is not active for a segment */
+{
+stroke: #999999; /* border */
+}
+
+svg.sagittal .auxiliary path /* optional part (for example, mandible, nostril) */
+{
+stroke: #dddddd; /* lighter border */
+}
+
+svg.sagittal .comparedA path
+{
+stroke: rgb(92,153,92); /* selected */
+}
+
+svg.sagittal .comparedA path.less
+{
+stroke: rgba(92,153,92,0.6); /* selected with alpha transparency */
+}
+
+svg.sagittal .comparedB path
+{
+stroke: rgb(122,204,122); /* active */
+}
+
+svg.sagittal .comparedB path.less
+{
+stroke: rgba(122,204,122,0.4); /* active with alpha transparency */
+}
+
+/* background-color --------------------------------------------------------- */
+
+svg.sagittal
+{
+fill-opacity: 0; /* transparent */
+}
+]]></style>
+  <g class="unconditional">
+    <path d="M 165,15
+C 155,65 60,225 50,250
+C 40,275 0,330 50,360
+C 100,390 115,350 150,250
+C 185,150 325,115 500,115
+C 675,115 880,125 930,200
+C 980,275 975,545 975,600
+C 975,655 975,1075 950,1100
+C 925,1125 860,1200 845,1250
+C 830,1300 810,1435 840,1485">
+      <desc>upper and back</desc>
+    </path>
+    <path d="M 200,490
+C 210,450 200,350 220,325
+C 240,300 400,300 450,315
+C 500,330 750,340 800,345">
+      <desc>nasal cavity lower</desc>
+    </path>
+    <path d="M 235,490
+C 245,490 240,550 245,535
+C 265,475 310,495 320,475
+C 340,425 500,355 600,355
+C 650,355 775,375 800,385">
+      <desc>oral cavity upper front</desc>
+    </path>
+    <path d="M 265,650
+C 275,655 265,620 265,610
+C 285,620 280,660 340,670">
+      <desc>oral cavity lower front</desc>
+    </path>
+    <path d="M 200,650
+C 220,700 204,800 210,850
+C 215,900 315,910 375,950
+C 415,975 510,1040 510,1050
+C 540,1075 550,1210 570,1250
+C 600,1330 625,1390 610,1485">
+      <desc>exterior front</desc>
+    </path>
+    <path d="M 725,1125
+C 715,1150 695,1200 680,1250
+C 665,1300 660,1410 660,1485">
+      <desc>interior front</desc>
+    </path>
+  </g>
+  <!-- number of segments for articulators -->
+  <!-- 4 for velum -->
+  <!-- 2 for lip upper -->
+  <!-- 2 for lip lower -->
+  <!-- 1 for tongue blade upper -->
+  <!-- 3 or 4 for tongue blade lower -->
+  <!-- 2 for tongue body -->
+  <!-- 4 for tongue root -->
+  <svg class="switch" x="0" y="0" width="1000" height="1500" viewBox="0 0 1000 1500">
+    <g>
+      <text>
+        <tspan>nasal</tspan>
+      </text>
+      <text>
+        <tspan>nasalized</tspan>
+      </text>
+      <text class="contour">
+        <tspan>prenasalized</tspan>
+      </text>
+      <text class="contour">
+        <tspan>nasal release</tspan>
+      </text>
+      <path d="M 800,345
+C 850,350 890,360 905,375
+S 930,575 905,575
+C 870,575 870,480 865,450
+S 825,395 800,385">
+        <desc>velum open</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>nasal</tspan>
+      </text>
+      <text>
+        <tspan>nasalized</tspan>
+      </text>
+    </g>
+    <g>
+      <!-- oral -->
+      <path class="less" d="M 800,345
+C 850,350 940,360 955,375
+S 980,575 955,575
+C 920,575 920,480 915,450
+S 825,395 800,385">
+        <desc>velum closed</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch" x="0" y="0" width="1000" height="1500" viewBox="0 0 1000 1500">
+    <text>
+      <tspan>click</tspan>
+    </text>
+    <g class="break">
+      <text>
+        <tspan>postalveolar</tspan>
+      </text>
+      <path transform="translate(525,375) rotate(-30)" d="M 0,0
+l 0,40
+l -10,-24
+m 10,24
+l 10,-24">
+        <desc>downwards arrow (rotated counterclockwise)</desc>
+      </path>
+    </g>
+    <g>
+      <path transform="translate(500,400) rotate(-30)" d="M 0,0
+l 0,48
+l -10,-24
+m 10,24
+l 10,-24">
+        <desc>downwards arrow (rotated counterclockwise)</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch" x="660" y="1325" width="160" height="160" viewBox="0 -500 1600 1000" preserveAspectRatio="none meet">
+    <desc>airstream mechanism</desc>
+    <g class="break">
+      <text>
+        <tspan>ejective</tspan>
+      </text>
+      <path d="M 900,-200
+l 0,-300
+l -100,150
+m 100,-150
+l 100,150">
+        <desc>upwards arrow (at right of center) above glottis for egressive glottalic airstream</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>voiced</tspan>
+        <tspan>implosive</tspan>
+      </text>
+      <path d="M 900,500
+l 0,-300
+l -100,150
+m 100,-150
+l 100,150">
+        <desc>upwards arrow (at right of center) below glottis for egressive pulmonic airstream</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>implosive</tspan>
+      </text>
+      <path d="M 700,-500
+l 0,300
+l -100,-150
+m 100,150
+l 100,-150">
+        <desc>downwards arrow (at left of center) above glottis for ingressive glottalic airstream</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>voiceless</tspan>
+      </text>
+      <text>
+        <tspan>breathy voiced</tspan>
+      </text>
+      <text>
+        <tspan>slack voiced</tspan>
+      </text>
+      <text>
+        <tspan>voiced</tspan>
+      </text>
+      <text>
+        <tspan>stiff voiced</tspan>
+      </text>
+      <text>
+        <tspan>creaky voiced</tspan>
+      </text>
+      <path d="M 800,500
+l 0,-300
+l -100,150
+m 100,-150
+l 100,150">
+        <desc>upwards arrow below glottis for egressive pulmonic airstream</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch" x="660" y="1325" width="160" height="160" viewBox="0 -500 1600 1000" preserveAspectRatio="none meet">
+    <desc>voiced</desc>
+    <g>
+      <text>
+        <tspan>breathy voiced</tspan>
+      </text>
+      <text>
+        <tspan>slack voiced</tspan>
+      </text>
+      <text>
+        <tspan>voiced</tspan>
+      </text>
+      <text>
+        <tspan>stiff voiced</tspan>
+      </text>
+      <text>
+        <tspan>creaky voiced</tspan>
+      </text>
+      <path class="less" d="M 0,0
+L 1600,0">
+        <desc>volume velocity baseline</desc>
+      </path>
+    </g>
+  <g class="break">
+    <text>
+      <tspan>breathy voiced</tspan>
+    </text>
+    <path d="M 0,-100
+L 325,-450
+L 450,-100
+L 800,-100
+L 1125,-450
+L 1250,-100
+L 1600,-100">
+      <desc>volume velocity for two voicing periods</desc>
+    </path>
+  </g>
+  <g class="break">
+    <text>
+      <tspan>slack voiced</tspan>
+    </text>
+    <path d="M 0,-50
+L 25,-50
+L 320,-400
+L 450,-50
+L 925,-50
+L 1120,-400
+L 1250,-50
+L 1600,-50">
+      <desc>volume velocity for two voicing periods</desc>
+    </path>
+  </g>
+  <g class="break">
+      <text>
+        <tspan>voiced</tspan>
+      </text>
+      <path d="M 0,0
+L 50,0
+L 315,-350
+L 440,0
+L 850,0
+L 1115,-350
+L 1240,0
+L 1600,0">
+        <desc>volume velocity for two voicing periods</desc>
+      </path>
+    </g>
+    <g class="break">
+    <text>
+      <tspan>stiff voiced</tspan>
+    </text>
+    <path d="M 0,0
+L 40,0
+L 225,-200
+L 300,0
+L 840,0
+L 1025,-200
+L 1100,0
+L 1600,0">
+      <desc>volume velocity for two voicing periods</desc>
+    </path>
+  </g>
+  <g class="break">
+    <text>
+      <tspan>creaky voiced</tspan>
+    </text>
+    <path d="M 0,0
+L 30,0
+L 150,-150
+L 190,0
+L 830,0
+L 950,-150
+L 990,0
+L 1600,0">
+      <desc>volume velocity for two voicing periods</desc>
+    </path>
+  </g>
+  </svg>
+  <svg class="switch" x="660" y="1325" width="160" height="160" viewBox="0 -500 1600 1000" preserveAspectRatio="none meet">
+    <g class="break">
+      <text>
+        <tspan>glottalized</tspan>
+      </text>
+      <path d="M 100,50
+l 200,0
+m 200,0
+l 200,0
+m 200,0
+l 200,0
+m 200,0
+l 200,0">
+        <desc>vocal folds</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>preglottalized</tspan>
+      </text>
+      <path d="M 100,150
+l 200,0
+m 200,0
+l 200,0
+m 200,0
+l 200,0
+m 200,0
+l 200,0">
+        <desc>vocal folds</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch" x="660" y="1325" width="160" height="160" viewBox="0 -500 1600 1000" preserveAspectRatio="none meet">
+    <text>
+      <tspan>voiceless</tspan>
+    </text>
+    <g class="break">
+      <text>
+        <tspan>glottal</tspan>
+        <tspan>plosive</tspan>
+      </text>
+      <text>
+        <tspan>ejective</tspan>
+      </text>
+      <text>
+        <tspan>implosive</tspan>
+      </text>
+      <path d="M 0,100
+l 1600,0">
+        <desc>vocal folds closed</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>aspirated</tspan>
+      </text>
+      <path d="M 0,50
+l 400,0
+m 800,0
+l 400,0">
+        <desc>vocal folds more open</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>preaspirated</tspan>
+      </text>
+      <path d="M 0,150
+l 400,0
+m 800,0
+l 400,0">
+        <desc>vocal folds more open</desc>
+      </path>
+    </g>
+    <g>
+      <path d="M 0,100
+l 500,0
+m 600,0
+l 500,0">
+        <desc>vocal folds open</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch" x="870" y="1325" width="80" height="80" viewBox="0 -20 30 30">
+    <g class="break">
+      <text>
+        <tspan>extra high tone</tspan>
+      </text>
+      <path d="M 0,5
+l 10,-10
+m 0,10
+l 10,-10">
+        <desc>tone accent which corresponds to U+030B</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>high rising tone</tspan>
+      </text>
+      <path d="M 0,5
+l 10,0
+l 10,-10">
+        <desc>tone accent which corresponds to U+1DC4</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>high tone</tspan>
+      </text>
+      <path d="M 0,5
+l 10,-10">
+        <desc>tone accent which corresponds to U+0301</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>high falling tone</tspan>
+      </text>
+      <path d="M 0,5
+l 10,-10
+l 10,0">
+        <desc>tone accent which corresponds to U+1DC7</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>falling tone</tspan>
+      </text>
+      <path d="M 0,5
+l 10,-10
+l 10,10">
+        <desc>tone accent which corresponds to U+0302</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>falling-rising tone</tspan>
+      </text>
+      <path d="M 0,5
+l 10,-10
+l 10,10
+l 10,-10">
+        <desc>tone accent which corresponds to U+1DC9</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>mid tone</tspan>
+      </text>
+      <path d="M 0,0
+l 20,0">
+        <desc>tone accent which corresponds to U+0304</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>rising tone</tspan>
+      </text>
+      <path d="M 0,-5
+l 10,10
+l 10,-10">
+        <desc>tone accent which corresponds to U+030C</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>rising-falling tone</tspan>
+      </text>
+      <path d="M 0,-5
+l 10,10
+l 10,-10
+l 10,10">
+        <desc>tone accent which corresponds to U+1DC8</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>low rising tone</tspan>
+      </text>
+      <path d="M 0,-5
+l 10,10
+l 10,0">
+        <desc>tone accent which corresponds to U+1DC5</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>low tone</tspan>
+      </text>
+      <path d="M 0,-5
+l 10,10">
+        <desc>tone accent which corresponds to U+0300</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>low falling tone</tspan>
+      </text>
+      <path d="M 0,-5
+l 10,0
+l 10,10">
+        <desc>tone accent which corresponds to U+1DC6</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>extra low tone</tspan>
+      </text>
+      <path d="M 0,-5
+l 10,10
+m 0,-10
+l 10,10">
+        <desc>tone accent which corresponds to U+030F</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch" x="0" y="0" width="1000" height="1500" viewBox="0 0 1000 1500">
+    <g class="break">
+      <text>
+        <tspan>bilabial</tspan>
+      </text>
+      <text>
+        <tspan>labiodental</tspan>
+      </text>
+      <!-- for labialized labial segments, see the places of articulation -->
+    </g>
+    <g class="break">
+      <text>
+        <tspan>labialized</tspan>
+      </text>
+      <text>
+        <tspan>rounded</tspan>
+      </text>
+      <!-- lip protrusion with same closure as bilabial approximant -->
+      <path d="M 200,490
+C 195,510 160,550 190,550
+C 215,550 240,505 235,490">
+        <desc>lip upper</desc>
+      </path>
+      <path d="M 200,650
+C 190,625 170,580 190,580
+C 230,580 245,630 265,650">
+        <desc>lip lower</desc>
+      </path>
+    </g>
+    <g>
+      <!-- not labial -->
+      <path class="less" d="M 200,490
+C 195,510 180,540 210,540
+C 235,540 240,505 235,490">
+        <desc>lip upper</desc>
+      </path>
+      <path class="less" d="M 200,650
+C 190,625 190,590 210,590
+C 250,590 245,630 265,650">
+        <desc>lip lower</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch" x="0" y="0" width="1000" height="1500" viewBox="0 0 1000 1500">
+    <g class="break">
+      <text>
+        <tspan>dental</tspan>
+      </text>
+      <text>
+        <tspan>alveolar</tspan>
+      </text>
+      <text>
+        <tspan>postalveolar</tspan>
+      </text>
+      <text>
+        <tspan>retroflex</tspan>
+      </text>
+      <text>
+        <tspan>alveolo-palatal</tspan>
+      </text>
+      <text>
+        <tspan>palatal</tspan>
+      </text>
+      <text>
+        <tspan>palatalized</tspan>
+      </text>
+      <text>
+        <tspan>velar</tspan>
+      </text>
+      <text>
+        <tspan>velarized</tspan>
+      </text>
+      <text>
+        <tspan>uvular</tspan>
+      </text>
+      <text>
+        <tspan>vowel</tspan>
+      </text>
+    </g>
+    <g>
+      <!-- neither coronal nor (most) dorsal  -->
+      <path class="less" d="M 340,670
+C 370,675 415,680 405,640
+C 405,640 350,650 350,620">
+        <desc>tongue blade lower</desc>
+      </path>
+      <path class="less" d="M 350,620
+C 350,590 400,560 450,550">
+        <desc>tongue blade upper</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch" x="0" y="0" width="1000" height="1500" viewBox="0 0 1000 1500">
+    <g class="break">
+      <text>
+        <tspan>palatalized</tspan>
+        <tspan>bilabial</tspan>
+      </text>
+      <text>
+        <tspan>palatalized</tspan>
+        <tspan>labiodental</tspan>
+      </text>
+      <!-- same paths as palatal approximant -->
+      <path class="less" d="M 340,670
+C 370,675 415,680 405,640
+S 315,630 315,600
+S 375,480 450,450">
+        <desc>tongue blade</desc>
+      </path>
+      <path d="M 450,450
+C 475,440 491,432 515,435
+C 666,443 873,617 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>velarized</tspan>
+        <tspan>bilabial</tspan>
+      </text>
+      <text>
+        <tspan>velarized</tspan>
+        <tspan>labiodental</tspan>
+      </text>
+      <!-- same paths as velar approximant -->
+      <path class="less" d="M 340,670
+C 365,680 415,680 405,640
+S 315,630 315,600
+S 400,530 450,515">
+        <desc>tongue blade</desc>
+      </path>
+      <path d="M 450,515
+C 535,495 680,470 750,460
+C 850,450 835,710 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>dental</tspan>
+      </text>
+      <text>
+        <tspan>alveolar</tspan>
+      </text>
+      <text>
+        <tspan>postalveolar</tspan>
+      </text>
+      <text>
+        <tspan>retroflex</tspan>
+      </text>
+      <text>
+        <tspan>alveolo-palatal</tspan>
+      </text>
+      <text>
+        <tspan>palatal</tspan>
+      </text>
+      <text>
+        <tspan>palatalized</tspan>
+      </text>
+      <text>
+        <tspan>velar</tspan>
+      </text>
+      <text>
+        <tspan>velarized</tspan>
+      </text>
+      <text>
+        <tspan>uvular</tspan>
+      </text>
+      <text>
+        <tspan>pharyngeal</tspan>
+      </text>
+      <text>
+        <tspan>pharyngealized</tspan>
+      </text>
+      <text>
+        <tspan>epiglottal</tspan>
+      </text>
+      <text>
+        <tspan>vowel</tspan>
+      </text>
+    </g>
+    <g>
+      <!-- neither coronal nor dorsal nor radical -->
+      <path class="less" d="M 450,550
+C 560,520 685,522 750,555
+C 835,575 845,685 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch" x="0" y="0" width="1000" height="1500" viewBox="0 0 1000 1500">
+    <g class="break">
+      <text>
+        <tspan>pharyngealized</tspan>
+        <tspan>bilabial</tspan>
+      </text>
+      <text>
+        <tspan>pharyngealized</tspan>
+        <tspan>labiodental</tspan>
+      </text>
+      <!-- TO DO: higher than pharyngeal fricative -->
+      <path d="M 450,550
+C 525,520 900,600 920,650
+S 920,755 870,800">
+        <desc>tongue body</desc>
+      </path>
+      <path d="M 870,800
+C 820,845 720,955 745,970
+C 775,985 810,860 830,875
+S 790,990 780,1020
+C 765,1040 740,1100 725,1125">
+        <desc>tongue root</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>pharyngeal</tspan>
+      </text>
+      <text>
+        <tspan>pharyngealized</tspan>
+      </text>
+      <text>
+        <tspan>epiglottal</tspan>
+      </text>
+      <text>
+        <tspan>advanced tongue root</tspan>
+      </text>
+      <text>
+        <tspan>retracted tongue root</tspan>
+      </text>
+      <!-- see places of articulation and vowel -->
+    </g>
+    <g>
+      <!-- neutral shape for segments which are not radical -->
+      <path class="less" d="M 800,800
+C 790,840 720,955 745,970
+C 775,985 810,860 830,875
+S 790,990 780,1020
+C 765,1040 740,1100 725,1125">
+        <desc>tongue root</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch">
+    <text>
+      <tspan>bilabial</tspan>
+    </text>
+    <g>
+      <text>
+        <tspan>approximant</tspan>
+      </text>
+      <path d="M 200,490
+C 195,510 180,550 210,550
+C 235,550 240,505 235,490">
+        <desc>lip upper</desc>
+      </path>
+      <path d="M 200,650
+C 190,625 190,580 210,580
+C 250,580 245,630 265,650">
+        <desc>lip lower</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>affricate</tspan>
+        <tspan>labialized</tspan>
+      </text>
+      <text>
+        <tspan>fricative</tspan>
+        <tspan>labialized</tspan>
+      </text>
+      <path d="M 200,490
+C 195,510 160,560 190,560
+C 215,560 240,505 235,490">
+        <desc>lip upper</desc>
+      </path>
+      <path d="M 200,650
+C 195,625 170,570 190,570
+C 230,570 245,630 265,650">
+        <desc>lip lower</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>plosive</tspan>
+        <tspan>labialized</tspan>
+      </text>
+      <text class="contour">
+        <tspan>affricate</tspan>
+        <tspan>labialized</tspan>
+      </text>
+      <text>
+        <tspan>nasal</tspan>
+        <tspan>labialized</tspan>
+      </text>
+      <path d="M 200,490
+C 195,510 160,570 190,570
+C 215,570 240,505 235,490">
+        <desc>lip upper</desc>
+      </path>
+      <path d="M 200,650
+C 190,625 170,570 190,570
+C 230,570 245,630 265,650">
+        <desc>lip lower</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>affricate</tspan>
+      </text>
+      <text>
+        <tspan>fricative</tspan>
+      </text>
+      <path d="M 200,490
+C 195,510 180,560 210,560
+C 235,560 240,505 235,490">
+        <desc>lip upper</desc>
+      </path>
+      <path d="M 200,650
+C 195,625 190,570 210,570
+C 250,570 245,630 265,650">
+        <desc>lip lower</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>trill</tspan>
+      </text>
+      <path class="contour" d="M 200,490
+C 195,510 160,560 190,560">
+        <desc>lip upper</desc>
+      </path>
+      <path class="contour" d="M 200,650
+C 195,625 170,570 190,570">
+        <desc>lip lower</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>implosive</tspan>
+      </text>
+      <text>
+        <tspan>plosive</tspan>
+      </text>
+      <text>
+        <tspan>click</tspan>
+      </text>
+      <text class="contour">
+        <tspan>affricate</tspan>
+      </text>
+      <text>
+        <tspan>nasal</tspan>
+      </text>
+      <text>
+        <tspan>trill</tspan>
+      </text>
+      <path d="M 200,490
+C 195,510 180,570 210,570
+C 235,570 240,505 235,490">
+        <desc>lip upper</desc>
+      </path>
+      <path d="M 200,650
+C 190,625 190,570 210,570
+C 250,570 245,630 265,650">
+        <desc>lip lower</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch">
+    <text>
+      <tspan>labiodental</tspan>
+    </text>
+    <g class="break">
+      <text>
+        <tspan>labialized</tspan>
+      </text>
+      <!-- same lip upper as for bilabial fricative, labialized -->
+      <path d="M 200,490
+C 195,510 160,560 190,560
+C 215,560 240,505 235,490">
+        <desc>lip upper</desc>
+      </path>
+    </g>
+    <g>
+      <!-- same path as for not labial -->
+      <path class="less" d="M 200,490
+C 195,510 180,540 210,540
+C 235,540 240,505 235,490">
+        <desc>lip upper</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch">
+    <text>
+      <tspan>labiodental</tspan>
+    </text>
+    <g>
+      <text>
+        <tspan>approximant</tspan>
+      </text>
+      <path d="M 200,650
+C 190,625 220,570 240,570
+C 280,570 245,630 265,650">
+        <desc>lip lower</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>flap</tspan>
+      </text>
+      <path class="contour" d="M 270,550
+C 310,550 245,630 265,650">
+        <desc>lip lower</desc>
+      </path>
+      <path d="M 200,650
+C 190,625 230,540 250,540
+C 290,540 245,630 265,650">
+        <desc>lip lower</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>affricate</tspan>
+      </text>
+      <text>
+        <tspan>fricative</tspan>
+      </text>
+      <path d="M 200,650
+C 190,625 220,550 240,550
+C 280,550 245,630 265,650">
+        <desc>lip lower</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>plosive</tspan>
+      </text>
+      <text class="contour">
+        <tspan>affricate</tspan>
+      </text>
+      <text>
+        <tspan>nasal</tspan>
+      </text>
+      <path d="M 200,650
+C 190,625 220,540 240,540
+C 280,540 245,630 265,650">
+        <desc>lip lower</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch">
+    <text>
+      <tspan>inderdental</tspan>
+    </text>
+    <g>
+      <text>
+        <tspan>fricative</tspan>
+      </text>
+      <path d="M 340,670
+C 370,675 405,685 405,665
+S 230,585 235,565
+S 400,565 450,570">
+        <desc>tongue blade</desc>
+      </path>
+      <path class="less" d="M 450,570
+C 500,575 700,610 750,645
+S 830,680 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch">
+    <text>
+      <tspan>dental</tspan>
+    </text>
+    <g>
+      <text>
+        <tspan>affricate</tspan>
+      </text>
+      <text>
+        <tspan>fricative</tspan>
+      </text>
+      <path d="M 340,670
+C 370,675 405,675 405,655
+S 260,540 270,520
+S 350,505 450,520">
+        <desc>tongue blade</desc>
+      </path>
+      <path class="less" d="M 450,520
+C 550,535 700,550 750,580
+S 830,680 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>implosive</tspan>
+      </text>
+      <text>
+        <tspan>plosive</tspan>
+      </text>
+      <text>
+        <tspan>click</tspan>
+      </text>
+      <text class="contour">
+        <tspan>affricate</tspan>
+      </text>
+      <text>
+        <tspan>nasal</tspan>
+      </text>
+      <path d="M 340,670
+C 370,675 405,675 405,655
+S 260,520 270,500
+S 350,485 450,500">
+        <desc>tongue blade</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>click</tspan>
+      </text>
+      <!-- same as alveolar click -->
+      <path d="M 450,500
+C 550,515 650,360 750,375
+S 850,600 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>implosive</tspan>
+      </text>
+      <text>
+        <tspan>plosive</tspan>
+      </text>
+      <text class="contour">
+        <tspan>affricate</tspan>
+      </text>
+      <text>
+        <tspan>nasal</tspan>
+      </text>
+      <path class="less" d="M 450,500
+C 550,515 700,550 750,580
+S 830,680 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch">
+    <text>
+      <tspan>alveolar</tspan>
+    </text>
+    <g class="break">
+      <text>
+        <tspan>lateral</tspan>
+        <tspan>approximant</tspan>
+      </text>
+      <path d="M 340,670
+C 370,675 405,675 405,655
+S 290,505 300,485
+S 400,510 450,520">
+        <desc>tongue blade</desc>
+      </path>
+      <path class="less" d="M 450,520
+C 500,530 650,520 750,600
+C 800,640 830,680 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>lateral</tspan>
+        <tspan>fricative</tspan>
+      </text>
+      <path d="M 340,670
+C 370,675 405,675 405,655
+S 290,505 300,485
+S 400,500 450,510">
+        <desc>tongue blade</desc>
+      </path>
+      <path class="less" d="M 450,510
+C 500,520 650,520 750,600
+C 800,640 830,680 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>approximant</tspan>
+      </text>
+      <path d="M 340,670
+C 370,675 405,675 405,655
+C 405,605 390,590 365,565
+S 325,545 325,525
+S 400,470 450,450">
+        <desc>tongue blade</desc>
+      </path>
+      <path class="less" d="M 450,450
+C 475,440 500,435 525,435
+C 650,435 840,640 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>tap</tspan>
+      </text>
+      <!-- TO DO: transition? -->
+    </g>
+    <g>
+      <text>
+        <tspan>flap</tspan>
+      </text>
+      <!-- TO DO: transition? -->
+    </g>
+    <g>
+      <text>
+        <tspan>affricate</tspan>
+      </text>
+      <text>
+        <tspan>fricative</tspan>
+      </text>
+      <path d="M 340,670
+C 370,675 405,675 405,655
+S 290,525 300,505
+S 350,500 450,520">
+        <desc>tongue blade</desc>
+      </path>
+      <path class="less" d="M 450,520
+C 550,540 700,560 750,600
+S 830,680 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>click</tspan>
+      </text>
+      <!-- same as dental click -->
+      <path d="M 450,500
+C 550,515 650,360 750,375
+S 850,600 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>implosive</tspan>
+      </text>
+      <text>
+        <tspan>plosive</tspan>
+      </text>
+      <text class="contour">
+        <tspan>affricate</tspan>
+      </text>
+      <text>
+        <tspan>nasal</tspan>
+      </text>
+      <path class="less" d="M 450,500
+C 550,520 700,560 750,600
+S 830,680 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>implosive</tspan>
+      </text>
+      <text>
+        <tspan>plosive</tspan>
+      </text>
+      <text>
+        <tspan>click</tspan>
+      </text>
+      <text class="contour">
+        <tspan>affricate</tspan>
+      </text>
+      <text>
+        <tspan>nasal</tspan>
+      </text>
+      <path d="M 340,670
+C 370,675 405,675 405,655
+S 290,505 300,485
+S 350,480 450,500">
+        <desc>tongue blade</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch">
+    <text>
+      <tspan>postalveolar</tspan>
+    </text>
+    <g class="break">
+      <text>
+        <tspan>fricative</tspan>
+        <tspan>velar</tspan>
+      </text>
+    </g>
+    <g>
+      <text>
+        <tspan>affricate</tspan>
+      </text>
+      <text>
+        <tspan>fricative</tspan>
+      </text>
+      <path d="M 340,670
+C 400,680 405,650 405,620
+S 390,540 360,540
+S 320,555 310,540
+S 350,415 450,435">
+        <desc>tongue blade</desc>
+      </path>
+      <path class="less" d="M 450,435
+C 550,455 700,525 750,575
+S 830,680 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>implosive</tspan>
+      </text>
+      <text>
+        <tspan>plosive</tspan>
+      </text>
+      <text>
+        <tspan>click</tspan>
+      </text>
+      <text class="contour">
+        <tspan>affricate</tspan>
+      </text>
+      <text>
+        <tspan>nasal</tspan>
+      </text>
+      <path d="M 340,670
+C 400,680 405,650 405,620
+S 390,520 360,520
+S 320,535 310,520
+S 350,395 450,415">
+        <desc>tongue blade</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>click</tspan>
+      </text>
+      <path d="M 450,415
+C 550,435 650,360 750,380
+S 850,600 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>implosive</tspan>
+      </text>
+      <text>
+        <tspan>plosive</tspan>
+      </text>
+      <text class="contour">
+        <tspan>affricate</tspan>
+      </text>
+      <text>
+        <tspan>nasal</tspan>
+      </text>
+      <path class="less" d="M 450,415
+C 550,435 700,525 750,575
+S 830,680 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch">
+    <text>
+      <tspan>retroflex</tspan>
+    </text>
+    <g class="break">
+      <text>
+        <tspan>lateral</tspan>
+        <tspan>approximant</tspan>
+      </text>
+      <path d="M 340,670
+C 370,675 395,680 395,650
+S 370,620 340,600
+S 320,450 340,450
+S 400,570 450,570">
+        <desc>tongue blade</desc>
+      </path>
+      <path class="less" d="M 450,570
+C 500,570 600,520 700,540
+S 850,600 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>approximant</tspan>
+      </text>
+      <path d="M 340,670
+C 370,675 410,690 410,660
+S 400,640 370,620
+S 355,475 375,475
+S 400,575 450,575">
+        <desc>tongue blade</desc>
+      </path>
+      <path class="less" d="M 450,575
+C 500,575 600,520 700,540
+S 850,600 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>flap</tspan>
+      </text>
+      <!-- TO DO: transition? -->
+    </g>
+    <g>
+      <text>
+        <tspan>affricate</tspan>
+      </text>
+      <text>
+        <tspan>fricative</tspan>
+      </text>
+      <path d="M 340,670
+C 370,675 405,685 405,655
+S 390,630 360,610
+S 340,460 360,460
+S 375,560 450,560">
+        <desc>tongue blade</desc>
+      </path>
+      <path class="less" d="M 450,560
+C 525,560 600,520 700,540
+S 850,600 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>plosive</tspan>
+      </text>
+      <text class="contour">
+        <tspan>affricate</tspan>
+      </text>
+      <text>
+        <tspan>nasal</tspan>
+      </text>
+      <path d="M 340,670
+C 370,675 395,680 395,650
+S 370,620 340,600
+S 320,450 340,450
+S 375,550 450,550">
+        <desc>tongue blade</desc>
+      </path>
+      <path class="less" d="M 450,550
+C 525,550 600,520 700,540
+S 850,600 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch">
+    <text>
+      <tspan>palatal</tspan>
+    </text>
+    <g>
+      <path class="less" d="M 340,670
+C 370,675 415,680 405,640
+S 315,630 315,600">
+        <desc>tongue blade lower</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>approximant</tspan>
+      </text>
+      <path class="less" d="M 315,600
+C 315,570 375,480 450,450">
+        <desc>tongue blade upper</desc>
+      </path>
+      <path d="M 450,450
+C 475,440 500,435 525,435
+C 685,435 840,640 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>affricate</tspan>
+      </text>
+      <text>
+        <tspan>fricative</tspan>
+      </text>
+      <path class="less" d="M 315,600
+C 315,570 425,440 450,420">
+        <desc>tongue blade upper</desc>
+      </path>
+      <path d="M 450,420
+C 475,400 500,390 550,375
+C 650,345 850,600 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>implosive</tspan>
+      </text>
+      <text>
+        <tspan>plosive</tspan>
+      </text>
+      <text class="contour">
+        <tspan>affricate</tspan>
+      </text>
+      <text>
+        <tspan>nasal</tspan>
+      </text>
+      <path class="less" d="M 315,600
+C 315,570 425,425 450,405">
+        <desc>tongue blade upper</desc>
+      </path>
+      <path d="M 450,405
+C 475,385 500,375 550,360
+C 650,330 850,600 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch">
+    <text>
+      <tspan>velar</tspan>
+    </text>
+    <g>
+      <text>
+        <tspan>approximant</tspan>
+      </text>
+      <path class="less" d="M 340,670
+C 365,680 415,680 405,640
+S 315,630 315,600
+S 400,530 450,515">
+        <desc>tongue blade</desc>
+      </path>
+      <path d="M 450,515
+C 500,500 650,480 750,460
+S 830,680 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>fricative</tspan>
+        <tspan>postalveolar</tspan>
+      </text>
+    </g>
+    <g>
+      <text>
+        <tspan>affricate</tspan>
+      </text>
+      <text>
+        <tspan>fricative</tspan>
+      </text>
+      <path class="less" d="M 340,670
+C 365,680 415,680 405,640
+C 400,620 330,630 330,600
+S 400,545 450,520">
+        <desc>tongue blade</desc>
+      </path>
+      <path d="M 450,520
+C 490,495 705,382 780,400
+C 872,392 843,718 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>implosive</tspan>
+      </text>
+      <text>
+        <tspan>plosive</tspan>
+      </text>
+      <text>
+        <tspan>click</tspan>
+        <tspan>bilabial</tspan>
+      </text>
+      <text class="contour">
+        <tspan>affricate</tspan>
+      </text>
+      <text>
+        <tspan>nasal</tspan>
+      </text>
+      <path class="less" d="M 340,670
+C 365,680 415,680 405,640
+C 400,620 335,630 335,600
+S 400,545 450,515">
+        <desc>tongue blade</desc>
+      </path>
+      <path d="M 450,515
+C 490,490 710,350 780,380
+C 865,395 843,718 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch">
+    <text>
+      <tspan>uvular</tspan>
+    </text>
+    <g>
+      <path class="less" d="M 340,670
+C 365,680 415,680 405,640
+C 400,620 350,630 350,610
+S 400,570 450,550">
+        <desc>tongue blade</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>trill</tspan>
+      </text>
+      <!-- TO DO: contour -->
+    </g>
+    <g>
+      <text>
+        <tspan>affricate</tspan>
+      </text>
+      <text>
+        <tspan>fricative</tspan>
+      </text>
+      <path d="M 450,550
+C 500,530 880,430 900,510
+S 810,760 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>implosive</tspan>
+      </text>
+      <text>
+        <tspan>plosive</tspan>
+      </text>
+      <text class="contour">
+        <tspan>affricate</tspan>
+      </text>
+      <path d="M 450,550
+C 500,530 900,430 920,510
+S 810,760 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>nasal</tspan>
+      </text>
+      <path d="M 450,550
+C 500,530 845,430 865,510
+S 810,760 800,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch">
+    <text>
+      <tspan>pharyngeal</tspan>
+    </text>
+    <g>
+      <text>
+        <tspan>fricative</tspan>
+      </text>
+      <path d="M 450,550
+C 597,480 825,545 910,650
+C 930,675 960,715 950,800">
+        <desc>tongue body</desc>
+      </path>
+      <path d="M 950,800
+C 950,840 840,960 860,960
+C 875,975 915,870 930,885
+C 940,905 880,1030 830,1050
+C 800,1055 730,1100 725,1125">
+        <desc>tongue root</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch">
+    <text>
+      <tspan>epiglottal</tspan>
+    </text>
+    <g>
+      <text>
+        <tspan>fricative</tspan>
+      </text>
+      <path d="M 900,800
+C 905,830 865,960 885,970
+C 905,975 935,880 950,890
+C 965,905 915,1020 900,1025
+C 860,1065 730,1100 725,1125">
+        <desc>tongue root</desc>
+      </path>
+    </g>
+    <g>
+      <text>
+        <tspan>plosive</tspan>
+      </text>
+    </g>
+    <g>
+      <path class="less" d="M 450,550
+C 610,495 775,525 875,650
+C 895,690 900,715 900,800">
+        <desc>tongue body</desc>
+      </path>
+    </g>
+  </svg>
+  <svg class="switch" x="0" y="0" width="1000" height="1500" viewBox="0 0 1000 1500">
+    <text>
+      <tspan>vowel</tspan>
+    </text>
+    <g>
+      <path class="less" d="M 340,670
+C 365,680 415,680 405,640
+S 315,630 315,600">
+        <desc>tongue blade lower</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>advanced tongue root</tspan>
+      </text>
+      <path class="indeterminate" d="M 315,600
+C 315,570 375,480 450,450
+C 580,395 845,415 825,650
+C 815,700 820,710 745,800
+C 765,770 775,670 755,650
+C 730,555 510,525 450,530
+C 410,535 367,538 310,600">
+        <desc>tongue blade upper and tongue body</desc>
+      </path>
+      <path d="M 745,800
+C 725,835 675,925 700,935
+C 750,950 770,825 795,835
+C 810,860 745,975 750,1000
+C 735,1025 730,1110 725,1125">
+        <desc>tongue root</desc>
+      </path>
+    </g>
+    <g class="break">
+      <text>
+        <tspan>retracted tongue root</tspan>
+      </text>
+      <path class="indeterminate" d="M 315,600
+C 315,570 375,480 450,450
+C 580,395 890,420 890,650
+C 885,700 890,695 850,800
+C 850,770 840,670 820,650
+C 780,560 510,525 450,530
+C 410,535 367,538 310,600">
+        <desc>tongue blade upper and tongue body</desc>
+      </path>
+      <path d="M 850,800
+C 840,845 765,965 800,970
+C 835,965 860,860 885,870
+C 900,900 830,1015 820,1025
+C 805,1050 730,1110 725,1125">
+        <desc>tongue root</desc>
+      </path>
+    </g>
+    <g>
+      <!-- vowel default -->
+      <path class="indeterminate" d="M 315,600
+C 315,570 375,480 450,450
+C 580,395 900,415 880,650
+C 870,700 875,710 800,800
+C 820,770 830,670 810,650
+C 785,555 510,525 450,530
+C 410,535 367,538 310,600">
+        <desc>tongue blade upper and tongue body</desc>
+      </path>
+    </g>
+  </svg>
+</svg>

@@ -4,7 +4,7 @@ xmlns:svg="http://www.w3.org/2000/svg"
 exclude-result-prefixes="xhtml svg"
 >
 
-  <!-- phonology_export_view_to_XHTML.xsl 2011-11-04 -->
+  <!-- phonology_export_view_to_XHTML.xsl 2012-03-14 -->
   <!-- Converts any exported view to XHTML. -->
 
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" omit-xml-declaration="yes" indent="yes" />
@@ -57,7 +57,8 @@ exclude-result-prefixes="xhtml svg"
 	<xsl:param name="jqueryScriptFile" select="'jquery.js'" />
 	<xsl:param name="jqueryuiScriptFile" select="'jquery-ui.js'" />
 	<xsl:param name="phonologyScriptFile" select="'phonology.js'" />
-	<xsl:param name="phonologyScriptFileQuadrilateralIE6" select="'phonology_quadrilateral_IE6.js'" />
+  <xsl:param name="phonologyQueryScriptFile" select="'phonquery.js'" />
+  <xsl:param name="phonologyScriptFileQuadrilateralIE6" select="'phonology_quadrilateral_IE6.js'" />
 	<xsl:param name="phonologyScriptFileQuadrilateral" select="'phonology_quadrilateral_interactive.js'" />
 
 	<xsl:variable name="numberOfMonophthongs" select="count(//xhtml:div[starts-with(@class, 'quadrilateral')]//svg:g[@class = 'data']/svg:g[@class = 'monophthong'])" />
@@ -436,7 +437,12 @@ exclude-result-prefixes="xhtml svg"
 							<script type="text/javascript" src="{concat($genericRelativePath, $jqueryuiScriptFile)}">
 								<xsl:value-of select="'&#xA;'" />
 							</script>
-							<script type="text/javascript" src="{concat($genericRelativePath, $phonologyScriptFile)}">
+              <xsl:if test="$view = 'Consonants' or $view = 'Vowels' or $view = 'Segments'">
+                <script type="text/javascript" src="{concat($genericRelativePath, $phonologyQueryScriptFile)}">
+                  <xsl:value-of select="'&#xA;'" />
+                </script>
+              </xsl:if>
+              <script type="text/javascript" src="{concat($genericRelativePath, $phonologyScriptFile)}">
 								<xsl:value-of select="'&#xA;'" />
 							</script>
 							<xsl:comment>

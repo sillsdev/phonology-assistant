@@ -3,7 +3,7 @@ xmlns:xhtml="http://www.w3.org/1999/xhtml"
 exclude-result-prefixes="xhtml"
 >
 
-  <!-- phonology_export_view_CV_chart_1.xsl 2011-11-03 -->
+  <!-- phonology_export_view_CV_chart_1.xsl 2012-03-14 -->
 	<!-- Append language name to title. Add heading. Simplify title and heading text. -->
 	<!-- Append consonant or vowel to class attribute of CV chart table. -->
 	<!-- In several column heading cells, optionally insert line breaks. -->
@@ -119,8 +119,8 @@ exclude-result-prefixes="xhtml"
 			<xsl:variable name="following" select="following-sibling::*[1][self::xhtml:table][starts-with(@class, 'CV chart')][xhtml:tbody]" />
 			<xsl:choose>
 				<xsl:when test="$following">
-					<div class="CV_features">
-						<div class="CV2">
+					<div class="side_by_side">
+						<div class="stacked">
 							<xsl:copy>
 								<xsl:apply-templates select="@* | node()" />
 							</xsl:copy>

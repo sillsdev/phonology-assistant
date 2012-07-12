@@ -1,4 +1,4 @@
-﻿/* phonology_IE8.css 2011-07-04 */
+﻿/* phonology_IE8.css 2012-01-29 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 /* Here are the exceptions for Internet Explorer 8 or earlier. */
 
@@ -7,4 +7,16 @@
 th.rotate span
 {
 writing-mode: tb-rl; /* IE 5 or later */
+}
+
+/* Collapsible column groups in distribution charts ------------------------- */
+
+/* Because adding the class to the colgroup element */
+/* does not cause the following CSS rule to take effect. */
+/* table.collapsible colgroup.collapsed_by_visibility col { ... } */
+
+/* JavaScript must add the class to col elements: */
+table.collapsible col.collapsed_by_visibility
+{
+visibility: collapse;
 }

@@ -1,6 +1,8 @@
-﻿/* phonology_IE7.css 2011-07-01 */
+﻿/* phonology_IE7.css 2012-03-14 */
 /* Generic formatting for XHTML files exported from Phonology Assistant. */
 /* Here are the exceptions for Internet Explorer 7. */
+
+/* Layout =================================================================== */
 
 /* Sometimes needed for :hover formatting and click across full width. */
 /* Not needed in pages containing CV charts, perhaps because they are float? */
@@ -17,9 +19,25 @@ width: 100%;
 
 /* Because IE7 collapses margin-bottom of table contained in first div. */
 
-div.CV_features + div.CV_features
+div.stacked div.side_by_side + div.side_by_side
 {
 margin-top: 1em; /* 16px */
+}
+
+/* Collapsible row groups --------------------------------------------------- */
+
+table.collapsed tbody.collapsible tr.uncollapsible,
+table.collapsible tbody.collapsed tr.uncollapsible
+{
+display: block; /* IE7 does not support display: table-row */
+}
+
+/* Collapsible column groups ------------------------------------------------ */
+
+table.collapsed_by_display colgroup.collapsible col.uncollapsible,
+table.collapsible colgroup.collapsed_by_display col.uncollapsible
+{
+display: block; /* IE7 does not support display: table-column */
 }
 
 /* Borders ------------------------------------------------------------------ */
@@ -36,13 +54,4 @@ table.features tbody tr:first-child td.name
 {
 border-top-style: solid;
 border-color: #999999; /* border */
-}
-
-/* When environment tabs precede a consonant or vowel chart, */
-/* make up for lack of borders for tbody and colgroup. */
-
-ul.environments + table.CV
-{
-border-right-style: solid;
-border-bottom-style: solid;
 }

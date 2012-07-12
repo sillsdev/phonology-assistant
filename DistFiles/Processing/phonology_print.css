@@ -1,4 +1,4 @@
-﻿/* phonology_print.css 2011-10-15 */
+﻿/* phonology_print.css 2012-05-21 */
 /* Print formatting for XHTML files exported from Phonology Assistant. */
 
 /* Typography =============================================================== */
@@ -47,6 +47,17 @@ table.CV,
 table.features
 {
 page-break-inside: avoid;
+}
+
+div.section > h3 /* IE7 or later */
+{
+page-break-before: always;
+}
+
+table.details + div.section > h3,
+div.section.collapsed > h3
+{
+page-break-before: auto;
 }
 
 /* Interactive ============================================================== */
