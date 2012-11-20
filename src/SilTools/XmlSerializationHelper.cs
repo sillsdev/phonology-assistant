@@ -221,7 +221,8 @@ namespace SilTools
 
 			try
 			{
-				using (TextWriter writer = new StreamWriter(filename))
+				var tempFile = filename + ".tmp";
+				using (TextWriter writer = new StreamWriter(tempFile))
 				{
 					XmlSerializerNamespaces nameSpace = new XmlSerializerNamespaces();
 					nameSpace.Add(string.Empty, string.Empty);
@@ -240,6 +241,13 @@ namespace SilTools
 					serializer.Serialize(writer, data, nameSpace);
 					writer.Close();
 				}
+
+				var bakFile = filename + ".bak";
+				if (File.Exists(bakFile))
+					File.Delete(bakFile);
+				if (File.Exists(filename))
+					File.Move(filename, bakFile);
+				File.Move(tempFile, filename);
 
 				//var xe = XElement.Load(filename);
 				//xe.SetAttributeValue("version", "2.0");
