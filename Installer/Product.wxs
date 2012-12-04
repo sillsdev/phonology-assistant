@@ -2,7 +2,7 @@
 <!-- These variables define the Windows Installer product version, product code and upgrade code. They   -->
 <!-- will be used later on in this file.                                                                 -->
 <!--<?define Property_ProductVersion = "BUILD_SCRIPT_MUST_REPLACE_AT_RUNTIME" ?> -->
-<?define Property_ProductVersion = "3.3.5" ?>
+<?define Property_ProductVersion = "3.4.5" ?>
 <!--this is replaced at build time by the msbuild 'package' target -->
 <?define Property_ProductCode = "*" ?>
 <!-- auto-generate a new guid each time -->
@@ -36,9 +36,9 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 		are trying to support, you're better off using non-advertised shortcuts. "
 		-->
 
-		<PropertyRef Id="NETFRAMEWORK35" />
-		<Condition Message="Before Phonology Assistant can install, you need to install Microsoft's free .NET Framework 3.5.">
-			Installed OR NETFRAMEWORK35
+		<PropertyRef Id="NETFRAMEWORK40FULL" />
+		<Condition Message="Before Phonology Assistant can install, you need to install Microsoft's free .NET Framework 4.0.">
+			Installed OR NETFRAMEWORK40FULL
 		</Condition>
 
 		<!--because of bug, this needs to be 1 -->
