@@ -3,58 +3,58 @@
     <Fragment>
         <DirectoryRef Id="APPLICATIONFOLDER">
             <Directory Id="Configuration" Name="Configuration">
-                <Component Id="CanIL_LING330.DistinctiveFeatures.xml" Guid="{3F0E1E71-0419-44A8-8271-E28983923E34}">
+                <Component Id="CanIL_LING330.DistinctiveFeatures.xml" Guid="{8C5AA07A-1C62-4EE3-80F0-059F51B40DB8}">
                     <File Id="CanIL_LING330.DistinctiveFeatures.xml" KeyPath="yes" Source="$(var.Configuration_Location)\CanIL LING330.DistinctiveFeatures.xml" />
                 </Component>
-                <Component Id="CVChartsTMDefinition.xml" Guid="{FCC6C4B6-F277-4055-AEC8-001FD70B6BA1}">
+                <Component Id="CVChartsTMDefinition.xml" Guid="{78FD023D-9DC4-481F-9D2A-9676AB49BC74}">
                     <File Id="CVChartsTMDefinition.xml" KeyPath="yes" Source="$(var.Configuration_Location)\CVChartsTMDefinition.xml" />
                 </Component>
-                <Component Id="DataCorpusTMDefinition.xml" Guid="{B5FBB152-2AEE-455B-AA5D-C9396E0A3528}">
+                <Component Id="DataCorpusTMDefinition.xml" Guid="{4CD6F114-9977-4954-BC98-14DD76559F22}">
                     <File Id="DataCorpusTMDefinition.xml" KeyPath="yes" Source="$(var.Configuration_Location)\DataCorpusTMDefinition.xml" />
                 </Component>
-                <Component Id="default.DiagramSagittal.svg" Guid="{201B4737-D86B-484E-BAC6-70AD3C1E8D39}">
+                <Component Id="default.DiagramSagittal.svg" Guid="{7FEAF466-5CFC-4654-AA36-FF0FC810FD63}">
                     <File Id="default.DiagramSagittal.svg" KeyPath="yes" Source="$(var.Configuration_Location)\default.DiagramSagittal.svg" />
                 </Component>
-                <Component Id="default.DistinctiveFeatures.xml" Guid="{808BC22C-3453-4FC6-8D9D-59369DCC7223}">
+                <Component Id="default.DistinctiveFeatures.xml" Guid="{12EBACB5-200F-4E2B-9565-4AA57A3C6E3D}">
                     <File Id="default.DistinctiveFeatures.xml" KeyPath="yes" Source="$(var.Configuration_Location)\default.DistinctiveFeatures.xml" />
                 </Component>
-                <Component Id="DefaultDistributionCharts.xml" Guid="{2FAE33E8-9214-45EA-A591-0427473F2210}">
+                <Component Id="DefaultDistributionCharts.xml" Guid="{87EF2F6E-CF3B-4C6C-8ACF-F977AC98F792}">
                     <File Id="DefaultDistributionCharts.xml" KeyPath="yes" Source="$(var.Configuration_Location)\DefaultDistributionCharts.xml" />
                 </Component>
-                <Component Id="DefaultFields.xml" Guid="{3CDE1178-6F01-4251-A46D-7F82C02DFCAD}">
+                <Component Id="DefaultFields.xml" Guid="{AF2D725B-4D64-489C-8B27-BB2987F7F613}">
                     <File Id="DefaultFields.xml" KeyPath="yes" Source="$(var.Configuration_Location)\DefaultFields.xml" />
                 </Component>
-                <Component Id="DefaultSearchClasses.xml" Guid="{D26981A7-F5A9-4E22-A361-3B94BA81F865}">
+                <Component Id="DefaultSearchClasses.xml" Guid="{E140DF68-455A-4941-A08E-93DE8BA65607}">
                     <File Id="DefaultSearchClasses.xml" KeyPath="yes" Source="$(var.Configuration_Location)\DefaultSearchClasses.xml" />
                 </Component>
-                <Component Id="DefaultSearchQueries.xml" Guid="{F082DFAF-6B36-4810-B50B-4D5558C07344}">
+                <Component Id="DefaultSearchQueries.xml" Guid="{6AF4DE6A-173D-4F39-A3E4-0463963883E1}">
                     <File Id="DefaultSearchQueries.xml" KeyPath="yes" Source="$(var.Configuration_Location)\DefaultSearchQueries.xml" />
                 </Component>
-                <Component Id="DistributionChartsTMDefinition.xml" Guid="{A8A3B761-E8FB-44DE-A09B-B651A6B433A8}">
+                <Component Id="DistributionChartsTMDefinition.xml" Guid="{99AB2307-73A5-4A61-B452-493ED1609AD9}">
                     <File Id="DistributionChartsTMDefinition.xml" KeyPath="yes" Source="$(var.Configuration_Location)\DistributionChartsTMDefinition.xml" />
                 </Component>
-                <Component Id="FwDBAccessInfo.xml" Guid="{7AE6F0D2-9DF2-4E86-92B4-7A239C516C71}">
+                <Component Id="FwDBAccessInfo.xml" Guid="{9552564A-01FA-4C14-90B2-32F9385FBD63}">
                     <File Id="FwDBAccessInfo.xml" KeyPath="yes" Source="$(var.Configuration_Location)\FwDBAccessInfo.xml" />
                 </Component>
-                <Component Id="FwSQLQueries.xml" Guid="{7A8F9E5A-E3D7-424B-B4F6-F8398CCDA8ED}">
+                <Component Id="FwSQLQueries.xml" Guid="{B20001D6-8AE9-4C60-8BC9-E00B52D6AD32}">
                     <File Id="FwSQLQueries.xml" KeyPath="yes" Source="$(var.Configuration_Location)\FwSQLQueries.xml" />
                 </Component>
-                <Component Id="FwSQLQueriesShortNames.xml" Guid="{F752E2CE-D1F7-4B1D-89EB-4F73D437FE8F}">
+                <Component Id="FwSQLQueriesShortNames.xml" Guid="{F0BE828F-0A7B-4211-A2E7-0A2CF3D0A6A4}">
                     <File Id="FwSQLQueriesShortNames.xml" KeyPath="yes" Source="$(var.Configuration_Location)\FwSQLQueriesShortNames.xml" />
                 </Component>
-                <Component Id="ISO_639.xml" Guid="{78DCF8E1-31CC-49D7-905A-3E17FFD09B72}">
+                <Component Id="ISO_639.xml" Guid="{A96FED5C-C5FE-4F53-A708-8D3EE4BEA682}">
                     <File Id="ISO_639.xml" KeyPath="yes" Source="$(var.Configuration_Location)\ISO_639.xml" />
                 </Component>
-                <Component Id="NormalizationExceptions.xml" Guid="{F6CD1527-5148-4BC4-A6D7-A4EA4E46A311}">
+                <Component Id="NormalizationExceptions.xml" Guid="{B182C787-C383-45F3-ABD1-A0F8F89AB4A6}">
                     <File Id="NormalizationExceptions.xml" KeyPath="yes" Source="$(var.Configuration_Location)\NormalizationExceptions.xml" />
                 </Component>
-                <Component Id="PaTMDefinition.xml" Guid="{3BF38BAC-1030-46AD-A994-901A8A5F44B5}">
+                <Component Id="PaTMDefinition.xml" Guid="{7A3C41F3-868D-4D4A-A214-F15A43B51AF3}">
                     <File Id="PaTMDefinition.xml" KeyPath="yes" Source="$(var.Configuration_Location)\PaTMDefinition.xml" />
                 </Component>
-                <Component Id="PhoneticInventory.xml" Guid="{1C22FC2A-2FB4-46EB-B20D-530AC72D3486}">
+                <Component Id="PhoneticInventory.xml" Guid="{36CC2557-1A7C-4114-B022-2A3225A0D38D}">
                     <File Id="PhoneticInventory.xml" KeyPath="yes" Source="$(var.Configuration_Location)\PhoneticInventory.xml" />
                 </Component>
-                <Component Id="SearchTMDefinition.xml" Guid="{13AA797B-CB60-49E0-B2CE-EFDA98CED1CF}">
+                <Component Id="SearchTMDefinition.xml" Guid="{3C1B89B8-DE5A-4ACD-86E2-4AA453E0023E}">
                     <File Id="SearchTMDefinition.xml" KeyPath="yes" Source="$(var.Configuration_Location)\SearchTMDefinition.xml" />
                 </Component>
             </Directory>
