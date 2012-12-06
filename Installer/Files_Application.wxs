@@ -55,6 +55,9 @@
 					<Component Id="Pa.pdb" Guid="{8C44B41B-2937-4A69-99FC-602DC89949D8}">
 						<File Id="Pa.pdb" KeyPath="yes" Source="..\output\release\Pa.pdb" />
 					</Component>
+					<Component Id="usp10.dll" Guid="{36D1C48C-CE7B-4883-8ECA-94F467ED54B8}">
+						<File Id="usp10.dll" KeyPath="yes" Source="..\Lib\usp10.dll" />
+					</Component>
 <!--
           <Component Id="PCIEditor.exe" Guid="{40801E28-D701-4857-873A-F045009DFBBC}">
 						<File Id="PCIEditor.exe" KeyPath="yes" Source="..\output\release\PCIEditor.exe" />
@@ -85,6 +88,7 @@
       <ComponentRef Id="Pa.exe" />
       <ComponentRef Id="Pa.exe.config" />
       <ComponentRef Id="Pa.pdb" />
+      <ComponentRef Id="usp10.dll" />
       <ComponentRef Id="DisablePASplashScreen.exe" />
       <ComponentRef Id="DisablePASplashScreen.pdb" />
       <ComponentRef Id="Ionic.Zip.dll" />
