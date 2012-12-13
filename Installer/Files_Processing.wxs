@@ -18,7 +18,10 @@
                 <Component Id="phonology.js" Guid="{5E0EEB40-74C9-46F7-ACD1-A6CA8F4B0B32}">
                     <File Id="phonology.js" KeyPath="yes" Source="$(var.Processing_Location)\phonology.js" />
                 </Component>
-                <Component Id="phonology_CSS3.css" Guid="{46395DA3-14A6-431B-B5E1-815E30054968}">
+				<Component Id="phonquery.js" Guid="{2D34F960-7E88-4FF3-A2BE-CA6BBA195707}">
+					<File Id="phonquery.js" KeyPath="yes" Source="$(var.Processing_Location)\phonquery.js" />
+				</Component>
+				<Component Id="phonology_CSS3.css" Guid="{46395DA3-14A6-431B-B5E1-815E30054968}">
                     <File Id="phonology_CSS3.css" KeyPath="yes" Source="$(var.Processing_Location)\phonology_CSS3.css" />
                 </Component>
                 <Component Id="phonology_IE6.css" Guid="{D7E33179-CF59-42CF-802A-D9C920819106}">
@@ -45,7 +48,8 @@
             <ComponentRef Id="jquery.js" />
             <ComponentRef Id="phonology.css" />
             <ComponentRef Id="phonology.js" />
-            <ComponentRef Id="phonology_CSS3.css" />
+			<ComponentRef Id="phonquery.js" />
+			<ComponentRef Id="phonology_CSS3.css" />
             <ComponentRef Id="phonology_IE6.css" />
             <ComponentRef Id="phonology_IE7.css" />
             <ComponentRef Id="phonology_IE8.css" />
