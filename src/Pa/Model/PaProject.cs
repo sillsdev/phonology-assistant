@@ -497,7 +497,11 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public void UpdateAbiguousSequencesWithGeneratedOnes(IEnumerable<string> generatedSequences)
 		{
-			var list = AmbiguousSequences ?? new AmbiguousSequences();
+			AmbiguousSequences list;
+			if (AmbiguousSequences != null)
+				list = new AmbiguousSequences(AmbiguousSequences.Where(s => !s.IsGenerated));
+			else
+				list = new AmbiguousSequences();
 
 			foreach (var seq in generatedSequences)
 			{
