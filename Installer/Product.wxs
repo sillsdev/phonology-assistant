@@ -59,6 +59,7 @@ http://blogs.msdn.com/robmen/archive/2003/10/04/56479.aspx -->
 		<Feature Id="ProgramFiles" Level="1" Absent="disallow" Title="Program Files">
       <ComponentGroupRef Id="ApplicationFiles" />
       <ComponentGroupRef Id="ConfigurationFiles" />
+      <ComponentGroupRef Id="LocalizationFiles" />
       <ComponentGroupRef Id="ProcessingFiles" />
     </Feature>
 

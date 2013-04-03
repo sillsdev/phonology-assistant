@@ -383,7 +383,7 @@ namespace SIL.Pa.Model
 			foreach (var seqs in sequences)
 				generatedSeqs.AddRange(seqs);
 
-			if (generatedSeqs.Count > 0)
+			if (generatedSeqs.Count > 0 || _project.AmbiguousSequences != null)
 				_project.UpdateAbiguousSequencesWithGeneratedOnes(generatedSeqs.Distinct(StringComparer.Ordinal));
 		}
 
