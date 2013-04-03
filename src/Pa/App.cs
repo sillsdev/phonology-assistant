@@ -76,6 +76,7 @@ namespace SIL.Pa
 		public const string kPaRegKeyName = @"Software\SIL\Phonology Assistant";
 		public const string kAppSettingsName = "application";
 		public const string kDefaultInventoryFileName = "PhoneticInventory.xml";
+		public const string kLocalizationsFolder = "Localizations";
 
 		#endregion
 
@@ -214,7 +215,9 @@ namespace SIL.Pa
 		public static void InitializeLocalization()
 		{
 			var installedStringFileFolder = FileLocator.GetDirectoryDistributedWithApplication(ConfigFolderName);
-			var localizedStringFilesFolder = Path.Combine(ProjectFolder, "Localizations");
+			var localizedStringFilesFolder = Path.Combine(ProjectFolder, kLocalizationsFolder);
+
+			CopyInstalledLocalizations(localizedStringFilesFolder);
 
 			L10NMngr = LocalizationManager.Create(GetUILanguage(), "Pa", "Phonology Assistant",
 				Application.ProductVersion, installedStringFileFolder, localizedStringFilesFolder, "SIL.Pa");
@@ -226,6 +229,29 @@ namespace SIL.Pa
 				MsgMediator.SendMessage("StringsLocalized", L10NMngr);
 				PaFieldDisplayProperties.ResetDisplayNameCache();
 			});
+		}
+
+		private static void CopyInstalledLocalizations(string localizedStringFilesFolder)
+		{
+			var installedLocalizationsFolder = Path.Combine(Application.StartupPath, kLocalizationsFolder);
+			if (Directory.Exists(installedLocalizationsFolder))
+			{
+				if (!Directory.Exists(localizedStringFilesFolder))
+					Directory.CreateDirectory(localizedStringFilesFolder);
+
+				foreach (var file in Directory.GetFiles(installedLocalizationsFolder))
+				{
+					var name = Path.GetFileName(file);
+					var dest = Path.Combine(localizedStringFilesFolder, name);
+					if (!File.Exists(dest) || FileLength(file) != FileLength(dest))
+						File.Copy(file, dest, true);
+				}
+			}
+		}
+
+		private static long FileLength(string file)
+		{
+			return new FileInfo(file).Length;
 		}
 
 		/// ------------------------------------------------------------------------------------

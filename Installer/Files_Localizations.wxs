@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="APPLICATIONFOLDER">
+            <Directory Id="LocalizationFiles" Name="Localizations">
+                <Component Id="Pa.pt.tmx" Guid="{9CFC771E-1A89-4AFC-8312-942B55CC78B3}">
+                    <File Id="Pa.pt.tmx" KeyPath="yes" Source="..\DistFiles\Localizations\Pa.pt.tmx" />
+                </Component>
+                <Component Id="Pa.zh_CHS.tmx" Guid="{0370CEAE-7694-4CBC-B66E-716C88477982}">
+                    <File Id="Pa.zh_CHS.tmx" KeyPath="yes" Source="..\DistFiles\Localizations\Pa.zh-CHS.tmx" />
+                </Component>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="LocalizationFiles">
+            <ComponentRef Id="Pa.pt.tmx" />
+            <ComponentRef Id="Pa.zh_CHS.tmx" />
+        </ComponentGroup>
+    </Fragment>
+</Wix>
