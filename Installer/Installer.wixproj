@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="Files_Application.wxs" />
     <Compile Include="Files_Configuration.wxs" />
+    <Compile Include="Files_Localizations.wxs" />
     <Compile Include="Files_Processing.wxs" />
     <Compile Include="Files_Training.wxs" />
     <Compile Include="Product.wxs" />
