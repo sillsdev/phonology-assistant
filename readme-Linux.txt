@@ -3,7 +3,8 @@ README - PHONOLOGY ASSISTANT FOR LINUX
 
 GETTING STARTED
 
-The following steps were tested May-2013 on Ubuntu 13.04 Desktop using 13.04’s default Mono (version 2.10.8.1).
+The following steps were tested May-2013 on Ubuntu 13.04 Desktop using 13.04's default Mono (version 
+2.10.8.1).
 
   * install tools:
 
@@ -23,7 +24,8 @@ The following steps were tested May-2013 on Ubuntu 13.04 Desktop using 13.04’s
   ln -s ../../../../DistFiles/Configuration Configuration
   ln -s ../../../../DistFiles DistFiles
 
-  * make a working copy of the distribution files (this mimics what the Windows installer does and what the Linux installer will need to do):
+  * make a working copy of the distribution files (this mimics what the Windows installer does and what 
+the Linux installer will need to do):
 
   cd ~/Documents/src/phonology-assistant/
   mkdir src/Pa/bin/Debug-Linux/Training/
@@ -35,7 +37,8 @@ The following steps were tested May-2013 on Ubuntu 13.04 Desktop using 13.04’s
 
   ~/Documents/src/phonology-assistant/src/Pa/bin/Debug-Linux/Pa.exe
 
-  * in Phonology Assistant, select File > Sekpele 2 (if ‘Sekpele 2’ is not in the File menu, then some of the above steps were probably not done correctly).  Have fun!
+  * in Phonology Assistant, select File > Sekpele 2 (if 'Sekpele 2' is not in the File menu, then some 
+of the above steps were probably not done correctly).  Have fun!
 
 
 ICU.NET.DLL
@@ -80,7 +83,11 @@ L10NSHARP
 
 This is optional in most cases.
 
-L10NSharp was formerly known as Localization Manager and stored at https://bitbucket.org/domferrari/localizationmanager (this is now deprecated; prior to that it was https://svn.sil.org/langsw/LocalizationManager).  The steps below do not currently work as L10NSharp does not yet build under Mono.  Also, Phonology Assistant expects LocalizationManager.dll rather than L10NSharp.dll.
+L10NSharp was formerly known as Localization Manager and stored at 
+https://bitbucket.org/domferrari/localizationmanager (this is now deprecated; prior to that it was 
+https://svn.sil.org/langsw/LocalizationManager).  The steps below do not currently work as L10NSharp 
+does not yet build under Mono.  Also, Phonology Assistant expects LocalizationManager.dll rather than 
+L10NSharp.dll.
 
   * clone repository and build LocalizationManager.dll:
 
