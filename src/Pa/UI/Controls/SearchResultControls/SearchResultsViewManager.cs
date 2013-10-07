@@ -1005,7 +1005,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (!string.IsNullOrEmpty(query.Name) && App.Project.SearchQueryGroups
 				.SelectMany(grp => grp.Queries)
-				.Any(q => q.Name.Equals(query.Name, StringComparison.Ordinal) &&
+				.Any(q => !string.IsNullOrEmpty(q.Name) && q.Name.Equals(query.Name, StringComparison.Ordinal) &&
 					!q.Pattern.Equals(query.Pattern, StringComparison.Ordinal)))
 			{
 				var newQuery = query.Clone();

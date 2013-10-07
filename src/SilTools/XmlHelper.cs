@@ -42,6 +42,7 @@ namespace SilTools
 				return null;
 
 			outputFile = Path.GetTempFileName();
+			Exception exceptionResult = null;
 
 			try
 			{
@@ -51,24 +52,28 @@ namespace SilTools
 					xslt.Load(reader);
 					xslt.Transform(inputFile, outputFile);
 					reader.Close();
-					if (!IsEmptyOrInvalid(outputFile))
-						return null;
-
-					var msg = string.Format(
-						"Xsl Transformation seemed successful, but its output file '{0}' cannot be found.", outputFile);
-					return new FileNotFoundException(msg);
+					if (IsEmptyOrInvalid(outputFile))
+					{
+						var msg = string.Format(
+							"Xsl Transformation seemed successful, but its output file '{0}' cannot be found.", outputFile);
+						exceptionResult = new FileNotFoundException(msg);
+					}
 				}
 			}
 			catch (Exception e)
 			{
-				return e;
+				exceptionResult = e;
 			}
 			finally
 			{
 				xsltStream.Close();
-				try { File.Delete(outputFile); }
-				catch { }
+				if (exceptionResult != null)
+				{
+					try { File.Delete(outputFile); }
+					catch { }
+				}
 			}
+			return exceptionResult;
 		}
 
 		/// ------------------------------------------------------------------------------------
