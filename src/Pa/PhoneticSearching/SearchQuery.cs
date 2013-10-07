@@ -212,10 +212,10 @@ namespace SIL.Pa.PhoneticSearching
 
 				pieces[1] = pieces[1].Replace(App.kSearchPatternDiamond, "*");
 				pieces[1] = pieces[1].Trim();
-				if (pieces[1].StartsWith("*") && pieces[1].Length > 1)
+                if (pieces[1].StartsWith("*", StringComparison.Ordinal) && pieces[1].Length > 1)
 					pieces[1] = pieces[1].TrimStart('*');
 
-				if (pieces[1].StartsWith("#*"))
+                if (pieces[1].StartsWith("#*", StringComparison.Ordinal))
 					pieces[1] = "#" + pieces[1].TrimStart('*', '#');
 
 				return pieces[1];
@@ -244,10 +244,10 @@ namespace SIL.Pa.PhoneticSearching
 
 				pieces[2] = pieces[2].Replace(App.kSearchPatternDiamond, "*");
 				pieces[2] = pieces[2].Trim();
-				if (pieces[2].EndsWith("*") && pieces[2].Length > 1)
+                if (pieces[2].EndsWith("*", StringComparison.Ordinal) && pieces[2].Length > 1)
 					pieces[2] = pieces[2].TrimEnd('*');
 
-				if (pieces[2].EndsWith("*#"))
+                if (pieces[2].EndsWith("*#", StringComparison.Ordinal))
 					pieces[2] = pieces[2].TrimEnd('*', '#') + "#";
 
 				return pieces[2];

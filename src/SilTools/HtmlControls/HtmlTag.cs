@@ -38,7 +38,7 @@ namespace System.Drawing.Html
             }
 
             //Check if is end tag
-            if (_tagName.StartsWith("/"))
+            if (_tagName.StartsWith("/", StringComparison.Ordinal))
             {
                 _isClosing = true;
                 _tagName = _tagName.Substring(1);
@@ -64,7 +64,7 @@ namespace System.Drawing.Html
                     string attname = chunks[0].Trim();
                     string attvalue = chunks[1].Trim();
 
-                    if (attvalue.StartsWith("\"") && attvalue.EndsWith("\"") && attvalue.Length > 2)
+                    if (attvalue.StartsWith("\"", StringComparison.Ordinal) && attvalue.EndsWith("\"", StringComparison.Ordinal) && attvalue.Length > 2)
                     {
                         attvalue = attvalue.Substring(1, attvalue.Length - 2);
                     }
@@ -112,7 +112,7 @@ namespace System.Drawing.Html
         {
             get
             {
-                return TagName.StartsWith("!")
+                return TagName.StartsWith("!", StringComparison.Ordinal)
                     || (new List<string>(
                             new string[]{
                              "area", "base", "basefont", "br", "col",

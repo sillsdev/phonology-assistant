@@ -1116,7 +1116,7 @@ namespace SIL.Pa.PhoneticSearching
 			// If the pattern begins with or ends with bracketing,
 			// then we know we have a sequential group.
 			if (pattern.Length == 0 || (pattern[0] != '[' && pattern[0] != '{') ||
-				(!pattern.EndsWith("]") && !pattern.EndsWith("}")))
+                (!pattern.EndsWith("]", StringComparison.Ordinal) && !pattern.EndsWith("}", StringComparison.Ordinal)))
 			{
 				return GroupType.Sequential;
 			}

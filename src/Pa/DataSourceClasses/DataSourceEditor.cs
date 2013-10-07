@@ -128,7 +128,7 @@ namespace SIL.Pa.DataSource
 		/// ------------------------------------------------------------------------------------
 		public static bool IsToolboxRunning
 		{
-			get { return Process.GetProcesses().Any(prs => prs.ProcessName.ToLower().StartsWith("toolbox")); }
+            get { return Process.GetProcesses().Any(prs => prs.ProcessName.ToLower().StartsWith("toolbox", StringComparison.Ordinal)); }
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -125,9 +125,9 @@ namespace SIL.Pa.PhoneticSearching
 				MemberType = MemberType.ZeroOrMore;
 			else if (Member == "+")
 				MemberType = MemberType.OneOrMore;
-			else if (Member.StartsWith("+") || Member.StartsWith("-"))
+            else if (Member.StartsWith("+", StringComparison.Ordinal) || Member.StartsWith("-", StringComparison.Ordinal))
 				CloseBinaryFeatureMember();
-			else if (Member.StartsWith("<") && Member.EndsWith(">"))
+            else if (Member.StartsWith("<", StringComparison.Ordinal) && Member.EndsWith(">", StringComparison.Ordinal))
 				CloseClassMember();
 			else
 			{

@@ -515,7 +515,7 @@ namespace SIL.Pa.UI.Dialogs
 				// Go through all lines that start with backslashes, excluding
 				// the ones used to identify a Shoebox/Toolbox file.
 				m_markersInFile = (from line in allLines
-								   where line.StartsWith("\\") && !line.StartsWith("\\_Date") && !line.StartsWith(PaDataSource.kShoeboxMarker)
+                                   where line.StartsWith("\\", StringComparison.Ordinal) && !line.StartsWith("\\_Date", StringComparison.Ordinal) && !line.StartsWith(PaDataSource.kShoeboxMarker)
 								   select line.Split(' ')[0]).Distinct().ToList();
 			}
 			catch (Exception e)

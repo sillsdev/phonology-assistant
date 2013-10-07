@@ -22,7 +22,7 @@ namespace System.Drawing.Html
             }
 
             string toParse = number;
-            bool isPercent = number.EndsWith("%");
+            bool isPercent = number.EndsWith("%", StringComparison.Ordinal);
             float result = 0f;
 
             if (isPercent) toParse = number.Substring(0, number.Length - 1);
@@ -67,7 +67,7 @@ namespace System.Drawing.Html
             if (string.IsNullOrEmpty(length) || length == "0") return 0f;
 
             //If percentage, use ParseNumber
-            if (length.EndsWith("%")) return ParseNumber(length, hundredPercent);
+            if (length.EndsWith("%", StringComparison.Ordinal)) return ParseNumber(length, hundredPercent);
 
             //If no units, return zero
             if (length.Length < 3) return 0f;
@@ -137,7 +137,7 @@ namespace System.Drawing.Html
 
             colorValue = colorValue.ToLower().Trim();
 
-            if (colorValue.StartsWith("#"))
+            if (colorValue.StartsWith("#", StringComparison.Ordinal))
             {
                 #region hexadecimal forms
                 string hex = colorValue.Substring(1);
@@ -160,7 +160,7 @@ namespace System.Drawing.Html
                 } 
                 #endregion
             }
-            else if (colorValue.StartsWith("rgb(") && colorValue.EndsWith(")"))
+            else if (colorValue.StartsWith("rgb(", StringComparison.Ordinal) && colorValue.EndsWith(")", StringComparison.Ordinal))
             {
                 #region RGB forms
 

@@ -190,7 +190,7 @@ namespace SilTools
 			if (sender == null)
 				throw new ArgumentNullException("sender");
 
-			if (msg.StartsWith("On"))
+            if (msg.StartsWith("On", StringComparison.Ordinal))
 				throw new ArithmeticException("Messages should not begin with 'On'");
 
 			msg = "On" + msg;

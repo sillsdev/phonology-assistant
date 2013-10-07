@@ -68,7 +68,7 @@ namespace System.Drawing.Html
             if (string.IsNullOrEmpty(length) || length == "0") return;
 
             //If percentage, use ParseNumber
-            if (length.EndsWith("%"))
+            if (length.EndsWith("%", StringComparison.Ordinal))
             {
                 _number = CssValue.ParseNumber(length, 1);
                 _isPercentage = true;

@@ -393,7 +393,7 @@ namespace SIL.Pa.UI.Views
 		protected bool OnUpdateGroupByFieldParent(object args)
 		{
 			var itemProps = args as TMItemProperties;
-			if (!m_activeView || itemProps == null || itemProps.Name.StartsWith("tbb"))
+            if (!m_activeView || itemProps == null || itemProps.Name.StartsWith("tbb", StringComparison.Ordinal))
 				return false;
 
 			WordListGrid.BuildGroupByMenu(itemProps.Name, App.TMAdapter);

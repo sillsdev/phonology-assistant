@@ -47,7 +47,7 @@ namespace SIL.Pa.PhoneticSearching
 				LookForInvalidOrGroupItems(text);
 
 				var phones = _project.PhoneticParser.Parse(text, true, false);
-				if (phones.Length == 1 || (text.StartsWith("(") && text.EndsWith(")")))
+                if (phones.Length == 1 || (text.StartsWith("(", StringComparison.Ordinal) && text.EndsWith(")", StringComparison.Ordinal)))
 					continue;
 
 				text = string.Empty;

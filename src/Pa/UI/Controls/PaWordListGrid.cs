@@ -1444,7 +1444,7 @@ namespace SIL.Pa.UI.Controls
 					string ph = phone;
 					Color clrText = Color.Black;
 
-					if (ph.StartsWith("|"))
+                    if (ph.StartsWith("|", StringComparison.Ordinal))
 					{
 						clrText = _uncertainPhoneForeColor;
 						ph = ph.Substring(1);

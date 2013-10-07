@@ -484,7 +484,7 @@ namespace SilTools
 			if (!string.IsNullOrEmpty(m_sDriveLetter))
 				strRoot = m_sDriveLetter;
 
-			if (!strRoot.EndsWith(Path.VolumeSeparatorChar.ToString()))
+            if (!strRoot.EndsWith(Path.VolumeSeparatorChar.ToString(), StringComparison.Ordinal))
 				strRoot += Path.VolumeSeparatorChar;
 
 			strRoot = Application.ExecutablePath.Substring(0, 2) + Path.DirectorySeparatorChar;

@@ -282,7 +282,7 @@ namespace SIL.Pa.UI.Controls
 				itemProps.Update = true;
 			}
 
-			if (enable && itemProps.Name.StartsWith("mnu"))
+            if (enable && itemProps.Name.StartsWith("mnu", StringComparison.Ordinal))
 				CurrentViewsGrid.BuildGroupByMenu(itemProps.Name, App.TMAdapter);
 
 			return true;

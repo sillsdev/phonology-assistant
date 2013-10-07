@@ -1304,7 +1304,7 @@ namespace SIL.Pa.UI.Controls
 						value = "*_*";
 					else if (value == "+")
 						value = "+_+";
-					else if (value.EndsWith("_"))
+                    else if (value.EndsWith("_", StringComparison.Ordinal))
 						value += "*";
 					else if (value.IndexOf('_') < 0)
 						value += "_*";
@@ -1488,7 +1488,7 @@ namespace SIL.Pa.UI.Controls
 			if (itemProps == null || !OwningView.ActiveView)
 				return false;
 
-			return (itemProps.Name.StartsWith("cmnu") || UpdateInsertItem(itemProps));
+            return (itemProps.Name.StartsWith("cmnu", StringComparison.Ordinal) || UpdateInsertItem(itemProps));
 		}
 
 		/// ------------------------------------------------------------------------------------

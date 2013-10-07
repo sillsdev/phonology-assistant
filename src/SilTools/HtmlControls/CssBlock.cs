@@ -58,7 +58,7 @@ namespace System.Drawing.Html
                 string propValue = chunks[1].Trim();
                 
                 //Remove semicolon
-                if (propValue.EndsWith(";")) propValue = propValue.Substring(0, propValue.Length - 1).Trim();
+                if (propValue.EndsWith(";", StringComparison.Ordinal)) propValue = propValue.Substring(0, propValue.Length - 1).Trim();
 
                 //Add property to list
                 Properties.Add(propName, propValue);
