@@ -120,7 +120,7 @@ namespace SIL.Pa
 		{
 			// Specifying the project folder on the command-line trumps the default location.
 			foreach (var arg in Environment.GetCommandLineArgs()
-				.Where(arg => arg.ToLower().StartsWith("/pf:") || arg.ToLower().StartsWith("-pf:")))
+                .Where(arg => arg.ToLower().StartsWith("/pf:", StringComparison.Ordinal) || arg.ToLower().StartsWith("-pf:", StringComparison.Ordinal)))
 			{
 				ProjectFolder = arg.Substring(4);
 				if (Directory.Exists(ProjectFolder))
@@ -179,7 +179,7 @@ namespace SIL.Pa
 				// Specifying the settings file on the command-line trumps the one
 				// at the default location, if there is one at the default location.
 				foreach (var arg in Environment.GetCommandLineArgs()
-					.Where(arg => arg.ToLower().StartsWith("/sf:") || arg.ToLower().StartsWith("-sf:")))
+                    .Where(arg => arg.ToLower().StartsWith("/sf:", StringComparison.Ordinal) || arg.ToLower().StartsWith("-sf:", StringComparison.Ordinal)))
 				{
 					path = arg.Substring(4);
 					PortableSettingsProvider.SettingsFileFolder = Path.GetDirectoryName(path);
@@ -283,7 +283,7 @@ namespace SIL.Pa
 			// Specifying the UI language on the command-line trumps the one in
 			// the settings file (i.e. the one set in the options dialog box).
 			foreach (var arg in Environment.GetCommandLineArgs()
-				.Where(arg => arg.ToLower().StartsWith("/uilang:") || arg.ToLower().StartsWith("-uilang:")))
+                .Where(arg => arg.ToLower().StartsWith("/uilang:", StringComparison.Ordinal) || arg.ToLower().StartsWith("-uilang:", StringComparison.Ordinal)))
 			{
 				langId = arg.Substring(8);
 				break;

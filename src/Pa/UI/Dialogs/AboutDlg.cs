@@ -527,7 +527,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			var strRoot = Application.ExecutablePath.Substring(0, 2);
 
-			if (!strRoot.EndsWith(Path.VolumeSeparatorChar.ToString()))
+            if (!strRoot.EndsWith(Path.VolumeSeparatorChar.ToString(), StringComparison.Ordinal))
 				strRoot += Path.VolumeSeparatorChar;
 
 			strRoot = Application.ExecutablePath.Substring(0, 2) + Path.DirectorySeparatorChar;

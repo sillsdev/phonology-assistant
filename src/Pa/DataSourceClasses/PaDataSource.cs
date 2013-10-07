@@ -77,7 +77,7 @@ namespace SIL.Pa.DataSource
 		{
 			SourceFile = filename.Trim();
 
-			if (SourceFile.ToLower().EndsWith(".wav") /* || m_file.ToLower().EndsWith(".mp3") ||
+			if (SourceFile.ToLower().EndsWith(".wav", StringComparison.Ordinal) /* || m_file.ToLower().EndsWith(".mp3") ||
 				m_file.ToLower().EndsWith(".wma") */)
 			{
 				Type = DataSourceType.SA;
@@ -231,7 +231,7 @@ namespace SIL.Pa.DataSource
 				// Go through all lines that start with backslashes, excluding
 				// the ones used to identify a Shoebox/Toolbox file.
 				m_markersInFile = (from line in allLines
-								   where line.StartsWith("\\") && !line.StartsWith("\\_Date") && !line.StartsWith(kShoeboxMarker)
+                                   where line.StartsWith("\\") && !line.StartsWith("\\_Date", StringComparison.Ordinal) && !line.StartsWith(kShoeboxMarker)
 								   select line.Split(' ')[0]).Distinct().ToList();
 			}
 			catch (Exception e)
@@ -284,14 +284,14 @@ namespace SIL.Pa.DataSource
 			var allLines = File.ReadAllLines(filename);
 			TotalLinesInFile = allLines.Length;
 
-			if (TotalLinesInFile > 0 && allLines[0].StartsWith(kShoeboxMarker))
+            if (TotalLinesInFile > 0 && allLines[0].StartsWith(kShoeboxMarker, StringComparison.Ordinal))
 			{
 				isShoeboxFile = true;
 				return true;
 			}
 
 			isShoeboxFile = false;
-			int linesBeginningWithBackslash = allLines.Count(l => l != null && l.TrimStart().StartsWith("\\"));
+            int linesBeginningWithBackslash = allLines.Count(l => l != null && l.TrimStart().StartsWith("\\", StringComparison.Ordinal));
 
 			// Assume that it's an SFM file if at least 60% of the lines begin with a backslash
 			return (((float)linesBeginningWithBackslash / TotalLinesInFile) >= 0.60);

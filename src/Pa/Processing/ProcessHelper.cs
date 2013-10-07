@@ -282,7 +282,7 @@ namespace SIL.Pa.Processing
 		public static string TerminateFolderPath(string path)
 		{
 			path = path.Trim();
-			if (!path.EndsWith(Path.DirectorySeparatorChar.ToString()))
+            if (!path.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal))
 				path += Path.DirectorySeparatorChar.ToString();
 
 			return path;

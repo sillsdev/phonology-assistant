@@ -1228,7 +1228,7 @@ namespace SIL.Pa.UI.Views
 				return false;
 
 			var itemProps = args as TMItemProperties;
-			if (itemProps != null && itemProps.Name.StartsWith("cmnu"))
+            if (itemProps != null && itemProps.Name.StartsWith("cmnu", StringComparison.Ordinal))
 				return false;
 
 			Search(_grid.CurrentCell, SearchResultLocation.CurrentTabGroup);
@@ -1242,7 +1242,7 @@ namespace SIL.Pa.UI.Views
 				return false;
 
 			var itemProps = args as TMItemProperties;
-			if (itemProps != null && !itemProps.Name.StartsWith("cmnu"))
+            if (itemProps != null && !itemProps.Name.StartsWith("cmnu", StringComparison.Ordinal))
 			{
 				if (itemProps.Enabled != _grid.IsCurrentCellValidForSearch)
 				{

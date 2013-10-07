@@ -221,7 +221,7 @@ namespace SIL.Pa.PhoneticSearching
 					group.AddMember(_tokenGroups[piece[0]]);
 					_tokenGroups.Remove(piece[0]);
 				}
-				else if (piece.StartsWith("(") && piece.EndsWith(")"))
+                else if (piece.StartsWith("(", StringComparison.Ordinal) && piece.EndsWith(")", StringComparison.Ordinal))
 					group.AddMember(ParseTextInParentheses(piece.Trim('(', ')')));
 				else
 					group.AddMember(new PatternGroupMember(piece));

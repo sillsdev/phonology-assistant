@@ -136,14 +136,14 @@ namespace SIL.Pa.Filters
 			switch (Operator)
 			{
 				case Filter.Operator.Matches:
-				case Filter.Operator.Equals: return entryValue.Equals(m_pattern, StringComparison.InvariantCulture);
-				case Filter.Operator.NotEquals: return !entryValue.Equals(m_pattern, StringComparison.InvariantCulture);
+				case Filter.Operator.Equals: return entryValue.Equals(m_pattern, StringComparison.Ordinal);
+				case Filter.Operator.NotEquals: return !entryValue.Equals(m_pattern, StringComparison.Ordinal);
 				case Filter.Operator.Contains: return entryValue.Contains(m_pattern);
 				case Filter.Operator.DoesNotContain: return !entryValue.Contains(m_pattern);
-				case Filter.Operator.BeginsWith: return entryValue.StartsWith(m_pattern, StringComparison.InvariantCulture);
-				case Filter.Operator.EndsWith: return entryValue.EndsWith(m_pattern, StringComparison.InvariantCulture);
-				case Filter.Operator.DoesNotBeginsWith: return !entryValue.StartsWith(m_pattern, StringComparison.InvariantCulture);
-				case Filter.Operator.DoesNotEndsWith: return !entryValue.EndsWith(m_pattern, StringComparison.InvariantCulture);
+				case Filter.Operator.BeginsWith: return entryValue.StartsWith(m_pattern, StringComparison.Ordinal);
+				case Filter.Operator.EndsWith: return entryValue.EndsWith(m_pattern, StringComparison.Ordinal);
+				case Filter.Operator.DoesNotBeginsWith: return !entryValue.StartsWith(m_pattern, StringComparison.Ordinal);
+				case Filter.Operator.DoesNotEndsWith: return !entryValue.EndsWith(m_pattern, StringComparison.Ordinal);
 				case Filter.Operator.PathExists: return File.Exists(entryValue);
 				case Filter.Operator.PathDoesNotExist: return !File.Exists(entryValue);
 				case Filter.Operator.GreaterThan:

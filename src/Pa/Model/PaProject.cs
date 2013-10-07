@@ -534,7 +534,7 @@ namespace SIL.Pa.Model
 		public void LoadDistinctiveFeatureSet()
 		{
 			var filePath = BFeatureCache.GetAvailableFeatureSetFiles()
-				.FirstOrDefault(f => Path.GetFileName(f).StartsWith(DistinctiveFeatureSet));
+                .FirstOrDefault(f => Path.GetFileName(f).StartsWith(DistinctiveFeatureSet, StringComparison.Ordinal));
 
 			if (filePath != null)
 			{

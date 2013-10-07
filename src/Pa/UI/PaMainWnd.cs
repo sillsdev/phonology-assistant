@@ -146,13 +146,13 @@ namespace SIL.Pa.UI
 
 			// If there's a project specified on the command line, then load that.
 			var commandLineProjFileArg = (from arg in Environment.GetCommandLineArgs()
-										  where arg.ToLower().EndsWith(".pap") && File.Exists(arg)
+                                          where arg.ToLower().EndsWith(".pap", StringComparison.Ordinal) && File.Exists(arg)
 										  select arg).FirstOrDefault();
 
 			// If there's a backup file specified on the command line, then load that into
 			// the restore dialog box and allow the user to restore it.
 			var commandLineBackupFileArg = (from arg in Environment.GetCommandLineArgs()
-											where arg.ToLower().EndsWith(".pabackup") && File.Exists(arg)
+                                            where arg.ToLower().EndsWith(".pabackup", StringComparison.Ordinal) && File.Exists(arg)
 											select arg).FirstOrDefault();
 
 			if (commandLineProjFileArg != null)

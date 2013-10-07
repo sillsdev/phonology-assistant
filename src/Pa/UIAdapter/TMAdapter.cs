@@ -620,7 +620,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			while (indexToRemove < parentItem.DropDownItems.Count)
 			{
 				var item = parentItem.DropDownItems[indexToRemove];
-				if (!item.Name.StartsWith(kRufMenuItemNamePrefix))
+                if (!item.Name.StartsWith(kRufMenuItemNamePrefix, StringComparison.Ordinal))
 					break;
 
 				item.Click -= HandleRecentlyUsedItemClick;
@@ -883,7 +883,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				if (cmdInfo.TextId == null)
 				{
 					cmdInfo.TextId = cmd;
-					if (cmdInfo.TextId.StartsWith("Cmd"))
+                    if (cmdInfo.TextId.StartsWith("Cmd", StringComparison.Ordinal))
 						cmdInfo.TextId = cmdInfo.TextId.Remove(0, 3);
 					cmdInfo.TextId = "kstid" + cmdInfo.TextId + "Text";
 				}
@@ -893,7 +893,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				if (cmdInfo.ToolTipId == null)
 				{
 					cmdInfo.ToolTipId = cmd;
-					if (cmdInfo.ToolTipId.StartsWith("Cmd"))
+                    if (cmdInfo.ToolTipId.StartsWith("Cmd", StringComparison.Ordinal))
 						cmdInfo.ToolTipId = cmdInfo.ToolTipId.Remove(0, 3);
 					cmdInfo.ToolTipId = "kstid" + cmdInfo.ToolTipId + "ToolTip";
 				}
@@ -1446,10 +1446,10 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			}
 
 			// Make sure the string is valid XML.
-			if (!xml.StartsWith("<item "))
+            if (!xml.StartsWith("<item ", StringComparison.Ordinal))
 				xml = "<item " + xml;
 
-			if (!xml.EndsWith("/>"))
+            if (!xml.EndsWith("/>", StringComparison.Ordinal))
 				xml += "/>";
 
 			XmlDocument doc = new XmlDocument();
@@ -1888,13 +1888,13 @@ namespace SIL.FieldWorks.Common.UIAdapters
 		/// ------------------------------------------------------------------------------------
 		private static string BuildLocalizationId(ToolStripItem item)
 		{
-			if (item.Name.ToLowerInvariant().StartsWith("tbb"))
+            if (item.Name.ToLowerInvariant().StartsWith("tbb", StringComparison.Ordinal))
 				return "ToolbarItems." + item.Name.Substring(3);
 
-			if (item.Name.ToLowerInvariant().StartsWith("mnu"))
+            if (item.Name.ToLowerInvariant().StartsWith("mnu", StringComparison.Ordinal))
 				return "MenuItems." + item.Name.Substring(3);
 
-			if (item.Name.ToLowerInvariant().StartsWith("cmnu"))
+            if (item.Name.ToLowerInvariant().StartsWith("cmnu", StringComparison.Ordinal))
 				return "ContextMenuItems." + item.Name.Substring(4);
 
 			return "OtherToolbarItems." + item.Name;
@@ -1926,7 +1926,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 			// If the user clicked on one of the toolbar items in the toolbar menu list
 			// then save the toolbar's name in the tag property.
-			if (item.Name.EndsWith(kToolbarItemSuffix))
+            if (item.Name.EndsWith(kToolbarItemSuffix, StringComparison.Ordinal))
 				itemProps.Tag = item.Name.Replace(kToolbarItemSuffix, string.Empty);
 
 			if (m_msgMediator.SendMessage(message, itemProps) && itemProps.Update)
@@ -2217,7 +2217,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 
 			// If the item being updated is one of the toolbar items in the toolbar menu
 			// list then save the toolbar's name in the tag property.
-			if (item.Name.EndsWith(kToolbarItemSuffix))
+            if (item.Name.EndsWith(kToolbarItemSuffix, StringComparison.Ordinal))
 				itemProps.Tag = item.Name.Replace(kToolbarItemSuffix, string.Empty);
 
 			// Call update method (e.g. OnUpdateEditCopy). If that method doesn't exist or

@@ -1161,13 +1161,13 @@ namespace SIL.Pa.UI.Views
 			if (menuName == "tbbShowResults")
 				return ptrnTextBox.IsPatternFull;
 
-			if (!menuName.StartsWith("cmnu"))
+            if (!menuName.StartsWith("cmnu", StringComparison.Ordinal))
 				return ptrnTextBox.IsPatternFull;
 
-			if (menuName.EndsWith("-FromSavedList"))
+            if (menuName.EndsWith("-FromSavedList", StringComparison.Ordinal))
 				return (tvSavedPatterns.CurrentQuery != null);
 
-			if (menuName.EndsWith("-FromRecentList"))
+            if (menuName.EndsWith("-FromRecentList", StringComparison.Ordinal))
 				return (lstRecentPatterns.SelectedItem is SearchQuery);
 
 			return false;
@@ -1176,13 +1176,13 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public SearchQuery GetQueryForMenu(string menuName)
 		{
-			if (!menuName.StartsWith("cmnu"))
+            if (!menuName.StartsWith("cmnu", StringComparison.Ordinal))
 				return ptrnTextBox.SearchQuery;
 
-			if (menuName.EndsWith("-FromSavedList"))
+            if (menuName.EndsWith("-FromSavedList", StringComparison.Ordinal))
 				return tvSavedPatterns.CurrentQuery;
 
-			if (menuName.EndsWith("-FromRecentList"))
+            if (menuName.EndsWith("-FromRecentList", StringComparison.Ordinal))
 				return (lstRecentPatterns.SelectedItem as SearchQuery);
 
 			return null;
@@ -1318,7 +1318,7 @@ namespace SIL.Pa.UI.Views
 			if (itemProps == null || !m_activeView)
 				return false;
 
-			if (itemProps.Name.EndsWith("-FromSavedList"))
+            if (itemProps.Name.EndsWith("-FromSavedList", StringComparison.Ordinal))
 				ptrnTextBox.SetSearchQuery(tvSavedPatterns.CurrentQuery);
 			else
 				ptrnTextBox.SetSearchQuery(lstRecentPatterns.SelectedItem as SearchQuery);
@@ -1337,7 +1337,7 @@ namespace SIL.Pa.UI.Views
 			if (itemProps == null || !m_activeView)
 				return false;
 
-			if (itemProps.Name.EndsWith("-FromSavedList"))
+            if (itemProps.Name.EndsWith("-FromSavedList", StringComparison.Ordinal))
 				itemProps.Enabled = (tvSavedPatterns.CurrentQuery != null);
 			else
 				itemProps.Enabled = (lstRecentPatterns.SelectedItem is SearchQuery);
@@ -1351,7 +1351,7 @@ namespace SIL.Pa.UI.Views
 		protected bool OnRemovePattern(object args)
 		{
 			var itemProps = args as TMItemProperties;
-			if (itemProps == null || !m_activeView || !itemProps.Name.EndsWith("-FromRecentList"))
+            if (itemProps == null || !m_activeView || !itemProps.Name.EndsWith("-FromRecentList", StringComparison.Ordinal))
 				return false;
 
 			lstRecentPatterns_KeyDown(null, new KeyEventArgs(Keys.Delete));
@@ -1362,7 +1362,7 @@ namespace SIL.Pa.UI.Views
 		protected bool OnClearRecentPatternList(object args)
 		{
 			var itemProps = args as TMItemProperties;
-			if (itemProps == null || !m_activeView || !itemProps.Name.EndsWith("-FromRecentList"))
+            if (itemProps == null || !m_activeView || !itemProps.Name.EndsWith("-FromRecentList", StringComparison.Ordinal))
 				return false;
 
 			HandleClearRecentListButtonClick(null, null);
@@ -1378,9 +1378,9 @@ namespace SIL.Pa.UI.Views
 
 			bool enable = false;
 
-			if (itemProps.Name.EndsWith("-FromSavedList"))
+            if (itemProps.Name.EndsWith("-FromSavedList", StringComparison.Ordinal))
 				enable = (tvSavedPatterns.SelectedNode != null);
-			else if (itemProps.Name.EndsWith("-FromRecentList"))
+            else if (itemProps.Name.EndsWith("-FromRecentList", StringComparison.Ordinal))
 			{
 				// For some reason, referencing the SelectedItem property occasionally throws
 				// and error and I have no clue why. Since I cannot find the problem, I'll

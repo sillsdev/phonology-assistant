@@ -156,7 +156,7 @@ namespace System.Drawing.Html
                 stylesheet = stylesheet.Remove(match.Index, match.Length);
 
                 //Just processs @media rules
-                if (!atrule.StartsWith("@media")) continue;
+                if (!atrule.StartsWith("@media", StringComparison.Ordinal)) continue;
 
                 //Extract specified media types
                 MatchCollection types = Parser.Match(Parser.CssMediaTypes, atrule);
@@ -165,7 +165,7 @@ namespace System.Drawing.Html
                 {
                     string line = types[0].Value;
 
-                    if (line.StartsWith("@media") && line.EndsWith("{"))
+                    if (line.StartsWith("@media", StringComparison.Ordinal) && line.EndsWith("{", StringComparison.Ordinal))
                     {
                         //Get specified media types in the at-rule
                         string[] media = line.Substring(6, line.Length - 7).Split(' ');

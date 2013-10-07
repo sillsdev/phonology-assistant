@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Localization;
 using SIL.Pa.Model;
+using System;
 
 namespace SIL.Pa.PhoneticSearching
 {
@@ -329,10 +330,10 @@ namespace SIL.Pa.PhoneticSearching
 		public WordBoundaryCondition GetWordBoundaryCondition()
 		{
 			string srchItemPattern = (SrchItemPatternGroup == null ? string.Empty : SrchItemPatternGroup.ToString());
-			if (srchItemPattern.StartsWith("#"))
+            if (srchItemPattern.StartsWith("#", StringComparison.Ordinal))
 				return WordBoundaryCondition.BeginningOfSearchItem;
 
-			return srchItemPattern.EndsWith("#") ?
+            return srchItemPattern.EndsWith("#", StringComparison.Ordinal) ?
 				WordBoundaryCondition.EndOfSearchItem : WordBoundaryCondition.NoCondition;
 		}
 
@@ -353,7 +354,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (pieces.Length > 2)
 			    return ZeroOrMoreCondition.MoreThanOneInEnvBefore;
 
-			if (pieces.Length > 1 && !tmpEnvBefore.StartsWith("*"))
+            if (pieces.Length > 1 && !tmpEnvBefore.StartsWith("*", StringComparison.Ordinal))
 				return ZeroOrMoreCondition.NotBeginningOfEnvBefore;
 
 			// Check environment after
@@ -362,7 +363,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (pieces.Length > 2)
 				return ZeroOrMoreCondition.MoreThanOneInEnvAfter;
 
-			if (pieces.Length > 1 && !tmpEnvAfter.EndsWith("*"))
+            if (pieces.Length > 1 && !tmpEnvAfter.EndsWith("*", StringComparison.Ordinal))
 				return ZeroOrMoreCondition.NotEndOfEnvAfter;
 
 			return ZeroOrMoreCondition.NoCondition;
@@ -390,7 +391,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (pieces.Length > 2)
 				return OneOrMoreCondition.MoreThanOneInEnvBefore;
 
-			if (pieces.Length > 1 && !tmp.StartsWith("+"))
+            if (pieces.Length > 1 && !tmp.StartsWith("+", StringComparison.Ordinal))
 				return OneOrMoreCondition.NotBeginningOfEnvBefore;
 
 			// Check environment after
@@ -400,7 +401,7 @@ namespace SIL.Pa.PhoneticSearching
 			if (pieces.Length > 2)
 				return OneOrMoreCondition.MoreThanOneInEnvAfter;
 
-			if (pieces.Length > 1 && !tmp.EndsWith("+"))
+            if (pieces.Length > 1 && !tmp.EndsWith("+", StringComparison.Ordinal))
 				return OneOrMoreCondition.NotEndOfEnvAfter;
 
 			return OneOrMoreCondition.NoCondition;

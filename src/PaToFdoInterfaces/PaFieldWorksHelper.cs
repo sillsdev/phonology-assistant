@@ -98,7 +98,7 @@ namespace SIL.PaToFdoInterfaces
 					{
 						// On a development machine, this points to distfiles so
 						// modify the path to point to the output\debug folder.
-						if (s_fwInstallPath.ToLower().EndsWith("\\distfiles"))
+                        if (s_fwInstallPath.ToLower().EndsWith("\\distfiles", StringComparison.Ordinal))
 							s_fwInstallPath += @"\..\output\debug";
 					}
 				}

@@ -54,10 +54,10 @@ namespace SIL.Pa.Model
 
 			name = name.Trim();
 
-			if (name.StartsWith("-"))
+			if (name.StartsWith("-", StringComparison.Ordinal))
 				name = name.Substring(1);
 
-			if (!name.StartsWith("+"))
+            if (!name.StartsWith("+", StringComparison.Ordinal))
 				name = "+" + name;
 
 			return name;
@@ -75,7 +75,7 @@ namespace SIL.Pa.Model
 			get
 			{
 				return from feat in Values
-					   where feat.Name.StartsWith("+")
+                       where feat.Name.StartsWith("+", StringComparison.Ordinal)
 					   select feat;
 			}
 		}
@@ -90,7 +90,7 @@ namespace SIL.Pa.Model
 			get
 			{
 				return from feat in Values
-					   where feat.Name.StartsWith("-")
+                       where feat.Name.StartsWith("-", StringComparison.Ordinal)
 					   select feat;
 			}
 		}

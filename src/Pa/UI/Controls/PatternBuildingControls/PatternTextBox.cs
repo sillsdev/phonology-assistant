@@ -626,7 +626,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
 			if (!OwningView.ActiveView || itemProps == null ||
-				itemProps.Name.StartsWith("cmnu"))
+                itemProps.Name.StartsWith("cmnu", StringComparison.Ordinal))
 			{
 				return false;
 			}

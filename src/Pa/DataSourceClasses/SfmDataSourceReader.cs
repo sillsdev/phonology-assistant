@@ -65,14 +65,14 @@ namespace SIL.Pa.DataSource
 
 				// Toss out lines that don't begin with a backslash or that precede
 				// the first line in the file that begins with our record marker.
-				if (!currLine.StartsWith("\\") || (!foundFirstRecord && !currLine.StartsWith(recMarker)))
+                if (!currLine.StartsWith("\\") || (!foundFirstRecord && !currLine.StartsWith(recMarker, StringComparison.Ordinal)))
 					continue;
 
 				foundFirstRecord = true;
 
 				// If we've stored up a record and we've come to a new record, then write
 				// the data of the stored one before beginning to store the new one.
-				if (currLine.StartsWith(recMarker) && recordLines.Count > 0)
+                if (currLine.StartsWith(recMarker, StringComparison.Ordinal) && recordLines.Count > 0)
 				{
 					recCache.Add(SaveSingleRecord(recordLines));
 					recordLines.Clear();
@@ -156,7 +156,7 @@ namespace SIL.Pa.DataSource
 			// Check if the end of the file name string is one of the common audio file types.
 			// If so, there's no sense in checking for start and end points since the entire
 			// string ends with a file extension.
-			if (new[] { ".wav", ".mp3", ".wma", ".ogg", ".ram", ".aif", ".au", ".voc" }.Any(ext => fileName.ToLower().EndsWith(ext)))
+            if (new[] { ".wav", ".mp3", ".wma", ".ogg", ".ram", ".aif", ".au", ".voc" }.Any(ext => fileName.ToLower().EndsWith(ext, StringComparison.Ordinal)))
 			{
 				return fileName;
 			}

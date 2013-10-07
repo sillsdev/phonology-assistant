@@ -875,7 +875,7 @@ namespace SilTools
 			}
 			string methodName = "On" + messageName;
 			// Logging 
-			if (!messageName.StartsWith("Update") && messageName != "Idle" && fLogIt)
+            if (!messageName.StartsWith("Update", StringComparison.Ordinal) && messageName != "Idle" && fLogIt)
 			{
 				// We want to log the method if any colleague handles it.
 				// So we check the list of methods known-to-us first. If we don't find it,
@@ -1488,7 +1488,7 @@ namespace SilTools
 				if (m_isDisposed)
 					throw new DisposedInAnotherFrameException();
 
-				if (target == m_temporaryColleague && !mi.Name.StartsWith("OnDisplay"))
+                if (target == m_temporaryColleague && !mi.Name.StartsWith("OnDisplay", StringComparison.Ordinal))
 				{
 					RemoveColleague(m_temporaryColleague);
 					m_temporaryColleague = null;	// only keep one temporary colleague at a time (menu based)

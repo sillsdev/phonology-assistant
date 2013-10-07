@@ -157,14 +157,14 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				foreach (var filename in zip.EntryFileNames)
 				{
-					if (filename.StartsWith("Data/"))
+                    if (filename.StartsWith("Data/", StringComparison.Ordinal))
 						_dataSourceFiles.Add(filename.Replace("Data/", string.Empty));
-					else if (filename.StartsWith("Audio/"))
+                    else if (filename.StartsWith("Audio/", StringComparison.Ordinal))
 						_audioFiles.Add(filename.Replace("Audio/", string.Empty));
 					else if (filename != kBackupInfoFileName)
 					{
 						_prjFiles.Add(filename);
-						if (filename.ToLowerInvariant().EndsWith(".pap"))
+                        if (filename.ToLowerInvariant().EndsWith(".pap", StringComparison.Ordinal))
 							CurrentProjectFileName = filename;
 					}
 				}

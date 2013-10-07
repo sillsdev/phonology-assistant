@@ -177,7 +177,7 @@ namespace SIL.Pa.PhoneticSearching
 				Errors.Add(error);
 			}
 
-			if (count == 1 && !precedingEnv.StartsWith("#"))
+			if (count == 1 && !precedingEnv.StartsWith("#", StringComparison.Ordinal))
 			{
 				var error = new SearchQueryValidationError(
 					LocalizationManager.GetString("PhoneticSearchingMessages.MisplacedWordBoundarySymbolInPrecedingEnvironmentMsg",
@@ -200,7 +200,7 @@ namespace SIL.Pa.PhoneticSearching
 				Errors.Add(error);
 			}
 
-			if (count == 1 && !precedingEnv.StartsWith("*"))
+            if (count == 1 && !precedingEnv.StartsWith("*", StringComparison.Ordinal))
 			{
 				var error = new SearchQueryValidationError(
 					LocalizationManager.GetString("PhoneticSearchingMessages.MisplacedZeroOrMoreSymbolInPrecedingEnvironmentMsg",
@@ -223,7 +223,7 @@ namespace SIL.Pa.PhoneticSearching
 				Errors.Add(error);
 			}
 
-			if (count == 1 && !precedingEnv.StartsWith("+"))
+            if (count == 1 && !precedingEnv.StartsWith("+", StringComparison.Ordinal))
 			{
 				var error = new SearchQueryValidationError(
 					LocalizationManager.GetString("PhoneticSearchingMessages.MisplacedOneOrMoreSymbolInPrecedingEnvironmentMsg",
@@ -265,7 +265,7 @@ namespace SIL.Pa.PhoneticSearching
 				Errors.Add(error);
 			}
 
-			if (count == 1 && !followingEnv.EndsWith("#"))
+            if (count == 1 && !followingEnv.EndsWith("#", StringComparison.Ordinal))
 			{
 				var error = new SearchQueryValidationError(
 					LocalizationManager.GetString("PhoneticSearchingMessages.MisplacedWordBoundarySymbolInFollowingEnvironmentMsg",
@@ -287,7 +287,7 @@ namespace SIL.Pa.PhoneticSearching
 				Errors.Add(error);
 			}
 
-			if (count == 1 && !followingEnv.EndsWith("*"))
+            if (count == 1 && !followingEnv.EndsWith("*", StringComparison.Ordinal))
 			{
 				var error = new SearchQueryValidationError(
 					LocalizationManager.GetString("PhoneticSearchingMessages.MisplacedZeroOrMoreSymbolInFollowingEnvironmentMsg",
@@ -310,7 +310,7 @@ namespace SIL.Pa.PhoneticSearching
 				Errors.Add(error);
 			}
 
-			if (count == 1 && !followingEnv.EndsWith("+"))
+            if (count == 1 && !followingEnv.EndsWith("+", StringComparison.Ordinal))
 			{
 				var error = new SearchQueryValidationError(
 					LocalizationManager.GetString("PhoneticSearchingMessages.MisplacedOneOrMoreSymbolInFollowingEnvironmentMsg",

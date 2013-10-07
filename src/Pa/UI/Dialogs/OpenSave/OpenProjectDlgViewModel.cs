@@ -71,7 +71,7 @@ namespace SIL.Pa.UI.Dialogs
 			// Make sure the project file is not an old one contained in one of the backup
 			// folders created when migrating a project from an older version of the program.
 			var prjFolder = Path.GetDirectoryName(prjFilePath);
-			return !Path.GetFileName(prjFolder).StartsWith("Backup-");
+            return !Path.GetFileName(prjFolder).StartsWith("Backup-", StringComparison.Ordinal);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -343,7 +343,7 @@ namespace SIL.Pa.UI.Controls
 					// space because a regular space messes up the tab location of the search
 					// item and the environment after.
 					string envBefore = m_cache[row.CacheEntryIndex].EnvironmentBefore;
-					if (envBefore != null && envBefore.EndsWith(" "))
+                    if (envBefore != null && envBefore.EndsWith(" ", StringComparison.Ordinal))
 						envBefore = envBefore.Substring(0, envBefore.Length - 1) + '\u00A0';
 
 					m_alignedSearchItems[cell.RowIndex] = ktab + envBefore + ktab +
@@ -722,7 +722,7 @@ namespace SIL.Pa.UI.Controls
 			// Removes the last "{\tab}"
 			if (m_exportFormat == ExportFormat.TabDelimited)
 			{
-				if (m_rtfBldr.ToString().EndsWith(ktab))
+                if (m_rtfBldr.ToString().EndsWith(ktab, StringComparison.Ordinal))
 					m_rtfBldr.Remove((m_rtfBldr.Length - ktab.Length), ktab.Length);
 			}
 
@@ -767,9 +767,9 @@ namespace SIL.Pa.UI.Controls
 				// Make sure a group header starts a new paragraph.
 				int len = 0;
 				var rtf = m_rtfBldr.ToString();
-				if (rtf.EndsWith(kline))
+                if (rtf.EndsWith(kline, StringComparison.Ordinal))
 					len = kline.Length;
-				else if (rtf.EndsWith(kline + Environment.NewLine))
+                else if (rtf.EndsWith(kline + Environment.NewLine, StringComparison.Ordinal))
 					len = kline.Length + Environment.NewLine.Length;
 					
 				if (len > 0)

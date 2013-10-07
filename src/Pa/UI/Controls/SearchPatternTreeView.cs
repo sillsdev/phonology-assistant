@@ -1110,7 +1110,7 @@ namespace SIL.Pa.UI.Controls
 		public bool OnRemovePattern(object args)
 		{
 			TMItemProperties itemProps = args as TMItemProperties;
-			if (itemProps == null || !itemProps.Name.EndsWith("-FromSavedList") ||
+            if (itemProps == null || !itemProps.Name.EndsWith("-FromSavedList", StringComparison.Ordinal) ||
 				!App.IsFormActive(FindForm()))
 			{
 				return false;

@@ -5,4 +5,10 @@
     <StartProgram>C:\Projects\NUnit\bin\nunit.exe</StartProgram>
     <StartArguments>..\..\Output\Debug\PaTests.dll</StartArguments>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug-Windows|AnyCPU'">
+    <StartAction>Program</StartAction>
+    <StartProgram>C:\Projects\fwrepo\fw\Bin\NUnit\bin\nunit-x86.exe</StartProgram>
+    <StartArguments>C:\Projects\phonology-assistant\Output\Debug-Windows\PaTests.dll</StartArguments>
+    <StartWorkingDirectory>C:\Projects\phonology-assistant\Output\Debug-Windows</StartWorkingDirectory>
+  </PropertyGroup>
 </Project>
