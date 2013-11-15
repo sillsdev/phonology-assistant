@@ -384,7 +384,7 @@ namespace SIL.Pa.Model
 				generatedSeqs.AddRange(seqs);
 
 			if (generatedSeqs.Count > 0 || _project.AmbiguousSequences != null)
-				_project.UpdateAbiguousSequencesWithGeneratedOnes(generatedSeqs.Distinct(StringComparer.Ordinal));
+				_project.UpdateAbiguousSequencesWithGeneratedOnes(generatedSeqs.Distinct(StringComparer.Ordinal), true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -394,7 +394,7 @@ namespace SIL.Pa.Model
 				.Where(p => p.Contains(App.kBottomTieBar) || p.Contains(App.kTopTieBar)).ToArray();
 
 			if (generatedSeqs.Length > 0)
-				_project.UpdateAbiguousSequencesWithGeneratedOnes(generatedSeqs.Distinct(StringComparer.Ordinal));
+				_project.UpdateAbiguousSequencesWithGeneratedOnes(generatedSeqs.Distinct(StringComparer.Ordinal), false);
 		}
 	}
 
