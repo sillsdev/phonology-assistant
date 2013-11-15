@@ -81,7 +81,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 				switch (mapping.NameInDataSource)
 				{
 					case "CitationForm": value = GetMultiStringValue(lxEntry.CitationForm, wsId); break;
-					case "MorphType": value = GetPossibilityValue(lxEntry.MorphType, false); break;
+                    case "LexemeForm": value = GetMultiStringValue(lxEntry.LexemeForm, wsId); break;
+                    case "MorphType": value = GetPossibilityValue(lxEntry.MorphType, false); break;
 					case "Etymology": value = GetMultiStringValue(lxEntry.Etymology, wsId); break;
 					case "LiteralMeaning": value = GetMultiStringValue(lxEntry.LiteralMeaning, wsId); break;
 					case "Bibliography": value = GetMultiStringValue(lxEntry.Bibliography, wsId); break;
