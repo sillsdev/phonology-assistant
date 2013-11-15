@@ -495,13 +495,18 @@ namespace SIL.Pa.Model
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void UpdateAbiguousSequencesWithGeneratedOnes(IEnumerable<string> generatedSequences)
+		public void UpdateAbiguousSequencesWithGeneratedOnes(IEnumerable<string> generatedSequences, bool removeGeneratedSequences)
 		{
 			AmbiguousSequences list;
-			if (AmbiguousSequences != null)
-				list = new AmbiguousSequences(AmbiguousSequences.Where(s => !s.IsGenerated));
-			else
-				list = new AmbiguousSequences();
+            if (AmbiguousSequences != null)
+            {
+                if (removeGeneratedSequences)
+                    list = new AmbiguousSequences(AmbiguousSequences.Where(s => !s.IsGenerated));
+                else
+                    list = AmbiguousSequences;
+            }
+            else
+                list = new AmbiguousSequences();
 
 			foreach (var seq in generatedSequences)
 			{
