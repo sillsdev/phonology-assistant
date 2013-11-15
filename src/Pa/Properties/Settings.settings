@@ -812,6 +812,7 @@
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
   &lt;string&gt;CitationForm&lt;/string&gt;
+  &lt;string&gt;LexemeForm&lt;/string&gt;
   &lt;string&gt;MorphType&lt;/string&gt;
   &lt;string&gt;Etymology&lt;/string&gt;
   &lt;string&gt;LiteralMeaning&lt;/string&gt;

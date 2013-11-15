@@ -50,6 +50,9 @@
 	<field name="SADescription" type="GeneralText"/>
 
 	<!-- FW7 Specific -->
+	<field name="LexemeForm" type="GeneralText">
+		<fwWritingSystemType>Vernacular</fwWritingSystemType>
+	</field>
 	<field name="CitationForm" type="GeneralText">
 		<fwWritingSystemType>Vernacular</fwWritingSystemType>
 	</field>
