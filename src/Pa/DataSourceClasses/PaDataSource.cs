@@ -130,7 +130,7 @@ namespace SIL.Pa.DataSource
 
 			return from field in projectFields
 				   where defaultSaFields.Contains(field.Name)
-				   select new FieldMapping(field, Settings.Default.DefaultParsedSfmFields);
+				   select new FieldMapping(field, Settings.Default.DefaultParsedSaFields);
 		}
 
 		/// ------------------------------------------------------------------------------------
