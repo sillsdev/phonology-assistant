@@ -3711,7 +3711,7 @@ padrão ou escolha uma da lista</seg>
         <seg>U+{0:X4}</seg>
       </tuv>
       <tuv xml:lang="pt">
-        <seg>U+{X4}</seg>
+        <seg>U+{0:X4}</seg>
       </tuv>
     </tu>
     <tu tuid="DialogBoxes.UndefinedPhoneticCharactersDlg.CharactersHeadingLabel">
