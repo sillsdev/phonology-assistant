@@ -76,7 +76,7 @@ namespace SIL.Pa.Model
 				// If we failed to get a feature object from the specified name, then check
 				// if the name is the full name of a feature by going through the collection
 				// to see if one of their full names matches featureName.
-				return Values.FirstOrDefault(f => featureName == f.FullName.ToLower());
+				return Values.FirstOrDefault(f => featureName == f.FullName.ToLowerInvariant() || featureName == f.Name.ToLowerInvariant());
 			}
 			set
 			{
