@@ -33,6 +33,13 @@ namespace SIL.Pa
 			"[AudioFiles]\nFile0={1}\n[Commands]\nCommand0=SelectFile(0)\n" +
 			"Command1=Playback({2},,{3},{4})\nCommand2=Return(1)";
 
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        static extern uint GetShortPathName(
+           [MarshalAs(UnmanagedType.LPTStr)]string lpszLongPath,
+           [MarshalAs(UnmanagedType.LPTStr)]StringBuilder lpszShortPath,
+           uint cchBuffer);
+
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets a value indicating whether or not audio is being played back.
@@ -61,6 +68,10 @@ namespace SIL.Pa
 			Stop();
 
 			StringBuilder buffer = new StringBuilder(128);
+
+            // need to get the old DOS 8.3 form of the file name so that Unicode characters in the name won't
+            // prevent the file from playing
+            soundFile = GetShortName(soundFile);
 
 			// Open audio device
 			string command = "open \"" + soundFile + "\" type mpegvideo alias " + kDeviceName;
@@ -227,6 +238,14 @@ namespace SIL.Pa
 			string saLoc = (regKey == null ? null : regKey.GetValue("Location", null) as string);
 			return (string.IsNullOrEmpty(saLoc) || !File.Exists(saLoc) ? null : saLoc);
 		}
+
+        private static string GetShortName(string path)
+        {
+            var shortBuilder = new StringBuilder(300);
+            GetShortPathName(path, shortBuilder, (uint)shortBuilder.Capacity);
+            return shortBuilder.ToString();
+        }
+
 
 		#region MCI Error codes to use some day... maybe
 		// ENHANCE: Some day, check the error code returned by mciSendString against this list.
