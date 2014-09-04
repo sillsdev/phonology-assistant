@@ -109,13 +109,14 @@ namespace SIL.Pa.Tests
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
 		[Test]
-		public void GetOppositeFeature_FromString()
+		public void LoadCache_ConvertToLower()
 		{
-			Assert.IsNull(m_cache.GetOppositeFeature((string)null));
-			Assert.AreEqual(m_cache["-red"], m_cache.GetOppositeFeature("+red"));
-			Assert.AreEqual(m_cache["-blue"], m_cache.GetOppositeFeature("+blue"));
-			Assert.AreEqual(m_cache["+red"], m_cache.GetOppositeFeature("-red"));
-			Assert.AreEqual(m_cache["+blue"], m_cache.GetOppositeFeature("-blue"));
-		}
+            var list = new List<Feature>();
+            list.Add(new Feature { Name = "ATR" });
+            m_cache.LoadFromList(list);
+            Assert.IsTrue(m_cache["+atr"] != null, "missing: +atr");
+			var mfeatures = m_cache.MinusFeatures.ToList();
+            Assert.IsTrue(m_cache["-atr"] != null, "missing: -atr");
+        }
 	}
 }
