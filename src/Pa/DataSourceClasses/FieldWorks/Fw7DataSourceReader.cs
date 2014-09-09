@@ -12,7 +12,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 	{
 		private string m_phoneticFieldName;
 		private string m_phoneticWsId;
-		private PaProject m_project;
+        private string m_audioWsId;
+        private PaProject m_project;
 		private PaDataSource m_dataSource;
 		private FwDataSourceInfo m_fwDsInfo;
 		private BackgroundWorker m_worker;
@@ -24,6 +25,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 			if (eticMapping == null)
 				return null;
 
+            var audioMapping = ds.FieldMappings.Single(m => m.Field.Type == FieldType.AudioFilePath);
+            
 			var reader = new Fw7DataSourceReader();
 			reader.m_worker = worker;
 			reader.m_project = project;
@@ -31,6 +34,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 			reader.m_fwDsInfo = ds.FwDataSourceInfo;
 			reader.m_phoneticFieldName = eticMapping.NameInDataSource;
 			reader.m_phoneticWsId = eticMapping.FwWsId;
+            reader.m_audioWsId = audioMapping != null ? audioMapping.FwWsId : null;
 
 			return reader;
 		}
@@ -300,9 +304,35 @@ namespace SIL.Pa.DataSource.FieldWorks
 			if (pro != null)
 				ReadSinglePronunciation(pro, wentry);
 
+            if (wentry.GetField("AudioFile", false) == null)
+                SearchForAudioWritingSystems(wentry, lxEntry, pro);
+
 			recCacheEntry.WordEntries.Add(wentry);
 			return true;
 		}
+
+        /// <summary>
+        /// Audio files can be store in special audio writing systems in the LexememForm, the CitationForm or the
+        /// Example field of the pronunciation.
+        /// First field found will be used.
+        /// </summary>
+        private void SearchForAudioWritingSystems(WordCacheEntry wentry, IPaLexEntry lxEntry, IPaLexPronunciation pro)
+        {
+            if (m_audioWsId == null)
+                return;
+
+            string audioFile = null;
+            if (lxEntry.LexemeForm != null)
+                audioFile = lxEntry.LexemeForm.GetString(m_audioWsId);
+            if (audioFile == null && lxEntry.CitationForm != null)
+                audioFile = lxEntry.CitationForm.GetString(m_audioWsId);
+
+            // TODO: Should look at examples also, but examples are not part of the data PA can get from FLEx.
+
+            if (audioFile != null)
+                wentry["AudioFile"] = audioFile;
+            
+        }
 
 		/// ------------------------------------------------------------------------------------
 		private bool CreateWordEntriesFromPronunciations(IPaLexEntry lxEntry, RecordCacheEntry recCacheEntry)

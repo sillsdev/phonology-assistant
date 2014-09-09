@@ -63,7 +63,7 @@ namespace SIL.Pa.UI.Dialogs
 			cboPronunciationOptions.Font = FontHelper.UIFont;
 
 			InitializeGrid();
-			InitializePhoneticFieldInfo();
+			InitializePhoneticAndAudioFieldInfo();
 
 			m_dirty = false;
 			LocalizeItemDlg.StringsLocalized += InitializePronunciationCombo;
@@ -100,14 +100,15 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		/// ------------------------------------------------------------------------------------
-		private void InitializePhoneticFieldInfo()
+		private void InitializePhoneticAndAudioFieldInfo()
 		{
 			cboPhoneticWritingSystem.Items.AddRange(m_datasource.FwDataSourceInfo.GetWritingSystems()
 				.Where(ws => ws.Type == FwDBUtils.FwWritingSystemType.Vernacular)
 				.Select(ws => ws.Name).ToArray());
 
 			// Set the phonetic writing system combo's initial value.
-			var fwws = m_datasource.FwDataSourceInfo.GetWritingSystems().SingleOrDefault(ws => ws.Id == m_phoneticMapping.FwWsId);
+            var writingSystems = m_datasource.FwDataSourceInfo.GetWritingSystems().ToArray();
+            var fwws = writingSystems.SingleOrDefault(ws => ws.Id == m_phoneticMapping.FwWsId);
 			cboPhoneticWritingSystem.SelectedItem = (fwws != null ? fwws.Name : cboPhoneticWritingSystem.Items[0]);
 
 			InitializePronunciationCombo();
@@ -122,6 +123,10 @@ namespace SIL.Pa.UI.Dialogs
 
 			rbPronunField.Checked =
 				(m_datasource.FwDataSourceInfo.PhoneticStorageMethod != FwDBUtils.PhoneticStorageMethod.LexemeForm);
+
+            // update audio WS in case it changed or has now been defined
+            var audioWs = FwDBUtils.GetDefaultAudioWritingSystem(writingSystems);
+            m_audioFileMapping.FwWsId = audioWs != null ? audioWs.Id : null;
 		}
 
 		/// ------------------------------------------------------------------------------------

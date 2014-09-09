@@ -408,7 +408,32 @@ namespace SIL.Pa.DataSource.FieldWorks
 			return (ws ?? wsList.Single(w => w.IsDefaultVernacular));
 		}
 
-		/// ------------------------------------------------------------------------------------
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// Gets the assumed writing system for audio fields in the project. Looks for a writing system
+        /// that has the same starting name as the default vernacular and is an audio variant.
+        /// </summary>
+        /// <returns>Found audio WS or null</returns>
+        /// ------------------------------------------------------------------------------------
+        public static FwWritingSysInfo GetDefaultAudioWritingSystem(IEnumerable<FwWritingSysInfo> writingSystems)
+        {
+            var wsList = writingSystems.ToArray();
+
+            var vernacularWS = wsList.Single(w => w.IsDefaultVernacular);
+
+            string wsPrefix;
+            int index = vernacularWS.Id.IndexOf('-');
+            if (index > 0)
+                wsPrefix = vernacularWS.Id.Substring(0, index);
+            else
+                wsPrefix = vernacularWS.Id;
+
+            var ws = wsList.FirstOrDefault(w => w.Id.EndsWith("audio") && w.Id.StartsWith(wsPrefix));
+
+            return ws;
+        }
+        
+        /// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the lexical entries from the project and server specified in the data source
 		/// information.

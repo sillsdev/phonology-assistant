@@ -254,6 +254,10 @@ namespace SIL.Pa.Model
 			if (TryToFindAudioFile(entry, audioFilePath, entry[PaField.kDataSourcePathFieldName]))
 				return entry.AbsoluteAudioFilePath;
 
+            if (entry.RecordEntry.DataSource.Type == DataSourceType.FW7 &&
+                TryToFindAudioFile(entry, audioFilePath, Path.Combine(entry[PaField.kDataSourcePathFieldName], "LinkedFiles\\AudioVisual")))
+                return entry.AbsoluteAudioFilePath;
+
 			// Check a path relative to the project file's path
 			if (TryToFindAudioFile(entry, audioFilePath, entry.Project.Folder))
 				return entry.AbsoluteAudioFilePath;

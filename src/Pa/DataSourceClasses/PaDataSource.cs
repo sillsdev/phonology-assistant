@@ -160,7 +160,10 @@ namespace SIL.Pa.DataSource
 				{ FwWsId = FwDBUtils.GetDefaultPhoneticWritingSystem(writingSystems).Id };
 
 			// Add a mapping for the audio file field.
-			yield return new FieldMapping(prjFields.Single(f => f.Type == FieldType.AudioFilePath), false);
+            var audioWs = FwDBUtils.GetDefaultAudioWritingSystem(writingSystems);
+            string audioWsId = audioWs != null ? audioWs.Id : null;
+			yield return new FieldMapping(prjFields.Single(f => f.Type == FieldType.AudioFilePath), false)
+                { FwWsId = audioWsId };
 
 			// Add mappings for all the other fields.
 			foreach (var mapping in prjFields.Where(f => defaultFieldNames.Contains(f.Name))
