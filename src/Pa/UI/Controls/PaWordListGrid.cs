@@ -1104,11 +1104,15 @@ namespace SIL.Pa.UI.Controls
 							entry.RecordEntry.DataSource.FwSourceDirectFromDB &&
 							!Path.IsPathRooted(audioFilePath))
 						{
-							audioFilePath =	Path.Combine(FwDBUtils.FwRootDataDir, audioFilePath);
-							Point pt = FindForm().PointToClient(MousePosition);
-							pt.Y += (int)(Cursor.Size.Height * 1.3);
-							_audioFilePathToolTip = new ToolTip();
-							_audioFilePathToolTip.Show(audioFilePath, FindForm(), pt);
+
+                            audioFilePath = entry.GetAudioFileUsingFallBackIfNecessary();
+                            if (audioFilePath != null)
+                            {
+                                Point pt = FindForm().PointToClient(MousePosition);
+                                pt.Y += (int)(Cursor.Size.Height * 1.3);
+                                _audioFilePathToolTip = new ToolTip();
+                                _audioFilePathToolTip.Show(audioFilePath, FindForm(), pt);
+                            }
 						}
 					}
 				}
