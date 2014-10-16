@@ -1,5 +1,11 @@
+Output/*
 */bin/*
 */obj/*
+src/DisablePASplashScreen/obj/*
+src/Pa/obj/*
+src/PATests/obj/*
+src/PaToFdoBrowser/obj/*
+src/SilTools/obj/*
 *\.suo
 *\.user
 *\.cache
