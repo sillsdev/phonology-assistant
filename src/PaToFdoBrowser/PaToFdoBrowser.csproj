@@ -61,10 +61,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\ObjectBrowser.dll</HintPath>
     </Reference>
-    <Reference Include="PaToFdoInterfaces, Version=1.0.4044.28478, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DistFiles\PaToFdoInterfaces.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -150,6 +146,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PaToFdoInterfaces\PaToFdoInterfaces.csproj">
+      <Project>{5540c524-713e-4842-bd59-35d5ea6a60c6}</Project>
+      <Name>PaToFdoInterfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
