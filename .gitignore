@@ -4,6 +4,7 @@ Output/*
 src/DisablePASplashScreen/obj/*
 src/Pa/obj/*
 src/PATests/obj/*
+src/PATests/bin/*
 src/PaToFdoBrowser/obj/*
 src/SilTools/obj/*
 *\.suo
@@ -16,3 +17,5 @@ src/SilTools/obj/*
 *SilTools.dll
 *SilTools.pdb
 *SilTools.xml
+TestResult.xml
+PaTests.VisualState.xml

@@ -58,9 +58,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DistFiles\Palaso.dll</HintPath>
+    <Reference Include="Palaso">
+      <HintPath>..\..\DistFiles\Windows\Palaso.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
