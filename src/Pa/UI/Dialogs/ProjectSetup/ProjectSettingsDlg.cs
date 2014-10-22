@@ -338,7 +338,7 @@ namespace SIL.Pa.UI.Dialogs
 						msg = LocalizationManager.GetString("DialogBoxes.ProjectSettingsDlg.MissingXSLTMsg",
 							"You must specify an XSLT file for '{0}'");
 
-						msg = string.Format(msg, Utils.PrepFilePathForMsgBox(_dataSources[i].SourceFile));
+						msg = string.Format(msg, SilTools.Utils.PrepFilePathForMsgBox(_dataSources[i].SourceFile));
 						break;
 					}
 				}
@@ -346,7 +346,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (msg != null)
 			{
-				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				SilTools.Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 				// Give the appropriate control focus.
 				if (offendingCtrl != null)
@@ -401,7 +401,7 @@ namespace SIL.Pa.UI.Dialogs
 						"A record marker must be specified for '{0}'.");
 						
 					msg = string.Format(msg, Path.GetFileName(_dataSources[i].SourceFile));
-					Utils.MsgBox(msg);
+					SilTools.Utils.MsgBox(msg);
 					m_grid.CurrentCell = m_grid[1, i];
 					m_grid.Focus();
 					return false;
@@ -606,7 +606,7 @@ namespace SIL.Pa.UI.Dialogs
 			foreach (string file in filenames)
 			{
 				if (ProjectContainsDataSource(file) &&
-					Utils.MsgBox(string.Format(DupDataSourceMsg, file),
+					SilTools.Utils.MsgBox(string.Format(DupDataSourceMsg, file),
 						MessageBoxButtons.YesNo) == DialogResult.No)
 				{
 					continue;
@@ -636,7 +636,7 @@ namespace SIL.Pa.UI.Dialogs
 				if (dlg.ShowDialog(this) == DialogResult.OK && dlg.ChosenDatabase != null)
 				{
 					if (ProjectContainsFwDataSource(dlg.ChosenDatabase) &&
-						Utils.MsgBox(string.Format(DupDataSourceMsg, dlg.ChosenDatabase.ProjectName),
+						SilTools.Utils.MsgBox(string.Format(DupDataSourceMsg, dlg.ChosenDatabase.ProjectName),
 							MessageBoxButtons.YesNo) == DialogResult.No)
 					{
 						return;
@@ -661,11 +661,11 @@ namespace SIL.Pa.UI.Dialogs
 			if (!FwDBUtils.GetFw7Project(this, out name, out server))
 				return;
 
-			Utils.WaitCursors(true);
+			SilTools.Utils.WaitCursors(true);
 			var info = new FwDataSourceInfo(name, server, DataSourceType.FW7);
 
 			if (ProjectContainsFwDataSource(info) &&
-				Utils.MsgBox(string.Format(DupDataSourceMsg, info.ProjectName),
+				SilTools.Utils.MsgBox(string.Format(DupDataSourceMsg, info.ProjectName),
 					MessageBoxButtons.YesNo) == DialogResult.No)
 			{
 				return;
@@ -674,7 +674,7 @@ namespace SIL.Pa.UI.Dialogs
 			_dataSources.Add(new PaDataSource(Project.Fields, info));
 			LoadGrid(m_grid.Rows.Count);
 			m_dirty = true;
-			Utils.WaitCursors(false);
+			SilTools.Utils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -701,7 +701,7 @@ namespace SIL.Pa.UI.Dialogs
 				"DialogBoxes.ProjectSettingsDlg.DeleteDataSourceConfirmationMsg",
 				"Are you sure you want to delete the selected data source(s)?");
 
-			if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) != DialogResult.Yes)
+			if (SilTools.Utils.MsgBox(msg, MessageBoxButtons.YesNo) != DialogResult.Yes)
 				return;
 
 			// Get indexes of selected rows, starting from end of the list.
@@ -748,8 +748,8 @@ namespace SIL.Pa.UI.Dialogs
 				var msg = LocalizationManager.GetString("DialogBoxes.ProjectSettingsDlg.DataSourceFileMissingMsg",
 					"The data source file '{0}' is missing.");
 
-				msg = string.Format(msg, Utils.PrepFilePathForMsgBox(ds.SourceFile));
-				Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				msg = string.Format(msg, SilTools.Utils.PrepFilePathForMsgBox(ds.SourceFile));
+				SilTools.Utils.MsgBox(msg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 				return;
 			}
 
@@ -797,10 +797,10 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 			}
 
-			Utils.WaitCursors(true);
+			SilTools.Utils.WaitCursors(true);
 			using (var dlg = new Fw7DataSourcePropertiesDlg(ds, Project.Fields))
 			{
-				Utils.WaitCursors(false);
+				SilTools.Utils.WaitCursors(false);
 				if (dlg.ShowDialog(this) != DialogResult.OK || !dlg.ChangesWereMade)
 					return;
 			}
@@ -888,7 +888,7 @@ namespace SIL.Pa.UI.Dialogs
 		//    if (btn == null)
 		//        return;
 
-		//    using (StringFormat sf = Utils.GetStringFormat(true))
+		//    using (StringFormat sf = SilTools.Utils.GetStringFormat(true))
 		//    using (Font fnt = FontHelper.MakeFont(btn.Font, 8, FontStyle.Regular))
 		//    {
 		//        e.Graphics.TextRenderingHint = TextRenderingHint.SystemDefault;

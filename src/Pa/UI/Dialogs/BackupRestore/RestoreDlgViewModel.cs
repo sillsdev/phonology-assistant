@@ -146,7 +146,7 @@ namespace SIL.Pa.UI.Dialogs
 		public void ReadFilesFromBackupFile(string backupFile)
 		{
 			WaitCursor.Show();
-			Utils.SetWindowRedraw(LogBox, false);
+			SilTools.Utils.SetWindowRedraw(LogBox, false);
 			
 			LogBox.Clear();
 			_prjFiles.Clear();
@@ -183,7 +183,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			LogBox.ScrollToTop();
 
-			Utils.SetWindowRedraw(LogBox, true);
+			SilTools.Utils.SetWindowRedraw(LogBox, true);
 			WaitCursor.Hide();
 		}
 

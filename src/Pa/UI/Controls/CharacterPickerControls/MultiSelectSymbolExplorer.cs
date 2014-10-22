@@ -37,7 +37,7 @@ namespace SIL.Pa.UI.Controls
 			if (App.DesignMode)
 				return;
 
-			Utils.SetWindowRedraw(this, false, false);
+			SilTools.Utils.SetWindowRedraw(this, false, false);
 
 			_pickers.Clear();
 
@@ -58,7 +58,7 @@ namespace SIL.Pa.UI.Controls
 
 			Dock = DockStyle.Fill;
 			LayoutPickers(false);
-			Utils.SetWindowRedraw(this, true, true);
+			SilTools.Utils.SetWindowRedraw(this, true, true);
 		}
 
 		/// ------------------------------------------------------------------------------------

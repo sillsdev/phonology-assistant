@@ -71,7 +71,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public void LoadPhones()
 		{
-			Utils.SetWindowRedraw(this, false);
+			SilTools.Utils.SetWindowRedraw(this, false);
 			
 			_flowLayout.Visible = false;
 			_tableLayout.Visible = false;
@@ -80,7 +80,7 @@ namespace SIL.Pa.UI.Controls
 
 			if (_phonesToLoad.Length == 0)
 			{
-				Utils.SetWindowRedraw(this, true);
+				SilTools.Utils.SetWindowRedraw(this, true);
 				return;
 			}
 
@@ -89,7 +89,7 @@ namespace SIL.Pa.UI.Controls
 			else
 				LoadExpandedView();
 
-			Utils.SetWindowRedraw(this, true);
+			SilTools.Utils.SetWindowRedraw(this, true);
 			RefreshEnabledPhones();
 		}
 

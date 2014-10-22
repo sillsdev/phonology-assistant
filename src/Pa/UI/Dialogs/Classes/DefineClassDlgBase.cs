@@ -5,7 +5,6 @@ using Localization;
 using Localization.UI;
 using SIL.Pa.UI.Controls;
 using SilTools;
-using Utils=SilTools.Utils;
 
 namespace SIL.Pa.UI.Dialogs
 {
@@ -20,7 +19,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public DefineClassBaseDlg()
 		{
-			Utils.WaitCursors(true);
+			SilTools.Utils.WaitCursors(true);
 			InitializeComponent();
 
 			_labelClassType.Font = FontHelper.UIFont;
@@ -91,7 +90,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
-			Utils.WaitCursors(false);
+			SilTools.Utils.WaitCursors(false);
 			base.OnShown(e);
 		}
 
@@ -120,7 +119,7 @@ namespace SIL.Pa.UI.Dialogs
 			// Ensure the new class doesn't have an empty class name
 			if (_textBoxClassName.Text == string.Empty)
 			{
-				Utils.MsgBox(LocalizationManager.GetString("DialogBoxes.DefineClassDlg.EmptyClassNameMsg", "Class name must not be empty."));
+				SilTools.Utils.MsgBox(LocalizationManager.GetString("DialogBoxes.DefineClassDlg.EmptyClassNameMsg", "Class name must not be empty."));
 				return false;
 			}
 

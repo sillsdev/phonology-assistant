@@ -110,7 +110,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			base.OnShown(e);
 			OnStringsLocalized();
-			Utils.UpdateWindow(Handle);
+			SilTools.Utils.UpdateWindow(Handle);
 
 			// At this point, the opacity should be zero. Now that we're shown and the handles
 			// are all created, show the form at full opacity. This will avoid visible layout
@@ -120,7 +120,7 @@ namespace SIL.Pa.UI.Dialogs
 			// This is needed because some dialogs have PaPanels whose borders
 			// don't get fully painted properly when the opacity goes to full.
 			Invalidate(true);
-			Utils.UpdateWindow(Handle);
+			SilTools.Utils.UpdateWindow(Handle);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -158,7 +158,7 @@ namespace SIL.Pa.UI.Dialogs
 		    // are changes to the data, ask if he wants the changes saved.
 			if (DialogResult != DialogResult.OK)
 			{
-				var result = Utils.MsgBox(App.kstidSaveChangesMsg, MessageBoxButtons.YesNoCancel);
+				var result = SilTools.Utils.MsgBox(App.kstidSaveChangesMsg, MessageBoxButtons.YesNoCancel);
 				
 				if (result == DialogResult.Cancel)
 				{

@@ -147,7 +147,7 @@ namespace SIL.Pa.Filters
 			var validator = new SearchQueryValidator(m_project);
 			if (!validator.GetIsValid(query) && showErrMsg)
 			{
-				Utils.MsgBox(SearchQueryValidationError.GetSingleStringErrorMsgFromListOfErrors(query.Pattern, validator.Errors));
+				SilTools.Utils.MsgBox(SearchQueryValidationError.GetSingleStringErrorMsgFromListOfErrors(query.Pattern, validator.Errors));
 				return null;
 			}
 
@@ -165,7 +165,7 @@ namespace SIL.Pa.Filters
 			//if (!string.IsNullOrEmpty(msg))
 			//{
 			//    if (showErrMsg)
-			//        Utils.MsgBox(msg);
+			//        SilTools.Utils.MsgBox(msg);
 
 			//    query.Errors.AddRange(modifiedQuery.Errors);
 			//    return null;

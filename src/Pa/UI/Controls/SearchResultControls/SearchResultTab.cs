@@ -275,7 +275,7 @@ namespace SIL.Pa.UI.Controls
 				{
 					m_selected = value;
 					Invalidate();
-					Utils.UpdateWindow(Handle);
+					SilTools.Utils.UpdateWindow(Handle);
 
 					if (m_resultView != null)
 					{

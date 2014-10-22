@@ -840,7 +840,7 @@ namespace SIL.Pa.UI.Controls
 				}
 				catch (Exception ex)
 				{
-					Utils.MsgBox(ex.Message);
+					SilTools.Utils.MsgBox(ex.Message);
 					return;
 				}
 			}
@@ -890,7 +890,7 @@ namespace SIL.Pa.UI.Controls
 						filename, m_rtfEditor, ex.Message);
 				}
 				
-				Utils.MsgBox(msg);
+				SilTools.Utils.MsgBox(msg);
 			}
 		}
 

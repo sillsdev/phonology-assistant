@@ -89,7 +89,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (node == null)
 				return;
 
-			Utils.WaitCursors(true);
+			SilTools.Utils.WaitCursors(true);
 			btnOK.Enabled = false;
 			lstFwProjects.SelectedIndex = -1;
 			lstFwProjects.Items.Clear();
@@ -120,7 +120,7 @@ namespace SIL.Pa.UI.Dialogs
 				}
 			}
 
-			Utils.WaitCursors(false);
+			SilTools.Utils.WaitCursors(false);
 		}
 	}
 }

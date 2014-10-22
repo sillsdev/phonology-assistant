@@ -167,6 +167,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\Windows\Palaso.dll</HintPath>
     </Reference>
+    <Reference Include="PaToFdoImpl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Output\Debug-Windows\PaToFdoImpl.dll</HintPath>
+    </Reference>
+    <Reference Include="SilUtils, Version=8.1.1.16146, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\SilUtils.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>

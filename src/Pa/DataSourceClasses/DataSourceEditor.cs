@@ -186,7 +186,7 @@ namespace SIL.Pa.DataSource
 			{
 				var msg = LocalizationManager.GetString("Miscellaneous.Messages.DataSourceEditing.ToolboxNotRunningMsg",
 					"For this feature to work, you must have Toolbox running with the following database opened:\n\n {0}\n\nSee the help file for more information.");
-				Utils.MsgBox(string.Format(msg, Utils.PrepFilePathForMsgBox(recEntry.DataSource.SourceFile)));
+				SilTools.Utils.MsgBox(string.Format(msg, SilTools.Utils.PrepFilePathForMsgBox(recEntry.DataSource.SourceFile)));
 			    return;
 			}
 
@@ -229,8 +229,8 @@ namespace SIL.Pa.DataSource
 			regKey.SetValue(null, jumpValue, RegistryValueKind.String);
 
 			// Inform anyone who cares (namely Toolbox) that a jump is being requested.
-			uint WM_SANTA_FE_FOCUS = Utils.RegisterWindowMessage("SantaFeFocus");
-			Utils.PostMessage(Utils.HWND_BROADCAST, WM_SANTA_FE_FOCUS, 4, 0);
+			uint WM_SANTA_FE_FOCUS = SilTools.Utils.RegisterWindowMessage("SantaFeFocus");
+			SilTools.Utils.PostMessage(SilTools.Utils.HWND_BROADCAST, WM_SANTA_FE_FOCUS, 4, 0);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -412,7 +412,7 @@ namespace SIL.Pa.DataSource
 			var saListFileContent = string.Format(kSaListFileContentFmt,
 				new object[] { callingApp, audioFile, offset, offset + length });
 			
-			saListFileContent = Utils.ConvertLiteralNewLines(saListFileContent);
+			saListFileContent = SilTools.Utils.ConvertLiteralNewLines(saListFileContent);
 
 			// Write the list file.
 			var lstFile = Path.GetTempFileName();

@@ -36,7 +36,7 @@ namespace SIL.Pa.UI.Controls
 			Button.Dock = DockStyle.Top;
 			Button.Font = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
 			Button.TextChanged += HandleButtonTextChanged;
-			//m_button.Text = Utils.ConvertLiteralNewLines(text);
+			//m_button.Text = SilTools.Utils.ConvertLiteralNewLines(text);
 			//string[] lines = m_button.Text.Split('\n');
 			//m_button.Height = 13 + (m_button.Font.Height * lines.Length);
 			Button.Cursor = Cursors.Hand;

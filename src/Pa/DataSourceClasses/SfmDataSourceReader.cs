@@ -173,7 +173,7 @@ namespace SIL.Pa.DataSource
 
 			// Try to convert the value to a numeric.
 			float fTime2;
-			if (!Utils.TryFloatParse(sTime2, out fTime2))
+			if (!SilTools.Utils.TryFloatParse(sTime2, out fTime2))
 				return fileName;
 
 			// Remove from the file name string the text removed that represents a numeric value.
@@ -195,7 +195,7 @@ namespace SIL.Pa.DataSource
 
 			// Try to convert the value to a numeric.
 			float fTime1;
-			if (!Utils.TryFloatParse(sTime1, out fTime1))
+			if (!SilTools.Utils.TryFloatParse(sTime1, out fTime1))
 			{
 				// Assume the time was specified in seconds. We want it in milliseconds.
 				// The parse attempt failed so just make the start and end times the same.

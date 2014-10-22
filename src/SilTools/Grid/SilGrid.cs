@@ -398,7 +398,7 @@ namespace SilTools
 					int height = TextRenderer.MeasureText(_waterMark, fnt).Height;
 					if (height < rc.Height)
 					{
-						using (StringFormat sf = Utils.GetStringFormat(true))
+						using (StringFormat sf = SilTools.Utils.GetStringFormat(true))
 							path.AddString(_waterMark, family, (int)FontStyle.Bold, size, rc, sf);
 
 						break;

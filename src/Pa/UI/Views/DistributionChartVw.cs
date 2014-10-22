@@ -37,7 +37,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public DistributionChartVw(PaProject project) : base(project)
 		{
-			Utils.WaitCursors(true);
+			SilTools.Utils.WaitCursors(true);
 			InitializeComponent();
 			Name = "XYChartVw";
 
@@ -77,7 +77,7 @@ namespace SIL.Pa.UI.Views
 
 			lblChartNameValue.Left = lblChartName.Right + 10;
 
-			Utils.WaitCursors(false);
+			SilTools.Utils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -537,7 +537,7 @@ namespace SIL.Pa.UI.Views
 			if (_grid.IsCurrentCellValidForSearch)
 				Search(row, col, SearchResultLocation.CurrentTabGroup);
 			else
-				Utils.MsgBox(FillChartMessage);
+				SilTools.Utils.MsgBox(FillChartMessage);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -559,7 +559,7 @@ namespace SIL.Pa.UI.Views
 			if (_grid.IsCurrentCellValidForSearch)
 				Search(_grid.CurrentCell, SearchResultLocation.CurrentTabGroup);
 			else
-				Utils.MsgBox(FillChartMessage);
+				SilTools.Utils.MsgBox(FillChartMessage);
 
 			e.Handled = true;
 		}
@@ -695,7 +695,7 @@ namespace SIL.Pa.UI.Views
 			var msg = LocalizationManager.GetString("Views.DistributionChart.ConfirmSavedChartRemoveMsg",
 				"Are you sure you want to remove the saved chart?");
 			
-			if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
+			if (SilTools.Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
 				return;
 
 			var layout = lvSavedCharts.SelectedItems[0].Tag as DistributionChart;

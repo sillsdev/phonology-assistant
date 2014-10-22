@@ -16,12 +16,12 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public OptionsDlg()
 		{
-			Utils.WaitCursors(true);
+			SilTools.Utils.WaitCursors(true);
 			InitializeComponent();
 
 			if (DesignMode)
 			{
-				Utils.WaitCursors(false);
+				SilTools.Utils.WaitCursors(false);
 				return;
 			}
 
@@ -86,7 +86,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void OnShown(EventArgs e)
 		{
-			Utils.WaitCursors(false);
+			SilTools.Utils.WaitCursors(false);
 			base.OnShown(e);
 		}
 

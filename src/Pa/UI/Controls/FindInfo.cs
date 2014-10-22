@@ -425,7 +425,7 @@ namespace SIL.Pa.UI.Controls
 							"The following specified text was not found:\n\n{0}",
 							"Message shown when all data has been searched without one match.");
 						
-						Utils.MsgBox(string.Format(msg, FindText));
+						SilTools.Utils.MsgBox(string.Format(msg, FindText));
 					}
 
 					return true;
@@ -548,7 +548,7 @@ namespace SIL.Pa.UI.Controls
 			catch (Exception ex)
 			{
 				if (ShowMessages)
-					Utils.MsgBox(ex.Message);
+					SilTools.Utils.MsgBox(ex.Message);
 			}
 
 			// Done searching
@@ -579,7 +579,7 @@ namespace SIL.Pa.UI.Controls
 				{
 					// Display message that all records have been searched
 					if (ShowMessages)
-						Utils.MsgBox(GetDoneSearchingMsg());
+						SilTools.Utils.MsgBox(GetDoneSearchingMsg());
 					
 					s_firstMatchedRow = cell.RowIndex;
 					s_firstMatchedCol = cell.ColumnIndex;
@@ -597,7 +597,7 @@ namespace SIL.Pa.UI.Controls
 					s_doneFinding = true;
 					// Display message that all records have been searched
 					if (ShowMessages)
-						Utils.MsgBox(GetDoneSearchingMsg());
+						SilTools.Utils.MsgBox(GetDoneSearchingMsg());
 					
 					return true;
 				}

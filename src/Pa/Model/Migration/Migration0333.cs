@@ -71,7 +71,7 @@ namespace SIL.Pa.Model.Migration
 				"'Distinctive Features' (formerly called binary features) and verify the accuracy of overridden " +
 				"features. Overridden phones and features will be highlighted in yellow.");
 
-			Utils.MsgBox(string.Format(msg, ProjectName));
+			SilTools.Utils.MsgBox(string.Format(msg, ProjectName));
 		}
 
 		#region Methods for migrating feature overrides file.

@@ -77,7 +77,7 @@ namespace SIL.Pa.DataSource.Sa
 				"Miscellaneous.Messages.DataSourceReading.WaveFileNotFoundMsg",
 				"The wave  file '{0}' cannot be found.");
 			
-			Utils.MsgBox(string.Format(msg, Utils.PrepFilePathForMsgBox(path)));
+			SilTools.Utils.MsgBox(string.Format(msg, SilTools.Utils.PrepFilePathForMsgBox(path)));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -111,7 +111,7 @@ namespace SIL.Pa.DataSource.Sa
 						var msg = LocalizationManager.GetString("Miscellaneous.Messages.DataSourceReading.InvalidWaveFileMsg",
 							"The file '{0}' is not a valid wave file.");
 						
-						Utils.MsgBox(string.Format(msg, Utils.PrepFilePathForMsgBox(audioFilePath)));
+						SilTools.Utils.MsgBox(string.Format(msg, SilTools.Utils.PrepFilePathForMsgBox(audioFilePath)));
 						return false;
 					}
 

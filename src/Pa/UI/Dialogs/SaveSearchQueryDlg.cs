@@ -19,7 +19,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			InitializeComponent();
 
-			lblCategories.Text = Utils.ConvertLiteralNewLines(lblCategories.Text);
+			lblCategories.Text = SilTools.Utils.ConvertLiteralNewLines(lblCategories.Text);
 
 			lblPatternLabel.Font = FontHelper.UIFont;
 			lblName.Font = FontHelper.UIFont;
@@ -108,7 +108,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			if (txtName.Text.Trim() == string.Empty)
 			{
-				Utils.MsgBox(LocalizationManager.GetString(
+				SilTools.Utils.MsgBox(LocalizationManager.GetString(
 					"DialogBoxes.SaveSearchQueryDlg.NoSavedPatternNameMsg",
 					"You must specify a name for your saved pattern."));
 				
@@ -119,7 +119,7 @@ namespace SIL.Pa.UI.Dialogs
 			
 			if (cboCategories.Text.Trim() == string.Empty)
 			{
-				Utils.MsgBox(LocalizationManager.GetString(
+				SilTools.Utils.MsgBox(LocalizationManager.GetString(
 					"DialogBoxes.SaveSearchQueryDlg.NoSavedPatternCategoryMsg",
 					"You must specify a category for your saved pattern."));
 				

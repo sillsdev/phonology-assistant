@@ -57,7 +57,7 @@ namespace SIL.Pa.Processing
 					}
 					catch (Exception e)
 					{
-						Utils.MsgBox(e.Message);
+						SilTools.Utils.MsgBox(e.Message);
 					}
 				}
 			}

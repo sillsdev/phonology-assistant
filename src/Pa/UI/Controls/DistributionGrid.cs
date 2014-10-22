@@ -779,7 +779,7 @@ namespace SIL.Pa.UI.Controls
 			var rc = GetCellDisplayRectangle(col, row, false);
 			rc.X = rc.Right - 7;
 			rc.Y = rc.Bottom - 7;
-			m_tooltip.Show(Utils.ConvertLiteralNewLines(text), this, rc.Location);
+			m_tooltip.Show(SilTools.Utils.ConvertLiteralNewLines(text), this, rc.Location);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -947,7 +947,7 @@ namespace SIL.Pa.UI.Controls
 			m_paintDropValidEffect = true;
 			DoubleBuffered = true;
 			Invalidate();
-			Utils.UpdateWindow(Handle);
+			SilTools.Utils.UpdateWindow(Handle);
 			DoubleBuffered = false;
 		}
 

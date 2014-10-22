@@ -46,7 +46,7 @@ namespace SIL.Pa.UI.Views
 		/// ------------------------------------------------------------------------------------
 		public SearchVw(PaProject project) : base(project)
 		{
-			Utils.WaitCursors(true);
+			SilTools.Utils.WaitCursors(true);
 			InitializeComponent();
 			Name = "SearchVw";
 
@@ -57,7 +57,7 @@ namespace SIL.Pa.UI.Views
 			ptrnTextBox.OwningView = this;
 			LoadToolbarAndContextMenus();
 
-			lblCurrPattern.Text = Utils.ConvertLiteralNewLines(lblCurrPattern.Text);
+			lblCurrPattern.Text = SilTools.Utils.ConvertLiteralNewLines(lblCurrPattern.Text);
 
 			App.RefreshToolTipsOnLocalizationManager();
 			SetupSidePanelContents();
@@ -104,7 +104,7 @@ namespace SIL.Pa.UI.Views
 			splitResults.Panel1.DragDrop += HandleSplitResultsPanel1DragDrop;
 			splitResults.Panel1.DragOver += HandleSplitResultsPanel1DragOver;
 
-			Utils.WaitCursors(false);
+			SilTools.Utils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------

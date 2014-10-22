@@ -31,7 +31,7 @@ namespace SIL.Pa.TestUtils
 		{
 			Assembly assembly = Assembly.GetExecutingAssembly();
 			Stream stream = assembly.GetManifestResourceStream(
-				"SIL.SpeechTools.TestUtils.EmptyTestSaDB.mdb");
+				"SIL.SpeechTools.TestSilTools.Utils.EmptyTestSaDB.mdb");
 
 			// CodeBase prepends "file:/" (Win) or "file:" (Linux), which must be removed.
 			int prefixLen = (Environment.OSVersion.Platform == PlatformID.Unix || Environment.OSVersion.Platform == PlatformID.MacOSX) ? 5 : 6;

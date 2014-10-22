@@ -43,7 +43,7 @@ namespace SIL.Pa.UI.Views
 			if (LicenseManager.UsageMode == LicenseUsageMode.Designtime)
 				return;
 
-			Utils.WaitCursors(true);
+			SilTools.Utils.WaitCursors(true);
 			base.DoubleBuffered = true;
 
 			LoadToolbarAndContextMenus();
@@ -67,7 +67,7 @@ namespace SIL.Pa.UI.Views
 			}
 			
 			_splitOuter.Panel1.Controls.Add(_pnlGrid);
-			Utils.WaitCursors(false);
+			SilTools.Utils.WaitCursors(false);
 
 			LocalizeItemDlg.StringsLocalized += delegate { ReloadChart(); };
 		}

@@ -10,6 +10,7 @@ using Microsoft.Win32;
 using Palaso.Reporting;
 using SIL.Pa.Properties;
 using SIL.PaToFdoInterfaces;
+using SIL.FieldWorks.PaObjects;
 using SilTools;
 
 namespace SIL.Pa.DataSource.FieldWorks
@@ -312,7 +313,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 						
 				msg = String.Format(msg, FwDBAccessInfo.SecsToWaitForDBEngineStartup);
 
-				if (Utils.MsgBox(msg, MessageBoxButtons.YesNo,
+				if (SilTools.Utils.MsgBox(msg, MessageBoxButtons.YesNo,
 					MessageBoxIcon.Question) != DialogResult.Yes)
 				{
 					return false;

@@ -455,7 +455,7 @@ namespace SIL.Pa.UI.Controls
 						"Views.Search.SavedSearchPatterns.DuplicateSearchCategoryMsg",
 						"There is already a category named '{0}'.");
 
-					Utils.MsgBox(string.Format(msg, newName), MessageBoxButtons.OK,
+					SilTools.Utils.MsgBox(string.Format(msg, newName), MessageBoxButtons.OK,
 						MessageBoxIcon.Exclamation);
 
 					return false;
@@ -490,7 +490,7 @@ namespace SIL.Pa.UI.Controls
 						"Views.Search.SavedSearchPatterns.DuplicateSearchQueryMsg",
 						"There is already a saved search pattern named '{0}' in the same category.");
 
-					Utils.MsgBox(string.Format(msg, newName), MessageBoxButtons.OK,
+					SilTools.Utils.MsgBox(string.Format(msg, newName), MessageBoxButtons.OK,
 						MessageBoxIcon.Exclamation);
 
 					return false;
@@ -791,7 +791,7 @@ namespace SIL.Pa.UI.Controls
 				"Views.Search.SavedSearchPatterns.DeleteSearchPatternCategoryConfirmationMsg",
 				"Are you sure you want to remove the search category '{0}'?");
 
-			if (Utils.MsgBox(string.Format(msg, node.Text), MessageBoxButtons.YesNo) == DialogResult.No)
+			if (SilTools.Utils.MsgBox(string.Format(msg, node.Text), MessageBoxButtons.YesNo) == DialogResult.No)
 				return;
 
 			// Remove group from cache.
@@ -821,7 +821,7 @@ namespace SIL.Pa.UI.Controls
 					"Views.Search.SavedSearchPatterns.DeleteSearchPatternConfirmationMsg",
 					"Are you sure you want to remove the search pattern '{0}'?");
 
-				if (Utils.MsgBox(string.Format(msg, node.Text), MessageBoxButtons.YesNo) == DialogResult.No)
+				if (SilTools.Utils.MsgBox(string.Format(msg, node.Text), MessageBoxButtons.YesNo) == DialogResult.No)
 					return;
 			}
 
@@ -939,7 +939,7 @@ namespace SIL.Pa.UI.Controls
 				var msg = LocalizationManager.GetString("Views.Search.SavedSearchPatterns.DuplicateSearchQueryQuestion",
 					"There is already a saved search pattern named '{0}' in the same category. Would you like it overwritten?");
 
-				if (Utils.MsgBox(string.Format(msg, query), MessageBoxButtons.YesNo) == DialogResult.No)
+				if (SilTools.Utils.MsgBox(string.Format(msg, query), MessageBoxButtons.YesNo) == DialogResult.No)
 					return false;
 
 				// User wants to overwrite so delete existing one first.
@@ -961,7 +961,7 @@ namespace SIL.Pa.UI.Controls
 				var msg = LocalizationManager.GetString("Views.Search.SavedSearchPatterns.AddSearchCategoryBeforeSaveMsg",
 					"Before saving a search pattern, you must first add a category to the saved pattern list.");
 				
-				Utils.MsgBox(msg);
+				SilTools.Utils.MsgBox(msg);
 				return;
 			}
 

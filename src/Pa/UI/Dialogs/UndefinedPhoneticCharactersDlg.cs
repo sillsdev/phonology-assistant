@@ -190,7 +190,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void LoadCharGrid(UndefinedPhoneticCharactersInfoList list)
 		{
-			Utils.WaitCursors(true);
+			SilTools.Utils.WaitCursors(true);
 			m_gridChars.Rows.Clear();
 			
 			DataGridViewRow prevRow = null;
@@ -222,7 +222,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			m_gridChars.AutoResizeColumns();
 			m_gridChars.CurrentCell = m_gridChars[0, 0];
-			Utils.WaitCursors(false);
+			SilTools.Utils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------

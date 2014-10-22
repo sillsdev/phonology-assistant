@@ -290,7 +290,7 @@ namespace SIL.Pa.UI.Controls
 				m_pnlTabs.Left = 0; 
 			
 			//var tab = new ViewTab(this, img, viewType);
-			//tab.Text = Utils.RemoveAcceleratorPrefix(text);
+			//tab.Text = SilTools.Utils.RemoveAcceleratorPrefix(text);
 			//tab.GetHelpToolTipAction = getHelpToolTipAction;
 			//tab.HelpTopicId = helptopicid;
 			//tab.Dock = DockStyle.Left;
@@ -695,7 +695,7 @@ namespace SIL.Pa.UI.Controls
 						m_pnlTabs.Left += pixelsPerIncrement;
 				}
 
-				Utils.UpdateWindow(m_pnlTabs.Handle);
+				SilTools.Utils.UpdateWindow(m_pnlTabs.Handle);
 			}
 
 			RefreshScrollButtonPanel();

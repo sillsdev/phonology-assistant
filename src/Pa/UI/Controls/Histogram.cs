@@ -275,7 +275,7 @@ namespace SIL.Pa.UI.Controls
 				_ignoreFixedBorderResize = false;
 			}
 
-			Utils.SetWindowRedraw(pnlBars, false, false);
+			SilTools.Utils.SetWindowRedraw(pnlBars, false, false);
 
 			int xLocationOffset = 0;
 			_hashMarkIncrement = 0;
@@ -308,7 +308,7 @@ namespace SIL.Pa.UI.Controls
 					bar.Location = newLoc;
 			}
 
-			Utils.SetWindowRedraw(pnlBars, true, true);
+			SilTools.Utils.SetWindowRedraw(pnlBars, true, true);
 
 			pnlScroller_Scroll(null, new ScrollEventArgs(ScrollEventType.EndScroll,
 				-pnlScroller.AutoScrollPosition.X));
@@ -427,7 +427,7 @@ namespace SIL.Pa.UI.Controls
 			Rectangle rc =
 				new Rectangle(0, yLocationOffset, pnlYaxis.ClientSize.Width - 4, _hashMarkGap);
 
-			using (StringFormat sf = Utils.GetStringFormat(true))
+			using (StringFormat sf = SilTools.Utils.GetStringFormat(true))
 			{
 				sf.Alignment = StringAlignment.Far;
 

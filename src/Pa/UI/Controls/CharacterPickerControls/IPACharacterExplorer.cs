@@ -165,14 +165,14 @@ namespace SIL.Pa.UI.Controls
 				return;
 
 			ShouldLoadCharacterDelegate = shouldLoadCharDelegate;
-			Utils.SetWindowRedraw(this, false, false);
+			SilTools.Utils.SetWindowRedraw(this, false, false);
 
 			_pickers.Clear();
 			_pickers.AddRange(GetListOfPickersToShow(typesToLoad));
 
 			Dock = DockStyle.Fill;
 			LayoutPickers(false);
-			Utils.SetWindowRedraw(this, true, true);
+			SilTools.Utils.SetWindowRedraw(this, true, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -219,7 +219,7 @@ namespace SIL.Pa.UI.Controls
 		protected void LayoutPickers(bool suspendDraw)
 		{
 			if (suspendDraw)
-				Utils.SetWindowRedraw(this, false, false);
+				SilTools.Utils.SetWindowRedraw(this, false, false);
 
 			foreach (var item in Items)
 			{
@@ -229,7 +229,7 @@ namespace SIL.Pa.UI.Controls
 			}
 
 			if (suspendDraw)
-				Utils.SetWindowRedraw(this, true, true);
+				SilTools.Utils.SetWindowRedraw(this, true, true);
 		}
 
 		#endregion

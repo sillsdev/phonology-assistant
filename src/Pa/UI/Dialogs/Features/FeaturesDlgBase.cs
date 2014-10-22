@@ -252,7 +252,7 @@ namespace SIL.Pa.UI.Dialogs
 
 				bldr.Length -= 2;
 				var fmt = LocalizationManager.GetString("DialogBoxes.FeaturesDlgBase.PhoneGridInfoToolTipFormat", "Unicode Values:\n{0}");
-				var tip = Utils.ConvertLiteralNewLines(string.Format(fmt, bldr));
+				var tip = SilTools.Utils.ConvertLiteralNewLines(string.Format(fmt, bldr));
 
 				var rc = _gridPhones.GetCellDisplayRectangle(0, e.RowIndex, true);
 				var pt = _gridPhones.PointToScreen(new Point(rc.Right - 5, rc.Bottom - 4));

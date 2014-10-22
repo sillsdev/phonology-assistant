@@ -148,7 +148,7 @@ namespace SIL.Pa.Processing
 				catch (Exception e)
 				{
 					if (showExceptions &&
-						Utils.MsgBox(e.Message, MessageBoxButtons.RetryCancel) == DialogResult.Retry)
+						SilTools.Utils.MsgBox(e.Message, MessageBoxButtons.RetryCancel) == DialogResult.Retry)
 					{
 						continue;
 					}

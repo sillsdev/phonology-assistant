@@ -101,7 +101,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 			
 			if (!File.Exists(queryFile))
 			{
-				var path = Utils.PrepFilePathForMsgBox(Path.GetDirectoryName(queryFile));
+				var path = SilTools.Utils.PrepFilePathForMsgBox(Path.GetDirectoryName(queryFile));
 				var args = new[] { dbName, machineName, filename, path, filename };
 
 				var msg = LocalizationManager.GetString("Miscellaneous.Messages.DataSourceReading.ShortNameFileMissingMsg",
@@ -112,7 +112,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 					"can be read by Phonology Assistant.\n\nThe Phonology Assistant website can be found " +
 					"at:\nhttp://www.sil.org/computing/pa/index.htm");
 				
-				Utils.MsgBox(string.Format(msg, args));
+				SilTools.Utils.MsgBox(string.Format(msg, args));
 				return false;
 			}
 
@@ -130,7 +130,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 				fwqueries.QueryFile = queryFile;
 			else if (ShowMsgOnFileLoadFailure)
 			{
-				string filePath = Utils.PrepFilePathForMsgBox(queryFile);
+				string filePath = SilTools.Utils.PrepFilePathForMsgBox(queryFile);
 
 				var msg = LocalizationManager.GetString("Miscellaneous.Messages.DataSourceReading.LoadingSQLQueriesErrorMsg",
 					"The file that contains FieldWorks queries '{0}' is either missing or corrupt. " +

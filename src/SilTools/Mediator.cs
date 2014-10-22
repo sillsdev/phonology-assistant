@@ -1541,7 +1541,7 @@ namespace SilTools
 				//the exception. In particular, the link-jumping column can fail if the object it is trying to jump to
 				//has been deleted. This is really not and "error", and if we let the exception get back to the
 				//jumping code, then it can notify the user more calmly.
-				//SIL.Utils.ErrorReporter.ReportException(new ApplicationException(s, inner));
+				//SIL.SilTools.Utils.ErrorReporter.ReportException(new ApplicationException(s, inner));
 			}
 			return null;
 		}

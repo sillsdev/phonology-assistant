@@ -62,7 +62,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			if (string.IsNullOrEmpty(text))
 			{
-				Utils.MsgBox(LocalizationManager.GetString(
+				SilTools.Utils.MsgBox(LocalizationManager.GetString(
 					"DialogBoxes.SaveDistributionChartDlg.NoSavedChartNameMsg",
 					"You must specify a name for your distribution chart."));
 				
@@ -80,7 +80,7 @@ namespace SIL.Pa.UI.Dialogs
 				
 				msg = string.Format(msg, text);
 				
-				if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
+				if (SilTools.Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
 					m_layoutToOverwrite = existingLayout;
 				else
 				{

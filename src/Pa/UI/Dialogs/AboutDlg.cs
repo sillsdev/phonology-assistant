@@ -45,7 +45,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			InitializeComponent();
 
-			fieldWorksIcon.Image = Utils.GetSilLogo();
+			fieldWorksIcon.Image = SilTools.Utils.GetSilLogo();
 
 			_bigFont = FontHelper.MakeFont(FontHelper.UIFont, 22, FontStyle.Bold);
 			_labelAppName.Font = _bigFont;
@@ -533,8 +533,8 @@ namespace SIL.Pa.UI.Dialogs
 			strRoot = Application.ExecutablePath.Substring(0, 2) + Path.DirectorySeparatorChar;
 
 			// Set the memory information in MB.
-			var ms = new Utils.MemoryStatus();
-			Utils.GlobalMemoryStatus(ref ms);
+			var ms = new SilTools.Utils.MemoryStatus();
+			SilTools.Utils.GlobalMemoryStatus(ref ms);
 			var available = ms.dwAvailPhys / Math.Pow(1024, 2);
 			var total = ms.dwTotalPhys / Math.Pow(1024, 2);
 			_labelAvailableMemoryValue.Text = string.Format(_labelAvailableMemoryValue.Text,
@@ -542,7 +542,7 @@ namespace SIL.Pa.UI.Dialogs
 				total.ToString("###,###,###,###,###"));
 
 			// Set the disk space information in KB and GB.
-			var freeDiskSpace = Utils.GetFreeDiskSpace(strRoot);
+			var freeDiskSpace = SilTools.Utils.GetFreeDiskSpace(strRoot);
 			var kbFree = freeDiskSpace / 1024;
 			var gbFree = freeDiskSpace / Math.Pow(1024, 3);
 			_labelAvailableDiskSpaceValue.Text = string.Format(_labelAvailableDiskSpaceValue.Text,

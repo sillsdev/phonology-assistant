@@ -225,7 +225,7 @@ namespace SIL.Pa.Model.Migration
 				bldr.Append('\n');
 			}
 
-			Utils.MsgBox(string.Format(fmt, Path.GetFileName(dsFilePath), bldr));
+			SilTools.Utils.MsgBox(string.Format(fmt, Path.GetFileName(dsFilePath), bldr));
 
 			mappingsElement.ReplaceAll(newMappings);
 		}

@@ -225,7 +225,7 @@ namespace SIL.Pa.UI
 			}
 
 			App.ProjectLoadInProcess = true;
-			Utils.WaitCursors(true);
+			SilTools.Utils.WaitCursors(true);
 			var project = PaProject.Load(projectFileName, this);
 
 			if (project != null)
@@ -269,7 +269,7 @@ namespace SIL.Pa.UI
 
 			BackColor = vwTabGroup.BackColor;
 			App.ProjectLoadInProcess = false;
-			Utils.WaitCursors(false);
+			SilTools.Utils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -393,7 +393,7 @@ namespace SIL.Pa.UI
 		protected override void OnActivated(EventArgs e)
 		{
 			if (Environment.OSVersion.Platform != PlatformID.Unix && Environment.OSVersion.Platform != PlatformID.MacOSX) {
-				Utils.UpdateWindow(Handle);
+				SilTools.Utils.UpdateWindow(Handle);
 			}
 			base.OnActivated(e);
 		}
@@ -633,7 +633,7 @@ namespace SIL.Pa.UI
 				var fmt = LocalizationManager.GetString("Miscellaneous.Messages.RecentlyOpenedProjectIsMissingMsg",
 					"The project file '{0}' is missing.");
 
-				Utils.MsgBox(string.Format(fmt, filename), MessageBoxIcon.Exclamation);
+				SilTools.Utils.MsgBox(string.Format(fmt, filename), MessageBoxIcon.Exclamation);
 			}
 			else if (_project == null || _project.FileName != filename)
 			{
@@ -706,8 +706,8 @@ namespace SIL.Pa.UI
 				var fmt = LocalizationManager.GetString("Miscellaneous.Messages.TrainingFileIsMissingMsg",
 					"The training file '{0}' is missing.");
 
-				var msg = string.Format(fmt, Utils.PrepFilePathForMsgBox(path));
-				Utils.MsgBox(msg, MessageBoxIcon.Exclamation);
+				var msg = string.Format(fmt, SilTools.Utils.PrepFilePathForMsgBox(path));
+				SilTools.Utils.MsgBox(msg, MessageBoxIcon.Exclamation);
 				return;
 			}
 
@@ -736,7 +736,7 @@ namespace SIL.Pa.UI
 
 				var msg = string.Format(fmt, dlg.Project.Name);
 
-				if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
+				if (SilTools.Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.Yes)
 				{
 					LoadProject(dlg.Project.FileName);
 					UndefinedPhoneticCharactersDlg.Show(_project, true);
@@ -817,7 +817,7 @@ namespace SIL.Pa.UI
 				if (dlg.ShowDialog(this) != DialogResult.OK || !dlg.ChangesWereMade)
 					return true;
 
-				Utils.WaitCursors(false);
+				SilTools.Utils.WaitCursors(false);
 
 				// Fully reload the project and blow away the previous project instance.
 				var project = PaProject.Load(_project.FileName, this);
@@ -836,7 +836,7 @@ namespace SIL.Pa.UI
 					App.MsgMediator.SendMessage("DataSourcesModified", project);
 				}
 
-				Utils.WaitCursors(false);
+				SilTools.Utils.WaitCursors(false);
 			}
 
 			return true;

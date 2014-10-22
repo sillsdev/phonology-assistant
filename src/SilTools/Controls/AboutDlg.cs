@@ -490,8 +490,8 @@ namespace SilTools
 			strRoot = Application.ExecutablePath.Substring(0, 2) + Path.DirectorySeparatorChar;
 
 			// Set the memory information in MB.
-			Utils.MemoryStatus ms = new Utils.MemoryStatus();
-			Utils.GlobalMemoryStatus(ref ms);
+			SilTools.Utils.MemoryStatus ms = new SilTools.Utils.MemoryStatus();
+			SilTools.Utils.GlobalMemoryStatus(ref ms);
 			double available = ms.dwAvailPhys / Math.Pow(1024, 2);
 			double total = ms.dwTotalPhys / Math.Pow(1024, 2);
 			lblAvailableMemoryValue.Text = string.Format(m_sAvailableMemoryFmt,
@@ -499,7 +499,7 @@ namespace SilTools
 				total.ToString("###,###,###,###,###"));
 
 			// Set the disk space information in KB and GB.
-			ulong freeDiskSpace = Utils.GetFreeDiskSpace(strRoot);
+			ulong freeDiskSpace = SilTools.Utils.GetFreeDiskSpace(strRoot);
 			ulong kbFree = freeDiskSpace / 1024;
 			double gbFree = freeDiskSpace / Math.Pow(1024, 3);
 			lblAvailableDiskSpaceValue.Text = string.Format(m_sAvailableDiskSpaceFmt,
@@ -630,7 +630,7 @@ namespace SilTools
 			catch (Exception ex)
 			{
 				var msg = "There was an error trying to create an e-mail. It's possible a program for sending e-mail has not been installed.\n\n{0}";
-				Utils.MsgBox(string.Format(msg, ex.Message));
+				SilTools.Utils.MsgBox(string.Format(msg, ex.Message));
 			}
 		}
 
@@ -644,7 +644,7 @@ namespace SilTools
 			catch (Exception err)
 			{
 				var msg = "The following error occurred when trying to go to the website:\n\n{0}";
-				Utils.MsgBox(string.Format(msg, err.Message));
+				SilTools.Utils.MsgBox(string.Format(msg, err.Message));
 			}
 		}
 	}

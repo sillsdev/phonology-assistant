@@ -45,7 +45,7 @@ namespace SIL.Pa.UI.Controls
 
 			OwningTabGroup = owningTabControl;
 			TabImage = img;
-			//Text = Utils.RemoveAcceleratorPrefix(text);
+			//Text = SilTools.Utils.RemoveAcceleratorPrefix(text);
 			ViewType = viewType;
 			_viewProvider = viewProvider;
 			HelpToolTipProvider = helpToolTipProvider;
@@ -96,7 +96,7 @@ namespace SIL.Pa.UI.Controls
 			View.Dock = DockStyle.Fill;
 
 			if (!(View is ITabView))
-				Utils.MsgBox(string.Format("Error: {0} is not based on ITabView!", View.GetType()));
+				SilTools.Utils.MsgBox(string.Format("Error: {0} is not based on ITabView!", View.GetType()));
 
 			try
 			{
@@ -156,7 +156,7 @@ namespace SIL.Pa.UI.Controls
 				return;
 
 			App.MsgMediator.SendMessage("BeginViewDocking", View);
-			Utils.SetWindowRedraw(OwningTabGroup, false, false);
+			SilTools.Utils.SetWindowRedraw(OwningTabGroup, false, false);
 			Visible = true;
 			
 			OwningTabGroup.ViewWasDocked(this);
@@ -170,7 +170,7 @@ namespace SIL.Pa.UI.Controls
 			OwningTabGroup.SelectTab(this);
 			_ignoreTabSelection = false;
 
-			Utils.SetWindowRedraw(OwningTabGroup, true, true);
+			SilTools.Utils.SetWindowRedraw(OwningTabGroup, true, true);
 			View.Focus();
 			OwningTabGroup.SetActiveView(View as ITabView, false);
 			App.MsgMediator.SendMessage("ViewDocked", View);
@@ -204,7 +204,7 @@ namespace SIL.Pa.UI.Controls
 			
 			// Strip out accelerator key prefixes but keep ampersands that should be kept.
 			var prjName = ((ITabView)View).Project.Name;
-			var caption = Utils.RemoveAcceleratorPrefix(Text);
+			var caption = SilTools.Utils.RemoveAcceleratorPrefix(Text);
 			var fmt = LocalizationManager.GetString("Views.UndockedViewCaptionFormat", "{0} ({1}) - {2}",
 				"Parameter one is the project name; parameter 2 is the view name; parameter 3 is the application name.");
 			_viewsForm.Text = string.Format(fmt, prjName, caption, Application.ProductName);
@@ -342,7 +342,7 @@ namespace SIL.Pa.UI.Controls
 				s_viewSelectionInProgress = true;
 				_selected = value;
 				Invalidate();
-				Utils.UpdateWindow(Handle);
+				SilTools.Utils.UpdateWindow(Handle);
 
 				// Invalidate the tab to the left of this one in
 				// case it needs to redraw its etched right border.
@@ -350,7 +350,7 @@ namespace SIL.Pa.UI.Controls
 				if (adjacentTab != null)
 				{
 					adjacentTab.Invalidate();
-					Utils.UpdateWindow(adjacentTab.Handle);
+					SilTools.Utils.UpdateWindow(adjacentTab.Handle);
 				}
 
 				if (!_ignoreTabSelection)

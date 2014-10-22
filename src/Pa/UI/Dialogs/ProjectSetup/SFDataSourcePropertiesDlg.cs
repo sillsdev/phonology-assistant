@@ -392,7 +392,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private bool ShowError(Control ctrlToGiveFocus, string msg)
 		{
-			Utils.MsgBox(msg);
+			SilTools.Utils.MsgBox(msg);
 			ctrlToGiveFocus.Focus();
 			return false;
 		}

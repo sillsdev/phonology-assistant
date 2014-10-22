@@ -192,7 +192,7 @@ namespace SIL.Pa
 				var msg = string.Format("There was an error retrieving the settings file\n\n" +
 					"'{0}'\n\nThe default settings file will be used instead.", path);
 
-				Utils.MsgBox(msg);
+				SilTools.Utils.MsgBox(msg);
 			}
 
 			if (ProjectFolder == null)
@@ -999,7 +999,7 @@ namespace SIL.Pa
 		public static void NotifyUserOfProblem(string msg, params object[] args)
 		{
 			CloseSplashScreen();
-			Utils.WaitCursors(false);
+			SilTools.Utils.WaitCursors(false);
 			try { ErrorReport.NotifyUserOfProblem(msg, args); }
 			catch { }
 		}
@@ -1008,7 +1008,7 @@ namespace SIL.Pa
 		public static void NotifyUserOfProblem(Exception e, string msg, params object[] args)
 		{
 			CloseSplashScreen();
-			Utils.WaitCursors(false);
+			SilTools.Utils.WaitCursors(false);
 			try { ErrorReport.NotifyUserOfProblem(e, msg, args); }
 			catch { }
 		}
@@ -1356,7 +1356,7 @@ namespace SIL.Pa
 				s_activePercentLabel = lblPct;
 				s_activeProgressBar = bar;
 				UpdateSplashScreenMessage(lbl, lblPct.Text);
-				Utils.WaitCursors(true);
+				SilTools.Utils.WaitCursors(true);
 			}
 
 			return s_progressBar;
@@ -1394,7 +1394,7 @@ namespace SIL.Pa
 			s_activeProgBarLabel = null;
 			s_activePercentLabel = null;
 			s_activeProgressBar = null;
-			Utils.WaitCursors(false);
+			SilTools.Utils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -1800,7 +1800,7 @@ namespace SIL.Pa
 						query.Errors.Add(error);
 
 						if (showMsgOnErr)
-							Utils.MsgBox(errorMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+							SilTools.Utils.MsgBox(errorMsg, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
 						return false;
 					}
@@ -1840,8 +1840,8 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		private static void ShowSearchError(string msg)
 		{
-			Utils.WaitCursors(false);
-			Utils.MsgBox(msg);
+			SilTools.Utils.WaitCursors(false);
+			SilTools.Utils.MsgBox(msg);
 		}
 
 		#endregion

@@ -27,7 +27,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public FwDataSourcePropertiesDlg(PaProject project, PaDataSource ds) : this()
 		{
-			Utils.WaitCursors(true);
+			SilTools.Utils.WaitCursors(true);
 			m_dataSource = ds;
 
 			lblProjectValue.Text = ds.FwDataSourceInfo.ToString();
@@ -51,7 +51,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			m_dirty = false;
 			m_grid.IsDirty = false;
-			Utils.WaitCursors(false);
+			SilTools.Utils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -101,7 +101,7 @@ namespace SIL.Pa.UI.Dialogs
 		//        "Message displayed in the FieldWorks data source properties dialog box when the user clicks OK without having assigned a writing system to any field.",
 		//        App.kLocalizationGroupDialogs);
 
-		//    Utils.MsgBox(msg);
+		//    SilTools.Utils.MsgBox(msg);
 		//    return false;
 		//}
 

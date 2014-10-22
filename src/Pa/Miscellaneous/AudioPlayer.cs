@@ -199,7 +199,7 @@ namespace SIL.Pa
 					(from >= 0 ? from.ToString() : string.Empty),
 					(to >= 0 && to > from ? to.ToString() : string.Empty)});
 
-			saListFileContent = Utils.ConvertLiteralNewLines(saListFileContent);
+			saListFileContent = SilTools.Utils.ConvertLiteralNewLines(saListFileContent);
 
 			// Write the list file.
 			m_lstFile = Path.GetTempFileName();

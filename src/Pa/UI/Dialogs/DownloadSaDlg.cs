@@ -25,7 +25,7 @@ namespace SIL.Pa.UI.Dialogs
 			lnkSaWebsite.Links.Add(lnkSaWebsite.Text.IndexOf(link, System.StringComparison.Ordinal), link.Length);
 
 			_appWaitCursorOn = Application.UseWaitCursor;
-			Utils.WaitCursors(false);
+			SilTools.Utils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -49,7 +49,7 @@ namespace SIL.Pa.UI.Dialogs
 		protected override void OnClosing(CancelEventArgs e)
 		{
 			base.OnClosing(e);
-			Utils.WaitCursors(_appWaitCursorOn);
+			SilTools.Utils.WaitCursors(_appWaitCursorOn);
 		}
 
 		/// ------------------------------------------------------------------------------------

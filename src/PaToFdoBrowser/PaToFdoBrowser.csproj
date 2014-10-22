@@ -84,6 +84,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\ObjectBrowser.dll</HintPath>
     </Reference>
+    <Reference Include="PaToFdoImpl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Output\Debug-Windows\PaToFdoImpl.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>

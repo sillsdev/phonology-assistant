@@ -387,7 +387,7 @@ namespace SilTools.Controls
 			base.OnClientSizeChanged(e);
 
 			if (m_overrideBorderDrawing)
-				Utils.SendMessage(Handle, PaintingHelper.WM_NCPAINT, 1, 0);
+				SilTools.Utils.SendMessage(Handle, PaintingHelper.WM_NCPAINT, 1, 0);
 
 			CalculateTextRectangle();
 		}

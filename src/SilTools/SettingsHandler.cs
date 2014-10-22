@@ -187,7 +187,7 @@ namespace SilTools
 				return false;
 
 			if (centerByDefault)
-				Utils.CenterFormInScreen(frm);
+				SilTools.Utils.CenterFormInScreen(frm);
 
 			XmlNode node = FindChildNode(kWindowStatesNode, frm.Name);
 

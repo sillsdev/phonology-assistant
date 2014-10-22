@@ -911,7 +911,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			msg = string.Format(msg, CurrentFilter.Name);
 
-			if (Utils.MsgBox(msg, MessageBoxButtons.OKCancel) != DialogResult.OK)
+			if (SilTools.Utils.MsgBox(msg, MessageBoxButtons.OKCancel) != DialogResult.OK)
 				return;
 
 			int index = m_gridFilters.CurrentRow.Index;
@@ -1042,7 +1042,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void UpdateView(bool updateExpressionMatchRadioButtons)
 		{
-			Utils.SetWindowRedraw(this, false);
+			SilTools.Utils.SetWindowRedraw(this, false);
 
 			var filter = CurrentFilter;
 			m_gridExpressions.Enabled = (filter != null);
@@ -1068,7 +1068,7 @@ namespace SIL.Pa.UI.Dialogs
 			var text = lblExpressionMatchMsgPart.Tag as string;
 			lblExpressionMatchMsgPart.Text = string.Format(text, (filter == null ? string.Empty : filter.Name));
 
-			Utils.SetWindowRedraw(this, true);
+			SilTools.Utils.SetWindowRedraw(this, true);
 		}
 
 		#endregion

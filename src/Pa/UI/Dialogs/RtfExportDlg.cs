@@ -392,7 +392,7 @@ namespace SIL.Pa.UI.Dialogs
 		{
 			//if (m_exportTarget == RtfCreator.ExportTarget.FileAndOpen && !File.Exists(m_rtfEditor))
 			//{
-			//    Utils.MsgBox(Properties.Resources.kstidMissingRTFEditorMsg);
+			//    SilTools.Utils.MsgBox(Properties.Resources.kstidMissingRTFEditorMsg);
 			//    return;
 			//}
 

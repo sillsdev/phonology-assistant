@@ -350,8 +350,8 @@ namespace SIL.Pa.UI.Controls
 		//    foreach (string id in classIds)
 		//    {
 		//        // Lookup the record for the class id.
-		//        string sql = DataUtils.SelectSQL("PhoneticClass", "PhoneticClassID", int.Parse(id));
-		//        using (OleDbDataReader reader = DataUtils.GetSQLResultsFromDB(sql))
+		//        string sql = DataSilTools.Utils.SelectSQL("PhoneticClass", "PhoneticClassID", int.Parse(id));
+		//        using (OleDbDataReader reader = DataSilTools.Utils.GetSQLResultsFromDB(sql))
 		//        {
 		//            if (reader.Read())
 		//            {

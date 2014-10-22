@@ -170,7 +170,7 @@ namespace SilTools
 			if (Thread.CurrentThread.Name == null)
 				Thread.CurrentThread.Name = "Main";
 
-			Utils.s_splashScreen = this;
+			SilTools.Utils.s_splashScreen = this;
 
 			// For some reason we have to specify a stack size, otherwise we get a stack overflow. 
 			// The default stack size of 1MB works on WinXP. Needs to be 2MB on Win2K.
@@ -193,7 +193,7 @@ namespace SilTools
 		{
 			m_useFading = false;
 			StartSplashScreen();
-			Utils.s_splashScreen = this;
+			SilTools.Utils.s_splashScreen = this;
 
 			// Wait until the splash screen is actually up
 			while (m_splashScreen == null || !m_splashScreen.Visible)
@@ -237,7 +237,7 @@ namespace SilTools
 				}
 			}
 			
-			Utils.s_splashScreen = null;
+			SilTools.Utils.s_splashScreen = null;
 
 			if (m_splashScreen == null)
 				return;

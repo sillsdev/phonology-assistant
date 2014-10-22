@@ -502,7 +502,7 @@ namespace SIL.Pa.UI.Controls
 			}
 			
 			string tooltip = string.Format(fmt, charInfo.Name, charInfo.Description);
-			return Utils.ConvertLiteralNewLines(tooltip);
+			return SilTools.Utils.ConvertLiteralNewLines(tooltip);
 		}
 
 		#endregion

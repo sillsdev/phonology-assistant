@@ -157,7 +157,7 @@ namespace SIL.Pa.Model
 				var msg = LocalizationManager.GetString("ProjectMessages.Migrating.MigrationSuccessfulMsg",
 					"The '{0}' project has succssfully been upgraded to work with this version of Phonology Assistant. A backup of your old project has been made in:\n\n{1}");
 
-				Utils.MsgBox(string.Format(msg, projectName, backupFolder));
+				SilTools.Utils.MsgBox(string.Format(msg, projectName, backupFolder));
 				return true;
 			}
 
@@ -426,9 +426,9 @@ namespace SIL.Pa.Model
 			// Especially if the chain of events that triggered displaying the message box was
 			// started in this method. In that case, we'd get into an infinite loop of
 			// displaying the message box.
-			if (Utils.MessageBoxJustShown)
+			if (SilTools.Utils.MessageBoxJustShown)
 			{
-				Utils.MessageBoxJustShown = false;
+				SilTools.Utils.MessageBoxJustShown = false;
 				return;
 			}
 

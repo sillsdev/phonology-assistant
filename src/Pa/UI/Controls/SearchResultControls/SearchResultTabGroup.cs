@@ -810,7 +810,7 @@ namespace SIL.Pa.UI.Controls
 						m_tabsPanel.Left += pixelsPerIncrement;
 				}
 
-				Utils.UpdateWindow(m_tabsPanel.Handle);
+				SilTools.Utils.UpdateWindow(m_tabsPanel.Handle);
 			}
 
 			RefreshScrollButtonPanel();

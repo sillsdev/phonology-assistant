@@ -160,7 +160,7 @@ namespace SIL.Pa.Model
 			//{
 			//    var msg = LocalizationManager.GetString("SavingRecordCacheErrorMsg", "Error saving records: {0}",
 			//        "Message displayed if there was an error saving the records to an XML file.");
-			//    Utils.MsgBox(string.Format(msg, e.Message));
+			//    SilTools.Utils.MsgBox(string.Format(msg, e.Message));
 			//}
 		}
 

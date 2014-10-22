@@ -636,7 +636,7 @@ namespace SIL.Pa.UI.Controls
 			else
 				e.Graphics.DrawLine(SystemPens.ControlLight, rc.Right - 1, 1, rc.Right - 1, rc.Bottom - 2);
 
-			using (StringFormat sf = Utils.GetStringFormat(true))
+			using (StringFormat sf = SilTools.Utils.GetStringFormat(true))
 			using (SolidBrush br = new SolidBrush(Enabled ?
 				SystemColors.ControlText : SystemColors.GrayText))
 			{

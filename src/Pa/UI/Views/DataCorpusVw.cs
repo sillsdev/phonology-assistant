@@ -33,11 +33,11 @@ namespace SIL.Pa.UI.Views
 			if (App.DesignMode)
 				return;
 
-			Utils.WaitCursors(true);
+			SilTools.Utils.WaitCursors(true);
 			LoadToolbar();
 			LoadWindow();
 			base.DoubleBuffered = true;
-			Utils.WaitCursors(false);
+			SilTools.Utils.WaitCursors(false);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -37,12 +37,12 @@ namespace SilTools
 			while (Opacity < maxOpacity)
 			{
 				Opacity += 0.05f;
-				Utils.UpdateWindow(Handle);
+				SilTools.Utils.UpdateWindow(Handle);
 				Thread.Sleep(50);
 			}
 
 			Opacity = maxOpacity;
-			Utils.UpdateWindow(Handle);
+			SilTools.Utils.UpdateWindow(Handle);
 		}
 
 		/// ------------------------------------------------------------------------------------

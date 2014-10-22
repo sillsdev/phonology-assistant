@@ -141,7 +141,7 @@ namespace SIL.Pa.Model
 					"Feature '{0}' already exists.",
 					"Message displayed when user is trying to add a new feature that already exists.");
 				
-				Utils.MsgBox(string.Format(msg, featureName));
+				SilTools.Utils.MsgBox(string.Format(msg, featureName));
 			}
 
 			return true;

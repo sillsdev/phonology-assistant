@@ -1653,7 +1653,7 @@ namespace SIL.Pa.UI.Controls
 					int height = TextRenderer.MeasureText("!", fnt).Height;
 					if (height < rc.Height)
 					{
-						using (var sf = Utils.GetStringFormat(true))
+						using (var sf = SilTools.Utils.GetStringFormat(true))
 							path.AddString("!", family, (int)FontStyle.Bold, size, rc, sf);
 
 						break;
@@ -2199,7 +2199,7 @@ namespace SIL.Pa.UI.Controls
 			// This should never happen.
 			if (cieCache == null)
 			{
-				Utils.MsgBox(LocalizationManager.GetString("Views.WordLists.NoMinimalPairsPopupMsg", "No minimal pairs to display."));
+				SilTools.Utils.MsgBox(LocalizationManager.GetString("Views.WordLists.NoMinimalPairsPopupMsg", "No minimal pairs to display."));
 				return false;
 			}
 
@@ -2256,7 +2256,7 @@ namespace SIL.Pa.UI.Controls
 			if (!show && _noCIEResultsMsg == null)
 				return;
 			
-			Utils.SetWindowRedraw(this, false, false);
+			SilTools.Utils.SetWindowRedraw(this, false, false);
 
 			if (!show)
 			{
@@ -2279,7 +2279,7 @@ namespace SIL.Pa.UI.Controls
 				_noCIEResultsMsg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 				_noCIEResultsMsg.BackColor = Color.Transparent;
 				_noCIEResultsMsg.MouseDown += delegate { Focus(); };
-				_noCIEResultsMsg.Text = Utils.ConvertLiteralNewLines(LocalizationManager.GetString("Views.WordLists.NoMinimalPairsMsg",
+				_noCIEResultsMsg.Text = SilTools.Utils.ConvertLiteralNewLines(LocalizationManager.GetString("Views.WordLists.NoMinimalPairsMsg",
 					"No minimal pairs to display.\nChange the minimal pairs options and try again.",
 					"Shows in place of a word list grid when the user has turned on minimal pairs and there aren't any to show."));
 
@@ -2288,7 +2288,7 @@ namespace SIL.Pa.UI.Controls
 				App.MsgMediator.SendMessage("NoCIEResultsShowing", this);
 			}
 
-			Utils.SetWindowRedraw(this, true, true);
+			SilTools.Utils.SetWindowRedraw(this, true, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -2412,7 +2412,7 @@ namespace SIL.Pa.UI.Controls
 			if (!IsGroupedByField && (!_cache.IsCIEList || _cache.IsEmpty))
 				return;
 
-			Utils.SetWindowRedraw(this, false, false);
+			SilTools.Utils.SetWindowRedraw(this, false, false);
 	
 			// All the Sorted row groups were either expanded or collapsed
 			_toggleGroupExpansion = true;
@@ -2437,7 +2437,7 @@ namespace SIL.Pa.UI.Controls
 			App.IncProgressBar(RowCount);
 			App.UninitializeProgressBar();
 			_toggleGroupExpansion = false;
-			Utils.SetWindowRedraw(this, true, true);
+			SilTools.Utils.SetWindowRedraw(this, true, true);
 		}
 
 		/// ------------------------------------------------------------------------------------

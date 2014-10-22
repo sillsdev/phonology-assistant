@@ -38,10 +38,10 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (grid != null)
 			{
-				Utils.SetWindowRedraw(grid, false, false);
+				SilTools.Utils.SetWindowRedraw(grid, false, false);
 				var builder = new WordListGroupingBuilder(grid);
 				builder.InternalGroup();
-				Utils.SetWindowRedraw(grid, true, true);
+				SilTools.Utils.SetWindowRedraw(grid, true, true);
 				grid.Invalidate();
 
 				if (grid.GroupByField != null)
@@ -58,10 +58,10 @@ namespace SIL.Pa.UI.Controls
 		{
 			if (grid != null)
 			{
-				Utils.SetWindowRedraw(grid, false, false);
+				SilTools.Utils.SetWindowRedraw(grid, false, false);
 				WordListGroupingBuilder builder = new WordListGroupingBuilder(grid);
 				builder.InternalUnGroup();
-				Utils.SetWindowRedraw(grid, true, true);
+				SilTools.Utils.SetWindowRedraw(grid, true, true);
 				App.MsgMediator.SendMessage("AfterWordListUnGroupedByField", grid);
 			}
 		}

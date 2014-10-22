@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using SIL.PaToFdoInterfaces;
+using SIL.FieldWorks.PaObjects;
 using SIL.ObjectBrowser;
 using WeifenLuo.WinFormsUI.Docking;
 

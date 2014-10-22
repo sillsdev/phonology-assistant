@@ -97,7 +97,7 @@ namespace SIL.Pa.UI.Controls
 				}
 				finally
 				{
-					Utils.UpdateWindow(Handle);
+					SilTools.Utils.UpdateWindow(Handle);
 				}
 			}
 
@@ -114,7 +114,7 @@ namespace SIL.Pa.UI.Controls
 			if (m_mainMenuAdapter != null)
 				m_mainMenuAdapter.AllowUpdates = true;
 
-			Invalidate();  // Used to be: Utils.UpdateWindow(Handle); but I'm not sure why. I suspect there was a good reason though.
+			Invalidate();  // Used to be: SilTools.Utils.UpdateWindow(Handle); but I'm not sure why. I suspect there was a good reason though.
 
 			if (App.Project != null && m_checkForModifiedDataSources &&
 				Settings.Default.ReloadProjectsWhenAppBecomesActivate)

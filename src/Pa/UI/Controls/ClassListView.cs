@@ -521,9 +521,9 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
-				IntPtr hwnd = new IntPtr(Utils.FindWindowEx(Handle, 0, "SysHeader32", null));
-				Utils.RECT rc;
-				return (Utils.GetWindowRect(hwnd, out rc) ? rc.bottom - rc.top + 1 : 0);
+				IntPtr hwnd = new IntPtr(SilTools.Utils.FindWindowEx(Handle, 0, "SysHeader32", null));
+				SilTools.Utils.RECT rc;
+				return (SilTools.Utils.GetWindowRect(hwnd, out rc) ? rc.bottom - rc.top + 1 : 0);
 			}
 		}
 

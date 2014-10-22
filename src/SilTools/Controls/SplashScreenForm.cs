@@ -96,7 +96,7 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		protected override void Dispose(bool disposing)
 		{
-			Utils.s_splashScreen = null;
+			SilTools.Utils.s_splashScreen = null;
 
 			if (disposing)
 			{
@@ -353,7 +353,7 @@ namespace SilTools
 		protected override void OnShown(EventArgs e)
 		{
 			base.OnShown(e);
-			Utils.CenterFormInScreen(this);
+			SilTools.Utils.CenterFormInScreen(this);
 		}
 
 		/// ------------------------------------------------------------------------------------

@@ -51,7 +51,7 @@ namespace SIL.Pa.Model
 			while (e.InnerException != null)
 				e = e.InnerException;
 
-			Utils.MsgBox(string.Format(msg, path, e.Message));
+			SilTools.Utils.MsgBox(string.Format(msg, path, e.Message));
 
 			return null;
 		}

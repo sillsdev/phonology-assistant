@@ -414,7 +414,7 @@ namespace SilTools
 				return;
 
 			if (suspendAndResumeLayout)
-				Utils.SetWindowRedraw(m_owningGrid, false, false);
+				SilTools.Utils.SetWindowRedraw(m_owningGrid, false, false);
 
 			// Make hide or unhide all rows between this one and the next SilHierarchicalGridRow
 			// at the same level or higher or the end of the list, whatever comes first.
@@ -432,7 +432,7 @@ namespace SilTools
 				ExpandedStateChanged(this);
 
 			if (suspendAndResumeLayout)
-				Utils.SetWindowRedraw(m_owningGrid, true, true);
+				SilTools.Utils.SetWindowRedraw(m_owningGrid, true, true);
 		}
 
 		/// ------------------------------------------------------------------------------------
