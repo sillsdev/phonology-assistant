@@ -192,10 +192,17 @@ namespace SIL.FieldWorks.PaObjects
 		private bool LoadFwDataForPa(string name, string server,
 			bool loadOnlyWs)
 		{
-            OpenProject(name, server);
+            if (!OpenProject(name, server))
+                return false;
+
+            MessageBox.Show("Project opened");
             m_writingSystems = PaWritingSystem.GetWritingSystems(GetWritingSystems(), ServiceLocator());
-			if (!loadOnlyWs)
-				m_lexEntries = PaLexEntry.GetAll(GetLexicalEntries());
+            MessageBox.Show(string.Format("Have {0} writing systems", m_writingSystems.Count));
+            if (!loadOnlyWs)
+            {
+                m_lexEntries = PaLexEntry.GetAll(GetLexicalEntries());
+                MessageBox.Show(string.Format("Have {0} lex entries", m_lexEntries.Count));
+            }
 
             return true;
 		}
@@ -271,19 +278,28 @@ namespace SIL.FieldWorks.PaObjects
             throw new NotImplementedException();
         }
 
-        private void OpenProject(string name, string server)
+        private bool OpenProject(string name, string server)
         {
-            // create project id
-            dynamic projId = SilTools.ReflectionHelper.CreateClassInstance(fwAssembly, "SIL.FieldWorks.ProjectId", new object[] { "xml", name, server });
-            dynamic threadHelper = SilTools.ReflectionHelper.CreateClassInstance(basicUtilsAssembly, "SIL.Utils.ThreadHelper", null);
-            dynamic fwFdoUi = SilTools.ReflectionHelper.CreateClassInstance(fdoUiAssembly, "SIL.FieldWorks.FdoUi.FwFdoUI", new object[] { null, threadHelper });
+            try
+            {
+                // create project id
+                dynamic projId = SilTools.ReflectionHelper.CreateClassInstance(fwAssembly, "SIL.FieldWorks.ProjectId", new object[] { "xml", name, server });
+                dynamic threadHelper = SilTools.ReflectionHelper.CreateClassInstance(basicUtilsAssembly, "SIL.Utils.ThreadHelper", null);
+                dynamic fwFdoUi = SilTools.ReflectionHelper.CreateClassInstance(fdoUiAssembly, "SIL.FieldWorks.FdoUi.FwFdoUI", new object[] { null, threadHelper });
 
-            Type directoryFinderClass = fwUtilsAssembly.GetType("SIL.FieldWorks.Common.FwUtils.FwDirectoryFinder");
-            dynamic fdoDirs = SilTools.ReflectionHelper.GetProperty(directoryFinderClass, "FdoDirectories");
+                Type directoryFinderClass = fwUtilsAssembly.GetType("SIL.FieldWorks.Common.FwUtils.FwDirectoryFinder");
+                dynamic fdoDirs = SilTools.ReflectionHelper.GetProperty(directoryFinderClass, "FdoDirectories");
 
-            Type cacheClass = fdoAssembly.GetType("SIL.FieldWorks.FDO.FdoCache");
-            fdoCache = SilTools.ReflectionHelper.GetResult(cacheClass, "CreateCacheFromExistingData", new object[] { projId, "en",
+                Type cacheClass = fdoAssembly.GetType("SIL.FieldWorks.FDO.FdoCache");
+                fdoCache = SilTools.ReflectionHelper.GetResult(cacheClass, "CreateCacheFromExistingData", new object[] { projId, "en",
                 fwFdoUi, fdoDirs, null /* progress dlg */, true /* forbid migration */});
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to open project: " + ex.Message);
+                fdoCache = null;
+            }
+            return fdoCache != null;
         }
 
         private IEnumerable<dynamic> GetWritingSystems()
@@ -294,7 +310,7 @@ namespace SIL.FieldWorks.PaObjects
         private IEnumerable<dynamic> GetLexicalEntries()
         {
             Type lexRepositoryClass = fdoAssembly.GetType("SIL.FieldWorks.FDO.ILexEntryRepository");
-            dynamic repository = ServiceLocator().GetInstance();
+            dynamic repository = ServiceLocator().GetInstance(lexRepositoryClass);
             return repository.AllInstances();
         }
 
