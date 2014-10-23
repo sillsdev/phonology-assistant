@@ -158,6 +158,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Pa.exe.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="LocalizationManager, Version=1.0.4388.22164, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -166,10 +169,6 @@
     <Reference Include="Palaso, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\Windows\Palaso.dll</HintPath>
-    </Reference>
-    <Reference Include="PaToFdoImpl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Output\Debug-Windows\PaToFdoImpl.dll</HintPath>
     </Reference>
     <Reference Include="SilUtils, Version=8.1.1.16146, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -1087,6 +1086,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Pa.exe.manifest">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\Search Watermark.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1269,6 +1271,10 @@
     <None Include="Resources\Automatically_hide.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PaToFdoImpl\PaToFdoImpl.csproj">
+      <Project>{c000568f-e8d2-4cf9-8ef4-b50e2d280507}</Project>
+      <Name>PaToFdoImpl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PaToFdoInterfaces\PaToFdoInterfaces.csproj">
       <Project>{5540C524-713E-4842-BD59-35D5EA6A60C6}</Project>
       <Name>PaToFdoInterfaces</Name>

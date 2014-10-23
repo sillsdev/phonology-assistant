@@ -85,6 +85,10 @@
       <Project>{5540c524-713e-4842-bd59-35d5ea6a60c6}</Project>
       <Name>PaToFdoInterfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SilTools\SilTools.csproj">
+      <Project>{87f94fcc-bc32-4203-a919-115f4ff43ff0}</Project>
+      <Name>SilTools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

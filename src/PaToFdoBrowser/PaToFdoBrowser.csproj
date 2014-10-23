@@ -84,10 +84,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DistFiles\ObjectBrowser.dll</HintPath>
     </Reference>
-    <Reference Include="PaToFdoImpl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Output\Debug-Windows\PaToFdoImpl.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -175,6 +171,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PaToFdoImpl\PaToFdoImpl.csproj">
+      <Project>{c000568f-e8d2-4cf9-8ef4-b50e2d280507}</Project>
+      <Name>PaToFdoImpl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PaToFdoInterfaces\PaToFdoInterfaces.csproj">
       <Project>{5540c524-713e-4842-bd59-35d5ea6a60c6}</Project>
       <Name>PaToFdoInterfaces</Name>
