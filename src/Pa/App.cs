@@ -314,6 +314,8 @@ namespace SIL.Pa
 			try
 			{
 				var addOnPath = Path.Combine(AssemblyPath, "AddOns");
+                if (!Directory.Exists(addOnPath))
+                    return;
 				addOnAssemblyFiles = Directory.GetFiles(addOnPath, "*.dll");
 			}
 			catch

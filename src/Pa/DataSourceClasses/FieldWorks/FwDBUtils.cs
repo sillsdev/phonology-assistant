@@ -451,7 +451,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 				}
 			}
 
-			return null;
+            return Enumerable.Empty<IPaLexEntry>();
 		}
 
 		#endregion

@@ -180,9 +180,13 @@ namespace SilTools
 
 			try
 			{
-				XmlNode node = m_settingsXml.SelectSingleNode(Root + "/" + setting.Name);
-
-				if (!GetStringCollection(value, node))
+                XmlNode node = m_settingsXml.SelectSingleNode(Root + "/" + setting.Name);
+                if (node == null)
+                {
+                    if ((setting.DefaultValue != null))
+                        value.SerializedValue = setting.DefaultValue.ToString();
+                }
+				else if (!GetStringCollection(value, node))
 					if (!GetFormSettings(value, node))
 						if (!GetGridSettings(value, node))
 							value.SerializedValue = node.InnerText;
@@ -199,7 +203,7 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		private bool GetStringCollection(SettingsPropertyValue value, XmlNode node)
 		{
-			if (node.Attributes.GetNamedItem("type") != null &&
+			if (node != null && node.Attributes.GetNamedItem("type") != null &&
 				node.Attributes["type"].Value == typeof(StringCollection).FullName)
 			{
 				var sc = new StringCollection();
@@ -216,7 +220,7 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		private bool GetFormSettings(SettingsPropertyValue value, XmlNode node)
 		{
-			if (node.Attributes.GetNamedItem("type") != null &&
+			if (node != null && node.Attributes.GetNamedItem("type") != null &&
 				node.Attributes["type"].Value == typeof(FormSettings).FullName)
 			{
 				value.PropertyValue =
@@ -231,7 +235,7 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		private bool GetGridSettings(SettingsPropertyValue value, XmlNode node)
 		{
-			if (node.Attributes.GetNamedItem("type") != null &&
+			if (node != null && node.Attributes.GetNamedItem("type") != null &&
 				node.Attributes["type"].Value == typeof(GridSettings).FullName)
 			{
 				value.PropertyValue =
