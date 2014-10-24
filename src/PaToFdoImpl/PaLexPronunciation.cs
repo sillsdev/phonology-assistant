@@ -15,18 +15,21 @@ namespace SIL.FieldWorks.PaObjects
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal PaLexPronunciation(dynamic lxPro)
+		internal PaLexPronunciation(dynamic lxPro, dynamic svcloc)
 		{
-			xForm = PaMultiString.Create(lxPro.Form, lxPro.Cache.ServiceLocator);
-			xLocation = PaCmPossibility.Create(lxPro.LocationRA);
-			CVPattern = lxPro.CVPattern.Text;
-			Tone = lxPro.Tone.Text;
-			xGuid = lxPro.Guid;
+            dynamic lxProForm = SilTools.ReflectionHelper.GetProperty(lxPro, "Form");
+            xForm = PaMultiString.Create(lxProForm, svcloc);
+            dynamic lxProLoc = SilTools.ReflectionHelper.GetProperty(lxPro, "LocationRA");
+            xLocation = PaCmPossibility.Create(lxProLoc);
+			CVPattern = PaLexicalInfo.GetTsStringText(lxPro, "CVPattern");
+            Tone = PaLexicalInfo.GetTsStringText(lxPro, "Tone");
+			xGuid = SilTools.ReflectionHelper.GetProperty(lxPro, "Guid");
 
             xMediaFiles = new List<PaMediaFile>();
-            foreach (var x in lxPro.MediaFilesOS)
+            dynamic mediaFiles = SilTools.ReflectionHelper.GetProperty(lxPro, "MediaFilesOS");
+            foreach (var x in mediaFiles)
                 if (x != null)
-                    xMediaFiles.Add(new PaMediaFile(x));
+                    xMediaFiles.Add(new PaMediaFile(x, svcloc));
 		}
 
 		/// ------------------------------------------------------------------------------------

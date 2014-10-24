@@ -10,7 +10,7 @@ namespace SIL.FieldWorks.PaObjects
 		/// ------------------------------------------------------------------------------------
 		public static PaMultiString Create(dynamic msa, dynamic svcloc)
 		{
-			return (msa == null || msa.StringCount == 0 ? null : new PaMultiString(msa, svcloc));
+			return (msa == null || msa.Count == 0 ? null : new PaMultiString(msa, svcloc));
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -27,10 +27,10 @@ namespace SIL.FieldWorks.PaObjects
 		/// ------------------------------------------------------------------------------------
         private PaMultiString(dynamic msa, dynamic svcloc)
 		{
-			Texts = new List<string>(msa.StringCount);
-			WsIds = new List<string>(msa.StringCount);
+			Texts = new List<string>(msa.Count);
+			WsIds = new List<string>(msa.Count);
 
-			for (int i = 0; i < msa.StringCount; i++)
+			for (int i = 0; i < msa.Count; i++)
 			{
 				int hvoWs;
 				dynamic tss = msa.GetStringFromIndex(i, out hvoWs);

@@ -45,20 +45,25 @@ namespace SIL.FieldWorks.PaObjects
 			ExcludeAsHeadword = false; // MDL: remove when IPaLexEntry is updated
 			// ShowMainEntryIn = lxEntry.ShowMainEntryIn.Select(x => new PaLexShowMainEntryIn(x)).ToList(); // MDL: uncomment when IPaLexEntry is updated
 
-            dynamic importRes = SilTools.ReflectionHelper.GetProperty(lxEntry, "ImportResidue");
-            ImportResidue = importRes.Text;
+            ImportResidue = PaLexicalInfo.GetTsStringText(lxEntry, "ImportResidue");
 
             xPronunciations = new List<PaLexPronunciation>();
-            foreach (var x in lxEntry.PronunciationsOS)
-                xPronunciations.Add(new PaLexPronunciation(x));
+            dynamic pronunications = SilTools.ReflectionHelper.GetProperty(lxEntry, "PronunciationsOS");
+            foreach (var x in pronunications)
+                xPronunciations.Add(new PaLexPronunciation(x, svcloc));
 
             xSenses = new List<PaLexSense>();
-            foreach (var x in lxEntry.SensesOS)
-                xSenses.Add(new PaLexSense(x));
+            dynamic senses = SilTools.ReflectionHelper.GetProperty(lxEntry, "SensesOS");
+            foreach (var x in senses)
+                xSenses.Add(new PaLexSense(x, svcloc));
 
             xComplexForms = new List<PaMultiString>();
-            foreach (var x in lxEntry.ComplexFormEntries)
-                xComplexForms.Add(PaMultiString.Create(x.LexemeFormOA.Form, svcloc));
+            dynamic complexEntries = SilTools.ReflectionHelper.GetProperty(lxEntry, "ComplexFormEntries");
+            foreach (var x in complexEntries)
+            {
+                dynamic lexForm = SilTools.ReflectionHelper.GetProperty(x, "LexemeFormOA");
+                xComplexForms.Add(PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lexForm, "Form"), svcloc));
+            }
 
             xAllomorphs = new List<PaMultiString>();
             foreach (var x in lxEntry.AllAllomorphs)

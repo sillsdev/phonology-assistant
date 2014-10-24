@@ -246,10 +246,16 @@ namespace SIL.FieldWorks.PaObjects
             return false;
         }
 
-        internal static dynamic GetLexEntryRefOwner(dynamic lxEntryRef)
+        public static dynamic GetLexEntryRefOwner(dynamic lxEntryRef)
         {
             // var lx = lxEntryRef.OwnerOfClass<ILexEntry>();
             throw new NotImplementedException();
+        }
+
+        public static string GetTsStringText(dynamic obj, string propertyName)
+        {
+            dynamic property = SilTools.ReflectionHelper.GetProperty(obj, propertyName);
+            return ((FieldWorks.Common.COMInterfaces.ITsString)property).Text;
         }
         #endregion
 

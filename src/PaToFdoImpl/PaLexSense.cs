@@ -15,32 +15,31 @@ namespace SIL.FieldWorks.PaObjects
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal PaLexSense(dynamic lxSense)
+		internal PaLexSense(dynamic lxSense, dynamic svcloc)
 		{
-			var svcloc = lxSense.Cache.ServiceLocator;
-
-			xAnthropologyNote = PaMultiString.Create(lxSense.AnthroNote, svcloc);
-			xBibliography = PaMultiString.Create(lxSense.Bibliography, svcloc);
-			xDefinition = PaMultiString.Create(lxSense.Definition, svcloc);
-			xDiscourseNote = PaMultiString.Create(lxSense.DiscourseNote, svcloc);
-			xEncyclopedicInfo = PaMultiString.Create(lxSense.EncyclopedicInfo, svcloc);
-			xGeneralNote = PaMultiString.Create(lxSense.GeneralNote, svcloc);
-			xGloss = PaMultiString.Create(lxSense.Gloss, svcloc);
-			xGrammarNote = PaMultiString.Create(lxSense.GrammarNote, svcloc);
-			xPhonologyNote = PaMultiString.Create(lxSense.PhonologyNote, svcloc);
-			xRestrictions = PaMultiString.Create(lxSense.Restrictions, svcloc);
-			xSemanticsNote = PaMultiString.Create(lxSense.SemanticsNote, svcloc);
-			xSociolinguisticsNote = PaMultiString.Create(lxSense.SocioLinguisticsNote, svcloc);
+            xAnthropologyNote = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lxSense, "AnthroNote"), svcloc);
+			xBibliography = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lxSense, "Bibliography"), svcloc);
+			xDefinition = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lxSense, "Definition"), svcloc);
+			xDiscourseNote = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lxSense, "DiscourseNote"), svcloc);
+			xEncyclopedicInfo = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lxSense, "EncyclopedicInfo"), svcloc);
+			xGeneralNote = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lxSense, "GeneralNote"), svcloc);
+			xGloss = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lxSense, "Gloss"), svcloc);
+			xGrammarNote = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lxSense, "GrammarNote"), svcloc);
+			xPhonologyNote = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lxSense, "PhonologyNote"), svcloc);
+			xRestrictions = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lxSense, "Restrictions"), svcloc);
+			xSemanticsNote = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lxSense, "SemanticsNote"), svcloc);
+            xSociolinguisticsNote = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lxSense, "SocioLinguisticsNote"), svcloc);
 
             xReversalEntries = new List<PaMultiString>();
-            foreach (var x in lxSense.ReversalEntriesRC)
-                xReversalEntries.Add(PaMultiString.Create(x.ReversalForm, svcloc));
+            dynamic reversals = SilTools.ReflectionHelper.GetProperty(lxSense, "ReversalEntriesRC");
+            foreach (var x in reversals)
+                xReversalEntries.Add(PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(x, "ReversalForm"), svcloc));
 
-			xGuid = lxSense.Guid;
+			xGuid = SilTools.ReflectionHelper.GetProperty(lxSense, "Guid");
 
-			ImportResidue = lxSense.ImportResidue.Text;
-			Source = lxSense.Source.Text;
-			ScientificName = lxSense.ScientificName.Text;
+			ImportResidue = PaLexicalInfo.GetTsStringText(lxSense, "ImportResidue");
+			Source = PaLexicalInfo.GetTsStringText(lxSense, "Source");
+			ScientificName = PaLexicalInfo.GetTsStringText(lxSense, "ScientificName");
 
             xAnthroCodes = new List<PaCmPossibility>();
             foreach (var x in lxSense.AnthroCodesRC)

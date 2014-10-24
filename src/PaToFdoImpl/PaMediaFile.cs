@@ -13,12 +13,13 @@ namespace SIL.FieldWorks.PaObjects
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal PaMediaFile(dynamic mediaFile)
-		{
-			OriginalPath = mediaFile.MediaFileRA.OriginalPath;
-			AbsoluteInternalPath = mediaFile.MediaFileRA.AbsoluteInternalPath;
-			InternalPath = mediaFile.MediaFileRA.InternalPath;
-			xLabel = PaMultiString.Create(mediaFile.Label, mediaFile.Cache.ServiceLocator);
+		internal PaMediaFile(dynamic mediaFile, dynamic svcloc)
+        {
+            dynamic mediaFileRA = SilTools.ReflectionHelper.GetProperty(mediaFile, "MediaFileRA");
+            OriginalPath = SilTools.ReflectionHelper.GetProperty(mediaFileRA, "OriginalPath");
+            AbsoluteInternalPath = SilTools.ReflectionHelper.GetProperty(mediaFileRA, "AbsoluteInternalPath");
+            InternalPath = SilTools.ReflectionHelper.GetProperty(mediaFileRA, "InternalPath");
+            xLabel = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(mediaFile, "Label"), svcloc);
 		}
 
 		#region IPaMediaFile Members
