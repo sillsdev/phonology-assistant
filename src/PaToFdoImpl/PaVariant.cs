@@ -13,11 +13,12 @@ namespace SIL.FieldWorks.PaObjects
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal PaVariant(dynamic lxEntryRef)
+		internal PaVariant(dynamic lxEntryRef, dynamic svcloc)
 		{
-            var lx = PaLexicalInfo.GetLexEntryRefOwner(lxEntryRef);
-			xVariantForm = PaMultiString.Create(lx.LexemeFormOA.Form, lxEntryRef.Cache.ServiceLocator);
-			xVariantInfo = new PaVariantOfInfo(lxEntryRef);
+            dynamic lxEntry = SilTools.ReflectionHelper.GetProperty(lxEntryRef, "OwningEntry");
+            dynamic lxForm = SilTools.ReflectionHelper.GetProperty(lxEntry, "LexemeFormOA");
+            xVariantForm = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lxForm, "Form"), svcloc);
+            xVariantInfo = new PaVariantOfInfo(lxEntryRef, svcloc);
 		}
 
 		/// ------------------------------------------------------------------------------------

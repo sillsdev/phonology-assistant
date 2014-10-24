@@ -12,17 +12,16 @@ namespace SIL.FieldWorks.PaObjects
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal static PaCmPossibility Create(dynamic poss)
+		internal static PaCmPossibility Create(dynamic poss, dynamic svcloc)
 		{
-			return (poss == null ? null : new PaCmPossibility(poss));
+			return (poss == null ? null : new PaCmPossibility(poss, svcloc));
 		}
 
 		/// ------------------------------------------------------------------------------------
-        private PaCmPossibility(dynamic poss)
+        private PaCmPossibility(dynamic poss, dynamic svcloc)
 		{
-			var svcloc = poss.Cache.ServiceLocator;
-			xAbbreviation = PaMultiString.Create(poss.Abbreviation, svcloc);
-			xName = PaMultiString.Create(poss.Name, svcloc);
+			xAbbreviation = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(poss, "Abbreviation"), svcloc);
+			xName = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(poss, "Name"), svcloc);
 		}
 
 		#region IPaCmPossibility Members

@@ -42,23 +42,27 @@ namespace SIL.FieldWorks.PaObjects
 			ScientificName = PaLexicalInfo.GetTsStringText(lxSense, "ScientificName");
 
             xAnthroCodes = new List<PaCmPossibility>();
-            foreach (var x in lxSense.AnthroCodesRC)
-                xAnthroCodes.Add(PaCmPossibility.Create(x));
+            dynamic anthroCodes = SilTools.ReflectionHelper.GetProperty(lxSense, "AnthroCodesRC");
+            foreach (var x in anthroCodes)
+                xAnthroCodes.Add(PaCmPossibility.Create(x, svcloc));
 
             xDomainTypes = new List<PaCmPossibility>();
-            foreach (var x in lxSense.DomainTypesRC)
-                xDomainTypes.Add(PaCmPossibility.Create(x));
+            dynamic domainTypes = SilTools.ReflectionHelper.GetProperty(lxSense, "DomainTypesRC");
+            foreach (var x in domainTypes)
+                xDomainTypes.Add(PaCmPossibility.Create(x, svcloc));
 
             xUsages = new List<PaCmPossibility>();
-            foreach (var x in lxSense.UsageTypesRC)
-                xUsages.Add(PaCmPossibility.Create(x));
+            dynamic usages = SilTools.ReflectionHelper.GetProperty(lxSense, "UsageTypesRC");
+            foreach (var x in usages)
+                xUsages.Add(PaCmPossibility.Create(x, svcloc));
 
             xSemanticDomains = new List<PaCmPossibility>();
-            foreach (var x in lxSense.SemanticDomainsRC)
-                xSemanticDomains.Add(PaCmPossibility.Create(x));
-			
-            xStatus = PaCmPossibility.Create(lxSense.StatusRA);
-			xSenseType = PaCmPossibility.Create(lxSense.SenseTypeRA);
+            dynamic semanticDomains = SilTools.ReflectionHelper.GetProperty(lxSense, "SemanticDomainsRC");
+            foreach (var x in semanticDomains)
+                xSemanticDomains.Add(PaCmPossibility.Create(x, svcloc));
+
+            xStatus = PaCmPossibility.Create(SilTools.ReflectionHelper.GetProperty(lxSense, "StatusRA"), svcloc);
+            xSenseType = PaCmPossibility.Create(SilTools.ReflectionHelper.GetProperty(lxSense, "SenseTypeRA"), svcloc);
 
             // TODO: need to implement this secion
             //ICmPossibility poss = null;

@@ -20,7 +20,7 @@ namespace SIL.FieldWorks.PaObjects
             dynamic lxProForm = SilTools.ReflectionHelper.GetProperty(lxPro, "Form");
             xForm = PaMultiString.Create(lxProForm, svcloc);
             dynamic lxProLoc = SilTools.ReflectionHelper.GetProperty(lxPro, "LocationRA");
-            xLocation = PaCmPossibility.Create(lxProLoc);
+            xLocation = PaCmPossibility.Create(lxProLoc, svcloc);
 			CVPattern = PaLexicalInfo.GetTsStringText(lxPro, "CVPattern");
             Tone = PaLexicalInfo.GetTsStringText(lxPro, "Tone");
 			xGuid = SilTools.ReflectionHelper.GetProperty(lxPro, "Guid");

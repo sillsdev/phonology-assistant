@@ -61,43 +61,49 @@ namespace SIL.FieldWorks.PaObjects
             dynamic complexEntries = SilTools.ReflectionHelper.GetProperty(lxEntry, "ComplexFormEntries");
             foreach (var x in complexEntries)
             {
-                dynamic lexForm = SilTools.ReflectionHelper.GetProperty(x, "LexemeFormOA");
-                xComplexForms.Add(PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lexForm, "Form"), svcloc));
+                dynamic complexForm = SilTools.ReflectionHelper.GetProperty(x, "LexemeFormOA");
+                xComplexForms.Add(PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(complexForm, "Form"), svcloc));
             }
 
             xAllomorphs = new List<PaMultiString>();
-            foreach (var x in lxEntry.AllAllomorphs)
-                xAllomorphs.Add(PaMultiString.Create(x.Form, svcloc));
+            dynamic allomorphs = SilTools.ReflectionHelper.GetProperty(lxEntry, "AllAllomorphs");
+            foreach (var x in allomorphs)
+                xAllomorphs.Add(PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(x, "Form"), svcloc));
 
-			xLexemeForm = PaMultiString.Create(lxEntry.LexemeFormOA.Form, svcloc);
-			xMorphType = PaCmPossibility.Create(lxEntry.PrimaryMorphType);
-			xCitationForm = PaMultiString.Create(lxEntry.CitationForm, svcloc);
-			xNote = PaMultiString.Create(lxEntry.Comment, svcloc);
-			xLiteralMeaning = PaMultiString.Create(lxEntry.LiteralMeaning, svcloc);
-			xBibliography = PaMultiString.Create(lxEntry.Bibliography, svcloc);
-			xRestrictions = PaMultiString.Create(lxEntry.Restrictions, svcloc);
-			xSummaryDefinition = PaMultiString.Create(lxEntry.SummaryDefinition, svcloc);
+            dynamic lexForm = SilTools.ReflectionHelper.GetProperty(lxEntry, "LexemeFormOA");
+            xLexemeForm = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lexForm, "Form"), svcloc);
+            xMorphType = PaCmPossibility.Create(SilTools.ReflectionHelper.GetProperty(lxEntry, "PrimaryMorphType"), svcloc);
+			xCitationForm = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lxEntry, "CitationForm"), svcloc);
+			xNote = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lxEntry, "Comment"), svcloc);
+			xLiteralMeaning = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lxEntry, "LiteralMeaning"), svcloc);
+			xBibliography = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lxEntry, "Bibliography"), svcloc);
+			xRestrictions = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lxEntry, "Restrictions"), svcloc);
+			xSummaryDefinition = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lxEntry, "SummaryDefinition"), svcloc);
 
             xVariantOfInfo = new List<PaVariantOfInfo>();
-            foreach (var x in lxEntry.VariantEntryRefs)
-                xVariantOfInfo.Add(new PaVariantOfInfo(x));
+            dynamic variantRefs = SilTools.ReflectionHelper.GetProperty(lxEntry, "VariantEntryRefs");
+            foreach (var x in variantRefs)
+                xVariantOfInfo.Add(new PaVariantOfInfo(x, svcloc));
 
             xVariants = new List<PaVariant>();
-            foreach (var x in lxEntry.VariantFormEntryBackRefs)
-                xVariants.Add(new PaVariant(x));
+            dynamic variants = SilTools.ReflectionHelper.GetProperty(lxEntry, "VariantFormEntryBackRefs");
+            foreach (var x in variants)
+                xVariants.Add(new PaVariant(x, svcloc));
             
-			xGuid = lxEntry.Guid;
+			xGuid = SilTools.ReflectionHelper.GetProperty(lxEntry, "Guid");
 
-			if (lxEntry.EtymologyOA != null)
-				xEtymology = PaMultiString.Create(lxEntry.EtymologyOA.Form, svcloc);
+            dynamic etymology = SilTools.ReflectionHelper.GetProperty(lxEntry, "EtymologyOA");
+            if (etymology != null)
+				xEtymology = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(etymology, "Form"), svcloc);
 
-            xComplexFormInfo = new List<PaComplexFormInfo>();
-            foreach (var eref in lxEntry.EntryRefsOS)
-            {
-                var pcfi = PaComplexFormInfo.Create(eref);
-                if (pcfi != null)
-                    xComplexFormInfo.Add(pcfi);
-            }
+            // TODO: Handle complex forms
+            //xComplexFormInfo = new List<PaComplexFormInfo>();
+            //foreach (var eref in lxEntry.EntryRefsOS)
+            //{
+            //    var pcfi = PaComplexFormInfo.Create(eref, svcloc);
+            //    if (pcfi != null)
+            //        xComplexFormInfo.Add(pcfi);
+            //}
 		}
 
 		#region IPaLexEntry implementation

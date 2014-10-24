@@ -32,21 +32,11 @@ namespace SIL.FieldWorks.PaObjects
 
 			for (int i = 0; i < msa.Count; i++)
 			{
-				int hvoWs;
-				dynamic tss = msa.GetStringFromIndex(i, out hvoWs);
-				Texts.Add(tss.Text);
-
-				// hvoWs should *always* be found in AllWritingSystems.
-				dynamic ws = null;
-                foreach (var w in svcloc.WritingSystems.AllWritingSystems)
-                {
-                    if (w.Handle == hvoWs)
-                    {
-                        ws = w;
-                        break;
-                    }
-                }
-				WsIds.Add(ws == null ? null : ws.Id);
+                string wsId;
+                string tssText;
+                PaLexicalInfo.GetStringEntry(svcloc, msa, i, out wsId, out tssText);
+                Texts.Add(tssText);
+                WsIds.Add(wsId);
 			}
 		}
 

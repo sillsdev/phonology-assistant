@@ -14,12 +14,13 @@ namespace SIL.FieldWorks.PaObjects
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal PaVariantOfInfo(dynamic lxEntryRef)
+		internal PaVariantOfInfo(dynamic lxEntryRef, dynamic svcloc)
 		{
-			xVariantComment = PaMultiString.Create(lxEntryRef.Summary, lxEntryRef.Cache.ServiceLocator);
+            xVariantComment = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lxEntryRef, "Summary"), svcloc);
             xVariantType = new List<PaCmPossibility>();
-            foreach (var x in lxEntryRef.VariantEntryTypesRS)
-                xVariantType.Add(PaCmPossibility.Create(x));
+            dynamic variantTypes = SilTools.ReflectionHelper.GetProperty(lxEntryRef, "VariantEntryTypesRS");
+            foreach (var x in variantTypes)
+                xVariantType.Add(PaCmPossibility.Create(x, svcloc));
 		}
 
 		/// ------------------------------------------------------------------------------------

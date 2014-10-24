@@ -195,7 +195,7 @@ namespace SIL.FieldWorks.PaObjects
             if (!OpenProject(name, server))
                 return false;
 
-            m_writingSystems = PaWritingSystem.GetWritingSystems(GetWritingSystems(), fdoCache.ServiceLocator);
+            m_writingSystems = PaWritingSystem.GetWritingSystems(GetWritingSystems(fdoCache.ServiceLocator), fdoCache.ServiceLocator);
             if (!loadOnlyWs)
             {
                 m_lexEntries = PaLexEntry.GetAll(GetLexicalEntries(), fdoCache.ServiceLocator);
@@ -257,6 +257,25 @@ namespace SIL.FieldWorks.PaObjects
             dynamic property = SilTools.ReflectionHelper.GetProperty(obj, propertyName);
             return ((FieldWorks.Common.COMInterfaces.ITsString)property).Text;
         }
+
+        public static void GetStringEntry(dynamic svcloc, dynamic msa, int i, out string wsId, out string tssText)
+        {
+            var msaCast = (FieldWorks.Common.COMInterfaces.ITsMultiString)msa;
+            int wsHvo;
+            var tsString = msaCast.GetStringFromIndex(i, out wsHvo);
+            tssText = tsString.Text;
+            wsId = null;
+            foreach (dynamic ws in GetWritingSystems(svcloc))
+            {
+                int hvo = SilTools.ReflectionHelper.GetProperty(ws, "Handle");
+                if (hvo == wsHvo)
+                {
+                    wsId = SilTools.ReflectionHelper.GetProperty(ws, "Id");
+                    break;
+                }
+            }
+
+        }
         #endregion
 
         #region Private helper methods
@@ -306,9 +325,9 @@ namespace SIL.FieldWorks.PaObjects
             return fdoCache != null;
         }
 
-        private IEnumerable<dynamic> GetWritingSystems()
+        private static IEnumerable<dynamic> GetWritingSystems(dynamic svcloc)
         {
-            dynamic wsRepository = SilTools.ReflectionHelper.GetProperty(fdoCache.ServiceLocator, "WritingSystems");
+            dynamic wsRepository = SilTools.ReflectionHelper.GetProperty(svcloc, "WritingSystems");
             return SilTools.ReflectionHelper.GetProperty(wsRepository, "AllWritingSystems");
         }
 
@@ -319,5 +338,6 @@ namespace SIL.FieldWorks.PaObjects
             return repository.AllInstances();
         }
         #endregion
+
     }
 }

@@ -15,7 +15,7 @@ namespace SIL.FieldWorks.PaObjects
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal static PaComplexFormInfo Create(dynamic lxEntryRef)
+		internal static PaComplexFormInfo Create(dynamic lxEntryRef, dynamic svcloc)
 		{
             if (!PaLexicalInfo.IsComplexForm(lxEntryRef))
 				return null;
@@ -24,7 +24,7 @@ namespace SIL.FieldWorks.PaObjects
 			pcfi.xComplexFormComment = PaMultiString.Create(lxEntryRef.Summary, lxEntryRef.Cache.ServiceLocator);
             pcfi.xComplexFormType = new List<PaCmPossibility>();
             foreach (var x in lxEntryRef.ComplexEntryTypesRS)
-                pcfi.xComplexFormType.Add(PaCmPossibility.Create(x));
+                pcfi.xComplexFormType.Add(PaCmPossibility.Create(x, svcloc));
 
 			foreach (var component in lxEntryRef.ComponentLexemesRS)
 			{
