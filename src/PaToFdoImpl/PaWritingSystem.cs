@@ -18,12 +18,16 @@ namespace SIL.FieldWorks.PaObjects
 		{
 			var wsList = new List<IPaWritingSystem>();
 
+            dynamic wsRepository = SilTools.ReflectionHelper.GetProperty(svcloc, "WritingSystems");
+            dynamic vernWss = SilTools.ReflectionHelper.GetProperty(wsRepository, "VernacularWritingSystems");
+            dynamic analWss = SilTools.ReflectionHelper.GetProperty(wsRepository, "AnalysisWritingSystems");
+
             foreach (var ws in writingSystems)
 			{
 				if (!wsList.Any(w => w.Id == ws.Id))
 				{
-					bool isVern = (svcloc.WritingSystems.VernacularWritingSystems.Contains(ws));
-					bool isAnal = (svcloc.WritingSystems.AnalysisWritingSystems.Contains(ws));
+                    bool isVern = (vernWss.Contains(ws));
+                    bool isAnal = (analWss.Contains(ws));
 					wsList.Add(new PaWritingSystem(ws, svcloc, isVern, isAnal));
 				}
 			}
@@ -48,10 +52,11 @@ namespace SIL.FieldWorks.PaObjects
 			Hvo = lgws.Handle;
 			DefaultFontName = lgws.DefaultFontName;
 			IsVernacular = isVern;
-			IsAnalysis = isAnal;
-			IsDefaultAnalysis = (lgws == svcloc.WritingSystems.DefaultAnalysisWritingSystem);
-			IsDefaultVernacular = (lgws == svcloc.WritingSystems.DefaultVernacularWritingSystem);
-			IsDefaultPronunciation = (lgws == svcloc.WritingSystems.DefaultPronunciationWritingSystem);
+            IsAnalysis = isAnal;
+            dynamic wsRepository = SilTools.ReflectionHelper.GetProperty(svcloc, "WritingSystems");
+            IsDefaultAnalysis = (lgws == SilTools.ReflectionHelper.GetProperty(wsRepository, "DefaultAnalysisWritingSystem"));
+            IsDefaultVernacular = (lgws == SilTools.ReflectionHelper.GetProperty(wsRepository, "DefaultVernacularWritingSystem"));
+            IsDefaultPronunciation = (lgws == SilTools.ReflectionHelper.GetProperty(wsRepository, "DefaultPronunciationWritingSystem"));
 		}
 
 		#region IPaWritingSystem Members

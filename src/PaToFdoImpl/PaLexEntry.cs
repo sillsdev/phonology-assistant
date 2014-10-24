@@ -16,12 +16,18 @@ namespace SIL.FieldWorks.PaObjects
 		/// of PaLexEntry objects.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		internal static List<PaLexEntry> GetAll(IEnumerable<dynamic> allInstances)
+		internal static List<IPaLexEntry> GetAll(IEnumerable<dynamic> allInstances, dynamic svcLoc)
 		{
-            List<PaLexEntry> result = new List<PaLexEntry>();
+            List<IPaLexEntry> result = new List<IPaLexEntry>();
             foreach (var lx in allInstances)
-                if (lx.LexemeFormOA != null && lx.LexemeFormOA.Form.StringCount > 0)
-				    result.Add(new PaLexEntry(lx));
+            {
+                dynamic lexForm = SilTools.ReflectionHelper.GetProperty(lx, "LexemeFormOA");
+                if (lexForm == null)
+                    continue;
+                dynamic form = SilTools.ReflectionHelper.GetProperty(lexForm, "Form");
+                if (form.Count > 0)
+                    result.Add(new PaLexEntry(lx, svcLoc));
+            }
             return result;
 		}
 
@@ -31,17 +37,16 @@ namespace SIL.FieldWorks.PaObjects
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal PaLexEntry(dynamic lxEntry)
+        internal PaLexEntry(dynamic lxEntry, dynamic svcloc)
 		{
-			var svcloc = lxEntry.Cache.ServiceLocator;
-
-			DateCreated = lxEntry.DateCreated;
-			DateModified = lxEntry.DateModified;
+			DateCreated = SilTools.ReflectionHelper.GetProperty(lxEntry, "DateCreated");
+			DateModified = SilTools.ReflectionHelper.GetProperty(lxEntry, "DateModified");
 			//ExcludeAsHeadword = lxEntry.ExcludeAsHeadword; remove
 			ExcludeAsHeadword = false; // MDL: remove when IPaLexEntry is updated
 			// ShowMainEntryIn = lxEntry.ShowMainEntryIn.Select(x => new PaLexShowMainEntryIn(x)).ToList(); // MDL: uncomment when IPaLexEntry is updated
 
-			ImportResidue = lxEntry.ImportResidue.Text;
+            dynamic importRes = SilTools.ReflectionHelper.GetProperty(lxEntry, "ImportResidue");
+            ImportResidue = importRes.Text;
 
             xPronunciations = new List<PaLexPronunciation>();
             foreach (var x in lxEntry.PronunciationsOS)

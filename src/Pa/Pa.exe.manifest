@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <assembly manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" xmlns="urn:schemas-microsoft-com:asm.v1">
-	<assemblyIdentity name="Pa.exe" version="3.4.8.0" type="win32" />
+	<assemblyIdentity name="Pa.exe" version="3.4.7.0" type="win32" />
 	<file name="FwKernel.dll" asmv2:size="1998848">
 		<typelib tlbid="{f1ef76e0-be04-11d3-8d9a-005004defec4}" version="1.0" helpdir="" resourceid="0" flags="HASDISKIMAGE" />
 		<comClass clsid="{6a46d810-7f14-4151-80f5-0b13ffc1f917}" threadingModel="Apartment" description="SIL Action Handler" tlbid="{f1ef76e0-be04-11d3-8d9a-005004defec4}" progid="SIL.Views.ActionHandler" />

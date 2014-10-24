@@ -23,9 +23,9 @@ using System.Runtime.InteropServices;
 
 namespace SIL.FieldWorks.PaObjects
 {
-	/// ----------------------------------------------------------------------------------------
-	public class PaLexicalInfo : IPaLexicalInfo, IDisposable
-	{
+    /// ----------------------------------------------------------------------------------------
+    public class PaLexicalInfo : IPaLexicalInfo, IDisposable
+    {
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr LoadLibrary(string libname);
 
@@ -35,16 +35,16 @@ namespace SIL.FieldWorks.PaObjects
         private static Assembly basicUtilsAssembly;
         private static Assembly fwUtilsAssembly;
         private static Assembly fdoUiAssembly;
-        private List<PaWritingSystem> m_writingSystems;
-		private List<PaLexEntry> m_lexEntries;
+        private List<IPaWritingSystem> m_writingSystems;
+        private List<IPaLexEntry> m_lexEntries;
         private dynamic fdoCache;
 
-		#region constructors
-		/// <summary>
-		/// Contstructor is required to initialize ClientServerServices
-		/// </summary>
-		public PaLexicalInfo(Assembly fwAssembly, string fwInstallDir)
-		{
+        #region constructors
+        /// <summary>
+        /// Contstructor is required to initialize ClientServerServices
+        /// </summary>
+        public PaLexicalInfo(Assembly fwAssembly, string fwInstallDir)
+        {
             PaLexicalInfo.fwAssembly = fwAssembly;
             PaLexicalInfo.fwInstallDir = fwInstallDir;
             AppDomain currentDomain = AppDomain.CurrentDomain;
@@ -55,14 +55,14 @@ namespace SIL.FieldWorks.PaObjects
             fwUtilsAssembly = Assembly.LoadFile(Path.Combine(fwInstallDir, "FwUtils.dll"));
 
             // Load native DLL's with COM classes
-            CheckError(LoadLibrary(Path.Combine(fwInstallDir, "icudt50.dll")), "icudt50.dll");
-            CheckError(LoadLibrary(Path.Combine(fwInstallDir, "icuuc50.dll")), "icuuc50.dll");
-            CheckError(LoadLibrary(Path.Combine(fwInstallDir, "icuin50.dll")), "icuin50.dll");
-            LoadLibrary(Path.Combine(fwInstallDir, "DebugProcs.dll"));  // don't check for error since it won't exist in a relese build
-            CheckError(LoadLibrary(Path.Combine(fwInstallDir, "FwKernel.dll")), "FwKernel.dll");
+            //CheckError(LoadLibrary(Path.Combine(fwInstallDir, "icudt50.dll")), "icudt50.dll");
+            //CheckError(LoadLibrary(Path.Combine(fwInstallDir, "icuuc50.dll")), "icuuc50.dll");
+            //CheckError(LoadLibrary(Path.Combine(fwInstallDir, "icuin50.dll")), "icuin50.dll");
+            //LoadLibrary(Path.Combine(fwInstallDir, "DebugProcs.dll"));  // don't check for error since it won't exist in a relese build
+            //CheckError(LoadLibrary(Path.Combine(fwInstallDir, "FwKernel.dll")), "FwKernel.dll");
 
             InitializeClientServices();
-		}
+        }
 
         private void CheckError(IntPtr intPtr, string libraryName)
         {
@@ -77,157 +77,155 @@ namespace SIL.FieldWorks.PaObjects
             Assembly assembly = Assembly.LoadFrom(assemblyPath);
             return assembly;
         }
-		#endregion
+        #endregion
 
-		#region Disposable stuff
-		#if DEBUG
-		/// <summary/>
-		~PaLexicalInfo()
-		{
-			Dispose(false);
-		}
-		#endif
+        #region Disposable stuff
+#if DEBUG
+        /// <summary/>
+        ~PaLexicalInfo()
+        {
+            Dispose(false);
+        }
+#endif
 
-		/// <summary/>
-		public bool IsDisposed { get; private set; }
+        /// <summary/>
+        public bool IsDisposed { get; private set; }
 
-		/// <summary/>
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
+        /// <summary/>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-		/// <summary/>
-		protected virtual void Dispose(bool fDisposing)
-		{
-			Debug.WriteLineIf(!fDisposing, "****** Missing Dispose() call for " + GetType() + " *******");
-			if (fDisposing && !IsDisposed)
-			{
-				// dispose managed and unmanaged objects
-				if (m_lexEntries != null)
-					m_lexEntries.Clear();
+        /// <summary/>
+        protected virtual void Dispose(bool fDisposing)
+        {
+            Debug.WriteLineIf(!fDisposing, "****** Missing Dispose() call for " + GetType() + " *******");
+            if (fDisposing && !IsDisposed)
+            {
+                // dispose managed and unmanaged objects
+                if (m_lexEntries != null)
+                    m_lexEntries.Clear();
 
-				if (m_writingSystems != null)
-					m_writingSystems.Clear();
-			}
-			m_lexEntries = null;
-			m_writingSystems = null;
-			IsDisposed = true;
-		}
-		#endregion
+                if (m_writingSystems != null)
+                    m_writingSystems.Clear();
+            }
+            m_lexEntries = null;
+            m_writingSystems = null;
+            IsDisposed = true;
+        }
+        #endregion
 
-		#region IPaLexicalInfo Members
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Displays a dialog that allows the user to choose an FW language project.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool ShowOpenProject(Form owner, ref Rectangle dialogBounds,
-			ref int dialogSplitterPos, out string name, out string server)
-		{
-			InitIcuDataDir();
-			RegistryHelper.ProductName = "FieldWorks"; // inorder to find correct Registry keys
+        #region IPaLexicalInfo Members
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// Displays a dialog that allows the user to choose an FW language project.
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        public bool ShowOpenProject(Form owner, ref Rectangle dialogBounds,
+            ref int dialogSplitterPos, out string name, out string server)
+        {
+            InitIcuDataDir();
+            RegistryHelper.ProductName = "FieldWorks"; // inorder to find correct Registry keys
 
-			using (dynamic dlg = CreateChooseLangProjectDialog(dialogBounds, dialogSplitterPos))
-			{
-				if (dlg.ShowDialog(owner) == DialogResult.OK)
-				{
-					name = dlg.Project;
-					server = dlg.Server;
-					dialogBounds = dlg.Bounds;
-					dialogSplitterPos = dlg.SplitterPosition;
-					return true;
-				}
-			}
+            using (dynamic dlg = CreateChooseLangProjectDialog(dialogBounds, dialogSplitterPos))
+            {
+                if (dlg.ShowDialog(owner) == DialogResult.OK)
+                {
+                    name = dlg.Project;
+                    server = dlg.Server;
+                    dialogBounds = dlg.Bounds;
+                    dialogSplitterPos = dlg.SplitterPosition;
+                    return true;
+                }
+            }
 
-			name = null;
-			server = null;
-			return false;
-		}
+            name = null;
+            server = null;
+            return false;
+        }
 
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes the FDO repositories from the specified project and server but only
-		/// loads the writing systems. Initialize must be called to get the rest of the data.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool LoadOnlyWritingSystems(string name, string server)
-		{
-			return InternalInitialize(name, server, true);
-		}
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// Initializes the FDO repositories from the specified project and server but only
+        /// loads the writing systems. Initialize must be called to get the rest of the data.
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        public bool LoadOnlyWritingSystems(string name, string server)
+        {
+            return InternalInitialize(name, server, true);
+        }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes the FDO repositories from the specified project and server.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public bool Initialize(string name, string server)
-		{
-			return InternalInitialize(name, server, false);
-		}
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// Initializes the FDO repositories from the specified project and server.
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        public bool Initialize(string name, string server)
+        {
+            return InternalInitialize(name, server, false);
+        }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes the FDO repositories from the specified project and server.
-		///
-		/// <returns>
-		/// true if the repositories are successfully initialized and FieldWorks started;
-		/// otherwise, false.
-		/// </returns>
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		[SuppressMessage("Gendarme.Rules.Portability", "MonoCompatibilityReviewRule",
-			Justification="See TODO-Linux comment")]
-		private bool InternalInitialize(string name, string server, bool loadOnlyWs)
-		{
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// Initializes the FDO repositories from the specified project and server.
+        ///
+        /// <returns>
+        /// true if the repositories are successfully initialized and FieldWorks started;
+        /// otherwise, false.
+        /// </returns>
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        [SuppressMessage("Gendarme.Rules.Portability", "MonoCompatibilityReviewRule",
+            Justification = "See TODO-Linux comment")]
+        private bool InternalInitialize(string name, string server, bool loadOnlyWs)
+        {
 
-			var start = DateTime.Now;
+            var start = DateTime.Now;
 
-			return LoadFwDataForPa(name, server, loadOnlyWs);
-		}
+            return LoadFwDataForPa(name, server, loadOnlyWs);
+        }
 
-		/// ------------------------------------------------------------------------------------
-		private bool LoadFwDataForPa(string name, string server,
-			bool loadOnlyWs)
-		{
+        /// ------------------------------------------------------------------------------------
+        private bool LoadFwDataForPa(string name, string server,
+            bool loadOnlyWs)
+        {
             if (!OpenProject(name, server))
                 return false;
 
-            MessageBox.Show("Project opened");
-            m_writingSystems = PaWritingSystem.GetWritingSystems(GetWritingSystems(), ServiceLocator());
-            MessageBox.Show(string.Format("Have {0} writing systems", m_writingSystems.Count));
+            m_writingSystems = PaWritingSystem.GetWritingSystems(GetWritingSystems(), fdoCache.ServiceLocator);
             if (!loadOnlyWs)
             {
-                m_lexEntries = PaLexEntry.GetAll(GetLexicalEntries());
+                m_lexEntries = PaLexEntry.GetAll(GetLexicalEntries(), fdoCache.ServiceLocator);
                 MessageBox.Show(string.Format("Have {0} lex entries", m_lexEntries.Count));
             }
 
             return true;
-		}
+        }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a collection of the lexical entries.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public IEnumerable<IPaLexEntry> LexEntries
-		{
-			get { return m_lexEntries; }
-		}
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// Gets a collection of the lexical entries.
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        public IEnumerable<IPaLexEntry> LexEntries
+        {
+            get { return m_lexEntries; }
+        }
 
-		/// ------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets a collection of the writing systems.
-		/// </summary>
-		/// ------------------------------------------------------------------------------------
-		public IEnumerable<IPaWritingSystem> WritingSystems
-		{
-			get { return m_writingSystems; }
-		}
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// Gets a collection of the writing systems.
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        public IEnumerable<IPaWritingSystem> WritingSystems
+        {
+            get { return m_writingSystems; }
+        }
 
-		#endregion
+        #endregion
 
         #region Static helper methods
         public static bool IsComplexForm(dynamic lxEntryRef)
@@ -304,19 +302,15 @@ namespace SIL.FieldWorks.PaObjects
 
         private IEnumerable<dynamic> GetWritingSystems()
         {
-            return fdoCache.LanguageProject.AllWritingSystems;
+            dynamic wsRepository = SilTools.ReflectionHelper.GetProperty(fdoCache.ServiceLocator, "WritingSystems");
+            return SilTools.ReflectionHelper.GetProperty(wsRepository, "AllWritingSystems");
         }
 
         private IEnumerable<dynamic> GetLexicalEntries()
         {
             Type lexRepositoryClass = fdoAssembly.GetType("SIL.FieldWorks.FDO.ILexEntryRepository");
-            dynamic repository = ServiceLocator().GetInstance(lexRepositoryClass);
+            dynamic repository = fdoCache.ServiceLocator.GetInstance(lexRepositoryClass);
             return repository.AllInstances();
-        }
-
-        private dynamic ServiceLocator()
-        {
-            return fdoCache.ServiceLocator;
         }
         #endregion
     }
