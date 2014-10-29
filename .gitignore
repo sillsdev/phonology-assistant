@@ -3,6 +3,7 @@ Output/*
 */obj/*
 src/DisablePASplashScreen/obj/*
 src/Pa/obj/*
+src/PaToFdoImpl/obj/*
 src/PATests/obj/*
 src/PATests/bin/*
 src/PaToFdoBrowser/obj/*

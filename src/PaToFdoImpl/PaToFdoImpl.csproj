@@ -32,6 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <PlatformTarget>x86</PlatformTarget>
     <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>false</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-Windows|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -52,8 +53,9 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="COMInterfaces">
-      <HintPath>..\..\..\..\Program Files (x86)\SIL\FieldWorks 8\COMInterfaces.dll</HintPath>
+    <Reference Include="COMInterfaces, Version=8.1.0.16263, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DistFiles\Windows\COMInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="SilUtils">
       <HintPath>..\..\Lib\SilUtils.dll</HintPath>

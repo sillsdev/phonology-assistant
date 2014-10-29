@@ -313,9 +313,14 @@ namespace SIL.FieldWorks.PaObjects
                 Type directoryFinderClass = fwUtilsAssembly.GetType("SIL.FieldWorks.Common.FwUtils.FwDirectoryFinder");
                 dynamic fdoDirs = SilTools.ReflectionHelper.GetProperty(directoryFinderClass, "FdoDirectories");
 
-                Type cacheClass = fdoAssembly.GetType("SIL.FieldWorks.FDO.FdoCache");
-                fdoCache = SilTools.ReflectionHelper.GetResult(cacheClass, "CreateCacheFromExistingData", new object[] { projId, "en",
-                fwFdoUi, fdoDirs, null /* progress dlg */, true /* forbid migration */});
+                dynamic activationContextHelper = SilTools.ReflectionHelper.CreateClassInstance(basicUtilsAssembly,
+                    "SIL.Utils.ActivationContextHelper", new object[] {"FwKernel.X.manifest"});
+                using (SilTools.ReflectionHelper.GetResult(activationContextHelper, "Activate", new Object[] {}))
+                {
+                    Type cacheClass = fdoAssembly.GetType("SIL.FieldWorks.FDO.FdoCache");
+                    fdoCache = SilTools.ReflectionHelper.GetResult(cacheClass, "CreateCacheFromExistingData", new object[] { projId, "en",
+                        fwFdoUi, fdoDirs, null /* progress dlg */, true /* forbid migration */});
+                }
             }
             catch (Exception ex)
             {
