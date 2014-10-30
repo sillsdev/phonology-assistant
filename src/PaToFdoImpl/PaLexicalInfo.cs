@@ -314,7 +314,7 @@ namespace SIL.FieldWorks.PaObjects
                 dynamic fdoDirs = SilTools.ReflectionHelper.GetProperty(directoryFinderClass, "FdoDirectories");
 
                 dynamic activationContextHelper = SilTools.ReflectionHelper.CreateClassInstance(basicUtilsAssembly,
-                    "SIL.Utils.ActivationContextHelper", new object[] {"FwKernel.X.manifest"});
+                    "SIL.Utils.ActivationContextHelper", new object[] { "FDO.dll.manifest" });
                 using (SilTools.ReflectionHelper.GetResult(activationContextHelper, "Activate", new Object[] {}))
                 {
                     Type cacheClass = fdoAssembly.GetType("SIL.FieldWorks.FDO.FdoCache");
