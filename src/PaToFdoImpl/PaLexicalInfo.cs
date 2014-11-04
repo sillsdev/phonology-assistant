@@ -192,14 +192,20 @@ namespace SIL.FieldWorks.PaObjects
         private bool LoadFwDataForPa(string name, string server,
             bool loadOnlyWs)
         {
-            if (!OpenProject(name, server))
-                return false;
-
-            m_writingSystems = PaWritingSystem.GetWritingSystems(GetWritingSystems(fdoCache.ServiceLocator), fdoCache.ServiceLocator);
-            if (!loadOnlyWs)
+            dynamic activationContextHelper = SilTools.ReflectionHelper.CreateClassInstance(basicUtilsAssembly,
+                "SIL.Utils.ActivationContextHelper", new object[] { "FDO.dll.manifest" });
+            using (SilTools.ReflectionHelper.GetResult(activationContextHelper, "Activate", new Object[] {}))
             {
-                m_lexEntries = PaLexEntry.GetAll(GetLexicalEntries(), fdoCache.ServiceLocator);
-                MessageBox.Show(string.Format("Have {0} lex entries", m_lexEntries.Count));
+
+                if (!OpenProject(name, server))
+                    return false;
+
+                m_writingSystems = PaWritingSystem.GetWritingSystems(GetWritingSystems(fdoCache.ServiceLocator), fdoCache.ServiceLocator);
+                if (!loadOnlyWs)
+                {
+                    m_lexEntries = PaLexEntry.GetAll(GetLexicalEntries(), fdoCache.ServiceLocator);
+                    MessageBox.Show(string.Format("Have {0} lex entries", m_lexEntries.Count));
+                }
             }
 
             return true;
@@ -313,14 +319,9 @@ namespace SIL.FieldWorks.PaObjects
                 Type directoryFinderClass = fwUtilsAssembly.GetType("SIL.FieldWorks.Common.FwUtils.FwDirectoryFinder");
                 dynamic fdoDirs = SilTools.ReflectionHelper.GetProperty(directoryFinderClass, "FdoDirectories");
 
-                dynamic activationContextHelper = SilTools.ReflectionHelper.CreateClassInstance(basicUtilsAssembly,
-                    "SIL.Utils.ActivationContextHelper", new object[] { "FDO.dll.manifest" });
-                using (SilTools.ReflectionHelper.GetResult(activationContextHelper, "Activate", new Object[] {}))
-                {
-                    Type cacheClass = fdoAssembly.GetType("SIL.FieldWorks.FDO.FdoCache");
-                    fdoCache = SilTools.ReflectionHelper.GetResult(cacheClass, "CreateCacheFromExistingData", new object[] { projId, "en",
-                        fwFdoUi, fdoDirs, null /* progress dlg */, true /* forbid migration */});
-                }
+                Type cacheClass = fdoAssembly.GetType("SIL.FieldWorks.FDO.FdoCache");
+                fdoCache = SilTools.ReflectionHelper.GetResult(cacheClass, "CreateCacheFromExistingData", new object[] { projId, "en",
+                    fwFdoUi, fdoDirs, null /* progress dlg */, true /* forbid migration */});
             }
             catch (Exception ex)
             {
