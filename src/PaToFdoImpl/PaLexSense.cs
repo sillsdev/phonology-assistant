@@ -64,22 +64,35 @@ namespace SIL.FieldWorks.PaObjects
             xStatus = PaCmPossibility.Create(SilTools.ReflectionHelper.GetProperty(lxSense, "StatusRA"), svcloc);
             xSenseType = PaCmPossibility.Create(SilTools.ReflectionHelper.GetProperty(lxSense, "SenseTypeRA"), svcloc);
 
-            // TODO: need to implement this secion
-            //ICmPossibility poss = null;
-            //var msa = lxSense.MorphoSyntaxAnalysisRA;
-            //if (msa is IMoDerivAffMsa)
-            //    poss = ((IMoDerivAffMsa)msa).FromPartOfSpeechRA;
-            //else if (msa is IMoDerivStepMsa)
-            //    poss = ((IMoDerivStepMsa)msa).PartOfSpeechRA;
-            //else if (msa is IMoInflAffMsa)
-            //    poss = ((IMoInflAffMsa)msa).PartOfSpeechRA;
-            //else if (msa is IMoStemMsa)
-            //    poss = ((IMoStemMsa)msa).PartOfSpeechRA;
-            //else if (msa is IMoUnclassifiedAffixMsa)
-            //    poss = ((IMoUnclassifiedAffixMsa)msa).PartOfSpeechRA;
+            dynamic poss = null;
+            var msa = SilTools.ReflectionHelper.GetProperty(lxSense, "MorphoSyntaxAnalysisRA");
+            Type msaType = msa.GetType();
+            foreach (var interfaceType in msaType.GetInterfaces())
+            {
+                if (interfaceType.Name.EndsWith("IMoDerivAffMsa"))
+                {
+                    poss = SilTools.ReflectionHelper.GetProperty(msa, "FromPartOfSpeechRA");
+                    break;
+                }
+                if (interfaceType.Name.EndsWith("IMoDerivStepMsa"))
+                {
+                    poss = SilTools.ReflectionHelper.GetProperty(msa, "PartOfSpeechRA");
+                    break;
+                }
+                if (interfaceType.Name.EndsWith("IMoStemMsa"))
+                {
+                    poss = SilTools.ReflectionHelper.GetProperty(msa, "PartOfSpeechRA");
+                    break;
+                }
+                if (interfaceType.Name.EndsWith("IMoUnclassifiedAffixMsa"))
+                {
+                    poss = SilTools.ReflectionHelper.GetProperty(msa, "PartOfSpeechRA");
+                    break;
+                }
+            }
 
-            //if (poss != null)
-            //    xPartOfSpeech = PaCmPossibility.Create(poss);
+            if (poss != null)
+                xPartOfSpeech = PaCmPossibility.Create(poss, svcloc);
 
             xCustomFields = PaCustomFieldValue.GetCustomFields(lxSense, "LexSense", customFields, svcloc);
 

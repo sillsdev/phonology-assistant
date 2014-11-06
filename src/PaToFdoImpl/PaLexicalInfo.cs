@@ -34,6 +34,7 @@ namespace SIL.FieldWorks.PaObjects
         private static Assembly fdoAssembly;
         private static Assembly basicUtilsAssembly;
         private static Assembly fwUtilsAssembly;
+        private static Assembly fwCoreDlgsAssembly;
         private static Assembly fdoUiAssembly;
         private List<IPaWritingSystem> m_writingSystems;
         private List<IPaLexEntry> m_lexEntries;
@@ -54,6 +55,7 @@ namespace SIL.FieldWorks.PaObjects
             fdoUiAssembly = Assembly.LoadFile(Path.Combine(fwInstallDir, "FdoUi.dll"));
             basicUtilsAssembly = Assembly.LoadFile(Path.Combine(fwInstallDir, "BasicUtils.dll"));
             fwUtilsAssembly = Assembly.LoadFile(Path.Combine(fwInstallDir, "FwUtils.dll"));
+            fwCoreDlgsAssembly = Assembly.LoadFile(Path.Combine(fwInstallDir, "FwCoreDlgs.dll"));
 
             // Load native DLL's with COM classes
             //CheckError(LoadLibrary(Path.Combine(fwInstallDir, "icudt50.dll")), "icudt50.dll");
@@ -130,6 +132,7 @@ namespace SIL.FieldWorks.PaObjects
             InitIcuDataDir();
             RegistryHelper.ProductName = "FieldWorks"; // inorder to find correct Registry keys
 
+
             using (dynamic dlg = CreateChooseLangProjectDialog(dialogBounds, dialogSplitterPos))
             {
                 if (dlg.ShowDialog(owner) == DialogResult.OK)
@@ -193,9 +196,7 @@ namespace SIL.FieldWorks.PaObjects
         private bool LoadFwDataForPa(string name, string server,
             bool loadOnlyWs)
         {
-            dynamic activationContextHelper = SilTools.ReflectionHelper.CreateClassInstance(basicUtilsAssembly,
-                "SIL.Utils.ActivationContextHelper", new object[] { "FDO.dll.manifest" });
-            using (SilTools.ReflectionHelper.GetResult(activationContextHelper, "Activate", new Object[] {}))
+            using (CreateComContext())
             {
 
                 if (!OpenProject(name, server))
@@ -292,15 +293,28 @@ namespace SIL.FieldWorks.PaObjects
             }
 
         }
+
+        private IDisposable CreateComContext()
+        {
+            dynamic activationContextHelper = SilTools.ReflectionHelper.CreateClassInstance(basicUtilsAssembly,
+                "SIL.Utils.ActivationContextHelper", new object[] { "FDO.dll.manifest" });
+            return SilTools.ReflectionHelper.GetResult(activationContextHelper, "Activate", new Object[] { });
+        }
         #endregion
 
         #region Private helper methods
         private void InitializeClientServices()
         {
-            // TODO: Needed for dialog to open
             // need to call this iniitialization routine to allow the ChooseLangProjectDialog can be used
-            //ClientServerServices.SetCurrentToDb4OBackend(null, FwDirectoryFinder.FdoDirectories,
-            //    () => FwDirectoryFinder.ProjectsDirectory == FwDirectoryFinder.ProjectsDirectoryLocalMachine);
+            Type clientServerervices = fdoAssembly.GetType("SIL.FieldWorks.FDO.DomainServices.ClientServerServices");
+            Type directoryFinderClass = fwUtilsAssembly.GetType("SIL.FieldWorks.Common.FwUtils.FwDirectoryFinder");
+            dynamic fdoDirs = SilTools.ReflectionHelper.GetProperty(directoryFinderClass, "FdoDirectories");
+            dynamic projectDirs = SilTools.ReflectionHelper.GetProperty(directoryFinderClass, "ProjectsDirectory");
+            dynamic localProjectDirs = SilTools.ReflectionHelper.GetProperty(directoryFinderClass, "ProjectsDirectoryLocalMachine");
+
+            Func<bool> comparer = delegate() { return projectDirs == localProjectDirs; };
+
+            SilTools.ReflectionHelper.GetResult(clientServerervices, "SetCurrentToDb4OBackend", new object[] { null, fdoDirs, comparer  });
 
         }
 
@@ -314,7 +328,10 @@ namespace SIL.FieldWorks.PaObjects
 
         private dynamic CreateChooseLangProjectDialog(Rectangle dialogBounds, int dialogSplitterPos)
         {
-            throw new NotImplementedException();
+            Type chooseDlgClass = fwCoreDlgsAssembly.GetType();
+            dynamic chooseDlg = SilTools.ReflectionHelper.CreateClassInstance(fwCoreDlgsAssembly, "SIL.FieldWorks.FwCoreDlgs.ChooseLangProjectDialog",
+                new object[] { dialogBounds, dialogSplitterPos });
+            return chooseDlg;
         }
 
         private bool OpenProject(string name, string server)
