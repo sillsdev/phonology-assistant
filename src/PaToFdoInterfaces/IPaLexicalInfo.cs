@@ -18,5 +18,6 @@ namespace SIL.PaToFdoInterfaces
 		bool Initialize(string name, string server);
 		IEnumerable<IPaWritingSystem> WritingSystems { get; }
 		IEnumerable<IPaLexEntry> LexEntries { get; }
+        IEnumerable<IPaCustomField> CustomFields { get; }
 	}
 }

@@ -73,6 +73,8 @@
   <ItemGroup>
     <Compile Include="PaCmPossibility.cs" />
     <Compile Include="PaComplexFormInfo.cs" />
+    <Compile Include="PaCustomField.cs" />
+    <Compile Include="PaCustomFieldValue.cs" />
     <Compile Include="PaFieldWorksHelper.cs" />
     <Compile Include="PaLexEntry.cs" />
     <Compile Include="PaLexicalInfo.cs" />

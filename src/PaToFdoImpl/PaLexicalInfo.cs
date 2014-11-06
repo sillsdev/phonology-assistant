@@ -37,6 +37,7 @@ namespace SIL.FieldWorks.PaObjects
         private static Assembly fdoUiAssembly;
         private List<IPaWritingSystem> m_writingSystems;
         private List<IPaLexEntry> m_lexEntries;
+        private List<PaCustomField> m_customFields;
         private dynamic fdoCache;
 
         #region constructors
@@ -203,8 +204,8 @@ namespace SIL.FieldWorks.PaObjects
                 m_writingSystems = PaWritingSystem.GetWritingSystems(GetWritingSystems(fdoCache.ServiceLocator), fdoCache.ServiceLocator);
                 if (!loadOnlyWs)
                 {
-                    m_lexEntries = PaLexEntry.GetAll(GetLexicalEntries(), fdoCache.ServiceLocator);
-                    MessageBox.Show(string.Format("Have {0} lex entries", m_lexEntries.Count));
+                    m_customFields = PaCustomField.GetCustomFields(fdoCache);
+                    m_lexEntries = PaLexEntry.GetAll(GetLexicalEntries(), m_customFields, fdoCache.ServiceLocator);
                 }
             }
 
@@ -231,6 +232,15 @@ namespace SIL.FieldWorks.PaObjects
             get { return m_writingSystems; }
         }
 
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// Gets a collection of the custom fields defined in the project.
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        public IEnumerable<IPaCustomField> CustomFields
+        {
+            get { return m_customFields; }
+        }
         #endregion
 
         #region Static helper methods

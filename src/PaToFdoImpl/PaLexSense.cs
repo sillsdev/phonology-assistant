@@ -15,7 +15,7 @@ namespace SIL.FieldWorks.PaObjects
 		}
 
 		/// ------------------------------------------------------------------------------------
-		internal PaLexSense(dynamic lxSense, dynamic svcloc)
+		internal PaLexSense(dynamic lxSense, List<PaCustomField> customFields, dynamic svcloc)
 		{
             xAnthropologyNote = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lxSense, "AnthroNote"), svcloc);
 			xBibliography = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(lxSense, "Bibliography"), svcloc);
@@ -80,7 +80,10 @@ namespace SIL.FieldWorks.PaObjects
 
             //if (poss != null)
             //    xPartOfSpeech = PaCmPossibility.Create(poss);
-		}
+
+            xCustomFields = PaCustomFieldValue.GetCustomFields(lxSense, "LexSense", customFields, svcloc);
+
+        }
 
 		#region IPaLexSense Members
 		/// ------------------------------------------------------------------------------------
@@ -302,6 +305,15 @@ namespace SIL.FieldWorks.PaObjects
 			get { return xGuid; }
 		}
 
-		#endregion
+        /// ------------------------------------------------------------------------------------
+        public List<PaCustomFieldValue> xCustomFields { get; set; }
+
+        /// ------------------------------------------------------------------------------------
+        [XmlIgnore]
+        public IEnumerable<IPaCustomFieldValue> CustomFields
+        {
+            get { return xCustomFields; }
+        }
+        #endregion
 	}
 }

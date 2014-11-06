@@ -158,7 +158,13 @@ namespace SIL.FieldWorks.PaObjects
 			return _lexEntryServer.LoadOnlyWritingSystems(name, server);
 		}
 
-		/// ------------------------------------------------------------------------------------
+        /// ------------------------------------------------------------------------------------
+        public IEnumerable<IPaCustomField> CustomFields
+        {
+            get { return _lexEntryServer.CustomFields; }
+        }
+
+        /// ------------------------------------------------------------------------------------
 		public IEnumerable<IPaLexEntry> LexEntries
 		{
 			get { return _lexEntryServer.LexEntries; }

@@ -16,7 +16,7 @@ namespace SIL.FieldWorks.PaObjects
 		/// of PaLexEntry objects.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		internal static List<IPaLexEntry> GetAll(IEnumerable<dynamic> allInstances, dynamic svcLoc)
+		internal static List<IPaLexEntry> GetAll(IEnumerable<dynamic> allInstances, List<PaCustomField> customFields, dynamic svcLoc)
 		{
             List<IPaLexEntry> result = new List<IPaLexEntry>();
             foreach (var lx in allInstances)
@@ -26,7 +26,7 @@ namespace SIL.FieldWorks.PaObjects
                     continue;
                 dynamic form = SilTools.ReflectionHelper.GetProperty(lexForm, "Form");
                 if (form.Count > 0)
-                    result.Add(new PaLexEntry(lx, svcLoc));
+                    result.Add(new PaLexEntry(lx, customFields, svcLoc));
             }
             return result;
 		}
@@ -37,7 +37,7 @@ namespace SIL.FieldWorks.PaObjects
 		}
 
 		/// ------------------------------------------------------------------------------------
-        internal PaLexEntry(dynamic lxEntry, dynamic svcloc)
+        internal PaLexEntry(dynamic lxEntry, List<PaCustomField> customFields, dynamic svcloc)
 		{
 			DateCreated = SilTools.ReflectionHelper.GetProperty(lxEntry, "DateCreated");
 			DateModified = SilTools.ReflectionHelper.GetProperty(lxEntry, "DateModified");
@@ -55,7 +55,7 @@ namespace SIL.FieldWorks.PaObjects
             xSenses = new List<PaLexSense>();
             dynamic senses = SilTools.ReflectionHelper.GetProperty(lxEntry, "SensesOS");
             foreach (var x in senses)
-                xSenses.Add(new PaLexSense(x, svcloc));
+                xSenses.Add(new PaLexSense(x, customFields, svcloc));
 
             xComplexForms = new List<PaMultiString>();
             dynamic complexEntries = SilTools.ReflectionHelper.GetProperty(lxEntry, "ComplexFormEntries");
@@ -95,6 +95,8 @@ namespace SIL.FieldWorks.PaObjects
             dynamic etymology = SilTools.ReflectionHelper.GetProperty(lxEntry, "EtymologyOA");
             if (etymology != null)
 				xEtymology = PaMultiString.Create(SilTools.ReflectionHelper.GetProperty(etymology, "Form"), svcloc);
+
+            xCustomFields = PaCustomFieldValue.GetCustomFields(lxEntry, "LexEntry", customFields, svcloc);
 
             // TODO: Handle complex forms
             //xComplexFormInfo = new List<PaComplexFormInfo>();
@@ -302,6 +304,15 @@ namespace SIL.FieldWorks.PaObjects
 			get { return xGuid; }
 		}
 
-		#endregion
+        /// ------------------------------------------------------------------------------------
+        public List<PaCustomFieldValue> xCustomFields { get; set; }
+
+        /// ------------------------------------------------------------------------------------
+        [XmlIgnore]
+        public IEnumerable<IPaCustomFieldValue> CustomFields
+        {
+            get { return xCustomFields; }
+        }
+        #endregion
 	}
 }

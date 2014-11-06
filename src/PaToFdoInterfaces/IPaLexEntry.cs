@@ -69,7 +69,10 @@ namespace SIL.PaToFdoInterfaces
 
 		/// ------------------------------------------------------------------------------------
 		Guid Guid { get; }
-	}
+
+        /// ------------------------------------------------------------------------------------
+        IEnumerable<IPaCustomFieldValue> CustomFields { get; }
+    }
 
 	#endregion
 }

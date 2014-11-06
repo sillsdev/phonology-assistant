@@ -100,7 +100,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IPaCustomFieldValue.cs" />
     <Compile Include="IPaComplexFormInfo.cs" />
+    <Compile Include="IPaCustomField.cs" />
     <Compile Include="IPaVariant.cs" />
     <Compile Include="IPaCmPossibility.cs" />
     <Compile Include="IPaLexEntry.cs" />
