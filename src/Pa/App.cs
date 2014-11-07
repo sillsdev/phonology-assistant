@@ -1627,7 +1627,11 @@ namespace SIL.Pa
 		private static WordListCache Search(SearchQuery query, bool incProgressBar,
 			bool returnCountOnly, bool showErrMsg, int incAmount, out int resultCount)
 		{
+		    bool isLeftNot = false;
 			resultCount = 0;
+
+		    if (query.Pattern.IndexOf("NOT") == 0)
+                isLeftNot = true;
 
 			bool patternContainsWordBoundaries = (query.Pattern.IndexOf('#') >= 0);
 			int incCounter = 0;
@@ -1715,6 +1719,12 @@ namespace SIL.Pa
 
 					int[] result;
 					bool matchFound = engine.SearchWord(eticWords[i], out result);
+                    if (isLeftNot)
+                    {
+                        matchFound = !matchFound;
+                        result[0] = 0;
+                        result[1] = 1;
+                    }
 					while (matchFound)
 					{
 						if (returnCountOnly)

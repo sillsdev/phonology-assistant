@@ -649,6 +649,7 @@ namespace SIL.Pa.PhoneticSearching
 			pattern = pattern.Replace("/", string.Empty);
 			pattern = pattern.Replace("*", string.Empty);
 			pattern = pattern.Replace("+", string.Empty);
+            pattern = pattern.Replace("NOT", string.Empty);
 			return pattern.Replace("#", string.Empty);
 		}
 

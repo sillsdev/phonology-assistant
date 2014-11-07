@@ -1459,6 +1459,12 @@ namespace SIL.Pa.PhoneticSearching
 				if (ip == phones.Length)
 					break;
 
+                if (member != null && (member.ToString() == "N" || member.ToString() == "O" || member.ToString() == "T"))
+			    {
+                    im++;
+                    continue;			        
+			    }
+
 				// Check if the phone is ignored, making sure the current member is not in
 				// the ignored list. If the current member is in the ignored list, then
 				// don't ignore it because it has been explicitly included in the pattern.
