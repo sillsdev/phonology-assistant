@@ -212,16 +212,52 @@
       <item>[V][C]</item>
       <item>[V][C][C]</item>
       <item>[V][C][C][C]</item>
+      <item>[V][V]</item>
+      <item>[V][V][C]</item>
+      <item>[V][V][C][C]</item>
+      <item>[V][V][C][C][C]</item>
+      <item>[V][V][V]</item>
+      <item>[V][V][V][C]</item>
+      <item>[V][V][V][C][C][C]</item>
+      <item>[V][V][V][C][C][C]</item>
     </searchItems>
     <searchQueries>
-      <query version="3" Pattern="_#">
+      <query version="3" Pattern="[C]_#">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
         <IgnoreDiacritics>true</IgnoreDiacritics>
         <ignoredCharacters>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,',-,.,:,|,²,³,¹,ʹ,ˈ,ˌ,ː,ˑ,˥,˦,˧,˨,˩,̀,́,̂,̄,̆,̋,̌,̏,᷄,᷅,᷆,᷇,᷈,᷉,‖,‿,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ꜛ,ꜜ</ignoredCharacters>
       </query>
-      <query version="3" Pattern="_.">
+      <query version="3" Pattern="[C]_.">
+        <IsPatternRegExpression>false</IsPatternRegExpression>
+        <ShowAllOccurrences>true</ShowAllOccurrences>
+        <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
+        <IgnoreDiacritics>true</IgnoreDiacritics>
+        <ignoredCharacters>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,',-,.,:,|,²,³,¹,ʹ,ˈ,ˌ,ː,ˑ,˥,˦,˧,˨,˩,̀,́,̂,̄,̆,̋,̌,̏,᷄,᷅,᷆,᷇,᷈,᷉,‖,‿,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ꜛ,ꜜ</ignoredCharacters>
+      </query>
+      <query version="3" Pattern="#_#">
+        <IsPatternRegExpression>false</IsPatternRegExpression>
+        <ShowAllOccurrences>true</ShowAllOccurrences>
+        <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
+        <IgnoreDiacritics>true</IgnoreDiacritics>
+        <ignoredCharacters>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,',-,.,:,|,²,³,¹,ʹ,ˈ,ˌ,ː,ˑ,˥,˦,˧,˨,˩,̀,́,̂,̄,̆,̋,̌,̏,᷄,᷅,᷆,᷇,᷈,᷉,‖,‿,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ꜛ,ꜜ</ignoredCharacters>
+      </query>
+      <query version="3" Pattern="#_.">
+        <IsPatternRegExpression>false</IsPatternRegExpression>
+        <ShowAllOccurrences>true</ShowAllOccurrences>
+        <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
+        <IgnoreDiacritics>true</IgnoreDiacritics>
+        <ignoredCharacters>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,',-,.,:,|,²,³,¹,ʹ,ˈ,ˌ,ː,ˑ,˥,˦,˧,˨,˩,̀,́,̂,̄,̆,̋,̌,̏,᷄,᷅,᷆,᷇,᷈,᷉,‖,‿,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ꜛ,ꜜ</ignoredCharacters>
+      </query>
+      <query version="3" Pattern="._#">
+        <IsPatternRegExpression>false</IsPatternRegExpression>
+        <ShowAllOccurrences>true</ShowAllOccurrences>
+        <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
+        <IgnoreDiacritics>true</IgnoreDiacritics>
+        <ignoredCharacters>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,',-,.,:,|,²,³,¹,ʹ,ˈ,ˌ,ː,ˑ,˥,˦,˧,˨,˩,̀,́,̂,̄,̆,̋,̌,̏,᷄,᷅,᷆,᷇,᷈,᷉,‖,‿,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ꜛ,ꜜ</ignoredCharacters>
+      </query>
+      <query version="3" Pattern="._#">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
@@ -266,6 +302,10 @@
     </searchQueries>
     <columnWidths>
       <width>159</width>
+      <width>100</width>
+      <width>100</width>
+      <width>100</width>
+      <width>100</width>
       <width>100</width>
       <width>100</width>
       <width>100</width>
@@ -381,13 +421,6 @@
         <IgnoreDiacritics>true</IgnoreDiacritics>
         <ignoredCharacters>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,',-,.,:,|,²,³,¹,ʹ,ˈ,ˌ,ː,ˑ,˥,˦,˧,˨,˩,̀,́,̂,̄,̆,̋,̌,̏,᷄,᷅,᷆,᷇,᷈,᷉,‖,‿,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ꜛ,ꜜ</ignoredCharacters>
       </query>
-      <query version="3" Pattern="._.">
-        <IsPatternRegExpression>false</IsPatternRegExpression>
-        <ShowAllOccurrences>true</ShowAllOccurrences>
-        <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
-        <IgnoreDiacritics>true</IgnoreDiacritics>
-        <ignoredCharacters>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,',-,.,:,|,²,³,¹,ʹ,ˈ,ˌ,ː,ˑ,˥,˦,˧,˨,˩,̀,́,̂,̄,̆,̋,̌,̏,᷄,᷅,᷆,᷇,᷈,᷉,‖,‿,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ꜛ,ꜜ</ignoredCharacters>
-      </query>
       <query version="3" Pattern="[C]_.">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
@@ -402,9 +435,32 @@
         <IgnoreDiacritics>true</IgnoreDiacritics>
         <ignoredCharacters>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,',-,.,:,|,²,³,¹,ʹ,ˈ,ˌ,ː,ˑ,˥,˦,˧,˨,˩,̀,́,̂,̄,̆,̋,̌,̏,᷄,᷅,᷆,᷇,᷈,᷉,‖,‿,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ꜛ,ꜜ</ignoredCharacters>
       </query>
+      <query version="3" Pattern="#_.">
+        <IsPatternRegExpression>false</IsPatternRegExpression>
+        <ShowAllOccurrences>true</ShowAllOccurrences>
+        <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
+        <IgnoreDiacritics>true</IgnoreDiacritics>
+        <ignoredCharacters>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,',-,.,:,|,²,³,¹,ʹ,ˈ,ˌ,ː,ˑ,˥,˦,˧,˨,˩,̀,́,̂,̄,̆,̋,̌,̏,᷄,᷅,᷆,᷇,᷈,᷉,‖,‿,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ꜛ,ꜜ</ignoredCharacters>
+      </query>
+      <query version="3" Pattern="._#">
+        <IsPatternRegExpression>false</IsPatternRegExpression>
+        <ShowAllOccurrences>true</ShowAllOccurrences>
+        <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
+        <IgnoreDiacritics>true</IgnoreDiacritics>
+        <ignoredCharacters>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,',-,.,:,|,²,³,¹,ʹ,ˈ,ˌ,ː,ˑ,˥,˦,˧,˨,˩,̀,́,̂,̄,̆,̋,̌,̏,᷄,᷅,᷆,᷇,᷈,᷉,‖,‿,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ꜛ,ꜜ</ignoredCharacters>
+      </query>
+      <query version="3" Pattern="._.">
+        <IsPatternRegExpression>false</IsPatternRegExpression>
+        <ShowAllOccurrences>true</ShowAllOccurrences>
+        <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
+        <IgnoreDiacritics>true</IgnoreDiacritics>
+        <ignoredCharacters>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,',-,.,:,|,²,³,¹,ʹ,ˈ,ˌ,ː,ˑ,˥,˦,˧,˨,˩,̀,́,̂,̄,̆,̋,̌,̏,᷄,᷅,᷆,᷇,᷈,᷉,‖,‿,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ꜛ,ꜜ</ignoredCharacters>
+      </query>
     </searchQueries>
     <columnWidths>
       <width>110</width>
+      <width>100</width>
+      <width>100</width>
       <width>100</width>
       <width>100</width>
       <width>100</width>
