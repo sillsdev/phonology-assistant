@@ -208,6 +208,9 @@ namespace SIL.FieldWorks.PaObjects
                     m_customFields = PaCustomField.GetCustomFields(fdoCache);
                     m_lexEntries = PaLexEntry.GetAll(GetLexicalEntries(), m_customFields, fdoCache.ServiceLocator);
                 }
+
+                ((IDisposable)fdoCache).Dispose();
+                fdoCache = null;
             }
 
             return true;
