@@ -150,6 +150,7 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public void VerifyPrecedingEnvironment(string precedingEnv)
 		{
+            precedingEnv = precedingEnv.Replace("NOT", "");
 			var envWithoutPlusSymbols = StripOutStuffWithValidPlusAndStarSymbols(precedingEnv);
 
 			if (envWithoutPlusSymbols.Count(c => "#*+".Contains(c)) > 1)

@@ -1450,7 +1450,7 @@ namespace SIL.Pa.PhoneticSearching
 			PatternGroupMember member = null;
 			int ip = startIndex;				// Index into the collection of phones
 			int im = 0;							// Index into the collection of members
-
+            bool isNotInQuery = false;
 			while (Members != null && im < Members.Count)
 			{
 				member = Members[im] as PatternGroupMember;
@@ -1462,9 +1462,9 @@ namespace SIL.Pa.PhoneticSearching
                 if (member != null && (member.ToString() == "N" || member.ToString() == "O" || member.ToString() == "T"))
 			    {
                     im++;
+                    isNotInQuery = true;
                     continue;			        
 			    }
-
 				// Check if the phone is ignored, making sure the current member is not in
 				// the ignored list. If the current member is in the ignored list, then
 				// don't ignore it because it has been explicitly included in the pattern.
@@ -1479,7 +1479,14 @@ namespace SIL.Pa.PhoneticSearching
 				// member is a PatternGroup, not a PatternGroupMember.
 				compareResult = (member != null ? member.ContainsMatch(phones[ip]) :
 					((PatternGroup)Members[im]).SearchGroup(phones, ref ip));
-
+                if (isNotInQuery & (compareResult == CompareResultType.Match || compareResult == CompareResultType.NoMatch))
+                {
+                   if(compareResult == CompareResultType.Match)
+                        compareResult = CompareResultType.NoMatch;
+                   else
+                        compareResult = CompareResultType.Match;
+                }
+                isNotInQuery = false;
 				switch (compareResult)
 				{
 					case CompareResultType.Ignored:
