@@ -152,7 +152,6 @@ namespace SIL.Pa.PhoneticSearching
 		{
             precedingEnv = precedingEnv.Replace("NOT", "");
 			var envWithoutPlusSymbols = StripOutStuffWithValidPlusAndStarSymbols(precedingEnv);
-
 			if (envWithoutPlusSymbols.Count(c => "#*+".Contains(c)) > 1)
 			{
 				var error = new SearchQueryValidationError(

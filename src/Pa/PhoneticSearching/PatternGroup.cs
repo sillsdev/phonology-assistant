@@ -1550,20 +1550,30 @@ namespace SIL.Pa.PhoneticSearching
 			PatternGroupMember member = null;
 			int ip = startIndex;				// Index into the collection of phones
 			int im = Members.Count - 1;		// Index into the collection of members
+            bool isNotInQuery = false;
 
 			while (Members != null && im >= 0)
 			{
+			    if (Members[0].ToString() == "N")
+			        isNotInQuery = true;
 				member = Members[im] as PatternGroupMember;
 
 				// Check if the current member is a zero/one or more member.
-				if (member != null)
-				{
+                if (member != null && (member.MemberType == MemberType.ZeroOrMore || member.MemberType == MemberType.OneOrMore))
+                {
+                    bool isTrue = false;
+
 					if (member.MemberType == MemberType.ZeroOrMore)
-						return true;
+						isTrue = true;
 
 					if (member.MemberType == MemberType.OneOrMore)
-						return CheckForOneOrMorePhonesBefore(ip, phones);
-				}
+						isTrue =  CheckForOneOrMorePhonesBefore(ip, phones);
+
+                    if (isNotInQuery)
+                        isTrue = !isTrue;
+
+                    return isTrue;
+                }
 
 				// Break out of the loop if we've run past the beginning of the phones.
 				if (ip < 0)
@@ -1583,6 +1593,14 @@ namespace SIL.Pa.PhoneticSearching
 				// member is a PatternGroup, not a PatternGroupMember.
 				compareResult = (member != null ? member.ContainsMatch(phones[ip]) :
 					((PatternGroup)Members[im]).SearchGroup(phones, ref ip));
+
+                if (isNotInQuery & (compareResult == CompareResultType.Match || compareResult == CompareResultType.NoMatch))
+                {
+                    if (compareResult == CompareResultType.Match)
+                        compareResult = CompareResultType.NoMatch;
+                    else
+                        compareResult = CompareResultType.Match;
+                }
 
 				switch (compareResult)
 				{
@@ -1630,19 +1648,29 @@ namespace SIL.Pa.PhoneticSearching
 			PatternGroupMember member = null;
 			int ip = startIndex;				// Index into the collection of phones
 			int im = 0;							// Index into the collection of members
+            bool isNotInQuery = false;
 
 			while (Members != null && im < Members.Count)
 			{
+                if (Members[0].ToString() == "N")
+                    isNotInQuery = true;
 				member = Members[im] as PatternGroupMember;
 
 				// Check if the current member is a zero/one or more member.
-				if (member != null)
-				{
-					if (member.MemberType == MemberType.ZeroOrMore)
-						return true;
+                if (member != null && (member.MemberType == MemberType.ZeroOrMore || member.MemberType == MemberType.OneOrMore))
+                {
+                    bool isTrue = false;
+
+                    if (member.MemberType == MemberType.ZeroOrMore)
+                        isTrue = true;
 
 					if (member.MemberType == MemberType.OneOrMore)
-						return CheckForOneOrMorePhonesAfter(ip, phones);
+                        isTrue = CheckForOneOrMorePhonesAfter(ip, phones);
+
+                    if (isNotInQuery)
+                        isTrue = !isTrue;
+
+                    return isTrue;
 				}
 
 				// Break out of the loop if we've run out of phones.
@@ -1663,6 +1691,14 @@ namespace SIL.Pa.PhoneticSearching
 				// member is a PatternGroup, not a PatternGroupMember.
 				compareResult = (member != null ? member.ContainsMatch(phones[ip]) :
 					((PatternGroup)Members[im]).SearchGroup(phones, ref ip));
+                
+                if (isNotInQuery & (compareResult == CompareResultType.Match || compareResult == CompareResultType.NoMatch))
+                {
+                    if (compareResult == CompareResultType.Match)
+                        compareResult = CompareResultType.NoMatch;
+                    else
+                        compareResult = CompareResultType.Match;
+                }
 
 				switch (compareResult)
 				{
