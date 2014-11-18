@@ -218,7 +218,7 @@
       <item>[V][V][C][C][C]</item>
       <item>[V][V][V]</item>
       <item>[V][V][V][C]</item>
-      <item>[V][V][V][C][C][C]</item>
+      <item>[V][V][V][C][C]</item>
       <item>[V][V][V][C][C][C]</item>
     </searchItems>
     <searchQueries>
@@ -257,7 +257,7 @@
         <IgnoreDiacritics>true</IgnoreDiacritics>
         <ignoredCharacters>˥˧,˧˩,˦˥˦,˩˨,˦˥,˥˩,˩˥,',-,.,:,|,²,³,¹,ʹ,ˈ,ˌ,ː,ˑ,˥,˦,˧,˨,˩,̀,́,̂,̄,̆,̋,̌,̏,᷄,᷅,᷆,᷇,᷈,᷉,‖,‿,⁴,⁵,⁶,⁷,⁸,⁹,↑,↓,↗,↘,ꜛ,ꜜ</ignoredCharacters>
       </query>
-      <query version="3" Pattern="._#">
+      <query version="3" Pattern="._.">
         <IsPatternRegExpression>false</IsPatternRegExpression>
         <ShowAllOccurrences>true</ShowAllOccurrences>
         <IncludeAllUncertainPossibilities>false</IncludeAllUncertainPossibilities>
