@@ -1289,6 +1289,7 @@ namespace SIL.Pa.Tests
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+        [Ignore]
 		public void SearchWithTieBarTest1()
 		{
 			SearchForTieBarWithDiacriticsInDataTest("[[C][{0}{1}]]/*_*", App.kTopTieBarC, true);
