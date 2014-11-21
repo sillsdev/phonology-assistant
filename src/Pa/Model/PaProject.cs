@@ -498,15 +498,15 @@ namespace SIL.Pa.Model
 		public void UpdateAbiguousSequencesWithGeneratedOnes(IEnumerable<string> generatedSequences, bool removeGeneratedSequences)
 		{
 			AmbiguousSequences list;
-            if (AmbiguousSequences != null)
-            {
-                if (removeGeneratedSequences)
-                    list = new AmbiguousSequences(AmbiguousSequences.Where(s => !s.IsGenerated));
-                else
-                    list = AmbiguousSequences;
-            }
-            else
-                list = new AmbiguousSequences();
+			if (AmbiguousSequences != null)
+			{
+				if (removeGeneratedSequences)
+					list = new AmbiguousSequences(AmbiguousSequences.Where(s => !s.IsGenerated));
+				else
+					list = AmbiguousSequences;
+			}
+			else
+				list = new AmbiguousSequences();
 
 			foreach (var seq in generatedSequences)
 			{
@@ -525,7 +525,9 @@ namespace SIL.Pa.Model
 		{
 			ambigSeqList.Save(ProjectPathFilePrefix);
 			LoadAmbiguousSequences();
+			var savedLogUndefinedCharacters = PhoneticParser.LogUndefinedCharactersWhenParsing;
 			PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
+			PhoneticParser.LogUndefinedCharactersWhenParsing = savedLogUndefinedCharacters;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -539,7 +541,7 @@ namespace SIL.Pa.Model
 		public void LoadDistinctiveFeatureSet()
 		{
 			var filePath = BFeatureCache.GetAvailableFeatureSetFiles()
-                .FirstOrDefault(f => Path.GetFileName(f).StartsWith(DistinctiveFeatureSet, StringComparison.Ordinal));
+				.FirstOrDefault(f => Path.GetFileName(f).StartsWith(DistinctiveFeatureSet, StringComparison.Ordinal));
 
 			if (filePath != null)
 			{
