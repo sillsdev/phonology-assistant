@@ -3394,6 +3394,7 @@
 			<name>Syllabicity mark</name>
 			<description>syllabic</description>
 			<type>diacritic</type>
+			<subtype>tone</subtype>
 			<isBase>false</isBase>
 			<canPrecedeBase>false</canPrecedeBase>
 			<displayWithDottedCircle>true</displayWithDottedCircle>

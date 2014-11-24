@@ -192,15 +192,28 @@ namespace SIL.Pa.Processing
 			
 			XmlSerializationHelper.SerializeDataAndWriteAsNode(_writer, _project.TranscriptionChanges);
 			XmlSerializationHelper.SerializeDataAndWriteAsNode(_writer, _project.AmbiguousSequences);
+		    
+            if (_project.IgnoredSymbolsInCVCharts.Count > 0)
+		    {
+		        ProcessHelper.WriteStartElementWithAttrib(_writer, "symbols", "class", "ignoredInChart");
+		        foreach (var symbol in _project.IgnoredSymbolsInCVCharts)
+		            ProcessHelper.WriteStartElementWithAttribAndEmptyValue(_writer, "symbol", "literal", symbol);
 
-			if (_project.IgnoredSymbolsInCVCharts.Count > 0)
-			{
-				ProcessHelper.WriteStartElementWithAttrib(_writer, "symbols", "class", "ignoredInChart");
-				foreach (var symbol in _project.IgnoredSymbolsInCVCharts)
-					ProcessHelper.WriteStartElementWithAttribAndEmptyValue(_writer, "symbol", "literal", symbol);
+		        _writer.WriteEndElement();
+		    }
+		    else
+		    {
+                if (!File.Exists(_project.CssFileName.Replace(".css", ".PhoneticInventory.xml")))
+		        {
+		            ProcessHelper.WriteStartElementWithAttrib(_writer, "symbols", "class", "ignoredInChart");
+		            ProcessHelper.WriteStartElementWithAttribAndEmptyValue(_writer, "symbol", "literal", "̩");
+		            _writer.WriteEndElement();
 
-				_writer.WriteEndElement();
-			}
+		            _project.IgnoredSymbolsInCVCharts = new List<string> {"̩"};
+		            _project.Save();
+		            ProjectInventoryBuilder.Process(_project);
+		        }
+		    }
 
 			_writer.WriteStartElement("segments");
 			WritePhones();
