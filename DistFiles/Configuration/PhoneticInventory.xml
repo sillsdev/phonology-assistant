@@ -101,11 +101,11 @@
 			<breakAfter>epi</breakAfter>
 		</featureDefinition>
 		<featureDefinition class="colgroup" category="place" type="consonant">
-			<name>glottal</name>
-		</featureDefinition>
-		<featureDefinition class="colgroup" category="place" type="consonant">
 			<name>labial-velar</name>
 			<breakAfter>labial</breakAfter>
+		</featureDefinition>
+		<featureDefinition class="colgroup" category="place" type="consonant">
+			<name>glottal</name>
 		</featureDefinition>
 		<featureDefinition class="rowgroup" category="manner" type="consonant">
 			<name>implosive</name>
