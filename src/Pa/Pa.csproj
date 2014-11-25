@@ -1079,6 +1079,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ImportantClasses.cd" />
     <None Include="Resources\Search Watermark.png" />
   </ItemGroup>
   <ItemGroup>
