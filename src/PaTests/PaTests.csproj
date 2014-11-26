@@ -104,12 +104,12 @@
     <Compile Include="BFeatureCacheTests.cs" />
     <Compile Include="CIEBuilderTests.cs" />
     <Compile Include="CVPatternTests.cs" />
+    <Compile Include="DataSourceClasses\Fw7CustomFieldTests.cs" />
     <Compile Include="DataSourceClasses\SfmDataSourceReaderTests.cs" />
     <Compile Include="ExperimentalTranscriptionTests.cs" />
     <Compile Include="FeatureCacheBaseTests.cs" />
     <Compile Include="FeatureMaskTests.cs" />
     <Compile Include="FFSearchEngineTests.cs" />
-    <Compile Include="FindTests.cs" />
     <Compile Include="MiscControlTests.cs" />
     <Compile Include="MiscTests.cs" />
     <Compile Include="PatternGroupTests.cs" />
