@@ -75,7 +75,8 @@ namespace SIL.Pa.DataSourceClasses
 		{
             _dataSource.FwDataSourceInfo = new FwDataSourceInfo(TestInput("Ikposo-01.fwdata"), null, DataSourceType.FW7);
             var customField = new Fw7CustomField(_dataSource);
-            Assert.AreEqual(3, customField.CustomFields.Count);
+            Assert.AreEqual(new[] { "Stem Syllable Type", "Surface Tone Temp", "Word-CV Pattern"}, customField.FieldNames());
+            Assert.AreEqual("en", customField.FieldWs("Word-CV Pattern"));
             Assert.AreEqual(3, customField.CustomValues.Count);
             Assert.AreEqual("H H HF", customField.Value("Surface Tone Temp", "5375a8ef-6958-48ca-9c57-02246177e07f"));
             Assert.AreEqual("VCVCV", customField.Value("Word-CV Pattern", "5375a8ef-6958-48ca-9c57-02246177e07f"));

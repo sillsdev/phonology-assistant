@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -36,7 +37,7 @@ namespace SIL.Pa.DataSourceClasses.FieldWorks
             public string Name;
             [XmlAttribute(AttributeName = "type")]
             public string Type;
-            [XmlAttribute(AttributeName = "wsSelector")]
+            [XmlAttribute(AttributeName = "ws")]
             public string Ws;
         }
 
@@ -146,5 +147,14 @@ namespace SIL.Pa.DataSourceClasses.FieldWorks
             return _index[guid + fieldName].Ws;
         }
 
+        public List<string> FieldNames()
+        {
+            return CustomFields.Select(customField => customField.Name).ToList();
+        }
+
+        public string FieldWs(string fieldName)
+        {
+            return (from customField in CustomFields where customField.Name == fieldName select customField.Ws).FirstOrDefault();
+        }
     }
 }

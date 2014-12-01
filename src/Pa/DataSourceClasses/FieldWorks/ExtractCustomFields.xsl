@@ -44,6 +44,13 @@
     </xsl:element>
   </xsl:template>
 
+  <xsl:template match="@*[name()='wsSelector']" mode="doCopy">
+    <xsl:variable name="customName" select="parent::*/@name"/>
+    <xsl:attribute name="ws">
+      <xsl:value-of select="//Custom[@name = $customName]//@ws[1]"/>
+    </xsl:attribute>
+  </xsl:template>
+
   <xsl:template match="rt[./Custom[./AStr or ./AUni]]">
     <xsl:text>&#xa;</xsl:text>
     <xsl:copy>
