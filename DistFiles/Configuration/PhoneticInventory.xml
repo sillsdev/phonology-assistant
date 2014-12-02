@@ -87,6 +87,10 @@
 			<name>palatal</name>
 		</featureDefinition>
 		<featureDefinition class="colgroup" category="place" type="consonant">
+			<name>labial-palatal</name>
+			<breakAfter>labial</breakAfter>
+		</featureDefinition>
+		<featureDefinition class="colgroup" category="place" type="consonant">
 			<name>velar</name>
 		</featureDefinition>
 		<featureDefinition class="colgroup" category="place" type="consonant">
