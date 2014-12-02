@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using SIL.Pa.DataSourceClasses.FieldWorks;
 using SIL.Pa.Model;
 using SIL.PaToFdoInterfaces;
 
@@ -17,6 +18,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 		private PaDataSource m_dataSource;
 		private FwDataSourceInfo m_fwDsInfo;
 		private BackgroundWorker m_worker;
+        public Fw7CustomField m_customfield;
 
 		/// ------------------------------------------------------------------------------------
 		public static Fw7DataSourceReader Create(BackgroundWorker worker, PaProject project, PaDataSource ds)
@@ -35,7 +37,10 @@ namespace SIL.Pa.DataSource.FieldWorks
 			reader.m_phoneticFieldName = eticMapping.NameInDataSource;
 			reader.m_phoneticWsId = eticMapping.FwWsId;
             reader.m_audioWsId = audioMapping != null ? audioMapping.FwWsId : null;
-
+            if (reader.m_dataSource != null)
+            {
+                reader.m_customfield = new Fw7CustomField(reader.m_dataSource);
+            }
 			return reader;
 		}
 
@@ -53,11 +58,13 @@ namespace SIL.Pa.DataSource.FieldWorks
 		{
 			var allLexEntries = FwDBUtils.GetLexEntriesFromFw7Project(m_fwDsInfo).ToArray();
 			m_worker.ReportProgress(allLexEntries.Length, m_dataSource.DisplayTextWhenReading);
-
+            var customnames = m_customfield.CustomFields.Select(m => m.Name);
 			foreach (var lxEntry in allLexEntries)
 			{
 				m_worker.ReportProgress(0);
 				var entry = ReadSingleLexEntry(lxEntry);
+                var customvalues = m_customfield.CustomValues.FindAll(m => m.Guid == lxEntry.Guid.ToString());
+                SetCustomFieldsforEntry(customnames, customvalues, entry);
 				if (entry != null)
 					recCache.Add(entry);
 			}
@@ -65,7 +72,22 @@ namespace SIL.Pa.DataSource.FieldWorks
 			m_dataSource.UpdateLastModifiedTime();
 		}
 
-		/// ------------------------------------------------------------------------------------
+	    private static void SetCustomFieldsforEntry(IEnumerable<string> customnames, List<Fw7CustomField.rt> customvalues, RecordCacheEntry entry)
+	    {
+	        foreach (var name in customnames)
+	        {
+	            foreach (var value in customvalues.Select(m => m.CustomFields))
+	            {
+	                var nm = value.SingleOrDefault(m => m.Name == name);
+	                if (nm != null)
+	                {
+	                    entry.SetValue(name, nm.Value);
+	                }
+	            }
+	        }
+	    }
+
+	    /// ------------------------------------------------------------------------------------
 		private RecordCacheEntry ReadSingleLexEntry(IPaLexEntry lxEntry)
 		{
 			// Make a new record entry.
