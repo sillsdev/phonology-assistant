@@ -7,7 +7,6 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using Localization;
 using Localization.UI;
-using Palaso.Extensions;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.DataSourceClasses.FieldWorks;
@@ -52,17 +51,11 @@ namespace SIL.Pa.UI.Dialogs
 
 			var potentialFieldNames = Settings.Default.DefaultFw7Fields.Cast<string>();
 
-            Fw7CustomField customFields = new Fw7CustomField(ds);
-		    if (customFields != null)
-		    {
-		        foreach (var customField in customFields.CustomFields)
-		        {
-		            List<string> cuslist = potentialFieldNames.ToList();
-		            cuslist.Add(customField.Name);
-		            potentialFieldNames = cuslist; //(IEnumerable<string>)
-		        }
-		    }
-
+            var customFields = new Fw7CustomField(ds);
+            var cuslist = potentialFieldNames.ToList();
+            cuslist.AddRange(customFields.FieldNames());
+            potentialFieldNames = cuslist; //(IEnumerable<string>)
+            
 		    m_potentialFields = projectFields.Where(f => potentialFieldNames.Contains(f.Name));
 
 			lblProjectValue.Text = ds.FwDataSourceInfo.ToString();
