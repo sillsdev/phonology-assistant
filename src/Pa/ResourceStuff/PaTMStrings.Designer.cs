@@ -664,6 +664,78 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete Col&amp;umn....
+        /// </summary>
+        public static string kstidDeleteChartColumnAsText {
+            get {
+                return ResourceManager.GetString("kstidDeleteChartColumnAsText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Col&amp;umn.
+        /// </summary>
+        public static string kstidDeleteChartColumnOnMenuText {
+            get {
+                return ResourceManager.GetString("kstidDeleteChartColumnOnMenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Col&amp;umn.
+        /// </summary>
+        public static string kstidDeleteChartColumnText {
+            get {
+                return ResourceManager.GetString("kstidDeleteChartColumnText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete &amp;Row....
+        /// </summary>
+        public static string kstidDeleteChartRowAsText {
+            get {
+                return ResourceManager.GetString("kstidDeleteChartRowAsText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete &amp;Row.
+        /// </summary>
+        public static string kstidDeleteChartRowOnMenuText {
+            get {
+                return ResourceManager.GetString("kstidDeleteChartRowOnMenuText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete &amp;Row.
+        /// </summary>
+        public static string kstidDeleteChartRowText {
+            get {
+                return ResourceManager.GetString("kstidDeleteChartRowText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Current Row.
+        /// </summary>
+        public static string kstidDeleteChartRowToolTip {
+            get {
+                return ResourceManager.GetString("kstidDeleteChartRowToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Current Column.
+        /// </summary>
+        public static string kstidDeleteColumnChartToolTip {
+            get {
+                return ResourceManager.GetString("kstidDeleteColumnChartToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to D&amp;escriptive Features....
         /// </summary>
         public static string kstidDescriptiveFeaturesText {

@@ -956,4 +956,28 @@
   <data name="kstidCloseText" xml:space="preserve">
     <value>&amp;Close Project</value>
   </data>
+  <data name="kstidDeleteChartColumnAsText" xml:space="preserve">
+    <value>Delete Col&amp;umn...</value>
+  </data>
+  <data name="kstidDeleteChartColumnOnMenuText" xml:space="preserve">
+    <value>Delete Col&amp;umn</value>
+  </data>
+  <data name="kstidDeleteChartColumnText" xml:space="preserve">
+    <value>Delete Col&amp;umn</value>
+  </data>
+  <data name="kstidDeleteColumnChartToolTip" xml:space="preserve">
+    <value>Delete Current Column</value>
+  </data>
+  <data name="kstidDeleteChartRowAsText" xml:space="preserve">
+    <value>Delete &amp;Row...</value>
+  </data>
+  <data name="kstidDeleteChartRowOnMenuText" xml:space="preserve">
+    <value>Delete &amp;Row</value>
+  </data>
+  <data name="kstidDeleteChartRowText" xml:space="preserve">
+    <value>Delete &amp;Row</value>
+  </data>
+  <data name="kstidDeleteChartRowToolTip" xml:space="preserve">
+    <value>Delete Current Row</value>
+  </data>
 </root>
