@@ -7,6 +7,7 @@ using System.Linq;
 using Localization;
 using Palaso.IO;
 using SIL.Pa.DataSource.FieldWorks;
+using SIL.Pa.DataSourceClasses.FieldWorks;
 using SilTools;
 
 namespace SIL.Pa.Model
@@ -234,24 +235,26 @@ namespace SIL.Pa.Model
 			return (type == FieldType.Phonetic || type == FieldType.GeneralText);
 		}
 
-		/// ------------------------------------------------------------------------------------
-		public static List<PaField> GetProjectFields(PaProject project)
-		{
-			s_displayPropsCache = FieldDisplayPropsCache.LoadProjectFieldDisplayProps(project);
-			var defaultFields = GetDefaultFields();
-			var path = GetFileForProject(project.ProjectPathFilePrefix);
+        public static List<PaField> GetProjectFields(PaProject project)
+        {
+            s_displayPropsCache = FieldDisplayPropsCache.LoadProjectFieldDisplayProps(project);
+            if (project.DataSources.Count <= 0)
+                return GetDefaultFields();
+            var cusfields = new Fw7CustomField(project.DataSources[0]);
+            var defaultFields = GetDefaultFields(cusfields);
+            var path = GetFileForProject(project.ProjectPathFilePrefix);
 
-			if (!File.Exists(path))
-				return defaultFields;
+            if (!File.Exists(path))
+                return defaultFields;
 
-			// Go through the project's fields making sure that
-			// all the default fields are contained therein.
-			var fields = LoadFields(path, "Fields");
-			foreach (var fld in defaultFields.Where(fld => !fields.Any(f => f.Name == fld.Name)))
-				fields.Add(fld);
-			
-			return fields;
-		}
+            // Go through the project's fields making sure that
+            // all the default fields are contained therein.
+            var fields = LoadFields(path, "Fields", cusfields);
+            foreach (var fld in defaultFields.Where(fld => !fields.Any(f => f.Name == fld.Name)))
+                fields.Add(fld);
+
+            return fields;
+        }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
@@ -282,6 +285,12 @@ namespace SIL.Pa.Model
 			return e;
 		}
 
+        public static List<PaField> GetDefaultFields(Fw7CustomField customField)
+        {
+            var path = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultFields.xml");
+            return EnsureListContainsCalculatedFields(LoadFields(path, "DefaultPaFields", customField)).ToList();
+        }
+
 		/// ------------------------------------------------------------------------------------
 		public static List<PaField> LoadFields(string path, string rootElementName)
 		{
@@ -298,7 +307,35 @@ namespace SIL.Pa.Model
 			return null;
 		}
 
-		/// ------------------------------------------------------------------------------------
+    public static List<PaField> LoadFields(string path,string rootElementName, Fw7CustomField mCustomfields)
+     {
+         Exception e;
+         var list = XmlSerializationHelper.DeserializeFromFile<List<PaField>>(path, rootElementName, out e);
+            AddCustomFields(mCustomfields, list);
+         if (e == null)
+             return EnsureListContainsCalculatedFields(list).ToList();
+
+         App.NotifyUserOfProblem(e, LocalizationManager.GetString(
+             "ProjectFields.ReadingFieldsFileErrorMsg",
+             "There was an error reading field information from the file '{0}'."), path);
+
+         return null;
+     }
+
+	    public static void AddCustomFields(Fw7CustomField mCustomfields, List<PaField> list)
+	    {
+	        if (mCustomfields != null && mCustomfields.CustomFields.Count > 0)
+	        {
+	            foreach (var mFieldValue in mCustomfields.CustomFields.Select(s => s.Name))
+	            {
+	                var fd = new PaField(mFieldValue, FieldType.GeneralText);
+	                if (list.All(f => f.Name != mFieldValue))
+	                    list.Add(fd);
+	            }
+	        }
+	    }
+
+	    /// ------------------------------------------------------------------------------------
 		public static IEnumerable<PaField> EnsureListContainsCalculatedFields(List<PaField> fields)
 		{
 			if (!fields.Any(f => f.Name == kDataSourcePathFieldName))

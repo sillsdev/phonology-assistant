@@ -8,6 +8,7 @@ using System.Xml.Linq;
 using Localization;
 using Palaso.IO;
 using SIL.Pa.DataSource;
+using SIL.Pa.DataSourceClasses.FieldWorks;
 using SIL.Pa.Filters;
 using SIL.Pa.Model.Migration;
 using SIL.Pa.PhoneticSearching;
@@ -358,7 +359,8 @@ namespace SIL.Pa.Model
 
 			// Now remove any fields that no longer have a mapping and are not in the default set (i.e. custom).
 			var mappedFieldNames = DataSources.SelectMany(d => d.FieldMappings).Select(m => m.PaFieldName).ToList();
-			var defaultFieldNames = PaField.GetDefaultFields().Select(f => f.Name).ToList();
+            var customfields = new Fw7CustomField(this.DataSources[0]);
+            var defaultFieldNames = PaField.GetDefaultFields(customfields).Select(f => f.Name).ToList();
 
 			for (int i = fields.Count - 1; i >= 0; i--)
 			{
@@ -498,15 +500,15 @@ namespace SIL.Pa.Model
 		public void UpdateAbiguousSequencesWithGeneratedOnes(IEnumerable<string> generatedSequences, bool removeGeneratedSequences)
 		{
 			AmbiguousSequences list;
-			if (AmbiguousSequences != null)
-			{
-				if (removeGeneratedSequences)
-					list = new AmbiguousSequences(AmbiguousSequences.Where(s => !s.IsGenerated));
-				else
-					list = AmbiguousSequences;
-			}
-			else
-				list = new AmbiguousSequences();
+            if (AmbiguousSequences != null)
+            {
+                if (removeGeneratedSequences)
+                    list = new AmbiguousSequences(AmbiguousSequences.Where(s => !s.IsGenerated));
+                else
+                    list = AmbiguousSequences;
+            }
+            else
+                list = new AmbiguousSequences();
 
 			foreach (var seq in generatedSequences)
 			{
@@ -525,9 +527,7 @@ namespace SIL.Pa.Model
 		{
 			ambigSeqList.Save(ProjectPathFilePrefix);
 			LoadAmbiguousSequences();
-			var savedLogUndefinedCharacters = PhoneticParser.LogUndefinedCharactersWhenParsing;
 			PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
-			PhoneticParser.LogUndefinedCharactersWhenParsing = savedLogUndefinedCharacters;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -541,7 +541,7 @@ namespace SIL.Pa.Model
 		public void LoadDistinctiveFeatureSet()
 		{
 			var filePath = BFeatureCache.GetAvailableFeatureSetFiles()
-				.FirstOrDefault(f => Path.GetFileName(f).StartsWith(DistinctiveFeatureSet, StringComparison.Ordinal));
+                .FirstOrDefault(f => Path.GetFileName(f).StartsWith(DistinctiveFeatureSet, StringComparison.Ordinal));
 
 			if (filePath != null)
 			{
