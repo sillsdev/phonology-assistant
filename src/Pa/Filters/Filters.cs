@@ -37,6 +37,7 @@ namespace SIL.Pa.Filters
 			DoesNotEndsWith,
 			PathExists,
 			PathDoesNotExist,
+            DoesNotMatches,
 		}
 
 		/// ----------------------------------------------------------------------------------------
