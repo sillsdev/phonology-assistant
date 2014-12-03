@@ -63,11 +63,11 @@ namespace SIL.Pa.DataSource
                 if (!File.Exists(ds.FwDataSourceInfo.Name))
                 {
                     var oldProjectFolder = Path.GetDirectoryName(Path.GetDirectoryName(ds.FwDataSourceInfo.Name));
-                    Debug.Assert(oldProjectFolder != null);
                     var newFwProjectFolder = Utils.FwProjectsPath;
                     if (newFwProjectFolder != null)
                     {
-                        ds.FwDataSourceInfo.Name = ds.FwDataSourceInfo.Name.Replace(oldProjectFolder, newFwProjectFolder).Replace(@"\\", @"\");
+                        if (oldProjectFolder != null)
+                            ds.FwDataSourceInfo.Name = ds.FwDataSourceInfo.Name.Replace(oldProjectFolder, newFwProjectFolder).Replace(@"\\", @"\");
                     }
                     if (!File.Exists(ds.FwDataSourceInfo.Name))
                     {
