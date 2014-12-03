@@ -527,7 +527,9 @@ namespace SIL.Pa.Model
 		{
 			ambigSeqList.Save(ProjectPathFilePrefix);
 			LoadAmbiguousSequences();
+            var savedLogUndefinedCharacters = PhoneticParser.LogUndefinedCharactersWhenParsing;
 			PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
+            PhoneticParser.LogUndefinedCharactersWhenParsing = savedLogUndefinedCharacters;
 		}
 
 		/// ------------------------------------------------------------------------------------
