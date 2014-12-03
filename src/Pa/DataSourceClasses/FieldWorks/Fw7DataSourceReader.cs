@@ -58,7 +58,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 		{
 			var allLexEntries = FwDBUtils.GetLexEntriesFromFw7Project(m_fwDsInfo).ToArray();
 			m_worker.ReportProgress(allLexEntries.Length, m_dataSource.DisplayTextWhenReading);
-            var customnames = m_customfield.CustomFields.Select(m => m.Name);
+            var customnames = m_customfield.FieldNames();
 			foreach (var lxEntry in allLexEntries)
 			{
 				m_worker.ReportProgress(0);

@@ -69,7 +69,16 @@ namespace SIL.Pa.Model
 			SearchQueryGroups = SearchQueryGroupList.LoadDefaults(this);
 			FilterHelper = new FilterHelper(this);
 			CIEOptions = new CIEOptions();
-			LoadAmbiguousSequences();
+            Exception error;
+            var defaultProjectFileName = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultProject.xml");
+            using (var defaultProject = XmlSerializationHelper.DeserializeFromFile<PaProject>(defaultProjectFileName, out error))
+            {
+                if (error == null)
+                {
+                    CVPatternInfoList = defaultProject.CVPatternInfoList;
+                }
+            }
+            LoadAmbiguousSequences();
 			LoadTranscriptionChanges();
 			_newProject = true;
 			RecordCache = new RecordCache(this);

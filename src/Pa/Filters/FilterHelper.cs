@@ -17,6 +17,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Palaso.IO;
 using SIL.Pa.Model;
 using SIL.Pa.PhoneticSearching;
 using SilTools;
@@ -57,6 +58,11 @@ namespace SIL.Pa.Filters
 
 			if (File.Exists(filename))
 				Filters = XmlSerializationHelper.DeserializeFromFile<List<Filter>>(filename, "filters");
+			else
+			{
+                var defaultFilterFileName = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultFilters.xml");
+                Filters = XmlSerializationHelper.DeserializeFromFile<List<Filter>>(defaultFilterFileName, "filters");
+            }
 
 			if (Filters == null)
 				Filters = new List<Filter>();
