@@ -67,6 +67,7 @@ namespace SIL.Pa.DataSourceClasses.FieldWorks
         private bool _serializing; // used for implicit construction during serialization
         private readonly XslCompiledTransform _extractCustomFieldsXsl = new XslCompiledTransform();
         private readonly Dictionary<string, Custom> _index = new Dictionary<string, Custom>();
+        private bool noData;
 
 // ReSharper disable once UnusedMember.Local
         private Fw7CustomField()    // used for serialization 
@@ -76,8 +77,13 @@ namespace SIL.Pa.DataSourceClasses.FieldWorks
 
         public Fw7CustomField(PaDataSource ds)
         {
-            if (ds == null || ds.FwDataSourceInfo == null)
-                throw new ArgumentException("Invalid Fw7 Data");
+            if (ds == null || ds.FwDataSourceInfo == null || !File.Exists(ds.FwDataSourceInfo.Name))
+            {
+                CustomFields = new List<CustomField>();
+                CustomValues = new List<rt>();
+                noData = true;
+                return;
+            }
             _extractCustomFieldsXsl.Load(XmlReader.Create(Path.Combine(new []{App.AssemblyPath, "DataSourceClasses", "FieldWorks", "ExtractCustomFields.xsl"})));
             Deserialize(ds.FwDataSourceInfo.Name);
             CreateIndex();

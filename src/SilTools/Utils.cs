@@ -455,7 +455,53 @@ namespace SilTools
 			}
 		}
 
-		/// ------------------------------------------------------------------------------------
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+	    /// Gets the location of the FieldWorks projects on the current machine. When restoring 
+        /// a PA Project, the datasource may point to another location on the source machine.
+	    /// </summary>
+        /// ------------------------------------------------------------------------------------
+        public static string FwProjectsPath
+	    {
+            get
+            {
+                const string projectsDirValueName = "ProjectsDir";
+                var key = FwProgKey();
+                return key == null ? null : key.GetValue(projectsDirValueName).ToString();
+            }
+	    }
+
+	    private static RegistryKey FwProgKey()
+	    {
+	        const string fw8RegPath = @"SIL\FieldWorks\8";
+	        const string fw7RegPath = @"SIL\FieldWorks\7";
+	        const string sw = "SOFTWARE";
+	        const string wow = "Wow6432Node";
+	        var key = TryKey(Path.Combine(sw, fw8RegPath));
+	        if (key != null) return key;
+	        key = TryKey(Path.Combine(new[] {sw, wow, fw8RegPath}));
+	        if (key != null) return key;
+	        key = TryKey(Path.Combine(sw, fw7RegPath));
+	        if (key != null) return key;
+	        key = TryKey(Path.Combine(new[] {sw, wow, fw7RegPath}));
+	        return key;
+	    }
+
+	    private static RegistryKey TryKey(string tryKey)
+	    {
+	        RegistryKey key;
+	        try
+	        {
+	            key = Registry.LocalMachine.OpenSubKey(tryKey);
+	        }
+	        catch (Exception)
+	        {
+	            key = null;
+	        }
+	        return key;
+	    }
+
+	    /// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the full path and filename for the specified file, first the application's
 		/// startup directory is checked. If that fails, then the executing assemblies

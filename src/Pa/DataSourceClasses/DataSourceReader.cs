@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -8,6 +9,7 @@ using Localization;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.DataSource.Sa;
 using SIL.Pa.Model;
+using SilTools;
 
 namespace SIL.Pa.DataSource
 {
@@ -58,6 +60,26 @@ namespace SIL.Pa.DataSource
 					ds.SkipLoadingBecauseOfProblem = true;
 					return;
 				}
+                if (!File.Exists(ds.FwDataSourceInfo.Name))
+                {
+                    var oldProjectFolder = Path.GetDirectoryName(Path.GetDirectoryName(ds.FwDataSourceInfo.Name));
+                    Debug.Assert(oldProjectFolder != null);
+                    var newFwProjectFolder = Utils.FwProjectsPath;
+                    if (newFwProjectFolder != null)
+                    {
+                        ds.FwDataSourceInfo.Name = ds.FwDataSourceInfo.Name.Replace(oldProjectFolder, newFwProjectFolder).Replace(@"\\", @"\");
+                    }
+                    if (!File.Exists(ds.FwDataSourceInfo.Name))
+                    {
+                        App.NotifyUserOfProblem(LocalizationManager.GetString(
+                            "Miscellaneous.Messages.DataSourceReading.FieldWorks7DataMissingMsg", 
+                            "FieldWorks 7.0 (or later) data is missing. It must be acquired in order for Phonology Assistant to read the data source '{0}'. This data source will be skipped."),
+                        ds.FwDataSourceInfo.Name);
+
+                        ds.SkipLoadingBecauseOfProblem = true;
+                        return;
+                    }
+                }
 			}
 			else if (!File.Exists(ds.SourceFile))
 			{
