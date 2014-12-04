@@ -81,6 +81,7 @@ namespace SIL.Pa.DataSourceClasses
             Assert.AreEqual("H H HF", customField.Value("Surface Tone Temp", "5375a8ef-6958-48ca-9c57-02246177e07f"));
             Assert.AreEqual("VCVCV", customField.Value("Word-CV Pattern", "5375a8ef-6958-48ca-9c57-02246177e07f"));
             Assert.AreEqual("en", customField.Ws("Stem Syllable Type", "5375a8ef-6958-48ca-9c57-02246177e07f"));
+            Assert.AreEqual(FwDBUtils.FwWritingSystemType.Analysis, customField.FwWritingSystemType("Surface Tone Temp"));
         }
 
 		#endregion
