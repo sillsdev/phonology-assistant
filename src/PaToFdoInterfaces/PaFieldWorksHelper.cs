@@ -30,7 +30,7 @@ namespace SIL.PaToFdoInterfaces
 	{
 		private static string s_fwInstallPath;
 		private static Assembly s_assembly;
-		private static string[] s_regKeyPaths = new string[] { @"Software\SIL\FieldWorks\8",  @"Software\SIL\FieldWorks\7.0" };
+        private static string[] s_regKeyPaths = { @"Software\SIL\FieldWorks\8", @"Software\SIL\FieldWorks\7.0", @"SOFTWARE\Wow6432Node\SIL\FieldWorks\8", @"SOFTWARE\Wow6432Node\SIL\FieldWorks\7.0" };
 		private IPaLexicalInfo _lexEntryServer;
 
 		#region Construction and disposal Members
@@ -72,38 +72,35 @@ namespace SIL.PaToFdoInterfaces
 		{
 			get
 			{
-				if (s_fwInstallPath == null)
-				{
-					RegistryKey regkey = null;
-					foreach (var key in s_regKeyPaths)
-					{
-						try // exception on Linux because registry key tree does not exist
-						{
-							// FIXME Linux - allow working with FieldWorks for Linux
-							regkey = Registry.LocalMachine.OpenSubKey(key);
-							if (regkey != null)
-								break;
-						}
-						catch (Exception) {}
-					}
+			    if (s_fwInstallPath != null) return s_fwInstallPath;
 
-					if (regkey != null)
-					{
-						s_fwInstallPath = regkey.GetValue("FwExeDir", null) as string;
-						if (s_fwInstallPath == null)
-							s_fwInstallPath = regkey.GetValue("RootCodeDir", null) as string;
-					}
+			    RegistryKey regkey = null;
+			    foreach (var key in s_regKeyPaths)
+			    {
+			        try // exception on Linux because registry key tree does not exist
+			        {
+			            // FIXME Linux - allow working with FieldWorks for Linux
+			            regkey = Registry.LocalMachine.OpenSubKey(key);
+			            if (regkey != null)
+			                break;
+			        }
+			        catch (Exception) {}
+			    }
 
-					if (s_fwInstallPath != null)
-					{
-						// On a development machine, this points to distfiles so
-						// modify the path to point to the output\debug folder.
-                        if (s_fwInstallPath.ToLower().EndsWith("\\distfiles", StringComparison.Ordinal))
-							s_fwInstallPath += @"\..\output\debug";
-					}
-				}
+			    if (regkey != null)
+			    {
+			        s_fwInstallPath = regkey.GetValue("FwExeDir", null) as string ?? 
+                        regkey.GetValue("RootCodeDir", null) as string;
+			    }
 
-				return s_fwInstallPath;
+			    if (s_fwInstallPath == null) return s_fwInstallPath;
+
+			    // On a development machine, this points to distfiles so
+			    // modify the path to point to the output\debug folder.
+			    if (s_fwInstallPath.ToLower().EndsWith(@"\distfiles", StringComparison.Ordinal))
+			        s_fwInstallPath += @"\..\output\debug";
+
+			    return s_fwInstallPath;
 			}
 		}
 
