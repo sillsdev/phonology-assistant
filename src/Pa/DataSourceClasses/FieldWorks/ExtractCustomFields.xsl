@@ -37,6 +37,7 @@
           </xsl:if>
         </xsl:for-each>
       </xsl:element>
+      <xsl:apply-templates select="//rt[@class='LangProject']" mode="doCopy"/>
       <xsl:text>&#xa;</xsl:text>
       <xsl:element name="CustomValues">
         <xsl:apply-templates/>
@@ -49,6 +50,42 @@
     <xsl:attribute name="ws">
       <xsl:value-of select="//Custom[@name = $customName]//@ws[1]"/>
     </xsl:attribute>
+  </xsl:template>
+
+  <xsl:template match="rt[@class='LangProject']" mode="doCopy">
+    <xsl:text>&#xa;</xsl:text>
+    <xsl:element name="WritingSystems">
+      <xsl:element name="AnalysisWss">
+        <xsl:call-template name="wsList">
+          <xsl:with-param name="left" select="AnalysisWss/Uni"/>
+        </xsl:call-template>
+      </xsl:element>
+      <xsl:element name="VernWss">
+        <xsl:call-template name="wsList">
+          <xsl:with-param name="left" select="VernWss/Uni"/>
+        </xsl:call-template>
+      </xsl:element>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template name="wsList">
+    <xsl:param name="left"/>
+    <xsl:variable name="first" select="substring-before($left, ' ')"/>
+    <xsl:choose>
+      <xsl:when test="string-length($first) &gt; 0">
+        <xsl:element name="string">
+          <xsl:value-of select="$first"/>
+        </xsl:element>
+        <xsl:call-template name="wsList">
+          <xsl:with-param name="left" select="substring-after($left, ' ')"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:when test="string-length($left) &gt; 0">
+        <xsl:element name="string">
+          <xsl:value-of select="$left"/>
+        </xsl:element>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="rt[./Custom[./AStr or ./AUni]]">

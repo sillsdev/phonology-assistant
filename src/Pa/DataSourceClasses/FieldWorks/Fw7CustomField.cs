@@ -24,6 +24,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.Xml.Xsl;
 using SIL.Pa.DataSource;
+using SIL.Pa.DataSource.FieldWorks;
 
 namespace SIL.Pa.DataSourceClasses.FieldWorks
 {
@@ -63,11 +64,18 @@ namespace SIL.Pa.DataSourceClasses.FieldWorks
 
         public List<rt> CustomValues;
 
+        public struct WsDef
+        {
+            public List<string> AnalysisWss;
+            public List<string> VernWss;
+        }
+
+        public WsDef WritingSystems;
+
 // ReSharper disable once FieldCanBeMadeReadOnly.Local
         private bool _serializing; // used for implicit construction during serialization
         private readonly XslCompiledTransform _extractCustomFieldsXsl = new XslCompiledTransform();
         private readonly Dictionary<string, Custom> _index = new Dictionary<string, Custom>();
-        private bool noData;
 
 // ReSharper disable once UnusedMember.Local
         private Fw7CustomField()    // used for serialization 
@@ -81,7 +89,6 @@ namespace SIL.Pa.DataSourceClasses.FieldWorks
             {
                 CustomFields = new List<CustomField>();
                 CustomValues = new List<rt>();
-                noData = true;
                 return;
             }
             _extractCustomFieldsXsl.Load(XmlReader.Create(Path.Combine(new []{App.AssemblyPath, "DataSourceClasses", "FieldWorks", "ExtractCustomFields.xsl"})));
@@ -99,6 +106,8 @@ namespace SIL.Pa.DataSourceClasses.FieldWorks
                     entryStandoff.CustomFields.Clear();
                 }
                 CustomValues.Clear();
+                WritingSystems.AnalysisWss.Clear();
+                WritingSystems.VernWss.Clear();
                 _index.Clear();
             }
         }
@@ -118,6 +127,7 @@ namespace SIL.Pa.DataSourceClasses.FieldWorks
                     {
                         CustomFields = result.CustomFields;
                         CustomValues = result.CustomValues;
+                        WritingSystems = result.WritingSystems;
                     }
                 }
                 catch (Exception e)
@@ -161,6 +171,15 @@ namespace SIL.Pa.DataSourceClasses.FieldWorks
         public string FieldWs(string fieldName)
         {
             return (from customField in CustomFields where customField.Name == fieldName select customField.Ws).FirstOrDefault();
+        }
+
+        public FwDBUtils.FwWritingSystemType FwWritingSystemType(string fieldName)
+        {
+            if (WritingSystems.VernWss.Contains(FieldWs(fieldName)))
+                return FwDBUtils.FwWritingSystemType.Vernacular;
+            if (WritingSystems.AnalysisWss.Contains(FieldWs(fieldName)))
+                return FwDBUtils.FwWritingSystemType.Analysis;
+            return FwDBUtils.FwWritingSystemType.None;
         }
     }
 }
