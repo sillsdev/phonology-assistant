@@ -589,7 +589,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://www.ethnologue.com/language_index.asp?letter={0}")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://www.ethnologue.com/browse/names/{0}")]
         public string EthnologueFirstLetterOfNameSearch {
             get {
                 return ((string)(this["EthnologueFirstLetterOfNameSearch"]));
