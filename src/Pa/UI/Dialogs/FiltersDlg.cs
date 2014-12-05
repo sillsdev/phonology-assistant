@@ -839,89 +839,60 @@ namespace SIL.Pa.UI.Dialogs
 			if (string.IsNullOrEmpty(expType) || col != 3)
 				return;
 
-            //if (m_textToExpType[expType] == Filter.ExpressionType.PhoneticSrchPtrn)
-            //{
-            //    // When the expression type is a phonetic search, create a search query
-            //    // object in which the expression's search query options will be stored.
-            //    // These are the options that will be displayed on the search query options
-            //    // drop-down when the user clicks on this row's (i.e. e.RowIndex) value
-            //    // column drop-down button.
-            //    if (m_gridExpressions[kTypeCol, row].Tag == null)
-            //        m_gridExpressions[kTypeCol, row].Tag = new SearchQuery();
-
-            //    // Force the field to be phonetic and the operation to be a match, then
-            //    // set those cells to readonly because those values are the only valid
-            //    // ones for the phonetic search pattern expression type.
-            //    m_gridExpressions[kFieldCol, row].Value = m_project.GetPhoneticField().DisplayName;
-            //    m_gridExpressions[kOpCol, row].Value = m_operatorToText[Filter.Operator.Matches];
-            //    m_gridExpressions[kFieldCol, row].ReadOnly = true;
-            //    m_gridExpressions[kOpCol, row].ReadOnly = true;
-            //}
-            //else 
-                if (m_textToExpType[expType] == Filter.ExpressionType.RegExp)
-			 {
-
-				// Force the operation to be match, since that's the only valid operation
-				// for regular exp. expression types. Then make sure the field cell is
-				// editable, but not the operation cell.
-                //m_gridExpressions[kOpCol, row].Value = m_operatorToText[Filter.Operator.DoesNotMatches];
-				m_gridExpressions[kFieldCol, row].ReadOnly = false;
-				m_gridExpressions[kOpCol, row].ReadOnly = false;
-
-                m_gridExpressions.Columns.Remove("expOperator");
-                m_gridExpressions.Columns.Insert(kOpCol, CreateComboBoxColumn(Filter.ExpressionType.RegExp));
-                m_gridExpressions[kOpCol, row].Value = m_operatorToText[Filter.Operator.Matches];
-                
-			}
-			else
-			{
-				// The expression type is normal, so make sure the field and operation
-				// cells are editable.
-			    if (m_gridExpressions.Columns["expOperator"] != null)
-			    {
-			        m_gridExpressions.Columns.Remove("expOperator");
-			        m_gridExpressions.Columns.Insert(kOpCol, CreateComboBoxColumn(Filter.ExpressionType.Normal));
-                    m_gridExpressions[kOpCol, row].Value = m_operatorToText[Filter.Operator.BeginsWith];
-			    }
-			   
-			    m_gridExpressions[kFieldCol, row].ReadOnly = false;
-				m_gridExpressions[kOpCol, row].ReadOnly = false;
-			}
-		}
-
-        private DataGridViewComboBoxColumn CreateComboBoxColumn(Filter.ExpressionType frmExpressionType)
-        {
-            DataGridViewComboBoxColumn column = new DataGridViewComboBoxColumn();
+            if (m_textToExpType[expType] == Filter.ExpressionType.RegExp)
             {
-                column.Name = "expOperator";
-                column.DataPropertyName = "expOperator";
-                column.HeaderText = "Operator";
-                column.DropDownWidth = 160;
-                column.Width = 90;
-                column.MaxDropDownItems = 3;
-                column.FlatStyle = FlatStyle.Flat;
-                if (frmExpressionType == Filter.ExpressionType.RegExp)
-                {
-                    var matchText = from matchlist in m_operatorToText
-                                where (matchlist.Value.ToLower().Contains("match") == true)
-                                select matchlist;
-                    foreach (var item in matchText)
-                    {
-                        column.Items.Add(item.Value);
-                    }
-                }
-                else
-                {
-                    var matchText = m_operatorToText;
-                    foreach (var item in matchText)
-                    {
-                        column.Items.Add(item.Value);
-                    }
-                }
+                // Force the operation to be match, since that's the only valid operation
+                // for regular exp. expression types. Then make sure the field cell is
+                // editable, but not the operation cell.
+                m_gridExpressions[kFieldCol, row].ReadOnly = false;
+                m_gridExpressions[kOpCol, row].ReadOnly = false;
 
+                UpdateGridDropDown(m_gridExpressions, row, Filter.ExpressionType.RegExp);
+                m_gridExpressions[kOpCol, row].Value = m_operatorToText[Filter.Operator.Matches].ToString();
 
             }
-            return column;
+            else
+            {
+                m_gridExpressions[kFieldCol, row].ReadOnly = false;
+                m_gridExpressions[kOpCol, row].ReadOnly = false;
+                //// The expression type is normal, so make sure the field and operation
+                //// cells are editable.
+                UpdateGridDropDown(m_gridExpressions, row, Filter.ExpressionType.Normal);
+                m_gridExpressions[kOpCol, row].Value = m_operatorToText[Filter.Operator.BeginsWith].ToString();
+            }
+        }
+
+        private void UpdateGridDropDown(DataGridView grid, int row, Filter.ExpressionType frmExpressionType)
+        {
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            if (frmExpressionType == Filter.ExpressionType.RegExp)
+            {
+                var matchText = from matchlist in m_operatorToText
+                                where (matchlist.Value.ToLower().Contains("match") == true)
+                                select matchlist;
+                foreach (var item in matchText)
+                {
+                    dict.Add(item.Key.ToString(), item.Value);
+                }
+            }
+            else
+            {
+                var matchText = m_operatorToText;
+                foreach (var item in matchText)
+                {
+                    dict.Add(item.Key.ToString(), item.Value);
+                }
+            }
+
+            var dgvcbc = (DataGridViewComboBoxCell)grid.Rows[row].Cells["expOperator"];
+            // You might pass a boolean to determine whether to clear or not.
+            dgvcbc.Items.Clear();
+            foreach (object itemToAdd in dict)
+            {
+                dgvcbc.Items.Add(itemToAdd);
+            }
+            dgvcbc.DisplayMember = "Value";
+            dgvcbc.ValueMember = "Value";
         }
 
 		/// ------------------------------------------------------------------------------------
@@ -1052,7 +1023,7 @@ namespace SIL.Pa.UI.Dialogs
 
 			expression.FieldName = fieldName;
 
-            if (row.Cells[kOpCol].Value != null)
+            if (row.Cells[kOpCol].Value != null && m_textToOperator.ContainsKey(row.Cells[kOpCol].Value.ToString()))
             {
                 expression.Operator = m_textToOperator[row.Cells[kOpCol].Value as string];
                 expression.ExpressionType = m_textToExpType[row.Cells[kTypeCol].Value as string];
@@ -1155,6 +1126,34 @@ namespace SIL.Pa.UI.Dialogs
 
 			e.ToolTipText = string.Format(tooltip, m_filterList[e.RowIndex].Name);
 		}
+
+        private void m_gridExpressions_DataError(object sender, DataGridViewDataErrorEventArgs anError)
+        {
+            if (anError.Context == DataGridViewDataErrorContexts.Commit)
+            {
+                Console.WriteLine("Commit error");
+            }
+            if (anError.Context == DataGridViewDataErrorContexts.CurrentCellChange)
+            {
+                Console.WriteLine("Cell change");
+            }
+            if (anError.Context == DataGridViewDataErrorContexts.Parsing)
+            {
+                Console.WriteLine("Parsing error");
+            }
+            if (anError.Context == DataGridViewDataErrorContexts.LeaveControl)
+            {
+                Console.WriteLine("Leave control error");
+            }
+            if ((anError.Exception) is ConstraintException)
+            {
+                DataGridView view = (DataGridView)sender;
+                view.Rows[anError.RowIndex].ErrorText = "an error";
+                view.Rows[anError.RowIndex].Cells[anError.ColumnIndex].ErrorText = "an error";
+
+                anError.ThrowException = false;
+            }
+        }
 	}
 
 	#endregion
