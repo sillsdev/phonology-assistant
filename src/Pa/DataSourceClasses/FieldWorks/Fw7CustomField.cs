@@ -78,7 +78,7 @@ namespace SIL.Pa.DataSourceClasses.FieldWorks
         private readonly Dictionary<string, Custom> _index = new Dictionary<string, Custom>();
 
 // ReSharper disable once UnusedMember.Local
-        private Fw7CustomField()    // used for serialization 
+        public Fw7CustomField()    // used for serialization 
         {
             _serializing = true;
         }
