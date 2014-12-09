@@ -36,7 +36,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		public override string HelpId
 		{
-			get { return ""; }
+			get { return "hidUserInterfaceOptionsPage"; }
 		}
 			
 		/// ------------------------------------------------------------------------------------

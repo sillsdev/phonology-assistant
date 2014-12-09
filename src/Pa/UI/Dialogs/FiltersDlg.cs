@@ -71,11 +71,6 @@ namespace SIL.Pa.UI.Dialogs
 			pnlExpressionMatch.DrawOnlyTopBorder = true;
 			pnlExpressionMatch.DrawOnlyBottomBorder = false;
 
-			// Get rid of these three lines when there is a help topic for this dialog box.
-			btnHelp.Visible = false;
-			btnOK.Left = btnCancel.Left;
-			btnCancel.Left = btnHelp.Left;
-
 			int buttonGap = btnCancel.Left - btnOK.Right;
 			btnApplyNow.Left = btnOK.Left - btnApplyNow.Width - (buttonGap * 3);
 		}

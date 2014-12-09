@@ -1283,4 +1283,10 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
+  <Target Name="AfterBuild">
+    <Copy SourceFiles="@(HelpFile)" DestinationFiles="@(HelpFile->'$(TargetDir)\%(Filename)%(Extension)')"/>
+  </Target>
+  <ItemGroup>
+    <HelpFile Include="$(SolutionDir)\DistFiles\*.chm"/>
+  </ItemGroup>
 </Project>

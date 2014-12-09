@@ -72,7 +72,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override void HandleHelpClick(object sender, EventArgs e)
 		{
-			App.ShowHelpTopic("hidArticulatoryFeatureClassDlg");
+			App.ShowHelpTopic("hidDescriptiveFeatureClassDlg");
 		}
 
 		/// ------------------------------------------------------------------------------------
