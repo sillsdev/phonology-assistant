@@ -931,7 +931,7 @@
     <value>(&amp;No Filter)</value>
   </data>
   <data name="kstidExportAsWordXmlText" xml:space="preserve">
-    <value>&amp;Word 2003 XML...</value>
+    <value>&amp;Word XML...</value>
     <comment>Menu item text</comment>
   </data>
   <data name="kstidExportAsXLingPaperText" xml:space="preserve">

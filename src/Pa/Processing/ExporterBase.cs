@@ -338,7 +338,7 @@ namespace SIL.Pa.Processing
 		protected virtual void WriteMetadataWordXMLOptions()
 		{
 			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
-			"li", "class", "format", "Word 2003 XML");
+			"li", "class", "format", "Word XML");
 
 			ProcessHelper.WriteStartElementWithAttribAndValue(m_writer,
 				"li", "class", "fileName", Path.GetFileName(m_outputFileName));

@@ -411,7 +411,7 @@ namespace SIL.Pa
 			get
 			{
 				return LocalizationManager.GetString("Miscellaneous.FileTypes.Word2003XmlFileType",
-					"Word 2003 XML Files (*.xml)|*.xml");
+					"Word XML Files (*.xml)|*.xml");
 			}
 		}
 
