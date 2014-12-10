@@ -304,15 +304,6 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface/Views/Phone_Inventory/Phone_Inventory_view.htm.
-        /// </summary>
-        public static string hidPhoneInventoryView {
-            get {
-                return ResourceManager.GetString("hidPhoneInventoryView", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to User_Interface/Menus/Tools/Classes/Phones_Class.htm.
         /// </summary>
         public static string hidPhoneticCharacterClassDlg {
@@ -363,15 +354,6 @@ namespace SIL.Pa.ResourceStuff {
         public static string hidSearchOptionsSearchView {
             get {
                 return ResourceManager.GetString("hidSearchOptionsSearchView", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to User_Interface/Menus/Tools/Options/Search_Patterns_tab_Options.htm.
-        /// </summary>
-        public static string hidSearchPatternOptions {
-            get {
-                return ResourceManager.GetString("hidSearchPatternOptions", resourceCulture);
             }
         }
         

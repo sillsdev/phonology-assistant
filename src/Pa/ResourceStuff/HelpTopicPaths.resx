@@ -201,10 +201,6 @@
     <value>User_Interface/Menus/File/New_Project_Settings.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
-  <data name="hidPhoneInventoryView" xml:space="preserve">
-    <value>User_Interface/Views/Phone_Inventory/Phone_Inventory_view.htm</value>
-    <comment>Help topic path - Do not localize</comment>
-  </data>
   <data name="hidPhoneticCharacterClassDlg" xml:space="preserve">
     <value>User_Interface/Menus/Tools/Classes/Phones_Class.htm</value>
     <comment>Help topic path - Do not localize</comment>
@@ -227,10 +223,6 @@
   </data>
   <data name="hidSearchOptionsSearchView" xml:space="preserve">
     <value>User_Interface/Views/Search/Search_Options_Search_View.htm</value>
-    <comment>Help topic path - Do not localize</comment>
-  </data>
-  <data name="hidSearchPatternOptions" xml:space="preserve">
-    <value>User_Interface/Menus/Tools/Options/Search_Patterns_tab_Options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidSearchView" xml:space="preserve">
