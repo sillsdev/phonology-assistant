@@ -20,7 +20,7 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class PaProject : IDisposable
 	{
-		public const string kCurrVersion = "3.3.3";
+		public const string kCurrVersion = "3.4.8";
 
 		private Form _appWindow;
 		private bool _newProject;
@@ -141,7 +141,7 @@ namespace SIL.Pa.Model
 		public static bool MigrateToLatestVersion(string filename)
 		{
 			var xml = XElement.Load(filename);
-			var prevVersion = (string)xml.Attribute("version") ?? "3.0.1";
+			var prevVersion = (string)xml.Attribute("version") ?? "3.4.7";
 			if (prevVersion == kCurrVersion)
 				return true;
 
@@ -156,7 +156,10 @@ namespace SIL.Pa.Model
 
 			Exception error = null;
 
-			if (prevVersion == "3.0.1")
+            if (prevVersion == "3.3.3")
+                error = Migration0347.Migrate(filename, GetProjectPathFilePrefix);
+            
+            if (prevVersion == "3.0.1")
 				error = Migration0330.Migrate(filename, GetProjectPathFilePrefix);
 
 			if (error == null && prevVersion == "3.3.0" || prevVersion == "3.0.1")

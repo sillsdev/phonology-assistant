@@ -4680,10 +4680,10 @@ padrão ou escolha uma da lista</seg>
     </tu>
     <tu tuid="Menus and Toolbars.MenuItems.FileMenu.ExportWordXml">
       <tuv xml:lang="en">
-        <seg>&amp;Word 2003 XML...</seg>
+        <seg>&amp;Word XML...</seg>
       </tuv>
       <tuv xml:lang="pt">
-        <seg>&amp;Word 2003 XML...</seg>
+        <seg>&amp;Word XML...</seg>
       </tuv>
     </tu>
     <tu tuid="Menus and Toolbars.MenuItems.FileMenu.ExportXLingPaper">
@@ -5983,10 +5983,10 @@ padrão ou escolha uma da lista</seg>
     </tu>
     <tu tuid="Miscellaneous.FileTypes.Word2003XmlFileType">
       <tuv xml:lang="en">
-        <seg>Word 2003 XML Files (*.xml)|*.xml</seg>
+        <seg>Word XML Files (*.xml)|*.xml</seg>
       </tuv>
       <tuv xml:lang="pt">
-        <seg>Arquivos do Word 2003 XML (*.xml)|*.xml</seg>
+        <seg>Arquivos do Word XML (*.xml)|*.xml</seg>
       </tuv>
     </tu>
     <tu tuid="Miscellaneous.FileTypes.XLingPaperFileType">

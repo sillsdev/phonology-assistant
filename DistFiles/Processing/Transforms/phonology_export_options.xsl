@@ -32,7 +32,7 @@ exclude-result-prefixes="xhtml"
 					<xsl:value-of select="$format" />
 				</li>
 			</xsl:if>
-			<xsl:if test="$format = 'Word 2003 XML' and string-length($file-name-without-extension) != 0">
+			<xsl:if test="$format = 'Word XML' and string-length($file-name-without-extension) != 0">
 				<li class="fileName">
 					<xsl:value-of select="concat($file-name-without-extension, '.xml')" />
 				</li>
@@ -100,7 +100,7 @@ exclude-result-prefixes="xhtml"
 	</xsl:template>
 
 	<xsl:template match="/xhtml:html/xhtml:body/xhtml:div[@id = 'metadata']/*[@class = 'options']/xhtml:li[@class = 'fileName']">
-		<xsl:if test="$format != 'Word 2003 XML' or string-length($file-name-without-extension) = 0">
+		<xsl:if test="$format != 'Word XML' or string-length($file-name-without-extension) = 0">
 			<xsl:copy>
 				<xsl:apply-templates select="@* | node()" />
 			</xsl:copy>

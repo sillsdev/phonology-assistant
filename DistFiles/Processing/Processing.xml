@@ -314,7 +314,7 @@
 			</xslt>
 		</pipeline>
 	</process>
-	<process type="export" format="Word 2003 XML">
+	<process type="export" format="Word XML">
 		<pipeline xmlns="http://www.w3.org/ns/xproc" version="1.0">
 			<xslt>
 				<input port="stylesheet">

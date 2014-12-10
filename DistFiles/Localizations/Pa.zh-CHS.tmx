@@ -5905,10 +5905,10 @@
     </tu>
     <tu tuid="Miscellaneous.FileTypes.Word2003XmlFileType">
       <tuv xml:lang="en">
-        <seg>Word 2003 XML Files (*.xml)|*.xml</seg>
+        <seg>Word XML Files (*.xml)|*.xml</seg>
       </tuv>
       <tuv xml:lang="zh-CHS">
-        <seg>Word 2003 XML文件(*.xml)|*.xml</seg>
+        <seg>Word XML文件(*.xml)|*.xml</seg>
       </tuv>
     </tu>
     <tu tuid="Miscellaneous.FileTypes.XLingPaperFileType">

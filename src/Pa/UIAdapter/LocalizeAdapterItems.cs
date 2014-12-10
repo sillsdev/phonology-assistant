@@ -76,7 +76,7 @@ namespace SIL.Pa
 
 				case "MenuItems.FileExportWordXml":
 					LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.ExportWordXml",
-						"&Word 2003 XML...", null, null, null, item);
+						"&Word XML...", null, null, null, item);
 					break;
 
 				case "MenuItems.FileExportRTF":
