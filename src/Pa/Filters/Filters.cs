@@ -97,7 +97,7 @@ namespace SIL.Pa.Filters
 
 			foreach (var expression in Expressions)
 			{
-				if (expression.ExpressionType == ExpressionType.PhoneticSrchPtrn &&
+				if (expression.ExpressionType == ExpressionType.PhoneticSrchPtrn && 
 					expression.SearchEngine == null)
 				{
 					expression.SearchEngine = entry.Project.FilterHelper.CheckSearchQuery(expression.SearchQuery, false);
