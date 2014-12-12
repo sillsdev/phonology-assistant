@@ -22,7 +22,8 @@ namespace SIL.Pa.Model.Migration
 		protected override void InternalMigration()
 		{
 		    MigrateLocalizationWord2003ToWord();
-		}
+            UpdateProjectFileToLatestVersion();
+        }
 
         /// ------------------------------------------------------------------------------------
         private void MigrateLocalizationWord2003ToWord()

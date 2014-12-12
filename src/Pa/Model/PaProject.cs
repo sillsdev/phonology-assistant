@@ -156,16 +156,22 @@ namespace SIL.Pa.Model
 
 			Exception error = null;
 
-            if (prevVersion == "3.3.3")
+		    if (prevVersion == "3.0.1")
+		    {
+                error = Migration0330.Migrate(filename, GetProjectPathFilePrefix);
+		        prevVersion = "3.3.0";
+		    }
+
+		    if (error == null && prevVersion == "3.3.0")
+		    {
+                error = Migration0333.Migrate(filename, GetProjectPathFilePrefix);
+		        prevVersion = "3.3.3";
+		    }
+
+            if (error == null && prevVersion == "3.3.3")
                 error = Migration0347.Migrate(filename, GetProjectPathFilePrefix);
-            
-            if (prevVersion == "3.0.1")
-				error = Migration0330.Migrate(filename, GetProjectPathFilePrefix);
 
-			if (error == null && prevVersion == "3.3.0" || prevVersion == "3.0.1")
-				error = Migration0333.Migrate(filename, GetProjectPathFilePrefix);
-
-			if (error == null)
+            if (error == null)
 			{
 				var msg = LocalizationManager.GetString("ProjectMessages.Migrating.MigrationSuccessfulMsg",
 					"The '{0}' project has succssfully been upgraded to work with this version of Phonology Assistant. A backup of your old project has been made in:\n\n{1}");
