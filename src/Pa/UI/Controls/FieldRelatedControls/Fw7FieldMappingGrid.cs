@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Windows.Forms;
 using Localization;
 using SIL.Pa.DataSource;
@@ -11,20 +13,34 @@ namespace SIL.Pa.UI.Controls
 	public class Fw7FieldMappingGrid : Fw6FieldMappingGrid
 	{
 		private string m_tgtFieldColName;
-
+	    private bool m_isVernacular;
+        private readonly PaDataSource m_datasource;
 		/// ------------------------------------------------------------------------------------
-		public Fw7FieldMappingGrid(PaDataSource ds, IEnumerable<PaField> potentialFields) : base(ds)
+        public Fw7FieldMappingGrid(PaDataSource ds, IEnumerable<PaField> potentialFields, bool isVernacular)
+            : base(ds)
 		{
+		    m_datasource = ds;
+		    m_isVernacular = isVernacular;
 			m_potentialFields = potentialFields.OrderBy(f => f.DisplayName);
-
-			// We don't want to show the phonetic and audio file mappings in this grid.
-			m_mappings = (from m in ds.FieldMappings
-						  where m.Field.Type != FieldType.Phonetic && m.Field.Type != FieldType.AudioFilePath
-						  select m.Copy()).ToList();
-
-			CustomizeGrid();
+		    if (!isVernacular)
+		    {
+		        // We don't want to show the phonetic and audio file mappings in this grid.
+		        m_mappings = (from m in ds.FieldMappings
+                              where m.Field.Type != FieldType.Phonetic && m.Field.Type != FieldType.AudioFilePath && m.Field.Note != "V"
+		            select m.Copy()).ToList();
+		    }
+		    else
+		    {
+                m_mappings = (from m in ds.FieldMappings
+                              where m.Field.Type != FieldType.Phonetic && m.Field.Type != FieldType.AudioFilePath && m.Field.Note == "V"
+                              select m.Copy()).ToList();
+		        //m_mappings = potentialFields.ToList();//(from m in m_potentialFields
+                              //where m.FwWsType.ToString() == "Vernacular" select m.Copy()).ToList();
+		    }
+		    CustomizeGrid();
 			AllowUserToAddRows = true;
-			RowCount = m_mappings.Count + 1;
+            if (m_mappings.Count > 0)// !isVernacular
+		        RowCount = m_mappings.Count + 1;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -123,18 +139,22 @@ namespace SIL.Pa.UI.Controls
 				FieldMapping mapping;
 				var field = m_potentialFields.Single(f => f.DisplayName == e.Value as string);
 
-				if (e.RowIndex == m_mappings.Count)
-				{
-					mapping = new FieldMapping(field, false);
-					m_mappings.Add(mapping);
-				}
-				else
-				{
-					mapping = m_mappings[e.RowIndex];
-					mapping.NameInDataSource = field.Name;
-					mapping.Field = field;
-				}
+                if (m_isVernacular)
+                    field.Note = "V";
 
+                if (e.RowIndex == m_mappings.Where(m => m.Field.Note == "V").Count())
+                {
+                    mapping = new FieldMapping(field, false);
+                    m_mappings.Add(mapping);
+                    m_datasource.FieldMappings.Add(mapping);
+                }
+                else
+                {
+                    mapping = m_mappings[e.RowIndex];
+                    mapping.NameInDataSource = field.Name;
+                    mapping.Field = field;
+                }
+                
 				FieldMapping.CheckMappingsFw7WritingSystem(mapping, m_writingSystems);
 				UpdateCellValue(Columns["fwws"].Index, e.RowIndex);
 			}

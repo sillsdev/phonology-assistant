@@ -21,7 +21,9 @@ namespace SIL.Pa.UI.Dialogs
 	public partial class Fw7DataSourcePropertiesDlg : OKCancelDlgBase
 	{
 		private readonly PaDataSource m_datasource;
-		private readonly IEnumerable<PaField> m_potentialFields;
+		private readonly PaDataSource m_TempDatasource;
+		private IEnumerable<PaField> m_potentialFields;
+		private IEnumerable<PaField> m_potentialFields_copy;
 		private Fw7FieldMappingGrid m_grid;
 		private FieldMapping m_phoneticMapping;
 		private FieldMapping m_audioFileMapping;
@@ -40,7 +42,7 @@ namespace SIL.Pa.UI.Dialogs
 				return;
 
 			m_datasource = ds;
-
+			m_TempDatasource = ds;
 			// Save the phonetic and audio file mappings because we need to remove them from the
 			// mappings list so the user won't see them. They're mapped for free and the user
 			// can't control that. These will get added back in when the dialog is closed.
@@ -56,7 +58,8 @@ namespace SIL.Pa.UI.Dialogs
             cuslist.AddRange(customFields.FieldNames());
             potentialFieldNames = cuslist; //(IEnumerable<string>)
             
-		    m_potentialFields = projectFields.Where(f => potentialFieldNames.Contains(f.Name));
+            m_potentialFields = projectFields.Where(f => potentialFieldNames.Contains(f.Name));
+            m_potentialFields_copy = projectFields;
 
 			lblProjectValue.Text = ds.FwDataSourceInfo.ToString();
 			lblProject.Font = FontHelper.UIFont;
@@ -69,7 +72,7 @@ namespace SIL.Pa.UI.Dialogs
 			lblPronunciationOptions.Font = FontHelper.UIFont;
 			cboPronunciationOptions.Font = FontHelper.UIFont;
 
-			InitializeGrid();
+			InitializeGrid(false);
 			InitializePhoneticAndAudioFieldInfo();
 
 			m_dirty = false;
@@ -94,9 +97,10 @@ namespace SIL.Pa.UI.Dialogs
 		/// if any.
 		/// </summary>
 		/// ------------------------------------------------------------------------------------
-		private void InitializeGrid()
+		private void InitializeGrid(bool isVernacular)
 		{
-			m_grid = new Fw7FieldMappingGrid(m_datasource, m_potentialFields);
+            pnlGrid.Controls.Remove(m_grid);
+			m_grid = new Fw7FieldMappingGrid(m_TempDatasource, m_potentialFields, isVernacular);
 			m_grid.Dock = DockStyle.Fill;
 			pnlGrid.Controls.Add(m_grid);
 
@@ -182,6 +186,17 @@ namespace SIL.Pa.UI.Dialogs
 				cboPronunciationOptions.SelectedIndex = -1;
 			else if (cboPronunciationOptions.SelectedIndex == -1)
 				cboPronunciationOptions.SelectedIndex = 0;
+
+            if (rbVernacular.Checked)
+            {
+                m_potentialFields = m_potentialFields_copy.Where(f => f.FwWsType.ToString() == "Vernacular");
+                InitializeGrid(true);
+            }
+            else
+            {
+                m_potentialFields = m_potentialFields_copy;
+                InitializeGrid(false);  
+            }
 		}
 
 		/// ------------------------------------------------------------------------------------

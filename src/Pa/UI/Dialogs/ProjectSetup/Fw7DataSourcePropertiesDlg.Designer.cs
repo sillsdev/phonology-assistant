@@ -25,6 +25,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.cboPhoneticWritingSystem = new System.Windows.Forms.ComboBox();
 			this.rbPronunField = new System.Windows.Forms.RadioButton();
 			this.rbLexForm = new System.Windows.Forms.RadioButton();
+            this.rbVernacular = new System.Windows.Forms.RadioButton();
 			this.cboPronunciationOptions = new System.Windows.Forms.ComboBox();
 			this.grpFields = new System.Windows.Forms.GroupBox();
 			this.pnlGrid = new SilTools.Controls.SilPanel();
@@ -102,6 +103,7 @@ namespace SIL.Pa.UI.Dialogs
 			this.tblLayoutPhoneticData.Controls.Add(this.cboPhoneticWritingSystem, 1, 3);
 			this.tblLayoutPhoneticData.Controls.Add(this.rbPronunField, 0, 1);
 			this.tblLayoutPhoneticData.Controls.Add(this.rbLexForm, 0, 0);
+            this.tblLayoutPhoneticData.Controls.Add(this.rbVernacular, 0, 0);
 			this.tblLayoutPhoneticData.Controls.Add(this.cboPronunciationOptions, 1, 2);
 			this.tblLayoutPhoneticData.Dock = System.Windows.Forms.DockStyle.Top;
 			this.tblLayoutPhoneticData.Location = new System.Drawing.Point(3, 17);
@@ -177,7 +179,26 @@ namespace SIL.Pa.UI.Dialogs
 			this.rbPronunField.Text = "Is stored in the p&ronunciation field";
 			this.rbPronunField.UseVisualStyleBackColor = false;
 			this.rbPronunField.CheckedChanged += new System.EventHandler(this.HandlePhoneticStorageTypeCheckedChanged);
-			// 
+
+            // 
+            // rbVernacular
+            // 
+            this.rbVernacular.AutoSize = true;
+            this.rbVernacular.BackColor = System.Drawing.Color.Transparent;
+            this.rbVernacular.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.locExtender.SetLocalizableToolTip(this.rbVernacular, null);
+            this.locExtender.SetLocalizationComment(this.rbVernacular, null);
+            this.locExtender.SetLocalizingId(this.rbVernacular, "DialogBoxes.Fw7DataSourcePropertiesDlg.VernacularRadioButton");
+            this.rbVernacular.Location = new System.Drawing.Point(12, 5);
+            this.rbVernacular.Margin = new System.Windows.Forms.Padding(12, 5, 5, 5);
+            this.rbVernacular.Name = "rbVernacular";
+            this.rbVernacular.Size = new System.Drawing.Size(239, 19);
+            this.rbVernacular.TabIndex = 0;
+            this.rbVernacular.TabStop = true;
+            this.rbVernacular.Text = "Is stored in the Vernacular";
+            this.rbVernacular.UseVisualStyleBackColor = false;
+            this.rbVernacular.CheckedChanged += new System.EventHandler(this.HandlePhoneticStorageTypeCheckedChanged);            
+            // 
 			// rbLexForm
 			// 
 			this.rbLexForm.AutoSize = true;
@@ -309,6 +330,7 @@ namespace SIL.Pa.UI.Dialogs
 		private System.Windows.Forms.Label lblProject;
 		private System.Windows.Forms.RadioButton rbPronunField;
 		private System.Windows.Forms.RadioButton rbLexForm;
+        private System.Windows.Forms.RadioButton rbVernacular;
 		private System.Windows.Forms.GroupBox grpPhoneticField;
 		private System.Windows.Forms.GroupBox grpFields;
 		private Localization.UI.LocalizationExtender locExtender;

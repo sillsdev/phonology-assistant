@@ -44,6 +44,7 @@ namespace SIL.Pa.Model
 			DisplayIndexInGrid = 999;
 			DisplayIndexInRecView = 999;
 			WidthInGrid = kDefaultWidthInGrid;
+		    Note = "P";
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -119,6 +120,10 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		[XmlElement("widthInGrid")]
 		public int WidthInGrid { get; set; }
+
+        /// ------------------------------------------------------------------------------------
+        [XmlElement("note")]
+        public string Note { get; set; }
 
 		#endregion
 
