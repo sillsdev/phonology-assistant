@@ -335,7 +335,7 @@ namespace SIL.Pa.UI
 			itemProps = _tmAdapter.GetItemProperties("mnuXYChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			tab = new ViewTab(vwTabGroup, img, typeof(DistributionChartVw),
-				() => new DistributionChartVw(_project), "hidXYChartsView",
+				() => new DistributionChartVw(_project), "hidDistributionChartsView",
 				() => LocalizationManager.GetString("MainWindow.ViewTabs.DistributionChartHelpButtonToolTip",
 					"Distribution Charts View Help"));
 

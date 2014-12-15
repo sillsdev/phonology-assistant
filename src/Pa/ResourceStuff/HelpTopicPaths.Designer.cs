@@ -169,6 +169,15 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Views/Distribution_Charts/Distribution_Charts_view.htm.
+        /// </summary>
+        public static string hidDistributionChartsView {
+            get {
+                return ResourceManager.GetString("hidDistributionChartsView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User_Interface/Word_Lists/Experimental_transcriptions_ScreenTip.htm.
         /// </summary>
         public static string hidExperimentalTranscriptionsPopup {
@@ -201,6 +210,15 @@ namespace SIL.Pa.ResourceStuff {
         public static string hidFontsOptions {
             get {
                 return ResourceManager.GetString("hidFontsOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Menus/File/FieldWorks_Data_Source_Properties.htm.
+        /// </summary>
+        public static string hidFw7DataSourcePropertiesDlg {
+            get {
+                return ResourceManager.GetString("hidFw7DataSourcePropertiesDlg", resourceCulture);
             }
         }
         
@@ -340,11 +358,29 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Views/Distribution_Charts/Save_Distribution_Chart.htm.
+        /// </summary>
+        public static string hidSaveDistributionChartDlg {
+            get {
+                return ResourceManager.GetString("hidSaveDistributionChartDlg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User_Interface/Views/Search/Save_Search_Pattern.htm.
         /// </summary>
         public static string hidSaveSearchQueryDlg {
             get {
                 return ResourceManager.GetString("hidSaveSearchQueryDlg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Search_Options.htm.
+        /// </summary>
+        public static string hidSearchOptionsDistributionChartsView {
+            get {
+                return ResourceManager.GetString("hidSearchOptionsDistributionChartsView", resourceCulture);
             }
         }
         

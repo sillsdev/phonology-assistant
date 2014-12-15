@@ -336,4 +336,20 @@
     <value>User_Interface/Menus/Tools/Options/User_Interface_tab_Options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
+  <data name="hidDistributionChartsView" xml:space="preserve">
+    <value>User_Interface/Views/Distribution_Charts/Distribution_Charts_view.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidFw7DataSourcePropertiesDlg" xml:space="preserve">
+    <value>User_Interface/Menus/File/FieldWorks_Data_Source_Properties.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSaveDistributionChartDlg" xml:space="preserve">
+    <value>User_Interface/Views/Distribution_Charts/Save_Distribution_Chart.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSearchOptionsDistributionChartsView" xml:space="preserve">
+    <value>User_Interface/Search_Options.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
 </root>
