@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- #############################################################
-	# Name:        MigrateWord2003XML.xsl
+	# Name:        MigratePaUI0347.xsl
 	# Purpose:     Remove 2003 from Word 2003 XML option
 	#
 	# Author:      Greg Trihus <greg_trihus@sil.org>
@@ -44,5 +44,23 @@
 				<xsl:copy-of select="."/>
 			</xsl:otherwise>
 		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template match="*[@tuid='MainWindow.ViewTabs.DistributionChartTab']">
+		<xsl:copy>
+			<xsl:attribute name="tuid">MainWindow.ViewTabs.DistributionChartsTab</xsl:attribute>
+			<tuv xml:lang="en">
+				<seg>Distribution Charts</seg>
+			</tuv>
+		</xsl:copy>
+	</xsl:template>
+
+	<xsl:template match="*[@tuid='MainWindow.ViewTabs.DistributionChartTab_ToolTip_']">
+		<xsl:copy>
+			<xsl:attribute name="tuid">MainWindow.ViewTabs.DistributionChartsTab_ToolTip_</xsl:attribute>
+			<tuv xml:lang="en">
+				<seg>Distribution Charts View (Ctrl+Alt+X)</seg>
+			</tuv>
+		</xsl:copy>
 	</xsl:template>
 </xsl:stylesheet>

@@ -33,7 +33,7 @@ namespace SIL.Pa.Model.Migration
             foreach (FileInfo fileInfo in dirInfo.GetFiles())
             {
                 var filepath = fileInfo.FullName;
-                var error = TransformFile(filepath, "SIL.Pa.Model.Migration.UpdateWord2003XML.xslt");
+                var error = TransformFile(filepath, "SIL.Pa.Model.Migration.UpdatePaUI0347.xslt");
                 if (error != null)
                     throw error;
             }

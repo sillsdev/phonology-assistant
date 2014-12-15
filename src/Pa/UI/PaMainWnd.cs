@@ -339,8 +339,8 @@ namespace SIL.Pa.UI
 				() => LocalizationManager.GetString("MainWindow.ViewTabs.DistributionChartHelpButtonToolTip",
 					"Distribution Charts View Help"));
 
-			tab.Text = LocalizationManager.GetString("MainWindow.ViewTabs.DistributionChartTab",
-				"Distribution Chart", null, "Distribution Chart View (Ctrl+Alt+X)", null, tab);
+			tab.Text = LocalizationManager.GetString("MainWindow.ViewTabs.DistributionChartsTab",
+				"Distribution Charts", null, "Distribution Charts View (Ctrl+Alt+X)", null, tab);
 
 			vwTabGroup.AddTab(tab);
 			
