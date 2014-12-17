@@ -651,7 +651,7 @@ namespace SIL.Pa.PhoneticSearching
 		[Test]
 		public void VerifyOneDiacriticPlaceholderPerANDGroup_NoDiacriticPlaceholders_CausesNoErrors()
 		{
-			_validator.VerifyOneDiacriticPlaceholderPerANDGroup("blah [[close][open]] blah");
+			_validator.VerifyOneDiacriticPlaceholderPerAndGroup("blah [[close][open]] blah");
 			Assert.IsFalse(_validator.HasErrors);
 		}
 
@@ -659,7 +659,7 @@ namespace SIL.Pa.PhoneticSearching
 		[Test]
 		public void VerifyOneDiacriticPlaceholderPerANDGroup_OneDiacriticPlaceholders_CausesNoErrors()
 		{
-			_validator.VerifyOneDiacriticPlaceholderPerANDGroup("blah [[close][open][0]] blah");
+            _validator.VerifyOneDiacriticPlaceholderPerAndGroup("blah [[close][open][0]] blah");
 			Assert.IsFalse(_validator.HasErrors);
 		}
 
@@ -667,7 +667,7 @@ namespace SIL.Pa.PhoneticSearching
 		[Test]
 		public void VerifyOneDiacriticPlaceholderPerANDGroup_MultipleDiacriticPlaceholders_CausesErrors()
 		{
-			_validator.VerifyOneDiacriticPlaceholderPerANDGroup("blah [[close][0~][open][0]] blah");
+            _validator.VerifyOneDiacriticPlaceholderPerAndGroup("blah [[close][0~][open][0]] blah");
 			Assert.IsTrue(_validator.HasErrors);
 		}
 
@@ -675,7 +675,7 @@ namespace SIL.Pa.PhoneticSearching
 		[Test]
 		public void VerifyOneDiacriticPlaceholderPerANDGroup_MultipleDiacriticPlaceholders_CausesNoErrors()
 		{
-			_validator.VerifyOneDiacriticPlaceholderPerANDGroup("blah{[[close][0~]],[[open][0]]}blah");
+            _validator.VerifyOneDiacriticPlaceholderPerAndGroup("blah{[[close][0~]],[[open][0]]}blah");
 			Assert.IsFalse(_validator.HasErrors);
 		}
 
