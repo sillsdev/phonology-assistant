@@ -269,7 +269,7 @@ namespace SIL.Pa.PhoneticSearching
 			{
 				var bracketedText = match.Result("${bracketedText}");
 
-				if (!bracketedText.Contains(App.DottedCircle) &&
+                if (!bracketedText.Contains(App.DottedCircle) && !bracketedText.Contains(App.ProportionalToSymbol) &&
 					bracketedText != "C" && bracketedText != "V" &&
 					!App.AFeatureCache.Keys.Any(f => f == bracketedText) &&
 					!App.BFeatureCache.Keys.Any(f => f == bracketedText))
