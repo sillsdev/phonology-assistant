@@ -1174,8 +1174,7 @@ namespace SIL.Pa.UI.Views
             if (selectedColumn != gridColumnCount && selectedColumn != 0)
             {
                 _grid.Columns.RemoveAt(selectedColumn);
-                DistributionChart distributionChart = new DistributionChart();
-                distributionChart.UpdateFromDistributionGrid(_grid);
+                _grid.ChartLayout = DistributionChart.DeleteFromDistributionGrid(_grid);
             }
 
             return true;
@@ -1189,8 +1188,7 @@ namespace SIL.Pa.UI.Views
             if (selectedRow != gridRowCount && selectedRow != 0)
             {
                 _grid.Rows.RemoveAt(selectedRow);
-                DistributionChart distributionChart = new DistributionChart();
-                distributionChart.UpdateFromDistributionGrid(_grid);
+                _grid.ChartLayout = DistributionChart.DeleteFromDistributionGrid(_grid);
             }
             return true;
         }

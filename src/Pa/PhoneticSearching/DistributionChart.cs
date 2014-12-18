@@ -37,6 +37,22 @@ namespace SIL.Pa.PhoneticSearching
 			return layout;
 		}
 
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// After delete, It Updates the DistributionChartLayout object from the specified DistributionGrid.
+        /// If the grid is null or empty, then null is returned.
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        public static DistributionChart DeleteFromDistributionGrid(DistributionGrid grid)
+        {
+            if (grid == null || (grid.Rows.Count <= 1 && grid.Columns.Count <= 1))
+                return null;
+
+            var layout = grid.ChartLayout;
+            layout.UpdateFromDistributionGrid(grid);
+            return layout;
+        }
+
 		/// ------------------------------------------------------------------------------------
 		public static string GetFileForProject(string projectPathPrefix)
 		{
