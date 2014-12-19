@@ -668,7 +668,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnHelpAbout(object args)
 		{
-			using (var dlg = new AboutDlg(false))
+			using (var dlg = new AboutDlg(true))    // true for beta version
 				dlg.ShowDialog(this);
 
 			return true;
