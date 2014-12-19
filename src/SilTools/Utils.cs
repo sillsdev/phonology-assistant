@@ -194,7 +194,7 @@ namespace SilTools
 		/// ------------------------------------------------------------------------------------
 		public static Image GetSilLogo()
 		{
-			return Properties.Resources.kimidSilLogo;
+		    return Properties.Resources.kimidSilLogo2014;
 		}
 
 		/// ------------------------------------------------------------------------------------
