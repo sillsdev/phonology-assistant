@@ -130,6 +130,9 @@
   <data name="kimidSilLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\kimidSilLogo.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="kimidSilLogo2014" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\kimidSilLogo2014.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="kimidCollapse" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Collapse.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

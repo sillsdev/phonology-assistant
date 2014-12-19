@@ -405,7 +405,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 			ws = wsList.Where(w => w.Type == FwWritingSystemType.Vernacular)
 				.FirstOrDefault(w => w.Name.ToLower().Contains("phonetic"));
 
-			return (ws ?? wsList.Single(w => w.IsDefaultVernacular));
+			return (ws ?? wsList.FirstOrDefault(w => w.IsDefaultVernacular) ?? wsList.First(w => w.Type == FwWritingSystemType.Vernacular));
 		}
 
         /// ------------------------------------------------------------------------------------

@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SIL.Pa.App">
+    <Position X="0.5" Y="0.5" Width="3" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="SIL.Pa.App.FeatureType">
+        <TypeIdentifier>
+          <NewMemberFileName>App.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>u0UXAokeU6ACMBDQWMA8yE1uuVk0gYDKYeFoa6+k40A=</HashCode>
+      <FileName>App.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SIL.Pa.Model.PaProject">
+    <Position X="3.75" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>JWAagcCKTjIGiEQEkgIpzyQUAJwpIEAEMABhcCBmpyQ=</HashCode>
+      <FileName>Model\PaProject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SIL.Pa.Model.PaField">
+    <Position X="9" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAMIIJCQgIAIAkkEAAACRRhgJIAAIIAQAAEAgGAhE=</HashCode>
+      <FileName>Model\Fields\PaField.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SIL.Pa.Model.FieldNameComparer" BaseTypeListCollapsed="true">
+    <Position X="9" Y="16" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Fields\PaField.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SIL.Pa.Model.PaXMLContent">
+    <Position X="6.5" Y="18" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\RecordCache\RecordCache.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SIL.Pa.Model.RecordCache" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAgMAAACIBAEASECAAAQAIAIAAAAAAABCAAAAAEAA=</HashCode>
+      <FileName>Model\RecordCache\RecordCache.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SIL.Pa.Model.TempRecordCache">
+    <Position X="6.5" Y="13.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAIAgIAAACAAAAAAAAAAEAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Model\RecordCache\RecordCache.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SIL.Pa.Model.TempRecordCacheEntry">
+    <Position X="6.5" Y="16" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\RecordCache\RecordCache.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SIL.Pa.Model.RecordCacheEntry">
+    <Position X="6.5" Y="5.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>gAQCAAkAKAAsAgAACEAACIQBIIBABgIAABAEAEAAMEA=</HashCode>
+      <FileName>Model\RecordCache\RecordCacheEntry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SIL.Pa.Model.FieldMapping">
+    <Position X="9" Y="12" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAwAAAAEAAAAkAAAAAEAAAgQAAAAAAAAAEAAAgAA=</HashCode>
+      <FileName>Model\Fields\FieldMapping.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SIL.Pa.Model.WordCache" Collapsed="true">
+    <Position X="11.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\WordCache\WordCache.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SIL.Pa.Model.WordCacheEntry">
+    <Position X="11.75" Y="1.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>ggAAAcggiAEgggMkCoEACJUAAQAABgYBkgAEKEAAIAA=</HashCode>
+      <FileName>Model\WordCache\WordCacheEntry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SIL.Pa.Model.WordListCache">
+    <Position X="11.75" Y="11.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AEJAAAAAAAAAAAAAAAARIAAAAAAEAAAAAgAAQAAQAAA=</HashCode>
+      <FileName>Model\WordCache\WordListCache.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SIL.Pa.Model.WordListCacheEntry">
+    <Position X="11.75" Y="15.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>gAABAAAAAAAgIAAECAAAgAAAAAAoAogAAAQAIEBAAAA=</HashCode>
+      <FileName>Model\WordCache\WordListCacheEntry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SIL.Pa.Model.SortOptions">
+    <Position X="11.75" Y="20.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAACABAAACAICAAAAgAAAAAAEAAAAAAAQAI=</HashCode>
+      <FileName>Model\WordCache\SortOptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SIL.Pa.Model.IPASymbol" BaseTypeListCollapsed="true">
+    <Position X="14.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AhQAYAAQAAQwAAAEgAAAAhQEIiUAAAAADQACABAABAA=</HashCode>
+      <FileName>Model\SymbolsAndPhones\IPASymbol.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SIL.Pa.Model.IPASymbolUsage">
+    <Position X="14.75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Model\SymbolsAndPhones\IPASymbol.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SIL.Pa.Model.IPASymbolCache">
+    <Position X="14.75" Y="11.5" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="SIL.Pa.Model.IPASymbolCache.SortType">
+        <TypeIdentifier>
+          <NewMemberFileName>Model\SymbolsAndPhones\IPASymbolCache.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AACCAAAAAAAAAAAACgAAIAAAAAAAAAAAAAAAAQAAAAg=</HashCode>
+      <FileName>Model\SymbolsAndPhones\IPASymbolCache.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SIL.Pa.Model.PhoneInfo">
+    <Position X="17.25" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>giKAgQEQAYQwBAAEAQACCAAAhCFICAAAAEMgJAFABRA=</HashCode>
+      <FileName>Model\SymbolsAndPhones\PhoneInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SIL.Pa.Model.PhoneCache">
+    <Position X="17.5" Y="10" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAQAAIAAEABGBQCCIYAAACAAAABAAABAAAAAAAAAA=</HashCode>
+      <FileName>Model\SymbolsAndPhones\PhoneCache.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SIL.Pa.Model.CVPatternInfo">
+    <Position X="17.5" Y="15.5" Width="2" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="SIL.Pa.Model.CVPatternInfo.PatternType">
+        <TypeIdentifier>
+          <NewMemberFileName>Model\SymbolsAndPhones\CVPatternInfo.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AIAAQAAAABAAAAgEAAAAAAAAAAAQAMAAAQAAIAAAABA=</HashCode>
+      <FileName>Model\SymbolsAndPhones\CVPatternInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SIL.Pa.Model.InventoryHelper">
+    <Position X="14.75" Y="23" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Model\SymbolsAndPhones\InventoryHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SIL.Pa.Model.PhoneticParser">
+    <Position X="20.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>BQA0AAAAAAAAAgAAgAAAAAQAAAAAAAEQAACAAAiAIAA=</HashCode>
+      <FileName>Model\SymbolsAndPhones\PhoneticParser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SIL.Pa.Model.TranscriptionChanges">
+    <Position X="20.5" Y="8.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAgIAAAAAAAAAAgIAAAAAAAAAAAAAAAABQAEAAABA=</HashCode>
+      <FileName>Model\SymbolsAndPhones\TranscriptionChanges.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SIL.Pa.Model.TranscriptionChange">
+    <Position X="20.5" Y="5.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAQAAAwAAAgAgBAA=</HashCode>
+      <FileName>Model\SymbolsAndPhones\TranscriptionChanges.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SIL.Pa.Model.ReplacementOption">
+    <Position X="20.5" Y="12" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\SymbolsAndPhones\TranscriptionChanges.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SIL.Pa.Model.UndefinedPhoneticCharactersInfoList">
+    <Position X="20.5" Y="16.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>QAIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\SymbolsAndPhones\UndefinedCharClasses.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SIL.Pa.Model.UndefinedPhoneticCharactersInfo">
+    <Position X="20.5" Y="14" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAgAEAAgAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Model\SymbolsAndPhones\UndefinedCharClasses.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="SIL.Pa.Model.IPASymbolTypeInfo">
+    <Position X="14.75" Y="16.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Model\SymbolsAndPhones\IPASymbolCache.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="SIL.Pa.ITabView">
+    <Position X="3.75" Y="21.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAggAAAAAAAAAAAAACAACAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>App.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SIL.Pa.IUndockedViewWnd">
+    <Position X="3.75" Y="19.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAIAAAAAIAAAAAAAAAAAAAIAIAAA=</HashCode>
+      <FileName>App.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SIL.Pa.Model.IFeatureBearer">
+    <Position X="14.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAACEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\SymbolsAndPhones\IPASymbol.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="SIL.Pa.Model.FieldType">
+    <Position X="9" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAACAAAAABAAAAAAAAAAAgAAAAACBAIAAAAAAAAA=</HashCode>
+      <FileName>Model\Fields\PaField.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SIL.Pa.Model.PhoneticSortType">
+    <Position X="11.75" Y="24" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAASAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\WordCache\SortOptions.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SIL.Pa.Model.IPASymbolType">
+    <Position X="14.75" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAkAAAEIAAAIAwAAAAAAA=</HashCode>
+      <FileName>Model\SymbolsAndPhones\IPASymbolCache.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SIL.Pa.Model.IPASymbolSubType">
+    <Position X="14.75" Y="21" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAACBAAAAAAEIAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Model\SymbolsAndPhones\IPASymbolCache.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

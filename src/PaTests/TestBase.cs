@@ -318,5 +318,11 @@ namespace SIL.Pa.TestUtils
 				return binding.GetType().InvokeMember(name,
 					flags | BindingFlags.Instance, null, binding, args);
 		}
+
+	    protected string TestInput(string name)
+	    {
+	        var basePath = Path.GetDirectoryName(Path.GetDirectoryName(App.AssemblyPath));
+	        return Path.Combine(new [] {basePath, "src", "PaTests", "TestFiles", "Input", name});
+	    }
 	}
 }

@@ -45,7 +45,7 @@
     <NoWarn>1591, 1573</NoWarn>
     <DocumentationFile>..\..\Output\Debug-Windows\SilTools.xml</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-Windows|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -369,6 +369,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\LoadingWheel.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\kimidSilLogo2014.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

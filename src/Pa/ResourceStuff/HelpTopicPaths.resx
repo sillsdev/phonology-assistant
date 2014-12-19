@@ -112,25 +112,17 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="hidAdvancedPhoneticSortOptions" xml:space="preserve">
     <value>User_Interface/Word_Lists/Phonetic_Sort_Options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
-  <data name="hidArticulatoryFeatureClassDlg" xml:space="preserve">
-    <value>User_Interface/Menus/Tools/Classes/Articulatory_Features_Class.htm</value>
-    <comment>Help topic path - Do not localize</comment>
-  </data>
   <data name="hidBasicPhoneticSortOptions" xml:space="preserve">
     <value>User_Interface/Word_Lists/Phonetic_Sort_Options.htm</value>
-    <comment>Help topic path - Do not localize</comment>
-  </data>
-  <data name="hidBinaryFeatureClassDlg" xml:space="preserve">
-    <value>User_Interface/Menus/Tools/Classes/Binary_Features_Class.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidClassesDlg" xml:space="preserve">
@@ -209,10 +201,6 @@
     <value>User_Interface/Menus/File/New_Project_Settings.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
-  <data name="hidPhoneInventoryView" xml:space="preserve">
-    <value>User_Interface/Views/Phone_Inventory/Phone_Inventory_view.htm</value>
-    <comment>Help topic path - Do not localize</comment>
-  </data>
   <data name="hidPhoneticCharacterClassDlg" xml:space="preserve">
     <value>User_Interface/Menus/Tools/Classes/Phones_Class.htm</value>
     <comment>Help topic path - Do not localize</comment>
@@ -233,20 +221,8 @@
     <value>User_Interface/Views/Search/Save_Search_Pattern.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
-  <data name="hidSaveXYChartDlg" xml:space="preserve">
-    <value>User_Interface/Views/XY_Charts/Save_XY_Chart.htm</value>
-    <comment>Help topic path - Do not localize</comment>
-  </data>
   <data name="hidSearchOptionsSearchView" xml:space="preserve">
     <value>User_Interface/Views/Search/Search_Options_Search_View.htm</value>
-    <comment>Help topic path - Do not localize</comment>
-  </data>
-  <data name="hidSearchOptionsXYChartsView" xml:space="preserve">
-    <value>User_Interface/Views/XY_Charts/Search_Options_for_Current_Chart_Column.htm</value>
-    <comment>Help topic path - Do not localize</comment>
-  </data>
-  <data name="hidSearchPatternOptions" xml:space="preserve">
-    <value>User_Interface/Menus/Tools/Options/Search_Patterns_tab_Options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidSearchView" xml:space="preserve">
@@ -289,12 +265,8 @@
     <value>User_Interface/Menus/Tools/Options/Word_Lists_tab_Options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
-  <data name="hidXYChartsView" xml:space="preserve">
-    <value>User_Interface/Views/XY_Charts/XY_Charts_view.htm</value>
-    <comment>Help topic path - Do not localize</comment>
-  </data>
   <data name="hidAmbiguousSequencesDlg" xml:space="preserve">
-    <value>User_Interface/Views/Phone_Inventory/Ambiguous_Sequences.htm</value>
+    <value>User_Interface/Menus/Tools/Ambiguous_Sequences/Ambiguous_Sequences_dialog_box.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidSearchPatternsAndGroups" xml:space="preserve">
@@ -335,5 +307,49 @@
   </data>
   <data name="hidTroubleshootingUndefinedPhoneticCharacters" xml:space="preserve">
     <value>Phonetic_Transcriptions/Troubleshooting_undefined_phonetic_characters.htm</value>
+  </data>
+  <data name="hidDescriptiveFeatureClassDlg" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Classes/Descriptive_Features_Class.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidDescriptiveFeaturesDlg" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Descriptive_Features/Descriptive_Features_dialog_box.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidDistinctiveFeatureClassDlg" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Classes/Distinctive_Features_Class.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidDistinctiveFeaturesDlg" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Distinctive_Features/Distinctive_Features_dialog_box.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidFiltersDlg" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Filters/Filters_dialog_box.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidTranscriptionChangesDlg" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Transcription_Changes_dialog_box/Transcription_Changes_dialog_box.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidUserInterfaceOptionsPage" xml:space="preserve">
+    <value>User_Interface/Menus/Tools/Options/User_Interface_tab_Options.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidDistributionChartsView" xml:space="preserve">
+    <value>User_Interface/Views/Distribution_Charts/Distribution_Charts_view.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidFw7DataSourcePropertiesDlg" xml:space="preserve">
+    <value>User_Interface/Menus/File/FieldWorks_Data_Source_Properties.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSaveDistributionChartDlg" xml:space="preserve">
+    <value>User_Interface/Views/Distribution_Charts/Save_Distribution_Chart.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSearchOptionsDistributionChartsView" xml:space="preserve">
+    <value>User_Interface/Search_Options.htm</value>
+    <comment>Help topic path - Do not localize</comment>
   </data>
 </root>

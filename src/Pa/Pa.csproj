@@ -60,7 +60,7 @@
     <ErrorReport>prompt</ErrorReport>
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-Windows|x86' ">
     <OutputPath>..\..\Output\Debug-Windows\</OutputPath>
@@ -200,6 +200,7 @@
     </Compile>
     <Compile Include="DataSourceClasses\FieldWorks\Fw6DataSourceReader.cs" />
     <Compile Include="DataSourceClasses\FieldWorks\Fw6WritingSystemReader.cs" />
+    <Compile Include="DataSourceClasses\FieldWorks\Fw7CustomField.cs" />
     <Compile Include="DataSourceClasses\FieldWorks\Fw7DataSourceReader.cs" />
     <Compile Include="DataSourceClasses\FieldWorks\FwDataSourceInfo.cs" />
     <Compile Include="DataSourceClasses\FieldWorks\FwDBAccessInfo.cs" />
@@ -224,6 +225,7 @@
     <Compile Include="Filters\FilterExpression.cs" />
     <Compile Include="Filters\FilterHelper.cs" />
     <Compile Include="Filters\Filters.cs" />
+    <Compile Include="Model\Migration\Migration0347.cs" />
     <Compile Include="UIAdapter\LocalizeAdapterItems.cs" />
     <Compile Include="Miscellaneous\AudioPlayer.cs" />
     <Compile Include="Miscellaneous\CIEBuilder.cs" />
@@ -869,6 +871,10 @@
       <DependentUpon>EditFwUrlDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="DataSourceClasses\FieldWorks\ExtractCustomFields.xsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
     <EmbeddedResource Include="DataSourceClasses\MissingDataSourceMsgBox.resx">
       <DependentUpon>MissingDataSourceMsgBox.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -1079,6 +1085,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ImportantClasses.cd" />
     <None Include="Resources\Search Watermark.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1204,6 +1211,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Model\Migration\CreateFieldDisplayProperties.xslt" />
     <EmbeddedResource Include="Model\Migration\UpdateFieldInfo.xslt" />
+    <EmbeddedResource Include="Model\Migration\UpdatePaUI0347.xslt" />
+    <EmbeddedResource Include="Model\Migration\AddRhymeToDistribution.xslt" />
     <Content Include="pa.ico" />
     <None Include="Resources\CloseTab.png" />
     <None Include="Resources\DropDownArrowWithPadding.png" />
@@ -1277,4 +1286,10 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
+  <Target Name="AfterBuild">
+    <Copy SourceFiles="@(HelpFile)" DestinationFiles="@(HelpFile->'$(TargetDir)\%(Filename)%(Extension)')" />
+  </Target>
+  <ItemGroup>
+    <HelpFile Include="$(SolutionDir)\DistFiles\*.chm" />
+  </ItemGroup>
 </Project>

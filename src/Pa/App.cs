@@ -101,6 +101,7 @@ namespace SIL.Pa
 		{
 			DottedCircleC = '\u25CC';
 			DottedCircle = "\u25CC";
+		    ProportionalToSymbol = "\u221D";
 			DiacriticPlaceholder = "[" + DottedCircle + "]";
 
 			if (DesignMode)
@@ -411,7 +412,7 @@ namespace SIL.Pa
 			get
 			{
 				return LocalizationManager.GetString("Miscellaneous.FileTypes.Word2003XmlFileType",
-					"Word 2003 XML Files (*.xml)|*.xml");
+					"Word XML Files (*.xml)|*.xml");
 			}
 		}
 
@@ -660,6 +661,7 @@ namespace SIL.Pa
 		#region Misc. Properties
 		public static string DiacriticPlaceholder { get; set; }
 		public static string DottedCircle { get; set; }
+        public static string ProportionalToSymbol { get; set; }
 		public static char DottedCircleC { get; set; }
 		public static Font PhoneticFont { get; set; }
 		public static Mediator MsgMediator { get; internal set; }
@@ -1610,7 +1612,20 @@ namespace SIL.Pa
 			try
 			{
 				int resultCount;
-				return Search(query, true, false, true, 5, out resultCount);
+			    if (query.SearchItem.Contains(ProportionalToSymbol) || query.PrecedingEnvironment.Contains(ProportionalToSymbol) ||
+			        query.FollowingEnvironment.Contains(ProportionalToSymbol))
+			    {
+                    int resultCount1, resultCount2;
+			        var queryPlus =
+			            new SearchQuery(query.Pattern.Replace("-" + ProportionalToSymbol, "-").Replace(ProportionalToSymbol, "+"));
+                    var cachePlus = Search(queryPlus, true, false, true, 5, out resultCount1);
+                    var queryMinus =
+                        new SearchQuery(query.Pattern.Replace("-" + ProportionalToSymbol, "+").Replace(ProportionalToSymbol, "-"));
+                    var cacheminus = Search(queryMinus, true, false, true, 5, out resultCount2);
+			        cachePlus.AddRange(cacheminus);
+			        return cachePlus;
+			    }
+			    return Search(query, true, false, true, 5, out resultCount);
 			}
 			catch (Exception e)
 			{
@@ -1628,7 +1643,6 @@ namespace SIL.Pa
 			bool returnCountOnly, bool showErrMsg, int incAmount, out int resultCount)
 		{
 			resultCount = 0;
-
 			bool patternContainsWordBoundaries = (query.Pattern.IndexOf('#') >= 0);
 			int incCounter = 0;
 
@@ -1662,7 +1676,6 @@ namespace SIL.Pa
 				resultCount = -1;
 				return null;
 			}
-
 			var resultCache = (returnCountOnly ? null : new WordListCache());
 
 			foreach (var wordEntry in Project.WordCache)

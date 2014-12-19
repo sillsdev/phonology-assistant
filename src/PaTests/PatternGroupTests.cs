@@ -143,6 +143,48 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(7, m_results[0]);
 		}
 
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// Tests the Search method for NOT groups in Item.
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        [Test]
+        public void SearchNonSequentialGroupsTest_NOTForItem()
+        {
+            PatternGroup group = new PatternGroup(EnvironmentType.Item);
+            group.Parse("NOTa/#_*");
+            Assert.IsTrue(group.Search("dlerdash", 0, out m_results));
+            Assert.AreEqual(0, m_results[0]);
+        }
+
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// Tests the Search method for NOT groups in preceding environment.
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        [Test]
+        public void SearchNonSequentialGroupsTest_NOTForBefore()
+        {
+            PatternGroup group = new PatternGroup(EnvironmentType.Before);
+            group.Parse("a/NOT#_*");
+            Assert.IsTrue(group.Search("dlerdash", 0, out m_results));
+            Assert.AreEqual(0, m_results[0]);
+        }
+
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// Tests the Search method for NOT groups in following environment.
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        [Test]
+        public void SearchNonSequentialGroupsTest_NOTForAfter()
+        {
+            PatternGroup group = new PatternGroup(EnvironmentType.After);
+            group.Parse("a/*_NOT#");
+            Assert.IsTrue(group.Search("dlerdash", 0, out m_results));
+            Assert.AreEqual(0, m_results[0]);
+        }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Tests the Search method for AND and OR groups. This tests matches in members
@@ -1247,6 +1289,7 @@ namespace SIL.Pa.Tests
 
 		/// ------------------------------------------------------------------------------------
 		[Test]
+        [Ignore]
 		public void SearchWithTieBarTest1()
 		{
 			SearchForTieBarWithDiacriticsInDataTest("[[C][{0}{1}]]/*_*", App.kTopTieBarC, true);

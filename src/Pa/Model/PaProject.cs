@@ -8,6 +8,7 @@ using System.Xml.Linq;
 using Localization;
 using Palaso.IO;
 using SIL.Pa.DataSource;
+using SIL.Pa.DataSourceClasses.FieldWorks;
 using SIL.Pa.Filters;
 using SIL.Pa.Model.Migration;
 using SIL.Pa.PhoneticSearching;
@@ -19,7 +20,7 @@ namespace SIL.Pa.Model
 	/// ----------------------------------------------------------------------------------------
 	public class PaProject : IDisposable
 	{
-		public const string kCurrVersion = "3.3.3";
+		public const string kCurrVersion = "3.4.8";
 
 		private Form _appWindow;
 		private bool _newProject;
@@ -68,7 +69,16 @@ namespace SIL.Pa.Model
 			SearchQueryGroups = SearchQueryGroupList.LoadDefaults(this);
 			FilterHelper = new FilterHelper(this);
 			CIEOptions = new CIEOptions();
-			LoadAmbiguousSequences();
+            Exception error;
+            var defaultProjectFileName = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultProject.xml");
+            using (var defaultProject = XmlSerializationHelper.DeserializeFromFile<PaProject>(defaultProjectFileName, out error))
+            {
+                if (error == null)
+                {
+                    CVPatternInfoList = defaultProject.CVPatternInfoList;
+                }
+            }
+            LoadAmbiguousSequences();
 			LoadTranscriptionChanges();
 			_newProject = true;
 			RecordCache = new RecordCache(this);
@@ -131,7 +141,7 @@ namespace SIL.Pa.Model
 		public static bool MigrateToLatestVersion(string filename)
 		{
 			var xml = XElement.Load(filename);
-			var prevVersion = (string)xml.Attribute("version") ?? "3.0.1";
+			var prevVersion = (string)xml.Attribute("version") ?? "3.4.7";
 			if (prevVersion == kCurrVersion)
 				return true;
 
@@ -146,13 +156,22 @@ namespace SIL.Pa.Model
 
 			Exception error = null;
 
-			if (prevVersion == "3.0.1")
-				error = Migration0330.Migrate(filename, GetProjectPathFilePrefix);
+		    if (prevVersion == "3.0.1")
+		    {
+                error = Migration0330.Migrate(filename, GetProjectPathFilePrefix);
+		        prevVersion = "3.3.0";
+		    }
 
-			if (error == null && prevVersion == "3.3.0" || prevVersion == "3.0.1")
-				error = Migration0333.Migrate(filename, GetProjectPathFilePrefix);
+		    if (error == null && prevVersion == "3.3.0")
+		    {
+                error = Migration0333.Migrate(filename, GetProjectPathFilePrefix);
+		        prevVersion = "3.3.3";
+		    }
 
-			if (error == null)
+            if (error == null && prevVersion == "3.3.3")
+                error = Migration0347.Migrate(filename, GetProjectPathFilePrefix);
+
+            if (error == null)
 			{
 				var msg = LocalizationManager.GetString("ProjectMessages.Migrating.MigrationSuccessfulMsg",
 					"The '{0}' project has succssfully been upgraded to work with this version of Phonology Assistant. A backup of your old project has been made in:\n\n{1}");
@@ -356,15 +375,29 @@ namespace SIL.Pa.Model
 				}
 			}
 
-			// Now remove any fields that no longer have a mapping and are not in the default set (i.e. custom).
-			var mappedFieldNames = DataSources.SelectMany(d => d.FieldMappings).Select(m => m.PaFieldName).ToList();
-			var defaultFieldNames = PaField.GetDefaultFields().Select(f => f.Name).ToList();
+            // Now remove any fields that no longer have a mapping and are not in the default set (i.e. custom).
+            var mappedFieldNames = DataSources.SelectMany(d => d.FieldMappings).Select(m => m.PaFieldName).ToList();
+            var customfields = new Fw7CustomField();
 
-			for (int i = fields.Count - 1; i >= 0; i--)
-			{
-				if (!mappedFieldNames.Contains(fields[i].Name) && !defaultFieldNames.Contains(fields[i].Name))
-					fields.RemoveAt(i);
-			}
+            if (DataSources.Count > 0 && DataSources[0] != null)
+            {
+                customfields = new Fw7CustomField(this.DataSources[0]);
+                var defaultFieldNames = PaField.GetDefaultFields(customfields).Select(f => f.Name).ToList();
+                for (int i = fields.Count - 1; i >= 0; i--)
+                {
+                    if (!mappedFieldNames.Contains(fields[i].Name) && !defaultFieldNames.Contains(fields[i].Name))
+                        fields.RemoveAt(i);
+                }
+            }
+            else
+            {
+                var defaultFieldNames = PaField.GetDefaultFields().Select(f => f.Name).ToList();
+                for (int i = fields.Count - 1; i >= 0; i--)
+                {
+                    if (!mappedFieldNames.Contains(fields[i].Name) && !defaultFieldNames.Contains(fields[i].Name))
+                        fields.RemoveAt(i);
+                }
+            }
 
 			Fields = fields.OrderBy(f => f.Name);
 			EnsureSortOptionsValid();
@@ -525,7 +558,9 @@ namespace SIL.Pa.Model
 		{
 			ambigSeqList.Save(ProjectPathFilePrefix);
 			LoadAmbiguousSequences();
+            var savedLogUndefinedCharacters = PhoneticParser.LogUndefinedCharactersWhenParsing;
 			PhoneticParser = new PhoneticParser(AmbiguousSequences, TranscriptionChanges);
+            PhoneticParser.LogUndefinedCharactersWhenParsing = savedLogUndefinedCharacters;
 		}
 
 		/// ------------------------------------------------------------------------------------

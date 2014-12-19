@@ -343,7 +343,9 @@ namespace SIL.Pa.PhoneticSearching
 			string tmpSrchItem = RemoveDiacriticPlaceholderModifiers(m_srchItemStr);
 			string tmpEnvBefore = RemoveDiacriticPlaceholderModifiers(m_envBeforeStr);
 			string tmpEnvAfter = RemoveDiacriticPlaceholderModifiers(m_envAfterStr);
-
+            tmpSrchItem = tmpSrchItem.Replace("NOT", "");
+		    tmpEnvBefore = tmpEnvBefore.Replace("NOT", "");
+            tmpEnvAfter = tmpEnvAfter.Replace("NOT", "");
 			// Check search item
 			if (tmpSrchItem.Contains("*"))
 				return ZeroOrMoreCondition.InSearchItem;
@@ -386,6 +388,7 @@ namespace SIL.Pa.PhoneticSearching
 
 			// Check environment before
 			tmp = RemovePlusBinaryFeatures(m_envBeforeStr);
+		    tmp = tmp.Replace("not", "");
 			string[] pieces = tmp.Split("+".ToCharArray());
 
 			if (pieces.Length > 2)
@@ -396,6 +399,7 @@ namespace SIL.Pa.PhoneticSearching
 
 			// Check environment after
 			tmp = RemovePlusBinaryFeatures(m_envAfterStr);
+            tmp = tmp.Replace("not", "");
 			pieces = tmp.Split("+".ToCharArray());
 
 			if (pieces.Length > 2)

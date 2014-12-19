@@ -120,10 +120,16 @@ namespace SIL.Pa.Filters
 
 			string entryValue = (entry[FieldName] ?? string.Empty);
 
-			if (m_expTypep == Filter.ExpressionType.RegExp)
-				return Regex.IsMatch(entryValue, m_pattern);
+		    if (m_expTypep == Filter.ExpressionType.RegExp)
+		    {
+		        if (Operator == Filter.Operator.Matches)
+		        {
+                    return Regex.IsMatch(entryValue, m_pattern);
+		        }
+		        return !Regex.IsMatch(entryValue, m_pattern);
+		    }
 
-			if (m_fieldIsNumeric || Operator == Filter.Operator.GreaterThan ||
+		    if (m_fieldIsNumeric || Operator == Filter.Operator.GreaterThan ||
 				Operator == Filter.Operator.GreaterThanOrEqual || Operator == Filter.Operator.LessThan ||
 				Operator == Filter.Operator.LessThanOrEqual)
 			{

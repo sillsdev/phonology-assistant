@@ -75,6 +75,13 @@
 					<Component Id="SilTools.pdb" Guid="{C85FA3F0-F525-4151-9D1A-396410501084}">
 						<File Id="SilTools.pdb" KeyPath="yes" Source="..\output\release\SilTools.pdb" />
 					</Component>
+          <Directory Id="AppDataSourceClasses" Name="DataSourceClasses">
+            <Directory Id="AppDataSourceClassesFieldWorks" Name="FieldWorks">
+              <Component Id="ExtractCustomField.xsl" Guid="{5EFDA016-17AB-4168-BD50-139D50DE684F}">
+                <File Id="ExtractCustomField.xsl" KeyPath="yes" Source="..\output\release\DataSourceClasses\FieldWorks\ExtractCustomFields.xsl" />
+              </Component>
+            </Directory>
+          </Directory>
         </Directory>
 			</Directory>
 		</Directory>
@@ -94,6 +101,7 @@
       <ComponentRef Id="PaCompiledTransforms.dll" />
       <ComponentRef Id="SilTools.dll" />
       <ComponentRef Id="SilTools.pdb" />
+      <ComponentRef Id="ExtractCustomField.xsl"/>
       <ComponentRef Id="Phonology_Assistant_Help.chm" />
       <ComponentRef Id="DoulosSILR.ttf" />
       <ComponentRef Id="Transforms.zip"   />

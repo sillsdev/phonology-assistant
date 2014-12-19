@@ -152,6 +152,8 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdInsertSyllableBoundary" message="InsertSyllableBoundary"/>
 		<command id="CmdInsertANDGroup" message="InsertANDGroup"/>
 		<command id="CmdInsertORGroup" message="InsertORGroup"/>
+		<command id="CmdDeleteChartRow" message="GridRowDelete" shortcutkey="Ctrl+R" image="CmdDeleteChartRow"/>
+		<command id="CmdDeleteChartColumn" message="GridColumnDelete" shortcutkey="Ctrl+U" image="CmdDeleteChartColumn"/>
 	</commands>
 
 	<toolbars settingFilesPrefix="PA.XYCharts.TBDef">
@@ -197,6 +199,8 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				</item>
 			</item>
 			<item name="tbbClearChart" commandid="CmdClearChart" type="0" displaytype="2" begingroup="true"/>
+			<item name="tbbDeleteChartRow" commandid="CmdDeleteChartRow" type="0" displaytype="2" begingroup="true"/>
+			<item name="tbbDeleteChartColumn" commandid="CmdDeleteChartColumn" type="0" displaytype="2" begingroup="true"/>
 			<item name="tbbPhoneticSort" commandid="CmdPhoneticSort" type="3" split="false" rightaligned="true" rightmargin="10"/>
 		</toolbar>
 	</toolbars>
@@ -222,6 +226,8 @@ Item "displaytype" Values (applies to item types 0 - 3):
 			</item>
 			<item name="cmnuSaveChart" commandid="CmdSaveChart" type="0" displaytype="2" begingroup="true"/>
 			<item name="cmnuClearChart" commandid="CmdClearChart" type="0" displaytype="2"/>
+			<item name="cmnuDeleteChartRow" commandid="CmdDeleteChartRow" type="0" displaytype="2" begingroup="true"/>
+			<item name="cmnuDeleteChartColumn" commandid="CmdDeleteChartColumn" type="0" displaytype="2" begingroup="true"/>
 		</contextmenu>
 		<contextmenu name="cmnuSearchResultTab" showcheckmargin="false" showimagemargin="true" showitemtooltips="false">
 			<item name="cmnuMoveToNewSideBySideTabGroup" commandid="CmdMoveToNewSideBySideTabGroup"/>

@@ -335,12 +335,12 @@ namespace SIL.Pa.UI
 			itemProps = _tmAdapter.GetItemProperties("mnuXYChart");
 			img = (itemProps == null ? null : itemProps.Image);
 			tab = new ViewTab(vwTabGroup, img, typeof(DistributionChartVw),
-				() => new DistributionChartVw(_project), "hidXYChartsView",
+				() => new DistributionChartVw(_project), "hidDistributionChartsView",
 				() => LocalizationManager.GetString("MainWindow.ViewTabs.DistributionChartHelpButtonToolTip",
 					"Distribution Charts View Help"));
 
-			tab.Text = LocalizationManager.GetString("MainWindow.ViewTabs.DistributionChartTab",
-				"Distribution Chart", null, "Distribution Chart View (Ctrl+Alt+X)", null, tab);
+			tab.Text = LocalizationManager.GetString("MainWindow.ViewTabs.DistributionChartsTab",
+				"Distribution Charts", null, "Distribution Charts View (Ctrl+Alt+X)", null, tab);
 
 			vwTabGroup.AddTab(tab);
 			
@@ -668,7 +668,7 @@ namespace SIL.Pa.UI
 		/// ------------------------------------------------------------------------------------
 		protected bool OnHelpAbout(object args)
 		{
-			using (var dlg = new AboutDlg(false))
+			using (var dlg = new AboutDlg(true))    // true for beta version
 				dlg.ShowDialog(this);
 
 			return true;

@@ -43,7 +43,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug-Windows|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -104,12 +104,12 @@
     <Compile Include="BFeatureCacheTests.cs" />
     <Compile Include="CIEBuilderTests.cs" />
     <Compile Include="CVPatternTests.cs" />
+    <Compile Include="DataSourceClasses\Fw7CustomFieldTests.cs" />
     <Compile Include="DataSourceClasses\SfmDataSourceReaderTests.cs" />
     <Compile Include="ExperimentalTranscriptionTests.cs" />
     <Compile Include="FeatureCacheBaseTests.cs" />
     <Compile Include="FeatureMaskTests.cs" />
     <Compile Include="FFSearchEngineTests.cs" />
-    <Compile Include="FindTests.cs" />
     <Compile Include="MiscControlTests.cs" />
     <Compile Include="MiscTests.cs" />
     <Compile Include="PatternGroupTests.cs" />

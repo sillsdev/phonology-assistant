@@ -9,6 +9,7 @@ using Localization;
 using Localization.UI;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
+using SIL.Pa.DataSourceClasses.FieldWorks;
 using SIL.Pa.Model;
 using SIL.Pa.Properties;
 using SIL.Pa.UI.Controls;
@@ -49,7 +50,13 @@ namespace SIL.Pa.UI.Dialogs
 			ds.FieldMappings.Remove(m_audioFileMapping);
 
 			var potentialFieldNames = Settings.Default.DefaultFw7Fields.Cast<string>();
-			m_potentialFields = projectFields.Where(f => potentialFieldNames.Contains(f.Name));
+
+            var customFields = new Fw7CustomField(ds);
+            var cuslist = potentialFieldNames.ToList();
+            cuslist.AddRange(customFields.FieldNames());
+            potentialFieldNames = cuslist; //(IEnumerable<string>)
+            
+		    m_potentialFields = projectFields.Where(f => potentialFieldNames.Contains(f.Name));
 
 			lblProjectValue.Text = ds.FwDataSourceInfo.ToString();
 			lblProject.Font = FontHelper.UIFont;

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PaProject version="3.3.3">
+  <CVPatternInfoList>
+    <CVPatternInfo Phone="̩" Type="Suprasegmental" />
+    <CVPatternInfo Phone="̋" Type="Suprasegmental" />
+    <CVPatternInfo Phone="˥" Type="Suprasegmental" />
+    <CVPatternInfo Phone="᷄" Type="Suprasegmental" />
+    <CVPatternInfo Phone="˦˥" Type="Suprasegmental" />
+    <CVPatternInfo Phone="́" Type="Suprasegmental" />
+    <CVPatternInfo Phone="˦" Type="Suprasegmental" />
+    <CVPatternInfo Phone="᷇" Type="Suprasegmental" />
+    <CVPatternInfo Phone="˥˧" Type="Suprasegmental" />
+    <CVPatternInfo Phone="̂" Type="Suprasegmental" />
+    <CVPatternInfo Phone="˥˩" Type="Suprasegmental" />
+    <CVPatternInfo Phone="᷉" Type="Suprasegmental" />
+    <CVPatternInfo Phone="̄" Type="Suprasegmental" />
+    <CVPatternInfo Phone="˧" Type="Suprasegmental" />
+    <CVPatternInfo Phone="̌" Type="Suprasegmental" />
+    <CVPatternInfo Phone="˩˥" Type="Suprasegmental" />
+    <CVPatternInfo Phone="᷈" Type="Suprasegmental" />
+    <CVPatternInfo Phone="˦˥˦" Type="Suprasegmental" />
+    <CVPatternInfo Phone="᷅" Type="Suprasegmental" />
+    <CVPatternInfo Phone="˩˨" Type="Suprasegmental" />
+    <CVPatternInfo Phone="̀" Type="Suprasegmental" />
+    <CVPatternInfo Phone="˨" Type="Suprasegmental" />
+    <CVPatternInfo Phone="᷆" Type="Suprasegmental" />
+    <CVPatternInfo Phone="˧˩" Type="Suprasegmental" />
+    <CVPatternInfo Phone="̏" Type="Suprasegmental" />
+    <CVPatternInfo Phone="˩" Type="Suprasegmental" />
+    <CVPatternInfo Phone="¹" Type="Suprasegmental" />
+    <CVPatternInfo Phone="²" Type="Suprasegmental" />
+    <CVPatternInfo Phone="³" Type="Suprasegmental" />
+    <CVPatternInfo Phone="⁴" Type="Suprasegmental" />
+    <CVPatternInfo Phone="⁵" Type="Suprasegmental" />
+    <CVPatternInfo Phone="⁶" Type="Suprasegmental" />
+    <CVPatternInfo Phone="⁷" Type="Suprasegmental" />
+    <CVPatternInfo Phone="⁸" Type="Suprasegmental" />
+    <CVPatternInfo Phone="⁹" Type="Suprasegmental" />
+    <CVPatternInfo Phone="ꜛ" Type="Suprasegmental" />
+    <CVPatternInfo Phone="↑" Type="Suprasegmental" />
+    <CVPatternInfo Phone="ꜜ" Type="Suprasegmental" />
+    <CVPatternInfo Phone="↓" Type="Suprasegmental" />
+    <CVPatternInfo Phone="↗" Type="Suprasegmental" />
+    <CVPatternInfo Phone="↘" Type="Suprasegmental" />
+  </CVPatternInfoList>
+</PaProject>

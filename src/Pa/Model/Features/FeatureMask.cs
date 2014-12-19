@@ -176,8 +176,8 @@ namespace SIL.Pa.Model
 		/// ------------------------------------------------------------------------------------
 		public bool ContainsOneOrMore(FeatureMask mask, bool throwWhenBitCountMismatch)
 		{
-			if (m_maskCount != mask.m_maskCount && throwWhenBitCountMismatch)
-				throw new ArgumentException(kBitSizeMismatchMsg);
+            if (m_maskCount != mask.m_maskCount && throwWhenBitCountMismatch)
+                throw new ArgumentException(kBitSizeMismatchMsg);
 
 			for (int i = 0; i < Math.Min(m_maskCount, mask.m_maskCount); i++)
 			{

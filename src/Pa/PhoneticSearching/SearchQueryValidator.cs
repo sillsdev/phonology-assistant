@@ -41,7 +41,7 @@ namespace SIL.Pa.PhoneticSearching
 					VerifyTextInSquareBrackets(item);
 					VerifyTextInAngleBrackets(item);
 					VerifyDiacriticPlaceholders(item);
-					VerifyOneDiacriticPlaceholderPerANDGroup(item);
+					VerifyOneDiacriticPlaceholderPerAndGroup(item);
 
 					VerifyNoEmptyTextBetweenOpenAndCloseSymbols(item, PatternParser.FindInnerMostSquareBracketPairs,
 						string.Format(LocalizationManager.GetString("PhoneticSearchingMessages.EmptySquareBracketsMsg",
@@ -150,8 +150,8 @@ namespace SIL.Pa.PhoneticSearching
 		/// ------------------------------------------------------------------------------------
 		public void VerifyPrecedingEnvironment(string precedingEnv)
 		{
+            precedingEnv = precedingEnv.Replace("NOT", "");
 			var envWithoutPlusSymbols = StripOutStuffWithValidPlusAndStarSymbols(precedingEnv);
-
 			if (envWithoutPlusSymbols.Count(c => "#*+".Contains(c)) > 1)
 			{
 				var error = new SearchQueryValidationError(
@@ -416,7 +416,7 @@ namespace SIL.Pa.PhoneticSearching
 					!bracketedText.Contains(App.DottedCircle) &&
 					bracketedText != "C" && bracketedText != "V" &&
 					!App.AFeatureCache.Keys.Any(f => f == bracketedText) &&
-					!App.BFeatureCache.Keys.Any(f => f == bracketedText))
+					!App.BFeatureCache.Keys.Any(f => f == bracketedText)&&!bracketedText.Contains(App.ProportionalToSymbol))
 				{
 					var msg = LocalizationManager.GetString("PhoneticSearchingMessages.InvalidTextInSquareBracketsMsg",
 						"The text '{0}' in square brackets is invalid. Other than surrounding " +
@@ -457,7 +457,7 @@ namespace SIL.Pa.PhoneticSearching
 		}
 
 		/// ------------------------------------------------------------------------------------
-		public void VerifyOneDiacriticPlaceholderPerANDGroup(string pattern)
+		public void VerifyOneDiacriticPlaceholderPerAndGroup(string pattern)
 		{
 			var originalPattern = pattern;
 
@@ -649,6 +649,7 @@ namespace SIL.Pa.PhoneticSearching
 			pattern = pattern.Replace("/", string.Empty);
 			pattern = pattern.Replace("*", string.Empty);
 			pattern = pattern.Replace("+", string.Empty);
+            pattern = pattern.Replace("NOT", string.Empty);
 			return pattern.Replace("#", string.Empty);
 		}
 

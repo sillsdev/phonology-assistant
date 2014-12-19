@@ -1710,7 +1710,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		static void SearchDropDownHelpLink_Click(object sender, EventArgs e)
 		{
-			App.ShowHelpTopic("hidSearchOptionsXYChartsView");
+			App.ShowHelpTopic("hidSearchOptionsDistributionChartsView");
 		}
 
 		/// ------------------------------------------------------------------------------------

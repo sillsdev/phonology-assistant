@@ -87,6 +87,10 @@
 			<name>palatal</name>
 		</featureDefinition>
 		<featureDefinition class="colgroup" category="place" type="consonant">
+			<name>labial-palatal</name>
+			<breakAfter>labial</breakAfter>
+		</featureDefinition>
+		<featureDefinition class="colgroup" category="place" type="consonant">
 			<name>velar</name>
 		</featureDefinition>
 		<featureDefinition class="colgroup" category="place" type="consonant">
@@ -99,6 +103,10 @@
 		<featureDefinition class="colgroup" category="place" type="consonant">
 			<name>epiglottal</name>
 			<breakAfter>epi</breakAfter>
+		</featureDefinition>
+		<featureDefinition class="colgroup" category="place" type="consonant">
+			<name>labial-velar</name>
+			<breakAfter>labial</breakAfter>
 		</featureDefinition>
 		<featureDefinition class="colgroup" category="place" type="consonant">
 			<name>glottal</name>
@@ -3394,6 +3402,7 @@
 			<name>Syllabicity mark</name>
 			<description>syllabic</description>
 			<type>diacritic</type>
+			<subtype>tone</subtype>
 			<isBase>false</isBase>
 			<canPrecedeBase>false</canPrecedeBase>
 			<displayWithDottedCircle>true</displayWithDottedCircle>

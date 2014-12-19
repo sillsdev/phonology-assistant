@@ -1,3 +1,5 @@
+using System.IO;
+using System.Xml;
 using NUnit.Framework;
 using SIL.Pa.DataSource;
 using SIL.Pa.Model;
@@ -302,5 +304,26 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(0, phoneCache["u"].TotalCount);
 			Assert.AreEqual(0, phoneCache["i"].TotalCount);
 		}
+
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// Test to add ability to ignore syllabic mark (This test
+        /// will test that PA-1189 is fixed).
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        [Test]
+        public void AbilityToIgnoreSyllabicMark()
+        {
+            string phoneticInventoryFilePath = App.PhoneticInventoryFilePath;
+            if (File.Exists(phoneticInventoryFilePath))
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(phoneticInventoryFilePath);
+                XmlNode nodeToFind;
+                XmlElement root = doc.DocumentElement;
+                nodeToFind = root.SelectSingleNode("//symbolDefinitions//symbolDefinition[@code='0329']//subtype");
+                Assert.True(nodeToFind != null);
+            }
+        }
 	}
 }
