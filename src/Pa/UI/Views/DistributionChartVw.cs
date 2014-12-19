@@ -1459,32 +1459,35 @@ namespace SIL.Pa.UI.Views
 
         private void Grid_MouseMove(object sender, MouseEventArgs e)
         {
-            if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+            if (_grid.Cursor == Cursors.Arrow)
             {
-                // If the mouse moves outside the rectangle, start the drag.
-                if (_dragBoxFromMouseDown != Rectangle.Empty &&
-                    !_dragBoxFromMouseDown.Contains(e.X, e.Y))
+                if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
                 {
+                    // If the mouse moves outside the rectangle, start the drag.
+                    if (_dragBoxFromMouseDown != Rectangle.Empty &&
+                        !_dragBoxFromMouseDown.Contains(e.X, e.Y))
+                    {
 
-                    // Proceed with the drag and drop, passing in the list item.                   
-                    DragDropEffects dropEffect = _grid.DoDragDrop(
-                             _grid.Rows[_rowIndexFromMouseDown],
-                             DragDropEffects.Move);
-                }
-            }
-
-            if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
-            {
-                // If the mouse moves outside the rectangle, start the drag.
-                if (_dragBoxFromMouseDown != Rectangle.Empty &&
-                !_dragBoxFromMouseDown.Contains(e.X, e.Y))
-                {
-                    // Proceed with the drag and drop, passing in the list item.                   
-                    DragDropEffects dropEffect = _grid.DoDragDrop(
-                    _grid.Columns[_columnIndexFromMouseDown],
-                    DragDropEffects.Move);
+                        // Proceed with the drag and drop, passing in the list item.                   
+                        DragDropEffects dropEffect = _grid.DoDragDrop(
+                            _grid.Rows[_rowIndexFromMouseDown],
+                            DragDropEffects.Move);
+                    }
                 }
 
+                if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+                {
+                    // If the mouse moves outside the rectangle, start the drag.
+                    if (_dragBoxFromMouseDown != Rectangle.Empty &&
+                        !_dragBoxFromMouseDown.Contains(e.X, e.Y))
+                    {
+                        // Proceed with the drag and drop, passing in the list item.                   
+                        DragDropEffects dropEffect = _grid.DoDragDrop(
+                            _grid.Columns[_columnIndexFromMouseDown],
+                            DragDropEffects.Move);
+                    }
+
+                }
             }
         }
 
