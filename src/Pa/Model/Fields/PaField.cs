@@ -38,7 +38,7 @@ namespace SIL.Pa.Model
         public const string kAudioFileFieldName = "AudioFile";
 
         private string m_isCollection;
-		private string m_note;
+
         /// ------------------------------------------------------------------------------------
         public PaField()
         {
@@ -73,15 +73,6 @@ namespace SIL.Pa.Model
         /// ------------------------------------------------------------------------------------
         [XmlAttribute("name")]
         public string Name { get; set; }
-
-
-	    /// ------------------------------------------------------------------------------------
-	    [XmlAttribute("Note")]
-	    public string Note
-	    {
-            get { return (s_displayPropsCache.GetNote(Name)); }
-            set { s_displayPropsCache.SetNote(Name, value); }
-	    }
 
         /// ------------------------------------------------------------------------------------
         [XmlAttribute("type")]
