@@ -1212,6 +1212,7 @@
     <EmbeddedResource Include="Model\Migration\CreateFieldDisplayProperties.xslt" />
     <EmbeddedResource Include="Model\Migration\UpdateFieldInfo.xslt" />
     <EmbeddedResource Include="Model\Migration\UpdatePaUI0347.xslt" />
+    <EmbeddedResource Include="Model\Migration\AddRhymeToDistribution.xslt" />
     <Content Include="pa.ico" />
     <None Include="Resources\CloseTab.png" />
     <None Include="Resources\DropDownArrowWithPadding.png" />

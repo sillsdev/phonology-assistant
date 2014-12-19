@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using SIL.Pa.PhoneticSearching;
 
 namespace SIL.Pa.Model.Migration
 {
@@ -22,6 +23,7 @@ namespace SIL.Pa.Model.Migration
 		protected override void InternalMigration()
 		{
 		    MigrateLocalizationWord2003ToWord();
+		    MigrateToAddRhymeEtc();
             UpdateProjectFileToLatestVersion();
         }
 
@@ -37,6 +39,14 @@ namespace SIL.Pa.Model.Migration
                 if (error != null)
                     throw error;
             }
+        }
+
+        private void MigrateToAddRhymeEtc()
+        {
+            var filepath = DistributionChart.GetFileForProject(_projectPathPrefix);
+            var error = TransformFile(filepath, "SIL.Pa.Model.Migration.AddRhymeToDistribution.xslt");
+            if (error != null)
+                throw error;
         }
     }
 }
