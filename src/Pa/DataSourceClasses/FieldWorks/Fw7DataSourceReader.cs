@@ -19,11 +19,13 @@ namespace SIL.Pa.DataSource.FieldWorks
 		private FwDataSourceInfo m_fwDsInfo;
 		private BackgroundWorker m_worker;
         public Fw7CustomField m_customfield;
+	    public PaField m_vernPhonetic;
+	    public bool m_vernCustom;
 
 		/// ------------------------------------------------------------------------------------
 		public static Fw7DataSourceReader Create(BackgroundWorker worker, PaProject project, PaDataSource ds)
 		{
-			var eticMapping = ds.FieldMappings.Single(m => m.Field.Type == FieldType.Phonetic);
+			var eticMapping = ds.FieldMappings.Single(m => m.Field.Type == FieldType.Phonetic && m.NameInDataSource == "Phonetic");
 			if (eticMapping == null)
 				return null;
 
@@ -41,6 +43,12 @@ namespace SIL.Pa.DataSource.FieldWorks
             {
                 reader.m_customfield = new Fw7CustomField(reader.m_dataSource);
             }
+		    reader.m_vernPhonetic = null;
+		    foreach (var fieldMapping in ds.FieldMappings.Where(fieldMapping => fieldMapping.Field.Type == FieldType.Phonetic && fieldMapping.NameInDataSource != "Phonetic"))
+		    {
+		        reader.m_vernPhonetic = fieldMapping.Field;
+		        reader.m_vernCustom = reader.m_customfield.FieldNames().Contains(reader.m_vernPhonetic.Name);
+		    }
 			return reader;
 		}
 
@@ -63,10 +71,12 @@ namespace SIL.Pa.DataSource.FieldWorks
 			{
 				m_worker.ReportProgress(0);
 				var entry = ReadSingleLexEntry(lxEntry);
-                var customvalues = m_customfield.CustomValues.FindAll(m => m.Guid == lxEntry.Guid.ToString());
-                SetCustomFieldsforEntry(customnames, customvalues, entry);
-				if (entry != null)
-					recCache.Add(entry);
+			    if (entry != null)
+			    {
+                    var customvalues = m_customfield.CustomValues.FindAll(m => m.Guid == lxEntry.Guid.ToString());
+                    SetCustomFieldsforEntry(customnames, customvalues, entry);
+                    recCache.Add(entry);
+                }
 			}
 
 			m_dataSource.UpdateLastModifiedTime();
@@ -285,7 +295,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 						recCacheEntry.SetCollection(mapping.PaFieldName, valueList.Skip(1));
 				}
 			}
-
+            CreateWordEntriesForVernacular(lxEntry, recCacheEntry);
 			return recCacheEntry;
 		}
 
@@ -308,8 +318,40 @@ namespace SIL.Pa.DataSource.FieldWorks
 
 			if (m_fwDsInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.LexemeForm)
 			{
-				if (lxEntry.LexemeForm != null)
-					eticValue = lxEntry.LexemeForm.GetString(m_phoneticWsId);
+			    if (m_vernCustom)
+			    {
+			        var customvalues = m_customfield.CustomValues.FindAll(m => m.Guid == lxEntry.Guid.ToString());
+			        foreach (var nm in customvalues.Select(m => m.CustomFields).Select(value => value.SingleOrDefault(m => m.Name == m_vernPhonetic.Name)).Where(nm => nm != null))
+			        {
+			            eticValue = nm.Value;
+			            break;
+			        }
+			    }
+			    else
+			    {
+			        switch (m_vernPhonetic != null? m_vernPhonetic.Name: "LexemeForm")
+			        {
+                        case "LexemeForm": eticValue = GetMultiStringValue(lxEntry.LexemeForm, m_phoneticWsId); break;
+
+                        case "Variants":
+                            eticValue = lxEntry.Variants.Select(v => v.VariantForm.GetString(m_phoneticWsId)).FirstOrDefault();
+                            break;
+
+                        case "ComplexForms":
+                            eticValue = GetCommaDelimitedList(lxEntry.ComplexForms.Select(c => c.GetString(m_phoneticWsId)));
+                            break;
+
+                        case "Components":
+                            eticValue = lxEntry.ComplexFormInfo.Select(ci => GetCommaDelimitedList(ci.Components)).FirstOrDefault();
+                            break;
+
+                        case "Allomorphs":
+                            eticValue = lxEntry.Allomorphs.Where(a => a != null).Select(a => a.GetString(m_phoneticWsId)).FirstOrDefault();
+                            break;
+			        }
+			    }
+                //if (lxEntry.LexemeForm != null)
+                //    eticValue = lxEntry.LexemeForm.GetString(m_phoneticWsId);
 			}
 			else
 			{
@@ -328,10 +370,28 @@ namespace SIL.Pa.DataSource.FieldWorks
 
             if (wentry.GetField("AudioFile", false) == null)
                 SearchForAudioWritingSystems(wentry, lxEntry, pro);
-
+            
 			recCacheEntry.WordEntries.Add(wentry);
 			return true;
 		}
+
+        /// ------------------------------------------------------------------------------------
+        private void CreateWordEntriesForVernacular(IPaLexEntry lxEntry, RecordCacheEntry recCacheEntry)
+        {
+            foreach (var mapping in m_dataSource.FieldMappings.Where(f => f.Field.Note == "V"))
+            {
+                var wsId = mapping.PaFieldName;
+                var eticValue = recCacheEntry[wsId];
+                if (!string.IsNullOrEmpty(eticValue))
+                {
+                    var wentry = new WordCacheEntry(recCacheEntry, wsId);
+                    wentry.SetValue(wsId, eticValue);
+                    wentry.Guid = new Guid(lxEntry.Guid.ToString());
+                    //ReadSinglePronunciation(pro, wentry);
+                    recCacheEntry.WordEntries.Add(wentry);
+                }
+            }
+        }
 
         /// <summary>
         /// Audio files can be store in special audio writing systems in the LexememForm, the CitationForm or the
