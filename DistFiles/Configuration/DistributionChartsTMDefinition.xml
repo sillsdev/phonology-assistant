@@ -152,7 +152,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdInsertSyllableBoundary" message="InsertSyllableBoundary"/>
 		<command id="CmdInsertANDGroup" message="InsertANDGroup"/>
 		<command id="CmdInsertORGroup" message="InsertORGroup"/>
-		<command id="CmdDeleteChartRow" message="GridRowDelete" shortcutkey="Ctrl+R" image="CmdDeleteChartRow"/>
+		<command id="CmdDeleteChartRow" message="GridRowDelete" shortcutkey="Ctrl+Q" image="CmdDeleteChartRow"/>
 		<command id="CmdDeleteChartColumn" message="GridColumnDelete" shortcutkey="Ctrl+U" image="CmdDeleteChartColumn"/>
 	</commands>
 
