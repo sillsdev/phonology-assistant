@@ -363,7 +363,7 @@ namespace SIL.Pa.UI.Dialogs
 			if (filterToMakeCurrent != null)
 				index = m_filterList.IndexOf(filterToMakeCurrent);
 
-			if (m_gridFilters.RowCount > 0)
+			if (m_gridFilters.RowCount > 0 && index != -1)
 				m_gridFilters.CurrentCell = m_gridFilters[kFilterNameCol, index];
 
 			HandleFilterGridCurrentRowChanged(null, null);
