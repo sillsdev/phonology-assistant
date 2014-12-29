@@ -1878,8 +1878,6 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				//LocalizeItem(item, BuildLocalizationId(item), itemProps);
 				LocalizeAdapterItems.LocalizeItem(item, BuildLocalizationId(item), itemProps);
 			}
-            if (item.Text == "&Distribution Charts")
-                item.Text = item.Text.Replace("&", "");
 			m_items[name] = item;
 		}
 
