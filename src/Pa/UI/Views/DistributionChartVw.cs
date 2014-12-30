@@ -1174,7 +1174,7 @@ namespace SIL.Pa.UI.Views
             if (selectedColumn != gridColumnCount && selectedColumn != 0)
             {
                 _grid.Columns.RemoveAt(selectedColumn);
-                _grid.ChartLayout = DistributionChart.DeleteFromDistributionGrid(_grid);
+                _grid.ChartLayout = DistributionChart.ModifyFromDistributionGrid(_grid);
             }
 
             return true;
@@ -1188,7 +1188,7 @@ namespace SIL.Pa.UI.Views
             if (selectedRow != gridRowCount && selectedRow != 0)
             {
                 _grid.Rows.RemoveAt(selectedRow);
-                _grid.ChartLayout = DistributionChart.DeleteFromDistributionGrid(_grid);
+                _grid.ChartLayout = DistributionChart.ModifyFromDistributionGrid(_grid);
             }
             return true;
         }
@@ -1611,10 +1611,16 @@ namespace SIL.Pa.UI.Views
                     }
                     else
                     {
-                        _grid.Columns[_columnIndexFromMouseDown].DisplayIndex = _columnIndexOfItemUnderMouseToDrop;
+                        //_grid.Columns[_columnIndexFromMouseDown].DisplayIndex = _columnIndexOfItemUnderMouseToDrop;
+                        DataGridViewColumn tempcolumn = _grid.Columns[_columnIndexFromMouseDown];
+                        _grid.Columns.RemoveAt(_columnIndexFromMouseDown);
+                        _grid.Columns.Insert(_columnIndexOfItemUnderMouseToDrop, tempcolumn);
+
                     }
                 }
             }
+            _grid.ChartLayout = DistributionChart.ModifyFromDistributionGrid(_grid);
+            SaveCurrentChart(_grid.ChartLayout);
         }
 
         private void Grid_CurrentCellDirtyStateChanged(object sender, EventArgs e)

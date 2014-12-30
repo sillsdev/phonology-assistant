@@ -43,7 +43,7 @@ namespace SIL.Pa.PhoneticSearching
         /// If the grid is null or empty, then null is returned.
         /// </summary>
         /// ------------------------------------------------------------------------------------
-        public static DistributionChart DeleteFromDistributionGrid(DistributionGrid grid)
+        public static DistributionChart ModifyFromDistributionGrid(DistributionGrid grid)
         {
             if (grid == null || (grid.Rows.Count <= 1 && grid.Columns.Count <= 1))
                 return null;
