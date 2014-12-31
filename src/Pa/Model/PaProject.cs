@@ -745,7 +745,10 @@ namespace SIL.Pa.Model
         public IEnumerable<PaField> GetMappedFields()
         {
             var list = DataSources.SelectMany(ds => ds.FieldMappings).Select(m => m.Field).ToList();
-            list.AddRange(PaField.GetCalculatedFieldsFromList(Fields));
+            if (Fields != null)
+            {
+                list.AddRange(PaField.GetCalculatedFieldsFromList(Fields));
+            }
             return list.Distinct(new FieldNameComparer());
         }
 
