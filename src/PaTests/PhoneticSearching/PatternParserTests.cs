@@ -371,9 +371,9 @@ namespace SIL.Pa.Tests
 			Assert.AreEqual(2, group.Members.Count);
 			Assert.IsTrue(group.Members[0] is PatternGroupMember);
 			Assert.IsTrue(group.Members[1] is PatternGroupMember);
-			Assert.AreEqual("a", ((PatternGroupMember)group.Members[0]).Member);
-			Assert.AreEqual("b", ((PatternGroupMember)group.Members[1]).Member);
-			Assert.AreEqual("\u02B0", ((PatternGroupMember)group.Members[1]).DiacriticPattern);
+			Assert.AreEqual("a", ((PatternGroupMember)group.Members[1]).Member);
+			Assert.AreEqual("b", ((PatternGroupMember)group.Members[0]).Member);
+			Assert.AreEqual("\u02B0", ((PatternGroupMember)group.Members[0]).DiacriticPattern);
 		}
 
 		/// ------------------------------------------------------------------------------------

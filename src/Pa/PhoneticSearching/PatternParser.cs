@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 using SIL.Pa.Model;
 
@@ -213,7 +214,8 @@ namespace SIL.Pa.PhoneticSearching
 			var group = new PatternGroup(_currEnvType) {GroupType = GroupType.Or};
 			var bracketedText = match.Result("${bracketedText}");
 			var piecesBetweenBraces = bracketedText.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
-
+		    piecesBetweenBraces = piecesBetweenBraces.OrderByDescending(m => m.Length).ToArray();
+            
 			foreach (var piece in piecesBetweenBraces)
 			{
 				if (piece[0] >= kMinToken)
