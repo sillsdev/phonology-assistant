@@ -1009,7 +1009,7 @@ namespace SIL.Pa.UI.Controls
 					!q.Pattern.Equals(query.Pattern, StringComparison.Ordinal)))
 			{
 				var newQuery = query.Clone();
-				newQuery.Name = null;
+				newQuery.Name = "";//null
 				newQuery.Pattern = query.Pattern;
 				return newQuery;
 			}

@@ -126,6 +126,8 @@ namespace SIL.Pa.UI.Controls
 				{
 					// Create a query node.
 					var node = new TreeNode();
+				    if (grpQuery.Name == null)
+				        grpQuery.Name = "";
 					node.ImageIndex = node.SelectedImageIndex = 2;
 					node.Text = grpQuery.ToString();
 					node.Tag = grpQuery;
