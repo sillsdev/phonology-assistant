@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -285,9 +286,10 @@ namespace SIL.Pa.Model
 
 			// First, combine the audioFilePath and the specified rootPath.
 			string newPath = Path.Combine(rootPath, audioFilePath);
-			if (File.Exists(newPath))
+            var s = newPath.Normalize(NormalizationForm.FormC);
+			if (File.Exists(s))
 			{
-				entry.AbsoluteAudioFilePath = newPath;
+                entry.AbsoluteAudioFilePath = s;
 				return true;
 			}
 
