@@ -961,9 +961,50 @@ namespace SIL.Pa.UI.Views
 
             _grid.RefreshCellValue(row, col);
 
-            SearchQuery query = _grid.GetCellsFullSearchQuery(row, col);
-            if (query != null)
-                ResultViewManger.PerformSearch(query, resultLocation);
+            SearchQuery querySearchPattern = _grid.GetCellsFullSearchQuery(row, col);
+            if (querySearchPattern != null)
+            {
+                PerformSearch(row, col, querySearchPattern.ToString());
+            }
+        }
+
+        /// ------------------------------------------------------------------------------------
+        private void PerformSearch(int row, int col, string querySearchPattern)
+        {
+            var srchPhones = querySearchPattern;
+            string toolbarItemName = querySearchPattern;
+            if (srchPhones == null)
+                return;
+
+            var queries = new List<SearchQuery>();
+
+            var query = new SearchQuery();
+            query.Pattern = srchPhones;
+            query.IgnoreDiacritics = false;
+
+            // Check if the phone only exists as an uncertain phone. If so,
+            // then set the flag in the query to include searching words
+            // made using all uncertain uncertain derivations.
+            var phoneInfo = Project.PhoneCache[_grid[0, row].Value as string];
+            if (phoneInfo != null && phoneInfo.TotalCount == 0)
+                query.IncludeAllUncertainPossibilities = true;
+
+            queries.Add(query);
+
+            App.MsgMediator.SendMessage("ViewSearch", queries);
+
+            // Now set the image of the search button to the image associated
+            // with the last search environment chosen by the user.
+            var childItemProps = _tmAdapter.GetItemProperties(toolbarItemName);
+            var parentItemProps = _tmAdapter.GetItemProperties("tbbChartPhoneSearch");
+            if (parentItemProps != null && childItemProps != null)
+            {
+                parentItemProps.Image = childItemProps.Image;
+                parentItemProps.Visible = true;
+                parentItemProps.Update = true;
+                parentItemProps.Tag = new[] { _grid[col, 0].Value as string, toolbarItemName };
+                _tmAdapter.SetItemProperties("tbbChartPhoneSearch", parentItemProps);
+            }
         }
 
         #endregion
