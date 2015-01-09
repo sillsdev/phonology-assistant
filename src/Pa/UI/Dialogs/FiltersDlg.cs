@@ -462,6 +462,7 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				foreach (FilterExpression expression in filter.Expressions)
 				{
+                    if(expression == null) continue;
 					string fieldName = expression.FieldName;
 					if (fieldName != FilterExpression.OtherFilterField)
 						fieldName = m_project.GetFieldForName(fieldName).DisplayName;
