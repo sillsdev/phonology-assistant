@@ -170,7 +170,9 @@ namespace SIL.Pa.UI.Controls
 							TextFormatFlags.LeftAndRightPadding);
 						
 						width = Math.Max(width, sz.Width);
-						height = Math.Max(height, sz.Height);
+
+                        if (sz.Height <= 65536)
+						    height = Math.Max(height, sz.Height);
 					}
 				}
 			}
