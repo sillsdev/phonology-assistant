@@ -843,11 +843,10 @@ namespace SIL.Pa.UI.Controls
 					Utils.MsgBox(ex.Message);
 					return;
 				}
+                // Open the file with the specified RTF editor
+                if (m_exportTarget == ExportTarget.FileAndOpen)
+                    OpenInEditor(filename);
 			}
-
-			// Open the file with the specified RTF editor
-			if (m_exportTarget == ExportTarget.FileAndOpen)
-				OpenInEditor(filename);
 		}
 
 		/// ------------------------------------------------------------------------------------
