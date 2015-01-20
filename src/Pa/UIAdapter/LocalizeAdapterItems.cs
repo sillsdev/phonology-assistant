@@ -178,7 +178,10 @@ namespace SIL.Pa
 					LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.MinimalPairs",
 						"&Minimal Pairs", null, "Minimal Pairs", "Ctrl+M", item);
 					break;
-
+                case "MenuItems.ShowCIESimilarResults":
+                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.CIESimilarResults",
+                        "&Similar Environments", null, "Similar Environments", "Ctrl+S", item);
+                    break;
 				case "MenuItems.GroupBySortedField":
 					LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.GroupByPrimarySortField",
 						"&Group by Primary Sort Field", null, "Group by Primary Sort Field", "Ctrl+G", item);
@@ -543,6 +546,10 @@ namespace SIL.Pa
 					LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowCIEResults",
 						"&Minimal Pairs", null, "Minimal Pairs", "Ctrl+M", item);
 					break;
+                case "ToolbarItems.ShowCIESimilarResults":
+                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowCIESimilarResults",
+                        "&Similar Environment", null, "Similar Environment", "Ctrl+S", item);
+                    break;
 
 				case "ContextMenuItems.CharChartSearchContextMenu":
 					LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.CharChartSearchContextMenu",

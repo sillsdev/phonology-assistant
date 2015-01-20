@@ -1125,6 +1125,7 @@
     <None Include="Resources\Filter-Small.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\SimilarEnvironment.png" />
     <None Include="Resources\PaTMDefinition.xml" />
     <None Include="Resources\AddStackedTabGroup.png" />
     <None Include="Resources\AddSideBySideTabGroup.png" />

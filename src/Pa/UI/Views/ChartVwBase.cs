@@ -875,6 +875,12 @@ namespace SIL.Pa.UI.Views
 			return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
+        /// ------------------------------------------------------------------------------------
+        protected bool OnUpdateShowCIESimilarResults(object args)
+        {
+            return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
+        }
+
 		/// ------------------------------------------------------------------------------------
 		protected bool OnUpdateGroupBySortedField(object args)
 		{

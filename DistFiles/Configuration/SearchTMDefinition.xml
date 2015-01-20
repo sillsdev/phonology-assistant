@@ -107,7 +107,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				43, 44, 45, 46, 47, CmdFindPrevious, 49, 50, 51, 52, 53, CmdShowResults,
 				CmdNewTab, CmdClearRecentPatternList, CmdShowCIEResults,
 				CmdGroupBySortedField, CmdExpandAllGroups, CmdCollapseAllGroups,
-				CmdSearchOptions, CmdInsertIntoPattern">
+				CmdSearchOptions, CmdInsertIntoPattern, 63, 64, 65, 66, 67, 68, CmdShowCIESimilarResults">
 		</imageList>
 	</resources>
 
@@ -118,6 +118,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdInsertIntoPattern" shortcutkey="Alt+I"/>
 		<command id="CmdSearchOptions" message="SearchOptions" shortcutkey="Alt+O"/>
 		<command id="CmdShowCIEResults" message="ShowCIEResults" shortcutkey="Ctrl+M"/>
+		<command id="CmdShowCIESimilarResults" message="ShowCIESimilarResults" shortcutkey="Ctrl+S"/>
 		<command id="CmdVerifyPattern" message="VerifyPattern"/>
 		<command id="CmdSavePattern" message="SavePattern"/>
 		<command id="CmdSavePatternOnMenu" message="SavePattern" shortcutkey="Ctrl+S" image="CmdSavePattern"/>
@@ -188,6 +189,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				<item name="tbbSavePatternAs" commandid="CmdSavePatternAs" type="0" displaytype="2"/>
 			</item>
 			<item name="tbbShowCIEResults" commandid="CmdShowCIEResults" type="0" begingroup="true"/>
+			<item name="tbbShowCIESimilarResults" commandid="CmdShowCIESimilarResults" type="0" begingroup="true"/>
 			<item name="tbbGroupBySortedField" commandid="CmdGroupBySortedField" type="0" />
 			<item name="tbbCollapseAllGroups" commandid="CmdCollapseAllGroups" type="0"/>
 			<item name="tbbExpandAllGroups" commandid="CmdExpandAllGroups" type="0"/>

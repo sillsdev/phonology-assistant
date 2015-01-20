@@ -24,6 +24,7 @@ namespace SIL.Pa.UI.Controls
 		private SearchResultView m_resultView;
 		private Image m_image;
 		private ToolTip m_CIEButtonToolTip;
+        private ToolTip m_CIESimilarButtonToolTip;
 		private Color m_activeTabInactiveGroupBack1;
 		private Color m_activeTabInactiveGroupBack2;
 		private Color m_activeTabInactiveGroupFore;
@@ -34,9 +35,12 @@ namespace SIL.Pa.UI.Controls
 		private XButton m_btnClose;
 
 		public CustomDropDown CieOptionsDropDownContainer { get; set; }
+        public CustomDropDown CieSimilarOptionsDropDownContainer { get; set; }
 		public CIEOptionsDropDown CieOptionsDropDown { get; set; }
+        public CIEOptionsDropDown CieSimilarOptionsDropDown { get; set; }
 		public SearchResultTabGroup OwningTabGroup { get; set; }
 		internal XButton CIEOptionsButton { get; private set; }
+        internal XButton CIESimilarOptionsButton { get; private set; }
 		public SearchQuery SearchQuery { get; private set; }
 
 		/// ------------------------------------------------------------------------------------
@@ -72,6 +76,20 @@ namespace SIL.Pa.UI.Controls
 			CIEOptionsButton.MouseEnter += m_btnCIEOptions_MouseEnter;
 			CIEOptionsButton.MouseLeave += m_btnCIEOptions_MouseLeave;
 			Controls.Add(CIEOptionsButton);
+
+            // Prepare the tab's minimal pair options button.
+            img = Properties.Resources.SimilarEnvironment;
+            CIESimilarOptionsButton = new XButton();
+            CIESimilarOptionsButton.Image = img;
+            CIESimilarOptionsButton.Size = new Size(img.Width + 4, img.Height + 4);
+            CIESimilarOptionsButton.BackColor = Color.Transparent;
+            CIESimilarOptionsButton.Visible = false;
+            CIESimilarOptionsButton.Left = kleftImgMargin;
+            CIESimilarOptionsButton.Click += m_btnCIESimilarOptions_Click;
+            CIESimilarOptionsButton.MouseEnter += m_btnCIESimilarOptions_MouseEnter;
+            CIESimilarOptionsButton.MouseLeave += m_btnCIESimilarOptions_MouseLeave;
+            Controls.Add(CIESimilarOptionsButton);
+
 			GetTabColors();
 
 			Text = EmptyTabText;
@@ -950,6 +968,78 @@ namespace SIL.Pa.UI.Controls
 		}
 
 		#endregion
+
+        #region Similar pair (i.e. CIE) options drop-down related methods
+        /// ------------------------------------------------------------------------------------
+        public void ShowCIESimilarOptions()
+        {
+            if (CIESimilarOptionsButton.Visible)
+                OwningTabGroup.ShowCIESimilarOptions(CIESimilarOptionsButton);
+        }
+
+        /// ------------------------------------------------------------------------------------
+        void m_btnCIESimilarOptions_Click(object sender, EventArgs e)
+        {
+            if (!m_selected || !OwningTabGroup.IsCurrent)
+                OwningTabGroup.SelectTab(this, true);
+
+            ShowCIESimilarOptions();
+        }
+
+        /// ------------------------------------------------------------------------------------
+        void m_btnCIESimilarOptions_MouseLeave(object sender, EventArgs e)
+        {
+            m_CIESimilarButtonToolTip.Hide(this);
+            m_CIESimilarButtonToolTip.Dispose();
+            m_CIESimilarButtonToolTip = null;
+        }
+
+        /// ------------------------------------------------------------------------------------
+        void m_btnCIESimilarOptions_MouseEnter(object sender, EventArgs e)
+        {
+            m_CIESimilarButtonToolTip = new ToolTip();
+            Point pt = PointToClient(MousePosition);
+            pt.Y += (Cursor.Size.Height - (int)(Cursor.Size.Height * 0.3));
+
+            var text = LocalizationManager.GetString("Views.WordLists.SearchResults.SimilarEnvironmentsButtonToolTipText",
+                "Similar Environment Options (Ctrl+S)");
+
+            m_CIESimilarButtonToolTip.Show(text, this, pt);
+        }
+
+        /// ------------------------------------------------------------------------------------
+        public void ToggleCIESimilarView()
+        {
+            if (m_resultView != null && m_resultView.Grid != null && m_resultView.Grid.Cache != null)
+            {
+                if (m_resultView.Grid.Cache.IsCIEList)
+                    m_resultView.Grid.CIEViewOff();
+                else
+                    m_resultView.Grid.CIEViewOn();
+
+                // Force users to restart Find when toggling the CIEView
+                FindInfo.CanFindAgain = false;
+
+                CIESimilarOptionsButton.Visible = m_resultView.Grid.Cache.IsCIEList;
+                AdjustWidth();
+                OwningTabGroup.AdjustTabContainerWidth();
+            }
+        }
+
+        /// ------------------------------------------------------------------------------------
+        internal void CIEViewSimilarRefresh()
+        {
+            if (m_resultView.Grid == null || !m_resultView.Grid.CIEViewRefresh())
+            {
+                CIESimilarOptionsButton.Visible = false;
+                AdjustWidth();
+                OwningTabGroup.AdjustTabContainerWidth();
+            }
+        }
+
+        #endregion
+
+
 
 		#region IxCoreColleague Members
 		/// ------------------------------------------------------------------------------------

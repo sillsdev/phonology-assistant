@@ -1468,6 +1468,53 @@ namespace SIL.Pa.UI.Controls
 
 		#endregion
 
+        #region CIE (i.e. Similar Environment pair) methods
+        /// ------------------------------------------------------------------------------------
+        protected bool OnShowCIESimilarResults(object args)
+        {
+            if (!m_view.ActiveView || CurrentViewsGrid == null || CurrentViewsGrid.Cache == null)
+                return false;
+
+            CurrentTabGroup.CurrentTab.ToggleCIESimilarView();
+            FindInfo.ResetStartSearchCell(true);
+            FindInfo.CanFindAgain = true;
+
+            if (CurrentViewsGrid.Cache.IsCIEList && !CurrentViewsGrid.Cache.IsEmpty &&
+                Settings.Default.WordListCollapseOnMinimalPairs)
+            {
+                CurrentViewsGrid.ToggleGroupExpansion(false);
+            }
+
+            return true;
+        }
+
+        /// ------------------------------------------------------------------------------------
+        protected bool OnUpdateShowCIESimilarResults(object args)
+        {
+            var itemProps = args as TMItemProperties;
+            if (itemProps == null || !m_view.ActiveView)
+                return false;
+
+            bool enable = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
+                (CurrentViewsGrid.RowCount > 2 || CurrentViewsGrid.Cache.IsCIEList) &&
+                !CurrentViewsGrid.IsGroupedByField);
+
+            bool check = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
+                CurrentViewsGrid.Cache.IsCIEList);
+
+            if (itemProps.Enabled != enable || itemProps.Checked != check)
+            {
+                itemProps.Visible = true;
+                itemProps.Enabled = enable;
+                itemProps.Checked = check;
+                itemProps.Update = true;
+            }
+
+            return true;
+        }
+
+        #endregion
+
 		#region Export Methods
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

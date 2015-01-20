@@ -834,6 +834,7 @@
   </data>
   <data name="kstidShowCIEResultsText" xml:space="preserve">
     <value>&amp;Minimal Pairs</value>
+    <comment>Menu item text</comment>
   </data>
   <data name="kstidShowCIEResultsToolTip" xml:space="preserve">
     <value>Minimal Pairs</value>
@@ -979,5 +980,12 @@
   </data>
   <data name="kstidDeleteChartRowToolTip" xml:space="preserve">
     <value>Delete Current Row</value>
+  </data>
+  <data name="kstidShowCIESimilarResultsText" xml:space="preserve">
+    <value>&amp;Similar Environments</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidShowCIESimilarResultsToolTip" xml:space="preserve">
+    <value>Similar Environments</value>
   </data>
 </root>

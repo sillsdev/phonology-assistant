@@ -100,7 +100,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				CmdChartPhoneSearchMedial, CmdCharChartMoveRowUp, CmdCharChartMoveRowDown,
 				CmdCharChartMoveColLeft, CmdCharChartMoveColRight, 48, CmdChartTBRemove,
 				CmdChartTBMenuRestoreDefault, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61,
-				62, 63, 64, 65, 66, 67, CmdShowHtmlChart">
+				62, 63, 64, 65, 66, 67, CmdShowHtmlChart, 69">
 		</imageList>
 	</resources>
 
