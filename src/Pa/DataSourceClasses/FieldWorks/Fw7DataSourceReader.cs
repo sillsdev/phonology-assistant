@@ -295,7 +295,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 						recCacheEntry.SetCollection(mapping.PaFieldName, valueList.Skip(1));
 				}
 			}
-            CreateWordEntriesForVernacular(lxEntry, recCacheEntry);
+            //CreateWordEntriesForVernacular(lxEntry, recCacheEntry);
 			return recCacheEntry;
 		}
 
