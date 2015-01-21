@@ -433,8 +433,10 @@ namespace SIL.Pa.UI.Controls
 				prevGroup = m_cache[i].CIEGroupId;
 				lastChild = i;
 			}
-
-			FinishGrouping(CIEBuilder.GetCIEPattern(m_cache[0], m_grid.CIEOptions), lastChild);
+		    FinishGrouping(
+		        CIEBuilder.IsMinimalpair
+		            ? CIEBuilder.GetCIEPattern(m_cache[0], m_grid.CIEOptions)
+		            : CIEBuilder.GetCIESimilarPattern(m_cache[0], m_grid.CIEOptions), lastChild);
 		}
 
 		/// ------------------------------------------------------------------------------------

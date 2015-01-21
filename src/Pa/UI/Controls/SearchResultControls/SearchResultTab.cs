@@ -1013,9 +1013,9 @@ namespace SIL.Pa.UI.Controls
             if (m_resultView != null && m_resultView.Grid != null && m_resultView.Grid.Cache != null)
             {
                 if (m_resultView.Grid.Cache.IsCIEList)
-                    m_resultView.Grid.CIEViewOff();
+                    m_resultView.Grid.CIESimilarViewOff();
                 else
-                    m_resultView.Grid.CIEViewOn();
+                    m_resultView.Grid.CIESimilarViewOn();
 
                 // Force users to restart Find when toggling the CIEView
                 FindInfo.CanFindAgain = false;
