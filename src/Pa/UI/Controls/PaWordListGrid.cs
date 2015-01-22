@@ -2247,6 +2247,73 @@ namespace SIL.Pa.UI.Controls
 				App.MsgMediator.SendMessage("AfterWordListUnGroupingByCIE", this);
 			}
 		}
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// Turns on showing minimal pairs from the grid's cache.
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        public bool CIESimilarViewOn()
+        {
+            if (_cache.IsCIEList)
+                return false;
+
+            if (CIEOptions == null)
+                CIEOptions = App.Project.CIEOptions;
+
+            var builder = new CIEBuilder(_cache, _sortOptions, CIEOptions);
+            var cieCache = builder.FindSimilarPairs();
+
+            // This should never happen.
+            if (cieCache == null)
+            {
+                Utils.MsgBox(LocalizationManager.GetString("Views.WordLists.NoMinimalPairsPopupMsg", "No minimal pairs to display."));
+                return false;
+            }
+
+            if (cieCache.Count > 1)
+            {
+                if (_noCIEResultsMsg != null)
+                    ManageNoCIEResultsMessage(false);
+            }
+            else
+            {
+                cieCache.Clear();
+                if (_noCIEResultsMsg == null)
+                    ManageNoCIEResultsMessage(true);
+            }
+
+            if (_cellInfoPopup != null)
+                _cellInfoPopup.Hide();
+
+            _backupCache = _cache;
+            _cache = cieCache;
+            RefreshRows(true);
+            App.MsgMediator.SendMessage("AfterWordListGroupingByCIE", this);
+
+            return true;
+        }
+
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// Turns off showing similar pairs from the grid's cache.
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        public void CIESimilarViewOff()
+        {
+            if (_backupCache != null)
+            {
+                if (_cellInfoPopup != null)
+                    _cellInfoPopup.Hide();
+
+                ManageNoCIEResultsMessage(false);
+                _cache = _backupCache;
+                _backupCache = null;
+                _cache.Sort(_sortOptions);
+                RefreshRows(true);
+                CIEOptions = null;
+                App.MsgMediator.SendMessage("AfterWordListUnGroupingByCIE", this);
+            }
+        }
 
 		/// ------------------------------------------------------------------------------------
 		private void ManageNoCIEResultsMessage(bool show)
