@@ -66,6 +66,8 @@ namespace SIL.Pa.UI.Controls
 		private readonly List<SearchResultView> m_searchResultViews = new List<SearchResultView>();
 		private readonly Action<int> m_savePlaybackSpeedAction;
 		private int m_playbackSpeed;
+	    private bool m_SimilarEnvironment = false;
+        private bool m_MinimalPair = false;
 
 		/// ------------------------------------------------------------------------------------
 		public SearchResultsViewManager(ITabView view, ITMAdapter tmAdapter,
@@ -1425,7 +1427,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnShowCIEResults(object args)
 		{
-			if (!m_view.ActiveView || CurrentViewsGrid == null || CurrentViewsGrid.Cache == null)
+
+            m_SimilarEnvironment = false;
+            m_MinimalPair = !m_MinimalPair;
+                
+        
+        if (!m_view.ActiveView || CurrentViewsGrid == null || CurrentViewsGrid.Cache == null)
 				return false;
 
 			CurrentTabGroup.CurrentTab.ToggleCIEView();
@@ -1463,6 +1470,20 @@ namespace SIL.Pa.UI.Controls
 				itemProps.Update = true;
 			}
 
+            if (itemProps.Enabled && m_MinimalPair)
+            {
+                itemProps.Enabled = enable;
+                itemProps.Checked = true;
+            }
+            else
+            {
+                itemProps.Enabled = enable;
+                itemProps.Checked = false;
+                if (m_SimilarEnvironment)
+                {
+                    itemProps.Enabled = false;
+                }
+            }
 			return true;
 		}
 
@@ -1472,6 +1493,9 @@ namespace SIL.Pa.UI.Controls
         /// ------------------------------------------------------------------------------------
         protected bool OnShowCIESimilarResults(object args)
         {
+            m_SimilarEnvironment = !m_SimilarEnvironment;
+            m_MinimalPair = false;
+
             if (!m_view.ActiveView || CurrentViewsGrid == null || CurrentViewsGrid.Cache == null)
                 return false;
 
@@ -1502,6 +1526,7 @@ namespace SIL.Pa.UI.Controls
             bool check = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
                 CurrentViewsGrid.Cache.IsCIEList);
 
+           
             if (itemProps.Enabled != enable || itemProps.Checked != check)
             {
                 itemProps.Visible = true;
@@ -1509,6 +1534,22 @@ namespace SIL.Pa.UI.Controls
                 itemProps.Checked = check;
                 itemProps.Update = true;
             }
+
+            if (itemProps.Enabled && m_SimilarEnvironment)
+            {
+                itemProps.Enabled = enable;
+                itemProps.Checked = true;
+            }
+            else
+            {
+                itemProps.Enabled = enable;
+                itemProps.Checked = false;
+                if (m_MinimalPair)
+                {
+                    itemProps.Enabled = false;
+                }
+            }
+
 
             return true;
         }

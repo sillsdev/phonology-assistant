@@ -2068,7 +2068,7 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;Similar Environments.
+        ///   Looks up a localized string similar to Similar Environments.
         /// </summary>
         public static string kstidShowCIESimilarResultsText {
             get {
