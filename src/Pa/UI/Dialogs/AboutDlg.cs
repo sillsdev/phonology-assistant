@@ -501,7 +501,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void SetBuild()
 		{
-			var bldDate = File.GetCreationTime(Application.ExecutablePath);
+			var bldDate = File.GetLastWriteTime(Application.ExecutablePath);
 			_labelBuild.Text = string.Format(_labelBuild.Text, bldDate.ToString("dd-MMM-yyyy"));
 		}
 

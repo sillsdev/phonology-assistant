@@ -425,7 +425,7 @@ namespace SilTools
 				//    File.GetCreationTime(Application.ExecutablePath) :
 				//    new DateTime(2000, 1, 1).Add(new TimeSpan(ver.Build, 0, 0, 0)));
 
-				var bldDate = File.GetCreationTime(Application.ExecutablePath);
+				var bldDate = File.GetLastWriteTime(Application.ExecutablePath);
 				lblBuildNumber.Text = string.Format(m_buildFmt, bldDate.ToString("dd-MMM-yyyy"));
 
 				SetProdVersion(null);
