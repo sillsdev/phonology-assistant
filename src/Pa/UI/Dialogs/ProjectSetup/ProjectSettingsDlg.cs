@@ -941,7 +941,17 @@ namespace SIL.Pa.UI.Dialogs
 				case "skip": e.Value = !_dataSources[i].SkipLoading; break;
 				case "sourcefiles": e.Value = _dataSources[i].ToString(true); break;
                 case "type": e.Value = _dataSources[i].TypeAsString; break;
-                case "Phonetic_Source": e.Value = _dataSources[i].FwDataSourceInfo.PhoneticStorageMethod; break;
+                case "Phonetic_Source":
+                    var srcInfo = _dataSources[i].FwDataSourceInfo;
+			        if (srcInfo != null)
+			        {
+                        e.Value = srcInfo.PhoneticStorageMethod;
+                    }
+                    else
+			        {
+			            e.Value = _dataSources[i].FieldMappings.Find(fld => fld.PaFieldName == "Phonetic").NameInDataSource;
+                    }
+                    break;
 				case "xslt": e.Value = _dataSources[i].XSLTFile; break;
 				default: e.Value = null; break;
 			}
