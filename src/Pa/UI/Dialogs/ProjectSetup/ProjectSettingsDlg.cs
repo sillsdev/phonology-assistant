@@ -172,6 +172,13 @@ namespace SIL.Pa.UI.Dialogs
 			col.HeaderText = LocalizationManager.GetString(
 				"DialogBoxes.ProjectSettingsDlg.DataSourceGrid.ColumnHeadings.Type", "Type", null, col);
 
+            col = SilGrid.CreateTextBoxColumn("Phonetic_Source");
+            col.ReadOnly = true;
+            col.Width = 75;
+            m_grid.Columns.Add(col);
+            col.HeaderText = LocalizationManager.GetString(
+                "DialogBoxes.ProjectSettingsDlg.DataSourceGrid.ColumnHeadings.Phonetic_Source", "Phonetic Source", null, col);
+
 		    col = SilGrid.CreateSilButtonColumn("xslt");
 		    col.ReadOnly = true;
 		    col.Width = 170;
@@ -933,7 +940,8 @@ namespace SIL.Pa.UI.Dialogs
 			{
 				case "skip": e.Value = !_dataSources[i].SkipLoading; break;
 				case "sourcefiles": e.Value = _dataSources[i].ToString(true); break;
-				case "type": e.Value = _dataSources[i].TypeAsString; break;
+                case "type": e.Value = _dataSources[i].TypeAsString; break;
+                case "Phonetic_Source": e.Value = _dataSources[i].FwDataSourceInfo.PhoneticStorageMethod; break;
 				case "xslt": e.Value = _dataSources[i].XSLTFile; break;
 				default: e.Value = null; break;
 			}
