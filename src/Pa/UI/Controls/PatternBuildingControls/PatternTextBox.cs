@@ -372,9 +372,7 @@ namespace SIL.Pa.UI.Controls
             txt.Text = newText;
             txt.SelectionStart = selstart + (text == "{}" || text == "[]"
                 || text == App.DiacriticPlaceholder ? text.Length - 1 : text.Length);
-
-
-
+            
             // Argh, I know.
             Application.DoEvents();
         }
@@ -389,7 +387,7 @@ namespace SIL.Pa.UI.Controls
         {
             // Strip out the dotted circle and check if what's left is a single tie-bar-
             // type character. If so, then just return the text without the dotted circle.
-            string nonDottedCirclePart = text.Replace(App.DottedCircle, string.Empty);
+            string nonDottedCirclePart = selstart == 0 ? text : text.Replace(App.DottedCircle, string.Empty);
             if (nonDottedCirclePart.Length == 1)
             {
                 var charInfo = App.IPASymbolCache[nonDottedCirclePart];
@@ -425,7 +423,7 @@ namespace SIL.Pa.UI.Controls
 
             // Did we find a dotted circle. If not, then surround the
             // dotted circle and its diacritic in square brackets.
-            if (dottedCircle >= 0)
+            if (dottedCircle >= 0 && selstart != 0)
             {
                 // Remove the dotted circle.
                 int i = text.IndexOf(App.DottedCircleC);

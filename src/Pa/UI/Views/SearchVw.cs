@@ -847,11 +847,13 @@ namespace SIL.Pa.UI.Views
         /// ------------------------------------------------------------------------------------
         private void HandleCharExplorerCharPicked(CharPicker picker, ToolStripButton item)
         {
+            string txtValue = item.Text;
             if (!string.IsNullOrEmpty(item.Text.Replace(App.DottedCircle, string.Empty)) && !string.IsNullOrEmpty(ptrnTextBox.Text))
             {
-                string txtValue = item.Text.Replace(App.DottedCircle, string.Empty);
-                ptrnTextBox.Insert(txtValue);
+                int selstart = ptrnTextBox.SelectionStart;
+                txtValue = selstart == 0 ? item.Text : item.Text.Replace(App.DottedCircle, string.Empty);
             }
+            ptrnTextBox.Insert(txtValue);
         }
 
         /// ------------------------------------------------------------------------------------
