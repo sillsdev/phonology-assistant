@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using SIL.Pa.DataSourceClasses.FieldWorks;
@@ -75,6 +76,8 @@ namespace SIL.Pa.DataSource.FieldWorks
 			    {
                     var customvalues = m_customfield.CustomValues.FindAll(m => m.Guid == lxEntry.Guid.ToString());
                     SetCustomFieldsforEntry(customnames, customvalues, entry);
+			        entry.SetValue(PaField.kPhoneticSourceFieldName.ToString(CultureInfo.InvariantCulture),
+			            m_fwDsInfo.PhoneticStorageMethod.ToString());
                     recCache.Add(entry);
                 }
 			}

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
@@ -47,7 +48,7 @@ namespace SIL.Pa.UI.Dialogs
 			// Save the phonetic and audio file mappings because we need to remove them from the
 			// mappings list so the user won't see them. They're mapped for free and the user
 			// can't control that. These will get added back in when the dialog is closed.
-			m_phoneticMapping = ds.FieldMappings.Single(m => m.Field.Type == FieldType.Phonetic && m.NameInDataSource == "Phonetic");
+            m_phoneticMapping = ds.FieldMappings.Single(m => m.Field.Type == FieldType.Phonetic && m.NameInDataSource == "Phonetic");
             m_vernacularMapping = ds.FieldMappings.FirstOrDefault(m => m.Field.Type == FieldType.Phonetic && m.NameInDataSource != "Phonetic");
             m_audioFileMapping = ds.FieldMappings.Single(m => m.Field.Type == FieldType.AudioFilePath);
 			ds.FieldMappings.Remove(m_phoneticMapping);
@@ -58,6 +59,7 @@ namespace SIL.Pa.UI.Dialogs
             var customFields = new Fw7CustomField(ds);
             var cuslist = potentialFieldNames.ToList();
             cuslist.AddRange(customFields.FieldNames());
+		    cuslist.Add(PaField.kPhoneticSourceFieldName.ToString(CultureInfo.InvariantCulture));
             potentialFieldNames = cuslist; //(IEnumerable<string>)
             
 		    m_potentialFields = projectFields.Where(f => potentialFieldNames.Contains(f.Name));

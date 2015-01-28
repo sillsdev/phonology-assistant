@@ -36,6 +36,7 @@ namespace SIL.Pa.Model
         public const string kDataSourceFieldName = "DataSource";
         public const string kDataSourcePathFieldName = "DataSourcePath";
         public const string kAudioFileFieldName = "AudioFile";
+        public const string kPhoneticSourceFieldName = "Phonetic Source";
 
         private string m_isCollection;
 		private string m_note;
@@ -347,7 +348,12 @@ namespace SIL.Pa.Model
                     if (!Settings.Default.DefaultVisibleFields.Contains(fd.Name))
                         Settings.Default.DefaultVisibleFields.Add(fd.Name);
                 }
+               
             }
+            if (list.All(f => f.Name != kPhoneticSourceFieldName))
+                list.Add(new PaField(kPhoneticSourceFieldName, default(FieldType)));
+            if (!Settings.Default.DefaultVisibleFields.Contains(kPhoneticSourceFieldName))
+                Settings.Default.DefaultVisibleFields.Add(kPhoneticSourceFieldName);
         }
 
         /// ------------------------------------------------------------------------------------
@@ -361,7 +367,6 @@ namespace SIL.Pa.Model
 
             if (!fields.Any(f => f.Name == kCVPatternFieldName))
                 fields.Add(new PaField(kCVPatternFieldName, default(FieldType)));
-
             return fields.OrderBy(f => f.DisplayName);
         }
 
