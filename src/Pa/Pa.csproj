@@ -226,6 +226,7 @@
     <Compile Include="Filters\FilterHelper.cs" />
     <Compile Include="Filters\Filters.cs" />
     <Compile Include="Model\Migration\Migration0347.cs" />
+    <Compile Include="Model\Migration\Migration0349.cs" />
     <Compile Include="UIAdapter\LocalizeAdapterItems.cs" />
     <Compile Include="Miscellaneous\AudioPlayer.cs" />
     <Compile Include="Miscellaneous\CIEBuilder.cs" />

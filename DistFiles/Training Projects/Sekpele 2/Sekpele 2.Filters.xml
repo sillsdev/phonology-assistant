@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<filters>
+  <filter name="1Syl" showInToolbarList="true" matchAny="true">
+    <expression>
+      <fieldName>CVPattern</fieldName>
+      <operator>Matches</operator>
+      <pattern>^[^V]*V[^V]*$</pattern>
+      <expressionType>RegExp</expressionType>
+    </expression>
+  </filter>
+  <filter name="1SylOpen" showInToolbarList="true" matchAny="true">
+    <expression>
+      <fieldName>CVPattern</fieldName>
+      <operator>Matches</operator>
+      <pattern>^[^V]*V[^VC]*$</pattern>
+      <expressionType>RegExp</expressionType>
+    </expression>
+  </filter>
+  <filter name="2Syl" showInToolbarList="true" matchAny="false">
+    <expression>
+      <fieldName>CVPattern</fieldName>
+      <operator>Matches</operator>
+      <pattern>^[^V]*V[^V]*V[^V]*$</pattern>
+      <expressionType>RegExp</expressionType>
+    </expression>
+  </filter>
+  <filter name="All" showInToolbarList="true" matchAny="true">
+    <expression>
+      <fieldName>Phonetic</fieldName>
+      <operator>Matches</operator>
+      <pattern>.</pattern>
+      <expressionType>RegExp</expressionType>
+    </expression>
+  </filter>
+</filters>

@@ -8,6 +8,7 @@
     <displayIndexInGrid>0</displayIndexInGrid>
     <displayIndexInRecView>0</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="Phonemic">
     <font Name="Doulos SIL" Size="13" Bold="false" Italic="false" />
@@ -17,6 +18,7 @@
     <displayIndexInGrid>1</displayIndexInGrid>
     <displayIndexInRecView>1</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="Tone">
     <font Name="Doulos SIL" Size="13" Bold="false" Italic="false" />
@@ -26,24 +28,27 @@
     <displayIndexInGrid>2</displayIndexInGrid>
     <displayIndexInRecView>2</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="Gloss">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
     <rightToLeft>false</rightToLeft>
     <visibleInGrid>true</visibleInGrid>
     <visibleInRecView>true</visibleInRecView>
-    <displayIndexInGrid>3</displayIndexInGrid>
+    <displayIndexInGrid>1</displayIndexInGrid>
     <displayIndexInRecView>3</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="Gloss-Secondary">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
     <rightToLeft>false</rightToLeft>
     <visibleInGrid>false</visibleInGrid>
     <visibleInRecView>true</visibleInRecView>
-    <displayIndexInGrid>4</displayIndexInGrid>
+    <displayIndexInGrid>2</displayIndexInGrid>
     <displayIndexInRecView>4</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="Gloss-Other">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
@@ -53,6 +58,7 @@
     <displayIndexInGrid>5</displayIndexInGrid>
     <displayIndexInRecView>5</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="Orthographic">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
@@ -62,24 +68,27 @@
     <displayIndexInGrid>6</displayIndexInGrid>
     <displayIndexInRecView>6</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="PartOfSpeech">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
     <rightToLeft>false</rightToLeft>
     <visibleInGrid>true</visibleInGrid>
     <visibleInRecView>true</visibleInRecView>
-    <displayIndexInGrid>7</displayIndexInGrid>
+    <displayIndexInGrid>3</displayIndexInGrid>
     <displayIndexInRecView>7</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="CVPattern">
     <font Name="Doulos SIL" Size="13" Bold="false" Italic="false" />
     <rightToLeft>false</rightToLeft>
     <visibleInGrid>true</visibleInGrid>
     <visibleInRecView>true</visibleInRecView>
-    <displayIndexInGrid>8</displayIndexInGrid>
+    <displayIndexInGrid>6</displayIndexInGrid>
     <displayIndexInRecView>8</displayIndexInRecView>
     <widthInGrid>193</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="FreeFormTranslation">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
@@ -89,15 +98,17 @@
     <displayIndexInGrid>9</displayIndexInGrid>
     <displayIndexInRecView>9</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="Reference">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
     <rightToLeft>false</rightToLeft>
     <visibleInGrid>true</visibleInGrid>
     <visibleInRecView>true</visibleInRecView>
-    <displayIndexInGrid>10</displayIndexInGrid>
+    <displayIndexInGrid>7</displayIndexInGrid>
     <displayIndexInRecView>10</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="NoteBookReference">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
@@ -107,6 +118,7 @@
     <displayIndexInGrid>11</displayIndexInGrid>
     <displayIndexInRecView>11</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="Dialect">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
@@ -116,6 +128,7 @@
     <displayIndexInGrid>12</displayIndexInGrid>
     <displayIndexInRecView>12</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="EthnologueId">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
@@ -125,6 +138,7 @@
     <displayIndexInGrid>13</displayIndexInGrid>
     <displayIndexInRecView>13</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="LanguageName">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
@@ -134,6 +148,7 @@
     <displayIndexInGrid>14</displayIndexInGrid>
     <displayIndexInRecView>14</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="Region">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
@@ -143,6 +158,7 @@
     <displayIndexInGrid>15</displayIndexInGrid>
     <displayIndexInRecView>15</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="Country">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
@@ -152,6 +168,7 @@
     <displayIndexInGrid>16</displayIndexInGrid>
     <displayIndexInRecView>16</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="Family">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
@@ -161,6 +178,7 @@
     <displayIndexInGrid>17</displayIndexInGrid>
     <displayIndexInRecView>17</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="Transcriber">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
@@ -170,6 +188,7 @@
     <displayIndexInGrid>18</displayIndexInGrid>
     <displayIndexInRecView>18</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="SpeakerName">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
@@ -179,6 +198,7 @@
     <displayIndexInGrid>19</displayIndexInGrid>
     <displayIndexInRecView>19</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="SpeakerGender">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
@@ -188,6 +208,7 @@
     <displayIndexInGrid>20</displayIndexInGrid>
     <displayIndexInRecView>20</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="Note">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
@@ -197,6 +218,7 @@
     <displayIndexInGrid>21</displayIndexInGrid>
     <displayIndexInRecView>21</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="Date">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
@@ -206,33 +228,37 @@
     <displayIndexInGrid>22</displayIndexInGrid>
     <displayIndexInRecView>22</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="DataSource">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
     <rightToLeft>false</rightToLeft>
     <visibleInGrid>false</visibleInGrid>
     <visibleInRecView>false</visibleInRecView>
-    <displayIndexInGrid>23</displayIndexInGrid>
+    <displayIndexInGrid>8</displayIndexInGrid>
     <displayIndexInRecView>23</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="DataSourcePath">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
     <rightToLeft>false</rightToLeft>
     <visibleInGrid>false</visibleInGrid>
     <visibleInRecView>false</visibleInRecView>
-    <displayIndexInGrid>24</displayIndexInGrid>
+    <displayIndexInGrid>9</displayIndexInGrid>
     <displayIndexInRecView>24</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="AudioFile">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
     <rightToLeft>false</rightToLeft>
     <visibleInGrid>false</visibleInGrid>
     <visibleInRecView>true</visibleInRecView>
-    <displayIndexInGrid>25</displayIndexInGrid>
+    <displayIndexInGrid>4</displayIndexInGrid>
     <displayIndexInRecView>25</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="Audio File Offset">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
@@ -242,6 +268,7 @@
     <displayIndexInGrid>-1</displayIndexInGrid>
     <displayIndexInRecView>-1</displayIndexInRecView>
     <widthInGrid>-1</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="Audio File Length">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
@@ -251,6 +278,7 @@
     <displayIndexInGrid>-1</displayIndexInGrid>
     <displayIndexInRecView>-1</displayIndexInRecView>
     <widthInGrid>-1</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="GUID">
     <font Name="Tahoma" Size="8" Bold="false" Italic="false" />
@@ -260,14 +288,16 @@
     <displayIndexInGrid>-1</displayIndexInGrid>
     <displayIndexInRecView>-1</displayIndexInRecView>
     <widthInGrid>-1</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
   <PaFieldDisplayProperties name="PluralForm">
     <font Name="Doulos SIL" Size="13" Bold="false" Italic="false" />
     <rightToLeft>false</rightToLeft>
     <visibleInGrid>true</visibleInGrid>
     <visibleInRecView>true</visibleInRecView>
-    <displayIndexInGrid>26</displayIndexInGrid>
+    <displayIndexInGrid>5</displayIndexInGrid>
     <displayIndexInRecView>26</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
   </PaFieldDisplayProperties>
 </FieldDisplayProps>
