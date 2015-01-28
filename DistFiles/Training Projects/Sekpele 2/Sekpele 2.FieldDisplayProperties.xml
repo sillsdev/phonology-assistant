@@ -85,7 +85,7 @@
     <rightToLeft>false</rightToLeft>
     <visibleInGrid>true</visibleInGrid>
     <visibleInRecView>true</visibleInRecView>
-    <displayIndexInGrid>6</displayIndexInGrid>
+    <displayIndexInGrid>5</displayIndexInGrid>
     <displayIndexInRecView>8</displayIndexInRecView>
     <widthInGrid>193</widthInGrid>
     <note>P</note>
@@ -105,7 +105,7 @@
     <rightToLeft>false</rightToLeft>
     <visibleInGrid>true</visibleInGrid>
     <visibleInRecView>true</visibleInRecView>
-    <displayIndexInGrid>5</displayIndexInGrid>
+    <displayIndexInGrid>6</displayIndexInGrid>
     <displayIndexInRecView>10</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
     <note>P</note>
@@ -255,7 +255,7 @@
     <rightToLeft>false</rightToLeft>
     <visibleInGrid>false</visibleInGrid>
     <visibleInRecView>true</visibleInRecView>
-    <displayIndexInGrid>25</displayIndexInGrid>
+    <displayIndexInGrid>4</displayIndexInGrid>
     <displayIndexInRecView>25</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
     <note>P</note>
@@ -298,6 +298,420 @@
     <displayIndexInGrid>4</displayIndexInGrid>
     <displayIndexInRecView>26</displayIndexInRecView>
     <widthInGrid>100</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="Allomorphs">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="AnthroCodes">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="AnthropologyNote">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="AudioFileLabel">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="Bibliography">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="Bibliography-Sense">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="CitationForm">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="ComplexFormComments">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="ComplexForms">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="ComplexTypes">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="Components">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="CV-Pattern-Source">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="DateCreated">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="DateModified">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="Definition">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="DiscourseNote">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="DomainTypes">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="EncyclopedicInfo">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="Etymology">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="ExcludeAsHeadword">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="GeneralNote">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="GrammarNote">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="ImportResidue">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="ImportResidue-Sense">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="LexemeForm">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="LiteralMeaning">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="Location">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="MorphType">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="Phonetic Source">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="PhonologyNote">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="Restrictions">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="Restrictions-Sense">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="ReversalEntries">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="SADescription">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="ScientificName">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="SemanticDomains">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="SemanticsNote">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="SenseType">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="SociolinguisticsNote">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="Source">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="Status">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="SummaryDefinition">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="Usages">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="VariantComments">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="Variants">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
+    <note>P</note>
+  </PaFieldDisplayProperties>
+  <PaFieldDisplayProperties name="VariantTypes">
+    <rightToLeft>false</rightToLeft>
+    <visibleInGrid>false</visibleInGrid>
+    <visibleInRecView>false</visibleInRecView>
+    <displayIndexInGrid>999</displayIndexInGrid>
+    <displayIndexInRecView>999</displayIndexInRecView>
+    <widthInGrid>120</widthInGrid>
     <note>P</note>
   </PaFieldDisplayProperties>
 </FieldDisplayProps>

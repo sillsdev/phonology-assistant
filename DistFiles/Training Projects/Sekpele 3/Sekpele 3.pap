@@ -12,7 +12,7 @@
   <IgnoreUndefinedCharsInSearches>true</IgnoreUndefinedCharsInSearches>
   <DataSources>
     <DataSource>
-      <DataSourceFile>C:\Users\Trihus\Documents\Phonology Assistant\Training Projects\Sekpele 3\Sekpele 3.db</DataSourceFile>
+      <DataSourceFile>Phonology Assistant\Training Projects\Sekpele 3\Sekpele 3.db</DataSourceFile>
       <ParseType>PhoneticOnly</ParseType>
       <Type>Toolbox</Type>
       <SfmRecordMarker>\ref</SfmRecordMarker>
@@ -59,7 +59,7 @@
       </FieldMappings>
     </DataSource>
     <DataSource>
-      <DataSourceFile>C:\Users\Trihus\Documents\Phonology Assistant\Training Projects\Sekpele 3\Sekpele 3 plural nouns.db</DataSourceFile>
+      <DataSourceFile>Phonology Assistant\Training Projects\Sekpele 3\Sekpele 3 plural nouns.db</DataSourceFile>
       <ParseType>PhoneticOnly</ParseType>
       <Type>Toolbox</Type>
       <SfmRecordMarker>\ref</SfmRecordMarker>
