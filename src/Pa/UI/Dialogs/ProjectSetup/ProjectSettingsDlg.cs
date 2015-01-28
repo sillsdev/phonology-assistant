@@ -174,7 +174,7 @@ namespace SIL.Pa.UI.Dialogs
 
             col = SilGrid.CreateTextBoxColumn("Phonetic_Source");
             col.ReadOnly = true;
-            col.Width = 75;
+            col.Width = 100;
             m_grid.Columns.Add(col);
             col.HeaderText = LocalizationManager.GetString(
                 "DialogBoxes.ProjectSettingsDlg.DataSourceGrid.ColumnHeadings.Phonetic_Source", "Phonetic Source", null, col);
@@ -811,7 +811,7 @@ namespace SIL.Pa.UI.Dialogs
 				if (dlg.ShowDialog(this) != DialogResult.OK || !dlg.ChangesWereMade)
 					return;
 			}
-
+            m_grid.Refresh();
 			// Go through the new mappings and mark those that should be parsed.
 			foreach (var mapping in ds.FieldMappings
 				.Where(m => Settings.Default.ParsedFw7Fields.Contains(m.NameInDataSource)))
