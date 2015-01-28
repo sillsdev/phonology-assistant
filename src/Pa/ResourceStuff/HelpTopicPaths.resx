@@ -352,4 +352,8 @@
     <value>User_Interface/Search_Options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
+  <data name="hidSearchOptionsOnFilters" xml:space="preserve">
+    <value>User_Interface/Search_Options.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
 </root>

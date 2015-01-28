@@ -385,6 +385,15 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Search_Options.htm.
+        /// </summary>
+        public static string hidSearchOptionsOnFilters {
+            get {
+                return ResourceManager.GetString("hidSearchOptionsOnFilters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User_Interface/Views/Search/Search_Options_Search_View.htm.
         /// </summary>
         public static string hidSearchOptionsSearchView {
