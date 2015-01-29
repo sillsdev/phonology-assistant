@@ -150,7 +150,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdVowelChart" message="ViewVowelChart" shortcutkey="Ctrl+Alt+V"/>
 		<command id="CmdXYChart" message="ViewXYChart" shortcutkey="Ctrl+Alt+X"/>
 		<command id="CmdShowCIEResults" message="ShowCIEResults" shortcutkey="Ctrl+M"/>
-		<command id="CmdShowCIESimilarResults" message="ShowCIESimilarResults" shortcutkey="Ctrl+S"/>
+		<command id="CmdShowCIESimilarResults" message="ShowCIESimilarResults" shortcutkey="Ctrl+E"/>
 		<command id="CmdGroupBySortedField" message="GroupBySortedField" shortcutkey="Ctrl+G" image="CmdGroupByFieldParent"/>
 		<command id="CmdGroupByFieldParent" message="GroupByFieldParent"/>
 		<command id="CmdGroupByField" message="GroupByField" image="GroupBySortedField"/>

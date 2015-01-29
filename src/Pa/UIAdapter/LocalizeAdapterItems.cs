@@ -171,7 +171,7 @@ namespace SIL.Pa
 
 				case "MenuItems.XYChart":
 					LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.DistributionCharts",
-						"&Distribution Charts", null, "Distribution Charts View (Ctrl+Alt+X)", "Ctrl+Alt+X", item);
+						"Distribution Charts", null, "Distribution Charts View (Ctrl+Alt+X)", "Ctrl+Alt+X", item);
 					break;
 
 				case "MenuItems.ShowCIEResults":
@@ -180,7 +180,7 @@ namespace SIL.Pa
 					break;
                 case "MenuItems.ShowCIESimilarResults":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.CIESimilarResults",
-                        "&Similar Environments", null, "Similar Environments", "Ctrl+S", item);
+                        "Similar &Environments", null, "Similar Environments", "Ctrl+E", item);
                     break;
 				case "MenuItems.GroupBySortedField":
 					LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.GroupByPrimarySortField",

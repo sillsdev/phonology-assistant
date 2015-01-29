@@ -982,9 +982,10 @@
     <value>Delete Current Row</value>
   </data>
   <data name="kstidShowCIESimilarResultsText" xml:space="preserve">
-    <value>Similar Environments</value>
+    <value>Similar &amp;Environments</value>
+    <comment>Menu item text</comment>
   </data>
   <data name="kstidShowCIESimilarResultsToolTip" xml:space="preserve">
-    <value>Similar Environments</value>
+    <value>Similar Environments (Ctrl+E)</value>
   </data>
 </root>

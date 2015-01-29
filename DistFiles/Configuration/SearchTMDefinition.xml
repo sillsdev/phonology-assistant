@@ -118,7 +118,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdInsertIntoPattern" shortcutkey="Alt+I"/>
 		<command id="CmdSearchOptions" message="SearchOptions" shortcutkey="Alt+O"/>
 		<command id="CmdShowCIEResults" message="ShowCIEResults" shortcutkey="Ctrl+M"/>
-		<command id="CmdShowCIESimilarResults" message="ShowCIESimilarResults" shortcutkey="Ctrl+S"/>
+		<command id="CmdShowCIESimilarResults" message="ShowCIESimilarResults" shortcutkey="Ctrl+E"/>
 		<command id="CmdVerifyPattern" message="VerifyPattern"/>
 		<command id="CmdSavePattern" message="SavePattern"/>
 		<command id="CmdSavePatternOnMenu" message="SavePattern" shortcutkey="Ctrl+S" image="CmdSavePattern"/>
