@@ -524,6 +524,46 @@ namespace SIL.Pa.UI.Controls
             return true;
         }
 
+        /// ------------------------------------------------------------------------------------
+        protected bool OnInsertWordInitial(object args)
+        {
+            if (!OwningView.ActiveView)
+                return false;
+
+            Insert("/#_*");
+            return true;
+        }
+
+        /// ------------------------------------------------------------------------------------
+        protected bool OnInsertWordFinal(object args)
+        {
+            if (!OwningView.ActiveView)
+                return false;
+
+            Insert("/*_#");
+            return true;
+        }
+
+        /// ------------------------------------------------------------------------------------
+        protected bool OnInsertAnywhere(object args)
+        {
+            if (!OwningView.ActiveView)
+                return false;
+
+            Insert("/*_*");
+            return true;
+        }
+
+        /// ------------------------------------------------------------------------------------
+        protected bool OnInsertWordMedial(object args)
+        {
+            if (!OwningView.ActiveView)
+                return false;
+
+            Insert("/{[C],[V]}_{[C],[V]}");
+            return true;
+        }
+
         #endregion
 
         #region Message handlers for non inserting actions
@@ -814,6 +854,14 @@ namespace SIL.Pa.UI.Controls
                 toInsert = "_";
             else if (keyCode == (int)Keys.D0)
                 toInsert = App.DiacriticPlaceholder;
+            else if (keyCode == (int)Keys.D1)
+                toInsert = "/#_*";
+            else if (keyCode == (int)Keys.D2)
+                toInsert = "/{[C],[V]}_{[C],[V]}";
+            else if (keyCode == (int)Keys.D5)
+                toInsert = "/*_*";
+            else if (keyCode == (int)Keys.D9)
+                toInsert = "/*_#";
 
             if (toInsert != null)
             {

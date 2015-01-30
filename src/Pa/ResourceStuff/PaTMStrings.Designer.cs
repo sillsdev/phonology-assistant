@@ -1348,6 +1348,15 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to /*_* Anywhere.
+        /// </summary>
+        public static string kstidInsertAnywhereText {
+            get {
+                return ResourceManager.GetString("kstidInsertAnywhereText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to [C] Any &amp;Consonant.
         /// </summary>
         public static string kstidInsertConsonantText {
@@ -1443,6 +1452,33 @@ namespace SIL.Pa.ResourceStuff {
         public static string kstidInsertWordBoundaryText {
             get {
                 return ResourceManager.GetString("kstidInsertWordBoundaryText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /*_# Word Final.
+        /// </summary>
+        public static string kstidInsertWordFinalText {
+            get {
+                return ResourceManager.GetString("kstidInsertWordFinalText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /#_* Word Initial.
+        /// </summary>
+        public static string kstidInsertWordInitialText {
+            get {
+                return ResourceManager.GetString("kstidInsertWordInitialText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /{[C],[V]}_{[C],[V]} Word Medial.
+        /// </summary>
+        public static string kstidInsertWordMedialText {
+            get {
+                return ResourceManager.GetString("kstidInsertWordMedialText", resourceCulture);
             }
         }
         

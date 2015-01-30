@@ -988,4 +988,20 @@
   <data name="kstidShowCIESimilarResultsToolTip" xml:space="preserve">
     <value>Similar Environments (Ctrl+E)</value>
   </data>
+  <data name="kstidInsertAnywhereText" xml:space="preserve">
+    <value>/*_* Anywhere</value>
+    <comment>Menu Item text</comment>
+  </data>
+  <data name="kstidInsertWordFinalText" xml:space="preserve">
+    <value>/*_# Word Final</value>
+    <comment>Menu Item text</comment>
+  </data>
+  <data name="kstidInsertWordInitialText" xml:space="preserve">
+    <value>/#_* Word Initial</value>
+    <comment>Menu Item text</comment>
+  </data>
+  <data name="kstidInsertWordMedialText" xml:space="preserve">
+    <value>/{[C],[V]}_{[C],[V]} Word Medial</value>
+    <comment>Menu Item text</comment>
+  </data>
 </root>

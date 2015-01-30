@@ -137,6 +137,10 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdInsertSyllableBoundary" message="InsertSyllableBoundary"/>
 		<command id="CmdInsertANDGroup" message="InsertANDGroup"/>
 		<command id="CmdInsertORGroup" message="InsertORGroup"/>
+		<command id="CmdInsertWordInitial" message="InsertWordInitial" shortcutkey="Ctrl+1"/>
+		<command id="CmdInsertWordFinal" message="InsertWordFinal" shortcutkey="Ctrl+9"/>
+		<command id="CmdInsertAnywhere" message="InsertAnywhere" shortcutkey="Ctrl+5"/>
+		<command id="CmdInsertWordMedial" message="InsertWordMedial" shortcutkey="Ctrl+2"/>
 		<command id="CmdCopyToCurrentPattern" message="CopyToCurrentPattern"/>
 		<command id="CmdRemovePattern" message="RemovePattern"/>
 		<command id="CmdClearRecentPatternList" message="ClearRecentPatternList"/>
@@ -180,6 +184,10 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				<!-- item name="tbbInsertSyllableBoundary" commandid="CmdInsertSyllableBoundary" type="0" displaytype="2"/ -->
 				<item name="tbbInsertANDGroup" commandid="CmdInsertANDGroup" type="0" displaytype="2" begingroup="true"/>
 				<item name="tbbInsertORGroup" commandid="CmdInsertORGroup" type="0" displaytype="2"/>
+				<item name="tbbInsertWordInital" commandid="CmdInsertWordInitial" type="0" displaytype="2" begingroup="true"/>
+				<item name="tbbInsertWordFinal" commandid="CmdInsertWordFinal" type="0" displaytype="2"/>
+				<item name="tbbInsertAnywhere" commandid="CmdInsertAnywhere" type="0" displaytype="2"/>
+				<item name="tbbInsertWordMedial" commandid="CmdInsertWordMedial" type="0" displaytype="2"/>
 			</item>
 			<item name="tbbSearchOptions" commandid="CmdSearchOptions" type="3" split="false">
 				<item name="tbbSearchOptionsDropDown" commandid="CmdDoNothing" type="5" autoclose="true"/>

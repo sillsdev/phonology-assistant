@@ -518,7 +518,22 @@ namespace SIL.Pa
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertORGroup",
                         "{  } O&R Group", null, null, null, item);
                     break;
-
+                case "ToolbarItems.InsertWordInitial":
+                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertWordInitial",
+                        "/#_* Word Initial", null, null, "Ctrl+1", item);
+                    break;
+                case "ToolbarItems.InsertWordFinal":
+                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertWordFinal",
+                        "/*_# Word final", null, null, "Ctrl+9", item);
+                    break;
+                case "ToolbarItems.InsertAnywhere":
+                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertAnywhere",
+                        "/*_* Anywhere", null, null, "Ctrl+5", item);
+                    break;
+                case "ToolbarItems.InsertWordMedial":
+                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertWordMedial",
+                        "/{[C],[V]}_{[C],[V]} Word Medial", null, null, "Ctrl+2", item);
+                    break;
                 case "ToolbarItems.SearchOptions":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SearchOptions",
                         "&Options", null, "Search Options", "Alt+O", item);
@@ -662,7 +677,22 @@ namespace SIL.Pa
                     LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertDiacriticPlaceholder",
                         "&Diacritic Placeholder", null, null, "Ctrl+0", item);
                     break;
-
+                case "ContextMenuItems.InsertWordInitial":
+                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertWordInitial",
+                        "/#_* Word Initial", null, null, "Ctrl+1", item);
+                    break;
+                case "ContextMenuItems.InsertWordFinal":
+                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertWordFinal",
+                        "/*_# Word final", null, null, "Ctrl+9", item);
+                    break;
+                case "ContextMenuItems.InsertAnywhere":
+                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertAnywhere",
+                        "/*_* Anywhere", null, null, "Ctrl+5", item);
+                    break;
+                case "ContextMenuItems.InsertWordMedial":
+                    LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertWordMedial",
+                        "/{[C],[V]}_{[C],[V]} Word Medial", null, null, "Ctrl+2", item);
+                    break;
                 case "ContextMenuItems.InsertANDGroup":
                     LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertANDGroup",
                         "[  ] A&ND Group", null, null, null, item);
