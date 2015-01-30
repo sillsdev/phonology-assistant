@@ -59,7 +59,6 @@ namespace SIL.Pa.UI.Dialogs
             var customFields = new Fw7CustomField(ds);
             var cuslist = potentialFieldNames.ToList();
             cuslist.AddRange(customFields.FieldNames());
-		    cuslist.Add(PaField.kPhoneticSourceFieldName.ToString(CultureInfo.InvariantCulture));
             potentialFieldNames = cuslist; //(IEnumerable<string>)
             
 		    m_potentialFields = projectFields.Where(f => potentialFieldNames.Contains(f.Name));

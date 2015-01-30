@@ -233,7 +233,7 @@ namespace SIL.Pa.Model
         public static bool GetIsReservedFieldName(string name)
         {
             return ((kCVPatternFieldName + ";" + kDataSourceFieldName + ";" +
-                kDataSourcePathFieldName).Contains(name));
+                     kDataSourcePathFieldName + ";" + kPhoneticSourceFieldName).Contains(name));
         }
 
         /// ------------------------------------------------------------------------------------
@@ -374,7 +374,7 @@ namespace SIL.Pa.Model
         public static IEnumerable<PaField> GetCalculatedFieldsFromList(IEnumerable<PaField> fields)
         {
             return fields.Where(f => f.Name == kCVPatternFieldName ||
-                f.Name == kDataSourceFieldName || f.Name == kDataSourcePathFieldName);
+                f.Name == kDataSourceFieldName || f.Name == kDataSourcePathFieldName|| f.Name==kPhoneticSourceFieldName);
         }
 
         /// ------------------------------------------------------------------------------------
