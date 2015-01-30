@@ -154,7 +154,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdFind" message="EditFind" shortcutkey="Ctrl+F"/>
 		<command id="CmdFindNext" message="EditFindNext" shortcutkey="F3"/>
 		<command id="CmdFindPrevious" message="EditFindPrevious" shortcutkey="Shift+F3"/>
-		<command id="CmdShowRecordPane" message="ShowRecordPane"/>
+		<command id="CmdShowRecordPane" message="ShowRecordPane" shortcutkey="F2"/>
 		<command id="CmdPlayback" message="Playback" shortcutkey="F5"/>
 		<command id="CmdPlaybackOnMenu" message="Playback" shortcutkey="F5" image="CmdPlayback"/>
 		<command id="CmdPlaybackRepeatedly" message="PlaybackRepeatedly" shortcutkey="Ctrl+F5"/>

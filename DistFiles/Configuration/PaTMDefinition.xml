@@ -156,7 +156,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdGroupByField" message="GroupByField" image="GroupBySortedField"/>
 		<command id="CmdExpandAllGroups" message="ExpandAllGroups" shortcutkey="Ctrl+Down"/>
 		<command id="CmdCollapseAllGroups" message="CollapseAllGroups" shortcutkey="Ctrl+Up"/>
-		<command id="CmdShowRecordPane" message="ShowRecordPane"/>
+		<command id="CmdShowRecordPane" message="ShowRecordPane" shortcutkey="F2"/>
 		<command id="CmdClasses" message="Classes"/>
 		<command id="CmdFiltersParent" message="FiltersParent" image="CmdFilters"/>
 		<command id="CmdNoFilter" message="NoFilter"/>
@@ -191,7 +191,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdEditSourceRecord" message="EditSourceRecord" shortcutkey="Shift+F2"/>
 		<command id="CmdUnDockView" message="UnDockView"/>
 		<command id="CmdDockView" message="DockView"/>
-		<command id="CmdReloadProject" message="ReloadProject"/>
+		<command id="CmdReloadProject" message="ReloadProject" shortcutkey="Ctrl+F9"/>
 	</commands>
 
 	<!-- **************** -->

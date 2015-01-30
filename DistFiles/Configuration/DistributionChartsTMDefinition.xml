@@ -125,7 +125,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdCollapseAllGroups" message="CollapseAllGroups" shortcutkey="Ctrl+Up"/>
 		<command id="CmdShowCIEResults" message="ShowCIEResults" shortcutkey="Ctrl+M"/>
 		<command id="CmdShowCIESimilarResults" message="ShowCIESimilarResults" shortcutkey="Ctrl+E"/>
-		<command id="CmdShowRecordPane" message="ShowRecordPane"/>
+		<command id="CmdShowRecordPane" message="ShowRecordPane shortcutkey="F2"/>
 		<command id="CmdPlayback" message="Playback" shortcutkey="F5"/>
 		<command id="CmdPlaybackOnMenu" message="Playback" shortcutkey="F5" image="CmdPlayback"/>
 		<command id="CmdPlaybackRepeatedly" message="PlaybackRepeatedly" shortcutkey="Ctrl+F5"/>
