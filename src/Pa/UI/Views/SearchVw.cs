@@ -1065,6 +1065,8 @@ namespace SIL.Pa.UI.Views
             {
                 ptrnTextBox.SetSearchQuery(query);
                 m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery, SearchResultLocation.CurrentTabGroup);
+                ptrnTextBox.Focus();
+                ptrnTextBox.SelectionLength = 0;
             }
         }
 

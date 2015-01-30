@@ -839,12 +839,21 @@ namespace SIL.Pa.UI.Controls
             // Handle some special cases when the Ctrl key is down. Except for Ctrl0, the
             // reason we handle {}{} and - (the dash is treated as an underscore) specially
             // is because the KeyMan IPA keyboard intercepts them for its purposes.
-            if ((ModifierKeys & Keys.Control) != Keys.Control)
-                return base.PreProcessMessage(ref m);
-
             bool shiftDown = ((ModifierKeys & Keys.Shift) == Keys.Shift);
             string toInsert = null;
             int keyCode = m.WParam.ToInt32();
+
+            if (keyCode == (int)Keys.F6)
+            {
+                this.SelectionStart = 0;
+                this.Focus();
+                this.SelectAll();
+                return base.PreProcessMessage(ref m);
+            }
+
+            if ((ModifierKeys & Keys.Control) != Keys.Control)
+                return base.PreProcessMessage(ref m);
+
 
             if (keyCode == (int)Keys.OemCloseBrackets)
                 toInsert = (shiftDown ? "}" : "]");
