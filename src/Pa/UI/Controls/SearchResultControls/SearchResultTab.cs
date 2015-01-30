@@ -110,6 +110,9 @@ namespace SIL.Pa.UI.Controls
 				if (!CIEOptionsButton.IsDisposed)
 					CIEOptionsButton.Dispose();
 
+                if (!CIESimilarOptionsButton.IsDisposed)
+                    CIESimilarOptionsButton.Dispose();
+
 				if (m_image != null)
 				{
 					m_image.Dispose();
@@ -235,6 +238,14 @@ namespace SIL.Pa.UI.Controls
 					m_resultView.Grid != null && m_resultView.Grid.Cache != null &&
 					m_resultView.Grid.Cache.IsCIEList);
 			}
+
+            if (CIESimilarOptionsButton.Visible)
+            {
+                FindInfo.CanFindAgain = false;
+                CIESimilarOptionsButton.Visible = (m_resultView != null &&
+                    m_resultView.Grid != null && m_resultView.Grid.Cache != null &&
+                    m_resultView.Grid.Cache.IsCIEList);
+            }
 
 			AdjustWidth();
 		}
@@ -414,6 +425,9 @@ namespace SIL.Pa.UI.Controls
 			if (CIEOptionsButton.Visible)
 				width += (kleftImgMargin + CIEOptionsButton.Width);
 
+            if (CIESimilarOptionsButton.Visible)
+                width += (kleftImgMargin + CIESimilarOptionsButton.Width);
+
 			// Don't allow the width of a tab to be any
 			// wider than 3/4 of it's owning group's width.
 			Width = Math.Min(width, (int)(OwningTabGroup.Width * 0.75));
@@ -435,7 +449,8 @@ namespace SIL.Pa.UI.Controls
 				OwningTabGroup.RecordView.Clear();
 
 			SearchQuery = new SearchQuery();
-			CIEOptionsButton.Visible = false;
+            CIEOptionsButton.Visible = false;
+			CIESimilarOptionsButton.Visible = false;
 			Text = EmptyTabText;
 			AdjustWidth();
 			OwningTabGroup.AdjustTabContainerWidth();
@@ -775,6 +790,7 @@ namespace SIL.Pa.UI.Controls
 		{
 			base.OnSizeChanged(e);
 			CIEOptionsButton.Top = (Height - CIEOptionsButton.Height) / 2 + 1;
+            CIESimilarOptionsButton.Top = (Height - CIESimilarOptionsButton.Height) / 2 + 1;
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -832,6 +848,16 @@ namespace SIL.Pa.UI.Controls
 				rc.X += (kleftImgMargin + CIEOptionsButton.Width);
 				rc.Width -= (kleftImgMargin + CIEOptionsButton.Width);
 			}
+
+            if (!CIESimilarOptionsButton.Visible)
+				DrawImage(e.Graphics, ref rc);
+			else
+			{
+                rc.X += (kleftImgMargin + CIESimilarOptionsButton.Width);
+                rc.Width -= (kleftImgMargin + CIESimilarOptionsButton.Width);
+			}
+
+            
 
 			if (!m_selected)
 			{
@@ -932,7 +958,7 @@ namespace SIL.Pa.UI.Controls
 			pt.Y += (Cursor.Size.Height - (int)(Cursor.Size.Height * 0.3));
 
 			var text = LocalizationManager.GetString("Views.WordLists.SearchResults.MinimalPairsButtonToolTipText",
-				"Minimal Pairs Options (Ctrl+Alt+M)");
+				"Minimal Pairs Options (Ctrl+M)");
 			
 			m_CIEButtonToolTip.Show(text, this, pt);
 		}
@@ -1002,7 +1028,7 @@ namespace SIL.Pa.UI.Controls
             pt.Y += (Cursor.Size.Height - (int)(Cursor.Size.Height * 0.3));
 
             var text = LocalizationManager.GetString("Views.WordLists.SearchResults.SimilarEnvironmentsButtonToolTipText",
-                "Similar Environment Options (Ctrl+S)");
+                "Similar Environment (Ctrl+E)");
 
             m_CIESimilarButtonToolTip.Show(text, this, pt);
         }
