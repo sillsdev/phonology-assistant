@@ -107,7 +107,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				43, 44, 45, 46, 47, CmdFindPrevious, 49, 50, 51, 52, 53, CmdShowResults,
 				CmdNewTab, CmdClearRecentPatternList, CmdShowCIEResults,
 				CmdGroupBySortedField, CmdExpandAllGroups, CmdCollapseAllGroups,
-				CmdSearchOptions, CmdInsertIntoPattern">
+				CmdSearchOptions, CmdInsertIntoPattern, 63, 64, 65, 66, 67, 68, CmdShowCIESimilarResults">
 		</imageList>
 	</resources>
 
@@ -118,6 +118,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdInsertIntoPattern" shortcutkey="Alt+I"/>
 		<command id="CmdSearchOptions" message="SearchOptions" shortcutkey="Alt+O"/>
 		<command id="CmdShowCIEResults" message="ShowCIEResults" shortcutkey="Ctrl+M"/>
+		<command id="CmdShowCIESimilarResults" message="ShowCIESimilarResults" shortcutkey="Ctrl+E"/>
 		<command id="CmdVerifyPattern" message="VerifyPattern"/>
 		<command id="CmdSavePattern" message="SavePattern"/>
 		<command id="CmdSavePatternOnMenu" message="SavePattern" shortcutkey="Ctrl+S" image="CmdSavePattern"/>
@@ -136,6 +137,10 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdInsertSyllableBoundary" message="InsertSyllableBoundary"/>
 		<command id="CmdInsertANDGroup" message="InsertANDGroup"/>
 		<command id="CmdInsertORGroup" message="InsertORGroup"/>
+		<command id="CmdInsertWordInitial" message="InsertWordInitial" shortcutkey="Ctrl+1"/>
+		<command id="CmdInsertWordFinal" message="InsertWordFinal" shortcutkey="Ctrl+9"/>
+		<command id="CmdInsertAnywhere" message="InsertAnywhere" shortcutkey="Ctrl+5"/>
+		<command id="CmdInsertWordMedial" message="InsertWordMedial" shortcutkey="Ctrl+2"/>
 		<command id="CmdCopyToCurrentPattern" message="CopyToCurrentPattern"/>
 		<command id="CmdRemovePattern" message="RemovePattern"/>
 		<command id="CmdClearRecentPatternList" message="ClearRecentPatternList"/>
@@ -153,7 +158,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdFind" message="EditFind" shortcutkey="Ctrl+F"/>
 		<command id="CmdFindNext" message="EditFindNext" shortcutkey="F3"/>
 		<command id="CmdFindPrevious" message="EditFindPrevious" shortcutkey="Shift+F3"/>
-		<command id="CmdShowRecordPane" message="ShowRecordPane"/>
+		<command id="CmdShowRecordPane" message="ShowRecordPane" shortcutkey="F2"/>
 		<command id="CmdPlayback" message="Playback" shortcutkey="F5"/>
 		<command id="CmdPlaybackOnMenu" message="Playback" shortcutkey="F5" image="CmdPlayback"/>
 		<command id="CmdPlaybackRepeatedly" message="PlaybackRepeatedly" shortcutkey="Ctrl+F5"/>
@@ -179,6 +184,10 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				<!-- item name="tbbInsertSyllableBoundary" commandid="CmdInsertSyllableBoundary" type="0" displaytype="2"/ -->
 				<item name="tbbInsertANDGroup" commandid="CmdInsertANDGroup" type="0" displaytype="2" begingroup="true"/>
 				<item name="tbbInsertORGroup" commandid="CmdInsertORGroup" type="0" displaytype="2"/>
+				<item name="tbbInsertWordInital" commandid="CmdInsertWordInitial" type="0" displaytype="2" begingroup="true"/>
+				<item name="tbbInsertWordFinal" commandid="CmdInsertWordFinal" type="0" displaytype="2"/>
+				<item name="tbbInsertAnywhere" commandid="CmdInsertAnywhere" type="0" displaytype="2"/>
+				<item name="tbbInsertWordMedial" commandid="CmdInsertWordMedial" type="0" displaytype="2"/>
 			</item>
 			<item name="tbbSearchOptions" commandid="CmdSearchOptions" type="3" split="false">
 				<item name="tbbSearchOptionsDropDown" commandid="CmdDoNothing" type="5" autoclose="true"/>
@@ -188,6 +197,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				<item name="tbbSavePatternAs" commandid="CmdSavePatternAs" type="0" displaytype="2"/>
 			</item>
 			<item name="tbbShowCIEResults" commandid="CmdShowCIEResults" type="0" begingroup="true"/>
+			<item name="tbbShowCIESimilarResults" commandid="CmdShowCIESimilarResults" type="0" begingroup="true"/>
 			<item name="tbbGroupBySortedField" commandid="CmdGroupBySortedField" type="0" />
 			<item name="tbbCollapseAllGroups" commandid="CmdCollapseAllGroups" type="0"/>
 			<item name="tbbExpandAllGroups" commandid="CmdExpandAllGroups" type="0"/>

@@ -106,6 +106,13 @@ namespace SIL.Pa.Model
 			return (props == null ? 999 : props.DisplayIndexInGrid);
 		}
 
+        /// ------------------------------------------------------------------------------------
+        public string GetNote(string name)
+        {
+            var props = GetDisplayProps(name);
+            return (props == null ? "P" : props.Note);
+        }
+
 		/// ------------------------------------------------------------------------------------
 		public int GetIndexInRecView(string name)
 		{
@@ -192,6 +199,20 @@ namespace SIL.Pa.Model
 			props.DisplayIndexInGrid = index;
 			return false;
 		}
+
+        /// ------------------------------------------------------------------------------------
+        public bool SetNote(string name, string index)
+        {
+            var props = GetDisplayProps(name);
+            if (props == null)
+            {
+                Add(new PaFieldDisplayProperties(name, false, false) { Note = index });
+                return true;
+            }
+
+            props.Note = index;
+            return false;
+        }
 
 		/// ------------------------------------------------------------------------------------
 		public bool SetIndexInRecView(string name, int index)

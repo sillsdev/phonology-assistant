@@ -44,6 +44,7 @@ namespace SIL.Pa.Model
 			DisplayIndexInGrid = 999;
 			DisplayIndexInRecView = 999;
 			WidthInGrid = kDefaultWidthInGrid;
+		    Note = "P";
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -120,6 +121,10 @@ namespace SIL.Pa.Model
 		[XmlElement("widthInGrid")]
 		public int WidthInGrid { get; set; }
 
+        /// ------------------------------------------------------------------------------------
+        [XmlElement("note")]
+        public string Note { get; set; }
+
 		#endregion
 
 		#region static methods
@@ -147,7 +152,8 @@ namespace SIL.Pa.Model
 				case PaField.kCVPatternFieldName: s_displayNames[fname] = LocalizationManager.GetString("ProjectFields.DisplayableFieldNames.CVPattern", "CV Pattern"); break;
 				case PaField.kDataSourceFieldName: s_displayNames[fname] = LocalizationManager.GetString("ProjectFields.DisplayableFieldNames.DataSource", "Data Source"); break;
 				case PaField.kDataSourcePathFieldName: s_displayNames[fname] = LocalizationManager.GetString("ProjectFields.DisplayableFieldNames.DataSourcePath", "Data Source Path"); break;
-				case "Reference": s_displayNames[fname] = LocalizationManager.GetString("ProjectFields.DisplayableFieldNames.Reference", "Reference"); break;
+                case PaField.kPhoneticSourceFieldName: s_displayNames[fname] = LocalizationManager.GetString("ProjectFields.DisplayableFieldNames.PhoneticSource", "Phonetic Source"); break;
+                case "Reference": s_displayNames[fname] = LocalizationManager.GetString("ProjectFields.DisplayableFieldNames.Reference", "Reference"); break;
 				case "Phonetic": s_displayNames[fname] = LocalizationManager.GetString("ProjectFields.DisplayableFieldNames.Phonetic", "Phonetic"); break;
 				case "Gloss": s_displayNames[fname] = LocalizationManager.GetString("ProjectFields.DisplayableFieldNames.Gloss", "Gloss"); break;
 				case "Gloss-Secondary": s_displayNames[fname] = LocalizationManager.GetString("ProjectFields.DisplayableFieldNames.GlossSecondary", "Gloss (Secondary)"); break;

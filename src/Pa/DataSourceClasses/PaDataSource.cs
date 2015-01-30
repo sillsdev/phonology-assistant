@@ -156,7 +156,7 @@ namespace SIL.Pa.DataSource
 				.Where(n => n != PaField.kAudioFileFieldName && n != PaField.kPhoneticFieldName).ToList();
 
 			// Add a mapping for the phonetic field.
-			yield return new FieldMapping(prjFields.Single(f => f.Type == FieldType.Phonetic), true)
+			yield return new FieldMapping(prjFields.First(f => f.Type == FieldType.Phonetic), true)
 				{ FwWsId = FwDBUtils.GetDefaultPhoneticWritingSystem(writingSystems).Id };
 
 			// Add a mapping for the audio file field.

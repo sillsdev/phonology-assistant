@@ -66,6 +66,8 @@ namespace SIL.Pa.UI.Controls
 		private readonly List<SearchResultView> m_searchResultViews = new List<SearchResultView>();
 		private readonly Action<int> m_savePlaybackSpeedAction;
 		private int m_playbackSpeed;
+	    private bool m_SimilarEnvironment = false;
+        private bool m_MinimalPair = false;
 
 		/// ------------------------------------------------------------------------------------
 		public SearchResultsViewManager(ITabView view, ITMAdapter tmAdapter,
@@ -1009,7 +1011,7 @@ namespace SIL.Pa.UI.Controls
 					!q.Pattern.Equals(query.Pattern, StringComparison.Ordinal)))
 			{
 				var newQuery = query.Clone();
-				newQuery.Name = null;
+				newQuery.Name = "";//null
 				newQuery.Pattern = query.Pattern;
 				return newQuery;
 			}
@@ -1425,7 +1427,12 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected bool OnShowCIEResults(object args)
 		{
-			if (!m_view.ActiveView || CurrentViewsGrid == null || CurrentViewsGrid.Cache == null)
+
+            m_SimilarEnvironment = false;
+            m_MinimalPair = !m_MinimalPair;
+                
+        
+        if (!m_view.ActiveView || CurrentViewsGrid == null || CurrentViewsGrid.Cache == null)
 				return false;
 
 			CurrentTabGroup.CurrentTab.ToggleCIEView();
@@ -1463,10 +1470,91 @@ namespace SIL.Pa.UI.Controls
 				itemProps.Update = true;
 			}
 
+            if (itemProps.Enabled && m_MinimalPair)
+            {
+                itemProps.Enabled = enable;
+                itemProps.Checked = true;
+            }
+            else
+            {
+                itemProps.Enabled = enable;
+                itemProps.Checked = false;
+                if (m_SimilarEnvironment)
+                {
+                    itemProps.Enabled = false;
+                }
+            }
 			return true;
 		}
 
 		#endregion
+
+        #region CIE (i.e. Similar Environment pair) methods
+        /// ------------------------------------------------------------------------------------
+        protected bool OnShowCIESimilarResults(object args)
+        {
+            m_SimilarEnvironment = !m_SimilarEnvironment;
+            m_MinimalPair = false;
+
+            if (!m_view.ActiveView || CurrentViewsGrid == null || CurrentViewsGrid.Cache == null)
+                return false;
+
+            CurrentTabGroup.CurrentTab.ToggleCIESimilarView();
+            FindInfo.ResetStartSearchCell(true);
+            FindInfo.CanFindAgain = true;
+
+            if (CurrentViewsGrid.Cache.IsCIEList && !CurrentViewsGrid.Cache.IsEmpty &&
+                Settings.Default.WordListCollapseOnMinimalPairs)
+            {
+                CurrentViewsGrid.ToggleGroupExpansion(false);
+            }
+
+            return true;
+        }
+
+        /// ------------------------------------------------------------------------------------
+        protected bool OnUpdateShowCIESimilarResults(object args)
+        {
+            var itemProps = args as TMItemProperties;
+            if (itemProps == null || !m_view.ActiveView)
+                return false;
+
+            bool enable = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
+                (CurrentViewsGrid.RowCount > 2 || CurrentViewsGrid.Cache.IsCIEList) &&
+                !CurrentViewsGrid.IsGroupedByField);
+
+            bool check = (CurrentViewsGrid != null && CurrentViewsGrid.Cache != null &&
+                CurrentViewsGrid.Cache.IsCIEList);
+
+           
+            if (itemProps.Enabled != enable || itemProps.Checked != check)
+            {
+                itemProps.Visible = true;
+                itemProps.Enabled = enable;
+                itemProps.Checked = check;
+                itemProps.Update = true;
+            }
+
+            if (itemProps.Enabled && m_SimilarEnvironment)
+            {
+                itemProps.Enabled = enable;
+                itemProps.Checked = true;
+            }
+            else
+            {
+                itemProps.Enabled = enable;
+                itemProps.Checked = false;
+                if (m_MinimalPair)
+                {
+                    itemProps.Enabled = false;
+                }
+            }
+
+
+            return true;
+        }
+
+        #endregion
 
 		#region Export Methods
 		/// ------------------------------------------------------------------------------------

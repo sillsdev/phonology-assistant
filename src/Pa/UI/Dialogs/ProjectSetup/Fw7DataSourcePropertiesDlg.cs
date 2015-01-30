@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
@@ -22,9 +24,11 @@ namespace SIL.Pa.UI.Dialogs
 	{
 		private readonly PaDataSource m_datasource;
 		private readonly IEnumerable<PaField> m_potentialFields;
+	    private readonly List<PaField> m_potentialVernacularFields;
 		private Fw7FieldMappingGrid m_grid;
 		private FieldMapping m_phoneticMapping;
 		private FieldMapping m_audioFileMapping;
+	    private FieldMapping m_vernacularMapping;
 
 		#region Construction and initialization
 		/// ------------------------------------------------------------------------------------
@@ -44,8 +48,9 @@ namespace SIL.Pa.UI.Dialogs
 			// Save the phonetic and audio file mappings because we need to remove them from the
 			// mappings list so the user won't see them. They're mapped for free and the user
 			// can't control that. These will get added back in when the dialog is closed.
-			m_phoneticMapping = ds.FieldMappings.Single(m => m.Field.Type == FieldType.Phonetic);
-			m_audioFileMapping = ds.FieldMappings.Single(m => m.Field.Type == FieldType.AudioFilePath);
+            m_phoneticMapping = ds.FieldMappings.Single(m => m.Field.Type == FieldType.Phonetic && m.NameInDataSource == "Phonetic");
+            m_vernacularMapping = ds.FieldMappings.FirstOrDefault(m => m.Field.Type == FieldType.Phonetic && m.NameInDataSource != "Phonetic");
+            m_audioFileMapping = ds.FieldMappings.Single(m => m.Field.Type == FieldType.AudioFilePath);
 			ds.FieldMappings.Remove(m_phoneticMapping);
 			ds.FieldMappings.Remove(m_audioFileMapping);
 
@@ -57,13 +62,21 @@ namespace SIL.Pa.UI.Dialogs
             potentialFieldNames = cuslist; //(IEnumerable<string>)
             
 		    m_potentialFields = projectFields.Where(f => potentialFieldNames.Contains(f.Name));
+		    m_potentialVernacularFields = m_potentialFields.Where(f => f.FwWsType == FwDBUtils.FwWritingSystemType.Vernacular).ToList();
+		    foreach (var field in customFields.FieldNames().Where(fieldName => customFields.FwWritingSystemType(fieldName) == FwDBUtils.FwWritingSystemType.Vernacular).Select(fieldName => new PaField(fieldName) {FwWsType = FwDBUtils.FwWritingSystemType.Vernacular}))
+		    {
+                if (m_potentialVernacularFields.FirstOrDefault(f => f.Name == field.Name) == null)
+		        {
+                    m_potentialVernacularFields.Add(field);
+                }
+		    }
 
 			lblProjectValue.Text = ds.FwDataSourceInfo.ToString();
 			lblProject.Font = FontHelper.UIFont;
 			lblProjectValue.Font = FontHelper.MakeFont(FontHelper.UIFont, FontStyle.Bold);
 			grpFields.Font = FontHelper.UIFont;
 			grpPhoneticField.Font = FontHelper.UIFont;
-			rbLexForm.Font = FontHelper.UIFont;
+			rbVernForm.Font = FontHelper.UIFont;
 			rbPronunField.Font = FontHelper.UIFont;
 			cboPhoneticWritingSystem.Font = FontHelper.UIFont;
 			lblPronunciationOptions.Font = FontHelper.UIFont;
@@ -109,6 +122,17 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		private void InitializePhoneticAndAudioFieldInfo()
 		{
+		    var vernOptions = m_potentialVernacularFields.Select(f => f.Name).ToArray();
+            cboVernacularOptions.Items.AddRange(vernOptions);
+		    cboVernacularOptions.SelectedItem = null;
+		    if (m_vernacularMapping != null)
+		    {
+		        cboVernacularOptions.SelectedItem = vernOptions.FirstOrDefault(v => v == m_vernacularMapping.NameInDataSource);
+		    }
+		    if (cboVernacularOptions.SelectedItem == null)
+		    {
+                cboVernacularOptions.SelectedItem = vernOptions.Contains("LexemeForm") ? "LexemeForm" : cboVernacularOptions.Items[0];
+            }
 			cboPhoneticWritingSystem.Items.AddRange(m_datasource.FwDataSourceInfo.GetWritingSystems()
 				.Where(ws => ws.Type == FwDBUtils.FwWritingSystemType.Vernacular)
 				.Select(ws => ws.Name).ToArray());
@@ -125,7 +149,7 @@ namespace SIL.Pa.UI.Dialogs
 			else if (m_datasource.FwDataSourceInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.AllPronunciationFields)
 				cboPronunciationOptions.SelectedIndex = 1;
 
-			rbLexForm.Checked =
+			rbVernForm.Checked =
 				(m_datasource.FwDataSourceInfo.PhoneticStorageMethod == FwDBUtils.PhoneticStorageMethod.LexemeForm);
 
 			rbPronunField.Checked =
@@ -225,8 +249,21 @@ namespace SIL.Pa.UI.Dialogs
 		protected override void OnFormClosed(FormClosedEventArgs e)
 		{
 			// Restore the phonetic and audio file mappings to the field mappings collection.
-			m_datasource.FieldMappings.Add(m_phoneticMapping);
+
+            m_datasource.FieldMappings.Add(m_phoneticMapping);
 			m_datasource.FieldMappings.Add(m_audioFileMapping);
+            if (rbVernForm.Checked)
+            {
+                var phoneticField = m_potentialVernacularFields.First(f => f.Name == cboVernacularOptions.SelectedItem);
+                phoneticField.Type = FieldType.Phonetic;
+                phoneticField.Note = "V";
+                phoneticField.WidthInGrid = 0;
+                phoneticField.VisibleInGrid = false;
+                var newMapping = m_phoneticMapping.Copy();
+                newMapping.Field = phoneticField;
+                newMapping.NameInDataSource = phoneticField.Name;
+                m_datasource.FieldMappings.Add(newMapping);
+            }
 
 			base.OnFormClosed(e);
 		}
@@ -238,7 +275,7 @@ namespace SIL.Pa.UI.Dialogs
 		/// ------------------------------------------------------------------------------------
 		protected override bool SaveChanges()
 		{
-			if (rbLexForm.Checked)
+			if (rbVernForm.Checked)
 				m_datasource.FwDataSourceInfo.PhoneticStorageMethod = FwDBUtils.PhoneticStorageMethod.LexemeForm;
 			else if (cboPronunciationOptions.SelectedIndex == 0)
 				m_datasource.FwDataSourceInfo.PhoneticStorageMethod = FwDBUtils.PhoneticStorageMethod.PronunciationField;
@@ -257,5 +294,6 @@ namespace SIL.Pa.UI.Dialogs
 		}
 
 		#endregion
-	}
+
+    }
 }

@@ -961,9 +961,50 @@ namespace SIL.Pa.UI.Views
 
             _grid.RefreshCellValue(row, col);
 
-            SearchQuery query = _grid.GetCellsFullSearchQuery(row, col);
-            if (query != null)
-                ResultViewManger.PerformSearch(query, resultLocation);
+            SearchQuery querySearchPattern = _grid.GetCellsFullSearchQuery(row, col);
+            if (querySearchPattern != null)
+            {
+                PerformSearch(row, col, querySearchPattern.ToString());
+            }
+        }
+
+        /// ------------------------------------------------------------------------------------
+        private void PerformSearch(int row, int col, string querySearchPattern)
+        {
+            var srchPhones = querySearchPattern;
+            string toolbarItemName = querySearchPattern;
+            if (srchPhones == null)
+                return;
+
+            var queries = new List<SearchQuery>();
+
+            var query = new SearchQuery();
+            query.Pattern = srchPhones;
+            query.IgnoreDiacritics = false;
+
+            // Check if the phone only exists as an uncertain phone. If so,
+            // then set the flag in the query to include searching words
+            // made using all uncertain uncertain derivations.
+            var phoneInfo = Project.PhoneCache[_grid[0, row].Value as string];
+            if (phoneInfo != null && phoneInfo.TotalCount == 0)
+                query.IncludeAllUncertainPossibilities = true;
+
+            queries.Add(query);
+
+            App.MsgMediator.SendMessage("ViewSearch", queries);
+
+            // Now set the image of the search button to the image associated
+            // with the last search environment chosen by the user.
+            var childItemProps = _tmAdapter.GetItemProperties(toolbarItemName);
+            var parentItemProps = _tmAdapter.GetItemProperties("tbbChartPhoneSearch");
+            if (parentItemProps != null && childItemProps != null)
+            {
+                parentItemProps.Image = childItemProps.Image;
+                parentItemProps.Visible = true;
+                parentItemProps.Update = true;
+                parentItemProps.Tag = new[] { _grid[col, 0].Value as string, toolbarItemName };
+                _tmAdapter.SetItemProperties("tbbChartPhoneSearch", parentItemProps);
+            }
         }
 
         #endregion
@@ -1174,7 +1215,7 @@ namespace SIL.Pa.UI.Views
             if (selectedColumn != gridColumnCount && selectedColumn != 0)
             {
                 _grid.Columns.RemoveAt(selectedColumn);
-                _grid.ChartLayout = DistributionChart.DeleteFromDistributionGrid(_grid);
+                _grid.ChartLayout = DistributionChart.ModifyFromDistributionGrid(_grid);
             }
 
             return true;
@@ -1188,7 +1229,7 @@ namespace SIL.Pa.UI.Views
             if (selectedRow != gridRowCount && selectedRow != 0)
             {
                 _grid.Rows.RemoveAt(selectedRow);
-                _grid.ChartLayout = DistributionChart.DeleteFromDistributionGrid(_grid);
+                _grid.ChartLayout = DistributionChart.ModifyFromDistributionGrid(_grid);
             }
             return true;
         }
@@ -1611,10 +1652,16 @@ namespace SIL.Pa.UI.Views
                     }
                     else
                     {
-                        _grid.Columns[_columnIndexFromMouseDown].DisplayIndex = _columnIndexOfItemUnderMouseToDrop;
+                        //_grid.Columns[_columnIndexFromMouseDown].DisplayIndex = _columnIndexOfItemUnderMouseToDrop;
+                        DataGridViewColumn tempcolumn = _grid.Columns[_columnIndexFromMouseDown];
+                        _grid.Columns.RemoveAt(_columnIndexFromMouseDown);
+                        _grid.Columns.Insert(_columnIndexOfItemUnderMouseToDrop, tempcolumn);
+
                     }
                 }
             }
+            _grid.ChartLayout = DistributionChart.ModifyFromDistributionGrid(_grid);
+            SaveCurrentChart(_grid.ChartLayout);
         }
 
         private void Grid_CurrentCellDirtyStateChanged(object sender, EventArgs e)

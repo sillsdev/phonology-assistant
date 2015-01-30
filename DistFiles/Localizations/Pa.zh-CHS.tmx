@@ -5043,7 +5043,7 @@
     </tu>
     <tu tuid="Menus and Toolbars.MenuItems.ViewMenu.DistributionCharts">
       <tuv xml:lang="en">
-        <seg>&amp;Distribution Charts</seg>
+        <seg>Distribution Charts</seg>
       </tuv>
       <tuv xml:lang="zh-CHS">
         <seg>音素分布表(&amp;D)</seg>

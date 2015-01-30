@@ -1775,6 +1775,7 @@ namespace SIL.FieldWorks.Common.UIAdapters
 			item.AutoSize = GetBoolFromAttribute(node, "autosize", item.AutoSize);
 
 			item.Name = name;
+
 			InitItem(node, item, name);
 
 			if (isMenuItem && item.DisplayStyle != ToolStripItemDisplayStyle.Image)
@@ -1877,7 +1878,6 @@ namespace SIL.FieldWorks.Common.UIAdapters
 				//LocalizeItem(item, BuildLocalizationId(item), itemProps);
 				LocalizeAdapterItems.LocalizeItem(item, BuildLocalizationId(item), itemProps);
 			}
-
 			m_items[name] = item;
 		}
 

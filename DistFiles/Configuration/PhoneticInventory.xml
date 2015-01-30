@@ -4222,6 +4222,45 @@
 			</features>
 			<order>70D9</order>
 		</symbolDefinition>
+		<symbolDefinition code="1DC4" literal="ʰ" IPA="146">
+			<name>Superscript h</name>
+			<description>voiceless glottal fricative</description>
+			<type>suprasegmental</type>
+			<subtype>tone</subtype>
+			<isBase>false</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<features class="descriptive">
+				<feature>undetermined tone</feature>
+			</features>
+			<order>70E0</order>
+		</symbolDefinition>
+		<symbolDefinition code="0266" literal="ʱ" IPA="147">
+			<name>Superscript hooktop h</name>
+			<description>breathy-voiced glottal fricative</description>
+			<type>suprasegmental</type>
+			<subtype>tone</subtype>
+			<isBase>false</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<features class="descriptive">
+				<feature>undetermined tone</feature>
+			</features>
+			<order>70E1</order>
+		</symbolDefinition>
+		<symbolDefinition code="0294" literal="ˀ" IPA="113">
+			<name>Superscript glottal stop</name>
+			<description>glottal stop</description>
+			<type>suprasegmental</type>
+			<subtype>tone</subtype>
+			<isBase>false</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<features class="descriptive">
+				<feature>undetermined tone</feature>
+			</features>
+			<order>70E2</order>
+		</symbolDefinition>	
 		<symbolDefinition code="207F" literal="ⁿ" super="n" IPA="425">
 			<name>Superscript N</name>
 			<description>nasal release</description>

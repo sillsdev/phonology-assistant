@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
@@ -13,7 +14,7 @@ namespace SIL.Pa
 	{
 		private readonly SortOptions _sortOptions;
 		private CIEOptions _cieOptions;
-
+	    public static bool IsMinimalpair = false;
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Constructs an object to find the list of minimal pairs within the specified cache.
@@ -52,6 +53,7 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public WordListCache FindMinimalPairs()
 		{
+		    IsMinimalpair = true;
 			if (Cache == null || !Cache.IsForSearchResults)
 				return null;
 
@@ -110,6 +112,67 @@ namespace SIL.Pa
 			return cieCache;
 		}
 
+        /// ------------------------------------------------------------------------------------
+        public WordListCache FindSimilarPairs()
+        {
+            IsMinimalpair = false;
+            if (Cache == null || !Cache.IsForSearchResults)
+                return null;
+
+            foreach (var entry in Cache)
+                entry.CIEGroupId = -1;
+
+            // First, send a message to see if there is an AddOn to find minimal pairs. If so,
+            // then return the cache it generated instead of the one built by this method.
+            object args = this;
+            if (App.MsgMediator.SendMessage("FindSimilarPairsAlternate", args))
+            {
+                if (args is WordListCache)
+                    return (args as WordListCache);
+            }
+
+            var cieGroups = new Dictionary<string, List<WordListCacheEntry>>();
+
+            foreach (var entry in Cache)
+            {
+                string pattern = GetCIESimilarPattern(entry, _cieOptions);
+
+                List<WordListCacheEntry> entryList;
+                if (!cieGroups.TryGetValue(pattern, out entryList))
+                {
+                    entryList = new List<WordListCacheEntry>();
+                    cieGroups[pattern] = entryList;
+                }
+                entryList.Add(entry);
+            }
+
+            // The groups are not guaranteed to be in any particular order, just the words within groups.
+            // TODO: Sort groups by POA, or MOA, based on what's specified in _sortOptions.
+
+            // Create a new cache which is the subset containing minimal pair entries.
+            int cieGroupId = 0;
+            var cieGroupTexts = new SortedList<int, string>();
+            var cieCache = new WordListCache();
+
+            foreach (var grp in cieGroups.Where(g => g.Value.Count >= 2))
+            {
+                foreach (var entry in grp.Value)
+                {
+                    entry.CIEGroupId = cieGroupId;
+                    cieCache.Add(entry);
+                }
+
+                cieGroupTexts[cieGroupId++] = grp.Key;
+            }
+            cieCache.IsCIEList = true;
+            cieCache.CIEGroupTexts = cieGroupTexts;
+            cieCache.IsForSearchResults = true;
+            cieCache.Sort(_sortOptions);
+            cieCache.SearchQuery = Cache.SearchQuery.Clone();
+            return cieCache;
+        }
+
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// For the phonetic data in the specified entry, this method gets a pattern
@@ -136,6 +199,64 @@ namespace SIL.Pa
 			return ((string.IsNullOrEmpty(before) ? "#" : before) + "__" +
 				(string.IsNullOrEmpty(after) ? "#" : after));
 		}
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// For the phonetic data in the specified entry, this method gets a pattern
+        /// appropriate to the CIE options.
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        public static string GetCIESimilarPattern(WordListCacheEntry entry, CIEOptions cieOptions)
+        {
+            if (cieOptions.Type == CIEOptions.IdenticalType.After)
+            {
+                string env = GetPatternvalue(RemoveIgnoredCharacters(entry.EnvironmentAfter, cieOptions), CIEOptions.IdenticalType.After);
+                return ("*__" + (string.IsNullOrEmpty(env) ? "#" : env));
+            }
+
+            if (cieOptions.Type == CIEOptions.IdenticalType.Before)
+            {
+                string env = GetPatternvalue(RemoveIgnoredCharacters(entry.EnvironmentBefore, cieOptions), CIEOptions.IdenticalType.Before);
+                return ((string.IsNullOrEmpty(env) ? "#" : env) + "__*");
+            }
+
+            string before = GetPatternvalue(RemoveIgnoredCharacters(entry.EnvironmentBefore, cieOptions), CIEOptions.IdenticalType.Before);
+            string after = GetPatternvalue(RemoveIgnoredCharacters(entry.EnvironmentAfter, cieOptions), CIEOptions.IdenticalType.After);
+            return ((string.IsNullOrEmpty(before) ? "#" : before) + "__" +
+                (string.IsNullOrEmpty(after) ? "#" : after));
+        }
+
+        private static string GetPatternvalue(string pattern, CIEOptions.IdenticalType identype)
+        {
+            var value = string.Empty;
+            if (pattern == null) return value;
+            var t = pattern;
+            switch (identype)
+            {
+                case CIEOptions.IdenticalType.Before:
+                    for (int i = t.Length - 1; i >= 0; i--)
+                    {
+                        var info = App.IPASymbolCache[t[i]];
+                        if (info.Type == IPASymbolType.consonant || info.Type == IPASymbolType.vowel)
+                        {
+                            value = t[i].ToString(CultureInfo.InvariantCulture);
+                            break;
+                        }
+                    }
+                    break;
+                default:
+                    for (int i = 0; i < t.Length; i++)
+                    {
+                        var info = App.IPASymbolCache[t[i]];
+                        if (info.Type == IPASymbolType.consonant || info.Type == IPASymbolType.vowel)
+                        {
+                            value = t[i].ToString(CultureInfo.InvariantCulture);
+                            break;
+                        }
+                    }
+                    break;
+            }
+            return value;
+        }
 
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

@@ -29,6 +29,7 @@ namespace SIL.Pa.UI.Controls
 
 			_linkApplyToAll.Font = FontHelper.UIFont;
 			_linkHelp.Font = FontHelper.UIFont;
+            _linkClose.Font = FontHelper.UIFont;
 			_chkIgnoreDiacritics.Font = FontHelper.UIFont;
 			_chkShowAllWords.Font = FontHelper.UIFont;
 			_chkLength.Font = FontHelper.UIFont;
@@ -287,7 +288,8 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleHelpClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			Close();
+            Close();
+            App.ShowHelpTopic("hidSearchOptionsOnFilters");
 		}
 
 		/// ------------------------------------------------------------------------------------
@@ -305,5 +307,11 @@ namespace SIL.Pa.UI.Controls
 				catch { }
 			}
 		}
+
+        /// ------------------------------------------------------------------------------------
+        protected virtual void HandleCloseClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Close();
+        }
 	}
 }

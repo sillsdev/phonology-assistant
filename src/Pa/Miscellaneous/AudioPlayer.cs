@@ -234,8 +234,17 @@ namespace SIL.Pa
 		/// ------------------------------------------------------------------------------------
 		public static string GetSaPath()
 		{
-			RegistryKey regKey = Registry.LocalMachine.OpenSubKey(@"Software\SIL\Speech Analyzer");
-			string saLoc = (regKey == null ? null : regKey.GetValue("Location", null) as string);
+            RegistryKey regKey = Registry.ClassesRoot.OpenSubKey(@"Record\{6EAC0C98-FF43-3780-AE79-B291998FED12}\4.0.0.0");
+            string saLoc = (regKey == null ? null : regKey.GetValue("CodeBase", null) as string);
+            if (saLoc != null)
+            {
+                saLoc = (saLoc.Substring(0, saLoc.LastIndexOf("\\")) + "\\SA.exe").Replace(@"file:///", "");
+            }
+            else//Old version(3.0.1)
+            {
+                regKey = Registry.LocalMachine.OpenSubKey(@"Software\SIL\Speech Analyzer");
+                saLoc = (regKey == null ? null : regKey.GetValue("Location", null) as string);
+            }
 			return (string.IsNullOrEmpty(saLoc) || !File.Exists(saLoc) ? null : saLoc);
 		}
 

@@ -139,6 +139,12 @@ namespace SIL.Pa.Filters
 			if (m_fieldIsDate)
 				return MatchesDate(entryValue);
 
+            if (FieldName == PaField.kAudioFileFieldName)
+            {
+                entryValue = entryValue.ToLowerInvariant();
+                m_pattern = m_pattern.ToLowerInvariant();
+            }
+
 			switch (Operator)
 			{
 				case Filter.Operator.Matches:

@@ -83,16 +83,21 @@ namespace SIL.Pa.DataSource
 			}
 			else if (!File.Exists(ds.SourceFile))
 			{
-				string newPath = GetMissingDataSourceAction(ds.SourceFile);
-				if (newPath == null)
-				{
-					ds.SkipLoadingBecauseOfProblem = true;
-					return;
-				}
+			    if (!Path.IsPathRooted(ds.SourceFile))
+			        ds.SourceFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), ds.SourceFile);
+			    if (!File.Exists(ds.SourceFile))
+			    {
+                    string newPath = GetMissingDataSourceAction(ds.SourceFile);
+                    if (newPath == null)
+                    {
+                        ds.SkipLoadingBecauseOfProblem = true;
+                        return;
+                    }
 
-				ds.SourceFile = newPath;
-				m_project.Save();
-			}
+                    ds.SourceFile = newPath;
+			    }
+                m_project.Save();
+            }
 
 			if (ds.SkipLoadingBecauseOfProblem)
 				return;

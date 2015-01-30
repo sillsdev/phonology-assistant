@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="kstidFileText" xml:space="preserve">
     <value>&amp;File</value>
@@ -671,7 +671,7 @@
     <value>Edit source record</value>
   </data>
   <data name="kstidXYChartText" xml:space="preserve">
-    <value>&amp;Distribution Charts</value>
+    <value>Distribution Charts</value>
     <comment>Menu item text</comment>
   </data>
   <data name="kstidXYChartToolTip" xml:space="preserve">
@@ -834,6 +834,7 @@
   </data>
   <data name="kstidShowCIEResultsText" xml:space="preserve">
     <value>&amp;Minimal Pairs</value>
+    <comment>Menu item text</comment>
   </data>
   <data name="kstidShowCIEResultsToolTip" xml:space="preserve">
     <value>Minimal Pairs</value>
@@ -979,5 +980,28 @@
   </data>
   <data name="kstidDeleteChartRowToolTip" xml:space="preserve">
     <value>Delete Current Row</value>
+  </data>
+  <data name="kstidShowCIESimilarResultsText" xml:space="preserve">
+    <value>Similar &amp;Environments</value>
+    <comment>Menu item text</comment>
+  </data>
+  <data name="kstidShowCIESimilarResultsToolTip" xml:space="preserve">
+    <value>Similar Environments (Ctrl+E)</value>
+  </data>
+  <data name="kstidInsertAnywhereText" xml:space="preserve">
+    <value>/*_* Anywhere</value>
+    <comment>Menu Item text</comment>
+  </data>
+  <data name="kstidInsertWordFinalText" xml:space="preserve">
+    <value>/*_# Word Final</value>
+    <comment>Menu Item text</comment>
+  </data>
+  <data name="kstidInsertWordInitialText" xml:space="preserve">
+    <value>/#_* Word Initial</value>
+    <comment>Menu Item text</comment>
+  </data>
+  <data name="kstidInsertWordMedialText" xml:space="preserve">
+    <value>/{[C],[V]}_{[C],[V]} Word Medial</value>
+    <comment>Menu Item text</comment>
   </data>
 </root>

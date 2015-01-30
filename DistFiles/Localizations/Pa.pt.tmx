@@ -5112,7 +5112,7 @@ padrão ou escolha uma da lista</seg>
     </tu>
     <tu tuid="Menus and Toolbars.MenuItems.ViewMenu.DistributionCharts">
       <tuv xml:lang="en">
-        <seg>&amp;Distribution Charts</seg>
+        <seg>Distribution Charts</seg>
       </tuv>
       <tuv xml:lang="pt">
         <seg>Gráficos de &amp;Distribuição</seg>

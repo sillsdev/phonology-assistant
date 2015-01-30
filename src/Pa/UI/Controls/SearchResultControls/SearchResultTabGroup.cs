@@ -1054,6 +1054,51 @@ namespace SIL.Pa.UI.Controls
 
 		#endregion
 
+        #region Similar pair (i.e. CIE) options drop-down handling methods
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// 
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        internal void ShowCIESimilarOptions(Control ctrl)
+        {
+            if (CurrentTab == null || CurrentTab.ResultView == null || CurrentTab.ResultView.Grid == null)
+                return;
+
+            if (CurrentTab.CieSimilarOptionsDropDown == null)
+                CurrentTab.CieSimilarOptionsDropDown = new CIEOptionsDropDown();
+
+            if (CurrentTab.CieSimilarOptionsDropDownContainer == null)
+            {
+                CurrentTab.CieSimilarOptionsDropDownContainer = new CustomDropDown();
+                CurrentTab.CieSimilarOptionsDropDownContainer.AddControl(CurrentTab.CieSimilarOptionsDropDown);
+            }
+
+            CurrentTab.CieSimilarOptionsDropDown.CIEOptions = CurrentTab.ResultView.Grid.CIEOptions;
+            CurrentTab.CieSimilarOptionsDropDownContainer.Closed += m_cieSimilarOptionsDropDownContainer_Closed;
+            Point pt = ctrl.PointToScreen(new Point(0, ctrl.Height));
+            CurrentTab.CieSimilarOptionsDropDownContainer.Show(pt);
+        }
+
+        /// ------------------------------------------------------------------------------------
+        void m_cieSimilarOptionsDropDownContainer_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+        {
+            // Make sure the drop-down completely goes away before proceeding.
+            Application.DoEvents();
+
+            if (CurrentTab.CieSimilarOptionsDropDown.OptionsChanged)
+            {
+                // Save the options as the new defaults for the project.
+                App.Project.SaveCIEOptions(CurrentTab.CieSimilarOptionsDropDown.CIEOptions);
+                CurrentTab.ResultView.Grid.CIEOptions = CurrentTab.CieSimilarOptionsDropDown.CIEOptions;
+                CurrentTab.CIEViewRefresh();
+            }
+
+            CurrentTab.CieSimilarOptionsDropDownContainer.Closed -= m_cieSimilarOptionsDropDownContainer_Closed;
+        }
+
+        #endregion
+
 		#region IxCoreColleague Members
 		/// ------------------------------------------------------------------------------------
 		/// <summary>

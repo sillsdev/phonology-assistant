@@ -158,7 +158,7 @@ namespace SIL.Pa.Filters
 			}
 
 			SearchEngine.IgnoreUndefinedCharacters = m_project.IgnoreUndefinedCharsInSearches;
-			return new SearchEngine(query, m_project.PhoneCache ?? SearchEngine.PhoneCache);
+            return new SearchEngine(query, SearchEngine.PhoneCache ?? m_project.PhoneCache);
 
 			//SearchQuery modifiedQuery;
 			//if (!App.ConvertClassesToPatterns(query, out modifiedQuery, showErrMsg))

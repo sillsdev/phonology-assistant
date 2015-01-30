@@ -105,7 +105,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				CmdXYChartShowResultsToNewStackedTabGroup, CmdShowRecordPane, 39, 40, 41, 42, 43,
 				44, 45, 46, 47, CmdFindPrevious, 49, 50, 51, 52, CmdFillInChart, 54, 55, 56,
 				CmdShowCIEResults, CmdGroupBySortedField, CmdExpandAllGroups, CmdCollapseAllGroups,
-				CmdXYChartSearchOptions, CmdInsertIntoChart">
+				CmdXYChartSearchOptions, CmdInsertIntoChart, 63, 64, 65, 66, 67, 68, CmdShowCIESimilarResults">
 		</imageList>
 	</resources>
 
@@ -124,7 +124,8 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdExpandAllGroups" message="ExpandAllGroups" shortcutkey="Ctrl+Down"/>
 		<command id="CmdCollapseAllGroups" message="CollapseAllGroups" shortcutkey="Ctrl+Up"/>
 		<command id="CmdShowCIEResults" message="ShowCIEResults" shortcutkey="Ctrl+M"/>
-		<command id="CmdShowRecordPane" message="ShowRecordPane"/>
+		<command id="CmdShowCIESimilarResults" message="ShowCIESimilarResults" shortcutkey="Ctrl+E"/>
+		<command id="CmdShowRecordPane" message="ShowRecordPane" shortcutkey="F2"/>
 		<command id="CmdPlayback" message="Playback" shortcutkey="F5"/>
 		<command id="CmdPlaybackOnMenu" message="Playback" shortcutkey="F5" image="CmdPlayback"/>
 		<command id="CmdPlaybackRepeatedly" message="PlaybackRepeatedly" shortcutkey="Ctrl+F5"/>
@@ -152,8 +153,8 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdInsertSyllableBoundary" message="InsertSyllableBoundary"/>
 		<command id="CmdInsertANDGroup" message="InsertANDGroup"/>
 		<command id="CmdInsertORGroup" message="InsertORGroup"/>
-		<command id="CmdDeleteChartRow" message="GridRowDelete" shortcutkey="Ctrl+R" image="CmdDeleteChartRow"/>
-		<command id="CmdDeleteChartColumn" message="GridColumnDelete" shortcutkey="Ctrl+U" image="CmdDeleteChartColumn"/>
+		<command id="CmdDeleteChartRow" message="GridRowDelete" shortcutkey="ALT+R" image="CmdDeleteChartRow"/>
+		<command id="CmdDeleteChartColumn" message="GridColumnDelete" shortcutkey="ALT+O" image="CmdDeleteChartColumn"/>		
 	</commands>
 
 	<toolbars settingFilesPrefix="PA.XYCharts.TBDef">
@@ -183,6 +184,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				<item name="tbbSaveChartAs" commandid="CmdSaveChartAs" type="0" displaytype="2"/>
 			</item>
 			<item name="tbbShowCIEResults" commandid="CmdShowCIEResults" type="0" begingroup="true"/>
+			<item name="tbbShowCIESimilarResults" commandid="CmdShowCIESimilarResults" type="0" begingroup="true"/>
 			<item name="tbbGroupBySortedField" commandid="CmdGroupBySortedField" type="0" />
 			<item name="tbbCollapseAllGroups" commandid="CmdCollapseAllGroups" type="0"/>
 			<item name="tbbExpandAllGroups" commandid="CmdExpandAllGroups" type="0"/>

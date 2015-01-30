@@ -22,6 +22,12 @@ namespace SIL.Pa.Model.Migration
 		/// ------------------------------------------------------------------------------------
 		protected override void InternalMigration()
 		{
+		    if (!File.Exists(Path.Combine(_projectPathPrefix, DistributionChart.kFileName)))
+		    {
+		        var badPrefix = _projectPathPrefix.Substring(0, _projectPathPrefix.Length - 2) + "3.";
+		        if (File.Exists(badPrefix + DistributionChart.kFileName))
+		            File.Move(badPrefix + DistributionChart.kFileName, _projectPathPrefix + DistributionChart.kFileName);
+		    }
 		    MigrateLocalizationWord2003ToWord();
 		    MigrateToAddRhymeEtc();
             UpdateProjectFileToLatestVersion();

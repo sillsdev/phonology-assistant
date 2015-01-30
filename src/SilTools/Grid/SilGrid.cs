@@ -64,7 +64,10 @@ namespace SilTools
 			RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
 			RowHeadersWidth = 22;
 			Color clr = SystemColors.Window;
-			GridColor = Color.FromArgb(clr.R - 30, clr.G - 30, clr.B - 30);
+            if (clr.R > 0 && clr.G > 0 && clr.B > 0)
+            {
+                GridColor = Color.FromArgb(clr.R - 30, clr.G - 30, clr.B - 30);
+            }
 			MultiSelect = false;
 			PaintHeaderAcrossFullGridWidth = true;
 			TextBoxEditControlBorderColor = Color.Silver;

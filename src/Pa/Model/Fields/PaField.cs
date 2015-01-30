@@ -36,8 +36,10 @@ namespace SIL.Pa.Model
         public const string kDataSourceFieldName = "DataSource";
         public const string kDataSourcePathFieldName = "DataSourcePath";
         public const string kAudioFileFieldName = "AudioFile";
+        public const string kPhoneticSourceFieldName = "Phonetic Source";
 
         private string m_isCollection;
+		private string m_note;
 
         /// ------------------------------------------------------------------------------------
         public PaField()
@@ -73,6 +75,15 @@ namespace SIL.Pa.Model
         /// ------------------------------------------------------------------------------------
         [XmlAttribute("name")]
         public string Name { get; set; }
+
+
+	    /// ------------------------------------------------------------------------------------
+	    [XmlAttribute("Note")]
+	    public string Note
+	    {
+            get { return (s_displayPropsCache.GetNote(Name)); }
+            set { s_displayPropsCache.SetNote(Name, value); }
+	    }
 
         /// ------------------------------------------------------------------------------------
         [XmlAttribute("type")]
@@ -222,7 +233,7 @@ namespace SIL.Pa.Model
         public static bool GetIsReservedFieldName(string name)
         {
             return ((kCVPatternFieldName + ";" + kDataSourceFieldName + ";" +
-                kDataSourcePathFieldName).Contains(name));
+                     kDataSourcePathFieldName + ";" + kPhoneticSourceFieldName).Contains(name));
         }
 
         /// ------------------------------------------------------------------------------------
@@ -337,7 +348,12 @@ namespace SIL.Pa.Model
                     if (!Settings.Default.DefaultVisibleFields.Contains(fd.Name))
                         Settings.Default.DefaultVisibleFields.Add(fd.Name);
                 }
+               
             }
+            if (list.All(f => f.Name != kPhoneticSourceFieldName))
+                list.Add(new PaField(kPhoneticSourceFieldName, default(FieldType)));
+            if (!Settings.Default.DefaultVisibleFields.Contains(kPhoneticSourceFieldName))
+                Settings.Default.DefaultVisibleFields.Add(kPhoneticSourceFieldName);
         }
 
         /// ------------------------------------------------------------------------------------
@@ -351,7 +367,6 @@ namespace SIL.Pa.Model
 
             if (!fields.Any(f => f.Name == kCVPatternFieldName))
                 fields.Add(new PaField(kCVPatternFieldName, default(FieldType)));
-
             return fields.OrderBy(f => f.DisplayName);
         }
 
@@ -359,7 +374,7 @@ namespace SIL.Pa.Model
         public static IEnumerable<PaField> GetCalculatedFieldsFromList(IEnumerable<PaField> fields)
         {
             return fields.Where(f => f.Name == kCVPatternFieldName ||
-                f.Name == kDataSourceFieldName || f.Name == kDataSourcePathFieldName);
+                f.Name == kDataSourceFieldName || f.Name == kDataSourcePathFieldName|| f.Name==kPhoneticSourceFieldName);
         }
 
         /// ------------------------------------------------------------------------------------
