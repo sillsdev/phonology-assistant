@@ -124,6 +124,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdExpandAllGroups" message="ExpandAllGroups" shortcutkey="Ctrl+Down"/>
 		<command id="CmdCollapseAllGroups" message="CollapseAllGroups" shortcutkey="Ctrl+Up"/>
 		<command id="CmdShowCIEResults" message="ShowCIEResults" shortcutkey="Ctrl+M"/>
+		<command id="CmdShowCIESimilarResults" message="ShowCIESimilarResults" shortcutkey="Ctrl+E"/>
 		<command id="CmdShowRecordPane" message="ShowRecordPane"/>
 		<command id="CmdPlayback" message="Playback" shortcutkey="F5"/>
 		<command id="CmdPlaybackOnMenu" message="Playback" shortcutkey="F5" image="CmdPlayback"/>
@@ -152,9 +153,8 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdInsertSyllableBoundary" message="InsertSyllableBoundary"/>
 		<command id="CmdInsertANDGroup" message="InsertANDGroup"/>
 		<command id="CmdInsertORGroup" message="InsertORGroup"/>
-		<command id="CmdDeleteChartRow" message="GridRowDelete" shortcutkey="Ctrl+Q" image="CmdDeleteChartRow"/>
-		<command id="CmdDeleteChartColumn" message="GridColumnDelete" shortcutkey="Ctrl+U" image="CmdDeleteChartColumn"/>
-		<command id="CmdShowCIESimilarResults" message="ShowCIESimilarResults" shortcutkey="Ctrl+S"/>
+		<command id="CmdDeleteChartRow" message="GridRowDelete" shortcutkey="ALT+R" image="CmdDeleteChartRow"/>
+		<command id="CmdDeleteChartColumn" message="GridColumnDelete" shortcutkey="ALT+O" image="CmdDeleteChartColumn"/>		
 	</commands>
 
 	<toolbars settingFilesPrefix="PA.XYCharts.TBDef">
