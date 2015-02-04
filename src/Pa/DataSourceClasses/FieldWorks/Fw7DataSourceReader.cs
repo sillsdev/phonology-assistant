@@ -248,7 +248,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 						break;
 					
 					case "Variants":
-						value = lxEntry.Variants.Select(v => v.VariantForm.GetString(wsId));
+						value = lxEntry.Variants.Where(v => v.VariantForm != null).Select(v => v.VariantForm.GetString(wsId));
 						break;
 
 					case "VariantTypes":
@@ -337,7 +337,7 @@ namespace SIL.Pa.DataSource.FieldWorks
                         case "LexemeForm": eticValue = GetMultiStringValue(lxEntry.LexemeForm, m_phoneticWsId); break;
 
                         case "Variants":
-                            eticValue = lxEntry.Variants.Select(v => v.VariantForm.GetString(m_phoneticWsId)).FirstOrDefault();
+                            eticValue = lxEntry.Variants.Where(v => v.VariantForm != null).Select(v => v.VariantForm.GetString(m_phoneticWsId)).FirstOrDefault();
                             break;
 
                         case "ComplexForms":
