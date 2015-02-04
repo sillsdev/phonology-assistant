@@ -53,20 +53,21 @@ namespace SIL.Pa.UI.Views
 			_chartGrid.GridColor = ChartGridColor;
 			_pnlGrid.Controls.Add(_chartGrid);
 
-			if (Type.GetType("Mono.Runtime") != null) // running Mono (any platform)
-			{
-				_htmlVw = null; // FIXME: Linux - Internet Explorer not available; maybe use geckofx
-			}
-			else // .NET
-			{
-			_htmlVw = new WebBrowser();
-			_htmlVw.Dock = DockStyle.Fill;
-			_htmlVw.Visible = false;
-			_htmlVw.AllowWebBrowserDrop = false;
-			_pnlGrid.Controls.Add(_htmlVw);
-			}
-			
-			_splitOuter.Panel1.Controls.Add(_pnlGrid);
+		    if (Type.GetType("Mono.Runtime") != null) // running Mono (any platform)
+		    {
+		        _htmlVw = null; // FIXME: Linux - Internet Explorer not available; maybe use geckofx
+		    }
+		    else // .NET
+		    {
+		        _htmlVw = new WebBrowser();
+		        _htmlVw.ScriptErrorsSuppressed = true;
+		        _htmlVw.Dock = DockStyle.Fill;
+		        _htmlVw.Visible = false;
+		        _htmlVw.AllowWebBrowserDrop = false;
+		        _pnlGrid.Controls.Add(_htmlVw);
+		    }
+
+		    _splitOuter.Panel1.Controls.Add(_pnlGrid);
 			Utils.WaitCursors(false);
 
 			LocalizeItemDlg.StringsLocalized += delegate { ReloadChart(); };
