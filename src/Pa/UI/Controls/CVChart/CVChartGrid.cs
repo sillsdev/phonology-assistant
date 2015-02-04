@@ -156,32 +156,40 @@ namespace SIL.Pa.UI.Controls
 			int width = 0;
 			int height = 0;
 
-			using (var g = CreateGraphics())
-			{
-				foreach (var row in GetRows())
-				{
-					foreach (var col in GetColumns())
-					{
-						var phone = row.Cells[col.Index].Value as string;
-						if (phone == null)
-							continue;
+		    try
+		    {
+		        using (var g = CreateGraphics())
+		        {
+		            foreach (var row in GetRows())
+		            {
+		                foreach (var col in GetColumns())
+		                {
+		                    var phone = row.Cells[col.Index].Value as string;
+		                    if (phone == null)
+		                        continue;
 
-						var sz = TextRenderer.MeasureText(g, phone, Font, Size.Empty,
-							TextFormatFlags.LeftAndRightPadding);
-						
-						width = Math.Max(width, sz.Width);
+		                    var sz = TextRenderer.MeasureText(g, phone, Font, Size.Empty,
+		                        TextFormatFlags.LeftAndRightPadding);
 
-                        if (sz.Height <= 65536)
-						    height = Math.Max(height, sz.Height);
-					}
-				}
-			}
+		                    width = Math.Max(width, sz.Width);
 
-			foreach (var col in GetColumns())
-				col.Width = width;
+		                    if (sz.Height <= 65536)
+		                        height = Math.Max(height, sz.Height);
+		                }
+		            }
+		        }
 
-			foreach (var row in GetRows())
-				row.Height = height;
+		        foreach (var col in GetColumns())
+				    col.Width = width;
+
+			    foreach (var row in GetRows())
+				    row.Height = height;
+
+            }
+            catch (Exception)
+            {
+
+            }
 		}
 
 		/// ------------------------------------------------------------------------------------
