@@ -26,7 +26,7 @@ namespace SIL.Pa.DataSource.FieldWorks
 		/// ------------------------------------------------------------------------------------
 		public static Fw7DataSourceReader Create(BackgroundWorker worker, PaProject project, PaDataSource ds)
 		{
-			var eticMapping = ds.FieldMappings.Single(m => m.Field.Type == FieldType.Phonetic && m.NameInDataSource == "Phonetic");
+            var eticMapping = ds.FieldMappings.Single(m => m.Field.Type == FieldType.Phonetic && m.NameInDataSource == "Phonetic");
 			if (eticMapping == null)
 				return null;
 
@@ -76,9 +76,15 @@ namespace SIL.Pa.DataSource.FieldWorks
 			    {
                     var customvalues = m_customfield.CustomValues.FindAll(m => m.Guid == lxEntry.Guid.ToString());
                     SetCustomFieldsforEntry(customnames, customvalues, entry);
-			        entry.SetValue(PaField.kPhoneticSourceFieldName.ToString(CultureInfo.InvariantCulture),
-			            m_fwDsInfo.PhoneticStorageMethod.ToString());
-                    recCache.Add(entry);
+			        var vernacularMapping = m_dataSource.FieldMappings.FirstOrDefault(
+			            m => m.Field.Type == FieldType.Phonetic && m.NameInDataSource != "Phonetic");
+			            entry.SetValue(PaField.kPhoneticSourceFieldName.ToString(CultureInfo.InvariantCulture),
+			                m_fwDsInfo.PhoneticStorageMethod != FwDBUtils.PhoneticStorageMethod.PronunciationField &&
+			                m_fwDsInfo.PhoneticStorageMethod != FwDBUtils.PhoneticStorageMethod.AllPronunciationFields &&
+                            vernacularMapping != null
+                                ? vernacularMapping.NameInDataSource
+			                    : m_fwDsInfo.PhoneticStorageMethod.ToString());
+			        recCache.Add(entry);
                 }
 			}
 

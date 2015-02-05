@@ -928,36 +928,52 @@ namespace SIL.Pa.UI.Dialogs
 			UpdateButtonStates();
 		}
 
-		/// ------------------------------------------------------------------------------------
-		private void HandleGridCellNeeded(object sender, DataGridViewCellValueEventArgs e)
-		{
-			int i = e.RowIndex;
+	    /// ------------------------------------------------------------------------------------
+	    private void HandleGridCellNeeded(object sender, DataGridViewCellValueEventArgs e)
+	    {
+	        int i = e.RowIndex;
 
-			if (i >= _dataSources.Count)
-				return;
+	        if (i >= _dataSources.Count)
+	            return;
 
-			switch (m_grid.Columns[e.ColumnIndex].Name)
-			{
-				case "skip": e.Value = !_dataSources[i].SkipLoading; break;
-				case "sourcefiles": e.Value = _dataSources[i].ToString(true); break;
-                case "type": e.Value = _dataSources[i].TypeAsString; break;
-                case "Phonetic_Source":
-                    var srcInfo = _dataSources[i].FwDataSourceInfo;
-			        if (srcInfo != null)
-			        {
-                        e.Value = srcInfo.PhoneticStorageMethod;
-                    }
-                    else
-			        {
-			            e.Value = _dataSources[i].FieldMappings.Find(fld => fld.PaFieldName == "Phonetic").NameInDataSource;
-                    }
-                    break;
-				case "xslt": e.Value = _dataSources[i].XSLTFile; break;
-				default: e.Value = null; break;
-			}
-		}
+	        switch (m_grid.Columns[e.ColumnIndex].Name)
+	        {
+	            case "skip":
+	                e.Value = !_dataSources[i].SkipLoading;
+	                break;
+	            case "sourcefiles":
+	                e.Value = _dataSources[i].ToString(true);
+	                break;
+	            case "type":
+	                e.Value = _dataSources[i].TypeAsString;
+	                break;
+	            case "Phonetic_Source":
+	                var srcInfo = _dataSources[i].FwDataSourceInfo;
+	                if (srcInfo != null)
+	                {
+                        e.Value = srcInfo.PhoneticStorageMethod != FwDBUtils.PhoneticStorageMethod.PronunciationField &&
+	                              srcInfo.PhoneticStorageMethod != FwDBUtils.PhoneticStorageMethod.AllPronunciationFields &&
+	                              _dataSources[i].FieldMappings.FirstOrDefault(
+	                                  m => m.Field.Type == FieldType.Phonetic && m.NameInDataSource != "Phonetic") != null
+	                        ? (object) _dataSources[i].FieldMappings.FirstOrDefault(
+	                            m => m.Field.Type == FieldType.Phonetic && m.NameInDataSource != "Phonetic")
+	                        : srcInfo.PhoneticStorageMethod;
+	                }
+	                else
+	                {
+	                    e.Value = _dataSources[i].FieldMappings.Find(fld => fld.PaFieldName == "Phonetic").NameInDataSource;
+	                }
+	                break;
+	            case "xslt":
+	                e.Value = _dataSources[i].XSLTFile;
+	                break;
+	            default:
+	                e.Value = null;
+	                break;
+	        }
+	    }
 
-		/// ------------------------------------------------------------------------------------
+	    /// ------------------------------------------------------------------------------------
 		private void HandleGridCellValuePushed(object sender, DataGridViewCellValueEventArgs e)
 		{
 			if (e.RowIndex >= 0 && m_grid.Columns["skip"].Index == e.ColumnIndex)
