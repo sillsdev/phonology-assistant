@@ -982,11 +982,11 @@
     <value>Delete Current Row</value>
   </data>
   <data name="kstidShowCIESimilarResultsText" xml:space="preserve">
-    <value>Similar &amp;Environments</value>
+    <value>Simi&amp;lar Environments</value>
     <comment>Menu item text</comment>
   </data>
   <data name="kstidShowCIESimilarResultsToolTip" xml:space="preserve">
-    <value>Similar Environments (Ctrl+E)</value>
+    <value>Similar Environments (Ctrl+L)</value>
   </data>
   <data name="kstidInsertAnywhereText" xml:space="preserve">
     <value>/*_* Anywhere</value>

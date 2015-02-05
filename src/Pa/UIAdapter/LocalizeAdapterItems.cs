@@ -181,7 +181,7 @@ namespace SIL.Pa
 
                 case "MenuItems.ShowCIESimilarResults":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.CIESimilarResults",
-                        "Similar &Environments", null, "Similar Environments", "Ctrl+E", item);
+                        "Simi&lar Environments", null, "Similar Environments", "Ctrl+L", item);
                     break;
 
                 case "MenuItems.GroupBySortedField":
@@ -565,7 +565,7 @@ namespace SIL.Pa
                     break;
                 case "ToolbarItems.ShowCIESimilarResults":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowCIESimilarResults",
-                        "Similar &Environment", null, "Similar Environment", "Ctrl+E", item);
+                        "Simi&lar Environments", null, "Similar Environments", "Ctrl+L", item);
                     break;
 
                 case "ContextMenuItems.CharChartSearchContextMenu":
