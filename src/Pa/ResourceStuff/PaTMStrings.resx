@@ -813,6 +813,9 @@
   <data name="kstidSaveChartAsText" xml:space="preserve">
     <value>Save &amp;As...</value>
   </data>
+  <data name="kstidResetChartText" xml:space="preserve">
+    <value>Reset Chart</value>
+  </data>
   <data name="kstidSaveChartOnMenuText" xml:space="preserve">
     <value>&amp;Save</value>
   </data>

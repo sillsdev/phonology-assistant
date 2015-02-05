@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Localization;
@@ -219,6 +220,7 @@ namespace SIL.Pa.UI.Views
             if (_savedCharts == null)
                 return;
 
+            lvSavedCharts.Items.Clear();
             foreach (var layout in _savedCharts)
             {
                 var item = new ListViewItem(layout.Name);
@@ -1202,6 +1204,35 @@ namespace SIL.Pa.UI.Views
             {
                 if (dlg.ShowDialog(FindForm()) == DialogResult.OK)
                     SaveCurrentChart(dlg.LayoutToOverwrite);
+            }
+
+            return true;
+        }
+
+        /// ------------------------------------------------------------------------------------
+        protected bool OnResetChart(object args)
+        {
+            if (!ActiveView)
+                return false;
+
+            var msg = LocalizationManager.GetString("Views.DistributionChart.ConfirmResetChartMsg",
+                "Are you sure you want to reset the charts?");
+
+            if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
+                return false;
+
+            int index = lvSavedCharts.SelectedIndices[0];
+
+            var srcPath = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultDistributionCharts.xml");
+            var destPath = DistributionChart.GetFileForProject(Project.ProjectPathFilePrefix);
+            File.Copy(srcPath, destPath, true);
+
+            LoadSavedChartsList();
+
+            if (index >= 0)
+            {
+                lvSavedCharts.Items[index].Selected = true;
+                LoadSavedLayout(lvSavedCharts.SelectedItems[0]);
             }
 
             return true;

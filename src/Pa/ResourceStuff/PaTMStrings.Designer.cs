@@ -1906,6 +1906,15 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reset Chart.
+        /// </summary>
+        public static string kstidResetChartText {
+            get {
+                return ResourceManager.GetString("kstidResetChartText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;Restore Defaults.
         /// </summary>
         public static string kstidRestoreDefaultsText {

@@ -798,6 +798,11 @@ namespace SIL.Pa
                         "Save &As...", null, null, null, item);
                     break;
 
+                case "ToolbarItems.ResetChart":
+                    LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ResetChart",
+                        "Reset Chart", null, "Reset Chart", null, item);
+                    break;
+
                 case "ToolbarItems.ClearChart":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ClearChart",
                         "&Clear", null, "Clear Chart", "Alt+C", item);

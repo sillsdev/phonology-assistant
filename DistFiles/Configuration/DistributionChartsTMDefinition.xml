@@ -105,7 +105,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				CmdXYChartShowResultsToNewStackedTabGroup, CmdShowRecordPane, 39, 40, 41, 42, 43,
 				44, 45, 46, 47, CmdFindPrevious, 49, 50, 51, 52, CmdFillInChart, 54, 55, 56,
 				CmdShowCIEResults, CmdGroupBySortedField, CmdExpandAllGroups, CmdCollapseAllGroups,
-				CmdXYChartSearchOptions, CmdInsertIntoChart, 63, 64, 65, 66, 67, 68, CmdShowCIESimilarResults">
+				CmdXYChartSearchOptions, CmdInsertIntoChart, 63, 64, 65, 66, 67, 68, CmdShowCIESimilarResults, CmdResetChart, CmdDeleteChartRow, CmdDeleteChartColumn">
 		</imageList>
 	</resources>
 
@@ -116,6 +116,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdSaveChart" message="SaveChart" shortcutkey="Ctrl+S"/>
 		<command id="CmdSaveChartOnMenu" message="SaveChart" shortcutkey="Ctrl+S" image="CmdSaveChart"/>
 		<command id="CmdSaveChartAs" message="SaveChartAs"/>
+		<command id="CmdResetChart" message="ResetChart" image="CmdResetChart"/>
 		<command id="CmdClearChart" message="ClearChart" shortcutkey="Alt+C"/>
 		<command id="CmdFind" message="EditFind" shortcutkey="Ctrl+F"/>
 		<command id="CmdFindNext" message="EditFindNext" shortcutkey="F3"/>
@@ -182,6 +183,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 			<item name="tbbSaveChart" commandid="CmdSaveChart" type="2" split="true" begingroup="true">
 				<item name="tbbSaveChartOnMenu" commandid="CmdSaveChartOnMenu" type="0" displaytype="2"/>
 				<item name="tbbSaveChartAs" commandid="CmdSaveChartAs" type="0" displaytype="2"/>
+				<item name="tbbResetChart" commandid="CmdResetChart" type="0" displaytype="2"/>
 			</item>
 			<item name="tbbShowCIEResults" commandid="CmdShowCIEResults" type="0" begingroup="true"/>
 			<item name="tbbShowCIESimilarResults" commandid="CmdShowCIESimilarResults" type="0" begingroup="true"/>
