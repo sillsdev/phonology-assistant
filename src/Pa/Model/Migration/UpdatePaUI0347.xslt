@@ -59,7 +59,7 @@
 		<xsl:copy>
 			<xsl:attribute name="tuid">MainWindow.ViewTabs.DistributionChartsTab_ToolTip_</xsl:attribute>
 			<tuv xml:lang="en">
-				<seg>Distribution Charts View (Ctrl+Alt+X)</seg>
+				<seg>Distribution Charts View (Ctrl+Alt+B)</seg>
 			</tuv>
 		</xsl:copy>
 	</xsl:template>

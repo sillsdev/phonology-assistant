@@ -2104,7 +2104,7 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Simi&amp;lar Environments.
+        ///   Looks up a localized string similar to Similar E&amp;nvironments.
         /// </summary>
         public static string kstidShowCIESimilarResultsText {
             get {
@@ -2113,7 +2113,7 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Similar Environments (Ctrl+L).
+        ///   Looks up a localized string similar to Similar Environments (Ctrl+Alt+N).
         /// </summary>
         public static string kstidShowCIESimilarResultsToolTip {
             get {
@@ -2608,7 +2608,7 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Distribution Charts View (Ctrl+Alt+X).
+        ///   Looks up a localized string similar to Distri&amp;bution Charts View (Ctrl+Alt+B).
         /// </summary>
         public static string kstidXYChartToolTip {
             get {

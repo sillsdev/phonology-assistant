@@ -1028,7 +1028,7 @@ namespace SIL.Pa.UI.Controls
             pt.Y += (Cursor.Size.Height - (int)(Cursor.Size.Height * 0.3));
 
             var text = LocalizationManager.GetString("Views.WordLists.SearchResults.SimilarEnvironmentsButtonToolTipText",
-                "Similar Environments Options (Ctrl+L)");
+                "Similar Environments Options (Ctrl+Alt+N)");
 
             m_CIESimilarButtonToolTip.Show(text, this, pt);
         }

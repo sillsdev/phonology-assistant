@@ -675,7 +675,7 @@
     <comment>Menu item text</comment>
   </data>
   <data name="kstidXYChartToolTip" xml:space="preserve">
-    <value>Distribution Charts View (Ctrl+Alt+X)</value>
+    <value>Distri&amp;bution Charts View (Ctrl+Alt+B)</value>
   </data>
   <data name="kstidAmbiguousItemsText" xml:space="preserve">
     <value>&amp;Ambiguous Items...</value>
@@ -982,11 +982,11 @@
     <value>Delete Current Row</value>
   </data>
   <data name="kstidShowCIESimilarResultsText" xml:space="preserve">
-    <value>Simi&amp;lar Environments</value>
+    <value>Similar E&amp;nvironments</value>
     <comment>Menu item text</comment>
   </data>
   <data name="kstidShowCIESimilarResultsToolTip" xml:space="preserve">
-    <value>Similar Environments (Ctrl+L)</value>
+    <value>Similar Environments (Ctrl+Alt+N)</value>
   </data>
   <data name="kstidInsertAnywhereText" xml:space="preserve">
     <value>/*_* Anywhere</value>

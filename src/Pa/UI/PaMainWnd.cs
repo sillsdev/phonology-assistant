@@ -340,7 +340,7 @@ namespace SIL.Pa.UI
 					"Distribution Charts View Help"));
 
 			tab.Text = LocalizationManager.GetString("MainWindow.ViewTabs.DistributionChartsTab",
-				"Distribution Charts", null, "Distribution Charts View (Ctrl+Alt+X)", null, tab);
+				"Distribution Charts", null, "Distribution Charts View (Ctrl+Alt+B)", null, tab);
 
 			vwTabGroup.AddTab(tab);
 			

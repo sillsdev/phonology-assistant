@@ -171,7 +171,7 @@ namespace SIL.Pa
 
                 case "MenuItems.XYChart":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.DistributionCharts",
-                        "Distribution Charts", null, "Distribution Charts View (Ctrl+Alt+X)", "Ctrl+Alt+X", item);
+                        "Distri&bution Charts", null, "Distribution Charts View (Ctrl+Alt+B)", "Ctrl+Alt+B", item);
                     break;
 
                 case "MenuItems.ShowCIEResults":
@@ -181,7 +181,7 @@ namespace SIL.Pa
 
                 case "MenuItems.ShowCIESimilarResults":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.CIESimilarResults",
-                        "Simi&lar Environments", null, "Similar Environments", "Ctrl+L", item);
+                        "Similar E&nvironments", null, "Similar Environments", "Ctrl+Alt+N", item);
                     break;
 
                 case "MenuItems.GroupBySortedField":
@@ -565,7 +565,7 @@ namespace SIL.Pa
                     break;
                 case "ToolbarItems.ShowCIESimilarResults":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowCIESimilarResults",
-                        "Simi&lar Environments", null, "Similar Environments", "Ctrl+L", item);
+                        "Similar E&nvironments", null, "Similar Environments", "Ctrl+Alt+N", item);
                     break;
 
                 case "ContextMenuItems.CharChartSearchContextMenu":
