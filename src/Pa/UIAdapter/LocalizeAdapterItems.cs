@@ -11,17 +11,17 @@ namespace SIL.Pa
             {
                 case "ContextMenuItems.Playback":
                     LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.Playback",
-                        "&Playback", null, "Playback", "F5", item);
+                        "&Playback", null, "Playback (F5)", "F5", item);
                     break;
 
                 case "ContextMenuItems.StopPlayback":
                     LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.StopPlayback",
-                        "&Stop Playback", null, "Stop Playback", "F8", item);
+                        "&Stop Playback", null, "Stop Playback (F8)", "F8", item);
                     break;
 
                 case "ContextMenuItems.EditSourceRecord":
                     LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.EditSourceRecord",
-                        "&Edit Source Record", null, "Edit source record", "Shift+F2", item);
+                        "&Edit Source Record", null, "Edit source record (Shift+F2)", "Shift+F2", item);
                     break;
 
                 case "MenuItems.File":
@@ -31,12 +31,12 @@ namespace SIL.Pa
 
                 case "MenuItems.FileNew":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.New",
-                        "&New Project...", null, "Create New Project", "Ctrl+N", item);
+                        "&New Project...", null, "Create New Project (Ctrl+N)", "Ctrl+N", item);
                     break;
 
                 case "MenuItems.FileOpen":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Open",
-                        "&Open Project...", null, "Open Project", "Ctrl+O", item);
+                        "&Open Project...", null, "Open Project (Ctrl+O)", "Ctrl+O", item);
                     break;
 
                 case "MenuItems.FileClose":
@@ -96,17 +96,17 @@ namespace SIL.Pa
 
                 case "MenuItems.Playback":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.Playback",
-                        "&Playback", null, "Playback", "F5", item);
+                        "&Playback", null, "Playback (F5)", "F5", item);
                     break;
 
                 case "MenuItems.PlaybackRepeatedly":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.PlaybackRepeatedly",
-                        "Playback &Repeatedly", null, "Playback Repeatedly", "Ctrl+F5", item);
+                        "Playback &Repeatedly", null, "Playback Repeatedly (Ctrl+F5)", "Ctrl+F5", item);
                     break;
 
                 case "MenuItems.StopPlayback":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.FileMenu.StopPlayback",
-                        "&Stop Playback", null, "Stop Playback", "F8", item);
+                        "&Stop Playback", null, "Stop Playback (F8)", "F8", item);
                     break;
 
                 case "MenuItems.FileExit":
@@ -121,22 +121,22 @@ namespace SIL.Pa
 
                 case "MenuItems.Find":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.EditMenu.Find",
-                        "&Find", null, "Find", "Ctrl+F", item);
+                        "&Find", null, "Find (Ctrl+F)", "Ctrl+F", item);
                     break;
 
                 case "MenuItems.FindNext":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.EditMenu.FindNext",
-                        "Find &Next", null, "Find Next", "F3", item);
+                        "Find &Next", null, "Find Next (F3)", "F3", item);
                     break;
 
                 case "MenuItems.FindPrevious":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.EditMenu.FindPrevious",
-                        "Find &Previous", null, "Find previous", "Shift+F3", item);
+                        "Find &Previous", null, "Find previous (Shift+F3)", "Shift+F3", item);
                     break;
 
                 case "MenuItems.EditSourceRecord":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.EditMenu.EditSourceRecord",
-                        "&Edit Source Record", null, "Edit source record", "Shift+F2", item);
+                        "&Edit Source Record", null, "Edit source record (Shift+F2)", "Shift+F2", item);
                     break;
 
                 case "MenuItems.ReloadProject":
@@ -176,32 +176,32 @@ namespace SIL.Pa
 
                 case "MenuItems.ShowCIEResults":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.MinimalPairs",
-                        "&Minimal Pairs", null, "Minimal Pairs", "Ctrl+M", item);
+                        "&Minimal Pairs", null, "Minimal Pairs (Ctrl+M)", "Ctrl+M", item);
                     break;
 
                 case "MenuItems.ShowCIESimilarResults":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.CIESimilarResults",
-                        "Similar E&nvironments", null, "Similar Environments", "Ctrl+Alt+N", item);
+                        "Similar E&nvironments", null, "Similar Environments (Ctrl+Alt+N)", "Ctrl+Alt+N", item);
                     break;
 
                 case "MenuItems.GroupBySortedField":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.GroupByPrimarySortField",
-                        "&Group by Primary Sort Field", null, "Group by Primary Sort Field", "Ctrl+G", item);
+                        "&Group by Primary Sort Field", null, "Group by Primary Sort Field (Ctrl+G)", "Ctrl+G", item);
                     break;
 
                 case "MenuItems.CollapseAllGroups":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.CollapseAllGroups",
-                        "C&ollapse All Groups", null, "Collapse All Groups", "Ctrl+Up", item);
+                        "C&ollapse All Groups", null, "Collapse All Groups (Ctrl+Up)", "Ctrl+Up", item);
                     break;
 
                 case "MenuItems.ExpandAllGroups":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ExpandAllGroups",
-                        "&Expand All Groups", null, "Expand All Groups", "Ctrl+Down", item);
+                        "&Expand All Groups", null, "Expand All Groups (Ctrl+Down)", "Ctrl+Down", item);
                     break;
 
                 case "MenuItems.ShowRecordPane":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ShowRecordPane",
-                        "&Record View", null, "Record View", null, item);
+                        "&Record View", null, "Record View (F2)", "F2", item);
                     break;
 
                 case "MenuItems.Tools":
@@ -256,7 +256,7 @@ namespace SIL.Pa
 
                 case "MenuItems.HelpPA":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.HelpMenu.PA",
-                        "Phonology Assistant...", null, "Phonology Assistant Help", "F1", item);
+                        "Phonology Assistant...", null, "Phonology Assistant Help (F1)", "F1", item);
                     break;
 
                 case "MenuItems.HelpTraining":
@@ -311,52 +311,52 @@ namespace SIL.Pa
 
                 case "ToolbarItems.GroupBySortedField":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.GroupByPrimarySortField",
-                        "&Group by Primary Sort Field", null, "Group by Primary Sort Field", "Ctrl+G", item);
+                        "&Group by Primary Sort Field", null, "Group by Primary Sort Field (Ctrl+G)", "Ctrl+G", item);
                     break;
 
                 case "ToolbarItems.CollapseAllGroups":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.CollapseAllGroups",
-                        "C&ollapse All Groups", null, "Collapse All Groups", "Ctrl+Up", item);
+                        "C&ollapse All Groups", null, "Collapse All Groups (Ctrl+Up)", "Ctrl+Up", item);
                     break;
 
                 case "ToolbarItems.ExpandAllGroups":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ExpandAllGroups",
-                        "&Expand All Groups", null, "Expand All Groups", "Ctrl+Down", item);
+                        "&Expand All Groups", null, "Expand All Groups (Ctrl+Down)", "Ctrl+Down", item);
                     break;
 
                 case "ToolbarItems.ShowRecordPane":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowRecordPane",
-                        "&Record View", null, "Record View", null, item);
+                        "&Record View", null, "Record View (F2)", "F2", item);
                     break;
 
                 case "ToolbarItems.Find":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.Find",
-                        "&Find", null, "Find", "Ctrl+F", item);
+                        "&Find", null, "Find (Ctrl+F)", "Ctrl+F", item);
                     break;
 
                 case "ToolbarItems.FindNext":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.FindNext",
-                        "Find &Next", null, "Find Next", "F3", item);
+                        "Find &Next", null, "Find Next (F3)", "F3", item);
                     break;
 
                 case "ToolbarItems.Playback":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.Playback",
-                        "&Playback", null, "Playback", "F5", item);
+                        "&Playback", null, "Playback (F5)", "F5", item);
                     break;
 
                 case "ToolbarItems.PlaybackOnMenu":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.PlaybackOnMenu",
-                        "&Playback", null, "Playback", "F5", item);
+                        "&Playback", null, "Playback (F5)", "F5", item);
                     break;
 
                 case "ToolbarItems.PlaybackRepeatedly":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.PlaybackRepeatedly",
-                        "Playback &Repeatedly", null, "Playback Repeatedly", "Ctrl+F5", item);
+                        "Playback &Repeatedly", null, "Playback Repeatedly (Ctrl+F5)", "Ctrl+F5", item);
                     break;
 
                 case "ToolbarItems.StopPlayback":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.StopPlayback",
-                        "&Stop Playback", null, "Stop Playback", "F8", item);
+                        "&Stop Playback", null, "Stop Playback (F8)", "F8", item);
                     break;
 
                 case "ToolbarItems.AdjustPlaybackSpeedParent":
@@ -471,12 +471,12 @@ namespace SIL.Pa
 
                 case "ToolbarItems.ShowResults":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowResults",
-                        "&Show Results", null, "Show Search Results", "Alt+S", item);
+                        "&Show Results", null, "Show Search Results (Alt+S)", "Alt+S", item);
                     break;
 
                 case "ToolbarItems.InsertIntoPattern":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertIntoPattern",
-                        "&Insert", null, "Insert Element into Current Search Pattern", "Alt+I", item);
+                        "&Insert", null, "Insert Element into Current Search Pattern (Alt+I)", "Alt+I", item);
                     break;
 
                 case "ToolbarItems.InsertConsonant":
@@ -546,7 +546,7 @@ namespace SIL.Pa
 
                 case "ToolbarItems.SavePatternOnMenu":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SavePatternOnMenu",
-                        "&Save", null, "Save Current Search Pattern", "Ctrl+S", item);
+                        "&Save", null, "Save Current Search Pattern (Ctrl+S)", "Ctrl+S", item);
                     break;
 
                 case "ToolbarItems.SavePatternAs":
@@ -556,16 +556,16 @@ namespace SIL.Pa
 
                 case "ToolbarItems.ClearPattern":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ClearPattern",
-                        "&Clear", null, "Clear Current Search Pattern and Results", "Alt+C", item);
+                        "&Clear", null, "Clear Current Search Pattern and Results (Alt+C)", "Alt+C", item);
                     break;
 
                 case "ToolbarItems.ShowCIEResults":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowCIEResults",
-                        "&Minimal Pairs", null, "Minimal Pairs", "Ctrl+M", item);
+                        "&Minimal Pairs", null, "Minimal Pairs (Ctrl+M)", "Ctrl+M", item);
                     break;
                 case "ToolbarItems.ShowCIESimilarResults":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowCIESimilarResults",
-                        "Similar E&nvironments", null, "Similar Environments", "Ctrl+Alt+N", item);
+                        "Similar E&nvironments", null, "Similar Environments (Ctrl+Alt+N)", "Ctrl+Alt+N", item);
                     break;
 
                 case "ContextMenuItems.CharChartSearchContextMenu":
@@ -645,7 +645,7 @@ namespace SIL.Pa
 
                 case "ContextMenuItems.InsertIntoChart":
                     LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.InsertIntoChart",
-                        "&Insert", null, "Insert Element into Current Chart Cell", "Alt+I", item);
+                        "&Insert", null, "Insert Element into Current Chart Cell (Alt+I)", "Alt+I", item);
                     break;
 
                 case "ContextMenuItems.InsertConsonant":
@@ -705,17 +705,17 @@ namespace SIL.Pa
 
                 case "ContextMenuItems.SearchOptions":
                     LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.SearchOptions",
-                        "&Options", null, "Search Options for Current Chart Column", "Alt+O", item);
+                        "&Options", null, "Search Options for Current Chart Column (Alt+O)", "Alt+O", item);
                     break;
 
                 case "ContextMenuItems.RunChartSearch":
                     LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.RunChartSearch",
-                        "Fi&ll Chart", null, "Fill Chart with Results", "Alt+L", item);
+                        "Fi&ll Chart", null, "Fill Chart with Results (Alt+L)", "Alt+L", item);
                     break;
 
                 case "ContextMenuItems.BeginSearch":
                     LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.BeginSearch",
-                        "&Search", null, "Search", "Alt+S", item);
+                        "&Search", null, "Search (Alt+S)", "Alt+S", item);
                     break;
 
                 case "ContextMenuItems.AddResultsToCurrentTabGroup":
@@ -735,27 +735,27 @@ namespace SIL.Pa
 
                 case "ContextMenuItems.SaveChart":
                     LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.SaveChart",
-                        "S&ave", null, "Save Current Chart", "Ctrl+S", item);
+                        "S&ave", null, "Save Current Chart (Ctrl+S)", "Ctrl+S", item);
                     break;
 
                 case "ContextMenuItems.ClearChart":
                     LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ClearChart",
-                "&Clear", null, "Clear Chart", "Alt+C", item);
+                "&Clear", null, "Clear Chart (Alt+C)", "Alt+C", item);
                     break;
 
                 case "ContextMenuItems.DeleteChartRow":
                     LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.DeleteChartRow",
-                "Delete &Row", null, "Delete Row", "Alt+R", item);
+                "Delete &Row", null, "Delete Row (Alt+R)", "Alt+R", item);
                     break;
 
                 case "ContextMenuItems.DeleteChartColumn":
                     LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.DeleteChartColumn",
-                "Delete C&olumn", null, "Delete Column", "Alt+O", item);
+                "Delete C&olumn", null, "Delete Column (Alt+O)", "Alt+O", item);
                     break;
 
                 case "ToolbarItems.BeginSearch":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.BeginSearch",
-                        "&Search", null, "Search", "Alt+S", item);
+                        "&Search", null, "Search (Alt+S)", "Alt+S", item);
                     break;
 
                 case "ToolbarItems.AddResultsToCurrentTabGroup":
@@ -775,17 +775,17 @@ namespace SIL.Pa
 
                 case "ToolbarItems.RunChartSearch":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.RunChartSearch",
-                        "Fi&ll Chart", null, "Fill Chart with Results", "Alt+L", item);
+                        "Fi&ll Chart", null, "Fill Chart with Results (Alt+L)", "Alt+L", item);
                     break;
 
                 case "ToolbarItems.InsertIntoChart":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.InsertIntoChart",
-                        "&Insert", null, "Insert Element into Current Chart Cell", "Alt+I", item);
+                        "&Insert", null, "Insert Element into Current Chart Cell (Alt+I)", "Alt+I", item);
                     break;
 
                 case "ToolbarItems.SaveChart":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SaveChart",
-                        "S&ave", null, "Save Current Chart", "Ctrl+S", item);
+                        "S&ave", null, "Save Current Chart (Ctrl+S)", "Ctrl+S", item);
                     break;
 
                 case "ToolbarItems.SaveChartOnMenu":
