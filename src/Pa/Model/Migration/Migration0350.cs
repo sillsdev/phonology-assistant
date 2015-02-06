@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Xml;
 
 namespace SIL.Pa.Model.Migration
 {
@@ -21,12 +22,30 @@ namespace SIL.Pa.Model.Migration
 		/// ------------------------------------------------------------------------------------
 		protected override void InternalMigration()
 		{
-		    MigrateLocalizationWord2003ToWord();
+		    MigrateLocalization();
+		    AddTrainingLanguageCode();
             UpdateProjectFileToLatestVersion();
         }
 
+        private void AddTrainingLanguageCode()
+        {
+            if (_projectFilePath.Contains("Training") && _projectFilePath.Contains("Sekpele"))
+            {
+                var xDoc = new XmlDocument();
+                xDoc.Load(_projectFilePath);
+                var node = xDoc.SelectSingleNode("//languageName");
+                if (xDoc.SelectSingleNode("languageCode") == null && node != null)
+                {
+                    var languageCodeNode = xDoc.CreateElement("languageCode");
+                    languageCodeNode.InnerText = "lip";
+                    node.ParentNode.InsertAfter(languageCodeNode, node);
+                    xDoc.Save(_projectFilePath);
+                }
+            }
+        }
+
         /// ------------------------------------------------------------------------------------
-        private void MigrateLocalizationWord2003ToWord()
+        private void MigrateLocalization()
         {
             var localizedStringFilesFolder = Path.Combine(App.ProjectFolder, App.kLocalizationsFolder);
             var dirInfo = new DirectoryInfo(localizedStringFilesFolder);
