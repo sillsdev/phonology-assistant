@@ -1212,31 +1212,13 @@ namespace SIL.Pa.UI.Views
         /// ------------------------------------------------------------------------------------
         protected bool OnResetChart(object args)
         {
-            if (!ActiveView)
+            if (lvSavedCharts.SelectedIndices.Count <= 0 || _grid.ChartLayout.Name == null || !ActiveView)
                 return false;
 
-            var msg = LocalizationManager.GetString("Views.DistributionChart.ConfirmResetChartMsg",
-                "Are you sure you want to reset the charts?");
-
-            if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
-                return false;
-
-            int index = lvSavedCharts.SelectedIndices[0];
-
-            var srcPath = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultDistributionCharts.xml");
-            var destPath = DistributionChart.GetFileForProject(Project.ProjectPathFilePrefix);
-            File.Copy(srcPath, destPath, true);
-
-            LoadSavedChartsList();
-
-            if (index >= 0)
-            {
-                lvSavedCharts.Items[index].Selected = true;
-                LoadSavedLayout(lvSavedCharts.SelectedItems[0]);
-            }
-
+            ResetCurrentChart(_grid.ChartLayout);
             return true;
         }
+
 
         /// ------------------------------------------------------------------------------------
         protected bool OnGridColumnDelete(object args)
@@ -1316,6 +1298,61 @@ namespace SIL.Pa.UI.Views
 
             SaveCharts();
             _grid.LoadFromLayout(layoutCopy);
+        }
+
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// Reset the current Chart Value in xml file.
+        /// </summary>
+        /// <param name="layoutToOverwrite">The layout to overwrite when saving. This should
+        /// be null if the layout is to be added to the list of saved layouts.</param>
+        /// ------------------------------------------------------------------------------------
+        private void ResetCurrentChart(DistributionChart layoutToOverwrite)
+        {
+            var defaultChartFile = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName, "DefaultDistributionCharts.xml");
+            var defaultChart = XmlSerializationHelper.DeserializeFromFile<List<DistributionChart>>(defaultChartFile, "distributionCharts");
+
+            ListViewItem item = null;
+            if (_savedCharts == null)
+                _savedCharts = new List<DistributionChart>();
+
+            // When the user wants to overwrite an existing layout, we need to find the
+            // item in the DefaultDistributionCharts file  list that corresponds to the one being overwritten.
+            if (layoutToOverwrite != null)
+            {
+                foreach (ListViewItem lvi in lvSavedCharts.Items)
+                {
+                    DistributionChart tmpLayout = lvi.Tag as DistributionChart;
+                    if (tmpLayout != null && tmpLayout.Name == layoutToOverwrite.Name)
+                    {
+                        item = lvi;
+                        break;
+                    }
+                }
+            }
+
+            if (item != null)
+            {
+                // Overwrite an existing layout.
+                int i = _savedCharts.IndexOf(item.Tag as DistributionChart);
+                foreach (var chartValue in defaultChart)
+                {
+                    if (_savedCharts[i].Name == chartValue.Name)
+                    {
+                        var msg = LocalizationManager.GetString("Views.DistributionChart.ConfirmResetChartMsg", "Are you sure you want to reset the chart?");
+                        if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
+                            return;
+
+                        _savedCharts[i] = chartValue;
+                        item.Tag = chartValue;
+                        item.Text = chartValue.Name;
+                        break;
+                    }
+                }
+                SaveCharts();
+                lvSavedCharts.Items[i].Selected = true;
+                LoadSavedLayout(lvSavedCharts.SelectedItems[i]);
+            }
         }
 
         /// ------------------------------------------------------------------------------------
