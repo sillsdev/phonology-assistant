@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PaProject version="3.4.10">
+<PaProject version="3.5.1">
   <name>Sekpele 2</name>
   <languageName>Sekpele</languageName>
+  <languageCode>lip</languageCode>
   <Transcriber>Rod Casali with modifications for training purposes.</Transcriber>
   <SpeakerName />
   <Comments>Data source: Somevi Cyprian Kudjo, Sekpele speaker from eastern Ghana. This data was collected in 2005. This data has been modified for training purposes (for example, uncertain phone groups have been added and tone has been removed).</Comments>

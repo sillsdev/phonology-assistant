@@ -666,7 +666,7 @@
 		<xsl:if test="not(following-sibling::*[1]/@tuid = 'Views.DistributionChart.ConfirmResetChartMsg')">
 			<tu tuid="Views.DistributionChart.ConfirmResetChartMsg">
 				<tuv xml:lang="en">
-					<seg>Are you sure you want to reset the charts?</seg>
+					<seg>Are you sure you want to reset the chart?</seg>
 				</tuv>
 			</tu>
 		</xsl:if>

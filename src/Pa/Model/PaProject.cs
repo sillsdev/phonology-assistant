@@ -178,7 +178,7 @@ namespace SIL.Pa.Model
             if (error == null && prevVersion == "3.4.9")
             {
                 error = Migration0349.Migrate(filename, GetProjectPathFilePrefix);
-                prevVersion = "3.5.0";
+                prevVersion = "3.4.10";
             }
 
             if (error == null && prevVersion == "3.4.10")
