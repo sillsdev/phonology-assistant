@@ -536,12 +536,12 @@ namespace SIL.Pa
                     break;
                 case "ToolbarItems.SearchOptions":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SearchOptions",
-                        "&Options", null, "Search Options", "Alt+O", item);
+                        "&Options", null, "Search Options (Alt+O)", "Alt+O", item);
                     break;
 
                 case "ToolbarItems.SavePattern":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.SavePattern",
-                        "Save", null, "Save Search Pattern", null, item);
+                        "Save", null, "Save Search Pattern (Ctrl+S)", "Ctrl+S", item);
                     break;
 
                 case "ToolbarItems.SavePatternOnMenu":
@@ -600,7 +600,7 @@ namespace SIL.Pa
 
                 case "ToolbarItems.ChartPhoneSearch":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearch",
-                        "&Search", null, "Search for Phone", null, item);
+                        "&Search", null, "Search for Phone (Alt+S)", "Alt+S", item);
                     break;
 
                 case "ToolbarItems.ChartPhoneSearchAnywhere":
@@ -635,7 +635,7 @@ namespace SIL.Pa
 
                 case "ToolbarItems.ShowHistogram":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowHistogram",
-                        "&Histogram", null, "Show Histogram", null, item);
+                        "&Histogram", null, "Show Histogram (Alt+H)", "Alt+H", item);
                     break;
 
                 case "ToolbarItems.ShowHtmlChart":
@@ -805,17 +805,17 @@ namespace SIL.Pa
 
                 case "ToolbarItems.ClearChart":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ClearChart",
-                        "&Clear", null, "Clear Chart", "Alt+C", item);
+                        "&Clear", null, "Clear Chart (Alt+C)", "Alt+C", item);
                     break;
 
                 case "ToolbarItems.DeleteChartRow":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.DeleteChartRow",
-                        "Delete &Row", null, "Delete Row", "Alt+R", item);
+                        "Delete &Row", null, "Delete Row (Alt+R)", "Alt+R", item);
                     break;
 
                 case "ToolbarItems.DeleteChartColumn":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.DeleteChartColumn",
-                        "Delete C&olumn", null, "Delete Column", "Alt+O", item);
+                        "Delete C&olumn", null, "Delete Column (Alt+O)", "Alt+O", item);
                     break;
             }
         }

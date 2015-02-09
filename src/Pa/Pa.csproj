@@ -228,6 +228,7 @@
     <Compile Include="Model\Migration\Migration0347.cs" />
     <Compile Include="Model\Migration\Migration0349.cs" />
     <Compile Include="Model\Migration\Migration0350.cs" />
+    <Compile Include="Model\Migration\Migration0351.cs" />
     <Compile Include="UIAdapter\LocalizeAdapterItems.cs" />
     <Compile Include="Miscellaneous\AudioPlayer.cs" />
     <Compile Include="Miscellaneous\CIEBuilder.cs" />
@@ -1217,6 +1218,7 @@
     <EmbeddedResource Include="Model\Migration\UpdatePaUI0347.xslt" />
     <EmbeddedResource Include="Model\Migration\AddRhymeToDistribution.xslt" />
     <EmbeddedResource Include="Model\Migration\UpdatePaUI0350.xslt" />
+    <Content Include="Model\Migration\UpdatePaUI0351.xslt" />
     <Content Include="pa.ico" />
     <None Include="Resources\CloseTab.png" />
     <None Include="Resources\DropDownArrowWithPadding.png" />
