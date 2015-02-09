@@ -286,7 +286,7 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search_Result_Tab_Groups/Minimal_Pairs_Options.htm.
+        ///   Looks up a localized string similar to User_Interface/Menus/View/Minimal_Pairs_Options.htm.
         /// </summary>
         public static string hidMinimalPairsOptions {
             get {

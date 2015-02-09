@@ -186,7 +186,7 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidMinimalPairsOptions" xml:space="preserve">
-    <value>Search_Result_Tab_Groups/Minimal_Pairs_Options.htm</value>
+    <value>User_Interface/Menus/View/Minimal_Pairs_Options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidMissingDataSourceMsgBox" xml:space="preserve">
