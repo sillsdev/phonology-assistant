@@ -1346,12 +1346,14 @@ namespace SIL.Pa.UI.Views
                         _savedCharts[i] = chartValue;
                         item.Tag = chartValue;
                         item.Text = chartValue.Name;
+
+                        SaveCharts();
+                        lvSavedCharts.Items[i].Selected = true;
+                        LoadSavedLayout(lvSavedCharts.SelectedItems[0]);
+
                         break;
                     }
                 }
-                SaveCharts();
-                lvSavedCharts.Items[i].Selected = true;
-                LoadSavedLayout(lvSavedCharts.SelectedItems[i]);
             }
         }
 

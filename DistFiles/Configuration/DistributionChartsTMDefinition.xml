@@ -229,6 +229,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				<item name="cmnuAddResultsToNewStackedTabGroup" commandid="CmdXYChartShowResultsToNewStackedTabGroup" type="0" displaytype="2"/>
 			</item>
 			<item name="cmnuSaveChart" commandid="CmdSaveChart" type="0" displaytype="2" begingroup="true"/>
+			<item name="cmnuResetChart" commandid="CmdResetChart" type="0" displaytype="2"/>
 			<item name="cmnuClearChart" commandid="CmdClearChart" type="0" displaytype="2"/>
 			<item name="cmnuDeleteChartRow" commandid="CmdDeleteChartRow" type="0" displaytype="2" begingroup="true"/>
 			<item name="cmnuDeleteChartColumn" commandid="CmdDeleteChartColumn" type="0" displaytype="2" begingroup="true"/>
