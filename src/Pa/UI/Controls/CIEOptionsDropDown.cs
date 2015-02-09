@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Windows.Forms;
 using Localization;
 using SilTools;
@@ -139,7 +140,12 @@ namespace SIL.Pa.UI.Controls
 		{
 			Canceled = true;
 			base.HandleHelpClicked(sender, e);
-			App.ShowHelpTopic("hidMinimalPairsOptions");
+		    string _helpTopic = string.Empty;
+		    if(CIEBuilder.IsMinimalpair)
+		        _helpTopic = "hidMinimalPairsOptions";
+		    else
+		        _helpTopic = "hidSimilarEnvironmentsOptions";
+			App.ShowHelpTopic(_helpTopic);
 		}
 
 		/// ------------------------------------------------------------------------------------

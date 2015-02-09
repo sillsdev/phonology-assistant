@@ -286,7 +286,7 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User_Interface/Search_Result_Tab_Groups/Minimal_Pairs_Options.htm.
+        ///   Looks up a localized string similar to Search_Result_Tab_Groups/Minimal_Pairs_Options.htm.
         /// </summary>
         public static string hidMinimalPairsOptions {
             get {
@@ -498,6 +498,15 @@ namespace SIL.Pa.ResourceStuff {
         public static string hidSFDataSourcePropertiesDlg {
             get {
                 return ResourceManager.GetString("hidSFDataSourcePropertiesDlg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User_Interface/Menus/View/Similar_Environments_Options.htm.
+        /// </summary>
+        public static string hidSimilarEnvironmentsOptions {
+            get {
+                return ResourceManager.GetString("hidSimilarEnvironmentsOptions", resourceCulture);
             }
         }
         

@@ -186,7 +186,7 @@
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidMinimalPairsOptions" xml:space="preserve">
-    <value>User_Interface/Search_Result_Tab_Groups/Minimal_Pairs_Options.htm</value>
+    <value>Search_Result_Tab_Groups/Minimal_Pairs_Options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
   <data name="hidMissingDataSourceMsgBox" xml:space="preserve">
@@ -354,6 +354,10 @@
   </data>
   <data name="hidSearchOptionsOnFilters" xml:space="preserve">
     <value>User_Interface/Search_Options.htm</value>
+    <comment>Help topic path - Do not localize</comment>
+  </data>
+  <data name="hidSimilarEnvironmentsOptions" xml:space="preserve">
+    <value>User_Interface/Menus/View/Similar_Environments_Options.htm</value>
     <comment>Help topic path - Do not localize</comment>
   </data>
 </root>
