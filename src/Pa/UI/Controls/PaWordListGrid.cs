@@ -2346,9 +2346,16 @@ namespace SIL.Pa.UI.Controls
 				_noCIEResultsMsg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 				_noCIEResultsMsg.BackColor = Color.Transparent;
 				_noCIEResultsMsg.MouseDown += delegate { Focus(); };
+
+                string _resultMessage = string.Empty;
+                if (CIEBuilder.IsMinimalpair)
+                    _resultMessage = "minimal pairs";
+                else
+                    _resultMessage = "similar environments";
+
 				_noCIEResultsMsg.Text = Utils.ConvertLiteralNewLines(LocalizationManager.GetString("Views.WordLists.NoMinimalPairsMsg",
-					"No minimal pairs to display.\nChange the minimal pairs options and try again.",
-					"Shows in place of a word list grid when the user has turned on minimal pairs and there aren't any to show."));
+                    "No " + _resultMessage + " to display.\nChange the " + _resultMessage + " options and try again.",
+                    "Shows in place of a word list grid when the user has turned on " + _resultMessage + " and there aren't any to show."));
 
 				Controls.Add(_noCIEResultsMsg);
 				_noCIEResultsMsg.BringToFront();
