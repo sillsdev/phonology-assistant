@@ -184,8 +184,12 @@ namespace SIL.Pa.Model
             if (error == null && prevVersion == "3.4.10")
             {
                 error = Migration0350.Migrate(filename, GetProjectPathFilePrefix);
-                if (error == null)
-                    error = Migration0351.Migrate(filename, GetProjectPathFilePrefix);
+                prevVersion = "3.5.0";
+            }
+
+            if (error == null && prevVersion == "3.5.0")
+            {
+                error = Migration0351.Migrate(filename, GetProjectPathFilePrefix);
                 prevVersion = kCurrVersion;
             }
 

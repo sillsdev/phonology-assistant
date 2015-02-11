@@ -1219,7 +1219,7 @@
     <EmbeddedResource Include="Model\Migration\UpdatePaUI0347.xslt" />
     <EmbeddedResource Include="Model\Migration\AddRhymeToDistribution.xslt" />
     <EmbeddedResource Include="Model\Migration\UpdatePaUI0350.xslt" />
-    <Content Include="Model\Migration\UpdatePaUI0351.xslt" />
+    <EmbeddedResource Include="Model\Migration\UpdatePaUI0351.xslt" />
     <Content Include="pa.ico" />
     <None Include="Resources\CloseTab.png" />
     <None Include="Resources\DropDownArrowWithPadding.png" />
