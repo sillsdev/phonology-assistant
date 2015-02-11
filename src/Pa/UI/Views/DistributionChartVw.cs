@@ -188,6 +188,11 @@ namespace SIL.Pa.UI.Views
                     return true;
                 }
             }
+            else if (keyData == (Keys)117) //Key-press "F6"
+            {
+                ptrnBldrComponent.Focus();
+                ptrnBldrComponent.tabPatternBlding.SelectedTab = ptrnBldrComponent.tabPatternBlding.TabPages[0];
+            }
 
             return base.ProcessCmdKey(ref msg, keyData);
         }

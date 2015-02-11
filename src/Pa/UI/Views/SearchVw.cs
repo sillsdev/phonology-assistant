@@ -160,6 +160,11 @@ namespace SIL.Pa.UI.Views
                     }
                 }
             }
+            else if (keyData == (Keys)117) //Key-press "F6"
+            {
+                ptrnTextBox.Focus();
+                ptrnTextBox.SelectAll();
+            }
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
@@ -1065,8 +1070,6 @@ namespace SIL.Pa.UI.Views
             {
                 ptrnTextBox.SetSearchQuery(query);
                 m_rsltVwMngr.PerformSearch(ptrnTextBox.SearchQuery, SearchResultLocation.CurrentTabGroup);
-                ptrnTextBox.Focus();
-                ptrnTextBox.SelectionLength = 0;
             }
         }
 

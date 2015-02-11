@@ -265,7 +265,7 @@ namespace SIL.Pa.UI.Controls
 
 		#endregion
 
-		private System.Windows.Forms.TabControl tabPatternBlding;
+		public System.Windows.Forms.TabControl tabPatternBlding;
 		private System.Windows.Forms.TabPage tpgCons;
 		private SilPanel pnlConsonants;
 		private System.Windows.Forms.TabPage tpgVows;
