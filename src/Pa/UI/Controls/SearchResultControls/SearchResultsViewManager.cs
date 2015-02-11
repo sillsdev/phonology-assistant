@@ -1663,6 +1663,14 @@ namespace SIL.Pa.UI.Controls
 				return true;
 			}
 
+            //Remove current tab on Ctrl+W
+            if (CurrentTabGroup != null && CurrentTabGroup.CurrentTab != null 
+                && (int)m.WParam == (int)Keys.W && (Control.ModifierKeys & Keys.Control) > 0)
+		    {
+                CurrentTabGroup.RemoveTab(CurrentTabGroup.CurrentTab, true);
+                return true;
+		    }
+
 			return false;
 		}
 
