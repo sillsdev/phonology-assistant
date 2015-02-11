@@ -763,6 +763,16 @@ namespace SIL.Pa.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Restore_default_layout {
+            get {
+                object obj = ResourceManager.GetObject("Restore_default_layout", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ShowFontColumn {
             get {
                 object obj = ResourceManager.GetObject("ShowFontColumn", resourceCulture);

@@ -191,7 +191,8 @@ namespace SIL.Pa.UI.Views
             else if (keyData == (Keys)117) //Key-press "F6"
             {
                 ptrnBldrComponent.Focus();
-                ptrnBldrComponent.tabPatternBlding.SelectedTab = ptrnBldrComponent.tabPatternBlding.TabPages[0];
+                ptrnBldrComponent.tabPatternBlding.SelectedTab = ptrnBldrComponent.tabPatternBlding.TabPages[0];
+
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
@@ -748,6 +749,68 @@ namespace SIL.Pa.UI.Views
                     lvSavedCharts.Items[index].Selected = true;
 
                 SaveCharts();
+            }
+        }
+
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// Restore all the default Charts when the restore button is pressed.
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        private void btnRestoreDefaultCharts_Click(object sender, EventArgs e)
+        {
+            var msg = LocalizationManager.GetString("Views.DistributionChart.ConfirmRestoreDefaultChartsMsg",
+                "Are you sure you want to restore default charts?");
+
+            if (Utils.MsgBox(msg, MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
+            RestoreDefaultChartsItem();
+            SaveCharts();
+
+            int? selectedIndex = null;
+            if (lvSavedCharts.SelectedItems.Count != 0)
+                selectedIndex = lvSavedCharts.SelectedIndices[0];
+
+            LoadSavedChartsList();
+            LoadGridValue(selectedIndex);
+        }
+
+        private void LoadGridValue(int? selectedIndex)
+        {
+            if (selectedIndex.HasValue || lvSavedCharts.SelectedItems.Count != 0)
+            {
+                if (selectedIndex != null) lvSavedCharts.Items[(int) selectedIndex].Selected = true;
+                LoadSavedLayout(lvSavedCharts.SelectedItems[0]);
+            }
+        }
+
+        private void RestoreDefaultChartsItem()
+        {
+            var defaultChartFile = FileLocator.GetFileDistributedWithApplication(App.ConfigFolderName,
+                "DefaultDistributionCharts.xml");
+            var defaultChart = XmlSerializationHelper.DeserializeFromFile<List<DistributionChart>>(defaultChartFile,
+                "distributionCharts");
+
+            List<DistributionChart> saveCustomCharts = _savedCharts.ToList();
+            foreach (var removeDefault in defaultChart)
+            {
+                foreach (var chartVal in _savedCharts)
+                {
+                    if (removeDefault.Name == chartVal.Name)
+                    {
+                        saveCustomCharts.Remove(chartVal);
+                        break;
+                    }
+                }
+            }
+            _savedCharts = new List<DistributionChart>();
+            _savedCharts = defaultChart;
+
+            foreach (var addCustomCharts in saveCustomCharts)
+            {
+                if (!_savedCharts.Contains(addCustomCharts))
+                    _savedCharts.Add(addCustomCharts);
             }
         }
 
