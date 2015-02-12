@@ -216,7 +216,28 @@ namespace SIL.Pa.UI.Dialogs
 		protected virtual void HandleOKButtonClick(object sender, EventArgs e)
 		{
 		}
-		
+
+        protected override bool ProcessCmdKey(ref Message message, Keys keys)
+        {
+            switch (keys)
+            {
+                case Keys.Escape:
+                    {
+                        this.Close();
+                        return true;
+                    }
+                case Keys.Control | Keys.Tab:
+                    {
+                        return true;
+                    }
+                case Keys.Control | Keys.Shift | Keys.Tab:
+                    {
+                        return true;
+                    }
+            }
+            return base.ProcessCmdKey(ref message, keys);
+        }
+
 		/// ------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets a value indicating whether or not the user saved the changes

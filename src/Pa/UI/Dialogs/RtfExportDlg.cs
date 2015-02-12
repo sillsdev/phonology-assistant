@@ -447,6 +447,26 @@ namespace SIL.Pa.UI.Dialogs
 			App.ShowHelpTopic(this);
 		}
 
+        protected override bool ProcessCmdKey(ref Message message, Keys keys)
+        {
+            switch (keys)
+            {
+                case Keys.Escape:
+                    {
+                        this.Close();
+                        return true;
+                    }
+                case Keys.Control | Keys.Tab:
+                    {
+                        return true;
+                    }
+                case Keys.Control | Keys.Shift | Keys.Tab:
+                    {
+                        return true;
+                    }
+            }
+            return base.ProcessCmdKey(ref message, keys);
+        }
 		#endregion
 	}
 }
