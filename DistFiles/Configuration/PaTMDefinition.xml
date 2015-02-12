@@ -108,7 +108,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				CmdCharChartMoveColLeft, CmdCharChartMoveColRight, CmdFindPrevious, 49, 50,
 				CmdDataCorpus, CmdXYChart, 53, 54, 55, 56, CmdShowCIEResults,
 				CmdGroupByFieldParent, CmdExpandAllGroups, CmdCollapseAllGroups, 61, 62,
-				63, CmdHelpPA, CmdHelpTraining, 66, CmdFilters, 68, CmdShowCIESimilarResults">
+				63, CmdHelpPA, CmdHelpTraining, 66, CmdFilters, CmdShowHtmlChart, CmdShowCIESimilarResults">
 		</imageList>
 	</resources>
 
@@ -192,6 +192,8 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdUnDockView" message="UnDockView"/>
 		<command id="CmdDockView" message="DockView"/>
 		<command id="CmdReloadProject" message="ReloadProject" shortcutkey="Ctrl+F9"/>
+		<command id="CmdShowHtmlChart" message="ShowHtmlChart" shortcutkey="F4"/>
+		<command id="CmdHistogram" message="ShowHistogram" shortcutkey="Alt+H"/>
 	</commands>
 
 	<!-- **************** -->
@@ -250,6 +252,8 @@ Item "displaytype" Values (applies to item types 0 - 3):
 			<item name="mnuCollapseAllGroups" commandid="CmdCollapseAllGroups"/>
 			<item name="mnuExpandAllGroups" commandid="CmdExpandAllGroups"/>
 			<item name="mnuShowRecordPane" commandid="CmdShowRecordPane" begingroup="true"/>
+			<item name="mnuHistogram" commandid="CmdHistogram" begingroup="true"/>
+			<item name="mnuShowHtmlChart" commandid="CmdShowHtmlChart"/>
 		</item>
 
 		<!-- *************** -->

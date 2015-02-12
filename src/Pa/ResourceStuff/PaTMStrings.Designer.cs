@@ -2167,6 +2167,42 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &amp;Histogram.
+        /// </summary>
+        public static string kstidShowHistogramText {
+            get {
+                return ResourceManager.GetString("kstidShowHistogramText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Histogram.
+        /// </summary>
+        public static string kstidShowHistogramToolTip {
+            get {
+                return ResourceManager.GetString("kstidShowHistogramToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HTML Chart.
+        /// </summary>
+        public static string kstidShowHtmlChartText {
+            get {
+                return ResourceManager.GetString("kstidShowHtmlChartText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show HTML Chart (F4).
+        /// </summary>
+        public static string kstidShowHtmlChartToolTip {
+            get {
+                return ResourceManager.GetString("kstidShowHtmlChartToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;Record View.
         /// </summary>
         public static string kstidShowRecordPaneText {

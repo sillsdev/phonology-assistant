@@ -906,6 +906,20 @@ namespace SIL.Pa.UI.Views
 			return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
+		/// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// On "F6" key press - It resets to default chart
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys)117) //Key-press "F6"
+            {
+                ShowHtmlChart(false);
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
 		#endregion
 
         #region Events to Handle OnUpdateEditFind(Next/Previous)

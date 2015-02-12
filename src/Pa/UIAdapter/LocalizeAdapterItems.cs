@@ -203,7 +203,14 @@ namespace SIL.Pa
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ShowRecordPane",
                         "&Record View", null, "Record View (F2)", "F2", item);
                     break;
-
+                case "MenuItems.ShowHtmlChart":
+                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ShowHtmlChart",
+                        "HTML Chart", null, "HTML Chart (F4)", "F4", item);
+                    break;
+                case "MenuItems.ShowHistogram":
+                    LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ShowHistogram",
+                       "&Histogram", null, "Show Histogram (Alt+H)", "Alt+H", item);
+                    break;
                 case "MenuItems.Tools":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.ToolsMenu.Tools",
                         "&Tools", "Text on main menu (i.e. menu across top of application window).", null, null, item);
@@ -640,7 +647,7 @@ namespace SIL.Pa
 
                 case "ToolbarItems.ShowHtmlChart":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowHtmlChart",
-                        "HTML Chart", null, "Show HTML Chart", null, item);
+                        "HTML Chart", null, "Show Default/HTML Chart (F4)", null, item);
                     break;
 
                 case "ContextMenuItems.InsertIntoChart":
