@@ -5,6 +5,7 @@ using Localization;
 using SIL.Pa.DataSource;
 using SIL.Pa.DataSource.FieldWorks;
 using SIL.Pa.Model;
+using SIL.Pa.UI.Dialogs;
 
 namespace SIL.Pa.UI.Controls
 {
@@ -90,10 +91,12 @@ namespace SIL.Pa.UI.Controls
 			if (field != null)
 				fieldsAlreadyMapped.Remove(field);
 
-			var fldList = from fld in m_potentialFields
-						  where !fieldsAlreadyMapped.Any(f => f.Name == fld.Name)
-						  orderby fld.DisplayName
-						  select fld.DisplayName;
+		    var fldList = from fld in m_potentialFields
+		        where
+		            !fieldsAlreadyMapped.Any(f => f.Name == fld.Name) &&
+		            fld.Name != Fw7DataSourcePropertiesDlg.m_selectedvernacularItem.Name
+		        orderby fld.DisplayName
+		        select fld.DisplayName;
 
 			return new KeyValuePair<object, IEnumerable<object>>(
 				field == null ? null : field.DisplayName, fldList.Cast<object>());
@@ -145,7 +148,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public override IEnumerable<FieldMapping> Mappings
 		{
-			get { return m_mappings.Where(m => m.Field != null); }
+		    get { return m_mappings.Where(m => m.Field != null); }
 		}
 	}
 }

@@ -29,6 +29,7 @@ namespace SIL.Pa.UI.Dialogs
 		private FieldMapping m_phoneticMapping;
 		private FieldMapping m_audioFileMapping;
 	    private FieldMapping m_vernacularMapping;
+	    public static PaField m_selectedvernacularItem;
 
 		#region Construction and initialization
 		/// ------------------------------------------------------------------------------------
@@ -128,10 +129,12 @@ namespace SIL.Pa.UI.Dialogs
 		    if (m_vernacularMapping != null)
 		    {
 		        cboVernacularOptions.SelectedItem = vernOptions.FirstOrDefault(v => v == m_vernacularMapping.NameInDataSource);
+		        m_selectedvernacularItem = m_vernacularMapping.Field;
 		    }
 		    if (cboVernacularOptions.SelectedItem == null)
 		    {
                 cboVernacularOptions.SelectedItem = vernOptions.Contains("LexemeForm") ? "LexemeForm" : cboVernacularOptions.Items[0];
+                m_selectedvernacularItem = m_potentialVernacularFields.FirstOrDefault(v => v.Name == "LexemeForm");
             }
 			cboPhoneticWritingSystem.Items.AddRange(m_datasource.FwDataSourceInfo.GetWritingSystems()
 				.Where(ws => ws.Type == FwDBUtils.FwWritingSystemType.Vernacular)
@@ -202,12 +205,22 @@ namespace SIL.Pa.UI.Dialogs
 			lblPronunciationOptions.Enabled = rbPronunField.Checked;
 			cboPronunciationOptions.Enabled = rbPronunField.Checked;
 
-			if (!cboPronunciationOptions.Enabled)
-				cboPronunciationOptions.SelectedIndex = -1;
-			else if (cboPronunciationOptions.SelectedIndex == -1)
-				cboPronunciationOptions.SelectedIndex = 0;
+		    if (!cboPronunciationOptions.Enabled)
+		        cboPronunciationOptions.SelectedIndex = -1;
+		    else if (cboPronunciationOptions.SelectedIndex == -1)
+		        cboPronunciationOptions.SelectedIndex = 0;
+
 		}
 
+
+        /// ------------------------------------------------------------------------------------
+        private void HandleVernacularOptionsChanged(object sender, EventArgs e)
+        {
+            m_dirty = true;
+            if (!cboPronunciationOptions.Enabled)
+                m_selectedvernacularItem = m_potentialVernacularFields.First(f => f.Name == cboVernacularOptions.SelectedItem);
+
+        }
 		/// ------------------------------------------------------------------------------------
 		private void HandleTableLayoutPhoneticDataPaint(object sender, PaintEventArgs e)
 		{
@@ -252,16 +265,29 @@ namespace SIL.Pa.UI.Dialogs
 
             m_datasource.FieldMappings.Add(m_phoneticMapping);
 			m_datasource.FieldMappings.Add(m_audioFileMapping);
-            if (rbVernForm.Checked)
+		    foreach (var field in m_datasource.FieldMappings.Where(field => field.Field != null))
+		    {
+                if (field.Field.Note == "V" && field.Field.Name != "LexemeForm")
+                {
+                    field.Field.Type = FieldType.GeneralText;
+                }
+		        field.Field.Note = "P";
+		    }
+		    if (rbVernForm.Checked)
             {
                 var phoneticField = m_potentialVernacularFields.First(f => f.Name == cboVernacularOptions.SelectedItem);
                 phoneticField.Type = FieldType.Phonetic;
                 phoneticField.Note = "V";
                 phoneticField.WidthInGrid = 0;
-                phoneticField.VisibleInGrid = false;
+                phoneticField.VisibleInGrid = false;                
                 var newMapping = m_phoneticMapping.Copy();
                 newMapping.Field = phoneticField;
                 newMapping.NameInDataSource = phoneticField.Name;
+                newMapping.Field.FwWsType = FwDBUtils.FwWritingSystemType.Vernacular;
+                if (m_datasource.FieldMappings.Any(f => f.NameInDataSource == phoneticField.Name)) ;
+                {
+                    m_datasource.FieldMappings.Remove(m_datasource.FieldMappings.FirstOrDefault(f => f.NameInDataSource == phoneticField.Name));
+                }
                 m_datasource.FieldMappings.Add(newMapping);
             }
 

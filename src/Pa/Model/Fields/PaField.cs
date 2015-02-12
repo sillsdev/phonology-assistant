@@ -343,6 +343,14 @@ namespace SIL.Pa.Model
                 foreach (var mFieldValue in mCustomfields.CustomFields.Select(s => s.Name))
                 {
                     var fd = new PaField(mFieldValue, FieldType.GeneralText);
+                    if (
+                        mFieldValue.Any(
+                            fieldName =>
+                                mCustomfields.FwWritingSystemType(mFieldValue) ==
+                                FwDBUtils.FwWritingSystemType.Vernacular))
+                    {
+                        fd.FwWsType = FwDBUtils.FwWritingSystemType.Vernacular;
+                    }
                     if (list.All(f => f.Name != mFieldValue))
                         list.Add(fd);
                     if (!Settings.Default.DefaultVisibleFields.Contains(fd.Name))
