@@ -907,5 +907,46 @@ namespace SIL.Pa.UI.Views
 		}
 
 		#endregion
-	}
+
+        #region Events to Handle OnUpdateEditFind(Next/Previous)
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// Handle the logic for all methods OnUpdateEditFind(Next/Previous)
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        private bool HandleFindItemUpdate(TMItemProperties itemProps, bool enableAllow)
+        {
+            if (!_activeView || itemProps == null)
+                return false;
+
+            bool enable = false;
+
+            if (itemProps.Enabled != enable)
+            {
+                itemProps.Enabled = enable;
+                itemProps.Visible = true;
+                itemProps.Update = true;
+            }
+
+            return true;
+        }
+        /// ------------------------------------------------------------------------------------
+        protected bool OnUpdateEditFind(object args)
+        {
+            return HandleFindItemUpdate(args as TMItemProperties, true);
+        }
+
+        /// ------------------------------------------------------------------------------------
+        protected bool OnUpdateEditFindNext(object args)
+        {
+            return HandleFindItemUpdate(args as TMItemProperties, FindInfo.CanFindAgain);
+        }
+
+        /// ------------------------------------------------------------------------------------
+        protected bool OnUpdateEditFindPrevious(object args)
+        {
+            return HandleFindItemUpdate(args as TMItemProperties, FindInfo.CanFindAgain);
+        }
+        #endregion
+    }
 }
