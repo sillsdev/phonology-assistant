@@ -2185,7 +2185,7 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to HTML Chart.
+        ///   Looks up a localized string similar to Toggle HTML View.
         /// </summary>
         public static string kstidShowHtmlChartText {
             get {
@@ -2194,7 +2194,7 @@ namespace SIL.Pa.ResourceStuff {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show HTML Chart (F4).
+        ///   Looks up a localized string similar to Toggle HTML View (F4).
         /// </summary>
         public static string kstidShowHtmlChartToolTip {
             get {
