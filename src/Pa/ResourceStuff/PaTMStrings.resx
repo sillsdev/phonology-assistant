@@ -1008,10 +1008,10 @@
     <comment>Menu Item text</comment>
   </data>
   <data name="kstidShowHtmlChartText" xml:space="preserve">
-    <value>HTML Chart</value>
+    <value>Toggle HTML View</value>
   </data>
   <data name="kstidShowHtmlChartToolTip" xml:space="preserve">
-    <value>Show HTML Chart (F4)</value>
+    <value>Toggle HTML View (F4)</value>
   </data>
   <data name="kstidShowHistogramText" xml:space="preserve">
     <value>&amp;Histogram</value>
