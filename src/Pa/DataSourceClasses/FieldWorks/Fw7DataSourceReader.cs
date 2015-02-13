@@ -406,6 +406,13 @@ namespace SIL.Pa.DataSource.FieldWorks
                 {
                     var wentry = new WordCacheEntry(recCacheEntry, m_phoneticFieldName);
                     wentry.SetValue(m_phoneticFieldName, eticValue);
+                    if (m_audioWsId != null)
+                    {
+                        string audioFile = allo.GetString(m_audioWsId);
+                        if (audioFile != null)
+                            wentry["AudioFile"] = audioFile;
+                    }
+
                     wentry.Guid = new Guid(lxEntry.Guid.ToString());
                     recCacheEntry.WordEntries.Add(wentry);
                 }
