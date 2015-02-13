@@ -4222,7 +4222,7 @@
 			</features>
 			<order>70D9</order>
 		</symbolDefinition>
-		<symbolDefinition code="1DC4" literal="ʰ" IPA="146">
+		<symbolDefinition code="02B0" literal="ʰ" >
 			<name>Superscript h</name>
 			<description>voiceless glottal fricative</description>
 			<type>suprasegmental</type>
@@ -4235,7 +4235,7 @@
 			</features>
 			<order>70E0</order>
 		</symbolDefinition>
-		<symbolDefinition code="0266" literal="ʱ" IPA="147">
+		<symbolDefinition code="02B1" literal="ʱ" >
 			<name>Superscript hooktop h</name>
 			<description>breathy-voiced glottal fricative</description>
 			<type>suprasegmental</type>
@@ -4248,7 +4248,7 @@
 			</features>
 			<order>70E1</order>
 		</symbolDefinition>
-		<symbolDefinition code="0294" literal="ˀ" IPA="113">
+		<symbolDefinition code="02C0" literal="ˀ">
 			<name>Superscript glottal stop</name>
 			<description>glottal stop</description>
 			<type>suprasegmental</type>
