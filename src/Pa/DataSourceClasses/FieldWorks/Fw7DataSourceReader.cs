@@ -286,7 +286,10 @@ namespace SIL.Pa.DataSource.FieldWorks
 						break;
 					
 					case "Allomorphs":
-						value = lxEntry.Allomorphs.Where(a => a != null).Select(a => a.GetString(wsId));
+						var values = lxEntry.Allomorphs.Where(a => a != null).Select(a => a.GetString(wsId)).ToList();
+                        if (values.Count > 0)
+				            values.Remove(values[0]);
+				        value = string.Join(", ", values);
 						break;
 				}
 
@@ -355,8 +358,8 @@ namespace SIL.Pa.DataSource.FieldWorks
                             break;
 
                         case "Allomorphs":
-                            eticValue = lxEntry.Allomorphs.Where(a => a != null).Select(a => a.GetString(m_phoneticWsId)).FirstOrDefault();
-                            break;
+			                return CreateWordEntriesFromAllomorphs(lxEntry, recCacheEntry);
+
                         case "CitationForm":
                             eticValue = GetMultiStringValue(lxEntry.CitationForm, m_phoneticWsId);
                             break;
@@ -388,21 +391,27 @@ namespace SIL.Pa.DataSource.FieldWorks
 		}
 
         /// ------------------------------------------------------------------------------------
-        private void CreateWordEntriesForVernacular(IPaLexEntry lxEntry, RecordCacheEntry recCacheEntry)
+        private bool CreateWordEntriesFromAllomorphs(IPaLexEntry lxEntry, RecordCacheEntry recCacheEntry)
         {
-            foreach (var mapping in m_dataSource.FieldMappings.Where(f => f.Field.Note == "V"))
+            var skip1 = true;
+            foreach (var allo in lxEntry.Allomorphs.Where(p => p != null))
             {
-                var wsId = mapping.PaFieldName;
-                var eticValue = recCacheEntry[wsId];
-                if (!string.IsNullOrEmpty(eticValue))
+                if (skip1)
                 {
-                    var wentry = new WordCacheEntry(recCacheEntry, wsId);
-                    wentry.SetValue(wsId, eticValue);
+                    skip1 = false;
+                    continue;
+                }
+                var eticValue = allo.GetString(m_phoneticWsId);
+                if (eticValue != null)
+                {
+                    var wentry = new WordCacheEntry(recCacheEntry, m_phoneticFieldName);
+                    wentry.SetValue(m_phoneticFieldName, eticValue);
                     wentry.Guid = new Guid(lxEntry.Guid.ToString());
-                    //ReadSinglePronunciation(pro, wentry);
                     recCacheEntry.WordEntries.Add(wentry);
                 }
             }
+
+            return (recCacheEntry.WordEntries.Count > 0);
         }
 
         /// <summary>
