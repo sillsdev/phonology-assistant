@@ -1007,4 +1007,16 @@
     <value>/{[C],[V]}_{[C],[V]} Word Medial</value>
     <comment>Menu Item text</comment>
   </data>
+  <data name="kstidShowHtmlChartText" xml:space="preserve">
+    <value>Toggle HTML View</value>
+  </data>
+  <data name="kstidShowHtmlChartToolTip" xml:space="preserve">
+    <value>Toggle HTML View (F4)</value>
+  </data>
+  <data name="kstidShowHistogramText" xml:space="preserve">
+    <value>&amp;Histogram</value>
+  </data>
+  <data name="kstidShowHistogramToolTip" xml:space="preserve">
+    <value>Show Histogram</value>
+  </data>
 </root>

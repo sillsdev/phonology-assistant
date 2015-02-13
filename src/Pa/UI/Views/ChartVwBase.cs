@@ -906,6 +906,61 @@ namespace SIL.Pa.UI.Views
 			return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
 		}
 
+		/// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// On "F6" key press - It resets to default chart
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys)117) //Key-press "F6"
+            {
+                ShowHtmlChart(false);
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
 		#endregion
-	}
+
+        #region Events to Handle OnUpdateEditFind(Next/Previous)
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// Handle the logic for all methods OnUpdateEditFind(Next/Previous)
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        private bool HandleFindItemUpdate(TMItemProperties itemProps, bool enableAllow)
+        {
+            if (!_activeView || itemProps == null)
+                return false;
+
+            bool enable = false;
+
+            if (itemProps.Enabled != enable)
+            {
+                itemProps.Enabled = enable;
+                itemProps.Visible = true;
+                itemProps.Update = true;
+            }
+
+            return true;
+        }
+        /// ------------------------------------------------------------------------------------
+        protected bool OnUpdateEditFind(object args)
+        {
+            return HandleFindItemUpdate(args as TMItemProperties, true);
+        }
+
+        /// ------------------------------------------------------------------------------------
+        protected bool OnUpdateEditFindNext(object args)
+        {
+            return HandleFindItemUpdate(args as TMItemProperties, FindInfo.CanFindAgain);
+        }
+
+        /// ------------------------------------------------------------------------------------
+        protected bool OnUpdateEditFindPrevious(object args)
+        {
+            return HandleFindItemUpdate(args as TMItemProperties, FindInfo.CanFindAgain);
+        }
+        #endregion
+    }
 }

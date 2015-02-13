@@ -357,6 +357,9 @@ namespace SIL.Pa.DataSource.FieldWorks
                         case "Allomorphs":
                             eticValue = lxEntry.Allomorphs.Where(a => a != null).Select(a => a.GetString(m_phoneticWsId)).FirstOrDefault();
                             break;
+                        case "CitationForm":
+                            eticValue = GetMultiStringValue(lxEntry.CitationForm, m_phoneticWsId);
+                            break;
 			        }
 			    }
                 //if (lxEntry.LexemeForm != null)

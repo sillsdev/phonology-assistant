@@ -1524,6 +1524,18 @@ namespace SIL.Pa.UI.Views
         }
 
         /// ------------------------------------------------------------------------------------
+        protected bool OnUpdateShowHtmlChart(object args)
+        {
+            return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
+        }
+
+        /// ------------------------------------------------------------------------------------
+        protected bool OnUpdateShowHistogram(object args)
+        {
+            return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
+        }
+
+        /// ------------------------------------------------------------------------------------
         protected bool Export(Func<string> wordListExportAction, string fmtFileName,
             string fileTypeFilter, string defaultFileType, bool openAfterExport,
             Func<PaProject, string, DistributionGrid, bool, bool> exportAction)

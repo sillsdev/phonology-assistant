@@ -880,6 +880,18 @@ namespace SIL.Pa.UI.Views
 			
 			return true;
 		}
+
+        /// ------------------------------------------------------------------------------------
+        protected bool OnUpdateShowHtmlChart(object args)
+        {
+            return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
+        }
+
+        /// ------------------------------------------------------------------------------------
+        protected bool OnUpdateShowHistogram(object args)
+        {
+            return App.DetermineMenuStateBasedOnViewType(args as TMItemProperties, GetType());
+        }
 		
 		#endregion
 	}
