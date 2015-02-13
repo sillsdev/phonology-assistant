@@ -712,7 +712,7 @@ namespace SIL.Pa
 
                 case "ContextMenuItems.SearchOptions":
                     LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.SearchOptions",
-                        "&Options", null, "Search Options for Current Chart Column (Alt+O)", "Alt+O", item);
+                        "Search &Options", null, "Search Options for Current Chart Column (Alt+O)", "Alt+O", item);
                     break;
 
                 case "ContextMenuItems.RunChartSearch":
