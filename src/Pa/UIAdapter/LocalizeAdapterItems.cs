@@ -582,27 +582,27 @@ namespace SIL.Pa
 
                 case "ContextMenuItems.ChartPhoneSearchAnywhere":
                     LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ChartPhoneSearchAnywhere",
-                        "&Anywhere", null, null, null, item);
+                        "Anywhere", null, null, null, item);
                     break;
 
                 case "ContextMenuItems.ChartPhoneSearchInitial":
                     LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ChartPhoneSearchInitial",
-                        "Word &Initially", null, "Search for phone word initially", null, item);
+                        "Word Initially", null, "Search for phone word initially", null, item);
                     break;
 
                 case "ContextMenuItems.ChartPhoneSearchMedial":
                     LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ChartPhoneSearchMedial",
-                        "Word &Medial", null, "Search for phone word medial", null, item);
+                        "Word Medial", null, "Search for phone word medial", null, item);
                     break;
 
                 case "ContextMenuItems.ChartPhoneSearchFinal":
                     LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ChartPhoneSearchFinal",
-                        "Word &Finally", null, "Search for phone word finally", null, item);
+                        "Word Finally", null, "Search for phone word finally", null, item);
                     break;
 
                 case "ContextMenuItems.ChartPhoneSearchAlone":
                     LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.ChartPhoneSearchAlone",
-                        "Al&one", null, "Search for phone alone", null, item);
+                        "Alone", null, "Search for phone alone", null, item);
                     break;
 
                 case "ToolbarItems.ChartPhoneSearch":
@@ -612,27 +612,27 @@ namespace SIL.Pa
 
                 case "ToolbarItems.ChartPhoneSearchAnywhere":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearchAnywhere",
-                        "&Anywhere", null, null, null, item);
+                        "Anywhere", null, null, null, item);
                     break;
 
                 case "ToolbarItems.ChartPhoneSearchInitial":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearchInitial",
-                        "Word &Initially", null, "Search for phone word initially", null, item);
+                        "Word Initially", null, "Search for phone word initially", null, item);
                     break;
 
                 case "ToolbarItems.ChartPhoneSearchMedial":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearchMedial",
-                        "Word &Medial", null, "Search for phone word medial", null, item);
+                        "Word Medial", null, "Search for phone word medial", null, item);
                     break;
 
                 case "ToolbarItems.ChartPhoneSearchFinal":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearchFinal",
-                        "Word &Finally", null, "Search for phone word finally", null, item);
+                        "Word Finally", null, "Search for phone word finally", null, item);
                     break;
 
                 case "ToolbarItems.ChartPhoneSearchAlone":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ChartPhoneSearchAlone",
-                        "Al&one", null, "Search for phone alone", null, item);
+                        "Alone", null, "Search for phone alone", null, item);
                     break;
 
                 case "ToolbarItems.IgnoredSymbols":
