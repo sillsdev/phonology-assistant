@@ -22,7 +22,8 @@ namespace SIL.Pa.UI.Controls
 			Canceled = false;
 			InitializeComponent();
 			_groupUncertainties.Visible = false;
-			
+		    lnkCancel.Visible = false;
+		    lnkApply.Visible = false;
 			SetupControls();
 			CIEOptions = (App.Project != null ? App.Project.CIEOptions.Clone() : new CIEOptions());
 		}

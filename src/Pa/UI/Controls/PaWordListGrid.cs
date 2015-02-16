@@ -2266,7 +2266,7 @@ namespace SIL.Pa.UI.Controls
             // This should never happen.
             if (cieCache == null)
             {
-                Utils.MsgBox(LocalizationManager.GetString("Views.WordLists.NoMinimalPairsPopupMsg", "No minimal pairs to display."));
+                Utils.MsgBox(LocalizationManager.GetString("Views.WordLists.NoSimilarEnvironmentPopupMsg", "No Similar Environments to display."));
                 return false;
             }
 

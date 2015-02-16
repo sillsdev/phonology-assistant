@@ -19,17 +19,23 @@ namespace SIL.Pa.UI.Controls
 		private SearchQuery m_query;
 		private bool m_showApplyToAll;
 
+        /// ------------------------------------------------------------------------------------
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the cancel link was clicked.
+        /// </summary>
+        /// ------------------------------------------------------------------------------------
+        public bool Canceled { get; set; }
+
 		/// ------------------------------------------------------------------------------------
 		public SearchOptionsDropDown()
 		{
 			InitializeComponent();
-
+            Canceled = false;
 			if (App.DesignMode)
 				return;
 
 			_linkApplyToAll.Font = FontHelper.UIFont;
 			_linkHelp.Font = FontHelper.UIFont;
-            _linkClose.Font = FontHelper.UIFont;
 			_chkIgnoreDiacritics.Font = FontHelper.UIFont;
 			_chkShowAllWords.Font = FontHelper.UIFont;
 			_chkLength.Font = FontHelper.UIFont;
@@ -39,6 +45,7 @@ namespace SIL.Pa.UI.Controls
 			_groupUncertainties.Font = FontHelper.UIFont;
 			rbPrimaryOnly.Font = FontHelper.UIFont;
 			rbAllUncertainties.Font = FontHelper.UIFont;
+            lnkApply.LinkClicked += delegate { Close(); };
 
 			int fontsize = Settings.Default.SearchOptionsDropDownPickerLabelFontSize;
 			if (fontsize > 0)
@@ -158,6 +165,7 @@ namespace SIL.Pa.UI.Controls
 			}
 			set
 			{
+                Canceled = false;
 				m_query = value.Clone();
 				_chkShowAllWords.Checked = m_query.ShowAllOccurrences;
 				_chkIgnoreDiacritics.Checked = m_query.IgnoreDiacritics;
@@ -189,6 +197,9 @@ namespace SIL.Pa.UI.Controls
 		{
 			get
 			{
+                if (Canceled)
+                    return false;
+
 				if ((bool)_chkShowAllWords.Tag != _chkShowAllWords.Checked ||
 					(bool)_chkIgnoreDiacritics.Tag != _chkIgnoreDiacritics.Checked ||
 					(bool)_groupUncertainties.Tag != rbAllUncertainties.Checked)
@@ -288,6 +299,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		protected virtual void HandleHelpClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
+            Canceled = true;
             Close();
             App.ShowHelpTopic("hidSearchOptionsOnFilters");
 		}
@@ -311,6 +323,7 @@ namespace SIL.Pa.UI.Controls
         /// ------------------------------------------------------------------------------------
         protected virtual void HandleCloseClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            Canceled = true;
             Close();
         }
 	}
