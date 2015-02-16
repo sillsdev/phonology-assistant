@@ -2842,7 +2842,7 @@
 			<type>diacritic</type>
 			<isBase>false</isBase>
 			<canPrecedeBase>false</canPrecedeBase>
-			<displayWithDottedCircle>false</displayWithDottedCircle>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
 			<order>3E01</order>
 		</symbolDefinition>
 		<symbolDefinition code="02B9" literal="ʹ">
