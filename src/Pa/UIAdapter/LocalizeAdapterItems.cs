@@ -205,7 +205,7 @@ namespace SIL.Pa
                     break;
                 case "MenuItems.ShowHtmlChart":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ShowHtmlChart",
-                        "Toggle HTML View", null, "Toggle HTML View (F4)", "F4", item);
+                        "Toggle HTML Vie&w", null, "Toggle HTML View (F4)", "F4", item);
                     break;
                 case "MenuItems.ShowHistogram":
                     LocalizationManager.GetString("Menus and Toolbars.MenuItems.ViewMenu.ShowHistogram",
@@ -647,7 +647,7 @@ namespace SIL.Pa
 
                 case "ToolbarItems.ShowHtmlChart":
                     LocalizationManager.GetString("Menus and Toolbars.ToolbarItems.ShowHtmlChart",
-                        "Toggle HTML View", null, "Toggle HTML View (F4)", null, item);
+                        "Toggle HTML Vie&w", null, "Toggle HTML View (F4)", null, item);
                     break;
 
                 case "ContextMenuItems.InsertIntoChart":
@@ -712,7 +712,7 @@ namespace SIL.Pa
 
                 case "ContextMenuItems.SearchOptions":
                     LocalizationManager.GetString("Menus and Toolbars.ContextMenuItems.SearchOptions",
-                        "Search &Options", null, "Search Options for Current Chart Column (Alt+O)", "Alt+O", item);
+                        "&Options", null, "Search Options for Current Chart Column (Alt+O)", "Alt+O", item);
                     break;
 
                 case "ContextMenuItems.RunChartSearch":
