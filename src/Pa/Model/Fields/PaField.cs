@@ -254,7 +254,21 @@ namespace SIL.Pa.Model
             s_displayPropsCache = FieldDisplayPropsCache.LoadProjectFieldDisplayProps(project);
             if (project.DataSources.Count <= 0)
                 return GetDefaultFields();
-            var cusfields = new Fw7CustomField(project.DataSources[0]);
+            Fw7CustomField cusfields = null;
+            foreach (var ds in project.DataSources)
+            {
+                if (cusfields == null)
+                {
+                    cusfields = new Fw7CustomField(ds);
+                }
+                else
+                {
+                    cusfields.CustomFields.AddRange(
+                        new Fw7CustomField(ds).CustomFields.Where(p => cusfields.CustomFields.All(s => s.Name != p.Name)));
+                    cusfields.CustomValues.AddRange(
+                         new Fw7CustomField(ds).CustomValues.Where(p => cusfields.CustomValues.All(s => s.CustomFields != p.CustomFields)));
+                }
+            }
             var defaultFields = GetDefaultFields(cusfields);
             var path = GetFileForProject(project.ProjectPathFilePrefix);
 

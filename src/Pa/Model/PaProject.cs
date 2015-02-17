@@ -400,12 +400,25 @@ namespace SIL.Pa.Model
 
             // Now remove any fields that no longer have a mapping and are not in the default set (i.e. custom).
             var mappedFieldNames = DataSources.SelectMany(d => d.FieldMappings).Select(m => m.PaFieldName).ToList();
-            var customfields = new Fw7CustomField();
 
             if (DataSources.Count > 0 && DataSources[0] != null)
             {
-                customfields = new Fw7CustomField(this.DataSources[0]);
-                var defaultFieldNames = PaField.GetDefaultFields(customfields).Select(f => f.Name).ToList();
+                Fw7CustomField cusfields = null;
+                foreach (var ds in this.DataSources)
+                {
+                    if (cusfields == null)
+                    {
+                        cusfields = new Fw7CustomField(ds);
+                    }
+                    else
+                    {
+                        cusfields.CustomFields.AddRange(
+                         new Fw7CustomField(ds).CustomFields.Where(p => cusfields.CustomFields.All(s => s.Name != p.Name)));
+                        cusfields.CustomValues.AddRange(
+                             new Fw7CustomField(ds).CustomValues.Where(p => cusfields.CustomValues.All(s => s.CustomFields != p.CustomFields)));
+                    }
+                }
+                var defaultFieldNames = PaField.GetDefaultFields(cusfields).Select(f => f.Name).ToList();
                 for (int i = fields.Count - 1; i >= 0; i--)
                 {
                     if (!mappedFieldNames.Contains(fields[i].Name) && !defaultFieldNames.Contains(fields[i].Name))
