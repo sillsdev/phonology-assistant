@@ -29,34 +29,34 @@ namespace SIL.Pa.UI.Controls
 		private void InitializeComponent()
 		{
             this.components = new System.ComponentModel.Container();
-            this.lnkApply = new System.Windows.Forms.LinkLabel();
+            this.lnkOK = new System.Windows.Forms.LinkLabel();
             this.lnkHelp = new System.Windows.Forms.LinkLabel();
             this.locExtender = new Localization.UI.LocalizationExtender(this.components);
             this._panelOuter = new SilTools.Controls.SilPanel();
-            this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
             this._charPicker = new SIL.Pa.UI.Controls.CharPicker();
-            this._explorerBar = new SIL.Pa.UI.Controls.ExplorerBarItem();
+            this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.lnkCancel = new System.Windows.Forms.LinkLabel();
+            this._explorerBar = new SIL.Pa.UI.Controls.ExplorerBarItem();
             ((System.ComponentModel.ISupportInitialize)(this.locExtender)).BeginInit();
             this._panelOuter.SuspendLayout();
             this._tableLayout.SuspendLayout();
             this.SuspendLayout();
             // 
-            // lnkApply
+            // lnkOK
             // 
-            this.lnkApply.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.lnkOK.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lnkApply.AutoSize = true;
-            this.locExtender.SetLocalizableToolTip(this.lnkApply, null);
-            this.locExtender.SetLocalizationComment(this.lnkApply, null);
-            this.locExtender.SetLocalizingId(this.lnkApply, "CommonControls.ChartOptionsPopup.ApplyLink");
-            this.lnkApply.Location = new System.Drawing.Point(245, 144);
-            this.lnkApply.Margin = new System.Windows.Forms.Padding(3, 0, 0, 5);
-            this.lnkApply.Name = "lnkApply";
-            this.lnkApply.Size = new System.Drawing.Size(38, 15);
-            this.lnkApply.TabIndex = 1;
-            this.lnkApply.TabStop = true;
-            this.lnkApply.Text = "Apply";
+            this.lnkOK.AutoSize = true;
+            this.locExtender.SetLocalizableToolTip(this.lnkOK, null);
+            this.locExtender.SetLocalizationComment(this.lnkOK, null);
+            this.locExtender.SetLocalizingId(this.lnkOK, "CommonControls.ChartOptionsPopup.OKLink");
+            this.lnkOK.Location = new System.Drawing.Point(260, 144);
+            this.lnkOK.Margin = new System.Windows.Forms.Padding(3, 0, 0, 5);
+            this.lnkOK.Name = "lnkOK";
+            this.lnkOK.Size = new System.Drawing.Size(23, 15);
+            this.lnkOK.TabIndex = 1;
+            this.lnkOK.TabStop = true;
+            this.lnkOK.Text = "OK";
             // 
             // lnkHelp
             // 
@@ -104,27 +104,6 @@ namespace SIL.Pa.UI.Controls
             this._panelOuter.Size = new System.Drawing.Size(444, 243);
             this._panelOuter.TabIndex = 0;
             // 
-            // _tableLayout
-            // 
-            this._tableLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._tableLayout.BackColor = System.Drawing.Color.Transparent;
-            this._tableLayout.ColumnCount = 3;
-            this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this._tableLayout.Controls.Add(this.lnkCancel, 0, 1);
-            this._tableLayout.Controls.Add(this.lnkHelp, 2, 1);
-            this._tableLayout.Controls.Add(this.lnkApply, 0, 1);
-            this._tableLayout.Controls.Add(this._explorerBar, 0, 0);
-            this._tableLayout.Location = new System.Drawing.Point(0, 0);
-            this._tableLayout.Margin = new System.Windows.Forms.Padding(0);
-            this._tableLayout.Name = "_tableLayout";
-            this._tableLayout.RowCount = 2;
-            this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this._tableLayout.Size = new System.Drawing.Size(373, 164);
-            this._tableLayout.TabIndex = 6;
-            // 
             // _charPicker
             // 
             this._charPicker.AutoSize = false;
@@ -147,23 +126,26 @@ namespace SIL.Pa.UI.Controls
             this._charPicker.TabIndex = 0;
             this._charPicker.Text = "charPicker1";
             // 
-            // _explorerBar
+            // _tableLayout
             // 
-            this._explorerBar.ButtonBackColor = System.Drawing.Color.CadetBlue;
-            this._explorerBar.CanButtonGetFocus = false;
-            this._explorerBar.CanCollapse = false;
-            this._explorerBar.CheckedBoxState = System.Windows.Forms.CheckState.Unchecked;
-            this._tableLayout.SetColumnSpan(this._explorerBar, 3);
-            this._explorerBar.IsExpanded = true;
-            this.locExtender.SetLocalizableToolTip(this._explorerBar, null);
-            this.locExtender.SetLocalizationComment(this._explorerBar, null);
-            this.locExtender.SetLocalizingId(this._explorerBar, "CommonControls.ChartOptionsPopup.IgnoredSuprasegmentalsHeadingPanel");
-            this._explorerBar.Location = new System.Drawing.Point(0, 0);
-            this._explorerBar.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
-            this._explorerBar.Name = "_explorerBar";
-            this._explorerBar.Size = new System.Drawing.Size(139, 104);
-            this._explorerBar.TabIndex = 0;
-            this._explorerBar.Text = "Ignored Suprasegmentals";
+            this._tableLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this._tableLayout.BackColor = System.Drawing.Color.Transparent;
+            this._tableLayout.ColumnCount = 3;
+            this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this._tableLayout.Controls.Add(this.lnkCancel, 0, 1);
+            this._tableLayout.Controls.Add(this.lnkHelp, 2, 1);
+            this._tableLayout.Controls.Add(this.lnkOK, 0, 1);
+            this._tableLayout.Controls.Add(this._explorerBar, 0, 0);
+            this._tableLayout.Location = new System.Drawing.Point(0, 0);
+            this._tableLayout.Margin = new System.Windows.Forms.Padding(0);
+            this._tableLayout.Name = "_tableLayout";
+            this._tableLayout.RowCount = 2;
+            this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this._tableLayout.Size = new System.Drawing.Size(373, 164);
+            this._tableLayout.TabIndex = 6;
             // 
             // lnkCancel
             // 
@@ -181,6 +163,24 @@ namespace SIL.Pa.UI.Controls
             this.lnkCancel.TabStop = true;
             this.lnkCancel.Text = "Cancel";
             this.lnkCancel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleCloseClicked);
+            // 
+            // _explorerBar
+            // 
+            this._explorerBar.ButtonBackColor = System.Drawing.Color.CadetBlue;
+            this._explorerBar.CanButtonGetFocus = false;
+            this._explorerBar.CanCollapse = false;
+            this._explorerBar.CheckedBoxState = System.Windows.Forms.CheckState.Unchecked;
+            this._tableLayout.SetColumnSpan(this._explorerBar, 3);
+            this._explorerBar.IsExpanded = true;
+            this.locExtender.SetLocalizableToolTip(this._explorerBar, null);
+            this.locExtender.SetLocalizationComment(this._explorerBar, null);
+            this.locExtender.SetLocalizingId(this._explorerBar, "CommonControls.ChartOptionsPopup.IgnoredSuprasegmentalsHeadingPanel");
+            this._explorerBar.Location = new System.Drawing.Point(0, 0);
+            this._explorerBar.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this._explorerBar.Name = "_explorerBar";
+            this._explorerBar.Size = new System.Drawing.Size(139, 104);
+            this._explorerBar.TabIndex = 0;
+            this._explorerBar.Text = "Ignored Suprasegmentals";
             // 
             // ChartOptionsDropDown
             // 
@@ -206,7 +206,7 @@ namespace SIL.Pa.UI.Controls
 
 		#endregion
 
-		public System.Windows.Forms.LinkLabel lnkApply;
+		public System.Windows.Forms.LinkLabel lnkOK;
 		public System.Windows.Forms.LinkLabel lnkHelp;
 		private Localization.UI.LocalizationExtender locExtender;
 		private System.Windows.Forms.TableLayoutPanel _tableLayout;

@@ -23,7 +23,7 @@ namespace SIL.Pa.UI.Controls
 			InitializeComponent();
 			_groupUncertainties.Visible = false;
 		    lnkCancel.Visible = false;
-		    lnkApply.Visible = false;
+		    lnkOk.Visible = false;
 			SetupControls();
 			CIEOptions = (App.Project != null ? App.Project.CIEOptions.Clone() : new CIEOptions());
 		}
@@ -59,8 +59,8 @@ namespace SIL.Pa.UI.Controls
 			_linkApply.TabIndex = 10;
 			_linkApply.LinkClicked += delegate { Close(); };
 			_linkApply.Margin = new Padding(3, _linkHelp.Margin.Top, 3, _linkHelp.Margin.Bottom);
-			LocalizationManager.GetString("Views.WordLists.SearchResults.MinimalPairsOptionsPopup.ApplyLink",
-				"Apply", null, _linkApply);
+			LocalizationManager.GetString("Views.WordLists.SearchResults.MinimalPairsOptionsPopup.OKLink",
+                "OK", null, _linkApply);
 			_tableLayout.Controls.Add(_linkApply, 1, 10);
 
 			_linkCancel = new LinkLabel { AutoSize = true, Font = FontHelper.UIFont };

@@ -600,7 +600,7 @@ namespace SIL.Pa.UI.Views
 
 			itemProps.Control = _ignoredSymbolsDropDown = new ChartOptionsDropDown();
 			_ignoredSymbolsDropDown.SetIgnoredSymbols(Project.IgnoredSymbolsInCVCharts);
-			_ignoredSymbolsDropDown.lnkApply.Click += HandleRefreshChartClick;
+			_ignoredSymbolsDropDown.lnkOK.Click += HandleRefreshChartClick;
 			 
 			// This is a kludge and I really don't like to do it. But I don't know how
 			// else to automatically get the custom drop-down to act like it has "focus".
@@ -613,7 +613,7 @@ namespace SIL.Pa.UI.Views
 		{
 			if (_ignoredSymbolsDropDown != null)
 			{
-				_ignoredSymbolsDropDown.lnkApply.Click -= HandleRefreshChartClick;
+				_ignoredSymbolsDropDown.lnkOK.Click -= HandleRefreshChartClick;
 				_ignoredSymbolsDropDown.Dispose();
 				_ignoredSymbolsDropDown = null;
 			}

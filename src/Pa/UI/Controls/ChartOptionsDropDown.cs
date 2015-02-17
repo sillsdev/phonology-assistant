@@ -25,7 +25,7 @@ namespace SIL.Pa.UI.Controls
             Canceled = false;
 
 			InitializeComponent();
-			lnkApply.Font = FontHelper.UIFont;
+			lnkOK.Font = FontHelper.UIFont;
 			lnkHelp.Font = FontHelper.UIFont;
 
 			var fontSize = Math.Min(17, SystemInformation.MenuFont.SizeInPoints * 2);

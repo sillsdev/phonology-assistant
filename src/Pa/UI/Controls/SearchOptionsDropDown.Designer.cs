@@ -33,10 +33,13 @@ namespace SIL.Pa.UI.Controls
             this._chkShowAllWords = new System.Windows.Forms.CheckBox();
             this._chkStress = new System.Windows.Forms.CheckBox();
             this._groupStress = new System.Windows.Forms.GroupBox();
+            this._pickerStress = new SIL.Pa.UI.Controls.CharPicker();
             this._chkTone = new System.Windows.Forms.CheckBox();
             this._groupTone = new System.Windows.Forms.GroupBox();
+            this._pickerTone = new SIL.Pa.UI.Controls.CharPicker();
             this._chkLength = new System.Windows.Forms.CheckBox();
             this._groupLength = new System.Windows.Forms.GroupBox();
+            this._pickerLength = new SIL.Pa.UI.Controls.CharPicker();
             this._linkApplyToAll = new System.Windows.Forms.LinkLabel();
             this._linkHelp = new System.Windows.Forms.LinkLabel();
             this._groupUncertainties = new System.Windows.Forms.GroupBox();
@@ -45,17 +48,14 @@ namespace SIL.Pa.UI.Controls
             this.locExtender = new Localization.UI.LocalizationExtender(this.components);
             this._chkBoundary = new System.Windows.Forms.CheckBox();
             this._groupBoundary = new System.Windows.Forms.GroupBox();
+            this._pickerBoundary = new SIL.Pa.UI.Controls.CharPicker();
             this.lnkCancel = new System.Windows.Forms.LinkLabel();
-            this.lnkApply = new System.Windows.Forms.LinkLabel();
+            this.lnkOk = new System.Windows.Forms.LinkLabel();
             this._panelStress = new System.Windows.Forms.Panel();
             this._panelLength = new System.Windows.Forms.Panel();
             this._panelTone = new System.Windows.Forms.Panel();
             this._panelBoundary = new System.Windows.Forms.Panel();
             this._tableLayout = new System.Windows.Forms.TableLayoutPanel();
-            this._pickerStress = new SIL.Pa.UI.Controls.CharPicker();
-            this._pickerLength = new SIL.Pa.UI.Controls.CharPicker();
-            this._pickerTone = new SIL.Pa.UI.Controls.CharPicker();
-            this._pickerBoundary = new SIL.Pa.UI.Controls.CharPicker();
             this._groupStress.SuspendLayout();
             this._groupTone.SuspendLayout();
             this._groupLength.SuspendLayout();
@@ -145,6 +145,29 @@ namespace SIL.Pa.UI.Controls
             this._groupStress.TabIndex = 1;
             this._groupStress.TabStop = false;
             // 
+            // _pickerStress
+            // 
+            this._pickerStress.AutoSize = false;
+            this._pickerStress.AutoSizeItems = false;
+            this._pickerStress.BackColor = System.Drawing.Color.Transparent;
+            this._pickerStress.CheckItemsOnClick = true;
+            this._pickerStress.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._pickerStress.FontSize = 14F;
+            this._pickerStress.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this._pickerStress.ItemSize = new System.Drawing.Size(30, 32);
+            this._pickerStress.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.locExtender.SetLocalizableToolTip(this._pickerStress, null);
+            this.locExtender.SetLocalizationComment(this._pickerStress, null);
+            this.locExtender.SetLocalizationPriority(this._pickerStress, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizingId(this._pickerStress, "SearchOptionsDropDown.stressPicker");
+            this._pickerStress.Location = new System.Drawing.Point(7, 20);
+            this._pickerStress.Name = "_pickerStress";
+            this._pickerStress.Padding = new System.Windows.Forms.Padding(0);
+            this._pickerStress.Size = new System.Drawing.Size(236, 13);
+            this._pickerStress.TabIndex = 0;
+            this._pickerStress.Text = "charPicker1";
+            this._pickerStress.CharPicked += new SIL.Pa.UI.Controls.CharPicker.CharPickedHandler(this.HandleCharChecked);
+            // 
             // _chkTone
             // 
             this._chkTone.AutoSize = true;
@@ -180,6 +203,29 @@ namespace SIL.Pa.UI.Controls
             this._groupTone.TabIndex = 4;
             this._groupTone.TabStop = false;
             // 
+            // _pickerTone
+            // 
+            this._pickerTone.AutoSize = false;
+            this._pickerTone.AutoSizeItems = false;
+            this._pickerTone.BackColor = System.Drawing.Color.Transparent;
+            this._pickerTone.CheckItemsOnClick = true;
+            this._pickerTone.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._pickerTone.FontSize = 14F;
+            this._pickerTone.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this._pickerTone.ItemSize = new System.Drawing.Size(30, 32);
+            this._pickerTone.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.locExtender.SetLocalizableToolTip(this._pickerTone, null);
+            this.locExtender.SetLocalizationComment(this._pickerTone, null);
+            this.locExtender.SetLocalizationPriority(this._pickerTone, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizingId(this._pickerTone, "SearchOptionsDropDown.tonePicker");
+            this._pickerTone.Location = new System.Drawing.Point(7, 20);
+            this._pickerTone.Name = "_pickerTone";
+            this._pickerTone.Padding = new System.Windows.Forms.Padding(0);
+            this._pickerTone.Size = new System.Drawing.Size(236, 20);
+            this._pickerTone.TabIndex = 0;
+            this._pickerTone.Text = "charPicker1";
+            this._pickerTone.CharPicked += new SIL.Pa.UI.Controls.CharPicker.CharPickedHandler(this.HandleCharChecked);
+            // 
             // _chkLength
             // 
             this._chkLength.AutoSize = true;
@@ -214,6 +260,29 @@ namespace SIL.Pa.UI.Controls
             this._groupLength.Size = new System.Drawing.Size(250, 49);
             this._groupLength.TabIndex = 3;
             this._groupLength.TabStop = false;
+            // 
+            // _pickerLength
+            // 
+            this._pickerLength.AutoSize = false;
+            this._pickerLength.AutoSizeItems = false;
+            this._pickerLength.BackColor = System.Drawing.Color.Transparent;
+            this._pickerLength.CheckItemsOnClick = true;
+            this._pickerLength.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._pickerLength.FontSize = 14F;
+            this._pickerLength.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this._pickerLength.ItemSize = new System.Drawing.Size(30, 32);
+            this._pickerLength.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.locExtender.SetLocalizableToolTip(this._pickerLength, null);
+            this.locExtender.SetLocalizationComment(this._pickerLength, null);
+            this.locExtender.SetLocalizationPriority(this._pickerLength, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizingId(this._pickerLength, "SearchOptionsDropDown.lengthPicker");
+            this._pickerLength.Location = new System.Drawing.Point(7, 20);
+            this._pickerLength.Name = "_pickerLength";
+            this._pickerLength.Padding = new System.Windows.Forms.Padding(0);
+            this._pickerLength.Size = new System.Drawing.Size(236, 22);
+            this._pickerLength.TabIndex = 0;
+            this._pickerLength.Text = "charPicker1";
+            this._pickerLength.CharPicked += new SIL.Pa.UI.Controls.CharPicker.CharPickedHandler(this.HandleCharChecked);
             // 
             // _linkApplyToAll
             // 
@@ -348,6 +417,28 @@ namespace SIL.Pa.UI.Controls
             this._groupBoundary.TabIndex = 5;
             this._groupBoundary.TabStop = false;
             // 
+            // _pickerBoundary
+            // 
+            this._pickerBoundary.AutoSize = false;
+            this._pickerBoundary.AutoSizeItems = false;
+            this._pickerBoundary.BackColor = System.Drawing.Color.Transparent;
+            this._pickerBoundary.CheckItemsOnClick = true;
+            this._pickerBoundary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._pickerBoundary.FontSize = 14F;
+            this._pickerBoundary.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this._pickerBoundary.ItemSize = new System.Drawing.Size(30, 32);
+            this._pickerBoundary.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.locExtender.SetLocalizableToolTip(this._pickerBoundary, null);
+            this.locExtender.SetLocalizationComment(this._pickerBoundary, null);
+            this.locExtender.SetLocalizationPriority(this._pickerBoundary, Localization.LocalizationPriority.NotLocalizable);
+            this.locExtender.SetLocalizingId(this._pickerBoundary, "SearchOptionsDropDown.lengthPicker");
+            this._pickerBoundary.Location = new System.Drawing.Point(7, 20);
+            this._pickerBoundary.Name = "_pickerBoundary";
+            this._pickerBoundary.Padding = new System.Windows.Forms.Padding(0);
+            this._pickerBoundary.Size = new System.Drawing.Size(236, 22);
+            this._pickerBoundary.TabIndex = 0;
+            this._pickerBoundary.Text = "charPicker1";
+            // 
             // lnkCancel
             // 
             this.lnkCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -364,20 +455,20 @@ namespace SIL.Pa.UI.Controls
             this.lnkCancel.Text = "Cancel";
             this.lnkCancel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleCloseClicked);
             // 
-            // lnkApply
+            // lnkOk
             // 
-            this.lnkApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lnkApply.AutoSize = true;
-            this.locExtender.SetLocalizableToolTip(this.lnkApply, null);
-            this.locExtender.SetLocalizationComment(this.lnkApply, null);
-            this.locExtender.SetLocalizingId(this.lnkApply, "CommonControls.ChartOptionsPopup.ApplyLink");
-            this.lnkApply.Location = new System.Drawing.Point(149, 411);
-            this.lnkApply.Margin = new System.Windows.Forms.Padding(3, 4, 0, 0);
-            this.lnkApply.Name = "lnkApply";
-            this.lnkApply.Size = new System.Drawing.Size(33, 13);
-            this.lnkApply.TabIndex = 9;
-            this.lnkApply.TabStop = true;
-            this.lnkApply.Text = "Apply";
+            this.lnkOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lnkOk.AutoSize = true;
+            this.locExtender.SetLocalizableToolTip(this.lnkOk, null);
+            this.locExtender.SetLocalizationComment(this.lnkOk, null);
+            this.locExtender.SetLocalizingId(this.lnkOk, "CommonControls.ChartOptionsPopup.OKLink");
+            this.lnkOk.Location = new System.Drawing.Point(160, 411);
+            this.lnkOk.Margin = new System.Windows.Forms.Padding(3, 4, 0, 0);
+            this.lnkOk.Name = "lnkOk";
+            this.lnkOk.Size = new System.Drawing.Size(22, 13);
+            this.lnkOk.TabIndex = 9;
+            this.lnkOk.TabStop = true;
+            this.lnkOk.Text = "OK";
             // 
             // _panelStress
             // 
@@ -432,7 +523,7 @@ namespace SIL.Pa.UI.Controls
             this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this._tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this._tableLayout.Controls.Add(this.lnkCancel, 2, 10);
-            this._tableLayout.Controls.Add(this.lnkApply, 1, 10);
+            this._tableLayout.Controls.Add(this.lnkOk, 1, 10);
             this._tableLayout.Controls.Add(this._chkIgnoreDiacritics, 0, 4);
             this._tableLayout.Controls.Add(this._chkShowAllWords, 0, 3);
             this._tableLayout.Controls.Add(this._panelStress, 0, 5);
@@ -458,97 +549,6 @@ namespace SIL.Pa.UI.Controls
             this._tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this._tableLayout.Size = new System.Drawing.Size(272, 424);
             this._tableLayout.TabIndex = 0;
-            // 
-            // _pickerStress
-            // 
-            this._pickerStress.AutoSize = false;
-            this._pickerStress.AutoSizeItems = false;
-            this._pickerStress.BackColor = System.Drawing.Color.Transparent;
-            this._pickerStress.CheckItemsOnClick = true;
-            this._pickerStress.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._pickerStress.FontSize = 14F;
-            this._pickerStress.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this._pickerStress.ItemSize = new System.Drawing.Size(30, 32);
-            this._pickerStress.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this.locExtender.SetLocalizableToolTip(this._pickerStress, null);
-            this.locExtender.SetLocalizationComment(this._pickerStress, null);
-            this.locExtender.SetLocalizationPriority(this._pickerStress, Localization.LocalizationPriority.NotLocalizable);
-            this.locExtender.SetLocalizingId(this._pickerStress, "SearchOptionsDropDown.stressPicker");
-            this._pickerStress.Location = new System.Drawing.Point(7, 20);
-            this._pickerStress.Name = "_pickerStress";
-            this._pickerStress.Padding = new System.Windows.Forms.Padding(0);
-            this._pickerStress.Size = new System.Drawing.Size(236, 13);
-            this._pickerStress.TabIndex = 0;
-            this._pickerStress.Text = "charPicker1";
-            this._pickerStress.CharPicked += new SIL.Pa.UI.Controls.CharPicker.CharPickedHandler(this.HandleCharChecked);
-            // 
-            // _pickerLength
-            // 
-            this._pickerLength.AutoSize = false;
-            this._pickerLength.AutoSizeItems = false;
-            this._pickerLength.BackColor = System.Drawing.Color.Transparent;
-            this._pickerLength.CheckItemsOnClick = true;
-            this._pickerLength.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._pickerLength.FontSize = 14F;
-            this._pickerLength.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this._pickerLength.ItemSize = new System.Drawing.Size(30, 32);
-            this._pickerLength.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this.locExtender.SetLocalizableToolTip(this._pickerLength, null);
-            this.locExtender.SetLocalizationComment(this._pickerLength, null);
-            this.locExtender.SetLocalizationPriority(this._pickerLength, Localization.LocalizationPriority.NotLocalizable);
-            this.locExtender.SetLocalizingId(this._pickerLength, "SearchOptionsDropDown.lengthPicker");
-            this._pickerLength.Location = new System.Drawing.Point(7, 20);
-            this._pickerLength.Name = "_pickerLength";
-            this._pickerLength.Padding = new System.Windows.Forms.Padding(0);
-            this._pickerLength.Size = new System.Drawing.Size(236, 22);
-            this._pickerLength.TabIndex = 0;
-            this._pickerLength.Text = "charPicker1";
-            this._pickerLength.CharPicked += new SIL.Pa.UI.Controls.CharPicker.CharPickedHandler(this.HandleCharChecked);
-            // 
-            // _pickerTone
-            // 
-            this._pickerTone.AutoSize = false;
-            this._pickerTone.AutoSizeItems = false;
-            this._pickerTone.BackColor = System.Drawing.Color.Transparent;
-            this._pickerTone.CheckItemsOnClick = true;
-            this._pickerTone.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._pickerTone.FontSize = 14F;
-            this._pickerTone.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this._pickerTone.ItemSize = new System.Drawing.Size(30, 32);
-            this._pickerTone.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this.locExtender.SetLocalizableToolTip(this._pickerTone, null);
-            this.locExtender.SetLocalizationComment(this._pickerTone, null);
-            this.locExtender.SetLocalizationPriority(this._pickerTone, Localization.LocalizationPriority.NotLocalizable);
-            this.locExtender.SetLocalizingId(this._pickerTone, "SearchOptionsDropDown.tonePicker");
-            this._pickerTone.Location = new System.Drawing.Point(7, 20);
-            this._pickerTone.Name = "_pickerTone";
-            this._pickerTone.Padding = new System.Windows.Forms.Padding(0);
-            this._pickerTone.Size = new System.Drawing.Size(236, 20);
-            this._pickerTone.TabIndex = 0;
-            this._pickerTone.Text = "charPicker1";
-            this._pickerTone.CharPicked += new SIL.Pa.UI.Controls.CharPicker.CharPickedHandler(this.HandleCharChecked);
-            // 
-            // _pickerBoundary
-            // 
-            this._pickerBoundary.AutoSize = false;
-            this._pickerBoundary.AutoSizeItems = false;
-            this._pickerBoundary.BackColor = System.Drawing.Color.Transparent;
-            this._pickerBoundary.CheckItemsOnClick = true;
-            this._pickerBoundary.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._pickerBoundary.FontSize = 14F;
-            this._pickerBoundary.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this._pickerBoundary.ItemSize = new System.Drawing.Size(30, 32);
-            this._pickerBoundary.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this.locExtender.SetLocalizableToolTip(this._pickerBoundary, null);
-            this.locExtender.SetLocalizationComment(this._pickerBoundary, null);
-            this.locExtender.SetLocalizationPriority(this._pickerBoundary, Localization.LocalizationPriority.NotLocalizable);
-            this.locExtender.SetLocalizingId(this._pickerBoundary, "SearchOptionsDropDown.lengthPicker");
-            this._pickerBoundary.Location = new System.Drawing.Point(7, 20);
-            this._pickerBoundary.Name = "_pickerBoundary";
-            this._pickerBoundary.Padding = new System.Windows.Forms.Padding(0);
-            this._pickerBoundary.Size = new System.Drawing.Size(236, 22);
-            this._pickerBoundary.TabIndex = 0;
-            this._pickerBoundary.Text = "charPicker1";
             // 
             // SearchOptionsDropDown
             // 
@@ -614,6 +614,6 @@ namespace SIL.Pa.UI.Controls
 		private CharPicker _pickerBoundary;
         protected System.Windows.Forms.TableLayoutPanel _tableLayout;
         public System.Windows.Forms.LinkLabel lnkCancel;
-        public System.Windows.Forms.LinkLabel lnkApply;
+        public System.Windows.Forms.LinkLabel lnkOk;
 	}
 }

@@ -45,7 +45,7 @@ namespace SIL.Pa.UI.Controls
 			_groupUncertainties.Font = FontHelper.UIFont;
 			rbPrimaryOnly.Font = FontHelper.UIFont;
 			rbAllUncertainties.Font = FontHelper.UIFont;
-            lnkApply.LinkClicked += delegate { Close(); };
+            lnkOk.LinkClicked += delegate { Close(); };
 
 			int fontsize = Settings.Default.SearchOptionsDropDownPickerLabelFontSize;
 			if (fontsize > 0)
