@@ -182,9 +182,9 @@ namespace SIL.Pa.UI.Controls
 		    if (typeInfo.Count() > 2)
 		    {
 		        sType = 1024;
-                picker.Items.RemoveAt(50); //Remove the item "02C0"
-                picker.Items.RemoveAt(49); //Remove the item "02B1"
-                picker.Items.RemoveAt(48); //Remove the item "02B0"
+                picker.Items.RemoveAt(51); //Remove the item "02C0"
+                picker.Items.RemoveAt(50); //Remove the item "02B1"
+                picker.Items.RemoveAt(49); //Remove the item "02B0"
 		    }
 		    LocalizePickerButton(sType, item.Button);
 

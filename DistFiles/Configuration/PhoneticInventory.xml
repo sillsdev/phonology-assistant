@@ -4135,6 +4135,19 @@
 			</features>
 			<order>6010</order>
 		</symbolDefinition>
+		<symbolDefinition code="0361" literal="͡" IPA="433">
+			<name>Top tie bar</name>
+			<description>linking (absence of a break)</description>
+			<type>suprasegmental</type>
+			<subtype>boundary</subtype>
+			<isBase>false</isBase>
+			<canPrecedeBase>true</canPrecedeBase>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<features class="descriptive">
+				<feature>linking (absence of a break)</feature>
+			</features>
+			<order>6009</order>
+		</symbolDefinition>
 		<symbolDefinition code="2071" literal="ⁱ" super="i">
 			<name>Superscript I</name>
 			<description>superscript i</description>
