@@ -79,7 +79,8 @@ namespace SIL.Pa.Model
 		length = 128,
 		boundary = 256,
 		tone = 512,
-		All = stress | length | boundary | tone,
+        PitchPhonation = 1024,
+        All = stress | length | boundary | tone | PitchPhonation,
 	}
 
 	///// ----------------------------------------------------------------------------------------

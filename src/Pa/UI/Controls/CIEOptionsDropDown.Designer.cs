@@ -46,6 +46,10 @@ namespace SIL.Pa.UI.Controls
             // 
             this._groupBoundary.Size = new System.Drawing.Size(272, 29);
             // 
+            // _groupPitchPhonation
+            // 
+            this._groupPitchPhonation.Size = new System.Drawing.Size(272, 29);
+            // 
             // CIEOptionsDropDown
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);

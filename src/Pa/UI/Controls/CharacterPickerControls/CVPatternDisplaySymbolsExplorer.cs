@@ -38,6 +38,12 @@ namespace SIL.Pa.UI.Controls
 				LocalizationManager.GetString("DialogBoxes.OptionsDlg.CVPatternsTab.CharacterPicker.ToneHeading",
 					"Display Tone", null, button);
 			}
+
+            if (GetHasPitchPhonationType(typeInfo))
+            {
+                LocalizationManager.GetString("DialogBoxes.OptionsDlg.CVPatternsTab.CharacterPicker.PitchPhonationHeading",
+                    "Display PitchPhonation", null, button);
+            }
 		}
 	}
 }

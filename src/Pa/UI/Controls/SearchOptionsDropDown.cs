@@ -89,16 +89,19 @@ namespace SIL.Pa.UI.Controls
 			_groupLength.Width = _groupTone.Width;
 			_groupStress.Width = _groupTone.Width;
 			_groupUncertainties.Width = _groupTone.Width;
+            _groupPitchPhonation.Width = _groupTone.Width;
 
 			_groupStress.Height = _pickerStress.GetPreferredHeight() + _pickerStress.Top + _groupStress.Padding.Bottom;
 			_groupLength.Height = _pickerLength.GetPreferredHeight() + _pickerLength.Top + _groupLength.Padding.Bottom;
 			_groupBoundary.Height = _pickerBoundary.GetPreferredHeight() + _pickerBoundary.Top + _groupBoundary.Padding.Bottom;
 			_groupTone.Height = _pickerTone.GetPreferredHeight() + _pickerTone.Top + _groupTone.Padding.Bottom;
+            _groupPitchPhonation.Height = _pickerPitchPhonation.GetPreferredHeight() + _pickerPitchPhonation.Top + _groupPitchPhonation.Padding.Bottom;
 
 			_panelStress.AutoSize = true;
 			_panelLength.AutoSize = true;
 			_panelTone.AutoSize = true;
 			_panelBoundary.AutoSize = true;
+		    _pickerPitchPhonation.AutoSize = true;
 			_tableLayout.AutoSize = true;
 
 			// Add 2 to both dimensions because most of the time this is hosted on a drop-down
