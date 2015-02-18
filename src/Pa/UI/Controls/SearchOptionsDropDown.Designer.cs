@@ -407,6 +407,7 @@ namespace SIL.Pa.UI.Controls
             this._chkBoundary.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this._chkBoundary.ThreeState = true;
             this._chkBoundary.UseVisualStyleBackColor = false;
+            this._chkBoundary.Click += new System.EventHandler(this.HandleIgnoreClick);
             // 
             // _groupBoundary
             // 
@@ -444,6 +445,7 @@ namespace SIL.Pa.UI.Controls
             this._pickerBoundary.Size = new System.Drawing.Size(236, 22);
             this._pickerBoundary.TabIndex = 0;
             this._pickerBoundary.Text = "charPicker1";
+            this._pickerBoundary.CharPicked += new SIL.Pa.UI.Controls.CharPicker.CharPickedHandler(this.HandleCharChecked);
             // 
             // _chkPitchPhonation
             // 
