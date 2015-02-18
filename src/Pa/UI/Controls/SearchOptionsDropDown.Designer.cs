@@ -447,22 +447,22 @@ namespace SIL.Pa.UI.Controls
             // 
             // _chkPitchPhonation
             // 
-            this._chkPitchPhonation.AutoSize = true;
-            this._chkPitchPhonation.BackColor = System.Drawing.Color.Transparent;
-            this._chkPitchPhonation.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
-            this._chkPitchPhonation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this._chkPitchPhonation.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.locExtender.SetLocalizableToolTip(this._chkPitchPhonation, null);
-            this.locExtender.SetLocalizationComment(this._chkPitchPhonation, null);
-            this.locExtender.SetLocalizingId(this._chkPitchPhonation, "Views.WordLists.SearchResults.SearchOptionsPopup.BoundaryCheckbox");
-            this._chkPitchPhonation.Location = new System.Drawing.Point(10, 0);
-            this._chkPitchPhonation.Name = "_chkPitchPhonation";
-            this._chkPitchPhonation.Size = new System.Drawing.Size(116, 19);
-            this._chkPitchPhonation.TabIndex = 0;
-            this._chkPitchPhonation.Text = "Ignore &PitchPhonation";
-            this._chkPitchPhonation.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-            this._chkPitchPhonation.ThreeState = true;
-            this._chkPitchPhonation.UseVisualStyleBackColor = false;
+            //this._chkPitchPhonation.AutoSize = true;
+            //this._chkPitchPhonation.BackColor = System.Drawing.Color.Transparent;
+            //this._chkPitchPhonation.CheckAlign = System.Drawing.ContentAlignment.TopLeft;
+            //this._chkPitchPhonation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            //this._chkPitchPhonation.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            //this.locExtender.SetLocalizableToolTip(this._chkPitchPhonation, null);
+            //this.locExtender.SetLocalizationComment(this._chkPitchPhonation, null);
+            //this.locExtender.SetLocalizingId(this._chkPitchPhonation, "Views.WordLists.SearchResults.SearchOptionsPopup.BoundaryCheckbox");
+            //this._chkPitchPhonation.Location = new System.Drawing.Point(10, 0);
+            //this._chkPitchPhonation.Name = "_chkPitchPhonation";
+            //this._chkPitchPhonation.Size = new System.Drawing.Size(116, 19);
+            //this._chkPitchPhonation.TabIndex = 0;
+            //this._chkPitchPhonation.Text = "Ignore &PitchPhonation";
+            //this._chkPitchPhonation.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            //this._chkPitchPhonation.ThreeState = true;
+            //this._chkPitchPhonation.UseVisualStyleBackColor = false;
             // 
             // _groupPitchPhonation
             // 
@@ -578,14 +578,14 @@ namespace SIL.Pa.UI.Controls
             // 
             // _panelPitchPhonation
             // 
-            this._tableLayout.SetColumnSpan(this._panelPitchPhonation, 4);
-            this._panelPitchPhonation.Controls.Add(this._chkPitchPhonation);
-            this._panelPitchPhonation.Controls.Add(this._groupPitchPhonation);
-            this._panelPitchPhonation.Location = new System.Drawing.Point(0, 217);
-            this._panelPitchPhonation.Margin = new System.Windows.Forms.Padding(0, 4, 0, 3);
-            this._panelPitchPhonation.Name = "_panelPitchPhonation";
-            this._panelPitchPhonation.Size = new System.Drawing.Size(250, 51);
-            this._panelPitchPhonation.TabIndex = 5;
+            //this._tableLayout.SetColumnSpan(this._panelPitchPhonation, 4);
+            //this._panelPitchPhonation.Controls.Add(this._chkPitchPhonation);
+            //this._panelPitchPhonation.Controls.Add(this._groupPitchPhonation);
+            //this._panelPitchPhonation.Location = new System.Drawing.Point(0, 217);
+            //this._panelPitchPhonation.Margin = new System.Windows.Forms.Padding(0, 4, 0, 3);
+            //this._panelPitchPhonation.Name = "_panelPitchPhonation";
+            //this._panelPitchPhonation.Size = new System.Drawing.Size(250, 51);
+            //this._panelPitchPhonation.TabIndex = 5;
             // 
             // _tableLayout
             // 
@@ -606,7 +606,7 @@ namespace SIL.Pa.UI.Controls
             this._tableLayout.Controls.Add(this._linkApplyToAll, 0, 10);
             this._tableLayout.Controls.Add(this._panelBoundary, 0, 8);
             this._tableLayout.Controls.Add(this._linkHelp, 3, 10);
-            this._tableLayout.Controls.Add(this._panelPitchPhonation, 0, 8);
+            //this._tableLayout.Controls.Add(this._panelPitchPhonation, 0, 8);
             this._tableLayout.Location = new System.Drawing.Point(4, 4);
             this._tableLayout.Name = "_tableLayout";
             this._tableLayout.RowCount = 11;
@@ -655,8 +655,8 @@ namespace SIL.Pa.UI.Controls
             this._panelTone.PerformLayout();
             this._panelBoundary.ResumeLayout(false);
             this._panelBoundary.PerformLayout();
-            this._panelPitchPhonation.ResumeLayout(false);
-            this._panelPitchPhonation.PerformLayout();
+            //this._panelPitchPhonation.ResumeLayout(false);
+            //this._panelPitchPhonation.PerformLayout();
             this._tableLayout.ResumeLayout(false);
             this._tableLayout.PerformLayout();
             this.ResumeLayout(false);
