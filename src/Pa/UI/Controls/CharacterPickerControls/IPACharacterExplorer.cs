@@ -112,62 +112,44 @@ namespace SIL.Pa.UI.Controls
         /// ------------------------------------------------------------------------------------
         private IEnumerable<CharPicker> GetListOfPickersToShow(int typesToShow)
         {
-            var pType = new int[1];
-            pType[0] = (int) IPASymbolType.consonant;
 			if (GetHasConsonantType(typesToShow))
-                yield return CreatePicker(pType, "chrPickerVowels", false);
+                yield return CreatePicker((int) IPASymbolType.consonant, "chrPickerVowels", false);
 
-            pType = new int[1];
-            pType[0] = (int)IPASymbolType.vowel;
 			if (GetHasVowelType(typesToShow))
-                yield return CreatePicker(pType, "chrPickerVowels", false);
+                yield return CreatePicker((int)IPASymbolType.vowel, "chrPickerVowels", false);
 
-            pType = new int[1];
-            pType[0] = (int)IPASymbolType.diacritic;
 			if (GetHasDiacriticType(typesToShow))
-                yield return CreatePicker(pType, "chrPickerDiacritics", true);
+                yield return CreatePicker((int)IPASymbolType.diacritic, "chrPickerDiacritics", true);
 
-            pType = new int[1];
-            pType[0] = (int)IPASymbolSubType.stress;
 			if (GetHasStressType(typesToShow))
-                yield return CreatePicker(pType, "chrPickerStress", true);
+                yield return CreatePicker((int)IPASymbolSubType.stress, "chrPickerStress", true);
 
-            pType = new int[1];
-            pType[0] = (int)IPASymbolSubType.length;
 			if (GetHasLengthType(typesToShow))
-                yield return CreatePicker(pType, "chrPickerLength", true);
+                yield return CreatePicker((int)IPASymbolSubType.length, "chrPickerLength", true);
 
-            pType = new int[1];
-            pType[0] = (int)IPASymbolSubType.boundary;
             if (GetHasBoundaryType(typesToShow))
-                yield return CreatePicker(pType, "chrPickerBoundaries", false);
+                yield return CreatePicker((int)IPASymbolSubType.boundary, "chrPickerBoundaries", false);
 
-            pType = new int[1];
-            pType[0] = (int)IPASymbolSubType.tone;
-			if (GetHasToneType(typesToShow))
-                yield return CreatePicker(pType, "chrPickerTone", true);
+            if (GetHasToneType(typesToShow))
+                yield return CreatePicker((int)IPASymbolSubType.tone, "chrPickerTone", true);
 
-            pType = new int[4];
-            pType[0] = (int)IPASymbolSubType.stress;
-            pType[1] = (int)IPASymbolSubType.length;
-            pType[2] = (int)IPASymbolSubType.boundary;
-            pType[3] = (int)IPASymbolSubType.tone;
-            if (GetHasPitchPhonationType(typesToShow))
-                yield return CreatePicker(pType, "chrPickerPitchPhonation", false);
+            //pType = new int[4];
+            //pType[0] = (int)IPASymbolSubType.stress;
+            //pType[1] = (int)IPASymbolSubType.length;
+            //pType[2] = (int)IPASymbolSubType.boundary;
+            //pType[3] = (int)IPASymbolSubType.tone;
+            //if (GetHasPitchPhonationType(typesToShow))
+            //    yield return CreatePicker(pType, "chrPickerPitchPhonation", false);
 		}
 
         /// ------------------------------------------------------------------------------------
-        private CharPicker CreatePicker(int[] typeInfo, string name, bool makeBigFont)
+        private CharPicker CreatePicker(int typeInfo, string name, bool makeBigFont)
         {
             var picker = new CharPicker();
             picker.Name = name;
             picker.CharPicked += HandleCharPicked;
             picker.ItemDrag += HandleCharacterItemDrag;
-            foreach (int tyInfo in typeInfo)
-            {
-                picker.LoadCharacterType(tyInfo, ShouldLoadCharacterDelegate);
-            }
-            
+            picker.LoadCharacterType(typeInfo, ShouldLoadCharacterDelegate);
             picker.CheckItemsOnClick = false;
             picker.AutoSizeItems = true;
 
@@ -178,15 +160,7 @@ namespace SIL.Pa.UI.Controls
             }
 
             var item = Add(picker);
-		    int sType = typeInfo[0];
-		    if (typeInfo.Count() > 2)
-		    {
-		        sType = 1024;
-                picker.Items.RemoveAt(51); //Remove the item "02C0"
-                picker.Items.RemoveAt(50); //Remove the item "02B1"
-                picker.Items.RemoveAt(49); //Remove the item "02B0"
-		    }
-		    LocalizePickerButton(sType, item.Button);
+            LocalizePickerButton(typeInfo, item.Button);
 
             return picker;
         }
