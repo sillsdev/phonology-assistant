@@ -2201,6 +2201,28 @@ namespace SIL.Pa.ResourceStuff {
                 return ResourceManager.GetString("kstidShowHtmlChartToolTip", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Toggle Back to Default State.
+        /// </summary>
+        public static string kstidShowViewBackText
+        {
+            get
+            {
+                return ResourceManager.GetString("kstidShowViewBackText", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Toggle Back to Default State.
+        /// </summary>
+        public static string kstidShowViewBackToolTip
+        {
+            get
+            {
+                return ResourceManager.GetString("kstidShowViewBackToolTip", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to &amp;Record View.
