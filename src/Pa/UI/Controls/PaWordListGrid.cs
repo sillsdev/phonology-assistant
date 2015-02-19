@@ -209,7 +209,7 @@ namespace SIL.Pa.UI.Controls
 			Columns.Add(col);
 
 			// Save this because we'll need it later.
-			if (field.Type == FieldType.Phonetic)
+            if (field.Type == FieldType.Phonetic && col.DisplayIndex == 0)
 				_phoneticColName = field.Name;
 			else if (field.Type == FieldType.AudioFilePath)
 				_audioFileColName = field.Name;
