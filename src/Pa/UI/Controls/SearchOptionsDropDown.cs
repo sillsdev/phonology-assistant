@@ -42,6 +42,7 @@ namespace SIL.Pa.UI.Controls
 			_chkTone.Font = FontHelper.UIFont;
 			_chkStress.Font = FontHelper.UIFont;
 			_chkBoundary.Font = FontHelper.UIFont;
+            _chkPitchPhonation.Font = FontHelper.UIFont;
 			_groupUncertainties.Font = FontHelper.UIFont;
 			rbPrimaryOnly.Font = FontHelper.UIFont;
 			rbAllUncertainties.Font = FontHelper.UIFont;
@@ -55,21 +56,25 @@ namespace SIL.Pa.UI.Controls
 				_pickerLength.Font = fnt;
 				_pickerBoundary.Font = fnt;
 				_pickerTone.Font = fnt;
+			    _panelPitchPhonation.Font = fnt;
 			}
 
 			_chkStress.Tag = _pickerStress;
 			_chkTone.Tag = _pickerTone;
 			_chkLength.Tag = _pickerLength;
 			_chkBoundary.Tag = _pickerBoundary;
+            _chkPitchPhonation.Tag = _pickerPitchPhonation;
 			_pickerStress.Tag = _chkStress;
 			_pickerTone.Tag = _chkTone;
 			_pickerLength.Tag = _chkLength;
 			_pickerBoundary.Tag = _chkBoundary;
+		    _pickerPitchPhonation.Tag = _chkPitchPhonation;
 
 			_pickerStress.LoadCharacterType(IPASymbolSubType.stress);
 			_pickerTone.LoadCharacterType(IPASymbolSubType.tone);
 			_pickerBoundary.LoadCharacterType(IPASymbolSubType.boundary);
 			_pickerLength.LoadCharacterType(IPASymbolSubType.length);
+            _pickerPitchPhonation.LoadCharacterType(IPASymbolSubType.pitchphonation);
 
 			ShowApplyToAll = false;
 			m_query = new SearchQuery();
@@ -101,7 +106,7 @@ namespace SIL.Pa.UI.Controls
 			_panelLength.AutoSize = true;
 			_panelTone.AutoSize = true;
 			_panelBoundary.AutoSize = true;
-		    _pickerPitchPhonation.AutoSize = true;
+            _panelPitchPhonation.AutoSize = true;
 			_tableLayout.AutoSize = true;
 
 			// Add 2 to both dimensions because most of the time this is hosted on a drop-down
@@ -178,6 +183,7 @@ namespace SIL.Pa.UI.Controls
 				SetIgnoredChars(_chkTone, _pickerTone, querysIgnoredCharacters);
 				SetIgnoredChars(_chkLength, _pickerLength, querysIgnoredCharacters);
 				SetIgnoredChars(_chkBoundary, _pickerBoundary, querysIgnoredCharacters);
+                SetIgnoredChars(_chkPitchPhonation, _pickerPitchPhonation, querysIgnoredCharacters);
 
 				rbAllUncertainties.Checked = m_query.IncludeAllUncertainPossibilities;
 				rbPrimaryOnly.Checked = !rbAllUncertainties.Checked;
@@ -219,6 +225,9 @@ namespace SIL.Pa.UI.Controls
 				if (_pickerBoundary.Items.Cast<ToolStripButton>().Any(item => (bool)item.Tag != item.Checked))
 					return true;
 
+                if (_pickerPitchPhonation.Items.Cast<ToolStripButton>().Any(item => (bool)item.Tag != item.Checked))
+                    return true;
+
 				return _pickerLength.Items.Cast<ToolStripButton>().Any(item => (bool) item.Tag != item.Checked);
 			}
 		}
@@ -234,6 +243,7 @@ namespace SIL.Pa.UI.Controls
 			return GetIgnoredChars(_pickerStress) +
 				GetIgnoredChars(_pickerLength) +
 				GetIgnoredChars(_pickerBoundary) +
+                GetIgnoredChars(_pickerPitchPhonation) +
 				GetIgnoredChars(_pickerTone).TrimEnd(',');
 		}
 

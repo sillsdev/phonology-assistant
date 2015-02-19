@@ -104,7 +104,7 @@ namespace SIL.Pa.UI.Controls
         /// ------------------------------------------------------------------------------------
         protected static bool GetHasPitchPhonationType(int types)
         {
-            return ((types & (int)IPASymbolSubType.PitchPhonation) > 0);
+            return ((types & (int)IPASymbolSubType.pitchphonation) > 0);
         }
 		#endregion
 
@@ -132,6 +132,9 @@ namespace SIL.Pa.UI.Controls
 
             if (GetHasToneType(typesToShow))
                 yield return CreatePicker((int)IPASymbolSubType.tone, "chrPickerTone", true);
+
+            if (GetHasToneType(typesToShow))
+                yield return CreatePicker((int)IPASymbolSubType.pitchphonation, "chrPitchPhonation", true);
 
             //pType = new int[4];
             //pType[0] = (int)IPASymbolSubType.stress;

@@ -3374,18 +3374,6 @@
 			</features>
 			<order>3370</order>
 		</symbolDefinition>
-		<symbolDefinition code="0324" literal="̤" IPA="405">
-			<name>Subscript umlaut</name>
-			<description>breathy voiced</description>
-			<type>diacritic</type>
-			<isBase>false</isBase>
-			<canPrecedeBase>false</canPrecedeBase>
-			<displayWithDottedCircle>true</displayWithDottedCircle>
-			<features class="descriptive">
-				<feature>breathy voiced</feature>
-			</features>
-			<order>3020</order>
-		</symbolDefinition>
 		<symbolDefinition code="0325" literal="̥" IPA="402A">
 			<name>Under-ring</name>
 			<description>voiceless</description>
@@ -3456,18 +3444,6 @@
 				<feature>non-syllabic</feature>
 			</features>
 			<order>3C10</order>
-		</symbolDefinition>
-		<symbolDefinition code="0330" literal="̰" IPA="406">
-			<name>Subscript tilde</name>
-			<description>creaky voiced</description>
-			<type>diacritic</type>
-			<isBase>false</isBase>
-			<canPrecedeBase>false</canPrecedeBase>
-			<displayWithDottedCircle>true</displayWithDottedCircle>
-			<features class="descriptive">
-				<feature>creaky voiced</feature>
-			</features>
-			<order>3030</order>
 		</symbolDefinition>
 		<symbolDefinition code="0334" literal="̴" IPA="428">
 			<name>Superimposed tilde</name>
@@ -4235,29 +4211,55 @@
 			</features>
 			<order>70D9</order>
 		</symbolDefinition>
-		<symbolDefinition code="02B0" literal="ʰ" >
-			<name>Superscript h</name>
-			<description>voiceless glottal fricative</description>
-			<type>suprasegmental</type>
-			<subtype>tone</subtype>
+		<symbolDefinition code="0324" literal="̤" IPA="405">
+			<name>Subscript umlaut</name>
+			<description>breathy voiced</description>
+			<type>diacritic</type>
+			<subtype>pitchphonation</subtype>
 			<isBase>false</isBase>
 			<canPrecedeBase>false</canPrecedeBase>
 			<displayWithDottedCircle>true</displayWithDottedCircle>
 			<features class="descriptive">
-				<feature>undetermined tone</feature>
+				<feature>breathy voiced</feature>
 			</features>
 			<order>70E0</order>
+		</symbolDefinition>
+		<symbolDefinition code="0330" literal="̰" IPA="406">
+			<name>Subscript tilde</name>
+			<description>creaky voiced</description>
+			<type>diacritic</type>
+			<subtype>pitchphonation</subtype>
+			<isBase>false</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<features class="descriptive">
+				<feature>creaky voiced</feature>
+			</features>
+			<order>70E2</order>
+		</symbolDefinition>
+		<symbolDefinition code="02B0" literal="ʰ" >
+			<name>Superscript h</name>
+			<description>voiceless glottal fricative</description>
+			<type>suprasegmental</type>
+			<subtype>pitchphonation</subtype>
+			<isBase>false</isBase>
+			<canPrecedeBase>false</canPrecedeBase>
+			<displayWithDottedCircle>true</displayWithDottedCircle>
+			<features class="descriptive">
+				<feature>undetermined pitch-phonation</feature>
+			</features>
+			<order>70E3</order>
 		</symbolDefinition>
 		<symbolDefinition code="02B1" literal="ʱ" >
 			<name>Superscript hooktop h</name>
 			<description>breathy-voiced glottal fricative</description>
 			<type>suprasegmental</type>
-			<subtype>tone</subtype>
+			<subtype>pitchphonation</subtype>
 			<isBase>false</isBase>
 			<canPrecedeBase>false</canPrecedeBase>
 			<displayWithDottedCircle>true</displayWithDottedCircle>
 			<features class="descriptive">
-				<feature>undetermined tone</feature>
+				<feature>undetermined pitch-phonation</feature>
 			</features>
 			<order>70E1</order>
 		</symbolDefinition>
@@ -4265,14 +4267,14 @@
 			<name>Superscript glottal stop</name>
 			<description>glottal stop</description>
 			<type>suprasegmental</type>
-			<subtype>tone</subtype>
+			<subtype>pitchphonation</subtype>
 			<isBase>false</isBase>
 			<canPrecedeBase>false</canPrecedeBase>
 			<displayWithDottedCircle>true</displayWithDottedCircle>
 			<features class="descriptive">
-				<feature>undetermined tone</feature>
+				<feature>undetermined pitch-phonation</feature>
 			</features>
-			<order>70E2</order>
+			<order>70E4</order>
 		</symbolDefinition>	
 		<symbolDefinition code="207F" literal="ⁿ" super="n" IPA="425">
 			<name>Superscript N</name>
