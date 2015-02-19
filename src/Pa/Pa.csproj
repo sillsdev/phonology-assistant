@@ -1128,6 +1128,7 @@
     <None Include="Resources\Filter-Small.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\back_button.png" />
     <None Include="Resources\Restore_default_layout.png" />
     <None Include="Resources\SimilarEnvironment.png" />
     <None Include="Resources\PaTMDefinition.xml" />
