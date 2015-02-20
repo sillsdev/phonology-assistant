@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SIL")]
 [assembly: AssemblyProduct("Phonology Assistant")]
-[assembly: AssemblyCopyright("(C) 2008-2015, SIL International")]
+[assembly: AssemblyCopyright("(C) 2005-2015, SIL International")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
