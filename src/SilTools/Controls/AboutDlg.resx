@@ -112,35 +112,35 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="m_toolTip.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="m_toolTip.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
-  <metadata name="m_toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="m_toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <metadata name="buttonOk.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="buttonOk.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="buttonOk.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
   <data name="buttonOk.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="buttonOk.Location" type="System.Drawing.Point, System.Drawing">
-    <value>418, 251</value>
+    <value>398, 245</value>
   </data>
   <data name="buttonOk.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 26</value>
+    <value>109, 30</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="buttonOk.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
   </data>
@@ -154,7 +154,7 @@
     <value>buttonOk</value>
   </data>
   <data name="&gt;&gt;buttonOk.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;buttonOk.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -162,7 +162,7 @@
   <data name="&gt;&gt;buttonOk.ZOrder" xml:space="preserve">
     <value>11</value>
   </data>
-  <metadata name="lblAvailableMemory.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="lblAvailableMemory.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
   <data name="lblAvailableMemory.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -175,10 +175,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblAvailableMemory.Location" type="System.Drawing.Point, System.Drawing">
-    <value>150, 179</value>
+    <value>76, 162</value>
   </data>
   <data name="lblAvailableMemory.Size" type="System.Drawing.Size, System.Drawing">
-    <value>92, 13</value>
+    <value>123, 17</value>
   </data>
   <data name="lblAvailableMemory.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -190,7 +190,7 @@
     <value>lblAvailableMemory</value>
   </data>
   <data name="&gt;&gt;lblAvailableMemory.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblAvailableMemory.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -198,7 +198,7 @@
   <data name="&gt;&gt;lblAvailableMemory.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <metadata name="lblAvailableDiskSpace.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="lblAvailableDiskSpace.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
   <data name="lblAvailableDiskSpace.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -211,10 +211,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblAvailableDiskSpace.Location" type="System.Drawing.Point, System.Drawing">
-    <value>150, 203</value>
+    <value>76, 189</value>
   </data>
   <data name="lblAvailableDiskSpace.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 13</value>
+    <value>140, 17</value>
   </data>
   <data name="lblAvailableDiskSpace.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -226,7 +226,7 @@
     <value>lblAvailableDiskSpace</value>
   </data>
   <data name="&gt;&gt;lblAvailableDiskSpace.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblAvailableDiskSpace.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -234,7 +234,7 @@
   <data name="&gt;&gt;lblAvailableDiskSpace.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <metadata name="fieldWorksIcon.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="fieldWorksIcon.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
   <data name="fieldWorksIcon.ErrorImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
@@ -247,10 +247,10 @@
     <value />
   </data>
   <data name="fieldWorksIcon.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 13</value>
+    <value>16, 15</value>
   </data>
   <data name="fieldWorksIcon.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 141</value>
+    <value>150, 163</value>
   </data>
   <data name="fieldWorksIcon.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>StretchImage</value>
@@ -262,7 +262,7 @@
     <value>fieldWorksIcon</value>
   </data>
   <data name="&gt;&gt;fieldWorksIcon.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;fieldWorksIcon.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -280,10 +280,10 @@
     <value>28, 55</value>
   </data>
   <data name="lnkWebsite.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 263</value>
+    <value>16, 303</value>
   </data>
   <data name="lnkWebsite.Size" type="System.Drawing.Size, System.Drawing">
-    <value>297, 17</value>
+    <value>351, 20</value>
   </data>
   <data name="lnkWebsite.TabIndex" type="System.Int32, mscorlib">
     <value>24</value>
@@ -295,7 +295,7 @@
     <value>lnkWebsite</value>
   </data>
   <data name="&gt;&gt;lnkWebsite.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lnkWebsite.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -310,10 +310,10 @@
     <value>37, 55</value>
   </data>
   <data name="lnkFeedback.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 245</value>
+    <value>16, 283</value>
   </data>
   <data name="lnkFeedback.Size" type="System.Drawing.Size, System.Drawing">
-    <value>302, 17</value>
+    <value>357, 20</value>
   </data>
   <data name="lnkFeedback.TabIndex" type="System.Int32, mscorlib">
     <value>23</value>
@@ -325,7 +325,7 @@
     <value>lnkFeedback</value>
   </data>
   <data name="&gt;&gt;lnkFeedback.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lnkFeedback.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -340,10 +340,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblBuild.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 227</value>
+    <value>16, 262</value>
   </data>
   <data name="lblBuild.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 13</value>
+    <value>65, 17</value>
   </data>
   <data name="lblBuild.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
@@ -355,7 +355,7 @@
     <value>lblBuild</value>
   </data>
   <data name="&gt;&gt;lblBuild.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblBuild.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -367,10 +367,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblAppVersion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>152, 97</value>
+    <value>182, 112</value>
   </data>
   <data name="lblAppVersion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>352, 17</value>
+    <value>423, 20</value>
   </data>
   <data name="lblAppVersion.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -382,7 +382,7 @@
     <value>lblAppVersion</value>
   </data>
   <data name="&gt;&gt;lblAppVersion.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblAppVersion.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -397,10 +397,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblAvailableMemoryValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>265, 176</value>
+    <value>214, 158</value>
   </data>
   <data name="lblAvailableMemoryValue.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 19</value>
+    <value>293, 22</value>
   </data>
   <data name="lblAvailableMemoryValue.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
@@ -415,7 +415,7 @@
     <value>lblAvailableMemoryValue</value>
   </data>
   <data name="&gt;&gt;lblAvailableMemoryValue.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblAvailableMemoryValue.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -430,10 +430,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblAvailableDiskSpaceValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>265, 201</value>
+    <value>214, 187</value>
   </data>
   <data name="lblAvailableDiskSpaceValue.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 17</value>
+    <value>293, 20</value>
   </data>
   <data name="lblAvailableDiskSpaceValue.TabIndex" type="System.Int32, mscorlib">
     <value>20</value>
@@ -448,7 +448,7 @@
     <value>lblAvailableDiskSpaceValue</value>
   </data>
   <data name="&gt;&gt;lblAvailableDiskSpaceValue.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblAvailableDiskSpaceValue.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -463,10 +463,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblCopyright.Location" type="System.Drawing.Point, System.Drawing">
-    <value>149, 142</value>
+    <value>75, 119</value>
   </data>
   <data name="lblCopyright.Size" type="System.Drawing.Size, System.Drawing">
-    <value>360, 24</value>
+    <value>432, 28</value>
   </data>
   <data name="lblCopyright.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -478,7 +478,7 @@
     <value>lblCopyright</value>
   </data>
   <data name="&gt;&gt;lblCopyright.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblCopyright.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -493,10 +493,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>148, 61</value>
+    <value>178, 70</value>
   </data>
   <data name="lblName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>356, 32</value>
+    <value>427, 37</value>
   </data>
   <data name="lblName.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -508,7 +508,7 @@
     <value>lblName</value>
   </data>
   <data name="&gt;&gt;lblName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lblName.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -532,7 +532,7 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -540,11 +540,11 @@
   <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleBaseSize" type="System.Drawing.Size, System.Drawing">
-    <value>5, 13</value>
+    <value>6, 15</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>520, 290</value>
@@ -556,12 +556,12 @@
     <value>m_toolTip</value>
   </data>
   <data name="&gt;&gt;m_toolTip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>AboutDlg</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

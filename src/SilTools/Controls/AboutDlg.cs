@@ -1,10 +1,9 @@
-// --------------------------------------------------------------------------------------------
-#region // Copyright © 2002-2004, SIL International. All Rights Reserved.   
-// <copyright from='2002' to='2004' company='SIL International'>
-//		Copyright © 2002-2004, SIL International. All Rights Reserved.   
+// ---------------------------------------------------------------------------------------------
+#region // Copyright (c) 2005-2015, SIL International.
+// <copyright from='2005' to='2015' company='SIL International'>
+//		Copyright (c) 2005-2015, SIL International.
 //    
-//		Distributable under the terms of either the Common Public License or the
-//		GNU Lesser General Public License, as specified in the LICENSING.txt file.
+//		This software is distributed under the MIT License, as specified in the LICENSE.txt file.
 // </copyright> 
 #endregion
 // 
@@ -216,146 +215,146 @@ namespace SilTools
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.ToolTip m_toolTip;
-			System.Windows.Forms.Button buttonOk;
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutDlg));
-			System.Windows.Forms.Label lblAvailableMemory;
-			System.Windows.Forms.Label lblAvailableDiskSpace;
-			System.Windows.Forms.PictureBox fieldWorksIcon;
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.lnkFeedback = new System.Windows.Forms.LinkLabel();
-			this.lblBuild = new System.Windows.Forms.Label();
-			this.lblAppVersion = new System.Windows.Forms.Label();
-			this.lblAvailableMemoryValue = new System.Windows.Forms.Label();
-			this.lblAvailableDiskSpaceValue = new System.Windows.Forms.Label();
-			this.lblCopyright = new System.Windows.Forms.Label();
-			this.lblName = new System.Windows.Forms.Label();
-			this.lnkWebsite = new System.Windows.Forms.LinkLabel();
-			m_toolTip = new System.Windows.Forms.ToolTip(this.components);
-			buttonOk = new System.Windows.Forms.Button();
-			lblAvailableMemory = new System.Windows.Forms.Label();
-			lblAvailableDiskSpace = new System.Windows.Forms.Label();
-			fieldWorksIcon = new System.Windows.Forms.PictureBox();
-			((System.ComponentModel.ISupportInitialize)(fieldWorksIcon)).BeginInit();
-			this.panel1.SuspendLayout();
-			this.SuspendLayout();
-			// 
-			// m_toolTip
-			// 
-			m_toolTip.AutomaticDelay = 100;
-			m_toolTip.AutoPopDelay = 1000;
-			m_toolTip.InitialDelay = 100;
-			m_toolTip.ReshowDelay = 100;
-			// 
-			// buttonOk
-			// 
-			resources.ApplyResources(buttonOk, "buttonOk");
-			buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-			buttonOk.Name = "buttonOk";
-			m_toolTip.SetToolTip(buttonOk, resources.GetString("buttonOk.ToolTip"));
-			buttonOk.UseVisualStyleBackColor = true;
-			// 
-			// lblAvailableMemory
-			// 
-			resources.ApplyResources(lblAvailableMemory, "lblAvailableMemory");
-			lblAvailableMemory.Name = "lblAvailableMemory";
-			// 
-			// lblAvailableDiskSpace
-			// 
-			resources.ApplyResources(lblAvailableDiskSpace, "lblAvailableDiskSpace");
-			lblAvailableDiskSpace.Name = "lblAvailableDiskSpace";
-			// 
-			// fieldWorksIcon
-			// 
-			resources.ApplyResources(fieldWorksIcon, "fieldWorksIcon");
-			fieldWorksIcon.Image = global::SilTools.Properties.Resources.kimidSilLogo;
-			fieldWorksIcon.Name = "fieldWorksIcon";
-			fieldWorksIcon.TabStop = false;
-			// 
-			// panel1
-			// 
-			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.panel1.Controls.Add(this.lnkWebsite);
-			this.panel1.Controls.Add(this.lnkFeedback);
-			this.panel1.Controls.Add(this.lblBuild);
-			this.panel1.Controls.Add(this.lblAppVersion);
-			this.panel1.Controls.Add(this.lblAvailableMemoryValue);
-			this.panel1.Controls.Add(this.lblAvailableDiskSpaceValue);
-			this.panel1.Controls.Add(lblAvailableMemory);
-			this.panel1.Controls.Add(lblAvailableDiskSpace);
-			this.panel1.Controls.Add(this.lblCopyright);
-			this.panel1.Controls.Add(fieldWorksIcon);
-			this.panel1.Controls.Add(this.lblName);
-			this.panel1.Controls.Add(buttonOk);
-			resources.ApplyResources(this.panel1, "panel1");
-			this.panel1.Name = "panel1";
-			// 
-			// lnkFeedback
-			// 
-			resources.ApplyResources(this.lnkFeedback, "lnkFeedback");
-			this.lnkFeedback.Name = "lnkFeedback";
-			this.lnkFeedback.TabStop = true;
-			this.lnkFeedback.UseCompatibleTextRendering = true;
-			this.lnkFeedback.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleFeedbackLinkClicked);
-			// 
-			// lblBuild
-			// 
-			resources.ApplyResources(this.lblBuild, "lblBuild");
-			this.lblBuild.Name = "lblBuild";
-			// 
-			// lblAppVersion
-			// 
-			resources.ApplyResources(this.lblAppVersion, "lblAppVersion");
-			this.lblAppVersion.Name = "lblAppVersion";
-			// 
-			// lblAvailableMemoryValue
-			// 
-			resources.ApplyResources(this.lblAvailableMemoryValue, "lblAvailableMemoryValue");
-			this.lblAvailableMemoryValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.lblAvailableMemoryValue.Name = "lblAvailableMemoryValue";
-			// 
-			// lblAvailableDiskSpaceValue
-			// 
-			resources.ApplyResources(this.lblAvailableDiskSpaceValue, "lblAvailableDiskSpaceValue");
-			this.lblAvailableDiskSpaceValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.lblAvailableDiskSpaceValue.Name = "lblAvailableDiskSpaceValue";
-			// 
-			// lblCopyright
-			// 
-			resources.ApplyResources(this.lblCopyright, "lblCopyright");
-			this.lblCopyright.Name = "lblCopyright";
-			// 
-			// lblName
-			// 
-			resources.ApplyResources(this.lblName, "lblName");
-			this.lblName.Name = "lblName";
-			// 
-			// lnkWebsite
-			// 
-			resources.ApplyResources(this.lnkWebsite, "lnkWebsite");
-			this.lnkWebsite.Name = "lnkWebsite";
-			this.lnkWebsite.TabStop = true;
-			this.lnkWebsite.UseCompatibleTextRendering = true;
-			this.lnkWebsite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleWebsiteLinkClicked);
-			// 
-			// AboutDlg
-			// 
-			this.AcceptButton = buttonOk;
-			resources.ApplyResources(this, "$this");
-			this.BackColor = System.Drawing.Color.White;
-			this.ControlBox = false;
-			this.Controls.Add(this.panel1);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-			this.MaximizeBox = false;
-			this.MinimizeBox = false;
-			this.Name = "AboutDlg";
-			this.ShowIcon = false;
-			this.ShowInTaskbar = false;
-			((System.ComponentModel.ISupportInitialize)(fieldWorksIcon)).EndInit();
-			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
-			this.ResumeLayout(false);
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ToolTip m_toolTip;
+            System.Windows.Forms.Button buttonOk;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutDlg));
+            System.Windows.Forms.Label lblAvailableMemory;
+            System.Windows.Forms.Label lblAvailableDiskSpace;
+            System.Windows.Forms.PictureBox fieldWorksIcon;
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.lnkWebsite = new System.Windows.Forms.LinkLabel();
+            this.lnkFeedback = new System.Windows.Forms.LinkLabel();
+            this.lblBuild = new System.Windows.Forms.Label();
+            this.lblAppVersion = new System.Windows.Forms.Label();
+            this.lblAvailableMemoryValue = new System.Windows.Forms.Label();
+            this.lblAvailableDiskSpaceValue = new System.Windows.Forms.Label();
+            this.lblCopyright = new System.Windows.Forms.Label();
+            this.lblName = new System.Windows.Forms.Label();
+            m_toolTip = new System.Windows.Forms.ToolTip(this.components);
+            buttonOk = new System.Windows.Forms.Button();
+            lblAvailableMemory = new System.Windows.Forms.Label();
+            lblAvailableDiskSpace = new System.Windows.Forms.Label();
+            fieldWorksIcon = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(fieldWorksIcon)).BeginInit();
+            this.panel1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // m_toolTip
+            // 
+            m_toolTip.AutomaticDelay = 100;
+            m_toolTip.AutoPopDelay = 1000;
+            m_toolTip.InitialDelay = 100;
+            m_toolTip.ReshowDelay = 100;
+            // 
+            // buttonOk
+            // 
+            resources.ApplyResources(buttonOk, "buttonOk");
+            buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
+            buttonOk.Name = "buttonOk";
+            m_toolTip.SetToolTip(buttonOk, resources.GetString("buttonOk.ToolTip"));
+            buttonOk.UseVisualStyleBackColor = true;
+            // 
+            // lblAvailableMemory
+            // 
+            resources.ApplyResources(lblAvailableMemory, "lblAvailableMemory");
+            lblAvailableMemory.Name = "lblAvailableMemory";
+            // 
+            // lblAvailableDiskSpace
+            // 
+            resources.ApplyResources(lblAvailableDiskSpace, "lblAvailableDiskSpace");
+            lblAvailableDiskSpace.Name = "lblAvailableDiskSpace";
+            // 
+            // fieldWorksIcon
+            // 
+            resources.ApplyResources(fieldWorksIcon, "fieldWorksIcon");
+            fieldWorksIcon.Image = global::SilTools.Properties.Resources.kimidSilLogo;
+            fieldWorksIcon.Name = "fieldWorksIcon";
+            fieldWorksIcon.TabStop = false;
+            // 
+            // panel1
+            // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.lnkWebsite);
+            this.panel1.Controls.Add(this.lnkFeedback);
+            this.panel1.Controls.Add(this.lblBuild);
+            this.panel1.Controls.Add(this.lblAppVersion);
+            this.panel1.Controls.Add(this.lblAvailableMemoryValue);
+            this.panel1.Controls.Add(this.lblAvailableDiskSpaceValue);
+            this.panel1.Controls.Add(lblAvailableMemory);
+            this.panel1.Controls.Add(lblAvailableDiskSpace);
+            this.panel1.Controls.Add(this.lblCopyright);
+            this.panel1.Controls.Add(fieldWorksIcon);
+            this.panel1.Controls.Add(this.lblName);
+            this.panel1.Controls.Add(buttonOk);
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Name = "panel1";
+            // 
+            // lnkWebsite
+            // 
+            resources.ApplyResources(this.lnkWebsite, "lnkWebsite");
+            this.lnkWebsite.Name = "lnkWebsite";
+            this.lnkWebsite.TabStop = true;
+            this.lnkWebsite.UseCompatibleTextRendering = true;
+            this.lnkWebsite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleWebsiteLinkClicked);
+            // 
+            // lnkFeedback
+            // 
+            resources.ApplyResources(this.lnkFeedback, "lnkFeedback");
+            this.lnkFeedback.Name = "lnkFeedback";
+            this.lnkFeedback.TabStop = true;
+            this.lnkFeedback.UseCompatibleTextRendering = true;
+            this.lnkFeedback.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.HandleFeedbackLinkClicked);
+            // 
+            // lblBuild
+            // 
+            resources.ApplyResources(this.lblBuild, "lblBuild");
+            this.lblBuild.Name = "lblBuild";
+            // 
+            // lblAppVersion
+            // 
+            resources.ApplyResources(this.lblAppVersion, "lblAppVersion");
+            this.lblAppVersion.Name = "lblAppVersion";
+            // 
+            // lblAvailableMemoryValue
+            // 
+            resources.ApplyResources(this.lblAvailableMemoryValue, "lblAvailableMemoryValue");
+            this.lblAvailableMemoryValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblAvailableMemoryValue.Name = "lblAvailableMemoryValue";
+            // 
+            // lblAvailableDiskSpaceValue
+            // 
+            resources.ApplyResources(this.lblAvailableDiskSpaceValue, "lblAvailableDiskSpaceValue");
+            this.lblAvailableDiskSpaceValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblAvailableDiskSpaceValue.Name = "lblAvailableDiskSpaceValue";
+            // 
+            // lblCopyright
+            // 
+            resources.ApplyResources(this.lblCopyright, "lblCopyright");
+            this.lblCopyright.Name = "lblCopyright";
+            // 
+            // lblName
+            // 
+            resources.ApplyResources(this.lblName, "lblName");
+            this.lblName.Name = "lblName";
+            // 
+            // AboutDlg
+            // 
+            this.AcceptButton = buttonOk;
+            resources.ApplyResources(this, "$this");
+            this.BackColor = System.Drawing.Color.White;
+            this.ControlBox = false;
+            this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "AboutDlg";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
+            ((System.ComponentModel.ISupportInitialize)(fieldWorksIcon)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.ResumeLayout(false);
 
 		}
 		#endregion
