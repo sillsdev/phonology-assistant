@@ -2205,22 +2205,22 @@ namespace SIL.Pa.ResourceStuff {
         /// <summary>
         ///   Looks up a localized string similar to Toggle Back to Default State.
         /// </summary>
-        public static string kstidShowViewBackText
+        public static string kstidShowBackToEthnologueText
         {
             get
             {
-                return ResourceManager.GetString("kstidShowViewBackText", resourceCulture);
+                return ResourceManager.GetString("kstidShowBackToEthnologueText", resourceCulture);
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Toggle Back to Default State.
         /// </summary>
-        public static string kstidShowViewBackToolTip
+        public static string kstidShowBackToEthnologueToolTip
         {
             get
             {
-                return ResourceManager.GetString("kstidShowViewBackToolTip", resourceCulture);
+                return ResourceManager.GetString("kstidShowBackToEthnologueToolTip", resourceCulture);
             }
         }
         

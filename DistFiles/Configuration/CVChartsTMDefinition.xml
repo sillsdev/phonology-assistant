@@ -100,7 +100,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 				CmdChartPhoneSearchMedial, CmdCharChartMoveRowUp, CmdCharChartMoveRowDown,
 				CmdCharChartMoveColLeft, CmdCharChartMoveColRight, 48, CmdChartTBRemove,
 				CmdChartTBMenuRestoreDefault, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61,
-				62, 63, 64, 65, 66, 67, CmdShowHtmlChart, 69, 70, 71, 72, CmdShowViewBack">
+				62, 63, 64, 65, 66, 67, CmdShowHtmlChart, 69, 70, 71, 72, CmdShowBackToEthnologue">
 		</imageList>
 	</resources>
 
@@ -116,7 +116,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		<command id="CmdIgnoredSymbols" message="IgnoredSymbols"/>
 		<command id="CmdShowHistogram" message="ShowHistogram"/>
 		<command id="CmdShowHtmlChart" message="ShowHtmlChart"/>
-		<command id="CmdShowViewBack" message="ShowViewBack"/>
+		<command id="CmdShowBackToEthnologue" message="ShowBackToEthnologue"/>
 		<command id="CmdChartTBRemove" message="RemoveCVChartRowsColsParent"/>
 		<command id="CmdChartTBMenuRemoveRow" message="RemoveChartRowTBMenu"/>
 		<command id="CmdChartTBMenuRemoveCol" message="RemoveChartColTBMenu"/>
@@ -200,7 +200,7 @@ Item "displaytype" Values (applies to item types 0 - 3):
 		</item>
 		<item name="tbbShowHistogram" commandid="CmdShowHistogram" type="0" />
 		<item name="tbbShowHtmlChart" commandid="CmdShowHtmlChart" type="0" leftmargin="3"/>
-		<item name="tbbShowViewBack" commandid="CmdShowViewBack" type="0" leftmargin="3"/>			
+		<item name="tbbShowBackToEthnologue" commandid="CmdShowBackToEthnologue" type="0" leftmargin="3"/>			
 		</toolbar>
 	</toolbars>
 	<contextmenus>

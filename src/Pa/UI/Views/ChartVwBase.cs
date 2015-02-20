@@ -809,7 +809,7 @@ namespace SIL.Pa.UI.Views
         }
 
         /// ------------------------------------------------------------------------------------
-        protected bool OnShowViewBack(object args)
+        protected bool OnShowBackToEthnologue(object args)
         {
             if (!_activeView)
                 return false;
@@ -820,7 +820,7 @@ namespace SIL.Pa.UI.Views
         }
 
         /// ------------------------------------------------------------------------------------
-        protected bool OnUpdateShowViewBack(object args)
+        protected bool OnUpdateShowBackToEthnologue(object args)
         {
             var itemProps = args as TMItemProperties;
             if (!_activeView || itemProps == null)
