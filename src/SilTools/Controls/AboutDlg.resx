@@ -135,10 +135,10 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="buttonOk.Location" type="System.Drawing.Point, System.Drawing">
-    <value>398, 245</value>
+    <value>419, 251</value>
   </data>
   <data name="buttonOk.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 30</value>
+    <value>90, 26</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="buttonOk.TabIndex" type="System.Int32, mscorlib">
@@ -175,10 +175,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblAvailableMemory.Location" type="System.Drawing.Point, System.Drawing">
-    <value>76, 162</value>
+    <value>150, 179</value>
   </data>
   <data name="lblAvailableMemory.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 17</value>
+    <value>92, 13</value>
   </data>
   <data name="lblAvailableMemory.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -211,10 +211,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblAvailableDiskSpace.Location" type="System.Drawing.Point, System.Drawing">
-    <value>76, 189</value>
+    <value>150, 203</value>
   </data>
   <data name="lblAvailableDiskSpace.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 17</value>
+    <value>107, 13</value>
   </data>
   <data name="lblAvailableDiskSpace.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -234,42 +234,6 @@
   <data name="&gt;&gt;lblAvailableDiskSpace.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <metadata name="fieldWorksIcon.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <data name="fieldWorksIcon.ErrorImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
-  <data name="fieldWorksIcon.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="fieldWorksIcon.InitialImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
-  <data name="fieldWorksIcon.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 15</value>
-  </data>
-  <data name="fieldWorksIcon.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 163</value>
-  </data>
-  <data name="fieldWorksIcon.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>StretchImage</value>
-  </data>
-  <data name="fieldWorksIcon.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="&gt;&gt;fieldWorksIcon.Name" xml:space="preserve">
-    <value>fieldWorksIcon</value>
-  </data>
-  <data name="&gt;&gt;fieldWorksIcon.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;fieldWorksIcon.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;fieldWorksIcon.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
   <data name="lnkWebsite.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -280,10 +244,10 @@
     <value>28, 55</value>
   </data>
   <data name="lnkWebsite.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 303</value>
+    <value>13, 263</value>
   </data>
   <data name="lnkWebsite.Size" type="System.Drawing.Size, System.Drawing">
-    <value>351, 20</value>
+    <value>297, 17</value>
   </data>
   <data name="lnkWebsite.TabIndex" type="System.Int32, mscorlib">
     <value>24</value>
@@ -306,14 +270,17 @@
   <data name="lnkFeedback.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="lnkFeedback.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="lnkFeedback.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
     <value>37, 55</value>
   </data>
   <data name="lnkFeedback.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 283</value>
+    <value>13, 245</value>
   </data>
   <data name="lnkFeedback.Size" type="System.Drawing.Size, System.Drawing">
-    <value>357, 20</value>
+    <value>302, 17</value>
   </data>
   <data name="lnkFeedback.TabIndex" type="System.Int32, mscorlib">
     <value>23</value>
@@ -340,10 +307,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblBuild.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 262</value>
+    <value>13, 227</value>
   </data>
   <data name="lblBuild.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 17</value>
+    <value>50, 13</value>
   </data>
   <data name="lblBuild.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
@@ -367,10 +334,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblAppVersion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>182, 112</value>
+    <value>152, 97</value>
   </data>
   <data name="lblAppVersion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>423, 20</value>
+    <value>352, 17</value>
   </data>
   <data name="lblAppVersion.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -397,10 +364,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblAvailableMemoryValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 158</value>
+    <value>265, 176</value>
   </data>
   <data name="lblAvailableMemoryValue.Size" type="System.Drawing.Size, System.Drawing">
-    <value>293, 22</value>
+    <value>244, 19</value>
   </data>
   <data name="lblAvailableMemoryValue.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
@@ -430,10 +397,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblAvailableDiskSpaceValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 187</value>
+    <value>265, 201</value>
   </data>
   <data name="lblAvailableDiskSpaceValue.Size" type="System.Drawing.Size, System.Drawing">
-    <value>293, 20</value>
+    <value>244, 17</value>
   </data>
   <data name="lblAvailableDiskSpaceValue.TabIndex" type="System.Int32, mscorlib">
     <value>20</value>
@@ -463,10 +430,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblCopyright.Location" type="System.Drawing.Point, System.Drawing">
-    <value>75, 119</value>
+    <value>149, 142</value>
   </data>
   <data name="lblCopyright.Size" type="System.Drawing.Size, System.Drawing">
-    <value>432, 28</value>
+    <value>360, 24</value>
   </data>
   <data name="lblCopyright.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -486,6 +453,42 @@
   <data name="&gt;&gt;lblCopyright.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
+  <metadata name="fieldWorksIcon.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <data name="fieldWorksIcon.ErrorImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="fieldWorksIcon.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="fieldWorksIcon.InitialImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="fieldWorksIcon.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 13</value>
+  </data>
+  <data name="fieldWorksIcon.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 141</value>
+  </data>
+  <data name="fieldWorksIcon.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>StretchImage</value>
+  </data>
+  <data name="fieldWorksIcon.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;fieldWorksIcon.Name" xml:space="preserve">
+    <value>fieldWorksIcon</value>
+  </data>
+  <data name="&gt;&gt;fieldWorksIcon.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;fieldWorksIcon.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;fieldWorksIcon.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
   <data name="lblName.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 18.75pt, style=Bold</value>
   </data>
@@ -493,10 +496,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>178, 70</value>
+    <value>148, 61</value>
   </data>
   <data name="lblName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>427, 37</value>
+    <value>356, 32</value>
   </data>
   <data name="lblName.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -544,10 +547,13 @@
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleBaseSize" type="System.Drawing.Size, System.Drawing">
-    <value>6, 15</value>
+    <value>5, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>520, 290</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterParent</value>

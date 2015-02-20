@@ -119,7 +119,7 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="picLoadingWheel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>19, 318</value>
+    <value>16, 276</value>
   </data>
   <data name="picLoadingWheel.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 16</value>
@@ -148,10 +148,10 @@
     <value>True</value>
   </data>
   <data name="lblBuildNumber.Location" type="System.Drawing.Point, System.Drawing">
-    <value>19, 256</value>
+    <value>16, 222</value>
   </data>
   <data name="lblBuildNumber.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 17</value>
+    <value>50, 13</value>
   </data>
   <data name="lblBuildNumber.TabIndex" type="System.Int32, mscorlib">
     <value>20</value>
@@ -181,10 +181,10 @@
     <value />
   </data>
   <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>19, 18</value>
+    <value>16, 16</value>
   </data>
   <data name="pictureBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>187, 205</value>
+    <value>156, 177</value>
   </data>
   <data name="pictureBox1.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>StretchImage</value>
@@ -211,10 +211,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblVersion.Location" type="System.Drawing.Point, System.Drawing">
-    <value>230, 174</value>
+    <value>192, 151</value>
   </data>
   <data name="lblVersion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 17</value>
+    <value>96, 13</value>
   </data>
   <data name="lblVersion.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -247,10 +247,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblMessage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 314</value>
+    <value>38, 272</value>
   </data>
   <data name="lblMessage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>459, 26</value>
+    <value>469, 23</value>
   </data>
   <data name="lblMessage.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
@@ -277,10 +277,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblCopyright.Location" type="System.Drawing.Point, System.Drawing">
-    <value>230, 256</value>
+    <value>192, 222</value>
   </data>
   <data name="lblCopyright.Size" type="System.Drawing.Size, System.Drawing">
-    <value>366, 42</value>
+    <value>305, 36</value>
   </data>
   <data name="lblCopyright.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -310,10 +310,10 @@
     <value>NoControl</value>
   </data>
   <data name="lblProductName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>227, 126</value>
+    <value>189, 109</value>
   </data>
   <data name="lblProductName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 44</value>
+    <value>31, 34</value>
   </data>
   <data name="lblProductName.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -360,14 +360,17 @@
   <data name="&gt;&gt;m_panel.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </data>
+  </metadata>
   <data name="$this.AutoScaleBaseSize" type="System.Drawing.Size, System.Drawing">
-    <value>6, 15</value>
+    <value>5, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>517, 310</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="$this.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>1, 1, 1, 1</value>
