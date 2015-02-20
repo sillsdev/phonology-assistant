@@ -1419,8 +1419,7 @@ namespace SIL.Pa.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(SilTools.PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://downloads.sil.org/Speech%20Analyzer/Corporate%20Release/3.0.1/Speech%20Ana" +
-            "lyzer%203.0.1%20only.exe")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://downloads.sil.org/Speech%20Analyzer/Corporate%20Release/3.1/SpeechAnalyzer3.1.msi")]
         public string SaDownloadLink {
             get {
                 return ((string)(this["SaDownloadLink"]));
