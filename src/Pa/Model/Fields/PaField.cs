@@ -242,7 +242,7 @@ namespace SIL.Pa.Model
         public static bool GetIsReservedFieldName(string name)
         {
             return ((kCVPatternFieldName + ";" + kDataSourceFieldName + ";" +
-                     kDataSourcePathFieldName + ";" + kPhoneticSourceFieldName).Contains(name));
+                     kDataSourcePathFieldName + ";" + kPhoneticSourceFieldName).Split(';').Contains(name));
         }
 
         /// ------------------------------------------------------------------------------------
