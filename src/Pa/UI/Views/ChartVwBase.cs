@@ -1011,7 +1011,8 @@ namespace SIL.Pa.UI.Views
 
         private void htmlVw_Navigating(object sender, WebBrowserNavigatingEventArgs e)
         {
-            _activeBackLink = !e.Url.ToString().Contains("HtmlVwConsonantChart.html");
+            _activeBackLink = !e.Url.ToString().Contains("HtmlVwConsonantChart.html") &&
+                              !e.Url.ToString().Contains("HtmlVwVowelChart.html");
         }
 
         #endregion
