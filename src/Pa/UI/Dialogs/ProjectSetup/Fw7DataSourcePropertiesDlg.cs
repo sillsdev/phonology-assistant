@@ -310,6 +310,10 @@ namespace SIL.Pa.UI.Dialogs
                 newMapping.Field = phoneticField;
                 newMapping.NameInDataSource = phoneticField.Name;
                 newMapping.Field.FwWsType = FwDBUtils.FwWritingSystemType.Vernacular;
+                if (m_datasource.FieldMappings.Any(f => f.NameInDataSource == phoneticField.Name)) ;
+                {
+                    m_datasource.FieldMappings.Remove(m_datasource.FieldMappings.FirstOrDefault(f => f.NameInDataSource == phoneticField.Name));
+                }
                 m_datasource.FieldMappings.Add(newMapping);
             }
 

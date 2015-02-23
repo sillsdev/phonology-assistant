@@ -173,7 +173,7 @@ namespace SIL.Pa.UI.Controls
 		/// ------------------------------------------------------------------------------------
 		public virtual void BuildColumns()
 		{
-            foreach (var field in App.Project.GetMappedFields().Where(f => f.DisplayIndexInGrid >= 0 && f.Note != "V"))
+            foreach (var field in App.Project.GetMappedFields().Where(f => f.DisplayIndexInGrid >= 0))
 				AddNewColumn(field);
 
 			RefreshColumnFonts(false);
