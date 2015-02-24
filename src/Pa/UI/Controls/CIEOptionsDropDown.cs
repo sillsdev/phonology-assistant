@@ -127,7 +127,9 @@ namespace SIL.Pa.UI.Controls
 			{
 				bool changed = false;
 
-				switch (_cieOptions.Type)
+			    if (_cieOptions == null) return false;
+
+                switch (_cieOptions.Type)
 				{
 					case CIEOptions.IdenticalType.After: changed = !_radioAfter.Checked; break;
 					case CIEOptions.IdenticalType.Before: changed = !_radioBefore.Checked; break;

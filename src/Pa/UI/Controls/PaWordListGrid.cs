@@ -2160,7 +2160,7 @@ namespace SIL.Pa.UI.Controls
 			while (col < ColumnCount && !Columns[col].Visible)
 				col++;
 
-			if (col < ColumnCount && Columns[col].Visible && Rows[row].Visible)
+			if (col < ColumnCount && row < RowCount && Columns[col].Visible && Rows[row].Visible)
 				CurrentCell = this[col, row];
 		}
 
