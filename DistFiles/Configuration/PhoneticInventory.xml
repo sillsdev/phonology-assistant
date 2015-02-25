@@ -3389,8 +3389,8 @@
 		<symbolDefinition code="0329" literal="̩" IPA="431">
 			<name>Syllabicity mark</name>
 			<description>syllabic</description>
-			<type>diacritic</type>
-			<subtype>tone</subtype>
+			<type>suprasegmental</type>
+			<subtype>boundary</subtype>
 			<isBase>false</isBase>
 			<canPrecedeBase>false</canPrecedeBase>
 			<displayWithDottedCircle>true</displayWithDottedCircle>
